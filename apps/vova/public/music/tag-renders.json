@@ -36,6 +36,9 @@
   "300000-years": {
     "hash": "38b67e5929ab",
     "paths": [
+      "300/GENERATED - 300,000 Years.flac",
+      "300/GENERATED - 300,000 Years.mp3",
+      "300/GENERATED - 300,000 Years.mp4",
       "Divine-Discontent--album-/8. 300,000 Years.flac",
       "Divine-Discontent--album-/8. 300,000 Years.mp3",
       "Divine-Discontent--album-/GENERATED - 300,000 Years.flac",
@@ -54,6 +57,13 @@
   "agios-o-skopos": {
     "hash": "5c8b8dd83812",
     "paths": [
+      "triswiatoje/Poluzhivye - Ágios o skopós feat. GENERATED.flac",
+      "triswiatoje/Poluzhivye - Ágios o skopós feat. GENERATED.mp3",
+      "triswiatoje/Poluzhivye - Ágios o skopós feat. GENERATED.mp4",
+      "triswiatoje/Полуживые - Άγιος ο σκοπός feat. GENERATED.flac",
+      "triswiatoje/Полуживые - Άγιος ο σκοπός feat. GENERATED.mp3",
+      "triswiatoje/Полуживые - Предназначение feat. GENERATED.flac",
+      "triswiatoje/Полуживые - Предназначение feat. GENERATED.mp3",
       "vagabond_album/Poluzhivye - Ágios o skopós feat. GENERATED.flac",
       "vagabond_album/Poluzhivye - Ágios o skopós feat. GENERATED.mp3",
       "vagabond_album/Poluzhivye - Ágios o skopós feat. GENERATED.mp4",
@@ -78,6 +88,11 @@
   "answer": {
     "hash": "a6931f885bc2",
     "paths": [
+      "otvet/Poluzhivye - Otvet.flac",
+      "otvet/Poluzhivye - Otvet.mp3",
+      "otvet/Poluzhivye - Otvet.mp4",
+      "otvet/Полуживые - Ответ.flac",
+      "otvet/Полуживые - Ответ.mp3",
       "rus-/3 ответ.flac",
       "rus-/3 ответ.mp3",
       "rus-/Poluzhivye - Otvet.flac",
@@ -158,7 +173,10 @@
       "Divine-Discontent--album-/7. Believe In Me.mp3",
       "Divine-Discontent--album-/GENERATED - Believe in Me.flac",
       "Divine-Discontent--album-/GENERATED - Believe in Me.mp3",
-      "Divine-Discontent--album-/GENERATED - Believe in Me.mp4"
+      "Divine-Discontent--album-/GENERATED - Believe in Me.mp4",
+      "believe/GENERATED - Believe in Me.flac",
+      "believe/GENERATED - Believe in Me.mp3",
+      "believe/GENERATED - Believe in Me.mp4"
     ]
   },
   "beyond-the-horizon": {
@@ -256,6 +274,13 @@
   "call-of-the-steppe": {
     "hash": "36d1cf24dbe9",
     "paths": [
+      "steppe/Poluzhivye - Call of the Steppe feat. GENERATED.flac",
+      "steppe/Poluzhivye - Call of the Steppe feat. GENERATED.mp3",
+      "steppe/Poluzhivye - Call of the Steppe feat. GENERATED.mp4",
+      "steppe/Полуживые - Call of the Steppe feat. GENERATED.flac",
+      "steppe/Полуживые - Call of the Steppe feat. GENERATED.mp3",
+      "steppe/Полуживые - По зову степи feat. GENERATED.flac",
+      "steppe/Полуживые - По зову степи feat. GENERATED.mp3",
       "vagabond_album/Poluzhivye - Call of the Steppe feat. GENERATED.flac",
       "vagabond_album/Poluzhivye - Call of the Steppe feat. GENERATED.mp3",
       "vagabond_album/Poluzhivye - Call of the Steppe feat. GENERATED.mp4",
@@ -270,6 +295,13 @@
   "calm-into-the-storm": {
     "hash": "711b94b229f2",
     "paths": [
+      "calm/Poluzhivye - Calm into the Storm feat. GENERATED.flac",
+      "calm/Poluzhivye - Calm into the Storm feat. GENERATED.mp3",
+      "calm/Poluzhivye - Calm into the Storm feat. GENERATED.mp4",
+      "calm/Полуживые - Calm into the Storm feat. GENERATED.flac",
+      "calm/Полуживые - Calm into the Storm feat. GENERATED.mp3",
+      "calm/Полуживые - Буревестник feat. GENERATED.flac",
+      "calm/Полуживые - Буревестник feat. GENERATED.mp3",
       "vagabond_album/Poluzhivye - Calm into the Storm feat. GENERATED.flac",
       "vagabond_album/Poluzhivye - Calm into the Storm feat. GENERATED.mp3",
       "vagabond_album/Poluzhivye - Calm into the Storm feat. GENERATED.mp4",
@@ -318,6 +350,9 @@
   "chaos-always-wins": {
     "hash": "6aa80cde0a0c",
     "paths": [
+      "chaos/GENERATED - Chaos Always Wins.flac",
+      "chaos/GENERATED - Chaos Always Wins.mp3",
+      "chaos/GENERATED - Chaos Always Wins.mp4",
       "ghosts-of-flesh/8. Chaos Always Wins.flac",
       "ghosts-of-flesh/8. Chaos Always Wins.mp3",
       "ghosts-of-flesh/GENERATED - Chaos Always Wins.flac",
@@ -354,6 +389,9 @@
   "codependence-day": {
     "hash": "1834d2bd8045",
     "paths": [
+      "codep/GENERATED - Codependence Day.flac",
+      "codep/GENERATED - Codependence Day.mp3",
+      "codep/GENERATED - Codependence Day.mp4",
       "ghosts-of-flesh/3. Codependence Day.flac",
       "ghosts-of-flesh/3. Codependence Day.mp3",
       "ghosts-of-flesh/GENERATED - Codependence Day.flac",
@@ -432,6 +470,11 @@
   "do-not-hurry": {
     "hash": "f6213e4ca137",
     "paths": [
+      "Ne-toropi/Poluzhivye - Ne toropi.flac",
+      "Ne-toropi/Poluzhivye - Ne toropi.mp3",
+      "Ne-toropi/Poluzhivye - Ne toropi.mp4",
+      "Ne-toropi/Полуживые - Не торопи.flac",
+      "Ne-toropi/Полуживые - Не торопи.mp3",
       "rus-/8 не торопи.flac",
       "rus-/8 не торопи.mp3",
       "rus-/Poluzhivye - Ne toropi.flac",
@@ -572,6 +615,11 @@
   "frost-the-governor": {
     "hash": "d42a0a6735e0",
     "paths": [
+      "moroz/Poluzhivye - Ne veter bushuyet nad borom….flac",
+      "moroz/Poluzhivye - Ne veter bushuyet nad borom….mp3",
+      "moroz/Poluzhivye - Ne veter bushuyet nad borom….mp4",
+      "moroz/Полуживые - Не ветер бушует над бором….flac",
+      "moroz/Полуживые - Не ветер бушует над бором….mp3",
       "rus-/5 мороз.flac",
       "rus-/5 мороз.mp3",
       "rus-/Poluzhivye - Ne veter bushuyet nad borom….flac",
@@ -588,7 +636,10 @@
       "Divine-Discontent--album-/4. Fuck Religion.mp3",
       "Divine-Discontent--album-/GENERATED - Fuck Religion.flac",
       "Divine-Discontent--album-/GENERATED - Fuck Religion.mp3",
-      "Divine-Discontent--album-/GENERATED - Fuck Religion.mp4"
+      "Divine-Discontent--album-/GENERATED - Fuck Religion.mp4",
+      "fuckreligion/GENERATED - Fuck Religion.flac",
+      "fuckreligion/GENERATED - Fuck Religion.mp3",
+      "fuckreligion/GENERATED - Fuck Religion.mp4"
     ]
   },
   "ghost-of-yesterday": {
@@ -660,7 +711,10 @@
       "Divine-Discontent--album-/9. Grand Finale (In Entropy We Trust).mp3",
       "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).flac",
       "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).mp3",
-      "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).mp4"
+      "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).mp4",
+      "entropy-end/GENERATED - Grand Finale (In Entropy We Trust).flac",
+      "entropy-end/GENERATED - Grand Finale (In Entropy We Trust).mp3",
+      "entropy-end/GENERATED - Grand Finale (In Entropy We Trust).mp4"
     ]
   },
   "grave-awakening": {
@@ -749,7 +803,10 @@
       "ghosts-of-flesh/2. Here's To The Virus.mp3",
       "ghosts-of-flesh/GENERATED - Here’s to the Virus.flac",
       "ghosts-of-flesh/GENERATED - Here’s to the Virus.mp3",
-      "ghosts-of-flesh/GENERATED - Here’s to the Virus.mp4"
+      "ghosts-of-flesh/GENERATED - Here’s to the Virus.mp4",
+      "virus/GENERATED - Here’s to the Virus.flac",
+      "virus/GENERATED - Here’s to the Virus.mp3",
+      "virus/GENERATED - Here’s to the Virus.mp4"
     ]
   },
   "horizons": {
@@ -847,7 +904,10 @@
       "Divine-Discontent--album-/3. In Our Image.mp3",
       "Divine-Discontent--album-/GENERATED - In Our Image.flac",
       "Divine-Discontent--album-/GENERATED - In Our Image.mp3",
-      "Divine-Discontent--album-/GENERATED - In Our Image.mp4"
+      "Divine-Discontent--album-/GENERATED - In Our Image.mp4",
+      "image/GENERATED - In Our Image.flac",
+      "image/GENERATED - In Our Image.mp3",
+      "image/GENERATED - In Our Image.mp4"
     ]
   },
   "in-the-beginning": {
@@ -857,7 +917,10 @@
       "Divine-Discontent--album-/1. In the Beginning, There Was Silence.mp3",
       "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.flac",
       "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.mp3",
-      "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.mp4"
+      "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.mp4",
+      "solitude/GENERATED - In the Beginning, There Was Silence.flac",
+      "solitude/GENERATED - In the Beginning, There Was Silence.mp3",
+      "solitude/GENERATED - In the Beginning, There Was Silence.mp4"
     ]
   },
   "in-the-end": {
@@ -867,7 +930,10 @@
       "Divine-Discontent--album-/10. In the End, There Was Silence.mp3",
       "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.flac",
       "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.mp3",
-      "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.mp4"
+      "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.mp4",
+      "entropy-end/GENERATED - In the End, There Was Silence.flac",
+      "entropy-end/GENERATED - In the End, There Was Silence.mp3",
+      "entropy-end/GENERATED - In the End, There Was Silence.mp4"
     ]
   },
   "in-the-flesh": {
@@ -877,7 +943,10 @@
       "ghosts-of-flesh/1. In the Flesh.mp3",
       "ghosts-of-flesh/GENERATED - In the Flesh.flac",
       "ghosts-of-flesh/GENERATED - In the Flesh.mp3",
-      "ghosts-of-flesh/GENERATED - In the Flesh.mp4"
+      "ghosts-of-flesh/GENERATED - In the Flesh.mp4",
+      "intheflesh/GENERATED - In the Flesh.flac",
+      "intheflesh/GENERATED - In the Flesh.mp3",
+      "intheflesh/GENERATED - In the Flesh.mp4"
     ]
   },
   "in-the-shadow": {
@@ -899,7 +968,12 @@
       "dng_album/dng-004.flac",
       "dng_album/dng-004.mp3",
       "dng_album/Дамы и господа - Я говорю сейчас словами теми….flac",
-      "dng_album/Дамы и господа - Я говорю сейчас словами теми….mp3"
+      "dng_album/Дамы и господа - Я говорю сейчас словами теми….mp3",
+      "komnata/Damy i gospoda - Ya govoryu seychas slovami temi….flac",
+      "komnata/Damy i gospoda - Ya govoryu seychas slovami temi….mp3",
+      "komnata/Damy i gospoda - Ya govoryu seychas slovami temi….mp4",
+      "komnata/Дамы и господа - Я говорю сейчас словами теми….flac",
+      "komnata/Дамы и господа - Я говорю сейчас словами теми….mp3"
     ]
   },
   "infinite-solitude": {
@@ -909,7 +983,10 @@
       "Divine-Discontent--album-/2. Infinite Solitude.mp3",
       "Divine-Discontent--album-/GENERATED - Infinite Solitude.flac",
       "Divine-Discontent--album-/GENERATED - Infinite Solitude.mp3",
-      "Divine-Discontent--album-/GENERATED - Infinite Solitude.mp4"
+      "Divine-Discontent--album-/GENERATED - Infinite Solitude.mp4",
+      "solitude/GENERATED - Infinite Solitude.flac",
+      "solitude/GENERATED - Infinite Solitude.mp3",
+      "solitude/GENERATED - Infinite Solitude.mp4"
     ]
   },
   "ink": {
@@ -935,6 +1012,9 @@
   "intermezzo": {
     "hash": "f10ae4381b69",
     "paths": [
+      "inter/GENERATED - Intermezzo.flac",
+      "inter/GENERATED - Intermezzo.mp3",
+      "inter/GENERATED - Intermezzo.mp4",
       "psch_album/9_intermezzo.flac",
       "psch_album/9_intermezzo.mp3",
       "psch_album/GENERATED - Intermezzo.flac",
@@ -971,7 +1051,12 @@
       "dng_album/dng-005.flac",
       "dng_album/dng-005.mp3",
       "dng_album/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.flac",
-      "dng_album/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.mp3"
+      "dng_album/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.mp3",
+      "sonnet61/Damy i gospoda - Tvoya lʼ vina, chto mily obraz tvoy… feat. Poluzhivye.flac",
+      "sonnet61/Damy i gospoda - Tvoya lʼ vina, chto mily obraz tvoy… feat. Poluzhivye.mp3",
+      "sonnet61/Damy i gospoda - Tvoya lʼ vina, chto mily obraz tvoy… feat. Poluzhivye.mp4",
+      "sonnet61/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.flac",
+      "sonnet61/Дамы и господа - Твоя ль вина, что милый образ твой… feat. Полуживые.mp3"
     ]
   },
   "just-because": {
@@ -1033,7 +1118,10 @@
       "ghosts-of-flesh/4.The Last Human Zoo.mp3",
       "ghosts-of-flesh/GENERATED - The Last Human Zoo.flac",
       "ghosts-of-flesh/GENERATED - The Last Human Zoo.mp3",
-      "ghosts-of-flesh/GENERATED - The Last Human Zoo.mp4"
+      "ghosts-of-flesh/GENERATED - The Last Human Zoo.mp4",
+      "zoo/GENERATED - The Last Human Zoo.flac",
+      "zoo/GENERATED - The Last Human Zoo.mp3",
+      "zoo/GENERATED - The Last Human Zoo.mp4"
     ]
   },
   "lets-fly": {
@@ -1101,6 +1189,11 @@
   "little-peasant": {
     "hash": "4ab1514ed1aa",
     "paths": [
+      "mu-icok-new/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….flac",
+      "mu-icok-new/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….mp3",
+      "mu-icok-new/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….mp4",
+      "mu-icok-new/Полуживые - Однажды в студёную зимнюю пору….flac",
+      "mu-icok-new/Полуживые - Однажды в студёную зимнюю пору….mp3",
       "rus-/6 мужичок.flac",
       "rus-/6 мужичок.mp3",
       "rus-/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….flac",
@@ -1163,7 +1256,14 @@
       "vagabond_album/Полуживые - Mist over Azov feat. GENERATED.flac",
       "vagabond_album/Полуживые - Mist over Azov feat. GENERATED.mp3",
       "vagabond_album/Полуживые - Туман над Азовом feat. GENERATED.flac",
-      "vagabond_album/Полуживые - Туман над Азовом feat. GENERATED.mp3"
+      "vagabond_album/Полуживые - Туман над Азовом feat. GENERATED.mp3",
+      "wanderlust/Poluzhivye - Mist over Azov feat. GENERATED.flac",
+      "wanderlust/Poluzhivye - Mist over Azov feat. GENERATED.mp3",
+      "wanderlust/Poluzhivye - Mist over Azov feat. GENERATED.mp4",
+      "wanderlust/Полуживые - Mist over Azov feat. GENERATED.flac",
+      "wanderlust/Полуживые - Mist over Azov feat. GENERATED.mp3",
+      "wanderlust/Полуживые - Туман над Азовом feat. GENERATED.flac",
+      "wanderlust/Полуживые - Туман над Азовом feat. GENERATED.mp3"
     ]
   },
   "mithqal": {
@@ -1275,7 +1375,12 @@
       "dng_album/dng-003.flac",
       "dng_album/dng-003.mp3",
       "dng_album/Дамы и господа - Мне нравится, что вы больны не мной….flac",
-      "dng_album/Дамы и господа - Мне нравится, что вы больны не мной….mp3"
+      "dng_album/Дамы и господа - Мне нравится, что вы больны не мной….mp3",
+      "mne-nravitsa/Damy i gospoda - Mne nravitsya, chto vy bolʼny ne mnoy….flac",
+      "mne-nravitsa/Damy i gospoda - Mne nravitsya, chto vy bolʼny ne mnoy….mp3",
+      "mne-nravitsa/Damy i gospoda - Mne nravitsya, chto vy bolʼny ne mnoy….mp4",
+      "mne-nravitsa/Дамы и господа - Мне нравится, что вы больны не мной….flac",
+      "mne-nravitsa/Дамы и господа - Мне нравится, что вы больны не мной….mp3"
     ]
   },
   "ok-loser": {
@@ -1295,7 +1400,10 @@
       "Divine-Discontent--album-/5. One Day.mp3",
       "Divine-Discontent--album-/GENERATED - One Day.flac",
       "Divine-Discontent--album-/GENERATED - One Day.mp3",
-      "Divine-Discontent--album-/GENERATED - One Day.mp4"
+      "Divine-Discontent--album-/GENERATED - One Day.mp4",
+      "oneday/GENERATED - One Day.flac",
+      "oneday/GENERATED - One Day.mp3",
+      "oneday/GENERATED - One Day.mp4"
     ]
   },
   "onto-fingers": {
@@ -1343,7 +1451,10 @@
       "psch_album/1_overture.mp3",
       "psch_album/GENERATED - Overture.flac",
       "psch_album/GENERATED - Overture.mp3",
-      "psch_album/GENERATED - Overture.mp4"
+      "psch_album/GENERATED - Overture.mp4",
+      "wagner/GENERATED - Overture.flac",
+      "wagner/GENERATED - Overture.mp3",
+      "wagner/GENERATED - Overture.mp4"
     ]
   },
   "parking-in-disabled-spot": {
@@ -1409,7 +1520,12 @@
       "dng_album/dng-002.flac",
       "dng_album/dng-002.mp3",
       "dng_album/Дамы и господа - Под лаской плюшевого пледа….flac",
-      "dng_album/Дамы и господа - Под лаской плюшевого пледа….mp3"
+      "dng_album/Дамы и господа - Под лаской плюшевого пледа….mp3",
+      "pled/Damy i gospoda - Pod laskoy plyushevogo pleda….flac",
+      "pled/Damy i gospoda - Pod laskoy plyushevogo pleda….mp3",
+      "pled/Damy i gospoda - Pod laskoy plyushevogo pleda….mp4",
+      "pled/Дамы и господа - Под лаской плюшевого пледа….flac",
+      "pled/Дамы и господа - Под лаской плюшевого пледа….mp3"
     ]
   },
   "poison": {
@@ -1455,7 +1571,12 @@
       "dng_album/dng-006.flac",
       "dng_album/dng-006.mp3",
       "dng_album/Дамы и господа - Мы вспоминаем тихий снег….flac",
-      "dng_album/Дамы и господа - Мы вспоминаем тихий снег….mp3"
+      "dng_album/Дамы и господа - Мы вспоминаем тихий снег….mp3",
+      "sneg/Damy i gospoda - My vspominayem tikhiy sneg….flac",
+      "sneg/Damy i gospoda - My vspominayem tikhiy sneg….mp3",
+      "sneg/Damy i gospoda - My vspominayem tikhiy sneg….mp4",
+      "sneg/Дамы и господа - Мы вспоминаем тихий снег….flac",
+      "sneg/Дамы и господа - Мы вспоминаем тихий снег….mp3"
     ]
   },
   "rebels-between-the-lines": {
@@ -1515,7 +1636,12 @@
       "papa-reka/Poluzhivye - Reka. Chastʼ vtoraya.mp3",
       "papa-reka/Poluzhivye - Reka. Chastʼ vtoraya.mp4",
       "papa-reka/Полуживые - Река. Часть вторая.flac",
-      "papa-reka/Полуживые - Река. Часть вторая.mp3"
+      "papa-reka/Полуживые - Река. Часть вторая.mp3",
+      "reka-2/Poluzhivye - Reka. Chastʼ vtoraya.flac",
+      "reka-2/Poluzhivye - Reka. Chastʼ vtoraya.mp3",
+      "reka-2/Poluzhivye - Reka. Chastʼ vtoraya.mp4",
+      "reka-2/Полуживые - Река. Часть вторая.flac",
+      "reka-2/Полуживые - Река. Часть вторая.mp3"
     ]
   },
   "schadina": {
@@ -1547,6 +1673,9 @@
   "sisters": {
     "hash": "72aa79bf02ee",
     "paths": [
+      "lake/GENERATED - Sisters.flac",
+      "lake/GENERATED - Sisters.mp3",
+      "lake/GENERATED - Sisters.mp4",
       "stories/4 lake.flac",
       "stories/4 lake.mp3",
       "stories/GENERATED - Sisters.flac",
@@ -1629,7 +1758,10 @@
       "stories/11 ends.mp3",
       "stories/GENERATED - The Story Ends.flac",
       "stories/GENERATED - The Story Ends.mp3",
-      "stories/GENERATED - The Story Ends.mp4"
+      "stories/GENERATED - The Story Ends.mp4",
+      "story_ends/GENERATED - The Story Ends.flac",
+      "story_ends/GENERATED - The Story Ends.mp3",
+      "story_ends/GENERATED - The Story Ends.mp4"
     ]
   },
   "stricken-deer": {
@@ -1697,7 +1829,12 @@
       "dng_album/dng-001.flac",
       "dng_album/dng-001.mp3",
       "dng_album/Дамы и господа - Моим стихам, написанным так рано….flac",
-      "dng_album/Дамы и господа - Моим стихам, написанным так рано….mp3"
+      "dng_album/Дамы и господа - Моим стихам, написанным так рано….mp3",
+      "stiham/Damy i gospoda - Moim stikham, napisannym tak rano….flac",
+      "stiham/Damy i gospoda - Moim stikham, napisannym tak rano….mp3",
+      "stiham/Damy i gospoda - Moim stikham, napisannym tak rano….mp4",
+      "stiham/Дамы и господа - Моим стихам, написанным так рано….flac",
+      "stiham/Дамы и господа - Моим стихам, написанным так рано….mp3"
     ]
   },
   "trisagion": {
@@ -1727,7 +1864,10 @@
       "Divine-Discontent--album-/6. The Ultimate Abstraction.mp3",
       "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.flac",
       "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.mp3",
-      "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.mp4"
+      "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.mp4",
+      "oneday/GENERATED - The Ultimate Abstraction.flac",
+      "oneday/GENERATED - The Ultimate Abstraction.mp3",
+      "oneday/GENERATED - The Ultimate Abstraction.mp4"
     ]
   },
   "undone": {
@@ -1753,6 +1893,13 @@
   "vagabond": {
     "hash": "b48abd3b63b9",
     "paths": [
+      "vagabond/Poluzhivye - Vagabond feat. GENERATED.flac",
+      "vagabond/Poluzhivye - Vagabond feat. GENERATED.mp3",
+      "vagabond/Poluzhivye - Vagabond feat. GENERATED.mp4",
+      "vagabond/Полуживые - Vagabond feat. GENERATED.flac",
+      "vagabond/Полуживые - Vagabond feat. GENERATED.mp3",
+      "vagabond/Полуживые - Скиталец feat. GENERATED.flac",
+      "vagabond/Полуживые - Скиталец feat. GENERATED.mp3",
       "vagabond_album/Poluzhivye - Vagabond feat. GENERATED.flac",
       "vagabond_album/Poluzhivye - Vagabond feat. GENERATED.mp3",
       "vagabond_album/Poluzhivye - Vagabond feat. GENERATED.mp4",
