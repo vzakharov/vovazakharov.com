@@ -44,16 +44,34 @@ export function downloadExtensions({
   return ['mp3', ...(lossy ? [] : ['flac'])];
 }
 
+type WithMasters = Pick<SongFrontmatter, 'audio' | 'mp3'>;
+
+/** The song as an MP3: the copy beside the master, or the master itself. */
+export function mp3Url({ audio, mp3 }: WithMasters): string {
+  return mp3.url ?? audio;
+}
+
 /**
  * The song's files to take away, each under the name `pnpm music:masters tag`
  * saved it as for the billing.
  */
 export function songFiles(
+<<<<<<< HEAD
   hosting: SongHosting,
   billing: SongBilling,
 ): SongFile[] {
   return downloadExtensions(hosting).map((extension) => {
     const { original, latin } = songFileNames(billing, extension);
+=======
+  masters: WithMasters,
+  billing?: SongBilling,
+): SongFile[] {
+  const { audio, mp3 } = masters;
+
+  return [mp3Url(masters), ...(mp3.url === undefined ? [] : [audio])].map(
+    (href) => {
+      const extension = extensionOf(href);
+>>>>>>> origin/main
 
     return {
       extension,

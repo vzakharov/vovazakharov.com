@@ -70,6 +70,7 @@ export function PlayerProvider({
     tracks: queue,
     state,
     elapsed,
+    switching,
     current,
     controls,
   } = useAudioPlayer(tracks, locale);
@@ -79,13 +80,24 @@ export function PlayerProvider({
       tracks: queue,
       state,
       elapsed,
+      switching,
       locale,
       labels: labels[locale],
       radioRoute: radioRoutes[locale],
       ...controls,
       ...(current && { current }),
     }),
-    [queue, state, elapsed, controls, current, locale, labels, radioRoutes],
+    [
+      queue,
+      state,
+      elapsed,
+      switching,
+      controls,
+      current,
+      locale,
+      labels,
+      radioRoutes,
+    ],
   );
 
   return (

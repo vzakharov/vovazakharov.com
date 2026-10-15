@@ -357,7 +357,9 @@
       "shuffle": "Shuffle",
       "radio": "Radio",
       "seek": "Seek",
-      "timeToggle": "Switch between the song’s length and the time left"
+      "timeToggle": "Switch between the song’s length and the time left",
+      "volume": "Volume",
+      "lossless": "Lossless (FLAC)"
     }
   },
   "ui": {
