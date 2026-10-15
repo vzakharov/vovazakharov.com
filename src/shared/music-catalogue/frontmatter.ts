@@ -205,7 +205,7 @@ const songFieldsSchema = baseFrontmatterSchema
     /**
      * Its repository under the `vovas-music` organization, whose `main` holds
      * every file the song is played and downloaded from, at its root under
-     * the names `pnpm music:masters tag` derives — so no URL is stated.
+     * the names `pnpm music:masters tag` derives.
      */
     repo: z.string().min(1),
     /**

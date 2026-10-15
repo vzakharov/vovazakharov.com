@@ -110,10 +110,9 @@ when the operator says "too bright" or "muddy".
 **A song plays from a public repository of its own under the `vovas-music`
 organization**, named in the frontmatter's `repo:`, whose `main` serves every
 file the site links at its root, under the names `pnpm music:masters tag` gives
-them — so the frontmatter states no URL. It holds what the master was made from
-and how: the mix (`<slug>_mix.mp3`), the master — and, where that master is a
-FLAC, its MP3 copy, which the songs feeds and downloads serve,
-`<stem>.master.mp3`
+them. It holds what the master was made from and how: the mix
+(`<slug>_mix.mp3`), the master — and, where that master is a FLAC, its MP3 copy,
+which the songs feeds and downloads serve, `<stem>.master.mp3`
 (`ffmpeg -i <stem>.flac -map 0:a -c:a libmp3lame -b:a 320k`), which
 `music:scaffold` reads, and the MP4 rewrap the tag run makes of it, which the
 player plays — the video where there is one, `mastering/` — `master.py`,
