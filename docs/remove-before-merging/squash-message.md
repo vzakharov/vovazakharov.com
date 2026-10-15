@@ -7,11 +7,12 @@ screen's width.
 
 Below `sm` the bar now stacks the track title, the controls and the
 seek bar in a single column, so the slider spans the full width under
-the buttons; from `sm` up the one-row layout is unchanged. The slider's
-touch target is 32px tall around its 4px line, so a thumb aimed at it
-from just under the buttons lands on the slider rather than on them.
-The page clearance under the pinned bar grows with it on narrow
-screens, so a page's last lines still clear the taller bar.
+the buttons; from `sm` up the one-row layout is unchanged.
+
+The slider's touch target is 32px tall around its 4px line, so a finger
+that falls short of the line lands on the slider, not on the buttons
+above it. The page clearance under the pinned bar grows with the bar on
+narrow screens, so a page's last lines still clear it.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
