@@ -39,10 +39,7 @@ export const PAGE_ROUTES = {
  * there and absent where it is not, never a nullable slot. `pnpm
  * content:og:<site>` rasterises `path` from `vector` for the marks that are both.
  */
-export type SiteImage = Sized & WithPath & PresentOrAbsent<
-    'vector',
-    string
-  >;
+export type SiteImage = Sized & WithPath & PresentOrAbsent<'vector', string>;
 
 /**
  * Whom a site's materials are credited to, and where that credit links. Named
