@@ -108,10 +108,11 @@
     ]
   },
   "baa-baa-black-sheep": {
-    "hash": "e546b5e58292",
+    "hash": "df8378bc46b9",
     "paths": [
       "baa/GENERATED - Baa Baa Black Sheep.flac",
       "baa/GENERATED - Baa Baa Black Sheep.mp3",
+      "baa/GENERATED - Baa Baa Black Sheep.mp4",
       "baa/baa_master.flac",
       "baa/baa_master.mp3"
     ]
@@ -151,12 +152,13 @@
     ]
   },
   "believe-in-me": {
-    "hash": "3d158cef140b",
+    "hash": "0127f0d91e18",
     "paths": [
       "Divine-Discontent--album-/7. Believe In Me.flac",
       "Divine-Discontent--album-/7. Believe In Me.mp3",
       "Divine-Discontent--album-/GENERATED - Believe in Me.flac",
-      "Divine-Discontent--album-/GENERATED - Believe in Me.mp3"
+      "Divine-Discontent--album-/GENERATED - Believe in Me.mp3",
+      "Divine-Discontent--album-/GENERATED - Believe in Me.mp4"
     ]
   },
   "beyond-the-horizon": {
@@ -240,10 +242,11 @@
     ]
   },
   "call-me-by-name": {
-    "hash": "7e32685d951f",
+    "hash": "f09dc827275a",
     "paths": [
       "nazovi/Gryobany bal - Nazovi menya po imeni.flac",
       "nazovi/Gryobany bal - Nazovi menya po imeni.mp3",
+      "nazovi/Gryobany bal - Nazovi menya po imeni.mp4",
       "nazovi/Грёбаный бал - Назови меня по имени.flac",
       "nazovi/Грёбаный бал - Назови меня по имени.mp3",
       "nazovi/Назови меня по имени.flac",
@@ -313,12 +316,13 @@
     ]
   },
   "chaos-always-wins": {
-    "hash": "0ffc00d4f3a3",
+    "hash": "6aa80cde0a0c",
     "paths": [
       "ghosts-of-flesh/8. Chaos Always Wins.flac",
       "ghosts-of-flesh/8. Chaos Always Wins.mp3",
       "ghosts-of-flesh/GENERATED - Chaos Always Wins.flac",
-      "ghosts-of-flesh/GENERATED - Chaos Always Wins.mp3"
+      "ghosts-of-flesh/GENERATED - Chaos Always Wins.mp3",
+      "ghosts-of-flesh/GENERATED - Chaos Always Wins.mp4"
     ]
   },
   "chikh-pykh": {
@@ -348,19 +352,21 @@
     ]
   },
   "codependence-day": {
-    "hash": "5241a92d66b5",
+    "hash": "1834d2bd8045",
     "paths": [
       "ghosts-of-flesh/3. Codependence Day.flac",
       "ghosts-of-flesh/3. Codependence Day.mp3",
       "ghosts-of-flesh/GENERATED - Codependence Day.flac",
-      "ghosts-of-flesh/GENERATED - Codependence Day.mp3"
+      "ghosts-of-flesh/GENERATED - Codependence Day.mp3",
+      "ghosts-of-flesh/GENERATED - Codependence Day.mp4"
     ]
   },
   "comeback-song": {
-    "hash": "e6d3dd0a46a1",
+    "hash": "4ea99a256a9d",
     "paths": [
       "comeback/Yoohie - The Comeback Song (We Have a Banger).flac",
       "comeback/Yoohie - The Comeback Song (We Have a Banger).mp3",
+      "comeback/Yoohie - The Comeback Song (We Have a Banger).mp4",
       "comeback/comeback.flac",
       "comeback/comeback.mp3",
       "comeback/Йухи - The Comeback Song (We Have a Banger).flac",
@@ -423,12 +429,13 @@
     ]
   },
   "do-not-hurry": {
-    "hash": "38e43a1b773d",
+    "hash": "f6213e4ca137",
     "paths": [
       "rus-/8 не торопи.flac",
       "rus-/8 не торопи.mp3",
       "rus-/Poluzhivye - Ne toropi.flac",
       "rus-/Poluzhivye - Ne toropi.mp3",
+      "rus-/Poluzhivye - Ne toropi.mp4",
       "rus-/Полуживые - Не торопи.flac",
       "rus-/Полуживые - Не торопи.mp3"
     ]
@@ -562,23 +569,25 @@
     ]
   },
   "frost-the-governor": {
-    "hash": "5db72bc92719",
+    "hash": "d42a0a6735e0",
     "paths": [
       "rus-/5 мороз.flac",
       "rus-/5 мороз.mp3",
       "rus-/Poluzhivye - Ne veter bushuyet nad borom….flac",
       "rus-/Poluzhivye - Ne veter bushuyet nad borom….mp3",
+      "rus-/Poluzhivye - Ne veter bushuyet nad borom….mp4",
       "rus-/Полуживые - Не ветер бушует над бором….flac",
       "rus-/Полуживые - Не ветер бушует над бором….mp3"
     ]
   },
   "fuck-religion": {
-    "hash": "8afe5cb35c60",
+    "hash": "45dba71c1c1b",
     "paths": [
       "Divine-Discontent--album-/4. Fuck Religion.flac",
       "Divine-Discontent--album-/4. Fuck Religion.mp3",
       "Divine-Discontent--album-/GENERATED - Fuck Religion.flac",
-      "Divine-Discontent--album-/GENERATED - Fuck Religion.mp3"
+      "Divine-Discontent--album-/GENERATED - Fuck Religion.mp3",
+      "Divine-Discontent--album-/GENERATED - Fuck Religion.mp4"
     ]
   },
   "ghost-of-yesterday": {
@@ -612,10 +621,11 @@
     ]
   },
   "gone-with-the-wind": {
-    "hash": "e684f8bc353a",
+    "hash": "c680a75a2fee",
     "paths": [
       "wind/GENERATED - Gone with the Wind.flac",
       "wind/GENERATED - Gone with the Wind.mp3",
+      "wind/GENERATED - Gone with the Wind.mp4",
       "wind/wind.flac",
       "wind/wind.master.mp3"
     ]
@@ -643,12 +653,13 @@
     ]
   },
   "grand-finale": {
-    "hash": "b7e43fc28dda",
+    "hash": "a556650908b4",
     "paths": [
       "Divine-Discontent--album-/9. Grand Finale (In Entropy We Trust).flac",
       "Divine-Discontent--album-/9. Grand Finale (In Entropy We Trust).mp3",
       "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).flac",
-      "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).mp3"
+      "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).mp3",
+      "Divine-Discontent--album-/GENERATED - Grand Finale (In Entropy We Trust).mp4"
     ]
   },
   "grave-awakening": {
@@ -682,10 +693,11 @@
     ]
   },
   "hamlet": {
-    "hash": "d0574ea717a1",
+    "hash": "53289d18eaf1",
     "paths": [
       "hamlet/Poluzhivye - Gamlet.flac",
       "hamlet/Poluzhivye - Gamlet.mp3",
+      "hamlet/Poluzhivye - Gamlet.mp4",
       "hamlet/hamlet_short-001.flac",
       "hamlet/hamlet_short-001.mp3",
       "hamlet/Полуживые - Гамлет.flac",
@@ -693,10 +705,11 @@
     ]
   },
   "hamlet-extended": {
-    "hash": "3b143398dc63",
+    "hash": "8c219e630d0c",
     "paths": [
       "hamlet/Poluzhivye - Gamlet (Extended Version).flac",
       "hamlet/Poluzhivye - Gamlet (Extended Version).mp3",
+      "hamlet/Poluzhivye - Gamlet (Extended Version).mp4",
       "hamlet/hamlet_extended.flac",
       "hamlet/hamlet_extended.mp3",
       "hamlet/Полуживые - Гамлет (Extended Version).flac",
@@ -729,12 +742,13 @@
     ]
   },
   "heres-to-the-virus": {
-    "hash": "7408e7f5bdac",
+    "hash": "aa9a94db6394",
     "paths": [
       "ghosts-of-flesh/2. Here's To The Virus.flac",
       "ghosts-of-flesh/2. Here's To The Virus.mp3",
       "ghosts-of-flesh/GENERATED - Here’s to the Virus.flac",
-      "ghosts-of-flesh/GENERATED - Here’s to the Virus.mp3"
+      "ghosts-of-flesh/GENERATED - Here’s to the Virus.mp3",
+      "ghosts-of-flesh/GENERATED - Here’s to the Virus.mp4"
     ]
   },
   "horizons": {

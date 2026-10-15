@@ -11,6 +11,7 @@ seconds: 274
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Believe%20in%20Me.mp3
   bytes: 11034328
+stream: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Believe%20in%20Me.mp4
 explicit: true
 album: divine-discontent
 track: 7

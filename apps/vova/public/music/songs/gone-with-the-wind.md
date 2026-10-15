@@ -10,6 +10,7 @@ seconds: 243
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/wind/main/GENERATED%20-%20Gone%20with%20the%20Wind.mp3
   bytes: 9830241
+stream: https://raw.githubusercontent.com/vovas-music/wind/main/GENERATED%20-%20Gone%20with%20the%20Wind.mp4
 explicit: false
 album: let-the-stories-spin
 track: 5

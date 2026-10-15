@@ -10,6 +10,7 @@ seconds: 203
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20Chaos%20Always%20Wins.mp3
   bytes: 8221027
+stream: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20Chaos%20Always%20Wins.mp4
 explicit: false
 album: ghosts-of-flesh
 track: 8
