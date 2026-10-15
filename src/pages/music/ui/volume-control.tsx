@@ -2,7 +2,13 @@
 
 import { ActionIcon, Popover, Stack, Text } from '@mantine/core';
 import { Volume1, Volume2, VolumeX } from 'lucide-react';
-import { useSyncExternalStore } from 'react';
+import {
+  type PointerEvent,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 
 import { cx } from '@/shared/lib/class-names';
 
@@ -39,6 +45,53 @@ function settableOnServer() {
   return true;
 }
 
+/** Long enough for the mouse to cross the gap between the button and the dropdown. */
+const HOVER_CLOSE_DELAY = 200;
+
+/**
+ * Open on a mouse resting over the button or the dropdown, and on a tap: a
+ * pointer that can hover gets the slider without a click, a finger by one.
+ */
+function useHoverPopover() {
+  const [opened, setOpened] = useState(false);
+  const hoveringRef = useRef(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(
+    () => () => {
+      clearTimeout(closeTimerRef.current);
+    },
+    [],
+  );
+
+  const hover = {
+    onPointerEnter: (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+      hoveringRef.current = true;
+      clearTimeout(closeTimerRef.current);
+      setOpened(true);
+    },
+    onPointerLeave: (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+      hoveringRef.current = false;
+      closeTimerRef.current = setTimeout(() => {
+        setOpened(false);
+      }, HOVER_CLOSE_DELAY);
+    },
+  };
+
+  return {
+    opened,
+    setOpened,
+    hover,
+    // A click on a button the mouse already opened leaves it open rather than
+    // closing it under the pointer.
+    toggle: () => {
+      setOpened((was) => hoveringRef.current || !was);
+    },
+  };
+}
+
 type VolumeIconProps = { volume: number };
 
 function VolumeIcon({ volume }: VolumeIconProps) {
@@ -47,62 +100,78 @@ function VolumeIcon({ volume }: VolumeIconProps) {
   return volume < 0.5 ? <Volume1 size={18} /> : <Volume2 size={18} />;
 }
 
-/** The bar's sound settings: the volume, and lossless above it. */
+function LosslessToggle() {
+  const { labels } = usePlayer();
+  const [lossless, setLossless] = useStoredSetting('lossless');
+
+  return (
+    <ActionIcon
+      variant="default"
+      size="lg"
+      radius="xl"
+      className={cx(lossless && classes['controlOn'])}
+      onClick={() => {
+        setLossless(!lossless);
+      }}
+      aria-label={labels.lossless}
+      aria-pressed={lossless}
+      title={labels.lossless}
+    >
+      <Text component="span" size="xs" fw={700}>
+        HQ
+      </Text>
+    </ActionIcon>
+  );
+}
+
+/**
+ * The bar's sound settings: the volume, and lossless above it — or lossless
+ * alone, straight on the bar, where the device keeps the volume to itself.
+ */
 export function VolumeControl() {
   const { labels } = usePlayer();
   const [volume, setVolume] = useStoredSetting('volume');
-  const [lossless, setLossless] = useStoredSetting('lossless');
   const settable = useSyncExternalStore(
     subscribe,
     canSetVolume,
     settableOnServer,
   );
 
+  const { opened, setOpened, hover, toggle } = useHoverPopover();
+
+  if (!settable) return <LosslessToggle />;
+
   return (
-    <Popover position="top" shadow="md">
+    <Popover position="top" shadow="md" {...{ opened }} onChange={setOpened}>
       <Popover.Target>
         <ActionIcon
           variant="default"
           size="lg"
           radius="xl"
           aria-label={labels.volume}
+          aria-expanded={opened}
+          onClick={toggle}
+          {...hover}
         >
-          <VolumeIcon volume={settable ? volume : 1} />
+          <VolumeIcon {...{ volume }} />
         </ActionIcon>
       </Popover.Target>
-      <Popover.Dropdown p={8}>
+      <Popover.Dropdown p={8} {...hover}>
         <Stack gap={8} align="center">
-          <ActionIcon
-            variant="default"
-            size="lg"
-            radius="xl"
-            className={cx(lossless && classes['controlOn'])}
-            onClick={() => {
-              setLossless(!lossless);
+          <LosslessToggle />
+          <input
+            type="range"
+            className={classes['volumeBar']}
+            min={0}
+            max={1}
+            step={0.01}
+            value={volume}
+            onChange={(event) => {
+              setVolume(Number(event.currentTarget.value));
             }}
-            aria-label={labels.lossless}
-            aria-pressed={lossless}
-            title={labels.lossless}
-          >
-            <Text component="span" size="xs" fw={700}>
-              HQ
-            </Text>
-          </ActionIcon>
-          {settable && (
-            <input
-              type="range"
-              className={classes['volumeBar']}
-              min={0}
-              max={1}
-              step={0.01}
-              value={volume}
-              onChange={(event) => {
-                setVolume(Number(event.currentTarget.value));
-              }}
-              aria-label={labels.volume}
-              aria-orientation="vertical"
-            />
-          )}
+            aria-label={labels.volume}
+            aria-orientation="vertical"
+          />
         </Stack>
       </Popover.Dropdown>
     </Popover>
