@@ -4,15 +4,15 @@ Proposed squash body:
 On an iPhone the radio joined songs earlier than its dial showed and
 kept playing the previous song after the dial moved on; a manual seek
 landed early too. AVFoundation, which plays media for every iOS
-browser, seeks a FLAC with no SEEKTABLE by estimate and reports the
-second it was asked for, so the element trailed the clock the dial
-reads. None of the masters carried a seektable.
+browser, seeks a bare FLAC by estimate and reports the second it was
+asked for, so the element trailed the clock the dial reads. A
+seektable narrowed the miss to seconds; the same FLAC stream in an MP4
+container seeks exactly.
 
-Every FLAC master now carries one with a point per second, written by
-pnpm music:masters tag and required by its offline check, and the song
-intake states it for new songs. Only the header changes, about 4 KB a
-song. Tested on sultan first: the seek lands far closer, a few seconds
-of drift remaining.
+Every FLAC song now streams that rewrap: pnpm music:masters writes it
+beside the master with no re-encode, the frontmatter's stream names
+it, and its check fails on a song without one. The player plays stream
+in place of audio, which the downloads keep.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
