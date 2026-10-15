@@ -20,6 +20,7 @@ import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
 import { universeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
 import { songDownloads } from './song-downloads';
+import { mp3Url } from './song-files';
 import {
   type LocalizedSongDocument,
   localizeSong,
@@ -90,12 +91,13 @@ async function songContent(
 }
 
 function songEpisode(document: SongDocument): FeedEntry['episode'] {
-  const { audio, mp3, seconds, explicit } = document.frontmatter;
+  const { frontmatter } = document;
+  const { mp3, seconds, explicit } = frontmatter;
   const picture = songPicture(document);
 
   return {
     enclosure: {
-      url: absoluteUrl(mp3.url ?? audio),
+      url: absoluteUrl(mp3Url(frontmatter)),
       ...pick(mp3, 'bytes'),
     },
     seconds,

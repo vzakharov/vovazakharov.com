@@ -34,6 +34,13 @@ function namedHref(
   };
 }
 
+type WithMasters = Pick<SongFrontmatter, 'audio' | 'mp3'>;
+
+/** The song as an MP3: the copy beside the master, or the master itself. */
+export function mp3Url({ audio, mp3 }: WithMasters): string {
+  return mp3.url ?? audio;
+}
+
 /**
  * The song's files to take away: the MP3 first, then the master where the MP3
  * is a copy of it. With a billing, a file a `vovas-music` repository serves is
@@ -41,10 +48,12 @@ function namedHref(
  * one, and for a file the site hosts, under the URL the frontmatter states.
  */
 export function songFiles(
-  { audio, mp3 }: Pick<SongFrontmatter, 'audio' | 'mp3'>,
+  masters: WithMasters,
   billing?: SongBilling,
 ): SongFile[] {
-  return [mp3.url ?? audio, ...(mp3.url === undefined ? [] : [audio])].map(
+  const { audio, mp3 } = masters;
+
+  return [mp3Url(masters), ...(mp3.url === undefined ? [] : [audio])].map(
     (href) => {
       const extension = extensionOf(href);
 

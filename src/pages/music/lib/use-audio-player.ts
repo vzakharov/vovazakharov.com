@@ -21,6 +21,7 @@ import {
   type PlayerTrack,
   seguePositions,
   shouldRestart,
+  trackSource,
   type WithTracks,
 } from './player-state';
 import {
@@ -29,7 +30,7 @@ import {
   type RadioPlayerState,
 } from './radio-state';
 import { type StationControls, useStation } from './use-station';
-import { useStoredFlag } from './use-stored-flag';
+import { useStoredSetting } from './use-stored-setting';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
@@ -106,6 +107,8 @@ export function useAudioPlayer(
   locale: Locale,
 ): AudioPlayer {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  // Where a switch of quality left the song, for the new file to seek to.
+  const resumeAtRef = useRef<number | undefined>(undefined);
   const [tracks, setTracks] = useState(catalogue);
   const [state, dispatch] = useReducer(
     radioPlayerReducer,
@@ -114,7 +117,9 @@ export function useAudioPlayer(
   );
   const [elapsed, setElapsed] = useState(0);
   const [sessionYielded, setSessionYielded] = useState(false);
-  const [shuffleStored, storeShuffle] = useStoredFlag('shuffle');
+  const [shuffleStored, storeShuffle] = useStoredSetting('shuffle');
+  const [lossless] = useStoredSetting('lossless');
+  const [volume] = useStoredSetting('volume');
   const { script } = useScriptPreference();
 
   // The stored switch leads and the queue follows, which is what restores a
@@ -129,8 +134,13 @@ export function useAudioPlayer(
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
   const element = useCallback(() => audioRef.current, []);
+  const source = useCallback(
+    (playing: PlayerTrack) => trackSource(playing, lossless),
+    [lossless],
+  );
   const station = useStation({
     element,
+    source,
     catalogue,
     ...pick(state, 'radio'),
     dispatch,
@@ -261,7 +271,17 @@ export function useAudioPlayer(
           setElapsed(audio.currentTime);
         },
       ],
-      ['loadedmetadata', onMedia],
+      [
+        'loadedmetadata',
+        () => {
+          // Ahead of the station's own seek, which a tuned-in radio then wins.
+          const resumeAt = resumeAtRef.current;
+
+          resumeAtRef.current = undefined;
+          if (resumeAt !== undefined) audio.currentTime = resumeAt;
+          onMedia();
+        },
+      ],
       ['playing', onMedia],
       [
         'ended',
@@ -309,9 +329,18 @@ export function useAudioPlayer(
     // The attribute rather than the property: `src` reads back resolved to an
     // absolute URL, which a site-root path never equals, and every pause would
     // reload the track from the top.
-    if (audio.getAttribute('src') !== current.audio) {
-      audio.src = current.audio;
-      setElapsed(0);
+    const loaded = audio.getAttribute('src');
+    const wanted = source(current);
+
+    if (loaded !== wanted) {
+      // The same song in the other quality picks up where it was, once the new
+      // file's metadata gives it somewhere to seek to; any other source starts
+      // from the top, and drops a seek still owed to a file gone.
+      const switched = loaded === trackSource(current, !lossless);
+
+      resumeAtRef.current = switched ? audio.currentTime : undefined;
+      audio.src = wanted;
+      if (!switched) setElapsed(0);
     }
 
     if (state.playing) {
@@ -328,7 +357,11 @@ export function useAudioPlayer(
     } else {
       audio.pause();
     }
-  }, [current, state.playing]);
+  }, [current, state.playing, source, lossless]);
+
+  useEffect(() => {
+    if (audioRef.current !== null) audioRef.current.volume = volume;
+  }, [volume]);
 
   // Lock screen, OS media keys, headphone buttons and car controls, all driving
   // the same queue rather than a second copy of its logic.

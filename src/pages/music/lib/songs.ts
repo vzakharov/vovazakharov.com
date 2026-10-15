@@ -16,6 +16,7 @@ import { projectName } from './artists';
 import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill } from './projects';
+import { mp3Url } from './song-files';
 import type { SongDocument, SongOnRelease } from './song-text';
 
 /**
@@ -123,6 +124,7 @@ export function songTrack(
   return {
     slug,
     audio,
+    mp3: mp3Url(frontmatter),
     seconds,
     explicit,
     segue,
