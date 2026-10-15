@@ -5,18 +5,17 @@
  * Per repository, one commit: each song's master and MP3 copy, tagged from
  * the catalogue and checked to decode to the same audio, under every name a
  * page saves it as, at the repository's root; a FLAC master's MP4 rewrap,
- * which the player streams; and the README's mentions of the old names
- * renamed. Then each document's `mp3Bytes` states the tagged size — every URL
- * is derived, so nothing else in it moves.
+ * which the player streams on lossless; and the README's mentions of the old
+ * names renamed. Then each document's `mp3Bytes` states the tagged size —
+ * every URL is derived, so nothing else in it moves.
  *
  * `tag-renders.json` beside the songs records, per song, a hash of what its
  * files were built from — tags, cover, names — and every repository path the
  * runs read or wrote, as `<repo>/<path>`. A song is stale while its hash
  * differs or a path it derives was never recorded, which makes an
  * interrupted run resumable and a song moved to another repository a song to
- * tag. `prune` deletes the recorded paths
- * no song derives any more, and runs only once the site serving the new names
- * has deployed.
+ * tag. `prune` deletes the recorded paths no song derives any more, and runs
+ * only once the site serving the new names has deployed.
  *
  * Runs under `tsx --conditions=react-server` from the app directory, so it
  * reads the catalogue through the page's own model. Needs network and

@@ -210,7 +210,8 @@ const songFieldsSchema = baseFrontmatterSchema
     repo: z.string().min(1),
     /**
      * The master is itself an MP3, there being no lossless one; otherwise it
-     * is a FLAC beside an MP3 copy and an MP4 rewrap the player streams.
+     * is a FLAC beside an MP3 copy and an MP4 rewrap the player streams on
+     * lossless.
      */
     lossy: z.boolean().default(false),
     /**
