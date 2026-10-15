@@ -11,6 +11,7 @@ seconds: 206
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/ok-loser/main/Trending%20Today%20-%20Ok%20Loser.mp3
   bytes: 8275785
+stream: https://raw.githubusercontent.com/vovas-music/ok-loser/main/Trending%20Today%20-%20Ok%20Loser.mp4
 explicit: false
 ru:
   title:

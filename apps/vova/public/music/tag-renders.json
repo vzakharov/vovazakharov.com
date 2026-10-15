@@ -1026,12 +1026,13 @@
     ]
   },
   "last-human-zoo": {
-    "hash": "dae496f57c8c",
+    "hash": "1b152e26b96c",
     "paths": [
       "ghosts-of-flesh/4.The Last Human Zoo.flac",
       "ghosts-of-flesh/4.The Last Human Zoo.mp3",
       "ghosts-of-flesh/GENERATED - The Last Human Zoo.flac",
-      "ghosts-of-flesh/GENERATED - The Last Human Zoo.mp3"
+      "ghosts-of-flesh/GENERATED - The Last Human Zoo.mp3",
+      "ghosts-of-flesh/GENERATED - The Last Human Zoo.mp4"
     ]
   },
   "lets-fly": {
@@ -1058,10 +1059,11 @@
     ]
   },
   "like-that": {
-    "hash": "69e1083e4ce5",
+    "hash": "8c41da56a464",
     "paths": [
       "like-that/Trending Today - Like That.flac",
       "like-that/Trending Today - Like That.mp3",
+      "like-that/Trending Today - Like That.mp4",
       "like-that/like that.flac",
       "like-that/like that.mp3"
     ]
@@ -1095,32 +1097,35 @@
     ]
   },
   "little-peasant": {
-    "hash": "defc05052dde",
+    "hash": "4ab1514ed1aa",
     "paths": [
       "rus-/6 мужичок.flac",
       "rus-/6 мужичок.mp3",
       "rus-/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….flac",
       "rus-/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….mp3",
+      "rus-/Poluzhivye - Odnazhdy v studyonuyu zimnyuyu poru….mp4",
       "rus-/Полуживые - Однажды в студёную зимнюю пору….flac",
       "rus-/Полуживые - Однажды в студёную зимнюю пору….mp3"
     ]
   },
   "love": {
-    "hash": "ed6803b2f8bc",
+    "hash": "2ff194dc9fb7",
     "paths": [
       "love/Downtemple - Love (Makes the World Go Round).flac",
       "love/Downtemple - Love (Makes the World Go Round).mp3",
+      "love/Downtemple - Love (Makes the World Go Round).mp4",
       "love/love_master_2.flac",
       "love/love_master_2.mp3"
     ]
   },
   "lyoli": {
-    "hash": "5eab6e836e90",
+    "hash": "7edfaa7b8053",
     "paths": [
       "rus-/7 лёли.flac",
       "rus-/7 лёли.mp3",
       "rus-/Poluzhivye - Lyoli feat. Downtemple.flac",
       "rus-/Poluzhivye - Lyoli feat. Downtemple.mp3",
+      "rus-/Poluzhivye - Lyoli feat. Downtemple.mp4",
       "rus-/Полуживые - Лёли feat. Downtemple.flac",
       "rus-/Полуживые - Лёли feat. Downtemple.mp3"
     ]
@@ -1136,10 +1141,11 @@
     ]
   },
   "mira-to-the-sea": {
-    "hash": "c2d263e929a7",
+    "hash": "1f7fb249f074",
     "paths": [
       "mira/GENERATED - Mira Is Going to the Sea.flac",
       "mira/GENERATED - Mira Is Going to the Sea.mp3",
+      "mira/GENERATED - Mira Is Going to the Sea.mp4",
       "mira/mira.flac",
       "mira/mira.mp3"
     ]
@@ -1171,12 +1177,13 @@
     ]
   },
   "mobius": {
-    "hash": "7d2c71bdd1fd",
+    "hash": "bd4a42e892a9",
     "paths": [
       "ghosts-of-flesh/9. Mo_bius.flac",
       "ghosts-of-flesh/9. Mo_bius.mp3",
       "ghosts-of-flesh/GENERATED - Möbius.flac",
-      "ghosts-of-flesh/GENERATED - Möbius.mp3"
+      "ghosts-of-flesh/GENERATED - Möbius.mp3",
+      "ghosts-of-flesh/GENERATED - Möbius.mp4"
     ]
   },
   "monkey": {
@@ -1190,10 +1197,11 @@
     ]
   },
   "moral-man": {
-    "hash": "6e7a2dc873b0",
+    "hash": "03849c4dc937",
     "paths": [
       "moral-/Poluzhivye - Nravstvenny chelovek.flac",
       "moral-/Poluzhivye - Nravstvenny chelovek.mp3",
+      "moral-/Poluzhivye - Nravstvenny chelovek.mp4",
       "moral-/Полуживые - Нравственный человек.flac",
       "moral-/Полуживые - Нравственный человек.mp3",
       "moral-/мораль_2.flac",
@@ -1269,21 +1277,23 @@
     ]
   },
   "ok-loser": {
-    "hash": "17bdd95097bb",
+    "hash": "08cc37419b88",
     "paths": [
       "ok-loser/Trending Today - Ok Loser.flac",
       "ok-loser/Trending Today - Ok Loser.mp3",
+      "ok-loser/Trending Today - Ok Loser.mp4",
       "ok-loser/ok loser.flac",
       "ok-loser/ok loser.mp3"
     ]
   },
   "one-day": {
-    "hash": "50faa679b057",
+    "hash": "e7ac29afd430",
     "paths": [
       "Divine-Discontent--album-/5. One Day.flac",
       "Divine-Discontent--album-/5. One Day.mp3",
       "Divine-Discontent--album-/GENERATED - One Day.flac",
-      "Divine-Discontent--album-/GENERATED - One Day.mp3"
+      "Divine-Discontent--album-/GENERATED - One Day.mp3",
+      "Divine-Discontent--album-/GENERATED - One Day.mp4"
     ]
   },
   "onto-fingers": {

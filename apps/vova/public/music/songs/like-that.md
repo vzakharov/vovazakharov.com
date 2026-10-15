@@ -11,6 +11,7 @@ seconds: 196
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/like-that/master/Trending%20Today%20-%20Like%20That.mp3
   bytes: 7846781
+stream: https://raw.githubusercontent.com/vovas-music/like-that/master/Trending%20Today%20-%20Like%20That.mp4
 explicit: false
 ru:
   title:

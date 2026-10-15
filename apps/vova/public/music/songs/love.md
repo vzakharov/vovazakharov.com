@@ -11,6 +11,7 @@ seconds: 238
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/love/master/Downtemple%20-%20Love%20(Makes%20the%20World%20Go%20Round).mp3
   bytes: 9652353
+stream: https://raw.githubusercontent.com/vovas-music/love/master/Downtemple%20-%20Love%20(Makes%20the%20World%20Go%20Round).mp4
 explicit: false
 ru:
   title:

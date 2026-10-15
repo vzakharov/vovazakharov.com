@@ -11,6 +11,7 @@ seconds: 361
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20M%C3%B6bius.mp3
   bytes: 14539073
+stream: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20M%C3%B6bius.mp4
 explicit: false
 album: ghosts-of-flesh
 track: 9
