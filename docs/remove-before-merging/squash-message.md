@@ -5,7 +5,8 @@ A narrow type is declared first and the wide one is built from it, so
 carving a subset back out of a wide type with Pick or Omit is the wrong
 order: the subset gets a name but no home. A type inferred from a schema
 follows the same order one level down — the narrow schema comes first
-and the full one extends it.
+and the full one extends it, or composeSchemas, taken from the Playgram
+app, merges several narrow ones, a later key overriding an earlier one.
 
 vova/no-pick-omit rejects Pick<X, …> and Omit<X, …> wherever X resolves,
 through ESLint's scope manager and without type information, to a type
