@@ -10,6 +10,7 @@ seconds: 157
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/asa/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9D%D0%B0%20%D0%A0%D1%83%D1%81%D0%B8%20%D1%81%D0%B2%D1%8F%D1%82%D0%BE%D0%B9.mp3
   bytes: 6406779
+stream: https://raw.githubusercontent.com/vovas-music/asa/main/Poluzhivye%20-%20Na%20Rusi%20svyatoy.mp4
 explicit: false
 album: who-is-happy-in-russia
 track: 1

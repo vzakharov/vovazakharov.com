@@ -10,6 +10,7 @@ seconds: 265
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20In%20the%20Flesh.mp3
   bytes: 10680512
+stream: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20In%20the%20Flesh.mp4
 explicit: false
 album: ghosts-of-flesh
 track: 1

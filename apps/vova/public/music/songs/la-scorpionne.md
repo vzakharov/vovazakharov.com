@@ -10,6 +10,7 @@ seconds: 335
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20La%20Scorpionne%20(Dans%20Ma%20Nature).mp3
   bytes: 13501023
+stream: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20La%20Scorpionne%20(Dans%20Ma%20Nature).mp4
 explicit: false
 album: ghosts-of-flesh
 track: 7

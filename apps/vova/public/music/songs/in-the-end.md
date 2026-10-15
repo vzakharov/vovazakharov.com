@@ -11,6 +11,7 @@ seconds: 356
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20In%20the%20End%2C%20There%20Was%20Silence.mp3
   bytes: 14311246
+stream: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20In%20the%20End%2C%20There%20Was%20Silence.mp4
 explicit: false
 album: divine-discontent
 track: 10

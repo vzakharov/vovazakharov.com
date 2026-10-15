@@ -11,6 +11,7 @@ seconds: 329
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/inside/main/GENERATED%20-%20Inside.mp3
   bytes: 13160219
+stream: https://raw.githubusercontent.com/vovas-music/inside/main/GENERATED%20-%20Inside.mp4
 explicit: false
 ru:
   title:

@@ -11,6 +11,7 @@ seconds: 261
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20In%20Our%20Image.mp3
   bytes: 10513266
+stream: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20In%20Our%20Image.mp4
 explicit: false
 album: divine-discontent
 track: 3

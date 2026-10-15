@@ -11,6 +11,7 @@ seconds: 298
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nightmares/main/GENERATED%20-%20In%20the%20Shadow.mp3
   bytes: 11914145
+stream: https://raw.githubusercontent.com/vovas-music/nightmares/main/GENERATED%20-%20In%20the%20Shadow.mp4
 explicit: false
 ru:
   title:

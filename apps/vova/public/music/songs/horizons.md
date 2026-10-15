@@ -10,6 +10,7 @@ seconds: 168
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/horizons/main/GENERATED%20-%20Horizons.mp3
   bytes: 6820885
+stream: https://raw.githubusercontent.com/vovas-music/horizons/main/GENERATED%20-%20Horizons.mp4
 explicit: false
 album: ghosts-of-flesh
 track: 10

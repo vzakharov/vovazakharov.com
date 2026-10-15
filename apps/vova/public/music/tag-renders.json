@@ -752,10 +752,11 @@
     ]
   },
   "horizons": {
-    "hash": "ca479495394c",
+    "hash": "9b8de1613b95",
     "paths": [
       "horizons/GENERATED - Horizons.flac",
       "horizons/GENERATED - Horizons.mp3",
+      "horizons/GENERATED - Horizons.mp4",
       "horizons/horizons_master.flac",
       "horizons/horizons_master.mp3"
     ]
@@ -783,10 +784,11 @@
     ]
   },
   "hungry-one": {
-    "hash": "15a1ede9817f",
+    "hash": "31a94312af50",
     "paths": [
       "golodnaa/Poluzhivye - Golodnaya.flac",
       "golodnaa/Poluzhivye - Golodnaya.mp3",
+      "golodnaa/Poluzhivye - Golodnaya.mp4",
       "golodnaa/Полуживые - Голодная.flac",
       "golodnaa/Полуживые - Голодная.mp3",
       "golodnaa/голодная_1.flac",
@@ -804,19 +806,21 @@
     ]
   },
   "i-love-little-pussy": {
-    "hash": "791e19815d69",
+    "hash": "e6f0de644b25",
     "paths": [
       "meow/GENERATED - I Love Little Pussy.flac",
       "meow/GENERATED - I Love Little Pussy.mp3",
+      "meow/GENERATED - I Love Little Pussy.mp4",
       "meow/meow_master.flac",
       "meow/meow_master.mp3"
     ]
   },
   "ignite": {
-    "hash": "338267813538",
+    "hash": "6334f64be824",
     "paths": [
       "ignite/Yoohie - Ignite.flac",
       "ignite/Yoohie - Ignite.mp3",
+      "ignite/Yoohie - Ignite.mp4",
       "ignite/ignite.flac",
       "ignite/ignite.master.mp3",
       "ignite/Йухи - Ignite.flac",
@@ -824,10 +828,11 @@
     ]
   },
   "in-holy-rus": {
-    "hash": "9ed8e6c5dbea",
+    "hash": "26bef4549669",
     "paths": [
       "asa/Poluzhivye - Na Rusi svyatoy.flac",
       "asa/Poluzhivye - Na Rusi svyatoy.mp3",
+      "asa/Poluzhivye - Na Rusi svyatoy.mp4",
       "asa/Полуживые - На Руси святой.flac",
       "asa/Полуживые - На Руси святой.mp3",
       "asa/яша_v6.flac",
@@ -835,55 +840,61 @@
     ]
   },
   "in-our-image": {
-    "hash": "982d6e63bda6",
+    "hash": "cc77df8a92cc",
     "paths": [
       "Divine-Discontent--album-/3. In Our Image.flac",
       "Divine-Discontent--album-/3. In Our Image.mp3",
       "Divine-Discontent--album-/GENERATED - In Our Image.flac",
-      "Divine-Discontent--album-/GENERATED - In Our Image.mp3"
+      "Divine-Discontent--album-/GENERATED - In Our Image.mp3",
+      "Divine-Discontent--album-/GENERATED - In Our Image.mp4"
     ]
   },
   "in-the-beginning": {
-    "hash": "05573116b5fa",
+    "hash": "a1a620810a22",
     "paths": [
       "Divine-Discontent--album-/1. In the Beginning, There Was Silence.flac",
       "Divine-Discontent--album-/1. In the Beginning, There Was Silence.mp3",
       "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.flac",
-      "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.mp3"
+      "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.mp3",
+      "Divine-Discontent--album-/GENERATED - In the Beginning, There Was Silence.mp4"
     ]
   },
   "in-the-end": {
-    "hash": "bd6f770bc096",
+    "hash": "81c076ad7ace",
     "paths": [
       "Divine-Discontent--album-/10. In the End, There Was Silence.flac",
       "Divine-Discontent--album-/10. In the End, There Was Silence.mp3",
       "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.flac",
-      "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.mp3"
+      "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.mp3",
+      "Divine-Discontent--album-/GENERATED - In the End, There Was Silence.mp4"
     ]
   },
   "in-the-flesh": {
-    "hash": "faae64480b25",
+    "hash": "7e9d96f1f266",
     "paths": [
       "ghosts-of-flesh/1. In the Flesh.flac",
       "ghosts-of-flesh/1. In the Flesh.mp3",
       "ghosts-of-flesh/GENERATED - In the Flesh.flac",
-      "ghosts-of-flesh/GENERATED - In the Flesh.mp3"
+      "ghosts-of-flesh/GENERATED - In the Flesh.mp3",
+      "ghosts-of-flesh/GENERATED - In the Flesh.mp4"
     ]
   },
   "in-the-shadow": {
-    "hash": "7c24779b7e79",
+    "hash": "84f8257e2261",
     "paths": [
       "nightmares/GENERATED - In the Shadow.flac",
       "nightmares/GENERATED - In the Shadow.mp3",
+      "nightmares/GENERATED - In the Shadow.mp4",
       "nightmares/nightmares_rock.flac",
       "nightmares/nightmares_rock.mp3"
     ]
   },
   "in-those-words": {
-    "hash": "00f0e27b2462",
+    "hash": "d73687853486",
     "paths": [
       "dng_album/Damy i gospoda - Ya govoryu seychas slovami temi….flac",
       "dng_album/Damy i gospoda - Ya govoryu seychas slovami temi….mp3",
+      "dng_album/Damy i gospoda - Ya govoryu seychas slovami temi….mp4",
       "dng_album/dng-004.flac",
       "dng_album/dng-004.mp3",
       "dng_album/Дамы и господа - Я говорю сейчас словами теми….flac",
@@ -891,12 +902,13 @@
     ]
   },
   "infinite-solitude": {
-    "hash": "99573746cf1a",
+    "hash": "e3cc9b21625f",
     "paths": [
       "Divine-Discontent--album-/2. Infinite Solitude.flac",
       "Divine-Discontent--album-/2. Infinite Solitude.mp3",
       "Divine-Discontent--album-/GENERATED - Infinite Solitude.flac",
-      "Divine-Discontent--album-/GENERATED - Infinite Solitude.mp3"
+      "Divine-Discontent--album-/GENERATED - Infinite Solitude.mp3",
+      "Divine-Discontent--album-/GENERATED - Infinite Solitude.mp4"
     ]
   },
   "ink": {
@@ -910,10 +922,11 @@
     ]
   },
   "inside": {
-    "hash": "f0aacb94bed0",
+    "hash": "579e8982fd2b",
     "paths": [
       "inside/GENERATED - Inside.flac",
       "inside/GENERATED - Inside.mp3",
+      "inside/GENERATED - Inside.mp4",
       "inside/inside_master_pop.flac",
       "inside/inside_master_pop.mp3"
     ]
@@ -993,12 +1006,13 @@
     ]
   },
   "la-scorpionne": {
-    "hash": "1680a3bf5e49",
+    "hash": "d1b3ba6012f0",
     "paths": [
       "ghosts-of-flesh/7. La Scorpionne.flac",
       "ghosts-of-flesh/7. La Scorpionne.mp3",
       "ghosts-of-flesh/GENERATED - La Scorpionne (Dans Ma Nature).flac",
-      "ghosts-of-flesh/GENERATED - La Scorpionne (Dans Ma Nature).mp3"
+      "ghosts-of-flesh/GENERATED - La Scorpionne (Dans Ma Nature).mp3",
+      "ghosts-of-flesh/GENERATED - La Scorpionne (Dans Ma Nature).mp4"
     ]
   },
   "last-christmas": {
