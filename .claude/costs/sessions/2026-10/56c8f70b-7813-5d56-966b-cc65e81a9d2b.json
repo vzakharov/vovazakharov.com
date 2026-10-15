@@ -1,0 +1,90 @@
+{
+  "estimate": null,
+  "sessionId": "56c8f70b-7813-5d56-966b-cc65e81a9d2b",
+  "branch": "HEAD",
+  "cwd": "/home/user/muthur",
+  "openingPrompt": "в новых версиях claude code ui можно подключать сразу реп сразу -- и кажется это ломает какие-то из наших штучек (например один агент говорил про gh shim). дава…",
+  "prs": [
+    199,
+    201
+  ],
+  "url": "https://claude.ai/code/session_01A1ZPEFseUYgmqt9Gdfbjx1",
+  "operator": null,
+  "firstResponseAt": "2026-10-15T05:15:50.538Z",
+  "lastResponseAt": "2026-10-15T07:14:31.203Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 6.279497144999996,
+  "total": {
+    "inputTokens": 226,
+    "cacheWrite5mTokens": 120937,
+    "cacheWrite1hTokens": 335606,
+    "cacheReadTokens": 25266062,
+    "outputTokens": 93065,
+    "thinkingTokens": 31615,
+    "responses": 112,
+    "costUsd": 9.432778965000002
+  },
+  "ownTurns": {
+    "inputTokens": 202,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 335606,
+    "cacheReadTokens": 24310928,
+    "outputTokens": 93012,
+    "thinkingTokens": 31615,
+    "responses": 100,
+    "costUsd": 9.4080816
+  },
+  "subagents": {
+    "inputTokens": 24,
+    "cacheWrite5mTokens": 120937,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 955134,
+    "outputTokens": 53,
+    "thinkingTokens": 0,
+    "responses": 12,
+    "costUsd": 0.024697365
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 202,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 335606,
+      "cacheReadTokens": 24310928,
+      "outputTokens": 93012,
+      "thinkingTokens": 31615,
+      "responses": 100,
+      "costUsd": 9.4080816
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 120937,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 955134,
+      "outputTokens": 53,
+      "thinkingTokens": 0,
+      "responses": 12,
+      "costUsd": 0.024697365
+    }
+  },
+  "warnings": [
+    "12 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "muthur/docs/plans/multi-repo-hooks.draft.do-not-implement.md",
+    "endedAt": "2026-10-15T05:21:18.856Z",
+    "contextTokens": 162294,
+    "spend": {
+      "inputTokens": 56,
+      "cacheWrite5mTokens": 120937,
+      "cacheWrite1hTokens": 113551,
+      "cacheReadTokens": 2993012,
+      "outputTokens": 17411,
+      "thinkingTokens": 13141,
+      "responses": 28,
+      "costUsd": 1.687968965
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
