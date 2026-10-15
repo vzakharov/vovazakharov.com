@@ -38,7 +38,6 @@ export type PlayerTrack = Slugged &
     routes: Record<Locale, string>;
   };
 
-/** The file the player loads for a track: the master when lossless, else the MP3. */
 export function trackSource(track: PlayerTrack, lossless: boolean): string {
   return lossless ? track.audio : track.mp3;
 }

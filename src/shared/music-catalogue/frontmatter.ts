@@ -163,12 +163,11 @@ function isMp3(audio: string): boolean {
   return audio.toLowerCase().endsWith('.mp3');
 }
 
-/** What the player takes of a song's frontmatter as stated, beside its `mp3`. */
+/** What the player takes of a song as stated; its MP3 is resolved from `mp3`. */
 const playableSchema = z.object({
   /**
-   * The master, played as-is where the reader asks for lossless — site-hosted
-   * where no repository holds it. Its MP3 copy is `mp3`, which carries what a
-   * download and a feed need of it besides the URL.
+   * The master, played where the reader asks for lossless — site-hosted where
+   * no repository holds it.
    */
   audio: mediaSourceSchema,
   /**
