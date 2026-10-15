@@ -65,16 +65,15 @@ None stated by the operator beyond the repo's own rules.
       the seek bar would lose ~50px of 390. Layout left unchanged.
 11. **Operator:** «да, 100%» then «в смысле да, с кнопками»
     - **Agent:** confirmed; nothing to change.
-12. **Operator:** «отлично, давай мерджить»
-    - **Agent:** read as `/finalize and merge`. Ran the staged swap (no-op),
-      `/polish` (f94c15b: `/dry` nothing; `/tend-prose` cut two comments), then
-      `./scripts/vet.sh` — **failed on `type-overlap`** (four shared members).
-      Fixed in 6b7d8a6 (`WithControls` homed in `use-audio-player.ts`,
-      `MediaSessionInput` built from `WithControls & WithLocale &
+12. **Operator:** «отлично, давай мерджить» - **Agent:** read as `/finalize and merge`. Ran the staged swap (no-op),
+    `/polish` (f94c15b: `/dry` nothing; `/tend-prose` cut two comments), then
+    `./scripts/vet.sh` — **failed on `type-overlap`** (four shared members).
+    Fixed in 6b7d8a6 (`WithControls` homed in `use-audio-player.ts`,
+    `MediaSessionInput` built from `WithControls & WithLocale &
 Pick<PlayerState, 'playing'>`, `VolumeIconProps = Pick<SettingValues,
 'volume'>`, `SettingValues` exported). `pnpm type-overlap`, typecheck and
-      eslint on `src/pages/music` were clean after the fix; the full vet was not
-      re-run. Then the context budget's pause line hit, and the session relayed.
+    eslint on `src/pages/music` were clean after the fix; the full vet was not
+    re-run. Then the context budget's pause line hit, and the session relayed.
 
 ## Intent
 
