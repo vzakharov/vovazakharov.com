@@ -10,6 +10,7 @@ seconds: 159
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/monday/main/GENERATED%20-%20Every%20Monday%20feat.%20Yoohie.mp3
   bytes: 6515812
+stream: https://raw.githubusercontent.com/vovas-music/monday/main/GENERATED%20-%20Every%20Monday%20feat.%20Yoohie.mp4
 explicit: false
 album: ctfu
 track: 2

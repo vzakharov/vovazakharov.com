@@ -10,6 +10,7 @@ seconds: 214
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/guy/main/GENERATED%20-%20A%20Guy%20Without%20a%20Plan.mp3
   bytes: 8741818
+stream: https://raw.githubusercontent.com/vovas-music/guy/main/GENERATED%20-%20A%20Guy%20Without%20a%20Plan.mp4
 explicit: false
 album: ctfu
 track: 7

@@ -10,6 +10,7 @@ seconds: 176
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%9C%D0%BE%D0%B8%D0%BC%20%D1%81%D1%82%D0%B8%D1%85%D0%B0%D0%BC%2C%20%D0%BD%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%20%D1%82%D0%B0%D0%BA%20%D1%80%D0%B0%D0%BD%D0%BE%E2%80%A6.mp3
   bytes: 7093928
+stream: https://raw.githubusercontent.com/vovas-music/dng_album/main/Damy%20i%20gospoda%20-%20Moim%20stikham%2C%20napisannym%20tak%20rano%E2%80%A6.mp4
 explicit: false
 album: five-romances
 track: 1

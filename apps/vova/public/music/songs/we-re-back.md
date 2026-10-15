@@ -10,6 +10,7 @@ seconds: 191
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/wereback/main/GENERATED%20-%20We%E2%80%99re%20Back%20feat.%20Yoohie.mp3
   bytes: 7800302
+stream: https://raw.githubusercontent.com/vovas-music/wereback/main/GENERATED%20-%20We%E2%80%99re%20Back%20feat.%20Yoohie.mp4
 explicit: true
 album: ctfu
 track: 1

@@ -10,6 +10,7 @@ seconds: 180
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/kobk/main/GENERATED%20-%20Kill%20or%20Be%20Killed%20feat.%20Yoohie.mp3
   bytes: 7382122
+stream: https://raw.githubusercontent.com/vovas-music/kobk/main/GENERATED%20-%20Kill%20or%20Be%20Killed%20feat.%20Yoohie.mp4
 explicit: false
 album: ctfu
 track: 3

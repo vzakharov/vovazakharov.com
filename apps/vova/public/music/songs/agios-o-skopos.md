@@ -12,6 +12,7 @@ seconds: 286
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%CE%86%CE%B3%CE%B9%CE%BF%CF%82%20%CE%BF%20%CF%83%CE%BA%CE%BF%CF%80%CF%8C%CF%82%20feat.%20GENERATED.mp3
   bytes: 11540892
+stream: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/Poluzhivye%20-%20%C3%81gios%20o%20skop%C3%B3s%20feat.%20GENERATED.mp4
 explicit: false
 album: vagabond
 track: 9
