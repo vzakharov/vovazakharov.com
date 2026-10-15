@@ -9,9 +9,10 @@ asked for, so the element trailed the clock the dial reads. A
 seektable left the miss in place; the same FLAC stream in an MP4
 container seeks exactly.
 
-Every FLAC song now streams that rewrap: pnpm music:masters tag writes
+Every FLAC song now carries that rewrap: pnpm music:masters tag writes
 it beside the master with no re-encode, checking the decoded audio is
-unchanged, and the player plays it while the downloads keep the FLAC.
+unchanged. The player's lossless switch plays it in place of the FLAC,
+the MP3 otherwise, while the downloads keep the FLAC.
 
 A song's frontmatter states no file URL. It names its repository,
 whether the master is lossy, and the MP3's size; the player, downloads
