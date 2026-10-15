@@ -6,11 +6,11 @@ language: en
 project: ['GENERATED']
 repo: 'inside'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/inside/main/inside_master_pop.flac
+audio: https://raw.githubusercontent.com/vovas-music/inside/main/GENERATED%20-%20Inside.flac
 seconds: 329
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/inside/main/inside_master_pop.mp3
-  bytes: 13157438
+  url: https://raw.githubusercontent.com/vovas-music/inside/main/GENERATED%20-%20Inside.mp3
+  bytes: 13160219
 explicit: false
 ru:
   title:

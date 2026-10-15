@@ -1,3 +1,4 @@
+export type { SongBilling } from './file-name';
 export {
   albumFrontmatterSchema,
   type AlbumPlacement,

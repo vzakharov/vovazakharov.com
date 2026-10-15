@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'erebos'
-audio: https://raw.githubusercontent.com/vovas-music/erebos/main/erebos_reprise.flac
+audio: https://raw.githubusercontent.com/vovas-music/erebos/main/GENERATED%20-%20Erebos.flac
 seconds: 231
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/erebos/main/erebos_reprise.master.mp3
-  bytes: 9259968
+  url: https://raw.githubusercontent.com/vovas-music/erebos/main/GENERATED%20-%20Erebos.mp3
+  bytes: 9339811
 explicit: false
 album: pschpthy
 track: 12

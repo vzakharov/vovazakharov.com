@@ -122,14 +122,26 @@ here — and a README naming each file, the command that made the master and its
 reference, linked at a commit rather than copied when another repository there
 holds it. `vovas-music/birds` is the pattern.
 
+- **Every read and write of these repositories goes through
+  `pnpm music:masters`** (`scripts/masters.ts`, its header the usage), never a
+  bare `git push` or `gh api`: the session's git proxy refuses a push to any
+  repository the session was not started on, and one script is what an
+  operator's permission can name. A commit with a file past the API's size limit
+  (between 39 and 46 MB) is pushed by a GitHub Actions run in the repository
+  itself (`scripts/lib/music-relay.ts`), so the organization's repositories keep
+  Actions enabled.
 - **A change to a song's audio is made in its repository**: a new master
-  replaces the old one there, and the README's command with it. This repo
-  changes only what the frontmatter reads off it — `audio:` when the file is
-  renamed, `duration` when its length moves.
+  replaces the old one there (`pnpm music:masters put`), and the README's
+  command with it. This repo changes only what the frontmatter reads off it —
+  `audio:` when the file is renamed, `duration` when its length moves.
 - **A new song gets its repository before its page**, named by `songs.md`'s slug
-  rule: `gh repo create vovas-music/<slug> --public`, the files above, then
-  `pnpm music:scaffold <slug>`. Songs that share a project's session may share
-  one repository, as `machines` does.
+  rule: `pnpm music:masters create <slug> --description <d>`, the files above
+  with `pnpm music:masters put`, then `pnpm music:scaffold <slug>`, which reads
+  `<stem>.flac` and `<stem>.master.mp3`, and last
+  `pnpm music:masters tag <slug>`, which adds the master and its copy under the
+  names a listener saves them as, tagged, and points the frontmatter there.
+  Songs that share a project's session may share one repository, as `machines`
+  does.
 - **Neither the tree nor a release hosts a master the site plays.** A vendored
   mp3 grows the repo with every take, and a release download redirects to a
   storage URL signed for 30 minutes, which a player still seeking after that is

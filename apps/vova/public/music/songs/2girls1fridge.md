@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-008.flac
+audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Two%20Girls%2C%20One%20Fridge.flac
 seconds: 15
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-008.mp3
-  bytes: 600914
+  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Two%20Girls%2C%20One%20Fridge.mp3
+  bytes: 730717
 explicit: true
 album: nsfl
 track: 8

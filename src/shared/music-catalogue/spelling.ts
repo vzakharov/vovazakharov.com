@@ -94,6 +94,8 @@ export function scriptSample(
 
 export type WithSpelledName = { name: Spelled };
 
+export type WithSpelledTitle = { title: Spelled };
+
 /** What a text is spelled from: what it is in, and a hand-written Latin spelling where it has one. */
 export type Spellable = WithText & {
   language: SungLanguage | 'instrumental';

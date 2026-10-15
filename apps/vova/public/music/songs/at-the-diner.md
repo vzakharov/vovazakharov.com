@@ -6,11 +6,11 @@ language: en
 project: ['Dead Pixel Lounge']
 repo: 'diner'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/diner/main/diner.flac
+audio: https://raw.githubusercontent.com/vovas-music/diner/main/Dead%20Pixel%20Lounge%20-%20At%20the%20Diner.flac
 seconds: 239
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/diner/main/diner.mp3
-  bytes: 9574497
+  url: https://raw.githubusercontent.com/vovas-music/diner/main/Dead%20Pixel%20Lounge%20-%20At%20the%20Diner.mp3
+  bytes: 9577072
 explicit: false
 ru:
   title:

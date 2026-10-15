@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'oneday'
-audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/6.%20The%20Ultimate%20Abstraction.flac
+audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20The%20Ultimate%20Abstraction.flac
 seconds: 238
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/6.%20The%20Ultimate%20Abstraction.mp3
-  bytes: 9538974
+  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20The%20Ultimate%20Abstraction.mp3
+  bytes: 9609597
 explicit: false
 album: divine-discontent
 track: 6

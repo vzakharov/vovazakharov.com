@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'intheflesh'
-audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/1.%20In%20the%20Flesh.flac
+audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20In%20the%20Flesh.flac
 seconds: 265
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/1.%20In%20the%20Flesh.mp3
-  bytes: 10582815
+  url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20In%20the%20Flesh.mp3
+  bytes: 10680512
 explicit: false
 album: ghosts-of-flesh
 track: 1

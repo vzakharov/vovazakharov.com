@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'rebels'
-audio: https://raw.githubusercontent.com/vovas-music/rebels/main/rebels_master1.flac
+audio: https://raw.githubusercontent.com/vovas-music/rebels/main/Yoohie%20-%20Rebels%20Between%20the%20Lines%20(Live%20in%20Sparta).flac
 seconds: 204
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/rebels/main/rebels_master1.mp3
-  bytes: 8152409
+  url: https://raw.githubusercontent.com/vovas-music/rebels/main/Yoohie%20-%20Rebels%20Between%20the%20Lines%20(Live%20in%20Sparta).mp3
+  bytes: 8248678
 explicit: true
 album: ignite
 track: 3

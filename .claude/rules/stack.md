@@ -26,6 +26,7 @@ scripts/vet-songs.sh            # song checks, when a song moved │
 pnpm content:og:vova --check    # social cards, hashes only     │
 pnpm content:og:bible --check   # the seal's own card           │
 pnpm content:og:basilisk --check # the seal card and each case's │
+pnpm music:masters check              # song masters' tags, hashes only │
 pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
 python3 scripts/lib/test_hearing.py # transcribe.py's word merge │
@@ -149,9 +150,13 @@ Nineteen things about that list are deliberate:
   (`.claude/rules/content.md` carries why). It is one entry per site rather than
   one script running both: a passed `--check` lands at the end of the command
   line, so a combined `a && b` would leave the first site rendering for real
-  inside a vet run. **Publishing the PDFs stays out of vet**: each lane prints
-  that site's PDFs fresh after its own build, so the manifest a check would hash
-  against lives in that lane's cache rather than in the tree.
+  inside a vet run. `pnpm music:masters check` is the same kind of check over
+  the song masters' names and tags, against
+  `apps/vova/public/music/tag-renders.json`, and is what refuses a merge while a
+  song's files are untagged or tagged from inputs that changed since.
+  **Publishing the PDFs stays out of vet**: each lane prints that site's PDFs
+  fresh after its own build, so the manifest a check would hash against lives in
+  that lane's cache rather than in the tree.
 - **`content:pdf:vova --cv-pages` is the one check that runs a browser**, and
   only when the CV changed. It prints every CV edition from the export the build
   just wrote into the OS temp directory and fails one past `CV_PAGE_CEILING`,

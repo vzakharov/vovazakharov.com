@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-004.flac
+audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Parking%20in%20Disabled%20Spot.flac
 seconds: 38
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-004.mp3
-  bytes: 1539235
+  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Parking%20in%20Disabled%20Spot.mp3
+  bytes: 1669462
 explicit: false
 album: nsfl
 track: 4
