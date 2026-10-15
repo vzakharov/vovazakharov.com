@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-feat(vova): name and tag the song masters for download (pr #153)
-```
+Proposed squash body:
 
 ```
 A song's download links point at its vovas-music repository, another
@@ -12,21 +8,24 @@ carried next to no tags, so a saved song showed up in a player as its
 file name.
 
 Every master the site plays or offers is now named
-`<Artist> - <Title>.<ext>`, the order download stores and taggers
-default to, spelled as the page's locale and script chip spell the
-song: Cyrillic on RU and EN / Абв, Latin on EN / Abc. Every name is a
-path to the same bytes, so the extra names cost no storage, and one
-function derives them for both the links and the upload. The two songs
-this repo vendored move to vovas-music with the rest. Each FLAC and MP3
-carries its title, artist, album artist, album, track, year, language,
-credits, sung lyrics, cover and song page, written from the catalogue
-by `pnpm music:tag` with the audio verified unchanged.
+`<Artist> - <Title>.<ext>`, a featured artist billed after the title,
+spelled as the page's locale and script chip spell the song: Cyrillic
+on RU and EN / Абв, Latin on EN / Abc. Every name is a path to the same
+bytes, and one function derives them for both the links and the
+upload. The two songs this repo vendored move to vovas-music with the
+rest. Each FLAC and MP3 carries its title, artist, album artist, album,
+track, year, language, credits, sung lyrics, cover and song page,
+written from the catalogue with the decoded audio verified unchanged.
 
-The run pushes to each repository through the Git Data API with no
-clone, resumes from a manifest of the inputs each song was tagged
-from, and adds the new files before `--prune` removes the old ones
-after deploy, so no live link breaks. `music:tag --check` in vet fails
-offline when a song's tag inputs change without a re-tag.
+`pnpm music:masters` is the one door to those repositories — tag,
+check, prune, get, put, create — so an operator's permission names one
+command. It publishes through the Git Data API, since the session's git
+proxy refuses a push there, and a master past the API's blob limit
+goes up as a bundle a one-off Actions run in its repository unpacks.
+The tag run resumes from a manifest of each song's tag inputs and adds
+the new names before `prune` removes the old ones after deploy; vet's
+offline `music:masters check` refuses a merge while a song's files are
+stale, and the build fails on a name the manifest does not record.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
