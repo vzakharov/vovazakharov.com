@@ -12,21 +12,23 @@
     ]
   },
   "8849": {
-    "hash": "f614769ef0fc",
+    "hash": "856e21783472",
     "paths": [
       "8849/8849.flac",
       "8849/8849.mp3",
       "8849/Poluzhivye - 8849 feat. GENERATED.flac",
       "8849/Poluzhivye - 8849 feat. GENERATED.mp3",
+      "8849/Poluzhivye - 8849 feat. GENERATED.mp4",
       "8849/Полуживые - 8849 feat. GENERATED.flac",
       "8849/Полуживые - 8849 feat. GENERATED.mp3"
     ]
   },
   "2girls1fridge": {
-    "hash": "7ee817651e0c",
+    "hash": "acfe5fa5e464",
     "paths": [
       "nsfl/GENERATED - Two Girls, One Fridge.flac",
       "nsfl/GENERATED - Two Girls, One Fridge.mp3",
+      "nsfl/GENERATED - Two Girls, One Fridge.mp4",
       "nsfl/nsfl-008.flac",
       "nsfl/nsfl-008.mp3"
     ]
@@ -281,10 +283,11 @@
     ]
   },
   "cant-take-your-eyes-out-of-you": {
-    "hash": "3735bfb2d2a8",
+    "hash": "a6090ff1f83c",
     "paths": [
       "nsfl/GENERATED - Can’t Take Your Eyes out of You.flac",
       "nsfl/GENERATED - Can’t Take Your Eyes out of You.mp3",
+      "nsfl/GENERATED - Can’t Take Your Eyes out of You.mp4",
       "nsfl/nsfl-009.flac",
       "nsfl/nsfl-009.mp3"
     ]
@@ -356,10 +359,11 @@
     ]
   },
   "cross-out": {
-    "hash": "3fd0cf66f25d",
+    "hash": "70a64b0caba7",
     "paths": [
       "crossout/GENERATED - Cross Out.flac",
       "crossout/GENERATED - Cross Out.mp3",
+      "crossout/GENERATED - Cross Out.mp4",
       "crossout/crossout_3.flac",
       "crossout/crossout_3.mp3"
     ]
@@ -420,10 +424,11 @@
     ]
   },
   "do-not-listen": {
-    "hash": "c50a6e50b634",
+    "hash": "c3ea8be73108",
     "paths": [
       "nsfl/GENERATED - Do Not Listen.flac",
       "nsfl/GENERATED - Do Not Listen.mp3",
+      "nsfl/GENERATED - Do Not Listen.mp4",
       "nsfl/nsfl-001.flac",
       "nsfl/nsfl-001.mp3"
     ]
@@ -482,10 +487,11 @@
     ]
   },
   "facepalm-death": {
-    "hash": "87888d6adf4d",
+    "hash": "dfca0c7990bc",
     "paths": [
       "nsfl/GENERATED - Facepalm Death.flac",
       "nsfl/GENERATED - Facepalm Death.mp3",
+      "nsfl/GENERATED - Facepalm Death.mp4",
       "nsfl/nsfl-005.flac",
       "nsfl/nsfl-005.mp3"
     ]
@@ -503,19 +509,21 @@
     ]
   },
   "femur": {
-    "hash": "a3d80f88774b",
+    "hash": "741d24271b16",
     "paths": [
       "nsfl/GENERATED - Femur (Seems to Be the Hardest Bone).flac",
       "nsfl/GENERATED - Femur (Seems to Be the Hardest Bone).mp3",
+      "nsfl/GENERATED - Femur (Seems to Be the Hardest Bone).mp4",
       "nsfl/nsfl-010.flac",
       "nsfl/nsfl-010.mp3"
     ]
   },
   "fetal-soup": {
-    "hash": "d56a755092b5",
+    "hash": "5f4fb9633336",
     "paths": [
       "nsfl/GENERATED - Fetal Soup.flac",
       "nsfl/GENERATED - Fetal Soup.mp3",
+      "nsfl/GENERATED - Fetal Soup.mp4",
       "nsfl/nsfl-002.flac",
       "nsfl/nsfl-002.mp3"
     ]
@@ -530,10 +538,11 @@
     ]
   },
   "flesh-fiction": {
-    "hash": "79a70bf35d92",
+    "hash": "a1f7852c0a25",
     "paths": [
       "nsfl/GENERATED - Flesh Fiction.flac",
       "nsfl/GENERATED - Flesh Fiction.mp3",
+      "nsfl/GENERATED - Flesh Fiction.mp4",
       "nsfl/nsfl-013.flac",
       "nsfl/nsfl-013.mp3"
     ]
@@ -628,10 +637,11 @@
     ]
   },
   "grave-awakening": {
-    "hash": "4b4118bdc050",
+    "hash": "37ceca0f1e82",
     "paths": [
       "nsfl/GENERATED - Grave Awakening.flac",
       "nsfl/GENERATED - Grave Awakening.mp3",
+      "nsfl/GENERATED - Grave Awakening.mp4",
       "nsfl/nsfl-012.flac",
       "nsfl/nsfl-012.mp3"
     ]
@@ -678,10 +688,11 @@
     ]
   },
   "hang-for-the-moment": {
-    "hash": "60289bebda9c",
+    "hash": "e41803b1cf15",
     "paths": [
       "nsfl/GENERATED - Hang for the Moment.flac",
       "nsfl/GENERATED - Hang for the Moment.mp3",
+      "nsfl/GENERATED - Hang for the Moment.mp4",
       "nsfl/nsfl-011.flac",
       "nsfl/nsfl-011.mp3"
     ]
@@ -957,10 +968,11 @@
     ]
   },
   "last-christmas": {
-    "hash": "f6c09dfb22b5",
+    "hash": "0b778ef4d9ed",
     "paths": [
       "nsfl/GENERATED - Last Christmas.flac",
       "nsfl/GENERATED - Last Christmas.mp3",
+      "nsfl/GENERATED - Last Christmas.mp4",
       "nsfl/nsfl-007.flac",
       "nsfl/nsfl-007.mp3"
     ]
@@ -1064,10 +1076,11 @@
     ]
   },
   "mankind-extermination-front": {
-    "hash": "90a6d79a52be",
+    "hash": "d0b789046291",
     "paths": [
       "nsfl/GENERATED - Mankind Extermination Front.flac",
       "nsfl/GENERATED - Mankind Extermination Front.mp3",
+      "nsfl/GENERATED - Mankind Extermination Front.mp4",
       "nsfl/nsfl-003.flac",
       "nsfl/nsfl-003.mp3"
     ]
@@ -1265,10 +1278,11 @@
     ]
   },
   "parking-in-disabled-spot": {
-    "hash": "99e3fd5987f6",
+    "hash": "3298e8e5a92b",
     "paths": [
       "nsfl/GENERATED - Parking in Disabled Spot.flac",
       "nsfl/GENERATED - Parking in Disabled Spot.mp3",
+      "nsfl/GENERATED - Parking in Disabled Spot.mp4",
       "nsfl/nsfl-004.flac",
       "nsfl/nsfl-004.mp3"
     ]
@@ -1283,10 +1297,11 @@
     ]
   },
   "phoenix": {
-    "hash": "535d01a8be08",
+    "hash": "1a3651595b42",
     "paths": [
       "phoenix/GENERATED - Phoenix.flac",
       "phoenix/GENERATED - Phoenix.mp3",
+      "phoenix/GENERATED - Phoenix.mp4",
       "phoenix/phoenix.flac",
       "phoenix/phoenix.master.mp3"
     ]
@@ -1685,10 +1700,11 @@
     ]
   },
   "watch-people-die": {
-    "hash": "91b484d8c199",
+    "hash": "38511c29213d",
     "paths": [
       "nsfl/GENERATED - Watch People Die.flac",
       "nsfl/GENERATED - Watch People Die.mp3",
+      "nsfl/GENERATED - Watch People Die.mp4",
       "nsfl/nsfl-006.flac",
       "nsfl/nsfl-006.mp3"
     ]

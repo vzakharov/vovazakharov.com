@@ -12,6 +12,7 @@ seconds: 213
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/crossout/main/GENERATED%20-%20Cross%20Out.mp3
   bytes: 8525706
+stream: https://raw.githubusercontent.com/vovas-music/crossout/main/GENERATED%20-%20Cross%20Out.mp4
 explicit: false
 credits:
   music: ['Иван Дербенёв', 'Vova Zakharov']

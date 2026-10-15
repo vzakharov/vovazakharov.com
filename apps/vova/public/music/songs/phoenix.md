@@ -10,6 +10,7 @@ seconds: 193
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/phoenix/main/GENERATED%20-%20Phoenix.mp3
   bytes: 7871207
+stream: https://raw.githubusercontent.com/vovas-music/phoenix/main/GENERATED%20-%20Phoenix.mp4
 explicit: false
 album: ctfu
 track: 10

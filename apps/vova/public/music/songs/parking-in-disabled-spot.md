@@ -10,6 +10,7 @@ seconds: 38
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Parking%20in%20Disabled%20Spot.mp3
   bytes: 1669462
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Parking%20in%20Disabled%20Spot.mp4
 explicit: false
 album: nsfl
 track: 4

@@ -10,6 +10,7 @@ seconds: 53
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Facepalm%20Death.mp3
   bytes: 2236822
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Facepalm%20Death.mp4
 explicit: false
 album: nsfl
 track: 5

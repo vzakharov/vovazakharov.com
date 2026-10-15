@@ -10,6 +10,7 @@ seconds: 53
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Can%E2%80%99t%20Take%20Your%20Eyes%20out%20of%20You.mp3
   bytes: 2254783
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Can%E2%80%99t%20Take%20Your%20Eyes%20out%20of%20You.mp4
 explicit: false
 album: nsfl
 track: 9

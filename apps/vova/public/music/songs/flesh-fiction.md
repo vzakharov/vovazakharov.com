@@ -11,6 +11,7 @@ seconds: 166
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Flesh%20Fiction.mp3
   bytes: 6755477
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Flesh%20Fiction.mp4
 explicit: false
 album: nsfl
 track: 13

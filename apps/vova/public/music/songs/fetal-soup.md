@@ -10,6 +10,7 @@ seconds: 6
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Fetal%20Soup.mp3
   bytes: 368989
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Fetal%20Soup.mp4
 segue: true
 explicit: false
 album: nsfl

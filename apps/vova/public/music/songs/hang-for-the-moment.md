@@ -10,6 +10,7 @@ seconds: 35
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Hang%20for%20the%20Moment.mp3
   bytes: 1512677
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Hang%20for%20the%20Moment.mp4
 explicit: false
 album: nsfl
 track: 11

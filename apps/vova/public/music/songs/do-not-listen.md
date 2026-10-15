@@ -10,6 +10,7 @@ seconds: 33
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Do%20Not%20Listen.mp3
   bytes: 1469758
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Do%20Not%20Listen.mp4
 explicit: false
 album: nsfl
 track: 1

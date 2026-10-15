@@ -10,6 +10,7 @@ seconds: 54
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Femur%20(Seems%20to%20Be%20the%20Hardest%20Bone).mp3
   bytes: 2300714
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Femur%20(Seems%20to%20Be%20the%20Hardest%20Bone).mp4
 explicit: false
 album: nsfl
 track: 10

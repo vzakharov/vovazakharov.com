@@ -10,6 +10,7 @@ seconds: 18
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Mankind%20Extermination%20Front.mp3
   bytes: 856067
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Mankind%20Extermination%20Front.mp4
 explicit: false
 album: nsfl
 track: 3

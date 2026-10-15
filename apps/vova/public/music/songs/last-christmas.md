@@ -10,6 +10,7 @@ seconds: 36
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Last%20Christmas.mp3
   bytes: 1575388
+stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Last%20Christmas.mp4
 explicit: false
 album: nsfl
 track: 7
