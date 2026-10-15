@@ -11,6 +11,7 @@ seconds: 216
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/chp/main/%D0%99%D1%83%D1%85%D0%B8%20-%20%D0%A7%D0%B8%D1%85-%D0%9F%D1%8B%D1%85%20feat.%20%D0%B7%D0%B0_%D0%BE%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%BE%D0%B9.mp3
   bytes: 8696282
+stream: https://raw.githubusercontent.com/vovas-music/chp/main/Yoohie%20-%20Chikh-Pykh%20feat.%20za_oblozhkoy.mp4
 explicit: false
 en:
   title:

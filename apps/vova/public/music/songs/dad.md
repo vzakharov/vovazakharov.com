@@ -11,6 +11,7 @@ seconds: 173
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/sashas/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9F%D0%B0%D0%BF%D0%B0.mp3
   bytes: 6939785
+stream: https://raw.githubusercontent.com/vovas-music/sashas/main/Poluzhivye%20-%20Papa.mp4
 audio: https://raw.githubusercontent.com/vovas-music/sashas/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9F%D0%B0%D0%BF%D0%B0.flac
 credits:
   lyrics: [Sasha Zakharova, Vova Zakharov]

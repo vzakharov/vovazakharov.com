@@ -13,6 +13,7 @@ seconds: 243
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/mithqal/main/GENERATED%20-%20%D9%85%D9%90%D8%AB%D9%92%D9%82%D9%8E%D8%A7%D9%84.mp3
   bytes: 9809489
+stream: https://raw.githubusercontent.com/vovas-music/mithqal/main/GENERATED%20-%20Mithq%C4%81l.mp4
 explicit: false
 en:
   title:

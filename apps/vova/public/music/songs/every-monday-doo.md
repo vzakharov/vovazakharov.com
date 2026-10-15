@@ -10,6 +10,7 @@ seconds: 214
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/monday_doo/main/Yoohie%20-%20Every%20Monday.mp3
   bytes: 8733663
+stream: https://raw.githubusercontent.com/vovas-music/monday_doo/main/Yoohie%20-%20Every%20Monday.mp4
 explicit: false
 album: ctfu
 track: 6
