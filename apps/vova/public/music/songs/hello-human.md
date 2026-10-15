@@ -7,10 +7,9 @@ project: ['GENERATED']
 repo: 'machines'
 album: prototypes
 track: 1
-audio: https://raw.githubusercontent.com/vovas-music/machines/main/GENERATED%20-%20Hello%2C%20Human.mp3
+lossy: true
 seconds: 77
-mp3:
-  bytes: 3070234
+mp3Bytes: 3070234
 segue: true
 explicit: false
 ru:

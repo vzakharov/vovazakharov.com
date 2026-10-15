@@ -7,12 +7,8 @@ project: ['Yoohie']
 repo: 'because-of-you-2'
 album: old-shite
 track: 1
-audio: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Yoohie%20-%20Because%20of%20You.flac
 seconds: 108
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Yoohie%20-%20Because%20of%20You.mp3
-  bytes: 4314012
-stream: https://raw.githubusercontent.com/vovas-music/because-of-you-2/main/Yoohie%20-%20Because%20of%20You.mp4
+mp3Bytes: 4314012
 explicit: false
 ru:
   title:

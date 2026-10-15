@@ -7,12 +7,8 @@ project: ['Грёбаный бал']
 repo: 'f-ec'
 album: for-none-and-for-all
 track: 5
-audio: https://raw.githubusercontent.com/vovas-music/f-ec/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%A2%D0%B0%D0%BC.flac
 seconds: 208
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/f-ec/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%A2%D0%B0%D0%BC.mp3
-  bytes: 8334982
-stream: https://raw.githubusercontent.com/vovas-music/f-ec/main/Gryobany%20bal%20-%20Tam.mp4
+mp3Bytes: 8334982
 explicit: false
 en:
   title:

@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'undone'
-audio: https://raw.githubusercontent.com/vovas-music/undone/main/GENERATED%20-%20Undone.flac
 seconds: 245
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/undone/main/GENERATED%20-%20Undone.mp3
-  bytes: 9897861
-stream: https://raw.githubusercontent.com/vovas-music/undone/main/GENERATED%20-%20Undone.mp4
+mp3Bytes: 9897861
 explicit: false
 album: let-the-stories-spin
 track: 6

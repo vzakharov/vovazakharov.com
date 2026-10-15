@@ -6,12 +6,8 @@ language: en
 project: ['GENERATED']
 repo: 'gg'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/gg/main/GENERATED%20-%20Good%20Girl.flac
 seconds: 247
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/gg/main/GENERATED%20-%20Good%20Girl.mp3
-  bytes: 9879832
-stream: https://raw.githubusercontent.com/vovas-music/gg/main/GENERATED%20-%20Good%20Girl.mp4
+mp3Bytes: 9879832
 explicit: false
 ru:
   title:

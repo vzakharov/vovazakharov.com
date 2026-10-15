@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'psch'
-audio: https://raw.githubusercontent.com/vovas-music/psch/main/GENERATED%20-%20PSCHPTHY.flac
 seconds: 282
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/psch/main/GENERATED%20-%20PSCHPTHY.mp3
-  bytes: 11346715
-stream: https://raw.githubusercontent.com/vovas-music/psch/main/GENERATED%20-%20PSCHPTHY.mp4
+mp3Bytes: 11346715
 explicit: false
 album: pschpthy
 track: 7

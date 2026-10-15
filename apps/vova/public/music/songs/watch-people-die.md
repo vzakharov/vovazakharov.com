@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Watch%20People%20Die.flac
 seconds: 65
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Watch%20People%20Die.mp3
-  bytes: 2735306
-stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Watch%20People%20Die.mp4
+mp3Bytes: 2735306
 explicit: false
 album: nsfl
 track: 6

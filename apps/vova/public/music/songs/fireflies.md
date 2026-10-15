@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'stories'
-audio: https://raw.githubusercontent.com/vovas-music/stories/main/GENERATED%20-%20Fireflies.flac
 seconds: 243
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/stories/main/GENERATED%20-%20Fireflies.mp3
-  bytes: 9795288
-stream: https://raw.githubusercontent.com/vovas-music/stories/main/GENERATED%20-%20Fireflies.mp4
+mp3Bytes: 9795288
 explicit: false
 album: let-the-stories-spin
 track: 7

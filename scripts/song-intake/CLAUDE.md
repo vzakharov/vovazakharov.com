@@ -108,20 +108,19 @@ when the operator says "too bright" or "muddy".
 ## A song's repository
 
 **A song plays from a public repository of its own under the `vovas-music`
-organization**, named in the frontmatter's `repo:`, with `audio:` the master's
-raw URL there
-(`https://raw.githubusercontent.com/vovas-music/<repo>/main/<file>`). It holds
-what the master was made from and how: the mix (`<slug>_mix.mp3`), the master
-the site plays (`<slug>.mp3`) — and, where that master is a FLAC, its MP3 copy
-(the frontmatter's `mp3:`, which the songs feeds and downloads serve),
+organization**, named in the frontmatter's `repo:`, whose `main` serves every
+file the site links at its root, under the names `pnpm music:masters tag` gives
+them — so the frontmatter states no URL. It holds what the master was made from
+and how: the mix (`<slug>_mix.mp3`), the master — and, where that master is a
+FLAC, its MP3 copy, which the songs feeds and downloads serve,
 `<stem>.master.mp3`
 (`ffmpeg -i <stem>.flac -map 0:a -c:a libmp3lame -b:a 320k`), which
-`music:scaffold` reads and the build requires, and its MP4 rewrap (the
-frontmatter's `stream:`, which the player plays) — the video where there is one,
-`mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied from
-here — and a README naming each file, the command that made the master and its
-reference, linked at a commit rather than copied when another repository there
-holds it. `vovas-music/birds` is the pattern.
+`music:scaffold` reads, and the MP4 rewrap the tag run makes of it, which the
+player plays — the video where there is one, `mastering/` — `master.py`,
+`spectrum.py` and `requirements.txt` copied from here — and a README naming each
+file, the command that made the master and its reference, linked at a commit
+rather than copied when another repository there holds it. `vovas-music/birds`
+is the pattern.
 
 - **Every read and write of these repositories goes through
   `pnpm music:masters`** (`scripts/masters.ts`, its header the usage), never a
@@ -134,7 +133,8 @@ holds it. `vovas-music/birds` is the pattern.
 - **A change to a song's audio is made in its repository**: a new master
   replaces the old one there (`pnpm music:masters put`), and the README's
   command with it. This repo changes only what the frontmatter reads off it —
-  `audio:` when the file is renamed, `duration` when its length moves.
+  `seconds` when its length moves — and the tag run then names, tags and sizes
+  it.
 - **A new song gets its repository before its page**, named by `songs.md`'s slug
   rule: `pnpm music:masters create <slug> --description <d>`, the files above
   with `pnpm music:masters put`, then `pnpm music:scaffold <slug>`, which reads

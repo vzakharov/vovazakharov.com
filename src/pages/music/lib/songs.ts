@@ -13,10 +13,13 @@ import {
 
 import { albumsTogether, songPlacements } from './album-tracks';
 import { projectName } from './artists';
+import { rawUrl } from './master-url';
 import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill } from './projects';
+import { playedName, songHome } from './song-files';
 import type { SongDocument, SongOnRelease } from './song-text';
+import { assertWritten } from './tag-manifest';
 
 /**
  * The catalogue, newest first. A slug that is a locale is rejected here, where
@@ -118,11 +121,17 @@ export function songTrack(
   album: MusicAlbum | null = document.frontmatter.album,
 ): PlayerTrack {
   const { slug, frontmatter } = document;
-  const { audio, stream, seconds, explicit, segue, project } = frontmatter;
+  const { seconds, explicit, segue, project } = frontmatter;
+  const audio = rawUrl(
+    songHome(frontmatter),
+    playedName(frontmatter, songBilling(document, 'en')),
+  );
+
+  assertWritten(document, [audio]);
 
   return {
     slug,
-    audio: stream ?? audio,
+    audio,
     seconds,
     explicit,
     segue,

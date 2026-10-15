@@ -39,7 +39,16 @@ import { readSiteCatalogueNames } from '@/shared/music-catalogue/catalogue-names
 import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
 import type { Dated, Named, Rated, Timed } from '@/shared/typings';
 
+import { servedPath } from '@/pages/music/lib/master-url';
+import { SONG_BRANCH } from '@/pages/music/lib/song-files';
+import {
+  readTagManifest,
+  writeTagManifest,
+} from '@/pages/music/lib/tag-manifest';
+
 const CATALOGUE = readSiteCatalogueNames();
+
+const manifest = readTagManifest();
 
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */
 const HEADER_BYTES = 128 * 1024;
@@ -52,9 +61,9 @@ type Master = Rated & {
   /** Its name in the repository, which is where the song's own name comes from. */
   flac: string;
   /** Where `raw.githubusercontent.com` serves it, percent-encoded. */
-  audio: string;
-  /** Its MP3 copy's URL, where the repository holds one yet. */
-  copy?: string;
+  url: string;
+  /** Its MP3 copy's name and URL, where the repository holds one yet. */
+  copy?: { name: string; url: string };
 };
 
 /** The MP3 copy's name beside a FLAC master: `<stem>.master.mp3`. */
@@ -212,9 +221,11 @@ async function findMaster(
 
   return {
     flac: fileName,
-    audio: raw(fileName),
+    url: raw(fileName),
     explicit: fileName.includes(EXPLICIT_MARKER),
-    ...(entries.some(({ name }) => name === copy) ? { copy: raw(copy) } : {}),
+    ...(entries.some(({ name }) => name === copy)
+      ? { copy: { name: copy, url: raw(copy) } }
+      : {}),
   };
 }
 
@@ -293,7 +304,7 @@ type DocumentFields = Named &
     spec: SongSpec;
     master: Master;
     streamInfo: StreamInfo;
-    mp3?: { url: string; bytes: number };
+    mp3Bytes?: number;
   };
 
 function yamlList(values: readonly string[]): string {
@@ -307,7 +318,7 @@ function yamlList(values: readonly string[]): string {
  * loud failure a placeholder string would not be.
  */
 function document(fields: DocumentFields): string {
-  const { name, date, spec, seconds, master, streamInfo, mp3 } = fields;
+  const { name, date, spec, seconds, master, streamInfo, mp3Bytes } = fields;
   const {
     repo,
     project,
@@ -340,12 +351,11 @@ ${
     : `project: ${yamlList(project)}`
 }
 repo: ${yaml(repo)}
-audio: ${master.audio}
 seconds: ${seconds}
 ${
-  mp3 === undefined
-    ? `# mp3: { url, bytes } — encode ${copyName(master.flac)} beside the master first`
-    : `mp3:\n  url: ${mp3.url}\n  bytes: ${mp3.bytes}`
+  mp3Bytes === undefined
+    ? `# mp3Bytes: — encode ${copyName(master.flac)} beside the master first`
+    : `mp3Bytes: ${mp3Bytes}`
 }
 explicit: ${String(master.explicit || explicit === true)}
 ${album === undefined ? '' : `album: ${album}\n`}${en}${ru}---
@@ -368,10 +378,25 @@ async function scaffold(spec: SongSpec, directory: string): Promise<string> {
     `https://api.github.com/repos/${MUSIC_ORGANIZATION}/${repo}`,
     repositorySchema,
   );
+
+  if (branch !== SONG_BRANCH) {
+    throw new Error(
+      `${repo}'s default branch is ${branch}; a song's files are served from ${SONG_BRANCH}`,
+    );
+  }
+
   const master = await findMaster(repo, branch, spec.master);
-  const streamInfo = await fetchStreamInfo(master.audio);
+  const streamInfo = await fetchStreamInfo(master.url);
   const seconds = Math.round(streamInfo.totalSamples / streamInfo.sampleRate);
 
+  // The tag run finds the files to name and tag here, its empty hash leaving
+  // the song stale until it has.
+  manifest[slug] = {
+    hash: '',
+    paths: [master.flac, ...(master.copy ? [master.copy.name] : [])].map(
+      (name) => servedPath({ repo }, name),
+    ),
+  };
   fs.writeFileSync(
     filePath,
     document({
@@ -386,9 +411,7 @@ async function scaffold(spec: SongSpec, directory: string): Promise<string> {
       streamInfo,
       ...(master.copy === undefined
         ? {}
-        : {
-            mp3: { url: master.copy, bytes: await fetchBytes(master.copy) },
-          }),
+        : { mp3Bytes: await fetchBytes(master.copy.url) }),
     }),
   );
 
@@ -425,6 +448,8 @@ for (const line of await Promise.all(
 )) {
   report(line);
 }
+
+writeTagManifest(manifest);
 
 report(
   `\nWritten to ${directory}. Each still needs a body, its story and words; a field the spec left out is a comment to fill in.`,

@@ -7,12 +7,8 @@ project: ['Грёбаный бал']
 repo: 'burmakin'
 album: for-none-and-for-all
 track: 1
-audio: https://raw.githubusercontent.com/vovas-music/burmakin/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%9F%D1%80%D0%BE%D1%81%D1%82%D0%BE%20%D1%83%D1%81%D1%82%D0%B0%D0%BB.flac
 seconds: 198
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/burmakin/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%9F%D1%80%D0%BE%D1%81%D1%82%D0%BE%20%D1%83%D1%81%D1%82%D0%B0%D0%BB.mp3
-  bytes: 7939261
-stream: https://raw.githubusercontent.com/vovas-music/burmakin/main/Gryobany%20bal%20-%20Prosto%20ustal.mp4
+mp3Bytes: 7939261
 explicit: false
 en:
   title:

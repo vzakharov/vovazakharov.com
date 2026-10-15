@@ -7,12 +7,8 @@ language: [ru, la, en]
 project: ['Downtemple']
 repo: 'trisagion'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/trisagion/main/Downtemple%20-%20Trisagion.flac
 seconds: 202
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/trisagion/main/Downtemple%20-%20Trisagion.mp3
-  bytes: 8152802
-stream: https://raw.githubusercontent.com/vovas-music/trisagion/main/Downtemple%20-%20Trisagion.mp4
+mp3Bytes: 8152802
 explicit: false
 ru:
   title:

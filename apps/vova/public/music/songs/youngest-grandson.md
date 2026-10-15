@@ -5,12 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'salman'
-audio: https://raw.githubusercontent.com/vovas-music/salman/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9C%D0%BB%D0%B0%D0%B4%D1%88%D0%B8%D0%B9%20%D0%B2%D0%BD%D1%83%D1%87%D0%B5%D0%BA%20%D0%BC%D0%BE%D0%B9.flac
 seconds: 298
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/salman/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9C%D0%BB%D0%B0%D0%B4%D1%88%D0%B8%D0%B9%20%D0%B2%D0%BD%D1%83%D1%87%D0%B5%D0%BA%20%D0%BC%D0%BE%D0%B9.mp3
-  bytes: 12013764
-stream: https://raw.githubusercontent.com/vovas-music/salman/main/Poluzhivye%20-%20Mladshiy%20vnuchek%20moy.mp4
+mp3Bytes: 12013764
 explicit: false
 album: father-river
 track: 10

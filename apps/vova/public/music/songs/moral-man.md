@@ -5,12 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'moral-'
-audio: https://raw.githubusercontent.com/vovas-music/moral-/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9D%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%87%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA.flac
 seconds: 231
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/moral-/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9D%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%87%D0%B5%D0%BB%D0%BE%D0%B2%D0%B5%D0%BA.mp3
-  bytes: 9372264
-stream: https://raw.githubusercontent.com/vovas-music/moral-/main/Poluzhivye%20-%20Nravstvenny%20chelovek.mp4
+mp3Bytes: 9372264
 explicit: false
 album: who-is-happy-in-russia
 track: 2

@@ -5,12 +5,8 @@ status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'mne-nravitsa'
-audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%9C%D0%BD%D0%B5%20%D0%BD%D1%80%D0%B0%D0%B2%D0%B8%D1%82%D1%81%D1%8F%2C%20%D1%87%D1%82%D0%BE%20%D0%B2%D1%8B%20%D0%B1%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%20%D0%BD%D0%B5%20%D0%BC%D0%BD%D0%BE%D0%B9%E2%80%A6.flac
 seconds: 254
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%9C%D0%BD%D0%B5%20%D0%BD%D1%80%D0%B0%D0%B2%D0%B8%D1%82%D1%81%D1%8F%2C%20%D1%87%D1%82%D0%BE%20%D0%B2%D1%8B%20%D0%B1%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%20%D0%BD%D0%B5%20%D0%BC%D0%BD%D0%BE%D0%B9%E2%80%A6.mp3
-  bytes: 10214903
-stream: https://raw.githubusercontent.com/vovas-music/dng_album/main/Damy%20i%20gospoda%20-%20Mne%20nravitsya%2C%20chto%20vy%20bol%CA%BCny%20ne%20mnoy%E2%80%A6.mp4
+mp3Bytes: 10214903
 explicit: false
 album: five-romances
 track: 3

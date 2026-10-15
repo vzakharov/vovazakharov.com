@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'codep'
-audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20Codependence%20Day.flac
 seconds: 277
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20Codependence%20Day.mp3
-  bytes: 11180229
-stream: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/GENERATED%20-%20Codependence%20Day.mp4
+mp3Bytes: 11180229
 explicit: false
 album: ghosts-of-flesh
 track: 3

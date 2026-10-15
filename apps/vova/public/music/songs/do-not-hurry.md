@@ -5,12 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'Ne-toropi'
-audio: https://raw.githubusercontent.com/vovas-music/rus-/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9D%D0%B5%20%D1%82%D0%BE%D1%80%D0%BE%D0%BF%D0%B8.flac
 seconds: 273
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/rus-/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9D%D0%B5%20%D1%82%D0%BE%D1%80%D0%BE%D0%BF%D0%B8.mp3
-  bytes: 11062849
-stream: https://raw.githubusercontent.com/vovas-music/rus-/main/Poluzhivye%20-%20Ne%20toropi.mp4
+mp3Bytes: 11062849
 explicit: false
 album: who-is-happy-in-russia
 track: 8

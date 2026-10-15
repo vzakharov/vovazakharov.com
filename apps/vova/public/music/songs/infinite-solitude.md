@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'solitude'
-audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Infinite%20Solitude.flac
 seconds: 243
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Infinite%20Solitude.mp3
-  bytes: 9784873
-stream: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Infinite%20Solitude.mp4
+mp3Bytes: 9784873
 explicit: false
 album: divine-discontent
 track: 2

@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['Полуживые', 'за/обложкой', 'GENERATED']
 repo: 'bronte'
-audio: https://raw.githubusercontent.com/vovas-music/bronte/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Life%2C%20believe%2C%20is%20not%20a%20dream%E2%80%A6%20feat.%20%D0%B7%D0%B0_%D0%BE%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%BE%D0%B9%20%26%20GENERATED.flac
 seconds: 194
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/bronte/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Life%2C%20believe%2C%20is%20not%20a%20dream%E2%80%A6%20feat.%20%D0%B7%D0%B0_%D0%BE%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%BE%D0%B9%20%26%20GENERATED.mp3
-  bytes: 7943553
-stream: https://raw.githubusercontent.com/vovas-music/bronte/main/Poluzhivye%20-%20Life%2C%20believe%2C%20is%20not%20a%20dream%E2%80%A6%20feat.%20za_oblozhkoy%20%26%20GENERATED.mp4
+mp3Bytes: 7943553
 explicit: false
 album: ctfu
 track: 9

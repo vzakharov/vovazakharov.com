@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Grave%20Awakening.flac
 seconds: 26
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Grave%20Awakening.mp3
-  bytes: 1167644
-stream: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Grave%20Awakening.mp4
+mp3Bytes: 1167644
 explicit: true
 album: nsfl
 track: 12

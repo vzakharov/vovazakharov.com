@@ -7,12 +7,8 @@ project: ['Грёбаный бал']
 repo: 'fingers'
 album: for-none-and-for-all
 track: 2
-audio: https://raw.githubusercontent.com/vovas-music/fingers/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%9D%D0%B0%20%D0%BF%D0%B0%D0%BB%D1%8C%D1%86%D1%8B.flac
 seconds: 285
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/fingers/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%9D%D0%B0%20%D0%BF%D0%B0%D0%BB%D1%8C%D1%86%D1%8B.mp3
-  bytes: 11428245
-stream: https://raw.githubusercontent.com/vovas-music/fingers/main/Gryobany%20bal%20-%20Na%20pal%CA%BCtsy.mp4
+mp3Bytes: 11428245
 explicit: false
 en:
   title:

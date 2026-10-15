@@ -7,12 +7,8 @@ project: ['Дамы и господа', 'Полуживые']
 repo: 'sneg_0'
 album: father-sea
 track: 5
-audio: https://raw.githubusercontent.com/vovas-music/sneg_0/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%A1%D0%BD%D0%B5%D0%B3%20feat.%20%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5.flac
 seconds: 180
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/sneg_0/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%A1%D0%BD%D0%B5%D0%B3%20feat.%20%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5.mp3
-  bytes: 7188865
-stream: https://raw.githubusercontent.com/vovas-music/sneg_0/main/Damy%20i%20gospoda%20-%20Sneg%20feat.%20Poluzhivye.mp4
+mp3Bytes: 7188865
 explicit: false
 en:
   title:

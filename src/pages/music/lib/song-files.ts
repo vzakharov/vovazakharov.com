@@ -1,11 +1,12 @@
 import type { SongFrontmatter } from '@/shared/music-catalogue';
 import {
   type SongBilling,
+  songFileName,
   songFileNames,
   type Spelled,
 } from '@/shared/music-catalogue/index.node-safe';
 
-import { masterLocation, rawUrl } from './master-url';
+import { rawUrl, type RepoLocation } from './master-url';
 
 /** A file's extension, lowercase and without its dot. */
 export type WithExtension = { extension: string };
@@ -13,42 +14,60 @@ export type WithExtension = { extension: string };
 /** `href` is spelled as the page spells the song, each spelling a path to the same bytes. */
 export type SongFile = WithExtension & { href: Spelled };
 
+/** What a song's files are derived from beside its billing. */
+export type SongHosting = Pick<SongFrontmatter, 'repo' | 'lossy'>;
+
 export function extensionOf(href: string): string {
   return href.slice(href.lastIndexOf('.') + 1).toLowerCase();
 }
 
-function namedHref(
-  href: string,
-  extension: string,
-  billing: SongBilling | undefined,
-): Spelled {
-  const location = masterLocation(href);
+/** The branch every song's repository serves its files from. */
+export const SONG_BRANCH = 'main';
 
-  if (billing === undefined || location === null) return { original: href };
+/** Where every file of a song sits: its repository's root. */
+export function songHome({ repo }: Pick<SongFrontmatter, 'repo'>): RepoLocation {
+  return { repo, branch: SONG_BRANCH, directory: '' };
+}
 
-  const { original, latin } = songFileNames(billing, extension);
-
-  return {
-    original: rawUrl(location, original),
-    ...(latin !== undefined && { latin: rawUrl(location, latin) }),
-  };
+/** The extensions of the song's files to take away: the MP3, then the FLAC master it is a copy of. */
+export function downloadExtensions({
+  lossy,
+}: Pick<SongFrontmatter, 'lossy'>): string[] {
+  return ['mp3', ...(lossy ? [] : ['flac'])];
 }
 
 /**
- * The song's files to take away: the MP3 first, then the master where the MP3
- * is a copy of it. With a billing, a file a `vovas-music` repository serves is
- * linked under the name `pnpm music:masters tag` saved it as for that billing; without
- * one, and for a file the site hosts, under the URL the frontmatter states.
+ * The song's files to take away, each under the name `pnpm music:masters tag`
+ * saved it as for the billing.
  */
 export function songFiles(
-  { audio, mp3 }: Pick<SongFrontmatter, 'audio' | 'mp3'>,
-  billing?: SongBilling,
+  hosting: SongHosting,
+  billing: SongBilling,
 ): SongFile[] {
-  return [mp3.url ?? audio, ...(mp3.url === undefined ? [] : [audio])].map(
-    (href) => {
-      const extension = extensionOf(href);
+  const home = songHome(hosting);
 
-      return { extension, href: namedHref(href, extension, billing) };
-    },
-  );
+  return downloadExtensions(hosting).map((extension) => {
+    const { original, latin } = songFileNames(billing, extension);
+
+    return {
+      extension,
+      href: {
+        original: rawUrl(home, original),
+        ...(latin !== undefined && { latin: rawUrl(home, latin) }),
+      },
+    };
+  });
+}
+
+/**
+ * The file the player plays, under the English page's Latin name (a Russian
+ * page spells its Latin names in Cyrillic): a FLAC master's MP4 rewrap, whose
+ * sample index AVFoundation — every iOS browser's player — seeks exactly where
+ * a bare FLAC lands seconds off, or an MP3 master as it is.
+ */
+export function playedName(
+  { lossy }: Pick<SongFrontmatter, 'lossy'>,
+  english: SongBilling,
+): string {
+  return songFileName(english, 'latin', lossy ? 'mp3' : 'mp4');
 }

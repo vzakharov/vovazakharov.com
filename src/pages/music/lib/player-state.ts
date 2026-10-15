@@ -30,6 +30,8 @@ export function billingText(billing: Billing, script?: Script): string {
  */
 export type PlayerTrack = Slugged &
   Playable & {
+    /** The URL of the file the player plays, `playedName`'s. */
+    audio: string;
     /** What the song is called in each language, how it is billed, and where each is served. */
     titles: Record<Locale, Spelled>;
     billing: Record<Locale, Billing>;

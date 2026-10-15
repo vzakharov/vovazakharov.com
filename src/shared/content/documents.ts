@@ -46,7 +46,7 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
 
 /**
  * Generic over frontmatter rather than over the collection id, so a song page
- * reads `frontmatter.audio` while everything that works across collections —
+ * reads `frontmatter.repo` while everything that works across collections —
  * the sitemap, the metadata builder — holds documents at the base shape.
  *
  * No PDF here: a song has none, so the article header, which does, derives the

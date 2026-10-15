@@ -7,12 +7,8 @@ project: ['Полуживые']
 repo: 'sneg_idet'
 album: father-sea
 track: 4
-audio: https://raw.githubusercontent.com/vovas-music/sneg_idet/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%A1%D0%BD%D0%B5%D0%B3%20%D0%B8%D0%B4%D1%91%D1%82.flac
 seconds: 293
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/sneg_idet/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%A1%D0%BD%D0%B5%D0%B3%20%D0%B8%D0%B4%D1%91%D1%82.mp3
-  bytes: 11738291
-stream: https://raw.githubusercontent.com/vovas-music/sneg_idet/main/Poluzhivye%20-%20Sneg%20idyot.mp4
+mp3Bytes: 11738291
 explicit: false
 credits:
   lyrics: ['Борис Пастернак']

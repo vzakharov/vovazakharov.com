@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'u4'
-audio: https://raw.githubusercontent.com/vovas-music/u4/main/GENERATED%20-%20Unforgiven%20IV.flac
 seconds: 309
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/u4/main/GENERATED%20-%20Unforgiven%20IV.mp3
-  bytes: 12455829
-stream: https://raw.githubusercontent.com/vovas-music/u4/main/GENERATED%20-%20Unforgiven%20IV.mp4
+mp3Bytes: 12455829
 explicit: false
 album: let-the-stories-spin
 track: 9

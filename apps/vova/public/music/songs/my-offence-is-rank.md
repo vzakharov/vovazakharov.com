@@ -5,12 +5,8 @@ status: done
 language: en
 project: ['Полуживые', 'GENERATED']
 repo: 'rank'
-audio: https://raw.githubusercontent.com/vovas-music/rank/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20O%2C%20my%20offence%20is%20rank%E2%80%A6%20feat.%20GENERATED.flac
 seconds: 220
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/rank/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20O%2C%20my%20offence%20is%20rank%E2%80%A6%20feat.%20GENERATED.mp3
-  bytes: 8915782
-stream: https://raw.githubusercontent.com/vovas-music/rank/main/Poluzhivye%20-%20O%2C%20my%20offence%20is%20rank%E2%80%A6%20feat.%20GENERATED.mp4
+mp3Bytes: 8915782
 explicit: false
 album: father-river
 track: 5

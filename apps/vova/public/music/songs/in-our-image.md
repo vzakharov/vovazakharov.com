@@ -6,12 +6,8 @@ status: done
 language: [en, it]
 project: ['GENERATED']
 repo: 'image'
-audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20In%20Our%20Image.flac
 seconds: 261
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20In%20Our%20Image.mp3
-  bytes: 10513266
-stream: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20In%20Our%20Image.mp4
+mp3Bytes: 10513266
 explicit: false
 album: divine-discontent
 track: 3
