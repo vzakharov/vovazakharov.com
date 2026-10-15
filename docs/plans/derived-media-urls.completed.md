@@ -118,16 +118,15 @@ docs. Deviations from the steps above, each deliberate:
 `sneg` from `dng_album`. Typecheck, lint of the touched files and both tests
 pass.
 
+With the operator's permission, `main` is the default branch of all five
+`master` repositories: created at `master` in `golodnaa` and `meow`;
+fast-forwarded from the initial commit to `master` in `like-that` and `love`; in
+`lake`, where `main` already held the project two commits past `master`'s
+initial commit, made the default as it stood. `pnpm music:masters tag` published
+the 35 songs (dcbc832, the manifest; no `mp3Bytes` moved) and `check` reports 0
+to tag. `/polish` ran (1de7203, df60a10).
+
 ## Left
 
-1. **Blocked on the operator's permission** — the auto-mode classifier denied it
-   as "Modify Shared Resources": create `main` at `master`'s head in `golodnaa`,
-   `lake`, `like-that`, `love`, `meow` and make it the default
-   (`gh api -X POST repos/vovas-music/<r>/git/refs -f ref=refs/heads/main -f sha=<master sha>`,
-   then `gh api -X PATCH repos/vovas-music/<r> -f default_branch=main`).
-2. Then `pnpm music:masters tag` (35 songs, publishes to their repos — the same
-   permission question), commit the manifest and `mp3Bytes`, and
-   `pnpm music:masters check` passes. Until then the build fails on those 35
-   songs' guard, by design.
-3. `/polish`, then the PR body: the post-deploy steps (`prune`, deleting the
-   five `master` branches by hand).
+Post-deploy, by hand: `pnpm music:masters prune`, and deleting the five `master`
+branches — both in the PR body.
