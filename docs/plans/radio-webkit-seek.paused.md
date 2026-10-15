@@ -87,3 +87,34 @@ entirely. The table already in `sultan.flac` costs 4 KB and stays.
 - The rewrap is made and checked in `music:masters`, next to the MP3 copy and
   the tags. The publishing (clone, Git Data API, large-blob relay) is #153's,
   reused unchanged.
+
+## Progress (paused for the context budget)
+
+**Done:**
+
+- `main` (with #153) merged in; #160's commit cherry-picked (893d54ac): the
+  `stream` frontmatter field and `songTrack`'s `stream ?? audio`. Sultan's
+  test `stream:` line was dropped in the merge — the tag run writes it.
+- `scripts/lib/song-tagging.ts`, `song-tag-source.ts`, `song-tag-rewrites.ts`
+  (+ test) implement the rewrap, the `stream` repoint, the manifest/prune
+  paths and the hash (9241c33a, f9a48812). The stream name is the English
+  page's Latin billing (`Poluzhivye - Moy Sultan.mp4`).
+- `pnpm music:masters tag --dry-run my-sultan` verified: the commit adds only
+  the MP4, decoded md5 equals the FLAC's (`ed58ef12…`), atoms
+  `ftyp, moov, free, mdat`, MP4 tags carried across.
+
+**Left:**
+
+- The real run, `pnpm music:masters tag` over the catalogue: one commit per
+  `vovas-music` repository, ~25 MB per FLAC song; then commit the repointed
+  song documents and `tag-renders.json`, and confirm `pnpm music:masters check`
+  passes (vet runs it, and every song reads stale until the run).
+- `scripts/song-intake/CLAUDE.md` § "A song's repository": list the rewrap
+  beside the MP3 copy. `.claude/rules/songs.md`: name `stream` among the
+  frontmatter fields, next to the masters' names and tags.
+- The plan's test bullet: `songFiles` takes `Pick<…, 'audio' | 'mp3'>`, so the
+  type already keeps `stream` out of the downloads, and `songs.ts` imports the
+  server-only content layer, so no unit test reaches `songTrack`. Drop the
+  bullet rather than open a seam for it.
+- Close #160 (its commit lives here now). Then `/go` Steps 3–4: `/polish`,
+  `/pr` refresh.
