@@ -94,4 +94,40 @@ and branch** the master sits in, and **whether there is a lossless master**.
 
 ## Done so far
 
-Nothing beyond the design: the counts above were measured, no code changed.
+Commit db3edfd: the schema, the derivation (`song-files.ts`: `songHome`,
+`songFiles`, `playedName`; `song-names.ts`: `savedNames`, `mp3Url`), the
+consumers, the tag run, the scaffolder, the 170 documents (13 `lossy`), the
+docs. Deviations from the steps above, each deliberate:
+
+- **Staleness, not the hash, picks up the move.** The hash is unchanged (the
+  master still first in `files`), and a song is also stale while a path it
+  derives was never recorded — so `check` lists exactly the 35 songs whose
+  masters sit in another repository, and the other 135 need no re-run. Adding
+  repo + branch to the hash would have re-tagged all 170.
+- **The player plays the English page's Latin name** for both shapes (the MP4
+  rewrap, or a lossy MP3 master), so `songTrack` needs only `songBilling` and no
+  import cycle; the feed encloses the MP3 under the song's own name, as before,
+  so podcast enclosure URLs do not move.
+- **`assertWritten` (`tag-manifest.ts`) guards the played, downloaded and
+  enclosed URLs**; it cannot see the branch, so the five `master` repos pass it
+  before `main` exists.
+- `music:scaffold` runs under `--conditions=react-server` to reach the manifest,
+  and refuses a repository whose default branch is not `main`.
+
+`pnpm music:masters tag --dry-run quiet-snow` staged the five derived files in
+`sneg` from `dng_album`. Typecheck, lint of the touched files and both tests
+pass.
+
+## Left
+
+1. **Blocked on the operator's permission** — the auto-mode classifier denied it
+   as "Modify Shared Resources": create `main` at `master`'s head in `golodnaa`,
+   `lake`, `like-that`, `love`, `meow` and make it the default
+   (`gh api -X POST repos/vovas-music/<r>/git/refs -f ref=refs/heads/main -f sha=<master sha>`,
+   then `gh api -X PATCH repos/vovas-music/<r> -f default_branch=main`).
+2. Then `pnpm music:masters tag` (35 songs, publishes to their repos — the same
+   permission question), commit the manifest and `mp3Bytes`, and
+   `pnpm music:masters check` passes. Until then the build fails on those 35
+   songs' guard, by design.
+3. `/polish`, then the PR body: the post-deploy steps (`prune`, deleting the
+   five `master` branches by hand).
