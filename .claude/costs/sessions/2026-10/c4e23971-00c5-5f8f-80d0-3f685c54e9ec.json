@@ -1,0 +1,96 @@
+{
+  "estimate": {
+    "at": "2026-10-14T10:50:04.577Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "polishing a sync diff across many agent-facing files needs judgement of what each ported convention should say here"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the PR body must state the swap and environment caveats a reviewer checks against the vet setup"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "c4e23971-00c5-5f8f-80d0-3f685c54e9ec",
+  "branch": "update-muthur-md-wrap",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take update-muthur-md-wrap",
+  "prs": [
+    154
+  ],
+  "url": "https://claude.ai/code/session_01NtqsamXyesAGjKFe9G6MnX",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T10:49:48.066Z",
+  "lastResponseAt": "2026-10-14T11:14:15.548Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 3.798121000000001,
+  "total": {
+    "inputTokens": 160,
+    "cacheWrite5mTokens": 248502,
+    "cacheWrite1hTokens": 117632,
+    "cacheReadTokens": 8323513,
+    "outputTokens": 12817,
+    "thinkingTokens": 2929,
+    "responses": 80,
+    "costUsd": 4.1052485999999995
+  },
+  "ownTurns": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 117632,
+    "cacheReadTokens": 3572241,
+    "outputTokens": 11143,
+    "thinkingTokens": 2214,
+    "responses": 27,
+    "costUsd": 1.8785802
+  },
+  "subagents": {
+    "inputTokens": 106,
+    "cacheWrite5mTokens": 248502,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 4751272,
+    "outputTokens": 1674,
+    "thinkingTokens": 715,
+    "responses": 53,
+    "costUsd": 2.2266684000000003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 160,
+      "cacheWrite5mTokens": 248502,
+      "cacheWrite1hTokens": 117632,
+      "cacheReadTokens": 8323513,
+      "outputTokens": 12817,
+      "thinkingTokens": 2929,
+      "responses": 80,
+      "costUsd": 4.1052485999999995
+    }
+  },
+  "warnings": [
+    "50 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".prettierrc.json",
+    "endedAt": "2026-10-14T10:51:33.459Z",
+    "contextTokens": 90087,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 89011,
+      "cacheWrite1hTokens": 64990,
+      "cacheReadTokens": 1720650,
+      "outputTokens": 3837,
+      "thinkingTokens": 856,
+      "responses": 20,
+      "costUsd": 1.3860050000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

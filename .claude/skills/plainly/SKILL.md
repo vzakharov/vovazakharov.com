@@ -46,19 +46,19 @@ Either way the output is an answer, not a plan to produce one.
    example (§ "The example"), then the caveats if and only if they change what
    the reader should do.
 3. **Run the six defects below over that draft, then write it out again.** Each
-   has a tell you can see in your own text without knowing the subject — but only
-   in text you actually put down first.
+   has a tell you can see in your own text without knowing the subject — but
+   only in text you actually put down first.
 
 ## The example
 
 **Show one concrete case of what the answer says, whatever the answer is
 about.** A reader who lost the general statement usually follows a case, and
-"give me a concrete example" is the question they would most often ask next.
-The only answer that needs none is one already told as a scenario the reader
-could replay — "this test fails because of that line" is not one yet.
+"give me a concrete example" is the question they would most often ask next. The
+only answer that needs none is one already told as a scenario the reader could
+replay — "this test fails because of that line" is not one yet.
 
-- **The smallest thing that still shows it.** A few lines, two rows, one call and
-  what it returns — stripped of everything not carrying the point. Past that
+- **The smallest thing that still shows it.** A few lines, two rows, one call
+  and what it returns — stripped of everything not carrying the point. Past that
   size the reader is decoding the example instead of the idea.
 - **Invented is fine, and often better.** A made-up `f()` or a toy table shows
   the shape without the local detail a real case drags along. Use the real one
@@ -75,14 +75,19 @@ They exist so a bad report can be called out in one word, the way `polar bear`
 already works for `@.claude/skills/tend-prose/SKILL.md`. Read them as tells to
 check a draft of your own against:
 
-| Defect                 | Tell                                                                                                                                                          |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Symptom-as-finding** | The headline is a quoted error string or a metric the system emitted                                                                                          |
-| **Buried lede**        | Counts, windows, method notes or caveats before the conclusion                                                                                                |
-| **Untranslated nouns** | Jargon the reader does not use, where their own word exists and is exact                                                                                      |
-| **Broken chain**       | Steps in sequence with nothing saying why each one followed                                                                                                   |
-| **Fog**                | Uncertainty stated repeatedly and never resolved into "here's what would settle it"                                                                           |
-| **Receipt**            | A reply _about_ what the person said, where the thing they said wanted an answer — a joke acknowledged instead of returned, an aside filed instead of engaged |
+- **Symptom-as-finding** — the headline is a quoted error string or a metric the
+  system emitted.
+- **Buried lede** — counts, windows, method notes or caveats before the
+  conclusion.
+- **Untranslated nouns** — jargon the reader does not use, where their own word
+  exists and is exact.
+- **Broken chain** — steps in sequence with nothing saying why each one
+  followed.
+- **Fog** — uncertainty stated repeatedly and never resolved into "here's what
+  would settle it".
+- **Receipt** — a reply _about_ what the person said, where the thing they said
+  wanted an answer — a joke acknowledged instead of returned, an aside filed
+  instead of engaged.
 
 **The sixth is the odd one, and it earns its place by being the only one
 investigation cannot fix.** The other five are cured by knowing more: read the

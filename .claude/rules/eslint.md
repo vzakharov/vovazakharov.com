@@ -33,8 +33,8 @@ paths:
 
 - **Rule severities live in `eslint/rule-groups/*.ts`** via
   `withSeverity('error', [...])` / `withSeverity('off', [...])`. That tree sets
-  what a rule is worth repo-wide; the exemptions above are how one site opts
-  out of it. Keep the concerns in their respective places.
+  what a rule is worth repo-wide; the exemptions above are how one site opts out
+  of it. Keep the concerns in their respective places.
 
 - **Rule files import relatively, never through `@/`.** ESLint loads the config
   with jiti, which does not apply the TypeScript path alias. `eslint/` is

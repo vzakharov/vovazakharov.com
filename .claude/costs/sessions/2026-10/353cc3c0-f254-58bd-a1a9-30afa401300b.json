@@ -1,0 +1,92 @@
+{
+  "estimate": {
+    "at": "2026-10-14T10:48:48.332Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "the four remaining source commits each needed a port decided per conflict against locally rewritten agent files, the reflow and its scope included"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "wiring the Markdown wrap onto the existing prettier, the hook and the vet line is routine tooling"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "353cc3c0-f254-58bd-a1a9-30afa401300b",
+  "branch": "update-muthur-md-wrap",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take update-muthur-md-wrap",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01Nw6n7oV6W1bvd1pC4h3J3D",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T10:38:20.804Z",
+  "lastResponseAt": "2026-10-14T10:49:12.026Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 161978,
+    "cacheReadTokens": 10260801,
+    "outputTokens": 34886,
+    "thinkingTokens": 5829,
+    "responses": 63,
+    "costUsd": 4.0462082
+  },
+  "ownTurns": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 161978,
+    "cacheReadTokens": 10260801,
+    "outputTokens": 34886,
+    "thinkingTokens": 5829,
+    "responses": 63,
+    "costUsd": 4.0462082
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 126,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 161978,
+      "cacheReadTokens": 10260801,
+      "outputTokens": 34886,
+      "thinkingTokens": 5829,
+      "responses": 63,
+      "costUsd": 4.0462082
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "scripts/vet.sh",
+    "endedAt": "2026-10-14T10:40:59.210Z",
+    "contextTokens": 125631,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 68354,
+      "cacheReadTokens": 1228123,
+      "outputTokens": 2872,
+      "thinkingTokens": 346,
+      "responses": 12,
+      "costUsd": 0.8499926000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
