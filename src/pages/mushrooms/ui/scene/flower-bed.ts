@@ -50,10 +50,7 @@ const BROW_FADE = 1.5;
 export type ChordTapped = {
   chordTap: (object: Phaser.GameObjects.GameObject) => boolean;
 };
-export type Answering = Answers & {
-  inView: () => FlowerInView[];
-  hush: (id: string) => void;
-};
+export type Answering = Answers & { hush: (id: string) => void };
 
 /**
  * The meadow's flowers on screen, kept by id, the visit's seeded ones and the

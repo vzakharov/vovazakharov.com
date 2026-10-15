@@ -31,7 +31,9 @@ import type { AreaHit, Selected } from './mushroom-selection';
 import type { PaintedSide } from './repaint-queue';
 
 /** What a shown mushroom keeps of its mushroom as planted. */
-const SHOWN_OF = ['foot', 'lean', 'sprout'] as const;
+const SHOWN_OF = ['foot', 'lean', 'sprout'] as const satisfies ReadonlyArray<
+  keyof ShownOf
+>;
 type ShownOf = Footed & Sprouting;
 
 type HouseShadowed = {
