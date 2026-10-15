@@ -18,7 +18,7 @@ import type { PlayerTrack } from './player-state';
 import { bill } from './projects';
 import { playedName, songUrl } from './song-files';
 import type { SongDocument, SongOnRelease } from './song-text';
-import { assertWritten } from './tag-manifest';
+import { assertWritten } from './written-guard';
 
 /**
  * The catalogue, newest first. A slug that is a locale is rejected here, where

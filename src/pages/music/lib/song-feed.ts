@@ -26,7 +26,7 @@ import {
   localizeSong,
   type SongDocument,
 } from './song-text';
-import { assertWritten } from './tag-manifest';
+import { assertWritten } from './written-guard';
 
 function text(value: string): ElementContent {
   return { type: 'text', value };
