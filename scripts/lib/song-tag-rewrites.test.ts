@@ -8,6 +8,7 @@ const FLAC = `${BOOM}/boom.flac`;
 const MP3 = `${BOOM}/boom.master.mp3`;
 const NEW_FLAC = `${BOOM}/GENERATED%20-%20Boom!.flac`;
 const NEW_MP3 = `${BOOM}/GENERATED%20-%20Boom!.mp3`;
+const NEW_MP4 = `${BOOM}/GENERATED%20-%20Boom!.mp4`;
 
 const DOCUMENT = `---
 audio: ${FLAC}
@@ -52,6 +53,25 @@ explicit: false
         2_300_000,
       ),
       `audio: ${NEW_MP3}\nmp3:\n  bytes: 2300000\nexplicit: false\n`,
+    );
+  });
+
+  it('adds the stream after the mp3 block, and replaces one already stated', () => {
+    const streamed = rewriteSongDocument(DOCUMENT, [], 8_476_294, NEW_MP4);
+
+    assert.equal(
+      streamed,
+      DOCUMENT.replace(
+        '  bytes: 8476294\n',
+        `  bytes: 8476294\nstream: ${NEW_MP4}\n`,
+      ),
+    );
+    assert.equal(
+      rewriteSongDocument(streamed, [], 8_476_294, `${BOOM}/boom.mp4`),
+      DOCUMENT.replace(
+        '  bytes: 8476294\n',
+        `  bytes: 8476294\nstream: ${BOOM}/boom.mp4\n`,
+      ),
     );
   });
 

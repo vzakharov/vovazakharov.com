@@ -4,9 +4,10 @@
  *
  * Per repository, one commit: each song's master and MP3 copy, tagged from
  * the catalogue and checked to decode to the same audio, under every name a
- * page saves it as, and the README's mentions of the old names renamed. Then
- * each document's URLs point at the song's own name and `mp3.bytes` states
- * the tagged size.
+ * page saves it as; a FLAC master's MP4 rewrap, which the player streams; and
+ * the README's mentions of the old names renamed. Then each document's URLs
+ * point at the song's own name, `stream` at the rewrap, and `mp3.bytes`
+ * states the tagged size.
  *
  * `tag-renders.json` beside the songs records, per song, a hash of what its
  * files were built from — tags, cover, names — and every repository path the
@@ -71,7 +72,7 @@ function writeManifest(manifest: TagManifest): void {
   );
 }
 
-function jobHash({ tags, coverPath, files }: SongTagJob): string {
+function jobHash({ tags, coverPath, files, stream }: SongTagJob): string {
   return contentHash(
     JSON.stringify({
       tags,
@@ -80,6 +81,7 @@ function jobHash({ tags, coverPath, files }: SongTagJob): string {
           ? null
           : fs.readFileSync(coverPath).toString('base64'),
       names: files.map(({ directory, names }) => [directory, names]),
+      stream: stream ?? null,
     }),
   );
 }
@@ -91,6 +93,24 @@ const namedPaths = ({ directory, names }: MasterFile): string[] =>
 /** `<repo>/<path>` for each name the file is derived under. */
 const derivedPaths = (file: MasterFile): string[] =>
   namedPaths(file).map((at) => servedPath(file, at));
+
+/** The FLAC master a job's stream is rewrapped from, named as the stream. */
+function streamFile(job: SongTagJob): MasterFile | undefined {
+  const master = job.files.find(({ field }) => field === 'audio');
+
+  return job.stream === undefined || master === undefined
+    ? undefined
+    : { ...master, names: [job.stream] };
+}
+
+/** `<repo>/<path>` of every file the job derives: each master's names, then its stream. */
+function jobPaths(job: SongTagJob): string[] {
+  const stream = streamFile(job);
+
+  return [job.files, stream === undefined ? [] : [stream]]
+    .flat()
+    .flatMap((file) => derivedPaths(file));
+}
 
 /** The decoded audio's MD5, which tagging must leave as it was. */
 function audioMd5(file: string): string {
@@ -128,6 +148,45 @@ function tagFile(repo: MusicRepo, job: SongTagJob, file: MasterFile): Buffer {
   return tagged;
 }
 
+/**
+ * Copies a tagged FLAC's audio into MP4 and stages it as the job's stream:
+ * MP4 indexes every sample, which AVFoundation seeks exactly. The cover stays
+ * behind, and the decoded audio is checked to be the FLAC's.
+ */
+function stageStream(
+  repo: MusicRepo,
+  job: SongTagJob,
+  stream: MasterFile,
+  flac: Buffer,
+): void {
+  const local = path.join(MUSIC_WORK_DIR, `${job.slug}.stream`);
+  const [source, target] = [`${local}.flac`, `${local}.mp4`];
+
+  fs.writeFileSync(source, flac);
+  execFileSync('ffmpeg', [
+    '-v',
+    'error',
+    '-y',
+    '-i',
+    source,
+    '-map',
+    '0:a',
+    '-c:a',
+    'copy',
+    '-movflags',
+    '+faststart',
+    target,
+  ]);
+
+  if (audioMd5(target) !== audioMd5(source)) {
+    throw new Error(`Rewrapping ${job.slug}'s master changed its audio`);
+  }
+
+  stageBlob(repo, fs.readFileSync(target), namedPaths(stream));
+  fs.rmSync(source);
+  fs.rmSync(target);
+}
+
 function renameInReadme(repo: MusicRepo, jobs: readonly SongTagJob[]): void {
   if (!treePaths(repo).has(README)) return;
 
@@ -153,19 +212,25 @@ function repointDocument(job: SongTagJob, mp3Bytes: number): void {
       newUrl: rawUrl(file, file.names[0]),
     }))
     .filter(({ oldUrl, newUrl }) => oldUrl !== newUrl);
+  const stream = streamFile(job);
 
   fs.writeFileSync(
     document,
-    rewriteSongDocument(fs.readFileSync(document, 'utf8'), changes, mp3Bytes),
+    rewriteSongDocument(
+      fs.readFileSync(document, 'utf8'),
+      changes,
+      mp3Bytes,
+      stream && rawUrl(stream, stream.names[0]),
+    ),
   );
 }
 
-/** Two songs in one repository that a page would save under the same path. */
+/** Two songs in one repository that would publish a file at the same path. */
 function assertNoCollision(jobs: readonly SongTagJob[]): void {
   const holders = new Map<string, string>();
 
   for (const job of jobs) {
-    for (const derived of job.files.flatMap((file) => derivedPaths(file))) {
+    for (const derived of jobPaths(job)) {
       const holder = holders.get(derived);
 
       if (holder !== undefined && holder !== job.slug) {
@@ -218,16 +283,25 @@ function tagRepository(
   const mp3Bytes = new Map<string, number>();
 
   for (const job of jobs) {
+    const stream = streamFile(job);
+
     for (const file of job.files) {
       const tagged = tagFile(repo, job, file);
 
       if (file.extension === 'mp3') mp3Bytes.set(job.slug, tagged.length);
+      if (stream !== undefined && file.field === 'audio') {
+        stageStream(repo, job, stream, tagged);
+      }
     }
   }
 
   renameInReadme(repo, jobs);
   report(stagedSummary(repo));
-  commitStaged(repo, 'chore: name and tag the masters for download', !dryRun);
+  commitStaged(
+    repo,
+    'chore: name and tag the masters, rewrap the FLAC to stream',
+    !dryRun,
+  );
 
   // A dry run keeps the clone and its unpushed commit to look at.
   if (dryRun) return;
@@ -245,7 +319,7 @@ function tagRepository(
         ...new Set([
           ...(manifest[job.slug]?.paths ?? []),
           ...job.files.map((file) => servedPath(file, file.sourcePath)),
-          ...job.files.flatMap((file) => derivedPaths(file)),
+          ...jobPaths(job),
         ]),
       ].toSorted(),
     };
@@ -259,11 +333,7 @@ export function pruneSongs(slugs: readonly string[]): void {
   const manifest = readTagManifest();
 
   for (const [name, group] of byRepository(jobs)) {
-    const derived = new Set(
-      group.jobs.flatMap(({ files }) =>
-        files.flatMap((file) => derivedPaths(file)),
-      ),
-    );
+    const derived = new Set(group.jobs.flatMap((job) => jobPaths(job)));
     const recorded = group.jobs.flatMap(
       ({ slug }) => manifest[slug]?.paths ?? [],
     );

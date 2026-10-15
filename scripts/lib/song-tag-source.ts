@@ -51,6 +51,12 @@ export type SongTagJob = Pick<SongDocument, 'slug' | 'fileName'> & {
   /** On disk, the JPEG the song's page shows. */
   coverPath?: string;
   files: MasterFile[];
+  /**
+   * Where the master is a FLAC, the name its MP4 rewrap is published under
+   * beside it — what the player streams, AVFoundation seeking a bare FLAC by
+   * estimate. One Latin name: no page offers it for download.
+   */
+  stream?: string;
 };
 
 /** The locale whose page calls the song by its own name, the one it is sung in first. */
@@ -165,6 +171,9 @@ export function songTagJobs(publicDir: string): SongTagJob[] {
     if (files.length === 0) return [];
 
     const picture = songPicture(document);
+    const flac = files.some(
+      ({ field, extension }) => field === 'audio' && extension === 'flac',
+    );
 
     return [
       {
@@ -174,6 +183,13 @@ export function songTagJobs(publicDir: string): SongTagJob[] {
           coverPath: path.join(publicDir, picture),
         }),
         files,
+        ...(flac && {
+          stream: songFileName(
+            songBilling(document, ownLocale(document)),
+            'latin',
+            'mp4',
+          ),
+        }),
       },
     ];
   });
