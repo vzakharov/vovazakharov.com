@@ -6,11 +6,11 @@ language: en
 project: ['Downtemple']
 repo: 'love'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/love/master/love_master_2.flac
+audio: https://raw.githubusercontent.com/vovas-music/love/master/Downtemple%20-%20Love%20(Makes%20the%20World%20Go%20Round).flac
 seconds: 238
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/love/master/love_master_2.mp3
-  bytes: 9527488
+  url: https://raw.githubusercontent.com/vovas-music/love/master/Downtemple%20-%20Love%20(Makes%20the%20World%20Go%20Round).mp3
+  bytes: 9652353
 explicit: false
 ru:
   title:

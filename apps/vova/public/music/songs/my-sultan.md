@@ -5,11 +5,11 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'sultan'
-audio: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.flac
+audio: https://raw.githubusercontent.com/vovas-music/sultan/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9C%D0%BE%D0%B9%20%D0%A1%D1%83%D0%BB%D1%82%D0%B0%D0%BD.flac
 seconds: 232
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/sultan/main/sultan.master.mp3
-  bytes: 9270446
+  url: https://raw.githubusercontent.com/vovas-music/sultan/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9C%D0%BE%D0%B9%20%D0%A1%D1%83%D0%BB%D1%82%D0%B0%D0%BD.mp3
+  bytes: 9378501
 explicit: false
 album: father-river
 track: 3

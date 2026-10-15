@@ -32,4 +32,10 @@ export default {
     // without it every type they carry reads as `any` (f00deba).
     '@steiger/toolkit',
   ],
+  ignoreBinaries: [
+    // A system tool `scripts/lib/song-tagging.ts` decodes with, to prove tagging left
+    // the audio alone. No npm package stands in: the ones that ship it download the
+    // binary in an install script, which pnpm here does not run.
+    'ffmpeg',
+  ],
 } satisfies KnipConfig;

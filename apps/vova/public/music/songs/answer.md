@@ -5,11 +5,11 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'otvet'
-audio: https://raw.githubusercontent.com/vovas-music/rus-/main/3%20%D0%BE%D1%82%D0%B2%D0%B5%D1%82.flac
+audio: https://raw.githubusercontent.com/vovas-music/rus-/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9E%D1%82%D0%B2%D0%B5%D1%82.flac
 seconds: 291
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/rus-/main/3%20%D0%BE%D1%82%D0%B2%D0%B5%D1%82.mp3
-  bytes: 11642355
+  url: https://raw.githubusercontent.com/vovas-music/rus-/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9E%D1%82%D0%B2%D0%B5%D1%82.mp3
+  bytes: 11783334
 explicit: false
 album: who-is-happy-in-russia
 track: 3

@@ -7,11 +7,11 @@ project: ['Грёбаный бал']
 repo: 'yad'
 album: stronger-than-love
 track: 3
-audio: https://raw.githubusercontent.com/vovas-music/yad/main/%D0%AF%D0%B4_master2.flac
+audio: https://raw.githubusercontent.com/vovas-music/yad/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%AF%D0%B4.flac
 seconds: 235
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/yad/main/%D0%AF%D0%B4_master2.mp3
-  bytes: 9409408
+  url: https://raw.githubusercontent.com/vovas-music/yad/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%AF%D0%B4.mp3
+  bytes: 9413061
 explicit: false
 credits:
   music: ['My Chemical Romance']

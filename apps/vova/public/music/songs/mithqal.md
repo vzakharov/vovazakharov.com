@@ -8,11 +8,11 @@ language: ar
 project: ['GENERATED']
 repo: 'mithqal'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/mithqal/main/mithqal_rock_master.flac
+audio: https://raw.githubusercontent.com/vovas-music/mithqal/main/GENERATED%20-%20%D9%85%D9%90%D8%AB%D9%92%D9%82%D9%8E%D8%A7%D9%84.flac
 seconds: 243
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/mithqal/main/mithqal_rock_master.mp3
-  bytes: 9719735
+  url: https://raw.githubusercontent.com/vovas-music/mithqal/main/GENERATED%20-%20%D9%85%D9%90%D8%AB%D9%92%D9%82%D9%8E%D8%A7%D9%84.mp3
+  bytes: 9809489
 explicit: false
 en:
   title:

@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'horizons'
-audio: https://raw.githubusercontent.com/vovas-music/horizons/main/horizons_master.flac
+audio: https://raw.githubusercontent.com/vovas-music/horizons/main/GENERATED%20-%20Horizons.flac
 seconds: 168
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/horizons/main/horizons_master.mp3
-  bytes: 6722958
+  url: https://raw.githubusercontent.com/vovas-music/horizons/main/GENERATED%20-%20Horizons.mp3
+  bytes: 6820885
 explicit: false
 album: ghosts-of-flesh
 track: 10

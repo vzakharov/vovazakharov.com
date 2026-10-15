@@ -6,11 +6,11 @@ language: en
 project: ['GENERATED']
 repo: 'nightmares'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/nightmares/main/nightmares_rock.flac
+audio: https://raw.githubusercontent.com/vovas-music/nightmares/main/GENERATED%20-%20In%20the%20Shadow.flac
 seconds: 298
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nightmares/main/nightmares_rock.mp3
-  bytes: 11910882
+  url: https://raw.githubusercontent.com/vovas-music/nightmares/main/GENERATED%20-%20In%20the%20Shadow.mp3
+  bytes: 11914145
 explicit: false
 ru:
   title:

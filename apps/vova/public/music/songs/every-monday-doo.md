@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'monday_doo'
-audio: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.flac
+audio: https://raw.githubusercontent.com/vovas-music/monday_doo/main/Yoohie%20-%20Every%20Monday.flac
 seconds: 214
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/monday_doo/main/monday_doo.mp3
-  bytes: 8572429
+  url: https://raw.githubusercontent.com/vovas-music/monday_doo/main/Yoohie%20-%20Every%20Monday.mp3
+  bytes: 8733663
 explicit: false
 album: ctfu
 track: 6

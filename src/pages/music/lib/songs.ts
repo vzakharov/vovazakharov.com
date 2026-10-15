@@ -5,7 +5,11 @@ import {
   SONGS,
 } from '@/shared/content';
 import { byLocale, isLocale, type Locale } from '@/shared/i18n';
-import { type MusicAlbum, songTitle } from '@/shared/music-catalogue';
+import {
+  type MusicAlbum,
+  type SongBilling,
+  songTitle,
+} from '@/shared/music-catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
 import { projectName } from './artists';
@@ -132,6 +136,23 @@ export function songTrack(
     routes: byLocale((locale) =>
       songPath(songPageSlug(document, album), locale),
     ),
+  };
+}
+
+/** Who the song is billed to and what it is called, as the locale's page spells them. */
+export function songBilling(
+  { frontmatter, fileName }: SongDocument,
+  locale: Locale,
+): SongBilling {
+  const [artist, ...features] = frontmatter.project.map((project) =>
+    projectName(project, locale),
+  );
+
+  if (artist === undefined) throw new Error(`${fileName} bills no artist.`);
+
+  return {
+    artists: [artist, ...features],
+    title: songTitle(frontmatter, locale),
   };
 }
 

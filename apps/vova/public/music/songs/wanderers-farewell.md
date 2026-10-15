@@ -6,11 +6,11 @@ status: done
 language: instrumental
 project: ['Полуживые', 'GENERATED']
 repo: 'vagabond_album'
-audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-007.flac
+audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Wanderer%E2%80%99s%20Farewell%20feat.%20GENERATED.flac
 seconds: 266
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-007.mp3
-  bytes: 10642415
+  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Wanderer%E2%80%99s%20Farewell%20feat.%20GENERATED.mp3
+  bytes: 10740374
 explicit: false
 album: vagabond
 track: 7

@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'entropy-end'
-audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/9.%20Grand%20Finale%20(In%20Entropy%20We%20Trust).flac
+audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Grand%20Finale%20(In%20Entropy%20We%20Trust).flac
 seconds: 240
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/9.%20Grand%20Finale%20(In%20Entropy%20We%20Trust).mp3
-  bytes: 9620486
+  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20Grand%20Finale%20(In%20Entropy%20We%20Trust).mp3
+  bytes: 9690335
 explicit: false
 album: divine-discontent
 track: 9

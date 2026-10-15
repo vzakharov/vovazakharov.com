@@ -80,10 +80,14 @@ one-word genre (`requiem`). An album's slug follows the same rule.
 
 **A song's audio lives in its `vovas-music` repository**:
 `scripts/song-intake/CLAUDE.md` § "A song's repository" says what it holds,
-where a change to its mix or master is made, and how a new song gets one.
-**Audio and lyrics a song arrives without** — an album file to split, lyrics to
-hear off the recording, a mix to master — are `scripts/song-intake/CLAUDE.md`'s,
-read before touching the audio.
+where a change to its mix or master is made, and how a new song gets one. **A
+master's file names and tags are derived from the frontmatter** by
+`pnpm music:masters tag`, `<Artist> - <Title>` in each spelling the song's pages
+show: a title, billing, album, credit, lyric or cover edit leaves them stale,
+which `pnpm music:masters check` in vet reports and the build fails on once the
+name moves, until the song is re-run. **Audio and lyrics a song arrives
+without** — an album file to split, lyrics to hear off the recording, a mix to
+master — are `scripts/song-intake/CLAUDE.md`'s, read before touching the audio.
 
 **A song publishes whatever it has.** Its `hook` is optional, in both locales or
 neither: the line under the song's name that makes someone press play — a

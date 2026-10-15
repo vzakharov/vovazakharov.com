@@ -6,11 +6,11 @@ status: done
 language: instrumental
 project: ['GENERATED']
 repo: 'inter'
-audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/9_intermezzo.flac
+audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/GENERATED%20-%20Intermezzo.flac
 seconds: 172
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/psch_album/main/9_intermezzo.mp3
-  bytes: 6882830
+  url: https://raw.githubusercontent.com/vovas-music/psch_album/main/GENERATED%20-%20Intermezzo.mp3
+  bytes: 6961043
 explicit: false
 album: pschpthy
 track: 9
