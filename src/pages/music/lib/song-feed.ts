@@ -20,11 +20,7 @@ import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
 import { universeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
 import { songDownloads } from './song-downloads';
-<<<<<<< HEAD
 import { mp3Url } from './song-names';
-=======
-import { mp3Url } from './song-files';
->>>>>>> origin/main
 import {
   type LocalizedSongDocument,
   localizeSong,
@@ -96,26 +92,14 @@ async function songContent(
 }
 
 function songEpisode(document: SongDocument): FeedEntry['episode'] {
-<<<<<<< HEAD
   const { mp3Bytes, seconds, explicit } = document.frontmatter;
-=======
-  const { frontmatter } = document;
-  const { mp3, seconds, explicit } = frontmatter;
->>>>>>> origin/main
   const picture = songPicture(document);
   const url = mp3Url(document);
 
   assertWritten(document, [url]);
 
   return {
-<<<<<<< HEAD
     enclosure: { url, bytes: mp3Bytes },
-=======
-    enclosure: {
-      url: absoluteUrl(mp3Url(frontmatter)),
-      ...pick(mp3, 'bytes'),
-    },
->>>>>>> origin/main
     seconds,
     explicit,
     ...(picture === undefined ? {} : { image: absoluteUrl(picture) }),

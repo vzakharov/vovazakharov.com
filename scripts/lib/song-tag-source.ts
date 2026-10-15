@@ -116,7 +116,7 @@ export function songTagJobs(publicDir: string): SongTagJob[] {
         names: savedNames(document, extension),
       })),
       ...(!frontmatter.lossy && {
-        stream: playedName(frontmatter, songBilling(document, 'en')),
+        stream: playedName(frontmatter, songBilling(document, 'en'), true),
       }),
     };
   });

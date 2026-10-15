@@ -159,24 +159,9 @@ export type AlbumPlacement = z.infer<typeof placementSchema>;
 /** A URL, or a site-root path for a file the site hosts itself. */
 const mediaSourceSchema = z.union([z.url(), z.string().regex(/^\/(?!\/)/)]);
 
-<<<<<<< HEAD
-/** What the player needs of a song beside the file it plays. */
+/** What the player needs of a song beside the files it plays. */
 const playableSchema = z.object({
   /**
-=======
-function isMp3(audio: string): boolean {
-  return audio.toLowerCase().endsWith('.mp3');
-}
-
-/** What the player takes of a song as stated; its MP3 is resolved from `mp3`. */
-const playableSchema = z.object({
-  /**
-   * The master, played where the reader asks for lossless — site-hosted where
-   * no repository holds it.
-   */
-  audio: mediaSourceSchema,
-  /**
->>>>>>> origin/main
    * The master's duration, read off its own FLAC header by the scaffolder. A
    * cache, and safe to be one because a master never changes — it is what lets
    * the track list render complete HTML with nothing fetched in the browser.

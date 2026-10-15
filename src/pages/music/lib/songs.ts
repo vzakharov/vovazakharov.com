@@ -16,11 +16,7 @@ import { projectName } from './artists';
 import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill } from './projects';
-<<<<<<< HEAD
 import { playedName, songUrl } from './song-files';
-=======
-import { mp3Url } from './song-files';
->>>>>>> origin/main
 import type { SongDocument, SongOnRelease } from './song-text';
 import { assertWritten } from './written-guard';
 
@@ -125,17 +121,18 @@ export function songTrack(
 ): PlayerTrack {
   const { slug, frontmatter } = document;
   const { seconds, explicit, segue, project } = frontmatter;
-  const audio = songUrl(
-    frontmatter,
-    playedName(frontmatter, songBilling(document, 'en')),
-  );
+  const english = songBilling(document, 'en');
+  const played = (lossless: boolean) =>
+    songUrl(frontmatter, playedName(frontmatter, english, lossless));
+  const audio = played(true);
+  const mp3 = played(false);
 
-  assertWritten(document, [audio]);
+  assertWritten(document, [audio, mp3]);
 
   return {
     slug,
     audio,
-    mp3: mp3Url(frontmatter),
+    mp3,
     seconds,
     explicit,
     segue,

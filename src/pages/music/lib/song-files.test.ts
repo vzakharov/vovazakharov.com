@@ -43,11 +43,25 @@ describe('songFiles', () => {
 });
 
 describe('playedName', () => {
-  it('streams a FLAC master’s MP4 rewrap and an MP3 master as it is, in Latin letters', () => {
+  it('streams a FLAC master’s MP4 rewrap for lossless and its MP3 otherwise, in Latin letters', () => {
     assert.equal(
-      playedName({ lossy: false }, SNOW),
+      playedName({ lossy: false }, SNOW, true),
       'Poluzhivye - Sneg idyot.mp4',
     );
-    assert.equal(playedName({ lossy: true }, BOOM), 'GENERATED - Boom!.mp3');
+    assert.equal(
+      playedName({ lossy: false }, SNOW, false),
+      'Poluzhivye - Sneg idyot.mp3',
+    );
+  });
+
+  it('streams an MP3 master as it is either way', () => {
+    assert.equal(
+      playedName({ lossy: true }, BOOM, true),
+      'GENERATED - Boom!.mp3',
+    );
+    assert.equal(
+      playedName({ lossy: true }, BOOM, false),
+      'GENERATED - Boom!.mp3',
+    );
   });
 });
