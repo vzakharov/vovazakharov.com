@@ -121,13 +121,72 @@
   @include range;
 }
 
-// Upright, the loud end at the top.
+.volumeDropdown {
+  padding: 12px 10px;
+  border-radius: 12px;
+}
+
+@mixin volume-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-background);
+  box-shadow: 0 0 0 1px var(--color-foreground);
+}
+
+// Upright, the loud end at the top, and filled up to the thumb: WebKit has no
+// part for the filled stretch, so the track paints it from `--fill`.
 .volumeBar {
   @include range;
 
-  inline-size: 120px;
+  inline-size: 128px;
   direction: rtl;
   writing-mode: vertical-lr;
+
+  &::-webkit-slider-runnable-track {
+    background: linear-gradient(
+      to top,
+      var(--color-foreground) var(--fill),
+      var(--color-border-hairline-strong) var(--fill)
+    );
+  }
+
+  &::-moz-range-progress {
+    block-size: 4px;
+    background: var(--color-foreground);
+    border-radius: 2px;
+  }
+
+  &::-webkit-slider-thumb {
+    @include volume-thumb;
+
+    margin-block-start: -5px;
+  }
+
+  &::-moz-range-thumb {
+    @include volume-thumb;
+  }
+}
+
+.volumeReadout {
+  font-variant-numeric: tabular-nums;
+}
+
+// Letterspaced caps in a soft rectangle, set apart from the round transport
+// buttons as a setting rather than an action.
+.losslessChip {
+  height: 24px;
+  padding: 0 8px;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
+  border: 1px solid var(--color-border-hairline-strong);
+  border-radius: 6px;
+
+  &[aria-pressed='true'] {
+    border-color: var(--color-foreground);
+  }
 }
 
 .trackText {

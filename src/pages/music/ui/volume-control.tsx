@@ -1,6 +1,13 @@
 'use client';
 
-import { ActionIcon, Popover, Stack, Text } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Popover,
+  Stack,
+  Text,
+  UnstyledButton,
+} from '@mantine/core';
 import { Volume1, Volume2, VolumeX } from 'lucide-react';
 import {
   type PointerEvent,
@@ -105,11 +112,8 @@ function LosslessToggle() {
   const [lossless, setLossless] = useStoredSetting('lossless');
 
   return (
-    <ActionIcon
-      variant="default"
-      size="lg"
-      radius="xl"
-      className={cx(lossless && classes['controlOn'])}
+    <UnstyledButton
+      className={cx(classes['losslessChip'], lossless && classes['controlOn'])}
       onClick={() => {
         setLossless(!lossless);
       }}
@@ -117,10 +121,8 @@ function LosslessToggle() {
       aria-pressed={lossless}
       title={labels.lossless}
     >
-      <Text component="span" size="xs" fw={700}>
-        HQ
-      </Text>
-    </ActionIcon>
+      HQ
+    </UnstyledButton>
   );
 }
 
@@ -156,12 +158,14 @@ export function VolumeControl() {
           <VolumeIcon {...{ volume }} />
         </ActionIcon>
       </Popover.Target>
-      <Popover.Dropdown p={8} {...hover}>
-        <Stack gap={8} align="center">
+      <Popover.Dropdown className={classes['volumeDropdown']} {...hover}>
+        <Stack gap={10} align="center">
           <LosslessToggle />
-          <input
+          <Box
+            component="input"
             type="range"
             className={classes['volumeBar']}
+            style={{ '--fill': `${volume * 100}%` }}
             min={0}
             max={1}
             step={0.01}
@@ -172,6 +176,9 @@ export function VolumeControl() {
             aria-label={labels.volume}
             aria-orientation="vertical"
           />
+          <Text size="xs" opacity={0.6} className={classes['volumeReadout']}>
+            {Math.round(volume * 100)}
+          </Text>
         </Stack>
       </Popover.Dropdown>
     </Popover>
