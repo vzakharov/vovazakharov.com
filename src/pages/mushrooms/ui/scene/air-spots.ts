@@ -53,8 +53,6 @@ export const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
   Array.from({ length: INSECT_LIMITS[kind] }, () => kind),
 );
 
-/** What of a layout the air is laid by: the insects' sizes are the camera's. */
-
 /**
  * One spot in the air: its id, where on the layout's screen it is laid out
  * (`x`, `y`, `fromEye`, what a leg is timed by), where in the world it stands,

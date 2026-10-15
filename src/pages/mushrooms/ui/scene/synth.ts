@@ -8,8 +8,8 @@ export const PENTATONIC = [
   523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66,
 ];
 
-/** An oscillator's waveform, and how loud it gets. */
 type Peaked = { peak: number };
+/** An oscillator's waveform, and how loud it gets. */
 export type Voiced = Peaked & { shape: OscillatorType };
 /** How long it sounds, in seconds. */
 type Lasting = { lasts: number };
