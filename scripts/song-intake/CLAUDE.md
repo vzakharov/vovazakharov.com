@@ -112,14 +112,14 @@ organization**, named in the frontmatter's `repo:`, whose `main` serves every
 file the site links at its root, under the names `pnpm music:masters tag` gives
 them. It holds what the master was made from and how: the mix
 (`<slug>_mix.mp3`), the master — and, where that master is a FLAC, its MP3 copy,
-which the songs feeds and downloads serve, `<stem>.master.mp3`
+which the songs feeds, downloads and player serve, `<stem>.master.mp3`
 (`ffmpeg -i <stem>.flac -map 0:a -c:a libmp3lame -b:a 320k`), which
 `music:scaffold` reads, and the MP4 rewrap the tag run makes of it, which the
-player plays — the video where there is one, `mastering/` — `master.py`,
-`spectrum.py` and `requirements.txt` copied from here — and a README naming each
-file, the command that made the master and its reference, linked at a commit
-rather than copied when another repository there holds it. `vovas-music/birds`
-is the pattern.
+player plays for a reader asking for lossless — the video where there is one,
+`mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied from
+here — and a README naming each file, the command that made the master and its
+reference, linked at a commit rather than copied when another repository there
+holds it. `vovas-music/birds` is the pattern.
 
 - **Every read and write of these repositories goes through
   `pnpm music:masters`** (`scripts/masters.ts`, its header the usage), never a
