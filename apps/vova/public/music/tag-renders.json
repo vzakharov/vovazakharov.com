@@ -44,7 +44,7 @@
     ]
   },
   "after-us": {
-    "hash": "f2971916d379",
+    "hash": "690574ba11e9",
     "paths": [
       "after-us/after-us.mp3",
       "after-us/za_oblozhkoy - Posle nas.mp3",
@@ -186,7 +186,7 @@
     ]
   },
   "birds": {
-    "hash": "18d1f92a162b",
+    "hash": "3595aaf05d06",
     "paths": [
       "birds/birds.mp3",
       "birds/za_oblozhkoy - Ptitsy.mp3",
@@ -728,7 +728,7 @@
     ]
   },
   "hello": {
-    "hash": "34ef9de78ab4",
+    "hash": "02cdb3ac3cd9",
     "paths": [
       "hello/hello.mp3",
       "hello/za_oblozhkoy - Zdravstvuy.mp3",
@@ -736,7 +736,7 @@
     ]
   },
   "hello-human": {
-    "hash": "539929b639f4",
+    "hash": "587dc8aa179c",
     "paths": [
       "machines/GENERATED - Hello, Human.mp3",
       "machines/protintro.mp3"
@@ -943,7 +943,7 @@
     ]
   },
   "intertwined": {
-    "hash": "26f26f1e28c4",
+    "hash": "238f6e8cdbbc",
     "paths": [
       "intertwined/intertwined.mp3",
       "intertwined/za_oblozhkoy - Pereplelosʼ.mp3",
@@ -975,7 +975,7 @@
     ]
   },
   "just-because": {
-    "hash": "1cddca53f1fa",
+    "hash": "b605c0bfcb75",
     "paths": [
       "just-because/just-because.mp3",
       "just-because/za_oblozhkoy - Prosto tak.mp3",
@@ -1071,7 +1071,7 @@
     ]
   },
   "listen": {
-    "hash": "73fd445de125",
+    "hash": "404caa5a048d",
     "paths": [
       "listen/listen.mp3",
       "listen/za_oblozhkoy - Poslushayte.mp3",
@@ -1079,7 +1079,7 @@
     ]
   },
   "listen-single": {
-    "hash": "cba9e6954ea6",
+    "hash": "ab39fc460cd5",
     "paths": [
       "listen-single/listen-single.mp3",
       "listen-single/za_oblozhkoy - Poslushayte (Single Version).mp3",
@@ -1321,7 +1321,7 @@
     ]
   },
   "our-punk-rock": {
-    "hash": "6fea194c25f4",
+    "hash": "d3d9f94c6e7e",
     "paths": [
       "our-punk-rock/our-punk-rock.mp3",
       "our-punk-rock/za_oblozhkoy - Nash pank-rok.mp3",
@@ -1329,7 +1329,7 @@
     ]
   },
   "our-story": {
-    "hash": "1be3f013a683",
+    "hash": "972d2065cef2",
     "paths": [
       "our-story/our-story.mp3",
       "our-story/za_oblozhkoy - Nasha istoriya.mp3",
@@ -1615,7 +1615,7 @@
     ]
   },
   "sorry": {
-    "hash": "4dad9c18d7cb",
+    "hash": "c93a9f8ce00f",
     "paths": [
       "sorry/sorry.mp3",
       "sorry/za_oblozhkoy - Prosti.mp3",
@@ -1835,7 +1835,7 @@
     ]
   },
   "world-as-it-is": {
-    "hash": "29f6ae2d4396",
+    "hash": "315e6d09709d",
     "paths": [
       "world-as-it-is/world-as-it-is.mp3",
       "world-as-it-is/za_oblozhkoy - Mir, kakoy on yestʼ.mp3",
