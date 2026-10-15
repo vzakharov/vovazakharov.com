@@ -64,9 +64,15 @@
   font-variant-numeric: tabular-nums;
 }
 
-// A mixin rather than one `::-webkit-slider-thumb, ::-moz-range-thumb` rule:
+// Mixins rather than one `::-webkit-slider-thumb, ::-moz-range-thumb` rule:
 // each browser discards a whole rule naming a pseudo-element it does not know,
-// so a shared selector list would style the thumb in no browser at all.
+// so a shared selector list would style the part in no browser at all.
+@mixin track {
+  height: 4px;
+  background: var(--color-border-hairline-strong);
+  border-radius: 2px;
+}
+
 @mixin thumb {
   width: 12px;
   height: 12px;
@@ -75,18 +81,29 @@
   border-radius: 50%;
 }
 
+// The input is the touch target and the track the line it draws, so a thumb
+// aimed at the line from above lands on it rather than on the buttons over it.
 .seekBar {
   @include fill;
 
-  height: 4px;
+  height: 32px;
   cursor: pointer;
-  background: var(--color-border-hairline-strong);
-  border-radius: 2px;
+  background: none;
   appearance: none;
 
+  &::-webkit-slider-runnable-track {
+    @include track;
+  }
+
+  &::-moz-range-track {
+    @include track;
+  }
+
+  // WebKit hangs the thumb off the track's top edge rather than centring it.
   &::-webkit-slider-thumb {
     @include thumb;
 
+    margin-top: -4px;
     appearance: none;
   }
 
@@ -112,7 +129,7 @@
 // with. Clearance is the bar's own concern, which is why the provider renders
 // this rather than every page under `/music` knowing the bar's height.
 .playerClearance {
-  height: 124px;
+  height: 144px;
 
   @include mantine.larger-than(mantine.$breakpoint-sm) {
     height: 96px;
