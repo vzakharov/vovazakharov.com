@@ -10,6 +10,7 @@ seconds: 238
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20The%20Ultimate%20Abstraction.mp3
   bytes: 9609597
+stream: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/GENERATED%20-%20The%20Ultimate%20Abstraction.mp4
 explicit: false
 album: divine-discontent
 track: 6

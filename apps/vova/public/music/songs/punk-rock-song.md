@@ -10,6 +10,7 @@ seconds: 218
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/prs/main/Yoohie%20-%20Punk%20Rock%20Song%20(At%2040).mp3
   bytes: 8884496
+stream: https://raw.githubusercontent.com/vovas-music/prs/main/Yoohie%20-%20Punk%20Rock%20Song%20(At%2040).mp4
 explicit: true
 album: ctfu
 track: 8

@@ -10,6 +10,7 @@ seconds: 204
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/succumb/main/GENERATED%20-%20Succumb%20to%20Me.mp3
   bytes: 8237014
+stream: https://raw.githubusercontent.com/vovas-music/succumb/main/GENERATED%20-%20Succumb%20to%20Me.mp4
 explicit: false
 album: pschpthy
 track: 4

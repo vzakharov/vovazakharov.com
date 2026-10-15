@@ -384,10 +384,11 @@
     ]
   },
   "crossroads": {
-    "hash": "208e6bea20e2",
+    "hash": "1b47bc71c68d",
     "paths": [
       "crossroads/GENERATED - Crossroads feat. Yoohie.flac",
       "crossroads/GENERATED - Crossroads feat. Yoohie.mp3",
+      "crossroads/GENERATED - Crossroads feat. Yoohie.mp4",
       "crossroads/GENERATED - Crossroads feat. Йухи.flac",
       "crossroads/GENERATED - Crossroads feat. Йухи.mp3",
       "crossroads/crossroads.flac",
@@ -1036,12 +1037,13 @@
     ]
   },
   "lets-fly": {
-    "hash": "5bcd6a7649cb",
+    "hash": "7dc66762b1b9",
     "paths": [
       "letim/letim.flac",
       "letim/letim.mp3",
       "letim/za_oblozhkoy - Letim feat. GENERATED.flac",
       "letim/za_oblozhkoy - Letim feat. GENERATED.mp3",
+      "letim/za_oblozhkoy - Letim feat. GENERATED.mp4",
       "letim/за_обложкой - Летим feat. GENERATED.flac",
       "letim/за_обложкой - Летим feat. GENERATED.mp3"
     ]
@@ -1309,10 +1311,11 @@
     ]
   },
   "other-heart": {
-    "hash": "95bc9024393a",
+    "hash": "4ad2435c3013",
     "paths": [
       "heart/GENERATED - The Other Heart.flac",
       "heart/GENERATED - The Other Heart.mp3",
+      "heart/GENERATED - The Other Heart.mp4",
       "heart/heart_new.flac",
       "heart/heart_new.mp3"
     ]
@@ -1354,10 +1357,11 @@
     ]
   },
   "peta": {
-    "hash": "18beda9ec868",
+    "hash": "0b0fd8917024",
     "paths": [
       "peta/GENERATED - Robots for the Ethical Treatment of Humans.flac",
       "peta/GENERATED - Robots for the Ethical Treatment of Humans.mp3",
+      "peta/GENERATED - Robots for the Ethical Treatment of Humans.mp4",
       "peta/peta_master.flac",
       "peta/peta_master.mp3"
     ]
@@ -1431,10 +1435,11 @@
     ]
   },
   "punk-rock-song": {
-    "hash": "3420b31d4961",
+    "hash": "5a7ae4598e9e",
     "paths": [
       "prs/Yoohie - Punk Rock Song (At 40).flac",
       "prs/Yoohie - Punk Rock Song (At 40).mp3",
+      "prs/Yoohie - Punk Rock Song (At 40).mp4",
       "prs/prs40.flac",
       "prs/prs40.mp3",
       "prs/Йухи - Punk Rock Song (At 40).flac",
@@ -1454,10 +1459,11 @@
     ]
   },
   "rebels-between-the-lines": {
-    "hash": "b1e704e5ad7b",
+    "hash": "92f1e0442ae5",
     "paths": [
       "rebels/Yoohie - Rebels Between the Lines (Live in Sparta).flac",
       "rebels/Yoohie - Rebels Between the Lines (Live in Sparta).mp3",
+      "rebels/Yoohie - Rebels Between the Lines (Live in Sparta).mp4",
       "rebels/rebels_master1.flac",
       "rebels/rebels_master1.mp3",
       "rebels/Йухи - Rebels Between the Lines (Live in Sparta).flac",
@@ -1465,10 +1471,11 @@
     ]
   },
   "requiem": {
-    "hash": "1de4ebe7955a",
+    "hash": "5a0ca98aff69",
     "paths": [
       "requiem/Damy i gospoda - Uzh skolʼko ikh upalo v etu bezdnu… feat. Poluzhivye.flac",
       "requiem/Damy i gospoda - Uzh skolʼko ikh upalo v etu bezdnu… feat. Poluzhivye.mp3",
+      "requiem/Damy i gospoda - Uzh skolʼko ikh upalo v etu bezdnu… feat. Poluzhivye.mp4",
       "requiem/requiem_master.flac",
       "requiem/requiem_master.mp3",
       "requiem/Дамы и господа - Уж сколько их упало в эту бездну… feat. Полуживые.flac",
@@ -1500,12 +1507,13 @@
     ]
   },
   "river-part-two": {
-    "hash": "336fd686d068",
+    "hash": "6e0c570a6938",
     "paths": [
       "papa-reka/4_reka.flac",
       "papa-reka/4_reka.mp3",
       "papa-reka/Poluzhivye - Reka. Chastʼ vtoraya.flac",
       "papa-reka/Poluzhivye - Reka. Chastʼ vtoraya.mp3",
+      "papa-reka/Poluzhivye - Reka. Chastʼ vtoraya.mp4",
       "papa-reka/Полуживые - Река. Часть вторая.flac",
       "papa-reka/Полуживые - Река. Часть вторая.mp3"
     ]
@@ -1559,12 +1567,13 @@
     ]
   },
   "smoke": {
-    "hash": "090c58a9c1b4",
+    "hash": "4f664da40373",
     "paths": [
       "dym/dym_master_new.flac",
       "dym/dym_master_new.mp3",
       "dym/za_oblozhkoy - Dym.flac",
       "dym/za_oblozhkoy - Dym.mp3",
+      "dym/za_oblozhkoy - Dym.mp4",
       "dym/за_обложкой - Дым.flac",
       "dym/за_обложкой - Дым.mp3"
     ]
@@ -1648,10 +1657,11 @@
     ]
   },
   "succumb-to-me": {
-    "hash": "69112394e0b0",
+    "hash": "def8cae8f398",
     "paths": [
       "succumb/GENERATED - Succumb to Me.flac",
       "succumb/GENERATED - Succumb to Me.mp3",
+      "succumb/GENERATED - Succumb to Me.mp4",
       "succumb/succumb.flac",
       "succumb/succumb.mp3"
     ]
@@ -1711,12 +1721,13 @@
     ]
   },
   "ultimate-abstraction": {
-    "hash": "9eda0d1aaaac",
+    "hash": "e32a5edc469a",
     "paths": [
       "Divine-Discontent--album-/6. The Ultimate Abstraction.flac",
       "Divine-Discontent--album-/6. The Ultimate Abstraction.mp3",
       "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.flac",
-      "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.mp3"
+      "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.mp3",
+      "Divine-Discontent--album-/GENERATED - The Ultimate Abstraction.mp4"
     ]
   },
   "undone": {
@@ -1730,10 +1741,11 @@
     ]
   },
   "unforgiven-iv": {
-    "hash": "5f5a077d4f91",
+    "hash": "0792715e02a4",
     "paths": [
       "u4/GENERATED - Unforgiven IV.flac",
       "u4/GENERATED - Unforgiven IV.mp3",
+      "u4/GENERATED - Unforgiven IV.mp4",
       "u4/u4_new.flac",
       "u4/u4_new.mp3"
     ]
