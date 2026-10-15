@@ -14,9 +14,7 @@
  * runs read or wrote, as `<repo>/<path>`. A song is stale while its hash
  * differs or a path it derives was never recorded, which makes an
  * interrupted run resumable and a song moved to another repository a song to
- * tag. Its files are read from its own repository under a name it derives,
- * else from a path recorded with their extension, in whichever repository
- * holds it — an album's, before the move. `prune` deletes the recorded paths
+ * tag. `prune` deletes the recorded paths
  * no song derives any more, and runs only once the site serving the new names
  * has deployed.
  *
@@ -25,19 +23,14 @@
  * `ffmpeg`.
  */
 
-import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
 import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
-import { contentHash } from '@/shared/content/content-hash';
-import { pick } from '@/shared/lib/collections';
 
 import { servedPath } from '@/pages/music/lib/master-url';
-import { extensionOf } from '@/pages/music/lib/song-files';
 import {
   readTagManifest,
-  TAG_MANIFEST,
   type TagManifest,
   writeTagManifest,
 } from '@/pages/music/lib/tag-manifest';
@@ -55,164 +48,23 @@ import {
   treePaths,
   unstagePaths,
 } from './music-repo.ts';
-import { renameMentions, rewriteMp3Bytes } from './song-tag-rewrites.ts';
+import { stageStream, tagFile } from './song-tag-audio.ts';
 import {
-  type MasterFile,
-  type SongTagJob,
-  songTagJobs,
-} from './song-tag-source.ts';
-import { writeSongTags } from './song-tag-writer.ts';
+  assertNoCollision,
+  jobHash,
+  jobPaths,
+  parseServed,
+  type Served,
+  sourceOf,
+  streamFile,
+} from './song-tag-paths.ts';
+import { renameMentions, rewriteMp3Bytes } from './song-tag-rewrites.ts';
+import { type SongTagJob, songTagJobs } from './song-tag-source.ts';
 
 const README = 'README.md';
 
-/** A file in a repository, as `tag-renders.json` records it. */
-type Served = { repo: string; path: string };
-
 function report(line: string): void {
   process.stdout.write(`${line}\n`);
-}
-
-function jobHash({ home, tags, coverPath, files, stream }: SongTagJob): string {
-  return contentHash(
-    JSON.stringify({
-      tags,
-      cover:
-        coverPath === undefined
-          ? null
-          : fs.readFileSync(coverPath).toString('base64'),
-      names: files.map(({ names }) => [home.directory, names]),
-      stream: stream ?? null,
-    }),
-  );
-}
-
-/** `<repo>/<path>` for each name the file is derived under. */
-const derivedPaths = ({ home }: SongTagJob, { names }: MasterFile): string[] =>
-  names.map((name) => servedPath(home, name));
-
-/** The FLAC master a job's stream is rewrapped from, named as the stream. */
-function streamFile(job: SongTagJob): MasterFile | undefined {
-  const master = job.files.find(({ extension }) => extension === 'flac');
-
-  return job.stream === undefined || master === undefined
-    ? undefined
-    : { ...master, extension: 'mp4', names: [job.stream] };
-}
-
-/** `<repo>/<path>` of every file the job derives, its stream included. */
-function jobPaths(job: SongTagJob): string[] {
-  const stream = streamFile(job);
-
-  return [job.files, stream === undefined ? [] : [stream]]
-    .flat()
-    .flatMap((file) => derivedPaths(job, file));
-}
-
-function parseServed(at: string): Served {
-  const slash = at.indexOf('/');
-
-  return { repo: at.slice(0, slash), path: at.slice(slash + 1) };
-}
-
-/**
- * Where the file's current bytes are: under a name it derives in the song's
- * own repository, else at a path a run recorded with its extension, the
- * song's own repository first.
- */
-function sourceOf(
-  job: SongTagJob,
-  file: MasterFile,
-  held: ReadonlySet<string>,
-  recorded: readonly string[],
-): Served {
-  const own = file.names.find((name) => held.has(name));
-
-  if (own !== undefined) return { ...pick(job.home, 'repo'), path: own };
-
-  const sources = recorded
-    .map((at) => parseServed(at))
-    .filter(({ path: at }) => extensionOf(at) === file.extension);
-  const source =
-    sources.find(({ repo }) => repo === job.home.repo) ?? sources[0];
-
-  if (source === undefined) {
-    throw new Error(
-      `${job.fileName}: no ${file.extension} under its names in ${job.home.repo}, and none recorded in ${TAG_MANIFEST}`,
-    );
-  }
-
-  return source;
-}
-
-/** The decoded audio's MD5, which tagging must leave as it was. */
-function audioMd5(file: string): string {
-  return execFileSync(
-    'ffmpeg',
-    ['-v', 'error', '-i', file, '-map', '0:a', '-f', 'md5', '-'],
-    { encoding: 'utf8' },
-  ).trim();
-}
-
-/** Tags one file's bytes and stages them under its names; the tagged bytes. */
-function tagFile(
-  repo: MusicRepo,
-  job: SongTagJob,
-  file: MasterFile,
-  source: Buffer,
-): Buffer {
-  const local = path.join(MUSIC_WORK_DIR, `${job.slug}.${file.extension}`);
-
-  fs.writeFileSync(local, source);
-
-  const before = audioMd5(local);
-
-  writeSongTags(local, job.tags, job.coverPath);
-
-  if (audioMd5(local) !== before) {
-    throw new Error(`Tagging ${job.slug}'s ${file.extension} changed its audio`);
-  }
-
-  const tagged = fs.readFileSync(local);
-
-  fs.rmSync(local);
-  stageBlob(repo, tagged, file.names);
-
-  return tagged;
-}
-
-/** Stages a tagged FLAC's audio, copied into MP4, as the job's stream; the cover stays behind. */
-function stageStream(
-  repo: MusicRepo,
-  job: SongTagJob,
-  stream: MasterFile,
-  flac: Buffer,
-): void {
-  const local = path.join(MUSIC_WORK_DIR, `${job.slug}.stream`);
-  const [source, target] = [`${local}.flac`, `${local}.mp4`];
-
-  fs.writeFileSync(source, flac);
-  execFileSync('ffmpeg', [
-    '-v',
-    'error',
-    '-y',
-    '-i',
-    source,
-    '-map',
-    '0:a',
-    '-c:a',
-    'copy',
-    '-movflags',
-    '+faststart',
-    target,
-  ]);
-
-  if (audioMd5(target) !== audioMd5(source)) {
-    throw new Error(`Rewrapping ${job.slug}'s master changed its audio`);
-  }
-
-  stageBlob(repo, fs.readFileSync(target), stream.names);
-  fs.rmSync(source);
-  fs.rmSync(target);
 }
 
 function renameInReadme(
@@ -234,22 +86,6 @@ function repointDocument(job: SongTagJob, mp3Bytes: number): void {
     document,
     rewriteMp3Bytes(fs.readFileSync(document, 'utf8'), mp3Bytes),
   );
-}
-
-/** Two songs in one repository that would publish a file at the same path. */
-function assertNoCollision(jobs: readonly SongTagJob[]): void {
-  const holders = new Map<string, string>();
-
-  for (const job of jobs) {
-    for (const derived of jobPaths(job)) {
-      const holder = holders.get(derived);
-
-      if (holder !== undefined && holder !== job.slug) {
-        throw new Error(`${holder} and ${job.slug} both save as ${derived}`);
-      }
-      holders.set(derived, job.slug);
-    }
-  }
 }
 
 function byRepository(
