@@ -10,6 +10,7 @@ seconds: 287
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/almost/main/GENERATED%20-%20I%20Almost%20Love%20You.mp3
   bytes: 11568525
+stream: https://raw.githubusercontent.com/vovas-music/almost/main/GENERATED%20-%20I%20Almost%20Love%20You.mp4
 explicit: false
 album: pschpthy
 track: 6

@@ -10,6 +10,7 @@ seconds: 243
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/normal/main/GENERATED%20-%20Normal.mp3
   bytes: 9821012
+stream: https://raw.githubusercontent.com/vovas-music/normal/main/GENERATED%20-%20Normal.mp4
 explicit: false
 album: pschpthy
 track: 8

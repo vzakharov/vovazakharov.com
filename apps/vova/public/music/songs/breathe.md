@@ -11,6 +11,7 @@ seconds: 293
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/june/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Breathe%20feat.%20GENERATED.mp3
   bytes: 11806135
+stream: https://raw.githubusercontent.com/vovas-music/june/main/Poluzhivye%20-%20Breathe%20feat.%20GENERATED.mp4
 album: vagabond
 track: 8
 en:

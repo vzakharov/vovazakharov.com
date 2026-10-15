@@ -11,6 +11,7 @@ seconds: 279
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/tango/main/GENERATED%20-%20Disintegration%20Tango.mp3
   bytes: 11242680
+stream: https://raw.githubusercontent.com/vovas-music/tango/main/GENERATED%20-%20Disintegration%20Tango.mp4
 explicit: false
 album: pschpthy
 track: 11

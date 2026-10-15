@@ -11,6 +11,7 @@ seconds: 319
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/mirrors/main/GENERATED%20-%20Empty%20Mirrors.mp3
   bytes: 12810549
+stream: https://raw.githubusercontent.com/vovas-music/mirrors/main/GENERATED%20-%20Empty%20Mirrors.mp4
 explicit: false
 ru:
   title:

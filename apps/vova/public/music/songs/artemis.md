@@ -11,6 +11,7 @@ seconds: 258
 mp3:
   url: https://raw.githubusercontent.com/vovas-music/artemis/main/GENERATED%20-%20Artemis.mp3
   bytes: 10391092
+stream: https://raw.githubusercontent.com/vovas-music/artemis/main/GENERATED%20-%20Artemis.mp4
 explicit: true
 album: pschpthy
 track: 10

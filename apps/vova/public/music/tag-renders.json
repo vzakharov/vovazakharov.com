@@ -85,10 +85,11 @@
     ]
   },
   "artemis": {
-    "hash": "751fa27d50ca",
+    "hash": "08b4dbb1ca03",
     "paths": [
       "artemis/GENERATED - Artemis.flac",
       "artemis/GENERATED - Artemis.mp3",
+      "artemis/GENERATED - Artemis.mp4",
       "artemis/artemis_3.flac",
       "artemis/artemis_3.mp3"
     ]
@@ -136,10 +137,11 @@
     ]
   },
   "behind-the-mask": {
-    "hash": "f180ec7a019d",
+    "hash": "799884befe57",
     "paths": [
       "mask/GENERATED - Behind the Mask.flac",
       "mask/GENERATED - Behind the Mask.mp3",
+      "mask/GENERATED - Behind the Mask.mp4",
       "mask/mask.flac",
       "mask/mask.master.mp3"
     ]
@@ -207,10 +209,11 @@
     ]
   },
   "breathe": {
-    "hash": "d9aabdbc5d2b",
+    "hash": "e213a133c875",
     "paths": [
       "june/Poluzhivye - Breathe feat. GENERATED.flac",
       "june/Poluzhivye - Breathe feat. GENERATED.mp3",
+      "june/Poluzhivye - Breathe feat. GENERATED.mp4",
       "june/breathe.flac",
       "june/breathe.mp3",
       "june/Полуживые - Breathe feat. GENERATED.flac",
@@ -404,10 +407,11 @@
     ]
   },
   "disintegration-tango": {
-    "hash": "258ba849dfc8",
+    "hash": "686198f95fcf",
     "paths": [
       "tango/GENERATED - Disintegration Tango.flac",
       "tango/GENERATED - Disintegration Tango.mp3",
+      "tango/GENERATED - Disintegration Tango.mp4",
       "tango/tango.flac",
       "tango/tango.master.mp3"
     ]
@@ -434,19 +438,21 @@
     ]
   },
   "empty-mirrors": {
-    "hash": "f0f876b866b6",
+    "hash": "aa16569ad5f5",
     "paths": [
       "mirrors/GENERATED - Empty Mirrors.flac",
       "mirrors/GENERATED - Empty Mirrors.mp3",
+      "mirrors/GENERATED - Empty Mirrors.mp4",
       "mirrors/mirrors.flac",
       "mirrors/mirrors.mp3"
     ]
   },
   "erebos": {
-    "hash": "50aa7d3f46ea",
+    "hash": "975dc89c4dbe",
     "paths": [
       "erebos/GENERATED - Erebos.flac",
       "erebos/GENERATED - Erebos.mp3",
+      "erebos/GENERATED - Erebos.mp4",
       "erebos/erebos_reprise.flac",
       "erebos/erebos_reprise.master.mp3"
     ]
@@ -647,10 +653,11 @@
     ]
   },
   "gray-rage": {
-    "hash": "d1bada1c736e",
+    "hash": "e58a0702d152",
     "paths": [
       "grayrage/GENERATED - Gray Rage.flac",
       "grayrage/GENERATED - Gray Rage.mp3",
+      "grayrage/GENERATED - Gray Rage.mp4",
       "grayrage/grayrage.flac",
       "grayrage/grayrage.mp3"
     ]
@@ -763,10 +770,11 @@
     ]
   },
   "i-almost-love-you": {
-    "hash": "899176b9c350",
+    "hash": "75e971b52a58",
     "paths": [
       "almost/GENERATED - I Almost Love You.flac",
       "almost/GENERATED - I Almost Love You.mp3",
+      "almost/GENERATED - I Almost Love You.mp4",
       "almost/almost.flac",
       "almost/almost.mp3"
     ]
@@ -886,12 +894,13 @@
     ]
   },
   "intermezzo": {
-    "hash": "903a5f3b4c23",
+    "hash": "f10ae4381b69",
     "paths": [
       "psch_album/9_intermezzo.flac",
       "psch_album/9_intermezzo.mp3",
       "psch_album/GENERATED - Intermezzo.flac",
-      "psch_album/GENERATED - Intermezzo.mp3"
+      "psch_album/GENERATED - Intermezzo.mp3",
+      "psch_album/GENERATED - Intermezzo.mp4"
     ]
   },
   "intertwined": {
@@ -998,10 +1007,11 @@
     ]
   },
   "life-is-not-a-dream": {
-    "hash": "709bb114c02f",
+    "hash": "b8a7b1000edf",
     "paths": [
       "bronte/Poluzhivye - Life, believe, is not a dream… feat. za_oblozhkoy & GENERATED.flac",
       "bronte/Poluzhivye - Life, believe, is not a dream… feat. za_oblozhkoy & GENERATED.mp3",
+      "bronte/Poluzhivye - Life, believe, is not a dream… feat. za_oblozhkoy & GENERATED.mp4",
       "bronte/bronte.flac",
       "bronte/bronte.master.mp3",
       "bronte/Полуживые - Life, believe, is not a dream… feat. за_обложкой & GENERATED.flac",
@@ -1159,10 +1169,11 @@
     ]
   },
   "my-offence-is-rank": {
-    "hash": "318e7cf0fabf",
+    "hash": "f08019786d12",
     "paths": [
       "rank/Poluzhivye - O, my offence is rank… feat. GENERATED.flac",
       "rank/Poluzhivye - O, my offence is rank… feat. GENERATED.mp3",
+      "rank/Poluzhivye - O, my offence is rank… feat. GENERATED.mp4",
       "rank/rank2.flac",
       "rank/rank2.master.mp3",
       "rank/Полуживые - O, my offence is rank… feat. GENERATED.flac",
@@ -1182,10 +1193,11 @@
     ]
   },
   "night-garden": {
-    "hash": "d1a7d7294d97",
+    "hash": "c36902593ef4",
     "paths": [
       "sad/Poluzhivye - Nochnoy sad.flac",
       "sad/Poluzhivye - Nochnoy sad.mp3",
+      "sad/Poluzhivye - Nochnoy sad.mp4",
       "sad/sad.flac",
       "sad/sad.master.mp3",
       "sad/Полуживые - Ночной сад.flac",
@@ -1193,10 +1205,11 @@
     ]
   },
   "normal": {
-    "hash": "5f72f4ab2ee5",
+    "hash": "b5eff63e13db",
     "paths": [
       "normal/GENERATED - Normal.flac",
       "normal/GENERATED - Normal.mp3",
+      "normal/GENERATED - Normal.mp4",
       "normal/normal.flac",
       "normal/normal.mp3"
     ]
@@ -1269,12 +1282,13 @@
     ]
   },
   "overture": {
-    "hash": "326aafda831c",
+    "hash": "a3264e6219a5",
     "paths": [
       "psch_album/1_overture.flac",
       "psch_album/1_overture.mp3",
       "psch_album/GENERATED - Overture.flac",
-      "psch_album/GENERATED - Overture.mp3"
+      "psch_album/GENERATED - Overture.mp3",
+      "psch_album/GENERATED - Overture.mp4"
     ]
   },
   "parking-in-disabled-spot": {
@@ -1353,10 +1367,11 @@
     ]
   },
   "pschpthy": {
-    "hash": "3fadc9654dfb",
+    "hash": "a32a568b3ce8",
     "paths": [
       "psch/GENERATED - PSCHPTHY.flac",
       "psch/GENERATED - PSCHPTHY.mp3",
+      "psch/GENERATED - PSCHPTHY.mp4",
       "psch/psch.flac",
       "psch/psch.master.mp3"
     ]
@@ -1440,10 +1455,11 @@
     ]
   },
   "schadina": {
-    "hash": "c136b3e36665",
+    "hash": "2cd9c3e9298c",
     "paths": [
       "zhadina/Kindershtayn - Schadina.flac",
       "zhadina/Kindershtayn - Schadina.mp3",
+      "zhadina/Kindershtayn - Schadina.mp4",
       "zhadina/zhadina.flac",
       "zhadina/zhadina.mp3",
       "zhadina/Киндерштайн - Schadina.flac",
@@ -1625,10 +1641,11 @@
     ]
   },
   "trust-in-the-machine": {
-    "hash": "872cdc9b9b52",
+    "hash": "a51f659ab100",
     "paths": [
       "machines/GENERATED - Trust In the Machine.flac",
       "machines/GENERATED - Trust In the Machine.mp3",
+      "machines/GENERATED - Trust In the Machine.mp4",
       "machines/trust-in-the-machine.flac",
       "machines/trust-in-the-machine.mp3"
     ]
@@ -1731,10 +1748,11 @@
     ]
   },
   "windows": {
-    "hash": "8cfe5975f29d",
+    "hash": "5be24c2fbaac",
     "paths": [
       "okna/Gryobany bal - Okna.flac",
       "okna/Gryobany bal - Okna.mp3",
+      "okna/Gryobany bal - Okna.mp4",
       "okna/Грёбаный бал - Окна.flac",
       "okna/Грёбаный бал - Окна.mp3",
       "okna/Окна.flac",
