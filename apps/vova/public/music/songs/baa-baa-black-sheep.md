@@ -7,11 +7,11 @@ project: ['GENERATED']
 repo: 'baa'
 album: nursery-rhymes
 track: 1
-audio: https://raw.githubusercontent.com/vovas-music/baa/main/baa_master.flac
+audio: https://raw.githubusercontent.com/vovas-music/baa/main/GENERATED%20-%20Baa%20Baa%20Black%20Sheep.flac
 seconds: 177
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/baa/main/baa_master.mp3
-  bytes: 7073010
+  url: https://raw.githubusercontent.com/vovas-music/baa/main/GENERATED%20-%20Baa%20Baa%20Black%20Sheep.mp3
+  bytes: 7075364
 explicit: false
 ru:
   title:

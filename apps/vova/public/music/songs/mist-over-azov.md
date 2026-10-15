@@ -6,11 +6,11 @@ status: done
 language: instrumental
 project: ['Полуживые', 'GENERATED']
 repo: 'wanderlust'
-audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-002.flac
+audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Mist%20over%20Azov%20feat.%20GENERATED.flac
 seconds: 270
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-002.mp3
-  bytes: 10802258
+  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Mist%20over%20Azov%20feat.%20GENERATED.mp3
+  bytes: 10900230
 explicit: false
 album: vagabond
 track: 2

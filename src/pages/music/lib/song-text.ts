@@ -49,14 +49,15 @@ export type LocalizedSongDocument = ContentDocument<
   SongFrontmatter & LocalizedSongText
 >;
 
+/** The words as sung, and what the vocal is in, which is the column the author wrote. */
+type SungWords = WithStanzas & { language: SungLanguage };
+
 /**
  * The words, and the same words in the reader's language where the two differ.
  * Nothing is shown line for line: a stanza is the unit that survives being read
  * in parallel.
  */
-export type SongLyrics = WithStanzas & {
-  /** What the vocal is in, which is the column the author wrote. */
-  language: SungLanguage;
+export type SongLyrics = SungWords & {
   /** A crib, not a singing version — and absent where the song is in the reader's language. */
   translation?: Stanzas;
   /** The words in Latin letters, where most of them are in a script the reader may not read. */
@@ -125,17 +126,15 @@ export function localizeSong(
   };
 }
 
-/**
- * The words as this locale's page shows them, with the notes of the column in
- * the page's language and no other. Unequal stanza counts fail the build: a
- * parallel reading that has slipped by one is worse than none, and it is the one
- * defect here that would look right on the page.
- */
-export function songLyrics(
-  document: SongDocument,
-  locale: Locale,
-): SongLyrics | undefined {
-  const { frontmatter, body, fileName } = document;
+type SungVerse = SungWords & {
+  sections: ReadonlyMap<string, string>;
+};
+
+function sungVerse({
+  frontmatter,
+  body,
+  fileName,
+}: SongDocument): SungVerse | undefined {
   // The main language's words are the ones shown; another sung in the song
   // appears inside them, glossed by notes.
   const [language] = frontmatter.language;
@@ -151,7 +150,30 @@ export function songLyrics(
     );
   }
 
-  const stanzas = readVerse(sung, fileName);
+  return { language, sections, stanzas: readVerse(sung, fileName) };
+}
+
+/** The words as sung, notes and all; none for an instrumental. */
+export function sungStanzas(document: SongDocument): Stanzas | undefined {
+  return sungVerse(document)?.stanzas;
+}
+
+/**
+ * The words as this locale's page shows them, with the notes of the column in
+ * the page's language and no other. Unequal stanza counts fail the build: a
+ * parallel reading that has slipped by one is worse than none, and it is the one
+ * defect here that would look right on the page.
+ */
+export function songLyrics(
+  document: SongDocument,
+  locale: Locale,
+): SongLyrics | undefined {
+  const { frontmatter, fileName } = document;
+  const verse = sungVerse(document);
+
+  if (verse === undefined) return undefined;
+
+  const { language, sections, stanzas } = verse;
   const words = {
     language,
     ...pick(frontmatter, 'keepsScript'),

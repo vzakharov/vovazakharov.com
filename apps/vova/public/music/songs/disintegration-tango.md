@@ -6,11 +6,11 @@ status: done
 language: [en, es]
 project: ['GENERATED']
 repo: 'tango'
-audio: https://raw.githubusercontent.com/vovas-music/tango/main/tango.flac
+audio: https://raw.githubusercontent.com/vovas-music/tango/main/GENERATED%20-%20Disintegration%20Tango.flac
 seconds: 279
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/tango/main/tango.master.mp3
-  bytes: 11161697
+  url: https://raw.githubusercontent.com/vovas-music/tango/main/GENERATED%20-%20Disintegration%20Tango.mp3
+  bytes: 11242680
 explicit: false
 album: pschpthy
 track: 11

@@ -5,11 +5,11 @@ status: done
 language: ru
 project: ['Полуживые', 'Downtemple']
 repo: 'rus-'
-audio: https://raw.githubusercontent.com/vovas-music/rus-/main/7%20%D0%BB%D1%91%D0%BB%D0%B8.flac
+audio: https://raw.githubusercontent.com/vovas-music/rus-/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9B%D1%91%D0%BB%D0%B8%20feat.%20Downtemple.flac
 seconds: 264
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/rus-/main/7%20%D0%BB%D1%91%D0%BB%D0%B8.mp3
-  bytes: 10562973
+  url: https://raw.githubusercontent.com/vovas-music/rus-/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9B%D1%91%D0%BB%D0%B8%20feat.%20Downtemple.mp3
+  bytes: 10702663
 explicit: false
 album: who-is-happy-in-russia
 track: 7

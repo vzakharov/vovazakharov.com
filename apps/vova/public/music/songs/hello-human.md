@@ -4,12 +4,13 @@ date: 2022-10-01
 status: done
 language: en
 project: ['GENERATED']
+repo: 'machines'
 album: prototypes
 track: 1
-audio: /music/assets/hello-human.mp3
+audio: https://raw.githubusercontent.com/vovas-music/machines/main/GENERATED%20-%20Hello%2C%20Human.mp3
 seconds: 77
 mp3:
-  bytes: 3067864
+  bytes: 3070234
 segue: true
 explicit: false
 ru:

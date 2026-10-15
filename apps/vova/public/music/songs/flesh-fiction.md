@@ -6,11 +6,11 @@ status: done
 language: [en, ru]
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-013.flac
+audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Flesh%20Fiction.flac
 seconds: 166
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-013.mp3
-  bytes: 6623698
+  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Flesh%20Fiction.mp3
+  bytes: 6755477
 explicit: false
 album: nsfl
 track: 13

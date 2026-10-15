@@ -5,11 +5,11 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'comeback'
-audio: https://raw.githubusercontent.com/vovas-music/comeback/main/comeback.flac
+audio: https://raw.githubusercontent.com/vovas-music/comeback/main/Yoohie%20-%20The%20Comeback%20Song%20(We%20Have%20a%20Banger).flac
 seconds: 209
 mp3:
-  url: https://raw.githubusercontent.com/vovas-music/comeback/main/comeback.mp3
-  bytes: 8348844
+  url: https://raw.githubusercontent.com/vovas-music/comeback/main/Yoohie%20-%20The%20Comeback%20Song%20(We%20Have%20a%20Banger).mp3
+  bytes: 8444975
 explicit: false
 album: ignite
 track: 1
