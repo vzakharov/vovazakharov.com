@@ -52,10 +52,12 @@ export function createDecks(listeners: DeckListeners): Decks {
     exchange,
     rearm,
     play,
-    markPlayed: (deck) => {
-      played.add(deck);
-    },
+    markPlayed,
   });
+
+  function markPlayed(deck: HTMLAudioElement) {
+    played.add(deck);
+  }
 
   function exchange() {
     [active, standby] = [standby, active];
@@ -109,12 +111,7 @@ export function createDecks(listeners: DeckListeners): Decks {
   const wired: DeckListeners = [
     ...listeners,
     ['canplaythrough', rearm],
-    [
-      'playing',
-      (deck) => {
-        played.add(deck);
-      },
-    ],
+    ['playing', markPlayed],
   ];
   const routed: DeckListeners = [
     ...swapper.listeners,
