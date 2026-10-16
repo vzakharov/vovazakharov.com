@@ -195,7 +195,7 @@ export function createDecks(listeners: DeckListeners): Decks {
     play(onRefused);
   }
 
-  function landed(done: Swap) {
+  function landed(done: Pick<SwapDone, 'onLanded'>) {
     swapping = undefined;
     rearm();
     done.onLanded();
@@ -417,9 +417,7 @@ export function createDecks(listeners: DeckListeners): Decks {
 
           return;
         }
-        swapping = undefined;
-        rearm();
-        done.onLanded();
+        landed(done);
 
         return;
       }
