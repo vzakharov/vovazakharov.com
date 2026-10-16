@@ -5,6 +5,27 @@ its own, composed along a declared graph. The design was settled in the session
 that wrote this plan; this file is what it settled, the shape of the split, and
 the first slice in full.
 
+**This file outlives the merge.** The operator asked for it to be kept under
+`docs/` as the reference for taking MASD outside the repo (a site of its own,
+say): «его давай сохраним после мерджа где-то в docs, будем к нему возвращаться
+если вдруг захотим продвигать тему вовне». So `/finalize` moves it to
+`docs/masd.md` rather than sweeping it, the progress section below dropped.
+
+## Progress
+
+Issues filed: parent #170, children #171–#175, linked as sub-issues; PR #169
+closes #171.
+
+- **Done** — step 1: `src/masd.json`, `eslint/masd-graph.ts` and its tests
+  (0a27055).
+- **Left** — steps 2–11, starting with the move. Rewrite imports with a one-off
+  script under `tmp/` (alias and relative imports both, resolved against the old
+  location and recomputed from the new), not by hand: besides `src/`,
+  `scripts/**`, `apps/*/app/**`, `apps/site-next-config.ts`, `knip.ts`,
+  `steiger.config.mjs`, `eslint.config.ts`, `package.json` (`test:meadow`),
+  `scripts/vet-test.sh` (`MEADOW`), `styles/*.scss` and many `.claude/rules/*`
+  name `src/<layer>/…` paths.
+
 ## The model
 
 **Composition, not dependency: an app that extends `blog` _is_ `blog`.** Its FSD
