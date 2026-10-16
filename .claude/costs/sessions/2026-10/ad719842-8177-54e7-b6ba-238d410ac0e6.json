@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 124374,
+    "cacheReadTokens": 3073805,
+    "outputTokens": 11524,
+    "thinkingTokens": 4148,
+    "responses": 23,
+    "costUsd": 1.8404170000000002
+  },
+  "estimate": {
+    "at": "2026-10-16T10:33:30.380Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a CI failure whose cause sits in the runtime pin rather than the code it names takes a developer who reads the stack trace past the line it points at"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "ad719842-8177-54e7-b6ba-238d410ac0e6",
+  "branch": "claude/ci-node-24-occrqd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "https://github.com/vzakharov/vovazakharov.com/actions/runs/38877923762/job/116897403795",
+  "prs": [
+    167
+  ],
+  "url": "https://claude.ai/code/session_01LdwuVNYiC6VwRhZAM9ZYAa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-16T10:32:08.533Z",
+  "lastResponseAt": "2026-10-16T10:35:09.236Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 124374,
+    "cacheReadTokens": 3073805,
+    "outputTokens": 11524,
+    "thinkingTokens": 4148,
+    "responses": 23,
+    "costUsd": 1.8404170000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 124374,
+      "cacheReadTokens": 3073805,
+      "outputTokens": 11524,
+      "thinkingTokens": 4148,
+      "responses": 23,
+      "costUsd": 1.8404170000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".github/workflows/deploy.yml",
+    "endedAt": "2026-10-16T10:33:18.258Z",
+    "contextTokens": 136962,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 89094,
+      "cacheReadTokens": 940921,
+      "outputTokens": 4605,
+      "thinkingTokens": 2674,
+      "responses": 9,
+      "costUsd": 0.9931082000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
