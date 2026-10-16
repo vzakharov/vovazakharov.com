@@ -1,32 +1,79 @@
 ---
-description: Feature-Sliced Design conventions for src/ — layer structure, public API, where the app layer lives, and the Next.js traps around it
+description: Multi-App Sliced Design for src/ — apps composed along src/masd.json, each an FSD tree, the routers, public API and the Next.js traps around them
 paths:
   - src/**
   - apps/*/app/**
+  - eslint/masd-*.ts
+  - scripts/lint-fsd.ts
+  - scripts/masd-check.ts
+  - steiger.config.mjs
 ---
 
-# FSD (Feature-Sliced Design)
+# MASD (Multi-App Sliced Design)
 
-`src/` holds every application module, organized by
-[Feature-Sliced Design](https://feature-sliced.design/) — every layer, the app
-layer included. Each site's `apps/<site>/app/` is a Next.js App Router and
-nothing else. Steiger (`pnpm lint:fsd`) and `eslint-plugin-boundaries` enforce
-what follows; `./scripts/vet.sh` runs both.
+`src/` is a set of apps, each a
+[Feature-Sliced Design](https://feature-sliced.design/) tree of its own
+(`src/<app>/<layer>/<slice>/`), composed along the graph in `src/masd.json`.
+Each site's `apps/<site>/app/` is a Next.js App Router and nothing else. Three
+checkers enforce what follows, all run by `./scripts/vet.sh`:
+
+- **`eslint-plugin-boundaries`** (`eslint/masd-boundaries.ts`, generated from
+  the graph) — every import, across apps included.
+- **Steiger** (`pnpm lint:fsd`, `scripts/lint-fsd.ts`) — FSD's own rules, one
+  run per app root.
+- **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, and
+  slice significance counted across the composition.
+
+`eslint/masd-graph.ts` is the only loader of `masd.json`; the three go through
+it.
+
+## The model
+
+**Composition, not dependency: an app that extends `blog` _is_ `blog`.** Its FSD
+tree is its ancestors' layers overlaid, plus its own. So:
+
+- **An import targets the same app or an ancestor, a strictly lower layer** —
+  or, inside its own slice, a sibling file. The same layer across apps is
+  sideways, forbidden exactly as between two slices of one app; so is any import
+  between apps neither of which is the other's ancestor.
+- **Across slices and apps, entry is through the slice's public API.** There is
+  no app-level barrel: a path-based checker would lose the layer axis behind it,
+  and one barrel per app cannot hold the `server-only` / `node-safe` split.
+- **An app may have several parents.** A diamond is harmless — inheriting is
+  only the right to import, nothing overrides anything — and two ancestors may
+  hold slices of the same name, the importer renaming one where it needs both.
+- **An app with no ancestors is plain FSD**, so every FSD project is a one-app
+  MASD project.
+
+**`masd.json` maps each app to its parents, and a parent is declared above its
+child.** That order is the acyclicity check — a cycle needs some app whose
+parent comes after it — and the loader fails naming both apps when one does. It
+guarantees acyclicity, not permission: `lsa` sits below `music` and still may
+not import it.
+
+**An abstract app is earned the way a slice is.** An app with exactly one child
+and nothing of its own a router mounts is insignificant, and `check:masd` says
+so: a `game` between `kernel` and `mushrooms` waits for a second game.
+
+**Every app under `src/` has an entry and every entry a directory**, which
+`check:masd` holds both ways.
 
 ## Layers
 
-Lowest (most generic) first — an import may only point downward:
+Lowest (most generic) first, each optional per app:
 
-- **`shared/`** — segments carrying no page composition: `config`, `content`,
-  `music-catalogue`, `i18n`, `seo`, `typings`, `ui`, `lib/*`
-- **`entities/`** — business nouns: `document` (its byline, its cards, its body
-  and its sources), `case` (its brief)
-- **`features/`** — user-facing capabilities, currently `switch-theme`
-- **`widgets/`** — composite blocks two page slices share: `site-footer`
-- **`pages/`** — page composition: `home`, `lsa-home`, `bible-home`,
-  `basilisk-home`, `cv`, `documents`
-- **`app/`** — root layout, Mantine provider, global stylesheets and theme,
-  sitemap: `ui`, `styles` and `lib` segments
+- **`shared/`** — segments carrying no page composition. `kernel` holds the
+  repo-wide ones (`config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`);
+  an app adds its own (`music/shared/catalogue`, `basilisk/shared/content`,
+  `blog/shared/article-slots`).
+- **`entities/`** — business nouns: `blog/entities/document` (its byline, its
+  cards, its body and its sources), `basilisk/entities/case` (its brief).
+- **`features/`** — user-facing capabilities: `shell/features/switch-theme`.
+- **`widgets/`** — composite blocks two page slices share:
+  `shell/widgets/site-footer`.
+- **`pages/`** — page composition, one or more per app.
+- **`app/`** — root layouts, Mantine provider, global stylesheets and theme,
+  sitemap and feed: `ui`, `styles` and `lib` segments.
 
 An entity is earned once a block is a business noun's own UI: `document` holds
 the byline, the collection's cards and the rendered body, all about a document
@@ -35,9 +82,9 @@ leaving it out** (see "insignificant slices" below), so an entity waits for that
 — a noun with UI worth naming, not the mere idea of one.
 
 **A block two page slices share cannot sit in either of them** — slices may not
-reach each other sideways — so it drops to a lower layer, and which of the three
-below `pages/` takes it turns on what the block _is_, not on the fact that it is
-shared:
+reach each other sideways — so it drops to a lower layer, in the lowest app both
+consumers inherit, and which of the three below `pages/` takes it turns on what
+the block _is_, not on the fact that it is shared:
 
 - **`entities/`** — the block is one business noun's UI. `DocumentCards`
   (reaches `shared/content` for a route) and `DocumentMeta` are about a document
@@ -52,36 +99,37 @@ shared:
   props rather than reading the resolved site; `SummaryCard` sits here because
   it reads none.
 
-`entities/document` is born ui-only: its model stays in `shared/content`, which
-is build-time and `server-only`, so a content page costs zero client JS — the
-model would move only if content ever stopped being build-time. Its barrel pulls
-`server-only` today (`DocumentCards` needs `linkTo`), but no client chain enters
-it, so a plain `index.ts` holds; a client component reaching for the byline is
-what would split it into `index.ts` + `index.server-only.ts`, exactly as
-`shared/config` is.
+`entities/document` is born ui-only: its model stays in kernel's
+`shared/content`, which is build-time and `server-only`, so a content page costs
+zero client JS — the model would move only if content ever stopped being
+build-time. Its barrel pulls `server-only` today (`DocumentCards` needs
+`linkTo`), but no client chain enters it, so a plain `index.ts` holds; a client
+component reaching for the byline is what would split it into `index.ts` +
+`index.server-only.ts`, exactly as `shared/config` is.
 
 ## Rules
 
-- **Import direction is one-way**:
-  `app → pages → widgets → features → entities → shared`. Never upward, never
-  sideways between slices on the same layer.
-- **Public API per slice and per shared segment.** Cross-slice imports go
-  through the target's `index.ts`; reaching into its internals is an error from
-  both checkers. Within a slice, use relative imports.
-- **`shared` is a slice as well as a layer**, which is FSD's own exception to
-  the rule above: every file in it reaches every other directly, exactly as the
-  app layer's segments do. A segment's `index.ts` is what the layers _above_
-  enter by, not a wall between `shared/ui` and `shared/seo`.
+- **`app` and `shared` are segmented rather than sliced, so a descendant's
+  overlays its ancestors' as one unit**, which is FSD's own exception carried
+  across apps: every file in them reaches every other directly, an ancestor's
+  included. shell's root layout composes kernel's that way, and
+  `music/shared/catalogue` builds on kernel's `shared/content` by its leaf
+  module. A segment's `index.ts` is what the layers _above_ enter by, not a wall
+  between `shared/ui` and `shared/seo`.
+- **Public API per slice and per shared segment.** A sliced layer reaching
+  another slice — in its own app or an ancestor — goes through the target's
+  `index.ts`; reaching into its internals is an error from both checkers. Within
+  a slice, use relative imports.
 - **Two suffixed barrels join `index.ts` as legal entry points**, on two axes,
   and the list is closed at those three names (`PUBLIC_API` in
-  `eslint.config.ts`). `index.ts` keeps the majority surface either way, so a
-  consumer needing neither suffix never learns they exist.
+  `eslint/masd-boundaries.ts`). `index.ts` keeps the majority surface either
+  way, so a consumer needing neither suffix never learns they exist.
   - **`index.server-only.ts`** is the client-bundle axis: what a browser must
     not hold. Every module behind it opens with `import 'server-only'`, which is
     what enforces the split the barrel only names. Two segments are split this
     way, each on what a client bundle may hold rather than on what a module
     happens to do: `shared/seo` keeps `OG_CARD_SUFFIX` in the ordinary barrel
-    and puts `constructMetadata` behind the other, because `pages/cv`'s URL
+    and puts `constructMetadata` behind the other, because `vova/pages/cv`'s URL
     module reads the suffix and a client component reads that; `shared/config`
     puts `BUILD_YEAR` behind it, which is evaluated once per deploy and would
     otherwise re-evaluate at hydration. A fence wants a reason of that kind: a
@@ -95,14 +143,15 @@ what would split it into `index.ts` + `index.server-only.ts`, exactly as
     the case's social card prints. A script reaching past a public API into a
     leaf is the smell that this barrel is missing.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time
-  (`@/shared/lib/class-names`), each **a single file** and its own public API —
-  nothing sits beside it to hide, so `boundaries` lets the layers above enter
-  segment `lib` at any top-level `*.ts`. That entry does not cross a slash: a
-  sub-library that grows a directory is internals again, and moving it back out
-  is the price of the address. It is the holding area, not the destination: a
-  sub-library becomes a top-level segment (`shared/content`) once it has several
-  consumers and a purpose identity of its own, and only a helper too small to
-  name one — `class-names` is a single function — stays under `lib`.
+  (`@/kernel/shared/lib/class-names`), each **a single file** and its own public
+  API — nothing sits beside it to hide, so `boundaries` lets the layers above
+  enter segment `lib` at any top-level `*.ts`. That entry does not cross a
+  slash: a sub-library that grows a directory is internals again, and moving it
+  back out is the price of the address. It is the holding area, not the
+  destination: a sub-library becomes a top-level segment (`shared/content`) once
+  it has several consumers and a purpose identity of its own, and only a helper
+  too small to name one — `class-names` is a single function — stays under
+  `lib`.
 - **Segments are named by purpose, not by essence** — `shared/seo` and
   `shared/content` name the concern they serve, not `shared/utils` or
   `shared/markdown`; `shared/lib/class-names`, not `shared/utils`. Steiger's
@@ -113,85 +162,90 @@ what would split it into `index.ts` + `index.server-only.ts`, exactly as
   module belongs in that module, so the segment only ever holds what genuinely
   crosses slices.
 - **No insignificant slices.** A slice with a single upward consumer belongs
-  _inside_ that consumer, and Steiger says so (`insignificant-slice`). This is
-  why the CV locale picker lives in `pages/cv/ui/` and the home page's project
-  and article cards live in `pages/home/ui/`, rather than each becoming a
-  feature.
+  _inside_ that consumer. `check:masd` says so, counting references across the
+  composition — the slice's own app, every descendant and the routers — with
+  Steiger's `insignificant-slice` messages word for word; Steiger's own rule is
+  off, because one root's reference map is exactly what it cannot see past. This
+  is why the CV locale picker lives in `vova/pages/cv/ui/` and the home page's
+  project and article cards in `vova/pages/home/ui/`, rather than each becoming
+  a feature.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported
   identifiers keep their PascalCase (`card.tsx` exports `Card`).
-- **The checkers run with the stock recommended ruleset and one override**, the
-  `no-ui-in-app` exemption below. A new rule violation is a signal that the code
-  is in the wrong place — move the code rather than exempting the path.
+- **The checkers run with the stock recommended ruleset and two overrides**,
+  both in `steiger.config.mjs`: `insignificant-slice` off for the reason above,
+  and the `no-ui-in-app` exemption below. A new rule violation is a signal that
+  the code is in the wrong place — move the code rather than exempting the path.
 
-## The app layer is `src/app`; `apps/*/app/` is the router
+## Routers and app layers
 
-Every layer lives under `src/`, the app layer with them. A layer parked beside
-the routers would be the single exception to that, and the consistency is worth
-more than what the exception saves — the more so with two routers, which would
-have to share it. An app's `app/` holds routing and nothing else: `layout.tsx`
-and each `page.tsx` re-export what they render, and `sitemap.ts` re-exports
-`@/app/lib` behind the route-segment config Next reads off the route module
-itself.
+**A router only says what is shown at which URL.** `apps/<site>/app/` maps
+addresses to apps — on vovazakharov.com, `/` and `/cv` to vova, `/music/...` to
+music, `/mushrooms` to mushrooms — and nothing else composes them. Its
+`layout.tsx` and each `page.tsx` re-export what they render; it may enter any
+app's public API, and is reached only by Next's own routing conventions, never
+by import.
+
+**The sitemap is that same mapping written out, so it is the router's.** Each
+site's `sitemap.ts` calls kernel's `sitemap(mountedRoutes)` with the routes each
+app it mounts exports (vova's `cvRoutes()`, music's `musicCatalogueRoutes()`),
+behind the route-segment config Next reads off the route module itself. kernel
+adds every collection's routes and imports no app above it.
 
 **A page the router has to parameterize costs three lines rather than one.** The
 document pages serve a collection the router picks, so they are factories: the
-file calls `articleRoute('bible')`, destructures, and re-exports. Next reads
-`default`, `generateMetadata` and `generateStaticParams` as separate named
-exports off the module, so there is no single binding to forward — which is the
-whole of what the extra two lines buy, and the router still decides nothing but
-which slice with which argument.
+file calls `articleRoute(articleCollection('bible'))`, destructures, and
+re-exports. Next reads `default`, `generateMetadata` and `generateStaticParams`
+as separate named exports off the module, so there is no single binding to
+forward — which is the whole of what the extra two lines buy, and the router
+still decides nothing but which slice with which argument.
 
-**That is what lets the sites share one `src/`.** Every site's page slices sit
-in `src/pages/` side by side, which FSD already permits: slices may not import
-each other sideways, and two sites' pages are exactly that relationship. Each
-app's router picks the slices its site serves.
+**Every app layer lives under `src/`**, not beside the routers, which several
+sites would have to share. kernel's holds the base root layout (fonts, globals,
+Mantine provider, `ColorSchemeScript`), the stylesheets, the sitemap and feed
+factories; shell's root layout is kernel's plus `ThemeCorner`; vova's holds the
+`global-not-found` page. A site with two root layouts splits its router into
+route groups — vovazakharov.com's `(shell)` for every page but the game,
+`(game)/mushrooms` on kernel's layout, with no theme toggle.
 
-That costs exactly one Steiger override — `fsd/no-ui-in-app`, scoped to
-`src/app/ui/**` in `steiger.config.mjs`. Next mandates a root layout, and a root
-layout is app-layer UI wherever it is filed, so the rule has no answer here.
+That costs one Steiger override — `fsd/no-ui-in-app`, scoped to
+`./src/*/app/ui/**`. Next mandates a root layout, and a root layout is app-layer
+UI wherever it is filed, so the rule has no answer here.
 
 Segment naming keeps it to that one. `provider(s)`, `context` and `hook(s)` are
 on the plugin's `segments-by-purpose` list, so the theme provider is a file in
-`src/app/ui/` rather than a `src/app/providers/` segment; `styles`, `config`,
-`api` and `tests` pass as segment names if the layer ever needs them.
-
-Because the app layer is above every other, it may import from all of them —
-through their public APIs — and, being one unit rather than a set of isolated
-slices, its own segments reach each other directly.
+`src/kernel/app/ui/` rather than a `providers/` segment; `styles`, `config`,
+`api` and `tests` pass as segment names if a layer ever needs them.
 
 ## Traps
 
-- **`@/app` is the FSD app layer, not an app's `app/`.** The alias resolves into
-  `src/`, so `@/app/ui` is `src/app/ui`. A router directory is reached only by
-  Next's own routing conventions, never by import.
+- **`@/<app>/app` is an FSD app layer, not a site's `app/`.** The alias resolves
+  into `src/`, so `@/kernel/app/ui` is `src/kernel/app/ui`.
 - **Next looks for a Pages Router inside the project directory only**, which is
-  `apps/<site>/` — a level below `src/pages/`, so the FSD pages layer is out of
-  its reach. Run a build from the repository root and it is not.
-- **`@/` points at `src/`.** Anything outside it — an app's `public/` and the
+  `apps/<site>/` — out of reach of every `src/<app>/pages/`. Run a build from
+  the repository root and it is not.
+- **`@/` points at `src/`.** Anything outside it — a site's `public/` and the
   markdown it serves, root `styles/` and the Sass partial it holds — is reached
   by URL or relative path, not by alias. `scripts/` is the exception that proves
   it: a script importing a type from the tree spells the alias out
-  (`@/shared/typings`) under `tsx`, or a relative path when it runs under bare
-  Node.
-- **next-intl's request config is found by path, not by import.** Each app's
-  `next.config.ts` names `../../src/shared/i18n/request.ts` explicitly; moving
-  that file means editing both. The path is relative to the app directory, which
-  the plugin checks against the working directory and hands Turbopack to resolve
-  against the project — the two agree only when a build is entered in its app
-  directory, which is what `pnpm build:<site>` does.
-- **The content pipeline is `shared/content`, not an entity.** It is
+  (`@/kernel/shared/typings`) under `tsx`, or a relative path when it runs under
+  bare Node.
+- **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
+  ESLint loads it under jiti and the scripts under bare Node.
+- **next-intl's request config is found by path, not by import.** Each site's
+  `next.config.ts` names `../../src/kernel/shared/i18n/request.ts` explicitly;
+  moving that file means editing both. The path is relative to the site
+  directory, which the plugin checks against the working directory and hands
+  Turbopack to resolve against the project — the two agree only when a build is
+  entered in its site directory, which is what `pnpm build:<site>` does.
+- **The content pipeline is kernel's `shared/content`, not an entity.** It is
   build-time-only and every module opens with `import 'server-only'`;
-  `@.claude/rules/content.md` owns its contract. Its page composition — the
-  index, the article and the pieces they share — is one `pages/documents` slice
-  serving every collection on every site: a slice per collection would make
-  siblings of pages that share one composition, and sibling slices cannot reach
-  each other. The document's own byline and cards are the exception that proves
-  it — shared by the index and the article both, they sit a layer down in
-  `entities/document`, per the `widgets/`-versus-`entities/` note above.
-- **The song model is `shared/music-catalogue`, beside `shared/content` rather
-  than in it**, which stays generic. The registry in `collection-schemas.ts`
-  imports every collection's schema, so the song's cannot sit in `pages/music`
-  above it; `shared/music-catalogue` builds on `shared/content`'s base schema by
-  its leaf module — the barrel would close a cycle. Not `shared/music`:
+  `@.claude/rules/content.md` owns its contract. It holds the addresses —
+  `COLLECTIONS`, `collectionRoute`, `MUSIC_ROUTE` — and the base and article
+  schemas; what any other collection holds is its owner's (the song schema in
+  `music/shared/catalogue`, the case frontmatter in `basilisk/shared/content`).
+  Its page composition is one `blog/pages/documents` slice serving every
+  collection on every site: a slice per collection would make siblings of pages
+  that share one composition, and sibling slices cannot reach each other.
+- **`music/shared/catalogue` is not `music/shared/music`**: within one app root,
   Steiger's `ambiguous-slice-names` rejects a segment named like the
   `pages/music` slice.
