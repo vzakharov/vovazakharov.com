@@ -18,10 +18,8 @@ type SwapDone = {
  */
 type SwapStage = 'loading' | 'sought' | 'aligned' | 'landing';
 
-/** The file a swap brings. */
 type Bringing = { brings: string };
 
-/** A `swapIn` under way: the file it replaces and the one it brings. */
 type Swap = SwapDone & Bringing & { replaces: string; stage: SwapStage };
 
 /**
