@@ -2,21 +2,28 @@ Proposed squash body:
 
 ```
 The agent infrastructure vendored from vzakharov/muthur moved on; this
-brings in the four changes that apply here.
+brings in the five changes that apply here.
 
-/polish runs its passes in a fresh foreground subagent handed only the
-procedure, the argument and the plan, so the diff is read the way a
-reviewer reads it rather than by the session that wrote it. SKILL.md is
-the launcher; polish/passes.md holds the procedure only the subagent
-loads.
+Session cost rows live on an orphan `cost-ledger` branch, because rows
+that reached the ledger only by merging into main missed abandoned
+branches, the merging turn and turns after /finalize. The Stop hook
+commits every row there, plus a display copy on the feature branch
+until the PR's attestation names its head; this repo keeps its gate on
+operator-written turns for that copy. Every row main held was carried
+into the ledger, and .claude/costs/sessions/ leaves the tree.
 
-/sync-branch commits a merge with its conflicts as git left them and
-resolves them in the next commit, whose diff is exactly the decisions
-and takes review comments; /finalize's base merge runs it rather than
-restating the procedure. A relay successor's first line now carries a
-caption saying what it does next, and the context-budget pause offers
-manual relay in plain words, once per operator, instead of pointing at
-a file on every relay.
+/finalize loads its rare paths from pages beside it - revoke.md (the
+new `/finalize revoke`), merge.md (the `and merge` gate, with this
+repo's merge-is-deploy rule) and base-advanced.md - and its base merge
+runs /sync-branch, which commits conflicts as git left them and
+resolves them in the next commit, so the decisions get a diff of their
+own.
+
+/polish runs its passes in a fresh subagent handed only the procedure,
+the argument and the plan, so the diff is read as a reviewer reads it.
+A relay successor's first line carries a caption saying what it does
+next, and the context-budget pause offers manual relay in plain words,
+once per operator.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
