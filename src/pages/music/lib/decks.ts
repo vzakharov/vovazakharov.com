@@ -12,8 +12,7 @@ export type Decks = {
   active: () => HTMLAudioElement;
   /**
    * The file due next, which the standby deck loads once the active one can
-   * play through — the browser's verdict that loading it no longer competes
-   * with the track playing.
+   * play through, so the two never compete for the connection.
    */
   arm: (src: string | undefined) => void;
   /** Make the standby deck the active one if it holds `src`, and say whether it did. */

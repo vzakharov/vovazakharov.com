@@ -148,8 +148,6 @@ export function useAudioPlayer(
     storeShuffle,
   });
   const { tuneIn, tryTuneIn, onAir, keepTime, upNext, handOver } = station;
-  // On the radio, the next slot of the timetable; off it, the next track of the
-  // queue.
   const nextSource = useCallback(() => {
     const position = upcomingTrack(state);
     const queued = position === undefined ? undefined : tracks[position];
