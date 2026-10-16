@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 59948,
+    "cacheReadTokens": 658020,
+    "outputTokens": 1724,
+    "thinkingTokens": 175,
+    "responses": 7,
+    "costUsd": 0.645724
+  },
+  "estimate": {
+    "at": "2026-10-16T12:20:56.744Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "landing prep for a finished player change: a reviewer-grade read of the swap edge cases before merge, and the vet and base merge"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "ca6e8827-f435-52b9-9f78-8b9663454a77",
+  "branch": "claude/seamless-quality-switch-i2xtai",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/seamless-quality-switch-i2xtai",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01Nyap6PimBLfL2M5aQseDYN",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-16T12:20:41.372Z",
+  "lastResponseAt": "2026-10-16T12:21:06.422Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 59948,
+    "cacheReadTokens": 658020,
+    "outputTokens": 1724,
+    "thinkingTokens": 175,
+    "responses": 7,
+    "costUsd": 0.645724
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59948,
+      "cacheReadTokens": 658020,
+      "outputTokens": 1724,
+      "thinkingTokens": 175,
+      "responses": 7,
+      "costUsd": 0.645724
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-16T12:21:06.422Z",
+    "contextTokens": 107581,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59566,
+      "cacheReadTokens": 550823,
+      "outputTokens": 1218,
+      "thinkingTokens": 175,
+      "responses": 6,
+      "costUsd": 0.6111006
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
