@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 44,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 90784,
+    "cacheReadTokens": 2566967,
+    "outputTokens": 5604,
+    "thinkingTokens": 992,
+    "responses": 22,
+    "costUsd": 1.3519214000000002
+  },
+  "estimate": {
+    "at": "2026-10-16T06:16:56.025Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "land prep: the vet run, the base merge and the attestation that a merge to main deploys on"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "fdf5611f-53c6-5e21-b7af-aabd8f632015",
+  "branch": "claude/preload-next-track-3zzzh4",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/preload-next-track-3zzzh4",
+  "prs": [
+    165
+  ],
+  "url": "https://claude.ai/code/session_01MGtCxnKb8rFuPWQcsbo2jx",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-16T06:16:41.392Z",
+  "lastResponseAt": "2026-10-16T06:28:08.671Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 44,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 90784,
+    "cacheReadTokens": 2566967,
+    "outputTokens": 5604,
+    "thinkingTokens": 992,
+    "responses": 22,
+    "costUsd": 1.3519214000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 44,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 90784,
+      "cacheReadTokens": 2566967,
+      "outputTokens": 5604,
+      "thinkingTokens": 992,
+      "responses": 22,
+      "costUsd": 1.3519214000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/remove-before-merging/squash-message.md",
+    "endedAt": "2026-10-16T06:27:49.650Z",
+    "contextTokens": 133801,
+    "spend": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 85550,
+      "cacheReadTokens": 1757780,
+      "outputTokens": 4105,
+      "thinkingTokens": 787,
+      "responses": 16,
+      "costUsd": 1.118184
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
