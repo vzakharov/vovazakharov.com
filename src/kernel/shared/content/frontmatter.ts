@@ -52,7 +52,7 @@ export type Source = z.infer<typeof sourceSchema>;
 const sourcesSchema = z.array(sourceSchema).min(1);
 
 /** Every article's shape: titled by the body, bylined, cut and printed. */
-export const articleFrontmatterSchema = baseFrontmatterSchema.extend({
+const articleFrontmatterSchema = baseFrontmatterSchema.extend({
   /** Meta description and index-card blurb. */
   description: z.string().min(1),
   /** Free-text series marker, e.g. `I of II`. */

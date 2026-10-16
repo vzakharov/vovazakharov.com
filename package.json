@@ -29,7 +29,7 @@
     "check:stanza-repeats": "node scripts/check-stanza-repeats.ts",
     "lint": "eslint . --fix",
     "lint:css": "stylelint \"**/*.{css,scss}\"",
-    "lint:fsd": "steiger src",
+    "lint:fsd": "node scripts/lint-fsd.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "content:mermaid": "scripts/in-site.sh vova node scripts/render-mermaid.ts",

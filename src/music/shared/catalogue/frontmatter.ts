@@ -269,7 +269,7 @@ const songFieldsSchema = baseFrontmatterSchema
  * duplicate most of it. A key per locale, absent where the locale has nothing to
  * say.
  */
-export const songFrontmatterSchema = songFieldsSchema
+const songFrontmatterSchema = songFieldsSchema
   .extend(byLocale(() => songTextSchema.default({})))
   .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE)
   .refine(({ album, track }) => (album === null) === (track === undefined), {

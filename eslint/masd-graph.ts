@@ -12,7 +12,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-export const GRAPH_FILE = path.resolve(
+const GRAPH_FILE = path.resolve(
   import.meta.dirname,
   '..',
   'src',
