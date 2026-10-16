@@ -55,17 +55,28 @@ closes #171.
   `FULL_DAY`. The `dark` play in `scripts/play-mushrooms.ts` is kept, inverted:
   a dark page must open in full day. Not yet run — it needs a build and the
   meadow's play run, which `VET_MEADOW=1` at step 11 covers.
-- **Left** — steps 7–11.
-- **Lint state for step 7**: with `boundaries/no-unknown-files` off, eslint
-  still fails on `vova/no-hardcoded-strings` in
-  `music/pages/music/ui/{catalogue-grid,cover-head,cover-zoom}.tsx` and
-  `vova/pages/{home/ui/work-section,writing/ui/writing-section}.tsx` — path
-  exemptions still naming pre-move paths — plus step 4's two files.
-- **Step 7 reads `shared` as overlaid**: an app's `shared` imports its
-  ancestors' `shared` (music's catalogue and basilisk's content do), which the
-  model's "same layer across apps is sideways" would forbid on its face.
-  `shared` has no slices, so the overlay makes it one layer; the policy has to
-  say so.
+- **Done** — step 7 (43df71b): `eslint/masd-boundaries.ts` generates the
+  boundaries config from the graph; `eslint.config.ts` imports it. Elements are
+  folder patterns (`src/*/<layer>/*`, `apps/*/app`) with `partialMatch: true`: a
+  `(*)` group captures twice, and a trailing `/**` makes the whole file the
+  element root, which breaks `fileInternalPath`. The segmented layers, `app` and
+  `shared`, overlay their ancestors' as one unit — a root layout composes the
+  one it extends, a shared segment builds on its ancestor's directly; sliced
+  layers go strictly down, same layer across apps refused. Probed: a
+  non-ancestor's shared, an ancestor's pages and an ancestor's shared internals
+  are each refused. The `no-hardcoded-strings` exemption names the moved slices.
+  Full eslint is clean but for `story.tsx` (the open question below).
+- **Done** — step 8 (62241f0): `pnpm lint:fsd` is `scripts/lint-fsd.ts`, Steiger
+  once per app from the graph; `insignificant-slice` off, the `no-ui-in-app`
+  exemption widened to `./src/*/app/ui/**`. All nine roots clean. Also dropped
+  three file-local exports knip flagged.
+- **Done** — step 9 (aca91f5): `scripts/masd-check.ts` (`pnpm check:masd`, in
+  `vet.sh` and `.claude/rules/stack.md`), with CLI tests in
+  `scripts/masd-check.test.ts`. Clean on the real tree.
+- **Left** — steps 10–11. Step 10's prose: `.claude/rules/fsd.md` still
+  describes the one-tree layout (and `eslint/masd-graph.ts`,
+  `eslint/masd-boundaries.ts`, `scripts/lint-fsd.ts`, `scripts/masd-check.ts`
+  already cite `.claude/rules/masd.md`, which step 10 creates).
 - **Open, the operator's call** — `music/pages/music/ui/story.tsx` imports
   `@/blog/entities/document` (music's parent is shell, not blog): music
   extending `blog` as well as `shell`, or what `story.tsx` uses moving down to
