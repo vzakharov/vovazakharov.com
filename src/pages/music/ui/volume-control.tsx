@@ -26,29 +26,37 @@ import {
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 
-let volumeSettable: boolean | undefined;
+let volumeSettable = true;
+let probed = false;
+const probeListeners = new Set<() => void>();
 
 /**
- * iOS leaves the volume to the device's buttons: an element's `volume` reads
- * back 1 whatever was set, so a slider there would move nothing.
+ * iOS leaves the volume to the device's buttons, so a slider there would move
+ * nothing. An element's `volume` reads back what was set until the next tick
+ * and only then reverts to 1, so the probe reads it a tick late.
  */
-function canSetVolume(): boolean {
-  if (volumeSettable === undefined) {
-    const probe = new Audio();
+function probeVolume() {
+  probed = true;
+  const probe = new Audio();
 
-    probe.volume = 0.5;
+  probe.volume = 0.5;
+  setTimeout(() => {
     volumeSettable = probe.volume === 0.5;
-  }
+    for (const listener of probeListeners) listener();
+  });
+}
 
+function subscribe(listener: () => void) {
+  probeListeners.add(listener);
+  if (!probed) probeVolume();
+
+  return () => {
+    probeListeners.delete(listener);
+  };
+}
+
+function canSetVolume() {
   return volumeSettable;
-}
-
-function unsubscribe() {
-  // A device's hold on its volume never changes under a page.
-}
-
-function subscribe() {
-  return unsubscribe;
 }
 
 function settableOnServer() {
