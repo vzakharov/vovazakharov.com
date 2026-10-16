@@ -50,18 +50,22 @@ says what it covers.
 
 ## Project Structure
 
-Application code follows [Feature-Sliced Design](https://feature-sliced.design/)
-under `src/`; `.claude/rules/fsd.md` carries the conventions — including why the
-FSD app layer is `src/kernel/app` while `apps/*/app/` is routing only.
+Application code under `src/` is a set of apps, each a
+[Feature-Sliced Design](https://feature-sliced.design/) tree, composed along the
+graph in `src/masd.json`; `.claude/rules/masd.md` carries the conventions —
+including why the app layers live under `src/` while `apps/*/app/` is routing
+only.
 
 ```
 ├── apps/
 │   ├── vova/                   # vovazakharov.com
 │   │   ├── app/                # App Router — routing only, one-line re-exports
-│   │   │   ├── page.tsx        # → src/vova/pages/home
-│   │   │   ├── cv/             # → src/vova/pages/cv
-│   │   │   ├── case-studies/   # → src/blog/pages/documents
-│   │   │   ├── music/, writing/
+│   │   │   ├── (shell)/        # every page on shell's root layout, with the theme toggle
+│   │   │   │   ├── page.tsx    # → src/vova/pages/home
+│   │   │   │   ├── cv/         # → src/vova/pages/cv
+│   │   │   │   ├── case-studies/ # → src/blog/pages/documents
+│   │   │   │   └── music/, writing/
+│   │   │   ├── (game)/mushrooms/ # → src/mushrooms/pages/mushrooms, on kernel's root layout
 │   │   │   └── sitemap.ts
 │   │   ├── public/             # served at the site root — case studies, CV renders, logos, .nojekyll
 │   │   ├── next.config.ts
@@ -78,11 +82,13 @@ FSD app layer is `src/kernel/app` while `apps/*/app/` is routing only.
 │       ├── app/faq/[...slug]/  # → src/blog/pages/documents, bound to the FAQ
 │       └── public/             # cases/ and faq/, plus the stamp
 ├── src/
-│   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*
-│   ├── features/switch-theme/  # Light/dark toggle over a stored system default
-│   ├── widgets/                # Blocks two page slices share — the article cards, the site footer
-│   ├── pages/                  # Page composition — home, lsa-home, bible-home, basilisk-home, cv, documents, music, writing
-│   └── app/                    # FSD app layer — root layout, Mantine provider, stylesheets
+│   ├── masd.json               # The app graph — each app and the apps it extends
+│   ├── kernel/                 # shared/ (config, content, i18n, seo, typings, ui, lib/*) and the base root layout
+│   ├── shell/                  # The theme toggle, the site footer, the root layout with the toggle
+│   ├── blog/                   # The document entity and the documents pages every collection is served by
+│   ├── vova/, lsa/, bible/, basilisk/ # Each site's own pages
+│   ├── music/                  # The song catalogue and its pages
+│   └── mushrooms/              # The game
 ├── styles/                     # Shared Sass partials — Mantine mixin counterparts, generated tokens and breakpoints
 ├── eslint/                     # The lint ruleset eslint.config.ts orchestrates
 ├── scripts/                    # vet.sh, the render pipeline, agent-facing tooling

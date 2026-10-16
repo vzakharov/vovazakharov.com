@@ -9,7 +9,7 @@ export const importSortRules = {
 
   // Import ordering, bottom-up by dependency direction: side-effects → external →
   // the FSD layers in the order an import may point (`shared` upward to `app`,
-  // see .claude/rules/fsd.md), each layer one group whichever app it is in →
+  // see .claude/rules/masd.md), each layer one group whichever app it is in →
   // relative.
   'simple-import-sort/imports': [
     'error',
