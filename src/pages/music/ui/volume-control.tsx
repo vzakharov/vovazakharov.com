@@ -59,10 +59,6 @@ function canSetVolume() {
   return volumeSettable;
 }
 
-function settableOnServer() {
-  return true;
-}
-
 /** Long enough for the mouse to cross the gap between the button and the dropdown. */
 const HOVER_CLOSE_DELAY = 200;
 
@@ -149,11 +145,7 @@ function LosslessToggle() {
 export function VolumeControl() {
   const { labels } = usePlayer();
   const [volume, setVolume] = useStoredSetting('volume');
-  const settable = useSyncExternalStore(
-    subscribe,
-    canSetVolume,
-    settableOnServer,
-  );
+  const settable = useSyncExternalStore(subscribe, canSetVolume, () => true);
 
   const { opened, setOpened, hover, toggle } = useHoverPopover();
 
