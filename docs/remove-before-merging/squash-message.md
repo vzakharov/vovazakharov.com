@@ -9,11 +9,12 @@ The player loaded the next song only once the current one had ended,
 so every track change - and every segue written to run straight on -
 broke on a gap while the file was fetched and decoded.
 
-The player now runs two audio elements as decks. In the last 30 s of a
-track the standby deck loads whatever plays next: the queue's next
-position, or the radio's next slot. The outgoing track's ended starts
-the standby inside the handler, before React re-renders, and the decks
-swap roles; a manual next onto the preloaded track swaps the same way.
+The player now runs two audio elements as decks. Once the playing track
+can play through, the standby deck loads whatever plays next: the
+queue's next position, or the radio's next slot. The outgoing track's
+ended starts the standby inside the handler, before React re-renders,
+and the decks swap roles; a skip onto the preloaded track, even in a
+song's first seconds, swaps the same way.
 
 A browser that refuses to start the standby deck falls back to loading
 the track on the active one, as before, so the worst case is the old

@@ -41,16 +41,20 @@ effect finds the active deck already holding the wanted `src` and loads nothing.
      deck is the active one, so the standby's own `play`/`pause`/`ended` never
      reach the reducer.
    - Volume is applied to both.
-   - **Arming**: once the active deck has `PRELOAD_LEAD` (30 s) or less left,
-     the standby gets `preload = 'auto'` and the upcoming track's `src` (in the
-     current quality, via the existing `source`). Re-armed whenever the upcoming
+   - **Arming**: at the active deck's `canplaythrough` — the browser's own
+     verdict that the playing track has enough buffered to finish — the standby
+     gets `preload = 'auto'` and the upcoming track's `src` (in the current
+     quality, via the existing `source`). That is as early as a skip in the
+     first seconds of a song needs, without the preload competing with the
+     playing track's own start for bandwidth. Re-armed whenever the upcoming
      track, the quality or the radio state changes; a standby whose `src` no
-     longer matches the upcoming track is simply re-pointed.
+     longer matches the upcoming track is simply re-pointed, which aborts its
+     load, so at most one preload is ever in flight.
    - **Swap at `ended`**: if the standby holds the source the next step wants,
      `standby.play()`, swap, then dispatch as today. Otherwise today's path.
    - **Swap on a manual change too**: when the source effect is about to load a
-     `src` the standby already holds (the reader pressed next near the end), it
-     swaps instead of reloading.
+     `src` the standby already holds — the reader pressed next, at any point in
+     the song — it swaps instead of reloading.
 4. **`use-audio-player.ts`**: the element-construction effect and the source
    effect move onto `useDecks`; the controls keep their shape.
 
@@ -65,9 +69,11 @@ same autoplay state the existing `play()` catch already handles.
 
 ### Accepted costs
 
-- **Bandwidth**: the upcoming track's first ~30 s is fetched even when the
-  reader then skips elsewhere — ~1 MB of MP3, ~4 MB of FLAC per skip inside the
-  last 30 s. Arming earlier would buy nothing on top of 30 s and cost more.
+- **Bandwidth**: the preload is wasted only when the upcoming track never plays
+  — the reader picks another song, changes the order, or leaves. How much a
+  paused `preload = 'auto'` element fetches is the browser's call, a buffer
+  ahead rather than the whole file as a rule; verification measures it for MP3
+  and FLAC in Chromium.
 - **Not sample-accurate.** `ended` fires a few milliseconds late, and an MP3
   carries encoder padding unless the browser trims it from the LAME header
   (Chrome and Firefox do). Expect a gap of tens of milliseconds at worst,
@@ -79,11 +85,14 @@ same autoplay state the existing `play()` catch already handles.
 
 ## Alternatives not taken
 
-- **Prefetch into the HTTP cache, one element** (a hidden element or `fetch`
-  warms the cache, the active element still switches `src`): smaller, but the
-  switch still waits on the React round-trip, the element's reset and decode
-  start — a shorter gap, not none. Moving from it to two decks later would be a
-  rewrite of the same code, not an amendment.
+- **Prefetch into the HTTP cache, one element** (a hidden, never-played element
+  warms the cache, the active element still switches `src`): smaller and free of
+  the autoplay risk, but the switch still waits on the element's reset, a cache
+  lookup and decoder start — a shorter gap, not none. It also leans on what the
+  decks need nothing from: `max-age=300` makes a preload older than five minutes
+  cost a revalidation round-trip, and Safari plays media outside the page's HTTP
+  cache, so there it may buy nothing. Moving from it to two decks later would be
+  a rewrite of the same code, not an amendment.
 - **Web Audio with decoded buffers**: truly gapless, but the memory cost above
   and the loss of streaming rule it out.
 
@@ -94,7 +103,8 @@ same autoplay state the existing `play()` catch already handles.
 - `/preview` of the music page in headless Chromium: play a `segue` pair, seek
   to 5 s before the end, and log the time between the outgoing deck's `ended`
   and the incoming deck's `playing`; check the network panel shows the next file
-  requested ~30 s before the end and not earlier.
+  requested once the current one can play through, and how many bytes the paused
+  standby fetches for an MP3 and a FLAC.
 - Manual on a phone (QA checklist): lock screen across a track change, and radio
   hand-over.
 
