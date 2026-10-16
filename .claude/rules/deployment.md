@@ -1,5 +1,5 @@
 ---
-description: How a merge to main publishes each site — the two doors the sites leave by, the subject gate, the hand-run, the PDF print and DNS
+description: How a merge to main publishes each site — the two doors the sites leave by, the preview door beside them, the subject gate, the hand-run, the PDF print and DNS
 paths:
   - .github/workflows/**
   - .github/actions/**
@@ -46,8 +46,23 @@ Three things follow:
   `.claude/skills/squash-message/SKILL.md` says when a shared change may take
   one.
 
+**A third door, `.github/workflows/preview.yml`, never reaches production.**
+Dispatched by hand for one site from any ref, it publishes through
+`scripts/publish-site.sh <site> --preview` to
+`vzakharov/preview.vovazakharov.com`, one slot that serves whichever site came
+last, in a concurrency group apart from `pages`.
+`.claude/skills/preview/SKILL.md` § "Published, for someone else to look at"
+carries how it is used.
+
+**On an unmerged branch, an operator's "deploy" — «задеплой», «давай задеплоим»
+— means this door.** A branch dispatch of `deploy.yml` reaches production, so it
+takes an ask that names production or a live domain, or a `/stand-up-site` run,
+whose Step 3 publish to the new domain is what "deploy" means there. A deploy
+misread as a preview costs a rerun, one misread as production ships unmerged
+work.
+
 **Each lane prints that site's page PDFs into its export before publishing**,
-through the `.github/actions/render-pdfs` composite action both of them call. A
+through the `.github/actions/render-pdfs` composite action they all call. A
 page's `.pdf` link is derived from its route and emitted whether or not the file
 exists, so the file has to be there by the time the export is served — and
 nothing in the repository carries it, the PDFs being build artifacts

@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   billingText,
   currentTrack,
+  hasLossless,
   initialPlayerState,
   isQueued,
   placeTracks,
@@ -11,6 +12,7 @@ import {
   type PlayerState,
   shouldRestart,
   shuffleOrder,
+  upcomingTrack,
 } from './player-state';
 
 const COUNT = 10;
@@ -28,6 +30,16 @@ function playing(
 function queued(positions = ALBUM, state = initialPlayerState(COUNT)) {
   return playerReducer(state, { type: 'queue', positions });
 }
+
+describe('hasLossless', () => {
+  it('holds where a master stands beside the MP3', () => {
+    assert.equal(hasLossless({ audio: '/a.flac', mp3: '/a.mp3' }), true);
+  });
+
+  it('fails where the MP3 is the master', () => {
+    assert.equal(hasLossless({ audio: '/a.mp3', mp3: '/a.mp3' }), false);
+  });
+});
 
 describe('shuffleOrder', () => {
   it('is a permutation of the queue', () => {
@@ -127,6 +139,22 @@ describe('the queue', () => {
     assert.equal(currentTrack(restored), 4);
     assert.equal(restored.shuffled, false);
     assert.deepEqual(restored.order, initialPlayerState(COUNT).order);
+  });
+
+  it('names what a step forward would play as upcoming', () => {
+    const shuffled = playerReducer(playing(3), { type: 'shuffle', seed: 2026 });
+
+    for (const state of [playing(3), playing(COUNT - 1), shuffled, queued()]) {
+      assert.equal(
+        upcomingTrack(state),
+        currentTrack(playerReducer(state, { type: 'step', by: 1 })),
+      );
+    }
+  });
+
+  it('has nothing upcoming before anything plays, or in a queue of one', () => {
+    assert.equal(upcomingTrack(initialPlayerState(COUNT)), undefined);
+    assert.equal(upcomingTrack(queued([4])), undefined);
   });
 
   it('ignores a toggle before anything has been chosen', () => {

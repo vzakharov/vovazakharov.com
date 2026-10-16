@@ -27,33 +27,37 @@ import {
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 
-let volumeSettable: boolean | undefined;
+let volumeSettable = true;
+let probed = false;
+const probeListeners = new Set<() => void>();
 
 /**
- * iOS leaves the volume to the device's buttons: an element's `volume` reads
- * back 1 whatever was set, so a slider there would move nothing.
+ * iOS leaves the volume to the device's buttons, so a slider there would move
+ * nothing. An element's `volume` reads back what was set until the next tick
+ * and only then reverts to 1, so the probe reads it a tick late.
  */
-function canSetVolume(): boolean {
-  if (volumeSettable === undefined) {
-    const probe = new Audio();
+function probeVolume() {
+  probed = true;
+  const probe = new Audio();
 
-    probe.volume = 0.5;
+  probe.volume = 0.5;
+  setTimeout(() => {
     volumeSettable = probe.volume === 0.5;
-  }
+    for (const listener of probeListeners) listener();
+  });
+}
 
+function subscribe(listener: () => void) {
+  probeListeners.add(listener);
+  if (!probed) probeVolume();
+
+  return () => {
+    probeListeners.delete(listener);
+  };
+}
+
+function canSetVolume() {
   return volumeSettable;
-}
-
-function unsubscribe() {
-  // A device's hold on its volume never changes under a page.
-}
-
-function subscribe() {
-  return unsubscribe;
-}
-
-function settableOnServer() {
-  return true;
 }
 
 /** Long enough for the mouse to cross the gap between the button and the dropdown. */
@@ -111,9 +115,12 @@ function VolumeIcon({ volume }: VolumeIconProps) {
   return volume < 0.5 ? <Volume1 size={18} /> : <Volume2 size={18} />;
 }
 
+/** Absent for a song with no master beside its MP3, which it could not switch to. */
 function LosslessToggle() {
-  const { labels, switching } = usePlayer();
+  const { labels, switching, current } = usePlayer();
   const [lossless, setLossless] = useStoredSetting('lossless');
+
+  if (current === undefined || !hasLossless(current)) return null;
 
   return (
     <UnstyledButton
@@ -138,21 +145,15 @@ function LosslessToggle() {
 /**
  * The bar's sound settings: the volume, and lossless above it — or lossless
  * alone, straight on the bar, where the device keeps the volume to itself.
- * Lossless shows only for a song that has a lossless file.
  */
 export function VolumeControl() {
-  const { labels, current } = usePlayer();
-  const lossless = current !== undefined && hasLossless(current);
+  const { labels } = usePlayer();
   const [volume, setVolume] = useStoredSetting('volume');
-  const settable = useSyncExternalStore(
-    subscribe,
-    canSetVolume,
-    settableOnServer,
-  );
+  const settable = useSyncExternalStore(subscribe, canSetVolume, () => true);
 
   const { opened, setOpened, hover, toggle } = useHoverPopover();
 
-  if (!settable) return lossless && <LosslessToggle />;
+  if (!settable) return <LosslessToggle />;
 
   return (
     <Popover position="top" shadow="md" {...{ opened }} onChange={setOpened}>
@@ -171,7 +172,7 @@ export function VolumeControl() {
       </Popover.Target>
       <Popover.Dropdown className={classes['volumeDropdown']} {...hover}>
         <Stack gap={10} align="center">
-          {lossless && <LosslessToggle />}
+          <LosslessToggle />
           <Box
             component="input"
             type="range"
