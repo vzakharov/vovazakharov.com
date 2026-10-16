@@ -189,7 +189,7 @@ blank PNG — a capture that reads as a page with nothing on it.
 branch and run the dev server themselves. The ask is `/preview live [<site>]`,
 or any wording that names the host — «на превью», «выложи на превью», "on
 preview" — and, on an unmerged branch, a plain «задеплой» or "deploy"
-(`.claude/rules/deployment.md` says why that never means production); a bare
+(`.claude/rules/deployment.md` says when it means production instead); a bare
 `/preview` or «посмотри, как выглядит» is the screenshot pass above. With no
 site named, publish the one the branch changes, and ask only when it changes
 several. Offer it, without publishing, when the change is one that setup cannot
