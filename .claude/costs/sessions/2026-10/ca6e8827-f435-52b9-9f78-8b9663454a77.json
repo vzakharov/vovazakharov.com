@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 22,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 66667,
-    "cacheReadTokens": 1101166,
-    "outputTokens": 2770,
-    "thinkingTokens": 483,
-    "responses": 11,
-    "costUsd": 0.8090572
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 80704,
+    "cacheWrite1hTokens": 114988,
+    "cacheReadTokens": 4655046,
+    "outputTokens": 9771,
+    "thinkingTokens": 1687,
+    "responses": 39,
+    "costUsd": 2.4501652
   },
   "estimate": {
     "at": "2026-10-16T12:20:56.744Z",
@@ -25,46 +25,50 @@
   "branch": "claude/seamless-quality-switch-i2xtai",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/seamless-quality-switch-i2xtai",
-  "prs": [],
+  "prs": [
+    168
+  ],
   "url": "https://claude.ai/code/session_01Nyap6PimBLfL2M5aQseDYN",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-16T12:20:41.372Z",
-  "lastResponseAt": "2026-10-16T12:31:03.133Z",
+  "lastResponseAt": "2026-10-16T12:43:18.956Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 22,
+    "inputTokens": 58,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 66667,
-    "cacheReadTokens": 1101166,
-    "outputTokens": 2770,
-    "thinkingTokens": 483,
-    "responses": 11,
-    "costUsd": 0.8090572
+    "cacheWrite1hTokens": 114988,
+    "cacheReadTokens": 3677084,
+    "outputTokens": 9670,
+    "thinkingTokens": 1687,
+    "responses": 29,
+    "costUsd": 1.8489528000000004
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 80704,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
+    "cacheReadTokens": 977962,
+    "outputTokens": 101,
     "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "responses": 10,
+    "costUsd": 0.6012124
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 22,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 66667,
-      "cacheReadTokens": 1101166,
-      "outputTokens": 2770,
-      "thinkingTokens": 483,
-      "responses": 11,
-      "costUsd": 0.8090572
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 80704,
+      "cacheWrite1hTokens": 114988,
+      "cacheReadTokens": 4655046,
+      "outputTokens": 9771,
+      "thinkingTokens": 1687,
+      "responses": 39,
+      "costUsd": 2.4501652
     }
   },
-  "warnings": [],
+  "warnings": [
+    "10 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
   "orientation": {
     "endedBy": "end_turn",
     "endedOn": null,
