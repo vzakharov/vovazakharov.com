@@ -5,14 +5,11 @@ name: Publish a preview
 # how to use it, scripts/publish-site.sh what a preview writes over the build.
 
 on:
-  # Temporary: proves the receiver end to end before this file reaches main,
-  # where GitHub reads dispatchable workflows from. Removed once green.
-  push:
-    branches: [claude/preview-site-s18bta]
   workflow_dispatch:
     inputs:
       site:
         description: Which site to publish to the preview slot
+        required: true
         type: choice
         options: [vova, lsa, bible, basilisk]
 
@@ -29,7 +26,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      SITE: ${{ inputs.site || 'lsa' }}
+      SITE: ${{ inputs.site }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
