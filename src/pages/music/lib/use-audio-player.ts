@@ -108,8 +108,6 @@ export function useAudioPlayer(
   locale: Locale,
 ): AudioPlayer {
   const decksRef = useRef<Decks | null>(null);
-  // Where a switch of quality left the song, for the new file to seek to.
-  const resumeAtRef = useRef<number | undefined>(undefined);
   const [tracks, setTracks] = useState(catalogue);
   const [state, dispatch] = useReducer(
     radioPlayerReducer,
@@ -282,28 +280,10 @@ export function useAudioPlayer(
       [
         'timeupdate',
         (audio) => {
-          // A new source reports its reset to 0 before a switch of quality
-          // seeks it back, which would flick the seek bar to the start.
-          if (resumeAtRef.current === undefined) setElapsed(audio.currentTime);
+          setElapsed(audio.currentTime);
         },
       ],
-      [
-        'canplay',
-        () => {
-          setSwitching(false);
-        },
-      ],
-      [
-        'loadedmetadata',
-        (audio) => {
-          // Ahead of the station's own seek, which a tuned-in radio then wins.
-          const resumeAt = resumeAtRef.current;
-
-          resumeAtRef.current = undefined;
-          if (resumeAt !== undefined) audio.currentTime = resumeAt;
-          onMedia();
-        },
-      ],
+      ['loadedmetadata', onMedia],
       ['playing', onMedia],
       [
         'ended',
@@ -351,17 +331,25 @@ export function useAudioPlayer(
     // reload the track from the top.
     const loaded = audio.getAttribute('src');
 
-    if (cued || loaded !== wanted) {
-      // The same song in the other quality picks up where it was, once the new
-      // file's metadata gives it somewhere to seek to; any other source — a
-      // preloaded one included — starts from the top, and drops a seek still
-      // owed to a file gone.
-      const switched = loaded === trackSource(current, !lossless);
-
-      resumeAtRef.current = switched ? audio.currentTime : undefined;
-      setSwitching(switched);
+    if (
+      !cued &&
+      (loaded === wanted || loaded === trackSource(current, !lossless))
+    ) {
+      // The same song in the other quality comes in under the one playing, at
+      // the moment it has reached; the file already loaded calls off a switch
+      // still under way, or waits out one the active deck loads itself.
+      if (loaded !== wanted) setSwitching(true);
+      decks.swapIn(wanted, {
+        onLanded: () => {
+          setSwitching(false);
+        },
+        onRefused: refused,
+      });
+    } else {
+      // Any other source — a preloaded one included — starts from the top.
+      setSwitching(false);
       if (!cued) audio.src = wanted;
-      if (!switched) setElapsed(0);
+      setElapsed(0);
     }
 
     if (state.playing) {
