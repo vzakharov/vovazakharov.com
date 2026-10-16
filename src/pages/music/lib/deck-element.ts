@@ -6,7 +6,6 @@ export type DeckListener = readonly [
   (deck: HTMLAudioElement) => void,
 ];
 
-/** The deck playing, and how it is started. */
 export type DeckPlayback = {
   active: () => HTMLAudioElement;
   /**
