@@ -115,9 +115,12 @@ function VolumeIcon({ volume }: VolumeIconProps) {
   return volume < 0.5 ? <Volume1 size={18} /> : <Volume2 size={18} />;
 }
 
+/** Absent for a song with no master beside its MP3, which it could not switch to. */
 function LosslessToggle() {
-  const { labels, switching } = usePlayer();
+  const { labels, switching, current } = usePlayer();
   const [lossless, setLossless] = useStoredSetting('lossless');
+
+  if (current === undefined || !hasLossless(current)) return null;
 
   return (
     <UnstyledButton
@@ -142,17 +145,15 @@ function LosslessToggle() {
 /**
  * The bar's sound settings: the volume, and lossless above it — or lossless
  * alone, straight on the bar, where the device keeps the volume to itself.
- * Lossless shows only for a song that has a master beside its MP3.
  */
 export function VolumeControl() {
-  const { labels, current } = usePlayer();
+  const { labels } = usePlayer();
   const [volume, setVolume] = useStoredSetting('volume');
   const settable = useSyncExternalStore(subscribe, canSetVolume, () => true);
-  const lossless = current !== undefined && hasLossless(current);
 
   const { opened, setOpened, hover, toggle } = useHoverPopover();
 
-  if (!settable) return lossless && <LosslessToggle />;
+  if (!settable) return <LosslessToggle />;
 
   return (
     <Popover position="top" shadow="md" {...{ opened }} onChange={setOpened}>
@@ -171,7 +172,7 @@ export function VolumeControl() {
       </Popover.Target>
       <Popover.Dropdown className={classes['volumeDropdown']} {...hover}>
         <Stack gap={10} align="center">
-          {lossless && <LosslessToggle />}
+          <LosslessToggle />
           <Box
             component="input"
             type="range"
