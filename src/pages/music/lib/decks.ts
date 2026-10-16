@@ -110,9 +110,19 @@ export function createDecks(listeners: DeckListeners): Decks {
     [active, standby] = [standby, active];
   }
 
-  /** The swap under way, dropped once the file it replaces left the active deck. */
+  /** A file no longer due, dropped rather than left downloading. */
+  function unload(deck: HTMLAudioElement) {
+    deck.removeAttribute('src');
+    deck.load();
+  }
+
+  /**
+   * The swap under way, dropped — and its file with it, whether loading or
+   * just starting to sound — once the file it replaces left the active deck.
+   */
   function underWay(): Swap | undefined {
     if (swapping !== undefined && loaded(active) !== swapping.replaces) {
+      if (loaded(standby) === swapping.brings) unload(standby);
       swapping = undefined;
     }
 
@@ -137,10 +147,8 @@ export function createDecks(listeners: DeckListeners): Decks {
         : undefined;
     if (loaded(standby) === wanted || wanted === loaded(active)) return;
 
-    // A file no longer due is dropped rather than left downloading.
     if (wanted === undefined) {
-      standby.removeAttribute('src');
-      standby.load();
+      unload(standby);
 
       return;
     }
@@ -317,6 +325,15 @@ export function createDecks(listeners: DeckListeners): Decks {
 
         taking = undefined;
         taken.onLanded();
+      },
+    ],
+    // Any other file on the active deck ends a swap now, not at the standby
+    // deck's next event, which a request still waiting on its first byte
+    // does not send.
+    [
+      'loadstart',
+      () => {
+        underWay();
       },
     ],
     ...listeners,
