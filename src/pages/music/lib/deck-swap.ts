@@ -7,10 +7,13 @@ import {
   unload,
 } from './deck-element';
 
-/** What a `swapIn` reports back. */
-export type SwapDone = {
+type Landing = {
   /** The new file plays — or would, were playback on — from where the old one was. */
   onLanded: () => void;
+};
+
+/** What a `swapIn` reports back. */
+type SwapDone = Landing & {
   /** The browser withheld playback, as `play`'s own refusal. */
   onRefused: () => void;
 };
@@ -30,8 +33,7 @@ type Swap = SwapDone & Bringing & { replaces: string; stage: SwapStage };
  * A file the active deck loads itself in place of a swap, and the moment it
  * resumes at once its length is known.
  */
-type TakenInPlace = Bringing &
-  Pick<SwapDone, 'onLanded'> & { resumeAt: number; sought: boolean };
+type TakenInPlace = Bringing & Landing & { resumeAt: number; sought: boolean };
 
 /** What a swap drives of the decks it runs between. */
 export type SwapHost = DeckPlayback & {
@@ -44,7 +46,7 @@ export type SwapHost = DeckPlayback & {
   markPlayed: (deck: HTMLAudioElement) => void;
 };
 
-export type Swapper = {
+export type Swapping = {
   /**
    * Put `src` — the playing song in another file — on the active deck where the
    * song is: the standby deck loads it and seeks there while the active one
@@ -52,6 +54,9 @@ export type Swapper = {
    * the active deck calls off a swap under way, and reports it landed.
    */
   swapIn: (src: string, done: SwapDone) => void;
+};
+
+export type Swapper = Swapping & {
   /** Whether a swap holds the standby deck, which then loads nothing else. */
   underWay: () => boolean;
   /**
@@ -131,7 +136,7 @@ export function createSwapper(host: SwapHost): Swapper {
     host.play(onRefused);
   }
 
-  function landed(done: Pick<SwapDone, 'onLanded'>) {
+  function landed(done: Landing) {
     swapping = undefined;
     host.rearm();
     done.onLanded();

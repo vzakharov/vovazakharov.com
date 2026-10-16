@@ -8,7 +8,7 @@ import {
   refusal,
   unload,
 } from './deck-element';
-import { createSwapper, type Swapper } from './deck-swap';
+import { createSwapper, type Swapping } from './deck-swap';
 
 /**
  * Two audio elements taking turns, as a DJ's decks do: the active one plays and
@@ -16,7 +16,7 @@ import { createSwapper, type Swapper } from './deck-swap';
  * changing to it starts a buffered file rather than a request.
  */
 export type Decks = DeckPlayback &
-  Pick<Swapper, 'swapIn'> & {
+  Swapping & {
     /**
      * The file due next, which the standby deck loads once the active one can
      * play through, so the two never compete for the connection.
