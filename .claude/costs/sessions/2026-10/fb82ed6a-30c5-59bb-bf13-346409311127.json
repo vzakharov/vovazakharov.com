@@ -1,0 +1,75 @@
+{
+  "total": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 59926,
+    "cacheReadTokens": 930769,
+    "outputTokens": 4136,
+    "thinkingTokens": 1122,
+    "responses": 10,
+    "costUsd": 0.7483618000000002
+  },
+  "estimate": null,
+  "sessionId": "fb82ed6a-30c5-59bb-bf13-346409311127",
+  "branch": "claude/radio-webkit-seek-merge-igs3uv",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "мы тут упали, или что?",
+  "prs": [],
+  "url": "https://claude.ai/code/session_018YkCpEAzvLK1JbfF4nm6xe",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-16T08:46:54.764Z",
+  "lastResponseAt": "2026-10-16T08:47:43.595Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 59926,
+    "cacheReadTokens": 930769,
+    "outputTokens": 4136,
+    "thinkingTokens": 1122,
+    "responses": 10,
+    "costUsd": 0.7483618000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59926,
+      "cacheReadTokens": 930769,
+      "outputTokens": 4136,
+      "thinkingTokens": 1122,
+      "responses": 10,
+      "costUsd": 0.7483618000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-16T08:47:43.595Z",
+    "contextTokens": 107502,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59054,
+      "cacheReadTokens": 824141,
+      "outputTokens": 3723,
+      "thinkingTokens": 1115,
+      "responses": 9,
+      "costUsd": 0.7117922000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
