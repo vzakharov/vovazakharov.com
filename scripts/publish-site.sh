@@ -52,15 +52,10 @@ esac
 
 # The one place a site id maps to the repository that serves it. `vova` is
 # absent from production by design: it is this repository's own Pages site and
-# leaves by actions/deploy-pages, never through here.
+# leaves by actions/deploy-pages, never through here. A preview of a site that
+# does not exist stops at its missing export below.
 if [ "$TARGET" = preview ]; then
-  case "$SITE" in
-    vova | lsa | bible | basilisk) RECEIVER=vzakharov/$PREVIEW_HOST ;;
-    *)
-      printf 'No site %s to preview.\n' "$SITE" >&2
-      exit 1
-      ;;
-  esac
+  RECEIVER=vzakharov/$PREVIEW_HOST
 else
   case "$SITE" in
     lsa) RECEIVER=vzakharov/latestageagentic.com ;;
