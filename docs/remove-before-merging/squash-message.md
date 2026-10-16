@@ -1,15 +1,15 @@
 Proposed squash body:
 
 ```
-iPhones showed the player's volume slider, which moves nothing there:
-iOS keeps a page's volume to the device's buttons, and the bar is meant
-to show the HQ toggle alone in that case. The check deciding it read a
-probe element's volume straight after setting it, and since iOS 15
-Safari reads the set value back until the next tick before reverting it
-to 1.
+iPhones showed the player's volume button and its slider, which moves
+nothing there: iOS keeps a page's volume to the device's buttons, so
+there the HQ toggle is meant to stand in the volume button's place, with
+no slider at all. The check deciding it read a probe element's volume
+straight after setting it, and since iOS 15 Safari reads the set value
+back until the next tick before reverting it to 1.
 
 The probe now reads the value a tick late, as Video.js does for the same
-quirk, and the bar re-renders once the answer is in; the static HTML
+quirk, and the player re-renders once the answer is in; the static HTML
 still shows the volume button until then.
 
 Co-authored-by: Claude <noreply@anthropic.com>
