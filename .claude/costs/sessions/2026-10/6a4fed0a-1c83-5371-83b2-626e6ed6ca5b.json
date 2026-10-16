@@ -1,0 +1,115 @@
+{
+  "sessionId": "6a4fed0a-1c83-5371-83b2-626e6ed6ca5b",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (a stale local ref is renamed aside with git branch -m and a fresh trac…",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01UuJeXhkErjH7ZCown4ZshT",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-01T04:05:14.683Z",
+  "lastResponseAt": "2026-10-01T05:06:05.396Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 4903,
+    "cacheWrite5mTokens": 674893,
+    "cacheWrite1hTokens": 166646,
+    "cacheReadTokens": 23848380,
+    "outputTokens": 33227,
+    "thinkingTokens": 6990,
+    "responses": 185,
+    "costUsd": 10.163000000000004
+  },
+  "ownTurns": {
+    "inputTokens": 167,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 166646,
+    "cacheReadTokens": 12270171,
+    "outputTokens": 31851,
+    "thinkingTokens": 6990,
+    "responses": 77,
+    "costUsd": 4.424890200000002
+  },
+  "subagents": {
+    "inputTokens": 202,
+    "cacheWrite5mTokens": 673303,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 10403875,
+    "outputTokens": 1242,
+    "thinkingTokens": 0,
+    "responses": 100,
+    "costUsd": 5.472937999999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3911,
+      "cacheWrite5mTokens": 674893,
+      "cacheWrite1hTokens": 166646,
+      "cacheReadTokens": 23848380,
+      "outputTokens": 33210,
+      "thinkingTokens": 6990,
+      "responses": 184,
+      "costUsd": 10.161923000000003
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 992,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 17,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.001077
+    }
+  },
+  "warnings": [
+    "prices.json priced the 177 responses the events also priced at $9.8978, against the events' $10.8300: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/remove-before-merging/bite11-tail/common-brief.md",
+    "endedAt": "2026-10-01T04:06:55.943Z",
+    "contextTokens": 134627,
+    "spend": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 88583,
+      "cacheReadTokens": 1715374,
+      "outputTokens": 4753,
+      "thinkingTokens": 1570,
+      "responses": 16,
+      "costUsd": 1.1469268
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 185,
+    "matched": 177,
+    "matchedTableUsd": 9.897828200000001,
+    "matchedEventUsd": 10.829968200000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 1590,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1174334,
+        "outputTokens": 117,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.2640948000000001
+      },
+      "generate_session_title": {
+        "inputTokens": 992,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 17,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.001077
+      }
+    }
+  }
+}

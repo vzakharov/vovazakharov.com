@@ -1,0 +1,88 @@
+{
+  "estimate": {
+    "at": "2026-10-10T06:05:28.914Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "telling a stale dev-server cache from a real client-routing bug takes reproducing the exact click path in a clean browser, which a middle developer does routinely"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "820af962-4488-517c-b3cb-a46c64b95072",
+  "branch": "claude/krylya-album-2z13o2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/krylya-album-2z13o2",
+  "prs": [
+    127
+  ],
+  "url": "https://claude.ai/code/session_014X7j5sGSHHwUaihrYKL2Am",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T06:02:53.420Z",
+  "lastResponseAt": "2026-10-10T06:09:46.179Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 66,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 101391,
+    "cacheReadTokens": 4108562,
+    "outputTokens": 13353,
+    "thinkingTokens": 5090,
+    "responses": 33,
+    "costUsd": 1.9001644000000002
+  },
+  "ownTurns": {
+    "inputTokens": 66,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 101391,
+    "cacheReadTokens": 4108562,
+    "outputTokens": 13353,
+    "thinkingTokens": 5090,
+    "responses": 33,
+    "costUsd": 1.9001644000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 66,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 101391,
+      "cacheReadTokens": 4108562,
+      "outputTokens": 13353,
+      "thinkingTokens": 5090,
+      "responses": 33,
+      "costUsd": 1.9001644000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-10T06:05:38.825Z",
+    "contextTokens": 136692,
+    "spend": {
+      "inputTokens": 44,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 89881,
+      "cacheReadTokens": 2541533,
+      "outputTokens": 7507,
+      "thinkingTokens": 2821,
+      "responses": 22,
+      "costUsd": 1.3776705999999996
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

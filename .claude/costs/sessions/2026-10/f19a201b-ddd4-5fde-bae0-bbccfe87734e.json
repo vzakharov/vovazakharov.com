@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-14T06:17:09.238Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "encoding and pushing 20 masters across 20 repositories, a required schema field with its scaffolder support, and the first review fixes are routine but need care not to overwrite anything"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "every pushed link has to answer 200 at the recorded size and every length match the song's"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "f19a201b-ddd4-5fde-bae0-bbccfe87734e",
+  "branch": "claude/feed-full-content-0lat2x",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/feed-full-content-0lat2x",
+  "prs": [
+    149
+  ],
+  "url": "https://claude.ai/code/session_015R9gPDZTryqmebA4UJNEkR",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T05:17:02.221Z",
+  "lastResponseAt": "2026-10-14T06:17:37.789Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 5.690141199999999,
+  "total": {
+    "inputTokens": 222,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 261078,
+    "cacheReadTokens": 22446856,
+    "outputTokens": 60809,
+    "thinkingTokens": 16201,
+    "responses": 111,
+    "costUsd": 7.7950631999999995
+  },
+  "ownTurns": {
+    "inputTokens": 222,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 261078,
+    "cacheReadTokens": 22446856,
+    "outputTokens": 60809,
+    "thinkingTokens": 16201,
+    "responses": 111,
+    "costUsd": 7.7950631999999995
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 222,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 261078,
+      "cacheReadTokens": 22446856,
+      "outputTokens": 60809,
+      "thinkingTokens": 16201,
+      "responses": 111,
+      "costUsd": 7.7950631999999995
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/plans/feed-full-content.in-progress.md",
+    "endedAt": "2026-10-14T05:25:20.914Z",
+    "contextTokens": 135692,
+    "spend": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 88695,
+      "cacheReadTokens": 1794751,
+      "outputTokens": 8994,
+      "thinkingTokens": 2985,
+      "responses": 16,
+      "costUsd": 1.2485182000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

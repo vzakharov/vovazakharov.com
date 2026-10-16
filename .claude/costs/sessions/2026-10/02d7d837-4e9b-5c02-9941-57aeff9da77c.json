@@ -1,0 +1,115 @@
+{
+  "sessionId": "02d7d837-4e9b-5c02-9941-57aeff9da77c",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside wit…",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01JMENF5NxqFU3456RVTuvG9",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-03T09:54:17.389Z",
+  "lastResponseAt": "2026-10-03T10:51:16.947Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 6857,
+    "cacheWrite5mTokens": 862959,
+    "cacheWrite1hTokens": 161588,
+    "cacheReadTokens": 44792464,
+    "outputTokens": 40055,
+    "thinkingTokens": 4711,
+    "responses": 365,
+    "costUsd": 15.40048079999999
+  },
+  "ownTurns": {
+    "inputTokens": 152,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 161588,
+    "cacheReadTokens": 10979179,
+    "outputTokens": 35546,
+    "thinkingTokens": 4711,
+    "responses": 65,
+    "costUsd": 4.200067799999999
+  },
+  "subagents": {
+    "inputTokens": 578,
+    "cacheWrite5mTokens": 859815,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 32055480,
+    "outputTokens": 4305,
+    "thinkingTokens": 0,
+    "responses": 289,
+    "costUsd": 10.798582999999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 5790,
+      "cacheWrite5mTokens": 862959,
+      "cacheWrite1hTokens": 161588,
+      "cacheReadTokens": 44792464,
+      "outputTokens": 40037,
+      "thinkingTokens": 4711,
+      "responses": 364,
+      "costUsd": 15.39932379999999
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 1067,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 18,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.001157
+    }
+  },
+  "warnings": [
+    "prices.json priced the 354 responses the events also priced at $14.9987, against the events' $19.3201: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-03T09:55:53.976Z",
+    "contextTokens": 145408,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 90844,
+      "cacheWrite1hTokens": 90893,
+      "cacheReadTokens": 1620909,
+      "outputTokens": 6747,
+      "thinkingTokens": 1090,
+      "responses": 20,
+      "costUsd": 1.6406458
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 365,
+    "matched": 354,
+    "matchedTableUsd": 14.998650799999991,
+    "matchedEventUsd": 19.3201108,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 5060,
+        "cacheWrite5mTokens": 3144,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1757805,
+        "outputTokens": 186,
+        "thinkingTokens": 0,
+        "responses": 10,
+        "costUsd": 0.40067300000000006
+      },
+      "generate_session_title": {
+        "inputTokens": 1067,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.001157
+      }
+    }
+  }
+}

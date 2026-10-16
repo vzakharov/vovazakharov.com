@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-14T21:29:42.126Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the switch's rule spans build-time pages, a client player and a clock-driven radio, each verified by driving a built site; the per-line lyric rule's code is drafted"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "the chip depends on what is on air and what is playing, so checking it means driving the clock and the player"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "9696bca7-115e-5946-89c7-644c2d383fe9",
+  "branch": "claude/radio-transliteration-toggle-23la56",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "переключатель транслитерации (`[EN / Abc]`) показывается (по крайней мере в радио) даже в песнях, где транслитерировать нечего. При этом на самих страницах песе…",
+  "prs": [
+    156
+  ],
+  "url": "https://claude.ai/code/session_01FmmxvjwmNLNFj9PSoCNjHz",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T20:37:53.509Z",
+  "lastResponseAt": "2026-10-14T21:29:45.186Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 3.5032284000000002,
+  "total": {
+    "inputTokens": 210,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 260515,
+    "cacheReadTokens": 21507786,
+    "outputTokens": 78075,
+    "thinkingTokens": 30691,
+    "responses": 105,
+    "costUsd": 7.9480172000000024
+  },
+  "ownTurns": {
+    "inputTokens": 210,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 260515,
+    "cacheReadTokens": 21507786,
+    "outputTokens": 78075,
+    "thinkingTokens": 30691,
+    "responses": 105,
+    "costUsd": 7.9480172000000024
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 210,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 260515,
+      "cacheReadTokens": 21507786,
+      "outputTokens": 78075,
+      "thinkingTokens": 30691,
+      "responses": 105,
+      "costUsd": 7.9480172000000024
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/pages/music/ui/use-clock.ts",
+    "endedAt": "2026-10-14T20:39:24.562Z",
+    "contextTokens": 144267,
+    "spend": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 96591,
+      "cacheReadTokens": 1978646,
+      "outputTokens": 7292,
+      "thinkingTokens": 4618,
+      "responses": 17,
+      "costUsd": 1.3144332000000003
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

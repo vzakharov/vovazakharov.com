@@ -1,0 +1,82 @@
+{
+  "sessionId": "30a3d139-6050-5c04-9efc-1cc1b4a0f680",
+  "branch": "claude/cv-feedback-ugnhpz",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай посмотрим что стоит имплементировать из https://github.com/vzakharov/life/tree/main/docs/work/cv-feedback и имплементируем то, что стоит",
+  "prs": [
+    93
+  ],
+  "url": "https://claude.ai/code/session_01FTmSeJ87Y81PH8iRE8ndqG",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-30T21:16:21.804Z",
+  "lastResponseAt": "2026-09-30T21:21:09.948Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 115847,
+    "cacheReadTokens": 3982124,
+    "outputTokens": 19578,
+    "thinkingTokens": 6368,
+    "responses": 32,
+    "costUsd": 2.1150168
+  },
+  "ownTurns": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 115847,
+    "cacheReadTokens": 3982124,
+    "outputTokens": 19578,
+    "thinkingTokens": 6368,
+    "responses": 32,
+    "costUsd": 2.1150168
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 64,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 115847,
+      "cacheReadTokens": 3982124,
+      "outputTokens": 19578,
+      "thinkingTokens": 6368,
+      "responses": 32,
+      "costUsd": 2.1150168
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/shared/i18n/messages/en.json",
+    "endedAt": "2026-09-30T21:18:02.101Z",
+    "contextTokens": 125871,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 81248,
+      "cacheReadTokens": 1020731,
+      "outputTokens": 6517,
+      "thinkingTokens": 4483,
+      "responses": 11,
+      "costUsd": 0.9845582
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 32,
+    "matched": 32,
+    "matchedTableUsd": 2.1150168,
+    "matchedEventUsd": 2.1150168,
+    "unseen": {}
+  }
+}

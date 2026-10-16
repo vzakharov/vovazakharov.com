@@ -1,0 +1,101 @@
+{
+  "estimate": {
+    "at": "2026-10-14T17:04:25.687Z",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a 500-line TypeScript collector rewritten in stdlib Python against three live APIs (Arctic Shift, Umami, GitHub traffic), its pure half re-tested as doctests and its output reconciled number by number with the original's"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "the playbook and the first digest carried into Russian without losing the evidence each rule cites, then the playbook restored to English when its reader turned out to be the agent"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the find-or-cut-the-routine-branch step extracted across three skills in two repos, ported ahead of upstream, and a PR trimmed down to what stays in this repo"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "d8c8afa5-02e5-5ab5-80a6-a20cad38a8ba",
+  "branch": "HEAD",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/reddit-digest-o1rpxs понял что не в той репе послал запрос, это всё должно быть в /life 🙈",
+  "prs": [
+    155,
+    195
+  ],
+  "url": "https://claude.ai/code/session_014timJ9GYZJuvg2pJfScAsd",
+  "operator": null,
+  "firstResponseAt": "2026-10-14T16:22:01.971Z",
+  "lastResponseAt": "2026-10-14T17:09:56.157Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 5.7056624000000005,
+  "total": {
+    "inputTokens": 186,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 271611,
+    "cacheReadTokens": 21826255,
+    "outputTokens": 78589,
+    "thinkingTokens": 21420,
+    "responses": 93,
+    "costUsd": 8.110663
+  },
+  "ownTurns": {
+    "inputTokens": 186,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 271611,
+    "cacheReadTokens": 21826255,
+    "outputTokens": 78589,
+    "thinkingTokens": 21420,
+    "responses": 93,
+    "costUsd": 8.110663
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 186,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 271611,
+      "cacheReadTokens": 21826255,
+      "outputTokens": 78589,
+      "thinkingTokens": 21420,
+      "responses": 93,
+      "costUsd": 8.110663
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "life/scripts/lib/reddit_digest.py",
+    "endedAt": "2026-10-14T16:23:48.773Z",
+    "contextTokens": 178960,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 131808,
+      "cacheReadTokens": 1585940,
+      "outputTokens": 9241,
+      "thinkingTokens": 5957,
+      "responses": 13,
+      "costUsd": 1.5565759999999997
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

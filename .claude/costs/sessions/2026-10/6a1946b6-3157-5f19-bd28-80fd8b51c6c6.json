@@ -1,0 +1,90 @@
+{
+  "estimate": {
+    "at": "2026-10-14T12:27:40.785Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "the dogfood run tests the skill's judgement against real threads and wires the routine, which needs someone fluent in the agent loop"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "6a1946b6-3157-5f19-bd28-80fd8b51c6c6",
+  "branch": "claude/reddit-digest-o1rpxs",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/reddit-digest-o1rpxs",
+  "prs": [
+    155
+  ],
+  "url": "https://claude.ai/code/session_01UYZ9Un5sykkS2W4tXyRKpA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T12:27:23.427Z",
+  "lastResponseAt": "2026-10-14T12:35:12.249Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 90,
+    "cacheWrite5mTokens": 107882,
+    "cacheWrite1hTokens": 131983,
+    "cacheReadTokens": 5798873,
+    "outputTokens": 23122,
+    "thinkingTokens": 8768,
+    "responses": 45,
+    "costUsd": 3.2178486000000004
+  },
+  "ownTurns": {
+    "inputTokens": 66,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 131983,
+    "cacheReadTokens": 4730569,
+    "outputTokens": 22991,
+    "thinkingTokens": 8768,
+    "responses": 33,
+    "costUsd": 2.4620618000000003
+  },
+  "subagents": {
+    "inputTokens": 24,
+    "cacheWrite5mTokens": 107882,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1068304,
+    "outputTokens": 131,
+    "thinkingTokens": 0,
+    "responses": 12,
+    "costUsd": 0.7557868
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 90,
+      "cacheWrite5mTokens": 107882,
+      "cacheWrite1hTokens": 131983,
+      "cacheReadTokens": 5798873,
+      "outputTokens": 23122,
+      "thinkingTokens": 8768,
+      "responses": 45,
+      "costUsd": 3.2178486000000004
+    }
+  },
+  "warnings": [
+    "12 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "writing/reddit/digests/2026-10-14.md",
+    "endedAt": "2026-10-14T12:30:53.916Z",
+    "contextTokens": 157009,
+    "spend": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 96706,
+      "cacheReadTokens": 1802673,
+      "outputTokens": 10923,
+      "thinkingTokens": 6708,
+      "responses": 16,
+      "costUsd": 1.3527706000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

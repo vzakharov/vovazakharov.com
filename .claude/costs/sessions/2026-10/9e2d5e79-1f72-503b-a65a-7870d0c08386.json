@@ -1,0 +1,75 @@
+{
+  "estimate": null,
+  "sessionId": "9e2d5e79-1f72-503b-a65a-7870d0c08386",
+  "branch": "claude/fervent-dijkstra-locskj",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/logging-entry-wrapper-5l8v0p",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01SMB89k6wwLZwsPToEwoxzR",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T11:53:38.984Z",
+  "lastResponseAt": "2026-10-14T11:54:05.705Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55522,
+    "cacheReadTokens": 435563,
+    "outputTokens": 2019,
+    "thinkingTokens": 676,
+    "responses": 5,
+    "costUsd": 0.5717086
+  },
+  "ownTurns": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55522,
+    "cacheReadTokens": 435563,
+    "outputTokens": 2019,
+    "thinkingTokens": 676,
+    "responses": 5,
+    "costUsd": 0.5717086
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55522,
+      "cacheReadTokens": 435563,
+      "outputTokens": 2019,
+      "thinkingTokens": 676,
+      "responses": 5,
+      "costUsd": 0.5717086
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-14T11:54:05.705Z",
+    "contextTokens": 101820,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54627,
+      "cacheReadTokens": 334640,
+      "outputTokens": 1518,
+      "thinkingTokens": 676,
+      "responses": 4,
+      "costUsd": 0.534336
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

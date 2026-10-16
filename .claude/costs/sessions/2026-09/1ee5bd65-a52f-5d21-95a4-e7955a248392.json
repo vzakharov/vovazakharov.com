@@ -1,0 +1,115 @@
+{
+  "sessionId": "1ee5bd65-a52f-5d21-95a4-e7955a248392",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_01RyW9H1H8Fot3GHhhfy3mRu",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-28T03:40:28.800Z",
+  "lastResponseAt": "2026-09-28T11:07:06.227Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 11681,
+    "cacheWrite5mTokens": 6777149,
+    "cacheWrite1hTokens": 454463,
+    "cacheReadTokens": 150328418,
+    "outputTokens": 58633,
+    "thinkingTokens": 7720,
+    "responses": 926,
+    "costUsd": 68.81725060000004
+  },
+  "ownTurns": {
+    "inputTokens": 203,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 454463,
+    "cacheReadTokens": 12027894,
+    "outputTokens": 44197,
+    "thinkingTokens": 7720,
+    "responses": 82,
+    "costUsd": 6.9260348
+  },
+  "subagents": {
+    "inputTokens": 1652,
+    "cacheWrite5mTokens": 6772257,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 135571148,
+    "outputTokens": 14115,
+    "thinkingTokens": 0,
+    "responses": 826,
+    "costUsd": 61.264422600000046
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 10457,
+      "cacheWrite5mTokens": 6777149,
+      "cacheWrite1hTokens": 454463,
+      "cacheReadTokens": 150328418,
+      "outputTokens": 58615,
+      "thinkingTokens": 7720,
+      "responses": 925,
+      "costUsd": 68.81593660000004
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 1224,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 18,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.001314
+    }
+  },
+  "warnings": [
+    "prices.json priced the 908 responses the events also priced at $68.1905, against the events' $79.1533: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-09-28T03:42:11.013Z",
+    "contextTokens": 107821,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 110608,
+      "cacheWrite1hTokens": 63781,
+      "cacheReadTokens": 768364,
+      "outputTokens": 5615,
+      "thinkingTokens": 1336,
+      "responses": 11,
+      "costUsd": 1.3293488
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 926,
+    "matched": 908,
+    "matchedTableUsd": 68.19045740000006,
+    "matchedEventUsd": 79.15329739999986,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 8602,
+        "cacheWrite5mTokens": 4892,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 2729376,
+        "outputTokens": 303,
+        "thinkingTokens": 0,
+        "responses": 17,
+        "costUsd": 0.6254792
+      },
+      "generate_session_title": {
+        "inputTokens": 1224,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.001314
+      }
+    }
+  }
+}

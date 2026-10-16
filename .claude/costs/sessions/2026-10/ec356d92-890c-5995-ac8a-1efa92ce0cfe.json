@@ -1,0 +1,95 @@
+{
+  "sessionId": "ec356d92-890c-5995-ac8a-1efa92ce0cfe",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7 — before attaching: never git reset --hard (deepen the shallow clone first; a stale local ref is renamed aside wit…",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_016pbMDts3gGENqQCpRr4T3P",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-03T00:09:58.640Z",
+  "lastResponseAt": "2026-10-03T01:37:29.067Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 30425,
+    "cacheWrite5mTokens": 815051,
+    "cacheWrite1hTokens": 179704,
+    "cacheReadTokens": 28872395,
+    "outputTokens": 30907,
+    "thinkingTokens": 3324,
+    "responses": 244,
+    "costUsd": 12.039524000000004
+  },
+  "ownTurns": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 179704,
+    "cacheReadTokens": 9573352,
+    "outputTokens": 28279,
+    "thinkingTokens": 3324,
+    "responses": 57,
+    "costUsd": 3.918386400000002
+  },
+  "subagents": {
+    "inputTokens": 358,
+    "cacheWrite5mTokens": 810945,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 18130250,
+    "outputTokens": 2233,
+    "thinkingTokens": 0,
+    "responses": 179,
+    "costUsd": 7.726867000000002
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 30425,
+      "cacheWrite5mTokens": 815051,
+      "cacheWrite1hTokens": 179704,
+      "cacheReadTokens": 28872395,
+      "outputTokens": 30907,
+      "thinkingTokens": 3324,
+      "responses": 244,
+      "costUsd": 12.039524000000004
+    }
+  },
+  "warnings": [
+    "prices.json priced the 235 responses the events also priced at $11.5932, against the events' $13.9348: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-03T00:10:55.890Z",
+    "contextTokens": 128796,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 59809,
+      "cacheWrite1hTokens": 82821,
+      "cacheReadTokens": 1060692,
+      "outputTokens": 3517,
+      "thinkingTokens": 655,
+      "responses": 12,
+      "costUsd": 1.2441874
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 243,
+    "matched": 235,
+    "matchedTableUsd": 11.593155200000005,
+    "matchedEventUsd": 13.9348352,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 29941,
+        "cacheWrite5mTokens": 4106,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1168793,
+        "outputTokens": 395,
+        "thinkingTokens": 0,
+        "responses": 8,
+        "costUsd": 0.3942706
+      }
+    }
+  }
+}

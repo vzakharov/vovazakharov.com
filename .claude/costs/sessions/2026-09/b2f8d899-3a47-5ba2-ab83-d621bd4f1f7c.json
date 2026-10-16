@@ -1,0 +1,115 @@
+{
+  "sessionId": "b2f8d899-3a47-5ba2-ab83-d621bd4f1f7c",
+  "branch": "claude/mushroom-game-syama-lbirv7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/mushroom-game-syama-lbirv7",
+  "prs": [
+    57
+  ],
+  "url": "https://claude.ai/code/session_011a1nTpcYBc5gBVAAKWjcoP",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-09-29T18:36:08.426Z",
+  "lastResponseAt": "2026-09-29T19:51:22.818Z",
+  "pricesAsOf": "2026-09-23",
+  "claudeCodeTotalUsd": 16.511508400000004,
+  "total": {
+    "inputTokens": 33213,
+    "cacheWrite5mTokens": 537393,
+    "cacheWrite1hTokens": 284837,
+    "cacheReadTokens": 40713382,
+    "outputTokens": 34833,
+    "thinkingTokens": 6056,
+    "responses": 284,
+    "costUsd": 13.974731399999994
+  },
+  "ownTurns": {
+    "inputTokens": 157,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 284837,
+    "cacheReadTokens": 10781400,
+    "outputTokens": 30048,
+    "thinkingTokens": 6056,
+    "responses": 69,
+    "costUsd": 5.036564
+  },
+  "subagents": {
+    "inputTokens": 402,
+    "cacheWrite5mTokens": 524040,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 27664018,
+    "outputTokens": 4345,
+    "thinkingTokens": 0,
+    "responses": 201,
+    "costUsd": 8.241511600000006
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 32249,
+      "cacheWrite5mTokens": 537393,
+      "cacheWrite1hTokens": 284837,
+      "cacheReadTokens": 40713382,
+      "outputTokens": 34814,
+      "thinkingTokens": 6056,
+      "responses": 283,
+      "costUsd": 13.973672399999995
+    },
+    "claude-haiku-4-5-20251001/standard": {
+      "inputTokens": 964,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 19,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.001059
+    }
+  },
+  "warnings": [
+    "prices.json priced the 270 responses the events also priced at $13.2781, against the events' $16.4515: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/plans/mushroom-game-syama.in-progress.md",
+    "endedAt": "2026-09-29T18:38:34.229Z",
+    "contextTokens": 140919,
+    "spend": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 84953,
+      "cacheReadTokens": 1707119,
+      "outputTokens": 3425,
+      "thinkingTokens": 1271,
+      "responses": 17,
+      "costUsd": 1.0896838000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 284,
+    "matched": 270,
+    "matchedTableUsd": 13.278075599999996,
+    "matchedEventUsd": 16.451475600000002,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 31690,
+        "cacheWrite5mTokens": 13353,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 2267964,
+        "outputTokens": 421,
+        "thinkingTokens": 0,
+        "responses": 13,
+        "costUsd": 0.6955967999999999
+      },
+      "generate_session_title": {
+        "inputTokens": 964,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 19,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.001059
+      }
+    }
+  }
+}

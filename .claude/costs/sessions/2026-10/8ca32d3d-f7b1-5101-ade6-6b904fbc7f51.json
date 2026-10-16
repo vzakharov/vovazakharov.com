@@ -1,0 +1,102 @@
+{
+  "estimate": {
+    "at": "2026-10-10T08:38:58.381Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "syncing two media elements across a cut and diagnosing a browser media-session routing bug from code alone takes someone who knows the Media Session API's page-wide semantics"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "measuring per-video offsets by cross-correlation and wiring a frontmatter field through schema and docs is routine signal work"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "a lyric correction carried through crib and caption tracks, and two review replies"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "8ca32d3d-f7b1-5101-ade6-6b904fbc7f51",
+  "branch": "claude/krylya-album-2z13o2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/krylya-album-2z13o2",
+  "prs": [
+    127
+  ],
+  "url": "https://claude.ai/code/session_011s6fAH34jgtifVhWQNw7bd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T08:24:54.210Z",
+  "lastResponseAt": "2026-10-10T08:42:42.356Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 200,
+    "cacheWrite5mTokens": 117779,
+    "cacheWrite1hTokens": 188106,
+    "cacheReadTokens": 16200903,
+    "outputTokens": 50457,
+    "thinkingTokens": 15185,
+    "responses": 100,
+    "costUsd": 6.3438636
+  },
+  "ownTurns": {
+    "inputTokens": 172,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 188106,
+    "cacheReadTokens": 15002215,
+    "outputTokens": 50306,
+    "thinkingTokens": 15185,
+    "responses": 86,
+    "costUsd": 5.512099000000001
+  },
+  "subagents": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 117779,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1198688,
+    "outputTokens": 151,
+    "thinkingTokens": 0,
+    "responses": 14,
+    "costUsd": 0.8317646
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 200,
+      "cacheWrite5mTokens": 117779,
+      "cacheWrite1hTokens": 188106,
+      "cacheReadTokens": 16200903,
+      "outputTokens": 50457,
+      "thinkingTokens": 15185,
+      "responses": 100,
+      "costUsd": 6.3438636
+    }
+  },
+  "warnings": [
+    "14 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "apps/vova/public/music/hello.md",
+    "endedAt": "2026-10-10T08:28:04.674Z",
+    "contextTokens": 161470,
+    "spend": {
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 114560,
+      "cacheReadTokens": 2701644,
+      "outputTokens": 13302,
+      "thinkingTokens": 7276,
+      "responses": 23,
+      "costUsd": 1.7230328
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

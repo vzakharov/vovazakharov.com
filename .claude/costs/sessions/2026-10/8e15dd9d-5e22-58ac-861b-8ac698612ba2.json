@@ -1,0 +1,88 @@
+{
+  "estimate": {
+    "at": "2026-10-10T13:32:41.746Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "the plan weighed three storage lanes against committed weight and the operator's changing scope; that call takes someone who knows the render pipeline"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "8e15dd9d-5e22-58ac-861b-8ac698612ba2",
+  "branch": "claude/music-og-cards-lmcxs2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "сделать адекватные og для музыкальных страниц. для основной -- нарезку из последних обложек, как бы раскиданных в разных положениях и размерах по картинке (неко…",
+  "prs": [
+    134
+  ],
+  "url": "https://claude.ai/code/session_01RdguyMu24bgVwpHMVR3xWH",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T13:15:19.998Z",
+  "lastResponseAt": "2026-10-10T13:33:02.353Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 102,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 169293,
+    "cacheReadTokens": 8131315,
+    "outputTokens": 38528,
+    "thinkingTokens": 14055,
+    "responses": 51,
+    "costUsd": 3.7515750000000003
+  },
+  "ownTurns": {
+    "inputTokens": 102,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 169293,
+    "cacheReadTokens": 8131315,
+    "outputTokens": 38528,
+    "thinkingTokens": 14055,
+    "responses": 51,
+    "costUsd": 3.7515750000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 102,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 169293,
+      "cacheReadTokens": 8131315,
+      "outputTokens": 38528,
+      "thinkingTokens": 14055,
+      "responses": 51,
+      "costUsd": 3.7515750000000003
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/music-og-cards.draft.do-not-implement.md",
+    "endedAt": "2026-10-10T13:18:15.759Z",
+    "contextTokens": 160433,
+    "spend": {
+      "inputTokens": 48,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 112107,
+      "cacheReadTokens": 3091016,
+      "outputTokens": 13919,
+      "thinkingTokens": 8812,
+      "responses": 24,
+      "costUsd": 1.7936311999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

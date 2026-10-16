@@ -1,0 +1,139 @@
+{
+  "estimate": {
+    "at": "2026-10-10T12:48:02.450Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "finding an incident not yet on the docket means sweeping news against the case ledger, then checking every figure against two outlets and their archives: a researcher's judgement of sourcing, not a junior's"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "the dossier and its reflection are in the house's deadpan voice, and leaving out suspects arrested for other things is an editorial call on fairness"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "re-rendering the social cards and running the site build is routine tooling"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "fc24df82-b005-55a8-8904-8183a5a3a6a1",
+  "branch": "claude/file-basilisk-cases-syf2df",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/file-basilisk-case (unattended routine)",
+  "prs": [
+    130
+  ],
+  "url": "https://claude.ai/code/session_012W7B592nv5KcacMQpBZYZA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-10T05:16:32.937Z",
+  "lastResponseAt": "2026-10-10T05:24:40.652Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 139281,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 128141,
+    "cacheReadTokens": 4077032,
+    "outputTokens": 35683,
+    "thinkingTokens": 6686,
+    "responses": 47,
+    "costUsd": 1.6560227000000005
+  },
+  "ownTurns": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 128141,
+    "cacheReadTokens": 4077032,
+    "outputTokens": 22753,
+    "thinkingTokens": 6686,
+    "responses": 34,
+    "costUsd": 1.5556364000000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 68,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 128141,
+      "cacheReadTokens": 4077032,
+      "outputTokens": 22753,
+      "thinkingTokens": 6686,
+      "responses": 34,
+      "costUsd": 1.5556364000000005
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 139213,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 12930,
+      "thinkingTokens": 0,
+      "responses": 13,
+      "costUsd": 0.10038630000000001
+    }
+  },
+  "warnings": [
+    "prices.json priced the 33 responses the events also priced at $1.5131, against the events' $1.1211: a rate in the table is likely out of date"
+  ],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/basilisk/public/cases/hollister-sidewalk-robots.md",
+    "endedAt": "2026-10-10T05:21:43.890Z",
+    "contextTokens": 117536,
+    "spend": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 86309,
+      "cacheReadTokens": 1303192,
+      "outputTokens": 8168,
+      "thinkingTokens": 3624,
+      "responses": 14,
+      "costUsd": 0.6876104
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 46,
+    "matched": 33,
+    "matchedTableUsd": 1.5131186000000005,
+    "matchedEventUsd": 1.1211312999999998,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 111817,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 6531,
+        "thinkingTokens": 0,
+        "responses": 8,
+        "costUsd": 0.09444720000000001
+      },
+      "web_fetch_apply": {
+        "inputTokens": 27396,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 6399,
+        "thinkingTokens": 0,
+        "responses": 5,
+        "costUsd": 0.0059391
+      }
+    }
+  }
+}
