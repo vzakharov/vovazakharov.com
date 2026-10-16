@@ -2,11 +2,12 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import {
+  baseFrontmatterSchema,
+  type Collection,
+} from '@/kernel/shared/content';
 import { byLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
 
-// The leaf rather than the barrel: `shared/content` registers this schema, so
-// entering it by its barrel would close an import cycle at module evaluation.
-import { baseFrontmatterSchema } from '../../../kernel/shared/content/frontmatter';
 import { albumSchema, projectSchema } from './names';
 import { creditedNameSchema } from './people';
 import { songDateSchema } from './song-date';
@@ -290,3 +291,8 @@ export const songFrontmatterSchema = songFieldsSchema
   );
 
 export type SongFrontmatter = z.infer<typeof songFrontmatterSchema>;
+
+export const SONGS: Collection<SongFrontmatter> = {
+  id: 'music',
+  schema: songFrontmatterSchema,
+};

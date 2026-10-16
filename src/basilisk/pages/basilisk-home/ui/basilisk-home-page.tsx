@@ -3,9 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
+import { CASES } from '@/basilisk/shared/content';
 import { SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
 import {
-  ARTICLE_COLLECTIONS,
+  articleCollection,
   COLLECTIONS,
   findFeed,
   renderPrimaryDocuments,
@@ -22,8 +23,8 @@ import classes from './basilisk-home.module.scss';
 import { DocketRow } from './docket-row';
 
 /** Each section's id is its collection's base, which an article's back link lands on. */
-const CASES = COLLECTIONS['basilisk-cases'];
-const FAQ = COLLECTIONS['basilisk-faq'];
+const CASES_SECTION = COLLECTIONS['basilisk-cases'];
+const FAQ_SECTION = COLLECTIONS['basilisk-faq'];
 
 /** The site's icon, which Next serves off `app/icon.svg` at the root. */
 const EYE_SRC = '/icon.svg';
@@ -59,8 +60,8 @@ function Masthead() {
 /** The site is the docket, so its home page indexes both its collections. */
 export async function BasiliskHomePage() {
   const [filed, faq] = await Promise.all([
-    renderPrimaryDocuments(ARTICLE_COLLECTIONS['basilisk-cases']),
-    renderPrimaryDocuments(ARTICLE_COLLECTIONS['basilisk-faq']),
+    renderPrimaryDocuments(CASES),
+    renderPrimaryDocuments(articleCollection('basilisk-faq')),
   ]);
 
   assertUniqueCases(filed.map(({ document }) => document));
@@ -84,9 +85,9 @@ export async function BasiliskHomePage() {
           />
         </Stack>
 
-        <Stack component="section" gap={0} aria-labelledby={CASES.base}>
-          <h2 id={CASES.base} className={classes['sectionHeading']}>
-            {CASES.label}
+        <Stack component="section" gap={0} aria-labelledby={CASES_SECTION.base}>
+          <h2 id={CASES_SECTION.base} className={classes['sectionHeading']}>
+            {CASES_SECTION.label}
           </h2>
           <ol className={classes['docket']}>
             {cases.map(({ document, rendered }) => (
@@ -99,9 +100,9 @@ export async function BasiliskHomePage() {
           </ol>
         </Stack>
 
-        <Stack component="section" gap={0} aria-labelledby={FAQ.base}>
-          <h2 id={FAQ.base} className={classes['sectionHeading']}>
-            {FAQ.label}
+        <Stack component="section" gap={0} aria-labelledby={FAQ_SECTION.base}>
+          <h2 id={FAQ_SECTION.base} className={classes['sectionHeading']}>
+            {FAQ_SECTION.label}
           </h2>
           <ul className={classes['faq']}>
             {faq.map(({ document, rendered }) => (

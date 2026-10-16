@@ -13,13 +13,17 @@ import {
   isListed,
   listPrimaryDocuments,
   renderProse,
-  SONGS,
 } from '@/kernel/shared/content';
 import { loadMessages, type Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { feedHtml } from '@/kernel/shared/lib/feed-html';
 import type { RssPodcast } from '@/kernel/shared/lib/rss';
-import { songTitle, spelledText, textHook } from '@/music/shared/catalogue';
+import {
+  SONGS,
+  songTitle,
+  spelledText,
+  textHook,
+} from '@/music/shared/catalogue';
 
 import { universeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';

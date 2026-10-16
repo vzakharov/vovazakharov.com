@@ -1,12 +1,4 @@
 export { AUTHORS } from './authors';
-export { MUSIC_ROUTE } from './music-route';
-export { type CaseFrontmatter } from '../../../basilisk/shared/content/basilisk-frontmatter';
-export {
-  ARTICLE_COLLECTIONS,
-  type ArticleCollectionId,
-  type ArticleFrontmatterOf,
-  SONGS,
-} from './collection-schemas';
 export {
   type CollectionId,
   collectionListingRoute,
@@ -45,8 +37,10 @@ export {
 } from './documents';
 export { feedEntries, type FeedEntry, findFeed, listFeeds } from './feeds';
 export {
+  articleCollection,
   type ArticleFrontmatter,
   type BaseFrontmatter,
+  baseFrontmatterSchema,
   type Collection,
   filedDate,
   type Source,
@@ -56,6 +50,7 @@ export {
   intrinsicDimensions,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
+export { MUSIC_ROUTE } from './music-route';
 export {
   type DocumentCard,
   type Headlined,

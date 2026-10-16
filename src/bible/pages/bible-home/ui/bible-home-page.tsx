@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
 import {
-  ARTICLE_COLLECTIONS,
+  articleCollection,
   findFeed,
   renderPrimaryDocuments,
 } from '@/kernel/shared/content';
@@ -31,7 +31,7 @@ export async function BibleHomePage() {
     );
   }
 
-  const cards = await renderPrimaryDocuments(ARTICLE_COLLECTIONS[COLLECTION]);
+  const cards = await renderPrimaryDocuments(articleCollection(COLLECTION));
 
   return (
     <PageShell>

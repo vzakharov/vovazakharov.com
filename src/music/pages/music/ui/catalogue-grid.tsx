@@ -4,9 +4,9 @@ import type { ReactNode } from 'react';
 
 import type { Slugged } from '@/kernel/shared/content';
 import { cx } from '@/kernel/shared/lib/class-names';
-import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
 import type { MaybeTitled } from '@/kernel/shared/typings';
 import { NameLink, Subheading } from '@/kernel/shared/ui';
+import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
 
 import type { SpelledLink } from '../lib/player-state';
 import { tileHue } from '../lib/tile-hue';

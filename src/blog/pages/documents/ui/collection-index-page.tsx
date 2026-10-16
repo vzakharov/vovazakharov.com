@@ -2,7 +2,7 @@ import { Box, Stack, Text, Title } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import {
-  ARTICLE_COLLECTIONS,
+  articleCollection,
   collectionRoute,
   COLLECTIONS,
   renderPrimaryDocuments,
@@ -34,7 +34,7 @@ export function collectionIndexRoute(collection: IndexedCollectionId) {
   });
 
   async function Page() {
-    const cards = await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection]);
+    const cards = await renderPrimaryDocuments(articleCollection(collection));
 
     return (
       <PageShell>

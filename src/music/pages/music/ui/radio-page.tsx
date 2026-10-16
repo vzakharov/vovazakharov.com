@@ -2,12 +2,12 @@ import { Stack } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import { byLocale, loadMessages, type WithLocale } from '@/kernel/shared/i18n';
-import { hookRuns, scriptSample } from '@/music/shared/catalogue';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
 import { PageShell } from '@/kernel/shared/ui';
+import { hookRuns, scriptSample } from '@/music/shared/catalogue';
 
 import { SiteFooter } from '@/shell/widgets/site-footer';
 

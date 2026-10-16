@@ -93,6 +93,17 @@ export type Collection<F extends BaseFrontmatter = BaseFrontmatter> = {
 };
 
 /**
+ * A collection read as articles. What a collection holds beyond the article —
+ * a case's grade, a song's tracks — is its owning app's schema, so this is the
+ * handle for every collection no app widens.
+ */
+export function articleCollection(
+  id: CollectionId,
+): Collection<ArticleFrontmatter> {
+  return { id, schema: articleFrontmatterSchema };
+}
+
+/**
  * When the site took the document in — what the sitemap reports as its last
  * change and a feed as its publication, a case being filed long after its
  * incident.

@@ -9,7 +9,6 @@ import type { WithOptionalLocale } from '@/kernel/shared/i18n';
 import { routeCardPath } from '@/kernel/shared/seo';
 import type { DocumentFile, Sized, Sourced } from '@/kernel/shared/typings';
 
-import { COLLECTION_SCHEMAS } from './collection-schemas';
 import {
   collectionAssetUrl,
   collectionDir,
@@ -24,11 +23,12 @@ import {
   type Variant,
   VARIANTS,
 } from './collections';
-import type {
-  BaseFrontmatter,
-  Collection,
-  FrontmatterReader,
-  WithFrontmatter,
+import {
+  type BaseFrontmatter,
+  baseFrontmatterSchema,
+  type Collection,
+  type FrontmatterReader,
+  type WithFrontmatter,
 } from './frontmatter';
 import {
   intrinsicDimensions,
@@ -297,15 +297,14 @@ export function siblingVariants(
   );
 }
 
-/** Every document the given site serves. Another site's collections have no directory here. */
+/**
+ * Every document the given site serves, read through the base schema: that is
+ * all a caller across collections can rely on, and it drops whatever a
+ * collection adds — a song's `title` among it. Another site's collections have
+ * no directory here.
+ */
 export function listAllDocuments(site: SiteId): ContentDocument[] {
-  return collectionsForSite(site).flatMap((id) => {
-    // Annotated rather than inferred: the registry's values are a union of
-    // per-collection handles, and a union is what one inferred frontmatter
-    // type cannot be. Widening to the base shape is all a caller across
-    // collections wants from them anyway.
-    const collection: Collection = COLLECTION_SCHEMAS[id];
-
-    return listDocuments(collection);
-  });
+  return collectionsForSite(site).flatMap((id) =>
+    listDocuments({ id, schema: baseFrontmatterSchema }),
+  );
 }

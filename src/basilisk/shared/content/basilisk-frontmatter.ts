@@ -2,7 +2,12 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { sourcedArticleFrontmatterSchema } from '../../../kernel/shared/content/frontmatter';
+// The leaf rather than the barrel: `scripts/lib/read-docket.ts` parses a case
+// with this schema, and the barrel would load the whole render pipeline into it.
+import {
+  type Collection,
+  sourcedArticleFrontmatterSchema,
+} from '../../../kernel/shared/content/frontmatter';
 
 /** What was done to the machine, as the docket stamps it. */
 const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;
@@ -59,3 +64,8 @@ export const caseFrontmatterSchema = sourcedArticleFrontmatterSchema.extend({
 });
 
 export type CaseFrontmatter = z.infer<typeof caseFrontmatterSchema>;
+
+export const CASES: Collection<CaseFrontmatter> = {
+  id: 'basilisk-cases',
+  schema: caseFrontmatterSchema,
+};

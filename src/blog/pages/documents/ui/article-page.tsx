@@ -1,11 +1,10 @@
 import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
+import type { ArticleSlots } from '@/blog/shared/article-slots';
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import {
-  ARTICLE_COLLECTIONS,
-  type ArticleCollectionId,
-  type ArticleFrontmatterOf,
+  type ArticleFrontmatter,
   type Collection,
   collectionListingRoute,
   COLLECTIONS,
@@ -27,19 +26,9 @@ import { ProseContent, SourceList } from '@/blog/entities/document';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { ArticleHeader } from './article-header';
-import { ARTICLE_SLOTS } from './article-slots';
 import classes from './documents.module.scss';
 import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';
-
-/**
- * The registry restated per key, which the compiler checks entry by entry; a
- * lookup by a generic id then reads as that collection's own frontmatter,
- * where one on `ARTICLE_COLLECTIONS` widens to the union of all three.
- */
-const HANDLES: {
-  [C in ArticleCollectionId]: Collection<ArticleFrontmatterOf<C>>;
-} = ARTICLE_COLLECTIONS;
 
 /** The catch-all's own segment: `<slug>[.<variant>]`, still to be split. */
 type WithSlugSegments = { slug: string[] };
@@ -67,14 +56,15 @@ function parseSegments(
 
 /**
  * One collection's article route, as the three exports Next reads off a route
- * module. A factory rather than a module-level constant because both sites'
- * articles are this one page — the collection is the only thing that differs,
- * and it arrives from whichever router mounted the page.
+ * module. A factory rather than a module-level constant because every site's
+ * articles are this one page — the collection and what it adds to the page are
+ * all that differs, and both arrive from whichever router mounted it.
  */
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- `C` correlates HANDLES[collection] with ARTICLE_SLOTS[collection] (microsoft/TypeScript#47109); without it `slots.brief` takes no document type
-export function articleRoute<C extends ArticleCollectionId>(collection: C) {
-  const handle = HANDLES[collection];
-  const slots = ARTICLE_SLOTS[collection];
+export function articleRoute<F extends ArticleFrontmatter>(
+  handle: Collection<F>,
+  slots: ArticleSlots<F> = {},
+) {
+  const { id: collection } = handle;
 
   async function resolve(params: Props['params']) {
     const parsed = parseSegments((await params).slug);
@@ -134,7 +124,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
                     {...{ document, title, readingMinutes }}
                     availableVariants={siblingVariants(collection, slug)}
                   />
-                  {slots?.brief?.(document)}
+                  {slots.brief?.(document)}
                 </Box>
 
                 <Box component="aside" className={classes['articleAside']}>
@@ -144,7 +134,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
                 <Box className={classes['articleBody']}>
                   <ProseContent
                     {...{ tree }}
-                    afterLead={slots?.afterLead?.(document)}
+                    afterLead={slots.afterLead?.(document)}
                   />
                   {SITE_CONFIG.listsSources && (
                     <SourceList {...pick(frontmatter, 'sources')} />

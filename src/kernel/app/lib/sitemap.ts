@@ -13,8 +13,8 @@ import {
 } from '@/kernel/shared/content';
 import { routing } from '@/kernel/shared/i18n';
 
-import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/vova/pages/cv';
 import { musicCatalogueRoutes } from '@/music/pages/music';
+import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/vova/pages/cv';
 
 /**
  * Which addresses a page in this collection is advertised at. A localized

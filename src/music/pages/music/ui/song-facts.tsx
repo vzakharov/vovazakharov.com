@@ -2,8 +2,8 @@ import type { ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/kernel/shared/content';
 import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
-import type { MusicAlbum } from '@/music/shared/catalogue';
 import { NameLink } from '@/kernel/shared/ui';
+import type { MusicAlbum } from '@/music/shared/catalogue';
 
 import { songPlacements } from '../lib/album-tracks';
 import { albumTitle } from '../lib/albums';

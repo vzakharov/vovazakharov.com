@@ -7,8 +7,8 @@ import { useEffect, useEffectEvent, useState } from 'react';
 import type { Messages } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
-import type { HookRun } from '@/music/shared/catalogue';
 import { InternalButton, NameLink } from '@/kernel/shared/ui';
+import type { HookRun } from '@/music/shared/catalogue';
 
 import type { SpelledLink } from '../lib/player-state';
 import { stationOffset } from '../lib/station';

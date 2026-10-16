@@ -2,12 +2,12 @@ import {
   isListed,
   listPrimaryDocuments,
   type Slugged,
-  SONGS,
 } from '@/kernel/shared/content';
 import { byLocale, isLocale, type Locale } from '@/kernel/shared/i18n';
 import {
   type MusicAlbum,
   type SongBilling,
+  SONGS,
   songTitle,
 } from '@/music/shared/catalogue';
 

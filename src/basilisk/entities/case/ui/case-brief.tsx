@@ -1,5 +1,5 @@
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
 import {
-  type CaseFrontmatter,
   documentDateTime,
   formatDocumentDate,
   type WithFrontmatter,

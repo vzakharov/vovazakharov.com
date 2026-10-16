@@ -1,4 +1,5 @@
-import type { CaseFrontmatter, WithFrontmatter } from '@/kernel/shared/content';
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
+import type { WithFrontmatter } from '@/kernel/shared/content';
 
 type Numbered = WithFrontmatter<Pick<CaseFrontmatter, 'case' | 'date'>>;
 

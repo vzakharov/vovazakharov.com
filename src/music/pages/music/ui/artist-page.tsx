@@ -2,8 +2,8 @@ import { Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
-import { scriptSample } from '@/music/shared/catalogue';
 import { PageShell } from '@/kernel/shared/ui';
+import { scriptSample } from '@/music/shared/catalogue';
 
 import { SiteFooter } from '@/shell/widgets/site-footer';
 

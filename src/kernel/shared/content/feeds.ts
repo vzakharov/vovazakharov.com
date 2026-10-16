@@ -17,10 +17,6 @@ import type { RssItem } from '@/kernel/shared/lib/rss';
 import type { Summarized } from '@/kernel/shared/typings';
 
 import {
-  ARTICLE_COLLECTIONS,
-  type ArticleCollectionId,
-} from './collection-schemas';
-import {
   type CollectionId,
   COLLECTIONS,
   collectionsForSite,
@@ -29,7 +25,7 @@ import {
   type WithCollectionId,
 } from './collections';
 import type { LocaleRouted } from './documents';
-import { filedDate } from './frontmatter';
+import { articleCollection, filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
 export type Feed = WithCollectionId & LocaleRouted & Summarized;
@@ -93,9 +89,9 @@ export function findFeed(
  * `pages/music` reads, so the songs feed is built there.
  */
 export async function feedEntries(
-  collection: ArticleCollectionId,
+  collection: CollectionId,
 ): Promise<FeedEntry[]> {
-  return (await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])).map(
+  return (await renderPrimaryDocuments(articleCollection(collection))).map(
     ({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
       title,
       ...pick(frontmatter, 'description'),

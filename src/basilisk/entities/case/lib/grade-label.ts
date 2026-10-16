@@ -1,4 +1,4 @@
-import type { CaseFrontmatter } from '@/kernel/shared/content';
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
 
 /** An enum value as the stamp prints it: `public-figure` → `PUBLIC FIGURE`. */
 const stamp = (value: string) => value.replaceAll('-', ' ').toUpperCase();

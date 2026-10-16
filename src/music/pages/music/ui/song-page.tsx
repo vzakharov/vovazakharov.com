@@ -6,16 +6,16 @@ import type { Routed } from '@/kernel/shared/content';
 import { byLocale, loadMessages } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import {
+  constructMetadata,
+  localizedAddresses,
+} from '@/kernel/shared/seo/index.server-only';
+import { FileLink, hoverDim, PageShell, TextLink } from '@/kernel/shared/ui';
+import {
   scriptSample,
   songTitle,
   spelledText,
   textHook,
 } from '@/music/shared/catalogue';
-import {
-  constructMetadata,
-  localizedAddresses,
-} from '@/kernel/shared/seo/index.server-only';
-import { FileLink, hoverDim, PageShell, TextLink } from '@/kernel/shared/ui';
 
 import { SiteFooter } from '@/shell/widgets/site-footer';
 

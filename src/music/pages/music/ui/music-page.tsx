@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 import { SITE_ID } from '@/kernel/shared/config';
 import { findFeed } from '@/kernel/shared/content';
 import { byLocale, loadMessages } from '@/kernel/shared/i18n';
-import { scriptSample } from '@/music/shared/catalogue';
 import { PageShell } from '@/kernel/shared/ui';
+import { scriptSample } from '@/music/shared/catalogue';
 
 import { SiteFooter } from '@/shell/widgets/site-footer';
 

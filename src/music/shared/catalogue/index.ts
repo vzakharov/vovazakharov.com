@@ -6,7 +6,7 @@ export {
   type LocalName,
   type Playable,
   type SongFrontmatter,
-  songFrontmatterSchema,
+  SONGS,
   type SongText,
   type SungLanguage,
   type TitleGloss,
