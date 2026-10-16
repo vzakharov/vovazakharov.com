@@ -29,6 +29,14 @@ export type Decks = {
   stop: () => void;
 };
 
+/**
+ * The attribute rather than the property, which reads back resolved to an
+ * absolute URL that a site-root path never equals.
+ */
+function loaded(deck: HTMLAudioElement): string | undefined {
+  return deck.getAttribute('src') ?? undefined;
+}
+
 function refusal(error: unknown): string | undefined {
   return error instanceof DOMException ? error.name : undefined;
 }
@@ -56,9 +64,7 @@ export function createDecks(listeners: DeckListeners): Decks {
       active.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
         ? upcoming
         : undefined;
-    const held = standby.getAttribute('src') ?? undefined;
-
-    if (held === wanted || wanted === active.getAttribute('src')) return;
+    if (loaded(standby) === wanted || wanted === loaded(active)) return;
 
     // A file no longer due is dropped rather than left downloading.
     if (wanted === undefined) {
@@ -85,10 +91,10 @@ export function createDecks(listeners: DeckListeners): Decks {
         played.has(standby) &&
         !played.has(deck)
       ) {
-        const src = deck.getAttribute('src');
+        const src = loaded(deck);
 
         swap();
-        if (src !== null) active.src = src;
+        if (src !== undefined) active.src = src;
         play(onRefused);
 
         return;
@@ -131,12 +137,7 @@ export function createDecks(listeners: DeckListeners): Decks {
       rearm();
     },
     cue: (src) => {
-      if (
-        standby.getAttribute('src') !== src ||
-        active.getAttribute('src') === src
-      ) {
-        return false;
-      }
+      if (loaded(standby) !== src || loaded(active) === src) return false;
 
       const outgoing = active;
 
