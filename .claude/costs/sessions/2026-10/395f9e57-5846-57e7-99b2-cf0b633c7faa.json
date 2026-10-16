@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 116580,
+    "cacheReadTokens": 3208919,
+    "outputTokens": 13546,
+    "thinkingTokens": 4971,
+    "responses": 24,
+    "costUsd": 1.8455358000000006
+  },
+  "estimate": {
+    "at": "2026-10-16T05:08:30.700Z",
+    "parts": [
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "two-element playback touches the player's event wiring, the radio's timekeeping and browser autoplay policy, where a wrong guess silently breaks playback"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "seamlessness and lock-screen behaviour are only judged by ear on real devices"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "395f9e57-5846-57e7-99b2-cf0b633c7faa",
+  "branch": "claude/preload-next-track-3zzzh4",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай предзагружать следующую песню, чтобы было seamless проигрывание",
+  "prs": [
+    165
+  ],
+  "url": "https://claude.ai/code/session_011ppWSmHfPMGBBWtwrMDZMg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-16T05:05:51.518Z",
+  "lastResponseAt": "2026-10-16T05:08:37.738Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 116580,
+    "cacheReadTokens": 3208919,
+    "outputTokens": 13546,
+    "thinkingTokens": 4971,
+    "responses": 24,
+    "costUsd": 1.8455358000000006
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 48,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 116580,
+      "cacheReadTokens": 3208919,
+      "outputTokens": 13546,
+      "thinkingTokens": 4971,
+      "responses": 24,
+      "costUsd": 1.8455358000000006
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/preload-next-track.draft.do-not-implement.md",
+    "endedAt": "2026-10-16T05:07:16.171Z",
+    "contextTokens": 144321,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 93208,
+      "cacheReadTokens": 1365678,
+      "outputTokens": 6475,
+      "thinkingTokens": 4705,
+      "responses": 12,
+      "costUsd": 1.1483956000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
