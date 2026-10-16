@@ -1,5 +1,5 @@
 ---
-description: 'Render a visual change and actually look at it, instead of judging appearance by reading code. Boots the Next.js dev server and captures screenshots with headless Chromium, in either theme — or publishes one site from a branch to preview.vovazakharov.com, for the operator or a reviewer to open in a real browser. Use for "preview", "deploy a preview", "задеплой на превью", "покажи, как это выглядит".'
+description: 'Render a visual change and actually look at it, instead of judging appearance by reading code. Boots the Next.js dev server and captures screenshots with headless Chromium, in either theme — or, on the operator's ask, publishes one site from a branch to preview.vovazakharov.com, for a phone or a machine the dev server does not reach. Use for "preview", "deploy a preview", "задеплой на превью", "покажи, как это выглядит".'
 ---
 
 ## What this skill is for
@@ -184,10 +184,11 @@ blank PNG — a capture that reads as a page with nothing on it.
 
 ## Published, for someone else to look at
 
-A screenshot is the agent's evidence; a link is the operator's.
-`https://preview.vovazakharov.com` serves one site built from a branch, for
-anyone who wants to open the change on their own machine or phone before it
-merges:
+`https://preview.vovazakharov.com` serves one site built from a branch.
+**Publish there only when the operator asks**, since they ordinarily pull the
+branch and run the dev server themselves. Offer it, without publishing, when the
+change is one that setup cannot show: a phone layout, a browser or machine they
+do not develop on, or behaviour that only a real host has.
 
 ```bash
 gh workflow run preview.yml --ref <branch> -f site=<site>   # vova, lsa, bible or basilisk
@@ -195,8 +196,9 @@ gh run watch "$(gh run list --workflow=preview.yml --branch=<branch> \
   --limit 1 --json databaseId --jq '.[0].databaseId')"
 ```
 
-It never touches production — `.claude/rules/deployment.md` has where it sits
-beside the other doors. What the operator should be told with the link:
+It dispatches from any branch, unmerged ones included. It never touches
+production — `.claude/rules/deployment.md` has where it sits beside the other
+doors. What the operator should be told with the link:
 
 - **The slot holds one site, the last one published**, from whichever branch
   published it. Another session's publish replaces yours without warning; the
