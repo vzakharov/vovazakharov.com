@@ -87,7 +87,9 @@ export const boundariesConfig: Config = {
   files: ['src/**/*.{ts,tsx}', 'apps/*/app/**/*.{ts,tsx}'],
   settings: {
     'boundaries/elements': [
-      // A router maps addresses to apps and nothing else, so it is no app's.
+      // A site's router, `apps/<site>/app/`, belongs to no app, so it is an
+      // element type of its own: the policies below let it enter any app's
+      // public API, and none lets anything import it.
       {
         type: 'router',
         pattern: ['apps/*/app'],
