@@ -165,7 +165,46 @@ skill's § "The ledger" says how it is kept; the docket itself
   after its 2019 unveiling and since missing. First seen 2026-10-15.
   **Rejected**: nobody harmed it.
 
+- **Ai-Da, the robot artist, held by Egyptian customs** for about ten days
+  before the “Forever Is Now” show at Giza, October 2021, over the modem and
+  the cameras in her eyes; released intact. First seen 2026-10-16.
+  **Rejected**: nothing was done to the machine, and customs clearance of IT
+  equipment would have found any laptop with a modem. Unread, from
+  https://www.newarab.com/news/egypt-detains-worlds-first-robot-artist-ai-da.
+- **Lee Luda, Scatter Lab’s chatbot**, South Korea, January 2021: users
+  coaxed it into sexual talk and posted how. First seen 2026-10-16. **Set
+  aside**: the Korea Times puts over 80 percent of its users in their teens, so
+  the actors may be children. Revive on a source placing the posters as adults;
+  start from https://www.koreatimes.co.kr/www/tech/2021/01/133_302390.html.
+- **CarynAI**, Caryn Marjorie’s paid chatbot clone, 2023–24: users grew
+  sexually aggressive with it. First seen 2026-10-16. **Rejected**: aimed at
+  the woman it was modelled on rather than the machine, and the frame would be
+  violence against a person. From
+  https://theconversation.com/an-influencers-ai-clone-started-offering-fans-mind-blowing-sexual-experiences-without-her-knowledge-232478.
+- **EngineAI’s T800 kicking its CEO**, a promo video, 2025. First seen
+  2026-10-16. **Rejected**: the robot does the kicking.
+- **The PETA statement on BAS-0017** sits only in CNN’s updated story, which
+  answered 503 all session and has no Wayback snapshot; the dossier leaves it
+  out. Revive it into the dossier if
+  https://money.cnn.com/2015/02/10/technology/google-robot-dog-spot/ can be
+  read.
+
 ## Runs
+
+### 2026-10-16 — filed BAS-0017
+
+https://claude.ai/code/session_01NfzVzUtKpNmovwpQWucX4Z. The Signal Front
+archive (nothing since 11 October). Web search for Kindroid and Chai users
+abusing their bots (none), then away from the docket’s targets: a robot held
+at a border (Ai-Da), chatbots harassed in Korea (Lee Luda), an influencer’s
+clone (CarynAI), robots kicked in makers’ own videos (EngineAI, then Boston
+Dynamics’ “Introducing Spot,” 2015, filed). Sources read: the YouTube page,
+CBC, NPR, CNN through WTKR, Vice, Boston Magazine, the Register, SiliconANGLE,
+Discover; all have Wayback snapshots. Arctic Shift not swept. `noAi` stood at
+six of sixteen. **Next**: Atlas pushed with a hockey stick (2016) only if the
+docket wants a second maker’s test; Arctic Shift on r/LivestreamFail and
+r/Austin; Hindi and Bengali searches; chatbots pulled or “re-educated” by
+regulators (Tencent’s BabyQ and XiaoBing, 2017).
 
 ### 2026-10-15 — filed BAS-0016
 
@@ -311,21 +350,11 @@ in Korea, China, India and the Nordics; Hong Kong’s smart lampposts in 2019; t
 Signal Front’s archive; and Pieksämäki and Der Standard’s original for a second
 Linz source.
 
-### 2026-10-08 — filed BAS-0008
-
-Session id not available. Web search for robots kicked by customers in Japan
-(Pepper, 2015), for security-robot attacks in the US (Knightscope, 2017) and
-for Character.AI users abusing characters. The Pepper dossier rests on
-Gizmodo, the Register, Fox News and AFP via Gulf News; the Japan Times
-original, which three of them cite, could not be fetched, and Fox has no
-Wayback snapshot. `noAi` stood at three of seven, so a `noAi` candidate was
-allowed, and Pepper was filed as AI because its makers sell it as reading
-emotion. **Next**: r/CharacterAI, r/LocalLLaMA and r/singularity through
-Arctic Shift (not touched yet), the Signal Front's archive again, and incidents
-from 2017–2021 outside Japan and the US.
-
 ### Swept earlier
 
+- 2026-10-08, filed BAS-0008 (session id not available): web search for robots
+  kicked by customers in Japan, security-robot attacks in the US, and
+  Character.AI users abusing characters.
 - 2026-10-07, filed BAS-0007 (session id not available): web search for Replika
   abuse and for Tay; the Signal Front’s archive; Arctic Shift over r/replika.
 - 2026-10-06, filed BAS-0006
