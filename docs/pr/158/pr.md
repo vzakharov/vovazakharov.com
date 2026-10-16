@@ -7,18 +7,15 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-14T21:38:14Z
-- **Updated:** 2026-10-15T20:50:16Z
+- **Updated:** 2026-10-15T20:59:28Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 2
+## Awaiting an answer: none
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
-
-- **T01** `scripts/lib/mushroom-probe-answers.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-15T05:29:17Z — "давай вот такой хелпер возьмём (пока только хелпер): https:/…" → [↓](#t01)
-- **T02** `src/pages/mushrooms/model/bee-genes.ts`:23 — unresolved — last: @vzakharov (human) 2026-10-15T05:30:36Z — "ну и названьице 🙈 (это просто коммент, менять не надо)" → [↓](#t02)
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ddc3723). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 ---
 
@@ -33,6 +30,8 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - Library and DOM types (`Location`, `AnchorProps`) and type parameters (`pick<T, K>()`) are exempt — nothing there can be declared narrow first. The rule's `node:test` suite (the first for a `vova/` rule) runs it over ESLint's `Linter` with the TypeScript parser, now a direct dev dependency.
 - Every site outside the meadow moves to a named narrow base: `ProseSource` / `FileInCollection` / `ServedMarkdown` under `ContentDocument`, `UnlinkedRssItem`, the metadata's `Addresses`, `TextLinkBaseProps`, `WithAvatar`, the song frontmatter's narrow parts, the player's `Playing` / `QueuePositions` / `Cursored`, the case's `Docketed`, and the probe and run-clock types. **Cost:** `LaunchButtons` now receives `Messages['music']` whole, since `Messages` is the catalogue JSON with no narrower type — about 3 KB more in the music index's RSC payload.
 - The meadow (`src/pages/mushrooms/`) moves the same way. In the model, `Leg`, `Sight`, `MushroomShape` and `Meadow` split into named parts (`Route`/`Leaving`/`OutFirst`, `FlowersSeen`/`Placed`/`Sheltered`, `Stemmed`/`StemShaped`/`Capped`/`Tilted`, `Unkept`/`KeptMeadow`); in the scene, `MeadowLayout` becomes an intersection of the bases its sites take, the scene's classes (`MeadowSound`, `MapView`, `FlowerBed`, `MushroomBed`, …) implement the narrow types their callers used to pick, and the wiring types (`Scened`, `PerchHosts`, `MeadowKeeping`, `Opening`) intersect named bases. `src/shared/typings` gains `WithWidth` and `WithHeight`, so `Sized` is `WithWidth & WithHeight`. The meadow test suite passes in full (2275 tests).
+- `src/shared/lib/compose-schemas.ts` adds `composeSchemas`, taken from the Playgram app: several zod object schemas merged into one, a later key overriding an earlier one, under the first schema's config — the schema-level twin of intersecting named bases. No call site uses it yet.
+- `writing/late-stage-agentic/ideas/rules-that-make-you-name-things.md` files the article idea this migration prompted: a rule you can only satisfy by naming the subset makes the diff read as an inventory of what the code holds.
 
 ## QA Checklist
 
@@ -44,6 +43,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - [ ] `no-exemption` — `eslint.config.ts` carries no `off` override for `vova/no-pick-omit`, and `pnpm lint` passes over the whole tree, the meadow included.
 - [ ] `sites` — vova (home, documents, music index and song pages) and basilisk (case pages) build and render as before.
 - [ ] `launch-buttons` — on the music index the launch buttons show the same labels as on `main`.
+- [ ] `compose-schemas` — `composeSchemas(Point, RunEnds)` parses both schemas' members, a later key overrides an earlier one, and a `.strict()` first schema rejects an extra key.
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
@@ -55,6 +55,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 | `no-exemption` | integration | ✅ | `pnpm lint` in vet, over the whole tree |
 | `sites` | e2e | ✅ | `pnpm build` per site in vet renders every route |
 | `launch-buttons` | manual-only | — | visual check that the labels are unchanged |
+| `compose-schemas` | unit | ✅ | `compose-schemas.test.ts` |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -79,7 +80,8 @@ A narrow type is declared first and the wide one is built from it, so
 carving a subset back out of a wide type with Pick or Omit is the wrong
 order: the subset gets a name but no home. A type inferred from a schema
 follows the same order one level down — the narrow schema comes first
-and the full one extends it.
+and the full one extends it, or composeSchemas, taken from the Playgram
+app, merges several narrow ones, a later key overriding an earlier one.
 
 vova/no-pick-omit rejects Pick<X, …> and Omit<X, …> wherever X resolves,
 through ESLint's scope manager and without type information, to a type
@@ -102,40 +104,12 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `scripts/lib/mushroom-probe-answers.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-15T05:29:17Z — "давай вот такой хелпер возьмём (пока только хелпер): https:/…" → [↓](#t01)
-- **T02** `src/pages/mushrooms/model/bee-genes.ts`:23 — unresolved — last: @vzakharov (human) 2026-10-15T05:30:36Z — "ну и названьице 🙈 (это просто коммент, менять не надо)" → [↓](#t02)
-
-<a id="t01"></a>
-
-### `scripts/lib/mushroom-probe-answers.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-15T05:29:17Z
-
-давай вот такой хелпер возьмём (пока только хелпер): https://github.com/Playgramai/playgramapp/blob/cfcbc00372eb13222e3b7167a74cd3b032e978a2/src/shared/typings/compose-schemas.ts
-
----
-
-<a id="t02"></a>
-
-### `src/pages/mushrooms/model/bee-genes.ts`:23 — unresolved
-
-```diff
-@@ -19,18 +19,21 @@ export const BEE_YELLOWS = ['lemon', 'gold', 'amber', 'honey'] as const;
-… 2 lines elided …
- export type BeeGenes = Buzzing &
--  OfKind<'bee'> & {
-+  OfKind<'bee'> &
-+  BeeHeaded & {
-```
-
-**@vzakharov (human)** — 2026-10-15T05:30:36Z
-
-ну и названьице 🙈 
-
-(это просто коммент, менять не надо)
-
----
+_2 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 ## Timeline (status, references, and other events)
 
 - **2026-10-15T20:49:47Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/158#pullrequestreview-5528553602.
+- **2026-10-16T12:38:09Z** @vzakharov cross-referenced this pull request from [#168 feat(vova): HQ switches without a gap, the old file playing on](https://github.com/vzakharov/vovazakharov.com/pull/168).
+- **2026-10-16T12:40:51Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/1aa6da731a19af55bc3e13eec3aaf2ae45810b73.
+- **2026-10-16T12:44:29Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/caa664fd6d45b0be7d4d1d57a089dbafa4ef188f.
+- **** @vzakharov reviewed (PENDING): https://github.com/vzakharov/vovazakharov.com/pull/158#pullrequestreview-5551160917.
