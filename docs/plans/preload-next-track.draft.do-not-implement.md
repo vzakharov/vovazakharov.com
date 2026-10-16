@@ -42,14 +42,16 @@ effect finds the active deck already holding the wanted `src` and loads nothing.
      reach the reducer.
    - Volume is applied to both.
    - **Arming**: at the active deck's `canplaythrough` — the browser's own
-     verdict that the playing track has enough buffered to finish — the standby
-     gets `preload = 'auto'` and the upcoming track's `src` (in the current
-     quality, via the existing `source`). That is as early as a skip in the
-     first seconds of a song needs, without the preload competing with the
-     playing track's own start for bandwidth. Re-armed whenever the upcoming
-     track, the quality or the radio state changes; a standby whose `src` no
-     longer matches the upcoming track is simply re-pointed, which aborts its
-     load, so at most one preload is ever in flight.
+     estimate that the playing track is arriving fast enough to finish without
+     stalling, usually seconds into it on a good connection and never on one too
+     slow for the file, where a preload would starve it — the standby gets
+     `preload = 'auto'` and the upcoming track's `src` (in the current quality,
+     via the existing `source`). That is as early as a skip in the first seconds
+     of a song needs, without the preload competing with the playing track's own
+     start for bandwidth. Re-armed whenever the upcoming track, the quality or
+     the radio state changes; a standby whose `src` no longer matches the
+     upcoming track is simply re-pointed, which aborts its load, so at most one
+     preload is ever in flight.
    - **Swap at `ended`**: if the standby holds the source the next step wants,
      `standby.play()`, swap, then dispatch as today. Otherwise today's path.
    - **Swap on a manual change too**: when the source effect is about to load a
