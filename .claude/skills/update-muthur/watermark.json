@@ -23,7 +23,7 @@
       ".claude/context-budget/": "adopted whole, this repo's `MUTHUR_CONTEXT_BUDGET_SUBAGENT` extension included. `manual-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; a source entry for a handle is that operator's to set here, not a port."
     },
     {
-      ".claude/costs/": "the rows are each repo's own, on its `cost-ledger` branch, and never synced. The Stop hook keeps a gate the source lacks, on when the branch's display copy is committed — the directory's CLAUDE.md § \"When the branch's copy is committed\" — so a verbatim re-copy of the hook drops it."
+      ".claude/costs/": "the rows are each repo's own, on its `cost-ledger` branch, and never synced. The Stop hook keeps a gate the source lacks, on when the branch's display copy is committed — `.claude/costs/CLAUDE.md` § \"When the branch's copy is committed\" — so a verbatim re-copy of the hook drops it."
     },
     ".claude/cold-cache/",
     {
