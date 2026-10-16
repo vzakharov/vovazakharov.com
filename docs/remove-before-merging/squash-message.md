@@ -12,6 +12,10 @@ The probe now reads the value a tick late, as Video.js does for the same
 quirk, and the player re-renders once the answer is in; the static HTML
 still shows the volume button until then.
 
+HQ also shows only on a song with a lossless master. One mastered as an
+MP3, every track of Крылья among them, has no other file to switch to,
+so the toggle stays out of the popover there, and off the bar on iOS.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
