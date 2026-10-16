@@ -35,7 +35,13 @@ export {
   siblingVariants,
   type WithContentDocument,
 } from './documents';
-export { feedEntries, type FeedEntry, findFeed, listFeeds } from './feeds';
+export {
+  feedEntries,
+  type FeedEntry,
+  type FeedSource,
+  findFeed,
+  listFeeds,
+} from './feeds';
 export {
   articleCollection,
   type ArticleFrontmatter,

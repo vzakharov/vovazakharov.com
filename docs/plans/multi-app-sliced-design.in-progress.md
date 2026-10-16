@@ -36,9 +36,13 @@ closes #171.
   no longer exports `CaseBrief`/`NoAiNote`. Also: `simple-import-sort` groups by
   layer across apps (`^@/[^/]+/<layer>/`), the tree re-sorted. tsc clean on all
   four sites.
-- **Left** — steps 4–11. Step 4 removes the last kernel→child imports
-  (`kernel/app/lib/feed.ts` → `@/music/pages/music`, `sitemap.ts` →
-  `@/vova/pages/cv` and `@/music/pages/music`).
+- **Done** — step 4: kernel imports no child app. `sitemap(mountedRoutes)` is a
+  factory each site's `sitemap.ts` calls (Next calls the default export with
+  arguments of its own); vova's passes `PAGE_ROUTES`, `cvRoutes()` and
+  `musicCatalogueRoutes()`. `collectionFeed(collection, locale, source?)` takes
+  a `FeedSource` (kernel's `shared/content`), and music exports `SONG_FEED`. The
+  routers sort `@/kernel/app` last — the layer sort reads it as the top layer.
+- **Left** — steps 5–11.
 - **Lint state for step 7**: with `boundaries/no-unknown-files` off, eslint
   still fails on `vova/no-hardcoded-strings` in
   `music/pages/music/ui/{catalogue-grid,cover-head,cover-zoom}.tsx` and

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { getAbsoluteUrl, PAGE_ROUTES, SITE_ID } from '@/kernel/shared/config';
+import { getAbsoluteUrl, SITE_ID } from '@/kernel/shared/config';
 import {
   type CollectionId,
   collectionRoute,
@@ -13,15 +13,11 @@ import {
 } from '@/kernel/shared/content';
 import { routing } from '@/kernel/shared/i18n';
 
-import { musicCatalogueRoutes } from '@/music/pages/music';
-import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/vova/pages/cv';
-
 /**
  * Which addresses a page in this collection is advertised at. A localized
- * collection lists one per language and not the locale-less alias, for the same
- * reason the CV lists only its fully-specified addresses: the short one renders
- * what its twin renders, and offering both asks the crawler to resolve a
- * duplicate the canonical link already resolved.
+ * collection lists one per language and not the locale-less alias: the short
+ * one renders what its twin renders, and offering both asks the crawler to
+ * resolve a duplicate the canonical link already resolved.
  */
 function documentAddresses(route: string, collection: CollectionId): string[] {
   return COLLECTIONS[collection].localized
@@ -30,33 +26,24 @@ function documentAddresses(route: string, collection: CollectionId): string[] {
 }
 
 /**
- * The pages `vova` advertises on top of what every site does, the CV's shorter
- * addresses left out for the reason above.
+ * Every page the site advertises: the collection indexes and the documents
+ * under them, derived from the registry filtered to the site being built, plus
+ * `mountedRoutes` — the pages of the apps the site's router mounts that no
+ * collection describes. A factory, because the route's default export is
+ * called by Next with arguments of its own.
  */
-function vovaRoutes(): string[] {
-  return [
-    ...Object.values(PAGE_ROUTES),
-    ...routing.locales.flatMap((locale) =>
-      CV_VARIANTS.flatMap((variant) => [
-        cvPath(variant, locale),
-        ...CV_SUBPAGES.map((subpage) => cvPath(variant, locale, subpage)),
-      ]),
-    ),
-    ...musicCatalogueRoutes(),
-  ];
+export function sitemap(
+  mountedRoutes: readonly string[] = [],
+): () => MetadataRoute.Sitemap {
+  return () => siteSitemap(mountedRoutes);
 }
 
-/**
- * Every page the site advertises. Both the collection indexes and the documents
- * under them are derived from the registry, filtered to the site being built, so
- * a new document appears here without touching this file.
- */
-export function sitemap(): MetadataRoute.Sitemap {
+function siteSitemap(mountedRoutes: readonly string[]): MetadataRoute.Sitemap {
   // Deduplicated because a home-indexed collection's index *is* the home page.
   const staticRoutes = [
     ...new Set([
       '/',
-      ...(SITE_ID === 'vova' ? vovaRoutes() : []),
+      ...mountedRoutes,
       ...collectionsForSite(SITE_ID).flatMap((id) =>
         documentAddresses(collectionRoute(id), id),
       ),

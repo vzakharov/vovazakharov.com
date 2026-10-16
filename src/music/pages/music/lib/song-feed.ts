@@ -9,6 +9,7 @@ import {
 } from '@/kernel/shared/config';
 import {
   type FeedEntry,
+  type FeedSource,
   filedDate,
   isListed,
   listPrimaryDocuments,
@@ -115,7 +116,7 @@ function songEpisode(document: SongDocument): FeedEntry['episode'] {
 }
 
 /** What makes either songs feed a podcast: its owner and its square cover. */
-export function songPodcast(): RssPodcast {
+function songPodcast(): RssPodcast {
   return {
     owner: SITE_CONFIG.author,
     image: absoluteUrl(PODCAST_COVER),
@@ -124,7 +125,7 @@ export function songPodcast(): RssPodcast {
 }
 
 /** A songs feed's items in one language. */
-export async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
+async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
   return Promise.all(
     listPrimaryDocuments(SONGS)
       .filter((document) => isListed(document))
@@ -144,3 +145,9 @@ export async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
       }),
   );
 }
+
+/** Both songs feeds, one per language, each a podcast. */
+export const SONG_FEED: FeedSource = {
+  entries: songFeedEntries,
+  podcast: songPodcast,
+};

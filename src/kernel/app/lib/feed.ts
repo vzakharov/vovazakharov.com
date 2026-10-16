@@ -3,6 +3,7 @@ import {
   type CollectionId,
   collectionRoute,
   feedEntries,
+  type FeedSource,
   findFeed,
   localizedRoute,
 } from '@/kernel/shared/content';
@@ -10,25 +11,28 @@ import { DEFAULT_LOCALE, type Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { renderRss } from '@/kernel/shared/lib/rss';
 
-import { songFeedEntries, songPodcast } from '@/music/pages/music';
-
-export function collectionFeed(collection: CollectionId, locale?: Locale) {
+export function collectionFeed(
+  collection: CollectionId,
+  locale?: Locale,
+  source?: FeedSource,
+) {
   const feed = findFeed(SITE_ID, collection, locale);
 
   return {
     GET: async () => {
+      const language = locale ?? DEFAULT_LOCALE;
       const entries =
-        collection === 'music'
-          ? await songFeedEntries(locale ?? DEFAULT_LOCALE)
-          : await feedEntries(collection);
+        source === undefined
+          ? await feedEntries(collection)
+          : await source.entries(language);
       const rss = renderRss({
         ...pick(feed, 'title', 'description'),
         link: getAbsoluteUrl(
           localizedRoute(collectionRoute(collection), locale),
         ),
-        language: locale ?? DEFAULT_LOCALE,
+        language,
         self: getAbsoluteUrl(feed.route),
-        ...(collection === 'music' ? { podcast: songPodcast() } : {}),
+        ...(source?.podcast === undefined ? {} : { podcast: source.podcast() }),
         items: entries
           .toSorted((a, b) => b.published.getTime() - a.published.getTime())
           .map(({ route, ...entry }) => ({

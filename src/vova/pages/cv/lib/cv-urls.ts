@@ -33,6 +33,19 @@ export function cvPath(...address: CvAddress): string {
   return [CV_BASE, ...address].join('/');
 }
 
+/**
+ * The addresses the sitemap advertises: only the fully-specified ones, since a
+ * shorter alias renders what its canonical twin renders.
+ */
+export function cvRoutes(): string[] {
+  return routing.locales.flatMap((locale) =>
+    CV_VARIANTS.flatMap((variant) => [
+      cvPath(variant, locale),
+      ...CV_SUBPAGES.map((subpage) => cvPath(variant, locale, subpage)),
+    ]),
+  );
+}
+
 /** A framing's social card. */
 export function cvCardPath(variant: CvVariant): string {
   return routeCardPath(cvPath(variant));

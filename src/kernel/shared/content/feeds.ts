@@ -13,7 +13,7 @@ import {
 } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { feedHtml } from '@/kernel/shared/lib/feed-html';
-import type { RssItem } from '@/kernel/shared/lib/rss';
+import type { RssItem, RssPodcast } from '@/kernel/shared/lib/rss';
 import type { Summarized } from '@/kernel/shared/typings';
 
 import {
@@ -32,6 +32,16 @@ export type Feed = WithCollectionId & LocaleRouted & Summarized;
 
 /** An item before its link is made absolute, which is the site's to do. */
 export type FeedEntry = Omit<RssItem, 'link'> & Routed;
+
+/**
+ * A feed's items in one language, and what makes it a podcast where it is one.
+ * A collection read as articles has a source of its own; any other is fed by
+ * the app that owns its schema.
+ */
+export type FeedSource = {
+  entries: (locale: Locale) => Promise<FeedEntry[]>;
+  podcast?: () => RssPodcast;
+};
 
 /**
  * Every feed the site publishes, described by the site's tagline save the

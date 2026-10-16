@@ -1,3 +1,5 @@
+import { SONG_FEED } from '@/music/pages/music';
+
 import { collectionFeed } from '@/kernel/app/lib';
 
 // `output: 'export'` has no request-time rendering, so the route must declare
@@ -5,4 +7,4 @@ import { collectionFeed } from '@/kernel/app/lib';
 // itself, which is why it is stated here rather than re-exported.
 export const dynamic = 'force-static';
 
-export const { GET } = collectionFeed('music', 'ru');
+export const { GET } = collectionFeed('music', 'ru', SONG_FEED);
