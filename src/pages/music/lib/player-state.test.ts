@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   billingText,
   currentTrack,
+  hasLossless,
   initialPlayerState,
   isQueued,
   placeTracks,
@@ -29,6 +30,16 @@ function playing(
 function queued(positions = ALBUM, state = initialPlayerState(COUNT)) {
   return playerReducer(state, { type: 'queue', positions });
 }
+
+describe('hasLossless', () => {
+  it('holds where a master stands beside the MP3', () => {
+    assert.equal(hasLossless({ audio: '/a.flac', mp3: '/a.mp3' }), true);
+  });
+
+  it('fails where the MP3 is the master', () => {
+    assert.equal(hasLossless({ audio: '/a.mp3', mp3: '/a.mp3' }), false);
+  });
+});
 
 describe('shuffleOrder', () => {
   it('is a permutation of the queue', () => {
