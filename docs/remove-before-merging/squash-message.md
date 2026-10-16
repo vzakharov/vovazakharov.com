@@ -7,9 +7,10 @@ Set.prototype.difference, which Node ships from 22, while CI pinned
 Node 20; every session already develops on Node 24, so only the deploy
 saw it.
 
-Every Setup Node step, in both deploy.yml lanes and in preview.yml,
-pins Node 24, matching the runtime the code is written against and
-leaving Node 20, which is past end of life.
+CI now runs Node 24, leaving Node 20, which is past end of life. The
+pnpm, Node and install steps every building lane repeated live in one
+composite action, .github/actions/setup-toolchain, so the pins are
+stated once for the deploy and preview lanes alike.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
