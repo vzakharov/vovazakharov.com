@@ -1,5 +1,5 @@
 ---
-description: 'Render a visual change and actually look at it, instead of judging appearance by reading code. Boots the Next.js dev server and captures screenshots with headless Chromium, in either theme.'
+description: 'Render a visual change and actually look at it, instead of judging appearance by reading code. Boots the Next.js dev server and captures screenshots with headless Chromium, in either theme. `/preview live [<site>]`, or any ask naming the host — "на превью", "выложи на превью", "on preview", or "задеплой" / "deploy" on an unmerged branch — publishes one site from the branch to preview.vovazakharov.com instead, for a phone or a machine the dev server does not reach.'
 ---
 
 ## What this skill is for
@@ -181,6 +181,41 @@ directory is gitignored with the rest of `tmp/`.
 **Never rasterize by pointing Chromium at a `file://…pdf`.** It renders the
 built-in _viewer_ rather than the document, exits 0, and writes a plausible
 blank PNG — a capture that reads as a page with nothing on it.
+
+## Published, for someone else to look at
+
+`https://preview.vovazakharov.com` serves one site built from a branch.
+**Publish there only when the operator asks**, since they ordinarily pull the
+branch and run the dev server themselves. The ask is `/preview live [<site>]`,
+or any wording that names the host — «на превью», «выложи на превью», "on
+preview" — and, on an unmerged branch, a plain «задеплой» or "deploy"
+(`.claude/rules/deployment.md` says why that never means production); a bare
+`/preview` or «посмотри, как выглядит» is the screenshot pass above. With no
+site named, publish the one the branch changes, and ask only when it changes
+several. Offer it, without publishing, when the change is one that setup cannot
+show: a phone layout, a browser or machine they do not develop on, or behaviour
+that only a real host has.
+
+```bash
+gh workflow run preview.yml --ref <branch> -f site=<site>   # vova, lsa, bible or basilisk
+gh run watch "$(gh run list --workflow=preview.yml --branch=<branch> \
+  --limit 1 --json databaseId --jq '.[0].databaseId')"
+```
+
+It dispatches from any branch, unmerged ones included. It never touches
+production — `.claude/rules/deployment.md` has where it sits beside the other
+doors. What the operator should be told with the link:
+
+- **The slot holds one site, the last one published**, from whichever branch
+  published it. Another session's publish replaces yours without warning; the
+  receiver's single commit, `Built <site> from <sha> (<ref>)`, says what is up
+  there now.
+- **Links and cards still name production.** Canonical URLs, `og:image` and the
+  sitemap come from the site's own URL, so a preview link pasted into a chat
+  unfurls as the production page, and a link to another of the sites leaves the
+  preview.
+- **It is not counted or crawled.** The analytics tag counts the production host
+  only, and every publish writes a `robots.txt` disallowing everything.
 
 ## Artifacts
 
