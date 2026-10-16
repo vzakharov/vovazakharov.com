@@ -8,10 +8,8 @@
 #   scripts/publish-site.sh <site>
 #   scripts/publish-site.sh <site> --preview
 #
-# `--preview` sends any site, `vova` included, to the one preview receiver
-# instead, which serves whichever site was published there last. The build is
-# the production build, so this script writes the preview host's own files over
-# it — see below.
+# `--preview` sends any site, `vova` included, to the one preview receiver,
+# which serves whichever site was published there last.
 #
 # Reads PAGES_DEPLOY_KEY: the private half of an ed25519 deploy key whose
 # public half is installed on the target receiving repository with write
