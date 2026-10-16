@@ -6,12 +6,12 @@ paths:
   - apps/basilisk/public/**
   - apps/*/public/music/**
   - src/music/pages/music/**
-  - apps/*/app/music/**
+  - apps/*/app/**/music/**
   - apps/*/public/generated/**
   - src/kernel/shared/content/**
   - src/blog/pages/documents/**
   - src/vova/pages/cv/**
-  - apps/*/app/case-studies/**
+  - apps/*/app/**/case-studies/**
   - apps/bible/app/**
   - apps/basilisk/app/**
   - scripts/render-mermaid.ts
@@ -172,18 +172,17 @@ its cards reach `shared/content`'s leaf modules and parse a case with
 2. That's it. `generateStaticParams` and the sitemap both read the collection
    registry, so the page, its variants and their sitemap entries follow with no
    route work. A new collection is one entry in `shared/content/collections.ts`
-   — naming the site that serves it — the schema that reads it in
-   `collection-schemas.ts`'s `COLLECTION_SCHEMAS` (by way of
-   `ARTICLE_COLLECTIONS` when it is article-shaped, which is what `articleRoute`
-   accepts), its directory under that site's `public/`, and a router per page
-   binding `collectionIndexRoute`/`articleRoute` to it. A **rooted** collection
-   writes an empty `base` and gets no index router: its site's home page is its
-   index, written as a page slice of its own because the copy above the list is
-   that page's whole substance. `homeIndexed` says the same of a collection with
-   a base of its own — basilisk's cases and FAQ share the home page as their
-   index — and is what points `collectionRoute` at `/` rather than at a page
-   nothing serves, and an article's back link at the home section whose id is
-   the base.
+   — naming the site that serves it — its directory under that site's `public/`,
+   and a router per page binding `collectionIndexRoute`/`articleRoute` to it. An
+   article-shaped collection is read through `articleCollection(id)`; one that
+   holds more is a `Collection` beside its owning app's schema (`SONGS`,
+   `CASES`), which its routes pass instead. A **rooted** collection writes an
+   empty `base` and gets no index router: its site's home page is its index,
+   written as a page slice of its own because the copy above the list is that
+   page's whole substance. `homeIndexed` says the same of a collection with a
+   base of its own — basilisk's cases and FAQ share the home page as their index
+   — and is what points `collectionRoute` at `/` rather than at a page nothing
+   serves, and an article's back link at the home section whose id is the base.
 
 ## The three things a document can author beyond markdown
 

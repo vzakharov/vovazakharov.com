@@ -37,14 +37,14 @@ and the rest of the convention.
 
 ## Repository layout
 
-- **`src/`** — All application code, in Feature-Sliced Design layers (`shared/`,
-  `features/`, `pages/`, `app/`). `@.claude/rules/fsd.md` carries the
-  conventions both checkers enforce.
+- **`src/`** — All application code, as apps (`src/<app>/`), each a
+  Feature-Sliced Design tree, composed along the graph in `src/masd.json`.
+  `@.claude/rules/masd.md` carries the conventions the checkers enforce.
 - **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`),
-  each holding its `app/` (**routing only** — the FSD app layer is `src/app`),
-  `public/`, `next.config.ts` and `tsconfig.json`. All four build from the one
-  `src/`, and a build is entered in its app directory rather than pointed at
-  from the root.
+  each holding its `app/` (**routing only** — the FSD app layers are under
+  `src/`), `public/`, `next.config.ts` and `tsconfig.json`. All four build from
+  the one `src/`, and a build is entered in its app directory rather than
+  pointed at from the root.
 - **`apps/*/public/`** — Static assets served at that site's root: `.nojekyll`
   (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each
   site with a domain of its own (which a force-push would otherwise drop), and
@@ -429,7 +429,7 @@ deviates, with checklist items in forward-looking voice.
 **Human-facing prose is English** — `README.md`, the docs a person reads to
 decide something, commit subjects and bodies, PR titles and bodies, and the
 plans and issue exports published for review. (The site's own `en`/`ru` content
-is `src/shared/i18n/`'s product decision.)
+is `src/kernel/shared/i18n/`'s product decision.)
 
 - **Agent-facing — English**: `CLAUDE.md`, `.claude/skills/**`,
   `.claude/rules/**`, and code comments, docstrings, identifiers. Agents follow

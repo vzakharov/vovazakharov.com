@@ -193,11 +193,11 @@ adds every collection's routes and imports no app above it.
 
 **A page the router has to parameterize costs three lines rather than one.** The
 document pages serve a collection the router picks, so they are factories: the
-file calls `articleRoute('bible')`, destructures, and re-exports. Next reads
-`default`, `generateMetadata` and `generateStaticParams` as separate named
-exports off the module, so there is no single binding to forward — which is the
-whole of what the extra two lines buy, and the router still decides nothing but
-which slice with which argument.
+file calls `articleRoute(articleCollection('bible'))`, destructures, and
+re-exports. Next reads `default`, `generateMetadata` and `generateStaticParams`
+as separate named exports off the module, so there is no single binding to
+forward — which is the whole of what the extra two lines buy, and the router
+still decides nothing but which slice with which argument.
 
 **Every app layer lives under `src/`**, not beside the routers, which several
 sites would have to share. kernel's holds the base root layout (fonts, globals,
