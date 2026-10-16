@@ -18,13 +18,30 @@ closes #171.
 
 - **Done** — step 1: `src/masd.json`, `eslint/masd-graph.ts` and its tests
   (0a27055).
-- **Left** — steps 2–11, starting with the move. Rewrite imports with a one-off
-  script under `tmp/` (alias and relative imports both, resolved against the old
-  location and recomputed from the new), not by hand: besides `src/`,
-  `scripts/**`, `apps/*/app/**`, `apps/site-next-config.ts`, `knip.ts`,
-  `steiger.config.mjs`, `eslint.config.ts`, `package.json` (`test:meadow`),
-  `scripts/vet-test.sh` (`MEADOW`), `styles/*.scss` and many `.claude/rules/*`
-  name `src/<layer>/…` paths.
+- **Done** — step 2: one `git mv` commit per app, then 6543211 rewrote every
+  reference (tsc clean). `MUSIC_ROUTE` is `kernel/shared/content/music-route.ts`
+  in kernel's content barrel; `basilisk-frontmatter.ts` sits in
+  `src/basilisk/shared/content/`; shell's root layout is kernel's plus
+  `ThemeCorner`, mounted by all four routers (the game's own layout is step 5).
+  The rewrite only re-pointed `eslint.config.ts`'s element patterns at
+  `src/kernel/...` — step 7 replaces them — and left prose naming bare layer
+  paths (`src/pages/`, `shared/content`) for step 10.
+- **Left** — steps 3–11. Still crossing apps the wrong way, by relative leaf
+  imports, until steps 3–4 remove them: kernel's `collection-schemas.ts` and
+  content barrel (basilisk's case schema, music's song schema), kernel's
+  `app/lib` feed and sitemap (`@/music/pages/music`, `@/vova/pages/cv`).
+- **Found, not in the steps above** — two imports the graph forbids:
+  `blog/pages/documents/ui/article-slots.tsx` imports `@/basilisk/entities/case`
+  (a parent reaching its child), and `music/pages/music/ui/story.tsx` imports
+  `@/blog/entities/document` (music's parent is shell, not blog). Proposed for
+  the first, with step 3: `articleRoute(collection, slots?)` takes a
+  `Collection<F>` and its slots from the router; the `ArticleSlots` type moves
+  to a blog shared segment so `basilisk/entities/case` can export `CASE_SLOTS`;
+  basilisk's router passes both. The second wants a call: music extending `blog`
+  as well as `shell`, or what `story.tsx` uses moving down to kernel.
+- **Step 3's catch**: reading every collection through the base schema strips
+  song `title` (zod drops unknown keys), harmless to the sitemap — its only
+  caller — but say so where `listAllDocuments` is.
 
 ## The model
 
