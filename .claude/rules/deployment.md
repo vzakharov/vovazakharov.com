@@ -56,8 +56,10 @@ carries how it is used.
 
 **On an unmerged branch, an operator's "deploy" — «задеплой», «давай задеплоим»
 — means this door.** A branch dispatch of `deploy.yml` reaches production, so it
-takes an ask that names production or a live domain; a deploy misread as a
-preview costs a rerun, one misread as production ships unmerged work.
+takes an ask that names production or a live domain, or a `/stand-up-site` run,
+whose Step 3 publish to the new domain is what "deploy" means there. A deploy
+misread as a preview costs a rerun, one misread as production ships unmerged
+work.
 
 **Each lane prints that site's page PDFs into its export before publishing**,
 through the `.github/actions/render-pdfs` composite action they all call. A
