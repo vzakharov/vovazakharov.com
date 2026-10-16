@@ -289,18 +289,35 @@ function toggle(state: PlayerState): PlayerState {
   return cursor < 0 ? state : { ...state, playing: !playing };
 }
 
+/**
+ * Where a step lands in an order of `length`, wrapping at either end. From
+ * nothing, forward starts at the top and back at the end — which is what a
+ * wrapping cursor gives for free.
+ */
+function stepped(cursor: number, by: 1 | -1, length: number): number {
+  return (cursor + by + length) % length;
+}
+
 function step(state: PlayerState, by: 1 | -1): PlayerState {
   const { order, cursor } = state;
 
   if (order.length === 0) return state;
 
-  // From nothing, forward starts at the top of the queue and back at its end —
-  // which is what a wrapping cursor gives for free.
-  return {
-    ...state,
-    cursor: (cursor + by + order.length) % order.length,
-    playing: true,
-  };
+  return { ...state, cursor: stepped(cursor, by, order.length), playing: true };
+}
+
+/**
+ * The catalogue position a step forward would play — what the player loads
+ * ahead of it. Nothing before anything plays, nor where the queue holds one
+ * track, which would be the one already loaded.
+ */
+export function upcomingTrack({
+  order,
+  cursor,
+}: PlayOrder): number | undefined {
+  if (cursor < 0 || order.length < 2) return undefined;
+
+  return order[stepped(cursor, 1, order.length)];
 }
 
 function reshuffle(
