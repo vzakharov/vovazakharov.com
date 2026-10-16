@@ -1,44 +1,36 @@
-/** What the player does on an element's event, handed the deck it fired on. */
-export type DeckListeners = ReadonlyArray<
-  readonly [keyof HTMLMediaElementEventMap, (deck: HTMLAudioElement) => void]
->;
+import { pick } from '@/shared/lib/collections';
+
+import {
+  type DeckListener,
+  type DeckListeners,
+  type DeckPlayback,
+  loaded,
+  refusal,
+  unload,
+} from './deck-element';
+import { createSwapper, type Swapping } from './deck-swap';
 
 /**
  * Two audio elements taking turns, as a DJ's decks do: the active one plays and
  * every control drives it, while the standby one loads the track due next, so
  * changing to it starts a buffered file rather than a request.
  */
-export type Decks = {
-  active: () => HTMLAudioElement;
-  /**
-   * The file due next, which the standby deck loads once the active one can
-   * play through, so the two never compete for the connection.
-   */
-  arm: (src: string | undefined) => void;
-  /** Make the standby deck the active one if it holds `src`, and say whether it did. */
-  cue: (src: string) => boolean;
-  /**
-   * Play the active deck. A refusal reaches `onRefused`, unless it is the
-   * browser declining a deck the reader never started while the other one has
-   * played: the file then moves onto that one.
-   */
-  play: (onRefused: () => void) => void;
-  setVolume: (volume: number) => void;
-  /** Silence both decks and stop hearing them. */
-  stop: () => void;
-};
-
-/**
- * The attribute rather than the property, which reads back resolved to an
- * absolute URL that a site-root path never equals.
- */
-function loaded(deck: HTMLAudioElement): string | undefined {
-  return deck.getAttribute('src') ?? undefined;
-}
-
-function refusal(error: unknown): string | undefined {
-  return error instanceof DOMException ? error.name : undefined;
-}
+export type Decks = DeckPlayback &
+  Swapping & {
+    /**
+     * The file due next, which the standby deck loads once the active one can
+     * play through, so the two never compete for the connection.
+     */
+    arm: (src: string | undefined) => void;
+    /**
+     * Make the standby deck the active one if it holds `src`, and say whether it
+     * did — never while it loads a `swapIn`, which is no track of the queue's.
+     */
+    cue: (src: string) => boolean;
+    setVolume: (volume: number) => void;
+    /** Silence both decks and stop hearing them. */
+    stop: () => void;
+  };
 
 /**
  * The decks are audio engines rather than page content — the bar is what a
@@ -54,21 +46,34 @@ export function createDecks(listeners: DeckListeners): Decks {
 
   for (const deck of decks) deck.preload = 'metadata';
 
-  function swap() {
+  const swapper = createSwapper({
+    active: () => active,
+    standby: () => standby,
+    exchange,
+    rearm,
+    play,
+    markPlayed,
+  });
+
+  function markPlayed(deck: HTMLAudioElement) {
+    played.add(deck);
+  }
+
+  function exchange() {
     [active, standby] = [standby, active];
   }
 
   function rearm() {
+    if (swapper.underWay()) return;
+
     const wanted =
       active.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
         ? upcoming
         : undefined;
     if (loaded(standby) === wanted || wanted === loaded(active)) return;
 
-    // A file no longer due is dropped rather than left downloading.
     if (wanted === undefined) {
-      standby.removeAttribute('src');
-      standby.load();
+      unload(standby);
 
       return;
     }
@@ -92,7 +97,7 @@ export function createDecks(listeners: DeckListeners): Decks {
       ) {
         const src = loaded(deck);
 
-        swap();
+        exchange();
         if (src !== undefined) active.src = src;
         play(onRefused);
 
@@ -106,17 +111,26 @@ export function createDecks(listeners: DeckListeners): Decks {
   const wired: DeckListeners = [
     ...listeners,
     ['canplaythrough', rearm],
-    [
-      'playing',
-      (deck) => {
-        played.add(deck);
-      },
-    ],
+    ['playing', markPlayed],
+  ];
+  const routed: DeckListeners = [
+    ...swapper.listeners,
+    ...wired.map(
+      ([event, handler]): DeckListener => [
+        event,
+        (deck) => {
+          if (deck !== active) return;
+          if (event === 'timeupdate' && swapper.resetting()) return;
+
+          handler(deck);
+        },
+      ],
+    ),
   ];
   const heard = decks.flatMap((deck) =>
-    wired.map(([event, handler]) => {
+    routed.map(([event, handler]) => {
       const listener = () => {
-        if (deck === active) handler(deck);
+        handler(deck);
       };
 
       deck.addEventListener(event, listener);
@@ -136,11 +150,17 @@ export function createDecks(listeners: DeckListeners): Decks {
       rearm();
     },
     cue: (src) => {
-      if (loaded(standby) !== src || loaded(active) === src) return false;
+      if (
+        swapper.underWay() ||
+        loaded(standby) !== src ||
+        loaded(active) === src
+      ) {
+        return false;
+      }
 
       const outgoing = active;
 
-      swap();
+      exchange();
       outgoing.pause();
       // A deck swapped back to holds the track where it was left; a new track
       // starts from the top.
@@ -148,6 +168,7 @@ export function createDecks(listeners: DeckListeners): Decks {
 
       return true;
     },
+    ...pick(swapper, 'swapIn'),
     play,
     setVolume: (volume) => {
       for (const deck of decks) deck.volume = volume;
@@ -155,6 +176,7 @@ export function createDecks(listeners: DeckListeners): Decks {
     stop: () => {
       for (const unhear of heard) unhear();
       for (const deck of decks) deck.pause();
+      swapper.reset();
     },
   };
 }
