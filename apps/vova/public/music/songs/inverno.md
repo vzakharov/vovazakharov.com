@@ -6,11 +6,8 @@ status: done
 language: instrumental
 project: ['Полуживые', 'GENERATED']
 repo: 'vagabond_album'
-audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Inverno%20feat.%20GENERATED.flac
 seconds: 383
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20Inverno%20feat.%20GENERATED.mp3
-  bytes: 15420469
+mp3Bytes: 15420469
 explicit: false
 album: vagabond
 track: 3

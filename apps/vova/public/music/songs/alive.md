@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'alive'
-audio: https://raw.githubusercontent.com/vovas-music/alive/main/GENERATED%20-%20Alive.flac
 seconds: 251
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/alive/main/GENERATED%20-%20Alive.mp3
-  bytes: 10132983
+mp3Bytes: 10132983
 explicit: false
 album: ghosts-of-flesh
 track: 5

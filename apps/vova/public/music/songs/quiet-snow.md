@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'sneg'
-audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%9C%D1%8B%20%D0%B2%D1%81%D0%BF%D0%BE%D0%BC%D0%B8%D0%BD%D0%B0%D0%B5%D0%BC%20%D1%82%D0%B8%D1%85%D0%B8%D0%B9%20%D1%81%D0%BD%D0%B5%D0%B3%E2%80%A6.flac
 seconds: 211
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%9C%D1%8B%20%D0%B2%D1%81%D0%BF%D0%BE%D0%BC%D0%B8%D0%BD%D0%B0%D0%B5%D0%BC%20%D1%82%D0%B8%D1%85%D0%B8%D0%B9%20%D1%81%D0%BD%D0%B5%D0%B3%E2%80%A6.mp3
-  bytes: 8494434
+mp3Bytes: 8494434
 explicit: false
 album: five-romances
 track: 6

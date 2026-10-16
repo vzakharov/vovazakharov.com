@@ -6,11 +6,8 @@ language: en
 project: ['Downtemple']
 repo: 'ghost'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/ghost/main/Downtemple%20-%20Ghost%20of%20Yesterday.flac
 seconds: 214
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ghost/main/Downtemple%20-%20Ghost%20of%20Yesterday.mp3
-  bytes: 8593546
+mp3Bytes: 8593546
 explicit: false
 en:
   hook: '“Magnificent. I’m sitting here crying.” Dad’s answer to the next-to-last song I showed him.'

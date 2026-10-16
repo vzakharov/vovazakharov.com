@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Fetal%20Soup.flac
 seconds: 6
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Fetal%20Soup.mp3
-  bytes: 368989
+mp3Bytes: 368989
 segue: true
 explicit: false
 album: nsfl

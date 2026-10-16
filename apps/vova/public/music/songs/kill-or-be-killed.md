@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED', 'Yoohie']
 repo: 'kobk'
-audio: https://raw.githubusercontent.com/vovas-music/kobk/main/GENERATED%20-%20Kill%20or%20Be%20Killed%20feat.%20Yoohie.flac
 seconds: 180
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/kobk/main/GENERATED%20-%20Kill%20or%20Be%20Killed%20feat.%20Yoohie.mp3
-  bytes: 7382122
+mp3Bytes: 7382122
 explicit: false
 album: ctfu
 track: 3

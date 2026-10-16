@@ -5,11 +5,8 @@ status: done
 language: en
 project: [GENERATED, Yoohie]
 repo: crossroads
-audio: https://raw.githubusercontent.com/vovas-music/crossroads/main/GENERATED%20-%20Crossroads%20feat.%20Yoohie.flac
 seconds: 194
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/crossroads/main/GENERATED%20-%20Crossroads%20feat.%20Yoohie.mp3
-  bytes: 7933457
+mp3Bytes: 7933457
 album: ctfu
 track: 4
 en:

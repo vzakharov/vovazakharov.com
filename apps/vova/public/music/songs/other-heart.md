@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'heart'
-audio: https://raw.githubusercontent.com/vovas-music/heart/main/GENERATED%20-%20The%20Other%20Heart.flac
 seconds: 282
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/heart/main/GENERATED%20-%20The%20Other%20Heart.mp3
-  bytes: 11375760
+mp3Bytes: 11375760
 explicit: false
 album: let-the-stories-spin
 track: 3

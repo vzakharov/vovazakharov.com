@@ -1,11 +1,12 @@
 import type { SongFrontmatter } from '@/shared/music-catalogue';
 import {
   type SongBilling,
+  songFileName,
   songFileNames,
   type Spelled,
 } from '@/shared/music-catalogue/index.node-safe';
 
-import { masterLocation, rawUrl } from './master-url';
+import { rawUrl, type RepoLocation } from './master-url';
 
 /** A file's extension, lowercase and without its dot. */
 export type WithExtension = { extension: string };
@@ -13,51 +14,70 @@ export type WithExtension = { extension: string };
 /** `href` is spelled as the page spells the song, each spelling a path to the same bytes. */
 export type SongFile = WithExtension & { href: Spelled };
 
+/** What a song's files are derived from beside its billing. */
+export type SongHosting = Pick<SongFrontmatter, 'repo' | 'lossy'>;
+
 export function extensionOf(href: string): string {
   return href.slice(href.lastIndexOf('.') + 1).toLowerCase();
 }
 
-function namedHref(
-  href: string,
-  extension: string,
-  billing: SongBilling | undefined,
-): Spelled {
-  const location = masterLocation(href);
+/** The branch every song's repository serves its files from. */
+export const SONG_BRANCH = 'main';
 
-  if (billing === undefined || location === null) return { original: href };
-
-  const { original, latin } = songFileNames(billing, extension);
-
-  return {
-    original: rawUrl(location, original),
-    ...(latin !== undefined && { latin: rawUrl(location, latin) }),
-  };
+/** Where every file of a song sits: its repository's root. */
+export function songHome({
+  repo,
+}: Pick<SongFrontmatter, 'repo'>): RepoLocation {
+  return { repo, branch: SONG_BRANCH, directory: '' };
 }
 
-type WithMasters = Pick<SongFrontmatter, 'audio' | 'mp3'>;
+/** Where `raw.githubusercontent.com` serves the song's file of that name. */
+export function songUrl(
+  hosting: Pick<SongFrontmatter, 'repo'>,
+  name: string,
+): string {
+  return rawUrl(songHome(hosting), name);
+}
 
-/** The song as an MP3: the copy beside the master, or the master itself. */
-export function mp3Url({ audio, mp3 }: WithMasters): string {
-  return mp3.url ?? audio;
+/** The extensions of the song's files to take away: the MP3, then the FLAC master it is a copy of. */
+export function downloadExtensions({
+  lossy,
+}: Pick<SongFrontmatter, 'lossy'>): string[] {
+  return ['mp3', ...(lossy ? [] : ['flac'])];
 }
 
 /**
- * The song's files to take away: the MP3 first, then the master where the MP3
- * is a copy of it. With a billing, a file a `vovas-music` repository serves is
- * linked under the name `pnpm music:masters tag` saved it as for that billing; without
- * one, and for a file the site hosts, under the URL the frontmatter states.
+ * The song's files to take away, each under the name `pnpm music:masters tag`
+ * saved it as for the billing.
  */
 export function songFiles(
-  masters: WithMasters,
-  billing?: SongBilling,
+  hosting: SongHosting,
+  billing: SongBilling,
 ): SongFile[] {
-  const { audio, mp3 } = masters;
+  return downloadExtensions(hosting).map((extension) => {
+    const { original, latin } = songFileNames(billing, extension);
 
-  return [mp3Url(masters), ...(mp3.url === undefined ? [] : [audio])].map(
-    (href) => {
-      const extension = extensionOf(href);
+    return {
+      extension,
+      href: {
+        original: songUrl(hosting, original),
+        ...(latin !== undefined && { latin: songUrl(hosting, latin) }),
+      },
+    };
+  });
+}
 
-      return { extension, href: namedHref(href, extension, billing) };
-    },
-  );
+/**
+ * The file the player plays, under the English page's Latin name (a Russian
+ * page spells its Latin names in Cyrillic): the MP3, or for a reader asking for
+ * lossless, a FLAC master's MP4 rewrap, whose sample index AVFoundation — every
+ * iOS browser's player — seeks exactly where a bare FLAC lands seconds off. A
+ * lossy song plays its MP3 master either way.
+ */
+export function playedName(
+  { lossy }: Pick<SongFrontmatter, 'lossy'>,
+  english: SongBilling,
+  lossless: boolean,
+): string {
+  return songFileName(english, 'latin', lossless && !lossy ? 'mp4' : 'mp3');
 }

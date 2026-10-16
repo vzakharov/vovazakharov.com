@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'cracks'
-audio: https://raw.githubusercontent.com/vovas-music/cracks/main/GENERATED%20-%20Through%20the%20Cracks.flac
 seconds: 199
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/cracks/main/GENERATED%20-%20Through%20the%20Cracks.mp3
-  bytes: 8067927
+mp3Bytes: 8067927
 explicit: false
 album: let-the-stories-spin
 track: 12

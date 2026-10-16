@@ -10,8 +10,11 @@ const RAW_HOST = 'raw.githubusercontent.com';
 
 export type WithBranch = { branch: string };
 
+/** A repository's name inside the `vovas-music` organization. */
+export type WithRepo = { repo: string };
+
 /** A branch of a `vovas-music` repository. */
-export type RepoBranch = WithBranch & { repo: string };
+export type RepoBranch = WithBranch & WithRepo;
 
 /** Where a file lives in its repository, read off its raw URL. */
 export type RepoLocation = RepoBranch & {

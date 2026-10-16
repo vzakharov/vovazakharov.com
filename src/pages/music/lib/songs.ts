@@ -16,8 +16,9 @@ import { projectName } from './artists';
 import { artistPath, songPath } from './music-urls';
 import type { PlayerTrack } from './player-state';
 import { bill } from './projects';
-import { mp3Url } from './song-files';
+import { playedName, songUrl } from './song-files';
 import type { SongDocument, SongOnRelease } from './song-text';
+import { assertWritten } from './written-guard';
 
 /**
  * The catalogue, newest first. A slug that is a locale is rejected here, where
@@ -119,12 +120,19 @@ export function songTrack(
   album: MusicAlbum | null = document.frontmatter.album,
 ): PlayerTrack {
   const { slug, frontmatter } = document;
-  const { audio, seconds, explicit, segue, project } = frontmatter;
+  const { seconds, explicit, segue, project } = frontmatter;
+  const english = songBilling(document, 'en');
+  const played = (lossless: boolean) =>
+    songUrl(frontmatter, playedName(frontmatter, english, lossless));
+  const audio = played(true);
+  const mp3 = played(false);
+
+  assertWritten(document, [audio, mp3]);
 
   return {
     slug,
     audio,
-    mp3: mp3Url(frontmatter),
+    mp3,
     seconds,
     explicit,
     segue,

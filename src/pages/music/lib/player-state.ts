@@ -30,7 +30,9 @@ export function billingText(billing: Billing, script?: Script): string {
  */
 export type PlayerTrack = Slugged &
   Playable & {
-    /** What the player plays unless the reader asks for the lossless master. */
+    /** The URL of the file the player plays where the reader asks for lossless, `playedName`'s. */
+    audio: string;
+    /** What the player plays otherwise. */
     mp3: string;
     /** What the song is called in each language, how it is billed, and where each is served. */
     titles: Record<Locale, Spelled>;
