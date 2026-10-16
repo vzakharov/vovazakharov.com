@@ -5,11 +5,8 @@ status: done
 language: ru
 project: [за/обложкой, GENERATED]
 repo: letim
-audio: https://raw.githubusercontent.com/vovas-music/letim/main/%D0%B7%D0%B0_%D0%BE%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%BE%D0%B9%20-%20%D0%9B%D0%B5%D1%82%D0%B8%D0%BC%20feat.%20GENERATED.flac
 seconds: 208
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/letim/main/%D0%B7%D0%B0_%D0%BE%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%BE%D0%B9%20-%20%D0%9B%D0%B5%D1%82%D0%B8%D0%BC%20feat.%20GENERATED.mp3
-  bytes: 8497777
+mp3Bytes: 8497777
 album: ctfu
 track: 5
 en:

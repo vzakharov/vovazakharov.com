@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'komnata'
-audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%AF%20%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8E%20%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81%20%D1%81%D0%BB%D0%BE%D0%B2%D0%B0%D0%BC%D0%B8%20%D1%82%D0%B5%D0%BC%D0%B8%E2%80%A6.flac
 seconds: 190
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%AF%20%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8E%20%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81%20%D1%81%D0%BB%D0%BE%D0%B2%D0%B0%D0%BC%D0%B8%20%D1%82%D0%B5%D0%BC%D0%B8%E2%80%A6.mp3
-  bytes: 7654314
+mp3Bytes: 7654314
 explicit: false
 album: five-romances
 track: 4

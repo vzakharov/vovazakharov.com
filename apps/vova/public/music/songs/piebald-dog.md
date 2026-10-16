@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'pes'
-audio: https://raw.githubusercontent.com/vovas-music/pes/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9F%D0%B5%D0%B3%D0%B8%D0%B9%20%D0%BF%D1%91%D1%81%2C%20%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B8%D0%B9%20%D0%BA%D1%80%D0%B0%D0%B5%D0%BC%20%D0%BC%D0%BE%D1%80%D1%8F.flac
 seconds: 321
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/pes/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9F%D0%B5%D0%B3%D0%B8%D0%B9%20%D0%BF%D1%91%D1%81%2C%20%D0%B1%D0%B5%D0%B3%D1%83%D1%89%D0%B8%D0%B9%20%D0%BA%D1%80%D0%B0%D0%B5%D0%BC%20%D0%BC%D0%BE%D1%80%D1%8F.mp3
-  bytes: 12965276
+mp3Bytes: 12965276
 explicit: false
 album: father-river
 track: 2

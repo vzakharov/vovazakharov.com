@@ -7,11 +7,8 @@ project: ['Полуживые']
 repo: 'wangwei'
 album: father-sea
 track: 8
-audio: https://raw.githubusercontent.com/vovas-music/wangwei/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9F%D1%80%D0%BE%D1%89%D0%B0%D0%BD%D0%B8%D0%B5.flac
 seconds: 339
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/wangwei/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%9F%D1%80%D0%BE%D1%89%D0%B0%D0%BD%D0%B8%D0%B5.mp3
-  bytes: 13551567
+mp3Bytes: 13551567
 explicit: false
 en:
   title:

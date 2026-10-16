@@ -7,11 +7,8 @@ project: ['Полуживые']
 repo: 'hamlet'
 album: hamlet
 track: 1
-audio: https://raw.githubusercontent.com/vovas-music/hamlet/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%93%D0%B0%D0%BC%D0%BB%D0%B5%D1%82.flac
 seconds: 244
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/hamlet/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20-%20%D0%93%D0%B0%D0%BC%D0%BB%D0%B5%D1%82.mp3
-  bytes: 9812058
+mp3Bytes: 9812058
 explicit: false
 credits:
   lyrics:

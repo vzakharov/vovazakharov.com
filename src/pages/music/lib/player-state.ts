@@ -30,7 +30,9 @@ export function billingText(billing: Billing, script?: Script): string {
  */
 export type PlayerTrack = Slugged &
   Playable & {
-    /** What the player plays unless the reader asks for the lossless master. */
+    /** The URL of the file the player plays where the reader asks for lossless, `playedName`'s. */
+    audio: string;
+    /** What the player plays otherwise. */
     mp3: string;
     /** What the song is called in each language, how it is billed, and where each is served. */
     titles: Record<Locale, Spelled>;
@@ -40,6 +42,14 @@ export type PlayerTrack = Slugged &
 
 export function trackSource(track: PlayerTrack, lossless: boolean): string {
   return lossless ? track.audio : track.mp3;
+}
+
+/** Whether lossless plays anything else: a song mastered as an MP3 has no other file. */
+export function hasLossless({
+  audio,
+  mp3,
+}: Pick<PlayerTrack, 'audio' | 'mp3'>) {
+  return audio !== mp3;
 }
 
 /** A track, as the one a control or a slot is about. */
@@ -289,18 +299,35 @@ function toggle(state: PlayerState): PlayerState {
   return cursor < 0 ? state : { ...state, playing: !playing };
 }
 
+/**
+ * Where a step lands in an order of `length`, wrapping at either end. From
+ * nothing, forward starts at the top and back at the end — which is what a
+ * wrapping cursor gives for free.
+ */
+function stepped(cursor: number, by: 1 | -1, length: number): number {
+  return (cursor + by + length) % length;
+}
+
 function step(state: PlayerState, by: 1 | -1): PlayerState {
   const { order, cursor } = state;
 
   if (order.length === 0) return state;
 
-  // From nothing, forward starts at the top of the queue and back at its end —
-  // which is what a wrapping cursor gives for free.
-  return {
-    ...state,
-    cursor: (cursor + by + order.length) % order.length,
-    playing: true,
-  };
+  return { ...state, cursor: stepped(cursor, by, order.length), playing: true };
+}
+
+/**
+ * The catalogue position a step forward would play — what the player loads
+ * ahead of it. Nothing before anything plays, nor where the queue holds one
+ * track, which would be the one already loaded.
+ */
+export function upcomingTrack({
+  order,
+  cursor,
+}: PlayOrder): number | undefined {
+  if (cursor < 0 || order.length < 2) return undefined;
+
+  return order[stepped(cursor, 1, order.length)];
 }
 
 function reshuffle(

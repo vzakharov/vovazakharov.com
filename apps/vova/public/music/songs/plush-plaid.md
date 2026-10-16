@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'pled'
-audio: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%9F%D0%BE%D0%B4%20%D0%BB%D0%B0%D1%81%D0%BA%D0%BE%D0%B9%20%D0%BF%D0%BB%D1%8E%D1%88%D0%B5%D0%B2%D0%BE%D0%B3%D0%BE%20%D0%BF%D0%BB%D0%B5%D0%B4%D0%B0%E2%80%A6.flac
 seconds: 248
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/dng_album/main/%D0%94%D0%B0%D0%BC%D1%8B%20%D0%B8%20%D0%B3%D0%BE%D1%81%D0%BF%D0%BE%D0%B4%D0%B0%20-%20%D0%9F%D0%BE%D0%B4%20%D0%BB%D0%B0%D1%81%D0%BA%D0%BE%D0%B9%20%D0%BF%D0%BB%D1%8E%D1%88%D0%B5%D0%B2%D0%BE%D0%B3%D0%BE%20%D0%BF%D0%BB%D0%B5%D0%B4%D0%B0%E2%80%A6.mp3
-  bytes: 9973917
+mp3Bytes: 9973917
 explicit: false
 album: five-romances
 track: 2

@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Facepalm%20Death.flac
 seconds: 53
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Facepalm%20Death.mp3
-  bytes: 2236822
+mp3Bytes: 2236822
 explicit: false
 album: nsfl
 track: 5

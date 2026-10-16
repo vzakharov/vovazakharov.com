@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Mankind%20Extermination%20Front.flac
 seconds: 18
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/GENERATED%20-%20Mankind%20Extermination%20Front.mp3
-  bytes: 856067
+mp3Bytes: 856067
 explicit: false
 album: nsfl
 track: 3

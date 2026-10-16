@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'succumb'
-audio: https://raw.githubusercontent.com/vovas-music/succumb/main/GENERATED%20-%20Succumb%20to%20Me.flac
 seconds: 204
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/succumb/main/GENERATED%20-%20Succumb%20to%20Me.mp3
-  bytes: 8237014
+mp3Bytes: 8237014
 explicit: false
 album: pschpthy
 track: 4

@@ -7,11 +7,8 @@ project: ['Грёбаный бал']
 repo: 'utro'
 album: stronger-than-love
 track: 4
-audio: https://raw.githubusercontent.com/vovas-music/utro/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%94%D0%BE%D0%B1%D1%80%D0%BE%D0%B5%20%D1%83%D1%82%D1%80%D0%BE.flac
 seconds: 228
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/utro/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%94%D0%BE%D0%B1%D1%80%D0%BE%D0%B5%20%D1%83%D1%82%D1%80%D0%BE.mp3
-  bytes: 9113813
+mp3Bytes: 9113813
 explicit: false
 credits:
   lyrics: ['Славик, друг Андрея Мокрушина']

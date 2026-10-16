@@ -7,11 +7,8 @@ project: ['Грёбаный бал']
 repo: 'ukhodi'
 album: for-none-and-for-all
 track: 8
-audio: https://raw.githubusercontent.com/vovas-music/ukhodi/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%A3%D1%85%D0%BE%D0%B4%D0%B8.flac
 seconds: 234
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ukhodi/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%A3%D1%85%D0%BE%D0%B4%D0%B8.mp3
-  bytes: 9374419
+mp3Bytes: 9374419
 explicit: false
 en:
   title:

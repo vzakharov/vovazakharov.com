@@ -1,115 +1,54 @@
 /**
  * One song, resolved through the catalogue the way its pages resolve it, into
- * what `pnpm music:masters tag` writes: the tags, the cover, and for each of its files
- * the repository path it is read from and every name it is saved under.
+ * what `pnpm music:masters tag` writes: the tags, the cover, the repository it
+ * writes into, and every name each of the song's files is saved under.
  */
 
 import path from 'node:path';
 
 import { getAbsoluteUrl } from '@/shared/config';
-import { isLocale, type Locale, LOCALES } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import {
-  type MusicAlbum,
-  songFileName,
-  songFileNames,
-} from '@/shared/music-catalogue/index.node-safe';
-import type { WithUrl } from '@/shared/typings';
+import type { MusicAlbum } from '@/shared/music-catalogue/index.node-safe';
 
 import { songPlacements } from '@/pages/music/lib/album-tracks';
 import { albumArtist, albumTitle } from '@/pages/music/lib/albums';
 import { projectName } from '@/pages/music/lib/artists';
 import { entryText } from '@/pages/music/lib/lyric-notes';
-import {
-  masterLocation,
-  type RepoLocation,
-} from '@/pages/music/lib/master-url';
+import type { RepoLocation } from '@/pages/music/lib/master-url';
 import { songPath } from '@/pages/music/lib/music-urls';
 import { songPicture } from '@/pages/music/lib/pictures';
-import { extensionOf, type WithExtension } from '@/pages/music/lib/song-files';
+import {
+  downloadExtensions,
+  playedName,
+  songHome,
+  type WithExtension,
+} from '@/pages/music/lib/song-files';
+import { savedNames } from '@/pages/music/lib/song-names';
 import { type SongDocument, sungStanzas } from '@/pages/music/lib/song-text';
 import { listSongPages, songBilling } from '@/pages/music/lib/songs';
 
 import { buildTags, type SongTags, type TagSource } from './song-tags.ts';
 
-/** The frontmatter fields that hold a file's URL. */
-type MasterField = 'audio' | 'mp3';
-
-/** `url` is the one the frontmatter states now. */
-export type MasterFile = RepoLocation &
-  WithUrl &
-  WithExtension & {
-    field: MasterField;
-    /** The repository path that URL serves. */
-    sourcePath: string;
-    /** Every name a page saves it under, the frontmatter's own first. */
-    names: [string, ...string[]];
-  };
+/** One of the song's files, the master or its MP3 copy. */
+export type MasterFile = WithExtension & {
+  /** Every name a page saves it under, the song's own first. */
+  names: [string, ...string[]];
+};
 
 export type SongTagJob = Pick<SongDocument, 'slug' | 'fileName'> & {
+  /** Where the song's files are written. */
+  home: RepoLocation;
   tags: SongTags;
   /** On disk, the JPEG the song's page shows. */
   coverPath?: string;
+  /** The master first, then the MP3 where it is the master's copy. */
   files: MasterFile[];
+  /**
+   * Where the master is a FLAC, the name its MP4 rewrap is published under.
+   * One name: no page offers it for download.
+   */
+  stream?: string;
 };
-
-/** The locale whose page calls the song by its own name, the one it is sung in first. */
-function ownLocale({ frontmatter }: SongDocument): Locale {
-  const keepsName = (locale: Locale) =>
-    typeof frontmatter[locale].title !== 'string';
-  const sung = frontmatter.titleLanguage ?? frontmatter.language[0];
-
-  return isLocale(sung) && keepsName(sung)
-    ? sung
-    : (LOCALES.find((locale) => keepsName(locale)) ?? 'en');
-}
-
-function fileNames(
-  document: SongDocument,
-  extension: string,
-): [string, ...string[]] {
-  const own = songFileName(
-    songBilling(document, ownLocale(document)),
-    'original',
-    extension,
-  );
-  const pages = LOCALES.flatMap((locale) =>
-    Object.values(songFileNames(songBilling(document, locale), extension)),
-  );
-
-  return [own, ...new Set(pages).difference(new Set([own]))];
-}
-
-function masterFiles(document: SongDocument): MasterFile[] {
-  const { audio, mp3 } = document.frontmatter;
-  const urls: Array<[MasterField, string]> =
-    mp3.url === undefined
-      ? [['audio', audio]]
-      : [
-          ['audio', audio],
-          ['mp3', mp3.url],
-        ];
-
-  return urls.flatMap(([field, url]) => {
-    const location = masterLocation(url);
-
-    if (location === null) return [];
-
-    const { path: sourcePath, ...where } = location;
-    const extension = extensionOf(sourcePath);
-
-    return [
-      {
-        ...where,
-        field,
-        url,
-        sourcePath,
-        extension,
-        names: fileNames(document, extension),
-      },
-    ];
-  });
-}
 
 /** The highest number any song holds on the release, a gap in the catalogue not lowering it. */
 function releaseTotal(
@@ -155,26 +94,30 @@ function tagSource(
   };
 }
 
-/** Every song a `vovas-music` repository serves, under `publicDir` (the app's `public/`). */
+/** Every song, under `publicDir` (the app's `public/`). */
 export function songTagJobs(publicDir: string): SongTagJob[] {
   const songs = [...new Set(listSongPages().map(({ document }) => document))];
 
-  return songs.flatMap((document) => {
-    const files = masterFiles(document);
-
-    if (files.length === 0) return [];
-
+  return songs.map((document) => {
+    const { frontmatter } = document;
     const picture = songPicture(document);
 
-    return [
-      {
-        ...pick(document, 'slug', 'fileName'),
-        tags: buildTags(tagSource(document, songs)),
-        ...(picture !== undefined && {
-          coverPath: path.join(publicDir, picture),
-        }),
-        files,
-      },
-    ];
+    return {
+      ...pick(document, 'slug', 'fileName'),
+      home: songHome(frontmatter),
+      tags: buildTags(tagSource(document, songs)),
+      ...(picture !== undefined && {
+        coverPath: path.join(publicDir, picture),
+      }),
+      files: downloadExtensions(frontmatter)
+        .toReversed()
+        .map((extension) => ({
+          extension,
+          names: savedNames(document, extension),
+        })),
+      ...(!frontmatter.lossy && {
+        stream: playedName(frontmatter, songBilling(document, 'en'), true),
+      }),
+    };
   });
 }

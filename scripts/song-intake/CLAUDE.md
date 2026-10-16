@@ -108,15 +108,14 @@ when the operator says "too bright" or "muddy".
 ## A song's repository
 
 **A song plays from a public repository of its own under the `vovas-music`
-organization**, named in the frontmatter's `repo:`, with `audio:` the master's
-raw URL there
-(`https://raw.githubusercontent.com/vovas-music/<repo>/main/<file>`). It holds
-what the master was made from and how: the mix (`<slug>_mix.mp3`), the master
-the site plays (`<slug>.mp3`) — and, where that master is a FLAC, its MP3 copy
-(the frontmatter's `mp3:`, which the songs feeds and downloads serve),
-`<stem>.master.mp3`
+organization**, named in the frontmatter's `repo:`, whose `main` serves every
+file the site links at its root, under the names `pnpm music:masters tag` gives
+them. It holds what the master was made from and how: the mix
+(`<slug>_mix.mp3`), the master — and, where that master is a FLAC, its MP3 copy,
+which the songs feeds, downloads and player serve, `<stem>.master.mp3`
 (`ffmpeg -i <stem>.flac -map 0:a -c:a libmp3lame -b:a 320k`), which
-`music:scaffold` reads and the build requires — the video where there is one,
+`music:scaffold` reads, and the MP4 rewrap the tag run makes of it, which the
+player plays for a reader asking for lossless — the video where there is one,
 `mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied from
 here — and a README naming each file, the command that made the master and its
 reference, linked at a commit rather than copied when another repository there
@@ -133,15 +132,16 @@ holds it. `vovas-music/birds` is the pattern.
 - **A change to a song's audio is made in its repository**: a new master
   replaces the old one there (`pnpm music:masters put`), and the README's
   command with it. This repo changes only what the frontmatter reads off it —
-  `audio:` when the file is renamed, `duration` when its length moves.
+  `seconds` when its length moves — and the tag run then names, tags and sizes
+  it.
 - **A new song gets its repository before its page**, named by `songs.md`'s slug
   rule: `pnpm music:masters create <slug> --description <d>`, the files above
   with `pnpm music:masters put`, then `pnpm music:scaffold <slug>`, which reads
   `<stem>.flac` and `<stem>.master.mp3`, and last
   `pnpm music:masters tag <slug>`, which adds the master and its copy under the
-  names a listener saves them as, tagged, and points the frontmatter there.
-  Songs that share a project's session may share one repository, as `machines`
-  does.
+  names a listener saves them as, tagged, and a FLAC master's MP4 rewrap, and
+  points the frontmatter there. Songs that share a project's session may share
+  one repository, as `machines` does.
 - **Neither the tree nor a release hosts a master the site plays.** A vendored
   mp3 grows the repo with every take, and a release download redirects to a
   storage URL signed for 30 minutes, which a player still seeking after that is

@@ -6,9 +6,13 @@
 # a branch" — so the push *is* the deploy and nothing runs over there.
 #
 #   scripts/publish-site.sh <site>
+#   scripts/publish-site.sh <site> --preview
+#
+# `--preview` sends any site, `vova` included, to the one preview receiver,
+# which serves whichever site was published there last.
 #
 # Reads PAGES_DEPLOY_KEY: the private half of an ed25519 deploy key whose
-# public half is installed on this site's receiving repository with write
+# public half is installed on the target receiving repository with write
 # access. The name is fixed rather than per site — the workflow maps the
 # site's own secret into it — so adding a receiver never teaches this script a
 # secret name. Each receiver's key is its own: one leaked key reaches one site.
@@ -29,21 +33,38 @@
 
 set -euo pipefail
 
-SITE=${1:?usage: publish-site.sh <site>}
+usage='usage: publish-site.sh <site> [--preview]'
+SITE=${1:?$usage}
+TARGET=${2:-production}
 BRANCH=gh-pages
+PREVIEW_HOST=preview.vovazakharov.com
 
-# The one place a site id maps to the repository that serves it. `vova` is
-# absent by design: it is this repository's own Pages site and leaves by
-# actions/deploy-pages, never through here.
-case "$SITE" in
-  lsa) RECEIVER=vzakharov/latestageagentic.com ;;
-  bible) RECEIVER=vzakharov/agentic.bible ;;
-  basilisk) RECEIVER=vzakharov/basilisk.fyi ;;
+case "$TARGET" in
+  production) ;;
+  --preview) TARGET=preview ;;
   *)
-    printf 'No receiving repository for site %s.\n' "$SITE" >&2
+    printf '%s\n' "$usage" >&2
     exit 1
     ;;
 esac
+
+# The one place a site id maps to the repository that serves it. `vova` is
+# absent from production by design: it is this repository's own Pages site and
+# leaves by actions/deploy-pages, never through here. A preview of a site that
+# does not exist stops at its missing export below.
+if [ "$TARGET" = preview ]; then
+  RECEIVER=vzakharov/$PREVIEW_HOST
+else
+  case "$SITE" in
+    lsa) RECEIVER=vzakharov/latestageagentic.com ;;
+    bible) RECEIVER=vzakharov/agentic.bible ;;
+    basilisk) RECEIVER=vzakharov/basilisk.fyi ;;
+    *)
+      printf 'No receiving repository for site %s.\n' "$SITE" >&2
+      exit 1
+      ;;
+  esac
+fi
 
 cd "$(dirname "$0")/.."
 
@@ -53,6 +74,15 @@ OUT="apps/$SITE/out"
   printf 'No %s — run `pnpm build:%s` first.\n' "$OUT" "$SITE" >&2
   exit 1
 }
+
+# A preview is the production build on another host, so two of its files are
+# the host's rather than the site's. The site's CNAME names its production
+# domain, and pushed from a second repository it would claim that domain away
+# from the first; and the copy of a live site is kept out of search.
+if [ "$TARGET" = preview ]; then
+  printf '%s\n' "$PREVIEW_HOST" > "$OUT/CNAME"
+  printf 'User-agent: *\nDisallow: /\n' > "$OUT/robots.txt"
+fi
 
 # Both of these fail silently at the far end: without CNAME, Pages serves the
 # built site at its github.io address and the custom domain is dropped from the
@@ -82,12 +112,20 @@ export GIT_SSH_COMMAND="ssh -i $key -o IdentitiesOnly=yes -o UserKnownHostsFile=
 # it makes is the whole branch, so the receiver never grows.
 source_sha=${GITHUB_SHA:-$(git rev-parse HEAD)}
 
+# The preview slot serves one site of four, from any ref, so its one commit is
+# where "what is up there now" is read.
+message="Built from $source_sha"
+if [ "$TARGET" = preview ]; then
+  source_ref=${GITHUB_REF_NAME:-$(git branch --show-current)}
+  message="Built $SITE from $source_sha ($source_ref)"
+fi
+
 git -C "$OUT" init -q -b "$BRANCH"
 git -C "$OUT" add -A
 git -C "$OUT" \
   -c user.name='vovazakharov.com CI' \
   -c user.email='noreply@github.com' \
-  commit -q -m "Built from $source_sha"
+  commit -q -m "$message"
 
 git -C "$OUT" push -f "git@github.com:$RECEIVER.git" "$BRANCH"
 

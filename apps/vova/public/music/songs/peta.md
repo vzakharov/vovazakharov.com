@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'peta'
-audio: https://raw.githubusercontent.com/vovas-music/peta/main/GENERATED%20-%20Robots%20for%20the%20Ethical%20Treatment%20of%20Humans.flac
 seconds: 122
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/peta/main/GENERATED%20-%20Robots%20for%20the%20Ethical%20Treatment%20of%20Humans.mp3
-  bytes: 4994328
+mp3Bytes: 4994328
 explicit: false
 album: ghosts-of-flesh
 track: 6

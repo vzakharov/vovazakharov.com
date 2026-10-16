@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'ignite'
-audio: https://raw.githubusercontent.com/vovas-music/ignite/main/Yoohie%20-%20Ignite.flac
 seconds: 149
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ignite/main/Yoohie%20-%20Ignite.mp3
-  bytes: 6068516
+mp3Bytes: 6068516
 explicit: false
 album: ignite
 track: 2

@@ -54,6 +54,9 @@ export type WithLanguage = { language: string };
 /** A repo-relative path to the file a thing was read from. */
 export type WithFilePath = { filePath: string };
 
+/** Where a file sits, relative to whatever root holds it. */
+export type WithPath = { path: string };
+
 /** Rendered or authored text, as opposed to a title or a label. */
 export type WithText = { text: string };
 

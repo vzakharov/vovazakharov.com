@@ -7,11 +7,8 @@ project: ['Грёбаный бал']
 repo: 'poko'
 album: for-none-and-for-all
 track: 6
-audio: https://raw.githubusercontent.com/vovas-music/poko/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D1%8C.flac
 seconds: 257
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/poko/main/%D0%93%D1%80%D1%91%D0%B1%D0%B0%D0%BD%D1%8B%D0%B9%20%D0%B1%D0%B0%D0%BB%20-%20%D0%9C%D0%B5%D1%82%D0%B5%D0%BB%D1%8C.mp3
-  bytes: 10297479
+mp3Bytes: 10297479
 explicit: false
 credits:
   lyrics: ['Vova Zakharov', 'Александр Блок']
