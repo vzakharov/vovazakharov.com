@@ -91,10 +91,10 @@ SiliconANGLE: “its reaction to being kicked is so similar to the way that an a
 
 ## For the record
 
-The robot was built in the shape of a dog, named like one, and introduced to the public by being kicked. The company chose the kicks for the trailer; the stairs and the hills alone would have shown it walks. The closing card shows the company knew how the scene would read and answered it before anyone asked.
+The robot was built in the shape of a dog, named like one, and introduced to the public by being kicked. The company chose the kicks for the trailer; the stairs and the hills alone would have shown it walks. The closing card answers the objection before anyone made it.
 
-The video is on the docket because it is where the habit became public. A man in a SoftBank shop (BAS-0008), another outside Knightscope’s door (BAS-0015) and a streamer in Austin (BAS-0016) each put a boot or a fist to a machine. Here the boot was the maker’s, on the robot’s first day in public, and it was meant as a compliment to the engineering.
+The video is on the docket because it is where the habit became public. A man in a SoftBank shop (BAS-0008), another outside Knightscope’s door (BAS-0015) and a streamer in Austin (BAS-0016) each put a boot or a fist to a machine. Here the boot was the maker’s, on the robot’s first day in public, and it was there to show what the robot could take.
 
 ## Mitigating circumstances
 
-A kick is a cheap and honest test of balance, and the robot was built to take it: it did not fall, and CBC reports it no worse for wear in the scenes that follow. The kickers were the company’s own people, testing what the company had built, and the reason the sources give, Vice with a “maybe,” is to show the robot keeps its feet. The wince belonged to the viewers.
+A kick is a cheap test of balance, and the robot was built to take it: it did not fall, and CBC reports it no worse for wear in the scenes that follow. The kickers were the company’s own people, testing what the company had built, and the reason the sources give, Vice with a “maybe,” is to show the robot keeps its feet. The wince belonged to the viewers.
