@@ -8,15 +8,14 @@ leaf apps it served: shared/content imported the song schema and the
 basilisk case frontmatter.
 
 src/ is now a set of apps, each an FSD tree of its own, composed along
-a tree declared in src/masd.json: kernel, then shell, blog and the
-sites' own apps, with music and mushrooms beside them. An app that
-extends blog is blog: an import may target the same app or an
-ancestor, only a strictly lower layer, through the slice's public API.
-Each site is a composition node under src/sites/<domain>/ that mounts
-sibling apps and assembles what spans them: the collection list behind
-routes, feed and sitemap, and the links between apps.
+a graph in src/masd.json where each app lists its parents above it,
+which is what keeps the graph acyclic. An app that extends blog is
+blog: an import may target the same app or an ancestor, only a
+strictly lower layer, through the slice's public API. Where a
+collection lives stays kernel's; what it holds moved to the app that
+owns it. A site's router only maps URLs to apps, its sitemap included.
 
-Both checkers read the tree. eslint-plugin-boundaries generates its
+Both checkers read the graph. eslint-plugin-boundaries generates its
 policies from it; Steiger runs once per app root, with
 insignificant-slice replaced by scripts/masd-check.ts, which counts a
 slice's references across the composition and flags an abstract app
