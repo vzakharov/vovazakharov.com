@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 200,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 220256,
+    "cacheReadTokens": 19064033,
+    "outputTokens": 57246,
+    "thinkingTokens": 16262,
+    "responses": 100,
+    "costUsd": 6.720574600000002
+  },
+  "estimate": {
+    "at": "2026-10-16T05:09:51.736Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "cross-repo deploy plumbing with a credential and a CNAME that can steal a production domain wants someone who has broken Pages before"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "the check is against live hosts, including that every production site still serves itself"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "df47f6c2-0511-5a52-b23e-7ed804575ce8",
+  "branch": "claude/preview-site-s18bta",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай создадим не привязанную ни к конкретной аппе репу для стейджинга -- например, делаешь пиар, хочешь посмотреть как выглядит, деплоишь туда (без истории ком…",
+  "prs": [
+    166
+  ],
+  "url": "https://claude.ai/code/session_01SiT5ssS51L7sr5ssfDG3iZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-16T05:07:41.628Z",
+  "lastResponseAt": "2026-10-16T05:46:53.716Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 6.194041000000001,
+  "ownTurns": {
+    "inputTokens": 200,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 220256,
+    "cacheReadTokens": 19064033,
+    "outputTokens": 57246,
+    "thinkingTokens": 16262,
+    "responses": 100,
+    "costUsd": 6.720574600000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 200,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 220256,
+      "cacheReadTokens": 19064033,
+      "outputTokens": 57246,
+      "thinkingTokens": 16262,
+      "responses": 100,
+      "costUsd": 6.720574600000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/preview-site.draft.do-not-implement.md",
+    "endedAt": "2026-10-16T05:09:22.966Z",
+    "contextTokens": 138041,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 85085,
+      "cacheReadTokens": 1259924,
+      "outputTokens": 7646,
+      "thinkingTokens": 5417,
+      "responses": 12,
+      "costUsd": 1.0856808
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
