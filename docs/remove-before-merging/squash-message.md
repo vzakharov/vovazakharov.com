@@ -16,10 +16,10 @@ ended starts the standby inside the handler, before React re-renders,
 and the decks swap roles; a skip onto the preloaded track, even in a
 song's first seconds, swaps the same way.
 
-A browser that refuses to start the standby deck falls back to loading
-the track on the active one, as before, so the worst case is the old
-gap. Sample-accurate joins would need Web Audio with whole files
-decoded in memory, which this does not attempt.
+A browser that refuses to start the standby deck has the file moved
+onto the deck it has let play, so the worst case is the old gap.
+Sample-accurate joins would need Web Audio with whole files decoded in
+memory, which this does not attempt.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
