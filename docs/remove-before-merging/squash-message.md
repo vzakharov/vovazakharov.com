@@ -16,7 +16,9 @@ writes the host's own files over the build's: a CNAME for the preview
 domain, so a copy never claims a production one, and a robots.txt that
 disallows everything. preview.yml dispatches it for one site from any
 ref, in a concurrency group of its own, so it never touches or waits on
-a production deploy. The /preview skill carries how to use it.
+a production deploy. The /preview skill carries when and how to use
+it, and bootstrap-workflow-dispatch, adopted from muthur, how a new
+dispatch-only workflow runs from a branch before it reaches main.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
