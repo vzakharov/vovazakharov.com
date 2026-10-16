@@ -23,8 +23,8 @@ slice's references across the composition and flags an abstract app
 with a single child, because Steiger sees one root's references only.
 
 The game renders on a root layout of its own, without the theme
-toggle, and a fresh meadow's opening dusk is the game's to pick rather
-than the colour scheme's.
+toggle, and a fresh meadow always opens in full day: dusk is a game
+mechanic, not a reading of the colour scheme.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

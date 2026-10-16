@@ -139,9 +139,9 @@ touch music routing and are left as they are.
    toggle. Verify before building on it: `not-found` and a static export under
    multiple root layouts (Next 16's `global-not-found`), and that the full
    reload between groups is the only cost.
-6. **Dusk is a game mechanic.** The meadow's opening dusk stops reading the
-   colour scheme: drop `schemeIsDark` / `darkScheme` and their test, and give a
-   fresh meadow the opening the game picks.
+6. **A fresh meadow always opens in full day.** Dusk is a game mechanic, not a
+   preference: drop `schemeIsDark` / `darkScheme` and their test, and open a
+   fresh meadow at `FULL_DAY`; a kept meadow reopens as it was left.
 7. **`eslint-plugin-boundaries` from the tree.** Elements become
    `src/(app)/(layer)/(slice)/**`, plus the site nodes; policies are generated
    from `masd.json`: same app or ancestor, strictly lower layer, public API.
