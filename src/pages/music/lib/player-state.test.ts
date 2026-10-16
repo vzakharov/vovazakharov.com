@@ -12,6 +12,7 @@ import {
   type PlayerState,
   shouldRestart,
   shuffleOrder,
+  upcomingTrack,
 } from './player-state';
 
 const COUNT = 10;
@@ -138,6 +139,22 @@ describe('the queue', () => {
     assert.equal(currentTrack(restored), 4);
     assert.equal(restored.shuffled, false);
     assert.deepEqual(restored.order, initialPlayerState(COUNT).order);
+  });
+
+  it('names what a step forward would play as upcoming', () => {
+    const shuffled = playerReducer(playing(3), { type: 'shuffle', seed: 2026 });
+
+    for (const state of [playing(3), playing(COUNT - 1), shuffled, queued()]) {
+      assert.equal(
+        upcomingTrack(state),
+        currentTrack(playerReducer(state, { type: 'step', by: 1 })),
+      );
+    }
+  });
+
+  it('has nothing upcoming before anything plays, or in a queue of one', () => {
+    assert.equal(upcomingTrack(initialPlayerState(COUNT)), undefined);
+    assert.equal(upcomingTrack(queued([4])), undefined);
   });
 
   it('ignores a toggle before anything has been chosen', () => {

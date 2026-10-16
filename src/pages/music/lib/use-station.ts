@@ -45,7 +45,13 @@ type StationInput = OnRadio & {
 };
 
 export type StationKeeper = StationControls & {
-  /** Plays the next slot if the radio is on, and says whether it did. */
+  /** The song of the slot after the one playing, while the radio is on. */
+  upNext: () => PlayerTrack | undefined;
+  /**
+   * Plays the next slot if the radio is on, and says whether it did. An element
+   * already holding the slot's song plays it from where it is, which drift
+   * alone corrects: it was started on time, and a seek would break the join.
+   */
   handOver: () => boolean;
   /**
    * Seeks to the station if a seek is owed or playback has drifted from it —
@@ -56,8 +62,7 @@ export type StationKeeper = StationControls & {
 };
 
 /**
- * Keeps the one `<audio>` element on the radio's timetable while the radio is
- * on. The clock is the device's — there is no server to ask.
+ * Keeps the playing element on the radio's timetable while the radio is on. The clock is the device's — there is no server to ask.
  */
 export function useStation({
   element,
@@ -121,9 +126,9 @@ export function useStation({
       seekOwedRef.current = false;
     }
 
-    function tuneTo(slot: Station) {
+    function tuneTo(slot: Station, inPlace = false) {
       slotRef.current = slot;
-      seekOwedRef.current = true;
+      seekOwedRef.current = !inPlace;
       storeShuffle(true);
       dispatch({ type: 'tune', ...slot });
       // The song already loaded is the one on air: no source change follows to
@@ -159,20 +164,34 @@ export function useStation({
       });
     }
 
-    function handOver(): boolean {
+    function following(): Station | undefined {
       const slot = slotRef.current;
 
-      if (!radio || slot === undefined) return false;
+      return radio && slot !== undefined
+        ? nextStation(durations, slot, Date.now(), segues)
+        : undefined;
+    }
 
-      const next = nextStation(durations, slot, Date.now(), segues);
+    function upNext(): PlayerTrack | undefined {
+      const next = following();
+
+      return next && trackOf(next);
+    }
+
+    function handOver(): boolean {
+      const next = following();
 
       if (next === undefined) return false;
 
-      tuneTo(next);
+      const track = trackOf(next);
+      tuneTo(
+        next,
+        track !== undefined && element()?.getAttribute('src') === source(track),
+      );
 
       return true;
     }
 
-    return { tuneIn, tryTuneIn, onAir, handOver, keepTime };
+    return { tuneIn, tryTuneIn, onAir, upNext, handOver, keepTime };
   }, [element, source, catalogue, radio, dispatch, storeShuffle]);
 }
