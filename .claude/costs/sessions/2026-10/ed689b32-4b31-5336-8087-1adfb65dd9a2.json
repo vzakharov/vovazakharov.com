@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 18,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 78443,
+    "cacheReadTokens": 884083,
+    "outputTokens": 9494,
+    "thinkingTokens": 5149,
+    "responses": 9,
+    "costUsd": 0.9943126
+  },
+  "estimate": {
+    "at": "2026-10-16T11:17:53.549Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "Shaping a multi-app layering methodology for a four-site, one-src repo needs someone who can weigh FSD's rules against the repo's real import graph and the checkers that enforce them."
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "ed689b32-4b31-5336-8087-1adfb65dd9a2",
+  "branch": "claude/stoic-ritchie-7bn3oq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "А не замахнуться ли нам на собственную архитектурную методологию? Назовем ее Multi-App Sliced Design. Поясню. Вот у нас сейчас вроде как Feature Sliced Design, …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01PsxS6oCuC2yVr6e8eSZAZe",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-16T11:16:43.440Z",
+  "lastResponseAt": "2026-10-16T11:18:44.153Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 18,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 78443,
+    "cacheReadTokens": 884083,
+    "outputTokens": 9494,
+    "thinkingTokens": 5149,
+    "responses": 9,
+    "costUsd": 0.9943126
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 78443,
+      "cacheReadTokens": 884083,
+      "outputTokens": 9494,
+      "thinkingTokens": 5149,
+      "responses": 9,
+      "costUsd": 0.9943126
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-16T11:18:44.153Z",
+    "contextTokens": 126019,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 74139,
+      "cacheReadTokens": 762370,
+      "outputTokens": 9463,
+      "thinkingTokens": 5149,
+      "responses": 8,
+      "costUsd": 0.93491
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
