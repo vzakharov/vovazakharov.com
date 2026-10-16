@@ -26,22 +26,33 @@ closes #171.
   The rewrite only re-pointed `eslint.config.ts`'s element patterns at
   `src/kernel/...` — step 7 replaces them — and left prose naming bare layer
   paths (`src/pages/`, `shared/content`) for step 10.
-- **Left** — steps 3–11. Still crossing apps the wrong way, by relative leaf
-  imports, until steps 3–4 remove them: kernel's `collection-schemas.ts` and
-  content barrel (basilisk's case schema, music's song schema), kernel's
-  `app/lib` feed and sitemap (`@/music/pages/music`, `@/vova/pages/cv`).
-- **Found, not in the steps above** — two imports the graph forbids:
-  `blog/pages/documents/ui/article-slots.tsx` imports `@/basilisk/entities/case`
-  (a parent reaching its child), and `music/pages/music/ui/story.tsx` imports
-  `@/blog/entities/document` (music's parent is shell, not blog). Proposed for
-  the first, with step 3: `articleRoute(collection, slots?)` takes a
-  `Collection<F>` and its slots from the router; the `ArticleSlots` type moves
-  to a blog shared segment so `basilisk/entities/case` can export `CASE_SLOTS`;
-  basilisk's router passes both. The second wants a call: music extending `blog`
-  as well as `shell`, or what `story.tsx` uses moving down to kernel.
-- **Step 3's catch**: reading every collection through the base schema strips
-  song `title` (zod drops unknown keys), harmless to the sitemap — its only
-  caller — but say so where `listAllDocuments` is.
+- **Done** — step 3 (3092734): `collection-schemas.ts` gone;
+  `articleCollection(id)` in kernel's `frontmatter.ts`, `SONGS` in music's
+  catalogue (its frontmatter now enters kernel's content barrel, the cycle being
+  gone), `CASES` behind a new `basilisk/shared/content` barrel (its leaf import
+  of kernel's frontmatter kept, `read-docket.ts` parsing with it).
+  `articleRoute(handle, slots = {})`; `ArticleSlots` in
+  `blog/shared/article-slots`; `CASE_SLOTS` in `basilisk/entities/case`, which
+  no longer exports `CaseBrief`/`NoAiNote`. Also: `simple-import-sort` groups by
+  layer across apps (`^@/[^/]+/<layer>/`), the tree re-sorted. tsc clean on all
+  four sites.
+- **Left** — steps 4–11. Step 4 removes the last kernel→child imports
+  (`kernel/app/lib/feed.ts` → `@/music/pages/music`, `sitemap.ts` →
+  `@/vova/pages/cv` and `@/music/pages/music`).
+- **Lint state for step 7**: with `boundaries/no-unknown-files` off, eslint
+  still fails on `vova/no-hardcoded-strings` in
+  `music/pages/music/ui/{catalogue-grid,cover-head,cover-zoom}.tsx` and
+  `vova/pages/{home/ui/work-section,writing/ui/writing-section}.tsx` — path
+  exemptions still naming pre-move paths — plus step 4's two files.
+- **Step 7 reads `shared` as overlaid**: an app's `shared` imports its
+  ancestors' `shared` (music's catalogue and basilisk's content do), which the
+  model's "same layer across apps is sideways" would forbid on its face.
+  `shared` has no slices, so the overlay makes it one layer; the policy has to
+  say so.
+- **Open, the operator's call** — `music/pages/music/ui/story.tsx` imports
+  `@/blog/entities/document` (music's parent is shell, not blog): music
+  extending `blog` as well as `shell`, or what `story.tsx` uses moving down to
+  kernel.
 
 ## The model
 
