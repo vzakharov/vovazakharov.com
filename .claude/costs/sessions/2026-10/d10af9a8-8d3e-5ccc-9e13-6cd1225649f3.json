@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 50976,
+    "cacheReadTokens": 626759,
+    "outputTokens": 2212,
+    "thinkingTokens": 411,
+    "responses": 7,
+    "costUsd": 0.5774558
+  },
+  "estimate": {
+    "at": "2026-10-16T09:05:52.922Z",
+    "parts": [
+      {
+        "hours": 0.1,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "attaching a session to an existing branch and reading its PR is routine git work a mid-level developer does in minutes"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "d10af9a8-8d3e-5ccc-9e13-6cd1225649f3",
+  "branch": "claude/update-muthur-relay-polish-ledger",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/update-muthur-relay-polish-ledger",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01YCWrVwAd8WduWb9N8WdZF3",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-16T09:05:27.842Z",
+  "lastResponseAt": "2026-10-16T09:06:05.132Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 50976,
+    "cacheReadTokens": 626759,
+    "outputTokens": 2212,
+    "thinkingTokens": 411,
+    "responses": 7,
+    "costUsd": 0.5774558
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50976,
+      "cacheReadTokens": 626759,
+      "outputTokens": 2212,
+      "thinkingTokens": 411,
+      "responses": 7,
+      "costUsd": 0.5774558
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-16T09:06:05.132Z",
+    "contextTokens": 98552,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50730,
+      "cacheReadTokens": 528455,
+      "outputTokens": 1443,
+      "thinkingTokens": 244,
+      "responses": 6,
+      "costUsd": 0.540439
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
