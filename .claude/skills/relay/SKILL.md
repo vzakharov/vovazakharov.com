@@ -60,11 +60,6 @@ else 1, and commit and push it. Each summary keeps its name for good, so git
 shows every relay as one added file; the highest `<N>` is the current one, which
 `/relay take` reads. `/finalize` sweeps the directory.
 
-Then run `.claude/costs/flush-row.sh`, which commits and pushes the session's
-cost row even on a turn no operator message started, when the `Stop` hook would
-skip it. It goes here because the summary is most of this session's last spend,
-and before Step 3 because the successor pushes to the same branch.
-
 - **English**, being agent-facing, with the operator's words quoted in their own
   language.
 - **A `Compact Instructions` section in context** steers what the summary dwells
