@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-ci: a preview site any branch can publish to (#166)
-```
+Proposed squash body:
 
 ```
 A PR could only be looked at locally or after it merged, and merging is
