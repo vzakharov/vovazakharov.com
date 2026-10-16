@@ -8,7 +8,6 @@ import type { Circle, Point } from '../../model/geometry';
 import type { Layered } from '../../model/ground';
 import {
   cloudOverMoon,
-  darkScheme,
   moonAt,
   moonUp,
   onTheSun,
@@ -178,12 +177,4 @@ function cloudsOver(
     const { x } = day;
     return cloudOverMoon({ x, ...pick(cloud, 'y', 'r') }, moon) ? [shown] : [];
   });
-}
-
-/** Whether the page opens dark (`darkScheme`), read once as the meadow opens. */
-export function schemeIsDark(): boolean {
-  return darkScheme(
-    document.documentElement.dataset['mantineColorScheme'],
-    globalThis.matchMedia('(prefers-color-scheme: dark)').matches,
-  );
 }

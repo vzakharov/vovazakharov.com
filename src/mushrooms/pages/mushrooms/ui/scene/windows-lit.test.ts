@@ -22,7 +22,7 @@ const lit = (dusk: Dusk, now: number, phase: number, before = dusk) =>
   windowsLit({ dusk, before }, now, phase);
 
 describe('windowsLit', () => {
-  it('leaves every house dark by day and lit at full dusk, a dark page included', () => {
+  it('leaves every house dark by day and lit at full dusk, a reopened one included', () => {
     for (const phase of PHASES) {
       assert.equal(lit(FULL_DAY, START, phase), 0);
       assert.equal(lit(FULL_DUSK, 0, phase), 1);

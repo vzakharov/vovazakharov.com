@@ -24,22 +24,23 @@ function kept(seed: number): Kept {
 }
 
 describe('meadowOpening', () => {
-  it('opens a fresh visit on its first meadow at the dusk given', () => {
-    const opened = meadowOpening({ seed: SEED }, FULL_DAY);
+  it('opens a fresh visit on its first meadow, in full day', () => {
+    const opened = meadowOpening({ seed: SEED });
     const fresh = firstMeadow(mulberry32(SEED));
-    assert.deepEqual(opened.meadow, { ...fresh, dusk: FULL_DAY });
+    assert.deepEqual(opened.meadow, fresh);
+    assert.deepEqual(opened.meadow.dusk, FULL_DAY);
     assert.deepEqual(opened.openers, fresh.mushrooms);
   });
 
-  it('reopens a kept meadow as it was kept, whatever the dusk given', () => {
+  it('reopens a kept meadow as it was kept, dusk and all', () => {
     const record = kept(SEED);
-    const opened = meadowOpening({ seed: SEED, kept: record }, FULL_DAY);
+    const opened = meadowOpening({ seed: SEED, kept: record });
     assert.deepEqual(opened.meadow, reopened(record.meadow));
   });
 
   it('lays out the seeded flowers off the seed alone, kept or not', () => {
-    const fresh = meadowOpening({ seed: SEED }, FULL_DAY);
-    const again = meadowOpening({ seed: SEED, kept: kept(SEED) }, FULL_DUSK);
+    const fresh = meadowOpening({ seed: SEED });
+    const again = meadowOpening({ seed: SEED, kept: kept(SEED) });
     assert.deepEqual(again.flowers, fresh.flowers);
     assert.deepEqual(again.openers, fresh.openers);
     assert.notDeepEqual(again.meadow.mushrooms, fresh.openers);

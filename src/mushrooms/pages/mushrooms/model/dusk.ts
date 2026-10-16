@@ -19,10 +19,10 @@ export type Dusk = Ramp & { toward: (typeof TOWARDS)[number] };
 /** How long a full turn from day to dusk, or back, takes. */
 export const DUSK_MS = 4000;
 
-/** The meadow in full daylight, as every visit opens unless the page is dark. */
+/** The meadow in full daylight, as every fresh visit opens. */
 export const FULL_DAY: Dusk = { toward: 'day', startedAt: 0, from: 0 };
 
-/** The meadow at full dusk from the first frame, as a dark page opens it. */
+/** The meadow at full dusk from the first frame, as a kept dusk reopens. */
 export const FULL_DUSK: Dusk = { toward: 'dusk', startedAt: 0, from: 1 };
 
 /**

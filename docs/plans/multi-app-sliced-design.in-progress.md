@@ -50,7 +50,12 @@ closes #171.
   every site. Verified on a `build:vova` export: `404.html` renders the page
   with the theme toggle, `mushrooms.html` has none, both carry the icon, the
   sitemap and both songs feeds come out whole.
-- **Left** — steps 6–11.
+- **Done** — step 6: `darkScheme`, `schemeIsDark` and their test gone;
+  `meadowOpening(opening)` takes no dusk, a fresh meadow being `firstMeadow`'s
+  `FULL_DAY`. The `dark` play in `scripts/play-mushrooms.ts` is kept, inverted:
+  a dark page must open in full day. Not yet run — it needs a build and the
+  meadow's play run, which `VET_MEADOW=1` at step 11 covers.
+- **Left** — steps 7–11.
 - **Lint state for step 7**: with `boundaries/no-unknown-files` off, eslint
   still fails on `vova/no-hardcoded-strings` in
   `music/pages/music/ui/{catalogue-grid,cover-head,cover-zoom}.tsx` and

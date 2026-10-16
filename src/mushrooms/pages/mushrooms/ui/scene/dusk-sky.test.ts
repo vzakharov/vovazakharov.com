@@ -4,7 +4,6 @@ import { describe, it } from 'node:test';
 import { cloudBox } from './cloud-puffs';
 import {
   cloudOverMoon,
-  darkScheme,
   duskReach,
   moonAt,
   moonBelow,
@@ -129,18 +128,5 @@ describe('the clouds in front of the moon', () => {
     assert.ok(!cloudOverMoon(cloud(sunX - halo - box.right - 1), sun));
     assert.ok(!cloudOverMoon(cloud(sunX + halo - box.left + 1), sun));
     assert.ok(!cloudOverMoon(cloud(sunX, sunY - halo - box.bottom - 1), sun));
-  });
-});
-
-describe('the scheme the page opens in', () => {
-  it('follows Mantine’s resolved scheme where it writes one', () => {
-    assert.equal(darkScheme('dark', false), true);
-    assert.equal(darkScheme('light', true), false);
-  });
-
-  it('falls back to the system’s preference without it', () => {
-    assert.equal(darkScheme(undefined, true), true);
-    assert.equal(darkScheme(undefined, false), false);
-    assert.equal(darkScheme('auto', true), true);
   });
 });

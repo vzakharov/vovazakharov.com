@@ -110,17 +110,3 @@ export function cloudOverMoon(cloud: Circle, moon: Circle): boolean {
     bottom > moon.y - reach
   );
 }
-
-/**
- * Whether the page is dark: Mantine's resolved scheme on `<html>` when it
- * writes one (`light` or `dark`), else the system's preference — the
- * Artifact has no Mantine.
- */
-export function darkScheme(
-  mantine: string | undefined,
-  prefersDark: boolean,
-): boolean {
-  return mantine === 'dark' || mantine === 'light'
-    ? mantine === 'dark'
-    : prefersDark;
-}

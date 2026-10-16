@@ -4,7 +4,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Opening } from '../../api/open-kept';
 import { sameAnchor } from '../../model/anchor';
-import { dusky, FULL_DAY, FULL_DUSK } from '../../model/dusk';
+import { dusky } from '../../model/dusk';
 import type { Sight } from '../../model/flight';
 import { type Action, type Meadow, reduce } from '../../model/game';
 import { type Eye, OPENING_EYE } from '../../model/ground';
@@ -15,7 +15,7 @@ import { Arrivals } from './arrivals';
 import type { Opener } from './clump-shade';
 import { controlActions, type ControlScene } from './control-actions';
 import { Controls } from './controls';
-import { DuskView, schemeIsDark } from './dusk-view';
+import { DuskView } from './dusk-view';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
 import { bedClosing } from './flower-closing';
@@ -140,8 +140,7 @@ export class MeadowScene extends Phaser.Scene {
   }
 
   create(): void {
-    const dusk = schemeIsDark() ? FULL_DUSK : FULL_DAY;
-    const opened = meadowOpening(this.opening, dusk);
+    const opened = meadowOpening(this.opening);
     [this.meadow, this.openers] = [opened.meadow, opened.openers];
     this.flowers = new FlowerBed(
       this,

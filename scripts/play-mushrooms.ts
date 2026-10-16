@@ -99,7 +99,7 @@ const PLAYS = [
   ['keep', playKeep],
 ] as const;
 
-/** The play that opens its page with the system's scheme dark. */
+/** The play that opens its page with the system's scheme dark, which the meadow ignores. */
 const DARK = 'dark';
 
 const Thrown = z.object({

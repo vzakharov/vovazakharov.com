@@ -8,8 +8,8 @@
  * morning shot. Fails where the meadow does not open in full day, a tap on
  * the sun does not turn the light toward dusk and reach it, the moon leaves
  * the screen on a short turn, or a tap on the moon does not bring the day
- * back. `playDark` is the opening on a dark page, which must stand at full
- * dusk from the first frame. How it looks is for the eye.
+ * back. `playDark` is the opening on a dark page, which must stand in full
+ * day too. How it looks is for the eye.
  */
 
 import { z } from 'zod';
@@ -198,7 +198,7 @@ export async function playDusk(
   await page.shoot('dusk-morning');
 }
 
-/** The meadow on a dark page: at full dusk from the first frame. */
+/** The meadow on a dark page: in full day all the same, dusk being the game's. */
 export async function playDark(
   page: Page,
   _controls: z.infer<typeof Controls>,
@@ -206,8 +206,8 @@ export async function playDark(
 ): Promise<void> {
   const opened = await page.evaluate('__probe.dusk()', DuskShown);
   expect(
-    opened.level === 1 && opened.toward === 'dusk',
-    `a dark page opened at ${String(opened.level)}, not dusk`,
+    opened.level === 0 && opened.toward === 'day',
+    `a dark page opened at ${String(opened.level)}, not full day`,
   );
   await page.shoot('dusk-dark-open');
 }
