@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { BEE_RANGES, type BeeGenes, beeGenes } from '../../model/bee-genes';
 import { beeOutline } from '../../model/bee-outline';

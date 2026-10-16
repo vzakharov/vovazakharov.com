@@ -1,6 +1,6 @@
 import { Stack, Text } from '@mantine/core';
 
-import { Card, Section, Subheading, TextLink } from '@/shared/ui';
+import { Card, Section, Subheading, TextLink } from '@/kernel/shared/ui';
 
 // A `mailto:` has no page to leave for, so it stays in this tab and takes none
 // of the new-tab hardening the rest get.

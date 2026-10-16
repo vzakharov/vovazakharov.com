@@ -5,8 +5,8 @@ import { Pause, Play, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent, useState } from 'react';
 
-import { cx } from '@/shared/lib/class-names';
-import { NameLink } from '@/shared/ui';
+import { cx } from '@/kernel/shared/lib/class-names';
+import { NameLink } from '@/kernel/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import { useStoredSetting } from '../lib/use-stored-setting';

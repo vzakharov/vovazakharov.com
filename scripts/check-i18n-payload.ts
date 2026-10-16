@@ -167,7 +167,7 @@ if (carrying.length > 0) {
   console.error(
     '\nEvery locale is its own pre-rendered page, so nothing here needs to\n' +
       'translate in the browser. Translate on the server — `getTranslations`\n' +
-      'from `next-intl/server`, or the catalogue through `@/shared/i18n` — and\n' +
+      'from `next-intl/server`, or the catalogue through `@/kernel/shared/i18n` — and\n' +
       'pass the strings down. See .claude/rules/i18n.md.',
   );
   process.exit(1);

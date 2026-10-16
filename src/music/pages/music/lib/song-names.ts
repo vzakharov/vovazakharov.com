@@ -1,8 +1,8 @@
-import { isLocale, type Locale, LOCALES } from '@/shared/i18n';
+import { isLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
 import {
   songFileName,
   songFileNames,
-} from '@/shared/music-catalogue/index.node-safe';
+} from '@/music/shared/catalogue/index.node-safe';
 
 import { songUrl } from './song-files';
 import type { SongDocument } from './song-text';

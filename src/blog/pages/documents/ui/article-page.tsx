@@ -1,7 +1,7 @@
 import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
-import { SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG } from '@/kernel/shared/config';
 import {
   ARTICLE_COLLECTIONS,
   type ArticleCollectionId,
@@ -16,15 +16,15 @@ import {
   siblingVariants,
   type Variant,
   VARIANTS,
-} from '@/shared/content';
-import { pick } from '@/shared/lib/collections';
-import { constructArticleMetadata } from '@/shared/seo/index.server-only';
-import type { WithParams } from '@/shared/typings';
-import { hoverDim, TextLink } from '@/shared/ui';
+} from '@/kernel/shared/content';
+import { pick } from '@/kernel/shared/lib/collections';
+import { constructArticleMetadata } from '@/kernel/shared/seo/index.server-only';
+import type { WithParams } from '@/kernel/shared/typings';
+import { hoverDim, TextLink } from '@/kernel/shared/ui';
 
-import { ProseContent, SourceList } from '@/entities/document';
+import { ProseContent, SourceList } from '@/blog/entities/document';
 
-import { SiteFooter } from '@/widgets/site-footer';
+import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { ArticleHeader } from './article-header';
 import { ARTICLE_SLOTS } from './article-slots';

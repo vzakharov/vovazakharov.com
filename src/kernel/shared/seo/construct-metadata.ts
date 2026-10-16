@@ -2,15 +2,15 @@ import 'server-only';
 
 import type { Metadata } from 'next';
 
-import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/shared/config';
+import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
 import {
   type BaseFrontmatter,
   type ContentDocument,
   listFeeds,
   type WithOptionalOgImageSize,
-} from '@/shared/content';
-import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
-import type { Described, MaybeTitled } from '@/shared/typings';
+} from '@/kernel/shared/content';
+import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/kernel/shared/i18n';
+import type { Described, MaybeTitled } from '@/kernel/shared/typings';
 
 export type ConstructMetadataParams = MaybeTitled &
   WithOptionalOgImageSize & {

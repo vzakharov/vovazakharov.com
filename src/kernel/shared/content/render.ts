@@ -14,8 +14,13 @@ import type { BuiltinLanguage } from 'shiki';
 import { unified } from 'unified';
 import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
-import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
-import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
+import { getAbsoluteUrl, SITE_CONFIG } from '@/kernel/shared/config';
+import type {
+  MaybeTitled,
+  Titled,
+  WithId,
+  WithText,
+} from '@/kernel/shared/typings';
 
 import type { Variant } from './collections';
 import {

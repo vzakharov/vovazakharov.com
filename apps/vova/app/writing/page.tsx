@@ -1,4 +1,4 @@
 export {
   WritingPage as default,
   writingMetadata as metadata,
-} from '@/pages/writing';
+} from '@/vova/pages/writing';

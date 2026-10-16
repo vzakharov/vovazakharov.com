@@ -7,7 +7,7 @@
  * `sun-layout.ts` the sun.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Box, Circle } from '../../model/geometry';
 import {

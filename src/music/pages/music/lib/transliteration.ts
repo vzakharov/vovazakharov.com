@@ -1,5 +1,5 @@
-import type { SungLanguage } from '@/shared/music-catalogue';
-import { romanizeRussian } from '@/shared/music-catalogue/index.node-safe';
+import type { SungLanguage } from '@/music/shared/catalogue';
+import { romanizeRussian } from '@/music/shared/catalogue/index.node-safe';
 
 import {
   carriesNote,

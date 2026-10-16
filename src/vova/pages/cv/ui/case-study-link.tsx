@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 
-import type { LabeledLink } from '@/shared/typings';
-import { TextLink } from '@/shared/ui';
+import type { LabeledLink } from '@/kernel/shared/typings';
+import { TextLink } from '@/kernel/shared/ui';
 
 import classes from './cv.module.scss';
 

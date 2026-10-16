@@ -3,9 +3,9 @@ import 'server-only';
 import {
   type SongFrontmatter,
   songFrontmatterSchema,
-} from '@/shared/music-catalogue';
+} from '@/music/shared/catalogue';
 
-import { caseFrontmatterSchema } from './basilisk-frontmatter';
+import { caseFrontmatterSchema } from '../../../basilisk/shared/content/basilisk-frontmatter';
 import type { CollectionId } from './collections';
 import {
   type ArticleFrontmatter,

@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core';
 
-import type { HookRun } from '@/shared/music-catalogue';
+import type { HookRun } from '@/music/shared/catalogue';
 
 type HookRunsProps = { runs: readonly HookRun[] };
 

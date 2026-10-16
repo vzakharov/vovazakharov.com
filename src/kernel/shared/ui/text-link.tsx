@@ -3,10 +3,10 @@
 import { Anchor, type AnchorProps, type ElementProps } from '@mantine/core';
 import Link from 'next/link';
 
-import { isOffSite, printedUrl } from '@/shared/config';
-import { cx } from '@/shared/lib/class-names';
-import { pick } from '@/shared/lib/collections';
-import type { Anchored, WithOptionalClassName } from '@/shared/typings';
+import { isOffSite, printedUrl } from '@/kernel/shared/config';
+import { cx } from '@/kernel/shared/lib/class-names';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { Anchored, WithOptionalClassName } from '@/kernel/shared/typings';
 
 import classes from './text-link.module.scss';
 

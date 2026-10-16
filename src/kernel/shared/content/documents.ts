@@ -4,10 +4,10 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { pageFile, type SiteId } from '@/shared/config';
-import type { WithOptionalLocale } from '@/shared/i18n';
-import { routeCardPath } from '@/shared/seo';
-import type { DocumentFile, Sized, Sourced } from '@/shared/typings';
+import { pageFile, type SiteId } from '@/kernel/shared/config';
+import type { WithOptionalLocale } from '@/kernel/shared/i18n';
+import { routeCardPath } from '@/kernel/shared/seo';
+import type { DocumentFile, Sized, Sourced } from '@/kernel/shared/typings';
 
 import { COLLECTION_SCHEMAS } from './collection-schemas';
 import {

@@ -92,7 +92,7 @@ const boundariesConfig: Config = {
       // every layer in FSD_LAYERS.
       {
         type: 'app',
-        pattern: ['src/app/(*)/**'],
+        pattern: ['src/kernel/app/(*)/**'],
         capture: ['segmentName'],
         partialMatch: false,
       },
@@ -104,7 +104,7 @@ const boundariesConfig: Config = {
       })),
       {
         type: 'shared',
-        pattern: ['src/shared/(*)/**'],
+        pattern: ['src/kernel/shared/(*)/**'],
         capture: ['segmentName'],
         partialMatch: false,
       },
@@ -267,7 +267,7 @@ const eslintConfig = defineConfig([
   // whose site-root `href` names a file to save rather than a page, so it wants
   // neither `next/link` nor a printed half.
   {
-    files: ['src/shared/ui/{text,file}-link.tsx'],
+    files: ['src/kernel/shared/ui/{text,file}-link.tsx'],
     rules: {
       '@typescript-eslint/no-restricted-imports': [
         'error',

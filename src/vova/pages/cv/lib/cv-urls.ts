@@ -1,6 +1,6 @@
-import { routing } from '@/shared/i18n';
-import type { OneOfEach } from '@/shared/lib/collections';
-import { routeCardPath } from '@/shared/seo';
+import { routing } from '@/kernel/shared/i18n';
+import type { OneOfEach } from '@/kernel/shared/lib/collections';
+import { routeCardPath } from '@/kernel/shared/seo';
 
 import { CV_VARIANTS, type CvVariant } from './cv-variants';
 

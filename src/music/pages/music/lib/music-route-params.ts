@@ -1,20 +1,20 @@
 import 'server-only';
 
-import { isListed, type Slugged } from '@/shared/content';
+import { isListed, type Slugged } from '@/kernel/shared/content';
 import {
   DEFAULT_LOCALE,
   isLocale,
   type Locale,
   LOCALES,
   type WithLocale,
-} from '@/shared/i18n';
-import { oneOf } from '@/shared/lib/collections';
+} from '@/kernel/shared/i18n';
+import { oneOf } from '@/kernel/shared/lib/collections';
 import {
   type MusicAlbum,
   musicAlbumSlugs,
   type MusicProject,
   projectBySlug,
-} from '@/shared/music-catalogue';
+} from '@/music/shared/catalogue';
 
 import { catalogueAlbums, catalogueArtists } from './catalogue';
 import {

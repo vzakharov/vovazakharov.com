@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-import type { WithChildren } from '@/shared/typings';
+import type { WithChildren } from '@/kernel/shared/typings';
 
 import classes from './marquee.module.scss';
 

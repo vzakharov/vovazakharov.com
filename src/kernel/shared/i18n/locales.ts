@@ -4,7 +4,7 @@
  * the i18n runtime into the browser bundle.
  */
 
-import { isOneOf } from '@/shared/lib/collections';
+import { isOneOf } from '@/kernel/shared/lib/collections';
 
 export const LOCALES = ['en', 'ru'] as const;
 

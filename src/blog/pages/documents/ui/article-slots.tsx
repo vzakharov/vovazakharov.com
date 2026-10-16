@@ -5,9 +5,9 @@ import type {
   ArticleFrontmatterOf,
   BaseFrontmatter,
   ContentDocument,
-} from '@/shared/content';
+} from '@/kernel/shared/content';
 
-import { CaseBrief, NoAiNote } from '@/entities/case';
+import { CaseBrief, NoAiNote } from '@/basilisk/entities/case';
 
 type Slot<F extends BaseFrontmatter> = (
   document: ContentDocument<F>,

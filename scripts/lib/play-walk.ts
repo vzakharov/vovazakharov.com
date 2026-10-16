@@ -20,19 +20,22 @@
 
 import { z } from 'zod';
 
-import { walking } from '../../src/pages/mushrooms/model/eye-height.ts';
-import { GLIDE_TAU } from '../../src/pages/mushrooms/model/glide.ts';
-import { SLOP, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
+import { walking } from '../../src/mushrooms/pages/mushrooms/model/eye-height.ts';
+import { GLIDE_TAU } from '../../src/mushrooms/pages/mushrooms/model/glide.ts';
+import {
+  SLOP,
+  TURN_CRUISE,
+} from '../../src/mushrooms/pages/mushrooms/model/pan.ts';
 import {
   pinholeOf,
   planeSeen,
-} from '../../src/pages/mushrooms/model/pinhole.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/pinhole.ts';
 import {
   sidewaysOf,
   STRIDE_FLING_FASTEST,
-} from '../../src/pages/mushrooms/model/stride.ts';
-import { cloudAt } from '../../src/pages/mushrooms/ui/scene/rain-sky.ts';
-import { browRow } from '../../src/pages/mushrooms/ui/scene/view.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/stride.ts';
+import { cloudAt } from '../../src/mushrooms/pages/mushrooms/ui/scene/rain-sky.ts';
+import { browRow } from '../../src/mushrooms/pages/mushrooms/ui/scene/view.ts';
 import {
   Camera,
   type Controls,

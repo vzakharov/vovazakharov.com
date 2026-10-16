@@ -1,4 +1,4 @@
-import type { WithText } from '@/shared/typings';
+import type { WithText } from '@/kernel/shared/typings';
 
 /**
  * A run, in the typesetter's sense: a stretch of a hook set all one way, struck

@@ -1,6 +1,6 @@
-import { pageFile } from '@/shared/config';
-import type { Locale } from '@/shared/i18n';
-import type { DocumentFile } from '@/shared/typings';
+import { pageFile } from '@/kernel/shared/config';
+import type { Locale } from '@/kernel/shared/i18n';
+import type { DocumentFile } from '@/kernel/shared/typings';
 
 import { cvPath } from './cv-urls';
 import type { CvVariant } from './cv-variants';

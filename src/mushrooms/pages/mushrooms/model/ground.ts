@@ -5,8 +5,8 @@
  * resizing the screen fits a new camera and moves nothing on the ground.
  */
 
-import { pick } from '@/shared/lib/collections';
-import type { Sized } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { Sized } from '@/kernel/shared/typings';
 
 import { alongAzimuth, type Point, type Scaled } from './geometry';
 

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
-import type { SiteImage } from '@/shared/config';
-import { cx } from '@/shared/lib/class-names';
-import type { Named } from '@/shared/typings';
+import type { SiteImage } from '@/kernel/shared/config';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { Named } from '@/kernel/shared/typings';
 
 import classes from './seal-mark.module.scss';
 

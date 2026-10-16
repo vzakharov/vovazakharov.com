@@ -1,14 +1,14 @@
 import { Box, Divider, Group, Text } from '@mantine/core';
 
-import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
-import { BUILD_YEAR } from '@/shared/config/index.server-only';
+import { AUTHOR_URL, SITE_CONFIG } from '@/kernel/shared/config';
+import { BUILD_YEAR } from '@/kernel/shared/config/index.server-only';
 import {
   DEFAULT_LOCALE,
   loadMessages,
   type WithOptionalLocale,
-} from '@/shared/i18n';
-import type { WithOptionalChildren } from '@/shared/typings';
-import { cssColor, TextLink } from '@/shared/ui';
+} from '@/kernel/shared/i18n';
+import type { WithOptionalChildren } from '@/kernel/shared/typings';
+import { cssColor, TextLink } from '@/kernel/shared/ui';
 
 type SiteFooterProps = WithOptionalChildren &
   WithOptionalLocale & {

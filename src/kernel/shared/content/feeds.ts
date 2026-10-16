@@ -1,16 +1,20 @@
 import 'server-only';
 
-import { getAbsoluteUrl, siteConfig, type SiteId } from '@/shared/config';
+import {
+  getAbsoluteUrl,
+  siteConfig,
+  type SiteId,
+} from '@/kernel/shared/config';
 import {
   DEFAULT_LOCALE,
   loadMessages,
   type Locale,
   LOCALES,
-} from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
-import { feedHtml } from '@/shared/lib/feed-html';
-import type { RssItem } from '@/shared/lib/rss';
-import type { Summarized } from '@/shared/typings';
+} from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
+import { feedHtml } from '@/kernel/shared/lib/feed-html';
+import type { RssItem } from '@/kernel/shared/lib/rss';
+import type { Summarized } from '@/kernel/shared/typings';
 
 import {
   ARTICLE_COLLECTIONS,

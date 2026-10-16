@@ -1,4 +1,4 @@
-import type { Labeled } from '@/shared/typings';
+import type { Labeled } from '@/kernel/shared/typings';
 
 /**
  * The memo the docket is filed under, a field's lines in order. Plain strings,

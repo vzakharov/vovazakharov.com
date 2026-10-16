@@ -1,4 +1,4 @@
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Arrivals } from './arrivals';
 import type { ControlHandlers } from './controls';

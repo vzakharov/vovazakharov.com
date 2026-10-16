@@ -12,7 +12,7 @@ export default {
     // Steiger has no knip plugin.
     'steiger.config.mjs',
     // Named by string in `apps/site-next-config.ts`, as `createNextIntlPlugin` wants.
-    'src/shared/i18n/request.ts',
+    'src/kernel/shared/i18n/request.ts',
   ],
   // The plugin looks for `app/` and `next.config.*` at the root; the three sites
   // hold theirs one level down. The file names are the App Router's conventions,

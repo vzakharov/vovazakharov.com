@@ -1,1 +1,1 @@
-export { BasiliskHomePage as default } from '@/pages/basilisk-home';
+export { BasiliskHomePage as default } from '@/basilisk/pages/basilisk-home';

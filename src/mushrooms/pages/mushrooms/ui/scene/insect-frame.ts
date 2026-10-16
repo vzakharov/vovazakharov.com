@@ -5,7 +5,7 @@
  * under the ground; and how a leg veers round the eye.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import {
   type Aloft,

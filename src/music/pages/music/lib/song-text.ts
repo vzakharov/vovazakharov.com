@@ -1,8 +1,8 @@
 import 'server-only';
 
-import type { ContentDocument } from '@/shared/content';
-import type { Locale } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
+import type { ContentDocument } from '@/kernel/shared/content';
+import type { Locale } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
 import {
   mostlyNeedsLatin,
   type MusicAlbum,
@@ -10,7 +10,7 @@ import {
   type SongText,
   type SungLanguage,
   type TitleGloss,
-} from '@/shared/music-catalogue';
+} from '@/music/shared/catalogue';
 
 import {
   entryText,

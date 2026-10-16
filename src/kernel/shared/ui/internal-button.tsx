@@ -3,7 +3,7 @@
 import { Button, type ButtonProps } from '@mantine/core';
 import Link from 'next/link';
 
-import type { Anchored } from '@/shared/typings';
+import type { Anchored } from '@/kernel/shared/typings';
 
 /**
  * A button to another page of this site. Unlike `TextLink` it has no printed

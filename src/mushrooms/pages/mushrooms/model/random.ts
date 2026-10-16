@@ -1,7 +1,7 @@
 import type { Bent } from './geometry';
 
 /** What a creature is grown from: its genes are a pure function of it. */
-export type { Seeded } from '@/shared/typings';
+export type { Seeded } from '@/kernel/shared/typings';
 /** The seeds a few creatures will grow from, drawn before they grow, in order. */
 export type Seeds = { seeds: readonly number[] };
 /** The creature one grew from, by its id: a bee's flower's, a sprout's mushroom. */

@@ -3,9 +3,9 @@
 import { UnstyledButton } from '@mantine/core';
 import { useEffect, useId, useRef, useState } from 'react';
 
-import { cx } from '@/shared/lib/class-names';
-import type { LabeledBlock } from '@/shared/typings';
-import { hoverDim } from '@/shared/ui';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { LabeledBlock } from '@/kernel/shared/typings';
+import { hoverDim } from '@/kernel/shared/ui';
 
 import classes from './read-more.module.scss';
 

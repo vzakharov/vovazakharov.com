@@ -6,8 +6,8 @@
  * moves a spot; only which spots are offered changes.
  */
 
-import { pick } from '@/shared/lib/collections';
-import type { WithId } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { WithId } from '@/kernel/shared/typings';
 
 import {
   type Crowding,

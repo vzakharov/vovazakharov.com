@@ -4,7 +4,7 @@
  * side from.
  */
 
-import type { Sized } from '@/shared/typings';
+import type { Sized } from '@/kernel/shared/typings';
 
 import type { Point } from './geometry';
 

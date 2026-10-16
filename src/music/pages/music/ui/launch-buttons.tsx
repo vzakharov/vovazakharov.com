@@ -3,7 +3,7 @@
 import { Button, Group } from '@mantine/core';
 import { Radio, Shuffle } from 'lucide-react';
 
-import type { Messages } from '@/shared/i18n';
+import type { Messages } from '@/kernel/shared/i18n';
 
 import { usePlayer } from './player-provider';
 import { useOpenRadio } from './use-open-radio';

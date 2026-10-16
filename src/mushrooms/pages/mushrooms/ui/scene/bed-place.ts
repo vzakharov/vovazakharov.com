@@ -8,7 +8,7 @@
  * (`offSides`).
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import type { LayeredPoint } from '../../model/ground';

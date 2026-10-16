@@ -1,4 +1,4 @@
-import type { WithLocale } from '@/shared/i18n';
+import type { WithLocale } from '@/kernel/shared/i18n';
 
 /** The ids are the source of truth; `CvVariant` and `CvAddress` derive from them. */
 export const CV_VARIANTS = ['cto', 'dev'] as const;

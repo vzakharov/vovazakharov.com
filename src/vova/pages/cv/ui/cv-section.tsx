@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Title } from '@mantine/core';
 
-import type { TitledBlock, WithChildren } from '@/shared/typings';
+import type { TitledBlock, WithChildren } from '@/kernel/shared/typings';
 
 import classes from './cv.module.scss';
 

@@ -3,12 +3,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { describe, it } from 'node:test';
 
-import { SITE_IDS } from '@/shared/config/site-ids';
-import { LOCALES } from '@/shared/i18n/locales';
+import { SITE_IDS } from '@/kernel/shared/config/site-ids';
+import { LOCALES } from '@/kernel/shared/i18n/locales';
 
 import { collectionsForSite, feedRoutes } from './collections.ts';
 
-const APPS_DIR = path.join(import.meta.dirname, '../../../apps');
+const APPS_DIR = path.join(import.meta.dirname, '../../../../apps');
 
 /** `apps/<site>/app<route>/route.ts` for every feed the registry names. */
 const declared = SITE_IDS.flatMap((site) =>

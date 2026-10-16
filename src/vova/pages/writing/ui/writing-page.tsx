@@ -1,8 +1,8 @@
 import { Stack } from '@mantine/core';
 
-import { PageShell } from '@/shared/ui';
+import { PageShell } from '@/kernel/shared/ui';
 
-import { SiteFooter } from '@/widgets/site-footer';
+import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { WritingSection } from './writing-section';
 

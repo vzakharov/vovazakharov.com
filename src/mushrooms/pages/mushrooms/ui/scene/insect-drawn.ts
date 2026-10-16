@@ -6,7 +6,7 @@
  * look is posed by and how far a finger reaches it.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Aloft, Framed } from '../../model/flight-frame';
 import { type Turned, wrap } from '../../model/geometry';

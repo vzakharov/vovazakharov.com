@@ -2,10 +2,10 @@
 
 import { UnstyledButton } from '@mantine/core';
 
-import { cx } from '@/shared/lib/class-names';
-import { useScriptPreference } from '@/shared/lib/use-script-preference';
-import type { Labeled } from '@/shared/typings';
-import { CURRENT_CHIP_CLASS } from '@/shared/ui';
+import { cx } from '@/kernel/shared/lib/class-names';
+import { useScriptPreference } from '@/kernel/shared/lib/use-script-preference';
+import type { Labeled } from '@/kernel/shared/typings';
+import { CURRENT_CHIP_CLASS } from '@/kernel/shared/ui';
 
 import classes from './music.module.scss';
 import { Spelling } from './spelling';

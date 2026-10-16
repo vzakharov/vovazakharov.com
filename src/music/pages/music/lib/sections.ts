@@ -1,4 +1,4 @@
-import type { Locale } from '@/shared/i18n';
+import type { Locale } from '@/kernel/shared/i18n';
 
 /**
  * A body section marker: `<!-- lang:ru -->` opens the Russian story,

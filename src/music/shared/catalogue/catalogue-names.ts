@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { collectionDir } from '../content/collections.ts';
+import { collectionDir } from '../../../kernel/shared/content/collections.ts';
 import { musicAlbumSchema, musicProjectSchema, SLUG } from './name-brands.ts';
 
 /** What this module reads of an artist's file; `artistFrontmatterSchema` reads the rest. */

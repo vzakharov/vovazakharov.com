@@ -1,15 +1,15 @@
 import { Stack } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config';
-import { byLocale, loadMessages, type WithLocale } from '@/shared/i18n';
-import { hookRuns, scriptSample } from '@/shared/music-catalogue';
+import { SITE_CONFIG } from '@/kernel/shared/config';
+import { byLocale, loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+import { hookRuns, scriptSample } from '@/music/shared/catalogue';
 import {
   constructMetadata,
   localizedAddresses,
-} from '@/shared/seo/index.server-only';
-import { PageShell } from '@/shared/ui';
+} from '@/kernel/shared/seo/index.server-only';
+import { PageShell } from '@/kernel/shared/ui';
 
-import { SiteFooter } from '@/widgets/site-footer';
+import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { albumTitle } from '../lib/albums';
 import { spokenLength } from '../lib/duration';

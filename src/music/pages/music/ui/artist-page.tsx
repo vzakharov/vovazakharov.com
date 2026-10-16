@@ -1,11 +1,11 @@
 import { Stack } from '@mantine/core';
 
-import { byLocale, loadMessages } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
-import { scriptSample } from '@/shared/music-catalogue';
-import { PageShell } from '@/shared/ui';
+import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
+import { scriptSample } from '@/music/shared/catalogue';
+import { PageShell } from '@/kernel/shared/ui';
 
-import { SiteFooter } from '@/widgets/site-footer';
+import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { albumCover, albumTitle } from '../lib/albums';
 import { projectGloss, projectName } from '../lib/artists';

@@ -1,4 +1,4 @@
-import type { WithId } from '@/shared/typings';
+import type { WithId } from '@/kernel/shared/typings';
 
 import type { Circle, Leaning } from './geometry';
 import {

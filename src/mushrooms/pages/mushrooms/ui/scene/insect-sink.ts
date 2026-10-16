@@ -7,7 +7,7 @@
  * than `SHOWN_LEAST` of it shows over the brow (`sunkAway`).
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import type { Layered } from '../../model/ground';

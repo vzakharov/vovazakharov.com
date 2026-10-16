@@ -5,7 +5,7 @@
  * frame.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { FULL_DAY, FULL_DUSK } from './dusk';
 import { restedFliers } from './flier-rest';

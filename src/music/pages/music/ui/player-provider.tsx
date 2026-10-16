@@ -8,8 +8,8 @@ import {
   type Locale,
   type Messages,
   type WithLocale,
-} from '@/shared/i18n';
-import type { WithChildren } from '@/shared/typings';
+} from '@/kernel/shared/i18n';
+import type { WithChildren } from '@/kernel/shared/typings';
 
 import type { WithTracks } from '../lib/player-state';
 import {

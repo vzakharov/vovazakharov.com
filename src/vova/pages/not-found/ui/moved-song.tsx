@@ -3,7 +3,7 @@
 import { Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
-import type { Slugged } from '@/shared/content';
+import type { Slugged } from '@/kernel/shared/content';
 import {
   addressLocale,
   DEFAULT_LOCALE,
@@ -11,8 +11,8 @@ import {
   type Locale,
   type Messages,
   type WithOptionalLocale,
-} from '@/shared/i18n';
-import { TextLink } from '@/shared/ui';
+} from '@/kernel/shared/i18n';
+import { TextLink } from '@/kernel/shared/ui';
 
 type MovedSongProps = {
   /** The music section's root, where a song once sat directly. */

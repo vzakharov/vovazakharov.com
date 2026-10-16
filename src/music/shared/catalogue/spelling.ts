@@ -1,6 +1,6 @@
-import type { Locale } from '@/shared/i18n';
-import type { Script } from '@/shared/lib/script-preference';
-import type { WithText } from '@/shared/typings';
+import type { Locale } from '@/kernel/shared/i18n';
+import type { Script } from '@/kernel/shared/lib/script-preference';
+import type { WithText } from '@/kernel/shared/typings';
 
 import type { SongFrontmatter, SungLanguage } from './frontmatter.ts';
 import { romanizeRussian } from './romanize.ts';

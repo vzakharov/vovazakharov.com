@@ -8,7 +8,7 @@ import {
   mentionsPrintRasterDomain,
   PRINT_RASTER_CLASS,
   splitOnPrintRasterDomains,
-} from '@/shared/lib/print-raster';
+} from '@/kernel/shared/lib/print-raster';
 
 import { hastText } from '../hast-text';
 

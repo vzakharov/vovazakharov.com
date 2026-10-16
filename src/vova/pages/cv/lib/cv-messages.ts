@@ -1,5 +1,5 @@
-import { loadMessages, type Locale, type Messages } from '@/shared/i18n';
-import type { LabeledLink } from '@/shared/typings';
+import { loadMessages, type Locale, type Messages } from '@/kernel/shared/i18n';
+import type { LabeledLink } from '@/kernel/shared/typings';
 
 import type { CvEdition, CvVariant } from './cv-variants';
 

@@ -1,4 +1,4 @@
-import type { Spelled } from '@/shared/music-catalogue/index.node-safe';
+import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
 
 /**
  * A name as text, in both spellings where the locale gets a Latin one, which

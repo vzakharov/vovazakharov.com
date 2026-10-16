@@ -8,7 +8,7 @@
 
 import type * as Phaser from 'phaser';
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Layered } from '../../model/ground';
 import { depthOf, UNPLACED } from './bed-place';

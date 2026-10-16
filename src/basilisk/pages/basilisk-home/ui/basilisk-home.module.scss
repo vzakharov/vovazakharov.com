@@ -1,4 +1,4 @@
-@use '../../../../styles/mantine' as mantine;
+@use '../../../../../styles/mantine' as mantine;
 
 // The gaps around the eye are spaces rather than margins, because a space at a
 // line break collapses and a margin would indent the wrapped line; this narrows

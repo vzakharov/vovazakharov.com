@@ -3,8 +3,8 @@
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { Moon, Sun } from 'lucide-react';
 
-import { cx } from '@/shared/lib/class-names';
-import type { Labeled } from '@/shared/typings';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { Labeled } from '@/kernel/shared/typings';
 
 import {
   type PickedColorScheme,

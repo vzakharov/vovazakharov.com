@@ -4,7 +4,7 @@
  * of the mushroom's size, like its genes.
  */
 
-import type { Sized } from '@/shared/typings';
+import type { Sized } from '@/kernel/shared/typings';
 
 import {
   arch,

@@ -3,8 +3,8 @@
 import { Box, Group } from '@mantine/core';
 import { Fragment, type ReactNode } from 'react';
 
-import { cx } from '@/shared/lib/class-names';
-import type { LabeledLink } from '@/shared/typings';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { LabeledLink } from '@/kernel/shared/typings';
 
 import classes from './chip-nav.module.scss';
 import { useLanguageReturn } from './language-return';

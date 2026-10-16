@@ -2,7 +2,7 @@ import type {
   CaseFrontmatter,
   Slugged,
   WithFrontmatter,
-} from '@/shared/content';
+} from '@/kernel/shared/content';
 
 type Filed = Slugged & WithFrontmatter<Pick<CaseFrontmatter, 'case' | 'date'>>;
 

@@ -5,12 +5,12 @@ paths:
   - apps/bible/public/**
   - apps/basilisk/public/**
   - apps/*/public/music/**
-  - src/pages/music/**
+  - src/music/pages/music/**
   - apps/*/app/music/**
   - apps/*/public/generated/**
-  - src/shared/content/**
-  - src/pages/documents/**
-  - src/pages/cv/**
+  - src/kernel/shared/content/**
+  - src/blog/pages/documents/**
+  - src/vova/pages/cv/**
   - apps/*/app/case-studies/**
   - apps/bible/app/**
   - apps/basilisk/app/**
@@ -251,7 +251,7 @@ collections' documents; the rest is held by reading.
   export matches the deploy's only if you rendered first.
 - **A PDF that LinkedIn uploads as "0 pages" names a domain it blocks.** The
   upload gives no other reason, and the file is otherwise valid. The domain goes
-  into `PRINT_RASTER_DOMAINS` (`src/shared/lib/print-raster.ts`).
+  into `PRINT_RASTER_DOMAINS` (`src/kernel/shared/lib/print-raster.ts`).
 - **A render and that site's own `pnpm dev` cannot both spawn a server.** Next
   holds `apps/<site>/.next/dev/lock`, so a second `next dev` in the same app
   directory refuses to start. Print from the one already up instead —
@@ -337,7 +337,7 @@ collections' documents; the rest is held by reading.
     `og:description` already says which language the reader got.
   - **basilisk.fyi's site card is generated the same way**, by
     `scripts/lib/basilisk-card.ts`: the lettered seal beside the home page's
-    memo, read from `src/pages/basilisk-home/lib/memo.ts`, with the
+    memo, read from `src/basilisk/pages/basilisk-home/lib/memo.ts`, with the
     highest-numbered case's number and title under it — so filing a case
     re-flags the card — in a JetBrains Mono staged from
     `@fontsource/jetbrains-mono`. Its avatar therefore carries no `vector`, and

@@ -5,7 +5,7 @@
 import {
   MUSIC_ORGANIZATION,
   type MusicProject,
-} from '@/shared/music-catalogue/index.node-safe';
+} from '@/music/shared/catalogue/index.node-safe';
 
 const MUSIC_ORGANIZATION_URL = `https://github.com/${MUSIC_ORGANIZATION}`;
 

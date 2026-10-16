@@ -24,15 +24,15 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { PUBLIC_DIR } from '../src/shared/content/collections.ts';
-import { contentHash } from '../src/shared/content/content-hash.ts';
+import { PUBLIC_DIR } from '../src/kernel/shared/content/collections.ts';
+import { contentHash } from '../src/kernel/shared/content/content-hash.ts';
 import {
   COLOR_SCHEMES,
   type ColorScheme,
   MERMAID_DIR,
   mermaidFileName,
-} from '../src/shared/content/mermaid-renders.ts';
-import type { WithFilePath } from '../src/shared/typings/index.ts';
+} from '../src/kernel/shared/content/mermaid-renders.ts';
+import type { WithFilePath } from '../src/kernel/shared/typings/index.ts';
 import { findChromium } from './lib/chromium.ts';
 import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 

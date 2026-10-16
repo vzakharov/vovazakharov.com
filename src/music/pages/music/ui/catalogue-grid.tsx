@@ -2,11 +2,11 @@ import { Box, Text } from '@mantine/core';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 
-import type { Slugged } from '@/shared/content';
-import { cx } from '@/shared/lib/class-names';
-import type { Spelled } from '@/shared/music-catalogue/index.node-safe';
-import type { MaybeTitled } from '@/shared/typings';
-import { NameLink, Subheading } from '@/shared/ui';
+import type { Slugged } from '@/kernel/shared/content';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
+import type { MaybeTitled } from '@/kernel/shared/typings';
+import { NameLink, Subheading } from '@/kernel/shared/ui';
 
 import type { SpelledLink } from '../lib/player-state';
 import { tileHue } from '../lib/tile-hue';

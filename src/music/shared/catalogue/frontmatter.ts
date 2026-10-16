@@ -2,11 +2,11 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { byLocale, type Locale, LOCALES } from '@/shared/i18n';
+import { byLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
 
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
-import { baseFrontmatterSchema } from '../content/frontmatter';
+import { baseFrontmatterSchema } from '../../../kernel/shared/content/frontmatter';
 import { albumSchema, projectSchema } from './names';
 import { creditedNameSchema } from './people';
 import { songDateSchema } from './song-date';

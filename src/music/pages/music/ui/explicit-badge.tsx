@@ -1,4 +1,4 @@
-import type { Labeled } from '@/shared/typings';
+import type { Labeled } from '@/kernel/shared/typings';
 
 import classes from './music.module.scss';
 

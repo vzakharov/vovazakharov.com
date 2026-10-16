@@ -6,7 +6,7 @@
  * shelter did not exist.
  */
 
-import type { WithId } from '@/shared/typings';
+import type { WithId } from '@/kernel/shared/typings';
 
 import type { Choosing, Flight, Leg, Perch, Perches } from './flight';
 import { apartIn } from './flight-timing';

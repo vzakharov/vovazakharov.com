@@ -9,8 +9,8 @@
 
 import * as Phaser from 'phaser';
 
-import { pick } from '@/shared/lib/collections';
-import type { WithId } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { WithId } from '@/kernel/shared/typings';
 
 import { panOf } from '../../model/flight-frame';
 import { CLUMP_DISTANCE } from '../../model/ground';

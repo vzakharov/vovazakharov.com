@@ -1,12 +1,12 @@
 import 'server-only';
 
-import { loadMessages, type Locale, LOCALES } from '@/shared/i18n';
+import { loadMessages, type Locale, LOCALES } from '@/kernel/shared/i18n';
 import {
   type MusicAlbum,
   musicAlbumSlugs,
   type MusicProject,
   musicProjectNames,
-} from '@/shared/music-catalogue';
+} from '@/music/shared/catalogue';
 
 import { albumTracks } from './album-tracks';
 import { albumArtist, albumWip } from './albums';

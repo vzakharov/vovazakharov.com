@@ -1,6 +1,6 @@
 import { Paper } from '@mantine/core';
 
-import type { Linked, WithChildren } from '@/shared/typings';
+import type { Linked, WithChildren } from '@/kernel/shared/typings';
 
 import classes from './card.module.scss';
 

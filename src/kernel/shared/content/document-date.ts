@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { byLocale, type Locale } from '@/shared/i18n';
+import { byLocale, type Locale } from '@/kernel/shared/i18n';
 
 /** A date-only frontmatter value parses as UTC midnight; formatting it in the
  * build machine's zone would shift it a day. */

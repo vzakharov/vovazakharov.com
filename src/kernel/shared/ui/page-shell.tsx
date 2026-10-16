@@ -1,6 +1,6 @@
 import { Box, Container } from '@mantine/core';
 
-import type { WithChildren } from '@/shared/typings';
+import type { WithChildren } from '@/kernel/shared/typings';
 
 import classes from './page-shell.module.scss';
 

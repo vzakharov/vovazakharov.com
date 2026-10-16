@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import type { Locale } from '@/shared/i18n';
+import type { Locale } from '@/kernel/shared/i18n';
 
 /** A credited person's name as each locale spells it. */
 export type CreditedName = Record<Locale, string>;

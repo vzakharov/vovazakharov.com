@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { getAbsoluteUrl, PAGE_ROUTES, SITE_ID } from '@/shared/config';
+import { getAbsoluteUrl, PAGE_ROUTES, SITE_ID } from '@/kernel/shared/config';
 import {
   type CollectionId,
   collectionRoute,
@@ -10,11 +10,11 @@ import {
   isListed,
   listAllDocuments,
   localizedRoute,
-} from '@/shared/content';
-import { routing } from '@/shared/i18n';
+} from '@/kernel/shared/content';
+import { routing } from '@/kernel/shared/i18n';
 
-import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/pages/cv';
-import { musicCatalogueRoutes } from '@/pages/music';
+import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/vova/pages/cv';
+import { musicCatalogueRoutes } from '@/music/pages/music';
 
 /**
  * Which addresses a page in this collection is advertised at. A localized

@@ -1,7 +1,7 @@
 import { List, ListItem } from '@mantine/core';
 
-import { cx } from '@/shared/lib/class-names';
-import type { Labeled, WithText } from '@/shared/typings';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { Labeled, WithText } from '@/kernel/shared/typings';
 
 import classes from './cv.module.scss';
 

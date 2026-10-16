@@ -2,11 +2,11 @@ import { Box, Stack, Text } from '@mantine/core';
 import { Fragment } from 'react';
 import Markdown, { type Components } from 'react-markdown';
 
-import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import type { SungLanguage } from '@/shared/music-catalogue';
-import type { WithText } from '@/shared/typings';
-import { Subheading, TextLink } from '@/shared/ui';
+import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { SungLanguage } from '@/music/shared/catalogue';
+import type { WithText } from '@/kernel/shared/typings';
+import { Subheading, TextLink } from '@/kernel/shared/ui';
 
 import { inlineRuns } from '../lib/lyric-inline';
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';

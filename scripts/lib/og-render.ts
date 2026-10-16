@@ -18,8 +18,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { PIXELS } from '../../src/shared/config/index.node-safe.ts';
-import type { Sized } from '../../src/shared/typings/index.ts';
+import { PIXELS } from '../../src/kernel/shared/config/index.node-safe.ts';
+import type { Sized } from '../../src/kernel/shared/typings/index.ts';
 import { REPO_ROOT } from './content-tree.ts';
 import type { Renderable } from './render-manifest.ts';
 

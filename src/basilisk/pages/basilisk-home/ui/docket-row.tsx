@@ -5,10 +5,10 @@ import {
   documentDateTime,
   formatDocumentDate,
   type WithContentDocument,
-} from '@/shared/content';
-import type { Titled } from '@/shared/typings';
+} from '@/kernel/shared/content';
+import type { Titled } from '@/kernel/shared/typings';
 
-import { aggravations, GradeStamp } from '@/entities/case';
+import { aggravations, GradeStamp } from '@/basilisk/entities/case';
 
 import classes from './basilisk-home.module.scss';
 

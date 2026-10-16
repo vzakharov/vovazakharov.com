@@ -1,1 +1,1 @@
-export { MusicLayout as default } from '@/pages/music';
+export { MusicLayout as default } from '@/music/pages/music';

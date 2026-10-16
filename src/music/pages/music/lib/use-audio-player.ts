@@ -8,8 +8,8 @@ import {
   useState,
 } from 'react';
 
-import type { Locale } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
+import type { Locale } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { createDecks, type Decks } from './decks';
 import {

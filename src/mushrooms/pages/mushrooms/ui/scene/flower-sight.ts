@@ -8,7 +8,7 @@
  * flower is planted only where it would be in sight.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { anchorOf } from '../../model/anchor';
 import { flowersCrowdAt } from '../../model/crowding';

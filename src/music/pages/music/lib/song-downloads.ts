@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { Locale } from '@/shared/i18n';
+import type { Locale } from '@/kernel/shared/i18n';
 
 import { type SongFile, songFiles } from './song-files';
 import type { SongDocument } from './song-text';

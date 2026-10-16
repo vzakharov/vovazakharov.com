@@ -5,7 +5,7 @@ import {
   type VariantColorsResolver,
 } from '@mantine/core';
 
-import { cssColor } from '@/shared/ui';
+import { cssColor } from '@/kernel/shared/ui';
 
 import { breakpoints } from './breakpoints';
 import classes from './theme.module.scss';

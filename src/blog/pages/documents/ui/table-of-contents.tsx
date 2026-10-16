@@ -1,6 +1,6 @@
 import { Box } from '@mantine/core';
 
-import type { WithHeadings } from '@/shared/content';
+import type { WithHeadings } from '@/kernel/shared/content';
 
 import classes from './documents.module.scss';
 

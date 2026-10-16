@@ -6,26 +6,29 @@
 
 import path from 'node:path';
 
-import { getAbsoluteUrl } from '@/shared/config';
-import { pick } from '@/shared/lib/collections';
-import type { MusicAlbum } from '@/shared/music-catalogue/index.node-safe';
+import { getAbsoluteUrl } from '@/kernel/shared/config';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { MusicAlbum } from '@/music/shared/catalogue/index.node-safe';
 
-import { songPlacements } from '@/pages/music/lib/album-tracks';
-import { albumArtist, albumTitle } from '@/pages/music/lib/albums';
-import { projectName } from '@/pages/music/lib/artists';
-import { entryText } from '@/pages/music/lib/lyric-notes';
-import type { RepoLocation } from '@/pages/music/lib/master-url';
-import { songPath } from '@/pages/music/lib/music-urls';
-import { songPicture } from '@/pages/music/lib/pictures';
+import { songPlacements } from '@/music/pages/music/lib/album-tracks';
+import { albumArtist, albumTitle } from '@/music/pages/music/lib/albums';
+import { projectName } from '@/music/pages/music/lib/artists';
+import { entryText } from '@/music/pages/music/lib/lyric-notes';
+import type { RepoLocation } from '@/music/pages/music/lib/master-url';
+import { songPath } from '@/music/pages/music/lib/music-urls';
+import { songPicture } from '@/music/pages/music/lib/pictures';
 import {
   downloadExtensions,
   playedName,
   songHome,
   type WithExtension,
-} from '@/pages/music/lib/song-files';
-import { savedNames } from '@/pages/music/lib/song-names';
-import { type SongDocument, sungStanzas } from '@/pages/music/lib/song-text';
-import { listSongPages, songBilling } from '@/pages/music/lib/songs';
+} from '@/music/pages/music/lib/song-files';
+import { savedNames } from '@/music/pages/music/lib/song-names';
+import {
+  type SongDocument,
+  sungStanzas,
+} from '@/music/pages/music/lib/song-text';
+import { listSongPages, songBilling } from '@/music/pages/music/lib/songs';
 
 import { buildTags, type SongTags, type TagSource } from './song-tags.ts';
 

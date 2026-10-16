@@ -2,8 +2,8 @@
 
 import { Anchor } from '@mantine/core';
 
-import { cx } from '@/shared/lib/class-names';
-import type { DocumentFile, WithChildren } from '@/shared/typings';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { DocumentFile, WithChildren } from '@/kernel/shared/typings';
 
 import { hoverDim } from './hover-dim';
 

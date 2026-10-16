@@ -4,8 +4,8 @@
  * comes back; nothing here knows how any of it is drawn.
  */
 
-import { pick } from '@/shared/lib/collections';
-import type { WithId } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { WithId } from '@/kernel/shared/typings';
 
 import { isCrowdedAt, isFull } from './crowding';
 import { type Dusk, dusky, FULL_DAY, turned } from './dusk';

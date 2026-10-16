@@ -1,4 +1,4 @@
-import type { WithText } from '@/shared/typings';
+import type { WithText } from '@/kernel/shared/typings';
 
 /**
  * Domains a printed page must not carry as text or as a link, because

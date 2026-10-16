@@ -7,11 +7,11 @@
 
 import { z } from 'zod';
 
-import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight.ts';
-import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
-import { LIGHT_STEP } from '../../src/pages/mushrooms/model/insect-light.ts';
-import { INSECT_LIMITS } from '../../src/pages/mushrooms/model/insects.ts';
-import { LEAST_SPANS } from '../../src/pages/mushrooms/ui/scene/layout.ts';
+import { FLIGHT_HABITS } from '../../src/mushrooms/pages/mushrooms/model/flight.ts';
+import type { InsectKind } from '../../src/mushrooms/pages/mushrooms/model/insect-genes.ts';
+import { LIGHT_STEP } from '../../src/mushrooms/pages/mushrooms/model/insect-light.ts';
+import { INSECT_LIMITS } from '../../src/mushrooms/pages/mushrooms/model/insects.ts';
+import { LEAST_SPANS } from '../../src/mushrooms/pages/mushrooms/ui/scene/layout.ts';
 import {
   HEADING_AFTER,
   MOST_HEADING_OFF,

@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { isSeat, type Span } from '../../model/flight';
 import {

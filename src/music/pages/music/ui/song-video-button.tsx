@@ -3,8 +3,8 @@
 import { Button, Modal } from '@mantine/core';
 import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 
-import type { Slugged } from '@/shared/content';
-import type { Messages } from '@/shared/i18n';
+import type { Slugged } from '@/kernel/shared/content';
+import type { Messages } from '@/kernel/shared/i18n';
 
 import type { SongVideo } from '../lib/song-video';
 import classes from './music.module.scss';

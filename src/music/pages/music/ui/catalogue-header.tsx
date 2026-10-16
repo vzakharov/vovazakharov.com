@@ -1,9 +1,9 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
-import type { TitleGloss } from '@/shared/music-catalogue';
-import type { WithSpelledTitle } from '@/shared/music-catalogue/index.node-safe';
-import type { WithOptionalChildren } from '@/shared/typings';
-import { FileLink } from '@/shared/ui';
+import type { TitleGloss } from '@/music/shared/catalogue';
+import type { WithSpelledTitle } from '@/music/shared/catalogue/index.node-safe';
+import type { WithOptionalChildren } from '@/kernel/shared/typings';
+import { FileLink } from '@/kernel/shared/ui';
 
 import type { CatalogueText } from '../lib/catalogue-text';
 import { CoverHead, type CoverHeadProps } from './cover-head';

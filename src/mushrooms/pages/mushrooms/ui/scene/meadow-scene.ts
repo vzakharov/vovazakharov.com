@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Opening } from '../../api/open-kept';
 import { sameAnchor } from '../../model/anchor';

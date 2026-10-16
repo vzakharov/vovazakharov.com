@@ -3,7 +3,7 @@
 import { Popover, UnstyledButton } from '@mantine/core';
 import { type PointerEvent, type ReactNode, useRef, useState } from 'react';
 
-import type { WithChildren } from '@/shared/typings';
+import type { WithChildren } from '@/kernel/shared/typings';
 
 import classes from './music.module.scss';
 

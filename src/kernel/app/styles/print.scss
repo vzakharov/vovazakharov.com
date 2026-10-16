@@ -1,4 +1,4 @@
-@use '../../../styles/tokens' as tokens;
+@use '../../../../styles/tokens' as tokens;
 
 // Page-level print rules. Anything a single component owns — a card's border,
 // the CV's dimmed text — lives in that component's own `.module.scss` beside

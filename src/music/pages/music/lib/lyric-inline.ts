@@ -1,4 +1,4 @@
-import type { WithText } from '@/shared/typings';
+import type { WithText } from '@/kernel/shared/typings';
 
 /** A stretch of a line set one way: in italics, or not. */
 export type InlineRun = WithText & { emphasis?: true };

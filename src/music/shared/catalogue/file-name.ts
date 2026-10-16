@@ -1,4 +1,4 @@
-import type { Script } from '@/shared/lib/script-preference';
+import type { Script } from '@/kernel/shared/lib/script-preference';
 
 import {
   type Spelled,

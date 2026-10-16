@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react';
 
-import { printedUrl } from '@/shared/config';
-import { cx } from '@/shared/lib/class-names';
-import { pick } from '@/shared/lib/collections';
+import { printedUrl } from '@/kernel/shared/config';
+import { cx } from '@/kernel/shared/lib/class-names';
+import { pick } from '@/kernel/shared/lib/collections';
 
 /**
  * Every `<video>` a document holds — the one `rehypeMediaEmbeds` makes out of a

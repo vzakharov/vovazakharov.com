@@ -1,6 +1,6 @@
 import { Group } from '@mantine/core';
 
-import { InternalButton } from '@/shared/ui';
+import { InternalButton } from '@/kernel/shared/ui';
 
 /** The page's call to action, closing the offer and again after the work that backs it. */
 export function ReadCvButton() {

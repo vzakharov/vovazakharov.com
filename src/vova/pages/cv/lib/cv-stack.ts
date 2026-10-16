@@ -1,4 +1,4 @@
-import type { Messages } from '@/shared/i18n';
+import type { Messages } from '@/kernel/shared/i18n';
 
 type StackGroupKey = keyof Messages['cv']['techStack']['groups'];
 

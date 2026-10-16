@@ -1,17 +1,17 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
-import { SITE_CONFIG, SITE_ID } from '@/shared/config';
+import { SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
 import {
   ARTICLE_COLLECTIONS,
   findFeed,
   renderPrimaryDocuments,
-} from '@/shared/content';
-import { PageShell, Section } from '@/shared/ui';
+} from '@/kernel/shared/content';
+import { PageShell, Section } from '@/kernel/shared/ui';
 
-import { DocumentCards } from '@/entities/document';
+import { DocumentCards } from '@/blog/entities/document';
 
-import { SiteFooter } from '@/widgets/site-footer';
+import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { SealMark } from './seal-mark';
 

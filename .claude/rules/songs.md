@@ -3,8 +3,8 @@ description: What a song is beyond any other document — its title, frontmatter
 paths:
   - apps/*/public/music/**
   - apps/*/app/music/**
-  - src/pages/music/**
-  - src/shared/music-catalogue/**
+  - src/music/pages/music/**
+  - src/music/shared/catalogue/**
   - docs/music/**
   - scripts/check-song-titles.ts
   - scripts/check-masked-words.ts

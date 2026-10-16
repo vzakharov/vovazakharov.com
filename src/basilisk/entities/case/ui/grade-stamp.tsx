@@ -1,4 +1,4 @@
-import type { CaseFrontmatter } from '@/shared/content';
+import type { CaseFrontmatter } from '@/kernel/shared/content';
 
 import { gradeLabel } from '../lib/grade-label';
 import classes from './case.module.scss';

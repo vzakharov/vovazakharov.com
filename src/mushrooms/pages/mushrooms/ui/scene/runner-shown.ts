@@ -3,7 +3,7 @@
  * and the runner stood at its point and painted.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { onStem } from '../../model/house';
 import type { Tapped } from '../../model/motion';

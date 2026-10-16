@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Action } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';

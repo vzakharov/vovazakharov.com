@@ -1,9 +1,9 @@
 import { Text, Title } from '@mantine/core';
 
-import { TECH_STACKS } from '@/shared/config';
-import type { Messages } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import { Card } from '@/shared/ui';
+import { TECH_STACKS } from '@/kernel/shared/config';
+import type { Messages } from '@/kernel/shared/i18n';
+import { cx } from '@/kernel/shared/lib/class-names';
+import { Card } from '@/kernel/shared/ui';
 
 import type { WithCaseStudy } from '../lib/cv-messages';
 import { CaseStudyLink } from './case-study-link';

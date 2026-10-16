@@ -4,7 +4,7 @@ import type {
   Summarized,
   WithOptionalEyebrow,
   WithOptionalLink,
-} from '@/shared/typings';
+} from '@/kernel/shared/typings';
 
 import { Card, CardLink } from './card';
 

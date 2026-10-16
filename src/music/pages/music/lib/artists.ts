@@ -1,8 +1,8 @@
 import 'server-only';
 
-import type { Locale } from '@/shared/i18n';
-import type { MusicProject, TitleGloss } from '@/shared/music-catalogue';
-import type { Spelled } from '@/shared/music-catalogue/index.node-safe';
+import type { Locale } from '@/kernel/shared/i18n';
+import type { MusicProject, TitleGloss } from '@/music/shared/catalogue';
+import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
 
 import { artistFile, localGloss, localName } from './catalogue-files';
 

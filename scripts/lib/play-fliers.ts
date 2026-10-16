@@ -2,10 +2,10 @@
 
 import { z } from 'zod';
 
-import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight-habits.ts';
-import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
-import { TAP_RADIUS } from '../../src/pages/mushrooms/ui/scene/tap-reach.ts';
-import { pick } from '../../src/shared/lib/collections.ts';
+import { FLIGHT_HABITS } from '../../src/mushrooms/pages/mushrooms/model/flight-habits.ts';
+import { LANDING } from '../../src/mushrooms/pages/mushrooms/model/insect-motion.ts';
+import { TAP_RADIUS } from '../../src/mushrooms/pages/mushrooms/ui/scene/tap-reach.ts';
+import { pick } from '../../src/kernel/shared/lib/collections.ts';
 import {
   Insects,
   type Point,

@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 
-import type { Messages } from '@/shared/i18n';
-import { TextLink } from '@/shared/ui';
+import type { Messages } from '@/kernel/shared/i18n';
+import { TextLink } from '@/kernel/shared/ui';
 
 import { cvPath } from '../lib/cv-urls';
 import type { CvEdition, CvVariant } from '../lib/cv-variants';

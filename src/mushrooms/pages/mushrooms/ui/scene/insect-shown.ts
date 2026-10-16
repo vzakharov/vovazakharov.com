@@ -1,4 +1,4 @@
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Leg, Span } from '../../model/flight';
 import type { Aloft, Framed } from '../../model/flight-frame';

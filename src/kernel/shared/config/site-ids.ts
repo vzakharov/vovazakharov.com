@@ -1,7 +1,7 @@
 /**
  * Data only, and deliberately so: this is the part of the site configuration
  * every bundle holds — bare Node reads it through
- * `shared/content/collections.ts`, client components through `@/shared/config`
+ * `shared/content/collections.ts`, client components through `@/kernel/shared/config`
  * — so anything added here costs all of them. The environment read sits in
  * `site-env.ts` for that reason.
  */

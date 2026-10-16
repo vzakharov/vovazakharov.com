@@ -2,7 +2,11 @@ import 'server-only';
 
 import type { ElementContent, Root } from 'hast';
 
-import { absoluteUrl, getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
+import {
+  absoluteUrl,
+  getAbsoluteUrl,
+  SITE_CONFIG,
+} from '@/kernel/shared/config';
 import {
   type FeedEntry,
   filedDate,
@@ -10,12 +14,12 @@ import {
   listPrimaryDocuments,
   renderProse,
   SONGS,
-} from '@/shared/content';
-import { loadMessages, type Locale } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
-import { feedHtml } from '@/shared/lib/feed-html';
-import type { RssPodcast } from '@/shared/lib/rss';
-import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
+} from '@/kernel/shared/content';
+import { loadMessages, type Locale } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
+import { feedHtml } from '@/kernel/shared/lib/feed-html';
+import type { RssPodcast } from '@/kernel/shared/lib/rss';
+import { songTitle, spelledText, textHook } from '@/music/shared/catalogue';
 
 import { universeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';

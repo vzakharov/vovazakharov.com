@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core';
 
-import { cx } from '@/shared/lib/class-names';
+import { cx } from '@/kernel/shared/lib/class-names';
 
 import type { OfferBlock } from '../lib/cv-offer';
 import classes from './cv.module.scss';

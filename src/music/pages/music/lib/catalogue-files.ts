@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { loadProse } from '@/shared/content';
-import type { Locale } from '@/shared/i18n';
+import { loadProse } from '@/kernel/shared/content';
+import type { Locale } from '@/kernel/shared/i18n';
 import {
   albumFrontmatterSchema,
   artistFrontmatterSchema,
@@ -10,8 +10,8 @@ import {
   type MusicProject,
   projectSlug,
   type TitleGloss,
-} from '@/shared/music-catalogue';
-import { spell, type Spelled } from '@/shared/music-catalogue/index.node-safe';
+} from '@/music/shared/catalogue';
+import { spell, type Spelled } from '@/music/shared/catalogue/index.node-safe';
 
 import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls';
 

@@ -1,8 +1,8 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 
-import { loadMessages, type WithLocale } from '@/shared/i18n';
-import type { MaybeTitled } from '@/shared/typings';
-import { Card, NameLink, Subheading } from '@/shared/ui';
+import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+import type { MaybeTitled } from '@/kernel/shared/typings';
+import { Card, NameLink, Subheading } from '@/kernel/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import type { WithTracks } from '../lib/player-state';

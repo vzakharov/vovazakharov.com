@@ -6,7 +6,7 @@
  * Turning the eye moves no framed point; walking moves them by true parallax.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Place } from './flight';
 import { alongAzimuth, distanceBetween, type Point, wrap } from './geometry';

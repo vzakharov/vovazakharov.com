@@ -1,11 +1,11 @@
 import { Stack, Text } from '@mantine/core';
 
-import { loadMessages, type WithLocale } from '@/shared/i18n';
+import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
 import {
   type CreditedName,
   SONG_AUTHOR,
   type SongFrontmatter,
-} from '@/shared/music-catalogue';
+} from '@/music/shared/catalogue';
 
 export type SongCreditsProps = WithLocale &
   Pick<SongFrontmatter, 'credits' | 'language'>;

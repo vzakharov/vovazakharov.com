@@ -16,7 +16,7 @@
  * keeps off every foot (`washRings`).
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { anchorOf } from '../../model/anchor';
 import { isCrowdedAt } from '../../model/crowding';

@@ -1,4 +1,4 @@
-import type { DocumentFile, PrintedLink } from '@/shared/typings';
+import type { DocumentFile, PrintedLink } from '@/kernel/shared/typings';
 
 import { siteConfig, withoutScheme } from './site-config';
 import { resolveSiteId } from './site-env';

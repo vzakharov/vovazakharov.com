@@ -2,7 +2,7 @@
 
 /**
  * Holds the per-component Mantine stylesheet imports in
- * `src/app/ui/theme-provider.tsx` to what the sites actually render:
+ * `src/kernel/app/ui/theme-provider.tsx` to what the sites actually render:
  *
  *   pnpm check:mantine-styles
  *

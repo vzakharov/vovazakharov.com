@@ -1,4 +1,4 @@
-import type { Labeled, WithText } from '@/shared/typings';
+import type { Labeled, WithText } from '@/kernel/shared/typings';
 
 import { splitStanzas } from './sections';
 

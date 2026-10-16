@@ -1,10 +1,10 @@
-import type { SongFrontmatter } from '@/shared/music-catalogue';
+import type { SongFrontmatter } from '@/music/shared/catalogue';
 import {
   type SongBilling,
   songFileName,
   songFileNames,
   type Spelled,
-} from '@/shared/music-catalogue/index.node-safe';
+} from '@/music/shared/catalogue/index.node-safe';
 
 import { rawUrl, type RepoLocation } from './master-url';
 

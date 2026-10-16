@@ -1,10 +1,10 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 
-import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
-import { MUSIC_ROUTE } from '@/shared/music-catalogue';
-import { PageShell, SiteAvatar, TextLink } from '@/shared/ui';
+import { PAGE_ROUTES, SITE_CONFIG } from '@/kernel/shared/config';
+import { MUSIC_ROUTE } from '@/kernel/shared/content';
+import { PageShell, SiteAvatar, TextLink } from '@/kernel/shared/ui';
 
-import { SiteFooter } from '@/widgets/site-footer';
+import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { ContactSection } from './contact-section';
 import { OfferSection } from './offer-section';

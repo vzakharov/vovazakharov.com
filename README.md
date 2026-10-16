@@ -52,30 +52,30 @@ says what it covers.
 
 Application code follows [Feature-Sliced Design](https://feature-sliced.design/)
 under `src/`; `.claude/rules/fsd.md` carries the conventions — including why the
-FSD app layer is `src/app` while `apps/*/app/` is routing only.
+FSD app layer is `src/kernel/app` while `apps/*/app/` is routing only.
 
 ```
 ├── apps/
 │   ├── vova/                   # vovazakharov.com
 │   │   ├── app/                # App Router — routing only, one-line re-exports
-│   │   │   ├── page.tsx        # → src/pages/home
-│   │   │   ├── cv/             # → src/pages/cv
-│   │   │   ├── case-studies/   # → src/pages/documents
+│   │   │   ├── page.tsx        # → src/vova/pages/home
+│   │   │   ├── cv/             # → src/vova/pages/cv
+│   │   │   ├── case-studies/   # → src/blog/pages/documents
 │   │   │   ├── music/, writing/
 │   │   │   └── sitemap.ts
 │   │   ├── public/             # served at the site root — case studies, CV renders, logos, .nojekyll
 │   │   ├── next.config.ts
 │   │   └── tsconfig.json
 │   ├── lsa/                    # latestageagentic.com — same shape, plus public/CNAME
-│   │   └── app/page.tsx        # → src/pages/lsa-home — the project's index, no collection under it
+│   │   └── app/page.tsx        # → src/lsa/pages/lsa-home — the project's index, no collection under it
 │   ├── bible/                  # agentic.bible — the Bible, rooted at the site root
-│   │   ├── app/page.tsx        # → src/pages/bible-home
-│   │   ├── app/[...slug]/      # → src/pages/documents, bound to the Bible
+│   │   ├── app/page.tsx        # → src/bible/pages/bible-home
+│   │   ├── app/[...slug]/      # → src/blog/pages/documents, bound to the Bible
 │   │   └── public/             # the articles themselves, plus the seal and public/CNAME
 │   └── basilisk/               # basilisk.fyi — the docket, plus public/CNAME
-│       ├── app/page.tsx        # → src/pages/basilisk-home, which lists both collections
-│       ├── app/cases/[...slug]/ # → src/pages/documents, bound to the cases
-│       ├── app/faq/[...slug]/  # → src/pages/documents, bound to the FAQ
+│       ├── app/page.tsx        # → src/basilisk/pages/basilisk-home, which lists both collections
+│       ├── app/cases/[...slug]/ # → src/blog/pages/documents, bound to the cases
+│       ├── app/faq/[...slug]/  # → src/blog/pages/documents, bound to the FAQ
 │       └── public/             # cases/ and faq/, plus the stamp
 ├── src/
 │   ├── shared/                 # config, content, i18n, seo, typings, ui, lib/*

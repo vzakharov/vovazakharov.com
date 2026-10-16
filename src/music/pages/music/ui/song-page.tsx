@@ -1,23 +1,23 @@
 import { Box, Group, Stack, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
-import { pageFile, SITE_CONFIG } from '@/shared/config';
-import type { Routed } from '@/shared/content';
-import { byLocale, loadMessages } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
+import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
+import type { Routed } from '@/kernel/shared/content';
+import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
 import {
   scriptSample,
   songTitle,
   spelledText,
   textHook,
-} from '@/shared/music-catalogue';
+} from '@/music/shared/catalogue';
 import {
   constructMetadata,
   localizedAddresses,
-} from '@/shared/seo/index.server-only';
-import { FileLink, hoverDim, PageShell, TextLink } from '@/shared/ui';
+} from '@/kernel/shared/seo/index.server-only';
+import { FileLink, hoverDim, PageShell, TextLink } from '@/kernel/shared/ui';
 
-import { SiteFooter } from '@/widgets/site-footer';
+import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { universeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';

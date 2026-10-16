@@ -1,5 +1,5 @@
-import { byLocale, loadMessages } from '@/shared/i18n';
-import type { WithChildren } from '@/shared/typings';
+import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import type { WithChildren } from '@/kernel/shared/typings';
 
 import { radioPath } from '../lib/music-urls';
 import { listSongs } from '../lib/songs';

@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
-import { pick } from '@/shared/lib/collections';
-import type { WithId } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { WithId } from '@/kernel/shared/typings';
 
 import {
   awake,

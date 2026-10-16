@@ -7,8 +7,8 @@
  * Times are ms on the insects' clock, as `weather.ts`'s are.
  */
 
-import { pick } from '@/shared/lib/collections';
-import type { WithId } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { WithId } from '@/kernel/shared/typings';
 
 import { isCrowdedAt, isFull } from './crowding';
 import type { Timed } from './flight';

@@ -1,11 +1,14 @@
-import { documentRoute, localizedRoute } from '@/shared/content';
-import { loadMessages, type Locale } from '@/shared/i18n';
 import {
+  documentRoute,
+  localizedRoute,
   MUSIC_ROUTE,
+} from '@/kernel/shared/content';
+import { loadMessages, type Locale } from '@/kernel/shared/i18n';
+import {
   type MusicAlbum,
   type MusicProject,
   projectSlug,
-} from '@/shared/music-catalogue';
+} from '@/music/shared/catalogue';
 
 export const ARTISTS_SEGMENT = 'artists';
 

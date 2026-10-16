@@ -1,7 +1,6 @@
-import { collectionRoute } from '@/shared/content';
-import { byLocale, loadMessages } from '@/shared/i18n';
-import { MUSIC_ROUTE } from '@/shared/music-catalogue';
-import { PageShell } from '@/shared/ui';
+import { collectionRoute, MUSIC_ROUTE } from '@/kernel/shared/content';
+import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { PageShell } from '@/kernel/shared/ui';
 
 import { MovedSong } from './moved-song';
 

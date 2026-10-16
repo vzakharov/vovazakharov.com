@@ -32,8 +32,8 @@ import '@mantine/core/styles/Title.layer.css';
 
 import { type CSSVariablesResolver, MantineProvider } from '@mantine/core';
 
-import type { WithChildren } from '@/shared/typings';
-import { cssColor } from '@/shared/ui';
+import type { WithChildren } from '@/kernel/shared/typings';
+import { cssColor } from '@/kernel/shared/ui';
 
 import { theme } from '../styles/theme';
 

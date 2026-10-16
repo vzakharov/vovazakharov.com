@@ -30,8 +30,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { breakpoints } from '../src/app/styles/breakpoints.ts';
-import { CSS_COLORS } from '../src/shared/ui/css-color.ts';
+import { breakpoints } from '../src/kernel/app/styles/breakpoints.ts';
+import { CSS_COLORS } from '../src/kernel/shared/ui/css-color.ts';
 
 const REPO_ROOT = path.join(import.meta.dirname, '..');
 
@@ -55,12 +55,12 @@ function colorMixin(): string {
 
 const PARTIALS = [
   {
-    source: 'src/app/styles/breakpoints.ts',
+    source: 'src/kernel/app/styles/breakpoints.ts',
     output: 'styles/_breakpoints.scss',
     body: scale(),
   },
   {
-    source: 'src/shared/ui/css-color.ts',
+    source: 'src/kernel/shared/ui/css-color.ts',
     output: 'styles/_tokens.scss',
     body: colorMixin(),
   },

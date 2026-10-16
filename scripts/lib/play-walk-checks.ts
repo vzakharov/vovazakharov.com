@@ -6,16 +6,19 @@
 
 import { z } from 'zod';
 
-import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
-import { KEY_EASE, TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
+import { wrap } from '../../src/mushrooms/pages/mushrooms/model/geometry.ts';
+import {
+  KEY_EASE,
+  TURN_CRUISE,
+} from '../../src/mushrooms/pages/mushrooms/model/pan.ts';
 import {
   forwardOf,
   sidewaysOf,
   STEP_LENGTH,
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
-} from '../../src/pages/mushrooms/model/stride.ts';
-import { SHOWN_LEAST } from '../../src/pages/mushrooms/ui/scene/view.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/stride.ts';
+import { SHOWN_LEAST } from '../../src/mushrooms/pages/mushrooms/ui/scene/view.ts';
 import { Eye, type Point } from './mushroom-probe-answers.ts';
 import type { Arrow, Expect, Strafe } from './mushroom-probe-drive.ts';
 

@@ -1,12 +1,16 @@
 import 'server-only';
 
-import { SITE_CONFIG } from '@/shared/config';
-import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
-import { spelledText, textHook } from '@/shared/music-catalogue';
+import { SITE_CONFIG } from '@/kernel/shared/config';
+import {
+  loadMessages,
+  type Locale,
+  type WithLocale,
+} from '@/kernel/shared/i18n';
+import { spelledText, textHook } from '@/music/shared/catalogue';
 import {
   constructMetadata,
   localizedAddresses,
-} from '@/shared/seo/index.server-only';
+} from '@/kernel/shared/seo/index.server-only';
 
 import { albumArtist, albumCover, albumTitle } from './albums';
 import { projectName } from './artists';

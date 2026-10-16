@@ -3,7 +3,7 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { Sized } from '@/shared/typings';
+import type { Sized } from '@/kernel/shared/typings';
 
 import { PUBLIC_DIR } from './collections';
 

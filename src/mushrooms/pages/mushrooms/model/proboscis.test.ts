@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { flowerLift } from '../ui/scene/flower-seat';
 import { flowerGenes, flowerHead } from './flower-genes';

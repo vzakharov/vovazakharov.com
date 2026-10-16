@@ -1,6 +1,6 @@
 import { Box, Stack, Title } from '@mantine/core';
 
-import type { WithChildren, WithId } from '@/shared/typings';
+import type { WithChildren, WithId } from '@/kernel/shared/typings';
 
 type SectionProps = WithId &
   WithChildren & {

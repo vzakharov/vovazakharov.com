@@ -20,17 +20,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
-import { PUBLIC_DIR } from '@/shared/content/collections';
+import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
 import {
   documentDateTime,
   formatDocumentDate,
-} from '@/shared/content/document-date';
-import type { Titled } from '@/shared/typings';
+} from '@/kernel/shared/content/document-date';
+import type { Titled } from '@/kernel/shared/typings';
 
-import { gradeLabel } from '@/entities/case/index.node-safe';
+import { gradeLabel } from '@/basilisk/entities/case/index.node-safe';
 
-import { MEMO } from '@/pages/basilisk-home/lib/memo';
+import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
 
 import { type DocketCase, lastFiledCase } from './docket.ts';
 import {

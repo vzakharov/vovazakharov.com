@@ -6,7 +6,7 @@ import {
   SUBHEADING_GAP,
   SummaryCard,
   TextLink,
-} from '@/shared/ui';
+} from '@/kernel/shared/ui';
 
 export function WritingSection() {
   return (

@@ -1,4 +1,4 @@
-import { collectionFeed } from '@/app/lib';
+import { collectionFeed } from '@/kernel/app/lib';
 
 // `output: 'export'` has no request-time rendering, so the route must declare
 // that it is written once at build time. Next reads this off the route module

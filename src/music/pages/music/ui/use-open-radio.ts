@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 
-import { DEFAULT_LOCALE } from '@/shared/i18n';
+import { DEFAULT_LOCALE } from '@/kernel/shared/i18n';
 
 import { usePlayer } from './player-provider';
 

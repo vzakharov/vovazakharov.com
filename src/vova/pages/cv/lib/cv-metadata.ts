@@ -1,9 +1,9 @@
-import { SITE_CONFIG } from '@/shared/config';
-import { intrinsicDimensions } from '@/shared/content';
+import { SITE_CONFIG } from '@/kernel/shared/config';
+import { intrinsicDimensions } from '@/kernel/shared/content';
 import {
   constructMetadata,
   localizedAddresses,
-} from '@/shared/seo/index.server-only';
+} from '@/kernel/shared/seo/index.server-only';
 
 import { cvMessages } from './cv-messages';
 import { cvAddressDefaults } from './cv-route-params';

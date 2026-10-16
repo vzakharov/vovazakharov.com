@@ -1,9 +1,9 @@
-import { formatDocumentDate, type Source } from '@/shared/content';
+import { formatDocumentDate, type Source } from '@/kernel/shared/content';
 import {
   mentionsPrintRasterDomain,
   PRINT_RASTER_CLASS,
-} from '@/shared/lib/print-raster';
-import { TextLink } from '@/shared/ui';
+} from '@/kernel/shared/lib/print-raster';
+import { TextLink } from '@/kernel/shared/ui';
 
 import classes from './source-list.module.scss';
 

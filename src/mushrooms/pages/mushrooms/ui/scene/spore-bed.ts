@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import type { Hazed } from '../../model/ground';

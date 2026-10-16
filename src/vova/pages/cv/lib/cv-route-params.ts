@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { localeTailAddresses, routing } from '@/shared/i18n';
-import { oneOfEach } from '@/shared/lib/collections';
+import { localeTailAddresses, routing } from '@/kernel/shared/i18n';
+import { oneOfEach } from '@/kernel/shared/lib/collections';
 
 import { CV_ADDRESS_SEGMENTS, CV_SUBPAGES, type CvAddress } from './cv-urls';
 import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';

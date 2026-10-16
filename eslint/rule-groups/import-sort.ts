@@ -19,12 +19,12 @@ export const importSortRules = {
         // External packages
         ['^'],
         // FSD layers, lowest first
-        ['^@/shared/'],
+        ['^@/kernel/shared/'],
         ['^@/entities/'],
         ['^@/features/'],
         ['^@/widgets/'],
         ['^@/pages/'],
-        ['^@/app/'],
+        ['^@/kernel/app/'],
         // Relative imports
         [String.raw`^\.`],
       ],

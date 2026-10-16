@@ -7,7 +7,7 @@
  * away (`flightAway`).
  */
 
-import type { WithId } from '@/shared/typings';
+import type { WithId } from '@/kernel/shared/typings';
 
 import type { Pose } from './flight-frame';
 import { FLIGHT_HABITS, type Habits } from './flight-habits';

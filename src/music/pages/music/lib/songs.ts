@@ -3,13 +3,13 @@ import {
   listPrimaryDocuments,
   type Slugged,
   SONGS,
-} from '@/shared/content';
-import { byLocale, isLocale, type Locale } from '@/shared/i18n';
+} from '@/kernel/shared/content';
+import { byLocale, isLocale, type Locale } from '@/kernel/shared/i18n';
 import {
   type MusicAlbum,
   type SongBilling,
   songTitle,
-} from '@/shared/music-catalogue';
+} from '@/music/shared/catalogue';
 
 import { albumsTogether, songPlacements } from './album-tracks';
 import { projectName } from './artists';

@@ -1,10 +1,10 @@
 import { Group, Text } from '@mantine/core';
 
-import { printedUrl, SITE_CONFIG } from '@/shared/config';
-import { BUILD_YEAR } from '@/shared/config/index.server-only';
-import type { Routed } from '@/shared/content';
-import { pick } from '@/shared/lib/collections';
-import { TextLink } from '@/shared/ui';
+import { printedUrl, SITE_CONFIG } from '@/kernel/shared/config';
+import { BUILD_YEAR } from '@/kernel/shared/config/index.server-only';
+import type { Routed } from '@/kernel/shared/content';
+import { pick } from '@/kernel/shared/lib/collections';
+import { TextLink } from '@/kernel/shared/ui';
 
 import classes from './documents.module.scss';
 

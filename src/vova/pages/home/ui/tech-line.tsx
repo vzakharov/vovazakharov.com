@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core';
 
-import type { WithChildren } from '@/shared/typings';
+import type { WithChildren } from '@/kernel/shared/typings';
 
 export function TechLine({ children }: WithChildren) {
   return (

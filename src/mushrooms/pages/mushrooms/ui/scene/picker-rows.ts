@@ -4,7 +4,7 @@
  * button or under the row, each held `PICK_CLEAR` off every other button.
  */
 
-import type { Sized } from '@/shared/typings';
+import type { Sized } from '@/kernel/shared/typings';
 
 import type { Circle } from '../../model/geometry';
 import {

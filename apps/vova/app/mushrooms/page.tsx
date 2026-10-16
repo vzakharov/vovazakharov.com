@@ -1,4 +1,4 @@
 export {
   MushroomsPage as default,
   mushroomsMetadata as metadata,
-} from '@/pages/mushrooms';
+} from '@/mushrooms/pages/mushrooms';

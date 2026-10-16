@@ -3,7 +3,7 @@ import 'server-only';
 import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 
-import type { SiteImage } from '@/shared/config';
+import type { SiteImage } from '@/kernel/shared/config';
 
 type EndMarkOptions = { seal: SiteImage };
 

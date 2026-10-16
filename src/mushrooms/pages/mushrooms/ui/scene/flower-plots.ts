@@ -7,7 +7,7 @@
  * flower, and a well-visited flower grows a round bed.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Flower } from '../../model/flower-genes';
 import type { Meadow } from '../../model/game';

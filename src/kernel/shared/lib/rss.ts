@@ -6,7 +6,7 @@ import type {
   Timed,
   Titled,
   WithLanguage,
-} from '@/shared/typings';
+} from '@/kernel/shared/typings';
 
 /** What a feed and each of its items both state: a title and an absolute link. */
 type RssEntry = Titled & { link: string };

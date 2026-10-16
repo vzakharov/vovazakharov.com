@@ -40,7 +40,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
-import type { Named, WithFilePath, WithId } from '@/shared/typings';
+import type { Named, WithFilePath, WithId } from '@/kernel/shared/typings';
 
 // The scan root is the working directory, not the script's own location:
 // `pnpm type-overlap` runs from the repo root, and the tests drive this same
@@ -319,7 +319,7 @@ const lines = [
   ...firing.map((r) => r.pass.fixStep),
   '  2. Home the base at its most upstream consumer — the module both types',
   '     already import, or the file that declares both. Only reach for the',
-  '     src/shared/ segment that owns the concept when no such module exists',
+  '     src/kernel/shared/ segment that owns the concept when no such module exists',
   '     or the base is genuinely cross-cutting.',
   '  3. Do not give the base its own single-type module — a file that exists only',
   '     to hold one type is churn.',

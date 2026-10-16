@@ -13,7 +13,7 @@ import type {
   Sized,
   WithPath,
   WithUrl,
-} from '@/shared/typings';
+} from '@/kernel/shared/typings';
 
 import { PIXELS } from './og-canvas';
 import type { SiteId } from './site-ids';

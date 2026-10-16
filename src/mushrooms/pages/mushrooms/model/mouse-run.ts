@@ -7,7 +7,7 @@
  * size.
  */
 
-import type { WithId } from '@/shared/typings';
+import type { WithId } from '@/kernel/shared/typings';
 
 import { distanceBetween, type Point } from './geometry';
 import type { RunMoment } from './mouse-run-clock';

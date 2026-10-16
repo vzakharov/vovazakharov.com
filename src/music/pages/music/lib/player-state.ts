@@ -1,13 +1,13 @@
-import type { Slugged } from '@/shared/content';
-import type { Locale } from '@/shared/i18n';
-import type { Script } from '@/shared/lib/script-preference';
-import type { Playable } from '@/shared/music-catalogue';
+import type { Slugged } from '@/kernel/shared/content';
+import type { Locale } from '@/kernel/shared/i18n';
+import type { Script } from '@/kernel/shared/lib/script-preference';
+import type { Playable } from '@/music/shared/catalogue';
 import {
   type Spelled,
   spelledText,
   type WithSpelledName,
-} from '@/shared/music-catalogue/index.node-safe';
-import type { Linked, Seeded } from '@/shared/typings';
+} from '@/music/shared/catalogue/index.node-safe';
+import type { Linked, Seeded } from '@/kernel/shared/typings';
 
 /** A name linked to its page — an artist on a billing, a tile on a grid. */
 export type SpelledLink = Linked & WithSpelledName;

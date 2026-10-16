@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { z } from 'zod';
 
-import type { MusicAlbum } from '@/shared/music-catalogue/index.node-safe';
+import type { MusicAlbum } from '@/music/shared/catalogue/index.node-safe';
 
 import { albumsTogether, albumTracks, songPlacements } from './album-tracks.ts';
 

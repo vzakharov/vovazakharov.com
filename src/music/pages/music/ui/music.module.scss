@@ -1,4 +1,4 @@
-@use '../../../../styles/mantine' as mantine;
+@use '../../../../../styles/mantine' as mantine;
 
 // Takes the space its row leaves, and may shrink below its content to do it —
 // a flex or grid item's automatic minimum is otherwise its content's width.

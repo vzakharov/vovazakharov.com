@@ -9,11 +9,10 @@ import {
   ANALYTICS_SCRIPT_URL,
   SITE_CONFIG,
   withoutScheme,
-} from '@/shared/config';
-import { SCRIPT_PREFERENCE_SCRIPT } from '@/shared/lib/script-preference';
-import { constructMetadata } from '@/shared/seo/index.server-only';
+} from '@/kernel/shared/config';
+import { SCRIPT_PREFERENCE_SCRIPT } from '@/kernel/shared/lib/script-preference';
+import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 
-import { ThemeCorner } from './theme-corner';
 import { ThemeProvider } from './theme-provider';
 
 const merriweather = Merriweather({
@@ -69,10 +68,7 @@ export function RootLayout({
         />
       </head>
       <body>
-        <ThemeProvider>
-          <ThemeCorner />
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

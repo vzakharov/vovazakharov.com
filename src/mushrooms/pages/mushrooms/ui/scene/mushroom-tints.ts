@@ -4,7 +4,7 @@
  * house and the HUD all read one answer.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import {
   GENE_RANGES,

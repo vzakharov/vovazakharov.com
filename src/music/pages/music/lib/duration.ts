@@ -1,4 +1,4 @@
-import type { Locale } from '@/shared/i18n';
+import type { Locale } from '@/kernel/shared/i18n';
 
 /**
  * `m:ss`, as a track length is written everywhere, and `h:mm:ss` from an hour

@@ -1,5 +1,6 @@
 export { AUTHORS } from './authors';
-export { type CaseFrontmatter } from './basilisk-frontmatter';
+export { MUSIC_ROUTE } from './music-route';
+export { type CaseFrontmatter } from '../../../basilisk/shared/content/basilisk-frontmatter';
 export {
   ARTICLE_COLLECTIONS,
   type ArticleCollectionId,

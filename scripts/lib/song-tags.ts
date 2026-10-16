@@ -5,21 +5,21 @@
  * script they are sung in, the words someone reading along sings.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 import {
   billedArtists,
   type SongBilling,
   type Spelled,
   spelledText,
   type WithSpelledTitle,
-} from '@/shared/music-catalogue/index.node-safe';
+} from '@/music/shared/catalogue/index.node-safe';
 import {
   type CreditedName,
   SONG_AUTHOR,
-} from '@/shared/music-catalogue/people';
-import type { Titled, WithLanguage, WithUrl } from '@/shared/typings';
+} from '@/music/shared/catalogue/people';
+import type { Titled, WithLanguage, WithUrl } from '@/kernel/shared/typings';
 
-import { inlineRuns } from '@/pages/music/lib/lyric-inline';
+import { inlineRuns } from '@/music/pages/music/lib/lyric-inline';
 
 /** Where on a release the song sits, and what the release is. */
 type TagRelease = WithSpelledTitle & {

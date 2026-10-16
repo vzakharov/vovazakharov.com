@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { PUBLIC_DIR } from '@/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 
 /**
  * Per song, a hash of what `pnpm music:masters tag` built its files from, and

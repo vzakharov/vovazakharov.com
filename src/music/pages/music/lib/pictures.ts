@@ -1,9 +1,9 @@
 import 'server-only';
 
-import { intrinsicDimensions } from '@/shared/content';
-import { type Locale, LOCALES } from '@/shared/i18n';
-import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
-import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/shared/seo';
+import { intrinsicDimensions } from '@/kernel/shared/content';
+import { type Locale, LOCALES } from '@/kernel/shared/i18n';
+import type { MusicAlbum, MusicProject } from '@/music/shared/catalogue';
+import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/kernel/shared/seo';
 
 import { albumCover } from './albums';
 import {

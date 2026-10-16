@@ -1,8 +1,8 @@
 import { Group } from '@mantine/core';
 
-import { pick } from '@/shared/lib/collections';
-import type { LabeledLink } from '@/shared/typings';
-import { hoverDim, TextLink } from '@/shared/ui';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { LabeledLink } from '@/kernel/shared/typings';
+import { hoverDim, TextLink } from '@/kernel/shared/ui';
 
 import { LocaleChips, type LocaleChipsProps } from './locale-chips';
 import classes from './music.module.scss';

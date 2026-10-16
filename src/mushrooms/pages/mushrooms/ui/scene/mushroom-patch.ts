@@ -8,8 +8,8 @@
  * `roomFor` keeps a new mushroom off them where they stand as it grows.
  */
 
-import { pick } from '@/shared/lib/collections';
-import type { WithId } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { WithId } from '@/kernel/shared/typings';
 
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import {

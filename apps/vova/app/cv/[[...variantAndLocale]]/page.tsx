@@ -1,4 +1,4 @@
-import type { WithParams } from '@/shared/typings';
+import type { WithParams } from '@/kernel/shared/typings';
 
 import {
   cvAddressDefaults,
@@ -7,7 +7,7 @@ import {
   generateCvMetadata,
   parseCvSegments,
   type WithOptionalCvSegments,
-} from '@/pages/cv';
+} from '@/vova/pages/cv';
 
 type Props = WithParams<WithOptionalCvSegments>;
 

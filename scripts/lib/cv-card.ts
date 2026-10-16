@@ -11,14 +11,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { siteConfig, withoutScheme } from '@/shared/config';
-import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
-import { PUBLIC_DIR } from '@/shared/content/collections';
-import type { Billed } from '@/shared/typings';
+import { siteConfig, withoutScheme } from '@/kernel/shared/config';
+import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
+import type { Billed } from '@/kernel/shared/typings';
 
-import { cvMessages } from '@/pages/cv/lib/cv-messages';
-import { type OfferHeadline, offerHeadline } from '@/pages/cv/lib/cv-offer';
-import type { CvVariant } from '@/pages/cv/lib/cv-variants';
+import { cvMessages } from '@/vova/pages/cv/lib/cv-messages';
+import {
+  type OfferHeadline,
+  offerHeadline,
+} from '@/vova/pages/cv/lib/cv-offer';
+import type { CvVariant } from '@/vova/pages/cv/lib/cv-variants';
 
 import { RENDERED_SITE } from './content-tree.ts';
 import {

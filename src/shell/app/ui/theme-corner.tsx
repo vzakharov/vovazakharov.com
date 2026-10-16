@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
-import { ThemeToggle } from '@/features/switch-theme';
+import { ThemeToggle } from '@/shell/features/switch-theme';
 
 import classes from './theme-corner.module.scss';
 

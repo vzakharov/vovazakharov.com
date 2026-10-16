@@ -3,8 +3,8 @@ import {
   documentDateTime,
   formatDocumentDate,
   type WithFrontmatter,
-} from '@/shared/content';
-import { type MemoField, MemoFields } from '@/shared/ui';
+} from '@/kernel/shared/content';
+import { type MemoField, MemoFields } from '@/kernel/shared/ui';
 
 import { aggravations, GradeStamp } from './grade-stamp';
 

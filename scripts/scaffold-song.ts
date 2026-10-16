@@ -30,18 +30,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { collectionDir } from '@/shared/content/index.node-safe';
-import { byLocale, inLocale } from '@/shared/i18n/locales';
-import { readSiteCatalogueNames } from '@/shared/music-catalogue/catalogue-names';
-import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
-import type { Dated, Named, Timed } from '@/shared/typings';
+import { collectionDir } from '@/kernel/shared/content/index.node-safe';
+import { byLocale, inLocale } from '@/kernel/shared/i18n/locales';
+import { readSiteCatalogueNames } from '@/music/shared/catalogue/catalogue-names';
+import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
+import type { Dated, Named, Timed } from '@/kernel/shared/typings';
 
-import { servedPath } from '@/pages/music/lib/master-url';
-import { SONG_BRANCH } from '@/pages/music/lib/song-files';
+import { servedPath } from '@/music/pages/music/lib/master-url';
+import { SONG_BRANCH } from '@/music/pages/music/lib/song-files';
 import {
   readTagManifest,
   writeTagManifest,
-} from '@/pages/music/lib/tag-manifest';
+} from '@/music/pages/music/lib/tag-manifest';
 
 import { fetchStreamInfo, type StreamInfo } from './lib/flac-stream-info.ts';
 import {

@@ -1,4 +1,4 @@
-import { articleRoute } from '@/pages/documents';
+import { articleRoute } from '@/blog/pages/documents';
 
 const { Page, generateMetadata, generateStaticParams } =
   articleRoute('case-studies');

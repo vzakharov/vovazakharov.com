@@ -1,9 +1,9 @@
 import { List, ListItem, Stack, Text, Title } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config';
-import { FEATURED_CASE_STUDY_ROUTE } from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
-import { Section, TextLink } from '@/shared/ui';
+import { SITE_CONFIG } from '@/kernel/shared/config';
+import { FEATURED_CASE_STUDY_ROUTE } from '@/kernel/shared/content';
+import { loadMessages } from '@/kernel/shared/i18n';
+import { Section, TextLink } from '@/kernel/shared/ui';
 
 import { ReadCvButton } from './read-cv-button';
 

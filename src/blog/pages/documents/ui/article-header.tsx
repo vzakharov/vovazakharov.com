@@ -1,6 +1,6 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
-import { pageFile } from '@/shared/config';
+import { pageFile } from '@/kernel/shared/config';
 import {
   type ArticleFrontmatter,
   type DocumentRef,
@@ -9,10 +9,10 @@ import {
   type Variant,
   VARIANTS,
   type WithContentDocument,
-} from '@/shared/content';
-import { type Chip, ChipNav, FileLink } from '@/shared/ui';
+} from '@/kernel/shared/content';
+import { type Chip, ChipNav, FileLink } from '@/kernel/shared/ui';
 
-import { DocumentMeta } from '@/entities/document';
+import { DocumentMeta } from '@/blog/entities/document';
 
 import classes from './documents.module.scss';
 

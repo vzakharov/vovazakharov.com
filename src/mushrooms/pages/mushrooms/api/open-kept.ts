@@ -3,7 +3,7 @@
  * page's hash, the record kept under it, and the keeper that writes it back.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { type Kept, readKept } from '../model/kept-record';
 import { meadowHash, meadowNumber } from '../model/meadow-number';

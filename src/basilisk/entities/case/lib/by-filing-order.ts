@@ -1,4 +1,4 @@
-import type { CaseFrontmatter, WithFrontmatter } from '@/shared/content';
+import type { CaseFrontmatter, WithFrontmatter } from '@/kernel/shared/content';
 
 type Numbered = WithFrontmatter<Pick<CaseFrontmatter, 'case' | 'date'>>;
 

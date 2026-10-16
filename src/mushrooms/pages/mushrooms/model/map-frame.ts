@@ -1,5 +1,5 @@
-import { pick } from '@/shared/lib/collections';
-import type { Sized } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { Sized } from '@/kernel/shared/typings';
 
 import type { Point, WithMiddle } from './geometry';
 import type { Scaling } from './ground';

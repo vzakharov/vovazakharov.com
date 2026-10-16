@@ -17,7 +17,7 @@ import {
   useSyncExternalStore,
 } from 'react';
 
-import { cx } from '@/shared/lib/class-names';
+import { cx } from '@/kernel/shared/lib/class-names';
 
 import { hasLossless } from '../lib/player-state';
 import {

@@ -8,7 +8,7 @@
 
 import * as Phaser from 'phaser';
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { alongQuadratic, type Point } from '../../model/geometry';
 import type { MushroomGenes } from '../../model/mushroom-genes';

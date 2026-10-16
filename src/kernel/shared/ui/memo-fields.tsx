@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { Labeled } from '@/shared/typings';
+import type { Labeled } from '@/kernel/shared/typings';
 
 import classes from './memo-fields.module.scss';
 

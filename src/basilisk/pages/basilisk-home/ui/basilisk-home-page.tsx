@@ -3,19 +3,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
-import { SITE_CONFIG, SITE_ID } from '@/shared/config';
+import { SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
 import {
   ARTICLE_COLLECTIONS,
   COLLECTIONS,
   findFeed,
   renderPrimaryDocuments,
-} from '@/shared/content';
-import { pick } from '@/shared/lib/collections';
-import { MemoFields, PageShell } from '@/shared/ui';
+} from '@/kernel/shared/content';
+import { pick } from '@/kernel/shared/lib/collections';
+import { MemoFields, PageShell } from '@/kernel/shared/ui';
 
-import { assertUniqueCases, byFilingOrder } from '@/entities/case';
+import { assertUniqueCases, byFilingOrder } from '@/basilisk/entities/case';
 
-import { SiteFooter } from '@/widgets/site-footer';
+import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { MEMO } from '../lib/memo';
 import classes from './basilisk-home.module.scss';

@@ -3,9 +3,9 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PUBLIC_DIR } from '@/shared/content';
-import { type Locale, LOCALES } from '@/shared/i18n';
-import type { Labeled, Sourced } from '@/shared/typings';
+import { PUBLIC_DIR } from '@/kernel/shared/content';
+import { type Locale, LOCALES } from '@/kernel/shared/i18n';
+import type { Labeled, Sourced } from '@/kernel/shared/typings';
 
 import type { SongDocument } from './song-text';
 

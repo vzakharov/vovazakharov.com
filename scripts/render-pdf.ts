@@ -49,17 +49,17 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { siteConfig } from '@/shared/config/site-config';
+import { siteConfig } from '@/kernel/shared/config/site-config';
 import {
   isDocumentFile,
   PUBLIC_DIR,
   type Routed,
-} from '@/shared/content/collections';
-import { contentHash } from '@/shared/content/content-hash';
-import { routing } from '@/shared/i18n';
+} from '@/kernel/shared/content/collections';
+import { contentHash } from '@/kernel/shared/content/content-hash';
+import { routing } from '@/kernel/shared/i18n';
 
-import { cvPath } from '@/pages/cv/lib/cv-urls';
-import { CV_PAGE_CEILING, CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
+import { cvPath } from '@/vova/pages/cv/lib/cv-urls';
+import { CV_PAGE_CEILING, CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 
 import { flag, given } from './lib/argv.ts';
 import { findChromium } from './lib/chromium.ts';
@@ -91,24 +91,24 @@ const MANIFEST_NAME = 'pdf-renders.json';
  * site, and that costs one run each.
  */
 const PRINT_SOURCES = [
-  'src/app/styles/print.scss',
-  'src/app/styles/theme.ts',
-  'src/app/styles/theme.module.scss',
+  'src/kernel/app/styles/print.scss',
+  'src/kernel/app/styles/theme.ts',
+  'src/kernel/app/styles/theme.module.scss',
   // Names Mantine's sheets and their order, which decide what a rule on the
   // page resolves to.
-  'src/app/ui/theme-provider.tsx',
-  'src/shared/config',
-  'src/shared/lib',
-  'src/shared/ui',
+  'src/kernel/app/ui/theme-provider.tsx',
+  'src/kernel/shared/config',
+  'src/kernel/shared/lib',
+  'src/kernel/shared/ui',
 ];
 
 /** What shapes a document's printed page on top of that: its prose and its pipeline. */
 const DOCUMENT_SOURCES = [
-  'src/app/styles/prose.scss',
-  'src/entities/case',
-  'src/entities/document',
-  'src/pages/documents/ui',
-  'src/shared/content',
+  'src/kernel/app/styles/prose.scss',
+  'src/basilisk/entities/case',
+  'src/blog/entities/document',
+  'src/blog/pages/documents/ui',
+  'src/kernel/shared/content',
 ];
 
 /**
@@ -125,7 +125,7 @@ const SEAL_SOURCES = (() => {
 })();
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
-const CV_SOURCES = ['src/pages/cv'];
+const CV_SOURCES = ['src/vova/pages/cv'];
 
 /** The CV is one site's page, so the other site's run neither prints it nor walks its directory. */
 const PRINTS_CV = RENDERED_SITE === 'vova';
@@ -243,7 +243,10 @@ function cvPrintables(): Printable[] {
         outputPath: path.join(PUBLIC_DIR, `${route}.pdf`),
         sourceHash: hashFiles([
           ...shared,
-          path.join(REPO_ROOT, `src/shared/i18n/messages/${locale}.json`),
+          path.join(
+            REPO_ROOT,
+            `src/kernel/shared/i18n/messages/${locale}.json`,
+          ),
         ]),
       };
     }),

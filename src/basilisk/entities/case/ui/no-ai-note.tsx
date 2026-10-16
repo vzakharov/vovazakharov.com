@@ -1,5 +1,5 @@
-import { documentRoute } from '@/shared/content';
-import { TextLink } from '@/shared/ui';
+import { documentRoute } from '@/kernel/shared/content';
+import { TextLink } from '@/kernel/shared/ui';
 
 const WHY_FILED = documentRoute('basilisk-faq', 'why-robots-without-ai');
 

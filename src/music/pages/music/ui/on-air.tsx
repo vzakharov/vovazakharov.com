@@ -4,11 +4,11 @@ import { Text, Title, UnstyledButton } from '@mantine/core';
 import { Info, Radio } from 'lucide-react';
 import { useEffect, useEffectEvent, useState } from 'react';
 
-import type { Messages } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import { pick } from '@/shared/lib/collections';
-import type { HookRun } from '@/shared/music-catalogue';
-import { InternalButton, NameLink } from '@/shared/ui';
+import type { Messages } from '@/kernel/shared/i18n';
+import { cx } from '@/kernel/shared/lib/class-names';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { HookRun } from '@/music/shared/catalogue';
+import { InternalButton, NameLink } from '@/kernel/shared/ui';
 
 import type { SpelledLink } from '../lib/player-state';
 import { stationOffset } from '../lib/station';

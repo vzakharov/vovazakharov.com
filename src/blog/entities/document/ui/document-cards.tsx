@@ -6,9 +6,9 @@ import {
   type DocumentCard,
   documentRoute,
   type WithCollectionId,
-} from '@/shared/content';
-import { cx } from '@/shared/lib/class-names';
-import { Card, NameLink, TextLink } from '@/shared/ui';
+} from '@/kernel/shared/content';
+import { cx } from '@/kernel/shared/lib/class-names';
+import { Card, NameLink, TextLink } from '@/kernel/shared/ui';
 
 import classes from './document-cards.module.scss';
 import { DocumentMeta } from './document-meta';

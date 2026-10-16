@@ -2,7 +2,7 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { sourcedArticleFrontmatterSchema } from './frontmatter';
+import { sourcedArticleFrontmatterSchema } from '../../../kernel/shared/content/frontmatter';
 
 /** What was done to the machine, as the docket stamps it. */
 const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;

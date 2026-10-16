@@ -3,14 +3,14 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PUBLIC_DIR } from '@/shared/content';
-import type { Locale } from '@/shared/i18n';
+import { PUBLIC_DIR } from '@/kernel/shared/content';
+import type { Locale } from '@/kernel/shared/i18n';
 import type {
   MusicAlbum,
   MusicProject,
   TitleGloss,
-} from '@/shared/music-catalogue';
-import type { Spelled } from '@/shared/music-catalogue/index.node-safe';
+} from '@/music/shared/catalogue';
+import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
 
 import { albumFile, localGloss, localName } from './catalogue-files';
 

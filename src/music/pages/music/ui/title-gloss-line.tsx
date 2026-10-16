@@ -1,6 +1,6 @@
 import { Text, type TextProps } from '@mantine/core';
 
-import type { TitleGloss } from '@/shared/music-catalogue';
+import type { TitleGloss } from '@/music/shared/catalogue';
 
 /** The muted line under a title the reader may not understand: what it means. */
 export function TitleGlossLine({

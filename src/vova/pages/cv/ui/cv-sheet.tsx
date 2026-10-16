@@ -1,11 +1,11 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import { Fragment } from 'react';
 
-import { printedUrl, SITE_CONFIG } from '@/shared/config';
-import { cx } from '@/shared/lib/class-names';
-import { pick } from '@/shared/lib/collections';
-import type { DocumentFile } from '@/shared/typings';
-import { Card, FileLink, TextLink } from '@/shared/ui';
+import { printedUrl, SITE_CONFIG } from '@/kernel/shared/config';
+import { cx } from '@/kernel/shared/lib/class-names';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { DocumentFile } from '@/kernel/shared/typings';
+import { Card, FileLink, TextLink } from '@/kernel/shared/ui';
 
 import type { CvPageCopy } from '../lib/cv-messages';
 import { leadsWithProof, offerHeadline } from '../lib/cv-offer';

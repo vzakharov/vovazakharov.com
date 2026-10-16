@@ -1,4 +1,4 @@
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { FlowerColour } from '../../model/flower-genes';
 import {

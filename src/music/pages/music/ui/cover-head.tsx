@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 
-import { cx } from '@/shared/lib/class-names';
-import type { WithOptionalChildren } from '@/shared/typings';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { WithOptionalChildren } from '@/kernel/shared/typings';
 
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
 import classes from './music.module.scss';

@@ -1,16 +1,16 @@
-import { getAbsoluteUrl, SITE_ID } from '@/shared/config';
+import { getAbsoluteUrl, SITE_ID } from '@/kernel/shared/config';
 import {
   type CollectionId,
   collectionRoute,
   feedEntries,
   findFeed,
   localizedRoute,
-} from '@/shared/content';
-import { DEFAULT_LOCALE, type Locale } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
-import { renderRss } from '@/shared/lib/rss';
+} from '@/kernel/shared/content';
+import { DEFAULT_LOCALE, type Locale } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
+import { renderRss } from '@/kernel/shared/lib/rss';
 
-import { songFeedEntries, songPodcast } from '@/pages/music';
+import { songFeedEntries, songPodcast } from '@/music/pages/music';
 
 export function collectionFeed(collection: CollectionId, locale?: Locale) {
   const feed = findFeed(SITE_ID, collection, locale);

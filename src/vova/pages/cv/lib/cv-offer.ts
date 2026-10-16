@@ -1,5 +1,5 @@
-import type { Messages } from '@/shared/i18n';
-import type { Labeled } from '@/shared/typings';
+import type { Messages } from '@/kernel/shared/i18n';
+import type { Labeled } from '@/kernel/shared/typings';
 
 import type { CvVariant } from './cv-variants';
 

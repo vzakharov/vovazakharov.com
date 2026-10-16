@@ -3,9 +3,9 @@ import {
   type Locale,
   LOCALES,
   type WithLocale,
-} from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
-import { type Chip, ChipNav } from '@/shared/ui';
+} from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
+import { type Chip, ChipNav } from '@/kernel/shared/ui';
 
 import { ScriptChip } from './script-chip';
 

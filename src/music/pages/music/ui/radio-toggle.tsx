@@ -3,7 +3,7 @@
 import { ActionIcon } from '@mantine/core';
 import { Radio } from 'lucide-react';
 
-import { cx } from '@/shared/lib/class-names';
+import { cx } from '@/kernel/shared/lib/class-names';
 
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';

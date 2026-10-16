@@ -17,7 +17,7 @@
  * step's or a strafe's chase or fling and takes over.
  */
 
-import { pick } from '@/shared/lib/collections';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Direction } from './cruise';
 import { gaitHeight, heightAt, type Raised, riseFrom } from './eye-height';
