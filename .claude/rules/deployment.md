@@ -54,6 +54,11 @@ last, in a concurrency group apart from `pages`.
 `.claude/skills/preview/SKILL.md` § "Published, for someone else to look at"
 carries how it is used.
 
+**On an unmerged branch, an operator's "deploy" — «задеплой», «давай задеплоим»
+— means this door.** A branch dispatch of `deploy.yml` reaches production, so it
+takes an ask that names production or a live domain; a deploy misread as a
+preview costs a rerun, one misread as production ships unmerged work.
+
 **Each lane prints that site's page PDFs into its export before publishing**,
 through the `.github/actions/render-pdfs` composite action they all call. A
 page's `.pdf` link is derived from its route and emitted whether or not the file
