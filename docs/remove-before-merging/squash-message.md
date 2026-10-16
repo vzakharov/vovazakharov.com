@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-feat(vova): preload the next track for seamless playback (#165)
-```
+Proposed squash body:
 
 ```
 The player loaded the next song only once the current one had ended,
