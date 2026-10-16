@@ -19,6 +19,7 @@ import {
 
 import { cx } from '@/shared/lib/class-names';
 
+import { hasLossless } from '../lib/player-state';
 import {
   type SettingValues,
   useStoredSetting,
@@ -141,15 +142,17 @@ function LosslessToggle() {
 /**
  * The bar's sound settings: the volume, and lossless above it — or lossless
  * alone, straight on the bar, where the device keeps the volume to itself.
+ * Lossless shows only for a song that has a master beside its MP3.
  */
 export function VolumeControl() {
-  const { labels } = usePlayer();
+  const { labels, current } = usePlayer();
   const [volume, setVolume] = useStoredSetting('volume');
   const settable = useSyncExternalStore(subscribe, canSetVolume, () => true);
+  const lossless = current !== undefined && hasLossless(current);
 
   const { opened, setOpened, hover, toggle } = useHoverPopover();
 
-  if (!settable) return <LosslessToggle />;
+  if (!settable) return lossless && <LosslessToggle />;
 
   return (
     <Popover position="top" shadow="md" {...{ opened }} onChange={setOpened}>
@@ -168,7 +171,7 @@ export function VolumeControl() {
       </Popover.Target>
       <Popover.Dropdown className={classes['volumeDropdown']} {...hover}>
         <Stack gap={10} align="center">
-          <LosslessToggle />
+          {lossless && <LosslessToggle />}
           <Box
             component="input"
             type="range"
