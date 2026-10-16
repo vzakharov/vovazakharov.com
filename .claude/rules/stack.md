@@ -17,6 +17,7 @@ pnpm exec eslint .              # not `pnpm lint`               │
 pnpm format:check               # prettier --check ., md wrap too │
 pnpm lint:css                   # stylelint, check-only         │
 pnpm lint:fsd                   # steiger per app root          │
+pnpm check:masd                 # the app graph, slices across apps │
 pnpm type-overlap               # scripts/type-overlap-check.ts │
 pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │

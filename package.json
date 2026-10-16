@@ -30,6 +30,7 @@
     "lint": "eslint . --fix",
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:fsd": "node scripts/lint-fsd.ts",
+    "check:masd": "node scripts/masd-check.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "content:mermaid": "scripts/in-site.sh vova node scripts/render-mermaid.ts",

@@ -74,6 +74,7 @@ scripts/run-parallel.sh \
   format='pnpm format:check' \
   stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \
+  masd='pnpm check:masd' \
   type-overlap='pnpm type-overlap' \
   knip='pnpm knip' \
   mantine-styles='pnpm check:mantine-styles' \
