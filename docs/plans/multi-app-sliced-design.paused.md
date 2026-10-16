@@ -73,10 +73,19 @@ closes #171.
 - **Done** — step 9 (aca91f5): `scripts/masd-check.ts` (`pnpm check:masd`, in
   `vet.sh` and `.claude/rules/stack.md`), with CLI tests in
   `scripts/masd-check.test.ts`. Clean on the real tree.
-- **Left** — steps 10–11. Step 10's prose: `.claude/rules/fsd.md` still
-  describes the one-tree layout (and `eslint/masd-graph.ts`,
-  `eslint/masd-boundaries.ts`, `scripts/lint-fsd.ts`, `scripts/masd-check.ts`
-  already cite `.claude/rules/masd.md`, which step 10 creates).
+- **Done** — step 10 (1e59b87, 0860d2b): `.claude/rules/masd.md`, the tombstone
+  `fsd.retired.md` scoped to `.claude/rules/fsd.md`, citations repointed, four
+  `paths:` globs that matched nothing fixed, CLAUDE.md's layout in its staged
+  copy. Until the swap, the live CLAUDE.md cites `fsd.md` and
+  `check-skill-catalog` fails on it; `/finalize` swaps first.
+- **Step 11, partly** — a full vet (`VET_MEADOW=1`) found import order in the
+  scripts, prettier on `masd-graph.ts` and the feed-routes test reading
+  `(shell)` as part of an address (24e9153 fixes all three). Left failing: the
+  `story.tsx` lint error and the catalog check above. Looked at on the dev
+  server: vova's home, CV, music, case studies and 404 with the toggle; the game
+  without it, in full day under a dark OS too; lsa's home, a Bible article, a
+  basilisk case with its brief. All as expected.
+- **Left** — decide `story.tsx`, then a clean vet.
 - **Open, the operator's call** — `music/pages/music/ui/story.tsx` imports
   `@/blog/entities/document` (music's parent is shell, not blog): music
   extending `blog` as well as `shell`, or what `story.tsx` uses moving down to
