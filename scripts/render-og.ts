@@ -40,15 +40,13 @@ import {
 } from '@/kernel/shared/content/collections';
 import { contentHash } from '@/kernel/shared/content/content-hash';
 import { loadMessages } from '@/kernel/shared/i18n';
-import { musicProjectNames } from '@/music/shared/catalogue';
 import {
   OG_CARD_SUFFIX,
   OG_CARD_SUFFIXES,
   routeCardPath,
 } from '@/kernel/shared/seo';
+import { musicProjectNames } from '@/music/shared/catalogue';
 
-import { cvCardPath, cvPath } from '@/vova/pages/cv/lib/cv-urls';
-import { CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 import {
   artistCollage,
   artistCollageCovers,
@@ -57,6 +55,8 @@ import {
   PODCAST_COVER,
   RADIO_CARD,
 } from '@/music/pages/music/lib/pictures';
+import { cvCardPath, cvPath } from '@/vova/pages/cv/lib/cv-urls';
+import { CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 
 import { basiliskCard, caseCard } from './lib/basilisk-card.ts';
 import { findScreenshotChromium } from './lib/chromium.ts';

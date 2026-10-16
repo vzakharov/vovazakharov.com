@@ -19,10 +19,18 @@ const declared = SITE_IDS.flatMap((site) =>
   ),
 );
 
-/** Every `feed.xml` route handler the routers actually hold. */
+/**
+ * Every `feed.xml` route handler the routers actually hold, at its address: a
+ * route group's `(name)` segment is no part of the URL.
+ */
 const routed = fs
   .readdirSync(APPS_DIR, { recursive: true, encoding: 'utf8' })
-  .filter((file) => file.endsWith(path.join('feed.xml', 'route.ts')));
+  .filter((file) => file.endsWith(path.join('feed.xml', 'route.ts')))
+  .map((file) =>
+    path.join(
+      ...file.split(path.sep).filter((segment) => !/^\(.+\)$/.test(segment)),
+    ),
+  );
 
 describe('feedRoutes', () => {
   it('puts a rooted collection’s feed at the site root', () => {

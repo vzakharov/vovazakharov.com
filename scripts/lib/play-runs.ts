@@ -13,6 +13,7 @@
 
 import { z } from 'zod';
 
+import type { Named } from '../../src/kernel/shared/typings/index.ts';
 import { FURNISHINGS } from '../../src/mushrooms/pages/mushrooms/model/house.ts';
 import type { Stamped } from '../../src/mushrooms/pages/mushrooms/model/motion.ts';
 import {
@@ -23,7 +24,6 @@ import {
   type RunOpening,
 } from '../../src/mushrooms/pages/mushrooms/model/mouse-run-clock.ts';
 import { MUSHROOM_SPECIES } from '../../src/mushrooms/pages/mushrooms/model/mushroom-genes.ts';
-import type { Named } from '../../src/kernel/shared/typings/index.ts';
 import {
   Box,
   type Controls,

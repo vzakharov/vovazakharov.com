@@ -2,13 +2,13 @@
 
 import { z } from 'zod';
 
+import { pick } from '../../src/kernel/shared/lib/collections.ts';
 import { distanceBetween } from '../../src/mushrooms/pages/mushrooms/model/geometry.ts';
 import { LANDING } from '../../src/mushrooms/pages/mushrooms/model/insect-motion.ts';
 import { INSECT_LIMITS } from '../../src/mushrooms/pages/mushrooms/model/insects.ts';
 import { isSamePerch } from '../../src/mushrooms/pages/mushrooms/model/perch-room.ts';
 import { PERCH_REACH } from '../../src/mushrooms/pages/mushrooms/ui/scene/perch-sight.ts';
 import { perchAnchorOf } from '../../src/mushrooms/pages/mushrooms/ui/scene/perches.ts';
-import { pick } from '../../src/kernel/shared/lib/collections.ts';
 import {
   type Controls,
   Eye,

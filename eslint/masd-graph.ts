@@ -12,12 +12,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-const GRAPH_FILE = path.resolve(
-  import.meta.dirname,
-  '..',
-  'src',
-  'masd.json',
-);
+const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
 // Kebab-case also keeps every key non-numeric, which is what makes JS hand the
 // keys back in the order they were written.

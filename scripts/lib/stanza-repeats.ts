@@ -11,8 +11,8 @@
  * to a person.
  */
 
-import { splitSections } from '../../src/music/pages/music/index.node-safe.ts';
 import type { Named, WithText } from '../../src/kernel/shared/typings/index.ts';
+import { splitSections } from '../../src/music/pages/music/index.node-safe.ts';
 import { frontmatterSpan, type WithStart } from './public-markdown.ts';
 
 const LYRICS = 'lyrics:';

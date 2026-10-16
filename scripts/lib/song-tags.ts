@@ -6,6 +6,7 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { Titled, WithLanguage, WithUrl } from '@/kernel/shared/typings';
 import {
   billedArtists,
   type SongBilling,
@@ -17,7 +18,6 @@ import {
   type CreditedName,
   SONG_AUTHOR,
 } from '@/music/shared/catalogue/people';
-import type { Titled, WithLanguage, WithUrl } from '@/kernel/shared/typings';
 
 import { inlineRuns } from '@/music/pages/music/lib/lyric-inline';
 

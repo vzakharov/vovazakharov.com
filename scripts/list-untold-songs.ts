@@ -16,9 +16,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+import type { WithFilePath } from '../src/kernel/shared/typings/index.ts';
 import { localeProse } from '../src/music/pages/music/index.node-safe.ts';
 import { readCatalogueNames } from '../src/music/shared/catalogue/catalogue-names.ts';
-import type { WithFilePath } from '../src/kernel/shared/typings/index.ts';
 import { MUSIC_CATALOGUE_DIR, songFiles } from './lib/public-markdown.ts';
 
 const LIST = 'docs/music/untold-songs.md';

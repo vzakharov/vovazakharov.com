@@ -32,9 +32,9 @@ import { z } from 'zod';
 
 import { collectionDir } from '@/kernel/shared/content/index.node-safe';
 import { byLocale, inLocale } from '@/kernel/shared/i18n/locales';
+import type { Dated, Named, Timed } from '@/kernel/shared/typings';
 import { readSiteCatalogueNames } from '@/music/shared/catalogue/catalogue-names';
 import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
-import type { Dated, Named, Timed } from '@/kernel/shared/typings';
 
 import { servedPath } from '@/music/pages/music/lib/master-url';
 import { SONG_BRANCH } from '@/music/pages/music/lib/song-files';
