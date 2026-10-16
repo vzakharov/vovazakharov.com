@@ -42,7 +42,15 @@ closes #171.
   `musicCatalogueRoutes()`. `collectionFeed(collection, locale, source?)` takes
   a `FeedSource` (kernel's `shared/content`), and music exports `SONG_FEED`. The
   routers sort `@/kernel/app` last — the layer sort reads it as the top layer.
-- **Left** — steps 5–11.
+- **Done** — step 5: `apps/vova/app/(shell)/` holds every route but the game, on
+  shell's root layout; `(game)/` holds `mushrooms` on kernel's.
+  `global-not-found.tsx` re-exports vova's new app layer
+  (`src/vova/app/ui/global-not-found.tsx`: shell's layout around
+  `NotFoundPage`), and `siteNextConfig` sets `experimental.globalNotFound` for
+  every site. Verified on a `build:vova` export: `404.html` renders the page
+  with the theme toggle, `mushrooms.html` has none, both carry the icon, the
+  sitemap and both songs feeds come out whole.
+- **Left** — steps 6–11.
 - **Lint state for step 7**: with `boundaries/no-unknown-files` off, eslint
   still fails on `vova/no-hardcoded-strings` in
   `music/pages/music/ui/{catalogue-grid,cover-head,cover-zoom}.tsx` and

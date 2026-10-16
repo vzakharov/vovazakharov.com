@@ -27,6 +27,12 @@ export function siteNextConfig(site: SiteId, appDir: string): NextConfig {
     env: {
       NEXT_PUBLIC_SITE: site,
     },
+    // A site whose route groups each carry their own root layout has no layout
+    // above them all for `not-found.tsx` to render in; `global-not-found.tsx`
+    // renders its own document instead.
+    experimental: {
+      globalNotFound: true,
+    },
     turbopack: {
       root: path.join(appDir, '..', '..'),
     },
