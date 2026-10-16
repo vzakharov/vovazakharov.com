@@ -27,8 +27,10 @@ effect finds the active deck already holding the wanted `src` and loads nothing.
 2. **`use-station.ts` — `upNext()`**: on the radio, the track of the slot after
    the current one (`nextStation` at the current slot's end), so a radio
    hand-over is seamless too. Undefined off the radio.
-3. **New `use-decks.ts`** (keeps `use-audio-player.ts` under the size line):
-   owns the two elements and which one is active.
+3. **New `decks.ts`** (keeps `use-audio-player.ts` under the size line): a plain
+   factory, not a hook, owning the two elements and which one is active — a hook
+   would have to take the player's listeners, which call effect events that may
+   not be handed to another hook.
    - `active()` replaces `audioRef.current` everywhere it is read, including the
      `element` the station is handed.
    - Element listeners are wired on both decks; each handler acts only when its
@@ -51,8 +53,14 @@ effect finds the active deck already holding the wanted `src` and loads nothing.
    - **Swap on a manual change too**: when the source effect is about to load a
      `src` the standby already holds — the reader pressed next, at any point in
      the song — it swaps instead of reloading.
-4. **`use-audio-player.ts`**: the element-construction effect and the source
-   effect move onto `useDecks`; the controls keep their shape.
+4. **`use-audio-player.ts`**: the construction effect builds the decks, the
+   source effect cues before it loads, and an arming effect after it hands the
+   decks what is due next; the controls keep their shape.
+
+**Done**: all four, and a headless-Chromium run against local tones: the next
+file starts loading on the standby as soon as the first can play through, and
+`ended` → `playing` across the swap takes 26–27 ms against 58–60 ms for the
+single element with no network at all. Left: `/polish`, `/pr`.
 
 ### The fallback is today's behaviour
 
