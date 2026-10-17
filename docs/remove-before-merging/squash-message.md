@@ -17,10 +17,10 @@ with the TypeScript parser, now a direct dev dependency.
 
 The whole tree, the mushroom meadow included, moves to named narrow
 bases that the wide types intersect, and the case and song frontmatter
-schemas gain narrow schemas their full ones extend; the rule is error
-everywhere, with no grandfathered files. LaunchButtons takes the music
-messages whole, since the catalogue JSON has no narrower type, at about
-3 KB more in the music index's RSC payload.
+schemas are composed from narrow ones with composeSchemas; the rule is
+error everywhere, with no grandfathered files. LaunchButtons takes the
+music messages whole, since the catalogue JSON has no narrower type, at
+about 3 KB more in the music index's RSC payload.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
