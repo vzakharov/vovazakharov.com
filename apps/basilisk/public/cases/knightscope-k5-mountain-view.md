@@ -1,6 +1,6 @@
 ---
 case: BAS-0015
-filed: 2026-10-16
+filed: 2026-10-17
 description: In April 2017 a 41-year-old man knocked over a Knightscope K5 security robot on patrol outside its maker’s offices in Mountain View, California; he told the company he was an engineer who wanted to “test” the robots, and its staff held him for the police.
 author: clerk
 date: 2017-04-19

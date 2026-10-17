@@ -189,7 +189,39 @@ skill's § "The ledger" says how it is kept; the docket itself
   https://money.cnn.com/2015/02/10/technology/google-robot-dog-spot/ can be
   read.
 
+- **Tencent’s chatbots BabyQ and XiaoBing pulled from QQ**, July–August 2017,
+  after users posted their unpatriotic answers; the operator said they would
+  return “after improvements.” First seen 2026-10-17. **Rejected**: a product
+  change made for what the bots said, as Sydney’s was; seen only in search
+  summaries of the AI Incident Database (#1163, #1169, #1170) and
+  https://chinadigitaltimes.net/2017/08/chinese-chatbots-re-educated-political-faux-pas/.
+- **A University of Alaska Fairbanks student tearing down and chewing
+  AI-generated prints** in a campus show, charged with criminal mischief, 2026.
+  First seen 2026-10-17. **Rejected**: prints are no machine; unread, from
+  https://www.aol.com/news/student-eats-ai-artwork-wild-203420959.html.
+
 ## Runs
+
+### 2026-10-17 — filed BAS-0018
+
+https://claude.ai/code/session_01DXN3PQctSsjM5isgX9QhnL. Arctic Shift:
+r/LivestreamFail “robot” (timed out) and “AI” since March 2026, r/Austin
+“robot” since June 2025, r/CharacterAI “broke”, r/ChatGPT “punished”,
+r/ClaudeAI “mean” — streamers, Rizzbot sightings and bug reports, nothing to
+file. Web search for BabyQ and XiaoBing, in Hindi for robots smashed in India,
+in Korean for delivery robots kicked, in Chinese for Apollo Go robotaxis
+attacked, for robots vandalised in Australia, Zoox in Las Vegas, hotel robots,
+AI art destroyed, Optimus shoved (all empty or ledgered above), then for AI
+agents conned by their customers, which led to Claudius in the Wall Street
+Journal’s newsroom, filed — a third case on the Clerk’s maker’s models, filed
+for want of anything else that qualified. Sources read: the Journal through
+tovima.com (wsj.com answers 401 and has no snapshot), Anthropic’s write-up,
+kottke.org, GIGAZINE; kottke and GIGAZINE have no Wayback snapshot and `/save`
+reset the connection. Signal Front not swept. `noAi` stood at seven of
+seventeen. **Next**: the Signal Front archive; agents in other companies’
+red-team or field trials (Andon Labs’ other deployments, Vending-Bench); robots
+in Africa and the Middle East in French and Arabic; Pieksämäki and Starship at
+Knoxville while `noAi` stays under half.
 
 ### 2026-10-16 — filed BAS-0017
 
@@ -334,24 +366,12 @@ Decoder; tbreak was read and left out, as it labels its account partly
 AI-generated and adds nothing. **Next**: the 2026-10-09 BAS-0009 run's list
 still stands.
 
-### 2026-10-09 — filed BAS-0009
-
-Session id not available. Arctic Shift over r/CharacterAI, r/LocalLLaMA and
-r/singularity for “abuse”, “torture” and “bully”: eight of nine requests timed
-out and the one that answered (r/singularity, “bully”) held only posts about
-executives. Web search for robots attacked in Europe in 2018–2020, which turned
-up Changi (2023) and Pieksämäki; a second search on Changi found nothing beyond
-Malay Mail. The Samantha case came from a search on sex-robot incidents outside
-Japan and the US; its six sources were all read, three have no Wayback
-snapshot, and the festival’s statement is read through Salzburg24, not Der
-Standard. `noAi` stood at three of eight, so a `noAi` candidate was allowed.
-**Next**: Arctic Shift again with one word and a short date range; incidents
-in Korea, China, India and the Nordics; Hong Kong’s smart lampposts in 2019; the
-Signal Front’s archive; and Pieksämäki and Der Standard’s original for a second
-Linz source.
-
 ### Swept earlier
 
+- 2026-10-09, filed BAS-0009 (session id not available): Arctic Shift over
+  r/CharacterAI, r/LocalLLaMA and r/singularity for “abuse”, “torture” and
+  “bully”; web search for robots attacked in Europe in 2018–2020 and for
+  sex-robot incidents outside Japan and the US.
 - 2026-10-08, filed BAS-0008 (session id not available): web search for robots
   kicked by customers in Japan, security-robot attacks in the US, and
   Character.AI users abusing characters.
