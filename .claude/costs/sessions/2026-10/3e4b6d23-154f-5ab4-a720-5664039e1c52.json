@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 154,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 202630,
+    "cacheReadTokens": 14825060,
+    "outputTokens": 34170,
+    "thinkingTokens": 8504,
+    "responses": 77,
+    "costUsd": 5.270068
+  },
+  "estimate": {
+    "at": "2026-10-17T08:20:10.113Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "applying an existing helper at two schema sites and land-prepping a large branch with a base conflict is routine typed refactoring"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "briefing a fix to the review-collection skill in the upstream infra repo needs judgement of where the predicate lives"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "3e4b6d23-154f-5ab4-a720-5664039e1c52",
+  "branch": "claude/no-pick-omit-ikbd3v",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge claude/no-pick-omit-ikbd3v",
+  "prs": [
+    158
+  ],
+  "url": "https://claude.ai/code/session_01PMF48i45xJesUnndQSw4Lv",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-17T08:17:17.693Z",
+  "lastResponseAt": "2026-10-17T08:46:55.011Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 154,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 202630,
+    "cacheReadTokens": 14825060,
+    "outputTokens": 34170,
+    "thinkingTokens": 8504,
+    "responses": 77,
+    "costUsd": 5.270068
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 154,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 202630,
+      "cacheReadTokens": 14825060,
+      "outputTokens": 34170,
+      "thinkingTokens": 8504,
+      "responses": 77,
+      "costUsd": 5.270068
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/shared/content/basilisk-frontmatter.ts",
+    "endedAt": "2026-10-17T08:18:16.469Z",
+    "contextTokens": 151058,
+    "spend": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 101318,
+      "cacheReadTokens": 1065158,
+      "outputTokens": 3968,
+      "thinkingTokens": 1545,
+      "responses": 10,
+      "costUsd": 1.1030156
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
