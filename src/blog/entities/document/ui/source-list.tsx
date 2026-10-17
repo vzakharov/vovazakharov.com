@@ -3,7 +3,8 @@ import {
   mentionsPrintRasterDomain,
   PRINT_RASTER_CLASS,
 } from '@/kernel/shared/lib/print-raster';
-import { TextLink } from '@/kernel/shared/ui';
+
+import { TextLink } from '@/shell/shared/ui';
 
 import classes from './source-list.module.scss';
 

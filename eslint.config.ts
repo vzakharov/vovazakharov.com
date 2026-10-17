@@ -142,7 +142,7 @@ const eslintConfig = defineConfig([
   // whose site-root `href` names a file to save rather than a page, so it wants
   // neither `next/link` nor a printed half.
   {
-    files: ['src/kernel/shared/ui/{text,file}-link.tsx'],
+    files: ['src/shell/shared/ui/{text,file}-link.tsx'],
     rules: {
       '@typescript-eslint/no-restricted-imports': [
         'error',

@@ -6,7 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent, useState } from 'react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
-import { NameLink } from '@/kernel/shared/ui';
+
+import { NameLink } from '@/shell/shared/ui';
 
 import { formatDuration } from '../lib/duration';
 import { useStoredSetting } from '../lib/use-stored-setting';

@@ -4,7 +4,8 @@ import Markdown from 'react-markdown';
 import { MESSAGE_MARKDOWN } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
-import { Card, TextLink } from '@/kernel/shared/ui';
+
+import { Card, TextLink } from '@/shell/shared/ui';
 
 import type { CvPageCopy } from '../lib/cv-messages';
 import { leadsWithProof, OFFER_BLOCKS } from '../lib/cv-offer';

@@ -1,5 +1,6 @@
 import { routing } from '@/kernel/shared/i18n';
-import { type Chip, ChipNav } from '@/kernel/shared/ui';
+
+import { type Chip, ChipNav } from '@/shell/shared/ui';
 
 import { cvPath } from '../lib/cv-urls';
 import type { CvEdition } from '../lib/cv-variants';

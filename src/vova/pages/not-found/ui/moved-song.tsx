@@ -12,7 +12,8 @@ import {
   type Messages,
   type WithOptionalLocale,
 } from '@/kernel/shared/i18n';
-import { TextLink } from '@/kernel/shared/ui';
+
+import { TextLink } from '@/shell/shared/ui';
 
 type MovedSongProps = {
   /** The music section's root, where a song once sat directly. */

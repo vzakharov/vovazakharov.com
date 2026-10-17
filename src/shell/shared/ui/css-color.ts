@@ -6,7 +6,7 @@
  * in.
  *
  * Every palette declares all of them — light and dark in
- * `src/kernel/app/styles/globals.scss`, print in `src/kernel/app/styles/print.scss` — so
+ * `src/shell/app/styles/globals.scss`, print in `src/shell/app/styles/print.scss` — so
  * call sites never branch on the scheme.
  */
 export const CSS_COLORS = [

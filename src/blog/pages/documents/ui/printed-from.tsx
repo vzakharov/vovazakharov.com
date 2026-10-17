@@ -4,7 +4,8 @@ import { printedUrl, SITE_CONFIG } from '@/kernel/shared/config';
 import { BUILD_YEAR } from '@/kernel/shared/config/index.server-only';
 import type { Routed } from '@/kernel/shared/content';
 import { pick } from '@/kernel/shared/lib/collections';
-import { TextLink } from '@/kernel/shared/ui';
+
+import { TextLink } from '@/shell/shared/ui';
 
 import classes from './documents.module.scss';
 

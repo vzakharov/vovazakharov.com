@@ -5,7 +5,8 @@ import { printedUrl, SITE_CONFIG } from '@/kernel/shared/config';
 import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { DocumentFile } from '@/kernel/shared/typings';
-import { Card, FileLink, TextLink } from '@/kernel/shared/ui';
+
+import { Card, FileLink, TextLink } from '@/shell/shared/ui';
 
 import type { CvPageCopy } from '../lib/cv-messages';
 import { leadsWithProof, offerHeadline } from '../lib/cv-offer';

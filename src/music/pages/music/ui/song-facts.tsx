@@ -2,7 +2,8 @@ import type { ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/kernel/shared/content';
 import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
-import { NameLink } from '@/kernel/shared/ui';
+
+import { NameLink } from '@/shell/shared/ui';
 
 import type { MusicAlbum } from '@/music/shared/catalogue';
 

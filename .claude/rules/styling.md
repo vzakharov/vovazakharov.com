@@ -1,10 +1,10 @@
 ---
 description: How styling is layered here — where a rule has to live to win, and which Mantine props are unreachable from a stylesheet
 paths:
-  - src/kernel/app/styles/**
-  - src/kernel/app/ui/theme-provider.tsx
+  - src/shell/app/styles/**
+  - src/shell/app/ui/theme-provider.tsx
   - styles/**
-  - src/kernel/shared/ui/css-color.ts
+  - src/shell/shared/ui/css-color.ts
   - '**/*.module.scss'
 ---
 
@@ -52,9 +52,9 @@ attributes (`underline`), never for sizes or colours.
 ## Colours
 
 Never write a colour literal in a component. The tokens are declared in
-`src/kernel/app/styles/globals.scss` as `--color-*` and reached from TSX through
+`src/shell/app/styles/globals.scss` as `--color-*` and reached from TSX through
 `cssColor()`. Which tokens exist is settled by the `CSS_COLORS` array in
-`src/kernel/shared/ui/css-color.ts` — it types `cssColor()` and generates the
+`src/shell/shared/ui/css-color.ts` — it types `cssColor()` and generates the
 mixin that declares them, so adding one is a single edit there. They are
 colour-scheme aware, so nothing branches on the scheme itself.
 
@@ -67,7 +67,7 @@ release that no fixed token can carry, so its lightness and chroma are literals
 beside it.
 
 Mantine's own variables are bound to those tokens by the `cssVariablesResolver`
-in `src/kernel/app/ui/theme-provider.tsx`, not by a `:root` block. Mantine
+in `src/shell/app/ui/theme-provider.tsx`, not by a `:root` block. Mantine
 renders its variable block as a `<style data-mantine-styles>` at the top of
 `<body>` — after every stylesheet in `<head>`, on the same `:root` selector — so
 a `--mantine-*` override written in a stylesheet loses on document order at
@@ -76,7 +76,7 @@ declares those names.
 
 ## Print
 
-`src/kernel/app/styles/print.scss` carries page-level rules: `@page`, the forced
+`src/shell/app/styles/print.scss` carries page-level rules: `@page`, the forced
 light scheme, and the element defaults (`h1`–`h4`, `p`, `ul`, `li`). Everything
 a single component owns goes in that component's `.module.scss`, in an
 `@media print` block beside the screen rule it overrides — a class outranks the
@@ -99,7 +99,7 @@ something is invisible in exactly one scheme.
 
 ## Rendered markdown
 
-`src/kernel/app/styles/prose.scss` owns the whole rhythm of the content
+`src/shell/app/styles/prose.scss` owns the whole rhythm of the content
 pipeline's HTML — sizes, leading, vertical spacing, rules and the pipeline's own
 emissions (Shiki token colours, the Mermaid light/dark pair, scrollable tables,
 heading anchors) — scoped under `.prose-content`, which sits on the element
@@ -141,10 +141,10 @@ Both of the shared scales are written once in TypeScript, and their Sass halves
 are **generated** by `pnpm styles:codegen` — TypeScript is the source because it
 is the side a type can constrain, and Sass cannot import it:
 
-- **`src/kernel/app/styles/breakpoints.ts`** generates
+- **`src/shell/app/styles/breakpoints.ts`** generates
   `styles/_breakpoints.scss`: a media-query condition cannot read a custom
   property, so the numbers have to be literals.
-- **`src/kernel/shared/ui/css-color.ts`** generates `styles/_tokens.scss`: Sass
+- **`src/shell/shared/ui/css-color.ts`** generates `styles/_tokens.scss`: Sass
   is what declares the `--color-*` properties; TypeScript only types the names
   `cssColor()` reads.
 

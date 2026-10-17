@@ -1,7 +1,8 @@
 import { Box, Text } from '@mantine/core';
 
 import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
-import { Section } from '@/kernel/shared/ui';
+
+import { Section } from '@/shell/shared/ui';
 
 import { SizeLine } from './fact-line';
 import { LaunchButtons } from './launch-buttons';

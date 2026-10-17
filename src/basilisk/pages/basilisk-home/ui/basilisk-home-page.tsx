@@ -11,8 +11,8 @@ import {
   renderPrimaryDocuments,
 } from '@/kernel/shared/content';
 import { pick } from '@/kernel/shared/lib/collections';
-import { MemoFields, PageShell } from '@/kernel/shared/ui';
 
+import { MemoFields, PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { CASES } from '@/basilisk/shared/content';

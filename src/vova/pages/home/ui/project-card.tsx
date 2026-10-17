@@ -1,7 +1,8 @@
 import { Group, Text, Title } from '@mantine/core';
 
 import type { Summarized } from '@/kernel/shared/typings';
-import { Card, CardLink, TextLink } from '@/kernel/shared/ui';
+
+import { Card, CardLink, TextLink } from '@/shell/shared/ui';
 
 import classes from './project-card.module.scss';
 import { TechLine } from './tech-line';

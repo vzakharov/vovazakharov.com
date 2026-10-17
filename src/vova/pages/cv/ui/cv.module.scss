@@ -3,7 +3,7 @@
 // The CV is the only page that gets printed, so its screen values and their
 // print counterparts are declared together here rather than split between a
 // style prop and a global sheet — an inline style prop is unreachable from
-// `src/kernel/app/styles/print.scss`, and a class here outranks that sheet's element
+// `src/shell/app/styles/print.scss`, and a class here outranks that sheet's element
 // rules. Page-level print concerns (`@page`, the forced light scheme, the
 // element defaults these classes are exceptions to) stay in that sheet.
 

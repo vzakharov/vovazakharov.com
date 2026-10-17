@@ -8,8 +8,8 @@ import {
   renderPrimaryDocuments,
 } from '@/kernel/shared/content';
 import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
-import { PageShell } from '@/kernel/shared/ui';
 
+import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { DocumentCards } from '@/blog/entities/document';

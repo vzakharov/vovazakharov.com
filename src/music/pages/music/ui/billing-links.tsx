@@ -1,5 +1,6 @@
 import { pick } from '@/kernel/shared/lib/collections';
-import { NameLink } from '@/kernel/shared/ui';
+
+import { NameLink } from '@/shell/shared/ui';
 
 import type { Billing } from '../lib/player-state';
 import { Spelling } from './spelling';

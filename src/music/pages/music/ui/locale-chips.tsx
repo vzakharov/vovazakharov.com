@@ -5,7 +5,8 @@ import {
   type WithLocale,
 } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
-import { type Chip, ChipNav } from '@/kernel/shared/ui';
+
+import { type Chip, ChipNav } from '@/shell/shared/ui';
 
 import { ScriptChip } from './script-chip';
 

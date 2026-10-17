@@ -5,7 +5,8 @@ import { useEffect, useId, useRef, useState } from 'react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { LabeledBlock } from '@/kernel/shared/typings';
-import { hoverDim } from '@/kernel/shared/ui';
+
+import { hoverDim } from '@/shell/shared/ui';
 
 import classes from './read-more.module.scss';
 

@@ -9,7 +9,7 @@ import type { Named } from '@/kernel/shared/typings';
  * square and its Open Graph card reads the same bytes. `priority` because the
  * mark is above the fold wherever it renders.
  *
- * Takes the site rather than reading it: `@/kernel/shared/ui` is the barrel client
+ * Takes the site rather than reading it: `@/shell/shared/ui` is the barrel client
  * components import, and a component in it that read the resolved site would be
  * bound to whichever one this process is.
  */

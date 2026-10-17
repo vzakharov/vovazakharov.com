@@ -8,7 +8,8 @@ import {
   type WithOptionalLocale,
 } from '@/kernel/shared/i18n';
 import type { WithOptionalChildren } from '@/kernel/shared/typings';
-import { cssColor, TextLink } from '@/kernel/shared/ui';
+
+import { cssColor, TextLink } from '@/shell/shared/ui';
 
 type SiteFooterProps = WithOptionalChildren &
   WithOptionalLocale & {

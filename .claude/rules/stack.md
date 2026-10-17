@@ -99,7 +99,7 @@ Nineteen things about that list are deliberate:
   `export`. It reads source and `package.json` only, which is why it overlaps
   the others safely.
 - **`pnpm check:mantine-styles` is what makes the per-component Mantine imports
-  safe to keep.** `src/kernel/app/ui/theme-provider.tsx` names Mantine's three
+  safe to keep.** `src/shell/app/ui/theme-provider.tsx` names Mantine's three
   core stylesheets and one per component in use rather than the aggregate
   `styles.layer.css`, which is worth ~25 kB gzipped and costs a list that has to
   track the components. Omitting a sheet is silent — the component compiles,
@@ -136,13 +136,13 @@ Nineteen things about that list are deliberate:
   props, Sass literals for media queries, which cannot read a custom property)
   and the colour tokens (a TypeScript union for `cssColor()`, a Sass mixin for
   the declarations). `styles/_breakpoints.scss` and `styles/_tokens.scss` are
-  generated from `src/kernel/app/styles/breakpoints.ts` and
-  `src/kernel/shared/ui/css-color.ts`, so the Sass halves are derived rather
-  than remembered. There is deliberately no check-only mode: vet runs the
-  generator, and `vet.sh` fails when the tree changed under it — so drift is
-  fixed and reported in one pass, `git diff` is the report, and a re-run is
-  green. A partial it leaves untouched is written to not at all, which is what
-  keeps the write off the fan-out's files.
+  generated from `src/shell/app/styles/breakpoints.ts` and
+  `src/shell/shared/ui/css-color.ts`, so the Sass halves are derived rather than
+  remembered. There is deliberately no check-only mode: vet runs the generator,
+  and `vet.sh` fails when the tree changed under it — so drift is fixed and
+  reported in one pass, `git diff` is the report, and a re-run is green. A
+  partial it leaves untouched is written to not at all, which is what keeps the
+  write off the fan-out's files.
 - **The Open Graph check hashes files and nothing else**, so it needs no browser
   and overlaps the rest safely: `content:og:<site> --check` compares each social
   card's source — a chart's authored SVG, the SVG a site's mark is drawn as, or

@@ -91,20 +91,20 @@ const MANIFEST_NAME = 'pdf-renders.json';
  * site, and that costs one run each.
  */
 const PRINT_SOURCES = [
-  'src/kernel/app/styles/print.scss',
-  'src/kernel/app/styles/theme.ts',
-  'src/kernel/app/styles/theme.module.scss',
+  'src/shell/app/styles/print.scss',
+  'src/shell/app/styles/theme.ts',
+  'src/shell/app/styles/theme.module.scss',
   // Names Mantine's sheets and their order, which decide what a rule on the
   // page resolves to.
-  'src/kernel/app/ui/theme-provider.tsx',
+  'src/shell/app/ui/theme-provider.tsx',
   'src/kernel/shared/config',
   'src/kernel/shared/lib',
-  'src/kernel/shared/ui',
+  'src/shell/shared/ui',
 ];
 
 /** What shapes a document's printed page on top of that: its prose and its pipeline. */
 const DOCUMENT_SOURCES = [
-  'src/kernel/app/styles/prose.scss',
+  'src/shell/app/styles/prose.scss',
   'src/basilisk/entities/case',
   'src/blog/entities/document',
   'src/blog/pages/documents/ui',

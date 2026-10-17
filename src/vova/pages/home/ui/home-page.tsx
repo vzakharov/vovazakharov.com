@@ -2,8 +2,8 @@ import { Box, Stack, Text, Title } from '@mantine/core';
 
 import { PAGE_ROUTES, SITE_CONFIG } from '@/kernel/shared/config';
 import { MUSIC_ROUTE } from '@/kernel/shared/content';
-import { PageShell, SiteAvatar, TextLink } from '@/kernel/shared/ui';
 
+import { PageShell, SiteAvatar, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { ContactSection } from './contact-section';

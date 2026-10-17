@@ -6,8 +6,8 @@ import {
   constructMetadata,
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
-import { PageShell } from '@/kernel/shared/ui';
 
+import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { hookRuns, scriptSample } from '@/music/shared/catalogue';

@@ -1,6 +1,6 @@
 import { Group, Title } from '@mantine/core';
 
-import { NameLink, SUBHEADING_GAP } from '@/kernel/shared/ui';
+import { NameLink, SUBHEADING_GAP } from '@/shell/shared/ui';
 
 import type { IndexPageProps } from '../lib/music-route-params';
 import { CATALOGUE_TABS, tabLabels, tabPath } from '../lib/music-urls';

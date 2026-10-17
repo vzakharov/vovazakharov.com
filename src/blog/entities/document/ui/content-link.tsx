@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import { TextLink } from '@/kernel/shared/ui';
+import { TextLink } from '@/shell/shared/ui';
 
 /**
  * Every `<a>` a document holds, linked once per medium as every other page's

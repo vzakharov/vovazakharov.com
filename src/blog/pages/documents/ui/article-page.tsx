@@ -18,8 +18,8 @@ import {
 import { pick } from '@/kernel/shared/lib/collections';
 import { constructArticleMetadata } from '@/kernel/shared/seo/index.server-only';
 import type { WithParams } from '@/kernel/shared/typings';
-import { hoverDim, TextLink } from '@/kernel/shared/ui';
 
+import { hoverDim, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import type { ArticleSlots } from '@/blog/shared/article-slots';

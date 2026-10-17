@@ -8,7 +8,8 @@ import {
   type WithCollectionId,
 } from '@/kernel/shared/content';
 import { cx } from '@/kernel/shared/lib/class-names';
-import { Card, NameLink, TextLink } from '@/kernel/shared/ui';
+
+import { Card, NameLink, TextLink } from '@/shell/shared/ui';
 
 import classes from './document-cards.module.scss';
 import { DocumentMeta } from './document-meta';

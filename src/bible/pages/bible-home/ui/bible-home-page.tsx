@@ -7,8 +7,8 @@ import {
   findFeed,
   renderPrimaryDocuments,
 } from '@/kernel/shared/content';
-import { PageShell, Section } from '@/kernel/shared/ui';
 
+import { PageShell, Section } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { DocumentCards } from '@/blog/entities/document';

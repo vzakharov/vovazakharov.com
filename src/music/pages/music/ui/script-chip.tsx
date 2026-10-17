@@ -5,7 +5,8 @@ import { UnstyledButton } from '@mantine/core';
 import { cx } from '@/kernel/shared/lib/class-names';
 import { useScriptPreference } from '@/kernel/shared/lib/use-script-preference';
 import type { Labeled } from '@/kernel/shared/typings';
-import { CURRENT_CHIP_CLASS } from '@/kernel/shared/ui';
+
+import { CURRENT_CHIP_CLASS } from '@/shell/shared/ui';
 
 import classes from './music.module.scss';
 import { Spelling } from './spelling';

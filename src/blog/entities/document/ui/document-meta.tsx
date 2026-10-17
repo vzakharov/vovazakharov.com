@@ -10,7 +10,8 @@ import {
 } from '@/kernel/shared/content';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/kernel/shared/typings';
-import { NameLink } from '@/kernel/shared/ui';
+
+import { NameLink } from '@/shell/shared/ui';
 
 import classes from './document-meta.module.scss';
 

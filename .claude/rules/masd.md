@@ -64,9 +64,9 @@ so: a `game` between `kernel` and `mushrooms` waits for a second game.
 Lowest (most generic) first, each optional per app:
 
 - **`shared/`** — segments carrying no page composition. `kernel` holds the
-  repo-wide ones (`config`, `content`, `i18n`, `seo`, `typings`, `ui`, `lib/*`);
-  an app adds its own (`music/shared/catalogue`, `basilisk/shared/content`,
-  `blog/shared/article-slots`).
+  repo-wide ones (`config`, `content`, `i18n`, `seo`, `typings`, `lib/*`); an
+  app adds its own (`shell/shared/ui`, `music/shared/catalogue`,
+  `basilisk/shared/content`, `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
   cards, its body and its sources), `basilisk/entities/case` (its brief).
 - **`features/`** — user-facing capabilities: `shell/features/switch-theme`.
@@ -201,10 +201,11 @@ forward — which is the whole of what the extra two lines buy, and the router
 still decides nothing but which slice with which argument.
 
 **Every app layer lives under `src/`**, not beside the routers, which several
-sites would have to share. kernel's holds the base root layout (fonts, globals,
-Mantine provider, `ColorSchemeScript`), the stylesheets, the sitemap and feed
-factories; shell's root layout is kernel's plus `ThemeCorner`; vova's holds the
-`global-not-found` page. A site with two root layouts splits its router into
+sites would have to share. kernel's holds the base root layout (`<html>`,
+metadata, analytics) and the sitemap and feed factories; shell's root layout
+wraps kernel's with what every site but the game draws on (fonts, Mantine
+provider and `ColorSchemeScript`, the stylesheets, `ThemeCorner`); vova's holds
+the `global-not-found` page. A site with two root layouts splits its router into
 route groups — vovazakharov.com's `(shell)` for every page but the game,
 `(game)/mushrooms` on kernel's layout, with no theme toggle.
 
@@ -214,7 +215,7 @@ UI wherever it is filed, so the rule has no answer here.
 
 Segment naming keeps it to that one. `provider(s)`, `context` and `hook(s)` are
 on the plugin's `segments-by-purpose` list, so the theme provider is a file in
-`src/kernel/app/ui/` rather than a `providers/` segment; `styles`, `config`,
+`src/shell/app/ui/` rather than a `providers/` segment; `styles`, `config`,
 `api` and `tests` pass as segment names if a layer ever needs them.
 
 ## Traps

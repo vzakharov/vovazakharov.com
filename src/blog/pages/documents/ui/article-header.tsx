@@ -10,7 +10,8 @@ import {
   VARIANTS,
   type WithContentDocument,
 } from '@/kernel/shared/content';
-import { type Chip, ChipNav, FileLink } from '@/kernel/shared/ui';
+
+import { type Chip, ChipNav, FileLink } from '@/shell/shared/ui';
 
 import { DocumentMeta } from '@/blog/entities/document';
 

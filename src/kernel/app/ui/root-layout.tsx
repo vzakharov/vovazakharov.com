@@ -1,30 +1,12 @@
-import '../styles/globals.scss';
-import '../styles/print.scss';
-
-import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import type { Metadata } from 'next';
-import { JetBrains_Mono, Merriweather } from 'next/font/google';
+import type { ComponentProps, ReactNode } from 'react';
 
 import {
   ANALYTICS_SCRIPT_URL,
   SITE_CONFIG,
   withoutScheme,
 } from '@/kernel/shared/config';
-import { SCRIPT_PREFERENCE_SCRIPT } from '@/kernel/shared/lib/script-preference';
 import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
-
-import { ThemeProvider } from './theme-provider';
-
-const merriweather = Merriweather({
-  weight: ['300', '400', '700'],
-  variable: '--font-merriweather',
-  subsets: ['latin'],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: '--font-mono',
-  subsets: ['latin'],
-});
 
 /**
  * What every route without metadata of its own — `/` — publishes. Reaches Next
@@ -39,26 +21,23 @@ export const rootMetadata: Metadata = {
   ...constructMetadata({ title: SITE_CONFIG.name }),
 };
 
+/**
+ * The document every site renders, the game's bare; a layout extending it adds
+ * to `<html>` and `<head>` through `htmlProps` and `head`.
+ */
 export function RootLayout({
   children,
+  htmlProps,
+  head,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
+  htmlProps?: Omit<ComponentProps<'html'>, 'lang' | 'children'>;
+  head?: ReactNode;
 }>) {
-  // The font variables have to be on <html>: a custom property resolves in the
-  // scope it is declared in, and Mantine declares `--mantine-font-family` —
-  // which reads them — on `:root`.
   return (
-    <html
-      lang="en"
-      className={`${merriweather.variable} ${jetbrainsMono.variable}`}
-      {...mantineHtmlProps}
-    >
+    <html lang="en" {...htmlProps}>
       <head>
-        <ColorSchemeScript defaultColorScheme="auto" />
-        <script
-          // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml -- the markup is `script-preference.ts`'s own function source and constants, never reader input; a `<script>` child would reach the page HTML-escaped
-          dangerouslySetInnerHTML={{ __html: SCRIPT_PREFERENCE_SCRIPT }}
-        />
+        {head}
         {/* `data-domains` keeps a dev server or a preview from counting as the site. */}
         <script
           defer
@@ -67,9 +46,7 @@ export function RootLayout({
           data-domains={withoutScheme(SITE_CONFIG.url)}
         />
       </head>
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

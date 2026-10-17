@@ -4,7 +4,8 @@ import Markdown from 'react-markdown';
 import { MESSAGE_MARKDOWN } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { LabeledLink } from '@/kernel/shared/typings';
-import { Card, TextLink } from '@/kernel/shared/ui';
+
+import { Card, TextLink } from '@/shell/shared/ui';
 
 import type { WithCaseStudy } from '../lib/cv-messages';
 import type { OfferHeadline } from '../lib/cv-offer';

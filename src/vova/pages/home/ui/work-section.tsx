@@ -12,7 +12,8 @@ import Image from 'next/image';
 import { TECH_STACKS } from '@/kernel/shared/config';
 import { FEATURED_CASE_STUDY_ROUTE } from '@/kernel/shared/content';
 import type { TitledBlock } from '@/kernel/shared/typings';
-import { Card, Section, Subheading, TextLink } from '@/kernel/shared/ui';
+
+import { Card, Section, Subheading, TextLink } from '@/shell/shared/ui';
 
 import { ProjectCard } from './project-card';
 import { ReadCvButton } from './read-cv-button';

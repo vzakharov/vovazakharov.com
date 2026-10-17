@@ -9,8 +9,8 @@ import {
   constructMetadata,
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
-import { FileLink, hoverDim, PageShell, TextLink } from '@/kernel/shared/ui';
 
+import { FileLink, hoverDim, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {

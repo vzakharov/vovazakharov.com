@@ -5,7 +5,8 @@ import Markdown, { type Components } from 'react-markdown';
 import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithText } from '@/kernel/shared/typings';
-import { Subheading, TextLink } from '@/kernel/shared/ui';
+
+import { Subheading, TextLink } from '@/shell/shared/ui';
 
 import type { SungLanguage } from '@/music/shared/catalogue';
 
