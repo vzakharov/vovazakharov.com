@@ -16,7 +16,8 @@ pnpm typecheck                  # tsc --noEmit                  ┐
 pnpm exec eslint .              # not `pnpm lint`               │
 pnpm format:check               # prettier --check ., md wrap too │
 pnpm lint:css                   # stylelint, check-only         │
-pnpm lint:fsd                   # steiger src                   │
+pnpm lint:fsd                   # steiger per app root          │
+pnpm check:masd                 # the app graph, slices across apps │
 pnpm type-overlap               # scripts/type-overlap-check.ts │
 pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
@@ -98,8 +99,8 @@ Nineteen things about that list are deliberate:
   `export`. It reads source and `package.json` only, which is why it overlaps
   the others safely.
 - **`pnpm check:mantine-styles` is what makes the per-component Mantine imports
-  safe to keep.** `src/app/ui/theme-provider.tsx` names Mantine's three core
-  stylesheets and one per component in use rather than the aggregate
+  safe to keep.** `src/shell/app/ui/theme-provider.tsx` names Mantine's three
+  core stylesheets and one per component in use rather than the aggregate
   `styles.layer.css`, which is worth ~25 kB gzipped and costs a list that has to
   track the components. Omitting a sheet is silent — the component compiles,
   builds and renders unstyled — so the check compares the `m_*` classes in each
@@ -135,8 +136,8 @@ Nineteen things about that list are deliberate:
   props, Sass literals for media queries, which cannot read a custom property)
   and the colour tokens (a TypeScript union for `cssColor()`, a Sass mixin for
   the declarations). `styles/_breakpoints.scss` and `styles/_tokens.scss` are
-  generated from `src/app/styles/breakpoints.ts` and
-  `src/shared/ui/css-color.ts`, so the Sass halves are derived rather than
+  generated from `src/shell/app/styles/breakpoints.ts` and
+  `src/shell/shared/ui/css-color.ts`, so the Sass halves are derived rather than
   remembered. There is deliberately no check-only mode: vet runs the generator,
   and `vet.sh` fails when the tree changed under it — so drift is fixed and
   reported in one pass, `git diff` is the report, and a re-run is green. A

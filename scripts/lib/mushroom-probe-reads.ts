@@ -1,4 +1,4 @@
-import { PUFF_REACH } from '../../src/pages/mushrooms/ui/scene/cloud-puffs.ts';
+import { PUFF_REACH } from '../../src/mushrooms/pages/mushrooms/ui/scene/cloud-puffs.ts';
 
 /**
  * The second half of `PROBE`'s page-side source: the members of

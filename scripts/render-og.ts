@@ -31,20 +31,22 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PIXELS } from '@/shared/config/index.node-safe';
-import { siteConfig } from '@/shared/config/site-config';
+import { PIXELS } from '@/kernel/shared/config/index.node-safe';
+import { siteConfig } from '@/kernel/shared/config/site-config';
 import {
   collectionsForSite,
   documentRoute,
   PUBLIC_DIR,
-} from '@/shared/content/collections';
-import { contentHash } from '@/shared/content/content-hash';
-import { loadMessages } from '@/shared/i18n';
-import { musicProjectNames } from '@/shared/music-catalogue';
-import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES, routeCardPath } from '@/shared/seo';
+} from '@/kernel/shared/content/collections';
+import { contentHash } from '@/kernel/shared/content/content-hash';
+import { loadMessages } from '@/kernel/shared/i18n';
+import {
+  OG_CARD_SUFFIX,
+  OG_CARD_SUFFIXES,
+  routeCardPath,
+} from '@/kernel/shared/seo';
 
-import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
-import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
+import { musicProjectNames } from '@/music/shared/catalogue';
 import {
   artistCollage,
   artistCollageCovers,
@@ -52,7 +54,10 @@ import {
   musicCollageCovers,
   PODCAST_COVER,
   RADIO_CARD,
-} from '@/pages/music/lib/pictures';
+} from '@/music/pages/music/lib/pictures';
+
+import { cvCardPath, cvPath } from '@/vova/pages/cv/lib/cv-urls';
+import { CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 
 import { basiliskCard, caseCard } from './lib/basilisk-card.ts';
 import { findScreenshotChromium } from './lib/chromium.ts';

@@ -16,16 +16,16 @@
 
 import { z } from 'zod';
 
-import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
-import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
-import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
-import { LINGER_MS } from '../../src/pages/mushrooms/model/shelter.ts';
+import { INSECT_KINDS } from '../../src/mushrooms/pages/mushrooms/model/insect-genes.ts';
+import { MUSHROOM_SPECIES } from '../../src/mushrooms/pages/mushrooms/model/mushroom-genes.ts';
+import { TURN_CRUISE } from '../../src/mushrooms/pages/mushrooms/model/pan.ts';
+import { LINGER_MS } from '../../src/mushrooms/pages/mushrooms/model/shelter.ts';
 import {
   RAIN_MS,
   rainbow,
   wetness,
-} from '../../src/pages/mushrooms/model/weather.ts';
-import { closingStep } from '../../src/pages/mushrooms/ui/scene/flower-closing.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/weather.ts';
+import { closingStep } from '../../src/mushrooms/pages/mushrooms/ui/scene/flower-closing.ts';
 import { budgetReport } from './frame-budget.ts';
 import { type Controls, Shower, Sun } from './mushroom-probe-answers.ts';
 import {

@@ -1,1 +1,1 @@
-export { BibleHomePage as default } from '@/pages/bible-home';
+export { BibleHomePage as default } from '@/bible/pages/bible-home';

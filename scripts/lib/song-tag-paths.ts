@@ -5,13 +5,13 @@
 
 import fs from 'node:fs';
 
-import { contentHash } from '@/shared/content/content-hash';
-import { pick } from '@/shared/lib/collections';
-import type { WithPath } from '@/shared/typings';
+import { contentHash } from '@/kernel/shared/content/content-hash';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { WithPath } from '@/kernel/shared/typings';
 
-import { servedPath, type WithRepo } from '@/pages/music/lib/master-url';
-import { extensionOf } from '@/pages/music/lib/song-files';
-import { TAG_MANIFEST } from '@/pages/music/lib/tag-manifest';
+import { servedPath, type WithRepo } from '@/music/pages/music/lib/master-url';
+import { extensionOf } from '@/music/pages/music/lib/song-files';
+import { TAG_MANIFEST } from '@/music/pages/music/lib/tag-manifest';
 
 import type { MasterFile, SongTagJob } from './song-tag-source.ts';
 

@@ -7,7 +7,7 @@
 import { execFileSync } from 'node:child_process';
 import { z } from 'zod';
 
-import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
+import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
 
 export const shaReply = z.object({ sha: z.string() });
 

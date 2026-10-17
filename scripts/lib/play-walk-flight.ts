@@ -10,10 +10,13 @@ import type { z } from 'zod';
 import {
   gaitHeight,
   RISE_EASE,
-} from '../../src/pages/mushrooms/model/eye-height.ts';
-import { SLOP } from '../../src/pages/mushrooms/model/pan.ts';
-import { planeSeen, viewOf } from '../../src/pages/mushrooms/model/pinhole.ts';
-import { crossingOf } from '../../src/pages/mushrooms/model/walk.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/eye-height.ts';
+import { SLOP } from '../../src/mushrooms/pages/mushrooms/model/pan.ts';
+import {
+  planeSeen,
+  viewOf,
+} from '../../src/mushrooms/pages/mushrooms/model/pinhole.ts';
+import { crossingOf } from '../../src/mushrooms/pages/mushrooms/model/walk.ts';
 import {
   type Camera,
   type Controls,

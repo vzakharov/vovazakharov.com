@@ -2,9 +2,9 @@
 description: What a song is beyond any other document — its title, frontmatter, slug, optional hook, body markers, romanization and lyric notes — and how a draft of material whose author is in the room is written
 paths:
   - apps/*/public/music/**
-  - apps/*/app/music/**
-  - src/pages/music/**
-  - src/shared/music-catalogue/**
+  - apps/*/app/**/music/**
+  - src/music/pages/music/**
+  - src/music/shared/catalogue/**
   - docs/music/**
   - scripts/check-song-titles.ts
   - scripts/check-masked-words.ts
@@ -40,7 +40,7 @@ that: a string is the name the song goes by there (`breathe`'s `ru`), and
 locale's language. A locale never carries both, a gloss being of the name it
 keeps. **A title in a script the locale's reader may not read shows in Latin
 letters**, in italics, until the reader switches to the original: Russian by
-rule (`shared/music-catalogue/romanize.ts`), anything else by a hand-written
+rule (`music/shared/catalogue/romanize.ts`), anything else by a hand-written
 `titleLatin` — `Mithqāl`, `Ágios o skopós` — which also overrides the rule for a
 name with an established Latin spelling. A title neither spells fails the build.
 
@@ -61,12 +61,12 @@ after, `explicit`, `segue` where the song runs into its release's next track,
 which a shuffle then never parts it from, `album`, and `credits.lyrics` /
 `credits.music` as lists of people in contribution order, absent meaning the
 author alone — each name in either locale's spelling from
-`shared/music-catalogue/people.ts`, which shows it in the reader's. **Each album
+`music/shared/catalogue/people.ts`, which shows it in the reader's. **Each album
 and artist is a file**, `albums/<slug>.md` and `artists/<slug>.md`, its slug the
 file's name and everything else the catalogue knows of it in its frontmatter —
 `albumFrontmatterSchema` and `artistFrontmatterSchema` say what. An album has a
 cover when `assets/covers/<slug>.jpg` exists. A song's `album` and `project`
-must name one of those files, `shared/music-catalogue/catalogue-names.ts`
+must name one of those files, `music/shared/catalogue/catalogue-names.ts`
 reading them off the directory, so a typo fails the build rather than quietly
 rendering an artist nobody has.
 

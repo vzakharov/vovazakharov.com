@@ -13,17 +13,17 @@
 
 import { z } from 'zod';
 
-import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
-import type { Stamped } from '../../src/pages/mushrooms/model/motion.ts';
+import type { Named } from '../../src/kernel/shared/typings/index.ts';
+import { FURNISHINGS } from '../../src/mushrooms/pages/mushrooms/model/house.ts';
+import type { Stamped } from '../../src/mushrooms/pages/mushrooms/model/motion.ts';
 import {
   RUN_LEAST,
   runAt,
   type RunCourse,
   runDuration,
   type RunOpening,
-} from '../../src/pages/mushrooms/model/mouse-run-clock.ts';
-import { MUSHROOM_SPECIES } from '../../src/pages/mushrooms/model/mushroom-genes.ts';
-import type { Named } from '../../src/shared/typings/index.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/mouse-run-clock.ts';
+import { MUSHROOM_SPECIES } from '../../src/mushrooms/pages/mushrooms/model/mushroom-genes.ts';
 import {
   Box,
   type Controls,

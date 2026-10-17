@@ -1,7 +1,10 @@
-import { articleRoute } from '@/pages/documents';
+import { articleCollection } from '@/kernel/shared/content';
 
-const { Page, generateMetadata, generateStaticParams } =
-  articleRoute('basilisk-faq');
+import { articleRoute } from '@/blog/pages/documents';
+
+const { Page, generateMetadata, generateStaticParams } = articleRoute(
+  articleCollection('basilisk-faq'),
+);
 
 export { generateMetadata, generateStaticParams };
 export default Page;

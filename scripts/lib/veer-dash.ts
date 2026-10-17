@@ -7,10 +7,10 @@
  * tenth of its dash.
  */
 
-import { FLIGHT_HABITS } from '../../src/pages/mushrooms/model/flight-habits.ts';
-import type { InsectKind } from '../../src/pages/mushrooms/model/insect-genes.ts';
-import { PIVOT_SHARE } from '../../src/pages/mushrooms/model/insect-motion.ts';
-import { flightPoint } from '../../src/pages/mushrooms/model/insect-paths.ts';
+import { FLIGHT_HABITS } from '../../src/mushrooms/pages/mushrooms/model/flight-habits.ts';
+import type { InsectKind } from '../../src/mushrooms/pages/mushrooms/model/insect-genes.ts';
+import { PIVOT_SHARE } from '../../src/mushrooms/pages/mushrooms/model/insect-motion.ts';
+import { flightPoint } from '../../src/mushrooms/pages/mushrooms/model/insect-paths.ts';
 import { FPS } from './veer-watch.ts';
 
 /** How finely, in ms, a leg is sampled for its fastest frame. */

@@ -15,7 +15,7 @@ import { visit } from 'unist-util-visit';
 import {
   GENERATED_DIR,
   isDocumentFile,
-} from '../../src/shared/content/collections.ts';
+} from '../../src/kernel/shared/content/collections.ts';
 
 const FRONTMATTER = /^---\n[\S\s]*?\n---\n/;
 

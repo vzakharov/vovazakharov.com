@@ -11,8 +11,8 @@
  * to a person.
  */
 
-import { splitSections } from '../../src/pages/music/index.node-safe.ts';
-import type { Named, WithText } from '../../src/shared/typings/index.ts';
+import type { Named, WithText } from '../../src/kernel/shared/typings/index.ts';
+import { splitSections } from '../../src/music/pages/music/index.node-safe.ts';
 import { frontmatterSpan, type WithStart } from './public-markdown.ts';
 
 const LYRICS = 'lyrics:';
@@ -23,7 +23,7 @@ const REPEAT = /^x(\d+)$/;
 /**
  * `[^label]: …`, a note's definition, which the page lifts out of the verse —
  * so a block of nothing else is no stanza. The syntax is `NOTE_DEFINITION`'s in
- * `src/pages/music/lib/lyric-notes.ts`, a module bare Node cannot import.
+ * `src/music/pages/music/lib/lyric-notes.ts`, a module bare Node cannot import.
  */
 const NOTE_DEFINITION = /^\[\^[^\s\]]+]:/;
 

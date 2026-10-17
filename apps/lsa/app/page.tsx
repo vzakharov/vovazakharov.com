@@ -1,1 +1,1 @@
-export { LsaHomePage as default } from '@/pages/lsa-home';
+export { LsaHomePage as default } from '@/lsa/pages/lsa-home';

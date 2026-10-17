@@ -7,11 +7,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
-import { PUBLIC_DIR } from '@/shared/content/collections';
-import type { Sized, Titled } from '@/shared/typings';
+import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
+import type { Sized, Titled } from '@/kernel/shared/typings';
 
-import { COLLAGE_SIZE } from '@/pages/music/lib/pictures';
+import { COLLAGE_SIZE } from '@/music/pages/music/lib/pictures';
 
 import { escapeHtml, INK, type StagedPage } from './og-render.ts';
 

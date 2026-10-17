@@ -15,7 +15,10 @@
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
 
-import type { RepoBranch, WithBranch } from '@/pages/music/lib/master-url';
+import type {
+  RepoBranch,
+  WithBranch,
+} from '@/music/pages/music/lib/master-url';
 
 import {
   githubApi,

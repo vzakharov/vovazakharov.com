@@ -8,11 +8,11 @@
 
 import { z } from 'zod';
 
-import { wrap } from '../../src/pages/mushrooms/model/geometry.ts';
-import { INSECT_KINDS } from '../../src/pages/mushrooms/model/insect-genes.ts';
-import { LANDING } from '../../src/pages/mushrooms/model/insect-motion.ts';
-import { TURN_CRUISE } from '../../src/pages/mushrooms/model/pan.ts';
-import { SEAT_FADE } from '../../src/pages/mushrooms/ui/scene/insect-frame.ts';
+import { wrap } from '../../src/mushrooms/pages/mushrooms/model/geometry.ts';
+import { INSECT_KINDS } from '../../src/mushrooms/pages/mushrooms/model/insect-genes.ts';
+import { LANDING } from '../../src/mushrooms/pages/mushrooms/model/insect-motion.ts';
+import { TURN_CRUISE } from '../../src/mushrooms/pages/mushrooms/model/pan.ts';
+import { SEAT_FADE } from '../../src/mushrooms/pages/mushrooms/ui/scene/insect-frame.ts';
 
 export const FPS = 60;
 /** The most a frame's heading moves under a held turn, with margin for the turn's own jolt. */

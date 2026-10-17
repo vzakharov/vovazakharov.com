@@ -1,0 +1,36 @@
+import type { DocumentFile, PrintedLink } from '@/kernel/shared/typings';
+
+import { siteConfig, withoutScheme } from './site-config';
+import { resolveSiteId } from './site-env';
+
+/** Which site is being built, for the consumers that branch on it rather than read its config. */
+export const SITE_ID = resolveSiteId();
+
+export const SITE_CONFIG = siteConfig(SITE_ID);
+
+export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
+
+/** A URL left as it is, or a site-root path made absolute. */
+export const absoluteUrl = (url: string) =>
+  url.startsWith('/') ? getAbsoluteUrl(url) : url;
+
+/** One page's own file: the route plus an extension, and the saved name `DocumentFile` describes. */
+export const pageFile = (route: string, extension: string): DocumentFile => ({
+  href: `${route}.${extension}`,
+  download: `${SITE_CONFIG.downloadPrefix}${route.replaceAll('/', '.')}.${extension}`,
+});
+
+/**
+ * A URL as paper carries it. The href and the text differ, so a printed link
+ * can navigate and still read well.
+ */
+export const printedUrl = (url: string): PrintedLink => {
+  const href = absoluteUrl(url);
+
+  return { href, text: withoutScheme(href) };
+};
+
+/** A page on the web outside this site, which opens in a tab of its own. */
+export const isOffSite = (url: string) =>
+  /^https?:/i.test(url) &&
+  new URL(url).origin !== new URL(SITE_CONFIG.url).origin;

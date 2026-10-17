@@ -25,14 +25,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { collectionDir, PUBLIC_DIR } from '@/shared/content/index.node-safe';
+import {
+  collectionDir,
+  PUBLIC_DIR,
+} from '@/kernel/shared/content/index.node-safe';
 
-import { servedPath } from '@/pages/music/lib/master-url';
+import { servedPath } from '@/music/pages/music/lib/master-url';
 import {
   readTagManifest,
   type TagManifest,
   writeTagManifest,
-} from '@/pages/music/lib/tag-manifest';
+} from '@/music/pages/music/lib/tag-manifest';
 
 import {
   cloneRepo,

@@ -7,8 +7,9 @@
 
 import { z } from 'zod';
 
-import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
-import type { Rated, WithUrl } from '@/shared/typings';
+import type { Rated, WithUrl } from '@/kernel/shared/typings';
+
+import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
 
 /** How the explicit-content marker appears in a master's filename. */
 export const EXPLICIT_MARKER = '🅴';

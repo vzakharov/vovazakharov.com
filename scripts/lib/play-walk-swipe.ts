@@ -10,11 +10,11 @@ import { z } from 'zod';
 import {
   GLIDE_OVER,
   GLIDE_TAU,
-} from '../../src/pages/mushrooms/model/glide.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/glide.ts';
 import {
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
-} from '../../src/pages/mushrooms/model/stride.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/stride.ts';
 import { Eye, Point } from './mushroom-probe-answers.ts';
 import type { Expect, Page } from './mushroom-probe-drive.ts';
 import { FPS, OVER, turned } from './play-walk-checks.ts';

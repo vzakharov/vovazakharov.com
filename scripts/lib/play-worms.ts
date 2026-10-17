@@ -11,11 +11,11 @@
 
 import type { z } from 'zod';
 
-import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
+import { FURNISHINGS } from '../../src/mushrooms/pages/mushrooms/model/house.ts';
 import {
   WINDOW_SWING,
   WORM_GIRTH_LEAST,
-} from '../../src/pages/mushrooms/model/worm.ts';
+} from '../../src/mushrooms/pages/mushrooms/model/worm.ts';
 import {
   Box,
   type Controls,

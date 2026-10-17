@@ -1,0 +1,158 @@
+/**
+ * `eslint-plugin-boundaries` over the app graph: an import may reach its own
+ * app or an ancestor, a strictly lower layer, through the target's public API.
+ * Steiger checks one app root at a time, so this is the only checker that sees
+ * an import cross apps. See .claude/rules/masd.md.
+ */
+
+import type { Config } from 'eslint/config';
+import boundariesPlugin from 'eslint-plugin-boundaries';
+
+import { ancestors, loadGraph } from './masd-graph';
+
+// The sliced FSD layers, highest first.
+const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
+
+// A closed list, so any other `index.*.ts` is still reaching into internals.
+const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
+
+const graph = loadGraph();
+const APPS = [...graph.keys()];
+
+// An app and everything it inherits: the apps its files may import from.
+const reach = (app: string): string[] => [app, ...ancestors(graph, app)];
+
+// `shared/lib` holds one sub-library per file instead of a segment-wide barrel,
+// so a file there is its own public API — there is nothing beside it to hide.
+// Entry stays at the top level: `*.ts` does not cross a slash, so anything a
+// sub-library grows a directory for is internals again.
+const sharedLibEntry = (apps: string[]) => ({
+  type: 'shared',
+  captured: { appName: apps, segmentName: 'lib' },
+  fileInternalPath: '*.ts',
+});
+
+const policiesFor = (app: string) => {
+  const apps = reach(app);
+  return [
+    // `app` and `shared` are segmented rather than sliced, so a descendant's
+    // overlays its ancestors' as one unit — a root layout composing the one
+    // it extends, a shared segment building on its ancestor's — and their
+    // files reach each other directly.
+    ...['app', 'shared'].map((layer) => ({
+      from: { element: { type: layer, captured: { appName: app } } },
+      allow: { to: { element: { type: layer, captured: { appName: apps } } } },
+    })),
+    // The app layer sits above every other, so it may enter any.
+    {
+      from: { element: { type: 'app', captured: { appName: app } } },
+      allow: {
+        to: {
+          element: {
+            types: { anyOf: [...SLICED_LAYERS, 'shared'] },
+            captured: { appName: apps },
+            fileInternalPath: PUBLIC_API,
+          },
+        },
+      },
+    },
+    {
+      from: {
+        element: {
+          types: { anyOf: ['app', ...SLICED_LAYERS] },
+          captured: { appName: app },
+        },
+      },
+      allow: { to: { element: sharedLibEntry(apps) } },
+    },
+    // Strictly downward, and only through the target's public API: the same
+    // layer in an ancestor is as sideways as a sibling slice.
+    ...SLICED_LAYERS.map((layer, index) => ({
+      from: { element: { type: layer, captured: { appName: app } } },
+      allow: {
+        to: {
+          element: {
+            types: { anyOf: [...SLICED_LAYERS.slice(index + 1), 'shared'] },
+            captured: { appName: apps },
+            fileInternalPath: PUBLIC_API,
+          },
+        },
+      },
+    })),
+  ];
+};
+
+export const boundariesConfig: Config = {
+  plugins: { boundaries: boundariesPlugin },
+  files: ['src/**/*.{ts,tsx}', 'apps/*/app/**/*.{ts,tsx}'],
+  settings: {
+    'boundaries/elements': [
+      // A site's router, `apps/<site>/app/`, belongs to no app, so it is an
+      // element type of its own: the policies below let it enter any app's
+      // public API, and none lets anything import it.
+      {
+        type: 'router',
+        pattern: ['apps/*/app'],
+        capture: ['siteName'],
+        partialMatch: true,
+      },
+      ...['app', 'shared'].map((layer) => ({
+        type: layer,
+        pattern: [`src/*/${layer}/*`],
+        capture: ['appName', 'segmentName'],
+        partialMatch: true,
+      })),
+      ...SLICED_LAYERS.map((layer) => ({
+        type: layer,
+        pattern: [`src/*/${layer}/*`],
+        capture: ['appName', 'sliceName'],
+        partialMatch: true,
+      })),
+    ],
+  },
+  rules: {
+    'boundaries/dependencies': [
+      'error',
+      {
+        default: 'disallow',
+        policies: [
+          ...APPS.flatMap(policiesFor),
+          // Inside its own slice, a file reaches any sibling directly.
+          ...SLICED_LAYERS.map((layer) => ({
+            from: { element: { type: layer } },
+            allow: {
+              to: {
+                element: {
+                  type: layer,
+                  captured: {
+                    appName: '{{ from.captured.appName }}',
+                    sliceName: '{{ from.captured.sliceName }}',
+                  },
+                },
+              },
+            },
+          })),
+          // A router may mount any app, through its public API.
+          {
+            from: { element: { type: 'router' } },
+            allow: {
+              to: {
+                element: {
+                  types: { anyOf: ['app', ...SLICED_LAYERS, 'shared'] },
+                  fileInternalPath: PUBLIC_API,
+                },
+              },
+            },
+          },
+          {
+            from: { element: { type: 'router' } },
+            allow: { to: { element: sharedLibEntry(APPS) } },
+          },
+        ],
+      },
+    ],
+    'boundaries/no-ignored-dependencies': 'error',
+    'boundaries/no-unknown-dependencies': 'error',
+    'boundaries/no-unknown-files': 'error',
+  },
+};
