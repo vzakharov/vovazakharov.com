@@ -416,5 +416,3 @@ export class MeadowSound
     this.settle();
   };
 }
-
-export { type Hushing } from '@/shared/typings';

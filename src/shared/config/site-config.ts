@@ -60,7 +60,7 @@ export type WithAvatar = {
  * CV header's is deliberately a different, plainer sentence — this one carries
  * the voice.
  */
-export type SiteConfig = Billed &
+type SiteConfig = Billed &
   WithAvatar &
   WithUrl & {
     /**
