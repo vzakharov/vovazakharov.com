@@ -7,15 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-14T21:38:14Z
-- **Updated:** 2026-10-15T20:59:28Z
+- **Updated:** 2026-10-17T08:17:24Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: none
+## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ddc3723). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at b5c40e3). Resolved threads never count; an `(agent)` tail is a reply already given._
+
+- **T01** `src/shared/lib/compose-schemas.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-16T17:12:37Z — "эм, окей, хелпер ты задал, а где все его применения? или она…" → [↓](#t01)
 
 ---
 
@@ -106,10 +108,24 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 _2 resolved threads omitted; re-run with `--include-resolved` to export them._
 
+- **T01** `src/shared/lib/compose-schemas.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-16T17:12:37Z — "эм, окей, хелпер ты задал, а где все его применения? или она…" → [↓](#t01)
+
+<a id="t01"></a>
+
+### `src/shared/lib/compose-schemas.ts`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-16T17:12:37Z
+
+эм, окей, хелпер ты задал, а где все его применения? или она у нас в результате вообще не пригодилась? 🙈 
+
+убирай тогда, зачем нам просто хелпер без применения
+
+---
+
 ## Timeline (status, references, and other events)
 
 - **2026-10-15T20:49:47Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/158#pullrequestreview-5528553602.
 - **2026-10-16T12:38:09Z** @vzakharov cross-referenced this pull request from [#168 feat(vova): HQ switches without a gap, the old file playing on](https://github.com/vzakharov/vovazakharov.com/pull/168).
 - **2026-10-16T12:40:51Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/1aa6da731a19af55bc3e13eec3aaf2ae45810b73.
 - **2026-10-16T12:44:29Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/caa664fd6d45b0be7d4d1d57a089dbafa4ef188f.
-- **** @vzakharov reviewed (PENDING): https://github.com/vzakharov/vovazakharov.com/pull/158#pullrequestreview-5551160917.
+- **2026-10-17T08:17:24Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/158#pullrequestreview-5551160917.
