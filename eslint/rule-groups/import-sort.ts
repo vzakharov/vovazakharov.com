@@ -1,16 +1,27 @@
 import type { Linter } from 'eslint';
 
+import { loadGraph } from '../masd-graph';
 import { withSeverity } from './rule-severity';
+
+// FSD's layers in the order an import may point, lowest first.
+const LAYERS = ['shared', 'entities', 'features', 'widgets', 'pages', 'app'];
+
+// One group per app, in graph order, so a file's imports read as its
+// composition: the most basic ancestor first, its own app last — `masd.json`
+// declares every parent above its child. Within a group the layers keep their
+// order without a blank line between them: simple-import-sort orders an inner
+// array by which of its patterns matched.
+const appGroups = [...loadGraph().keys()].map((app) =>
+  LAYERS.map((layer) => `^@/${app}/${layer}/`),
+);
 
 // simple-import-sort — deterministic, auto-fixable, Prettier-compatible import and
 // export ordering.
 export const importSortRules = {
   ...withSeverity('error', ['simple-import-sort/exports']),
 
-  // Import ordering, bottom-up by dependency direction: side-effects → external →
-  // the FSD layers in the order an import may point (`shared` upward to `app`,
-  // see .claude/rules/masd.md), each layer one group whichever app it is in →
-  // relative.
+  // Import ordering: side-effects → external → one group per app (see
+  // .claude/rules/masd.md) → relative.
   'simple-import-sort/imports': [
     'error',
     {
@@ -19,13 +30,7 @@ export const importSortRules = {
         [String.raw`^\u0000`],
         // External packages; `@/` is the alias, not a scope
         [String.raw`^(?!@/)`],
-        // FSD layers, lowest first, `src/<app>/<layer>/`
-        ['^@/[^/]+/shared/'],
-        ['^@/[^/]+/entities/'],
-        ['^@/[^/]+/features/'],
-        ['^@/[^/]+/widgets/'],
-        ['^@/[^/]+/pages/'],
-        ['^@/[^/]+/app/'],
+        ...appGroups,
         // Relative imports
         [String.raw`^\.`],
       ],
