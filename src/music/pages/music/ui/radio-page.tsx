@@ -7,9 +7,10 @@ import {
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
 import { PageShell } from '@/kernel/shared/ui';
-import { hookRuns, scriptSample } from '@/music/shared/catalogue';
 
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import { hookRuns, scriptSample } from '@/music/shared/catalogue';
 
 import { albumTitle } from '../lib/albums';
 import { spokenLength } from '../lib/duration';

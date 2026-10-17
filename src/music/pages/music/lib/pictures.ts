@@ -3,6 +3,7 @@ import 'server-only';
 import { intrinsicDimensions } from '@/kernel/shared/content';
 import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/kernel/shared/seo';
+
 import type { MusicAlbum, MusicProject } from '@/music/shared/catalogue';
 
 import { albumCover } from './albums';

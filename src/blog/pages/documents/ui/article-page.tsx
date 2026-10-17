@@ -1,7 +1,6 @@
 import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
-import type { ArticleSlots } from '@/blog/shared/article-slots';
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import {
   type ArticleFrontmatter,
@@ -21,9 +20,10 @@ import { constructArticleMetadata } from '@/kernel/shared/seo/index.server-only'
 import type { WithParams } from '@/kernel/shared/typings';
 import { hoverDim, TextLink } from '@/kernel/shared/ui';
 
-import { ProseContent, SourceList } from '@/blog/entities/document';
-
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import type { ArticleSlots } from '@/blog/shared/article-slots';
+import { ProseContent, SourceList } from '@/blog/entities/document';
 
 import { ArticleHeader } from './article-header';
 import classes from './documents.module.scss';

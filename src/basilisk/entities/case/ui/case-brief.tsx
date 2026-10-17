@@ -1,10 +1,11 @@
-import type { CaseFrontmatter } from '@/basilisk/shared/content';
 import {
   documentDateTime,
   formatDocumentDate,
   type WithFrontmatter,
 } from '@/kernel/shared/content';
 import { type MemoField, MemoFields } from '@/kernel/shared/ui';
+
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
 
 import { aggravations, GradeStamp } from './grade-stamp';
 

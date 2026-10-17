@@ -3,9 +3,10 @@ import { Box, Stack } from '@mantine/core';
 import { byLocale, loadMessages } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { NameLink, PageShell } from '@/kernel/shared/ui';
-import { scriptSample } from '@/music/shared/catalogue';
 
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import { scriptSample } from '@/music/shared/catalogue';
 
 import { albumTracks } from '../lib/album-tracks';
 import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import type { CaseFrontmatter } from '@/basilisk/shared/content';
 import {
   documentDateTime,
   formatDocumentDate,
@@ -8,6 +7,7 @@ import {
 } from '@/kernel/shared/content';
 import type { Titled } from '@/kernel/shared/typings';
 
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
 import { aggravations, GradeStamp } from '@/basilisk/entities/case';
 
 import classes from './basilisk-home.module.scss';

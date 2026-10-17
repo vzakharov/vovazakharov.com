@@ -29,7 +29,6 @@ import {
 import type { Titled } from '@/kernel/shared/typings';
 
 import { gradeLabel } from '@/basilisk/entities/case/index.node-safe';
-
 import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
 
 import { type DocketCase, lastFiledCase } from './docket.ts';

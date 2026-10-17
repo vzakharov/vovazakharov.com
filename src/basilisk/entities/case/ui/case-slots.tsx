@@ -1,5 +1,6 @@
-import type { CaseFrontmatter } from '@/basilisk/shared/content';
 import type { ArticleSlots } from '@/blog/shared/article-slots';
+
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
 
 import { CaseBrief } from './case-brief';
 import { NoAiNote } from './no-ai-note';

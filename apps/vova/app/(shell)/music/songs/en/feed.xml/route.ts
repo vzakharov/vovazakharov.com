@@ -1,6 +1,6 @@
-import { SONG_FEED } from '@/music/pages/music';
-
 import { collectionFeed } from '@/kernel/app/lib';
+
+import { SONG_FEED } from '@/music/pages/music';
 
 // `output: 'export'` has no request-time rendering, so the route must declare
 // that it is written once at build time. Next reads this off the route module

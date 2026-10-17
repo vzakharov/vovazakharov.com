@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
-import { CASES } from '@/basilisk/shared/content';
 import { SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
 import {
   articleCollection,
@@ -14,9 +13,10 @@ import {
 import { pick } from '@/kernel/shared/lib/collections';
 import { MemoFields, PageShell } from '@/kernel/shared/ui';
 
-import { assertUniqueCases, byFilingOrder } from '@/basilisk/entities/case';
-
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import { CASES } from '@/basilisk/shared/content';
+import { assertUniqueCases, byFilingOrder } from '@/basilisk/entities/case';
 
 import { MEMO } from '../lib/memo';
 import classes from './basilisk-home.module.scss';

@@ -9,9 +9,9 @@ import {
 } from '@/kernel/shared/content';
 import { PageShell, Section } from '@/kernel/shared/ui';
 
-import { DocumentCards } from '@/blog/entities/document';
-
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import { DocumentCards } from '@/blog/entities/document';
 
 import { SealMark } from './seal-mark';
 

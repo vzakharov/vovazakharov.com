@@ -1,6 +1,7 @@
 import { Stack, Text } from '@mantine/core';
 
 import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+
 import {
   type CreditedName,
   SONG_AUTHOR,

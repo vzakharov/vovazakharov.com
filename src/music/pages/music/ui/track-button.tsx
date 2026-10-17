@@ -5,6 +5,7 @@ import { Pause, Play } from 'lucide-react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
 import { useScriptPreference } from '@/kernel/shared/lib/use-script-preference';
+
 import { spelledText } from '@/music/shared/catalogue/index.node-safe';
 
 import type { PlayerTrack, WithTrack } from '../lib/player-state';

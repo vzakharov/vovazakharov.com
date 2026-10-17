@@ -2,6 +2,7 @@ import type { Slugged } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
 import type { Script } from '@/kernel/shared/lib/script-preference';
 import type { Linked, Seeded } from '@/kernel/shared/typings';
+
 import type { Playable } from '@/music/shared/catalogue';
 import {
   type Spelled,

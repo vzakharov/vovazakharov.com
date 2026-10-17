@@ -10,9 +10,9 @@ import {
 import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { PageShell } from '@/kernel/shared/ui';
 
-import { DocumentCards } from '@/blog/entities/document';
-
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import { DocumentCards } from '@/blog/entities/document';
 
 import {
   COLLECTION_INTROS,

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { loadMessages, type Locale, LOCALES } from '@/kernel/shared/i18n';
+
 import {
   type MusicAlbum,
   musicAlbumSlugs,

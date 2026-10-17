@@ -10,6 +10,7 @@ import {
   constructMetadata,
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
+
 import { spelledText, textHook } from '@/music/shared/catalogue';
 
 import { albumArtist, albumCover, albumTitle } from './albums';

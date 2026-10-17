@@ -1,6 +1,7 @@
 import 'server-only';
 
 import type { Locale } from '@/kernel/shared/i18n';
+
 import type { MusicProject, TitleGloss } from '@/music/shared/catalogue';
 import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
 

@@ -2,6 +2,7 @@ import 'server-only';
 
 import { loadProse } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
+
 import {
   albumFrontmatterSchema,
   artistFrontmatterSchema,

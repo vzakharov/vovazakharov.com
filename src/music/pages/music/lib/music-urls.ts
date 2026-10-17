@@ -4,6 +4,7 @@ import {
   MUSIC_ROUTE,
 } from '@/kernel/shared/content';
 import { loadMessages, type Locale } from '@/kernel/shared/i18n';
+
 import {
   type MusicAlbum,
   type MusicProject,

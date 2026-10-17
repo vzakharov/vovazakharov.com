@@ -6,6 +6,7 @@ import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithText } from '@/kernel/shared/typings';
 import { Subheading, TextLink } from '@/kernel/shared/ui';
+
 import type { SungLanguage } from '@/music/shared/catalogue';
 
 import { inlineRuns } from '../lib/lyric-inline';

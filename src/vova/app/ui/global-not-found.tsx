@@ -1,6 +1,6 @@
-import { NotFoundPage } from '@/vova/pages/not-found';
-
 import { RootLayout } from '@/shell/app/ui';
+
+import { NotFoundPage } from '@/vova/pages/not-found';
 
 /**
  * The page a missed address gets. With a root layout per route group there is

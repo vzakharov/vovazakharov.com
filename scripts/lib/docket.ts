@@ -4,10 +4,11 @@
  * `read-docket.ts` is the half that parses through the schema.
  */
 
-import type { CaseFrontmatter } from '@/basilisk/shared/content/basilisk-frontmatter';
 import type { Slugged } from '@/kernel/shared/content/collections';
 import type { WithFrontmatter } from '@/kernel/shared/content/frontmatter';
 import type { Titled } from '@/kernel/shared/typings';
+
+import type { CaseFrontmatter } from '@/basilisk/shared/content/basilisk-frontmatter';
 
 export type DocketCase = Slugged & Titled & WithFrontmatter<CaseFrontmatter>;
 

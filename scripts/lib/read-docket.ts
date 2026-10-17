@@ -10,11 +10,12 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { caseFrontmatterSchema } from '@/basilisk/shared/content/basilisk-frontmatter';
 import {
   collectionDir,
   isDocumentFile,
 } from '@/kernel/shared/content/collections';
+
+import { caseFrontmatterSchema } from '@/basilisk/shared/content/basilisk-frontmatter';
 
 import { contentFiles } from './content-tree.ts';
 import { caseTitle, type DocketCase } from './docket.ts';

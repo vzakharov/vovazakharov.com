@@ -8,8 +8,8 @@ import path from 'node:path';
 
 import { getAbsoluteUrl } from '@/kernel/shared/config';
 import { pick } from '@/kernel/shared/lib/collections';
-import type { MusicAlbum } from '@/music/shared/catalogue/index.node-safe';
 
+import type { MusicAlbum } from '@/music/shared/catalogue/index.node-safe';
 import { songPlacements } from '@/music/pages/music/lib/album-tracks';
 import { albumArtist, albumTitle } from '@/music/pages/music/lib/albums';
 import { projectName } from '@/music/pages/music/lib/artists';

@@ -10,14 +10,15 @@ import {
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
 import { FileLink, hoverDim, PageShell, TextLink } from '@/kernel/shared/ui';
+
+import { SiteFooter } from '@/shell/widgets/site-footer';
+
 import {
   scriptSample,
   songTitle,
   spelledText,
   textHook,
 } from '@/music/shared/catalogue';
-
-import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { universeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';

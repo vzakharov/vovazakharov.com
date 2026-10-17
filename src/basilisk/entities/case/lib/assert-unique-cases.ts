@@ -1,5 +1,6 @@
-import type { CaseFrontmatter } from '@/basilisk/shared/content';
 import type { Slugged, WithFrontmatter } from '@/kernel/shared/content';
+
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
 
 type Filed = Slugged & WithFrontmatter<Pick<CaseFrontmatter, 'case' | 'date'>>;
 

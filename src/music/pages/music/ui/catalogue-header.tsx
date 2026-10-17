@@ -2,6 +2,7 @@ import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
 import type { WithOptionalChildren } from '@/kernel/shared/typings';
 import { FileLink } from '@/kernel/shared/ui';
+
 import type { TitleGloss } from '@/music/shared/catalogue';
 import type { WithSpelledTitle } from '@/music/shared/catalogue/index.node-safe';
 

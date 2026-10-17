@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { ProseSource } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
+
 import type { MusicAlbum, MusicProject } from '@/music/shared/catalogue';
 
 import { albumFile, artistFile } from './catalogue-files';

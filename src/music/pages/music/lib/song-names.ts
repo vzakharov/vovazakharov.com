@@ -1,4 +1,5 @@
 import { isLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
+
 import {
   songFileName,
   songFileNames,

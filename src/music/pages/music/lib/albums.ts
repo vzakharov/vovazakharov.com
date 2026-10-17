@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import { PUBLIC_DIR } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
+
 import type {
   MusicAlbum,
   MusicProject,

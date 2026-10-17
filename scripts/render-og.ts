@@ -45,8 +45,8 @@ import {
   OG_CARD_SUFFIXES,
   routeCardPath,
 } from '@/kernel/shared/seo';
-import { musicProjectNames } from '@/music/shared/catalogue';
 
+import { musicProjectNames } from '@/music/shared/catalogue';
 import {
   artistCollage,
   artistCollageCovers,
@@ -55,6 +55,7 @@ import {
   PODCAST_COVER,
   RADIO_CARD,
 } from '@/music/pages/music/lib/pictures';
+
 import { cvCardPath, cvPath } from '@/vova/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 

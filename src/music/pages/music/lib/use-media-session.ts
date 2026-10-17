@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import type { WithLocale } from '@/kernel/shared/i18n';
 import { useScriptPreference } from '@/kernel/shared/lib/use-script-preference';
+
 import { spelledText } from '@/music/shared/catalogue/index.node-safe';
 
 import {
