@@ -1,8 +1,8 @@
 /**
  * The app graph of Multi-App Sliced Design — `src/masd.json`, each app naming
  * its parents — and the questions every reader of it asks. The only loader of
- * that file: the boundaries config, `lint:fsd`'s per-app runs and
- * `scripts/masd-check.ts` all go through it. See .claude/rules/masd.md.
+ * that file: the boundaries config, the import sort, `lint:fsd`'s per-app runs
+ * and `scripts/masd-check.ts` all go through it. See .claude/rules/masd.md.
  *
  * Imports relatively and spells its extensions, because ESLint loads it under
  * jiti and `scripts/` under bare Node.

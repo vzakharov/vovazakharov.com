@@ -25,7 +25,8 @@ checkers enforce what follows, all run by `./scripts/vet.sh`:
   slice significance counted across the composition.
 
 `eslint/masd-graph.ts` is the only loader of `masd.json`; the three go through
-it.
+it, and so does the import sort, which groups imports one app at a time in graph
+order.
 
 ## The model
 

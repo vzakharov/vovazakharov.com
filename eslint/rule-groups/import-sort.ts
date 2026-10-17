@@ -3,14 +3,12 @@ import type { Linter } from 'eslint';
 import { loadGraph } from '../masd-graph';
 import { withSeverity } from './rule-severity';
 
-// FSD's layers in the order an import may point, lowest first.
+// FSD's layers, lowest first.
 const LAYERS = ['shared', 'entities', 'features', 'widgets', 'pages', 'app'];
 
-// One group per app, in graph order, so a file's imports read as its
-// composition: the most basic ancestor first, its own app last — `masd.json`
-// declares every parent above its child. Within a group the layers keep their
-// order without a blank line between them: simple-import-sort orders an inner
-// array by which of its patterns matched.
+// One group per app in graph order — `masd.json` declares every parent above
+// its child, so a file's own app comes last. An inner array sorts by which of
+// its patterns matched, with no blank line between them: the layers in order.
 const appGroups = [...loadGraph().keys()].map((app) =>
   LAYERS.map((layer) => `^@/${app}/${layer}/`),
 );
