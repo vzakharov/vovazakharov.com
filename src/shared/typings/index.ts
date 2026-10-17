@@ -48,8 +48,23 @@ export type Seeded = { seed: number };
 /** The short name a thing is shown or logged under. */
 export type Labeled = { label: string };
 
+/** An absolute address. */
+export type WithUrl = { url: string };
+
+/** The code of the language a thing is in. */
+export type WithLanguage = { language: string };
+
 /** A repo-relative path to the file a thing was read from. */
 export type WithFilePath = { filePath: string };
+
+/** What can be silenced — a voice, a player's decks. */
+export type Hushing = { stop: () => void };
+
+/** The name of a file within its collection or directory. */
+export type WithFileName = { fileName: string };
+
+/** Where a file sits, relative to whatever root holds it. */
+export type WithPath = { path: string };
 
 /** Rendered or authored text, as opposed to a title or a label. */
 export type WithText = { text: string };

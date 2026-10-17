@@ -7,10 +7,9 @@ project: ['за/обложкой']
 repo: birds
 album: wings
 track: 8
-audio: https://raw.githubusercontent.com/vovas-music/birds/main/birds.mp3
+lossy: true
 seconds: 287
-mp3:
-  bytes: 7291395
+mp3Bytes: 7337905
 explicit: false
 en:
   title:

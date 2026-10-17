@@ -1,7 +1,7 @@
 name: Render page PDFs
 description: >-
   Prints a site's printable pages off the static export it has just built, and
-  copies them into that export. Both publishing lanes render through this, so
+  copies them into that export. Every publishing lane renders through this, so
   the cache keys they use cannot drift apart.
 
 inputs:

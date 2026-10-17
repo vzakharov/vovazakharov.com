@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'golodnaa'
-audio: https://raw.githubusercontent.com/vovas-music/golodnaa/master/%D0%B3%D0%BE%D0%BB%D0%BE%D0%B4%D0%BD%D0%B0%D1%8F_1.flac
 seconds: 324
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/golodnaa/master/%D0%B3%D0%BE%D0%BB%D0%BE%D0%B4%D0%BD%D0%B0%D1%8F_1.mp3
-  bytes: 12944304
+mp3Bytes: 13085173
 explicit: false
 album: who-is-happy-in-russia
 track: 4

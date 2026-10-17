@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'moral-'
-audio: https://raw.githubusercontent.com/vovas-music/moral-/main/%D0%BC%D0%BE%D1%80%D0%B0%D0%BB%D1%8C_2.flac
 seconds: 231
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/moral-/main/%D0%BC%D0%BE%D1%80%D0%B0%D0%BB%D1%8C_2.mp3
-  bytes: 9230760
+mp3Bytes: 9372264
 explicit: false
 album: who-is-happy-in-russia
 track: 2

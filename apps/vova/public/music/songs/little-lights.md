@@ -6,11 +6,8 @@ language: ru
 project: ['за/обложкой', 'Downtemple']
 repo: 'ogonki'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/ogonki/main/ogonki.flac
 seconds: 186
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ogonki/main/ogonki.mp3
-  bytes: 7440828
+mp3Bytes: 7442891
 explicit: false
 en:
   title:

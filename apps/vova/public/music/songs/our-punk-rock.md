@@ -7,10 +7,9 @@ project: ['за/обложкой']
 repo: our-punk-rock
 album: wings
 track: 5
-audio: https://raw.githubusercontent.com/vovas-music/our-punk-rock/main/our-punk-rock.mp3
+lossy: true
 seconds: 132
-mp3:
-  bytes: 3487218
+mp3Bytes: 3535282
 explicit: false
 masked:
   'про**ли': 'Bleeped on the recording too: «здесь забикано и в песне, как творческое решение, а не вынужденность».'

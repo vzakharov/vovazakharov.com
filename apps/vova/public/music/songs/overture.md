@@ -6,11 +6,8 @@ status: done
 language: instrumental
 project: ['GENERATED']
 repo: 'wagner'
-audio: https://raw.githubusercontent.com/vovas-music/psch_album/main/1_overture.flac
 seconds: 53
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/psch_album/main/1_overture.mp3
-  bytes: 2122272
+mp3Bytes: 2200481
 explicit: false
 album: pschpthy
 track: 1

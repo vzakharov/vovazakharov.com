@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'salman'
-audio: https://raw.githubusercontent.com/vovas-music/salman/main/salman.flac
 seconds: 298
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/salman/main/salman.mp3
-  bytes: 11905695
+mp3Bytes: 12013764
 explicit: false
 album: father-river
 track: 10

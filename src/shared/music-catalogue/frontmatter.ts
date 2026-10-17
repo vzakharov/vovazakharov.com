@@ -210,39 +210,29 @@ export type ScriptKept = z.infer<typeof scriptKeptSchema>;
 /** A URL, or a site-root path for a file the site hosts itself. */
 const mediaSourceSchema = z.union([z.url(), z.string().regex(/^\/(?!\/)/)]);
 
-function isMp3(audio: string): boolean {
-  return audio.toLowerCase().endsWith('.mp3');
-}
+const repoHeldSchema = z.object({
+  /**
+   * Its repository under the `vovas-music` organization, whose `main` holds
+   * every file the song is played and downloaded from, at its root under the
+   * names `pnpm music:masters tag` derives.
+   */
+  repo: z.string().min(1),
+});
+
+export type RepoHeld = z.infer<typeof repoHeldSchema>;
 
 const masteredSchema = z.object({
   /**
-   * The master, played as-is — site-hosted where no repository holds it. One
-   * field, not a lossless/lossy pair: a song has one master, so a second would
-   * be the same file twice.
+   * The master is itself an MP3, there being no lossless one; otherwise it is
+   * a FLAC beside an MP3 copy and an MP4 rewrap the player streams on lossless.
    */
-  audio: mediaSourceSchema,
+  lossy: z.boolean().default(false),
 });
 
 export type Mastered = z.infer<typeof masteredSchema>;
 
-const mp3CopiedSchema = z.object({
-  /**
-   * The master as an MP3, for whatever refuses or cannot afford FLAC — the
-   * songs feeds' enclosures, a download: a 320 kbps copy beside the master in
-   * its repository, `url` absent where `audio` is already an MP3. `bytes` is
-   * recorded rather than fetched, so a deploy depends on no request to the
-   * file's host. Required: a song without one would be missing from the feeds.
-   */
-  mp3: z.object({
-    url: z.url().optional(),
-    bytes: z.number().int().positive(),
-  }),
-});
-
-export type Mp3Copied = z.infer<typeof mp3CopiedSchema>;
-
-/** What the player needs of a song, and all it needs. */
-const playableSchema = masteredSchema.extend({
+/** What the player needs of a song beside the files it plays. */
+const playableSchema = z.object({
   /**
    * The master's duration, read off its own FLAC header by the scaffolder. A
    * cache, and safe to be one because a master never changes — it is what lets
@@ -263,7 +253,8 @@ export type Playable = z.infer<typeof playableSchema>;
 const songFieldsSchema = composeSchemas(
   baseFrontmatterSchema,
   playableSchema,
-  mp3CopiedSchema,
+  repoHeldSchema,
+  masteredSchema,
   creditedSongSchema,
   releasedSchema,
   scriptKeptSchema,
@@ -280,8 +271,12 @@ const songFieldsSchema = composeSchemas(
    * can be shown to the people the other project is shown to.
    */
   project: z.array(projectSchema).min(1),
-  /** Its repository under the `vovas-music` organization; absent where none holds it. */
-  repo: z.string().min(1).optional(),
+  /**
+   * The MP3's size, which the songs feeds' enclosures state — recorded by the
+   * tag run rather than fetched, so a deploy depends on no request to the
+   * file's host.
+   */
+  mp3Bytes: z.number().int().positive(),
   /** What the title is in, where that is not the language sung first. */
   titleLanguage: sungLanguageSchema.optional(),
   /**
@@ -318,11 +313,6 @@ export const songFrontmatterSchema = songFieldsSchema
     message:
       'A song on an album takes a track number, and a single takes none.',
     path: ['track'],
-  })
-  .refine(({ audio, mp3 }) => (mp3.url === undefined) === isMp3(audio), {
-    message:
-      'An MP3 copy names its own `url` exactly where `audio` is not already an MP3.',
-    path: ['mp3'],
   })
   .refine(
     ({ album, alsoOn = [] }) => {

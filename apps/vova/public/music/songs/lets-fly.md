@@ -5,11 +5,8 @@ status: done
 language: ru
 project: [за/обложкой, GENERATED]
 repo: letim
-audio: https://raw.githubusercontent.com/vovas-music/letim/main/letim.flac
 seconds: 208
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/letim/main/letim.mp3
-  bytes: 8337347
+mp3Bytes: 8497777
 album: ctfu
 track: 5
 en:

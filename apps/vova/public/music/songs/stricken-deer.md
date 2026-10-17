@@ -7,11 +7,8 @@ project: ['Полуживые']
 repo: 'deer'
 album: hamlet
 track: 4
-audio: https://raw.githubusercontent.com/vovas-music/deer/main/Why%20Let%20the%20Stricken%20Deer%20Go%20Weep.flac
 seconds: 191
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/deer/main/Why%20Let%20the%20Stricken%20Deer%20Go%20Weep.mp3
-  bytes: 7647730
+mp3Bytes: 7686350
 explicit: false
 credits:
   lyrics: ['William Shakespeare']

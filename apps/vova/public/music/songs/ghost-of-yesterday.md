@@ -6,11 +6,8 @@ language: en
 project: ['Downtemple']
 repo: 'ghost'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.flac
 seconds: 214
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ghost/main/ghost.mp3
-  bytes: 8551541
+mp3Bytes: 8593546
 explicit: false
 en:
   hook: '“Magnificent. I’m sitting here crying.” Dad’s answer to the next-to-last song I showed him.'

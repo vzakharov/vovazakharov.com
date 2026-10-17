@@ -11,6 +11,8 @@ import type {
   Named,
   PresentOrAbsent,
   Sized,
+  WithPath,
+  WithUrl,
 } from '@/shared/typings';
 
 import { PIXELS } from './og-canvas';
@@ -37,10 +39,7 @@ export const PAGE_ROUTES = {
  * there and absent where it is not, never a nullable slot. `pnpm
  * content:og:<site>` rasterises `path` from `vector` for the marks that are both.
  */
-export type SiteImage = Sized & { path: string } & PresentOrAbsent<
-    'vector',
-    string
-  >;
+export type SiteImage = Sized & WithPath & PresentOrAbsent<'vector', string>;
 
 /**
  * Whom a site's materials are credited to, and where that credit links. Named
@@ -61,9 +60,9 @@ export type WithAvatar = {
  * CV header's is deliberately a different, plainer sentence — this one carries
  * the voice.
  */
-type SiteConfig = Billed &
-  WithAvatar & {
-    url: string;
+export type SiteConfig = Billed &
+  WithAvatar &
+  WithUrl & {
     /**
      * Leads the name a downloaded document is saved under, standing in for the
      * `url` it cannot spell — a filename is not a URL, so a resolvable host

@@ -6,11 +6,8 @@ status: done
 language: instrumental
 project: ['Полуживые', 'GENERATED']
 repo: 'calm'
-audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-001.flac
 seconds: 324
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-001.mp3
-  bytes: 12963112
+mp3Bytes: 13061094
 explicit: false
 album: vagabond
 track: 1

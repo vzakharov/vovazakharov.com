@@ -7,11 +7,8 @@ project: ['Грёбаный бал']
 repo: 'skolko'
 album: stronger-than-love
 track: 1
-audio: https://raw.githubusercontent.com/vovas-music/skolko/main/%D0%A1%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE.flac
 seconds: 240
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/skolko/main/%D0%A1%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE.mp3
-  bytes: 9619442
+mp3Bytes: 9623519
 explicit: false
 en:
   title:

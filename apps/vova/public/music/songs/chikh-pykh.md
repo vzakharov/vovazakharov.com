@@ -6,11 +6,8 @@ language: ru
 project: ['Yoohie', 'за/обложкой']
 repo: 'chp'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/chp/main/chp.flac
 seconds: 216
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/chp/main/chp.mp3
-  bytes: 8639307
+mp3Bytes: 8696282
 explicit: false
 en:
   title:

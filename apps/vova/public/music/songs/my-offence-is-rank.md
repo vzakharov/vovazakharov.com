@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['Полуживые', 'GENERATED']
 repo: 'rank'
-audio: https://raw.githubusercontent.com/vovas-music/rank/main/rank2.flac
 seconds: 220
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/rank/main/rank2.master.mp3
-  bytes: 8806536
+mp3Bytes: 8915782
 explicit: false
 album: father-river
 track: 5

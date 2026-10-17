@@ -7,7 +7,12 @@ import path from 'node:path';
 import { pageFile, type SiteId } from '@/shared/config';
 import type { WithOptionalLocale } from '@/shared/i18n';
 import { routeCardPath } from '@/shared/seo';
-import type { DocumentFile, Sized, Sourced } from '@/shared/typings';
+import type {
+  DocumentFile,
+  Sized,
+  Sourced,
+  WithFileName,
+} from '@/shared/typings';
 
 import { COLLECTION_SCHEMAS } from './collection-schemas';
 import {
@@ -47,7 +52,7 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
 
 /**
  * Generic over frontmatter rather than over the collection id, so a song page
- * reads `frontmatter.audio` while everything that works across collections —
+ * reads `frontmatter.repo` while everything that works across collections —
  * the sitemap, the metadata builder — holds documents at the base shape.
  *
  * No PDF here: a song has none, so the article header, which does, derives the
@@ -67,7 +72,7 @@ export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
     };
 
 /** The collection a body's relative links resolve in, and the file they resolve beside. */
-export type FileInCollection = WithCollectionId & { fileName: string };
+export type FileInCollection = WithCollectionId & WithFileName;
 
 /** Where the authored markdown is served. */
 export type ServedMarkdown = { markdown: DocumentFile };

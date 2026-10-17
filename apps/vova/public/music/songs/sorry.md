@@ -7,10 +7,9 @@ project: ['за/обложкой']
 repo: sorry
 album: wings
 track: 6
-audio: https://raw.githubusercontent.com/vovas-music/sorry/main/sorry.mp3
+lossy: true
 seconds: 198
-mp3:
-  bytes: 5571993
+mp3Bytes: 5619291
 explicit: false
 en:
   title:

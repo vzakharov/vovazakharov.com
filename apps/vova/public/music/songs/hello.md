@@ -7,13 +7,12 @@ project: ['за/обложкой']
 repo: hello
 album: wings
 track: 3
-audio: https://raw.githubusercontent.com/vovas-music/hello/main/hello.mp3
+lossy: true
 video:
   src: /music/assets/hello.mp4
   offsetSeconds: -0.19
 seconds: 146
-mp3:
-  bytes: 3841187
+mp3Bytes: 3887653
 explicit: false
 en:
   title:

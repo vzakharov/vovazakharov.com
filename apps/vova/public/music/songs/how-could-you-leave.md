@@ -7,11 +7,8 @@ project: ['GENERATED']
 repo: 'hcyl'
 album: father-sea
 track: 6
-audio: https://raw.githubusercontent.com/vovas-music/hcyl/main/how_could_you_leave.flac
 seconds: 229
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/hcyl/main/how_could_you_leave.mp3
-  bytes: 9162806
+mp3Bytes: 9165636
 explicit: false
 ru:
   title:

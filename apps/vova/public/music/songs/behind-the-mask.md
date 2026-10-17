@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'mask'
-audio: https://raw.githubusercontent.com/vovas-music/mask/main/mask.flac
 seconds: 208
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/mask/main/mask.master.mp3
-  bytes: 8322704
+mp3Bytes: 8405399
 explicit: false
 album: pschpthy
 track: 5

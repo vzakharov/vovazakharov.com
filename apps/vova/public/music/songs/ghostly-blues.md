@@ -4,12 +4,12 @@ date: 2025-12-01
 status: done
 language: ru
 project: ['Грёбаный бал']
+repo: 'ghostly-blues'
 album: for-none-and-for-all
 track: 7
-audio: /music/assets/ghostly-blues.mp3
+lossy: true
 seconds: 177
-mp3:
-  bytes: 3956885
+mp3Bytes: 3946771
 explicit: false
 credits:
   music: ['Андрей Мокрушин']

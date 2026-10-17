@@ -7,10 +7,9 @@ project: ['за/обложкой']
 repo: intertwined
 album: wings
 track: 7
-audio: https://raw.githubusercontent.com/vovas-music/intertwined/main/intertwined.mp3
+lossy: true
 seconds: 161
-mp3:
-  bytes: 4727153
+mp3Bytes: 4774471
 explicit: false
 en:
   title:

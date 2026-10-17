@@ -6,11 +6,8 @@ language: en
 project: ['GENERATED']
 repo: 'my_hope'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/my_hope/main/my_hope_master_2.flac
 seconds: 264
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/my_hope/main/my_hope_master_2.mp3
-  bytes: 10568182
+mp3Bytes: 10623578
 explicit: false
 ru:
   title:

@@ -7,10 +7,9 @@ project: ['за/обложкой']
 repo: just-because
 album: wings
 track: 9
-audio: https://raw.githubusercontent.com/vovas-music/just-because/main/just-because.mp3
+lossy: true
 seconds: 244
-mp3:
-  bytes: 6255425
+mp3Bytes: 6303155
 explicit: false
 en:
   title:

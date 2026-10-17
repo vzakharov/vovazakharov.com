@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['Полуживые', 'за/обложкой', 'GENERATED']
 repo: 'bronte'
-audio: https://raw.githubusercontent.com/vovas-music/bronte/main/bronte.flac
 seconds: 194
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/bronte/main/bronte.master.mp3
-  bytes: 7782552
+mp3Bytes: 7943553
 explicit: false
 album: ctfu
 track: 9

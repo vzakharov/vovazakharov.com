@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'monkey'
-audio: https://raw.githubusercontent.com/vovas-music/monkey/main/monkey.flac
 seconds: 267
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/monkey/main/monkey.mp3
-  bytes: 10695658
+mp3Bytes: 10787948
 explicit: false
 album: let-the-stories-spin
 track: 10

@@ -7,11 +7,8 @@ project: ['Грёбаный бал']
 repo: 'studentka'
 album: stronger-than-love
 track: 2
-audio: https://raw.githubusercontent.com/vovas-music/studentka/main/%D0%A1%D1%82%D1%83%D0%B4%D0%B5%D0%BD%D1%82%D0%BA%D0%B0.flac
 seconds: 253
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/studentka/main/%D0%A1%D1%82%D1%83%D0%B4%D0%B5%D0%BD%D1%82%D0%BA%D0%B0.mp3
-  bytes: 10104279
+mp3Bytes: 10107404
 explicit: false
 credits:
   lyrics: ['Сергей Баканов']

@@ -6,11 +6,8 @@ status: done
 language: [en, el]
 project: ['GENERATED']
 repo: 'artemis'
-audio: https://raw.githubusercontent.com/vovas-music/artemis/main/artemis_3.flac
 seconds: 258
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/artemis/main/artemis_3.mp3
-  bytes: 10311137
+mp3Bytes: 10391092
 explicit: true
 album: pschpthy
 track: 10

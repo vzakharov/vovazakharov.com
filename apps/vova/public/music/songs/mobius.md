@@ -6,11 +6,8 @@ status: done
 language: instrumental
 project: ['GENERATED']
 repo: 'ghosts-of-flesh'
-audio: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/9.%20Mo_bius.flac
 seconds: 361
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/ghosts-of-flesh/main/9.%20Mo_bius.mp3
-  bytes: 14442671
+mp3Bytes: 14539073
 explicit: false
 album: ghosts-of-flesh
 track: 9

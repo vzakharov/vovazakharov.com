@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'pes'
-audio: https://raw.githubusercontent.com/vovas-music/pes/main/pes.flac
 seconds: 321
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/pes/main/pes.master.mp3
-  bytes: 12857619
+mp3Bytes: 12965276
 explicit: false
 album: father-river
 track: 2

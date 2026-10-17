@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'boom'
-audio: https://raw.githubusercontent.com/vovas-music/boom/main/boom.flac
 seconds: 212
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/boom/main/boom.master.mp3
-  bytes: 8476294
+mp3Bytes: 8555802
 explicit: false
 album: pschpthy
 track: 3

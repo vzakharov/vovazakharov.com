@@ -7,11 +7,8 @@ project: ['Полуживые']
 repo: 'caprice'
 album: father-sea
 track: 2
-audio: https://raw.githubusercontent.com/vovas-music/caprice/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20%E2%80%94%20%D0%9A%D0%B0%D0%BF%D1%80%D0%B8%D1%81%20%D0%9A%D0%B0%D1%80%D0%BA%D0%B0%D1%81%D1%81%D0%B8.flac
 seconds: 214
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/caprice/main/%D0%9F%D0%BE%D0%BB%D1%83%D0%B6%D0%B8%D0%B2%D1%8B%D0%B5%20%E2%80%94%20%D0%9A%D0%B0%D0%BF%D1%80%D0%B8%D1%81%20%D0%9A%D0%B0%D1%80%D0%BA%D0%B0%D1%81%D1%81%D0%B8.mp3
-  bytes: 8546342
+mp3Bytes: 8549015
 explicit: false
 en:
   title:

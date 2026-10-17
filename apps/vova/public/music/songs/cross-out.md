@@ -7,11 +7,8 @@ language: [en, de]
 project: ['GENERATED']
 repo: 'crossout'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/crossout/main/crossout_3.flac
 seconds: 213
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/crossout/main/crossout_3.mp3
-  bytes: 8522273
+mp3Bytes: 8525706
 explicit: false
 credits:
   music: ['Иван Дербенёв', 'Vova Zakharov']

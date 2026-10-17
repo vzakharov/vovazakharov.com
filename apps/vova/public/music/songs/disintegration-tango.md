@@ -6,11 +6,8 @@ status: done
 language: [en, es]
 project: ['GENERATED']
 repo: 'tango'
-audio: https://raw.githubusercontent.com/vovas-music/tango/main/tango.flac
 seconds: 279
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/tango/main/tango.master.mp3
-  bytes: 11161697
+mp3Bytes: 11242680
 explicit: false
 album: pschpthy
 track: 11

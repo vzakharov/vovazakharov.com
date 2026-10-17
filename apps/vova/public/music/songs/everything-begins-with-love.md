@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: '40days'
-audio: https://raw.githubusercontent.com/vovas-music/40days/main/dad.flac
 seconds: 332
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/40days/main/dad.master.mp3
-  bytes: 13272456
+mp3Bytes: 13379801
 explicit: false
 album: father-river
 track: 9

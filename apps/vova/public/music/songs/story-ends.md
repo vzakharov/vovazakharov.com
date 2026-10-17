@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'story_ends'
-audio: https://raw.githubusercontent.com/vovas-music/stories/main/11%20ends.flac
 seconds: 118
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/stories/main/11%20ends.mp3
-  bytes: 4723029
+mp3Bytes: 4814261
 explicit: false
 album: let-the-stories-spin
 track: 11

@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'
-audio: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-006.flac
 seconds: 65
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nsfl/main/nsfl-006.mp3
-  bytes: 2605023
+mp3Bytes: 2735306
 explicit: false
 album: nsfl
 track: 6

@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'stories'
-audio: https://raw.githubusercontent.com/vovas-music/stories/main/7%20fireflies.flac
 seconds: 243
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/stories/main/7%20fireflies.mp3
-  bytes: 9703008
+mp3Bytes: 9795288
 explicit: false
 album: let-the-stories-spin
 track: 7

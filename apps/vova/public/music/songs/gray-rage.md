@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'grayrage'
-audio: https://raw.githubusercontent.com/vovas-music/grayrage/main/grayrage.flac
 seconds: 205
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/grayrage/main/grayrage.mp3
-  bytes: 8195220
+mp3Bytes: 8276139
 explicit: false
 album: pschpthy
 track: 2

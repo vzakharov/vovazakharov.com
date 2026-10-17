@@ -9,13 +9,14 @@ import { cx } from '@/shared/lib/class-names';
 import { NameLink } from '@/shared/ui';
 
 import { formatDuration } from '../lib/duration';
-import { useStoredFlag } from '../lib/use-stored-flag';
+import { useStoredSetting } from '../lib/use-stored-setting';
 import { BillingLinks } from './billing-links';
 import { Marquee } from './marquee';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 import { RadioToggle } from './radio-toggle';
 import { Spelling } from './spelling';
+import { VolumeControl } from './volume-control';
 
 /**
  * Keeps the reader on the playing song's page: while following, it opens that
@@ -76,7 +77,7 @@ export function PlayerBar() {
   } = usePlayer();
   const resumeFollow = useFollow(current?.routes[locale], state.radio);
   // The right-hand readout: the track's length, or what is left of it.
-  const [remaining, setRemaining] = useStoredFlag('remaining');
+  const [remaining, setRemaining] = useStoredSetting('remaining');
 
   if (current === undefined) return null;
 
@@ -180,6 +181,10 @@ export function PlayerBar() {
           </Text>
         </UnstyledButton>
       </Group>
+
+      <Box className={classes['playerVolume']}>
+        <VolumeControl />
+      </Box>
     </Box>
   );
 }

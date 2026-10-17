@@ -4,12 +4,12 @@ date: 2022-10-01
 status: done
 language: en
 project: ['GENERATED']
+repo: 'machines'
 album: prototypes
 track: 1
-audio: /music/assets/hello-human.mp3
+lossy: true
 seconds: 77
-mp3:
-  bytes: 3067864
+mp3Bytes: 3070234
 segue: true
 explicit: false
 ru:

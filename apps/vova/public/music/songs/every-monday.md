@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED', 'Yoohie']
 repo: 'monday'
-audio: https://raw.githubusercontent.com/vovas-music/monday/main/monday.flac
 seconds: 159
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/monday/main/monday.master.mp3
-  bytes: 6354113
+mp3Bytes: 6515812
 explicit: false
 album: ctfu
 track: 2

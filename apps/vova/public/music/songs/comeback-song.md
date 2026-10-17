@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'comeback'
-audio: https://raw.githubusercontent.com/vovas-music/comeback/main/comeback.flac
 seconds: 209
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/comeback/main/comeback.mp3
-  bytes: 8348844
+mp3Bytes: 8444975
 explicit: false
 album: ignite
 track: 1

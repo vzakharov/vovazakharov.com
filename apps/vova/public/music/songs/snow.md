@@ -7,11 +7,8 @@ project: ['Дамы и господа', 'Полуживые']
 repo: 'sneg_0'
 album: father-sea
 track: 5
-audio: https://raw.githubusercontent.com/vovas-music/sneg_0/main/sneg_master.flac
 seconds: 180
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/sneg_0/main/sneg_master.mp3
-  bytes: 7186918
+mp3Bytes: 7188865
 explicit: false
 en:
   title:

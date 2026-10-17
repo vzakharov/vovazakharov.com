@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'pobeg'
-audio: https://raw.githubusercontent.com/vovas-music/pobeg/main/pobeg.flac
 seconds: 220
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/pobeg/main/pobeg.mp3
-  bytes: 8821172
+mp3Bytes: 8927604
 explicit: false
 album: father-river
 track: 1

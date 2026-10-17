@@ -6,11 +6,8 @@ status: done
 language: instrumental
 project: ['Полуживые', 'GENERATED']
 repo: 'steppe'
-audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-005.flac
 seconds: 316
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-005.mp3
-  bytes: 12645462
+mp3Bytes: 12743442
 explicit: false
 album: vagabond
 track: 5

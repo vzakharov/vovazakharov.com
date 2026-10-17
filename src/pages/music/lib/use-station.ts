@@ -35,6 +35,8 @@ export type StationControls = {
 type StationInput = OnRadio & {
   /** The player's element, read when it is needed rather than held. */
   element: () => HTMLAudioElement | null;
+  /** The file the element loads for a track, in the quality the reader chose. */
+  source: (track: PlayerTrack) => string;
   /** The public catalogue, whose positions the station's order holds. */
   catalogue: PlayerTrack[];
   dispatch: ActionDispatch<[RadioPlayerAction]>;
@@ -43,7 +45,13 @@ type StationInput = OnRadio & {
 };
 
 export type StationKeeper = StationControls & {
-  /** Plays the next slot if the radio is on, and says whether it did. */
+  /** The song of the slot after the one playing, while the radio is on. */
+  upNext: () => PlayerTrack | undefined;
+  /**
+   * Plays the next slot if the radio is on, and says whether it did. An element
+   * already holding the slot's song plays it from where it is, which drift
+   * alone corrects: it was started on time, and a seek would break the join.
+   */
   handOver: () => boolean;
   /**
    * Seeks to the station if a seek is owed or playback has drifted from it —
@@ -54,11 +62,11 @@ export type StationKeeper = StationControls & {
 };
 
 /**
- * Keeps the one `<audio>` element on the radio's timetable while the radio is
- * on. The clock is the device's — there is no server to ask.
+ * Keeps the playing element on the radio's timetable while the radio is on. The clock is the device's — there is no server to ask.
  */
 export function useStation({
   element,
+  source,
   catalogue,
   radio,
   dispatch,
@@ -104,7 +112,7 @@ export function useStation({
         slot === undefined ||
         track === undefined ||
         !(radio || seekOwedRef.current) ||
-        audio.getAttribute('src') !== track.audio ||
+        audio.getAttribute('src') !== source(track) ||
         audio.readyState < HTMLMediaElement.HAVE_METADATA
       ) {
         return;
@@ -118,9 +126,9 @@ export function useStation({
       seekOwedRef.current = false;
     }
 
-    function tuneTo(slot: Station) {
+    function tuneTo(slot: Station, inPlace = false) {
       slotRef.current = slot;
-      seekOwedRef.current = true;
+      seekOwedRef.current = !inPlace;
       storeShuffle(true);
       dispatch({ type: 'tune', ...slot });
       // The song already loaded is the one on air: no source change follows to
@@ -142,7 +150,7 @@ export function useStation({
 
       slotRef.current = now.station;
       seekOwedRef.current = true;
-      audio.src = now.track.audio;
+      audio.src = source(now.track);
       // Tuned afresh once allowed: the station may have moved on while the
       // browser decided.
       audio.play().then(tuneIn, (error: unknown) => {
@@ -156,20 +164,34 @@ export function useStation({
       });
     }
 
-    function handOver(): boolean {
+    function following(): Station | undefined {
       const slot = slotRef.current;
 
-      if (!radio || slot === undefined) return false;
+      return radio && slot !== undefined
+        ? nextStation(durations, slot, Date.now(), segues)
+        : undefined;
+    }
 
-      const next = nextStation(durations, slot, Date.now(), segues);
+    function upNext(): PlayerTrack | undefined {
+      const next = following();
+
+      return next && trackOf(next);
+    }
+
+    function handOver(): boolean {
+      const next = following();
 
       if (next === undefined) return false;
 
-      tuneTo(next);
+      const track = trackOf(next);
+      tuneTo(
+        next,
+        track !== undefined && element()?.getAttribute('src') === source(track),
+      );
 
       return true;
     }
 
-    return { tuneIn, tryTuneIn, onAir, handOver, keepTime };
-  }, [element, catalogue, radio, dispatch, storeShuffle]);
+    return { tuneIn, tryTuneIn, onAir, upNext, handOver, keepTime };
+  }, [element, source, catalogue, radio, dispatch, storeShuffle]);
 }

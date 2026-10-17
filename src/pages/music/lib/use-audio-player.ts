@@ -10,17 +10,17 @@ import {
 
 import type { Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { useScriptPreference } from '@/shared/lib/use-script-preference';
-import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
+import { createDecks, type Decks } from './decks';
 import {
-  billingText,
   currentTrack,
   isQueued,
   placeTracks,
   type PlayerTrack,
   seguePositions,
   shouldRestart,
+  trackSource,
+  upcomingTrack,
   type WithTracks,
 } from './player-state';
 import {
@@ -28,11 +28,10 @@ import {
   radioPlayerReducer,
   type RadioPlayerState,
 } from './radio-state';
+import { useMediaSession } from './use-media-session';
+import { usePlayerKeys } from './use-player-keys';
 import { type StationControls, useStation } from './use-station';
-import { useStoredFlag } from './use-stored-flag';
-
-/** How far a seek key moves, in seconds. */
-const SEEK_STEP = 5;
+import { useStoredSetting } from './use-stored-setting';
 
 /**
  * The seed is the action's, not the reducer's: a permutation has to be
@@ -88,24 +87,29 @@ type Playback = {
   current?: PlayerTrack;
   /** Where playback sits, in seconds — the seek bar's value. */
   elapsed: number;
+  /** From a change of quality until the new file can play from where it was. */
+  switching: boolean;
 };
 
 /** Playback, and the tracks it plays from. */
 export type QueuedPlayback = Playback & WithTracks;
 
-export type AudioPlayer = QueuedPlayback & { controls: PlayerControls };
+export type WithControls = { controls: PlayerControls };
+
+export type AudioPlayer = QueuedPlayback & WithControls;
 
 /**
- * The one `<audio>` element on the site and everything that drives it: the
- * queue, the element's own events, the lock screen and the keyboard. The locale
- * is the page's, which the lock screen titles the track in, spelled as the
- * reader chose.
+ * The site's audio and everything that drives it: the queue, the elements' own
+ * events, the lock screen and the keyboard. The locale is the page's, which the
+ * lock screen titles the track in, spelled as the reader chose.
  */
 export function useAudioPlayer(
   catalogue: PlayerTrack[],
   locale: Locale,
 ): AudioPlayer {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const decksRef = useRef<Decks | null>(null);
+  // Where a switch of quality left the song, for the new file to seek to.
+  const resumeAtRef = useRef<number | undefined>(undefined);
   const [tracks, setTracks] = useState(catalogue);
   const [state, dispatch] = useReducer(
     radioPlayerReducer,
@@ -113,9 +117,11 @@ export function useAudioPlayer(
     initialRadioPlayerState,
   );
   const [elapsed, setElapsed] = useState(0);
+  const [switching, setSwitching] = useState(false);
   const [sessionYielded, setSessionYielded] = useState(false);
-  const [shuffleStored, storeShuffle] = useStoredFlag('shuffle');
-  const { script } = useScriptPreference();
+  const [shuffleStored, storeShuffle] = useStoredSetting('shuffle');
+  const [lossless] = useStoredSetting('lossless');
+  const [volume] = useStoredSetting('volume');
 
   // The stored switch leads and the queue follows, which is what restores a
   // remembered shuffle on load — before anything plays, so the cursor has
@@ -128,21 +134,45 @@ export function useAudioPlayer(
 
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
-  const element = useCallback(() => audioRef.current, []);
+  const element = useCallback(() => decksRef.current?.active() ?? null, []);
+  const source = useCallback(
+    (playing: PlayerTrack) => trackSource(playing, lossless),
+    [lossless],
+  );
   const station = useStation({
     element,
+    source,
     catalogue,
     ...pick(state, 'radio'),
     dispatch,
     storeShuffle,
   });
-  const { tuneIn, tryTuneIn, onAir, keepTime, handOver } = station;
+  const { tuneIn, tryTuneIn, onAir, keepTime, upNext, handOver } = station;
+  const nextSource = useCallback(() => {
+    const position = upcomingTrack(state);
+    const queued = position === undefined ? undefined : tracks[position];
+    const next = state.radio ? upNext() : queued;
+
+    return next && source(next);
+  }, [state, tracks, source, upNext]);
+  // A rejected play is the browser withholding autoplay, which is a state the
+  // UI has to show rather than a failure to report.
+  const refused = useCallback(() => {
+    dispatch({ type: 'playback', playing: false });
+  }, []);
   const onMedia = useEffectEvent(() => {
     keepTime();
   });
-  // On the radio a song's end hands over to the next slot of the timetable;
-  // off it, to the next track of the queue.
+  // The deck holding what is due next starts here, before the queue moves on,
+  // which is what leaves no gap between the songs.
   const onEnded = useEffectEvent(() => {
+    const decks = decksRef.current;
+    const next = nextSource();
+
+    if (decks !== null && next !== undefined && decks.cue(next)) {
+      decks.play(refused);
+      setElapsed(0);
+    }
     if (!handOver()) dispatch({ type: 'step', by: 1 });
   });
 
@@ -192,7 +222,7 @@ export function useAudioPlayer(
         dispatch({ type: 'step', by: 1 });
       },
       previous: () => {
-        const audio = audioRef.current;
+        const audio = element();
 
         if (audio !== null && shouldRestart(audio.currentTime)) {
           dispatch({ type: 'release' });
@@ -213,13 +243,13 @@ export function useAudioPlayer(
       // A seek moves the element rather than the queue, so it releases the
       // radio by an action of its own.
       seek: (seconds) => {
-        const audio = audioRef.current;
+        const audio = element();
 
         dispatch({ type: 'release' });
         if (audio !== null) audio.currentTime = seconds;
       },
       seekBy: (seconds) => {
-        const audio = audioRef.current;
+        const audio = element();
 
         dispatch({ type: 'release' });
         if (audio !== null) {
@@ -229,13 +259,14 @@ export function useAudioPlayer(
       tuneIn,
       tryTuneIn,
       onAir,
-      position: () => audioRef.current?.currentTime ?? 0,
+      position: () => element()?.currentTime ?? 0,
       yieldMediaSession: setSessionYielded,
     }),
     [
       state,
       track,
       tracks,
+      element,
       shuffleStored,
       storeShuffle,
       tuneIn,
@@ -244,24 +275,35 @@ export function useAudioPlayer(
     ],
   );
 
-  // The element is an audio engine rather than page content — the bar is what
-  // a reader operates — so it is constructed and never enters the document.
-  // This effect comes before the ones that drive it, which is what puts the ref
-  // in place ahead of them.
+  // This effect comes before the ones that drive the decks, which is what puts
+  // the ref in place ahead of them.
   useEffect(() => {
-    const audio = new Audio();
-
-    audio.preload = 'metadata';
-    audioRef.current = audio;
-
-    const listeners = [
+    const decks = createDecks([
       [
         'timeupdate',
-        () => {
-          setElapsed(audio.currentTime);
+        (audio) => {
+          // A new source reports its reset to 0 before a switch of quality
+          // seeks it back, which would flick the seek bar to the start.
+          if (resumeAtRef.current === undefined) setElapsed(audio.currentTime);
         },
       ],
-      ['loadedmetadata', onMedia],
+      [
+        'canplay',
+        () => {
+          setSwitching(false);
+        },
+      ],
+      [
+        'loadedmetadata',
+        (audio) => {
+          // Ahead of the station's own seek, which a tuned-in radio then wins.
+          const resumeAt = resumeAtRef.current;
+
+          resumeAtRef.current = undefined;
+          if (resumeAt !== undefined) audio.currentTime = resumeAt;
+          onMedia();
+        },
+      ],
       ['playing', onMedia],
       [
         'ended',
@@ -277,24 +319,19 @@ export function useAudioPlayer(
       ],
       [
         'pause',
-        () => {
+        (audio) => {
           // A track reaching its end pauses on the way to `ended`, which
           // decides what plays next; only any other pause is the reader's.
           if (!audio.ended) dispatch({ type: 'playback', playing: false });
         },
       ],
-    ] as const;
+    ]);
 
-    for (const [event, handler] of listeners) {
-      audio.addEventListener(event, handler);
-    }
+    decksRef.current = decks;
 
     return () => {
-      for (const [event, handler] of listeners) {
-        audio.removeEventListener(event, handler);
-      }
-      audio.pause();
-      audioRef.current = null;
+      decks.stop();
+      decksRef.current = null;
     };
   }, []);
 
@@ -302,115 +339,62 @@ export function useAudioPlayer(
   // one decision: the element's `src` and its playback state both follow from
   // what the reducer says is current.
   useEffect(() => {
-    const audio = audioRef.current;
+    const decks = decksRef.current;
 
-    if (audio === null || current === undefined) return;
+    if (decks === null || current === undefined) return;
 
+    const wanted = source(current);
+    const cued = decks.cue(wanted);
+    const audio = decks.active();
     // The attribute rather than the property: `src` reads back resolved to an
     // absolute URL, which a site-root path never equals, and every pause would
     // reload the track from the top.
-    if (audio.getAttribute('src') !== current.audio) {
-      audio.src = current.audio;
-      setElapsed(0);
+    const loaded = audio.getAttribute('src');
+
+    if (cued || loaded !== wanted) {
+      // The same song in the other quality picks up where it was, once the new
+      // file's metadata gives it somewhere to seek to; any other source — a
+      // preloaded one included — starts from the top, and drops a seek still
+      // owed to a file gone.
+      const switched = loaded === trackSource(current, !lossless);
+
+      resumeAtRef.current = switched ? audio.currentTime : undefined;
+      setSwitching(switched);
+      if (!cued) audio.src = wanted;
+      if (!switched) setElapsed(0);
     }
 
     if (state.playing) {
-      // A rejected play is the browser withholding autoplay, which is a state
-      // the UI has to show rather than a failure to report — unless it is an
-      // abort, a source change cutting short the play before it, which is no
-      // pause and must not release the radio.
-      audio.play().catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === 'AbortError') {
-          return;
-        }
-        dispatch({ type: 'playback', playing: false });
-      });
+      decks.play(refused);
     } else {
       audio.pause();
     }
-  }, [current, state.playing]);
+  }, [current, state.playing, source, lossless, refused]);
 
-  // Lock screen, OS media keys, headphone buttons and car controls, all driving
-  // the same queue rather than a second copy of its logic.
+  // After the effect above, which may yet cue the deck this would re-point.
   useEffect(() => {
-    const session = navigator.mediaSession as MediaSession | undefined;
-
-    if (session === undefined || current === undefined) return;
-
-    // The previous run's cleanup has already cleared the handlers; a state left
-    // at `paused` would tell the browser nothing plays under a playing video.
-    if (sessionYielded) {
-      session.playbackState = 'none';
-
-      return;
-    }
-
-    session.metadata = new MediaMetadata({
-      title: spelledText(current.titles[locale], script),
-      artist: billingText(current.billing[locale], script),
-      album: 'vovazakharov.com/music',
-    });
-    session.playbackState = state.playing ? 'playing' : 'paused';
-
-    // Not `toggle`: a browser may send either action whatever the state, and a
-    // toggle would turn a pause into playback.
-    const actions = [
-      ['play', controls.resume],
-      ['pause', controls.pause],
-      ['nexttrack', controls.next],
-      ['previoustrack', controls.previous],
-    ] as const;
-
-    for (const [action, handler] of actions) {
-      session.setActionHandler(action, handler);
-    }
-
-    return () => {
-      for (const [action] of actions) session.setActionHandler(action, null);
-    };
-  }, [current, state.playing, controls, locale, script, sessionYielded]);
+    decksRef.current?.arm(nextSource());
+  }, [nextSource]);
 
   useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      const target = event.target;
-      // A key pressed inside a modal dialog is the dialog's — a song's video
-      // takes the space bar for its own play/pause, and the song must stay
-      // silent under it.
-      const elsewhere =
-        target instanceof HTMLElement &&
-        (target.isContentEditable ||
-          ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) ||
-          target.closest('[aria-modal="true"]') !== null);
+    decksRef.current?.setVolume(volume);
+  }, [volume]);
 
-      if (elsewhere || event.metaKey || event.ctrlKey || event.altKey) return;
+  useMediaSession({
+    current,
+    ...pick(state, 'playing'),
+    controls,
+    locale,
+    yielded: sessionYielded,
+  });
+  usePlayerKeys(controls);
 
-      const handled: Record<string, () => void> = {
-        ' ': controls.toggle,
-        ArrowLeft: event.shiftKey
-          ? controls.previous
-          : () => {
-              controls.seekBy(-SEEK_STEP);
-            },
-        ArrowRight: event.shiftKey
-          ? controls.next
-          : () => {
-              controls.seekBy(SEEK_STEP);
-            },
-      };
-      const handler = handled[event.key];
-
-      if (handler === undefined) return;
-
-      event.preventDefault();
-      handler();
-    }
-
-    globalThis.addEventListener('keydown', onKeyDown);
-
-    return () => {
-      globalThis.removeEventListener('keydown', onKeyDown);
-    };
-  }, [controls]);
-
-  return { state, elapsed, tracks, controls, ...(current && { current }) };
+  return {
+    state,
+    elapsed,
+    switching,
+    tracks,
+    controls,
+    ...(current && { current }),
+  };
 }

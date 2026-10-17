@@ -6,11 +6,8 @@ status: done
 language: [en, de]
 project: ['GENERATED']
 repo: 'believe'
-audio: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/7.%20Believe%20In%20Me.flac
 seconds: 274
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/Divine-Discontent--album-/master/7.%20Believe%20In%20Me.mp3
-  bytes: 10963159
+mp3Bytes: 11034328
 explicit: true
 album: divine-discontent
 track: 7

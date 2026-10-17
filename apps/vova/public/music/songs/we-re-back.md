@@ -5,11 +5,8 @@ status: done
 language: en
 project: [GENERATED, Yoohie]
 repo: wereback
-audio: https://raw.githubusercontent.com/vovas-music/wereback/main/wereback.flac
 seconds: 191
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/wereback/main/wereback.mp3
-  bytes: 7638304
+mp3Bytes: 7800302
 explicit: true
 album: ctfu
 track: 1

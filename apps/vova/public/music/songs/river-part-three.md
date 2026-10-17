@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'otter'
-audio: https://raw.githubusercontent.com/vovas-music/otter/main/otter.flac
 seconds: 212
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/otter/main/otter.master.mp3
-  bytes: 8479475
+mp3Bytes: 8586803
 explicit: false
 album: father-river
 track: 7

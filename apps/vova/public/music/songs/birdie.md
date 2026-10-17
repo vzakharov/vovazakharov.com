@@ -7,11 +7,8 @@ project: [Грёбаный бал]
 repo: birdie
 album: stronger-than-love
 track: 7
-audio: https://raw.githubusercontent.com/vovas-music/birdie/main/%F0%9F%85%B4%20%D0%9F%D1%82%D0%B8%D1%87%D0%BA%D0%B0.flac
 seconds: 207
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/birdie/main/%F0%9F%85%B4%20%D0%9F%D1%82%D0%B8%D1%87%D0%BA%D0%B0.mp3
-  bytes: 8272567
+mp3Bytes: 8276392
 explicit: true
 en:
   title:

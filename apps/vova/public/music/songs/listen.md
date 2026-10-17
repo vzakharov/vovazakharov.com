@@ -7,10 +7,9 @@ project: ['за/обложкой']
 repo: listen
 album: wings
 track: 1
-audio: https://raw.githubusercontent.com/vovas-music/listen/main/listen.mp3
+lossy: true
 seconds: 112
-mp3:
-  bytes: 3277636
+mp3Bytes: 3325109
 explicit: false
 credits:
   lyrics:

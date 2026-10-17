@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "0f162751d2584b55cde91905125322b08e7e6a99",
-  "lastSyncedAt": "2026-10-14",
+  "lastSyncedSha": "439f78ff9dc6dc1beea4e4d3c62ff50f1a6e378b",
+  "lastSyncedAt": "2026-10-15",
   "optIn": "take every opt-in path unless the operator's request says otherwise — the operator's standing call, 2026-10-08",
   "adopted": [
     {
@@ -91,11 +91,13 @@
     {
       "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. .claude/rules/stack.md carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
     },
-    "scripts/staged.sh"
+    "scripts/staged.sh",
+    {
+      ".claude/skills/bootstrap-workflow-dispatch/": "taken without the source's /test-on-gh pointer, which this repo declines: preview.yml, a dispatch-only workflow, is what made the 404 this skill clears reachable here."
+    }
   ],
   "declined": {
     ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
-    ".claude/skills/bootstrap-workflow-dispatch/": "the one dispatchable workflow here, deploy.yml, has been on main since before its workflow_dispatch trigger existed, so Actions metadata already knows it and the 404 this skill clears cannot occur. It also @-references the declined /test-on-gh, so adopting it would break the closure check. Revisit when a new dispatch-only workflow is added — likely alongside /test-on-gh",
     ".claude/skills/detemplate/": "turns a fresh \"Use this template\" fork into a project. This repo acquired its infrastructure by subset copy, not by forking the template, and is long past the one moment the skill exists for. Never",
     ".claude/skills/hotfix/": "no promotion path to bypass — main deploys straight to Pages",
     ".claude/skills/implement/": "the source's redirect stub pointing /implement at /go, declined on the operator's call at the sync that renamed the skill: a permanent extra row is not worth keeping a retired name resolvable. `/plan` writes `/go <branch>` handoff blocks, and an older block saying `/implement` is a word an agent reads, not a skill they must load. Never — the stub only ever earns its place in the window right after the rename, and that window is closed",

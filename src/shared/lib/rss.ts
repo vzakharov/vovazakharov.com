@@ -5,6 +5,7 @@ import type {
   Summarized,
   Timed,
   Titled,
+  WithLanguage,
 } from '@/shared/typings';
 
 /** What a feed and each of its items both state: a title and an absolute link. */
@@ -45,8 +46,8 @@ export type RssPodcast = WithImage & {
 };
 
 export type RssChannel = RssEntry &
-  Summarized & {
-    language: string;
+  Summarized &
+  WithLanguage & {
     /** The feed's own absolute URL, which readers re-fetch it from. */
     self: string;
     /** Newest first, as the feed lists them. */

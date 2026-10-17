@@ -6,11 +6,8 @@ language: en
 project: ['GENERATED']
 repo: 'mirrors'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/mirrors/main/mirrors.flac
 seconds: 319
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/mirrors/main/mirrors.mp3
-  bytes: 12766653
+mp3Bytes: 12810549
 explicit: false
 ru:
   title:

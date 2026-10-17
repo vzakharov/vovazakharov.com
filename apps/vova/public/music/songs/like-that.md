@@ -6,11 +6,8 @@ language: en
 project: ['Trending Today']
 repo: 'like-that'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/like-that/master/like%20that.flac
 seconds: 196
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/like-that/master/like%20that.mp3
-  bytes: 7843095
+mp3Bytes: 7846781
 explicit: false
 ru:
   title:

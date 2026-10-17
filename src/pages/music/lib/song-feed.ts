@@ -19,12 +19,14 @@ import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
 
 import { universeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
-import { songFiles } from './song-files';
+import { songDownloads } from './song-downloads';
+import { mp3Url } from './song-names';
 import {
   type LocalizedSongDocument,
   localizeSong,
   type SongDocument,
 } from './song-text';
+import { assertWritten } from './written-guard';
 
 function text(value: string): ElementContent {
   return { type: 'text', value };
@@ -42,11 +44,15 @@ function paragraph(children: ElementContent[]): ElementContent {
   return { type: 'element', tagName: 'p', properties: {}, children };
 }
 
-function downloadLinks(document: SongDocument): ElementContent[] {
-  return songFiles(document.frontmatter).flatMap(
+/** A feed reader has no switch, so each link is the locale's default spelling. */
+function downloadLinks(
+  document: SongDocument,
+  locale: Locale,
+): ElementContent[] {
+  return songDownloads(document, locale).flatMap(
     ({ extension, href }, index) => [
       ...(index === 0 ? [] : [text(' · ')]),
-      element('a', { href }, extension.toUpperCase()),
+      element('a', { href: spelledText(href) }, extension.toUpperCase()),
     ],
   );
 }
@@ -75,7 +81,10 @@ async function songContent(
       ...(world && told ? [element('h2', {}, makingOf)] : []),
       ...(told?.tree.children ?? []),
       paragraph([element('a', { href: localized.route }, feedPageLink)]),
-      paragraph([text(`${feedDownload}: `), ...downloadLinks(document)]),
+      paragraph([
+        text(`${feedDownload}: `),
+        ...downloadLinks(document, locale),
+      ]),
     ],
   };
 
@@ -83,14 +92,14 @@ async function songContent(
 }
 
 function songEpisode(document: SongDocument): FeedEntry['episode'] {
-  const { audio, mp3, seconds, explicit } = document.frontmatter;
+  const { mp3Bytes, seconds, explicit } = document.frontmatter;
   const picture = songPicture(document);
+  const url = mp3Url(document);
+
+  assertWritten(document, [url]);
 
   return {
-    enclosure: {
-      url: absoluteUrl(mp3.url ?? audio),
-      ...pick(mp3, 'bytes'),
-    },
+    enclosure: { url, bytes: mp3Bytes },
     seconds,
     explicit,
     ...(picture === undefined ? {} : { image: absoluteUrl(picture) }),

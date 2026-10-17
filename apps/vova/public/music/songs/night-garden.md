@@ -6,11 +6,8 @@ language: ru
 project: ['Полуживые']
 repo: 'sad'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/sad/main/sad.flac
 seconds: 312
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/sad/main/sad.master.mp3
-  bytes: 12475148
+mp3Bytes: 12477768
 explicit: false
 credits:
   lyrics: ['Николай Заболоцкий']

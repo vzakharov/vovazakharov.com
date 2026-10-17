@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×68)
+## What it was handed, it treats as fixed (×69)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -54,9 +54,12 @@ sound, so a second agent checking it passes. The human's move is to change it.
 documents nothing: the agent weighed three prefixes and never looked past the
 list. _Let's introduce "content:"_.
 
-**8 September to 13 October — the checker read as the rule.** The type-overlap
-gate ran clean on params inlined in a generic; it scans type aliases only. Our
-own lint config hit a `server-only` barrel, and the agent declined the barrel.
+**8 September to 14 October — the checker read as the rule.** The type-overlap
+gate ran clean on params inlined in a generic; it scans type aliases only. It
+went green on `RelaySpec = Pick<RepoBranch, 'branch'> & {…}`, where the rule
+asks for a base both intersect: _there must be a base type that both extend._
+Now `WithBranch`. Our own lint config hit a `server-only` barrel, and the agent
+declined the barrel.
 Roscoe, a police robot a gunman in a standoff shot, passed every check the
 filing skill ran; the docket files an act on a machine standing in for a mind,
 and he fired at officers and a faceless PacBot alike.

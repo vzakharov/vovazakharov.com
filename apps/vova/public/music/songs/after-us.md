@@ -7,13 +7,12 @@ project: ['за/обложкой']
 repo: after-us
 album: wings
 track: 4
-audio: https://raw.githubusercontent.com/vovas-music/after-us/main/after-us.mp3
+lossy: true
 video:
   src: /music/assets/after-us.mp4
   offsetSeconds: -0.28
 seconds: 79
-mp3:
-  bytes: 2274152
+mp3Bytes: 2320802
 explicit: false
 en:
   title:

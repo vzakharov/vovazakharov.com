@@ -7,11 +7,8 @@ project: ['GENERATED']
 repo: 'meow'
 album: nursery-rhymes
 track: 2
-audio: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.flac
 seconds: 187
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/meow/master/meow_master.mp3
-  bytes: 7471116
+mp3Bytes: 7473444
 explicit: true
 credits:
   lyrics: ['Jane Taylor']

@@ -1,0 +1,23 @@
+name: Set up the toolchain
+description: >-
+  Installs pnpm and Node and the locked dependencies. Every lane that builds a
+  site sets up through this, so the pins are stated once and cannot drift
+  apart.
+
+runs:
+  using: composite
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+        cache: 'pnpm'
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile

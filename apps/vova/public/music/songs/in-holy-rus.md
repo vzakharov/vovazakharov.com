@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'asa'
-audio: https://raw.githubusercontent.com/vovas-music/asa/main/%D1%8F%D1%88%D0%B0_v6.flac
 seconds: 157
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/asa/main/%D1%8F%D1%88%D0%B0_v6.mp3
-  bytes: 6266373
+mp3Bytes: 6406779
 explicit: false
 album: who-is-happy-in-russia
 track: 1

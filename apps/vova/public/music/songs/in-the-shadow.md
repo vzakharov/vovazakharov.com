@@ -6,11 +6,8 @@ language: en
 project: ['GENERATED']
 repo: 'nightmares'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/nightmares/main/nightmares_rock.flac
 seconds: 298
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/nightmares/main/nightmares_rock.mp3
-  bytes: 11910882
+mp3Bytes: 11914145
 explicit: false
 ru:
   title:

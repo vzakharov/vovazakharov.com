@@ -5,6 +5,8 @@
  * then plays the moment it starts, so the first tap is heard too.
  */
 
+import type { Hushing } from '@/shared/typings';
+
 import { duskyAt } from '../../model/dusk';
 import type { Drum } from '../../model/flower-sounds';
 import type { InsectKind } from '../../model/insect-genes';
@@ -167,7 +169,7 @@ function startBreeze(context: AudioContext, out: AudioNode): void {
 }
 
 export type Waking = { start: () => void };
-export type Hushing = { stop: () => void };
+
 export type Keyed = {
   note: (note: number) => void;
   drum: (drum: Drum) => void;
@@ -414,3 +416,5 @@ export class MeadowSound
     this.settle();
   };
 }
+
+export { type Hushing } from '@/shared/typings';

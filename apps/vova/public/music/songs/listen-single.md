@@ -7,13 +7,12 @@ project: ['за/обложкой']
 repo: listen-single
 album: punctuation-marks
 track: 1
-audio: https://raw.githubusercontent.com/vovas-music/listen-single/main/listen-single.mp3
+lossy: true
 video:
   src: /music/assets/listen-single.mp4
   offsetSeconds: 1.89
 seconds: 55
-mp3:
-  bytes: 1595611
+mp3Bytes: 1638737
 explicit: false
 credits:
   lyrics:

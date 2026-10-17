@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'mira'
-audio: https://raw.githubusercontent.com/vovas-music/mira/main/mira.flac
 seconds: 236
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/mira/main/mira.mp3
-  bytes: 9459562
+mp3Bytes: 9552885
 explicit: false
 album: let-the-stories-spin
 track: 2

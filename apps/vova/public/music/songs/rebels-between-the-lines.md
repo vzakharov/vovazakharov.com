@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'rebels'
-audio: https://raw.githubusercontent.com/vovas-music/rebels/main/rebels_master1.flac
 seconds: 204
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/rebels/main/rebels_master1.mp3
-  bytes: 8152409
+mp3Bytes: 8248678
 explicit: true
 album: ignite
 track: 3

@@ -10,10 +10,9 @@ track: 10
 alsoOn:
   - album: punctuation-marks
     track: 3
-audio: https://raw.githubusercontent.com/vovas-music/world-as-it-is/main/world-as-it-is.mp3
+lossy: true
 seconds: 110
-mp3:
-  bytes: 2871604
+mp3Bytes: 2918120
 explicit: false
 en:
   title:

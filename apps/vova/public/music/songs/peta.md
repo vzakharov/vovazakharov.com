@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'peta'
-audio: https://raw.githubusercontent.com/vovas-music/peta/main/peta_master.flac
 seconds: 122
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/peta/main/peta_master.mp3
-  bytes: 4896511
+mp3Bytes: 4994328
 explicit: false
 album: ghosts-of-flesh
 track: 6

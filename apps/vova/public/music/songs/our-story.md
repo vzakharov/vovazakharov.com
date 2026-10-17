@@ -10,10 +10,9 @@ track: 2
 alsoOn:
   - album: punctuation-marks
     track: 2
-audio: https://raw.githubusercontent.com/vovas-music/our-story/main/our-story.mp3
+lossy: true
 seconds: 205
-mp3:
-  bytes: 5623076
+mp3Bytes: 5670579
 explicit: false
 en:
   title:

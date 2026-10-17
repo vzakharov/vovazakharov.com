@@ -6,11 +6,8 @@ status: done
 language: instrumental
 project: ['Полуживые', 'GENERATED']
 repo: 'wanderlust'
-audio: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-002.flac
 seconds: 270
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/vagabond_album/main/vagabond_album-002.mp3
-  bytes: 10802258
+mp3Bytes: 10900230
 explicit: false
 album: vagabond
 track: 2

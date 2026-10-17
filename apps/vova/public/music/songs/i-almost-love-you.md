@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED']
 repo: 'almost'
-audio: https://raw.githubusercontent.com/vovas-music/almost/main/almost.flac
 seconds: 287
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/almost/main/almost.mp3
-  bytes: 11487702
+mp3Bytes: 11568525
 explicit: false
 album: pschpthy
 track: 6

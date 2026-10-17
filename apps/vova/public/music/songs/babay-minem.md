@@ -7,11 +7,8 @@ language: tt
 project: ['Иске Кормаш']
 repo: 'babay'
 album: null
-audio: https://raw.githubusercontent.com/vovas-music/babay/main/babay_master.flac
 seconds: 168
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/babay/main/babay_master.mp3
-  bytes: 6709407
+mp3Bytes: 6711864
 explicit: false
 en:
   title:

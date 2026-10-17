@@ -44,18 +44,23 @@ rule (`shared/music-catalogue/romanize.ts`), anything else by a hand-written
 `titleLatin` — `Mithqāl`, `Ágios o skopós` — which also overrides the rule for a
 name with an established Latin spelling. A title neither spells fails the build.
 
-A song's frontmatter carries what the markdown cannot: the master's URL and
-duration (both read by the scaffolder), `video` where it has one — its `src` a
-site-root path, its words timed beside it as `<src>.<language>.vtt` per lyrics
-column (the build fails without the sung one's; `scripts/song-intake/CLAUDE.md`
-§ "Captions"), and its `offsetSeconds`, where the master starts on it; opened
-from a button beside the play control rather than linked in the story, so that
-starting it can pause the player — `status`, `language` — what the vocal is in,
-independent of what the page is rendered in — `project` as a list with the
-artist first and features after, `explicit`, `segue` where the song runs into
-its release's next track, which a shuffle then never parts it from, `album`, and
-`credits.lyrics` / `credits.music` as lists of people in contribution order,
-absent meaning the author alone — each name in either locale's spelling from
+A song's frontmatter carries what the markdown cannot: its `repo`, the master's
+duration (read by the scaffolder), `lossy` where the master is itself an MP3,
+and `mp3Bytes`, the feeds' enclosure size, which the tag run writes — no file
+URL, every one being derived from `repo` and the billing
+(`pages/music/lib/song-files.ts`), the player streaming the MP3, or a FLAC
+master's MP4 rewrap for a reader asking for lossless, while the downloads keep
+the FLAC, `video` where it has one — its `src` a site-root path, its words timed
+beside it as `<src>.<language>.vtt` per lyrics column (the build fails without
+the sung one's; `scripts/song-intake/CLAUDE.md` § "Captions"), and its
+`offsetSeconds`, where the master starts on it; opened from a button beside the
+play control rather than linked in the story, so that starting it can pause the
+player — `status`, `language` — what the vocal is in, independent of what the
+page is rendered in — `project` as a list with the artist first and features
+after, `explicit`, `segue` where the song runs into its release's next track,
+which a shuffle then never parts it from, `album`, and `credits.lyrics` /
+`credits.music` as lists of people in contribution order, absent meaning the
+author alone — each name in either locale's spelling from
 `shared/music-catalogue/people.ts`, which shows it in the reader's. **Each album
 and artist is a file**, `albums/<slug>.md` and `artists/<slug>.md`, its slug the
 file's name and everything else the catalogue knows of it in its frontmatter —
@@ -80,10 +85,14 @@ one-word genre (`requiem`). An album's slug follows the same rule.
 
 **A song's audio lives in its `vovas-music` repository**:
 `scripts/song-intake/CLAUDE.md` § "A song's repository" says what it holds,
-where a change to its mix or master is made, and how a new song gets one.
-**Audio and lyrics a song arrives without** — an album file to split, lyrics to
-hear off the recording, a mix to master — are `scripts/song-intake/CLAUDE.md`'s,
-read before touching the audio.
+where a change to its mix or master is made, and how a new song gets one. **A
+master's file names and tags are derived from the frontmatter** by
+`pnpm music:masters tag`, `<Artist> - <Title>` in each spelling the song's pages
+show: a title, billing, album, credit, lyric or cover edit leaves them stale,
+which `pnpm music:masters check` in vet reports and the build fails on once the
+name moves, until the song is re-run. **Audio and lyrics a song arrives
+without** — an album file to split, lyrics to hear off the recording, a mix to
+master — are `scripts/song-intake/CLAUDE.md`'s, read before touching the audio.
 
 **A song publishes whatever it has.** Its `hook` is optional, in both locales or
 neither: the line under the song's name that makes someone press play — a

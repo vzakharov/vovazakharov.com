@@ -1,9 +1,11 @@
 import * as Phaser from 'phaser';
 
+import type { Hushing } from '@/shared/typings';
+
 import { playTheMeadow } from './instrument-input';
 import type { Unfolding } from './map-view';
 import type { Binding } from './meadow-keeping';
-import type { Hushing, Waking } from './sound';
+import type { Waking } from './sound';
 
 type Played = Parameters<typeof playTheMeadow>;
 

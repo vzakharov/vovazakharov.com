@@ -7,11 +7,8 @@ project: ['Грёбаный бал']
 repo: 'lebed'
 album: for-none-and-for-all
 track: 3
-audio: https://raw.githubusercontent.com/vovas-music/lebed/main/%D0%AF%20%D0%BA%D1%83%D0%BF%D0%BB%D1%8E%20%D1%82%D0%B5%D0%B1%D0%B5%20%D0%B4%D0%BE%D0%BC.flac
 seconds: 292
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/lebed/main/%D0%AF%20%D0%BA%D1%83%D0%BF%D0%BB%D1%8E%20%D1%82%D0%B5%D0%B1%D0%B5%20%D0%B4%D0%BE%D0%BC.mp3
-  bytes: 11689403
+mp3Bytes: 11692283
 explicit: false
 credits:
   lyrics: ['Михаил Танич']

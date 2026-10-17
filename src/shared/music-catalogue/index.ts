@@ -1,3 +1,4 @@
+export type { SongBilling } from './file-name';
 export {
   albumFrontmatterSchema,
   type AlbumPlacement,
@@ -5,9 +6,9 @@ export {
   type CreditedSong,
   type LocalName,
   type Mastered,
-  type Mp3Copied,
   type Playable,
   type Released,
+  type RepoHeld,
   type ScriptKept,
   type SongFrontmatter,
   songFrontmatterSchema,

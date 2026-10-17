@@ -5,11 +5,8 @@ status: done
 language: ru
 project: ['Полуживые']
 repo: 'mu-icok-new'
-audio: https://raw.githubusercontent.com/vovas-music/rus-/main/6%20%D0%BC%D1%83%D0%B6%D0%B8%D1%87%D0%BE%D0%BA.flac
 seconds: 190
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/rus-/main/6%20%D0%BC%D1%83%D0%B6%D0%B8%D1%87%D0%BE%D0%BA.mp3
-  bytes: 7582978
+mp3Bytes: 7724863
 explicit: false
 album: who-is-happy-in-russia
 track: 6

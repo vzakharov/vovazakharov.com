@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['Yoohie']
 repo: 'prs'
-audio: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.flac
 seconds: 218
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/prs/main/prs40.mp3
-  bytes: 8722904
+mp3Bytes: 8884496
 explicit: true
 album: ctfu
 track: 8

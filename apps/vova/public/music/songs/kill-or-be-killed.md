@@ -5,11 +5,8 @@ status: done
 language: en
 project: ['GENERATED', 'Yoohie']
 repo: 'kobk'
-audio: https://raw.githubusercontent.com/vovas-music/kobk/main/kobk.flac
 seconds: 180
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/kobk/main/kobk.master.mp3
-  bytes: 7221383
+mp3Bytes: 7382122
 explicit: false
 album: ctfu
 track: 3

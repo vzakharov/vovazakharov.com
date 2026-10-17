@@ -7,11 +7,8 @@ project: ['Грёбаный бал']
 repo: 'f-ec'
 album: for-none-and-for-all
 track: 5
-audio: https://raw.githubusercontent.com/vovas-music/f-ec/main/%D0%A2%D0%B0%D0%BC.flac
 seconds: 208
-mp3:
-  url: https://raw.githubusercontent.com/vovas-music/f-ec/main/%D0%A2%D0%B0%D0%BC.mp3
-  bytes: 8332120
+mp3Bytes: 8334982
 explicit: false
 en:
   title:
