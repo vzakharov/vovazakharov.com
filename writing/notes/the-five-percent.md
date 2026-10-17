@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×69)
+## What it was handed, it treats as fixed (×70)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -92,6 +92,13 @@ GENERATED's page kept «это всё будут концепт-альбомы»
 rude-prompt study went under OpenWhip's mitigating circumstances, though the app
 sends Ctrl-C and then the rude prompt. Crossroads' struck-out hook was left
 untranslated, then stripped of its tildes: the mark was the content.
+
+**16 to 17 October — a split read as settled, because a session settled it.**
+PR #169's planning session carved its work into #170 and five child issues, the
+choice between tickets and one PR eaten in bites never put to him. Later rounds
+reasoned inside the carve, offering the missing music restructuring #174 or this
+PR, and app-specific scripts an issue of their own. _все слайсы должны были быть частью этого
+пиара-слона, а не отдельными тикетами._ He had assumed the elephant all along.
 
 ## An account that explains the code stands in for running it (×22)
 
