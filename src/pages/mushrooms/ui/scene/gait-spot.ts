@@ -5,9 +5,9 @@
  */
 
 import type { Circle } from '../../model/geometry';
-import type { MeadowLayout } from './layout';
+import type { ControlledScreen } from './layout';
 import { PICK_APART, PICK_CLEAR } from './picker-rows';
-import { type Controls, flowerPicker, standingControls } from './sky-layout';
+import { flowerPicker, type Gaited, standingControls } from './sky-layout';
 import { SUN_RAY_REACH } from './sun-layout';
 import { apart, BUTTON_INSET, tapReach } from './tap-reach';
 
@@ -15,10 +15,6 @@ import { apart, BUTTON_INSET, tapReach } from './tap-reach';
 const GAIT_R = 22;
 /** The step, in CSS px, of the grid round the map button a spot is looked for on. */
 const SPOT_STEP = 4;
-
-/** What the gait button keeps off: the screen's edges, every control, the cross and the sun. */
-type GaitScreen = Controls &
-  Pick<MeadowLayout, 'width' | 'height' | 'groundTop' | 'sun' | 'cross'>;
 
 /**
  * The gait button on the first free spot beside the line of buttons the map
@@ -32,9 +28,7 @@ type GaitScreen = Controls &
  * way, the nearest in the sky `BUTTON_INSET` off the rays, then merely clear
  * of them, and only where the sky has no such spot, on the meadow.
  */
-export function gaitSpot(
-  screen: GaitScreen,
-): Pick<Controls, 'gait' | 'yielding'> {
+export function gaitSpot(screen: ControlledScreen): Gaited {
   const { width, height, groundTop, yielding } = screen;
   const { standing, picked } = freeOf(screen);
   const sky = (spot: Circle) => standing(spot, groundTop, BUTTON_INSET);
@@ -60,7 +54,7 @@ export function gaitSpot(
 
 /** The first spot `fits` beside the map button's lines (`besideLines`), or else the nearest on a grid round it. */
 function nearestSpot(
-  screen: GaitScreen,
+  screen: ControlledScreen,
   fits: (spot: Circle) => boolean,
 ): Circle | undefined {
   const { map, width, height } = screen;
@@ -89,7 +83,7 @@ function nearestSpot(
  * its column where that column lines up under the map button
  * (`placeColumns`), each their reaches touching.
  */
-function besideLines({ map, releases }: GaitScreen): Circle[] {
+function besideLines({ map, releases }: ControlledScreen): Circle[] {
   const column = Object.values(releases).filter(
     (button) => button.x - button.r === map.x - map.r,
   );
@@ -111,7 +105,7 @@ function besideLines({ map, releases }: GaitScreen): Circle[] {
  * of the standing buttons and `inset` off the sun's rays (`standing`), and
  * whether it keeps off the pickers' stages (`picked`), as `gaitSpot` has it.
  */
-function freeOf({ width, sun, ...controls }: GaitScreen) {
+function freeOf({ width, sun, ...controls }: ControlledScreen) {
   const reach = tapReach(GAIT_R);
   const { colours, shapes, cross } = flowerPicker(controls);
   // The gait button's own first spot, which `placeControls` holds for it, is no other button's.

@@ -7,10 +7,15 @@ import {
   strike,
 } from '../../model/notes';
 import type { PlayedKey } from './keyboard';
-import type { MeadowSound } from './sound';
+import type { Keyed, Waking } from './sound';
 
 /** What of the meadow's synth the instrument plays through. */
-type Synth = Pick<MeadowSound, 'note' | 'drum' | 'start'>;
+type Synth = Keyed & Waking;
+
+export type Playable = {
+  wake: () => void;
+  key: (action: PlayedKey) => FlowerSound | undefined;
+};
 
 /**
  * The flowers played as one instrument: a flower's note and a key's sound
@@ -19,7 +24,7 @@ type Synth = Pick<MeadowSound, 'note' | 'drum' | 'start'>;
  * on the flowers and a parent on the keys play in one register. An octave
  * key moves the keyboard's octave and the melody's last note with it.
  */
-export class Instrument {
+export class Instrument implements Playable {
   private readonly voice: Synth;
   /** Seconds on the scene's clock. */
   private readonly now: () => number;

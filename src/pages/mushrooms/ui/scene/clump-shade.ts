@@ -4,20 +4,25 @@
  * as a silhouette of cells so a flower's many tries stay cheap.
  */
 
-import type { Planted } from '../../model/game';
 import {
   type Box,
   boxesMeet,
   type Circle,
+  type Cornered,
   type Point,
 } from '../../model/geometry';
-import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import {
+  type MushroomGenes,
+  mushroomGenes,
+  type MushroomSeed,
+} from '../../model/mushroom-genes';
+import type { Footed } from '../../model/placement';
 import { type MushroomGround, placeIn } from './clump-layout';
 import { standingWith } from './door-sight';
 import type { Placement } from './layout';
 
 /** A mushroom standing as a visit opens: its seed, and the foot it stands on. */
-export type Opener = Pick<Planted, 'seed' | 'species' | 'foot' | 'lean'>;
+export type Opener = MushroomSeed & Footed;
 
 /** A silhouette's cell, in units of the mushroom's size. */
 const CELL = 0.02;
@@ -27,7 +32,7 @@ const CELL = 0.02;
  * about its foot, y down the screen, spread by a cell every way so the
  * cells hold the whole of what is drawn.
  */
-type Silhouette = Pick<Box, 'left' | 'top'> & {
+type Silhouette = Cornered & {
   columns: number;
   rows: number;
   cells: Uint8Array;

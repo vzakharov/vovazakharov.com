@@ -234,6 +234,8 @@ export function tuftUnder(scene: Phaser.Scene, point: Point): boolean {
   return grassOf.get(scene)?.at(point) !== undefined;
 }
 
+export type Refusing = { refuse: (tuft: Tuft, now: number) => void };
+
 /**
  * The meadow's grass on screen, through each frame's view: the seam's grass
  * in the band under the brow and the ground's tufts, as many as `tendTufts`
@@ -241,7 +243,7 @@ export function tuftUnder(scene: Phaser.Scene, point: Point): boolean {
  * marked, and the tuft that last refused a flower shaking its head. A tuft
  * takes a tap where it was last drawn.
  */
-export class Grass {
+export class Grass implements Refusing {
   private readonly graphics: Phaser.GameObjects.Graphics;
   /** The ground's tufts past its top row, sinking under the ground as the beds' things there do (`depthOf`). */
   private readonly behind: Phaser.GameObjects.Graphics;

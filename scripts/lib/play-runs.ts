@@ -16,9 +16,9 @@ import { z } from 'zod';
 import { FURNISHINGS } from '../../src/pages/mushrooms/model/house.ts';
 import type { Stamped } from '../../src/pages/mushrooms/model/motion.ts';
 import {
+  type Opened,
   RUN_LEAST,
   runAt,
-  type RunCourse,
   runDuration,
   type RunOpening,
 } from '../../src/pages/mushrooms/model/mouse-run-clock.ts';
@@ -30,6 +30,7 @@ import {
   Mice,
   Mouse,
   Point,
+  type RunEnds,
   Runs,
   State,
 } from './mushroom-probe-answers.ts';
@@ -92,8 +93,8 @@ type Shot = Stamped & Named;
  * each tracked frame's time with whether its runner was drawn, its width and
  * where across the screen.
  */
-type Watch = Pick<z.infer<typeof Runs>[number], 'from' | 'to'> &
-  Pick<RunCourse, 'opening'> & {
+type Watch = z.infer<typeof RunEnds> &
+  Opened & {
     shots: Shot[];
     inn: string | undefined;
     over: boolean;

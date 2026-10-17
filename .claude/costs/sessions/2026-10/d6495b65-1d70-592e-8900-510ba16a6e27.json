@@ -1,0 +1,94 @@
+{
+  "estimate": {
+    "at": "2026-10-14T21:47:09.886Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a scope-resolving ESLint rule with the repo's first rule test needs judgement of what the scope manager reports for TS-only definitions"
+      },
+      {
+        "hours": 1.5,
+        "grade": "staff",
+        "role": "architect",
+        "comment": "the narrow-first order and its exemptions set a repo-wide typing convention every later type follows"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "d6495b65-1d70-592e-8900-510ba16a6e27",
+  "branch": "claude/no-pick-omit-ikbd3v",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай сделаем линтерное правило, запретив Pick<...>. Обоснование -- сначала должен задаваться узкий тип, от него расширяться. Если тип наследуется от схемы, то …",
+  "prs": [
+    158
+  ],
+  "url": "https://claude.ai/code/session_014kf4pQVj4A1ZWtBJR9onxj",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T21:34:48.632Z",
+  "lastResponseAt": "2026-10-14T21:47:36.129Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 146,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 186777,
+    "cacheReadTokens": 13079231,
+    "outputTokens": 46404,
+    "thinkingTokens": 15041,
+    "responses": 73,
+    "costUsd": 5.038726200000001
+  },
+  "ownTurns": {
+    "inputTokens": 146,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 186777,
+    "cacheReadTokens": 13079231,
+    "outputTokens": 46404,
+    "thinkingTokens": 15041,
+    "responses": 73,
+    "costUsd": 5.038726200000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 146,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 186777,
+      "cacheReadTokens": 13079231,
+      "outputTokens": 46404,
+      "thinkingTokens": 15041,
+      "responses": 73,
+      "costUsd": 5.038726200000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/no-pick-omit.draft.do-not-implement.md",
+    "endedAt": "2026-10-14T21:36:43.753Z",
+    "contextTokens": 140429,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 88004,
+      "cacheReadTokens": 1186070,
+      "outputTokens": 10300,
+      "thinkingTokens": 7480,
+      "responses": 11,
+      "costUsd": 1.147334
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

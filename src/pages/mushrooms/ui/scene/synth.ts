@@ -8,20 +8,20 @@ export const PENTATONIC = [
   523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66,
 ];
 
+type Peaked = { peak: number };
 /** An oscillator's waveform, and how loud it gets. */
-export type Voiced = { shape: OscillatorType; peak: number };
+export type Voiced = Peaked & { shape: OscillatorType };
+/** How long it sounds, in seconds. */
+type Lasting = { lasts: number };
+export type Sustained = Peaked & Lasting;
+export type Attacked = { attack: number };
+export type Pitched = { pitches: readonly number[] };
 
 /**
  * One enveloped oscillator: `shape` gliding through `pitches` over `lasts`,
  * rising to `peak` over `attack` seconds, `delay` seconds from now.
  */
-export type Swell = Voiced & {
-  pitches: readonly number[];
-  /** How long it sounds, in seconds. */
-  lasts: number;
-  attack: number;
-  delay?: number;
-};
+export type Swell = Voiced & Lasting & Attacked & Pitched & { delay?: number };
 
 /** Plays `swell` into `out`, returning its oscillator for a caller to bend further. */
 export function swell(
@@ -50,7 +50,7 @@ export function swell(
 }
 
 /** How a sound's loudness goes: up to `peak` over `attack`, then dying away by `lasts`. */
-export type Envelope = Pick<Swell, 'peak' | 'attack' | 'lasts'>;
+export type Envelope = Sustained & Attacked;
 
 /** A gain that plays `envelope` from `at` on the context's clock. */
 export function envelopeAt(

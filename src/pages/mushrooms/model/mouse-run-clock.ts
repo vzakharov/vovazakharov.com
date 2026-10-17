@@ -17,7 +17,7 @@ import {
   type RunPath,
   straightPath,
 } from './mouse-run-course';
-import type { Footed } from './placement';
+import type { Stood } from './placement';
 
 /** How fast a mouse runs along the plane, at full pace. */
 export const RUN_PACE = 0.6;
@@ -44,12 +44,17 @@ export type RunOpening = Extract<RunLeg, 'peek' | 'leave' | 'run'>;
  * sign of the side its course bows out to (`sideOf`), the leg it opens with,
  * and whether its target was called and holds its door open from the start.
  */
-export type RunCourse = {
-  runLength: number;
-  bowSign: number;
-  opening: RunOpening;
-  calling: boolean;
-};
+export type RunCourse = Opened &
+  Bowed & {
+    runLength: number;
+    calling: boolean;
+  };
+
+/** The sign of the side a run's course bows out to (`sideOf`). */
+export type Bowed = { bowSign: number };
+
+/** The leg a run opens with. */
+export type Opened = { opening: RunOpening };
 
 /** How long the mouse looks toward its target from the doorway before it goes. */
 const RUN_LOOK = 0.5;
@@ -124,8 +129,7 @@ function eased(t: number, span: number): number {
  * stands open (0 shut, 1 open); whether its `runner` is out on the ground to
  * be drawn; and how far it has `travelled` on the plane, for its stride.
  */
-export type RunMoment = {
-  leg: RunLeg;
+export type RunMoment = InLeg & {
   progress: number;
   sill: number;
   bounce: number;
@@ -135,6 +139,9 @@ export type RunMoment = {
   runner: boolean;
   travelled: number;
 };
+
+/** The leg a run is in. */
+export type InLeg = { leg: RunLeg };
 
 /**
  * Where `course` has its mouse `elapsed` seconds after it began: it peeks
@@ -215,7 +222,7 @@ export function runAt(elapsed: number, course: RunCourse): RunMoment {
  * there, no sill and no stem, its foot its front.
  */
 export type RunEnd = Wide &
-  Partial<Pick<Footed, 'foot'>> & { front: Point; sillHeight: number };
+  Partial<Stood> & { front: Point; sillHeight: number };
 
 /**
  * The run's end at a door seated at `door` on a mushroom of `size` in the
@@ -288,7 +295,7 @@ export const courseOf = (
   from: RunEnd,
   to: RunEnd,
   eye: Point,
-  { bowSign, opening }: Pick<RunCourse, 'bowSign' | 'opening'>,
+  { bowSign, opening }: Opened & Bowed,
 ): RunPath =>
   opening === 'run'
     ? straightPath(from.front, to.front)

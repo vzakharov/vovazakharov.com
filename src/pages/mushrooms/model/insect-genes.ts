@@ -69,19 +69,24 @@ export type Wing = { length: number; breadth: number; tip: number };
  * scene sets: its kind, its hue's nudge, and its body seen from above, head
  * toward -y.
  */
-export type InsectBody = Kinded &
-  Nudged & {
-    bodyLength: number;
-    /** The body's width at its thickest. */
-    bodyWidth: number;
-  };
+type InsectBody = Kinded & Nudged & Bodied;
+
+/** An insect's body seen from above, in units of its size. */
+export type Bodied = {
+  bodyLength: number;
+  /** The body's width at its thickest. */
+  bodyWidth: number;
+};
 
 /**
  * A two-winged insect's genes beyond its body — the fly's and the bee's: one
  * pair of clear wings, and the legs it rubs, crawls or carries pollen on,
  * each as long as `legLength`.
  */
-export type Buzzing = InsectBody & { wing: Wing; legLength: number };
+export type Buzzing = InsectBody & Winged;
+
+/** A two-winged insect's one pair of clear wings, and its legs' length. */
+export type Winged = { wing: Wing; legLength: number };
 
 /**
  * A butterfly's shape and colouring. Seen from above with the wings open: a

@@ -3,37 +3,44 @@
  * apart its perches stand, and the stay after it.
  */
 
-import type { Leg, Perch, Place, Places, Sight, Timed } from './flight';
+import type { Leg, Perch, Place, Placed, Places, Route, Timed } from './flight';
 import { levelWith, pairFramed } from './flight-frame';
 import type { Dash, Habits, Hops, Pace } from './flight-habits';
 import { CLUMP_DISTANCE } from './ground';
 import { perchName } from './perch-room';
 import { between, type Random } from './random';
 
-/** What of `Sight` times a leg. */
-export type Placed = Pick<Sight, 'places' | 'drawn' | 'aways'>;
+/** When a leg's flight takes off, in ms on the scene's clock. */
+export type Departing = { departs: number };
+
+/** When a leg's flight lands, in ms on the scene's clock. */
+export type Arriving = { arrives: number };
+
+/** When a leg's flight takes off and lands. */
+export type Scheduled = Departing & Arriving;
+
+/** How a leg's flight dashes, if it does. */
+type Dashing = { dash?: Dash };
 
 /** What of a leg says where an insect flying it is. */
-type Flown = Pick<Leg, 'from' | 'to' | 'departs' | 'arrives'>;
+type Flown = Route & Scheduled;
 
 /**
  * When a leg's flight takes off and lands, in ms on the scene's clock, how
  * it dashes, if it does, and how it hops about the spot in the air it comes
  * to, if it does.
  */
-export type Span = {
-  departs: number;
-  arrives: number;
-  dash?: Dash;
-  hops?: Hops;
-  /**
-   * The flight, in ms, its take-off `pivot` is timed as at the least, on a
-   * leg to a shelter: the pivot turns quickest at `8π` over the flight
-   * however far it turns, so timed off a dash it would ask more than the
-   * body's `TURN_RATE`, and the screen's bend draws it past that.
-   */
-  pivots?: number;
-};
+export type Span = Scheduled &
+  Dashing & {
+    hops?: Hops;
+    /**
+     * The flight, in ms, its take-off `pivot` is timed as at the least, on a
+     * leg to a shelter: the pivot turns quickest at `8π` over the flight
+     * however far it turns, so timed off a dash it would ask more than the
+     * body's `TURN_RATE`, and the screen's bend draws it past that.
+     */
+    pivots?: number;
+  };
 
 /**
  * The logarithmic mean of two distances: a touch over the mean of `q` along
@@ -163,10 +170,10 @@ function stayAt(random: Random, habits: Habits, to: Perch): number {
  */
 function paced(
   { cruising, dashing }: Pace,
-  { from, to }: Pick<Leg, 'from' | 'to'>,
+  { from, to }: Route,
   { places }: Placed,
   flown: number,
-): Pick<Span, 'dash'> & { flight: number } {
+): Dashing & { flight: number } {
   const apart = apartIn(places, from, to);
   if (apart === undefined) return { flight: flown };
   const flight = Math.max(flown, (1000 * apart) / cruising);
@@ -181,7 +188,7 @@ function paced(
 export function legTo(
   random: Random,
   habits: Habits,
-  route: Pick<Leg, 'from' | 'to'>,
+  route: Route,
   { now, ...placed }: Timed & Placed,
 ): Leg {
   const { from, to } = route;

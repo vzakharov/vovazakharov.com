@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 import { TOWARDS } from './dusk';
 import { PERCH_KINDS, SIDES } from './flight';
-import { type Meadow, PICKERS_SHUT } from './game';
+import { type KeptMeadow, PICKERS_SHUT, type Unkept } from './game';
 import { WINDOW_KINDS } from './house';
 import { INSECT_KINDS } from './insect-genes';
 import { MUSHROOM_SPECIES } from './mushroom-genes';
@@ -32,10 +32,7 @@ export const UNKEPT = {
   ...PICKERS_SHUT,
   selected: undefined,
   rain: undefined,
-} as const satisfies Partial<Meadow>;
-
-/** A meadow as it is kept: all of it but `UNKEPT`. */
-export type KeptMeadow = Omit<Meadow, keyof typeof UNKEPT>;
+} as const satisfies Unkept;
 
 /** One kept meadow, the visit seed that grew its world, and where the child stood in it and how, as the walk reopens there. */
 export type Kept = Seeded &

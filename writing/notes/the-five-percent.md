@@ -93,7 +93,7 @@ rude-prompt study went under OpenWhip's mitigating circumstances, though the app
 sends Ctrl-C and then the rude prompt. Crossroads' struck-out hook was left
 untranslated, then stripped of its tildes: the mark was the content.
 
-## An account that explains the code stands in for running it (×22)
+## An account that explains the code stands in for running it (×23)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
@@ -117,6 +117,12 @@ resumed it anyway. The rule tracked who paused it, not what the viewer left.
 names became generated unions, argued as what fails the build on a typo. _приведи
 пример функции … в которой мы будем *литерально* передавать "Полуживые"._ None
 exists, tsc never reads `.md`, and zod's parse had caught the typo all along.
+
+**17 October — "no call site uses it yet," read as a status.** PR #158 ported
+`composeSchemas` from Playgram with its tests, adoption left for later: _where
+are all its uses? or did it turn out useless?_ The case frontmatter and a song's
+fields already chained `.extend(X.shape)` over narrow schemas, its whole job. A
+helper without callers is dead code until a grep says otherwise.
 
 ## It edits the copy in front of it, not the fact behind it (×17)
 

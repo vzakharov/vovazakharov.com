@@ -68,11 +68,11 @@ export function plantedId(planted: readonly Sown[]): string {
  * stands in flight; `pollinates`, whether the flower its current leg goes to
  * is one it pollinates, a flower other than `from`.
  */
-export type Pollen = {
+export type Pollen = Specked & {
   from: string | undefined;
-  specks: number;
   pollinates: boolean;
 };
+export type Specked = { specks: number };
 export type Carrying = { pollen: Pollen };
 
 /** A bee's pollen as it flies in, before any flower. */

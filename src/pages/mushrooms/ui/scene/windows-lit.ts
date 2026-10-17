@@ -1,6 +1,6 @@
 import { duskness } from '../../model/dusk';
 import { smooth } from '../../model/motion';
-import type { Lights } from './dusk-view';
+import type { DuskFrom } from './dusk-view';
 
 /** The longest a house's windows light after the meadow's dusk, in ms, so the village lights up house by house. */
 export const LIT_DELAY_MOST = 1500;
@@ -16,7 +16,7 @@ const LIT_SPAN = 0.5;
  * delay is past, so it carries on from where its own light stood.
  */
 export function windowsLit(
-  { dusk, before }: Pick<Lights, 'dusk' | 'before'>,
+  { dusk, before }: DuskFrom,
   now: number,
   phase: number,
 ): number {

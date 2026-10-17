@@ -1,3 +1,5 @@
+import type { Hushing } from '@/shared/typings';
+
 /** What the player does on an element's event, handed the deck it fired on. */
 export type DeckListeners = ReadonlyArray<
   readonly [keyof HTMLMediaElementEventMap, (deck: HTMLAudioElement) => void]
@@ -8,7 +10,7 @@ export type DeckListeners = ReadonlyArray<
  * every control drives it, while the standby one loads the track due next, so
  * changing to it starts a buffered file rather than a request.
  */
-export type Decks = {
+export type Decks = Hushing & {
   active: () => HTMLAudioElement;
   /**
    * The file due next, which the standby deck loads once the active one can
@@ -24,8 +26,6 @@ export type Decks = {
    */
   play: (onRefused: () => void) => void;
   setVolume: (volume: number) => void;
-  /** Silence both decks and stop hearing them. */
-  stop: () => void;
 };
 
 /**

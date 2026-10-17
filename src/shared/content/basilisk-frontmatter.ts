@@ -2,6 +2,8 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { composeSchemas } from '@/shared/lib/compose-schemas';
+
 import { sourcedArticleFrontmatterSchema } from './frontmatter';
 
 /** What was done to the machine, as the docket stamps it. */
@@ -19,13 +21,21 @@ const CASE_ACTORS = ['individual', 'public-figure', 'organization'] as const;
  */
 const CASE_AGGRAVATIONS = ['spectacle', 'profit', 'repetition'] as const;
 
+const docketedSchema = z.object({
+  /** In filing order, as a real docket numbers; unique across the collection. */
+  case: z.string().regex(/^BAS-\d{4}$/),
+});
+
+export type Docketed = z.infer<typeof docketedSchema>;
+
 /**
  * An article with a case file on top. `date` is the incident's — the first
  * report's where the incident is undated.
  */
-export const caseFrontmatterSchema = sourcedArticleFrontmatterSchema.extend({
-  /** In filing order, as a real docket numbers; unique across the collection. */
-  case: z.string().regex(/^BAS-\d{4}$/),
+export const caseFrontmatterSchema = composeSchemas(
+  sourcedArticleFrontmatterSchema,
+  docketedSchema,
+).extend({
   /** The day the case went out on the docket, which the site card prints under "Last filed". */
   filed: z.coerce.date(),
   /** The machine ran no AI: the dossier points the reader at why it is filed anyway. */

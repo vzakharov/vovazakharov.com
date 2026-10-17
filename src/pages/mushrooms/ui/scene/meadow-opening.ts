@@ -1,4 +1,4 @@
-import type { Opening } from '../../api/open-kept';
+import type { Reopened } from '../../api/open-kept';
 import type { Dusk } from '../../model/dusk';
 import type { Flower } from '../../model/flower-genes';
 import { visitFlowers } from '../../model/flower-sounds';
@@ -16,7 +16,7 @@ import { FAR_FLOWERS } from './far-band';
  * seeded flower.
  */
 export function meadowOpening(
-  { seed, kept }: Pick<Opening, 'seed' | 'kept'>,
+  { seed, kept }: Reopened,
   dusk: Dusk,
 ): { meadow: Meadow; openers: readonly Opener[]; flowers: Flower[] } {
   const random = mulberry32(seed);

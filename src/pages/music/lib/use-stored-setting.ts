@@ -1,13 +1,16 @@
 import { useCallback, useSyncExternalStore } from 'react';
 
+export type WithVolume = {
+  /** The element's `volume`, 0 to 1. */
+  volume: number;
+};
+
 /** The bar's settings a reader expects to find as they left them. */
-export type SettingValues = {
+export type SettingValues = WithVolume & {
   shuffle: boolean;
   remaining: boolean;
   /** The master rather than its MP3. */
   lossless: boolean;
-  /** The element's `volume`, 0 to 1. */
-  volume: number;
 };
 
 type SettingName = keyof SettingValues;

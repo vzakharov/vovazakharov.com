@@ -1,4 +1,3 @@
-import type { Sight } from '../../model/flight';
 import { panOf } from '../../model/flight-frame';
 import type { InsectKind } from '../../model/insect-genes';
 import type { Species } from '../../model/mushroom-genes';
@@ -8,13 +7,16 @@ import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
 import { keptRoom } from './mushroom-room';
 import { onscreenOf } from './perch-sight';
-import type { Scened } from './planter';
+import type { Scened, SightSeen } from './planter';
 import type { MeadowSound } from './sound';
 
 /** What the arrivals act through: the scene's stand and reducer, and what it sees now. */
-type Arriving = Scened & {
-  layout: () => MeadowLayout;
-  sight: () => Sight;
+type Arriving = Scened & SightSeen & { layout: () => MeadowLayout };
+
+export type Summoning = {
+  readonly grow: (species: Species) => void;
+  readonly roomy: () => boolean;
+  readonly release: (insect: InsectKind) => void;
 };
 
 /**
@@ -23,7 +25,7 @@ type Arriving = Scened & {
  * the next mushroom grows from is drawn before the tap, so where it grows is
  * known while `+` stands waiting.
  */
-export class Arrivals {
+export class Arrivals implements Summoning {
   private readonly voice: MeadowSound;
   /** Seconds on the scene's clock. */
   private readonly now: () => number;

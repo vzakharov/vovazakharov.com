@@ -68,33 +68,59 @@ export type Planting = Rooted & {
   flower: string | undefined;
 };
 
-export type Meadow = Swarm & {
-  /** In the order they were planted, so the last is the newest. */
-  mushrooms: readonly Planted[];
-  selected: string | undefined;
+export type Meadow = Unkept & KeptMeadow;
+
+/** The pickers a meadow has open. */
+export type Pickers = {
   /** Whether the four species are showing, waiting for a pick. */
   picking: boolean;
   /** Whether the windows and the door are showing, waiting for a pick. */
   furnishing: boolean;
   /** The flower picker, open on a tuft or a flower, `undefined` while closed. */
   planting: Planting | undefined;
+};
+
+/** What of a meadow belongs to the load that has it: the selection, the pickers and the shower. */
+export type Unkept = Pickers & {
+  selected: string | undefined;
+  /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
+  rain: Rain | undefined;
+};
+
+/** A meadow as a reload keeps it: all of it but `Unkept`. */
+export type KeptMeadow = Swarm &
+  Tended &
+  WithDusk &
+  Spored & {
+    /** How many mushrooms the meadow has ever grown, so every id is new. */
+    grown: number;
+    /** How many insects the meadow has ever released, so every id is new. */
+    released: number;
+    /** The mice's own outings at dusk (`nightRan`). */
+    nightRuns: NightRuns;
+  };
+
+/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
+export type Tended = WithMushrooms & WithPulled;
+
+export type WithMushrooms = {
+  /** In the order they were planted, so the last is the newest. */
+  mushrooms: readonly Planted[];
+};
+
+type WithPulled = {
   /**
    * The ids of the flowers the child pulled up or replaced, the visit's
    * seeded ones and planted ones alike, in the order they went: none of them
    * stands again, and a replacing flower is planted afresh in `planted`.
    */
   pulled: readonly string[];
-  /** How many mushrooms the meadow has ever grown, so every id is new. */
-  grown: number;
-  /** How many insects the meadow has ever released, so every id is new. */
-  released: number;
-  /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
-  rain: Rain | undefined;
+};
+
+export type WithDusk = {
   /** Which way the light is going (`duskness`): the one record of the time of day. */
   dusk: Dusk;
-  /** The mice's own outings at dusk (`nightRan`). */
-  nightRuns: NightRuns;
-} & Spored;
+};
 
 export type Action =
   | { kind: 'pick' }
@@ -167,7 +193,7 @@ export function shapeSeed(
   return planting?.chosen?.seeds[FLOWER_SHAPES.indexOf(shape)];
 }
 
-export function isEmpty({ mushrooms }: Pick<Meadow, 'mushrooms'>): boolean {
+export function isEmpty({ mushrooms }: WithMushrooms): boolean {
   return mushrooms.length === 0;
 }
 
@@ -221,7 +247,7 @@ export const PICKERS_SHUT = {
   picking: false,
   furnishing: false,
   planting: undefined,
-} as const satisfies Pick<Meadow, 'picking' | 'furnishing' | 'planting'>;
+} as const satisfies Pickers;
 
 export function reduce(meadow: Meadow, action: Action): Meadow {
   switch (action.kind) {

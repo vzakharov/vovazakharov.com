@@ -16,9 +16,11 @@ import { openStore, type Store } from './meadow-store';
  * seed its new creatures' streams start from, the kept meadow and walk start
  * when there is one, and its keeper, absent with no store.
  */
-export type Opening = Seeded & {
-  streams: number;
-  kept?: Kept;
+export type Opening = Reopened & KeptBy & { streams: number };
+
+export type Reopened = Seeded & { kept?: Kept };
+
+export type KeptBy = {
   keeper?: Keeper;
   /** Whether another tab has kept the meadow since this load opened or last wrote it; present with the keeper. */
   overwritten?: () => Promise<boolean>;

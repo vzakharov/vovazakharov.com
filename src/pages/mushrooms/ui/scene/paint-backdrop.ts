@@ -6,8 +6,8 @@ import { DEPTHS } from './backdrop-depths';
 import { DUSK_TONES, tonesAt } from './backdrop-tones';
 import {
   aboutTheSun,
-  type Bake,
   bake,
+  type Baking,
   type Picture,
   TILE,
 } from './bake-picture';
@@ -233,11 +233,11 @@ export function paintBackdrop(
   const baked = (
     picture: keyof typeof DEPTHS,
     was: Picture | undefined,
-    how: Omit<Bake, 'depth'>,
+    how: Baking,
   ) => bake(scene, was, scratch, { ...how, depth: DEPTHS[picture] }, ratio);
   const turning = (
     picture: 'glow' | 'sun' | 'wash' | 'rainbow',
-    how: Omit<Bake, 'depth'>,
+    how: Baking,
   ): Turning => {
     const columns = baked(picture, existing?.[picture].columns, how);
     return {

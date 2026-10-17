@@ -8,6 +8,7 @@ import type { Stand } from './flower-sight';
 import { type Away, awayPlaces } from './insect-away';
 import type { MeadowLayout } from './layout';
 import {
+  type HostBeds,
   type Perched,
   perchedOn,
   type PerchHosts,
@@ -35,12 +36,14 @@ function snapped(value: number, step: number): number {
   return Math.round(value / step) * step;
 }
 
+export type TappedThrough = { tapThrough: (under: Perch | undefined) => void };
+
 /**
  * The scene's perches as the screen and the mushrooms stand now: what the
  * insects see of them, and where each stands this frame on the beds the
  * scene holds or in the open air.
  */
-export class Perches {
+export class Perches implements TappedThrough {
   /** What the insects see of the perches, as last seen. */
   sight: Sight = { flowers: [], air: [], crowded: [], room: [] };
   /** Each spot in the open air offered as last seen as a fixed point in the world, by id. */
@@ -50,9 +53,9 @@ export class Perches {
   /** The layout the perches were last seen on. */
   private layout: MeadowLayout | undefined;
   /** The beds the perches stand on, as the scene holds them now. */
-  private readonly beds: () => Pick<PerchHosts, 'bed' | 'flowers'>;
+  private readonly beds: () => HostBeds;
 
-  constructor(beds: () => Pick<PerchHosts, 'bed' | 'flowers'>) {
+  constructor(beds: () => HostBeds) {
     this.beds = beds;
   }
 
