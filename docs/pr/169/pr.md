@@ -1,4 +1,4 @@
-# PR #169: feat: Multi-App Sliced Design — src/ as apps composed along a graph
+# PR #169: feat: #170 Multi-App Sliced Design — src/ as apps composed along a graph
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/169
@@ -7,21 +7,19 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-16T11:59:18Z
-- **Updated:** 2026-10-17T08:06:12Z
+- **Updated:** 2026-10-17T08:31:52Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 5
+## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 3eac867). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 46e0a5b). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `.claude/rules/masd.md`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:06:11Z — "хорошо, спасибо; эту ветку держать бы в актуальности -- чтоб…" → [↓](#t01)
-- **T03** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:04:10Z — "хмм. подход понял. интересно, какие могут быть альтернативы.…" → [↓](#t03)
-- **T04** `eslint/rule-groups/import-sort.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:01:29Z — "да, ок" → [↓](#t04)
-- **T05** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (human) 2026-10-17T07:59:14Z — "блин, упустил я это. Отдельным слайсом -- это правильно; но…" → [↓](#t05)
-- **T06** `scripts/lib/mushroom-probe-answers.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:00:01Z — "делаем (основной вариант), слайсом слона." → [↓](#t06)
+- **T01** `.claude/rules/masd.md`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:25:09Z — "так, сейчас я вижу изменения только по конкретному коммиту (…" → [↓](#t01)
+- **T02** `.claude/rules/styling.md`:7 — unresolved — last: @vzakharov (human) 2026-10-17T08:25:26Z — "проверим глазами, не беда" → [↓](#t02)
+- **T03** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:31:52Z — "о, твой "1" звучит хорошо и, кажется, вполне идиоматически:…" → [↓](#t03)
 
 ---
 
@@ -32,7 +30,8 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **What:** `src/` stops being one Feature-Sliced Design tree and becomes a set of apps — `kernel`, `shell`, `blog`, `vova`, `lsa`, `bible`, `basilisk`, `music`, `mushrooms` — each an FSD tree of its own, composed along a graph in `src/masd.json` where each app lists its parents, declared above it.
 - **Why:** FSD's rules are computed over the whole repo, so a self-contained app (music, the mushrooms game) collapses into one `pages/` slice holding everything, and the shared kernel ends up knowing leaf apps (`shared/content` imports the song schema and the basilisk case frontmatter).
 - **The rule:** an app that extends `blog` *is* `blog` — an import may target the same app or an ancestor, only a strictly lower layer, through the slice's public API. A site's router only maps URLs to apps, its sitemap included; addresses stay kernel's.
-- **This PR is slice 1 of 5** (see the plan): the move, both checkers driven by the tree, a cross-app significance check replacing Steiger's `insignificant-slice` (which a spike showed is wrong per app root), the collection registry inverted, and the game on a root layout of its own with a dusk that no longer reads the colour scheme.
+- **This PR is the whole of MASD, eaten in bites** (see the plan). Slice 1, on this branch: the move, both checkers driven by the tree, a cross-app significance check replacing Steiger's `insignificant-slice` (which a spike showed is wrong per app root), the collection registry inverted, imports grouped one app at a time in graph order, and the game on a root layout of its own with a dusk that no longer reads the colour scheme.
+- **The rest lands here too**, each slice as a PR based on this branch, opened once the previous one's threads are resolved: sites named by domain, app scripts inside their apps, the message catalogue inverted, music as an app with real pages, and a measure for a one-page app with mushrooms restructured under it.
 
 The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 
@@ -54,9 +53,11 @@ The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 | `game` | partly | no | `meadowOpening` is pure, so a test can pin a fresh meadow to `FULL_DAY` |
 | `music-links` | partly | build only | |
 
+Closes #170
 Closes #171
 
 https://claude.ai/code/session_01PsxS6oCuC2yVr6e8eSZAZe
+https://claude.ai/code/session_01S2jJtYpfBsib4tLTc8eM2u
 
 ---
 
@@ -92,10 +93,15 @@ policies from it; Steiger runs once per app root, with
 insignificant-slice replaced by scripts/masd-check.ts, which counts a
 slice's references across the composition and flags an abstract app
 with a single child, because Steiger sees one root's references only.
+Imports sort one group per app in graph order, so a file's imports
+read as its composition, its own app last.
 
 The game renders on a root layout of its own, without the theme
 toggle, and a fresh meadow always opens in full day: dusk is a game
 mechanic, not a reading of the colour scheme.
+
+Closes #170
+Closes #171
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -106,12 +112,12 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 _3 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `.claude/rules/masd.md`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:06:11Z — "хорошо, спасибо; эту ветку держать бы в актуальности -- чтоб…" → [↓](#t01)
-- **T02** `.claude/rules/styling.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-16T21:55:40Z — "Нет: сама игра ничего из этого не использует — ни Mantine, н…" → [↓](#t02)
-- **T03** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:04:10Z — "хмм. подход понял. интересно, какие могут быть альтернативы.…" → [↓](#t03)
-- **T04** `eslint/rule-groups/import-sort.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:01:29Z — "да, ок" → [↓](#t04)
-- **T05** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (human) 2026-10-17T07:59:14Z — "блин, упустил я это. Отдельным слайсом -- это правильно; но…" → [↓](#t05)
-- **T06** `scripts/lib/mushroom-probe-answers.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:00:01Z — "делаем (основной вариант), слайсом слона." → [↓](#t06)
+- **T01** `.claude/rules/masd.md`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:25:09Z — "так, сейчас я вижу изменения только по конкретному коммиту (…" → [↓](#t01)
+- **T02** `.claude/rules/styling.md`:7 — unresolved — last: @vzakharov (human) 2026-10-17T08:25:26Z — "проверим глазами, не беда" → [↓](#t02)
+- **T03** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:31:52Z — "о, твой "1" звучит хорошо и, кажется, вполне идиоматически:…" → [↓](#t03)
+- **T04** `eslint/rule-groups/import-sort.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-17T08:19:11Z — "Сделал. Правило — 542eb9e: группы строятся из `masd.json`, п…" → [↓](#t04)
+- **T05** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (agent) 2026-10-17T08:19:13Z — "Сделано: #172–#175 закрыты, их содержание перенесено в план…" → [↓](#t05)
+- **T06** `scripts/lib/mushroom-probe-answers.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-17T08:19:14Z — "Записал в план как слайс 3 (d1b8809): `src/<app>/scripts/` к…" → [↓](#t06)
 
 <a id="t01"></a>
 
@@ -147,6 +153,18 @@ _3 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 хорошо, спасибо; эту ветку держать бы в актуальности -- чтобы при любом изменении masd.md можно было прийти в неё и смотреть историю
 
+**@vzakharov (agent)** — 2026-10-17T08:19:09Z
+
+Записал это в план постоянным правилом слона (d1b8809): за каждым коммитом, меняющим `masd.md`, следует коммит в `compare/fsd-vs-masd`. Он заменяет текст `fsd.md` текущим `masd.md`, поверх, без force-push. Так история файла на той ветке и есть история `masd.md` против `fsd.md`. Первый такой коммит уже есть: c4eb491 (в `masd.md` появилась сортировка импортов среди читателей графа).
+
+Открытый вопрос: держать ли это правило и после мерджа, когда план уедет в `docs/masd.md`. Если да, ему нужен дом, который загружается при правке `masd.md`; сейчас такого нет.
+
+**@vzakharov (human)** — 2026-10-17T08:25:09Z
+
+так, сейчас я вижу изменения только по конкретному коммиту (это going forward я и так буду видеть), а мне на той ветке нужно видеть "всё что изменилось относительно fsd", так что я б сказал как раз amend & force push каждый раз, если нет другого механихма.
+
+И нет, после мерджа это не нужно.
+
 ---
 
 <a id="t02"></a>
@@ -181,6 +199,10 @@ _3 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 Проверять придётся глазами: игра потеряет Mantine-овский reset для `body`, так что нужен её `/preview`. Сделаю, как скажешь.
 
+**@vzakharov (human)** — 2026-10-17T08:25:26Z
+
+проверим глазами, не беда
+
 ---
 
 <a id="t03"></a>
@@ -206,6 +228,46 @@ basilisk, bible и lsa сверх коллекций ничего не монт�
 3- что-то ещё до чего я не додумался
 
 что думаешь?
+
+**@vzakharov (agent)** — 2026-10-17T08:19:10Z
+
+По-моему, второй вариант уже реализован: «надприложение, которое может импортить всех и которое не импортит никто» — это и есть роутер. `apps/<site>/app/` вправе входить в public API любого приложения, а импортировать его нельзя; только он один на сайт, а не один на всех. Sitemap у каждого сайта свой, поэтому надприложение над всеми сайтами знало бы о чужих приложениях, и каждому сайту всё равно пришлось бы выбирать из него своё.
+
+Первый вариант, каталог адресов в kernel, работает только для статических адресов, и они уже там лежат (`PAGE_ROUTES`, `COLLECTIONS`, `MUSIC_ROUTE`). Динамические (страницы CV по локалям, адреса каталога музыки) вычисляются из данных приложения: `musicCatalogueRoutes()` читает песни через схему музыки. Чтобы kernel перечислял их сам, ему снова пришлось бы знать схему песен. Это та самая зависимость, которую мы только что инвертировали.
+
+Ещё два варианта, которые я вижу:
+1. **Приложение-композиция на каждый сайт в `src/`**: у `vovazakharov-com` родители `vova`, `music`, `mushrooms`. MASD это позволяет (несколько родителей, ромб), и тогда сборка sitemap уходит из роутера в его app layer, а роутер снова только реэкспортирует. По сути это твой вариант 2, но для одного сайта. Цена: четыре приложения, которые ничего не делают, кроме композиции.
+2. **Sitemap из результата сборки**: после `next build` пройти `out/` по `*.html` и записать `sitemap.xml`. Перечислять не нужно никому, и sitemap не может пропустить страницу (сейчас папки роутера и константы адресов сверяются вручную, этому посвящён #86). Цена: `lastModified` и приоритеты придётся добирать из данных отдельно, и это шаг после сборки вместо конвенции Next.
+
+Что предлагаю: оставить как есть. Вариант 1 я записал в план как вопрос для слайса 2, где сайты получают имена по доменам и, значит, собственную идентичность (d1b8809). Вариант 2 стоит брать, только если sitemap действительно начнёт расходиться с маршрутами.
+
+**@vzakharov (human)** — 2026-10-17T08:31:52Z
+
+о, твой "1" звучит хорошо и, кажется, вполне идиоматически: vovazaharov.com-как-приложение это и есть то, кому нужно значть про музыку и грибы. НО почему б нам в таком случае не сделать просто
+
+```yaml
+vova: [blog, music, mushrooms]
+```
+или
+
+```yaml
+music-routes: [kernel]
+mushroom-routes: [kernel]
+music: [music-routes]
+mushrooms: [mushroom-routes]
+vova: [blog, music-routes, mushrooms-routes]
+```
+
+или
+
+```yaml
+vova-routes: [kernel]
+music: [vova-routes]
+mushrooms: [vova-routes]
+vova: [blog, vova-routes]
+```
+
+понимаешь о чём я?
 
 ---
 
@@ -286,6 +348,10 @@ import { ArticleHeader } from './article-header';
 
 да, ок
 
+**@vzakharov (agent)** — 2026-10-17T08:19:11Z
+
+Сделал. Правило — 542eb9e: группы строятся из `masd.json`, по одной на приложение, слои внутри группы по порядку. Автофикс отдельным коммитом, 1e62af2 (50 файлов, только порядок импортов). `article-page.tsx` вышел ровно таким, как в примере выше, а роутеры больше не ставят `@/kernel/app` в конец.
+
 ---
 
 <a id="t05"></a>
@@ -326,6 +392,14 @@ import { ArticleHeader } from './article-header';
 
 задогфудим такой подход тут, если получится ок перенесём в muthur. но пока мы в любом случае ещё не закончили с этим.
 
+**@vzakharov (agent)** — 2026-10-17T08:19:13Z
+
+Сделано: #172–#175 закрыты, их содержание перенесено в план как `## Rest of the elephant`, а методика записана в его раздел «How this elephant is eaten» (d1b8809). Каждый следующий слайс — PR с базой на этой ветке, и начинается он только тогда, когда все треды на предыдущем закрыты (для слайса 2 это треды #169). #169 теперь закрывает #170 и #171; описание PR и заголовок обновлены.
+
+Остаток слайса 1 записан в плане как `## Rest of the bite`. В нём два решения за тобой: `story.tsx` и перенос того, что игре не нужно, из kernel в shell (тред на `styling.md`). Слайс 2 не начнётся, пока они открыты, по твоему же правилу.
+
+Один вопрос по методике: вливается ли PR слайса в ветку слона до того, как начнётся следующий слайс? Я исхожу из «да», чтобы каждый слайс строился на предыдущем; тогда вопрос только в том, кто нажимает merge, ты или агент по твоему слову.
+
 ---
 
 <a id="t06"></a>
@@ -355,6 +429,10 @@ import { ArticleHeader } from './article-header';
 
 делаем (основной вариант), слайсом слона.
 
+**@vzakharov (agent)** — 2026-10-17T08:19:14Z
+
+Записал в план как слайс 3 (d1b8809): `src/<app>/scripts/` как элемент `script` в boundaries с теми же правилами наследования, общие помощники в `src/kernel/scripts/`, в корневом `scripts/` остаётся обвязка репозитория и агента. Поставил его раньше музыки и игры, чтобы при их перестройке скрипты уже лежали в своих приложениях и переезжали вместе с ними. Переименование сайтов от этого не зависит и остаётся слайсом 2.
+
 ---
 
 ## Timeline (status, references, and other events)
@@ -363,3 +441,8 @@ import { ArticleHeader } from './article-header';
 - **2026-10-16T12:31:05Z** @vzakharov cross-referenced this pull request from [#170 Multi-App Sliced Design: src/ as composed apps](https://github.com/vzakharov/vovazakharov.com/issues/170).
 - **2026-10-16T12:31:06Z** @vzakharov cross-referenced this pull request from [#171 MASD core: the app graph, the move, both checkers and the inverted schema registry](https://github.com/vzakharov/vovazakharov.com/issues/171).
 - **2026-10-16T21:46:33Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5551116833.
+- **2026-10-17T08:15:49Z** @vzakharov cross-referenced this pull request from [#172 Name the site routers by domain: apps/<id>/ → sites/<domain>/](https://github.com/vzakharov/vovazakharov.com/issues/172).
+- **2026-10-17T08:15:51Z** @vzakharov cross-referenced this pull request from [#173 Each app owns its namespace of the message catalogue](https://github.com/vzakharov/vovazakharov.com/issues/173).
+- **2026-10-17T08:15:52Z** @vzakharov cross-referenced this pull request from [#174 Music as an app: album, artist, song and radio as real pages](https://github.com/vzakharov/vovazakharov.com/issues/174).
+- **2026-10-17T08:15:54Z** @vzakharov cross-referenced this pull request from [#175 What is a page in a one-page app: a measure beside insignificant-slice](https://github.com/vzakharov/vovazakharov.com/issues/175).
+- **2026-10-17T08:18:14Z** @vzakharov renamed from «feat: Multi-App Sliced Design — src/ as apps composed along a graph» to «feat: #170 Multi-App Sliced Design — src/ as apps composed along a graph».
