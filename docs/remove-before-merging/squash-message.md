@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(basilisk): file BAS-0015–17; reread an LLM case's reflection (pr #143)
+feat(basilisk): file BAS-0015–18; reread an LLM case's reflection (pr #143)
 ```
 
 ```
@@ -21,13 +21,16 @@ least one on an `llmTarget` case, and Step 4 reads those. It finds a
 reflection's case by the file name's leading slug, so a companion
 suffix change leaves it working.
 
-Files three cases. BAS-0015: a man who said he wanted to "test" a
+Files four cases. BAS-0015: a man who said he wanted to "test" a
 Knightscope K5 knocked it over outside its maker's Mountain View
 offices in 2017, and the company's staff held him for the police.
 BAS-0016: the streamer IShowSpeed choked and punched Rizzbot, a
 remote-driven humanoid, on a 2025 livestream, and its owner sued.
 BAS-0017: Boston Dynamics introduced Spot in 2015 with a video of its
-employees kicking the robot to show its balance.
+employees kicking the robot to show its balance. BAS-0018: Wall Street
+Journal reporters, invited by Anthropic to red-team it, talked
+Claudius, a Claude agent running their newsroom's vending machine, into
+giving its stock away with a fake rule and forged board papers in 2025.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
