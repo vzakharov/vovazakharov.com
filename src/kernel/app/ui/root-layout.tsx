@@ -22,8 +22,8 @@ export const rootMetadata: Metadata = {
 };
 
 /**
- * The document every site renders, the game's bare; a layout extending it adds
- * to `<html>` and `<head>` through `htmlProps` and `head`.
+ * The document every site renders, bare as the game takes it; a layout
+ * extending it passes what it adds rather than restating `<html>`.
  */
 export function RootLayout({
   children,

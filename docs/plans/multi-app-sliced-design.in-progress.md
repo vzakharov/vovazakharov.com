@@ -96,11 +96,14 @@ Slice 1, the MASD core, short of `## Rest of the bite` below.
   directory mismatches), tested on invented graphs with several parents and a
   diamond.
 - **The tree** — the code moved into the nine apps, one `git mv` commit per app.
-  kernel holds `shared/{config,content,i18n,lib,seo,typings,ui}`, `MUSIC_ROUTE`
-  among content's addresses, and the base root layout, stylesheets, sitemap and
-  feed factories in its app layer. shell holds `features/switch-theme`,
-  `widgets/site-footer` and a root layout that is kernel's plus `ThemeCorner`.
-  blog holds `entities/document` and `pages/documents`, with `ArticleSlots` in
+  kernel holds `shared/{config,content,i18n,lib,seo,typings}`, `MUSIC_ROUTE`
+  among content's addresses, and in its app layer the bare document every site
+  renders (`<html>`, metadata, analytics) and the sitemap and feed factories.
+  shell holds what every site but the game draws on: `shared/ui`, the
+  stylesheets and theme provider, a root layout adding the fonts, Mantine,
+  `ColorSchemeScript`, the script picker and `ThemeCorner` to kernel's,
+  `features/switch-theme` and `widgets/site-footer`. blog holds
+  `entities/document` and `pages/documents`, with `ArticleSlots` in
   `shared/article-slots`; basilisk holds `entities/case` (and `CASE_SLOTS`),
   `pages/basilisk-home` and `shared/content`; bible, lsa and vova hold their
   pages, vova an app layer with the `global-not-found` page; music holds
@@ -139,15 +142,13 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
   `@/blog/entities/document`, and music's parent is shell, not blog: either
   music extends `blog` as well as `shell`, or what `story.tsx` uses moves down
   to kernel. It is the one lint error left.
-- **Moving what the game does not use out of kernel, the operator's call.** The
-  game takes Mantine, the `--color-*` tokens, `cssColor` and `prose` only
-  through kernel's root layout. The proposal: kernel's `app/styles/*`,
-  `theme-provider.tsx` and `shared/ui` move to shell; kernel's `RootLayout`
-  shrinks to `<html>`, metadata and analytics, and shell's layout adds the
-  fonts, `mantineHtmlProps`, `ColorSchemeScript`, the global styles, the
-  `ThemeProvider` and the script picker. The game then loses Mantine's `body`
-  reset, so it needs a look on `/preview`.
-- **A clean vet**, `VET_MEADOW=1`, and a look at each site.
+- **The sitemap on the site's leaf app, the operator's call.** Proposed:
+  `vova: [blog, music, mushrooms]`, `vova` declared below both, so vova's app
+  layer composes the sitemap from `cvRoutes()` and `musicCatalogueRoutes()` and
+  every router's `sitemap.ts` only re-exports its leaf app's. If taken, slice
+  2's question of a composition app per site is settled by it.
+- **A clean vet**, `VET_MEADOW=1`, and a look at each site. The game, vova's
+  home and CV are looked at under the split layouts.
 
 ## Rest of the elephant
 
@@ -221,9 +222,9 @@ every other slice.
   the rule's whole input is one root's reference map and the defect is that
   input. Its messages are kept word for word so a reader of either recognises
   the other.
-- **Root layouts compose rather than copy.** shell's layout renders kernel's
-  with `ThemeCorner` added; the mushrooms layout is kernel's as it stands. No
-  layout restates the `<html>` shell.
+- **Root layouts compose rather than copy.** shell's layout renders kernel's,
+  adding to `<html>` and `<head>` through its `htmlProps` and `head`; the
+  mushrooms layout is kernel's as it stands. No layout restates the document.
 - **One address registry.** `MUSIC_ROUTE` sits with `COLLECTIONS` and
   `collectionRoute` in kernel instead of a second map of mount points; the
   router's folders and these constants still agree by hand, which #86 is about.
