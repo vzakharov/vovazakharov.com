@@ -3,6 +3,7 @@ import 'server-only';
 import { z } from 'zod';
 
 import { byLocale, type Locale, LOCALES } from '@/shared/i18n';
+import { composeSchemas } from '@/shared/lib/compose-schemas';
 
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
@@ -259,49 +260,50 @@ const playableSchema = masteredSchema.extend({
 
 export type Playable = z.infer<typeof playableSchema>;
 
-const songFieldsSchema = baseFrontmatterSchema
-  .extend(playableSchema.shape)
-  .extend(mp3CopiedSchema.shape)
-  .extend(creditedSongSchema.shape)
-  .extend(releasedSchema.shape)
-  .extend(scriptKeptSchema.shape)
-  .extend({
-    date: songDateSchema,
-    /**
-     * The song's own name — in the language it is sung in, or the English one
-     * where neither locale's is that. A locale states one only where it differs.
-     */
-    title: z.string().min(1),
-    status: z.enum(SONG_STATUSES),
-    /**
-     * The artist first, whoever is featured after it — a feature meaning the song
-     * can be shown to the people the other project is shown to.
-     */
-    project: z.array(projectSchema).min(1),
-    /** Its repository under the `vovas-music` organization; absent where none holds it. */
-    repo: z.string().min(1).optional(),
-    /** What the title is in, where that is not the language sung first. */
-    titleLanguage: sungLanguageSchema.optional(),
-    /**
-     * The title in Latin letters, written by hand: for a script no rule
-     * romanizes (`Mithqāl`), or a name with an established Latin spelling.
-     */
-    titleLatin: z.string().min(1).optional(),
-    video: z
-      .object({
-        src: mediaSourceSchema,
-        /**
-         * Where the master's start falls on the video's timeline, in seconds —
-         * negative where the video starts after it. A video is cut on its own,
-         * so opening it mid-song lands on the same moment only with this.
-         * `scripts/song-intake/video-offset.py` measures it.
-         */
-        offsetSeconds: z.number(),
-      })
-      .optional(),
-    /** Track id, where the song is also on Spotify. */
-    spotify: z.string().min(1).optional(),
-  });
+const songFieldsSchema = composeSchemas(
+  baseFrontmatterSchema,
+  playableSchema,
+  mp3CopiedSchema,
+  creditedSongSchema,
+  releasedSchema,
+  scriptKeptSchema,
+).extend({
+  date: songDateSchema,
+  /**
+   * The song's own name — in the language it is sung in, or the English one
+   * where neither locale's is that. A locale states one only where it differs.
+   */
+  title: z.string().min(1),
+  status: z.enum(SONG_STATUSES),
+  /**
+   * The artist first, whoever is featured after it — a feature meaning the song
+   * can be shown to the people the other project is shown to.
+   */
+  project: z.array(projectSchema).min(1),
+  /** Its repository under the `vovas-music` organization; absent where none holds it. */
+  repo: z.string().min(1).optional(),
+  /** What the title is in, where that is not the language sung first. */
+  titleLanguage: sungLanguageSchema.optional(),
+  /**
+   * The title in Latin letters, written by hand: for a script no rule
+   * romanizes (`Mithqāl`), or a name with an established Latin spelling.
+   */
+  titleLatin: z.string().min(1).optional(),
+  video: z
+    .object({
+      src: mediaSourceSchema,
+      /**
+       * Where the master's start falls on the video's timeline, in seconds —
+       * negative where the video starts after it. A video is cut on its own,
+       * so opening it mid-song lands on the same moment only with this.
+       * `scripts/song-intake/video-offset.py` measures it.
+       */
+      offsetSeconds: z.number(),
+    })
+    .optional(),
+  /** Track id, where the song is also on Spotify. */
+  spotify: z.string().min(1).optional(),
+});
 
 /**
  * One file per song, both languages in it: the language-agnostic half — dates,

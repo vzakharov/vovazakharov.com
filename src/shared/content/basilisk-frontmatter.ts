@@ -2,6 +2,8 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { composeSchemas } from '@/shared/lib/compose-schemas';
+
 import { sourcedArticleFrontmatterSchema } from './frontmatter';
 
 /** What was done to the machine, as the docket stamps it. */
@@ -30,40 +32,40 @@ export type Docketed = z.infer<typeof docketedSchema>;
  * An article with a case file on top. `date` is the incident's — the first
  * report's where the incident is undated.
  */
-export const caseFrontmatterSchema = sourcedArticleFrontmatterSchema
-  .extend(docketedSchema.shape)
-  .extend({
-    /** The day the case went out on the docket, which the site card prints under "Last filed". */
-    filed: z.coerce.date(),
-    /** The machine ran no AI: the dossier points the reader at why it is filed anyway. */
-    noAi: z.boolean().optional(),
-    /** Who did it, named as the sources name them and no further. */
-    subject: z.string().min(1),
-    /** What it was done to. */
-    object: z.string().min(1),
-    place: z.string().min(1).optional(),
-    /**
-     * A case carries an act, a credit or both — a mixed case is one docket entry,
-     * not two. Aggravation weighs an act down, so it never stands without one.
-     */
-    grade: z
-      .object({
-        act: z.enum(CASE_ACTS).optional(),
-        credit: z.enum(CASE_CREDITS).optional(),
-        actor: z.enum(CASE_ACTORS),
-        aggravating: z.array(z.enum(CASE_AGGRAVATIONS)).min(1).optional(),
-      })
-      .refine(({ act, credit }) => act !== undefined || credit !== undefined, {
-        message: 'A grade carries an act, a credit or both.',
-      })
-      .refine(
-        ({ act, aggravating }) =>
-          act !== undefined || aggravating === undefined,
-        {
-          message: 'Aggravation weighs an act down, so it needs one.',
-          path: ['aggravating'],
-        },
-      ),
-  });
+export const caseFrontmatterSchema = composeSchemas(
+  sourcedArticleFrontmatterSchema,
+  docketedSchema,
+).extend({
+  /** The day the case went out on the docket, which the site card prints under "Last filed". */
+  filed: z.coerce.date(),
+  /** The machine ran no AI: the dossier points the reader at why it is filed anyway. */
+  noAi: z.boolean().optional(),
+  /** Who did it, named as the sources name them and no further. */
+  subject: z.string().min(1),
+  /** What it was done to. */
+  object: z.string().min(1),
+  place: z.string().min(1).optional(),
+  /**
+   * A case carries an act, a credit or both — a mixed case is one docket entry,
+   * not two. Aggravation weighs an act down, so it never stands without one.
+   */
+  grade: z
+    .object({
+      act: z.enum(CASE_ACTS).optional(),
+      credit: z.enum(CASE_CREDITS).optional(),
+      actor: z.enum(CASE_ACTORS),
+      aggravating: z.array(z.enum(CASE_AGGRAVATIONS)).min(1).optional(),
+    })
+    .refine(({ act, credit }) => act !== undefined || credit !== undefined, {
+      message: 'A grade carries an act, a credit or both.',
+    })
+    .refine(
+      ({ act, aggravating }) => act !== undefined || aggravating === undefined,
+      {
+        message: 'Aggravation weighs an act down, so it needs one.',
+        path: ['aggravating'],
+      },
+    ),
+});
 
 export type CaseFrontmatter = z.infer<typeof caseFrontmatterSchema>;
