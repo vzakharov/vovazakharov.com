@@ -20,10 +20,15 @@ policies from it; Steiger runs once per app root, with
 insignificant-slice replaced by scripts/masd-check.ts, which counts a
 slice's references across the composition and flags an abstract app
 with a single child, because Steiger sees one root's references only.
+Imports sort one group per app in graph order, so a file's imports
+read as its composition, its own app last.
 
 The game renders on a root layout of its own, without the theme
 toggle, and a fresh meadow always opens in full day: dusk is a game
 mechanic, not a reading of the colour scheme.
+
+Closes #170
+Closes #171
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
