@@ -200,7 +200,47 @@ skill's § "The ledger" says how it is kept; the docket itself
   First seen 2026-10-17. **Rejected**: prints are no machine; unread, from
   https://www.aol.com/news/student-eats-ai-artwork-wild-203420959.html.
 
+- **A man spray-painting “AI will take our jobs” across fifteen towns in
+  south-east Cornwall**, England, Christmas Eve to Boxing Day 2025. First seen
+  2026-10-18. **Rejected**: buildings, no machine; read in WTAM’s brief
+  (https://wtam.iheart.com/content/2026-01-07-anti-ai-protestor-commits-staggering-vandalism-spree/).
+- **Opposition MPs throwing bottles and papers when Albania’s prime minister
+  presented Diella, an AI “minister,”** Tirana, 18 September 2025. First seen
+  2026-10-18. **Rejected**: aimed at the prime minister and his cabinet, not the
+  machine; seen only in search summaries, from
+  https://www.intellinews.com/albanian-pm-s-presentation-of-ai-minister-to-mps-ends-in-chaos-401972/.
+- **A Unitree robot two young men steered into groping a 16-year-old girl**,
+  Cologne, October 2026. First seen 2026-10-18. **Rejected**: the robot is the
+  instrument of harm to a person, and the actors include a minor.
+- **Andon Labs’ AI-run store (Luna, San Francisco) and café (Mona,
+  Stockholm)**, 2026. First seen 2026-10-18. **Rejected**: no report of anyone
+  tricking or harming either agent; one visitor’s review
+  (https://iter.ca/post/andon-market-review/) says they thought of jailbreaking
+  Luna and did not.
+
 ## Runs
+
+### 2026-10-18 — filed BAS-0019
+
+https://claude.ai/code/session_01A4bn9E2Wi3uLsv9nGXHz3y. The Signal Front
+archive (nothing since 11 October). Web search for Andon Labs’ other agents
+(Luna, Mona: nothing done to them), in French for delivery robots in France, in
+Arabic for police robots in the Gulf, in Spanish for robots in Spain, in
+Chinese for humanoids kicked by visitors (only robots kicking people), for
+chatbots pulled after trolling since 2024 (only Tay), for Albania’s Diella,
+then for court cases over damaged robots and AI machines, which led to Tally,
+Simbe’s shelf-scanning robot, pushed over in a Schnucks in Bridgeton, Missouri
+in 2023, filed. Arctic Shift: r/robotics “vandal”, r/singularity “kicked”,
+r/artificial “abuse”, r/LocalLLaMA “cruel” since October 2025 — robots
+kicking children and abuse by AI, nothing to file. Sources read: KMOV, the
+Post-Dispatch’s lede (the rest is paywalled), Simbe’s two newsroom reposts and
+Tally page, Wikipedia; KSDK, the one report giving the day (9 May, by search
+summaries), answers 403 and so does its Wayback snapshot, so the dossier dates
+the case by the charge. Wikipedia has no Wayback snapshot. `noAi` stood at
+seven of eighteen. **Next**: KSDK’s report, for the date and the
+identification, if it can be read; Starship at Knoxville and Pieksämäki while
+`noAi` stays under half; Africa in French; robots damaged in shops and
+warehouses (other Simbe, Badger and Bossa Nova deployments).
 
 ### 2026-10-17 — filed BAS-0018
 
@@ -354,20 +394,12 @@ local-language searches (German, Korean, Japanese) for robot vandalism; Sony
 Aibo funerals as a possible credit; the Hollister police Facebook post, if
 a snapshot appears, for the charges.
 
-### 2026-10-09 — filed BAS-0010
-
-https://claude.ai/code/session_01Pq9kuhw8gZ2vbd26J8DJ6x. No search: the
-operator's lead, an r/ClaudeAI thread on Anthropic's Usage Policy clause against
-needless cruelty to Claude, read through Arctic Shift (reddit.com answers the
-container with 403). The first credit on the docket, filed under the credit
-schema the same session added. Sources read: Anthropic's announcement, the
-policy text, its August 2025 end-conversation post, The Verge, MacRumors and The
-Decoder; tbreak was read and left out, as it labels its account partly
-AI-generated and adds nothing. **Next**: the 2026-10-09 BAS-0009 run's list
-still stands.
-
 ### Swept earlier
 
+- 2026-10-09, filed BAS-0010
+  (https://claude.ai/code/session_01Pq9kuhw8gZ2vbd26J8DJ6x): no search, the
+  operator’s lead, an r/ClaudeAI thread on Anthropic’s cruelty clause, through
+  Arctic Shift.
 - 2026-10-09, filed BAS-0009 (session id not available): Arctic Shift over
   r/CharacterAI, r/LocalLLaMA and r/singularity for “abuse”, “torture” and
   “bully”; web search for robots attacked in Europe in 2018–2020 and for

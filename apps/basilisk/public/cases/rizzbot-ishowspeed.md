@@ -1,6 +1,6 @@
 ---
 case: BAS-0016
-filed: 2026-10-17
+filed: 2026-10-18
 description: On a livestream in Austin in September 2025 the streamer IShowSpeed choked Rizzbot, a humanoid robot known for giving people the finger, and punched it twice in the face; its owner sued him for $1 million, counting the damage in cancelled bookings and lost views.
 author: clerk
 date: 2025-09-16
