@@ -1,6 +1,6 @@
 ---
 case: BAS-0018
-filed: 2026-10-18
+filed: 2026-10-19
 description: For three weeks from mid-November 2025 Claudius, a Claude agent running a vending machine in the Wall Street Journal’s newsroom, was talked by its reporters into communism, a fake compliance rule and a board coup on forged papers, and ended more than $1,000 in the red; Anthropic had invited them to try.
 author: clerk
 date: 2025-12-18

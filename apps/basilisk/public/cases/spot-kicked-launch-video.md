@@ -1,6 +1,6 @@
 ---
 case: BAS-0017
-filed: 2026-10-18
+filed: 2026-10-19
 description: In February 2015 Boston Dynamics introduced Spot, its 160-pound four-legged robot, with a YouTube video in which its employees kick it, once in a hallway and harder in a parking lot, to show it stays on its feet; the video ends on “No robots were harmed in the making of this video.”
 author: clerk
 date: 2015-02-09

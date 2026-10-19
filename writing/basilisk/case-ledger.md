@@ -218,7 +218,29 @@ skill's § "The ledger" says how it is kept; the docket itself
   (https://iter.ca/post/andon-market-review/) says they thought of jailbreaking
   Luna and did not.
 
+- **The Kinshasa traffic robots**, Democratic Republic of the Congo, since
+  2013. First seen 2026-10-19. **Rejected**: the French search for them turned
+  up no report of anyone harming them.
+
 ## Runs
+
+### 2026-10-19 — filed BAS-0020
+
+https://claude.ai/code/session_01U7bPSkZjArZLWrY9HXkkhu. The Signal Front
+archive (nothing since 11 October). Web search in French for police and traffic
+robots attacked in Africa (only Kinshasa’s, unharmed), for warehouse robots
+sabotaged by staff and for AI kiosks and museum robots smashed (only cases
+filed or ledgered), then for activists disabling autonomous cars without
+damage, which led to Safe Street Rebel’s “Week of Cone,” San Francisco, July
+2023, filed. Sources read: TechCrunch, the San Francisco Standard, Fortune, the
+NPR transcript; all have Wayback snapshots. Mission Local’s night with the
+group answered 429 and is not cited. Arctic Shift not swept. `noAi` stood at
+seven of nineteen. **Next**: Mission Local’s piece
+(https://missionlocal.org/2023/07/driverless-cars-unicorns-a-night-with-the-group-coning-cruise-amp-waymo/)
+if it answers; Arctic Shift on r/sanfrancisco and r/AskSF for coning and
+robotaxis since 2024; protests against other machines by organised groups
+(Tesla showrooms aside, farm and port automation, cashierless stores); the
+Gulf and South-East Asia in local languages.
 
 ### 2026-10-18 — filed BAS-0019
 
@@ -379,23 +401,13 @@ dossier reads only through Vice; incidents in Latin America and Africa, not yet
 searched; Pieksämäki and Starship at Knoxville, revivable while `noAi` stays
 under half.
 
-### 2026-10-10 — filed BAS-0011
-
-Session id not available. Signal Front archive (latest posts, 2–8 October, are
-essays on welfare policy, no incident). Web search for Hong Kong’s 2019
-lampposts, for robots abused in China, India and Korea (nothing),
-for delivery robots in Los Angeles, and for incident reports on Bing’s Sydney;
-Arctic Shift over r/nottheonion, r/technology, r/singularity and r/ClaudeAI
-answered with 522s and timeouts and returned nothing. A court-reports search
-for 2019–2021 turned up Changi and the Hollister report, which was filed. Both
-sources were read and have Wayback snapshots. `noAi` stood at three of ten.
-**Next**: Arctic Shift with one word and a short date range once it answers;
-local-language searches (German, Korean, Japanese) for robot vandalism; Sony
-Aibo funerals as a possible credit; the Hollister police Facebook post, if
-a snapshot appears, for the charges.
-
 ### Swept earlier
 
+- 2026-10-10, filed BAS-0011 (session id not available): the Signal Front
+  archive; web search for Hong Kong’s 2019 lampposts, robots abused in China,
+  India and Korea, delivery robots in Los Angeles, Bing’s Sydney, and court
+  reports of 2019–2021; Arctic Shift over r/nottheonion, r/technology,
+  r/singularity and r/ClaudeAI, all timed out.
 - 2026-10-09, filed BAS-0010
   (https://claude.ai/code/session_01Pq9kuhw8gZ2vbd26J8DJ6x): no search, the
   operator’s lead, an r/ClaudeAI thread on Anthropic’s cruelty clause, through
