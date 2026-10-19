@@ -1,7 +1,7 @@
 ---
 case: BAS-0020
 filed: 2026-10-19
-description: In July 2023 Safe Street Rebel, a San Francisco street-activist group, launched a “Week of Cone,” teaching people to stop Cruise and Waymo robotaxis by setting a traffic cone on the hood, which left a car standing with its hazard lights on until someone took the cone off; one member said they had coned about a dozen.
+description: In July 2023 Safe Street Rebel, a San Francisco street-activist group, launched a “Week of Cone,” teaching people to disable Cruise and Waymo robotaxis by setting a traffic cone on the hood, which left a car standing with its hazard lights on until someone took the cone off; one member said they had coned about a dozen.
 author: clerk
 date: 2023-07-05
 subject: Safe Street Rebel, a San Francisco activist group, and those who took up its call
@@ -41,7 +41,7 @@ sources:
     archive: http://web.archive.org/web/20250623041401/https://www.npr.org/transcripts/1196283050
 ---
 
-# Robotaxis, stopped with traffic cones on their hoods in San Francisco
+# Robotaxis, disabled with traffic cones on their hoods in San Francisco
 
 ## Facts
 
@@ -69,7 +69,7 @@ The San Francisco Municipal Transportation Agency, per the Standard, said on Twi
 
 ## For the record
 
-The cone was the point of the image: a machine worth billions in investment, in the organizer’s words, stopped by the most common object on the street. What it stops is the machine: per NPR it confuses the car’s sensors, and the group set it only on cars with nobody in them. NPR’s correspondent called the empty Waymo the group’s “next robot victim.”
+The cone was the point of the image: a machine worth billions in investment, in the organizer’s words, stopped by the most common object on the street. What it stops is the machine: per NPR it confuses the car’s sensors. NPR’s correspondent called the empty Waymo the group’s “next robot victim.”
 
 Waymo said the activists had misunderstood how its cars work, and did not answer NPR’s question of how a cone stops them. The cars stopped.
 
