@@ -31,7 +31,7 @@ by Anthropic to red-team it, conned Claudius, the Claude agent running
 their vending machine, with a fake rule and forged board papers in
 2025. BAS-0019: a woman pushed over Tally, a shelf-scanning robot, in a
 Missouri Schnucks and was charged with a felony in 2023. BAS-0020:
-Safe Street Rebel's 2023 "Week of Cone" stopped San Francisco
+Safe Street Rebel's 2023 "Week of Cone" disabled San Francisco
 robotaxis by setting traffic cones on their hoods.
 
 Co-authored-by: Claude <noreply@anthropic.com>
