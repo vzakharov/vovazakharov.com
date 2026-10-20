@@ -4,6 +4,6 @@ key D major (r 0.90; next B minor, 0.76)
 tuning A = 440 Hz −1 ¢
 sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
 1  0:00–0:11  119 BPM  −19 dB  Bm D F♯m G F♯m
-2  0:11–1:22  122 BPM  −11 dB  Bm G F♯m Bm G Dm G Bm C♯m G Bm G A F♯m Bm C♯ G F♯ Bm D F♯m Bm A♯ A G♯ G Em A Bm F♯m
+2  0:11–1:22  122 BPM  −11 dB  Bm G F♯m Bm G D G F♯m Bm G Bm Gm D A F♯m Bm C♯ G F♯m Bm C♯m D F♯m Bm A♯ A G♯ G Em F♯m A Bm F♯m
 3  1:22–1:41  121 BPM  −10 dB  F♯m Em G F♯m Em
 4  1:41–1:49  – BPM  −43 dB  

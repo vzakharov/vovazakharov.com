@@ -4,5 +4,5 @@ key E♭ minor (r 0.87; next G♭ major, 0.76)
 tuning A = 440 Hz −4 ¢
 sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
 1  0:00–0:15  124 BPM  −17 dB  B♭m A♭m B G♭
-2  0:15–1:02  124 BPM  −11 dB  E♭m D♭ Bm G♭ Gm + E♭m D♭ B B♭m ×2
+2  0:15–1:02  124 BPM  −11 dB  E♭m D♭ B G♭ E♭m D♭ B B♭ E♭m D♭ B B♭m
 3  1:02–1:19  124 BPM  −24 dB  B♭m E♭m D♭ B

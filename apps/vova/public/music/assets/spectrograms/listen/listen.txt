@@ -3,6 +3,6 @@ tempo 121 BPM
 key B minor (r 0.52; next F♯ minor, 0.40)
 tuning A = 440 Hz −4 ¢
 sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
-1  0:00–0:22  123 BPM  −17 dB  Bm Gm Am G F♯m Bm G Am G F♯
-2  0:22–1:39  120 BPM  −8 dB  Bm Am F♯m G ×2 + G♯m F♯m Gm Bm F♯m Gm Bm
+1  0:00–0:22  123 BPM  −17 dB  Bm G Am Bm F♯ Bm G Am G F♯
+2  0:22–1:39  120 BPM  −8 dB  Bm A F♯m G Bm Am + F♯m G Bm A ×2 + F♯m G
 3  1:39–1:51  – BPM  −18 dB  

@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 """A song's spectrogram over its loudness and its chromagram: its whole length across, pitch up.
 
-Usage: spectrogram.py <song> <dir>/<slug>.png [--drums <stem>] [--from m:ss --to m:ss]
+Usage: spectrogram.py <song> <dir>/<slug>.png <stems> [--from m:ss --to m:ss]
+
+<stems> is the directory demucs writes the song's four stems to
+(`python -m demucs -n htdemucs -o <out> <song>` writes
+<out>/htdemucs/<name>/{drums,bass,other,vocals}.wav), aligned to the song
+before anything is read off them. The pitch strips, the drums and the
+chords are read off the stems: off the mix, a low voice votes with the
+bass, the bass's harmonics with the tune, the tune's passing notes with the
+chords, and a picked guitar's attack reads as a drum hit.
 
 Beside the PNG it writes <slug>.txt, the sidecar: the numbers the picture can
 only approximate — tempo, key, tuning, and per section its tempo, loudness and
@@ -31,33 +39,33 @@ section boundary, found from the sound alone: a sharp change in arrangement or
 harmony draws one, a gradual build may not. Under it, on the same time axis,
 the loudness envelope: each column's peak, with its RMS inside.
 
-Under that, two chromagram strips, the band above the split over the band below
-it — middle C unless --split names another note, the split drawn as a dotted
-line across the spectrogram: twelve rows each, C at the bottom, each named as
-the song's key spells it, a row as bright as its pitch class's
-share of the band, harmonics voting with their fundamentals. So the bass strip
-steps with the bass line, the treble strip carries the tune and the chord over
-it, and a chord shows as several bright rows at once. A pitch class is read off
+Under that, three chromagram strips: the melody off the vocals stem, the
+harmony off the other stem, and the bass off the bass and other stems under
+C4 — not the bass stem alone, which demucs leaves silent under a synth bass,
+filing it as other. Twelve rows each, C at the bottom, each named as the
+song's key spells it, a row as bright as its pitch class's share of the
+strip, harmonics voting with their fundamentals. So the melody strip carries
+the tune, the bass strip steps with the bass line, and a chord shows as
+several bright rows at once in the harmony strip. A pitch class is read off
 its labelled row; a row's hue is the octave that carries it, keyed beside each
-strip, one hue per octave and the same in either strip — C2 red, C3 orange, C4
+strip, one hue per octave and the same in every strip — C2 red, C3 orange, C4
 green, C5 cyan, C6 violet — so a melody that leaps an octave changes colour on
 its row. Twelve hues for twelve classes would be misread for their neighbours;
 five far apart are not. A faint cell is grey, its octave too unsure to colour,
-and a strip is dark where its band is quiet.
+and a strip is dark where its stem is quiet.
 
-At the bottom, given --drums and the song's demucs drums stem, the drums:
-four lanes, kick, toms, snare (claps with it) and cymbals, each a hue of its
-own and a mark as bright as the hit, so the rhythm reads off it the way the
-harmony reads off the strips. `drums.py` says how the stem is read and which
-of its onsets it refuses. Without a stem there is no drum row: off the mix
-alone a guitar's attack reads as a hit.
+At the bottom, the drums off the drums stem: four lanes, kick, toms, snare
+(claps with it) and cymbals, each a hue of its own and a mark as bright as
+the hit, so the rhythm reads off it the way the harmony reads off the strips.
+`drums.py` says how the stem is read and which of its onsets it refuses.
 
 The spectrogram's map is cut into 2.5 dB steps, the strips' into a few
 brightness steps per octave, and the PNG kept to those colours and a few greys,
 which holds a song under 350 KB: a smooth map over a noisy texture compresses
 several times worse.
 
-Needs ffmpeg and matplotlib (numpy and Pillow come with it).
+Needs ffmpeg and matplotlib (numpy and Pillow come with it); the stems need
+demucs, which pulls in torch.
 """
 
 import io
@@ -88,9 +96,8 @@ BEAT_MIN_PX = 6
 STEMS = ("drums", "bass", "other", "vocals")
 # The pitch strips, top to bottom: each its label, the track it reads (a
 # stem, or "accompaniment", the bass and other stems summed), the band it
-# reads and the octaves it can colour. The bass strip reads the
-# accompaniment under C4 rather than the bass stem, which demucs leaves
-# silent under a synth bass, filing it as other; the voice stays out of it.
+# reads and the octaves it can colour. The bass's band ends half a semitone
+# under C4.
 BASS_TOP_HZ = 254
 STRIPS = (
     ("melody", "vocals", NOTE_BAND_HZ, (2, 6)),

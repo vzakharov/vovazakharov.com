@@ -35,15 +35,17 @@ def measure(x, magnitude, freqs, step, db, harmony):
     """Everything the sidecar states, from the samples and the drawing's STFT.
 
     harmony is the same STFT of the song less its voice — demucs's other and
-    bass stems summed — which the key and the chords are read off, so the
-    melody's passing notes do not vote in them."""
+    bass stems summed — which the chords are read off, so the melody's
+    passing notes do not vote in them. The key is the whole mix's, the
+    melody being what dwells on the tonic."""
     duration = len(x) / SR
     tuning = tuning_cents(magnitude, freqs)
     envelope, onset_step = onset_envelope(x)
     beats = beat_times(envelope, onset_step, tempo_bpm(envelope, onset_step))
     chroma, loudest = peak_chroma(harmony, freqs, NOTE_BAND_HZ, (2, 6), tuning, fundamentals=True)
     chords = beat_chords(chroma, loudest, step, beats, duration)
-    pitch_classes = chroma.reshape(len(chroma), -1, 12).sum(axis=(0, 1))
+    whole, _ = peak_chroma(magnitude, freqs, NOTE_BAND_HZ, (2, 6), tuning, fundamentals=True)
+    pitch_classes = whole.reshape(len(whole), -1, 12).sum(axis=(0, 1))
     edges = [0, *section_times(db, magnitude, freqs, step, duration, tuning), duration]
     sections = []
     for start, end in zip(edges[:-1], edges[1:]):
