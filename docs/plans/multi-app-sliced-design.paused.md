@@ -138,11 +138,14 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 
 ## Rest of the bite
 
-- **The sitemap on the site's leaf app, the operator's call.** Proposed:
-  `vova: [blog, music, mushrooms]`, `vova` declared below both, so vova's app
-  layer composes the sitemap from `cvRoutes()` and `musicCatalogueRoutes()` and
-  every router's `sitemap.ts` only re-exports its leaf app's. If taken, slice
-  2's question of a composition app per site is settled by it.
+- **The sitemap on the site's leaf app** (the operator's go-ahead on the
+  `apps/basilisk/app/sitemap.ts` thread). `vova: [blog, music, mushrooms]`,
+  `vova` declared below both, so vova's app layer composes the sitemap from
+  `cvRoutes()` and `musicCatalogueRoutes()`, and every router's `sitemap.ts`
+  only re-exports its leaf app's — basilisk's, bible's and lsa's holding the
+  collections alone. That settles slice 2's question of a composition app per
+  site, and moves the "sitemap is the router's" paragraph above and in `masd.md`
+  with it.
 - **A clean vet**, `VET_MEADOW=1`, and a look at each site. The game, vova's
   home and CV are looked at under the split layouts.
 
