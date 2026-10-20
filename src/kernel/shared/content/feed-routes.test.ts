@@ -10,7 +10,7 @@ import { collectionsForSite, feedRoutes } from './collections.ts';
 
 const APPS_DIR = path.join(import.meta.dirname, '../../../../apps');
 
-/** `apps/<site>/app<route>/route.ts` for every feed the registry names. */
+/** `sites/<site>/app<route>/route.ts` for every feed the registry names. */
 const declared = SITE_IDS.flatMap((site) =>
   collectionsForSite(site).flatMap((id) =>
     feedRoutes(id, LOCALES).map(({ route }) =>

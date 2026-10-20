@@ -174,7 +174,7 @@ const eslintConfig = defineConfig([
   },
   // Override default ignores of eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next, re-stated for `apps/*` because each
+    // Default ignores of eslint-config-next, re-stated for `sites/*` because each
     // app builds into its own directory rather than the repository root.
     '**/.next/**',
     '**/out/**',

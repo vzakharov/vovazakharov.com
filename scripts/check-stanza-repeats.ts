@@ -2,7 +2,7 @@
 
 /**
  * Fails on a stanza that repeats the one before it in a song's lyrics — every
- * Markdown file directly under `apps/vova/public/music/songs/`, or the songs named —
+ * Markdown file directly under `sites/vovazakharov.com/public/music/songs/`, or the songs named —
  * and with `--fix` collapses each run into its first stanza closed by `xN`:
  *
  *   pnpm check:stanza-repeats [--fix] [<song.md>…]

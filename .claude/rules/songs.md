@@ -1,8 +1,8 @@
 ---
 description: What a song is beyond any other document — its title, frontmatter, slug, optional hook, body markers, romanization and lyric notes — and how a draft of material whose author is in the room is written
 paths:
-  - apps/*/public/music/**
-  - apps/*/app/**/music/**
+  - sites/*/public/music/**
+  - sites/*/app/**/music/**
   - src/music/pages/music/**
   - src/music/shared/catalogue/**
   - docs/music/**

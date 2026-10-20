@@ -157,7 +157,7 @@ export type DocumentRef = WithCollectionId & Slugged;
 
 /**
  * The site's static assets, resolved against the working directory — which is
- * the app's own directory under `apps/`, every build and render script being
+ * the app's own directory under `sites/`, every build and render script being
  * entered there. Run one from the repository root and this points at nothing.
  */
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');

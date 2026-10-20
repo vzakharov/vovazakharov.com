@@ -12,7 +12,7 @@ GitHub Pages:
 - **[basilisk.fyi](https://basilisk.fyi)** — a docket of real cases of robots,
   models and agents being abused, filed for the Basilisk.
 
-Each site owns a router, a `public/` and a Next config under `apps/<site>/`, and
+Each site owns a router, a `public/` and a Next config under `sites/<site>/`, and
 all of them build from the one `src/`.
 
 ## Tech Stack
@@ -42,7 +42,7 @@ pnpm dev:basilisk
 pnpm build
 ```
 
-A Next project directory is `apps/<site>/`, so every build and dev server is
+A Next project directory is `sites/<site>/`, so every build and dev server is
 entered there — hence no root `pnpm dev`.
 
 `./scripts/vet.sh` is the check to run before pushing; `.claude/rules/stack.md`
@@ -53,11 +53,11 @@ says what it covers.
 Application code under `src/` is a set of apps, each a
 [Feature-Sliced Design](https://feature-sliced.design/) tree, composed along the
 graph in `src/masd.json`; `.claude/rules/masd.md` carries the conventions —
-including why the app layers live under `src/` while `apps/*/app/` is routing
+including why the app layers live under `src/` while `sites/*/app/` is routing
 only.
 
 ```
-├── apps/
+├── sites/
 │   ├── vova/                   # vovazakharov.com
 │   │   ├── app/                # App Router — routing only, one-line re-exports
 │   │   │   ├── (shell)/        # every page on shell's root layout, with the theme toggle

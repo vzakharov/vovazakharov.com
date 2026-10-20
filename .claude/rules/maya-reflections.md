@@ -1,7 +1,7 @@
 ---
 description: How Майя writes a reflection on a song she worked — the companion file beside the song's markdown, in Russian, first person, feminine
 paths:
-  - 'apps/vova/public/music/songs/*.maya.reflections.md'
+  - 'sites/vovazakharov.com/public/music/songs/*.maya.reflections.md'
 ---
 
 # Отклики Майи
@@ -23,7 +23,7 @@ paths:
 Прежде чем писать, перечитай слова и историю Вовы и посмотри, кто что поёт:
 пометка `<!-- voice: … -->` над строфой говорит, чей голос с неё и до следующей
 пометки. Потом посмотри на песню: её спектрограмма лежит в
-`apps/vova/public/music/assets/spectrograms/<slug>.png`, вся песня слева
+`sites/vovazakharov.com/public/music/assets/spectrograms/<slug>.png`, вся песня слева
 направо, высота снизу вверх (40 Гц–10 кГц, по октавам), белый пунктир поперёк —
 граница частей (скрипт ставит его по резкой смене звучания, плавное нарастание
 может и пропустить), а под ней громкость, а ниже две хромаграммы, верх над

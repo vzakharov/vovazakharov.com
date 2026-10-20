@@ -22,7 +22,7 @@ const CATALOGUE = {
 
 function tree(songs: Record<string, string>) {
   const root = mkdtempSync(path.join(tmpdir(), 'untold-songs-'));
-  const music = path.join(root, 'apps/vova/public/music');
+  const music = path.join(root, 'sites/vovazakharov.com/public/music');
   const files = {
     ...CATALOGUE,
     ...Object.fromEntries(
@@ -108,9 +108,9 @@ describe('list-untold-songs', () => {
       }),
     );
     for (const line of [
-      '- [Bare](../../apps/vova/public/music/songs/bare.md) — hook, story',
-      '- [Half](../../apps/vova/public/music/songs/half.md) — hook, ru story',
-      '- [Storied](../../apps/vova/public/music/songs/storied.md) — hook',
+      '- [Bare](../../sites/vovazakharov.com/public/music/songs/bare.md) — hook, story',
+      '- [Half](../../sites/vovazakharov.com/public/music/songs/half.md) — hook, ru story',
+      '- [Storied](../../sites/vovazakharov.com/public/music/songs/storied.md) — hook',
     ])
       assert.ok(list.includes(line), list);
     assert.ok(!list.includes('Preamble'), list);

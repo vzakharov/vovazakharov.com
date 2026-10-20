@@ -13,7 +13,7 @@
  *   across the composition — its own app, every descendant and the routers —
  *   rather than within one app root, its messages kept word for word.
  *
- * Reads `src/` and `apps/*\/app/` under the working directory, so a test runs
+ * Reads `src/` and `sites/*\/app/` under the working directory, so a test runs
  * it against a tree of its own. Bare Node runs this file, relying on its type
  * stripping. See .claude/rules/masd.md.
  */

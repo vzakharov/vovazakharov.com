@@ -8,7 +8,7 @@
  * `tmp/play/<screen>-<step>.png` to look at.
  *
  *   pnpm play:mushrooms             # build the probe export, then play it
- *   pnpm play:mushrooms --no-build  # play the one already in apps/vova/out
+ *   pnpm play:mushrooms --no-build  # play the one already in sites/vovazakharov.com/out
  *   pnpm play:mushrooms --no-build --screens tabL,phoneS  # only those screens
  *   pnpm play:mushrooms --no-build --plays walk,tufts     # only those plays
  *
@@ -62,7 +62,7 @@ import { playWalk } from './lib/play-walk.ts';
 import { withPrintOrigin } from './lib/print-origin.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const OUT = path.join(ROOT, 'apps/vova/out');
+const OUT = path.join(ROOT, 'sites/vovazakharov.com/out');
 const FRAMES = path.join(ROOT, 'tmp/play');
 const POLL_MS = 250;
 const SEED = 12_345;
@@ -189,7 +189,7 @@ async function open(
     if (!(await evaluate(up, z.boolean()))) {
       if (Date.now() > deadline) {
         throw new Error(
-          `${screen.name}: no game on the page — is apps/vova/out a probe build?`,
+          `${screen.name}: no game on the page — is sites/vovazakharov.com/out a probe build?`,
         );
       }
       await sleep(POLL_MS);

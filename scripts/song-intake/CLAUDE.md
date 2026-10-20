@@ -22,7 +22,7 @@ made from outlives the sweep as an asset of this repo's `music-sources` release
 (`gh release download music-sources -p '<name>'`), ASCII-named
 `<album>-<NN>-<slug>.<ext>`, the release notes listing what is there:
 `gh release upload music-sources <file>` adds one, `--clobber` replaces it. A
-song reaches `apps/vova/public/music/songs/` only through
+song reaches `sites/vovazakharov.com/public/music/songs/` only through
 `.claude/rules/songs.md`'s contract, slug rule included.
 
 ## Splitting an album file
@@ -70,7 +70,7 @@ recording departs from it.
 
 A song's video carries its printed words as timed tracks: `transcribe.py` on the
 video itself, then
-`captions.py <song.md> <deepgram.json.gz> apps/vova/public/music/assets/<slug>`,
+`captions.py <song.md> <deepgram.json.gz> sites/vovazakharov.com/public/music/assets/<slug>`,
 a `.vtt` per lyrics column. Its docstring says why the video and not the master,
 and where to find the start of a line it reports `unheard`, which `--at` pins.
 The pins are in the commit that writes the track.
@@ -155,7 +155,7 @@ loads on reading a reflection, never on the `Write` that creates the first one �
 so read it first.
 
 She reads the song first as its spectrogram —
-`spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>.png`,
+`spectrogram.py <master> sites/vovazakharov.com/public/music/assets/spectrograms/<slug>.png`,
 the whole song across, pitch up, its section boundaries dashed, over its
 loudness and a chromagram strip each for the treble and the bass, coloured by
 octave, the docstring saying how to read it — committed beside the master so the

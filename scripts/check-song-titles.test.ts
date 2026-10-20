@@ -15,7 +15,7 @@ const SCRIPT = path.resolve(import.meta.dirname, 'check-song-titles.ts');
 
 function run(frontmatter: string) {
   const root = mkdtempSync(path.join(tmpdir(), 'song-titles-'));
-  const dir = path.join(root, 'apps/vova/public/music/songs');
+  const dir = path.join(root, 'sites/vovazakharov.com/public/music/songs');
   mkdirSync(dir, { recursive: true });
   writeFileSync(path.join(dir, 'song.md'), `---\n${frontmatter}\n---\n`);
   const { status, stdout } = spawnSync(process.execPath, [SCRIPT], {
@@ -29,7 +29,7 @@ function assertFinding(frontmatter: string, finding: string) {
   const { status, stdout } = run(frontmatter);
   assert.equal(status, 1);
   assert.ok(
-    stdout.includes(`apps/vova/public/music/songs/song.md: ${finding}`),
+    stdout.includes(`sites/vovazakharov.com/public/music/songs/song.md: ${finding}`),
     stdout,
   );
 }

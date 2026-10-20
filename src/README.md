@@ -3,7 +3,7 @@
 Every application module lives here, as a set of apps — `src/<app>/`, each a
 [Feature-Sliced Design](https://feature-sliced.design/) tree of its own —
 composed along the graph in [`masd.json`](masd.json), where each app names the
-apps it extends. Each site's `apps/<site>/app/` is a Next.js App Router and
+apps it extends. Each site's `sites/<site>/app/` is a Next.js App Router and
 nothing else — `layout.tsx` and each `page.tsx` are one-line re-exports of what
 they render.
 

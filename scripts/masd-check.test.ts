@@ -31,7 +31,7 @@ const BASE: Tree = {
   'src/blog/pages/documents/index.ts': 'export const documents = 1;',
   'src/site/pages/home/index.ts': 'export const home = 1;',
   'src/game/pages/play/index.ts': 'export const play = 1;',
-  'apps/site/app/page.tsx': [
+  'sites/site/app/page.tsx': [
     "export * from '@/site/pages/home';",
     "export * from '@/blog/pages/documents';",
     "export * from '@/game/pages/play';",
@@ -112,7 +112,7 @@ describe('masd-check', () => {
 
   it('flags an app with one child that no router mounts', () => {
     const { status, stderr } = run({
-      'apps/site/app/page.tsx':
+      'sites/site/app/page.tsx':
         "export * from '@/site/pages/home';\nexport * from '@/game/pages/play';",
     });
     assert.equal(status, 1);

@@ -2,7 +2,7 @@
 
 /**
  * Fails on a straight quote or apostrophe in the prose of any site's content —
- * every Markdown file under `apps/*\/public/`:
+ * every Markdown file under `sites/*\/public/`:
  *
  *   pnpm check:prose-quotes
  *

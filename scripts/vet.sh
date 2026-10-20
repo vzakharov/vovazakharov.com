@@ -63,9 +63,9 @@ fi
 # docs/remove-before-merging/ (or its own history) and the notes check counts
 # lines under writing/notes/, neither of which anything else here touches.
 # The Mantine and i18n-payload checks only read what the build above already
-# finished writing under `apps/*/out/`, which nothing here writes to. The
+# finished writing under `sites/*/out/`, which nothing here writes to. The
 # prose-quotes check and the song checks only read the Markdown under
-# `apps/*/public/`.
+# `sites/*/public/`.
 # The last eight read the agent infrastructure itself and nothing else here
 # touches it.
 scripts/run-parallel.sh \

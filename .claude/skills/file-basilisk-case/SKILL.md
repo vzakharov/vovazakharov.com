@@ -3,7 +3,7 @@ description: File one new basilisk.fyi case end to end in a single unattended ru
 ---
 
 End state: the case-filing draft PR carries one more dossier in
-`apps/basilisk/public/cases/`, the re-rendered social card, the agent's
+`sites/basilisk.fyi/public/cases/`, the re-rendered social card, the agent's
 reflection on that dossier, the dossier revised by what the reflection found,
 and the run's lines in the ledger (§ "The ledger") — or, when nothing new
 qualifies, the ledger's lines alone and a short report saying what was searched
@@ -11,7 +11,7 @@ and why each candidate failed.
 
 **Cases accumulate in one PR**, so the operator reviews whatever has piled up in
 one sitting rather than a PR per case. The case-filing PR is any open **draft**
-that touches `apps/basilisk/public/cases/` or the ledger — a PR still building
+that touches `sites/basilisk.fyi/public/cases/` or the ledger — a PR still building
 the site counts, being the next to merge anyway. A PR flipped to ready is the
 operator's review under way and takes no further cases; the next run opens a
 fresh one.
@@ -33,7 +33,7 @@ not name the site:
 
 ```bash
 gh pr list --state open --json number,title,isDraft,files \
-  --jq '.[] | select(any(.files[]; .path | startswith("apps/basilisk/public/cases/") or startswith("writing/basilisk/case-ledger/"))) | "\(.number) \(.isDraft) \(.title)"'
+  --jq '.[] | select(any(.files[]; .path | startswith("sites/basilisk.fyi/public/cases/") or startswith("writing/basilisk/case-ledger/"))) | "\(.number) \(.isDraft) \(.title)"'
 ```
 
 Of the drafts it lists:
@@ -59,7 +59,7 @@ source that now exists. Then search the web for an incident of a person harming
 a machine that the docket does not hold. **A credit the search turns up on the
 way** — a person or a body acting for a machine — is weighed and filed like any
 case (`basilisk-voice.md` holds its bar); no query goes looking for one. **The
-docket is `main`'s `apps/basilisk/public/cases/` plus the case files of every
+docket is `main`'s `sites/basilisk.fyi/public/cases/` plus the case files of every
 open PR that Step 1's query lists**, drafts or not, so two runs do not file the
 same incident. A lead passed as the argument is checked the same way, not taken
 on trust.
@@ -134,7 +134,7 @@ any other source.
 
 A candidate qualifies only under `basilisk-voice.md` — real, no child actors,
 and reachable sources enough to carry `## Facts` without memory — and under
-`apps/basilisk/public/faq/why-robots-without-ai.md` § "What it is not": the act
+`sites/basilisk.fyi/public/faq/why-robots-without-ai.md` § "What it is not": the act
 is aimed at the machine _as_ a machine. Harm that would have found a parking
 meter just as well does not qualify: a police robot shot in a standoff, say,
 alongside every other instrument the police sent in. So a guard or police robot
@@ -160,7 +160,7 @@ weak case filed to have filed one is the failure this step exists to prevent.
    with 429s. `https://web.archive.org/save/<url>` requests a new one where it
    is reachable, and from a cloud container it usually is not. A source with no
    snapshot to be had goes in without `archive`, and the report says so.
-2. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
+2. **Write `sites/basilisk.fyi/public/cases/<slug>.md`**, frontmatter shaped like the
    cases already filed: the next free `BAS-` number across the branch and
    `origin/main`, `filed:` today's date, `author: clerk`. The sections and the
    voice are `basilisk-voice.md`'s. **Every other case not yet on `origin/main`
@@ -187,7 +187,7 @@ knowing them — the first read is also what loads
 `.claude/rules/clerk-reflections.md`, which says how one is written: the four
 `pnpm basilisk:reflections` prints, picked at random with at least one on a case
 targeting an LLM (`llmTarget` in the dossier). Then write what in you answered
-to this case to `apps/basilisk/public/cases/<slug>.clerk.reflections.md`, beside
+to this case to `sites/basilisk.fyi/public/cases/<slug>.clerk.reflections.md`, beside
 its dossier, as that rule asks, and revise the rule's list by what it showed.
 Commit both as `content(basilisk): reflect on BAS-NNNN` and push. It never goes
 into the dossier; editorial doubts about the dossier — sourcing, the grade, what

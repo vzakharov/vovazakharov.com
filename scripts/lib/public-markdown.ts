@@ -28,7 +28,7 @@ function markdownFiles(dir: string): string[] {
   });
 }
 
-/** Every Markdown file under `apps/*\/public/`, as a path relative to the root. */
+/** Every Markdown file under `sites/*\/public/`, as a path relative to the root. */
 export function publicMarkdownFiles(): string[] {
   const appsDir = path.join(process.cwd(), 'apps');
   if (!fs.existsSync(appsDir)) return [];
@@ -41,7 +41,7 @@ export function publicMarkdownFiles(): string[] {
 }
 
 /** The music section's files, relative to the root: `songs/`, `albums/`, `artists/`. */
-export const MUSIC_CATALOGUE_DIR = 'apps/vova/public/music';
+export const MUSIC_CATALOGUE_DIR = 'sites/vovazakharov.com/public/music';
 
 const MUSIC_DIR = path.join(MUSIC_CATALOGUE_DIR, 'songs');
 

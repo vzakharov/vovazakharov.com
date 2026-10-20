@@ -16,7 +16,7 @@ its whole paragraph, and a file's line count reads as its length. The globs are
 runs prettier over each `.md` an agent edits, and `pnpm format:check` in
 `scripts/vet.sh` holds every file to it, staged copies included.
 
-**The content trees keep their line breaks as written**: `apps/*/public/` is
+**The content trees keep their line breaks as written**: `sites/*/public/` is
 served, its raw `.md` variants included, so a reflow there is a site change;
 `writing/` holds copy-exact drafts pasted into channels that keep newlines;
 `docs/music/` holds transcripts.

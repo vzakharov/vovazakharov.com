@@ -134,7 +134,7 @@ const built = outDirs();
 
 if (built.length === 0) {
   console.error(
-    'No built site found under apps/*/out — run `pnpm build` first.\n' +
+    'No built site found under sites/*/out — run `pnpm build` first.\n' +
       'This check reads the rendered pages, so it has nothing to say without it.',
   );
   process.exit(1);

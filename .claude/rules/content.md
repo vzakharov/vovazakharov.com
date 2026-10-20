@@ -1,33 +1,33 @@
 ---
-description: How long-form markdown under apps/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
+description: How long-form markdown under sites/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
 paths:
-  - apps/*/public/case-studies/**
-  - apps/bible/public/**
-  - apps/basilisk/public/**
-  - apps/*/public/music/**
+  - sites/*/public/case-studies/**
+  - sites/agentic.bible/public/**
+  - sites/basilisk.fyi/public/**
+  - sites/*/public/music/**
   - src/music/pages/music/**
-  - apps/*/app/**/music/**
-  - apps/*/public/generated/**
+  - sites/*/app/**/music/**
+  - sites/*/public/generated/**
   - src/kernel/shared/content/**
   - src/blog/pages/documents/**
   - src/vova/pages/cv/**
-  - apps/*/app/**/case-studies/**
-  - apps/bible/app/**
-  - apps/basilisk/app/**
+  - sites/*/app/**/case-studies/**
+  - sites/agentic.bible/app/**
+  - sites/basilisk.fyi/app/**
   - scripts/render-mermaid.ts
   - scripts/render-og.ts
   - scripts/render-pdf.ts
   - scripts/lib/**
-  - apps/*/public/cv/**
+  - sites/*/public/cv/**
 ---
 
 # Content
 
 Long-form writing lives as markdown under a site's `public/<collection>/` —
-`apps/vova/public/case-studies/` and `apps/vova/public/music/songs/` — and
+`sites/vovazakharov.com/public/case-studies/` and `sites/vovazakharov.com/public/music/songs/` — and
 `next build` renders it once per deploy. **A collection whose site is named for
 it is rooted instead**, its base empty and its directory that site's whole
-`public/`: the Bible is `apps/bible/public/`, and an article is
+`public/`: the Bible is `sites/agentic.bible/public/`, and an article is
 `agentic.bible/<slug>` rather than repeating the collection's name after a
 domain that already says it. The pipeline stops at the hast tree and hands it to
 React through `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`)
@@ -64,7 +64,7 @@ public/cv/
 ```
 
 **A document's file sits at its route plus an extension.** The page at
-`/case-studies/playgram` is `apps/vova/public/case-studies/playgram.md` served
+`/case-studies/playgram` is `sites/vovazakharov.com/public/case-studies/playgram.md` served
 raw, and `.pdf` beside it; a cut is a dotted suffix on the slug —
 `/case-studies/playgram.mini`, `playgram.mini.md`, `playgram.mini.pdf` — rather
 than a nested segment, so the route matches the name the file was authored as.
@@ -132,7 +132,7 @@ its cards reach `shared/content`'s leaf modules and parse a case with
 
 ## Adding a document
 
-1. Write `apps/<site>/public/<collection>/<slug>.md` with frontmatter:
+1. Write `sites/<site>/public/<collection>/<slug>.md` with frontmatter:
 
    ```yaml
    ---
@@ -251,7 +251,7 @@ collections' documents; the rest is held by reading.
   upload gives no other reason, and the file is otherwise valid. The domain goes
   into `PRINT_RASTER_DOMAINS` (`src/kernel/shared/lib/print-raster.ts`).
 - **A render and that site's own `pnpm dev` cannot both spawn a server.** Next
-  holds `apps/<site>/.next/dev/lock`, so a second `next dev` in the same app
+  holds `sites/<site>/.next/dev/lock`, so a second `next dev` in the same app
   directory refuses to start. Print from the one already up instead —
   `pnpm content:pdf:vova --origin http://localhost:3000` — or from a built
   export with `--from-out`, which is what the deploy does and the only shape
@@ -324,7 +324,7 @@ collections' documents; the rest is held by reading.
   read from the PNG and published alongside the URL, which several consumers
   need to render it at all.
   - **The CV's cards have no authored source.**
-    `apps/vova/public/cv/<variant>.og.png` is rendered from a page
+    `sites/vovazakharov.com/public/cv/<variant>.og.png` is rendered from a page
     `scripts/lib/cv-card.ts` generates off the message catalogue and the
     portrait, and the manifest hashes that page and the portrait's bytes — so
     editing the template, `ava.png`, or any catalogue slice the page reads —
