@@ -1,9 +1,8 @@
 """A song's drums as four lanes — kick, toms, snare, cymbals — read off its drums stem.
 
-The stem is demucs's (`python -m demucs --two-stems=drums -n htdemucs`), since
-off the mix a picked guitar's attack rises in the bands the way a hit does and
-no calibration tells the two apart. demucs's WAV runs a few hundred samples
-behind the master, so the stem is first aligned to it by cross-correlation.
+The stem is demucs's `drums.wav`, aligned to the master (`audio.aligned`),
+since off the mix a picked guitar's attack rises in the bands the way a hit
+does and no calibration tells the two apart.
 
 A hit is an onset of the stem: a peak of its log-spectral flux, the summed
 rise of every bin over the frame before, standing over its neighbours and
@@ -43,8 +42,6 @@ PIECES_DB = (
     ("cymbals", (-45, -33, -29, -35, -37, -35, -32, -4, 0)),
     ("cymbals", (-45, -40, -35, -30, -20, -10, -3, 0, -2)),
 )
-# demucs's lag behind the master is under this.
-ALIGN_SEARCH_S = 0.5
 # An onset is a flux peak over this many frames either side, above
 # FLUX_OVER_MEAN times the flux's mean over FLUX_MEAN_S either side.
 PEAK_FRAMES = 3
@@ -77,24 +74,6 @@ def shapes():
     """PIECES_DB as linear power, (pieces, bands), and each piece's lane index."""
     w = 10 ** (np.array([db for _, db in PIECES_DB], np.float64) / 10)
     return w, np.array([LANES.index(lane) for lane, _ in PIECES_DB])
-
-
-def aligned(stem, mix):
-    """The stem shifted onto the mix's time, as long as the mix: the lag
-    within ALIGN_SEARCH_S that best correlates the two."""
-    n = 1 << int(np.ceil(np.log2(len(stem) + len(mix))))
-    corr = np.fft.irfft(np.fft.rfft(mix, n) * np.conj(np.fft.rfft(stem, n)), n)
-    reach = int(ALIGN_SEARCH_S * SR)
-    lags = np.concatenate([np.arange(reach + 1), np.arange(-reach, 0)])
-    lag = lags[np.argmax(corr[lags])]
-    shifted = np.zeros(len(mix), np.float32)
-    if lag >= 0:
-        piece = stem[: len(mix) - lag]
-        shifted[lag:lag + len(piece)] = piece
-    else:
-        piece = stem[-lag:-lag + len(mix)]
-        shifted[: len(piece)] = piece
-    return shifted
 
 
 def band_power(x):
@@ -151,7 +130,7 @@ def misfit_db(gain, model):
     them sounds in, within SOUNDING_DB of the louder's loudest band, in dB."""
     loudest = np.maximum(gain, model).max(axis=1, keepdims=True)
     sounding = np.maximum(gain, model) >= loudest * 10 ** (SOUNDING_DB / 10)
-    floor = loudest * 10 ** (SOUNDING_DB / 10)
+    floor = np.maximum(loudest * 10 ** (SOUNDING_DB / 10), 1e-30)
     off = np.abs(10 * np.log10(np.maximum(gain, floor) / np.maximum(model, floor)))
     return np.where(sounding, off, 0).max(axis=1)
 

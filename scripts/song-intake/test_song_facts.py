@@ -12,8 +12,8 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from audio import SR, stft_magnitude
-from drums import LANES, aligned, drum_hits
+from audio import SR, aligned, stft_magnitude
+from drums import LANES, drum_hits
 from harmony import beat_chords, folded, fold_loop, song_key
 from pitch import NOTE_BAND_HZ, peak_chroma, tuning_cents
 from rhythm import beat_times, onset_envelope, tempo_bpm
@@ -234,9 +234,14 @@ class Drums(unittest.TestCase):
         self.assertEqual(stray, 0)
 
     def test_alignment(self):
-        mix = self.stem(self.kick(), seconds=10) + tone(57, 10, level=0.1)
-        stem = np.concatenate([np.zeros(552, np.float32), mix[:-552]])
-        self.assertTrue(np.allclose(aligned(stem, mix)[552:-552], mix[552:-552]))
+        # The drums alone in the first half and the tone alone in the second,
+        # each stem silent where the other plays, so only their sum finds the lag.
+        kit, note = self.stem(self.kick(), seconds=10), tone(57, 10, level=0.1)
+        kit[len(kit) // 2:] = 0
+        note[: len(note) // 2] = 0
+        late = [np.concatenate([np.zeros(552, np.float32), s[:-552]]) for s in (kit, note)]
+        for stem, shifted in zip((kit, note), aligned(late, kit + note)):
+            self.assertTrue(np.allclose(shifted[552:-552], stem[552:-552]))
 
 
 if __name__ == "__main__":

@@ -11,6 +11,8 @@ FLOOR_DB = -100
 PEAK_RANGE_DB = 30
 QUIET_DB = -50
 QUIET = 10 ** (QUIET_DB / 20)
+# demucs's lag behind the master is under this.
+ALIGN_SEARCH_S = 0.5
 
 
 def decode(path):
@@ -20,6 +22,32 @@ def decode(path):
         capture_output=True, check=True,
     ).stdout
     return np.frombuffer(pcm, np.float32)
+
+
+def aligned(stems, mix):
+    """The stems shifted onto the mix's time, each as long as the mix, by the
+    one lag within ALIGN_SEARCH_S that best correlates their sum with it.
+
+    demucs's WAV runs a few hundred samples behind the master, the same for
+    every stem; their sum is the mix less what demucs lost, so it finds the
+    lag where a stem that is silent for most of the song would not."""
+    total = np.sum(stems, axis=0)
+    n = 1 << int(np.ceil(np.log2(len(total) + len(mix))))
+    corr = np.fft.irfft(np.fft.rfft(mix, n) * np.conj(np.fft.rfft(total, n)), n)
+    reach = int(ALIGN_SEARCH_S * SR)
+    lags = np.concatenate([np.arange(reach + 1), np.arange(-reach, 0)])
+    lag = lags[np.argmax(corr[lags])]
+    out = []
+    for stem in stems:
+        shifted = np.zeros(len(mix), np.float32)
+        if lag >= 0:
+            piece = stem[: len(mix) - lag]
+            shifted[lag:lag + len(piece)] = piece
+        else:
+            piece = stem[-lag:-lag + len(mix)]
+            shifted[: len(piece)] = piece
+        out.append(shifted)
+    return out
 
 
 def stft_magnitude(x, nfft, hop):

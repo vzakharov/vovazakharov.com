@@ -65,8 +65,8 @@ from pathlib import Path
 
 import numpy as np
 
-from audio import FLOOR_DB, LOW_HZ, QUIET, SR, TOP_HZ, decode, log_rows, mmss, stft_magnitude
-from drums import LANES, aligned, drum_hits, drum_lanes
+from audio import FLOOR_DB, LOW_HZ, QUIET, SR, TOP_HZ, aligned, decode, log_rows, mmss, stft_magnitude
+from drums import LANES, drum_hits, drum_lanes
 from harmony import note_names
 from pitch import NOTE_BAND_HZ, chroma_shares
 from song_facts import measure, sidecar, tempo_label, tuning_label
@@ -76,7 +76,7 @@ TICKS_HZ = (50, 100, 200, 500, 1000, 2000, 5000, 10000)
 # bass's notes stay apart at the cost of a 0.37 s window.
 NFFT = 8192
 STEP_DB = 2.5
-WIDTH_PX, HEIGHT_PX, DPI = 1400, 1220, 100
+WIDTH_PX, HEIGHT_PX, DPI = 1400, 1440, 100
 PLOT_LEFT, PLOT_RIGHT = 0.055, 0.94
 # A song's tuning is in the title when it is this far off A440: past it, a
 # note sits a fifth of the way to its neighbour.
@@ -84,13 +84,19 @@ TITLE_TUNING_CENTS = 15
 # Beat lines closer than this are a wash, not a grid.
 BEAT_MIN_PX = 6
 
-LETTERS = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
-# Middle C splits the bass band from the treble one by default, where the
-# clefs meet: a bass line and its first harmonics sit under it, and most of a
-# melody above it. A male voice's lowest notes fall under it, and so vote with
-# the bass. No song-wide valley marks a better split, since the bass's
-# harmonics fill every semitone up past C5, so another is chosen by ear.
-SPLIT_NOTE = "C4"
+# demucs's four stems, by the names of the files it writes.
+STEMS = ("drums", "bass", "other", "vocals")
+# The pitch strips, top to bottom: each its label, the track it reads (a
+# stem, or "accompaniment", the bass and other stems summed), the band it
+# reads and the octaves it can colour. The bass strip reads the
+# accompaniment under C4 rather than the bass stem, which demucs leaves
+# silent under a synth bass, filing it as other; the voice stays out of it.
+BASS_TOP_HZ = 254
+STRIPS = (
+    ("melody", "vocals", NOTE_BAND_HZ, (2, 6)),
+    ("harmony", "other", NOTE_BAND_HZ, (2, 6)),
+    ("bass", "accompaniment", (NOTE_BAND_HZ[0], BASS_TOP_HZ), (2, 3)),
+)
 # A row at this share of its band's chroma is at full brightness; an even
 # spread across all twelve holds 1/12.
 FULL_SHARE = 0.5
@@ -183,24 +189,11 @@ def seconds(text):
     return 60 * int(minutes or 0) + float(secs)
 
 
-def midi_note(text):
-    """'C4', 'F#3', 'Bb2' or 'E♭3' as a MIDI number, C4 being 60."""
-    letter, accidental, octave = text[0].upper(), text[1:-1], int(text[-1])
-    shift = {"": 0, "#": 1, "♯": 1, "b": -1, "♭": -1}[accidental]
-    return 12 * (octave + 1) + LETTERS[letter] + shift
-
-
-def split_hz(midi, tuning):
-    """The edge between the bass and treble bands: half a semitone under the
-    split note, on the song's tuned grid, so the note itself is treble."""
-    return 440 * 2 ** ((midi - 69.5) / 12 + tuning / 1200)
-
-
-def render(name, x, whole, facts, drums, t0, t1, split_midi, out_png, section=None):
-    """Draw t0–t1 of the song to out_png. x is the whole song's samples and
-    whole its drawing_stft, reused when the stretch is all of it; drums is
-    drum_hits of its stem, or None for no drum row; section is the number a
-    section's zoom is titled with."""
+def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
+    """Draw t0–t1 of the song to out_png. tracks holds, for the mix and each
+    pitch strip's stem, its whole samples and their drawing_stft, reused when
+    the stretch is all of the song; drums is drum_hits of the drums stem;
+    section is the number a section's zoom is titled with."""
     import matplotlib
 
     matplotlib.use("Agg")
@@ -209,24 +202,22 @@ def render(name, x, whole, facts, drums, t0, t1, split_midi, out_png, section=No
     from PIL import Image
 
     zoomed = t0 > 0 or t1 < facts.duration
-    x = x[int(t0 * SR):int(t1 * SR)]
-    magnitude, freqs, step, db = drawing_stft(x) if zoomed else whole
+    views = {}
+    for track, (samples, whole) in tracks.items():
+        samples = samples[int(t0 * SR):int(t1 * SR)]
+        views[track] = samples, drawing_stft(samples) if zoomed else whole
+    x, (magnitude, freqs, step, db) = views["mix"]
     duration = t1 - t0
 
     cmap = plt.get_cmap("magma", round(-FLOOR_DB / STEP_DB))
-    ratios = (4, 0.8, 1.6, 1.6) + ((KIT_RATIO,) if drums else ())
-    height = HEIGHT_PX * sum(ratios) / (sum(ratios[:4]) + KIT_RATIO)
+    ratios = (4, 0.8) + (1.6,) * len(STRIPS) + (KIT_RATIO,)
     fig, axes = plt.subplots(
-        len(ratios), 2, figsize=(WIDTH_PX / DPI, height / DPI), dpi=DPI, sharex="col",
+        len(ratios), 2, figsize=(WIDTH_PX / DPI, HEIGHT_PX / DPI), dpi=DPI, sharex="col",
         gridspec_kw={"height_ratios": ratios, "width_ratios": (1, 0.015), "hspace": 0.08, "wspace": 0.01},
     )
-    (ax, cax), (wave, spare), (treble, treble_key), (bass, bass_key) = axes[:4]
+    (ax, cax), (wave, spare), *strips, (kit, kit_spare) = axes
     spare.remove()
-    kit = None
-    if drums:
-        kit, kit_spare = axes[4]
-        kit_spare.remove()
-    bottom = kit or bass
+    kit_spare.remove()
 
     # Rows are evenly spaced in octaves, so the image sits on a linear log2(Hz) axis.
     image = ax.imshow(
@@ -258,10 +249,6 @@ def render(name, x, whole, facts, drums, t0, t1, split_midi, out_png, section=No
                 str(n), (s.start, 1), xycoords=("data", "axes fraction"), xytext=(3, -3),
                 textcoords="offset points", va="top", color="white", fontsize=9,
             )
-    # The split across the spectrogram, so a part straddling it reads as one
-    # instrument cut in two by the strips, not as two.
-    crossover = split_hz(split_midi, facts.tuning)
-    ax.axhline(np.log2(crossover), color="white", linewidth=0.8, linestyle=(0, (1, 3)))
 
     columns = WIDTH_PX
     peak, rms = envelope(x, columns)
@@ -280,21 +267,18 @@ def render(name, x, whole, facts, drums, t0, t1, split_midi, out_png, section=No
     ramps = chroma_ramps()
     _, tonic, mode = facts.keys[0]
     names = note_names(tonic, mode)
-    split = f"{names[split_midi % 12]}{split_midi // 12 - 1}"
-    for strip, key, band_hz, octaves, name in (
-        (treble, treble_key, (crossover, NOTE_BAND_HZ[1]), (split_midi // 12 - 1, 6), f"treble, {split}–C7"),
-        (bass, bass_key, (NOTE_BAND_HZ[0], crossover), (2, (split_midi - 1) // 12 - 1), f"bass, C2–{split}"),
-    ):
-        shares, octave = chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
+    for (strip, key), (label, track, band_hz, octaves) in zip(strips, STRIPS):
+        samples, (stem_magnitude, *_) = views[track]
+        shares, octave = chroma_shares(stem_magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
         # Silence has spectral peaks too, of noise; it stays dark however clear they look.
-        shares[:, rms < QUIET] = 0
+        shares[:, envelope(samples, columns)[1] < QUIET] = 0
         strip.imshow(
             chroma_image(shares, octave, ramps), origin="lower", aspect="auto",
             extent=(t0, t1, -0.5, 11.5), interpolation="nearest",
         )
         strip.yaxis.set_major_locator(FixedLocator(range(12)))
         strip.set_yticklabels(names, fontsize=7)
-        strip.set_ylabel(name)
+        strip.set_ylabel(label)
         # The octave key: one swatch per octave the strip can show, low at the bottom.
         held = range(octaves[0], octaves[1] + 1)
         key.imshow(
@@ -305,25 +289,24 @@ def render(name, x, whole, facts, drums, t0, t1, split_midi, out_png, section=No
         key.yaxis.tick_right()
         key.yaxis.set_major_locator(FixedLocator(held))
         key.set_yticklabels([f"C{o}" for o in held], fontsize=8)
-    treble_key.set_title("octave", fontsize=8)
+    strips[0][1].set_title("octave", fontsize=8)
 
     kit_ramps = drum_ramps()
-    if kit:
-        kit.imshow(
-            drum_image(drum_lanes(*drums, t0, t1, columns), kit_ramps), origin="lower", aspect="auto",
-            extent=(t0, t1, -0.5, len(LANES) - 0.5), interpolation="nearest",
-        )
-        kit.yaxis.set_major_locator(FixedLocator(range(len(LANES))))
-        kit.set_yticklabels(LANES, fontsize=7)
-        kit.set_ylabel("drums")
-    for strip in (treble, bass, kit):
-        for t in beats if strip else ():
+    kit.imshow(
+        drum_image(drum_lanes(*drums, t0, t1, columns), kit_ramps), origin="lower", aspect="auto",
+        extent=(t0, t1, -0.5, len(LANES) - 0.5), interpolation="nearest",
+    )
+    kit.yaxis.set_major_locator(FixedLocator(range(len(LANES))))
+    kit.set_yticklabels(LANES, fontsize=7)
+    kit.set_ylabel("drums")
+    for strip in [s for s, _ in strips] + [kit]:
+        for t in beats:
             strip.axvline(t, color="white", alpha=0.45, linewidth=0.6)
 
-    bottom.set_xlim(t0, t1)
-    bottom.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))
-    bottom.xaxis.set_major_formatter(FuncFormatter(mmss))
-    bottom.set_xlabel("time (m:ss)")
+    kit.set_xlim(t0, t1)
+    kit.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))
+    kit.xaxis.set_major_formatter(FuncFormatter(mmss))
+    kit.set_xlabel("time (m:ss)")
     fig.subplots_adjust(left=PLOT_LEFT, right=PLOT_RIGHT, top=0.965, bottom=0.05)
 
     buffer = io.BytesIO()
@@ -353,34 +336,31 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("song")
     parser.add_argument("out_png")
-    parser.add_argument("--drums", help="the song's demucs drums stem, which the drum row is read off")
+    parser.add_argument("stems", help="the directory demucs wrote the song's four stems to")
     parser.add_argument("--from", dest="start", type=seconds, help="zoom start, m:ss")
     parser.add_argument("--to", dest="end", type=seconds, help="zoom end, m:ss")
-    parser.add_argument(
-        "--split", type=midi_note, default=SPLIT_NOTE,
-        help=f"the lowest note of the treble strip, e.g. E3 or Bb2 (default {SPLIT_NOTE})",
-    )
     args = parser.parse_args()
     name, out_png = Path(args.song).name, Path(args.out_png)
-    if not midi_note("C#2") <= args.split <= midi_note("C7"):
-        parser.error("--split must leave both strips a note, C♯2 to C7")
+    paths = [Path(args.stems) / f"{stem}.wav" for stem in STEMS]
+    if missing := [str(p) for p in paths if not p.exists()]:
+        parser.error(f"no stem at {', '.join(missing)}")
 
     x = decode(args.song)
-    whole = drawing_stft(x)
-    facts = measure(x, *whole)
-    drums = drum_hits(aligned(decode(args.drums), x)) if args.drums else None
-    if not drums:
-        print("no --drums stem: the drum row is left out")
+    stems = dict(zip(STEMS, aligned([decode(p) for p in paths], x)))
+    samples = {"mix": x, "vocals": stems["vocals"], "other": stems["other"], "accompaniment": stems["other"] + stems["bass"]}
+    tracks = {track: (s, drawing_stft(s)) for track, s in samples.items()}
+    facts = measure(x, *tracks["mix"][1], tracks["accompaniment"][1][0])
+    drums = drum_hits(stems["drums"])
     if args.start is not None or args.end is not None:
         t0 = args.start or 0
         t1 = min(args.end or facts.duration, facts.duration)
         if not 0 <= t0 < t1:
             parser.error(f"--from {mmss(t0)} must come before --to {mmss(t1)}")
-        render(name, x, whole, facts, drums, t0, t1, args.split, out_png)
+        render(name, tracks, facts, drums, t0, t1, out_png)
         return
 
     out_png.parent.mkdir(parents=True, exist_ok=True)
-    render(name, x, whole, facts, drums, 0, facts.duration, args.split, out_png)
+    render(name, tracks, facts, drums, 0, facts.duration, out_png)
     text = out_png.with_suffix(".txt")
     text.write_text(sidecar(name, facts), encoding="utf-8")
     print(text)
@@ -391,7 +371,7 @@ def main():
         if old.stem.isdigit():
             old.unlink()
     for n, s in enumerate(facts.sections, 1):
-        render(name, x, whole, facts, drums, s.start, s.end, args.split, out_png.with_name(f"{n}.png"), section=n)
+        render(name, tracks, facts, drums, s.start, s.end, out_png.with_name(f"{n}.png"), section=n)
 
 
 if __name__ == "__main__":
