@@ -27,7 +27,7 @@ states.** Its `publishing` variable is the one place the set of publishing types
 is stated, beside the reason each type is in it. The gate reads the pushed
 commits' subject lines and skips the build for every other type in CLAUDE.md §
 "Git conventions", so a merge of one lands on `main` without spending a deploy.
-Three things follow:
+Four things follow:
 
 - **A merge carrying no publishing type that does change the built site is
   deployed by hand** — run the workflow from the Actions tab
