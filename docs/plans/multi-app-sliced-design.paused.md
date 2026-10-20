@@ -145,12 +145,12 @@ built.
   `url` is built from it. App names, collection ids, `downloadPrefix` and the
   author id keep the short names.
 - **The deploy gate maps a site's short name to its domain** — a squash scope
-  (`feat(bible):`) and the picker take either, short to save a subject's
-  characters; `preview.yml` offers domains; it names each receiver's secret
-  outright (`LSA_`, `BIBLE_`, `BASILISK_PAGES_DEPLOY_KEY`, which keep their
-  names), and `publish-site.sh` derives the receiving repository from the
-  domain. The PDF render cache is keyed by the new ids, so each site's first
-  deploy reprints from scratch.
+  (`feat(bible):`) and the picker take it, short to save a subject's characters;
+  `preview.yml` offers domains; it names each receiver's secret outright
+  (`LSA_`, `BIBLE_`, `BASILISK_PAGES_DEPLOY_KEY`, which keep their names), and
+  `publish-site.sh` derives the receiving repository from the domain. The PDF
+  render cache is keyed by the new ids, so each site's first deploy reprints
+  from scratch.
 
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several

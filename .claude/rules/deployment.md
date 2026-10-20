@@ -34,15 +34,15 @@ Four things follow:
   (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that
   alters output is the usual case. A manual run has no subject to read a scope
   off, so it takes a **site** field instead — `all`, or a list of sites by short
-  name or domain, defaulting to `all`; naming one is what lets an unmerged
-  branch publish that site alone, and an id the field does not know fails the
-  run rather than falling through to every site.
+  name, defaulting to `all`; naming one is what lets an unmerged branch publish
+  that site alone, and an id the field does not know fails the run rather than
+  falling through to every site.
 - **The gate matches subjects only**, in either scoped or breaking form
   (`feat(cv):`, `fix!:`), and deploys when _any_ commit in the push qualifies —
   so a `feat:` never gets stranded behind a `docs:` commit pushed alongside it.
 - **A scope names a site by its short name** (`vova`, `lsa`, `bible`,
   `basilisk`), which the gate maps to its domain, since a subject's length is
-  capped; a domain works too.
+  capped.
 - **A scope that names no site publishes every site**, as an unscoped subject
   does: a change to the shared `src/` may reach every site, so that is the safe
   default, and naming a site is the narrowing —
