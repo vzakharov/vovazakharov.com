@@ -144,8 +144,9 @@ built.
   the per-site `package.json` entries (`pnpm build:agentic.bible`); a site's
   `url` is built from it. App names, collection ids, `downloadPrefix` and the
   author id keep the short names.
-- **The deploy gate reads domains** from a squash scope (`feat(basilisk.fyi):`)
-  and from the picker, as `preview.yml` does; it names each receiver's secret
+- **The deploy gate maps a site's short name to its domain** — a squash scope
+  (`feat(bible):`) and the picker take either, short to save a subject's
+  characters; `preview.yml` offers domains; it names each receiver's secret
   outright (`LSA_`, `BIBLE_`, `BASILISK_PAGES_DEPLOY_KEY`, which keep their
   names), and `publish-site.sh` derives the receiving repository from the
   domain. The PDF render cache is keyed by the new ids, so each site's first

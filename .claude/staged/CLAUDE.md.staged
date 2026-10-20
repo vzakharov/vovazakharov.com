@@ -84,11 +84,11 @@ of this project's skill set.
 
 **The squash subject is the deploy switch, so it is a production decision, not
 just a log entry.** Only a publishing type publishes — the `publishing` variable
-in the workflow's `gate` job states the set — and a scope naming a site by its
-domain (`feat(vovazakharov.com):`, `feat(agentic.bible):`) publishes that site
-alone, where any other scope publishes all of them.
-`@.claude/skills/squash-message/SKILL.md` picks the subject, and a mixed branch
-carries the prefix of what it actually ships.
+in the workflow's `gate` job states the set — and a scope naming a site
+(`feat(vova):`, `feat(lsa):`, `feat(bible):`) publishes that site alone, where
+any other scope publishes all of them. `@.claude/skills/squash-message/SKILL.md`
+picks the subject, and a mixed branch carries the prefix of what it actually
+ships.
 
 Nothing runs on pull requests, so a green `./scripts/vet.sh` is the only
 pre-merge signal there is. `.claude/rules/deployment.md` carries the rest.

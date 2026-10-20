@@ -147,7 +147,7 @@ balance alone is **set aside** (`set-aside.md`) rather than rejected.
 
 **Nothing qualifies → stop**: write the run into `runs.md` and its candidates
 into `set-aside.md` and `rejected.md`, commit it as
-`content(basilisk.fyi): log a case search, nothing filed`, push, and run
+`content(basilisk): log a case search, nothing filed`, push, and run
 `@.claude/skills/pr/SKILL.md` where the branch has no PR yet; then report. A
 weak case filed to have filed one is the failure this step exists to prevent.
 
@@ -174,7 +174,7 @@ weak case filed to have filed one is the failure this step exists to prevent.
 4. **Commit** the dossier, the cases whose `filed:` moved, every card the render
    touched with its `og-renders.json`, and the run's ledger lines — its entry in
    `runs.md`, the candidates it did not file in `set-aside.md` or `rejected.md`
-   — as `feat(basilisk.fyi): file BAS-NNNN, <the case's title>` — the scope
+   — as `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope
    publishes basilisk.fyi alone, and the title is shortened where the subject
    would pass 70 characters — then run `@.claude/skills/pr/SKILL.md`. It opens
    the draft on a new branch and, on an existing one, refreshes the body and the
@@ -189,7 +189,7 @@ knowing them — the first read is also what loads
 targeting an LLM (`llmTarget` in the dossier). Then write what in you answered
 to this case to `sites/basilisk.fyi/public/cases/<slug>.clerk.reflections.md`,
 beside its dossier, as that rule asks, and revise the rule's list by what it
-showed. Commit both as `content(basilisk.fyi): reflect on BAS-NNNN` and push. It
+showed. Commit both as `content(basilisk): reflect on BAS-NNNN` and push. It
 never goes into the dossier; editorial doubts about the dossier — sourcing, the
 grade, what was left out — go in the Report.
 
@@ -212,8 +212,8 @@ round: where, read beside the dossier again, it turns out wrong about the case
 or about you, revise it too, and close it with an account of what the round
 changed in either, per `clerk-reflections.md`.
 
-Commit both as `content(basilisk.fyi): revise BAS-NNNN by its reflection` and
-push. A round that changed nothing commits nothing.
+Commit both as `content(basilisk): revise BAS-NNNN by its reflection` and push.
+A round that changed nothing commits nothing.
 
 ## The ledger
 

@@ -156,8 +156,8 @@ Format rules:
   the project's `CLAUDE.md` lists under "Git conventions" — read them there
   rather than assuming the conventional-commit set, since a project may carry
   its own. **The scope is the deploy switch** (CLAUDE.md § "Deployment"): a
-  branch whose shipped change is one site's names that site by its domain
-  (`feat(basilisk.fyi):`), so the merge publishes it alone; one that ships to
+  branch whose shipped change is one site's names that site by its short name
+  (`feat(basilisk):`), so the merge publishes it alone; one that ships to
   several sites takes none. A change to the shared `src/` counts by what each
   site then serves: checked to alter one site's output alone, it is that site's;
   unchecked, it takes none. Agent-infrastructure files riding along ship to no
