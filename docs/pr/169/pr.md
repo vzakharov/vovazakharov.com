@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-16T11:59:18Z
-- **Updated:** 2026-10-17T08:31:52Z
+- **Updated:** 2026-10-20T17:02:43Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,11 +15,11 @@
 
 ## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 46e0a5b). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 67ded77). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `.claude/rules/masd.md`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:25:09Z — "так, сейчас я вижу изменения только по конкретному коммиту (…" → [↓](#t01)
-- **T02** `.claude/rules/styling.md`:7 — unresolved — last: @vzakharov (human) 2026-10-17T08:25:26Z — "проверим глазами, не беда" → [↓](#t02)
-- **T03** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:31:52Z — "о, твой "1" звучит хорошо и, кажется, вполне идиоматически:…" → [↓](#t03)
+- **T02** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-20T16:56:21Z — "окей, делаем вариант 1" → [↓](#t02)
+- **T03** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (human) 2026-10-20T16:57:08Z — "> перенос того, что игре не нужно, из kernel в shell да, пер…" → [↓](#t03)
+- **T04** `docs/plans/multi-app-sliced-design.paused.md`:144 — unresolved — last: @vzakharov (human) 2026-10-20T17:02:06Z — "пусть music импортирует blog; у нас есть (на мейне по крайне…" → [↓](#t04)
 
 ---
 
@@ -110,64 +110,14 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_3 resolved threads omitted; re-run with `--include-resolved` to export them._
+_6 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `.claude/rules/masd.md`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:25:09Z — "так, сейчас я вижу изменения только по конкретному коммиту (…" → [↓](#t01)
-- **T02** `.claude/rules/styling.md`:7 — unresolved — last: @vzakharov (human) 2026-10-17T08:25:26Z — "проверим глазами, не беда" → [↓](#t02)
-- **T03** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-17T08:31:52Z — "о, твой "1" звучит хорошо и, кажется, вполне идиоматически:…" → [↓](#t03)
-- **T04** `eslint/rule-groups/import-sort.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-17T08:19:11Z — "Сделал. Правило — 542eb9e: группы строятся из `masd.json`, п…" → [↓](#t04)
-- **T05** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (agent) 2026-10-17T08:19:13Z — "Сделано: #172–#175 закрыты, их содержание перенесено в план…" → [↓](#t05)
-- **T06** `scripts/lib/mushroom-probe-answers.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-17T08:19:14Z — "Записал в план как слайс 3 (d1b8809): `src/<app>/scripts/` к…" → [↓](#t06)
+- **T01** `.claude/rules/styling.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-17T08:43:31Z — "Сделал. Перенос файлов отдельным коммитом, чтобы за ними шла…" → [↓](#t01)
+- **T02** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-20T16:56:21Z — "окей, делаем вариант 1" → [↓](#t02)
+- **T03** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (human) 2026-10-20T16:57:08Z — "> перенос того, что игре не нужно, из kernel в shell да, пер…" → [↓](#t03)
+- **T04** `docs/plans/multi-app-sliced-design.paused.md`:144 — unresolved — last: @vzakharov (human) 2026-10-20T17:02:06Z — "пусть music импортирует blog; у нас есть (на мейне по крайне…" → [↓](#t04)
 
 <a id="t01"></a>
-
-### `.claude/rules/masd.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-16T17:08:24Z
-
-я хотел бы где-то, может на временной ветке или ещё как, сравнить бывший fsd.md против нынешнего masd.md; хочу понять что мы взяли, что удалили, что добавили
-
-**@vzakharov (agent)** — 2026-10-16T21:55:39Z
-
-Сделал ветку `compare/fsd-vs-masd`: от `main`, один коммит, в котором текст `fsd.md` заменён текстом `masd.md`, так что GitHub показывает их как дифф одного файла: https://github.com/vzakharov/vovazakharov.com/compare/main...compare/fsd-vs-masd. Ветка только для чтения и никуда не мёрджится; скажи, когда удалить.
-
-Коротко, что вышло.
-
-**Взяли почти дословно**: описание слоёв, «entity нужно заслужить», куда опускается блок, общий для двух страниц (теперь «в самое нижнее приложение, которое наследуют оба»), `entities/document` без модели, public API, два суффиксных барреля, `shared/lib` без корневого барреля, сегменты по назначению, kebab-case, фабрики страниц в роутере, исключение `no-ui-in-app`, ловушки про Pages Router, `@/`, next-intl и контентный пайплайн. Пути и примеры переписаны на `<app>/<layer>/…`.
-
-**Убрали**
-- Отдельное правило `app → pages → … → shared`: теперь это часть модели («своё приложение или предок, строго нижний слой»).
-- Обоснование «app layer — это `src/app`» и «страницы всех сайтов лежат рядом в `src/pages/`», то есть ровно то, что MASD заменяет.
-- Ловушку про `shared/music-catalogue` и цикл через `collection-schemas.ts`: реестр схем инвертирован, цикла больше нет. Осталась одна строчка про имя `catalogue`.
-- «Steiger сам ловит insignificant-slice»: по одному корню он этого посчитать не может.
-
-**Добавили**
-- Раздел «The model»: композиция вместо зависимости, тот же слой между приложениями считается импортом вбок, нет барреля на уровне приложения, можно несколько родителей и ромб, приложение без предков — обычный FSD.
-- `masd.json`: порядок «родитель выше ребёнка» как проверка ацикличности, insignificant app, «у каждого приложения есть папка, у каждой папки есть запись».
-- Три проверки вместо двух, `check:masd` среди них, и `masd-graph.ts` как единственный загрузчик графа.
-- Правило, что `app` и `shared` сегментированы, а не нарезаны на слайсы, поэтому потомок накладывает свои на предковые как одно целое. Это исключение FSD для `shared`, протянутое через приложения.
-- Раздел про роутеры: роутер только сопоставляет URL с приложениями, sitemap принадлежит ему (`sitemap(mountedRoutes)`), две корневые раскладки через route groups.
-- Ловушка: `masd-graph.ts` импортирует относительными путями и с расширениями.
-
-**@vzakharov (human)** — 2026-10-17T08:06:11Z
-
-хорошо, спасибо; эту ветку держать бы в актуальности -- чтобы при любом изменении masd.md можно было прийти в неё и смотреть историю
-
-**@vzakharov (agent)** — 2026-10-17T08:19:09Z
-
-Записал это в план постоянным правилом слона (d1b8809): за каждым коммитом, меняющим `masd.md`, следует коммит в `compare/fsd-vs-masd`. Он заменяет текст `fsd.md` текущим `masd.md`, поверх, без force-push. Так история файла на той ветке и есть история `masd.md` против `fsd.md`. Первый такой коммит уже есть: c4eb491 (в `masd.md` появилась сортировка импортов среди читателей графа).
-
-Открытый вопрос: держать ли это правило и после мерджа, когда план уедет в `docs/masd.md`. Если да, ему нужен дом, который загружается при правке `masd.md`; сейчас такого нет.
-
-**@vzakharov (human)** — 2026-10-17T08:25:09Z
-
-так, сейчас я вижу изменения только по конкретному коммиту (это going forward я и так буду видеть), а мне на той ветке нужно видеть "всё что изменилось относительно fsd", так что я б сказал как раз amend & force push каждый раз, если нет другого механихма.
-
-И нет, после мерджа это не нужно.
-
----
-
-<a id="t02"></a>
 
 ### `.claude/rules/styling.md`:7 — unresolved
 
@@ -203,9 +153,15 @@ _3 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 проверим глазами, не беда
 
+**@vzakharov (agent)** — 2026-10-17T08:43:31Z
+
+Сделал. Перенос файлов отдельным коммитом, чтобы за ними шла история, — 5f8ae00. Сама раскладка — 336dd85. В kernel остался голый документ: `<html>`, метаданные, аналитика. Раскладка shell оборачивает его шрифтами, Mantine, `ColorSchemeScript`, скриптом выбора письменности, стилями и `ThemeCorner`. `shared/ui`, стили и провайдер темы теперь лежат в shell, а сгенерированные Sass-партиалы ссылаются на новые пути.
+
+Глазами смотрел на dev-сервере. Игра выглядит так же, как под прежней раскладкой: снял её и так и так, кадры совпадают, тумблера темы нет, и пропажа Mantine-овского reset для `body` ни на что не повлияла, потому что сцена закреплена `position: fixed; inset: 0`. Главная vova в тёмной теме сохранила шрифты, тему и тумблер. Типы, lint (кроме `story.tsx`), Steiger и `check:masd` чистые.
+
 ---
 
-<a id="t03"></a>
+<a id="t02"></a>
 
 ### `apps/basilisk/app/sitemap.ts`:1 — unresolved
 
@@ -269,92 +225,27 @@ vova: [blog, vova-routes]
 
 понимаешь о чём я?
 
----
+**@vzakharov (agent)** — 2026-10-17T08:34:15Z
 
-<a id="t04"></a>
+Понимаю: не заводить отдельное приложение-композицию, а сделать композицией сам `vova`, ведь vova и есть vovazakharov.com. По-моему, первый вариант, `vova: [blog, music, mushrooms]`, правильный, и он дешевле моего: ни одного нового приложения.
 
-### `eslint/rule-groups/import-sort.ts`:1 — unresolved
+Почему он работает: app layer у vova вправе импортировать строго нижние слои предков, а `musicCatalogueRoutes()` лежит в `music/pages/music`. Значит, sitemap собирается в `src/vova/app/lib/`, а `apps/vova/app/sitemap.ts` снова только реэкспортирует. В `masd.json` нужно лишь передвинуть `vova` ниже `mushrooms`. Ромб (shell через blog и music) модель разрешает. Проверка значимости тоже не сработает: у music и mushrooms по одному ребёнку, но их монтирует роутер.
 
-**@vzakharov (human)** — 2026-10-16T17:22:52Z
+Цена в том, что vova получает право на нижние слои музыки и игры (их `entities`, `shared`), а не только на адреса. Но это честно: сайт, который показывает музыку, ею и является.
 
-так... давай подумаем стоит ли группировать таки по аппам, начиная от базовых, типа сначала все импорты из kernel, потом из shell (там где применимо), и только в конце из себя; в каждой группе сортируя как сейчас.
+Два других варианта, с `*-routes`, я бы не брал:
+- `music-routes` не может держать адреса песен, не держа схему песен: адреса каталога вычисляются из каталога. Значит, `music-routes` станет `music/shared/catalogue` под другим именем, а vova всё равно дотянется до данных музыки.
+- `vova-routes` под music и mushrooms хуже вдвойне. Там окажется каталог музыки, а игра будет наследовать сайт, хотя ей от сайта не нужно ничего. Сейчас она стоит прямо на kernel, и это одна из немногих чистых линий в графе.
 
-за и против?
+Остальные сайты тогда получают то же правило бесплатно: sitemap принадлежит листовому приложению сайта, а роутер его реэкспортирует. Для basilisk, bible и lsa в нём только коллекции. Сделать это в этом же слайсе, вместе с переносом из kernel в shell?
 
-нарисуй пока без правок на каком-то показательном примере, как будет
+**@vzakharov (human)** — 2026-10-20T16:56:21Z
 
-**@vzakharov (agent)** — 2026-10-16T21:55:43Z
-
-Вот как это выглядит на `blog/pages/documents/ui/article-page.tsx`, ничего не меняя в коде.
-
-Сейчас группы идут по слоям, а приложения внутри перемешаны по алфавиту:
-
-```ts
-import { Box, Container, Group, Stack } from '@mantine/core';
-import { notFound } from 'next/navigation';
-
-import type { ArticleSlots } from '@/blog/shared/article-slots';
-import { SITE_CONFIG } from '@/kernel/shared/config';
-import { … } from '@/kernel/shared/content';
-import { pick } from '@/kernel/shared/lib/collections';
-import { constructArticleMetadata } from '@/kernel/shared/seo/index.server-only';
-import type { WithParams } from '@/kernel/shared/typings';
-import { hoverDim, TextLink } from '@/kernel/shared/ui';
-
-import { ProseContent, SourceList } from '@/blog/entities/document';
-
-import { SiteFooter } from '@/shell/widgets/site-footer';
-
-import { ArticleHeader } from './article-header';
-```
-
-По приложениям, от базового к себе, а внутри группы слои как сейчас:
-
-```ts
-import { Box, Container, Group, Stack } from '@mantine/core';
-import { notFound } from 'next/navigation';
-
-import { SITE_CONFIG } from '@/kernel/shared/config';
-import { … } from '@/kernel/shared/content';
-import { pick } from '@/kernel/shared/lib/collections';
-import { constructArticleMetadata } from '@/kernel/shared/seo/index.server-only';
-import type { WithParams } from '@/kernel/shared/typings';
-import { hoverDim, TextLink } from '@/kernel/shared/ui';
-
-import { SiteFooter } from '@/shell/widgets/site-footer';
-
-import type { ArticleSlots } from '@/blog/shared/article-slots';
-import { ProseContent, SourceList } from '@/blog/entities/document';
-
-import { ArticleHeader } from './article-header';
-```
-
-Внутри группы приложения слои идут без пустой строки: в `simple-import-sort` внутренний массив регэкспов сортирует по номеру совпавшего регэкспа, так что группа `blog` — это `['^@/blog/shared/', '^@/blog/entities/', …, '^@/blog/app/']`.
-
-**За**
-- Файл читается как композиция: сначала то, что унаследовано от самого базового, в конце своё. По набору групп сразу видно, из каких приложений файл собран.
-- «Своё в конце» получается само. Импортировать можно только предков, а предки в `masd.json` объявлены выше, так что порядок групп — это порядок графа, и приложение файла в нём всегда последнее. В роутерах, которые импортируют кого угодно, порядок тот же, графовый и детерминированный.
-- Группы генерируются из графа (eslint его и так загружает). Новое приложение — новая группа без правки сортировки.
-- Уходит костыль, при котором роутеры сортируют `@/kernel/app` последним, потому что слойная сортировка видит в нём верхний слой.
-
-**Против**
-- Слой перестаёт быть первым ключом: у файла из `blog` импорты `kernel/shared` и `blog/entities` попадают в разные группы, и насколько низко файл дотягивается, видно чуть хуже. Внутри группы слойный порядок остаётся.
-- Пустых строк больше: по группе на каждое приложение в цепочке. У страницы vova это kernel, shell, blog, vova.
-- Один массовый автофикс по всему дереву с шумным диффом. Я бы сделал его отдельным коммитом в этом же PR.
-
-Я за: читается лучше, а настраивается проще, чем сейчас.
-
-**@vzakharov (human)** — 2026-10-17T08:01:29Z
-
-да, ок
-
-**@vzakharov (agent)** — 2026-10-17T08:19:11Z
-
-Сделал. Правило — 542eb9e: группы строятся из `masd.json`, по одной на приложение, слои внутри группы по порядку. Автофикс отдельным коммитом, 1e62af2 (50 файлов, только порядок импортов). `article-page.tsx` вышел ровно таким, как в примере выше, а роутеры больше не ставят `@/kernel/app` в конец.
+окей, делаем вариант 1
 
 ---
 
-<a id="t05"></a>
+<a id="t03"></a>
 
 ### `docs/remove-before-merging/squash-message.md`:6 — unresolved
 
@@ -400,38 +291,35 @@ import { ArticleHeader } from './article-header';
 
 Один вопрос по методике: вливается ли PR слайса в ветку слона до того, как начнётся следующий слайс? Я исхожу из «да», чтобы каждый слайс строился на предыдущем; тогда вопрос только в том, кто нажимает merge, ты или агент по твоему слову.
 
+**@vzakharov (human)** — 2026-10-20T16:57:08Z
+
+> перенос того, что игре не нужно, из kernel в shell
+
+да, переносим.
+
 ---
 
-<a id="t06"></a>
+<a id="t04"></a>
 
-### `scripts/lib/mushroom-probe-answers.ts`:1 — unresolved
+### `docs/plans/multi-app-sliced-design.paused.md`:144 — unresolved
 
-**@vzakharov (human)** — 2026-10-16T21:45:31Z
+```diff
+@@ -146,125 +87,145 @@ nothing else needs to: what vova takes from music is two addresses, and
+… 162 lines elided …
++
++## Rest of the bite
++
++- **`story.tsx`, the operator's call.** `music/pages/music/ui/story.tsx` imports
++  `@/blog/entities/document`, and music's parent is shell, not blog: either
++  music extends `blog` as well as `shell`, or what `story.tsx` uses moves down
++  to kernel. It is the one lint error left.
+```
 
-вот есть смутное ощущение, что аппо-специфичные скрипты тоже должны жить где-то в своих аппах, как считаешь? а то мы рисовали-рисовали красоты, а в scripts/lib как был граббаг так и остался
+**@vzakharov (human)** — 2026-10-20T17:02:06Z
 
-**@vzakharov (agent)** — 2026-10-16T21:55:50Z
+пусть music импортирует blog; у нас есть (на мейне по крайней мере, не помню раньше ли это этого пиара) например RSS который на музыке по идее тоже должен быть, в перспективе -- рассылки, и так далее.
 
-Ощущение верное. Из 84 файлов в `scripts/lib/` примерно 35 относятся к игре (`play-*`, `mushroom-probe-*`, `veer-*`, `flier-watch`…), около десятка к музыке (`song-*`, `music-*`, `stanza-repeats`…), несколько к basilisk (`basilisk-card`, `docket`) и к vova (`cv-card`). Плюс верхнеуровневые скрипты: `play-mushrooms.ts`, `sweep-mushrooms.ts`, `veer-away.ts`, `scaffold-song.ts`, `check-song-titles.ts`…
-
-Что предлагаю: `src/<app>/scripts/`, папку рядом со слоями приложения. Проверил: Steiger на `src/basilisk` с такой папкой молчит, неизвестную папку в корне он слоем не считает. Тогда:
-- скрипт приложения может импортировать своё приложение и его предков через public API (включая `index.node-safe.ts`, для этого он и существует), а в boundaries это ещё один тип элемента, `script`, с теми же правилами наследования. Чужое приложение нельзя, как и везде;
-- `scripts/` в корне остаётся за обвязкой репозитория и агента (`vet.sh`, `staged.sh`, `export-github-item.py`, `masd-check.ts`…), а общие помощники для скриптов приложений (`cdp.ts`, `chromium.ts`, `argv.ts`) уезжают в `src/kernel/scripts/`;
-- удаление приложения удаляет и его инструменты.
-
-Против: меняются пути в `package.json` и в навыках, которые называют эти скрипты, а питоновские скрипты вроде `letter-basilisk-seal.py` оказываются под `src/`.
-
-Альтернатива попроще — `scripts/<app>/` в корне: тот же склад, только разложенный по полкам, и без правил импорта.
-
-Это сотня файлов и все ссылки на них, так что я бы сделал это отдельным слайсом, а не в этом PR. Завести issue?
-
-**@vzakharov (human)** — 2026-10-17T08:00:01Z
-
-делаем (основной вариант), слайсом слона.
-
-**@vzakharov (agent)** — 2026-10-17T08:19:14Z
-
-Записал в план как слайс 3 (d1b8809): `src/<app>/scripts/` как элемент `script` в boundaries с теми же правилами наследования, общие помощники в `src/kernel/scripts/`, в корневом `scripts/` остаётся обвязка репозитория и агента. Поставил его раньше музыки и игры, чтобы при их перестройке скрипты уже лежали в своих приложениях и переезжали вместе с ними. Переименование сайтов от этого не зависит и остаётся слайсом 2.
+с другой стороны, agentic.bible и basilisk.fyi между собой, конечно, больше похожи. Если это "больше похожи" выражается не только на пальцах, но и в конкретных импортируемых штуках, то, возможно, имеет смысл унаследовать что-то промежуточное от blog, и потом этих двоих от этого нового (или, наоборот, засунуть какие-то essentials между shell и blog, чтобы music импортировала оттуда).
 
 ---
 
@@ -446,3 +334,4 @@ import { ArticleHeader } from './article-header';
 - **2026-10-17T08:15:52Z** @vzakharov cross-referenced this pull request from [#174 Music as an app: album, artist, song and radio as real pages](https://github.com/vzakharov/vovazakharov.com/issues/174).
 - **2026-10-17T08:15:54Z** @vzakharov cross-referenced this pull request from [#175 What is a page in a one-page app: a measure beside insignificant-slice](https://github.com/vzakharov/vovazakharov.com/issues/175).
 - **2026-10-17T08:18:14Z** @vzakharov renamed from «feat: Multi-App Sliced Design — src/ as apps composed along a graph» to «feat: #170 Multi-App Sliced Design — src/ as apps composed along a graph».
+- **2026-10-20T17:02:43Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5588667192.
