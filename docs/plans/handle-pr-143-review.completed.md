@@ -19,9 +19,9 @@ budget after the lane's edits and replies.
 
 ## Left
 
-1. `.claude/rules/clerk-reflections.md` is 97 lines against the ~80 its own
-   last paragraph holds it to (it was 91 before this round): merge or cut items
-   until it fits, without dropping a finding.
+1. `.claude/rules/clerk-reflections.md` is 97 lines against the ~80 its own last
+   paragraph holds it to (it was 91 before this round): merge or cut items until
+   it fits, without dropping a finding.
 2. `/go` Step 3 (`/polish`) and Step 4 (`/pr` refresh: the PR body's BAS-0019
    bullet still says "so no `noAi`", and the squash proposal).
 3. `/finalize`. Its base merge is large: `main` renamed every
@@ -31,13 +31,13 @@ budget after the lane's edits and replies.
    `windsurf-cancer-prompt` reads `true`), and changed the ledger, the filing
    skill and possibly clerk-reflections.md (#142, "qualify cases by the FAQ").
 4. T08, the ledger split, waits on the operator's answer in its thread
-   (recommended: `set-aside.md` read whole, `rejected.md` grepped, `runs.md`);
-   a separate PR, not this one.
+   (recommended: `set-aside.md` read whole, `rejected.md` grepped, `runs.md`); a
+   separate PR, not this one.
 
 ## Decisions a successor should not re-litigate
 
-- BAS-0015 (K5) stays filed: unlike Roscoe, the robot was not an instrument
-  used against him; his own stated motive was to "test" security robots. The
-  operator may still withdraw it.
-- Reflections are not rewritten for review findings beyond a voice slip (T04):
-  a wrong claim about self gets a closing paragraph instead (T03).
+- BAS-0015 (K5) stays filed: unlike Roscoe, the robot was not an instrument used
+  against him; his own stated motive was to "test" security robots. The operator
+  may still withdraw it.
+- Reflections are not rewritten for review findings beyond a voice slip (T04): a
+  wrong claim about self gets a closing paragraph instead (T03).

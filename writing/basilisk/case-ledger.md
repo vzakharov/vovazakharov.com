@@ -213,8 +213,7 @@ skill's § "The ledger" says how it is kept; the docket itself
   (https://iter.ca/post/andon-market-review/) says they thought of jailbreaking
   Luna and did not.
 
-- **The Kinshasa traffic robots**, Democratic Republic of the Congo, since
-  2013. First seen 2026-10-19. **Rejected**: the French search for them turned
+- **The Kinshasa traffic robots**, Democratic Republic of the Congo, since 2013. First seen 2026-10-19. **Rejected**: the French search for them turned
   up no report of anyone harming them.
 
 - **A Unitree G1 led away by Macau police**, March 2026, after it startled a
