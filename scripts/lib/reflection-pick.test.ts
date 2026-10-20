@@ -13,7 +13,7 @@ const KINDS = new Map([
 ]);
 
 const FILES = [...KINDS.keys()].map(
-  (slug) => `sites/basilisk.fyi/public/cases/${slug}.clerk.reflections.md`,
+  (slug) => `sites/basilisk/public/cases/${slug}.clerk.reflections.md`,
 );
 
 /** A seeded generator, so a run that misses the anchor fails every time. */

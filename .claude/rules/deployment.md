@@ -11,38 +11,35 @@ paths:
 
 **The sites leave by two different doors, because a repository gets one Pages
 site.** `vovazakharov.com` holds this repository's own, deployed from
-`sites/vovazakharov.com/out` by `actions/deploy-pages`. Every other site is
-built here and force-pushed by `scripts/publish-site.sh <site>` to the
-`gh-pages` branch of a receiving repository — `vzakharov/latestageagentic.com`,
+`sites/vova/out` by `actions/deploy-pages`. Every other site is built here and
+force-pushed by `scripts/publish-site.sh <site>` to the `gh-pages` branch of a
+receiving repository — `vzakharov/latestageagentic.com`,
 `vzakharov/agentic.bible`, `vzakharov/basilisk.fyi` — which holds no source and
 runs no workflow: its Pages is set to deploy from a branch, so the push _is_ the
 deploy. That push needs a credential `GITHUB_TOKEN` cannot give — a deploy key
 per receiver, whose contract the script's own header carries. The workflow maps
-each receiver's secret, named per domain in the `gate` job, into the one fixed
-variable the script reads, so a new site is a `case` arm and a secret name,
-never a change to how the key is handled.
+each receiver's secret into the one fixed variable the script reads, so a new
+site is a `case` arm and a matrix entry, never a change to how the key is
+handled.
 
 **The workflow's `gate` job enforces the subject rule CLAUDE.md § "Deployment"
 states.** Its `publishing` variable is the one place the set of publishing types
 is stated, beside the reason each type is in it. The gate reads the pushed
 commits' subject lines and skips the build for every other type in CLAUDE.md §
 "Git conventions", so a merge of one lands on `main` without spending a deploy.
-Four things follow:
+Three things follow:
 
 - **A merge carrying no publishing type that does change the built site is
   deployed by hand** — run the workflow from the Actions tab
   (`workflow_dispatch` bypasses the gate). A `chore:` dependency bump that
   alters output is the usual case. A manual run has no subject to read a scope
-  off, so it takes a **site** field instead — `all`, or a list of sites by short
-  name, defaulting to `all`; naming one is what lets an unmerged branch publish
-  that site alone, and an id the field does not know fails the run rather than
+  off, so it takes a **site** field instead — `all`, or a list of site ids,
+  defaulting to `all`; naming one is what lets an unmerged branch publish that
+  site alone, and an id the field does not know fails the run rather than
   falling through to every site.
 - **The gate matches subjects only**, in either scoped or breaking form
   (`feat(cv):`, `fix!:`), and deploys when _any_ commit in the push qualifies —
   so a `feat:` never gets stranded behind a `docs:` commit pushed alongside it.
-- **A scope names a site by its short name** (`vova`, `lsa`, `bible`,
-  `basilisk`), which the gate maps to its domain, since a subject's length is
-  capped.
 - **A scope that names no site publishes every site**, as an unscoped subject
   does: a change to the shared `src/` may reach every site, so that is the safe
   default, and naming a site is the narrowing —

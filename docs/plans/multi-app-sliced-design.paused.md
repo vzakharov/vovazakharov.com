@@ -134,23 +134,16 @@ CLAUDE.md's `fsd.md` citation, and every site looked at under the split layouts.
   live CLAUDE.md cites `fsd.md` until `/finalize` swaps it in, so
   `check-skill-catalog` fails until then).
 
-Slice 2, sites named by domain: vet clean but for the same citation, every site
+Slice 2, sites out of `apps/`: vet clean but for the same citation, every site
 built.
 
-- **`sites/<domain>/`** holds each router, `public/`, Next config and tsconfig,
-  with `sites/site-next-config.ts` beside them.
-- **The domain is the site's id** — `SITE_IDS`, `NEXT_PUBLIC_SITE`,
-  `SITE_CONFIGS`' keys, each collection's `site`, `in-site.sh`'s argument and
-  the per-site `package.json` entries (`pnpm build:agentic.bible`); a site's
-  `url` is built from it. App names, collection ids, `downloadPrefix` and the
-  author id keep the short names.
-- **The deploy gate maps a site's short name to its domain** — a squash scope
-  (`feat(bible):`) and the picker take it, short to save a subject's characters;
-  `preview.yml` offers domains; it names each receiver's secret outright
-  (`LSA_`, `BIBLE_`, `BASILISK_PAGES_DEPLOY_KEY`, which keep their names), and
-  `publish-site.sh` derives the receiving repository from the domain. The PDF
-  render cache is keyed by the new ids, so each site's first deploy reprints
-  from scratch.
+- **`sites/<site>/`** holds each router, `public/`, Next config and tsconfig,
+  with `sites/site-next-config.ts` beside them, so "app" names only an app under
+  `src/`.
+- **A site keeps its short id** (`vova`, `lsa`, `bible`, `basilisk`) in the
+  directory, `NEXT_PUBLIC_SITE`, the squash scope and every `pnpm` entry — a
+  domain in each of those spent characters on every command for nothing, so it
+  stays where it was, once, in the site's `url`.
 
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several

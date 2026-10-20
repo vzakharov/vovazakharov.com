@@ -47,7 +47,7 @@ sites/*/public/generated
 
 # The song masters' tag manifest — rewritten wholesale by `pnpm music:masters`
 # on every run, so a formatting pass over it is undone by the next one.
-sites/vovazakharov.com/public/music/tag-renders.json
+sites/vova/public/music/tag-renders.json
 
 # Session cost rows — rewritten wholesale by `.claude/costs/session_cost.py` on
 # every turn, so a formatting pass over them is undone by the next one.

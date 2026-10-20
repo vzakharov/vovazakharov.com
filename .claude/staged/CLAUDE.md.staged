@@ -40,19 +40,18 @@ and the rest of the convention.
 - **`src/`** — All application code, as apps (`src/<app>/`), each a
   Feature-Sliced Design tree, composed along the graph in `src/masd.json`.
   `@.claude/rules/masd.md` carries the conventions the checkers enforce.
-- **`sites/`** — One directory per site, named by its domain and the site's id
-  everywhere (`NEXT_PUBLIC_SITE`, `pnpm build:<domain>`), each holding its
-  `app/` (**routing only** — the FSD app layers are under `src/`), `public/`,
-  `next.config.ts` and `tsconfig.json`. All four build from the one `src/`, and
-  a build is entered in its site directory rather than pointed at from the root.
+- **`sites/`** — One directory per site (`vova/`, `lsa/`, `bible/`,
+  `basilisk/`), named by the site's id, each holding its `app/` (**routing
+  only** — the FSD app layers are under `src/`), `public/`, `next.config.ts` and
+  `tsconfig.json`. All four build from the one `src/`, and a build is entered in
+  its site directory rather than pointed at from the root.
 - **`sites/*/public/`** — Static assets served at that site's root: `.nojekyll`
   (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each
   site with a domain of its own (which a force-push would otherwise drop), and
   one directory per content collection, holding the authored markdown at the
-  path its page is routed to (`sites/vovazakharov.com/public/case-studies/`). A
-  collection rooted at its site's root has no directory:
-  `sites/agentic.bible/public/` is both the site's assets and the Bible's
-  articles.
+  path its page is routed to (`sites/vova/public/case-studies/`). A collection
+  rooted at its site's root has no directory: `sites/bible/public/` is both the
+  site's assets and the Bible's articles.
 - **`styles/`** — Sass partials shared across `src/`: `_mantine.scss`
   (counterparts to the mixins Mantine documents as a PostCSS preset) and the two
   `pnpm styles:codegen` writes, `_tokens.scss` and `_breakpoints.scss`. A

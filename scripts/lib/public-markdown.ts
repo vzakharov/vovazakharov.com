@@ -41,7 +41,7 @@ export function publicMarkdownFiles(): string[] {
 }
 
 /** The music section's files, relative to the root: `songs/`, `albums/`, `artists/`. */
-export const MUSIC_CATALOGUE_DIR = 'sites/vovazakharov.com/public/music';
+export const MUSIC_CATALOGUE_DIR = 'sites/vova/public/music';
 
 const MUSIC_DIR = path.join(MUSIC_CATALOGUE_DIR, 'songs');
 

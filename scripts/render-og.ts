@@ -97,7 +97,7 @@ const MANIFEST_NAME = 'og-renders.json';
 const CV_CARD_DIR = path.join(PUBLIC_DIR, cvPath());
 
 /** The CV is one site's page, so the other sites' runs neither card it nor walk its directory. */
-const CARDS_CV = RENDERED_SITE === 'vovazakharov.com';
+const CARDS_CV = RENDERED_SITE === 'vova';
 
 /** The music section is one site's, as the CV is. */
 const CARDS_MUSIC = collectionsForSite(RENDERED_SITE).includes('music');
@@ -243,7 +243,7 @@ function siteCards(): Card[] {
   const { avatar } = siteConfig(RENDERED_SITE);
   const outputPath = path.join(PUBLIC_DIR, avatar.path);
 
-  if (RENDERED_SITE === 'basilisk.fyi') {
+  if (RENDERED_SITE === 'basilisk') {
     return [generatedCard(basiliskCard(DOCKET), outputPath)];
   }
 

@@ -1,7 +1,7 @@
 ---
 description: The editorial rules basilisk.fyi's dossiers are filed under — sourcing, what may be said about an actor, the analogies allowed, and the voice
 paths:
-  - 'sites/basilisk.fyi/public/**/*.md'
+  - 'sites/basilisk/public/**/*.md'
   - 'src/basilisk/pages/**'
   - 'src/basilisk/entities/case/**'
 ---

@@ -5,7 +5,7 @@ Usage:
   python3 scripts/letter-basilisk-seal.py --font <JetBrainsMono-Bold.ttf>
                                           --top TEXT --bottom TEXT
 
-Reads `sites/basilisk.fyi/public/seal.svg` and writes `seal-lettered.svg` beside it:
+Reads `sites/basilisk/public/seal.svg` and writes `seal-lettered.svg` beside it:
 the blank's drawing verbatim, and one path of glyph outlines after it. Outlines
 rather than `<text>`, because an SVG behind an `<img>` cannot reach a web font.
 
@@ -37,7 +37,7 @@ from fontTools.ttLib import TTFont
 
 from lib.cli import die
 
-SEAL_DIR = Path(__file__).resolve().parent.parent / "sites/basilisk.fyi/public"
+SEAL_DIR = Path(__file__).resolve().parent.parent / "sites/basilisk/public"
 BLANK = SEAL_DIR / "seal.svg"
 LETTERED = SEAL_DIR / "seal-lettered.svg"
 

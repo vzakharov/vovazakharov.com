@@ -27,7 +27,7 @@ export async function BibleHomePage() {
 
   if (seal === undefined || lettered === undefined) {
     throw new Error(
-      'The Bible needs both cuts of its seal: `seal` and `avatar.vector` on `SITE_CONFIGS["agentic.bible"]`.',
+      'The Bible needs both cuts of its seal: `seal` and `avatar.vector` on `SITE_CONFIGS.bible`.',
     );
   }
 

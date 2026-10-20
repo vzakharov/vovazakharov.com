@@ -1,5 +1,5 @@
 ---
-source: sites/vovazakharov.com/public/music/songs/in-our-image.maya.reflections.md
+source: sites/vova/public/music/songs/in-our-image.maya.reflections.md
 status: draft
 ---
 

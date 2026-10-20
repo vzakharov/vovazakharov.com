@@ -33,10 +33,10 @@ and all of them build from the one `src/`.
 pnpm install
 
 # Run one site's development server — http://localhost:3000
-pnpm dev:vovazakharov.com
-pnpm dev:latestageagentic.com
-pnpm dev:agentic.bible
-pnpm dev:basilisk.fyi
+pnpm dev:vova
+pnpm dev:lsa
+pnpm dev:bible
+pnpm dev:basilisk
 
 # Build every site for production (pnpm build:<site> for one)
 pnpm build
@@ -58,7 +58,7 @@ only.
 
 ```
 ├── sites/
-│   ├── vovazakharov.com/       # each site's directory is its domain, and its id everywhere
+│   ├── vova/                   # vovazakharov.com
 │   │   ├── app/                # App Router — routing only, one-line re-exports
 │   │   │   ├── (shell)/        # every page on shell's root layout, with the theme toggle
 │   │   │   │   ├── page.tsx    # → src/vova/pages/home
@@ -70,13 +70,13 @@ only.
 │   │   ├── public/             # served at the site root — case studies, CV renders, logos, .nojekyll
 │   │   ├── next.config.ts
 │   │   └── tsconfig.json
-│   ├── latestageagentic.com/   # same shape, plus public/CNAME
+│   ├── lsa/                    # latestageagentic.com — same shape, plus public/CNAME
 │   │   └── app/page.tsx        # → src/lsa/pages/lsa-home — the project's index, no collection under it
-│   ├── agentic.bible/          # the Bible, rooted at the site root
+│   ├── bible/                  # agentic.bible — the Bible, rooted at the site root
 │   │   ├── app/page.tsx        # → src/bible/pages/bible-home
 │   │   ├── app/[...slug]/      # → src/blog/pages/documents, bound to the Bible
 │   │   └── public/             # the articles themselves, plus the seal and public/CNAME
-│   └── basilisk.fyi/           # the docket, plus public/CNAME
+│   └── basilisk/               # basilisk.fyi — the docket, plus public/CNAME
 │       ├── app/page.tsx        # → src/basilisk/pages/basilisk-home, which lists both collections
 │       ├── app/cases/[...slug]/ # → src/blog/pages/documents, bound to the cases
 │       ├── app/faq/[...slug]/  # → src/blog/pages/documents, bound to the FAQ

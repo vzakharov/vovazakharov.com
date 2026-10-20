@@ -35,7 +35,7 @@ export const COLLECTIONS = {
      * what puts a document's files at its own route plus an extension. */
     base: 'case-studies',
     label: 'Case studies',
-    site: 'vovazakharov.com',
+    site: 'vova',
     printable: true,
     /** English only, and the body is where its title comes from. */
     localized: false,
@@ -49,7 +49,7 @@ export const COLLECTIONS = {
      * say so a second time. An empty base is what `collectionPath` drops. */
     base: '',
     label: 'The Bible',
-    site: 'agentic.bible',
+    site: 'bible',
     printable: true,
     localized: false,
     homeIndexed: true,
@@ -61,7 +61,7 @@ export const COLLECTIONS = {
      * song under — the two move together. */
     base: 'music/songs',
     label: 'Songs',
-    site: 'vovazakharov.com',
+    site: 'vova',
     /** A song is a recording with prose around it; there is nothing to print. */
     printable: false,
     localized: true,
@@ -72,7 +72,7 @@ export const COLLECTIONS = {
   'basilisk-cases': {
     base: 'cases',
     label: 'Cases',
-    site: 'basilisk.fyi',
+    site: 'basilisk',
     printable: true,
     localized: false,
     homeIndexed: true,
@@ -83,7 +83,7 @@ export const COLLECTIONS = {
   'basilisk-faq': {
     base: 'faq',
     label: 'FAQ',
-    site: 'basilisk.fyi',
+    site: 'basilisk',
     printable: false,
     localized: false,
     homeIndexed: true,

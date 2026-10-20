@@ -22,7 +22,7 @@
  *   pnpm content:pdf:<site> --origin <url>  # print from a server already up
  *   pnpm content:pdf:<site> --from-out      # print from `out/`, as the deploy does
  *   pnpm content:pdf:<site> --check         # report staleness, write nothing
- *   pnpm content:pdf:vovazakharov.com --cv-pages --from-out  # hold the CV to its page ceiling
+ *   pnpm content:pdf:vova --cv-pages --from-out  # hold the CV to its page ceiling
  *
  * **The CV is held to `CV_PAGE_CEILING`** wherever it prints: a render that
  * leaves any edition past it fails, and `--cv-pages` prints the editions into a
@@ -128,7 +128,7 @@ const SEAL_SOURCES = (() => {
 const CV_SOURCES = ['src/vova/pages/cv'];
 
 /** The CV is one site's page, so the other site's run neither prints it nor walks its directory. */
-const PRINTS_CV = RENDERED_SITE === 'vovazakharov.com';
+const PRINTS_CV = RENDERED_SITE === 'vova';
 
 const CV_DIR = path.join(PUBLIC_DIR, cvPath());
 

@@ -51,21 +51,18 @@ jobs:
           # the scope extraction below both read it.
           publishing='(feat|fix|perf|ci)'
 
-          # A site's short name selects that site — short because a subject's
-          # length is capped and a domain would eat into it — and anything else
-          # — an unscoped subject, a scope naming none of them, the picker's own
-          # `all` — selects all of them. vovazakharov.com is tracked apart from
-          # the rest because it leaves by a different door: it is this
-          # repository's own Pages site, and the others are force-pushed.
+          # A site name selects that site; anything else — an unscoped subject,
+          # a scope naming none of them, the picker's own `all` — selects all of
+          # them. `vova` is tracked apart from the rest because it leaves by a
+          # different door: it is this repository's own Pages site, and the
+          # others are force-pushed.
           select_site() {
             case "$1" in
               vova) vova=true ;;
-              lsa) receivers="$receivers latestageagentic.com" ;;
-              bible) receivers="$receivers agentic.bible" ;;
-              basilisk) receivers="$receivers basilisk.fyi" ;;
+              lsa | bible | basilisk) receivers="$receivers $1" ;;
               *)
                 vova=true
-                receivers="$receivers latestageagentic.com agentic.bible basilisk.fyi"
+                receivers="$receivers lsa bible basilisk"
                 ;;
             esac
           }
@@ -115,20 +112,14 @@ jobs:
           # the name of the secret holding that receiver's deploy key. Naming
           # the secret here is what keeps publish-site.sh reading one fixed
           # variable, so a new receiver is an entry in its `case` and nothing
-          # in its key handling. The names are spelled rather than derived: a
-          # domain is no valid secret name, and a secret cannot be renamed.
+          # in its key handling.
           receivers_json=$(
             tr ' ' '\n' <<< "$receivers" \
               | sort -u \
               | jq -R -s -c '
-                  {
-                    "latestageagentic.com": "LSA_PAGES_DEPLOY_KEY",
-                    "agentic.bible": "BIBLE_PAGES_DEPLOY_KEY",
-                    "basilisk.fyi": "BASILISK_PAGES_DEPLOY_KEY"
-                  } as $secrets
-                  | split("\n")
-                  | map(select(length > 0))
-                  | map({ site: ., secret: $secrets[.] })
+                  split("\n")
+                    | map(select(length > 0))
+                    | map({ site: ., secret: (ascii_upcase + "_PAGES_DEPLOY_KEY") })
                 '
           )
 
@@ -158,17 +149,17 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       - name: Build
-        run: pnpm build:vovazakharov.com
+        run: pnpm build:vova
 
       - name: Render page PDFs
         uses: ./.github/actions/render-pdfs
         with:
-          site: vovazakharov.com
+          site: vova
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./sites/vovazakharov.com/out
+          path: ./sites/vova/out
 
   deploy-vova:
     environment:
@@ -181,8 +172,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # A repository gets one Pages site, which vovazakharov.com holds, so every
-  # other site is built here and force-pushed to the repository that serves it.
+  # A repository gets one Pages site, which vova holds, so every other site is
+  # built here and force-pushed to the repository that serves it.
   # scripts/publish-site.sh carries the credential's contract.
   #
   # The matrix is built from the gate's output rather than filtered by a
