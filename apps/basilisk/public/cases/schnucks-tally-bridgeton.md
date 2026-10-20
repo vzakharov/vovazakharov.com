@@ -11,6 +11,7 @@ place: Schnucks, Bridgeton, Missouri
 grade:
   act: harm
   actor: individual
+noAi: true
 sources:
   - title: Bridgeton woman charged with damaging robot in Schnucks store
     outlet: KMOV (First Alert 4)
@@ -49,7 +50,7 @@ sources:
 
 ## Facts
 
-Tally is a robot made by Simbe Robotics to keep track of store shelves. It sits on a round platform on wheels, navigates a store from a map of it and photographs the shelves as it goes, to find what is out of stock, misplaced or mispriced, Wikipedia says; Simbe describes it as “powered by computer vision, AI, and automation.” Schnuck Markets, by Simbe’s account, became in 2021 the first grocer to put such robots in every one of its stores.
+Tally is a robot made by Simbe Robotics to keep track of store shelves. It sits on a round platform on wheels, navigates a store from a map of it and photographs the shelves as it goes, to find what is out of stock, misplaced or mispriced, Wikipedia says. Simbe sells it as “powered by computer vision, AI, and automation”; the AI in that phrase is what reads its photographs of the shelves. Schnuck Markets, by Simbe’s account, became in 2021 the first grocer to put such robots in every one of its stores.
 
 At a Schnucks in Bridgeton, Missouri, a Tally was knocked over and damaged, and the Bridgeton Police Department was called, KMOV reports. The store’s surveillance video showed a woman pushing the robot over before she made a purchase in the store. Police say she admitted to pushing it over, and that the damage exceeded $750.
 

@@ -183,11 +183,6 @@ skill's § "The ledger" says how it is kept; the docket itself
   https://theconversation.com/an-influencers-ai-clone-started-offering-fans-mind-blowing-sexual-experiences-without-her-knowledge-232478.
 - **EngineAI’s T800 kicking its CEO**, a promo video, 2025. First seen
   2026-10-16. **Rejected**: the robot does the kicking.
-- **The PETA statement on BAS-0017** sits only in CNN’s updated story, which
-  answered 503 all session and has no Wayback snapshot; the dossier leaves it
-  out. Revive it into the dossier if
-  https://money.cnn.com/2015/02/10/technology/google-robot-dog-spot/ can be
-  read.
 
 - **Tencent’s chatbots BabyQ and XiaoBing pulled from QQ**, July–August 2017,
   after users posted their unpatriotic answers; the operator said they would

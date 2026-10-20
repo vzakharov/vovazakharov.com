@@ -18,7 +18,8 @@ holds a dossier's fields; these rules hold what goes in them.
   earlier session's notes are not a source.
 - **Nothing about the actor beyond what the sources say, and less where they
   chose restraint.** A pseudonymous actor is named by the handle the sources
-  print, or not at all. An identity a source traced and withheld stays
+  print, or not at all — never by the legal name behind it, however widely
+  printed, a public figure's included. An identity a source traced and withheld stays
   withheld; one a headline printed is still not repeated. A bystander the
   sources name in passing is not named.
 - **Precedents and analogies come from machines, objects and effigies** — the

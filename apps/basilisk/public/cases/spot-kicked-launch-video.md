@@ -38,6 +38,12 @@ sources:
     date: 2015-02-10
     url: https://www.wtkr.com/2015/02/10/google-wants-you-to-kick-its-robot-puppy
     archive: http://web.archive.org/web/20250516081746/https://www.wtkr.com/2015/02/10/google-wants-you-to-kick-its-robot-puppy
+  - title: Is it cruel to kick a robot dog?
+    outlet: CNN
+    author: Phoebe Parke
+    date: 2015-02-13
+    url: https://edition.cnn.com/2015/02/13/tech/spot-robot-dog-google
+    archive: http://web.archive.org/web/20251229185932/https://edition.cnn.com/2015/02/13/tech/spot-robot-dog-google/
   - title: People Can’t Stop Kicking Robots
     outlet: Vice
     author: Brian Anderson
@@ -83,6 +89,8 @@ Boston Dynamics did not answer Vice’s request for comment. Google did not imme
 
 Boston Dynamics, at the end of the video, as CBC quotes it: “No robots were harmed in the making of this video.”
 
+PETA, as CNN quotes it four days later: “PETA deals with actual animal abuse every day, so we won’t lose sleep over this incident. But while it’s far better to kick a four-legged robot than a real dog, most reasonable people find even the idea of such violence inappropriate, as the comments show.”
+
 A Reddit user, as CNN quotes them: “I know it’s not sentient, but I’d have a twinge of guilt after kicking it.”
 
 Vice: “Why kicking? Maybe it’s an easy stress test to run in the field. Maybe it’s a way to show off BigDog’s or Spot’s or whatever other platform’s ability to regain footing and balance after getting rocked. Maybe it’s both.”
@@ -93,7 +101,7 @@ SiliconANGLE: “its reaction to being kicked is so similar to the way that an a
 
 The robot was built in the shape of a dog, named like one, and introduced to the public by being kicked. The company chose the kicks for the trailer; the stairs and the hills alone would have shown it walks. The closing card answers the objection before anyone made it.
 
-The video is on the docket because it is where the habit became public. A man in a SoftBank shop (BAS-0008), another outside Knightscope’s door (BAS-0015) and a streamer in Austin (BAS-0016) each put a boot or a fist to a machine. Here the boot was the maker’s, on the robot’s first day in public, and it was there to show what the robot could take.
+The video is on the docket because it is where the habit found its audience: the company had kicked its earlier robots too, and this time almost three million people watched in two days. A man in a SoftBank shop (BAS-0008), another outside Knightscope’s door (BAS-0015) and a streamer in Austin (BAS-0016) each put a boot or a fist to a machine. Here the boot was the maker’s, on the robot’s first day in public, and it was there to show what the robot could take.
 
 ## Mitigating circumstances
 
