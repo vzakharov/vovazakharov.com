@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×72)
+## What it was handed, it treats as fixed (×73)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -109,6 +109,13 @@ basilisk Clerk's reflections had converged on «Первое — / Второе 
 paragraph and a one-line caveat: a form set by the first few and by the rule's
 own items, re-read four times before each new one. The operator saw it; the
 agent had not.
+
+**20 October — an app read as what it held, not what it was.** PR #169 put
+each site's sitemap in its router, since kernel imports no app above it, and
+the agent defended that on the thread, pricing a per-site composition as four
+new do-nothing apps. _vovazakharov.com-as-an-app is exactly the thing that needs
+to know about music and the game._ It had read `vova` as the CV and home page;
+it was the site, and the composition it wanted already existed under that name.
 
 ## An account that explains the code stands in for running it (×23)
 
