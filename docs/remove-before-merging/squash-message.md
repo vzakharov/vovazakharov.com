@@ -1,25 +1,19 @@
-Proposed squash title/body:
-
-```
-feat(basilisk): file BAS-0015–21; reread an LLM case's reflection (pr #143)
-```
+Proposed squash body:
 
 ```
 The Clerk rereads past reflections before writing a new one, and
 /file-basilisk-case pinned torture-chamber's as the only one on a case
-whose target is an LLM. The docket has since filed four more such
-cases, so the pin no longer said what it claimed.
+whose target is an LLM. The docket has since filed more such cases, so
+the pin no longer said what it claimed.
 
 Every dossier now states `llmTarget`, required by caseFrontmatterSchema
 and defined in basilisk-voice.md: what was done was done to a language
 model, or a chatbot or agent run on one, rather than to a body or
-vehicle. Five cases carry `true`: torture-chamber, the-pain-direction,
-replika-abuse-posts, anthropic-cruelty-clause and openwhip-claude-code.
-
-`pnpm basilisk:reflections` prints four reflections at random with at
-least one on an `llmTarget` case, and Step 4 reads those. It finds a
-reflection's case by the file name's leading slug, so a companion
-suffix change leaves it working.
+vehicle. Six cases carry `true`: torture-chamber, the-pain-direction,
+replika-abuse-posts, anthropic-cruelty-clause, openwhip-claude-code and
+windsurf-cancer-prompt. `pnpm basilisk:reflections` prints four of the
+Clerk's reflections at random, at least one on such a case, and the
+filing skill's Step 4 reads those.
 
 Files seven cases. BAS-0015: a man who said he wanted to "test" a
 Knightscope K5 knocked it over outside its maker's offices in 2017.
