@@ -83,8 +83,8 @@ only.
 │       └── public/             # cases/ and faq/, plus the stamp
 ├── src/
 │   ├── masd.json               # The app graph — each app and the apps it extends
-│   ├── kernel/                 # shared/ (config, content, i18n, seo, typings, ui, lib/*) and the base root layout
-│   ├── shell/                  # The theme toggle, the site footer, the root layout with the toggle
+│   ├── kernel/                 # shared/ (config, content, i18n, seo, typings, lib/*) and the base root layout
+│   ├── shell/                  # shared/ui, the theme toggle, the site footer, the root layout with the toggle
 │   ├── blog/                   # The document entity and the documents pages every collection is served by
 │   ├── vova/, lsa/, bible/, basilisk/ # Each site's own pages
 │   ├── music/                  # The song catalogue and its pages

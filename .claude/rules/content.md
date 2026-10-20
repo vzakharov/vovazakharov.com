@@ -112,8 +112,7 @@ whole design exists for. Every module starts with `import 'server-only'` so that
 is enforced rather than hoped for: importing one from a `'use client'` component
 fails the build. When a client component needs something the registry owns — a
 route, say — the **server page resolves it and passes it down**; that is what
-`apps/vova/app/cv/[[...variantAndLocale]]/page.tsx` does for the CV's case-study
-link.
+`src/vova/pages/cv/ui/cv-page.tsx` does for the CV's case-study link.
 
 The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and
 `collections.ts`, which `render-mermaid.ts` runs under bare Node, outside any
