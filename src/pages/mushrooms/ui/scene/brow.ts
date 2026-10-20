@@ -12,6 +12,7 @@
 import type * as Phaser from 'phaser';
 
 import {
+  type Abscissa,
   type Leaning,
   type Point,
   sample,
@@ -147,7 +148,7 @@ export function browBlades(camera: Camera): BrowBlade[] {
  * tallest about the middle, every blade straying from it, the edges splayed
  * outward, and now and then a tuft over the rest.
  */
-function clumpAt(random: Random): Array<Omit<BrowBlade, 'azimuth'>> {
+function clumpAt(random: Random): Blade[] {
   const count = Math.round(skewedBetween(random, ...CLUMP_BLADES, 1.5));
   const crown = between(random, ...CLUMP_TALL);
   const lean = between(random, -CLUMP_LEAN, CLUMP_LEAN);
@@ -172,7 +173,7 @@ function clumpAt(random: Random): Array<Omit<BrowBlade, 'azimuth'>> {
 }
 
 /** A blade as a view draws it, in CSS px: its root's middle, its half width there, and its tip. */
-export type ShownBlade = Pick<Point, 'x'> &
+export type ShownBlade = Abscissa &
   WhetherLit & {
     root: number;
     half: number;

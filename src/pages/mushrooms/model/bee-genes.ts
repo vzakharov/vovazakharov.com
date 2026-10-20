@@ -19,17 +19,20 @@ export const BEE_YELLOWS = ['lemon', 'gold', 'amber', 'honey'] as const;
 type BeeYellow = (typeof BEE_YELLOWS)[number];
 
 export type BeeGenes = Buzzing &
-  OfKind<'bee'> & {
+  OfKind<'bee'> &
+  BeeHeaded & {
     /** The yellow its bands alternate with black. */
     stripe: BeeYellow;
     /** How many yellow bands cross its body. */
     bands: number;
-    headRadius: number;
     /** How far its fuzz stands off its outline, a share of its width. */
     fuzz: number;
     /** A full pollen basket's radius, on each hind leg. */
     basket: number;
   };
+
+/** A bee's head, in units of its size. */
+export type BeeHeaded = { headRadius: number };
 
 export const BEE_RANGES = {
   bodyLength: [0.6, 0.7],

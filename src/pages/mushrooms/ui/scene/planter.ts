@@ -1,5 +1,6 @@
 import { pick } from '@/shared/lib/collections';
 
+import type { Sight } from '../../model/flight';
 import type { FlowerColour } from '../../model/flower-genes';
 import {
   type FlowerShape,
@@ -14,9 +15,19 @@ import { plantedId } from '../../model/pollen';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
 import { type FlowerInView, keyPlanting, sowingTuft } from './keyed-flowers';
-import type { MeadowSound } from './sound';
-import { type Grass, plantableIn, type Sprout } from './tufts';
+import type { PlanterVoice } from './sound';
+import { plantableIn, type Refusing, type Sprout } from './tufts';
 import type { View } from './view';
+
+export type Dispatching = { dispatch: (action: Action) => void };
+export type MeadowSeen = { meadow: () => Meadow | undefined };
+/** What acts on the meadow: the reducer, and the meadow it reduces. */
+export type MeadowActed = Dispatching & MeadowSeen;
+export type StandSeen = {
+  stand: () => Stand | undefined;
+  view: () => View | undefined;
+};
+export type SightSeen = { sight: () => Sight };
 
 /**
  * What the planter acts through: the scene's stand, reducer, what it sees
@@ -25,20 +36,28 @@ import type { View } from './view';
  * (`Grass.tendedAt`), which every rule of the planter judges at, so a tuft
  * shown takes the flower it is tapped for until the grass is tended again.
  */
-export type Scened = {
-  stand: () => Stand | undefined;
-  view: () => View | undefined;
-  meadow: () => Meadow | undefined;
-  dispatch: (action: Action) => void;
-  tufts: () => readonly Sprout[];
-  tendedAt: () => Eye;
-};
-
-/** What the planter plays: a pop for a colour picked, a "nuh-uh" for a flower refused. */
-type PlanterVoice = Pick<MeadowSound, 'pop' | 'nuhUh'>;
+export type Scened = MeadowActed &
+  StandSeen & {
+    tufts: () => readonly Sprout[];
+    tendedAt: () => Eye;
+  };
 
 /** The flowers keys sowed at one moment of the scene's clock. */
 type KeySown = Stamped & { flowers: readonly FlowerInView[] };
+
+export type PickerPlanting = {
+  readonly colour: (colour: FlowerColour) => void;
+  readonly plant: (shape: FlowerShape) => void;
+  readonly plantable: (meadow: Meadow) => boolean;
+};
+export type SoundPlanting = {
+  readonly plantSounding: (sound: FlowerSound) => boolean;
+  readonly sowSounding: (sound: FlowerSound) => string | undefined;
+  readonly sownInView: () => readonly FlowerInView[];
+};
+export type TuftTapping = {
+  tapTuft: (sprout: Sprout, grass: Refusing) => void;
+};
 
 /**
  * The child planting flowers: a tap on a tuft opens the flower picker on it,
@@ -48,7 +67,7 @@ type KeySown = Stamped & { flowers: readonly FlowerInView[] };
  * picks both at once (`plantSounding`), and with the picker shut grows the
  * flower of a sound none in view makes on a tuft in view (`sowSounding`).
  */
-export class Planter {
+export class Planter implements PickerPlanting, SoundPlanting, TuftTapping {
   private readonly voice: PlanterVoice;
   /** Seconds on the scene's clock. */
   private readonly now: () => number;
@@ -158,7 +177,7 @@ export class Planter {
    * its head and lets go of the selection and any open picker, as any tap on
    * the meadow does.
    */
-  tapTuft({ tuft, foot }: Sprout, grass: Pick<Grass, 'refuse'>): void {
+  tapTuft({ tuft, foot }: Sprout, grass: Refusing): void {
     const { stand, meadow, dispatch, tendedAt } = this.scene;
     const standing = stand();
     if (!standing) return;

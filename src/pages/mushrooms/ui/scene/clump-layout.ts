@@ -195,7 +195,9 @@ export function placeIn(
  * ahead of the eye, in the clump's size, it is laid, which the view scales
  * it from (`bedPlace`).
  */
-export type Laid = Placement & { opening: number };
+export type Laid = Placement & LaidAhead;
+/** How far ahead of the eye a thing is laid out, in the clump's size. */
+export type LaidAhead = { opening: number };
 
 /**
  * The ground a mushroom grown off the opening clump is laid out on: the

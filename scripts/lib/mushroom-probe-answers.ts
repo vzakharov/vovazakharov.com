@@ -183,10 +183,10 @@ export const Mouse = z.object({
   head: z.number(),
   door: z.number(),
 });
+/** Which mushroom's door a run left, and which one's it is bound for. */
+export const RunEnds = z.object({ from: z.string(), to: z.string() });
 export const Runs = z.array(
-  Point.extend({
-    from: z.string(),
-    to: z.string(),
+  Point.extend(RunEnds.shape).extend({
     elapsed: z.number(),
     shown: z.boolean(),
     depth: z.number(),

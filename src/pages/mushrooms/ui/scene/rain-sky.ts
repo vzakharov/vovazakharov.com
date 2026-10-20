@@ -5,12 +5,15 @@
  * and where it stands, and which cloud a tap lands on.
  */
 
+import type { WithWidth } from '@/shared/typings';
+
 import { type Circle, type Point, wrap } from '../../model/geometry';
+import type { WithCamera } from '../../model/ground';
 import { smooth } from '../../model/motion';
 import { pinholeOf } from '../../model/pinhole';
 import { type Rain, rainbow, wetness } from '../../model/weather';
 import { PUFF_REACH } from './cloud-puffs';
-import type { MeadowLayout } from './layout';
+import type { NearHilled, Sunned } from './layout';
 import { PALETTE } from './palette';
 import { TAP_RADIUS } from './tap-reach';
 
@@ -47,7 +50,7 @@ export function rainbowArc({
   nearHills,
   sun,
   camera,
-}: Pick<MeadowLayout, 'width' | 'nearHills' | 'sun' | 'camera'>): Circle & {
+}: WithWidth & NearHilled & Sunned & WithCamera): Circle & {
   band: number;
 } {
   const r = Math.min(0.8 * nearHills, Math.max(0.42 * width, 0.6 * nearHills));

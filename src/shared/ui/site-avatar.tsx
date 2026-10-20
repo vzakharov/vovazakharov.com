@@ -1,7 +1,7 @@
 import { Center } from '@mantine/core';
 import Image from 'next/image';
 
-import type { SiteConfig } from '@/shared/config';
+import type { WithAvatar } from '@/shared/config';
 import type { Named } from '@/shared/typings';
 
 /**
@@ -13,10 +13,7 @@ import type { Named } from '@/shared/typings';
  * components import, and a component in it that read the resolved site would be
  * bound to whichever one this process is.
  */
-export function SiteAvatar({
-  name,
-  avatar,
-}: Named & Pick<SiteConfig, 'avatar'>) {
+export function SiteAvatar({ name, avatar }: Named & WithAvatar) {
   return (
     <Center>
       <Image

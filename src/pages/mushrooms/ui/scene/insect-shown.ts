@@ -1,7 +1,8 @@
 import { pick } from '@/shared/lib/collections';
 
-import type { Leg, Span } from '../../model/flight';
+import type { Origin } from '../../model/flight';
 import type { Aloft, Framed } from '../../model/flight-frame';
+import type { Departing } from '../../model/flight-timing';
 import type { Point } from '../../model/geometry';
 import type { CarryingOver } from '../../model/insect-paths';
 import {
@@ -10,38 +11,53 @@ import {
   type Steering,
 } from '../../model/insect-steering';
 import { type Bobbed, phaseOf } from '../../model/motion';
-import type { TappedFigure } from './hit-areas';
+import type { CircleFigure, TappedFigure } from './hit-areas';
 import type { SetOff, Spanned } from './insect-away';
 import type { Flying, Look } from './insect-look';
+
+export type Looked = { look: Look };
+
+export type Steered = {
+  /**
+   * Where it was drawn last frame, veered round the eye and fidgets and
+   * all, its bob aside, hidden or not: where a new leg sets off.
+   */
+  drawn: Aloft;
+  /** How its body is held from one frame to the next (`steer`). */
+  steering: Steering;
+};
+
+/** Its span as last painted, and how far along it it flew. */
+export type FlownSpan = Spanned & Flown;
+
+type Flown = {
+  /** How far along the stretch drawn now it was last frame, from 0 to 1. */
+  flown: number;
+  /** Where its flight had it last frame, in its leg's frame. */
+  at: Point;
+  /** How far its fidgets on its perch moved it off its flight last frame, in px at its own size. */
+  offset: Point;
+};
 
 /** An insect on screen (`InsectView`): its look, and where and how it flies. */
 export type Shown = TappedFigure &
   Flying &
   CarryingOver &
-  // Its span as last painted.
-  Spanned &
+  FlownSpan &
   // How far its landing's bob sank it last frame, in units of its size.
   Bobbed &
   // Where its current leg set off.
   SetOff &
   // When the stretch of its leg drawn now set off: the leg's departure, or
   // once it is `out`, when it flew out of view.
-  Pick<Span, 'departs'> & {
-    look: Look;
-    /**
-     * Where it was drawn last frame, veered round the eye and fidgets and
-     * all, its bob aside, hidden or not: where a new leg sets off.
-     */
-    drawn: Aloft;
+  Departing &
+  Looked &
+  Steered & {
     /**
      * The centre azimuth of its current leg's frame (`centreOf`), fixed on
      * the leg's first frame; `undefined` before it.
      */
     centre: number | undefined;
-    /** How far along the stretch drawn now it was last frame, from 0 to 1. */
-    flown: number;
-    /** Where its flight had it last frame, in its leg's frame. */
-    at: Point;
     /** Where its perch stood last frame, in its leg's frame; `undefined` before its leg's first frame. */
     end: Framed | undefined;
     /**
@@ -61,12 +77,8 @@ export type Shown = TappedFigure &
      * other leg.
      */
     out: Aloft | undefined;
-    /** How far its fidgets on its perch moved it off its flight last frame, in px at its own size. */
-    offset: Point;
     /** How far a landing's bob had sunk it as its current leg set off, which dies away over `BOB_FADE`. */
     bobFrom: number;
-    /** How its body is held from one frame to the next (`steer`). */
-    steering: Steering;
     /**
      * Where its perch stood on its current leg's first frame, or the first
      * since the screen was last painted, in its leg's frame, which its leg
@@ -91,7 +103,7 @@ const LEG_UNSET = {
 
 /** An insect just shown, before its first paint and its first frame: still, untapped, at `from`. */
 export function freshShown(
-  parts: Pick<Shown, 'container' | 'hit' | 'look' | 'flier'>,
+  parts: CircleFigure & Looked & Flying,
   from: Aloft,
 ): Shown {
   return {
@@ -123,8 +135,8 @@ export function freshShown(
  * from away picks its start on its first frame (`InsectView`'s `enter`).
  */
 export function legSetOff(
-  shown: Pick<Shown, 'drawn' | 'bob' | 'steering'>,
-  { from, departs }: Pick<Leg, 'from' | 'departs'>,
+  shown: Bobbed & Steered,
+  { from, departs }: Origin & Departing,
 ) {
   return {
     from: shown.drawn,

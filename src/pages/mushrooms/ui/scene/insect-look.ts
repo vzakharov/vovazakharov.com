@@ -18,7 +18,7 @@ import {
 } from '../../model/buzz-rest';
 import type { Timed } from '../../model/flight';
 import type { FlyGenes } from '../../model/fly-genes';
-import type { Point, WithMiddle } from '../../model/geometry';
+import type { Point, Scaled, WithMiddle } from '../../model/geometry';
 import {
   type ButterflyGenes,
   insectGenes,
@@ -35,7 +35,7 @@ import { buzzTurn, type Side as BodySide } from '../../model/insect-outline';
 import type { Airborne } from '../../model/insect-paths';
 import type { Flier } from '../../model/insects';
 import { turnedLight } from '../../model/light';
-import { type Pollen, specksAt } from '../../model/pollen';
+import { type Specked, specksAt } from '../../model/pollen';
 import { inBody } from '../../model/proboscis';
 import { drawBee, paintBeeBody, paintBeeLegs } from './draw-bee';
 import type { BuzzParts } from './draw-buzz';
@@ -44,11 +44,10 @@ import {
   drawInsect,
   type InsectParts,
   paintProboscis,
-  type Reaching,
+  type Proboscis,
 } from './draw-insect';
 import type { Lighted, Lighting } from './ink';
-import type { Footing } from './layout';
-import type { Seat } from './perch-hosts';
+import type { Nectared } from './perch-hosts';
 
 /** How far a butterfly's wings fold at the most closed, seen from above, as a share of open. */
 const FOLDED = 0.12;
@@ -74,7 +73,7 @@ const RUB_STEP = 0.05;
  */
 type ButterflyLook = OfKind<'butterfly'> &
   InsectParts &
-  Pick<Reaching, 'reach' | 'nectar'> & {
+  Proboscis & {
     genes: ButterflyGenes;
     side: BodySide | undefined;
     painted: Point;
@@ -82,9 +81,7 @@ type ButterflyLook = OfKind<'butterfly'> &
 /** A fly's parts, and how far into a rub its front legs were last painted. */
 type FlyLook = OfKind<'fly'> & BuzzParts & { genes: FlyGenes; rub: number };
 /** A bee's parts, and how many specks of pollen its baskets were last painted with. */
-type BeeLook = OfKind<'bee'> &
-  BuzzParts &
-  Pick<Pollen, 'specks'> & { genes: BeeGenes };
+type BeeLook = OfKind<'bee'> & BuzzParts & Specked & { genes: BeeGenes };
 /**
  * Each look; the light it was last painted in, as the screen stands, which
  * its every repaint keeps; and the body's turn its parts were last painted
@@ -103,16 +100,17 @@ export type Folded = { shut: number };
 export type Moment = Timed &
   Flying &
   Folded &
-  Pick<Footing, 'size'> & { stay: Stay; motion: Airborne };
+  Scaled & { stay: Stay; motion: Airborne };
 
 /** An insect of the meadow's, as the scene shows it. */
 export type Flying = { flier: Flier };
 
 /** Where a drinking butterfly's middle and turn stand this frame, and the flower's middle it drinks from. */
-export type Drinking = Pick<Seat, 'nectar'> &
-  WithMiddle & {
-    rotation: number;
-  };
+export type Drinking = Sipping & WithMiddle;
+/** The flower's middle a flier drinks from, and its body's turn on the screen. */
+export type Sipping = Nectared & Rotated;
+/** Its body's turn on the screen, in radians clockwise from up. */
+type Rotated = { rotation: number };
 
 /**
  * A look for `flier`, its graphics made in `scene`, and those graphics in

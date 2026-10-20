@@ -22,7 +22,7 @@ import {
 import { isBeeSown, type Sown } from '../../model/pollen';
 import { anchoredGround } from './clump-layout';
 import { groundOf, standingOn } from './flower-layout';
-import type { Stand } from './flower-sight';
+import type { SeededLayout, Stand } from './flower-sight';
 import type { MeadowLayout } from './layout';
 import { PALE_SPAN } from './repaint-queue';
 
@@ -67,13 +67,10 @@ function keptAt<Key extends object, Kept>(
   return kept;
 }
 
-/** The seeded flowers of an anchored stand, each with its place on the anchored layout. */
-type Seeded = Pick<Stand, 'layout' | 'flowers'>;
-
 /** Each layout's anchored layout and seeded flowers, by the seeded flowers it lays (`seededAt`). */
 const anchoredLayouts = new WeakMap<
   MeadowLayout,
-  AtAnchor<Seeded & { from: readonly Flower[] }>
+  AtAnchor<SeededLayout & { from: readonly Flower[] }>
 >();
 /** Each mushrooms list's mushrooms in reach of the last anchor asked (`STAND_REACH`). */
 const mushroomsInReach = new WeakMap<
@@ -87,7 +84,10 @@ const mushroomsInReach = new WeakMap<
  * per layout while the anchor stays, so whatever a rule keeps per layout
  * (`perLayout`) holds until the anchor moves.
  */
-function seededAt({ layout, flowers }: Seeded, anchor: Eye): Seeded {
+function seededAt(
+  { layout, flowers }: SeededLayout,
+  anchor: Eye,
+): SeededLayout {
   const known = anchoredLayouts.get(layout);
   if (known?.kept.from === flowers && sameAnchor(known.anchor, anchor)) {
     return known.kept;

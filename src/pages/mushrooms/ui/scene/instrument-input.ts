@@ -2,11 +2,11 @@ import * as Phaser from 'phaser';
 
 import { chordFingers } from './chord-fingers';
 import type { EyeInput } from './eye-input';
-import type { FlowerBed } from './flower-bed';
+import type { Answering, ChordTapped } from './flower-bed';
 import type { Instrument } from './instrument';
 import { listenForKeys } from './keyboard';
 import { type KeyedPlay, playKey } from './keyed-flowers';
-import type { Planter } from './planter';
+import type { SoundPlanting } from './planter';
 
 function ids(list: TouchList): number[] {
   return [...list].map(({ identifier }) => identifier);
@@ -33,7 +33,7 @@ function takeFocus(canvas: HTMLCanvasElement): void {
  */
 function listenForChords(
   scene: Phaser.Scene,
-  flowers: Pick<FlowerBed, 'chordTap'>,
+  flowers: ChordTapped,
 ): () => void {
   const { canvas } = scene.game;
   const { manager, pointer1 } = scene.input;
@@ -75,9 +75,9 @@ function listenForChords(
 export function playTheMeadow(
   scene: Phaser.Scene,
   instrument: Instrument,
-  flowers: Pick<FlowerBed, 'chordTap' | 'inView' | 'answer' | 'hush'>,
+  flowers: ChordTapped & Answering,
   eye: EyeInput,
-  planter: Pick<Planter, 'plantSounding' | 'sowSounding' | 'sownInView'>,
+  planter: SoundPlanting,
   waiting: () => boolean,
   pressMap: () => void,
 ): () => void {

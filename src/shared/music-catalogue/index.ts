@@ -3,13 +3,19 @@ export {
   albumFrontmatterSchema,
   type AlbumPlacement,
   artistFrontmatterSchema,
+  type CreditedSong,
   type LocalName,
+  type Mastered,
   type Playable,
+  type Released,
+  type RepoHeld,
+  type ScriptKept,
   type SongFrontmatter,
   songFrontmatterSchema,
-  type SongText,
   type SungLanguage,
   type TitleGloss,
+  type Tracked,
+  type UntitledSongText,
 } from './frontmatter';
 export { type HookRun, hookRuns, textHook } from './hook-marks';
 export {

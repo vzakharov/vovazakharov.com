@@ -5,6 +5,7 @@
  */
 
 import {
+  type Looking,
   mouseOut,
   outingOf,
   peekAfterTap,
@@ -13,15 +14,15 @@ import {
 import type { RunEnds } from '../../model/mouse-run';
 import { runAt, type RunCourse } from '../../model/mouse-run-clock';
 import type { Seeded } from '../../model/random';
-import type { ShownDoor } from './draw-house';
+import type { Opened } from './draw-house';
+import type { PeekingOut } from './draw-mouse';
 
 /**
  * How far a door's mouse's head is out and the door open (0 to 1), as its
  * peeks and the runs at it have them, and, while a run's mouse looks toward
  * its target from the doorway, which way it looks.
  */
-export type DoorShown = Pick<ShownDoor, 'out' | 'open'> &
-  Partial<Pick<ShownDoor, 'look'>>;
+export type DoorShown = PeekingOut & Opened & Partial<Looking>;
 
 /** A house's door as the runs answer it: a tap on it, and how it shows at a moment. */
 export type MouseDoor = {

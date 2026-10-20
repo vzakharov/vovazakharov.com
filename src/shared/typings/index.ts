@@ -17,10 +17,13 @@ export type WithId = { id: string };
 export type Titled = { title: string };
 
 /** A box's width and height: an image's intrinsic pixel size, which reserves its box before it loads, or a drawn part's. */
-export type Sized = {
-  width: number;
-  height: number;
-};
+export type Sized = WithWidth & WithHeight;
+
+/** A box's width alone. */
+export type WithWidth = { width: number };
+
+/** A box's height alone. */
+export type WithHeight = { height: number };
 
 /** A title that may be absent — a document's is derived, so it exists only once read. */
 export type MaybeTitled = { title?: string };
@@ -53,6 +56,12 @@ export type WithLanguage = { language: string };
 
 /** A repo-relative path to the file a thing was read from. */
 export type WithFilePath = { filePath: string };
+
+/** What can be silenced — a voice, a player's decks. */
+export type Hushing = { stop: () => void };
+
+/** The name of a file within its collection or directory. */
+export type WithFileName = { fileName: string };
 
 /** Where a file sits, relative to whatever root holds it. */
 export type WithPath = { path: string };

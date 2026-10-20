@@ -11,7 +11,7 @@ import { type Point, sample } from '../../model/geometry';
 import type { Buzzing } from '../../model/insect-genes';
 import { buzzRoot, buzzWing, type Side } from '../../model/insect-outline';
 import { insectInk, scaled } from './draw-insect';
-import { inkFor, type Lighting, TAPER } from './ink';
+import { type Hairlined, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
 import { fillShape, strokeLine, strokeShape, strokeTapered } from './shapes';
 
@@ -32,10 +32,12 @@ const BLUR_ALPHA = 0.16;
  * body, which are repainted as they move; its body; a wing a side, turned
  * about its root; and the blur the wings make in the air.
  */
-export type BuzzParts = Record<
-  'legs' | 'body' | 'left' | 'right' | 'blur',
-  Phaser.GameObjects.Graphics
->;
+export type BuzzParts = BlurredWings &
+  Record<'legs' | 'body', Phaser.GameObjects.Graphics>;
+/** Both wings' graphics. */
+type Wings = Record<'left' | 'right', Phaser.GameObjects.Graphics>;
+/** Both wings' graphics and their blur's. */
+type BlurredWings = Wings & Record<'blur', Phaser.GameObjects.Graphics>;
 
 /**
  * One wing into `graphics`, laid back over the body, about its root, where
@@ -48,7 +50,7 @@ export function paintWing(
   side: Side,
   size: number,
   veins: number,
-  { hairline }: Pick<Lighting, 'hairline'>,
+  { hairline }: Hairlined,
 ): void {
   const root = buzzRoot(genes, side);
   const at = scaled(size);
@@ -113,11 +115,7 @@ function paintBlur(
 }
 
 /** Stands each wing's graphics on its root, for an insect `size` to its unit. */
-function rootWings(
-  { left, right }: Pick<BuzzParts, 'left' | 'right'>,
-  genes: Buzzing,
-  size: number,
-): void {
+function rootWings({ left, right }: Wings, genes: Buzzing, size: number): void {
   const at = scaled(size);
   for (const [graphics, side] of [
     [left, -1],
@@ -130,7 +128,7 @@ function rootWings(
 
 /** Paints both wings, each with `veins` veins, stands them on their roots, and paints their blur. */
 export function drawBuzzWings(
-  parts: Pick<BuzzParts, 'left' | 'right' | 'blur'>,
+  parts: BlurredWings,
   genes: Buzzing,
   size: number,
   veins: number,
@@ -147,7 +145,7 @@ export function paintLeg(
   graphics: Phaser.GameObjects.Graphics,
   points: readonly Point[],
   size: number,
-  lighting: Pick<Lighting, 'hairline'>,
+  lighting: Hairlined,
 ): void {
   const ink = insectInk(size);
   const hip = Math.max(1.2, ink * 0.9);

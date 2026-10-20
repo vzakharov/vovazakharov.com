@@ -7,8 +7,10 @@
 import path from 'node:path';
 
 import { getAbsoluteUrl } from '@/shared/config';
+import type { Slugged } from '@/shared/content';
 import { pick } from '@/shared/lib/collections';
 import type { MusicAlbum } from '@/shared/music-catalogue/index.node-safe';
+import type { WithFileName } from '@/shared/typings';
 
 import { songPlacements } from '@/pages/music/lib/album-tracks';
 import { albumArtist, albumTitle } from '@/pages/music/lib/albums';
@@ -35,20 +37,21 @@ export type MasterFile = WithExtension & {
   names: [string, ...string[]];
 };
 
-export type SongTagJob = Pick<SongDocument, 'slug' | 'fileName'> & {
-  /** Where the song's files are written. */
-  home: RepoLocation;
-  tags: SongTags;
-  /** On disk, the JPEG the song's page shows. */
-  coverPath?: string;
-  /** The master first, then the MP3 where it is the master's copy. */
-  files: MasterFile[];
-  /**
-   * Where the master is a FLAC, the name its MP4 rewrap is published under.
-   * One name: no page offers it for download.
-   */
-  stream?: string;
-};
+export type SongTagJob = Slugged &
+  WithFileName & {
+    /** Where the song's files are written. */
+    home: RepoLocation;
+    tags: SongTags;
+    /** On disk, the JPEG the song's page shows. */
+    coverPath?: string;
+    /** The master first, then the MP3 where it is the master's copy. */
+    files: MasterFile[];
+    /**
+     * Where the master is a FLAC, the name its MP4 rewrap is published under.
+     * One name: no page offers it for download.
+     */
+    stream?: string;
+  };
 
 /** The highest number any song holds on the release, a gap in the catalogue not lowering it. */
 function releaseTotal(

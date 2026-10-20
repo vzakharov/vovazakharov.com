@@ -6,15 +6,15 @@
  * to.
  */
 
-import type { Opening } from '../../api/open-kept';
+import type { KeptBy, Reopened } from '../../api/open-kept';
 import { sameAnchor } from '../../model/anchor';
 import type { Meadow } from '../../model/game';
 import { settled } from '../../model/keeping';
 import { type Kept, KEPT_VERSION } from '../../model/kept-record';
 import type { Seeded } from '../../model/random';
 import type { WalkStart } from '../../model/walk';
-import type { EyeInput } from './eye-input';
-import type { Scened } from './planter';
+import type { EyeHeld } from './eye-input';
+import type { MeadowSeen } from './planter';
 import type { Meadowed } from './visit-play';
 
 /** The record of `meadow` at rest as of `now` (ms on the scene's clock), seen from `start`. */
@@ -44,11 +44,14 @@ export type KeptPage = {
   report: (error: unknown) => void;
 };
 
-export type MeadowKeeping = {
+export type MeadowKeeping = Binding & {
   /** Keeps the meadow as it stands now: after a dispatch that changed it. */
   keep: () => void;
   /** Keeps it at most once a second (`POLL_MS`), `at` being the frame's time in ms. */
   poll: (at: number) => void;
+};
+
+export type Binding = {
   /**
    * Keeps it when the tab hides, and reloads the page on a hash edited while
    * playing, as the boot is the one path that opens a meadow; returns what
@@ -75,9 +78,9 @@ function sameStart(a: WalkStart, b: WalkStart): boolean {
  * the first frame's — so a stray link leaves no empty meadow behind.
  */
 export function meadowKeeping(
-  opening: Pick<Opening, 'seed' | 'keeper' | 'kept' | 'overwritten'>,
-  scened: Pick<Scened, 'meadow'>,
-  eye: Pick<EyeInput, 'eye' | 'gait'>,
+  opening: Reopened & KeptBy,
+  scened: MeadowSeen,
+  eye: EyeHeld,
   now: () => number,
   page: () => KeptPage = thePage,
 ): MeadowKeeping {
