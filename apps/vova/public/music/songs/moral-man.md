@@ -95,7 +95,7 @@ But Masha suddenly began to pale and fade
 And within a year died of [consumption][^consumption-en],
 Striking the whole house with deep sorrow…
 
-[^consumption-en]: Consumption — the old name for tuberculosis of the lungs, for the way it wasted the sick away.
+[^consumption-en]: Consumption — the old name for tuberculosis of the lungs, which “consumed” its victim as she wasted away.
 
 Living by a strict morality,
 I have never done anyone harm…
