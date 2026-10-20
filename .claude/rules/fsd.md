@@ -181,16 +181,17 @@ component reaching for the byline is what would split it into `index.ts` +
 
 **A router only says what is shown at which URL.** `apps/<site>/app/` maps
 addresses to apps — on vovazakharov.com, `/` and `/cv` to vova, `/music/...` to
-music, `/mushrooms` to mushrooms — and nothing else composes them. Its
-`layout.tsx` and each `page.tsx` re-export what they render; it may enter any
-app's public API, and is reached only by Next's own routing conventions, never
-by import.
+music, `/mushrooms` to mushrooms — and decides nothing else. Its `layout.tsx`
+and each `page.tsx` re-export what they render; it may enter any app's public
+API, and is reached only by Next's own routing conventions, never by import.
 
-**The sitemap is that same mapping written out, so it is the router's.** Each
-site's `sitemap.ts` calls kernel's `sitemap(mountedRoutes)` with the routes each
-app it mounts exports (vova's `cvRoutes()`, music's `musicCatalogueRoutes()`),
-behind the route-segment config Next reads off the route module itself. kernel
-adds every collection's routes and imports no app above it.
+**A site's sitemap belongs to its leaf app, which inherits every app the site
+mounts.** vova's parents are blog, music and mushrooms, because vovazakharov.com
+_is_ those, so its app layer reaches `musicCatalogueRoutes()` as it reaches its
+own `cvRoutes()`, and hands both to kernel's `sitemap(mountedRoutes)`, which
+adds every collection's routes; basilisk's, bible's and lsa's hand it nothing.
+Each site's `sitemap.ts` re-exports its leaf app's behind the route-segment
+config Next reads off the route module itself.
 
 **A page the router has to parameterize costs three lines rather than one.** The
 document pages serve a collection the router picks, so they are factories: the
@@ -204,10 +205,11 @@ still decides nothing but which slice with which argument.
 sites would have to share. kernel's holds the base root layout (`<html>`,
 metadata, analytics) and the sitemap and feed factories; shell's root layout
 wraps kernel's with what every site but the game draws on (fonts, Mantine
-provider and `ColorSchemeScript`, the stylesheets, `ThemeCorner`); vova's holds
-the `global-not-found` page. A site with two root layouts splits its router into
-route groups — vovazakharov.com's `(shell)` for every page but the game,
-`(game)/mushrooms` on kernel's layout, with no theme toggle.
+provider and `ColorSchemeScript`, the stylesheets, `ThemeCorner`); each site's
+leaf app holds its sitemap, and vova's the `global-not-found` page too. A site
+with two root layouts splits its router into route groups — vovazakharov.com's
+`(shell)` for every page but the game, `(game)/mushrooms` on kernel's layout,
+with no theme toggle.
 
 That costs one Steiger override — `fsd/no-ui-in-app`, scoped to
 `./src/*/app/ui/**`. Next mandates a root layout, and a root layout is app-layer
