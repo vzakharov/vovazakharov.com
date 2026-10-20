@@ -27,12 +27,13 @@ import {
   insignificantApps,
   loadGraph,
   type MasdGraph,
+  SLICED_LAYERS,
 } from '../eslint/masd-graph.ts';
 
+const SLICED = new Set(SLICED_LAYERS);
 // The sliced layers Steiger checks; a page has nothing above it to be
 // referenced by.
-const CHECKED_LAYERS = new Set(['widgets', 'features', 'entities']);
-const SLICED_LAYERS = new Set(['pages', ...CHECKED_LAYERS]);
+const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
 const SOURCE = /\.tsx?$/;
@@ -58,7 +59,7 @@ function locate(file: string): string | undefined {
   if (parts[0] === 'apps') return parts[2] === 'app' ? 'router' : undefined;
   if (parts[0] !== 'src' || parts.length < 4) return undefined;
   const [, app, layer = '', slice] = parts;
-  return SLICED_LAYERS.has(layer)
+  return SLICED.has(layer)
     ? `${app}/${layer}/${slice}`
     : `${app}/${layer}`;
 }

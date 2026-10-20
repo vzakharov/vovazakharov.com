@@ -201,10 +201,10 @@ every other slice.
   `masd.json`; the boundaries config, the import sort, `lint:fsd`'s per-app runs
   and `masd-check.ts` all go through it, so no reader restates an ancestor list
   or an app name.
-- **The layer order is restated, not shared**, in `masd-boundaries.ts` (the
-  sliced four, highest first) and the import sort (all six, lowest first). It is
-  FSD's fixed order, not something either file decides, and a shared constant
-  would make each reader reshape it.
+- **The sliced layers are one constant**, `SLICED_LAYERS` in `masd-graph.ts`,
+  which `masd-boundaries.ts` and `masd-check.ts` both read. The import sort
+  keeps its own list of all six, lowest first, because it is the one reader that
+  needs `app` and `shared` among them and the opposite order.
 - **The significance check reimplements, not wraps, Steiger's rule**, because
   the rule's whole input is one root's reference map and the defect is that
   input. Its messages are kept word for word so a reader of either recognises

@@ -12,6 +12,9 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+/** FSD's sliced layers, highest first; `app` and `shared` are segmented. */
+export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
+
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
 // Kebab-case also keeps every key non-numeric, which is what makes JS hand the

@@ -8,10 +8,7 @@
 import type { Config } from 'eslint/config';
 import boundariesPlugin from 'eslint-plugin-boundaries';
 
-import { ancestors, loadGraph } from './masd-graph';
-
-// The sliced FSD layers, highest first.
-const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
+import { ancestors, loadGraph, SLICED_LAYERS } from './masd-graph';
 
 // A closed list, so any other `index.*.ts` is still reaching into internals.
 const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
