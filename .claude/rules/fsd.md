@@ -186,12 +186,10 @@ and each `page.tsx` re-export what they render; it may enter any app's public
 API, and is reached only by Next's own routing conventions, never by import.
 
 **A site's sitemap belongs to its leaf app, which inherits every app the site
-mounts.** vova's parents are blog, music and mushrooms, because vovazakharov.com
-_is_ those, so its app layer reaches `musicCatalogueRoutes()` as it reaches its
-own `cvRoutes()`, and hands both to kernel's `sitemap(mountedRoutes)`, which
-adds every collection's routes; basilisk's, bible's and lsa's hand it nothing.
-Each site's `sitemap.ts` re-exports its leaf app's behind the route-segment
-config Next reads off the route module itself.
+mounts** — vovazakharov.com _is_ blog, music and mushrooms — so its app layer
+reaches each mounted app's routes and hands them to kernel's `sitemap()`, which
+adds every collection's own. Each site's `sitemap.ts` re-exports its leaf app's
+behind the route-segment config Next reads off the route module itself.
 
 **A page the router has to parameterize costs three lines rather than one.** The
 document pages serve a collection the router picks, so they are factories: the
@@ -243,13 +241,13 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   entered in its site directory, which is what `pnpm build:<site>` does.
 - **The content pipeline is kernel's `shared/content`, not an entity.** It is
   build-time-only and every module opens with `import 'server-only'`;
-  `@.claude/rules/content.md` owns its contract. It holds the addresses —
-  `COLLECTIONS`, `collectionRoute`, `MUSIC_ROUTE` — and the base and article
-  schemas; what any other collection holds is its owner's (the song schema in
-  `music/shared/catalogue`, the case frontmatter in `basilisk/shared/content`).
-  Its page composition is one `blog/pages/documents` slice serving every
-  collection on every site: a slice per collection would make siblings of pages
-  that share one composition, and sibling slices cannot reach each other.
+  `@.claude/rules/content.md` owns its contract. It holds every collection's
+  address and the base and article schemas; any other collection's schema is its
+  owner's (the song schema in `music/shared/catalogue`, the case frontmatter in
+  `basilisk/shared/content`). Its page composition is one `blog/pages/documents`
+  slice serving every collection on every site: a slice per collection would
+  make siblings of pages that share one composition, and sibling slices cannot
+  reach each other.
 - **`music/shared/catalogue` is not `music/shared/music`**: within one app root,
   Steiger's `ambiguous-slice-names` rejects a segment named like the
   `pages/music` slice.
