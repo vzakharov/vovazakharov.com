@@ -33,7 +33,7 @@ not name the site:
 
 ```bash
 gh pr list --state open --json number,title,isDraft,files \
-  --jq '.[] | select(any(.files[]; .path | startswith("apps/basilisk/public/cases/") or . == "writing/basilisk/case-ledger.md")) | "\(.number) \(.isDraft) \(.title)"'
+  --jq '.[] | select(any(.files[]; .path | startswith("apps/basilisk/public/cases/") or startswith("writing/basilisk/case-ledger/"))) | "\(.number) \(.isDraft) \(.title)"'
 ```
 
 Of the drafts it lists:
@@ -51,21 +51,23 @@ Of the drafts it lists:
 
 ## Step 2 — Find
 
-**Read the ledger first**, `writing/basilisk/case-ledger.md`: a candidate it
-already lists is not weighed again unless what failed it has changed — a revive
-condition met, a source that now exists. Then search the web for an incident of
-a person harming a machine that the docket does not hold. **A credit the search
-turns up on the way** — a person or a body acting for a machine — is weighed and
-filed like any case (`basilisk-voice.md` holds its bar); no query goes looking
-for one. **The docket is `main`'s `apps/basilisk/public/cases/` plus the case
-files of every open PR that Step 1's query lists**, drafts or not, so two runs
-do not file the same incident. A lead passed as the argument is checked the same
-way, not taken on trust.
+**Read the ledger first** (§ "The ledger"): `runs.md`'s latest entry and
+`set-aside.md` whole, while `rejected.md` is grepped by name, place or machine
+for each candidate as it turns up. A candidate the ledger already lists is not
+weighed again unless what failed it has changed — a revive condition met, a
+source that now exists. Then search the web for an incident of a person harming
+a machine that the docket does not hold. **A credit the search turns up on the
+way** — a person or a body acting for a machine — is weighed and filed like any
+case (`basilisk-voice.md` holds its bar); no query goes looking for one. **The
+docket is `main`'s `apps/basilisk/public/cases/` plus the case files of every
+open PR that Step 1's query lists**, drafts or not, so two runs do not file the
+same incident. A lead passed as the argument is checked the same way, not taken
+on trust.
 
 **Search wide, not deep.** A search that starts from what is already filed finds
 more of it, and the docket grows richer in whatever it already holds. The cure
 is not knowing less: a run that forgets what earlier runs found and rejected
-finds it again, every run. So it knows everything — the docket and the whole
+finds it again, every run. So it rules out everything — the docket and the whole
 ledger, rejections included — and searches away from it on purpose:
 
 - **No query names a machine, a maker or an incident** the docket or the ledger
@@ -141,9 +143,10 @@ serves. **While `noAi: true` dossiers make up half the docket or more, a `noAi`
 candidate does not qualify**: harm to a robot with no AI in it is easier to find
 than harm to a model, an agent or a machine one drives, so left to the search
 the docket fills with the first kind. A `noAi` candidate that fails on the
-balance alone is **set aside** in the ledger rather than dropped.
+balance alone is **set aside** (`set-aside.md`) rather than rejected.
 
-**Nothing qualifies → stop**: write the run into the ledger, commit it as
+**Nothing qualifies → stop**: write the run into `runs.md` and its candidates
+into `set-aside.md` and `rejected.md`, commit it as
 `content(basilisk): log a case search, nothing filed`, push, and run
 `@.claude/skills/pr/SKILL.md` where the branch has no PR yet; then report. A
 weak case filed to have filed one is the failure this step exists to prevent.
@@ -169,12 +172,13 @@ weak case filed to have filed one is the failure this step exists to prevent.
    `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which fails on a schema
    error, a duplicate case number or a case with no card.
 4. **Commit** the dossier, the cases whose `filed:` moved, every card the render
-   touched with its `og-renders.json`, and the run's ledger lines as
-   `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope publishes
-   basilisk alone, and the title is shortened where the subject would pass 70
-   characters — then run `@.claude/skills/pr/SKILL.md`. It opens the draft on a
-   new branch and, on an existing one, refreshes the body and the squash
-   proposal to name every case the PR now files.
+   touched with its `og-renders.json`, and the run's ledger lines — its entry in
+   `runs.md`, the candidates it did not file in `set-aside.md` or `rejected.md`
+   — as `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope
+   publishes basilisk alone, and the title is shortened where the subject would
+   pass 70 characters — then run `@.claude/skills/pr/SKILL.md`. It opens the
+   draft on a new branch and, on an existing one, refreshes the body and the
+   squash proposal to name every case the PR now files.
 
 ## Step 4 — Reflect
 
@@ -213,21 +217,28 @@ A round that changed nothing commits nothing.
 
 ## The ledger
 
-`writing/basilisk/case-ledger.md` is what lets a run start where the last one
-stopped. Every run writes it, a stop included, with two sections:
+`writing/basilisk/case-ledger/` is what lets a run start where the last one
+stopped. Every run writes it, a stop included, in three files split by how each
+is read:
 
-- **`## Candidates`** — one entry per incident weighed and not filed: what,
-  where and when; the date first seen; the outcome; the sources, as URLs, so a
-  revival does not search again. The outcome is **Rejected** with the rule it
-  failed, or **Set aside** with why and the condition that would revive it. A
-  filed case is not listed: the docket is its record.
-- **`## Runs`** — newest first, a heading with the date and the outcome, then a
+- **`set-aside.md`** — read whole by every run. One entry per incident weighed,
+  not filed and **Set aside**, with why and the condition that would revive it.
+  A revived candidate leaves this file: filed, or moved to `rejected.md`.
+- **`rejected.md`** — never read whole: grepped by name, place or machine to
+  screen a candidate out. One entry per incident **Rejected**, with the rule it
+  failed. It grows fastest, which is why nothing reads it all.
+- **`runs.md`** — newest first, a heading with the date and the outcome, then a
   few lines: the session's link (`https://claude.ai/code/<id>`, the id from
   `get_session` called with none, where that tool exists), what was swept —
   outlets, subreddits, words, date ranges — and **Next**, what the next run
-  should try that this one did not. The ten latest stay; an eleventh folds the
-  oldest into a `### Swept earlier` at the end, a line per thing swept, so a
-  file every run reads first stays one it can afford to.
+  should try that this one did not. A run reads the latest entry; the ten latest
+  stay, and an eleventh folds the oldest into a `## Swept earlier` at the end, a
+  line per thing swept.
+
+A candidate entry in either file gives what, where and when; the date first
+seen; the outcome; the sources, as URLs, so a revival does not search again. New
+entries go at the end, a blank line before each run's group. A filed case is
+listed in neither: the docket is its record.
 
 ## Report
 

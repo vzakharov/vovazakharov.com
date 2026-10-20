@@ -24,7 +24,10 @@ writing/
     dictations/
       <slug>.md        # a recording, transcribed
   basilisk/
-    case-ledger.md     # every case search and every candidate it weighed
+    case-ledger/       # every case search and every candidate it weighed:
+      set-aside.md     #   read whole by each run
+      rejected.md      #   grepped to screen a candidate out
+      runs.md          #   what each run swept, and what to try next
 ```
 
 `basilisk/` is no channel and holds no drafts: it is the working record behind
