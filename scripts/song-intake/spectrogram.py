@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """A song's spectrogram over its loudness and its chromagram: its whole length across, pitch up.
 
-Usage: spectrogram.py <song> <out.png> [--from m:ss --to m:ss]
+Usage: spectrogram.py <song> <dir>/<slug>.png [--from m:ss --to m:ss]
 
-Beside the PNG it writes <out>.txt, the sidecar: the numbers the picture can
+Beside the PNG it writes <slug>.txt, the sidecar: the numbers the picture can
 only approximate — tempo, key, tuning, and per section its tempo, loudness and
 chords. The docstrings of `song_facts.py` and the modules it imports say how
 each is measured. The title carries the tempo, and the tuning when it is over
 15 cents off A440.
 
-And into <out>/, one zoom per section, <n>.png: the stretch between two
+And beside both, one zoom per section, <n>.png: the stretch between two
 dashed lines drawn at the full width, so a section can be looked at closely
 without asking. The number is the one at the section's top left in the whole
 song's picture, and at the head of its line in the sidecar.
@@ -367,19 +367,19 @@ def main():
         render(name, x, whole, facts, t0, t1, args.split, out_png)
         return
 
+    out_png.parent.mkdir(parents=True, exist_ok=True)
     render(name, x, whole, facts, 0, facts.duration, args.split, out_png)
     text = out_png.with_suffix(".txt")
     text.write_text(sidecar(name, facts), encoding="utf-8")
     print(text)
-    # One zoom per section, numbered as the sidecar and the whole song's
-    # picture number them; a re-render clears the old ones, whose sections
-    # may no longer be there.
-    zooms = out_png.with_suffix("")
-    zooms.mkdir(exist_ok=True)
-    for old in zooms.glob("*.png"):
-        old.unlink()
+    # One zoom per section beside it, numbered as the sidecar and the whole
+    # song's picture number them; a re-render clears the old ones, whose
+    # sections may no longer be there.
+    for old in out_png.parent.glob("*.png"):
+        if old.stem.isdigit():
+            old.unlink()
     for n, s in enumerate(facts.sections, 1):
-        render(name, x, whole, facts, s.start, s.end, args.split, zooms / f"{n}.png", section=n)
+        render(name, x, whole, facts, s.start, s.end, args.split, out_png.with_name(f"{n}.png"), section=n)
 
 
 if __name__ == "__main__":
