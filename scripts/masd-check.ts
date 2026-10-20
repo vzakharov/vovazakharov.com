@@ -56,7 +56,7 @@ const subdirectories = (directory: string): string[] =>
  */
 function locate(file: string): string | undefined {
   const parts = file.split(path.sep);
-  if (parts[0] === 'apps') return parts[2] === 'app' ? 'router' : undefined;
+  if (parts[0] === 'sites') return parts[2] === 'app' ? 'router' : undefined;
   if (parts[0] !== 'src' || parts.length < 4) return undefined;
   const [, app, layer = '', slice] = parts;
   return SLICED.has(layer) ? `${app}/${layer}/${slice}` : `${app}/${layer}`;
@@ -125,8 +125,8 @@ function check(): string[] {
   const mounted = new Set<string>();
   const files = [
     ...walk('src'),
-    ...subdirectories('apps').flatMap((site) =>
-      walk(path.join('apps', site, 'app')),
+    ...subdirectories('sites').flatMap((site) =>
+      walk(path.join('sites', site, 'app')),
     ),
   ];
   for (const file of files) {

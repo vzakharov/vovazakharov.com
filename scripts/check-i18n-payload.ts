@@ -119,12 +119,12 @@ function shipsRuntime(html: string, out: string, cache: Map<string, boolean>) {
 }
 
 function outDirs(): string[] {
-  const apps = path.join(REPO_ROOT, 'apps');
+  const sites = path.join(REPO_ROOT, 'sites');
 
   return fs
-    .readdirSync(apps, { withFileTypes: true })
+    .readdirSync(sites, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => path.join(apps, entry.name, 'out'))
+    .map((entry) => path.join(sites, entry.name, 'out'))
     .filter((dir) => fs.existsSync(dir));
 }
 

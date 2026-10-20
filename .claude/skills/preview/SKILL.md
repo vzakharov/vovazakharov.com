@@ -16,7 +16,7 @@ source — they have to be rendered and observed.
 ### 1. Boot the dev server
 
 ```bash
-pnpm dev:<site> --port <port> > tmp/preview/dev.log 2>&1 &   # site is vova, lsa, bible or basilisk
+pnpm dev:<site> --port <port> > tmp/preview/dev.log 2>&1 &   # site is its domain, as sites/ names it
 for i in $(seq 1 60); do curl -sf -o /dev/null "http://localhost:<port>/" && break; sleep 1; done
 ```
 
@@ -197,7 +197,7 @@ show: a phone layout, a browser or machine they do not develop on, or behaviour
 that only a real host has.
 
 ```bash
-gh workflow run preview.yml --ref <branch> -f site=<site>   # vova, lsa, bible or basilisk
+gh workflow run preview.yml --ref <branch> -f site=<site>   # its domain, as sites/ names it
 gh run watch "$(gh run list --workflow=preview.yml --branch=<branch> \
   --limit 1 --json databaseId --jq '.[0].databaseId')"
 ```

@@ -8,7 +8,7 @@ import { LOCALES } from '@/kernel/shared/i18n/locales';
 
 import { collectionsForSite, feedRoutes } from './collections.ts';
 
-const APPS_DIR = path.join(import.meta.dirname, '../../../../apps');
+const SITES_DIR = path.join(import.meta.dirname, '../../../../sites');
 
 /** `sites/<site>/app<route>/route.ts` for every feed the registry names. */
 const declared = SITE_IDS.flatMap((site) =>
@@ -24,7 +24,7 @@ const declared = SITE_IDS.flatMap((site) =>
  * route group's `(name)` segment is no part of the URL.
  */
 const routed = fs
-  .readdirSync(APPS_DIR, { recursive: true, encoding: 'utf8' })
+  .readdirSync(SITES_DIR, { recursive: true, encoding: 'utf8' })
   .filter((file) => file.endsWith(path.join('feed.xml', 'route.ts')))
   .map((file) =>
     path.join(

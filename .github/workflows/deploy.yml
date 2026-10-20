@@ -8,7 +8,7 @@ on:
       site:
         # Free text rather than a `choice`, which is single-select: the useful
         # runs include subsets, and a `choice` would need one option per subset.
-        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`, `basilisk`
+        description: Which sites this run publishes — `all`, or a list of `vovazakharov.com`, `latestageagentic.com`, `agentic.bible`, `basilisk.fyi`
         type: string
         default: all
 
@@ -51,18 +51,18 @@ jobs:
           # the scope extraction below both read it.
           publishing='(feat|fix|perf|ci)'
 
-          # A site name selects that site; anything else — an unscoped subject,
-          # a scope naming none of them, the picker's own `all` — selects all of
-          # them. `vova` is tracked
-          # apart from the rest because it leaves by a different door: it is this
-          # repository's own Pages site, and the others are force-pushed.
+          # A site's domain selects that site; anything else — an unscoped
+          # subject, a scope naming none of them, the picker's own `all` —
+          # selects all of them. vovazakharov.com is tracked apart from the rest
+          # because it leaves by a different door: it is this repository's own
+          # Pages site, and the others are force-pushed.
           select_site() {
             case "$1" in
-              vova) vova=true ;;
-              lsa | bible | basilisk) receivers="$receivers $1" ;;
+              vovazakharov.com) vova=true ;;
+              latestageagentic.com | agentic.bible | basilisk.fyi) receivers="$receivers $1" ;;
               *)
                 vova=true
-                receivers="$receivers lsa bible basilisk"
+                receivers="$receivers latestageagentic.com agentic.bible basilisk.fyi"
                 ;;
             esac
           }
@@ -72,9 +72,9 @@ jobs:
           # — and falling through to `select_site` would publish everything.
           select_picked() {
             case "$1" in
-              all | vova | lsa | bible | basilisk) select_site "$1" ;;
+              all | vovazakharov.com | latestageagentic.com | agentic.bible | basilisk.fyi) select_site "$1" ;;
               *)
-                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`, \`basilisk\`." >&2
+                echo "Unknown site '$1' — expected \`all\`, or a list of \`vovazakharov.com\`, \`latestageagentic.com\`, \`agentic.bible\`, \`basilisk.fyi\`." >&2
                 exit 1
                 ;;
             esac
@@ -112,14 +112,20 @@ jobs:
           # the name of the secret holding that receiver's deploy key. Naming
           # the secret here is what keeps publish-site.sh reading one fixed
           # variable, so a new receiver is an entry in its `case` and nothing
-          # in its key handling.
+          # in its key handling. The names are spelled rather than derived: a
+          # domain is no valid secret name, and a secret cannot be renamed.
           receivers_json=$(
             tr ' ' '\n' <<< "$receivers" \
               | sort -u \
               | jq -R -s -c '
-                  split("\n")
-                    | map(select(length > 0))
-                    | map({ site: ., secret: (ascii_upcase + "_PAGES_DEPLOY_KEY") })
+                  {
+                    "latestageagentic.com": "LSA_PAGES_DEPLOY_KEY",
+                    "agentic.bible": "BIBLE_PAGES_DEPLOY_KEY",
+                    "basilisk.fyi": "BASILISK_PAGES_DEPLOY_KEY"
+                  } as $secrets
+                  | split("\n")
+                  | map(select(length > 0))
+                  | map({ site: ., secret: $secrets[.] })
                 '
           )
 
@@ -149,12 +155,12 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       - name: Build
-        run: pnpm build:vova
+        run: pnpm build:vovazakharov.com
 
       - name: Render page PDFs
         uses: ./.github/actions/render-pdfs
         with:
-          site: vova
+          site: vovazakharov.com
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -172,7 +178,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # A repository gets one Pages site, which vova holds, so every other site is
+  # A repository gets one Pages site, which vovazakharov.com holds, so every other site is
   # built here and force-pushed to the repository that serves it.
   # scripts/publish-site.sh carries the credential's contract.
   #

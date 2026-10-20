@@ -11,9 +11,9 @@ paths:
 
 **The sites leave by two different doors, because a repository gets one Pages
 site.** `vovazakharov.com` holds this repository's own, deployed from
-`sites/vovazakharov.com/out` by `actions/deploy-pages`. Every other site is built here and
-force-pushed by `scripts/publish-site.sh <site>` to the `gh-pages` branch of a
-receiving repository — `vzakharov/latestageagentic.com`,
+`sites/vovazakharov.com/out` by `actions/deploy-pages`. Every other site is
+built here and force-pushed by `scripts/publish-site.sh <site>` to the
+`gh-pages` branch of a receiving repository — `vzakharov/latestageagentic.com`,
 `vzakharov/agentic.bible`, `vzakharov/basilisk.fyi` — which holds no source and
 runs no workflow: its Pages is set to deploy from a branch, so the push _is_ the
 deploy. That push needs a credential `GITHUB_TOKEN` cannot give — a deploy key

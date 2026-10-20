@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Publishes one built site to the repository that serves it. A repository gets
-# one Pages site, which `vova` holds, so every other site is force-pushed to a
+# one Pages site, which vovazakharov.com holds, so every other site is force-pushed to a
 # receiver of its own. A receiver holds no source: its gh-pages branch is one
 # commit, this script force-pushes it, and GitHub Pages is set to "deploy from
 # a branch" — so the push *is* the deploy and nothing runs over there.
@@ -8,7 +8,7 @@
 #   scripts/publish-site.sh <site>
 #   scripts/publish-site.sh <site> --preview
 #
-# `--preview` sends any site, `vova` included, to the one preview receiver,
+# `--preview` sends any site, vovazakharov.com included, to the one preview receiver,
 # which serves whichever site was published there last.
 #
 # Reads PAGES_DEPLOY_KEY: the private half of an ed25519 deploy key whose
@@ -24,7 +24,9 @@
 #   ssh-keygen -t ed25519 -f ./pages-key -N "" -C "$site pages deploy key"
 #   gh repo deploy-key add ./pages-key.pub --repo "$RECEIVER" \
 #     --title "vovazakharov.com CI" --allow-write
-#   gh secret set "${site_upper}_PAGES_DEPLOY_KEY" --repo "$SOURCE" < ./pages-key
+#   gh secret set "$secret" --repo "$SOURCE" < ./pages-key
+#
+# where `$secret` is the name the deploy workflow's gate gives that site.
 #   rm ./pages-key ./pages-key.pub   # and delete the old key on the receiver
 #
 # Rollback needs no history on the far end: every byte here is reproducible
@@ -48,17 +50,16 @@ case "$TARGET" in
     ;;
 esac
 
-# The one place a site id maps to the repository that serves it. `vova` is
-# absent from production by design: it is this repository's own Pages site and
-# leaves by actions/deploy-pages, never through here. A preview of a site that
-# does not exist stops at its missing export below.
+# A receiver is named by the domain it serves, which is the site's id.
+# vovazakharov.com is absent from production by design: it is this
+# repository's own Pages site and leaves by actions/deploy-pages, never through
+# here. A preview of a site that does not exist stops at its missing export
+# below.
 if [ "$TARGET" = preview ]; then
   RECEIVER=vzakharov/$PREVIEW_HOST
 else
   case "$SITE" in
-    lsa) RECEIVER=vzakharov/latestageagentic.com ;;
-    bible) RECEIVER=vzakharov/agentic.bible ;;
-    basilisk) RECEIVER=vzakharov/basilisk.fyi ;;
+    latestageagentic.com | agentic.bible | basilisk.fyi) RECEIVER=vzakharov/$SITE ;;
     *)
       printf 'No receiving repository for site %s.\n' "$SITE" >&2
       exit 1

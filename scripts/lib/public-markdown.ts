@@ -30,11 +30,11 @@ function markdownFiles(dir: string): string[] {
 
 /** Every Markdown file under `sites/*\/public/`, as a path relative to the root. */
 export function publicMarkdownFiles(): string[] {
-  const appsDir = path.join(process.cwd(), 'apps');
-  if (!fs.existsSync(appsDir)) return [];
+  const sitesDir = path.join(process.cwd(), 'sites');
+  if (!fs.existsSync(sitesDir)) return [];
   return fs
-    .readdirSync(appsDir)
-    .map((site) => path.join(appsDir, site, 'public'))
+    .readdirSync(sitesDir)
+    .map((site) => path.join(sitesDir, site, 'public'))
     .filter((dir) => fs.existsSync(dir))
     .flatMap((dir) => markdownFiles(dir))
     .map((file) => path.relative(process.cwd(), file));

@@ -11,7 +11,8 @@ on:
         description: Which site to publish to the preview slot
         required: true
         type: choice
-        options: [vova, lsa, bible, basilisk]
+        options:
+          [vovazakharov.com, latestageagentic.com, agentic.bible, basilisk.fyi]
 
 permissions:
   contents: read

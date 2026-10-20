@@ -1,3 +1,3 @@
 import { siteNextConfig } from '../site-next-config';
 
-export default siteNextConfig('bible', import.meta.dirname);
+export default siteNextConfig('agentic.bible', import.meta.dirname);

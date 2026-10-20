@@ -59,7 +59,7 @@ describe('check-prose-quotes', () => {
     assert.equal(status, 1);
     assert.match(
       stdout,
-      /^apps\/a\/public\/doc\.md:13: She said "no" twice\.$/m,
+      /^sites\/a\/public\/doc\.md:13: She said "no" twice\.$/m,
     );
   });
 
@@ -68,7 +68,7 @@ describe('check-prose-quotes', () => {
       'sites/a/public/doc.md': "It's straight.\n",
     });
     assert.equal(status, 1);
-    assert.match(stdout, /^apps\/a\/public\/doc\.md:1: It's straight\.$/m);
+    assert.match(stdout, /^sites\/a\/public\/doc\.md:1: It's straight\.$/m);
   });
 
   it('skips the pipeline’s generated output', () => {

@@ -156,18 +156,18 @@ Format rules:
   the project's `CLAUDE.md` lists under "Git conventions" — read them there
   rather than assuming the conventional-commit set, since a project may carry
   its own. **The scope is the deploy switch** (CLAUDE.md § "Deployment"): a
-  branch whose shipped change is one site's names that site (`feat(basilisk):`),
-  so the merge publishes it alone; one that ships to several sites takes none. A
-  change to the shared `src/` counts by what each site then serves: checked to
-  alter one site's output alone, it is that site's; unchecked, it takes none.
-  Agent-infrastructure files riding along ship to no site and do not count, and
-  neither does a companion file a site serves beside a document but links from
-  nowhere — a persona's `*.reflections.md`: the site as a product is what its
-  pages reach. No other words before the colon. Include `#<issue>` only when the
-  PR addresses a GitHub issue (the primary one if several); omit it otherwise.
-  **At most 72 chars**, leaving room for the suffix GitHub appends inside an
-  80-char subject; the deploy gate reads only the prefix, so that suffix never
-  moves the switch.
+  branch whose shipped change is one site's names that site by its domain
+  (`feat(basilisk.fyi):`), so the merge publishes it alone; one that ships to
+  several sites takes none. A change to the shared `src/` counts by what each
+  site then serves: checked to alter one site's output alone, it is that site's;
+  unchecked, it takes none. Agent-infrastructure files riding along ship to no
+  site and do not count, and neither does a companion file a site serves beside
+  a document but links from nowhere — a persona's `*.reflections.md`: the site
+  as a product is what its pages reach. No other words before the colon. Include
+  `#<issue>` only when the PR addresses a GitHub issue (the primary one if
+  several); omit it otherwise. **At most 72 chars**, leaving room for the suffix
+  GitHub appends inside an 80-char subject; the deploy gate reads only the
+  prefix, so that suffix never moves the switch.
   - **`[attn adopters]`** goes right after the colon —
     `feat: [attn adopters] #<issue> <essence>` — when the change asks whoever
     syncs from this repo for something their port does not do by itself: a

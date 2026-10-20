@@ -81,11 +81,11 @@ scripts/run-parallel.sh \
   i18n-payload='pnpm check:i18n-payload' \
   prose-quotes='pnpm check:prose-quotes' \
   songs='scripts/vet-songs.sh' \
-  og-vova='pnpm content:og:vova --check' \
-  og-bible='pnpm content:og:bible --check' \
-  og-basilisk='pnpm content:og:basilisk --check' \
+  og-vova='pnpm content:og:vovazakharov.com --check' \
+  og-bible='pnpm content:og:agentic.bible --check' \
+  og-basilisk='pnpm content:og:basilisk.fyi --check' \
   music-masters='pnpm music:masters check' \
-  cv-pages='pnpm content:pdf:vova --cv-pages --from-out' \
+  cv-pages='pnpm content:pdf:vovazakharov.com --cv-pages --from-out' \
   test='scripts/vet-test.sh' \
   hearing='python3 scripts/lib/test_hearing.py' \
   squash='scripts/check-squash-message.sh' \

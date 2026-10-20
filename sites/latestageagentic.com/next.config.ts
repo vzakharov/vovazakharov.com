@@ -1,3 +1,3 @@
 import { siteNextConfig } from '../site-next-config';
 
-export default siteNextConfig('lsa', import.meta.dirname);
+export default siteNextConfig('latestageagentic.com', import.meta.dirname);

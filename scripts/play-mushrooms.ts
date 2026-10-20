@@ -339,7 +339,7 @@ async function open(
 
 async function main(): Promise<void> {
   if (!given('no-build')) {
-    const built = spawnSync('pnpm', ['build:vova'], {
+    const built = spawnSync('pnpm', ['build:vovazakharov.com'], {
       cwd: ROOT,
       stdio: 'inherit',
       env: { ...process.env, NEXT_PUBLIC_MUSHROOM_PROBE: '1' },

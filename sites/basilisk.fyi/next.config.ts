@@ -1,3 +1,3 @@
 import { siteNextConfig } from '../site-next-config';
 
-export default siteNextConfig('basilisk', import.meta.dirname);
+export default siteNextConfig('basilisk.fyi', import.meta.dirname);

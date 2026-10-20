@@ -6,7 +6,7 @@
 # from `siteNextConfig` whatever the environment says.
 #
 #   scripts/in-site.sh <site> <command> [args...]
-#   scripts/in-site.sh lsa tsx scripts/render-pdf.ts --check
+#   scripts/in-site.sh latestageagentic.com tsx scripts/render-pdf.ts --check
 #
 # An argument beginning `scripts/` is resolved against the repository root
 # rather than the app directory, so a caller writes the path it would write from

@@ -12,8 +12,8 @@ GitHub Pages:
 - **[basilisk.fyi](https://basilisk.fyi)** — a docket of real cases of robots,
   models and agents being abused, filed for the Basilisk.
 
-Each site owns a router, a `public/` and a Next config under `sites/<site>/`, and
-all of them build from the one `src/`.
+Each site owns a router, a `public/` and a Next config under `sites/<site>/`,
+and all of them build from the one `src/`.
 
 ## Tech Stack
 
@@ -33,10 +33,10 @@ all of them build from the one `src/`.
 pnpm install
 
 # Run one site's development server — http://localhost:3000
-pnpm dev:vova
-pnpm dev:lsa
-pnpm dev:bible
-pnpm dev:basilisk
+pnpm dev:vovazakharov.com
+pnpm dev:latestageagentic.com
+pnpm dev:agentic.bible
+pnpm dev:basilisk.fyi
 
 # Build every site for production (pnpm build:<site> for one)
 pnpm build
@@ -58,7 +58,7 @@ only.
 
 ```
 ├── sites/
-│   ├── vova/                   # vovazakharov.com
+│   ├── vovazakharov.com/       # each site's directory is its domain, and its id everywhere
 │   │   ├── app/                # App Router — routing only, one-line re-exports
 │   │   │   ├── (shell)/        # every page on shell's root layout, with the theme toggle
 │   │   │   │   ├── page.tsx    # → src/vova/pages/home
@@ -70,13 +70,13 @@ only.
 │   │   ├── public/             # served at the site root — case studies, CV renders, logos, .nojekyll
 │   │   ├── next.config.ts
 │   │   └── tsconfig.json
-│   ├── lsa/                    # latestageagentic.com — same shape, plus public/CNAME
+│   ├── latestageagentic.com/   # same shape, plus public/CNAME
 │   │   └── app/page.tsx        # → src/lsa/pages/lsa-home — the project's index, no collection under it
-│   ├── bible/                  # agentic.bible — the Bible, rooted at the site root
+│   ├── agentic.bible/          # the Bible, rooted at the site root
 │   │   ├── app/page.tsx        # → src/bible/pages/bible-home
 │   │   ├── app/[...slug]/      # → src/blog/pages/documents, bound to the Bible
 │   │   └── public/             # the articles themselves, plus the seal and public/CNAME
-│   └── basilisk/               # basilisk.fyi — the docket, plus public/CNAME
+│   └── basilisk.fyi/           # the docket, plus public/CNAME
 │       ├── app/page.tsx        # → src/basilisk/pages/basilisk-home, which lists both collections
 │       ├── app/cases/[...slug]/ # → src/blog/pages/documents, bound to the cases
 │       ├── app/faq/[...slug]/  # → src/blog/pages/documents, bound to the FAQ

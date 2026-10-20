@@ -29,7 +29,9 @@ function assertFinding(frontmatter: string, finding: string) {
   const { status, stdout } = run(frontmatter);
   assert.equal(status, 1);
   assert.ok(
-    stdout.includes(`sites/vovazakharov.com/public/music/songs/song.md: ${finding}`),
+    stdout.includes(
+      `sites/vovazakharov.com/public/music/songs/song.md: ${finding}`,
+    ),
     stdout,
   );
 }

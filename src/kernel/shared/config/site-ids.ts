@@ -6,8 +6,17 @@
  * `site-env.ts` for that reason.
  */
 
-/** The ids are the source of truth: each names a directory under `sites/`. */
-export const SITE_IDS = ['vova', 'lsa', 'bible', 'basilisk'] as const;
+/**
+ * The ids are the source of truth, and each is its site's domain: the
+ * directory under `sites/`, the host its `url` is built on, and what
+ * `NEXT_PUBLIC_SITE` holds.
+ */
+export const SITE_IDS = [
+  'vovazakharov.com',
+  'latestageagentic.com',
+  'agentic.bible',
+  'basilisk.fyi',
+] as const;
 
 export type SiteId = (typeof SITE_IDS)[number];
 

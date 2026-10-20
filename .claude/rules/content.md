@@ -24,15 +24,16 @@ paths:
 # Content
 
 Long-form writing lives as markdown under a site's `public/<collection>/` —
-`sites/vovazakharov.com/public/case-studies/` and `sites/vovazakharov.com/public/music/songs/` — and
-`next build` renders it once per deploy. **A collection whose site is named for
-it is rooted instead**, its base empty and its directory that site's whole
-`public/`: the Bible is `sites/agentic.bible/public/`, and an article is
-`agentic.bible/<slug>` rather than repeating the collection's name after a
-domain that already says it. The pipeline stops at the hast tree and hands it to
-React through `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`)
-is where that happens. The paths below are written from the app directory, which
-is where every build and every render script is entered.
+`sites/vovazakharov.com/public/case-studies/` and
+`sites/vovazakharov.com/public/music/songs/` — and `next build` renders it once
+per deploy. **A collection whose site is named for it is rooted instead**, its
+base empty and its directory that site's whole `public/`: the Bible is
+`sites/agentic.bible/public/`, and an article is `agentic.bible/<slug>` rather
+than repeating the collection's name after a domain that already says it. The
+pipeline stops at the hast tree and hands it to React through
+`hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`) is where that
+happens. The paths below are written from the app directory, which is where
+every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because
 `public/` is per app: every walk over the registry goes through
@@ -40,8 +41,8 @@ is where every build and every render script is entered.
 there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the
 app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so
 no `package.json` entry spells either out — and `content:pdf` and `content:og`
-are therefore one script per site, while `content:mermaid` is `vova`'s until
-another site authors a diagram.
+are therefore one script per site, while `content:mermaid` is vovazakharov.com's
+until another site authors a diagram.
 
 ```
 public/case-studies/          # one directory per collection, named by its route
@@ -57,19 +58,20 @@ public/generated/
   mermaid/<hash>.light.svg    # committed, produced by `pnpm content:mermaid`
   mermaid/<hash>.dark.svg
 public/cv/
-  <variant>.og.png            # the CV's social cards, produced by `pnpm content:og:vova`
+  <variant>.og.png            # the CV's social cards, produced by `pnpm content:og:vovazakharov.com`
   og-renders.json
-  <variant>/<locale>.pdf      # gitignored: a build artifact, from `pnpm content:pdf:vova`
+  <variant>/<locale>.pdf      # gitignored: a build artifact, from `pnpm content:pdf:vovazakharov.com`
   <variant>/pdf-renders.json
 ```
 
 **A document's file sits at its route plus an extension.** The page at
-`/case-studies/playgram` is `sites/vovazakharov.com/public/case-studies/playgram.md` served
-raw, and `.pdf` beside it; a cut is a dotted suffix on the slug —
-`/case-studies/playgram.mini`, `playgram.mini.md`, `playgram.mini.pdf` — rather
-than a nested segment, so the route matches the name the file was authored as.
-One sentence covers the markdown, the PDF, the full document and every cut, and
-`documentRoute()` in `collections.ts` is the single place that shapes any of it.
+`/case-studies/playgram` is
+`sites/vovazakharov.com/public/case-studies/playgram.md` served raw, and `.pdf`
+beside it; a cut is a dotted suffix on the slug — `/case-studies/playgram.mini`,
+`playgram.mini.md`, `playgram.mini.pdf` — rather than a nested segment, so the
+route matches the name the file was authored as. One sentence covers the
+markdown, the PDF, the full document and every cut, and `documentRoute()` in
+`collections.ts` is the single place that shapes any of it.
 
 The rule works because nothing in a static export occupies those URLs:
 `out/case-studies/playgram.html` is what the route emits, and `public/` is
@@ -253,10 +255,10 @@ collections' documents; the rest is held by reading.
 - **A render and that site's own `pnpm dev` cannot both spawn a server.** Next
   holds `sites/<site>/.next/dev/lock`, so a second `next dev` in the same app
   directory refuses to start. Print from the one already up instead —
-  `pnpm content:pdf:vova --origin http://localhost:3000` — or from a built
-  export with `--from-out`, which is what the deploy does and the only shape
-  that prints exactly what it publishes. The lock is per app, so `pnpm dev:vova`
-  and `pnpm content:pdf:bible` never meet.
+  `pnpm content:pdf:vovazakharov.com --origin http://localhost:3000` — or from a
+  built export with `--from-out`, which is what the deploy does and the only
+  shape that prints exactly what it publishes. The lock is per app, so
+  `pnpm dev:vovazakharov.com` and `pnpm content:pdf:agentic.bible` never meet.
 - **The printed footer takes two mechanisms, because neither holds both
   halves.** `PrintSheet` wraps the article in a presentational table whose
   `<tfoot>` reserves a band at the foot of every page — only a real one does, a
@@ -330,9 +332,9 @@ collections' documents; the rest is held by reading.
     editing the template, `ava.png`, or any catalogue slice the page reads —
     `cv.header`, `cv.contact`, and the offer block heading that framing's
     `OFFER_BLOCKS` list — re-flags both cards, and the same
-    `pnpm content:og:vova` renders them. English only: a `ru` card would double
-    the committed weight for the secondary surface, and the localized
-    `og:description` already says which language the reader got.
+    `pnpm content:og:vovazakharov.com` renders them. English only: a `ru` card
+    would double the committed weight for the secondary surface, and the
+    localized `og:description` already says which language the reader got.
   - **basilisk.fyi's site card is generated the same way**, by
     `scripts/lib/basilisk-card.ts`: the lettered seal beside the home page's
     memo, read from `src/basilisk/pages/basilisk-home/lib/memo.ts`, with the
