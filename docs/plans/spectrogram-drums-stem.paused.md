@@ -45,6 +45,16 @@ Vova's review of PR #138 on 2026-10-20 (`docs/pr/138/pr.md`, R01 and T01–T04):
 
 **Toms and mid-band hits are unstable on the songs without ground truth.** `test_tom` still fails: a 120 Hz synthetic tom reads as the boomy kick (hello 1:26.93), which in nine bands it nearly is; the tom shape in `PIECES_DB` was never measured. On real stems the tom lane lights in regular patterns that look wrong — world-as-it-is 26 toms and 1 kick; just-because a tom every 1.34 s from 1:28.70, broad 120 Hz–8 kHz hits that may be a snare with a fat body; listen 1:00–1:06, one similar hit every 0.5 s labelled snare, kick, tom, snare in turn. Asked Vova for his ear on those three spots; a confirmed tom gives a measured shape, a confirmed snare a third snare shape.
 
+## Scope added: strips from all four stems
+
+Relay 6 proposed filing "strips from demucs stems" as a separate issue. Vova, forwarded from that session on 2026-10-20: «нет, давай всё здесь, чего полумеры делать». So this PR also reads the pitch strips off htdemucs's four stems (run without `--two-stems`; its `drums.wav` is the same source, since `--two-stems` only sums the other three). Not yet designed or started; the recommended shape, for the operator to correct:
+
+- **`spectrogram.py --stems <dir>`** (demucs's `<dir>/{drums,bass,vocals,other}.wav`) in place of `--drums`, each stem aligned as `drums.aligned` does.
+- **Three pitch strips in place of the C4 split**: vocals (the melody), other (the harmony), bass. Each strip reads its own stem's `chroma_shares` over the stem's own range, so a low voice no longer votes with the bass and bass harmonics no longer reach the treble. `--split` and the split line go with the split.
+- **The sidecar's chords from other + bass** rather than the mix, so the melody's passing notes stop voting in `harmony.beat_chords`.
+- **Without stems**, the recommendation is to require them rather than keep the mix-based strips beside them: two paths to keep honest, and the mix one is what this replaces. Ask if unsure.
+- Cost to state in the PR: a 1.2 GB venv and ~2 min a song on 4 cores per render; stems too big to commit.
+
 ## What is left
 
 1. **Settle the toms** with Vova's answer (above), fix `test_tom` against what he hears, and re-run `tmp/summary.py` over all eleven.
