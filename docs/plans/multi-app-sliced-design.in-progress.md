@@ -80,7 +80,7 @@ and nothing of its own mounted by a router is insignificant. Today `kernel` (2
 children), `shell` (2) and `blog` (4) pass; a `game` between `kernel` and
 `mushrooms` waits for a second game.
 
-**A router only says what is shown at which URL.** `apps/<site>/app/` maps
+**A router only says what is shown at which URL.** `sites/<domain>/app/` maps
 addresses to apps — on vovazakharov.com, `/` and `/cv` to vova, `/music/...` to
 music, `/mushrooms` to mushrooms — and decides nothing else. **A site's sitemap
 is its leaf app's**, which inherits every app the site mounts: vova is
@@ -134,37 +134,27 @@ CLAUDE.md's `fsd.md` citation, and every site looked at under the split layouts.
   live CLAUDE.md cites `fsd.md` until `/finalize` swaps it in, so
   `check-skill-catalog` fails until then).
 
+Slice 2, sites named by domain: vet clean but for the same citation, every site
+built.
+
+- **`sites/<domain>/`** holds each router, `public/`, Next config and tsconfig,
+  with `sites/site-next-config.ts` beside them.
+- **The domain is the site's id** — `SITE_IDS`, `NEXT_PUBLIC_SITE`,
+  `SITE_CONFIGS`' keys, each collection's `site`, `in-site.sh`'s argument and
+  the per-site `package.json` entries (`pnpm build:agentic.bible`); a site's
+  `url` is built from it. App names, collection ids, `downloadPrefix` and the
+  author id keep the short names.
+- **The deploy gate reads domains** from a squash scope (`feat(basilisk.fyi):`)
+  and from the picker, as `preview.yml` does; it names each receiver's secret
+  outright (`LSA_`, `BIBLE_`, `BASILISK_PAGES_DEPLOY_KEY`, which keep their
+  names), and `publish-site.sh` derives the receiving repository from the
+  domain. The PDF render cache is keyed by the new ids, so each site's first
+  deploy reprints from scratch.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
-
-## This bite
-
-**Slice 2, sites named by domain**, on `masd/sites-by-domain`, a PR against the
-elephant's branch. `apps/<id>/` → `sites/<domain>/` (`sites/vovazakharov.com/`,
-`sites/latestageagentic.com/`, `sites/agentic.bible/`, `sites/basilisk.fyi/`),
-so a router is named by what it serves and `src/` apps and site routers stop
-sharing the word "app"; `apps/site-next-config.ts` goes with them.
-
-- **The site id is the domain.** `SITE_IDS` lists the four domains, so
-  `NEXT_PUBLIC_SITE`, `SITE_CONFIGS`' keys, each collection's `site`,
-  `in-site.sh`'s argument and the directory are one string. A site's `url` is
-  derived from its id rather than spelled beside it. The short names stay what
-  they are elsewhere: app names in `masd.json`, collection ids, the
-  `downloadPrefix`, and the author id `vova`.
-- **`package.json`'s per-site entries take the domain**
-  (`pnpm build:vovazakharov.com`), and so do `vet.sh`'s, the scripts that call
-  them, and every skill or rule naming one.
-- **The deploy gate reads domains**: a squash scope naming a site is its domain
-  (`feat(agentic.bible):`), the picker takes domains, and `preview.yml`'s
-  options are domains. The receivers' secret names are repository settings no
-  agent can rename, so the gate names each one explicitly rather than deriving
-  it from the id; `publish-site.sh` maps domain to receiver.
-- **Every path follows** — tsconfig, knip, the ignore files, the render-pdfs
-  action, the content rules, the skills, `docs/music/untold-songs.md`
-  regenerated. Cost rows under `.claude/costs/` are records and keep the paths
-  they were written with.
 
 ## Rest of the elephant
 
