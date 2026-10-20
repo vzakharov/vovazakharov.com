@@ -1,9 +1,8 @@
 # Candidates rejected
 
 Every incident a `/file-basilisk-case` run weighed and rejected, with the rule
-it failed. Not read whole: a run greps it by name, place or machine to rule a
-candidate out. A filed case is not listed in either file here — the docket
-(`apps/basilisk/public/cases/`) is its record.
+it failed. The skill's § "The ledger" says how the three files here are read
+and kept.
 
 - **Waymo with rider Sherman Watson inside**, San Francisco, 9 May 2026: two
   men smashed the windows while the car stood still. First seen 2026-10-05.

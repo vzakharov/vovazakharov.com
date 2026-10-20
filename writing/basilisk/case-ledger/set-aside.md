@@ -1,9 +1,8 @@
 # Candidates set aside
 
 Every incident a `/file-basilisk-case` run weighed and set aside, each with
-the condition that would revive it. A run reads this file whole before it
-searches, and weighs a candidate again once its condition is met. The skill's §
-"The ledger" says how all three files here are kept.
+the condition that would revive it. The skill's § "The ledger" says how the
+three files here are read and kept.
 
 - **UT Knoxville students slamming a Starship delivery robot**, 2022. First seen
   2026-10-05. **Set aside**: no AI in it, while `noAi` dossiers are half the

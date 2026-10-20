@@ -218,22 +218,21 @@ A round that changed nothing commits nothing.
 ## The ledger
 
 `writing/basilisk/case-ledger/` is what lets a run start where the last one
-stopped. Every run writes it, a stop included, in three files split by how each
-is read:
+stopped. Every run writes it, a stop included, in three files split by how Step
+2 reads each:
 
-- **`set-aside.md`** — read whole by every run. One entry per incident weighed,
-  not filed and **Set aside**, with why and the condition that would revive it.
-  A revived candidate leaves this file: filed, or moved to `rejected.md`.
-- **`rejected.md`** — never read whole: grepped by name, place or machine to
-  screen a candidate out. One entry per incident **Rejected**, with the rule it
-  failed. It grows fastest, which is why nothing reads it all.
+- **`set-aside.md`** — one entry per incident weighed, not filed and **Set
+  aside**, with why and the condition that would revive it. A revived candidate
+  leaves this file: filed, or moved to `rejected.md`.
+- **`rejected.md`** — one entry per incident **Rejected**, with the rule it
+  failed. It grows fastest, which is why Step 2 greps it rather than reading it
+  whole.
 - **`runs.md`** — newest first, a heading with the date and the outcome, then a
   few lines: the session's link (`https://claude.ai/code/<id>`, the id from
   `get_session` called with none, where that tool exists), what was swept —
   outlets, subreddits, words, date ranges — and **Next**, what the next run
-  should try that this one did not. A run reads the latest entry; the ten latest
-  stay, and an eleventh folds the oldest into a `## Swept earlier` at the end, a
-  line per thing swept.
+  should try that this one did not. The ten latest stay, and an eleventh folds
+  the oldest into a `## Swept earlier` at the end, a line per thing swept.
 
 A candidate entry in either file gives what, where and when; the date first
 seen; the outcome; the sources, as URLs, so a revival does not search again. New

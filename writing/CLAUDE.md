@@ -25,8 +25,8 @@ writing/
       <slug>.md        # a recording, transcribed
   basilisk/
     case-ledger/       # every case search and every candidate it weighed:
-      set-aside.md     #   read whole by each run
-      rejected.md      #   grepped to screen a candidate out
+      set-aside.md     #   candidates set aside, and what would revive each
+      rejected.md      #   candidates rejected, and the rule each failed
       runs.md          #   what each run swept, and what to try next
 ```
 

@@ -1,8 +1,7 @@
 # Case-search runs
 
-What every `/file-basilisk-case` run searched, newest first, so the next run
-starts where the last stopped instead of finding the same incidents again. A
-run reads the latest entry's **Next** before it searches.
+What every `/file-basilisk-case` run searched, newest first. The skill's § "The
+ledger" says how the three files here are read and kept.
 
 ## 2026-10-20 — filed BAS-0021
 
