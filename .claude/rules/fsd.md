@@ -2,7 +2,7 @@
 description: Multi-App Sliced Design for src/ — apps composed along src/masd.json, each an FSD tree, the routers, public API and the Next.js traps around them
 paths:
   - src/**
-  - apps/*/app/**
+  - sites/*/app/**
   - eslint/masd-*.ts
   - scripts/lint-fsd.ts
   - scripts/masd-check.ts
@@ -14,7 +14,7 @@ paths:
 `src/` is a set of apps, each a
 [Feature-Sliced Design](https://feature-sliced.design/) tree of its own
 (`src/<app>/<layer>/<slice>/`), composed along the graph in `src/masd.json`.
-Each site's `apps/<site>/app/` is a Next.js App Router and nothing else. Three
+Each site's `sites/<site>/app/` is a Next.js App Router and nothing else. Three
 checkers enforce what follows, all run by `./scripts/vet.sh`:
 
 - **`eslint-plugin-boundaries`** (`eslint/masd-boundaries.ts`, generated from
@@ -179,7 +179,7 @@ component reaching for the byline is what would split it into `index.ts` +
 
 ## Routers and app layers
 
-**A router only says what is shown at which URL.** `apps/<site>/app/` maps
+**A router only says what is shown at which URL.** `sites/<site>/app/` maps
 addresses to apps — on vovazakharov.com, `/` and `/cv` to vova, `/music/...` to
 music, `/mushrooms` to mushrooms — and decides nothing else. Its `layout.tsx`
 and each `page.tsx` re-export what they render; it may enter any app's public
@@ -223,7 +223,7 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
 - **`@/<app>/app` is an FSD app layer, not a site's `app/`.** The alias resolves
   into `src/`, so `@/kernel/app/ui` is `src/kernel/app/ui`.
 - **Next looks for a Pages Router inside the project directory only**, which is
-  `apps/<site>/` — out of reach of every `src/<app>/pages/`. Run a build from
+  `sites/<site>/` — out of reach of every `src/<app>/pages/`. Run a build from
   the repository root and it is not.
 - **`@/` points at `src/`.** Anything outside it — a site's `public/` and the
   markdown it serves, root `styles/` and the Sass partial it holds — is reached
