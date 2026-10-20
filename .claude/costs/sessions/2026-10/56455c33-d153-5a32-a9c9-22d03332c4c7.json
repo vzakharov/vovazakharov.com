@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 230,
-    "cacheWrite5mTokens": 372379,
-    "cacheWrite1hTokens": 175830,
-    "cacheReadTokens": 15261989,
-    "outputTokens": 24982,
-    "thinkingTokens": 3413,
-    "responses": 115,
-    "costUsd": 6.8214928
+    "inputTokens": 288,
+    "cacheWrite5mTokens": 442834,
+    "cacheWrite1hTokens": 189767,
+    "cacheReadTokens": 19384653,
+    "outputTokens": 28782,
+    "thinkingTokens": 4089,
+    "responses": 144,
+    "costUsd": 8.186028599999998
   },
   "estimate": {
     "at": "2026-10-20T17:24:58.534Z",
@@ -37,43 +37,43 @@
   "url": "https://claude.ai/code/session_012TzSzF1UMvkGzxb9jonqD3",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-20T17:24:45.004Z",
-  "lastResponseAt": "2026-10-20T17:43:26.989Z",
+  "lastResponseAt": "2026-10-20T17:47:09.970Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 120,
+    "inputTokens": 128,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 175830,
-    "cacheReadTokens": 9418733,
-    "outputTokens": 24233,
-    "thinkingTokens": 3413,
-    "responses": 60,
-    "costUsd": 3.7755265999999987
+    "cacheWrite1hTokens": 189767,
+    "cacheReadTokens": 10343638,
+    "outputTokens": 27653,
+    "thinkingTokens": 4089,
+    "responses": 64,
+    "costUsd": 4.140435599999998
   },
   "subagents": {
-    "inputTokens": 110,
-    "cacheWrite5mTokens": 372379,
+    "inputTokens": 160,
+    "cacheWrite5mTokens": 442834,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 5843256,
-    "outputTokens": 749,
+    "cacheReadTokens": 9041015,
+    "outputTokens": 1129,
     "thinkingTokens": 0,
-    "responses": 55,
-    "costUsd": 3.0459662000000005
+    "responses": 80,
+    "costUsd": 4.045593000000002
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 230,
-      "cacheWrite5mTokens": 372379,
-      "cacheWrite1hTokens": 175830,
-      "cacheReadTokens": 15261989,
-      "outputTokens": 24982,
-      "thinkingTokens": 3413,
-      "responses": 115,
-      "costUsd": 6.8214928
+      "inputTokens": 288,
+      "cacheWrite5mTokens": 442834,
+      "cacheWrite1hTokens": 189767,
+      "cacheReadTokens": 19384653,
+      "outputTokens": 28782,
+      "thinkingTokens": 4089,
+      "responses": 144,
+      "costUsd": 8.186028599999998
     }
   },
   "warnings": [
-    "52 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+    "76 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
   ],
   "orientation": {
     "endedBy": "Write",
