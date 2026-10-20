@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×70)
+## What it was handed, it treats as fixed (×71)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -78,13 +78,17 @@ derives. Radio state went into the player's reducer, where a layered one sees
 every action too. Each song's MP3 went in as `podcast`, named for the feed that
 first read it: _зачем мы это называем `podcast`…?_ Now `mp3`.
 
-**7 to 13 October — a rule read to its letter, then past its case.**
+**7 to 20 October — a rule read to its letter, then past its case.**
 `content.md` names Suno's markers and stress marks; the agent took the two as
 the whole list and kept «Война-а» as the author's. "Expletives are written out"
 unmasked a bleep that is on the recording. "Don't patch muthur" became removing
 a role here; he meant this repo changed freely. A published slug never moves, so
 renaming «Бабай минем» kept `minem-babay`: _слаг тоже поменять, ничего
-страшного._ The rule protects his links, so he can waive it.
+страшного._ The rule protects his links, so he can waive it. Told BAS-0016
+should not print IShowSpeed's legal name, the agent ruled out legal names for
+everyone, the famous included: _без фанатизма… 50 Cent … Curtis James Jackson
+III *не* надо._ The rule names people as the public knows them, a Hollywood
+actor by his name.
 
 **8 to 13 October — the poem, the mix, the source, read as the thing.** Song
 pages printed stanzas never recorded; captions synced to the unmastered mix;
