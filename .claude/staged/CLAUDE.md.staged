@@ -60,7 +60,7 @@ and the rest of the convention.
 - **`eslint/`** — The ruleset `eslint.config.ts` orchestrates; see
   `.claude/rules/eslint.md`.
 - **`writing/`** — Drafts for channels the site does not publish, today
-  `linkedin/`. Deliberately outside `public/`: a draft crawlable before it runs
+  `linkedin/`, and research papers under `papers/`. Deliberately outside `public/`: a draft crawlable before it runs
   is the wrong order of operations. `writing/CLAUDE.md` carries the conventions.
 - **`.claude/costs/`** — Per-session cost rows at Claude API rates, written by a
   `Stop` hook; `pnpm costs` sums them and writes nothing. The directory's own
@@ -352,6 +352,8 @@ Use semantic commit prefixes:
 - `content:` — written material the site does not yet serve: a draft, a channel
   plan, the conventions for writing them. A piece going live arrives as the page
   that serves it, `.md` and `.pdf` variants included — a `feat:`
+- `research:` — a research paper under `writing/papers/`: a study written to
+  stand on its own, the site serving it or not
 - `docs:` — documentation changes
 - `chore:` — maintenance, config, dependencies
 - `refactor:` — code restructuring without behavior change
