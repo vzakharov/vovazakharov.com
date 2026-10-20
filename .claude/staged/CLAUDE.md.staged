@@ -68,7 +68,7 @@ and the rest of the convention.
   `CLAUDE.md` carries the rest.
 - **`scripts/`** — Agent-facing tooling; `vet.sh` is § "Vetting"'s entrypoint.
   Every per-site entry in `package.json` goes through `in-site.sh`, which pairs
-  the app directory with `NEXT_PUBLIC_SITE` so no entry spells either out.
+  the site directory with `NEXT_PUBLIC_SITE` so no entry spells either out.
 - **`.claude/`** — Skills, rules and session hooks.
 
 Anything that holds only over part of that tree lives in the `CLAUDE.md` of the

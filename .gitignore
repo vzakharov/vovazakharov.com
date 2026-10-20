@@ -13,7 +13,7 @@
 # testing
 /coverage
 
-# next.js — each app builds into its own directory under sites/
+# next.js — each site builds into its own directory under sites/
 .next/
 out/
 

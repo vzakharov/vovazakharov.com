@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Publishes one built site to the repository that serves it. A repository gets
-# one Pages site, which vovazakharov.com holds, so every other site is force-pushed to a
-# receiver of its own. A receiver holds no source: its gh-pages branch is one
+# one Pages site, which vovazakharov.com holds, so every other site is
+# force-pushed to a receiver of its own. A receiver holds no source: its gh-pages branch is one
 # commit, this script force-pushes it, and GitHub Pages is set to "deploy from
 # a branch" — so the push *is* the deploy and nothing runs over there.
 #
 #   scripts/publish-site.sh <site>
 #   scripts/publish-site.sh <site> --preview
 #
-# `--preview` sends any site, vovazakharov.com included, to the one preview receiver,
-# which serves whichever site was published there last.
+# `--preview` sends any site, vovazakharov.com included, to the one preview
+# receiver, which serves whichever site was published there last.
 #
 # Reads PAGES_DEPLOY_KEY: the private half of an ed25519 deploy key whose
 # public half is installed on the target receiving repository with write
@@ -25,9 +25,9 @@
 #   gh repo deploy-key add ./pages-key.pub --repo "$RECEIVER" \
 #     --title "vovazakharov.com CI" --allow-write
 #   gh secret set "$secret" --repo "$SOURCE" < ./pages-key
+#   rm ./pages-key ./pages-key.pub   # and delete the old key on the receiver
 #
 # where `$secret` is the name the deploy workflow's gate gives that site.
-#   rm ./pages-key ./pages-key.pub   # and delete the old key on the receiver
 #
 # Rollback needs no history on the far end: every byte here is reproducible
 # from a commit in this repository, so an older deploy is this workflow

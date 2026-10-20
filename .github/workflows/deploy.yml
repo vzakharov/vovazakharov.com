@@ -178,8 +178,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # A repository gets one Pages site, which vovazakharov.com holds, so every other site is
-  # built here and force-pushed to the repository that serves it.
+  # A repository gets one Pages site, which vovazakharov.com holds, so every
+  # other site is built here and force-pushed to the repository that serves it.
   # scripts/publish-site.sh carries the credential's contract.
   #
   # The matrix is built from the gate's output rather than filtered by a

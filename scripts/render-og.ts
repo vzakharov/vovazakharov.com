@@ -20,7 +20,7 @@
  *   pnpm content:og:<site>          # render what changed, prune what is gone
  *   pnpm content:og:<site> --check  # report staleness, write nothing
  *
- * One run serves one site, because it is entered in that app's directory —
+ * One run serves one site, because it is entered in that site's directory —
  * which is what `public/` resolves against.
  *
  * Runs under `tsx`, which `lib/cv-card.ts` needs, so `src/` is reached by alias

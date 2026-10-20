@@ -18,9 +18,9 @@ built here and force-pushed by `scripts/publish-site.sh <site>` to the
 runs no workflow: its Pages is set to deploy from a branch, so the push _is_ the
 deploy. That push needs a credential `GITHUB_TOKEN` cannot give — a deploy key
 per receiver, whose contract the script's own header carries. The workflow maps
-each receiver's secret into the one fixed variable the script reads, so a new
-site is a `case` arm and a matrix entry, never a change to how the key is
-handled.
+each receiver's secret, named per domain in the `gate` job, into the one fixed
+variable the script reads, so a new site is a `case` arm and a secret name,
+never a change to how the key is handled.
 
 **The workflow's `gate` job enforces the subject rule CLAUDE.md § "Deployment"
 states.** Its `publishing` variable is the one place the set of publishing types

@@ -85,7 +85,7 @@ export function readCatalogueNames(musicDir: string) {
   };
 }
 
-/** The catalogue of the app directory a build or a render script is entered in. */
+/** The catalogue of the site directory a build or a render script is entered in. */
 export function readSiteCatalogueNames(): ReturnType<
   typeof readCatalogueNames
 > {

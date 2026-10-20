@@ -32,14 +32,14 @@ base empty and its directory that site's whole `public/`: the Bible is
 than repeating the collection's name after a domain that already says it. The
 pipeline stops at the hast tree and hands it to React through
 `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`) is where that
-happens. The paths below are written from the app directory, which is where
+happens. The paths below are written from the site directory, which is where
 every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because
-`public/` is per app: every walk over the registry goes through
+`public/` is per site: every walk over the registry goes through
 `collectionsForSite()`, or the other site's build reads a directory that is not
 there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the
-app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so
+site directory it is entered in — `scripts/in-site.sh` is what pairs the two, so
 no `package.json` entry spells either out — and `content:pdf` and `content:og`
 are therefore one script per site, while `content:mermaid` is vovazakharov.com's
 until another site authors a diagram.
@@ -253,11 +253,11 @@ collections' documents; the rest is held by reading.
   upload gives no other reason, and the file is otherwise valid. The domain goes
   into `PRINT_RASTER_DOMAINS` (`src/kernel/shared/lib/print-raster.ts`).
 - **A render and that site's own `pnpm dev` cannot both spawn a server.** Next
-  holds `sites/<site>/.next/dev/lock`, so a second `next dev` in the same app
+  holds `sites/<site>/.next/dev/lock`, so a second `next dev` in the same site
   directory refuses to start. Print from the one already up instead —
   `pnpm content:pdf:vovazakharov.com --origin http://localhost:3000` — or from a
   built export with `--from-out`, which is what the deploy does and the only
-  shape that prints exactly what it publishes. The lock is per app, so
+  shape that prints exactly what it publishes. The lock is per site, so
   `pnpm dev:vovazakharov.com` and `pnpm content:pdf:agentic.bible` never meet.
 - **The printed footer takes two mechanisms, because neither holds both
   halves.** `PrintSheet` wraps the article in a presentational table whose

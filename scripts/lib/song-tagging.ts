@@ -17,7 +17,7 @@
  * tag. `prune` deletes the recorded paths no song derives any more, and runs
  * only once the site serving the new names has deployed.
  *
- * Runs under `tsx --conditions=react-server` from the app directory, so it
+ * Runs under `tsx --conditions=react-server` from the site directory, so it
  * reads the catalogue through the page's own model. Needs network and
  * `ffmpeg`.
  */
