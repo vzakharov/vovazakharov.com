@@ -68,6 +68,9 @@ The session that claims the plan writes `## This bite` before building:
   line (`MUTHUR_CONTEXT_BUDGET_WARN`, `.claude/context-budget/CLAUDE.md`) — so a
   bite's end normally comes before the hook says anything, and a notice arriving
   mid-bite means the bite was cut too big;
+- keeps its working files — squash draft, relay summaries — in its own
+  `docs/remove-before-merging/<branch>/` (`scripts/working-dir.sh`), apart from
+  the elephant's it inherits, and its `/finalize` sweeps only those;
 - is one per session: the pause is for the operator's review, not for saving
   tokens, so a session that finishes its bite early stops there.
 

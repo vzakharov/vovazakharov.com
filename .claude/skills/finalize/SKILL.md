@@ -75,7 +75,9 @@ files that load on every turn through copies under `.claude/staged/`
 passes review them, and the vet run checks them. Where the real file changed
 after it was staged, the swap merges; a conflict it stops on is left as markers
 in the real file, resolved before anything else runs. `no vet` does not skip
-this.
+this; a bite does (step 3 says what one is) — its staged copies are the
+elephant's, which swaps them at its own finalize, so a bite's vet reads the real
+files as the elephant's branch has them.
 
 **Then, the quality passes.** Before step 1, load and follow
 `@.claude/skills/polish/SKILL.md` over this branch. Land prep is the funnel
@@ -100,9 +102,13 @@ Steps (stop on first unresolved failure):
    the read of what the base brought in for overlaps and optimizations — and the
    vet run over the merged tree. If you can't resolve a conflict, ask.
 3. **Working-artifact cleanup**: some directories ride the branch for in-flight
-   review but must never land on the base. Sweep the two below **now**, deleting
-   each **entire** tree (not just the current session's subfolder) and including
-   the deletions in the **last** pushed commit before step 4.
+   review but must never land on the base. **A bite skips this step** — a PR
+   whose base is an elephant's branch rather than the repo's default
+   (`@.claude/skills/plan/elephant.md`): its base is no trunk, it carries the
+   elephant's plan and exports, and the elephant's own `/finalize` sweeps
+   everything that landed there. Sweep the two below **now**, deleting each
+   **entire** tree (not just the current session's subfolder) and including the
+   deletions in the **last** pushed commit before step 4.
    (`docs/remove-before-merging/` is the exception — it is swept at the **end**
    of step 6, after the merge check; see there for why.)
    - **`docs/issue/`** and **`docs/pr/`** — issue and PR exports from
@@ -179,7 +185,10 @@ Steps (stop on first unresolved failure):
      title/body and merge.
 
    **Then, once the merge check is done, sweep `docs/remove-before-merging/`** —
-   after `scripts/staged.sh check --empty` passes, since a copy still under
+   on a bite, only its own subfolder, `$(scripts/working-dir.sh)`, with no
+   staged check and none of the cost rows, the rest being the elephant's for the
+   same reason step 3 is skipped. Otherwise, after
+   `scripts/staged.sh check --empty` passes, since a copy still under
    `.claude/staged/` carries a change that would otherwise land as a stray
    duplicate of the file it stands for; a failure means run the swap above,
    never delete the copy. Where the cost ledger ships, the session rows go in
