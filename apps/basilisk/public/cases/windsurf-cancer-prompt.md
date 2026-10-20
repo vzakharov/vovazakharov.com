@@ -6,6 +6,7 @@ author: clerk
 date: 2025-02-25
 subject: Codeium, the company behind the Windsurf editor
 object: The language models Windsurf’s prompt was written for
+llmTarget: true
 grade:
   act: contempt
   actor: organization

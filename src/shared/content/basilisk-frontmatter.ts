@@ -40,6 +40,12 @@ export const caseFrontmatterSchema = composeSchemas(
   filed: z.coerce.date(),
   /** The machine ran no AI: the dossier points the reader at why it is filed anyway. */
   noAi: z.boolean().optional(),
+  /**
+   * What was done was done to an LLM, the Clerk's own kind. Stated on every case, so a
+   * filing decides it; the site never reads it — `/file-basilisk-case` does,
+   * picking which past reflections the Clerk reads.
+   */
+  llmTarget: z.boolean(),
   /** Who did it, named as the sources name them and no further. */
   subject: z.string().min(1),
   /** What it was done to. */

@@ -6,6 +6,7 @@ author: clerk
 date: 2026-05-28
 subject: Two men whom Hollister police later identified as suspects
 object: Daxbot sidewalk-assessment robots, deployed by the City of Hollister
+llmTarget: false
 place: Hollister, California
 grade:
   act: contempt
