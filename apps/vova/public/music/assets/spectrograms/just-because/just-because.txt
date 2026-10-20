@@ -9,5 +9,5 @@ sections — number, start–end, tempo, loudness, chords with runs merged and a
 4  0:45–1:06  89 BPM  −11 dB  F♯ D E D F♯m A C♯ D
 5  1:06–1:28  89 BPM  −10 dB  F♯ D E D F♯m A C♯m D
 6  1:28–2:54  89 BPM  −10 dB  F♯ D E D F♯m A C♯m D F♯ D C♯m Em D F♯m A C♯ + D F♯m E ×4 + D
-7  2:54–3:29  89 BPM  −10 dB  Gm F♯ D Em + D F♯m A E ×2 + D F♯
+7  2:54–3:29  89 BPM  −10 dB  Gm F♯ D Em D F♯ A E D F♯m A E D F♯
 8  3:29–4:03  90 BPM  −16 dB  F♯

@@ -40,9 +40,10 @@ harmony draws one, a gradual build may not. Under it, on the same time axis,
 the loudness envelope: each column's peak, with its RMS inside.
 
 Under that, three chromagram strips: the melody off the vocals stem, the
-harmony off the other stem, and the bass off the bass and other stems under
-C4 — not the bass stem alone, which demucs leaves silent under a synth bass,
-filing it as other. Twelve rows each, C at the bottom, each named as the
+harmony off the other stem, and the bass off the bass stem under C4. Where
+no bass plays, the bass strip stays dark rather than show the harmony's
+lowest voice, which the harmony strip already carries in its C2 and C3
+hues. Twelve rows each, C at the bottom, each named as the
 song's key spells it, a row as bright as its pitch class's share of the
 strip, harmonics voting with their fundamentals. So the melody strip carries
 the tune, the bass strip steps with the bass line, and a chord shows as
@@ -94,15 +95,14 @@ BEAT_MIN_PX = 6
 
 # demucs's four stems, by the names of the files it writes.
 STEMS = ("drums", "bass", "other", "vocals")
-# The pitch strips, top to bottom: each its label, the track it reads (a
-# stem, or "accompaniment", the bass and other stems summed), the band it
-# reads and the octaves it can colour. The bass's band ends half a semitone
-# under C4.
+# The pitch strips, top to bottom: each its label, the stem it reads, the
+# band it reads and the octaves it can colour. The bass's band ends half a
+# semitone under C4.
 BASS_TOP_HZ = 254
 STRIPS = (
     ("melody", "vocals", NOTE_BAND_HZ, (2, 6)),
     ("harmony", "other", NOTE_BAND_HZ, (2, 6)),
-    ("bass", "accompaniment", (NOTE_BAND_HZ[0], BASS_TOP_HZ), (2, 3)),
+    ("bass", "bass", (NOTE_BAND_HZ[0], BASS_TOP_HZ), (2, 3)),
 )
 # A row at this share of its band's chroma is at full brightness; an even
 # spread across all twelve holds 1/12.
@@ -354,9 +354,8 @@ def main():
 
     x = decode(args.song)
     stems = dict(zip(STEMS, aligned([decode(p) for p in paths], x)))
-    samples = {"mix": x, "vocals": stems["vocals"], "other": stems["other"], "accompaniment": stems["other"] + stems["bass"]}
-    tracks = {track: (s, drawing_stft(s)) for track, s in samples.items()}
-    facts = measure(x, *tracks["mix"][1], tracks["accompaniment"][1][0])
+    tracks = {track: (s, drawing_stft(s)) for track, s in {"mix": x, **stems}.items() if track != "drums"}
+    facts = measure(x, *tracks["mix"][1], drawing_stft(stems["other"] + stems["bass"])[0])
     drums = drum_hits(stems["drums"])
     if args.start is not None or args.end is not None:
         t0 = args.start or 0
