@@ -1,4 +1,9 @@
+<<<<<<< HEAD:src/mushrooms/pages/mushrooms/ui/scene/meadow-opening.ts
 import type { Opening } from '../../api/open-kept';
+=======
+import type { Reopened } from '../../api/open-kept';
+import type { Dusk } from '../../model/dusk';
+>>>>>>> origin/main:src/pages/mushrooms/ui/scene/meadow-opening.ts
 import type { Flower } from '../../model/flower-genes';
 import { visitFlowers } from '../../model/flower-sounds';
 import { firstMeadow, type Meadow } from '../../model/game';
@@ -14,11 +19,18 @@ import { FAR_FLOWERS } from './far-band';
  * mushrooms even under a kept one, so a pulled opening mushroom moves no
  * seeded flower.
  */
+<<<<<<< HEAD:src/mushrooms/pages/mushrooms/ui/scene/meadow-opening.ts
 export function meadowOpening({ seed, kept }: Pick<Opening, 'seed' | 'kept'>): {
   meadow: Meadow;
   openers: readonly Opener[];
   flowers: Flower[];
 } {
+=======
+export function meadowOpening(
+  { seed, kept }: Reopened,
+  dusk: Dusk,
+): { meadow: Meadow; openers: readonly Opener[]; flowers: Flower[] } {
+>>>>>>> origin/main:src/pages/mushrooms/ui/scene/meadow-opening.ts
   const random = mulberry32(seed);
   const fresh = firstMeadow(random);
   // Drawn after the fresh meadow, off the same stream.

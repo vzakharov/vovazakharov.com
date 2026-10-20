@@ -5,8 +5,9 @@
  * covers by the same ones.
  */
 
-import { BEE_RANGES, type BeeGenes } from './bee-genes';
+import { BEE_RANGES, type BeeGenes, type BeeHeaded } from './bee-genes';
 import { ellipse, type Point, sample } from './geometry';
+import type { Bodied } from './insect-genes';
 
 export type Oval = Point & { rx: number; ry: number };
 
@@ -20,7 +21,7 @@ export function beeAnatomy({
   bodyLength: length,
   bodyWidth: width,
   headRadius,
-}: Pick<BeeGenes, 'bodyLength' | 'bodyWidth' | 'headRadius'>) {
+}: Bodied & BeeHeaded) {
   const thorax = { x: 0, y: -length * 0.2, rx: width * 0.4, ry: length * 0.19 };
   return {
     head: { x: 0, y: thorax.y - thorax.ry - headRadius * 0.55, r: headRadius },

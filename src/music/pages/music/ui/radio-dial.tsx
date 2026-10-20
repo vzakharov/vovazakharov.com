@@ -3,8 +3,9 @@
 import { Box } from '@mantine/core';
 import { useState } from 'react';
 
+import type { Timed } from '@/shared/typings';
+
 import { formatDuration } from '../lib/duration';
-import type { PlayerTrack } from '../lib/player-state';
 import classes from './radio.module.scss';
 
 /** A short tick every quarter of a minute, a long one on the minute. */
@@ -14,7 +15,7 @@ const TICK_SECONDS = 15;
 const onMinute = (second: number) => second % 60 === 0;
 
 /** The song's length, which the scale spans, and how far into it the station is now. */
-type DialProps = Pick<PlayerTrack, 'seconds'> & { into: number };
+type DialProps = Timed & { into: number };
 
 /**
  * The needle, gliding across the scale on one CSS animation as long as the

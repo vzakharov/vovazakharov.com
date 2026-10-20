@@ -14,7 +14,7 @@ import {
   BECKON_PERIOD as BECKON_SECONDS,
   letGo,
   lightUp,
-  type Lit,
+  type Switched,
   UNLIT,
 } from './motion';
 import { between, mulberry32 } from './random';
@@ -161,7 +161,7 @@ function flown(kind: InsectKind, seed: number): Worst {
 /** How far a cap `CAP_HEIGHT` sizes tall carries its top as it beckons (`beckon`), selected at `litAt` and let go of at `unlitAt`, in ms. */
 const BECKON_PERIOD = BECKON_SECONDS * 1000;
 const CAP_HEIGHT = 3;
-const beckoning = ({ litAt, unlitAt }: Pick<Lit, 'litAt' | 'unlitAt'>) => {
+const beckoning = ({ litAt, unlitAt }: Switched) => {
   const lit = lightUp(UNLIT, litAt / 1000);
   const shown = unlitAt === Infinity ? lit : letGo(lit, unlitAt / 1000);
   return (now: number): Point => ({

@@ -5,6 +5,8 @@
  * then plays the moment it starts, so the first tap is heard too.
  */
 
+import type { Hushing } from '@/shared/typings';
+
 import { duskyAt } from '../../model/dusk';
 import type { Drum } from '../../model/flower-sounds';
 import type { InsectKind } from '../../model/insect-genes';
@@ -166,7 +168,36 @@ function startBreeze(context: AudioContext, out: AudioNode): void {
   gust.start();
 }
 
-export class MeadowSound {
+export type Waking = { start: () => void };
+
+export type Keyed = {
+  note: (note: number) => void;
+  drum: (drum: Drum) => void;
+};
+/** What the planter plays: a pop for a colour picked, a "nuh-uh" for a flower refused. */
+export type PlanterVoice = { pop: () => void; nuhUh: () => void };
+export type Glinting = { glint: (pan: number) => void };
+export type DuskVoiced = {
+  grow: () => void;
+  sink: () => void;
+  dusk: (level: number) => void;
+};
+/** What the rain asks of the meadow's sound: the shower's hiss, and the whoosh a cloud tap answers with. */
+export type RainSound = {
+  shower: (downpour: number, wetness: number) => void;
+  whoosh: () => void;
+};
+
+export class MeadowSound
+  implements
+    Waking,
+    Hushing,
+    Keyed,
+    PlanterVoice,
+    Glinting,
+    DuskVoiced,
+    RainSound
+{
   private context: AudioContext | undefined;
   private master: GainNode | undefined;
   private pending: Voice[] = [];

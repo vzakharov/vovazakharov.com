@@ -8,8 +8,16 @@
 
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Choosing, Flight, Leg, Perch, Perches } from './flight';
-import { apartIn } from './flight-timing';
+import type {
+  Destination,
+  Flight,
+  Hemmed,
+  Perch,
+  Perches,
+  Raining,
+  Sheltered,
+} from './flight';
+import { apartIn, type Departing } from './flight-timing';
 import { isSamePerch, perchName } from './perch-room';
 import { between, saltedStream, type Seeded } from './random';
 import { type Rain, raining } from './weather';
@@ -67,7 +75,7 @@ const shelterOf = (seat: ShelterSeat): Shelter => ({
 
 /** Whether `perches` sights `shelter`, the seat under a cap. */
 export function offersShelter(
-  { shelters }: Pick<Perches, 'shelters'>,
+  { shelters }: Sheltered,
   { id, seat }: Shelter,
 ): boolean {
   return (
@@ -85,7 +93,7 @@ export function nearestShelter({
   from,
   perches,
   blocked,
-}: Pick<Choosing, 'from' | 'perches' | 'blocked'>): Shelter | undefined {
+}: Hemmed): Shelter | undefined {
   let nearest: { shelter: Shelter; apart: number } | undefined;
   for (const seat of perches.shelters ?? []) {
     const shelter = shelterOf(seat);
@@ -106,9 +114,9 @@ export function nearestShelter({
  * keeps its start, so it sends no second dash.
  */
 export function dashesForCover(
-  { departs, to }: Pick<Leg, 'departs' | 'to'>,
+  { departs, to }: Departing & Destination,
   rain: Rain | undefined,
-  { raining: falling }: Pick<Perches, 'raining'>,
+  { raining: falling }: Raining,
 ): boolean {
   return (
     falling === true &&

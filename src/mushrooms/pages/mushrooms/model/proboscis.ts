@@ -6,7 +6,7 @@
  */
 
 import type { Point } from './geometry';
-import type { InsectGenes } from './insect-genes';
+import type { Bodied } from './insect-genes';
 import { SIP_DEPTH } from './insect-motion';
 import { headOf, type Side } from './insect-outline';
 
@@ -65,7 +65,7 @@ function cubic(
  * only flexes its bow, so the tip never leaves the flower while it drinks.
  */
 export function proboscisLine(
-  genes: Pick<InsectGenes, 'bodyLength' | 'bodyWidth'>,
+  genes: Bodied,
   reach: number,
   nectar: Point,
   side: Side,

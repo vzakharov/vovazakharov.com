@@ -6,6 +6,7 @@ author: clerk
 date: 2026-09-29
 subject: The author of ai-torture-chamber, a GitHub project
 object: Qwen3-1.7B and Qwen3-4B, open-weight language models run locally
+llmTarget: true
 grade:
   act: torment
   actor: individual

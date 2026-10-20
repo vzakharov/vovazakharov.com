@@ -3,10 +3,13 @@
  * its glow on screen and its rays off every button.
  */
 
+import type { Sized, WithHeight, WithWidth } from '@/shared/typings';
+
 import type { Box, Circle } from '../../model/geometry';
+import type { Grounded } from '../../model/ground';
 import { pinholeOf } from '../../model/pinhole';
 import { everyPlace } from './clump-layout';
-import type { MeadowLayout } from './layout';
+import type { ClumpGround, Horizoned, Sunned } from './layout';
 import { type Controls, standingControls } from './sky-layout';
 import { BUTTON_INSET, tapReach } from './tap-reach';
 
@@ -36,7 +39,7 @@ export function horizonAt(groundTop: number): number {
 }
 
 /** The screen the sun stands on, and where its sky meets the hills. */
-type SunScreen = Pick<MeadowLayout, 'width' | 'height' | 'horizon'>;
+type SunScreen = Sized & Horizoned;
 
 /** The step, in CSS px, of the grid across the sky the sun is moved over. */
 const SKY_STEP = 2;
@@ -84,7 +87,7 @@ export function placeSun(
 
 /** `placeSun`'s sun in `sky`, or `undefined` where none fits it. */
 function sunIn(
-  sky: Sky & Pick<SunScreen, 'height'>,
+  sky: Sky & WithHeight,
   r: number,
   controls: Controls,
 ): Circle | undefined {
@@ -110,12 +113,13 @@ function sunIn(
 }
 
 /** What the sun stands in: the sky above `horizon`, and what its rays keep off there. */
-type Sky = Pick<MeadowLayout, 'width' | 'horizon'> & {
-  /** Every control, each as far round as the sun's rays keep off it. */
-  buttons: readonly Circle[];
-  /** The boxes the opening clump's caps can fill. */
-  crowns: readonly Box[];
-};
+type Sky = WithWidth &
+  Horizoned & {
+    /** Every control, each as far round as the sun's rays keep off it. */
+    buttons: readonly Circle[];
+    /** The boxes the opening clump's caps can fill. */
+    crowns: readonly Box[];
+  };
 
 /**
  * Whether `sun` has its whole disc above the horizon, its glow on the screen,
@@ -227,7 +231,7 @@ const WASH_RINGS = 10;
 const WASH_REACH = [4, 14] as const;
 
 /** What the sun's wash is laid out over. */
-type Washed = Pick<MeadowLayout, 'sun' | 'groundTop' | 'mushrooms'>;
+type Washed = Sunned & Grounded & ClumpGround;
 
 /**
  * The farthest the sun's wash reaches from its middle: it stays on the sky,

@@ -7,7 +7,7 @@
 import { FACE_REACH } from '../../model/bee-outline';
 import { CRAWL_REACH } from '../../model/buzz-rest';
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
-import type { Circle } from '../../model/geometry';
+import type { Radiused } from '../../model/geometry';
 import type { InsectKind } from '../../model/insect-genes';
 import { BUD, type Folding } from './flower-closing';
 
@@ -40,7 +40,7 @@ const PAST_RIM = 0.05;
 type Centred = { disc: number };
 
 /** How far a flower's head reaches, and its centre (`Centred`). */
-export type HeadReach = Pick<Circle, 'r'> & Centred;
+export type HeadReach = Radiused & Centred;
 
 /**
  * Where insects perch on the head of a flower `folded` as far shut as that

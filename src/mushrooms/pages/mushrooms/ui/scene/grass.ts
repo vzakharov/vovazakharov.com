@@ -1,5 +1,6 @@
 import type * as Phaser from 'phaser';
 
+import type { GroundBand } from '../../model/ground';
 import { type Phased, shake, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
 import { coloursAt, groundAt, type Tones, tonesAt } from './backdrop-tones';
@@ -84,7 +85,7 @@ function gustPhase(x: number, random: Random): number {
 
 /** A tuft rooted at `x`, `y` on `screen` at `phase` in the breeze, sized and toned by its row. */
 function tuftRooted(
-  screen: Pick<MeadowLayout, 'height' | 'groundTop'>,
+  screen: GroundBand,
   x: number,
   y: number,
   phase: number,
@@ -99,18 +100,12 @@ function tuftRooted(
 }
 
 /** How far down the ground's band of `layout`, from its top to the bottom edge, the row `y` stands; none above its top. */
-export function downAt(
-  { height, groundTop }: Pick<MeadowLayout, 'height' | 'groundTop'>,
-  y: number,
-): number {
+export function downAt({ height, groundTop }: GroundBand, y: number): number {
   return Math.max(0, y - groundTop) / (height - groundTop);
 }
 
 /** How big a tuft rooted on the row `y` of `screen` stands: the nearer, lower on the screen, the bigger. */
-export function tuftSizeAt(
-  screen: Pick<MeadowLayout, 'height' | 'groundTop'>,
-  y: number,
-): number {
+export function tuftSizeAt(screen: GroundBand, y: number): number {
   return (0.6 + downAt(screen, y)) * (screen.height - screen.groundTop) * 0.03;
 }
 

@@ -8,7 +8,7 @@ import {
 } from '../../model/flower-sounds';
 import type { Action, Planting } from '../../model/game';
 import { pick, type Random } from '../../model/random';
-import type { Instrument } from './instrument';
+import type { Playable } from './instrument';
 import type { PlayedKey } from './keyboard';
 
 /**
@@ -63,6 +63,11 @@ export function sowingTuft<Tuft extends object>(
   return first === undefined ? undefined : pick(random, [first, ...rest]);
 }
 
+export type Answers = {
+  inView: () => readonly FlowerInView[];
+  answer: (flowers: readonly FlowerInView[]) => void;
+};
+
 /**
  * What a key plays through: the flowers the current view shows, on the
  * screen and not culled, as of the key's press, the ones keys sowed since
@@ -71,9 +76,7 @@ export function sowingTuft<Tuft extends object>(
  * is open, returning whether it was; and the grass in view, which grows the
  * flower of a sound no flower in view makes (`sow`), where a tuft is free.
  */
-export type KeyedPlay = {
-  inView: () => readonly FlowerInView[];
-  answer: (flowers: readonly FlowerInView[]) => void;
+export type KeyedPlay = Answers & {
   plant: (sound: FlowerSound) => boolean;
   sow: (sound: FlowerSound) => void;
 };
@@ -86,7 +89,7 @@ export type KeyedPlay = {
  * in view grows one that does.
  */
 export function playKey(
-  instrument: Pick<Instrument, 'wake' | 'key'>,
+  instrument: Playable,
   keyed: KeyedPlay,
   action: PlayedKey,
 ): void {

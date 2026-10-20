@@ -6,9 +6,12 @@
  * `DUSK`, or a blend of the two part way to dusk (`tonesAt`).
  */
 
+import type { Sized } from '@/shared/typings';
+
+import type { GroundBand } from '../../model/ground';
 import type { Ramped } from '../../model/motion';
 import { channels, mix, packed } from './colour';
-import type { MeadowLayout } from './layout';
+import type { HillsSunned, Sunned } from './layout';
 import { DUSK, PALETTE } from './palette';
 import { SEAM_REACH, seamTop } from './skyline';
 import { SUN_GLOW_REACH } from './sun-layout';
@@ -185,11 +188,7 @@ function falloff(t: number): number {
 }
 
 /** How far from the sun's middle, in CSS px, its light over the sky reaches: past it `litSkyAt` is the bare sky. */
-export function haloReach({
-  sun,
-  width,
-  height,
-}: Pick<MeadowLayout, 'sun' | 'width' | 'height'>): number {
+export function haloReach({ sun, width, height }: Sized & Sunned): number {
   const short = Math.min(width, height);
   return Math.max(
     ...SUN_HALO.map(({ to, per }) => to * (per === 'sun' ? sun.r : short)),
@@ -202,12 +201,7 @@ export function haloReach({
  * rounding never loses a layer however faint.
  */
 export function litSkyAt(
-  {
-    sun,
-    width,
-    height,
-    nearHills,
-  }: Pick<MeadowLayout, 'sun' | 'width' | 'height' | 'nearHills'>,
+  { sun, width, height, nearHills }: HillsSunned,
   x: number,
   y: number,
 ): number {
@@ -240,12 +234,7 @@ const SUN_CELLS = 5;
  * between its corners' `litSkyAt`, so the sky and the sun's light on it are
  * one smooth fill, however many layers are laid on.
  */
-export function skyGrid({
-  width,
-  height,
-  nearHills,
-  sun,
-}: Pick<MeadowLayout, 'width' | 'height' | 'nearHills' | 'sun'>): {
+export function skyGrid({ width, height, nearHills, sun }: HillsSunned): {
   columns: number;
   rows: number;
   across: number;
@@ -271,7 +260,7 @@ export const GROUND_BANDS = 32;
  * seam rises highest.
  */
 export function groundRowAt(
-  screen: Pick<MeadowLayout, 'height' | 'groundTop'>,
+  screen: GroundBand,
   y: number,
   tones: Tones = DAY,
 ): number {

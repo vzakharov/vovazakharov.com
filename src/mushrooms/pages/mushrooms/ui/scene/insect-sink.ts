@@ -11,10 +11,10 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import type { Layered } from '../../model/ground';
-import { type BedPlace, depthOf, UNPLACED } from './bed-place';
+import { depthOf, UNPLACED } from './bed-place';
 import type { Translucent } from './ink';
 import { browPale } from './repaint-queue';
-import { behindHills, sunkAway, type View } from './view';
+import { behindHills, type Distant, sunkAway, type View } from './view';
 
 /**
  * How many screen rows nearer than the ground it is over an insect sorts
@@ -25,10 +25,12 @@ import { behindHills, sunkAway, type View } from './view';
 const OVER_HOST = 2;
 
 /** The ground an insect is over: the row its foot stands on before it sinks, which it sorts by, and its distance from the eye. */
-export type Under = Pick<BedPlace, 'depth' | 'distance'>;
+export type Under = Layered & Distant;
 
 /** How an insect is drawn for the brow: at what depth, how opaque, and whether at all. */
-export type Sinking = Layered & Translucent & { shown: boolean };
+export type Sinking = Faded & { shown: boolean };
+/** Its depth among what the brow covers, and its opacity there. */
+export type Faded = Layered & Translucent;
 
 /**
  * How `view` draws an insect whose middle is drawn at `middle`, sunk or not,

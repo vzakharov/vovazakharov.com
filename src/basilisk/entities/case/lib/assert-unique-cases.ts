@@ -1,8 +1,17 @@
+<<<<<<< HEAD:src/basilisk/entities/case/lib/assert-unique-cases.ts
 import type { Slugged, WithFrontmatter } from '@/kernel/shared/content';
 
 import type { CaseFrontmatter } from '@/basilisk/shared/content';
+=======
+import type {
+  BaseFrontmatter,
+  Docketed,
+  Slugged,
+  WithFrontmatter,
+} from '@/shared/content';
+>>>>>>> origin/main:src/entities/case/lib/assert-unique-cases.ts
 
-type Filed = Slugged & WithFrontmatter<Pick<CaseFrontmatter, 'case' | 'date'>>;
+type Filed = Slugged & WithFrontmatter<BaseFrontmatter & Docketed>;
 
 /**
  * Fails the build on a case number two dossiers share. Uniqueness is the

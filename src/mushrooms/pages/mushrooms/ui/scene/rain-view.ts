@@ -25,14 +25,13 @@ import {
   WASH_DEEPEST,
   wetnessShown,
 } from './rain-sky';
-import type { MeadowSound } from './sound';
+import type { RainSound } from './sound';
 import { focusTwins, shade } from './twin-fade';
 
 /** How the sky stands this frame, as the probe reads it. */
 export type SkyShown = { raining: boolean; wetness: number; rainbow: number };
 
-/** What the rain asks of the meadow's sound: the shower's hiss, and the whoosh a cloud tap answers with. */
-type RainSound = Pick<MeadowSound, 'shower' | 'whoosh'>;
+export type RainTapped = { tap: (at: Point, bob: number) => boolean };
 
 /**
  * The rain over the meadow: the cloud taps that start a shower, each cloud's
@@ -42,7 +41,7 @@ type RainSound = Pick<MeadowSound, 'shower' | 'whoosh'>;
  * (`rain-sky.ts`), so a repaint never interrupts a shower.
  * Which cloud was tapped is the scene's alone: the model has no clouds.
  */
-export class RainView {
+export class RainView implements RainTapped {
   private readonly wash: Phaser.GameObjects.Rectangle;
   /** The scene's camera, which draws the screen's pixels at the device's ratio. */
   private readonly camera: Phaser.Cameras.Scene2D.Camera;

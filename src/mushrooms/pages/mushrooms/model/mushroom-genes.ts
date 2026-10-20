@@ -1,6 +1,6 @@
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Circle, Leaning } from './geometry';
+import type { Bent, Circle, Leaning } from './geometry';
 import {
   between,
   countFrom,
@@ -33,7 +33,7 @@ export const RUSSULA_TONES = [
 ] as const;
 export type RussulaTone = (typeof RUSSULA_TONES)[number];
 
-type OfSpecies<Kind extends Species = Species> = { species: Kind };
+export type OfSpecies<Kind extends Species = Species> = { species: Kind };
 export type MushroomSeed = Seeded & OfSpecies;
 export type Mushroom = WithId & MushroomSeed;
 
@@ -43,26 +43,42 @@ export type Mushroom = WithId & MushroomSeed;
  * same genes paint a near mushroom and a far one. Angles are in radians. The
  * cap follows the stem's bend.
  */
-export type MushroomShape = Stalked &
+type MushroomShape = Stalked &
   // The whole mushroom's tilt from upright, the foot staying put.
-  Leaning & {
-    stemHeight: number;
-    /** The stem's width under the cap. */
-    stemWidth: number;
-    /** The foot's width over the top's: past 1 a bulging foot, under 1 a stem flaring upward. */
-    footBulge: number;
-    capWidth: number;
-    /** A dome's height; a chanterelle's funnel's rise from the stem to its rim. */
-    capHeight: number;
-    /** The cap's profile: below 1 a broad, shouldered cap, above 1 a pointed one. */
-    domePower: number;
-    /** A small turn of the cap against the stem. */
-    capTilt: number;
-  };
+  Leaning &
+  Stemmed &
+  StemShaped &
+  Capped &
+  CapTilted;
+
+export type Stemmed = { stemHeight: number };
+
+export type StemShaped = {
+  /** The stem's width under the cap. */
+  stemWidth: number;
+  /** The foot's width over the top's: past 1 a bulging foot, under 1 a stem flaring upward. */
+  footBulge: number;
+};
+
+export type CapWide = { capWidth: number };
+
+export type Capped = CapWide & {
+  /** A dome's height; a chanterelle's funnel's rise from the stem to its rim. */
+  capHeight: number;
+  /** The cap's profile: below 1 a broad, shouldered cap, above 1 a pointed one. */
+  domePower: number;
+};
+
+/** A small turn of the cap against the stem. */
+type CapTilted = { capTilt: number };
+
+/** How a mushroom's stem bends and its cap turns against it. */
+export type Tilted = Bent & CapTilted;
+
 type ShapeGene = keyof MushroomShape;
 
 /** White spots, each centred `y` above the cap's underside: a fly agaric's, none on any other. */
-type Spotted = { spots: readonly Circle[] };
+export type Spotted = { spots: readonly Circle[] };
 /** How far the middle of the cap's top sinks below where a plain dome would stand. */
 type Hollowed = { hollow: number };
 /**
@@ -219,19 +235,13 @@ export const SPOT_MARGIN = 0.03;
 const SPOT_ATTEMPTS = 120;
 
 /** The dome's height above its underside at `x` across it. */
-export function domeHeight(
-  genes: Pick<MushroomShape, 'capWidth' | 'capHeight' | 'domePower'>,
-  x: number,
-): number {
+export function domeHeight(genes: Capped, x: number): number {
   const across = (2 * x) / genes.capWidth;
   if (Math.abs(across) >= 1) return 0;
   return genes.capHeight * (1 - across * across) ** (genes.domePower / 2);
 }
 
-function growSpots(
-  random: Random,
-  cap: Pick<MushroomShape, 'capWidth' | 'capHeight' | 'domePower'>,
-): Circle[] {
+function growSpots(random: Random, cap: Capped): Circle[] {
   const wanted = Math.round(between(random, SPOT_COUNT[0], SPOT_COUNT[1]));
   const spots: Circle[] = [];
   for (

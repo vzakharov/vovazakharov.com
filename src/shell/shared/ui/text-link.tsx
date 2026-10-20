@@ -10,8 +10,8 @@ import type { Anchored, WithOptionalClassName } from '@/kernel/shared/typings';
 
 import classes from './text-link.module.scss';
 
-export type TextLinkProps = Anchored &
-  Omit<AnchorProps, 'inherit'> &
+/** Everything a text link takes but Mantine's styling of the anchor, which each link narrows on its own. */
+export type TextLinkBaseProps = Anchored &
   WithOptionalClassName &
   ElementProps<'a', keyof AnchorProps | 'href' | 'className'> & {
     /**
@@ -25,6 +25,8 @@ export type TextLinkProps = Anchored &
      */
     replace?: boolean;
   };
+
+export type TextLinkProps = TextLinkBaseProps & Omit<AnchorProps, 'inherit'>;
 
 // `noopener` keeps the opened page from reaching back through `window.opener`.
 const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' };

@@ -12,7 +12,7 @@ import type { Point } from '../../model/geometry';
 import type { Eye, Footing, Rooted } from '../../model/ground';
 import { mulberry32, type Random, type Seeded } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
-import type { Stand } from './flower-sight';
+import type { WithLayout } from './flower-sight';
 import { tuftOn, type WithTuft } from './grass';
 import type { MeadowLayout } from './layout';
 import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
@@ -88,7 +88,7 @@ export function regrowTufts(
 }
 
 /** A lawn: the visit's `seed`, which every cell's stream is drawn off, laid out on `layout`. */
-export type Lawn = Seeded & Pick<Stand, 'layout'>;
+export type Lawn = Seeded & WithLayout;
 
 /**
  * How many tufts of the seam's grass a cell grows: 2.2 to a square of the

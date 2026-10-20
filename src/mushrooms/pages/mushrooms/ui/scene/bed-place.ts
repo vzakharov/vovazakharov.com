@@ -10,20 +10,22 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '../../model/geometry';
+import type { Abscissa, Point } from '../../model/geometry';
 import type { LayeredPoint } from '../../model/ground';
-import type { Footed } from '../../model/placement';
+import type { Ahead } from '../../model/pinhole';
+import type { Stood } from '../../model/placement';
 import { DEPTHS } from './backdrop-depths';
-import type { Laid } from './clump-layout';
+import type { LaidAhead } from './clump-layout';
 import {
   behindHills,
   cull,
   ofGround,
-  type Placed,
   placedAt,
+  type Receding,
   sunk,
   sunkAway,
   type View,
+  type Zooming,
 } from './view';
 
 /**
@@ -51,11 +53,7 @@ export const SIDE_OVERHANG = 1.5;
  * stands more than `SIDE_OVERHANG` past a screen side. Phaser tessellates
  * every visible Graphics, on screen or not, so one behind the eye is hidden.
  */
-function offSides(
-  view: View,
-  { x }: Pick<Point, 'x'>,
-  height: number,
-): boolean {
+function offSides(view: View, { x }: Abscissa, height: number): boolean {
   const overhang = SIDE_OVERHANG * height;
   return x < -overhang || x > view.width + overhang;
 }
@@ -68,10 +66,10 @@ function offSides(
  * from it: `Infinity` while no view placed it.
  */
 export type BedPlace = LayeredPoint &
-  Pick<Placed, 'zoom' | 'ahead' | 'distance'> & {
-    drawn: boolean;
-    behind: boolean;
-  };
+  Ahead &
+  Receding &
+  Drawn & { behind: boolean };
+export type Drawn = { drawn: boolean };
 
 /** A bed object's place on the screen as last placed. */
 export type Standing = { stands: BedPlace };
@@ -114,9 +112,7 @@ export function bedPlace(
  * how far ahead of the eye, in the clump's size, it is laid out, so a world
  * px laid out on it spans `opening / focal` of the clump's size.
  */
-export type Host = Standing &
-  Pick<Footed, 'foot'> &
-  Pick<Laid, 'opening'> & { laidFoot: Point };
+export type Host = Standing & Stood & LaidAhead & { laidFoot: Point };
 
 /**
  * Where `host` draws `point`, laid out on it in world px at the opening eye:
@@ -133,7 +129,7 @@ export function onHost({ stands, laidFoot }: Host, point: Point): Point {
  * offset scaled by the foot's `zoom`.
  */
 export function aboutFoot(
-  drawn: Point & Pick<Placed, 'zoom'>,
+  drawn: Point & Zooming,
   laidFoot: Point,
   point: Point,
 ): Point {

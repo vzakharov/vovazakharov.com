@@ -3,9 +3,10 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Crowding, Held } from '../../model/flight';
+import type { Crowding } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import type { OnPerch } from '../../model/perch-room';
 import { mulberry32 } from '../../model/random';
 import { pointCrowdings } from './perch-crowding';
 
@@ -13,7 +14,7 @@ type Apart = (first: InsectKind, second: InsectKind) => number;
 
 /** Every two points asked in turn, each pairing tested by itself: what the sweep must find. */
 function everyTwo(
-  points: ReadonlyArray<Pick<Held, 'perch'> & Point>,
+  points: ReadonlyArray<OnPerch & Point>,
   apart: Apart,
 ): Crowding[] {
   const pairings = INSECT_KINDS.flatMap((first) =>

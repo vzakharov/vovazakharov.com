@@ -7,7 +7,7 @@ import {
   type FlowerGenes,
   flowerHead,
 } from '../../model/flower-genes';
-import { CLUMP_DISTANCE } from '../../model/ground';
+import { CLUMP_DISTANCE, type Rooted } from '../../model/ground';
 import { phaseOf, type Sprouted } from '../../model/motion';
 import { UNPLACED } from './bed-place';
 import {
@@ -18,11 +18,11 @@ import {
 } from './draw-flower';
 import { type Folding, folding, type Shut } from './flower-closing';
 import { laidFlower } from './flower-layout';
-import type { StandingFlower } from './flower-plots';
+import type { Placed, StandingFlower } from './flower-plots';
 import type { Ringed } from './flower-ring';
 import { foldedHead, type HeadReach } from './flower-seat';
 import { flowerTapReach } from './flower-sight';
-import type { TappedFigure } from './hit-areas';
+import type { CircleFigure, TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 
@@ -30,13 +30,18 @@ import type { MeadowLayout } from './layout';
 type LaidAhead = { opening?: number };
 
 /** Its foot on the plane, and where the bed lays it out to paint it. */
-type Laid = Pick<StandingFlower, 'foot' | 'place'> & LaidAhead;
+type Laid = Rooted & Placed & LaidAhead;
+
+/** Its stem and head, each drawn apart. */
+type FlowerParts = {
+  stem: Phaser.GameObjects.Graphics;
+  head: Phaser.GameObjects.Graphics;
+};
 
 export type Shown = TappedFigure &
   Sprouted &
-  Ringed & {
-    stem: Phaser.GameObjects.Graphics;
-    head: Phaser.GameObjects.Graphics;
+  Ringed &
+  FlowerParts & {
     /**
      * Where insects perch on the head as last painted, folded as far shut as
      * that (`foldedHead`). Perching alone reads it: `headR` stays the open
@@ -88,7 +93,7 @@ export function laidOut(
 export function unplacedShown(
   flower: Flower,
   plantedAt: number,
-  objects: Pick<Shown, 'container' | 'stem' | 'head' | 'hit'>,
+  objects: CircleFigure & FlowerParts,
 ): Shown {
   return {
     ...objects,

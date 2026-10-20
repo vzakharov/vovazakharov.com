@@ -30,7 +30,7 @@ import { meadowOpening } from './meadow-opening';
 import { tapInsect, tapMeadow } from './meadow-taps';
 import { MushroomBed } from './mushroom-bed';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
-import type { PerchHosts } from './perch-hosts';
+import type { HostBeds } from './perch-hosts';
 import { perchAnchorOf, Perches } from './perches';
 import { Planter, type Scened } from './planter';
 import { RainView } from './rain-view';
@@ -304,7 +304,7 @@ export class MeadowScene extends Phaser.Scene {
   }
 
   /** The beds the perches stand on, as the scene holds them now. */
-  private beds(): Pick<PerchHosts, 'bed' | 'flowers'> {
+  private beds(): HostBeds {
     const { bed, flowers } = this;
     return { bed, flowers };
   }

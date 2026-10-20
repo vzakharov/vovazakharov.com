@@ -21,9 +21,9 @@ import { tappedFirefly } from './firefly-tap';
 import type { CircleFigure } from './hit-areas';
 import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
-import type { PerchHosts, Seat } from './perch-hosts';
-import type { Scened } from './planter';
-import type { MeadowSound } from './sound';
+import type { HostBeds, Seat } from './perch-hosts';
+import type { MeadowSeen } from './planter';
+import type { Glinting } from './sound';
 import { TAP_RADIUS } from './tap-reach';
 import { tuftUnder } from './tufts';
 
@@ -56,9 +56,9 @@ const BAKED = {
 type Part = keyof typeof BAKED;
 
 /** What the fireflies circle — the meadow's mushrooms, and the beds that draw them and the flowers — and the visit's seed the dozen grow from. */
-export type FireflyGround = Pick<Scened, 'meadow'> &
+export type FireflyGround = MeadowSeen &
   Seeded & {
-    beds: () => Pick<PerchHosts, 'bed' | 'flowers'>;
+    beds: () => HostBeds;
   };
 
 type Shown = CircleFigure &
@@ -95,7 +95,7 @@ export class FireflyView {
   private readonly shown: Shown[];
   private readonly ground: FireflyGround;
   private readonly now: () => number;
-  private readonly voice: Pick<MeadowSound, 'glint'>;
+  private readonly voice: Glinting;
   private unit = 0;
   /** The screen's width, in CSS px, a flare's chime is panned across. */
   private width = 0;
@@ -107,7 +107,7 @@ export class FireflyView {
     depth: number,
     now: () => number,
     ground: FireflyGround,
-    voice: Pick<MeadowSound, 'glint'>,
+    voice: Glinting,
   ) {
     this.now = now;
     this.voice = voice;

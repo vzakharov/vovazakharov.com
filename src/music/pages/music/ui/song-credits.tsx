@@ -4,12 +4,16 @@ import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
 
 import {
   type CreditedName,
+  type CreditedSong,
   SONG_AUTHOR,
+<<<<<<< HEAD:src/music/pages/music/ui/song-credits.tsx
   type SongFrontmatter,
 } from '@/music/shared/catalogue';
+=======
+} from '@/shared/music-catalogue';
+>>>>>>> origin/main:src/pages/music/ui/song-credits.tsx
 
-export type SongCreditsProps = WithLocale &
-  Pick<SongFrontmatter, 'credits' | 'language'>;
+export type SongCreditsProps = WithLocale & CreditedSong;
 
 /**
  * Who wrote what, under the words: music, then lyrics — one line for both when

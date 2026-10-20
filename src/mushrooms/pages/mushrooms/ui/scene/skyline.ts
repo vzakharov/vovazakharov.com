@@ -5,7 +5,7 @@
  */
 
 import { type Point, wrap } from '../../model/geometry';
-import type { Camera } from '../../model/ground';
+import type { Camera, GroundBand } from '../../model/ground';
 import type { Light } from '../../model/light';
 import { pinholeOf } from '../../model/pinhole';
 import { between, type Random } from '../../model/random';
@@ -224,17 +224,12 @@ const SEAM_WAVES: readonly Wave[] = [
 export const SEAM_STEPS = 128;
 
 /** How far the seam wanders either side of the ground's top, in CSS px. */
-export function seamReach({
-  height,
-  groundTop,
-}: Pick<MeadowLayout, 'height' | 'groundTop'>): number {
+export function seamReach({ height, groundTop }: GroundBand): number {
   return (height - groundTop) * SEAM_REACH;
 }
 
 /** The highest the seam rises, in CSS px down the screen. */
-export function seamTop(
-  layout: Pick<MeadowLayout, 'height' | 'groundTop'>,
-): number {
+export function seamTop(layout: GroundBand): number {
   return layout.groundTop - seamReach(layout);
 }
 

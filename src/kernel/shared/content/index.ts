@@ -1,4 +1,14 @@
 export { AUTHORS } from './authors';
+<<<<<<< HEAD:src/kernel/shared/content/index.ts
+=======
+export { type CaseFrontmatter, type Docketed } from './basilisk-frontmatter';
+export {
+  ARTICLE_COLLECTIONS,
+  type ArticleCollectionId,
+  type ArticleFrontmatterOf,
+  SONGS,
+} from './collection-schemas';
+>>>>>>> origin/main:src/shared/content/index.ts
 export {
   type CollectionId,
   collectionListingRoute,
@@ -32,6 +42,7 @@ export {
   loadDocument,
   loadProse,
   type ProseSource,
+  type ServedMarkdown,
   siblingVariants,
   type WithContentDocument,
 } from './documents';

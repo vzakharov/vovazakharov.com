@@ -1,9 +1,15 @@
 import 'server-only';
 
+<<<<<<< HEAD:src/music/pages/music/lib/catalogue-text.ts
 import type { ProseSource } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
 
 import type { MusicAlbum, MusicProject } from '@/music/shared/catalogue';
+=======
+import type { ProseSource, ServedMarkdown } from '@/shared/content';
+import type { Locale } from '@/shared/i18n';
+import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
+>>>>>>> origin/main:src/pages/music/lib/catalogue-text.ts
 
 import { albumFile, artistFile } from './catalogue-files';
 import { localeProse, localeUniverse } from './sections';
@@ -17,7 +23,7 @@ export type StoryParts = {
 };
 
 export type CatalogueText = StoryParts &
-  Pick<ProseSource, 'markdown'> & {
+  ServedMarkdown & {
     /** The line under the page's name. */
     hook: string | undefined;
   };

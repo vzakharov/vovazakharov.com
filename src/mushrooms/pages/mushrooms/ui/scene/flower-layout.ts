@@ -31,6 +31,7 @@ import {
   project,
   scaleAt,
   UP_PER_Z,
+  type WorldScreen,
   zAt,
 } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
@@ -101,10 +102,7 @@ const LEAN_STEPS = 7;
  * clump's size where its front foot stands; every control's circle as
  * drawn; and the mushrooms the visit opens with, as they shade it.
  */
-export type FlowerGround = Pick<
-  Camera,
-  'width' | 'height' | 'groundTop' | 'ground' | 'world' | 'unit'
-> &
+export type FlowerGround = WorldScreen &
   Framed & {
     controls: readonly Circle[];
     clump: ClumpShade;

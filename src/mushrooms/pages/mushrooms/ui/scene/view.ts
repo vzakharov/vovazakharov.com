@@ -17,7 +17,13 @@ import {
   gathered,
   spread,
 } from '../../model/ground';
-import { bendAt, pinholeOf, type Viewed, viewOf } from '../../model/pinhole';
+import {
+  type Ahead,
+  bendAt,
+  pinholeOf,
+  type Viewed,
+  viewOf,
+} from '../../model/pinhole';
 
 /** The camera a frame is drawn through, the eye it looks from, and how high that eye stands. */
 export type View = Camera & Eyed & Raised;
@@ -29,7 +35,13 @@ export type View = Camera & Eyed & Raised;
  * far from the eye it stands on the plane, in the clump's size, whichever
  * way the eye looks.
  */
-export type Placed = Viewed & { zoom: number; distance: number };
+export type Placed = Viewed & Receding;
+/** How many times its laid-out size a thing is drawn, and how far from the eye it stands. */
+export type Receding = Zooming & Distant;
+/** How many times its laid-out size a thing is drawn. */
+export type Zooming = { zoom: number };
+/** How far from the eye a thing stands. */
+export type Distant = { distance: number };
 
 /** A bed that re-places what it holds through each frame's view. */
 export type Following = { follow: (view: View) => void };
@@ -128,15 +140,12 @@ export function layoutOfPlane(camera: Camera, plane: Point): Point | undefined {
 }
 
 /** Whether a thing `ahead` of the eye is too near to be drawn. */
-export function cull({ ahead }: Pick<Viewed, 'ahead'>): boolean {
+export function cull({ ahead }: Ahead): boolean {
   return ahead < V_NEAR;
 }
 
 /** Whether a thing stands farther from `view`'s eye than the brow, and sinks behind it. */
-export function behindHills(
-  view: Raised,
-  { distance }: Pick<Placed, 'distance'>,
-): boolean {
+export function behindHills(view: Raised, { distance }: Distant): boolean {
   return distance > browDistance(view);
 }
 
@@ -204,7 +213,7 @@ export const SHOWN_LEAST = 0.2;
  */
 export function sunkAway(
   view: View,
-  placed: Pick<Placed, 'x' | 'y' | 'distance'>,
+  placed: Point & Distant,
   height: number,
 ): boolean {
   const cover = browRow(view, placed.x);

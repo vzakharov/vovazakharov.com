@@ -18,7 +18,7 @@ import {
   flowerGenes,
   flowerHead,
 } from '../../model/flower-genes';
-import type { Meadow } from '../../model/game';
+import type { Meadow, Tended } from '../../model/game';
 import {
   type Box,
   boxAround,
@@ -27,13 +27,15 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
-import type { Camera, Eye } from '../../model/ground';
+import type { Camera, Eye, Layered } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
+import type { WithPlanted } from '../../model/insects';
 import { pinholeOf } from '../../model/pinhole';
 import { type Plot, slotTaken } from '../../model/pollen';
+import type { WithSpores } from '../../model/sprouting';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { placeIn } from './clump-layout';
-import { type Standing, standingAt } from './door-sight';
+import { standingAt } from './door-sight';
 import { FLOWER_SWAY, type Footing, standingOn } from './flower-layout';
 import {
   flowersOf,
@@ -75,10 +77,14 @@ const HEAD_RING = 8;
 const STOOD = ['mushrooms', 'spores', 'planted', 'pulled'] as const;
 
 /** The meadow as the scene stands it: the layout, the visit's seeded flowers, and what of the meadow `STOOD` names. */
-export type Stand = Pick<Meadow, (typeof STOOD)[number]> & {
-  layout: MeadowLayout;
-  flowers: readonly Flower[];
-};
+export type Stand = PlotGround & WithSpores;
+
+/** The layout the scene stands the meadow on. */
+export type WithLayout = { layout: MeadowLayout };
+/** The layout and the visit's seeded flowers on it. */
+export type SeededLayout = WithLayout & { flowers: readonly Flower[] };
+/** A `Stand` but for its spores: what the flowers' plots are laid among. */
+export type PlotGround = SeededLayout & Tended & WithPlanted;
 
 /** `meadow` as it stands on `layout` among the visit's seeded `flowers`. */
 export function standOf(
@@ -167,7 +173,7 @@ export type BoxedOutlines = {
 };
 
 /** A standing mushroom as the flowers' sight reads it: how near the front it stands, and its outlines as drawn. */
-export type Cover = Pick<Standing, 'depth'> & BoxedOutlines;
+export type Cover = Layered & BoxedOutlines;
 
 /**
  * Whether an insect on `flower` can be seen there, on `layout`: its seat

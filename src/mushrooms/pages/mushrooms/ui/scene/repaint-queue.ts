@@ -18,9 +18,9 @@ import {
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
 import type { Chorded } from '../../model/mushroom-profile';
-import type { Viewed } from '../../model/pinhole';
+import type { Ahead } from '../../model/pinhole';
 import type { Dusked } from './haze-tone';
-import type { Placed } from './view';
+import type { Distant } from './view';
 
 /** How far a thing's haze drifts from its paint before it is repainted. */
 export const HAZE_DRIFT = 0.04;
@@ -57,7 +57,7 @@ export function browPale(view: Raised, distance: number): number {
  */
 export function hazeAhead(
   camera: Camera & Raised,
-  { ahead, distance }: Pick<Placed, 'ahead' | 'distance'>,
+  { ahead, distance }: Ahead & Distant,
 ): number {
   const [near, far] = [scaleAt(0), scaleAt(1)];
   const z = (CLUMP_DISTANCE / ahead - near) / (far - near);
@@ -70,11 +70,12 @@ export function hazeAhead(
 }
 
 /** A thing's sun side now, as its light from the heading gives it, and as it was painted. */
-export type Siding = { sunSide: number; paintedSunSide: number };
+type Siding = PaintedSide & { sunSide: number };
+/** The sun side a thing was painted with. */
+export type PaintedSide = { paintedSunSide: number };
 
 /** A thing's haze now, as it was `painted`, how far `ahead` it stands, and its sun side. */
-export type Hazing = Hazed &
-  Pick<Viewed, 'ahead'> & { painted: number } & Siding;
+export type Hazing = Hazed & Ahead & { painted: number } & Siding;
 
 /** How many chords to a curve a mushroom's size now asks (`curveSteps`), and how many it was painted with. */
 export type Detailing = Chorded & { paintedSteps: number };

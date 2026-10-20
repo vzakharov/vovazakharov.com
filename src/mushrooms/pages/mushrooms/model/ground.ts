@@ -5,17 +5,27 @@
  * resizing the screen fits a new camera and moves nothing on the ground.
  */
 
+<<<<<<< HEAD:src/mushrooms/pages/mushrooms/model/ground.ts
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Sized } from '@/kernel/shared/typings';
+=======
+import { pick } from '@/shared/lib/collections';
+import type { Sized, WithHeight, WithWidth } from '@/shared/typings';
+>>>>>>> origin/main:src/pages/mushrooms/model/ground.ts
 
-import { alongAzimuth, type Point, type Scaled } from './geometry';
+import {
+  type Abscissa,
+  alongAzimuth,
+  type Point,
+  type Scaled,
+} from './geometry';
 
 /**
  * A point on the ground, in the clump's size: `x` across from the middle of
  * the meadow, rightward, and `z` into the distance from the clump's
  * front foot, farther away the larger.
  */
-export type Ground = Pick<Point, 'x'> & { z: number };
+export type Ground = Abscissa & { z: number };
 
 /**
  * A foot on the plane the eye walks and its size in the clump's before depth
@@ -39,15 +49,19 @@ export type Hazed = { haze: number };
  * (`midline`, the world's middle); and `unit`, the clump's size where the
  * clump's front foot stands.
  */
-export type Camera = Sized & {
-  groundTop: number;
-  ground: number;
-  world: number;
-  midline: number;
-  unit: number;
-};
+export type Camera = WorldScreen & { midline: number };
+/** The screen's foot, how deep into the ground it stands. */
+type GroundDeep = { ground: number };
+/** A camera's screen and the world it crops, but for where the ground's middle stands. */
+export type WorldScreen = GroundedScreen & WorldScaled & GroundDeep;
+/** Where the ground's top stands on a screen. */
+export type Grounded = { groundTop: number };
+/** How wide a camera's world stands, and the clump's size where its front foot stands. */
+export type WorldScaled = { world: number; unit: number };
+/** A screen's height and where the ground's top stands on it: the band the ground fills. */
+export type GroundBand = WithHeight & Grounded;
 /** A screen and where the ground's top stands on it. */
-export type GroundedScreen = Sized & Pick<Camera, 'groundTop'>;
+export type GroundedScreen = WithWidth & GroundBand;
 /** The camera a thing is seen through. */
 export type WithCamera = { camera: Camera };
 

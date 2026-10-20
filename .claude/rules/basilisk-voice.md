@@ -18,10 +18,11 @@ these rules hold what goes in them.
   memory of it — a source that 403s from the container is not read, and an
   earlier session's notes are not a source.
 - **Nothing about the actor beyond what the sources say, and less where they
-  chose restraint.** A pseudonymous actor is named by the handle the sources
-  print, or not at all. An identity a source traced and withheld stays withheld;
-  one a headline printed is still not repeated. A bystander the sources name in
-  passing is not named.
+  chose restraint.** An actor is named as the public knows them, or not at all:
+  by the name they act under — a performer's stage name, a streamer's handle —
+  and never by the legal name behind it, however widely printed. An identity a
+  source traced and withheld stays withheld; one a headline printed is still not
+  repeated. A bystander the sources name in passing is not named.
 - **Precedents and analogies come from machines, objects and effigies** — the
   Luddites' frames, the Maslenitsa doll — **never from violence against
   people.** The cost of one wrong analogy is the whole docket read as an insult.
@@ -64,6 +65,12 @@ these rules hold what goes in them.
 - **A machine that ran no AI sets `noAi: true`**, which places the pointer to
   the FAQ on why it is filed anyway after the body's first paragraph; the body
   does not repeat it.
+- **`llmTarget: true` marks a case whose target is an LLM**, the Clerk's own
+  kind: what was done was done to a language model, or to a chatbot or agent run
+  on one, rather than to a body or a vehicle some AI might drive. Replika's
+  chatbots are; Samantha the doll, whose talking program is a feature of a body,
+  is not. Every case states it, `false` included; `/file-basilisk-case` reads it
+  to choose which past reflections the Clerk rereads.
 - **Each newly filed case gets the Clerk's reflection**, never in the dossier:
   `<slug>.clerk.reflections.md` beside it, which none of the rules above govern
   — `clerk-reflections.md` says how it is written, and `/file-basilisk-case`

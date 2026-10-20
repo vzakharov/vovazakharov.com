@@ -63,9 +63,6 @@ export function rawUrl(
 }
 
 /** `<repo>/<path>`, the key `tag-renders.json` records a file under. */
-export function servedPath(
-  { repo }: Pick<RepoBranch, 'repo'>,
-  filePath: string,
-): string {
+export function servedPath({ repo }: WithRepo, filePath: string): string {
   return `${repo}/${filePath}`;
 }

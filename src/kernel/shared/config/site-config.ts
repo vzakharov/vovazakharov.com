@@ -49,13 +49,19 @@ export type SiteImage = Sized & WithPath & PresentOrAbsent<'vector', string>;
  */
 type SiteCredit = Named & Linked;
 
+export type WithAvatar = {
+  /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
+  avatar: SiteImage;
+};
+
 /**
  * The tagline is the offer in one line, as the home page's offer section is
  * headed and as every page that states no description of its own unfurls. The
  * CV header's is deliberately a different, plainer sentence — this one carries
  * the voice.
  */
-export type SiteConfig = Billed &
+type SiteConfig = Billed &
+  WithAvatar &
   WithUrl & {
     /**
      * Leads the name a downloaded document is saved under, standing in for the
@@ -70,8 +76,6 @@ export type SiteConfig = Billed &
       github: string;
       linkedin: string;
     };
-    /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
-    avatar: SiteImage;
     /**
      * The site's unlettered mark: what an article closes on in place of an amen,
      * and what the home page's seal is left showing once a held pointer fades

@@ -1,8 +1,13 @@
 import { Center } from '@mantine/core';
 import Image from 'next/image';
 
+<<<<<<< HEAD:src/shell/shared/ui/site-avatar.tsx
 import type { SiteConfig } from '@/kernel/shared/config';
 import type { Named } from '@/kernel/shared/typings';
+=======
+import type { WithAvatar } from '@/shared/config';
+import type { Named } from '@/shared/typings';
+>>>>>>> origin/main:src/shared/ui/site-avatar.tsx
 
 /**
  * The circle is this component's, not the file's, so each site commits one
@@ -13,10 +18,7 @@ import type { Named } from '@/kernel/shared/typings';
  * components import, and a component in it that read the resolved site would be
  * bound to whichever one this process is.
  */
-export function SiteAvatar({
-  name,
-  avatar,
-}: Named & Pick<SiteConfig, 'avatar'>) {
+export function SiteAvatar({ name, avatar }: Named & WithAvatar) {
   return (
     <Center>
       <Image

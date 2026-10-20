@@ -20,10 +20,7 @@ import {
 import { cx } from '@/kernel/shared/lib/class-names';
 
 import { hasLossless } from '../lib/player-state';
-import {
-  type SettingValues,
-  useStoredSetting,
-} from '../lib/use-stored-setting';
+import { useStoredSetting, type WithVolume } from '../lib/use-stored-setting';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';
 
@@ -107,9 +104,7 @@ function useHoverPopover() {
   };
 }
 
-type VolumeIconProps = Pick<SettingValues, 'volume'>;
-
-function VolumeIcon({ volume }: VolumeIconProps) {
+function VolumeIcon({ volume }: WithVolume) {
   if (volume === 0) return <VolumeX size={18} />;
 
   return volume < 0.5 ? <Volume1 size={18} /> : <Volume2 size={18} />;

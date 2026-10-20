@@ -7,11 +7,16 @@ import { pick } from '@/kernel/shared/lib/collections';
 import {
   mostlyNeedsLatin,
   type MusicAlbum,
+  type ScriptKept,
   type SongFrontmatter,
-  type SongText,
   type SungLanguage,
   type TitleGloss,
+<<<<<<< HEAD:src/music/pages/music/lib/song-text.ts
 } from '@/music/shared/catalogue';
+=======
+  type UntitledSongText,
+} from '@/shared/music-catalogue';
+>>>>>>> origin/main:src/pages/music/lib/song-text.ts
 
 import {
   entryText,
@@ -40,7 +45,7 @@ export type SongOnRelease = {
  * A locale's strings, its title aside — `songTitle` spells that — and what the
  * locale tells its reader about a title it keeps.
  */
-type LocalizedSongText = Omit<SongText, 'title'> & { gloss?: TitleGloss };
+type LocalizedSongText = UntitledSongText & { gloss?: TitleGloss };
 
 /**
  * A song as one language sees it: the titles and the story for that locale,
@@ -63,7 +68,7 @@ export type SongLyrics = SungWords & {
   translation?: Stanzas;
   /** The words in Latin letters, where most of them are in a script the reader may not read. */
   transliteration?: Transliteration;
-} & Pick<SongFrontmatter, 'keepsScript'>;
+} & ScriptKept;
 
 /** The words as plain text, a line to an entry, for what reads their letters. */
 export function wordsText(stanzas: Stanzas): string {

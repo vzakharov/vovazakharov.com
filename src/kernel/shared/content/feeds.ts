@@ -10,11 +10,19 @@ import {
   loadMessages,
   type Locale,
   LOCALES,
+<<<<<<< HEAD:src/kernel/shared/content/feeds.ts
 } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { feedHtml } from '@/kernel/shared/lib/feed-html';
 import type { RssItem, RssPodcast } from '@/kernel/shared/lib/rss';
 import type { Summarized } from '@/kernel/shared/typings';
+=======
+} from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
+import { feedHtml } from '@/shared/lib/feed-html';
+import type { UnlinkedRssItem } from '@/shared/lib/rss';
+import type { Summarized } from '@/shared/typings';
+>>>>>>> origin/main:src/shared/content/feeds.ts
 
 import {
   type CollectionId,
@@ -31,7 +39,7 @@ import { renderPrimaryDocuments } from './render';
 export type Feed = WithCollectionId & LocaleRouted & Summarized;
 
 /** An item before its link is made absolute, which is the site's to do. */
-export type FeedEntry = Omit<RssItem, 'link'> & Routed;
+export type FeedEntry = UnlinkedRssItem & Routed;
 
 /**
  * A feed's items in one language, and what makes it a podcast where it is one.

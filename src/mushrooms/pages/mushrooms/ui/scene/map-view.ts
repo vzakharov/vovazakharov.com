@@ -36,7 +36,7 @@ import { iconLighting } from './hud';
 import type { Lighting } from './ink';
 import { drawChild, drawView } from './map-child';
 import { drawCompass } from './map-compass';
-import type { MushroomBed } from './mushroom-bed';
+import type { DoorSeating } from './mushroom-bed';
 import { PALETTE } from './palette';
 import { DUSK } from './palette-dusk';
 import { azimuthAt } from './panorama';
@@ -52,7 +52,7 @@ export type MapSnapshot = Eyed &
   AtRatio &
   Seeded & {
     stand: Stand;
-    doors: Pick<MushroomBed, 'seatedDoor'>;
+    doors: DoorSeating;
     dusky: boolean;
   };
 
@@ -115,6 +115,9 @@ type Drawn = Facing & {
   compass: Point;
 };
 
+export type Flippable = { flip: () => void };
+export type Unfolding = { readonly open: boolean };
+
 /**
  * The map: a sheet of paper over the meadow that unfolds out of the map
  * button and folds back into it, drawn from a snapshot as it opens and again
@@ -122,7 +125,7 @@ type Drawn = Facing & {
  * child is a dot with his heading and his view's wedge. Any tap while it is
  * open runs `tap`, the map button's own handler, so the two close it alike.
  */
-export class MapView {
+export class MapView implements Flippable, Unfolding {
   private isOpen = false;
   private openedAt = -Infinity;
   private closedAt = -Infinity;

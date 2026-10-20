@@ -5,12 +5,8 @@
 # turn on an unclean or unpushed tree.
 # `.claude/costs/CLAUDE.md` § "Running beside the harness's Stop check" carries
 # how the row is committed without the tree ever looking unfinished, and what the
-# closing verdict covers when the tree was unclean before this ran, and § "When a
-# row is committed" which turns commit one, and what `--flush` — the mid-turn run
-# `flush-row.sh` makes — changes.
-
-flush=false
-[ "${1:-}" != --flush ] || flush=true
+# closing verdict covers when the tree was unclean before this ran, and § "When
+# the branch's copy is committed" which turns commit one.
 
 . "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 read_payload
@@ -26,11 +22,9 @@ repo() { git -C "$root" "$@"; }
 # file, which a diff against HEAD reports as no change at all.
 dirty() { [ -n "$(repo status --porcelain -- "$@" 2>/dev/null)" ]; }
 
-# A row is a branch's to carry. On the trunk there is no branch to carry it, and
-# a hook that commits to `main` behind the operator's back is worse than a
-# missing row.
+ledger() { python3 "$root/.claude/costs/ledger.py" "$@"; }
+
 branch="$(repo branch --show-current 2>/dev/null)"
-case "$branch" in '' | main | master) exit 0 ;; esac
 upstream="origin/$branch"
 
 # The check leaves nothing on disk, so its process is the only thing there is to
@@ -101,56 +95,24 @@ row_left=false
 
 place_row() { mkdir -p -- "$(dirname "$2")" && mv -f -- "$1" "$2"; }
 
-# The row reaches origin, then the branch, then the tree. The commit is built in
-# a throwaway index, so work the agent has staged stays out of it, and pushed
-# before the branch moves, so the branch is never ahead of origin while a push is
-# in flight. What is left is two steps — the ref move and the rename — between
-# which the tree differs from HEAD.
+# The display copy reaches origin, then the branch, then the tree. The commit
+# is `ledger.py`'s, built in a throwaway index, and pushed before the branch
+# moves, so the branch is never ahead of origin while a push is in flight. What
+# is left is two steps — the ref move and the rename — between which the tree
+# differs from HEAD.
 commit_row() {
-  local staged=$1 row=$2 top path head blob was now oriented subject index tree commit
-  local sign=()
+  local staged=$1 row=$2 path=$3 top head subject commit
 
   top="$(repo rev-parse --show-toplevel)" &&
-    path="${row#"$top"/}" &&
     head="$(repo rev-parse -q --verify HEAD)" &&
-    blob="$(git -C "$top" hash-object -w --path "$path" -- "$staged")" ||
+    commit="$(ledger commit-row "$head" "$path" "$staged")" ||
     return 1
 
-  if [ "$blob" = "$(repo rev-parse -q --verify "HEAD:$path")" ]; then
+  if [ -z "$commit" ]; then
     place_row "$staged" "$row"
     return 0
   fi
-
-  # The turn's spend is measured from the row as last committed, not as last
-  # written: a hand run between turns rewrites the file too. A row HEAD lacks
-  # is a session's first, and its subject says so, telling new sessions from
-  # continued ones in the log. Only that subject names the orientation, which
-  # the first turn settles.
-  now="$(jq -r '.total.costUsd' "$staged")"
-  if committed="$(repo show "HEAD:$path" 2>/dev/null)"; then
-    was="$(jq -r '.total.costUsd // 0' <<<"$committed" 2>/dev/null)"
-    subject="$(awk -v was="${was:-0}" -v now="$now" \
-      'BEGIN { printf "chore: session cost +%.2f USD, total %.2f USD", now - was, now }')"
-  else
-    oriented="$(jq -r '.orientation.spend.costUsd // empty' "$staged")"
-    subject="$(awk -v now="$now" -v oriented="$oriented" 'BEGIN {
-      printf "chore: session cost (new) %.2f USD", now
-      if (oriented != "") printf ", incl. %.2f USD orientation", oriented
-    }')"
-  fi
-
-  # `commit-tree` signs only when told to, where `commit` reads the config.
-  [ "$(repo config --type=bool commit.gpgsign 2>/dev/null)" = true ] && sign=(-S)
-
-  index="$staged.index"
-  GIT_INDEX_FILE="$index" repo read-tree "$head" &&
-    GIT_INDEX_FILE="$index" repo update-index --add --cacheinfo "100644,$blob,$path" &&
-    tree="$(GIT_INDEX_FILE="$index" repo write-tree)"
-  local built=$?
-  rm -f -- "$index"
-  [ "$built" -eq 0 ] &&
-    commit="$(repo commit-tree "${sign[@]}" -p "$head" -m "$subject" "$tree")" ||
-    return 1
+  subject="$(repo log -1 --format=%s "$commit")"
 
   local pushed=false
   repo push -q origin "$commit:refs/heads/$branch" 2>/dev/null && pushed=true
@@ -170,15 +132,15 @@ commit_row() {
 session="$(field session_id)"
 
 # The last record the operator may have written, read before pricing so the
-# marker never claims a record the row was priced without. Empty where the
+# marker never claims a record the copy was priced without. Empty where the
 # script failed, which `operator_silent` reads as not knowing.
 operator_record() {
   python3 "$root/.claude/costs/hooks/last_operator_record.py" "$1" && return 0
-  say "could not read who started the turn; committing the row regardless"
+  say "could not read who started the turn; committing the branch's copy regardless"
   return 1
 }
 
-# The id of the last operator record a committed row covers. An id outside the
+# The id of the last operator record a committed copy covers. An id outside the
 # safe set would make a path of it, so such a session has no marker.
 marker=''
 case "$session" in
@@ -187,8 +149,8 @@ case "$session" in
 esac
 
 # True only on a positive reading: a marker, the same last operator record as
-# when it was written, and this session's row on the branch and clean — a skip
-# must not leave a hand-run rewrite or another branch's row standing.
+# when it was written, and this session's copy on the branch and clean — a skip
+# must not leave a hand-run rewrite or another branch's copy standing.
 operator_silent() {
   local latest=$1 rows=".claude/costs/sessions/*/$session.json"
   [ -n "$marker" ] && [ -f "$marker" ] &&
@@ -197,20 +159,64 @@ operator_silent() {
     ! dirty "$rows"
 }
 
-# What the pricing step said when it failed, for the agent to be told.
+# What the pricing step and the ledger write said when they failed, for the
+# agent to be told.
 unpriced_reason=''
+ledger_error=''
+
+last_line() { awk 'NF { line = $0 } END { print line }' "$1" 2>/dev/null; }
+
+# Git spreads one refusal over several lines, the last of which alone names
+# nothing.
+all_lines() { awk 'NF { printf "%s%s", sep, $0; sep = " " }' "$1" 2>/dev/null; }
 
 run_ledger() {
-  local transcript staged row err latest known=true
-  local stop_flags=(--at-stop)
+  local transcript staged row path err display latest known=true
   transcript="$(field transcript_path)"
   [ -n "$transcript" ] && [ -f "$transcript" ] || return 0
 
   latest="$(operator_record "$transcript")" || known=false
-  if [ "$flush" = true ]; then
-    # Mid-turn, so the transcript is not expected to end on an `end_turn`.
-    stop_flags=()
-  elif [ "$known" = true ] && operator_silent "$latest"; then
+
+  # Priced off the tree: `tmp/` is ignored, and on the row's filesystem, so the
+  # rename that puts the row in place is atomic. Nothing up to the display copy
+  # touches the tree or the branch, so none of it waits for the harness's check.
+  staged="$root/tmp/cost-row.$$.json"
+  err="$root/tmp/cost-row.$$.err"
+  mkdir -p -- "$root/tmp" || return 0
+
+  # The ledger's copy is fetched first, since the pricing run carries the
+  # estimate over from it. A row priced without it could drop an estimate the
+  # ledger holds, so a failed fetch writes nothing there.
+  local fetched=true
+  ledger fetch 2>"$err" || {
+    ledger_error="$(all_lines "$err")"
+    fetched=false
+  }
+
+  row="$(python3 "$root/.claude/costs/session_cost.py" \
+    --transcript "$transcript" \
+    --session-id "$session" \
+    --row-path --at-stop --out "$staged" 2>"$err")" ||
+    {
+      unpriced_reason="$(last_line "$err")"
+      rm -f -- "$staged" "$err"
+      state=unpriced
+      return 0
+    }
+  path="${row#"$(repo rev-parse --show-toplevel)"/}"
+
+  if [ "$fetched" = true ]; then
+    ledger append-row "$path" "$staged" 2>"$err" || ledger_error="$(all_lines "$err")"
+  fi
+
+  # Until the branch is finalized, its PR's diff shows what the work cost.
+  display="$(ledger stop-plan "$branch" 2>"$err")" || {
+    ledger_error="${ledger_error:-$(all_lines "$err")}"
+    display=display=yes
+  }
+  rm -f -- "$err"
+  if [ "$display" != display=yes ] || { [ "$known" = true ] && operator_silent "$latest"; }; then
+    rm -f -- "$staged"
     return 0
   fi
 
@@ -218,26 +224,9 @@ run_ledger() {
   # which is what gives the look for the check's process time to find it.
   wait_out_harness_check
 
-  # Priced off the tree: `tmp/` is ignored, and on the row's filesystem, so the
-  # rename that puts the row in place is atomic.
-  staged="$root/tmp/cost-row.$$.json"
-  err="$root/tmp/cost-row.$$.err"
-  mkdir -p -- "$root/tmp" &&
-    row="$(python3 "$root/.claude/costs/session_cost.py" \
-      --transcript "$transcript" \
-      --session-id "$session" \
-      --row-path "${stop_flags[@]}" --out "$staged" 2>"$err")" ||
-    {
-      unpriced_reason="$(awk 'NF { line = $0 } END { print line }' "$err" 2>/dev/null)"
-      rm -f -- "$staged" "$err"
-      state=unpriced
-      return 0
-    }
-  rm -f -- "$err"
-
   ! dirty "$row" || row_left=true
 
-  if commit_row "$staged" "$row"; then
+  if commit_row "$staged" "$row" "$path"; then
     [ "$known" = true ] && [ -n "$marker" ] || return 0
     mkdir -p -- "$(dirname "$marker")" && printf '%s\n' "$latest" >"$marker"
     return 0
@@ -259,18 +248,6 @@ outstanding() {
   [ "$(repo rev-list "$upstream..HEAD" --count 2>/dev/null || echo 0)" -gt 0 ]
 }
 
-# A flush is a command the agent runs, so its status is the whole verdict: 0
-# where the row is on origin, as written now or already.
-if [ "$flush" = true ]; then
-  case "$state" in
-    none | pushed) exit 0 ;;
-    committed) say "the cost row is committed but not pushed: push the branch" ;;
-    uncommitted) say "the cost row is written but not committed" ;;
-    unpriced) say "pricing failed; no cost row written. ${unpriced_reason:-session_cost.py exited non-zero without a message.}" ;;
-  esac
-  exit 1
-fi
-
 # The only channel a `Stop` hook has to the agent is an exit 2, so a row that
 # could not be priced blocks the turn once with the reason: a stderr line on a
 # turn that ends anyway reaches nobody, and the ledger would lose sessions
@@ -280,6 +257,13 @@ fi
 
 if [ "$state" = unpriced ]; then
   say "pricing failed; no cost row written this turn. ${unpriced_reason:-session_cost.py exited non-zero without a message.} Fix that — a missing model is a new row in \`.claude/costs/prices.json\` — then just stop; the next turn's row covers this one too."
+  exit 2
+fi
+
+# The ledger is the accounting, and the branch's copy goes when the branch is
+# finalized, so a row the ledger missed is lost unless someone is told.
+if [ -n "$ledger_error" ]; then
+  say "the cost ledger (\`cost-ledger\` on origin) did not take this turn's row: ${ledger_error} Fix what that names if it is yours to fix, then just stop; the next turn's row covers this one too."
   exit 2
 fi
 
