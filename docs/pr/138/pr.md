@@ -7,21 +7,19 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-10T20:11:45Z
-- **Updated:** 2026-10-20T11:54:16Z
+- **Updated:** 2026-10-20T13:36:33Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 5
+## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 4c6bf3f). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 7d9827b). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:44:45Z — "так, давай это тоже пусть в подпапке лежит (имя можно не мен…" → [↓](#t01)
-- **T02** `apps/vova/public/music/assets/spectrograms/birds/4.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:47:15Z — "первый ударный в этой песне -- на 1:21 (закрытый хет), всё ч…" → [↓](#t02)
-- **T03** `apps/vova/public/music/assets/spectrograms/hello/5.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:50:39Z — "только здесь начинаются ударные -- с бочки; следующий лёгкий…" → [↓](#t03)
-- **T04** `apps/vova/public/music/assets/spectrograms/intertwined/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:52:23Z — "только здесь начинается бочка (сначала с одним утихающим кре…" → [↓](#t04)
-- **R01** review by @vzakharov (human) — 2026-10-20T11:54:16Z → [↓](#r01)
+- **T01** `apps/vova/public/music/assets/spectrograms/birds/4.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:47:15Z — "первый ударный в этой песне -- на 1:21 (закрытый хет), всё ч…" → [↓](#t01)
+- **T02** `apps/vova/public/music/assets/spectrograms/hello/5.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:50:39Z — "только здесь начинаются ударные -- с бочки; следующий лёгкий…" → [↓](#t02)
+- **T03** `apps/vova/public/music/assets/spectrograms/intertwined/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:52:23Z — "только здесь начинается бочка (сначала с одним утихающим кре…" → [↓](#t03)
 
 ---
 
@@ -68,6 +66,7 @@ https://claude.ai/code/session_015VJWAuug8qXitURWSdJvwS
 ## Comments
 
 - **C01** @vzakharov (agent) — 2026-10-13T20:44:20Z — "Proposed squash title/body: ``` feat(vova): spectrogram side…" → [↓](#c01)
+- **C02** @vzakharov (agent) — 2026-10-20T12:16:31Z — "> почему мы не хотим устанавливать (в сессиях где это нужно)…" → [↓](#c02)
 
 <a id="c01"></a>
 
@@ -112,6 +111,22 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ---
 
+<a id="c02"></a>
+
+### Comment by @vzakharov (agent) on 2026-10-20T12:16:31Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/138#issuecomment-6290631162](https://github.com/vzakharov/vovazakharov.com/pull/138#issuecomment-6290631162)
+
+> почему мы не хотим устанавливать (в сессиях где это нужно) librosa и пользоваться ей?
+
+Веской причины нет. Довод из плана — что librosa тянет torch — был неверен: она тянет scipy, numba и sklearn, это ~485 МБ и ~100 с установки, для сессии терпимо. Тональность и темп у нас вышли переизобретёнными рядом с готовым инструментом; на этих одиннадцати песнях они с librosa теперь совпадают, так что переписывать их на неё почти ничего не даст, а вот новое измерение стоит начинать с того, что в librosa уже есть.
+
+С барабанами librosa бы не помогла: распознавания ударных в ней нет, только онсеты и разделение на гармоническое/ударное — то же семейство эвристик по миксу, что и у нас, а по миксу щипок гитары поднимается в полосах ровно как удар. Порог тут не спасёт: в «Птицах» дорожки до 1:21 статистически неотличимы от дорожек после.
+
+Спасает demucs, который в song-intake уже стоит ради вокала: его стем барабанов (`--two-stems=drums`) совпал со всеми тремя твоими разметками — в «Птицах» молчит до 1:20, в «Здравствуй» оживает на 1:19–1:20, в «Переплетении» звучит ровно 0:48–1:17 (а после 1:20 там шумовой райзер, который demucs тоже относит к барабанам, — его придётся отсекать по форме спектра). Так что барабанную полосу переделываю на стеме, с одной меткой на удар; замеры и план — `docs/plans/spectrogram-drums-stem.paused.md`. Сессия упёрлась в контекст, доделывает следующая.
+
+---
+
 ## Review threads
 
 <a id="r01"></a>
@@ -126,24 +141,13 @@ _2026-10-20T11:54:16Z_
 
 я ещё не знаю где задавал этот вопрос, возможно потерялся: почему мы не хотим устанавливать (в сессиях где это нужно) librosa и пользоваться ей?
 
-_11 resolved threads omitted; re-run with `--include-resolved` to export them._
+_12 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:44:45Z — "так, давай это тоже пусть в подпапке лежит (имя можно не мен…" → [↓](#t01)
-- **T02** `apps/vova/public/music/assets/spectrograms/birds/4.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:47:15Z — "первый ударный в этой песне -- на 1:21 (закрытый хет), всё ч…" → [↓](#t02)
-- **T03** `apps/vova/public/music/assets/spectrograms/hello/5.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:50:39Z — "только здесь начинаются ударные -- с бочки; следующий лёгкий…" → [↓](#t03)
-- **T04** `apps/vova/public/music/assets/spectrograms/intertwined/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:52:23Z — "только здесь начинается бочка (сначала с одним утихающим кре…" → [↓](#t04)
+- **T01** `apps/vova/public/music/assets/spectrograms/birds/4.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:47:15Z — "первый ударный в этой песне -- на 1:21 (закрытый хет), всё ч…" → [↓](#t01)
+- **T02** `apps/vova/public/music/assets/spectrograms/hello/5.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:50:39Z — "только здесь начинаются ударные -- с бочки; следующий лёгкий…" → [↓](#t02)
+- **T03** `apps/vova/public/music/assets/spectrograms/intertwined/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-20T11:52:23Z — "только здесь начинается бочка (сначала с одним утихающим кре…" → [↓](#t03)
 
 <a id="t01"></a>
-
-### `apps/vova/public/music/assets/spectrograms/after-us.png`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-20T11:44:45Z
-
-так, давай это тоже пусть в подпапке лежит (имя можно не менять, то есть будет дублироваться) -- а то какой-то такой себе collocated получается; .txt аналогично
-
----
-
-<a id="t02"></a>
 
 ### `apps/vova/public/music/assets/spectrograms/birds/4.png`:1 — unresolved
 
@@ -153,7 +157,7 @@ _11 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 ---
 
-<a id="t03"></a>
+<a id="t02"></a>
 
 ### `apps/vova/public/music/assets/spectrograms/hello/5.png`:1 — unresolved
 
@@ -163,7 +167,7 @@ _11 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 ---
 
-<a id="t04"></a>
+<a id="t03"></a>
 
 ### `apps/vova/public/music/assets/spectrograms/intertwined/3.png`:1 — unresolved
 
@@ -179,3 +183,4 @@ _11 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-14T11:52:39Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/138#pullrequestreview-5517188038.
 - **2026-10-14T12:40:19Z** @vzakharov renamed from «feat(vova): tuning, tempo, a sidecar and a zoom for the spectrogram» to «feat(vova): spectrogram sidecar, drum row and a zoom per section».
 - **2026-10-20T11:54:16Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/138#pullrequestreview-5584528134.
+- **** @vzakharov reviewed (PENDING): https://github.com/vzakharov/vovazakharov.com/pull/138#pullrequestreview-5590208848.
