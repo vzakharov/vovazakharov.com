@@ -6,7 +6,7 @@ language: ru
 project: ['Полуживые']
 repo: 'moral-'
 seconds: 231
-mp3Bytes: 9372264
+mp3Bytes: 9372272
 explicit: false
 album: who-is-happy-in-russia
 track: 2

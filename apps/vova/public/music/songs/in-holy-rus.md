@@ -6,7 +6,7 @@ language: ru
 project: ['Полуживые']
 repo: 'asa'
 seconds: 157
-mp3Bytes: 6406779
+mp3Bytes: 6406973
 explicit: false
 album: who-is-happy-in-russia
 track: 1
