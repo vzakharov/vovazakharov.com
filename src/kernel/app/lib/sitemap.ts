@@ -28,9 +28,9 @@ function documentAddresses(route: string, collection: CollectionId): string[] {
 /**
  * Every page the site advertises: the collection indexes and the documents
  * under them, derived from the registry filtered to the site being built, plus
- * `mountedRoutes` — the pages of the apps the site's router mounts that no
- * collection describes. A factory, because the route's default export is
- * called by Next with arguments of its own.
+ * `mountedRoutes` — the pages no collection describes, which the site's leaf
+ * app gathers from itself and its ancestors. A factory, because the route's
+ * default export is called by Next with arguments of its own.
  */
 export function sitemap(
   mountedRoutes: readonly string[] = [],

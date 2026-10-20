@@ -4,8 +4,8 @@
   "blog": ["shell"],
   "music": ["blog"],
   "lsa": ["shell"],
-  "vova": ["blog"],
   "bible": ["blog"],
   "basilisk": ["blog"],
-  "mushrooms": ["kernel"]
+  "mushrooms": ["kernel"],
+  "vova": ["blog", "music", "mushrooms"]
 }
