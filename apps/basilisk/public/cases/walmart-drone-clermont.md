@@ -36,6 +36,12 @@ sources:
     date: 2024-07-03
     url: https://fortune.com/2024/07/03/walmart-drones-gun-owners-delivery-florida-droneup/
     archive: http://web.archive.org/web/20250927142752/https://fortune.com/2024/07/03/walmart-drones-gun-owners-delivery-florida-droneup/
+  - title: 'Florida Man Arrested For Shooting Walmart Delivery Drone: “I Must Be A Good Shot”'
+    outlet: Whiskey Riff
+    author: Quinn Eaton
+    date: 2024-07-03
+    url: https://www.whiskeyriff.com/2024/07/03/florida-man-arrested-for-shooting-walmart-delivery-drone-i-must-be-a-good-shot/
+    archive: http://web.archive.org/web/20240703213322/https://www.whiskeyriff.com/2024/07/03/florida-man-arrested-for-shooting-walmart-delivery-drone-i-must-be-a-good-shot/
   - title: What happens if you shoot down a delivery drone?
     outlet: TechCrunch
     author: Brian Heater
@@ -80,7 +86,7 @@ On 27 November 2024, Futurism reports, he agreed to a restitution order. He ente
 
 ## Statements
 
-The man, to deputies on the body camera, as DroneDJ reports it: “I must be a good shot.”
+The man, to deputies on the body-camera video, as Whiskey Riff quotes it: “They say I hit it so I must be a good shot.” DroneDJ prints the second half alone.
 
 His lawyer, Scott Herman, to Fortune: he disagrees with the affidavit’s account. The drone hovered directly above his client’s property for an extended time, at low altitude, with nothing on it to say it was Walmart’s, and further evidence would show his client acted “legally and lawfully on his property.” Of the restitution, the lawyer called it an “admission of wrongdoing” but not a guilty plea, by Futurism’s account, and an acknowledgment of responsibility for the damage rather than an admission of guilt, by DroneDJ’s.
 
