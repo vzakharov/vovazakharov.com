@@ -139,18 +139,38 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
+## This bite
+
+**Slice 2, sites named by domain**, on `masd/sites-by-domain`, a PR against the
+elephant's branch. `apps/<id>/` → `sites/<domain>/` (`sites/vovazakharov.com/`,
+`sites/latestageagentic.com/`, `sites/agentic.bible/`, `sites/basilisk.fyi/`),
+so a router is named by what it serves and `src/` apps and site routers stop
+sharing the word "app"; `apps/site-next-config.ts` goes with them.
+
+- **The site id is the domain.** `SITE_IDS` lists the four domains, so
+  `NEXT_PUBLIC_SITE`, `SITE_CONFIGS`' keys, each collection's `site`,
+  `in-site.sh`'s argument and the directory are one string. A site's `url` is
+  derived from its id rather than spelled beside it. The short names stay what
+  they are elsewhere: app names in `masd.json`, collection ids, the
+  `downloadPrefix`, and the author id `vova`.
+- **`package.json`'s per-site entries take the domain**
+  (`pnpm build:vovazakharov.com`), and so do `vet.sh`'s, the scripts that call
+  them, and every skill or rule naming one.
+- **The deploy gate reads domains**: a squash scope naming a site is its domain
+  (`feat(agentic.bible):`), the picker takes domains, and `preview.yml`'s
+  options are domains. The receivers' secret names are repository settings no
+  agent can rename, so the gate names each one explicitly rather than deriving
+  it from the id; `publish-site.sh` maps domain to receiver.
+- **Every path follows** — tsconfig, knip, the ignore files, the render-pdfs
+  action, the content rules, the skills, `docs/music/untold-songs.md`
+  regenerated. Cost rows under `.claude/costs/` are records and keep the paths
+  they were written with.
+
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
-those slices carry their own tools along; the sites rename is independent of
-every other slice.
+those slices carry their own tools along.
 
-- **2. Sites named by domain.** `apps/<id>/` → `sites/<domain>/`
-  (`sites/vovazakharov.com/`, `sites/latestageagentic.com/`,
-  `sites/agentic.bible/`, `sites/basilisk.fyi/`), so a router is named by what
-  it serves and `src/` apps and site routers stop sharing the word "app".
-  `scripts/in-site.sh`, `NEXT_PUBLIC_SITE`, `SITE_CONFIG`, `package.json`'s
-  per-site entries and `.github/workflows/deploy.yml` follow.
 - **3. App scripts live in their apps.** `src/<app>/scripts/`, beside the app's
   layers: an unknown folder at an app root is no layer to Steiger (checked on
   `src/basilisk`). A script is one more boundaries element, `script`, under the
