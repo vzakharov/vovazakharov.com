@@ -59,9 +59,7 @@ function locate(file: string): string | undefined {
   if (parts[0] === 'apps') return parts[2] === 'app' ? 'router' : undefined;
   if (parts[0] !== 'src' || parts.length < 4) return undefined;
   const [, app, layer = '', slice] = parts;
-  return SLICED.has(layer)
-    ? `${app}/${layer}/${slice}`
-    : `${app}/${layer}`;
+  return SLICED.has(layer) ? `${app}/${layer}/${slice}` : `${app}/${layer}`;
 }
 
 function resolveImport(from: string, specifier: string): string | undefined {
