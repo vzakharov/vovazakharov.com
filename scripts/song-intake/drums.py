@@ -65,6 +65,9 @@ UNEXPLAINED = 0.4
 # short of a band the hit sounds in — one within SOUNDING_DB of its loudest.
 NEEDED_DB = 6
 SOUNDING_DB = -30
+# A hit no lane is needed for lights the one it needs most only this close
+# to the stem's loud frames: under it, such a hit was bleed demucs let by.
+GUESS_DB = -15
 # A lane's hits fade from full brightness at its loudest to black this far under.
 LANE_RANGE_DB = 24
 UNMIX_ITERATIONS = 200
@@ -124,14 +127,22 @@ def gained(bands, frames):
     return np.maximum(after - before, 0)
 
 
-def unmix(gain, w):
+def unmix(gain, w, relative=True):
     """Non-negative least squares of each row of gain onto the rows of w, by
-    multiplicative updates: (onsets, pieces)."""
+    multiplicative updates: (onsets, pieces).
+
+    Relative, each band's error is weighed against that band's own gain,
+    floored SOUNDING_DB under the loudest, so the fit is judged in about the
+    dB that misfit_db judges it in. In plain power the loudest band rules: a
+    hat's 8 kHz is matched by adding the crash, whose 1–2.5 kHz then
+    overshoots the hat by 20 dB, and no lane is needed more than any other.
+    Plain power is what UNEXPLAINED is a share of."""
+    floor = gain.max(axis=1, keepdims=True) * 10 ** (SOUNDING_DB / 10)
+    weight = 1 / np.maximum(gain + floor, 1e-30) ** 2 if relative else np.ones_like(gain)
     a = np.full((len(gain), len(w)), 1.0) * gain.sum(axis=1, keepdims=True) / w.sum()
-    top = gain @ w.T
-    gram = w @ w.T
+    top = (gain * weight) @ w.T
     for _ in range(UNMIX_ITERATIONS):
-        a *= top / np.maximum(a @ gram, 1e-30)
+        a *= top / np.maximum(((a @ w) * weight) @ w.T, 1e-30)
     return a
 
 
@@ -156,17 +167,22 @@ def drum_hits(stem):
     total = gain.sum(axis=1)
     loud = np.percentile(bands.sum(axis=1), LOUD_PERCENTILE)
     level_db = 10 * np.log10(np.maximum(total, 1e-30) / loud)
-    unexplained = ((gain - model) ** 2).sum(axis=1) / np.maximum((gain**2).sum(axis=1), 1e-30)
+    residual = gain - unmix(gain, w, relative=False) @ w
+    unexplained = (residual**2).sum(axis=1) / np.maximum((gain**2).sum(axis=1), 1e-30)
     kept = (level_db > BLEED_DB) & (unexplained <= UNEXPLAINED) & (total > 0)
 
     # Each lane's power, where the other lanes' pieces, refitted without it,
-    # miss the hit's shape by NEEDED_DB more than the whole kit does.
+    # miss the hit's shape by NEEDED_DB more than the whole kit does — or,
+    # where no lane is, by the most: a hit two lanes each nearly explain
+    # still lights one.
+    whole = misfit_db(gain, model)
+    cost = np.stack([misfit_db(gain, unmix(gain, w[lane_of != k]) @ w[lane_of != k]) - whole for k in range(len(LANES))], axis=1)
+    most = cost.max(axis=1, keepdims=True)
+    guess = (cost == most) & (most < NEEDED_DB) & (level_db[:, None] > GUESS_DB)
+    needed = (cost >= NEEDED_DB) | guess
     lane_power = np.zeros((len(frames), len(LANES)))
     for k in range(len(LANES)):
-        others = lane_of != k
-        without = unmix(gain, w[others]) @ w[others]
-        needed = misfit_db(gain, without) >= misfit_db(gain, model) + NEEDED_DB
-        lane_power[:, k] = np.where(needed & kept, (a[:, ~others] @ w[~others]).sum(axis=1), 0)
+        lane_power[:, k] = np.where(needed[:, k] & kept, (a[:, lane_of == k] @ w[lane_of == k]).sum(axis=1), 0)
 
     lit = np.zeros_like(lane_power)
     for k in range(len(LANES)):
