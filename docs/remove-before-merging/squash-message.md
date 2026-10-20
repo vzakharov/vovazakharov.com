@@ -13,7 +13,10 @@ which is what keeps the graph acyclic. An app that extends blog is
 blog: an import may target the same app or an ancestor, only a
 strictly lower layer, through the slice's public API. Where a
 collection lives stays kernel's; what it holds moved to the app that
-owns it. A site's router only maps URLs to apps, its sitemap included.
+owns it. A site's router only maps URLs to apps; each site's sitemap
+belongs to its leaf app, so vova, a composition of blog, music and
+mushrooms, gathers the CV and music routes, and the others list their
+collections alone.
 
 Both checkers read the graph. eslint-plugin-boundaries generates its
 policies from it; Steiger runs once per app root, with
