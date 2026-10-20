@@ -61,10 +61,10 @@ tree is its ancestors' layers overlaid, plus its own. So:
   "blog": ["shell"],
   "music": ["blog"],
   "lsa": ["shell"],
-  "vova": ["blog"],
   "bible": ["blog"],
   "basilisk": ["blog"],
-  "mushrooms": ["kernel"]
+  "mushrooms": ["kernel"],
+  "vova": ["blog", "music", "mushrooms"]
 }
 ```
 
@@ -82,14 +82,16 @@ children), `shell` (2) and `blog` (4) pass; a `game` between `kernel` and
 
 **A router only says what is shown at which URL.** `apps/<site>/app/` maps
 addresses to apps — on vovazakharov.com, `/` and `/cv` to vova, `/music/...` to
-music, `/mushrooms` to mushrooms — and nothing else composes them, because
-nothing else needs to: what vova takes from music is two addresses, and
-addresses are kernel's. The sitemap is that same mapping written out, so it is
-the router's: `sitemap.ts` concatenates the routes each app it mounts exports.
+music, `/mushrooms` to mushrooms — and decides nothing else. **A site's sitemap
+is its leaf app's**, which inherits every app the site mounts: vova is
+vovazakharov.com, so its parents are blog, music and mushrooms, and its app
+layer gathers the CV's and the music catalogue's routes; the router re-exports
+it.
 
 ## Eaten so far
 
-Slice 1, the MASD core, short of `## Rest of the bite` below.
+Slice 1, the MASD core: vet clean with `VET_MEADOW=1` but for the staged
+CLAUDE.md's `fsd.md` citation, and every site looked at under the split layouts.
 
 - **The graph** — `src/masd.json`, loaded only by `eslint/masd-graph.ts` (the
   schema, the order check, ancestors and descendants, insignificant apps,
@@ -112,7 +114,8 @@ Slice 1, the MASD core, short of `## Rest of the bite` below.
 - **The registries** — the schema registry inverted: `articleCollection(id)` in
   kernel, `SONGS` in music's catalogue, `CASES` behind basilisk's
   `shared/content`; addresses stay kernel's. kernel imports no app above it:
-  each site's `sitemap.ts` calls `sitemap(mountedRoutes)`, and
+  each site's leaf app calls `sitemap(mountedRoutes)` — vova with the CV's and
+  music catalogue's routes, the rest with none — and the router re-exports it;
   `collectionFeed(collection, locale, source?)` takes a `FeedSource` (music
   exports `SONG_FEED`).
 - **Two root layouts on vovazakharov.com** — `(shell)` for every page but the
@@ -136,19 +139,6 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
-## Rest of the bite
-
-- **The sitemap on the site's leaf app** (the operator's go-ahead on the
-  `apps/basilisk/app/sitemap.ts` thread). `vova: [blog, music, mushrooms]`,
-  `vova` declared below both, so vova's app layer composes the sitemap from
-  `cvRoutes()` and `musicCatalogueRoutes()`, and every router's `sitemap.ts`
-  only re-exports its leaf app's — basilisk's, bible's and lsa's holding the
-  collections alone. That settles slice 2's question of a composition app per
-  site, and moves the "sitemap is the router's" paragraph above and in `masd.md`
-  with it.
-- **A clean vet**, `VET_MEADOW=1`, and a look at each site. The game, vova's
-  home and CV are looked at under the split layouts.
-
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
@@ -160,9 +150,7 @@ every other slice.
   `sites/agentic.bible/`, `sites/basilisk.fyi/`), so a router is named by what
   it serves and `src/` apps and site routers stop sharing the word "app".
   `scripts/in-site.sh`, `NEXT_PUBLIC_SITE`, `SITE_CONFIG`, `package.json`'s
-  per-site entries and `.github/workflows/deploy.yml` follow. Weigh here whether
-  each site also gets a composition app in `src/` — one whose parents are the
-  apps the site mounts — so the sitemap's composition leaves the router.
+  per-site entries and `.github/workflows/deploy.yml` follow.
 - **3. App scripts live in their apps.** `src/<app>/scripts/`, beside the app's
   layers: an unknown folder at an app root is no layer to Steiger (checked on
   `src/basilisk`). A script is one more boundaries element, `script`, under the
