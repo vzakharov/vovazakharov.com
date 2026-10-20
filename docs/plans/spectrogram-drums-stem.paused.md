@@ -41,6 +41,12 @@ Vova's review of PR #138 on 2026-10-20 (`docs/pr/138/pr.md`, R01 and T01–T04):
 - **Ground truth holds** — birds: nothing before the hat at 1:19.96, then snare on the backbeat; hello: kick 1:20.17, snare 1:23.19, no cymbal until 1:38.96; intertwined: kick alone 0:48–1:17 bar faint cymbal marks at 0:31.62 (0.44, lit by the old fit too — relay 6 checked from 0:48 only), 0:49.99 (0.33, −24.3 dB, new) and 1:15.02 (0.78, old too). A misfit gate cannot cut them: real loud hits (kick with crash) misfit by 20–30 dB.
 - **All eleven stems cut** (`tmp/stems/htdemucs/`, ~2 min a song). `tmp/summary.py <slugs>` counts lit/visible hits per lane; `tmp/probe.py <slug> <from> <to> -v` adds the plain fit's unexplained share, the whole kit's misfit and each lane's removal cost.
 
+## Done in relay 8's session
+
+- **"Scope added" built as recommended, with one deviation** (c4f5e51, 663c6c6): `spectrogram.py <song> <png> <stems dir>`, the stems required, `--drums` and `--split` gone. Strips: melody off vocals, harmony off other, **bass off bass + other under C4** (`BASS_TOP_HZ`) — the deviation: in birds the bass line until 2:50 is a synth demucs files as other (60–130 Hz: other −13…−24 dB, bass stem −41…−86), so a bass-stem strip was dark there. Chords off bass + other: birds' section 4 lost its stray E♭m Fm. **The key stays on the whole mix**: off the accompaniment hello read G minor at r 0.54 against the mix's C minor at 0.68.
+- `audio.aligned` takes all the stems and finds one lag from their sum (moved from `drums.py`); the test has each stem silent where the other plays.
+- All eleven re-rendered, every PNG under 350 KB; keys unchanged, chords changed in places. Docs updated: `spectrogram.py`'s docstring, `song_facts.measure`, `scripts/song-intake/CLAUDE.md`, `.claude/rules/maya-reflections.md`.
+
 ## Open question (blocks the re-render)
 
 **Toms and mid-band hits are unstable on the songs without ground truth.** `test_tom` still fails: a 120 Hz synthetic tom reads as the boomy kick (hello 1:26.93), which in nine bands it nearly is; the tom shape in `PIECES_DB` was never measured. On real stems the tom lane lights in regular patterns that look wrong — world-as-it-is 26 toms and 1 kick; just-because a tom every 1.34 s from 1:28.70, broad 120 Hz–8 kHz hits that may be a snare with a fat body; listen 1:00–1:06, one similar hit every 0.5 s labelled snare, kick, tom, snare in turn. Asked Vova for his ear on those three spots; a confirmed tom gives a measured shape, a confirmed snare a third snare shape.
@@ -57,7 +63,8 @@ Relay 6 proposed filing "strips from demucs stems" as a separate issue. Vova, fo
 
 ## What is left
 
-1. **Settle the toms** with Vova's answer (above), fix `test_tom` against what he hears, and re-run `tmp/summary.py` over all eleven.
+0. ~~Strips from all four stems~~ (done in relay 8's session, above).
+1. **Settle the toms** with Vova's answer (above), fix `test_tom` against what he hears, re-run the per-lane summary over all eleven, and re-render all eleven (stems per relay-7.md § 6, `spectrogram.py` taking the stems directory).
 2. ~~Rewrite `drums.py` to read the stem~~ (done, above) — the original spec, kept for reference: **Rewrite `drums.py` to read the stem**: align it to the master; find onsets as above; per onset, unmix the power it adds over the frames before (linear power, not dB rises) onto per-piece band shapes taken from the measurements above — two kicks, toms, snare, clap, closed hat, crash/ride — by NNLS. Reject an onset whose fit leaves much of its power unexplained (the riser) or that sits more than ~25 dB under the stem's loud hits (bleed). A lane is as bright as its piece's level against that lane's own loud hits; one mark per onset, never one per frame. The kick-with-click shape is what keeps a kick's click out of the snare lane, so intertwined's section 3 reads kick only.
 2. **`spectrogram.py --drums <stem>`**; without it the drum row is left out and the run says so, since a mix-based row is noise. Test the onset picking, the alignment and the unmix on synthetic strikes in `test_song_facts.py`, replacing the mix-based drum tests.
 3. **Check against the ground truth above** before re-rendering anything: birds silent to 1:20 and a hat first; hello a kick at 1:19–1:20, a snare at 1:23, no cymbal lane at the start of section 5; intertwined one kick per beat 0:48–1:17 and nothing after until 1:28.
