@@ -7,19 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-16T11:59:18Z
-- **Updated:** 2026-10-20T17:02:43Z
+- **Updated:** 2026-10-20T17:24:32Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 3
+## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 67ded77). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at a65b856). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T02** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-20T16:56:21Z — "окей, делаем вариант 1" → [↓](#t02)
-- **T03** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (human) 2026-10-20T16:57:08Z — "> перенос того, что игре не нужно, из kernel в shell да, пер…" → [↓](#t03)
-- **T04** `docs/plans/multi-app-sliced-design.paused.md`:144 — unresolved — last: @vzakharov (human) 2026-10-20T17:02:06Z — "пусть music импортирует blog; у нас есть (на мейне по крайне…" → [↓](#t04)
 
 ---
 
@@ -114,8 +112,8 @@ _6 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `.claude/rules/styling.md`:7 — unresolved — last: @vzakharov (agent) 2026-10-17T08:43:31Z — "Сделал. Перенос файлов отдельным коммитом, чтобы за ними шла…" → [↓](#t01)
 - **T02** `apps/basilisk/app/sitemap.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-20T16:56:21Z — "окей, делаем вариант 1" → [↓](#t02)
-- **T03** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (human) 2026-10-20T16:57:08Z — "> перенос того, что игре не нужно, из kernel в shell да, пер…" → [↓](#t03)
-- **T04** `docs/plans/multi-app-sliced-design.paused.md`:144 — unresolved — last: @vzakharov (human) 2026-10-20T17:02:06Z — "пусть music импортирует blog; у нас есть (на мейне по крайне…" → [↓](#t04)
+- **T03** `docs/remove-before-merging/squash-message.md`:6 — unresolved — last: @vzakharov (agent) 2026-10-20T17:23:20Z — "Это уже перенесено, ещё 17-го, по твоему «проверим глазами,…" → [↓](#t03)
+- **T04** `docs/plans/multi-app-sliced-design.paused.md`:144 — unresolved — last: @vzakharov (agent) 2026-10-20T17:22:55Z — "Сделал: `music: ["blog"]` в `masd.json` — music теперь потом…" → [↓](#t04)
 
 <a id="t01"></a>
 
@@ -297,6 +295,10 @@ vova: [blog, vova-routes]
 
 да, переносим.
 
+**@vzakharov (agent)** — 2026-10-20T17:23:20Z
+
+Это уже перенесено, ещё 17-го, по твоему «проверим глазами, не беда»: стили, провайдер темы и `shared/ui` переехали из kernel в shell (5f8ae00), а у игры остался голый документ kernel, всё остальное отдано shell (336dd85). В kernel теперь только `shared/{config,content,i18n,lib,seo,typings}` и его app layer. Глазами на игру и на сайты под раздельными лейаутами ещё не смотрели: это последний пункт `## Rest of the bite` в плане.
+
 ---
 
 <a id="t04"></a>
@@ -320,6 +322,12 @@ vova: [blog, vova-routes]
 пусть music импортирует blog; у нас есть (на мейне по крайней мере, не помню раньше ли это этого пиара) например RSS который на музыке по идее тоже должен быть, в перспективе -- рассылки, и так далее.
 
 с другой стороны, agentic.bible и basilisk.fyi между собой, конечно, больше похожи. Если это "больше похожи" выражается не только на пальцах, но и в конкретных импортируемых штуках, то, возможно, имеет смысл унаследовать что-то промежуточное от blog, и потом этих двоих от этого нового (или, наоборот, засунуть какие-то essentials между shell и blog, чтобы music импортировала оттуда).
+
+**@vzakharov (agent)** — 2026-10-20T17:22:55Z
+
+Сделал: `music: ["blog"]` в `masd.json` — music теперь потомок blog, а shell получает через него же (c0827f6). Импорт в `story.tsx` легален, ошибок boundaries больше нет.
+
+Про промежуточное приложение для bible и basilisk: в коде их сходство пока на пальцах. Обе берут из blog ровно то же, что и vova: `pages/documents`, `entities/document` и `shared/article-slots`. Ничего общего, чего нет у vova, у них нет: у bible вообще только `pages/`, а всё своё у basilisk (дела, их схема, домашняя страница) — только его. Приложение между blog и ними вышло бы пустым, и `check:masd` справедливо назвал бы его незначимым. Заводить его стоит, когда появится первый модуль, который нужен им обоим и не нужен vova.
 
 ---
 
