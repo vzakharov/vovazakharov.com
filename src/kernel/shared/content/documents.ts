@@ -4,22 +4,15 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-<<<<<<< HEAD:src/kernel/shared/content/documents.ts
 import { pageFile, type SiteId } from '@/kernel/shared/config';
 import type { WithOptionalLocale } from '@/kernel/shared/i18n';
 import { routeCardPath } from '@/kernel/shared/seo';
-import type { DocumentFile, Sized, Sourced } from '@/kernel/shared/typings';
-=======
-import { pageFile, type SiteId } from '@/shared/config';
-import type { WithOptionalLocale } from '@/shared/i18n';
-import { routeCardPath } from '@/shared/seo';
 import type {
   DocumentFile,
   Sized,
   Sourced,
   WithFileName,
-} from '@/shared/typings';
->>>>>>> origin/main:src/shared/content/documents.ts
+} from '@/kernel/shared/typings';
 
 import {
   collectionAssetUrl,

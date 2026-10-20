@@ -6,7 +6,7 @@
  * `DUSK`, or a blend of the two part way to dusk (`tonesAt`).
  */
 
-import type { Sized } from '@/shared/typings';
+import type { Sized } from '@/kernel/shared/typings';
 
 import type { GroundBand } from '../../model/ground';
 import type { Ramped } from '../../model/motion';

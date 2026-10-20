@@ -3,7 +3,7 @@
 import { Box } from '@mantine/core';
 import { useState } from 'react';
 
-import type { Timed } from '@/shared/typings';
+import type { Timed } from '@/kernel/shared/typings';
 
 import { formatDuration } from '../lib/duration';
 import classes from './radio.module.scss';

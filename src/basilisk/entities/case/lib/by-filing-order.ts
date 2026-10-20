@@ -1,14 +1,9 @@
-<<<<<<< HEAD:src/basilisk/entities/case/lib/by-filing-order.ts
-import type { WithFrontmatter } from '@/kernel/shared/content';
-
-import type { CaseFrontmatter } from '@/basilisk/shared/content';
-=======
 import type {
   BaseFrontmatter,
-  Docketed,
   WithFrontmatter,
-} from '@/shared/content';
->>>>>>> origin/main:src/entities/case/lib/by-filing-order.ts
+} from '@/kernel/shared/content';
+
+import type { Docketed } from '@/basilisk/shared/content';
 
 type Numbered = WithFrontmatter<BaseFrontmatter & Docketed>;
 

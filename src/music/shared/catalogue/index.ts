@@ -11,12 +11,7 @@ export {
   type RepoHeld,
   type ScriptKept,
   type SongFrontmatter,
-<<<<<<< HEAD:src/music/shared/catalogue/index.ts
   SONGS,
-  type SongText,
-=======
-  songFrontmatterSchema,
->>>>>>> origin/main:src/shared/music-catalogue/index.ts
   type SungLanguage,
   type TitleGloss,
   type Tracked,

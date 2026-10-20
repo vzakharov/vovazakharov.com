@@ -2,18 +2,13 @@ import 'server-only';
 
 import { z } from 'zod';
 
-<<<<<<< HEAD:src/basilisk/shared/content/basilisk-frontmatter.ts
 // The leaf rather than the barrel: `scripts/lib/read-docket.ts` parses a case
 // with this schema, and the barrel would load the whole render pipeline into it.
 import {
   type Collection,
   sourcedArticleFrontmatterSchema,
 } from '../../../kernel/shared/content/frontmatter';
-=======
-import { composeSchemas } from '@/shared/lib/compose-schemas';
-
-import { sourcedArticleFrontmatterSchema } from './frontmatter';
->>>>>>> origin/main:src/shared/content/basilisk-frontmatter.ts
+import { composeSchemas } from '../../../kernel/shared/lib/compose-schemas';
 
 /** What was done to the machine, as the docket stamps it. */
 const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;

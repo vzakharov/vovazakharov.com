@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-import type { Hushing } from '@/shared/typings';
+import type { Hushing } from '@/kernel/shared/typings';
 
 import { playTheMeadow } from './instrument-input';
 import type { Unfolding } from './map-view';

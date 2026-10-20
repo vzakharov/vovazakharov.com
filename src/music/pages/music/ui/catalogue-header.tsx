@@ -1,18 +1,11 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
-<<<<<<< HEAD:src/music/pages/music/ui/catalogue-header.tsx
-import type { WithOptionalChildren } from '@/kernel/shared/typings';
+import type { ServedMarkdown } from '@/kernel/shared/content';
 
 import { FileLink } from '@/shell/shared/ui';
 
 import type { TitleGloss } from '@/music/shared/catalogue';
 import type { WithSpelledTitle } from '@/music/shared/catalogue/index.node-safe';
-=======
-import type { ServedMarkdown } from '@/shared/content';
-import type { TitleGloss } from '@/shared/music-catalogue';
-import type { WithSpelledTitle } from '@/shared/music-catalogue/index.node-safe';
-import { FileLink } from '@/shared/ui';
->>>>>>> origin/main:src/pages/music/ui/catalogue-header.tsx
 
 import { CoverHead, type CoverHeadBody } from './cover-head';
 import { SizeLine } from './fact-line';

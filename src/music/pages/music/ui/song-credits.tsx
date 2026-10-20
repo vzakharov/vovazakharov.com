@@ -6,12 +6,7 @@ import {
   type CreditedName,
   type CreditedSong,
   SONG_AUTHOR,
-<<<<<<< HEAD:src/music/pages/music/ui/song-credits.tsx
-  type SongFrontmatter,
 } from '@/music/shared/catalogue';
-=======
-} from '@/shared/music-catalogue';
->>>>>>> origin/main:src/pages/music/ui/song-credits.tsx
 
 export type SongCreditsProps = WithLocale & CreditedSong;
 

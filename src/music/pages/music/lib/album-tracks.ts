@@ -7,14 +7,9 @@
 import type {
   AlbumPlacement,
   MusicAlbum,
-<<<<<<< HEAD:src/music/pages/music/lib/album-tracks.ts
-  SongFrontmatter,
-} from '@/music/shared/catalogue';
-=======
   Released,
   Tracked,
-} from '@/shared/music-catalogue';
->>>>>>> origin/main:src/pages/music/lib/album-tracks.ts
+} from '@/music/shared/catalogue';
 
 /** Every release the song is on, the one it is filed under first. */
 export function songPlacements({

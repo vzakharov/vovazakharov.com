@@ -1,4 +1,4 @@
-import type { Hushing } from '@/shared/typings';
+import type { Hushing } from '@/kernel/shared/typings';
 
 /** What the player does on an element's event, handed the deck it fired on. */
 export type DeckListeners = ReadonlyArray<

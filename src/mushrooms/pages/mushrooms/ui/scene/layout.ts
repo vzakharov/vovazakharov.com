@@ -7,12 +7,8 @@
  * `sun-layout.ts` the sun.
  */
 
-<<<<<<< HEAD:src/mushrooms/pages/mushrooms/ui/scene/layout.ts
 import { pick } from '@/kernel/shared/lib/collections';
-=======
-import { pick } from '@/shared/lib/collections';
-import type { Sized } from '@/shared/typings';
->>>>>>> origin/main:src/pages/mushrooms/ui/scene/layout.ts
+import type { Sized } from '@/kernel/shared/typings';
 
 import type { Box, Circle } from '../../model/geometry';
 import {

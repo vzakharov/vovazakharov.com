@@ -13,7 +13,7 @@
  * ends and wraps once round, and its keys cruise at `TURN_CRUISE`.
  */
 
-import type { WithWidth } from '@/shared/typings';
+import type { WithWidth } from '@/kernel/shared/typings';
 
 import {
   type Course,

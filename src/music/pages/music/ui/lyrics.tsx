@@ -2,21 +2,13 @@ import { Box, Stack, Text } from '@mantine/core';
 import { Fragment } from 'react';
 import Markdown, { type Components } from 'react-markdown';
 
-<<<<<<< HEAD:src/music/pages/music/ui/lyrics.tsx
 import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithText } from '@/kernel/shared/typings';
 
 import { Subheading, TextLink } from '@/shell/shared/ui';
 
-import type { SungLanguage } from '@/music/shared/catalogue';
-=======
-import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import type { ScriptKept, SungLanguage } from '@/shared/music-catalogue';
-import type { WithText } from '@/shared/typings';
-import { Subheading, TextLink } from '@/shared/ui';
->>>>>>> origin/main:src/pages/music/ui/lyrics.tsx
+import type { ScriptKept, SungLanguage } from '@/music/shared/catalogue';
 
 import { inlineRuns } from '../lib/lyric-inline';
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';

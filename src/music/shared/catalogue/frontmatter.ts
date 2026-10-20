@@ -2,16 +2,12 @@ import 'server-only';
 
 import { z } from 'zod';
 
-<<<<<<< HEAD:src/music/shared/catalogue/frontmatter.ts
 import {
   baseFrontmatterSchema,
   type Collection,
 } from '@/kernel/shared/content';
 import { byLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
-=======
-import { byLocale, type Locale, LOCALES } from '@/shared/i18n';
-import { composeSchemas } from '@/shared/lib/compose-schemas';
->>>>>>> origin/main:src/shared/music-catalogue/frontmatter.ts
+import { composeSchemas } from '@/kernel/shared/lib/compose-schemas';
 
 import { albumSchema, projectSchema } from './names';
 import { creditedNameSchema } from './people';

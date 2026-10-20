@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/music/pages/music/lib/song-files.ts
-import type { SongFrontmatter } from '@/music/shared/catalogue';
-=======
-import type { Mastered, RepoHeld } from '@/shared/music-catalogue';
->>>>>>> origin/main:src/pages/music/lib/song-files.ts
+import type { Mastered, RepoHeld } from '@/music/shared/catalogue';
 import {
   type SongBilling,
   songFileName,

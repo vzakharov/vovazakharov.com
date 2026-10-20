@@ -6,16 +6,10 @@
 
 import path from 'node:path';
 
-<<<<<<< HEAD
 import { getAbsoluteUrl } from '@/kernel/shared/config';
+import type { Slugged } from '@/kernel/shared/content';
 import { pick } from '@/kernel/shared/lib/collections';
-=======
-import { getAbsoluteUrl } from '@/shared/config';
-import type { Slugged } from '@/shared/content';
-import { pick } from '@/shared/lib/collections';
-import type { MusicAlbum } from '@/shared/music-catalogue/index.node-safe';
-import type { WithFileName } from '@/shared/typings';
->>>>>>> origin/main
+import type { WithFileName } from '@/kernel/shared/typings';
 
 import type { MusicAlbum } from '@/music/shared/catalogue/index.node-safe';
 import { songPlacements } from '@/music/pages/music/lib/album-tracks';

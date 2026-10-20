@@ -4,11 +4,7 @@
  * button or under the row, each held `PICK_CLEAR` off every other button.
  */
 
-<<<<<<< HEAD:src/mushrooms/pages/mushrooms/ui/scene/picker-rows.ts
-import type { Sized } from '@/kernel/shared/typings';
-=======
-import type { WithWidth } from '@/shared/typings';
->>>>>>> origin/main:src/pages/mushrooms/ui/scene/picker-rows.ts
+import type { WithWidth } from '@/kernel/shared/typings';
 
 import type { Circle } from '../../model/geometry';
 import {

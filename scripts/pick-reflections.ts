@@ -8,7 +8,7 @@
 
 import path from 'node:path';
 
-import { collectionDir } from '@/shared/content/collections';
+import { collectionDir } from '@/kernel/shared/content/collections';
 
 import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
 import { readDocket } from './lib/read-docket.ts';

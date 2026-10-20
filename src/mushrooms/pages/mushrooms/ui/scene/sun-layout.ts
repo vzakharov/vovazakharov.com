@@ -3,7 +3,7 @@
  * its glow on screen and its rays off every button.
  */
 
-import type { Sized, WithHeight, WithWidth } from '@/shared/typings';
+import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import type { Box, Circle } from '../../model/geometry';
 import type { Grounded } from '../../model/ground';

@@ -4,7 +4,7 @@
  * rather than in proportion to it; `sun-layout.ts` keeps the sun off them.
  */
 
-import type { WithWidth } from '@/shared/typings';
+import type { WithWidth } from '@/kernel/shared/typings';
 
 import { FLOWER_SHAPES, PICKED_COLOURS } from '../../model/flower-sounds';
 import type { Circle } from '../../model/geometry';

@@ -5,7 +5,7 @@
  * and where it stands, and which cloud a tap lands on.
  */
 
-import type { WithWidth } from '@/shared/typings';
+import type { WithWidth } from '@/kernel/shared/typings';
 
 import { type Circle, type Point, wrap } from '../../model/geometry';
 import type { WithCamera } from '../../model/ground';

@@ -5,13 +5,8 @@
  * resizing the screen fits a new camera and moves nothing on the ground.
  */
 
-<<<<<<< HEAD:src/mushrooms/pages/mushrooms/model/ground.ts
 import { pick } from '@/kernel/shared/lib/collections';
-import type { Sized } from '@/kernel/shared/typings';
-=======
-import { pick } from '@/shared/lib/collections';
-import type { Sized, WithHeight, WithWidth } from '@/shared/typings';
->>>>>>> origin/main:src/pages/mushrooms/model/ground.ts
+import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import {
   type Abscissa,

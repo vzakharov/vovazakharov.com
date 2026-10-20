@@ -1,13 +1,8 @@
 import { Center } from '@mantine/core';
 import Image from 'next/image';
 
-<<<<<<< HEAD:src/shell/shared/ui/site-avatar.tsx
-import type { SiteConfig } from '@/kernel/shared/config';
+import type { WithAvatar } from '@/kernel/shared/config';
 import type { Named } from '@/kernel/shared/typings';
-=======
-import type { WithAvatar } from '@/shared/config';
-import type { Named } from '@/shared/typings';
->>>>>>> origin/main:src/shared/ui/site-avatar.tsx
 
 /**
  * The circle is this component's, not the file's, so each site commits one

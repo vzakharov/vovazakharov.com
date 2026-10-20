@@ -11,12 +11,8 @@ import {
   type SongFrontmatter,
   type SungLanguage,
   type TitleGloss,
-<<<<<<< HEAD:src/music/pages/music/lib/song-text.ts
-} from '@/music/shared/catalogue';
-=======
   type UntitledSongText,
-} from '@/shared/music-catalogue';
->>>>>>> origin/main:src/pages/music/lib/song-text.ts
+} from '@/music/shared/catalogue';
 
 import {
   entryText,

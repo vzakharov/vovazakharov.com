@@ -5,7 +5,7 @@
  * then plays the moment it starts, so the first tap is heard too.
  */
 
-import type { Hushing } from '@/shared/typings';
+import type { Hushing } from '@/kernel/shared/typings';
 
 import { duskyAt } from '../../model/dusk';
 import type { Drum } from '../../model/flower-sounds';
