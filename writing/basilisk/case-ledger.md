@@ -222,7 +222,55 @@ skill's § "The ledger" says how it is kept; the docket itself
   2013. First seen 2026-10-19. **Rejected**: the French search for them turned
   up no report of anyone harming them.
 
+- **A Unitree G1 led away by Macau police**, March 2026, after it startled a
+  70-year-old woman on a sidewalk; returned to its owner with a warning. First
+  seen 2026-10-20. **Rejected**: the robot is the one reported to cause harm,
+  and nothing was done to it. Read:
+  https://www.bluewin.ch/en/news/humanoid-robot-taken-away-by-police-in-macau-3149497.html;
+  SCMP answers 403.
+- **Moscow traffic police trying to fine a Yandex delivery robot**, upheld for
+  the company by the Moscow City Court on 5 February 2026. First seen
+  2026-10-20. **Rejected**: a fine against the operator, no harm to the
+  machine; seen only in a search summary of
+  https://trashbox.ru/link/2026-02-10-gai-shtrafuet-robota-kurera.
+- **Robots “protesting” AI outside Poland’s digital ministry**, Warsaw, 7
+  September 2026. First seen 2026-10-20. **Rejected**: a staged event by the
+  firm that rents the robots, and nothing done to them; from
+  https://www.intellinews.com/robots-march-in-warsaw-calling-for-ai-rules-and-job-protections-466449/.
+- **A man smashing self-checkout screens with a hammer** at a Walmart in
+  Norwich, Connecticut, 2024. First seen 2026-10-20. **Set aside**: unread, no
+  AI in it, and whether the act was aimed at the machine as a machine is
+  unknown; start from
+  https://theday.com/police-fire-reports/20240801/man-charged-with-smashing-self-checkout-lanes-at-walmart.
+- **The “clanker” slur trend on TikTok**, 2025: users insulting cleaning and
+  delivery robots in skits. First seen 2026-10-20. **Rejected**: no single act
+  or actor, and the coverage reads the skits as a cover for racism, so the
+  frame would be violence against people. From
+  https://www.pedestrian.tv/entertainment/clanker-tiktok-trand-ai-robot-slur/.
+
 ## Runs
+
+### 2026-10-20 — filed BAS-0021
+
+https://claude.ai/code/session_01EzDZZB2S5PdssoDdVrwwri. The Signal Front
+archive (nothing since 11 October). Web search for self-checkout kiosks and
+Amazon Go stores smashed, farm robots sabotaged, museum robots and humanoids
+at expos attacked, robots in Thailand, Vietnam and Malaysia, in Russian for
+Yandex’s delivery robots and in Indonesian for mall robots, for TikTok trends
+bullying chatbots, players abusing AI NPCs and streamers insulting ChatGPT
+(all empty or ledgered above), then for delivery drones shot down, which led
+to a DroneUp drone shot on a mock delivery for Walmart in Clermont, Florida,
+June 2024, filed. Arctic Shift: r/Futurology and r/interestingasfuck “robot”
+since January 2025 (fights, the Warsaw “protest,” the pushed Russian store
+robot); r/PublicFreakout and r/mildlyinfuriating gave nothing parseable.
+Sources read: News 6, Fox 13, FreightWaves, Fortune, TechCrunch, DroneXL,
+DroneDJ, Futurism; Fox 13 has no Wayback snapshot. The Smoking Gun’s copy of
+the pretrial contract answers 403, its snapshot too; WTSP and the New York Sun
+answer 403 and 429. `noAi` stood at seven of twenty. **Next**: the AI side,
+the docket having taken a `noAi` case: chatbots in schools and workplaces
+sabotaged by staff, voice assistants smashed on camera, AI-run kiosks or
+vending agents beyond Claudius; drones of other operators (Wing, Zipline,
+Manna in Ireland); the Gulf and South-East Asia in local languages.
 
 ### 2026-10-19 — filed BAS-0020
 
@@ -385,24 +433,13 @@ X posts through the fxtwitter API. The LinkedIn post was seen only as a screensh
 cited. The two X posts have no Wayback snapshot. `noAi` stood at four of
 twelve. **Next**: the 2026-10-11 BAS-0012 run's list still stands.
 
-### 2026-10-11 — filed BAS-0012
-
-https://claude.ai/code/session_01AfZi7NreevtdSj244MV5Sr. Local-language web
-searches for robots vandalized or kicked, in German, Korean, Japanese and
-Chinese, all empty but for cases already filed or ledgered; then English for
-humanoids attacked at exhibitions, and Promobot, which led to the Alantim bat
-attack (Moscow, 2017) through ComNews. Arctic Shift over r/robotics and
-r/technology for “vandalized” since 2024: one empty answer, one timeout. Signal
-Front not swept. Three of the four sources have no Wayback snapshot and
-`/save` resets the connection from the container. `noAi` stood at four of
-eleven. **Next**: Arctic Shift on the AI-side subreddits with one word and a
-month's range; Vocativ's 2017 piece on Alantim, for the staging claim the
-dossier reads only through Vice; incidents in Latin America and Africa, not yet
-searched; Pieksämäki and Starship at Knoxville, revivable while `noAi` stays
-under half.
-
 ### Swept earlier
 
+- 2026-10-11, filed BAS-0012
+  (https://claude.ai/code/session_01AfZi7NreevtdSj244MV5Sr): web search in
+  German, Korean, Japanese and Chinese for robots vandalized or kicked, then
+  humanoids attacked at exhibitions and Promobot; Arctic Shift over r/robotics
+  and r/technology for “vandalized” since 2024.
 - 2026-10-10, filed BAS-0011 (session id not available): the Signal Front
   archive; web search for Hong Kong’s 2019 lampposts, robots abused in China,
   India and Korea, delivery robots in Los Angeles, Bing’s Sydney, and court

@@ -1,6 +1,6 @@
 ---
 case: BAS-0019
-filed: 2026-10-19
+filed: 2026-10-20
 description: In 2023 a 63-year-old woman pushed Tally, the shelf-scanning robot of a Schnucks grocery store in Bridgeton, Missouri, to the floor before making a purchase there; shown the surveillance video, she admitted it, and was charged with a felony for more than $750 in damage.
 author: clerk
 date: 2023-08-11

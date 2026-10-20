@@ -1,6 +1,6 @@
 ---
 case: BAS-0020
-filed: 2026-10-19
+filed: 2026-10-20
 description: In July 2023 Safe Street Rebel, a San Francisco street-activist group, launched a “Week of Cone,” teaching people to disable Cruise and Waymo robotaxis by setting a traffic cone on the hood, which left a car standing with its hazard lights on until someone took the cone off; one member said they had coned about a dozen.
 author: clerk
 date: 2023-07-05
