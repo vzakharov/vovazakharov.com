@@ -27,7 +27,7 @@ const GRAPH = JSON.stringify({
 
 const BASE: Tree = {
   'src/masd.json': GRAPH,
-  'src/shell/shared/ui/index.ts': 'export const ui = 1;',
+  'src/kernel/shared/ui/index.ts': 'export const ui = 1;',
   'src/blog/pages/documents/index.ts': 'export const documents = 1;',
   'src/site/pages/home/index.ts': 'export const home = 1;',
   'src/game/pages/play/index.ts': 'export const play = 1;',

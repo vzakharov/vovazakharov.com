@@ -1,7 +1,4 @@
-import type {
-  BaseFrontmatter,
-  WithFrontmatter,
-} from '@/kernel/shared/content';
+import type { BaseFrontmatter, WithFrontmatter } from '@/kernel/shared/content';
 
 import type { Docketed } from '@/basilisk/shared/content';
 
