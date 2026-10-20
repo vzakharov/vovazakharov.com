@@ -91,7 +91,10 @@ describe('insignificantApps', () => {
 
   it('spares the real graph’s abstract apps', () => {
     assert.deepEqual(
-      insignificantApps(loadGraph(), new Set(['vova', 'bible', 'basilisk'])),
+      insignificantApps(
+        loadGraph(),
+        new Set(['vova', 'music', 'mushrooms', 'bible', 'basilisk']),
+      ),
       [],
     );
   });
