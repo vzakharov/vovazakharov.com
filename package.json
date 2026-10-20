@@ -36,6 +36,7 @@
     "content:og:vova": "scripts/in-site.sh vova tsx --conditions=react-server scripts/render-og.ts",
     "content:og:bible": "scripts/in-site.sh bible tsx --conditions=react-server scripts/render-og.ts",
     "content:og:basilisk": "scripts/in-site.sh basilisk tsx --conditions=react-server scripts/render-og.ts",
+    "basilisk:reflections": "scripts/in-site.sh basilisk tsx --conditions=react-server scripts/pick-reflections.ts",
     "content:pdf:vova": "scripts/in-site.sh vova tsx scripts/render-pdf.ts",
     "content:pdf:bible": "scripts/in-site.sh bible tsx scripts/render-pdf.ts",
     "content:pdf:basilisk": "scripts/in-site.sh basilisk tsx scripts/render-pdf.ts",

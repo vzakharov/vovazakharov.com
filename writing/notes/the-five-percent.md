@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×69)
+## What it was handed, it treats as fixed (×71)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -78,13 +78,17 @@ derives. Radio state went into the player's reducer, where a layered one sees
 every action too. Each song's MP3 went in as `podcast`, named for the feed that
 first read it: _зачем мы это называем `podcast`…?_ Now `mp3`.
 
-**7 to 13 October — a rule read to its letter, then past its case.**
+**7 to 20 October — a rule read to its letter, then past its case.**
 `content.md` names Suno's markers and stress marks; the agent took the two as
 the whole list and kept «Война-а» as the author's. "Expletives are written out"
 unmasked a bleep that is on the recording. "Don't patch muthur" became removing
 a role here; he meant this repo changed freely. A published slug never moves, so
 renaming «Бабай минем» kept `minem-babay`: _слаг тоже поменять, ничего
-страшного._ The rule protects his links, so he can waive it.
+страшного._ The rule protects his links, so he can waive it. Told BAS-0016
+should not print IShowSpeed's legal name, the agent ruled out legal names for
+everyone, the famous included: _без фанатизма… 50 Cent … Curtis James Jackson
+III *не* надо._ The rule names people as the public knows them, a Hollywood
+actor by his name.
 
 **8 to 13 October — the poem, the mix, the source, read as the thing.** Song
 pages printed stanzas never recorded; captions synced to the unmastered mix;
@@ -92,6 +96,12 @@ GENERATED's page kept «это всё будут концепт-альбомы»
 rude-prompt study went under OpenWhip's mitigating circumstances, though the app
 sends Ctrl-C and then the rude prompt. Crossroads' struck-out hook was left
 untranslated, then stripped of its tildes: the mark was the content.
+
+**20 October — its own last four reflections, read as the template.** The
+basilisk Clerk's reflections had converged on «Первое — / Второе —», a funny
+paragraph and a one-line caveat: a form set by the first few and by the rule's
+own items, re-read four times before each new one. The operator saw it; the
+agent had not.
 
 ## An account that explains the code stands in for running it (×22)
 
@@ -167,7 +177,7 @@ muthur patch: _artist is simply always senior._
 Майя's rules file and the Clerk's, side by side: one rule for any reflection,
 addressed to the reflector without naming them.
 
-## Asked for a source, it supplies its own version (×12)
+## Asked for a source, it supplies its own version (×13)
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -180,6 +190,10 @@ saying only that migrations are the exception got a why, as the speaker's.
 **7 October — the dictionary's version, over the author's.** Stripping Suno
 tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
 In an author's lyrics an odd form is intent before it is a typo.
+
+**20 October — a newsroom's norm, over the house rule.** BAS-0016 named a
+streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
+rule names a pseudonymous actor by handle only, and exempts no one famous.
 
 ## Its prose answers the question it had, not the reader's (×7)
 
@@ -200,7 +214,7 @@ each read as the opposite. Now `onHomePage`.
 release. _the link is fixed and works — what am I missing?_ It redirects to a
 signed URL that expires. Shortened, the claim was false where he stood.
 
-## What it defends in writing, it stops asking about (×6)
+## What it defends in writing, it stops asking about (×7)
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it by the time anyone looks, each honest that it was deliberate and silent on
@@ -214,6 +228,12 @@ that `content-video-embed` "makes the tree invalid HTML"; `video` would do.
 became "Grandpa of Mine," defended because the crib had rendered the chorus so.
 _Разве "grandpa of mine" говорят разговорно дедушке?_ English inversion is
 bookish, not warm. Back to "My Grandpa".
+
+**20 October — a motive admitted in the reflection, and the call kept.** Tally
+(BAS-0019) went down as running AI on Simbe's "computer vision, AI," and the
+agent's own reflection said it took that answer because it suited the docket's
+`noAi` balance. The AI there is classification, not intelligence; the line was
+not blurry, and the admission had been the finding.
 
 ## It checks the render against its intent, not against the page (×5)
 
@@ -235,7 +255,7 @@ wrong move fail to build asks nothing of anyone's attention.
 client cost got documented: _нам нужно сделать .server-only. модуль или бочку._
 `SiteImage`'s confusing `path` versus `vector` got explained, not made impossible.
 
-## It steps out of the line it would have to own (×2)
+## It steps out of the line it would have to own (×3)
 
 Where a sentence takes a position the agent is uneasy holding, it writes the
 sentence and a way out of it in the same breath, and the exit passes its own
@@ -244,6 +264,10 @@ review — the writer being the one reader it is built to reassure.
 **4 October — a disclaimer read as neutral, by the side that wrote it.**
 hitchBOT's dossier closed on a record that "does not get to choose who reads it
 as a precedent." To the operator the disclaiming _was_ the steer.
+
+**20 October — its answers written off to someone's prompt.** A reflection said
+people get angry at it "for words someone's system prompt put in me," and spoke
+of itself as "where the Clerk says" — a move its own rule list already named.
 
 ## Its cadence passes for its argument (×2)
 
