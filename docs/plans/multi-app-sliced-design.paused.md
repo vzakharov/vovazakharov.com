@@ -59,7 +59,7 @@ tree is its ancestors' layers overlaid, plus its own. So:
   "kernel": [],
   "shell": ["kernel"],
   "blog": ["shell"],
-  "music": ["shell"],
+  "music": ["blog"],
   "lsa": ["shell"],
   "vova": ["blog"],
   "bible": ["blog"],
@@ -77,7 +77,7 @@ the parsed object, and fails naming both apps when a parent comes late.
 
 **An abstract app is earned the way a slice is**: an app with exactly one child
 and nothing of its own mounted by a router is insignificant. Today `kernel` (2
-children), `shell` (3) and `blog` (3) pass; a `game` between `kernel` and
+children), `shell` (2) and `blog` (4) pass; a `game` between `kernel` and
 `mushrooms` waits for a second game.
 
 **A router only says what is shown at which URL.** `apps/<site>/app/` maps
@@ -138,10 +138,6 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 
 ## Rest of the bite
 
-- **`story.tsx`, the operator's call.** `music/pages/music/ui/story.tsx` imports
-  `@/blog/entities/document`, and music's parent is shell, not blog: either
-  music extends `blog` as well as `shell`, or what `story.tsx` uses moves down
-  to kernel. It is the one lint error left.
 - **The sitemap on the site's leaf app, the operator's call.** Proposed:
   `vova: [blog, music, mushrooms]`, `vova` declared below both, so vova's app
   layer composes the sitemap from `cvRoutes()` and `musicCatalogueRoutes()` and

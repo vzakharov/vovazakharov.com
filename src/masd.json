@@ -2,7 +2,7 @@
   "kernel": [],
   "shell": ["kernel"],
   "blog": ["shell"],
-  "music": ["shell"],
+  "music": ["blog"],
   "lsa": ["shell"],
   "vova": ["blog"],
   "bible": ["blog"],
