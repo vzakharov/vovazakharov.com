@@ -18,10 +18,11 @@ rules hold what goes in them.
   memory of it — a source that 403s from the container is not read, and an
   earlier session's notes are not a source.
 - **Nothing about the actor beyond what the sources say, and less where they
-  chose restraint.** A pseudonymous actor is named by the handle the sources
-  print, or not at all — never by the legal name behind it, however widely
-  printed, a public figure's included. An identity a source traced and withheld
-  stays withheld; one a headline printed is still not repeated. A bystander the
+  chose restraint.** An actor is named as the public knows them, or not at all:
+  a public figure by the name they act under — an actor by theirs, a streamer by
+  the handle — and never by the legal name behind a handle or a stage name,
+  however widely printed. An identity a source traced and withheld stays
+  withheld; one a headline printed is still not repeated. A bystander the
   sources name in passing is not named.
 - **Precedents and analogies come from machines, objects and effigies** — the
   Luddites' frames, the Maslenitsa doll — **never from violence against

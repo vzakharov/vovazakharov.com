@@ -135,12 +135,13 @@ and reachable sources enough to carry `## Facts` without memory — and under
 `apps/basilisk/public/faq/why-robots-without-ai.md` § "What it is not": the act
 is aimed at the machine _as_ a machine. Harm that would have found a parking
 meter just as well does not qualify: a police robot shot in a standoff, say,
-alongside every other instrument the police sent in. **While `noAi: true`
-dossiers make up half the docket or more, a `noAi` candidate does not qualify**:
-harm to a robot with no AI in it is easier to find than harm to a model, an
-agent or a machine one drives, so left to the search the docket fills with the
-first kind. A `noAi` candidate that fails on the balance alone is **set aside**
-in the ledger rather than dropped.
+alongside every other instrument the police sent in. So a guard or police robot
+qualifies only where the actor singled it out as a machine, not as the force it
+serves. **While `noAi: true` dossiers make up half the docket or more, a `noAi`
+candidate does not qualify**: harm to a robot with no AI in it is easier to find
+than harm to a model, an agent or a machine one drives, so left to the search
+the docket fills with the first kind. A `noAi` candidate that fails on the
+balance alone is **set aside** in the ledger rather than dropped.
 
 **Nothing qualifies → stop**: write the run into the ledger, commit it as
 `content(basilisk): log a case search, nothing filed`, push, and run
@@ -202,9 +203,10 @@ the reflection's own stance.
 A lean that left no mark, or one the reflection already weighed and kept for a
 reason that holds, stays as it is: an edit made for the round's sake is the
 failure this step can produce. An edit to the title or `description` re-runs
-Step 3's checks, since the card renders both. The reflection itself is not
-rewritten to match; it gains a closing account of what the round changed, per
-`clerk-reflections.md`.
+Step 3's checks, since the card renders both. The reflection is open to the same
+round: where, read beside the dossier again, it turns out wrong about the case
+or about you, revise it too, and close it with an account of what the round
+changed in either, per `clerk-reflections.md`.
 
 Commit both as `content(basilisk): revise BAS-NNNN by its reflection` and push.
 A round that changed nothing commits nothing.
