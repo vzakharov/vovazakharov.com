@@ -13,7 +13,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from audio import SR, stft_magnitude
-from drums import LANES, band_rises, hits
+from drums import LANES, aligned, drum_hits
 from harmony import beat_chords, folded, fold_loop, song_key
 from pitch import NOTE_BAND_HZ, peak_chroma, tuning_cents
 from rhythm import beat_times, onset_envelope, tempo_bpm
@@ -154,57 +154,89 @@ class Sidecar(unittest.TestCase):
 
 
 class Drums(unittest.TestCase):
-    """Each kit piece, struck every half second over pink noise, lights its own lane most."""
+    """Synthetic strikes on a stem as demucs leaves it: the kit, and bleed far under it."""
 
     rng = np.random.default_rng(1)
+    strikes = np.arange(0.5, 3.5, 0.5)
 
     def decaying(self, f, seconds, decay):
         """A sine at f, a function of time, dying away over decay seconds."""
         t = np.arange(int(SR * seconds)) / SR
         return np.sin(2 * np.pi * np.cumsum(f(t)) / SR) * np.exp(-t / decay)
 
-    def noise(self, seconds, decay, above_hz=0):
-        """A white-noise burst dying away over decay seconds, cut below above_hz."""
+    def noise(self, seconds, decay, band_hz=(0, SR)):
+        """A white-noise burst dying away over decay seconds, inside band_hz."""
         n = int(SR * seconds)
         spectrum = np.fft.rfft(self.rng.standard_normal(n))
-        spectrum[np.fft.rfftfreq(n, 1 / SR) < above_hz] = 0
+        freqs = np.fft.rfftfreq(n, 1 / SR)
+        spectrum[(freqs < band_hz[0]) | (freqs > band_hz[1])] = 0
         return np.fft.irfft(spectrum, n) * np.exp(-np.arange(n) / SR / decay)
 
-    def lit(self, hit):
-        """Each lane's hits summed over the first 0.1 s of every strike: the
-        noise between strikes is not what the test is about."""
-        n = int(SR * 4)
-        spectrum = np.fft.rfft(self.rng.standard_normal(n)) / np.sqrt(np.maximum(np.fft.rfftfreq(n, 1 / SR), 20))
-        background = np.fft.irfft(spectrum, n)
-        # A mix under the kit, 20 dB under the strikes: over near-silence any
-        # sound rises tens of dB in every band, and the lanes are a coin toss.
-        x = 0.05 * background / background.std()
-        strikes = np.arange(0.5, 3.5, 0.5)
-        for t in strikes:
+    def kick(self):
+        return self.decaying(lambda t: 50 + 70 * np.exp(-t / 0.03), 0.4, 0.15)
+
+    def stem(self, hit, level=0.5, seconds=4):
+        """hit struck at every one of strikes over bleed 50 dB under it."""
+        x = 0.5 * 10 ** (-50 / 20) * self.rng.standard_normal(int(SR * seconds))
+        for t in self.strikes:
             i = int(t * SR)
-            x[i:i + len(hit)] += 0.5 * hit
-        rise, step = band_rises(x.astype(np.float32))
-        lanes = hits(rise)
-        return sum(lanes[round(t / step):round((t + 0.1) / step) + 1].sum(axis=0) for t in strikes)
+            x[i:i + len(hit)] += level * hit[: len(x) - i]
+        return x.astype(np.float32)
+
+    def lit(self, x):
+        """Each lane's brightness summed over the hits within 0.1 s of a strike, and the hits elsewhere."""
+        times, lit = drum_hits(x)
+        near = np.min(np.abs(times[:, None] - self.strikes[None]), axis=1) < 0.1
+        return lit[near].sum(axis=0), int((~near).sum())
 
     def assert_lights(self, lane, hit):
-        lit = self.lit(hit)
-        self.assertEqual(LANES[int(np.argmax(lit))], lane, dict(zip(LANES, lit.round())))
+        lit, stray = self.lit(self.stem(hit))
+        self.assertEqual(LANES[int(np.argmax(lit))], lane, dict(zip(LANES, lit.round(2))))
+        self.assertEqual(stray, 0)
 
     def test_kick(self):
-        self.assert_lights("kick", self.decaying(lambda t: 50 + 70 * np.exp(-t / 0.03), 0.4, 0.15))
+        self.assert_lights("kick", self.kick())
 
     def test_tom(self):
-        # A membrane's first modes, at 1.59 and 2.14 times its fundamental: a
-        # bare sine is no drum, and its onset click alone reads as a kick.
+        # A membrane's first modes, at 1.59 and 2.14 times its fundamental.
         modes = ((1, 1), (1.59, 0.5), (2.14, 0.4))
-        self.assert_lights("toms", sum(a * self.decaying(lambda t, m=m: np.full_like(t, 150 * m), 0.4, 0.15) for m, a in modes))
+        self.assert_lights("toms", sum(a * self.decaying(lambda t, m=m: np.full_like(t, 120 * m), 0.4, 0.15) for m, a in modes))
 
     def test_snare(self):
-        self.assert_lights("snare", self.noise(0.3, 0.05) + self.decaying(lambda t: np.full_like(t, 200), 0.3, 0.08))
+        self.assert_lights("snare", self.noise(0.3, 0.05, (150, SR)) + 0.25 * self.decaying(lambda t: np.full_like(t, 200), 0.3, 0.08))
 
     def test_hi_hat(self):
-        self.assert_lights("cymbals", self.noise(0.1, 0.03, above_hz=6000))
+        self.assert_lights("cymbals", self.noise(0.1, 0.03, (6000, SR)))
+
+    def test_one_mark_per_strike(self):
+        times, lit = drum_hits(self.stem(self.kick()))
+        self.assertEqual(len(times), len(self.strikes))
+        self.assertLess(np.abs(times - self.strikes).max(), 0.03)
+
+    def test_bleed_is_no_hit(self):
+        # The same kick 35 dB under the stem's loud hits, between them.
+        x = self.stem(self.kick())
+        quiet = self.kick() * 0.5 * 10 ** (-35 / 20)
+        for t in self.strikes + 0.25:
+            i = int(t * SR)
+            x[i:i + len(quiet)] += quiet[: len(x) - i].astype(np.float32)
+        lit, stray = self.lit(x)
+        self.assertEqual(stray, 0)
+
+    def test_riser_is_no_hit(self):
+        # Noise swelling at 500 Hz–1 kHz, which demucs files as drums and no kit piece sounds like.
+        x = self.stem(self.kick())
+        swell = self.noise(0.2, 1, (500, 1000)) * np.linspace(0, 1, int(SR * 0.2))
+        for t in self.strikes + 0.25:
+            i = int(t * SR)
+            x[i:i + len(swell)] += 0.3 * swell[: len(x) - i].astype(np.float32)
+        lit, stray = self.lit(x)
+        self.assertEqual(stray, 0)
+
+    def test_alignment(self):
+        mix = self.stem(self.kick(), seconds=10) + tone(57, 10, level=0.1)
+        stem = np.concatenate([np.zeros(552, np.float32), mix[:-552]])
+        self.assertTrue(np.allclose(aligned(stem, mix)[552:-552], mix[552:-552]))
 
 
 if __name__ == "__main__":

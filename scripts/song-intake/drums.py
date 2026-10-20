@@ -1,29 +1,27 @@
-"""A song's drums as four lanes — kick, toms, snare, cymbals — each as bright as its hits.
+"""A song's drums as four lanes — kick, toms, snare, cymbals — read off its drums stem.
 
-A hit is a sudden rise: per 23 ms frame, how far each of nine bands climbs over
-its quietest in the frames before. A kit piece rises in its own bands and not
-in others, so each frame's rises are unmixed onto one fixed band signature per
-kit piece by non-negative least squares, and a lane is as bright as its
-pieces' share — lit only at the frame where that share peaks, so a hit is one
-mark rather than a smear across the frames its pooling reaches.
+The stem is demucs's (`python -m demucs --two-stems=drums -n htdemucs`), since
+off the mix a picked guitar's attack rises in the bands the way a hit does and
+no calibration tells the two apart. demucs's WAV runs a few hundred samples
+behind the master, so the stem is first aligned to it by cross-correlation.
 
-The signatures are heuristics, read off hits measured in the catalogue's mixes
-rather than learned: a kick rises most under 250 Hz and clicks at 2.5–8 kHz; a
-tom rises at 120–250 Hz, less at 60–120 and over its 250–500 Hz overtones, with
-nothing under 60; a snare or clap is noise from 1 kHz up over a 120–500 Hz
-body; a cymbal is noise above 2.5 kHz alone, which is what tells it from a
-snare. A floor tom down around 100 Hz rises where a kick does, and lights the
-kick lane. A kick's click, body and pitch sweep land a frame or two apart, so
-each band's rise is the most it reaches across a few frames around the hit,
-and the hit unmixes whole instead of lighting toms and cymbals with its parts.
+A hit is an onset of the stem: a peak of its log-spectral flux, the summed
+rise of every bin over the frame before, standing over its neighbours and
+over the flux around it. Per onset, the power each of nine bands gains over
+the frames before is unmixed onto one band shape per kit piece by
+non-negative least squares — linear power, so a quiet hat over a kick keeps
+its high bands and the kick its low ones. The shapes are measured off hits in
+the catalogue's own stems: a kick with and without a click, toms, a snare and
+a clap, a closed hat and a crash.
 
-The lanes read a kit over a mix: over near-silence any sound rises tens of dB
-in every band, and the lanes are a coin toss.
+Two kinds of onset are not hits. Bleed — the rest of the mix, which demucs
+never quite removes — sits far under the stem's loud hits. A non-drum sound
+demucs files as drums, such as a noise riser, fits no kit piece's shape, and
+the unmix leaves much of its power unexplained.
 
-There is no harmonic/percussive separation first: at the 21.5 Hz bins a 23 ms
-frame allows, a kick's few low bins look harmonic and the separation erases it.
-Nor a longer window for the low bands, finer as their bins would be: it
-averages a kick's burst with the bass held under it, and the kick goes dim.
+A piece lights its lane when it carries most of the power in its own loudest
+band, and as brightly as its level against that lane's loudest hits in the
+song, so a hat reads as plainly as a kick an octave of loudness above it.
 """
 
 import numpy as np
@@ -33,78 +31,158 @@ from audio import SR, stft_magnitude
 DRUM_NFFT = 1024
 LANES = ("kick", "toms", "snare", "cymbals")
 BAND_EDGES_HZ = (30, 60, 120, 250, 500, 1000, 2500, 5000, 8000, SR / 2)
-# Per kit piece, its lane and how far each band rises on its hits, relative to
-# its loudest band. A lane may hold several: a kick with a click and without,
-# an acoustic snare and a clap.
-PIECES = (
-    ("kick", (0.85, 0.85, 1.0, 0.3, 0.15, 0.2, 0.3, 0.6, 0.35)),
-    ("kick", (0.9, 1.0, 0.6, 0.3, 0.2, 0.25, 0.2, 0.25, 0.25)),
-    ("toms", (0.0, 0.3, 1.0, 0.5, 0.25, 0.1, 0.05, 0.0, 0.0)),
-    ("snare", (0.05, 0.1, 0.6, 1.0, 0.7, 0.35, 0.4, 0.45, 0.3)),
-    ("snare", (0.0, 0.05, 0.15, 0.2, 0.2, 0.35, 0.65, 1.0, 0.5)),
-    ("cymbals", (0.0, 0.0, 0.0, 0.0, 0.0, 0.03, 0.3, 1.0, 0.85)),
+# Per kit piece, its lane and the power each band gains on its hits, in dB
+# under its loudest band.
+PIECES_DB = (
+    ("kick", (-21, 0, -4, -20, -35, -47, -56, -58, -60)),
+    ("kick", (-6, 0, -10, -23, -20, -17, -21, -22, -26)),
+    ("kick", (-19, 0, 0, -11, -18, -28, -46, -51, -56)),
+    ("toms", (-35, -10, 0, -6, -18, -30, -40, -45, -50)),
+    ("snare", (-37, -35, -26, -12, -5, 0, -3, 0, 0)),
+    ("snare", (-25, -21, -17, -14, -19, 0, -2, -1, -4)),
+    ("cymbals", (-45, -33, -29, -35, -37, -35, -32, -4, 0)),
+    ("cymbals", (-45, -40, -35, -30, -20, -10, -3, 0, -2)),
 )
-# A band rises over its minimum in this many frames before.
-RISE_FRAMES = 4
-# A hit's rises are pooled over this many frames before it and after it.
-HIT_BEFORE, HIT_AFTER = 1, 4
-BAND_FLOOR_DB = -80
-# Music without drums rises a few dB in every band from frame to frame; a lane
-# is black up to NOISE_RISE_DB and full at FULL_RISE_DB.
-NOISE_RISE_DB, FULL_RISE_DB = 4, 14
-UNMIX_ITERATIONS = 100
-# A hit is a lane's peak over this many frames either side, at a frame whose
-# total rise is at least CENTRAL_SHARE of the most over as many.
+# demucs's lag behind the master is under this.
+ALIGN_SEARCH_S = 0.5
+# An onset is a flux peak over this many frames either side, above
+# FLUX_OVER_MEAN times the flux's mean over FLUX_MEAN_S either side.
 PEAK_FRAMES = 3
-CENTRAL_SHARE = 0.7
+FLUX_OVER_MEAN = 1.5
+FLUX_MEAN_S = 0.5
+LOG_FLOOR_DB = -80
+# A hit's power is the most each band reaches over the frames from its onset
+# to HIT_AFTER past it, over the least in the BEFORE_FRAMES ending two frames
+# ahead of it, the last whose window the onset does not reach.
+HIT_AFTER = 2
+BEFORE_FRAMES = 2
+# An onset this far under the stem's loud frames is bleed.
+BLEED_DB = -25
+LOUD_PERCENTILE = 95
+# An onset whose unmix leaves more than this share of its power unexplained is no kit.
+UNEXPLAINED = 0.4
+# A lane lights where, without its pieces, the rest of the kit falls this far
+# short of a band the hit sounds in — one within SOUNDING_DB of its loudest.
+NEEDED_DB = 6
+SOUNDING_DB = -30
+# A lane's hits fade from full brightness at its loudest to black this far under.
+LANE_RANGE_DB = 24
+UNMIX_ITERATIONS = 200
 
 
-def band_rises(x):
-    """Per frame and band, the rise in dB pooled over the hit: (rises, step in s)."""
+def shapes():
+    """PIECES_DB as linear power, (pieces, bands), and each piece's lane index."""
+    w = 10 ** (np.array([db for _, db in PIECES_DB], np.float64) / 10)
+    return w, np.array([LANES.index(lane) for lane, _ in PIECES_DB])
+
+
+def aligned(stem, mix):
+    """The stem shifted onto the mix's time, as long as the mix: the lag
+    within ALIGN_SEARCH_S that best correlates the two."""
+    n = 1 << int(np.ceil(np.log2(len(stem) + len(mix))))
+    corr = np.fft.irfft(np.fft.rfft(mix, n) * np.conj(np.fft.rfft(stem, n)), n)
+    reach = int(ALIGN_SEARCH_S * SR)
+    lags = np.concatenate([np.arange(reach + 1), np.arange(-reach, 0)])
+    lag = lags[np.argmax(corr[lags])]
+    shifted = np.zeros(len(mix), np.float32)
+    if lag >= 0:
+        piece = stem[: len(mix) - lag]
+        shifted[lag:lag + len(piece)] = piece
+    else:
+        piece = stem[-lag:-lag + len(mix)]
+        shifted[: len(piece)] = piece
+    return shifted
+
+
+def band_power(x):
+    """Per frame, each band's power and the spectral flux: (power, flux, step in s)."""
     magnitude, freqs, step = stft_magnitude(x, DRUM_NFFT, DRUM_NFFT // 2)
     power = magnitude.astype(np.float64) ** 2
     band = np.digitize(freqs, BAND_EDGES_HZ) - 1
-    energy = np.stack([power[:, band == b].sum(axis=1) for b in range(len(BAND_EDGES_HZ) - 1)], axis=1)
-    level = 10 * np.log10(np.maximum(energy, 10 ** (BAND_FLOOR_DB / 10)))
-    padded = np.pad(level, ((RISE_FRAMES, 0), (0, 0)), mode="edge")
-    before = np.min([padded[RISE_FRAMES - k:len(padded) - k] for k in range(1, RISE_FRAMES + 1)], axis=0)
-    return around(np.maximum(level - before, 0), HIT_BEFORE, HIT_AFTER), step
+    bands = np.stack([power[:, band == b].sum(axis=1) for b in range(len(BAND_EDGES_HZ) - 1)], axis=1)
+    floor = magnitude.max() * 10 ** (LOG_FLOOR_DB / 20)
+    log = np.log10(np.maximum(magnitude, floor))
+    flux = np.concatenate([[0], np.maximum(np.diff(log, axis=0), 0).sum(axis=1)])
+    return bands, flux, step
 
 
-def unmix(rise):
-    """Each lane's share of each frame's rises, in dB: the non-negative least
-    squares of the rises onto PIECES, summed per lane, as (frames, len(LANES))."""
-    w = np.array([signature for _, signature in PIECES])
-    a = np.full((len(rise), len(w)), 1.0) * rise.mean(axis=1, keepdims=True)
-    top = rise @ w.T
+def onsets(flux, step):
+    """The frames where the flux peaks over PEAK_FRAMES either side and over its local mean."""
+    padded = np.pad(flux, PEAK_FRAMES)
+    peak = flux >= np.max([padded[k:k + len(flux)] for k in range(2 * PEAK_FRAMES + 1)], axis=0)
+    reach = max(1, round(FLUX_MEAN_S / step))
+    kernel = np.ones(2 * reach + 1) / (2 * reach + 1)
+    mean = np.convolve(flux, kernel, mode="same")
+    return np.flatnonzero(peak & (flux > FLUX_OVER_MEAN * mean) & (flux > 0))
+
+
+def gained(bands, frames):
+    """Per onset, the power each band gains over the frames before it, as (onsets, bands)."""
+    n = len(bands)
+    after = np.max([bands[np.minimum(frames + k, n - 1)] for k in range(HIT_AFTER + 1)], axis=0)
+    before = np.min([bands[np.maximum(frames - 2 - k, 0)] for k in range(BEFORE_FRAMES)], axis=0)
+    return np.maximum(after - before, 0)
+
+
+def unmix(gain, w):
+    """Non-negative least squares of each row of gain onto the rows of w, by
+    multiplicative updates: (onsets, pieces)."""
+    a = np.full((len(gain), len(w)), 1.0) * gain.sum(axis=1, keepdims=True) / w.sum()
+    top = gain @ w.T
     gram = w @ w.T
     for _ in range(UNMIX_ITERATIONS):
-        a *= top / np.maximum(a @ gram, 1e-12)
-    lane = np.array([LANES.index(name) for name, _ in PIECES])
-    return np.stack([a[:, lane == k].sum(axis=1) for k in range(len(LANES))], axis=1)
+        a *= top / np.maximum(a @ gram, 1e-30)
+    return a
 
 
-def around(v, before=PEAK_FRAMES, after=PEAK_FRAMES):
-    """v's maximum over the frames from before ahead of each frame to after past it."""
-    padded = np.pad(v, ((before, after),) + ((0, 0),) * (v.ndim - 1))
-    return np.max([padded[k:k + len(v)] for k in range(before + after + 1)], axis=0)
+def misfit_db(gain, model):
+    """Per onset, the most the model is off the gain in any band either of
+    them sounds in, within SOUNDING_DB of the louder's loudest band, in dB."""
+    loudest = np.maximum(gain, model).max(axis=1, keepdims=True)
+    sounding = np.maximum(gain, model) >= loudest * 10 ** (SOUNDING_DB / 10)
+    floor = loudest * 10 ** (SOUNDING_DB / 10)
+    off = np.abs(10 * np.log10(np.maximum(gain, floor) / np.maximum(model, floor)))
+    return np.where(sounding, off, 0).max(axis=1)
 
 
-def hits(rise):
-    """Each lane's rise in dB at the frames where it peaks, 0 between, as (frames, len(LANES)).
+def drum_hits(stem):
+    """Every hit of the aligned stem: (times in s, each lane's brightness 0–1 as (hits, len(LANES)))."""
+    bands, flux, step = band_power(stem)
+    frames = onsets(flux, step)
+    w, lane_of = shapes()
+    gain = gained(bands, frames)
+    a = unmix(gain, w)
+    model = a @ w
+    total = gain.sum(axis=1)
+    loud = np.percentile(bands.sum(axis=1), LOUD_PERCENTILE)
+    level_db = 10 * np.log10(np.maximum(total, 1e-30) / loud)
+    unexplained = ((gain - model) ** 2).sum(axis=1) / np.maximum((gain**2).sum(axis=1), 1e-30)
+    kept = (level_db > BLEED_DB) & (unexplained <= UNEXPLAINED) & (total > 0)
 
-    A peak counts only where the frame's total rise is near the most around it:
-    the frames whose pooling reaches only the edge of a hit, such as a kick's
-    sweep before it gets to the lowest band, unmix as some other piece."""
-    lanes = unmix(rise)
-    total = rise.sum(axis=1)
-    central = total >= CENTRAL_SHARE * around(total)
-    return np.where((lanes >= around(lanes)) & central[:, None], lanes, 0)
+    # Each lane's power, where the other lanes' pieces, refitted without it,
+    # miss the hit's shape by NEEDED_DB more than the whole kit does.
+    lane_power = np.zeros((len(frames), len(LANES)))
+    for k in range(len(LANES)):
+        others = lane_of != k
+        without = unmix(gain, w[others]) @ w[others]
+        needed = misfit_db(gain, without) >= misfit_db(gain, model) + NEEDED_DB
+        lane_power[:, k] = np.where(needed & kept, (a[:, ~others] @ w[~others]).sum(axis=1), 0)
+
+    lit = np.zeros_like(lane_power)
+    for k in range(len(LANES)):
+        on = lane_power[:, k] > 0
+        if on.any():
+            db = 10 * np.log10(lane_power[on, k] / lane_power[on, k].max())
+            lit[on, k] = np.clip(1 + db / LANE_RANGE_DB, 0, 1)
+    some = lit.any(axis=1)
+    return frames[some] * step, lit[some]
 
 
-def drum_lanes(x, duration, columns):
-    """Per column of the plot, each lane's brightness 0–1, as (len(LANES), columns)."""
-    rise, step = band_rises(x)
-    lit = np.clip((hits(rise) - NOISE_RISE_DB) / (FULL_RISE_DB - NOISE_RISE_DB), 0, 1)
-    start = np.minimum((np.arange(columns) * duration / columns / step).astype(int), len(lit) - 1)
-    return np.maximum.reduceat(lit, start, axis=0).T
+def drum_lanes(times, lit, t0, t1, columns):
+    """Per column of the plot from t0 to t1, each lane's brightness 0–1, as (len(LANES), columns)."""
+    lanes = np.zeros((len(LANES), columns))
+    inside = (times >= t0) & (times < t1)
+    column = ((times[inside] - t0) / (t1 - t0) * columns).astype(int)
+    for c, row in zip(column, lit[inside]):
+        lanes[:, c] = np.maximum(lanes[:, c], row)
+    return lanes

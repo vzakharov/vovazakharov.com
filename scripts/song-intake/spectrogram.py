@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """A song's spectrogram over its loudness and its chromagram: its whole length across, pitch up.
 
-Usage: spectrogram.py <song> <dir>/<slug>.png [--from m:ss --to m:ss]
+Usage: spectrogram.py <song> <dir>/<slug>.png [--drums <stem>] [--from m:ss --to m:ss]
 
 Beside the PNG it writes <slug>.txt, the sidecar: the numbers the picture can
 only approximate — tempo, key, tuning, and per section its tempo, loudness and
@@ -45,10 +45,12 @@ its row. Twelve hues for twelve classes would be misread for their neighbours;
 five far apart are not. A faint cell is grey, its octave too unsure to colour,
 and a strip is dark where its band is quiet.
 
-At the bottom, the drums: four lanes, kick, toms, snare (claps with it) and
-cymbals, each a hue of its own and a mark as bright as the hit, so the rhythm
-reads off it the way the harmony reads off the strips. `drums.py` says how a
-hit is told from the mix and which piece it is, and where it gets that wrong.
+At the bottom, given --drums and the song's demucs drums stem, the drums:
+four lanes, kick, toms, snare (claps with it) and cymbals, each a hue of its
+own and a mark as bright as the hit, so the rhythm reads off it the way the
+harmony reads off the strips. `drums.py` says how the stem is read and which
+of its onsets it refuses. Without a stem there is no drum row: off the mix
+alone a guitar's attack reads as a hit.
 
 The spectrogram's map is cut into 2.5 dB steps, the strips' into a few
 brightness steps per octave, and the PNG kept to those colours and a few greys,
@@ -64,7 +66,7 @@ from pathlib import Path
 import numpy as np
 
 from audio import FLOOR_DB, LOW_HZ, QUIET, SR, TOP_HZ, decode, log_rows, mmss, stft_magnitude
-from drums import LANES, drum_lanes
+from drums import LANES, aligned, drum_hits, drum_lanes
 from harmony import note_names
 from pitch import NOTE_BAND_HZ, chroma_shares
 from song_facts import measure, sidecar, tempo_label, tuning_label
@@ -107,6 +109,8 @@ LEVEL_SHADES = ((0.42, 0.42, 0.42), (0.65, 0.65, 0.65))
 # DRUM_STEPS; none is an octave's hue, since a lane has no octave.
 DRUM_COLOURS = {"kick": "#ff6a3d", "toms": "#ffb347", "snare": "#fff27a", "cymbals": "#9fe8ff"}
 DRUM_STEPS = 8
+# The drum row's height against the strips', and the figure's height with it.
+KIT_RATIO = 0.8
 
 
 def envelope(x, columns):
@@ -192,10 +196,11 @@ def split_hz(midi, tuning):
     return 440 * 2 ** ((midi - 69.5) / 12 + tuning / 1200)
 
 
-def render(name, x, whole, facts, t0, t1, split_midi, out_png, section=None):
+def render(name, x, whole, facts, drums, t0, t1, split_midi, out_png, section=None):
     """Draw t0–t1 of the song to out_png. x is the whole song's samples and
-    whole its drawing_stft, reused when the stretch is all of it; section is
-    the number a section's zoom is titled with."""
+    whole its drawing_stft, reused when the stretch is all of it; drums is
+    drum_hits of its stem, or None for no drum row; section is the number a
+    section's zoom is titled with."""
     import matplotlib
 
     matplotlib.use("Agg")
@@ -209,15 +214,19 @@ def render(name, x, whole, facts, t0, t1, split_midi, out_png, section=None):
     duration = t1 - t0
 
     cmap = plt.get_cmap("magma", round(-FLOOR_DB / STEP_DB))
+    ratios = (4, 0.8, 1.6, 1.6) + ((KIT_RATIO,) if drums else ())
+    height = HEIGHT_PX * sum(ratios) / (sum(ratios[:4]) + KIT_RATIO)
     fig, axes = plt.subplots(
-        5, 2, figsize=(WIDTH_PX / DPI, HEIGHT_PX / DPI), dpi=DPI, sharex="col",
-        gridspec_kw={
-            "height_ratios": (4, 0.8, 1.6, 1.6, 0.8), "width_ratios": (1, 0.015), "hspace": 0.08, "wspace": 0.01,
-        },
+        len(ratios), 2, figsize=(WIDTH_PX / DPI, height / DPI), dpi=DPI, sharex="col",
+        gridspec_kw={"height_ratios": ratios, "width_ratios": (1, 0.015), "hspace": 0.08, "wspace": 0.01},
     )
-    (ax, cax), (wave, spare), (treble, treble_key), (bass, bass_key), (kit, kit_spare) = axes
+    (ax, cax), (wave, spare), (treble, treble_key), (bass, bass_key) = axes[:4]
     spare.remove()
-    kit_spare.remove()
+    kit = None
+    if drums:
+        kit, kit_spare = axes[4]
+        kit_spare.remove()
+    bottom = kit or bass
 
     # Rows are evenly spaced in octaves, so the image sits on a linear log2(Hz) axis.
     image = ax.imshow(
@@ -298,24 +307,23 @@ def render(name, x, whole, facts, t0, t1, split_midi, out_png, section=None):
         key.set_yticklabels([f"C{o}" for o in held], fontsize=8)
     treble_key.set_title("octave", fontsize=8)
 
-    hits = drum_lanes(x, duration, columns)
-    hits[:, rms < QUIET] = 0
     kit_ramps = drum_ramps()
-    kit.imshow(
-        drum_image(hits, kit_ramps), origin="lower", aspect="auto",
-        extent=(t0, t1, -0.5, len(LANES) - 0.5), interpolation="nearest",
-    )
+    if kit:
+        kit.imshow(
+            drum_image(drum_lanes(*drums, t0, t1, columns), kit_ramps), origin="lower", aspect="auto",
+            extent=(t0, t1, -0.5, len(LANES) - 0.5), interpolation="nearest",
+        )
+        kit.yaxis.set_major_locator(FixedLocator(range(len(LANES))))
+        kit.set_yticklabels(LANES, fontsize=7)
+        kit.set_ylabel("drums")
     for strip in (treble, bass, kit):
-        for t in beats:
+        for t in beats if strip else ():
             strip.axvline(t, color="white", alpha=0.45, linewidth=0.6)
-    kit.yaxis.set_major_locator(FixedLocator(range(len(LANES))))
-    kit.set_yticklabels(LANES, fontsize=7)
-    kit.set_ylabel("drums")
 
-    kit.set_xlim(t0, t1)
-    kit.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))
-    kit.xaxis.set_major_formatter(FuncFormatter(mmss))
-    kit.set_xlabel("time (m:ss)")
+    bottom.set_xlim(t0, t1)
+    bottom.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))
+    bottom.xaxis.set_major_formatter(FuncFormatter(mmss))
+    bottom.set_xlabel("time (m:ss)")
     fig.subplots_adjust(left=PLOT_LEFT, right=PLOT_RIGHT, top=0.965, bottom=0.05)
 
     buffer = io.BytesIO()
@@ -345,6 +353,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("song")
     parser.add_argument("out_png")
+    parser.add_argument("--drums", help="the song's demucs drums stem, which the drum row is read off")
     parser.add_argument("--from", dest="start", type=seconds, help="zoom start, m:ss")
     parser.add_argument("--to", dest="end", type=seconds, help="zoom end, m:ss")
     parser.add_argument(
@@ -359,16 +368,19 @@ def main():
     x = decode(args.song)
     whole = drawing_stft(x)
     facts = measure(x, *whole)
+    drums = drum_hits(aligned(decode(args.drums), x)) if args.drums else None
+    if not drums:
+        print("no --drums stem: the drum row is left out")
     if args.start is not None or args.end is not None:
         t0 = args.start or 0
         t1 = min(args.end or facts.duration, facts.duration)
         if not 0 <= t0 < t1:
             parser.error(f"--from {mmss(t0)} must come before --to {mmss(t1)}")
-        render(name, x, whole, facts, t0, t1, args.split, out_png)
+        render(name, x, whole, facts, drums, t0, t1, args.split, out_png)
         return
 
     out_png.parent.mkdir(parents=True, exist_ok=True)
-    render(name, x, whole, facts, 0, facts.duration, args.split, out_png)
+    render(name, x, whole, facts, drums, 0, facts.duration, args.split, out_png)
     text = out_png.with_suffix(".txt")
     text.write_text(sidecar(name, facts), encoding="utf-8")
     print(text)
@@ -379,7 +391,7 @@ def main():
         if old.stem.isdigit():
             old.unlink()
     for n, s in enumerate(facts.sections, 1):
-        render(name, x, whole, facts, s.start, s.end, args.split, out_png.with_name(f"{n}.png"), section=n)
+        render(name, x, whole, facts, drums, s.start, s.end, args.split, out_png.with_name(f"{n}.png"), section=n)
 
 
 if __name__ == "__main__":
