@@ -1,0 +1,89 @@
+{
+  "estimate": {
+    "at": "2026-10-14T21:24:03.885Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "pinning a device-only bug to AVFoundation's FLAC seeking took someone who reads codec headers and knows how each engine seeks; the seektable experiment needed the same depth"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "9f8938a6-35f9-5515-a462-df9dd7dab09d",
+  "branch": "claude/radio-webkit-seek-mnv6xc",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "глюк в радио, при этом удалось воспроизвести только на телефоне: подключаешься, играет не с той секунды, которая отображена (а с более ранней -- но при этом не …",
+  "prs": [
+    1,
+    157
+  ],
+  "url": "https://claude.ai/code/session_019VugH2y9S5RAbo5X9S1To5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-14T20:45:59.608Z",
+  "lastResponseAt": "2026-10-14T21:24:43.195Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "total": {
+    "inputTokens": 124,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 176240,
+    "cacheReadTokens": 10788022,
+    "outputTokens": 39441,
+    "thinkingTokens": 12798,
+    "responses": 62,
+    "costUsd": 4.3568404
+  },
+  "ownTurns": {
+    "inputTokens": 124,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 176240,
+    "cacheReadTokens": 10788022,
+    "outputTokens": 39441,
+    "thinkingTokens": 12798,
+    "responses": 62,
+    "costUsd": 4.3568404
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 124,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 176240,
+      "cacheReadTokens": 10788022,
+      "outputTokens": 39441,
+      "thinkingTokens": 12798,
+      "responses": 62,
+      "costUsd": 4.3568404
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/radio-webkit-seek.draft.do-not-implement.md",
+    "endedAt": "2026-10-14T20:48:58.288Z",
+    "contextTokens": 160818,
+    "spend": {
+      "inputTokens": 42,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 113071,
+      "cacheReadTokens": 2711925,
+      "outputTokens": 12568,
+      "thinkingTokens": 7595,
+      "responses": 21,
+      "costUsd": 1.6984810000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

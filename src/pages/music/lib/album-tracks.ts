@@ -23,6 +23,33 @@ export function songPlacements({
   return [...home, ...alsoOn];
 }
 
+/**
+ * `songs` with each album's own songs brought together in track order, where
+ * the first of them stood — so the song after one on an album is its next
+ * track, however the rest is ordered, and a number with no song yet is simply
+ * passed over. A single keeps its place.
+ */
+export function albumsTogether<Song extends { frontmatter: Placed }>(
+  songs: readonly Song[],
+): Song[] {
+  const gathered = new Set<MusicAlbum>();
+
+  return songs.flatMap((song) => {
+    const { album } = song.frontmatter;
+
+    if (album === null) return [song];
+    if (gathered.has(album)) return [];
+
+    gathered.add(album);
+
+    return songs
+      .filter(({ frontmatter }) => frontmatter.album === album)
+      .toSorted(
+        (a, b) => (a.frontmatter.track ?? 0) - (b.frontmatter.track ?? 0),
+      );
+  });
+}
+
 /** A song as one album lists it: `track` is its number there, whichever release it is filed under. */
 export type AlbumTrack<Song> = Pick<AlbumPlacement, 'track'> & { song: Song };
 

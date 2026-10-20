@@ -38,7 +38,7 @@ export function addressLocale(pathname: string): Locale {
   return isLocale(last) ? last : DEFAULT_LOCALE;
 }
 
-/** An address whose last segment may be a locale — `/cv/cto/ru`, `/music/slime/ru`. */
+/** An address whose last segment may be a locale — `/cv/cto/ru`, `/music/songs/slime/ru`. */
 export type LocaleTail<Head extends string> = [] | [Head] | [Head, Locale];
 
 /** Every address one head value answers: itself, and one per locale. */
@@ -61,7 +61,7 @@ export function byLocale<T>(pick: (locale: Locale) => T): Record<Locale, T> {
  * A string stated once where the languages agree and once per locale where they
  * do not — the common case being the first, a name that is not translated.
  */
-export type Localizable<T extends string = string> = T | Record<Locale, T>;
+type Localizable<T extends string = string> = T | Record<Locale, T>;
 
 export function inLocale<T extends string>(
   value: Localizable<T>,

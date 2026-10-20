@@ -1,54 +1,48 @@
-/**
- * The project and album names a song's frontmatter may use — the enums its
- * schema validates against; how each is shown is `pages/music`'s. Reached by
- * `index.node-safe.ts`, so it stays free of `server-only` and of every barrel.
- */
+import 'server-only';
 
-/** The GitHub organization a song's `repo` names a repository in. */
-export const MUSIC_ORGANIZATION = 'vovas-music';
+import { z } from 'zod';
 
-/** What the scaffolder writes for a description the author has yet to write. */
-export const SONG_DESCRIPTION_PLACEHOLDER = 'TBD';
+import { readSiteCatalogueNames } from './catalogue-names';
+import type { MusicAlbum, MusicProject } from './name-brands';
 
-export const MUSIC_PROJECT_NAMES = [
-  'GENERATED',
-  'Полуживые',
-  'Downtemple',
-  'Грёбаный бал',
-  'за/обложкой',
-  'Yoohie',
-  'Trending Today',
-  'Дамы и господа',
-  'Иске Кормаш',
-  'Киндерштайн',
-  'Dead Pixel Lounge',
-  'Листопад',
-] as const;
+export type { MusicAlbum, MusicProject } from './name-brands';
 
-export type MusicProject = (typeof MUSIC_PROJECT_NAMES)[number];
+let read: ReturnType<typeof readSiteCatalogueNames> | undefined;
 
-/** Each one the address of the album's page under `/music/albums/`. */
-export const MUSIC_ALBUM_SLUGS = [
-  'ctfu',
-  'vagabond',
-  'divine-discontent',
-  'ghosts-of-flesh',
-  'pschpthy',
-  'nsfl',
-  'let-the-stories-spin',
-  'father-river',
-  'hamlet',
-  'father-sea',
-  'who-is-happy-in-russia',
-  'five-romances',
-  'ignite',
-  'old-shite',
-  'nursery-rhymes',
-  'prototypes',
-  'for-none-and-for-all',
-  'stronger-than-love',
-  'wings',
-  'punctuation-marks',
-] as const;
+// Read on first use rather than on import: every site's build and render
+// scripts load the song schema through the collection registry, and only the
+// site that serves the music collection has the files to read.
+function catalogue(): ReturnType<typeof readSiteCatalogueNames> {
+  read ??= readSiteCatalogueNames();
+  return read;
+}
 
-export type MusicAlbum = (typeof MUSIC_ALBUM_SLUGS)[number];
+export const albumSchema = z.lazy(() => catalogue().albumSchema);
+
+export const projectSchema = z.lazy(() => catalogue().projectSchema);
+
+/** Each one the address of the album's page under `/music/albums/`, its file's name. */
+export function musicAlbumSlugs(): MusicAlbum[] {
+  return catalogue().albums;
+}
+
+/** By file name; the music index ranks them itself. */
+export function musicProjectNames(): MusicProject[] {
+  return catalogue().artists.map(({ name }) => name);
+}
+
+/** The artist's address under `/music/artists/`, its file's name. */
+export function projectSlug(artist: MusicProject): string {
+  const found = catalogue().artists.find(({ name }) => name === artist);
+
+  if (found === undefined) {
+    throw new Error(`No artist file names ${artist}.`);
+  }
+
+  return found.slug;
+}
+
+/** The artist whose file the slug names, if any. */
+export function projectBySlug(slug: string): MusicProject | undefined {
+  return catalogue().artists.find((artist) => artist.slug === slug)?.name;
+}

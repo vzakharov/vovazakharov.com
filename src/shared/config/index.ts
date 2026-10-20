@@ -1,4 +1,5 @@
 export {
+  absoluteUrl,
   getAbsoluteUrl,
   isOffSite,
   pageFile,

@@ -11,6 +11,8 @@ import type {
   Named,
   PresentOrAbsent,
   Sized,
+  WithPath,
+  WithUrl,
 } from '@/shared/typings';
 
 import { PIXELS } from './og-canvas';
@@ -37,10 +39,7 @@ export const PAGE_ROUTES = {
  * there and absent where it is not, never a nullable slot. `pnpm
  * content:og:<site>` rasterises `path` from `vector` for the marks that are both.
  */
-export type SiteImage = Sized & { path: string } & PresentOrAbsent<
-    'vector',
-    string
-  >;
+export type SiteImage = Sized & WithPath & PresentOrAbsent<'vector', string>;
 
 /**
  * Whom a site's materials are credited to, and where that credit links. Named
@@ -56,50 +55,50 @@ type SiteCredit = Named & Linked;
  * CV header's is deliberately a different, plainer sentence — this one carries
  * the voice.
  */
-export type SiteConfig = Billed & {
-  url: string;
-  /**
-   * Leads the name a downloaded document is saved under, standing in for the
-   * `url` it cannot spell — a filename is not a URL, so a resolvable host
-   * inside one would only be copied out by hand. Short enough to stay legible
-   * at a glance, which is the whole of what the name buys.
-   */
-  downloadPrefix: string;
-  author: Named & { email: string };
-  social: {
-    twitter: string;
-    github: string;
-    linkedin: string;
+export type SiteConfig = Billed &
+  WithUrl & {
+    /**
+     * Leads the name a downloaded document is saved under, standing in for the
+     * `url` it cannot spell — a filename is not a URL, so a resolvable host
+     * inside one would only be copied out by hand. Short enough to stay legible
+     * at a glance, which is the whole of what the name buys.
+     */
+    downloadPrefix: string;
+    author: Named & { email: string };
+    social: {
+      twitter: string;
+      github: string;
+      linkedin: string;
+    };
+    /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
+    avatar: SiteImage;
+    /**
+     * The site's unlettered mark: what an article closes on in place of an amen,
+     * and what the home page's seal is left showing once a held pointer fades
+     * `avatar.vector`'s lettering off it. Spelled rather than left optional — an
+     * omitted key is silently absent, and a new site should have to answer this
+     * one.
+     */
+    seal: SiteImage | undefined;
+    /**
+     * The copyright on this site's materials, and where it links — `undefined`
+     * where the site credits itself and its own name stands unlinked. Spelled by
+     * every site for the same reason `seal` is: a new one should have to answer
+     * whether its work is its own or published under another name.
+     */
+    credit: SiteCredit | undefined;
+    /**
+     * Whether an article closes on a list of its frontmatter `sources`. Where it
+     * does not, the prose's own links are the citations and the field goes
+     * unrendered. Spelled by every site for the same reason `seal` is.
+     */
+    listsSources: boolean;
+    /**
+     * The site's website ID in Umami — public by design, as every page's HTML
+     * carries it. A new site gets one at `/stand-up-site`.
+     */
+    analyticsId: string;
   };
-  /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */
-  avatar: SiteImage;
-  /**
-   * The site's unlettered mark: what an article closes on in place of an amen,
-   * and what the home page's seal is left showing once a held pointer fades
-   * `avatar.vector`'s lettering off it. Spelled rather than left optional — an
-   * omitted key is silently absent, and a new site should have to answer this
-   * one.
-   */
-  seal: SiteImage | undefined;
-  /**
-   * The copyright on this site's materials, and where it links — `undefined`
-   * where the site credits itself and its own name stands unlinked. Spelled by
-   * every site for the same reason `seal` is: a new one should have to answer
-   * whether its work is its own or published under another name.
-   */
-  credit: SiteCredit | undefined;
-  /**
-   * Whether an article closes on a list of its frontmatter `sources`. Where it
-   * does not, the prose's own links are the citations and the field goes
-   * unrendered. Spelled by every site for the same reason `seal` is.
-   */
-  listsSources: boolean;
-  /**
-   * The site's website ID in Umami — public by design, as every page's HTML
-   * carries it. A new site gets one at `/stand-up-site`.
-   */
-  analyticsId: string;
-};
 
 /**
  * The self-hosted Umami tracker, under the author's domain so it loads

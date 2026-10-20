@@ -1,203 +1,51 @@
-/**
- * The releases a song can belong to. A registry rather than a collection: an
- * album's names and artist are typed values keyed by the enum a song's `album`
- * names, not frontmatter. Its prose, where it has any, is a markdown file at
- * its page's route plus `.md`, which `albumText` reads.
- */
+import 'server-only';
 
-import { inLocale, type Locale, type Localizable } from '@/shared/i18n';
+import fs from 'node:fs';
+import path from 'node:path';
+
+import { PUBLIC_DIR } from '@/shared/content';
+import type { Locale } from '@/shared/i18n';
 import type {
   MusicAlbum,
   MusicProject,
   TitleGloss,
 } from '@/shared/music-catalogue';
+import type { Spelled } from '@/shared/music-catalogue/index.node-safe';
 
-import { titleGloss } from './title-gloss';
+import { albumFile, localGloss, localName } from './catalogue-files';
 
-type MusicAlbumRecord = {
-  /**
-   * What the release is called — once, or per language where one release went
-   * out under two names: `Vagabond` to the Western services and
-   * `Скиталец: по следам Конюхова` to the Russian ones.
-   */
-  title: Localizable;
-  /** Whose release it is, which can differ from the song's own billing. */
-  artist: Localizable<MusicProject>;
-  /**
-   * Whether the release has cover art, at `albumCover`'s path: a 600px square
-   * cut from the master in its `vovas-music` repository, or Apple Music's or
-   * SoundCloud's where the repository holds none — small enough for a grid of
-   * them.
-   */
-  cover?: true;
-  /** What each locale tells its reader about the title, as a song's gloss does. */
-  gloss?: Partial<Record<Locale, TitleGloss>>;
-};
+/** A release's title under a locale, romanized by the Russian rule where the locale cannot read it. */
+export function albumTitle(album: MusicAlbum, locale: Locale): Spelled {
+  const { frontmatter } = albumFile(album);
 
-const MUSIC_ALBUMS: Record<MusicAlbum, MusicAlbumRecord> = {
-  ctfu: {
-    title: 'Cheer The Fuck Up',
-    artist: 'GENERATED',
-    cover: true,
-    gloss: { ru: { translation: 'Взбодрись, блядь' } },
-  },
-  vagabond: {
-    title: { en: 'Vagabond', ru: 'Скиталец: по следам Конюхова' },
-    artist: { en: 'GENERATED', ru: 'Полуживые' },
-    cover: true,
-  },
-  'divine-discontent': {
-    title: 'Divine Discontent',
-    artist: 'GENERATED',
-    cover: true,
-    gloss: { ru: { translation: 'Божественное недовольство' } },
-  },
-  'ghosts-of-flesh': {
-    title: 'Ghosts of Flesh',
-    artist: 'GENERATED',
-    cover: true,
-    gloss: { ru: { translation: 'Призраки плоти' } },
-  },
-  pschpthy: {
-    title: 'PSCHPTHY',
-    artist: 'GENERATED',
-    cover: true,
-    gloss: { ru: { translation: 'Психопатия' } },
-  },
-  nsfl: {
-    title: 'Not Safe for Life',
-    artist: 'GENERATED',
-    cover: true,
-    gloss: { ru: { translation: 'Опасно для жизни' } },
-  },
-  'let-the-stories-spin': {
-    title: 'Let the Stories Spin',
-    artist: 'GENERATED',
-    cover: true,
-    gloss: { ru: { translation: 'Пусть сплетаются истории' } },
-  },
-  'father-river': {
-    title: 'Папа-река',
-    artist: 'Полуживые',
-    cover: true,
-    gloss: {
-      en: { transliteration: 'Papa-reka', translation: 'Father River' },
-    },
-  },
-  hamlet: {
-    title: 'Гамлет',
-    artist: 'Полуживые',
-    cover: true,
-    gloss: { en: { transliteration: 'Gamlet', translation: 'Hamlet' } },
-  },
-  'father-sea': {
-    title: 'Папа-море',
-    artist: 'Полуживые',
-    gloss: { en: { transliteration: 'Papa-more', translation: 'Father Sea' } },
-  },
-  'who-is-happy-in-russia': {
-    title: 'Кому на Руси жить хорошо',
-    artist: 'Полуживые',
-    cover: true,
-    gloss: {
-      en: {
-        transliteration: 'Komu na Rusi zhit khorosho',
-        translation: 'Who Is Happy in Russia?',
-      },
-    },
-  },
-  'five-romances': {
-    title: 'Пять романсов, два сонета и один реквием',
-    artist: 'Дамы и господа',
-    cover: true,
-    gloss: {
-      en: {
-        transliteration: 'Pyat romansov, dva soneta i odin rekviem',
-        translation: 'Five Romances, Two Sonnets and One Requiem',
-      },
-    },
-  },
-  ignite: {
-    title: 'Ignite',
-    artist: 'Yoohie',
-    cover: true,
-    gloss: { ru: { translation: 'Зажигаем' } },
-  },
-  'old-shite': {
-    title: 'We Made AI Sing Our Old Shite',
-    artist: 'Yoohie',
-    gloss: {
-      ru: { translation: 'Мы заставили ИИ спеть наше старое дерьмо' },
-    },
-  },
-  'nursery-rhymes': {
-    title: 'Nursery Rhymes for the Jilted Generation',
-    artist: 'GENERATED',
-    gloss: { ru: { translation: 'Детские стишки для брошенного поколения' } },
-  },
-  prototypes: {
-    title: 'Prototypes',
-    artist: 'GENERATED',
-    gloss: { ru: { translation: 'Прототипы' } },
-  },
-  'for-none-and-for-all': {
-    title: 'Ни для кого и для всех',
-    artist: 'Грёбаный бал',
-    gloss: {
-      en: {
-        transliteration: 'Ni dlya kogo i dlya vsekh',
-        translation: 'For None and for All',
-      },
-    },
-  },
-  'stronger-than-love': {
-    title: 'Сильней любви',
-    artist: 'Грёбаный бал',
-    gloss: {
-      en: {
-        transliteration: 'Silney lyubvi',
-        translation: 'Stronger Than Love',
-      },
-    },
-  },
-  wings: {
-    title: 'Крылья',
-    artist: 'за/обложкой',
-    cover: true,
-    gloss: { en: { transliteration: 'Krylya', translation: 'Wings' } },
-  },
-  'punctuation-marks': {
-    title: 'Знаки препинания',
-    artist: 'за/обложкой',
-    cover: true,
-    gloss: {
-      en: {
-        transliteration: 'Znaki prepinaniya',
-        translation: 'Punctuation Marks',
-      },
-    },
-  },
-};
-
-export function albumTitle(album: MusicAlbum, locale: Locale): string {
-  return inLocale(MUSIC_ALBUMS[album].title, locale);
+  return localName(frontmatter.title, frontmatter[locale].title, locale);
 }
 
-export function albumGloss(album: MusicAlbum, locale: Locale): TitleGloss {
-  return titleGloss(
-    {
-      title: albumTitle(album, locale),
-      gloss: MUSIC_ALBUMS[album].gloss?.[locale],
-    },
-    locale,
-  );
+export function albumGloss(
+  album: MusicAlbum,
+  locale: Locale,
+): TitleGloss | undefined {
+  return localGloss(albumFile(album).frontmatter[locale].title);
 }
 
 export function albumArtist(album: MusicAlbum, locale: Locale): MusicProject {
-  return inLocale(MUSIC_ALBUMS[album].artist, locale);
+  const { frontmatter } = albumFile(album);
+
+  return frontmatter[locale].artist ?? frontmatter.artist;
 }
 
-/** The cover's site-root path, under `apps/vova/public/`. */
+export function albumWip(album: MusicAlbum): boolean {
+  return albumFile(album).frontmatter.wip === true;
+}
+
+/**
+ * The cover's site-root path, where the release has one: a 600px square cut
+ * from the master in its `vovas-music` repository, or Apple Music's or
+ * SoundCloud's where the repository holds none — small enough for a grid of
+ * them.
+ */
 export function albumCover(album: MusicAlbum): string | undefined {
-  return MUSIC_ALBUMS[album].cover && `/music/assets/covers/${album}.jpg`;
+  const cover = `/music/assets/covers/${album}.jpg`;
+
+  return fs.existsSync(path.join(PUBLIC_DIR, cover)) ? cover : undefined;
 }

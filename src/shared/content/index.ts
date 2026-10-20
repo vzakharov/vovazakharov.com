@@ -42,7 +42,7 @@ export {
   siblingVariants,
   type WithContentDocument,
 } from './documents';
-export { feedEntries, findFeed, listFeeds } from './feeds';
+export { feedEntries, type FeedEntry, findFeed, listFeeds } from './feeds';
 export {
   type ArticleFrontmatter,
   type BaseFrontmatter,

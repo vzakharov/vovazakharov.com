@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from typing import Any, Dict, List, Mapping, Optional
 
 from lib.shape import ShapeError, is_number, read_number, read_object, read_string, required
@@ -48,6 +48,8 @@ class Rates:
 
     roles: Dict[str, float]
     grades: Dict[str, float]
+    # A role that is only ever done at one grade, mapped to that grade.
+    fixed_grades: Dict[str, str] = field(default_factory=dict)
 
 
 def _multipliers(table: Optional[Dict[str, Any]], where: str) -> Dict[str, float]:
@@ -63,10 +65,13 @@ def parse_rates(text: str, where: str = "rates.json") -> Rates:
     rates = json.loads(text)
     if not isinstance(rates, dict):
         raise ShapeError(f"{where}: not an object")
-    return Rates(
-        roles=_multipliers(read_object(rates, "roles", where), f"{where} roles"),
-        grades=_multipliers(read_object(rates, "grades", where), f"{where} grades"),
-    )
+    roles = _multipliers(read_object(rates, "roles", where), f"{where} roles")
+    grades = _multipliers(read_object(rates, "grades", where), f"{where} grades")
+    fixed_grades = read_object(rates, "fixedGrades", where) or {}
+    for role, grade in fixed_grades.items():
+        if role not in roles or grade not in grades:
+            raise ShapeError(f"{where} fixedGrades: `{role}: {grade}` names a role or grade the table does not")
+    return Rates(roles=roles, grades=grades, fixed_grades=fixed_grades)
 
 
 def checked(estimate: Estimate, rates: Rates, where: str) -> Estimate:
@@ -82,6 +87,9 @@ def checked(estimate: Estimate, rates: Rates, where: str) -> Estimate:
             raise ShapeError(f"{at}: role `{part.role}` is not one of {', '.join(rates.roles)} (rates.json)")
         if part.grade not in rates.grades:
             raise ShapeError(f"{at}: grade `{part.grade}` is not one of {', '.join(rates.grades)} (rates.json)")
+        fixed = rates.fixed_grades.get(part.role)
+        if fixed is not None and part.grade != fixed:
+            raise ShapeError(f"{at}: role `{part.role}` is only ever {fixed}, not {part.grade} (rates.json)")
         if estimate.comment is None:
             _check_comment(part.comment, at)
         elif part.comment is not None:

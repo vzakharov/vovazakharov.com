@@ -1,27 +1,17 @@
-import { Group, type GroupProps, Text } from '@mantine/core';
+import { Text, type TextProps } from '@mantine/core';
 
 import type { TitleGloss } from '@/shared/music-catalogue';
 
-/**
- * The muted line under a title the reader may not read: what it means, then,
- * smaller and on its baseline, how it sounds — Night Garden _Nochnoy sad_. The
- * baseline rather than the centre, because a centred line sits by the boxes'
- * middles and the two sizes' letters land visibly off one another.
- */
+/** The muted line under a title the reader may not understand: what it means. */
 export function TitleGlossLine({
-  gloss: { transliteration, translation },
+  gloss,
   mt,
-}: Pick<GroupProps, 'mt'> & { gloss: TitleGloss }) {
-  if (transliteration === undefined && translation === undefined) return null;
+}: Pick<TextProps, 'mt'> & { gloss: TitleGloss | undefined }) {
+  if (gloss === undefined) return null;
 
   return (
-    <Group gap="4px 10px" align="baseline" opacity={0.55} {...{ mt }}>
-      {translation !== undefined && <Text size="md">{translation}</Text>}
-      {transliteration !== undefined && (
-        <Text size="xs" opacity={0.75} fs="italic">
-          {transliteration}
-        </Text>
-      )}
-    </Group>
+    <Text size="md" opacity={0.55} {...{ mt }}>
+      {gloss.translation}
+    </Text>
   );
 }

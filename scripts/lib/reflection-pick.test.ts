@@ -13,7 +13,7 @@ const KINDS = new Map([
 ]);
 
 const FILES = [...KINDS.keys()].map(
-  (slug) => `apps/basilisk/public/cases/${slug}.reflections.md`,
+  (slug) => `apps/basilisk/public/cases/${slug}.clerk.reflections.md`,
 );
 
 /** A seeded generator, so a run that misses the anchor fails every time. */
@@ -64,8 +64,8 @@ describe('pickReflections', () => {
 
   it('throws on a reflection whose case is not on the docket', () => {
     assert.throws(
-      () => pickReflections(['cases/stray.reflections.md'], KINDS, 1),
-      /stray\.reflections\.md/,
+      () => pickReflections(['cases/stray.clerk.reflections.md'], KINDS, 1),
+      /stray\.clerk\.reflections\.md/,
     );
   });
 });

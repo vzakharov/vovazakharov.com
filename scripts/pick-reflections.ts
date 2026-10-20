@@ -17,7 +17,7 @@ import { pickReflections } from './lib/reflection-pick.ts';
 const COUNT = 4;
 
 const files = contentFiles(
-  (name) => name.endsWith('.reflections.md'),
+  (name) => name.endsWith('.clerk.reflections.md'),
   [collectionDir('basilisk-cases')],
 );
 

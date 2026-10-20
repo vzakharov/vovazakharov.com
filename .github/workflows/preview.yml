@@ -1,0 +1,48 @@
+name: Publish a preview
+
+# One site from any ref to preview.vovazakharov.com, by hand. The slot holds
+# whichever site was published last; .claude/skills/preview/SKILL.md carries
+# how to use it, scripts/publish-site.sh what a preview writes over the build.
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: Which site to publish to the preview slot
+        required: true
+        type: choice
+        options: [vova, lsa, bible, basilisk]
+
+permissions:
+  contents: read
+
+# Its own group, so a preview never waits on or cancels a production deploy,
+# and two previews queue rather than interleave on the one slot.
+concurrency:
+  group: 'preview'
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      SITE: ${{ inputs.site }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Build
+        run: pnpm build:$SITE
+
+      - name: Render page PDFs
+        uses: ./.github/actions/render-pdfs
+        with:
+          site: ${{ env.SITE }}
+
+      - name: Publish to the preview slot
+        env:
+          PAGES_DEPLOY_KEY: ${{ secrets.PREVIEW_PAGES_DEPLOY_KEY }}
+        run: ./scripts/publish-site.sh "$SITE" --preview

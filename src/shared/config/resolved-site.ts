@@ -10,6 +10,10 @@ export const SITE_CONFIG = siteConfig(SITE_ID);
 
 export const getAbsoluteUrl = (path: string) => `${SITE_CONFIG.url}${path}`;
 
+/** A URL left as it is, or a site-root path made absolute. */
+export const absoluteUrl = (url: string) =>
+  url.startsWith('/') ? getAbsoluteUrl(url) : url;
+
 /** One page's own file: the route plus an extension, and the saved name `DocumentFile` describes. */
 export const pageFile = (route: string, extension: string): DocumentFile => ({
   href: `${route}.${extension}`,
@@ -21,7 +25,7 @@ export const pageFile = (route: string, extension: string): DocumentFile => ({
  * can navigate and still read well.
  */
 export const printedUrl = (url: string): PrintedLink => {
-  const href = url.startsWith('/') ? getAbsoluteUrl(url) : url;
+  const href = absoluteUrl(url);
 
   return { href, text: withoutScheme(href) };
 };

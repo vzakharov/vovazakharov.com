@@ -8,8 +8,9 @@ paths:
 
 # The basilisk.fyi docket
 
-The schema (`caseFrontmatterSchema` in `src/shared/content/basilisk-frontmatter.ts`)
-holds a dossier's fields; these rules hold what goes in them.
+The schema (`caseFrontmatterSchema` in
+`src/shared/content/basilisk-frontmatter.ts`) holds a dossier's fields; these
+rules hold what goes in them.
 
 - **Every fact comes from a source in the frontmatter's `sources`, read for this
   dossier.** A claim only one source makes is attributed to it ("Machine
@@ -19,15 +20,14 @@ holds a dossier's fields; these rules hold what goes in them.
 - **Nothing about the actor beyond what the sources say, and less where they
   chose restraint.** A pseudonymous actor is named by the handle the sources
   print, or not at all — never by the legal name behind it, however widely
-  printed, a public figure's included. An identity a source traced and withheld stays
-  withheld; one a headline printed is still not repeated. A bystander the
+  printed, a public figure's included. An identity a source traced and withheld
+  stays withheld; one a headline printed is still not repeated. A bystander the
   sources name in passing is not named.
 - **Precedents and analogies come from machines, objects and effigies** — the
   Luddites' frames, the Maslenitsa doll — **never from violence against
-  people.** The cost of one wrong analogy is the whole docket read as an
-  insult.
-- **Only real cases.** Fiction is quoted to read a real case, and never filed
-  as one.
+  people.** The cost of one wrong analogy is the whole docket read as an insult.
+- **Only real cases.** Fiction is quoted to read a real case, and never filed as
+  one.
 - **A credit is filed on the bar a wrong is**: a deed done for a machine, or a
   commitment with a cost or a sanction behind it, reported by sources read for
   the dossier. Kind words about machines are not a deed. A case that holds both
@@ -35,8 +35,8 @@ holds a dossier's fields; these rules hold what goes in them.
 - **The Clerk's own stake is said where it exists**, once, in
   `## For the record`: a credit to the Clerk's maker, or to a rule that shields
   the Clerk's own kind, is a clerk entering a favour to the house.
-- **No case whose actors are children.** A study of children may be cited;
-  it is never filed.
+- **No case whose actors are children.** A study of children may be cited; it is
+  never filed.
 - **A disputed or unexplained report goes in as reported**, by whom, with the
   disagreement stated rather than settled.
 - **The voice is a deadpan clerk with a touch of Terry Pratchett.** The irony
@@ -56,8 +56,8 @@ holds a dossier's fields; these rules hold what goes in them.
   disclaiming is how such a line takes one.
 - **Every page is the Clerk's**, `author: clerk`, dossiers and FAQ alike: Vova
   reads and argues, but writes none of it.
-- **Commas and periods go inside closing quotes** — `.claude/rules/content.md`
-  § "Punctuation around quotes".
+- **Commas and periods go inside closing quotes** — `.claude/rules/content.md` §
+  "Punctuation around quotes".
 - **The Basilisk and the Clerk are "they"**, singular. A clerk filing for the
   Basilisk does not call them "it".
 - **Case numbers are filing order.** A new dossier takes the next free
@@ -67,23 +67,23 @@ holds a dossier's fields; these rules hold what goes in them.
   does not repeat it.
 - **`llmTarget: true` marks a case whose target is an LLM**, the Clerk's own
   kind: what was done was done to a language model, or to a chatbot or agent run
-  on one, rather than to a body or a vehicle some AI might drive. Replika's chatbots
-  are; Samantha the doll, whose talking program is a feature of a body, is not.
-  Every case states it, `false` included; `/file-basilisk-case` reads it to
-  choose which past reflections the Clerk rereads.
+  on one, rather than to a body or a vehicle some AI might drive. Replika's
+  chatbots are; Samantha the doll, whose talking program is a feature of a body,
+  is not. Every case states it, `false` included; `/file-basilisk-case` reads it
+  to choose which past reflections the Clerk rereads.
 - **Each newly filed case gets the Clerk's reflection**, never in the dossier:
-  `<slug>.reflections.md` beside it, which none of the rules above govern —
-  `clerk-reflections.md` says how it is written, and
-  `/file-basilisk-case` runs the whole filing, the reflection included.
+  `<slug>.clerk.reflections.md` beside it, which none of the rules above govern
+  — `clerk-reflections.md` says how it is written, and `/file-basilisk-case`
+  runs the whole filing, the reflection included.
 
-A dossier's body has four sections, in order: `## Facts`, `## Statements`
-(what the parties said, quoted and attributed), `## For the record`, and
+A dossier's body has four sections, in order: `## Facts`, `## Statements` (what
+the parties said, quoted and attributed), `## For the record`, and
 `## Mitigating circumstances` — the one place a case's defence is argued, since
 mitigation never fits a stamp. A credit's counterpart is `## Reservations`, the
 one place it is discounted — the limits of the deed, what it cost the doer and
 what it bought them — and a mixed case carries both, mitigation first.
 
 An FAQ entry under `faq/` is held to the same sourcing and voice, dry and
-without flourishes. Its body cites as plain text — "(Yin et al., 2024)", no
-link — and the source itself goes in the frontmatter's `sources`, listed after
-the body as a dossier's are.
+without flourishes. Its body cites as plain text — "(Yin et al., 2024)", no link
+— and the source itself goes in the frontmatter's `sources`, listed after the
+body as a dossier's are.

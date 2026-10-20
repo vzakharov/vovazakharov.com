@@ -1,3 +1,10 @@
+---
+title: 'Крылья'
+artist: 'за/обложкой'
+en:
+  title: { translation: 'Wings' }
+---
+
 <!-- lang:en -->
 
 The turning point was [“Our Story”](../our-story.md): with it I saw that you can

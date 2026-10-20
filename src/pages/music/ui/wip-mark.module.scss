@@ -1,0 +1,50 @@
+// A tooltip of CSS alone, so it is in the static HTML and needs no script: the
+// note shows while the sign is hovered or focused, a tap focusing the button.
+// The note hangs from the sign unless the context sets the `--wip-*` variables:
+// `--wip-anchor: static` hands its positioning to the nearest positioned
+// ancestor, which the other four then place it against.
+.mark {
+  position: var(--wip-anchor, relative);
+  display: inline-flex;
+  cursor: help;
+}
+
+// Centred on the kind's capitals rather than on its line box, whose middle
+// sits lower by the room the line keeps for descenders.
+.sign {
+  opacity: 0.6;
+  transform: translateY(-1px);
+}
+
+// Hung from the sign's left rather than centred on it, the sign sitting at the
+// column's left edge, where a centred note would run off a phone's screen.
+.note {
+  position: absolute;
+  top: var(--wip-note-top, calc(100% + 6px));
+  right: var(--wip-note-right, auto);
+  left: var(--wip-note-left, -6px);
+  z-index: 10;
+  width: var(--wip-note-width, max-content);
+  max-width: 16rem;
+  padding: 6px 10px;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-background);
+  text-align: left;
+  pointer-events: none;
+  visibility: hidden;
+  background: var(--color-foreground);
+  border-radius: 4px;
+  opacity: 0;
+  transition:
+    opacity 120ms ease,
+    visibility 120ms;
+}
+
+.mark:hover .note,
+.mark:focus-visible .note,
+.mark:focus .note {
+  visibility: visible;
+  opacity: 1;
+}

@@ -62,6 +62,87 @@ describe('renderRss', () => {
     );
   });
 
+  it('carries the body in content:encoded, whatever its text', () => {
+    const rss = renderRss({
+      ...channel,
+      items: [
+        {
+          title: 'Body',
+          link: 'https://example.com/body',
+          description: 'blurb',
+          published: PUBLISHED,
+          content: '<p>a ]]> b</p>',
+        },
+      ],
+    });
+
+    assert.match(
+      rss,
+      /xmlns:content="http:\/\/purl\.org\/rss\/1\.0\/modules\/content\/"/,
+    );
+    assert.match(rss, /<description>blurb<\/description>/);
+    assert.match(
+      rss,
+      /<content:encoded><!\[CDATA\[<p>a ]]]]><!\[CDATA\[> b<\/p>]]><\/content:encoded>/,
+    );
+  });
+
+  it('makes the feed a podcast where the channel states one', () => {
+    const rss = renderRss({
+      ...channel,
+      podcast: {
+        owner: { name: 'A & B', email: 'a@example.com' },
+        image: 'https://example.com/cover.jpg',
+        category: 'Music',
+      },
+      items: [
+        {
+          title: 'Clean',
+          link: 'https://example.com/clean',
+          published: PUBLISHED,
+          episode: {
+            enclosure: { url: 'https://example.com/a b.mp3', bytes: 1234 },
+            seconds: 201,
+            explicit: false,
+            image: 'https://example.com/clean.jpg',
+          },
+        },
+        {
+          title: 'Rude',
+          link: 'https://example.com/rude',
+          published: PUBLISHED,
+          episode: {
+            enclosure: { url: 'https://example.com/r.mp3', bytes: 5 },
+            seconds: 60,
+            explicit: true,
+          },
+        },
+      ],
+    });
+
+    assert.match(
+      rss,
+      /xmlns:itunes="http:\/\/www\.itunes\.com\/dtds\/podcast-1\.0\.dtd"/,
+    );
+    assert.match(
+      rss,
+      /<itunes:owner><itunes:name>A &amp; B<\/itunes:name><itunes:email>a@example\.com<\/itunes:email><\/itunes:owner>/,
+    );
+    assert.match(rss, /<itunes:category text="Music"\/>/);
+    assert.match(
+      rss,
+      /<itunes:explicit>true<\/itunes:explicit>\n<itunes:type>/,
+    );
+    assert.match(
+      rss,
+      /<enclosure url="https:\/\/example\.com\/a b\.mp3" length="1234" type="audio\/mpeg"\/><itunes:duration>201<\/itunes:duration><itunes:explicit>false<\/itunes:explicit><itunes:image href="https:\/\/example\.com\/clean\.jpg"\/>/,
+    );
+  });
+
+  it('declares no itunes namespace on a plain feed', () => {
+    assert.doesNotMatch(renderRss({ ...channel, items: [] }), /itunes/);
+  });
+
   it('leaves the build date out of an empty feed', () => {
     assert.doesNotMatch(renderRss({ ...channel, items: [] }), /lastBuildDate/);
   });

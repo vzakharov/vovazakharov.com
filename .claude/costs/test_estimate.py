@@ -81,6 +81,17 @@ class WhatAnEstimateMayHold(unittest.TestCase):
             with self.assertRaisesRegex(ShapeError, "wizard"):
                 checked(estimate_of("t", part), RATES, "e")
 
+    def test_refuses_a_fixed_grade_role_at_any_other_grade(self) -> None:
+        rates = replace(RATES, roles={**RATES.roles, "artist": 1}, fixed_grades={"artist": "senior"})
+        checked(estimate_of("t", Part(1, "senior", "artist")), rates, "e")
+        with self.assertRaisesRegex(ShapeError, "only ever senior"):
+            checked(estimate_of("t", Part(1, "junior", "artist")), rates, "e")
+
+    def test_refuses_a_fixed_grade_naming_a_role_or_grade_the_table_does_not(self) -> None:
+        for fixed in ('{"wizard": "senior"}', '{"a": "wizard"}'):
+            with self.assertRaisesRegex(ShapeError, "fixedGrades"):
+                parse_rates(f'{{"roles": {{"a": 1}}, "grades": {{"senior": 1}}, "fixedGrades": {fixed}}}')
+
     def test_refuses_negative_hours_and_an_estimate_of_no_parts(self) -> None:
         for bad in (estimate_of("t", Part(-1, "senior", "developer")), Estimate("t", [])):
             with self.assertRaises(ShapeError):
@@ -125,10 +136,10 @@ class RowsCarryTheirEstimate(unittest.TestCase):
         row = replace(ROW, estimate=estimate_of("a", Part(1, "junior", "developer"), Part(2, "senior", "copywriter")))
         self.assertEqual(parse_session_cost(json.dumps(to_json(row))), row)
 
-    def test_a_row_is_written_with_its_estimate_first(self) -> None:
+    def test_a_row_is_written_opening_on_its_total_then_its_estimate(self) -> None:
         row = replace(ROW, estimate=estimate_of("a"))
         written = row_text(row)
-        self.assertEqual(next(iter(json.loads(written))), "estimate")
+        self.assertEqual(list(json.loads(written))[:2], ["total", "estimate"])
         self.assertEqual(parse_session_cost(written), row)
 
     def test_a_row_from_before_estimates_reads_as_having_none(self) -> None:
