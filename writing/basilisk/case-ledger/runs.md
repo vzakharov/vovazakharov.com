@@ -158,7 +158,7 @@ stays under half.
 ## 2026-10-12 — nothing filed
 
 https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2. Filed Roscoe, which
-review withdrew (see Candidates). Web search in Spanish
+review withdrew (see `rejected.md`). Web search in Spanish
 and Portuguese for robots attacked in Mexico and Brazil, and in English for
 Africa (South Africa, Nigeria, Kenya): nothing but cases already filed or
 ledgered. Arctic Shift over r/ChatGPT, r/ClaudeAI and r/artificial for “abuse”
