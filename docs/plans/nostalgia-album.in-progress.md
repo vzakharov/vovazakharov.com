@@ -349,22 +349,49 @@ re-makes them in a minute. Masters for 3–6 are the auditioned mp3s in
 come through `pnpm music:masters get` at the paths `references.md`'s table
 links.
 
+The reveal and two questions went to Vova; the work goes on meanwhile on the
+assumed answers: (1) the B ≈ C ties as B, (2) the 1+2 cut at 68.24 s, to be
+confirmed by ear, (3) who sings «Бессонница» («пою не я») — unknown, so its song
+file leaves `project` at Полуживые and a `<!-- For Vova to check -->`.
+
+Done in the repositories (`pnpm music:masters put`), each with a README naming
+its files, the command and the blind-picked reference at a commit:
+
+- 1+2 cut at 68.24 s: the FLAC master and the source mp3 cut there, each master
+  half V0 (true peak −2.3 and −1.7 dBTP), each mix half stream-copied.
+  `invitation.mp3` + `invitation_mix.mp3` in `nostalgia`, `summer-gone.mp3` +
+  `summer-gone_mix.mp3` in `summer-gone`.
+- 3–6: `<slug>.mp3` (the auditioned winner) and `<slug>_mix.mp3` (the source,
+  byte for byte), lossy.
+- 7 and `candle-burnt`: `<slug>.flac`, `<slug>.master.mp3` (320k),
+  `<slug>_mix.mp3` (320k of the WAV, which the README links on `music-sources`)
+  — check both repos hold them: their put was still relaying through Actions
+  when the session paused.
+
 Left, in order:
 
-- **The 1+2 cut.** The onset nearest 1:08 on the source is at 68.24 s, quiet
-  (−27.5 dB) after the recitative. Cut the FLAC master there, encode each half
-  to V0 mp3 and check both stay under −1 dBTP; the mix is cut at the same point.
-  Vova confirms by ear.
-- **Step 6, per song.** 3–6 and 1+2 are lossy and follow `birds`: `<slug>.mp3`,
-  `<slug>_mix.mp3`, `mastering/` and a README via `put`, the song file written
-  by hand (`lossy: true`, `seconds`, `album`, `track`), and a `tag-renders.json`
-  entry naming `<repo>/<slug>.mp3` before `tag`. 7 and `candle-burnt` are FLAC:
-  `<stem>.flac` and `<stem>.master.mp3`, then `music:scaffold`, then `tag`. Then
-  the album file, cover, Tarkovsky in `people.ts` and `music:untold`.
-- **Step 7**, `candle-burnt` into Папа-море. A lossless source (7,
-  `candle-burnt`) needs its winning master as FLAC too, which `master.py` does
-  not yet write. Download the sources with
-  `gh release download music-sources -p 'nostalgia-*' -p 'father-sea-09-*'`.
+- **Song files.** 1–6 lossy, written by hand like `birds.md` (`lossy: true`,
+  `seconds` from the mp3, `album: nostalgia`, `track`, `status: wip`,
+  `project: ['Полуживые']`, `credits.lyrics: [Arseny Tarkovsky]`, `segue: true`
+  on `invitation`), each with a `tag-renders.json` entry
+  `{hash: '', paths: ['<repo>/<slug>.mp3']}`. 7 and `candle-burnt` through
+  `music:scaffold --spec` (slug, album, project, title), then the hand edits.
+  Lyrics from `nostalgia/lyrics/<slug>.md`, its English cribs given curly quotes
+  (`check:prose-quotes`). `candle-burnt`: Папа-море track 9,
+  `credits.lyrics: [Boris Pasternak]`, `credits.music: [Vladimir Zakharov Sr.]`,
+  the story from step 7.
+- Arseny Tarkovsky (and anyone else missing) into
+  `shared/music-catalogue/people.ts`.
+- `albums/nostalgia.md`, `assets/covers/nostalgia.jpg`.
+- `pnpm music:masters tag <slug>…`, then `pnpm music:untold`, then a build.
+- Send Vova the 1+2 halves to confirm the cut by ear:
+  `https://raw.githubusercontent.com/vovas-music/nostalgia/main/invitation.mp3`
+  and `…/summer-gone/main/summer-gone.mp3`.
+- Propose, as a question, the "top-ranked came last" finding as a line in
+  `scripts/song-intake/CLAUDE.md` § "Mastering".
+
+Re-making the masters is never needed now: everything the pages read is in the
+repositories.
 
 ## Settled with the operator
 
