@@ -2,11 +2,11 @@ our-punk-rock.mp3 — 2:11
 tempo 110–114 BPM, median 110
 key C minor (r 0.56; next C major, 0.45)
 tuning A = 440 Hz +2 ¢
-sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
 1  0:00–0:08  113 BPM  −10 dB  A♭ G
 2  0:08–0:26  110 BPM  −9 dB  C
 3  0:26–0:43  110 BPM  −11 dB  C E♭ A♭ Gm C E♭m A♭m G
 4  0:43–1:18  110 BPM  −9 dB  C D♭m Cm D♭
-5  1:18–1:38  110 BPM  −10 dB  D♭ N + Cm A♭m ×2
+5  1:18–1:38  110 BPM  −10 dB  D♭ N Cm A♭ Cm A♭m
 6  1:38–2:02  110 BPM  −10 dB  C N C
 7  2:02–2:11  114 BPM  −13 dB  N C

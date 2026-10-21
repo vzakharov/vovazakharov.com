@@ -2,9 +2,9 @@ our-story.mp3 — 3:25
 tempo 130 BPM
 key D minor (r 0.71; next A minor, 0.71)
 tuning A = 440 Hz +2 ¢
-sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
 1  0:00–0:15  131 BPM  −24 dB  Dm C B♭ Dm Am Dm
-2  0:15–0:44  130 BPM  −12 dB  Dm C B♭ D C Am Em D Cm B♭m Dm Cm B♭
-3  0:44–2:48  130 BPM  −9 dB  Dm Cm B♭m Dm Am E Dm C B♭m Dm Cm Am Em Dm C B♭ Dm C Am E D Cm B♭m Dm C A E Dm C B♭ D C Am Em Dm Cm B♭ Dm C Am Em + Dm C Am ×2 + D C Am Dm Cm Am N
-4  2:48–3:12  130 BPM  −9 dB  N + Dm C Am ×2 + Dm Cm Am
+2  0:15–0:44  130 BPM  −12 dB  Dm C B♭ D C Am Em Dm Cm B♭m Dm Cm B♭
+3  0:44–2:48  130 BPM  −9 dB  Dm C B♭ Dm Am E Dm C B♭ Dm C Am Em Dm C B♭m Dm C Am Em D Cm B♭ D Cm A E Dm C B♭ D Cm Am Em Dm C B♭ Dm C Am Em + Dm C Am ×2 + D C Am Dm Cm Am N
+4  2:48–3:12  130 BPM  −9 dB  N Gm + Dm C Am ×2 + Dm Cm Am
 5  3:12–3:25  131 BPM  −24 dB  Dm C B♭
