@@ -145,130 +145,30 @@ built.
   domain in each of those spent characters on every command for nothing, so it
   stays where it was, once, in the site's `url`.
 
+Slice 3, app scripts in their apps: vet clean.
+
+- **Each app's tooling is `src/<app>/scripts/`**, beside its layers: 104 files
+  moved to their owners (mushrooms 45, music 37, basilisk 8, the rest kernel,
+  shell, blog and vova), root `scripts/` keeping the repo's and the agent's.
+- **`render-og` and `render-pdf` split like the sitemap.** kernel's `og-job.ts`
+  renders chart cards and the site card from its mark and takes `OgBundle`s;
+  each printing site has `src/<site>/scripts/render-{og,pdf}.ts` — vova the CV
+  and music's collage bundle, basilisk its generated site card and case cards,
+  bible the cores alone. The PDF core is blog's `print-job.ts`, not kernel's as
+  first recommended: printing documents is blog's and `PRINT_SOURCES` names
+  shell's files. basilisk passes its case UI as a document source, which moves
+  it out of the other sites' hashes; lsa has no entry and the render-pdfs action
+  skips a site without one.
+- **The checkers**: a `script` element in `eslint/masd-boundaries.ts` — own app
+  anywhere, an ancestor's scripts directly, an ancestor's layers through a
+  public API, so `shared/content`'s node-safe barrel grew the registry's paths
+  and `contentHash`, and i18n's barrel `inLocale`; `check:masd` counts no script
+  as a reference (nothing it flagged); knip enters `src/*/scripts/*.ts`.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
-
-## Rest of the bite
-
-Slice 3, app scripts in their apps, on `masd/app-scripts` (base: the elephant's
-branch).
-
-**Built**, in 9f44f45 and c63e8f4 on the branch (`git log` from 6043dfc): every
-file below `git mv`d to its owner, relative imports rewritten, repo-root anchors
-deepened (`content-tree`, `print-origin`, `generate-styles`,
-`check-mantine-styles`, `check-i18n-payload`, both mushroom scripts),
-`letter-basilisk-seal.py` with its own `die` and `SEAL_DIR`, `in-site.sh`'s
-`src/*` arm, `vet.sh`, `vet-songs.sh`, and every `package.json` entry —
-`content:og:<site>` / `content:pdf:<site>` already name
-`src/<site>/scripts/render-{og,pdf}.ts`, which do not exist yet. Nothing has
-been run: no lint, typecheck or vet since the move.
-
-**Left, in order:**
-
-1. **The split.** `render-og.ts` sits at `src/kernel/scripts/lib/og-job.ts` and
-   `render-pdf.ts` at `src/blog/scripts/lib/print-job.ts`, both still the whole
-   scripts importing basilisk, vova and music. Cut them to:
-   - kernel `og-job.ts`: chart cards, the avatar-vector site card,
-     `renderOgCards(...bundles)` over
-     `{ siteCards?, cards?, manifestDirs?, outputNames? }` bundles (a
-     `siteCards` replaces the default); `svgCard` and `generatedCard` to
-     `og-render.ts`.
-   - `src/music/scripts/lib/music-cards.ts`: the collages and their bands, as a
-     bundle (`PUBLIC_DIR`, the podcast cover's name).
-   - `src/vova/scripts/render-og.ts`: CV cards plus music's bundle;
-     `src/basilisk/scripts/render-og.ts`: the generated site card and case cards
-     off one `readDocket()`; `src/bible/scripts/render-og.ts`: the core alone.
-   - **PDF core in blog, not kernel** (a deviation from the decision below, to
-     report): printing documents is blog's, and `PRINT_SOURCES` names shell's
-     files. `print-job.ts` keeps everything but the CV, exporting
-     `renderPdfs({ documentSources?, printables?, manifestDirs?, onRendered? })`
-     plus `printAll`, `sourceFiles`, `PRINT_SOURCES` and `Printable`; vova's
-     entry carries the CV printables, `--cv-pages` and the ceiling
-     (`pdf-pages.ts` is vova's, `same-render.ts` blog's); basilisk's passes
-     `src/basilisk/entities/case` as a document source, which moves it out of
-     every other site's hash (one reprint each, from the deploy's cache);
-     bible's is the core alone. lsa has no entry, so the render-pdfs action
-     (`.github/actions/render-pdfs/action.yml:43`) runs
-     `src/<site>/scripts/render-pdf.ts` when it exists and exits otherwise.
-2. **The checkers**: the `script` element in `eslint/masd-boundaries.ts`,
-   `knip.ts`'s entry, `check:masd` leaving `<app>/scripts` out of its counts —
-   then `pnpm exec eslint --fix` on the moved files (import sort) and a
-   typecheck.
-3. **The references** listed under "Breaks" below, plus
-   `.claude/rules/masd.md`'s `index.node-safe.ts` line ("what resolves under
-   `scripts/`"), `stack.md`'s `scripts/vet-songs.sh` row and `content.md`'s
-   `scripts/render-*.ts` and `lib/*-card.ts` paths; `rg` for each old path. Then
-   `content:og:basilisk` re-renders: the lettered seal's comment changed.
-4. Full `./scripts/vet.sh`, then `/polish` and `/pr`. `src/<app>/scripts/` (and
-   `scripts/lib/` under it) sits beside the app's layers: an unknown folder at
-   an app root is no layer to Steiger (checked on `src/basilisk`). Root
-   `scripts/` keeps the repo's and the agent's tooling.
-
-**Owners**, from a survey of all 145 files (re-run it to check a call):
-
-- **mushrooms** (45): `build-mushroom-artifact`, `play-mushrooms`,
-  `sweep-mushrooms`, `veer-away`; in `lib/` `cdp` (only `play-mushrooms` uses
-  it), `flier-watch`, `frame-budget`, `painted-cap`, `mushroom-probe*`,
-  `play-*`, `veer-*`.
-- **music** (37): `check-masked-words`, `check-song-titles`,
-  `check-stanza-repeats`, `list-untold-songs`, `masters`, `scaffold-song`,
-  `vet-songs.sh`, `song-intake/` whole; in `lib/` `flac-stream-info`, `music-*`,
-  `scaffold-repository`, `song-tag*`, `song-tagging`, `stanza-repeats`.
-- **basilisk** (8): `letter-basilisk-seal.py`, `pick-reflections`; `lib/`
-  `basilisk-card`, `docket`, `read-docket`, `reflection-pick`.
-- **vova**: `lib/cv-card`, and `render-pdf` with `lib/pdf-pages` and
-  `lib/same-render` — see the split below.
-- **shell**: `generate-styles`, `check-mantine-styles`.
-- **kernel**: `check-i18n-payload`, `check-prose-quotes`, `render-mermaid`;
-  `lib/` `argv`, `chromium`, `content-tree`, `og-render`, `print-origin`,
-  `public-markdown`, `render-manifest`, `changed-files.sh` — each used by two or
-  more apps, none importing above kernel.
-- Tests travel with their module.
-
-**Decisions, each a recommendation the operator may overturn:**
-
-- **`render-og` and `render-pdf` split like the sitemap**: a kernel core, and
-  each site's leaf app holding its own entry with its cards — vova's CV and
-  music collage, basilisk's case cards, bible on the core alone. `render-og`
-  imports basilisk's, vova's and music's code at once, which no app inherits
-  together; `render-pdf` imports `@/vova/pages/cv/lib/*` yet prints bible's and
-  basilisk's PDFs. `content:og:<site>` / `content:pdf:<site>` and
-  `.github/actions/render-pdfs/action.yml:43` point at the site's entry.
-- **A script enters its own app past the public API, its ancestors only through
-  one.** Scripts make ~99 deep imports (the game's into
-  `pages/mushrooms/{model,ui/scene}`, music's into `pages/music/lib`) against
-  ~18 through a barrel; forcing barrels now churns slices 5 and 6 are about to
-  restructure. This narrows the plan's "through their public APIs" to ancestors.
-- **A script is not a consumer for significance**: `check:masd` leaves
-  `<app>/scripts` out of its reference counts, as Steiger never saw scripts at
-  all. Check what that flags (`basilisk/entities/case` relied on
-  `basilisk-card`) before landing.
-- **App scripts never reach root `scripts/`**: `changed-files.sh` goes to kernel
-  (root's `test-changed.sh` sources it there), and `letter-basilisk-seal.py`
-  inlines `lib.cli`'s `die`.
-
-**Breaks to fix alongside the move:**
-
-- `eslint/masd-boundaries.ts`: a `script` element (`src/*/scripts`, capturing
-  the app) with policies per the decision above; `no-unknown-files` fails every
-  moved file until then.
-- `scripts/in-site.sh:35` rewrites only `scripts/*` arguments to repo-root
-  paths; it needs a `src/*` arm.
-- Repo-root depth: `REPO_ROOT` in `lib/content-tree.ts` (used by eight scripts),
-  `lib/print-origin.ts`, `generate-styles`, `check-mantine-styles`,
-  `check-i18n-payload`, `build-mushroom-artifact` (also its `./src/...` entry
-  string), `play-mushrooms`, `vet-songs.sh` (its `cd`, its `source` and its
-  `INPUTS` regex), `letter-basilisk-seal.py`'s `SEAL_DIR`.
-- `knip.ts` entry `src/*/scripts/*.ts`; `.prettierrc.json`'s `scripts/**/*.md`
-  override already has `src/**/*.md` covering `song-intake/CLAUDE.md`.
-- References: 19 `package.json` entries; `scripts/vet.sh:83` (`vet-songs.sh`);
-  rule `paths:` globs in `content.md`, `songs.md`, `i18n.md` and bodies there
-  and in `stack.md`; `subtitles/SKILL.md:70`,
-  `megabeast/notes/play-run-and-frames.md:27-28`; comments in `knip.ts`,
-  `tsconfig.json` and a dozen `src/` files — `rg 'scripts/(lib/)?<name>'` finds
-  them.
 
 ## Rest of the elephant
 
@@ -279,7 +179,7 @@ those slices carry their own tools along.
   app's strings, so a kernel module knows all of its consumers — the inversion
   slice 1 did for schemas, left undone for messages. Each app owns its namespace
   of the catalogue, a site loads those of the apps it mounts, and
-  `scripts/check-i18n-payload.ts` follows.
+  `src/kernel/scripts/check-i18n-payload.ts` follows.
 - **5. Music as an app.** `music-route.tsx`, which decides whether a URL shows
   an album, an artist, a song or the radio, becomes music's app layer, and those
   four become real pages under `music/pages/`. Which entities they share is
@@ -324,6 +224,10 @@ those slices carry their own tools along.
 - **One address registry.** `MUSIC_ROUTE` sits with `COLLECTIONS` and
   `collectionRoute` in kernel instead of a second map of mount points; the
   router's folders and these constants still agree by hand, which #86 is about.
+- **One render core per kind.** kernel's `og-job.ts` and blog's `print-job.ts`
+  run the whole job; a site's entry passes only what is its own, and
+  `ManifestRoots` in `render-manifest.ts` is the one declaration of the roots
+  both walk.
 - **Not extracted:** a `masd` package or a Steiger plugin. A plugin's rule sees
   one root, which is the problem; a package earns nothing a script and one data
   file do not already give.
