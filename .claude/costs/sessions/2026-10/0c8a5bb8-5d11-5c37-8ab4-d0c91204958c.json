@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 64,
+    "inputTokens": 68,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 110776,
-    "cacheReadTokens": 4204590,
-    "outputTokens": 24236,
-    "thinkingTokens": 8813,
-    "responses": 32,
-    "costUsd": 2.212102
+    "cacheWrite1hTokens": 111792,
+    "cacheReadTokens": 4544124,
+    "outputTokens": 25196,
+    "thinkingTokens": 9247,
+    "responses": 34,
+    "costUsd": 2.3073528
   },
   "estimate": {
     "at": "2026-10-21T07:49:25.533Z",
@@ -23,24 +23,24 @@
   },
   "sessionId": "0c8a5bb8-5d11-5c37-8ab4-d0c91204958c",
   "branch": "claude/peaceful-darwin-i02gzl",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/apps/vova/public/music",
   "openingPrompt": "сумасшедший наверное вопрос, но: насколько сложно -- не даже технически, а организационно -- создать собственный аналог Distrokid, FreshTunes, OffStep и иже с н…",
   "prs": [],
   "url": "https://claude.ai/code/session_013LUWpMLsGZ8D4qfJgPBxRf",
   "operator": null,
   "firstResponseAt": "2026-10-21T07:40:15.204Z",
-  "lastResponseAt": "2026-10-21T08:03:07.948Z",
+  "lastResponseAt": "2026-10-21T08:03:40.417Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 64,
+    "inputTokens": 68,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 110776,
-    "cacheReadTokens": 4204590,
-    "outputTokens": 24236,
-    "thinkingTokens": 8813,
-    "responses": 32,
-    "costUsd": 2.212102
+    "cacheWrite1hTokens": 111792,
+    "cacheReadTokens": 4544124,
+    "outputTokens": 25196,
+    "thinkingTokens": 9247,
+    "responses": 34,
+    "costUsd": 2.3073528
   },
   "subagents": {
     "inputTokens": 0,
@@ -54,14 +54,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 64,
+      "inputTokens": 68,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 110776,
-      "cacheReadTokens": 4204590,
-      "outputTokens": 24236,
-      "thinkingTokens": 8813,
-      "responses": 32,
-      "costUsd": 2.212102
+      "cacheWrite1hTokens": 111792,
+      "cacheReadTokens": 4544124,
+      "outputTokens": 25196,
+      "thinkingTokens": 9247,
+      "responses": 34,
+      "costUsd": 2.3073528
     }
   },
   "warnings": [],
