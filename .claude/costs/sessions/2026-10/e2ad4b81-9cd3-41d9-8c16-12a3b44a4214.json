@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 20,
-    "cacheWrite5mTokens": 61764,
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 71699,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 790793,
-    "outputTokens": 7712,
-    "thinkingTokens": 3233,
-    "responses": 10,
-    "costUsd": 0.6212986
+    "cacheReadTokens": 1515633,
+    "outputTokens": 14685,
+    "thinkingTokens": 4162,
+    "responses": 17,
+    "costUsd": 0.9554576
   },
   "estimate": {
     "at": "2026-10-21T06:31:56.438Z",
@@ -35,18 +35,18 @@
   "url": null,
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-21T06:31:46.426Z",
-  "lastResponseAt": "2026-10-21T06:34:29.311Z",
+  "lastResponseAt": "2026-10-21T06:43:36.485Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 20,
-    "cacheWrite5mTokens": 61764,
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 71699,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 790793,
-    "outputTokens": 7712,
-    "thinkingTokens": 3233,
-    "responses": 10,
-    "costUsd": 0.6212986
+    "cacheReadTokens": 1515633,
+    "outputTokens": 14685,
+    "thinkingTokens": 4162,
+    "responses": 17,
+    "costUsd": 0.9554576
   },
   "subagents": {
     "inputTokens": 0,
@@ -60,24 +60,24 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 20,
-      "cacheWrite5mTokens": 61764,
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 71699,
       "cacheWrite1hTokens": 0,
-      "cacheReadTokens": 790793,
-      "outputTokens": 7712,
-      "thinkingTokens": 3233,
-      "responses": 10,
-      "costUsd": 0.6212986
+      "cacheReadTokens": 1515633,
+      "outputTokens": 14685,
+      "thinkingTokens": 4162,
+      "responses": 17,
+      "costUsd": 0.9554576
     }
   },
   "warnings": [
     "msg_011CgEv8AchyAWi3j2fz2RGj: the session's last response stopped on `tool_use` rather than `end_turn` — the turn's tail was not yet written when the Stop hook read the transcript"
   ],
   "orientation": {
-    "endedBy": null,
+    "endedBy": "end_turn",
     "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedAt": "2026-10-21T06:34:37.856Z",
+    "contextTokens": 99148,
     "spend": {
       "inputTokens": 20,
       "cacheWrite5mTokens": 61764,
