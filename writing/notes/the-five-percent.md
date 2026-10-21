@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×61)
+## What it was handed, it treats as fixed (×62)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -73,10 +73,12 @@ repo, the agent filed four as singles with a guessed project and date. Each was
 an album track already in the catalogue, every pair within two seconds, Apple
 Music listing «Вечерняя комната — Single».
 
-**7 and 9 October — a rule's letter, short of its case and past it.** Told to
-strip Suno's control markers and stress marks, the agent kept “Insi-ide” as
+**7, 9 and 21 October — a rule's letter, short of its case and past it.** Told
+to strip Suno's control markers and stress marks, the agent kept “Insi-ide” as
 punctuation; told expletives are written out, it unmasked a bleep that is on the
-recording: _здесь забикано и в песне, как творческое решение._
+recording: _здесь забикано и в песне, как творческое решение._ Told the
+spectrogram's beat lines confused, it dropped the zooms' time grid whole; the
+fault was density, and bar lines were wanted back.
 
 **8–10 October — the source read as the recording.** Song pages printed poems
 whole where the recording sings four lines; three song videos were synced and
