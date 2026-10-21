@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 68,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 159063,
-    "cacheReadTokens": 5355335,
-    "outputTokens": 45255,
-    "thinkingTokens": 35740,
-    "responses": 34,
-    "costUsd": 3.248943
+    "inputTokens": 130,
+    "cacheWrite5mTokens": 105295,
+    "cacheWrite1hTokens": 196841,
+    "cacheReadTokens": 11328061,
+    "outputTokens": 55080,
+    "thinkingTokens": 38404,
+    "responses": 65,
+    "costUsd": 5.4689352
   },
   "estimate": {
     "at": "2026-10-21T11:24:13.045Z",
@@ -22,49 +22,53 @@
     "comment": null
   },
   "sessionId": "5620351c-68e2-5e91-bd50-ce2a5621f911",
-  "branch": "claude/clever-goodall-wp3lnz",
+  "branch": "claude/guard-standby-deck-wp3lnz",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "словил баг на айфоне (только на нём): при определённых обстоятельствах (кажется, как-то связано с обновлением страницы, переключением аппов, или какими-то други…",
-  "prs": [],
+  "prs": [
+    185
+  ],
   "url": "https://claude.ai/code/session_015pp9rsDnuYA2ugzeRgGU2Q",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-21T11:16:46.952Z",
-  "lastResponseAt": "2026-10-21T11:28:54.817Z",
+  "lastResponseAt": "2026-10-21T11:33:21.175Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 68,
+    "inputTokens": 116,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 159063,
-    "cacheReadTokens": 5355335,
-    "outputTokens": 45255,
-    "thinkingTokens": 35740,
-    "responses": 34,
-    "costUsd": 3.248943
+    "cacheWrite1hTokens": 196841,
+    "cacheReadTokens": 10817988,
+    "outputTokens": 54935,
+    "thinkingTokens": 38404,
+    "responses": 58,
+    "costUsd": 4.8374896
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 105295,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
+    "cacheReadTokens": 510073,
+    "outputTokens": 145,
     "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "responses": 7,
+    "costUsd": 0.6314455999999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 68,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 159063,
-      "cacheReadTokens": 5355335,
-      "outputTokens": 45255,
-      "thinkingTokens": 35740,
-      "responses": 34,
-      "costUsd": 3.248943
+      "inputTokens": 130,
+      "cacheWrite5mTokens": 105295,
+      "cacheWrite1hTokens": 196841,
+      "cacheReadTokens": 11328061,
+      "outputTokens": 55080,
+      "thinkingTokens": 38404,
+      "responses": 65,
+      "costUsd": 5.4689352
     }
   },
-  "warnings": [],
+  "warnings": [
+    "6 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
   "orientation": {
     "endedBy": "end_turn",
     "endedOn": null,
