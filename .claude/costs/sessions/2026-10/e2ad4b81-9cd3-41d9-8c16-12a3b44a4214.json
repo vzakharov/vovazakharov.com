@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 61764,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 790793,
+    "outputTokens": 7712,
+    "thinkingTokens": 3233,
+    "responses": 10,
+    "costUsd": 0.6212986
+  },
+  "estimate": {
+    "at": "2026-10-21T06:31:56.438Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "inventorying ~40 local items, hash-matching them against 250 repos with mangled transliterated names, then careful non-destructive pushes"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "deciding which version or bounce belongs to which song needs judgement about the catalogue"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "e2ad4b81-9cd3-41d9-8c16-12a3b44a4214",
+  "branch": "main",
+  "cwd": "/Users/vova/Documents/GitHub/vovazakharov.com",
+  "openingPrompt": "/login",
+  "prs": [],
+  "url": null,
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T06:31:46.426Z",
+  "lastResponseAt": "2026-10-21T06:34:29.311Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 61764,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 790793,
+    "outputTokens": 7712,
+    "thinkingTokens": 3233,
+    "responses": 10,
+    "costUsd": 0.6212986
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 61764,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 790793,
+      "outputTokens": 7712,
+      "thinkingTokens": 3233,
+      "responses": 10,
+      "costUsd": 0.6212986
+    }
+  },
+  "warnings": [
+    "msg_011CgEv8AchyAWi3j2fz2RGj: the session's last response stopped on `tool_use` rather than `end_turn` — the turn's tail was not yet written when the Stop hook read the transcript"
+  ],
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 61764,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 790793,
+      "outputTokens": 7712,
+      "thinkingTokens": 3233,
+      "responses": 10,
+      "costUsd": 0.6212986
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
