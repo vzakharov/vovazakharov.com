@@ -53,6 +53,14 @@ Vova's review of PR #138 on 2026-10-20 (`docs/pr/138/pr.md`, R01 and T01–T04):
 - **Where the two readings disagree**, by `tmp/bass-probe/survey.py` (other's low end sounding, bass stem 20 dB under its loud seconds, 4 s or longer): birds through 2:44, hello 0:34–0:42 and 1:06–1:16 (A♭2 G2), listen-single 0:00–0:53 (F♯2 C♯3), after-us 0:31–0:35 (E♭2); none in the other six. Asked Vova's ear on all but birds.
 - **Replies on T01–T03 drafted** (verbatim in `docs/remove-before-merging/relay-8.md`), not posted: Vova's pending review on the PR blocks a thread reply under his token (422 "one pending review per pull request"). Post them once he submits it.
 
+## Done in the session after relay 8
+
+- **T01–T03 replied**, once Vova submitted his pending review (5590208848). That review held three comments no session had read: the export reads `pulls/<n>/comments`, which leaves a pending review's comments out even for their author, so the export showed it as a bare "reviewed (PENDING)" row.
+- **A dot per drum hit** (a8bf324): its area and brightness the hit's, a black rim between touching dots. Vova: the one-pixel ticks read as nothing.
+- **No beat grid on the zooms** (a8bf324). Vova: the lines confuse more than help; the tempo is in the title and the sidecar.
+- **`N` spelled out** in the sidecar's section header (a8bf324): no chord, the accompaniment too quiet to name one.
+- All eleven re-cut and re-rendered (a026bc0); intertwined's section 3 still reads one kick per beat 0:48–1:17 and the lone cymbal at 1:15.
+
 ## Open questions for Vova's ear
 
 - **Bass**: is there a bass at hello 0:34–0:42 and 1:06–1:16, listen-single 0:00–0:53, after-us 0:31–0:35? A yes there means demucs filed it as other, and the strip needs a reading that keeps a real bass in other without taking the harmony's bottom.
