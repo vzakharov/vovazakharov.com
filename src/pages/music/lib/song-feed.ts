@@ -17,7 +17,7 @@ import { feedHtml } from '@/shared/lib/feed-html';
 import type { RssPodcast } from '@/shared/lib/rss';
 import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
 
-import { universeOf } from './catalogue-text';
+import { preludeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
 import { songDownloads } from './song-downloads';
 import { mp3Url } from './song-names';
@@ -58,8 +58,8 @@ function downloadLinks(
 }
 
 /**
- * The song's prose as its page's story shows it — the world first where it has
- * one, then the making-of under its label — then a link to the page for the
+ * The song's prose as its page's story shows it — the prelude first where it
+ * has one, then the story under its label — then a link to the page for the
  * words and their notes, whose columns and popovers are the page's to lay out,
  * and the song's files.
  */
@@ -68,17 +68,17 @@ async function songContent(
   localized: LocalizedSongDocument,
   locale: Locale,
 ): Promise<string> {
-  const { makingOf, feedPageLink, feedDownload } = loadMessages(locale).music;
-  const universe = universeOf(document, locale);
+  const { behindTheScenes, feedPageLink, feedDownload } = loadMessages(locale).music;
+  const prelude = preludeOf(document, locale);
   const [world, told] = await Promise.all([
-    universe && renderProse(universe),
+    prelude && renderProse(prelude),
     localized.body === '' ? undefined : renderProse(localized),
   ]);
   const root: Root = {
     type: 'root',
     children: [
       ...(world?.tree.children ?? []),
-      ...(world && told ? [element('h2', {}, makingOf)] : []),
+      ...(world && told ? [element('h2', {}, behindTheScenes)] : []),
       ...(told?.tree.children ?? []),
       paragraph([element('a', { href: localized.route }, feedPageLink)]),
       paragraph([

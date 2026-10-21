@@ -19,7 +19,7 @@ import { FileLink, hoverDim, PageShell, TextLink } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
-import { universeOf } from '../lib/catalogue-text';
+import { preludeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';
 import type { SongPageProps } from '../lib/music-route-params';
 import { musicPath, songPath } from '../lib/music-urls';
@@ -202,9 +202,9 @@ export function SongPage({ slug, locale }: SongPageProps) {
         {/* Held behind «…» only above words, which a long story would keep
             the reader from. */}
         <Story
-          universe={universeOf(document, locale)}
+          prelude={preludeOf(document, locale)}
           story={localized.body === '' ? undefined : localized}
-          {...pick(messages, 'makingOf')}
+          {...pick(messages, 'behindTheScenes')}
           readMore={lyrics && messages.readMore}
         />
 

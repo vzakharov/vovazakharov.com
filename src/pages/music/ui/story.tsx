@@ -8,27 +8,27 @@ import type { StoryParts } from '../lib/catalogue-text';
 import { ReadMore } from './read-more';
 
 type StoryProps = StoryParts & {
-  /** What the story is titled when a `universe` comes ahead of it. */
-  makingOf: string;
+  /** What the story is titled when a `prelude` comes ahead of it. */
+  behindTheScenes: string;
   /** The «…» control's label; without one the text is shown whole. */
   readMore: string | undefined;
 };
 
 /**
- * A page's prose: the world it is set in first, then the story under a
- * `makingOf` heading — a part standing alone takes none. Nothing at all where
- * the page has neither.
+ * A page's prose: its prelude first, then the story under a `behindTheScenes`
+ * heading — a part standing alone takes none. Nothing at all where the page has
+ * neither.
  */
 export async function Story({
-  universe,
+  prelude,
   story,
-  makingOf,
+  behindTheScenes,
   readMore,
 }: StoryProps) {
-  if (universe === undefined && story === undefined) return null;
+  if (prelude === undefined && story === undefined) return null;
 
   const [world, told] = await Promise.all([
-    universe && renderProse(universe),
+    prelude && renderProse(prelude),
     story && renderProse(story),
   ]);
   const prose = (
@@ -45,7 +45,7 @@ export async function Story({
               mb={16}
               lts="0.06em"
             >
-              {makingOf}
+              {behindTheScenes}
             </Text>
           )}
           <ProseContent {...told} />

@@ -121,17 +121,22 @@ carries a footnote there translating it. Identical consecutive stanzas are one
 stanza closed by `x2`, `x3` …, which `pnpm check:stanza-repeats --fix` writes.
 Anything before the first marker belongs to every locale. A song or album set in
 a concept album's world tells that world under `<!-- universe:<locale> -->`,
-shown ahead of the `lang:` story, which then reads as its making-of. **The test
-is the voice, not the subject: could a narrator inside the world say it?** What
-happens there passes, told as fiction; anything that speaks _about_ the song —
-what it echoes or quotes, how it opens, unfolds or sounds, how it was made —
-fails, however short and however much it is about the world's god, and is the
-making-of. The world is the agent's literary telling of the author's plot, the
-dictation being the plot and never the text; the page's hook is the seed it
-grows from. The marker is an HTML comment because the authored file is read raw
-— on GitHub, and at its own `.md` URL — and anything else would be markup the
-reader has to look past. The lyrics are rendered by the page rather than by the
-markdown pipeline, one element per line, so a line break is a line break and
+shown ahead of the `lang:` story, which then reads as what happened behind the
+scenes, under that label. **The test is the voice, not the subject: could a
+narrator inside the world say it?** What happens there passes, told as fiction;
+anything that speaks _about_ the song — what it echoes or quotes, how it opens,
+unfolds or sounds, how it was made — fails, however short and however much it is
+about the world's god, and goes behind the scenes. The world is the agent's
+literary telling of the author's plot, the dictation being the plot and never
+the text; the page's hook is the seed it grows from. **A song setting someone
+else's poem tells the poem's story under `<!-- poem:<locale> -->`** in the same
+slot — when and why the poet wrote it, where it appeared, what it was later set
+to — so the author's own story follows behind the scenes; a file has one or the
+other. Unlike his story it is the agent's to write, from sources, each fact one
+a source states. The marker is an HTML comment because the authored file is read
+raw — on GitHub, and at its own `.md` URL — and anything else would be markup
+the reader has to look past. The lyrics are rendered by the page rather than by
+the markdown pipeline, one element per line, so a line break is a line break and
 needs no two invisible spaces at the end of it. The one inline mark they take is
 `_…_`, which sets a transliteration in italics: a word sung in another script is
 written in the column's letters — in-the-flesh's English sings _Poekhali!_, not
@@ -193,11 +198,11 @@ changes how a draft of one is written and what a review of it means.
   so is the blurb; retelling the story in better words is not. It is too
   personal to come from anywhere but him. A concept album's world is the one
   exception, told in the agent's words from his plot (§ "Body").
-- **A dictation is speech, and a page is writing.** What reaches a making-of is
-  his facts in his first person, written down: the fillers, hedges and asides to
-  the transcriber go («скажем», «наверное», «так сказать», «ты, Клод, …»), and
-  with them a doubt he voiced about a fact, which keeps the fact off the page
-  rather than hedging it there. A general note in a dictation — the covers, the
+- **A dictation is speech, and a page is writing.** What reaches a story is his
+  facts in his first person, written down: the fillers, hedges and asides to the
+  transcriber go («скажем», «наверное», «так сказать», «ты, Клод, …»), and with
+  them a doubt he voiced about a fact, which keeps the fact off the page rather
+  than hedging it there. A general note in a dictation — the covers, the
   platforms, the tooling — stays in the dictation unless he places it on a page;
   it is kept for later, not spread over every story it touches.
 - **A change to a song's story or words is checked against its reflection.**

@@ -18,7 +18,13 @@ en:
     translation: 'Insomnia'
 ---
 
-<!-- For Vova to check: «пою не я»: who sings it? The project stays Полуживые until you say. -->
+<!-- lang:ru -->
+
+Название группе дало слово из этой песни.
+
+<!-- lang:en -->
+
+The band took its name from a word in this song.
 
 <!-- lyrics:ru -->
 
@@ -63,7 +69,7 @@ At this hour the city clocks
 Send seconds this way and that,
 And the lame and the crooked trudge along,
 The living ride up in the lift,
-The unliving and the half-living
+The lifeless and the half-alive
 Wait in the dark where the water drips,
 Take glasses out of their bags
 And jig like Gypsies,

@@ -65,17 +65,29 @@ export function localeProse(body: string, locale: Locale): string {
     .join('\n\n');
 }
 
+/** The sections told ahead of a page's story, by the marker that opens them. */
+const PRELUDE_KINDS = ['universe', 'poem'] as const;
+
 /**
- * The section `<!-- universe:<locale> -->` opens, without the preamble that
- * `localeProse` prepends; `undefined` where it says nothing.
+ * The section `<!-- universe:<locale> -->` or `<!-- poem:<locale> -->` opens,
+ * without the preamble that `localeProse` prepends; `undefined` where neither
+ * says anything. A file tells one or the other, never both.
  */
-export function localeUniverse(
+export function localePrelude(
   body: string,
   locale: Locale,
 ): string | undefined {
-  const section = splitSections(body).get(`universe:${locale}`);
+  const sections = splitSections(body);
+  const told = PRELUDE_KINDS.map((kind) =>
+    sections.get(`${kind}:${locale}`),
+  ).filter((section) => section !== undefined && says(section));
 
-  return section !== undefined && says(section) ? section : undefined;
+  if (told.length > 1)
+    throw new Error(
+      `A file tells both a universe and a poem in ${locale}; a page has one prelude.`,
+    );
+
+  return told[0];
 }
 
 const COMMENT_LINE = /^<!--.*-->$/;

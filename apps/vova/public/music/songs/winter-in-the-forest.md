@@ -37,7 +37,7 @@ en:
 А дуб в кафтане рваном
 Стоит, на смерть готов,
 Как перед Иоанном
-Боярин Колычев.
+Боярин [Колычев][^kolychev-ru].
 
 Прощай, великолепье
 Багряного плаща!
@@ -50,6 +50,8 @@ en:
 Когда зима в лесу.
 
 Когда зима в лесу.
+
+[^kolychev-ru]: Фёдор Колычев, митрополит Филипп, обличавший Ивана Грозного и убитый по его приказу.
 
 <!-- lyrics:en -->
 
@@ -70,8 +72,8 @@ Of fallen acorns.
 
 And the oak in a torn caftan
 Stands ready for death,
-Like boyar [Kolychev][^kolychev-en]
-Before Ioann.
+Like [boyar][^boyar-en] [Kolychev][^kolychev-en]
+Before [Ioann][^ioann-en].
 
 Farewell, magnificence
 Of the crimson cloak!
@@ -87,4 +89,8 @@ When it is winter in the forest.
 
 [^koschei-en]: Koschei the Deathless, the bony villain of Russian fairy tales.
 
+[^boyar-en]: A member of the old Muscovite high nobility.
+
 [^kolychev-en]: Metropolitan Philip, born Fyodor Kolychev, who denounced Ivan the Terrible and was murdered on his orders.
+
+[^ioann-en]: Ivan the Terrible, by the Church Slavonic form of his name.

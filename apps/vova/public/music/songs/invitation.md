@@ -34,14 +34,18 @@ en:
 Но есть ещё город Обид.
 
 Там у вокзала стоит броненосец в брезенте,
-И брат меня учит стрелять из лефоше.
-А в городе Музыки дети играют сонаты Клементи,
+И брат меня учит стрелять из [лефоше][^lefaucheux-ru].
+А в городе Музыки дети играют сонаты [Клементи][^clementi-ru],
 И город покинут и чужд потрясённой душе…
+
+[^lefaucheux-ru]: Револьвер системы Лефоше — французский, XIX века, под шпилечный патрон.
+
+[^clementi-ru]: [Муцио Клементи](https://ru.wikipedia.org/wiki/Клементи,_Муцио) — композитор и пианист рубежа XVIII–XIX веков; его сонатины — классика детской музыкальной школы.
 
 <!-- lyrics:en -->
 
 We’re leaving, we’re leaving, pack the suitcases,
-I queued a thousand roubles of tickets out of fate,
+I stood in Fate’s queue for a thousand roubles of tickets,
 At last we’ll visit my faraway countries,
 The town of Blessed Childhood and the town of Kindred Graves.
 
@@ -52,9 +56,11 @@ But there is one more town, of Grievances.
 
 There a battleship in tarpaulin stands by the station,
 And my brother teaches me to shoot a [Lefaucheux][^lefaucheux-en].
-And in the town of Music children play Clementi’s sonatas,
+And in the town of Music children play [Clementi][^clementi-en]’s sonatas,
 And the town is deserted and foreign to the shaken soul…
 
 [^centifolia-en]: The cabbage rose.
 
 [^lefaucheux-en]: A nineteenth-century French pinfire revolver.
+
+[^clementi-en]: [Muzio Clementi](https://en.wikipedia.org/wiki/Muzio_Clementi), composer and pianist at the turn of the nineteenth century, whose sonatinas every Russian music-school child plays.

@@ -61,7 +61,7 @@ x2
 
 <!-- lyrics:en -->
 
-Flitting from shadow into light,
+Flitting into light from shadow,
 She is herself both shadow and light,
 Where was she born, such as she is,
 Almost without a distinguishing mark?
@@ -75,7 +75,7 @@ Is a blue sea to the eye.
 
 Where was she born, such as she is,
 Almost without a distinguishing mark?
-Flitting from shadow into light,
+Flitting into light from shadow,
 She is herself both shadow and light,
 She is herself both shadow and light.
 
@@ -88,7 +88,7 @@ And never keeps her word.
 
 Where was she born, such as she is,
 Almost without a distinguishing mark?
-Flitting from shadow into light,
+Flitting into light from shadow,
 She is herself both shadow and light.
 
 And why should she be at rest?
@@ -96,6 +96,6 @@ She is like a plain little mirror.
 
 Where was she born, such as she is,
 Almost without a distinguishing mark?
-Flitting from shadow into light,
+Flitting into light from shadow,
 She is herself both shadow and light.
 x2

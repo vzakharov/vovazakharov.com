@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { localeProse, localeUniverse, splitStanzas } from './sections';
+import { localeProse, localePrelude, splitStanzas } from './sections';
 
-describe('localeUniverse', () => {
+describe('localePrelude', () => {
   const body = [
     'Shared',
     '<!-- universe:en -->',
@@ -15,15 +15,28 @@ describe('localeUniverse', () => {
   ].join('\n');
 
   it('cuts its own section, without the preamble', () => {
-    assert.equal(localeUniverse(body, 'en'), 'World');
+    assert.equal(localePrelude(body, 'en'), 'World');
   });
 
   it('reads a section of nothing but comments as absent', () => {
-    assert.equal(localeUniverse(body, 'ru'), undefined);
+    assert.equal(localePrelude(body, 'ru'), undefined);
   });
 
   it('leaves the story to the lang section alone', () => {
     assert.equal(localeProse(body, 'en'), 'Shared\n\nMaking of');
+  });
+
+  it('cuts a poem section the same way', () => {
+    assert.equal(
+      localePrelude('<!-- poem:en -->\nThe poem\n<!-- lang:en -->\nMine', 'en'),
+      'The poem',
+    );
+  });
+
+  it('refuses a file telling both a universe and a poem', () => {
+    assert.throws(() =>
+      localePrelude('<!-- universe:en -->\nWorld\n<!-- poem:en -->\nPoem', 'en'),
+    );
   });
 });
 
