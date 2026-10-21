@@ -47,9 +47,11 @@
     ]
   },
   "actor": {
-    "hash": "",
+    "hash": "54d960565be3",
     "paths": [
-      "actor/actor.mp3"
+      "actor/Poluzhivye - Aktyor.mp3",
+      "actor/actor.mp3",
+      "actor/Полуживые - Актёр.mp3"
     ]
   },
   "after-us": {
@@ -337,10 +339,24 @@
       "rak/Не смотри.mp3"
     ]
   },
-  "candle-tarkovsky": {
-    "hash": "",
+  "candle-burnt": {
+    "hash": "82415ee690e3",
     "paths": [
-      "candle-tarkovsky/candle-tarkovsky.mp3"
+      "candle-burnt/Poluzhivye - Svecha gorela.flac",
+      "candle-burnt/Poluzhivye - Svecha gorela.mp3",
+      "candle-burnt/Poluzhivye - Svecha gorela.mp4",
+      "candle-burnt/candle-burnt.flac",
+      "candle-burnt/candle-burnt.master.mp3",
+      "candle-burnt/Полуживые - Свеча горела.flac",
+      "candle-burnt/Полуживые - Свеча горела.mp3"
+    ]
+  },
+  "candle-tarkovsky": {
+    "hash": "09d3c3362492",
+    "paths": [
+      "candle-tarkovsky/Poluzhivye - Svecha.mp3",
+      "candle-tarkovsky/candle-tarkovsky.mp3",
+      "candle-tarkovsky/Полуживые - Свеча.mp3"
     ]
   },
   "cant-take-your-eyes-out-of-you": {
@@ -1067,9 +1083,11 @@
     ]
   },
   "invitation": {
-    "hash": "",
+    "hash": "978825f2a0bc",
     "paths": [
-      "nostalgia/invitation.mp3"
+      "nostalgia/Poluzhivye - Priglasheniye v puteshestviye.mp3",
+      "nostalgia/invitation.mp3",
+      "nostalgia/Полуживые - Приглашение в путешествие.mp3"
     ]
   },
   "is-it-your-fault": {
@@ -1829,9 +1847,11 @@
     ]
   },
   "summer-gone": {
-    "hash": "",
+    "hash": "6fd2ed5060b7",
     "paths": [
-      "summer-gone/summer-gone.mp3"
+      "summer-gone/Poluzhivye - Leto proshlo.mp3",
+      "summer-gone/summer-gone.mp3",
+      "summer-gone/Полуживые - Лето прошло.mp3"
     ]
   },
   "there": {

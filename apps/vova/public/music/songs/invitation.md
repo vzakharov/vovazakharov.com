@@ -9,7 +9,7 @@ album: nostalgia
 track: 1
 lossy: true
 seconds: 68
-mp3Bytes: 1634597
+mp3Bytes: 1713578
 explicit: false
 segue: true
 credits:
