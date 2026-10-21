@@ -1,10 +1,9 @@
 import type { Locale } from './locales';
 
 /**
- * An app's message catalogue, one locale at a time. Call it with `en`'s type
- * spelled out — `catalogue<typeof en>({ en, ru })` — since typing the map
- * against `en` is what keeps the two files in sync: a key present in one and
- * missing from the other fails the type check.
+ * An app's message catalogue, one locale at a time. Spell `en`'s type out —
+ * `catalogue<typeof en>({ en, ru })` — since that is what fails the type check
+ * on a key `ru` lacks; inferred, the map takes the smaller file's type.
  */
 export function catalogue<Messages>(
   messages: Record<Locale, Messages>,

@@ -8,7 +8,7 @@ import type { MusicMessages } from '@/music/shared/i18n';
 import { usePlayer } from './player-provider';
 import { useOpenRadio } from './use-open-radio';
 
-/** The music section's strings, whole: `Messages` is the catalogue's JSON, with no narrower type to take. */
+/** The music section's strings, whole: `MusicMessages` is the catalogue's JSON, with no narrower type to take. */
 type LaunchButtonsProps = { labels: MusicMessages };
 
 /**

@@ -41,7 +41,6 @@ export type FeedSource = {
   podcast?: () => RssPodcast;
 };
 
-/** Every feed the site publishes. */
 export function listFeeds(site: SiteId): Feed[] {
   const { name } = siteConfig(site);
   const collections = collectionsForSite(site);
