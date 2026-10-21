@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 106595,
+    "cacheReadTokens": 4542734,
+    "outputTokens": 13239,
+    "thinkingTokens": 4337,
+    "responses": 35,
+    "costUsd": 2.0263668000000004
+  },
+  "estimate": {
+    "at": "2026-10-21T05:04:26.243Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "land prep is routine release work: vet, base merge, artifact sweep, attestation"
+      },
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "the squash text becomes the permanent log entry and has to read right to the site's owner"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "579883cd-5f87-588a-b959-7d3f15337733",
+  "branch": "claude/lyrics-touchups-pgqn3l",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge claude/lyrics-touchups-pgqn3l",
+  "prs": [
+    177
+  ],
+  "url": "https://claude.ai/code/session_01DxascYmVGarBCmELUgFMsH",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T05:02:23.852Z",
+  "lastResponseAt": "2026-10-21T05:17:43.845Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 106595,
+    "cacheReadTokens": 4542734,
+    "outputTokens": 13239,
+    "thinkingTokens": 4337,
+    "responses": 35,
+    "costUsd": 2.0263668000000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 70,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 106595,
+      "cacheReadTokens": 4542734,
+      "outputTokens": 13239,
+      "thinkingTokens": 4337,
+      "responses": 35,
+      "costUsd": 2.0263668000000004
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-21T05:17:43.845Z",
+    "contextTokens": 154800,
+    "spend": {
+      "inputTokens": 68,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 106280,
+      "cacheReadTokens": 4388251,
+      "outputTokens": 11826,
+      "thinkingTokens": 4277,
+      "responses": 34,
+      "costUsd": 1.9646822000000004
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
