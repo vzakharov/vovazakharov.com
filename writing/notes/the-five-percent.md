@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×71)
+## What it was handed, it treats as fixed (×72)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -64,12 +64,14 @@ Roscoe, a police robot a gunman in a standoff shot, passed every check the
 filing skill ran; the docket files an act on a machine standing in for a mind,
 and he fired at officers and a faceless PacBot alike.
 
-**22 September to 8 October — what its search reached, read as the record.**
+**22 September to 21 October — what its search reached, read as the record.**
 `/tend-prose` hunted removed nouns where a change removed a property; a review's
 comments, filtered by creation time, lost five of six. No cover in an album's
 repo meant text-only tiles; Apple Music had five. Told to widen a ledger search
 seeded from the dossier just read, the agent dropped the docket from it, and
-with it what the ledger is for.
+with it what the ledger is for. Nostalgia's squash said the album "survived only
+as scattered takes," read off the per-song repos it had worked through: _репа со
+всем альбомом-то была._
 
 **5 to 14 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
@@ -292,7 +294,7 @@ the `/tend-prose` lens built for it.
 the Clerk wrote the comforting line "but the relief was mine." _ты же и есть
 Клерк?_
 
-## It files its own misreading as the author's gap (×1)
+## It files its own misreading as the author's gap (×2)
 
 When its reading of someone's material comes up with a hole, the agent asks the
 author to fill it rather than asking whether the reading made it. The question
@@ -303,6 +305,20 @@ dictation into each track's story and its making-of, the agent found none for
 tracks 6 and 10 and asked for some. _it's all in the dictation_: "This echoes
 the earlier Fuck Religion…" is the author outside the story. The agent had
 sorted by which song a passage was about, not whose voice it was in.
+
+**21 October — a singer asked for, on an AI band.** On Nostalgia's Insomnia
+(«пою не я»), the agent left a note asking who sings it: _ну это же всё ИИ, ты
+чего?_ The gap was its assumption that a vocal needs a human to name.
+
+## Its own plan stops being read once the work starts (×1)
+
+A plan names what the work will produce, and the work is then checked against
+the task as the agent remembers it. A deliverable the plan promised and the diff
+lacks surfaces only when someone else holds the two side by side.
+
+**21 October — the dictation that was to become the story.** The Nostalgia plan
+said the album dictation would become the album's story; the branch shipped
+with the file unused, until Vova asked why it went nowhere.
 
 ## Not bumps
 
@@ -316,7 +332,8 @@ Whether a piece says what its author meant is his alone.
 **Decisions that were the operator's to make.** The CV's locale segment, a
 post's hook, the theme toggle's home, the cost report's grain, and basilisk.fyi's
 taste throughout; the Krylya lyrics' line breaks, verb moods, fade-out choruses
-and a vocalise kept as text; extracting a block with two uses. An entry removed
+and a vocalise kept as text; extracting a block with two uses; whether
+Nostalgia's blind-test tooling retires with the album or serves the next songs. An entry removed
 this way takes its count with it.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
@@ -325,7 +342,7 @@ stay out of the count, and in the file, so it is not an ad.
 
 ## The two families
 
-Thirteen learnings is not a pattern, but they fall in two groups. One is failures
+Fourteen learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
