@@ -140,12 +140,10 @@ const eslintConfig = defineConfig([
     ],
     rules: { 'vova/no-hardcoded-strings': 'off' },
   },
-  // Temporary, tracked by #170: the app scripts that reach past a public API
-  // into their own app's layers, from before scripts lived under `src/`. A
-  // script enters every layer through a public API (`.claude/rules/masd.md`);
-  // music's and mushrooms' entries go as their slices restructure those apps,
-  // and the elephant's last slice fixes the rest and removes this block. A new
-  // file is never added here.
+  // Temporary, tracked by #170: app scripts that reach past a public API into
+  // their own app's layers, which `.claude/rules/masd.md` forbids. Each app's
+  // entries leave as #170 restructures it, then the block goes. A new file is
+  // never added here.
   {
     files: [
       // basilisk
