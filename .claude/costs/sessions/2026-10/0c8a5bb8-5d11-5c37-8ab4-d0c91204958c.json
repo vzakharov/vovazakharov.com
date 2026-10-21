@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 142,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 156846,
-    "cacheReadTokens": 11719863,
-    "outputTokens": 40880,
-    "thinkingTokens": 12797,
-    "responses": 71,
-    "costUsd": 4.416908599999999
+    "inputTokens": 190,
+    "cacheWrite5mTokens": 105985,
+    "cacheWrite1hTokens": 188621,
+    "cacheReadTokens": 15809966,
+    "outputTokens": 47610,
+    "thinkingTokens": 13951,
+    "responses": 95,
+    "costUsd": 6.153846199999998
   },
   "estimate": {
     "at": "2026-10-21T07:49:25.533Z",
@@ -25,46 +25,50 @@
   "branch": "claude/peaceful-darwin-i02gzl",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "сумасшедший наверное вопрос, но: насколько сложно -- не даже технически, а организационно -- создать собственный аналог Distrokid, FreshTunes, OffStep и иже с н…",
-  "prs": [],
+  "prs": [
+    220
+  ],
   "url": "https://claude.ai/code/session_013LUWpMLsGZ8D4qfJgPBxRf",
   "operator": null,
   "firstResponseAt": "2026-10-21T07:40:15.204Z",
-  "lastResponseAt": "2026-10-21T08:36:15.850Z",
+  "lastResponseAt": "2026-10-21T09:10:25.967Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 142,
+    "inputTokens": 170,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 156846,
-    "cacheReadTokens": 11719863,
-    "outputTokens": 40880,
-    "thinkingTokens": 12797,
-    "responses": 71,
-    "costUsd": 4.416908599999999
+    "cacheWrite1hTokens": 188621,
+    "cacheReadTokens": 14982706,
+    "outputTokens": 47512,
+    "thinkingTokens": 13951,
+    "responses": 85,
+    "costUsd": 5.456429199999998
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 105985,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
+    "cacheReadTokens": 827260,
+    "outputTokens": 98,
     "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "responses": 10,
+    "costUsd": 0.6974170000000001
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 142,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 156846,
-      "cacheReadTokens": 11719863,
-      "outputTokens": 40880,
-      "thinkingTokens": 12797,
-      "responses": 71,
-      "costUsd": 4.416908599999999
+      "inputTokens": 190,
+      "cacheWrite5mTokens": 105985,
+      "cacheWrite1hTokens": 188621,
+      "cacheReadTokens": 15809966,
+      "outputTokens": 47610,
+      "thinkingTokens": 13951,
+      "responses": 95,
+      "costUsd": 6.153846199999998
     }
   },
-  "warnings": [],
+  "warnings": [
+    "10 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
   "orientation": {
     "endedBy": "end_turn",
     "endedOn": null,
