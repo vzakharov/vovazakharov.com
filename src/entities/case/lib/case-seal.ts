@@ -119,10 +119,7 @@ export function composeCaseSeal(
   return cut === 'small' ? replaceGroup(sealed, 'band', '') : sealed;
 }
 
-/**
- * The files a cut of a case's seal is composed from: the site seal, and the
- * case's emblem, authored beside its dossier at its route plus a suffix.
- */
+/** Every file a cut is composed from; a case's PDF hashes the lettered cut's. */
 export function caseSealSources(
   publicDir: string,
   route: string,
