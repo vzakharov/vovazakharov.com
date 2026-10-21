@@ -243,11 +243,11 @@ part of «Ностальгия».
   it.
 - **Master**: the same reference pool, shortlist and blind A/B/C as the album's
   tracks, its own test.
-- **Words**: dad's poem. Unlike Tarkovsky's, it is the family's, so the
-  song-intake procedure applies in full: `lyrics.py` on the vocals stem, then
-  the operator corrects, and the crib is the agent's to write.
-  `credits.lyrics: [Vladimir Zakharov Sr.]`. Music is credited the same way,
-  unless the operator names someone else, as `river-part-one` names Никсон.
+- **Words**: Pasternak's «Зимняя ночь», the whole poem, drafted in
+  `nostalgia/lyrics/candle-burnt.md` with its crib.
+  `credits.lyrics: [Boris Pasternak]`; music is dad's,
+  `credits.music: [Vladimir Zakharov Sr.]`, unless the operator names someone
+  else, as `river-part-one` names Никсон.
 - **Story**: the operator's Telegram post
   (`nostalgia-album-assets/candle-burned-post.png`) is the `lang:ru` story,
   verbatim; `lang:en` is its translation:
@@ -297,31 +297,31 @@ Done:
   dad's song with Suno's markers in
   `docs/remove-before-merging/svecha-gorela.md`.
 - Vocal stems — `docs/remove-before-merging/nostalgia/vocals/<source>.mp3`.
+- Step 1a, the operator's «сравнить с распознаваниями … перевести на английский
+  … привести форматирование … обернуть в README или вложенный CLAUDE.md»:
+  Whisper and Deepgram transcripts of every stem in `docs/music/transcripts/`;
+  all eight drafts in `nostalgia/lyrics/` made to read as sung, with cribs; the
+  procedure in `scripts/song-intake/CLAUDE.md` § "Lyrics".
 
-Next, step 1a — the operator's request: «добавлял как в стихах, а поётся не
-везде так же. где-то рефрены повторяются, где-то нет целых строк, где-то
-переставлены/добавлены строки; сможешь сравнить с распознаваниями и, где
-понятно, сделать respectively (где непонятно -- спросить)», «на английский
-перевести», «в общем привести форматирование под наши стандарты», and «всё это
-лучше обернуть в README или вложенный CLAUDE.md так как будет повторяться для
-будущих альбомов». So:
+Waiting on the operator: eight numbered questions, each an `<!-- ask N -->` line
+in a draft (the drafts hold the best reading meanwhile):
 
-- `lyrics.py` and `transcribe.py` on each vocal stem; transcripts to
-  `docs/music/transcripts/nostalgia-*`.
-- Each `lyrics:ru` made to read as sung — repeats, dropped, moved and added
-  lines — the poem's own spelling and punctuation kept; lines the hearing does
-  not settle are asked, numbered.
-- A `lyrics:en` crib per song, per `.claude/rules/songs.md`.
-- Formatting to `.claude/rules/songs.md` § "Body": verse as stanzas, no stray
-  indentation or line-split words, ё, `xN` repeats.
-- `candle-burnt`'s words from `svecha-gorela.md` with Suno's markers and stress
-  marks stripped (songs.md § "Material whose author is in the room"), checked
-  against its stem; it is Pasternak's «Зимняя ночь», not dad's poem, so
-  `credits.lyrics` is Pasternak and step 7's attribution changes.
-- The procedure — a published poem pasted as printed, made to read as sung,
-  cribbed and formatted — goes into `scripts/song-intake/CLAUDE.md` § "Lyrics",
-  replacing its "takes the canonical text and flags only where the recording
-  departs" sentence.
+1. invitation — «город Обид»: both recognisers hear «Обидный».
+2. summer-gone — «Словно и не бывало»: both hear it without «и».
+3. summer-gone — the coda, 3:52–4:21: «Вот и лето прошло» ×3 and «Только этого
+   мало», as Deepgram hears it?
+4. butterfly-rock — «А имя бабочки — рисунок, / Нельзя произнести его» and the
+   whole «Пожалуйста, не улетай» stanza are heard by neither: not sung?
+5. actor — 2:07–2:41: only «Всё кончается…» and «Дранкой вверх…» are heard.
+6. insomnia — 2:28: both hear «…наводят затворы» for «Свёрла медленно входят в
+   затворы».
+7. candle-tarkovsky — 0:31–0:55 heard by neither (lines 1–6, under effects?);
+   2:31–2:48 heard by neither (vocalise? a repeat?).
+8. winter-in-the-forest — ~3:37 Deepgram hears «…в лесу»: a closing repeat of
+   «Когда зима в лесу»?
+
+Arseny Tarkovsky is not in `shared/music-catalogue/people.ts` yet; the scaffold
+adds him.
 
 Then the verdicts, one per blind file, and the reveal; then step 6's puts,
 scaffolds and pages, and step 7. A lossless source (7, `candle-burnt`) needs its
