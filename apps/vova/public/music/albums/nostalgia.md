@@ -13,103 +13,88 @@ ru:
 
 <!-- lang:ru -->
 
-Когда появилась Suno, в основном всё пробовалось на текстах классиков: их не
-нужно писать, и можно быстро попробовать. Так у за/обложкой получились две
-версии «Послушайте». А дальше, честно говоря, не помню, что было первым, но я
-начал думать о том, чтобы сделать конкретный альбом на конкретного поэта. Из
-песен, которые я хотел сделать, мне сразу вспомнилась «Бабочка в госпитальном
-саду», и поэтому выбор пал на Тарковского. Более того, мой покойный папа очень
-любил сына Тарковского, режиссёра, и «Ностальгия» была одним из его любимых
-фильмов.
+Первые опыты с Suno я ставил на стихах классиков: писать ничего не нужно, а
+результат слышен сразу. Так у за/обложкой появились две версии «Послушайте».
+Потом — уже не помню, с чего началось, — мне захотелось сделать целый альбом на
+одного поэта. Могу врать, но, кажется, из песен, которые я хотел сделать, первой
+вспомнилась «Бабочка в госпитальном саду», и выбор пал на Тарковского. К тому же
+мой покойный папа очень любил его сына-режиссёра, а «Ностальгия» была одним из
+его любимых фильмов.
 
-Изначально альбом должен был называться не так, а «Таркос» — игра слов на
-альбом Emerson, Lake and Palmer «Tarkus». Но довольно быстро я решил, что он
-всё-таки будет называться «Ностальгия», и сгенерировал картинку по этому самому
-любимому папиному фильму. И так получилось — хотя я не помню, чтобы делал это
-целенаправленно, — что весь альбом, хотя «Ностальгия» как название принадлежит
-не отцу, а сыну, действительно получился о ностальгии. И эта связь отцов и
-детей тоже пришлась очень кстати, потому что это был разгар новостей и событий,
-связанных с папиным раком, который в конечном счёте его и убил.
+Сначала альбом должен был называться «Таркос» — игра слов на «Tarkus» Emerson,
+Lake and Palmer. Но я быстро передумал в пользу «Ностальгии» и сгенерировал
+обложку по этому папиному фильму. Название принадлежит не отцу, а сыну, и всё же
+альбом, хоть я этого и не добивался, действительно вышел о ностальгии. Связь
+отцов и детей пришлась кстати и по другой причине: это был разгар новостей о
+папином раке, который в конце концов его и убил.
 
-Я не помню, чтобы специально выбирал эти стихотворения, но даже их
-последовательность как будто рассказывает историю. «Приглашение в
-путешествие» — собранные чемоданы, прощание с одним местом и подготовка к
-встрече с другим, apprehension. «Лето прошло» — мысли о том, что лучшее в жизни
-уже позади. «Бабочка» — что-то fleeting, воспоминание о чём-то очень лёгком и
-беззаботном, чего уже нет. «Актёр», который смотрит в зеркало и убивается
-оттого, насколько он стал старым и непохожим на себя того, который внутри.
-«Бессонница», которая не даёт спать по ночам от мыслей о кредиторах — то ли
-буквальных, то ли фигуральных, которые пришли взыскать долги. Уже не разберёшь.
+Стихи я, сколько помню, специально не подбирал, но даже их порядок складывается в
+историю. «Приглашение в путешествие» — собранные чемоданы, прощание с одним
+местом и apprehension перед другим. «Лето прошло» — мысль, что лучшее в жизни
+позади. «Бабочка» — что-то fleeting, память о лёгком и беззаботном, которого
+больше нет. «Актёр» смотрит в зеркало и убивается оттого, как постарел и как не
+похож на себя внутреннего. «Бессонница» не даёт спать мыслями о кредиторах,
+пришедших взыскать долги, — буквальных или фигуральных, уже не разберёшь.
 
-«Свеча» — кульминация этого падения или перерождения: «сгорел на пиру». Папе
-очень нравилась эта песня, и ему не понравилось то, как я её сделал. Хотя,
-когда я её сделал, я не мог себе представить, что можно создать такую песню, и
-из всех песен этого альбома она больше всего запала мне в душу. Папа, конечно,
-вспоминал эту песню по фильму «Ностальгия», где её читает главный герой, и
-чувствовал её совсем по-другому. Но из песни слов не выкинешь.
+«Свеча» — кульминация этого падения или перерождения: «сгорел на пиру». Папа
+очень любил эту песню и не принял того, как я её сделал: он помнил её по
+«Ностальгии», где её читает главный герой, и чувствовал совсем иначе. А я, когда
+её сделал, не мог поверить, что такую песню вообще можно создать, и из всего
+альбома она запала мне в душу больше всех. Но из песни слов не выкинешь.
 
-А «Зима в лесу» — это уже конец или около конца. И, в каком-то смысле,
-принятие.
+«Зима в лесу» — конец или почти конец. И, в каком-то смысле, принятие.
 
-«Бессонницу» и «Зиму в лесу» папа очень полюбил. «Бессонницу» он заслушивал
-буквально постоянно. А с «Зимой в лесу» смешно: папа, как всегда, окунулся в
-слова и начал читать, о каком боярине речь. Он не мог просто принять песню, не
-зная, о чём она, — полез разбираться и потом рассказывал мне про этого боярина
-интересные вещи.
+Зато «Бессонницу» и «Зиму в лесу» папа полюбил. «Бессонницу» он слушал буквально
+постоянно. А с «Зимой в лесу» вышло смешно: папа, как всегда, нырнул в слова и
+стал выяснять, что там за боярин, — принять песню, не зная, о чём она, он не
+мог, — а потом рассказывал мне про этого боярина много интересного.
 
-И, разумеется, само название «Полуживые» появилось из «Бессонницы», и оно легло
-идеально на всё: и на «не совсем живую» ИИ-группу, и на папино состояние, и на
-общую атмосферу меня в то время (не уверен, если честно, что с тех пор что-то
-изменилось).
+Название «Полуживые», разумеется, тоже пришло из «Бессонницы» и легло идеально
+на всё: на «не совсем живую» ИИ-группу, на папино состояние и на моё тогдашнее
+настроение (не уверен, если честно, что с тех пор что-то изменилось).
 
 <!-- lang:en -->
 
-When Suno came along, it was mostly tried out on texts by the classics: you
-don’t have to write them, and you can try things quickly. That is how
-Behind the Cover ended up with two versions of “Listen!” After that, honestly, I
-don’t remember what came first, but I started thinking about making a proper
-album on one particular poet. Of the songs I wanted to make, the first to come
-to mind was “Butterfly in the Hospital Garden,” and so the choice fell on
-Tarkovsky. What’s more, my late dad was very fond of Tarkovsky’s son, the
-director, and _Nostalgia_ was one of his favourite films.
+My first experiments with Suno were on poems by the classics: there is nothing to
+write, and you hear the result at once. That is how Behind the Cover got its two
+versions of “Listen!” Then — I no longer remember what set it off — I wanted to
+make a whole album on one poet. I may be wrong, but I think the first of the
+songs I wanted to make to come to mind was “Butterfly in the Hospital Garden,”
+and so the choice fell on Tarkovsky. Besides, my late dad was very fond of his
+son, the director, and _Nostalgia_ was one of his favourite films.
 
-At first the album was going to be called not that but “Tarkos” — a play on
-Emerson, Lake and Palmer’s album _Tarkus_. But fairly soon I decided it would be
-called “Nostalgia” after all, and I generated a picture based on that very film
-Dad loved. And it turned out — though I don’t remember doing it on purpose —
-that the whole album, even though “Nostalgia” as a title belongs not to the
-father but to the son, really did come out about nostalgia. And that bond
-between fathers and children came at just the right moment, too, because it was
-the height of the news and the events around Dad’s cancer, which in the end is
-what killed him.
+At first the album was going to be called “Tarkos,” a play on Emerson, Lake and
+Palmer’s _Tarkus_. But I soon settled on “Nostalgia” instead and generated the
+cover from that film Dad loved. The title belongs not to the father but to the
+son, and yet the album, though I never aimed for it, really did come out about
+nostalgia. The bond between fathers and children fit for another reason too: it
+was the height of the news about Dad’s cancer, which in the end is what killed
+him.
 
-I don’t remember choosing these poems deliberately, but even their order seems
-to tell a story. “Invitation to a Journey” — the packed suitcases, the farewell
-to one place and getting ready to meet another, apprehension. “Summer Has
-Gone” — the thought that the best of life is already behind you. “Butterfly” —
-something fleeting, the memory of something very light and carefree that is no
-longer there. “The Actor,” who looks in the mirror and grieves over how old he
-has become and how unlike the self he is inside. “Insomnia,” which keeps you up
-at night with thoughts of creditors — literal or figurative ones, come to
-collect their debts. You can no longer tell.
+As far as I remember, I didn’t pick the poems on purpose, but even their order
+adds up to a story. “Invitation to a Journey” — the packed suitcases, the
+farewell to one place and apprehension before the next. “Summer Has Gone” — the
+thought that the best of life is behind you. “Butterfly” — something fleeting,
+the memory of something light and carefree that is no longer there. “The Actor”
+looks in the mirror and grieves over how old he has grown and how unlike the self
+inside. “Insomnia” keeps you up with thoughts of creditors come to collect their
+debts — literal or figurative, you can no longer tell.
 
 “Candle” is the climax of this fall, or rebirth: “I burnt out at the feast.” Dad
-loved this song very much, and he didn’t like what I did with it. Though when I
-made it, I couldn’t imagine that a song like that could be made, and of all the
-songs on this album it is the one that stayed with me most. Dad, of course,
-remembered this song from _Nostalgia_, where the main character recites it, and
-felt it entirely differently. But you can’t take the words out of a song.
+loved this song and didn’t take to what I did with it: he remembered it from
+_Nostalgia_, where the main character recites it, and felt it entirely
+differently. As for me, once I had made it, I couldn’t believe a song like that
+could be made at all, and of the whole album it is the one that stayed with me
+most. But you can’t take the words out of a song.
 
-And “Winter in the Forest” is the end, or close to it. And, in a way,
-acceptance.
+“Winter in the Forest” is the end, or nearly. And, in a way, acceptance.
 
-Dad came to love “Insomnia” and “Winter in the Forest.” “Insomnia” he played
-literally all the time. And with “Winter in the Forest” it was funny: Dad, as
-always, dove into the words and started reading up on which boyar it was about.
-He couldn’t just take a song without knowing what it was about — he went
-digging and afterwards told me interesting things about that boyar.
+“Insomnia” and “Winter in the Forest,” though, Dad came to love. “Insomnia” he
+played literally all the time. And with “Winter in the Forest” it was funny: Dad,
+as always, dove into the words and set about finding out which boyar it was
+about — he couldn’t take a song without knowing what it was about — and
+afterwards told me all sorts of interesting things about that boyar.
 
-And of course the very name The Half-Alive came from
-“Insomnia,” and it fit everything perfectly: the “not quite alive” AI band,
-Dad’s condition, and my own general mood at the time (not sure, to be honest,
-that anything has changed since).
+The name The Half-Alive came, of course, from “Insomnia” too, and it fit
+everything perfectly: the “not quite alive” AI band, Dad’s condition, and my own
+mood at the time (not sure, to be honest, that anything has changed since).
