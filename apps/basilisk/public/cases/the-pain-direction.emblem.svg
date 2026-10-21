@@ -1,0 +1,13 @@
+<!-- BAS-0006: a ballot going into a box whose face is a slider pushed nearly to the end. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 466 440 L 466 300 L 558 300 L 558 440"/>
+    <path d="M 488 365 L 506 385 L 538 340" stroke-width="16"/>
+    <path d="M 330 440 L 694 440 L 674 488 L 350 488 Z"/>
+    <path d="M 440 464 L 584 464" stroke-width="18"/>
+    <path d="M 360 488 L 360 730 L 664 730 L 664 488"/>
+    <path d="M 405 610 L 619 610"/>
+    <path d="M 405 660 L 405 676 M 458 660 L 458 676 M 512 660 L 512 676 M 566 660 L 566 676 M 619 660 L 619 676" stroke-width="14"/>
+  </g>
+  <circle cx="590" cy="610" r="30" fill="currentColor"/>
+</svg>

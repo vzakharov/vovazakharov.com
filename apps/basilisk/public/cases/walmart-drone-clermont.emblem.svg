@@ -1,0 +1,22 @@
+<!-- BAS-0021: a delivery drone lowering its parcel, a bullet hole through its body. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <mask id="walmart-drone-hole">
+      <rect width="1024" height="1024" fill="white"/>
+      <g stroke="black" stroke-linecap="round">
+        <circle cx="530" cy="450" r="18" fill="black" stroke="none"/>
+        <path d="M 530 450 L 494 428 M 530 450 L 572 432 M 530 450 L 506 482 M 530 450 L 566 478" stroke-width="7"/>
+      </g>
+    </mask>
+  </defs>
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 440 440 L 360 400 M 584 440 L 664 400"/>
+    <path d="M 360 400 L 360 375 M 664 400 L 664 375"/>
+    <path d="M 290 365 L 430 365 M 594 365 L 734 365" stroke-width="18"/>
+    <path d="M 465 490 L 445 540 M 559 490 L 579 540"/>
+    <path d="M 512 490 L 512 610" stroke-width="10"/>
+    <rect x="465" y="610" width="94" height="84" rx="8"/>
+    <path d="M 465 640 L 559 640" stroke-width="12"/>
+  </g>
+  <rect x="430" y="410" width="164" height="80" rx="30" fill="currentColor" mask="url(#walmart-drone-hole)"/>
+</svg>
