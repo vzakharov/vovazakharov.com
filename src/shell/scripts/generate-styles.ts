@@ -33,7 +33,7 @@ import path from 'node:path';
 import { breakpoints } from '../app/styles/breakpoints.ts';
 import { CSS_COLORS } from '../shared/ui/css-color.ts';
 
-const REPO_ROOT = path.join(import.meta.dirname, '..');
+const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..');
 
 function scale(): string {
   return Object.entries(breakpoints)

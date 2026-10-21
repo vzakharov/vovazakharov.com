@@ -14,7 +14,7 @@ import { z } from 'zod';
 
 import { PALETTE } from '../pages/mushrooms/ui/scene/palette';
 
-const ROOT = path.resolve(import.meta.dirname, '..');
+const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
 const OUT = path.resolve(
   ROOT,
   process.argv[2] ?? 'tmp/mushroom-artifact/index.html',
@@ -50,7 +50,7 @@ const phaserFromGlobal: Plugin = {
 // `startGame` sizes the canvas straight after, so the game starts no sooner
 // — as the site's page, mounting after hydration, always does.
 const ENTRY = `
-import { startGame } from '../../../scripts/src/mushrooms/pages/mushrooms/ui/scene/start-game';
+import { startGame } from './src/mushrooms/pages/mushrooms/ui/scene/start-game';
 document.addEventListener('DOMContentLoaded', () => {
   const host = document.getElementById('meadow');
   if (!host) throw new Error('no #meadow host');

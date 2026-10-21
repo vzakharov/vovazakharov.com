@@ -61,7 +61,7 @@ import { playVeer } from './lib/play-veer.ts';
 import { playWalk } from './lib/play-walk.ts';
 import { withPrintOrigin } from '../../kernel/scripts/lib/print-origin.ts';
 
-const ROOT = path.resolve(import.meta.dirname, '..');
+const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
 const OUT = path.join(ROOT, 'sites/vova/out');
 const FRAMES = path.join(ROOT, 'tmp/play');
 const POLL_MS = 250;

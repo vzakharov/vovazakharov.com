@@ -15,7 +15,7 @@ import {
   GENERATED_DIR,
 } from '../../shared/content/collections.ts';
 
-export const REPO_ROOT = path.join(import.meta.dirname, '..', '..');
+export const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..', '..');
 
 /**
  * Every file under `target`, recursively — or `target` itself when it is a

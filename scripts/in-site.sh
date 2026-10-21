@@ -6,11 +6,12 @@
 # from `siteNextConfig` whatever the environment says.
 #
 #   scripts/in-site.sh <site> <command> [args...]
-#   scripts/in-site.sh lsa tsx scripts/render-pdf.ts --check
+#   scripts/in-site.sh basilisk tsx src/basilisk/scripts/render-pdf.ts --check
 #
-# An argument beginning `scripts/` is resolved against the repository root
-# rather than the site directory, so a caller writes the path it would write from
-# the root instead of counting the `../..` back out of `sites/<site>`.
+# An argument beginning `scripts/` or `src/` is resolved against the repository
+# root rather than the site directory, so a caller writes the path it would
+# write from the root instead of counting the `../..` back out of
+# `sites/<site>`.
 #
 # The repository's `node_modules/.bin` goes on `PATH`: the site directories are
 # not packages of their own, so nothing there resolves `tsx` or `next` for a
@@ -32,7 +33,7 @@ for _ in "$@"; do
   arg=$1
   shift
   case $arg in
-  scripts/*) set -- "$@" "$root/$arg" ;;
+  scripts/* | src/*) set -- "$@" "$root/$arg" ;;
   *) set -- "$@" "$arg" ;;
   esac
 done

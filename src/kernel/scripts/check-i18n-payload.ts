@@ -31,7 +31,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const REPO_ROOT = path.join(import.meta.dirname, '..');
+const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..');
 
 /**
  * Strings next-intl's client runtime carries into a minified chunk: its own

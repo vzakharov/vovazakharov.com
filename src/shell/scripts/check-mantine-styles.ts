@@ -29,7 +29,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const REPO_ROOT = path.join(import.meta.dirname, '..');
+const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..');
 const MANTINE_CORE = path.join(REPO_ROOT, 'node_modules/@mantine/core');
 
 /** One stylesheet per component, which is what `theme-provider.tsx` imports. */
