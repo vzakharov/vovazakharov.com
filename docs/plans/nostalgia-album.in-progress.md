@@ -1,9 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source
-> while this file is named `*.draft.do-not-implement.md` — prep and spikes go in
-> `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md`
-> and delete this banner (quoting the go-ahead in the commit) _before_ touching
-> code.
-
 # «Ностальгия» — the Полуживые album on Arseny Tarkovsky's poems
 
 Add «Ностальгия» (Полуживые, 7 tracks, taken down from every platform) to the
@@ -88,7 +82,8 @@ Slugs, as the operator picked them:
 - `butterfly-rock` — Бабочка
 - `actor` — Актёр
 - `insomnia` — Бессонница
-- `candle` — Свеча
+- `candle-tarkovsky` — Свеча. The poet's name disambiguates it from dad's
+  `candle-burnt` (step 7) for the operator, who would otherwise mix the two up.
 - `winter-in-the-forest` — Зима в лесу. `songs.md` drops only a _leading_ “the”,
   so the rule keeps this one; the operator's `winter-in-forest` replaces it if
   they say so.
@@ -182,8 +177,8 @@ Each song lives in the repository its takes already sit in, renamed to its slug:
 - `gb-zima-v-lesu` → `winter-in-the-forest`
 - `Leto-proslo` → `summer-gone`; its source is the album cut, put in beside the
   take already there.
-- `sila` → `candle`: «Меркнет зрение — сила моя», the released take and the
-  earlier ones together. `svecha` keeps its name.
+- `sila` → `candle-tarkovsky`: «Меркнет зрение — сила моя», the released take
+  and the earlier ones together. `svecha` keeps its name.
 - `Tarkos--al-bom-` → `nostalgia`. It is the album's repository, holds the album
   file both tracks 1 and 2 are cut from, and the recitative takes, so it serves
   `invitation`, the way `vagabond_album` serves three songs.
@@ -222,12 +217,12 @@ part of «Ностальгия».
 - **Source**: `docs/remove-before-merging/Свеча горела.wav`, which the operator
   pushed: 3:53, 48 kHz / 16-bit, the Suno download. `svecha` holds only takes
   and a REAPER project. The WAV goes to `music-sources` as
-  `father-sea-09-candle-burned.wav` and into the repository; the copy on this
+  `father-sea-09-candle-burnt.wav` and into the repository; the copy on this
   branch is swept with the rest of `docs/remove-before-merging/`.
-- **Slug and repository**: `candle-burned`. «Свеча горела» rests on Pasternak's
-  «Свеча горела на столе» — "A candle burned on the table" — so the leading "a"
-  drops. `svecha` is renamed to it. Beside Tarkovsky's `candle`, each name says
-  which candle it is.
+- **Slug and repository**: `candle-burnt`. «Свеча горела» rests on Pasternak's
+  «Свеча горела на столе» — "A candle burnt on the table" — so the leading "a"
+  drops; "burnt" because the site's English is British. `svecha` is renamed to
+  it.
 - **Master**: the same reference pool, shortlist and blind A/B/C as the album's
   tracks, its own test.
 - **Words**: dad's poem. Unlike Tarkovsky's, it is the family's, so the
@@ -270,20 +265,10 @@ It is swept with the rest of that tree.
   seven lossy for one source's consistency.
 - **The findings record**: `docs/music/vovas-music.md`. One issue per missing
   release was the alternative.
-- **Slugs**: the operator's (step 1).
-
-## Open questions (recommendation in force)
-
-1. Disambiguating the two candles:
-   - **a (recommended)** — `candle` (Tarkovsky's «Свеча») and `candle-burned`
-     (dad's «Свеча горела»). Each is its own title translated by the slug rule,
-     and a repository is named like its slug.
-   - **b** — `candle-tarkovsky` and `candle-burnt`, the operator's first
-     thought. The poet's name is not part of the title, and the slug rule takes
-     only the title.
-2. «Свеча горела»'s place in Папа-море:
-   - **a (recommended)** — track 9, at the end.
-   - **b** — a position the operator names.
+- **Slugs**: the operator's (step 1), the two candles as `candle-tarkovsky` and
+  `candle-burnt`. A bare `candle` beside `candle-burned` was the alternative;
+  the operator would confuse them.
+- **«Свеча горела»** is Папа-море's track 9, at the end (no position named).
 
 ## DRY notes
 
@@ -338,8 +323,8 @@ bounces from that directory's root went into the song repositories on
 - `butterfly-rock` (was `gb-babocka--metal-`)
 - `actor` (was `akte-r`)
 - `insomnia` (was `gb-Bessonnica`)
-- `candle` (was `sila`; the poem is «Меркнет зрение — сила моя»)
-- and, for Папа-море, `candle-burned` (was `svecha`; dad's «Свеча горела»)
+- `candle-tarkovsky` (was `sila`; the poem is «Меркнет зрение — сила моя»)
+- and, for Папа-море, `candle-burnt` (was `svecha`; dad's «Свеча горела»)
 - `winter-in-the-forest` (was `gb-zima-v-lesu`)
 
 **On Apple Music, not on the site:**
