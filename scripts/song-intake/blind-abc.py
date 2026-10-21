@@ -70,15 +70,19 @@ def encode(audio, out, tmp):
                     "-c:a", "libmp3lame", "-q:a", "0", str(out)], check=True)
 
 
+def played(args, order):
+    """What a key's files hold: the mix, given --mix, ahead of the masters in `order`."""
+    return ([args.mix] if args.mix else []) + order
+
+
 def build(args):
     masters = [args.a, args.b, args.c]
     order = masters[:]
     secrets.SystemRandom().shuffle(order)
     nonce = secrets.token_hex(16)
 
-    played = ([args.mix] if args.mix else []) + order
     with tempfile.TemporaryDirectory() as tmp:
-        audio = matched(played, tmp)
+        audio = matched(played(args, order), tmp)
         n = min(len(x) for x in audio)
         window, fade = int(args.window * SR), int(FADE_S * SR)
         out = np.zeros((n, 2))
@@ -104,7 +108,7 @@ def split(args):
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
-        audio = matched(([args.mix] if args.mix else []) + order, tmp)
+        audio = matched(played(args, order), tmp)
         n = min(len(x) for x in audio)
         for name, a in zip(names, audio):
             encode(a[:n], out_dir / f"{name}.mp3", tmp)
