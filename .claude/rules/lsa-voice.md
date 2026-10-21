@@ -3,8 +3,8 @@ description: The voice Late Stage Agentic is written in — its site copy, its d
 paths:
   - 'src/lsa/pages/lsa-home/**'
   - 'writing/late-stage-agentic/**'
-  - 'apps/lsa/**/*.md'
-  - 'apps/lsa/**/*.json'
+  - 'sites/lsa/**/*.md'
+  - 'sites/lsa/**/*.json'
 ---
 
 # The Late Stage Agentic voice

@@ -2,7 +2,7 @@
 
 /**
  * Fails on a word masked with asterisks — `f*ck`, `f\*\*k`, `х\*й`, `s***` — in
- * a song, every Markdown file directly under `apps/vova/public/music/songs/`:
+ * a song, every Markdown file directly under `sites/vova/public/music/songs/`:
  *
  *   pnpm check:masked-words
  *

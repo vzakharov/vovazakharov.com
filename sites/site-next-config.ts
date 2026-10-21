@@ -7,10 +7,10 @@ import type { SiteId } from '@/kernel/shared/config';
 /**
  * Every site's Next config. Pass the caller's own `import.meta.dirname`:
  * Turbopack has to be told the workspace root, the lockfile and `node_modules`
- * being two levels above an app.
+ * being two levels above a site.
  */
-export function siteNextConfig(site: SiteId, appDir: string): NextConfig {
-  // Found by string rather than by import, and relative to the app directory —
+export function siteNextConfig(site: SiteId, siteDir: string): NextConfig {
+  // Found by string rather than by import, and relative to the site directory —
   // which is where Turbopack resolves it from and where every build is entered.
   const withNextIntl = createNextIntlPlugin(
     '../../src/kernel/shared/i18n/request.ts',
@@ -34,7 +34,7 @@ export function siteNextConfig(site: SiteId, appDir: string): NextConfig {
       globalNotFound: true,
     },
     turbopack: {
-      root: path.join(appDir, '..', '..'),
+      root: path.join(siteDir, '..', '..'),
     },
   });
 }

@@ -47,33 +47,33 @@ const SYNTAX_ONLY = [
 
 describe('check-prose-quotes', () => {
   it('passes quotes that are syntax: frontmatter, code and raw HTML', () => {
-    const { status, stdout } = run({ 'apps/a/public/doc.md': SYNTAX_ONLY });
+    const { status, stdout } = run({ 'sites/a/public/doc.md': SYNTAX_ONLY });
     assert.equal(status, 0);
     assert.equal(stdout, 'prose-quotes: clean\n');
   });
 
   it('fails a straight quote in prose, naming the file and line', () => {
     const { status, stdout } = run({
-      'apps/a/public/doc.md': `${SYNTAX_ONLY}\nShe said "no" twice.\n`,
+      'sites/a/public/doc.md': `${SYNTAX_ONLY}\nShe said "no" twice.\n`,
     });
     assert.equal(status, 1);
     assert.match(
       stdout,
-      /^apps\/a\/public\/doc\.md:13: She said "no" twice\.$/m,
+      /^sites\/a\/public\/doc\.md:13: She said "no" twice\.$/m,
     );
   });
 
   it('fails a straight apostrophe in prose', () => {
     const { status, stdout } = run({
-      'apps/a/public/doc.md': "It's straight.\n",
+      'sites/a/public/doc.md': "It's straight.\n",
     });
     assert.equal(status, 1);
-    assert.match(stdout, /^apps\/a\/public\/doc\.md:1: It's straight\.$/m);
+    assert.match(stdout, /^sites\/a\/public\/doc\.md:1: It's straight\.$/m);
   });
 
   it('skips the pipeline’s generated output', () => {
     const { status } = run({
-      'apps/a/public/generated/out.md': 'A "generated" line.\n',
+      'sites/a/public/generated/out.md': 'A "generated" line.\n',
     });
     assert.equal(status, 0);
   });

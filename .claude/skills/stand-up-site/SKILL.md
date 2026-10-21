@@ -15,8 +15,8 @@ end.
 reach the registrar.** Step 2 splits on that, and either way the site is dark
 until they land, whatever CI reports.
 
-The code half — the app directory, its `next.config.ts`, the site's entry in the
-shared config — is ordinary work on the branch and is not this skill's;
+The code half — the site directory, its `next.config.ts`, the site's entry in
+the shared config — is ordinary work on the branch and is not this skill's;
 CLAUDE.md § "Repository layout" and `.claude/rules/deployment.md` own it. This
 skill starts where the build already produces the site and ends where the domain
 serves it.

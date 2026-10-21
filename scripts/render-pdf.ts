@@ -31,7 +31,7 @@
  * as at its last pass, recorded in `tmp/`, so a vet run on a branch that never
  * touches the CV pays for one print per working tree.
  *
- * One run serves one site, because it is entered in that app's directory —
+ * One run serves one site, because it is entered in that site's directory —
  * which is what `public/`, `out/` and the dev server it spawns all resolve
  * against.
  *

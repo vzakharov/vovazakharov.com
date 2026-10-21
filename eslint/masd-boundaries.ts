@@ -81,15 +81,15 @@ const policiesFor = (app: string) => {
 
 export const boundariesConfig: Config = {
   plugins: { boundaries: boundariesPlugin },
-  files: ['src/**/*.{ts,tsx}', 'apps/*/app/**/*.{ts,tsx}'],
+  files: ['src/**/*.{ts,tsx}', 'sites/*/app/**/*.{ts,tsx}'],
   settings: {
     'boundaries/elements': [
-      // A site's router, `apps/<site>/app/`, belongs to no app, so it is an
+      // A site's router, `sites/<site>/app/`, belongs to no app, so it is an
       // element type of its own: the policies below let it enter any app's
       // public API, and none lets anything import it.
       {
         type: 'router',
-        pattern: ['apps/*/app'],
+        pattern: ['sites/*/app'],
         capture: ['siteName'],
         partialMatch: true,
       },

@@ -119,12 +119,12 @@ function shipsRuntime(html: string, out: string, cache: Map<string, boolean>) {
 }
 
 function outDirs(): string[] {
-  const apps = path.join(REPO_ROOT, 'apps');
+  const sites = path.join(REPO_ROOT, 'sites');
 
   return fs
-    .readdirSync(apps, { withFileTypes: true })
+    .readdirSync(sites, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => path.join(apps, entry.name, 'out'))
+    .map((entry) => path.join(sites, entry.name, 'out'))
     .filter((dir) => fs.existsSync(dir));
 }
 
@@ -134,7 +134,7 @@ const built = outDirs();
 
 if (built.length === 0) {
   console.error(
-    'No built site found under apps/*/out — run `pnpm build` first.\n' +
+    'No built site found under sites/*/out — run `pnpm build` first.\n' +
       'This check reads the rendered pages, so it has nothing to say without it.',
   );
   process.exit(1);

@@ -68,6 +68,21 @@ if [ ${#sources[@]} -eq 0 ]; then
   exit 1
 fi
 
+# The text the branch will land for each path: its staged copy where the file
+# is staged, else the file. Optional, so the check runs in a tree without
+# staging.
+staged_view() {
+  if [ -x scripts/staged.sh ]; then
+    scripts/staged.sh resolve "$@"
+  else
+    printf '%s\n' "$@"
+  fi
+}
+
+# A staged file is scanned through its copy, whose own `.staged` name keeps it
+# out of the globs above.
+mapfile -t sources < <(staged_view "${sources[@]}")
+
 # --- Assertion 1: no dangling skill reference ------------------------------
 
 echo "1. @-references into .claude/ resolve"
@@ -224,16 +239,6 @@ done
 # since that is the text the branch will land.
 
 echo "6. Section citations into CLAUDE.md name headings that exist"
-
-# The text a citation is checked against: the staged copy where the file is
-# staged, else the file. Optional, so the check runs in a tree without staging.
-staged_view() {
-  if [ -x scripts/staged.sh ]; then
-    scripts/staged.sh resolve "$1"
-  else
-    printf '%s\n' "$1"
-  fi
-}
 
 # The file's headings, one per line, without their leading hashes.
 headings_of() {

@@ -106,16 +106,16 @@ Nineteen things about that list are deliberate:
   builds and renders unstyled — so the check compares the `m_*` classes in each
   site's built HTML against the rules in that site's built CSS, and reports the
   unused direction too. It reads only what the build already finished writing
-  under `apps/*/out/`, which is what lets it overlap the rest; that is also its
+  under `sites/*/out/`, which is what lets it overlap the rest; that is also its
   blind spot, a component rendered only after an interaction never reaching a
   static export. `.claude/rules/styling.md` is the home of the convention it
   holds.
 - **`pnpm check:i18n-payload` keeps next-intl's client runtime off every page**,
-  reading each built page under `apps/*/out/` as the check above does — so it
+  reading each built page under `sites/*/out/` as the check above does — so it
   overlaps the rest for the same reason, and `.claude/rules/i18n.md` holds the
   ban and why.
 - **`pnpm check:prose-quotes` reads prose the way the page does**: it parses
-  each document under `apps/*/public/` with the content pipeline's own remark
+  each document under `sites/*/public/` with the content pipeline's own remark
   plugins and flags a `"` or `'` only in a text node, so one in frontmatter,
   code or raw HTML — syntax, not punctuation — never trips it. A regex over the
   file could not tell the two apart. It reads only that Markdown, which is why
@@ -153,8 +153,8 @@ Nineteen things about that list are deliberate:
   line, so a combined `a && b` would leave the first site rendering for real
   inside a vet run. `pnpm music:masters check` is the same kind of check over
   the song masters' names and tags, against
-  `apps/vova/public/music/tag-renders.json`, and is what refuses a merge while a
-  song's files are untagged or tagged from inputs that changed since.
+  `sites/vova/public/music/tag-renders.json`, and is what refuses a merge while
+  a song's files are untagged or tagged from inputs that changed since.
   **Publishing the PDFs stays out of vet**: each lane prints that site's PDFs
   fresh after its own build, so the manifest a check would hash against lives in
   that lane's cache rather than in the tree.

@@ -42,7 +42,7 @@ const SONG_COVERS: ReadonlySet<string> = new Set([
 
 /**
  * The song's own cover, else that of the album it is shown on — the one it is
- * filed under unless named; a site-root path under `apps/vova/public/`.
+ * filed under unless named; a site-root path under `sites/vova/public/`.
  */
 export function songPicture(
   { slug, frontmatter }: SongDocument,

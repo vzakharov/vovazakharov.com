@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 134301,
+    "cacheReadTokens": 9072725,
+    "outputTokens": 33989,
+    "thinkingTokens": 13672,
+    "responses": 63,
+    "costUsd": 3.569237
+  },
+  "estimate": {
+    "at": "2026-10-21T05:08:07.210Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "judging whether a stacked PR needs its own finalize takes knowing how finalize, bites and the elephant's sweep interlock"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "teaching a bash checker to read staged copies is a routine change to a script with a working precedent beside it"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "02e0a978-26a5-59ce-bd7e-6f6adc2c2d98",
+  "branch": "masd/sites-by-domain",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take masd/sites-by-domain — дождаться ответа Вовы, добавлять ли в vet проверку на файлы в корне docs/remove-before-merging/.",
+  "prs": [
+    178
+  ],
+  "url": "https://claude.ai/code/session_01N5i52unzhwF3Kzn8Pgm4oE",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T04:46:34.684Z",
+  "lastResponseAt": "2026-10-21T06:01:37.131Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 3.0176849999999997,
+  "ownTurns": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 134301,
+    "cacheReadTokens": 9072725,
+    "outputTokens": 33989,
+    "thinkingTokens": 13672,
+    "responses": 63,
+    "costUsd": 3.569237
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 126,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 134301,
+      "cacheReadTokens": 9072725,
+      "outputTokens": 33989,
+      "thinkingTokens": 13672,
+      "responses": 63,
+      "costUsd": 3.569237
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-21T04:48:12.675Z",
+    "contextTokens": 119413,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 70809,
+      "cacheReadTokens": 1350041,
+      "outputTokens": 5074,
+      "thinkingTokens": 2710,
+      "responses": 13,
+      "costUsd": 0.9380642
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

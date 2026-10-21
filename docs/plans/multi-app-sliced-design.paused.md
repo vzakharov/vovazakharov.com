@@ -80,7 +80,7 @@ and nothing of its own mounted by a router is insignificant. Today `kernel` (2
 children), `shell` (2) and `blog` (4) pass; a `game` between `kernel` and
 `mushrooms` waits for a second game.
 
-**A router only says what is shown at which URL.** `apps/<site>/app/` maps
+**A router only says what is shown at which URL.** `sites/<domain>/app/` maps
 addresses to apps — on vovazakharov.com, `/` and `/cv` to vova, `/music/...` to
 music, `/mushrooms` to mushrooms — and decides nothing else. **A site's sitemap
 is its leaf app's**, which inherits every app the site mounts: vova is
@@ -134,6 +134,17 @@ CLAUDE.md's `fsd.md` citation, and every site looked at under the split layouts.
   live CLAUDE.md cites `fsd.md` until `/finalize` swaps it in, so
   `check-skill-catalog` fails until then).
 
+Slice 2, sites out of `apps/`: vet clean but for the same citation, every site
+built.
+
+- **`sites/<site>/`** holds each router, `public/`, Next config and tsconfig,
+  with `sites/site-next-config.ts` beside them, so "app" names only an app under
+  `src/`.
+- **A site keeps its short id** (`vova`, `lsa`, `bible`, `basilisk`) in the
+  directory, `NEXT_PUBLIC_SITE`, the squash scope and every `pnpm` entry — a
+  domain in each of those spent characters on every command for nothing, so it
+  stays where it was, once, in the site's `url`.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -142,15 +153,8 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
-those slices carry their own tools along; the sites rename is independent of
-every other slice.
+those slices carry their own tools along.
 
-- **2. Sites named by domain.** `apps/<id>/` → `sites/<domain>/`
-  (`sites/vovazakharov.com/`, `sites/latestageagentic.com/`,
-  `sites/agentic.bible/`, `sites/basilisk.fyi/`), so a router is named by what
-  it serves and `src/` apps and site routers stop sharing the word "app".
-  `scripts/in-site.sh`, `NEXT_PUBLIC_SITE`, `SITE_CONFIG`, `package.json`'s
-  per-site entries and `.github/workflows/deploy.yml` follow.
 - **3. App scripts live in their apps.** `src/<app>/scripts/`, beside the app's
   layers: an unknown folder at an app root is no layer to Steiger (checked on
   `src/basilisk`). A script is one more boundaries element, `script`, under the

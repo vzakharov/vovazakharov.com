@@ -26,7 +26,7 @@ export type CollectionId = (typeof COLLECTION_IDS)[number];
  * index cards all derive from it, so a new collection is an entry here.
  *
  * A collection belongs to one site, and every walk over the registry filters by
- * that: `public/` is per app, so the other site's build would otherwise read a
+ * that: `public/` is per site, so the other site's build would otherwise read a
  * directory that is not there.
  */
 export const COLLECTIONS = {
@@ -157,7 +157,7 @@ export type DocumentRef = WithCollectionId & Slugged;
 
 /**
  * The site's static assets, resolved against the working directory — which is
- * the app's own directory under `apps/`, every build and render script being
+ * the site's own directory under `sites/`, every build and render script being
  * entered there. Run one from the repository root and this points at nothing.
  */
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');

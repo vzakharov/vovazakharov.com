@@ -11,17 +11,17 @@ export default {
     'scripts/*.ts',
     // Steiger has no knip plugin.
     'steiger.config.mjs',
-    // Named by string in `apps/site-next-config.ts`, as `createNextIntlPlugin` wants.
+    // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.
     'src/kernel/shared/i18n/request.ts',
   ],
   // The plugin looks for `app/` and `next.config.*` at the root; the three sites
   // hold theirs one level down. The file names are the App Router's conventions,
   // as the plugin's own defaults list them.
   next: {
-    config: ['apps/*/next.config.ts'],
+    config: ['sites/*/next.config.ts'],
     entry: [
-      'apps/*/app/**/{layout,page,template,default,loading,error,global-error,not-found,global-not-found,forbidden,unauthorized,route}.{ts,tsx}',
-      'apps/*/app/**/{sitemap,robots,manifest,icon,apple-icon,opengraph-image,twitter-image}.{ts,tsx}',
+      'sites/*/app/**/{layout,page,template,default,loading,error,global-error,not-found,global-not-found,forbidden,unauthorized,route}.{ts,tsx}',
+      'sites/*/app/**/{sitemap,robots,manifest,icon,apple-icon,opengraph-image,twitter-image}.{ts,tsx}',
     ],
   },
   // SCSS is in: knip follows `@use` and `@forward`, so a stylesheet nothing reaches

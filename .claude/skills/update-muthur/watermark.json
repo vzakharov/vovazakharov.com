@@ -8,7 +8,7 @@
       "CLAUDE.md": "adopted in full. This repo keeps no decision docs — docs/ holds plans and transient review artifacts only — and the source's § \"Writing things down\" routes a decision's alternatives to the PR or issue thread, which is what this repo already does. /audit-github-backlog carries the last upstream mention of decision docs, and it is declined. § \"Language\" is filled in rather than left as the source's adopter stub, and its § \"Vetting\" exit rule does not travel: that rule is about a stub over an unchecked stack, and this repo's vet.sh is real."
     },
     {
-      ".claude/rules/README.md": "taken with one paragraph of this repo's own: a directory whose files are served keeps its conventions in a rule file here, since a CLAUDE.md under apps/*/public/ would be published with the site. The source's README has no served directory to name, so a verbatim re-copy would drop it."
+      ".claude/rules/README.md": "taken with one paragraph of this repo's own: a directory whose files are served keeps its conventions in a rule file here, since a CLAUDE.md under sites/*/public/ would be published with the site. The source's README has no served directory to name, so a verbatim re-copy would drop it."
     },
     ".claude/skills/CLAUDE.md",
     {
@@ -17,7 +17,7 @@
     ".claude/rules/staging.md",
     ".claude/rules/markdown.md",
     {
-      ".claude/rules/markdown-wrap.md": "worded for this repo: the wrap runs through the prettier package.json already pins, as a `proseWrap: always` override in .prettierrc.json that the existing `pnpm format:check` enforces, so the source's scripts/prettier.sh and check-markdown-wrap.sh do not travel. Its scope is agent-facing and repo-doc Markdown; the content trees (apps/*/public/, writing/, docs/music/) keep their line breaks."
+      ".claude/rules/markdown-wrap.md": "worded for this repo: the wrap runs through the prettier package.json already pins, as a `proseWrap: always` override in .prettierrc.json that the existing `pnpm format:check` enforces, so the source's scripts/prettier.sh and check-markdown-wrap.sh do not travel. Its scope is agent-facing and repo-doc Markdown; the content trees (sites/*/public/, writing/, docs/music/) keep their line breaks."
     },
     {
       ".claude/context-budget/": "adopted whole, this repo's `MUTHUR_CONTEXT_BUDGET_SUBAGENT` extension included. `manual-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; a source entry for a handle is that operator's to set here, not a port."

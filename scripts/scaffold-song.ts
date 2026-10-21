@@ -21,8 +21,8 @@
  * It never overwrites a document that exists, so a re-run after the author has
  * edited one is safe and reports what it skipped.
  *
- * Runs under `tsx` from the app directory, like the other content scripts, so
- * `collectionDir` resolves against that app's `public/`. Needs network and, for
+ * Runs under `tsx` from the site directory, like the other content scripts, so
+ * `collectionDir` resolves against that site's `public/`. Needs network and, for
  * the API's rate limit, `GH_TOKEN`.
  */
 
