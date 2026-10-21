@@ -294,9 +294,12 @@ Done:
   `references.md`. The keys are in `tmp/nos/keys/` of the session that built
   them; no verdict yet.
 
-Left: the verdicts and their reveal, then step 6's puts, scaffolds and pages,
-step 7, step 8. A lossless source (7, `candle-burnt`) needs its winning master
-as FLAC too, which `master.py` does not yet write. Download the sources with
+- Step 8 — `docs/music/vovas-music.md`.
+
+Waiting on the operator's verdicts, one per blind file. Left after them: the
+reveal, then step 6's puts, scaffolds and pages, and step 7. A lossless source
+(7, `candle-burnt`) needs its winning master as FLAC too, which `master.py` does
+not yet write. Download the sources with
 `gh release download music-sources -p 'nostalgia-*' -p 'father-sea-09-*'`.
 
 ## Settled with the operator
