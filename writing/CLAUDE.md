@@ -15,6 +15,8 @@ aesthetic it prefers.
 writing/
   notes/
     <slug>.md          # evidence gathered for a post not yet drafted
+  papers/
+    <slug>.md          # a research paper, in the language of its readers
   <channel>/
     plan.md            # the backlog for that channel
     ideas/
@@ -29,6 +31,9 @@ writing/
       rejected.md      #   candidates rejected, and the rule each failed
       runs.md          #   what each run swept, and what to try next
 ```
+
+`papers/` is no channel either: a paper stands on its own, carries its sources
+and the date they were checked, and none of the post rules below bind it.
 
 `basilisk/` is no channel and holds no drafts: it is the working record behind
 basilisk.fyi, kept by `/file-basilisk-case`, which says how the ledger is
