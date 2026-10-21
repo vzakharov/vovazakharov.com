@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 194,
-    "cacheWrite5mTokens": 116272,
-    "cacheWrite1hTokens": 189666,
-    "cacheReadTokens": 15189642,
-    "outputTokens": 41018,
-    "thinkingTokens": 13067,
-    "responses": 97,
-    "costUsd": 5.9577523999999995
+    "inputTokens": 262,
+    "cacheWrite5mTokens": 190256,
+    "cacheWrite1hTokens": 208588,
+    "cacheReadTokens": 20704517,
+    "outputTokens": 48796,
+    "thinkingTokens": 14482,
+    "responses": 131,
+    "costUsd": 7.737855399999999
   },
   "estimate": {
     "at": "2026-10-21T09:59:32.414Z",
@@ -32,48 +32,49 @@
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/from-branch claude/multi-app-sliced-design-7bn3oq или masd/app-scripts (надо кстати разобраться как в нашей этой новой мультипиарной парадигме будет работать f…",
   "prs": [
-    180
+    180,
+    183
   ],
   "url": "https://claude.ai/code/session_01WRsNLtYCSTgRH7QQK5agxK",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-21T09:52:29.177Z",
-  "lastResponseAt": "2026-10-21T10:15:42.466Z",
+  "lastResponseAt": "2026-10-21T10:21:54.530Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 148,
+    "inputTokens": 168,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 189666,
-    "cacheReadTokens": 12866434,
-    "outputTokens": 40323,
-    "thinkingTokens": 13067,
-    "responses": 74,
-    "costUsd": 4.8976668
+    "cacheWrite1hTokens": 208588,
+    "cacheReadTokens": 15359594,
+    "outputTokens": 47833,
+    "thinkingTokens": 14482,
+    "responses": 84,
+    "costUsd": 5.6979548
   },
   "subagents": {
-    "inputTokens": 46,
-    "cacheWrite5mTokens": 116272,
+    "inputTokens": 94,
+    "cacheWrite5mTokens": 190256,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 2323208,
-    "outputTokens": 695,
+    "cacheReadTokens": 5344923,
+    "outputTokens": 963,
     "thinkingTokens": 0,
-    "responses": 23,
-    "costUsd": 1.0600855999999999
+    "responses": 47,
+    "costUsd": 2.0399006
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 194,
-      "cacheWrite5mTokens": 116272,
-      "cacheWrite1hTokens": 189666,
-      "cacheReadTokens": 15189642,
-      "outputTokens": 41018,
-      "thinkingTokens": 13067,
-      "responses": 97,
-      "costUsd": 5.9577523999999995
+      "inputTokens": 262,
+      "cacheWrite5mTokens": 190256,
+      "cacheWrite1hTokens": 208588,
+      "cacheReadTokens": 20704517,
+      "outputTokens": 48796,
+      "thinkingTokens": 14482,
+      "responses": 131,
+      "costUsd": 7.737855399999999
     }
   },
   "warnings": [
-    "19 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+    "43 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
   ],
   "orientation": {
     "endedBy": "Edit",
