@@ -1,22 +1,24 @@
 # 2. Лето прошло — `summer-gone`
 
-Полуживые, «Ностальгия». Стихи Арсения Тарковского.
+Полуживые, «Ностальгия». Стихи Арсения Тарковского. Пять строф как напечатано, затем кода.
 
 <!-- lyrics:ru -->
+
+<!-- ask 2 -->
 
 Вот и лето прошло,
 Словно и не бывало.
 На пригреве тепло.
 Только этого мало.
 
-Все, что сбыться могло,
+Всё, что сбыться могло,
 Мне, как лист пятипалый,
 Прямо в руки легло,
 Только этого мало.
 
 Понапрасну ни зло,
 Ни добро не пропало,
-Все горело светло,
+Всё горело светло,
 Только этого мало.
 
 Жизнь брала под крыло,
@@ -29,6 +31,41 @@
 День промыт, как стекло,
 Только этого мало.
 
+<!-- ask 3 -->
+
+Вот и лето прошло,
+Вот и лето прошло,
+Вот и лето прошло.
+Только этого мало.
+
 <!-- lyrics:en -->
 
-ВСТАВЬ СЮДА ПОДСТРОЧНИК (или оставь пустым на потом)
+And so summer has gone,
+As if it had never been.
+It is warm where the sun falls.
+Only this is not enough.
+
+All that could come true
+Like a five-fingered leaf
+Fell right into my hands,
+Only this is not enough.
+
+Neither evil nor good
+Was lost in vain,
+Everything burned bright,
+Only this is not enough.
+
+Life took me under its wing,
+Kept me and saved me,
+I really was lucky.
+Only this is not enough.
+
+The leaves were not scorched,
+The branches not broken...
+The day is washed clean as glass,
+Only this is not enough.
+
+And so summer has gone,
+And so summer has gone,
+And so summer has gone.
+Only this is not enough.

@@ -1,14 +1,16 @@
 # 6. Свеча — `candle-tarkovsky`
 
-Полуживые, «Ностальгия». Стихи Арсения Тарковского, «Меркнет зрение — сила моя…».
+Полуживые, «Ностальгия». Стихи Арсения Тарковского, «Меркнет зрение — сила моя…». Вторая строфа поётся дважды.
 
 <!-- lyrics:ru -->
 
-Меркнет зрение – сила моя,
+<!-- ask 7 -->
+
+Меркнет зрение — сила моя,
 Два незримых алмазных копья;
 Глохнет слух, полный давнего грома
 И дыхания отчего дома;
-Жестких мышц ослабели узлы,
+Жёстких мышц ослабели узлы,
 Как на пашне седые волы;
 И не светятся больше ночами
 Два крыла у меня за плечами.
@@ -21,7 +23,25 @@
 Раздарить и легко умереть,
 И под сенью случайного крова
 Загореться посмертно, как слово.
+x2
 
 <!-- lyrics:en -->
 
-ВСТАВЬ СЮДА ПОДСТРОЧНИК (или оставь пустым на потом)
+My sight is dimming — my strength,
+Two unseen diamond spears;
+My hearing is going deaf, full of old thunder
+And of the breath of my father's house;
+The knots of hard muscle have slackened
+Like grey oxen on the ploughland;
+And no longer do they shine at night,
+The two wings at my back.
+
+I am a candle, I burnt out at the feast.
+Gather up my wax in the morning,
+And this page will tell you
+How to weep and what to be proud of,
+How to give away the last third
+Of merriment and die lightly,
+And under the shelter of a chance roof
+To catch fire after death, like a word.
+x2
