@@ -50,7 +50,8 @@ at once buys nothing on one machine.
 sung Russian far better than Deepgram's nova-3 (`персонажи Мураками`, where
 nova-3 heard `персонажи-муратами`). `scripts/transcribe.py` on the same stem is
 the second opinion, since the lines the two disagree on are the ones the
-operator has to listen to — so the two run as one, into one transcript:
+operator has to listen to — so `transcribe.py` merges Whisper's hearing into its
+transcript:
 
 ```sh
 tmp/song-intake-venv/bin/python scripts/song-intake/lyrics.py <slug>.mp3 \
