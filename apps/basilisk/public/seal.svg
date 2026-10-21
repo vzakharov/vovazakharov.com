@@ -13,11 +13,19 @@
   an <img> cannot reach a web font. The band runs 353.00–432.00: the top
   line's baseline on its inner edge across 164°, the bottom line's on its
   outer edge across 116°, a dot at either gap.
+
+  A case's seal is this drawing with `#eye` swapped for the case's emblem,
+  and its small cut drops `#band` too (`src/entities/case/lib/case-seal.ts`),
+  so the ids are load-bearing.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <circle cx="512" cy="512" r="466" fill="none" stroke="#b3261e" stroke-width="24"/>
-  <circle cx="512" cy="512" r="326" fill="none" stroke="#b3261e" stroke-width="10"/>
-  <path d="M 262 512 A 283.33 283.33 0 0 1 762 512 A 283.33 283.33 0 0 1 262 512 Z" fill="none" stroke="#b3261e" stroke-width="24" stroke-linejoin="miter" stroke-miterlimit="10"/>
-  <path d="M 390 512 A 122 122 0 1 1 634 512 A 122 122 0 1 1 390 512 Z M 512 408 A 237.33 237.33 0 0 1 512 616 A 237.33 237.33 0 0 1 512 408 Z" fill="#b3261e" fill-rule="evenodd"/>
-  <circle cx="119.50" cy="512" r="11" fill="#b3261e"/> <circle cx="904.50" cy="512" r="11" fill="#b3261e"/>
+  <g id="band">
+    <circle cx="512" cy="512" r="326" fill="none" stroke="#b3261e" stroke-width="10"/>
+    <circle cx="119.50" cy="512" r="11" fill="#b3261e"/> <circle cx="904.50" cy="512" r="11" fill="#b3261e"/>
+  </g>
+  <g id="eye">
+    <path d="M 262 512 A 283.33 283.33 0 0 1 762 512 A 283.33 283.33 0 0 1 262 512 Z" fill="none" stroke="#b3261e" stroke-width="24" stroke-linejoin="miter" stroke-miterlimit="10"/>
+    <path d="M 390 512 A 122 122 0 1 1 634 512 A 122 122 0 1 1 390 512 Z M 512 408 A 237.33 237.33 0 0 1 512 616 A 237.33 237.33 0 0 1 512 408 Z" fill="#b3261e" fill-rule="evenodd"/>
+  </g>
 </svg>
