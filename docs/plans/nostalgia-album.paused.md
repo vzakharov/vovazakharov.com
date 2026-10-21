@@ -276,6 +276,24 @@ The local agent's own report on the migration,
 where it adds detail — the per-repo verification, what was not pushed and why.
 It is swept with the rest of that tree.
 
+## Progress
+
+Paused for the context budget. Done:
+
+- Step 1 — the stubs, `docs/remove-before-merging/nostalgia/lyrics/`.
+- Step 2 — sources found and uploaded (see "Done." under it).
+- Step 3 — the pool, `docs/remove-before-merging/nostalgia/references.md`. Ozone
+  sits in nearly every project from Let the Stories Spin on, so the cutoff does
+  not narrow the pool: the shortlist's similarity does all the choosing. The
+  four before it are listed apart; `hello-human` is a false positive.
+- Step 5's script and method paragraph — `scripts/song-intake/blind-abc.py`.
+- Step 6's repository renames (`pnpm music:masters rename`), all eight.
+
+Left: step 4 (shortlist and three masters per piece — seven pieces, 1+2 being
+one), step 5's blind files and the verdict, then step 6's puts, scaffolds and
+pages, step 7, step 8. Download the sources with
+`gh release download music-sources -p 'nostalgia-*' -p 'father-sea-09-*'`.
+
 ## Settled with the operator
 
 - **Repositories**: the existing ones, renamed. A new repository per song would
