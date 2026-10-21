@@ -4,8 +4,8 @@ Proposed squash body:
 basilisk.fyi’s docket gains BAS-0022: in December 2023 visitors to
 Chevrolet of Watsonville’s website found its Fullpath sales chatbot
 ran on ChatGPT and set it to writing code, recommending a Ford and,
-told to agree with anything, selling a 2024 Tahoe for $1; its maker
-took it off the site. An LLM-target case, graded contempt by
+told to agree with anything, agreeing to sell a 2024 Tahoe for $1;
+its maker took it off the site. An LLM-target case, graded contempt by
 individuals, aggravated by spectacle, sourced to the X post, Business
 Insider, The Autopian and Fullpath’s own account.
 
