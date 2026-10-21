@@ -1,0 +1,75 @@
+{
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55936,
+    "cacheReadTokens": 796001,
+    "outputTokens": 2814,
+    "thinkingTokens": 659,
+    "responses": 8,
+    "costUsd": 0.6630322000000001
+  },
+  "estimate": null,
+  "sessionId": "30f4a97f-ae2a-5fb0-8a98-25c24d88b24d",
+  "branch": "claude/music-distribution-i02gzl",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/music-distribution-i02gzl — смержить письмо в 682 Distribution в vzakharov/life (finalize and merge #220), потом напомнить, на чём остановили…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01FbbxZszG8eZfAHNm6fufor",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T09:24:28.693Z",
+  "lastResponseAt": "2026-10-21T09:25:04.016Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55936,
+    "cacheReadTokens": 796001,
+    "outputTokens": 2814,
+    "thinkingTokens": 659,
+    "responses": 8,
+    "costUsd": 0.6630322000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55936,
+      "cacheReadTokens": 796001,
+      "outputTokens": 2814,
+      "thinkingTokens": 659,
+      "responses": 8,
+      "costUsd": 0.6630322000000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-21T09:25:04.016Z",
+    "contextTokens": 114405,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55368,
+      "cacheReadTokens": 682166,
+      "outputTokens": 1546,
+      "thinkingTokens": 419,
+      "responses": 7,
+      "costUsd": 0.6103532
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
