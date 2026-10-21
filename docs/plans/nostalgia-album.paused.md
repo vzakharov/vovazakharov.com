@@ -301,10 +301,13 @@ Done:
   подраздел». `/blind` on the vova site (`src/pages/blind-test/`), unlinked,
   noindex, no password; audio from `blind/<piece>/{mix,1,2,3}.mp3` on this
   branch via raw.githubusercontent (CORS `*`), written by `blind-abc.py split`
-  from the committed keys. Left: split the other four pieces, type-check and
-  build, publish to preview
-  (`gh workflow run preview.yml --ref <branch> -f site=vova`), and the CLAUDE.md
-  § "Mastering" paragraph for `split` and the page.
+  from the committed keys. All seven pieces split, the page lint-clean and
+  styled, published to https://preview.vovazakharov.com/blind
+  (`gh workflow run preview.yml --ref <branch> -f site=vova`) and played there
+  headless; `split` and the page are in `scripts/song-intake/CLAUDE.md` §
+  "Mastering". The page's Input, SegmentedControl and Slider sheets in
+  `theme-provider.tsx` go when the page retires — `pnpm check:mantine-styles`
+  flags them then.
 - Step 8 — `docs/music/vovas-music.md`.
 - The operator's lyrics, pasted as the poems print them, in `lyrics/*.md`, and
   dad's song with Suno's markers in
