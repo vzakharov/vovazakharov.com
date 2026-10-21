@@ -375,6 +375,10 @@
     "source": "исходник",
     "readMore": "Читать дальше",
     "behindTheScenes": "За кадром",
+    "preludeHeadings": {
+      "universe": "В мире альбома",
+      "poem": "О стихотворении"
+    },
     "feedPageLink": "Слова и сноски — на странице песни",
     "feedDownload": "Скачать",
     "video": {

@@ -5,38 +5,40 @@ import { renderProse } from '@/shared/content';
 import { ProseContent } from '@/entities/document';
 
 import type { StoryParts } from '../lib/catalogue-text';
+import { type StoryHeadings, storyOrder } from '../lib/sections';
 import { ReadMore } from './read-more';
 
-type StoryProps = StoryParts & {
-  /** What the story is titled when a `prelude` comes ahead of it. */
-  behindTheScenes: string;
-  /** The «…» control's label; without one the text is shown whole. */
-  readMore: string | undefined;
-};
+type StoryProps = StoryParts &
+  StoryHeadings & {
+    /** The «…» control's label; without one the text is shown whole. */
+    readMore: string | undefined;
+  };
 
 /**
- * A page's prose: its prelude first, then the story under a `behindTheScenes`
- * heading — a part standing alone takes none. Nothing at all where the page has
- * neither.
+ * A page's prose: its prelude and story in the order the file tells them, the
+ * second under a heading saying what it is — a part standing alone takes none.
+ * Nothing at all where the page has neither.
  */
 export async function Story({
   prelude,
   story,
-  behindTheScenes,
   readMore,
+  ...headings
 }: StoryProps) {
-  if (prelude === undefined && story === undefined) return null;
+  const parts = await Promise.all(
+    storyOrder(prelude, story, headings).map(async ({ part, heading }) => ({
+      rendered: await renderProse(part),
+      heading,
+    })),
+  );
 
-  const [world, told] = await Promise.all([
-    prelude && renderProse(prelude),
-    story && renderProse(story),
-  ]);
+  if (parts.length === 0) return null;
+
   const prose = (
     <Stack gap={32}>
-      {world && <ProseContent {...world} />}
-      {told && (
-        <div>
-          {world && (
+      {parts.map(({ rendered, heading }) => (
+        <div key={heading ?? ''}>
+          {heading !== undefined && (
             <Text
               component="h2"
               size="xs"
@@ -45,12 +47,12 @@ export async function Story({
               mb={16}
               lts="0.06em"
             >
-              {behindTheScenes}
+              {heading}
             </Text>
           )}
-          <ProseContent {...told} />
+          <ProseContent {...rendered} />
         </div>
-      )}
+      ))}
     </Stack>
   );
 

@@ -8,6 +8,7 @@ import {
   filedDate,
   isListed,
   listPrimaryDocuments,
+  type ProseSource,
   renderProse,
   SONGS,
 } from '@/shared/content';
@@ -19,6 +20,7 @@ import { songTitle, spelledText, textHook } from '@/shared/music-catalogue';
 
 import { preludeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
+import { storyOrder } from './sections';
 import { songDownloads } from './song-downloads';
 import { mp3Url } from './song-names';
 import {
@@ -58,8 +60,8 @@ function downloadLinks(
 }
 
 /**
- * The song's prose as its page's story shows it — the prelude first where it
- * has one, then the story under its label — then a link to the page for the
+ * The song's prose as its page's story shows it — prelude and story in the
+ * file's order, the second under its label — then a link to the page for the
  * words and their notes, whose columns and popovers are the page's to lay out,
  * and the song's files.
  */
@@ -68,18 +70,25 @@ async function songContent(
   localized: LocalizedSongDocument,
   locale: Locale,
 ): Promise<string> {
-  const { behindTheScenes, feedPageLink, feedDownload } = loadMessages(locale).music;
-  const prelude = preludeOf(document, locale);
-  const [world, told] = await Promise.all([
-    prelude && renderProse(prelude),
-    localized.body === '' ? undefined : renderProse(localized),
-  ]);
+  const { feedPageLink, feedDownload, ...headings } =
+    loadMessages(locale).music;
+  const parts = await Promise.all(
+    storyOrder<ProseSource>(
+      preludeOf(document, locale),
+      localized.body === '' ? undefined : localized,
+      headings,
+    ).map(async ({ part, heading }) => ({
+      rendered: await renderProse(part),
+      heading,
+    })),
+  );
   const root: Root = {
     type: 'root',
     children: [
-      ...(world?.tree.children ?? []),
-      ...(world && told ? [element('h2', {}, behindTheScenes)] : []),
-      ...(told?.tree.children ?? []),
+      ...parts.flatMap(({ rendered, heading }) => [
+        ...(heading === undefined ? [] : [element('h2', {}, heading)]),
+        ...rendered.tree.children,
+      ]),
       paragraph([element('a', { href: localized.route }, feedPageLink)]),
       paragraph([
         text(`${feedDownload}: `),

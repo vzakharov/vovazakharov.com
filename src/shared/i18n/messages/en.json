@@ -340,6 +340,10 @@
     "source": "source",
     "readMore": "Read more",
     "behindTheScenes": "Behind the scenes",
+    "preludeHeadings": {
+      "universe": "In the album’s world",
+      "poem": "About the poem"
+    },
     "feedPageLink": "Lyrics and notes on the song’s page",
     "feedDownload": "Download",
     "video": {

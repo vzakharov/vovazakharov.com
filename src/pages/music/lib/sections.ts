@@ -65,8 +65,14 @@ export function localeProse(body: string, locale: Locale): string {
     .join('\n\n');
 }
 
-/** The sections told ahead of a page's story, by the marker that opens them. */
+/** The sections told beside a page's story, by the marker that opens them. */
 const PRELUDE_KINDS = ['universe', 'poem'] as const;
+
+export type PreludePlacement = {
+  kind: (typeof PRELUDE_KINDS)[number];
+  /** Whether the file tells it after the story, which the page then follows. */
+  follows: boolean;
+};
 
 /**
  * The section `<!-- universe:<locale> -->` or `<!-- poem:<locale> -->` opens,
@@ -76,11 +82,18 @@ const PRELUDE_KINDS = ['universe', 'poem'] as const;
 export function localePrelude(
   body: string,
   locale: Locale,
-): string | undefined {
+): (PreludePlacement & { text: string }) | undefined {
   const sections = splitSections(body);
-  const told = PRELUDE_KINDS.map((kind) =>
-    sections.get(`${kind}:${locale}`),
-  ).filter((section) => section !== undefined && says(section));
+  const order = [...sections.keys()];
+  const story = order.indexOf(`lang:${locale}`);
+  const told = PRELUDE_KINDS.flatMap((kind) => {
+    const key = `${kind}:${locale}`;
+    const text = sections.get(key);
+
+    return text !== undefined && says(text)
+      ? [{ kind, text, follows: story !== -1 && order.indexOf(key) > story }]
+      : [];
+  });
 
   if (told.length > 1)
     throw new Error(
@@ -88,6 +101,33 @@ export function localePrelude(
     );
 
   return told[0];
+}
+
+/** What the second of a page's two parts is titled, by what it is. */
+export type StoryHeadings = {
+  behindTheScenes: string;
+  preludeHeadings: Record<PreludePlacement['kind'], string>;
+};
+
+/**
+ * A page's prelude and story in the order its file tells them; where there are
+ * both, the second carries a heading saying what it is.
+ */
+export function storyOrder<T>(
+  prelude: (T & PreludePlacement) | undefined,
+  story: T | undefined,
+  { behindTheScenes, preludeHeadings }: StoryHeadings,
+): Array<{ part: T; heading?: string }> {
+  if (prelude === undefined)
+    return story === undefined ? [] : [{ part: story }];
+  if (story === undefined) return [{ part: prelude }];
+
+  return prelude.follows
+    ? [
+        { part: story },
+        { part: prelude, heading: preludeHeadings[prelude.kind] },
+      ]
+    : [{ part: prelude }, { part: story, heading: behindTheScenes }];
 }
 
 const COMMENT_LINE = /^<!--.*-->$/;

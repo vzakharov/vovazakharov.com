@@ -204,7 +204,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
         <Story
           prelude={preludeOf(document, locale)}
           story={localized.body === '' ? undefined : localized}
-          {...pick(messages, 'behindTheScenes')}
+          {...pick(messages, 'behindTheScenes', 'preludeHeadings')}
           readMore={lyrics && messages.readMore}
         />
 
