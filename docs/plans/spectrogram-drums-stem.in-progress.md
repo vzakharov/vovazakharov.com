@@ -90,6 +90,14 @@ Vova on the reading above, 2026-10-21:
 - «ну этот звук можно считать перкуссией условно, звучит он что-то вроде ложкой по кастрюле 🙂 (но такого "инструмента", конечно, добавлять не надо)» — listen's repeated sound from 0:36 may be marked; no new lane for it.
 - «Майя тут ни при чём, я сам неправильно начитал это; и вообще Майя не занимается расшифровкой -- она приходит уже на готовые слова» — her afterword no longer blames her hearing, and her rule's line about it is gone.
 
+## Done in the session after relay 9
+
+- **A drumless stem yields no hits** (529591a): `NO_KIT_DB`, the stem's loud frames against the mix's. Songs with drums sit −0.6…−11.9 dB, world-as-it-is −43.9, listen-single −47.7 — which Vova has not been asked about.
+- **A fat-bodied snare shape** off just-because 1:28.70 (529591a): its "toms" fall from 75 to 3 and its snares land on `K..KS.......S...`. A synthetic test of it was tried and dropped: band-shaped noise lit kick or strays, unlike the real hits.
+- **`test_tom` passes** at 160 Hz; at 120 it sat on the band edge the boomy kick peaks on.
+- **Tried and dropped, as Vova allowed** («загоняться -- не надо»): the vocal-bleed gate — intertwined's sibilants show the vocals stem's 5 kHz+ gain 10–14 dB *under* the drums stem's, while birds' real hats reach −1…−4, so no threshold separates them; birds' 1:19.97 has no vocal onset at all. The crash under a kick — at 0:48.25 its top bands stand 6.4 dB over the kick shapes alone, and the plain kicks at 0:54–1:02 6.5–6.6; by top/total it is −12.6 against 0:51.76's −13.4.
+- All eleven re-rendered (2018ae4); ground truth holds on birds, hello and intertwined.
+
 ## Open question (answered above; kept for the measurements)
 
 **Toms and mid-band hits are unstable on the songs without ground truth.** `test_tom` still fails: a 120 Hz synthetic tom reads as the boomy kick (hello 1:26.93), which in nine bands it nearly is; the tom shape in `PIECES_DB` was never measured. On real stems the tom lane lights in regular patterns that look wrong — world-as-it-is 26 toms and 1 kick; just-because a tom every 1.34 s from 1:28.70, broad 120 Hz–8 kHz hits that may be a snare with a fat body; listen 1:00–1:06, one similar hit every 0.5 s labelled snare, kick, tom, snare in turn. Asked Vova for his ear on those three spots; a confirmed tom gives a measured shape, a confirmed snare a third snare shape.
@@ -107,7 +115,7 @@ Relay 6 proposed filing "strips from demucs stems" as a separate issue. Vova, fo
 ## What is left
 
 0. ~~Strips from all four stems~~ (done in relay 8's session, above).
-1. **Act on Vova's ear** (§ "Vova's ear, answered"): reject vocal bleed in the cymbal lane, mark a crash under a kick, add a fat-snare shape off just-because, refuse non-drum sound (world-as-it-is, listen from 0:36); fix `test_tom` against what he hears, add tests for each, re-run the per-lane summary over all eleven, and re-render all eleven (stems per `scripts/song-intake/CLAUDE.md`, `spectrogram.py` taking the stems directory).
+1. ~~Act on Vova's ear~~ (done, above); reply on the PR.
 2. ~~Rewrite `drums.py` to read the stem~~ (done, above) — the original spec, kept for reference: **Rewrite `drums.py` to read the stem**: align it to the master; find onsets as above; per onset, unmix the power it adds over the frames before (linear power, not dB rises) onto per-piece band shapes taken from the measurements above — two kicks, toms, snare, clap, closed hat, crash/ride — by NNLS. Reject an onset whose fit leaves much of its power unexplained (the riser) or that sits more than ~25 dB under the stem's loud hits (bleed). A lane is as bright as its piece's level against that lane's own loud hits; one mark per onset, never one per frame. The kick-with-click shape is what keeps a kick's click out of the snare lane, so intertwined's section 3 reads kick only.
 2. **`spectrogram.py --drums <stem>`**; without it the drum row is left out and the run says so, since a mix-based row is noise. Test the onset picking, the alignment and the unmix on synthetic strikes in `test_song_facts.py`, replacing the mix-based drum tests.
 3. **Check against the ground truth above** before re-rendering anything: birds silent to 1:20 and a hat first; hello a kick at 1:19–1:20, a snare at 1:23, no cymbal lane at the start of section 5; intertwined one kick per beat 0:48–1:17 and nothing after until 1:28.
