@@ -176,13 +176,17 @@ class Drums(unittest.TestCase):
     def kick(self):
         return self.decaying(lambda t: 50 + 70 * np.exp(-t / 0.03), 0.4, 0.15)
 
+    def struck(self, x, sound, times):
+        """x with sound added at each of times, cut at x's end."""
+        for t in times:
+            i = int(t * SR)
+            x[i:i + len(sound)] += sound[: len(x) - i].astype(x.dtype)
+        return x
+
     def stem(self, hit, level=0.5, seconds=4):
         """hit struck at every one of strikes over bleed 50 dB under it."""
         x = 0.5 * 10 ** (-50 / 20) * self.rng.standard_normal(int(SR * seconds))
-        for t in self.strikes:
-            i = int(t * SR)
-            x[i:i + len(hit)] += level * hit[: len(x) - i]
-        return x.astype(np.float32)
+        return self.struck(x, level * hit, self.strikes).astype(np.float32)
 
     def lit(self, x):
         """Each lane's brightness summed over the hits within 0.1 s of a strike, and the hits elsewhere."""
@@ -223,21 +227,14 @@ class Drums(unittest.TestCase):
 
     def test_bleed_is_no_hit(self):
         # The same kick 35 dB under the stem's loud hits, between them.
-        x = self.stem(self.kick())
-        quiet = self.kick() * 0.5 * 10 ** (-35 / 20)
-        for t in self.strikes + 0.25:
-            i = int(t * SR)
-            x[i:i + len(quiet)] += quiet[: len(x) - i].astype(np.float32)
+        x = self.struck(self.stem(self.kick()), self.kick() * 0.5 * 10 ** (-35 / 20), self.strikes + 0.25)
         lit, stray = self.lit(x)
         self.assertEqual(stray, 0)
 
     def test_riser_is_no_hit(self):
         # Noise swelling at 500 Hz–1 kHz, which demucs files as drums and no kit piece sounds like.
-        x = self.stem(self.kick())
         swell = self.noise(0.2, 1, (500, 1000)) * np.linspace(0, 1, int(SR * 0.2))
-        for t in self.strikes + 0.25:
-            i = int(t * SR)
-            x[i:i + len(swell)] += 0.3 * swell[: len(x) - i].astype(np.float32)
+        x = self.struck(self.stem(self.kick()), 0.3 * swell, self.strikes + 0.25)
         lit, stray = self.lit(x)
         self.assertEqual(stray, 0)
 

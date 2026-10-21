@@ -71,6 +71,7 @@ UNEXPLAINED = 0.4
 # short of a band the hit sounds in — one within SOUNDING_DB of its loudest.
 NEEDED_DB = 6
 SOUNDING_DB = -30
+SOUNDING = 10 ** (SOUNDING_DB / 10)
 # A hit no lane is needed for lights the one it needs most only this close
 # to the stem's loud frames: under it, such a hit was bleed demucs let by.
 GUESS_DB = -15
@@ -125,7 +126,7 @@ def unmix(gain, w, relative=True):
     hat's 8 kHz is matched by adding the crash, whose 1–2.5 kHz then
     overshoots the hat by 20 dB, and no lane is needed more than any other.
     Plain power is what UNEXPLAINED is a share of."""
-    floor = gain.max(axis=1, keepdims=True) * 10 ** (SOUNDING_DB / 10)
+    floor = gain.max(axis=1, keepdims=True) * SOUNDING
     weight = 1 / np.maximum(gain + floor, 1e-30) ** 2 if relative else np.ones_like(gain)
     a = np.full((len(gain), len(w)), 1.0) * gain.sum(axis=1, keepdims=True) / w.sum()
     top = (gain * weight) @ w.T
@@ -137,18 +138,23 @@ def unmix(gain, w, relative=True):
 def misfit_db(gain, model):
     """Per onset, the most the model is off the gain in any band either of
     them sounds in, within SOUNDING_DB of the louder's loudest band, in dB."""
-    loudest = np.maximum(gain, model).max(axis=1, keepdims=True)
-    sounding = np.maximum(gain, model) >= loudest * 10 ** (SOUNDING_DB / 10)
-    floor = np.maximum(loudest * 10 ** (SOUNDING_DB / 10), 1e-30)
+    louder = np.maximum(gain, model)
+    threshold = louder.max(axis=1, keepdims=True) * SOUNDING
+    floor = np.maximum(threshold, 1e-30)
     off = np.abs(10 * np.log10(np.maximum(gain, floor) / np.maximum(model, floor)))
-    return np.where(sounding, off, 0).max(axis=1)
+    return np.where(louder >= threshold, off, 0).max(axis=1)
+
+
+def loud_power(bands):
+    """The power of a track's loud frames, which its levels are measured against."""
+    return np.percentile(bands.sum(axis=1), LOUD_PERCENTILE)
 
 
 def drum_hits(stem, mix):
     """Every hit of the aligned stem: (times in s, each lane's brightness 0–1 as (hits, len(LANES)))."""
     bands, flux, step = band_power(stem)
-    loud = np.percentile(bands.sum(axis=1), LOUD_PERCENTILE)
-    if 10 * np.log10(max(loud, 1e-30) / np.percentile(band_power(mix)[0].sum(axis=1), LOUD_PERCENTILE)) < NO_KIT_DB:
+    loud = loud_power(bands)
+    if 10 * np.log10(max(loud, 1e-30) / loud_power(band_power(mix)[0])) < NO_KIT_DB:
         return np.zeros(0), np.zeros((0, len(LANES)))
     frames = onsets(flux, step)
     w, lane_of = shapes()
