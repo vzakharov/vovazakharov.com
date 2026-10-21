@@ -6,7 +6,8 @@ Usage:
                                        [--json-dir DIR]
                                        [--audio-out PATH] [--video-out PATH]
                                        [--model MODEL] [--language LANG]
-                                       [--second-opinion] [--keyterm TERM]...
+                                       [--second-opinion | --second-opinion-from JSON]
+                                       [--keyterm TERM]...
                                        [--floor FLOOR] [--force]
 
 `<media>` is audio or video in anything ffmpeg reads. A file carrying a video
@@ -49,9 +50,12 @@ cannot — a stretch the first model dropped whole comes back as Whisper's words
 on a line of their own. For speech, Whisper is Deepgram's hosted model rather
 than a local faster-whisper: on a mumbled voice note a local `large-v3-turbo`
 dropped sixteen seconds the hosted model still turned into words, and closed on
-an invented «Спасибо. Спасибо.» Sung vocals are the other way round —
-`scripts/song-intake/lyrics.py`'s local large-v3 is their first hearing, and this
-script their second.
+an invented «Спасибо. Спасибо.»
+
+**`--second-opinion-from <whisper.json.gz>` merges a hearing already on disk
+instead** — the one `scripts/song-intake/lyrics.py --json-dir` writes. Sung
+vocals are the other way round from speech: the local large-v3 hears them better
+than either hosted model, so a song's transcript merges nova-3 with that.
 
 `--keyterm` (repeatable, nova-3 only) names a word the recording uses that the
 model would mishear unprompted — a name, a drug, a coinage.
@@ -86,7 +90,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from lib.cli import die
-from lib.hearing import doubts, marked, merged, paragraphs
+from lib.hearing import doubts, marked, merged, paragraphs, write_response
 
 DEEPGRAM_URL = "https://api.deepgram.com/v1/listen"
 
@@ -338,10 +342,17 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         "--language",
         help="force a language code; omitted, Deepgram detects one",
     )
-    parser.add_argument(
+    opinion = parser.add_mutually_exclusive_group()
+    opinion.add_argument(
         "--second-opinion",
         action="store_true",
         help=f"also hear it with {SECOND_OPINION_MODEL} and merge the two word by word",
+    )
+    opinion.add_argument(
+        "--second-opinion-from",
+        type=Path,
+        metavar="JSON",
+        help="merge with this hearing instead, as lyrics.py --json-dir writes it",
     )
     parser.add_argument(
         "--keyterm",
@@ -369,6 +380,13 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     if not args.media.is_file():
         die(f"No such file: {args.media}")
+    second = None
+    if args.second_opinion_from:
+        if not args.second_opinion_from.is_file():
+            die(f"No such file: {args.second_opinion_from}")
+        with gzip.open(args.second_opinion_from, "rt", encoding="utf-8") as f:
+            heard = json.load(f)
+        second = (heard["metadata"].get("model", args.second_opinion_from.name), heard)
     if args.keyterm and not args.model.startswith("nova-3"):
         die(f"--keyterm is nova-3's alone; {args.model} would ignore it.")
     ensure_ffmpeg()
@@ -409,7 +427,6 @@ def main(argv: Optional[list[str]] = None) -> int:
             audio = args.media
 
         response = transcribe(audio, args.model, args.language, args.keyterm)
-        second = None
         if args.second_opinion:
             second = (
                 SECOND_OPINION_MODEL,
@@ -428,21 +445,14 @@ def main(argv: Optional[list[str]] = None) -> int:
     args.out_dir.mkdir(parents=True, exist_ok=True)
     args.json_dir.mkdir(parents=True, exist_ok=True)
     write_response(json_path, response)
+    print(f"Wrote {json_path}")
     if second_path and second:
         write_response(second_path, second[1])
+        print(f"Wrote {second_path}")
     transcript_path.write_text(transcript, encoding="utf-8")
 
     print(f"Wrote {transcript_path}")
     return 0
-
-
-def write_response(path: Path, response: dict[str, Any]) -> None:
-    # mtime=0 so the same response gzips to the same bytes on every run.
-    with gzip.GzipFile(path, "wb", compresslevel=9, mtime=0) as gz:
-        gz.write(
-            (json.dumps(response, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
-        )
-    print(f"Wrote {path}")
 
 
 if __name__ == "__main__":
