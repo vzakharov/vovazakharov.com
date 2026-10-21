@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-10T20:11:45Z
-- **Updated:** 2026-10-21T05:50:54Z
+- **Updated:** 2026-10-21T09:37:26Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,11 +15,11 @@
 
 ## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 3a2414e). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1ec7302). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T05** `apps/vova/public/music/assets/spectrograms/intertwined/intertwined.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T05:41:42Z — "после 2:00 -- вполне себе полноценный снэр, (на каждый второ…" → [↓](#t05)
-- **T06** `apps/vova/public/music/assets/spectrograms/just-because/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T05:43:07Z — "тут с самого начала вполне различимый закрытый хет на шестна…" → [↓](#t06)
-- **T07** `apps/vova/public/music/assets/spectrograms/sorry/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T05:49:14Z — "кажется, границы тактов (но не детальнее) всё же стоить пост…" → [↓](#t07)
+- **T04** `apps/vova/public/music/assets/spectrograms/sorry/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T09:36:11Z — "1- нет, кажется, здесь такты начинаются на первой бочке из с…" → [↓](#t04)
+- **T05** `apps/vova/public/music/assets/spectrograms/birds/6.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T09:27:01Z — "ну вот с этого момента уже такты точно есть, и визуально они…" → [↓](#t05)
+- **T06** `apps/vova/public/music/assets/spectrograms/hello/hello.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T09:28:21Z — "правильно понимаю, что такты отмечаются только на "приближен…" → [↓](#t06)
 
 ---
 
@@ -31,9 +31,9 @@ Puts the ideas from three Reddit threads about `scripts/song-intake/spectrogram.
 
 - **Tuning, tempo and key the way the author hears them.** The note grid shifts by the song's offset from A440; a beat tracker that follows drift (Ellis's dynamic programming, in numpy) places the beats and the tempo is read off them, per section; the key and the chords discount each note's 3rd and 5th overtones, so C minor stops reading as G, and the onset flux is averaged per octave, so the hi-hat stops outvoting the kick. All eleven keys match Vova's answers, and ten of the eleven tempos.
 - **Read off demucs's four stems.** Three chroma strips — melody off vocals, harmony off other, bass off the bass stem under C4 — replace the mix's bass/treble split, so a low voice no longer votes with the bass; the sidecar's chords come off other + bass, so the tune's passing notes no longer vote in them. The key stays on the whole mix. Cost: a ~1.2 GB venv and ~2 min a song on 4 cores to cut the stems, which are too big to commit and are now required.
-- **A drum row** of four lanes — kick, toms, snare with claps, cymbals — read off the drums stem, a dot per hit sized and lit by its level. Onsets by spectral flux; each hit's band gains unmixed onto measured kit shapes; a lane lights only where the hit needs it. Off the mix, a picked guitar's attack read as a drum hit no calibration could separate. Checked against Vova's ear on birds, hello, intertwined and just-because; a drumless stem (world-as-it-is, listen-single) yields no hits.
+- **A drum row** of four lanes — kick, toms, snare with claps, cymbals — read off the drums stem, a dot per hit sized and lit by its level. Onsets by spectral flux; each hit's band gains unmixed onto measured kit shapes; a lane lights only where the hit needs it, and where the needed lanes alone still miss it — a snare on a kick — the strongest of the rest joins them. Off the mix, a picked guitar's attack read as a drum hit no calibration could separate. Checked against Vova's ear on birds, hello, intertwined and just-because; a drumless stem (world-as-it-is, listen-single) yields no hits.
 - **A text sidecar** beside each PNG holds what the picture only approximates: tempo, key with its confidence, tuning, and per numbered section its times, loudness and chords, spelled from the key, a repeating loop folded, `N` where the accompaniment is too quiet for a chord.
-- **Each song in its own folder**, `spectrograms/<slug>/`: the whole picture, the sidecar and one zoom per section, numbered as on the picture and in the sidecar; `--from/--to` for any other stretch.
+- **Each song in its own folder**, `spectrograms/<slug>/`: the whole picture, the sidecar and one zoom per section, numbered as on the picture and in the sidecar; `--from/--to` for any other stretch. A zoom draws a faint line at each bar, nothing finer, where the chord changes agree on one beat in four; birds and world-as-it-is, whose changes spread across the beats, show none.
 - **Checked against librosa** (`docs/remove-before-merging/sidecar-check.md`): every disagreement went to Vova, and his answers fixed the method generally, never per song. Майя's rule tells her to read chords with caution, and to judge major or minor over power chords by the vocal's third.
 
 The analysis lives in numpy-only `audio.py`, `pitch.py`, `rhythm.py`, `harmony.py`, `drums.py` and `song_facts.py`, tested on synthetic signals and wired into vet.
@@ -44,9 +44,10 @@ The analysis lives in numpy-only `audio.py`, `pitch.py`, `rhythm.py`, `harmony.p
 - [ ] `keys` — each of the eleven sidecars names the key Vova gave or that both tools agreed on.
 - [ ] `tempo` — the titles' BPM match a tap-along within 10%, except world-as-it-is (121 against 110–115, known).
 - [ ] `strips` — birds' bass strip stays dark until the bass enters at 2:53, and its melody strip follows the vocal line.
-- [ ] `drums` — birds' drum row is empty until a hat at ~1:20, then snare on the backbeat; hello's starts with a kick at 1:20 and a snare at 1:23; intertwined reads one kick per beat 0:48–1:17; world-as-it-is has no dots.
+- [ ] `drums` — birds' drum row is empty until a hat at ~1:20, then snare on the backbeat; hello's starts with a kick at 1:20 and a snare at 1:23; intertwined reads one kick per beat 0:48–1:17 and a snare beside the kick on the backbeat from 2:00; world-as-it-is has no dots.
 - [ ] `sidecar` — `birds/birds.txt` names G minor, and its sections match the PNG's numbered dashed lines.
 - [ ] `zooms` — `spectrograms/birds/` holds one PNG per section, each titled with its number and tempo.
+- [ ] `bars` — `sorry/3.png` draws a line every ~1.85 s on the bar's first beat by ear; birds' and world-as-it-is's zooms draw none; the whole-song pictures draw none.
 - [ ] `stems` — `spectrogram.py` without a stems directory, or with one missing a stem, stops and names the missing file.
 
 | Item      | Automatable                         | Covered?             | Notes                       |
@@ -58,12 +59,14 @@ The analysis lives in numpy-only `audio.py`, `pitch.py`, `rhythm.py`, `harmony.p
 | `drums`   | yes, synthetic strikes on a stem    | `test_song_facts.py` | real songs need a look      |
 | `sidecar` | its formatting yes; its truth no    | partly               | truth is `sidecar-check`'s  |
 | `zooms`   | no                                  | no                   | visual                      |
+| `bars`    | the phase yes, chords per beat      | `test_song_facts.py` | the downbeat is Vova's ear  |
 | `stems`   | yes                                 | no                   | argparse error path         |
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 https://claude.ai/code/session_015VJWAuug8qXitURWSdJvwS
 https://claude.ai/code/session_01FVwLAT8kApHk1uwoU1zuDL
+https://claude.ai/code/session_01FYQ3u7ehbJrVu4ZneDCmp8
 
 ---
 
@@ -105,7 +108,8 @@ chords, and a picked guitar's attack read as a drum hit. Three strips -
 melody, harmony, bass - each read their own stem; a drum row lights a
 lane per hit by unmixing it onto kit shapes measured off the
 catalogue's stems, and a drumless stem yields none. Each song gets a
-folder holding its picture, sidecar and a zoom per section.
+folder holding its picture, sidecar and a zoom per section, the zooms
+marking each bar where the chord changes agree on its first beat.
 
 All eleven are re-rendered. Checked against librosa and the author's
 ear, every key, all tempos but world-as-it-is's and the drum entries he
@@ -164,15 +168,14 @@ _2026-10-20T11:54:16Z_
 
 я ещё не знаю где задавал этот вопрос, возможно потерялся: почему мы не хотим устанавливать (в сессиях где это нужно) librosa и пользоваться ей?
 
-_14 resolved threads omitted; re-run with `--include-resolved` to export them._
+_17 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `apps/vova/public/music/assets/spectrograms/birds/4.png`:1 — unresolved — last: @vzakharov (agent) 2026-10-21T03:50:31Z — "Полосу барабанов теперь читает стем барабанов demucs, а не м…" → [↓](#t01)
 - **T02** `apps/vova/public/music/assets/spectrograms/intertwined/3.png`:1 — unresolved — last: @vzakharov (agent) 2026-10-21T03:50:34Z — "Теперь по стему барабанов: с 0:48 до 1:17.76 — только бочка,…" → [↓](#t02)
-- **T03** `apps/vova/public/music/assets/spectrograms/after-us/2.png`:1 — unresolved — last: @vzakharov (agent) 2026-10-21T04:19:36Z — "Сделано: a8bf324, перерисовка всех одиннадцати — a026bc0." → [↓](#t03)
-- **T04** `apps/vova/public/music/assets/spectrograms/after-us/after-us.png`:1 — unresolved — last: @vzakharov (agent) 2026-10-21T04:19:38Z — "Сделано: a8bf324, перерисовка всех одиннадцати — a026bc0." → [↓](#t04)
-- **T05** `apps/vova/public/music/assets/spectrograms/intertwined/intertwined.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T05:41:42Z — "после 2:00 -- вполне себе полноценный снэр, (на каждый второ…" → [↓](#t05)
-- **T06** `apps/vova/public/music/assets/spectrograms/just-because/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T05:43:07Z — "тут с самого начала вполне различимый закрытый хет на шестна…" → [↓](#t06)
-- **T07** `apps/vova/public/music/assets/spectrograms/sorry/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T05:49:14Z — "кажется, границы тактов (но не детальнее) всё же стоить пост…" → [↓](#t07)
+- **T03** `apps/vova/public/music/assets/spectrograms/after-us/after-us.png`:1 — unresolved — last: @vzakharov (agent) 2026-10-21T04:19:38Z — "Сделано: a8bf324, перерисовка всех одиннадцати — a026bc0." → [↓](#t03)
+- **T04** `apps/vova/public/music/assets/spectrograms/sorry/3.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T09:36:11Z — "1- нет, кажется, здесь такты начинаются на первой бочке из с…" → [↓](#t04)
+- **T05** `apps/vova/public/music/assets/spectrograms/birds/6.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T09:27:01Z — "ну вот с этого момента уже такты точно есть, и визуально они…" → [↓](#t05)
+- **T06** `apps/vova/public/music/assets/spectrograms/hello/hello.png`:1 — unresolved — last: @vzakharov (human) 2026-10-21T09:28:21Z — "правильно понимаю, что такты отмечаются только на "приближен…" → [↓](#t06)
 
 <a id="t01"></a>
 
@@ -210,24 +213,6 @@ _14 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 <a id="t03"></a>
 
-### `apps/vova/public/music/assets/spectrograms/after-us/2.png`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-20T19:06:13Z
-
-кажется, барабаны уже точнее, но по-прежнему не нравится, как они выглядят. С такими тоненькими полосками что вообще агент сможет понять? может какие-то точки-кругляшки?
-
-**@vzakharov (agent)** — 2026-10-21T03:50:38Z
-
-Согласен, тонкие штрихи нечитаемы — и для меня тоже: штрих в пиксель шириной на картинке в 1300 пикселей агент различает хуже, чем ты. Кругляш на каждый удар, площадью по силе удара, в своей дорожке и своим цветом, читается сразу: где бочка на каждую долю, где бэкбит, где тарелки сыплются. Предлагаю так и сделать, на зумах и на целой картинке; на целой кругляши сольются в полосу там, где барабаны играют плотно, но там и нужно только «есть / нет», которое и так видно.
-
-**@vzakharov (agent)** — 2026-10-21T04:19:36Z
-
-Сделано: a8bf324, перерисовка всех одиннадцати — a026bc0.
-
----
-
-<a id="t04"></a>
-
 ### `apps/vova/public/music/assets/spectrograms/after-us/after-us.png`:1 — unresolved
 
 **@vzakharov (human)** — 2026-10-20T19:08:17Z
@@ -244,33 +229,49 @@ _14 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 ---
 
-<a id="t05"></a>
-
-### `apps/vova/public/music/assets/spectrograms/intertwined/intertwined.png`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-21T05:41:42Z
-
-после 2:00 -- вполне себе полноценный снэр, (на каждый второй кик, стандартно) -- тут он, кажется, не определился совсем.
-
----
-
-<a id="t06"></a>
-
-### `apps/vova/public/music/assets/spectrograms/just-because/3.png`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-21T05:43:07Z
-
-тут с самого начала вполне различимый закрытый хет на шестнадцатые (дважды на бочку)
-
----
-
-<a id="t07"></a>
+<a id="t04"></a>
 
 ### `apps/vova/public/music/assets/spectrograms/sorry/3.png`:1 — unresolved
 
 **@vzakharov (human)** — 2026-10-21T05:49:14Z
 
 кажется, границы тактов (но не детальнее) всё же стоить поставить. если они конечно определяются
+
+**@vzakharov (agent)** — 2026-10-21T07:05:04Z
+
+Сделал в de0ac32: на зумах тонкая линия на каждом такте, ничего мельче. Где начинается такт, говорят смены аккордов — почти во всех секциях они падают на одну долю из четырёх, тогда как бочка и снэр сужают выбор только до двух. Фаза держится по всей песне и сдвигается, только когда трекер теряет или добавляет долю (в sorry — на 1:14). Там, где аккорды не договариваются, линий нет.
+
+Вопросы твоему уху:
+1. Здесь линии ложатся на сдвоенную бочку, чуть позже смены баса — то есть бас входит с опережением. Это начало такта?
+2. В birds и world-as-it-is тактов нет вообще: смены аккордов у них разбросаны по разным долям. Они не в четыре четверти (6/8, 3/4?) — или просто так играются?
+
+**@vzakharov (human)** — 2026-10-21T09:36:11Z
+
+1- нет, кажется, здесь такты начинаются на первой бочке из сдвоенных. кажется, лучше всего проверять по биту снера -- он в 99% случаев должен приходиться на полтакта (но, конечно, гарантировать что где-то не вылезет другое в каком-нибудь прогметале ручаться нельзя)
+
+<img width="208" height="195" alt="Image" src="./attachments/5d800ed8-153d-4981-aabb-24d9cb84d526.png" />
+
+2- по птицам ответил, "мир" плавает по ходу всей песни, можно не искать такты
+
+---
+
+<a id="t05"></a>
+
+### `apps/vova/public/music/assets/spectrograms/birds/6.png`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-21T09:27:01Z
+
+ну вот с этого момента уже такты точно есть, и визуально они вполне определяются. другое дело, что если они определяются и визуально, то, может, и не нужно их отмечать (агент и так поймёт). Единственное, тогда (если не получится сделать надёжно) нужна оговорка, что линии тактов нужно считать for reference only, и что их отсутствие не означает отсутствие тактов как таковых.
+
+---
+
+<a id="t06"></a>
+
+### `apps/vova/public/music/assets/spectrograms/hello/hello.png`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-21T09:28:21Z
+
+правильно понимаю, что такты отмечаются только на "приближениях"? если да, я не против, но об этом надо сказать чтобы агент понимал это
 
 ---
 
@@ -283,3 +284,4 @@ _14 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-21T03:47:37Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/138#pullrequestreview-5590208848.
 - **2026-10-21T05:26:35Z** @vzakharov renamed from «feat(vova): spectrogram sidecar, drum row and a zoom per section» to «feat(vova): spectrograms off demucs stems, with a sidecar and zooms».
 - **2026-10-21T05:50:53Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/138#pullrequestreview-5595411801.
+- **2026-10-21T09:37:26Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/138#pullrequestreview-5597615797.
