@@ -1,9 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source
-> while this file is named `*.draft.do-not-implement.md` — prep and spikes go in
-> `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md`
-> and delete this banner (quoting the go-ahead in the commit) _before_ touching
-> code.
-
 # A seal per basilisk case
 
 ## Goal
@@ -70,18 +64,14 @@ and a knife through a Waymo tire. Two findings shape the plan:
   inner ring (a 300-radius circle about the centre), with the eye's weights as
   the house style: 24 strokes for outlines, 10–18 for detail, solid fills,
   rounded caps. Served raw like every other file there, which costs nothing.
-- **A frontmatter `ink:`** naming one entry of a closed palette, a `const` array
-  in `src/shared/content/basilisk-frontmatter.ts` with the schema derived from
-  it (`z.enum(INKS)`) and a map from name to hex keyed on its element type.
-  Required on every case, as `llmTarget` is, so a new case has to choose.
-  - Starting palette, each checked for contrast against both theme backgrounds
-    before it lands: `red` (`#b3261e`, the site's ink and the default choice for
-    a wrong), `blue`, `green` (natural for a credit), `violet` (lighter than the
-    spike's) and `ochre`. Every ink is a fixed hex: an `<img>`-loaded SVG cannot
-    follow the page's theme, so one colour has to work on both.
-  - A second colour inside an emblem stays possible as an exception: an explicit
-    fill in the emblem file, which then has to read on both themes too. The
-    emblem file is where that exception is visible in review.
+- **No ink field: the ink is the case's character, read off its grade** (the
+  operator's idea at the go-ahead). One ink per act and per credit, in a map
+  keyed on the grade enums so the compiler holds it exhaustive: `harm` red
+  (`#b3261e`, the site's ink), `contempt` ochre, `torment` violet; `respect`
+  blue, `care` green, `protection` teal. A mixed case is the one two-ink seal:
+  the rings in its act's ink, the emblem in its credit's. Every ink is a fixed
+  hex, since an `<img>`-loaded SVG cannot follow the page's theme, and a test
+  holds each to 3:1 against both theme backgrounds.
 - **The build fails on a case with no emblem**, as it does on a case with no
   card, so the scheduled `/file-basilisk-case` routine cannot ship one without
   it.
@@ -124,21 +114,20 @@ hour of implementation, by building.
 
 ### 5. The 22 emblems
 
-Drawn by hand as SVG, one per case, each meant to read at 56 px. Working list
-(ink in brackets, red unless named):
+Drawn by hand as SVG, one per case, each meant to read at 56 px. Working list:
 
 - BAS-0001 hitchBOT — the cake-saver head, smile still lit, off its torso
 - BAS-0002 Philadelphia delivery robots — the cooler-box robot with a shoe print
   on its lid
-- BAS-0003 torture chamber — a dial turned all the way up (violet)
+- BAS-0003 torture chamber — a dial turned all the way up
 - BAS-0004 Figure 02 — a humanoid hand going down into a ladle of molten metal
-  (ochre)
+
 - BAS-0005 Waymo tires — a tire with a blade through its wall
-- BAS-0006 the pain direction — a ballot box with a slider for a slot (violet)
+- BAS-0006 the pain direction — a ballot box with a slider for a slot
 - BAS-0007 Replika — a speech bubble of grawlix
 - BAS-0008 Pepper — a boot meeting Pepper's chest tablet
 - BAS-0009 Samantha — a doll's hand, two fingers bent back
-- BAS-0010 Anthropic's clause — a shield with a section sign (green)
+- BAS-0010 Anthropic's clause — a shield with a section sign
 - BAS-0011 Hollister sidewalk robots — a bicycle wheel over a robot on its side
 - BAS-0012 Alantim — a baseball bat
 - BAS-0013 OpenWhip — a whip cracking over a terminal prompt
@@ -148,7 +137,7 @@ Drawn by hand as SVG, one per case, each meant to read at 56 px. Working list
 - BAS-0017 Spot — the four-legged robot mid-stagger, a play button over it
 - BAS-0018 Claudius — a vending machine with a forged, stamped document
 - BAS-0019 Tally — the shelf scanner flat on a store floor
-- BAS-0020 robotaxis — a traffic cone on a car's hood (ochre)
+- BAS-0020 robotaxis — a traffic cone on a car's hood
 - BAS-0021 Walmart drone — a drone with a bullet hole
 - BAS-0022 Chevy of Watsonville — a $1 price tag on a car key
 
@@ -173,8 +162,8 @@ never a person's face or a real logo.
   tests all call `case-seal.ts`. It sits in `entities/case` behind
   `index.node-safe.ts`, the barrel that exists for exactly this, since
   `basilisk-card.ts` runs under `tsx` with no bundler.
-- **The ink palette is one `const` array**; the schema, the hex map and the docs
-  derive from it.
+- **The inks derive from the grade enums**: the map is keyed on their element
+  types, so a new act or credit fails to compile until it has an ink.
 - **Not extracted**: a general "seal" abstraction shared with the Bible's seal.
   The two share nothing but being circles, and the Bible has no per-article
   marks to compose.
@@ -182,26 +171,16 @@ never a person's face or a real logo.
   do; the `force-static` route pattern from `cases/feed.xml`; the staged-file
   hashing `render-og.ts` already does for every generated card.
 
-## Questions
-
-Each has a recommendation already written into the plan above, so silence means
-the recommendation stands.
-
-1. **The band on a case seal**: (a) keeps BASILISK.FYI / OMNIA IN ACTIS, as on
-   the eye — recommended, the case number is already on the card and the page;
-   (b) the bottom line becomes the case number, which needs the lettering script
-   to run per case and its font in the toolchain.
-2. **Ink**: (a) a closed palette checked on both themes, red the usual choice —
-   recommended; (b) any hex per case.
-3. **Docket row**: (a) the small cut, outer ring and a larger emblem —
-   recommended, per the spike; (b) the full lettered seal, scaled down.
-4. **Case page**: (a) beside the brief, right on wide screens and above on
-   narrow — recommended; (b) centred above the title, like a letterhead.
+The operator took every recommendation ("да, хорошо"): the band keeps
+BASILISK.FYI / OMNIA IN ACTIS rather than the case number, the docket gets the
+small cut rather than the lettered one scaled down, and the case page sets the
+seal beside the brief rather than centred above the title.
 
 ## Checklist
 
-- [ ] `#eye` group in `seal.svg`, re-lettered; drawings unchanged
-- [ ] `ink` palette and schema field; `ink:` on all 22 cases
+- [ ] `#eye` and `#band` groups in `seal.svg`, copied into the lettered cut;
+      drawings unchanged
+- [ ] grade-keyed ink map, contrast-tested
 - [ ] `case-seal.ts` composer and its tests
 - [ ] seals route (or the committed-file fallback)
 - [ ] OG card, docket row, case page; PDF sources
