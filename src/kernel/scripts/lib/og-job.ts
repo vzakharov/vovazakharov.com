@@ -1,11 +1,10 @@
-#!/usr/bin/env tsx
-
 /**
- * Rasterizes every Open Graph card the site advertises into a committed PNG:
- * the chart cards a content document's frontmatter names, from the SVG beside
- * each, the CV's card per framing, from a page generated off the message
- * catalogue, and basilisk.fyi's card per case, from a page generated off its
- * frontmatter — and the music section's cover collages, as JPEGs.
+ * Rasterizes every Open Graph card a site advertises into a committed PNG. The
+ * core is the cards every site has — the chart cards a content document's
+ * frontmatter names, from the SVG beside each, and the site's own card, from
+ * its mark — and each site's `scripts/render-og.ts` adds its own as bundles:
+ * vova's CV cards and music's collages, basilisk's generated site and case
+ * cards.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -23,9 +22,10 @@
  * One run serves one site, because it is entered in that site's directory —
  * which is what `public/` resolves against.
  *
- * Runs under `tsx`, which `lib/cv-card.ts` needs, so `src/` is reached by alias
- * — and with the `react-server` condition, under which `server-only` is the
- * empty module it is in a build, so a case is parsed by the site's own schema.
+ * Runs under `tsx`, which the generated cards need, so `src/` is reached by
+ * alias — and with the `react-server` condition, under which `server-only` is
+ * the empty module it is in a build, so a case is parsed by the site's own
+ * schema.
  */
 
 import fs from 'node:fs';
@@ -33,54 +33,18 @@ import path from 'node:path';
 
 import { PIXELS } from '@/kernel/shared/config/index.node-safe';
 import { siteConfig } from '@/kernel/shared/config/site-config';
-import {
-  collectionsForSite,
-  documentRoute,
-  PUBLIC_DIR,
-} from '@/kernel/shared/content/collections';
+import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
 import { contentHash } from '@/kernel/shared/content/content-hash';
-import { loadMessages } from '@/kernel/shared/i18n';
-import {
-  OG_CARD_SUFFIX,
-  OG_CARD_SUFFIXES,
-  routeCardPath,
-} from '@/kernel/shared/seo';
+import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES } from '@/kernel/shared/seo';
 
-import { musicProjectNames } from '@/music/shared/catalogue';
-import {
-  artistCollage,
-  artistCollageCovers,
-  MUSIC_COLLAGE,
-  musicCollageCovers,
-  PODCAST_COVER,
-  RADIO_CARD,
-} from '@/music/pages/music/lib/pictures';
-
-import { cvCardPath, cvPath } from '@/vova/pages/cv/lib/cv-urls';
-import { CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
-
-import { basiliskCard, caseCard } from '../../../basilisk/scripts/lib/basilisk-card.ts';
 import { findScreenshotChromium } from './chromium.ts';
-import {
-  CONTENT_DIRS,
-  contentFiles,
-  RENDERED_SITE,
-  REPO_ROOT,
-} from './content-tree.ts';
-import { cvCard } from '../../../vova/scripts/lib/cv-card.ts';
-import type { DocketCase } from '../../../basilisk/scripts/lib/docket.ts';
-import {
-  type CollageBand,
-  musicCollage,
-  type MusicCollageOptions,
-} from '../../../music/scripts/lib/music-collage.ts';
+import { CONTENT_DIRS, contentFiles, RENDERED_SITE, REPO_ROOT } from './content-tree.ts';
 import {
   CANVAS_BACKGROUND,
   type Card,
   renderCard,
   type StagedPage,
 } from './og-render.ts';
-import { readDocket } from '../../../basilisk/scripts/lib/read-docket.ts';
 import { runRenderJob } from './render-manifest.ts';
 
 /**
@@ -92,22 +56,6 @@ const PADDING = 24;
 
 /** Records each render's source hash, beside the render it describes. */
 const MANIFEST_NAME = 'og-renders.json';
-
-/** Where the CV's cards live: its route's own directory under `public/`. */
-const CV_CARD_DIR = path.join(PUBLIC_DIR, cvPath());
-
-/** The CV is one site's page, so the other sites' runs neither card it nor walk its directory. */
-const CARDS_CV = RENDERED_SITE === 'vova';
-
-/** The music section is one site's, as the CV is. */
-const CARDS_MUSIC = collectionsForSite(RENDERED_SITE).includes('music');
-
-/** The cases, on the run of the site that files them; read once for both card kinds. */
-const DOCKET: readonly DocketCase[] = collectionsForSite(
-  RENDERED_SITE,
-).includes('basilisk-cases')
-  ? readDocket()
-  : [];
 
 /**
  * The `ogImage` each document's frontmatter names, resolved against the
@@ -218,7 +166,7 @@ function chartCards(): Card[] {
  * — so the template, the copy it reads and every staged file are covered, and
  * editing any of them re-flags the card.
  */
-function generatedCard(staged: StagedPage, outputPath: string): Card {
+export function generatedCard(staged: StagedPage, outputPath: string): Card {
   const files = Object.entries(staged.files)
     .toSorted(([a], [b]) => a.localeCompare(b))
     .map(
@@ -233,129 +181,75 @@ function generatedCard(staged: StagedPage, outputPath: string): Card {
 }
 
 /**
- * The card a site unfurls as. basilisk.fyi's is generated, the seal beside the
- * home page's memo. Elsewhere it is the site's mark: authored as SVG and
- * rendered that way on every page, so this is the one place it has to be a
- * raster, and the pair is `avatar.vector` beside `avatar.path` — the two cuts
- * of a seal share no stem for the convention above to pair them by.
+ * The card a site unfurls as, where its bundles bring none: the site's mark,
+ * authored as SVG and rendered that way on every page, so this is the one place
+ * it has to be a raster. The pair is `avatar.vector` beside `avatar.path` — the
+ * two cuts of a seal share no stem for the convention above to pair them by.
  */
-function siteCards(): Card[] {
+function defaultSiteCards(): Card[] {
   const { avatar } = siteConfig(RENDERED_SITE);
-  const outputPath = path.join(PUBLIC_DIR, avatar.path);
-
-  if (RENDERED_SITE === 'basilisk') {
-    return [generatedCard(basiliskCard(DOCKET), outputPath)];
-  }
 
   return avatar.vector === undefined
     ? []
-    : [svgCard(path.join(PUBLIC_DIR, avatar.vector), outputPath)];
+    : [
+        svgCard(
+          path.join(PUBLIC_DIR, avatar.vector),
+          path.join(PUBLIC_DIR, avatar.path),
+        ),
+      ];
 }
 
-/** One card per framing. */
-function cvCards(): Card[] {
-  if (!CARDS_CV) return [];
-
-  return CV_VARIANTS.map((variant) =>
-    generatedCard(cvCard(variant), path.join(PUBLIC_DIR, cvCardPath(variant))),
-  );
-}
-
-function collageCard(
-  covers: readonly string[],
-  card: string,
-  options?: MusicCollageOptions,
-): Card {
-  return generatedCard(
-    musicCollage(covers, options),
-    path.join(PUBLIC_DIR, card),
-  );
-}
-
-/** English only, one card for both languages, as every collage is. */
-function radioBand(): CollageBand {
-  const { title, pitch } = loadMessages('en').music.radioPage;
-
-  return { title, line: pitch };
-}
-
-/** The songs feeds' name without its locale, over the feeds' own description. */
-function podcastBand(): CollageBand {
-  const { title, metaDescription } = loadMessages('en').music;
-
-  return {
-    title: `${siteConfig(RENDERED_SITE).name} — ${title}`,
-    line: metaDescription,
-  };
+/** Where the site's own card is written, for a bundle that generates it. */
+export function siteCardPath(): string {
+  return path.join(PUBLIC_DIR, siteConfig(RENDERED_SITE).avatar.path);
 }
 
 /**
- * The index's collage, the radio's — the same covers under its band — the
- * songs feeds' square cut of it under theirs, and each artist's that has one,
- * at the addresses their pages' metadata and the feeds point to.
+ * What a site adds to the core. `siteCards` replaces the card generated from
+ * the site's mark; `manifestDirs` are directories outside the content tree its
+ * cards are written to, walked so a pruned card's manifest is found; and
+ * `outputNames` are file names the run owns beyond the card suffixes.
  */
-function musicCards(): Card[] {
-  if (!CARDS_MUSIC) return [];
+export type OgBundle = {
+  siteCards?: Card[];
+  cards?: Card[];
+  manifestDirs?: string[];
+  outputNames?: string[];
+};
 
-  return [
-    collageCard(musicCollageCovers(), MUSIC_COLLAGE),
-    collageCard(musicCollageCovers(), RADIO_CARD, { band: radioBand() }),
-    collageCard(musicCollageCovers(), PODCAST_COVER, {
-      band: podcastBand(),
-      shape: 'square',
-    }),
-    ...musicProjectNames().flatMap((artist) => {
-      const covers = artistCollageCovers(artist);
+export async function renderOgCards(...bundles: OgBundle[]): Promise<void> {
+  const bundled = bundles.flatMap(({ siteCards }) => siteCards ?? []);
+  const siteCards = bundled.length > 0 ? bundled : defaultSiteCards();
+  const outputNames = new Set(
+    bundles.flatMap(({ outputNames: names }) => names ?? []),
+  );
 
-      return covers.length === 0
-        ? []
-        : [collageCard(covers, artistCollage(artist))];
-    }),
-  ];
-}
-
-/** One card per case, at the case's route plus the card suffix — where its page's metadata points. */
-function caseCards(): Card[] {
-  return DOCKET.map((filed) =>
-    generatedCard(
-      caseCard(filed),
-      path.join(
-        PUBLIC_DIR,
-        routeCardPath(documentRoute('basilisk-cases', filed.slug)),
-      ),
-    ),
+  await runRenderJob(
+    {
+      label: 'Open Graph card',
+      manifestName: MANIFEST_NAME,
+      isOutput: (name) =>
+        OG_CARD_SUFFIXES.some((suffix) => name.endsWith(suffix)) ||
+        outputNames.has(name),
+      // A site card sits at the root of `public/`, which the collection walk
+      // only reaches where the collection is rooted there.
+      manifestDirs: [
+        ...new Set([
+          ...CONTENT_DIRS,
+          ...(siteCards.length > 0 ? [PUBLIC_DIR] : []),
+          ...bundles.flatMap(({ manifestDirs }) => manifestDirs ?? []),
+        ]),
+      ],
+      entries: [
+        ...chartCards(),
+        ...siteCards,
+        ...bundles.flatMap(({ cards }) => cards ?? []),
+      ],
+      render: (stale) => {
+        const chromium = findScreenshotChromium();
+        for (const card of stale) renderCard(card, chromium);
+      },
+    },
+    process.argv.includes('--check'),
   );
 }
-
-const siteEntries = siteCards();
-
-await runRenderJob(
-  {
-    label: 'Open Graph card',
-    manifestName: MANIFEST_NAME,
-    isOutput: (name) =>
-      OG_CARD_SUFFIXES.some((suffix) => name.endsWith(suffix)) ||
-      name === path.basename(PODCAST_COVER),
-    // A site card and the music index's sit at the root of `public/`, which
-    // the collection walk only reaches where the collection is rooted there.
-    manifestDirs: [
-      ...new Set([
-        ...CONTENT_DIRS,
-        ...(CARDS_CV ? [CV_CARD_DIR] : []),
-        ...(siteEntries.length > 0 || CARDS_MUSIC ? [PUBLIC_DIR] : []),
-      ]),
-    ],
-    entries: [
-      ...chartCards(),
-      ...siteEntries,
-      ...cvCards(),
-      ...musicCards(),
-      ...caseCards(),
-    ],
-    render: (stale) => {
-      const chromium = findScreenshotChromium();
-      for (const card of stale) renderCard(card, chromium);
-    },
-  },
-  process.argv.includes('--check'),
-);

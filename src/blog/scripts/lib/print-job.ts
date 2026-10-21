@@ -1,10 +1,9 @@
-#!/usr/bin/env tsx
-
 /**
  * Prints every printable page to a PDF at that page's own URL plus an
  * extension: each document and its cuts beside the markdown they were authored
- * as (`/case-studies/playgram.mini.pdf`), and the CV once per framing and
- * language (`/cv/cto/en.pdf`).
+ * as (`/case-studies/playgram.mini.pdf`), and whatever a site adds of its own —
+ * vova's CV once per framing and language (`/cv/cto/en.pdf`). Each printing
+ * site's `scripts/render-pdf.ts` is the entry.
  *
  * A static export has no request-time renderer, so the alternative to a file
  * produced ahead of the request is no PDF at all. It is each page's existing
@@ -22,22 +21,14 @@
  *   pnpm content:pdf:<site> --origin <url>  # print from a server already up
  *   pnpm content:pdf:<site> --from-out      # print from `out/`, as the deploy does
  *   pnpm content:pdf:<site> --check         # report staleness, write nothing
- *   pnpm content:pdf:vova --cv-pages --from-out  # hold the CV to its page ceiling
- *
- * **The CV is held to `CV_PAGE_CEILING`** wherever it prints: a render that
- * leaves any edition past it fails, and `--cv-pages` prints the editions into a
- * temporary directory just to ask, for the vet run, which has no other way to
- * see a print. That mode skips the print while the CV's sources hash the same
- * as at its last pass, recorded in `tmp/`, so a vet run on a branch that never
- * touches the CV pays for one print per working tree.
  *
  * One run serves one site, because it is entered in that site's directory —
  * which is what `public/`, `out/` and the dev server it spawns all resolve
  * against.
  *
- * Runs under `tsx`: the CV's routes come from `src/` through the `@/` alias, and
- * the `i18n` barrel behind them is a JSON import bare Node cannot take without
- * an attribute.
+ * Runs under `tsx`: a site's own printables come from `src/` through the `@/`
+ * alias, and the `i18n` barrel behind them is a JSON import bare Node cannot
+ * take without an attribute.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: progress,
@@ -56,10 +47,6 @@ import {
   type Routed,
 } from '@/kernel/shared/content/collections';
 import { contentHash } from '@/kernel/shared/content/content-hash';
-import { routing } from '@/kernel/shared/i18n';
-
-import { cvPath } from '@/vova/pages/cv/lib/cv-urls';
-import { CV_PAGE_CEILING, CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 
 import { flag, given } from '../../../kernel/scripts/lib/argv.ts';
 import { findChromium } from '../../../kernel/scripts/lib/chromium.ts';
@@ -71,13 +58,12 @@ import {
   RENDERED_SITE,
   REPO_ROOT,
 } from '../../../kernel/scripts/lib/content-tree.ts';
-import { pdfPageCount } from '../../../vova/scripts/lib/pdf-pages.ts';
 import { type PrintOrigin, withPrintOrigin } from '../../../kernel/scripts/lib/print-origin.ts';
 import { type Renderable, runRenderJob } from '../../../kernel/scripts/lib/render-manifest.ts';
 import { sameRender } from './same-render.ts';
 
 /** A document's PDF, and the route the dev server renders it from. */
-type Printable = Renderable & Routed;
+export type Printable = Renderable & Routed;
 
 /** Records each render's source-set hash, beside the render it describes. */
 const MANIFEST_NAME = 'pdf-renders.json';
@@ -90,7 +76,7 @@ const MANIFEST_NAME = 'pdf-renders.json';
  * of casting it wide is that a tweak to any of it re-flags every PDF on every
  * site, and that costs one run each.
  */
-const PRINT_SOURCES = [
+export const PRINT_SOURCES = [
   'src/shell/app/styles/print.scss',
   'src/shell/app/styles/theme.ts',
   'src/shell/app/styles/theme.module.scss',
@@ -102,10 +88,12 @@ const PRINT_SOURCES = [
   'src/shell/shared/ui',
 ];
 
-/** What shapes a document's printed page on top of that: its prose and its pipeline. */
+/**
+ * What shapes a document's printed page on top of that: its prose and its
+ * pipeline. A site whose documents print more adds it as `documentSources`.
+ */
 const DOCUMENT_SOURCES = [
   'src/shell/app/styles/prose.scss',
-  'src/basilisk/entities/case',
   'src/blog/entities/document',
   'src/blog/pages/documents/ui',
   'src/kernel/shared/content',
@@ -124,14 +112,6 @@ const SEAL_SOURCES = (() => {
     : [path.relative(REPO_ROOT, path.join(PUBLIC_DIR, seal.path))];
 })();
 
-/** What shapes the CV's printed page; its own language's catalogue is added per printable. */
-const CV_SOURCES = ['src/vova/pages/cv'];
-
-/** The CV is one site's page, so the other site's run neither prints it nor walks its directory. */
-const PRINTS_CV = RENDERED_SITE === 'vova';
-
-const CV_DIR = path.join(PUBLIC_DIR, cvPath());
-
 /** How long one print gets, the route's first compile included. */
 const PRINT_TIMEOUT_MS = 180_000;
 
@@ -148,7 +128,7 @@ const PRINT_OUTPUT_LIMIT = 8 * 1024 * 1024;
  * Hashes a file set by path and content, so a rename counts as a change. The
  * separators are safe because base64 spells nothing but `A-Za-z0-9+/=`.
  */
-function hashFiles(files: string[]): string {
+export function hashFiles(files: string[]): string {
   return contentHash(
     files
       .toSorted()
@@ -193,7 +173,7 @@ function referencedAssets(documentPath: string): string[] {
   ];
 }
 
-function sourceFiles(...sources: string[][]): string[] {
+export function sourceFiles(...sources: string[][]): string[] {
   return sources
     .flat()
     .flatMap((source) => filesUnder(path.join(REPO_ROOT, source)));
@@ -204,8 +184,13 @@ function sourceFiles(...sources: string[][]): string[] {
  * under `public/`, minus the extension — which is the whole of the rule this
  * pipeline rests on.
  */
-function documentPrintables(): Printable[] {
-  const shared = sourceFiles(PRINT_SOURCES, DOCUMENT_SOURCES, SEAL_SOURCES);
+function documentPrintables(documentSources: string[]): Printable[] {
+  const shared = sourceFiles(
+    PRINT_SOURCES,
+    DOCUMENT_SOURCES,
+    documentSources,
+    SEAL_SOURCES,
+  );
 
   return contentFiles(isDocumentFile, PRINTABLE_CONTENT_DIRS).map(
     (documentPath) => {
@@ -221,35 +206,6 @@ function documentPrintables(): Printable[] {
         ]),
       };
     },
-  );
-}
-
-/**
- * The CV's PDF per framing and language, at the page's canonical address plus an
- * extension. Only the printable's own catalogue is hashed, so rewording the
- * English leaves the Russian print alone.
- */
-function cvPrintables(): Printable[] {
-  if (!PRINTS_CV) return [];
-
-  const shared = sourceFiles(PRINT_SOURCES, CV_SOURCES);
-
-  return CV_VARIANTS.flatMap((variant) =>
-    routing.locales.map((locale) => {
-      const route = cvPath(variant, locale);
-
-      return {
-        route,
-        outputPath: path.join(PUBLIC_DIR, `${route}.pdf`),
-        sourceHash: hashFiles([
-          ...shared,
-          path.join(
-            REPO_ROOT,
-            `src/kernel/shared/i18n/messages/${locale}.json`,
-          ),
-        ]),
-      };
-    }),
   );
 }
 
@@ -368,7 +324,7 @@ async function printRoute(
   console.log(`  rendered ${relative} from ${route}`);
 }
 
-async function printAll(stale: Printable[]): Promise<void> {
+export async function printAll(stale: Printable[]): Promise<void> {
   const chromium = findChromium();
   const queue = [...stale];
 
@@ -383,68 +339,24 @@ async function printAll(stale: Printable[]): Promise<void> {
   });
 }
 
-/** Throws naming every CV print past the ceiling, so one run reports them all. */
-function holdCvToCeiling(prints: Printable[]): void {
-  if (prints.length === 0) return;
+/**
+ * What a site adds to the core: `documentSources` shape its documents' print
+ * on top of the core's; `printables` are pages of its own, outside the content
+ * tree, under `manifestDirs`; `onRendered` runs after a render that wrote.
+ */
+export type PdfOptions = {
+  documentSources?: string[];
+  printables?: Printable[];
+  manifestDirs?: string[];
+  onRendered?: () => void;
+};
 
-  const over = prints
-    .map(({ route, outputPath }) => ({
-      route,
-      pages: pdfPageCount(fs.readFileSync(outputPath), outputPath),
-    }))
-    .filter(({ pages }) => pages > CV_PAGE_CEILING);
-
-  if (over.length > 0) {
-    throw new Error(
-      `The CV prints past its ${CV_PAGE_CEILING}-page ceiling: ${over
-        .map(({ route, pages }) => `${route} (${pages} pages)`)
-        .join(', ')}.`,
-    );
-  }
-
-  console.log(
-    `${prints.length} CV PDF(s) within the ${CV_PAGE_CEILING}-page ceiling.`,
-  );
-}
-
-/** The source hash, over every edition's, of the last `--cv-pages` run that passed. */
-const CV_PAGES_PASS = path.join(REPO_ROOT, 'tmp', 'cv-pages-pass.txt');
-
-async function checkCvPages(): Promise<void> {
-  const editions = cvPrintables();
-  const sourceHash = contentHash(
-    editions.map((edition) => edition.sourceHash).join('\n'),
-  );
-
-  if (
-    fs.existsSync(CV_PAGES_PASS) &&
-    fs.readFileSync(CV_PAGES_PASS, 'utf8') === sourceHash
-  ) {
-    console.log('The CV is unchanged since its last page check passed.');
-    return;
-  }
-
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cv-pages-'));
-
-  try {
-    const prints = editions.map((edition) => ({
-      ...edition,
-      outputPath: path.join(dir, `${edition.route}.pdf`),
-    }));
-
-    await printAll(prints);
-    holdCvToCeiling(prints);
-  } finally {
-    fs.rmSync(dir, { recursive: true, force: true });
-  }
-
-  fs.mkdirSync(path.dirname(CV_PAGES_PASS), { recursive: true });
-  fs.writeFileSync(CV_PAGES_PASS, sourceHash);
-}
-
-if (given('cv-pages')) {
-  await checkCvPages();
-} else {
+export async function renderPdfs({
+  documentSources = [],
+  printables = [],
+  manifestDirs = [],
+  onRendered,
+}: PdfOptions = {}): Promise<void> {
   const check = process.argv.includes('--check');
 
   await runRenderJob(
@@ -452,14 +364,12 @@ if (given('cv-pages')) {
       label: 'page PDF',
       manifestName: MANIFEST_NAME,
       isOutput: (name) => name.endsWith('.pdf'),
-      // The CV's renders sit outside the content tree, so its root is walked
-      // too — otherwise a pruned render's manifest is never found.
-      manifestDirs: [...CONTENT_DIRS, ...(PRINTS_CV ? [CV_DIR] : [])],
-      entries: [...documentPrintables(), ...cvPrintables()],
+      manifestDirs: [...CONTENT_DIRS, ...manifestDirs],
+      entries: [...documentPrintables(documentSources), ...printables],
       render: printAll,
     },
     check,
   );
 
-  if (!check) holdCvToCeiling(cvPrintables());
+  if (!check) onRendered?.();
 }
