@@ -365,8 +365,7 @@ its files, the command and the blind-picked reference at a commit:
   byte for byte), lossy.
 - 7 and `candle-burnt`: `<slug>.flac`, `<slug>.master.mp3` (320k),
   `<slug>_mix.mp3` (320k of the WAV, which the README links on `music-sources`)
-  — check both repos hold them: their put was still relaying through Actions
-  when the session paused.
+  — both committed, the larger through the Actions relay.
 
 Left, in order:
 

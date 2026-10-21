@@ -37,7 +37,7 @@ No operator message reached this session. It was started by relay 5 with `/relay
 
 - Branch `claude/nostalgia-album-0ar5hp`, PR https://github.com/vzakharov/vovazakharov.com/pull/181 (draft, base `main`, MERGEABLE).
 - Plan `docs/plans/nostalgia-album.paused.md`; its § "Progress" says what is done in the repos and lists "Left, in order".
-- `put` done for nostalgia (invitation), summer-gone, butterfly-rock, actor, insomnia, candle-tarkovsky. **winter-in-the-forest and candle-burnt**: see § "Put of the two FLAC songs" below for how their put ended.
+- `put` done for all eight: nostalgia (invitation), summer-gone, butterfly-rock, actor, insomnia, candle-tarkovsky, winter-in-the-forest, candle-burnt. winter-in-the-forest's first put failed ("the relay run on masters-relay-… never started") and went through on one retry.
 - Estimate: this session 1 h middle developer — "taking up seven blind-test verdicts, cutting the segue at a measured onset and committing eight songs' masters, mixes and READMEs is routine scripted audio work". Remainder: 3 h middle developer — "eight song files with lyrics and cribs, the album page, cover and a new person, then tagging and the build, each checked against the repos" — and 1 h middle qa — "the segue's cut and each song page's player need a listen and a look, which no build checks".
 
 ## 7. Pointers
@@ -51,4 +51,4 @@ No operator message reached this session. It was started by relay 5 with `/relay
 
 ## 8. Next step
 
-Resume the paused plan (`/go`): verify the two FLAC repos hold their files, then send Vova the 1+2 halves to judge the cut (`https://raw.githubusercontent.com/vovas-music/nostalgia/main/invitation.mp3`, `https://raw.githubusercontent.com/vovas-music/summer-gone/main/summer-gone.mp3`), then work "Left, in order" without waiting on his three answers.
+Resume the paused plan (`/go`): send Vova the 1+2 halves to judge the cut (`https://raw.githubusercontent.com/vovas-music/nostalgia/main/invitation.mp3`, `https://raw.githubusercontent.com/vovas-music/summer-gone/main/summer-gone.mp3`), then work "Left, in order" without waiting on his three answers.
