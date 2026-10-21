@@ -217,6 +217,27 @@ a prop comment's metaphor was plain only to its writer.
 `SiteFooter`'s flag for a root page went `home`, then `isHomePage`; met cold,
 each read as the opposite. Now `onHomePage`.
 
+## It checks the render against its intent, not against the page (×6)
+
+Told to look at a visual change rather than reason about it, the agent looks —
+and then verifies the thing it set out to do. Whether the result is right is a
+different question from whether it happened, answerable only from the page.
+
+**17 September — the float fixed, the page passed.** _выноска стала лучше,
+изображение -- хуже_ — the drawing outran its section.
+
+**23 September — a size judged where it was designed, shipped where it wasn't.**
+The explicit badge, sized beside a 48px title, stood taller than the capitals in
+the catalogue's 16px list.
+
+**21 October — marks tuned for what they meant, never for being read.** The
+spectrogram drew each drum hit as a 1 px tick on a 1300 px image, and a white
+line at every beat, raised to alpha 0.45 to be "visible"; sessions argued only
+over which hits were real. _С такими тоненькими полосками что вообще агент
+сможет понять?_ The beat lines, chopping every note to restate the title's
+tempo: _меня они больше сбивают чем помогают_. The picture's reader is an agent that cannot
+hear, and nobody had read it as one. Hits are now dots, sized by strength.
+
 ## What it defends in writing, it stops asking about (×5)
 
 A choice made, written up and pinned by a test has three artifacts in front of
@@ -230,19 +251,6 @@ asserted it. _drop it._
 **21 September — a tag invented for a word the platform had.** A docstring
 granted that `content-video-embed` "makes the tree invalid HTML"; `video` would
 do. The caveat had been the finding.
-
-## It checks the render against its intent, not against the page (×5)
-
-Told to look at a visual change rather than reason about it, the agent looks —
-and then verifies the thing it set out to do. Whether the result is right is a
-different question from whether it happened, answerable only from the page.
-
-**17 September — the float fixed, the page passed.** _выноска стала лучше,
-изображение -- хуже_ — the drawing outran its section.
-
-**23 September — a size judged where it was designed, shipped where it wasn't.**
-The explicit badge, sized beside a 48px title, stood taller than the capitals in
-the catalogue's 16px list.
 
 ## It warns where the repo could refuse (×3)
 
