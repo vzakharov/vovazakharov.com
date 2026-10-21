@@ -339,10 +339,32 @@ adds him.
 The verdicts and the reveal are in `references.md` § "Verdicts": the winners are
 carcassi-caprice, farewell, night-garden, life-is-not-a-dream, in-the-flesh,
 call-me-by-name and farewell (candle-burnt), the two B ≈ C ties taken as B. Then
-step 6's puts, scaffolds and pages, and step 7. A lossless source (7,
-`candle-burnt`) needs its winning master as FLAC too, which `master.py` does not
-yet write. Download the sources with
-`gh release download music-sources -p 'nostalgia-*' -p 'father-sea-09-*'`.
+step 6's puts, scaffolds and pages, and step 7.
+
+`master.py` writes a 24-bit FLAC when the output ends in `.flac`. Against their
+winners, 1+2, 7 and `candle-burnt` were re-mastered to FLAC, each decoding to
+the mp3 Vova heard (r ≈ 0.9998, 0.0 dB), so the run is deterministic and
+re-makes them in a minute. Masters for 3–6 are the auditioned mp3s in
+`nostalgia-candidate-masters.tar`, named `<piece>--<reference>.mp3`; references
+come through `pnpm music:masters get` at the paths `references.md`'s table
+links.
+
+Left, in order:
+
+- **The 1+2 cut.** The onset nearest 1:08 on the source is at 68.24 s, quiet
+  (−27.5 dB) after the recitative. Cut the FLAC master there, encode each half
+  to V0 mp3 and check both stay under −1 dBTP; the mix is cut at the same point.
+  Vova confirms by ear.
+- **Step 6, per song.** 3–6 and 1+2 are lossy and follow `birds`: `<slug>.mp3`,
+  `<slug>_mix.mp3`, `mastering/` and a README via `put`, the song file written
+  by hand (`lossy: true`, `seconds`, `album`, `track`), and a `tag-renders.json`
+  entry naming `<repo>/<slug>.mp3` before `tag`. 7 and `candle-burnt` are FLAC:
+  `<stem>.flac` and `<stem>.master.mp3`, then `music:scaffold`, then `tag`. Then
+  the album file, cover, Tarkovsky in `people.ts` and `music:untold`.
+- **Step 7**, `candle-burnt` into Папа-море. A lossless source (7,
+  `candle-burnt`) needs its winning master as FLAC too, which `master.py` does
+  not yet write. Download the sources with
+  `gh release download music-sources -p 'nostalgia-*' -p 'father-sea-09-*'`.
 
 ## Settled with the operator
 
