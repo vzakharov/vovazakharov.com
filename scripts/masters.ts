@@ -13,6 +13,7 @@
  *   pnpm music:masters create <repo> --description <d>
  *                                               a new public repository, holding a README
  *   pnpm music:masters rename <repo> <new-name>  rename a repository, refusing a name already taken
+ *   pnpm music:masters serve-main <repo> ...     rename a default branch to `main`, the one the site serves
  *
  * `<repo>` is a repository's name inside the organization, and a `<file>` is
  * relative to this repository's root, whatever directory runs it. A write lands as
@@ -35,6 +36,7 @@ import {
   readBlob,
   removeClone,
   renameRepository,
+  serveFromSongBranch,
   stageBlob,
   stagedSummary,
 } from './lib/music-repo.ts';
@@ -48,6 +50,7 @@ const COMMANDS = [
   'put',
   'create',
   'rename',
+  'serve-main',
 ] as const;
 
 type Command = (typeof COMMANDS)[number];
@@ -132,6 +135,10 @@ const RUN: Record<Command, (args: string[]) => void> = {
       throw new Error('rename <repo> <new-name>');
     }
     renameRepository(repo, to);
+  },
+  'serve-main': (repos) => {
+    if (repos.length === 0) throw new Error('serve-main <repo> ...');
+    for (const repo of repos) serveFromSongBranch(repo);
   },
 };
 

@@ -20,6 +20,7 @@ import { z } from 'zod';
 import { MUSIC_ORGANIZATION } from '@/shared/music-catalogue/index.node-safe';
 
 import type { RepoBranch } from '@/pages/music/lib/master-url';
+import { SONG_BRANCH } from '@/pages/music/lib/song-files';
 
 import { REPO_ROOT } from './content-tree.ts';
 import {
@@ -74,6 +75,22 @@ export function renameRepository(repo: string, to: string): void {
     throw new Error(`${MUSIC_ORGANIZATION}/${to} already exists`);
   }
   githubApi('PATCH', `repos/${MUSIC_ORGANIZATION}/${repo}`, { name: to });
+}
+
+/**
+ * Renames a repository's default branch to the one the site serves from:
+ * `gb-*` repositories were pushed on `master`, and every URL the site derives
+ * names `main`.
+ */
+export function serveFromSongBranch(repo: string): void {
+  const from = defaultBranch(repo);
+
+  if (from === SONG_BRANCH) return;
+  githubApi(
+    'POST',
+    `repos/${MUSIC_ORGANIZATION}/${repo}/branches/${from}/rename`,
+    { new_name: SONG_BRANCH },
+  );
 }
 
 function repositoryAnswers(repo: string): boolean {
