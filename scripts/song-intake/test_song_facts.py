@@ -186,7 +186,7 @@ class Drums(unittest.TestCase):
 
     def lit(self, x):
         """Each lane's brightness summed over the hits within 0.1 s of a strike, and the hits elsewhere."""
-        times, lit = drum_hits(x)
+        times, lit = drum_hits(x, x)
         near = np.min(np.abs(times[:, None] - self.strikes[None]), axis=1) < 0.1
         return lit[near].sum(axis=0), int((~near).sum())
 
@@ -201,16 +201,23 @@ class Drums(unittest.TestCase):
     def test_tom(self):
         # A membrane's first modes, at 1.59 and 2.14 times its fundamental.
         modes = ((1, 1), (1.59, 0.5), (2.14, 0.4))
-        self.assert_lights("toms", sum(a * self.decaying(lambda t, m=m: np.full_like(t, 120 * m), 0.4, 0.15) for m, a in modes))
+        self.assert_lights("toms", sum(a * self.decaying(lambda t, m=m: np.full_like(t, 160 * m), 0.4, 0.15) for m, a in modes))
 
     def test_snare(self):
         self.assert_lights("snare", self.noise(0.3, 0.05, (150, SR)) + 0.25 * self.decaying(lambda t: np.full_like(t, 200), 0.3, 0.08))
+
+    def test_no_kit_far_under_the_mix(self):
+        # What demucs leaves in the drums stem of a song with no drums.
+        x = self.stem(self.kick())
+        times, _ = drum_hits(x, 10 ** (40 / 20) * x)
+        self.assertEqual(len(times), 0)
 
     def test_hi_hat(self):
         self.assert_lights("cymbals", self.noise(0.1, 0.03, (6000, SR)))
 
     def test_one_mark_per_strike(self):
-        times, lit = drum_hits(self.stem(self.kick()))
+        x = self.stem(self.kick())
+        times, lit = drum_hits(x, x)
         self.assertEqual(len(times), len(self.strikes))
         self.assertLess(np.abs(times - self.strikes).max(), 0.03)
 

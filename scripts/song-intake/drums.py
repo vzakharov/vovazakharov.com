@@ -10,10 +10,12 @@ over the flux around it. Per onset, the power each of nine bands gains over
 the frames before is unmixed onto one band shape per kit piece by
 non-negative least squares — linear power, so a quiet hat over a kick keeps
 its high bands and the kick its low ones. The shapes are measured off hits in
-the catalogue's own stems: a kick with and without a click, toms, a snare and
-a clap, a closed hat and a crash.
+the catalogue's own stems: a kick with and without a click, toms, a snare, a
+fat-bodied snare and a clap, a closed hat and a crash.
 
-Two kinds of onset are not hits. Bleed — the rest of the mix, which demucs
+A song with no drums still has a drums stem, holding whatever demucs could
+not place elsewhere; it sits tens of dB under the mix, and yields no hits.
+Within a song, two kinds of onset are not hits. Bleed — the rest of the mix, which demucs
 never quite removes — sits far under the stem's loud hits. A non-drum sound
 demucs files as drums, such as a noise riser, fits no kit piece's shape, and
 the unmix leaves much of its power unexplained.
@@ -39,6 +41,9 @@ PIECES_DB = (
     ("toms", (-35, -10, 0, -6, -18, -30, -40, -45, -50)),
     ("snare", (-37, -35, -26, -12, -5, 0, -3, 0, 0)),
     ("snare", (-25, -21, -17, -14, -19, 0, -2, -1, -4)),
+    # A fat-bodied snare, its body where a tom's is and its wires still up to
+    # 8 kHz (just-because from 1:28.70).
+    ("snare", (-30, -17, 0, -8, -15, -10, -9, -10, -15)),
     ("cymbals", (-45, -33, -29, -35, -37, -35, -32, -4, 0)),
     ("cymbals", (-45, -40, -35, -30, -20, -10, -3, 0, -2)),
 )
@@ -53,6 +58,10 @@ LOG_FLOOR_DB = -80
 # ahead of it, the last whose window the onset does not reach.
 HIT_AFTER = 2
 BEFORE_FRAMES = 2
+# A stem whose loud frames sit this far under the mix's holds no kit, only
+# what demucs could not place elsewhere: songs with drums sit within 12 dB,
+# the two without 44 and 48 dB under.
+NO_KIT_DB = -25
 # An onset this far under the stem's loud frames is bleed.
 BLEED_DB = -25
 LOUD_PERCENTILE = 95
@@ -135,16 +144,18 @@ def misfit_db(gain, model):
     return np.where(sounding, off, 0).max(axis=1)
 
 
-def drum_hits(stem):
+def drum_hits(stem, mix):
     """Every hit of the aligned stem: (times in s, each lane's brightness 0–1 as (hits, len(LANES)))."""
     bands, flux, step = band_power(stem)
+    loud = np.percentile(bands.sum(axis=1), LOUD_PERCENTILE)
+    if 10 * np.log10(max(loud, 1e-30) / np.percentile(band_power(mix)[0].sum(axis=1), LOUD_PERCENTILE)) < NO_KIT_DB:
+        return np.zeros(0), np.zeros((0, len(LANES)))
     frames = onsets(flux, step)
     w, lane_of = shapes()
     gain = gained(bands, frames)
     a = unmix(gain, w)
     model = a @ w
     total = gain.sum(axis=1)
-    loud = np.percentile(bands.sum(axis=1), LOUD_PERCENTILE)
     level_db = 10 * np.log10(np.maximum(total, 1e-30) / loud)
     residual = gain - unmix(gain, w, relative=False) @ w
     unexplained = (residual**2).sum(axis=1) / np.maximum((gain**2).sum(axis=1), 1e-30)

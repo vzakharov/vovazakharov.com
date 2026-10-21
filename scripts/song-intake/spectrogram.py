@@ -361,7 +361,7 @@ def main():
     stems = dict(zip(STEMS, aligned([decode(p) for p in paths], x)))
     tracks = {track: (s, drawing_stft(s)) for track, s in {"mix": x, **stems}.items() if track != "drums"}
     facts = measure(x, *tracks["mix"][1], drawing_stft(stems["other"] + stems["bass"])[0])
-    drums = drum_hits(stems["drums"])
+    drums = drum_hits(stems["drums"], x)
     if args.start is not None or args.end is not None:
         t0 = args.start or 0
         t1 = min(args.end or facts.duration, facts.duration)
