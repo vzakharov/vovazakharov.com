@@ -41,13 +41,6 @@ SEAL_DIR = Path(__file__).resolve().parents[3] / "sites/basilisk/public"
 BLANK = SEAL_DIR / "seal.svg"
 LETTERED = SEAL_DIR / "seal-lettered.svg"
 
-
-
-def die(msg: str) -> NoReturn:
-    print(msg, file=sys.stderr)
-    sys.exit(1)
-
-
 INK = "#b3261e"
 CENTER = 512
 
@@ -60,6 +53,11 @@ EM_PX = 100
 
 # Either line's whole span, in degrees, keeping clear of the dots at 0° and 180°.
 MAX_SPAN = 148
+
+
+def die(msg: str) -> NoReturn:
+    print(msg, file=sys.stderr)
+    sys.exit(1)
 
 
 def glyph_paths(

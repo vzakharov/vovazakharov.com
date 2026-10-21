@@ -13,6 +13,8 @@ import { ancestors, loadGraph, SLICED_LAYERS } from './masd-graph';
 // A closed list, so any other `index.*.ts` is still reaching into internals.
 const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
 
+const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
+
 const graph = loadGraph();
 const APPS = [...graph.keys()];
 
@@ -71,7 +73,7 @@ const policiesFor = (app: string) => {
         to: [
           {
             element: {
-              types: { anyOf: ['script', 'app', ...SLICED_LAYERS, 'shared'] },
+              types: { anyOf: ['script', ...LAYERS] },
               captured: { appName: app },
             },
           },
@@ -83,7 +85,7 @@ const policiesFor = (app: string) => {
           },
           {
             element: {
-              types: { anyOf: ['app', ...SLICED_LAYERS, 'shared'] },
+              types: { anyOf: LAYERS },
               captured: { appName: apps },
               fileInternalPath: PUBLIC_API,
             },
@@ -172,7 +174,7 @@ export const boundariesConfig: Config = {
             allow: {
               to: {
                 element: {
-                  types: { anyOf: ['app', ...SLICED_LAYERS, 'shared'] },
+                  types: { anyOf: LAYERS },
                   fileInternalPath: PUBLIC_API,
                 },
               },
