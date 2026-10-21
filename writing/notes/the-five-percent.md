@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×62)
+## What it was handed, it treats as fixed (×63)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -94,6 +94,14 @@ lines — «Четвёртое объяснение» to «К чёрту объ�
 librosa disagreed with the spectrogram sidecars' keys and tempos, the agent put
 it to the author as a tie. librosa was right on all three keys, and C minor sat
 in the script's own chord list: it had counted G, C's third harmonic, as a note.
+
+**21 October — the beat tracker's grid, read as the beat.** Barring the
+spectrogram zooms, the agent let chord changes pick which of four beats opens a
+bar and gave the snare no vote, a backbeat leaving the phase a coin toss. The
+author heard sorry's third section open on the first of the paired kicks, half a
+beat early, and named the test: the snare lands on the half bar. The tracker had
+locked onto the off-beat, the syncopated kick being loudest, and the bass
+changes early. The agent had tuned which beat, never whether the beats were.
 
 ## An account that explains the code stands in for running it (×21)
 
