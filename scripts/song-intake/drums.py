@@ -23,7 +23,10 @@ piece's shape, and the unmix leaves much of its power unexplained.
 A hit lights a lane where it needs it: where the rest of the kit, refitted
 without that lane's pieces, misses the hit's shape. A share of the power is
 no test, since a kick split across two kick shapes, or filled out at
-120–250 Hz by the tom's, would light toms and snare on every beat. A lane is
+120–250 Hz by the tom's, would light toms and snare on every beat. Where the
+lanes a hit needs still miss it, the one the fit gives most power joins
+them: a snare on a kick is needed by neither the snare nor the crash lane
+alone, since each explains its top bands as well as the other. A lane is
 as bright as its level against that lane's loudest hits in the song, so a
 hat reads as plainly as a kick an octave of loudness above it.
 """
@@ -75,6 +78,10 @@ UNEXPLAINED = 0.4
 NEEDED_DB = 6
 SOUNDING_DB = -30
 SOUNDING = 10 ** (SOUNDING_DB / 10)
+# Lanes join the needed ones while those alone miss a hit by this much more
+# than the whole kit: intertwined's plain kicks stay within 3 dB, its kicks
+# with the backbeat's snare from 2:00 reach 5–10.
+JOINED_DB = 5
 # A hit no lane is needed for lights the one it needs most only this close
 # to the stem's loud frames: under it, such a hit was bleed demucs let by.
 GUESS_DB = -15
@@ -148,6 +155,21 @@ def misfit_db(gain, model):
     return np.where(louder >= threshold, off, 0).max(axis=1)
 
 
+def refit_db(gain, w):
+    """misfit_db of gain refitted onto the rows of w alone."""
+    return misfit_db(gain, unmix(gain, w) @ w)
+
+
+def joined(gain, power, w, lane_of, needed, whole):
+    """For one hit, needed with lanes added, most power in the whole kit's
+    fit first, while the needed lanes' pieces alone still miss it by
+    JOINED_DB more than the whole kit."""
+    needed = needed.copy()
+    while not needed.all() and refit_db(gain[None], w[needed[lane_of]])[0] - whole >= JOINED_DB:
+        needed[np.argmax(np.where(needed, -1, power))] = True
+    return needed
+
+
 def loud_power(bands):
     """The power of a track's loud frames, which its levels are measured against."""
     return np.percentile(bands.sum(axis=1), LOUD_PERCENTILE)
@@ -175,13 +197,14 @@ def drum_hits(stem, mix):
     # where no lane is, by the most: a hit two lanes each nearly explain
     # still lights one.
     whole = misfit_db(gain, model)
-    cost = np.stack([misfit_db(gain, unmix(gain, w[lane_of != k]) @ w[lane_of != k]) - whole for k in range(len(LANES))], axis=1)
+    cost = np.stack([refit_db(gain, w[lane_of != k]) - whole for k in range(len(LANES))], axis=1)
     most = cost.max(axis=1, keepdims=True)
     guess = (cost == most) & (most < NEEDED_DB) & (level_db[:, None] > GUESS_DB)
     needed = (cost >= NEEDED_DB) | guess
-    lane_power = np.zeros((len(frames), len(LANES)))
-    for k in range(len(LANES)):
-        lane_power[:, k] = np.where(needed[:, k] & kept, (a[:, lane_of == k] @ w[lane_of == k]).sum(axis=1), 0)
+    fitted = np.stack([(a[:, lane_of == k] @ w[lane_of == k]).sum(axis=1) for k in range(len(LANES))], axis=1)
+    for i in np.flatnonzero((most[:, 0] >= NEEDED_DB) & kept):
+        needed[i] = joined(gain[i], fitted[i], w, lane_of, needed[i], whole[i])
+    lane_power = np.where(needed & kept[:, None], fitted, 0)
 
     lit = np.zeros_like(lane_power)
     for k in range(len(LANES)):

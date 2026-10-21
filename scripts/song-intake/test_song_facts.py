@@ -207,8 +207,21 @@ class Drums(unittest.TestCase):
         modes = ((1, 1), (1.59, 0.5), (2.14, 0.4))
         self.assert_lights("toms", sum(a * self.decaying(lambda t, m=m: np.full_like(t, 160 * m), 0.4, 0.15) for m, a in modes))
 
+    def snare(self):
+        return self.noise(0.3, 0.05, (150, SR)) + 0.25 * self.decaying(lambda t: np.full_like(t, 200), 0.3, 0.08)
+
     def test_snare(self):
-        self.assert_lights("snare", self.noise(0.3, 0.05, (150, SR)) + 0.25 * self.decaying(lambda t: np.full_like(t, 200), 0.3, 0.08))
+        self.assert_lights("snare", self.snare())
+
+    def test_snare_on_a_kick(self):
+        # Its top bands fit the snare and the crash alike, so which lights
+        # beside the kick is the fit's call; that something does is the test.
+        kick = self.kick()
+        kick[: int(SR * 0.3)] += 0.3 * self.snare()
+        lit, stray = self.lit(self.stem(kick))
+        self.assertGreater(lit[LANES.index("kick")], 0)
+        self.assertGreater(np.count_nonzero(lit), 1, dict(zip(LANES, lit.round(2))))
+        self.assertEqual(stray, 0)
 
     def test_no_kit_far_under_the_mix(self):
         # What demucs leaves in the drums stem of a song with no drums.
