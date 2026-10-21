@@ -108,6 +108,20 @@ For each track, the source is the take the album released:
 
 Each source goes to the `music-sources` release as `nostalgia-NN-<slug>.<ext>`.
 
+**Done.** Waveform correlation with the album's cut decided each source:
+
+- 1+2 — the album's 0–311.3 s, as planned.
+- 3 — the bounce `бабочка (полуживые) - …15.03.mp3` (r=0.999). The `.band` WAVs
+  are recorded regions, not mixes (r≤0.6).
+- 4 — the album's 551.6–790.6 s. `актёр v4` shares only the second half (r≈0.75
+  from 90 s on, ≈0.15 before), and no other take matches: the released mix was
+  made in the album project (`таркос (выбор актёра).RPP`).
+- 5 — the bounce mp3 (r=0.978). The `.band` WAV is not that mix (r=0.93 against
+  the bounce).
+- 6 — `свеча.mp3` (r=0.991).
+- 7 — the `.band` WAV, lossless (r=0.989 to the album, 0.993 to the bounce).
+- `candle-burnt` — the operator's Suno WAV.
+
 ### 3. The reference pool
 
 A reference is one of the operator's own masters, recognisable as a master by an
@@ -206,7 +220,13 @@ dictated. Then:
 - `assets/covers/nostalgia.jpg` from the attached cover.
 - `pnpm music:untold`.
 
-The album's and the songs' stories are dictated later, through `/dictation`.
+The album's and the songs' stories are dictated later, through `/dictation`. The
+album's has arrived as recogniser text,
+`docs/remove-before-merging/начитка про альбом.txt` («на Перу» is «на пиру»):
+`/dictation`'s cleaning pass over it becomes the album's `lang:ru` story, and it
+also holds per-song material and the «Таркос» working title (after ELP's
+«Tarkus»). Vova mentions a screenshot and dad's Telegram messages about
+«Бессонница» and «Зима в лесу», still to come.
 
 ### 7. Ride-along: «Свеча горела» into Папа-море
 
