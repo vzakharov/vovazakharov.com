@@ -1,7 +1,7 @@
 import { Stack } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
-import { byLocale, loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+import { byLocale, type WithLocale } from '@/kernel/shared/i18n';
 import {
   constructMetadata,
   localizedAddresses,
@@ -11,6 +11,7 @@ import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { hookRuns, scriptSample } from '@/music/shared/catalogue';
+import { musicMessages } from '@/music/shared/i18n';
 
 import { albumTitle } from '../lib/albums';
 import { spokenLength } from '../lib/duration';
@@ -22,8 +23,7 @@ import { MusicNav } from './music-nav';
 import { OnAir, type OnAirExtras } from './on-air';
 
 export function generateRadioMetadata({ locale }: WithLocale) {
-  const { title, pitch, metaDescription } =
-    loadMessages(locale).music.radioPage;
+  const { title, pitch, metaDescription } = musicMessages(locale).radioPage;
 
   return constructMetadata({
     title: `${title} - ${SITE_CONFIG.name}`,
@@ -67,7 +67,7 @@ function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
  * with what is on air computed by the browser from its clock.
  */
 export function RadioPage({ locale }: WithLocale) {
-  const messages = loadMessages(locale).music;
+  const messages = musicMessages(locale);
   const tracks = listSongs();
   const cycle = tracks.reduce((sum, { seconds }) => sum + seconds, 0);
   const extras = onAirExtras({ locale });

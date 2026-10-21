@@ -1,12 +1,13 @@
 import { Box, Stack } from '@mantine/core';
 
-import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { byLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { NameLink, PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { scriptSample } from '@/music/shared/catalogue';
+import { musicMessages } from '@/music/shared/i18n';
 
 import { albumTracks } from '../lib/album-tracks';
 import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
@@ -32,7 +33,7 @@ import { Story } from './story';
  */
 export function AlbumPage({ album, locale }: AlbumPageProps) {
   const songs = catalogueSongs();
-  const messages = loadMessages(locale).music;
+  const messages = musicMessages(locale);
   const artist = albumArtist(album, locale);
   const tracks = albumTracks(album, songs);
   const text = albumText(album, locale);

@@ -1,4 +1,4 @@
-import { getAbsoluteUrl, SITE_ID } from '@/kernel/shared/config';
+import { getAbsoluteUrl, SITE_ID, siteConfig } from '@/kernel/shared/config';
 import {
   type CollectionId,
   collectionRoute,
@@ -26,7 +26,9 @@ export function collectionFeed(
           ? await feedEntries(collection)
           : await source.entries(language);
       const rss = renderRss({
-        ...pick(feed, 'title', 'description'),
+        ...pick(feed, 'title'),
+        description:
+          source?.description?.(language) ?? siteConfig(SITE_ID).tagline,
         link: getAbsoluteUrl(
           localizedRoute(collectionRoute(collection), locale),
         ),

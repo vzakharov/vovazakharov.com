@@ -5,16 +5,11 @@ import {
   siteConfig,
   type SiteId,
 } from '@/kernel/shared/config';
-import {
-  DEFAULT_LOCALE,
-  loadMessages,
-  type Locale,
-  LOCALES,
-} from '@/kernel/shared/i18n';
+import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { feedHtml } from '@/kernel/shared/lib/feed-html';
 import type { RssPodcast, UnlinkedRssItem } from '@/kernel/shared/lib/rss';
-import type { Summarized } from '@/kernel/shared/typings';
+import type { Titled } from '@/kernel/shared/typings';
 
 import {
   type CollectionId,
@@ -28,7 +23,7 @@ import type { LocaleRouted } from './documents';
 import { articleCollection, filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
-export type Feed = WithCollectionId & LocaleRouted & Summarized;
+export type Feed = WithCollectionId & LocaleRouted & Titled;
 
 /** An item before its link is made absolute, which is the site's to do. */
 export type FeedEntry = UnlinkedRssItem & Routed;
@@ -36,19 +31,19 @@ export type FeedEntry = UnlinkedRssItem & Routed;
 /**
  * A feed's items in one language, and what makes it a podcast where it is one.
  * A collection read as articles has a source of its own; any other is fed by
- * the app that owns its schema.
+ * the app that owns its schema. A source with no `description` is described by
+ * the site's tagline — the songs' has one, the author's tagline selling a CTO,
+ * not a record.
  */
 export type FeedSource = {
   entries: (locale: Locale) => Promise<FeedEntry[]>;
+  description?: (locale: Locale) => string;
   podcast?: () => RssPodcast;
 };
 
-/**
- * Every feed the site publishes, described by the site's tagline save the
- * songs — the author's tagline sells a CTO, not a record.
- */
+/** Every feed the site publishes. */
 export function listFeeds(site: SiteId): Feed[] {
-  const { name, tagline } = siteConfig(site);
+  const { name } = siteConfig(site);
   const collections = collectionsForSite(site);
 
   return collections.flatMap((collection) =>
@@ -62,10 +57,6 @@ export function listFeeds(site: SiteId): Feed[] {
           : name,
         ...(locale === undefined ? [] : [`(${locale})`]),
       ].join(' '),
-      description:
-        collection === 'music'
-          ? loadMessages(locale ?? DEFAULT_LOCALE).music.metaDescription
-          : tagline,
     })),
   );
 }

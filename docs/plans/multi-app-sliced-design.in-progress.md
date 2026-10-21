@@ -203,8 +203,8 @@ left undone for messages.
   RSS channel reads it), `collectionFeed` takes it from `FeedSource.description`
   or the site's tagline, and `SONG_FEED` supplies music's.
 - **What follows the move**: vova's `render-pdf.ts` hashes vova's catalogue;
-  `check-i18n-payload.ts`'s advice, `i18n.md`'s "How to translate instead" and
-  `masd.md`'s segment list name an app's own catalogue.
+  `check-i18n-payload.ts`'s advice and `i18n.md`'s "How to translate instead"
+  name an app's own catalogue.
 
 ## Rest of the elephant
 

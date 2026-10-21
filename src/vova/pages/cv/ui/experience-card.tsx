@@ -1,10 +1,11 @@
 import { Text, Title } from '@mantine/core';
 
 import { TECH_STACKS } from '@/kernel/shared/config';
-import type { Messages } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 
 import { Card } from '@/shell/shared/ui';
+
+import type { VovaMessages } from '@/vova/shared/i18n';
 
 import type { WithCaseStudy } from '../lib/cv-messages';
 import { CaseStudyLink } from './case-study-link';
@@ -27,7 +28,7 @@ export const EXPERIENCE_KEYS = [
 type ExperienceKey = (typeof EXPERIENCE_KEYS)[number];
 
 /** One entry as the catalogue spells it — the fields vary from entry to entry. */
-type ExperienceEntry = Messages['cv']['experience'][ExperienceKey];
+type ExperienceEntry = VovaMessages['cv']['experience'][ExperienceKey];
 
 /** Not every entry carries a stack line, and the annotation is what holds the
  *  registry's keys to ones the CV renders. */

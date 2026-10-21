@@ -65,7 +65,7 @@ function cvPrintables(): Printable[] {
           ...shared,
           path.join(
             REPO_ROOT,
-            `src/kernel/shared/i18n/messages/${locale}.json`,
+            `src/vova/shared/i18n/messages/${locale}.json`,
           ),
         ]),
       };

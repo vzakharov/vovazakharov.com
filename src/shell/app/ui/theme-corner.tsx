@@ -1,5 +1,6 @@
-import { getTranslations } from 'next-intl/server';
+import { DEFAULT_LOCALE } from '@/kernel/shared/i18n';
 
+import { shellMessages } from '@/shell/shared/i18n';
 import { ThemeToggle } from '@/shell/features/switch-theme';
 
 import classes from './theme-corner.module.scss';
@@ -9,12 +10,10 @@ import classes from './theme-corner.module.scss';
  * page renders nothing for it. It sits out of the flow in the top-right
  * corner, which a page's own first line has to clear.
  */
-export async function ThemeCorner() {
-  const t = await getTranslations('ui');
-
+export function ThemeCorner() {
   return (
     <div className={classes['corner']}>
-      <ThemeToggle label={t('toggleTheme')} />
+      <ThemeToggle label={shellMessages(DEFAULT_LOCALE).toggleTheme} />
     </div>
   );
 }

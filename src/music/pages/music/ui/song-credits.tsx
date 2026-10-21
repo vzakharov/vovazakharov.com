@@ -1,12 +1,13 @@
 import { Stack, Text } from '@mantine/core';
 
-import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+import type { WithLocale } from '@/kernel/shared/i18n';
 
 import {
   type CreditedName,
   type CreditedSong,
   SONG_AUTHOR,
 } from '@/music/shared/catalogue';
+import { musicMessages } from '@/music/shared/i18n';
 
 export type SongCreditsProps = WithLocale & CreditedSong;
 
@@ -16,7 +17,7 @@ export type SongCreditsProps = WithLocale & CreditedSong;
  * author's, and an instrumental has no lyrics to credit.
  */
 export function SongCredits({ credits, language, locale }: SongCreditsProps) {
-  const labels = loadMessages(locale).music.credits;
+  const labels = musicMessages(locale).credits;
   const names = (people: CreditedName[] = [SONG_AUTHOR]) =>
     people.map((person) => person[locale]).join(', ');
 

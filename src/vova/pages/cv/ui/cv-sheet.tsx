@@ -66,7 +66,7 @@ export function CvSheet({
   caseStudy,
   pdfFile,
 }: CvSheetProps) {
-  const { cv, ui } = messages;
+  const { cv, cvVariants } = messages;
 
   return (
     <CvFrame>
@@ -174,7 +174,7 @@ export function CvSheet({
         <Text size="sm" className={classes['dim60']}>
           <TextLink href="/">{cv.footer.backLink}</TextLink>
         </Text>
-        <OtherVariantLink {...{ variant, locale }} labels={ui.cvVariants} />
+        <OtherVariantLink {...{ variant, locale }} labels={cvVariants} />
       </Group>
 
       <Box

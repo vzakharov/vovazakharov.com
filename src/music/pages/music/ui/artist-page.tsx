@@ -1,12 +1,13 @@
 import { Stack } from '@mantine/core';
 
-import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { byLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { scriptSample } from '@/music/shared/catalogue';
+import { musicMessages } from '@/music/shared/i18n';
 
 import { albumCover, albumTitle } from '../lib/albums';
 import { projectGloss, projectName } from '../lib/artists';
@@ -35,7 +36,7 @@ import { Story } from './story';
  */
 export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const songs = catalogueSongs();
-  const messages = loadMessages(locale).music;
+  const messages = musicMessages(locale);
   const text = artistText(artist, locale);
   const name = projectName(artist, locale);
   const { albums, singles } = artistDiscography(artist, locale, songs);

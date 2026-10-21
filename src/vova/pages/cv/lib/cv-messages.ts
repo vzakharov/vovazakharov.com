@@ -1,5 +1,7 @@
-import { loadMessages, type Locale, type Messages } from '@/kernel/shared/i18n';
+import type { Locale } from '@/kernel/shared/i18n';
 import type { LabeledLink } from '@/kernel/shared/typings';
+
+import { type VovaMessages, vovaMessages } from '@/vova/shared/i18n';
 
 import type { CvEdition, CvVariant } from './cv-variants';
 
@@ -12,7 +14,7 @@ export type WithCaseStudy = {
 export type CvPageCopy = CvEdition &
   WithCaseStudy & {
     /** This framing in this language, the variant's overrides already merged in. */
-    messages: Messages;
+    messages: VovaMessages;
   };
 
 /**
@@ -20,8 +22,8 @@ export type CvPageCopy = CvEdition &
  * variant an override subtree merged over it a section at a time, so a key the
  * variant does not restate cannot drift from the base.
  */
-export function cvMessages(locale: Locale, variant: CvVariant): Messages {
-  const messages = loadMessages(locale);
+export function cvMessages(locale: Locale, variant: CvVariant): VovaMessages {
+  const messages = vovaMessages(locale);
 
   if (variant === 'dev') return messages;
 

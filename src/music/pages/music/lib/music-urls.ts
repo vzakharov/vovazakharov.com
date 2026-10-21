@@ -3,13 +3,14 @@ import {
   localizedRoute,
   MUSIC_ROUTE,
 } from '@/kernel/shared/content';
-import { loadMessages, type Locale } from '@/kernel/shared/i18n';
+import type { Locale } from '@/kernel/shared/i18n';
 
 import {
   type MusicAlbum,
   type MusicProject,
   projectSlug,
 } from '@/music/shared/catalogue';
+import { musicMessages } from '@/music/shared/i18n';
 
 export const ARTISTS_SEGMENT = 'artists';
 
@@ -37,7 +38,7 @@ const TAB_SEGMENTS: Record<CatalogueTab, string | undefined> = {
 
 /** What each tab is called, its heading's word for what it lists. */
 export function tabLabels(locale: Locale): Record<CatalogueTab, string> {
-  const { artists, albums, title } = loadMessages(locale).music;
+  const { artists, albums, title } = musicMessages(locale);
 
   return { artists, albums, songs: title };
 }

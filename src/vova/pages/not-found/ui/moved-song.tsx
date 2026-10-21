@@ -9,18 +9,19 @@ import {
   DEFAULT_LOCALE,
   isLocale,
   type Locale,
-  type Messages,
   type WithOptionalLocale,
 } from '@/kernel/shared/i18n';
 
 import { TextLink } from '@/shell/shared/ui';
+
+import type { VovaMessages } from '@/vova/shared/i18n';
 
 type MovedSongProps = {
   /** The music section's root, where a song once sat directly. */
   musicRoute: string;
   /** Where songs sit now: the collection's route. */
   songsRoute: string;
-  copy: Record<Locale, Messages['notFound']>;
+  copy: Record<Locale, VovaMessages['notFound']>;
 };
 
 type FormerSongAddress = Slugged & WithOptionalLocale;

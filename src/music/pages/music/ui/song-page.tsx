@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
 import type { Routed } from '@/kernel/shared/content';
-import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { byLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import {
   constructMetadata,
@@ -19,6 +19,7 @@ import {
   spelledText,
   textHook,
 } from '@/music/shared/catalogue';
+import { musicMessages } from '@/music/shared/i18n';
 
 import { universeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';
@@ -117,7 +118,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
   const localized = localizeSong(document, locale);
   const { gloss, hook, repo, explicit, cribNote } = localized.frontmatter;
   const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
-  const messages = loadMessages(locale).music;
+  const messages = musicMessages(locale);
   const lyrics = songLyrics(document, locale);
   const track = songTrack(document, album);
   const sample = scriptSample(

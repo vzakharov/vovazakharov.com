@@ -2,13 +2,10 @@ import { Box, Divider, Group, Text } from '@mantine/core';
 
 import { AUTHOR_URL, SITE_CONFIG } from '@/kernel/shared/config';
 import { BUILD_YEAR } from '@/kernel/shared/config/index.server-only';
-import {
-  DEFAULT_LOCALE,
-  loadMessages,
-  type WithOptionalLocale,
-} from '@/kernel/shared/i18n';
+import { DEFAULT_LOCALE, type WithOptionalLocale } from '@/kernel/shared/i18n';
 import type { WithOptionalChildren } from '@/kernel/shared/typings';
 
+import { shellMessages } from '@/shell/shared/i18n';
 import { cssColor, TextLink } from '@/shell/shared/ui';
 
 type SiteFooterProps = WithOptionalChildren &
@@ -40,7 +37,7 @@ export function SiteFooter({
         <Text size="sm" opacity={0.6} flex={1} miw="min(360px, 100%)">
           {children ??
             (!onHomePage && (
-              <TextLink href="/">{loadMessages(locale).ui.backToHome}</TextLink>
+              <TextLink href="/">{shellMessages(locale).backToHome}</TextLink>
             ))}
         </Text>
         <Text size="sm" opacity={0.6}>

@@ -1,9 +1,11 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 
-import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+import type { WithLocale } from '@/kernel/shared/i18n';
 import type { MaybeTitled } from '@/kernel/shared/typings';
 
 import { Card, NameLink, Subheading } from '@/shell/shared/ui';
+
+import { musicMessages } from '@/music/shared/i18n';
 
 import { formatDuration } from '../lib/duration';
 import type { WithTracks } from '../lib/player-state';
@@ -31,7 +33,7 @@ export function SongList({
   tracks: songs,
   trackNumbers,
 }: SongListProps) {
-  const messages = loadMessages(locale).music;
+  const messages = musicMessages(locale);
 
   if (songs.length === 0) return null;
 

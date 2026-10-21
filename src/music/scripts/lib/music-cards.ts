@@ -9,9 +9,9 @@ import path from 'node:path';
 
 import { siteConfig } from '@/kernel/shared/config';
 import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
-import { loadMessages } from '@/kernel/shared/i18n';
 
 import { musicProjectNames } from '@/music/shared/catalogue';
+import { musicMessages } from '@/music/shared/i18n';
 import {
   artistCollage,
   artistCollageCovers,
@@ -46,14 +46,14 @@ function collageCard(
 
 /** English only, one card for both languages, as every collage is. */
 function radioBand(): CollageBand {
-  const { title, pitch } = loadMessages('en').music.radioPage;
+  const { title, pitch } = musicMessages('en').radioPage;
 
   return { title, line: pitch };
 }
 
 /** The songs feeds' name without its locale, over the feeds' own description. */
 function podcastBand(): CollageBand {
-  const { title, metaDescription } = loadMessages('en').music;
+  const { title, metaDescription } = musicMessages('en');
 
   return {
     title: `${siteConfig(RENDERED_SITE).name} — ${title}`,
