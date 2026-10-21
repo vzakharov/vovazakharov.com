@@ -18,6 +18,7 @@ import '@mantine/core/styles/ActionIcon.layer.css';
 import '@mantine/core/styles/CloseButton.layer.css';
 import '@mantine/core/styles/Group.layer.css';
 import '@mantine/core/styles/ModalBase.layer.css';
+import '@mantine/core/styles/Input.layer.css';
 import '@mantine/core/styles/Text.layer.css';
 import '@mantine/core/styles/Anchor.layer.css';
 import '@mantine/core/styles/Button.layer.css';
@@ -26,7 +27,9 @@ import '@mantine/core/styles/Container.layer.css';
 import '@mantine/core/styles/Divider.layer.css';
 import '@mantine/core/styles/List.layer.css';
 import '@mantine/core/styles/Modal.layer.css';
+import '@mantine/core/styles/SegmentedControl.layer.css';
 import '@mantine/core/styles/SimpleGrid.layer.css';
+import '@mantine/core/styles/Slider.layer.css';
 import '@mantine/core/styles/Stack.layer.css';
 import '@mantine/core/styles/Title.layer.css';
 

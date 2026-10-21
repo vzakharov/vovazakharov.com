@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Alert,
   Button,
   Group,
   SegmentedControl,
@@ -184,9 +183,9 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
         </Text>
       </Group>
       {error !== undefined && (
-        <Alert color="red" title={copy.failed}>
-          {error}
-        </Alert>
+        <Text role="alert" fw={700}>
+          {copy.failed}: {error}
+        </Text>
       )}
       <Text size="sm" c="dimmed">
         {copy.keys}
