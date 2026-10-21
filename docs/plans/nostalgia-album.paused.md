@@ -71,9 +71,7 @@ holds the title, the track number, a `<!-- lyrics:ru -->` marker with a note
 where the poem goes, and a `<!-- lyrics:en -->` marker for the crib. Commit and
 push before anything else and tell the operator the paths.
 
-The crib under `lyrics:en` is the operator's to supply as well, or to leave for
-later: an English rendering of a whole poem still under copyright is the same
-reproduction one step removed, so a session does not write it.
+The operator has pasted the poems as printed and asked for the rest (step 1a).
 
 Slugs, as the operator picked them:
 
@@ -291,15 +289,44 @@ Done:
 
 - Step 4 — shortlists in `references.md` § "Shortlists", 21 masters built.
 - Step 5's blind files — `docs/remove-before-merging/nostalgia/blind/`, seals in
-  `references.md`. The keys are in `tmp/nos/keys/` of the session that built
-  them; no verdict yet.
-
+  `references.md`. The keys are committed base64-encoded in `blind/keys/`, so
+  any session can reveal (`base64 -d` to a file, then `blind-abc.py reveal`); no
+  verdict yet.
 - Step 8 — `docs/music/vovas-music.md`.
+- The operator's lyrics, pasted as the poems print them, in `lyrics/*.md`, and
+  dad's song with Suno's markers in
+  `docs/remove-before-merging/svecha-gorela.md`.
+- Vocal stems — `docs/remove-before-merging/nostalgia/vocals/<source>.mp3`.
 
-Waiting on the operator's verdicts, one per blind file. Left after them: the
-reveal, then step 6's puts, scaffolds and pages, and step 7. A lossless source
-(7, `candle-burnt`) needs its winning master as FLAC too, which `master.py` does
-not yet write. Download the sources with
+Next, step 1a — the operator's request: «добавлял как в стихах, а поётся не
+везде так же. где-то рефрены повторяются, где-то нет целых строк, где-то
+переставлены/добавлены строки; сможешь сравнить с распознаваниями и, где
+понятно, сделать respectively (где непонятно -- спросить)», «на английский
+перевести», «в общем привести форматирование под наши стандарты», and «всё это
+лучше обернуть в README или вложенный CLAUDE.md так как будет повторяться для
+будущих альбомов». So:
+
+- `lyrics.py` and `transcribe.py` on each vocal stem; transcripts to
+  `docs/music/transcripts/nostalgia-*`.
+- Each `lyrics:ru` made to read as sung — repeats, dropped, moved and added
+  lines — the poem's own spelling and punctuation kept; lines the hearing does
+  not settle are asked, numbered.
+- A `lyrics:en` crib per song, per `.claude/rules/songs.md`.
+- Formatting to `.claude/rules/songs.md` § "Body": verse as stanzas, no stray
+  indentation or line-split words, ё, `xN` repeats.
+- `candle-burnt`'s words from `svecha-gorela.md` with Suno's markers and stress
+  marks stripped (songs.md § "Material whose author is in the room"), checked
+  against its stem; it is Pasternak's «Зимняя ночь», not dad's poem, so
+  `credits.lyrics` is Pasternak and step 7's attribution changes.
+- The procedure — a published poem pasted as printed, made to read as sung,
+  cribbed and formatted — goes into `scripts/song-intake/CLAUDE.md` § "Lyrics",
+  replacing its "takes the canonical text and flags only where the recording
+  departs" sentence.
+
+Then the verdicts, one per blind file, and the reveal; then step 6's puts,
+scaffolds and pages, and step 7. A lossless source (7, `candle-burnt`) needs its
+winning master as FLAC too, which `master.py` does not yet write. Download the
+sources with
 `gh release download music-sources -p 'nostalgia-*' -p 'father-sea-09-*'`.
 
 ## Settled with the operator
