@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 46,
-    "cacheWrite5mTokens": 84993,
-    "cacheWrite1hTokens": 52567,
-    "cacheReadTokens": 2129220,
-    "outputTokens": 3245,
-    "thinkingTokens": 1065,
-    "responses": 23,
-    "costUsd": 1.3364289999999999
+    "inputTokens": 118,
+    "cacheWrite5mTokens": 112339,
+    "cacheWrite1hTokens": 98286,
+    "cacheReadTokens": 6950492,
+    "outputTokens": 11652,
+    "thinkingTokens": 1800,
+    "responses": 58,
+    "costUsd": 2.9715933999999997
   },
   "estimate": {
     "at": "2026-10-21T16:09:59.248Z",
@@ -25,47 +25,49 @@
   "branch": "claude/nostalgia-album-0ar5hp",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/nostalgia-album-0ar5hp — Ревью PR #181 разобрано целиком; осталось прогнать polish и pr и ждать Вовиных ответов в тредах.",
-  "prs": [],
+  "prs": [
+    181
+  ],
   "url": "https://claude.ai/code/session_01V7V7gEtKYCGrKghubrT1Qd",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-21T16:09:19.862Z",
-  "lastResponseAt": "2026-10-21T16:12:23.924Z",
+  "lastResponseAt": "2026-10-21T16:21:30.740Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 22,
+    "inputTokens": 72,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 52567,
-    "cacheReadTokens": 1098442,
-    "outputTokens": 3155,
-    "thinkingTokens": 1065,
-    "responses": 11,
-    "costUsd": 0.7034124
+    "cacheWrite1hTokens": 98286,
+    "cacheReadTokens": 4389489,
+    "outputTokens": 11455,
+    "thinkingTokens": 1800,
+    "responses": 35,
+    "costUsd": 1.8935738000000004
   },
   "subagents": {
-    "inputTokens": 24,
-    "cacheWrite5mTokens": 84993,
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 112339,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 1030778,
-    "outputTokens": 90,
+    "cacheReadTokens": 2561003,
+    "outputTokens": 197,
     "thinkingTokens": 0,
-    "responses": 12,
-    "costUsd": 0.6330165999999999
+    "responses": 23,
+    "costUsd": 1.0780196000000002
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 46,
-      "cacheWrite5mTokens": 84993,
-      "cacheWrite1hTokens": 52567,
-      "cacheReadTokens": 2129220,
-      "outputTokens": 3245,
-      "thinkingTokens": 1065,
-      "responses": 23,
-      "costUsd": 1.3364289999999999
+      "inputTokens": 118,
+      "cacheWrite5mTokens": 112339,
+      "cacheWrite1hTokens": 98286,
+      "cacheReadTokens": 6950492,
+      "outputTokens": 11652,
+      "thinkingTokens": 1800,
+      "responses": 58,
+      "costUsd": 2.9715933999999997
     }
   },
   "warnings": [
-    "12 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+    "23 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
   ],
   "orientation": {
     "endedBy": "Edit",
