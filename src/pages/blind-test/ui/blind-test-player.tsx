@@ -122,10 +122,13 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
         choose(picked);
       }
       event.preventDefault();
+      event.stopPropagation();
     };
-    globalThis.addEventListener('keydown', onKey);
+    // Captured and stopped: the music section's own player listens for the same
+    // keys on bubble, and would start the radio under the test.
+    globalThis.addEventListener('keydown', onKey, { capture: true });
     return () => {
-      globalThis.removeEventListener('keydown', onKey);
+      globalThis.removeEventListener('keydown', onKey, { capture: true });
     };
   });
 

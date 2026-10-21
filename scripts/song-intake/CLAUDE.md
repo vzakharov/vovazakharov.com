@@ -150,11 +150,11 @@ from memory.
 **The operator listens on the site, not to the 5-second file.**
 `blind-abc.py split <key> <dir> --mix <source>` writes the same four as whole
 files, `mix.mp3`, `1.mp3`, `2.mp3`, `3.mp3`, in the key's order, so one seal
-covers both. The vova site's unlinked `/blind` (`src/pages/blind-test/`) plays
-all four at once and switches by gain, so a switch never restarts the song; it
-fetches them from the branch through raw.githubusercontent, whose CORS header
-Web Audio needs. The key's paths are relative to this directory, so `split` runs
-from here.
+covers both. The vova site's unlinked `/music/mastering-blind-test`
+(`src/pages/blind-test/`) plays all four at once and switches by gain, so a
+switch never restarts the song; it fetches them from the branch through
+raw.githubusercontent, whose CORS header Web Audio needs. The key's paths are
+relative to this directory, so `split` runs from here.
 
 ## A song's repository
 

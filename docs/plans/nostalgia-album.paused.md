@@ -298,11 +298,13 @@ Done:
 - Then, at the operator's ask, a player instead of the 5-second files: «все
   песни и варианты переключаются кнопочками без прерывания игры … страницей
   сайта», then «не нужно никаких шифровок, просто пусть будет неанонсируемый
-  подраздел». `/blind` on the vova site (`src/pages/blind-test/`), unlinked,
-  noindex, no password; audio from `blind/<piece>/{mix,1,2,3}.mp3` on this
-  branch via raw.githubusercontent (CORS `*`), written by `blind-abc.py split`
-  from the committed keys. All seven pieces split, the page lint-clean and
-  styled, published to https://preview.vovazakharov.com/blind
+  подраздел», then «давай более говорящее имя -- и под /music/».
+  `/music/mastering-blind-test` on the vova site (`src/pages/blind-test/`),
+  unlinked, noindex, no password; audio from `blind/<piece>/{mix,1,2,3}.mp3` on
+  this branch via raw.githubusercontent (CORS `*`), written by
+  `blind-abc.py split` from the committed keys. All seven pieces split, the page
+  lint-clean and styled, published to
+  https://preview.vovazakharov.com/music/mastering-blind-test
   (`gh workflow run preview.yml --ref <branch> -f site=vova`) and played there
   headless; `split` and the page are in `scripts/song-intake/CLAUDE.md` §
   "Mastering". The page's Input, SegmentedControl and Slider sheets in
