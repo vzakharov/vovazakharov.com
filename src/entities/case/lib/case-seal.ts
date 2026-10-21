@@ -14,13 +14,16 @@ type SealedCase = Routed & WithFrontmatter<CaseFrontmatter>;
 
 type Deed = NonNullable<Grade['act']> | NonNullable<Grade['credit']>;
 
+/** The site seal's own ink, which a case's seal re-inks. */
+const SITE_INK = '#b3261e';
+
 /**
  * A case's character, as the ink its seal is stamped in. A seal is an `<img>`,
  * which cannot follow the page's theme, so each ink is one colour that reads on
  * both backgrounds — `case-seal.test.ts` holds it to that.
  */
 export const CASE_INKS = {
-  harm: '#b3261e',
+  harm: SITE_INK,
   contempt: '#a0670a',
   torment: '#8445bf',
   respect: '#2f62c4',
@@ -37,9 +40,6 @@ const SITE_SEALS: Record<SealCut, string> = {
   lettered: 'seal-lettered.svg',
   small: 'seal.svg',
 };
-
-/** The site seal's own ink, which a case's seal re-inks. */
-const SITE_INK = '#b3261e';
 
 /** How far the small cut enlarges the emblem, into the room its dropped band leaves. */
 const SMALL_SCALE = 1.4;
