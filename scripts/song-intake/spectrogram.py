@@ -21,8 +21,11 @@ And beside both, one zoom per section, <n>.png: the stretch between two
 dashed lines drawn at the full width, so a section can be looked at closely
 without asking. The number is the one at the section's top left in the whole
 song's picture, and at the head of its line in the sidecar. A zoom draws a
-faint line down the strips and the drums at each bar, where the chords say
-where the bar starts (`rhythm.downbeats`), and none where they do not.
+faint line down the strips and the drums at each bar, where the snare or the
+chord changes settle where the bar starts (`rhythm.downbeats`), and none
+where they do not; the whole song's picture draws none. The lines are for
+reference: a zoom without them has bars all the same, and the sidecar names
+the zooms that draw them.
 
 --from and --to draw that stretch at the full width alone, on song time; the
 analysis still runs on the whole song, and such a zoom writes no sidecar,
@@ -366,8 +369,8 @@ def main():
     x = decode(args.song)
     stems = dict(zip(STEMS, aligned([decode(p) for p in paths], x)))
     tracks = {track: (s, drawing_stft(s)) for track, s in {"mix": x, **stems}.items() if track != "drums"}
-    facts = measure(x, *tracks["mix"][1], drawing_stft(stems["other"] + stems["bass"])[0])
     drums = drum_hits(stems["drums"], x)
+    facts = measure(x, *tracks["mix"][1], drawing_stft(stems["other"] + stems["bass"])[0], drums)
     if args.start is not None or args.end is not None:
         t0 = args.start or 0
         t1 = min(args.end or facts.duration, facts.duration)

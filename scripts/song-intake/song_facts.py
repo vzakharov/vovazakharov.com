@@ -10,6 +10,7 @@ from typing import NamedTuple
 import numpy as np
 
 from audio import SR, mmss
+from drums import LANES
 from harmony import beat_chords, folded, note_names, runs, song_key
 from pitch import NOTE_BAND_HZ, peak_chroma, section_times, tuning_cents
 from rhythm import TEMPO_SPREAD, beat_times, beats_bpm, downbeats, onset_envelope, tempo_bpm
@@ -32,13 +33,14 @@ class Facts(NamedTuple):
     sections: list
 
 
-def measure(x, magnitude, freqs, step, db, harmony):
+def measure(x, magnitude, freqs, step, db, harmony, drums):
     """Everything the sidecar states, from the samples and the drawing's STFT.
 
     harmony is the same STFT of the song less its voice — demucs's other and
     bass stems summed — which the chords are read off, so the melody's
     passing notes do not vote in them. The key is the whole mix's, the
-    melody being what dwells on the tonic."""
+    melody being what dwells on the tonic. drums is `drum_hits` of the drums
+    stem, whose snares place the bars."""
     duration = len(x) / SR
     tuning = tuning_cents(magnitude, freqs)
     envelope, onset_step = onset_envelope(x)
@@ -57,7 +59,10 @@ def measure(x, magnitude, freqs, step, db, harmony):
             start, end, beats_bpm(beats[inside]), 20 * np.log10(max(rms, 1e-10)),
             runs([chords[i] for i in np.flatnonzero(inside)]),
         ))
-    return Facts(duration, tuning, song_key(pitch_classes), beats, downbeats(beats, chords), sections)
+    times, lit = drums
+    snare = lit[:, LANES.index("snare")]
+    bars = downbeats(beats, chords, (times[snare > 0], snare[snare > 0]), edges)
+    return Facts(duration, tuning, song_key(pitch_classes), beats, bars, sections)
 
 
 def tempo_spread(facts):
@@ -91,11 +96,15 @@ def sidecar(name, facts):
     tempo = tempo_label(facts)
     if tempo_spread(facts):
         tempo += f", median {beats_bpm(facts.beats):.0f}"
+    barred = [str(n) for n, s in enumerate(facts.sections, 1) if ((facts.bars >= s.start) & (facts.bars < s.end)).any()]
+    zooms = f"the section zooms numbered {', '.join(barred)}" if barred else "no zoom"
     lines = [
         f"{name} — {mmss(facts.duration)}",
         f"tempo {tempo}",
         f"key {names[tonic]} {mode} (r {r:.2f}; next {names[tonic2]} {mode2}, {r2:.2f})",
         f"tuning {tuning_label(facts.tuning)}",
+        f"bars drawn on {zooms} — only where the snare or the chord changes settle where one starts,"
+        " so a section without them still has bars; the whole song's picture draws none",
         "sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded"
         " (N: no chord, the accompaniment too quiet to name one):",
     ]

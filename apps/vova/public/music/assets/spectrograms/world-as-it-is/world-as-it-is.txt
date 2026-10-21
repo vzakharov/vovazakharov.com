@@ -2,6 +2,7 @@ world-as-it-is.mp3 — 1:49
 tempo 121 BPM
 key D major (r 0.90; next B minor, 0.76)
 tuning A = 440 Hz −1 ¢
+bars drawn on no zoom — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
 sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
 1  0:00–0:11  119 BPM  −19 dB  Bm D F♯m G F♯m
 2  0:11–1:22  122 BPM  −11 dB  Bm G F♯m Bm G D G F♯m Bm G Bm Gm D A F♯m Bm C♯ G F♯m Bm C♯m D F♯m Bm A♯ A G♯ G Em F♯m G A Bm F♯m

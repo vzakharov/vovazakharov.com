@@ -118,24 +118,42 @@ class Harmony(unittest.TestCase):
 
 class Bars(unittest.TestCase):
     beats = np.arange(64) * 0.5
+    whole = [0, 32]
+    no_snare = (np.zeros(0), np.zeros(0))
 
     def chords(self, every, offset):
         """A chord per beat, changing every `every` beats from beat offset on."""
         return [(((i - offset) // every) % 2, "") for i in range(len(self.beats))]
 
-    def test_changes_mark_the_bar(self):
-        np.testing.assert_array_equal(downbeats(self.beats, self.chords(4, 1)), self.beats[1::4])
+    def snares(self, times):
+        return np.asarray(times, float), np.ones(len(times))
 
-    def test_a_lost_beat_moves_the_bar(self):
+    def test_changes_mark_the_bar(self):
+        bars = downbeats(self.beats, self.chords(4, 1), self.no_snare, self.whole)
+        np.testing.assert_array_equal(bars, self.beats[1::4])
+
+    def test_each_section_places_its_own(self):
         chords = self.chords(4, 1)[:32] + self.chords(4, 0)[32:]
-        bars = downbeats(self.beats, chords)
+        bars = downbeats(self.beats, chords, self.no_snare, [0, 16, 32])
         np.testing.assert_array_equal(bars, np.concatenate([self.beats[1:32:4], self.beats[32::4]]))
 
     def test_half_bar_changes_show_none(self):
-        self.assertEqual(len(downbeats(self.beats, self.chords(2, 1))), 0)
+        self.assertEqual(len(downbeats(self.beats, self.chords(2, 1), self.no_snare, self.whole)), 0)
 
     def test_no_chords_show_none(self):
-        self.assertEqual(len(downbeats(self.beats, [None] * len(self.beats))), 0)
+        self.assertEqual(len(downbeats(self.beats, [None] * len(self.beats), self.no_snare, self.whole)), 0)
+
+    def test_a_snare_a_bar_overrules_the_chords(self):
+        # sorry's third section: the tracker on the off-beat, the bass in a
+        # half beat early, the snare half a bar after the true first beat.
+        first = self.beats[1::4] + 0.25
+        bars = downbeats(self.beats, self.chords(4, 2), self.snares(first + 1), self.whole)
+        np.testing.assert_array_equal(bars, first[first < 32])
+
+    def test_the_backbeat_leaves_the_bar_to_the_chords(self):
+        backbeat = self.beats[(np.arange(64) % 4) % 2 == 0]
+        bars = downbeats(self.beats, self.chords(4, 1), self.snares(backbeat), self.whole)
+        np.testing.assert_array_equal(bars, self.beats[1::4])
 
 
 class Loops(unittest.TestCase):
@@ -159,7 +177,7 @@ class Sidecar(unittest.TestCase):
             duration=95, tuning=-3.2,
             keys=[(0.81, 7, "minor"), (0.73, 10, "major")],
             beats=np.arange(0, 95, 0.5),
-            bars=np.arange(0, 95, 2.0),
+            bars=np.arange(0, 40, 2.0),
             sections=[
                 Section(0, 40, 120.0, -13.2, [gm, eb, f, gm, eb, f]),
                 Section(40, 95, 124.4, -10.0, [None, gm]),
@@ -170,6 +188,8 @@ class Sidecar(unittest.TestCase):
             "tempo 120–124 BPM, median 120",
             "key G minor (r 0.81; next B♭ major, 0.73)",
             "tuning A = 440 Hz −3 ¢",
+            "bars drawn on the section zooms numbered 1 — only where the snare or the chord changes settle where one"
+            " starts, so a section without them still has bars; the whole song's picture draws none",
             "sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded"
             " (N: no chord, the accompaniment too quiet to name one):",
             "1  0:00–0:40  120 BPM  −13 dB  Gm E♭ F ×2",
