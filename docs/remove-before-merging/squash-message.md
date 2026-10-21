@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): spectrogram sidecar, drum row and a zoom per section (pr #138)
+feat(vova): spectrograms off demucs stems, a sidecar and zooms (pr #138)
 ```
 
 ```
@@ -10,25 +10,25 @@ feedback on it named what the picture could not carry: a song tuned off
 A440 splits each note across two chromagram rows, and a key or tempo
 read off a picture is approximate where a number is exact. The author's
 review then asked for rhythm, a closer look at each section, and the
-keys and tempos he hears.
+keys, tempos and drums he hears.
 
 The script measures the song's tuning and shifts its note grid by it,
-tracks beats that follow a drifting tempo, and reads the key and chords
-with each note's 3rd and 5th overtones discounted, so C minor does not
-read as G. A text sidecar beside each PNG states tempo, key with its
-confidence, tuning, and per numbered section its span, tempo, loudness
-and chords spelled from the key, a repeating loop folded.
+tracks beats that follow a drifting tempo, and reads the key with each
+note's 3rd and 5th overtones discounted, so C minor does not read as G.
+A text sidecar beside each PNG states tempo, key with its confidence,
+tuning, and per numbered section its span, tempo, loudness and chords.
 
-The picture gains a drum row - kick, toms, snare, cymbals, unmixed from
-each band's rise - and a dotted bass/treble split that --split moves to
-any note. Every render writes one full-width zoom per section beside the
-PNG. The analysis is numpy-only, split by concern, with synthetic tests
-run by vet.
+Everything but the key is read off demucs's four stems, now required:
+off the mix a low voice voted with the bass, passing notes with the
+chords, and a picked guitar's attack read as a drum hit. Three strips -
+melody, harmony, bass - each read their own stem; a drum row lights a
+lane per hit by unmixing it onto kit shapes measured off the
+catalogue's stems, and a drumless stem yields none. Each song gets a
+folder holding its picture, sidecar and a zoom per section.
 
-All eleven spectrograms are re-rendered. Checked against librosa and
-the author, every key and all tempos but world-as-it-is's are right;
-Майя's rule reads chords with caution and judges major or minor over
-power chords by the vocal's third.
+All eleven are re-rendered. Checked against librosa and the author's
+ear, every key, all tempos but world-as-it-is's and the drum entries he
+named are right; Майя's rule reads chords with caution.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
