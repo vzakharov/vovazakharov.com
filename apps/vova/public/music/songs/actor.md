@@ -23,11 +23,15 @@ ru:
 
 <!-- poem:ru -->
 
-«Актёр» написан в 1958 году. В первые две книги Тарковского — «Перед снегом» (1962) и «Земле — земное» (1966) — он не вошёл; в книге его напечатали в «Стихотворениях» 1974 года.
+В начале 1958 года Тарковский поехал в творческую командировку в Ашхабад и встретил там женщину, о которой, как пишет его дочь Марина Тарковская в книге «Судьба моя сгорела между строк», «нам почти ничего неизвестно»: она подарила ему несколько месяцев подлинного счастья. «Друзья-поэты» донесли новость до Москвы, телеграммы жены о внезапной болезни и срочной операции вернули его домой, и в июне, ноябре и декабре 1958 года он написал стихи об этой «украденной любви». Сам поэт их в цикл не объединял; Марина Тарковская печатает «Актёра» среди них, а в собрании 2017 года, которое она составляла, «Актёр» открывает цикл «Какое счастье у меня украли…».
+
+В первые две книги Тарковского — «Перед снегом» (1962) и «Земле — земное» (1966) — «Актёр» не вошёл; в книге его напечатали в «Стихотворениях» 1974 года.
 
 <!-- poem:en -->
 
-“The Actor” was written in 1958. It is in neither of Tarkovsky’s first two books — _Pered snegom_ (“Before the snow,” 1962) and _Zemle — zemnoye_ (1966); it reached a book in his _Stikhotvoreniya_ (“Poems”) of 1974.
+Early in 1958 Tarkovsky went to Ashgabat on a writers’ assignment and met a woman about whom, as his daughter Marina Tarkovskaya writes in _Sudba moya sgorela mezhdu strok_ (“My fate burned down between the lines”), “we know almost nothing”: she gave him a few months of real happiness. “Poet friends” carried the news to Moscow, his wife’s telegrams about a sudden illness and an urgent operation called him home, and in June, November and December 1958 he wrote poems about that “stolen love.” He never gathered them into a cycle himself; Marina Tarkovskaya prints “The Actor” among them, and in the 2017 collection she compiled, “The Actor” opens the cycle “What happiness was stolen from me…”
+
+“The Actor” is in neither of Tarkovsky’s first two books — _Pered snegom_ (“Before the snow,” 1962) and _Zemle — zemnoye_ (1966); it reached a book in his _Stikhotvoreniya_ (“Poems”) of 1974.
 
 <!-- lyrics:ru -->
 

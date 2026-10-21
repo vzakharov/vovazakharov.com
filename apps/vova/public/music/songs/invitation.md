@@ -28,6 +28,8 @@ ru:
 
 «Отдалённые страны» Тарковского — его детство в Елисаветграде, нынешнем Кропивницком: «город Блаженное Детство и город Родные Гробы». Его дочь Марина Тарковская в книге «Судьба моя сгорела между строк» датирует стихотворение 1937 годом и пишет, что поехать в родной город было его давней мечтой. Сбылась она в 1955-м — «через восемнадцать лет». В других публикациях стоит 1945 год.
 
+Над каждым городом здесь вьётся «бабочка милого праха», а «Бабочка в госпитальном саду», третья песня этого альбома, датирована 1945 годом: восемью годами позже, если верна первая дата, и тем же годом, если вторая.
+
 В книги при жизни поэта стихотворение не входило: в собрании сочинений 1991 года оно стоит в разделе «Стихотворения, опубликованные в периодике при жизни автора».
 
 Старший брат поэта, Валерий, погиб в 1919 году в бою с отрядами атамана Григорьева.
@@ -35,6 +37,8 @@ ru:
 <!-- poem:en -->
 
 Tarkovsky’s “faraway countries” are his childhood in Elisavetgrad, today’s Kropyvnytskyi: “the town of Blessed Childhood and the town of Kindred Graves.” His daughter Marina Tarkovskaya, in her book _Sudba moya sgorela mezhdu strok_ (“My fate burned down between the lines”), dates the poem to 1937 and writes that going back to his home town was a long-held wish of his. It came true in 1955, “eighteen years later.” Other printings date the poem 1945.
+
+Over every town here hovers “a butterfly of dear dust,” and “Butterfly in the Hospital Garden,” the album’s third song, is dated 1945: eight years later if the first date holds, the same year if the second does.
 
 No book of his carried it in his lifetime: the 1991 collected works print it among the “poems published in periodicals during the author’s lifetime.”
 
@@ -57,7 +61,7 @@ The poet’s elder brother, Valery, was killed in 1919 fighting the forces of at
 А в городе Музыки дети играют сонаты [Клементи][^clementi-ru],
 И город покинут и чужд потрясённой душе…[^fuller-ru]
 
-[^fuller-ru]: Марина Тарковская приводит более полную редакцию: в ней у вокзала стоит не броненосец, а бронепоезд, и стихотворение здесь не кончается — дальше море за степями и «город Море и город Пароходного Дыма, и город Морскую Зарю».
+[^fuller-ru]: Марина Тарковская в книге об отце и в собрании 2017 года, которое она составляла, печатает более полную редакцию: в ней у вокзала стоит не броненосец, а бронепоезд, и стихотворение здесь не кончается — дальше море за степями и «город Море и город Пароходного Дыма, и город Морскую Зарю».
 
 [^lefaucheux-ru]: Револьвер системы Лефоше — французский, XIX века, под шпилечный патрон.
 
@@ -84,6 +88,6 @@ And the town is deserted and foreign to the shaken soul…[^fuller-en]
 
 [^lefaucheux-en]: A nineteenth-century French pinfire revolver.
 
-[^fuller-en]: Marina Tarkovskaya prints a fuller version: in it, an armoured train stands by the station rather than a battleship, and the poem goes on past this line — to the sea beyond the steppes and “the town of Sea and the town of Steamer Smoke, and the town of Sea Dawn.”
+[^fuller-en]: Marina Tarkovskaya prints a fuller version, in her book about her father and in the 2017 collection she compiled: in it, an armoured train stands by the station rather than a battleship, and the poem goes on past this line — to the sea beyond the steppes and “the town of Sea and the town of Steamer Smoke, and the town of Sea Dawn.”
 
 [^clementi-en]: [Muzio Clementi](https://en.wikipedia.org/wiki/Muzio_Clementi), composer and pianist at the turn of the nineteenth century, whose sonatinas every Russian music-school child plays.

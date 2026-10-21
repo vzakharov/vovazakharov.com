@@ -56,7 +56,7 @@ The long text's stanza 3 ends «…чужд потрясённой душе.» w
 > А морская заря и море, выгнутое по краю, —
 > Синее море было моим без тебя.
 
-**Where it was published.** The poem is in none of the lifetime books FantLab catalogues. In the 1991 Собрание сочинений, т. 2, pp. 44–45, it sits in the section «Стихотворения, опубликованные в периодике при жизни автора» [FL т. 2]. So it appeared in a periodical during his lifetime, but which one and when is **unknown**. The two-page span in т. 2 suggests the long text, but that is not verified. A 2017 Эксмо edition gives it one page (p. 74; https://fantlab.ru/edition203776), which suggests the short text.
+**Where it was published.** The poem is in none of the lifetime books FantLab catalogues. In the 1991 Собрание сочинений, т. 2, pp. 44–45, it sits in the section «Стихотворения, опубликованные в периодике при жизни автора» [FL т. 2]. So it appeared in a periodical during his lifetime, but which one and when is **unknown**. The two-page span in т. 2 suggests the long text, but that is not verified. The 2017 Эксмо «Стихотворения. Поэмы» (comp. М. А. Тарковская, В. А. Амирханян; https://fantlab.ru/edition203776) prints the long text, with «бронепоезд» and the sea stanzas, dated 1937 (litmir copy: https://litmir.club/br/?b=582976&p=8). The short text, ending in an ellipsis, appears only on aggregators (poemata.ru, rustih.ru); no printed source for it was found, and no source says Marina Tarkovskaya added to the poem.
 
 **Butterfly vs. #3.** If the 1937 date holds, «бабочка милого праха» comes eight years before «Бабочка в госпитальном саду» (1945). If the 1945 date holds, both are from the same year. No source found connects the two images, so any link is interpretation only.
 
@@ -140,7 +140,12 @@ The dropped ending is where China is explained. In it, China becomes the place t
 
 **Identified:** «Актёр», first line «Всё кончается, как по звонку, / На убогой театральной сцене», dated **1958**. Source: https://rupoem.ru/poets/tarkovskij/vse-konchaetsya-kak (text and date, taken from «Андрей [sic] Тарковский. Избранное», Феникс, 1996). This is the same text as the repo's `actor.md`. No «Актёр» opening with «Спектакль…» was found.
 
-**First book publication.** The earliest catalogued book is «Стихотворения» (1974), p. 231 [FL]. It is not in «Перед снегом» or «Земле — земное». It might be in «Вестник» (1969), which is not catalogued. Circumstances: unknown.
+**First book publication.** The earliest catalogued book is «Стихотворения» (1974), p. 231 [FL]. It is not in «Перед снегом» or «Земле — земное». It might be in «Вестник» (1969), which is not catalogued.
+
+**Circumstances** ([MT]): «В начале 1958 года Тарковский приезжает в творческую командировку в Ашхабад. Там он знакомится с женщиной, о которой нам почти ничего неизвестно. […] она подарила поэту несколько месяцев подлинного счастья. […] «Друзья-поэты» принесли новость в Москву, и на имя Тарковского полетели телеграммы от жены о внезапном ухудшении ее здоровья, о необходимости срочной операции. […] В июне, ноябре, декабре 1958 года создается цикл из пяти стихотворений, посвященных этой украденной любви. (Поэт никогда не объединял эти стихи в цикл, и понятно, почему.)» The poems she prints right after, all dated 1958, include «О сколько счастья у меня украли!..» and «Все кончается, как по звонку…».
+
+- The 2017 Эксмо edition (see § 1) prints them as an explicit cycle under «Какое счастье у меня украли...», part I being «Актер» (p. 249; https://fantlab.ru/edition203776). Its contents list more poems than her "five", so the page states no count.
+- No dedication, and no source ties the poem to Andrei Tarkovsky or to a real actor.
 
 ---
 
