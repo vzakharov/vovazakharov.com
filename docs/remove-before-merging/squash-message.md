@@ -24,8 +24,10 @@ chords, and a picked guitar's attack read as a drum hit. Three strips -
 melody, harmony, bass - each read their own stem; a drum row lights a
 lane per hit by unmixing it onto kit shapes measured off the
 catalogue's stems, and a drumless stem yields none. Each song gets a
-folder holding its picture, sidecar and a zoom per section, the zooms
-marking each bar where the chord changes agree on its first beat.
+folder holding its picture, sidecar and a zoom per section. A zoom
+marks each bar to the half beat where its snare, falling on the half
+bar, or else its chord changes settle where one starts; the sidecar
+names those zooms and calls the lines a reference, not a meter.
 
 All eleven are re-rendered. Checked against librosa and the author's
 ear, every key, all tempos but world-as-it-is's and the drum entries he
