@@ -150,13 +150,12 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
-## Rest of the bite
+## This bite
 
 Slice 3, app scripts in their apps, on `masd/app-scripts` (base: the elephant's
-branch); nothing built yet. `src/<app>/scripts/` (and `scripts/lib/` under it)
-sits beside the app's layers: an unknown folder at an app root is no layer to
-Steiger (checked on `src/basilisk`). Root `scripts/` keeps the repo's and the
-agent's tooling.
+branch). `src/<app>/scripts/` (and `scripts/lib/` under it) sits beside the
+app's layers: an unknown folder at an app root is no layer to Steiger (checked
+on `src/basilisk`). Root `scripts/` keeps the repo's and the agent's tooling.
 
 **Owners**, from a survey of all 145 files (re-run it to check a call):
 
