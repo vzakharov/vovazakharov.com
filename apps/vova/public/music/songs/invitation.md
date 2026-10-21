@@ -17,9 +17,9 @@ credits:
 en:
   title:
     translation: 'Invitation to a Journey'
-  hook: '“I stood in Fate’s queue for a thousand roubles of tickets.”'
+  hook: 'I stood in Fate’s queue for a thousand roubles of tickets.'
 ru:
-  hook: '«На тысячу рублей билетов я выстоял у судьбы».'
+  hook: 'На тысячу рублей билетов я выстоял у судьбы.'
 ---
 
 <!-- For Vova to check: Dated December 2023, the month the album's REAPER project was last saved (21 December) and the Бабочка and Бессонница bounces were made; the release date itself is nowhere in the repositories. -->

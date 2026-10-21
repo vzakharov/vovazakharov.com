@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'Candle'
-  hook: '“I am a candle, I burnt out at the feast.”'
+  hook: 'I am a candle, I burnt out at the feast.'
 ru:
-  hook: '«Я свеча, я сгорел на пиру».'
+  hook: 'Я свеча, я сгорел на пиру.'
 ---
 
 <!-- poem:ru -->

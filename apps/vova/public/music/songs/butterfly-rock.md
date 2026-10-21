@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'Butterfly'
-  hook: '“She must be from China.”'
+  hook: 'She must be from China.'
 ru:
-  hook: '«Она, должно быть, из Китая».'
+  hook: 'Она, должно быть, из Китая.'
 ---
 
 <!-- poem:ru -->

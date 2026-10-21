@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'Insomnia'
-  hook: '“The lifeless and the half-alive.”'
+  hook: 'The lifeless and the half-alive.'
 ru:
-  hook: '«Неживые и полуживые».'
+  hook: 'Неживые и полуживые.'
 ---
 
 <!-- poem:ru -->

@@ -13,11 +13,11 @@ explicit: false
 credits:
   lyrics: ['William Shakespeare']
 en:
-  hook: '“For some must watch, while some must sleep: so runs the world away.”'
+  hook: 'For some must watch, while some must sleep.'
 ru:
   title:
     translation: 'Пусть раненый олень ревёт'
-  hook: '«Где — спят, а где — ночной обход, кому что рок назначит».'
+  hook: 'Где — спят, а где — ночной обход.'
   cribNote: 'Песня Гамлета — в переводе Бориса Пастернака; молитва Клавдия — в переводе К. Р., строки разбиты по песне.'
 ---
 

@@ -17,10 +17,10 @@ credits:
 en:
   title:
     translation: 'Valentine’s Day'
-  hook: '“Let in the maid, that out a maid never departed more.”'
+  hook: 'Let in the maid, that out a maid never departed more.'
   cribNote: 'The English is Shakespeare’s original, Ophelia’s songs from _Hamlet_, IV.5 (Folger edition); the song sings the translation by K. R. (Grand Duke Konstantin Romanov).'
 ru:
-  hook: '«С ним дева в дом вошла тайком, но девой не ушла».'
+  hook: 'С ним дева в дом вошла тайком, но девой не ушла.'
 ---
 
 <!-- lang:en -->

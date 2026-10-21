@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'The Student Girl'
-  hook: '“And do you know that these failed exams were your gift to me, my dove?”'
+  hook: 'It’s all your braids, all your bows.'
 ru:
-  hook: '«А знаешь ли ты, что эти хвосты мне ты подарила, голубка?»'
+  hook: 'Всё косы твои, всё бантики.'
 ---
 
 <!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 8 February 2026. -->

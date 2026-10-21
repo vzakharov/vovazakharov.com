@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'The Actor'
-  hook: '“Where are you, my happy double?”'
+  hook: 'Where are you, my happy double?'
 ru:
-  hook: '«Где же ты, счастливый мой двойник?»'
+  hook: 'Где же ты, счастливый мой двойник?'
 ---
 
 <!-- poem:ru -->

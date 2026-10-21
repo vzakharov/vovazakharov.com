@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'Summer Has Gone'
-  hook: '“Admittedly, I made Bi-2 out of it. But Dad liked it.”'
+  hook: 'Rotaru sang it — only this is not enough.'
 ru:
-  hook: '«Я, правда, сделал из него „Би-2“. Но папе понравилось».'
+  hook: 'Спела Ротару, только этого мало.'
 ---
 
 <!-- poem:ru -->

@@ -15,9 +15,9 @@ credits:
 en:
   title:
     translation: 'Winter in the Forest'
-  hook: '“There is no freedom in nature.”'
+  hook: 'There is no freedom in nature.'
 ru:
-  hook: '«Свободы нет в природе».'
+  hook: 'Свободы нет в природе.'
 ---
 
 <!-- poem:ru -->

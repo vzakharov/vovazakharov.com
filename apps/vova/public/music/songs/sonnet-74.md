@@ -14,10 +14,10 @@ credits:
 en:
   title:
     translation: 'Do not torment yourself…'
-  hook: '“Let the base dust rot away in the earth — my soul is with you, in my verse.”'
+  hook: 'My soul is with you, in my verse.'
   cribNote: 'The English is Shakespeare’s original, Sonnet 74; the song sings Kushner’s translation.'
 ru:
-  hook: '«Пускай в земле истлеет низкий прах, моя душа — с тобой, в моих стихах».'
+  hook: 'Моя душа — с тобой, в моих стихах.'
 ---
 
 <!-- For Vova to check: Project is a guess: Shakespeare’s sonnet 74 set by Dad and reworked with a female voice, billed like `is-it-your-fault`, the sonnet on the Дамы и господа album with Полуживые featured; posted to Dad’s channel rather than to an album. Vova’s story names the translator only as Kushner, so `credits.lyrics` names Shakespeare alone — give the full name to add. -->

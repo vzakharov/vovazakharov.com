@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'A Candle Burnt'
-  hook: '“Volodya plus a guitar means ‘The Candle.’”'
+  hook: 'Volodya plus a guitar means “The Candle.”'
 ru:
-  hook: '«Володя + гитара — значит, „Свеча“».'
+  hook: 'Володя + гитара — значит, «Свеча».'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/candle-burnt — candle-burnt.flac,

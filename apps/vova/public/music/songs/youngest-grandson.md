@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'My Youngest Grandson'
-  hook: 'I think it is my father’s only song in a major key.'
+  hook: 'Corn, guys!'
 ru:
-  hook: 'Кажется, единственная папина мажорная песня.'
+  hook: 'Кукуруза, ребята!'
 ---
 
 <!-- lang:en -->
