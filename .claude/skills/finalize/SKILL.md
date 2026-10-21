@@ -185,9 +185,9 @@ Steps (stop on first unresolved failure):
      title/body and merge.
 
    **Then, once the merge check is done, sweep `docs/remove-before-merging/`** —
-   on a bite, only its own subfolder, `$(scripts/working-dir.sh)`, with no
-   staged check and none of the cost rows, the rest being the elephant's for the
-   same reason step 3 is skipped. Otherwise, after
+   unless this is a bite, which sweeps none of it: its own subfolder lands on
+   the elephant's branch, where the elephant's `/finalize` sweeps the whole
+   tree, and until then its relays stay readable there. Otherwise, after
    `scripts/staged.sh check --empty` passes, since a copy still under
    `.claude/staged/` carries a change that would otherwise land as a stray
    duplicate of the file it stands for; a failure means run the swap above,
@@ -214,9 +214,9 @@ Steps (stop on first unresolved failure):
 
    A directory name is not self-enforcing: upstream, this tree reached the trunk
    anyway, carrying a ~1MB deploy-log dump with customer email addresses in it.
-   So verify the sweep actually ran — and **never end the turn with the tree
-   still on the branch**, since from here the branch is merge-able: by the
-   operator, or by step 8 itself.
+   So verify the sweep actually ran — and, a bite aside, **never end the turn
+   with the tree still on the branch**, since from here the branch is
+   merge-able: by the operator, or by step 8 itself.
 
 7. **Attest** — the last act, and the only durable record that this branch was
    verified beyond whatever CI reports. Post it on the PR — or, on a re-run,

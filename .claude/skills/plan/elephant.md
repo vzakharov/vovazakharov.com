@@ -70,7 +70,8 @@ The session that claims the plan writes `## This bite` before building:
   mid-bite means the bite was cut too big;
 - keeps its working files — squash draft, relay summaries — in its own
   `docs/remove-before-merging/<branch>/` (`scripts/working-dir.sh`), apart from
-  the elephant's it inherits, and its `/finalize` sweeps only those;
+  the elephant's it inherits, and its `/finalize` leaves them for the elephant's
+  to sweep;
 - is one per session: the pause is for the operator's review, not for saving
   tokens, so a session that finishes its bite early stops there.
 
