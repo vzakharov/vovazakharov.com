@@ -23,6 +23,7 @@ import type { RepoBranch } from '@/pages/music/lib/master-url';
 
 import { REPO_ROOT } from './content-tree.ts';
 import {
+  apiStderr,
   githubApi,
   repoEndpoint,
   shaReply,
@@ -60,6 +61,30 @@ export function createRepository(repo: string, description: string): void {
     visibility: 'public',
     auto_init: true,
   });
+}
+
+/**
+ * Renames a repository, refusing a target that already exists: GitHub
+ * redirects the old name to the new one, and a repository later created under
+ * the old name would take that redirect over.
+ */
+export function renameRepository(repo: string, to: string): void {
+  // A name that answers at all is taken — by a repository or by another one's redirect.
+  if (repositoryAnswers(to)) {
+    throw new Error(`${MUSIC_ORGANIZATION}/${to} already exists`);
+  }
+  githubApi('PATCH', `repos/${MUSIC_ORGANIZATION}/${repo}`, { name: to });
+}
+
+function repositoryAnswers(repo: string): boolean {
+  try {
+    githubApi('GET', `repos/${MUSIC_ORGANIZATION}/${repo}`);
+
+    return true;
+  } catch (error) {
+    if (apiStderr(error)?.includes('(HTTP 404)') === true) return false;
+    throw error;
+  }
 }
 
 export type MusicRepo = RepoBranch & {
