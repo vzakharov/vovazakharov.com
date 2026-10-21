@@ -8,6 +8,7 @@ directory, NEXT_PUBLIC_SITE, the pnpm entries, the squash scope — and
 the domain is written once, in the site's url.
 
 Each branch keeps its squash draft and relays in its own
-docs/remove-before-merging/<branch>/ (scripts/working-dir.sh). A bite's
-/finalize sweeps none of it: the elephant's sweeps the whole tree.
+docs/remove-before-merging/<branch>/ (scripts/working-dir.sh). A bite
+lands on the elephant's branch without /finalize — green vet, then
+squash-merge — and the elephant's finalize sweeps the whole tree.
 ```

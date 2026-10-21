@@ -10,6 +10,13 @@ and follow it to attach to `<target>`, then run the finalize steps below. If the
 argument has no target token, skip this and finalize the current branch as
 usual.
 
+**A bite does not finalize.** A bite is a PR whose base is an elephant's branch
+rather than the repo's default (`@.claude/skills/plan/elephant.md`): what it
+lands on is no trunk, and the elephant's own finalize sweeps, swaps and vets
+everything its bites landed. So on a bite this skill — `and merge` and an
+operator's ask to merge included — runs `@.claude/skills/plan/elephant.md` §
+"Landing a bite" instead, and nothing below.
+
 **`no vet` is the docs-only mode.** Pass it when the diff has nothing to verify
 — markdown, top-level docs, read-only reference data. It skips the vet run
 (there is nothing for it to check) and skips any bucket dispatch. It does
@@ -75,9 +82,7 @@ files that load on every turn through copies under `.claude/staged/`
 passes review them, and the vet run checks them. Where the real file changed
 after it was staged, the swap merges; a conflict it stops on is left as markers
 in the real file, resolved before anything else runs. `no vet` does not skip
-this; a bite does (step 3 says what one is) — its staged copies are the
-elephant's, which swaps them at its own finalize, so a bite's vet reads the real
-files as the elephant's branch has them.
+this.
 
 **Then, the quality passes.** Before step 1, load and follow
 `@.claude/skills/polish/SKILL.md` over this branch. Land prep is the funnel
@@ -102,13 +107,9 @@ Steps (stop on first unresolved failure):
    the read of what the base brought in for overlaps and optimizations — and the
    vet run over the merged tree. If you can't resolve a conflict, ask.
 3. **Working-artifact cleanup**: some directories ride the branch for in-flight
-   review but must never land on the base. **A bite skips this step** — a PR
-   whose base is an elephant's branch rather than the repo's default
-   (`@.claude/skills/plan/elephant.md`): its base is no trunk, it carries the
-   elephant's plan and exports, and the elephant's own `/finalize` sweeps
-   everything that landed there. Sweep the two below **now**, deleting each
-   **entire** tree (not just the current session's subfolder) and including the
-   deletions in the **last** pushed commit before step 4.
+   review but must never land on the base. Sweep the two below **now**, deleting
+   each **entire** tree (not just the current session's subfolder) and including
+   the deletions in the **last** pushed commit before step 4.
    (`docs/remove-before-merging/` is the exception — it is swept at the **end**
    of step 6, after the merge check; see there for why.)
    - **`docs/issue/`** and **`docs/pr/`** — issue and PR exports from
@@ -184,11 +185,8 @@ Steps (stop on first unresolved failure):
      the gate it states. Absent the flag the operator controls the final
      title/body and merge.
 
-   **Then, once the merge check is done, sweep `docs/remove-before-merging/`** —
-   unless this is a bite, which sweeps none of it: its own subfolder lands on
-   the elephant's branch, where the elephant's `/finalize` sweeps the whole
-   tree, and until then its relays stay readable there. Otherwise, after
-   `scripts/staged.sh check --empty` passes, since a copy still under
+   **Then, once the merge check is done, sweep `docs/remove-before-merging/`**,
+   after `scripts/staged.sh check --empty` passes, since a copy still under
    `.claude/staged/` carries a change that would otherwise land as a stray
    duplicate of the file it stands for; a failure means run the swap above,
    never delete the copy. Where the cost ledger ships, the session rows go in
@@ -214,9 +212,9 @@ Steps (stop on first unresolved failure):
 
    A directory name is not self-enforcing: upstream, this tree reached the trunk
    anyway, carrying a ~1MB deploy-log dump with customer email addresses in it.
-   So verify the sweep actually ran — and, a bite aside, **never end the turn
-   with the tree still on the branch**, since from here the branch is
-   merge-able: by the operator, or by step 8 itself.
+   So verify the sweep actually ran — and **never end the turn with the tree
+   still on the branch**, since from here the branch is merge-able: by the
+   operator, or by step 8 itself.
 
 7. **Attest** — the last act, and the only durable record that this branch was
    verified beyond whatever CI reports. Post it on the PR — or, on a re-run,
