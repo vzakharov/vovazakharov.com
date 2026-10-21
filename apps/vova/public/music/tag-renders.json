@@ -256,9 +256,11 @@
     ]
   },
   "butterfly-rock": {
-    "hash": "",
+    "hash": "b2891381c29c",
     "paths": [
-      "butterfly-rock/butterfly-rock.mp3"
+      "butterfly-rock/Poluzhivye - Babochka.mp3",
+      "butterfly-rock/butterfly-rock.mp3",
+      "butterfly-rock/Полуживые - Бабочка.mp3"
     ]
   },
   "buy-you-a-house": {
@@ -1044,9 +1046,11 @@
     ]
   },
   "insomnia": {
-    "hash": "",
+    "hash": "62b386d0fbcd",
     "paths": [
-      "insomnia/insomnia.mp3"
+      "insomnia/Poluzhivye - Bessonnitsa.mp3",
+      "insomnia/insomnia.mp3",
+      "insomnia/Полуживые - Бессонница.mp3"
     ]
   },
   "intermezzo": {
@@ -2035,6 +2039,13 @@
       "okna/Грёбаный бал - Окна.mp3",
       "okna/Окна.flac",
       "okna/Окна.mp3"
+    ]
+  },
+  "winter-in-the-forest": {
+    "hash": "",
+    "paths": [
+      "winter-in-the-forest/winter-in-the-forest.flac",
+      "winter-in-the-forest/winter-in-the-forest.master.mp3"
     ]
   },
   "world-as-it-is": {

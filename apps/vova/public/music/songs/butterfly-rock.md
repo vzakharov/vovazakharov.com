@@ -9,7 +9,7 @@ album: nostalgia
 track: 3
 lossy: true
 seconds: 239
-mp3Bytes: 6784017
+mp3Bytes: 6863498
 explicit: false
 credits:
   lyrics: ['Arseny Tarkovsky']

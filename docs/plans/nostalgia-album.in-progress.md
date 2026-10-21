@@ -367,7 +367,17 @@ its files, the command and the blind-picked reference at a commit:
   `<slug>_mix.mp3` (320k of the WAV, which the README links on `music-sources`)
   — both committed, the larger through the Actions relay.
 
-Left, in order:
+Done since: the 1+2 halves and a 24-second seam clip sent to Vova; all eight
+song files, `albums/nostalgia.md` and its cover, Arseny Tarkovsky in
+`people.ts`; `butterfly-rock`, `insomnia` and `winter-in-the-forest` moved from
+`master` to `main` by the new `pnpm music:masters serve-main` (Vova: «convention
+over configuration, поправим сами репы»); the tag run; the untold list. Songs
+are dated `2023-12`, from the album's REAPER project (saved 21.12.2023) and the
+bounces of 14 and 18.12.2023 — a note on `invitation` asks Vova to confirm.
+
+Left: a green build, then `/polish` and `/pr`.
+
+Was left, in order:
 
 - **Song files.** 1–6 lossy, written by hand like `birds.md` (`lossy: true`,
   `seconds` from the mp3, `album: nostalgia`, `track`, `status: wip`,
