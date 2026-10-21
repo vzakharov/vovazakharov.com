@@ -105,6 +105,14 @@ quieter raised, whose peaks would clip — otherwise the ear hears level, not
 sound. `spectrum.py` shows what an EQ actually did, which is the place to start
 when the operator says "too bright" or "muddy".
 
+**Picking the reference is a blind A/B/C.** The three catalogue masters most
+like the song's mix (`spectrum.py`, loudness, crest factor) each master it, and
+`blind-abc.py build` alternates the three in that A/B's windows, in one random
+order the operator hears as "first, second, third". The commit carries only the
+order's sha256; the key file stays in `tmp/` until the verdict, whose commit
+reveals it (`blind-abc.py reveal`). A key lost with its container means a
+rebuild with a new order, never a reveal from memory.
+
 ## A song's repository
 
 **A song plays from a public repository of its own under the `vovas-music`
