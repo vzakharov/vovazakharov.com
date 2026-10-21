@@ -150,12 +150,61 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
-## This bite
+## Rest of the bite
 
 Slice 3, app scripts in their apps, on `masd/app-scripts` (base: the elephant's
-branch). `src/<app>/scripts/` (and `scripts/lib/` under it) sits beside the
-app's layers: an unknown folder at an app root is no layer to Steiger (checked
-on `src/basilisk`). Root `scripts/` keeps the repo's and the agent's tooling.
+branch).
+
+**Built**, in 9f44f45 and c63e8f4 on the branch (`git log` from 6043dfc): every
+file below `git mv`d to its owner, relative imports rewritten, repo-root anchors
+deepened (`content-tree`, `print-origin`, `generate-styles`,
+`check-mantine-styles`, `check-i18n-payload`, both mushroom scripts),
+`letter-basilisk-seal.py` with its own `die` and `SEAL_DIR`, `in-site.sh`'s
+`src/*` arm, `vet.sh`, `vet-songs.sh`, and every `package.json` entry —
+`content:og:<site>` / `content:pdf:<site>` already name
+`src/<site>/scripts/render-{og,pdf}.ts`, which do not exist yet. Nothing has
+been run: no lint, typecheck or vet since the move.
+
+**Left, in order:**
+
+1. **The split.** `render-og.ts` sits at `src/kernel/scripts/lib/og-job.ts` and
+   `render-pdf.ts` at `src/blog/scripts/lib/print-job.ts`, both still the whole
+   scripts importing basilisk, vova and music. Cut them to:
+   - kernel `og-job.ts`: chart cards, the avatar-vector site card,
+     `renderOgCards(...bundles)` over
+     `{ siteCards?, cards?, manifestDirs?, outputNames? }` bundles (a
+     `siteCards` replaces the default); `svgCard` and `generatedCard` to
+     `og-render.ts`.
+   - `src/music/scripts/lib/music-cards.ts`: the collages and their bands, as a
+     bundle (`PUBLIC_DIR`, the podcast cover's name).
+   - `src/vova/scripts/render-og.ts`: CV cards plus music's bundle;
+     `src/basilisk/scripts/render-og.ts`: the generated site card and case cards
+     off one `readDocket()`; `src/bible/scripts/render-og.ts`: the core alone.
+   - **PDF core in blog, not kernel** (a deviation from the decision below, to
+     report): printing documents is blog's, and `PRINT_SOURCES` names shell's
+     files. `print-job.ts` keeps everything but the CV, exporting
+     `renderPdfs({ documentSources?, printables?, manifestDirs?, onRendered? })`
+     plus `printAll`, `sourceFiles`, `PRINT_SOURCES` and `Printable`; vova's
+     entry carries the CV printables, `--cv-pages` and the ceiling
+     (`pdf-pages.ts` is vova's, `same-render.ts` blog's); basilisk's passes
+     `src/basilisk/entities/case` as a document source, which moves it out of
+     every other site's hash (one reprint each, from the deploy's cache);
+     bible's is the core alone. lsa has no entry, so the render-pdfs action
+     (`.github/actions/render-pdfs/action.yml:43`) runs
+     `src/<site>/scripts/render-pdf.ts` when it exists and exits otherwise.
+2. **The checkers**: the `script` element in `eslint/masd-boundaries.ts`,
+   `knip.ts`'s entry, `check:masd` leaving `<app>/scripts` out of its counts —
+   then `pnpm exec eslint --fix` on the moved files (import sort) and a
+   typecheck.
+3. **The references** listed under "Breaks" below, plus
+   `.claude/rules/masd.md`'s `index.node-safe.ts` line ("what resolves under
+   `scripts/`"), `stack.md`'s `scripts/vet-songs.sh` row and `content.md`'s
+   `scripts/render-*.ts` and `lib/*-card.ts` paths; `rg` for each old path. Then
+   `content:og:basilisk` re-renders: the lettered seal's comment changed.
+4. Full `./scripts/vet.sh`, then `/polish` and `/pr`. `src/<app>/scripts/` (and
+   `scripts/lib/` under it) sits beside the app's layers: an unknown folder at
+   an app root is no layer to Steiger (checked on `src/basilisk`). Root
+   `scripts/` keeps the repo's and the agent's tooling.
 
 **Owners**, from a survey of all 145 files (re-run it to check a call):
 
