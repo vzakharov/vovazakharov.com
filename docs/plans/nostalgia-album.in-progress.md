@@ -220,7 +220,13 @@ dictated. Then:
 - `assets/covers/nostalgia.jpg` from the attached cover.
 - `pnpm music:untold`.
 
-The album's and the songs' stories are dictated later, through `/dictation`.
+The album's and the songs' stories are dictated later, through `/dictation`. The
+album's has arrived as recogniser text,
+`docs/remove-before-merging/начитка про альбом.txt` («на Перу» is «на пиру»):
+`/dictation`'s cleaning pass over it becomes the album's `lang:ru` story, and it
+also holds per-song material and the «Таркос» working title (after ELP's
+«Tarkus»). Vova mentions a screenshot and dad's Telegram messages about
+«Бессонница» and «Зима в лесу», still to come.
 
 ### 7. Ride-along: «Свеча горела» into Папа-море
 
