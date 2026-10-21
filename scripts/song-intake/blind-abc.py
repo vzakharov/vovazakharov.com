@@ -3,6 +3,7 @@
 
 Usage:
   blind-abc.py build <a> <b> <c> <out.mp3> <key.json> [--mix <mix>] [--window 5]
+  blind-abc.py split <key.json> <out-dir> [--mix <mix>]
   blind-abc.py reveal <key.json> <sha256>
 
 `build` loudness-matches the three (each brought down to the quietest, so none
@@ -14,6 +15,11 @@ master is heard against where it started rather than only against the others,
 and loudness is no clue to which is the mix. It prints the
 order's sha256, which is what gets committed; the key file holds the order and
 its nonce and stays out of the commit until the verdict.
+
+`split` writes the same loudness-matched set as whole files, in the order a
+`build` key holds — `1.mp3`, `2.mp3`, `3.mp3`, and `mix.mp3` with --mix — for a
+player that switches between them as they play, the names saying no more than
+the positions do.
 
 `reveal` checks a key file against the committed sha256 and prints which
 master each position was.
@@ -48,6 +54,22 @@ def decode(path, tmp):
     return wav
 
 
+def matched(paths, tmp):
+    """The files decoded, each brought down to the quietest one's loudness."""
+    wavs = [decode(p, tmp) for p in paths]
+    levels = [loudness(w)[0] for w in wavs]
+    quietest = min(levels)
+    return [sf.read(w, always_2d=True)[0] * 10 ** ((quietest - lv) / 20)
+            for w, lv in zip(wavs, levels)]
+
+
+def encode(audio, out, tmp):
+    wav = Path(tmp) / "out.wav"
+    sf.write(wav, audio, SR, subtype="FLOAT")
+    subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(wav),
+                    "-c:a", "libmp3lame", "-q:a", "0", str(out)], check=True)
+
+
 def build(args):
     masters = [args.a, args.b, args.c]
     order = masters[:]
@@ -56,11 +78,7 @@ def build(args):
 
     played = ([args.mix] if args.mix else []) + order
     with tempfile.TemporaryDirectory() as tmp:
-        wavs = [decode(m, tmp) for m in played]
-        levels = [loudness(w)[0] for w in wavs]
-        quietest = min(levels)
-        audio = [sf.read(w, always_2d=True)[0] * 10 ** ((quietest - lv) / 20)
-                 for w, lv in zip(wavs, levels)]
+        audio = matched(played, tmp)
         n = min(len(x) for x in audio)
         window, fade = int(args.window * SR), int(FADE_S * SR)
         out = np.zeros((n, 2))
@@ -74,13 +92,22 @@ def build(args):
             if end < n:
                 piece[-fade:] *= ramp[::-1]
             out[start:end] += piece
-        mix = Path(tmp) / "mix.wav"
-        sf.write(mix, out, SR, subtype="FLOAT")
-        subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(mix),
-                        "-c:a", "libmp3lame", "-q:a", "0", args.out], check=True)
+        encode(out, args.out, tmp)
 
     Path(args.key).write_text(json.dumps({"order": order, "nonce": nonce}, ensure_ascii=False, indent=2))
     print(seal(order, nonce))
+
+
+def split(args):
+    order = json.loads(Path(args.key).read_text())["order"]
+    names = (["mix"] if args.mix else []) + [str(i) for i in range(1, len(order) + 1)]
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        audio = matched(([args.mix] if args.mix else []) + order, tmp)
+        n = min(len(x) for x in audio)
+        for name, a in zip(names, audio):
+            encode(a[:n], out_dir / f"{name}.mp3", tmp)
 
 
 def reveal(args):
@@ -99,11 +126,15 @@ def main():
         b.add_argument(name)
     b.add_argument("--mix")
     b.add_argument("--window", type=float, default=5.0)
+    s = sub.add_parser("split")
+    s.add_argument("key")
+    s.add_argument("out_dir")
+    s.add_argument("--mix")
     r = sub.add_parser("reveal")
     r.add_argument("key")
     r.add_argument("sha256")
     args = p.parse_args()
-    {"build": build, "reveal": reveal}[args.command](args)
+    {"build": build, "split": split, "reveal": reveal}[args.command](args)
 
 
 if __name__ == "__main__":
