@@ -35,7 +35,10 @@ export const NOSTALGIA: BlindTest = {
   title: '«Ностальгия» и «Свеча горела»',
   base: 'https://raw.githubusercontent.com/vzakharov/vovazakharov.com/claude/nostalgia-album-0ar5hp/docs/remove-before-merging/nostalgia/blind',
   pieces: [
-    { id: 'invitation-summer-gone', title: 'Приглашение в путешествие + Лето прошло' },
+    {
+      id: 'invitation-summer-gone',
+      title: 'Приглашение в путешествие + Лето прошло',
+    },
     { id: 'butterfly-rock', title: 'Бабочка' },
     { id: 'actor', title: 'Актёр' },
     { id: 'insomnia', title: 'Бессонница' },

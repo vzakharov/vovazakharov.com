@@ -1,4 +1,4 @@
-import { VARIANTS, type Variant } from './blind-test';
+import { type Variant, VARIANTS } from './blind-test';
 
 /** Short enough to hear as a cut, long enough not to click. */
 const FADE_S = 0.015;
@@ -15,7 +15,7 @@ type Track = { audio: HTMLAudioElement; gain: GainNode };
  */
 export class BlindPlayer {
   private readonly context = new AudioContext();
-  private tracks = new Map<Variant, Track>();
+  private readonly tracks = new Map<Variant, Track>();
   private active: Variant = 'mix';
 
   load(urls: Record<Variant, string>) {
@@ -27,7 +27,10 @@ export class BlindPlayer {
       audio.src = urls[variant];
       const gain = this.context.createGain();
       gain.gain.value = variant === this.active ? 1 : 0;
-      this.context.createMediaElementSource(audio).connect(gain).connect(this.context.destination);
+      this.context
+        .createMediaElementSource(audio)
+        .connect(gain)
+        .connect(this.context.destination);
       this.tracks.set(variant, { audio, gain });
     }
   }
@@ -36,7 +39,9 @@ export class BlindPlayer {
     await this.context.resume();
     const at = this.time;
     for (const { audio } of this.tracks.values()) audio.currentTime = at;
-    await Promise.all([...this.tracks.values()].map(({ audio }) => audio.play()));
+    await Promise.all(
+      [...this.tracks.values()].map(async ({ audio }) => audio.play()),
+    );
   }
 
   pause() {
@@ -58,10 +63,13 @@ export class BlindPlayer {
   }
 
   resync() {
-    const lead = this.lead;
+    const { lead, active, tracks } = this;
     if (lead === undefined || lead.paused) return;
-    for (const [variant, { audio }] of this.tracks) {
-      if (variant !== this.active && Math.abs(audio.currentTime - lead.currentTime) > DRIFT_S) {
+    for (const [variant, { audio }] of tracks) {
+      if (
+        variant !== active &&
+        Math.abs(audio.currentTime - lead.currentTime) > DRIFT_S
+      ) {
         audio.currentTime = lead.currentTime;
       }
     }
@@ -94,9 +102,9 @@ export class BlindPlayer {
     this.tracks.clear();
   }
 
-  close() {
+  async close() {
     this.unload();
-    void this.context.close();
+    await this.context.close();
   }
 
   private get lead() {

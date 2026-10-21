@@ -12,16 +12,25 @@ import {
 } from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
 
+import type { Messages } from '@/shared/i18n';
+
 import { BlindPlayer } from '../model/blind-player';
 import {
   type BlindTest,
-  VARIANTS,
   type Variant,
+  VARIANTS,
   variantUrls,
 } from '../model/blind-test';
 
-const LABELS: Record<Variant, string> = { mix: 'Микс', 1: '1', 2: '2', 3: '3' };
-const KEYS: Record<string, Variant> = { m: 'mix', 0: 'mix', 1: '1', 2: '2', 3: '3' };
+type BlindTestPlayerProps = { test: BlindTest; copy: Messages['blindTest'] };
+
+const KEYS: Record<string, Variant> = {
+  m: 'mix',
+  0: 'mix',
+  1: '1',
+  2: '2',
+  3: '3',
+};
 const TICK_MS = 200;
 const SKIP_S = 5;
 
@@ -30,10 +39,10 @@ const clock = (seconds: number) =>
 
 const asVariant = (value: string) => VARIANTS.find((each) => each === value);
 
-export function BlindTestPlayer({ test }: { test: BlindTest }) {
-  const player = useRef<BlindPlayer>(null);
+export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
+  const playerRef = useRef<BlindPlayer>(null);
   // The variant carries over to the next song, which the load effect applies without re-running on each switch.
-  const chosen = useRef<Variant>('mix');
+  const chosenRef = useRef<Variant>('mix');
   const [pieceIndex, setPieceIndex] = useState(0);
   const [variant, setVariant] = useState<Variant>('mix');
   const [playing, setPlaying] = useState(false);
@@ -43,9 +52,13 @@ export function BlindTestPlayer({ test }: { test: BlindTest }) {
   const [verdicts, setVerdicts] = useState<Record<string, string>>({});
   const piece = test.pieces[pieceIndex];
 
+  const report = (error_: unknown) => {
+    setError(String(error_));
+  };
+
   useEffect(() => {
     const created = new BlindPlayer();
-    player.current = created;
+    playerRef.current = created;
     const timer = setInterval(() => {
       created.resync();
       setTime(created.time);
@@ -54,49 +67,67 @@ export function BlindTestPlayer({ test }: { test: BlindTest }) {
     }, TICK_MS);
     return () => {
       clearInterval(timer);
-      created.close();
+      created.close().catch(report);
     };
   }, []);
 
   useEffect(() => {
-    const current = player.current;
+    const current = playerRef.current;
     if (current === null || piece === undefined) return;
     const wasPlaying = current.playing;
     current.load(variantUrls(test, piece));
-    current.select(chosen.current);
-    if (wasPlaying) {
-      current.play().catch((cause: unknown) => setError(String(cause)));
-    }
+    current.select(chosenRef.current);
+    if (wasPlaying) current.play().catch(report);
   }, [test, piece]);
 
   const choose = (next: Variant) => {
-    player.current?.select(next);
-    chosen.current = next;
+    playerRef.current?.select(next);
+    chosenRef.current = next;
     setVariant(next);
   };
 
   const toggle = () => {
-    const current = player.current;
+    const current = playerRef.current;
     if (current === null) return;
     if (current.playing) current.pause();
-    else current.play().catch((cause: unknown) => setError(String(cause)));
+    else current.play().catch(report);
   };
 
-  const seek = (seconds: number) => player.current?.seek(Math.max(0, seconds));
+  const seek = (seconds: number) => {
+    playerRef.current?.seek(Math.max(0, seconds));
+  };
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLTextAreaElement) return;
       const picked = KEYS[event.key];
-      if (picked !== undefined) choose(picked);
-      else if (event.key === ' ') toggle();
-      else if (event.key === 'ArrowLeft') seek((player.current?.time ?? 0) - SKIP_S);
-      else if (event.key === 'ArrowRight') seek((player.current?.time ?? 0) + SKIP_S);
-      else return;
+      if (picked === undefined) {
+        switch (event.key) {
+          case ' ': {
+            toggle();
+            break;
+          }
+          case 'ArrowLeft': {
+            seek((playerRef.current?.time ?? 0) - SKIP_S);
+            break;
+          }
+          case 'ArrowRight': {
+            seek((playerRef.current?.time ?? 0) + SKIP_S);
+            break;
+          }
+          default: {
+            return;
+          }
+        }
+      } else {
+        choose(picked);
+      }
       event.preventDefault();
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    globalThis.addEventListener('keydown', onKey);
+    return () => {
+      globalThis.removeEventListener('keydown', onKey);
+    };
   });
 
   const setVerdict = (text: string) => {
@@ -114,7 +145,9 @@ export function BlindTestPlayer({ test }: { test: BlindTest }) {
         orientation="vertical"
         fullWidth
         value={String(pieceIndex)}
-        onChange={(value) => setPieceIndex(Number(value))}
+        onChange={(value) => {
+          setPieceIndex(Number(value));
+        }}
         data={test.pieces.map(({ title }, index) => ({
           value: String(index),
           label: title,
@@ -128,11 +161,14 @@ export function BlindTestPlayer({ test }: { test: BlindTest }) {
           const picked = asVariant(value);
           if (picked !== undefined) choose(picked);
         }}
-        data={VARIANTS.map((each) => ({ value: each, label: LABELS[each] }))}
+        data={VARIANTS.map((each) => ({
+          value: each,
+          label: each === 'mix' ? copy.mix : each,
+        }))}
       />
       <Group gap="sm" wrap="nowrap">
         <Button onClick={toggle} w={110}>
-          {playing ? 'Пауза' : 'Играть'}
+          {playing ? copy.pause : copy.play}
         </Button>
         <Slider
           flex={1}
@@ -148,22 +184,23 @@ export function BlindTestPlayer({ test }: { test: BlindTest }) {
         </Text>
       </Group>
       {error !== undefined && (
-        <Alert color="red" title="Не играет">
+        <Alert color="red" title={copy.failed}>
           {error}
         </Alert>
       )}
       <Text size="sm" c="dimmed">
-        Клавиши: M или 0 — микс, 1–3 — мастеры, пробел — пауза, ← → — на 5 секунд.
-        Все четыре на громкости микса.
+        {copy.keys}
       </Text>
       <Textarea
-        label={`Вердикт: ${piece?.title ?? ''}`}
-        placeholder="2 > 1 > 3"
+        label={`${copy.verdict}: ${piece?.title ?? ''}`}
+        placeholder={copy.verdictExample}
         value={piece === undefined ? '' : (verdicts[piece.id] ?? '')}
-        onChange={(event) => setVerdict(event.currentTarget.value)}
+        onChange={(event) => {
+          setVerdict(event.currentTarget.value);
+        }}
         autosize
       />
-      <Textarea label="Все вердикты — скопируй в чат" value={summary} readOnly autosize />
+      <Textarea label={copy.summary} value={summary} readOnly autosize />
     </Stack>
   );
 }
