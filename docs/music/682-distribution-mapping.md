@@ -2,7 +2,7 @@
 
 What the cabinet at backstage.682distribution.ru sends to `api.682distribution.ru`, and which of it a song's frontmatter already holds. Read off the cabinet's JS bundles on 2026-10-21; the API is undocumented, so every field name here is what the web form posts, not a contract.
 
-**Verdict: the frontmatter covers the track's text fields; the release needs four things the repo does not hold** — a 1400 px cover, WAV audio, ISRC/UPC for anything already on the stores, and a genre.
+**Verdict: the frontmatter covers the track's text fields; the release needs five things the repo does not hold** — a 1400 px cover, WAV audio, ISRC/UPC for anything already on the stores, a genre and a release date.
 
 Worked example: `songs/20.md` («Двадцать»), first track of `albums/father-sea.md`.
 
