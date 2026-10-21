@@ -2,13 +2,16 @@
 """A blind three-way listening file: three masters of one song, taking turns.
 
 Usage:
-  blind-abc.py build <a> <b> <c> <out.mp3> <key.json> [--window 5]
+  blind-abc.py build <a> <b> <c> <out.mp3> <key.json> [--mix <mix>] [--window 5]
   blind-abc.py reveal <key.json> <sha256>
 
 `build` loudness-matches the three (each brought down to the quietest, so none
 clips), cuts them into consecutive --window-second stretches over the whole
 song, and plays them in one random order, repeating: the listener hears
-"first, second, third" without knowing which master each is. It prints the
+"first, second, third" without knowing which master each is. `--mix` puts the
+unmastered mix ahead of the three in every round, matched like them, so each
+master is heard against where it started rather than only against the others,
+and loudness is no clue to which is the mix. It prints the
 order's sha256, which is what gets committed; the key file holds the order and
 its nonce and stays out of the commit until the verdict.
 
@@ -51,8 +54,9 @@ def build(args):
     secrets.SystemRandom().shuffle(order)
     nonce = secrets.token_hex(16)
 
+    played = ([args.mix] if args.mix else []) + order
     with tempfile.TemporaryDirectory() as tmp:
-        wavs = [decode(m, tmp) for m in order]
+        wavs = [decode(m, tmp) for m in played]
         levels = [loudness(w)[0] for w in wavs]
         quietest = min(levels)
         audio = [sf.read(w, always_2d=True)[0] * 10 ** ((quietest - lv) / 20)
@@ -64,7 +68,7 @@ def build(args):
         for i, start in enumerate(range(0, n, window)):
             # Each stretch reaches `fade` past its end, fading out under the next one's fade-in.
             end = min(start + window + fade, n)
-            piece = audio[i % 3][start:end].copy()
+            piece = audio[i % len(audio)][start:end].copy()
             if start > 0:
                 piece[:fade] *= ramp
             if end < n:
@@ -93,6 +97,7 @@ def main():
     b = sub.add_parser("build")
     for name in ("a", "b", "c", "out", "key"):
         b.add_argument(name)
+    b.add_argument("--mix")
     b.add_argument("--window", type=float, default=5.0)
     r = sub.add_parser("reveal")
     r.add_argument("key")

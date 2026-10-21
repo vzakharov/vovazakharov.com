@@ -291,7 +291,10 @@ Done:
 - Step 5's blind files — `docs/remove-before-merging/nostalgia/blind/`, seals in
   `references.md`. The keys are committed base64-encoded in `blind/keys/`, so
   any session can reveal (`base64 -d` to a file, then `blind-abc.py reveal`); no
-  verdict yet.
+  verdict yet. Rebuilt at the operator's ask («добавим (всегда первым)
+  оригинальный микс … LUFS должен быть одинаковым»): each round opens on the
+  mix, all four matched to the mix's loudness, new orders and seals. The 21
+  masters are `nostalgia-candidate-masters.tar` on `music-sources`.
 - Step 8 — `docs/music/vovas-music.md`.
 - The operator's lyrics, pasted as the poems print them, in `lyrics/*.md`, and
   dad's song with Suno's markers in

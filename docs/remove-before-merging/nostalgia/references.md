@@ -137,33 +137,33 @@ A reference is one of the operator's own catalogue masters whose REAPER project 
 
 ## Shortlists
 
-Ranked by a scratch script over the pool's catalogue masters: "tone" is the RMS difference, 60 Hz–12 kHz, between the source's and the master's 1/6-octave balance (each relative to 1 kHz); the score adds a quarter of the crest-factor gap and takes 0.3 dB off a Полуживые master ("other things equal"). One song per repository. Each source is mastered against all three with `master.py` at the defaults (`--strength 0.5`, air cap, ≤ −1 dBTP); the blind file is `blind/<piece>.mp3`, its order sealed by the sha256 below.
+Ranked by a scratch script over the pool's catalogue masters: "tone" is the RMS difference, 60 Hz–12 kHz, between the source's and the master's 1/6-octave balance (each relative to 1 kHz); the score adds a quarter of the crest-factor gap and takes 0.3 dB off a Полуживые master ("other things equal"). One song per repository. Each source is mastered against all three with `master.py` at the defaults (`--strength 0.5`, air cap, ≤ −1 dBTP); the blind file is `blind/<piece>.mp3`, each round opening on the unmastered mix with all four matched to its loudness (the 21 masters: `nostalgia-candidate-masters.tar` on `music-sources`), its order sealed by the sha256 below.
 
-### invitation-summer-gone (tracks 1+2, one piece) — seal `5307e141c75c8b77b68444803450d089ad062370a98906b770cc25b52ec48fe0`
+### invitation-summer-gone (tracks 1+2, one piece) — seal `e02da5a1f71f243b549a2fb275c7aee40093dd602cd24885697676f377e3aa2c`
 
 - monkey — closest balance of all (tone 2.62) and the nearest crest (11.6 vs 12.4): a quiet, open master.
 - carcassi-caprice — Полуживые, Папа-море; acoustic guitar like this piece, tone 2.91.
 - my-sultan — Полуживые, Папа-река; tone 2.82, a little denser (crest 10.7).
 
-### butterfly-rock — seal `665d85ee5077c41953cd8968797a7a0f245471fa9f6e720f88ad94068cecd4c0`
+### butterfly-rock — seal `8912f78b322254ec69267b0b02cc56ba770f820ff17a4bd01a9adac73b2630c5`
 
 - ignite — the closest by far (tone 1.79), crest identical (11.4 vs 11.3).
 - comeback-song — the same Yoohie record as ignite, tone 1.97: a second take on that sound.
 - farewell — Полуживые, Папа-море; tone 2.31, slightly denser.
 
-### actor — seal `01e89f407a24d2056d3cfa5d11aef7a6b78590eb648ee0dba313257a462a828c`
+### actor — seal `b5128e5ed76ba395189ee7ac3d063a6c3904dc2df20185b848cf7218d584d2f1`
 
 - my-sultan — Полуживые, Папа-река; tone 2.76, crest the same (10.7 vs 10.6).
 - in-the-shadow — the closest balance (2.44), louder (−9.1 LUFS).
 - night-garden — Полуживые; tone 2.73, between the other two in loudness.
 
-### insomnia — seal `0eec781dc85479b8e2fb9517363877b7f490a993da4de0acf738be21312178b7`
+### insomnia — seal `832052db5853d3543a940b8954a791354b40ae34c2a90e5aa3b62125801c5dfc`
 
 - undone — the closest balance (3.00), crest identical (10.7).
 - life-is-not-a-dream — Полуживые, CTFU; tone 3.40, crest identical.
 - breathe — Полуживые, Vagabond; tone 3.41, a little more open (11.3).
 
-### candle-tarkovsky — seal `8a8333b844519b7ee216de68e36d57728ee1275d39a928116f33d5e7b4a89c7c`
+### candle-tarkovsky — seal `8fe399d2965db480de976db4b5c5257bd0b1f8583a783a905b3c60f14c0896a2`
 
 The mix is the most dynamic of the seven (crest 13.1), so nothing in the pool is close; the three are the least far.
 
@@ -171,13 +171,13 @@ The mix is the most dynamic of the seven (crest 13.1), so nothing in the pool is
 - 2girls1fridge — tone 2.65, much denser (10.5) and loud (−8.6 LUFS).
 - in-the-flesh — the closest balance (2.49), the densest (9.6).
 
-### winter-in-the-forest — seal `614d5f79cc2f1b9afeca6456b27a774d054cf51cfa1b311d91c187a67f08f84d`
+### winter-in-the-forest — seal `21b9985acda925ec772441a34fd5d6cc272380b7c1cfc117478ede03127af631`
 
 - river-part-one — Полуживые, Папа-река; tone 3.47, crest 11.7 vs 12.0, quiet (−12.8 LUFS).
 - call-me-by-name — the closest balance (2.72) but dense and loud (crest 9.7, −9.0 LUFS).
 - everything-begins-with-love — Полуживые, Папа-река; tone 3.54, the quietest in the pool (−14.1 LUFS).
 
-### candle-burnt (Папа-море track 9) — seal `42244032948bc77bf44ea5dad28c089a35d02cb7e73f556ffacc93ef0443ac53`
+### candle-burnt (Папа-море track 9) — seal `ceabb82b3cc5649c0cd7df43c2bb1339d65cb5ae15b6f7533b307106627a8266`
 
 - farewell — Полуживые, Папа-море, the track it follows; tone 1.89, crest 10.7 vs 10.5.
 - onto-fingers — the closest balance (1.72), louder (−8.7 LUFS).

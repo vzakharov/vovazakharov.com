@@ -135,8 +135,12 @@ when the operator says "too bright" or "muddy".
 
 **Picking the reference is a blind A/B/C.** The three catalogue masters most
 like the song's mix (`spectrum.py`, loudness, crest factor) each master it, and
-`blind-abc.py build` alternates the three in that A/B's windows, in one random
-order the operator hears as "first, second, third". The commit carries the
+`blind-abc.py build --mix` alternates the three in that A/B's windows, in one
+random order the operator hears as "first, second, third", each round opening on
+the unmastered mix. All four are brought down to the quietest — in practice the
+mix — because a louder master always sounds better, and the ear is choosing the
+sound. The candidate masters go to the `music-sources` release as one tar until
+the verdict, since a container's `tmp/` dies with it. The commit carries the
 order's sha256, and the key file base64-encoded beside the blind file, so a
 session in another container can reveal it (`base64 -d` to a file under `tmp/`,
 then `blind-abc.py reveal`) — the operator is told not to decode it before
