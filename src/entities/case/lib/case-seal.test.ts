@@ -91,7 +91,7 @@ describe('composeCaseSeal', () => {
 function luminance(hex: string): number {
   const digits = hex.slice(1);
   const full =
-    digits.length === 3 ? [...digits].map((d) => d + d).join('') : digits;
+    digits.length === 3 ? digits.replaceAll(/(.)/g, '$1$1') : digits;
   const [r = 0, g = 0, b = 0] = [0, 2, 4].map((i) => {
     const channel = Number.parseInt(full.slice(i, i + 2), 16) / 255;
     return channel <= 0.040_45

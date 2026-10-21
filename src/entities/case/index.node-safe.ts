@@ -3,5 +3,5 @@
  * this barrel spells its extension and reaches no CSS, JSX or `server-only`.
  */
 
-export { caseSealSvg } from './lib/case-seal.ts';
+export { caseSealSources, caseSealSvg } from './lib/case-seal.ts';
 export { gradeLabel } from './lib/grade-label.ts';

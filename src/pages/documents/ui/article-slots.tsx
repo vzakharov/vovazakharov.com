@@ -29,7 +29,7 @@ export const ARTICLE_SLOTS: {
   [C in ArticleCollectionId]?: ArticleSlots<ArticleFrontmatterOf<C>>;
 } = {
   'basilisk-cases': {
-    brief: ({ frontmatter }) => <CaseBrief {...{ frontmatter }} />,
+    brief: ({ frontmatter, slug }) => <CaseBrief {...{ frontmatter, slug }} />,
     afterLead: ({ frontmatter }) => frontmatter.noAi === true && <NoAiNote />,
   },
 };

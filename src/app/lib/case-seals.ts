@@ -8,13 +8,15 @@ import { caseSealFile, caseSealSvg, SEAL_CUTS } from '@/entities/case';
 
 type SealParams = { file: string };
 
+type SealContext = { params: Promise<SealParams> };
+
 /** Every cut of every case's seal, by the file name it is served under. */
 function sealFiles() {
   return new Map(
     listPrimaryDocuments(ARTICLE_COLLECTIONS['basilisk-cases']).flatMap(
-      ({ slug, route, frontmatter: { grade } }) =>
+      (document) =>
         SEAL_CUTS.map(
-          (cut) => [caseSealFile(slug, cut), { route, grade, cut }] as const,
+          (cut) => [caseSealFile(document.slug, cut), { document, cut }] as const,
         ),
     ),
   );
@@ -28,16 +30,13 @@ export function caseSealRoute() {
   return {
     generateStaticParams: (): SealParams[] =>
       [...sealFiles().keys()].map((file) => ({ file })),
-    GET: async (
-      _request: Request,
-      { params }: { params: Promise<SealParams> },
-    ) => {
+    GET: async (_request: Request, { params }: SealContext) => {
       const { file } = await params;
       const seal = sealFiles().get(file);
 
       if (seal === undefined) throw new Error(`No case seal is ${file}.`);
 
-      return new Response(caseSealSvg(PUBLIC_DIR, seal, seal.cut), {
+      return new Response(caseSealSvg(PUBLIC_DIR, seal.document, seal.cut), {
         headers: { 'Content-Type': 'image/svg+xml; charset=utf-8' },
       });
     },

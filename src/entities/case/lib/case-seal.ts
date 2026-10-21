@@ -1,9 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { CaseFrontmatter } from '@/shared/content';
+import type {
+  CaseFrontmatter,
+  Routed,
+  WithFrontmatter,
+} from '@/shared/content';
 
 type Grade = CaseFrontmatter['grade'];
+
+/** What a seal is composed for: the case's route, where its emblem sits, and its grade, which inks it. */
+type SealedCase = Routed & WithFrontmatter<CaseFrontmatter>;
 
 type Deed = NonNullable<Grade['act']> | NonNullable<Grade['credit']>;
 
@@ -52,7 +59,7 @@ export function sealInks({ act, credit }: Grade): SealInks {
 }
 
 function groupPattern(id: string): RegExp {
-  return new RegExp(`<g id="${id}">[\\s\\S]*?</g>`);
+  return new RegExp(String.raw`<g id="${id}">[\S\s]*?</g>`);
 }
 
 /** Throws rather than returning the seal unchanged, which would be the eye. */
@@ -70,17 +77,18 @@ function replaceGroup(svg: string, id: string, replacement: string): string {
 /** The emblem's drawing, without the `<svg>` around it. */
 function emblemDrawing(emblem: string): string {
   const match =
-    /^\s*(?:<!--[\s\S]*?-->\s*)*<svg\b([^>]*)>([\s\S]*)<\/svg>\s*$/.exec(
+    /^\s*(?:<!--[\S\s]*?-->\s*)*<svg\b([^>]*)>([\S\s]*)<\/svg>\s*$/.exec(
       emblem,
     );
+  const [, attributes = '', drawing = ''] = match ?? [];
 
-  if (match === null || !match[1]?.includes('viewBox="0 0 1024 1024"')) {
+  if (match === null || !attributes.includes('viewBox="0 0 1024 1024"')) {
     throw new Error(
       'An emblem is one <svg viewBox="0 0 1024 1024">, the seal’s own canvas.',
     );
   }
 
-  return match[2] ?? '';
+  return drawing;
 }
 
 /**
@@ -111,9 +119,19 @@ export function composeCaseSeal(
   return cut === 'small' ? replaceGroup(sealed, 'band', '') : sealed;
 }
 
-/** Where a case's emblem is authored: beside its dossier, at its route plus a suffix. */
-function emblemFile(route: string): string {
-  return `${route}.emblem.svg`;
+/**
+ * The files a cut of a case's seal is composed from: the site seal, and the
+ * case's emblem, authored beside its dossier at its route plus a suffix.
+ */
+export function caseSealSources(
+  publicDir: string,
+  route: string,
+  cut: SealCut,
+): { siteSeal: string; emblem: string } {
+  return {
+    siteSeal: path.join(publicDir, SITE_SEALS[cut]),
+    emblem: path.join(publicDir, `${route}.emblem.svg`),
+  };
 }
 
 /** The file name a cut is served under, in `/seals/`. */
@@ -128,20 +146,20 @@ export function caseSealPath(slug: string, cut: SealCut): string {
 /** A case's seal, read off its files under `publicDir`; throws on a case with no emblem. */
 export function caseSealSvg(
   publicDir: string,
-  { route, grade }: { route: string; grade: Grade },
+  { route, frontmatter: { grade } }: SealedCase,
   cut: SealCut,
 ): string {
-  const emblemPath = path.join(publicDir, emblemFile(route));
+  const { siteSeal, emblem } = caseSealSources(publicDir, route, cut);
 
-  if (!fs.existsSync(emblemPath)) {
+  if (!fs.existsSync(emblem)) {
     throw new Error(
-      `No emblem for the case at ${route}: every case draws one, at ${emblemPath}.`,
+      `No emblem for the case at ${route}: every case draws one, at ${emblem}.`,
     );
   }
 
   return composeCaseSeal(
-    fs.readFileSync(path.join(publicDir, SITE_SEALS[cut]), 'utf8'),
-    fs.readFileSync(emblemPath, 'utf8'),
+    fs.readFileSync(siteSeal, 'utf8'),
+    fs.readFileSync(emblem, 'utf8'),
     sealInks(grade),
     cut,
   );
