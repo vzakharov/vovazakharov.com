@@ -27,9 +27,8 @@ export const variantUrls = (
 });
 
 /**
- * The test in progress. Its audio rides the album's branch, so the page lives
- * exactly as long as the test does: the verdicts pick the masters, and the
- * page goes with the files when the branch lands.
+ * The test in progress. Its audio rides the album's branch and is swept when
+ * the branch lands, so the next song's test takes this one's place.
  */
 export const NOSTALGIA: BlindTest = {
   title: '«Ностальгия» и «Свеча горела»',

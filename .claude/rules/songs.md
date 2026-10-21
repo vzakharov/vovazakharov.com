@@ -198,8 +198,9 @@ changes how a draft of one is written and what a review of it means.
   unless he says otherwise; a `---` after it separates the verbatim part from
   instructions about it. Translating into the other language is the agent's, and
   so is the blurb; retelling the story in better words is not. It is too
-  personal to come from anywhere but him. A concept album's world is the one
-  exception, told in the agent's words from his plot (§ "Body").
+  personal to come from anywhere but him. The two preludes are the exceptions (§
+  "Body"): a concept album's world, told in the agent's words from his plot, and
+  a poem's story, from sources.
 - **A dictation is speech, and a page is writing.** What reaches a story is his
   facts in his first person, written down: the fillers, hedges and asides to the
   transcriber go («скажем», «наверное», «так сказать», «ты, Клод, …»), and with

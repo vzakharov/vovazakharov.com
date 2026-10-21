@@ -78,9 +78,9 @@ export function renameRepository(repo: string, to: string): void {
 }
 
 /**
- * Renames a repository's default branch to the one the site serves from:
- * `gb-*` repositories were pushed on `master`, and every URL the site derives
- * names `main`.
+ * Renames a repository's default branch to the one the site serves from,
+ * since every URL the site derives names `main` — a repository pushed on
+ * `master`, as the `gb-*` ones were, serves nothing until then.
  */
 export function serveFromSongBranch(repo: string): void {
   const from = defaultBranch(repo);
