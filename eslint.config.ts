@@ -155,7 +155,7 @@ const eslintConfig = defineConfig([
       'src/kernel/scripts/lib/og-job.ts',
       'src/kernel/scripts/lib/public-markdown.ts',
       'src/kernel/scripts/render-mermaid.ts',
-      // mushrooms — slice 6
+      // mushrooms
       'src/mushrooms/scripts/build-mushroom-artifact.ts',
       'src/mushrooms/scripts/lib/flier-watch.ts',
       'src/mushrooms/scripts/lib/mushroom-probe-answers.ts',
@@ -190,7 +190,7 @@ const eslintConfig = defineConfig([
       'src/mushrooms/scripts/lib/veer-watch.ts',
       'src/mushrooms/scripts/sweep-mushrooms.ts',
       'src/mushrooms/scripts/veer-away.ts',
-      // music — slice 5
+      // music
       'src/music/scripts/lib/music-cards.ts',
       'src/music/scripts/lib/music-collage.ts',
       'src/music/scripts/lib/music-relay.ts',
