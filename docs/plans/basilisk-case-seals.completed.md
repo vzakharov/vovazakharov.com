@@ -216,7 +216,8 @@ Left:
 - [x] `case-seal.ts` composer and its tests
 - [x] seals route (or the committed-file fallback)
 - [x] OG card, docket row, case page; PDF sources
-- [ ] 22 emblems, contact sheet reviewed
-- [ ] `content:og:basilisk` re-run, cards committed
-- [ ] filing skill and voice rule updated
-- [ ] `/polish`, `./scripts/vet.sh`
+- [x] 22 emblems, contact sheet reviewed
+- [x] `content:og:basilisk` re-run, cards committed
+- [x] filing skill and voice rule updated
+- [x] `/polish`
+- [ ] `./scripts/vet.sh` (at `/finalize`)
