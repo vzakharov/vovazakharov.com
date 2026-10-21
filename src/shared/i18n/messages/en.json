@@ -9,11 +9,13 @@
     "mix": "Mix",
     "play": "Play",
     "pause": "Pause",
-    "failed": "Won't play",
-    "keys": "Keys: M or 0 — the mix, 1–3 — the masters, space — pause, ← → — 5 seconds. All four at the mix's loudness.",
+    "failed": "Error",
+    "copy": "Copy",
+    "copied": "Copied",
+    "keys": "Keys: M — the mix, A, B, C — the masters, space — pause, ← → — 5 seconds. All four at the mix's loudness.",
     "verdict": "Verdict",
-    "verdictExample": "2 > 1 > 3",
-    "summary": "Every verdict — copy it into the chat"
+    "verdictExample": "B > A > C",
+    "summary": "Every verdict — for the chat; kept in this browser"
   },
   "cv": {
     "metadata": {

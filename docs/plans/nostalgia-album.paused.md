@@ -307,9 +307,12 @@ Done:
   https://preview.vovazakharov.com/music/mastering-blind-test
   (`gh workflow run preview.yml --ref <branch> -f site=vova`) and played there
   headless; `split` and the page are in `scripts/song-intake/CLAUDE.md` §
-  "Mastering". The page's Input, SegmentedControl and Slider sheets in
-  `theme-provider.tsx` go when the page retires — `pnpm check:mantine-styles`
-  flags them then.
+  "Mastering". The page labels the masters A, B, C («переименуем 1 2 3 в A B C …
+  путаница между номерами песен и версиями»), so a verdict "B > A > C" reads as
+  positions 2 > 1 > 3 at the reveal; it keeps the verdicts in the browser's
+  localStorage («да, сохраняй») and copies them with a button. The page's Input,
+  SegmentedControl and Slider sheets in `theme-provider.tsx` go when the page
+  retires — `pnpm check:mantine-styles` flags them then.
 - Step 8 — `docs/music/vovas-music.md`.
 - The operator's lyrics, pasted as the poems print them, in `lyrics/*.md`, and
   dad's song with Suno's markers in

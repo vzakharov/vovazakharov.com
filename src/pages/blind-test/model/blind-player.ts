@@ -2,21 +2,36 @@ import { type Variant, VARIANTS } from './blind-test';
 
 /** Short enough to hear as a cut, long enough not to click. */
 const FADE_S = 0.015;
-/** Past this, a silent track is pulled back onto the audible one. */
-const DRIFT_S = 0.04;
+const RESYNC_MS = 50;
+/** Drift under this is left alone. */
+const TOLERANCE_S = 0.003;
+/** Past this a silent track seeks rather than catches up by speed. */
+const SEEK_S = 0.3;
+/** A seek on a playing element lands this late, so it aims this far ahead. */
+const SEEK_LEAD_S = 0.06;
+/** Speed correction per second of drift, capped at `MAX_NUDGE`. */
+const NUDGE_PER_S = 2;
+const MAX_NUDGE = 0.05;
 
 type Track = { audio: HTMLAudioElement; gain: GainNode };
 
 /**
  * Every variant of one song playing at once, only one of them audible, so a
- * switch is a gain change rather than a seek. The silent tracks drift, and
- * `resync` — called on a timer — pulls them back onto the audible one while
- * nobody can hear them move.
+ * switch is a gain change rather than a seek. The silent tracks drift, and a
+ * timer pulls them back onto the audible one by speed: a seek on a playing
+ * element lands behind by its own latency, which a switch would then play.
  */
 export class BlindPlayer {
   private readonly context = new AudioContext();
   private readonly tracks = new Map<Variant, Track>();
+  private readonly timer: ReturnType<typeof setInterval>;
   private active: Variant = 'mix';
+
+  constructor() {
+    this.timer = setInterval(() => {
+      this.resync();
+    }, RESYNC_MS);
+  }
 
   load(urls: Record<Variant, string>) {
     this.unload();
@@ -60,17 +75,24 @@ export class BlindPlayer {
       gain.gain.linearRampToValueAtTime(each === variant ? 1 : 0, now + FADE_S);
     }
     this.active = variant;
+    if (this.lead !== undefined) this.lead.playbackRate = 1;
   }
 
-  resync() {
+  private resync() {
     const { lead, active, tracks } = this;
     if (lead === undefined || lead.paused) return;
+    lead.playbackRate = 1;
     for (const [variant, { audio }] of tracks) {
-      if (
-        variant !== active &&
-        Math.abs(audio.currentTime - lead.currentTime) > DRIFT_S
-      ) {
-        audio.currentTime = lead.currentTime;
+      if (variant === active) continue;
+      const drift = audio.currentTime - lead.currentTime;
+      if (Math.abs(drift) > SEEK_S) {
+        audio.playbackRate = 1;
+        audio.currentTime = lead.currentTime + SEEK_LEAD_S;
+      } else if (Math.abs(drift) < TOLERANCE_S) {
+        audio.playbackRate = 1;
+      } else {
+        const nudge = Math.min(MAX_NUDGE, Math.abs(drift) * NUDGE_PER_S);
+        audio.playbackRate = 1 - Math.sign(drift) * nudge;
       }
     }
   }
@@ -103,6 +125,7 @@ export class BlindPlayer {
   }
 
   async close() {
+    clearInterval(this.timer);
     this.unload();
     await this.context.close();
   }

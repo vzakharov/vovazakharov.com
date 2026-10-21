@@ -9,7 +9,13 @@ import {
   Text,
   Textarea,
 } from '@mantine/core';
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 
 import type { Messages } from '@/shared/i18n';
 
@@ -20,17 +26,26 @@ import {
   VARIANTS,
   variantUrls,
 } from '../model/blind-test';
+import { verdictStore } from '../model/verdicts';
 
 type BlindTestPlayerProps = { test: BlindTest; copy: Messages['blindTest'] };
 
+// Letters, so a master is never read as a song's number; the files keep 1–3.
+const MASTER_LABELS = { 1: 'A', 2: 'B', 3: 'C' } as const;
+
+// Each letter also on the Russian layout's key in its place.
 const KEYS: Record<string, Variant> = {
   m: 'mix',
-  0: 'mix',
-  1: '1',
-  2: '2',
-  3: '3',
+  ь: 'mix',
+  a: '1',
+  ф: '1',
+  b: '2',
+  и: '2',
+  c: '3',
+  с: '3',
 };
 const TICK_MS = 200;
+const COPIED_MS = 2000;
 const SKIP_S = 5;
 
 const clock = (seconds: number) =>
@@ -48,7 +63,13 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState<string>();
-  const [verdicts, setVerdicts] = useState<Record<string, string>>({});
+  const store = useMemo(() => verdictStore(test), [test]);
+  const verdicts = useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot,
+    store.getServerSnapshot,
+  );
+  const [copied, setCopied] = useState(false);
   const piece = test.pieces[pieceIndex];
 
   const report = (error_: unknown) => {
@@ -59,7 +80,6 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
     const created = new BlindPlayer();
     playerRef.current = created;
     const timer = setInterval(() => {
-      created.resync();
       setTime(created.time);
       setDuration(created.duration);
       setPlaying(created.playing);
@@ -134,12 +154,28 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
 
   const setVerdict = (text: string) => {
     if (piece === undefined) return;
-    setVerdicts({ ...verdicts, [piece.id]: text });
+    try {
+      store.save({ ...verdicts, [piece.id]: text });
+    } catch (error_) {
+      report(error_);
+    }
   };
 
   const summary = test.pieces
     .map(({ id }) => `${id}: ${verdicts[id] ?? '—'}`)
     .join('\n');
+
+  const copySummary = () => {
+    navigator.clipboard
+      .writeText(summary)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+        }, COPIED_MS);
+      })
+      .catch(report);
+  };
 
   return (
     <Stack gap="lg">
@@ -165,7 +201,7 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
         }}
         data={VARIANTS.map((each) => ({
           value: each,
-          label: each === 'mix' ? copy.mix : each,
+          label: each === 'mix' ? copy.mix : MASTER_LABELS[each],
         }))}
       />
       <Group gap="sm" wrap="nowrap">
@@ -203,6 +239,9 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
         autosize
       />
       <Textarea label={copy.summary} value={summary} readOnly autosize />
+      <Button variant="default" onClick={copySummary} w={160}>
+        {copied ? copy.copied : copy.copy}
+      </Button>
     </Stack>
   );
 }
