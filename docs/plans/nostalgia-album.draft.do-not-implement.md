@@ -213,12 +213,53 @@ dictated. Then:
 
 The album's and the songs' stories are dictated later, through `/dictation`.
 
-### 7. The record of this session's findings
+### 7. Ride-along: «Свеча горела» into Папа-море
+
+Dad's song — Владимир Захаров-старший's, "his main one" — restored with Suno. It
+joins Папа-море (`father-sea`, `wip`) as track 9, after `farewell`, and is not
+part of «Ностальгия».
+
+- **Source**: `docs/remove-before-merging/Свеча горела.wav`, which the operator
+  pushed: 3:53, 48 kHz / 16-bit, the Suno download. `svecha` holds only takes
+  and a REAPER project. The WAV goes to `music-sources` as
+  `father-sea-09-candle-burned.wav` and into the repository; the copy on this
+  branch is swept with the rest of `docs/remove-before-merging/`.
+- **Slug and repository**: `candle-burned`. «Свеча горела» rests on Pasternak's
+  «Свеча горела на столе» — "A candle burned on the table" — so the leading "a"
+  drops. `svecha` is renamed to it. Beside Tarkovsky's `candle`, each name says
+  which candle it is.
+- **Master**: the same reference pool, shortlist and blind A/B/C as the album's
+  tracks, its own test.
+- **Words**: dad's poem. Unlike Tarkovsky's, it is the family's, so the
+  song-intake procedure applies in full: `lyrics.py` on the vocals stem, then
+  the operator corrects, and the crib is the agent's to write.
+  `credits.lyrics: [Vladimir Zakharov Sr.]`. Music is credited the same way,
+  unless the operator names someone else, as `river-part-one` names Никсон.
+- **Story**: the operator's Telegram post
+  (`nostalgia-album-assets/candle-burned-post.png`) is the `lang:ru` story,
+  verbatim; `lang:en` is its translation:
+
+  > Это, конечно, «главная» папина песня.
+  >
+  > Как мне однажды сказала тётя Оля, жена также уже увы покойного дяди
+  > Вити-«Никсона», «Володя + гитара — значит, „Свеча“».
+  >
+  > Поэтому реставрировать и переделывать её было особенно боязно, и я долго
+  > откладывал, но вот наконец решился.
+  >
+  > Любое подобие неизбежно хуже образа — но, надеюсь, что и в таком виде вы
+  > услышите в этой песне своего друга Зэка.
+
+### 8. The record of this session's findings
 
 `docs/music/vovas-music.md`, the appendix below as its body: a map of what the
 organization holds that the catalogue does not yet use. Nothing in the repo
 records the `gb-*` repositories or which releases they feed, and the next
 release to be added («Час», «Игрушечные волки») starts from exactly that map.
+The local agent's own report on the migration,
+`docs/remove-before-merging/garageband-to-vovas-music-report.md`, is folded in
+where it adds detail — the per-repo verification, what was not pushed and why.
+It is swept with the rest of that tree.
 
 ## Settled with the operator
 
@@ -230,6 +271,19 @@ release to be added («Час», «Игрушечные волки») starts fro
 - **The findings record**: `docs/music/vovas-music.md`. One issue per missing
   release was the alternative.
 - **Slugs**: the operator's (step 1).
+
+## Open questions (recommendation in force)
+
+1. Disambiguating the two candles:
+   - **a (recommended)** — `candle` (Tarkovsky's «Свеча») and `candle-burned`
+     (dad's «Свеча горела»). Each is its own title translated by the slug rule,
+     and a repository is named like its slug.
+   - **b** — `candle-tarkovsky` and `candle-burnt`, the operator's first
+     thought. The poet's name is not part of the title, and the slug rule takes
+     only the title.
+2. «Свеча горела»'s place in Папа-море:
+   - **a (recommended)** — track 9, at the end.
+   - **b** — a position the operator names.
 
 ## DRY notes
 
@@ -285,6 +339,7 @@ bounces from that directory's root went into the song repositories on
 - `actor` (was `akte-r`)
 - `insomnia` (was `gb-Bessonnica`)
 - `candle` (was `sila`; the poem is «Меркнет зрение — сила моя»)
+- and, for Папа-море, `candle-burned` (was `svecha`; dad's «Свеча горела»)
 - `winter-in-the-forest` (was `gb-zima-v-lesu`)
 
 **On Apple Music, not on the site:**
