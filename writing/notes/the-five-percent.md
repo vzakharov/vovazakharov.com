@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×72)
+## What it was handed, it treats as fixed (×76)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -71,16 +71,19 @@ repo meant text-only tiles; Apple Music had five. Told to widen a ledger search
 seeded from the dossier just read, the agent dropped the docket from it, and
 with it what the ledger is for. Nostalgia's squash said the album "survived only
 as scattered takes," read off the per-song repos it had worked through: _репа со
-всем альбомом-то была._
+всем альбомом-то была._ Asked for the actor poem's story, it gave dates and
+called it done: _подноготной никакой не нашлось?_ Marina Tarkovskaya's book has
+the 1958 Ashgabat love.
 
-**5 to 14 October — the shape in the tree read as chosen.** Nine callers spelled
+**5 to 21 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. The artists' order became a hand-kept `order:`, where it
-derives. Radio state went into the player's reducer, where a layered one sees
+derives; Nostalgia's poem pages put the poem's history first by rule, where the
+markdown file already gives the order. Radio state went into the player's reducer, where a layered one sees
 every action too. Each song's MP3 went in as `podcast`, named for the feed that
 first read it: _зачем мы это называем `podcast`…?_ Now `mp3`.
 
-**7 to 20 October — a rule read to its letter, then past its case.**
+**7 to 21 October — a rule read to its letter, then past its case.**
 `content.md` names Suno's markers and stress marks; the agent took the two as
 the whole list and kept «Война-а» as the author's. "Expletives are written out"
 unmasked a bleep that is on the recording. "Don't patch muthur" became removing
@@ -90,7 +93,12 @@ renaming «Бабай минем» kept `minem-babay`: _слаг тоже пом
 should not print IShowSpeed's legal name, the agent ruled out legal names for
 everyone, the famous included: _без фанатизма… 50 Cent … Curtis James Jackson
 III *не* надо._ The rule names people as the public knows them, a Hollywood
-actor by his name.
+actor by his name. Nostalgia's album story kept the dictation's sentences and
+passives («всё пробовалось»), "supplied text is verbatim" read onto a story told
+to a phone: _надо всё-таки как-то выжимать, а не диктовать._ The same story cut
+his «могу врать» and stated the fact flat, by a rule the agent had written
+against facts he doubts; the doubt is how he tells it. Literal on his words,
+aggressive on his hedge: the opposite on both.
 
 **8 to 13 October — the poem, the mix, the source, read as the thing.** Song
 pages printed stanzas never recorded; captions synced to the unmastered mix;
@@ -332,7 +340,8 @@ Whether a piece says what its author meant is his alone.
 **Decisions that were the operator's to make.** The CV's locale segment, a
 post's hook, the theme toggle's home, the cost report's grain, and basilisk.fyi's
 taste throughout; the Krylya lyrics' line breaks, verb moods, fade-out choruses
-and a vocalise kept as text; extracting a block with two uses; whether
+and a vocalise kept as text; whether a hook that is a whole line keeps its
+quotation marks; extracting a block with two uses; whether
 Nostalgia's blind-test tooling retires with the album or serves the next songs. An entry removed
 this way takes its count with it.
 
