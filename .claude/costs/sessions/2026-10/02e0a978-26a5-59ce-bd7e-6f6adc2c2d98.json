@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 28,
+    "inputTokens": 48,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 71208,
-    "cacheReadTokens": 1469053,
-    "outputTokens": 6109,
-    "thinkingTokens": 2760,
-    "responses": 14,
-    "costUsd": 0.9857666
+    "cacheWrite1hTokens": 82158,
+    "cacheReadTokens": 2728043,
+    "outputTokens": 11495,
+    "thinkingTokens": 4257,
+    "responses": 24,
+    "costUsd": 1.4329646
   },
   "estimate": {
     "at": "2026-10-21T04:47:58.337Z",
@@ -25,22 +25,24 @@
   "branch": "masd/sites-by-domain",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take masd/sites-by-domain — дождаться ответа Вовы, добавлять ли в vet проверку на файлы в корне docs/remove-before-merging/.",
-  "prs": [],
+  "prs": [
+    178
+  ],
   "url": "https://claude.ai/code/session_01N5i52unzhwF3Kzn8Pgm4oE",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-21T04:46:34.684Z",
-  "lastResponseAt": "2026-10-21T04:48:12.675Z",
+  "lastResponseAt": "2026-10-21T04:54:01.192Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 28,
+    "inputTokens": 48,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 71208,
-    "cacheReadTokens": 1469053,
-    "outputTokens": 6109,
-    "thinkingTokens": 2760,
-    "responses": 14,
-    "costUsd": 0.9857666
+    "cacheWrite1hTokens": 82158,
+    "cacheReadTokens": 2728043,
+    "outputTokens": 11495,
+    "thinkingTokens": 4257,
+    "responses": 24,
+    "costUsd": 1.4329646
   },
   "subagents": {
     "inputTokens": 0,
@@ -54,14 +56,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 28,
+      "inputTokens": 48,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 71208,
-      "cacheReadTokens": 1469053,
-      "outputTokens": 6109,
-      "thinkingTokens": 2760,
-      "responses": 14,
-      "costUsd": 0.9857666
+      "cacheWrite1hTokens": 82158,
+      "cacheReadTokens": 2728043,
+      "outputTokens": 11495,
+      "thinkingTokens": 4257,
+      "responses": 24,
+      "costUsd": 1.4329646
     }
   },
   "warnings": [],
