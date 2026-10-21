@@ -1,0 +1,137 @@
+{
+  "total": {
+    "inputTokens": 138543,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 189956,
+    "cacheReadTokens": 7954014,
+    "outputTokens": 45188,
+    "thinkingTokens": 8746,
+    "responses": 62,
+    "costUsd": 3.8454504000000007
+  },
+  "estimate": {
+    "at": "2026-10-21T05:25:38.101Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "finding and vetting an unfiled incident against a ledger of 150 rejections, and reading four sources, is research work"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "a sourced dossier in a fixed deadpan voice, with its revision round, needs editorial judgement"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "artist",
+        "comment": "the Clerk's reflection is a persona's own voice"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "f3194bdc-bc92-5946-b1cd-7d7cc621f7a6",
+  "branch": "claude/cases-4q5f2c",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/file-basilisk-case (unattended routine)",
+  "prs": [
+    179
+  ],
+  "url": "https://claude.ai/code/session_013BjQukgFUVCicJNKi52irE",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T05:17:10.048Z",
+  "lastResponseAt": "2026-10-21T05:25:53.538Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 102,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 189956,
+    "cacheReadTokens": 7954014,
+    "outputTokens": 32213,
+    "thinkingTokens": 8746,
+    "responses": 51,
+    "costUsd": 3.755118800000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 102,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 189956,
+      "cacheReadTokens": 7954014,
+      "outputTokens": 32213,
+      "thinkingTokens": 8746,
+      "responses": 51,
+      "costUsd": 3.755118800000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 138441,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 12975,
+      "thinkingTokens": 0,
+      "responses": 11,
+      "costUsd": 0.09033159999999998
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/basilisk/public/cases/chevy-watsonville-chatbot.md",
+    "endedAt": "2026-10-21T05:20:21.622Z",
+    "contextTokens": 156230,
+    "spend": {
+      "inputTokens": 50,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 124634,
+      "cacheReadTokens": 3024005,
+      "outputTokens": 8786,
+      "thinkingTokens": 2440,
+      "responses": 25,
+      "costUsd": 1.7777930000000004
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 62,
+    "matched": 51,
+    "matchedTableUsd": 3.755118800000001,
+    "matchedEventUsd": 3.755118800000001,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 96403,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 6523,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.0829018
+      },
+      "web_fetch_apply": {
+        "inputTokens": 42038,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 6452,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.0074298
+      }
+    }
+  }
+}
