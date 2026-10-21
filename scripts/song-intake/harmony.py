@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from audio import QUIET
+from audio import QUIET, steady_path
 
 # Krumhansl and Kessler's probe-tone ratings, C as the tonic.
 KEY_PROFILES = {
@@ -61,17 +61,8 @@ def beat_chords(chroma, loudest, step, beats, end):
         scores.append(fit + BASS_ROOT_WEIGHT * bass[roots] / max(bass.sum(), 1e-12))
     if not scores:
         return []
-
-    best = scores[0]
-    back = []
-    for score in scores[1:]:
-        switch = best.max() - CHORD_CHANGE_COST
-        back.append(np.where(best >= switch, np.arange(len(best)), best.argmax()))
-        best = np.maximum(best, switch) + score
-    path = [int(best.argmax())]
-    for links in reversed(back):
-        path.append(int(links[path[-1]]))
-    return [None if q else TRIAD_NAMES[c] for c, q in zip(reversed(path), quiet)]
+    path = steady_path(scores, CHORD_CHANGE_COST)
+    return [None if q else TRIAD_NAMES[c] for c, q in zip(path, quiet)]
 
 
 def runs(sequence):

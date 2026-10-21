@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from audio import local_peaks, log_rows, stft_magnitude
+from audio import local_peaks, log_rows, steady_path, stft_magnitude
 
 # 46 ms windows at a 23 ms hop: short enough to place an onset within a beat.
 ONSET_NFFT = 1024
@@ -12,6 +12,13 @@ MIN_BPM, MAX_BPM, PRIOR_BPM = 60, 200, 120
 BEAT_TIGHTNESS = 100
 # Sections whose tempos differ by more than this are a range in the title.
 TEMPO_SPREAD = 0.03
+BAR_BEATS = 4
+# Moving the bar's phase costs this many chord changes on the new downbeats.
+PHASE_SHIFT_COST = 4
+# A stretch of one phase shows its bars where at least this many chord
+# changes land on its downbeats, this share of all its changes.
+BAR_CHANGES = 4
+BAR_SHARE = 0.6
 
 
 def onset_envelope(x):
@@ -101,6 +108,39 @@ def beat_times(envelope, step, bpm):
     strong = local[beats] >= 0.5 * np.sqrt((local[beats] ** 2).mean())
     kept = np.flatnonzero(strong)
     return beats[kept[0]:kept[-1] + 1] * step if len(kept) else np.array([])
+
+
+def downbeats(beats, chords):
+    """The beats that open a bar, in seconds, where the bar can be told.
+
+    A bar is BAR_BEATS beats, and its first is where the chords change:
+    across the catalogue nearly every change in a section lands on one beat
+    in four, where a kick on every beat or a snare on two and four leaves
+    the phase a coin toss between two. The phase is a steady path through
+    the beats (`steady_path`), so a bar the tracker loses or gains a beat in
+    shifts it — sorry's at 1:14 — and a stray change does not. A stretch
+    of one phase is drawn only where BAR_CHANGES of its changes land on its
+    downbeats and they are BAR_SHARE of all of them: a loop that changes
+    every two beats, or no chords at all, shows no bars.
+    """
+    changed = np.array([
+        i > 0 and None not in (chords[i], chords[i - 1]) and chords[i] != chords[i - 1]
+        for i in range(len(chords))
+    ], bool)
+    if not changed.any():
+        return np.array([])
+    index = np.arange(len(changed))
+    votes = np.zeros((len(changed), BAR_BEATS))
+    votes[index, index % BAR_BEATS] = changed
+    phase = np.array(steady_path(votes, PHASE_SHIFT_COST))
+    first = index % BAR_BEATS == phase
+    starts = np.flatnonzero(np.diff(phase, prepend=-1))
+    bars = []
+    for a, b in zip(starts, [*starts[1:], len(phase)]):
+        on = (changed & first)[a:b].sum()
+        if on >= BAR_CHANGES and on >= BAR_SHARE * changed[a:b].sum():
+            bars.extend(beats[a:b][first[a:b]])
+    return np.array(bars)
 
 
 def beats_bpm(beats):

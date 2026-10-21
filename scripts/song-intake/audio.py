@@ -106,5 +106,20 @@ def band_peaks(magnitude, freqs, band_hz):
     return np.where(peaks, inner, 0), band[1:-1], loudest
 
 
+def steady_path(scores, cost):
+    """The state per step, (steps, states) scores in, that maximizes their sum
+    less cost per change of state (Viterbi): one stray step does not move it."""
+    best = scores[0]
+    back = []
+    for score in scores[1:]:
+        switch = best.max() - cost
+        back.append(np.where(best >= switch, np.arange(len(best)), best.argmax()))
+        best = np.maximum(best, switch) + score
+    path = [int(best.argmax())]
+    for links in reversed(back):
+        path.append(int(links[path[-1]]))
+    return path[::-1]
+
+
 def mmss(seconds, _pos=None):
     return f"{int(seconds) // 60}:{int(seconds) % 60:02d}"

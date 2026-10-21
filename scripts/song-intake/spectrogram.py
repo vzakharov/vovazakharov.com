@@ -20,7 +20,9 @@ each is measured. The title carries the tempo, and the tuning when it is over
 And beside both, one zoom per section, <n>.png: the stretch between two
 dashed lines drawn at the full width, so a section can be looked at closely
 without asking. The number is the one at the section's top left in the whole
-song's picture, and at the head of its line in the sidecar.
+song's picture, and at the head of its line in the sidecar. A zoom draws a
+faint line down the strips and the drums at each bar, where the chords say
+where the bar starts (`rhythm.downbeats`), and none where they do not.
 
 --from and --to draw that stretch at the full width alone, on song time; the
 analysis still runs on the whole song, and such a zoom writes no sidecar,
@@ -128,6 +130,8 @@ KIT_RATIO = 0.8
 DOT_PX = (4, 14)
 DIM_STEP = 3
 RIM_PX = 0.6
+# A bar line is faint enough to read the strips through.
+BAR_ALPHA = 0.45
 
 
 def envelope(x, columns):
@@ -312,6 +316,10 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
     kit.yaxis.set_major_locator(FixedLocator(range(len(LANES))))
     kit.set_yticklabels(LANES, fontsize=7)
     kit.set_ylabel("drums")
+    if zoomed:
+        for row in [wave, *(s for s, _ in strips), kit]:
+            for t in facts.bars[(facts.bars >= t0) & (facts.bars < t1)]:
+                row.axvline(t, color="white", alpha=BAR_ALPHA, linewidth=0.6)
 
     kit.set_xlim(t0, t1)
     kit.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))

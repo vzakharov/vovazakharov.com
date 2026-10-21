@@ -4,7 +4,7 @@ key C minor (r 0.68; next G minor, 0.63)
 tuning A = 440 Hz −2 ¢
 sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
 1  0:00–0:16  120 BPM  −23 dB  Cm A♭ Gm A♭ G
-2  0:16–0:50  120 BPM  −14 dB  Cm + A♭ Gm ×3 + A♭ G Cm
+2  0:16–0:50  120 BPM  −14 dB  Cm + A♭ Gm ×3 + A♭ G A♭
 3  0:50–1:01  121 BPM  −11 dB  A♭ Gm ×2
 4  1:01–1:19  120 BPM  −12 dB  Gm A♭ ×2 + G
 5  1:19–2:10  120 BPM  −8 dB  G + Cm A♭ Gm ×3 + A♭ Cm A♭m G C Am G C

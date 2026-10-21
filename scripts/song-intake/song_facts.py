@@ -12,7 +12,7 @@ import numpy as np
 from audio import SR, mmss
 from harmony import beat_chords, folded, note_names, runs, song_key
 from pitch import NOTE_BAND_HZ, peak_chroma, section_times, tuning_cents
-from rhythm import TEMPO_SPREAD, beat_times, beats_bpm, onset_envelope, tempo_bpm
+from rhythm import TEMPO_SPREAD, beat_times, beats_bpm, downbeats, onset_envelope, tempo_bpm
 
 
 class Section(NamedTuple):
@@ -28,6 +28,7 @@ class Facts(NamedTuple):
     tuning: float
     keys: list
     beats: np.ndarray
+    bars: np.ndarray
     sections: list
 
 
@@ -56,7 +57,7 @@ def measure(x, magnitude, freqs, step, db, harmony):
             start, end, beats_bpm(beats[inside]), 20 * np.log10(max(rms, 1e-10)),
             runs([chords[i] for i in np.flatnonzero(inside)]),
         ))
-    return Facts(duration, tuning, song_key(pitch_classes), beats, sections)
+    return Facts(duration, tuning, song_key(pitch_classes), beats, downbeats(beats, chords), sections)
 
 
 def tempo_spread(facts):

@@ -16,7 +16,7 @@ from audio import SR, aligned, stft_magnitude
 from drums import LANES, drum_hits
 from harmony import beat_chords, folded, fold_loop, song_key
 from pitch import NOTE_BAND_HZ, peak_chroma, tuning_cents
-from rhythm import beat_times, onset_envelope, tempo_bpm
+from rhythm import beat_times, downbeats, onset_envelope, tempo_bpm
 from song_facts import Facts, Section, sidecar
 
 NFFT, HOP = 8192, 2048
@@ -116,6 +116,28 @@ class Harmony(unittest.TestCase):
             self.assertEqual(beat_chords(chroma, loudest, step, np.array([0.0, 1.0]), 2), [chord, chord])
 
 
+class Bars(unittest.TestCase):
+    beats = np.arange(64) * 0.5
+
+    def chords(self, every, offset):
+        """A chord per beat, changing every `every` beats from beat offset on."""
+        return [(((i - offset) // every) % 2, "") for i in range(len(self.beats))]
+
+    def test_changes_mark_the_bar(self):
+        np.testing.assert_array_equal(downbeats(self.beats, self.chords(4, 1)), self.beats[1::4])
+
+    def test_a_lost_beat_moves_the_bar(self):
+        chords = self.chords(4, 1)[:32] + self.chords(4, 0)[32:]
+        bars = downbeats(self.beats, chords)
+        np.testing.assert_array_equal(bars, np.concatenate([self.beats[1:32:4], self.beats[32::4]]))
+
+    def test_half_bar_changes_show_none(self):
+        self.assertEqual(len(downbeats(self.beats, self.chords(2, 1))), 0)
+
+    def test_no_chords_show_none(self):
+        self.assertEqual(len(downbeats(self.beats, [None] * len(self.beats))), 0)
+
+
 class Loops(unittest.TestCase):
     def test_whole_passes(self):
         self.assertEqual(fold_loop(list("abcdabcdabcd")), ([], list("abcd"), 3, []))
@@ -137,6 +159,7 @@ class Sidecar(unittest.TestCase):
             duration=95, tuning=-3.2,
             keys=[(0.81, 7, "minor"), (0.73, 10, "major")],
             beats=np.arange(0, 95, 0.5),
+            bars=np.arange(0, 95, 2.0),
             sections=[
                 Section(0, 40, 120.0, -13.2, [gm, eb, f, gm, eb, f]),
                 Section(40, 95, 124.4, -10.0, [None, gm]),
