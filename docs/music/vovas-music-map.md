@@ -132,8 +132,7 @@ On neither Apple Music nor the site:
 
 ## Songs not in the catalogue
 
-On neither Apple Music nor the site, each named by its files; the titles are
-the files' own.
+On neither Apple Music nor the site; each title is the one its files carry.
 
 - `ouroboros` — GENERATED's first song, the Jukebox «Ouroboros» of
   `artists/generated.md`: Jukebox levels, three takes, `ouroboros_jb.mp3`
