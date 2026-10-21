@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 6,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 44071,
+    "cacheReadTokens": 231080,
+    "outputTokens": 1454,
+    "thinkingTokens": 542,
+    "responses": 3,
+    "costUsd": 0.42788800000000005
+  },
+  "estimate": {
+    "at": "2026-10-21T06:20:57.586Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "diagnosing a settings-schema error means matching hook event names against the CLI's version history, a routine support call"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "a72bccd8-b330-560a-8db5-1677151a198d",
+  "branch": "claude/inspiring-dijkstra-q84zo7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "когда пытаюсь запустить локально с последнего мейна локальный вот такой; тот что в репе ты видишь: ``` vova@Vovas-MacBook-Pro vovazakharov.com % cat /Users/vova…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_014gDAYHx8EfbAedrwixDuXd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T06:20:50.318Z",
+  "lastResponseAt": "2026-10-21T06:21:05.088Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 6,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 44071,
+    "cacheReadTokens": 231080,
+    "outputTokens": 1454,
+    "thinkingTokens": 542,
+    "responses": 3,
+    "costUsd": 0.42788800000000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44071,
+      "cacheReadTokens": 231080,
+      "outputTokens": 1454,
+      "thinkingTokens": 542,
+      "responses": 3,
+      "costUsd": 0.42788800000000005
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-21T06:21:05.088Z",
+    "contextTokens": 92276,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43520,
+      "cacheReadTokens": 139357,
+      "outputTokens": 849,
+      "thinkingTokens": 504,
+      "responses": 2,
+      "costUsd": 0.3930274
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
