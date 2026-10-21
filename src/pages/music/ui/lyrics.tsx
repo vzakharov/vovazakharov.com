@@ -4,7 +4,7 @@ import Markdown, { type Components } from 'react-markdown';
 
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
-import type { SungLanguage } from '@/shared/music-catalogue';
+import type { ScriptKept, SungLanguage } from '@/shared/music-catalogue';
 import type { WithText } from '@/shared/typings';
 import { Subheading, TextLink } from '@/shared/ui';
 
@@ -85,9 +85,9 @@ export function Lyrics({ lyrics, locale, cribNote }: LyricsProps) {
   );
 }
 
-type Romanizable = { transliteration?: Transliteration | undefined } & Partial<
-  Pick<SongLyrics, 'keepsScript'>
->;
+type Romanizable = {
+  transliteration?: Transliteration | undefined;
+} & Partial<ScriptKept>;
 
 type LyricsColumnProps = WithStanzas &
   Romanizable & {

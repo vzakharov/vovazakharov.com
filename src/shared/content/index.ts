@@ -1,5 +1,5 @@
 export { AUTHORS } from './authors';
-export { type CaseFrontmatter } from './basilisk-frontmatter';
+export { type CaseFrontmatter, type Docketed } from './basilisk-frontmatter';
 export {
   ARTICLE_COLLECTIONS,
   type ArticleCollectionId,
@@ -39,6 +39,7 @@ export {
   loadDocument,
   loadProse,
   type ProseSource,
+  type ServedMarkdown,
   siblingVariants,
   type WithContentDocument,
 } from './documents';

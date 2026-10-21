@@ -13,6 +13,8 @@
  * ends and wraps once round, and its keys cruise at `TURN_CRUISE`.
  */
 
+import type { WithWidth } from '@/shared/typings';
+
 import {
   type Course,
   cruise,
@@ -20,7 +22,7 @@ import {
   type Direction,
   type Paced,
 } from './cruise';
-import type { Lefted, Point } from './geometry';
+import type { Abscissa, Lefted } from './geometry';
 import {
   blended,
   type Flinging,
@@ -31,13 +33,13 @@ import {
   glidePace,
   type Sampled,
 } from './glide';
-import { type Camera, SPREAD } from './ground';
+import { SPREAD, type WorldScaled } from './ground';
 
 /**
  * What a crop is taken across: the world's width and the screen's, in CSS
  * px, and the clump's size in px, which ties a world px to the ground.
  */
-export type View = Pick<Camera, 'width' | 'world' | 'unit'>;
+export type View = WithWidth & WorldScaled;
 
 /**
  * A heading's crop: its keys' cruise in px per second, and how many px a full
@@ -52,7 +54,7 @@ type Turned = { turn?: Turn };
  * A finger at `x` across the screen, in CSS px, at `sampledAt` on the scene's
  * clock, in seconds.
  */
-type Sample = Pick<Point, 'x'> & Sampled;
+type Sample = Abscissa & Sampled;
 
 /**
  * A finger on the screen, pressed at `downAt` across it: the crop at `left`

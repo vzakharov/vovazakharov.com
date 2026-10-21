@@ -4,7 +4,7 @@
  * the scene measures them; the model never says where a perch stands.
  */
 
-import type { Leg, Perch, Span } from './flight';
+import type { Destination, Leaving, Leg, Perch, Span } from './flight';
 import { type Point, wrap } from './geometry';
 import type { InsectKind } from './insect-genes';
 import {
@@ -18,7 +18,7 @@ import { roundAt, smooth, wave } from './motion';
 import { mulberry32 } from './random';
 
 /** A leg with its stay: where it goes and when it leaves. */
-export type Stay = Launched & Pick<Leg, 'to' | 'leaves'>;
+export type Stay = Launched & Destination & Leaving;
 
 /**
  * One kind's wings: one stroke in the air and, for a butterfly, one slow open

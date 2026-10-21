@@ -8,8 +8,11 @@
 import type { Drum } from '../../model/flower-sounds';
 import { frequencyOf, HIGHEST_NOTE, LOWEST_NOTE } from '../../model/notes';
 import {
+  type Attacked,
   type Envelope,
   envelopeAt,
+  type Pitched,
+  type Sustained,
   type Swell,
   swell,
   type Voice,
@@ -89,19 +92,20 @@ export function noteParts(note: number): Part[] {
 }
 
 /** A drum's pitched part: a sine or a triangle, gliding down as a skin does. */
-type Body = Pick<Swell, 'pitches' | 'lasts' | 'peak'> & {
-  shape: 'sine' | 'triangle';
-};
+type Body = Pitched &
+  Sustained & {
+    shape: 'sine' | 'triangle';
+  };
 
 /** A drum's noisy part: noise through a bandpass. */
-type Hiss = Pick<Swell, 'lasts' | 'peak'> & Band;
+type Hiss = Sustained & Band;
 
 /**
  * A drum: its `body`, the skin's low sound; its `ring`, the skin's higher
  * mode, which a phone's speaker gives back where it loses the body; and its
  * `hiss`. All three share the drum's `attack`.
  */
-export type DrumSpec = Pick<Swell, 'attack'> & {
+export type DrumSpec = Attacked & {
   body?: Body;
   ring?: Body;
   hiss?: Hiss;

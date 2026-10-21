@@ -1,6 +1,6 @@
 /** What a fly's genes and a bee's are drawn alike by: the body, wings and legs they share. */
 
-import type { Buzzing } from './insect-genes';
+import type { Bodied, Winged } from './insect-genes';
 
 /** The genes every buzzing insect's ranges name for its body, wings and legs. */
 type BuzzingGene =
@@ -17,7 +17,7 @@ type BuzzingGene =
  */
 export function buzzingBody(
   gene: (name: BuzzingGene) => number,
-): Omit<Buzzing, 'kind' | 'hueNudge'> {
+): Bodied & Winged {
   return {
     bodyLength: gene('bodyLength'),
     bodyWidth: gene('bodyWidth'),

@@ -1,4 +1,4 @@
-import type { SongFrontmatter } from '@/shared/music-catalogue';
+import type { Mastered, RepoHeld } from '@/shared/music-catalogue';
 import {
   type SongBilling,
   songFileName,
@@ -15,7 +15,7 @@ export type WithExtension = { extension: string };
 export type SongFile = WithExtension & { href: Spelled };
 
 /** What a song's files are derived from beside its billing. */
-export type SongHosting = Pick<SongFrontmatter, 'repo' | 'lossy'>;
+export type SongHosting = RepoHeld & Mastered;
 
 export function extensionOf(href: string): string {
   return href.slice(href.lastIndexOf('.') + 1).toLowerCase();
@@ -25,24 +25,17 @@ export function extensionOf(href: string): string {
 export const SONG_BRANCH = 'main';
 
 /** Where every file of a song sits: its repository's root. */
-export function songHome({
-  repo,
-}: Pick<SongFrontmatter, 'repo'>): RepoLocation {
+export function songHome({ repo }: RepoHeld): RepoLocation {
   return { repo, branch: SONG_BRANCH, directory: '' };
 }
 
 /** Where `raw.githubusercontent.com` serves the song's file of that name. */
-export function songUrl(
-  hosting: Pick<SongFrontmatter, 'repo'>,
-  name: string,
-): string {
+export function songUrl(hosting: RepoHeld, name: string): string {
   return rawUrl(songHome(hosting), name);
 }
 
 /** The extensions of the song's files to take away: the MP3, then the FLAC master it is a copy of. */
-export function downloadExtensions({
-  lossy,
-}: Pick<SongFrontmatter, 'lossy'>): string[] {
+export function downloadExtensions({ lossy }: Mastered): string[] {
   return ['mp3', ...(lossy ? [] : ['flac'])];
 }
 
@@ -75,7 +68,7 @@ export function songFiles(
  * lossy song plays its MP3 master either way.
  */
 export function playedName(
-  { lossy }: Pick<SongFrontmatter, 'lossy'>,
+  { lossy }: Mastered,
   english: SongBilling,
   lossless: boolean,
 ): string {

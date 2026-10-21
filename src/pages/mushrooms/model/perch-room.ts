@@ -5,7 +5,7 @@
  * (`keptForBees`).
  */
 
-import type { Pairing, Perch, Perches, Sight } from './flight';
+import type { Flowered, FlowersSeen, Pairing, Perch, Sight } from './flight';
 import type { InsectKind, Kinded } from './insect-genes';
 
 /** A perch an insect sits on. */
@@ -18,7 +18,8 @@ export function isSamePerch(a: Perch, b: Perch): boolean {
 }
 
 /** A perch another insect sits on or is heading to, and that insect's kind. */
-export type Held = Kinded & { perch: Perch };
+export type Held = Kinded & OnPerch;
+export type OnPerch = { perch: Perch };
 
 /** A perch's name, the same for the same perch, as `Places` keys it. */
 export function perchName(perch: Perch): string {
@@ -55,16 +56,13 @@ export function blockedFor(
   return blocked;
 }
 
-/** What of `Perches` the rules for flowers read: the flowers in sight, a bee's own, and the crowded pairs. */
-type FlowersSeen = Pick<Perches, 'flowers' | 'beeFlowers' | 'crowded'>;
-
 /**
  * The flowers `perches` offers an insect of `kind`: a bee's own, where the
  * scene gives them (`Sight`), and the ones in sight to every kind otherwise.
  */
 export function flowersFor(
   kind: InsectKind,
-  { flowers, beeFlowers }: Pick<Perches, 'flowers' | 'beeFlowers'>,
+  { flowers, beeFlowers }: Flowered,
 ): readonly string[] {
   return kind === 'bee' ? (beeFlowers ?? flowers) : flowers;
 }

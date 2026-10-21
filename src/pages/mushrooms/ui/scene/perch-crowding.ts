@@ -4,7 +4,7 @@
  * every two kinds.
  */
 
-import type { Crowding, Held, Pairing, Perch } from '../../model/flight';
+import type { Crowding, Pairing, Perch } from '../../model/flight';
 import {
   boxAround,
   type Circle,
@@ -13,6 +13,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import type { OnPerch } from '../../model/perch-room';
 
 /** Every two kinds, the first on one perch and the second on another. */
 const PAIRINGS: readonly Pairing[] = INSECT_KINDS.flatMap((first) =>
@@ -71,7 +72,7 @@ function tracksApart(
  * A perch, where an insect of each kind may sit on it, and a circle around
  * every such seat, so two perches far apart are passed over at a glance.
  */
-export type Seats = Pick<Held, 'perch'> & {
+export type Seats = OnPerch & {
   tracks: Record<InsectKind, readonly Segment[]>;
   around: Circle;
 };
@@ -179,7 +180,7 @@ export function crowdings(seated: readonly Seats[], apart: Apart): Crowding[] {
  * the tracks' geometry, since the air holds the most perches.
  */
 export function pointCrowdings(
-  points: ReadonlyArray<Pick<Held, 'perch'> & Point>,
+  points: ReadonlyArray<OnPerch & Point>,
   apart: Apart,
 ): Crowding[] {
   const { needs, farthest } = needsOf(apart);

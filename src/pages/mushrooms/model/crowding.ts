@@ -5,7 +5,7 @@
 
 import { distanceBetween, type Point } from './geometry';
 import { D_SEE } from './ground';
-import type { Footed } from './placement';
+import type { Stood } from './placement';
 
 /**
  * How many mushrooms stand at most within `D_SEE` of a new one's foot, room
@@ -21,8 +21,6 @@ export const MUSHROOM_SLOTS = 12;
 export const FLOWER_SLOTS = 48;
 /** How many mushrooms the whole field holds at most. */
 export const FIELD_MUSHROOMS = 96;
-
-type Stood = Pick<Footed, 'foot'>;
 
 /**
  * What a mushroom count reads, each by its foot: the mushrooms, and the

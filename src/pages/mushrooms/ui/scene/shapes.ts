@@ -3,6 +3,7 @@ import * as Phaser from 'phaser';
 import { ellipse, type Point, sample } from '../../model/geometry';
 import type { Light } from '../../model/light';
 import {
+  type Hairlined,
   inkFor,
   type Lighted,
   type Lighting,
@@ -107,7 +108,7 @@ export function strokeTapered(
   graphics: Phaser.GameObjects.Graphics,
   points: readonly Point[],
   widths: readonly [number, number],
-  { hairline }: Pick<Lighting, 'hairline'>,
+  { hairline }: Hairlined,
 ): void {
   fillShape(graphics, taperedLine(points, widths, hairline));
 }

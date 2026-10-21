@@ -47,14 +47,15 @@ export const MOTTLE_DEPTH = (DEPTHS.ground + DEPTHS.brow) / 2;
 /**
  * A mottle on the plane: its middle, how far it reaches across and along
  * from it, in the clump's size, turned `angle` radians on the plane, and
- * whether it is deeper than the ground or lighter.
+ * whether it is deep (`Deep`).
  */
 export type Mottle = WithMiddle &
   Wide & {
     lengthways: number;
     angle: number;
-    deep: boolean;
-  };
+  } & Deep;
+/** Whether a mottle is deeper than the ground or lighter. */
+export type Deep = { deep: boolean };
 
 /** A mottle drawn from `random` anywhere in the square `side` wide from `corner`, on the plane. */
 export function mottleIn(random: Random, corner: Point, side: number): Mottle {
@@ -136,7 +137,7 @@ export function shownMottles(
  * show: tinted toward the lit or the deep ground, at `fade` of its alpha.
  */
 export function shownAs(
-  { deep }: Pick<Mottle, 'deep'>,
+  { deep }: Deep,
   rings: ShownMottle['rings'],
   fade = 1,
 ): ShownMottle {

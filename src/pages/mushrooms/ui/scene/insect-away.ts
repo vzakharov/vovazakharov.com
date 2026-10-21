@@ -31,7 +31,7 @@ import { WIDEST_SPAN } from './flower-sight';
 import { drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { perchDistance, placeOfAloft } from './plane-place';
-import { D_SEE, onScreen, type Placed, type View } from './view';
+import { D_SEE, onScreen, type View, type Zooming } from './view';
 
 /**
  * The band of the screen's height an insect flies in from and out to off
@@ -76,7 +76,7 @@ export function releasedAway(
 }
 
 /** A point on the screen, and how many times its laid-out size a thing there is drawn. */
-export type Zoomed = Point & Pick<Placed, 'zoom'>;
+export type Zoomed = Point & Zooming;
 
 /**
  * Whether an insect `span` px across at its own size, drawn at `drawn`,

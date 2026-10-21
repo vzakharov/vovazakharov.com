@@ -8,14 +8,16 @@ import type { Messages } from '@/shared/i18n';
 import { usePlayer } from './player-provider';
 import { useOpenRadio } from './use-open-radio';
 
-type LaunchLabels = Pick<Messages['music'], 'shuffleAll' | 'radio'>;
+/** The music section's strings, whole: `Messages` is the catalogue's JSON, with no narrower type to take. */
+type LaunchButtonsProps = { labels: Messages['music'] };
 
 /**
  * The section's two ways in: the public catalogue on a fresh shuffle, and the
  * radio, which tunes in and opens its page. Neither shows a pressed state —
  * they are launchers, and the bar holds the switches.
  */
-export function LaunchButtons({ shuffleAll, radio }: LaunchLabels) {
+export function LaunchButtons({ labels }: LaunchButtonsProps) {
+  const { shuffleAll, radio } = labels;
   const player = usePlayer();
   const openRadio = useOpenRadio();
 

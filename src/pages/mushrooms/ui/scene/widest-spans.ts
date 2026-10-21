@@ -1,6 +1,6 @@
 import type { InsectKind } from '../../model/insect-genes';
 import { WIDEST_SPAN } from './flower-sight';
-import type { MeadowLayout } from './layout';
+import type { InsectSized } from './layout';
 
 /**
  * The widest each kind's open wings span, in units of its own size, whatever
@@ -13,9 +13,6 @@ const WIDEST_SPANS = {
 } as const satisfies Record<InsectKind, number>;
 
 /** The widest an insect of `kind` spans on `layout`, in CSS px. */
-export function widestOn(
-  layout: Pick<MeadowLayout, 'insectSizes'>,
-  kind: InsectKind,
-): number {
+export function widestOn(layout: InsectSized, kind: InsectKind): number {
   return WIDEST_SPANS[kind] * layout.insectSizes[kind];
 }

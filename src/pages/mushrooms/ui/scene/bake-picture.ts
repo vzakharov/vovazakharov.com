@@ -25,10 +25,12 @@ export const TILE = 1024;
  * screen, the rows it covers, its depth, and how much of the camera's bob it
  * takes (`GROUND_BOB` for the ground's, none for the sky's).
  */
-export type Bake = Layered & {
+export type Bake = Layered & Baking;
+/** A picture's stretch across the screen and the rows it covers. */
+export type Spread = { span: Span; rows: Band };
+/** A `Bake` but for its depth, which the picture it bakes decides. */
+export type Baking = Spread & {
   sources: readonly Phaser.GameObjects.GameObject[];
-  span: Span;
-  rows: Band;
   bobbing?: number;
 };
 
@@ -82,7 +84,7 @@ export function aboutTheSun(
   { sun }: MeadowLayout,
   reach: number,
   ratio: number,
-): Pick<Bake, 'span' | 'rows'> {
+): Spread {
   const [left, right] = onPixels(sun.x - reach, sun.x + reach, ratio);
   const [top, bottom] = onPixels(
     Math.max(0, sun.y - reach),

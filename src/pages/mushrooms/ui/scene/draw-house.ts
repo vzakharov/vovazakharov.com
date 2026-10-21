@@ -105,7 +105,7 @@ function paintCross(
 }
 
 /** How open a door or window is, from 0 (shut) to 1. */
-type Opened = { open: number };
+export type Opened = { open: number };
 /** How open a window is, and the side its pane swings out to: -1 left, 1 right. */
 export type WindowSwing = Opened & { swingsTo: number };
 export const SHUT_WINDOW: WindowSwing = { open: 0, swingsTo: -1 };

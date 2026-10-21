@@ -4,7 +4,7 @@
  * exactly there, `covered` hearing every length it moves.
  */
 
-import { type Course, type Direction, wayOf } from './cruise';
+import { type Course, type Direction, type Eased, wayOf } from './cruise';
 import type { Facing, Point } from './geometry';
 
 /** A point on a line, `aim` units on from its `origin` (back for less than 0). */
@@ -15,7 +15,7 @@ type Line = Aimed & Facing;
 /** The course to `line`'s aim at `pace` units a second, eased in over `ease` seconds. */
 export function lineCourse(
   { origin, ahead, aim }: Line,
-  pace: Pick<Course<Point>, 'cruise' | 'ease'>,
+  pace: Eased,
   covered: (length: number) => void,
 ): Course<Point> {
   const left = (at: Point) =>

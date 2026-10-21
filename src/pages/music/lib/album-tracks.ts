@@ -7,17 +7,16 @@
 import type {
   AlbumPlacement,
   MusicAlbum,
-  SongFrontmatter,
+  Released,
+  Tracked,
 } from '@/shared/music-catalogue';
-
-type Placed = Pick<SongFrontmatter, 'album' | 'track' | 'alsoOn'>;
 
 /** Every release the song is on, the one it is filed under first. */
 export function songPlacements({
   album,
   track,
   alsoOn = [],
-}: Placed): AlbumPlacement[] {
+}: Released): AlbumPlacement[] {
   const home = album === null || track === undefined ? [] : [{ album, track }];
 
   return [...home, ...alsoOn];
@@ -29,7 +28,7 @@ export function songPlacements({
  * track, however the rest is ordered, and a number with no song yet is simply
  * passed over. A single keeps its place.
  */
-export function albumsTogether<Song extends { frontmatter: Placed }>(
+export function albumsTogether<Song extends { frontmatter: Released }>(
   songs: readonly Song[],
 ): Song[] {
   const gathered = new Set<MusicAlbum>();
@@ -51,10 +50,10 @@ export function albumsTogether<Song extends { frontmatter: Placed }>(
 }
 
 /** A song as one album lists it: `track` is its number there, whichever release it is filed under. */
-export type AlbumTrack<Song> = Pick<AlbumPlacement, 'track'> & { song: Song };
+export type AlbumTrack<Song> = Tracked & { song: Song };
 
 /** The album's songs, each at its number on that album, in that order. */
-export function albumTracks<Song extends { frontmatter: Placed }>(
+export function albumTracks<Song extends { frontmatter: Released }>(
   album: MusicAlbum,
   songs: readonly Song[],
 ): Array<AlbumTrack<Song>> {

@@ -4,17 +4,13 @@ import type { WithLocale } from '@/shared/i18n';
 import { useScriptPreference } from '@/shared/lib/use-script-preference';
 import { spelledText } from '@/shared/music-catalogue/index.node-safe';
 
-import {
-  billingText,
-  type PlayerState,
-  type PlayerTrack,
-} from './player-state';
+import { billingText, type PlayerTrack, type Playing } from './player-state';
 import type { WithControls } from './use-audio-player';
 
 /** The locale is the page's, which the lock screen titles the track in. */
 type MediaSessionInput = WithControls &
   WithLocale &
-  Pick<PlayerState, 'playing'> & {
+  Playing & {
     current: PlayerTrack | undefined;
     /** Set while other media on the page holds the lock screen. */
     yielded: boolean;

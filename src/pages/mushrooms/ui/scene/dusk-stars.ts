@@ -6,7 +6,7 @@
 
 import type { Circle } from '../../model/geometry';
 import { between, mulberry32 } from '../../model/random';
-import type { MeadowLayout } from './layout';
+import type { HillsSunned } from './layout';
 import { SUN_GLOW_REACH } from './sun-layout';
 
 export const STAR_COUNT = 12;
@@ -45,7 +45,7 @@ export function duskStars({
   height,
   nearHills,
   sun,
-}: Pick<MeadowLayout, 'width' | 'height' | 'nearHills' | 'sun'>): Circle[] {
+}: HillsSunned): Circle[] {
   const random = mulberry32(STAR_SEED);
   const [top, bottom] = [STAR_BAND[0] * nearHills, STAR_BAND[1] * nearHills];
   const short = Math.min(width, height);

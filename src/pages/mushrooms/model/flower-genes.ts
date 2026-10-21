@@ -23,6 +23,12 @@ export const FLOWER_COLOURS = [
 export type FlowerColour = (typeof FLOWER_COLOURS)[number];
 export type Coloured = { colour: FlowerColour };
 
+/** A flower's shape: its kind of petal, and its rings of them. */
+export type Petalled = { petal: (typeof PETAL_KINDS)[number]; rings: 1 | 2 };
+
+/** What names a flower's sound: its colour and its shape. */
+export type Classed = Coloured & Petalled;
+
 export type Flower = WithId & Seeded;
 
 /**
@@ -31,10 +37,8 @@ export type Flower = WithId & Seeded;
  * ring set half a step round inside the first where `rings` is 2.
  */
 export type FlowerGenes = Stalked &
-  Coloured & {
-    petal: (typeof PETAL_KINDS)[number];
+  Classed & {
     fold: number;
-    rings: 1 | 2;
     petalLength: number;
     /** The petal's half-width, as a fraction of its length. */
     petalWidth: number;
