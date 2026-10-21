@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'My Sultan'
+  hook: 'Dad, to his eldest grandson Zoltan: “My sultan, it is you.”'
+ru:
+  hook: 'Папа — старшему внуку Золтану: «Мой султан — это ты».'
 ---
 
 <!-- lang:en -->

@@ -13,6 +13,9 @@ explicit: false
 en:
   title:
     translation: 'Carcassi’s Caprice'
+  hook: '“And the music of the planets will sound in the distance like Carcassi’s caprice.”'
+ru:
+  hook: '«И музыка планет зазвучит вдали как каприз Каркасси».'
 ---
 
 <!-- For Vova to check: Project is a guess: the master's file name carries «Полуживые», and the Telegram post says the words and most of the music are Dad’s. The title drops the «Полуживые — » prefix the checklist copied from the file name. The words come from the Telegram post of 2024-11-19, with its «сиьянья» corrected to «сиянья». -->

@@ -16,7 +16,18 @@ credits:
 en:
   title:
     translation: 'Candle'
+  hook: '“I am a candle, I burnt out at the feast.”'
+ru:
+  hook: '«Я свеча, я сгорел на пиру».'
 ---
+
+<!-- poem:ru -->
+
+«Свеча» — название песни, а не стихотворения: у Тарковского оно без названия и известно по первой строке, «Меркнет зрение — сила моя…». Написано в 1977 году; в книге его напечатали в «Избранном» 1982 года, а потом в сборнике «От юности до старости» (1987).
+
+<!-- poem:en -->
+
+“Candle” is the song’s title, not the poem’s: Tarkovsky left it untitled, and it goes by its first line, “Sight grows dim — my strength.” He wrote it in 1977; it was printed in his _Izbrannoye_ (“Selected poems”) of 1982, and again in _Ot yunosti do starosti_ (“From youth to old age,” 1987).
 
 <!-- lyrics:ru -->
 

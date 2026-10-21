@@ -16,7 +16,18 @@ credits:
 en:
   title:
     translation: 'The Actor'
+  hook: '“Where are you, my happy double?”'
+ru:
+  hook: '«Где же ты, счастливый мой двойник?»'
 ---
+
+<!-- poem:ru -->
+
+«Актёр» написан в 1958 году. В первые две книги Тарковского — «Перед снегом» (1962) и «Земле — земное» (1966) — он не вошёл; в книге его напечатали в «Стихотворениях» 1974 года.
+
+<!-- poem:en -->
+
+“The Actor” was written in 1958. It is in neither of Tarkovsky’s first two books — _Pered snegom_ (“Before the snow,” 1962) and _Zemle — zemnoye_ (1966); it reached a book in his _Stikhotvoreniya_ (“Poems”) of 1974.
 
 <!-- lyrics:ru -->
 

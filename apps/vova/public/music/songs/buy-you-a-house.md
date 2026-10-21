@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'I’ll Buy You a House'
+  hook: '“And the white swan on the pond rocks a fallen star.”'
+ru:
+  hook: '«А белый лебедь на пруду качает павшую звезду».'
 ---
 
 <!-- For Vova to check: Project is a guess: the song was posted to the Грёбаный бал Telegram channel on 2026-01-23. The title is the master's file name; the checklist left it blank. The checklist named no master: `Я куплю тебе дом.flac` is picked over `Я куплю тебе дом (караоке).flac`, the same length, which is the karaoke cut. -->

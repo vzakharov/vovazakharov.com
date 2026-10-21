@@ -15,6 +15,9 @@ credits:
 en:
   title:
     translation: 'The River. Part Three'
+  hook: '“I never managed to say in time that you are the river.”'
+ru:
+  hook: '«Я так и не смог успеть сказать, что ты и есть река».'
 ---
 
 <!-- For Vova to check: Master is otter.flac as the checklist names it; the repository also holds siminor.flac. -->

@@ -265,8 +265,8 @@ part of «Ностальгия».
 
 ### 8. The record of this session's findings
 
-`docs/music/vovas-music.md`, the appendix below as its body: a map of what the
-organization holds that the catalogue does not yet use. Nothing in the repo
+`docs/music/vovas-music-map.md`, the appendix below as its body: a map of what
+the organization holds that the catalogue does not yet use. Nothing in the repo
 records the `gb-*` repositories or which releases they feed, and the next
 release to be added («Час», «Игрушечные волки») starts from exactly that map.
 The local agent's own report on the migration,
@@ -311,9 +311,12 @@ Done:
   путаница между номерами песен и версиями»), so a verdict "B > A > C" reads as
   positions 2 > 1 > 3 at the reveal; it keeps the verdicts in the browser's
   localStorage («да, сохраняй») and copies them with a button. The page's Input,
-  SegmentedControl and Slider sheets in `theme-provider.tsx` go when the page
-  retires — `pnpm check:mantine-styles` flags them then.
-- Step 8 — `docs/music/vovas-music.md`.
+  SegmentedControl and Slider sheets in `theme-provider.tsx` stay with it. The
+  page and `blind-abc.py` outlive the album, at the operator's ask («наработки
+  можно оставить — они ещё понадобятся для новых песен»): only the album's audio
+  and keys are swept with `docs/remove-before-merging/`, and the page's
+  `NOSTALGIA` test is replaced by the next song's.
+- Step 8 — `docs/music/vovas-music-map.md`.
 - The operator's lyrics, pasted as the poems print them, in `lyrics/*.md`, and
   dad's song with Suno's markers in
   `docs/remove-before-merging/svecha-gorela.md`.
@@ -414,8 +417,8 @@ repositories.
 - **Sources**: lossless where the same take survives, else the per-track file or
   the album cut. Cutting every track from the album mp3 would have made all
   seven lossy for one source's consistency.
-- **The findings record**: `docs/music/vovas-music.md`. One issue per missing
-  release was the alternative.
+- **The findings record**: `docs/music/vovas-music-map.md`. One issue per
+  missing release was the alternative.
 - **Slugs**: the operator's (step 1), the two candles as `candle-tarkovsky` and
   `candle-burnt`. A bare `candle` beside `candle-burned` was the alternative;
   the operator would confuse them.
@@ -439,7 +442,7 @@ repositories.
   lab file rather than a script, unless the scan turns out to need code beyond a
   clone and a grep.
 
-## Appendix — `vovas-music` beyond the catalogue (for `docs/music/vovas-music.md`)
+## Appendix — `vovas-music` beyond the catalogue (for `docs/music/vovas-music-map.md`)
 
 **`gb-*` — the GarageBand archive.** `create_repos.sh`, in the operator's
 `~/Music/GarageBand`, pushed each GarageBand folder and `.band` package there to

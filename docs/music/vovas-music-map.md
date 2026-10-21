@@ -1,8 +1,10 @@
-# `vovas-music` beyond the catalogue
+# A map of `vovas-music`
 
-A map of what the `vovas-music` organization holds that the site's catalogue
-does not yet use, so the next release to be added starts from it rather than
-from a search of 250 repositories.
+What the `vovas-music` organization holds beyond one repository per catalogued
+song: the GarageBand archive, which of it the catalogue already draws on, the
+releases still missing from the site and the repositories nobody has placed yet
+— so the next release to be added starts from it rather than from a search of
+250 repositories.
 
 ## `gb-*` — the GarageBand archive
 

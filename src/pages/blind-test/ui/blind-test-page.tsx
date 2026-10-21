@@ -11,7 +11,7 @@ export function BlindTestPage() {
       <Title order={1} mb="lg">
         {NOSTALGIA.title}
       </Title>
-      {/* Russian only: its one listener is the author, and it retires with the test. */}
+      {/* Russian only: its one listener is the author. */}
       <BlindTestPlayer test={NOSTALGIA} copy={loadMessages('ru').blindTest} />
     </Container>
   );

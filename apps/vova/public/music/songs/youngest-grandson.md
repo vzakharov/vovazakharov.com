@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'My Youngest Grandson'
+  hook: 'I think it is my father’s only song in a major key.'
+ru:
+  hook: 'Кажется, единственная папина мажорная песня.'
 ---
 
 <!-- lang:en -->

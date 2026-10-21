@@ -2,9 +2,11 @@ Proposed squash body:
 
 ```
 «Ностальгия», the Полуживые album on Arseny Tarkovsky's poems, was
-taken down from every platform and survived only as scattered takes in
-vovas-music. Its seven tracks join the catalogue under one album, the
-lyrics pasted in by Vova and the stories left for later dictation.
+taken down from every platform but survived whole in vovas-music, the
+album project beside a repository per song. Its seven tracks join the
+catalogue under one album, with the lyrics Vova pasted in, his album
+story from a dictation, and a history of each poem ahead of the songs'
+own stories.
 Each song keeps the repository its takes were already in, renamed to
 its slug by a new `music:masters rename`. Dad's «Свеча горела» rides
 along into Папа-море as candle-burned, beside Tarkovsky's candle.
@@ -16,7 +18,7 @@ is made blind: blind-abc.py cuts the three into loudness-matched
 the key, revealed with the verdict. The method joins song-intake's
 mastering notes, the earlier blind test having left no record.
 
-docs/music/vovas-music.md maps what the organization holds beyond the
+docs/music/vovas-music-map.md maps what the organization holds beyond the
 catalogue: the 30 gb-* GarageBand archive repositories, which releases
 they feed, and the ones still missing from the site — «Час» and
 «Игрушечные волки» among them.

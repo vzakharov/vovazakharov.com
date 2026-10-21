@@ -16,9 +16,11 @@ credits:
 en:
   title:
     translation: 'Winter'
+  hook: 'It opens on Vivaldi’s “Winter.”'
 ru:
   title:
     translation: 'Зима'
+  hook: 'Начинается с «Зимы» Вивальди.'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->

@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'The River. Part One / Escape'
+  hook: '“My mind is clear and pure, like a great river.”'
+ru:
+  hook: '«Ум мой ясен и чист, как большая река».'
 ---
 
 <!-- For Vova to check: The pobeg repository also holds reka.flac, which may be another render of «Река. Часть вторая» (reka-2, which plays the album's 4_reka.flac). -->

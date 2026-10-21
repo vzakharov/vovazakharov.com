@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'Snow Is Falling'
+  hook: 'They say Dad used to sing me this song when I was still in my mother’s belly.'
+ru:
+  hook: 'Говорят, папа пел мне эту песню, когда я ещё был у мамы в животе.'
 ---
 
 <!-- For Vova to check: Project is a guess: it is your father's song to Pasternak, posted on the «Владимир Захаров. Жизнь и творчество» channel, like the other Полуживые songs of his. A different song from `sneg_0` («Снег»): different words and a different master. -->

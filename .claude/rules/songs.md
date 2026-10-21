@@ -103,11 +103,13 @@ in one locale's hook is struck in the other's too, in that language's own idiom.
 **A hook earns its words one by one**: the fewest that pull, often a line of the
 song quoted with nothing around it, quotation marks kept, unless the song's
 story holds a better hook than its words do. A gloss explaining the line is
-overthinking it. The author's oxymorons («Этот жар — всё, что тебе нужно, чтобы
-не сгореть») are his signature, and a song that has one offers it first. An
-album's or an artist's file carries its hook the same way, under each locale's
-key. `pnpm music:untold` writes what each song still lacks to
-`docs/music/untold-songs.md`, and the song vet fails while that list is stale.
+overthinking it. **The hook is the agent's to write, unasked**, once the song
+has a story: a song is left without one only while it has none. The author's
+oxymorons («Этот жар — всё, что тебе нужно, чтобы не сгореть») are his
+signature, and a song that has one offers it first. An album's or an artist's
+file carries its hook the same way, under each locale's key. `pnpm music:untold`
+writes what each song still lacks to `docs/music/untold-songs.md`, and the song
+vet fails while that list is stale.
 
 ## Body
 
