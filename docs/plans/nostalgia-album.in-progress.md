@@ -336,10 +336,12 @@ voice note, is still to ask.
 Arseny Tarkovsky is not in `shared/music-catalogue/people.ts` yet; the scaffold
 adds him.
 
-Then the verdicts, one per blind file, and the reveal; then step 6's puts,
-scaffolds and pages, and step 7. A lossless source (7, `candle-burnt`) needs its
-winning master as FLAC too, which `master.py` does not yet write. Download the
-sources with
+The verdicts and the reveal are in `references.md` § "Verdicts": the winners are
+carcassi-caprice, farewell, night-garden, life-is-not-a-dream, in-the-flesh,
+call-me-by-name and farewell (candle-burnt), the two B ≈ C ties taken as B. Then
+step 6's puts, scaffolds and pages, and step 7. A lossless source (7,
+`candle-burnt`) needs its winning master as FLAC too, which `master.py` does not
+yet write. Download the sources with
 `gh release download music-sources -p 'nostalgia-*' -p 'father-sea-09-*'`.
 
 ## Settled with the operator

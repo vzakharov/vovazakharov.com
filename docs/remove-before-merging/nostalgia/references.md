@@ -183,6 +183,22 @@ The mix is the most dynamic of the seven (crest 13.1), so nothing in the pool is
 - onto-fingers — the closest balance (1.72), louder (−8.7 LUFS).
 - cancer — tone 1.93, as loud as onto-fingers.
 
+## Verdicts
+
+The operator's verdicts as given on `/music/mastering-blind-test` (A, B, C are positions 1, 2, 3), then the reveal: each key decoded from `blind/keys/`, its order and nonce hashing to the seal above. A tie goes to the master named first in it.
+
+| Piece                  | Verdict                                 | A               | B                           | C                   | Nonce                              | Winner              |
+| ---------------------- | --------------------------------------- | --------------- | --------------------------- | ------------------- | ---------------------------------- | ------------------- |
+| invitation-summer-gone | B ≈ C > A                               | monkey          | carcassi-caprice            | my-sultan           | `b0312d749770b7acd1ca3898af123d48` | carcassi-caprice    |
+| butterfly-rock         | B ≈ C > A                               | ignite          | farewell                    | comeback-song       | `be98fef6966a46a05e8a108d577bbbc0` | farewell            |
+| actor                  | A > B > C                               | night-garden    | my-sultan                   | in-the-shadow       | `90245e87832cbb5bd5374f2e3692329d` | night-garden        |
+| insomnia               | C ≳ A > B                               | breathe         | undone                      | life-is-not-a-dream | `7594627a34139ecd8b392619e0be02cd` | life-is-not-a-dream |
+| candle-tarkovsky       | A > C > B                               | in-the-flesh    | last-human-zoo              | 2girls1fridge       | `d04e7c4710687303baf732594b9d8c10` | in-the-flesh        |
+| winter-in-the-forest   | A > C > B                               | call-me-by-name | everything-begins-with-love | river-part-one      | `b38bb33fb7f55ceb9d762258c2ae510d` | call-me-by-name     |
+| candle-burnt           | all three near identical, C if anything | onto-fingers    | cancer                      | farewell            | `c08483ab6ec39064e45d92b9e6099ac2` | farewell            |
+
+The shortlist's top-ranked master came last in five of the seven (monkey, ignite, undone, last-human-zoo, river-part-one), and in-the-flesh and call-me-by-name, the densest of their lists, won theirs: matching the mix's crest factor favoured the open masters the ear liked least.
+
 ## Before Let the Stories Spin: 4 songs
 
 | Slug           | Title              | Artist      | Album        | Date       | Repo       | Ozone    | .RPP (Ozone found in)                         | Name match | Master source     | Catalogue master                                                                                                       |
