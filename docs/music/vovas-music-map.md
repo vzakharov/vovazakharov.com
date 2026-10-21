@@ -84,7 +84,7 @@ Each song has its own repository; these hold the album assembly.
 - `mu-icok` — Однажды в студёную зимнюю пору… (little-peasant), February 2024:
   the first «Мужичок» take, before `mu-icok-new`
 - `prsdemo` — Punk Rock Song (At 40), probably: Udio «Rage and Riffs» extensions,
-  May 2024 (guess)
+  May 2024
 
 ## «Ностальгия»
 
