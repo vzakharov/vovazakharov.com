@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-21T07:34:43Z
-- **Updated:** 2026-10-21T15:33:59Z
+- **Updated:** 2026-10-21T15:52:50Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 22
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at da50f7f). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/songs/butterfly-rock.md`:64 — unresolved — last: @vzakharov (human) 2026-10-21T14:58:49Z — "мб into light from shadow? чтобы две строчки подряд не закан…" → [↓](#t01)
 - **T02** `apps/vova/public/music/songs/butterfly-rock.md`:70 — unresolved — last: @vzakharov (human) 2026-10-21T14:59:20Z — "никогда не мог понять, при чём тут Китай. если сможешь найти…" → [↓](#t02)
@@ -27,7 +27,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **T08** `apps/vova/public/music/songs/invitation.md`:37 — unresolved — last: @vzakharov (human) 2026-10-21T15:10:13Z — "пояснить что за лефоше на русском тоже" → [↓](#t08)
 - **T09** `apps/vova/public/music/songs/invitation.md`:38 — unresolved — last: @vzakharov (human) 2026-10-21T15:10:24Z — "дать сноску-ссылку на Клементи" → [↓](#t09)
 - **T10** `apps/vova/public/music/songs/invitation.md`:44 — unresolved — last: @vzakharov (human) 2026-10-21T15:10:55Z — "в "выменял у судьбы" судьбы как будто более одушевлённо звуч…" → [↓](#t10)
-- **T11** `apps/vova/public/music/songs/invitation.md`:50 — unresolved — last: @vzakharov (human) 2026-10-21T15:11:38Z — "интересно не про эту ли же бабочку навеяло ему в "госпитальн…" → [↓](#t11)
+- **T11** `apps/vova/public/music/songs/invitation.md`:54 — unresolved — last: @vzakharov (human) 2026-10-21T15:11:38Z — "интересно не про эту ли же бабочку навеяло ему в "госпитальн…" → [↓](#t11)
 - **T12** `apps/vova/public/music/songs/summer-gone.md`:20 — unresolved — last: @vzakharov (human) 2026-10-21T15:14:42Z — "история: на эти стихи есть популярная песня, кажется, Матецк…" → [↓](#t12)
 - **T13** `apps/vova/public/music/songs/winter-in-the-forest.md`:40 — unresolved — last: @vzakharov (human) 2026-10-21T15:15:51Z — "на русском тоже можно пояснить" → [↓](#t13)
 - **T14** `apps/vova/public/music/songs/winter-in-the-forest.md`:1 — unresolved — last: @vzakharov (human) 2026-10-21T15:17:07Z — "а давай и здесь и в остальных стихах, помимо _моей_ истории,…" → [↓](#t14)
@@ -127,7 +127,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **T08** `apps/vova/public/music/songs/invitation.md`:37 — unresolved — last: @vzakharov (human) 2026-10-21T15:10:13Z — "пояснить что за лефоше на русском тоже" → [↓](#t08)
 - **T09** `apps/vova/public/music/songs/invitation.md`:38 — unresolved — last: @vzakharov (human) 2026-10-21T15:10:24Z — "дать сноску-ссылку на Клементи" → [↓](#t09)
 - **T10** `apps/vova/public/music/songs/invitation.md`:44 — unresolved — last: @vzakharov (human) 2026-10-21T15:10:55Z — "в "выменял у судьбы" судьбы как будто более одушевлённо звуч…" → [↓](#t10)
-- **T11** `apps/vova/public/music/songs/invitation.md`:50 — unresolved — last: @vzakharov (human) 2026-10-21T15:11:38Z — "интересно не про эту ли же бабочку навеяло ему в "госпитальн…" → [↓](#t11)
+- **T11** `apps/vova/public/music/songs/invitation.md`:54 — unresolved — last: @vzakharov (human) 2026-10-21T15:11:38Z — "интересно не про эту ли же бабочку навеяло ему в "госпитальн…" → [↓](#t11)
 - **T12** `apps/vova/public/music/songs/summer-gone.md`:20 — unresolved — last: @vzakharov (human) 2026-10-21T15:14:42Z — "история: на эти стихи есть популярная песня, кажется, Матецк…" → [↓](#t12)
 - **T13** `apps/vova/public/music/songs/winter-in-the-forest.md`:40 — unresolved — last: @vzakharov (human) 2026-10-21T15:15:51Z — "на русском тоже можно пояснить" → [↓](#t13)
 - **T14** `apps/vova/public/music/songs/winter-in-the-forest.md`:1 — unresolved — last: @vzakharov (human) 2026-10-21T15:17:07Z — "а давай и здесь и в остальных стихах, помимо _моей_ истории,…" → [↓](#t14)
@@ -340,7 +340,7 @@ Edit: Сам погуглил, нашёл вот это анализ, интер
 
 <a id="t11"></a>
 
-### `apps/vova/public/music/songs/invitation.md`:50 — unresolved
+### `apps/vova/public/music/songs/invitation.md`:54 — unresolved
 
 ```diff
 @@ -0,0 +1,60 @@
