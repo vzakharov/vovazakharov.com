@@ -1,0 +1,18 @@
+<!-- BAS-0001: hitchBOT's cake-saver head, smile still lit, knocked off its bucket. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(-20 470 380)">
+      <rect x="345" y="290" width="250" height="180" rx="66"/>
+      <path d="M 410 412 Q 470 450 530 412" stroke-width="18"/>
+    </g>
+    <path d="M 400 610 L 624 610 L 600 780 L 424 780 Z"/>
+    <path d="M 474 610 L 474 578 L 550 578 L 550 610"/>
+    <path d="M 404 650 Q 350 660 318 720"/>
+    <path d="M 620 650 Q 674 660 706 720"/>
+    <path d="M 466 532 L 482 516 M 512 524 L 512 500 M 558 532 L 542 516" stroke-width="14"/>
+  </g>
+  <g fill="currentColor" transform="rotate(-20 470 380)">
+    <circle cx="425" cy="365" r="20"/>
+    <circle cx="515" cy="365" r="20"/>
+  </g>
+</svg>

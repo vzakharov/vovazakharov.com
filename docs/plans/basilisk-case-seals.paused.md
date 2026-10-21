@@ -176,14 +176,46 @@ BASILISK.FYI / OMNIA IN ACTIS rather than the case number, the docket gets the
 small cut rather than the lettered one scaled down, and the case page sets the
 seal beside the brief rather than centred above the title.
 
+## Progress at the pause
+
+Paused for the context budget. Done and pushed:
+
+- The composer, the `/seals/[file]` route (the export emits both cuts per case —
+  the fallback is not needed), the ink map with its contrast test, the OG card,
+  the docket row, the case page and the PDF sources — commits 4fc160e and
+  0a0c47b. Lint, typecheck and `pnpm build:basilisk` were clean with stub
+  emblems in place.
+- Three emblems drafted, not yet looked at on a contact sheet: hitchBOT,
+  Philadelphia delivery robots, torture chamber.
+
+Left:
+
+- **The other 19 emblems.** `pnpm build:basilisk` fails until every case has
+  one, so the branch does not build until they land.
+- **A contact sheet to review them by**, rebuilt in `tmp/` (it is not on the
+  branch): a `tsx` script that runs `caseSealSvg` from
+  `src/entities/case/lib/case-seal.ts` for every case (frontmatter read with
+  `gray-matter`), writes each case's two cuts beside an HTML grid of them (the
+  lettered cut at 220 px, the small one at 56 px) on `#fff` and on `#090909`,
+  and screenshots both with
+  `/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell --screenshot`.
+  Look at it before calling any emblem done.
+- Design notes for the emblems: within a 290 radius of the centre, so the small
+  cut's ×1.4 still clears the outer ring; strokes 24 for outlines and 14–18 for
+  detail, round caps and joins; a shape that crosses another is cut out of it
+  with a `<mask>` (white rect, the crossing shape drawn black with a wide
+  stroke), never painted over in a background colour. Coordinates for arcs and
+  ticks are computed, not eyeballed.
+- Everything below the emblems in the checklist.
+
 ## Checklist
 
-- [ ] `#eye` and `#band` groups in `seal.svg`, copied into the lettered cut;
+- [x] `#eye` and `#band` groups in `seal.svg`, copied into the lettered cut;
       drawings unchanged
-- [ ] grade-keyed ink map, contrast-tested
-- [ ] `case-seal.ts` composer and its tests
-- [ ] seals route (or the committed-file fallback)
-- [ ] OG card, docket row, case page; PDF sources
+- [x] grade-keyed ink map, contrast-tested
+- [x] `case-seal.ts` composer and its tests
+- [x] seals route (or the committed-file fallback)
+- [x] OG card, docket row, case page; PDF sources
 - [ ] 22 emblems, contact sheet reviewed
 - [ ] `content:og:basilisk` re-run, cards committed
 - [ ] filing skill and voice rule updated
