@@ -12,8 +12,9 @@ swapped for a hand-drawn emblem of what the case is about, in an ink of
 its own.
 
 A case authors an `<slug>.emblem.svg` beside its dossier, drawn in
-`currentColor` inside the inner ring, and an `ink:` from a closed
-palette whose every colour reads on both themes. A node-safe composer in
+`currentColor` inside the inner ring; its ink is read off its grade,
+one colour per act and credit, each tested to read on both themes.
+A node-safe composer in
 `entities/case` swaps the emblem into the site seal's `#eye` group and
 re-inks it, so the rings and the BASILISK.FYI / OMNIA IN ACTIS band keep
 one home. The build emits two cuts per case under `/seals/`, and fails
