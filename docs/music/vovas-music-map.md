@@ -1,10 +1,11 @@
 # A map of `vovas-music`
 
-What the `vovas-music` organization holds beyond one repository per catalogued
-song: the GarageBand archive, which of it the catalogue already draws on, the
-releases still missing from the site and the repositories nobody has placed yet
-— so the next release to be added starts from it rather than from a search of
-250 repositories.
+Every repository in the `vovas-music` organization that is not one catalogued
+song's own: the GarageBand archive and which of it the catalogue already draws
+on, album sessions and working projects of catalogued songs, the releases and
+songs still missing from the site, videos, and the empty and the unidentified —
+so the next release to be added starts from it rather than from a search of 250
+repositories. Each song page's `repo:` names the rest.
 
 ## `gb-*` — the GarageBand archive
 
@@ -44,6 +45,46 @@ repositories the same day, each following that repository's layout:
 - `gb-my-hope` — my-hope
 - `gb-otter-band` — river-part-three
 - `gb-prototypes-band` — the Prototypes album
+
+## Album sessions of catalogued albums
+
+Each song has its own repository; these hold the album assembly.
+`tag-renders.json` already lists renders in the first three.
+
+- `Divine-Discontent--album-` — Divine Discontent: the album `.RPP`, all ten
+  tracks as FLAC/MP3 (numbered and `GENERATED - …` tagged), the whole album as
+  one MP3/MKV, the DALL·E cover
+- `psch_album` — PSCHPTHY: all twelve tracks numbered `1_overture` …
+  `12_erebos`; Overture and Intermezzo were scaffolded from it
+- `dng_album` — Пять романсов, два сонета и один реквием (Дамы и господа):
+  `dng-001` … `dng-007`, the source six of its songs were scaffolded from
+- `ctfu` — Cheer The Fuck Up: the album `.RPP`, its ten tracks' FLACs in
+  `Media/`, the album as one FLAC split in three, cover PNGs
+- `grebaniy-bal` — Ни для кого и для всех (Грёбаный бал): `01 Просто устал` …
+  `05 Окна`, five of its nine songs as FLAC, no project
+
+## Working projects of catalogued songs
+
+- `dream` — Fireflies: its Suno takes («Stones sailing through the sky», «Moon
+  descends…» are its lines) and `dream.flac`, byte-identical to `stories`'
+  `Media/dream.flac`
+- `ice` — Inverno: «ice phonk» takes; `ice_1.flac` is the file
+  `vagabond_album` uses for it
+- `mountains` — Wanderer's Farewell: Udio «Whispers of Serenity» plus coda;
+  `mountains_new.flac` is the file `vagabond_album` uses for it
+- `prologue` — Sirens of the Sands: `sirens.RPP` and `sirens.flac` (identical to
+  `vagabond_album`'s `sirens-imported-001.flac`), plus a «Prologue» never
+  catalogued
+- `revenge` — a 1:20 cut of Artemis (`artemis (final).wav`, same file as in
+  `artemis`)
+- `za_gorizont` — За горизонт (beyond-the-horizon): an intake project (March 2026)
+  beside `bezm`'s own `za_gorizont.RPP`; also holds «Прощание (проба)»
+- `night_garden` — Ночной сад (night-garden), July 2024: the Suno takes and a
+  «final» MP3, four months before `sad`
+- `mu-icok` — Однажды в студёную зимнюю пору… (little-peasant), February 2024:
+  the first «Мужичок» take, before `mu-icok-new`
+- `prsdemo` — Punk Rock Song (At 40), probably: Udio «Rage and Riffs» extensions,
+  May 2024 (guess)
 
 ## «Ностальгия»
 
@@ -88,3 +129,58 @@ On neither Apple Music nor the site:
 - `gb-Vybirau`, `gb-after-all-band`, `gb-chains-band`, `gb-Moa-pesna-3-band`,
   `gb-Moa-pesna-10-band` — projects with no bounce; no song repository matches
   them by content or name
+
+## Songs not in the catalogue
+
+On neither Apple Music nor the site, each named by its files; the titles are
+the files' own.
+
+- `ouroboros` — GENERATED's first song, the Jukebox «Ouroboros» of
+  `artists/generated.md`: Jukebox levels, three takes, `ouroboros_jb.mp3`
+- `Serdecki` — «Сердечки», five Suno takes and three `.RPP`s, December 2023 –
+  January 2024
+- `zakat` — «Закат», twelve Suno takes, February 2024
+- `kolybel-naa` — «Колыбельная» on Zabolotsky's «Меркнут знаки зодиака», three
+  takes, February 2024
+- `f-s` — «f&s», twenty takes and a master, April 2024
+- `cycle` — «cycle», five takes and a master, June 2024
+- `eurocrem` — «Eurocrem», a LANDR master, September 2024
+- `john24` — «John 24», a LANDR master, October 2024
+- `m3` — «M3», two takes, November 2024
+- `haunted` — «God-Haunted», a master and a part-three render, November 2024
+- `synedrion-overture` — an orchestral overture, three takes, July 2025 (not
+  PSCHPTHY's Overture, which is `wagner`)
+- `niks_b` — «niks_b», one WAV and its MP3, July 2025
+- `still_alive_original` — «Still Alive», own recordings plus two LANDR
+  masters, September 2025
+- `photo` — «Фото», recordings over a Suno take, September 2025
+- `photo-video` — the video for «Фото», October 2025 (its README says so)
+- `makethemfeel` — «Make Them Feel» with four AI video clips, October 2025
+- `pozdno` — «Поздно», vocals recorded over Make Them Feel's instrumental,
+  February 2026
+- `jezero` — «jezero», two voice memos and a render, October 2025
+- `v2000`, `v2000_old` — «v2000», two takes of one song with video, November
+  2025
+- `otherside` — «На той стороне», a LANDR master, December 2025
+- `gym` — «gym», a MIDI arrangement, December 2025
+- `butyrka` — «Бутырка», recordings and a first render, August 2026
+- `osen` — «Осень», a GarageBand `.band` and one bounce, November 2025
+
+## Videos
+
+- `bye_dad` — a video cut from phone clips over a Suno «bye_dad» cover,
+  September 2024
+- `laengle` — a video over ElevenLabs speech, November 2025
+- `meatjoe` — six downloaded clips in a video project, June 2025
+
+## Empty
+
+- `Divine-Discontent-album-`, `ghosts_of_flesh` — spelling twins of
+  `Divine-Discontent--album-` and `ghosts-of-flesh`
+- `muzicok`, `muzicok-new` — spelling twins of `mu-icok`, `mu-icok-new`
+- `cuzie` — a spelling twin of `cu-ie` (Чужие среди нас)
+- `epico`, `g35`, `local_elo` — only `.gitattributes`/`.gitignore`
+
+## Not music
+
+- `blog` — Vova's music blog: six 2024 posts on Suno and Udio
