@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 153726,
+    "cacheReadTokens": 6876695,
+    "outputTokens": 30461,
+    "thinkingTokens": 12244,
+    "responses": 43,
+    "costUsd": 3.2147109999999994
+  },
+  "estimate": {
+    "at": "2026-10-21T11:19:41.773Z",
+    "parts": [
+      {
+        "hours": 12.0,
+        "grade": "senior",
+        "role": "artist",
+        "comment": "22 bespoke emblems that each carry a case's point and still read at 56 px, in one consistent stamp style, is illustration judgement, not drafting"
+      },
+      {
+        "hours": 6.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a composer, a static seal route, three display sites and PDF/OG source wiring are routine slots in an existing pipeline"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "both themes, three sizes, card and print each want a look"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "d959fc55-342b-50d6-913d-a5bc99160fe3",
+  "branch": "claude/basilisk-case-seals-c86c9y",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "а давай разнообразим визуальную составляющую и OG-шки василиска -- каждая статья должна идти со своей \"круглой печатью\", отражающей (нарисованной вручную иконко…",
+  "prs": [
+    184
+  ],
+  "url": "https://claude.ai/code/session_01KJSmdtvUUiYeUDkUjSryJS",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T11:14:40.782Z",
+  "lastResponseAt": "2026-10-21T11:21:11.991Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 153726,
+    "cacheReadTokens": 6876695,
+    "outputTokens": 30461,
+    "thinkingTokens": 12244,
+    "responses": 43,
+    "costUsd": 3.2147109999999994
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 86,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 153726,
+      "cacheReadTokens": 6876695,
+      "outputTokens": 30461,
+      "thinkingTokens": 12244,
+      "responses": 43,
+      "costUsd": 3.2147109999999994
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/basilisk-case-seals.draft.do-not-implement.md",
+    "endedAt": "2026-10-21T11:18:39.548Z",
+    "contextTokens": 174279,
+    "spend": {
+      "inputTokens": 48,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 124137,
+      "cacheReadTokens": 3272350,
+      "outputTokens": 17925,
+      "thinkingTokens": 10938,
+      "responses": 24,
+      "costUsd": 2.006258
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
