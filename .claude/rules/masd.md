@@ -173,12 +173,12 @@ component reaching for the byline is what would split it into `index.ts` +
   a feature.
 - **An app's tooling is its `scripts/`, beside its layers rather than one of
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
-  slice's reference. A script enters its own app anywhere and an ancestor's
-  scripts directly, but an ancestor's layers only through a public API; it never
-  reaches root `scripts/`, which holds the repo's and the agent's tooling. A
-  script several sites run splits like the sitemap: a core in the lowest app
-  that owns the work, and an entry per site in its leaf app —
-  `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
+  slice's reference. A script enters its own app's scripts and its ancestors'
+  directly, since scripts have no public API, but every layer — its own app's
+  included — only through one; it never reaches root `scripts/`, which holds the
+  repo's and the agent's tooling. A script several sites run splits like the
+  sitemap: a core in the lowest app that owns the work, and an entry per site in
+  its leaf app — `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported
   identifiers keep their PascalCase (`card.tsx` exports `Card`).
 - **The checkers run with the stock recommended ruleset and two overrides**,

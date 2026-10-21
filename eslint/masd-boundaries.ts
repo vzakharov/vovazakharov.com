@@ -64,24 +64,15 @@ const policiesFor = (app: string) => {
       },
       allow: { to: { element: sharedLibEntry(apps) } },
     },
-    // An app's scripts sit beside its layers and enter its own tree anywhere;
-    // an ancestor's they enter as its own layers would, through a public API,
-    // except for the ancestor's scripts, which have none.
+    // An app's scripts sit beside its layers and enter them, their own app's
+    // and an ancestor's alike, through a public API; scripts have none, so an
+    // app's own and its ancestors' reach each other directly.
     {
       from: { element: { type: 'script', captured: { appName: app } } },
       allow: {
         to: [
           {
-            element: {
-              types: { anyOf: ['script', ...LAYERS] },
-              captured: { appName: app },
-            },
-          },
-          {
-            element: {
-              type: 'script',
-              captured: { appName: [...ancestors(graph, app)] },
-            },
+            element: { type: 'script', captured: { appName: apps } },
           },
           {
             element: {

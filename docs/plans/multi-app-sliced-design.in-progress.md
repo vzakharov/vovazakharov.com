@@ -159,11 +159,16 @@ Slice 3, app scripts in their apps: vet clean.
   shell's files. basilisk passes its case UI as a document source, which moves
   it out of the other sites' hashes; lsa has no entry and the render-pdfs action
   skips a site without one.
-- **The checkers**: a `script` element in `eslint/masd-boundaries.ts` — own app
-  anywhere, an ancestor's scripts directly, an ancestor's layers through a
-  public API, so `shared/content`'s node-safe barrel grew the registry's paths
-  and `contentHash`, and i18n's barrel `inLocale`; `check:masd` counts no script
-  as a reference (nothing it flagged); knip enters `src/*/scripts/*.ts`.
+- **The checkers**: a `script` element in `eslint/masd-boundaries.ts` — its own
+  app's and its ancestors' scripts directly, every layer, its own app's
+  included, through a public API (the operator overturned the recommended
+  own-app exception: «ну нет, кажется что это не кошерно… можно пока заигнорить
+  эти ошибки значит, но потом отыгнорить и починить»). The 56 script files that
+  already reach past one are grandfathered in a scoped `boundaries/dependencies`
+  override in `eslint.config.ts`, grouped by app. `shared/content`'s node-safe
+  barrel grew the registry's paths and `contentHash`, and i18n's barrel
+  `inLocale`; `check:masd` counts no script as a reference (nothing it flagged);
+  knip enters `src/*/scripts/*.ts`.
 
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
@@ -184,7 +189,8 @@ those slices carry their own tools along.
   an album, an artist, a song or the radio, becomes music's app layer, and those
   four become real pages under `music/pages/`. Which entities they share is
   decided by ordinary FSD once the pages exist. #82 and #86 touch music routing
-  and are left as they are.
+  and are left as they are. Music's scripts then enter its layers through public
+  APIs, and its entries leave the grandfathered block in `eslint.config.ts`.
 - **6. What is a page in a one-page app** — a deterministic measure beside
   `insignificant-slice`, then mushrooms restructured under it. The problem:
   mushrooms is a whole game on one URL, some 240 files — scene, creatures, day
@@ -202,7 +208,14 @@ those slices carry their own tools along.
   is a real module whoever its one consumer is) and **public-API width** (how
   much of a slice its consumers touch, against how much it holds). The
   deliverable is the measure, its threshold argued from this repo's real slices,
-  its wiring into `scripts/masd-check.ts`, and then the game restructured.
+  its wiring into `scripts/masd-check.ts`, and then the game restructured —
+  mushrooms' scripts entering it through public APIs, their entries leaving the
+  grandfathered block.
+- **7. The grandfathered script imports, retired.** basilisk's, kernel's,
+  shell's and vova's scripts enter their layers through public APIs — a
+  `index.node-safe.ts` where a script runs without a bundler — and the
+  `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
+  slices 5 and 6 left in it.
 
 ## DRY notes
 
