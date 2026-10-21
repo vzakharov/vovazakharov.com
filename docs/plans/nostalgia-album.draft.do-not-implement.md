@@ -32,12 +32,20 @@ Where the audio is, matched by duration (ffprobe) and by the silences in the
 album file:
 
 - **The whole album**: `Tarkos--al-bom-/таркос.mp3`, 30:22 (the distributor's
-  sum is 30:34). Silences fall at 303, 549, 787, 1174 and 1493 s. 0–303 s is
-  tracks 1 and 2 with no gap: Приглашение segues into Лето прошло.
-- **1** — `Tarkos--al-bom-/Media/Приглашение .mp3`, 1:07 (two longer takes
-  beside it).
-- **2** — only inside `таркос.mp3`. `Leto-proslo/лето прошло.mp3` is another
-  take, 4:40.
+  sum is 30:34). Silences fall at 303, 549, 787, 1174 and 1493 s.
+- **1 and 2 are one piece of music.** Лето прошло opens on a long ambient
+  stretch; on the album the operator laid the Приглашение recitative over that
+  stretch, so Лето прошло's opening became Приглашение's body, and track 2
+  starts almost at once on the guitar's first notes. So 0–303 s holds both with
+  no silence between them, the boundary at about 68 s (the distributor's 1:08),
+  where the guitar comes in. Приглашение is `segue`.
+- **1** — the album's first 68 s, recitative and ambient together.
+  `Tarkos--al-bom-/Media/Приглашение .mp3` (1:07) and the two longer takes
+  beside it are most likely the recitative alone.
+- **2** — the album's 68–303 s. `Leto-proslo/лето прошло.mp3` (4:40) is ~38 s
+  longer than track 1 and 2 together, which fits the whole song with its full
+  ambient opening: if it cross-correlates with the album from the guitar on, it
+  is the same take, and the better source.
 - **3** — `gb-babocka--metal-`, «бабочка (полуживые)» bounces, 3:59, and three
   takes as WAV in the `.band`. Apple still lists «Бабочка в госпитальном саду»
   as a Полуживые single, most likely this track. (`babocka--pop-` is
@@ -46,7 +54,10 @@ album file:
 - **5** — `gb-Bessonnica`, «Тарковский Бессонница» mp3 6:33, and a 6:36 WAV in
   the `.band`.
 - **6** — `sila/свеча.mp3`, 5:12, the same stretch as the album's 1186–1493 s.
-  `svecha` holds other takes, 3:38 and shorter.
+  `sila` is this song's repository throughout: the poem is «Меркнет зрение —
+  сила моя», whose refrain is «я свеча, я сгорел на пиру», and the
+  `Media/Сила моя (3–5).mp3` there are earlier takes of it. `svecha` is other
+  material and stays out of this album.
 - **7** — `gb-zima-v-lesu`, mp3 5:20, and a 5:21 WAV in the `.band`. Apple still
   lists it as a single.
 
@@ -90,9 +101,14 @@ For each track, the source is the take the album released:
 - Prefer a lossless file of that same take — the `.band` WAVs of 3, 5 and 7. A
   take counts as the same once it cross-correlates with the album's cut of that
   track. Otherwise use the per-track MP3 that matches by duration.
-- Track 2 comes out of `таркос.mp3` by the album-splitting procedure in
-  `scripts/song-intake/CLAUDE.md`, and so does any track with no per-track file
-  of its released take.
+- Tracks 1 and 2 come out of `таркос.mp3` as one 0–303 s piece, kept whole
+  through mastering (step 4). The cut at the guitar's entry has no silence to
+  find, so it goes at the guitar's first onset nearest the distributor's 1:08,
+  and the operator confirms it in the blind file. If `Leto-proslo`'s take proves
+  the same, it is the better source for the music, but the released mix (the
+  recitative over it) exists only in the album file, so the album cut stays the
+  source for the two tracks. Any other track with no per-track file of its
+  released take is split by the procedure in `scripts/song-intake/CLAUDE.md`.
 - A track whose source is an MP3 is mastered to an MP3 and marked `lossy`.
 
 Each source goes to the `music-sources` release as `nostalgia-NN-<slug>.<ext>`.
@@ -121,6 +137,11 @@ For each track, shortlist the three pool masters most like its mix:
 
 Master the track against each of the three with `master.py`, at the settings the
 Крылья run settled on (`--strength 0.5`, the air cap, peaks under -1 dBTP).
+
+**Tracks 1 and 2 are mastered as one piece and cut afterwards.** Mastered apart,
+each would get its own gain and EQ, and the segue would jump at the guitar's
+entry. One reference shortlist, one blind test, and one winner serve both
+tracks.
 
 ### 5. The blind A/B/C
 
@@ -160,13 +181,12 @@ Each song lives in the repository its takes already sit in, renamed to its slug:
 - `gb-Bessonnica` → `insomnia`
 - `gb-zima-v-lesu` → `winter-in-the-forest`
 - `Leto-proslo` → `summer-gone`; its source is the album cut, put in beside the
-  other take already there.
-- `svecha` → `candle`. The released take, `свеча.mp3` and `свеча.RPP`, sits in
-  `sila` beside «Сила моя», a different song, so those two files are copied
-  across and `sila` keeps its name.
-- `Tarkos--al-bom-` → `nostalgia`. It is the album's repository and the only one
-  holding Приглашение, so it serves `invitation`. It is not named after that
-  song, the way `vagabond_album` serves three songs.
+  take already there.
+- `sila` → `candle`: «Меркнет зрение — сила моя», the released take and the
+  earlier ones together. `svecha` keeps its name.
+- `Tarkos--al-bom-` → `nostalgia`. It is the album's repository, holds the album
+  file both tracks 1 and 2 are cut from, and the recitative takes, so it serves
+  `invitation`, the way `vagabond_album` serves three songs.
 
 Renaming is a write to those repositories, so it goes through
 `pnpm music:masters` too: a `rename <old> <new>` command beside `create`. GitHub
@@ -264,10 +284,8 @@ bounces from that directory's root went into the song repositories on
 - `butterfly-rock` (was `gb-babocka--metal-`)
 - `actor` (was `akte-r`)
 - `insomnia` (was `gb-Bessonnica`)
-- `candle` (was `svecha`)
+- `candle` (was `sila`; the poem is «Меркнет зрение — сила моя»)
 - `winter-in-the-forest` (was `gb-zima-v-lesu`)
-
-`sila` keeps «Сила моя» and the original copy of Свеча's released take.
 
 **On Apple Music, not on the site:**
 
