@@ -46,6 +46,12 @@
       "Divine-Discontent--album-/GENERATED - 300,000 Years.mp4"
     ]
   },
+  "actor": {
+    "hash": "",
+    "paths": [
+      "actor/actor.mp3"
+    ]
+  },
   "after-us": {
     "hash": "690574ba11e9",
     "paths": [
@@ -247,6 +253,12 @@
       "june/Полуживые - Повелитель ветра feat. GENERATED.mp3"
     ]
   },
+  "butterfly-rock": {
+    "hash": "",
+    "paths": [
+      "butterfly-rock/butterfly-rock.mp3"
+    ]
+  },
   "buy-you-a-house": {
     "hash": "56f6f4ccf0ae",
     "paths": [
@@ -323,6 +335,12 @@
       "rak/Грёбаный бал - Не смотри.mp3",
       "rak/Не смотри.flac",
       "rak/Не смотри.mp3"
+    ]
+  },
+  "candle-tarkovsky": {
+    "hash": "",
+    "paths": [
+      "candle-tarkovsky/candle-tarkovsky.mp3"
     ]
   },
   "cant-take-your-eyes-out-of-you": {
@@ -1009,6 +1027,12 @@
       "inside/inside_master_pop.mp3"
     ]
   },
+  "insomnia": {
+    "hash": "",
+    "paths": [
+      "insomnia/insomnia.mp3"
+    ]
+  },
   "intermezzo": {
     "hash": "f10ae4381b69",
     "paths": [
@@ -1040,6 +1064,12 @@
       "vagabond_album/vagabond_album-003.mp3",
       "vagabond_album/Полуживые - Inverno feat. GENERATED.flac",
       "vagabond_album/Полуживые - Inverno feat. GENERATED.mp3"
+    ]
+  },
+  "invitation": {
+    "hash": "",
+    "paths": [
+      "nostalgia/invitation.mp3"
     ]
   },
   "is-it-your-fault": {
@@ -1796,6 +1826,12 @@
       "succumb/GENERATED - Succumb to Me.mp4",
       "succumb/succumb.flac",
       "succumb/succumb.mp3"
+    ]
+  },
+  "summer-gone": {
+    "hash": "",
+    "paths": [
+      "summer-gone/summer-gone.mp3"
     ]
   },
   "there": {
