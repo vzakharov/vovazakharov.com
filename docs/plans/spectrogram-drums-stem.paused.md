@@ -61,14 +61,30 @@ Vova's review of PR #138 on 2026-10-20 (`docs/pr/138/pr.md`, R01 and T01–T04):
 - **`N` spelled out** in the sidecar's section header (a8bf324): no chord, the accompaniment too quiet to name one.
 - All eleven re-cut and re-rendered (a026bc0); intertwined's section 3 still reads one kick per beat 0:48–1:17 and the lone cymbal at 1:15.
 
-## Open questions for Vova's ear
+## Vova's ear, answered (2026-10-21)
 
-- **Bass**: is there a bass at hello 0:34–0:42 and 1:06–1:16, listen-single 0:00–0:53, after-us 0:31–0:35? A yes there means demucs filed it as other, and the strip needs a reading that keeps a real bass in other without taking the harmony's bottom.
-- **intertwined**: the crash at 0:48 is unmarked (the kick shapes absorb it); is a faint cymbal at 1:15.02 and at 0:31.63 something or noise?
-- **birds**: the first mark is a faint hat at 1:19.97, a second before his 1:21.
-- **Toms**: below.
+Verbatim, each under the question it answers:
 
-## Open question (blocks the re-render)
+- **hello 0:34–0:42, 1:06–1:16, a bass?** «там нижние аккорды фортепиано, звучат действительно как бас. Нужно ли (и можно ли) это надёжно определять я не уверен -- я сам деж знаю что пианино только потому что слышу его до этого and it logically makes no sense to play the bass on all but the first chords of a harmonic line»
+- **listen-single 0:00–0:53?** «ну он там вроде всю песню на одних и тех же трех нотах, но в верхнем (для баса) регистре»
+- **after-us 0:31–0:35?** «там относительное затихание и тоже неясно пианино это или бас (не забывай это суно 2, качество там ещё далеко от идеала»
+- **intertwined, the crash at 0:48?** «вполне»
+- **intertwined 1:15.02 and 0:31.63?** «думаю и там и там ты говоришь про букву С ("пожелтевшие ССтраницы" и "переплелаССь нить" соответственно)»
+- **birds 1:19.97?** «вроде услышал, но хет это или вдох перевд "в новый день", сказать сложно.»
+- **just-because from 1:28.70, tom or fat snare?** «томов там не слышу, ритм примерно (если считать шестнадцатыми, точки -- паузы) -- K..KS.......S...K..KS.......S...»
+- **listen 1:00–1:06, a hit every 0.5 s?** «Там что-то неопределённое, вроде как "оборванный" звук того же что звучит на 0:21, но он (повтор каждые полсекунды) начинается около 0:36, не 1:00»
+- **world-as-it-is, 26 toms?** «я тебе больше скажу, там нет *ударных* вообще во всей песне»
+
+What follows for the work, the agent's reading:
+
+- **Bass: no change.** The bass strip stays on the bass stem alone. Piano lows in hello and after-us are not a bass, and Vova doubts they can be told apart reliably; listen-single's high three-note bass is a maybe worth one look at whether the bass stem carries it.
+- **Vocal bleed lights cymbals**: intertwined's 1:15.02 and 0:31.63 are sibilants, and birds' 1:19.97 may be a breath. A cymbal (and hat) hit wants rejecting where the vocals stem has a high-band onset at the same moment.
+- **A crash under a kick goes unmarked** (intertwined 0:48, clearly audible): the lane-cost rule gives it nothing when the kick shapes explain the hit.
+- **just-because's 1.34 s "tom" is the snare**: at 89 BPM a sixteenth is 0.17 s, and the snare every 8 sixteenths of `K..KS.......S...` is 1.35 s. A fat-bodied snare shape is the fix, measured off that stem.
+- **Non-drum sound in the drums stem lights lanes**: world-as-it-is has no drums at all (27 hits drawn), listen has a repeated cut-off sound from about 0:36. Something must refuse a stem, or a stretch, that holds no kit — for instance hits whose shape the kit fits badly, or a stem far under the mix's level.
+- Lyrics: birds' last line is «В новый день» (e2c4bad), not «Улетай».
+
+## Open question (answered above; kept for the measurements)
 
 **Toms and mid-band hits are unstable on the songs without ground truth.** `test_tom` still fails: a 120 Hz synthetic tom reads as the boomy kick (hello 1:26.93), which in nine bands it nearly is; the tom shape in `PIECES_DB` was never measured. On real stems the tom lane lights in regular patterns that look wrong — world-as-it-is 26 toms and 1 kick; just-because a tom every 1.34 s from 1:28.70, broad 120 Hz–8 kHz hits that may be a snare with a fat body; listen 1:00–1:06, one similar hit every 0.5 s labelled snare, kick, tom, snare in turn. Asked Vova for his ear on those three spots; a confirmed tom gives a measured shape, a confirmed snare a third snare shape.
 
@@ -85,7 +101,7 @@ Relay 6 proposed filing "strips from demucs stems" as a separate issue. Vova, fo
 ## What is left
 
 0. ~~Strips from all four stems~~ (done in relay 8's session, above).
-1. **Settle the toms** with Vova's answer (above), fix `test_tom` against what he hears, re-run the per-lane summary over all eleven, and re-render all eleven (stems per relay-7.md § 6, `spectrogram.py` taking the stems directory).
+1. **Act on Vova's ear** (§ "Vova's ear, answered"): reject vocal bleed in the cymbal lane, mark a crash under a kick, add a fat-snare shape off just-because, refuse non-drum sound (world-as-it-is, listen from 0:36); fix `test_tom` against what he hears, add tests for each, re-run the per-lane summary over all eleven, and re-render all eleven (stems per `scripts/song-intake/CLAUDE.md`, `spectrogram.py` taking the stems directory).
 2. ~~Rewrite `drums.py` to read the stem~~ (done, above) — the original spec, kept for reference: **Rewrite `drums.py` to read the stem**: align it to the master; find onsets as above; per onset, unmix the power it adds over the frames before (linear power, not dB rises) onto per-piece band shapes taken from the measurements above — two kicks, toms, snare, clap, closed hat, crash/ride — by NNLS. Reject an onset whose fit leaves much of its power unexplained (the riser) or that sits more than ~25 dB under the stem's loud hits (bleed). A lane is as bright as its piece's level against that lane's own loud hits; one mark per onset, never one per frame. The kick-with-click shape is what keeps a kick's click out of the snare lane, so intertwined's section 3 reads kick only.
 2. **`spectrogram.py --drums <stem>`**; without it the drum row is left out and the run says so, since a mix-based row is noise. Test the onset picking, the alignment and the unmix on synthetic strikes in `test_song_facts.py`, replacing the mix-based drum tests.
 3. **Check against the ground truth above** before re-rendering anything: birds silent to 1:20 and a hat first; hello a kick at 1:19–1:20, a snare at 1:23, no cymbal lane at the start of section 5; intertwined one kick per beat 0:48–1:17 and nothing after until 1:28.
