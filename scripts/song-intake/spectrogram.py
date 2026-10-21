@@ -24,8 +24,7 @@ song's picture, and at the head of its line in the sidecar.
 
 --from and --to draw that stretch at the full width alone, on song time; the
 analysis still runs on the whole song, and such a zoom writes no sidecar,
-which describes all of it. Every zoom draws a faint line down the strips at
-each beat, where the beats stand far enough apart to read.
+which describes all of it.
 
 Where the voice sits and where its melody goes, where the drums come in, a
 bridge that drops out, where one section gives way to the next, a master that
@@ -56,8 +55,10 @@ five far apart are not. A faint cell is grey, its octave too unsure to colour,
 and a strip is dark where its stem is quiet.
 
 At the bottom, the drums off the drums stem: four lanes, kick, toms, snare
-(claps with it) and cymbals, each a hue of its own and a mark as bright as
-the hit, so the rhythm reads off it the way the harmony reads off the strips.
+(claps with it) and cymbals, each a hue of its own and a dot per hit, its area
+and brightness the hit's, so the rhythm reads off it the way the harmony reads
+off the strips. Where the hits run denser than a dot, the dots merge into a
+bar, which across a whole song still says where the drums play.
 `drums.py` says how the stem is read and which of its onsets it refuses.
 
 The spectrogram's map is cut into 2.5 dB steps, the strips' into a few
@@ -75,7 +76,7 @@ from pathlib import Path
 import numpy as np
 
 from audio import FLOOR_DB, LOW_HZ, QUIET, SR, TOP_HZ, aligned, decode, log_rows, mmss, stft_magnitude
-from drums import LANES, drum_hits, drum_lanes
+from drums import LANES, drum_hits
 from harmony import note_names
 from pitch import NOTE_BAND_HZ, chroma_shares
 from song_facts import measure, sidecar, tempo_label, tuning_label
@@ -90,8 +91,6 @@ PLOT_LEFT, PLOT_RIGHT = 0.055, 0.94
 # A song's tuning is in the title when it is this far off A440: past it, a
 # note sits a fifth of the way to its neighbour.
 TITLE_TUNING_CENTS = 15
-# Beat lines closer than this are a wash, not a grid.
-BEAT_MIN_PX = 6
 
 # demucs's four stems, by the names of the files it writes.
 STEMS = ("drums", "bass", "other", "vocals")
@@ -124,6 +123,13 @@ DRUM_COLOURS = {"kick": "#ff6a3d", "toms": "#ffb347", "snare": "#fff27a", "cymba
 DRUM_STEPS = 8
 # The drum row's height against the strips', and the figure's height with it.
 KIT_RATIO = 0.8
+# A dot's diameter in pixels, the faintest hit's and the loudest's, a lane
+# being about 20 px tall; its area grows with the hit. The faintest hit is
+# still lit DIM_STEP steps up its lane's ramp, since a dark dot on black is
+# no dot. A black rim keeps dots that touch apart.
+DOT_PX = (4, 14)
+DIM_STEP = 3
+RIM_PX = 0.6
 
 
 def envelope(x, columns):
@@ -165,10 +171,17 @@ def drum_ramps():
     return np.array([t * np.array(to_rgb(DRUM_COLOURS[lane])) for lane in LANES])
 
 
-def drum_image(hits, ramps):
-    """RGB lanes x columns: each cell its lane's ramp, at the step its hits reach."""
-    steps = np.round(hits * (DRUM_STEPS - 1)).astype(int)
-    return ramps[np.arange(len(LANES))[:, None], steps]
+def drum_dots(times, lit, t0, t1, ramps):
+    """The hits from t0 to t1 as dots: (time, lane, area in points², RGB) each,
+    faintest first so a loud hit is drawn over the faint one beside it."""
+    inside = (times >= t0) & (times < t1)
+    hit, lane = np.nonzero(lit[inside])
+    level = lit[inside][hit, lane]
+    order = np.argsort(level, kind="stable")
+    hit, lane, level = hit[order], lane[order], level[order]
+    diameter_pt = (DOT_PX[0] + (DOT_PX[1] - DOT_PX[0]) * np.sqrt(level)) * 72 / DPI
+    steps = DIM_STEP + np.round(level * (DRUM_STEPS - 1 - DIM_STEP)).astype(int)
+    return times[inside][hit], lane, diameter_pt**2, ramps[lane, steps]
 
 
 def envelope_image(peak, rms, rows=128):
@@ -266,11 +279,6 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
     wave.yaxis.set_major_locator(NullLocator())
     wave.set_ylabel("level")
 
-    # Beats only where they stand apart: across a whole song they are a grey wash.
-    beats = facts.beats[(facts.beats >= t0) & (facts.beats < t1)]
-    plot_px = WIDTH_PX * (PLOT_RIGHT - PLOT_LEFT)
-    if not zoomed or len(beats) < 2 or np.median(np.diff(beats)) / duration * plot_px < BEAT_MIN_PX:
-        beats = []
     ramps = chroma_ramps()
     _, tonic, mode = facts.keys[0]
     names = note_names(tonic, mode)
@@ -299,16 +307,13 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
     strips[0][1].set_title("octave", fontsize=8)
 
     kit_ramps = drum_ramps()
-    kit.imshow(
-        drum_image(drum_lanes(*drums, t0, t1, columns), kit_ramps), origin="lower", aspect="auto",
-        extent=(t0, t1, -0.5, len(LANES) - 0.5), interpolation="nearest",
-    )
+    when, lane, area, colour = drum_dots(*drums, t0, t1, kit_ramps)
+    kit.set_facecolor("black")
+    kit.scatter(when, lane, s=area, c=colour, edgecolors="black", linewidths=RIM_PX * 72 / DPI)
+    kit.set_ylim(-0.5, len(LANES) - 0.5)
     kit.yaxis.set_major_locator(FixedLocator(range(len(LANES))))
     kit.set_yticklabels(LANES, fontsize=7)
     kit.set_ylabel("drums")
-    for strip in [s for s, _ in strips] + [kit]:
-        for t in beats:
-            strip.axvline(t, color="white", alpha=0.45, linewidth=0.6)
 
     kit.set_xlim(t0, t1)
     kit.xaxis.set_major_locator(MultipleLocator(next(s for s in (60, 30, 15, 5, 2, 1) if duration / s >= 8)))

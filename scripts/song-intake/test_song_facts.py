@@ -147,7 +147,8 @@ class Sidecar(unittest.TestCase):
             "tempo 120–124 BPM, median 120",
             "key G minor (r 0.81; next B♭ major, 0.73)",
             "tuning A = 440 Hz −3 ¢",
-            "sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded:",
+            "sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded"
+            " (N: no chord, the accompaniment too quiet to name one):",
             "1  0:00–0:40  120 BPM  −13 dB  Gm E♭ F ×2",
             "2  0:40–1:35  124 BPM  −10 dB  N Gm",
         ])

@@ -171,13 +171,3 @@ def drum_hits(stem):
             lit[on, k] = np.clip(1 + db / LANE_RANGE_DB, 0, 1)
     some = lit.any(axis=1)
     return frames[some] * step, lit[some]
-
-
-def drum_lanes(times, lit, t0, t1, columns):
-    """Per column of the plot from t0 to t1, each lane's brightness 0–1, as (len(LANES), columns)."""
-    lanes = np.zeros((len(LANES), columns))
-    inside = (times >= t0) & (times < t1)
-    column = ((times[inside] - t0) / (t1 - t0) * columns).astype(int)
-    for c, row in zip(column, lit[inside]):
-        lanes[:, c] = np.maximum(lanes[:, c], row)
-    return lanes
