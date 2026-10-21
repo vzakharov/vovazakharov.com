@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 90,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 175642,
+    "cacheReadTokens": 7789641,
+    "outputTokens": 27615,
+    "thinkingTokens": 9116,
+    "responses": 45,
+    "costUsd": 3.5157241999999997
+  },
+  "estimate": {
+    "at": "2026-10-21T13:41:33.942Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "revealing seven sealed keys, recording the verdicts, adding a FLAC output to master.py and re-making three masters with a determinism check is routine scripted audio work"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "6362a78b-f214-5997-aa2a-24d044d3adf9",
+  "branch": "claude/nostalgia-album-0ar5hp",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/nostalgia-album-0ar5hp invitation-summer-gone: B~=C > A butterfly-rock: B~=C > A actor: A>B>C insomnia: C ~> A > B candle-tarkovsky: A > C >…",
+  "prs": [
+    181
+  ],
+  "url": "https://claude.ai/code/session_014M7ZC1y52jKSsmbeSMHvtQ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T13:24:01.036Z",
+  "lastResponseAt": "2026-10-21T13:42:39.201Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 90,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 175642,
+    "cacheReadTokens": 7789641,
+    "outputTokens": 27615,
+    "thinkingTokens": 9116,
+    "responses": 45,
+    "costUsd": 3.5157241999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 90,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 175642,
+      "cacheReadTokens": 7789641,
+      "outputTokens": 27615,
+      "thinkingTokens": 9116,
+      "responses": 45,
+      "costUsd": 3.5157241999999997
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/remove-before-merging/nostalgia/references.md",
+    "endedAt": "2026-10-21T13:26:37.746Z",
+    "contextTokens": 158554,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 107371,
+      "cacheReadTokens": 1201167,
+      "outputTokens": 5656,
+      "thinkingTokens": 2685,
+      "responses": 11,
+      "costUsd": 1.2124094
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
