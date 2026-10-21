@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 53412,
+    "cacheReadTokens": 788512,
+    "outputTokens": 2646,
+    "thinkingTokens": 478,
+    "responses": 8,
+    "costUsd": 0.6379824
+  },
+  "estimate": {
+    "at": "2026-10-21T07:58:24.020Z",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "picking up a relayed branch: re-reading the plan and PR state to hand the operator an accurate status takes a developer who knows the loop"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "5c41dc53-fc7f-5488-bee7-86f44d6df2df",
+  "branch": "claude/nostalgia-album-0ar5hp",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/nostalgia-album-0ar5hp — план альбома «Ностальгия» ждёт одобрения",
+  "prs": [],
+  "url": "https://claude.ai/code/session_016BgMdUGggb3PEigRXVPo6o",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T07:58:00.150Z",
+  "lastResponseAt": "2026-10-21T07:58:37.013Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 53412,
+    "cacheReadTokens": 788512,
+    "outputTokens": 2646,
+    "thinkingTokens": 478,
+    "responses": 8,
+    "costUsd": 0.6379824
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53412,
+      "cacheReadTokens": 788512,
+      "outputTokens": 2646,
+      "thinkingTokens": 478,
+      "responses": 8,
+      "costUsd": 0.6379824
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-21T07:58:37.013Z",
+    "contextTokens": 111881,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 52891,
+      "cacheReadTokens": 677154,
+      "outputTokens": 1794,
+      "thinkingTokens": 383,
+      "responses": 7,
+      "costUsd": 0.5944948
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
