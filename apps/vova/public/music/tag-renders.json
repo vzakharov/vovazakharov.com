@@ -2042,10 +2042,15 @@
     ]
   },
   "winter-in-the-forest": {
-    "hash": "",
+    "hash": "fd3255b51ca8",
     "paths": [
+      "winter-in-the-forest/Poluzhivye - Zima v lesu.flac",
+      "winter-in-the-forest/Poluzhivye - Zima v lesu.mp3",
+      "winter-in-the-forest/Poluzhivye - Zima v lesu.mp4",
       "winter-in-the-forest/winter-in-the-forest.flac",
-      "winter-in-the-forest/winter-in-the-forest.master.mp3"
+      "winter-in-the-forest/winter-in-the-forest.master.mp3",
+      "winter-in-the-forest/Полуживые - Зима в лесу.flac",
+      "winter-in-the-forest/Полуживые - Зима в лесу.mp3"
     ]
   },
   "world-as-it-is": {
