@@ -29,11 +29,11 @@
 Кленовое отрепье
 Слетело, трепеща,
 
-<!-- ask 8 -->
-
 В кувшине кислорода
 Истлело на весу...
 Какая там свобода,
+Когда зима в лесу.
+
 Когда зима в лесу.
 
 <!-- lyrics:en -->
@@ -66,6 +66,8 @@ Have flown off, trembling,
 In a jug of oxygen
 They mouldered in mid-air...
 What freedom can there be
+When it is winter in the forest.
+
 When it is winter in the forest.
 
 [^koschei-en]: Koschei the Deathless, the bony villain of Russian fairy tales.

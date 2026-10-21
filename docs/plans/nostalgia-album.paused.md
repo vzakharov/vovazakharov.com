@@ -303,22 +303,14 @@ Done:
   all eight drafts in `nostalgia/lyrics/` made to read as sung, with cribs; the
   procedure in `scripts/song-intake/CLAUDE.md` § "Lyrics".
 
-Waiting on the operator: eight numbered questions, each an `<!-- ask N -->` line
-in a draft (the drafts hold the best reading meanwhile):
-
-1. invitation — «город Обид»: both recognisers hear «Обидный».
-2. summer-gone — «Словно и не бывало»: both hear it without «и».
-3. summer-gone — the coda, 3:52–4:21: «Вот и лето прошло» ×3 and «Только этого
-   мало», as Deepgram hears it?
-4. butterfly-rock — «А имя бабочки — рисунок, / Нельзя произнести его» and the
-   whole «Пожалуйста, не улетай» stanza are heard by neither: not sung?
-5. actor — 2:07–2:41: only «Всё кончается…» and «Дранкой вверх…» are heard.
-6. insomnia — 2:28: both hear «…наводят затворы» for «Свёрла медленно входят в
-   затворы».
-7. candle-tarkovsky — 0:31–0:55 heard by neither (lines 1–6, under effects?);
-   2:31–2:48 heard by neither (vocalise? a repeat?).
-8. winter-in-the-forest — ~3:37 Deepgram hears «…в лесу»: a closing repeat of
-   «Когда зима в лесу»?
+The operator answered the eight questions the hearing left open, and the drafts
+carry the answers: «город Обид», «Словно и не бывало» with «и», the coda as
+drafted, the butterfly's last stanza and «А имя бабочки» not sung, the actor's
+bridge two lines picked from the first stanza, «Свёрла медленно входят в
+затворы» as printed, candle-tarkovsky's first stanza growled to ~1:05 and the
+poem sung as written, and «Когда зима в лесу» repeated at 3:39. «Бессонницу»
+sings someone other than the operator («пою не я») — who, for `project` or a
+voice note, is still to ask.
 
 Arseny Tarkovsky is not in `shared/music-catalogue/people.ts` yet; the scaffold
 adds him.

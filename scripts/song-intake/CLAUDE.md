@@ -63,8 +63,8 @@ credit line in any transcript is invented and never reaches the words.
 **A stem with bleed has no silences to cut at**: `silencedetect` finds none
 where the instruments leak through. A loudness envelope in 2-second windows does
 — the sung stretches stand 10 dB or so above the bleed. A stretch that stays
-unheard in pieces too (heavy effects, a whisper) is asked about, never filled in
-from the poem.
+unheard in pieces too (a growl, heavy effects, a whisper) is asked about, never
+filled in from the poem.
 
 Neither transcript is the lyrics. The draft reconciles both, keeps the line
 breaks the music makes, and marks every line the two disagreed on, because the
