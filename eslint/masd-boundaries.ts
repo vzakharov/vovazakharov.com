@@ -13,6 +13,8 @@ import { ancestors, loadGraph, SLICED_LAYERS } from './masd-graph';
 // A closed list, so any other `index.*.ts` is still reaching into internals.
 const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
 
+const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
+
 const graph = loadGraph();
 const APPS = [...graph.keys()];
 
@@ -62,6 +64,27 @@ const policiesFor = (app: string) => {
       },
       allow: { to: { element: sharedLibEntry(apps) } },
     },
+    // An app's scripts enter every layer, their own app's included, through a
+    // public API, and their own app's and ancestors' scripts, which have none,
+    // directly.
+    {
+      from: { element: { type: 'script', captured: { appName: app } } },
+      allow: {
+        to: [
+          {
+            element: { type: 'script', captured: { appName: apps } },
+          },
+          {
+            element: {
+              types: { anyOf: LAYERS },
+              captured: { appName: apps },
+              fileInternalPath: PUBLIC_API,
+            },
+          },
+          { element: sharedLibEntry(apps) },
+        ],
+      },
+    },
     // Strictly downward, and only through the target's public API: the same
     // layer in an ancestor is as sideways as a sibling slice.
     ...SLICED_LAYERS.map((layer, index) => ({
@@ -91,6 +114,13 @@ export const boundariesConfig: Config = {
         type: 'router',
         pattern: ['sites/*/app'],
         capture: ['siteName'],
+        partialMatch: true,
+      },
+      // An app's own tooling, beside its layers rather than one of them.
+      {
+        type: 'script',
+        pattern: ['src/*/scripts'],
+        capture: ['appName'],
         partialMatch: true,
       },
       ...['app', 'shared'].map((layer) => ({
@@ -135,7 +165,7 @@ export const boundariesConfig: Config = {
             allow: {
               to: {
                 element: {
-                  types: { anyOf: ['app', ...SLICED_LAYERS, 'shared'] },
+                  types: { anyOf: LAYERS },
                   fileInternalPath: PUBLIC_API,
                 },
               },

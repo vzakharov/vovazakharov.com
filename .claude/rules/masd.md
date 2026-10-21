@@ -136,13 +136,14 @@ component reaching for the byline is what would split it into `index.ts` +
     otherwise re-evaluate at hydration. A fence wants a reason of that kind: a
     dependency's weight is not one, since removing the dependency removes the
     fence and whatever was built on it.
-  - **`index.node-safe.ts`** is the bundler axis: what resolves under
-    `scripts/`, which runs with none — so the graph behind it spells its
+  - **`index.node-safe.ts`** is the bundler axis: what resolves under an app's
+    `scripts/`, which run with none — so the graph behind it spells its
     extensions, holds no CSS, JSX or asset import, and carries no `server-only`,
     which throws outside a React server bundle. `shared/config` has one, over
-    `resolveSiteId`, and `entities/case` one over the grade stamp's text, which
-    the case's social card prints. A script reaching past a public API into a
-    leaf is the smell that this barrel is missing.
+    `resolveSiteId`, `shared/content` one over the collection registry's paths,
+    and `entities/case` one over the grade stamp's text, which the case's social
+    card prints. A script reaching past a public API into a leaf is the smell
+    that this barrel is missing.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time
   (`@/kernel/shared/lib/class-names`), each **a single file** and its own public
   API — nothing sits beside it to hide, so `boundaries` lets the layers above
@@ -170,6 +171,14 @@ component reaching for the byline is what would split it into `index.ts` +
   is why the CV locale picker lives in `vova/pages/cv/ui/` and the home page's
   project and article cards in `vova/pages/home/ui/`, rather than each becoming
   a feature.
+- **An app's tooling is its `scripts/`, beside its layers rather than one of
+  them** — Steiger reads no layer there, and `check:masd` counts no script as a
+  slice's reference. A script enters its own app's scripts and its ancestors'
+  directly, since scripts have no public API, but every layer — its own app's
+  included — only through one; it never reaches root `scripts/`, which holds the
+  repo's and the agent's tooling. A script several sites run splits like the
+  sitemap: a core in the lowest app that owns the work, and an entry per site in
+  its leaf app — `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported
   identifiers keep their PascalCase (`card.tsx` exports `Card`).
 - **The checkers run with the stock recommended ruleset and two overrides**,
@@ -227,10 +236,9 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   the repository root and it is not.
 - **`@/` points at `src/`.** Anything outside it — a site's `public/` and the
   markdown it serves, root `styles/` and the Sass partial it holds — is reached
-  by URL or relative path, not by alias. `scripts/` is the exception that proves
-  it: a script importing a type from the tree spells the alias out
-  (`@/kernel/shared/typings`) under `tsx`, or a relative path when it runs under
-  bare Node.
+  by URL or relative path, not by alias. An app's `scripts/` run outside any
+  bundler and still sit under `src/`: they spell the alias out under `tsx`, and
+  a relative path with its extension when they run under bare Node.
 - **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
   ESLint loads it under jiti and the scripts under bare Node.
 - **next-intl's request config is found by path, not by import.** Each site's

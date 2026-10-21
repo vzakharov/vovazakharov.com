@@ -30,9 +30,9 @@ runs:
         key: pdf-${{ inputs.site }}-${{ github.sha }}
         restore-keys: pdf-${{ inputs.site }}-
 
-    # in-site.sh rather than a `content:pdf:<site>` script, so one call covers
-    # every site including the ones that print nothing — those cost an exit, no
-    # browser and no server.
+    # The site's own entry by path rather than a `content:pdf:<site>` script,
+    # so one call covers every site: a site that prints nothing has no entry,
+    # and costs an exit — no browser and no server.
     #
     # The ceiling is on the whole render, which the per-print timeout cannot
     # bound: a cold cache prints the collection entire, and that has to fit the
@@ -40,7 +40,10 @@ runs:
     # because `timeout-minutes` is unavailable on a composite action's steps.
     - name: Print what drifted
       shell: bash
-      run: timeout 20m scripts/in-site.sh '${{ inputs.site }}' tsx scripts/render-pdf.ts --from-out
+      run: |
+        entry='src/${{ inputs.site }}/scripts/render-pdf.ts'
+        [[ -f "$entry" ]] || exit 0
+        timeout 20m scripts/in-site.sh '${{ inputs.site }}' tsx "$entry" --from-out
 
     # The manifests stay behind: they are the render's bookkeeping, not
     # published files.

@@ -80,7 +80,7 @@ scripts/run-parallel.sh \
   mantine-styles='pnpm check:mantine-styles' \
   i18n-payload='pnpm check:i18n-payload' \
   prose-quotes='pnpm check:prose-quotes' \
-  songs='scripts/vet-songs.sh' \
+  songs='src/music/scripts/vet-songs.sh' \
   og-vova='pnpm content:og:vova --check' \
   og-bible='pnpm content:og:bible --check' \
   og-basilisk='pnpm content:og:basilisk --check' \

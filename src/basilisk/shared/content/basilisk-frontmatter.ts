@@ -2,7 +2,7 @@ import 'server-only';
 
 import { z } from 'zod';
 
-// The leaf rather than the barrel: `scripts/lib/read-docket.ts` parses a case
+// The leaf rather than the barrel: `src/basilisk/scripts/lib/read-docket.ts` parses a case
 // with this schema, and the barrel would load the whole render pipeline into it.
 import {
   type Collection,

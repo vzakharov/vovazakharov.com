@@ -145,6 +145,31 @@ built.
   domain in each of those spent characters on every command for nothing, so it
   stays where it was, once, in the site's `url`.
 
+Slice 3, app scripts in their apps: vet clean.
+
+- **Each app's tooling is `src/<app>/scripts/`**, beside its layers: 104 files
+  moved to their owners (mushrooms 45, music 37, basilisk 8, the rest kernel,
+  shell, blog and vova), root `scripts/` keeping the repo's and the agent's.
+- **`render-og` and `render-pdf` split like the sitemap.** kernel's `og-job.ts`
+  renders chart cards and the site card from its mark and takes `OgBundle`s;
+  each printing site has `src/<site>/scripts/render-{og,pdf}.ts` — vova the CV
+  and music's collage bundle, basilisk its generated site card and case cards,
+  bible the cores alone. The PDF core is blog's `print-job.ts`, not kernel's as
+  first recommended: printing documents is blog's and `PRINT_SOURCES` names
+  shell's files. basilisk passes its case UI as a document source, which moves
+  it out of the other sites' hashes; lsa has no entry and the render-pdfs action
+  skips a site without one.
+- **The checkers**: a `script` element in `eslint/masd-boundaries.ts` — its own
+  app's and its ancestors' scripts directly, every layer, its own app's
+  included, through a public API (the operator overturned the recommended
+  own-app exception: «ну нет, кажется что это не кошерно… можно пока заигнорить
+  эти ошибки значит, но потом отыгнорить и починить»). The 56 script files that
+  already reach past one are grandfathered in a scoped `boundaries/dependencies`
+  override in `eslint.config.ts`, grouped by app. `shared/content`'s node-safe
+  barrel grew the registry's paths and `contentHash`, and i18n's barrel
+  `inLocale`; `check:masd` counts no script as a reference (nothing it flagged);
+  knip enters `src/*/scripts/*.ts`.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -155,31 +180,17 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **3. App scripts live in their apps.** `src/<app>/scripts/`, beside the app's
-  layers: an unknown folder at an app root is no layer to Steiger (checked on
-  `src/basilisk`). A script is one more boundaries element, `script`, under the
-  same inheritance: its own app and its ancestors through their public APIs,
-  `index.node-safe.ts` included. Of `scripts/lib/`'s 84 files about 35 are the
-  game's (`play-*`, `mushroom-probe-*`, `veer-*`, `flier-watch`…), about ten
-  music's (`song-*`, `music-*`, `stanza-repeats`…), a few basilisk's
-  (`basilisk-card`, `docket`) and vova's (`cv-card`), with the top-level scripts
-  that use them (`play-mushrooms.ts`, `sweep-mushrooms.ts`, `veer-away.ts`,
-  `scaffold-song.ts`, `check-song-titles.ts`…). The helpers several apps'
-  scripts share (`cdp.ts`, `chromium.ts`, `argv.ts`) go to
-  `src/kernel/scripts/`; root `scripts/` keeps the repo's and the agent's
-  tooling (`vet.sh`, `staged.sh`, `export-github-item.py`, `masd-check.ts`…).
-  `package.json` and every skill naming a moved script follow; Python scripts
-  such as `letter-basilisk-seal.py` land under `src/` too.
 - **4. Inverted message catalogue.** `kernel/shared/i18n` still holds every
   app's strings, so a kernel module knows all of its consumers — the inversion
   slice 1 did for schemas, left undone for messages. Each app owns its namespace
   of the catalogue, a site loads those of the apps it mounts, and
-  `scripts/check-i18n-payload.ts` follows.
+  `src/kernel/scripts/check-i18n-payload.ts` follows.
 - **5. Music as an app.** `music-route.tsx`, which decides whether a URL shows
   an album, an artist, a song or the radio, becomes music's app layer, and those
   four become real pages under `music/pages/`. Which entities they share is
   decided by ordinary FSD once the pages exist. #82 and #86 touch music routing
-  and are left as they are.
+  and are left as they are. Music's scripts then enter its layers through public
+  APIs, and its entries leave the grandfathered block in `eslint.config.ts`.
 - **6. What is a page in a one-page app** — a deterministic measure beside
   `insignificant-slice`, then mushrooms restructured under it. The problem:
   mushrooms is a whole game on one URL, some 240 files — scene, creatures, day
@@ -197,7 +208,14 @@ those slices carry their own tools along.
   is a real module whoever its one consumer is) and **public-API width** (how
   much of a slice its consumers touch, against how much it holds). The
   deliverable is the measure, its threshold argued from this repo's real slices,
-  its wiring into `scripts/masd-check.ts`, and then the game restructured.
+  its wiring into `scripts/masd-check.ts`, and then the game restructured —
+  mushrooms' scripts entering it through public APIs, their entries leaving the
+  grandfathered block.
+- **7. The grandfathered script imports, retired.** basilisk's, kernel's,
+  shell's and vova's scripts enter their layers through public APIs — a
+  `index.node-safe.ts` where a script runs without a bundler — and the
+  `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
+  slices 5 and 6 left in it.
 
 ## DRY notes
 
@@ -219,6 +237,10 @@ those slices carry their own tools along.
 - **One address registry.** `MUSIC_ROUTE` sits with `COLLECTIONS` and
   `collectionRoute` in kernel instead of a second map of mount points; the
   router's folders and these constants still agree by hand, which #86 is about.
+- **One render core per kind.** kernel's `og-job.ts` and blog's `print-job.ts`
+  run the whole job; a site's entry passes only what is its own, and
+  `ManifestRoots` in `render-manifest.ts` is the one declaration of the roots
+  both walk.
 - **Not extracted:** a `masd` package or a Steiger plugin. A plugin's rule sees
   one root, which is the problem; a package earns nothing a script and one data
   file do not already give.

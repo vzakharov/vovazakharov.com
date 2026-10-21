@@ -31,7 +31,7 @@ export type SongVideo = {
 };
 
 /**
- * The tracks `scripts/song-intake/captions.py` writes beside a song's video, one
+ * The tracks `src/music/scripts/song-intake/captions.py` writes beside a song's video, one
  * per lyrics column, at the video's path with `.<language>.vtt` for its
  * extension. Throws where the sung words have no track, or the video lives off
  * the site where no track can sit beside it, so a video without its words fails
@@ -73,7 +73,7 @@ export function songVideo(
 
   if (captions === undefined) {
     throw new Error(
-      `${fileName}: no captions at ${trackSrc(sung)}; scripts/song-intake/captions.py writes them.`,
+      `${fileName}: no captions at ${trackSrc(sung)}; src/music/scripts/song-intake/captions.py writes them.`,
     );
   }
 

@@ -292,7 +292,7 @@ const songFieldsSchema = composeSchemas(
        * Where the master's start falls on the video's timeline, in seconds —
        * negative where the video starts after it. A video is cut on its own,
        * so opening it mid-song lands on the same moment only with this.
-       * `scripts/song-intake/video-offset.py` measures it.
+       * `src/music/scripts/song-intake/video-offset.py` measures it.
        */
       offsetSeconds: z.number(),
     })

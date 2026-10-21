@@ -27,7 +27,7 @@ const FRAME = 1000 / 60;
 /** How long a stay on a cap lasts, in ms. */
 const STAY = [1500, 3000] as const;
 
-/** The bounds the play run's flier watch holds a flier to (`scripts/lib/flier-watch.ts`). */
+/** The bounds the play run's flier watch holds a flier to (`src/mushrooms/scripts/lib/flier-watch.ts`). */
 const HEADING_AFTER = 150;
 const MOST_HEADING_OFF = 0.3;
 const MOST_SPIN = Math.PI * 2;

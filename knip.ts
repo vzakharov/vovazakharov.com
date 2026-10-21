@@ -9,6 +9,7 @@ export default {
     // Reached through `scripts/in-site.sh` or a hook rather than a script knip can
     // parse, so no plugin finds them.
     'scripts/*.ts',
+    'src/*/scripts/*.ts',
     // Steiger has no knip plugin.
     'steiger.config.mjs',
     // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.
@@ -33,7 +34,7 @@ export default {
     '@steiger/toolkit',
   ],
   ignoreBinaries: [
-    // A system tool `scripts/lib/song-tagging.ts` decodes with, to prove tagging left
+    // A system tool `src/music/scripts/lib/song-tagging.ts` decodes with, to prove tagging left
     // the audio alone. No npm package stands in: the ones that ship it download the
     // binary in an install script, which pnpm here does not run.
     'ffmpeg',

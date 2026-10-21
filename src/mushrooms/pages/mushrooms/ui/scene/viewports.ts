@@ -1,7 +1,7 @@
 /**
  * The screens and visits the layout sweeps run over, one list for every
  * sweep so a screen added here is tried by all of them. Only tests and
- * `scripts/sweep-mushrooms.ts` read it.
+ * `src/mushrooms/scripts/sweep-mushrooms.ts` read it.
  */
 
 import { meadowCamera } from './meadow-camera';

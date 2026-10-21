@@ -10,7 +10,7 @@ type WithCvVariant = { variant: CvVariant };
 /** One rendered sheet: which framing, in which language. */
 export type CvEdition = WithCvVariant & WithLocale;
 
-/** The most pages an edition's PDF may print to; `scripts/render-pdf.ts` fails a print past it. */
+/** The most pages an edition's PDF may print to; `src/vova/scripts/render-pdf.ts` fails a print past it. */
 export const CV_PAGE_CEILING = 3;
 
 /** What an address that names no variant serves, in place rather than by redirect. */
