@@ -44,6 +44,10 @@ def _written(word: dict[str, Any]) -> str:
     return word.get("punctuated_word", word["word"])
 
 
+def _bare(text: str) -> str:
+    return text.lower().strip(TRAILING + LEADING + "-")
+
+
 def from_segments(segments: list[dict[str, Any]], duration: float, model: str) -> Response:
     """A local Whisper hearing in the shape of a Deepgram response, so `merged`
     reads it as it reads the API's.
@@ -60,7 +64,7 @@ def from_segments(segments: list[dict[str, Any]], duration: float, model: str) -
         spoken = []
         for word in segment["words"]:
             written = word["word"].strip()
-            bare = written.lower().strip(TRAILING + LEADING + "-")
+            bare = _bare(written)
             if not bare:
                 continue
             spoken.append(
@@ -174,10 +178,7 @@ def _heard(response: Response) -> list[dict[str, Any]]:
                 out.append(
                     {
                         "text": _written(word),
-                        "key": word["word"]
-                        .lower()
-                        .replace("ё", "е")
-                        .strip(TRAILING + LEADING + "-"),
+                        "key": _bare(word["word"]).replace("ё", "е"),
                         "start": word["start"],
                         "line": line["start"],
                         "end": line["end"],
