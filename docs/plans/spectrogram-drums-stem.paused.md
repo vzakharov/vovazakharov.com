@@ -43,15 +43,15 @@ Vova's review of PR #138 on 2026-10-20 (`docs/pr/138/pr.md`, R01 and T01–T04):
 
 ## Done in relay 8's session
 
-- **"Scope added" built as recommended** (c4f5e51, 663c6c6): `spectrogram.py <song> <png> <stems dir>`, the stems required, `--drums` and `--split` gone. Strips: melody off vocals, harmony off other, bass off the bass stem under C4 (`BASS_TOP_HZ`; relay 8 read it off bass + other, undone in relay 9's session, below). Chords off bass + other: birds' section 4 lost its stray E♭m Fm. **The key stays on the whole mix**: off the accompaniment hello read G minor at r 0.54 against the mix's C minor at 0.68.
+- **"Scope added" built as recommended** (c4f5e51, 663c6c6): `spectrogram.py <song> <png> <stems dir>`, the stems required, `--drums` and `--split` gone. Strips: melody off vocals, harmony off other, bass off the bass stem under C4 (`BASS_TOP_HZ`; this session read it off bass + other, undone in the one `relay-8.md` summarises, below). Chords off bass + other: birds' section 4 lost its stray E♭m Fm. **The key stays on the whole mix**: off the accompaniment hello read G minor at r 0.54 against the mix's C minor at 0.68.
 - `audio.aligned` takes all the stems and finds one lag from their sum (moved from `drums.py`); the test has each stem silent where the other plays.
 - All eleven re-rendered, every PNG under 350 KB; keys unchanged, chords changed in places. Docs updated: `spectrogram.py`'s docstring, `song_facts.measure`, `scripts/song-intake/CLAUDE.md`, `.claude/rules/maya-reflections.md`.
 
-## Done in relay 9's session
+## Done in the session `relay-8.md` summarises
 
 - **The bass strip reads the bass stem alone** (636acde). Vova: in birds there is no bass for a long stretch. Measured: what other carries under C4 before 2:50 is G2 F2 E♭2 (98, 87, 78 Hz) with their octaves, the harmony's lowest voice, already in the harmony strip's C2/C3 hues; the bass enters at 2:53 on the bass stem, an octave lower (F1 G1, 44–49 Hz). All eleven re-rendered off freshly cut stems; a chord or two per sidecar moved, from demucs's random shift between runs.
 - **Where the two readings disagree**, by `tmp/bass-probe/survey.py` (other's low end sounding, bass stem 20 dB under its loud seconds, 4 s or longer): birds through 2:44, hello 0:34–0:42 and 1:06–1:16 (A♭2 G2), listen-single 0:00–0:53 (F♯2 C♯3), after-us 0:31–0:35 (E♭2); none in the other six. Asked Vova's ear on all but birds.
-- **Replies on T01–T03 drafted** in `tmp/replies/`, not posted: Vova's pending review on the PR blocks a thread reply under his token (422 "one pending review per pull request"). Post them once he submits it.
+- **Replies on T01–T03 drafted** (verbatim in `docs/remove-before-merging/relay-8.md`), not posted: Vova's pending review on the PR blocks a thread reply under his token (422 "one pending review per pull request"). Post them once he submits it.
 
 ## Open questions for Vova's ear
 
