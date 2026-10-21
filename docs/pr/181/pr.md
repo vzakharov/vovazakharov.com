@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-21T07:34:43Z
-- **Updated:** 2026-10-21T16:44:52Z
+- **Updated:** 2026-10-21T16:48:40Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 25
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at e28b2bb). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at e1ebd51). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/songs/insomnia.md`:66 — unresolved — last: @vzakharov (human) 2026-10-21T16:26:19Z — "ну а что таки лучше звучит? half-alive не set in stone" → [↓](#t01)
 - **T02** `apps/vova/public/music/songs/invitation.md`:39 — unresolved — last: @vzakharov (human) 2026-10-21T16:27:38Z — "то есть она дописывала стихи отца? кстати, броненосец -- это…" → [↓](#t02)
