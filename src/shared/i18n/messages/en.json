@@ -12,7 +12,7 @@
     "failed": "Error",
     "copy": "Copy",
     "copied": "Copied",
-    "keys": "Keys: M — the mix, A, B, C — the masters, space — pause, ← → — 5 seconds. All four at the mix's loudness.",
+    "keys": "Keys: M — the mix, A, B, C — the masters, space — pause, ← → — one second. All four at the mix's loudness.",
     "verdict": "Verdict",
     "verdictExample": "B > A > C",
     "summary": "Every verdict — for the chat; kept in this browser"

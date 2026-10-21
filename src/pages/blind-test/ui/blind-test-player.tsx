@@ -46,7 +46,7 @@ const KEYS: Record<string, Variant> = {
 };
 const TICK_MS = 200;
 const COPIED_MS = 2000;
-const SKIP_S = 5;
+const SKIP_S = 1;
 
 const clock = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
