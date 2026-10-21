@@ -278,7 +278,7 @@ It is swept with the rest of that tree.
 
 ## Progress
 
-Paused for the context budget. Done:
+Done:
 
 - Step 1 — the stubs, `docs/remove-before-merging/nostalgia/lyrics/`.
 - Step 2 — sources found and uploaded (see "Done." under it).
@@ -289,9 +289,14 @@ Paused for the context budget. Done:
 - Step 5's script and method paragraph — `scripts/song-intake/blind-abc.py`.
 - Step 6's repository renames (`pnpm music:masters rename`), all eight.
 
-Left: step 4 (shortlist and three masters per piece — seven pieces, 1+2 being
-one), step 5's blind files and the verdict, then step 6's puts, scaffolds and
-pages, step 7, step 8. Download the sources with
+- Step 4 — shortlists in `references.md` § "Shortlists", 21 masters built.
+- Step 5's blind files — `docs/remove-before-merging/nostalgia/blind/`, seals in
+  `references.md`. The keys are in `tmp/nos/keys/` of the session that built
+  them; no verdict yet.
+
+Left: the verdicts and their reveal, then step 6's puts, scaffolds and pages,
+step 7, step 8. A lossless source (7, `candle-burnt`) needs its winning master
+as FLAC too, which `master.py` does not yet write. Download the sources with
 `gh release download music-sources -p 'nostalgia-*' -p 'father-sea-09-*'`.
 
 ## Settled with the operator
