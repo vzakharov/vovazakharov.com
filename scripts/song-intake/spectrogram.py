@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A song's spectrogram over its loudness and its chromagram: its whole length across, pitch up.
+"""A song's spectrogram over its loudness, chromagrams and drums: its whole length across, pitch up.
 
 Usage: spectrogram.py <song> <dir>/<slug>.png <stems> [--from m:ss --to m:ss]
 
@@ -39,12 +39,10 @@ harmony draws one, a gradual build may not. Under it, on the same time axis,
 the loudness envelope: each column's peak, with its RMS inside.
 
 Under that, three chromagram strips: the melody off the vocals stem, the
-harmony off the other stem, and the bass off the bass stem under C4. Where
-no bass plays, the bass strip stays dark rather than show the harmony's
-lowest voice, which the harmony strip already carries in its C2 and C3
-hues. Twelve rows each, C at the bottom, each named as the
-song's key spells it, a row as bright as its pitch class's share of the
-strip, harmonics voting with their fundamentals. So the melody strip carries
+harmony off the other stem, and the bass off the bass stem under C4. Twelve
+rows each, C at the bottom, each named as the song's key spells it, a row as
+bright as its pitch class's share of the strip, harmonics voting with their
+fundamentals. So the melody strip carries
 the tune, the bass strip steps with the bass line, and a chord shows as
 several bright rows at once in the harmony strip. A pitch class is read off
 its labelled row; a row's hue is the octave that carries it, keyed beside each
@@ -107,7 +105,7 @@ STRIPS = (
 # spread across all twelve holds 1/12.
 FULL_SHARE = 0.5
 # A cell's hue is its octave, from C2 up, and the same octave the same hue in
-# either strip; its brightness, up to that hue, is its share. Five hues
+# every strip; its brightness, up to that hue, is its share. Five hues
 # far apart, in the spectrum's order, red low to violet high.
 OCTAVE_COLOURS = {2: "#e5483a", 3: "#f29a2e", 4: "#a3d63c", 5: "#3cc8e6", 6: "#ac7cf5"}
 CHROMA_STEPS = 12
@@ -121,7 +119,7 @@ LEVEL_SHADES = ((0.42, 0.42, 0.42), (0.65, 0.65, 0.65))
 # DRUM_STEPS; none is an octave's hue, since a lane has no octave.
 DRUM_COLOURS = {"kick": "#ff6a3d", "toms": "#ffb347", "snare": "#fff27a", "cymbals": "#9fe8ff"}
 DRUM_STEPS = 8
-# The drum row's height against the strips', and the figure's height with it.
+# The drum row's height against a strip's.
 KIT_RATIO = 0.8
 # A dot's diameter in pixels, the faintest hit's and the loudest's, a lane
 # being about 20 px tall; its area grows with the hit. The faintest hit is

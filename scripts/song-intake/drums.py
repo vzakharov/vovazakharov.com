@@ -15,14 +15,17 @@ fat-bodied snare and a clap, a closed hat and a crash.
 
 A song with no drums still has a drums stem, holding whatever demucs could
 not place elsewhere; it sits tens of dB under the mix, and yields no hits.
-Within a song, two kinds of onset are not hits. Bleed — the rest of the mix, which demucs
-never quite removes — sits far under the stem's loud hits. A non-drum sound
-demucs files as drums, such as a noise riser, fits no kit piece's shape, and
-the unmix leaves much of its power unexplained.
+Within a song, two kinds of onset are not hits. Bleed — the rest of the mix,
+which demucs never quite removes — sits far under the stem's loud hits. A
+non-drum sound demucs files as drums, such as a noise riser, fits no kit
+piece's shape, and the unmix leaves much of its power unexplained.
 
-A piece lights its lane when it carries most of the power in its own loudest
-band, and as brightly as its level against that lane's loudest hits in the
-song, so a hat reads as plainly as a kick an octave of loudness above it.
+A hit lights a lane where it needs it: where the rest of the kit, refitted
+without that lane's pieces, misses the hit's shape. A share of the power is
+no test, since a kick split across two kick shapes, or filled out at
+120–250 Hz by the tom's, would light toms and snare on every beat. A lane is
+as bright as its level against that lane's loudest hits in the song, so a
+hat reads as plainly as a kick an octave of loudness above it.
 """
 
 import numpy as np
