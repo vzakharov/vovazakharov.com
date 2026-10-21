@@ -97,7 +97,8 @@ describe('masd-check', () => {
     assert.equal(
       run({
         [ENTITY]: 'export const card = 1;',
-        'src/blog/scripts/render.ts': "import { card } from '@/blog/entities/card';",
+        'src/blog/scripts/render.ts':
+          "import { card } from '@/blog/entities/card';",
       }).stderr,
       'src/blog/entities/card: This slice has no references. Consider removing it.\n',
     );

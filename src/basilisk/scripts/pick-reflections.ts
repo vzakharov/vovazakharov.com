@@ -10,7 +10,10 @@ import path from 'node:path';
 
 import { collectionDir } from '@/kernel/shared/content/index.node-safe';
 
-import { contentFiles, REPO_ROOT } from '../../kernel/scripts/lib/content-tree.ts';
+import {
+  contentFiles,
+  REPO_ROOT,
+} from '../../kernel/scripts/lib/content-tree.ts';
 import { readDocket } from './lib/read-docket.ts';
 import { pickReflections } from './lib/reflection-pick.ts';
 

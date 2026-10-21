@@ -43,10 +43,7 @@ import type { MeadowLayout } from '../pages/mushrooms/ui/scene/layout';
 import { patchlessIn } from '../pages/mushrooms/ui/scene/mushroom-patch';
 import { dotInSight } from '../pages/mushrooms/ui/scene/spore-sight';
 import { viewAt } from '../pages/mushrooms/ui/scene/view';
-import {
-  VIEWPORTS,
-  VISITS,
-} from '../pages/mushrooms/ui/scene/viewports';
+import { VIEWPORTS, VISITS } from '../pages/mushrooms/ui/scene/viewports';
 import {
   capsSpan,
   type Opened,

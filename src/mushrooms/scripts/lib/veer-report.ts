@@ -10,14 +10,8 @@ import {
   INSECT_KINDS,
   type InsectKind,
 } from '../../pages/mushrooms/model/insect-genes.ts';
-import {
-  bendAt,
-  type Pinhole,
-} from '../../pages/mushrooms/model/pinhole.ts';
-import {
-  D_SEE,
-  V_NEAR,
-} from '../../pages/mushrooms/ui/scene/view.ts';
+import { bendAt, type Pinhole } from '../../pages/mushrooms/model/pinhole.ts';
+import { D_SEE, V_NEAR } from '../../pages/mushrooms/ui/scene/view.ts';
 import type { Point } from './mushroom-probe-answers.ts';
 import type { Expect } from './mushroom-probe-drive.ts';
 import { dashPeak, pivotAllowance } from './veer-dash.ts';

@@ -7,10 +7,7 @@
 
 import { z } from 'zod';
 
-import {
-  GLIDE_OVER,
-  GLIDE_TAU,
-} from '../../pages/mushrooms/model/glide.ts';
+import { GLIDE_OVER, GLIDE_TAU } from '../../pages/mushrooms/model/glide.ts';
 import {
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,

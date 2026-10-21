@@ -22,14 +22,8 @@ import { z } from 'zod';
 
 import { walking } from '../../pages/mushrooms/model/eye-height.ts';
 import { GLIDE_TAU } from '../../pages/mushrooms/model/glide.ts';
-import {
-  SLOP,
-  TURN_CRUISE,
-} from '../../pages/mushrooms/model/pan.ts';
-import {
-  pinholeOf,
-  planeSeen,
-} from '../../pages/mushrooms/model/pinhole.ts';
+import { SLOP, TURN_CRUISE } from '../../pages/mushrooms/model/pan.ts';
+import { pinholeOf, planeSeen } from '../../pages/mushrooms/model/pinhole.ts';
 import {
   sidewaysOf,
   STRIDE_FLING_FASTEST,

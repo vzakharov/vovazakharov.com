@@ -12,19 +12,13 @@
  * Run: `node --import tsx src/mushrooms/scripts/veer-away.ts`.
  */
 
-import {
-  type Perch,
-  perchName,
-} from '../pages/mushrooms/model/flight.ts';
+import { type Perch, perchName } from '../pages/mushrooms/model/flight.ts';
 import {
   type Aloft,
   centreOf,
   framedOf,
 } from '../pages/mushrooms/model/flight-frame.ts';
-import {
-  outOf,
-  outWay,
-} from '../pages/mushrooms/model/flight-in.ts';
+import { outOf, outWay } from '../pages/mushrooms/model/flight-in.ts';
 import { apartIn } from '../pages/mushrooms/model/flight-timing.ts';
 import {
   CLUMP_DISTANCE,
@@ -42,10 +36,7 @@ import {
   entryAloft,
   leavingAloft,
 } from '../pages/mushrooms/ui/scene/insect-away.ts';
-import {
-  eyeFrameOf,
-  mixD,
-} from '../pages/mushrooms/ui/scene/insect-frame.ts';
+import { eyeFrameOf, mixD } from '../pages/mushrooms/ui/scene/insect-frame.ts';
 import {
   footRows,
   onscreenOf,
@@ -53,10 +44,7 @@ import {
   seatAt,
 } from '../pages/mushrooms/ui/scene/perch-sight.ts';
 import { aloftOfLayout } from '../pages/mushrooms/ui/scene/plane-place.ts';
-import {
-  type View,
-  viewAt,
-} from '../pages/mushrooms/ui/scene/view.ts';
+import { type View, viewAt } from '../pages/mushrooms/ui/scene/view.ts';
 import { opened } from '../pages/mushrooms/ui/scene/visit-play.ts';
 import { dashPeak } from './lib/veer-dash.ts';
 

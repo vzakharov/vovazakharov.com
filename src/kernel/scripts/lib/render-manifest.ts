@@ -37,18 +37,21 @@ export type Renderable = {
   sourceHash: string;
 };
 
-/** All the bookkeeping reads of a job, which is what keeps it blind to the entry type. */
-type ManifestLayout = {
-  /** The manifest's file name, written into each directory that holds a render. */
-  manifestName: string;
-  /** Whether a file already in a render directory is one this job produces. */
-  isOutput: (fileName: string) => boolean;
+export type ManifestRoots = {
   /**
    * The roots under which this job's renders live, walked for manifests so a
    * render whose source is gone is still found and pruned. The content tree
    * when left off.
    */
   manifestDirs?: string[];
+};
+
+/** All the bookkeeping reads of a job, which is what keeps it blind to the entry type. */
+type ManifestLayout = ManifestRoots & {
+  /** The manifest's file name, written into each directory that holds a render. */
+  manifestName: string;
+  /** Whether a file already in a render directory is one this job produces. */
+  isOutput: (fileName: string) => boolean;
 };
 
 /** `label` names the unit in the log line, e.g. `'Open Graph card'`. */

@@ -38,14 +38,19 @@ import { contentHash } from '@/kernel/shared/content/content-hash';
 import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES } from '@/kernel/shared/seo';
 
 import { findScreenshotChromium } from './chromium.ts';
-import { CONTENT_DIRS, contentFiles, RENDERED_SITE, REPO_ROOT } from './content-tree.ts';
+import {
+  CONTENT_DIRS,
+  contentFiles,
+  RENDERED_SITE,
+  REPO_ROOT,
+} from './content-tree.ts';
 import {
   CANVAS_BACKGROUND,
   type Card,
   renderCard,
   type StagedPage,
 } from './og-render.ts';
-import { runRenderJob } from './render-manifest.ts';
+import { type ManifestRoots, runRenderJob } from './render-manifest.ts';
 
 /**
  * Inset between the drawing and the card's edge, in canvas pixels. Load-bearing
@@ -206,14 +211,13 @@ export function siteCardPath(): string {
 
 /**
  * What a site adds to the core. `siteCards` replaces the card generated from
- * the site's mark; `manifestDirs` are directories outside the content tree its
- * cards are written to, walked so a pruned card's manifest is found; and
- * `outputNames` are file names the run owns beyond the card suffixes.
+ * the site's mark; `manifestDirs` are walked beside the content tree, for cards
+ * written outside it; and `outputNames` are file names the run owns beyond the
+ * card suffixes.
  */
-export type OgBundle = {
+export type OgBundle = ManifestRoots & {
   siteCards?: Card[];
   cards?: Card[];
-  manifestDirs?: string[];
   outputNames?: string[];
 };
 

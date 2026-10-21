@@ -7,10 +7,7 @@
 import { z } from 'zod';
 
 import { wrap } from '../../pages/mushrooms/model/geometry.ts';
-import {
-  KEY_EASE,
-  TURN_CRUISE,
-} from '../../pages/mushrooms/model/pan.ts';
+import { KEY_EASE, TURN_CRUISE } from '../../pages/mushrooms/model/pan.ts';
 import {
   forwardOf,
   sidewaysOf,

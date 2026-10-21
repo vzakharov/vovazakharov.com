@@ -41,7 +41,12 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { siteConfig } from '@/kernel/shared/config';
-import { contentHash,isDocumentFile, PUBLIC_DIR, type Routed } from '@/kernel/shared/content/index.node-safe';
+import {
+  contentHash,
+  isDocumentFile,
+  PUBLIC_DIR,
+  type Routed,
+} from '@/kernel/shared/content/index.node-safe';
 
 import { flag, given } from '../../../kernel/scripts/lib/argv.ts';
 import { findChromium } from '../../../kernel/scripts/lib/chromium.ts';
@@ -53,8 +58,15 @@ import {
   RENDERED_SITE,
   REPO_ROOT,
 } from '../../../kernel/scripts/lib/content-tree.ts';
-import { type PrintOrigin, withPrintOrigin } from '../../../kernel/scripts/lib/print-origin.ts';
-import { type Renderable, runRenderJob } from '../../../kernel/scripts/lib/render-manifest.ts';
+import {
+  type PrintOrigin,
+  withPrintOrigin,
+} from '../../../kernel/scripts/lib/print-origin.ts';
+import {
+  type ManifestRoots,
+  type Renderable,
+  runRenderJob,
+} from '../../../kernel/scripts/lib/render-manifest.ts';
 import { sameRender } from './same-render.ts';
 
 /** A document's PDF, and the route the dev server renders it from. */
@@ -339,10 +351,9 @@ export async function printAll(stale: Printable[]): Promise<void> {
  * on top of the core's; `printables` are pages of its own, outside the content
  * tree, under `manifestDirs`; `onRendered` runs after a render that wrote.
  */
-export type PdfOptions = {
+export type PdfOptions = ManifestRoots & {
   documentSources?: string[];
   printables?: Printable[];
-  manifestDirs?: string[];
   onRendered?: () => void;
 };
 

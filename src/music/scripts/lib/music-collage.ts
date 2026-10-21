@@ -13,7 +13,11 @@ import type { Sized, Titled } from '@/kernel/shared/typings';
 
 import { COLLAGE_SIZE } from '@/music/pages/music/lib/pictures';
 
-import { escapeHtml, INK, type StagedPage } from '../../../kernel/scripts/lib/og-render.ts';
+import {
+  escapeHtml,
+  INK,
+  type StagedPage,
+} from '../../../kernel/scripts/lib/og-render.ts';
 
 /** Words laid across the covers in a band, for a card that names more than the covers do. */
 export type CollageBand = Titled & { line: string };

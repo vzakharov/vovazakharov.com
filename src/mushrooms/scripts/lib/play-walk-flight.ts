@@ -12,10 +12,7 @@ import {
   RISE_EASE,
 } from '../../pages/mushrooms/model/eye-height.ts';
 import { SLOP } from '../../pages/mushrooms/model/pan.ts';
-import {
-  planeSeen,
-  viewOf,
-} from '../../pages/mushrooms/model/pinhole.ts';
+import { planeSeen, viewOf } from '../../pages/mushrooms/model/pinhole.ts';
 import { crossingOf } from '../../pages/mushrooms/model/walk.ts';
 import {
   type Camera,

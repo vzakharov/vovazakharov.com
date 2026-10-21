@@ -14,7 +14,11 @@
 import fs from 'node:fs';
 
 import { given } from '../../kernel/scripts/lib/argv.ts';
-import { findingLines, lineAt, songFiles } from '../../kernel/scripts/lib/public-markdown.ts';
+import {
+  findingLines,
+  lineAt,
+  songFiles,
+} from '../../kernel/scripts/lib/public-markdown.ts';
 import { stanzaRepeats } from './lib/stanza-repeats.ts';
 
 const fix = given('fix');

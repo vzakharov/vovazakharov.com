@@ -122,13 +122,13 @@ reference, linked at a commit rather than copied when another repository there
 holds it. `vovas-music/birds` is the pattern.
 
 - **Every read and write of these repositories goes through
-  `pnpm music:masters`** (`src/music/scripts/masters.ts`, its header the usage), never a
-  bare `git push` or `gh api`: the session's git proxy refuses a push to any
-  repository the session was not started on, and one script is what an
+  `pnpm music:masters`** (`src/music/scripts/masters.ts`, its header the usage),
+  never a bare `git push` or `gh api`: the session's git proxy refuses a push to
+  any repository the session was not started on, and one script is what an
   operator's permission can name. A commit with a file past the API's size limit
   (between 39 and 46 MB) is pushed by a GitHub Actions run in the repository
-  itself (`src/music/scripts/lib/music-relay.ts`), so the organization's repositories keep
-  Actions enabled.
+  itself (`src/music/scripts/lib/music-relay.ts`), so the organization's
+  repositories keep Actions enabled.
 - **A change to a song's audio is made in its repository**: a new master
   replaces the old one there (`pnpm music:masters put`), and the README's
   command with it. This repo changes only what the frontmatter reads off it —

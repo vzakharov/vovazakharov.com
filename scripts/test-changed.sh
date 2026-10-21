@@ -17,7 +17,7 @@ if [ "$#" -gt 0 ]; then
 fi
 
 # shellcheck source=src/kernel/scripts/lib/changed-files.sh
-source "$(dirname "$0")/lib/changed-files.sh"
+source "$(dirname "$0")/../src/kernel/scripts/lib/changed-files.sh"
 
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
