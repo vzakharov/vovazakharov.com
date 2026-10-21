@@ -84,6 +84,12 @@ What follows for the work, the agent's reading:
 - **Non-drum sound in the drums stem lights lanes**: world-as-it-is has no drums at all (27 hits drawn), listen has a repeated cut-off sound from about 0:36. Something must refuse a stem, or a stretch, that holds no kit — for instance hits whose shape the kit fits badly, or a stem far under the mix's level.
 - Lyrics: birds' last line is «В новый день» (e2c4bad), not «Улетай».
 
+Vova on the reading above, 2026-10-21:
+
+- «не уверен что что-то из этого -- критично. Попробовать можно, загоняться -- не надо» — on the vocal-bleed gate and the crash under a kick: one honest attempt each, dropped if it does not come cheap.
+- «ну этот звук можно считать перкуссией условно, звучит он что-то вроде ложкой по кастрюле 🙂 (но такого "инструмента", конечно, добавлять не надо)» — listen's repeated sound from 0:36 may be marked; no new lane for it.
+- «Майя тут ни при чём, я сам неправильно начитал это; и вообще Майя не занимается расшифровкой -- она приходит уже на готовые слова» — her afterword no longer blames her hearing, and her rule's line about it is gone.
+
 ## Open question (answered above; kept for the measurements)
 
 **Toms and mid-band hits are unstable on the songs without ground truth.** `test_tom` still fails: a 120 Hz synthetic tom reads as the boomy kick (hello 1:26.93), which in nine bands it nearly is; the tom shape in `PIECES_DB` was never measured. On real stems the tom lane lights in regular patterns that look wrong — world-as-it-is 26 toms and 1 kick; just-because a tom every 1.34 s from 1:28.70, broad 120 Hz–8 kHz hits that may be a snare with a fat body; listen 1:00–1:06, one similar hit every 0.5 s labelled snare, kick, tom, snare in turn. Asked Vova for his ear on those three spots; a confirmed tom gives a measured shape, a confirmed snare a third snare shape.
