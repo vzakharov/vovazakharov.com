@@ -375,7 +375,12 @@ over configuration, поправим сами репы»); the tag run; the unto
 are dated `2023-12`, from the album's REAPER project (saved 21.12.2023) and the
 bounces of 14 and 18.12.2023 — a note on `invitation` asks Vova to confirm.
 
-Left: a green build, then `/polish` and `/pr`.
+Left: `pnpm music:masters tag winter-in-the-forest`, which twice failed with
+"the relay run on masters-relay-… never started" — no Actions run and no
+`CreateEvent` for the relay branch appeared, though the repository's last run
+(14:18 UTC, before the `master` → `main` rename at 14:45) succeeded and Actions
+is enabled. The build fails on that song alone, naming its missing `.mp4`. Then
+a green build, `/polish` and `/pr`.
 
 Was left, in order:
 
