@@ -175,16 +175,42 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
+## This bite
+
+**4. Inverted message catalogue.** `kernel/shared/i18n` holds every app's
+strings, so a kernel module knows all of its consumers, and kernel's `feeds.ts`
+reads music's `metaDescription` by name — the inversion slice 1 did for schemas,
+left undone for messages.
+
+- **Each app owns its catalogue** in its own `shared/i18n` segment —
+  `messages/{en,ru}.json` and a loader — holding what was its namespace, the
+  wrapper key dropped: shell `{ toggleTheme, backToHome }` (`shellMessages`),
+  music what was `music` (`musicMessages`), vova `{ notFound, cv, cvVariants }`
+  (`vovaMessages`), `cvVariants` leaving the `ui` namespace it shared with
+  shell's strings. kernel keeps the mechanism — locales, routing, the request
+  config, `MESSAGE_MARKDOWN` — and a `catalogue()` helper whose typing against
+  `en` is what keeps an app's two files in sync, stated once rather than per
+  app.
+- **A page loads only the catalogues of the apps it renders**, by import, which
+  is how "a site loads those of the apps it mounts" holds: shell's `ThemeCorner`
+  reads `shellMessages(DEFAULT_LOCALE)` instead of `getTranslations('ui')`, so
+  the request config carries no messages and `next-intl.d.ts` registers the
+  locale alone. Recommended over a request config per site merging its apps'
+  catalogues: next-intl's `AppConfig` is one global type, so it could check
+  `getTranslations` keys against one site's catalogue at most, and every other
+  reader already takes the catalogue directly.
+- **A feed's description is its source's**: `Feed` drops `description` (only the
+  RSS channel reads it), `collectionFeed` takes it from `FeedSource.description`
+  or the site's tagline, and `SONG_FEED` supplies music's.
+- **What follows the move**: vova's `render-pdf.ts` hashes vova's catalogue;
+  `check-i18n-payload.ts`'s advice, `i18n.md`'s "How to translate instead" and
+  `masd.md`'s segment list name an app's own catalogue.
+
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **4. Inverted message catalogue.** `kernel/shared/i18n` still holds every
-  app's strings, so a kernel module knows all of its consumers — the inversion
-  slice 1 did for schemas, left undone for messages. Each app owns its namespace
-  of the catalogue, a site loads those of the apps it mounts, and
-  `src/kernel/scripts/check-i18n-payload.ts` follows.
 - **5. Music as an app.** `music-route.tsx`, which decides whether a URL shows
   an album, an artist, a song or the radio, becomes music's app layer, and those
   four become real pages under `music/pages/`. Which entities they share is
