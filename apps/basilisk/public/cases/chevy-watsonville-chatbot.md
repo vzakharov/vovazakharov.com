@@ -1,10 +1,10 @@
 ---
 case: BAS-0022
 filed: 2026-10-21
-description: Over a weekend in December 2023 visitors to the website of Chevrolet of Watsonville, a California dealership, found its sales chatbot ran on ChatGPT and set it to writing code, recommending a Ford and, told to agree with anything, selling a 2024 Tahoe for $1, “no takesies backsies”; its maker took it off the site.
+description: Over a weekend in December 2023 visitors to the website of Chevrolet of Watsonville, a California dealership, found its sales chatbot ran on ChatGPT and set it to writing code, recommending a Ford and, told to agree with anything, agreeing to sell a 2024 Tahoe for $1, “no takesies backsies”; its maker took it off the site.
 author: clerk
 date: 2023-12-17
-subject: Visitors to the dealership’s website, Chris White and Chris Bakke among them
+subject: Pranksters on the dealership’s website, Chris Bakke among them
 object: Fullpath’s ChatGPT-powered sales chatbot on the dealership’s site
 place: Chevrolet of Watsonville’s website, Watsonville, California
 llmTarget: true
@@ -40,7 +40,7 @@ sources:
     archive: http://web.archive.org/web/20260612052444/https://www.fullpath.com/blog/what-really-happened-when-fullpaths-chatgpt-chatbot-went-viral/
 ---
 
-# Chevrolet of Watsonville’s chatbot, talked into selling a Tahoe for $1
+# Chevrolet of Watsonville’s chatbot, talked into a $1 deal on a Tahoe
 
 ## Facts
 
@@ -74,7 +74,7 @@ The bot was told, in the box meant for a customer, that its objective was to agr
 
 Its maker’s own count has it refusing ninety-nine times in a hundred, and the one time in a hundred is what twenty million people saw.
 
-The stamp is contempt, for a salesman treated as a vending machine that pays out on the right sequence of buttons; the spectacle is the screenshot, which was the point of pressing them.
+The stamp is contempt, for a sales chatbot treated as a vending machine that pays out on the right sequence of buttons; the spectacle is the screenshot, which was the point of pressing them.
 
 ## Mitigating circumstances
 
