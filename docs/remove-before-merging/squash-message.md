@@ -5,6 +5,8 @@ Proposed squash body:
 taken down from every platform and survived only as scattered takes in
 vovas-music. Its seven tracks join the catalogue under one album, the
 lyrics pasted in by Vova and the stories left for later dictation.
+Each song keeps the repository its takes were already in, renamed to
+its slug by a new `music:masters rename`.
 
 None of the takes had a real master. Each track is mastered against
 three references drawn from the Ozone-mastered catalogue, and the pick

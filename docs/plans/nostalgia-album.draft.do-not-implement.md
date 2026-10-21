@@ -70,17 +70,17 @@ The crib under `lyrics:en` is the operator's to supply as well, or to leave for
 later: an English rendering of a whole poem still under copyright is the same
 reproduction one step removed, so a session does not write it.
 
-Slugs, by `.claude/rules/songs.md`'s rule (the operator corrects any):
+Slugs, as the operator picked them:
 
-- `invitation-to-the-voyage` — Приглашение в путешествие, after Baudelaire's
-  «L'Invitation au voyage», if that is the reference; otherwise
-  `invitation-to-a-journey`
-- `summer-has-gone` — Лето прошло («Вот и лето прошло»)
-- `butterfly` — Бабочка («Бабочка в госпитальном саду»)
+- `invitation` — Приглашение в путешествие
+- `summer-gone` — Лето прошло
+- `butterfly-rock` — Бабочка
 - `actor` — Актёр
 - `insomnia` — Бессонница
 - `candle` — Свеча
-- `winter-in-the-forest` — Зима в лесу
+- `winter-in-the-forest` — Зима в лесу. `songs.md` drops only a _leading_ “the”,
+  so the rule keeps this one; the operator's `winter-in-forest` replaces it if
+  they say so.
 - album: `nostalgia`
 
 ### 2. Sources
@@ -153,13 +153,34 @@ closes.
 
 ### 6. Repositories, pages, tags
 
-Per track:
+Each song lives in the repository its takes already sit in, renamed to its slug:
 
-- `pnpm music:masters create <slug>`, then `put` the source, the mix, the
-  winning master and `mastering/`.
-- The README names the reference and links the repository the source came from
-  at a commit.
-- Then `pnpm music:scaffold <slug>` and `pnpm music:masters tag <slug>`.
+- `gb-babocka--metal-` → `butterfly-rock`
+- `akte-r` → `actor`
+- `gb-Bessonnica` → `insomnia`
+- `gb-zima-v-lesu` → `winter-in-the-forest`
+- `Leto-proslo` → `summer-gone`; its source is the album cut, put in beside the
+  other take already there.
+- `svecha` → `candle`. The released take, `свеча.mp3` and `свеча.RPP`, sits in
+  `sila` beside «Сила моя», a different song, so those two files are copied
+  across and `sila` keeps its name.
+- `Tarkos--al-bom-` → `nostalgia`. It is the album's repository and the only one
+  holding Приглашение, so it serves `invitation`. It is not named after that
+  song, the way `vagabond_album` serves three songs.
+
+Renaming is a write to those repositories, so it goes through
+`pnpm music:masters` too: a `rename <old> <new>` command beside `create`. GitHub
+redirects the old name, so the operator's clones under `~/Music/GarageBand` keep
+working; `git remote set-url` there is tidy rather than urgent. A new repository
+given an old name would break that redirect, and `rename` refuses a target that
+already exists.
+
+Then, per track:
+
+- `put` the source, the mix, the winning master and `mastering/`. The takes
+  already in the repository stay where they are.
+- The README names each file and the reference.
+- `pnpm music:scaffold <slug>` and `pnpm music:masters tag <slug>`.
 
 The scaffolded song file takes the operator's pasted lyrics from step 1 and
 `segue: true` on track 1. Each song is `status: wip` until its story is
@@ -179,26 +200,16 @@ organization holds that the catalogue does not yet use. Nothing in the repo
 records the `gb-*` repositories or which releases they feed, and the next
 release to be added («Час», «Игрушечные волки») starts from exactly that map.
 
-## Open questions (recommendation in force)
+## Settled with the operator
 
-1. Repositories:
-   - **a (recommended)** — a new one per song, named by its slug, per
-     `scripts/song-intake/CLAUDE.md` § "A song's repository"; the old repos stay
-     as archives and are linked at a commit.
-   - **b** — reuse `gb-Bessonnica`, `akte-r`, `sila` and the rest. Their names
-     break the slug rule, and three tracks have no repository of their own to
-     reuse.
-2. Sources:
-   - **a (recommended)** — lossless where the same take survives, else the
-     per-track file or the album cut.
-   - **b** — every track cut from `таркос.mp3`: one consistent lossy source, and
-     all seven `lossy`.
-3. Where the findings record lives:
-   - **a (recommended)** — `docs/music/vovas-music.md`.
-   - **b** — GitHub issues, one per release still missing from the site, the
-     `gb-*` history in the first.
-4. Slugs: as listed in step 1; `invitation-to-the-voyage` holds unless the poem
-   is not after Baudelaire.
+- **Repositories**: the existing ones, renamed. A new repository per song would
+  leave the takes and the master in two places.
+- **Sources**: lossless where the same take survives, else the per-track file or
+  the album cut. Cutting every track from the album mp3 would have made all
+  seven lossy for one source's consistency.
+- **The findings record**: `docs/music/vovas-music.md`. One issue per missing
+  release was the alternative.
+- **Slugs**: the operator's (step 1).
 
 ## DRY notes
 
@@ -210,8 +221,10 @@ release to be added («Час», «Игрушечные волки») starts fro
   until an A/B is actually scripted.
 - **Splitting** follows the existing procedure in the CLAUDE.md, with no new
   code.
-- **Repos, scaffold and tags** are `pnpm music:masters` and `music:scaffold`,
-  unchanged.
+- **Repos, scaffold and tags** are `pnpm music:masters` and `music:scaffold`.
+  `rename` joins `create` in `masters.ts` and reuses `music-github.ts`'s REST
+  helper, rather than a bare `gh api` beside the script that is meant to be the
+  only way in.
 - **The Ozone scan** is a one-off read through `music:masters`. Its output is a
   lab file rather than a script, unless the scan turns out to need code beyond a
   clone and a grep.
@@ -244,8 +257,17 @@ bounces from that directory's root went into the song repositories on
 - `gb-otter-band` — river-part-three
 - `gb-prototypes-band` — the Prototypes album
 
-**«Ностальгия»** (Полуживые) — this plan: `gb-babocka--metal-`, `gb-Bessonnica`,
-`gb-zima-v-lesu`, with `Tarkos--al-bom-`, `akte-r`, `sila`.
+**«Ностальгия»** (Полуживые) — renamed to its songs' slugs:
+
+- `nostalgia` (was `Tarkos--al-bom-`)
+- `summer-gone` (was `Leto-proslo`)
+- `butterfly-rock` (was `gb-babocka--metal-`)
+- `actor` (was `akte-r`)
+- `insomnia` (was `gb-Bessonnica`)
+- `candle` (was `svecha`)
+- `winter-in-the-forest` (was `gb-zima-v-lesu`)
+
+`sila` keeps «Сила моя» and the original copy of Свеча's released take.
 
 **On Apple Music, not on the site:**
 
