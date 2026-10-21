@@ -8,7 +8,7 @@
  *   pnpm music:untold
  *
  * Like `pnpm styles:codegen` it **exits non-zero when it had to write**, which
- * is how `scripts/vet-songs.sh` fails on a stale list while leaving it current.
+ * is how `src/music/scripts/vet-songs.sh` fails on a stale list while leaving it current.
  */
 
 import matter from 'gray-matter';

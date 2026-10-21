@@ -24,8 +24,8 @@
 ## The play script
 
 - **Looking at a canvas page needs its own recipe, committed as a script,
-  written with the page.** `pnpm play:mushrooms` (`scripts/play-mushrooms.ts`,
-  `scripts/lib/cdp.ts`) builds a probe export, serves it, drives Chromium over
+  written with the page.** `pnpm play:mushrooms` (`src/mushrooms/scripts/play-mushrooms.ts`,
+  `src/mushrooms/scripts/lib/cdp.ts`) builds a probe export, serves it, drives Chromium over
   the DevTools protocol with Node's own `WebSocket` — no Playwright, as
   `/preview` keeps none — steps the sleeping loop, taps every control on every
   screen, checks the state after each tap and fails on any page error. Every

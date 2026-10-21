@@ -6,12 +6,12 @@ paths:
   - src/music/pages/music/**
   - src/music/shared/catalogue/**
   - docs/music/**
-  - scripts/check-song-titles.ts
-  - scripts/check-masked-words.ts
-  - scripts/check-stanza-repeats.ts
-  - scripts/list-untold-songs.ts
-  - scripts/scaffold-song.ts
-  - scripts/vet-songs.sh
+  - src/music/scripts/check-song-titles.ts
+  - src/music/scripts/check-masked-words.ts
+  - src/music/scripts/check-stanza-repeats.ts
+  - src/music/scripts/list-untold-songs.ts
+  - src/music/scripts/scaffold-song.ts
+  - src/music/scripts/vet-songs.sh
 ---
 
 # Songs
@@ -52,7 +52,7 @@ URL, every one being derived from `repo` and the billing
 master's MP4 rewrap for a reader asking for lossless, while the downloads keep
 the FLAC, `video` where it has one — its `src` a site-root path, its words timed
 beside it as `<src>.<language>.vtt` per lyrics column (the build fails without
-the sung one's; `scripts/song-intake/CLAUDE.md` § "Captions"), and its
+the sung one's; `src/music/scripts/song-intake/CLAUDE.md` § "Captions"), and its
 `offsetSeconds`, where the master starts on it; opened from a button beside the
 play control rather than linked in the story, so that starting it can pause the
 player — `status`, `language` — what the vocal is in, independent of what the
@@ -84,7 +84,7 @@ known by stays: an acronym (`ctfu`), a number (`sonnet-74`, `2girls1fridge`), a
 one-word genre (`requiem`). An album's slug follows the same rule.
 
 **A song's audio lives in its `vovas-music` repository**:
-`scripts/song-intake/CLAUDE.md` § "A song's repository" says what it holds,
+`src/music/scripts/song-intake/CLAUDE.md` § "A song's repository" says what it holds,
 where a change to its mix or master is made, and how a new song gets one. **A
 master's file names and tags are derived from the frontmatter** by
 `pnpm music:masters tag`, `<Artist> - <Title>` in each spelling the song's pages
@@ -92,7 +92,7 @@ show: a title, billing, album, credit, lyric or cover edit leaves them stale,
 which `pnpm music:masters check` in vet reports and the build fails on once the
 name moves, until the song is re-run. **Audio and lyrics a song arrives
 without** — an album file to split, lyrics to hear off the recording, a mix to
-master — are `scripts/song-intake/CLAUDE.md`'s, read before touching the audio.
+master — are `src/music/scripts/song-intake/CLAUDE.md`'s, read before touching the audio.
 
 **A song publishes whatever it has.** Its `hook` is optional, in both locales or
 neither: the line under the song's name that makes someone press play — a

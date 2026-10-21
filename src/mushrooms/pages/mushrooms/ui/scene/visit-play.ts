@@ -2,7 +2,7 @@
  * A visit played as the scene plays it, for the sweeps over `VIEWPORTS`: the
  * meadow opened from the visit's own streams, fliers released through the
  * real reducer, and the perches read off the real `perchSight`, read again
- * whenever a bee plants. Only tests and `scripts/sweep-mushrooms.ts` read it.
+ * whenever a bee plants. Only tests and `src/mushrooms/scripts/sweep-mushrooms.ts` read it.
  */
 
 import { MUSHROOM_SLOTS } from '../../model/crowding';

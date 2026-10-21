@@ -9,7 +9,7 @@
  * curve does not explain. Also checks the leg's end stands still frame to
  * frame while the eye does.
  *
- * Run: `node --import tsx scripts/veer-away.ts`.
+ * Run: `node --import tsx src/mushrooms/scripts/veer-away.ts`.
  */
 
 import {

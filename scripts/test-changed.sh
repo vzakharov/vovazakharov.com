@@ -2,7 +2,7 @@
 # `pnpm test`: the tests the branch has reached — each changed `*.test.ts`, and
 # the `<stem>.test.ts` beside each changed file when there is one. Arguments
 # replace that selection and go to the runner as they are
-# (`pnpm test scripts/lib/docket.test.ts`).
+# (`pnpm test src/basilisk/scripts/lib/docket.test.ts`).
 #
 # The whole suite is `pnpm test:all`, vet's (scripts/vet-test.sh).
 #
@@ -16,7 +16,7 @@ if [ "$#" -gt 0 ]; then
   exec "${RUNNER[@]}" "$@"
 fi
 
-# shellcheck source=scripts/lib/changed-files.sh
+# shellcheck source=src/kernel/scripts/lib/changed-files.sh
 source "$(dirname "$0")/lib/changed-files.sh"
 
 cd "$(git rev-parse --show-toplevel)" || exit 1

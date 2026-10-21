@@ -76,7 +76,7 @@ export const COLLECTIONS = {
     printable: true,
     localized: false,
     homeIndexed: true,
-    /** Drawn by `scripts/lib/basilisk-card.ts`. */
+    /** Drawn by `src/basilisk/scripts/lib/basilisk-card.ts`. */
     generatedCards: true,
     feed: true,
   },

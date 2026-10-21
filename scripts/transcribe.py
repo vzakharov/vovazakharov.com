@@ -50,7 +50,7 @@ on a line of their own. For speech, Whisper is Deepgram's hosted model rather
 than a local faster-whisper: on a mumbled voice note a local `large-v3-turbo`
 dropped sixteen seconds the hosted model still turned into words, and closed on
 an invented «Спасибо. Спасибо.» Sung vocals are the other way round —
-`scripts/song-intake/lyrics.py`'s local large-v3 is their first hearing, and this
+`src/music/scripts/song-intake/lyrics.py`'s local large-v3 is their first hearing, and this
 script their second.
 
 `--keyterm` (repeatable, nova-3 only) names a word the recording uses that the

@@ -23,7 +23,7 @@ pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
 pnpm check:prose-quotes         # no straight quote in prose    │
-scripts/vet-songs.sh            # song checks, when a song moved │
+src/music/scripts/vet-songs.sh            # song checks, when a song moved │
 pnpm content:og:vova --check    # social cards, hashes only     │
 pnpm content:og:bible --check   # the seal's own card           │
 pnpm content:og:basilisk --check # the seal card and each case's │
@@ -122,11 +122,12 @@ Nineteen things about that list are deliberate:
   it overlaps the rest safely; `.claude/rules/content.md` § "Punctuation around
   quotes" is the rule it holds.
 - **The song checks run only when the branch changes a song or the checks
-  themselves**, a song's verdict being its own file's. `scripts/vet-songs.sh`
-  gates `pnpm check:masked-words` — the same text nodes, through the same
-  `scripts/lib/public-markdown.ts`, for a word masked with asterisks —
-  `pnpm check:song-titles`, and `pnpm check:stanza-repeats` on the branch's
-  diff, which `scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
+  themselves**, a song's verdict being its own file's.
+  `src/music/scripts/vet-songs.sh` gates `pnpm check:masked-words` — the same
+  text nodes, through the same `src/kernel/scripts/lib/public-markdown.ts`, for
+  a word masked with asterisks — `pnpm check:song-titles`, and
+  `pnpm check:stanza-repeats` on the branch's diff, which
+  `src/kernel/scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
   there as well, which regenerates `docs/music/untold-songs.md` and, like the
   codegen below, fails when it had to write. The prose-quotes check reads every
   site's prose, so it stays ungated.
@@ -162,7 +163,8 @@ Nineteen things about that list are deliberate:
   only when the CV changed. It prints every CV edition from the export the build
   just wrote into the OS temp directory and fails one past `CV_PAGE_CEILING`,
   because a CV that grows a page shows nowhere else before the deploy prints it.
-  `scripts/render-pdf.ts`'s header says how an unchanged CV skips the print.
+  `src/vova/scripts/render-pdf.ts`'s header says how an unchanged CV skips the
+  print.
 - **The suite is Node's own runner, loaded through `tsx`** — every `.test.ts` in
   the tree, no framework installed and none needed. It covers the scripts' own
   libraries and the pure functions under `src/`; CLAUDE.md § "Testing" says what

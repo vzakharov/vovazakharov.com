@@ -5,7 +5,7 @@ file, lyrics that survive nowhere, a mix that was never mastered. Everything
 here runs on the session's CPU from a venv the setup script does not provide:
 
 ```sh
-python3 -m venv tmp/song-intake-venv && tmp/song-intake-venv/bin/pip install -r scripts/song-intake/requirements.txt
+python3 -m venv tmp/song-intake-venv && tmp/song-intake-venv/bin/pip install -r src/music/scripts/song-intake/requirements.txt
 ```
 
 `spectrogram.py` alone needs only `pip install matplotlib`, which spares the
@@ -122,12 +122,12 @@ reference, linked at a commit rather than copied when another repository there
 holds it. `vovas-music/birds` is the pattern.
 
 - **Every read and write of these repositories goes through
-  `pnpm music:masters`** (`scripts/masters.ts`, its header the usage), never a
+  `pnpm music:masters`** (`src/music/scripts/masters.ts`, its header the usage), never a
   bare `git push` or `gh api`: the session's git proxy refuses a push to any
   repository the session was not started on, and one script is what an
   operator's permission can name. A commit with a file past the API's size limit
   (between 39 and 46 MB) is pushed by a GitHub Actions run in the repository
-  itself (`scripts/lib/music-relay.ts`), so the organization's repositories keep
+  itself (`src/music/scripts/lib/music-relay.ts`), so the organization's repositories keep
   Actions enabled.
 - **A change to a song's audio is made in its repository**: a new master
   replaces the old one there (`pnpm music:masters put`), and the README's
