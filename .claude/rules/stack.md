@@ -23,7 +23,7 @@ pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
 pnpm check:prose-quotes         # no straight quote in prose    │
-src/music/scripts/vet-songs.sh            # song checks, when a song moved │
+src/music/scripts/vet-songs.sh  # song checks, when a song moved │
 pnpm content:og:vova --check    # social cards, hashes only     │
 pnpm content:og:bible --check   # the seal's own card           │
 pnpm content:og:basilisk --check # the seal card and each case's │
