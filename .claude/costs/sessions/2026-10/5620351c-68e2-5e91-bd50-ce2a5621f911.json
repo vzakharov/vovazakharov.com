@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 62,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 150014,
+    "cacheReadTokens": 4754017,
+    "outputTokens": 40911,
+    "thinkingTokens": 32566,
+    "responses": 31,
+    "costUsd": 2.9693834000000003
+  },
+  "estimate": {
+    "at": "2026-10-21T11:24:13.045Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a bug seen only on one device needs the player's deck logic read against WebKit's own interruption and remote-command code, which takes someone who has debugged iOS media before"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "5620351c-68e2-5e91-bd50-ce2a5621f911",
+  "branch": "claude/clever-goodall-wp3lnz",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "словил баг на айфоне (только на нём): при определённых обстоятельствах (кажется, как-то связано с обновлением страницы, переключением аппов, или какими-то други…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_015pp9rsDnuYA2ugzeRgGU2Q",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-21T11:16:46.952Z",
+  "lastResponseAt": "2026-10-21T11:24:42.073Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 62,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 150014,
+    "cacheReadTokens": 4754017,
+    "outputTokens": 40911,
+    "thinkingTokens": 32566,
+    "responses": 31,
+    "costUsd": 2.9693834000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 62,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 150014,
+      "cacheReadTokens": 4754017,
+      "outputTokens": 40911,
+      "thinkingTokens": 32566,
+      "responses": 31,
+      "costUsd": 2.9693834000000003
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-21T11:24:42.073Z",
+    "contextTokens": 198219,
+    "spend": {
+      "inputTokens": 60,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 149637,
+      "cacheReadTokens": 4556177,
+      "outputTokens": 40811,
+      "thinkingTokens": 32566,
+      "responses": 30,
+      "costUsd": 2.9247914
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
