@@ -7,8 +7,8 @@
 
 import path from 'node:path';
 
-import { siteConfig } from '@/kernel/shared/config/site-config';
-import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
+import { siteConfig } from '@/kernel/shared/config';
+import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 import { loadMessages } from '@/kernel/shared/i18n';
 
 import { musicProjectNames } from '@/music/shared/catalogue';

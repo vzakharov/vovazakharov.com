@@ -3,4 +3,12 @@
  * this barrel spells its extension and reaches no CSS, JSX or `server-only`.
  */
 
-export { collectionDir, PUBLIC_DIR } from './collections.ts';
+export {
+  collectionDir,
+  documentRoute,
+  isDocumentFile,
+  PUBLIC_DIR,
+  type Routed,
+  type Slugged,
+} from './collections.ts';
+export { contentHash } from './content-hash.ts';

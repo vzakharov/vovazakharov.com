@@ -29,6 +29,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
 import { flag, given } from '../../kernel/scripts/lib/argv.ts';
+import { withPrintOrigin } from '../../kernel/scripts/lib/print-origin.ts';
 import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
 import { budgetReport } from './lib/frame-budget.ts';
@@ -59,7 +60,6 @@ import { playSprouts } from './lib/play-sprouts.ts';
 import { playTufts } from './lib/play-tufts.ts';
 import { playVeer } from './lib/play-veer.ts';
 import { playWalk } from './lib/play-walk.ts';
-import { withPrintOrigin } from '../../kernel/scripts/lib/print-origin.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
 const OUT = path.join(ROOT, 'sites/vova/out');

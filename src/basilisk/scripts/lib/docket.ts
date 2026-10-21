@@ -4,8 +4,8 @@
  * `read-docket.ts` is the half that parses through the schema.
  */
 
-import type { Slugged } from '@/kernel/shared/content/collections';
-import type { WithFrontmatter } from '@/kernel/shared/content/frontmatter';
+import type { WithFrontmatter } from '@/kernel/shared/content';
+import type { Slugged } from '@/kernel/shared/content/index.node-safe';
 import type { Titled } from '@/kernel/shared/typings';
 
 import type { CaseFrontmatter } from '@/basilisk/shared/content/basilisk-frontmatter';

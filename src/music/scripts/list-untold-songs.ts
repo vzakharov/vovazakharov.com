@@ -16,10 +16,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+import { MUSIC_CATALOGUE_DIR, songFiles } from '../../kernel/scripts/lib/public-markdown.ts';
 import type { WithFilePath } from '../../kernel/shared/typings/index.ts';
 import { localeProse } from '../pages/music/index.node-safe.ts';
 import { readCatalogueNames } from '../shared/catalogue/catalogue-names.ts';
-import { MUSIC_CATALOGUE_DIR, songFiles } from '../../kernel/scripts/lib/public-markdown.ts';
 
 const LIST = 'docs/music/untold-songs.md';
 const LOCALES = ['en', 'ru'] as const;

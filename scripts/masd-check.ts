@@ -59,6 +59,9 @@ function locate(file: string): string | undefined {
   if (parts[0] === 'sites') return parts[2] === 'app' ? 'router' : undefined;
   if (parts[0] !== 'src' || parts.length < 4) return undefined;
   const [, app, layer = '', slice] = parts;
+  // An app's scripts are tooling, not consumers: a slice only they reach is
+  // still one nothing shipped needs.
+  if (layer === 'scripts') return undefined;
   return SLICED.has(layer) ? `${app}/${layer}/${slice}` : `${app}/${layer}`;
 }
 

@@ -23,8 +23,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
-import { contentHash } from '@/kernel/shared/content/content-hash';
+import { contentHash,PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 import { routing } from '@/kernel/shared/i18n';
 
 import { cvPath } from '@/vova/pages/cv/lib/cv-urls';
@@ -32,9 +31,9 @@ import { CV_PAGE_CEILING, CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 
 import {
   hashFiles,
-  printAll,
-  type Printable,
   PRINT_SOURCES,
+  type Printable,
+  printAll,
   renderPdfs,
   sourceFiles,
 } from '../../blog/scripts/lib/print-job.ts';

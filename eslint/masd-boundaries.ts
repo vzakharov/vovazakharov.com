@@ -62,6 +62,36 @@ const policiesFor = (app: string) => {
       },
       allow: { to: { element: sharedLibEntry(apps) } },
     },
+    // An app's scripts sit beside its layers and enter its own tree anywhere;
+    // an ancestor's they enter as its own layers would, through a public API,
+    // except for the ancestor's scripts, which have none.
+    {
+      from: { element: { type: 'script', captured: { appName: app } } },
+      allow: {
+        to: [
+          {
+            element: {
+              types: { anyOf: ['script', 'app', ...SLICED_LAYERS, 'shared'] },
+              captured: { appName: app },
+            },
+          },
+          {
+            element: {
+              type: 'script',
+              captured: { appName: [...ancestors(graph, app)] },
+            },
+          },
+          {
+            element: {
+              types: { anyOf: ['app', ...SLICED_LAYERS, 'shared'] },
+              captured: { appName: apps },
+              fileInternalPath: PUBLIC_API,
+            },
+          },
+          { element: sharedLibEntry(apps) },
+        ],
+      },
+    },
     // Strictly downward, and only through the target's public API: the same
     // layer in an ancestor is as sideways as a sibling slice.
     ...SLICED_LAYERS.map((layer, index) => ({
@@ -91,6 +121,13 @@ export const boundariesConfig: Config = {
         type: 'router',
         pattern: ['sites/*/app'],
         capture: ['siteName'],
+        partialMatch: true,
+      },
+      // An app's own tooling, beside its layers rather than one of them.
+      {
+        type: 'script',
+        pattern: ['src/*/scripts'],
+        capture: ['appName'],
         partialMatch: true,
       },
       ...['app', 'shared'].map((layer) => ({

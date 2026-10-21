@@ -5,7 +5,7 @@
 
 import fs from 'node:fs';
 
-import { contentHash } from '@/kernel/shared/content/content-hash';
+import { contentHash } from '@/kernel/shared/content/index.node-safe';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithPath } from '@/kernel/shared/typings';
 

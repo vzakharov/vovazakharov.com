@@ -27,6 +27,7 @@
 
 import { z } from 'zod';
 
+import { flag } from '../../kernel/scripts/lib/argv.ts';
 import { MUSHROOM_SLOTS } from '../pages/mushrooms/model/crowding';
 import { OPENING_EYE } from '../pages/mushrooms/model/ground';
 import { SPORE_SEATS } from '../pages/mushrooms/model/sprouting';
@@ -52,7 +53,6 @@ import {
   opened,
   standingIn,
 } from '../pages/mushrooms/ui/scene/visit-play';
-import { flag } from '../../kernel/scripts/lib/argv.ts';
 import { median } from './lib/frame-budget.ts';
 
 const visits = z.coerce

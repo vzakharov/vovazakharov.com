@@ -13,7 +13,7 @@ import path from 'node:path';
 import {
   documentRoute,
   PUBLIC_DIR,
-} from '@/kernel/shared/content/collections';
+} from '@/kernel/shared/content/index.node-safe';
 import { routeCardPath } from '@/kernel/shared/seo';
 
 import {

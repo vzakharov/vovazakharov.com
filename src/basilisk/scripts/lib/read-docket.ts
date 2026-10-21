@@ -13,7 +13,7 @@ import path from 'node:path';
 import {
   collectionDir,
   isDocumentFile,
-} from '@/kernel/shared/content/collections';
+} from '@/kernel/shared/content/index.node-safe';
 
 import { caseFrontmatterSchema } from '@/basilisk/shared/content/basilisk-frontmatter';
 

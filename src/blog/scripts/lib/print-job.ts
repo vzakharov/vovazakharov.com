@@ -40,13 +40,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { siteConfig } from '@/kernel/shared/config/site-config';
-import {
-  isDocumentFile,
-  PUBLIC_DIR,
-  type Routed,
-} from '@/kernel/shared/content/collections';
-import { contentHash } from '@/kernel/shared/content/content-hash';
+import { siteConfig } from '@/kernel/shared/config';
+import { contentHash,isDocumentFile, PUBLIC_DIR, type Routed } from '@/kernel/shared/content/index.node-safe';
 
 import { flag, given } from '../../../kernel/scripts/lib/argv.ts';
 import { findChromium } from '../../../kernel/scripts/lib/chromium.ts';

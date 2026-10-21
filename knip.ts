@@ -9,6 +9,7 @@ export default {
     // Reached through `scripts/in-site.sh` or a hook rather than a script knip can
     // parse, so no plugin finds them.
     'scripts/*.ts',
+    'src/*/scripts/*.ts',
     // Steiger has no knip plugin.
     'steiger.config.mjs',
     // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.

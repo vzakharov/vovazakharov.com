@@ -3,6 +3,7 @@ export {
   addressLocale,
   byLocale,
   DEFAULT_LOCALE,
+  inLocale,
   isLocale,
   type Locale,
   LOCALES,

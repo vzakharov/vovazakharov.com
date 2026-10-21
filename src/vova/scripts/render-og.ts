@@ -8,7 +8,7 @@
 
 import path from 'node:path';
 
-import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
+import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 
 import { cvCardPath, cvPath } from '@/vova/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';

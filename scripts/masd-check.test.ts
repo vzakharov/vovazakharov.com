@@ -93,6 +93,16 @@ describe('masd-check', () => {
     );
   });
 
+  it('does not count an app script as a reference', () => {
+    assert.equal(
+      run({
+        [ENTITY]: 'export const card = 1;',
+        'src/blog/scripts/render.ts': "import { card } from '@/blog/entities/card';",
+      }).stderr,
+      'src/blog/entities/card: This slice has no references. Consider removing it.\n',
+    );
+  });
+
   it('flags a slice only one shared layer uses, and spares one the app layer uses', () => {
     assert.equal(
       run({

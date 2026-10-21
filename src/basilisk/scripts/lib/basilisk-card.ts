@@ -21,17 +21,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
-import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
 import {
   documentDateTime,
   formatDocumentDate,
-} from '@/kernel/shared/content/document-date';
+} from '@/kernel/shared/content';
+import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 import type { Titled } from '@/kernel/shared/typings';
 
 import { gradeLabel } from '@/basilisk/entities/case/index.node-safe';
 import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
 
-import { type DocketCase, lastFiledCase } from './docket.ts';
 import {
   CANVAS_BACKGROUND,
   escapeHtml,
@@ -39,6 +38,7 @@ import {
   INK_DIM,
   type StagedPage,
 } from '../../../kernel/scripts/lib/og-render.ts';
+import { type DocketCase, lastFiledCase } from './docket.ts';
 
 /** Staged beside the page under these names, which are the `src`s it uses. */
 const SEAL = 'seal.svg';
