@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 182,
-    "cacheWrite5mTokens": 325104,
-    "cacheWrite1hTokens": 155436,
-    "cacheReadTokens": 12102600,
-    "outputTokens": 25456,
+    "inputTokens": 260,
+    "cacheWrite5mTokens": 384445,
+    "cacheWrite1hTokens": 157250,
+    "cacheReadTokens": 17253371,
+    "outputTokens": 26156,
     "thinkingTokens": 3988,
-    "responses": 91,
-    "costUsd": 5.799375999999999
+    "responses": 130,
+    "costUsd": 7.155059199999998
   },
   "estimate": {
     "at": "2026-10-21T09:34:20.928Z",
@@ -26,48 +26,49 @@
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/music-distribution-i02gzl — смержить письмо в 682 Distribution в vzakharov/life (finalize and merge #220), потом напомнить, на чём остановили…",
   "prs": [
-    182
+    182,
+    220
   ],
   "url": "https://claude.ai/code/session_01FbbxZszG8eZfAHNm6fufor",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-21T09:24:28.693Z",
-  "lastResponseAt": "2026-10-21T09:49:44.078Z",
+  "lastResponseAt": "2026-10-21T09:54:49.967Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 120,
+    "inputTokens": 122,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 155436,
-    "cacheReadTokens": 9599111,
-    "outputTokens": 25083,
+    "cacheWrite1hTokens": 157250,
+    "cacheReadTokens": 9815683,
+    "outputTokens": 25246,
     "thinkingTokens": 3988,
-    "responses": 60,
-    "costUsd": 3.6654501999999995
+    "responses": 61,
+    "costUsd": 3.7265445999999995
   },
   "subagents": {
-    "inputTokens": 62,
-    "cacheWrite5mTokens": 325104,
+    "inputTokens": 138,
+    "cacheWrite5mTokens": 384445,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 2503489,
-    "outputTokens": 373,
+    "cacheReadTokens": 7437688,
+    "outputTokens": 910,
     "thinkingTokens": 0,
-    "responses": 31,
-    "costUsd": 2.1339258000000005
+    "responses": 69,
+    "costUsd": 3.4285145999999997
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 182,
-      "cacheWrite5mTokens": 325104,
-      "cacheWrite1hTokens": 155436,
-      "cacheReadTokens": 12102600,
-      "outputTokens": 25456,
+      "inputTokens": 260,
+      "cacheWrite5mTokens": 384445,
+      "cacheWrite1hTokens": 157250,
+      "cacheReadTokens": 17253371,
+      "outputTokens": 26156,
       "thinkingTokens": 3988,
-      "responses": 91,
-      "costUsd": 5.799375999999999
+      "responses": 130,
+      "costUsd": 7.155059199999998
     }
   },
   "warnings": [
-    "30 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+    "68 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
   ],
   "orientation": {
     "endedBy": "end_turn",
