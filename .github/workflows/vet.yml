@@ -2,8 +2,8 @@ name: Vet
 
 # Run by hand on a branch — `gh workflow run vet.yml --ref <branch>` — in place
 # of a local `./scripts/vet.sh`, never on its own. The same run, split across
-# machines by vet.sh's own phases: the four builds, the ESLint shards and the
-# checks over the source all at once, then the checks that read the exports.
+# machines by vet.sh's own phases, every job starting at once; only the checks
+# over the exports wait, for the builds that write them.
 on:
   workflow_dispatch:
 
@@ -39,7 +39,8 @@ jobs:
           path: apps/${{ matrix.site }}/out
           retention-days: 1
 
-  # Starts with the builds: the route types it reads come from `next typegen`.
+  # The lint shards and the type check need no build: the route types they read
+  # come from `next typegen`.
   lint:
     runs-on: ubuntu-latest
     strategy:
@@ -56,15 +57,38 @@ jobs:
       - name: ESLint, shard ${{ matrix.shard }}
         run: ./scripts/vet.sh lint ${{ matrix.shard }}
 
-  built:
+  typecheck:
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up the toolchain
         uses: ./.github/actions/setup-toolchain
+
+      - name: Type check
+        run: ./scripts/vet.sh typecheck
+
+  # No `needs`: it sets itself up while the builds run, then waits for their
+  # exports, which a `needs` would hold until GitHub marked every build done —
+  # often well after the last export landed.
+  built:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Wait for the exports
+        timeout-minutes: 15
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./.github/scripts/wait-for-exports.sh
 
       - name: Download the exports
         uses: actions/download-artifact@v4
@@ -86,17 +110,18 @@ jobs:
           path: tmp/run-parallel/
           retention-days: 14
 
-  # Starts with the builds rather than after them: nothing it runs reads an
-  # export, and the type check's route types come from `next typegen`.
   source:
     runs-on: ubuntu-latest
     steps:
       # Full history rather than the default single commit: checks that diff
-      # against `origin/main` pass quietly with no base to read.
+      # against `origin/main` pass quietly with no base to read. The commits and
+      # trees come whole; a blob outside the head is fetched when a check reads
+      # it.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          filter: blob:none
 
       - name: Set up the toolchain
         uses: ./.github/actions/setup-toolchain

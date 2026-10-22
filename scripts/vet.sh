@@ -10,10 +10,11 @@
 #
 #   scripts/vet.sh build <site>   one site's build
 #   scripts/vet.sh lint <k>/<n>   ESLint over the k-th of n shards of the files
-#   scripts/vet.sh source         the codegen and the checks no export feeds
+#   scripts/vet.sh typecheck      the type check
+#   scripts/vet.sh source         the codegen and the checks no build feeds
 #   scripts/vet.sh built          the checks that read the exports on disk
 #
-# The phases that read route types but no export — `lint` and `source` — write
+# The phases that read route types but no export — `lint` and `typecheck` — write
 # them with `next typegen` instead of waiting on a build. Typegen's types are
 # the build's plus a `cache-life.d.ts`; it is safe only in a tree no build is
 # writing at the same time (`.claude/rules/stack.md`), which is why the bare
@@ -23,13 +24,13 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 usage() {
-  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | source | built]\n' >&2
+  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | typecheck | source | built]\n' >&2
   exit 2
 }
 
 phase="${1:-all}"
 case "$phase" in
-  all | source | built) [ "$#" -le 1 ] || usage ;;
+  all | typecheck | source | built) [ "$#" -le 1 ] || usage ;;
   build | lint) [ "$#" -eq 2 ] || usage ;;
   *) usage ;;
 esac
@@ -88,9 +89,9 @@ typegen() {
 case "$phase" in
   build) build "build:$2" ;;
   lint) typegen && lint_shard "$2" ;;
-  source) typegen ;;
+  typecheck) typegen && { pnpm -s typecheck || status=1; } ;;
 esac
-if [[ "$phase" == build || "$phase" == lint ]]; then
+if [[ "$phase" == build || "$phase" == lint || "$phase" == typecheck ]]; then
   ((status)) && exit 1
   exit 0
 fi
@@ -144,7 +145,6 @@ built_checks=(
   cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
 )
 source_checks=(
-  typecheck='pnpm typecheck'
   format='pnpm format:check'
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
@@ -173,8 +173,9 @@ source_checks=(
   hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
 )
 case "$phase" in
-  # ESLint reads the route types too; the phases leave it to the lint shards.
-  all) checks=("${built_checks[@]}" "${source_checks[@]}" eslint='pnpm lint:check') ;;
+  # ESLint and the type check read the route types too; the phases leave them
+  # to phases of their own.
+  all) checks=("${built_checks[@]}" "${source_checks[@]}" typecheck='pnpm typecheck' eslint='pnpm lint:check') ;;
   built) checks=("${built_checks[@]}") ;;
   source) checks=("${source_checks[@]}") ;;
 esac
