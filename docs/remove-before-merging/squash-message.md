@@ -28,8 +28,9 @@ article. Every case filed so far gets its emblem, BAS-0023 among them:
 DPD's chatbot, set to swearing and to verse against its own firm, filed
 here with its card and the Clerk's reflection.
 
-The human-hour estimate role `artist` is renamed `musician`, the work
-it was introduced for; illustration such as these emblems is `designer`.
+The human-hour estimate role `artist` is renamed `musician`, for Майя's
+reflections; the Clerk's are booked as `editor`, and illustration such
+as these emblems as `designer`.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
