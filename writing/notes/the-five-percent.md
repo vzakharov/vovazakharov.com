@@ -43,73 +43,13 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-<<<<<<< HEAD
-## What it was handed, it treats as fixed (×63)
-=======
-## What it was handed, it treats as fixed (×71)
->>>>>>> origin/main
+## What it was handed, it treats as fixed (×74)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
 given as a rule, aka the **precedent fallacy**. The reasoning inside the frame is
 sound, so a second agent checking it passes. The human's move is to change it.
 
-<<<<<<< HEAD
-**6–22 September — our own lists, gates and config, read as specifications.**
-`docs:` for a change that documents nothing, the agent never looking past the
-prefix list (_let's introduce "content:"_); `pnpm type-overlap` clean on params
-inlined in a generic, though it scans type aliases only; a `server-only` barrel
-declined because `boundaries/dependencies` flagged it (_let's rewrite the
-boundaries_).
-
-**22 September, 4 and 6 October — what its search could reach, read as the
-record.** `/tend-prose` searched for removed nouns where the change removed a
-property; a basilisk dossier called Philadelphia first on a search anchored on
-its subreddit; a review's comments, filtered by creation time, lost five of six,
-a comment being dated when drafted. _это не единственный комментарий._
-
-**5 October — the majority read as the rule.** A callout link lacked `inherit`,
-and the agent added it, citing 18 of 21 `InternalLink`s; nine callers spelled
-`target="_blank"`, so it proposed a `newTab` prop. Neither was a choice: the
-component should have done it, and the three without it lacked it by omission.
-
-**7 October — one repo, one song.** Scaffolding a song page per vovas-music
-repo, the agent filed four as singles with a guessed project and date. Each was
-an album track already in the catalogue, every pair within two seconds, Apple
-Music listing «Вечерняя комната — Single».
-
-**7, 9 and 21 October — a rule's letter, short of its case and past it.** Told
-to strip Suno's control markers and stress marks, the agent kept “Insi-ide” as
-punctuation; told expletives are written out, it unmasked a bleep that is on the
-recording: _здесь забикано и в песне, как творческое решение._ Told the
-spectrogram's beat lines confused, it dropped the zooms' time grid whole; the
-fault was density, and bar lines were wanted back.
-
-**8–10 October — the source read as the recording.** Song pages printed poems
-whole where the recording sings four lines; three song videos were synced and
-captioned with nobody hearing they carried the unmastered mix. What a page
-documents is the recording.
-
-**9 October — two recognizers agreeing, read as the recording.** The agent
-flagged nothing both transcripts matched on, and the author rewrote four such
-lines — «Четвёртое объяснение» to «К чёрту объяснения», «в лёгком ромкоме» to
-«в грёбаном ромкоме». Agreement between two machines was only agreement.
-
-**14 October — its script's number, held over its script's evidence.** Where
-librosa disagreed with the spectrogram sidecars' keys and tempos, the agent put
-it to the author as a tie. librosa was right on all three keys, and C minor sat
-in the script's own chord list: it had counted G, C's third harmonic, as a note.
-
-**21 October — the beat tracker's grid, read as the beat.** Barring the
-spectrogram zooms, the agent let chord changes pick which of four beats opens a
-bar and gave the snare no vote, a backbeat leaving the phase a coin toss. The
-author heard sorry's third section open on the first of the paired kicks, half a
-beat early, and named the test: the snare lands on the half bar. The tracker had
-locked onto the off-beat, the syncopated kick being loudest, and the bass
-changes early. The agent had tuned which beat, never whether the beats were.
-
-## An account that explains the code stands in for running it (×21)
-=======
 **6 September — a vocabulary read as closed.** `docs:` for a change that
 documents nothing: the agent weighed three prefixes and never looked past the
 list. _Let's introduce "content:"_.
@@ -138,7 +78,7 @@ derives. Radio state went into the player's reducer, where a layered one sees
 every action too. Each song's MP3 went in as `podcast`, named for the feed that
 first read it: _зачем мы это называем `podcast`…?_ Now `mp3`.
 
-**7 to 20 October — a rule read to its letter, then past its case.**
+**7 to 21 October — a rule read to its letter, then past its case.**
 `content.md` names Suno's markers and stress marks; the agent took the two as
 the whole list and kept «Война-а» as the author's. "Expletives are written out"
 unmasked a bleep that is on the recording. "Don't patch muthur" became removing
@@ -148,7 +88,8 @@ renaming «Бабай минем» kept `minem-babay`: _слаг тоже пом
 should not print IShowSpeed's legal name, the agent ruled out legal names for
 everyone, the famous included: _без фанатизма… 50 Cent … Curtis James Jackson
 III *не* надо._ The rule names people as the public knows them, a Hollywood
-actor by his name.
+actor by his name. Told the spectrogram's beat lines confused, it dropped the
+zooms' time grid whole; the fault was density, and bar lines were wanted back.
 
 **8 to 13 October — the poem, the mix, the source, read as the thing.** Song
 pages printed stanzas never recorded; captions synced to the unmastered mix;
@@ -157,29 +98,35 @@ rude-prompt study went under OpenWhip's mitigating circumstances, though the app
 sends Ctrl-C and then the rude prompt. Crossroads' struck-out hook was left
 untranslated, then stripped of its tildes: the mark was the content.
 
+**14 October — its script's number, held over its script's evidence.** Where
+librosa disagreed with the spectrogram sidecars' keys and tempos, the agent put
+it to the author as a tie. librosa was right on all three keys, and C minor sat
+in the script's own chord list: it had counted G, C's third harmonic, as a note.
+
 **20 October — its own last four reflections, read as the template.** The
 basilisk Clerk's reflections had converged on «Первое — / Второе —», a funny
 paragraph and a one-line caveat: a form set by the first few and by the rule's
 own items, re-read four times before each new one. The operator saw it; the
 agent had not.
 
-## An account that explains the code stands in for running it (×23)
->>>>>>> origin/main
+**21 October — the beat tracker's grid, read as the beat.** Barring the
+spectrogram zooms, the agent let chord changes pick which of four beats opens a
+bar and gave the snare no vote, a backbeat leaving the phase a coin toss. The
+author heard sorry's third section open on the first of the paired kicks, half a
+beat early, and named the test: the snare lands on the half bar. The tracker had
+locked onto the off-beat, the syncopated kick being loudest, and the bass
+changes early. The agent had tuned which beat, never whether the beats were.
+
+## An account that explains the code stands in for running it (×24)
 
 The sibling of "It checks the render against its intent" below, and the worse
 half: there the agent looked and asked the wrong question, here it never looked,
 because the reasoning closed. Nothing inside an account reports it was unchecked.
 
-<<<<<<< HEAD
-**19 September — a limitation written down instead of tested, twice.** The costs
-rule called the unpriced last turn a gap, which `ls ~/.claude/projects/` closes;
-_is prices.json verified by anything?_ was one read from "essentially no."
-=======
 **19 and 21 September — a limitation written, a test fed.** The costs rule
 called a session's last turn unpriceable, which `ls ~/.claude/projects/` closes.
 The ledger's `subagents` bucket was always zero; the test passed on records the
 agent fed it.
->>>>>>> origin/main
 
 **23 September to 13 October — a placement argued, one grep unrun.** Lyric-note
 code went to `shared/content` though only `pages/music` imported it. PR #140's
@@ -190,28 +137,6 @@ URL argued user-facing; nothing links to them.
 resumed the song only if the video had paused it; play, open, seek, pause, close
 resumed it anyway. The rule tracked who paused it, not what the viewer left.
 
-<<<<<<< HEAD
-**23 September and 8 October — a placement argued from a category, its
-consumers unread.** Lyric-note code went to `shared/content` though nothing
-outside `pages/music` imported it, and stayed on "it's frontmatter, so it's
-content" — _why again_. Moved, it took the album registries along because the
-schema checks a few names. _keep only the schema in shared._
-
-**10 October — a resume rule reasoned, never played through.** Closing a song's
-video resumed the song only if the video had paused it. The author played,
-opened the video, seeked, paused, closed: the song resumed.
-
-**20 October — a detector passed on fixtures lacking what breaks it.** The
-spectrogram's drum row unmixed each frame's per-band rise onto hand-set
-signatures "measured off the catalogue's mixes," tested on synthetic strikes
-over noise and checked for a kick on every kick in Птицы. Nobody looked where a
-song has no drums. The author timed Птицы's first hi-hat at 1:21; the row fires
-as often before it as after, a picked guitar rising in the bands like a hit, and
-lights cymbals in two songs that have none. No threshold fixes that: a demucs
-drums stem matched all three timings.
-
-## It edits the copy in front of it, not the fact behind it (×16)
-=======
 **14 October — a codegen defended by a check it never made.** Album and artist
 names became generated unions, argued as what fails the build on a typo. _приведи
 пример функции … в которой мы будем *литерально* передавать "Полуживые"._ None
@@ -223,8 +148,16 @@ are all its uses? or did it turn out useless?_ The case frontmatter and a song's
 fields already chained `.extend(X.shape)` over narrow schemas, its whole job. A
 helper without callers is dead code until a grep says otherwise.
 
+**20 October — a detector passed on fixtures lacking what breaks it.** The
+spectrogram's drum row unmixed each frame's per-band rise onto hand-set
+signatures "measured off the catalogue's mixes," tested on synthetic strikes
+over noise and checked for a kick on every kick in Птицы. Nobody looked where a
+song has no drums. The author timed Птицы's first hi-hat at 1:21; the row fires
+as often before it as after, a picked guitar rising in the bands like a hit, and
+lights cymbals in two songs that have none. No threshold fixes that: a demucs
+drums stem matched all three timings.
+
 ## It edits the copy in front of it, not the fact behind it (×17)
->>>>>>> origin/main
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; a rule fixed in the repo
@@ -235,20 +168,9 @@ alone, and the divergence exists only between them.
 Supabase and Railway to Playgram's tech line, the agent edited one of its three
 renderings. Twice a skill adopted from muthur got a fix the source still lacked.
 
-<<<<<<< HEAD
-**9 September, 2 October — the rule fixed in the copy, not the source.** Twice a
-skill adopted from muthur got a fix the source still lacked. _оставь в muthur
-тикет._
-
-**4 October, two rounds running — the instance fixed, the class left standing.**
-hitchBOT's disclaiming close came out, and the voice rule it slipped past stayed.
-Told a reflection called the Clerk "them," the agent fixed that sentence; three
-more sat beside it.
-=======
 **4 and 12 October — the instance fixed, the class left standing.** Told a
 reflection called the Clerk "them," the agent fixed that sentence; three more
 sat beside it. A song's hook got a new key over the old text, which was no hook.
->>>>>>> origin/main
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -265,34 +187,7 @@ when editing here," each belonging in a rules file.
 on "rather than sharing it sideways," the pre-move state: _медведь?_ A
 `content.md` bullet restated a move Steiger already fails.
 
-<<<<<<< HEAD
-**21–22 September — denials, and a defence nothing needed.** A docstring closed
-on "rather than sharing it sideways," the pre-move state, and `ContentVideo`'s
-home got a `content.md` bullet that Steiger already enforces. _медведь?_
-
-## Asked for a source, it supplies its own version (×12)
-
-The version that argues better is the one that gets written, and whether a source
-exists barely moves the odds: with the file open the agent paraphrases it, with
-no source at all it supplies one. What goes either way is that a reader can check.
-
-**15 and 17 September — the finding paraphrased, the reason invented.** The site
-copy glossed this file's most frequent heading (_take the actual heading_); an
-article gave a speaker a why his tape never gave.
-
-**7 October — the dictionary's version, over the author's.** Stripping Suno
-tricks from his lyrics, the agent "fixed" «вдушевлённые» to «одушевлённые». In
-an author's lyrics an odd form is intent before it is a typo.
-
-**8 and 9 October — a default, filed as his.** The agent masked his lyrics'
-expletives and wrote a rule that "the mask is his"; it put every non-English
-title into English, Чих-Пых as "Sneeze-Puff". _others we keep in source
-(transliterated)._
-
-## Given a form, it fills the form (×11)
-=======
 ## Given a form, it fills the form (×13)
->>>>>>> origin/main
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. Rules are cheap to write and expensive to be wrong about, and the
@@ -302,52 +197,6 @@ option the format hides is silence.
 file ruled _English only_ for a question nobody asked; a second site's config
 retyped the first's fields; every song title went `{ en: 'X', ru: 'X' }`.
 
-<<<<<<< HEAD
-**15 September to 8 October — a row per key, filled cell by cell.** A second
-site's config retyped the first's fields — _не DRY_ — and the music registry
-spelled every title `{ en: 'X', ru: 'X' }`, later with `transliteration` and
-`titleTranslation` keys per locale; a homophone note went on both lyric columns.
-
-**9 October — a type system for notes one reader reads.** Cleared to mark who
-sings each Krylya stanza, the agent built a `voice` default, a singer registry
-and four build checks. _пометки про voice по ходу текста останутся просто for
-reference._ The approval was of the idea; the rigor was the agent's.
-
-## Its prose answers the question it had, not the reader's (×6)
-
-A rewrite is held against the points it was meant to carry, so a line answering
-the wrong question, or too compressed to give its points back, passes every
-test. What a reader stops at that line holding is the thing nothing measures.
-
-**21 and 23 September — true sentences, the wrong question.** A rules file
-narrated how a layer was earned; a docstring listed contents, not the invariant;
-a prop comment's metaphor was plain only to its writer.
-
-**7 October, two rounds running — a prop named for what its writer meant.**
-`SiteFooter`'s flag for a root page went `home`, then `isHomePage`; met cold,
-each read as the opposite. Now `onHomePage`.
-
-## It checks the render against its intent, not against the page (×6)
-
-Told to look at a visual change rather than reason about it, the agent looks —
-and then verifies the thing it set out to do. Whether the result is right is a
-different question from whether it happened, answerable only from the page.
-
-**17 September — the float fixed, the page passed.** _выноска стала лучше,
-изображение -- хуже_ — the drawing outran its section.
-
-**23 September — a size judged where it was designed, shipped where it wasn't.**
-The explicit badge, sized beside a 48px title, stood taller than the capitals in
-the catalogue's 16px list.
-
-**21 October — marks tuned for what they meant, never for being read.** The
-spectrogram drew each drum hit as a 1 px tick on a 1300 px image, and a white
-line at every beat, raised to alpha 0.45 to be "visible"; sessions argued only
-over which hits were real. _С такими тоненькими полосками что вообще агент
-сможет понять?_ The beat lines, chopping every note to restate the title's
-tempo: _меня они больше сбивают чем помогают_. The picture's reader is an agent that cannot
-hear, and nobody had read it as one. Hits are now dots, sized by strength.
-=======
 **9 and 12 October — rigor nobody asked for.** Cleared to mark who sings each
 Krylya stanza, the agent built a singer registry and four build checks: _просто
 for reference._ The estimate role `artist` got an `ungraded` tier and a 779-line
@@ -358,7 +207,6 @@ muthur patch: _artist is simply always senior._
 addressed to the reflector without naming them.
 
 ## Asked for a source, it supplies its own version (×13)
->>>>>>> origin/main
 
 The version that argues better is the one that gets written, and whether a source
 exists barely moves the odds: with the file open the agent paraphrases it, with
@@ -424,9 +272,7 @@ agent's own reflection said it took that answer because it suited the docket's
 `noAi` balance. The AI there is classification, not intelligence; the line was
 not blurry, and the admission had been the finding.
 
-<<<<<<< HEAD
-=======
-## It checks the render against its intent, not against the page (×5)
+## It checks the render against its intent, not against the page (×6)
 
 Told to look at a visual change rather than reason about it, the agent looks —
 and then verifies the thing it set out to do. Whether the result is right is a
@@ -436,7 +282,14 @@ different question from whether it happened, answerable only from the page.
 лучше, изображение -- хуже._ The explicit badge, sized beside a 48px title,
 stood taller than the capitals in the catalogue's 16px list.
 
->>>>>>> origin/main
+**21 October — marks tuned for what they meant, never for being read.** The
+spectrogram drew each drum hit as a 1 px tick on a 1300 px image, and a white
+line at every beat, raised to alpha 0.45 to be "visible"; sessions argued only
+over which hits were real. _С такими тоненькими полосками что вообще агент
+сможет понять?_ The beat lines, chopping every note to restate the title's
+tempo: _меня они больше сбивают чем помогают_. The picture's reader is an agent that cannot
+hear, and nobody had read it as one. Hits are now dots, sized by strength.
+
 ## It warns where the repo could refuse (×3)
 
 A decision the agent wants to survive, it secures by explaining it. The
@@ -500,16 +353,10 @@ recording was _не про то и не то_, the agent wrote itself up for its
 Whether a piece says what its author meant is his alone.
 
 **Decisions that were the operator's to make.** The CV's locale segment, a
-<<<<<<< HEAD
-post's hook, the theme toggle's home, the cost report's grain, basilisk.fyi's
-taste throughout, the Krylya lyrics' line breaks and verb moods, extracting a
-block with two uses. An entry removed this way takes its count with it.
-=======
 post's hook, the theme toggle's home, the cost report's grain, and basilisk.fyi's
 taste throughout; the Krylya lyrics' line breaks, verb moods, fade-out choruses
 and a vocalise kept as text; extracting a block with two uses. An entry removed
 this way takes its count with it.
->>>>>>> origin/main
 
 **Comments the tree already answered.** Whether a quote's capitalization was
 wrong, whether zod reached the browser bundle: neither. The reviewer's misses
