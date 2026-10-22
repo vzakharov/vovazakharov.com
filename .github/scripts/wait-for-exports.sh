@@ -1,9 +1,8 @@
 #!/bin/bash
-# Wait until every build job in this run has uploaded its export, so vet.yml's
-# `built` job sets itself up beside the builds rather than after them. An
-# artifact is listed the moment it uploads, where a job's conclusion can lag by
-# minutes, so the wait reads the artifacts, and a build job's conclusion only to
-# fail on one that ended without its export.
+# Wait until every build job in this run has uploaded its export. An artifact
+# is listed the moment it uploads, where a job's conclusion can lag by minutes,
+# so the wait reads the artifacts, and a build job's conclusion only to fail on
+# one that ended without its export.
 set -euo pipefail
 
 : "${GITHUB_REPOSITORY:?}" "${GITHUB_RUN_ID:?}" "${GH_TOKEN:?}"

@@ -14,13 +14,9 @@
 #   scripts/vet.sh built          the checks that read the exports on disk
 #   scripts/vet.sh local          the checks that read the branch's history
 #
-# `local` stays on the machine that has the history: a runner's checkout would
-# need all of it, and each check passes quietly against a base it cannot see.
-#
-# The phases that read route types but no export — `lint` and `typecheck` — write
-# them with `next typegen` instead of waiting on a build. Typegen's types are
-# the build's plus a `cache-life.d.ts`; it is safe only in a tree no build is
-# writing at the same time (`.claude/rules/stack.md`), which no phase runs.
+# `lint` and `typecheck` write the route types with `next typegen` rather than
+# wait on a build — safe only in a tree no build shares
+# (`.claude/rules/stack.md`).
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
@@ -153,31 +149,9 @@ if [[ "$phase" != built && "$phase" != local ]]; then
   logged styles pnpm styles:codegen
 fi
 
-# None of these writes anything another one reads, so they overlap freely.
-# The Open Graph check is one entry per site, not one script running both: pnpm
-# appends a passed `--check` to the end of the command line, so a combined
-# `a && b` would leave the first site rendering for real inside a vet run.
-# The one PDF entry holds the CV to its page ceiling: it prints from the export
-# into the OS temp directory, and records a pass under
-# `tmp/` that nothing else reads. Publishing the PDFs stays each lane's job,
-# since the manifest deciding what to reprint lives in that lane's cache.
-# Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
-# `lint:check` and `lint:css` are the check-only forms, for the same reason.
-# type-overlap and knip read source text only — no generated types, nothing
-# another check writes, and knip writes nothing without --fix, which vet never
-# passes; the test run adds only writes into the OS temp directory, and
-# the `--check` render passes and the song-tag check only hash files, needing
-# no browser, and the cost ledger's, context budget's, cold-cache guard's and keepalive's tests write only into
-# their own temporary directories. The squash check reads the proposal under
-# docs/remove-before-merging/ (or its own history) and the notes check counts
-# lines under writing/notes/, neither of which anything else here touches.
-# The Mantine and i18n-payload checks only read the exports under `apps/*/out/`,
-# which nothing here writes to. The
-# prose-quotes check and the song checks only read the Markdown under
-# `apps/*/public/`.
-# The last eight read the agent infrastructure itself and nothing else here
-# touches it.
-# The checks that read a build's exports.
+# Each array is one phase's fan-out. Nothing in one writes what another reads,
+# so they overlap freely; `.claude/rules/stack.md` says why each check
+# qualifies, and a check added here has to as well.
 built_checks=(
   mantine-styles='pnpm check:mantine-styles'
   i18n-payload='pnpm check:i18n-payload'
@@ -197,6 +171,8 @@ source_checks=(
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   prose-quotes='pnpm check:prose-quotes'
+  # One entry per site: pnpm appends a passed `--check` to the end of the
+  # command line, so a combined `a && b` would render the first site for real.
   og-vova='pnpm content:og:vova --check'
   og-bible='pnpm content:og:bible --check'
   og-basilisk='pnpm content:og:basilisk --check'

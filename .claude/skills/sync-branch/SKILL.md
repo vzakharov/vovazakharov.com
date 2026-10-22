@@ -167,9 +167,9 @@ if the project has hydrated it.
 
 ### Step 6 — Push, then report for after-the-fact review
 
-Push the branch to its own upstream — Step 5 already has wherever it ran vet —
-with no pre-push greenlight, and never between the merge commit and the
-resolution commit:
+Push the branch to its own upstream — a no-op once Step 5 has pushed — with no
+pre-push greenlight, and never between the merge commit and the resolution
+commit:
 
 ```bash
 git push        # plain push == fast-forward; 2/4/8/16s backoff on network errors

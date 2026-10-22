@@ -241,8 +241,8 @@ is unfinished until all four agree:
 3. **CI**: `.github/actions/setup-toolchain` pins pnpm and Node for every
    workflow, and `.github/workflows/vet.yml` adds what only vet needs — Python
    with numpy, a git identity for the tests that commit. A runner starts bare,
-   so a system dependency the container happens to carry is one that a PR's vet
-   run lacks.
+   so a system dependency the container happens to carry is one that the vet run
+   lacks.
 4. **The environment setup script** installs and pins the toolchain for remote
    sessions. No API, MCP tool or in-repo file stands behind it, so no agent can
    change it: **say in your report what the operator must add there**, or the
