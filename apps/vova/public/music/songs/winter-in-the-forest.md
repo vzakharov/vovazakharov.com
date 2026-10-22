@@ -1,7 +1,7 @@
 ---
 title: 'Зима в лесу'
 date: 2023-12
-status: wip
+status: done
 language: ru
 project: ['Полуживые']
 repo: 'winter-in-the-forest'

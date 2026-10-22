@@ -1,7 +1,7 @@
 ---
 title: 'Бабочка'
 date: 2023-12
-status: wip
+status: done
 language: ru
 project: ['Полуживые']
 repo: butterfly-rock

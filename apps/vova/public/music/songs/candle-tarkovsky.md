@@ -1,7 +1,7 @@
 ---
 title: 'Свеча'
 date: 2023-12
-status: wip
+status: done
 language: ru
 project: ['Полуживые']
 repo: candle-tarkovsky
