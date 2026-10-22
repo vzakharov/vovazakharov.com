@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 100562,
+    "cacheReadTokens": 3425960,
+    "outputTokens": 18464,
+    "thinkingTokens": 6332,
+    "responses": 26,
+    "costUsd": 1.8591760000000004
+  },
+  "estimate": {
+    "at": "2026-10-22T07:27:29.306Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "diagnosing a heap blowup across typescript-eslint program lookup needs measured bisection, not guesswork"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the config, script and docs edits are routine once the cause is settled"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "73c4e7e5-b9c6-5e6a-8bcd-c148ce09d6d3",
+  "branch": "vet-heap-and-ci",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task `./scripts/vet.sh` больше не проходит на дефолтной куче Node: шаг `eslint` падает с «JavaScript heap out of memory». Замер в сессии PR #186: eslint на это…",
+  "prs": [
+    189
+  ],
+  "url": "https://claude.ai/code/session_01MV2paAW5Ah41A4aDPJvxkN",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T07:12:39.158Z",
+  "lastResponseAt": "2026-10-22T07:28:35.172Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 100562,
+    "cacheReadTokens": 3425960,
+    "outputTokens": 18464,
+    "thinkingTokens": 6332,
+    "responses": 26,
+    "costUsd": 1.8591760000000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 100562,
+      "cacheReadTokens": 3425960,
+      "outputTokens": 18464,
+      "thinkingTokens": 6332,
+      "responses": 26,
+      "costUsd": 1.8591760000000004
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/vet-heap-and-ci.draft.do-not-implement.md",
+    "endedAt": "2026-10-22T07:26:56.158Z",
+    "contextTokens": 138699,
+    "spend": {
+      "inputTokens": 30,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 77385,
+      "cacheReadTokens": 1789554,
+      "outputTokens": 10569,
+      "thinkingTokens": 5805,
+      "responses": 15,
+      "costUsd": 1.1884908
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
