@@ -202,7 +202,7 @@ function sourceFiles(...sources: string[][]): string[] {
 }
 
 /**
- * A case prints its seal beside its brief, composed from its emblem and the
+ * A case prints its seal beside its lede, composed from its emblem and the
  * lettered site seal, which sit under `public/` as the end mark does. A
  * document with no emblem is not a case.
  */

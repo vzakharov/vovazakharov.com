@@ -13,7 +13,7 @@ import { aggravations, caseSealPath, GradeStamp } from '@/entities/case';
 
 import classes from './basilisk-home.module.scss';
 
-/** The seal's side, which the stylesheet's first column matches. */
+/** The seal's side, which the stylesheet's `$seal-size` matches. */
 const SEAL_SIZE = 56;
 
 type DocketRowProps = WithContentDocument<CaseFrontmatter> & Titled;
@@ -30,6 +30,7 @@ export function DocketRow({ document, title }: DocketRowProps) {
 
   return (
     <li className={classes['row']}>
+      <span className={classes['number']}>{number}</span>
       <Image
         src={caseSealPath(slug, 'small')}
         alt=""
@@ -38,7 +39,7 @@ export function DocketRow({ document, title }: DocketRowProps) {
         height={SEAL_SIZE}
         className={classes['seal']}
       />
-      <span className={classes['number']}>{number}</span>
+
       <time className={classes['date']} dateTime={documentDateTime(date)}>
         {formatDocumentDate(date)}
       </time>
