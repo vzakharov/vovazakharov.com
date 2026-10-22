@@ -14,11 +14,11 @@ chords, and a picked guitar's attack reads as a drum hit.
 Beside the PNG it writes <slug>.txt, the sidecar: the numbers the picture can
 only approximate — tempo, key, tuning, and per section its tempo, loudness and
 chords. The docstrings of `song_facts.py` and the modules it imports say how
-each is measured. The title carries the tempo, and the tuning when it is over
-15 cents off A440. And <slug>.json, everything the picture is drawn from but
-the spectrogram's own map, as data (`song_data.py`).
+each is measured. And <slug>.json, everything the picture is drawn from but
+the spectrogram's own map, as data (`song_data.py`). The title carries the
+tempo, and the tuning when it is over 15 cents off A440.
 
-And beside both, one zoom per section, <n>.png: the stretch between two
+And beside them, one zoom per section, <n>.png: the stretch between two
 dashed lines drawn at the full width, so a section can be looked at closely
 without asking. The number is the one at the section's top left in the whole
 song's picture, and at the head of its line in the sidecar. A zoom draws a
