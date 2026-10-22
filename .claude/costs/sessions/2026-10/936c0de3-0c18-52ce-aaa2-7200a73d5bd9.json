@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 82,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 121033,
+    "cacheReadTokens": 5819056,
+    "outputTokens": 17550,
+    "thinkingTokens": 8538,
+    "responses": 41,
+    "costUsd": 2.4834032000000006
+  },
+  "estimate": {
+    "at": "2026-10-22T12:16:01.792Z",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "musician",
+        "comment": "seven reflections on another project's album, each read off its spectrogram against the words and the poet's source in a persona's own voice; a listener's judgement, about 40 minutes a song"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "stems and spectrograms for seven masters are a scripted pipeline that only needs running and checking"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "a new shared estimate role means re-reading some thirty ledger rows and deciding which hours were reflection, which takes judgement about each session's mix"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "936c0de3-0c18-52ce-aaa2-7200a73d5bd9",
+  "branch": "claude/nostalgia-maya-ki1ppm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "пусть Майя порассуждает о Ностальгии, + у него ошибочно стоит WIP.",
+  "prs": [],
+  "url": "https://claude.ai/code/session_016UYc7xMgNxCkCgSJqqkqcz",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T12:01:34.810Z",
+  "lastResponseAt": "2026-10-22T12:16:45.094Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 82,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 121033,
+    "cacheReadTokens": 5819056,
+    "outputTokens": 17550,
+    "thinkingTokens": 8538,
+    "responses": 41,
+    "costUsd": 2.4834032000000006
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 82,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 121033,
+      "cacheReadTokens": 5819056,
+      "outputTokens": 17550,
+      "thinkingTokens": 8538,
+      "responses": 41,
+      "costUsd": 2.4834032000000006
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "apps/vova/public/music/albums/nostalgia.md",
+    "endedAt": "2026-10-22T12:13:15.516Z",
+    "contextTokens": 150684,
+    "spend": {
+      "inputTokens": 42,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 99968,
+      "cacheReadTokens": 2640477,
+      "outputTokens": 10263,
+      "thinkingTokens": 5634,
+      "responses": 21,
+      "costUsd": 1.5332674000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
