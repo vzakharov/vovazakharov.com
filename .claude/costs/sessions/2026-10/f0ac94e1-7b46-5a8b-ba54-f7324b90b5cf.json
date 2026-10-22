@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 118,
+    "cacheWrite5mTokens": 106636,
+    "cacheWrite1hTokens": 164562,
+    "cacheReadTokens": 9061634,
+    "outputTokens": 32078,
+    "thinkingTokens": 8106,
+    "responses": 59,
+    "costUsd": 4.304034799999998
+  },
+  "estimate": {
+    "at": "2026-10-22T12:15:40.499Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a CI job around an existing script is routine, but the runner's differences from the dev container (shallow, detached, no git identity) take a few runs to flush out"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "deciding what CI may judge vs. what stays local, and which quiet passes are real gaps, needs someone who knows the gates"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "f0ac94e1-7b46-5a8b-ba54-f7324b90b5cf",
+  "branch": "claude/vet-on-pull-requests",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Задача-минимум предельно простая, по крайней мере внешне: заменить vet.sh на «вот то же самое», только в GitHub. Какие вылезут эджи, если делать это с таким неб…",
+  "prs": [
+    192
+  ],
+  "url": "https://claude.ai/code/session_011ykECeVk1ySGRdEgmcaDrU",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T12:12:43.370Z",
+  "lastResponseAt": "2026-10-22T12:30:12.205Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 92,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 164562,
+    "cacheReadTokens": 7940420,
+    "outputTokens": 25197,
+    "thinkingTokens": 6055,
+    "responses": 46,
+    "costUsd": 3.408887999999999
+  },
+  "subagents": {
+    "inputTokens": 26,
+    "cacheWrite5mTokens": 106636,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1121214,
+    "outputTokens": 6881,
+    "thinkingTokens": 2051,
+    "responses": 13,
+    "costUsd": 0.8951468
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 118,
+      "cacheWrite5mTokens": 106636,
+      "cacheWrite1hTokens": 164562,
+      "cacheReadTokens": 9061634,
+      "outputTokens": 32078,
+      "thinkingTokens": 8106,
+      "responses": 59,
+      "costUsd": 4.304034799999998
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/vet-on-pull-requests.draft.do-not-implement.md",
+    "endedAt": "2026-10-22T12:14:04.597Z",
+    "contextTokens": 163839,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 114808,
+      "cacheReadTokens": 1436747,
+      "outputTokens": 6659,
+      "thinkingTokens": 3448,
+      "responses": 12,
+      "costUsd": 1.3390894000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
