@@ -1,20 +1,22 @@
-Proposed squash title/body:
-
-```
-ci: run vet on pull requests in GitHub Actions (#190)
-```
+Proposed squash body:
 
 ```
 Nothing ran on a pull request, so the only pre-merge signal was
 whoever last ran scripts/vet.sh, on whatever machine they had. That
 is how ESLint running out of heap went unnoticed on main.
 
-A vet workflow now runs scripts/vet.sh unchanged on every pull request
-out of draft, on a GitHub-hosted runner, so a reviewer sees one known
-machine's verdict in the Checks tab. That run is the only vet
-/finalize waits on: it no longer runs the same script locally first,
-on a slower copy whose heap depends on the machine. The docs that said
-nothing runs on a pull request now say what does.
+A vet workflow now runs scripts/vet.sh on every pull request out of
+draft, as one job on a GitHub-hosted runner, so a reviewer sees one
+known machine's verdict in the Checks tab. A sharded shape, a build
+per site feeding grouped checks, was timed beside it on four pushes
+and saved under a minute on average, so it was dropped. That run is
+the only vet /finalize waits on: it no longer runs the same script
+locally first, on a slower copy whose heap depends on the machine.
+The docs that said nothing runs on a pull request now say what does.
+
+The runner's first run also caught a flaky cost-ledger test: git
+auto-maintenance, started detached in a test clone, raced the
+teardown. The clones now switch it off.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
