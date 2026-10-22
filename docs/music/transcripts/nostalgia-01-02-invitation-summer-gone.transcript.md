@@ -1,14 +1,14 @@
 # Transcript: nostalgia-01-02-invitation-summer-gone.mp3
 
-| | |
-| --- | --- |
-| Source | `docs/remove-before-merging/nostalgia/vocals/nostalgia-01-02-invitation-summer-gone.mp3` |
-| Duration | 05:11 |
-| Language | `ru` |
-| Model | `nova-3` |
-| Words | 163 |
-| Mean confidence | 0.974 |
-| Under 0.95 | 73 of 163 (45%) |
+|                 |                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| Source          | `docs/remove-before-merging/nostalgia/vocals/nostalgia-01-02-invitation-summer-gone.mp3` |
+| Duration        | 05:11                                                                                    |
+| Language        | `ru`                                                                                     |
+| Model           | `nova-3`                                                                                 |
+| Words           | 163                                                                                      |
+| Mean confidence | 0.974                                                                                    |
+| Under 0.95      | 73 of 163 (45%)                                                                          |
 
 One line per sentence, timecoded at its start, every word scored under
 0.95 marked `[word?]` where it was said — a place to listen again,

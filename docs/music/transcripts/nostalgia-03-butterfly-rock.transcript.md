@@ -1,14 +1,14 @@
 # Transcript: nostalgia-03-butterfly-rock.mp3
 
-| | |
-| --- | --- |
-| Source | `docs/remove-before-merging/nostalgia/vocals/nostalgia-03-butterfly-rock.mp3` |
-| Duration | 03:59 |
-| Language | `ru` |
-| Model | `nova-3` |
-| Words | 144 |
-| Mean confidence | 0.900 |
-| Under 0.95 | 90 of 144 (62%) |
+|                 |                                                                               |
+| --------------- | ----------------------------------------------------------------------------- |
+| Source          | `docs/remove-before-merging/nostalgia/vocals/nostalgia-03-butterfly-rock.mp3` |
+| Duration        | 03:59                                                                         |
+| Language        | `ru`                                                                          |
+| Model           | `nova-3`                                                                      |
+| Words           | 144                                                                           |
+| Mean confidence | 0.900                                                                         |
+| Under 0.95      | 90 of 144 (62%)                                                               |
 
 One line per sentence, timecoded at its start, every word scored under
 0.95 marked `[word?]` where it was said — a place to listen again,

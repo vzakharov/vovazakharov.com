@@ -1,14 +1,14 @@
 # Transcript: nostalgia-06-candle-tarkovsky.mp3
 
-| | |
-| --- | --- |
-| Source | `docs/remove-before-merging/nostalgia/vocals/nostalgia-06-candle-tarkovsky.mp3` |
-| Duration | 05:12 |
-| Language | `ru` |
-| Model | `nova-3` |
-| Words | 61 |
-| Mean confidence | 0.702 |
-| Under 0.95 | 50 of 61 (82%) |
+|                 |                                                                                 |
+| --------------- | ------------------------------------------------------------------------------- |
+| Source          | `docs/remove-before-merging/nostalgia/vocals/nostalgia-06-candle-tarkovsky.mp3` |
+| Duration        | 05:12                                                                           |
+| Language        | `ru`                                                                            |
+| Model           | `nova-3`                                                                        |
+| Words           | 61                                                                              |
+| Mean confidence | 0.702                                                                           |
+| Under 0.95      | 50 of 61 (82%)                                                                  |
 
 One line per sentence, timecoded at its start, every word scored under
 0.95 marked `[word?]` where it was said — a place to listen again,

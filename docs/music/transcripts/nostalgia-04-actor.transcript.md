@@ -1,14 +1,14 @@
 # Transcript: nostalgia-04-actor.mp3
 
-| | |
-| --- | --- |
-| Source | `docs/remove-before-merging/nostalgia/vocals/nostalgia-04-actor.mp3` |
-| Duration | 03:59 |
-| Language | `ru` |
-| Model | `nova-3` |
-| Words | 154 |
-| Mean confidence | 0.955 |
-| Under 0.95 | 76 of 154 (49%) |
+|                 |                                                                      |
+| --------------- | -------------------------------------------------------------------- |
+| Source          | `docs/remove-before-merging/nostalgia/vocals/nostalgia-04-actor.mp3` |
+| Duration        | 03:59                                                                |
+| Language        | `ru`                                                                 |
+| Model           | `nova-3`                                                             |
+| Words           | 154                                                                  |
+| Mean confidence | 0.955                                                                |
+| Under 0.95      | 76 of 154 (49%)                                                      |
 
 One line per sentence, timecoded at its start, every word scored under
 0.95 marked `[word?]` where it was said — a place to listen again,

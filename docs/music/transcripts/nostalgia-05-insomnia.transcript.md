@@ -1,14 +1,14 @@
 # Transcript: nostalgia-05-insomnia.mp3
 
-| | |
-| --- | --- |
-| Source | `docs/remove-before-merging/nostalgia/vocals/nostalgia-05-insomnia.mp3` |
-| Duration | 06:33 |
-| Language | `ru` |
-| Model | `nova-3` |
-| Words | 108 |
-| Mean confidence | 0.982 |
-| Under 0.95 | 44 of 108 (41%) |
+|                 |                                                                         |
+| --------------- | ----------------------------------------------------------------------- |
+| Source          | `docs/remove-before-merging/nostalgia/vocals/nostalgia-05-insomnia.mp3` |
+| Duration        | 06:33                                                                   |
+| Language        | `ru`                                                                    |
+| Model           | `nova-3`                                                                |
+| Words           | 108                                                                     |
+| Mean confidence | 0.982                                                                   |
+| Under 0.95      | 44 of 108 (41%)                                                         |
 
 One line per sentence, timecoded at its start, every word scored under
 0.95 marked `[word?]` where it was said — a place to listen again,

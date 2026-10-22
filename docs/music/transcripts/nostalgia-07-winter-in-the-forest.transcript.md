@@ -1,14 +1,14 @@
 # Transcript: nostalgia-07-winter-in-the-forest.mp3
 
-| | |
-| --- | --- |
-| Source | `docs/remove-before-merging/nostalgia/vocals/nostalgia-07-winter-in-the-forest.mp3` |
-| Duration | 05:20 |
-| Language | `ru` |
-| Model | `nova-3` |
-| Words | 78 |
-| Mean confidence | 0.919 |
-| Under 0.95 | 49 of 78 (63%) |
+|                 |                                                                                     |
+| --------------- | ----------------------------------------------------------------------------------- |
+| Source          | `docs/remove-before-merging/nostalgia/vocals/nostalgia-07-winter-in-the-forest.mp3` |
+| Duration        | 05:20                                                                               |
+| Language        | `ru`                                                                                |
+| Model           | `nova-3`                                                                            |
+| Words           | 78                                                                                  |
+| Mean confidence | 0.919                                                                               |
+| Under 0.95      | 49 of 78 (63%)                                                                      |
 
 One line per sentence, timecoded at its start, every word scored under
 0.95 marked `[word?]` where it was said — a place to listen again,

@@ -1,14 +1,14 @@
 # Transcript: father-sea-09-candle-burnt.mp3
 
-| | |
-| --- | --- |
-| Source | `docs/remove-before-merging/nostalgia/vocals/father-sea-09-candle-burnt.mp3` |
-| Duration | 03:54 |
-| Language | `ru` |
-| Model | `nova-3` |
-| Words | 112 |
-| Mean confidence | 0.991 |
-| Under 0.95 | 42 of 112 (38%) |
+|                 |                                                                              |
+| --------------- | ---------------------------------------------------------------------------- |
+| Source          | `docs/remove-before-merging/nostalgia/vocals/father-sea-09-candle-burnt.mp3` |
+| Duration        | 03:54                                                                        |
+| Language        | `ru`                                                                         |
+| Model           | `nova-3`                                                                     |
+| Words           | 112                                                                          |
+| Mean confidence | 0.991                                                                        |
+| Under 0.95      | 42 of 112 (38%)                                                              |
 
 One line per sentence, timecoded at its start, every word scored under
 0.95 marked `[word?]` where it was said — a place to listen again,
