@@ -1,0 +1,9 @@
+invitation.mp3 — 1:08
+tempo 115 BPM
+key G♭ major (r 0.41; next A♭ minor, 0.35)
+tuning A = 440 Hz −2 ¢
+bars drawn on no zoom — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–0:15  117 BPM  −18 dB  Dm N ×2 + Gm N F
+2  0:15–0:44  114 BPM  −16 dB  A♭m + N F ×2 + N A♭ Gm A♭m
+3  0:44–1:08  116 BPM  −12 dB  A♭m G♭ A♭m Gm G♭m B A♭m B♭m
