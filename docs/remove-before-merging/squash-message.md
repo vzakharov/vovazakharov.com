@@ -9,7 +9,10 @@ song on the site is out, and only an album can be unfinished.
 Майя reflects on the album, a reflection per song in album order and
 one on the album whole, written as a listener since Nostalgia is
 Полуживые's rather than за/обложкой's, and answers Вова's review of
-them. Each is read off the song's spectrogram, committed for all seven
+them; the threads the two found between the songs are gathered in her
+draft `writing/maya/drafts/nostalgia-threads.md`. A reflection may now
+be rewritten, appending staying the preference rather than a rule.
+Each is read off the song's spectrogram, committed for all seven
 with sidecar and section zooms. The bass strip and the chord guesser
 now fold a sounding fifth onto its root, since a power chord or a
 root's third harmonic made every chord read as two bass notes and a
