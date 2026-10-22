@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×76)
+## What it was handed, it treats as fixed (×77)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -83,7 +83,7 @@ markdown file already gives the order. Radio state went into the player's reduce
 every action too. Each song's MP3 went in as `podcast`, named for the feed that
 first read it: _зачем мы это называем `podcast`…?_ Now `mp3`.
 
-**7 to 21 October — a rule read to its letter, then past its case.**
+**7 to 22 October — a rule read to its letter, then past its case.**
 `content.md` names Suno's markers and stress marks; the agent took the two as
 the whole list and kept «Война-а» as the author's. "Expletives are written out"
 unmasked a bleep that is on the recording. "Don't patch muthur" became removing
@@ -98,7 +98,11 @@ passives («всё пробовалось»), "supplied text is verbatim" read o
 to a phone: _надо всё-таки как-то выжимать, а не диктовать._ The same story cut
 his «могу врать» and stated the fact flat, by a rule the agent had written
 against facts he doubts; the doubt is how he tells it. Literal on his words,
-aggressive on his hedge: the opposite on both.
+aggressive on his hedge: the opposite on both. Told one standalone hook should
+lose its quotes, the agent stripped 33 and ruled a whole line never quoted;
+«20»'s hook is the son's question inside the song, another Aunt Olya's line
+from the story: _тут как раз нужны кавычки._ Quotes mark someone's words, not a
+line's shape.
 
 **8 to 13 October — the poem, the mix, the source, read as the thing.** Song
 pages printed stanzas never recorded; captions synced to the unmastered mix;
