@@ -113,19 +113,31 @@ export function createDecks(listeners: DeckListeners): Decks {
       },
     ],
   ];
-  const heard = decks.flatMap((deck) =>
-    wired.map(([event, handler]) => {
-      const listener = () => {
+  function listen(
+    deck: HTMLAudioElement,
+    event: keyof HTMLMediaElementEventMap,
+    listener: () => void,
+  ) {
+    deck.addEventListener(event, listener);
+
+    return () => {
+      deck.removeEventListener(event, listener);
+    };
+  }
+
+  const heard = decks.flatMap((deck) => [
+    ...wired.map(([event, handler]) =>
+      listen(deck, event, () => {
         if (deck === active) handler(deck);
-      };
-
-      deck.addEventListener(event, listener);
-
-      return () => {
-        deck.removeEventListener(event, listener);
-      };
+      }),
+    ),
+    // The player only ever starts the active deck, but iOS starts an element
+    // by itself — a lock-screen play routed to it, an interruption ending —
+    // and the standby one would play the next file over the current one.
+    listen(deck, 'play', () => {
+      if (deck === standby) deck.pause();
     }),
-  );
+  ]);
 
   return {
     active: () => active,

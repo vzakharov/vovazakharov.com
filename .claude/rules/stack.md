@@ -13,7 +13,7 @@ paths:
 pnpm build            # every site's next build — the whole-app end-to-end check
 pnpm styles:codegen   # rewrites the generated Sass partials; fails if it had to
 pnpm typecheck                  # tsc --noEmit                  ┐
-pnpm exec eslint .              # not `pnpm lint`               │
+pnpm lint:check                 # not `pnpm lint`               │
 pnpm format:check               # prettier --check ., md wrap too │
 pnpm lint:css                   # stylelint, check-only         │
 pnpm lint:fsd                   # steiger src                   │
@@ -54,12 +54,14 @@ Nineteen things about that list are deliberate:
   none cached — so a change to any one site's text pays for all of them. That is
   the accepted cost of four sites out of one repository, and the first thing to
   revisit if the run becomes annoying.
-- **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, and a
+- **Never call `pnpm lint` from vet.** That script is `lint:check --fix`, and a
   fix it picks is a judgment about source someone wrote — vet is not the place
-  to have that made silently. `pnpm exec eslint .` is the checking form, and
-  `pnpm lint:css` is stylelint's. The codegen is the exception below, and it is
-  one because a generated file has no judgment in it: exactly one content is
-  correct.
+  to have that made silently. `pnpm lint:check` is the checking form and the one
+  place eslint's heap ceiling is set, and `pnpm lint:css` is stylelint's. The
+  ceiling is 5120 MB because eslint runs out of memory under Node's default
+  heap; it is a stopgap until #189 lints against one TypeScript program and
+  lowers it. The codegen is the exception below, and it is one because a
+  generated file has no judgment in it: exactly one content is correct.
 - **The builds and the codegen run alone, in that order, before the concurrent
   checks.** Each build regenerates its app's `.next/types/`, which
   `tsconfig.json` includes, so a type check overlapping it intermittently reads
