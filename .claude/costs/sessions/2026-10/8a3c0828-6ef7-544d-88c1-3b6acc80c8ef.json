@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 18,
+    "inputTokens": 38,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 72813,
-    "cacheReadTokens": 918907,
-    "outputTokens": 6729,
-    "thinkingTokens": 3534,
-    "responses": 9,
-    "costUsd": 0.9009373999999999
+    "cacheWrite1hTokens": 90247,
+    "cacheReadTokens": 2253440,
+    "outputTokens": 11029,
+    "thinkingTokens": 3920,
+    "responses": 19,
+    "costUsd": 1.393396
   },
   "estimate": {
     "at": "2026-10-22T15:28:59.867Z",
@@ -22,25 +22,25 @@
     "comment": null
   },
   "sessionId": "8a3c0828-6ef7-544d-88c1-3b6acc80c8ef",
-  "branch": "claude/friendly-hawking-s7xcc1",
+  "branch": "claude/segue-shuffle-s7xcc1",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "как бы нам быть с такой загагулиной: у нас есть песни segue, да? получается, если допустим человеку нравится то, во что вылевается, но не нравится то, из чего, …",
   "prs": [],
   "url": "https://claude.ai/code/session_017p3MoA2AbSGjC6twErpgKb",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-22T15:28:23.994Z",
-  "lastResponseAt": "2026-10-22T16:03:23.057Z",
+  "lastResponseAt": "2026-10-22T16:59:24.685Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 18,
+    "inputTokens": 38,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 72813,
-    "cacheReadTokens": 918907,
-    "outputTokens": 6729,
-    "thinkingTokens": 3534,
-    "responses": 9,
-    "costUsd": 0.9009373999999999
+    "cacheWrite1hTokens": 90247,
+    "cacheReadTokens": 2253440,
+    "outputTokens": 11029,
+    "thinkingTokens": 3920,
+    "responses": 19,
+    "costUsd": 1.393396
   },
   "subagents": {
     "inputTokens": 0,
@@ -54,14 +54,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 18,
+      "inputTokens": 38,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 72813,
-      "cacheReadTokens": 918907,
-      "outputTokens": 6729,
-      "thinkingTokens": 3534,
-      "responses": 9,
-      "costUsd": 0.9009373999999999
+      "cacheWrite1hTokens": 90247,
+      "cacheReadTokens": 2253440,
+      "outputTokens": 11029,
+      "thinkingTokens": 3920,
+      "responses": 19,
+      "costUsd": 1.393396
     }
   },
   "warnings": [],
