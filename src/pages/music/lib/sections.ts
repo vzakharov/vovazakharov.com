@@ -66,7 +66,7 @@ export function localeProse(body: string, locale: Locale): string {
 }
 
 /** The sections told beside a page's story, by the marker that opens them. */
-const PRELUDE_KINDS = ['universe', 'poem'] as const;
+const PRELUDE_KINDS = ['universe', 'source'] as const;
 
 export type PreludePlacement = {
   kind: (typeof PRELUDE_KINDS)[number];
@@ -75,7 +75,7 @@ export type PreludePlacement = {
 };
 
 /**
- * The section `<!-- universe:<locale> -->` or `<!-- poem:<locale> -->` opens,
+ * The section `<!-- universe:<locale> -->` or `<!-- source:<locale> -->` opens,
  * without the preamble that `localeProse` prepends; `undefined` where neither
  * says anything. A file tells one or the other, never both.
  */
@@ -97,7 +97,7 @@ export function localePrelude(
 
   if (told.length > 1)
     throw new Error(
-      `A file tells both a universe and a poem in ${locale}; a page has one prelude.`,
+      `A file tells both a universe and a source in ${locale}; a page has one prelude.`,
     );
 
   return told[0];

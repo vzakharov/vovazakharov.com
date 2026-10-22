@@ -101,14 +101,16 @@ about, and the page's meta description too. Its one mark is `~~…~~`, words mea
 to be seen crossed out — in the meta description and the feed too. A joke struck
 in one locale's hook is struck in the other's too, in that language's own idiom.
 **A hook earns its words one by one**: the fewest that pull, often a line of the
-song standing on its own, with no quotation marks — they belong only to a quote
-inside the hook's own sentence — unless the song's story holds a better hook
-than its words do. A gloss explaining the line is overthinking it. **The hook is
-the agent's to write, unasked**, once the song has a story: a song is left
-without one only while it has none. The author's oxymorons («Этот жар — всё, что
-тебе нужно, чтобы не сгореть») are his signature, and a song that has one offers
-it first. An album's or an artist's file carries its hook the same way, under
-each locale's key. `pnpm music:untold` writes what each song still lacks to
+song standing on its own, with no quotation marks — unless the song's story
+holds a better hook than its words do. Quotation marks belong to someone's words
+being quoted: a line from the story, a line the song itself sings as a quotation
+(a son's question in `20`), or a quote inside the hook's own sentence. A gloss
+explaining the line is overthinking it. **The hook is the agent's to write,
+unasked**, once the song has a story: a song is left without one only while it
+has none. The author's oxymorons («Этот жар — всё, что тебе нужно, чтобы не
+сгореть») are his signature, and a song that has one offers it first. An album's
+or an artist's file carries its hook the same way, under each locale's key.
+`pnpm music:untold` writes what each song still lacks to
 `docs/music/untold-songs.md`, and the song vet fails while that list is stale.
 
 ## Body
@@ -132,20 +134,21 @@ quotes, how it opens, unfolds or sounds, how it was made — fails, however shor
 and however much it is about the world's god, and goes behind the scenes. The
 world is the agent's literary telling of the author's plot, the dictation being
 the plot and never the text; the page's hook is the seed it grows from. **A song
-setting someone else's poem tells the poem's story under
-`<!-- poem:<locale> -->`** in the same slot — when and why the poet wrote it,
-where it appeared, what it was later set to — so the author's own story follows
-behind the scenes; a file has one or the other. Unlike his story it is the
-agent's to write, from sources, each fact one a source states. The marker is an
-HTML comment because the authored file is read raw — on GitHub, and at its own
-`.md` URL — and anything else would be markup the reader has to look past. The
-lyrics are rendered by the page rather than by the markdown pipeline, one
-element per line, so a line break is a line break and needs no two invisible
-spaces at the end of it. The one inline mark they take is `_…_`, which sets a
-transliteration in italics: a word sung in another script is written in the
-column's letters — in-the-flesh's English sings _Poekhali!_, not «Поехали!» —
-and a transliteration is italic wherever the page shows one, a title's Latin
-spelling included.
+resting on someone else's text — a poem it sets, a song it covers — tells that
+source's story under `<!-- source:<locale> -->`** in the same slot — when and
+why it was written, where it appeared, what it was later set to — so the
+author's own story follows behind the scenes; a file has one or the other. A
+page's first part never carries a heading, and its second is headed by what it
+is. Unlike his story the source's is the agent's to write, from sources, each
+fact one a source states. The marker is an HTML comment because the authored
+file is read raw — on GitHub, and at its own `.md` URL — and anything else would
+be markup the reader has to look past. The lyrics are rendered by the page
+rather than by the markdown pipeline, one element per line, so a line break is a
+line break and needs no two invisible spaces at the end of it. The one inline
+mark they take is `_…_`, which sets a transliteration in italics: a word sung in
+another script is written in the column's letters — in-the-flesh's English sings
+_Poekhali!_, not «Поехали!» — and a transliteration is italic wherever the page
+shows one, a title's Latin spelling included.
 
 **Who sings is noted on the sung words, for reference.**
 `<!-- voice: Кирилл -->`, `<!-- voice: Майя, Кирилл -->` for a duet, or a bare

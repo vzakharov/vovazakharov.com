@@ -21,13 +21,21 @@ ru:
   hook: 'Я свеча, я сгорел на пиру.'
 ---
 
-<!-- poem:ru -->
+<!-- source:ru -->
 
 «Свеча» — название песни, а не стихотворения: у Тарковского оно без названия и известно по первой строке, «Меркнет зрение — сила моя…». Написано в 1977 году; в книге его напечатали в «Избранном» 1982 года, а потом в сборнике «От юности до старости» (1987).
 
-<!-- poem:en -->
+<!-- source:en -->
 
 “Candle” is the song’s title, not the poem’s: Tarkovsky left it untitled, and it goes by its first line, “Sight grows dim — my strength.” He wrote it in 1977; it was printed in his _Izbrannoye_ (“Selected poems”) of 1982, and again in _Ot yunosti do starosti_ (“From youth to old age,” 1987).
+
+<!-- lang:ru -->
+
+Когда я закончил эту песню, мне показалось, что это верх моего творения, и я с нетерпением ждал папиной реакции на неё. Увы, не принял. Он помнил стихотворение по «Ностальгии», где его читает главный герой, и чувствовал его совсем иначе. А может, просто ему совсем не с таким надрывом хотелось принимать собственное угасание.
+
+<!-- lang:en -->
+
+When I finished this song, I thought it was the summit of my work, and I couldn’t wait to hear what Dad made of it. Alas, he didn’t take to it. He remembered the poem from _Nostalgia_, where the main character recites it, and felt it entirely differently. Or perhaps he just didn’t want to accept his own fading with such anguish.
 
 <!-- lyrics:ru -->
 

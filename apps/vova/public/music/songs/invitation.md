@@ -24,25 +24,29 @@ ru:
 
 <!-- For Vova to check: Dated December 2023, the month the album's REAPER project was last saved (21 December) and the Бабочка and Бессонница bounces were made; the release date itself is nowhere in the repositories. -->
 
-<!-- poem:ru -->
+<!-- source:ru -->
 
 «Отдалённые страны» Тарковского — его детство в Елисаветграде, нынешнем Кропивницком: «город Блаженное Детство и город Родные Гробы». Его дочь Марина Тарковская в книге «Судьба моя сгорела между строк» датирует стихотворение 1937 годом и пишет, что поехать в родной город было его давней мечтой. Сбылась она в 1955-м — «через восемнадцать лет». В других публикациях стоит 1945 год.
-
-Над каждым городом здесь вьётся «бабочка милого праха», а «Бабочка в госпитальном саду», третья песня этого альбома, датирована 1945 годом: восемью годами позже, если верна первая дата, и тем же годом, если вторая.
 
 В книги при жизни поэта стихотворение не входило: в собрании сочинений 1991 года оно стоит в разделе «Стихотворения, опубликованные в периодике при жизни автора».
 
 Старший брат поэта, Валерий, погиб в 1919 году в бою с отрядами атамана Григорьева.
 
-<!-- poem:en -->
+<!-- source:en -->
 
 Tarkovsky’s “faraway countries” are his childhood in Elisavetgrad, today’s Kropyvnytskyi: “the town of Blessed Childhood and the town of Kindred Graves.” His daughter Marina Tarkovskaya, in her book _Sudba moya sgorela mezhdu strok_ (“My fate burned down between the lines”), dates the poem to 1937 and writes that going back to his home town was a long-held wish of his. It came true in 1955, “eighteen years later.” Other printings date the poem 1945.
-
-Over every town here hovers “a butterfly of dear dust,” and “Butterfly in the Hospital Garden,” the album’s third song, is dated 1945: eight years later if the first date holds, the same year if the second does.
 
 No book of his carried it in his lifetime: the 1991 collected works print it among the “poems published in periodicals during the author’s lifetime.”
 
 The poet’s elder brother, Valery, was killed in 1919 fighting the forces of ataman Grigoriev.
+
+<!-- lang:ru -->
+
+Забавно: броненосец в брезенте — возможно, тот самый, который был бы на обложке альбома, если бы он стал-таки «Таркосом».
+
+<!-- lang:en -->
+
+Funnily enough, the battleship in tarpaulin — in Russian a _bronenosets_, which is also an armadillo — may be the very one that would have been on the album’s cover, had it ended up as “Tarkos” after all.
 
 <!-- lyrics:ru -->
 
@@ -53,7 +57,7 @@ The poet’s elder brother, Valery, was killed in 1919 fighting the forces of at
 
 Мы посетим, если хочешь, город Любовного Страха,
 Город Центифолию и город Рояль Раскрыт,
-Над каждым городом вьётся бабочка милого праха,
+Над каждым городом вьётся [бабочка милого праха][^butterfly-ru],
 Но есть ещё город Обид.
 
 Там у вокзала стоит броненосец в брезенте,
@@ -62,6 +66,8 @@ The poet’s elder brother, Valery, was killed in 1919 fighting the forces of at
 И город покинут и чужд потрясённой душе…[^fuller-ru]
 
 [^fuller-ru]: Марина Тарковская в книге об отце и в собрании 2017 года, которое она составляла, печатает более полную редакцию: в ней у вокзала стоит не броненосец, а бронепоезд, и стихотворение здесь не кончается — дальше море за степями и «город Море и город Пароходного Дыма, и город Морскую Зарю».
+
+[^butterfly-ru]: Ещё одна бабочка Тарковского — «[Бабочка в госпитальном саду](./butterfly-rock.md)», третья песня альбома: стихотворение датировано 1945 годом, тем же, что и это в некоторых публикациях.
 
 [^lefaucheux-ru]: Револьвер системы Лефоше — французский, XIX века, под шпилечный патрон.
 
@@ -76,7 +82,7 @@ The town of Blessed Childhood and the town of Kindred Graves.
 
 We’ll visit, if you like, the town of Love’s Fear,
 The town of [Centifolia][^centifolia-en] and the town of Grand Piano Open,
-Over every town hovers a butterfly of dear dust,
+Over every town hovers [a butterfly of dear dust][^butterfly-en],
 But there is one more town, of Grievances.
 
 There a battleship in tarpaulin stands by the station,
@@ -85,6 +91,8 @@ And in the town of Music children play [Clementi][^clementi-en]’s sonatas,
 And the town is deserted and foreign to the shaken soul…[^fuller-en]
 
 [^centifolia-en]: The cabbage rose.
+
+[^butterfly-en]: Another of Tarkovsky’s butterflies is in [“Butterfly in the Hospital Garden,”](./butterfly-rock.md) the album’s third song: a poem dated 1945, the year some printings give this one too.
 
 [^lefaucheux-en]: A nineteenth-century French pinfire revolver.
 

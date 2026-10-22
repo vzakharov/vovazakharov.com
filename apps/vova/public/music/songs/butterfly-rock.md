@@ -21,7 +21,7 @@ ru:
   hook: 'Она, должно быть, из Китая.'
 ---
 
-<!-- poem:ru -->
+<!-- source:ru -->
 
 «Бабочку в госпитальном саду» Тарковский написал в 1945 году. В декабре 1943-го под Городком в Витебской области его ранило разрывной пулей в ногу; в полевом госпитале началась газовая гангрена. Жена, Антонина Бохонова, добилась пропуска во фронтовую зону и привезла его в Москву, где в Институте хирургии профессор Вишневский сделал ему шестую ампутацию. «Постепенно, шаг за шагом, стихотворение за стихотворением, поэт возвращается к жизни», — пишет его дочь Марина: от «Польки» и «Памяти друзей» к «Бабочке в госпитальном саду» и «Звёздному каталогу».
 
@@ -29,7 +29,7 @@ ru:
 
 В песню не вошёл финал, где Китай и объясняется: поэт просит бабочку не улетать — «Не надо, не ищи Китая… Душа, зачем тебе Китай?» Владимир Каев в [очерке на «Прозе.ру»](https://proza.ru/2022/10/11/1055) видит в ней медсестру госпитального сада, в лице которой было что-то восточное, и душу — «мерцание цвета и линий. Рисунок случая и любви».
 
-<!-- poem:en -->
+<!-- source:en -->
 
 Tarkovsky wrote “Butterfly in the Hospital Garden” in 1945. In December 1943, near Gorodok in the Vitebsk region, an explosive bullet hit him in the leg, and at the field hospital gas gangrene set in. His wife, Antonina Bokhonova, got a pass into the front-line zone and brought him to Moscow, where at the Institute of Surgery Professor Vishnevsky performed his sixth amputation. “Gradually, step by step, poem by poem, the poet returns to life,” writes his daughter Marina: from “Polka” and “In Memory of Friends” to “Butterfly in the Hospital Garden” and “Star Catalogue.”
 

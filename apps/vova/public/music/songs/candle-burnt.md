@@ -16,9 +16,9 @@ credits:
 en:
   title:
     translation: 'A Candle Burnt'
-  hook: 'Volodya plus a guitar means “The Candle.”'
+  hook: '“Volodya plus a guitar means ‘The Candle.’”'
 ru:
-  hook: 'Володя + гитара — значит, «Свеча».'
+  hook: '«Володя + гитара — значит, „Свеча“».'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/candle-burnt — candle-burnt.flac,
@@ -34,7 +34,7 @@ ru:
 
 Поэтому реставрировать и переделывать её было особенно боязно, и я долго откладывал, но вот наконец решился.
 
-Музыку на «Зимнюю ночь» писали и другие: Александр Градский — в конце семидесятых, записав песню на «Мелодии» в 1983-м, и Алла Пугачёва — в 1999-м. Папа обе версии не жаловал — как и все остальные, после того как послушали папину.
+Музыку на «Зимнюю ночь» писали и другие: Александр Градский — в конце семидесятых, и Алла Пугачёва — в 1999-м. Папа обе версии не жаловал — как и все остальные, после того как послушали папину.
 
 <!-- lang:en -->
 
@@ -44,15 +44,15 @@ As Aunt Olya — the wife of Uncle Vitya “Nixon,” who, alas, is also gone no
 
 That is why restoring and reworking it was especially daunting, and I put it off for a long time, but at last I made up my mind.
 
-Others set “Winter Night” too: Alexander Gradsky, in the late seventies, recording it at Melodiya in 1983, and Alla Pugacheva, in 1999. Dad had no love for either version — and neither did anyone else, once they had heard his.
+Others set “Winter Night” too: Alexander Gradsky, in the late seventies, and Alla Pugacheva, in 1999. Dad had no love for either version — and neither did anyone else, once they had heard his.
 
-<!-- poem:ru -->
+<!-- source:ru -->
 
 «Зимнюю ночь» Борис Пастернак написал в 1946 году: самый ранний автограф датирован декабрём. В середине января 1947-го он вложил её в письмо поэтессе Вере Звягинцевой. Стихотворением заканчивалось его «Избранное», которое «Советский писатель» отпечатал в 1948 году, — но тираж был уничтожен полностью.
 
 Это одно из стихотворений Юрия Живаго, которыми кончается роман. В самом романе юный Юра едет в санях на ёлку и видит в окне в Камергерском переулке горящую свечу — за этим окном Лара. Напечатано стихотворение впервые в 1958 году в Милане, в русском тексте «Доктора Живаго».
 
-<!-- poem:en -->
+<!-- source:en -->
 
 Boris Pasternak wrote “Winter Night” in 1946; its earliest autograph is dated December. In mid-January 1947 he enclosed it in a letter to the poet Vera Zvyagintseva. It closed his _Selected Poems_, printed by Sovetsky Pisatel in 1948 — but the whole print run was destroyed.
 

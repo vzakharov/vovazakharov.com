@@ -21,17 +21,25 @@ ru:
   hook: 'Где же ты, счастливый мой двойник?'
 ---
 
-<!-- poem:ru -->
+<!-- source:ru -->
 
 В начале 1958 года Тарковский поехал в творческую командировку в Ашхабад и встретил там женщину, о которой, как пишет его дочь Марина Тарковская в книге «Судьба моя сгорела между строк», «нам почти ничего неизвестно»: она подарила ему несколько месяцев подлинного счастья. «Друзья-поэты» донесли новость до Москвы, телеграммы жены о внезапной болезни и срочной операции вернули его домой, и в июне, ноябре и декабре 1958 года он написал стихи об этой «украденной любви». Сам поэт их в цикл не объединял; Марина Тарковская печатает «Актёра» среди них, а в собрании 2017 года, которое она составляла, «Актёр» открывает цикл «Какое счастье у меня украли…».
 
-В первые две книги Тарковского — «Перед снегом» (1962) и «Земле — земное» (1966) — «Актёр» не вошёл; в книге его напечатали в «Стихотворениях» 1974 года.
-
-<!-- poem:en -->
+<!-- source:en -->
 
 Early in 1958 Tarkovsky went to Ashgabat on a writers’ assignment and met a woman about whom, as his daughter Marina Tarkovskaya writes in _Sudba moya sgorela mezhdu strok_ (“My fate burned down between the lines”), “we know almost nothing”: she gave him a few months of real happiness. “Poet friends” carried the news to Moscow, his wife’s telegrams about a sudden illness and an urgent operation called him home, and in June, November and December 1958 he wrote poems about that “stolen love.” He never gathered them into a cycle himself; Marina Tarkovskaya prints “The Actor” among them, and in the 2017 collection she compiled, “The Actor” opens the cycle “What happiness was stolen from me…”
 
-“The Actor” is in neither of Tarkovsky’s first two books — _Pered snegom_ (“Before the snow,” 1962) and _Zemle — zemnoye_ (1966); it reached a book in his _Stikhotvoreniya_ (“Poems”) of 1974.
+<!-- lang:ru -->
+
+Это, наверное, был самый тщательный процесс отбора «кандидатов» в песню: шорт-лист состоял из 14 вариантов, которые я разбирал по циферкам-статистикам, как персонажа какой-нибудь RPG. А три оставшихся финалиста до сих пор лежат в заметках и ждут своей очереди стать другой песней.
+
+Сам выбранный вариант мне, что парадоксально, нравился _не_ больше остальных, но он был, безусловно, самым самобытным и неожиданным — критерий, который я впоследствии возвёл в один из самых важных. Не нравился в основном из-за припева — хотелось там чего-то более разнообразного и гармоничного, а пробовать «по-другому» тогдашняя Суна не давала. А сейчас слушаю и думаю: ну конечно, что же другое там могло быть?
+
+<!-- lang:en -->
+
+This was probably the most painstaking selection of “candidates” for a song: the shortlist held 14 versions, which I broke down by their stats, like a character in some RPG. The three finalists left over are still sitting in my notes, waiting their turn to become another song.
+
+Paradoxically, I did _not_ like the version I chose more than the others, but it was, without a doubt, the most distinctive and unexpected — a criterion I later raised to one of the most important. What I didn’t like was mostly the chorus: I wanted something more varied and harmonious there, and the Suno of the day wouldn’t let you try it “another way.” And now I listen and think: of course — what else could possibly have been there?
 
 <!-- lyrics:ru -->
 

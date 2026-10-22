@@ -21,11 +21,11 @@ ru:
   hook: 'Неживые и полуживые.'
 ---
 
-<!-- poem:ru -->
+<!-- source:ru -->
 
 «Бессонница» написана в 1958 году. В первую книгу Тарковского, «Перед снегом» (1962), она не вошла и впервые появилась в книге в сборнике «Земле — земное» (1966). У Тарковского строки о секундах и полуживых набраны лесенкой: «Шлют секунды / туда / и сюда…»
 
-<!-- poem:en -->
+<!-- source:en -->
 
 “Insomnia” was written in 1958. It is not in Tarkovsky’s first book, _Pered snegom_ (“Before the snow,” 1962), and first reached a book in _Zemle — zemnoye_ (“To the earth, what is earthly,” 1966). Tarkovsky sets the lines about the seconds and the half-alive as a staircase: “Send seconds / this way / and that…”
 

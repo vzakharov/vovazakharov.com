@@ -35,25 +35,30 @@ describe('localePrelude', () => {
     assert.equal(localeProse(body, 'en'), 'Shared\n\nMaking of');
   });
 
-  it('cuts a poem section the same way', () => {
+  it('cuts a source section the same way', () => {
     assert.deepEqual(
-      localePrelude('<!-- poem:en -->\nThe poem\n<!-- lang:en -->\nMine', 'en'),
-      { kind: 'poem', text: 'The poem', follows: false },
+      localePrelude(
+        '<!-- source:en -->\nThe source\n<!-- lang:en -->\nMine',
+        'en',
+      ),
+      { kind: 'source', text: 'The source', follows: false },
     );
   });
 
   it('follows the story where the file tells it after', () => {
     assert.equal(
-      localePrelude('<!-- lang:en -->\nMine\n<!-- poem:en -->\nThe poem', 'en')
-        ?.follows,
+      localePrelude(
+        '<!-- lang:en -->\nMine\n<!-- source:en -->\nThe source',
+        'en',
+      )?.follows,
       true,
     );
   });
 
-  it('refuses a file telling both a universe and a poem', () => {
+  it('refuses a file telling both a universe and a source', () => {
     assert.throws(() =>
       localePrelude(
-        '<!-- universe:en -->\nWorld\n<!-- poem:en -->\nPoem',
+        '<!-- universe:en -->\nWorld\n<!-- source:en -->\nSource',
         'en',
       ),
     );
@@ -63,12 +68,12 @@ describe('localePrelude', () => {
 describe('storyOrder', () => {
   const headings = {
     behindTheScenes: 'Behind',
-    preludeHeadings: { universe: 'World', poem: 'Poem' },
+    preludeHeadings: { universe: 'World', source: 'Source' },
   };
 
   it('titles the story when the prelude leads', () => {
     assert.deepEqual(
-      storyOrder({ kind: 'poem', follows: false }, {}, headings).map(
+      storyOrder({ kind: 'source', follows: false }, {}, headings).map(
         ({ heading }) => heading,
       ),
       [undefined, 'Behind'],
@@ -77,10 +82,10 @@ describe('storyOrder', () => {
 
   it('titles the prelude by its kind when it follows', () => {
     assert.deepEqual(
-      storyOrder({ kind: 'poem', follows: true }, {}, headings).map(
+      storyOrder({ kind: 'source', follows: true }, {}, headings).map(
         ({ heading }) => heading,
       ),
-      [undefined, 'Poem'],
+      [undefined, 'Source'],
     );
   });
 

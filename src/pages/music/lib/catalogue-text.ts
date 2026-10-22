@@ -11,7 +11,7 @@ import { localePrelude, localeProse, type PreludePlacement } from './sections';
 export type StoryParts = {
   /**
    * What is told beside the story: the world a concept album is set in, or
-   * the story of the poem a song sets.
+   * the story of the source a song rests on.
    */
   prelude?: (ProseSource & PreludePlacement) | undefined;
   /** The story proper — behind the scenes, where a `prelude` comes first. */
