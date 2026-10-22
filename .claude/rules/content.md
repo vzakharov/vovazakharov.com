@@ -123,15 +123,15 @@ resolver finds it. That script needs Node 22.18 or newer for type stripping.
 functions; `documents.ts` keeps `server-only`, and with it the invariant that
 matters — it is the module that pulls in `fs`, `gray-matter` and `zod`.
 `plugins/rehype-footnote-notes.ts` is the other kind of exception: a pure tree
-pass its test loads under bare Node, importing nothing behind the fence.
-`render-og.ts` and `render-pdf.ts` run under `tsx`: the CV card reads the
-message catalogue through `cvMessages`, and a JSON import is what bare Node
-cannot take without an attribute. They reach `src/` by the `@/` alias, and still
-never through `shared/content`'s barrel, whose `server-only` modules throw
-outside a React server bundle. `render-og.ts` runs under the `react-server`
-condition, which resolves `server-only` to its empty module as a build does, so
-its cards reach `shared/content`'s leaf modules and parse a case with
-`caseFrontmatterSchema`.
+pass its test loads outside a React server bundle, so it imports nothing behind
+the fence — `hast-elements.ts` included. `render-og.ts` and `render-pdf.ts` run
+under `tsx`: the CV card reads the message catalogue through `cvMessages`, and a
+JSON import is what bare Node cannot take without an attribute. They reach
+`src/` by the `@/` alias, and still never through `shared/content`'s barrel,
+whose `server-only` modules throw outside a React server bundle. `render-og.ts`
+runs under the `react-server` condition, which resolves `server-only` to its
+empty module as a build does, so its cards reach `shared/content`'s leaf modules
+and parse a case with `caseFrontmatterSchema`.
 
 ## Adding a document
 
@@ -211,14 +211,13 @@ directives that exist and **throws on any other**, naming the file — an
 unconverted directive would otherwise reach the page as its own `:::` text.
 
 **A note on a phrase is a footnote hung off it** — `[phrase][^label]`, the
-lyrics' syntax (`songs.md` § "Body"), which GitHub renders as the phrase in
-brackets and a footnote after it. `rehypeFootnoteNotes` folds the two into one
-span that `ContentSpan` opens as `NotedSpan`'s popover over the phrase; the
-footnote is kept, screen-hidden, and is what paper prints in its place. The note
-sits inside the phrase's paragraph, so it may hold paragraphs — an image among
-them — and **fails the build on any other block**, which would close that
-paragraph in the browser and break hydration. A bare `[^label]` stays an
-ordinary footnote.
+lyrics' syntax (`songs.md` § "Body"), which GitHub renders as the bracketed
+phrase and a footnote. The screen opens it as a popover over the phrase
+(`rehypeFootnoteNotes`, then `ContentSpan`); paper prints the footnote. The note
+sits inside the phrase's paragraph, so it takes paragraphs — an image among them
+— and **fails the build on any other block**, which would close that paragraph
+in the browser and break hydration. A bare `[^label]` stays an ordinary
+footnote.
 
 ## Punctuation around quotes
 

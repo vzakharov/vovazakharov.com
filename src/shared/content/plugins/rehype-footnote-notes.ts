@@ -45,10 +45,8 @@ function referencedLabel(node: ElementContent): string | undefined {
 type PhraseStart = { index: number; offset: number };
 
 /**
- * Where the phrase `[…]` before a reference at `at` begins: the sibling whose
- * text holds its `[`, and the offset of that bracket. Brackets inside an
- * element — a link's, an emphasis' — are the element's own, so only text
- * siblings are read.
+ * Where the phrase `[…]` before a reference at `at` begins. Only text siblings
+ * are read: a bracket inside an element — a link's, an emphasis' — is its own.
  */
 function phraseStart(
   siblings: ElementContent[],
