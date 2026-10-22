@@ -5,7 +5,7 @@ import { type PointerEvent, type ReactNode, useRef, useState } from 'react';
 
 import type { WithChildren } from '@/shared/typings';
 
-import classes from './music.module.scss';
+import classes from './noted-span.module.scss';
 
 /** The words the note hangs off, as set; the note itself is the children. */
 export type NotedSpanProps = WithChildren & { words: ReactNode };
@@ -21,7 +21,7 @@ type Opener = 'hover' | 'press';
 const HOVER_GRACE_MS = 150;
 
 /**
- * Words of verse carrying a note, as genius.com marks them: the note opens on
+ * Words carrying a note, as genius.com marks them: the note opens on
  * a hover where the pointer can hover, and on a press everywhere — a phone has
  * no hover, and a note can carry a link the reader has to reach. The pointer's
  * own type decides rather than a media query, so a laptop with a touchscreen
@@ -31,7 +31,9 @@ const HOVER_GRACE_MS = 150;
  * HTML beside its words — which is also what carries the popover's classes into
  * the export `check:mantine-styles` compares against. Out of a portal it sits
  * inside the lyrics' scrolling box, which is why it is positioned `fixed`: that
- * box would clip a note dropping below the last stanza.
+ * box would clip a note dropping below the last stanza. The note is a `span`,
+ * since some words sit in a paragraph of prose, which a `div` would close in
+ * the browser's parser and so break hydration.
  */
 export function NotedSpan({ words, children }: NotedSpanProps) {
   const [opener, setOpener] = useState<Opener>();
@@ -76,7 +78,11 @@ export function NotedSpan({ words, children }: NotedSpanProps) {
           {words}
         </UnstyledButton>
       </Popover.Target>
-      <Popover.Dropdown className={classes['note']} {...hover}>
+      <Popover.Dropdown
+        className={classes['note']}
+        renderRoot={(props) => <span {...props} />}
+        {...hover}
+      >
         {children}
       </Popover.Dropdown>
     </Popover>

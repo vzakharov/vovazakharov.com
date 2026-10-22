@@ -246,28 +246,6 @@
   white-space: pre-line;
 }
 
-// Words with a note: marked the way a footnoted phrase is.
-.notedSpan {
-  font: inherit;
-  line-height: inherit;
-  color: inherit;
-  text-align: start;
-  text-decoration: underline dotted;
-  text-underline-offset: 0.25em;
-  cursor: pointer;
-
-  @include mantine.hover {
-    text-decoration-style: solid;
-  }
-}
-
-.note {
-  font-size: var(--mantine-font-size-sm);
-  line-height: 1.5;
-  color: var(--color-foreground);
-  white-space: normal;
-}
-
 // Two columns at every width. Below the width two columns of verse need, the
 // pair scrolls sideways, as a wide table does, rather than interleaving them.
 .lyricsScroll {

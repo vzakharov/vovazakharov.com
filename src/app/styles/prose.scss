@@ -356,6 +356,24 @@
 // the base scale so that a class of theirs still wins the tie against the
 // `:where()` rule for the element it wraps.
 
+// A footnote on a phrase, which the screen shows as a popover over the phrase
+// and paper as the footnote it is. Courtesy of `rehypeFootnoteNotes`.
+@media screen {
+  .content-note-ref,
+  .content-note-definition,
+  .content-notes-printed {
+    display: none;
+  }
+}
+
+.content-note-paragraph {
+  display: block;
+
+  & + & {
+    margin-top: 0.5em;
+  }
+}
+
 // A table wider than the column scrolls inside it, rather than widening the
 // page. Wrapper courtesy of `rehypeTableScroll`.
 .content-table-scroll {
