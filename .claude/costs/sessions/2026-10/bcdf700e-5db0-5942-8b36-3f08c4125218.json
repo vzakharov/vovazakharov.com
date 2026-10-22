@@ -1,0 +1,75 @@
+{
+  "total": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 67869,
+    "cacheReadTokens": 1430845,
+    "outputTokens": 4812,
+    "thinkingTokens": 1729,
+    "responses": 14,
+    "costUsd": 0.925473
+  },
+  "estimate": null,
+  "sessionId": "bcdf700e-5db0-5942-8b36-3f08c4125218",
+  "branch": "claude/spectrogram-reddit-log",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/check-merge claude/spectrogram-reddit-log",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01FGQgwTqsGiMhHrKCV9eyK5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T10:50:08.575Z",
+  "lastResponseAt": "2026-10-22T10:52:02.791Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 67869,
+    "cacheReadTokens": 1430845,
+    "outputTokens": 4812,
+    "thinkingTokens": 1729,
+    "responses": 14,
+    "costUsd": 0.925473
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 67869,
+      "cacheReadTokens": 1430845,
+      "outputTokens": 4812,
+      "thinkingTokens": 1729,
+      "responses": 14,
+      "costUsd": 0.925473
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-22T10:52:02.791Z",
+    "contextTokens": 115827,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 67160,
+      "cacheReadTokens": 1315729,
+      "outputTokens": 3638,
+      "thinkingTokens": 1610,
+      "responses": 13,
+      "costUsd": 0.8732898
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
