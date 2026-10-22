@@ -58,8 +58,10 @@ Nineteen things about that list are deliberate:
   fix it picks is a judgment about source someone wrote — vet is not the place
   to have that made silently. `pnpm lint:check` is the checking form and the one
   place eslint's heap ceiling is set, and `pnpm lint:css` is stylelint's. The
-  codegen is the exception below, and it is one because a generated file has no
-  judgment in it: exactly one content is correct.
+  ceiling is 5120 MB because eslint runs out of memory under Node's default
+  heap; it is a stopgap until #189 lints against one TypeScript program and
+  lowers it. The codegen is the exception below, and it is one because a
+  generated file has no judgment in it: exactly one content is correct.
 - **The builds and the codegen run alone, in that order, before the concurrent
   checks.** Each build regenerates its app's `.next/types/`, which
   `tsconfig.json` includes, so a type check overlapping it intermittently reads
