@@ -80,15 +80,22 @@ the whole critical path, and it varies by runner — build 60s here against ~70s
 before, but the export upload 15s and the export checks 35s, against 15s in
 run 39804987378. So the floor is ~2m–2m25s, ~1.5–1.75× the single job.
 
-Left: the operator's call between more cutting and `/finalize`; on finalize,
-`/go` Steps 3–4 (polish, PR body naming that CI's route types come from typegen
-while a local bare run's come from the build).
+## Done: the history checks stay local
+
+Operator: «давай прогонять estimates (и что ещё локальнее быстрее) локально, а
+остальное в CI». `vet.sh local` runs the four checks that read the branch
+against its merge base or the cost ledger — songs, squash, CLAUDE.md size,
+estimates — in 2s locally; `source` drops them and checks out one commit.
+
+Left: a dispatch confirming `source` with a shallow checkout; then `/go` Steps
+3–4 (polish, PR body naming that CI's route types come from typegen while a
+local bare run's come from the build).
 
 ## The edges
 
 1. **Shallow checkout → quiet passes.** No `origin/main` means the estimates
-   gate checks nothing and the size cap only the ceiling. `source` fetches full
-   history; the other jobs read no history.
+   gate checks nothing and the size cap only the ceiling, so the checks that
+   read history are `vet.sh local`'s and no job runs one.
 2. **Git identity** for the tests that commit into temp repos; **numpy** via
    `setup-python` (the system Python refuses pip under PEP 668).
 3. **`.next` is hidden**, which upload-artifact skips unless told.

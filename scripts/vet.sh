@@ -5,14 +5,18 @@
 # is.
 #
 # Bare, it runs everything. The phases split the same run across machines —
-# `.github/workflows/vet.yml` runs each in a job of its own — and together they
-# cover exactly what the bare run does:
+# `.github/workflows/vet.yml` runs each but `local` in a job of its own — and
+# together they cover exactly what the bare run does:
 #
 #   scripts/vet.sh build <site>   one site's build
 #   scripts/vet.sh lint <k>/<n>   ESLint over the k-th of n shards of the files
 #   scripts/vet.sh typecheck      the type check
 #   scripts/vet.sh source         the codegen and the checks no build feeds
 #   scripts/vet.sh built          the checks that read the exports on disk
+#   scripts/vet.sh local          the checks that read the branch's history
+#
+# `local` stays on the machine that has the history: a runner's checkout would
+# need all of it, and each check passes quietly against a base it cannot see.
 #
 # The phases that read route types but no export — `lint` and `typecheck` — write
 # them with `next typegen` instead of waiting on a build. Typegen's types are
@@ -24,13 +28,13 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 usage() {
-  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | typecheck | source | built]\n' >&2
+  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | typecheck | source | built | local]\n' >&2
   exit 2
 }
 
 phase="${1:-all}"
 case "$phase" in
-  all | typecheck | source | built) [ "$#" -le 1 ] || usage ;;
+  all | typecheck | source | built | local) [ "$#" -le 1 ] || usage ;;
   build | lint) [ "$#" -eq 2 ] || usage ;;
   *) usage ;;
 esac
@@ -106,9 +110,9 @@ fi
 #
 # It runs alone for the mirror image of the build's reason: it *writes* files
 # that the fan-out's stylelint, Prettier and type check glob, and would hand
-# one of them over truncated. `built` leaves it to `source`, whose run it is
-# fixing and failing either way.
-if [ "$phase" != built ] && ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
+# one of them over truncated. `built` and `local` leave it to `source`, whose
+# run it is fixing and failing either way.
+if [[ "$phase" != built && "$phase" != local ]] && ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   sed 's/^/[styles] /' tmp/vet-styles.log
   printf '[styles] full log: tmp/vet-styles.log\n'
   status=1
@@ -144,6 +148,13 @@ built_checks=(
   i18n-payload='pnpm check:i18n-payload'
   cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
 )
+# The checks that read the branch against its merge base, or the cost ledger.
+local_checks=(
+  songs='scripts/vet-songs.sh'
+  squash='scripts/check-squash-message.sh'
+  claude-md-size='scripts/check-claude-md-size.sh'
+  estimates='python3 .claude/costs/check_estimates.py'
+)
 source_checks=(
   format='pnpm format:check'
   stylelint='pnpm lint:css'
@@ -151,7 +162,6 @@ source_checks=(
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   prose-quotes='pnpm check:prose-quotes'
-  songs='scripts/vet-songs.sh'
   og-vova='pnpm content:og:vova --check'
   og-bible='pnpm content:og:bible --check'
   og-basilisk='pnpm content:og:basilisk --check'
@@ -159,14 +169,11 @@ source_checks=(
   test='scripts/vet-test.sh'
   hearing='python3 scripts/lib/test_hearing.py'
   song-facts='python3 scripts/song-intake/test_song_facts.py'
-  squash='scripts/check-squash-message.sh'
   notes='scripts/check-notes-length.sh'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
   staged='scripts/staged.sh check'
-  claude-md-size='scripts/check-claude-md-size.sh'
   costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done'
-  estimates='python3 .claude/costs/check_estimates.py'
   context-budget='python3 .claude/context-budget/test_context_budget.py'
   cold-cache='python3 .claude/cold-cache/test_cold_cache.py'
   keepalive='python3 .claude/keepalive/test_keepalive.py'
@@ -175,8 +182,9 @@ source_checks=(
 case "$phase" in
   # ESLint and the type check read the route types too; the phases leave them
   # to phases of their own.
-  all) checks=("${built_checks[@]}" "${source_checks[@]}" typecheck='pnpm typecheck' eslint='pnpm lint:check') ;;
+  all) checks=("${built_checks[@]}" "${local_checks[@]}" "${source_checks[@]}" typecheck='pnpm typecheck' eslint='pnpm lint:check') ;;
   built) checks=("${built_checks[@]}") ;;
+  local) checks=("${local_checks[@]}") ;;
   source) checks=("${source_checks[@]}") ;;
 esac
 scripts/run-parallel.sh "${checks[@]}" || status=1

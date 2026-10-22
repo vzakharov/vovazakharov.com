@@ -1,7 +1,8 @@
 name: Vet
 
-# Run by hand on a branch — `gh workflow run vet.yml --ref <branch>` — in place
-# of a local `./scripts/vet.sh`, never on its own. The same run, split across
+# Run by hand on a branch — `gh workflow run vet.yml --ref <branch>` beside a
+# local `./scripts/vet.sh local`, together in place of a bare local run, never
+# on its own. The same run, split across
 # machines by vet.sh's own phases, every job starting at once; only the checks
 # over the exports wait, for the builds that write them.
 on:
@@ -113,13 +114,9 @@ jobs:
   source:
     runs-on: ubuntu-latest
     steps:
-      # Full history rather than the default single commit: checks that diff
-      # against `origin/main` pass quietly with no base to read. Not blobless:
-      # the estimates gate reads every `cost-ledger` row, one lazy fetch each.
+      # One commit is enough: the checks that read history are `vet.sh local`'s.
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up the toolchain
         uses: ./.github/actions/setup-toolchain
