@@ -13,6 +13,9 @@ deck is now paused on the spot. It guards whichever iOS path starts the
 element rather than one proven trigger: the code alone does not show
 which of them fires.
 
+Riding along: eslint runs with a 5 GB heap, set once in the new
+`pnpm lint:check`, which both `pnpm lint` and the vet run call.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
