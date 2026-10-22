@@ -13,8 +13,9 @@ and the docs that say "nothing runs on pull requests" stop saying it.
 
 - `on: pull_request` (opened, synchronize, reopened, ready_for_review), plus
   `workflow_dispatch` for a hand run on any ref.
-- `concurrency: vet-${{ github.ref }}`, `cancel-in-progress: true` — an agent
-  commits and pushes after every unit of work, so only the latest head matters.
+- `concurrency: vet-${{ github.head_ref || github.ref_name }}`,
+  `cancel-in-progress: true` — an agent commits and pushes after every unit of
+  work, so only the latest head matters.
 - `permissions: contents: read`.
 - One job: checkout → `./.github/actions/setup-toolchain` (the pins stated once,
   shared with deploy) → the extras below → `./scripts/vet.sh`.
@@ -51,6 +52,12 @@ and the docs that say "nothing runs on pull requests" stop saying it.
    Claude container (`CLAUDE_CODE_REMOTE`, `~/.claude/…`). The PR's own run is
    the test: fix what it shows in the workflow (env, setup), never by skipping a
    check.
+
+8. **A green run is not evidence by itself.** `run-parallel.sh` prints only
+   failures, so a vacuous pass and a real one look the same in the job log. The
+   job uploads `tmp/run-parallel/` and the build logs as the `vet-logs`
+   artifact; the first run's logs show every base-reading check read the branch
+   against `origin/main`.
 
 Out of scope, stated so it is a choice:
 
