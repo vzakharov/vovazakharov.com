@@ -1,0 +1,20 @@
+<!-- BAS-0004: a robot's thumbs-up going down into a crucible of molten metal. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 470 380 L 470 290 Q 470 270 495 270 Q 520 270 520 290 L 520 380"/>
+    <rect x="450" y="380" width="140" height="130" rx="30"/>
+    <path d="M 525 412 L 590 412 M 525 446 L 590 446 M 525 480 L 590 480" stroke-width="16"/>
+    <path d="M 472 510 L 472 585 M 568 510 L 568 585"/>
+    <path d="M 462 540 L 578 540" stroke-width="16"/>
+    <path d="M 330 560 L 694 560"/>
+    <path d="M 350 585 L 400 740 Q 405 752 420 752 L 604 752 Q 619 752 624 740 L 674 585"/>
+    <path d="M 694 560 L 790 520"/>
+    <path d="M 365 605 Q 395 590 425 605 Q 455 620 485 605 M 555 605 Q 585 590 615 605 Q 645 620 660 610" stroke-width="16"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="430" cy="660" r="14"/>
+    <circle cx="560" cy="690" r="11"/>
+    <circle cx="600" cy="640" r="16"/>
+    <circle cx="480" cy="700" r="9"/>
+  </g>
+</svg>

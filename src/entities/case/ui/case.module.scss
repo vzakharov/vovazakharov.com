@@ -1,4 +1,40 @@
+@use '../../../../styles/mantine' as mantine;
+
 .stamp {
   font-family: var(--mantine-font-family-monospace);
   letter-spacing: 0.04em;
+}
+
+// The memo with the seal to its right; on a narrow screen the seal stands
+// above it. Paper takes the wide layout whatever its width.
+.brief {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px 32px;
+  align-items: start;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+
+  @media print {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.seal {
+  width: 176px;
+  height: 176px;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    order: -1;
+    width: 128px;
+    height: 128px;
+  }
+
+  @media print {
+    order: 0;
+    width: 132pt;
+    height: 132pt;
+  }
 }

@@ -1,0 +1,18 @@
+<!-- BAS-0013: a whip cracking over a terminal prompt. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="330" y="480" width="364" height="230" rx="28"/>
+    <path d="M 330 535 L 694 535"/>
+    <path d="M 385 590 L 430 625 L 385 660"/>
+    <path d="M 460 665 L 530 665"/>
+    <path d="M 340 340 L 410 300" stroke-width="40"/>
+    <path d="M 410 300 C 500 250 540 430 620 380" stroke-width="16"/>
+    <path d="M 620 380 Q 640 368 650 350" stroke-width="10"/>
+    <path d="M 672 330 L 700 305 M 680 352 L 716 350 M 660 318 L 664 284" stroke-width="12"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="365" cy="508" r="9"/>
+    <circle cx="395" cy="508" r="9"/>
+    <circle cx="425" cy="508" r="9"/>
+  </g>
+</svg>

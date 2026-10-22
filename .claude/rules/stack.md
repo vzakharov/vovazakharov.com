@@ -54,9 +54,10 @@ Nineteen things about that list are deliberate:
   none cached — so a change to any one site's text pays for all of them. That is
   the accepted cost of four sites out of one repository, and the first thing to
   revisit if the run becomes annoying.
-- **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, and a
+- **Never call `pnpm lint` from vet.** That script is `lint:check --fix`, and a
   fix it picks is a judgment about source someone wrote — vet is not the place
   to have that made silently. `pnpm lint:check` is the checking form, and
+<<<<<<< HEAD
   `pnpm lint:css` is stylelint's. The codegen is the exception below, and it is
   one because a generated file has no judgment in it: exactly one content is
   correct. `lint:check` is also the one place ESLint's heap ceiling is set, at a
@@ -64,6 +65,13 @@ Nineteen things about that list are deliberate:
   one tree passes on a laptop and runs out of heap in a cloud container. A tree
   that outgrows the ceiling fails alike everywhere — the cue to find what grew,
   not to raise the number.
+=======
+  `pnpm lint:css` is stylelint's. The 5 GB heap eslint needs over the whole tree
+  is set once, in `lint:check`, appended to the `NODE_OPTIONS` the environment
+  already sets rather than replacing it. The codegen is the exception below, and
+  it is one because a generated file has no judgment in it: exactly one content
+  is correct.
+>>>>>>> origin/main
 - **The builds and the codegen run alone, in that order, before the concurrent
   checks.** Each build regenerates its app's `.next/types/`, which
   `tsconfig.json` includes, so a type check overlapping it intermittently reads

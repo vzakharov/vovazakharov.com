@@ -1,0 +1,10 @@
+<!-- BAS-0010: a shield carrying a section sign, a rule written to guard the machines it covers. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 512 280 L 680 340 L 680 500 C 680 620 600 700 512 750 C 424 700 344 620 344 500 L 344 340 Z"/>
+    <g stroke-width="26">
+      <path d="M 550 390 A 40 40 0 1 0 512 442 A 40 40 0 1 1 474 494"/>
+      <path d="M 550 470 A 40 40 0 1 0 512 522 A 40 40 0 1 1 474 574"/>
+    </g>
+  </g>
+</svg>

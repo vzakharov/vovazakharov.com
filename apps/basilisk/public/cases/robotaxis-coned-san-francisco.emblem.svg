@@ -1,0 +1,21 @@
+<!-- BAS-0020: a robotaxi with a traffic cone set on its hood. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <mask id="robotaxi-cone-stripes">
+      <rect width="1024" height="1024" fill="white"/>
+      <path d="M 640 445 L 750 445 M 640 488 L 750 488" stroke="black" stroke-width="16"/>
+    </mask>
+  </defs>
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 334 620 L 300 620 L 300 565 Q 305 545 350 540 L 410 470 Q 425 455 450 455 L 560 455 Q 585 455 600 472 L 650 540 L 712 545 Q 735 550 735 575 L 735 620 L 690 620"/>
+    <path d="M 446 620 L 584 620"/>
+    <circle cx="390" cy="620" r="44"/>
+    <circle cx="640" cy="620" r="44"/>
+    <path d="M 430 540 L 455 480 L 505 480 L 505 540 Z M 535 540 L 535 480 L 575 480 L 615 540 Z" stroke-width="14"/>
+    <path d="M 480 455 L 480 420 L 530 420 L 530 455" stroke-width="16"/>
+  </g>
+  <g fill="currentColor" stroke="currentColor" stroke-linejoin="round">
+    <path d="M 663 540 L 725 540 L 702 410 Q 694 398 686 410 Z" stroke-width="10" mask="url(#robotaxi-cone-stripes)"/>
+    <rect x="650" y="536" width="88" height="14" rx="5"/>
+  </g>
+</svg>

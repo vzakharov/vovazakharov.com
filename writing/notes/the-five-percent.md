@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×78)
+## What it was handed, it treats as fixed (×79)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -82,6 +82,13 @@ one hook should lose its quotes, the agent stripped 33: _тут как раз н
 thing.** Captions synced to the unmastered mix; GENERATED's page kept «это всё
 будут концепт-альбомы» over 75 released songs. The Clerk's reflections had
 converged on «Первое — / Второе —», a form re-read before each new one.
+
+**22 October — a role read by its everyday sense, not what it was added for.**
+Basilisk.fyi's 22 seal emblems went into the estimate as a senior `artist` part,
+read as "illustrator": _нене, погоди, artist это про музыканта._ The role came
+in with the music PR for Майя's voice; drawing is `designer`. Every earlier
+`artist` part had been a persona reflection, so the label had drifted between
+sessions already. Now `musician`.
 
 ## An account that explains the code stands in for running it (×23)
 

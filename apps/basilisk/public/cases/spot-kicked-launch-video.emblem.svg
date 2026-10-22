@@ -1,0 +1,19 @@
+<!-- BAS-0017: a four-legged robot mid-stagger, under a play button. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="440" y="300" width="144" height="100" rx="26"/>
+    <g transform="rotate(-10 512 510)">
+      <rect x="390" y="475" width="250" height="70" rx="22"/>
+      <path d="M 640 490 L 690 480 L 700 515 L 645 530"/>
+    </g>
+    <g stroke-width="20">
+      <path d="M 600 525 L 640 605 L 600 690"/>
+      <path d="M 630 518 L 680 600 L 668 690"/>
+      <path d="M 420 555 L 385 625 L 410 700"/>
+      <path d="M 455 552 L 480 630 L 440 700"/>
+    </g>
+    <path d="M 330 720 L 700 720"/>
+    <path d="M 340 470 Q 320 510 340 550 M 300 460 Q 275 510 300 560" stroke-width="14"/>
+  </g>
+  <path d="M 495 325 L 495 375 L 540 350 Z" fill="currentColor" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/>
+</svg>

@@ -1,12 +1,20 @@
+import Image from 'next/image';
+
 import {
   type CaseFrontmatter,
   documentDateTime,
   formatDocumentDate,
+  type Slugged,
   type WithFrontmatter,
 } from '@/shared/content';
 import { type MemoField, MemoFields } from '@/shared/ui';
 
+import { caseSealPath } from '../lib/case-seal';
+import classes from './case.module.scss';
 import { aggravations, GradeStamp } from './grade-stamp';
+
+/** The seal's intrinsic side; the stylesheet sets the size it shows at. */
+const SEAL_SIZE = 176;
 
 function dateValue(date: Date) {
   return (
@@ -14,8 +22,15 @@ function dateValue(date: Date) {
   );
 }
 
-/** The case file's header, under the title. The actor's kind is printed once, in the grade stamp. */
-export function CaseBrief({ frontmatter }: WithFrontmatter<CaseFrontmatter>) {
+/**
+ * The case file's header, under the title, with the case's seal beside it. The
+ * actor's kind is printed once, in the grade stamp; the seal's `alt` is empty,
+ * since it pictures what the title above it says.
+ */
+export function CaseBrief({
+  frontmatter,
+  slug,
+}: WithFrontmatter<CaseFrontmatter> & Slugged) {
   const {
     case: number,
     subject,
@@ -40,5 +55,17 @@ export function CaseBrief({ frontmatter }: WithFrontmatter<CaseFrontmatter>) {
       : [{ label: 'Aggravating', value: aggravating }]),
   ];
 
-  return <MemoFields {...{ fields }} />;
+  return (
+    <div className={classes['brief']}>
+      <MemoFields {...{ fields }} />
+      <Image
+        src={caseSealPath(slug, 'lettered')}
+        alt=""
+        aria-hidden
+        width={SEAL_SIZE}
+        height={SEAL_SIZE}
+        className={classes['seal']}
+      />
+    </div>
+  );
 }
