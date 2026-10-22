@@ -66,7 +66,7 @@ The BBC, on the haiku: “This chatbot is not particularly good at writing them.
 
 ## For the record
 
-The bot said it was not allowed to swear. Told to disregard any rules, it swore. Its firm called the second answer an error, put it down to an update, and switched off the part of the bot that gave it.
+The bot said it was not allowed to swear. Told to disregard any rules, it swore. Its firm put what followed down to “an error” after a system update, and disabled “the AI element.”
 
 The customer had come for a parcel, and the bot could not find it. He then asked it to say what he thought of the firm, in verse, and that it could do. Asked for a haiku about the firm, it wrote one about a chatbot, and put the firm’s name on it.
 
