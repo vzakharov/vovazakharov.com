@@ -42,7 +42,7 @@ definition becomes `<li id="user-content-fn-label">` in a trailing
    two children as words and note; every other span renders as itself.
 4. **Tests** beside the plugin: phrase with marks, bare ref untouched, the
    numbering/`print-only` marks, a note with an image, a block note failing.
-5. **Docs**: `content.md` § "The three things a document can author" gains the
+5. **Docs**: `content.md` § "The four things a document can author" gains the
    note; `songs.md` gets a pointer from the lyrics' note paragraph (same syntax,
    story notes come from the pipeline). The `CONTENT_COMPONENTS` trap gains
    `span`.

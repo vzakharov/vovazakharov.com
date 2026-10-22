@@ -171,7 +171,10 @@ file for the same reason, so the two languages' notes are suffixed `-ru` and
 only the notes of the column in its own language — the crib's on a page whose
 language is not the one sung, the words' own on a page in it. A marker with no
 definition, a definition nothing carries, and a whole-line note sharing its line
-with another each fail the build.
+with another each fail the build. A story, an album's or an artist's prose,
+takes the same `[phrase][^label]`, read by the content pipeline rather than the
+verse reader — `content.md` § "The four things a document can author beyond
+markdown" — so a bare `[^label]` there is a footnote, not a note on the line.
 
 ## Material whose author is in the room
 
