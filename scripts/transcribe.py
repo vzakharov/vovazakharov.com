@@ -89,7 +89,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from lib.cli import die
-from lib.hearing import doubts, marked, merged, paragraphs, read_response, write_response
+from lib.hearing import alternative, doubts, marked, merged, paragraphs, read_response, write_response
 
 DEEPGRAM_URL = "https://api.deepgram.com/v1/listen"
 
@@ -254,7 +254,7 @@ def render_transcript(
     second: Optional[tuple[str, dict[str, Any]]],
 ) -> str:
     channel = response["results"]["channels"][0]
-    alt = channel["alternatives"][0]
+    alt = alternative(response)
     metadata = response["metadata"]
     scored, low = doubts(response, floor)
     share = f" ({100 * low / scored:.0f}%)" if scored else ""

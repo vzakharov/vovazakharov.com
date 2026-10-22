@@ -34,7 +34,7 @@ LEADING = "«(\"'"
 _EPSILON = 1e-6
 
 
-def _alternative(response: Response) -> dict[str, Any]:
+def alternative(response: Response) -> dict[str, Any]:
     """The one hearing a request for a single channel and alternative gets."""
     return response["results"]["channels"][0]["alternatives"][0]
 
@@ -117,7 +117,7 @@ def paragraphs(response: Response) -> list[list[Line]]:
     response with no paragraphs is one sentence of its whole transcript, and
     one with no speech is an empty list.
     """
-    alt = _alternative(response)
+    alt = alternative(response)
     words = alt.get("words") or []
     found = [
         [dict(s, words=[]) for s in p["sentences"]]
@@ -168,7 +168,7 @@ def doubts(response: Response, floor: float) -> tuple[int, int]:
     """How many words carry a confidence, and how many of those fall under
     `floor` — printed whether or not any do, since the share is what makes two
     recordings comparable."""
-    words = _alternative(response).get("words") or []
+    words = alternative(response).get("words") or []
     scored = [w for w in words if w.get("confidence") is not None]
     return len(scored), sum(1 for w in scored if w["confidence"] < floor)
 
