@@ -6,7 +6,9 @@ taken down from every platform but survived whole in vovas-music. Its
 seven tracks join the catalogue under one album page, its story in
 Vova's own words, with the lyrics as sung beside English cribs and a
 sourced history of each poem beside the song's own story. Dad's
-«Свеча горела» rides along into Папа-море as candle-burnt. Each song
+«Свеча горела» rides along into Папа-море as candle-burnt, and the
+Полуживые and за/обложкой pages say why their covers' performers are
+blindfolded. Each song
 keeps the repository its takes were already in, renamed to its slug by
 `music:masters rename`; `serve-main` moves a repository still on
 `master` to `main`, the branch every URL the site builds names.
