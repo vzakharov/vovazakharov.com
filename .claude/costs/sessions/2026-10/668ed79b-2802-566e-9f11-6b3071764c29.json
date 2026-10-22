@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133921,
+    "cacheReadTokens": 4830990,
+    "outputTokens": 19009,
+    "thinkingTokens": 6778,
+    "responses": 34,
+    "costUsd": 2.4180179999999996
+  },
+  "estimate": {
+    "at": "2026-10-22T12:20:24.167Z",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "musician",
+        "comment": "six songs to master, each blind-tested against three references, plus judging the recovered or rebuilt mixes by ear"
+      },
+      {
+        "hours": 10.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "intake plumbing per song: repos, stems, transcripts, scaffold, tags; a possible RPP re-render with peak checks"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "six Mandelstam poems reconciled with what is sung, English cribs, sourced histories, hooks"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "668ed79b-2802-566e-9f11-6b3071764c29",
+  "branch": "claude/toy-wolves-uani04",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "поехали дальше, давай загружать и разбирать \"Игрушечные волки\" Полуживых",
+  "prs": [
+    193
+  ],
+  "url": "https://claude.ai/code/session_01XgGpsAiQ9ktqKy9xo6t7AR",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T12:16:53.380Z",
+  "lastResponseAt": "2026-10-22T12:21:15.897Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133921,
+    "cacheReadTokens": 4830990,
+    "outputTokens": 19009,
+    "thinkingTokens": 6778,
+    "responses": 34,
+    "costUsd": 2.4180179999999996
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 68,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 133921,
+      "cacheReadTokens": 4830990,
+      "outputTokens": 19009,
+      "thinkingTokens": 6778,
+      "responses": 34,
+      "costUsd": 2.4180179999999996
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/toy-wolves.draft.do-not-implement.md",
+    "endedAt": "2026-10-22T12:19:46.554Z",
+    "contextTokens": 161263,
+    "spend": {
+      "inputTokens": 42,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 112290,
+      "cacheReadTokens": 2624140,
+      "outputTokens": 10895,
+      "thinkingTokens": 6013,
+      "responses": 21,
+      "costUsd": 1.641216
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
