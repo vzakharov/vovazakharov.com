@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 71569,
+    "cacheReadTokens": 674855,
+    "outputTokens": 4015,
+    "thinkingTokens": 1920,
+    "responses": 7,
+    "costUsd": 0.7878789999999999
+  },
+  "estimate": {
+    "at": "2026-10-22T15:28:59.867Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "weighing a shuffle invariant against the radio's fixed-length timetable takes someone who knows both the sampling math and this player's code"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "8a3c0828-6ef7-544d-88c1-3b6acc80c8ef",
+  "branch": "claude/friendly-hawking-s7xcc1",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "как бы нам быть с такой загагулиной: у нас есть песни segue, да? получается, если допустим человеку нравится то, во что вылевается, но не нравится то, из чего, …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_017p3MoA2AbSGjC6twErpgKb",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T15:28:23.994Z",
+  "lastResponseAt": "2026-10-22T15:29:11.480Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 71569,
+    "cacheReadTokens": 674855,
+    "outputTokens": 4015,
+    "thinkingTokens": 1920,
+    "responses": 7,
+    "costUsd": 0.7878789999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 71569,
+      "cacheReadTokens": 674855,
+      "outputTokens": 4015,
+      "thinkingTokens": 1920,
+      "responses": 7,
+      "costUsd": 0.7878789999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-22T15:29:11.480Z",
+    "contextTokens": 120167,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 71117,
+      "cacheReadTokens": 555142,
+      "outputTokens": 3118,
+      "thinkingTokens": 1912,
+      "responses": 6,
+      "costUsd": 0.7423723999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
