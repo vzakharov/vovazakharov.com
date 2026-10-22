@@ -332,6 +332,18 @@ lacks surfaces only when someone else holds the two side by side.
 said the album dictation would become the album's story; the branch shipped
 with the file unused, until Vova asked why it went nowhere.
 
+## A correction made once, it makes again from its own picture (×1)
+
+A misreading fixed in one session leaves no trace the next one reads, and
+the picture it came from re-forms from the same cues. The agent meets
+its old mistake as a fresh conclusion, and only the person who corrected it
+recognises the repeat.
+
+**22 October — GENERATED read as "the general story," twice.** Placing a note on
+Nostalgia's blindfolded cover performers, the agent offered «в общую историю,
+artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._ GENERATED is an
+artist, the one with the most songs. Now in `.claude/rules/songs.md`.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `writing/CLAUDE.md` doing its
