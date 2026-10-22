@@ -220,12 +220,14 @@ loudness, a chromagram strip each for the melody, the harmony and the bass,
 coloured by octave, and the drums, the docstring saying how to read it —
 committed beside the master so the next session has it without the venv. So are
 the `<slug>.txt` sidecar the same run writes beside it, the tempo, key, tuning
-and chords as numbers, and the section zooms `<n>.png`, all in the song's one
-folder; re-render them together, so they never describe different versions of
-the song. The strips and the drums are read off the master's four stems, cut
-first with `python -m demucs -n htdemucs -o tmp/stems <masters>` (~2 min a song
-on 4 cores) and too big to commit. A vocal with no pitch to follow, a growl or a
-shout, is noise, and the melody strip stays grey under it.
+and chords as numbers, the `<slug>.json` holding what the picture is drawn from
+as data, for a visualization that draws its own, and the section zooms
+`<n>.png`, all in the song's one folder; re-render them together, so they never
+describe different versions of the song. The strips and the drums are read off
+the master's four stems, cut first with
+`python -m demucs -n htdemucs -o tmp/stems <masters>` (~2 min a song on 4 cores)
+and too big to commit. A vocal with no pitch to follow, a growl or a shout, is
+noise, and the melody strip stays grey under it.
 
 ## Traps
 

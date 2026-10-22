@@ -6,7 +6,7 @@ bars drawn on the section zooms numbered 2, 3, 6, 7, 8 — only where the snare 
 sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
 1  0:00–0:08  132 BPM  −12 dB  B♭ Cm ×2
 2  0:08–0:30  129 BPM  −9 dB  Cm B♭ + Cm E♭ ×2 + C
-3  0:30–0:45  130 BPM  −9 dB  C E♭ Fm E♭m C E♭m F C
+3  0:30–0:45  130 BPM  −9 dB  C E♭ Fm E♭m C E♭m F N C
 4  0:45–1:00  132 BPM  −8 dB  C + E♭ Cm ×2
 5  1:00–1:14  130 BPM  −11 dB  Cm E♭ ×2 + F Cm
 6  1:14–1:36  128 BPM  −9 dB  Cm E♭ B♭ C E♭ Fm C E♭ F Cm

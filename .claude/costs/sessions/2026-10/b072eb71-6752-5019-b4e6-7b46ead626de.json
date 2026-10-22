@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 144,
+    "cacheWrite5mTokens": 117229,
+    "cacheWrite1hTokens": 188643,
+    "cacheReadTokens": 12428997,
+    "outputTokens": 43122,
+    "thinkingTokens": 13648,
+    "responses": 72,
+    "costUsd": 5.4441044000000005
+  },
+  "estimate": {
+    "at": "2026-10-22T12:23:36.487Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the analysis modules are dense signal code; extracting the strip pass and serializing Facts without changing a picture takes someone who reads numpy fluently"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "eleven re-rendered songs need their sidecars diffed against the last run and the JSON spot-checked against the PNGs"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "b072eb71-6752-5019-b4e6-7b46ead626de",
+  "branch": "claude/spectrogram-data-by9pkd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "у нас после последнего коммита спектрограммы и прочая красота только в картинки идут? если да, давай сохранять промежуточный результат (структурные данные) тоже…",
+  "prs": [
+    194
+  ],
+  "url": "https://claude.ai/code/session_01BdguLDNbX3LrNKs5WJoRYZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T12:21:01.521Z",
+  "lastResponseAt": "2026-10-22T12:50:51.860Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 118,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 188643,
+    "cacheReadTokens": 11292221,
+    "outputTokens": 35109,
+    "thinkingTokens": 9716,
+    "responses": 59,
+    "costUsd": 4.4702402
+  },
+  "subagents": {
+    "inputTokens": 26,
+    "cacheWrite5mTokens": 117229,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1136776,
+    "outputTokens": 8013,
+    "thinkingTokens": 3932,
+    "responses": 13,
+    "costUsd": 0.9738642
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 144,
+      "cacheWrite5mTokens": 117229,
+      "cacheWrite1hTokens": 188643,
+      "cacheReadTokens": 12428997,
+      "outputTokens": 43122,
+      "thinkingTokens": 13648,
+      "responses": 72,
+      "costUsd": 5.4441044000000005
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/spectrogram-data.draft.do-not-implement.md",
+    "endedAt": "2026-10-22T12:23:00.751Z",
+    "contextTokens": 173215,
+    "spend": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 116792,
+      "cacheReadTokens": 1807848,
+      "outputTokens": 7942,
+      "thinkingTokens": 5291,
+      "responses": 14,
+      "costUsd": 1.4548576
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
