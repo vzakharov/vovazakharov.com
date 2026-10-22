@@ -97,9 +97,9 @@ rest.
 ## Vetting
 
 `./scripts/vet.sh` is the fast check — every site's build, then lint,
-type-check, format-check, the repo's own gates and the tests. CI runs it on
-every PR out of draft; run it by hand at a milestone to know sooner, **not
-before every commit**. A failure it should have caught is a signal to extend it.
+type-check, format-check, the repo's own gates and the tests. Beyond the PR run
+(§ "Deployment"), run it by hand at a milestone to know sooner, **not before
+every commit**. A failure it should have caught is a signal to extend it.
 
 **A toolchain change has three sites to wire**: `scripts/vet.sh`,
 `.claude/hooks/install-deps.sh`, and the environment setup script, which no

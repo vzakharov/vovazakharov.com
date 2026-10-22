@@ -5,6 +5,7 @@ paths:
   - scripts/run-parallel.sh
   - .claude/hooks/install-deps.sh
   - package.json
+  - .github/workflows/vet.yml
 ---
 
 # The stack and the vet run
@@ -48,10 +49,7 @@ Twenty things about that list are deliberate:
 
 - **`.github/workflows/vet.yml` runs it on every pull request out of draft**, on
   a GitHub-hosted runner with the toolchain `setup-toolchain` pins, so its
-  verdict does not depend on whose machine ran it — and `/finalize` waits on
-  that run rather than vetting locally first. A draft runs nothing. The checkout
-  is full-depth because the squash, estimates, CLAUDE.md-size and changed-file
-  checks diff against the merge base with `origin/main`.
+  verdict does not depend on whose machine ran it.
 - **`pnpm build` is the only check that covers the app itself.** The suite
   reaches no page (CLAUDE.md § "Testing"), so the static-export build is what
   catches a broken page, route or import. It is what CI runs on `main` too — bar
