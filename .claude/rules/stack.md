@@ -13,7 +13,7 @@ paths:
 pnpm build            # every site's next build — the whole-app end-to-end check
 pnpm styles:codegen   # rewrites the generated Sass partials; fails if it had to
 pnpm typecheck                  # tsc --noEmit                  ┐
-pnpm exec eslint .              # not `pnpm lint`               │
+pnpm lint:check                 # not `pnpm lint`               │
 pnpm format:check               # prettier --check ., md wrap too │
 pnpm lint:css                   # stylelint, check-only         │
 pnpm lint:fsd                   # steiger src                   │
@@ -56,10 +56,14 @@ Nineteen things about that list are deliberate:
   revisit if the run becomes annoying.
 - **Never call `pnpm lint` from vet.** That script is `eslint . --fix`, and a
   fix it picks is a judgment about source someone wrote — vet is not the place
-  to have that made silently. `pnpm exec eslint .` is the checking form, and
-  `pnpm lint:css` is stylelint's. The codegen is the exception below, and it is
-  one because a generated file has no judgment in it: exactly one content is
-  correct.
+  to have that made silently. `pnpm lint:check` is the checking form, and
+  `pnpm lint:css` is stylelint's. `lint:check` is also the one place ESLint's
+  heap ceiling is set, at a fixed 3072 MB: Node's default scales with the
+  machine's memory, so without it one tree passes on a laptop and runs out of
+  heap in a cloud container. Today's run needs ~1.7 GB; a tree that outgrows the
+  ceiling fails alike everywhere, which is the cue to find what grew rather than
+  to raise the number. The codegen is the exception below, and it is one because
+  a generated file has no judgment in it: exactly one content is correct.
 - **The builds and the codegen run alone, in that order, before the concurrent
   checks.** Each build regenerates its app's `.next/types/`, which
   `tsconfig.json` includes, so a type check overlapping it intermittently reads
