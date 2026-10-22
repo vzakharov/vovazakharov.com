@@ -15,7 +15,7 @@ The muthur sync offer was made; do not make it again.
    - on «Её прежний абзац строился на том, что Суно не смогла спеть именно «улетай»…»: «нет; Майя тут ни при чём, я сам неправильно начитал это; и вообще Майя не занимается расшифровкой -- она приходит уже на готовые слова»
    - on the vocal-bleed and crash-under-kick items: «не уверен что что-то из этого -- критично. Попробовать можно, загоняться -- не надо»
    - on listen's sound from 0:36: «ну этот звук можно считать перкуссией условно, звучит он что-то вроде ложкой по кастрюле 🙂 (но такого "инструмента", конечно, добавлять не надо)»
-   → Maya's birds afterword rewritten to say the words changed, without blaming her hearing; the rule line about it removed (c20c36a). Then the detector work (below), the re-render, a PR comment, and a pause for context budget.
+     → Maya's birds afterword rewritten to say the words changed, without blaming her hearing; the rule line about it removed (c20c36a). Then the detector work (below), the re-render, a PR comment, and a pause for context budget.
 
 ## 3. Intent
 

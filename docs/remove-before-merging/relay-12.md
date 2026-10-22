@@ -20,7 +20,7 @@ Spectrograms whose drum row and zooms match what Vova hears, without over-engine
 
 ## 4. Decisions
 
-- **T05: lanes join the needed ones** (`joined` in `scripts/song-intake/drums.py`, `JOINED_DB = 5`) — beat lowering `NEEDED_DB`, which tests one lane's removal and cannot see two lanes that each explain the same bands. Joined lanes are picked by most power in the whole kit's fit (beat "the one whose refit fits best", which flipped snare/cymbals at random). The join runs only on hits a lane was *needed* for, not a guessed one: with guesses included birds' backbeat gained four faint toms.
+- **T05: lanes join the needed ones** (`joined` in `scripts/song-intake/drums.py`, `JOINED_DB = 5`) — beat lowering `NEEDED_DB`, which tests one lane's removal and cannot see two lanes that each explain the same bands. Joined lanes are picked by most power in the whole kit's fit (beat "the one whose refit fits best", which flipped snare/cymbals at random). The join runs only on hits a lane was _needed_ for, not a guessed one: with guesses included birds' backbeat gained four faint toms.
 - **T06 not built**: the plan file's Done section has the measurements. Every level gate overlaps birds' pre-1:20 noise; periodicity would work and is what «загоняться не надо» rules out. The reply to T06 should say so and ask his ear whether a missing hat row there is acceptable.
 - Bar lines (T07) are not the beat grid removed in a8bf324: bars only, and only where the phase is determinable.
 
