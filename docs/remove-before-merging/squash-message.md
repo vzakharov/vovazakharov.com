@@ -6,12 +6,13 @@ which marks it on the album, artist and music pages, and its seven
 songs read `status: wip`. It is a finished release, so the flag goes
 and its songs read `done` like the rest of the catalogue.
 
-Майя reflects on the whole album, a reflection per song in album
-order, written as a listener since Nostalgia is Полуживые's rather
-than за/обложкой's. Each is read off the song's spectrogram, now
-committed for all seven with its sidecar and section zooms, against
-its words, the poem's history and the album's story. What the album
-taught her goes into her list in `maya-reflections.md`.
+Майя reflects on the album, a reflection per song in album order and
+one on the album whole, written as a listener since Nostalgia is
+Полуживые's rather than за/обложкой's. Each song's is read off its
+spectrogram, now committed for all seven with sidecar and section
+zooms, against its words, the poem's history and the album's story.
+An album's reflection sits beside the album's file, which the
+catalogue now skips as a companion rather than reading as an album.
 
 A reflection was booked in estimates to its persona's craft, Майя's
 to `musician` and the Clerk's to `editor`, which priced one kind of
