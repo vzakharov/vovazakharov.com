@@ -14,9 +14,9 @@ credits:
 en:
   title:
     translation: 'Slime'
-  hook: '“There are no stars here, only sweet slime.”'
+  hook: 'There are no stars here, only sweet slime.'
 ru:
-  hook: '«Здесь нету звёзд, только сладкая слизь».'
+  hook: 'Здесь нету звёзд, только сладкая слизь.'
 ---
 
 <!-- lang:en -->

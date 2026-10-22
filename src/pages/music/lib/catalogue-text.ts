@@ -5,13 +5,16 @@ import type { Locale } from '@/shared/i18n';
 import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
 
 import { albumFile, artistFile } from './catalogue-files';
-import { localeProse, localeUniverse } from './sections';
+import { localePrelude, localeProse, type PreludePlacement } from './sections';
 
 /** A page's prose in its two parts, either of which may be missing. */
 export type StoryParts = {
-  /** The world a concept album is set in, told ahead of the story. */
-  universe?: ProseSource | undefined;
-  /** The story proper — a making-of, where a `universe` comes first. */
+  /**
+   * What is told beside the story: the world a concept album is set in, or
+   * the story of the source a song rests on.
+   */
+  prelude?: (ProseSource & PreludePlacement) | undefined;
+  /** The story proper — behind the scenes, where a `prelude` comes first. */
   story?: ProseSource | undefined;
 };
 
@@ -29,12 +32,17 @@ function part(
   return body === undefined || body === '' ? undefined : { ...source, body };
 }
 
-/** The world a page is set in, where its file — an album's, a song's — tells one. */
-export function universeOf(
+/** A page's prelude, where its file — an album's, a song's — tells one. */
+export function preludeOf(
   source: ProseSource,
   locale: Locale,
-): ProseSource | undefined {
-  return part(source, localeUniverse(source.body, locale));
+): StoryParts['prelude'] {
+  const prelude = localePrelude(source.body, locale);
+
+  if (prelude === undefined) return undefined;
+  const { text, ...placement } = prelude;
+
+  return { ...source, body: text, ...placement };
 }
 
 /**
@@ -53,7 +61,7 @@ function catalogueText(
 
   return {
     markdown,
-    universe: universeOf(source, locale),
+    prelude: preludeOf(source, locale),
     story: part(source, localeProse(body, locale)),
     hook,
   };

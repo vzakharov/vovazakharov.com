@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'My Youngest Grandson'
+  hook: 'Corn, guys!'
+ru:
+  hook: 'Кукуруза, ребята!'
 ---
 
 <!-- lang:en -->
