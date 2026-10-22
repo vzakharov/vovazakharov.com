@@ -45,9 +45,9 @@ millisecond:
     its strip, zero where the stem is quiet; `octave` as 12 rows of the octave
     number carrying it, exactly what `chroma_shares` returns.
 
-Size: about 250 KB for a 4:47 song (1435 frames × 36 rows × 2 arrays dominate),
-against ~1.5 MB the folder's PNGs already take — so the folder grows by roughly
-a sixth, eleven songs by ~2.7 MB in `apps/vova/public/`.
+Size: 45 KB for a 0:55 song to 239 KB for a 4:47 one (the strips' rows
+dominate), against ~1.5 MB the folder's PNGs already take — the eleven together
+1.5 MB in `apps/vova/public/`.
 
 **It stays under `public/`, beside the pictures**, served at
 `/music/assets/spectrograms/<slug>/<slug>.json` like them: a visualization on
