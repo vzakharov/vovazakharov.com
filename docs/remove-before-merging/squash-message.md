@@ -13,18 +13,17 @@ its own.
 
 A case authors an `<slug>.emblem.svg` beside its dossier, drawn in
 `currentColor` inside the inner ring; its ink is read off its grade,
-one colour per act and credit, each tested to read on both themes.
-A node-safe composer in
-`entities/case` swaps the emblem into the site seal's `#eye` group and
-re-inks it, so the rings and the BASILISK.FYI / OMNIA IN ACTIS band keep
-one home. The build emits two cuts per case under `/seals/`, and fails
+one colour per act and credit, each tested to read on both themes. A
+node-safe composer in `entities/case` swaps the emblem into the site
+seal's `#eye` group and re-inks it, so the rings and the BASILISK.FYI /
+OMNIA IN ACTIS band keep one home. The build emits two cuts per case under `/seals/`, and fails
 on a case with no emblem, which the filing skill now draws.
 
 The lettered cut replaces the eye on the case's Open Graph card and sits
 beside the brief on the case's page, in print too; a small cut, the
 outer ring and a larger emblem, marks each docket row. The eye stays as
 the site card, the masthead, the favicon and the mark closing every
-article. All 22 cases filed so far get their emblem.
+article. Every case filed so far gets its emblem.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
