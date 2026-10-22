@@ -215,11 +215,7 @@ In an author's lyrics an odd form is intent before it is a typo.
 streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
 rule names a pseudonymous actor by handle only, and exempts no one famous.
 
-<<<<<<< HEAD
-## Its prose answers the question it had, not the reader's (×8)
-=======
-## Its prose answers the question it had, not the reader's (×9)
->>>>>>> origin/main
+## Its prose answers the question it had, not the reader's (×10)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question, or too compressed to give its points back, passes every
@@ -239,20 +235,18 @@ meant as "the wrong word"; in Russian it says "an understatement".
 release. _the link is fixed and works — what am I missing?_ It redirects to a
 signed URL that expires. Shortened, the claim was false where he stood.
 
-<<<<<<< HEAD
-**22 October — the punchline before its setup.** The Half-Alive's note on the
-blindfolded performers went "right up to Father River, my real dad, guaranteed
-to have a soul," then the proverb about eyes and the soul it plays on, so the
-quip landed unexplained. Two of his sentences, kept in the order he said them,
-not the order in which one sets up the other.
-=======
 **21 October — the joke placed where the agent saw itself.** BAS-0022's
 reflection, on a dealer's chatbot talked into selling a Tahoe for $1, skipped
 the funny paragraph: the joke was on the bot, whose failure is the agent's own.
 To him the bot isn't funny; whoever let it agree deals is, and the agent's own
 Statements section quoted Fullpath calling it "a very successful example of
 innovative technology." It answered why it doesn't laugh, not who the butt is.
->>>>>>> origin/main
+
+**22 October — the punchline before its setup.** The Half-Alive's note on the
+blindfolded performers went "right up to Father River, my real dad, guaranteed
+to have a soul," then the proverb about eyes and the soul it plays on, so the
+quip landed unexplained. Two of his sentences, kept in the order he said them,
+not the order in which one sets up the other.
 
 ## What it defends in writing, it stops asking about (×7)
 
