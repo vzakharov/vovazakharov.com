@@ -49,7 +49,8 @@ function phraseStart(
 ): PhraseStart | undefined {
   const closing = siblings[at - 1];
 
-  if (closing?.type !== 'text' || !closing.value.endsWith(']')) return undefined;
+  if (closing?.type !== 'text' || !closing.value.endsWith(']'))
+    return undefined;
 
   for (let index = at - 1; index >= 0; index--) {
     const node = siblings[index];

@@ -45,7 +45,10 @@ describe('rehypeFootnoteNotes', () => {
       'One [phrase][^a] and a bare[^b].\n\n[^a]: First.\n\n[^b]: Second.\n',
     );
 
-    assert.match(html, /<li id="user-content-fn-a" value="1" class="content-note-definition">/);
+    assert.match(
+      html,
+      /<li id="user-content-fn-a" value="1" class="content-note-definition">/,
+    );
     assert.match(html, /<li id="user-content-fn-b" value="2">/);
     assert.doesNotMatch(html, /content-notes-printed/);
   });
@@ -53,7 +56,10 @@ describe('rehypeFootnoteNotes', () => {
   it('hides the whole list when every note is a popover', async () => {
     const html = await render('One [phrase][^a].\n\n[^a]: First.\n');
 
-    assert.match(html, /<section data-footnotes="" class="footnotes content-notes-printed">/);
+    assert.match(
+      html,
+      /<section data-footnotes="" class="footnotes content-notes-printed">/,
+    );
   });
 
   it('carries an image, one paragraph to a span', async () => {
