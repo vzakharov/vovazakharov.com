@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-chore: lint against one TypeScript program so vet fits the heap (#189)
-```
+Proposed squash body:
 
 ```
 ESLint ran out of heap in vet at Node's default ceiling, which depends
