@@ -1,7 +1,6 @@
 ---
 title: 'Ты не терзайся…'
 date: 2025-12-02
-status: done
 language: ru
 project: ['Дамы и господа', 'Полуживые']
 repo: 's74'

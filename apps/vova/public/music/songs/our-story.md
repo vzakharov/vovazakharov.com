@@ -1,7 +1,6 @@
 ---
 title: 'Наша история'
 date: 2023-12
-status: done
 language: ru
 project: ['за/обложкой']
 repo: our-story

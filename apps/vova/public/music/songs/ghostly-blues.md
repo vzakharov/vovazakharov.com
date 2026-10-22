@@ -1,7 +1,6 @@
 ---
 title: 'Призрачный блюз'
 date: 2025-12-01
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'ghostly-blues'

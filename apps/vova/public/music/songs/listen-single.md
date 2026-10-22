@@ -1,7 +1,6 @@
 ---
 title: 'Послушайте (Single Version)'
 date: 2023-12
-status: done
 language: ru
 project: ['за/обложкой']
 repo: listen-single

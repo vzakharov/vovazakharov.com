@@ -1,7 +1,6 @@
 ---
 title: 'Ночной сад'
 date: 2024-11-20
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'sad'

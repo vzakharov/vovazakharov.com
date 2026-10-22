@@ -1,7 +1,6 @@
 ---
 title: 'The Comeback Song (We Have a Banger)'
 date: 2024-07-23
-status: done
 language: en
 project: ['Yoohie']
 repo: 'comeback'

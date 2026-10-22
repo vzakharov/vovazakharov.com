@@ -2,7 +2,6 @@
 title: 'Бабай минем'
 titleLatin: 'Babay minem'
 date: 2025-02-24
-status: done
 language: tt
 project: ['Иске Кормаш']
 repo: 'babay'

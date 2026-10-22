@@ -1,7 +1,6 @@
 ---
 title: 'Пегий пёс (Реприза)'
 date: 2024-09-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'papa-reka'

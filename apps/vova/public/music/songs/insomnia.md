@@ -1,7 +1,6 @@
 ---
 title: 'Бессонница'
 date: 2023-12
-status: wip
 language: ru
 project: ['Полуживые']
 repo: insomnia
@@ -44,7 +43,7 @@ The band took its name from a word in this song.
 От вседневного груза плечам
 В эту пору даётся свобода,
 В эту пору даются вещам
-Бессловесные души людские,
+[Бессловесные души людские][^souls-ru],
 И слепые, немые, глухие
 Разбредаются по этажам.
 В эту пору часы городские
@@ -66,6 +65,8 @@ The band took its name from a word in this song.
 Невозможно заснуть, — так тревожна
 Для покоя нам данная ночь.
 
+[^souls-ru]: Может, среди них и бабочка из «[Бабочки в госпитальном саду](./butterfly-rock.md)»: она «из целой азбуки читает две гласных буквы — А и О», и поэт зовёт её душой.
+
 <!-- lyrics:en -->
 
 The furniture cracks at night.
@@ -73,7 +74,7 @@ Somewhere the water mains drip.
 From the everyday burden the shoulders
 At this hour are given freedom,
 At this hour things are given
-Wordless human souls,
+[Wordless human souls][^souls-en],
 And the blind, the mute, the deaf
 Wander off across the floors.
 At this hour the city clocks
@@ -96,3 +97,5 @@ It is impossible to fall asleep — so uneasy
 Is the night given us for rest.
 
 [^mortar-en]: A Russian idiom for labour that comes to nothing.
+
+[^souls-en]: Perhaps the butterfly of [“Butterfly in the Hospital Garden”](./butterfly-rock.md) is among them: “out of the whole alphabet she reads two vowels — A and O,” and the poet calls her his soul.

@@ -1,7 +1,6 @@
 ---
 title: 'Огоньки'
 date: 2024-09-19
-status: done
 language: ru
 project: ['за/обложкой', 'Downtemple']
 repo: 'ogonki'

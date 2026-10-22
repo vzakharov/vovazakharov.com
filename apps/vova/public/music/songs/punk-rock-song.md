@@ -1,7 +1,6 @@
 ---
 title: 'Punk Rock Song (At 40)'
 date: 2024-07-23
-status: done
 language: en
 project: ['Yoohie']
 repo: 'prs'

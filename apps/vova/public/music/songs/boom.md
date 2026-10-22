@@ -1,7 +1,6 @@
 ---
 title: 'Boom!'
 date: 2024-07-24
-status: done
 language: en
 project: ['GENERATED']
 repo: 'boom'

@@ -1,7 +1,6 @@
 ---
 title: 'Gray Rage'
 date: 2024-10-24
-status: done
 language: en
 project: ['GENERATED']
 repo: 'grayrage'

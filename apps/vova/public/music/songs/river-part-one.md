@@ -1,7 +1,6 @@
 ---
 title: 'Река. Часть первая / Побег'
 date: 2024-09-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'pobeg'

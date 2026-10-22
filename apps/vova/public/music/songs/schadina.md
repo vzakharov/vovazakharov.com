@@ -1,7 +1,6 @@
 ---
 title: 'Schadina'
 date: 2024-10-14
-status: done
 language: ru-latn-x-russisch
 project: ['Киндерштайн']
 repo: 'zhadina'

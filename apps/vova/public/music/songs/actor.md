@@ -1,7 +1,6 @@
 ---
 title: 'Актёр'
 date: 2023-12
-status: wip
 language: ru
 project: ['Полуживые']
 repo: actor

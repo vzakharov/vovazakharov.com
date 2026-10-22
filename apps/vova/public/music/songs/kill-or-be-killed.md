@@ -1,7 +1,6 @@
 ---
 title: 'Kill or Be Killed'
 date: 2024-12-19
-status: done
 language: en
 project: ['GENERATED', 'Yoohie']
 repo: 'kobk'

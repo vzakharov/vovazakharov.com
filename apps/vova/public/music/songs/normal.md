@@ -1,7 +1,6 @@
 ---
 title: 'Normal'
 date: 2024-11-04
-status: done
 language: en
 project: ['GENERATED']
 repo: 'normal'

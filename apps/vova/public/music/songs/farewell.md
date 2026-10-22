@@ -1,7 +1,6 @@
 ---
 title: 'Прощание'
 date: 2025-12-19
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'wangwei'

@@ -1,7 +1,6 @@
 ---
 title: 'Дым'
 date: 2024-07-23
-status: done
 language: ru
 project: ['за/обложкой']
 repo: 'dym'

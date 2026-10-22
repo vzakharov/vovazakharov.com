@@ -1,7 +1,6 @@
 ---
 title: 'Нравственный человек'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'moral-'

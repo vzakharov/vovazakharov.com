@@ -31,6 +31,9 @@ TIMBRE_ROWS = ROWS_PER_OCTAVE // 3
 # wide puts a real fifth or third where a harmonic would sit.
 HARMONICS = (3, 5)
 HARMONIC_SHARE = 0.5
+# A root's weight, as a share of its fifth's, at which the two are read as one
+# note: under it the fifth stands alone, a bass line passing through it.
+FIFTH_FLOOR = 0.25
 
 
 def tuning_cents(magnitude, freqs):
@@ -73,6 +76,45 @@ def without_harmonics(magnitude, weights, bins):
     return weights
 
 
+def fold_fifths(chroma):
+    """chroma, (frames, octaves × 12), with each sounding fifth's weight moved
+    onto its root, in the octave that carries the root most.
+
+    A bass under a chord sounds its root and the fifth above together — a
+    power chord, a root–fifth figure, the root's third harmonic — and the fifth
+    is often the louder, so a bass read note by note shows each chord as two
+    classes, and a progression as a stitch between the fifths that recur. The
+    lower note of a fifth (the upper of a fourth, its inversion) is the root.
+    Per frame, pairs are taken strongest first, each class in one pair at most,
+    so a chain C–G–D folds once and the stronger pair wins; a fifth whose root
+    holds under FIFTH_FLOOR of its weight is a note of its own, and stays.
+    """
+    by_octave = chroma.reshape(len(chroma), -1, 12).copy()
+    frames = np.arange(len(chroma))
+    classes = by_octave.sum(axis=1)
+    free = np.ones_like(classes, bool)
+    tried = np.zeros_like(free)
+    fifth = (np.arange(12) + 7) % 12
+    for _ in range(12):
+        pair = np.where(free & ~tried & free[:, fifth], classes + classes[:, fifth], -1)
+        root = pair.argmax(axis=1)
+        top = fifth[root]
+        live = pair[frames, root] > 0
+        if not live.any():
+            break
+        folds = live & (classes[frames, top] > 0) & (classes[frames, root] >= FIFTH_FLOOR * classes[frames, top])
+        home = by_octave[frames, :, root].argmax(axis=1)
+        moved = np.where(folds, classes[frames, top], 0)
+        by_octave[frames, home, root] += moved
+        by_octave[frames, :, top] *= ~folds[:, None]
+        classes[frames, root] += moved
+        classes[frames, top] -= moved
+        tried[frames[live], root[live]] = True
+        free[frames[folds], root[folds]] = False
+        free[frames[folds], top[folds]] = False
+    return by_octave.reshape(chroma.shape)
+
+
 def peak_chroma(magnitude, freqs, band_hz, octaves, tuning=0.0, fundamentals=False):
     """Per frame, the weight of each (octave, pitch class) in band_hz, as
     (frames, octaves × 12), and the band's loudest magnitude per frame.
@@ -98,17 +140,20 @@ def peak_chroma(magnitude, freqs, band_hz, octaves, tuning=0.0, fundamentals=Fal
     return chroma, loudest
 
 
-def chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves, tuning=0.0):
+def chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves, tuning=0.0, roots=False):
     """Per column of the plot, each pitch class's share of band_hz and the
     octave that carries most of it, both as (12, columns).
 
-    `peak_chroma`, smoothed over NOTE_WINDOW_S. A column is all zeros where the
+    `peak_chroma`, its fifths folded onto their roots where roots asks
+    (`fold_fifths`), smoothed over NOTE_WINDOW_S. A column is all zeros where the
     band's loudest peak stays under QUIET_DB, since a band that is all but
     silent still has peaks, of noise or bleed. A cell's octave is the one with
     the most weight over OCTAVE_WINDOW_S, never a mean, which can land on an
     octave nobody played.
     """
     chroma, loudest = peak_chroma(magnitude, freqs, band_hz, octaves, tuning)
+    if roots:
+        chroma = fold_fifths(chroma)
     count = octaves[1] - octaves[0] + 1
     column = frame_columns(len(chroma), step, duration, columns)
     per_column = np.zeros((columns, count * 12))

@@ -1,7 +1,6 @@
 ---
 title: 'Ностальгия'
 artist: 'Полуживые'
-wip: true
 en:
   title: { translation: 'Nostalgia' }
   hook: '“Nostalgia” as a title belongs not to the father but to the son.'

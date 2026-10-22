@@ -1,7 +1,6 @@
 ---
 title: 'Однажды в студёную зимнюю пору…'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'mu-icok-new'

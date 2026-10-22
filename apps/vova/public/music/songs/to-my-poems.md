@@ -1,7 +1,6 @@
 ---
 title: 'Моим стихам, написанным так рано…'
 date: 2024-12-20
-status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'stiham'

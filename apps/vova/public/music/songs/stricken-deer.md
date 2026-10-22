@@ -1,7 +1,6 @@
 ---
 title: 'Why Let the Stricken Deer Go Weep'
 date: 2025-07-16
-status: done
 language: en
 project: ['Полуживые']
 repo: 'deer'

@@ -1,7 +1,6 @@
 ---
 title: 'Наш панк-рок'
 date: 2024-01
-status: done
 language: ru
 project: ['за/обложкой']
 repo: our-punk-rock

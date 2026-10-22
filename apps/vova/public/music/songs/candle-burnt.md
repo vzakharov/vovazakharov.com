@@ -1,7 +1,6 @@
 ---
 title: 'Свеча горела'
 date: 2024-10-08
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'candle-burnt'

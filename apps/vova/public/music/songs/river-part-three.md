@@ -1,7 +1,6 @@
 ---
 title: 'Река. Часть третья'
 date: 2024-09-20
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'otter'

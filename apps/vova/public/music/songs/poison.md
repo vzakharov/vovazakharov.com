@@ -1,7 +1,6 @@
 ---
 title: 'Яд'
 date: 2026-02-09
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'yad'

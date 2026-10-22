@@ -18,6 +18,7 @@ export {
   FEATURED_CASE_STUDY_ROUTE,
   localizedRoute,
   PUBLIC_DIR,
+  resolveAuthoredUrl,
   type Routed,
   type Slugged,
   type Variant,

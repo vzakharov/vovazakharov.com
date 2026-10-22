@@ -1,7 +1,6 @@
 ---
 title: 'O, my offence is rank…'
 date: 2024-09-23
-status: done
 language: en
 project: ['Полуживые', 'GENERATED']
 repo: 'rank'

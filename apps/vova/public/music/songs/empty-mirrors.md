@@ -1,7 +1,6 @@
 ---
 title: 'Empty Mirrors'
 date: 2024-10-18
-status: done
 language: en
 project: ['GENERATED']
 repo: 'mirrors'
