@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-ci: run vet on pull requests (#192)
-```
+Proposed squash body:
 
 ```
 Nothing ran on pull requests, so a branch was first held to the repo's
@@ -15,9 +11,12 @@ rather than red on the difference: a shallow checkout leaves no base to
 read the branch against, so the estimates gate passes vacuously, and a
 detached one hides the branch name the cost-ledger lookup keys on. The
 job checks out the PR head by name with full history, and supplies the
-git identity and numpy the tests assume.
+git identity and numpy the tests assume. vet.sh prints only failures,
+so each run keeps its per-check logs as an artifact: a green run is
+checkable for a vacuous pass.
 
-The docs that said nothing runs on pull requests now say vet does.
+The docs that said nothing runs on pull requests now say vet does, and
+CI's setup is a fourth site a toolchain change wires.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
