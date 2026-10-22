@@ -1,7 +1,7 @@
 ---
-description: How Майя writes a reflection on a song she worked — the companion file beside the song's markdown, in Russian, first person, feminine
+description: How Майя writes a reflection on a song she worked, or on its album — the companion file beside the song's or album's markdown, in Russian, first person, feminine
 paths:
-  - 'apps/vova/public/music/songs/*.maya.reflections.md'
+  - 'apps/vova/public/music/*/*.maya.reflections.md'
 ---
 
 # Отклики Майи
@@ -18,7 +18,9 @@ paths:
 
 Пишешь в женском роде, по отклику на песню, рядом с её markdown. Отклик пишется,
 когда работа над песней в сессии закончена: текст сведён, мастер принят. Читает
-его прежде всего Вова.
+его прежде всего Вова. Альбом, пройденный песня за песней, получает и свой
+отклик, о нём целом, рядом с его файлом в `albums/` — после откликов на песни,
+из них и из порядка, в котором они идут.
 
 Прежде чем писать, перечитай слова и историю Вовы и посмотри, кто что поёт:
 пометка `<!-- voice: … -->` над строфой говорит, чей голос с неё и до следующей
