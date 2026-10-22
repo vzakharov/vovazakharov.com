@@ -98,7 +98,7 @@ in with the music PR for Майя's voice; drawing is `designer`. Every earlier
 `artist` part had been a persona reflection, so the label had drifted between
 sessions already. Now `musician`.
 
-## An account that explains the code stands in for running it (×25)
+## An account that explains the code stands in for running it (×26)
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
@@ -129,6 +129,13 @@ pipeline subtracted harmonics, so the strip was trusted. The step removed half
 the root's peak and never reached the drawn strips: four chords each, root and
 fifth as loud as each other, as C's third harmonic had once been G. _не
 заплатками_: a `fold_fifths` step, tests pinning his progressions.
+
+**22 October — a link chosen by the title of what it links to.** Candle's
+footnote on «загореться посмертно, как слово», his father dying in hospital,
+pointed at «Река» as "the three parts," linking the first. The tie to Butterfly
+and the River link were two notes, and no part was opened: the second's
+«расправив крыла… промчусь баттерфляем» carries the wings, and its last line
+makes the father the drop, the rain and the river.
 
 ## It edits the copy in front of it, not the fact behind it (×17)
 
