@@ -1,0 +1,52 @@
+name: Vet
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# An agent pushes after every unit of work, so only the newest head is worth
+# finishing.
+concurrency:
+  group: vet-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  vet:
+    runs-on: ubuntu-latest
+    steps:
+      # The branch by name, with full history, rather than the default shallow
+      # merge commit: the checks that read the branch against `origin/main` —
+      # the squash and CLAUDE.md size caps, the song gate, the estimates gate —
+      # pass quietly with no base to read, and the estimates gate finds a
+      # finalized branch's rows on `cost-ledger` by the branch's name.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      # The runner's system Python refuses a pip install (PEP 668), and
+      # scripts/song-intake/test_song_facts.py needs numpy.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install numpy
+        run: python -m pip install numpy
+
+      # The tests that build throwaway repositories commit into them.
+      - name: Set a git identity
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Vet
+        run: ./scripts/vet.sh
