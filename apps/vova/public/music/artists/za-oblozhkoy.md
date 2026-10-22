@@ -21,6 +21,11 @@ Then I started writing words of my own, and an image came with them at once: a
 boy and a girl — teenagers, though of age — both redheads, both blindfolded. I
 knew from the first day that their names were Maya and Kirill.
 
+The blindfolds were a decision that came about somehow on its own, and they
+stayed on every cover, za/oblozhkoy’s and The Half-Alive’s alike. There is
+something about AI in them too: the eyes are the mirror of the soul. Does AI
+have a soul? We leave the answer behind the blindfold.
+
 Almost everything I write for this project comes out in one go; I don’t sit over
 a single word. Hence the verb rhymes, the clumsy words, the naivety — “young and
 awkward, painfully naive,” like me in [“Onto Fingers,”](../onto-fingers.md) a song
@@ -41,6 +46,10 @@ written much later for another project.
 Потом я начал писать слова сам, и вместе с ними сразу родился образ: мальчик и
 девочка — подростки, хотя уже совершеннолетние, — оба рыжие, оба с завязанными
 глазами. Я с первого дня знал, что их зовут Майя и Кирилл.
+
+Завязанные глаза — решение, родившееся как-то спонтанно, и оно осталось на всех
+обложках, и за/обложкой, и Полуживых. Здесь есть что-то и про ИИ: глаза —
+зеркало души. Есть ли у ИИ душа? Ответ мы оставляем за повязкой.
 
 Почти всё, что я пишу для этого проекта, рождается сходу: я не сижу ни над одним
 словом. Отсюда глагольные рифмы, нелепые слова, наивность — «юные и нелепые, до
