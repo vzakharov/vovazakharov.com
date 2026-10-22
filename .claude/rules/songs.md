@@ -211,10 +211,9 @@ changes how a draft of one is written and what a review of it means.
   facts in his first person, written down: the fillers, hedges and asides to the
   transcriber go («скажем», «наверное», «так сказать», «ты, Клод, …»), and with
   them a doubt he voiced about a fact, which keeps the fact off the page rather
-  than hedging it there — unless he asks for the hedge. A general note in a
-  dictation — the covers, the platforms, the tooling — stays in the dictation
-  unless he places it on a page; it is kept for later, not spread over every
-  story it touches.
+  than hedging it there. A general note in a dictation — the covers, the
+  platforms, the tooling — stays in the dictation; it is kept for later, not
+  spread over every story it touches.
 - **A change to a song's story or words is checked against its reflection.**
   Майя's `<slug>.maya.reflections.md` may quote or answer what changed; where it
   does, she adds a closing paragraph per `persona-reflections.md`, never a
