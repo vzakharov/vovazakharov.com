@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 168,
+    "inputTokens": 184,
     "cacheWrite5mTokens": 103637,
-    "cacheWrite1hTokens": 166401,
-    "cacheReadTokens": 13141346,
-    "outputTokens": 46541,
-    "thinkingTokens": 12919,
-    "responses": 84,
-    "costUsd": 5.4091542
+    "cacheWrite1hTokens": 184851,
+    "cacheReadTokens": 15027891,
+    "outputTokens": 55641,
+    "thinkingTokens": 15890,
+    "responses": 92,
+    "costUsd": 6.116127200000001
   },
   "estimate": {
-    "at": "2026-10-22T07:27:29.306Z",
+    "at": "2026-10-22T08:16:05.507Z",
     "parts": [
       {
         "hours": 3.0,
@@ -23,32 +23,39 @@
         "grade": "middle",
         "role": "developer",
         "comment": "the config, script and docs edits are routine once the cause is settled"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a PR workflow that must reproduce vet on a fresh runner, and a convention change across CLAUDE.md, stack.md and the finalize loop, need someone who knows both"
       }
     ],
     "comment": null
   },
   "sessionId": "73c4e7e5-b9c6-5e6a-8bcd-c148ce09d6d3",
-  "branch": "vet-heap-and-ci",
+  "branch": "ci-on-prs",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/task `./scripts/vet.sh` больше не проходит на дефолтной куче Node: шаг `eslint` падает с «JavaScript heap out of memory». Замер в сессии PR #186: eslint на это…",
   "prs": [
-    189
+    189,
+    190
   ],
   "url": "https://claude.ai/code/session_01MV2paAW5Ah41A4aDPJvxkN",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-22T07:12:39.158Z",
-  "lastResponseAt": "2026-10-22T08:13:17.972Z",
+  "lastResponseAt": "2026-10-22T08:16:37.131Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": 1.9013684000000004,
   "ownTurns": {
-    "inputTokens": 138,
+    "inputTokens": 154,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 166401,
-    "cacheReadTokens": 12011238,
-    "outputTokens": 40056,
-    "thinkingTokens": 11007,
-    "responses": 69,
-    "costUsd": 4.535127599999999
+    "cacheWrite1hTokens": 184851,
+    "cacheReadTokens": 13897783,
+    "outputTokens": 49156,
+    "thinkingTokens": 13978,
+    "responses": 77,
+    "costUsd": 5.2421006000000006
   },
   "subagents": {
     "inputTokens": 30,
@@ -62,14 +69,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 168,
+      "inputTokens": 184,
       "cacheWrite5mTokens": 103637,
-      "cacheWrite1hTokens": 166401,
-      "cacheReadTokens": 13141346,
-      "outputTokens": 46541,
-      "thinkingTokens": 12919,
-      "responses": 84,
-      "costUsd": 5.4091542
+      "cacheWrite1hTokens": 184851,
+      "cacheReadTokens": 15027891,
+      "outputTokens": 55641,
+      "thinkingTokens": 15890,
+      "responses": 92,
+      "costUsd": 6.116127200000001
     }
   },
   "warnings": [],
