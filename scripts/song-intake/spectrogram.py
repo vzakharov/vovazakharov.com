@@ -47,8 +47,9 @@ Under that, three chromagram strips: the melody off the vocals stem, the
 harmony off the other stem, and the bass off the bass stem under C4. Twelve
 rows each, C at the bottom, each named as the song's key spells it, a row as
 bright as its pitch class's share of the strip, harmonics voting with their
-fundamentals. So the melody strip carries
-the tune, the bass strip steps with the bass line, and a chord shows as
+fundamentals. The bass strip folds a fifth sounding with its root onto the
+root (`fold_fifths`), so a chord's bass is one row, not two. So the melody
+strip carries the tune, the bass strip steps with the roots, and a chord shows as
 several bright rows at once in the harmony strip. A pitch class is read off
 its labelled row; a row's hue is the octave that carries it, keyed beside each
 strip, one hue per octave and the same in every strip — C2 red, C3 orange, C4
@@ -290,7 +291,9 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
     names = note_names(tonic, mode)
     for (strip, key), (label, track, band_hz, octaves) in zip(strips, STRIPS):
         samples, (stem_magnitude, *_) = views[track]
-        shares, octave = chroma_shares(stem_magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
+        shares, octave = chroma_shares(
+            stem_magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning, roots=label == "bass",
+        )
         # Silence has spectral peaks too, of noise; it stays dark however clear they look.
         shares[:, envelope(samples, columns)[1] < QUIET] = 0
         strip.imshow(

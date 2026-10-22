@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from audio import SR, aligned, stft_magnitude
 from drums import LANES, drum_hits
 from harmony import beat_chords, folded, fold_loop, song_key
-from pitch import NOTE_BAND_HZ, peak_chroma, tuning_cents
+from pitch import NOTE_BAND_HZ, fold_fifths, peak_chroma, tuning_cents
 from rhythm import beat_times, downbeats, onset_envelope, tempo_bpm
 from song_facts import Facts, Section, sidecar
 
@@ -107,6 +107,35 @@ class Harmony(unittest.TestCase):
         chroma, _ = peak_chroma(magnitude, freqs, NOTE_BAND_HZ, (2, 6), fundamentals=True)
         classes = chroma.reshape(len(chroma), -1, 12).sum(axis=(0, 1))
         self.assertGreater(classes[0], 2 * (classes[7] + classes[4]))
+
+    def bass_roots(self, chords):
+        """Per chord, the class a bass playing its root and fifth, the fifth
+        the louder, folds to — midi roots, two seconds each."""
+        x = np.concatenate([tone(root, 2, level=0.15) + tone(root + 7, 2) for root in chords])
+        magnitude, freqs, _ = stft_magnitude(x, NFFT, HOP)
+        chroma, _ = peak_chroma(magnitude, freqs, (NOTE_BAND_HZ[0], 254), (2, 3))
+        folded = fold_fifths(chroma).reshape(len(chroma), -1, 12).sum(axis=1)
+        per_chord = np.array_split(folded, len(chords))
+        return [int(part.sum(axis=0).argmax()) for part in per_chord]
+
+    def test_fifths_fold_onto_roots(self):
+        # Butterfly as Вова counts it, in A minor: Am C F E, a root and a louder
+        # fifth each, which unfolded read as two alternating notes.
+        self.assertEqual(self.bass_roots([45, 48, 41, 40]), [9, 0, 5, 4])
+        # Candle: F G Em Am.
+        self.assertEqual(self.bass_roots([41, 43, 40, 45]), [5, 7, 4, 9])
+
+    def test_a_lone_fifth_stays(self):
+        chroma = np.zeros((1, 24))
+        chroma[0, 7] = 1.0
+        chroma[0, 0] = 0.1
+        self.assertEqual(fold_fifths(chroma)[0, 7], 1.0)
+
+    def test_the_stronger_pair_wins_a_chain(self):
+        # C, G and D at once: G is C's fifth and D's root; C–G is louder.
+        chroma = np.zeros((1, 12))
+        chroma[0, [0, 7, 2]] = [1.0, 1.0, 0.5]
+        self.assertEqual(fold_fifths(chroma)[0, [0, 7, 2]].tolist(), [2.0, 0.0, 0.5])
 
     def test_triads(self):
         for notes, chord in (((48, 52, 55), (0, "")), ((45, 48, 52), (9, "m"))):
