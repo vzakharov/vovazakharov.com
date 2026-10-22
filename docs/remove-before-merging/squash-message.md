@@ -1,28 +1,28 @@
 Proposed squash body:
 
 ```
-A vet run is four static-export builds and some thirty checks on the
-session's own container, a 4-core machine. A new Vet workflow runs it
-on GitHub's runners instead, dispatched by hand in place of a local
-./scripts/vet.sh, split across parallel jobs: about 2.5 minutes
-against 3.5 for the same run in one job. Nothing triggers it on its
-own; nothing runs on pull requests.
+A vet run is four static-export builds and some thirty checks, and in
+the session's own 4-core container it took about 4.5 minutes. The bare
+./scripts/vet.sh now dispatches a new Vet workflow that runs it split
+across parallel GitHub jobs, and waits for it: about 2 minutes. It
+vets the pushed head and refuses a tree that differs from it; nothing
+triggers the workflow on its own, and the one-machine run is gone.
 
-vet.sh gains phases that together run exactly what the bare script
-does, so the workflow names phases and the checks keep one list: one
-site's build, an ESLint shard, the checks no build feeds, and those
-that read a build. The four builds start beside the source checks;
-ESLint, one TypeScript program over the whole repo, shards by file
-beside the build-reading checks once route types and exports arrive
-as artifacts. The heap ceiling moves to lint:files, which both
-lint:check and the shards call.
+vet.sh gains phases, one job each and all starting at once, so the
+workflow names phases and the checks keep one list: one site's build,
+an ESLint shard, the type check, the checks no build feeds, and those
+over the exports, which wait on the builds' uploaded artifacts rather
+than on GitHub marking the jobs done. The lint shards and the type
+check write route types with next typegen instead of waiting on a
+build, safe because no runner builds and checks types in one tree.
 
-A runner is not the dev container, and several checks go quiet rather
-than red on the difference: a shallow checkout leaves no base, so the
-estimates gate passes vacuously. The source job fetches full history
-and supplies the git identity and numpy the tests assume, and both
-check jobs keep their per-check logs, since vet prints only failures.
-CI's setup is now a site a toolchain change wires.
+The checks that read the branch's history or the cost ledger run on
+the caller's machine while the workflow runs: a one-commit checkout
+would pass them vacuously, and a full one costs more than they take.
+The runner supplies the git identity and numpy the tests assume, and
+keeps per-check logs, since vet prints only failures. /finalize and
+/sync-branch push before vetting, and CI's setup is now a fourth site
+a toolchain change wires.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
