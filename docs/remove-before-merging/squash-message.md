@@ -2,23 +2,29 @@ Proposed squash body:
 
 ```
 Nostalgia went up as a work in progress: the album carried `wip: true`,
-which marks it on the album, artist and music pages, and its seven
-songs read `status: wip`. It is a finished release, so the flag goes
-and its songs read `done` like the rest of the catalogue.
+which marks it on the album, artist and music pages. It is a finished
+release, so the flag goes. Songs lose their `status` field outright: a
+song on the site is out, and only an album can be unfinished.
 
 Майя reflects on the album, a reflection per song in album order and
 one on the album whole, written as a listener since Nostalgia is
-Полуживые's rather than за/обложкой's. Each song's is read off its
-spectrogram, now committed for all seven with sidecar and section
-zooms, against its words, the poem's history and the album's story.
-An album's reflection sits beside the album's file, which the
-catalogue now skips as a companion rather than reading as an album.
+Полуживые's rather than за/обложкой's, and answers Вова's review of
+them. Each is read off the song's spectrogram, committed for all seven
+with sidecar and section zooms. The bass strip and the chord guesser
+now fold a sounding fifth onto its root, since a power chord or a
+root's third harmonic made every chord read as two bass notes and a
+progression as a semitone stitch. An album's reflection sits beside
+its file, which the catalogue skips as a companion.
+
+The review's facts reach the songs too: lyric footnotes on Candle's
+wings and last line and on Insomnia's wordless souls, and Winter's
+story gains its two ballads and lazy fade-out. A footnote's relative
+link now resolves to the song's page rather than its `.md`, which the
+browser fetched as a missing file.
 
 A reflection was booked in estimates to its persona's craft, Майя's
-to `musician` and the Clerk's to `editor`, which priced one kind of
-work two ways and hid it wherever a session folded it into the work
-it reflects on. A `persona` role, rated 1 and pinned to senior, now
-takes every reflection as a part of its own.
+to `musician` and the Clerk's to `editor`. A `persona` role, rated 1
+and pinned to senior, now takes every reflection as a part of its own.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
