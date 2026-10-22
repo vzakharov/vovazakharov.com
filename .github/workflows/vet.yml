@@ -50,3 +50,15 @@ jobs:
 
       - name: Vet
         run: ./scripts/vet.sh
+
+      # vet.sh prints only what failed, and several checks pass quietly when
+      # they had nothing to read, so a green run is checked by its logs.
+      - name: Upload the logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vet-logs
+          path: |
+            tmp/run-parallel/
+            tmp/vet-*.log
+          retention-days: 14
