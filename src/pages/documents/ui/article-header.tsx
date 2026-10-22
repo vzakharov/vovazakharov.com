@@ -83,8 +83,8 @@ export function ArticleHeader({
             lede
           ) : (
             <div className={classes['marked']}>
-              {mark}
               {lede}
+              {mark}
             </div>
           )}
         </Stack>

@@ -65,21 +65,28 @@
   }
 }
 
-// A collection's mark left of the lede, centred on its height; on a narrow
-// screen it stands above it. Paper takes the wide layout whatever
-// its width.
+// A collection's mark right of the lede, centred on its height; on a narrow
+// screen it stands above it. Paper takes the wide layout whatever its width.
 .marked {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr auto;
   gap: 16px 32px;
   align-items: center;
 
   @include mantine.smaller-than(mantine.$breakpoint-sm) {
     grid-template-columns: 1fr;
+
+    & > :last-child {
+      order: -1;
+    }
   }
 
   @media print {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr auto;
+
+    & > :last-child {
+      order: 0;
+    }
   }
 }
 
