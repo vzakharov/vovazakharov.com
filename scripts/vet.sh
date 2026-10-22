@@ -3,11 +3,32 @@
 #
 # See `.claude/rules/stack.md` for the contract and for why this list is what it
 # is.
+#
+# Bare, it runs everything. The phases split the same run across machines —
+# `.github/workflows/vet.yml` runs each in a job of its own — and together they
+# cover exactly what the bare run does:
+#
+#   scripts/vet.sh build <site>   one site's build
+#   scripts/vet.sh lint <k>/<n>   ESLint over the k-th of n shards of the files
+#   scripts/vet.sh checks         everything else, over builds already on disk
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
 
+usage() {
+  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | checks]\n' >&2
+  exit 2
+}
+
+phase="${1:-all}"
+case "$phase" in
+  all | checks) [ "$#" -le 1 ] || usage ;;
+  build | lint) [ "$#" -eq 2 ] || usage ;;
+  *) usage ;;
+esac
+
 status=0
+mkdir -p tmp
 
 # Runs alone, and first. `next build` regenerates `.next/types/`, which
 # tsconfig.json includes, so overlapping it with the type check makes tsc read a
@@ -22,12 +43,42 @@ status=0
 # Kept out of the fan-out below rather than run as a batch of its own, because
 # run-parallel.sh wipes its log directory at startup — a build log written there
 # would be gone by the time the second batch finished citing it.
-mkdir -p tmp
-if ! pnpm build >tmp/vet-build.log 2>&1; then
-  sed 's/^/[build] /' tmp/vet-build.log
-  printf '[build] full log: tmp/vet-build.log\n'
-  status=1
+build() {
+  if ! pnpm "$1" >tmp/vet-build.log 2>&1; then
+    sed 's/^/[build] /' tmp/vet-build.log
+    printf '[build] full log: tmp/vet-build.log\n'
+    status=1
+  fi
+}
+
+# Each file goes to one shard by its place in the sorted list, so the shards
+# together are every file ESLint would reach from `.`, whatever it then ignores.
+# Every shard still builds the whole TypeScript program, which is what the
+# type-aware rules read: a shard saves rule time, not program time.
+lint_shard() {
+  local k="${1%/*}" n="${1#*/}"
+  [[ "$k" =~ ^[0-9]+$ && "$n" =~ ^[0-9]+$ ]] && ((k >= 1 && k <= n)) || usage
+  local files
+  mapfile -t files < <(
+    {
+      git ls-files
+      git ls-files --others --exclude-standard
+    } | grep -E '\.(js|jsx|mjs|cjs|ts|tsx|mts|cts)$' | sort -u |
+      awk -v k="$k" -v n="$n" '(NR - 1) % n == k - 1'
+  )
+  pnpm -s lint:files "${files[@]}" || status=1
+}
+
+case "$phase" in
+  build) build "build:$2" ;;
+  lint) lint_shard "$2" ;;
+esac
+if [[ "$phase" == build || "$phase" == lint ]]; then
+  ((status)) && exit 1
+  exit 0
 fi
+
+[ "$phase" = checks ] || build build
 
 # The check that repairs what it finds, and reports by failing: the generator
 # exits non-zero exactly when it had to write, so a stale file is both fixed
@@ -68,38 +119,41 @@ fi
 # `apps/*/public/`.
 # The last eight read the agent infrastructure itself and nothing else here
 # touches it.
-scripts/run-parallel.sh \
-  typecheck='pnpm typecheck' \
-  eslint='pnpm lint:check' \
-  format='pnpm format:check' \
-  stylelint='pnpm lint:css' \
-  fsd='pnpm lint:fsd' \
-  type-overlap='pnpm type-overlap' \
-  knip='pnpm knip' \
-  mantine-styles='pnpm check:mantine-styles' \
-  i18n-payload='pnpm check:i18n-payload' \
-  prose-quotes='pnpm check:prose-quotes' \
-  songs='scripts/vet-songs.sh' \
-  og-vova='pnpm content:og:vova --check' \
-  og-bible='pnpm content:og:bible --check' \
-  og-basilisk='pnpm content:og:basilisk --check' \
-  music-masters='pnpm music:masters check' \
-  cv-pages='pnpm content:pdf:vova --cv-pages --from-out' \
-  test='scripts/vet-test.sh' \
-  hearing='python3 scripts/lib/test_hearing.py' \
-  song-facts='python3 scripts/song-intake/test_song_facts.py' \
-  squash='scripts/check-squash-message.sh' \
-  notes='scripts/check-notes-length.sh' \
-  skills='scripts/check-skill-catalog.sh' \
-  tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh' \
-  staged='scripts/staged.sh check' \
-  claude-md-size='scripts/check-claude-md-size.sh' \
-  costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done' \
-  estimates='python3 .claude/costs/check_estimates.py' \
-  context-budget='python3 .claude/context-budget/test_context_budget.py' \
-  cold-cache='python3 .claude/cold-cache/test_cold_cache.py' \
-  keepalive='python3 .claude/keepalive/test_keepalive.py' \
-  hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done' || status=1
+checks=(
+  typecheck='pnpm typecheck'
+  format='pnpm format:check'
+  stylelint='pnpm lint:css'
+  fsd='pnpm lint:fsd'
+  type-overlap='pnpm type-overlap'
+  knip='pnpm knip'
+  mantine-styles='pnpm check:mantine-styles'
+  i18n-payload='pnpm check:i18n-payload'
+  prose-quotes='pnpm check:prose-quotes'
+  songs='scripts/vet-songs.sh'
+  og-vova='pnpm content:og:vova --check'
+  og-bible='pnpm content:og:bible --check'
+  og-basilisk='pnpm content:og:basilisk --check'
+  music-masters='pnpm music:masters check'
+  cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
+  test='scripts/vet-test.sh'
+  hearing='python3 scripts/lib/test_hearing.py'
+  song-facts='python3 scripts/song-intake/test_song_facts.py'
+  squash='scripts/check-squash-message.sh'
+  notes='scripts/check-notes-length.sh'
+  skills='scripts/check-skill-catalog.sh'
+  tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
+  staged='scripts/staged.sh check'
+  claude-md-size='scripts/check-claude-md-size.sh'
+  costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done'
+  estimates='python3 .claude/costs/check_estimates.py'
+  context-budget='python3 .claude/context-budget/test_context_budget.py'
+  cold-cache='python3 .claude/cold-cache/test_cold_cache.py'
+  keepalive='python3 .claude/keepalive/test_keepalive.py'
+  hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
+)
+# The phases leave ESLint to the lint shards.
+[ "$phase" = checks ] || checks+=(eslint='pnpm lint:check')
+scripts/run-parallel.sh "${checks[@]}" || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2
