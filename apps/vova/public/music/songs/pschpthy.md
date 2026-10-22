@@ -4,9 +4,10 @@ date: 2024-10-29
 language: en
 project: ['GENERATED']
 repo: 'psch'
-seconds: 282
-mp3Bytes: 11346715
+seconds: 276
+mp3Bytes: 11124151
 explicit: false
+segue: true
 album: pschpthy
 track: 7
 ru:
@@ -14,9 +15,7 @@ ru:
     translation: 'Психопатия'
 ---
 
-<!-- For Vova to check: Master is the checklist's guess psch.flac; the alternatives are psch_1.flac and the album repo's 7_psch.flac (lyrics.md's Suno clip is «psch_3 (final)»). -->
-
-<!-- Scaffolded from https://github.com/vovas-music/psch — psch.flac,
+<!-- Scaffolded from https://github.com/vovas-music/psch — psch_1.flac,
      44.1 kHz / 16-bit / stereo.
      Replace this with the story, told once per language under a "lang:en" and
      a "lang:ru" marker, and put the words under "lyrics:" plus the language
