@@ -1,8 +1,8 @@
 name: Vet
 
-# The pre-merge signal: scripts/vet.sh, unchanged, on one known machine. A draft
-# runs nothing — plans and work in flight live there, and a PR leaves draft at
-# /finalize, the point vet has always run at.
+# The pre-merge signal: scripts/vet.sh on one known machine. A draft runs
+# nothing — plans and work in flight live there, and a PR leaves draft at
+# /finalize, which waits on this run.
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -10,14 +10,13 @@ on:
 permissions:
   contents: read
 
-# A newer push supersedes the run in flight.
 concurrency:
   group: vet-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
-# One job rather than a build per site feeding sharded checks: measured side by
-# side, sharding saved under a minute on average and added six jobs, each
-# paying a checkout whose time varies by minutes.
+# One job rather than a build per site feeding sharded checks: sharding saved
+# under a minute on average and added six jobs, each paying a checkout whose
+# time varies by minutes (#190).
 jobs:
   vet:
     if: ${{ !github.event.pull_request.draft }}

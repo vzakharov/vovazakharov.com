@@ -60,10 +60,9 @@ repo (`.github/workflows/` triggers, or `gh pr checks` on an existing PR).
   end state; do **not** push an empty commit to "relaunch CI".
 - **If a workflow runs `./scripts/vet.sh` on PRs**, that run _is_ the vet: step
   1 is skipped, step 2 calls `/sync-branch no vet`, and step 4's watched run
-  (`@.claude/skills/watch-ci/SKILL.md`) is the verification step 7 attests to.
-  Running it locally first would be the same script on the same commit twice,
-  the local copy being the slower one and the one whose result depends on the
-  machine.
+  (`@.claude/skills/watch-ci/SKILL.md`) is the verification step 7 attests to. A
+  local run first would vet the same commit twice, the extra copy being the
+  slower and machine-dependent one.
 - **If a workflow runs other checks on PRs**, the vet run still happens here —
   it catches what that workflow does not before a reviewer sees red — and step 4
   also means watching that run to green, and step 7 attests to both.
