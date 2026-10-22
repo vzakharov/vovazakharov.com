@@ -21,14 +21,17 @@ branch of the skill already exists and only starts applying.
 
 ## Approach
 
+Both shapes get built and run side by side on this PR, and the faster one stays;
+the other is deleted before merge, its numbers kept in the PR body.
+
 1. **`.github/workflows/vet.yml`**, one job that runs `./scripts/vet.sh`
    unchanged:
    - `on: pull_request` with
      `types: [opened, synchronize, reopened, ready_for_review]`, and the job
      `if: ${{ !github.event.pull_request.draft }}` — drafts are where plans and
-     work in flight live, and a run per push there is noise; the run starts when
-     `/finalize` Step 4 flips the PR to ready, which is exactly where that step
-     starts watching.
+     work in flight live, and a run per push there is noise. A PR comes out of
+     draft at `/finalize`, the point where vet has always run, and its Step 4 —
+     the flip to ready — is already where it starts watching CI.
    - `concurrency: { group: vet-${{ github.event.pull_request.number }}, cancel-in-progress: true }`
      — a newer push supersedes the run, which is also what `/watch-ci`'s
      `[no ci]` mid-run commits rely on.
@@ -38,13 +41,33 @@ branch of the skill already exists and only starts applying.
    - `./.github/actions/setup-toolchain`, the composite every lane already uses,
      so the pins stay stated once.
    - `permissions: contents: read`, `timeout-minutes: 30`.
-2. **Prove it on this PR before relying on it.** The workflow runs on its own PR
+2. **`.github/workflows/vet-matrix.yml`**, the sharded shape, same triggers,
+   concurrency group `vet-matrix-<n>`:
+   - `scripts/vet.sh` learns two flags: `--skip-build` (the builds are
+     downloaded rather than run; the codegen still runs, being cheap) and
+     `--only <label,…>` / `--except <label,…>`, filtering `run-parallel.sh`'s
+     entries by label and failing on a label it does not know.
+   - A `build` job per site (matrix `vova`, `lsa`, `bible`, `basilisk`) runs
+     `pnpm build:<site>` and uploads `apps/<site>/out` and
+     `apps/<site>/.next/types` as one artifact.
+   - A `checks` job per group, `needs: build`, downloads all four and runs
+     `vet.sh --skip-build` with its group: `--only eslint` (the long pole),
+     `--only typecheck,knip,type-overlap`, and a last group
+     `--except <every label above>`. The last group is what keeps a check added
+     later from being skipped — it falls into "everything else" unless someone
+     moves it out.
+3. **Compare** on the same commits: wall-clock from push to the last job's end,
+   over at least three pushes, in a table in the PR body. Keep the faster one
+   unless the margin is under a minute, in which case keep the single job (it is
+   one file and no flags). Delete the loser, and the `vet.sh` flags too if the
+   single job wins.
+4. **Prove it on this PR before relying on it.** The workflow runs on its own PR
    once that is ready; fix what a fresh runner surfaces that this container
    hides (likely: the browser `cv-pages` needs — the deploy lanes already print
    PDFs on `ubuntu-latest`, so it should be there — and Python for the infra
    tests). Confirm a red check by pushing a deliberate lint error on a scratch
    commit, then reverting it in the next commit.
-3. **Conventions that say nothing runs on a PR**, changed with it:
+5. **Conventions that say nothing runs on a PR**, changed with it:
    - CLAUDE.md § "Deployment", last paragraph — through
      `scripts/staged.sh stage CLAUDE.md`, since it loads every turn: vet runs on
      every PR out of draft, and a green local vet plus a green run is the
@@ -58,38 +81,37 @@ branch of the skill already exists and only starts applying.
      runs on a PR" line stops applying, which it handles by construction.
    - Search the tree for "nothing runs on" / "no workflow runs" and fix each
      statement that this makes false.
-4. **The subject.** `ci:` is in the deploy gate's publishing set, so the merge
+6. **The subject.** `ci:` is in the deploy gate's publishing set, so the merge
    redeploys every site — the gate's own reason ("a run of it is the only test a
    change to it gets") holds for deploy.yml, and here it costs a rebuild of
    unchanged output. Acceptable; no `chore:` workaround.
 
-## Open questions (the recommendation is already in force above)
+## Decided
 
-1. **One job or a matrix?**
-   - **a (recommended)** One job running `vet.sh` as it is. Locally the whole
-     run is ~5 minutes on 4 cores (2 min of builds, ~2.5 min of checks, eslint
-     the long pole at ~2 min), so sharding saves perhaps 2 minutes. What it
-     costs is a second statement of what vet runs: a matrix needs `vet.sh` split
-     into selectable groups, the four builds as separate jobs uploading
-     `apps/*/out` and `apps/*/.next/types` as artifacts (eslint and `tsc` both
-     read the generated route types), and `cv-pages` re-pointed at an export it
-     currently finds in the OS temp directory. Every check added later then has
-     two homes to wire.
-   - **b** A matrix: four build jobs, then the checks fanned out over jobs that
-     download the builds. Fastest wall-clock, at the cost above.
-   - **c** One job now, and a matrix only once a run goes past ~10 minutes. Same
-     as (a) with the trigger for revisiting written into `stack.md`.
-2. **Drafts too?** **a (recommended)** Only PRs out of draft, as above. **b**
-   Every push, drafts included — earlier signal, at a run per agent push.
-3. **Required check?** Making `vet` a required status check is a branch
-   protection setting, the operator's, not the repository's to state. The plan
-   leaves it off; say so if you want it, and the report will name the setting.
+- **Single job vs. matrix** is settled by measurement (steps 1–3), not argued:
+  locally vet is ~5 minutes, so sharding may save ~2, against a second place
+  that groups the checks.
+- **Drafts run nothing**; the PR leaves draft at `/finalize`, where vet runs.
+- **No required check.** Branch protection is available here (the repository is
+  public, which GitHub Free allows), but it stays off unless the operator turns
+  it on.
+
+## Open question (the recommendation is in force)
+
+1. **When `/finalize` flips to ready.** **a (recommended)** At its Step 4, as
+   now: two minutes after the local vet, and no edit to a skill this repo syncs
+   from `vzakharov/muthur`. **b** Before Step 1, so the CI run and the local vet
+   overlap — a local edit to `finalize/SKILL.md` that the next muthur sync has
+   to keep.
 
 ## DRY notes
 
-- The workflow calls `./scripts/vet.sh` rather than restating its checks, so the
-  list stays in one place (`stack.md` describes, `vet.sh` runs); option (b)
-  above is rejected chiefly because it would break that.
+- The single job calls `./scripts/vet.sh` rather than restating its checks, so
+  the list stays in one place (`stack.md` describes, `vet.sh` runs). The matrix
+  names groups in YAML, which is the cost being measured; `--except` makes its
+  last group "everything not named", so a new check is never silently skipped.
+  If the matrix wins, `stack.md` says that a check whose cost moves the long
+  pole gets its own group.
 - `setup-toolchain` is reused as-is; no new composite action.
 - No new skill path: `/finalize` and `/watch-ci` already cover a repository with
   CI on PRs.
