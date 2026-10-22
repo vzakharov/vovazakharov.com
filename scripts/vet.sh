@@ -10,8 +10,14 @@
 #
 #   scripts/vet.sh build <site>   one site's build
 #   scripts/vet.sh lint <k>/<n>   ESLint over the k-th of n shards of the files
-#   scripts/vet.sh source         the codegen and the checks no build feeds
-#   scripts/vet.sh built          the checks that read the builds on disk
+#   scripts/vet.sh source         the codegen and the checks no export feeds
+#   scripts/vet.sh built          the checks that read the exports on disk
+#
+# The phases that read route types but no export — `lint` and `source` — write
+# them with `next typegen` instead of waiting on a build. Typegen's types are
+# the build's plus a `cache-life.d.ts`; it is safe only in a tree no build is
+# writing at the same time (`.claude/rules/stack.md`), which is why the bare
+# run never uses it.
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
@@ -70,9 +76,19 @@ lint_shard() {
   pnpm -s lint:files "${files[@]}" || status=1
 }
 
+typegen() {
+  if ! pnpm typegen >tmp/vet-typegen.log 2>&1; then
+    sed 's/^/[typegen] /' tmp/vet-typegen.log
+    printf '[typegen] full log: tmp/vet-typegen.log\n'
+    status=1
+    return 1
+  fi
+}
+
 case "$phase" in
   build) build "build:$2" ;;
-  lint) lint_shard "$2" ;;
+  lint) typegen && lint_shard "$2" ;;
+  source) typegen ;;
 esac
 if [[ "$phase" == build || "$phase" == lint ]]; then
   ((status)) && exit 1
@@ -121,14 +137,14 @@ fi
 # `apps/*/public/`.
 # The last eight read the agent infrastructure itself and nothing else here
 # touches it.
-# The checks that read a build's output — the route types or the exports.
+# The checks that read a build's exports.
 built_checks=(
-  typecheck='pnpm typecheck'
   mantine-styles='pnpm check:mantine-styles'
   i18n-payload='pnpm check:i18n-payload'
   cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
 )
 source_checks=(
+  typecheck='pnpm typecheck'
   format='pnpm format:check'
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'

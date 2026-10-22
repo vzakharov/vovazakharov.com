@@ -2,9 +2,8 @@ name: Vet
 
 # Run by hand on a branch — `gh workflow run vet.yml --ref <branch>` — in place
 # of a local `./scripts/vet.sh`, never on its own. The same run, split across
-# machines by vet.sh's own phases: the four builds side by side with the checks
-# no build feeds, then ESLint in shards beside the checks that read the builds'
-# output.
+# machines by vet.sh's own phases: the four builds, the ESLint shards and the
+# checks over the source all at once, then the checks that read the exports.
 on:
   workflow_dispatch:
 
@@ -33,17 +32,6 @@ jobs:
       - name: Build
         run: ./scripts/vet.sh build ${{ matrix.site }}
 
-      # Two artifacts, because the lint shards need only the generated route
-      # types, a few kilobytes, where the export is tens of megabytes.
-      # `.next` is a hidden directory, which upload-artifact skips unasked.
-      - name: Upload the route types
-        uses: actions/upload-artifact@v4
-        with:
-          name: types-${{ matrix.site }}
-          path: apps/${{ matrix.site }}/.next/types
-          include-hidden-files: true
-          retention-days: 1
-
       - name: Upload the export
         uses: actions/upload-artifact@v4
         with:
@@ -51,9 +39,9 @@ jobs:
           path: apps/${{ matrix.site }}/out
           retention-days: 1
 
+  # Starts with the builds: the route types it reads come from `next typegen`.
   lint:
     runs-on: ubuntu-latest
-    needs: build
     strategy:
       fail-fast: false
       matrix:
@@ -64,15 +52,6 @@ jobs:
 
       - name: Set up the toolchain
         uses: ./.github/actions/setup-toolchain
-
-      - name: Download the route types
-        uses: actions/download-artifact@v4
-        with:
-          pattern: types-*
-          path: tmp/artifacts
-
-      - name: Place the route types
-        run: ./.github/scripts/place-vet-artifacts.sh
 
       - name: ESLint, shard ${{ matrix.shard }}
         run: ./scripts/vet.sh lint ${{ matrix.shard }}
@@ -87,15 +66,16 @@ jobs:
       - name: Set up the toolchain
         uses: ./.github/actions/setup-toolchain
 
-      - name: Download the builds
+      - name: Download the exports
         uses: actions/download-artifact@v4
         with:
+          pattern: out-*
           path: tmp/artifacts
 
-      - name: Place the builds
+      - name: Place the exports
         run: ./.github/scripts/place-vet-artifacts.sh
 
-      - name: Checks over the builds
+      - name: Checks over the exports
         run: ./scripts/vet.sh built
 
       - name: Upload the logs
@@ -106,7 +86,8 @@ jobs:
           path: tmp/run-parallel/
           retention-days: 14
 
-  # Starts with the builds rather than after them: nothing it runs reads one.
+  # Starts with the builds rather than after them: nothing it runs reads an
+  # export, and the type check's route types come from `next typegen`.
   source:
     runs-on: ubuntu-latest
     steps:

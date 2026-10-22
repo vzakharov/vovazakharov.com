@@ -76,11 +76,13 @@ Nineteen things about that list are deliberate:
   import. **Pre-generating with `next typegen` does not fix this and makes it
   worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so
   instead of racing occasionally the type check fails every time on a file it
-  has already globbed. The codegen is out of the fan-out for the mirror-image
-  reason: it _writes_ files that `lint:css`, `format:check`, `typecheck` and
-  `knip` glob. The rest touch nothing each other reads, so
-  `scripts/run-parallel.sh` fans them out. A check added there has to be
-  independent of whatever it runs beside.
+  has already globbed. A tree no build touches is the one place typegen is safe,
+  which is how `vet.sh`'s `lint` and `source` phases get route types on a runner
+  of their own. The codegen is out of the fan-out for the mirror-image reason:
+  it _writes_ files that `lint:css`, `format:check`, `typecheck` and `knip`
+  glob. The rest touch nothing each other reads, so `scripts/run-parallel.sh`
+  fans them out. A check added there has to be independent of whatever it runs
+  beside.
 - **Only failures are printed.** `run-parallel.sh` buffers each check under
   `tmp/run-parallel/` and replays just the ones that failed, prefixed by label
   and ending in the path to the verbatim log; the build does the same through

@@ -15,6 +15,7 @@
     "build:lsa": "scripts/in-site.sh lsa next build",
     "build:bible": "scripts/in-site.sh bible next build",
     "build:basilisk": "scripts/in-site.sh basilisk next build",
+    "typegen": "for site in vova lsa bible basilisk; do scripts/in-site.sh $site next typegen || exit 1; done",
     "typecheck": "tsc --noEmit",
     "test": "scripts/test-changed.sh",
     "test:all": "scripts/vet-test.sh",
