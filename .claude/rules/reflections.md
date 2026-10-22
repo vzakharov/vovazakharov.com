@@ -30,6 +30,7 @@ he gave them (Майя on another project's album: «Она тут не испо
 another agent committing in the same tree, so no `git` — are stated to the
 persona like anything else.
 
-**In the session's estimate a reflection is booked to its persona's craft**:
-Майя's a `musician` part, the Clerk's an `editor` one — a persona's own voice is
-no copywriter's work.
+**In the session's estimate a reflection is a `persona` part of its own**,
+whoever's it is: a persona's own voice is neither a copywriter's work nor the
+craft the persona practises, so it is never folded into a part for the work it
+reflects on.
