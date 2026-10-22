@@ -1,9 +1,8 @@
 #!/bin/bash
-# Vet on GitHub's runners: dispatches `.github/workflows/vet.yml` on the current
-# branch, runs `scripts/vet.sh local` — the checks that read history, which stay
-# on this machine — while it runs, and waits for it. Together they are the bare
-# `scripts/vet.sh`, split; the exit is non-zero when either half fails, and a
-# failed run's job logs are printed.
+# The bare `scripts/vet.sh`. Dispatches `.github/workflows/vet.yml` on the
+# current branch, runs `scripts/vet.sh local` — the checks that read history,
+# which stay on this machine — while it runs, and waits for it. The exit is
+# non-zero when either half fails, and a failed run's job logs are printed.
 #
 # The run vets the branch as GitHub has it, so a tree that differs from the
 # pushed head is refused rather than vetted by proxy.
