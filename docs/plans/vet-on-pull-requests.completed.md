@@ -1,90 +1,66 @@
-# Vet on pull requests
+# Vet on a GitHub runner
 
 ## Goal
 
-`./scripts/vet.sh`, unchanged, runs in GitHub Actions on every pull request, so
-a PR shows red or green without anyone having run vet locally. Small blast
-radius: one new workflow, `vet.sh` stays the single definition of what vet is,
-and the docs that say "nothing runs on pull requests" stop saying it.
+Move a vet run off the session's container onto GitHub's runners, split across
+parallel jobs so it finishes faster. Run by hand (`workflow_dispatch`), in place
+of a local `./scripts/vet.sh` — nothing triggers it on its own, and nothing runs
+on pull requests. (The first cut ran on every PR; the operator ruled that out:
+the point is a more powerful machine and parallelism, not automatic checks.)
 
 ## Approach
 
-`.github/workflows/vet.yml`:
+`scripts/vet.sh` gains phases that together run exactly what the bare script
+does, so the list of checks keeps one home:
 
-- `on: pull_request` (opened, synchronize, reopened, ready_for_review), plus
-  `workflow_dispatch` for a hand run on any ref.
-- `concurrency: vet-${{ github.head_ref || github.ref_name }}`,
-  `cancel-in-progress: true` — an agent commits and pushes after every unit of
-  work, so only the latest head matters.
-- `permissions: contents: read`.
-- One job: checkout → `./.github/actions/setup-toolchain` (the pins stated once,
-  shared with deploy) → the extras below → `./scripts/vet.sh`.
+- `build <site>` — one site's build;
+- `lint <k>/<n>` — ESLint over the k-th of n shards of the lintable files;
+- `source` — the codegen and every check no build feeds;
+- `built` — the checks that read a build (type check, Mantine, i18n payload, CV
+  pages).
 
-## The edges, and what each gets
+`.github/workflows/vet.yml`: four build jobs (matrix by site) and `source` start
+at once; when the builds land, three lint shards and `built` run side by side,
+reading the builds' route types and exports through artifacts.
 
-1. **Shallow checkout breaks every check that reads the branch against its
-   base.** `actions/checkout` defaults to depth 1 and no `origin/main`, so
-   `scripts/lib/changed-files.sh`, `check-claude-md-size.sh`,
-   `check-squash-message.sh` and `check_estimates.py` all fall to their "no
-   base" path — and that path is _quiet_: the estimates gate checks only the
-   running session, of which CI has none, so it passes vacuously. Fix:
-   `fetch-depth: 0`, which also fetches `origin/main`.
-2. **`pull_request` checks out the merge commit, detached.** That is the better
-   tree to judge (the branch as it will land), but `git branch --show-current`
-   is empty there, so `check_estimates.py`'s `cost-ledger` lookup by branch name
-   — the only place a finalized branch's rows live — finds nothing. Fix: check
-   out the PR head by branch name (`ref: head_ref`), so vet judges exactly what
-   it judges locally, and the ledger lookup works. The merge with `main` is
-   `/finalize` Step 2's job either way.
-3. **The tests that build throwaway repositories need a git identity.** The
-   runner has none; `.claude/costs/` tests commit into temp repos. Fix: set
-   `user.name`/`user.email` for the job (the github-actions bot).
-4. **numpy for `scripts/song-intake/test_song_facts.py`.** The runner's system
-   Python lacks it. Fix: `pip install numpy` in the job (or the setup action, if
-   the run shows deploy never needs it — it doesn't, so the job).
-5. **Chromium for `--cv-pages`.** `scripts/lib/chromium.ts` already looks at
-   `/usr/bin/google-chrome`, which `ubuntu-latest` ships, and deploy's PDF
-   render proves it. Nothing to add — confirmed by the first run.
-6. **`ci:` is a publishing type.** The squash subject `ci: …` deploys every site
-   on merge. The rebuild is identical output, so it is harmless, but it is a
-   production decision: name it in the PR so the merge is deliberate.
-7. **Whatever only the run reveals.** Hooks and keepalive tests may assume the
-   Claude container (`CLAUDE_CODE_REMOTE`, `~/.claude/…`). The PR's own run is
-   the test: fix what it shows in the workflow (env, setup), never by skipping a
-   check.
+ESLint is one program over the whole repo (`tsconfig.json` includes every app's
+`.next/types`), so it shards by file, not by app; each shard still builds the
+whole program.
 
-8. **A green run is not evidence by itself.** `run-parallel.sh` prints only
-   failures, so a vacuous pass and a real one look the same in the job log. The
-   job uploads `tmp/run-parallel/` and the build logs as the `vet-logs`
-   artifact; the first run's logs show every base-reading check read the branch
-   against `origin/main`.
+## Measured
 
-Out of scope, stated so it is a choice:
+- One job: ~3m30s of job time (setup 30s, builds 80s, fan-out 93s with ESLint
+  the long pole at 90s).
+- Split: ~2m25s from first job to last; critical path is the vova build job
+  (~90s) then a lint shard or `built` (~55s).
+- GitHub sometimes reports a finished job as in progress for a minute or two,
+  holding the run's status; not ours to fix.
+- An uncompressed export upload made the download 90s instead of 6s — kept
+  compressed.
 
-- **Making the check required** is branch protection, a repository setting no
-  file here holds — the operator's to switch on once it has been green a while.
-- **Local vet at `/finalize` stays.** `/finalize` already reads "a workflow runs
-  on PRs" as: vet here _and_ watch that run (its § "What actually gates this
-  PR"), so the skill needs no edit and stays byte-equal to muthur's.
-- **Caching `.next/`** across runs — four uncached builds are the accepted cost;
-  revisit if the run gets annoying.
+## The edges
 
-## Docs that change
+1. **Shallow checkout → quiet passes.** No `origin/main` means the estimates
+   gate checks nothing and the size cap only the ceiling. `source` fetches full
+   history; the other jobs read no history.
+2. **Git identity** for the tests that commit into temp repos; **numpy** via
+   `setup-python` (the system Python refuses pip under PEP 668).
+3. **`.next` is hidden**, which upload-artifact skips unless told.
+4. **A green run is not evidence by itself** — `run-parallel.sh` prints only
+   failures, so `source` and `built` upload their per-check logs.
+5. **CI pins pnpm 9** (`setup-toolchain`) where the container has 10 — CI's
+   setup is now a site a toolchain change wires.
+6. **`ci:` is a publishing type** — the squash redeploys every site (identical
+   output).
 
-- `CLAUDE.md` § "Deployment" — "Nothing runs on pull requests…" (staged copy).
-- `.claude/rules/stack.md` — the type-overlap bullet's "since nothing runs on
-  pull requests"; and the three-sites roster gains the workflow as a fourth site
-  a toolchain change wires (it shares `setup-toolchain`, but numpy is the job's
-  own).
-- `.claude/skills/update-muthur/watermark.json` — the `test-on-gh` rationale
-  leans on "nothing runs on pull requests here"; reword to the true reason (the
-  whole suite fits one CI job too).
+Out of scope: `/finalize` still runs vet locally; pointing it at a dispatch is a
+separate change to a muthur-owned skill.
 
 ## DRY notes
 
-- Reuse `.github/actions/setup-toolchain` rather than restating pnpm/Node pins —
-  it exists to be the one statement of them.
-- The workflow calls `./scripts/vet.sh`; it restates no check, so the list of
-  checks keeps one home.
-- numpy goes in the job, not the shared action: only vet needs it, and deploy's
-  lanes would pay for it on every publish.
+- `setup-toolchain` stays the one statement of the pnpm/Node pins.
+- The workflow names phases, never checks; the lists live in `vet.sh`.
+- The ESLint heap ceiling moves to `lint:files`, which `lint:check` and the
+  shards both call, so it is still stated once.
+- `place-vet-artifacts.sh` is the one place that maps artifacts back to paths,
+  used by both jobs that download builds.

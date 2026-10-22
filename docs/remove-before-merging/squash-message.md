@@ -1,23 +1,28 @@
 Proposed squash body:
 
 ```
-A vet run is four static-export builds and some thirty checks, all on
-the session's own container. A new Vet workflow runs the same
-./scripts/vet.sh, unchanged, on a GitHub runner when dispatched by
-hand, so the run can move off the container and, later, split across
-parallel jobs. Nothing triggers it on its own: it stands in for a
-local run, and nothing runs on pull requests.
+A vet run is four static-export builds and some thirty checks on the
+session's own container, a 4-core machine. A new Vet workflow runs it
+on GitHub's runners instead, dispatched by hand in place of a local
+./scripts/vet.sh, split across parallel jobs: about 2.5 minutes
+against 3.5 for the same run in one job. Nothing triggers it on its
+own; nothing runs on pull requests.
+
+vet.sh gains phases that together run exactly what the bare script
+does, so the workflow names phases and the checks keep one list: one
+site's build, an ESLint shard, the checks no build feeds, and those
+that read a build. The four builds start beside the source checks;
+ESLint, one TypeScript program over the whole repo, shards by file
+beside the build-reading checks once route types and exports arrive
+as artifacts. The heap ceiling moves to lint:files, which both
+lint:check and the shards call.
 
 A runner is not the dev container, and several checks go quiet rather
-than red on the difference: a shallow checkout leaves no base to read
-the branch against, so the estimates gate passes vacuously. The job
-fetches full history and supplies the git identity and numpy the
-tests assume. vet.sh prints only failures, so each run keeps its
-per-check logs as an artifact, which is what tells a vacuous pass from
-a real one.
-
-CI's setup is now a site a toolchain change wires, beside vet.sh, the
-install hook and the environment setup script.
+than red on the difference: a shallow checkout leaves no base, so the
+estimates gate passes vacuously. The source job fetches full history
+and supplies the git identity and numpy the tests assume, and both
+check jobs keep their per-check logs, since vet prints only failures.
+CI's setup is now a site a toolchain change wires.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
