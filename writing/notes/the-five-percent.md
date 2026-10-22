@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×82)
+## What it was handed, it treats as fixed (×83)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -97,6 +97,11 @@ read as "illustrator": _нене, погоди, artist это про музык�
 in with the music PR for Майя's voice; drawing is `designer`. Every earlier
 `artist` part had been a persona reflection, so the label had drifted between
 sessions already. Now `musician`.
+
+**22 October — "nothing runs on pull requests," read as the request.** Asked to
+move `vet.sh` "into GitHub," the agent built CI on every PR, the docs' gap, and
+never asked why. The why was a bigger machine; GitHub's standard runner here is
+the session's own 4 cores and 16 GB, so the build bought nothing it was for.
 
 ## An account that explains the code stands in for running it (×24)
 
