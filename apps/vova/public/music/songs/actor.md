@@ -31,13 +31,13 @@ Early in 1958 Tarkovsky went to Ashgabat on a writers’ assignment and met a wo
 
 <!-- lang:ru -->
 
-Это, наверное, был самый тщательный процесс отбора «кандидатов» в песню: шорт-лист состоял из 14 вариантов, которые я разбирал по циферкам-статистикам, как персонажа какой-нибудь RPG. А три оставшихся финалиста до сих пор лежат в заметках и ждут своей очереди стать другой песней.
+Это, наверное, был самый тщательный процесс отбора «кандидатов» в песню: шорт-лист состоял из 14 вариантов, которые я разбирал по циферкам-статистикам, как персонажа какой-нибудь RPG. До финала дошли четыре, я показал их сестре Саше — и чашу весов склонила её любовь именно к этому варианту. А три оставшихся финалиста до сих пор лежат в заметках и ждут своей очереди стать другой песней.
 
 Сам выбранный вариант мне, что парадоксально, нравился _не_ больше остальных, но он был, безусловно, самым самобытным и неожиданным — критерий, который я впоследствии возвёл в один из самых важных. Не нравился в основном из-за припева — хотелось там чего-то более разнообразного и гармоничного, а пробовать «по-другому» тогдашняя Суна не давала. А сейчас слушаю и думаю: ну конечно, что же другое там могло быть?
 
 <!-- lang:en -->
 
-This was probably the most painstaking selection of “candidates” for a song: the shortlist held 14 versions, which I broke down by their stats, like a character in some RPG. The three finalists left over are still sitting in my notes, waiting their turn to become another song.
+This was probably the most painstaking selection of “candidates” for a song: the shortlist held 14 versions, which I broke down by their stats, like a character in some RPG. Four made it to the final; I showed them to my sister Sasha, and it was her love for this one that tipped the scales. The three finalists left over are still sitting in my notes, waiting their turn to become another song.
 
 Paradoxically, I did _not_ like the version I chose more than the others, but it was, without a doubt, the most distinctive and unexpected — a criterion I later raised to one of the most important. What I didn’t like was mostly the chorus: I wanted something more varied and harmonious there, and the Suno of the day wouldn’t let you try it “another way.” And now I listen and think: of course — what else could possibly have been there?
 

@@ -42,11 +42,15 @@ The poet’s elder brother, Valery, was killed in 1919 fighting the forces of at
 
 <!-- lang:ru -->
 
-Забавно: броненосец в брезенте — возможно, тот самый, который был бы на обложке альбома, если бы он стал-таки «Таркосом».
+![Броненосец-танк с повязкой на глазах: несостоявшаяся обложка «Таркоса»](../assets/nostalgia-tarkos.jpg 'aside')
+
+Забавно: броненосец в брезенте — возможно, тот самый, который был бы на обложке альбома, если бы он [стал-таки «Таркосом»](../albums/nostalgia.md).
 
 <!-- lang:en -->
 
-Funnily enough, the battleship in tarpaulin — in Russian a _bronenosets_, which is also an armadillo — may be the very one that would have been on the album’s cover, had it ended up as “Tarkos” after all.
+![A blindfolded armadillo-tank: the cover “Tarkos” never got](../assets/nostalgia-tarkos.jpg 'aside')
+
+Funnily enough, the battleship in tarpaulin — in Russian a _bronenosets_, which is also an armadillo — may be the very one that would have been on the album’s cover, had it [ended up as “Tarkos”](../albums/nostalgia.md) after all.
 
 <!-- lyrics:ru -->
 
