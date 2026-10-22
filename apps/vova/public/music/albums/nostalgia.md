@@ -15,7 +15,7 @@ ru:
 
 Сначала альбом должен был называться «Таркос» — игра слов на «Tarkus» Emerson, Lake and Palmer, — тогда обложка могла выглядеть как-то так:
 
-![Броненосец-танк, обмотанный брезентом: несостоявшаяся обложка «Таркоса»](../assets/nostalgia-tarkos.jpg)
+![Броненосец-танк с повязкой на глазах: несостоявшаяся обложка «Таркоса»](../assets/nostalgia-tarkos.jpg)
 
 Но в конечном счёте это всё-таки стала «Ностальгия», с обложкой, вдохновлённой кадром из того самого фильма:
 
@@ -33,7 +33,7 @@ Like many people, I ran my first experiments with Suno on poems by the classics.
 
 At first the album was going to be called “Tarkos,” a play on Emerson, Lake and Palmer’s _Tarkus_, and then the cover might have looked something like this:
 
-![An armadillo-tank wrapped in tarpaulin: the cover “Tarkos” never got](../assets/nostalgia-tarkos.jpg)
+![A blindfolded armadillo-tank: the cover “Tarkos” never got](../assets/nostalgia-tarkos.jpg)
 
 But in the end it did become “Nostalgia,” with a cover inspired by a still from that very film:
 
