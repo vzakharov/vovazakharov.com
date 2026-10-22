@@ -1,9 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source
-> while this file is named `*.draft.do-not-implement.md` — prep and spikes go in
-> `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md`
-> and delete this banner (quoting the go-ahead in the commit) _before_ touching
-> code.
-
 # ESLint out of memory in vet: one TypeScript program, then CI on PRs
 
 ## The cause, measured
@@ -36,8 +30,8 @@ this container, more on a 16 GB laptop (~4 GB default).
 
 ## Approach
 
-This PR fixes the local vet run and stops there; CI on PRs is the next slice,
-its own issue and PR (§ "The next slice").
+This PR fixes the local vet run and stops there; CI on PRs is the next slice, a
+new task started from this session once this PR merges (§ "The next slice").
 
 1. **One program.** In `eslint.config.ts`'s type-aware block, replace
    `projectService: true` with `project: ['./tsconfig.json']` plus
@@ -66,15 +60,15 @@ its own issue and PR (§ "The next slice").
    the staged set.
 4. **Verify.** `./scripts/vet.sh` green with no `NODE_OPTIONS` in the
    environment; then `NODE_OPTIONS=--max-old-space-size=2240 pnpm lint:check` to
-   confirm the script's own flag wins over an inherited one (the later
-   `--max-old-space-size` does, but it is checked, not assumed).
+   confirm the script's own assignment replaces an inherited `NODE_OPTIONS`.
 
 ## The next slice: CI on pull requests
 
-Proposed as an issue for its own PR, coarse here. It is whole without this one —
-a workflow is a workflow — and this one is needed without it: `/finalize` runs
-vet locally even where a PR workflow exists (its Step 1, and Step 4 watches the
-workflow on top), so CI adds a signal but never removes the local OOM.
+A task of its own, started from this session after the merge, coarse here. It is
+whole without this one — a workflow is a workflow — and this one is needed
+without it: `/finalize` runs vet locally even where a PR workflow exists (its
+Step 1, and Step 4 watches the workflow on top), so CI adds a signal but never
+removes the local OOM.
 
 - A `vet.yml` on `pull_request`: a build job per site uploading `apps/*/out` and
   `.next/types` as artifacts, then the checks that read them (`typecheck`,
