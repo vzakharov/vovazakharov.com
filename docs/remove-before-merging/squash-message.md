@@ -3,18 +3,19 @@ Proposed squash body:
 ```
 «Ностальгия», the Полуживые album on Arseny Tarkovsky's poems, was
 taken down from every platform but survived whole in vovas-music. Its
-seven tracks join the catalogue under one album page, its story written
-from Vova's dictation, with the lyrics as sung beside English cribs and
-a sourced history of each poem beside the song's own story. Dad's
+seven tracks join the catalogue under one album page, its story in
+Vova's own words, with the lyrics as sung beside English cribs and a
+sourced history of each poem beside the song's own story. Dad's
 «Свеча горела» rides along into Папа-море as candle-burnt. Each song
 keeps the repository its takes were already in, renamed to its slug by
 `music:masters rename`; `serve-main` moves a repository still on
 `master` to `main`, the branch every URL the site builds names.
 
-A prelude, a poem's history or an album's world, shows where its
-markdown tells it: ahead of the story, the story follows behind the
-scenes; after it, the prelude follows under a heading naming its kind.
-storyOrder is the one place the page and the podcast feed read it from.
+A prelude, the history of a source the song rests on (`source:`) or an
+album's world (`universe:`), shows where its markdown tells it: ahead
+of the story, the story follows behind the scenes; after it, the
+prelude follows under a heading naming its kind. storyOrder is the one
+place the page and the podcast feed read it from.
 
 None of the takes had a real master. Each track was mastered against
 three references from the Ozone-mastered catalogue and picked blind on
@@ -24,9 +25,9 @@ seals each key before the listening and splits the loudness-matched
 audio the page plays; both stay for the next song's test, and
 master.py writes a 24-bit FLAC for a .flac output.
 
-Every song with a story now carries a hook, a line standing on its own
-without quotation marks, and the songs rule makes the hook, like a
-poem's history, the agent's to write. docs/music/vovas-music-map.md
+Every song with a story now carries a hook, quoted only where it quotes
+someone's words, and the songs rule makes the hook, like a source's
+history, the agent's to write. docs/music/vovas-music-map.md
 places every vovas-music repository that is not a catalogued song's
 own: the GarageBand archive, album sessions, uncatalogued songs.
 
