@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from lib.hearing import doubts, mark, marked, merged, paragraphs
+from lib.hearing import doubts, from_segments, mark, marked, merged, paragraphs
 
 # One word as (punctuated text, start second[, confidence]); its end is a
 # fraction later, and its bare form is the text lowercased and unpunctuated.
@@ -135,6 +135,23 @@ class Merged(unittest.TestCase):
             [(0.0, "[-был там.-]"), (10.0, "{+был там.+}")],
         )
 
+    def test_a_repeated_chorus_pairs_with_its_own_time(self) -> None:
+        chorus = ("Где", "же", "ты?")
+        first = response(
+            [[(w, 10.0 + k) for k, w in enumerate(chorus)]],
+            [[("Раз.", 20.0)]],
+            [[(w, 30.0 + k) for k, w in enumerate(chorus)]],
+        )
+        second = response(
+            [[(w, 10.0 + k) for k, w in enumerate(chorus)]],
+            [[("Два.", 20.0)]],
+            [[(w, 30.0 + k) for k, w in enumerate(chorus)]],
+        )
+        self.assertEqual(
+            merged(first, second),
+            [(10.0, "Где же ты?"), (20.0, "[-Раз.-]{+Два.+}"), (30.0, "Где же ты?")],
+        )
+
     def test_a_response_merged_with_itself_is_its_sentences(self) -> None:
         r = response(
             [[("Раз", 0.0, 0.2), ("два.", 0.5)], [("Три.", 1.2)]],
@@ -147,6 +164,46 @@ class Merged(unittest.TestCase):
     def test_sentences_starting_in_one_second_share_a_line(self) -> None:
         r = response([[("Да.", 2.0)], [("Нет.", 2.6)]])
         self.assertEqual(merged(r, r), [(2.0, "Да. Нет.")])
+
+
+def segment(start: float, *words: Spoken) -> dict[str, Any]:
+    """A faster-whisper segment as lyrics.py keeps it: words carry their leading
+    space and a probability."""
+    return {
+        "start": start,
+        "end": words[-1][1] + 0.4 if words else start,
+        "text": "".join(f" {w[0]}" for w in words),
+        "words": [
+            {"word": f" {text}", "start": at, "end": at + 0.4, "probability": 0.9}
+            for text, at in words
+        ],
+    }
+
+
+class FromSegments(unittest.TestCase):
+    def test_a_segment_starts_at_its_first_word(self) -> None:
+        r = from_segments([segment(0.0, ("Всё", 20.0), ("кончается,", 20.5))], 60.0, "w")
+        line = paragraphs(r)[0][0]
+        self.assertEqual(line["start"], 20.0)
+        self.assertEqual([w["word"] for w in line["words"]], ["всё", "кончается"])
+        self.assertEqual(r["metadata"], {"duration": 60.0, "model": "w"})
+
+    def test_bare_punctuation_and_empty_segments_drop(self) -> None:
+        r = from_segments([segment(0.0, ("Да", 1.0), ("…", 1.5)), segment(5.0)], 9.0, "w")
+        self.assertEqual(len(r["results"]["channels"][0]["alternatives"][0]["words"]), 1)
+        self.assertEqual(len(paragraphs(r)[0]), 1)
+
+    def test_nothing_heard_is_no_speech(self) -> None:
+        self.assertEqual(paragraphs(from_segments([], 9.0, "w")), [])
+
+    def test_it_merges_with_a_deepgram_response(self) -> None:
+        first = response([[("Где", 58.0), ("же", 58.3), ("ты,", 58.6), ("двойник?", 59.0)]])
+        second = from_segments(
+            [segment(57.0, ("Где", 58.1), ("же", 58.4), ("ты,", 58.7), ("двойник", 59.1))],
+            240.0,
+            "w",
+        )
+        self.assertEqual(merged(first, second), [(58.0, "Где же ты, двойник?")])
 
 
 if __name__ == "__main__":
