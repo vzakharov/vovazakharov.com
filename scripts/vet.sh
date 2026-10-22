@@ -3,41 +3,9 @@
 #
 # See `.claude/rules/stack.md` for the contract and for why this list is what it
 # is.
-#
-#   scripts/vet.sh                          # everything
-#   scripts/vet.sh --skip-build             # the builds' output is already there
-#   scripts/vet.sh --only eslint,knip       # just these fan-out checks
-#   scripts/vet.sh --except eslint,knip     # every fan-out check but these
-#
-# The flags are for a CI job that shards the run: `--except` naming every label
-# the other shards took is what keeps a check added later from going unrun. A
-# label the fan-out does not have fails the run, so a renamed check cannot drop
-# out of a shard silently.
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
-
-skip_build=0
-only=''
-except=''
-while (($#)); do
-  case "$1" in
-    --skip-build) skip_build=1 ;;
-    --only | --except)
-      [[ -n ${2:-} ]] || {
-        printf 'vet: %s takes a comma-separated list of labels\n' "$1" >&2
-        exit 2
-      }
-      if [[ $1 == --only ]]; then only=$2; else except=$2; fi
-      shift
-      ;;
-    *)
-      printf 'vet: unknown argument %s\n' "$1" >&2
-      exit 2
-      ;;
-  esac
-  shift
-done
 
 status=0
 
@@ -55,7 +23,7 @@ status=0
 # run-parallel.sh wipes its log directory at startup — a build log written there
 # would be gone by the time the second batch finished citing it.
 mkdir -p tmp
-if ((!skip_build)) && ! pnpm build >tmp/vet-build.log 2>&1; then
+if ! pnpm build >tmp/vet-build.log 2>&1; then
   sed 's/^/[build] /' tmp/vet-build.log
   printf '[build] full log: tmp/vet-build.log\n'
   status=1
@@ -100,60 +68,37 @@ fi
 # `apps/*/public/`.
 # The last eight read the agent infrastructure itself and nothing else here
 # touches it.
-checks=(
-  typecheck='pnpm typecheck'
-  eslint='pnpm lint:check'
-  format='pnpm format:check'
-  stylelint='pnpm lint:css'
-  fsd='pnpm lint:fsd'
-  type-overlap='pnpm type-overlap'
-  knip='pnpm knip'
-  mantine-styles='pnpm check:mantine-styles'
-  i18n-payload='pnpm check:i18n-payload'
-  prose-quotes='pnpm check:prose-quotes'
-  songs='scripts/vet-songs.sh'
-  og-vova='pnpm content:og:vova --check'
-  og-bible='pnpm content:og:bible --check'
-  og-basilisk='pnpm content:og:basilisk --check'
-  music-masters='pnpm music:masters check'
-  cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
-  test='scripts/vet-test.sh'
-  hearing='python3 scripts/lib/test_hearing.py'
-  squash='scripts/check-squash-message.sh'
-  notes='scripts/check-notes-length.sh'
-  skills='scripts/check-skill-catalog.sh'
-  tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
-  staged='scripts/staged.sh check'
-  claude-md-size='scripts/check-claude-md-size.sh'
-  costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done'
-  estimates='python3 .claude/costs/check_estimates.py'
-  context-budget='python3 .claude/context-budget/test_context_budget.py'
-  cold-cache='python3 .claude/cold-cache/test_cold_cache.py'
-  keepalive='python3 .claude/keepalive/test_keepalive.py'
-  hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
-)
-
-labels=",$(IFS=,; echo "${checks[*]%%=*}"),"
-for label in ${only//,/ } ${except//,/ }; do
-  [[ $labels == *",$label,"* ]] || {
-    printf 'vet: no check is labelled %s\n' "$label" >&2
-    exit 2
-  }
-done
-
-selected=()
-for check in "${checks[@]}"; do
-  label=${check%%=*}
-  [[ -z $only || ",$only," == *",$label,"* ]] || continue
-  [[ ",$except," != *",$label,"* ]] || continue
-  selected+=("$check")
-done
-((${#selected[@]})) || {
-  printf 'vet: --only and --except left no check to run\n' >&2
-  exit 2
-}
-
-scripts/run-parallel.sh "${selected[@]}" || status=1
+scripts/run-parallel.sh \
+  typecheck='pnpm typecheck' \
+  eslint='pnpm lint:check' \
+  format='pnpm format:check' \
+  stylelint='pnpm lint:css' \
+  fsd='pnpm lint:fsd' \
+  type-overlap='pnpm type-overlap' \
+  knip='pnpm knip' \
+  mantine-styles='pnpm check:mantine-styles' \
+  i18n-payload='pnpm check:i18n-payload' \
+  prose-quotes='pnpm check:prose-quotes' \
+  songs='scripts/vet-songs.sh' \
+  og-vova='pnpm content:og:vova --check' \
+  og-bible='pnpm content:og:bible --check' \
+  og-basilisk='pnpm content:og:basilisk --check' \
+  music-masters='pnpm music:masters check' \
+  cv-pages='pnpm content:pdf:vova --cv-pages --from-out' \
+  test='scripts/vet-test.sh' \
+  hearing='python3 scripts/lib/test_hearing.py' \
+  squash='scripts/check-squash-message.sh' \
+  notes='scripts/check-notes-length.sh' \
+  skills='scripts/check-skill-catalog.sh' \
+  tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh' \
+  staged='scripts/staged.sh check' \
+  claude-md-size='scripts/check-claude-md-size.sh' \
+  costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done' \
+  estimates='python3 .claude/costs/check_estimates.py' \
+  context-budget='python3 .claude/context-budget/test_context_budget.py' \
+  cold-cache='python3 .claude/cold-cache/test_cold_cache.py' \
+  keepalive='python3 .claude/keepalive/test_keepalive.py' \
+  hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2

@@ -6,18 +6,18 @@ name: Vet
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-  # TEMPORARY: measures both shapes while the PR is a draft; removed before ready.
-  push:
-    branches: [ci-on-prs]
 
 permissions:
   contents: read
 
 # A newer push supersedes the run in flight.
 concurrency:
-  group: vet-${{ github.event.pull_request.number || github.ref }}
+  group: vet-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+# One job rather than a build per site feeding sharded checks: measured side by
+# side, sharding saved under a minute on average and added six jobs, each
+# paying a checkout whose time varies by minutes.
 jobs:
   vet:
     if: ${{ !github.event.pull_request.draft }}
