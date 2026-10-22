@@ -216,8 +216,7 @@ changes how a draft of one is written and what a review of it means.
   spread over every story it touches.
 - **A change to a song's story or words is checked against its reflection.**
   Майя's `<slug>.maya.reflections.md` may quote or answer what changed; where it
-  does, she adds a closing paragraph per `persona-reflections.md`, never a
-  rewrite.
+  does, she adds a closing paragraph per `persona-reflections.md`.
 - **Nothing is explained on his behalf.** He writes for people who already know
   him, so a fact he left out was left out. Adding the line of context a stranger
   would want takes the piece away from the reader it was written for.
