@@ -1,7 +1,6 @@
 ---
 title: 'Снег идёт'
 date: 2025-12-04
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'sneg_idet'

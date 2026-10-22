@@ -1,7 +1,6 @@
 ---
 title: 'На пальцы'
 date: 2025-12-11
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'fingers'

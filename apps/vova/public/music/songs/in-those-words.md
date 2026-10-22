@@ -1,7 +1,6 @@
 ---
 title: 'Я говорю сейчас словами теми…'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'komnata'

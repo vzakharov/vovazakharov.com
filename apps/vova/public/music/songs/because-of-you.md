@@ -1,7 +1,6 @@
 ---
 title: 'Because of You'
 date: 2026-01-18
-status: done
 language: en
 project: ['Yoohie']
 repo: 'because-of-you-2'

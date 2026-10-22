@@ -1,7 +1,6 @@
 ---
 title: 'Клокочина'
 date: 2025-02-17
-status: done
 language: ru
 project: ['Листопад']
 repo: 'klo'

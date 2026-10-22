@@ -1,7 +1,6 @@
 ---
 title: 'Succumb to Me'
 date: 2024-07-23
-status: done
 language: en
 project: ['GENERATED']
 repo: 'succumb'

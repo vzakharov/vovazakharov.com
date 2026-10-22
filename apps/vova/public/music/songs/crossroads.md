@@ -1,7 +1,6 @@
 ---
 title: Crossroads
 date: 2024-07-01
-status: done
 language: en
 project: [GENERATED, Yoohie]
 repo: crossroads

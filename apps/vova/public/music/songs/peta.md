@@ -1,7 +1,6 @@
 ---
 title: 'Robots for the Ethical Treatment of Humans'
 date: 2024-07-23
-status: done
 language: en
 project: ['GENERATED']
 repo: 'peta'

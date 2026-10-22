@@ -1,7 +1,6 @@
 ---
 title: 'Всё в этой жизни начинается с любви'
 date: 2024-09-14
-status: done
 language: ru
 project: ['Полуживые']
 repo: '40days'

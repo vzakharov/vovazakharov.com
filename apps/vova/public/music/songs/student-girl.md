@@ -1,7 +1,6 @@
 ---
 title: 'Студентка'
 date: 2026-02-08
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'studentka'

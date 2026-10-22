@@ -1,7 +1,6 @@
 ---
 title: 'Every Monday'
 date: 2024-12-27
-status: done
 language: en
 project: ['Yoohie']
 repo: 'monday_doo'

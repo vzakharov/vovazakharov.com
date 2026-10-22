@@ -1,7 +1,6 @@
 ---
 title: 'At the Diner'
 date: 2024-07-23
-status: done
 language: en
 project: ['Dead Pixel Lounge']
 repo: 'diner'

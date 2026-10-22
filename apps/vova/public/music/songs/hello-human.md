@@ -1,7 +1,6 @@
 ---
 title: 'Hello, Human'
 date: 2022-10-01
-status: done
 language: en
 project: ['GENERATED']
 repo: 'machines'

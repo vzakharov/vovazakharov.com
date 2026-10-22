@@ -1,7 +1,6 @@
 ---
 title: 'Undone'
 date: 2024-09-11
-status: done
 language: en
 project: ['GENERATED']
 repo: 'undone'

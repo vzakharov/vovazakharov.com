@@ -1,7 +1,6 @@
 ---
 title: 'PSCHPTHY'
 date: 2024-10-29
-status: done
 language: en
 project: ['GENERATED']
 repo: 'psch'

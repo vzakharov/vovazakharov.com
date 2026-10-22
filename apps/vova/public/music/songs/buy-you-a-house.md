@@ -1,7 +1,6 @@
 ---
 title: 'Я куплю тебе дом'
 date: 2026-01-19
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'lebed'

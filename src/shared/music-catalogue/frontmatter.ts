@@ -12,9 +12,6 @@ import { albumSchema, projectSchema } from './names';
 import { creditedNameSchema } from './people';
 import { songDateSchema } from './song-date';
 
-/** Whether the song is released or still being worked on. */
-const SONG_STATUSES = ['done', 'wip'] as const;
-
 /**
  * What the vocal is in — `instrumental` where there is none. Beyond the site's
  * two locales a song can be sung in a language nobody reads the site in; its
@@ -265,7 +262,6 @@ const songFieldsSchema = composeSchemas(
    * where neither locale's is that. A locale states one only where it differs.
    */
   title: z.string().min(1),
-  status: z.enum(SONG_STATUSES),
   /**
    * The artist first, whoever is featured after it — a feature meaning the song
    * can be shown to the people the other project is shown to.

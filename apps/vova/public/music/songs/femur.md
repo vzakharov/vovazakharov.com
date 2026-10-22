@@ -1,7 +1,6 @@
 ---
 title: 'Femur (Seems to Be the Hardest Bone)'
 date: 2024-12-05
-status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'

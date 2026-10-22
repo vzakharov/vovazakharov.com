@@ -2,7 +2,6 @@
 title: 'In the End, There Was Silence'
 titleLanguage: en
 date: 2024-07-23
-status: done
 language: ar
 project: ['GENERATED']
 repo: 'entropy-end'

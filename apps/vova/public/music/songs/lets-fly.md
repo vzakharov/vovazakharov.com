@@ -1,7 +1,6 @@
 ---
 title: Летим
 date: 2024-02-01
-status: done
 language: ru
 project: [за/обложкой, GENERATED]
 repo: letim

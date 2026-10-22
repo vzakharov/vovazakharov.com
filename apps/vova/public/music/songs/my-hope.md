@@ -1,7 +1,6 @@
 ---
 title: 'My Hope'
 date: 2024-07-25
-status: done
 language: en
 project: ['GENERATED']
 repo: 'my_hope'

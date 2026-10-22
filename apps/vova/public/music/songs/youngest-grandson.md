@@ -1,7 +1,6 @@
 ---
 title: 'Младший внучек мой'
 date: 2024-09-19
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'salman'

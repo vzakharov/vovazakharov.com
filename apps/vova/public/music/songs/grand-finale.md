@@ -1,7 +1,6 @@
 ---
 title: 'Grand Finale (In Entropy We Trust)'
 date: 2024-07-23
-status: done
 language: en
 project: ['GENERATED']
 repo: 'entropy-end'

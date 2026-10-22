@@ -1,7 +1,6 @@
 ---
 title: 'В безмерности небес'
 date: 2026-03-04
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'bezm'

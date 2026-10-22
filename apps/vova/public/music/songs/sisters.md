@@ -1,7 +1,6 @@
 ---
 title: 'Sisters'
 date: 2024-09-16
-status: done
 language: en
 project: ['GENERATED']
 repo: 'lake'

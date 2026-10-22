@@ -1,7 +1,6 @@
 ---
 title: Не смотри
 date: 2026-02-19
-status: done
 language: ru
 project: [Грёбаный бал]
 repo: rak

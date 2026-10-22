@@ -1,7 +1,6 @@
 ---
 title: 'Чих-Пых'
 date: 2025-01-18
-status: done
 language: ru
 project: ['Yoohie', 'за/обложкой']
 repo: 'chp'

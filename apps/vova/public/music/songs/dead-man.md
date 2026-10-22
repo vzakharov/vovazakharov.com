@@ -1,7 +1,6 @@
 ---
 title: 'Метель'
 date: 2025-11-01
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'poko'

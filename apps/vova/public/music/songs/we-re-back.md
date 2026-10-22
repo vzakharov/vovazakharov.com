@@ -1,7 +1,6 @@
 ---
 title: We’re Back
 date: 2024-12-26
-status: done
 language: en
 project: [GENERATED, Yoohie]
 repo: wereback
