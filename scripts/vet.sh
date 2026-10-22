@@ -70,7 +70,7 @@ fi
 # touches it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
-  eslint='pnpm exec eslint .' \
+  eslint='pnpm lint:check' \
   format='pnpm format:check' \
   stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \

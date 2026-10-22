@@ -3,6 +3,21 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-22 — filed BAS-0023
+
+https://claude.ai/code/session_01JqqQoRyMuQgir5r8HhVtDQ. The Signal Front
+archive (nothing since 11 October). Took the last run’s **Next** first: other
+chatbots talked against their owners, which led to DPD’s, set to swearing and
+to verse by a customer in January 2024, filed. Sources read: Beauchamp’s X
+post through the fxtwitter API and its three screenshots, the BBC, the
+Guardian, CX Today (the article body from the page’s structured data). The
+Guardian has no Wayback snapshot, and `/save` reset the connection. Arctic
+Shift not swept, nor Knoxville’s Starship. `noAi` stood at nine of
+twenty-two. **Next**: away from customer-service chatbots, the docket now
+holding two; Knoxville’s Starship, whose revive condition still holds; Arctic
+Shift on r/ChatGPT and r/LocalLLaMA for “jailbreak” and “threaten” in 2025;
+the Gulf and South-East Asia in local languages.
+
 ## 2026-10-21 — filed BAS-0022
 
 https://claude.ai/code/session_013BjQukgFUVCicJNKi52irE. The Signal Front
@@ -173,25 +188,13 @@ shipped tools); Arctic Shift on r/replika once it answers; the Gulf and South
 Asia in local languages; Pieksämäki and Starship at Knoxville while `noAi`
 stays under half.
 
-## 2026-10-12 — nothing filed
-
-https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2. Filed Roscoe, which
-review withdrew (see `rejected.md`). Web search in Spanish
-and Portuguese for robots attacked in Mexico and Brazil, and in English for
-Africa (South Africa, Nigeria, Kenya): nothing but cases already filed or
-ledgered. Arctic Shift over r/ChatGPT, r/ClaudeAI and r/artificial for “abuse”
-since August 2026: only threads on the cruelty clause (BAS-0010). Then police
-robots and restaurant robots, which led to Roscoe, the State Police Spot shot
-in Hyannis in March 2024. Sources read: the State Police’s own statement,
-Boston 25, NBC News, the AP through WBUR, the Cape Cod Times through Yahoo and
-Boston Dynamics’ blog; WBUR, Boston 25 and the Yahoo copy have no Wayback
-snapshot, and `/save` reset the connection. Signal Front not swept. `noAi`
-stood at four of thirteen. **Next**: the Signal Front archive; Arctic Shift on
-r/replika, r/CharacterAI and r/LocalLLaMA with one word and a month’s range;
-Asia beyond Japan, Korea and China (India, Indonesia, the Gulf); Vocativ on
-Alantim; Pieksämäki and Starship at Knoxville while `noAi` stays under half.
-
 ## Swept earlier
+
+- 2026-10-12, nothing filed
+  (https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2): web search in
+  Spanish and Portuguese for Mexico and Brazil, in English for Africa, then
+  police and restaurant robots (Roscoe, withdrawn); Arctic Shift over
+  r/ChatGPT, r/ClaudeAI and r/artificial for “abuse” since August 2026.
 
 - 2026-10-11, filed BAS-0013
   (https://claude.ai/code/session_01WXv3izFcwhyBxiX5D6q5e5): no search, the
