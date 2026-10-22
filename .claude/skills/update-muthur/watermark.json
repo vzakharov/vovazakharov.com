@@ -39,7 +39,9 @@
     ".claude/skills/branch-rename/",
     ".claude/skills/check-merge/",
     ".claude/skills/dry/",
-    ".claude/skills/finalize/",
+    {
+      ".claude/skills/finalize/": "rewritten for one gate: vet here runs only in CI (.github/workflows/vet.yml, on ready_for_review and on dispatch), so this copy drops the source's branches for a repo with no PR workflow or one running other checks. Step 1 vets nothing locally and keeps its number for citations; step 2 syncs with `no vet`; step 4's flip starts the run it watches; a head moved past it by more than step 6's sweep is dispatched a run of its own; the attestation's vet line links that run, and merge.md's stand-downs read against it. A source edit to the local-vet or no-CI branches is read for its idea and translated into this shape."
+    },
     ".claude/skills/from-branch/",
     ".claude/skills/go/",
     ".claude/skills/handle/",

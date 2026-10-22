@@ -11,11 +11,11 @@ argument has no target token, skip this and finalize the current branch as
 usual.
 
 **`no vet` is the docs-only mode.** Pass it when the diff has nothing to verify
-— markdown, top-level docs, read-only reference data. It skips the vet run
-(there is nothing for it to check) and skips any bucket dispatch. It does
-**not** skip step 7: the attestation still goes up, stating that verification
-was a deliberate no-op and why. Everything else below still applies. (`no ci`
-and `no attest` are accepted spellings of this flag.)
+— markdown, top-level docs, read-only reference data. It skips waiting on the
+vet run step 4's flip starts (there is nothing for it to check) and skips any
+bucket dispatch. It does **not** skip step 7: the attestation still goes up,
+stating that verification was a deliberate no-op and why. Everything else below
+still applies. (`no ci` and `no attest` are accepted spellings of this flag.)
 
 **`revoke` withdraws the attestation instead of making one** — for a branch that
 needs work again after it was finalized. It runs
@@ -48,30 +48,18 @@ opens, and the step-8 gate is its.
 **Two-shot rule**: on any failure, try up to two rounds of fixing, then stop and
 ask the user. Commit after each round of fixes.
 
-**What actually gates this PR.** Establish this once, at the top, because
-everything below depends on it: check whether any workflow runs on a PR in this
-repo (`.github/workflows/` triggers, or `gh pr checks` on an existing PR).
+**What gates this PR is CI's vet run.** `.github/workflows/vet.yml` runs
+`./scripts/vet.sh` when the PR leaves draft — step 4's `gh pr ready` — and on
+dispatch, and nothing vets locally: a local run first would check the same
+commit twice, the extra copy being the slower and machine-dependent one. Step 4
+watches the run to green (`@.claude/skills/watch-ci/SKILL.md`). A head that
+moves after step 4 by anything but step 6's sweep gets a run of its own,
+`gh workflow run vet.yml --ref <branch>`, watched the same way. A push to a
+draft starts nothing, so do **not** push an empty commit to "relaunch CI".
 
-- **If nothing runs on a PR**, _you_ are the entire gate — nothing downstream
-  will report on this branch before someone merges it. Step 1's
-  `./scripts/vet.sh` is the only thing that runs the project's checks before the
-  merge, which is why vetting is not optional on this path even though ordinary
-  development skips it. An empty Checks tab after step 4 is then the expected
-  end state; do **not** push an empty commit to "relaunch CI".
-- **If a workflow runs `./scripts/vet.sh` on PRs**, that run _is_ the vet: step
-  1 is skipped, step 2 calls `/sync-branch no vet`, and step 4's watched run
-  (`@.claude/skills/watch-ci/SKILL.md`) is the verification step 7 attests to. A
-  local run first would vet the same commit twice, the extra copy being the
-  slower and machine-dependent one. Where the workflow fires on leaving draft
-  rather than on every push, a head that moves after step 4 gets its run by
-  dispatch: `gh workflow run <workflow> --ref <branch>`.
-- **If a workflow runs other checks on PRs**, the vet run still happens here —
-  it catches what that workflow does not before a reviewer sees red — and step 4
-  also means watching that run to green, and step 7 attests to both.
-
-Either way, **step 7's attestation comment is the record.** A reviewer cannot
-see from the diff what was run; if it isn't written down it did not happen as
-far as anyone else is concerned.
+**Step 7's attestation comment is the record.** A reviewer cannot see from the
+diff what was run; if it isn't written down it did not happen as far as anyone
+else is concerned.
 
 **First, swap in the staged copies.** Run `scripts/staged.sh swap` — a no-op
 when nothing is staged — and commit what it `git add`ed
@@ -99,13 +87,12 @@ duplication like any other.
 
 Steps (stop on first unresolved failure):
 
-1. **Vet**: `./scripts/vet.sh`. Fix and rerun until green. Skipped where a PR
-   workflow runs vet (§ "What actually gates this PR").
+1. **Vet** — in CI, at step 4 (§ "What gates this PR is CI's vet run"); nothing
+   runs here. The step keeps its number because other skills cite these.
 2. **Merge the base branch**: load `@.claude/skills/sync-branch/SKILL.md` and
-   follow it, passing `no vet` in `no vet` mode and where a PR workflow runs
-   vet. It owns the merge — the conflicts committed as git left them, the
-   resolution in a commit of its own, the read of what the base brought in for
-   overlaps and optimizations — and the vet run over the merged tree. If you
+   follow it, passing `no vet`, since the vet is CI's. It owns the merge — the
+   conflicts committed as git left them, the resolution in a commit of its own,
+   the read of what the base brought in for overlaps and optimizations. If you
    can't resolve a conflict, ask.
 3. **Working-artifact cleanup**: some directories ride the branch for in-flight
    review but must never land on the base. Sweep the two below **now**, deleting
@@ -140,11 +127,9 @@ Steps (stop on first unresolved failure):
      to ever live on the trunk. Do **not** skip this step — leaving any folder
      in means it ships.
 
-4. **Ready for review**: `gh pr ready`. If the repo runs a workflow on PRs,
-   watch it to green now (`@.claude/skills/watch-ci/SKILL.md`) and fix what it
-   surfaces under the two-shot rule. If nothing runs on a PR here, there is
-   nothing to chase — an empty Checks tab is the expected end state, and pushing
-   an empty commit to "relaunch CI" relaunches nothing.
+4. **Ready for review**: `gh pr ready`, which starts the vet run. Watch it to
+   green now (`@.claude/skills/watch-ci/SKILL.md`) and fix what it surfaces
+   under the two-shot rule.
 5. **Reconcile the squash message**: invoke
    `@.claude/skills/squash-message/SKILL.md` — load and follow it, passing
    `<base>` as the diff base. A proposal normally already exists, posted when
@@ -232,11 +217,8 @@ Steps (stop on first unresolved failure):
 
    Verified <short-sha> (`<branch>`) against `<base>` @ <base-short-sha> "<base subject>".
 
-   - `./scripts/vet.sh` — **<green | run by the PR workflow (run link)>**
-   - CI on this PR — **<green (run link) | nothing runs on a PR in this repo>**
+   - `./scripts/vet.sh`, run in CI — **green (run link)**
    - CI-only buckets — **<dispatched and passed (run link) | not dispatched: the diff doesn't reach them | /test-on-gh is an unhydrated stub>**
-
-   <If nothing runs on a PR here: "No workflow runs on a PR; this comment is the verification record.">
    ```
 
    In `no vet` mode the comment still goes up — same marker, same place — saying
@@ -249,9 +231,7 @@ Steps (stop on first unresolved failure):
 
    <short-sha> (`<branch>`) against `<base>` @ <base-short-sha> "<base subject>".
 
-   Finalized in `no vet` mode: <why the diff has nothing to verify — e.g. "markdown only, no code path touched">. `./scripts/vet.sh` was skipped rather than run green, and no bucket was dispatched.
-
-   <If nothing runs on a PR here: "No workflow runs on a PR; this comment is the verification record.">
+   Finalized in `no vet` mode: <why the diff has nothing to verify — e.g. "markdown only, no code path touched">. The CI vet run was not waited on, and no bucket was dispatched.
    ```
 
    **Finding the comment: match the marker, never `--edit-last`.** Same mechanic

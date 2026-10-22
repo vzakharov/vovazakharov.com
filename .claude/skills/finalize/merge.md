@@ -55,22 +55,18 @@ like any other change you authored.
 - **Pre-check** — `HEAD` was detached, or there was no PR and you created one. A
   PR opened and merged inside one turn was never a reviewable object. (A PR you
   flipped back to draft is fine — that is the ordinary re-finalize.)
-- **Step 1** — the vet run, or the step 4 run standing in for it where a PR
-  workflow runs vet, needed a change **you authored** to go green. A tool's own
-  fixer (`pnpm styles:codegen` rewriting a generated partial, a formatter
-  rewriting its own output) that clears it does not count; that is the autofix
-  this flag allows. The test is whether you had to read the failure and decide
-  what to change.
 - **Step 2** — any conflict, however trivially resolved; or you applied a
   dedup/simplification the base merge opened, or surfaced one as ambiguous. A
-  clean merge that **brought commits in** is survivable when `/sync-branch`'s
-  vet run over the merged tree went green first try; stand down on any
-  interaction of the kind that step already has you reading the incoming diff
-  for.
-- **Step 4** — a red CI run. Same autofix exception as step 1, plus one case it
-  does not cover: a red run that cleared itself on a re-run with no change at
-  all. "It was a flake" is a judgment, and an unexplained red is the most
-  ordinary reason to want a human at the button.
+  clean merge that **brought commits in** is survivable when step 4's vet run
+  over the merged tree went green first try; stand down on any interaction of
+  the kind that step already has you reading the incoming diff for.
+- **Step 4** — the CI vet run needed a change **you authored** to go green. A
+  tool's own fixer (`pnpm styles:codegen` rewriting a generated partial, a
+  formatter rewriting its own output) that clears it does not count; that is the
+  autofix this flag allows. The test is whether you had to read the failure and
+  decide what to change. A red run that cleared itself on a re-run with no
+  change at all stands it down too: "it was a flake" is a judgment, and an
+  unexplained red is the most ordinary reason to want a human at the button.
 - **Step 5** — the reconcile rewrote the proposal in substance, or no proposal
   existed and this composed the first one. Either way the text about to become
   the permanent `git log` record has had no reader but you. The title counts the
