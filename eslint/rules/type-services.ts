@@ -3,9 +3,10 @@ import type * as ts from 'typescript';
 
 /**
  * The type-aware members of ESLint's `SourceCode.parserServices`. Present only
- * when the parser builds a TypeScript program (`projectService`), so a rule that
- * reads types must narrow through {@link hasTypeServices} and define what it does
- * without them — degrade to syntactic checks or stay silent, never guess.
+ * when the parser builds a TypeScript program (`parserOptions.project`), so a
+ * rule that reads types must narrow through {@link hasTypeServices} and define
+ * what it does without them — degrade to syntactic checks or stay silent, never
+ * guess.
  */
 export type TypeServices = {
   getTypeAtLocation: (node: ESTree.Node) => ts.Type;
