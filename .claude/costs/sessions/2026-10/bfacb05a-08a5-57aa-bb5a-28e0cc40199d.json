@@ -1,0 +1,75 @@
+{
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 63753,
+    "cacheReadTokens": 790249,
+    "outputTokens": 2309,
+    "thinkingTokens": 663,
+    "responses": 8,
+    "costUsd": 0.7143178
+  },
+  "estimate": null,
+  "sessionId": "bfacb05a-08a5-57aa-bb5a-28e0cc40199d",
+  "branch": "claude/laughing-planck-e32kvu",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge claude/dzongkha-lesson-3-u0905g",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01UrgcTJX91E6YXwLTx97HcR",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T10:50:30.746Z",
+  "lastResponseAt": "2026-10-22T10:51:16.568Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 63753,
+    "cacheReadTokens": 790249,
+    "outputTokens": 2309,
+    "thinkingTokens": 663,
+    "responses": 8,
+    "costUsd": 0.7143178
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 63753,
+      "cacheReadTokens": 790249,
+      "outputTokens": 2309,
+      "thinkingTokens": 663,
+      "responses": 8,
+      "costUsd": 0.7143178
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-22T10:51:16.568Z",
+    "contextTokens": 112351,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 63341,
+      "cacheReadTokens": 678312,
+      "outputTokens": 1428,
+      "thinkingTokens": 318,
+      "responses": 7,
+      "costUsd": 0.6710064
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
