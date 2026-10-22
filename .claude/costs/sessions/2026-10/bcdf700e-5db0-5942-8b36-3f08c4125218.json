@@ -1,35 +1,48 @@
 {
   "total": {
-    "inputTokens": 32,
+    "inputTokens": 84,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 69106,
-    "cacheReadTokens": 1546670,
-    "outputTokens": 5051,
-    "thinkingTokens": 1780,
-    "responses": 15,
-    "costUsd": 0.96333
+    "cacheWrite1hTokens": 106049,
+    "cacheReadTokens": 5205442,
+    "outputTokens": 13196,
+    "thinkingTokens": 2963,
+    "responses": 41,
+    "costUsd": 2.1537363999999997
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-10-22T10:54:15.989Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a base merge with three textual conflicts, one of them a lint-config call that needs reading the incoming PR to pick a side, plus a full vet to prove it"
+      }
+    ],
+    "comment": null
+  },
   "sessionId": "bcdf700e-5db0-5942-8b36-3f08c4125218",
   "branch": "claude/spectrogram-reddit-log",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/check-merge claude/spectrogram-reddit-log",
-  "prs": [],
+  "prs": [
+    138
+  ],
   "url": "https://claude.ai/code/session_01FGQgwTqsGiMhHrKCV9eyK5",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-22T10:50:08.575Z",
-  "lastResponseAt": "2026-10-22T10:52:17.330Z",
+  "lastResponseAt": "2026-10-22T11:00:40.335Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 32,
+    "inputTokens": 84,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 69106,
-    "cacheReadTokens": 1546670,
-    "outputTokens": 5051,
-    "thinkingTokens": 1780,
-    "responses": 15,
-    "costUsd": 0.96333
+    "cacheWrite1hTokens": 106049,
+    "cacheReadTokens": 5205442,
+    "outputTokens": 13196,
+    "thinkingTokens": 2963,
+    "responses": 41,
+    "costUsd": 2.1537363999999997
   },
   "subagents": {
     "inputTokens": 0,
@@ -43,14 +56,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 32,
+      "inputTokens": 84,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 69106,
-      "cacheReadTokens": 1546670,
-      "outputTokens": 5051,
-      "thinkingTokens": 1780,
-      "responses": 15,
-      "costUsd": 0.96333
+      "cacheWrite1hTokens": 106049,
+      "cacheReadTokens": 5205442,
+      "outputTokens": 13196,
+      "thinkingTokens": 2963,
+      "responses": 41,
+      "costUsd": 2.1537363999999997
     }
   },
   "warnings": [],
