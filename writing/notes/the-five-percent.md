@@ -215,7 +215,7 @@ In an author's lyrics an odd form is intent before it is a typo.
 streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
 rule names a pseudonymous actor by handle only, and exempts no one famous.
 
-## Its prose answers the question it had, not the reader's (×7)
+## Its prose answers the question it had, not the reader's (×8)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question, or too compressed to give its points back, passes every
@@ -233,6 +233,12 @@ each read as the opposite. Now `onHomePage`.
 "Release links live 30 minutes," as the reason to move a FLAC off a GitHub
 release. _the link is fixed and works — what am I missing?_ It redirects to a
 signed URL that expires. Shortened, the claim was false where he stood.
+
+**22 October — the punchline before its setup.** The Half-Alive's note on the
+blindfolded performers went "right up to Father River, my real dad, guaranteed
+to have a soul," then the proverb about eyes and the soul it plays on, so the
+quip landed unexplained. Two of his sentences, kept in the order he said them,
+not the order in which one sets up the other.
 
 ## What it defends in writing, it stops asking about (×7)
 
