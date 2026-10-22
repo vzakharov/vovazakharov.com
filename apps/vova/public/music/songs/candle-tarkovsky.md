@@ -63,7 +63,7 @@ x2
 
 [^wings-ru]: У Тарковского эти крылья с бабочкой, может, и не связаны, но в альбоме связываются: тремя песнями раньше крылья были у «[Бабочки в госпитальном саду](./butterfly-rock.md)», а здесь они гаснут у самого поэта.
 
-[^word-ru]: Папа умер в городской больнице, дожидаясь операции, и никого из близких рядом не было. Загорелся ли он посмертно, мы уже не узнаем. Может, ответ — «[Река](./river-part-one.md)» в трёх частях.
+[^word-ru]: Папа умер в городской больнице, дожидаясь операции, и никого из близких рядом не было. Загорелся ли он посмертно, мы уже не узнаем. Может, ответ — «[Река, часть вторая](./river-part-two.md)», где он, «расправив крыла», проносится над годами баттерфляем и сам становится и каплей, и дождём, и рекой.
 
 <!-- lyrics:en -->
 
@@ -88,4 +88,4 @@ x2
 
 [^wings-en]: For Tarkovsky these wings may have nothing to do with a butterfly, but on the album they connect: three songs earlier the wings belonged to the [“Butterfly in the Hospital Garden,”](./butterfly-rock.md) and here they go dark on the poet himself.
 
-[^word-en]: Dad died in a city hospital, waiting for surgery, with none of us beside him. Whether he caught fire after death we will never know. Perhaps the three parts of [“The River”](./river-part-one.md) are the answer.
+[^word-en]: Dad died in a city hospital, waiting for surgery, with none of us beside him. Whether he caught fire after death we will never know. Perhaps [“The River. Part Two”](./river-part-two.md) is the answer, where he spreads his wings, races over the years in a butterfly stroke, and becomes the drop, and the rain, and the river himself.
