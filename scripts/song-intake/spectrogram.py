@@ -47,10 +47,10 @@ Under that, three chromagram strips: the melody off the vocals stem, the
 harmony off the other stem, and the bass off the bass stem under C4. Twelve
 rows each, C at the bottom, each named as the song's key spells it, a row as
 bright as its pitch class's share of the strip, harmonics voting with their
-fundamentals. The bass strip folds a fifth sounding with its root onto the
-root (`fold_fifths`), so a chord's bass is one row, not two. So the melody
-strip carries the tune, the bass strip steps with the roots, and a chord shows as
-several bright rows at once in the harmony strip. A pitch class is read off
+fundamentals, and in the bass strip a fifth sounding with its root folded onto
+the root (`fold_fifths`). So the melody strip carries the tune, the bass strip
+steps with the chords' roots, one row each, and a chord shows as several bright
+rows at once in the harmony strip. A pitch class is read off
 its labelled row; a row's hue is the octave that carries it, keyed beside each
 strip, one hue per octave and the same in every strip — C2 red, C3 orange, C4
 green, C5 cyan, C6 violet — so a melody that leaps an octave changes colour on
