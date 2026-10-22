@@ -9,9 +9,8 @@ it. The repository is public, so Actions minutes are free, and `ubuntu-latest`
 runners have 16 GB. A workflow that runs vet on every PR gives a signal from one
 known machine that reviewers see in the Checks tab.
 
-It does not replace the local run: `/finalize` vets locally first (its Step 1)
-and then watches the PR's workflow to green (its Step 4, via `/watch-ci`) — that
-branch of the skill already exists and only starts applying.
+It replaces `/finalize`'s local run: the PR leaves draft at its Step 4, and the
+run it watches there (via `/watch-ci`) is the vet it attests to.
 
 ## Approach
 
