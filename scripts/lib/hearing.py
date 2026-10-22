@@ -1,9 +1,8 @@
 """Where a Deepgram transcript is unsure: doubtful words marked in place, and
 two models' hearings of one recording merged word by word.
 
-Imported as `from lib.hearing import …` by `scripts/transcribe.py` and
-`scripts/song-intake/lyrics.py`; pure functions over parsed responses, so
-`test_hearing.py` beside it runs them on fixtures without a network. The
+Imported as `from lib.hearing import …`; pure functions over parsed responses,
+so `test_hearing.py` beside it runs them on fixtures without a network. The
 exceptions are `write_response` and `read_response`, the format every kept
 response shares.
 
