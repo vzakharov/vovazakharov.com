@@ -84,10 +84,10 @@ class WhatAnEstimateMayHold(unittest.TestCase):
                 checked(estimate_of("t", part), RATES, "e")
 
     def test_refuses_a_fixed_grade_role_at_any_other_grade(self) -> None:
-        rates = replace(RATES, roles={**RATES.roles, "artist": 1}, fixed_grades={"artist": "senior"})
-        checked(estimate_of("t", Part(1, "senior", "artist")), rates, "e")
+        rates = replace(RATES, roles={**RATES.roles, "musician": 1}, fixed_grades={"musician": "senior"})
+        checked(estimate_of("t", Part(1, "senior", "musician")), rates, "e")
         with self.assertRaisesRegex(ShapeError, "only ever senior"):
-            checked(estimate_of("t", Part(1, "junior", "artist")), rates, "e")
+            checked(estimate_of("t", Part(1, "junior", "musician")), rates, "e")
 
     def test_refuses_a_fixed_grade_naming_a_role_or_grade_the_table_does_not(self) -> None:
         for fixed in ('{"wizard": "senior"}', '{"a": "wizard"}'):

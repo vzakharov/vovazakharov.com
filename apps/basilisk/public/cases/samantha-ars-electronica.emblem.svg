@@ -1,0 +1,33 @@
+<!-- BAS-0009: a doll's hand, two of its fingers bent back the wrong way. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <mask id="samantha-hollow">
+      <rect width="1024" height="1024" fill="white"/>
+      <g fill="black" stroke="black" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="430" y="460" width="180" height="180" rx="40" stroke-width="12"/>
+        <g fill="none" stroke-width="16">
+          <path d="M 450 470 L 445 360"/>
+          <path d="M 497 470 L 497 320"/>
+          <path d="M 545 470 L 548 350 L 620 318"/>
+          <path d="M 592 470 L 600 385 L 680 400"/>
+          <path d="M 600 570 L 690 490"/>
+        </g>
+        <path d="M 520 630 L 520 740" stroke-width="62" stroke-linecap="butt"/>
+      </g>
+    </mask>
+  </defs>
+  <g fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" mask="url(#samantha-hollow)">
+    <rect x="430" y="460" width="180" height="180" rx="40" stroke-width="60"/>
+    <g fill="none" stroke-width="64">
+      <path d="M 450 470 L 445 360"/>
+      <path d="M 497 470 L 497 320"/>
+      <path d="M 545 470 L 548 350 L 620 318"/>
+      <path d="M 592 470 L 600 385 L 680 400"/>
+      <path d="M 600 570 L 690 490"/>
+    </g>
+    <path d="M 520 630 L 520 740" stroke-width="110" stroke-linecap="butt"/>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round">
+    <path d="M 465 740 L 575 740"/>
+  </g>
+</svg>

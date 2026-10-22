@@ -1,0 +1,16 @@
+<!-- BAS-0007: a speech bubble with a heart in its corner, filled with grawlix. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 350 340 L 674 340 Q 724 340 724 390 L 724 590 Q 724 640 674 640 L 450 640 L 370 720 L 380 640 L 350 640 Q 300 640 300 590 L 300 390 Q 300 340 350 340 Z"/>
+    <g stroke-width="18">
+      <path d="M 372 450 L 362 540 M 404 450 L 394 540 M 350 475 L 420 475 M 346 515 L 416 515"/>
+      <path d="M 466 445 L 466 512"/>
+      <path d="M 586 500 L 586 470 A 32 32 0 1 0 554 502 L 590 502 Q 610 502 610 480 A 56 56 0 1 0 590 528"/>
+      <path d="M 660 450 L 660 540 M 621 472 L 699 518 M 621 518 L 699 472"/>
+    </g>
+  </g>
+  <g fill="currentColor">
+    <circle cx="466" cy="540" r="13"/>
+    <circle cx="555" cy="486" r="12"/>
+  </g>
+</svg>

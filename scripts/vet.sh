@@ -53,8 +53,12 @@ fi
 # `tmp/` that nothing else reads. Publishing the PDFs stays each lane's job,
 # since the manifest deciding what to reprint lives in that lane's cache.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
+<<<<<<< HEAD
 # `lint:css` is the check-only stylelint form, for the same reason. ESLint gets
 # the same 5 GB heap `pnpm lint` does: a whole-tree run outgrows Node's default.
+=======
+# `lint:check` and `lint:css` are the check-only forms, for the same reason.
+>>>>>>> origin/main
 # type-overlap and knip read source text only — no generated types, nothing
 # another check writes, and knip writes nothing without --fix, which vet never
 # passes; the test run adds only writes into the OS temp directory, and
@@ -71,7 +75,11 @@ fi
 # touches it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
+<<<<<<< HEAD
   eslint='NODE_OPTIONS=--max-old-space-size=5120 pnpm exec eslint .' \
+=======
+  eslint='pnpm lint:check' \
+>>>>>>> origin/main
   format='pnpm format:check' \
   stylelint='pnpm lint:css' \
   fsd='pnpm lint:fsd' \

@@ -8,7 +8,7 @@
     "analyst": 0.93,
     "developer": 1,
     "architect": 1.2,
-    "artist": 1
+    "musician": 1
   },
   "grades": {
     "junior": 0.4,
@@ -17,6 +17,6 @@
     "staff": 1.4
   },
   "fixedGrades": {
-    "artist": "senior"
+    "musician": "senior"
   }
 }

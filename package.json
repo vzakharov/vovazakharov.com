@@ -27,7 +27,12 @@
     "check:masked-words": "node scripts/check-masked-words.ts",
     "check:song-titles": "node scripts/check-song-titles.ts",
     "check:stanza-repeats": "node scripts/check-stanza-repeats.ts",
+<<<<<<< HEAD
     "lint": "NODE_OPTIONS=--max-old-space-size=5120 eslint . --fix",
+=======
+    "lint": "pnpm lint:check --fix",
+    "lint:check": "NODE_OPTIONS=\"$NODE_OPTIONS --max-old-space-size=3072\" eslint .",
+>>>>>>> origin/main
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:fsd": "steiger src",
     "format": "prettier --write .",

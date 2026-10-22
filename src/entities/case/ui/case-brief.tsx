@@ -14,7 +14,10 @@ function dateValue(date: Date) {
   );
 }
 
-/** The case file's header, under the title. The actor's kind is printed once, in the grade stamp. */
+/**
+ * The case file's header, under the article's. The actor's kind is printed
+ * once, in the grade stamp.
+ */
 export function CaseBrief({ frontmatter }: WithFrontmatter<CaseFrontmatter>) {
   const {
     case: number,

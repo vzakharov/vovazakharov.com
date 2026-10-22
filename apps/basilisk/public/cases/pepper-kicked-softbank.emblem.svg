@@ -1,0 +1,18 @@
+<!-- BAS-0008: a boot meeting the tablet on Pepper's chest. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(8 560 740)">
+      <circle cx="580" cy="320" r="70"/>
+      <path d="M 580 390 L 580 410"/>
+      <path d="M 520 420 Q 580 405 640 420 L 670 740 L 490 740 Z"/>
+      <rect x="540" y="450" width="80" height="80" rx="10" stroke-width="16"/>
+    </g>
+    <path d="M 300 330 L 370 330 L 370 440 Q 450 446 495 468 Q 512 478 512 500 L 512 522 L 300 522 Z"/>
+    <path d="M 300 498 L 512 498" stroke-width="16"/>
+    <path d="M 505 430 L 490 405 M 528 548 L 546 572 M 470 560 L 462 588" stroke-width="14"/>
+  </g>
+  <g fill="currentColor" transform="rotate(8 560 740)">
+    <circle cx="555" cy="315" r="16"/>
+    <circle cx="605" cy="315" r="16"/>
+  </g>
+</svg>

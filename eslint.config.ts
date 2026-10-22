@@ -18,7 +18,7 @@
 //   - eslint-plugin-unicorn               — code quality, filename enforcement
 //   - Core ESLint rules                   — security, correctness, code quality
 //
-// Type-aware linting is enabled via parserOptions.projectService. This allows the
+// Type-aware linting is enabled via parserOptions.project. This allows the
 // full @typescript-eslint rule set including rules that require type information
 // (no-floating-promises, no-unsafe-*, strict-boolean-expressions, etc.).
 //
@@ -237,10 +237,17 @@ const eslintConfig = defineConfig([
     files: ['**/*.{js,jsx,mjs,ts,tsx,mts,cts}'],
     languageOptions: {
       parserOptions: {
-        // Enable type-aware linting. Auto-discovers tsconfig.json via projectService.
-        // This makes ~35 additional @typescript-eslint rules available that require
-        // TypeScript type information (e.g. no-floating-promises, no-unsafe-*).
-        projectService: true,
+        // Enable type-aware linting. This makes ~35 additional @typescript-eslint
+        // rules available that require TypeScript type information (e.g.
+        // no-floating-promises, no-unsafe-*).
+        //
+        // Every file is checked against the root tsconfig.json, which includes
+        // every app's files. projectService would give each file its nearest
+        // tsconfig — one program per app on top of the root one, each nearly all
+        // of src/ plus the library types: five programs overrun a 2.3 GB heap
+        // where one fits in ~1.7 GB.
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     // The full rule set, merged from the per-plugin groups in eslint/rule-groups/.

@@ -104,7 +104,7 @@ export const typescriptRules = {
     '@typescript-eslint/prefer-string-starts-ends-with',
     '@typescript-eslint/unified-signatures',
 
-    // Correctness (require type information — enabled via projectService: true):
+    // Correctness (require type information — enabled via parserOptions.project):
     '@typescript-eslint/await-thenable',
     '@typescript-eslint/no-for-in-array',
     '@typescript-eslint/no-misused-promises',
@@ -123,7 +123,7 @@ export const typescriptRules = {
     '@typescript-eslint/unbound-method',
     '@typescript-eslint/use-unknown-in-catch-callback-variable',
 
-    // Code quality (require type information — enabled via projectService: true):
+    // Code quality (require type information — enabled via parserOptions.project):
     '@typescript-eslint/no-base-to-string',
     '@typescript-eslint/no-redundant-type-constituents',
     '@typescript-eslint/no-unnecessary-boolean-literal-compare',

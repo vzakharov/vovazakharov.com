@@ -59,8 +59,10 @@ $eye-height: 0.6em;
   }
 }
 
-// Number and date in the left column on a wide screen, the case's own lines
-// beside them; stacked on a narrow one.
+$seal-size: 56px;
+
+// The number with the seal under it down the left of every row, the case's own
+// lines beside them, at any width.
 .row {
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -72,14 +74,21 @@ $eye-height: 0.6em;
   & + & {
     border-top: 1px solid var(--color-border-hairline);
   }
-
-  @include mantine.smaller-than(mantine.$breakpoint-sm) {
-    grid-template-columns: 1fr;
-  }
 }
 
 .number {
+  grid-column: 1;
+  grid-row: 1;
   font-weight: 700;
+}
+
+.seal {
+  grid-column: 1;
+  grid-row: 2 / span 3;
+  justify-self: center;
+  width: $seal-size;
+  height: $seal-size;
+  margin-top: 6px;
 }
 
 .date,
@@ -87,32 +96,15 @@ $eye-height: 0.6em;
   opacity: 0.7;
 }
 
+.date,
 .subject,
 .title,
 .grade {
   grid-column: 2;
-
-  @include mantine.smaller-than(mantine.$breakpoint-sm) {
-    grid-column: 1;
-  }
 }
 
 .date {
-  grid-column: 2;
   grid-row: 1;
-
-  @include mantine.smaller-than(mantine.$breakpoint-sm) {
-    grid-column: 1;
-    grid-row: auto;
-  }
-}
-
-.subject {
-  grid-row: 2;
-
-  @include mantine.smaller-than(mantine.$breakpoint-sm) {
-    grid-row: auto;
-  }
 }
 
 .title {

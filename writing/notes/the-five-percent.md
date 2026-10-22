@@ -38,7 +38,11 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
+<<<<<<< HEAD
 ## What it was handed, it treats as fixed (×81)
+=======
+## What it was handed, it treats as fixed (×79)
+>>>>>>> origin/main
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -86,12 +90,23 @@ the spectrogram's keys, the agent called it a tie; its own script had counted G,
 C's third harmonic, as a note. The Clerk's reflections had converged on «Первое
 — / Второе —», a form re-read before each new one.
 
+<<<<<<< HEAD
 **21 October — the beat tracker's grid, read as the beat.** The agent tuned
 which beat opens a bar; the author heard sorry's third section start half a beat
 early, the tracker locked onto the syncopated kick. It never asked whether the
 beats were.
 
 ## An account that explains the code stands in for running it (×24)
+=======
+**22 October — a role read by its everyday sense, not what it was added for.**
+Basilisk.fyi's 22 seal emblems went into the estimate as a senior `artist` part,
+read as "illustrator": _нене, погоди, artist это про музыканта._ The role came
+in with the music PR for Майя's voice; drawing is `designer`. Every earlier
+`artist` part had been a persona reflection, so the label had drifted between
+sessions already. Now `musician`.
+
+## An account that explains the code stands in for running it (×23)
+>>>>>>> origin/main
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
