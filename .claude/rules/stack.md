@@ -60,10 +60,10 @@ Nineteen things about that list are deliberate:
   `pnpm lint:css` is stylelint's. `lint:check` is also the one place ESLint's
   heap ceiling is set, at a fixed 3072 MB: Node's default scales with the
   machine's memory, so without it one tree passes on a laptop and runs out of
-  heap in a cloud container. Today's run needs ~1.7 GB; a tree that outgrows the
-  ceiling fails alike everywhere, which is the cue to find what grew rather than
-  to raise the number. The codegen is the exception below, and it is one because
-  a generated file has no judgment in it: exactly one content is correct.
+  heap in a cloud container. A tree that outgrows the ceiling fails alike
+  everywhere — the cue to find what grew, not to raise the number. The codegen
+  is the exception below, and it is one because a generated file has no judgment
+  in it: exactly one content is correct.
 - **The builds and the codegen run alone, in that order, before the concurrent
   checks.** Each build regenerates its app's `.next/types/`, which
   `tsconfig.json` includes, so a type check overlapping it intermittently reads

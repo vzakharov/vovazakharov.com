@@ -242,10 +242,10 @@ const eslintConfig = defineConfig([
         // no-floating-promises, no-unsafe-*).
         //
         // Every file is checked against the root tsconfig.json, which includes
-        // every app's files, rather than through projectService: that gives each
-        // file its nearest tsconfig, so the linter held one program per app on
-        // top of the root one, each nearly all of src/ plus the library types.
-        // Five programs ran out of a 2.3 GB heap; one fits in ~1.7 GB.
+        // every app's files. projectService would give each file its nearest
+        // tsconfig — one program per app on top of the root one, each nearly all
+        // of src/ plus the library types: five programs overrun a 2.3 GB heap
+        // where one fits in ~1.7 GB.
         project: ['./tsconfig.json'],
         tsconfigRootDir: import.meta.dirname,
       },
