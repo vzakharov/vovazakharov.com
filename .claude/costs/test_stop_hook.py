@@ -41,6 +41,11 @@ class Clone:
         self.home.mkdir()
         self.responses = 0
 
+        # A commit or push can start git's auto-maintenance detached, and one
+        # still running when a test's teardown removes the directory deletes a
+        # lock out from under it.
+        (self.home / ".gitconfig").write_text("[maintenance]\n\tauto = false\n[gc]\n\tauto = 0\n")
+
         # GitHub, as `lib/github.py` reaches it: a `gh` that answers with
         # whatever `answer` left for it, and fails where it left nothing.
         self.answer_file = self.home / "graphql.json"
