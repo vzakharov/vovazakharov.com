@@ -53,7 +53,7 @@ fi
 # `tmp/` that nothing else reads. Publishing the PDFs stays each lane's job,
 # since the manifest deciding what to reprint lives in that lane's cache.
 # Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
-# `lint:css` is the check-only stylelint form, for the same reason.
+# `lint:check` and `lint:css` are the check-only forms, for the same reason.
 # type-overlap and knip read source text only — no generated types, nothing
 # another check writes, and knip writes nothing without --fix, which vet never
 # passes; the test run adds only writes into the OS temp directory, and
