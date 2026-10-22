@@ -11,9 +11,10 @@ is how ESLint running out of heap went unnoticed on main.
 
 A vet workflow now runs scripts/vet.sh unchanged on every pull request
 out of draft, on a GitHub-hosted runner, so a reviewer sees one known
-machine's verdict in the Checks tab. /finalize still vets locally and
-then watches that run to green, and the docs that said nothing runs
-on a pull request now say what does.
+machine's verdict in the Checks tab. That run is the only vet
+/finalize waits on: it no longer runs the same script locally first,
+on a slower copy whose heap depends on the machine. The docs that said
+nothing runs on a pull request now say what does.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
