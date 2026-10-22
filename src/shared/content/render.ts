@@ -34,6 +34,7 @@ import {
 import { hastText } from './hast-text';
 import { rehypeContentLinks } from './plugins/rehype-content-links';
 import { rehypeEndMark } from './plugins/rehype-end-mark';
+import { rehypeFootnoteNotes } from './plugins/rehype-footnote-notes';
 import { rehypeImageDimensions } from './plugins/rehype-image-dimensions';
 import { rehypeImageLayout } from './plugins/rehype-image-layout';
 import { rehypeMediaEmbeds } from './plugins/rehype-media-embeds';
@@ -160,6 +161,9 @@ async function compile(
     // code, so raw HTML passes through unsanitized — nothing here is
     // user-submitted, and a sanitizer would only strip the author's own markup.
     .use(rehypeRaw)
+    // Before every pass that rewrites links and images, so a note's copy of its
+    // footnote is rewritten with the rest of the body.
+    .use(rehypeFootnoteNotes, { fileName })
     .use(rehypeSlug)
     .use(collectHeadings(collected))
     .use(rehypeAutolinkHeadings, { behavior: 'wrap' })

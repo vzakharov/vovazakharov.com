@@ -122,14 +122,16 @@ resolver finds it. That script needs Node 22.18 or newer for type stripping.
 `collections.ts` qualifies because it is string constants and pure path
 functions; `documents.ts` keeps `server-only`, and with it the invariant that
 matters — it is the module that pulls in `fs`, `gray-matter` and `zod`.
-`render-og.ts` and `render-pdf.ts` run under `tsx`: the CV card reads the
-message catalogue through `cvMessages`, and a JSON import is what bare Node
-cannot take without an attribute. They reach `src/` by the `@/` alias, and still
-never through `shared/content`'s barrel, whose `server-only` modules throw
-outside a React server bundle. `render-og.ts` runs under the `react-server`
-condition, which resolves `server-only` to its empty module as a build does, so
-its cards reach `shared/content`'s leaf modules and parse a case with
-`caseFrontmatterSchema`.
+`plugins/rehype-footnote-notes.ts` is the other kind of exception: a pure tree
+pass its test loads outside a React server bundle, so it imports nothing behind
+the fence — `hast-elements.ts` included. `render-og.ts` and `render-pdf.ts` run
+under `tsx`: the CV card reads the message catalogue through `cvMessages`, and a
+JSON import is what bare Node cannot take without an attribute. They reach
+`src/` by the `@/` alias, and still never through `shared/content`'s barrel,
+whose `server-only` modules throw outside a React server bundle. `render-og.ts`
+runs under the `react-server` condition, which resolves `server-only` to its
+empty module as a build does, so its cards reach `shared/content`'s leaf modules
+and parse a case with `caseFrontmatterSchema`.
 
 ## Adding a document
 
@@ -185,7 +187,7 @@ its cards reach `shared/content`'s leaf modules and parse a case with
    nothing serves, and an article's back link at the home section whose id is
    the base.
 
-## The three things a document can author beyond markdown
+## The four things a document can author beyond markdown
 
 **An image sits across the column by default, and beside the text on request** —
 `![alt](./assets/x.jpg 'aside')`, the link title carrying the marker exactly as
@@ -207,6 +209,15 @@ someone's words, which is what a `>` quote would claim. Unlike the pull quote it
 is read and counted like any paragraph. `remark-content-directives.ts` names the
 directives that exist and **throws on any other**, naming the file — an
 unconverted directive would otherwise reach the page as its own `:::` text.
+
+**A note on a phrase is a footnote hung off it** — `[phrase][^label]`, the
+lyrics' syntax (`songs.md` § "Body"), which GitHub renders as the bracketed
+phrase and a footnote. The screen opens it as a popover over the phrase
+(`rehypeFootnoteNotes`, then `ContentSpan`); paper prints the footnote. The note
+sits inside the phrase's paragraph, so it takes paragraphs — an image among them
+— and **fails the build on any other block**, which would close that paragraph
+in the browser and break hydration. A bare `[^label]` stays an ordinary
+footnote.
 
 ## Punctuation around quotes
 
@@ -374,7 +385,10 @@ collections' documents; the rest is held by reading.
   `ContentVideo`, so the print note above reaches a player the pipeline built
   and one an author typed as raw HTML alike — the map keys off the tag, not off
   who emitted it. That reach is the point of the map and the whole of its
-  hazard.
+  hazard: `span` is mapped too, every one of Shiki's included, so `ContentSpan`
+  passes any span but a note through as itself. The map renders with `passNode`,
+  which hands each component its hast element as `node` — a prop a component
+  spreading the rest onto a DOM element has to drop.
 
 ## The locale seam, and where it was settled
 

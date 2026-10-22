@@ -6,14 +6,13 @@ import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import type { ScriptKept, SungLanguage } from '@/shared/music-catalogue';
 import type { WithText } from '@/shared/typings';
-import { Subheading, TextLink } from '@/shared/ui';
+import { NotedSpan, Subheading, TextLink } from '@/shared/ui';
 
 import { inlineRuns } from '../lib/lyric-inline';
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';
 import type { SongLyrics } from '../lib/song-text';
 import { romanizedTag, type Transliteration } from '../lib/transliteration';
 import classes from './music.module.scss';
-import { NotedSpan } from './noted-span';
 
 export type LyricsProps = WithLocale & {
   lyrics: SongLyrics;

@@ -6,6 +6,7 @@ export { hoverDim } from './hover-dim';
 export { InternalButton } from './internal-button';
 export { type MemoField, MemoFields } from './memo-fields';
 export { NameLink } from './name-link';
+export { NotedSpan } from './noted-span';
 export { PageShell } from './page-shell';
 export { Section, Subheading, SUBHEADING_GAP } from './section';
 export { SiteAvatar } from './site-avatar';

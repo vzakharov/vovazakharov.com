@@ -1,3 +1,4 @@
+import type { ExtraProps } from 'hast-util-to-jsx-runtime';
 import type { ComponentProps } from 'react';
 
 import { printedUrl } from '@/shared/config';
@@ -13,8 +14,10 @@ export function ContentVideo({
   src,
   className,
   children,
+  // The hast element `passNode` hands every component, which is no attribute.
+  node: _node,
   ...props
-}: ComponentProps<'video'>) {
+}: ComponentProps<'video'> & ExtraProps) {
   // React also takes a `Blob` or a stream as a `src`, neither of which a
   // statically rendered page has — so only a URL has a printed form to offer.
   const url = typeof src === 'string' ? src : undefined;
