@@ -87,9 +87,18 @@ Operator: «давай прогонять estimates (и что ещё локал
 against its merge base or the cost ledger — songs, squash, CLAUDE.md size,
 estimates — in 2s locally; `source` drops them and checks out one commit.
 
-Left: a dispatch confirming `source` with a shallow checkout; then `/go` Steps
-3–4 (polish, PR body naming that CI's route types come from typegen while a
-local bare run's come from the build).
+## Done: one command
+
+Operator: «а нельзя чтобы локальный скрипт просто сам запускал workflow?»
+`scripts/vet-ci.sh` refuses an unpushed tree, dispatches, runs `vet.sh local`
+meanwhile, finds the run by head SHA and waits on it, printing failed jobs'
+logs. Measured: 2m11s wall clock (run 39810429946: 2m05s, shallow `source`
+1m38s) against a bare local run in the session container of 4m37s — 2.1×.
+
+Open: whether bare `vet.sh` (and so `/finalize`) should go through it.
+
+Left: `/go` Steps 3–4 (polish, PR body naming that CI's route types come from
+typegen while a local bare run's come from the build).
 
 ## The edges
 

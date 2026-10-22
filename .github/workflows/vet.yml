@@ -1,8 +1,8 @@
 name: Vet
 
-# Run by hand on a branch — `gh workflow run vet.yml --ref <branch>` beside a
-# local `./scripts/vet.sh local`, together in place of a bare local run, never
-# on its own. The same run, split across
+# Dispatched by `scripts/vet-ci.sh`, which runs `scripts/vet.sh local` beside
+# it, the two together in place of a bare local run; never on its own. The
+# same run, split across
 # machines by vet.sh's own phases, every job starting at once; only the checks
 # over the exports wait, for the builds that write them.
 on:
