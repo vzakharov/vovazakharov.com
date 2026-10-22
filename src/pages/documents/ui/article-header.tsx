@@ -1,4 +1,5 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
+import type { ReactNode } from 'react';
 
 import { pageFile } from '@/shared/config';
 import {
@@ -53,6 +54,7 @@ function CutSwitcher({
 export type ArticleHeaderProps = WithContentDocument<ArticleFrontmatter> &
   Headlined & {
     availableVariants: Variant[];
+    mark?: ReactNode;
   };
 
 export function ArticleHeader({
@@ -60,20 +62,32 @@ export function ArticleHeader({
   title,
   readingMinutes,
   availableVariants,
+  mark,
 }: ArticleHeaderProps) {
   const { frontmatter, collection, slug, variant, markdown, route } = document;
+
+  const headline = (
+    <Stack gap={12}>
+      <Title order={1} className={classes['articleTitle']}>
+        {title}
+      </Title>
+      <Text size="lg" lh={1.625} opacity={0.8}>
+        {frontmatter.description}
+      </Text>
+    </Stack>
+  );
 
   return (
     <Box component="header" className={classes['articleHeader']}>
       <Stack gap={24}>
-        <Stack gap={12}>
-          <Title order={1} className={classes['articleTitle']}>
-            {title}
-          </Title>
-          <Text size="lg" lh={1.625} opacity={0.8}>
-            {frontmatter.description}
-          </Text>
-        </Stack>
+        {mark === undefined ? (
+          headline
+        ) : (
+          <div className={classes['marked']}>
+            {mark}
+            {headline}
+          </div>
+        )}
 
         <DocumentMeta {...{ frontmatter, readingMinutes }} />
 

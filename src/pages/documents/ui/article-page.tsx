@@ -133,6 +133,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
                   <ArticleHeader
                     {...{ document, title, readingMinutes }}
                     availableVariants={siblingVariants(collection, slug)}
+                    mark={slots?.mark?.(document)}
                   />
                   {slots?.brief?.(document)}
                 </Box>

@@ -7,7 +7,7 @@ import type {
   ContentDocument,
 } from '@/shared/content';
 
-import { CaseBrief, NoAiNote } from '@/entities/case';
+import { CaseBrief, CaseSeal, NoAiNote } from '@/entities/case';
 
 type Slot<F extends BaseFrontmatter> = (
   document: ContentDocument<F>,
@@ -15,6 +15,8 @@ type Slot<F extends BaseFrontmatter> = (
 
 /** What a collection adds to the shared article page. */
 type ArticleSlots<F extends BaseFrontmatter> = {
+  /** Left of the title and lede. */
+  mark?: Slot<F>;
   /** Under the header. */
   brief?: Slot<F>;
   /** Inside the body, after its first paragraph. */
@@ -29,7 +31,8 @@ export const ARTICLE_SLOTS: {
   [C in ArticleCollectionId]?: ArticleSlots<ArticleFrontmatterOf<C>>;
 } = {
   'basilisk-cases': {
-    brief: ({ frontmatter, slug }) => <CaseBrief {...{ frontmatter, slug }} />,
+    mark: ({ slug }) => <CaseSeal {...{ slug }} />,
+    brief: ({ frontmatter }) => <CaseBrief {...{ frontmatter }} />,
     afterLead: ({ frontmatter }) => frontmatter.noAi === true && <NoAiNote />,
   },
 };
