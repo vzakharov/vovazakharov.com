@@ -10,19 +10,20 @@
 #
 #   scripts/vet.sh build <site>   one site's build
 #   scripts/vet.sh lint <k>/<n>   ESLint over the k-th of n shards of the files
-#   scripts/vet.sh checks         everything else, over builds already on disk
+#   scripts/vet.sh source         the codegen and the checks no build feeds
+#   scripts/vet.sh built          the checks that read the builds on disk
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
 
 usage() {
-  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | checks]\n' >&2
+  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | source | built]\n' >&2
   exit 2
 }
 
 phase="${1:-all}"
 case "$phase" in
-  all | checks) [ "$#" -le 1 ] || usage ;;
+  all | source | built) [ "$#" -le 1 ] || usage ;;
   build | lint) [ "$#" -eq 2 ] || usage ;;
   *) usage ;;
 esac
@@ -78,7 +79,7 @@ if [[ "$phase" == build || "$phase" == lint ]]; then
   exit 0
 fi
 
-[ "$phase" = checks ] || build build
+[ "$phase" != all ] || build build
 
 # The check that repairs what it finds, and reports by failing: the generator
 # exits non-zero exactly when it had to write, so a stale file is both fixed
@@ -88,8 +89,9 @@ fi
 #
 # It runs alone for the mirror image of the build's reason: it *writes* files
 # that the fan-out's stylelint, Prettier and type check glob, and would hand
-# one of them over truncated.
-if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
+# one of them over truncated. `built` leaves it to `source`, whose run it is
+# fixing and failing either way.
+if [ "$phase" != built ] && ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   sed 's/^/[styles] /' tmp/vet-styles.log
   printf '[styles] full log: tmp/vet-styles.log\n'
   status=1
@@ -119,22 +121,25 @@ fi
 # `apps/*/public/`.
 # The last eight read the agent infrastructure itself and nothing else here
 # touches it.
-checks=(
+# The checks that read a build's output — the route types or the exports.
+built_checks=(
   typecheck='pnpm typecheck'
+  mantine-styles='pnpm check:mantine-styles'
+  i18n-payload='pnpm check:i18n-payload'
+  cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
+)
+source_checks=(
   format='pnpm format:check'
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
-  mantine-styles='pnpm check:mantine-styles'
-  i18n-payload='pnpm check:i18n-payload'
   prose-quotes='pnpm check:prose-quotes'
   songs='scripts/vet-songs.sh'
   og-vova='pnpm content:og:vova --check'
   og-bible='pnpm content:og:bible --check'
   og-basilisk='pnpm content:og:basilisk --check'
   music-masters='pnpm music:masters check'
-  cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
   test='scripts/vet-test.sh'
   hearing='python3 scripts/lib/test_hearing.py'
   song-facts='python3 scripts/song-intake/test_song_facts.py'
@@ -151,8 +156,12 @@ checks=(
   keepalive='python3 .claude/keepalive/test_keepalive.py'
   hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
 )
-# The phases leave ESLint to the lint shards.
-[ "$phase" = checks ] || checks+=(eslint='pnpm lint:check')
+case "$phase" in
+  # ESLint reads the route types too; the phases leave it to the lint shards.
+  all) checks=("${built_checks[@]}" "${source_checks[@]}" eslint='pnpm lint:check') ;;
+  built) checks=("${built_checks[@]}") ;;
+  source) checks=("${source_checks[@]}") ;;
+esac
 scripts/run-parallel.sh "${checks[@]}" || status=1
 
 if ((status)); then

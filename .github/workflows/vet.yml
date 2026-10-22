@@ -2,8 +2,8 @@ name: Vet
 
 # Run by hand on a branch — `gh workflow run vet.yml --ref <branch>` — in place
 # of a local `./scripts/vet.sh`, never on its own. The same run, split across
-# machines by vet.sh's own phases: the four builds side by side, ESLint in
-# shards beside the rest of the checks, each of those reading the builds'
+# machines by vet.sh's own phases: the four builds side by side with the checks
+# no build feeds, then ESLint in shards beside the checks that read the builds'
 # output.
 on:
   workflow_dispatch:
@@ -77,9 +77,38 @@ jobs:
       - name: ESLint, shard ${{ matrix.shard }}
         run: ./scripts/vet.sh lint ${{ matrix.shard }}
 
-  checks:
+  built:
     runs-on: ubuntu-latest
     needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Download the builds
+        uses: actions/download-artifact@v4
+        with:
+          path: tmp/artifacts
+
+      - name: Place the builds
+        run: ./.github/scripts/place-vet-artifacts.sh
+
+      - name: Checks over the builds
+        run: ./scripts/vet.sh built
+
+      - name: Upload the logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vet-logs-built
+          path: tmp/run-parallel/
+          retention-days: 14
+
+  # Starts with the builds rather than after them: nothing it runs reads one.
+  source:
+    runs-on: ubuntu-latest
     steps:
       # Full history rather than the default single commit: checks that diff
       # against `origin/main` pass quietly with no base to read.
@@ -107,16 +136,8 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-      - name: Download the builds
-        uses: actions/download-artifact@v4
-        with:
-          path: tmp/artifacts
-
-      - name: Place the builds
-        run: ./.github/scripts/place-vet-artifacts.sh
-
-      - name: Checks
-        run: ./scripts/vet.sh checks
+      - name: Checks over the source
+        run: ./scripts/vet.sh source
 
       # vet.sh prints only what failed, and several checks pass quietly when
       # they had nothing to read, so a green run is checked by its logs.
@@ -124,7 +145,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: vet-logs
+          name: vet-logs-source
           path: |
             tmp/run-parallel/
             tmp/vet-*.log
