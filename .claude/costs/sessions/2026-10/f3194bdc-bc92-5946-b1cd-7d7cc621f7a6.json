@@ -10,7 +10,7 @@
     "costUsd": 3.8454504000000007
   },
   "estimate": {
-    "at": "2026-10-21T05:25:38.101Z",
+    "at": "2026-10-22T12:41:41.043Z",
     "parts": [
       {
         "hours": 3.0,
@@ -27,7 +27,7 @@
       {
         "hours": 1.0,
         "grade": "senior",
-        "role": "editor",
+        "role": "persona",
         "comment": "the Clerk's reflection is a persona's own voice"
       }
     ],
