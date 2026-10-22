@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 118,
-    "cacheWrite5mTokens": 106636,
-    "cacheWrite1hTokens": 164562,
-    "cacheReadTokens": 9061634,
-    "outputTokens": 32078,
-    "thinkingTokens": 8106,
-    "responses": 59,
-    "costUsd": 4.304034799999998
+    "inputTokens": 148,
+    "cacheWrite5mTokens": 146225,
+    "cacheWrite1hTokens": 180333,
+    "cacheReadTokens": 11779100,
+    "outputTokens": 42832,
+    "thinkingTokens": 11876,
+    "responses": 74,
+    "costUsd": 5.386840999999999
   },
   "estimate": {
     "at": "2026-10-22T12:15:40.499Z",
@@ -37,39 +37,39 @@
   "url": "https://claude.ai/code/session_011ykECeVk1ySGRdEgmcaDrU",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-22T12:12:43.370Z",
-  "lastResponseAt": "2026-10-22T12:30:12.205Z",
+  "lastResponseAt": "2026-10-22T12:40:03.567Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 92,
+    "inputTokens": 114,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 164562,
-    "cacheReadTokens": 7940420,
-    "outputTokens": 25197,
-    "thinkingTokens": 6055,
-    "responses": 46,
-    "costUsd": 3.408887999999999
+    "cacheWrite1hTokens": 180333,
+    "cacheReadTokens": 10391264,
+    "outputTokens": 34158,
+    "thinkingTokens": 9090,
+    "responses": 57,
+    "costUsd": 4.204532799999999
   },
   "subagents": {
-    "inputTokens": 26,
-    "cacheWrite5mTokens": 106636,
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 146225,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 1121214,
-    "outputTokens": 6881,
-    "thinkingTokens": 2051,
-    "responses": 13,
-    "costUsd": 0.8951468
+    "cacheReadTokens": 1387836,
+    "outputTokens": 8674,
+    "thinkingTokens": 2786,
+    "responses": 17,
+    "costUsd": 1.1823082
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 118,
-      "cacheWrite5mTokens": 106636,
-      "cacheWrite1hTokens": 164562,
-      "cacheReadTokens": 9061634,
-      "outputTokens": 32078,
-      "thinkingTokens": 8106,
-      "responses": 59,
-      "costUsd": 4.304034799999998
+      "inputTokens": 148,
+      "cacheWrite5mTokens": 146225,
+      "cacheWrite1hTokens": 180333,
+      "cacheReadTokens": 11779100,
+      "outputTokens": 42832,
+      "thinkingTokens": 11876,
+      "responses": 74,
+      "costUsd": 5.386840999999999
     }
   },
   "warnings": [],
