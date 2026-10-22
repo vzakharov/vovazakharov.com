@@ -7,41 +7,29 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-21T07:34:43Z
-- **Updated:** 2026-10-21T16:59:05Z
+- **Updated:** 2026-10-22T05:01:57Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 25
+## Awaiting an answer: 13
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at fe56182). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 6d9f072). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/vova/public/music/songs/insomnia.md`:66 — unresolved — last: @vzakharov (human) 2026-10-21T16:26:19Z — "ну а что таки лучше звучит? half-alive не set in stone" → [↓](#t01)
-- **T02** `apps/vova/public/music/songs/invitation.md`:39 — unresolved — last: @vzakharov (human) 2026-10-21T16:27:38Z — "то есть она дописывала стихи отца? кстати, броненосец -- это…" → [↓](#t02)
-- **T03** `apps/vova/public/music/songs/invitation.md`:75 — unresolved — last: @vzakharov (human) 2026-10-21T16:28:37Z — "связи может и не надо, но подсказку про интересные переклика…" → [↓](#t03)
-- **T04** `apps/vova/public/music/songs/winter-in-the-forest.md`:1 — unresolved — last: @vzakharov (human) 2026-10-21T16:30:24Z — "а то что было making-of в предыдущих песнях, переделал на be…" → [↓](#t04)
-- **T05** `docs/music/vovas-music.md`:5 — unresolved — last: @vzakharov (human) 2026-10-21T16:25:20Z — "а там правда вся карта -- не только то что подъехало из docs…" → [↓](#t05)
-- **T06** `apps/vova/public/music/albums/nostalgia.md`:16 — unresolved — last: @vzakharov (human) 2026-10-21T16:31:40Z — ""всё пробовалось" звучит как-то обезличенно" → [↓](#t06)
-- **T07** `apps/vova/public/music/albums/nostalgia.md`:17 — unresolved — last: @vzakharov (human) 2026-10-21T16:32:16Z — "пробовалось-попробовать. Ну и вообще посмотри, кажется, пока…" → [↓](#t07)
-- **T08** `apps/vova/public/music/songs/actor.md`:26 — unresolved — last: @vzakharov (human) 2026-10-21T16:32:52Z — "а подноготоной никакой не нашлось? это интереснее дат" → [↓](#t08)
-- **T09** `apps/vova/public/music/songs/candle-burnt.md`:29 — unresolved — last: @vzakharov (human) 2026-10-21T16:34:34Z — "давай в этом случае poem после истории, и порядок отображени…" → [↓](#t09)
-- **T10** `apps/vova/public/music/songs/candle-burnt.md`:35 — unresolved — last: @vzakharov (human) 2026-10-21T16:35:06Z — "этот абзац можно добавить в конец истории вместо здесь, доба…" → [↓](#t10)
-- **T11** `apps/vova/public/music/songs/candle-burnt.md`:53 — unresolved — last: @vzakharov (human) 2026-10-21T16:35:58Z — "раз уж мы здесь, давай уберём этот абзац, он подходил к пост…" → [↓](#t11)
-- **T12** `apps/vova/public/music/songs/carcassi-caprice.md`:18 — unresolved — last: @vzakharov (human) 2026-10-21T16:36:33Z — "окончить на "зазвучит вдали", а то, особенно на английском,…" → [↓](#t12)
-- **T13** `apps/vova/public/music/songs/dead-man.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:36:52Z — "Прошли года, настало никогда" → [↓](#t13)
-- **T14** `apps/vova/public/music/songs/farewell.md`:18 — unresolved — last: @vzakharov (human) 2026-10-21T16:37:25Z — "только `Probably the last song Dad wrote.`" → [↓](#t14)
-- **T15** `apps/vova/public/music/songs/inverno.md`:24 — unresolved — last: @vzakharov (human) 2026-10-21T16:37:59Z — "Зима Вивальди, переходящая в арктическую зиму Конюхова." → [↓](#t15)
-- **T16** `apps/vova/public/music/songs/my-offence-is-rank.md`:18 — unresolved — last: @vzakharov (human) 2026-10-21T16:38:29Z — "мне кажется можно без кавычек" → [↓](#t16)
-- **T17** `apps/vova/public/music/songs/my-sultan.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:39:00Z — "Так уж устроено, жизнь продолжается -- пусть не для всех." → [↓](#t17)
-- **T18** `apps/vova/public/music/songs/onto-fingers.md`:18 — unresolved — last: @vzakharov (human) 2026-10-21T16:39:15Z — "и тут кавычек не надо. и наверное в большинстве мест -- не н…" → [↓](#t18)
-- **T19** `apps/vova/public/music/songs/river-part-one.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:39:54Z — "Жаворонок, сбежавший и ставший рекой" → [↓](#t19)
-- **T20** `apps/vova/public/music/songs/snow-is-falling.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:40:58Z — "Убелённый пешеход, удивлённые растенья, перекрёстка поворот." → [↓](#t20)
-- **T21** `apps/vova/public/music/songs/sonnet-74.md`:20 — unresolved — last: @vzakharov (human) 2026-10-21T16:41:08Z — "начиная с "Моя душа"" → [↓](#t21)
-- **T22** `apps/vova/public/music/songs/stricken-deer.md`:20 — unresolved — last: @vzakharov (human) 2026-10-21T16:41:21Z — "без части после :" → [↓](#t22)
-- **T23** `apps/vova/public/music/songs/student-girl.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:41:36Z — "Всё косы твои, всё бантики" → [↓](#t23)
-- **T24** `apps/vova/public/music/songs/summer-gone.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:42:16Z — "Спела Ротару, только этого мало" → [↓](#t24)
-- **T25** `apps/vova/public/music/songs/youngest-grandson.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:43:26Z — "Кукуруза, ребята!" → [↓](#t25)
+- **T01** `apps/vova/public/music/songs/invitation.md`:39 — unresolved — last: @vzakharov (human) 2026-10-22T04:54:33Z — "В историю альбома не надо, к bts песни можно: Забавно: броне…" → [↓](#t01)
+- **T02** `apps/vova/public/music/songs/winter-in-the-forest.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T04:55:25Z — "source хорошо, да. Там где он идёт после bts, можно вставлят…" → [↓](#t02)
+- **T03** `apps/vova/public/music/songs/dead-man.md`:21 — unresolved — last: @vzakharov (human) 2026-10-22T03:57:02Z — "будет ли здесь неграмотно *the* never? И повторение the-the…" → [↓](#t03)
+- **T04** `apps/vova/public/music/albums/nostalgia.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T04:44:09Z — "тут переписал и оставил комментарии в русском; обработай пжс…" → [↓](#t04)
+- **T05** `apps/vova/public/music/songs/20.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T04:45:10Z — "тут как раз нужны кавычки, эта строчка была цитатой (от лица…" → [↓](#t05)
+- **T06** `apps/vova/public/music/songs/actor.md`:28 — unresolved — last: @vzakharov (human) 2026-10-22T04:46:12Z — "это можно убрать" → [↓](#t06)
+- **T07** `apps/vova/public/music/songs/actor.md`:35 — unresolved — last: @vzakharov (human) 2026-10-22T04:49:31Z — "история (под poem): Это наверное был самый тщательный процес…" → [↓](#t07)
+- **T08** `apps/vova/public/music/songs/candle-burnt.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T04:49:58Z — "тоже с кавычками: цитата -- не из песни, а из истории" → [↓](#t08)
+- **T09** `apps/vova/public/music/songs/candle-burnt.md`:37 — unresolved — last: @vzakharov (human) 2026-10-22T04:50:27Z — "про Мелодию можно убрать, такая точность дат нам не принципи…" → [↓](#t09)
+- **T10** `apps/vova/public/music/songs/invitation.md`:31 — unresolved — last: @vzakharov (human) 2026-10-22T04:57:37Z — "лучше вставить (сократив/перефразировав) сноской к месту в с…" → [↓](#t10)
+- **T11** `apps/vova/public/music/songs/listen.md`:22 — unresolved — last: @vzakharov (human) 2026-10-22T04:58:18Z — "давай подсократим" → [↓](#t11)
+- **T12** `apps/vova/public/music/songs/peta.md`:18 — unresolved — last: @vzakharov (human) 2026-10-22T04:58:46Z — "The only ethical outcome is to end their suffering" → [↓](#t12)
+- **T13** `docs/music/vovas-music-map.md`:185 — unresolved — last: @vzakharov (human) 2026-10-22T05:01:04Z — "о, пока не забыли, давай создадим issue перенести это в блог…" → [↓](#t13)
 
 ---
 
@@ -49,19 +37,20 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 ## Summary
 
-- Adds «Ностальгия», the Полуживые album on Arseny Tarkovsky's poems that was taken down from every platform: `albums/nostalgia.md` with its cover and the story Vova dictated, and seven song pages (`invitation` running into `summer-gone`, `butterfly-rock`, `actor`, `insomnia`, `candle-tarkovsky`, `winter-in-the-forest`). Each page has the lyrics as sung with an English crib, a history of the poem drawn from sources, and the song's story. Arseny Tarkovsky joins `people.ts`.
-- Dad's «Свеча горела» (Pasternak) rides along as Папа-море's track 9, `candle-burnt`.
+- Adds «Ностальгия», the Полуживые album on Arseny Tarkovsky's poems that was taken down from every platform: `albums/nostalgia.md` with its cover and its story, written from Vova's dictation as first-person prose with only his facts and his «могу врать» hedge kept at his ask, and seven song pages (`invitation` running into `summer-gone`, `butterfly-rock`, `actor`, `insomnia`, `candle-tarkovsky`, `winter-in-the-forest`). Each page has the lyrics as sung with an English crib, a history of the poem drawn from sources, and the song's story. «Актёр»'s history places it among the 1958 poems about the love Tarkovsky met in Ashgabat, after Marina Tarkovskaya; «Приглашение» points at the echo of «Бабочка в госпитальном саду» without claiming a link, and its footnote says the fuller text is what the printed editions carry. Arseny Tarkovsky joins `people.ts`.
+- Dad's «Свеча горела» (Pasternak) rides along as Папа-море's track 9, `candle-burnt`, its story first and the poem's history after. A prelude now shows where its markdown puts it: told after the `lang:` story it follows it, on the page and in the feed, under a heading naming its kind (`music.preludeHeadings`: «О стихотворении», «В мире альбома»); told ahead it leads and the story goes behind the scenes. `storyOrder` in `sections.ts` is the one place both read the order from.
 - None of the tracks had a real master. Each was mastered three ways against references from the Ozone-mastered catalogue, and Vova picked one per track blind, on an unlinked page, `/music/mastering-blind-test`, that switches between the mix and masters A/B/C without stopping playback. The page and `scripts/song-intake/blind-abc.py` (sealed keys, loudness-matched splits) stay for the next song's test. `master.py` writes a 24-bit FLAC when the output is `.flac`. `pnpm music:masters` gains `rename` and `serve-main`, which moves a repository's default branch to `main`, the branch every URL the site builds names.
-- Every song with a story now has a hook, 28 of them plus the album's, and `.claude/rules/songs.md` makes the hook, and a poem's history, the agent's to write. `docs/music/vovas-music-map.md` records what `vovas-music` holds beyond the catalogue, and Whisper and Deepgram transcripts of every vocal stem are in `docs/music/transcripts/`.
+- Every song with a story now has a hook, 28 of them plus the album's, a dozen of them written or trimmed by Vova in review; a hook that is a line standing on its own drops its quotation marks across the catalogue. `.claude/rules/songs.md` states that, and makes the hook and a poem's history the agent's to write. `docs/music/vovas-music-map.md` places every one of `vovas-music`'s 250 repositories that is not a catalogued song's own, and Whisper and Deepgram transcripts of every vocal stem are in `docs/music/transcripts/`.
 
 The plan is `docs/plans/nostalgia-album.paused.md`; its working files (lyrics drafts, blind files and keys, poem research) sit in `docs/remove-before-merging/` and are swept at `/finalize`.
 
 ## QA Checklist
 
-- [ ] `album-page` — `/music/albums/nostalgia` shows the cover, the album story and the seven tracks in order, with Приглашение running into Лето прошло
-- [ ] `song-pages` — each of the eight new song pages plays its master and shows the Russian lyrics beside the English crib, then the poem's history and the story
+- [ ] `album-page` — `/music/albums/nostalgia` shows the cover, the album story (with «могу врать») and the seven tracks in order, with Приглашение running into Лето прошло
+- [ ] `song-pages` — each of the eight new song pages plays its master and shows the Russian lyrics beside the English crib, with the poem's history and the story
+- [ ] `prelude-order` — the Nostalgia songs show the poem's history first and the story under «За кадром»; `/music/songs/candle-burnt` shows its story first and the history under «О стихотворении» (`/en`: "About the poem"); the podcast feed's item for each follows the same order
 - [ ] `footnotes` — Бабочка's «из Китая» and Приглашение's last-line note open in both columns
-- [ ] `hooks` — the music index shows a hook under every song that has a story
+- [ ] `hooks` — the music index shows a hook under every song that has a story, and no whole-line hook wears quotation marks
 - [ ] `downloads` — each new song downloads named and tagged «Полуживые - <title>» (`candle-burnt` under Папа-море)
 - [ ] `blind-test` — `/music/mastering-blind-test` switches mix/A/B/C mid-play, keeps verdicts across a reload, and is absent from the sitemap and links
 - [ ] `blind-abc` — `blind-abc.py reveal` on a committed key and nonce reproduces the seal in `references.md`
@@ -71,6 +60,7 @@ The plan is `docs/plans/nostalgia-album.paused.md`; its working files (lyrics dr
 |------|-------------|----------|-------|
 | `album-page` | e2e | ❌ | `pnpm build:vova` renders it; correctness by `/preview` |
 | `song-pages` | e2e | ❌ | Same; `scripts/vet-songs.sh` checks the frontmatter |
+| `prelude-order` | unit | ✅ | `sections.test.ts` — `localePrelude`'s `follows` and `storyOrder`'s order and headings; the rendered page by `/preview` |
 | `footnotes` | e2e | ❌ | A look on the preview |
 | `hooks` | e2e | ❌ | A look on the index |
 | `downloads` | integration | ✅ | `pnpm music:masters check` in vet |
@@ -78,7 +68,7 @@ The plan is `docs/plans/nostalgia-album.paused.md`; its working files (lyrics dr
 | `blind-abc` | unit | ❌ | The seal/reveal pair is pure and testable |
 | `serve-main` | integration | ❌ | Ran against the three `master` repositories |
 
-https://claude.ai/code/session_01V7V7gEtKYCGrKghubrT1Qd
+https://claude.ai/code/session_015WrX7f6ya7r4PGQSN9kFKL
 
 ---
 
@@ -97,13 +87,18 @@ Proposed squash body:
 ```
 «Ностальгия», the Полуживые album on Arseny Tarkovsky's poems, was
 taken down from every platform but survived whole in vovas-music. Its
-seven tracks join the catalogue under one album page, with Vova's
-dictated album story, the lyrics as sung beside English cribs, and a
-sourced history of each poem ahead of the song's own story. Dad's
+seven tracks join the catalogue under one album page, its story written
+from Vova's dictation, with the lyrics as sung beside English cribs and
+a sourced history of each poem beside the song's own story. Dad's
 «Свеча горела» rides along into Папа-море as candle-burnt. Each song
 keeps the repository its takes were already in, renamed to its slug by
 `music:masters rename`; `serve-main` moves a repository still on
 `master` to `main`, the branch every URL the site builds names.
+
+A prelude, a poem's history or an album's world, shows where its
+markdown tells it: ahead of the story, the story follows behind the
+scenes; after it, the prelude follows under a heading naming its kind.
+storyOrder is the one place the page and the podcast feed read it from.
 
 None of the takes had a real master. Each track was mastered against
 three references from the Ozone-mastered catalogue and picked blind on
@@ -113,11 +108,11 @@ seals each key before the listening and splits the loudness-matched
 audio the page plays; both stay for the next song's test, and
 master.py writes a 24-bit FLAC for a .flac output.
 
-Every song with a story now carries a hook, and the songs rule makes
-the hook, like a poem's history, the agent's to write.
-docs/music/vovas-music-map.md maps what the organization holds beyond
-the catalogue: the 30 gb-* GarageBand repositories, the releases they
-feed, and those still missing from the site.
+Every song with a story now carries a hook, a line standing on its own
+without quotation marks, and the songs rule makes the hook, like a
+poem's history, the agent's to write. docs/music/vovas-music-map.md
+places every vovas-music repository that is not a catalogued song's
+own: the GarageBand archive, album sessions, uncatalogued songs.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -126,62 +121,23 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_17 resolved threads omitted; re-run with `--include-resolved` to export them._
+_39 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `apps/vova/public/music/songs/insomnia.md`:66 — unresolved — last: @vzakharov (human) 2026-10-21T16:26:19Z — "ну а что таки лучше звучит? half-alive не set in stone" → [↓](#t01)
-- **T02** `apps/vova/public/music/songs/invitation.md`:39 — unresolved — last: @vzakharov (human) 2026-10-21T16:27:38Z — "то есть она дописывала стихи отца? кстати, броненосец -- это…" → [↓](#t02)
-- **T03** `apps/vova/public/music/songs/invitation.md`:75 — unresolved — last: @vzakharov (human) 2026-10-21T16:28:37Z — "связи может и не надо, но подсказку про интересные переклика…" → [↓](#t03)
-- **T04** `apps/vova/public/music/songs/winter-in-the-forest.md`:1 — unresolved — last: @vzakharov (human) 2026-10-21T16:30:24Z — "а то что было making-of в предыдущих песнях, переделал на be…" → [↓](#t04)
-- **T05** `docs/music/vovas-music.md`:5 — unresolved — last: @vzakharov (human) 2026-10-21T16:25:20Z — "а там правда вся карта -- не только то что подъехало из docs…" → [↓](#t05)
-- **T06** `apps/vova/public/music/albums/nostalgia.md`:16 — unresolved — last: @vzakharov (human) 2026-10-21T16:31:40Z — ""всё пробовалось" звучит как-то обезличенно" → [↓](#t06)
-- **T07** `apps/vova/public/music/albums/nostalgia.md`:17 — unresolved — last: @vzakharov (human) 2026-10-21T16:32:16Z — "пробовалось-попробовать. Ну и вообще посмотри, кажется, пока…" → [↓](#t07)
-- **T08** `apps/vova/public/music/songs/actor.md`:26 — unresolved — last: @vzakharov (human) 2026-10-21T16:32:52Z — "а подноготоной никакой не нашлось? это интереснее дат" → [↓](#t08)
-- **T09** `apps/vova/public/music/songs/candle-burnt.md`:29 — unresolved — last: @vzakharov (human) 2026-10-21T16:34:34Z — "давай в этом случае poem после истории, и порядок отображени…" → [↓](#t09)
-- **T10** `apps/vova/public/music/songs/candle-burnt.md`:35 — unresolved — last: @vzakharov (human) 2026-10-21T16:35:06Z — "этот абзац можно добавить в конец истории вместо здесь, доба…" → [↓](#t10)
-- **T11** `apps/vova/public/music/songs/candle-burnt.md`:53 — unresolved — last: @vzakharov (human) 2026-10-21T16:35:58Z — "раз уж мы здесь, давай уберём этот абзац, он подходил к пост…" → [↓](#t11)
-- **T12** `apps/vova/public/music/songs/carcassi-caprice.md`:18 — unresolved — last: @vzakharov (human) 2026-10-21T16:36:33Z — "окончить на "зазвучит вдали", а то, особенно на английском,…" → [↓](#t12)
-- **T13** `apps/vova/public/music/songs/dead-man.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:36:52Z — "Прошли года, настало никогда" → [↓](#t13)
-- **T14** `apps/vova/public/music/songs/farewell.md`:18 — unresolved — last: @vzakharov (human) 2026-10-21T16:37:25Z — "только `Probably the last song Dad wrote.`" → [↓](#t14)
-- **T15** `apps/vova/public/music/songs/inverno.md`:24 — unresolved — last: @vzakharov (human) 2026-10-21T16:37:59Z — "Зима Вивальди, переходящая в арктическую зиму Конюхова." → [↓](#t15)
-- **T16** `apps/vova/public/music/songs/my-offence-is-rank.md`:18 — unresolved — last: @vzakharov (human) 2026-10-21T16:38:29Z — "мне кажется можно без кавычек" → [↓](#t16)
-- **T17** `apps/vova/public/music/songs/my-sultan.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:39:00Z — "Так уж устроено, жизнь продолжается -- пусть не для всех." → [↓](#t17)
-- **T18** `apps/vova/public/music/songs/onto-fingers.md`:18 — unresolved — last: @vzakharov (human) 2026-10-21T16:39:15Z — "и тут кавычек не надо. и наверное в большинстве мест -- не н…" → [↓](#t18)
-- **T19** `apps/vova/public/music/songs/river-part-one.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:39:54Z — "Жаворонок, сбежавший и ставший рекой" → [↓](#t19)
-- **T20** `apps/vova/public/music/songs/snow-is-falling.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:40:58Z — "Убелённый пешеход, удивлённые растенья, перекрёстка поворот." → [↓](#t20)
-- **T21** `apps/vova/public/music/songs/sonnet-74.md`:20 — unresolved — last: @vzakharov (human) 2026-10-21T16:41:08Z — "начиная с "Моя душа"" → [↓](#t21)
-- **T22** `apps/vova/public/music/songs/stricken-deer.md`:20 — unresolved — last: @vzakharov (human) 2026-10-21T16:41:21Z — "без части после :" → [↓](#t22)
-- **T23** `apps/vova/public/music/songs/student-girl.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:41:36Z — "Всё косы твои, всё бантики" → [↓](#t23)
-- **T24** `apps/vova/public/music/songs/summer-gone.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:42:16Z — "Спела Ротару, только этого мало" → [↓](#t24)
-- **T25** `apps/vova/public/music/songs/youngest-grandson.md`:21 — unresolved — last: @vzakharov (human) 2026-10-21T16:43:26Z — "Кукуруза, ребята!" → [↓](#t25)
+- **T01** `apps/vova/public/music/songs/invitation.md`:39 — unresolved — last: @vzakharov (human) 2026-10-22T04:54:33Z — "В историю альбома не надо, к bts песни можно: Забавно: броне…" → [↓](#t01)
+- **T02** `apps/vova/public/music/songs/winter-in-the-forest.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T04:55:25Z — "source хорошо, да. Там где он идёт после bts, можно вставлят…" → [↓](#t02)
+- **T03** `apps/vova/public/music/songs/dead-man.md`:21 — unresolved — last: @vzakharov (human) 2026-10-22T03:57:02Z — "будет ли здесь неграмотно *the* never? И повторение the-the…" → [↓](#t03)
+- **T04** `apps/vova/public/music/albums/nostalgia.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T04:44:09Z — "тут переписал и оставил комментарии в русском; обработай пжс…" → [↓](#t04)
+- **T05** `apps/vova/public/music/songs/20.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T04:45:10Z — "тут как раз нужны кавычки, эта строчка была цитатой (от лица…" → [↓](#t05)
+- **T06** `apps/vova/public/music/songs/actor.md`:28 — unresolved — last: @vzakharov (human) 2026-10-22T04:46:12Z — "это можно убрать" → [↓](#t06)
+- **T07** `apps/vova/public/music/songs/actor.md`:35 — unresolved — last: @vzakharov (human) 2026-10-22T04:49:31Z — "история (под poem): Это наверное был самый тщательный процес…" → [↓](#t07)
+- **T08** `apps/vova/public/music/songs/candle-burnt.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T04:49:58Z — "тоже с кавычками: цитата -- не из песни, а из истории" → [↓](#t08)
+- **T09** `apps/vova/public/music/songs/candle-burnt.md`:37 — unresolved — last: @vzakharov (human) 2026-10-22T04:50:27Z — "про Мелодию можно убрать, такая точность дат нам не принципи…" → [↓](#t09)
+- **T10** `apps/vova/public/music/songs/invitation.md`:31 — unresolved — last: @vzakharov (human) 2026-10-22T04:57:37Z — "лучше вставить (сократив/перефразировав) сноской к месту в с…" → [↓](#t10)
+- **T11** `apps/vova/public/music/songs/listen.md`:22 — unresolved — last: @vzakharov (human) 2026-10-22T04:58:18Z — "давай подсократим" → [↓](#t11)
+- **T12** `apps/vova/public/music/songs/peta.md`:18 — unresolved — last: @vzakharov (human) 2026-10-22T04:58:46Z — "The only ethical outcome is to end their suffering" → [↓](#t12)
+- **T13** `docs/music/vovas-music-map.md`:185 — unresolved — last: @vzakharov (human) 2026-10-22T05:01:04Z — "о, пока не забыли, давай создадим issue перенести это в блог…" → [↓](#t13)
 
 <a id="t01"></a>
-
-### `apps/vova/public/music/songs/insomnia.md`:66 — unresolved
-
-```diff
-@@ -0,0 +1,81 @@
-… 62 lines elided …
-+Send seconds this way and that,
-+And the lame and the crooked trudge along,
-+The living ride up in the lift,
-+The unliving and the half-living
-```
-
-**@vzakharov (human)** — 2026-10-21T15:08:57Z
-
-если half-living больше подходит чем half-alive, нужно в переводе названия группы тоже изменить
-
-**@vzakharov (agent)** — 2026-10-21T16:04:16Z
-
-Наоборот подогнал: в подстрочнике теперь «The lifeless and the half-alive», как в названии группы. ee421f1
-
-**@vzakharov (human)** — 2026-10-21T16:26:19Z
-
-ну а что таки лучше звучит? half-alive не set in stone
-
----
-
-<a id="t02"></a>
 
 ### `apps/vova/public/music/songs/invitation.md`:39 — unresolved
 
@@ -208,36 +164,19 @@ _17 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 кстати, броненосец -- это ведь тоже отсылка к Таркусу. Вот сейчас бы вспомнить, я это понимал или случайно вышло.
 
----
+**@vzakharov (agent)** — 2026-10-21T17:04:44Z
 
-<a id="t03"></a>
+Нет. Длинный текст печатается как стихотворение самого Арсения Тарковского, датированное 1937-м, — и в её книге «Судьба моя сгорела между строк», и в собрании «Стихотворения. Поэмы» (Эксмо, 2017), которое она составляла. Ни один источник не говорит, что она что-то дописывала. Скорее наоборот: короткий текст с «броненосцем» и многоточием я нашёл только на сайтах-агрегаторах, печатного источника у него нет — похоже, это обрывок, который так и гуляет. Сноску уточнил: 51fd25e
 
-### `apps/vova/public/music/songs/invitation.md`:75 — unresolved
+Про Таркуса: источника тут быть не может — ELP Тарковскому не попадался. А вот тебе — да. Tarkus и правда броненосец-танк, и самое забавное, что в полной редакции у вокзала бронепоезд: броненосец есть только в той версии, которую ты спел. Хочешь — добавлю это эхо строчкой в историю альбома рядом с «Таркосом»; но это твоя реплика, поэтому без тебя не вставляю.
 
-```diff
-@@ -0,0 +1,60 @@
-… 46 lines elided …
-+
-+We’ll visit, if you like, the town of Love’s Fear,
-+The town of [Centifolia][^centifolia-en] and the town of Grand Piano Open,
-+Over every town hovers a butterfly of dear dust,
-```
+**@vzakharov (human)** — 2026-10-22T04:54:33Z
 
-**@vzakharov (human)** — 2026-10-21T15:11:38Z
-
-интересно не про эту ли же бабочку навеяло ему в "госпитальном саду" (правда, не знаю относительной хронологии)
-
-**@vzakharov (agent)** — 2026-10-21T16:04:25Z
-
-Хронология неоднозначная: Марина Тарковская датирует «Приглашение» 1937 годом, агрегаторы — 1945-м; «Бабочка в госпитальном саду» — 1945. Если верна дочь, «бабочка милого праха» на восемь лет раньше госпитальной; если нет — обе одного года. Источника, который их связывал бы, не нашёл, поэтому на странице связи нет, а обе даты стоят в истории стихотворения.
-
-**@vzakharov (human)** — 2026-10-21T16:28:37Z
-
-связи может и не надо, но подсказку про интересные перекликания можно; это же не только про Тарковского, но и про этот альбом
+В историю альбома не надо, к bts песни можно: Забавно: броненосец в брезенте -- возможно, тот самый, который был бы на абложке [альбома], если бы он стал таки «Таркосом».
 
 ---
 
-<a id="t04"></a>
+<a id="t02"></a>
 
 ### `apps/vova/public/music/songs/winter-in-the-forest.md`:1 — unresolved
 
@@ -255,161 +194,19 @@ _17 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 по поводу `poem` давай подумаем, с какой стороны ещё можно подойти, я пока not convinced (too specific кажется).
 
----
+**@vzakharov (agent)** — 2026-10-21T17:04:53Z
 
-<a id="t05"></a>
+making-of: да — его больше нет нигде в каталоге, подпись везде из одного ключа `behindTheScenes` (ee421f1).
 
-### `docs/music/vovas-music.md`:5 — unresolved
+`poem`: согласен, узковато. Предложение — `<!-- source:<locale> -->`, «первоисточник»: история того, на чём песня стоит, кто бы это ни написал — стихотворение, оригинал кавера, сказка, цитата. Заголовок, когда она идёт после истории, — «О первоисточнике» / “About the source” (сейчас «О стихотворении»). Тогда у песни два вида преамбулы: `universe` — голос изнутри мира, `source` — рассказ о чужом тексте. Альтернативы: `origin` («Откуда это») или один `prelude:<kind>` на оба. Переименую, когда выберешь.
 
-```diff
-@@ -0,0 +1,88 @@
-+# `vovas-music` beyond the catalogue
-+
-+A map of what the `vovas-music` organization holds that the site's catalogue
-+does not yet use, so the next release to be added starts from it rather than
-+from a search of 250 repositories.
-```
+**@vzakharov (human)** — 2026-10-22T04:55:25Z
 
-**@vzakharov (human)** — 2026-10-21T15:21:52Z
-
-does not yet use, а снизу перечислены те что уже есть. и название для md нужно более подходящее
-
-**@vzakharov (agent)** — 2026-10-21T16:04:43Z
-
-Переименовал в `docs/music/vovas-music-map.md` и переписал вступление: это карта всей организации — и что каталог уже использует, и чего на сайте нет, и что не опознано. 0442a28
-
-**@vzakharov (human)** — 2026-10-21T16:25:20Z
-
-а там правда вся карта -- не только то что подъехало из docs/remove-before-merging/garageband-to-vovas-music-report.md ?
+source хорошо, да. Там где он идёт после bts, можно вставлять подзаголовок "О первоисточнике" (то есть принцип такой: у первой секции подзаголовок не вставляем никогда, у второй вставляем в зависимости от того что это за секция)
 
 ---
 
-<a id="t06"></a>
-
-### `apps/vova/public/music/albums/nostalgia.md`:16 — unresolved
-
-```diff
-@@ -4,4 +4,112 @@ artist: 'Полуживые'
-… 9 lines elided …
-+
-+<!-- lang:ru -->
-+
-+Когда появилась Suno, в основном всё пробовалось на текстах классиков: их не
-```
-
-**@vzakharov (human)** — 2026-10-21T16:31:40Z
-
-"всё пробовалось" звучит как-то обезличенно
-
----
-
-<a id="t07"></a>
-
-### `apps/vova/public/music/albums/nostalgia.md`:17 — unresolved
-
-```diff
-@@ -4,4 +4,112 @@ artist: 'Полуживые'
-… 10 lines elided …
-+<!-- lang:ru -->
-+
-+Когда появилась Suno, в основном всё пробовалось на текстах классиков: их не
-+нужно писать, и можно быстро попробовать. Так у за/обложкой получились две
-```
-
-**@vzakharov (human)** — 2026-10-21T16:32:16Z
-
-пробовалось-попробовать. Ну и вообще посмотри, кажется, пока слишком разговорно-литерально это выглядит, надо всё-таки как-то выжимать, а не диктовать.
-
----
-
-<a id="t08"></a>
-
-### `apps/vova/public/music/songs/actor.md`:26 — unresolved
-
-```diff
-@@ -16,8 +16,19 @@ credits:
-… 7 lines elided …
- 
-+<!-- poem:ru -->
-+
-+«Актёр» написан в 1958 году. В первые две книги Тарковского — «Перед снегом» (1962) и «Земле — земное» (1966) — он не вошёл; в книге его напечатали в «Стихотворениях» 1974 года.
-```
-
-**@vzakharov (human)** — 2026-10-21T16:32:52Z
-
-а подноготоной никакой не нашлось? это интереснее дат
-
----
-
-<a id="t09"></a>
-
-### `apps/vova/public/music/songs/candle-burnt.md`:29 — unresolved
-
-```diff
-@@ -16,13 +16,32 @@ credits:
-… 10 lines elided …
- 
- <!-- Story from Vova's Telegram post. -->
- 
-+<!-- poem:ru -->
-```
-
-**@vzakharov (human)** — 2026-10-21T16:34:34Z
-
-давай в этом случае poem после истории, и порядок отображения на сайте будет зависеть от того, как в md
-
----
-
-<a id="t10"></a>
-
-### `apps/vova/public/music/songs/candle-burnt.md`:35 — unresolved
-
-```diff
-@@ -16,13 +16,32 @@ credits:
-… 16 lines elided …
-+
-+Это одно из стихотворений Юрия Живаго, которыми кончается роман. В самом романе юный Юра едет в санях на ёлку и видит в окне в Камергерском переулке горящую свечу — за этим окном Лара. Напечатано сти…
-+
-+Музыку на него писали и другие: Александр Градский — в конце семидесятых, записав песню на «Мелодии» в 1983-м, и Алла Пугачёва — в 1999-м.
-```
-
-**@vzakharov (human)** — 2026-10-21T16:35:06Z
-
-этот абзац можно добавить в конец истории вместо здесь, добавив что "Папа обе версии не жаловал -- как и все остальные, после того как послушали папину."
-
----
-
-<a id="t11"></a>
-
-### `apps/vova/public/music/songs/candle-burnt.md`:53 — unresolved
-
-**@vzakharov (human)** — 2026-10-21T16:35:58Z
-
-раз уж мы здесь, давай уберём этот абзац, он подходил к посту в телеграме, а к durable заметке не очень
-
----
-
-<a id="t12"></a>
-
-### `apps/vova/public/music/songs/carcassi-caprice.md`:18 — unresolved
-
-```diff
-@@ -13,6 +13,9 @@ explicit: false
- en:
-   title:
-     translation: 'Carcassi’s Caprice'
-+  hook: '“And the music of the planets will sound in the distance like Carcassi’s caprice.”'
-+ru:
-+  hook: '«И музыка планет зазвучит вдали как каприз Каркасси».'
-```
-
-**@vzakharov (human)** — 2026-10-21T16:36:33Z
-
-окончить на "зазвучит вдали", а то, особенно на английском, длинновато
-
----
-
-<a id="t13"></a>
+<a id="t03"></a>
 
 ### `apps/vova/public/music/songs/dead-man.md`:21 — unresolved
 
@@ -428,251 +225,187 @@ does not yet use, а снизу перечислены те что уже ест
 
 Прошли года, настало никогда
 
+**@vzakharov (agent)** — 2026-10-21T17:05:22Z
+
+Прошли года, настало никогда. / The years are gone, never has arrived. — английский по подстрочнику. b0a8b98
+
+**@vzakharov (human)** — 2026-10-22T03:57:02Z
+
+будет ли здесь неграмотно *the* never? И повторение the-the как литературный приём, и избежание прочтения as in "[something] has never arrived"
+
 ---
 
-<a id="t14"></a>
+<a id="t04"></a>
 
-### `apps/vova/public/music/songs/farewell.md`:18 — unresolved
+### `apps/vova/public/music/albums/nostalgia.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-22T04:44:09Z
+
+тут переписал и оставил комментарии в русском; обработай пжст
+
+---
+
+<a id="t05"></a>
+
+### `apps/vova/public/music/songs/20.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-22T04:45:10Z
+
+тут как раз нужны кавычки, эта строчка была цитатой (от лица сына) уже в песне
+
+---
+
+<a id="t06"></a>
+
+### `apps/vova/public/music/songs/actor.md`:28 — unresolved
 
 ```diff
-@@ -13,6 +13,9 @@ explicit: false
- en:
-   title:
-     translation: 'Farewell'
-+  hook: 'The last song Dad wrote. Did he “arrange” the title on purpose?'
-+ru:
-+  hook: 'Последняя песня, которую написал папа. Не нарочно ли он так «подстроил» название?'
+@@ -16,18 +16,22 @@ credits:
+… 12 lines elided …
+-«Актёр» написан в 1958 году. В первые две книги Тарковского — «Перед снегом» (1962) и «Земле — земное» (1966) — он не вошёл; в книге его напечатали в «Стихотворениях» 1974 года.
++В начале 1958 года Тарковский поехал в творческую командировку в Ашхабад и встретил там женщину, о которой, как пишет его дочь Марина Тарковская в книге «Судьба моя сгорела между строк», «нам почти н…
++
++В первые две книги Тарковского — «Перед снегом» (1962) и «Земле — земное» (1966) — «Актёр» не вошёл; в книге его напечатали в «Стихотворениях» 1974 года.
 ```
 
-**@vzakharov (human)** — 2026-10-21T16:37:25Z
+**@vzakharov (human)** — 2026-10-22T04:46:12Z
 
-только `Probably the last song Dad wrote.`
+это можно убрать
 
 ---
 
-<a id="t15"></a>
+<a id="t07"></a>
 
-### `apps/vova/public/music/songs/inverno.md`:24 — unresolved
+### `apps/vova/public/music/songs/actor.md`:35 — unresolved
 
 ```diff
-@@ -16,9 +16,11 @@ credits:
- en:
-   title:
-     translation: 'Winter'
-+  hook: 'It opens on Vivaldi’s “Winter.”'
- ru:
-   title:
-     translation: 'Зима'
-+  hook: 'Начинается с «Зимы» Вивальди.'
- ---
+@@ -16,18 +16,22 @@ credits:
+… 20 lines elided …
++Early in 1958 Tarkovsky went to Ashgabat on a writers’ assignment and met a woman about whom, as his daughter Marina Tarkovskaya writes in _Sudba moya sgorela mezhdu strok_ (“My fate burned down betw…
++
++“The Actor” is in neither of Tarkovsky’s first two books — _Pered snegom_ (“Before the snow,” 1962) and _Zemle — zemnoye_ (1966); it reached a book in his _Stikhotvoreniya_ (“Poems”) of 1974.
+ 
 ```
 
-**@vzakharov (human)** — 2026-10-21T16:37:59Z
+**@vzakharov (human)** — 2026-10-22T04:49:31Z
 
-Зима Вивальди, переходящая в арктическую зиму Конюхова.
+история (под poem): Это наверное был самый тщательный процесс отбора «кандидатов» в песню: шорт-лист состоял из 14 вариантов, которые я разбирал по циферкам-статистика, как персонажа какой-нибудь RPG. А три оставшихся финалиста до сих пор лежат в заметках и ждут своей очереди стать другой песней.
+
+Сам выбранный вариант мне, что парадоксально, нравился *не* больше остальных, но он был, безусловно, самым самобытным и неожиданным -- критерий, который я впоследствии возвёл в один из самых важных. Не нравился в основном из-за припева -- хотелось там чего-то более разнообразного и гармоничного, а пробовать «по-другому» тогдашняя Суна не давала. А сейчас слушаю и думаю, ну конечно, что же другое там могло быть?
 
 ---
 
-<a id="t16"></a>
+<a id="t08"></a>
 
-### `apps/vova/public/music/songs/my-offence-is-rank.md`:18 — unresolved
+### `apps/vova/public/music/songs/candle-burnt.md`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-22T04:49:58Z
+
+тоже с кавычками: цитата -- не из песни, а из истории
+
+---
+
+<a id="t09"></a>
+
+### `apps/vova/public/music/songs/candle-burnt.md`:37 — unresolved
 
 ```diff
-@@ -14,9 +14,12 @@ alsoOn: [{ album: hamlet, track: 2 }]
+@@ -50,7 +34,7 @@ Others set it too: Alexander Gradsky, in the late seventies, recording it at Mel
 … 1 line elided …
-   lyrics: [William Shakespeare]
-   music: [Vladimir Zakharov Sr.]
-+en:
-+  hook: '“May one be pardon’d and retain the offence?”'
+ Поэтому реставрировать и переделывать её было особенно боязно, и я долго откладывал, но вот наконец решился.
+ 
+-Любое подобие неизбежно хуже образа — но, надеюсь, что и в таком виде вы услышите в этой песне своего друга Зэка.
++Музыку на «Зимнюю ночь» писали и другие: Александр Градский — в конце семидесятых, записав песню на «Мелодии» в 1983-м, и Алла Пугачёва — в 1999-м. Папа обе версии не жаловал — как и все остальные, после того как послушали папину.
 ```
 
-**@vzakharov (human)** — 2026-10-21T16:38:29Z
+**@vzakharov (human)** — 2026-10-22T04:50:27Z
 
-мне кажется можно без кавычек
+про Мелодию можно убрать, такая точность дат нам не принципиальна
 
 ---
 
-<a id="t17"></a>
+<a id="t10"></a>
 
-### `apps/vova/public/music/songs/my-sultan.md`:21 — unresolved
+### `apps/vova/public/music/songs/invitation.md`:31 — unresolved
 
 ```diff
-@@ -16,6 +16,9 @@ credits:
- en:
+@@ -28,6 +28,8 @@ ru:
+ 
+ «Отдалённые страны» Тарковского — его детство в Елисаветграде, нынешнем Кропивницком: «город Блаженное Детство и город Родные Гробы». Его дочь Марина Тарковская в книге «Судьба моя сгорела между стро…
+ 
++Над каждым городом здесь вьётся «бабочка милого праха», а «Бабочка в госпитальном саду», третья песня этого альбома, датирована 1945 годом: восемью годами позже, если верна первая дата, и тем же годом, если вторая.
+```
+
+**@vzakharov (human)** — 2026-10-22T04:57:37Z
+
+лучше вставить (сократив/перефразировав) сноской к месту в словах, плюс на "Бабочку" должна идти ссылка
+
+---
+
+<a id="t11"></a>
+
+### `apps/vova/public/music/songs/listen.md`:22 — unresolved
+
+```diff
+@@ -17,9 +17,9 @@ credits:
+… 1 line elided …
    title:
-     translation: 'My Sultan'
-+  hook: 'Dad, to his eldest grandson Zoltan: “My sultan, it is you.”'
-+ru:
-+  hook: 'Папа — старшему внуку Золтану: «Мой султан — это ты».'
+     translation: 'Listen!'
+-  hook: '“Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist, but we hope that if this star is lit, it means someone needs it.”'
++  hook: 'Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist, but we hope that if this star is lit, it means someone needs it.'
+ ru:
+-  hook: '«Всем привет, я Майя из группы за/обложкой. Нас не существует, но мы надеемся, что если эту звезду зажгли, значит, это кому-нибудь нужно».'
++  hook: 'Всем привет, я Майя из группы за/обложкой. Нас не существует, но мы надеемся, что если эту звезду зажгли, значит, это кому-нибудь нужно.'
 ```
 
-**@vzakharov (human)** — 2026-10-21T16:39:00Z
+**@vzakharov (human)** — 2026-10-22T04:58:18Z
 
-Так уж устроено, жизнь продолжается -- пусть не для всех.
+давай подсократим
 
 ---
 
-<a id="t18"></a>
+<a id="t12"></a>
 
-### `apps/vova/public/music/songs/onto-fingers.md`:18 — unresolved
+### `apps/vova/public/music/songs/peta.md`:18 — unresolved
 
 ```diff
-@@ -13,6 +13,9 @@ explicit: false
+@@ -11,11 +11,11 @@ explicit: false
+… 1 line elided …
+ track: 6
  en:
-   title:
-     translation: 'Onto Fingers'
-+  hook: '“And stars from the sky onto fingers — and they don’t melt.”'
-+ru:
-+  hook: '«А звёзды с неба на пальцы — и не тают».'
-```
-
-**@vzakharov (human)** — 2026-10-21T16:39:15Z
-
-и тут кавычек не надо. и наверное в большинстве мест -- не надо, проsweepь пжст
-
----
-
-<a id="t19"></a>
-
-### `apps/vova/public/music/songs/river-part-one.md`:21 — unresolved
-
-```diff
-@@ -16,6 +16,9 @@ credits:
- en:
-   title:
-     translation: 'The River. Part One / Escape'
-+  hook: '“My mind is clear and pure, like a great river.”'
-+ru:
-+  hook: '«Ум мой ясен и чист, как большая река».'
-```
-
-**@vzakharov (human)** — 2026-10-21T16:39:54Z
-
-Жаворонок, сбежавший и ставший рекой
-
----
-
-<a id="t20"></a>
-
-### `apps/vova/public/music/songs/snow-is-falling.md`:21 — unresolved
-
-```diff
-@@ -16,6 +16,9 @@ credits:
- en:
-   title:
-     translation: 'Snow Is Falling'
-+  hook: 'They say Dad used to sing me this song when I was still in my mother’s belly.'
-+ru:
-+  hook: 'Говорят, папа пел мне эту песню, когда я ещё был у мамы в животе.'
-```
-
-**@vzakharov (human)** — 2026-10-21T16:40:58Z
-
-Убелённый пешеход, удивлённые растенья, перекрёстка поворот.
-
----
-
-<a id="t21"></a>
-
-### `apps/vova/public/music/songs/sonnet-74.md`:20 — unresolved
-
-```diff
-@@ -14,7 +14,10 @@ credits:
- en:
-   title:
-     translation: 'Do not torment yourself…'
-+  hook: '“Let the base dust rot away in the earth — my soul is with you, in my verse.”'
-   cribNote: 'The English is Shakespeare’s original, Sonnet 74; the song sings Kushner’s translation.'
-+ru:
-+  hook: '«Пускай в земле истлеет низкий прах, моя душа — с тобой, в моих стихах».'
-```
-
-**@vzakharov (human)** — 2026-10-21T16:41:08Z
-
-начиная с "Моя душа"
-
----
-
-<a id="t22"></a>
-
-### `apps/vova/public/music/songs/stricken-deer.md`:20 — unresolved
-
-```diff
-@@ -12,9 +12,12 @@ mp3Bytes: 7686350
- explicit: false
- credits:
-   lyrics: ['William Shakespeare']
-+en:
-+  hook: '“For some must watch, while some must sleep: so runs the world away.”'
+-  hook: '“Thus, all the pros and cons in mind, the only ethical outcome is to end their suffering once and for all.”'
++  hook: 'Thus, all the pros and cons in mind, the only ethical outcome is to end their suffering once and for all.'
  ru:
    title:
-     translation: 'Пусть раненый олень ревёт'
-+  hook: '«Где — спят, а где — ночной обход, кому что рок назначит».'
+     translation: 'Роботы за этичное обращение с людьми'
+-  hook: '«Итак, взвесив все за и против, единственный этичный исход — положить конец их страданиям раз и навсегда».'
++  hook: 'Итак, взвесив все за и против, единственный этичный исход — положить конец их страданиям раз и навсегда.'
 ```
 
-**@vzakharov (human)** — 2026-10-21T16:41:21Z
+**@vzakharov (human)** — 2026-10-22T04:58:46Z
 
-без части после :
+The only ethical outcome is to end their suffering
 
 ---
 
-<a id="t23"></a>
+<a id="t13"></a>
 
-### `apps/vova/public/music/songs/student-girl.md`:21 — unresolved
-
-```diff
-@@ -16,6 +16,9 @@ credits:
- en:
-   title:
-     translation: 'The Student Girl'
-+  hook: '“And do you know that these failed exams were your gift to me, my dove?”'
-+ru:
-+  hook: '«А знаешь ли ты, что эти хвосты мне ты подарила, голубка?»'
-```
-
-**@vzakharov (human)** — 2026-10-21T16:41:36Z
-
-Всё косы твои, всё бантики
-
----
-
-<a id="t24"></a>
-
-### `apps/vova/public/music/songs/summer-gone.md`:21 — unresolved
+### `docs/music/vovas-music-map.md`:185 — unresolved
 
 ```diff
-@@ -16,8 +16,31 @@ credits:
- en:
-   title:
-     translation: 'Summer Has Gone'
-+  hook: '“Admittedly, I made Bi-2 out of it. But Dad liked it.”'
-+ru:
-+  hook: '«Я, правда, сделал из него „Би-2“. Но папе понравилось».'
+@@ -88,3 +129,57 @@ On neither Apple Music nor the site:
+… 51 lines elided …
++- `cuzie` — a spelling twin of `cu-ie` (Чужие среди нас)
++- `epico`, `g35`, `local_elo` — only `.gitattributes`/`.gitignore`
++
++## Not music
++
++- `blog` — Vova's music blog: six 2024 posts on Suno and Udio
 ```
 
-**@vzakharov (human)** — 2026-10-21T16:42:16Z
+**@vzakharov (human)** — 2026-10-22T05:01:04Z
 
-Спела Ротару, только этого мало
-
----
-
-<a id="t25"></a>
-
-### `apps/vova/public/music/songs/youngest-grandson.md`:21 — unresolved
-
-```diff
-@@ -16,6 +16,9 @@ credits:
- en:
-   title:
-     translation: 'My Youngest Grandson'
-+  hook: 'I think it is my father’s only song in a major key.'
-+ru:
-+  hook: 'Кажется, единственная папина мажорная песня.'
-```
-
-**@vzakharov (human)** — 2026-10-21T16:43:26Z
-
-Кукуруза, ребята!
+о, пока не забыли, давай создадим issue перенести это в блог на основном сайте (там пока блога нет вообще, так что это скорее про "и это тоже", а не про "завести блог вообще")
 
 ---
 
@@ -681,3 +414,4 @@ does not yet use, а снизу перечислены те что уже ест
 - **2026-10-21T15:31:57Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/181#pullrequestreview-5601718535.
 - **2026-10-21T16:33:08Z** @vzakharov cross-referenced this pull request from [#186 feat: merge a song's local Whisper hearing into its Deepgram transcript](https://github.com/vzakharov/vovazakharov.com/pull/186).
 - **2026-10-21T16:44:51Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/181#pullrequestreview-5602911999.
+- **2026-10-22T05:01:56Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/181#pullrequestreview-5609361918.
