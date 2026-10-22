@@ -5,7 +5,6 @@ export {
   caseSealPath,
   caseSealSvg,
   SEAL_CUTS,
-  type SealCut,
 } from './lib/case-seal';
 export { CaseBrief } from './ui/case-brief';
 export { aggravations, GradeStamp } from './ui/grade-stamp';

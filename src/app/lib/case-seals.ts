@@ -16,7 +16,8 @@ function sealFiles() {
     listPrimaryDocuments(ARTICLE_COLLECTIONS['basilisk-cases']).flatMap(
       (document) =>
         SEAL_CUTS.map(
-          (cut) => [caseSealFile(document.slug, cut), { document, cut }] as const,
+          (cut) =>
+            [caseSealFile(document.slug, cut), { document, cut }] as const,
         ),
     ),
   );
