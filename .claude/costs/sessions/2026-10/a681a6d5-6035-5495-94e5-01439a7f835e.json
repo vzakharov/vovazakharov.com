@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 56,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 97997,
+    "cacheReadTokens": 3332990,
+    "outputTokens": 17770,
+    "thinkingTokens": 6791,
+    "responses": 28,
+    "costUsd": 1.8061980000000002
+  },
+  "estimate": {
+    "at": "2026-10-22T12:22:09.743Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "reading a REAPER project and aligning two masters against an album render to the sample is audio-engineering judgement, not routine lookup"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "a681a6d5-6035-5495-94e5-01439a7f835e",
+  "branch": "claude/kind-galileo-5we5zq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "там кажется глюк между PSCHPHPY и Normal; смех в конце первой должен моментально переходить в начало второй; в psch_album это должно быть верно, но там наверное…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01KaZzr3zjR1uHLrcmgeAwi8",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T12:18:36.153Z",
+  "lastResponseAt": "2026-10-22T12:22:34.193Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 56,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 97997,
+    "cacheReadTokens": 3332990,
+    "outputTokens": 17770,
+    "thinkingTokens": 6791,
+    "responses": 28,
+    "costUsd": 1.8061980000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 56,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 97997,
+      "cacheReadTokens": 3332990,
+      "outputTokens": 17770,
+      "thinkingTokens": 6791,
+      "responses": 28,
+      "costUsd": 1.8061980000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-22T12:22:34.193Z",
+    "contextTokens": 146595,
+    "spend": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 96351,
+      "cacheReadTokens": 3188043,
+      "outputTokens": 17709,
+      "thinkingTokens": 6791,
+      "responses": 27,
+      "costUsd": 1.7628126000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
