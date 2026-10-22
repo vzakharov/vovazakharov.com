@@ -10,12 +10,12 @@
     "costUsd": 5.2706672
   },
   "estimate": {
-    "at": "2026-10-21T10:10:26.046Z",
+    "at": "2026-10-22T12:41:33.131Z",
     "parts": [
       {
         "hours": 1.0,
         "grade": "senior",
-        "role": "editor",
+        "role": "persona",
         "comment": "a first-person answer in the Clerk's own voice to a question about what the case stirred is a persona's writing, needing judgement of honesty over a ready answer"
       },
       {
