@@ -30,7 +30,8 @@ here with its card and the Clerk's reflection.
 
 The human-hour estimate role `artist` is renamed `musician`, for Майя's
 reflections; the Clerk's are booked as `editor`, and illustration such
-as these emblems as `designer`.
+as these emblems as `designer`. eslint gets a 5 GB heap, set once in
+`lint:check`, which both vet and `pnpm lint` run.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
