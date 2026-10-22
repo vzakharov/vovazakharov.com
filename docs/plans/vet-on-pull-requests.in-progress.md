@@ -63,18 +63,19 @@ Dispatched (run 39797392079, green): 2m28s against 2m38s before this step
 - the vova build (1m31s), then `built` (45s, of which setup and the export
   download are 24s and the checks 18s).
 
-## Open: the next cut, awaiting the operator
+## Done: the next cut (go-ahead: «давай попробуем, что уж»)
 
-Proposed, not built:
+- The type check is a phase and a job of its own (30s).
+- `built` has no `needs`: it sets up beside the builds and
+  `.github/scripts/wait-for-exports.sh` waits on the run's artifacts, which list
+  as soon as they upload. Per-site export checks were the proposal, but the
+  Mantine check's unused-sheet direction needs every site's export at once. Run
+  39804987378: the vova path ends at 1m56s, the wait 3s behind the upload.
+- A blobless `source` checkout (36s → 4s) made the estimates gate take over a
+  minute — it reads every `cost-ledger` row, one lazy fetch each — so the full
+  checkout stays.
 
-1. the type check as a job of its own (typegen plus tsc), taking `source` back
-   to ~2m05s;
-2. the export checks run inside each build job over its own export, so the vova
-   path ends at ~1m50s with no second setup or download — `check:mantine-styles`
-   and `check:i18n-payload` would take a site;
-3. `source` fetching only `main`'s history instead of `fetch-depth: 0`.
-
-Together ~2m28s → ~1m50s, about 1.9× against the single job.
+Left: a dispatch confirming `source` ends near ~2m05s.
 
 ## The edges
 

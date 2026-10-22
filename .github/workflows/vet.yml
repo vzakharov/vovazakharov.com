@@ -114,14 +114,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Full history rather than the default single commit: checks that diff
-      # against `origin/main` pass quietly with no base to read. The commits and
-      # trees come whole; a blob outside the head is fetched when a check reads
-      # it.
+      # against `origin/main` pass quietly with no base to read. Not blobless:
+      # the estimates gate reads every `cost-ledger` row, one lazy fetch each.
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          filter: blob:none
 
       - name: Set up the toolchain
         uses: ./.github/actions/setup-toolchain
