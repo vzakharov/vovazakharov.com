@@ -50,9 +50,6 @@ jobs:
           name: out-${{ matrix.site }}
           path: apps/${{ matrix.site }}/out
           retention-days: 1
-          # Mostly images and audio, already compressed: zipping them again is
-          # time on the critical path for nothing.
-          compression-level: 0
 
   lint:
     runs-on: ubuntu-latest
