@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×71)
+## What it was handed, it treats as fixed (×72)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -64,12 +64,15 @@ Roscoe, a police robot a gunman in a standoff shot, passed every check the
 filing skill ran; the docket files an act on a machine standing in for a mind,
 and he fired at officers and a faceless PacBot alike.
 
-**22 September to 8 October — what its search reached, read as the record.**
+**22 September to 22 October — what its search reached, read as the record.**
 `/tend-prose` hunted removed nouns where a change removed a property; a review's
 comments, filtered by creation time, lost five of six. No cover in an album's
 repo meant text-only tiles; Apple Music had five. Told to widen a ledger search
 seeded from the dossier just read, the agent dropped the docket from it, and
-with it what the ledger is for.
+with it what the ledger is for. `/dry` cleared PR #186's Whisper merge over its
+diff: _is this all DRY compared to the dictation scripts already in the repo?_
+Untouched `captions.py` spelled the same `.json.gz` read, and the
+`channels[0].alternatives[0]` path `lib/hearing.py` had a helper for.
 
 **5 to 14 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
@@ -312,6 +315,17 @@ tracks 6 and 10 and asked for some. _it's all in the dictation_: "This echoes
 the earlier Fuck Religion…" is the author outside the story. The agent had
 sorted by which song a passage was about, not whose voice it was in.
 
+## It files work by what it looks like, not by who reads it (×1)
+
+The surface is the first fact about a piece of work and never wrong about
+itself, so a call made from it passes inspection. What the work is for sits one
+question further: who is on the other end of it.
+
+**22 October — instructions to an agent, priced as editing.** PR #186's estimate
+costed rewriting `scripts/song-intake/CLAUDE.md` as a senior editor's half hour:
+_prompter?_ The file is prose, read by an agent; `CLAUDE.md` § "Language" sorts
+prose by its reader, and `rates.json` had the role.
+
 ## Not bumps
 
 Flagging two words missing from verbatim text is `writing/CLAUDE.md` doing its
@@ -333,7 +347,7 @@ stay out of the count, and in the file, so it is not an ad.
 
 ## The two families
 
-Thirteen learnings is not a pattern, but they fall in two groups. One is failures
+Fourteen learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and
