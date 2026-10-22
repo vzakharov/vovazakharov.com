@@ -6,7 +6,7 @@ import { resolveAuthoredUrl, SONGS } from '@/shared/content';
 import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import type { ScriptKept, SungLanguage } from '@/shared/music-catalogue';
-import type { WithText } from '@/shared/typings';
+import type { WithFileName, WithText } from '@/shared/typings';
 import { Subheading, TextLink } from '@/shared/ui';
 
 import { inlineRuns } from '../lib/lyric-inline';
@@ -16,13 +16,14 @@ import { romanizedTag, type Transliteration } from '../lib/transliteration';
 import classes from './music.module.scss';
 import { NotedSpan } from './noted-span';
 
-export type LyricsProps = WithLocale & {
-  lyrics: SongLyrics;
-  /** The song's file, which the notes' relative links resolve against. */
-  fileName: string;
-  /** What the crib is, where it is more than a crib: one line of markdown. */
-  cribNote?: string;
-};
+/** `fileName` is the song's file, which the notes' relative links resolve
+ * against. */
+export type LyricsProps = WithLocale &
+  WithFileName & {
+    lyrics: SongLyrics;
+    /** What the crib is, where it is more than a crib: one line of markdown. */
+    cribNote?: string;
+  };
 
 /**
  * A note is one line of markdown, so the paragraph the parser wraps it in is
@@ -156,13 +157,15 @@ function StanzaList({
 /** The BCP 47 tag romanized lines are set in. */
 type Tagged = { tag: string };
 
-type StanzaProps = Tagged &
-  NoteSetting & {
-    lines: LyricLine[];
-    /** Each entry's romanization, where the words have one. */
-    romanized: string[] | undefined;
-    keepsScript: boolean;
-  };
+/** How a line of the words is set: its romanization's tag and its notes. */
+type LineSetting = Tagged & NoteSetting;
+
+type StanzaProps = LineSetting & {
+  lines: LyricLine[];
+  /** Each entry's romanization, where the words have one. */
+  romanized: string[] | undefined;
+  keepsScript: boolean;
+};
 
 /**
  * A stanza as it was written: one element per line, so a line break needs
@@ -203,12 +206,11 @@ function Stanza({ lines, romanized, tag, keepsScript, notes }: StanzaProps) {
   );
 }
 
-type LineWordsProps = Tagged &
-  NoteSetting & {
-    spans: LyricLine;
-    /** The line's romanization, set under it in Latin mode. */
-    under?: string | undefined;
-  };
+type LineWordsProps = LineSetting & {
+  spans: LyricLine;
+  /** The line's romanization, set under it in Latin mode. */
+  under?: string | undefined;
+};
 
 /** A line's words with their notes, and its romanization under it where given. */
 function LineWords({ spans, tag, under, notes }: LineWordsProps) {

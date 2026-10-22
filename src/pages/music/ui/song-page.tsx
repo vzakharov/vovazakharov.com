@@ -211,7 +211,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
         {lyrics && (
           <Lyrics
             {...{ lyrics, locale, cribNote }}
-            fileName={document.fileName}
+            {...pick(document, 'fileName')}
           />
         )}
 
