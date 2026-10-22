@@ -1,22 +1,23 @@
 Proposed squash body:
 
 ```
-Nothing ran on pull requests, so a branch was first held to the repo's
-checks when someone ran ./scripts/vet.sh by hand, usually at /finalize.
-A new Vet workflow runs that script, unchanged, on every PR and on
-demand, so the check list keeps its one home in vet.sh.
+A vet run is four static-export builds and some thirty checks, all on
+the session's own container. A new Vet workflow runs the same
+./scripts/vet.sh, unchanged, on a GitHub runner when dispatched by
+hand, so the run can move off the container and, later, split across
+parallel jobs. Nothing triggers it on its own: it stands in for a
+local run, and nothing runs on pull requests.
 
-A GitHub runner is not a Claude container, and several checks go quiet
-rather than red on the difference: a shallow checkout leaves no base to
-read the branch against, so the estimates gate passes vacuously, and a
-detached one hides the branch name the cost-ledger lookup keys on. The
-job checks out the PR head by name with full history, and supplies the
-git identity and numpy the tests assume. vet.sh prints only failures,
-so each run keeps its per-check logs as an artifact: a green run is
-checkable for a vacuous pass.
+A runner is not the dev container, and several checks go quiet rather
+than red on the difference: a shallow checkout leaves no base to read
+the branch against, so the estimates gate passes vacuously. The job
+fetches full history and supplies the git identity and numpy the
+tests assume. vet.sh prints only failures, so each run keeps its
+per-check logs as an artifact, which is what tells a vacuous pass from
+a real one.
 
-The docs that said nothing runs on pull requests now say vet does, and
-CI's setup is a fourth site a toolchain change wires.
+CI's setup is now a site a toolchain change wires, beside vet.sh, the
+install hook and the environment setup script.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
