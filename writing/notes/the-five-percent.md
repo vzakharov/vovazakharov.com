@@ -43,11 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-<<<<<<< HEAD
-## What it was handed, it treats as fixed (×72)
-=======
-## What it was handed, it treats as fixed (×77)
->>>>>>> origin/main
+## What it was handed, it treats as fixed (×78)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -68,27 +64,19 @@ Roscoe, a police robot a gunman in a standoff shot, passed every check the
 filing skill ran; the docket files an act on a machine standing in for a mind,
 and he fired at officers and a faceless PacBot alike.
 
-<<<<<<< HEAD
 **22 September to 22 October — what its search reached, read as the record.**
-=======
-**22 September to 21 October — what its search reached, read as the record.**
->>>>>>> origin/main
 `/tend-prose` hunted removed nouns where a change removed a property; a review's
 comments, filtered by creation time, lost five of six. No cover in an album's
 repo meant text-only tiles; Apple Music had five. Told to widen a ledger search
 seeded from the dossier just read, the agent dropped the docket from it, and
-<<<<<<< HEAD
-with it what the ledger is for. `/dry` cleared PR #186's Whisper merge over its
-diff: _is this all DRY compared to the dictation scripts already in the repo?_
-Untouched `captions.py` spelled the same `.json.gz` read, and the
-`channels[0].alternatives[0]` path `lib/hearing.py` had a helper for.
-=======
 with it what the ledger is for. Nostalgia's squash said the album "survived only
 as scattered takes," read off the per-song repos it had worked through: _репа со
 всем альбомом-то была._ Asked for the actor poem's story, it gave dates and
 called it done: _подноготной никакой не нашлось?_ Marina Tarkovskaya's book has
-the 1958 Ashgabat love.
->>>>>>> origin/main
+the 1958 Ashgabat love. `/dry` cleared PR #186's Whisper merge over its diff:
+_is this all DRY compared to the dictation scripts already in the repo?_
+Untouched `captions.py` spelled the same `.json.gz` read, and the
+`channels[0].alternatives[0]` path `lib/hearing.py` had a helper for.
 
 **5 to 21 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
@@ -347,18 +335,6 @@ tracks 6 and 10 and asked for some. _it's all in the dictation_: "This echoes
 the earlier Fuck Religion…" is the author outside the story. The agent had
 sorted by which song a passage was about, not whose voice it was in.
 
-<<<<<<< HEAD
-## It files work by what it looks like, not by who reads it (×1)
-
-The surface is the first fact about a piece of work and never wrong about
-itself, so a call made from it passes inspection. What the work is for sits one
-question further: who is on the other end of it.
-
-**22 October — instructions to an agent, priced as editing.** PR #186's estimate
-costed rewriting `scripts/song-intake/CLAUDE.md` as a senior editor's half hour:
-_prompter?_ The file is prose, read by an agent; `CLAUDE.md` § "Language" sorts
-prose by its reader, and `rates.json` had the role.
-=======
 **21 October — a singer asked for, on an AI band.** On Nostalgia's Insomnia
 («пою не я»), the agent left a note asking who sings it: _ну это же всё ИИ, ты
 чего?_ The gap was its assumption that a vocal needs a human to name.
@@ -384,7 +360,17 @@ recognises the repeat.
 Nostalgia's blindfolded cover performers, the agent offered «в общую историю,
 artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._ GENERATED is an
 artist, the one with the most songs. Now in `.claude/rules/songs.md`.
->>>>>>> origin/main
+
+## It files work by what it looks like, not by who reads it (×1)
+
+The surface is the first fact about a piece of work and never wrong about
+itself, so a call made from it passes inspection. What the work is for sits one
+question further: who is on the other end of it.
+
+**22 October — instructions to an agent, priced as editing.** PR #186's estimate
+costed rewriting `scripts/song-intake/CLAUDE.md` as a senior editor's half hour:
+_prompter?_ The file is prose, read by an agent; `CLAUDE.md` § "Language" sorts
+prose by its reader, and `rates.json` had the role.
 
 ## Not bumps
 
