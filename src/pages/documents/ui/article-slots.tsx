@@ -15,7 +15,7 @@ type Slot<F extends BaseFrontmatter> = (
 
 /** What a collection adds to the shared article page. */
 type ArticleSlots<F extends BaseFrontmatter> = {
-  /** Left of the title and lede. */
+  /** Left of the lede, under the title. */
   mark?: Slot<F>;
   /** Under the header. */
   brief?: Slot<F>;

@@ -10,7 +10,7 @@ const SEAL_SIZE = 176;
 
 /**
  * The case's lettered seal, set in the article header. Its `alt` is empty,
- * since it pictures what the title beside it says.
+ * since it pictures what the title says.
  */
 export function CaseSeal({ slug }: Slugged) {
   return (

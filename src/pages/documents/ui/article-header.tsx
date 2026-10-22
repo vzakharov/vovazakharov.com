@@ -66,28 +66,28 @@ export function ArticleHeader({
 }: ArticleHeaderProps) {
   const { frontmatter, collection, slug, variant, markdown, route } = document;
 
-  const headline = (
-    <Stack gap={12}>
-      <Title order={1} className={classes['articleTitle']}>
-        {title}
-      </Title>
-      <Text size="lg" lh={1.625} opacity={0.8}>
-        {frontmatter.description}
-      </Text>
-    </Stack>
+  const lede = (
+    <Text size="lg" lh={1.625} opacity={0.8}>
+      {frontmatter.description}
+    </Text>
   );
 
   return (
     <Box component="header" className={classes['articleHeader']}>
       <Stack gap={24}>
-        {mark === undefined ? (
-          headline
-        ) : (
-          <div className={classes['marked']}>
-            {mark}
-            {headline}
-          </div>
-        )}
+        <Stack gap={12}>
+          <Title order={1} className={classes['articleTitle']}>
+            {title}
+          </Title>
+          {mark === undefined ? (
+            lede
+          ) : (
+            <div className={classes['marked']}>
+              {mark}
+              {lede}
+            </div>
+          )}
+        </Stack>
 
         <DocumentMeta {...{ frontmatter, readingMinutes }} />
 
