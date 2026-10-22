@@ -47,7 +47,7 @@ When I finished this song, I thought it was the summit of my work, and I couldn�
 Жёстких мышц ослабели узлы,
 Как на пашне седые волы;
 И не светятся больше ночами
-Два крыла у меня за плечами.
+[Два крыла][^wings-ru] у меня за плечами.
 
 <!-- voice: softer growl -->
 
@@ -58,8 +58,12 @@ When I finished this song, I thought it was the summit of my work, and I couldn�
 Как веселья последнюю треть
 Раздарить и легко умереть,
 И под сенью случайного крова
-Загореться посмертно, как слово.
+Загореться посмертно, как слово.[^word-ru]
 x2
+
+[^wings-ru]: У Тарковского эти крылья с бабочкой, может, и не связаны, но в альбоме связываются: тремя песнями раньше крылья были у «[Бабочки в госпитальном саду](./butterfly-rock.md)», а здесь они гаснут у самого поэта.
+
+[^word-ru]: Папа умер в городской больнице, дожидаясь операции, и никого из близких рядом не было. Загорелся ли он посмертно, мы уже не узнаем. Может, ответ — «[Река](./river-part-one.md)» в трёх частях.
 
 <!-- lyrics:en -->
 
@@ -70,7 +74,7 @@ And of the breath of my father’s house;
 The knots of hard muscle have slackened
 Like grey oxen on the ploughland;
 And no longer do they shine at night,
-The two wings at my back.
+The two [wings][^wings-en] at my back.
 
 I am a candle, I burnt out at the feast.
 Gather up my wax in the morning,
@@ -79,5 +83,9 @@ How to weep and what to be proud of,
 How to give away the last third
 Of merriment and die lightly,
 And under the shelter of a chance roof
-To catch fire after death, like a word.
+To catch fire after death, like a word.[^word-en]
 x2
+
+[^wings-en]: For Tarkovsky these wings may have nothing to do with a butterfly, but on the album they connect: three songs earlier the wings belonged to the [“Butterfly in the Hospital Garden,”](./butterfly-rock.md) and here they go dark on the poet himself.
+
+[^word-en]: Dad died in a city hospital, waiting for surgery, with none of us beside him. Whether he caught fire after death we will never know. Perhaps the three parts of [“The River”](./river-part-one.md) are the answer.
