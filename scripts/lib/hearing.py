@@ -3,8 +3,9 @@ two models' hearings of one recording merged word by word.
 
 Imported as `from lib.hearing import …` by `scripts/transcribe.py` and
 `scripts/song-intake/lyrics.py`; pure functions over parsed responses, so
-`test_hearing.py` beside it runs them on fixtures without a network. The one
-exception is `write_response`, the format every kept response shares.
+`test_hearing.py` beside it runs them on fixtures without a network. The
+exceptions are `write_response` and `read_response`, the format every kept
+response shares.
 
 Stdlib only — no third-party deps. Python 3.9+.
 """
@@ -101,6 +102,11 @@ def write_response(path: Path, response: Response) -> None:
     # mtime=0 so the same response gzips to the same bytes on every run.
     with gzip.GzipFile(path, "wb", compresslevel=9, mtime=0) as gz:
         gz.write((json.dumps(response, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+
+
+def read_response(path: Path) -> Response:
+    with gzip.open(path, "rt", encoding="utf-8") as f:
+        return json.load(f)
 
 
 def paragraphs(response: Response) -> list[list[Line]]:

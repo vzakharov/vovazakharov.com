@@ -76,7 +76,6 @@ Stdlib only — no third-party deps. Python 3.9+.
 from __future__ import annotations
 
 import argparse
-import gzip
 import json
 import os
 import shutil
@@ -90,7 +89,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from lib.cli import die
-from lib.hearing import doubts, marked, merged, paragraphs, write_response
+from lib.hearing import doubts, marked, merged, paragraphs, read_response, write_response
 
 DEEPGRAM_URL = "https://api.deepgram.com/v1/listen"
 
@@ -384,8 +383,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     if args.second_opinion_from:
         if not args.second_opinion_from.is_file():
             die(f"No such file: {args.second_opinion_from}")
-        with gzip.open(args.second_opinion_from, "rt", encoding="utf-8") as f:
-            heard = json.load(f)
+        heard = read_response(args.second_opinion_from)
         second = (heard["metadata"].get("model", args.second_opinion_from.name), heard)
     if args.keyterm and not args.model.startswith("nova-3"):
         die(f"--keyterm is nova-3's alone; {args.model} would ignore it.")
