@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×71)
+## What it was handed, it treats as fixed (×72)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -102,6 +102,13 @@ basilisk Clerk's reflections had converged on «Первое — / Второе 
 paragraph and a one-line caveat: a form set by the first few and by the rule's
 own items, re-read four times before each new one. The operator saw it; the
 agent had not.
+
+**22 October — a role read by its everyday sense, not what it was added for.**
+Basilisk.fyi's 22 seal emblems went into the estimate as a senior `artist` part,
+read as "illustrator": _нене, погоди, artist это про музыканта._ The role came
+in with the music PR for Майя's voice; drawing is `designer`. Every earlier
+`artist` part had been a persona reflection, so the label had drifted between
+sessions already. Now `musician`.
 
 ## An account that explains the code stands in for running it (×23)
 
