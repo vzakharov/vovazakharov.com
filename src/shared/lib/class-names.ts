@@ -2,7 +2,3 @@
 export function cx(...names: Array<string | false | undefined>) {
   return names.filter(Boolean).join(' ');
 }
-
-export function vetProbe(): void {
-  debugger;
-}
