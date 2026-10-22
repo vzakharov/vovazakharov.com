@@ -70,15 +70,25 @@ the other is deleted before merge, its numbers kept in the PR body.
 5. **Conventions that say nothing runs on a PR**, changed with it:
    - CLAUDE.md § "Deployment", last paragraph — through
      `scripts/staged.sh stage CLAUDE.md`, since it loads every turn: vet runs on
-     every PR out of draft, and a green local vet plus a green run is the
-     pre-merge signal.
+     every PR out of draft, and that run is the pre-merge signal; § "Vetting"
+     likewise stops naming `/finalize` as vet's canonical caller —
+     `./scripts/vet.sh` stays the check anyone runs by hand to know sooner.
    - `.claude/rules/stack.md`'s type-overlap bullet ("Since nothing runs on pull
      requests, the vet run is the only place it fires") and a line saying where
      `vet.yml` runs vet; add `.github/workflows/vet.yml` to its `paths:` if the
      frontmatter lists the files it governs.
-   - `.claude/skills/finalize/SKILL.md` needs no edit — it already branches on
-     whether a workflow runs on PRs — but its attestation template's "nothing
-     runs on a PR" line stops applying, which it handles by construction.
+   - **`/finalize` stops running vet locally where a PR workflow runs it** — the
+     same script on the same commit twice, the local copy being the slower and
+     the machine-dependent one. In `.claude/skills/finalize/SKILL.md`: the "What
+     actually gates this PR" branch for a repo with a PR workflow says Step 1 is
+     skipped and Step 4's watched run is the verification; Step 2 calls
+     `/sync-branch no vet` there; the base-advanced re-verify
+     (`finalize/base-advanced.md`) re-runs the workflow by pushing the merge
+     rather than vetting locally; the attestation's vet line reads "run by the
+     PR workflow (run link)". `finalize/merge.md`'s Step 1 stand-down reads the
+     same against the watched run. These files sync from `vzakharov/muthur`, so
+     the edit is local until the same option lands there (a separate PR, the
+     operator's call when).
    - Search the tree for "nothing runs on" / "no workflow runs" and fix each
      statement that this makes false.
 6. **The subject.** `ci:` is in the deploy gate's publishing set, so the merge
@@ -91,18 +101,12 @@ the other is deleted before merge, its numbers kept in the PR body.
 - **Single job vs. matrix** is settled by measurement (steps 1–3), not argued:
   locally vet is ~5 minutes, so sharding may save ~2, against a second place
   that groups the checks.
-- **Drafts run nothing**; the PR leaves draft at `/finalize`, where vet runs.
+- **Drafts run nothing**; the PR leaves draft at `/finalize` Step 4, and that
+  run is the one `/finalize` waits on.
+- **One vet per finalize, in CI** — the local run goes (step 5 above).
 - **No required check.** Branch protection is available here (the repository is
   public, which GitHub Free allows), but it stays off unless the operator turns
   it on.
-
-## Open question (the recommendation is in force)
-
-1. **When `/finalize` flips to ready.** **a (recommended)** At its Step 4, as
-   now: two minutes after the local vet, and no edit to a skill this repo syncs
-   from `vzakharov/muthur`. **b** Before Step 1, so the CI run and the local vet
-   overlap — a local edit to `finalize/SKILL.md` that the next muthur sync has
-   to keep.
 
 ## DRY notes
 
@@ -113,5 +117,6 @@ the other is deleted before merge, its numbers kept in the PR body.
   If the matrix wins, `stack.md` says that a check whose cost moves the long
   pole gets its own group.
 - `setup-toolchain` is reused as-is; no new composite action.
-- No new skill path: `/finalize` and `/watch-ci` already cover a repository with
-  CI on PRs.
+- No new skill path: `/finalize` already branches on whether a PR workflow
+  exists, and `/watch-ci` already fixes a red run; the edit narrows that branch
+  to one vet instead of two.
