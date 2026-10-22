@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-22T12:39:29Z
-- **Updated:** 2026-10-22T13:36:20Z
+- **Updated:** 2026-10-22T13:40:39Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 31
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ada35dd). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/vova/public/music/songs/invitation.maya.reflections.md`:22 — unresolved — last: @vzakharov (human) 2026-10-22T12:44:23Z — "собственно это и не песня, а речетатив под эмбиент (начинающ…" → [↓](#t01)
 - **T02** `apps/vova/public/music/songs/summer-gone.maya.reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-22T12:47:05Z — "только сейчас заметил: альбом начинается с того, как прошло…" → [↓](#t02)

@@ -208,7 +208,12 @@ export function SongPage({ slug, locale }: SongPageProps) {
           readMore={lyrics && messages.readMore}
         />
 
-        {lyrics && <Lyrics {...{ lyrics, locale, cribNote }} />}
+        {lyrics && (
+          <Lyrics
+            {...{ lyrics, locale, cribNote }}
+            fileName={document.fileName}
+          />
+        )}
 
         <SongCredits
           {...{ locale }}
