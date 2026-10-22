@@ -1,5 +1,20 @@
 # Popover notes in rendered prose
 
+## Status — paused, waiting on #181
+
+Steps 1–5 are done and polished (542f281 … 1e5b63a): the plugin and its tests,
+`NotedSpan` in `shared/ui`, `ContentSpan`, the print rules, the docs. Checked by
+eye on a throwaway note in `slime.md` (reverted): popover with an image at 1280
+and 390, plain footnote in print. `pnpm build:vova` and `check:mantine-styles`
+pass.
+
+Left: step 6. Resume when #181 is merged — merge `main`, then in `invitation.md`
+drop both `'aside'` images and the album links, and hang a note on «если бы он
+стал-таки «Таркосом»» / “had it ended up as “Tarkos” after all” holding a short
+line on the cover that never was and `![…](../assets/nostalgia-tarkos.jpg)` on
+its own indented paragraph. Then `/preview` the song in both locales and refresh
+the PR.
+
 ## Task
 
 A footnote hung off a phrase — `[phrase][^label]` — in any prose the content
