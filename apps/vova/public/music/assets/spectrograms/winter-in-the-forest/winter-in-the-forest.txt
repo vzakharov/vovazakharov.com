@@ -1,0 +1,13 @@
+winter-in-the-forest.flac — 5:20
+tempo 116 BPM
+key D minor (r 0.87; next D major, 0.76)
+tuning A = 440 Hz +1 ¢
+bars drawn on the section zooms numbered 1, 2, 3, 4 — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–0:33  115 BPM  −13 dB  Dm C B♭ Gm A ×2
+2  0:33–1:23  115 BPM  −11 dB  Dm C B♭ A ×2 + Dm C B♭ Gm A
+3  1:23–1:39  115 BPM  −13 dB  Dm C B♭ A
+4  1:39–3:48  116 BPM  −9 dB  A Dm C B♭ A Dm C + B♭ A Dm A ×2 + B♭ A Dm Am Dm C B♭ Gm A Dm Cm B♭ G Am F
+5  3:48–4:09  117 BPM  −11 dB  Dm B♭ E♭ Dm
+6  4:09–4:37  117 BPM  −9 dB  Dm B♭ E♭ Dm G Am B♭ E♭
+7  4:37–5:20  117 BPM  −10 dB  Dm B♭ E♭ Dm
