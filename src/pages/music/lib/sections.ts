@@ -65,17 +65,69 @@ export function localeProse(body: string, locale: Locale): string {
     .join('\n\n');
 }
 
+/** The sections told beside a page's story, by the marker that opens them. */
+const PRELUDE_KINDS = ['universe', 'source'] as const;
+
+export type PreludePlacement = {
+  kind: (typeof PRELUDE_KINDS)[number];
+  /** Whether the file tells it after the story, which the page then follows. */
+  follows: boolean;
+};
+
 /**
- * The section `<!-- universe:<locale> -->` opens, without the preamble that
- * `localeProse` prepends; `undefined` where it says nothing.
+ * The section `<!-- universe:<locale> -->` or `<!-- source:<locale> -->` opens,
+ * without the preamble that `localeProse` prepends; `undefined` where neither
+ * says anything. A file tells one or the other, never both.
  */
-export function localeUniverse(
+export function localePrelude(
   body: string,
   locale: Locale,
-): string | undefined {
-  const section = splitSections(body).get(`universe:${locale}`);
+): (PreludePlacement & { text: string }) | undefined {
+  const sections = splitSections(body);
+  const order = [...sections.keys()];
+  const story = order.indexOf(`lang:${locale}`);
+  const told = PRELUDE_KINDS.flatMap((kind) => {
+    const key = `${kind}:${locale}`;
+    const text = sections.get(key);
 
-  return section !== undefined && says(section) ? section : undefined;
+    return text !== undefined && says(text)
+      ? [{ kind, text, follows: story !== -1 && order.indexOf(key) > story }]
+      : [];
+  });
+
+  if (told.length > 1)
+    throw new Error(
+      `A file tells both a universe and a source in ${locale}; a page has one prelude.`,
+    );
+
+  return told[0];
+}
+
+/** What the second of a page's two parts is titled, by what it is. */
+export type StoryHeadings = {
+  behindTheScenes: string;
+  preludeHeadings: Record<PreludePlacement['kind'], string>;
+};
+
+/**
+ * A page's prelude and story in the order its file tells them; where there are
+ * both, the second carries a heading saying what it is.
+ */
+export function storyOrder<T>(
+  prelude: (T & PreludePlacement) | undefined,
+  story: T | undefined,
+  { behindTheScenes, preludeHeadings }: StoryHeadings,
+): Array<{ part: T; heading?: string }> {
+  if (prelude === undefined)
+    return story === undefined ? [] : [{ part: story }];
+  if (story === undefined) return [{ part: prelude }];
+
+  return prelude.follows
+    ? [
+        { part: story },
+        { part: prelude, heading: preludeHeadings[prelude.kind] },
+      ]
+    : [{ part: prelude }, { part: story, heading: behindTheScenes }];
 }
 
 const COMMENT_LINE = /^<!--.*-->$/;

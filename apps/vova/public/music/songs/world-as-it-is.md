@@ -17,9 +17,9 @@ explicit: false
 en:
   title:
     translation: 'The World as It Is'
-  hook: '“This heat is all you need so as not to burn.”'
+  hook: 'This heat is all you need so as not to burn.'
 ru:
-  hook: '«Этот жар — всё, что тебе нужно, чтобы не сгореть».'
+  hook: 'Этот жар — всё, что тебе нужно, чтобы не сгореть.'
 ---
 
 <!-- lang:en -->

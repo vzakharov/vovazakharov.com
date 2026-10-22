@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'Snow Is Falling'
+  hook: 'The whitened passer-by, the astonished plants, the turn at the crossroads.'
+ru:
+  hook: 'Убелённый пешеход, удивлённые растенья, перекрёстка поворот.'
 ---
 
 <!-- For Vova to check: Project is a guess: it is your father's song to Pasternak, posted on the «Владимир Захаров. Жизнь и творчество» channel, like the other Полуживые songs of his. A different song from `sneg_0` («Снег»): different words and a different master. -->

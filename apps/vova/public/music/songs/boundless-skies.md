@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'In the Boundless Skies'
+  hook: 'The riff Dad spent his whole life finding a home for — with Blok, with Shakespeare, now with Khayyam.'
+ru:
+  hook: 'Рифф, который папа всю жизнь пытался пристроить — то к Блоку, то к Шекспиру, то к Хайяму.'
 ---
 
 <!-- The verses are Golubev's rubai No. 89 and No. 95 per fantlab.ru/edition252823; the chorus is in no Golubev contents list and nowhere online, so it is credited to Dad. -->
