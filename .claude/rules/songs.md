@@ -101,17 +101,17 @@ about, and the page's meta description too. Its one mark is `~~…~~`, words mea
 to be seen crossed out — in the meta description and the feed too. A joke struck
 in one locale's hook is struck in the other's too, in that language's own idiom.
 **A hook earns its words one by one**: the fewest that pull, often a line of the
-song standing on its own, with no quotation marks — unless the song's story
-holds a better hook than its words do. Quotation marks belong to someone's words
-being quoted: a line from the story, a line the song itself sings as a quotation
-(a son's question in `20`), or a quote inside the hook's own sentence. A gloss
-explaining the line is overthinking it. **The hook is the agent's to write,
-unasked**, once the song has a story: a song is left without one only while it
-has none. The author's oxymorons («Этот жар — всё, что тебе нужно, чтобы не
-сгореть») are his signature, and a song that has one offers it first. An album's
-or an artist's file carries its hook the same way, under each locale's key.
-`pnpm music:untold` writes what each song still lacks to
-`docs/music/untold-songs.md`, and the song vet fails while that list is stale.
+song standing on its own, unquoted, unless the song's story holds a better hook
+than its words do. Quotation marks belong to someone's words being quoted: a
+line from the story, a line the song itself sings as a quotation (a son's
+question in `20`), or a quote inside the hook's own sentence. A gloss explaining
+the line is overthinking it. **The hook is the agent's to write, unasked**, once
+the song has a story: a song is left without one only while it has none. The
+author's oxymorons («Этот жар — всё, что тебе нужно, чтобы не сгореть») are his
+signature, and a song that has one offers it first. An album's or an artist's
+file carries its hook the same way, under each locale's key. `pnpm music:untold`
+writes what each song still lacks to `docs/music/untold-songs.md`, and the song
+vet fails while that list is stale.
 
 ## Body
 
@@ -125,9 +125,9 @@ carries a footnote there translating it. Identical consecutive stanzas are one
 stanza closed by `x2`, `x3` …, which `pnpm check:stanza-repeats --fix` writes.
 Anything before the first marker belongs to every locale. A song or album set in
 a concept album's world tells that world under `<!-- universe:<locale> -->`,
-which the page shows where the file puts it beside the `lang:` story: ahead of
-it, the story reads as what happened behind the scenes, under that label; after
-it, the prelude goes under one naming its kind. **The test is the voice, not the
+which the page shows where the file puts it beside the `lang:` story: the first
+of the two is never headed, and the second is headed by what it is — behind the
+scenes for the story, its kind for the prelude. **The test is the voice, not the
 subject: could a narrator inside the world say it?** What happens there passes,
 told as fiction; anything that speaks _about_ the song — what it echoes or
 quotes, how it opens, unfolds or sounds, how it was made — fails, however short
@@ -137,15 +137,14 @@ the plot and never the text; the page's hook is the seed it grows from. **A song
 resting on someone else's text — a poem it sets, a song it covers — tells that
 source's story under `<!-- source:<locale> -->`** in the same slot — when and
 why it was written, where it appeared, what it was later set to — so the
-author's own story follows behind the scenes; a file has one or the other. A
-page's first part never carries a heading, and its second is headed by what it
-is. Unlike his story the source's is the agent's to write, from sources, each
-fact one a source states. The marker is an HTML comment because the authored
-file is read raw — on GitHub, and at its own `.md` URL — and anything else would
-be markup the reader has to look past. The lyrics are rendered by the page
-rather than by the markdown pipeline, one element per line, so a line break is a
-line break and needs no two invisible spaces at the end of it. The one inline
-mark they take is `_…_`, which sets a transliteration in italics: a word sung in
+author's own story follows behind the scenes; a file has one or the other.
+Unlike his story the source's is the agent's to write, from sources, each fact
+one a source states. The marker is an HTML comment because the authored file is
+read raw — on GitHub, and at its own `.md` URL — and anything else would be
+markup the reader has to look past. The lyrics are rendered by the page rather
+than by the markdown pipeline, one element per line, so a line break is a line
+break and needs no two invisible spaces at the end of it. The one inline mark
+they take is `_…_`, which sets a transliteration in italics: a word sung in
 another script is written in the column's letters — in-the-flesh's English sings
 _Poekhali!_, not «Поехали!» — and a transliteration is italic wherever the page
 shows one, a title's Latin spelling included.
@@ -205,15 +204,15 @@ changes how a draft of one is written and what a review of it means.
   so is the blurb; retelling the story in better words is not. It is too
   personal to come from anywhere but him. The two preludes are the exceptions (§
   "Body"): a concept album's world, told in the agent's words from his plot, and
-  a poem's story, from sources.
+  a source's story, from sources.
 - **A dictation is speech, and a page is writing.** What reaches a story is his
   facts in his first person, written down: the fillers, hedges and asides to the
   transcriber go («скажем», «наверное», «так сказать», «ты, Клод, …»), and with
   them a doubt he voiced about a fact, which keeps the fact off the page rather
-  than hedging it there — unless he asks for the hedge, as the Nostalgia album
-  page's «могу врать» is. A general note in a dictation — the covers, the
-  platforms, the tooling — stays in the dictation unless he places it on a page;
-  it is kept for later, not spread over every story it touches.
+  than hedging it there — unless he asks for the hedge. A general note in a
+  dictation — the covers, the platforms, the tooling — stays in the dictation
+  unless he places it on a page; it is kept for later, not spread over every
+  story it touches.
 - **A change to a song's story or words is checked against its reflection.**
   Майя's `<slug>.maya.reflections.md` may quote or answer what changed; where it
   does, she adds a closing paragraph per `persona-reflections.md`, never a
