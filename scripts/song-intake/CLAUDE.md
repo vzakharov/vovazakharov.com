@@ -8,9 +8,6 @@ here runs on the session's CPU from a venv the setup script does not provide:
 python3 -m venv tmp/song-intake-venv && tmp/song-intake-venv/bin/pip install -r scripts/song-intake/requirements.txt
 ```
 
-`spectrogram.py` alone needs only `pip install matplotlib`, which spares the
-venv the torch the rest pulls in.
-
 Lab output lives under `docs/remove-before-merging/<album>/` — the split songs,
 `mastered/`, `lyrics/` — committed so the operator can listen from another
 machine, and swept before the merge. The transcripts are the exception, kept in
@@ -217,18 +214,18 @@ loads on reading a reflection, never on the `Write` that creates the first one �
 so read it first.
 
 She reads the song first as its spectrogram —
-`spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>.png`,
+`spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>/<slug>.png tmp/stems/htdemucs/<slug>`,
 the whole song across, pitch up, its section boundaries dashed, over its
-loudness and a chromagram strip each for the treble and the bass, coloured by
-octave, the docstring saying how to read it — committed beside the master so the
-next session has it without the venv.
-
-The two strips split at middle C, which puts a low male voice's tune in the bass
-strip, mixed into the bass line. `--split C3` moves the split an octave down,
-leaving the bass strip the bass alone; `--split C5` moves it up for a high one.
-Render a song with a low male lead that way, and re-render when Майя asks for
-another split. No split draws a line for a vocal with no pitch to follow: a
-growl or a shout is noise, and the treble strip stays grey under it.
+loudness, a chromagram strip each for the melody, the harmony and the bass,
+coloured by octave, and the drums, the docstring saying how to read it —
+committed beside the master so the next session has it without the venv. So are
+the `<slug>.txt` sidecar the same run writes beside it, the tempo, key, tuning
+and chords as numbers, and the section zooms `<n>.png`, all in the song's one
+folder; re-render them together, so they never describe different versions of
+the song. The strips and the drums are read off the master's four stems, cut
+first with `python -m demucs -n htdemucs -o tmp/stems <masters>` (~2 min a song
+on 4 cores) and too big to commit. A vocal with no pitch to follow, a growl or a
+shout, is noise, and the melody strip stays grey under it.
 
 ## Traps
 

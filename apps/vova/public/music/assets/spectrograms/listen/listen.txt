@@ -1,0 +1,9 @@
+listen.mp3 — 1:51
+tempo 121 BPM
+key B minor (r 0.52; next F♯ minor, 0.40)
+tuning A = 440 Hz −4 ¢
+bars drawn on the section zooms numbered 2 — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–0:22  123 BPM  −17 dB  Bm G Am Bm F♯ Bm G Am G F♯
+2  0:22–1:39  120 BPM  −8 dB  Bm A F♯m G Bm Am + F♯m G Bm A ×2 + F♯m G
+3  1:39–1:51  – BPM  −18 dB  

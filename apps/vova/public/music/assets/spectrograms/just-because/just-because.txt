@@ -1,0 +1,14 @@
+just-because.mp3 — 4:03
+tempo 87–93 BPM, median 89
+key F♯ minor (r 0.89; next D major, 0.78)
+tuning A = 440 Hz +3 ¢
+bars drawn on the section zooms numbered 3, 4, 5, 6, 7 — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–0:12  87 BPM  −12 dB  F♯m D E D F♯
+2  0:12–0:23  93 BPM  −11 dB  F♯ A C♯ D F♯m
+3  0:23–0:45  89 BPM  −9 dB  F♯m Am C♯m D F♯m Am C♯m Dm
+4  0:45–1:06  89 BPM  −11 dB  F♯ D E D F♯m A C♯ D
+5  1:06–1:28  89 BPM  −10 dB  F♯ D E D F♯m A C♯m D
+6  1:28–2:54  89 BPM  −10 dB  F♯ D E D F♯m A C♯m D F♯ D C♯m Em D F♯m A C♯ + D F♯m E ×4 + D
+7  2:54–3:29  89 BPM  −10 dB  Gm F♯ D Em + D F♯m A E ×2 + D F♯
+8  3:29–4:03  90 BPM  −16 dB  F♯

@@ -9,7 +9,7 @@ album: wings
 track: 8
 lossy: true
 seconds: 287
-mp3Bytes: 7337905
+mp3Bytes: 7337917
 explicit: false
 en:
   title:
@@ -51,9 +51,9 @@ x3
 Там, где зла и горя нет
 Здесь, внизу, на земле
 Места нету тебе,
-Улетай[^fly-away-ru]
+В новый день[^fly-away-ru]
 
-[^fly-away-ru]: Тут Суно не справилась со словом, а исправить это тогда было нечем. Зато теперь можно придумать ему какое-нибудь своё прочтение.
+[^fly-away-ru]: Тут Суно не справилась со словами, а исправить это тогда было нечем. Зато теперь можно придумать им какое-нибудь своё прочтение.
 
 <!-- lyrics:en -->
 
@@ -72,4 +72,4 @@ Into a new day, into a new light,
 There, where there is no evil and no grief
 Here, below, on the earth
 There’s no room for you,
-Fly away
+Into a new day

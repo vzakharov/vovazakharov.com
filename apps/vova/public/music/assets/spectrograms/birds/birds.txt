@@ -1,0 +1,13 @@
+birds.mp3 — 4:47
+tempo 120 BPM
+key G minor (r 0.80; next B♭ major, 0.75)
+tuning A = 440 Hz +1 ¢
+bars drawn on the section zooms numbered 4, 6 — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–0:10  120 BPM  −13 dB  Gm E♭ F
+2  0:10–0:33  123 BPM  −14 dB  F Gm E♭ F Gm
+3  0:33–1:04  122 BPM  −13 dB  Gm E♭ F ×2 + Gm
+4  1:04–2:04  120 BPM  −12 dB  Gm E♭ F ×4 + B♭
+5  2:04–2:52  120 BPM  −13 dB  B♭ + Gm E♭ F ×3 + N Gm
+6  2:52–3:56  120 BPM  −10 dB  Gm F E♭ F ×4
+7  3:56–4:47  120 BPM  −22 dB  Gm

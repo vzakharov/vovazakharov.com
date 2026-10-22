@@ -1,0 +1,9 @@
+after-us.mp3 — 1:19
+tempo 124 BPM
+key E♭ minor (r 0.87; next G♭ major, 0.76)
+tuning A = 440 Hz −4 ¢
+bars drawn on the section zooms numbered 2 — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–0:15  124 BPM  −17 dB  B♭m A♭m B G♭
+2  0:15–1:02  124 BPM  −11 dB  E♭m D♭ B G♭ E♭m D♭ B B♭ E♭m D♭ B B♭m
+3  1:02–1:19  124 BPM  −24 dB  B♭m E♭m D♭ B

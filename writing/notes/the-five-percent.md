@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×79)
+## What it was handed, it treats as fixed (×82)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -58,10 +58,10 @@ filing skill ran; the docket wants a machine standing in for a mind.
 
 **22 September to 22 October — what its search reached, read as the record.** A
 review's comments, filtered by creation time, lost five of six. Nostalgia's
-squash said the album "survived only as scattered takes," read off the per-song repos:
-_репа со всем альбомом-то была._ `/dry` cleared PR #186's Whisper merge over its
-diff: _is this all DRY compared to the dictation scripts already in the repo?_
-Untouched `captions.py` spelled the same `.json.gz` read.
+squash said the album "survived only as scattered takes," read off the per-song
+repos: _репа со всем альбомом-то была._ `/dry` cleared PR #186's Whisper merge
+over its diff: _is this all DRY compared to the dictation scripts already in the
+repo?_ Untouched `captions.py` spelled the same `.json.gz` read.
 
 **5 to 21 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
@@ -73,15 +73,23 @@ slug never moves, so renaming «Бабай минем» kept `minem-babay`: _с�
 поменять, ничего страшного._ The rule protects his links, so he can waive it.
 Told BAS-0016 should not print IShowSpeed's legal name, the agent ruled out
 legal names for the famous too: _без фанатизма… 50 Cent … Curtis James Jackson
-III *не* надо._ Nostalgia's album story kept the dictation's sentences verbatim
-yet cut his «могу врать»: literal on his words, aggressive on his hedge. Told
-one hook should lose its quotes, the agent stripped 33: _тут как раз нужны
-кавычки._ Quotes mark someone's words, not a line's shape.
+III *не* надо._ Told the beat lines confused, the agent dropped the zooms' time
+grid whole; the fault was density. Nostalgia's album story kept the dictation's
+sentences verbatim yet cut his «могу врать»: literal on his words, aggressive on
+his hedge. Told one hook should lose its quotes, the agent stripped 33: _тут как
+раз нужны кавычки._ Quotes mark someone's words, not a line's shape.
 
-**8 to 20 October — the mix, the source, its own last output, read as the
-thing.** Captions synced to the unmastered mix; GENERATED's page kept «это всё
-будут концепт-альбомы» over 75 released songs. The Clerk's reflections had
-converged on «Первое — / Второе —», a form re-read before each new one.
+**8 to 20 October — the mix, the source, its own script and last output, read as
+the thing.** Captions synced to the unmastered mix; GENERATED's page kept «это
+всё будут концепт-альбомы» over 75 released songs. Where librosa disagreed with
+the spectrogram's keys, the agent called it a tie; its own script had counted G,
+C's third harmonic, as a note. The Clerk's reflections had converged on «Первое
+— / Второе —», a form re-read before each new one.
+
+**21 October — the beat tracker's grid, read as the beat.** The agent tuned
+which beat opens a bar; the author heard sorry's third section start half a beat
+early, the tracker locked onto the syncopated kick. It never asked whether the
+beats were.
 
 **22 October — a role read by its everyday sense, not what it was added for.**
 Basilisk.fyi's 22 seal emblems went into the estimate as a senior `artist` part,
@@ -90,7 +98,7 @@ in with the music PR for Майя's voice; drawing is `designer`. Every earlier
 `artist` part had been a persona reflection, so the label had drifted between
 sessions already. Now `musician`.
 
-## An account that explains the code stands in for running it (×23)
+## An account that explains the code stands in for running it (×24)
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
@@ -109,6 +117,11 @@ became generated unions to fail the build on a typo: _приведи приме�
 **17 October — "no call site uses it yet," read as a status.** PR #158 ported
 `composeSchemas` with adoption left for later: _where are all its uses?_ The
 case frontmatter already chained `.extend(X.shape)`, its whole job.
+
+**20 October — a detector passed on fixtures lacking what breaks it.** The drum
+row was tested on synthetic strikes; nobody looked where a song has no drums. It
+fires before Птицы's first hi-hat at 1:21 as often as after, a picked guitar
+rising like a hit. A demucs drums stem matched all three of the author's times.
 
 ## It edits the copy in front of it, not the fact behind it (×17)
 
@@ -209,7 +222,7 @@ became "Grandpa of Mine," because the crib had it so: _Разве "grandpa of mi
 that answer because it suited the docket's `noAi` balance. The admission had
 been the finding.
 
-## It checks the render against its intent, not against the page (×5)
+## It checks the render against its intent, not against the page (×6)
 
 Told to look at a visual change, the agent looks — and verifies what it set out
 to do. Whether the result is right is answerable only from the page.
@@ -217,6 +230,11 @@ to do. Whether the result is right is answerable only from the page.
 **17 and 23 September — the change checked, the page passed.** _выноска стала
 лучше, изображение -- хуже._ The explicit badge, sized beside a 48px title,
 stood taller than the capitals in the catalogue's 16px list.
+
+**21 October — marks drawn, never read as their reader would.** The spectrogram
+drew drum hits as 1 px ticks on a 1300 px image: _С такими тоненькими полосками
+что вообще агент сможет понять?_ Its reader is an agent that cannot hear, and
+nobody read it as one.
 
 ## It warns where the repo could refuse (×3)
 
