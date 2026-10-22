@@ -1,11 +1,11 @@
 #!/bin/bash
-# Vet: the fast checks the agent runs before pushing review-ready work.
+# Vet: the fast checks the agent runs on review-ready work before it merges.
 #
 # See `.claude/rules/stack.md` for the contract and for why this list is what it
 # is.
 #
-# Bare, it is `scripts/vet-ci.sh`: every phase below, from the pushed head,
-# `.github/workflows/vet.yml` running each but `local` in a job of its own.
+# Bare, it runs every phase below on the pushed head: `local` here, and each of
+# the rest in a job of its own of `.github/workflows/vet.yml`.
 #
 #   scripts/vet.sh build <site>   one site's build
 #   scripts/vet.sh lint <k>/<n>   ESLint over the k-th of n shards of the files
@@ -30,7 +30,57 @@ usage() {
   exit 2
 }
 
-[ "$#" -gt 0 ] || exec scripts/vet-ci.sh
+# The bare run: dispatches `.github/workflows/vet.yml` on the current branch,
+# runs the `local` phase while it runs, and waits for it, printing a failed
+# run's job logs. The run vets the branch as GitHub has it, so a tree that
+# differs from the pushed head is refused rather than vetted by proxy.
+dispatched() {
+  local branch head pushed before run url status=0
+  branch=$(git branch --show-current)
+  head=$(git rev-parse HEAD)
+  pushed=$(git ls-remote origin "refs/heads/$branch" | cut -f1)
+  if [ -n "$(git status --porcelain)" ] || [ "$pushed" != "$head" ]; then
+    printf 'vet: commit and push %s first — the run vets the pushed head\n' "$branch" >&2
+    exit 2
+  fi
+
+  # `gh workflow run` names the run it started only in newer releases, so the
+  # run is found as the one on this head that was not there before the dispatch.
+  runs() {
+    gh run list --workflow vet.yml --branch "$branch" --event workflow_dispatch \
+      --limit 20 --json databaseId,headSha --jq ".[] | select(.headSha == \"$head\") | .databaseId"
+  }
+  before=$(runs) || exit 1
+  gh workflow run vet.yml --ref "$branch" >/dev/null || exit 1
+
+  scripts/vet.sh local || status=1
+
+  for _ in $(seq 60); do
+    run=$(runs | grep -vxF -e "$before" -e '' | head -n1) && [ -n "$run" ] && break
+    sleep 2
+  done
+  if [ -z "$run" ]; then
+    printf 'vet: the dispatched run on %s never appeared\n' "$head" >&2
+    exit 1
+  fi
+
+  url="https://github.com/$(gh repo view --json nameWithOwner --jq .nameWithOwner)/actions/runs/$run"
+  printf 'vet: waiting on %s\n' "$url"
+  if ! gh run watch "$run" --exit-status --interval 15 >/dev/null; then
+    gh run view "$run" --log-failed
+    printf 'vet: run failed — %s\n' "$url" >&2
+    status=1
+  fi
+
+  if ((status)); then
+    printf '\nvet FAILED\n' >&2
+    exit 1
+  fi
+  printf '\nvet OK\n'
+  exit 0
+}
+
+[ "$#" -gt 0 ] || dispatched
 
 phase="$1"
 case "$phase" in

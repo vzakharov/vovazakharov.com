@@ -1,10 +1,9 @@
 name: Vet
 
-# Dispatched by `scripts/vet-ci.sh`, which runs `scripts/vet.sh local` beside
-# it, the two together in place of a bare local run; never on its own. The
-# same run, split across
-# machines by vet.sh's own phases, every job starting at once; only the checks
-# over the exports wait, for the builds that write them.
+# Dispatched by a bare `scripts/vet.sh`, which runs its `local` phase beside
+# it; never on its own. Each job is one of vet.sh's phases, every one starting
+# at once; only the checks over the exports wait, for the builds that write
+# them.
 on:
   workflow_dispatch:
 

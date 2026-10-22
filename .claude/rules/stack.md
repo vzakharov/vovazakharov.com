@@ -2,7 +2,6 @@
 description: What scripts/vet.sh runs and why each check is in it, and the four sites a toolchain change has to wire
 paths:
   - scripts/vet.sh
-  - scripts/vet-ci.sh
   - .github/workflows/vet.yml
   - .github/actions/setup-toolchain/**
   - scripts/run-parallel.sh
@@ -48,13 +47,13 @@ python3 .claude/keepalive/test_keepalive.py                   # │
 python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 ```
 
-**`scripts/vet.sh` runs that list split across GitHub's runners**, through
-`scripts/vet-ci.sh`: the phases `vet.sh`'s header names, every job starting at
-once, bar the checks that read the branch against its merge base or the cost
-ledger, which run on this machine — a runner has neither without a full-history
-checkout, which costs more than they take, and each passes quietly without it.
-It vets the **pushed** head and refuses a tree that differs from it. Against the
-whole list run in one container it halves the wall clock.
+**`scripts/vet.sh` runs that list split across GitHub's runners**: the phases
+`vet.sh`'s header names, every job starting at once, bar the checks that read
+the branch against its merge base or the cost ledger, which run on this machine
+— a runner has neither without a full-history checkout, which costs more than
+they take, and each passes quietly without it. It vets the **pushed** head and
+refuses a tree that differs from it. Against the whole list run in one container
+it halves the wall clock.
 
 Twenty things about that list are deliberate:
 

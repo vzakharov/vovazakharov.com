@@ -100,9 +100,15 @@ logs. Measured: 2m11s wall clock (run 39810429946: 2m05s, shallow `source`
 Operator: «нужно переписать "голый" vet.sh так, чтобы он делал всё то, что мы
 сейчас нагородили» and «если сохранить опцию "всё на локальной машине" значит
 сохранить много кода которым никто не будет пользоваться, то не надо». Bare
-`vet.sh` execs `vet-ci.sh`; the one-machine run is gone, and with it the
-build-before-typecheck ordering. `/finalize` needed no edit. Measured: 1m49s
-(run 39816552252).
+`vet.sh` does the dispatch itself (`vet-ci.sh` folded in, nothing else called
+it); the one-machine run is gone, and with it the build-before-typecheck
+ordering. Measured: 1m49s (run 39816552252).
+
+Swept for what assumed the old run («и просвипи на похожее»): `/sync-branch`
+vetted before pushing, which the new vet refuses, so its Step 5 pushes first;
+`/finalize` Step 1, README, `vet.sh`'s header and the `test-on-gh` watermark
+reason say "after pushing" / "dispatches to CI". The two skills are muthur-owned
+— the next sync carries them back or flags the drift.
 
 Left: `/go` Steps 3–4 (polish, PR body).
 
@@ -121,9 +127,6 @@ Left: `/go` Steps 3–4 (polish, PR body).
 6. **`ci:` is a publishing type** — the squash redeploys every site (identical
    output).
 
-Out of scope: `/finalize` still runs vet locally; pointing it at a dispatch is a
-separate change to a muthur-owned skill.
-
 ## DRY notes
 
 - `setup-toolchain` stays the one statement of the pnpm/Node pins.
@@ -131,4 +134,4 @@ separate change to a muthur-owned skill.
 - The ESLint heap ceiling moves to `lint:files`, which `lint:check` and the
   shards both call, so it is still stated once.
 - `place-vet-artifacts.sh` is the one place that maps artifacts back to paths,
-  used by both jobs that download builds.
+  used by the one job that downloads the exports.

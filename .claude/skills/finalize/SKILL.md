@@ -93,7 +93,8 @@ duplication like any other.
 
 Steps (stop on first unresolved failure):
 
-1. **Vet**: `./scripts/vet.sh`. Fix and rerun until green.
+1. **Vet**: push, then `./scripts/vet.sh`, which vets the pushed head. Fix, push
+   and rerun until green.
 2. **Merge the base branch**: load `@.claude/skills/sync-branch/SKILL.md` and
    follow it, passing `no vet` in `no vet` mode. It owns the merge — the
    conflicts committed as git left them, the resolution in a commit of its own,
