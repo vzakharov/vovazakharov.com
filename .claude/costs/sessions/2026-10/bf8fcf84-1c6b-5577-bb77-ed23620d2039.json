@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 57417,
+    "cacheWrite1hTokens": 122857,
+    "cacheReadTokens": 7869392,
+    "outputTokens": 20984,
+    "thinkingTokens": 6368,
+    "responses": 63,
+    "costUsd": 3.2640034000000004
+  },
+  "estimate": {
+    "at": "2026-10-22T06:13:17.788Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "landing a one-file fix already written: publishing a preview, the vet run and the merge prep are routine and need no design judgement"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "bf8fcf84-1c6b-5577-bb77-ed23620d2039",
+  "branch": "claude/guard-standby-deck-wp3lnz",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/guard-standby-deck-wp3lnz — дождаться проверки на айфоне и ответа про тест, затем finalize",
+  "prs": [
+    185
+  ],
+  "url": "https://claude.ai/code/session_012NGqjtdKx6nMMv6N938hV9",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T06:12:51.094Z",
+  "lastResponseAt": "2026-10-22T07:50:26.743Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 2.9390946000000002,
+  "ownTurns": {
+    "inputTokens": 98,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 122857,
+    "cacheReadTokens": 6720017,
+    "outputTokens": 15776,
+    "thinkingTokens": 4168,
+    "responses": 49,
+    "costUsd": 2.6427714000000004
+  },
+  "subagents": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 57417,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1149375,
+    "outputTokens": 5208,
+    "thinkingTokens": 2200,
+    "responses": 14,
+    "costUsd": 0.6212320000000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 126,
+      "cacheWrite5mTokens": 57417,
+      "cacheWrite1hTokens": 122857,
+      "cacheReadTokens": 7869392,
+      "outputTokens": 20984,
+      "thinkingTokens": 6368,
+      "responses": 63,
+      "costUsd": 3.2640034000000004
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-22T06:15:10.743Z",
+    "contextTokens": 113930,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64651,
+      "cacheReadTokens": 1122575,
+      "outputTokens": 2727,
+      "thinkingTokens": 772,
+      "responses": 11,
+      "costUsd": 0.796351
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
