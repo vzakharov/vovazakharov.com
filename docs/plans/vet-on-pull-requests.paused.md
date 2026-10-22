@@ -75,7 +75,14 @@ Dispatched (run 39797392079, green): 2m28s against 2m38s before this step
   minute — it reads every `cost-ledger` row, one lazy fetch each — so the full
   checkout stays.
 
-Left: a dispatch confirming `source` ends near ~2m05s.
+Run 39805671524 (green, full checkout): 2m24s. `source` 1m26s; the vova path is
+the whole critical path, and it varies by runner — build 60s here against ~70s
+before, but the export upload 15s and the export checks 35s, against 15s in
+run 39804987378. So the floor is ~2m–2m25s, ~1.5–1.75× the single job.
+
+Left: the operator's call between more cutting and `/finalize`; on finalize,
+`/go` Steps 3–4 (polish, PR body naming that CI's route types come from typegen
+while a local bare run's come from the build).
 
 ## The edges
 
