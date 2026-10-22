@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'My Sultan'
+  hook: 'That’s just how it is — life goes on, if not for everyone.'
+ru:
+  hook: 'Так уж устроено, жизнь продолжается — пусть не для всех.'
 ---
 
 <!-- lang:en -->

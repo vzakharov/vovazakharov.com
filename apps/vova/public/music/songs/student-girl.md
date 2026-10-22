@@ -16,6 +16,9 @@ credits:
 en:
   title:
     translation: 'The Student Girl'
+  hook: 'It’s all your braids, all your bows.'
+ru:
+  hook: 'Всё косы твои, всё бантики.'
 ---
 
 <!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 8 February 2026. -->
