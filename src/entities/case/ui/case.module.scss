@@ -5,13 +5,14 @@
   letter-spacing: 0.04em;
 }
 
-// The memo with the seal to its right; on a narrow screen the seal stands
-// above it. Paper takes the wide layout whatever its width.
+// The memo with the seal to its right, centred on the memo's height; on a
+// narrow screen the seal stands above it. Paper takes the wide layout whatever
+// its width.
 .brief {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 16px 32px;
-  align-items: start;
+  align-items: center;
 
   @include mantine.smaller-than(mantine.$breakpoint-sm) {
     grid-template-columns: 1fr;
