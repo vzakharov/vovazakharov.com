@@ -16,9 +16,11 @@ credits:
 en:
   title:
     translation: 'Winter'
+  hook: 'Vivaldi’s winter turning into Konyukhov’s Arctic winter.'
 ru:
   title:
     translation: 'Зима'
+  hook: 'Зима Вивальди, переходящая в арктическую зиму Конюхова.'
 ---
 
 <!-- For Vova to check: Instrumental because `june` says the album is instrumental apart from its title track; the checklist left the language blank. -->

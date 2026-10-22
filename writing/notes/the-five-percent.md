@@ -43,7 +43,7 @@ belongs where the code can see it, whether or not it lands here.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×71)
+## What it was handed, it treats as fixed (×77)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a pattern
 already in the tree — the agent reasons _inside_ rather than _about_: it reads a
@@ -64,21 +64,26 @@ Roscoe, a police robot a gunman in a standoff shot, passed every check the
 filing skill ran; the docket files an act on a machine standing in for a mind,
 and he fired at officers and a faceless PacBot alike.
 
-**22 September to 8 October — what its search reached, read as the record.**
+**22 September to 21 October — what its search reached, read as the record.**
 `/tend-prose` hunted removed nouns where a change removed a property; a review's
 comments, filtered by creation time, lost five of six. No cover in an album's
 repo meant text-only tiles; Apple Music had five. Told to widen a ledger search
 seeded from the dossier just read, the agent dropped the docket from it, and
-with it what the ledger is for.
+with it what the ledger is for. Nostalgia's squash said the album "survived only
+as scattered takes," read off the per-song repos it had worked through: _репа со
+всем альбомом-то была._ Asked for the actor poem's story, it gave dates and
+called it done: _подноготной никакой не нашлось?_ Marina Tarkovskaya's book has
+the 1958 Ashgabat love.
 
-**5 to 14 October — the shape in the tree read as chosen.** Nine callers spelled
+**5 to 21 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. The artists' order became a hand-kept `order:`, where it
-derives. Radio state went into the player's reducer, where a layered one sees
+derives; Nostalgia's poem pages put the poem's history first by rule, where the
+markdown file already gives the order. Radio state went into the player's reducer, where a layered one sees
 every action too. Each song's MP3 went in as `podcast`, named for the feed that
 first read it: _зачем мы это называем `podcast`…?_ Now `mp3`.
 
-**7 to 20 October — a rule read to its letter, then past its case.**
+**7 to 22 October — a rule read to its letter, then past its case.**
 `content.md` names Suno's markers and stress marks; the agent took the two as
 the whole list and kept «Война-а» as the author's. "Expletives are written out"
 unmasked a bleep that is on the recording. "Don't patch muthur" became removing
@@ -88,7 +93,16 @@ renaming «Бабай минем» kept `minem-babay`: _слаг тоже пом
 should not print IShowSpeed's legal name, the agent ruled out legal names for
 everyone, the famous included: _без фанатизма… 50 Cent … Curtis James Jackson
 III *не* надо._ The rule names people as the public knows them, a Hollywood
-actor by his name.
+actor by his name. Nostalgia's album story kept the dictation's sentences and
+passives («всё пробовалось»), "supplied text is verbatim" read onto a story told
+to a phone: _надо всё-таки как-то выжимать, а не диктовать._ The same story cut
+his «могу врать» and stated the fact flat, by a rule the agent had written
+against facts he doubts; the doubt is how he tells it. Literal on his words,
+aggressive on his hedge: the opposite on both. Told one standalone hook should
+lose its quotes, the agent stripped 33 and ruled a whole line never quoted;
+«20»'s hook is the son's question inside the song, another Aunt Olya's line
+from the story: _тут как раз нужны кавычки._ Quotes mark someone's words, not a
+line's shape.
 
 **8 to 13 October — the poem, the mix, the source, read as the thing.** Song
 pages printed stanzas never recorded; captions synced to the unmastered mix;
@@ -201,7 +215,7 @@ In an author's lyrics an odd form is intent before it is a typo.
 streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
 rule names a pseudonymous actor by handle only, and exempts no one famous.
 
-## Its prose answers the question it had, not the reader's (×9)
+## Its prose answers the question it had, not the reader's (×10)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question, or too compressed to give its points back, passes every
@@ -227,6 +241,12 @@ the funny paragraph: the joke was on the bot, whose failure is the agent's own.
 To him the bot isn't funny; whoever let it agree deals is, and the agent's own
 Statements section quoted Fullpath calling it "a very successful example of
 innovative technology." It answered why it doesn't laugh, not who the butt is.
+
+**22 October — the punchline before its setup.** The Half-Alive's note on the
+blindfolded performers went "right up to Father River, my real dad, guaranteed
+to have a soul," then the proverb about eyes and the soul it plays on, so the
+quip landed unexplained. Two of his sentences, kept in the order he said them,
+not the order in which one sets up the other.
 
 ## What it defends in writing, it stops asking about (×7)
 
@@ -300,7 +320,7 @@ the `/tend-prose` lens built for it.
 the Clerk wrote the comforting line "but the relief was mine." _ты же и есть
 Клерк?_
 
-## It files its own misreading as the author's gap (×1)
+## It files its own misreading as the author's gap (×2)
 
 When its reading of someone's material comes up with a hole, the agent asks the
 author to fill it rather than asking whether the reading made it. The question
@@ -311,6 +331,32 @@ dictation into each track's story and its making-of, the agent found none for
 tracks 6 and 10 and asked for some. _it's all in the dictation_: "This echoes
 the earlier Fuck Religion…" is the author outside the story. The agent had
 sorted by which song a passage was about, not whose voice it was in.
+
+**21 October — a singer asked for, on an AI band.** On Nostalgia's Insomnia
+(«пою не я»), the agent left a note asking who sings it: _ну это же всё ИИ, ты
+чего?_ The gap was its assumption that a vocal needs a human to name.
+
+## Its own plan stops being read once the work starts (×1)
+
+A plan names what the work will produce, and the work is then checked against
+the task as the agent remembers it. A deliverable the plan promised and the diff
+lacks surfaces only when someone else holds the two side by side.
+
+**21 October — the dictation that was to become the story.** The Nostalgia plan
+said the album dictation would become the album's story; the branch shipped
+with the file unused, until Vova asked why it went nowhere.
+
+## A correction made once, it makes again from its own picture (×1)
+
+A misreading fixed in one session leaves no trace the next one reads, and
+the picture it came from re-forms from the same cues. The agent meets
+its old mistake as a fresh conclusion, and only the person who corrected it
+recognises the repeat.
+
+**22 October — GENERATED read as "the general story," twice.** Placing a note on
+Nostalgia's blindfolded cover performers, the agent offered «в общую историю,
+artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._ GENERATED is an
+artist, the one with the most songs. Now in `.claude/rules/songs.md`.
 
 ## Not bumps
 
@@ -324,7 +370,9 @@ Whether a piece says what its author meant is his alone.
 **Decisions that were the operator's to make.** The CV's locale segment, a
 post's hook, the theme toggle's home, the cost report's grain, and basilisk.fyi's
 taste throughout; the Krylya lyrics' line breaks, verb moods, fade-out choruses
-and a vocalise kept as text; extracting a block with two uses. An entry removed
+and a vocalise kept as text; whether a hook that is a whole line keeps its
+quotation marks; extracting a block with two uses; whether
+Nostalgia's blind-test tooling retires with the album or serves the next songs. An entry removed
 this way takes its count with it.
 
 **Comments the tree already answered.** Whether a quote's capitalization was
@@ -333,7 +381,7 @@ stay out of the count, and in the file, so it is not an ad.
 
 ## The two families
 
-Thirteen learnings is not a pattern, but they fall in two groups. One is failures
+Fourteen learnings is not a pattern, but they fall in two groups. One is failures
 to notice the frame was ours — the prefix list, the checker whose coverage read
 as the rule, our own `eslint.config.ts`. The other is the post's more interesting
 half, being the opposite of a mistake: the output was well-formed, justified and

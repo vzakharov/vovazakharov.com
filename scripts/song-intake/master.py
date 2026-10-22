@@ -2,8 +2,11 @@
 """Master one song against a reference, at a fraction of the reference's EQ.
 
 Usage:
-  master.py <song> <reference> <out.mp3> [--strength 0.5] [--lufs N]
+  master.py <song> <reference> <out.mp3|out.flac> [--strength 0.5] [--lufs N]
             [--title T] [--album A] [--artist R] [--track N/M]
+
+The output's extension picks the codec: V0 mp3, or 24-bit FLAC for a lossless
+source, whose limiter is the same so that both decode to one master.
 
 The chain, each step there for a reason scripts/song-intake/CLAUDE.md gives:
 
@@ -39,6 +42,10 @@ NUMTAPS = 8191
 LIMIT = 0.75  # -2.5 dBFS at 4x: LAME V0 adds up to ~1.5 dB of intersample peak
 MAX_TRUE_PEAK = -1.0
 TAGS = ("title", "album", "artist", "track")
+CODECS = {
+    ".mp3": ("-c:a", "libmp3lame", "-q:a", "0"),
+    ".flac": ("-c:a", "flac", "-sample_fmt", "s32", "-bits_per_raw_sample", "24"),
+}
 
 
 def ffmpeg(*args):
@@ -80,6 +87,7 @@ def main():
     for tag in TAGS:
         p.add_argument(f"--{tag}")
     args = p.parse_args()
+    codec = CODECS[Path(args.out).suffix.lower()]
 
     with tempfile.TemporaryDirectory() as tmp:
         t = Path(tmp)
@@ -97,7 +105,7 @@ def main():
         ffmpeg("-i", str(eq), "-af",
                f"volume={gain:.2f}dB,aresample={SR * 4},"
                f"alimiter=limit={LIMIT}:attack=1:release=50:level=false,aresample={SR}",
-               "-c:a", "libmp3lame", "-q:a", "0", *meta, args.out)
+               *codec, *meta, args.out)
 
     i, tp = loudness(args.out)
     print(f"{args.out}: {i:.1f} LUFS, {tp:.1f} dBTP (target {target:.1f})")

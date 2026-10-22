@@ -60,11 +60,39 @@ subtitle credits instead. Cut the stem at its silences and hear each sung
 stretch on its own — that recovered Птицы where both whole-file runs failed. A
 credit line in any transcript is invented and never reaches the words.
 
+**A stem with bleed has no silences to cut at**: `silencedetect` finds none
+where the instruments leak through. A loudness envelope in 2-second windows does
+— the sung stretches stand 10 dB or so above the bleed. A stretch that stays
+unheard in pieces too (a growl, heavy effects, a whisper) is asked about, never
+filled in from the poem.
+
 Neither transcript is the lyrics. The draft reconciles both, keeps the line
 breaks the music makes, and marks every line the two disagreed on, because the
-agent cannot hear the song and the operator can. A setting of a published poem —
-`Послушайте` is Mayakovsky — takes the canonical text and flags only where the
-recording departs from it.
+agent cannot hear the song and the operator can.
+
+**A setting of a published poem** — `Послушайте` is Mayakovsky, «Ностальгия» is
+Tarkovsky — starts from the poem as the operator pastes it, never one the agent
+recalls, and is made to read as sung:
+
+- **The transcripts give the shape**: a refrain sung where the poem has it once,
+  a line or stanza the song drops, lines moved or added. Where both recognisers
+  agree on the shape, the draft takes it; where they disagree or hear nothing,
+  it keeps the poem's text and asks.
+- **The poem gives the words.** A recogniser's word is a mishearing until both
+  agree on it against the poem, and even then it is asked rather than taken.
+- **The paste's layout is the website's, not the poem's**: a ladder broken over
+  several lines, an indented half-line, a word split at a line end are joined
+  into the line the music sings; a source link goes. Spelling follows `songs.md`
+  — ё restored, en dashes and hyphens as em dashes.
+- **Questions go out numbered**, each with the timecode and what each recogniser
+  heard, and an `<!-- ask N -->` line above the stanza in the draft, which the
+  page drops. The draft holds the agent's best reading meanwhile, so the answers
+  change lines rather than unblock the work.
+- **The crib comes with the words**, line for line, per `songs.md` § "Body", its
+  footnotes only where a name or idiom means nothing in English.
+
+Drafts live in `docs/remove-before-merging/<album>/lyrics/<slug>.md`, one per
+song, until the scaffolded song file takes them.
 
 ## Captions
 
@@ -104,6 +132,29 @@ the whole song, the louder side brought down to the quieter rather than the
 quieter raised, whose peaks would clip — otherwise the ear hears level, not
 sound. `spectrum.py` shows what an EQ actually did, which is the place to start
 when the operator says "too bright" or "muddy".
+
+**Picking the reference is a blind A/B/C.** The three catalogue masters most
+like the song's mix (`spectrum.py`, loudness, crest factor) each master it, and
+`blind-abc.py build --mix` alternates the three in that A/B's windows, in one
+random order the operator hears as "first, second, third", each round opening on
+the unmastered mix. All four are brought down to the quietest — in practice the
+mix — because a louder master always sounds better, and the ear is choosing the
+sound. The candidate masters go to the `music-sources` release as one tar until
+the verdict, since a container's `tmp/` dies with it. The commit carries the
+order's sha256, and the key file base64-encoded beside the blind file, so a
+session in another container can reveal it (`base64 -d` to a file under `tmp/`,
+then `blind-abc.py reveal`) — the operator is told not to decode it before
+answering. A key lost anyway means a rebuild with a new order, never a reveal
+from memory.
+
+**The operator listens on the site, not to the 5-second file.**
+`blind-abc.py split <key> <dir> --mix <source>` writes the same four as whole
+files, `mix.mp3`, `1.mp3`, `2.mp3`, `3.mp3`, in the key's order, so one seal
+covers both. The vova site's unlinked `/music/mastering-blind-test`
+(`src/pages/blind-test/`) plays all four at once and switches by gain, so a
+switch never restarts the song; it fetches them from the branch through
+raw.githubusercontent, whose CORS header Web Audio needs. The key's paths are
+relative to this directory, so `split` runs from here.
 
 ## A song's repository
 

@@ -31,6 +31,7 @@ const CREDITED_PEOPLE = [
   { en: 'Alexandra Kokotova', ru: 'Александра Кокотова' },
   { en: 'Andrey Mokrushin', ru: 'Андрей Мокрушин' },
   { en: 'Anna Akhmatova', ru: 'Анна Ахматова' },
+  { en: 'Arseny Tarkovsky', ru: 'Арсений Тарковский' },
   { en: 'Boris Pasternak', ru: 'Борис Пастернак' },
   { en: 'Viktor “Nixon” Sazonov', ru: 'Виктор «Никсон» Сазонов' },
   { en: 'Vladimir Mayakovsky', ru: 'Владимир Маяковский' },
