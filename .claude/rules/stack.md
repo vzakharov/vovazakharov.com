@@ -1,7 +1,9 @@
 ---
-description: What scripts/vet.sh runs and why each check is in it, and the three sites a toolchain change has to wire
+description: What scripts/vet.sh runs and why each check is in it, and the four sites a toolchain change has to wire
 paths:
   - scripts/vet.sh
+  - .github/workflows/vet.yml
+  - .github/actions/setup-toolchain/**
   - scripts/run-parallel.sh
   - .claude/hooks/install-deps.sh
   - package.json
@@ -92,11 +94,11 @@ Nineteen things about that list are deliberate:
   overlaps the rest safely.
 - **`pnpm type-overlap` fails on any member two named types both declare**
   (floor 1) **and on any combination of bases two of them both spell** (floor
-  2), with nothing grandfathered. Since nothing runs on pull requests, the vet
-  run is the only place it fires — so a branch is first held to it at
-  `/finalize`. It reads source text only, which is why it overlaps the others
-  safely. Working a finding, the naming families for a base, and the gate's
-  known blind spots: `scripts/type-overlap-check.README.md`.
+  2), with nothing grandfathered. The vet run is the only place it fires —
+  locally, or on the PR through `vet.yml`. It reads source text only, which is
+  why it overlaps the others safely. Working a finding, the naming families for
+  a base, and the gate's known blind spots:
+  `scripts/type-overlap-check.README.md`.
 - **`pnpm knip` fails on an unused file, export, type or dependency** — what
   `tsc`'s `noUnusedLocals` sees within a module, held between modules. `knip.ts`
   names how the repo is entered, and its header says how to answer a false
@@ -221,16 +223,21 @@ Nineteen things about that list are deliberate:
   it was authored; the script's header carries the caps and how it finds a
   proposal `/finalize` has already swept.
 
-## The three sites a toolchain change wires
+## The four sites a toolchain change wires
 
 A new runtime, a bumped pin, a new system dependency or a package-manager swap
-is unfinished until all three agree:
+is unfinished until all four agree:
 
 1. `scripts/vet.sh` runs the checks above under the new toolchain.
 2. `.claude/hooks/install-deps.sh` installs the dependencies, so a resumed
    remote session tracks the current lockfile. It only re-syncs against the
    lockfile once the toolchain is there.
-3. **The environment setup script** installs and pins the toolchain for remote
+3. **CI**: `.github/actions/setup-toolchain` pins pnpm and Node for every
+   workflow, and `.github/workflows/vet.yml` adds what only vet needs — Python
+   with numpy, a git identity for the tests that commit. A runner starts bare,
+   so a system dependency the container happens to carry is one that a PR's vet
+   run lacks.
+4. **The environment setup script** installs and pins the toolchain for remote
    sessions. No API, MCP tool or in-repo file stands behind it, so no agent can
    change it: **say in your report what the operator must add there**, or the
    next session runs under a version nobody chose. The one case that detects
