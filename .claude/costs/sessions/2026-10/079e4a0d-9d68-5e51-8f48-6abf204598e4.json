@@ -10,7 +10,7 @@
     "costUsd": 3.9007818000000003
   },
   "estimate": {
-    "at": "2026-10-21T16:24:15.274Z",
+    "at": "2026-10-22T05:09:24.432Z",
     "parts": [
       {
         "hours": 3.0,
@@ -21,8 +21,8 @@
       {
         "hours": 0.5,
         "grade": "senior",
-        "role": "editor",
-        "comment": "the song-intake conventions need the workflow rewritten without drifting from the dictation skill"
+        "role": "prompter",
+        "comment": "the song-intake CLAUDE.md is agent-facing instruction, rewritten without drifting from the dictation skill"
       }
     ],
     "comment": null
