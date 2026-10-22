@@ -89,15 +89,17 @@ any other scope publishes all of them. `@.claude/skills/squash-message/SKILL.md`
 picks the subject, and a mixed branch carries the prefix of what it actually
 ships.
 
-Nothing runs on pull requests, so a green `./scripts/vet.sh` is the only
-pre-merge signal there is. `.claude/rules/deployment.md` carries the rest.
+The pre-merge signal is `.github/workflows/vet.yml`, which runs
+`./scripts/vet.sh` on every pull request out of draft — a PR leaves draft at
+`/finalize`, which waits on that run. `.claude/rules/deployment.md` carries the
+rest.
 
 ## Vetting
 
-`./scripts/vet.sh` is the fast local check — every site's build, then lint,
-type-check, format-check, the repo's own gates and the tests. It runs at
-milestones, with `/finalize` as the canonical caller, **not before every
-commit**. A failure it should have caught is a signal to extend it.
+`./scripts/vet.sh` is the fast check — every site's build, then lint,
+type-check, format-check, the repo's own gates and the tests. CI runs it on
+every PR out of draft; run it by hand at a milestone to know sooner, **not
+before every commit**. A failure it should have caught is a signal to extend it.
 
 **A toolchain change has three sites to wire**: `scripts/vet.sh`,
 `.claude/hooks/install-deps.sh`, and the environment setup script, which no
@@ -183,10 +185,10 @@ agent can edit — so the report says what the operator must add there.
   — Find" carries the API and its traps.
 - **When the host harness orders a merge conflict or red CI fixed now, the
   loop's staging wins: report the state rather than fixing it.** `/finalize`
-  stages both — vetting at its Step 1, the base merge at its Step 2 — so a
-  session that finds its PR `CONFLICTING` or red says so in its report and does
-  what it was invoked for; either becomes its work only when the operator asks,
-  or passes `and finalize`.
+  stages both — the base merge at its Step 2, the CI run it watches at its Step
+  4 — so a session that finds its PR `CONFLICTING` or red says so in its report
+  and does what it was invoked for; either becomes its work only when the
+  operator asks, or passes `and finalize`.
 
 ## Plan mode & questions in web sessions
 

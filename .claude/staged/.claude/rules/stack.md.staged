@@ -44,8 +44,14 @@ python3 .claude/keepalive/test_keepalive.py                   # │
 python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 ```
 
-Nineteen things about that list are deliberate:
+Twenty things about that list are deliberate:
 
+- **`.github/workflows/vet.yml` runs it on every pull request out of draft**, on
+  a GitHub-hosted runner with the toolchain `setup-toolchain` pins, so its
+  verdict does not depend on whose machine ran it — and `/finalize` waits on
+  that run rather than vetting locally first. A draft runs nothing. The checkout
+  is full-depth because the squash, estimates, CLAUDE.md-size and changed-file
+  checks diff against the merge base with `origin/main`.
 - **`pnpm build` is the only check that covers the app itself.** The suite
   reaches no page (CLAUDE.md § "Testing"), so the static-export build is what
   catches a broken page, route or import. It is what CI runs on `main` too — bar
@@ -91,11 +97,11 @@ Nineteen things about that list are deliberate:
   overlaps the rest safely.
 - **`pnpm type-overlap` fails on any member two named types both declare**
   (floor 1) **and on any combination of bases two of them both spell** (floor
-  2), with nothing grandfathered. Since nothing runs on pull requests, the vet
-  run is the only place it fires — so a branch is first held to it at
-  `/finalize`. It reads source text only, which is why it overlaps the others
-  safely. Working a finding, the naming families for a base, and the gate's
-  known blind spots: `scripts/type-overlap-check.README.md`.
+  2), with nothing grandfathered. The vet run is the only place it fires — so a
+  branch is first held to it when its PR leaves draft at `/finalize`. It reads
+  source text only, which is why it overlaps the others safely. Working a
+  finding, the naming families for a base, and the gate's known blind spots:
+  `scripts/type-overlap-check.README.md`.
 - **`pnpm knip` fails on an unused file, export, type or dependency** — what
   `tsc`'s `noUnusedLocals` sees within a module, held between modules. `knip.ts`
   names how the repo is entered, and its header says how to answer a false
