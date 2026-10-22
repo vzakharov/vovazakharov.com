@@ -33,6 +33,7 @@ from drums import LANES
 from harmony import chord_name, folded, note_names
 from pitch import NOTE_BAND_HZ, chroma_shares
 from rhythm import beats_bpm
+from song_facts import key_names
 
 VERSION = 1
 # Frames a second. The strips are smoothed over NOTE_WINDOW_S, 0.6 s, so this
@@ -65,8 +66,13 @@ def strip_shares(samples, magnitude, freqs, step, duration, columns, band_hz, oc
     return shares, octave
 
 
+def second(t):
+    """A time to the millisecond, as every time in the object is."""
+    return round(float(t), 3)
+
+
 def seconds(times):
-    return [round(float(t), 3) for t in times]
+    return [second(t) for t in times]
 
 
 def bpm(value):
@@ -78,11 +84,19 @@ def dbfs(levels):
     return [round(float(v), 1) for v in 20 * np.log10(np.maximum(levels, 10 ** (FLOOR_DB / 20)))]
 
 
+def section(s, names):
+    chords = [chord_name(c, names) for c in s.chords]
+    return {
+        "start": second(s.start), "end": second(s.end),
+        "bpm": bpm(s.bpm), "db": round(float(s.db), 1),
+        "chords": chords, "folded": folded(chords),
+    }
+
+
 def song_data(name, facts, drums, tracks):
     """The JSON-ready object the module docstring describes. tracks is
     `spectrogram.py`'s: per track, its samples and their drawing STFT."""
-    _, tonic, mode = facts.keys[0]
-    names = note_names(tonic, mode)
+    names = key_names(facts)
     x, (_, freqs, step, _) = tracks["mix"]
     columns = max(1, round(facts.duration * RATE))
     peak, rms = envelope(x, columns)
@@ -98,7 +112,7 @@ def song_data(name, facts, drums, tracks):
     return {
         "version": VERSION,
         "song": name,
-        "duration": round(facts.duration, 3),
+        "duration": second(facts.duration),
         "tuning": round(facts.tuning, 1),
         "tempo": bpm(beats_bpm(facts.beats)),
         "keys": [{"tonic": note_names(t, m)[t], "mode": m, "r": round(r, 3)} for r, t, m in facts.keys[:KEYS]],
@@ -106,18 +120,10 @@ def song_data(name, facts, drums, tracks):
         "beats": seconds(facts.beats),
         "chords": [chord_name(c, names) for c in facts.chords],
         "bars": seconds(facts.bars),
-        "sections": [
-            {
-                "start": round(s.start, 3), "end": round(s.end, 3),
-                "bpm": bpm(s.bpm), "db": round(float(s.db), 1),
-                "chords": [chord_name(c, names) for c in s.chords],
-                "folded": folded([chord_name(c, names) for c in s.chords]),
-            }
-            for s in facts.sections
-        ],
+        "sections": [section(s, names) for s in facts.sections],
         "drums": {
             "lanes": list(LANES),
-            "hits": [[round(float(t), 3), *(round(float(v), 2) for v in row)] for t, row in zip(times, lit)],
+            "hits": [[second(t), *(round(float(v), 2) for v in row)] for t, row in zip(times, lit)],
         },
         "frames": frames,
     }

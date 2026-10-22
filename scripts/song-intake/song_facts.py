@@ -67,6 +67,12 @@ def measure(x, magnitude, freqs, step, db, harmony, drums):
     return Facts(duration, tuning, song_key(pitch_classes), beats, chords, bars, sections)
 
 
+def key_names(facts):
+    """The pitch classes C to B as the best key spells them, in every view of the song."""
+    _, tonic, mode = facts.keys[0]
+    return note_names(tonic, mode)
+
+
 def tempo_spread(facts):
     """The slowest and fastest section's tempo, or None where they are within TEMPO_SPREAD."""
     tempos = [s.bpm for s in facts.sections if s.bpm]
@@ -90,7 +96,7 @@ def tuning_label(cents):
 def sidecar(name, facts):
     """The sidecar's text: the numbers the picture can only approximate."""
     (r, tonic, mode), (r2, tonic2, mode2) = facts.keys[:2]
-    names = note_names(tonic, mode)
+    names = key_names(facts)
     tempo = tempo_label(facts)
     if tempo_spread(facts):
         tempo += f", median {beats_bpm(facts.beats):.0f}"

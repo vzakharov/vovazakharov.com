@@ -83,9 +83,8 @@ import numpy as np
 
 from audio import FLOOR_DB, LOW_HZ, SR, TOP_HZ, aligned, decode, log_rows, mmss, stft_magnitude
 from drums import LANES, drum_hits
-from harmony import note_names
 from song_data import STRIPS, envelope, song_data, strip_shares
-from song_facts import measure, sidecar, tempo_label, tuning_label
+from song_facts import key_names, measure, sidecar, tempo_label, tuning_label
 
 TICKS_HZ = (50, 100, 200, 500, 1000, 2000, 5000, 10000)
 # 2.7 Hz bins: a semitone apart is 2.4 Hz at 40 Hz and 6 Hz at 100, so the
@@ -272,8 +271,7 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
     wave.set_ylabel("level")
 
     ramps = chroma_ramps()
-    _, tonic, mode = facts.keys[0]
-    names = note_names(tonic, mode)
+    names = key_names(facts)
     for (strip, key), (label, track, band_hz, octaves) in zip(strips, STRIPS):
         samples, (stem_magnitude, *_) = views[track]
         shares, octave = strip_shares(samples, stem_magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
