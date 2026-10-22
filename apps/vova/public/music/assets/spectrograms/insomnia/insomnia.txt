@@ -1,0 +1,11 @@
+insomnia.mp3 — 6:33
+tempo 112 BPM
+key A minor (r 0.84; next F major, 0.62)
+tuning A = 440 Hz +1 ¢
+bars drawn on the section zooms numbered 1, 2, 3, 4 — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–1:28  112 BPM  −11 dB  Am F G Dm F ×2 + Am F
+2  1:28–2:34  112 BPM  −13 dB  F G Dm F Am ×4 + F
+3  2:34–3:03  112 BPM  −12 dB  F G Dm F Am F G Dm F
+4  3:03–6:13  112 BPM  −9 dB  F Am F G Dm Am F G Dm + Am F G Dm Am F G ×2 + Am F Gm Dm Am F G Am Dm Am F Gm Am F G Am F Gm Am
+5  6:13–6:33  112 BPM  −30 dB  Am F N G N
