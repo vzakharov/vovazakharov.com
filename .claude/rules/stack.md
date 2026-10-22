@@ -94,11 +94,11 @@ Nineteen things about that list are deliberate:
   overlaps the rest safely.
 - **`pnpm type-overlap` fails on any member two named types both declare**
   (floor 1) **and on any combination of bases two of them both spell** (floor
-  2), with nothing grandfathered. The vet run is the only place it fires —
-  locally, or on the PR through `vet.yml`. It reads source text only, which is
-  why it overlaps the others safely. Working a finding, the naming families for
-  a base, and the gate's known blind spots:
-  `scripts/type-overlap-check.README.md`.
+  2), with nothing grandfathered. Since nothing runs on pull requests, the vet
+  run is the only place it fires — so a branch is first held to it at
+  `/finalize`. It reads source text only, which is why it overlaps the others
+  safely. Working a finding, the naming families for a base, and the gate's
+  known blind spots: `scripts/type-overlap-check.README.md`.
 - **`pnpm knip` fails on an unused file, export, type or dependency** — what
   `tsc`'s `noUnusedLocals` sees within a module, held between modules. `knip.ts`
   names how the repo is entered, and its header says how to answer a false

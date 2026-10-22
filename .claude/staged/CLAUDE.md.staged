@@ -89,9 +89,8 @@ any other scope publishes all of them. `@.claude/skills/squash-message/SKILL.md`
 picks the subject, and a mixed branch carries the prefix of what it actually
 ships.
 
-`.github/workflows/vet.yml` runs `./scripts/vet.sh` on every pull request, and
-that is the only pre-merge signal there is. `.claude/rules/deployment.md`
-carries the rest.
+Nothing runs on pull requests, so a green `./scripts/vet.sh` is the only
+pre-merge signal there is. `.claude/rules/deployment.md` carries the rest.
 
 ## Vetting
 

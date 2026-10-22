@@ -82,9 +82,10 @@ second one".
 
 ## 2. The mechanism
 
-`scripts/type-overlap-check.ts`, wired into `scripts/vet.sh`, so the gate fires
-wherever vet runs: locally, and on every pull request through
-`.github/workflows/vet.yml`.
+`scripts/type-overlap-check.ts`, wired into `scripts/vet.sh`. Nothing runs on
+pull requests here (see CLAUDE.md → Deployment), so the vet run is the only
+place the gate fires — which makes `/finalize` the point at which a branch is
+actually held to it.
 
 Two passes run over the same set of aliases, both pairwise, and the run fails
 when either has findings.

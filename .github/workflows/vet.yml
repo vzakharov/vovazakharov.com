@@ -1,31 +1,27 @@
 name: Vet
 
+# Run by hand on a branch — `gh workflow run vet.yml --ref <branch>` — in place
+# of a local `./scripts/vet.sh`, never on its own.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# An agent pushes after every unit of work, so only the newest head is worth
-# finishing.
+# A second dispatch on the same branch means the first one's head is stale.
 concurrency:
-  group: vet-${{ github.head_ref || github.ref_name }}
+  group: vet-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
   vet:
     runs-on: ubuntu-latest
     steps:
-      # The branch by name with full history, not the default shallow merge
-      # commit: checks that diff against `origin/main` pass quietly with no base,
-      # and the estimates gate finds a finalized branch's `cost-ledger` rows by
-      # branch name.
+      # Full history rather than the default single commit: checks that diff
+      # against `origin/main` pass quietly with no base to read.
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
       - name: Set up the toolchain
