@@ -4,6 +4,7 @@
 Run by path (`python3 scripts/song-intake/test_song_facts.py`), as `scripts/vet.sh` does.
 """
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -12,11 +13,12 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from audio import SR, aligned, stft_magnitude
+from audio import SR, aligned, log_rows, stft_magnitude
 from drums import LANES, drum_hits
 from harmony import beat_chords, folded, fold_loop, song_key
 from pitch import NOTE_BAND_HZ, peak_chroma, tuning_cents
 from rhythm import beat_times, downbeats, onset_envelope, tempo_bpm
+from song_data import RATE, song_data
 from song_facts import Facts, Section, sidecar
 
 NFFT, HOP = 8192, 2048
@@ -170,20 +172,23 @@ class Loops(unittest.TestCase):
         self.assertEqual(fold_loop(list("abcd")), ([], list("abcd"), 1, []))
 
 
+GM, EB, F = (7, "m"), (3, ""), (5, "")
+BIRDS = Facts(
+    duration=95, tuning=-3.2,
+    keys=[(0.81, 7, "minor"), (0.73, 10, "major")],
+    beats=np.arange(0, 95, 0.5),
+    chords=[GM] * 190,
+    bars=np.arange(0, 40, 2.0),
+    sections=[
+        Section(0, 40, 120.0, -13.2, [GM, EB, F, GM, EB, F]),
+        Section(40, 95, 124.4, -10.0, [None, GM]),
+    ],
+)
+
+
 class Sidecar(unittest.TestCase):
     def test_lines(self):
-        gm, eb, f = (7, "m"), (3, ""), (5, "")
-        facts = Facts(
-            duration=95, tuning=-3.2,
-            keys=[(0.81, 7, "minor"), (0.73, 10, "major")],
-            beats=np.arange(0, 95, 0.5),
-            bars=np.arange(0, 40, 2.0),
-            sections=[
-                Section(0, 40, 120.0, -13.2, [gm, eb, f, gm, eb, f]),
-                Section(40, 95, 124.4, -10.0, [None, gm]),
-            ],
-        )
-        self.assertEqual(sidecar("birds.mp3", facts).splitlines(), [
+        self.assertEqual(sidecar("birds.mp3", BIRDS).splitlines(), [
             "birds.mp3 — 1:35",
             "tempo 120–124 BPM, median 120",
             "key G minor (r 0.81; next B♭ major, 0.73)",
@@ -195,6 +200,51 @@ class Sidecar(unittest.TestCase):
             "1  0:00–0:40  120 BPM  −13 dB  Gm E♭ F ×2",
             "2  0:40–1:35  124 BPM  −10 dB  N Gm",
         ])
+
+
+class SongData(unittest.TestCase):
+    """song_data over BIRDS's facts and a song whose voice sings D5 for its first half alone."""
+
+    seconds = 95
+
+    def track(self, x):
+        magnitude, freqs, step = stft_magnitude(x, NFFT, HOP)
+        return x, (magnitude, freqs, step, log_rows(magnitude, freqs))
+
+    def data(self):
+        half = int(SR * self.seconds / 2)
+        vocals = tone(74, self.seconds)
+        vocals[half:] = 0
+        other = sum(tone(m, self.seconds, level=0.1) for m in (55, 58, 62))
+        bass = tone(43, self.seconds)
+        hits = (np.array([1.0, 1.5]), np.array([[1, 0, 0, 0.5], [0, 0, 0.8, 0]]))
+        tracks = {t: self.track(x) for t, x in {"mix": vocals + other + bass, "vocals": vocals, "other": other, "bass": bass}.items()}
+        return song_data("birds.mp3", BIRDS, hits, tracks)
+
+    def test_round_trips_as_json(self):
+        data = self.data()
+        self.assertEqual(json.loads(json.dumps(data)), data)
+
+    def test_facts(self):
+        data = self.data()
+        self.assertEqual([k["tonic"] for k in data["keys"]], ["G", "B♭"])
+        self.assertEqual(len(data["chords"]), len(data["beats"]))
+        self.assertEqual(data["chords"][0], "Gm")
+        self.assertEqual(data["sections"][1]["folded"], "N Gm")
+        self.assertEqual(data["drums"]["hits"][1], [1.5, 0, 0, 0.8, 0])
+
+    def test_frames(self):
+        frames = self.data()["frames"]
+        n = self.seconds * RATE
+        self.assertEqual(len(frames["level"]["peak"]), n)
+        for strip in ("melody", "harmony", "bass"):
+            self.assertEqual([len(row) for row in frames[strip]["shares"]], [n] * 12)
+        shares, octave = np.array(frames["melody"]["shares"]), np.array(frames["melody"]["octave"])
+        sung, silent = slice(n // 10, 4 * n // 10), slice(6 * n // 10, 9 * n // 10)
+        self.assertTrue((np.abs(shares[:, sung].sum(axis=0) - 100) <= 2).all())
+        self.assertTrue((shares[:, silent] == 0).all())
+        self.assertTrue((shares[:, sung].argmax(axis=0) == 2).all())
+        self.assertTrue((octave[2, sung] == 5).all())
 
 
 class Drums(unittest.TestCase):

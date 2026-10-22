@@ -11,7 +11,7 @@ import numpy as np
 
 from audio import SR, mmss
 from drums import LANES
-from harmony import beat_chords, folded, note_names, runs, song_key
+from harmony import beat_chords, chord_name, folded, note_names, runs, song_key
 from pitch import NOTE_BAND_HZ, peak_chroma, section_times, tuning_cents
 from rhythm import TEMPO_SPREAD, beat_times, beats_bpm, downbeats, onset_envelope, tempo_bpm
 
@@ -29,6 +29,8 @@ class Facts(NamedTuple):
     tuning: float
     keys: list
     beats: np.ndarray
+    # One `beat_chords` triad per beat.
+    chords: list
     bars: np.ndarray
     sections: list
 
@@ -62,7 +64,7 @@ def measure(x, magnitude, freqs, step, db, harmony, drums):
     times, lit = drums
     snare = lit[:, LANES.index("snare")]
     bars = downbeats(beats, chords, (times[snare > 0], snare[snare > 0]), edges)
-    return Facts(duration, tuning, song_key(pitch_classes), beats, bars, sections)
+    return Facts(duration, tuning, song_key(pitch_classes), beats, chords, bars, sections)
 
 
 def tempo_spread(facts):
@@ -89,10 +91,6 @@ def sidecar(name, facts):
     """The sidecar's text: the numbers the picture can only approximate."""
     (r, tonic, mode), (r2, tonic2, mode2) = facts.keys[:2]
     names = note_names(tonic, mode)
-
-    def spell(chord):
-        return "N" if chord is None else names[chord[0]] + chord[1]
-
     tempo = tempo_label(facts)
     if tempo_spread(facts):
         tempo += f", median {beats_bpm(facts.beats):.0f}"
@@ -110,6 +108,6 @@ def sidecar(name, facts):
     ]
     for n, s in enumerate(facts.sections, 1):
         bpm = f"{s.bpm:.0f} BPM" if s.bpm else "– BPM"
-        chords = folded([spell(c) for c in s.chords])
+        chords = folded([chord_name(c, names) for c in s.chords])
         lines.append(f"{n}  {mmss(s.start)}–{mmss(s.end)}  {bpm}  {s.db:.0f} dB  {chords}".replace("-", "−"))
     return "\n".join(lines) + "\n"

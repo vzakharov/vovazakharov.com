@@ -15,7 +15,8 @@ Beside the PNG it writes <slug>.txt, the sidecar: the numbers the picture can
 only approximate — tempo, key, tuning, and per section its tempo, loudness and
 chords. The docstrings of `song_facts.py` and the modules it imports say how
 each is measured. The title carries the tempo, and the tuning when it is over
-15 cents off A440.
+15 cents off A440. And <slug>.json, everything the picture is drawn from but
+the spectrogram's own map, as data (`song_data.py`).
 
 And beside both, one zoom per section, <n>.png: the stretch between two
 dashed lines drawn at the full width, so a section can be looked at closely
@@ -28,8 +29,8 @@ reference: a zoom without them has bars all the same, and the sidecar names
 the zooms that draw them.
 
 --from and --to draw that stretch at the full width alone, on song time; the
-analysis still runs on the whole song, and such a zoom writes no sidecar,
-which describes all of it.
+analysis still runs on the whole song, and such a zoom writes no sidecar or
+JSON, which describe all of it.
 
 Where the voice sits and where its melody goes, where the drums come in, a
 bridge that drops out, where one section gives way to the next, a master that
@@ -75,14 +76,15 @@ demucs, which pulls in torch.
 
 import argparse
 import io
+import json
 from pathlib import Path
 
 import numpy as np
 
-from audio import FLOOR_DB, LOW_HZ, QUIET, SR, TOP_HZ, aligned, decode, log_rows, mmss, stft_magnitude
+from audio import FLOOR_DB, LOW_HZ, SR, TOP_HZ, aligned, decode, log_rows, mmss, stft_magnitude
 from drums import LANES, drum_hits
 from harmony import note_names
-from pitch import NOTE_BAND_HZ, chroma_shares
+from song_data import STRIPS, envelope, song_data, strip_shares
 from song_facts import measure, sidecar, tempo_label, tuning_label
 
 TICKS_HZ = (50, 100, 200, 500, 1000, 2000, 5000, 10000)
@@ -98,15 +100,6 @@ TITLE_TUNING_CENTS = 15
 
 # demucs's four stems, by the names of the files it writes.
 STEMS = ("drums", "bass", "other", "vocals")
-# The pitch strips, top to bottom: each its label, the stem it reads, the
-# band it reads and the octaves it can colour. The bass's band ends half a
-# semitone under C4.
-BASS_TOP_HZ = 254
-STRIPS = (
-    ("melody", "vocals", NOTE_BAND_HZ, (2, 6)),
-    ("harmony", "other", NOTE_BAND_HZ, (2, 6)),
-    ("bass", "bass", (NOTE_BAND_HZ[0], BASS_TOP_HZ), (2, 3)),
-)
 # A row at this share of its band's chroma is at full brightness; an even
 # spread across all twelve holds 1/12.
 FULL_SHARE = 0.5
@@ -136,13 +129,6 @@ DIM_STEP = 3
 RIM_PX = 0.6
 # A bar line is faint enough to read the strips through.
 BAR_ALPHA = 0.45
-
-
-def envelope(x, columns):
-    """Per column of the plot: the peak, and the RMS that sits inside it."""
-    n = len(x) // columns
-    blocks = x[: n * columns].reshape(columns, n)
-    return np.abs(blocks).max(axis=1), np.sqrt((blocks.astype(np.float64) ** 2).mean(axis=1))
 
 
 def chroma_ramps():
@@ -290,9 +276,7 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
     names = note_names(tonic, mode)
     for (strip, key), (label, track, band_hz, octaves) in zip(strips, STRIPS):
         samples, (stem_magnitude, *_) = views[track]
-        shares, octave = chroma_shares(stem_magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
-        # Silence has spectral peaks too, of noise; it stays dark however clear they look.
-        shares[:, envelope(samples, columns)[1] < QUIET] = 0
+        shares, octave = strip_shares(samples, stem_magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
         strip.imshow(
             chroma_image(shares, octave, ramps), origin="lower", aspect="auto",
             extent=(t0, t1, -0.5, 11.5), interpolation="nearest",
@@ -385,6 +369,9 @@ def main():
     text = out_png.with_suffix(".txt")
     text.write_text(sidecar(name, facts), encoding="utf-8")
     print(text)
+    data = out_png.with_suffix(".json")
+    data.write_text(json.dumps(song_data(name, facts, drums, tracks), ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"{data}: {data.stat().st_size // 1024} KB")
     # One zoom per section beside it, numbered as the sidecar and the whole
     # song's picture number them; a re-render clears the old ones, whose
     # sections may no longer be there.

@@ -102,3 +102,8 @@ def note_names(tonic, mode):
     a flat key, sharps otherwise."""
     major = tonic if mode == "major" else (tonic + 3) % 12
     return FLAT_NAMES if major in FLAT_MAJORS else SHARP_NAMES
+
+
+def chord_name(chord, names):
+    """A `beat_chords` triad spelled with names: 'Gm', or 'N' for None."""
+    return "N" if chord is None else names[chord[0]] + chord[1]
