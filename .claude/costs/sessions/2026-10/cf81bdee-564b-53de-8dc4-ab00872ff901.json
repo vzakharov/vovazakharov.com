@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 14,
+    "inputTokens": 34,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 50189,
-    "cacheReadTokens": 628303,
-    "outputTokens": 9279,
-    "thinkingTokens": 3716,
-    "responses": 7,
-    "costUsd": 0.7128086
+    "cacheWrite1hTokens": 64871,
+    "cacheReadTokens": 1751377,
+    "outputTokens": 13786,
+    "thinkingTokens": 4217,
+    "responses": 17,
+    "costUsd": 1.1450994000000003
   },
   "estimate": {
     "at": "2026-10-22T15:50:22.544Z",
@@ -22,25 +22,25 @@
     "comment": null
   },
   "sessionId": "cf81bdee-564b-53de-8dc4-ab00872ff901",
-  "branch": "claude/exciting-planck-zx04m9",
+  "branch": "claude/llm-compression-talk-zx04m9",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "Какая у меня мысль возникла, не знаю, новая ли. Вот генерят у нас нейросети текст. Каждый следующий токен на ней выбирает с какой-то вероятностью, но при этом к…",
   "prs": [],
   "url": "https://claude.ai/code/session_0113DZpocMNhPa5SCRvw1vty",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-22T15:50:20.264Z",
-  "lastResponseAt": "2026-10-22T15:53:25.912Z",
+  "lastResponseAt": "2026-10-22T16:49:26.727Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 14,
+    "inputTokens": 34,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 50189,
-    "cacheReadTokens": 628303,
-    "outputTokens": 9279,
-    "thinkingTokens": 3716,
-    "responses": 7,
-    "costUsd": 0.7128086
+    "cacheWrite1hTokens": 64871,
+    "cacheReadTokens": 1751377,
+    "outputTokens": 13786,
+    "thinkingTokens": 4217,
+    "responses": 17,
+    "costUsd": 1.1450994000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -54,14 +54,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 14,
+      "inputTokens": 34,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 50189,
-      "cacheReadTokens": 628303,
-      "outputTokens": 9279,
-      "thinkingTokens": 3716,
-      "responses": 7,
-      "costUsd": 0.7128086
+      "cacheWrite1hTokens": 64871,
+      "cacheReadTokens": 1751377,
+      "outputTokens": 13786,
+      "thinkingTokens": 4217,
+      "responses": 17,
+      "costUsd": 1.1450994000000003
     }
   },
   "warnings": [],
