@@ -12,9 +12,10 @@ At a 2240 MB ceiling the old config ran out of memory and this one
 passes at ~1.7 GB live, over the same 847 files with the same
 findings, and the run drops from 126 s to 99 s.
 
-ESLint also runs under a fixed 3072 MB ceiling stated once, in the
-new lint:check script that vet and lint both call, so the same tree
-passes or fails the same way on every machine.
+That lets lint:check, which vet and lint both call, lower its fixed
+heap ceiling from the 5 GB five programs needed to 3072 MB, still
+appended to the environment's NODE_OPTIONS, so the same tree passes
+or fails the same way on every machine.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
