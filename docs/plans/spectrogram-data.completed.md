@@ -27,8 +27,8 @@ millisecond:
   and `noteNames`, the twelve pitch-class names the key spells, C first.
 - `beats` — every beat's time; `bars` — the downbeats `rhythm.downbeats` kept
   (empty in a section it could not tell).
-- `chords` — one per beat, parallel to `beats`: the spelled name (`"Gm"`) or
-  `null` for N.
+- `chords` — one per beat, parallel to `beats`: the spelled name (`"Gm"`), or
+  `"N"` for no chord, the chord-annotation convention the sidecar already uses.
 - `sections` — per section `{start, end, bpm, db, chords, folded}`: `chords` the
   runs-merged list, `folded` the string the sidecar prints.
 - `drums` —
@@ -58,9 +58,9 @@ the site fetches it at that address, and `scripts/song-intake/CLAUDE.md`'s
 
 1. **`song_data.py`** (new, numpy only, beside `song_facts.py`): moves `STRIPS`
    and `envelope` here from `spectrogram.py`, adds
-   `strip_shares(samples, magnitude, freqs, step, duration, columns, strip, tuning)`
+   `strip_shares(samples, magnitude, freqs, step, duration, columns, band_hz, octaves, tuning)`
    — the `chroma_shares` call plus the quiet mask now inline in `render` — and
-   `song_data(name, facts, drums, tracks, freqs)` building the object above.
+   `song_data(name, facts, drums, tracks)` building the object above.
 2. **`harmony.chord_name(chord, names)`** — the `spell` closure inside
    `sidecar`, lifted so the sidecar and the JSON spell a chord one way.
 3. **`spectrogram.py`**: `render` calls `strip_shares` and imports `STRIPS` and
