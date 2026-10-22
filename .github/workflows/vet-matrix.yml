@@ -1,0 +1,96 @@
+name: Vet (sharded)
+
+# scripts/vet.sh split across runners: one build per site, then the fan-out in
+# groups that each download every build. Same triggers and draft rule as
+# vet.yml.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  # TEMPORARY: measures both shapes while the PR is a draft; removed before ready.
+  push:
+    branches: [ci-on-prs]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vet-matrix-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        site: [vova, lsa, bible, basilisk]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Build
+        run: pnpm build:${{ matrix.site }}
+
+      # A tarball rather than the paths themselves: upload-artifact leaves out
+      # hidden files, and `.next/` is one. What the checks read of a build is
+      # the export and the generated route types tsconfig.json includes.
+      - name: Pack what the checks read
+        run: >-
+          tar cf build-${{ matrix.site }}.tar
+          apps/${{ matrix.site }}/out
+          apps/${{ matrix.site }}/.next/types
+          apps/${{ matrix.site }}/next-env.d.ts
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.site }}
+          path: build-${{ matrix.site }}.tar
+          retention-days: 1
+          compression-level: 1
+
+  checks:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # The last group is "everything not named above", so a check added to
+        # vet.sh later lands there rather than nowhere. A label moved into a
+        # group of its own is added to that list in the same edit.
+        include:
+          - group: eslint
+            args: --only eslint
+          - group: types
+            args: --only typecheck,knip,type-overlap
+          - group: rest
+            args: --except eslint,typecheck,knip,type-overlap
+    name: checks (${{ matrix.group }})
+    steps:
+      # Full history, as in vet.yml: several checks diff against the merge base
+      # with origin/main.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Download the builds
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-*
+          path: tmp/builds
+          merge-multiple: true
+
+      - name: Unpack the builds
+        run: for t in tmp/builds/*.tar; do tar xf "$t"; done
+
+      - name: Vet
+        run: ./scripts/vet.sh --skip-build ${{ matrix.args }}

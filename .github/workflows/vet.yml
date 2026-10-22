@@ -1,0 +1,39 @@
+name: Vet
+
+# The pre-merge signal: scripts/vet.sh, unchanged, on one known machine. A draft
+# runs nothing — plans and work in flight live there, and a PR leaves draft at
+# /finalize, the point vet has always run at.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  # TEMPORARY: measures both shapes while the PR is a draft; removed before ready.
+  push:
+    branches: [ci-on-prs]
+
+permissions:
+  contents: read
+
+# A newer push supersedes the run in flight.
+concurrency:
+  group: vet-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vet:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # Full history: scripts/lib/changed-files.sh and the squash, estimates and
+      # CLAUDE.md-size checks diff against the merge base with origin/main,
+      # which a shallow clone does not have.
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Vet
+        run: ./scripts/vet.sh
