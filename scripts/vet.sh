@@ -30,6 +30,28 @@ usage() {
   exit 2
 }
 
+verdict() {
+  if (($1)); then
+    printf '\nvet FAILED\n' >&2
+    exit 1
+  fi
+  printf '\nvet OK\n'
+  exit 0
+}
+
+# Runs a step with its output in `tmp/vet-<label>.log`, replayed only when it
+# fails.
+logged() {
+  local label="$1" log="tmp/vet-$1.log"
+  shift
+  if ! "$@" >"$log" 2>&1; then
+    sed "s/^/[$label] /" "$log"
+    printf '[%s] full log: %s\n' "$label" "$log"
+    status=1
+    return 1
+  fi
+}
+
 # The bare run: dispatches `.github/workflows/vet.yml` on the current branch,
 # runs the `local` phase while it runs, and waits for it, printing a failed
 # run's job logs. The run vets the branch as GitHub has it, so a tree that
@@ -72,12 +94,7 @@ dispatched() {
     status=1
   fi
 
-  if ((status)); then
-    printf '\nvet FAILED\n' >&2
-    exit 1
-  fi
-  printf '\nvet OK\n'
-  exit 0
+  verdict "$status"
 }
 
 [ "$#" -gt 0 ] || dispatched
@@ -91,17 +108,6 @@ esac
 
 status=0
 mkdir -p tmp
-
-# The only check that covers the app itself — the suite below reaches one
-# script so far — and what deploy.yml runs, bar the PDF render each lane does
-# after it, which nothing here stands in for.
-build() {
-  if ! pnpm "$1" >tmp/vet-build.log 2>&1; then
-    sed 's/^/[build] /' tmp/vet-build.log
-    printf '[build] full log: tmp/vet-build.log\n'
-    status=1
-  fi
-}
 
 # Each file goes to one shard by its place in the sorted list, so the shards
 # together are every file ESLint would reach from `.`, whatever it then ignores.
@@ -121,19 +127,13 @@ lint_shard() {
   pnpm -s lint:files "${files[@]}" || status=1
 }
 
-typegen() {
-  if ! pnpm typegen >tmp/vet-typegen.log 2>&1; then
-    sed 's/^/[typegen] /' tmp/vet-typegen.log
-    printf '[typegen] full log: tmp/vet-typegen.log\n'
-    status=1
-    return 1
-  fi
-}
-
+# The build is the only check that covers the app itself — the suite reaches one
+# script so far — and what deploy.yml runs, bar the PDF render each lane does
+# after it, which nothing here stands in for.
 case "$phase" in
-  build) build "build:$2" ;;
-  lint) typegen && lint_shard "$2" ;;
-  typecheck) typegen && { pnpm -s typecheck || status=1; } ;;
+  build) logged build pnpm "build:$2" ;;
+  lint) logged typegen pnpm typegen && lint_shard "$2" ;;
+  typecheck) logged typegen pnpm typegen && { pnpm -s typecheck || status=1; } ;;
 esac
 if [[ "$phase" == build || "$phase" == lint || "$phase" == typecheck ]]; then
   ((status)) && exit 1
@@ -149,10 +149,8 @@ fi
 # It runs alone because it *writes* files that the fan-out's stylelint, Prettier
 # and knip glob, and would hand one of them over truncated. `built` and `local`
 # leave it to `source`, whose run it is fixing and failing either way.
-if [[ "$phase" != built && "$phase" != local ]] && ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
-  sed 's/^/[styles] /' tmp/vet-styles.log
-  printf '[styles] full log: tmp/vet-styles.log\n'
-  status=1
+if [[ "$phase" != built && "$phase" != local ]]; then
+  logged styles pnpm styles:codegen
 fi
 
 # None of these writes anything another one reads, so they overlap freely.
@@ -219,9 +217,4 @@ source_checks=(
 checks="${phase}_checks[@]"
 scripts/run-parallel.sh "${!checks}" || status=1
 
-if ((status)); then
-  printf '\nvet FAILED\n' >&2
-  exit 1
-fi
-
-printf '\nvet OK\n'
+verdict "$status"
