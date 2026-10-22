@@ -82,9 +82,9 @@ second one".
 
 ## 2. The mechanism
 
-`scripts/type-overlap-check.ts`, wired into `scripts/vet.sh`, which CI runs on
-every pull request out of draft (see CLAUDE.md → Deployment) — so a branch is
-actually held to the gate when its PR leaves draft at `/finalize`.
+`scripts/type-overlap-check.ts`, wired into `scripts/vet.sh`, which CI runs when
+a pull request leaves draft (see CLAUDE.md → Deployment) — so a branch is
+actually held to the gate at `/finalize`.
 
 Two passes run over the same set of aliases, both pairwise, and the run fails
 when either has findings.

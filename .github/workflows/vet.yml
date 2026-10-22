@@ -1,17 +1,20 @@
 name: Vet
 
-# The pre-merge signal: scripts/vet.sh on one known machine. A draft runs
-# nothing — plans and work in flight live there, and a PR leaves draft at
-# /finalize, which waits on this run.
+# The pre-merge signal: scripts/vet.sh on one known machine, run when a PR
+# leaves draft — at /finalize, which waits on this run — and on dispatch, for a
+# head that moved after that. No `synchronize`: a draft takes dozens of pushes
+# an hour, and a trigger GitHub matches creates a run before any job-level `if`
+# can skip it, so each push would leave a skipped run in the Actions list.
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [ready_for_review]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: vet-${{ github.event.pull_request.number }}
+  group: vet-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 # One job rather than a build per site feeding sharded checks: sharding saved
@@ -19,7 +22,6 @@ concurrency:
 # time varies by minutes (#190).
 jobs:
   vet:
-    if: ${{ !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:

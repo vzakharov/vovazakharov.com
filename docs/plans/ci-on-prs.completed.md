@@ -19,13 +19,13 @@ the other is deleted before merge, its numbers kept in the PR body.
 
 1. **`.github/workflows/vet.yml`**, one job that runs `./scripts/vet.sh`
    unchanged:
-   - `on: pull_request` with
-     `types: [opened, synchronize, reopened, ready_for_review]`, and the job
-     `if: ${{ !github.event.pull_request.draft }}` — drafts are where plans and
-     work in flight live, and a run per push there is noise. A PR comes out of
-     draft at `/finalize`, the point where vet has always run, and its Step 4 —
-     the flip to ready — is already where it starts watching CI.
-   - `concurrency: { group: vet-${{ github.event.pull_request.number }}, cancel-in-progress: true }`
+   - `on: pull_request` with `types: [ready_for_review]`, plus
+     `workflow_dispatch` for a head that moves after that. Drafts are where
+     plans and work in flight live, and a run per push there is noise — and a
+     `synchronize` trigger with a job-level draft `if` still leaves a skipped
+     run per push in the Actions list, so the trigger itself excludes drafts. A
+     PR comes out of draft at `/finalize` Step 4, which watches the run.
+   - `concurrency: { group: vet-${{ github.head_ref || github.ref_name }}, cancel-in-progress: true }`
      — a newer push supersedes the run, which is also what `/watch-ci`'s
      `[no ci]` mid-run commits rely on.
    - `actions/checkout@v4` with `fetch-depth: 0`: `scripts/lib/changed-files.sh`

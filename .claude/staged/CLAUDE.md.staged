@@ -90,9 +90,9 @@ picks the subject, and a mixed branch carries the prefix of what it actually
 ships.
 
 The pre-merge signal is `.github/workflows/vet.yml`, which runs
-`./scripts/vet.sh` on every pull request out of draft — a PR leaves draft at
-`/finalize`, which waits on that run. `.claude/rules/deployment.md` carries the
-rest.
+`./scripts/vet.sh` when a pull request leaves draft — which it does at
+`/finalize`, waiting on that run — and on dispatch.
+`.claude/rules/deployment.md` carries the rest.
 
 ## Vetting
 

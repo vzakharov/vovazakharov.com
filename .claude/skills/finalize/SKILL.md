@@ -62,7 +62,9 @@ repo (`.github/workflows/` triggers, or `gh pr checks` on an existing PR).
   1 is skipped, step 2 calls `/sync-branch no vet`, and step 4's watched run
   (`@.claude/skills/watch-ci/SKILL.md`) is the verification step 7 attests to. A
   local run first would vet the same commit twice, the extra copy being the
-  slower and machine-dependent one.
+  slower and machine-dependent one. Where the workflow fires on leaving draft
+  rather than on every push, a head that moves after step 4 gets its run by
+  dispatch: `gh workflow run <workflow> --ref <branch>`.
 - **If a workflow runs other checks on PRs**, the vet run still happens here —
   it catches what that workflow does not before a reviewer sees red — and step 4
   also means watching that run to green, and step 7 attests to both.
@@ -273,9 +275,11 @@ Steps (stop on first unresolved failure):
      that overstates is worse than none. That includes naming a stub:
      "`./scripts/vet.sh` is not implemented in this project yet" is an honest
      line, and it tells the reviewer exactly how much the attestation is worth.
-   - **A run in CI is attested on the head it ran on.** Step 6's sweep pushes
-     after step 4's watch, so where the PR workflow is the vet, watch the run on
-     the final head to green and link that one.
+   - **A run in CI is attested on the head it ran on, give or take step 6's
+     sweep**, which only deletes working artifacts and so cannot turn a green
+     vet red. A head that moved past step 4's run by anything else — a
+     base-advanced merge — needs its own run on that head, watched to green and
+     linked.
    - **One comment, edited in place.** Re-running `/finalize` after a
      base-advanced re-verify updates it; it must always describe the branch's
      current head, not the first pass. A branch finalized once in `no vet` mode

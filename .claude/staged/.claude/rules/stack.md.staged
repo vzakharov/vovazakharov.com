@@ -47,9 +47,10 @@ python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 
 Twenty things about that list are deliberate:
 
-- **`.github/workflows/vet.yml` runs it on every pull request out of draft**, on
-  a GitHub-hosted runner with the toolchain `setup-toolchain` pins, so its
-  verdict does not depend on whose machine ran it.
+- **`.github/workflows/vet.yml` runs it when a pull request leaves draft**, and
+  on dispatch, on a GitHub-hosted runner with the toolchain `setup-toolchain`
+  pins, so its verdict does not depend on whose machine ran it. Never on a push
+  to a draft: the workflow header says why the trigger is that narrow.
 - **`pnpm build` is the only check that covers the app itself.** The suite
   reaches no page (CLAUDE.md § "Testing"), so the static-export build is what
   catches a broken page, route or import. It is what CI runs on `main` too — bar
