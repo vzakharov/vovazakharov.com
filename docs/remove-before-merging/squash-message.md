@@ -31,7 +31,9 @@ names those zooms and calls the lines a reference, not a meter.
 
 All eleven are re-rendered. Checked against librosa and the author's
 ear, every key, all tempos but world-as-it-is's and the drum entries he
-named are right; Майя's rule reads chords with caution.
+named are right; Майя's rule reads chords with caution. Separately,
+pnpm lint and vet run ESLint with a 5 GB heap: a whole-tree run
+outgrew Node's default.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
