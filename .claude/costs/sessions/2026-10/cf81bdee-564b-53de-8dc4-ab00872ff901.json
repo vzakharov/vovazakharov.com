@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 6,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 45433,
+    "cacheReadTokens": 232997,
+    "outputTokens": 5614,
+    "thinkingTokens": 2414,
+    "responses": 3,
+    "costUsd": 0.5223674
+  },
+  "estimate": {
+    "at": "2026-10-22T15:50:22.544Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "a literature answer on LLM-based compression and AI-text detection needs someone who already knows the field to name prior art and its limits without a research sprint"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "cf81bdee-564b-53de-8dc4-ab00872ff901",
+  "branch": "claude/exciting-planck-zx04m9",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Какая у меня мысль возникла, не знаю, новая ли. Вот генерят у нас нейросети текст. Каждый следующий токен на ней выбирает с какой-то вероятностью, но при этом к…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_0113DZpocMNhPa5SCRvw1vty",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T15:50:20.264Z",
+  "lastResponseAt": "2026-10-22T15:50:34.504Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 6,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 45433,
+    "cacheReadTokens": 232997,
+    "outputTokens": 5614,
+    "thinkingTokens": 2414,
+    "responses": 3,
+    "costUsd": 0.5223674
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 45433,
+      "cacheReadTokens": 232997,
+      "outputTokens": 5614,
+      "thinkingTokens": 2414,
+      "responses": 3,
+      "costUsd": 0.5223674
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-22T15:50:34.504Z",
+    "contextTokens": 94031,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44877,
+      "cacheReadTokens": 139524,
+      "outputTokens": 2823,
+      "thinkingTokens": 2406,
+      "responses": 2,
+      "costUsd": 0.44339680000000004
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
