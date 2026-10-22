@@ -58,10 +58,15 @@ repo (`.github/workflows/` triggers, or `gh pr checks` on an existing PR).
   merge, which is why vetting is not optional on this path even though ordinary
   development skips it. An empty Checks tab after step 4 is then the expected
   end state; do **not** push an empty commit to "relaunch CI".
-- **If a workflow does run on PRs**, the vet run still happens here — it's
-  faster and it catches things before a reviewer sees red — but step 4 also
-  means watching that run to green (`@.claude/skills/watch-ci/SKILL.md`), and
-  step 7 attests to both.
+- **If a workflow runs `./scripts/vet.sh` on PRs**, that run _is_ the vet: step
+  1 is skipped, step 2 calls `/sync-branch no vet`, and step 4's watched run
+  (`@.claude/skills/watch-ci/SKILL.md`) is the verification step 7 attests to.
+  Running it locally first would be the same script on the same commit twice,
+  the local copy being the slower one and the one whose result depends on the
+  machine.
+- **If a workflow runs other checks on PRs**, the vet run still happens here —
+  it catches what that workflow does not before a reviewer sees red — and step 4
+  also means watching that run to green, and step 7 attests to both.
 
 Either way, **step 7's attestation comment is the record.** A reviewer cannot
 see from the diff what was run; if it isn't written down it did not happen as
@@ -93,12 +98,14 @@ duplication like any other.
 
 Steps (stop on first unresolved failure):
 
-1. **Vet**: `./scripts/vet.sh`. Fix and rerun until green.
+1. **Vet**: `./scripts/vet.sh`. Fix and rerun until green. Skipped where a PR
+   workflow runs vet (§ "What actually gates this PR").
 2. **Merge the base branch**: load `@.claude/skills/sync-branch/SKILL.md` and
-   follow it, passing `no vet` in `no vet` mode. It owns the merge — the
-   conflicts committed as git left them, the resolution in a commit of its own,
-   the read of what the base brought in for overlaps and optimizations — and the
-   vet run over the merged tree. If you can't resolve a conflict, ask.
+   follow it, passing `no vet` in `no vet` mode and where a PR workflow runs
+   vet. It owns the merge — the conflicts committed as git left them, the
+   resolution in a commit of its own, the read of what the base brought in for
+   overlaps and optimizations — and the vet run over the merged tree. If you
+   can't resolve a conflict, ask.
 3. **Working-artifact cleanup**: some directories ride the branch for in-flight
    review but must never land on the base. Sweep the two below **now**, deleting
    each **entire** tree (not just the current session's subfolder) and including
@@ -224,7 +231,7 @@ Steps (stop on first unresolved failure):
 
    Verified <short-sha> (`<branch>`) against `<base>` @ <base-short-sha> "<base subject>".
 
-   - `./scripts/vet.sh` — **green**
+   - `./scripts/vet.sh` — **<green | run by the PR workflow (run link)>**
    - CI on this PR — **<green (run link) | nothing runs on a PR in this repo>**
    - CI-only buckets — **<dispatched and passed (run link) | not dispatched: the diff doesn't reach them | /test-on-gh is an unhydrated stub>**
 
@@ -267,6 +274,9 @@ Steps (stop on first unresolved failure):
      that overstates is worse than none. That includes naming a stub:
      "`./scripts/vet.sh` is not implemented in this project yet" is an honest
      line, and it tells the reviewer exactly how much the attestation is worth.
+   - **A run in CI is attested on the head it ran on.** Step 6's sweep pushes
+     after step 4's watch, so where the PR workflow is the vet, watch the run on
+     the final head to green and link that one.
    - **One comment, edited in place.** Re-running `/finalize` after a
      base-advanced re-verify updates it; it must always describe the branch's
      current head, not the first pass. A branch finalized once in `no vet` mode
