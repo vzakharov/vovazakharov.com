@@ -38,6 +38,28 @@ whole program.
 - An uncompressed export upload made the download 90s instead of 6s — kept
   compressed.
 
+## Left: stop the lint shards and the type check waiting on the builds
+
+Operator, on the lint shards and `built` waiting for the vova build: «а это
+обязательно, чтобы все -- даже не связанные с ней -- шарды её ждали?»
+
+They need only `apps/*/.next/types`, not a build. Measured locally on `lsa`:
+`next build` 30s, `scripts/in-site.sh lsa next typegen` 0.7s, and the two
+`.next/types` trees are identical except typegen's extra `cache-life.d.ts`.
+`stack.md`'s warning against typegen is about it racing a build in the same tree
+(the build deletes that file under a running tsc); a job that runs no build has
+no race. So:
+
+- the lint shards run typegen for all four sites and start at t=0, no `needs`;
+- `typecheck` moves out of `built` into a phase that does the same (or into
+  `source`, after typegen); `built` keeps only the export readers (Mantine, i18n
+  payload, CV pages);
+- the types artifacts go away.
+
+To verify: run `typecheck` and one lint shard over typegen types locally (a
+clean `.next`), then a dispatch; say in the PR that CI's types come from typegen
+while a local bare run's come from the build.
+
 ## The edges
 
 1. **Shallow checkout → quiet passes.** No `origin/main` means the estimates
