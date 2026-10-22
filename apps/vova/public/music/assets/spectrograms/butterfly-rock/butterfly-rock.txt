@@ -1,0 +1,13 @@
+butterfly-rock.mp3 — 3:59
+tempo 103 BPM
+key G minor (r 0.66; next E♭ major, 0.64)
+tuning A = 440 Hz −1 ¢
+bars drawn on the section zooms numbered 1, 2, 4, 5, 6 — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–0:57  104 BPM  −10 dB  N Cm E♭ A♭m Gm A♭m G E♭ A♭ + Gm E♭ A♭m ×2 + Gm A♭ Gm A♭m G A♭ Gm A♭ Gm A♭ Gm A♭m G
+2  0:57–1:35  103 BPM  −10 dB  G C E♭ A♭ Gm E♭ A♭m G E♭ A♭m Gm A♭m + Gm E♭ A♭ ×2 + Gm
+3  1:35–2:03  105 BPM  −11 dB  Gm N Gm A♭m G A♭ Gm A♭ G A♭m G Cm
+4  2:03–2:21  102 BPM  −10 dB  Cm A♭ + Gm E♭ A♭m ×2 + Gm A♭m Gm
+5  2:21–2:41  103 BPM  −10 dB  Gm E♭ A♭ ×4 + Gm Cm
+6  2:41–3:42  103 BPM  −10 dB  Cm A♭m Gm E♭ A♭m G E♭ A♭m Gm A♭m G E♭ A♭ Gm E♭ A♭m + Gm E♭ A♭ ×2 + Gm D♭m Cm N Cm
+7  3:42–3:59  103 BPM  −10 dB  Cm Fm N

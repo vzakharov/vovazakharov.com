@@ -1,0 +1,15 @@
+candle-tarkovsky.mp3 — 5:12
+tempo 60–62 BPM, median 61
+key G minor (r 0.71; next C minor, 0.68)
+tuning A = 440 Hz +2 ¢
+bars drawn on no zoom — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–1:05  60 BPM  −10 dB  C
+2  1:05–2:30  62 BPM  −10 dB  A♭ B♭m + Gm A♭ ×4 + B♭ Gm A♭ B♭ Gm A♭ Gm A♭ Gm Cm A♭ B♭ Cm A♭ E♭
+3  2:30–3:06  61 BPM  −11 dB  Gm A♭ ×2 + Gm Cm A♭ C
+4  3:06–3:37  61 BPM  −10 dB  C + A♭ Gm B♭ Cm ×2
+5  3:37–3:54  61 BPM  −10 dB  Cm A♭ B♭ Cm A♭ E♭ B♭ Gm
+6  3:54–4:14  60 BPM  −17 dB  Gm A♭ B♭ Cm
+7  4:14–4:38  60 BPM  −10 dB  A♭ B♭ Cm ×3 + A♭
+8  4:38–5:04  60 BPM  −11 dB  A♭ B♭ Cm ×2 + A♭ B♭ Gm
+9  5:04–5:12  60 BPM  −15 dB  Gm
