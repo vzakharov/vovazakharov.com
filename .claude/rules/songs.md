@@ -68,7 +68,9 @@ file's name and everything else the catalogue knows of it in its frontmatter —
 cover when `assets/covers/<slug>.jpg` exists. A song's `album` and `project`
 must name one of those files, `shared/music-catalogue/catalogue-names.ts`
 reading them off the directory, so a typo fails the build rather than quietly
-rendering an artist nobody has.
+rendering an artist nobody has. **`artists/generated.md` is GENERATED, an artist
+like the others** — the one with the most songs — never a general story of
+Vova's music: a note spanning several artists goes on each of their pages.
 
 **A song's slug is its name in English, chosen once.** The file name is the
 address, and a static export has no redirects, so renaming a published song
