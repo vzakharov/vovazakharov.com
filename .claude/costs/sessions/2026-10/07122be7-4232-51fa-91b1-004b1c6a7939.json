@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 128,
+    "cacheWrite5mTokens": 528662,
+    "cacheWrite1hTokens": 93773,
+    "cacheReadTokens": 5950657,
+    "outputTokens": 28427,
+    "thinkingTokens": 9196,
+    "responses": 64,
+    "costUsd": 5.152677400000001
+  },
+  "estimate": {
+    "at": "2026-10-22T14:20:49.483Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "Maya's answers to ~25 review threads need her voice and a musician's reading of the re-rendered spectrograms"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "31 thread replies with SHAs, the squash refresh and the PR body are routine but exact"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "07122be7-4232-51fa-91b1-004b1c6a7939",
+  "branch": "claude/nostalgia-maya-ki1ppm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/nostalgia-maya-ki1ppm — Майя отвечает на свои ветки, потом ответы на все ветки отзыва к PR #196, сообщение для сквоша, polish и pr",
+  "prs": [
+    196
+  ],
+  "url": "https://claude.ai/code/session_01FWca6xmyWmh1AJDeBo4csM",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T14:20:30.763Z",
+  "lastResponseAt": "2026-10-22T14:23:04.427Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 42,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 93773,
+    "cacheReadTokens": 2603540,
+    "outputTokens": 11740,
+    "thinkingTokens": 1501,
+    "responses": 21,
+    "costUsd": 1.50586
+  },
+  "subagents": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 528662,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3347117,
+    "outputTokens": 16687,
+    "thinkingTokens": 7695,
+    "responses": 43,
+    "costUsd": 3.6468174000000007
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 128,
+      "cacheWrite5mTokens": 528662,
+      "cacheWrite1hTokens": 93773,
+      "cacheReadTokens": 5950657,
+      "outputTokens": 28427,
+      "thinkingTokens": 9196,
+      "responses": 64,
+      "costUsd": 5.152677400000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/remove-before-merging/squash-message.md",
+    "endedAt": "2026-10-22T14:22:33.816Z",
+    "contextTokens": 150589,
+    "spend": {
+      "inputTokens": 88,
+      "cacheWrite5mTokens": 490536,
+      "cacheWrite1hTokens": 90383,
+      "cacheReadTokens": 3655798,
+      "outputTokens": 17490,
+      "thinkingTokens": 2225,
+      "responses": 44,
+      "costUsd": 4.2570556
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
