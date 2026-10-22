@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 94,
+    "cacheWrite5mTokens": 59480,
+    "cacheWrite1hTokens": 124836,
+    "cacheReadTokens": 5830923,
+    "outputTokens": 19077,
+    "thinkingTokens": 4820,
+    "responses": 47,
+    "costUsd": 2.8441886000000003
+  },
+  "estimate": {
+    "at": "2026-10-22T07:49:12.918Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "raising a tool's heap and routing both lint entries through one script is routine config work"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "land prep on a multi-site branch conflicting with main needs judgement over the merge and the deploy gate"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "71c669f7-5a5b-5663-ae33-44e8cbb583bb",
+  "branch": "claude/basilisk-case-seals-c86c9y",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge claude/basilisk-case-seals-c86c9y",
+  "prs": [
+    184
+  ],
+  "url": "https://claude.ai/code/session_011mLpw9n9dbgp5k4SGqURpg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T07:48:02.376Z",
+  "lastResponseAt": "2026-10-22T08:02:33.525Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 72,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 124836,
+    "cacheReadTokens": 4911466,
+    "outputTokens": 14533,
+    "thinkingTokens": 3287,
+    "responses": 36,
+    "costUsd": 2.2719292
+  },
+  "subagents": {
+    "inputTokens": 22,
+    "cacheWrite5mTokens": 59480,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 919457,
+    "outputTokens": 4544,
+    "thinkingTokens": 1533,
+    "responses": 11,
+    "costUsd": 0.5722594000000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 94,
+      "cacheWrite5mTokens": 59480,
+      "cacheWrite1hTokens": 124836,
+      "cacheReadTokens": 5830923,
+      "outputTokens": 19077,
+      "thinkingTokens": 4820,
+      "responses": 47,
+      "costUsd": 2.8441886000000003
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "package.json",
+    "endedAt": "2026-10-22T07:48:58.800Z",
+    "contextTokens": 125767,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 76476,
+      "cacheReadTokens": 1164126,
+      "outputTokens": 3732,
+      "thinkingTokens": 1708,
+      "responses": 11,
+      "costUsd": 0.9193612000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
