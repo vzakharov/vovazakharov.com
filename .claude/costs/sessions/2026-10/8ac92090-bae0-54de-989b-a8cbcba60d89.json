@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 136,
+    "cacheWrite5mTokens": 129381,
+    "cacheWrite1hTokens": 174377,
+    "cacheReadTokens": 10202600,
+    "outputTokens": 40921,
+    "thinkingTokens": 12250,
+    "responses": 68,
+    "costUsd": 4.901404999999999
+  },
+  "estimate": {
+    "at": "2026-10-22T06:19:26.128Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a heap flag in two scripts, then a land prep whose vet, base merge and squash record a mid-level dev runs routinely"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "8ac92090-bae0-54de-989b-a8cbcba60d89",
+  "branch": "claude/spectrogram-reddit-log",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize claude/spectrogram-reddit-log",
+  "prs": [
+    138
+  ],
+  "url": "https://claude.ai/code/session_01SnNKewLF7pmbRigLKiQLwN",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T06:18:21.043Z",
+  "lastResponseAt": "2026-10-22T06:44:15.879Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 112,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 174377,
+    "cacheReadTokens": 9094019,
+    "outputTokens": 25279,
+    "thinkingTokens": 7679,
+    "responses": 56,
+    "costUsd": 3.7198477999999993
+  },
+  "subagents": {
+    "inputTokens": 24,
+    "cacheWrite5mTokens": 129381,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1108581,
+    "outputTokens": 15642,
+    "thinkingTokens": 4571,
+    "responses": 12,
+    "costUsd": 1.1815572
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 136,
+      "cacheWrite5mTokens": 129381,
+      "cacheWrite1hTokens": 174377,
+      "cacheReadTokens": 10202600,
+      "outputTokens": 40921,
+      "thinkingTokens": 12250,
+      "responses": 68,
+      "costUsd": 4.901404999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "package.json",
+    "endedAt": "2026-10-22T06:19:09.590Z",
+    "contextTokens": 120815,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 71001,
+      "cacheReadTokens": 798349,
+      "outputTokens": 2396,
+      "thinkingTokens": 1209,
+      "responses": 8,
+      "costUsd": 0.7756618
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
