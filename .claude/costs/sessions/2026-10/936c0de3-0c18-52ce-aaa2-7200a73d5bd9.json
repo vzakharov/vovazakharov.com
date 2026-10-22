@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 228,
-    "cacheWrite5mTokens": 357397,
-    "cacheWrite1hTokens": 151285,
-    "cacheReadTokens": 16170166,
-    "outputTokens": 73491,
-    "thinkingTokens": 33023,
-    "responses": 112,
-    "costUsd": 7.702030200000003
+    "inputTokens": 314,
+    "cacheWrite5mTokens": 510273,
+    "cacheWrite1hTokens": 176885,
+    "cacheReadTokens": 22512495,
+    "outputTokens": 110166,
+    "thinkingTokens": 54836,
+    "responses": 155,
+    "costUsd": 10.673520000000003
   },
   "estimate": {
     "at": "2026-10-22T12:31:25.576Z",
@@ -37,43 +37,45 @@
   "branch": "claude/nostalgia-maya-ki1ppm",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "пусть Майя порассуждает о Ностальгии, + у него ошибочно стоит WIP.",
-  "prs": [],
+  "prs": [
+    196
+  ],
   "url": "https://claude.ai/code/session_016UYc7xMgNxCkCgSJqqkqcz",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-22T12:01:34.810Z",
-  "lastResponseAt": "2026-10-22T12:32:52.232Z",
+  "lastResponseAt": "2026-10-22T12:40:04.934Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 138,
+    "inputTokens": 166,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 151285,
-    "cacheReadTokens": 10572434,
-    "outputTokens": 31198,
-    "thinkingTokens": 11591,
-    "responses": 67,
-    "costUsd": 3.9492788000000014
+    "cacheWrite1hTokens": 176885,
+    "cacheReadTokens": 13573327,
+    "outputTokens": 36680,
+    "thinkingTokens": 12769,
+    "responses": 81,
+    "costUsd": 4.864009400000003
   },
   "subagents": {
-    "inputTokens": 90,
-    "cacheWrite5mTokens": 357397,
+    "inputTokens": 148,
+    "cacheWrite5mTokens": 510273,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 5597732,
-    "outputTokens": 42293,
-    "thinkingTokens": 21432,
-    "responses": 45,
-    "costUsd": 3.7527513999999997
+    "cacheReadTokens": 8939168,
+    "outputTokens": 73486,
+    "thinkingTokens": 42067,
+    "responses": 74,
+    "costUsd": 5.809510599999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 228,
-      "cacheWrite5mTokens": 357397,
-      "cacheWrite1hTokens": 151285,
-      "cacheReadTokens": 16170166,
-      "outputTokens": 73491,
-      "thinkingTokens": 33023,
-      "responses": 112,
-      "costUsd": 7.702030200000003
+      "inputTokens": 314,
+      "cacheWrite5mTokens": 510273,
+      "cacheWrite1hTokens": 176885,
+      "cacheReadTokens": 22512495,
+      "outputTokens": 110166,
+      "thinkingTokens": 54836,
+      "responses": 155,
+      "costUsd": 10.673520000000003
     }
   },
   "warnings": [],
