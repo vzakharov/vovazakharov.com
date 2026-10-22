@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 60,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 93232,
+    "cacheReadTokens": 3856884,
+    "outputTokens": 13607,
+    "thinkingTokens": 2586,
+    "responses": 30,
+    "costUsd": 1.7896128
+  },
+  "estimate": {
+    "at": "2026-10-22T14:32:47.452Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "moving lint and typecheck onto typegen-written route types is a contained change to one script and one workflow, plus a parity check against built types"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "7978e226-8543-5051-ab47-ca6aae8c6426",
+  "branch": "claude/vet-on-pull-requests",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/vet-on-pull-requests — ответить, что шардам линта и typecheck сборка не нужна (хватит next typegen), и перевести их на typegen",
+  "prs": [
+    192
+  ],
+  "url": "https://claude.ai/code/session_016mqHLzj4xWHhtiNWf1JgvQ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-22T14:32:28.696Z",
+  "lastResponseAt": "2026-10-22T14:38:40.345Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 60,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 93232,
+    "cacheReadTokens": 3856884,
+    "outputTokens": 13607,
+    "thinkingTokens": 2586,
+    "responses": 30,
+    "costUsd": 1.7896128
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 60,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 93232,
+      "cacheReadTokens": 3856884,
+      "outputTokens": 13607,
+      "thinkingTokens": 2586,
+      "responses": 30,
+      "costUsd": 1.7896128
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "package.json",
+    "endedAt": "2026-10-22T14:33:26.556Z",
+    "contextTokens": 131895,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 72044,
+      "cacheReadTokens": 1205216,
+      "outputTokens": 2927,
+      "thinkingTokens": 841,
+      "responses": 11,
+      "costUsd": 0.8760232
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
