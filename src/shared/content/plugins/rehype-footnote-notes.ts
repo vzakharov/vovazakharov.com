@@ -18,6 +18,13 @@ function isElement(node: ElementContent, tagName: string): node is Element {
   return node.type === 'element' && node.tagName === tagName;
 }
 
+function span(
+  properties: Element['properties'],
+  children: ElementContent[],
+): Element {
+  return { type: 'element', tagName: 'span', properties, children };
+}
+
 /** The label a `sup > a[data-footnote-ref]` points at, or nothing for any other node. */
 function referencedLabel(node: ElementContent): string | undefined {
   if (!isElement(node, 'sup')) return undefined;
@@ -116,12 +123,7 @@ function noteBody(
 
     if (last?.type === 'text') last.value = last.value.trimEnd();
 
-    return {
-      type: 'element',
-      tagName: 'span',
-      properties: { className: ['content-note-paragraph'] },
-      children,
-    };
+    return span({ className: ['content-note-paragraph'] }, children);
   });
 }
 
@@ -178,25 +180,10 @@ export const rehypeFootnoteNotes: Plugin<[FootnoteNotesOptions], Root> =
           continue;
         }
 
-        const note: Element = {
-          type: 'element',
-          tagName: 'span',
-          properties: { dataContentNote: label },
-          children: [
-            {
-              type: 'element',
-              tagName: 'span',
-              properties: {},
-              children: phraseWords(siblings, start, at),
-            },
-            {
-              type: 'element',
-              tagName: 'span',
-              properties: {},
-              children: noteBody(definition, label, fileName),
-            },
-          ],
-        };
+        const note = span({ dataContentNote: label }, [
+          span({}, phraseWords(siblings, start, at)),
+          span({}, noteBody(definition, label, fileName)),
+        ]);
         const head = siblings[start.index];
         const before =
           head?.type === 'text' && start.offset > 0
