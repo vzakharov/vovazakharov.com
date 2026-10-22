@@ -95,10 +95,16 @@ meanwhile, finds the run by head SHA and waits on it, printing failed jobs'
 logs. Measured: 2m11s wall clock (run 39810429946: 2m05s, shallow `source`
 1m38s) against a bare local run in the session container of 4m37s — 2.1×.
 
-Open: whether bare `vet.sh` (and so `/finalize`) should go through it.
+## Done: the bare run is the split run
 
-Left: `/go` Steps 3–4 (polish, PR body naming that CI's route types come from
-typegen while a local bare run's come from the build).
+Operator: «нужно переписать "голый" vet.sh так, чтобы он делал всё то, что мы
+сейчас нагородили» and «если сохранить опцию "всё на локальной машине" значит
+сохранить много кода которым никто не будет пользоваться, то не надо». Bare
+`vet.sh` execs `vet-ci.sh`; the one-machine run is gone, and with it the
+build-before-typecheck ordering. `/finalize` needed no edit. Measured: 1m49s
+(run 39816552252).
+
+Left: `/go` Steps 3–4 (polish, PR body).
 
 ## The edges
 
