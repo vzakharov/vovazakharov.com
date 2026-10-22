@@ -47,8 +47,19 @@ at once buys nothing on one machine.
 sung Russian far better than Deepgram's nova-3 (`персонажи Мураками`, where
 nova-3 heard `персонажи-муратами`). `scripts/transcribe.py` on the same stem is
 the second opinion, since the lines the two disagree on are the ones the
-operator has to listen to. Whisper's first timecode can jump across an
-instrumental; Deepgram's place the line.
+operator has to listen to — so `transcribe.py` merges Whisper's hearing into its
+transcript:
+
+```sh
+tmp/song-intake-venv/bin/python scripts/song-intake/lyrics.py <slug>.mp3 \
+  --json-dir docs/music/transcripts > docs/music/transcripts/<slug>.whisper.md
+python3 scripts/transcribe.py <slug>.mp3 --language ru \
+  --out-dir docs/music/transcripts --json-dir docs/music/transcripts \
+  --second-opinion-from docs/music/transcripts/<slug>.whisper.json.gz
+```
+
+Its `## Second opinion` merges the two word by word on nova-3's lines, whose
+timecodes place a line where Whisper's first can jump across an instrumental.
 
 **A song Whisper returns a line or two for, or fills with `Субтитры …` and
 `КОНЕЦ`, is heard in pieces.** Its voice filter can drop sung vocals whole
