@@ -10,8 +10,8 @@
 import type { WithId } from '@/shared/typings';
 
 import { distanceBetween, type Point } from './geometry';
-import type { RunMoment } from './mouse-run-clock';
-import type { Footed } from './placement';
+import type { InLeg } from './mouse-run-clock';
+import type { Stood } from './placement';
 import { saltedStream, type Seeded } from './random';
 
 /** The share of a house's outings that become runs when a door is in reach and it holds one mouse. */
@@ -28,7 +28,7 @@ export const OUTING_REACH = 2.5;
 export type Mice = ReadonlyMap<string, number>;
 
 /** A house's door as the runs see it: where its foot stands on the plane, and whether it is drawn now. */
-export type RunDoor = WithId & Pick<Footed, 'foot'> & { seen: boolean };
+export type RunDoor = WithId & Stood & { seen: boolean };
 
 export const miceAt = (mice: Mice, id: string): number => mice.get(id) ?? 0;
 
@@ -161,10 +161,16 @@ export function outingTarget(
 }
 
 /** A run's two houses, by their mushrooms' ids: the one it leaves and the one it goes in at. */
-export type RunEnds = Pick<Flee, 'to'> & { from: string };
+export type RunEnds = LeftFrom & HeadedTo;
+
+/** The house a run leaves, by its mushroom's id. */
+export type LeftFrom = { from: string };
+
+/** The door a mouse runs to, by its mushroom's id. */
+type HeadedTo = { to: string };
 
 /** A run under way as a tap on a door sees it: its two houses and the leg it is in now. */
-export type RunInLeg = RunEnds & Pick<RunMoment, 'leg'>;
+export type RunInLeg = RunEnds & InLeg;
 
 /**
  * Which of `runs` has its mouse in `id`'s doorway: peeking out of it to
@@ -225,7 +231,7 @@ const nearestOf = (origin: Point, doors: readonly RunDoor[], except?: string) =>
 export const FLEE_EVERY = 0.8;
 
 /** A mouse running out of a sinking house: to which door, and how long after the sinking begins. */
-export type Flee = { to: string; wait: number };
+export type Flee = HeadedTo & { wait: number };
 
 /**
  * Where a sinking house's mice go, `doors` being every door standing on the
@@ -261,7 +267,7 @@ export function scattered(
 }
 
 /** Where a re-targeted mouse goes, and whether it runs there or is counted in at once. */
-export type Retarget = Pick<Flee, 'to'> & { runs: boolean };
+export type Retarget = HeadedTo & { runs: boolean };
 
 /**
  * Where a run whose target sank goes from `at`, its runner's point, `doors`

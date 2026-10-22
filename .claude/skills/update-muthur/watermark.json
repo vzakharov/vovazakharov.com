@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "9705dd47109607ccccceafd9a62eaf9bbbb79058",
-  "lastSyncedAt": "2026-10-10",
+  "lastSyncedSha": "29efa2d9a76dd7327a11906a10fe705bf4d50918",
+  "lastSyncedAt": "2026-10-16",
   "optIn": "take every opt-in path unless the operator's request says otherwise — the operator's standing call, 2026-10-08",
   "adopted": [
     {
@@ -15,11 +15,15 @@
       ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
     },
     ".claude/rules/staging.md",
+    ".claude/rules/markdown.md",
     {
-      ".claude/context-budget/": "adopted whole. `auto-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; the source's `vzakharov` entry is taken verbatim because that operator is this repo's too, and a source entry for any other handle is theirs to set here, not a port."
+      ".claude/rules/markdown-wrap.md": "worded for this repo: the wrap runs through the prettier package.json already pins, as a `proseWrap: always` override in .prettierrc.json that the existing `pnpm format:check` enforces, so the source's scripts/prettier.sh and check-markdown-wrap.sh do not travel. Its scope is agent-facing and repo-doc Markdown; the content trees (apps/*/public/, writing/, docs/music/) keep their line breaks."
     },
     {
-      ".claude/costs/": "sessions/ is each repo's own and never synced."
+      ".claude/context-budget/": "adopted whole, this repo's `MUTHUR_CONTEXT_BUDGET_SUBAGENT` extension included. `manual-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; a source entry for a handle is that operator's to set here, not a port."
+    },
+    {
+      ".claude/costs/": "the rows are each repo's own, on its `cost-ledger` branch, and never synced. The Stop hook keeps a gate the source lacks, on when the branch's display copy is committed — `.claude/costs/CLAUDE.md` § \"When the branch's copy is committed\" — so a verbatim re-copy of the hook drops it."
     },
     ".claude/cold-cache/",
     {
@@ -27,7 +31,7 @@
     },
     ".claude/settings.json",
     {
-      ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118."
+      ".claude/hooks/": "adopted whole. `install-deps.sh` ships upstream as a stub with a TODO where the install goes; here it carries this project's `corepack enable pnpm` + `pnpm install --frozen-lockfile`, so the source's edits to that file are read for the idea and the body never lands. `file-tools-nudge.py` is verbatim but for its docstring's issue citation, written `vzakharov/muthur#118` so it does not resolve to this repo's own #118. `format-md.sh` calls the prettier under node_modules rather than the source's scripts/prettier.sh."
     },
     {
       ".claude/voice/": "the house rule for writing to a person, imported by CLAUDE.md, plus `operators/` one file per handle. The source marks the entries `rewrite` because its own are its operator's; here that is the same person, so `operators/vzakharov.md` is taken verbatim. A second operator gets a file of their own rather than a rewrite of that one."
@@ -87,11 +91,13 @@
     {
       "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. .claude/rules/stack.md carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
     },
-    "scripts/staged.sh"
+    "scripts/staged.sh",
+    {
+      ".claude/skills/bootstrap-workflow-dispatch/": "taken without the source's /test-on-gh pointer, which this repo declines: preview.yml, a dispatch-only workflow, is what made the 404 this skill clears reachable here."
+    }
   ],
   "declined": {
     ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
-    ".claude/skills/bootstrap-workflow-dispatch/": "the one dispatchable workflow here, deploy.yml, has been on main since before its workflow_dispatch trigger existed, so Actions metadata already knows it and the 404 this skill clears cannot occur. It also @-references the declined /test-on-gh, so adopting it would break the closure check. Revisit when a new dispatch-only workflow is added — likely alongside /test-on-gh",
     ".claude/skills/detemplate/": "turns a fresh \"Use this template\" fork into a project. This repo acquired its infrastructure by subset copy, not by forking the template, and is long past the one moment the skill exists for. Never",
     ".claude/skills/hotfix/": "no promotion path to bypass — main deploys straight to Pages",
     ".claude/skills/implement/": "the source's redirect stub pointing /implement at /go, declined on the operator's call at the sync that renamed the skill: a permanent extra row is not worth keeping a retired name resolvable. `/plan` writes `/go <branch>` handoff blocks, and an older block saying `/implement` is a word an agent reads, not a skill they must load. Never — the stub only ever earns its place in the window right after the rename, and that window is closed",

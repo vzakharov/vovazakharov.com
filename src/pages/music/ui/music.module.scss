@@ -7,6 +7,16 @@
   min-width: 0;
 }
 
+// Below `sm` the line reaches the layout's corner toggle, so the language chips
+// stop short of it and the two read as one row: the toggle's 38px and a gap,
+// and its height, so the row's middle is the toggle's.
+.nav {
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    min-height: 38px;
+    padding-inline-end: 50px;
+  }
+}
+
 // Pinned rather than in flow: the bar is the one control that has to stay
 // reachable while the reader is anywhere in a song's prose.
 .playerBar {
@@ -18,8 +28,9 @@
   display: grid;
   grid-template-areas:
     'track track'
-    'controls seek';
-  grid-template-columns: auto minmax(0, 1fr);
+    'controls volume'
+    'seek seek';
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px 16px;
   align-items: center;
   padding: 12px 16px;
@@ -28,8 +39,8 @@
   backdrop-filter: blur(8px);
 
   @include mantine.larger-than(mantine.$breakpoint-sm) {
-    grid-template-areas: 'controls track seek';
-    grid-template-columns: auto minmax(0, 14rem) minmax(0, 1fr);
+    grid-template-areas: 'controls track seek volume';
+    grid-template-columns: auto minmax(0, 14rem) minmax(0, 1fr) auto;
     padding: 12px 24px;
   }
 }
@@ -48,14 +59,25 @@
   min-width: 0;
 }
 
+.playerVolume {
+  grid-area: volume;
+}
+
 // Tabular so the elapsed time does not shove the seek bar sideways every second.
 .playerTime {
   font-variant-numeric: tabular-nums;
 }
 
-// A mixin rather than one `::-webkit-slider-thumb, ::-moz-range-thumb` rule:
+// Mixins rather than one `::-webkit-slider-thumb, ::-moz-range-thumb` rule:
 // each browser discards a whole rule naming a pseudo-element it does not know,
-// so a shared selector list would style the thumb in no browser at all.
+// so a shared selector list would style the part in no browser at all.
+// Logical sizes, so a slider stood upright by its writing mode draws the same.
+@mixin track {
+  block-size: 4px;
+  background: var(--color-border-hairline-strong);
+  border-radius: 2px;
+}
+
 @mixin thumb {
   width: 12px;
   height: 12px;
@@ -64,23 +86,120 @@
   border-radius: 50%;
 }
 
-.seekBar {
-  @include fill;
-
-  height: 4px;
+// The input is the touch target and the track only the line it draws, so a
+// finger that falls short of the line lands on the slider, not on the buttons
+// beside it.
+@mixin range {
+  block-size: 32px;
   cursor: pointer;
-  background: var(--color-border-hairline-strong);
-  border-radius: 2px;
+  background: none;
   appearance: none;
 
+  &::-webkit-slider-runnable-track {
+    @include track;
+  }
+
+  &::-moz-range-track {
+    @include track;
+  }
+
+  // WebKit hangs the thumb off the track's start edge rather than centring it.
   &::-webkit-slider-thumb {
     @include thumb;
 
+    margin-block-start: -4px;
     appearance: none;
   }
 
   &::-moz-range-thumb {
     @include thumb;
+  }
+}
+
+.seekBar {
+  @include fill;
+  @include range;
+}
+
+.volumeDropdown {
+  padding: 12px 10px;
+  border-radius: 12px;
+}
+
+@mixin volume-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-background);
+  box-shadow: 0 0 0 1px var(--color-foreground);
+}
+
+// Upright, the loud end at the top, and filled up to the thumb: WebKit has no
+// part for the filled stretch, so the track paints it from `--fill`.
+.volumeBar {
+  @include range;
+
+  inline-size: 128px;
+  direction: rtl;
+  writing-mode: vertical-lr;
+
+  &::-webkit-slider-runnable-track {
+    background: linear-gradient(
+      to top,
+      var(--color-foreground) var(--fill),
+      var(--color-border-hairline-strong) var(--fill)
+    );
+  }
+
+  &::-moz-range-progress {
+    block-size: 4px;
+    background: var(--color-foreground);
+    border-radius: 2px;
+  }
+
+  &::-webkit-slider-thumb {
+    @include volume-thumb;
+
+    margin-block-start: -5px;
+  }
+
+  &::-moz-range-thumb {
+    @include volume-thumb;
+  }
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.volumeReadout {
+  font-variant-numeric: tabular-nums;
+}
+
+// A setting, so set apart from the round transport buttons; wide enough that
+// the spinner standing in for its letters while a quality loads keeps its size.
+.losslessChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 24px;
+  padding: 0 8px;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
+  border: 1px solid var(--color-border-hairline-strong);
+  border-radius: 6px;
+
+  &[aria-pressed='true'] {
+    border-color: var(--color-foreground);
   }
 }
 
@@ -101,7 +220,11 @@
 // with. Clearance is the bar's own concern, which is why the provider renders
 // this rather than every page under `/music` knowing the bar's height.
 .playerClearance {
-  height: 96px;
+  height: 144px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    height: 96px;
+  }
 }
 
 // Mantine emits a variant's colours as inline `--ai-*` vars, which no class can
@@ -166,37 +289,23 @@
   grid-row: 1 / -1;
 }
 
-// The transliteration switch takes a row of its own above the stanzas, in the
-// words' column only, so the crib's stanzas still start level with theirs.
-.lyricsColumns[data-transliteration] {
-  grid-template-rows: auto repeat(var(--stanzas), auto);
-
-  > .lyricsColumn {
-    grid-row: 2 / -1;
-  }
-}
-
-.lyricsStack {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.transliterationSwitch {
-  grid-area: 1 / 1;
-  justify-self: start;
-}
-
-// In the HTML either way; the switch's attribute is what shows it. Smaller and
-// fainter, so the pair reads as words and gloss rather than two lines of verse.
+// A romanization under words that keep their script. Smaller and fainter, so
+// the pair reads as words and gloss rather than two lines of verse.
 .transliteration {
-  display: none;
+  display: block;
   font-size: 0.85em;
   color: color-mix(in srgb, currentcolor 50%, transparent);
   white-space: normal;
+}
 
-  [data-transliteration='shown'] & {
-    display: block;
+// The current language chip as the script switch: the row's type, not the
+// button's, and dimmed on hover as the chips beside it are tinted.
+.scriptChip {
+  font: inherit;
+  transition: opacity 150ms ease;
+
+  @include mantine.hover {
+    opacity: 0.8;
   }
 }
 
@@ -267,6 +376,12 @@
   }
 }
 
+// A work in progress's sign is not the link, and a dimmed square would show
+// through the note it opens.
+.tile:has(button:hover, button:focus) .tileArt {
+  opacity: 1;
+}
+
 .tileLink::after {
   position: absolute;
   inset: 0;
@@ -290,15 +405,83 @@
   }
 }
 
-// A page's cover, above its title on a phone and beside it from `sm` up.
-.coverHead {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+// A release without art gets a gradient in its place, of the release's own hue
+// (`--tile-hue`, from `tileHue`): the tiles differ in colour and nothing else,
+// light in the light scheme and dark in the dark, so the name set over it reads
+// in the text colour. Each stop is mixed toward the surface colour and made
+// see-through, so a placeholder reads as one beside a real cover.
+@function placeholder-tone($color) {
+  @return color-mix(
+    in oklch,
+    color-mix(
+      in oklch,
+      #{$color},
+      var(--color-surface-strong) var(--tile-grey)
+    ),
+    transparent var(--tile-clear)
+  );
+}
 
+// Nothing to crop without art, so a work in progress's note can leave the
+// square: it spans the tile just under it, the sign at the end of a name
+// leaving no room to hang it from without running into the next tile.
+.tileArtless {
+  --tile-from: oklch(90% 0.06 var(--tile-hue));
+  --tile-to: oklch(80% 0.1 calc(var(--tile-hue) + 50));
+  --tile-grey: 60%;
+  --tile-clear: 50%;
+  --wip-anchor: static;
+  --wip-note-top: calc(100cqi + 6px);
+  --wip-note-left: 0;
+  --wip-note-right: 0;
+  --wip-note-width: auto;
+
+  overflow: visible;
+  background: linear-gradient(
+    135deg,
+    placeholder-tone(var(--tile-from)),
+    placeholder-tone(var(--tile-to))
+  );
+
+  @include mantine.dark {
+    --tile-from: oklch(40% 0.08 var(--tile-hue));
+    --tile-to: oklch(28% 0.1 calc(var(--tile-hue) + 50));
+  }
+}
+
+// A page's cover, above its title on a phone and beside it from `sm` up, its
+// top level with the name's: the kicker takes a row of its own above both.
+.coverHead {
+  display: grid;
+  grid-template-areas: 'cover' 'kicker' 'body';
+}
+
+.coverHeadCover {
+  grid-area: cover;
+  margin-bottom: 24px;
+}
+
+.coverHeadKicker {
+  grid-area: kicker;
+  margin-bottom: 8px;
+}
+
+.coverHeadBody {
+  grid-area: body;
+}
+
+.coverHeadArt {
   @include mantine.larger-than(mantine.$breakpoint-sm) {
-    flex-direction: row;
-    align-items: flex-end;
+    grid-template-areas:
+      '. kicker'
+      'cover body';
+    grid-template-columns: auto 1fr;
+    column-gap: 24px;
+    align-items: start;
+
+    .coverHeadCover {
+      margin-bottom: 0;
+    }
   }
 }
 

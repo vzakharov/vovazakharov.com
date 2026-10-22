@@ -7,7 +7,12 @@ import path from 'node:path';
 import { pageFile, type SiteId } from '@/shared/config';
 import type { WithOptionalLocale } from '@/shared/i18n';
 import { routeCardPath } from '@/shared/seo';
-import type { DocumentFile, Sized, Sourced } from '@/shared/typings';
+import type {
+  DocumentFile,
+  Sized,
+  Sourced,
+  WithFileName,
+} from '@/shared/typings';
 
 import { COLLECTION_SCHEMAS } from './collection-schemas';
 import {
@@ -23,10 +28,12 @@ import {
   type Routed,
   type Variant,
   VARIANTS,
+  type WithCollectionId,
 } from './collections';
 import type {
   BaseFrontmatter,
   Collection,
+  FrontmatterReader,
   WithFrontmatter,
 } from './frontmatter';
 import {
@@ -45,7 +52,7 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
 
 /**
  * Generic over frontmatter rather than over the collection id, so a song page
- * reads `frontmatter.audio` while everything that works across collections —
+ * reads `frontmatter.repo` while everything that works across collections —
  * the sitemap, the metadata builder — holds documents at the base shape.
  *
  * No PDF here: a song has none, so the article header, which does, derives the
@@ -53,34 +60,37 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
  */
 export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
   DocumentRef &
+    ProseSource &
     WithFrontmatter<F> &
     ResolvedOgImage &
+    WithCardImage &
     // The language is this reading's; absent on the file as authored, which
     // carries both.
     LocaleRouted & {
       /** Absent on the full document; set on each shorter cut. */
       variant?: Variant;
-      /** The markdown body with the frontmatter block removed. */
-      body: string;
-      fileName: string;
-      /** The authored markdown, as served. */
-      markdown: DocumentFile;
-      /** The frontmatter's `cardImage`, resolved as `ogImageUrl` is. */
-      cardImage?: ResolvedImage;
     };
 
-/**
- * What the pipeline reads to compile a body: the text, the collection its
- * relative links resolve in, the file they resolve beside, and where that file
- * is served.
- */
-export type ProseSource = Pick<
-  ContentDocument,
-  'collection' | 'body' | 'fileName' | 'markdown'
->;
+/** The collection a body's relative links resolve in, and the file they resolve beside. */
+export type FileInCollection = WithCollectionId & WithFileName;
+
+/** Where the authored markdown is served. */
+export type ServedMarkdown = { markdown: DocumentFile };
+
+/** What the pipeline reads to compile a body. */
+export type ProseSource = FileInCollection &
+  ServedMarkdown & {
+    /** The markdown body with the frontmatter block removed. */
+    body: string;
+  };
 
 /** A frontmatter image path, resolved to what an `<img>` needs of it. */
 type ResolvedImage = Sized & Sourced;
+
+type WithCardImage = {
+  /** The frontmatter's `cardImage`, resolved as `ogImageUrl` is. */
+  cardImage?: ResolvedImage;
+};
 
 /**
  * A frontmatter image is authored relative to its document; `public/` serves
@@ -120,7 +130,7 @@ function resolveOgImage(
 function resolveCardImage(
   collection: CollectionId,
   cardImage: string | undefined,
-): Pick<ContentDocument, 'cardImage'> {
+): WithCardImage {
   if (cardImage === undefined) return {};
 
   const { url, size } = resolveImage(collection, cardImage);
@@ -150,30 +160,40 @@ function parseFileName(fileName: string): { slug: string; variant?: Variant } {
     : { slug: stem };
 }
 
-function readDocument<F extends BaseFrontmatter>(
-  { id, schema }: Collection<F>,
+function collectionFile(collection: CollectionId, fileName: string): string {
+  return path.join(collectionDir(collection), fileName);
+}
+
+/** A file's frontmatter, read by `schema`, and the body under it. */
+function readMatter<F>(
+  collection: CollectionId,
   fileName: string,
-): ContentDocument<F> {
-  const raw = fs.readFileSync(path.join(collectionDir(id), fileName), {
+  schema: FrontmatterReader<F>,
+): { frontmatter: F; content: string } {
+  const raw = fs.readFileSync(collectionFile(collection, fileName), {
     encoding: 'utf8',
   });
-  const { slug, variant } = parseFileName(fileName);
 
   // Naming the file is the whole point of the rethrow: a build failure has to
   // say which document is malformed, and neither the YAML parser nor the
   // schema knows what it was handed.
-  let frontmatter: F;
-  let content: string;
   try {
-    const parsed = matter(raw);
-    frontmatter = schema.parse(parsed.data);
-    content = parsed.content;
+    const { data, content } = matter(raw);
+
+    return { frontmatter: schema.parse(data), content };
   } catch (error) {
     throw new Error(`Invalid frontmatter in ${fileName}`, {
       cause: error instanceof Error ? error : new Error(String(error)),
     });
   }
+}
 
+function readDocument<F extends BaseFrontmatter>(
+  { id, schema }: Collection<F>,
+  fileName: string,
+): ContentDocument<F> {
+  const { slug, variant } = parseFileName(fileName);
+  const { frontmatter, content } = readMatter(id, fileName, schema);
   const route = documentRoute(id, slug, variant);
 
   return {
@@ -242,31 +262,33 @@ export function loadDocument<F extends BaseFrontmatter>(
   variant?: Variant,
 ): ContentDocument<F> | undefined {
   const fileName = `${documentName(slug, variant)}.md`;
-  const filePath = path.join(collectionDir(collection.id), fileName);
-
-  return fs.existsSync(filePath)
+  return fs.existsSync(collectionFile(collection.id, fileName))
     ? readDocument(collection, fileName)
     : undefined;
 }
 
 /**
- * A collection's file of prose alone — no frontmatter, so no document of its
- * own — that a page sets under the heading it writes. `name` is its path inside
- * the collection without the `.md`, which is also its page's route there.
- * `undefined` where none was written.
+ * A collection's file of prose that is not a document of its own — a page sets
+ * it under the heading it writes, and `schema` reads whatever frontmatter the
+ * page wants beside it. `name` is its path inside the collection without the
+ * `.md`, which is also its page's route there. `undefined` where none was
+ * written.
  */
-export function loadProse(
+export function loadProse<F>(
   collection: CollectionId,
   name: string,
-): ProseSource | undefined {
+  schema: FrontmatterReader<F>,
+): (ProseSource & { frontmatter: F }) | undefined {
   const fileName = `${name}.md`;
-  const filePath = path.join(collectionDir(collection), fileName);
 
-  if (!fs.existsSync(filePath)) return undefined;
+  if (!fs.existsSync(collectionFile(collection, fileName))) return undefined;
+
+  const { frontmatter, content } = readMatter(collection, fileName, schema);
 
   return {
     collection,
-    body: fs.readFileSync(filePath, { encoding: 'utf8' }),
+    frontmatter,
+    body: content,
     fileName,
     markdown: pageFile(collectionAssetUrl(collection, name), 'md'),
   };
@@ -279,7 +301,7 @@ export function siblingVariants(
 ): Variant[] {
   return VARIANTS.filter((variant) =>
     fs.existsSync(
-      path.join(collectionDir(collection), `${documentName(slug, variant)}.md`),
+      collectionFile(collection, `${documentName(slug, variant)}.md`),
     ),
   );
 }

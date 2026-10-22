@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """A song's spectrogram over its loudness, chromagrams and drums: its whole length across, pitch up.
 
+<<<<<<< HEAD
 Usage: spectrogram.py <song> <dir>/<slug>.png <stems> [--from m:ss --to m:ss]
 
 <stems> is the directory demucs writes the song's four stems to
@@ -30,6 +31,9 @@ the zooms that draw them.
 --from and --to draw that stretch at the full width alone, on song time; the
 analysis still runs on the whole song, and such a zoom writes no sidecar,
 which describes all of it.
+=======
+Usage: spectrogram.py <song> <out.png> [--split C3|C4|C5]
+>>>>>>> origin/main
 
 Where the voice sits and where its melody goes, where the drums come in, a
 bridge that drops out, where one section gives way to the next, a master that
@@ -43,6 +47,7 @@ section boundary, found from the sound alone: a sharp change in arrangement or
 harmony draws one, a gradual build may not. Under it, on the same time axis,
 the loudness envelope: each column's peak, with its RMS inside.
 
+<<<<<<< HEAD
 Under that, three chromagram strips: the melody off the vocals stem, the
 harmony off the other stem, and the bass off the bass stem under C4. Twelve
 rows each, C at the bottom, each named as the song's key spells it, a row as
@@ -50,6 +55,14 @@ bright as its pitch class's share of the strip, harmonics voting with their
 fundamentals. So the melody strip carries
 the tune, the bass strip steps with the bass line, and a chord shows as
 several bright rows at once in the harmony strip. A pitch class is read off
+=======
+Under that, two chromagram strips, the band above the split — middle C unless
+--split names another C — over the band below it: twelve rows each, C at the
+bottom, a row as bright as its pitch class's share of the band, harmonics
+voting with their fundamentals. So the bass strip steps with the bass line,
+the treble strip carries the tune and the chord over
+it, and a chord shows as several bright rows at once. A pitch class is read off
+>>>>>>> origin/main
 its labelled row; a row's hue is the octave that carries it, keyed beside each
 strip, one hue per octave and the same in every strip — C2 red, C3 orange, C4
 green, C5 cyan, C6 violet — so a melody that leaps an octave changes colour on
@@ -73,7 +86,12 @@ Needs ffmpeg and matplotlib (numpy and Pillow come with it); the stems need
 demucs, which pulls in torch.
 """
 
+import argparse
 import io
+<<<<<<< HEAD
+=======
+import subprocess
+>>>>>>> origin/main
 from pathlib import Path
 
 import numpy as np
@@ -95,6 +113,7 @@ PLOT_LEFT, PLOT_RIGHT = 0.055, 0.94
 # note sits a fifth of the way to its neighbour.
 TITLE_TUNING_CENTS = 15
 
+<<<<<<< HEAD
 # demucs's four stems, by the names of the files it writes.
 STEMS = ("drums", "bass", "other", "vocals")
 # The pitch strips, top to bottom: each its label, the stem it reads, the
@@ -106,6 +125,27 @@ STRIPS = (
     ("harmony", "other", NOTE_BAND_HZ, (2, 6)),
     ("bass", "bass", (NOTE_BAND_HZ[0], BASS_TOP_HZ), (2, 3)),
 )
+=======
+NOTE_NAMES = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+# C2 to C7: below it a bin is wider than a semitone; above it, mostly harmonics.
+# A bass note under C2 still votes through its octave harmonic, the same class.
+NOTE_BAND_HZ = (65, 2100)
+# Middle C splits the bass band from the treble one by default, where the clefs
+# meet: a bass line and its first harmonics sit under it, and most of a melody
+# above it. A low male voice sings mostly under it, its tune in the bass strip,
+# so --split C3 moves the split an octave down, leaving the bass one octave.
+DEFAULT_SPLIT = 4
+SPLITS = (3, 4, 5)
+PEAK_RANGE_DB = 30
+QUIET_DB = -50
+QUIET = 10 ** (QUIET_DB / 20)
+# A note shorter than this blurs into its neighbours; a column alone flickers.
+NOTE_WINDOW_S = 0.6
+# A note's octave is voted over a longer window, since its attack and its
+# harmonics trade the lead within it, and a hue flickering inside one note
+# reads as two.
+OCTAVE_WINDOW_S = 1.5
+>>>>>>> origin/main
 # A row at this share of its band's chroma is at full brightness; an even
 # spread across all twelve holds 1/12.
 FULL_SHARE = 0.5
@@ -199,6 +239,77 @@ def envelope_image(peak, rms, rows=128):
     return image
 
 
+<<<<<<< HEAD
+=======
+def unit_rows(features):
+    """Each row scaled to length 1; an all-zero row, a silent block's chroma, stays zero."""
+    return features / np.maximum(np.linalg.norm(features, axis=1, keepdims=True), 1e-12)
+
+
+def section_times(db, magnitude, freqs, step, duration):
+    """The times, in seconds, where one section gives way to the next.
+
+    Foote's novelty: every block's sound — its third-octave levels, which carry
+    the arrangement and the dynamics, and its chroma, which carries the
+    harmony — is compared with every other's, and a boundary is where the
+    blocks before a moment are alike, the blocks after it are alike, and the
+    two differ. A checkerboard kernel slid along the similarity matrix's
+    diagonal scores exactly that; its peaks, at least SECTION_MIN_S apart and
+    SECTION_THRESHOLD times its median, are the boundaries.
+    """
+    blocks = max(1, round(duration / SECTION_BLOCK_S))
+    block = frame_columns(db.shape[1], step, duration, blocks)
+    bands = db[: db.shape[0] // TIMBRE_ROWS * TIMBRE_ROWS].reshape(-1, TIMBRE_ROWS, db.shape[1]).mean(axis=1)
+    timbre = np.zeros((blocks, len(bands)))
+    np.add.at(timbre, block, bands.T)
+    timbre /= np.maximum(np.bincount(block, minlength=blocks), 1)[:, None]
+    timbre = (timbre - timbre.mean(axis=0)) / np.maximum(timbre.std(axis=0), 1e-6)
+    chroma, _ = chroma_shares(magnitude, freqs, step, duration, blocks, NOTE_BAND_HZ, (2, 6))
+    features = np.hstack([unit_rows(timbre), unit_rows(chroma.T)]) / np.sqrt(2)
+    similarity = features @ features.T
+
+    half = round(SECTION_KERNEL_S / SECTION_BLOCK_S)
+    offsets = np.arange(-half, half) + 0.5
+    taper = np.exp(-0.5 * (offsets / (half / 2)) ** 2)
+    kernel = np.outer(np.sign(offsets) * taper, np.sign(offsets) * taper)
+    padded = np.pad(similarity, half)
+    novelty = np.array([(kernel * padded[i:i + 2 * half, i:i + 2 * half]).sum() for i in range(blocks)])
+
+    # The padding reads as a change at either edge, which no section is.
+    apart = round(SECTION_MIN_S / SECTION_BLOCK_S)
+    inside = novelty[apart:blocks - apart]
+    if not len(inside):
+        return []
+    bar = SECTION_THRESHOLD * np.median(inside)
+    peaks = [
+        i for i, n in enumerate(inside)
+        if n >= bar and n == inside[max(0, i - apart):i + apart + 1].max()
+    ]
+    return [(i + apart) * SECTION_BLOCK_S for i in peaks]
+
+
+def strip_bands(split):
+    """The treble and bass strips split at C<split>: each one's band in Hz, its octaves and its label."""
+    crossover = round(440 * 2 ** ((12 * (split + 1) - 69) / 12))
+    return (
+        ((crossover, NOTE_BAND_HZ[1]), (split, 6), f"treble, C{split}–C7"),
+        ((NOTE_BAND_HZ[0], crossover), (2, split - 1), f"bass, C2–C{split}"),
+    )
+
+
+def split_octave(name):
+    """argparse's reading of --split: a C from SPLITS, as C3 or 3."""
+    octave = name.upper().removeprefix("C")
+    if not octave.isdigit() or int(octave) not in SPLITS:
+        raise argparse.ArgumentTypeError(f"--split takes one of {', '.join(f'C{o}' for o in SPLITS)}")
+    return int(octave)
+
+
+def mmss(seconds, _pos=None):
+    return f"{int(seconds) // 60}:{int(seconds) % 60:02d}"
+
+
+>>>>>>> origin/main
 def hz(f):
     return f"{f // 1000}k" if f >= 1000 else str(f)
 
@@ -226,6 +337,7 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
     from matplotlib.ticker import FixedLocator, FuncFormatter, MultipleLocator, NullLocator
     from PIL import Image
 
+<<<<<<< HEAD
     zoomed = t0 > 0 or t1 < facts.duration
     views = {}
     for track, (samples, whole) in tracks.items():
@@ -233,6 +345,18 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
         views[track] = samples, drawing_stft(samples) if zoomed else whole
     x, (magnitude, freqs, step, db) = views["mix"]
     duration = t1 - t0
+=======
+    p = argparse.ArgumentParser()
+    p.add_argument("song")
+    p.add_argument("out_png")
+    p.add_argument("--split", type=split_octave, default=DEFAULT_SPLIT)
+    args = p.parse_args()
+    song, out_png = args.song, args.out_png
+    x = decode(song)
+    magnitude, freqs, step = stft_magnitude(x)
+    db = log_rows(magnitude, freqs)
+    duration = len(x) / SR
+>>>>>>> origin/main
 
     cmap = plt.get_cmap("magma", round(-FLOOR_DB / STEP_DB))
     ratios = (4, 0.8) + (1.6,) * len(STRIPS) + (KIT_RATIO,)
@@ -285,11 +409,18 @@ def render(name, tracks, facts, drums, t0, t1, out_png, section=None):
     wave.set_ylabel("level")
 
     ramps = chroma_ramps()
+<<<<<<< HEAD
     _, tonic, mode = facts.keys[0]
     names = note_names(tonic, mode)
     for (strip, key), (label, track, band_hz, octaves) in zip(strips, STRIPS):
         samples, (stem_magnitude, *_) = views[track]
         shares, octave = chroma_shares(stem_magnitude, freqs, step, duration, columns, band_hz, octaves, facts.tuning)
+=======
+    for (strip, key), (band_hz, octaves, name) in zip(
+        ((treble, treble_key), (bass, bass_key)), strip_bands(args.split),
+    ):
+        shares, octave = chroma_shares(magnitude, freqs, step, duration, columns, band_hz, octaves)
+>>>>>>> origin/main
         # Silence has spectral peaks too, of noise; it stays dark however clear they look.
         shares[:, envelope(samples, columns)[1] < QUIET] = 0
         strip.imshow(

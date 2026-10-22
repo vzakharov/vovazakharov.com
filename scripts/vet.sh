@@ -29,14 +29,14 @@ if ! pnpm build >tmp/vet-build.log 2>&1; then
   status=1
 fi
 
-# The one check that repairs what it finds, and it reports by failing: the
-# generator exits non-zero exactly when it had to write, so a stale partial is
-# both fixed and named in one pass and `git diff` is the report. A generated
-# file has one correct content, so the rewrite is never the judgment call that
-# keeps `eslint --fix` out of vet.
+# The check that repairs what it finds, and reports by failing: the generator
+# exits non-zero exactly when it had to write, so a stale file is both fixed
+# and named in one pass and `git diff` is the report. A generated file has one
+# correct content, so the rewrite is never the judgment call that keeps
+# `eslint --fix` out of vet.
 #
-# It runs alone for the mirror image of the build's reason: it *writes* two
-# `.scss` files that the fan-out's stylelint and Prettier glob, and would hand
+# It runs alone for the mirror image of the build's reason: it *writes* files
+# that the fan-out's stylelint, Prettier and type check glob, and would hand
 # one of them over truncated.
 if ! pnpm styles:codegen >tmp/vet-styles.log 2>&1; then
   sed 's/^/[styles] /' tmp/vet-styles.log
@@ -58,8 +58,8 @@ fi
 # type-overlap and knip read source text only — no generated types, nothing
 # another check writes, and knip writes nothing without --fix, which vet never
 # passes; the test run adds only writes into the OS temp directory, and
-# the two `--check` render passes only hash files, needing no browser, and the
-# cost ledger's, context budget's, cold-cache guard's and keepalive's tests write only into
+# the `--check` render passes and the song-tag check only hash files, needing
+# no browser, and the cost ledger's, context budget's, cold-cache guard's and keepalive's tests write only into
 # their own temporary directories. The squash check reads the proposal under
 # docs/remove-before-merging/ (or its own history) and the notes check counts
 # lines under writing/notes/, neither of which anything else here touches.
@@ -67,7 +67,7 @@ fi
 # finished writing under `apps/*/out/`, which nothing here writes to. The
 # prose-quotes check and the song checks only read the Markdown under
 # `apps/*/public/`.
-# The last seven read the agent infrastructure itself and nothing else here
+# The last eight read the agent infrastructure itself and nothing else here
 # touches it.
 scripts/run-parallel.sh \
   typecheck='pnpm typecheck' \
@@ -84,6 +84,7 @@ scripts/run-parallel.sh \
   og-vova='pnpm content:og:vova --check' \
   og-bible='pnpm content:og:bible --check' \
   og-basilisk='pnpm content:og:basilisk --check' \
+  music-masters='pnpm music:masters check' \
   cv-pages='pnpm content:pdf:vova --cv-pages --from-out' \
   test='scripts/vet-test.sh' \
   hearing='python3 scripts/lib/test_hearing.py' \
@@ -91,12 +92,15 @@ scripts/run-parallel.sh \
   squash='scripts/check-squash-message.sh' \
   notes='scripts/check-notes-length.sh' \
   skills='scripts/check-skill-catalog.sh' \
+  tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh' \
   staged='scripts/staged.sh check' \
   claude-md-size='scripts/check-claude-md-size.sh' \
   costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done' \
+  estimates='python3 .claude/costs/check_estimates.py' \
   context-budget='python3 .claude/context-budget/test_context_budget.py' \
   cold-cache='python3 .claude/cold-cache/test_cold_cache.py' \
-  keepalive='python3 .claude/keepalive/test_keepalive.py' || status=1
+  keepalive='python3 .claude/keepalive/test_keepalive.py' \
+  hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done' || status=1
 
 if ((status)); then
   printf '\nvet FAILED\n' >&2

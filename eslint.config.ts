@@ -51,6 +51,7 @@ import { vovaRules } from './eslint/rule-groups/vova';
 import noDefaultTrue from './eslint/rules/no-default-true';
 import noHardcodedStrings from './eslint/rules/no-hardcoded-strings';
 import noInlineObjectParamType from './eslint/rules/no-inline-object-param-type';
+import noPickOmit from './eslint/rules/no-pick-omit';
 import noRedundantDefaultedParamType from './eslint/rules/no-redundant-defaulted-param-type';
 import noRedundantPropertyCopy from './eslint/rules/no-redundant-property-copy';
 import noRedundantTypeAlias from './eslint/rules/no-redundant-type-alias';
@@ -217,6 +218,7 @@ const eslintConfig = defineConfig([
           'no-default-true': noDefaultTrue,
           'no-hardcoded-strings': noHardcodedStrings,
           'no-inline-object-param-type': noInlineObjectParamType,
+          'no-pick-omit': noPickOmit,
           'no-redundant-defaulted-param-type': noRedundantDefaultedParamType,
           'no-redundant-property-copy': noRedundantPropertyCopy,
           'no-redundant-type-alias': noRedundantTypeAlias,
@@ -305,6 +307,9 @@ const eslintConfig = defineConfig([
     '**/next-env.d.ts',
     // Dev artifacts (gitignored, transient — CLAUDE.md § "Key principles"):
     'tmp/**',
+    // The cost ledger's rows: JSON only, and vet's concurrent cost tests make
+    // and remove month directories here while ESLint walks the tree.
+    '.claude/costs/sessions/**',
   ]),
 ]);
 

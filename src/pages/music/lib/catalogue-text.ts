@@ -1,37 +1,71 @@
 import 'server-only';
 
-import { loadProse, type ProseSource } from '@/shared/content';
+import type { ProseSource, ServedMarkdown } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
 import type { MusicAlbum, MusicProject } from '@/shared/music-catalogue';
 
-import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls';
-import { MUSIC_PROJECT_SLUGS } from './projects';
-import { localeProse } from './sections';
+import { albumFile, artistFile } from './catalogue-files';
+import { localeProse, localeUniverse } from './sections';
+
+/** A page's prose in its two parts, either of which may be missing. */
+export type StoryParts = {
+  /** The world a concept album is set in, told ahead of the story. */
+  universe?: ProseSource | undefined;
+  /** The story proper — a making-of, where a `universe` comes first. */
+  story?: ProseSource | undefined;
+};
+
+export type CatalogueText = StoryParts &
+  ServedMarkdown & {
+    /** The line under the page's name. */
+    hook: string | undefined;
+  };
+
+/** `body` as a source of its own, or `undefined` where it is empty. */
+function part(
+  source: ProseSource,
+  body: string | undefined,
+): ProseSource | undefined {
+  return body === undefined || body === '' ? undefined : { ...source, body };
+}
+
+/** The world a page is set in, where its file — an album's, a song's — tells one. */
+export function universeOf(
+  source: ProseSource,
+  locale: Locale,
+): ProseSource | undefined {
+  return part(source, localeUniverse(source.body, locale));
+}
 
 /**
  * A catalogue page's own text in one language, from the markdown file at its
- * route plus `.md` — `albums/<slug>.md`, `artists/<slug>.md` — cut on `lang:`
- * markers as a song's story is. `undefined` where the page has none.
+ * route plus `.md`, cut on markers as a song's story is.
  */
-function catalogueText(name: string, locale: Locale): ProseSource | undefined {
-  const source = loadProse('music', name);
+function catalogueText(
+  {
+    frontmatter,
+    ...source
+  }: ProseSource & { frontmatter: Record<Locale, { hook?: string }> },
+  locale: Locale,
+): CatalogueText {
+  const { body, markdown } = source;
+  const { hook } = frontmatter[locale];
 
-  return source && { ...source, body: localeProse(source.body, locale) };
+  return {
+    markdown,
+    universe: universeOf(source, locale),
+    story: part(source, localeProse(body, locale)),
+    hook,
+  };
 }
 
-export function albumText(
-  album: MusicAlbum,
-  locale: Locale,
-): ProseSource | undefined {
-  return catalogueText(`${ALBUMS_SEGMENT}/${album}`, locale);
+export function albumText(album: MusicAlbum, locale: Locale): CatalogueText {
+  return catalogueText(albumFile(album), locale);
 }
 
 export function artistText(
   artist: MusicProject,
   locale: Locale,
-): ProseSource | undefined {
-  return catalogueText(
-    `${ARTISTS_SEGMENT}/${MUSIC_PROJECT_SLUGS[artist]}`,
-    locale,
-  );
+): CatalogueText {
+  return catalogueText(artistFile(artist), locale);
 }

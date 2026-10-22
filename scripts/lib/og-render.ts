@@ -19,6 +19,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { PIXELS } from '../../src/shared/config/index.node-safe.ts';
+import type { Sized } from '../../src/shared/typings/index.ts';
 import { REPO_ROOT } from './content-tree.ts';
 import type { Renderable } from './render-manifest.ts';
 
@@ -41,16 +42,19 @@ export function escapeHtml(text: string): string {
 /**
  * A document for Chromium to screenshot, with the files it references written
  * beside it under the names it uses — a `file://` document's reach outside its
- * own directory is not something to depend on.
+ * own directory is not something to depend on. `pixels` is the screenshot's
+ * size where the page is not a social card's `PIXELS`.
  */
 export type StagedPage = {
   page: string;
   files: Record<string, string | Buffer>;
+  pixels?: Sized;
 };
 
 export type Card = Renderable & StagedPage;
 
 export function renderCard(card: Card, chromium: string): void {
+  const { width, height } = card.pixels ?? PIXELS;
   const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'og-'));
   const pagePath = path.join(stagingDir, 'card.html');
 
@@ -71,7 +75,7 @@ export function renderCard(card: Card, chromium: string): void {
       // Without it `--screenshot` can fire before a referenced image has
       // painted, yielding a blank card.
       '--virtual-time-budget=10000',
-      `--window-size=${PIXELS.width},${PIXELS.height}`,
+      `--window-size=${width},${height}`,
       `--screenshot=${card.outputPath}`,
       `file://${pagePath}`,
     ],
@@ -80,6 +84,6 @@ export function renderCard(card: Card, chromium: string): void {
 
   console.log(
     `  rendered ${path.relative(REPO_ROOT, card.outputPath)} ` +
-      `(${PIXELS.width}×${PIXELS.height})`,
+      `(${width}×${height})`,
   );
 }

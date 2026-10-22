@@ -5,8 +5,9 @@
 
 import { pick } from '@/shared/lib/collections';
 
+import type { Scaled } from '../../model/geometry';
 import { onStem } from '../../model/house';
-import type { Tapped } from '../../model/motion';
+import type { TapTimed } from '../../model/motion';
 import {
   endOf,
   hop,
@@ -21,6 +22,7 @@ import { type BedPlace, bedPlace, standAt } from './bed-place';
 import { paintRunner } from './draw-mouse';
 import { type Dusked, hazeTone } from './haze-tone';
 import type { WithCircleHit, WithGraphics } from './hit-areas';
+import type { Lighted } from './ink';
 import type { Shown } from './mushroom-shown';
 import { hazeAhead } from './repaint-queue';
 import { doorFront } from './run-front';
@@ -31,7 +33,7 @@ import type { View } from './view';
 const RUNNER_MIDDLE = 0.3;
 
 /** What a house lends a runner near its door to paint it in: its mushroom's size, for the ink, and its light. */
-type RunnerPaint = Pick<Shown, 'size' | 'lighting'>;
+type RunnerPaint = Scaled & Lighted;
 
 /**
  * A run's end at a door, with its house's paint taken along, so the runner
@@ -66,7 +68,7 @@ export function doorEnd(shown: Shown, view: View): PaintedEnd | undefined {
  * returns where it stands.
  */
 export function drawRunner(
-  runner: WithGraphics & WithCircleHit & Pick<Tapped, 'tappedAt'>,
+  runner: WithGraphics & WithCircleHit & TapTimed,
   view: View,
   at: ShownRunner,
   { travelled, progress }: RunMoment,

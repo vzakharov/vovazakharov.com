@@ -1,4 +1,5 @@
 export {
+  absoluteUrl,
   getAbsoluteUrl,
   isOffSite,
   pageFile,
@@ -10,9 +11,9 @@ export {
   ANALYTICS_SCRIPT_URL,
   AUTHOR_URL,
   PAGE_ROUTES,
-  type SiteConfig,
   siteConfig,
   type SiteImage,
+  type WithAvatar,
   withoutScheme,
 } from './site-config';
 export { type SiteId, type WithSiteId } from './site-ids';

@@ -1,4 +1,10 @@
 {
+  "notFound": {
+    "title": "Nothing here",
+    "body": "This address leads nowhere on the site.",
+    "checking": "Checking whether this song has moved…",
+    "home": "To the home page"
+  },
   "cv": {
     "metadata": {
       "description": "Full-stack developer with deep AI/ML expertise since 2020. Building practical LLM-powered tools, prototypes, and production systems.",
@@ -254,27 +260,51 @@
   },
   "music": {
     "title": "Songs",
-    "back": "Music",
+    "back": "All Vova’s music",
     "metaTitle": "Music",
     "metaDescription": "AI music from before there was a product for it — a catalogue of masters you can play right here, all of it open-source.",
     "artists": "Artists",
     "albums": "Albums",
-    "single": "Single",
+    "singles": "Singles",
     "kind": {
       "artist": "Artist",
-      "album": "Album"
+      "album": "Album",
+      "ep": "EP",
+      "maxi-single": "Maxi single"
+    },
+    "wip": {
+      "note": "I’m still working on this release, so anything may change"
     },
     "ogTitle": "Listen to {name} by Vova",
     "ogTitleIndex": "Listen to Vova’s music",
     "artistDescription": "{artist}: the songs and albums, to play right here — all of it open-source.",
     "albumDescription": "“{album}” by {artist}: the tracks, to play right here — all of it open-source.",
-    "albumLength": {
+    "size": {
+      "artists": { "one": "# artist", "other": "# artists" },
+      "albums": { "one": "# album", "other": "# albums" },
       "songs": { "one": "# song", "other": "# songs" },
       "hours": { "one": "# hour", "other": "# hours" },
       "minutes": { "one": "# minute", "other": "# minutes" }
     },
     "intro": "Been writing music since my preteens, and with AI since way before Suno — back in the OpenAI Jukebox days. AI to me is neither a tool nor a replacement but a brilliant bandmate. Most of it starts from my own humming, piano or MIDIs, so it’s “mine” in most copyright senses.",
     "shuffleAll": "Shuffle all",
+    "radio": "Radio",
+    "radioPage": {
+      "title": "Vova’s Radio",
+      "metaDescription": "Vova’s songs on the radio: the same song, at the same second, for everyone listening.",
+      "pitch": "Same song, same second, for everyone listening.",
+      "about": "You’re hearing what everyone tuned in is hearing. Every song in the catalogue plays, in random order. When the round ends — every {length} — the songs are shuffled again.",
+      "cycleLength": {
+        "hours": { "one": "# hour", "other": "# hours" },
+        "minutes": { "one": "# minute", "other": "# minutes" }
+      },
+      "aboutLabel": "How it works",
+      "nowPlaying": "Now playing",
+      "tuneIn": "Tune in",
+      "tuneBackIn": "Tune back in",
+      "readMore": "Read story, lyrics & more",
+      "keepsPlaying": "Don’t worry, this won’t stop the playback"
+    },
     "unfiled": "Unfiled",
     "language": {
       "ru": "Russian",
@@ -297,6 +327,9 @@
     "closeCover": "Close the cover",
     "source": "source",
     "readMore": "Read more",
+    "makingOf": "Making of",
+    "feedPageLink": "Lyrics and notes on the song’s page",
+    "feedDownload": "Download",
     "video": {
       "watch": "Watch video",
       "close": "Close the video"
@@ -311,9 +344,9 @@
     "lyrics": {
       "title": "Lyrics",
       "translation": "Translation",
-      "crib": "The translation is a crib, not a singing version.",
-      "transliteration": "Transliteration"
+      "crib": "The translation is a crib, not a singing version."
     },
+    "originalScript": "original script",
     "player": {
       "label": "Player",
       "previous": "Previous track",
@@ -322,8 +355,11 @@
       "pause": "Pause",
       "next": "Next track",
       "shuffle": "Shuffle",
+      "radio": "Radio",
       "seek": "Seek",
-      "timeToggle": "Switch between the song’s length and the time left"
+      "timeToggle": "Switch between the song’s length and the time left",
+      "volume": "Volume",
+      "lossless": "Lossless (FLAC)"
     }
   },
   "ui": {

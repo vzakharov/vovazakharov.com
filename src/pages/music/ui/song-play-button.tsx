@@ -3,12 +3,12 @@
 import { Button } from '@mantine/core';
 import { Pause, Play } from 'lucide-react';
 
-import type { PlayerState } from '../lib/player-state';
-import type { PlayerContextValue } from './player-provider';
-import { type TrackButtonProps, useTrackPlayback } from './track-button';
+import type { Playing, WithTrack } from '../lib/player-state';
+import type { WithPlayerLabels } from './player-provider';
+import { useTrackPlayback } from './track-button';
 
-export type ListenButtonProps = Pick<PlayerContextValue, 'labels'> &
-  Pick<PlayerState, 'playing'> & { onClick: () => void };
+export type ListenButtonProps = WithPlayerLabels &
+  Playing & { onClick: () => void };
 
 /**
  * A page's play control, worded: the shuffle button's pill, saying what it
@@ -33,7 +33,7 @@ export function ListenButton({ playing, labels, onClick }: ListenButtonProps) {
 }
 
 /** A song page's play control. */
-export function SongPlayButton({ track }: Pick<TrackButtonProps, 'track'>) {
+export function SongPlayButton({ track }: WithTrack) {
   const { playing, labels, toggle } = useTrackPlayback(track);
 
   return <ListenButton {...{ playing, labels }} onClick={toggle} />;

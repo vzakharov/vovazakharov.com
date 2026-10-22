@@ -32,6 +32,9 @@ function isFixed(object: Phaser.GameObjects.GameObject): boolean {
   return 'scrollFactorX' in object && object.scrollFactorX === 0;
 }
 
+export type GaitFlipping = { readonly flipGait: () => void };
+export type EyeHeld = { eye: () => Eye | undefined; gait: () => Walk['gait'] };
+
 /**
  * The eye the scene's frames are seen from (`walk.ts`), and what moves it:
  * Phaser's one pointer, pressed anywhere but on a control, turns, walks or
@@ -42,7 +45,7 @@ function isFixed(object: Phaser.GameObjects.GameObject): boolean {
  * (`instrument-input.ts`), and any pointer but the one that pressed first is
  * ignored until it lifts. The screen and the layout convert here.
  */
-export class EyeInput {
+export class EyeInput implements GaitFlipping, EyeHeld {
   private walk: Walk | undefined;
   /** When, on the scene's clock, the walk was last ticked. */
   private ticked = 0;

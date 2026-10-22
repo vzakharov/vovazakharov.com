@@ -5,17 +5,17 @@ import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import { resolveAuthoredPath } from '../collections';
-import type { ProseSource } from '../documents';
+import type { FileInCollection } from '../documents';
 
 /** `./x`, `../x` and bare `x` — anything that resolves against the document. */
 function isRelative(url: string): boolean {
   return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
 }
 
-/** The collection, and the file inside it that the links are written in. */
-type LinkContext = Pick<ProseSource, 'collection' | 'fileName'>;
-
-function rewrite({ collection, fileName }: LinkContext, url: string): string {
+function rewrite(
+  { collection, fileName }: FileInCollection,
+  url: string,
+): string {
   if (!isRelative(url)) return url;
 
   const hashAt = url.indexOf('#');
@@ -39,7 +39,9 @@ const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
  *
  * A link's absolute address, which paper needs, is `ContentLink`'s to give.
  */
-export const rehypeContentLinks: Plugin<[LinkContext], Root> = (context) => {
+export const rehypeContentLinks: Plugin<[FileInCollection], Root> = (
+  context,
+) => {
   return (tree) => {
     visit(tree, 'element', (node: Element) => {
       const attribute = URL_ATTRIBUTE[node.tagName];

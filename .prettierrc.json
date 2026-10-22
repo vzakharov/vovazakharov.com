@@ -6,5 +6,30 @@
   "tabWidth": 2,
   "useTabs": false,
   "arrowParens": "always",
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": "apps/vova/public/music/songs/*.maya.reflections.md",
+      "options": { "proseWrap": "always" }
+    },
+    {
+      "files": [
+        "**/CLAUDE.md",
+        ".claude/**/*.md",
+        "docs/plans/**/*.md",
+        "README.md",
+        "src/**/*.md",
+        "scripts/**/*.md",
+        ".claude/staged/**/*.md.staged"
+      ],
+      "options": {
+        "proseWrap": "always",
+        "embeddedLanguageFormatting": "off"
+      }
+    },
+    {
+      "files": ".claude/staged/**/*.md.staged",
+      "options": { "parser": "markdown" }
+    }
+  ]
 }

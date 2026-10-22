@@ -4,7 +4,7 @@
  * button or under the row, each held `PICK_CLEAR` off every other button.
  */
 
-import type { Sized } from '@/shared/typings';
+import type { WithWidth } from '@/shared/typings';
 
 import type { Circle } from '../../model/geometry';
 import {
@@ -118,9 +118,9 @@ function rowAcross(
  * `from` to `to` across the top, or rows under the picker's own down to
  * `floor`, clear of every button of `standing` still shown while it is open.
  */
-type Room = Record<'from' | 'to' | 'floor', number> & {
-  standing: readonly Circle[];
-};
+type Room = Record<'from' | 'to', number> & Floor;
+/** A band's floor, and the buttons standing over it. */
+type Floor = Record<'floor', number> & { standing: readonly Circle[] };
 
 /**
  * A picker of `count` buttons whose `row` holds only some of them: the rest
@@ -173,8 +173,7 @@ export function completed(
  * the buttons it keeps clear of, and what else its reach stays out of, as
  * drawn (the sun's rays).
  */
-type Beside = Pick<Room, 'floor' | 'standing'> &
-  Pick<Sized, 'width'> & { drawn: readonly Circle[] };
+type Beside = Floor & WithWidth & { drawn: readonly Circle[] };
 
 /**
  * One more button with `row`, its size: the first spot, along the row's ends

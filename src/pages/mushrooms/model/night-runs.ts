@@ -10,10 +10,10 @@
 import { type Dusk, dusky } from './dusk';
 import type { Stamped } from './motion';
 import {
+  type LeftFrom,
   type Mice,
   miceAt,
   type RunDoor,
-  type RunEnds,
   runTarget,
 } from './mouse-run';
 import { between, pick, saltedStream, type Seeded } from './random';
@@ -25,8 +25,10 @@ export const NIGHT_GAP = [6000, 12_000] as const;
 export type Burrows = Seeded & { doors: readonly RunDoor[]; mice: Mice };
 
 /** One outing the dusk sent: from which house, to which (`undefined` for a peek), and when. */
-export type NightRun = Stamped &
-  Pick<RunEnds, 'from'> & { to: string | undefined };
+export type NightRun = Stamped & NightOuting;
+
+/** An outing the dusk sent, from which house and to which (`undefined` for a peek). */
+type NightOuting = LeftFrom & { to: string | undefined };
 
 /**
  * The dusk's outings so far: when the next is due (`undefined` by day), how
@@ -58,7 +60,7 @@ const gapOf = (seed: number, made: number): number =>
 function outingFrom(
   { seed, doors, mice }: Burrows,
   made: number,
-): Omit<NightRun, 'at'> | undefined {
+): NightOuting | undefined {
   const home = doors.filter((door) => door.seen && miceAt(mice, door.id) > 0);
   const runs = home.flatMap((door) => {
     const to = runTarget(mice, door, doors);

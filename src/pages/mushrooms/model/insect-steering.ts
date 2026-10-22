@@ -70,12 +70,15 @@ type SetOff = { bow: number; turns: Turns; meant: number; wound: number };
  * frame; and where its perch stood that frame, `undefined` until the leg's
  * first frame and while the screen it was measured on is gone.
  */
-export type Steering = Turned & {
-  facing: number;
-  heldAt: number;
-  setOff: SetOff | undefined;
-  perch: Point | undefined;
-};
+export type Steering = Turned &
+  Faced & {
+    heldAt: number;
+    setOff: SetOff | undefined;
+    perch: Point | undefined;
+  };
+
+/** Which way a flier's flight heads, in radians from +x. */
+export type Faced = { facing: number };
 
 /**
  * One frame's leg as the flier flies it: its timing, what it carried over,
@@ -95,10 +98,7 @@ export type Course = CarryingOver &
   };
 
 /** A flier's steering before its first frame, turned `turn` and heading `facing`. */
-export const firstSteering = ({
-  facing,
-  turn,
-}: Pick<Steering, 'facing' | 'turn'>): Steering => ({
+export const firstSteering = ({ facing, turn }: Turned & Faced): Steering => ({
   facing,
   turn,
   heldAt: -Infinity,

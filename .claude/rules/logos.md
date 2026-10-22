@@ -6,9 +6,9 @@ paths:
 
 # Organisation marks
 
-Each file under a site's `public/logos/` is the organisation's own favicon or app icon,
-**trimmed to its ink box and re-padded to a centred transparent square**. Trim
-a new one before committing it.
+Each file under a site's `public/logos/` is the organisation's own favicon or
+app icon, **trimmed to its ink box and re-padded to a centred transparent
+square**. Trim a new one before committing it.
 
 Vendors inset and offset their icons however they like, and the cards render
 every mark at one size, so an untrimmed file lands visibly smaller and off-axis

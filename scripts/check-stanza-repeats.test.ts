@@ -13,7 +13,7 @@ import path from 'node:path';
 import { describe, it } from 'node:test';
 
 const SCRIPT = path.resolve(import.meta.dirname, 'check-stanza-repeats.ts');
-const SONG = 'apps/vova/public/music/song.md';
+const SONG = 'apps/vova/public/music/songs/song.md';
 
 function run(markdown: string, ...args: string[]) {
   const root = mkdtempSync(path.join(tmpdir(), 'stanza-repeats-'));

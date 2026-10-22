@@ -16,6 +16,7 @@ from lib.shape import ShapeError, read_number, read_object, read_string, require
 from lib.tally import Tally, parse_tally
 
 ROOT = Path(__file__).resolve().parents[3]
+SESSIONS = ROOT / ".claude" / "costs" / "sessions"
 
 
 @dataclass
@@ -120,10 +121,11 @@ def json_text(value: Any) -> str:
 
 
 def row_text(cost: SessionCost) -> str:
-    """`estimate` leads the row, so a pull request's diff of it opens on the one
-    field a person sets."""
+    """A row opens on what the session cost, `total`, then on what the work was
+    worth, `estimate` — the one field set by a command rather than read off
+    the transcript."""
     row = to_json(cost)
-    return _dumped({"estimate": row.pop("estimate"), **row})
+    return _dumped({"total": row.pop("total"), "estimate": row.pop("estimate"), **row})
 
 
 def write_atomic(out: Path, contents: str) -> None:
@@ -136,6 +138,11 @@ def write_atomic(out: Path, contents: str) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     staged.write_text(contents, encoding="utf-8")
     os.replace(staged, out)
+
+
+def row_path(session_id: str) -> Optional[Path]:
+    found = sorted(SESSIONS.glob(f"*/{session_id}.json"))
+    return found[0] if found else None
 
 
 def pending_estimate_path(session_id: str) -> Path:

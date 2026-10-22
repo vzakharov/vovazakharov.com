@@ -8,11 +8,13 @@
  */
 
 import {
+  type CapWide,
   type ChanterelleGenes,
   domeHeight,
   hasTrumpet,
   type MushroomGenes,
-  type MushroomShape,
+  type OfSpecies,
+  type StemShaped,
 } from './mushroom-genes';
 
 /**
@@ -57,8 +59,7 @@ const FRONT_SAG = 0.6;
 /** How far out a russula's dish reaches, in its half-width: the shoulders round it stand higher than its middle. */
 const DISH_REACH = 0.55;
 
-type Stem = Pick<MushroomGenes, 'species'> &
-  Pick<MushroomShape, 'stemWidth' | 'footBulge'>;
+type Stem = OfSpecies & StemShaped;
 
 /**
  * The stem's half-width `t` of the way from its foot to its top, where every
@@ -93,7 +94,7 @@ export function stemHalfWidth(genes: Stem, t: number): number {
 }
 
 /** How far across its cap `x` is, from 0 at the middle to 1 at either rim. */
-function acrossOf(genes: Pick<MushroomShape, 'capWidth'>, x: number): number {
+function acrossOf(genes: CapWide, x: number): number {
   return Math.min(1, Math.abs((2 * x) / genes.capWidth));
 }
 

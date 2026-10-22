@@ -10,13 +10,14 @@
  * leg off from where it last drew the insect.
  */
 
-import type { Leg } from './flight';
+import type { Leaving } from './flight';
+import type { Arriving } from './flight-timing';
 import type { Point } from './geometry';
 import { LANDING } from './insect-motion';
 import { type Phased, roundAt, smooth, wave } from './motion';
 
 /** A stay on a perch: when the insect landed there, and when it is due to leave. */
-type Sitting = Pick<Leg, 'arrives' | 'leaves'>;
+type Sitting = Arriving & Leaving;
 
 /** How long a sitter takes to start fidgeting after its landing's bob, and to still before it leaves, in ms. */
 const EASE_IN = 300;

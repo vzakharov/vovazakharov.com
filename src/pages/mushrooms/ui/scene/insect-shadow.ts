@@ -10,6 +10,7 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/shared/lib/collections';
 
+import type { Ordinate } from '../../model/geometry';
 import type { Layered } from '../../model/ground';
 import { depthOf, UNPLACED } from './bed-place';
 import type { ShadowLayer } from './mushroom-light';
@@ -36,7 +37,7 @@ const NEARER = -0.5;
 const DRAWN_HALF = 32;
 
 /** A shadow as `view` lays it on the screen, in CSS px, at what depth, and how dark. */
-export type ShadowPlace = ShadowLayer & Pick<Placed, 'y'> & Layered;
+export type ShadowPlace = ShadowLayer & Ordinate & Layered;
 
 /**
  * Where `view` lays the shadow of an insect `span` CSS px across at its own

@@ -1,32 +1,61 @@
 import type { Slugged } from '@/shared/content';
 import type { Locale } from '@/shared/i18n';
+import type { Script } from '@/shared/lib/script-preference';
 import type { Playable } from '@/shared/music-catalogue';
-import type { LabeledLink, Titled } from '@/shared/typings';
+import {
+  type Spelled,
+  spelledText,
+  type WithSpelledName,
+} from '@/shared/music-catalogue/index.node-safe';
+import type { Linked, Seeded } from '@/shared/typings';
 
-/** A song's title as one locale shows it, and whether it is set in italics as a romanization. */
-export type SongName = Titled & { transliterated: boolean };
+/** A name linked to its page — an artist on a billing, a tile on a grid. */
+export type SpelledLink = Linked & WithSpelledName;
 
 /** A song's billing, each artist linked to its page and the joins between them as text. */
-export type Billing = Array<LabeledLink | string>;
+export type Billing = Array<SpelledLink | string>;
 
-/** The billing as one line of text, for where a link cannot go. */
-export function billingText(billing: Billing): string {
+/** The billing as one line of text in the reader's script, for where a link cannot go. */
+export function billingText(billing: Billing, script?: Script): string {
   return billing
-    .map((part) => (typeof part === 'string' ? part : part.label))
+    .map((part) =>
+      typeof part === 'string' ? part : spelledText(part.name, script),
+    )
     .join('');
 }
+
+/** The two files the player chooses between. */
+export type Streamed = {
+  /** The URL of the file the player plays where the reader asks for lossless, `playedName`'s. */
+  audio: string;
+  /** What the player plays otherwise. */
+  mp3: string;
+};
 
 /**
  * A song as the player needs it: resolved at build time from the collection and
  * handed to the client as props, so no part of the content pipeline is shipped.
  */
 export type PlayerTrack = Slugged &
-  Playable & {
+  Playable &
+  Streamed & {
     /** What the song is called in each language, how it is billed, and where each is served. */
-    titles: Record<Locale, SongName>;
+    titles: Record<Locale, Spelled>;
     billing: Record<Locale, Billing>;
     routes: Record<Locale, string>;
   };
+
+export function trackSource(track: PlayerTrack, lossless: boolean): string {
+  return lossless ? track.audio : track.mp3;
+}
+
+/** Whether lossless plays anything else: a song mastered as an MP3 has no other file. */
+export function hasLossless({ audio, mp3 }: Streamed) {
+  return audio !== mp3;
+}
+
+/** A track, as the one a control or a slot is about. */
+export type WithTrack = { track: PlayerTrack };
 
 /** Tracks by catalogue position — the listed songs in collection order, then any appended. */
 export type WithTracks = { tracks: PlayerTrack[] };
@@ -37,18 +66,39 @@ export type WithTracks = { tracks: PlayerTrack[] };
  * a random pick per skip, which is what makes a shuffled queue stable in both
  * directions: whatever `next` reached, `previous` returns to.
  */
-export type PlayerState = {
-  /** How many tracks the player knows, which is the position the next one takes. */
-  trackCount: number;
+export type PlayerState = PlayOrder &
+  QueuePositions &
+  Playing & {
+    /** How many tracks the player knows, which is the position the next one takes. */
+    trackCount: number;
+    shuffled: boolean;
+  };
+
+export type Playing = { playing: boolean };
+
+type QueuePositions = {
   /** The queue's positions in their own order, which unshuffling returns to. */
   queue: number[];
-  /** The queue's positions in play order — `queue` itself until shuffled. */
-  order: number[];
-  /** Where in `order` playback sits, or -1 before anything has been chosen. */
-  cursor: number;
-  shuffled: boolean;
-  playing: boolean;
 };
+
+/** Where in the play order playback sits, -1 before anything has been chosen. */
+type Cursored = { cursor: number };
+
+/**
+ * Catalogue positions in the order they play — a player's `queue` itself until
+ * shuffled — and where in it playback sits.
+ */
+export type PlayOrder = Cursored & { order: number[] };
+
+/** What a shuffle is drawn from, its `segues` from `seguePositions`. */
+type Shuffling = Seeded & { segues?: ReadonlySet<number> };
+
+/** The catalogue positions whose track runs into the next one. */
+export function seguePositions(tracks: readonly Playable[]): Set<number> {
+  return new Set(
+    tracks.flatMap(({ segue }, position) => (segue ? [position] : [])),
+  );
+}
 
 export type PlayerAction =
   /**
@@ -70,9 +120,9 @@ export type PlayerAction =
   /** One track forward or back, wrapping at either end. */
   | { type: 'step'; by: 1 | -1 }
   /** Turns shuffle on with this seed, or off; the current track stays playing. */
-  | { type: 'shuffle'; seed: number }
+  | ({ type: 'shuffle' } & Shuffling)
   /** A fresh shuffle of the whole queue, played from its top. */
-  | { type: 'shuffleAll'; seed: number }
+  | ({ type: 'shuffleAll' } & Shuffling)
   /** The element reporting what it is actually doing. */
   | { type: 'playback'; playing: boolean };
 
@@ -114,7 +164,7 @@ export function currentTrack(state: PlayerState): number | undefined {
  * button asks to decide between starting the album and pausing it.
  */
 export function isQueued(
-  { queue, cursor }: Pick<PlayerState, 'queue' | 'cursor'>,
+  { queue, cursor }: QueuePositions & Cursored,
   positions: readonly number[],
 ): boolean {
   return (
@@ -164,27 +214,53 @@ function randomFrom(seed: number): () => number {
 }
 
 /**
- * A permutation of the queue's positions, with `first` moved to the front so
- * turning shuffle on does not interrupt what is playing.
+ * The queue cut into runs that play as one: a position that segues takes the
+ * next one in the queue with it, which is its release's next track because a
+ * queue holds each album in track order.
+ */
+function segueRuns(
+  queue: readonly number[],
+  segues: ReadonlySet<number>,
+): number[][] {
+  const runs: number[][] = [];
+
+  for (const [at, position] of queue.entries()) {
+    const previous = runs.at(-1);
+    const joined = at > 0 && segues.has(queue[at - 1] ?? -1);
+
+    if (joined && previous !== undefined) previous.push(position);
+    else runs.push([position]);
+  }
+
+  return runs;
+}
+
+/**
+ * A permutation of the queue's positions, a song that segues never parted from
+ * the one it runs into, with `first`'s run moved to the front so turning
+ * shuffle on does not interrupt what is playing.
  */
 export function shuffleOrder(
   queue: readonly number[],
   first: number | undefined,
   seed: number,
+  segues: ReadonlySet<number> = new Set(),
 ): number[] {
-  const pool = [...queue];
+  const pool = segueRuns(queue, segues);
   const random = randomFrom(seed);
-  const order: number[] = [];
+  const order: number[][] = [];
 
-  // Drawn from a shrinking pool rather than swapped in place, so no position is
-  // ever read back out of an array the type system cannot prove is occupied.
+  // Drawn from a shrinking pool rather than swapped in place, so no run is ever
+  // read back out of an array the type system cannot prove is occupied.
   while (pool.length > 0) {
     order.push(...pool.splice(Math.floor(random() * pool.length), 1));
   }
 
-  return first === undefined
-    ? order
-    : [first, ...order.filter((position) => position !== first)];
+  const leading = order.filter(
+    (run) => first !== undefined && run.includes(first),
+  );
+
+  return [...leading, ...order.filter((run) => !leading.includes(run))].flat();
 }
 
 function select(state: PlayerState, track: number): PlayerState {
@@ -234,24 +310,46 @@ function toggle(state: PlayerState): PlayerState {
   return cursor < 0 ? state : { ...state, playing: !playing };
 }
 
+/**
+ * Where a step lands in an order of `length`, wrapping at either end. From
+ * nothing, forward starts at the top and back at the end — which is what a
+ * wrapping cursor gives for free.
+ */
+function stepped(cursor: number, by: 1 | -1, length: number): number {
+  return (cursor + by + length) % length;
+}
+
 function step(state: PlayerState, by: 1 | -1): PlayerState {
   const { order, cursor } = state;
 
   if (order.length === 0) return state;
 
-  // From nothing, forward starts at the top of the queue and back at its end —
-  // which is what a wrapping cursor gives for free.
-  return {
-    ...state,
-    cursor: (cursor + by + order.length) % order.length,
-    playing: true,
-  };
+  return { ...state, cursor: stepped(cursor, by, order.length), playing: true };
 }
 
-function reshuffle(state: PlayerState, seed: number): PlayerState {
+/**
+ * The catalogue position a step forward would play — what the player loads
+ * ahead of it. Nothing before anything plays, nor where the queue holds one
+ * track, which would be the one already loaded.
+ */
+export function upcomingTrack({
+  order,
+  cursor,
+}: PlayOrder): number | undefined {
+  if (cursor < 0 || order.length < 2) return undefined;
+
+  return order[stepped(cursor, 1, order.length)];
+}
+
+function reshuffle(
+  state: PlayerState,
+  { seed, segues }: Shuffling,
+): PlayerState {
   const track = currentTrack(state);
   const shuffled = !state.shuffled;
-  const order = shuffled ? shuffleOrder(state.queue, track, seed) : state.queue;
+  const order = shuffled
+    ? shuffleOrder(state.queue, track, seed, segues)
+    : state.queue;
 
   return {
     ...state,
@@ -262,7 +360,10 @@ function reshuffle(state: PlayerState, seed: number): PlayerState {
 }
 
 /** Puts the whole catalogue back as the queue, whatever album held it. */
-function shuffleAll(state: PlayerState, seed: number): PlayerState {
+function shuffleAll(
+  state: PlayerState,
+  { seed, segues }: Shuffling,
+): PlayerState {
   const { trackCount } = state;
 
   if (trackCount === 0) return state;
@@ -271,7 +372,7 @@ function shuffleAll(state: PlayerState, seed: number): PlayerState {
 
   return {
     ...catalogue,
-    order: shuffleOrder(catalogue.queue, undefined, seed),
+    order: shuffleOrder(catalogue.queue, undefined, seed, segues),
     cursor: 0,
     shuffled: true,
     playing: true,
@@ -292,8 +393,8 @@ export function playerReducer(
   if (action.type === 'queue') return enqueue(state, action.positions);
   if (action.type === 'toggle') return toggle(state);
   if (action.type === 'step') return step(state, action.by);
-  if (action.type === 'shuffle') return reshuffle(state, action.seed);
-  if (action.type === 'shuffleAll') return shuffleAll(state, action.seed);
+  if (action.type === 'shuffle') return reshuffle(state, action);
+  if (action.type === 'shuffleAll') return shuffleAll(state, action);
 
   const { playing } = action;
 

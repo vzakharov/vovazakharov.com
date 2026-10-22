@@ -1,23 +1,31 @@
 import { Box, Text } from '@mantine/core';
 import Image from 'next/image';
+import type { ReactNode } from 'react';
 
-import type { LabeledLink, MaybeTitled } from '@/shared/typings';
+import type { Slugged } from '@/shared/content';
+import { cx } from '@/shared/lib/class-names';
+import type { Spelled } from '@/shared/music-catalogue/index.node-safe';
+import type { MaybeTitled } from '@/shared/typings';
 import { NameLink, Subheading } from '@/shared/ui';
 
+import type { SpelledLink } from '../lib/player-state';
+import { tileHue } from '../lib/tile-hue';
 import classes from './music.module.scss';
-import { SongName } from './song-name';
+import { Spelling } from './spelling';
+import { WipMark, type WipNoted } from './wip-mark';
 
 /**
  * A tile linking to an artist, an album or a single: its art with its name
- * under it, or its name set on a tinted square where it has none — never both,
- * so the name reads once — then an optional `detail` line under the square.
+ * under it, or its name set on a gradient hued by its slug where it has none —
+ * never both, so the name reads once — then an optional `detail` line under the
+ * square.
  */
-type CatalogueTile = LabeledLink & {
-  cover?: string;
-  detail?: string;
-  /** The label is a romanized song title, set in italics. */
-  transliterated?: boolean;
-};
+type CatalogueTile = SpelledLink &
+  Slugged &
+  WipNoted & {
+    cover?: string;
+    detail?: ReactNode;
+  };
 
 /** Untitled under a heading of the page's own, as the index's tabs are. */
 export type CatalogueGridProps = MaybeTitled & { tiles: CatalogueTile[] };
@@ -31,26 +39,42 @@ export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
       {title !== undefined && <Subheading>{title}</Subheading>}
 
       <ul className={classes['tileGrid']}>
-        {tiles.map(({ href, label, cover, detail, transliterated = false }) => {
-          // The name's link stretches over the whole tile.
+        {tiles.map(({ href, slug, name, cover, detail, wip }) => {
+          // The name's link stretches over the whole tile; the sign follows it
+          // outside the link, a button being no anchor's content.
           const link = (
-            <NameLink {...{ href }} c="inherit" className={classes['tileLink']}>
-              <SongName title={label} {...{ transliterated }} />
-            </NameLink>
+            <span>
+              <NameLink
+                {...{ href }}
+                c="inherit"
+                className={classes['tileLink']}
+              >
+                <Spelling {...name} />
+              </NameLink>
+              {wip !== undefined && (
+                <>
+                  {' '}
+                  <WipMark note={wip} size="0.7em" />
+                </>
+              )}
+            </span>
           );
 
           return (
             <li key={href} className={classes['tile']}>
               {cover === undefined ? (
-                <div className={classes['tileArt']}>
+                <Box
+                  className={cx(classes['tileArt'], classes['tileArtless'])}
+                  style={{ '--tile-hue': tileHue(slug) }}
+                >
                   <Box
                     component="span"
                     className={classes['tileName']}
-                    style={{ '--tile-word': longestWord(label) }}
+                    style={{ '--tile-word': longestWord(name) }}
                   >
                     {link}
                   </Box>
-                </div>
+                </Box>
               ) : (
                 <>
                   <div className={classes['tileArt']} aria-hidden>
@@ -82,7 +106,12 @@ export function CatalogueGrid({ title, tiles }: CatalogueGridProps) {
   );
 }
 
-/** The letters in the name's longest word, which the type on the square is sized to fit unbroken. */
-function longestWord(name: string): number {
-  return Math.max(...name.split(/\s+/u).map((word) => word.length));
+/**
+ * The letters in the name's longest word, in whichever spelling's is longer,
+ * which the type on the square is sized to fit unbroken.
+ */
+function longestWord({ original, latin = '' }: Spelled): number {
+  return Math.max(
+    ...`${original} ${latin}`.split(/\s+/u).map((word) => word.length),
+  );
 }

@@ -2,12 +2,13 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { byLocale } from '@/shared/i18n';
+import { byLocale, type Locale, LOCALES } from '@/shared/i18n';
+import { composeSchemas } from '@/shared/lib/compose-schemas';
 
 // The leaf rather than the barrel: `shared/content` registers this schema, so
 // entering it by its barrel would close an import cycle at module evaluation.
 import { baseFrontmatterSchema } from '../content/frontmatter';
-import { MUSIC_ALBUM_SLUGS, MUSIC_PROJECT_NAMES } from './names';
+import { albumSchema, projectSchema } from './names';
 import { creditedNameSchema } from './people';
 import { songDateSchema } from './song-date';
 
@@ -47,29 +48,84 @@ const songLanguageSchema = z.enum(SONG_LANGUAGES);
 
 const sungLanguageSchema = songLanguageSchema.exclude(['instrumental']);
 
-/** What a locale's reader is told of a title it keeps but may not read or understand. */
+/** What a locale's reader is told of a title it keeps but may not understand. */
 const titleGlossSchema = z.object({
-  /**
-   * The title in this locale's letters — Latin under `en`, Cyrillic under `ru`.
-   * The page shows it only where the title is in a script its reader does not
-   * read, so a Russian title wants one under `en` and none under `ru`.
-   */
-  transliteration: z.string().min(1).optional(),
   /** The title in this locale's language, where the title is in another. */
-  translation: z.string().min(1).optional(),
+  translation: z.string().min(1),
 });
 
 export type TitleGloss = z.infer<typeof titleGlossSchema>;
 
-/** A song's strings in one locale. */
-const songTextSchema = z.object({
-  /**
-   * Absent where the locale keeps the song's own title, as most do. A string
-   * is the name the song goes by in this locale instead — `breathe` is _Breathe_
-   * and _Повелитель ветра_ — and a gloss keeps the title and explains it.
-   */
-  title: z.union([z.string().min(1), titleGlossSchema]).optional(),
-  description: z.string().min(1),
+/** A song's, an album's or an artist's hook in one locale, and its page's meta description. */
+const hookedSchema = z.object({ hook: z.string().min(1).optional() });
+
+/**
+ * A hook in one locale and not the other fails the build instead of publishing
+ * a half-translated catalogue quietly.
+ */
+const HOOK_IN_EVERY_LOCALE_OR_NONE = [
+  (page: Record<Locale, z.infer<typeof hookedSchema>>) =>
+    new Set(LOCALES.map((locale) => page[locale].hook === undefined)).size ===
+    1,
+  { message: 'A hook is written in every locale or in none.' },
+] as const;
+
+/**
+ * A name in one locale: absent where the locale keeps its own, as most do.
+ * A string is the name it goes by in this locale instead — `breathe` is
+ * _Breathe_ and _Повелитель ветра_ — and a gloss keeps the name and explains it.
+ */
+const localNameSchema = z.union([z.string().min(1), titleGlossSchema]);
+
+export type LocalName = z.infer<typeof localNameSchema>;
+
+/**
+ * An album's frontmatter, a key per locale as a song's. Its slug is its file
+ * name, and its cover is `albumCover`'s to find.
+ */
+export const albumFrontmatterSchema = z
+  .object({
+    /** What the release is called, in the language it is called in. */
+    title: z.string().min(1),
+    /** Whose release it is, which can differ from a song's own billing. */
+    artist: projectSchema,
+    /** The release is still being made, so its songs and their order may change. */
+    wip: z.literal(true).optional(),
+  })
+  .extend(
+    byLocale(() =>
+      hookedSchema
+        .extend({
+          title: localNameSchema.optional(),
+          /**
+           * Whose release it is in this locale, where one release went out
+           * under two names: `vagabond` is GENERATED's to the Western
+           * services and Полуживые's to the Russian ones.
+           */
+          artist: projectSchema.optional(),
+        })
+        .default({}),
+    ),
+  )
+  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
+
+/**
+ * An artist's frontmatter, a key per locale as a song's. Its slug is its file
+ * name, and its `name` is what a song's `project` bills it by.
+ */
+export const artistFrontmatterSchema = z
+  .object({
+    name: projectSchema,
+  })
+  .extend(
+    byLocale(() =>
+      hookedSchema.extend({ name: localNameSchema.optional() }).default({}),
+    ),
+  )
+  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE);
+
+/** A song's strings in one locale, its title aside. */
+const untitledSongTextSchema = hookedSchema.extend({
   /**
    * What the crib beside the words is, in place of the stock line — whose
    * translation it is, or that the column is the original. One line of markdown.
@@ -77,7 +133,12 @@ const songTextSchema = z.object({
   cribNote: z.string().min(1).optional(),
 });
 
-export type SongText = z.infer<typeof songTextSchema>;
+export type UntitledSongText = z.infer<typeof untitledSongTextSchema>;
+
+/** A song's strings in one locale. */
+const songTextSchema = untitledSongTextSchema.extend({
+  title: localNameSchema.optional(),
+});
 
 /**
  * Who wrote which half, in contribution order rather than billing order. Absent
@@ -88,7 +149,19 @@ const creditsSchema = z.object({
   music: z.array(creditedNameSchema).min(1).optional(),
 });
 
-const albumSchema = z.enum(MUSIC_ALBUM_SLUGS);
+/** What a credits line reads: who wrote the song, and what it is sung in. */
+const creditedSongSchema = z.object({
+  /**
+   * One language, or a list where a song is sung in several — the main one
+   * first, whose words the page shows.
+   */
+  language: z
+    .union([songLanguageSchema, z.array(songLanguageSchema).min(1)])
+    .transform((language) => (Array.isArray(language) ? language : [language])),
+  credits: creditsSchema.optional(),
+});
+
+export type CreditedSong = z.infer<typeof creditedSongSchema>;
 
 /**
  * A song's number on a release — required there and refused on a single, so
@@ -97,22 +170,69 @@ const albumSchema = z.enum(MUSIC_ALBUM_SLUGS);
  */
 const trackSchema = z.number().int().positive();
 
+/** A song's number on the one release in view. */
+const trackedSchema = z.object({ track: trackSchema });
+
+export type Tracked = z.infer<typeof trackedSchema>;
+
 /** Where on a release a song sits. */
-const placementSchema = z.object({ album: albumSchema, track: trackSchema });
+const placementSchema = trackedSchema.extend({ album: albumSchema });
 
 export type AlbumPlacement = z.infer<typeof placementSchema>;
+
+/** Every release a song is on. */
+const releasedSchema = z.object({
+  /**
+   * The release it came out on; `null` for a single. Required, so a song whose
+   * release nobody has decided yet cannot pass for a single by omission.
+   */
+  album: albumSchema.nullable(),
+  track: trackSchema.optional(),
+  /**
+   * The other releases the same master went out on — a maxi-single, a
+   * compilation — each at its own number there. The song's page and its
+   * links stay one; `album` remains the release it is filed under.
+   */
+  alsoOn: z.array(placementSchema).min(1).optional(),
+});
+
+export type Released = z.infer<typeof releasedSchema>;
+
+/**
+ * The words keep their script beside the romanization rather than giving way
+ * to it — a sacred text, whose letters are not to be replaced. The title is a
+ * name, and switches as any other does.
+ */
+const scriptKeptSchema = z.object({ keepsScript: z.boolean().default(false) });
+
+export type ScriptKept = z.infer<typeof scriptKeptSchema>;
 
 /** A URL, or a site-root path for a file the site hosts itself. */
 const mediaSourceSchema = z.union([z.url(), z.string().regex(/^\/(?!\/)/)]);
 
-/** What the player needs of a song, and all it needs. */
-const playableSchema = z.object({
+const repoHeldSchema = z.object({
   /**
-   * The master, played as-is — site-hosted where no repository holds it. One
-   * field, not a lossless/lossy pair: a song has one master, so a second would
-   * be the same file twice.
+   * Its repository under the `vovas-music` organization, whose `main` holds
+   * every file the song is played and downloaded from, at its root under the
+   * names `pnpm music:masters tag` derives.
    */
-  audio: mediaSourceSchema,
+  repo: z.string().min(1),
+});
+
+export type RepoHeld = z.infer<typeof repoHeldSchema>;
+
+const masteredSchema = z.object({
+  /**
+   * The master is itself an MP3, there being no lossless one; otherwise it is
+   * a FLAC beside an MP3 copy and an MP4 rewrap the player streams on lossless.
+   */
+  lossy: z.boolean().default(false),
+});
+
+export type Mastered = z.infer<typeof masteredSchema>;
+
+/** What the player needs of a song beside the files it plays. */
+const playableSchema = z.object({
   /**
    * The master's duration, read off its own FLAC header by the scaffolder. A
    * cache, and safe to be one because a master never changes — it is what lets
@@ -121,81 +241,74 @@ const playableSchema = z.object({
   seconds: z.number().int().positive(),
   /** Read off the 🅴 in the master's file name by the scaffolder. */
   explicit: z.boolean().default(false),
+  /**
+   * The song runs straight into its release's next track, so a shuffle keeps
+   * the two together, in order.
+   */
+  segue: z.boolean().default(false),
 });
 
 export type Playable = z.infer<typeof playableSchema>;
 
-const songFieldsSchema = baseFrontmatterSchema
-  .extend(playableSchema.shape)
-  .extend({
-    date: songDateSchema,
-    /**
-     * The song's own name — in the language it is sung in, or the English one
-     * where neither locale's is that. A locale states one only where it differs.
-     */
-    title: z.string().min(1),
-    status: z.enum(SONG_STATUSES),
-    /**
-     * One language, or a list where a song is sung in several — the main one
-     * first, whose words the page shows.
-     */
-    language: z
-      .union([songLanguageSchema, z.array(songLanguageSchema).min(1)])
-      .transform((language) =>
-        Array.isArray(language) ? language : [language],
-      ),
-    /**
-     * The artist first, whoever is featured after it — a feature meaning the song
-     * can be shown to the people the other project is shown to.
-     */
-    project: z.array(z.enum(MUSIC_PROJECT_NAMES)).min(1),
-    /** Its repository under the `vovas-music` organization; absent where none holds it. */
-    repo: z.string().min(1).optional(),
-    /**
-     * The release it came out on; `null` for a single. Required, so a song whose
-     * release nobody has decided yet cannot pass for a single by omission.
-     */
-    album: albumSchema.nullable(),
-    track: trackSchema.optional(),
-    /**
-     * The other releases the same master went out on — a maxi-single, a
-     * compilation — each at its own number there. The song's page and its
-     * links stay one; `album` remains the release it is filed under.
-     */
-    alsoOn: z.array(placementSchema).min(1).optional(),
-    /** What the title is in, where that is not the language sung first. */
-    titleLanguage: sungLanguageSchema.optional(),
-    /**
-     * The title is a romanization — `Mithqāl` — and is set in italics wherever
-     * it shows, as a transliteration is. A locale's own name for the song is not.
-     */
-    titleTransliterated: z.boolean().default(false),
-    credits: creditsSchema.optional(),
-    video: z
-      .object({
-        src: mediaSourceSchema,
-        /**
-         * Where the master's start falls on the video's timeline, in seconds —
-         * negative where the video starts after it. A video is cut on its own,
-         * so opening it mid-song lands on the same moment only with this.
-         * `scripts/song-intake/video-offset.py` measures it.
-         */
-        offsetSeconds: z.number(),
-      })
-      .optional(),
-    /** Track id, where the song is also on Spotify. */
-    spotify: z.string().min(1).optional(),
-  });
+const songFieldsSchema = composeSchemas(
+  baseFrontmatterSchema,
+  playableSchema,
+  repoHeldSchema,
+  masteredSchema,
+  creditedSongSchema,
+  releasedSchema,
+  scriptKeptSchema,
+).extend({
+  date: songDateSchema,
+  /**
+   * The song's own name — in the language it is sung in, or the English one
+   * where neither locale's is that. A locale states one only where it differs.
+   */
+  title: z.string().min(1),
+  status: z.enum(SONG_STATUSES),
+  /**
+   * The artist first, whoever is featured after it — a feature meaning the song
+   * can be shown to the people the other project is shown to.
+   */
+  project: z.array(projectSchema).min(1),
+  /**
+   * The MP3's size, which the songs feeds' enclosures state — recorded by the
+   * tag run rather than fetched, so a deploy depends on no request to the
+   * file's host.
+   */
+  mp3Bytes: z.number().int().positive(),
+  /** What the title is in, where that is not the language sung first. */
+  titleLanguage: sungLanguageSchema.optional(),
+  /**
+   * The title in Latin letters, written by hand: for a script no rule
+   * romanizes (`Mithqāl`), or a name with an established Latin spelling.
+   */
+  titleLatin: z.string().min(1).optional(),
+  video: z
+    .object({
+      src: mediaSourceSchema,
+      /**
+       * Where the master's start falls on the video's timeline, in seconds —
+       * negative where the video starts after it. A video is cut on its own,
+       * so opening it mid-song lands on the same moment only with this.
+       * `scripts/song-intake/video-offset.py` measures it.
+       */
+      offsetSeconds: z.number(),
+    })
+    .optional(),
+  /** Track id, where the song is also on Spotify. */
+  spotify: z.string().min(1).optional(),
+});
 
 /**
  * One file per song, both languages in it: the language-agnostic half — dates,
  * masters, credits, the words — is the bigger half, so a file per locale would
- * duplicate most of it. A key per locale, each required, which is what makes it
- * exhaustive: a document carrying `en` and no `ru` fails the build instead of
- * publishing a half-translated catalogue quietly.
+ * duplicate most of it. A key per locale, absent where the locale has nothing to
+ * say.
  */
 export const songFrontmatterSchema = songFieldsSchema
-  .extend(byLocale(() => songTextSchema))
+  .extend(byLocale(() => songTextSchema.default({})))
+  .refine(...HOOK_IN_EVERY_LOCALE_OR_NONE)
   .refine(({ album, track }) => (album === null) === (track === undefined), {
     message:
       'A song on an album takes a track number, and a single takes none.',

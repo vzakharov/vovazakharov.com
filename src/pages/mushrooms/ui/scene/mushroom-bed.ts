@@ -57,12 +57,15 @@ const SHADOW_NEARER = -0.5;
 /** A mushroom as `repaintsDue` weighs it, with the mushroom itself. */
 type Repainting = Hazing & Dusking & { shown: Shown };
 
+export type DoorSeating = { seatedDoor: (id: string) => DoorPlace | undefined };
+export type Sporing = { readonly spores: SporeBed };
+
 /**
  * The meadow's mushrooms on screen, reconciled with the state by id: a new
  * one grows out of the ground, a removed one sinks back into it and is
  * destroyed once it has, and every one stands where the layout stands its foot.
  */
-export class MushroomBed implements Following {
+export class MushroomBed implements Following, DoorSeating, Sporing {
   private readonly shown = new Map<string, Shown>();
   /** The view it last followed; `undefined` while it stands as laid out. */
   private view: View | undefined;

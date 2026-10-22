@@ -1,9 +1,11 @@
 import * as Phaser from 'phaser';
 
+import type { Hushing } from '@/shared/typings';
+
 import { playTheMeadow } from './instrument-input';
-import type { MapView } from './map-view';
-import type { MeadowKeeping } from './meadow-keeping';
-import type { MeadowSound } from './sound';
+import type { Unfolding } from './map-view';
+import type { Binding } from './meadow-keeping';
+import type { Waking } from './sound';
 
 type Played = Parameters<typeof playTheMeadow>;
 
@@ -20,13 +22,13 @@ type MeadowPieces = {
   eye: Played[3];
   planter: Played[4];
   /** Started on a tap's release, as a browser lets sound start only there. */
-  voice: Pick<MeadowSound, 'start' | 'stop'>;
+  voice: Waking & Hushing;
   /** The meadow's keys wait while it is open. */
-  map: Pick<MapView, 'open'>;
+  map: Unfolding;
   /** The map button's press, which `m` makes too, and `Esc` while the map is open. */
   fold: () => void;
   /** The tab hiding and the hash edited, while the meadow is kept. */
-  keeping: Pick<MeadowKeeping, 'bind'>;
+  keeping: Binding;
 };
 
 /**

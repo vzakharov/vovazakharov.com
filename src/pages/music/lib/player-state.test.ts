@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   billingText,
   currentTrack,
+  hasLossless,
   initialPlayerState,
   isQueued,
   placeTracks,
@@ -11,6 +12,7 @@ import {
   type PlayerState,
   shouldRestart,
   shuffleOrder,
+  upcomingTrack,
 } from './player-state';
 
 const COUNT = 10;
@@ -28,6 +30,16 @@ function playing(
 function queued(positions = ALBUM, state = initialPlayerState(COUNT)) {
   return playerReducer(state, { type: 'queue', positions });
 }
+
+describe('hasLossless', () => {
+  it('holds where a master stands beside the MP3', () => {
+    assert.equal(hasLossless({ audio: '/a.flac', mp3: '/a.mp3' }), true);
+  });
+
+  it('fails where the MP3 is the master', () => {
+    assert.equal(hasLossless({ audio: '/a.mp3', mp3: '/a.mp3' }), false);
+  });
+});
 
 describe('shuffleOrder', () => {
   it('is a permutation of the queue', () => {
@@ -57,6 +69,34 @@ describe('shuffleOrder', () => {
   it('puts the track that is already playing first', () => {
     for (const seed of [1, 2, 3, 42, 9999]) {
       assert.equal(shuffleOrder(EVERY, 6, seed)[0], 6);
+    }
+  });
+
+  it('keeps a song that segues right before the next one in its queue', () => {
+    // 2 runs into 3, and 3 into 4: one run of three.
+    const segues = new Set([2, 3, 8]);
+
+    for (const seed of [1, 2, 3, 42, 9999]) {
+      const order = shuffleOrder(EVERY, undefined, seed, segues);
+      const at = order.indexOf(2);
+
+      assert.deepEqual(order.slice(at, at + 3), [2, 3, 4]);
+      assert.equal(order[order.indexOf(8) + 1], 9);
+      assert.equal(order.length, COUNT);
+    }
+
+    // On an album's queue the next track is the next one listed, not the next position.
+    const album = shuffleOrder(ALBUM, undefined, 5, new Set([7]));
+
+    assert.equal(album[album.indexOf(7) + 1], 2);
+  });
+
+  it('starts from the run of the track already playing, its lead-in first', () => {
+    for (const seed of [1, 2, 3, 42, 9999]) {
+      assert.deepEqual(
+        shuffleOrder(EVERY, 6, seed, new Set([5])).slice(0, 2),
+        [5, 6],
+      );
     }
   });
 });
@@ -99,6 +139,22 @@ describe('the queue', () => {
     assert.equal(currentTrack(restored), 4);
     assert.equal(restored.shuffled, false);
     assert.deepEqual(restored.order, initialPlayerState(COUNT).order);
+  });
+
+  it('names what a step forward would play as upcoming', () => {
+    const shuffled = playerReducer(playing(3), { type: 'shuffle', seed: 2026 });
+
+    for (const state of [playing(3), playing(COUNT - 1), shuffled, queued()]) {
+      assert.equal(
+        upcomingTrack(state),
+        currentTrack(playerReducer(state, { type: 'step', by: 1 })),
+      );
+    }
+  });
+
+  it('has nothing upcoming before anything plays, or in a queue of one', () => {
+    assert.equal(upcomingTrack(initialPlayerState(COUNT)), undefined);
+    assert.equal(upcomingTrack(queued([4])), undefined);
   });
 
   it('ignores a toggle before anything has been chosen', () => {
@@ -282,15 +338,21 @@ describe('shuffling everything', () => {
 });
 
 describe('billingText', () => {
-  it('reads each linked name as its label', () => {
-    assert.equal(
-      billingText([
-        { label: 'GENERATED', href: '/music/artists/generated' },
-        ' feat. ',
-        { label: 'Йухи', href: '/music/artists/yoohie/ru' },
-      ]),
-      'GENERATED feat. Йухи',
-    );
+  const billing = [
+    { name: { original: 'GENERATED' }, href: '/music/artists/generated' },
+    ' feat. ',
+    {
+      name: { original: 'Полуживые', latin: 'Poluzhivye' },
+      href: '/music/artists/poluzhivye',
+    },
+  ];
+
+  it('reads each name in Latin letters before the reader has chosen', () => {
+    assert.equal(billingText(billing), 'GENERATED feat. Poluzhivye');
+  });
+
+  it('reads each name in the script the reader chose', () => {
+    assert.equal(billingText(billing, 'original'), 'GENERATED feat. Полуживые');
   });
 });
 

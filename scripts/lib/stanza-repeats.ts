@@ -33,12 +33,16 @@ const BETWEEN_BLOCKS = /(\n\s*\n)/;
 /** Offset of the stanza's first character in the file. */
 type WithOffset = { offset: number };
 
+/** A block read as a stanza, before it is placed in its file. */
+type StanzaBlock = WithText & {
+  times: number;
+};
+
 type Stanza = WithOffset &
   // `text`: the lines, trimmed, without a closing `xN`.
-  WithText & {
+  StanzaBlock & {
     /** Index into the section's parts. */
     part: number;
-    times: number;
   };
 
 type Section = Named &
@@ -63,7 +67,7 @@ function closingRepeat(lines: readonly string[]): RegExpExecArray | null {
   return lines.length > 1 ? REPEAT.exec(lines.at(-1)?.trim() ?? '') : null;
 }
 
-function readStanza(block: string): Pick<Stanza, 'text' | 'times'> | undefined {
+function readStanza(block: string): StanzaBlock | undefined {
   const lines = block.split('\n').map((line) => line.trim());
   if (lines.every((line) => NOTE_DEFINITION.test(line))) return undefined;
   const times = closingRepeat(lines);

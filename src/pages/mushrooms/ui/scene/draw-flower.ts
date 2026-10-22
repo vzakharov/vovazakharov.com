@@ -9,7 +9,7 @@ import { type Folding, OPEN, petalPose } from './flower-closing';
 import { petalColour } from './flower-tints';
 import { facingArc, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
-import type { Siding } from './repaint-queue';
+import type { PaintedSide } from './repaint-queue';
 import {
   fillShape,
   inkedDisc,
@@ -220,7 +220,7 @@ export type FlowerPainting = {
    */
   openingLight: Lighting;
   drawIn: (lighting: Lighting) => void;
-} & Pick<Siding, 'paintedSunSide'>;
+} & PaintedSide;
 
 /**
  * Paints a flower as `painting` holds it, in its light from an eye facing

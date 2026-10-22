@@ -143,12 +143,17 @@ export function readVerse(section: string, fileName: string): Stanzas {
   return stanzas;
 }
 
+/** An entry's words, notes left off. */
+export function entryText(entry: LyricLine): string {
+  return entry.map(({ text }) => text).join('');
+}
+
 /**
  * The same verse with its notes left off — for a column the page is not in,
  * whose notes are written in that column's language rather than the reader's.
  */
 export function withoutNotes(stanzas: Stanzas): Stanzas {
   return stanzas.map((stanza) =>
-    stanza.map((line) => [{ text: line.map(({ text }) => text).join('') }]),
+    stanza.map((line) => [{ text: entryText(line) }]),
   );
 }

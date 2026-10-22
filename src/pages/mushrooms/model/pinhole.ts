@@ -52,7 +52,9 @@ export function bendAt(pinhole: Pinhole, x: number): number {
  * eye less the screen's bend there, in the clump's size, the distance a
  * thing of its drawn size stands at the screen's middle.
  */
-export type Viewed = Point & Scaling & { ahead: number };
+export type Viewed = Point & Scaling & Ahead;
+/** How far ahead of the eye a thing stands. */
+export type Ahead = { ahead: number };
 
 /**
  * Where `camera` shows `point` on the plane, `height` above it in the clump's

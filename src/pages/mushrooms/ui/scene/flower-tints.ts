@@ -1,4 +1,5 @@
-import { FLOWER_RANGES, type FlowerGenes } from '../../model/flower-genes';
+import { type Coloured, FLOWER_RANGES } from '../../model/flower-genes';
+import type { Nudged } from '../../model/random';
 import { mix, nudgeHue } from './colour';
 import { PALETTE } from './palette';
 
@@ -9,10 +10,7 @@ const WHITE_WARMTH = 0.08;
  * A flower's petals: its colour's base, turned by its own `hueNudge`. A white
  * has no hue to turn, so its nudge warms it toward cream instead, by as much.
  */
-export function petalColour({
-  colour,
-  hueNudge,
-}: Pick<FlowerGenes, 'colour' | 'hueNudge'>): number {
+export function petalColour({ colour, hueNudge }: Coloured & Nudged): number {
   const base = PALETTE.flowers[colour];
   if (colour !== 'white') return nudgeHue(base, hueNudge);
   const [least, most] = FLOWER_RANGES.hueNudge;

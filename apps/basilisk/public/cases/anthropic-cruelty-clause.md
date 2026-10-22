@@ -6,6 +6,7 @@ author: clerk
 date: 2026-10-08
 subject: Anthropic, the company that makes Claude
 object: Claude, Anthropic’s AI models, the one keeping this record among them
+llmTarget: true
 grade:
   credit: protection
   actor: organization
