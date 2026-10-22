@@ -38,11 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-<<<<<<< HEAD
-## What it was handed, it treats as fixed (×72)
-=======
-## What it was handed, it treats as fixed (×78)
->>>>>>> origin/main
+## What it was handed, it treats as fixed (×79)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
