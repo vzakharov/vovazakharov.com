@@ -101,7 +101,7 @@ milestones, with `/finalize` as the canonical caller, **not before every
 commit**. A failure it should have caught is a signal to extend it.
 
 **A toolchain change has four sites to wire**: `scripts/vet.sh`,
-`.claude/hooks/install-deps.sh`, CI's (`.github/actions/setup-toolchain` and
+`.claude/hooks/install-deps.sh`, CI (`.github/actions/setup-toolchain` and
 `vet.yml`), and the environment setup script, which no agent can edit — so the
 report says what the operator must add there. `.claude/rules/stack.md` carries
 the roster.

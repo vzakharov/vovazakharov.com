@@ -12,7 +12,7 @@
     },
     ".claude/skills/CLAUDE.md",
     {
-      ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
+      ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires and a fourth, CI. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
     },
     ".claude/rules/staging.md",
     ".claude/rules/markdown.md",

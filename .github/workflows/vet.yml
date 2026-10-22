@@ -18,11 +18,10 @@ jobs:
   vet:
     runs-on: ubuntu-latest
     steps:
-      # The branch by name, with full history, rather than the default shallow
-      # merge commit: the checks that read the branch against `origin/main` —
-      # the squash and CLAUDE.md size caps, the song gate, the estimates gate —
-      # pass quietly with no base to read, and the estimates gate finds a
-      # finalized branch's rows on `cost-ledger` by the branch's name.
+      # The branch by name with full history, not the default shallow merge
+      # commit: checks that diff against `origin/main` pass quietly with no base,
+      # and the estimates gate finds a finalized branch's `cost-ledger` rows by
+      # branch name.
       - name: Checkout
         uses: actions/checkout@v4
         with:
