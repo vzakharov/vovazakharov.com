@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-feat(vova): a song's analysis as JSON beside its spectrogram (#194)
-```
+Proposed squash body:
 
 ```
 spectrogram.py measures a song off its four demucs stems, but only a
