@@ -69,14 +69,11 @@ jobs:
       - name: Type check
         run: ./scripts/vet.sh typecheck
 
-  # No `needs`: its checkout and toolchain setup (~15 s) run beside the builds
-  # rather than after them, and it then waits only for their exports. A separate
-  # setup job does not get the same: every job gets a fresh machine, so the one
-  # that `needs` it would set up again, and the pnpm cache already in use leaves
-  # only the checkout and the restore (~10 s), which no cache removes. The gain
-  # lands on the run's wall clock only while this job finishes last; if `source`
-  # becomes the longer path, a plain `needs` costs nothing and wins on
-  # simplicity.
+  # No `needs`: checkout and toolchain setup (~15 s) run beside the builds, and
+  # the job then waits only for their exports. A setup job of its own would not
+  # help — the job that `needs` it gets a fresh machine and still pays checkout
+  # and cache restore (~10 s). This pays only while `built` finishes the run;
+  # once `source` does, a plain `needs` is as fast and simpler.
   built:
     runs-on: ubuntu-latest
     permissions:
@@ -127,9 +124,8 @@ jobs:
 
       # The runner's system Python refuses a pip install (PEP 668), and
       # scripts/song-intake/test_song_facts.py needs numpy. Ungated, unlike the
-      # song checks: the install takes ~4 s and the test under one, while a gate
-      # on whether the branch touched song intake needs the merge base this
-      # one-commit checkout lacks.
+      # song checks: install and test take ~5 s, and a gate on song-intake
+      # changes needs the merge base this one-commit checkout lacks.
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
