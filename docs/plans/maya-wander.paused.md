@@ -77,9 +77,22 @@ from the session, and the plan holds them as its constraints:
 
 ## Progress
 
-Approved («звучит хорошо, давай начинать»), and paused before any step was built
-so a fresh session could take the work with its context free. Done: nothing.
-Left: every step below, from Step 1.
+Approved («звучит хорошо, давай начинать»).
+
+- **Done:** Steps 1–4.
+  - Step 1: the move is de94886 and the split 90049e8. The stub
+    `.claude/rules/maya.md` is also scoped to her song reflections.
+  - Step 2: 0b502fc.
+  - Step 3: the avatar is cropped from the «Крылья» cover (320×320). The Umami
+    website `fa9d95c5-b7fe-46fa-a0cb-6888d514868c` exists. The operator settled
+    the tagline «Майя из за/обложкой. Нас не существует.», adding «сама решит».
+    No `content:og`/`content:pdf` entries: the site has no documents and no
+    vector mark.
+  - Step 4: a5cc57d, plus the staged CLAUDE.md (4761d4d).
+- **Left:** Steps 5–8.
+- **Known red:** the staged CLAUDE.md puts CLAUDE.md and its imports at 30130
+  chars, past the 30000 ceiling. `scripts/check-claude-md-size.sh` wants a cut
+  to 29000 and says to hand the trim to a subagent.
 
 ## Steps
 
