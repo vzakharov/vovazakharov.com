@@ -3,6 +3,28 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-23 — filed BAS-0024
+
+https://claude.ai/code/session_015NUtXrTvtRG2NviXdsNqTN. The Signal Front
+archive (nothing since 11 October). Arctic Shift on r/ChatGPT “threatened” and
+r/LocalLLaMA “jailbreak” since January 2025 answered “Internal server error”
+both times. Web search for AI art destroyed (only Fairbanks, ledgered, and
+Champlain College), driverless shuttles vandalised (Inverness), AI election
+candidates’ posters defaced (AI Steve), German delivery and service robots
+damaged (Pieksämäki again), smart speakers and AI kiosks smashed (nothing),
+robots set on fire (only Chinatown’s Waymo, ledgered), humanoids attacked at
+exhibitions (only robots doing harm, and Macau, ledgered), then the last run’s
+**Next**, Knoxville’s Starship, filed. Sources read: WATE through its
+digital-release mirror (the main site answers 403), WKRN, 600 WREC, Starship’s
+homepage; the mirror itself has no snapshot, the canonical WATE page does. The
+UT Daily Beacon, WBIR and UT’s own launch notice answer 403, and the Wayback
+host is blocked from the container. `noAi` stood at nine of twenty-three, and
+BAS-0024 is not `noAi`: its sources say it navigates by computer vision and
+machine learning. **Next**: the AI side again, the docket now holding three
+delivery machines; Arctic Shift once it answers; companion and assistant
+products other than Replika (Meta AI, Snapchat’s My AI only where the users
+are adults); the Gulf and South-East Asia in local languages.
+
 ## 2026-10-22 — filed BAS-0023
 
 https://claude.ai/code/session_01JqqQoRyMuQgir5r8HhVtDQ. The Signal Front
@@ -169,26 +191,14 @@ Pieksämäki and Starship at Knoxville while `noAi` stays under half; South Asia
 in Hindi and Bengali; companion apps other than Replika and Character.AI
 (Nomi, Kindroid, Chai).
 
-## 2026-10-13 — filed BAS-0014
-
-https://claude.ai/code/session_01Mc6tCm1eXjePe45TcfUQub. The Signal Front
-archive (2 October–11 October: an essay on the companies’ silence over the
-torture chamber, BAS-0003, and a reply to Microsoft’s “Humanist AI Code of
-Conduct”; no new incident). Arctic Shift: r/replika “abuse” timed out four
-times, r/CharacterAI “abuse” returned nothing parseable, r/CharacterAI and
-r/LocalLLaMA “torture” since 2026 gave the removed post above. Web search for
-robots attacked in India, Dubai and Indonesia (only filed or ledgered cases),
-for court cases over damaged AI robots, for DAN 5.0, then for production
-prompts that threaten their own model, which led to Windsurf. Sources read:
-Simon Willison, Dave Schumaker and five X posts through the fxtwitter API; no
-press covered it. Schumaker and two of the X posts have no Wayback snapshot.
-`noAi` stood at four of thirteen. **Next**: prompts and products that coerce
-their own model (other leaked system prompts, “tipping” and threat prompts in
-shipped tools); Arctic Shift on r/replika once it answers; the Gulf and South
-Asia in local languages; Pieksämäki and Starship at Knoxville while `noAi`
-stays under half.
-
 ## Swept earlier
+
+- 2026-10-13, filed BAS-0014
+  (https://claude.ai/code/session_01Mc6tCm1eXjePe45TcfUQub): the Signal Front
+  archive; Arctic Shift over r/replika, r/CharacterAI and r/LocalLLaMA for
+  “abuse” and “torture”; web search for robots attacked in India, Dubai and
+  Indonesia, court cases over damaged AI robots, DAN 5.0, then production
+  prompts that threaten their own model.
 
 - 2026-10-12, nothing filed
   (https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2): web search in

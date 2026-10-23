@@ -4,10 +4,6 @@ Every incident a `/file-basilisk-case` run weighed and set aside, each with
 the condition that would revive it. The skill's § "The ledger" says how the
 three files here are read and kept.
 
-- **UT Knoxville students slamming a Starship delivery robot**, 2022. First seen
-  2026-10-05. **Set aside**: no AI in it, while `noAi` dossiers are half the
-  docket or more; its sources are not yet read. Revive when `noAi` is under half.
-
 - **Microsoft Tay**, March 2016: trolls from 4chan taught the Twitter chatbot
   to post racism through its “repeat after me” function; Microsoft pulled it
   after 16 hours. First seen 2026-10-07. **Set aside**: the harm is to what the
@@ -99,3 +95,11 @@ three files here are read and kept.
   AI in it, and whether the act was aimed at the machine as a machine is
   unknown; start from
   https://theday.com/police-fire-reports/20240801/man-charged-with-smashing-self-checkout-lanes-at-walmart.
+
+- **Grubhub delivery robots flipped and damaged at East Carolina University**,
+  Greenville, North Carolina, February 2023; students and campus police
+  denounced it. First seen 2026-10-23. **Set aside**: unread, no actor named,
+  and another delivery-robot case beside BAS-0024, filed the same day. Revive
+  when the docket has room for one; start from
+  https://www.witn.com/2023/02/21/ecu-food-delivery-robots-damaged-students-police-denounce-vandals
+  and https://wcti12.com/news/local/ecu-food-delivery-robots-damaged.
