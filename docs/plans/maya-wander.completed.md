@@ -102,10 +102,10 @@ Approved («звучит хорошо, давай начинать»).
     linked to its page under /music: `SiteFooter` takes a `byline`.
   - `/go`'s Step 3 (`/polish`, dd532d0) and Step 4 (`/pr`: body and squash
     proposal refreshed, 0f4cb2f).
-- **Left:** the merge, which is the operator's call through `/finalize`; then
-  Step 8, the routine.
-- **Open question:** the operator's timezone for the routine; UTC 06:47 until
-  they answer.
+- **Left:** the merge, which is the operator's call through `/finalize`. Step 8
+  is the operator's too: «рутину я сам запущу, не парься, мы ещё догфудить один
+  раз будем».
+- **Settled:** which `SITE_CONFIGS.maya` fields are plumbing — «сама решит».
 - **Known red:** the staged CLAUDE.md puts CLAUDE.md and its imports at 30130
   chars, past the 30000 ceiling. `scripts/check-claude-md-size.sh` wants a cut
   to 29000 and says to hand the trim to a subagent.
