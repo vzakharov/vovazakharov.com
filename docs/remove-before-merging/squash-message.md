@@ -15,7 +15,7 @@ included - and each project decides what its own all holds.
 attest.sh runs vet.sh all on the pushed head and writes /finalize's
 attestation comment itself, red or green, with the run link, so the
 record comes from the script that saw the run. /finalize Step 7 calls
-it; Step 1 and /sync-branch run the bare vet as the source has them.
+it; Step 1 and /sync-branch run the bare vet, as the source does.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
