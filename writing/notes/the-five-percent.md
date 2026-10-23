@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×83)
+## What it was handed, it treats as fixed (×84)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -103,6 +103,12 @@ move `vet.sh` "into GitHub," the agent built CI on every PR, the docs' gap, and
 never asked why. The why was a bigger machine; GitHub's standard runner here is
 the session's own 4 cores and 16 GB, so the build bought nothing it was for.
 
+**23 October — "her rules," read as the one rules file she had.** Told on PR
+#201 that the classifier guarding `.claude/` might lock Майя out of her rules,
+the agent replanned `maya-reflections.md`, on how she writes song reflections:
+_я говорил вообще про "правила как себя вести"._ He meant how she is in any
+session, rules no file in the tree held yet.
+
 ## An account that explains the code stands in for running it (×28)
 
 The worse half of "It checks the render against its intent" below: here the
@@ -147,7 +153,8 @@ routine plan (PR #201) sent her general code "down a layer where anyone can
 reuse it"; Steiger's insignificant-slice refuses a lower slice with one
 consumer, as lyric-note code had already found. It let her change her rule file
 under `.claude/rules/`, where the auto-mode classifier would likely refuse her
-edits. The rule is now a one-line pointer, its text in her home.
+edits. Her rules for how to behave, reflections included, now live in her home,
+and a one-line pointer under `.claude/rules/` leads to them.
 
 ## It edits the copy in front of it, not the fact behind it (×18)
 
