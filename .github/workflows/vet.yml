@@ -69,9 +69,8 @@ jobs:
       - name: Type check
         run: ./scripts/vet.sh typecheck
 
-  # No `needs`: it sets itself up while the builds run, then waits for their
-  # exports, which a `needs` would hold until GitHub marked every build done —
-  # often well after the last export landed.
+  # No `needs`: its checkout and toolchain setup run beside the builds rather
+  # than after them, and it then waits only for their exports.
   built:
     runs-on: ubuntu-latest
     permissions:

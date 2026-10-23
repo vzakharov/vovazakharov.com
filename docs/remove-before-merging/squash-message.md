@@ -12,11 +12,11 @@ one-machine run is gone.
 vet.sh gains phases, one job each and all starting at once, so the
 workflow names phases and the checks keep one list: one site's build,
 an ESLint shard, the type check, the checks no build feeds, and those
-over the exports, which wait on the builds' uploaded artifacts rather
-than on GitHub marking the jobs done, which can lag the last upload by
-minutes. The lint shards and the type check write route types with
-next typegen instead of waiting on a build, safe because no runner
-builds and checks types in one tree.
+over the exports, which set up beside the builds and then wait on
+their uploaded artifacts, where a needs edge would hold the setup
+until the builds finished. The lint shards and the type check write
+route types with next typegen instead of waiting on a build, safe
+because no runner builds and checks types in one tree.
 
 The checks that read the branch's history or the cost ledger run on
 the caller's machine while the workflow runs: a one-commit checkout
