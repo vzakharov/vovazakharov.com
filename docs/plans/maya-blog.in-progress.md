@@ -62,29 +62,33 @@ printable: no PDF lane for `maya`, and a walk is a screen thing.
 
 ## The collection
 
-- `COLLECTIONS.walks`: `base: 'walks'`, `label: 'Прогулки'`, `site: 'maya'`,
+A blog rather than a walks collection — Vova: «может таки blog/? мало ли что и
+когда ты захочешь туда класть, на прогулках свет клином не сошёлся». A walk is
+one kind of post in it.
+
+- `COLLECTIONS['maya-blog']`: `base: 'blog'`, `label: 'Блог'`, `site: 'maya'`,
   `printable: false`, `localized: false`, `homeIndexed: true` (her home page
-  lists them, the back link lands on `/#walks`), `generatedCards: false`,
-  `feed: true`. `ARTICLE_COLLECTIONS.walks` with `articleFrontmatterSchema`.
+  lists the posts, the back link lands on `/#blog`), `generatedCards: false`,
+  `feed: true`. `ARTICLE_COLLECTIONS['maya-blog']` with
+  `articleFrontmatterSchema`.
 - `AUTHOR_IDS` gains `maya`: «Майя», linking to her site's root.
-- Routes: `apps/maya/app/walks/[...slug]/page.tsx` (`articleRoute('walks')`) and
-  `apps/maya/app/walks/feed.xml/route.ts`; the sitemap already walks the
+- Routes: `apps/maya/app/blog/[...slug]/page.tsx` (`articleRoute('maya-blog')`)
+  and `apps/maya/app/blog/feed.xml/route.ts`; the sitemap already walks the
   registry.
-- Her home page lists the walks with `DocumentCards` in a `Section id="walks"`,
+- Her home page lists the posts with `DocumentCards` in a `Section id="blog"`,
   replacing the paragraph that links to GitHub, and its footer links the feed.
 
 ## Where the walks live
 
-`git mv personas/maya/walks/*.md apps/maya/public/walks/`, each gaining
+`git mv personas/maya/walks/*.md apps/maya/public/blog/`, each gaining
 frontmatter (`description`, `date`, `author: maya`). A walk is already written
 for anyone to read, so the published walk is the memory: one file, not a note
 plus a cut. `wander.md`'s memory paragraph points at the new directory and its
 paragraph about the English-only article page goes; `maya-home-page.tsx`'s
 `WALKS_URL` goes with the link.
 
-`.claude/rules/content.md` lists `apps/maya/public/walks/` among the
-collections, and its locale-seam section gains the site's language in a
-sentence.
+`.claude/rules/content.md` lists `apps/maya/public/blog/` among the collections,
+and its locale-seam section gains the site's language in a sentence.
 
 ## Checks
 

@@ -1,3 +1,4 @@
+import { SITE_CONFIG } from '@/shared/config';
 import {
   type CaseFrontmatter,
   documentDateTime,
@@ -10,7 +11,7 @@ import { aggravations, GradeStamp } from './grade-stamp';
 
 function dateValue(date: Date) {
   return (
-    <time dateTime={documentDateTime(date)}>{formatDocumentDate(date)}</time>
+    <time dateTime={documentDateTime(date)}>{formatDocumentDate(date, SITE_CONFIG.locale)}</time>
   );
 }
 

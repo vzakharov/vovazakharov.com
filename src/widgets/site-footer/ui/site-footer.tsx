@@ -3,11 +3,7 @@ import type { ReactNode } from 'react';
 
 import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
 import { BUILD_YEAR } from '@/shared/config/index.server-only';
-import {
-  DEFAULT_LOCALE,
-  loadMessages,
-  type WithOptionalLocale,
-} from '@/shared/i18n';
+import { loadMessages, type WithOptionalLocale } from '@/shared/i18n';
 import type { WithOptionalChildren } from '@/shared/typings';
 import { cssColor, TextLink } from '@/shared/ui';
 
@@ -32,7 +28,7 @@ export function SiteFooter({
   feed,
   onHomePage = false,
   byline,
-  locale = DEFAULT_LOCALE,
+  locale = SITE_CONFIG.locale,
 }: SiteFooterProps) {
   const { author, url } = SITE_CONFIG;
 

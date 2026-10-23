@@ -12,6 +12,9 @@ import {
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
 import type { Described, MaybeTitled } from '@/shared/typings';
 
+/** Open Graph's tag for each language, which takes a region where BCP-47 needs none. */
+const OG_LOCALES: Record<Locale, string> = { en: 'en_US', ru: 'ru_RU' };
+
 type Addresses = {
   /**
    * Site-root path this page defers to, where two URLs serve one page. Left
@@ -113,7 +116,7 @@ export function constructMetadata({
     },
     openGraph: {
       type: ogType,
-      locale: 'en_US',
+      locale: OG_LOCALES[SITE_CONFIG.locale],
       url: absoluteUrl,
       siteName,
       title: sharedTitle,

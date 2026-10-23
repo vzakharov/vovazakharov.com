@@ -5,6 +5,7 @@
  * each read what they need without the environment read coming along.
  */
 
+import type { Locale } from '@/shared/i18n';
 import type {
   Billed,
   Linked,
@@ -98,6 +99,12 @@ type SiteConfig = Billed &
      */
     listsSources: boolean;
     /**
+     * The language of every page that names none — `<html lang>`, `og:locale`,
+     * an unlocalized collection's chrome and feed. A localized page's own
+     * locale wins over it.
+     */
+    locale: Locale;
+    /**
      * The site's website ID in Umami — public by design, as every page's HTML
      * carries it. A new site gets one at `/stand-up-site`.
      */
@@ -159,6 +166,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: undefined,
     credit: undefined,
     listsSources: false,
+    locale: 'en',
     analyticsId: '06b87bb7-2383-42e5-9625-521627a743b0',
     ...PUBLISHER,
   },
@@ -171,6 +179,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: undefined,
     credit: undefined,
     listsSources: false,
+    locale: 'en',
     analyticsId: '1d5168b8-0a1b-42ff-bf4f-006e903fd1d8',
     ...PUBLISHER,
   },
@@ -190,6 +199,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: { path: '/seal.svg', ...SEAL_SIZE },
     credit: LSA_CREDIT,
     listsSources: false,
+    locale: 'en',
     analyticsId: 'dd2ebf96-920c-478d-a060-708a10e42cf4',
     ...PUBLISHER,
   },
@@ -204,6 +214,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: { path: '/seal.svg', ...SEAL_SIZE },
     credit: LSA_CREDIT,
     listsSources: true,
+    locale: 'en',
     analyticsId: '1a93ed21-a8c1-4054-9ee3-33657a8c40d1',
     ...PUBLISHER,
   },
@@ -218,6 +229,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     seal: undefined,
     credit: undefined,
     listsSources: false,
+    locale: 'ru',
     analyticsId: 'fa9d95c5-b7fe-46fa-a0cb-6888d514868c',
     ...PUBLISHER,
   },

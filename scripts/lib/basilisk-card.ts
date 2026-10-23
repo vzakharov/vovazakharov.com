@@ -217,7 +217,7 @@ export function caseCard({ slug, frontmatter, title }: DocketCase): StagedPage {
         row('Subject', subject),
         row('Object', object),
         ...(place === undefined ? [] : [row('Place', place)]),
-        row('Date', formatDocumentDate(date)),
+        row('Date', formatDocumentDate(date, 'en')),
         row('Grade', gradeLabel(grade)),
       ],
       kicker: `Case ${number} · Filed ${documentDateTime(filed)}`,

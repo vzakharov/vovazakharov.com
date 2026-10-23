@@ -1,4 +1,4 @@
-import { getAbsoluteUrl, SITE_ID } from '@/shared/config';
+import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/shared/config';
 import {
   type CollectionId,
   collectionRoute,
@@ -6,7 +6,7 @@ import {
   findFeed,
   localizedRoute,
 } from '@/shared/content';
-import { DEFAULT_LOCALE, type Locale } from '@/shared/i18n';
+import type { Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { renderRss } from '@/shared/lib/rss';
 
@@ -19,14 +19,14 @@ export function collectionFeed(collection: CollectionId, locale?: Locale) {
     GET: async () => {
       const entries =
         collection === 'music'
-          ? await songFeedEntries(locale ?? DEFAULT_LOCALE)
+          ? await songFeedEntries(locale ?? SITE_CONFIG.locale)
           : await feedEntries(collection);
       const rss = renderRss({
         ...pick(feed, 'title', 'description'),
         link: getAbsoluteUrl(
           localizedRoute(collectionRoute(collection), locale),
         ),
-        language: locale ?? DEFAULT_LOCALE,
+        language: locale ?? SITE_CONFIG.locale,
         self: getAbsoluteUrl(feed.route),
         ...(collection === 'music' ? { podcast: songPodcast() } : {}),
         items: entries
