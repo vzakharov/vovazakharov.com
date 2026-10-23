@@ -95,7 +95,7 @@ format-check, the repo's own gates and the tests, as parallel jobs on GitHub's
 runners from the **pushed** head. It runs at milestones, with `/finalize` as the
 canonical caller, **not before every commit**. A failure it should have caught
 is a signal to extend it. **A check too slow for it goes in `/finalize`'s step
-1, beside it**, which re-runs whole after any merge that brings base commits in.
+1**, which re-runs whole after any merge that brings base commits in.
 
 **A toolchain change has four sites to wire**: `scripts/vet.sh`,
 `.claude/hooks/install-deps.sh`, CI (`.github/actions/setup-toolchain` and
@@ -411,11 +411,11 @@ polar bear. `/tend-prose negation` finds them, and "polar bear here" on a PR
 comment asks for it by name.
 
 **Retiring a doc that the tree still cites leaves a tombstone**, so the citation
-still resolves (history alone needs none: `git log -- <path>` finds it). It
-gives the last commit containing it, the `git show <sha>:<path>` to read it, and
-where live content went. One per retirement, with a row per file: `retired.md`
-at the root of a retired directory, `<name>.retired.md` beside a retired file's
-siblings — so every tombstone matches `*retired.md`.
+still resolves; the file's own history needs none, since `git log -- <path>`
+finds it. One per retirement, a row per cited file giving the last commit that
+held it, the `git show <sha>:<path>` recipe, and where any still-live content
+went — `retired.md` at a retired directory's root, `<name>.retired.md` beside a
+retired file's siblings, so every tombstone matches `*retired.md`.
 
 ## Language
 
