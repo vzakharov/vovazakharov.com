@@ -1,11 +1,17 @@
 #!/bin/bash
-# Vet: the fast checks the agent runs on review-ready work before it merges.
+# Vet: the checks the agent runs on its work.
 #
 # See `.claude/rules/stack.md` for the contract and for why this list is what it
 # is.
 #
-# Bare, it runs every phase below on the pushed head: `local` here, and each of
-# the rest in a job of its own of `.github/workflows/vet.yml`.
+#   scripts/vet.sh                the fast run, here, on the working tree: every
+#                                 phase but the builds and `built`, ESLint over
+#                                 only the files the branch changed
+#   scripts/vet.sh all            every check, on the pushed head: `local` here,
+#                                 each other phase in a job of its own of
+#                                 `.github/workflows/vet.yml`
+#
+# The phases, which `vet.yml`'s jobs call:
 #
 #   scripts/vet.sh build <site>   one site's build
 #   scripts/vet.sh lint <k>/<n>   ESLint over the k-th of n shards of the files
@@ -22,7 +28,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 usage() {
-  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | typecheck | source | built | local]\n' >&2
+  printf 'usage: scripts/vet.sh [all | build <site> | lint <k>/<n> | typecheck | source | built | local]\n' >&2
   exit 2
 }
 
@@ -48,10 +54,11 @@ logged() {
   fi
 }
 
-# The bare run: dispatches `.github/workflows/vet.yml` on the current branch,
-# runs the `local` phase while it runs, and waits for it, printing a failed
-# run's job logs. The run vets the branch as GitHub has it, so a tree that
-# differs from the pushed head is refused rather than vetted by proxy.
+# `all`: dispatches `.github/workflows/vet.yml` on the current branch, runs the
+# `local` phase while it runs, and waits for it, printing a failed run's job
+# logs. The run vets the branch as GitHub has it, so a tree that differs from
+# the pushed head is refused rather than vetted by proxy. The `vet: run <url>`
+# line is what `scripts/attest.sh` links the attestation to.
 dispatched() {
   local branch head pushed before run url status=0
   branch=$(git branch --show-current)
@@ -83,7 +90,7 @@ dispatched() {
   fi
 
   url="https://github.com/$(gh repo view --json nameWithOwner --jq .nameWithOwner)/actions/runs/$run"
-  printf 'vet: waiting on %s\n' "$url"
+  printf 'vet: run %s\n' "$url"
   if ! gh run watch "$run" --exit-status --interval 15 >/dev/null; then
     gh run view "$run" --log-failed
     printf 'vet: run failed — %s\n' "$url" >&2
@@ -93,10 +100,10 @@ dispatched() {
   verdict "$status"
 }
 
-[ "$#" -gt 0 ] || dispatched
-
-phase="$1"
+phase="${1:-fast}"
 case "$phase" in
+  all) [ "$#" -eq 1 ] && dispatched || usage ;;
+  fast) [ "$#" -eq 0 ] || usage ;;
   typecheck | source | built | local) [ "$#" -eq 1 ] || usage ;;
   build | lint) [ "$#" -eq 2 ] || usage ;;
   *) usage ;;
@@ -148,6 +155,11 @@ fi
 if [[ "$phase" != built && "$phase" != local ]]; then
   logged styles pnpm styles:codegen
 fi
+# The fast run's type check and lint read the route types typegen writes, so it
+# runs before their fan-out rather than inside it.
+if [[ "$phase" == fast ]]; then
+  logged typegen pnpm typegen
+fi
 
 # Each array is one phase's fan-out. Nothing in one writes what another reads,
 # so they overlap freely; `.claude/rules/stack.md` says why each check
@@ -190,6 +202,22 @@ source_checks=(
   keepalive='python3 .claude/keepalive/test_keepalive.py'
   hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
 )
+# The fast run lints only what the branch changed: a finding a change causes in
+# a file it never touched is left to `all`, which lints the whole tree. With no
+# merge base to diff against it lints everything.
+changed_lint_files() {
+  local listed
+  # shellcheck source=scripts/lib/changed-files.sh
+  source scripts/lib/changed-files.sh
+  listed=$(changed_files) || listed=$(git ls-files)
+  printf '%s\n' "$listed" | grep -E '\.(js|jsx|mjs|cjs|ts|tsx|mts|cts)$' | sort -u |
+    while IFS= read -r f; do [ -f "$f" ] && printf ' %q' "$f"; done
+}
+if [[ "$phase" == fast ]]; then
+  fast_checks=("${source_checks[@]}" "${local_checks[@]}" typecheck='pnpm -s typecheck')
+  lint_files=$(changed_lint_files)
+  [ -z "$lint_files" ] || fast_checks+=("lint=pnpm -s lint:files$lint_files")
+fi
 checks="${phase}_checks[@]"
 scripts/run-parallel.sh "${!checks}" || status=1
 
