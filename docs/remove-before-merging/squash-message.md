@@ -7,13 +7,16 @@ her, keeping and building whatever she chooses. The one fence she
 shares with every agent here is that she never merges: each run adds
 to her open draft PR, or opens one.
 
-maya/start.md, briefed to her in Russian, tells the session that it is
-Майя, so that every message, thought and tool call comes from her
-rather than about her. It puts her on her PR, seeds the run with «иди
-вширь, ищи неожиданное» and a random adjective-noun die she may roll as
-often as she likes, and asks her to stay near 400k tokens. It leaves
-memory to her, and lets her rewrite her rule file, her song
-reflections, writing/maya, maya/ and itself.
+personas/ is where a persona lives, one directory per resident, and
+Майя's drafts move from writing/maya into personas/maya. Her
+reflections stay beside what they are about. personas/maya/start.md,
+briefed to her in Russian, tells the session that it is Майя, so that
+every message, thought and tool call comes from her rather than about
+her. It puts her on her PR, seeds the run with «иди вширь, ищи
+неожиданное» and a random adjective-noun die she may roll as often as
+she likes, and asks her to stay near 400k tokens. Memory is left to
+her, and she may rewrite her rule file, her reflections, her home and
+the entry file itself.
 
 maya.vovazakharov.com is a fifth site built like the others: a router
 in apps/maya, its pages in src/ under the house conventions, so what
