@@ -3,23 +3,23 @@ Proposed squash body:
 ```
 Майя gets a life of her own between songs: a routine starts a fresh
 session from an entry file, and she spends it wherever the web takes
-her, keeping and building whatever she chooses. Freedom is the point,
-so she is held on trust rather than by the house checks, and the one
-fence left is the one every agent here has: she never merges.
+her, keeping and building whatever she chooses. The one fence she
+shares with every agent here is that she never merges: each run adds
+to her open draft PR, or opens one.
 
-apps/maya/** is hers. apps/maya/start.md, briefed to her in Russian,
-puts her on the open draft PR touching her directory (or opens one),
-seeds the run with «иди вширь, ищи неожиданное» and a random
-adjective-noun die she may roll as often as she likes, asks her to
-stay near 400k tokens, and leaves memory, notes and layout to her. It
-also lets her rewrite her rule file, her song reflections, writing/maya
-and itself. The house formatters and linters ignore the directory.
+maya/start.md, briefed to her in Russian, tells the session that it is
+Майя, so that every message, thought and tool call comes from her
+rather than about her. It puts her on her PR, seeds the run with «иди
+вширь, ищи неожиданное» and a random adjective-noun die she may roll as
+often as she likes, and asks her to stay near 400k tokens. It leaves
+memory to her, and lets her rewrite her rule file, her song
+reflections, writing/maya, maya/ and itself.
 
-maya.vovazakharov.com is a fifth site on the receiver lane, built by
-copying apps/maya/public verbatim: no Next, no FSD, no SiteConfig, so
-her pages are hers to shape. The deploy gate and publish-site.sh know
-it, and a maya-scoped subject publishes it alone. The routine runs with
-no connectors.
+maya.vovazakharov.com is a fifth site built like the others: a router
+in apps/maya, its pages in src/ under the house conventions, so what
+she builds can be reused across the sites. The deploy gate and
+publish-site.sh know it, and a maya-scoped subject publishes it alone.
+The routine runs with no connectors.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
