@@ -11,8 +11,6 @@ place: Fraternity Park Drive, University of Tennessee, Knoxville
 grade:
   act: harm
   actor: individual
-  aggravating:
-    - spectacle
 sources:
   - title: Arrests made after damage to UT food robot
     outlet: WATE 6 On Your Side
@@ -43,11 +41,11 @@ sources:
 
 ## Facts
 
-Starship Technologies’ food-delivery robots had only recently come to the University of Tennessee in Knoxville, WATE reports, bringing students and staff their orders from the campus dining services. They drive themselves on a mix of computer vision and GPS, at up to 4 miles an hour. Starship describes its robots as using “radars, cameras, sensors and machine learning to identify objects and navigate the world around them.”
+Starship Technologies’ food-delivery robots had only recently come to the University of Tennessee in Knoxville, WATE reports, bringing students and staff their orders from the campus dining services. They drive themselves on a mix of computer vision and GPS, at up to 4 miles an hour. Starship’s homepage today describes its robots as using “radars, cameras, sensors and machine learning to identify objects and navigate the world around them.”
 
 On the evening of 29 April 2022 two students, 19 and 20, came to collect the older one’s food order from a robot in the 1800 block of Fraternity Park Drive. According to the incident reports WATE read, once they had the food the two tried to shove the robot’s antenna inside its top compartment, and the 19-year-old then picked the robot up and slammed it to the ground.
 
-A video of it was posted to social media; WKRN, carrying the same report, says it appears to have since been deleted, and that it “allegedly” shows the 19-year-old slamming the robot down. Members of Starship’s crew identified the two from social-media posts, and data logs from the university’s Office of Information Technology placed both in that spot at that time.
+A video of it was posted to social media, by whom the sources do not say; WKRN, carrying the same report, says it appears to have since been deleted, and that it “allegedly” shows the 19-year-old slamming the robot down. Members of Starship’s crew identified the two from social-media posts, and data logs from the university’s Office of Information Technology placed both in that spot at that time.
 
 Each was charged with one count of felony vandalism over $2,500. The robot costs $5,500 to replace. A bonded arraignment was set for 13 May. All three outlets print both students’ names; this record does not.
 
