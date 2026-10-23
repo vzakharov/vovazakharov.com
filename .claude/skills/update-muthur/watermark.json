@@ -93,7 +93,7 @@
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
     {
-      "scripts/vet.sh": "rewritten for this stack: bare, it dispatches .github/workflows/vet.yml on the pushed head and runs its own `local` phase beside it; each other phase is one job there, its checks fanned out through run-parallel.sh. .claude/rules/stack.md carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
+      "scripts/vet.sh": "rewritten for this stack: .claude/rules/stack.md carries what it runs, where, and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
     },
     "scripts/staged.sh",
     {
