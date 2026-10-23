@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 124,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 164866,
+    "cacheReadTokens": 10600534,
+    "outputTokens": 27909,
+    "thinkingTokens": 3005,
+    "responses": 62,
+    "costUsd": 3.9977108
+  },
+  "estimate": {
+    "at": "2026-10-23T13:19:30.606Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "moving a persona's home with its rule pointers, then a fifth Next site and its deploy wiring, is routine but wide: config, router, page slice, scripts, gate, publish arm, analytics"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "8c07950e-5451-5c17-a8e1-d5b2d2708977",
+  "branch": "claude/maya-wander-cfdyi2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/maya-wander-cfdyi2 — реализовать одобренный план автономной Майи с первого шага",
+  "prs": [
+    201
+  ],
+  "url": "https://claude.ai/code/session_01FGzvX4PGUZKrpkcuTGxLcM",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-23T13:12:44.945Z",
+  "lastResponseAt": "2026-10-23T13:20:21.965Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 124,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 164866,
+    "cacheReadTokens": 10600534,
+    "outputTokens": 27909,
+    "thinkingTokens": 3005,
+    "responses": 62,
+    "costUsd": 3.9977108
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 124,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 164866,
+      "cacheReadTokens": 10600534,
+      "outputTokens": 27909,
+      "thinkingTokens": 3005,
+      "responses": 62,
+      "costUsd": 3.9977108
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "personas/maya/reflections.md",
+    "endedAt": "2026-10-23T13:13:36.592Z",
+    "contextTokens": 128920,
+    "spend": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 69366,
+      "cacheReadTokens": 1049595,
+      "outputTokens": 2375,
+      "thinkingTokens": 307,
+      "responses": 10,
+      "costUsd": 0.8124270000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
