@@ -6,9 +6,9 @@ this carries its changes here.
 
 Estimate roles a repository adds now live in rates.repo.json on the
 cost-ledger branch, written by `estimate.py role set`, so a sync of the
-shared rates.json never collides with them. musician and persona move
-there from rates.json, and the fixedGrades table that pinned them to
-senior goes: a repository role is single-grade by construction.
+shared rates.json never collides with them. persona moves there from
+rates.json, musician is dropped, and the fixedGrades table that pinned
+both to senior goes: a repository role is single-grade by construction.
 
 /finalize step 1 is the branch's whole local verification, home to any
 check too slow for vet.sh, and re-runs after a merge that brings base
