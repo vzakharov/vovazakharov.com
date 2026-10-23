@@ -207,8 +207,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     analyticsId: '1a93ed21-a8c1-4054-9ee3-33657a8c40d1',
     ...PUBLISHER,
   },
-  // Майя's own: what she builds here is hers, so everything but the plumbing
-  // below is hers to change.
+  // Everything here but the plumbing is Майя's to change.
   maya: {
     url: 'https://maya.vovazakharov.com',
     downloadPrefix: 'maya',
