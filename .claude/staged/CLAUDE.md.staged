@@ -28,12 +28,10 @@ warning about, the command worth documenting.
 
 **On a branch, this file — and anything else that loads on every turn — is
 edited only through a staged copy**, because an edit in place invalidates the
-prompt cache of every session on the branch: `scripts/staged.sh stage <path>`
-and commit, edit the copy it makes, and `/finalize` swaps it in. **An operator's
-ask to swap it in now** — "swap it in", "unstage", in any words or language —
-runs `scripts/staged.sh swap` on the spot and commits, trading the cache for a
-branch that runs on the new text. `@.claude/rules/staging.md` defines the set
-and the rest of the convention.
+prompt cache of every session on the branch; `/finalize` swaps it in. **An
+operator's ask to swap it in now** — "swap it in", "unstage", in any words or
+language — runs `scripts/staged.sh swap` on the spot and commits.
+`@.claude/rules/staging.md` defines the set and the mechanics.
 
 ## Repository layout
 
@@ -433,9 +431,6 @@ went. One per retirement, with a row per file: `retired.md` at the root of a
 retired directory, `<name>.retired.md` beside a retired file's siblings — so
 every tombstone matches `*retired.md`.
 
-**Plans are the exception, being transient**: keep them current as the work
-deviates, with checklist items in forward-looking voice.
-
 ## Language
 
 **Human-facing prose is English** — `README.md`, the docs a person reads to
@@ -463,13 +458,7 @@ plainly from the start.
 ## Working with skills
 
 Skills live under `.claude/skills/` and run as `/<name>`. The main loop, in the
-order work passes through it:
-
-- **`/task`** — makes the plan-or-not call, and runs what it picked.
-- **`/plan`** — writes the plan to `docs/plans/`, publishes it as a draft PR,
-  and hands over a `/go <branch>` command.
-- **`/go`** — the go-ahead: does the work, runs the quality passes, fills in the
-  PR.
-- **`/finalize`** — land prep: vet, merge the base, sweep working artifacts,
-  flip to ready, attest; on `and merge`, merges when the run left nothing to
-  decide.
+order work passes through it: `/task` (the plan-or-not call) → `/plan` (the plan
+on a draft PR, handing over `/go <branch>`) → `/go` (the work, the quality
+passes, the PR) → `/finalize` (land prep; on `and merge`, merges when the run
+left nothing to decide).
