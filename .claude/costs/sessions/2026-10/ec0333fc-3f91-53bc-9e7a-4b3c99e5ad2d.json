@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 116456,
+    "cacheWrite1hTokens": 86801,
+    "cacheReadTokens": 3658920,
+    "outputTokens": 13857,
+    "thinkingTokens": 3012,
+    "responses": 34,
+    "costUsd": 2.285884
+  },
+  "estimate": {
+    "at": "2026-10-23T13:47:50.197Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the quality passes over a multi-session branch, its PR body and a scheduled routine with one proving fire are routine but wide"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "ec0333fc-3f91-53bc-9e7a-4b3c99e5ad2d",
+  "branch": "claude/maya-wander-cfdyi2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/maya-wander-cfdyi2 — прогнать polish и pr по автономной Майе, дождаться мерджа и поставить рутину",
+  "prs": [
+    201
+  ],
+  "url": "https://claude.ai/code/session_0172M3CYv1rprpLX4L85YDti",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-23T13:47:24.351Z",
+  "lastResponseAt": "2026-10-23T13:52:53.377Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 42,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 86801,
+    "cacheReadTokens": 2488583,
+    "outputTokens": 8421,
+    "thinkingTokens": 1145,
+    "responses": 21,
+    "costUsd": 1.3607126000000003
+  },
+  "subagents": {
+    "inputTokens": 26,
+    "cacheWrite5mTokens": 116456,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1170337,
+    "outputTokens": 5436,
+    "thinkingTokens": 1867,
+    "responses": 13,
+    "costUsd": 0.9251714
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 68,
+      "cacheWrite5mTokens": 116456,
+      "cacheWrite1hTokens": 86801,
+      "cacheReadTokens": 3658920,
+      "outputTokens": 13857,
+      "thinkingTokens": 3012,
+      "responses": 34,
+      "costUsd": 2.285884
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/shared/config/site-config.ts",
+    "endedAt": "2026-10-23T13:49:13.942Z",
+    "contextTokens": 114818,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 109343,
+      "cacheWrite1hTokens": 56029,
+      "cacheReadTokens": 1605437,
+      "outputTokens": 5800,
+      "thinkingTokens": 1926,
+      "responses": 18,
+      "costUsd": 1.4321783999999997
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
