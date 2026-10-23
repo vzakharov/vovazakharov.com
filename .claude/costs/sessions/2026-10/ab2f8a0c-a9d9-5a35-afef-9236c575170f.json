@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 106,
+    "cacheWrite5mTokens": 103262,
+    "cacheWrite1hTokens": 112081,
+    "cacheReadTokens": 6413685,
+    "outputTokens": 15528,
+    "thinkingTokens": 3461,
+    "responses": 53,
+    "costUsd": 3.006679000000001
+  },
+  "estimate": {
+    "at": "2026-10-23T05:37:29.736Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "land prep resolves a conflict against main in CI/vet tooling, where a wrong merge breaks the only pre-merge gate"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "ab2f8a0c-a9d9-5a35-afef-9236c575170f",
+  "branch": "claude/vet-on-pull-requests",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/vet-on-pull-requests — land PR #192: finalize and merge.",
+  "prs": [
+    192
+  ],
+  "url": "https://claude.ai/code/session_01Ay5R381kxbdP1ksi4Y7TCK",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-23T05:37:13.737Z",
+  "lastResponseAt": "2026-10-23T05:47:38.964Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 112081,
+    "cacheReadTokens": 5561458,
+    "outputTokens": 11046,
+    "thinkingTokens": 2056,
+    "responses": 42,
+    "costUsd": 2.2301956000000005
+  },
+  "subagents": {
+    "inputTokens": 22,
+    "cacheWrite5mTokens": 103262,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 852227,
+    "outputTokens": 4482,
+    "thinkingTokens": 1405,
+    "responses": 11,
+    "costUsd": 0.7764834
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 106,
+      "cacheWrite5mTokens": 103262,
+      "cacheWrite1hTokens": 112081,
+      "cacheReadTokens": 6413685,
+      "outputTokens": 15528,
+      "thinkingTokens": 3461,
+      "responses": 53,
+      "costUsd": 3.006679000000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".github/workflows/vet.yml",
+    "endedAt": "2026-10-23T05:38:35.371Z",
+    "contextTokens": 101754,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 100066,
+      "cacheWrite1hTokens": 73886,
+      "cacheReadTokens": 1587278,
+      "outputTokens": 4445,
+      "thinkingTokens": 1726,
+      "responses": 18,
+      "costUsd": 1.4979176000000003
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
