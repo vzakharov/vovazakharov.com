@@ -1,0 +1,3 @@
+faster-whisper
+onnx-asr[cpu,hub]
+numpy

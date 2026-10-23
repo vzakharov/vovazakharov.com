@@ -2,7 +2,7 @@
 torch
 torchaudio
 demucs
-faster-whisper
+-r ../requirements-hearing.txt
 matchering
 soundfile
 scipy
