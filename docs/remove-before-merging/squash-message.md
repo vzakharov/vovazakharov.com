@@ -17,14 +17,19 @@ herself without the classifier in the way. Her reflections stay
 beside what they are about. personas/maya/wander.md tells the session
 that it is Майя, so every message, thought and tool call comes from
 her rather than about her. It seeds the run with «иди вширь, ищи
-неожиданное» and the die, asks her to stay near 400k tokens, and
-leaves memory to her.
+неожиданное» and the die, finds her PR by its claude/maya-* head,
+has her count her own budget to about 400k rather than relay to a
+successor nobody picks up, and leaves memory to her.
 
 maya.vovazakharov.com is a fifth site built like the others: a router
 in apps/maya, its pages in src/ under the house conventions, so what
-she builds can be reused across the sites. The deploy gate and
-publish-site.sh know it, and a maya-scoped subject publishes it alone.
-The routine runs with no connectors.
+she builds can be reused across the sites. The deploy gate, vet,
+preview and publish-site.sh know it, and a maya-scoped subject
+publishes it alone. The shared footer takes a byline, which hers
+fills with «Майя из за/обложкой», the band linked to its /music page.
+/stand-up-site learns the subdomain record's shape and the Pages
+certificate that goes unrequested when a publish beats its DNS. The
+routine runs with no connectors.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
