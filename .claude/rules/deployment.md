@@ -55,7 +55,7 @@ last, in a concurrency group apart from `pages`.
 carries how it is used. Майя has a slot of her own,
 `vzakharov/preview.maya.vovazakharov.com`, which
 `.github/workflows/maya-preview.yml` republishes on every push to a
-`claude/maya-*` branch, so the operator sees her unmerged work as it lands.
+`claude/maya-*` branch.
 
 **On an unmerged branch, an operator's "deploy" — «задеплой», «давай задеплоим»
 — means this door.** A branch dispatch of `deploy.yml` reaches production, so it
