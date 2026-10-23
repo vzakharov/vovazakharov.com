@@ -234,7 +234,8 @@ Twenty things about that list are deliberate:
 A new runtime, a bumped pin, a new system dependency or a package-manager swap
 is unfinished until all four agree:
 
-1. `scripts/vet.sh` runs the checks above under the new toolchain.
+1. `scripts/vet.sh` runs the checks above under the new toolchain. Where a check
+   too slow for it goes is CLAUDE.md § "Vetting".
 2. `.claude/hooks/install-deps.sh` installs the dependencies, so a resumed
    remote session tracks the current lockfile. It only re-syncs against the
    lockfile once the toolchain is there.
