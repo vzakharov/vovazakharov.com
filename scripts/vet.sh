@@ -191,6 +191,7 @@ source_checks=(
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
   hearing='python3 scripts/lib/test_hearing.py'
+  attest='python3 scripts/attest_test.py'
   song-facts='python3 scripts/song-intake/test_song_facts.py'
   notes='scripts/check-notes-length.sh'
   skills='scripts/check-skill-catalog.sh'
