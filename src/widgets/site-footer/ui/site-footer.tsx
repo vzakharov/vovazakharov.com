@@ -1,4 +1,5 @@
 import { Box, Divider, Group, Text } from '@mantine/core';
+import type { ReactNode } from 'react';
 
 import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
 import { BUILD_YEAR } from '@/shared/config/index.server-only';
@@ -16,6 +17,8 @@ type SiteFooterProps = WithOptionalChildren &
     feed?: string;
     /** On its site's root page, no note means no note rather than the way home. */
     onHomePage?: boolean;
+    /** Whom the copyright names, in place of the author linked home. */
+    byline?: ReactNode;
   };
 
 /**
@@ -28,6 +31,7 @@ export function SiteFooter({
   children,
   feed,
   onHomePage = false,
+  byline,
   locale = DEFAULT_LOCALE,
 }: SiteFooterProps) {
   const { author, url } = SITE_CONFIG;
@@ -44,11 +48,12 @@ export function SiteFooter({
         </Text>
         <Text size="sm" opacity={0.6}>
           © {BUILD_YEAR} {/* The author's own site does not link to itself. */}
-          {url === AUTHOR_URL ? (
-            author.name
-          ) : (
-            <TextLink href={AUTHOR_URL}>{author.name}</TextLink>
-          )}
+          {byline ??
+            (url === AUTHOR_URL ? (
+              author.name
+            ) : (
+              <TextLink href={AUTHOR_URL}>{author.name}</TextLink>
+            ))}
           {feed !== undefined && (
             <>
               {' · '}

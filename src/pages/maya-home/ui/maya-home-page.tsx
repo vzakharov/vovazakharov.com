@@ -1,7 +1,7 @@
 import { Stack, Text, Title } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config';
-import { PageShell, SiteAvatar } from '@/shared/ui';
+import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
+import { PageShell, SiteAvatar, TextLink } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
@@ -18,7 +18,17 @@ export function MayaHomePage() {
           <Text size="lg">{tagline}</Text>
         </Stack>
 
-        <SiteFooter onHomePage />
+        <SiteFooter
+          onHomePage
+          byline={
+            <>
+              Майя из{' '}
+              <TextLink href={`${AUTHOR_URL}/music/artists/za-oblozhkoy/ru`}>
+                за/обложкой
+              </TextLink>
+            </>
+          }
+        />
       </Stack>
     </PageShell>
   );
