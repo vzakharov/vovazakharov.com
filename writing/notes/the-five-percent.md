@@ -218,7 +218,7 @@ the bot's failure being its own; to him the butt is whoever let it agree deals.
 proverb about eyes and the soul it plays on: his two sentences in the order he
 said them, not the order in which one sets up the other.
 
-## What it defends in writing, it stops asking about (×7)
+## What it defends in writing, it stops asking about (×8)
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it, each honest that it was deliberate and silent on its being right.
@@ -234,6 +234,14 @@ became "Grandpa of Mine," because the crib had it so: _Разве "grandpa of mi
 (BAS-0019) went down as running AI, and the agent's own reflection said it took
 that answer because it suited the docket's `noAi` balance. The admission had
 been the finding.
+
+**23 October — a lag written down three times, never timed.** The Vet
+workflow's export check dropped `needs` on the builds because GitHub marks them
+done "minutes" late: a workflow comment, a script header and the squash proposal
+said so, and the agent relayed it to the operator as fact. _инфа 100% или
+hand-waving?_ Five runs still on `needs` answered in one API call: dependents
+started three seconds after the last build. The real gain is checkout and setup,
+15–20 s, overlapping the builds.
 
 ## It checks the render against its intent, not against the page (×6)
 
