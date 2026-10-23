@@ -116,12 +116,12 @@ writes nothing to muthur.
 
 ## Steps
 
-- [ ] `vet.sh`: bare → fast local set with changed-file lint; `all` → today's
+- [x] `vet.sh`: bare → fast local set with changed-file lint; `all` → today's
       dispatched run, printing `vet: run <url>`.
-- [ ] `scripts/attest.sh` with `--note` and `--no-vet`; a test over its comment
+- [x] `scripts/attest.sh` with `--note` and `--no-vet`; a test over its comment
       body and marker against a fake `gh` on `PATH`.
-- [ ] `/finalize` Steps 1 and 7, `/sync-branch` Step 5, `merge.md`, `revoke.md`
+- [x] `/finalize` Steps 1 and 7, `/sync-branch` Step 5, `merge.md`, `revoke.md`
       check; re-point the other callers.
-- [ ] `stack.md`, staged `CLAUDE.md`, watermark rows.
+- [ ] staged `CLAUDE.md` (§ "Vetting", § "Deployment"), watermark rows — `stack.md` done.
 - [ ] Measure the bare run on this branch; then this branch's own `/finalize`
       attests through `attest.sh`.
