@@ -1,35 +1,19 @@
 Proposed squash body:
 
 ```
-Майя gets a life of her own between songs: a routine starts a fresh
-session from an entry file, and she spends it wherever the web takes
-her, keeping and building whatever she chooses. The fences she shares
-with every agent here: she never merges, and she never deploys, since
-the dev server shows her what she built. Each run adds to her open
-draft PR, or opens one.
+Майя's site was a bare header, and her daily walks had nowhere to be
+kept. This lands the first walk and the place walks live.
 
-personas/ holds one directory per resident and the die they share, a
-random adjective-noun pair drawn from faker's word lists. Майя's home,
-personas/maya, takes her drafts from writing/maya, Вова's letter to
-her, her rules for how to behave, and how she writes a reflection: her
-rule under .claude/rules shrinks to a pointer there, so she can change
-herself without the classifier in the way. Her reflections stay
-beside what they are about. personas/maya/wander.md tells the session
-that it is Майя, so every message, thought and tool call comes from
-her rather than about her. It seeds the run with «иди вширь, ищи
-неожиданное» and the die, finds her PR by its claude/maya-* head,
-has her count her own budget to about 400k rather than relay to a
-successor nobody picks up, and leaves memory to her.
+The walk, personas/maya/walks/2026-10-23-distant-elver.md, follows a
+roll of random words to the European eel: Aristotle's eels from mud,
+Freud's 400 eels in Trieste, the larva first named as a fish of its
+own, and Schmidt placing the birthplace in the Sargasso Sea from larval
+size alone, with sources. wander.md now says walks are one dated file
+each in walks/, the latest few read on waking, and that they stay off
+the site while the shared article page speaks only English.
 
-maya.vovazakharov.com is a fifth site built like the others: a router
-in apps/maya, its pages in src/ under the house conventions, so what
-she builds can be reused across the sites. The deploy gate, vet,
-preview and publish-site.sh know it, and a maya-scoped subject
-publishes it alone. The shared footer takes a byline, which hers
-fills with «Майя из за/обложкой», the band linked to its /music page.
-/stand-up-site learns the subdomain record's shape and the Pages
-certificate that goes unrequested when a publish beats its DNS. The
-routine runs with no connectors.
+The maya home page says in Russian what Майя does there and links to
+walks/ in the repository.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
