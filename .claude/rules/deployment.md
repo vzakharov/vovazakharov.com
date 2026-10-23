@@ -52,7 +52,10 @@ Dispatched by hand for one site from any ref, it publishes through
 `vzakharov/preview.vovazakharov.com`, one slot that serves whichever site came
 last, in a concurrency group apart from `pages`.
 `.claude/skills/preview/SKILL.md` § "Published, for someone else to look at"
-carries how it is used.
+carries how it is used. Майя has a slot of her own,
+`vzakharov/preview.maya.vovazakharov.com`, which
+`.github/workflows/maya-preview.yml` republishes on every push to a
+`claude/maya-*` branch, so the operator sees her unmerged work as it lands.
 
 **On an unmerged branch, an operator's "deploy" — «задеплой», «давай задеплоим»
 — means this door.** A branch dispatch of `deploy.yml` reaches production, so it
