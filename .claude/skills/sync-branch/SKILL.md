@@ -156,12 +156,11 @@ git grep -nE '^(<<<<<<<|>>>>>>>) ' || echo clean     # no conflict markers survi
 ./scripts/vet.sh                                     # unless `no vet` was passed
 ```
 
-Fix real errors before pushing. **Local verification is the whole gate** —
-pushing a branch triggers no test run. That is why the full vet run happens here
-and not just a type-check: a merge can type-check cleanly and still behave
-differently. If the merge pulled in changes on a surface the vet run doesn't
-cover (a bucket that only runs in CI), dispatch that bucket too — `/test-on-gh`,
-if the project has hydrated it.
+Fix real errors before pushing — pushing a branch triggers no test run. That is
+why the fast vet run happens here and not just a type-check: a merge can
+type-check cleanly and still behave differently. It is not the whole gate: the
+builds and the lint over files the branch did not change run only in `vet all`,
+which `/finalize` Step 7's `scripts/attest.sh` runs on the pushed head.
 
 ### Step 6 — Push, then report for after-the-fact review
 

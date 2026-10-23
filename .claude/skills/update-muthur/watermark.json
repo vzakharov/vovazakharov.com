@@ -72,7 +72,9 @@
     {
       ".claude/skills/squash-message/": "taken with one translation: the title rule allows a site scope, `<type>[(<site>)]:`, because here the squash subject's scope picks which site a merge publishes (CLAUDE.md § \"Deployment\"). The source forbids a scope, having one site to deploy; a sync that re-copies the rule unscoped makes every merge publish every site."
     },
-    ".claude/skills/sync-branch/",
+    {
+      ".claude/skills/sync-branch/": "taken with one paragraph of Step 5 rewritten: the bare vet it runs is the fast one, and the builds and the whole-tree lint wait for `vet all` under /finalize's scripts/attest.sh, where the source calls local verification the whole gate. The source's /test-on-gh sentence goes with it, that skill being declined here. Temporary: once muthur carries the vet/attest split, this row goes and the directory is taken verbatim."
+    },
     ".claude/skills/tend-prose/",
     ".claude/skills/watch-ci/",
     "scripts/check-claude-md-size.sh",
