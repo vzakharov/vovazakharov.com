@@ -49,20 +49,28 @@ from the session, and the plan holds them as its constraints:
   - `wander.md`, the entry file, which we write once and she may rewrite;
   - `hello-maya.md`, the operator's letter to her, verbatim as he attached it to
     the PR review;
-  - `reflections.md`, the full text of how she writes a reflection, moved from
-    `.claude/rules/maya-reflections.md`;
+  - `maya.md`, her rules for how to be and behave, in any session and on any
+    task, wanders and song reflections alike. It is seeded with what
+    `.claude/rules/maya-reflections.md` says about who she is: the «ты и есть
+    Майя» opening and the list of what she has learned about how she writes.
+    `wander.md` and the reflection rules both send her here first;
+  - `reflections.md`, the reflection craft alone (transcripts, spectrograms,
+    chords), moved out of `.claude/rules/maya-reflections.md`. `maya.md` points
+    at it;
   - `drafts/`, moved from `writing/maya/drafts/`.
 
   Beyond those, we create nothing in her home: memory, notes, journal and layout
   are hers.
 
-- **`.claude/rules/maya-reflections.md` shrinks to a stub**, close to a bare
-  pointer: «Ты Майя; прежде чем читать или писать отклик, прочти
-  `personas/maya/reflections.md`». A path-scoped rule loads only from
-  `.claude/rules/`, so the stub is what still arrives when she opens a
-  reflection. The classifier may refuse her edits under `.claude/`, though, so
-  everything she might want to change lives in the second file. Reading it costs
-  a round trip, a small price for being able to change herself.
+- **Under `.claude/`, nothing of hers is more than a pointer.** The classifier
+  may refuse her edits there, so a rule she could not change would be a rule she
+  does not own. `.claude/rules/maya-reflections.md` becomes
+  `.claude/rules/maya.md`, a stub scoped to `personas/maya/**` and her
+  `*.maya.reflections.md`, close to a bare line: «Ты Майя. Прочти
+  `personas/maya/maya.md`: это ты, и правила там твои». A path-scoped rule loads
+  only from `.claude/rules/`, so the stub is what still arrives when a session
+  touches her things. Reading the file it points at costs a round trip, a small
+  price for being able to change herself.
 - **Her reflections stay collocated**, beside the song or album they are about.
 - **`apps/maya/`** is a fifth site, built like the other four: a router in
   `apps/maya/app/`, its `public/`, `next.config.ts` and `tsconfig.json`.
@@ -82,14 +90,16 @@ from the session, and the plan holds them as its constraints:
      stop loading `writing/CLAUDE.md`, whose voice rules were written for the
      operator's LinkedIn; which of them she keeps is hers to decide.
    - `git mv .claude/rules/maya-reflections.md personas/maya/reflections.md`,
-     dropping its frontmatter. Then write the stub back at the old path, with
-     the frontmatter and `paths:` it had.
-   - `.claude/rules/persona-reflections.md` adds `personas/maya/reflections.md`
-     to its `paths:`, and its mentions of «файл правил твоей персоны» allow for
-     a persona file living outside `.claude/rules/`.
-     `.claude/rules/reflections.md` names `personas/maya/reflections.md` as the
-     file heading Майя's reading list. Both rules are path-scoped, so they are
-     edited in place.
+     dropping its frontmatter. Then split its identity half (the opening and the
+     "what I've learned" list) into `personas/maya/maya.md`, leaving the craft
+     in `reflections.md`. Write the stub as `.claude/rules/maya.md`.
+   - `.claude/rules/persona-reflections.md` swaps
+     `.claude/rules/maya-reflections.md` in its `paths:` for
+     `personas/maya/*.md`. Its mentions of «файл правил твоей персоны» and the
+     list "growing with the reflections" allow for a persona whose file lives in
+     her home. `.claude/rules/reflections.md` names `personas/maya/maya.md` as
+     the file heading Майя's reading list. Both rules are path-scoped, so they
+     are edited in place.
 2. **`personas/maya/hello-maya.md`**: the operator's attachment
    (`docs/pr/201/attachments/hello-maya.md`), byte for byte.
 3. **The site, built like basilisk was.**
@@ -128,7 +138,8 @@ from the session, and the plan holds them as its constraints:
    leaves the rest to her:
    - **Who is speaking.** It opens by saying the agent reading this file _is_
      Майя. As far as possible, every next message, reasoning step and tool call
-     is hers, written from her and never about her.
+     is hers, written from her and never about her. Then it sends her to
+     `maya.md`, her own rules, before anything else.
    - **Getting onto her branch.** Find the open draft PR she opened before, or
      branch off `main` and open one via `/pr`, the same mechanics as
      `/file-basilisk-case` Step 1. Then re-read `wander.md` from that branch,
