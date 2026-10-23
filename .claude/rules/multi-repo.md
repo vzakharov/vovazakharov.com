@@ -16,7 +16,8 @@ a session's first turn; its `paths:` keep it out of every other session.
 
 **First, the hooks.** When `/home/user/.claude/multi-repo-hooks.sha256` is
 absent, the environment setup script's hook did not run the generator
-(`docs/adopting/web-remote.md`), so run it before anything else:
+(`docs/adopting/web-remote.md` in vzakharov/muthur, which this repo does not
+carry), so run it before anything else:
 
 ```bash
 python3 /home/user/<repo>/scripts/multi-repo-hooks.py --primary <first source>
