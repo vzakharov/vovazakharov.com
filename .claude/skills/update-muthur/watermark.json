@@ -40,7 +40,7 @@
     ".claude/skills/check-merge/",
     ".claude/skills/dry/",
     {
-      ".claude/skills/finalize/": "taken with one edit: Step 1 pushes before vetting, because this repo's vet.sh vets the pushed head and refuses a tree that differs from it. A verbatim re-copy of SKILL.md drops the push and leaves Step 1 refused on every unpushed fix."
+      ".claude/skills/finalize/": "taken with Step 7 rewritten, and the no-vet paragraph, the no-PR gate bullet, merge.md's Step 1 row and revoke.md's step 1 following it: Step 7 pushes and runs scripts/attest.sh, which runs `vet.sh all` and posts the attestation itself, where the source's Step 7 writes the comment by hand. Step 1 is the source's. A verbatim re-copy loses the `vet all` run and leaves the attestation claiming a fast vet as the whole suite. Temporary: once muthur carries the vet/attest split, this row goes and the directory is taken verbatim."
     },
     ".claude/skills/from-branch/",
     ".claude/skills/go/",
@@ -72,9 +72,7 @@
     {
       ".claude/skills/squash-message/": "taken with one translation: the title rule allows a site scope, `<type>[(<site>)]:`, because here the squash subject's scope picks which site a merge publishes (CLAUDE.md § \"Deployment\"). The source forbids a scope, having one site to deploy; a sync that re-copies the rule unscoped makes every merge publish every site."
     },
-    {
-      ".claude/skills/sync-branch/": "taken with one edit: Step 5 pushes before vetting, and Step 6's push is then a no-op, for the reason `/finalize`'s row gives. A verbatim re-copy of SKILL.md vets an unpushed merge, which this repo's vet.sh refuses."
-    },
+    ".claude/skills/sync-branch/",
     ".claude/skills/tend-prose/",
     ".claude/skills/watch-ci/",
     "scripts/check-claude-md-size.sh",
@@ -93,7 +91,10 @@
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
     {
-      "scripts/vet.sh": "rewritten for this stack: .claude/rules/stack.md carries what it runs, where, and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
+      "scripts/vet.sh": "rewritten for this stack: .claude/rules/stack.md carries what it runs, where, and why each check sits where it does. Read the source's edits for the idea; the file itself never lands. It keeps a contract the source does not state yet: bare is fast and local, `all` is every check the project wants before an attestation. Once muthur states it, that sentence of this row goes."
+    },
+    {
+      "scripts/attest.sh": "written here and stack-free, a candidate to upstream with the vet/attest split; with scripts/attest_test.py beside it, named off the `scripts/test_*.py` glob declined below. Temporary: once muthur carries attest.sh, this row becomes a bare entry and the file is taken verbatim."
     },
     "scripts/staged.sh",
     {
@@ -110,7 +111,7 @@
     ".claude/skills/readonly-probe/": "no production datastore",
     ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
     ".claude/skills/renumber-migration/": "no migrations",
-    ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and the bare vet run dispatches the whole suite to CI itself, so there is no bucket left for a dispatcher to pick. A test suite existing is not the condition — this is. Revisit if one appears that needs a browser, a service, or minutes rather than seconds",
+    ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and `vet.sh all` dispatches the whole suite to CI itself, so there is no bucket left for a dispatcher to pick. A test suite existing is not the condition — this is. Revisit if one appears that needs a browser, a service, or minutes rather than seconds",
     ".claude/skills/update-muthur/catalog/": "never — the catalog's parts, one file per group, split out of catalog.md and declined on its reason below: Step 4a reads them from the clone",
     ".claude/skills/update-muthur/catalog.md": "never — the source's own inventory of what it ships, describing the source's tree rather than this repo. Step 4a reads it from the clone, where it is current by construction; a vendored copy would only drift, and the source's own banner says to delete it wherever it turns up downstream. check-skill-catalog.sh reads it at this path and skips its catalog assertions when absent, which is the normal state here; .claude/skills/CLAUDE.md records that. Lived at docs/catalog.md until the source moved it off a path an adopter can own",
     "ADOPTING.md": "the source's guide for a repo taking the template on, which this repo did once and will not do again. Revisit only if a repo ever adopts from here — it would need its own, not a copy of the source's",
