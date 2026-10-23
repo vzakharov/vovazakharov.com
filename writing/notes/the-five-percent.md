@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×84)
+## What it was handed, it treats as fixed (×86)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -109,6 +109,13 @@ the agent replanned `maya-reflections.md`, on how she writes song reflections:
 _я говорил вообще про "правила как себя вести"._ He meant how she is in any
 session, rules no file in the tree held yet.
 
+**23 October — a brief's "ты" and the pipeline's verbs, read as who Майя is.**
+Her `maya.md` and `reflections.md` addressed her as «ты» throughout, the way
+`.claude/rules/reflections.md` briefs a persona; the files are hers, so past
+the opening _это уже говоришь сама ты._ They also had her cutting albums,
+extracting vocals and mastering, the scripts' work: _она уже приходит "на
+готовое"._
+
 ## An account that explains the code stands in for running it (×28)
 
 The worse half of "It checks the render against its intent" below: here the
@@ -156,7 +163,7 @@ under `.claude/rules/`, where the auto-mode classifier would likely refuse her
 edits. Her rules for how to behave, reflections included, now live in her home,
 and a one-line pointer under `.claude/rules/` leads to them.
 
-## It edits the copy in front of it, not the fact behind it (×18)
+## It edits the copy in front of it, not the fact behind it (×19)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
@@ -174,6 +181,10 @@ false: `vet.sh`'s still told the old one-machine sequence, and the two skills'
 bare rows would have the next sync re-copy them verbatim, dropping the push. The
 plan trusted that sync to "carry them back"; it only copies in. _мы не
 отдрифтились отсюда?_
+
+**23 October — a shared rule, scoped to the persona at hand.** The
+persona-reflections rule on PR #201 globbed `personas/maya/`; it holds for any
+persona, and the operator widened it to `personas/`.
 
 ## Asked for a source, it supplies its own version (×14)
 
@@ -196,20 +207,7 @@ in stdlib Python since the container has no `/usr/share/dict`. Asked how many
 that held and why not a library: nothing stood against one, and the die exists
 to take her where neither of them would go. `@faker-js/faker` has 1,000 of each.
 
-## It writes its reasoning into the artifact (×13)
-
-Asked to produce a thing, the agent produces the thing and its defence. What the
-artifact is _for_ decides what belongs in it — never the record of how it was
-chosen, never a defence a checker already makes.
-
-**6 and 9 September — the defence shipped with the thing.** The announcement
-draft argued its own register; the squash proposal ended on "Four things to know
-when editing here," each belonging in a rules file.
-
-**21–22 September — a denial, and a defence nothing needed.** A docstring closed
-on "rather than sharing it sideways," the pre-move state: _медведь?_
-
-## Given a form, it fills the form (×13)
+## Given a form, it fills the form (×14)
 
 An agent asked for a rules file will produce rules, at whatever rate the format
 seems to want. The option the format hides is silence.
@@ -223,6 +221,24 @@ file and the Clerk's, side by side.
 Krylya stanza, the agent built a singer registry and four build checks: _просто
 for reference._ The estimate role `artist` got a 779-line muthur patch: _artist
 is simply always senior._
+
+**23 October — a wander, briefed.** Майя's `wander.md` opened on a Reddit and
+Arctic Shift hint and had her read every past reflection first: _не надо
+намекать про Reddit изначально_, _все отклики читать -- overkill. сама
+выберет._
+
+## It writes its reasoning into the artifact (×13)
+
+Asked to produce a thing, the agent produces the thing and its defence. What the
+artifact is _for_ decides what belongs in it — never the record of how it was
+chosen, never a defence a checker already makes.
+
+**6 and 9 September — the defence shipped with the thing.** The announcement
+draft argued its own register; the squash proposal ended on "Four things to know
+when editing here," each belonging in a rules file.
+
+**21–22 September — a denial, and a defence nothing needed.** A docstring closed
+on "rather than sharing it sideways," the pre-move state: _медведь?_
 
 ## Its prose answers the question it had, not the reader's (×10)
 
