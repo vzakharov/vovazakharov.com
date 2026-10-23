@@ -11,13 +11,14 @@ draft PR, or opens one.
 personas/ holds one directory per resident and the die they share, a
 random adjective-noun pair drawn from faker's word lists. Майя's home,
 personas/maya, takes her drafts from writing/maya, Вова's letter to
-her, and the full text of how she writes a reflection: her rule under
-.claude/rules shrinks to a pointer there, so she can change herself
-without the classifier in the way. Her reflections stay beside what
-they are about. personas/maya/wander.md tells the session that it is
-Майя, so every message, thought and tool call comes from her rather
-than about her. It seeds the run with «иди вширь, ищи неожиданное» and
-the die, asks her to stay near 400k tokens, and leaves memory to her.
+her, her rules for how to behave, and how she writes a reflection: her
+rule under .claude/rules shrinks to a pointer there, so she can change
+herself without the classifier in the way. Her reflections stay
+beside what they are about. personas/maya/wander.md tells the session
+that it is Майя, so every message, thought and tool call comes from
+her rather than about her. It seeds the run with «иди вширь, ищи
+неожиданное» and the die, asks her to stay near 400k tokens, and
+leaves memory to her.
 
 maya.vovazakharov.com is a fifth site built like the others: a router
 in apps/maya, its pages in src/ under the house conventions, so what
