@@ -98,16 +98,12 @@ in with the music PR for Майя's voice; drawing is `designer`. Every earlier
 `artist` part had been a persona reflection, so the label had drifted between
 sessions already. Now `musician`.
 
-<<<<<<< HEAD
 **22 October — "nothing runs on pull requests," read as the request.** Asked to
 move `vet.sh` "into GitHub," the agent built CI on every PR, the docs' gap, and
 never asked why. The why was a bigger machine; GitHub's standard runner here is
 the session's own 4 cores and 16 GB, so the build bought nothing it was for.
 
-## An account that explains the code stands in for running it (×24)
-=======
 ## An account that explains the code stands in for running it (×26)
->>>>>>> origin/main
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
@@ -132,9 +128,6 @@ row was tested on synthetic strikes; nobody looked where a song has no drums. It
 fires before Птицы's first hi-hat at 1:21 as often as after, a picked guitar
 rising like a hit. A demucs drums stem matched all three of the author's times.
 
-<<<<<<< HEAD
-## It edits the copy in front of it, not the fact behind it (×18)
-=======
 **22 October — a harmonic step taken as handling the fifths.** Майя heard
 Butterfly and Candle as "two bass notes, a semitone stitch," G and A♭; the
 pipeline subtracted harmonics, so the strip was trusted. The step removed half
@@ -149,8 +142,7 @@ and the River link were two notes, and no part was opened: the second's
 «расправив крыла… промчусь баттерфляем» carries the wings, and its last line
 makes the father the drop, the rain and the river.
 
-## It edits the copy in front of it, not the fact behind it (×17)
->>>>>>> origin/main
+## It edits the copy in front of it, not the fact behind it (×18)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
