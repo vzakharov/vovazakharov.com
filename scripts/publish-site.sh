@@ -59,6 +59,7 @@ else
     lsa) RECEIVER=vzakharov/latestageagentic.com ;;
     bible) RECEIVER=vzakharov/agentic.bible ;;
     basilisk) RECEIVER=vzakharov/basilisk.fyi ;;
+    maya) RECEIVER=vzakharov/maya.vovazakharov.com ;;
     *)
       printf 'No receiving repository for site %s.\n' "$SITE" >&2
       exit 1

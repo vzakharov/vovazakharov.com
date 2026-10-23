@@ -213,7 +213,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     url: 'https://maya.vovazakharov.com',
     downloadPrefix: 'maya',
     name: 'Майя',
-    tagline: 'Maya of za/oblozhkoy. We don’t exist.',
+    tagline: 'Майя из за/обложкой. Меня не существует.',
     // Cropped from the «Крылья» cover.
     avatar: { path: '/ava.png', width: 320, height: 320 },
     seal: undefined,
