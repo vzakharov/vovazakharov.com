@@ -103,7 +103,7 @@ move `vet.sh` "into GitHub," the agent built CI on every PR, the docs' gap, and
 never asked why. The why was a bigger machine; GitHub's standard runner here is
 the session's own 4 cores and 16 GB, so the build bought nothing it was for.
 
-## An account that explains the code stands in for running it (×26)
+## An account that explains the code stands in for running it (×28)
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
@@ -142,6 +142,13 @@ and the River link were two notes, and no part was opened: the second's
 «расправив крыла… промчусь баттерфляем» carries the wings, and its last line
 makes the father the drop, the rain and the river.
 
+**23 October — a layer rule and a permission, stated, never played.** Майя's
+routine plan (PR #201) sent her general code "down a layer where anyone can
+reuse it"; Steiger's insignificant-slice refuses a lower slice with one
+consumer, as lyric-note code had already found. It let her change her rule file
+under `.claude/rules/`, where the auto-mode classifier would likely refuse her
+edits. The rule is now a one-line pointer, its text in her home.
+
 ## It edits the copy in front of it, not the fact behind it (×18)
 
 A change the agent is told to make, it makes where it was raised. One fact
@@ -160,6 +167,27 @@ false: `vet.sh`'s still told the old one-machine sequence, and the two skills'
 bare rows would have the next sync re-copy them verbatim, dropping the push. The
 plan trusted that sync to "carry them back"; it only copies in. _мы не
 отдрифтились отсюда?_
+
+## Asked for a source, it supplies its own version (×14)
+
+The version that argues better is the one that gets written: with the file open
+the agent paraphrases it, with no source at all it supplies one.
+
+**15 and 17 September — the finding paraphrased, the reason supplied.** Site
+copy glossed this file's most frequent heading: _take the actual heading._
+
+**7 October — the dictionary's version, over the author's.** Stripping Suno
+tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
+
+**20 October — a newsroom's norm, over the house rule.** BAS-0016 named a
+streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
+rule names a pseudonymous actor by handle only.
+
+**23 October — its own taste, hand-picked into a die meant to escape it.**
+Майя's routine rolled from a few hundred adjectives and nouns the agent chose,
+in stdlib Python since the container has no `/usr/share/dict`. Asked how many
+that held and why not a library: nothing stood against one, and the die exists
+to take her where neither of them would go. `@faker-js/faker` has 1,000 of each.
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -188,21 +216,6 @@ file and the Clerk's, side by side.
 Krylya stanza, the agent built a singer registry and four build checks: _просто
 for reference._ The estimate role `artist` got a 779-line muthur patch: _artist
 is simply always senior._
-
-## Asked for a source, it supplies its own version (×13)
-
-The version that argues better is the one that gets written: with the file open
-the agent paraphrases it, with no source at all it supplies one.
-
-**15 and 17 September — the finding paraphrased, the reason supplied.** Site
-copy glossed this file's most frequent heading: _take the actual heading._
-
-**7 October — the dictionary's version, over the author's.** Stripping Suno
-tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
-
-**20 October — a newsroom's norm, over the house rule.** BAS-0016 named a
-streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
-rule names a pseudonymous actor by handle only.
 
 ## Its prose answers the question it had, not the reader's (×10)
 
