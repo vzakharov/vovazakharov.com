@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 102594,
+    "cacheReadTokens": 3392908,
+    "outputTokens": 11647,
+    "thinkingTokens": 2976,
+    "responses": 26,
+    "costUsd": 1.7324816000000003
+  },
+  "estimate": {
+    "at": "2026-10-23T13:20:49.009Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "standing up a receiver repo, deploy key, a subdomain CNAME over Porkbun's API and a pre-merge publish, plus the die script and the routine, is routine wiring with live-infra steps"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "an entry file that makes the session speak as Майя and hands an unattended persona her freedom without steering it needs judgement"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "fe422592-b9b6-58bc-9e7e-5e56bc187cfd",
+  "branch": "claude/maya-wander-cfdyi2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/maya-wander-cfdyi2 — продолжить план автономной Майи с Шага 5: поднять maya.vovazakharov.com, написать wander.md, кубик и рутину",
+  "prs": [
+    201
+  ],
+  "url": "https://claude.ai/code/session_01EDUJrm9hiL6KiycUkBr7B1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-23T13:20:34.495Z",
+  "lastResponseAt": "2026-10-23T13:23:54.389Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 102594,
+    "cacheReadTokens": 3392908,
+    "outputTokens": 11647,
+    "thinkingTokens": 2976,
+    "responses": 26,
+    "costUsd": 1.7324816000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 102594,
+      "cacheReadTokens": 3392908,
+      "outputTokens": 11647,
+      "thinkingTokens": 2976,
+      "responses": 26,
+      "costUsd": 1.7324816000000003
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "personas/tools/random-words.ts",
+    "endedAt": "2026-10-23T13:21:44.634Z",
+    "contextTokens": 138128,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 78728,
+      "cacheReadTokens": 1435066,
+      "outputTokens": 3439,
+      "thinkingTokens": 794,
+      "responses": 13,
+      "costUsd": 0.9857212
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
