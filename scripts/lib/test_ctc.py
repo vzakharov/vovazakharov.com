@@ -28,7 +28,7 @@ def frames(*hot: int, vocab: int = 5) -> np.ndarray:
     return out
 
 
-class Path(unittest.TestCase):
+class ViterbiPath(unittest.TestCase):
     def test_a_doubled_token_needs_the_blank_between(self) -> None:
         states = path(frames(2, 0, 2), [2, 2], BLANK)
         self.assertEqual(states, [1, 2, 3])
