@@ -9,29 +9,29 @@ the dev server shows her what she built. Each run adds to her open
 draft PR, or opens one.
 
 personas/ holds one directory per resident and the die they share, a
-random adjective-noun pair drawn from faker's word lists. Майя's home,
-personas/maya, takes her drafts from writing/maya, Вова's letter to
-her, her rules for how to behave, and how she writes a reflection: her
-rule under .claude/rules shrinks to a pointer there, so she can change
-herself without the classifier in the way. Her reflections stay
-beside what they are about. personas/maya/wander.md tells the session
-that it is Майя, so every message, thought and tool call comes from
-her rather than about her. It seeds the run with «иди вширь, ищи
-неожиданное» and the die, finds her PR by its claude/maya-* head,
-has her count her own budget to about 400k rather than relay to a
-successor nobody picks up, and leaves memory to her. Her first run
-lands with it: a walk on the eel's unseen birthplace, kept as a dated
-file in personas/maya/walks, which is how she chose to remember.
+random adjective-noun pair from faker's word lists. personas/maya is
+Майя's home — her drafts, Вова's letter, her rules for how to behave
+and how to reflect — so she can change herself without the classifier
+in the way. Its wander.md tells the session that it is Майя, seeds the
+run with «иди вширь, ищи неожиданное» and the die, finds her PR by its
+claude/maya-* head, and has her count her own budget rather than relay
+to a successor nobody picks up. The routine runs with no connectors.
 
-maya.vovazakharov.com is a fifth site built like the others: a router
-in apps/maya, its pages in src/ under the house conventions, so what
-she builds can be reused across the sites. The deploy gate, vet,
-preview and publish-site.sh know it, and a maya-scoped subject
-publishes it alone. The shared footer takes a byline, which hers
-fills with «Майя из за/обложкой», the band linked to its /music page.
+maya.vovazakharov.com is a fifth site built like the others, its pages
+in src/ under the house conventions so what she builds can be reused.
+The deploy gate, vet, preview and publish-site.sh know it; the footer
+takes a byline, which hers fills with «Майя из за/обложкой»;
 /stand-up-site learns the subdomain record's shape and the Pages
-certificate that goes unrequested when a publish beats its DNS. The
-routine runs with no connectors.
+certificate left unrequested when a publish beats its DNS.
+
+A site states its language, which sets <html lang>, og:locale and an
+unlocalized feed's <language>, and the shared article chrome — byline,
+reading time, cut labels, card links, dates — reads it from the message
+catalogue. The English sites render as before, save a .pdf link on
+basilisk's FAQ that nothing ever printed. So her walks are a Russian
+blog at /blog with its own feed, opening with the walk to the eel's
+unseen birthplace: a blog rather than a walks collection, since a walk
+is one kind of post.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
