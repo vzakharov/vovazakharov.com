@@ -53,9 +53,8 @@ tmp/song-intake-venv/bin/python scripts/transcribe.py <slug>.mp3 --language ru \
   --out-dir docs/music/transcripts --json-dir docs/music/transcripts
 ```
 
-The transcripts committed before the move on-device merge nova-3 with Whisper
-(`.deepgram.json.gz`, `.whisper.md`); `--second-opinion-from` merges a new
-hearing with one of them.
+The older transcripts there merge nova-3 with Whisper (`.deepgram.json.gz`,
+`.whisper.md`); `--second-opinion-from` merges a new hearing with one of them.
 
 **A song Whisper returns a line or two for, or fills with `Субтитры …` and
 `КОНЕЦ`, is heard in pieces.** Its voice filter can drop sung vocals whole

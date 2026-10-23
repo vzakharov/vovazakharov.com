@@ -1,10 +1,10 @@
 """Where a transcript is unsure: doubtful words marked in place, and two
 models' hearings of one recording merged word by word.
 
-A response is shaped as Deepgram's `/v1/listen` answers, because the hearings
-committed before the recognizers moved on-device are that API's and are read
-alongside the local ones: `results.channels[0].alternatives[0]` holding `words`
-and `paragraphs`, `metadata` holding `duration` and the `model` that heard it.
+A response is shaped as Deepgram's `/v1/listen` answers, because the kept
+hearings include that API's, read alongside the local ones:
+`results.channels[0].alternatives[0]` holding `words` and `paragraphs`,
+`metadata` holding `duration` and the `model` that heard it.
 
 Imported as `from lib.hearing import …`; pure functions over parsed responses,
 so `test_hearing.py` beside it runs them on fixtures with no model. The

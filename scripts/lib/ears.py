@@ -8,8 +8,7 @@ directories, because onnxruntime refuses external weights behind the Hugging
 Face cache's symlinks ("External data path escapes model directory").
 
 What the models were picked for, measured on a sung vocal and a voice note, is
-in `scripts/transcribe.py`'s docstring; this module states only what driving
-them takes.
+in `scripts/transcribe.py`'s docstring.
 """
 
 from __future__ import annotations
@@ -165,11 +164,8 @@ def _stretches(words: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
 
 
 def place(pcm: np.ndarray, segments: list[dict[str, Any]]) -> None:
-    """Re-time Russian words to where GigaAM-v3 CTC hears their letters, in
-    place: Whisper hears sung Russian best and places it worst, a second or
-    more off, and the forced alignment puts it within a frame or two.
-
-    A word with nothing GigaAM can spell keeps Whisper's timing."""
+    """Re-time Russian words, in place, to where GigaAM-v3 CTC hears their
+    letters. A word with nothing GigaAM can spell keeps Whisper's timing."""
     log_probs, step, vocab = frames(pcm)
     blank, space = vocab["<blk>"], vocab[" "]
     words = [w for s in segments for w in s["words"]]

@@ -176,8 +176,8 @@ class Merged(unittest.TestCase):
 
 
 def segment(start: float, *words: Spoken) -> dict[str, Any]:
-    """A faster-whisper segment as lyrics.py keeps it: words carry their leading
-    space and a probability."""
+    """A faster-whisper segment: words carry their leading space and a
+    probability."""
     return {
         "start": start,
         "end": words[-1][1] + 0.4 if words else start,

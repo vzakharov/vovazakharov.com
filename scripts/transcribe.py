@@ -10,7 +10,7 @@ Usage:
 
 Runs under the hearing venv —
 `python3 -m venv tmp/hearing-venv && tmp/hearing-venv/bin/pip install -r scripts/requirements-hearing.txt`
-— on the CPU, with no key and no network past each model's first download.
+— on the CPU, offline past each model's first download.
 `<media>` is audio or video in anything ffmpeg reads. `--audio-out` keeps the
 video's sound as mono 64 kbit/s AAC, `--video-out` a re-encoded copy of the
 video itself, for a recording being archived.
