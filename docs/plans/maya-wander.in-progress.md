@@ -94,11 +94,13 @@ Approved («звучит хорошо, давай начинать»).
     tells her not to relay at the context-budget notices and to count the 400k
     herself.
   - Step 7: 07897e3.
-- **Left:** Step 5, blocked: the auto-mode classifier refused
-  `gh repo create vzakharov/maya.vovazakharov.com --public` as Create Public
-  Surface, so it waits on the operator. DNS waits on the receiver, since a
-  `maya` CNAME at `vzakharov.github.io` that no Pages repo claims can be taken
-  over. Then Step 8.
+  - Step 5: https://maya.vovazakharov.com serves over HTTPS. The receiver exists
+    with its README and deploy key, the `maya` CNAME is in the zone, and the
+    branch publish ran maya alone. Its certificate took a cleared and re-set
+    `cname`, now a trap in `/stand-up-site`.
+  - The operator asked for the footer «(с) 2026 Майя из за/обложкой», the band
+    linked to its page under /music: `SiteFooter` takes a `byline`.
+- **Left:** Step 8, after the merge.
 - **Known red:** the staged CLAUDE.md puts CLAUDE.md and its imports at 30130
   chars, past the 30000 ceiling. `scripts/check-claude-md-size.sh` wants a cut
   to 29000 and says to hand the trim to a subagent.
