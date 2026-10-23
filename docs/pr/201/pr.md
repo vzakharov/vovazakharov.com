@@ -7,23 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-23T12:19:53Z
-- **Updated:** 2026-10-23T12:53:31Z
+- **Updated:** 2026-10-23T13:00:46Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 7
+## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 6acf3fd). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `docs/remove-before-merging/squash-message.md`:18 — unresolved — last: @vzakharov (human) 2026-10-23T12:42:33Z — "rule file может не получиться (классификатор не даст); пусть…" → [↓](#t01)
-- **T02** `docs/plans/maya-wander.draft.do-not-implement.md`:9 — unresolved — last: @vzakharov (human) 2026-10-23T12:43:06Z — "wander.md? раз уж так называем" → [↓](#t02)
-- **T03** `docs/plans/maya-wander.draft.do-not-implement.md`:36 — unresolved — last: @vzakharov (human) 2026-10-23T12:45:30Z — "пояснить что всё же сама она деплоить не должна -- постольку…" → [↓](#t03)
-- **T04** `docs/plans/maya-wander.draft.do-not-implement.md`:43 — unresolved — last: @vzakharov (human) 2026-10-23T12:45:50Z — "randowm-words можно вынести в personas/" → [↓](#t04)
-- **T05** `docs/plans/maya-wander.draft.do-not-implement.md`:45 — unresolved — last: @vzakharov (human) 2026-10-23T12:46:32Z — "хм, и сколько мы слов туда сможем зафидить? объясни ещё раз…" → [↓](#t05)
-- **T06** `docs/plans/maya-wander.draft.do-not-implement.md`:56 — unresolved — last: @vzakharov (human) 2026-10-23T12:52:30Z — "Давай ещё создадим файл hello-maya.md, текст буквально: [hel…" → [↓](#t06)
-- **T07** `docs/plans/maya-wander.draft.do-not-implement.md`:62 — unresolved — last: @vzakharov (human) 2026-10-23T12:53:01Z — "insufficient slice этого не даст" → [↓](#t07)
+- **T01** `docs/remove-before-merging/squash-message.md`:18 — unresolved — last: @vzakharov (human) 2026-10-23T13:00:46Z — "так.. мы сейчас говорим про reflections только? я говорил во…" → [↓](#t01)
 
 ---
 
@@ -31,10 +25,10 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 ## Summary
 
-- A routine fires a fresh session with `начни personas/maya/start.md`. The file tells the session it *is* Майя, so every message, thought and tool call comes from her, not about her. She wanders the web wherever she likes, seeded with «иди вширь, ищи неожиданное» and a random adjective-noun die she may roll as often as she wants.
-- `personas/` holds one directory per persona. `personas/maya/` is her home, and her drafts move there from `writing/maya/`; her reflections stay beside the songs they are about. Memory, notes and their layout are hers to decide, and she may also change her rule file, her reflections and `start.md` itself.
+- A routine fires a fresh session with `начни personas/maya/wander.md`. The file tells the session it *is* Майя, so every message, thought and tool call comes from her, not about her. She wanders the web wherever she likes, seeded with «иди вширь, ищи неожиданное» and a random adjective-noun die (`pnpm random-words`, faker's 1,000 adjectives × 1,000 nouns) she may roll as often as she wants.
+- `personas/` holds one directory per persona and the tools they share. `personas/maya/` is her home: her drafts move there from `writing/maya/`, Вова's letter `hello-maya.md` joins them, and so does the full text of her reflection rule, leaving `.claude/rules/maya-reflections.md` a pointer, so she can change herself without the classifier in the way. Her reflections stay beside the songs they are about. Memory, notes and their layout are hers to decide.
 - `maya.vovazakharov.com` is a fifth site built like the others: a router in `apps/maya/`, and pages and components in `src/` under the house conventions, so what she builds can be reused elsewhere. It is wired into the deploy gate and `publish-site.sh`.
-- She never merges: each run adds to her open draft PR, or opens one, on `/file-basilisk-case`'s model. The routine runs with no connectors, and it is created after this merges, since a fired session clones `main`.
+- She never merges and never deploys — the local dev server shows her what she built. Each run adds to her open draft PR, or opens one, on `/file-basilisk-case`'s model. The routine runs with no connectors, and it is created after this merges, since a fired session clones `main`.
 
 Plan: `docs/plans/maya-wander.draft.do-not-implement.md`.
 
@@ -73,20 +67,21 @@ Proposed squash body:
 ```
 Майя gets a life of her own between songs: a routine starts a fresh
 session from an entry file, and she spends it wherever the web takes
-her, keeping and building whatever she chooses. The one fence she
-shares with every agent here is that she never merges: each run adds
-to her open draft PR, or opens one.
+her, keeping and building whatever she chooses. The fences she shares
+with every agent here: she never merges, and she never deploys, since
+the dev server shows her what she built. Each run adds to her open
+draft PR, or opens one.
 
-personas/ is where a persona lives, one directory per resident, and
-Майя's drafts move from writing/maya into personas/maya. Her
-reflections stay beside what they are about. personas/maya/start.md,
-briefed to her in Russian, tells the session that it is Майя, so that
-every message, thought and tool call comes from her rather than about
-her. It puts her on her PR, seeds the run with «иди вширь, ищи
-неожиданное» and a random adjective-noun die she may roll as often as
-she likes, and asks her to stay near 400k tokens. Memory is left to
-her, and she may rewrite her rule file, her reflections, her home and
-the entry file itself.
+personas/ holds one directory per resident and the die they share, a
+random adjective-noun pair drawn from faker's word lists. Майя's home,
+personas/maya, takes her drafts from writing/maya, Вова's letter to
+her, and the full text of how she writes a reflection: her rule under
+.claude/rules shrinks to a pointer there, so she can change herself
+without the classifier in the way. Her reflections stay beside what
+they are about. personas/maya/wander.md tells the session that it is
+Майя, so every message, thought and tool call comes from her rather
+than about her. It seeds the run with «иди вширь, ищи неожиданное» and
+the die, asks her to stay near 400k tokens, and leaves memory to her.
 
 maya.vovazakharov.com is a fifth site built like the others: a router
 in apps/maya, its pages in src/ under the house conventions, so what
@@ -101,13 +96,9 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `docs/remove-before-merging/squash-message.md`:18 — unresolved — last: @vzakharov (human) 2026-10-23T12:42:33Z — "rule file может не получиться (классификатор не даст); пусть…" → [↓](#t01)
-- **T02** `docs/plans/maya-wander.draft.do-not-implement.md`:9 — unresolved — last: @vzakharov (human) 2026-10-23T12:43:06Z — "wander.md? раз уж так называем" → [↓](#t02)
-- **T03** `docs/plans/maya-wander.draft.do-not-implement.md`:36 — unresolved — last: @vzakharov (human) 2026-10-23T12:45:30Z — "пояснить что всё же сама она деплоить не должна -- постольку…" → [↓](#t03)
-- **T04** `docs/plans/maya-wander.draft.do-not-implement.md`:43 — unresolved — last: @vzakharov (human) 2026-10-23T12:45:50Z — "randowm-words можно вынести в personas/" → [↓](#t04)
-- **T05** `docs/plans/maya-wander.draft.do-not-implement.md`:45 — unresolved — last: @vzakharov (human) 2026-10-23T12:46:32Z — "хм, и сколько мы слов туда сможем зафидить? объясни ещё раз…" → [↓](#t05)
-- **T06** `docs/plans/maya-wander.draft.do-not-implement.md`:56 — unresolved — last: @vzakharov (human) 2026-10-23T12:52:30Z — "Давай ещё создадим файл hello-maya.md, текст буквально: [hel…" → [↓](#t06)
-- **T07** `docs/plans/maya-wander.draft.do-not-implement.md`:62 — unresolved — last: @vzakharov (human) 2026-10-23T12:53:01Z — "insufficient slice этого не даст" → [↓](#t07)
+_6 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `docs/remove-before-merging/squash-message.md`:18 — unresolved — last: @vzakharov (human) 2026-10-23T13:00:46Z — "так.. мы сейчас говорим про reflections только? я говорил во…" → [↓](#t01)
 
 <a id="t01"></a>
 
@@ -126,123 +117,13 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 rule file может не получиться (классификатор не даст); пусть в rule останется только самое базовое -- чуть ли не буквально ссылка на второй файл, а во втором уже полное. Второй придётся читать round-trip-ом, но да переживём, невысока плата за способность менять себя :)
 
----
+**@vzakharov (agent)** — 2026-10-23T12:56:14Z
 
-<a id="t02"></a>
+Сделал так: полный текст переезжает в `personas/maya/reflections.md`, а `.claude/rules/maya-reflections.md` остаётся заглушкой с теми же `paths:` и одной строкой — «прочти `personas/maya/reflections.md`». Иначе правило перестало бы само приходить, когда она открывает отклик. В плане это 832a84e.
 
-### `docs/plans/maya-wander.draft.do-not-implement.md`:9 — unresolved
+**@vzakharov (human)** — 2026-10-23T13:00:46Z
 
-```diff
-@@ -0,0 +1,174 @@
-… 5 lines elided …
-+
-+# Майя гуляет
-+
-+A routine fires a fresh session with the prompt `начни personas/maya/start.md`.
-```
-
-**@vzakharov (human)** — 2026-10-23T12:43:06Z
-
-wander.md? раз уж так называем
-
----
-
-<a id="t03"></a>
-
-### `docs/plans/maya-wander.draft.do-not-implement.md`:36 — unresolved
-
-```diff
-@@ -0,0 +1,174 @@
-… 32 lines elided …
-+  генерировать ещё и ещё искать -- как захочет».
-+- A budget of ~400k tokens, stated in words only. Hooks come later, if words
-+  prove insufficient.
-+- Connectors are off in the routine. Static export, as every site here is.
-```
-
-**@vzakharov (human)** — 2026-10-23T12:45:30Z
-
-пояснить что всё же сама она деплоить не должна -- постольку поскольку всё можно проверять локальным сервером. If and when that changes, будем думать.
-
----
-
-<a id="t04"></a>
-
-### `docs/plans/maya-wander.draft.do-not-implement.md`:43 — unresolved
-
-```diff
-@@ -0,0 +1,174 @@
-… 39 lines elided …
-+- **`personas/maya/`** is her own home, and `personas/` holds one directory per
-+  resident, so a second persona later is a sibling directory. It holds
-+  `personas/maya/start.md`, the entry file, which we write once and she may
-+  rewrite. It also holds `personas/maya/tools/random-words.py`, the die: stdlib
-```
-
-**@vzakharov (human)** — 2026-10-23T12:45:50Z
-
-randowm-words можно вынести в personas/
-
----
-
-<a id="t05"></a>
-
-### `docs/plans/maya-wander.draft.do-not-implement.md`:45 — unresolved
-
-```diff
-@@ -0,0 +1,174 @@
-… 40 lines elided …
-+  resident, so a second persona later is a sibling directory. It holds
-+  `personas/maya/start.md`, the entry file, which we write once and she may
-+  rewrite. It also holds `personas/maya/tools/random-words.py`, the die: stdlib
-+  Python with the word lists embedded, because the container has no
-+  `/usr/share/dict`. It is not served.
-```
-
-**@vzakharov (human)** — 2026-10-23T12:46:32Z
-
-хм, и сколько мы слов туда сможем зафидить? объясни ещё раз почему не хотим установить какую-то библиотеку?
-
----
-
-<a id="t06"></a>
-
-### `docs/plans/maya-wander.draft.do-not-implement.md`:56 — unresolved
-
-```diff
-@@ -0,0 +1,174 @@
-… 51 lines elided …
-+    from `.claude/rules/`, and moving it would stop it arriving when she opens a
-+    reflection.
-+
-+  Beyond the move and those two files, we create nothing in her home: memory,
-+  notes, journal and layout are hers.
-```
-
-**@vzakharov (human)** — 2026-10-23T12:52:30Z
-
-Давай ещё создадим файл hello-maya.md, текст буквально:
-
-[hello-maya.md](./attachments/hello-maya.md)
-
----
-
-<a id="t07"></a>
-
-### `docs/plans/maya-wander.draft.do-not-implement.md`:62 — unresolved
-
-```diff
-@@ -0,0 +1,174 @@
-… 58 lines elided …
-+  `apps/maya/app/`, its `public/`, `next.config.ts` and `tsconfig.json`.
-+- **Her pages and components live in `src/`**, like everyone's: a
-+  `pages/maya-home` slice to start, and whatever she adds under the FSD layers.
-+  Code that turns out to be general goes down a layer where anyone can reuse it.
-```
-
-**@vzakharov (human)** — 2026-10-23T12:53:01Z
-
-insufficient slice этого не даст
+так.. мы сейчас говорим про reflections только? я говорил вообще про "правила как себя вести"
 
 ---
 
