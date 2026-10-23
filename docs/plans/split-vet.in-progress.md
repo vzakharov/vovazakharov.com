@@ -122,6 +122,7 @@ writes nothing to muthur.
       body and marker against a fake `gh` on `PATH`.
 - [x] `/finalize` Steps 1 and 7, `/sync-branch` Step 5, `merge.md`, `revoke.md`
       check; re-point the other callers.
-- [ ] staged `CLAUDE.md` (§ "Vetting", § "Deployment"), watermark rows — `stack.md` done.
-- [ ] Measure the bare run on this branch; then this branch's own `/finalize`
-      attests through `attest.sh`.
+- [x] staged `CLAUDE.md` (§ "Vetting", § "Deployment"), watermark rows,
+      `README.md`, `stack.md`.
+- [x] Measure the bare run on this branch (74 s).
+- [ ] This branch's own `/finalize` attests through `attest.sh`.
