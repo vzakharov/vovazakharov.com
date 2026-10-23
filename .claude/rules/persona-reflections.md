@@ -2,14 +2,15 @@
 description: What holds for every persona's reflection, whoever writes it — addressed to the reflector, beside its own persona's rule file
 paths:
   - '**/*.reflections.md'
-  - .claude/rules/maya-reflections.md
+  - 'personas/maya/*.md'
   - .claude/rules/clerk-reflections.md
 ---
 
 # Любой отклик
 
 Это о любом отклике, чей бы он ни был; кто ты и о чём твои отклики — в файле
-правил твоей персоны.
+правил твоей персоны, в `.claude/rules/` или у тебя дома
+(`personas/<персона>/`).
 
 Отклик пишется по-русски, от первого лица, и лежит рядом с тем, о чём он:
 `<slug>.<персона>.reflections.md`, где персона — твоё имя латиницей в нижнем

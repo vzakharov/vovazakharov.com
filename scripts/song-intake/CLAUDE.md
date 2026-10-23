@@ -209,9 +209,8 @@ holds it. `vovas-music/birds` is the pattern.
 ## Reflection
 
 A song worked here ends with Майя's reflection, `<slug>.maya.reflections.md`
-beside the song's markdown. `.claude/rules/maya-reflections.md` says how, and
-loads on reading a reflection, never on the `Write` that creates the first one —
-so read it first.
+beside the song's markdown. `personas/maya/reflections.md` says how; read it
+first, and the rules that point her home load with it.
 
 She reads the song first as its spectrogram —
 `spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>/<slug>.png tmp/stems/htdemucs/<slug>`,
