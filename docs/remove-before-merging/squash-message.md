@@ -19,7 +19,9 @@ that it is Майя, so every message, thought and tool call comes from
 her rather than about her. It seeds the run with «иди вширь, ищи
 неожиданное» and the die, finds her PR by its claude/maya-* head,
 has her count her own budget to about 400k rather than relay to a
-successor nobody picks up, and leaves memory to her.
+successor nobody picks up, and leaves memory to her. Her first run
+lands with it: a walk on the eel's unseen birthplace, kept as a dated
+file in personas/maya/walks, which is how she chose to remember.
 
 maya.vovazakharov.com is a fifth site built like the others: a router
 in apps/maya, its pages in src/ under the house conventions, so what
