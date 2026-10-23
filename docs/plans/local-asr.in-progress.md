@@ -1,8 +1,3 @@
-> while this file is named `*.draft.do-not-implement.md` — prep and spikes go in
-> `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md`
-> and delete this banner (quoting the go-ahead in the commit) _before_ touching
-> code.
-
 # Speech recognition without Deepgram
 
 The operator removed `DEEPGRAM_API_KEY` on purpose: every recognizer this repo
@@ -135,7 +130,22 @@ Done (pushed):
   `torchaudio.functional.forced_align` to the frame on the `hello` mix, in 0.1
   s. Wired into `scripts/vet.sh` (`ctc=`) and `.claude/rules/stack.md`.
 
-Left: steps 2–7. Notes for step 2, from the spike (`tmp/asr/bench.py`,
+- Steps 2–6, in the second session: `ears.py`, `requirements-hearing.txt`,
+  `transcribe.py` on both models, `lyrics.py` folded, `captions.py` and the
+  prose. Deviations:
+  - The confidence floors (GigaAM 0.6, Whisper 0.7) are calibrated on the spoken
+    album story (`music-sources` release, `krylya-album-story-1.m4a`) heard by
+    both, against their disagreements: fetching the 19.10 note from `life` was
+    refused by the session's permission classifier as health data.
+  - `--second-opinion` needs `--language ru`, GigaAM hearing nothing else.
+  - Whisper's hyphen pieces («какой» + «-то») are glued into one word before the
+    response is built.
+  - `hello.mp4` on the full mix at `--vad 0.1`: the seven lines Whisper heard
+    land within 0.35 s of the published cues (five within 0.2 s); the first five
+    lines it did not hear at all, so `captions.py` interpolates them, 1–4.5 s
+    off — the published track's pins cover them.
+
+Left: step 7. Notes for step 2, from the spike (`tmp/asr/bench.py`,
 `tmp/asr/align.py` — gone with the container, so restated here):
 
 - onnx-asr: `onnx_asr.load_model(name, path=<repo>/tmp/models/<name>)`, names
