@@ -94,8 +94,8 @@ pre-merge signal there is. `.claude/rules/deployment.md` carries the rest.
 
 ## Vetting
 
-`./scripts/vet.sh` is the fast check — every site's build, then lint,
-type-check, format-check, the repo's own gates and the tests — on GitHub's
+`./scripts/vet.sh` is the fast check — every site's build, lint, type-check,
+format-check, the repo's own gates and the tests, as parallel jobs on GitHub's
 runners from the **pushed** head. It runs at milestones, with `/finalize` as the
 canonical caller, **not before every commit**. A failure it should have caught
 is a signal to extend it.
