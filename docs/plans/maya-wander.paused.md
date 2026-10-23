@@ -89,7 +89,16 @@ Approved («звучит хорошо, давай начинать»).
     No `content:og`/`content:pdf` entries: the site has no documents and no
     vector mark.
   - Step 4: a5cc57d, plus the staged CLAUDE.md (4761d4d).
-- **Left:** Steps 5–8.
+  - Step 6: `wander.md`. Her PR is found by head branch, `claude/maya-<tail>`,
+    not by path the way basilisk's is: nothing fences where her work lands. It
+    tells her not to relay at the context-budget notices and to count the 400k
+    herself.
+  - Step 7: 07897e3.
+- **Left:** Step 5, blocked: the auto-mode classifier refused
+  `gh repo create vzakharov/maya.vovazakharov.com --public` as Create Public
+  Surface, so it waits on the operator. DNS waits on the receiver, since a
+  `maya` CNAME at `vzakharov.github.io` that no Pages repo claims can be taken
+  over. Then Step 8.
 - **Known red:** the staged CLAUDE.md puts CLAUDE.md and its imports at 30130
   chars, past the 30000 ceiling. `scripts/check-claude-md-size.sh` wants a cut
   to 29000 and says to hand the trim to a subagent.
