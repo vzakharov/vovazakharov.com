@@ -128,7 +128,7 @@ row was tested on synthetic strikes; nobody looked where a song has no drums. It
 fires before Птицы's first hi-hat at 1:21 as often as after, a picked guitar
 rising like a hit. A demucs drums stem matched all three of the author's times.
 
-## It edits the copy in front of it, not the fact behind it (×17)
+## It edits the copy in front of it, not the fact behind it (×18)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
@@ -138,6 +138,14 @@ alone, and the divergence exists only between them.
 and Railway to Playgram's tech line, the agent edited one of its three
 renderings. Told a reflection called the Clerk "them," it fixed that sentence;
 three more sat beside it.
+
+**23 October — the rows it was editing, fixed; the rows its change falsified,
+left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
+updated the two muthur watermark rows it was already in. Three more had gone
+false: `vet.sh`'s still told the old one-machine sequence, and the two skills'
+bare rows would have the next sync re-copy them verbatim, dropping the push. The
+plan trusted that sync to "carry them back"; it only copies in. _мы не
+отдрифтились отсюда?_
 
 ## It writes its reasoning into the artifact (×13)
 
