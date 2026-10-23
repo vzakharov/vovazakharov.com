@@ -4,16 +4,15 @@
 > and delete this banner (quoting the go-ahead in the commit) _before_ touching
 > code.
 
-# Split vet: a fast local check, and a full run only /finalize makes
+# Split vet: a fast default, `vet all` for the long checks, and `attest` to record them
 
 ## Why
 
 #192 made the bare `scripts/vet.sh` dispatch the whole suite to GitHub's runners
-and wait on it: ~2 min, and only on a pushed head. That broke the name's
-contract with muthur, whose `vet.sh` is "the fast checks the agent runs before
-pushing", and forced two local edits on `/finalize` Step 1 and `/sync-branch`
-Step 5 (push before vetting) that every sync has to dodge. The operator, in the
-session that landed #192:
+and wait on it: ~2 min, and only on a pushed head. That broke muthur's meaning
+of the name — the fast check run before pushing — and forced local edits on
+`/finalize` Step 1 and `/sync-branch` Step 5 (push before vetting) that every
+sync has to dodge. The operator, in the session that landed #192:
 
 > по сути у нас это то, что должно гоняться при finalize, нет? кажется, что
 > нужно это разделить, оставив в vet то что действительно быстро и локально, а
@@ -21,112 +20,114 @@ session that landed #192:
 > сказать muthur чтобы решил эту проблему … создав например заглушку для
 > "тяжёлой" части (и заодно решив как это всё называть-обзывать).
 
+And on the naming, after weighing `check`/`vet`, `vet-full`, and a separate
+`attest-checks.sh` hook:
+
+> пусть A всё-таки. как оформить "долгие проверки" пусть каждый потребитель
+> (включая нас) решает сам, а идиоматически кажется, аргумент vet лучше (и
+> концептуально дешевле) передаёт суть.
+
 ## Measured here (4-core cloud container, `main` @ 4b194cf)
 
 - `vet.sh source` 67 s, `typecheck` 23 s, `local` 2 s; the three in parallel
   **57 s**.
-- Lint over the whole tree (`vet.sh lint 1/1`) **95 s**; over two files 8 s —
-  the type-aware program build dominates only past a few dozen files.
-- The builds are not measured again: four of them were most of the old 4.5 min.
+- Lint over the whole tree (`vet.sh lint 1/1`) **95 s**; over two files 8 s.
 
-## The split
+## The shape
 
-### 1. `scripts/vet.sh` — fast, local, unpushed
+### 1. `scripts/vet.sh` — fast by default, `all` for the long checks
 
-Runs in the working tree, no push, no network, in about a minute:
+- **Bare**: the fast local check, in the working tree, no push, about a minute —
+  `source` + `typecheck` + `local` overlapped, plus ESLint over the files the
+  branch changed (`scripts/lib/changed-files.sh`). No build, no export checks.
+- **`vet.sh all`**: every check this repo has — today's dispatched GitHub run,
+  unchanged: refuse an unpushed tree, dispatch `vet.yml`, run `local` meanwhile,
+  wait, print failed job logs. It prints `vet: run <url>` for its caller.
+- The phase entry points `vet.yml`'s jobs call (`build <site>`, `lint <k>/<n>`,
+  `typecheck`, `source`, `built`, `local`) stay as they are.
+- The contract any adopter's `vet.sh` keeps: bare is fast and local; `all` is
+  whatever the project wants checked before an attestation, and may be the same
+  as bare.
 
-- `source` + `typecheck` + `local`, overlapped as above;
-- ESLint over **the files the branch changed** (`scripts/lib/changed-files.sh`,
-  which the song checks already use), not the whole tree;
-- no build and no export checks (`built`): those need the four builds.
+### 2. `scripts/attest.sh` — runs `vet.sh all` and posts the attestation
 
-So it catches format, type, lint-on-what-you-touched, tests, the agent-infra
-gates. What it cannot catch — a broken page or route, a lint finding in an
-untouched file that a changed type caused, the export checks — is the full
-run's.
+Written stack-free, so muthur can take it verbatim:
 
-The phase entry points (`vet.sh build <site>`, `lint <k>/<n>`, …) stay as they
-are: `vet.yml`'s jobs call them.
+- refuses a tree that differs from the pushed head;
+- runs `scripts/vet.sh all`, keeping its exit status and any `vet: run <url>`;
+- writes the sticky comment `/finalize` Step 7 describes — the
+  `<!-- finalize-attestation <sha> -->` marker the cost ledger parses, head,
+  base and its subject, green or red, the run link — finding it by marker and
+  editing it in place, never `--edit-last`;
+- `--note <file>` appends lines the caller owns (the CI-only bucket line, a
+  conflict the base merge resolved);
+- `--no-vet "<why>"` posts the "none required" form without running anything;
+- exits with `vet.sh all`'s status, so a red run is both recorded and reported.
 
-### 2. `scripts/vet-full.sh` — the full run, on GitHub, pushed head only
-
-Today's bare `vet.sh` body moves here unchanged: refuse an unpushed tree,
-dispatch `vet.yml`, run `local` meanwhile, wait, print failed job logs. The
-whole roster, builds included, as it is now.
+The attestation is then written by the script that saw the run, so it cannot
+claim more than ran.
 
 ### 3. Who runs which
 
-- **`/finalize`** — Step 1 and `/sync-branch` Step 5 go back to muthur's text:
-  `./scripts/vet.sh`, locally, no push. A **new step between 6's sweep and 7's
-  attestation** pushes and runs `scripts/vet-full.sh` on the head the
-  attestation will name. After the sweep, because then the run verifies exactly
-  the SHA attested; a red run there is fixed under the two-shot rule and makes
-  the `and merge` gate stand down like a red Step 1 does now.
-- **`/sync-branch` alone** — fast vet only; the merge gets its full run at
-  `/finalize`.
-- **Attestation** — two lines, `vet.sh` and `vet-full.sh`, each with its result;
-  the full run's line carries the run link.
+- **`/finalize` Step 1** and **`/sync-branch` Step 5** go back to the source's
+  text: `./scripts/vet.sh`, locally, no push.
+- **`/finalize` Step 7** becomes: push, then `scripts/attest.sh` (with `--note`
+  where it has something to add, `--no-vet` in `no vet` mode). It already runs
+  after the sweep, so `vet all` verifies exactly the SHA attested. A red
+  `attest.sh` is fixed under the two-shot rule and stands the `and merge` gate
+  down, as a red Step 1 does now.
+- **`/finalize revoke`** keeps working off the marker; re-read to confirm.
 - **Everything else** that says "the vet run" (`/go`'s "not per commit",
-  `/watch-ci`, `/qa-checklist`, `merge.md`'s gate rows) is re-read and pointed
-  at whichever of the two it means.
+  `/watch-ci`, `/qa-checklist`, `merge.md`'s gate rows, `/check-merge`'s
+  re-attest note) is re-read and pointed at bare `vet` or `attest`, whichever it
+  means.
 
 ### 4. Docs
 
-- `.claude/rules/stack.md` — the roster says which checks the fast run skips,
-  the "split across GitHub's runners" paragraph moves to `vet-full.sh`, and its
-  `paths:` gains `scripts/vet-full.sh`.
-- `CLAUDE.md` § "Vetting" (staged) — two sentences: the fast local check, and
-  the full run `/finalize` makes; "Nothing runs on pull requests, so a green
-  `./scripts/vet.sh` is the only pre-merge signal" in § "Deployment" becomes the
-  full run.
+- `.claude/rules/stack.md` — the fast default vs. `all` in the opening
+  paragraph; the "split across GitHub's runners" text becomes `all`'s; `paths:`
+  gains `scripts/attest.sh`.
+- `CLAUDE.md` § "Vetting" and § "Deployment" (staged) — bare vet is the fast
+  check; `/finalize`'s `attest.sh` runs `vet all` and is the pre-merge signal.
 - `.claude/skills/update-muthur/watermark.json` — the `/finalize` and
-  `/sync-branch` rows stop warning about the push; they record the one added
-  step instead, until muthur carries it. `scripts/vet-full.sh` gets a row.
+  `/sync-branch` rows stop warning about the push and record the Step 7 change
+  instead, until muthur carries it; `scripts/attest.sh` gets a row naming it a
+  candidate to upstream. Each of these rows says outright that it is temporary:
+  once muthur carries the split, the row goes and the files are taken verbatim.
 
 ### 5. Muthur — a separate session, after this lands
 
-Per the operator, a session on muthur once this is merged: propose
-`scripts/vet-full.sh` as a stub that `exec`s `scripts/vet.sh` — so an adopter
-with nothing heavier gets the same run twice for free — and `/finalize`'s new
-step calling it. This branch writes nothing to muthur.
+Propose upstream: `vet.sh`'s contract as above (bare fast, `all` defaulting to
+bare), `attest.sh` verbatim, and `/finalize` Step 7 calling it. This branch
+writes nothing to muthur.
 
-## Naming — recommended `vet.sh` / `vet-full.sh`
+## Open question
 
-1. **`vet.sh` + `vet-full.sh`** (recommended) — keeps muthur's meaning of
-   `vet.sh` untouched, says the relation in the name (full ⊇ fast), and the stub
-   is a one-line `exec`. `grep vet` finds both.
-2. `vet.sh` + `land-check.sh` — names the moment rather than the scope; reads
-   well in `/finalize`, worse anywhere else.
-3. `vet.sh` + `gate.sh` — rejected: `deploy.yml` already has a `gate` job that
-   means the publish switch.
-
-The plan is written with option 1 in force.
-
-## Open questions
-
-1. Name — option 1 above unless you pick another.
-2. Lint in the fast run on **changed files only** (recommended — 8 s against 95
-   s; the full run lints everything) or the whole tree?
+1. Lint in the bare run over **changed files only** (recommended — 8 s against
+   95 s; `vet all` lints everything) or the whole tree?
 
 ## DRY notes
 
-- **Shared:** both entry points dispatch through one `vet.sh` phase vocabulary;
-  `vet-full.sh` calls `scripts/vet.sh local` and `vet.yml` calls the phases, so
-  the check lists stay in `vet.sh` alone. The changed-file set comes from the
-  existing `scripts/lib/changed-files.sh`, not a second diff.
-- **Moved, not duplicated:** `dispatched()` leaves `vet.sh` for `vet-full.sh`.
-- **Not extracted:** a shared "verdict/logged" helper library for two scripts —
-  `vet-full.sh` needs only the verdict, three lines; a sourced lib would be more
-  surface than it saves.
+- **Shared:** one check list, in `vet.sh`; `all`, the bare run and `vet.yml`'s
+  jobs all draw on its phases. The changed-file set is the existing
+  `scripts/lib/changed-files.sh`.
+- **Moved, not duplicated:** the sticky-comment mechanics (find by marker, PATCH
+  in place) leave `/finalize` Step 7's prose for `attest.sh`; the skill keeps a
+  pointer. `/squash-message` has the same mechanic for its own comment and keeps
+  it — a shared helper for two comment kinds in two languages (prose recipe vs.
+  script) would couple a skill to a script for a dozen lines.
+- **Not extracted:** `attest.sh` reads the head/base the way `vet.sh` already
+  does (`git rev-parse`, `git ls-remote`); two call sites of one-liners do not
+  earn a library.
 
 ## Steps
 
-- [ ] `scripts/vet-full.sh` with `dispatched()`; bare `vet.sh` runs the fast set
-      locally, lint over changed files.
-- [ ] `/finalize` Step 1 and `/sync-branch` Step 5 back to the source's text;
-      new full-run step before the attestation; attestation template; `merge.md`
-      gate row.
-- [ ] Re-point the other callers.
+- [ ] `vet.sh`: bare → fast local set with changed-file lint; `all` → today's
+      dispatched run, printing `vet: run <url>`.
+- [ ] `scripts/attest.sh` with `--note` and `--no-vet`; a test over its comment
+      body and marker against a fake `gh` on `PATH`.
+- [ ] `/finalize` Steps 1 and 7, `/sync-branch` Step 5, `merge.md`, `revoke.md`
+      check; re-point the other callers.
 - [ ] `stack.md`, staged `CLAUDE.md`, watermark rows.
-- [ ] Measure the fast run on this branch; `./scripts/vet.sh` then
-      `scripts/vet-full.sh` green.
+- [ ] Measure the bare run on this branch; then this branch's own `/finalize`
+      attests through `attest.sh`.

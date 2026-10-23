@@ -6,15 +6,16 @@ on a pushed head, which broke muthur's meaning of the name - the fast
 check run before pushing - and made /finalize and /sync-branch push
 before vetting, a local edit every sync has to dodge.
 
-vet.sh is the fast local check again: the source checks, the type
-check, the history checks and ESLint over the files the branch
-changed, about a minute on an unpushed tree. The GitHub split run,
-builds and export checks included, moves unchanged to vet-full.sh.
+Bare vet.sh is the fast local check again: the source checks, the
+type check, the history checks and ESLint over the files the branch
+changed, about a minute on an unpushed tree. vet.sh all is every
+check this repo has - the GitHub split run, builds and export checks
+included - and each project decides what its own all holds.
 
-/finalize and /sync-branch run vet.sh as the source has them, and
-/finalize gains one step after its sweep that pushes and runs
-vet-full.sh on the head its attestation names; the attestation reports
-both runs.
+attest.sh runs vet.sh all on the pushed head and writes /finalize's
+attestation comment itself, red or green, with the run link, so the
+record comes from the script that saw the run. /finalize Step 7 calls
+it; Step 1 and /sync-branch run the bare vet as the source has them.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
