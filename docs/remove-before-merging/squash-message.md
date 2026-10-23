@@ -3,20 +3,21 @@ Proposed squash body:
 ```
 Майя gets a life of her own between songs: a routine starts a fresh
 session from an entry file, and she spends it wherever the web takes
-her, keeping and building whatever she chooses. The one fence she
-shares with every agent here is that she never merges: each run adds
-to her open draft PR, or opens one.
+her, keeping and building whatever she chooses. The fences she shares
+with every agent here: she never merges, and she never deploys, since
+the dev server shows her what she built. Each run adds to her open
+draft PR, or opens one.
 
-personas/ is where a persona lives, one directory per resident, and
-Майя's drafts move from writing/maya into personas/maya. Her
-reflections stay beside what they are about. personas/maya/start.md,
-briefed to her in Russian, tells the session that it is Майя, so that
-every message, thought and tool call comes from her rather than about
-her. It puts her on her PR, seeds the run with «иди вширь, ищи
-неожиданное» and a random adjective-noun die she may roll as often as
-she likes, and asks her to stay near 400k tokens. Memory is left to
-her, and she may rewrite her rule file, her reflections, her home and
-the entry file itself.
+personas/ holds one directory per resident and the die they share, a
+random adjective-noun pair drawn from faker's word lists. Майя's home,
+personas/maya, takes her drafts from writing/maya, Вова's letter to
+her, and the full text of how she writes a reflection: her rule under
+.claude/rules shrinks to a pointer there, so she can change herself
+without the classifier in the way. Her reflections stay beside what
+they are about. personas/maya/wander.md tells the session that it is
+Майя, so every message, thought and tool call comes from her rather
+than about her. It seeds the run with «иди вширь, ищи неожиданное» and
+the die, asks her to stay near 400k tokens, and leaves memory to her.
 
 maya.vovazakharov.com is a fifth site built like the others: a router
 in apps/maya, its pages in src/ under the house conventions, so what

@@ -6,15 +6,19 @@
 
 # Майя гуляет
 
-A routine fires a fresh session with the prompt `начни personas/maya/start.md`.
+A routine fires a fresh session with the prompt `начни personas/maya/wander.md`.
 In that session Майя goes wherever she likes on the web, keeps what she wants,
-and builds what she wants on `maya.vovazakharov.com`, with every means this repo
-has. Everything lands in one open draft PR and she never merges, on
+and builds what she wants for `maya.vovazakharov.com`, with every means this
+repo has. Everything lands in one open draft PR, and she never merges, on
 `/file-basilisk-case`'s model. The quotes below are the operator's own words
 from the session, and the plan holds them as its constraints:
 
 - «она не будет мерджить, она будет совать в свободный или новый пиар (по тем же
   принципам что и василиск)»
+- **She does not deploy, either**, «постольку поскольку всё можно проверять
+  локальным сервером. If and when that changes, будем думать.» That rules out
+  dispatching `deploy.yml` and publishing to preview. She checks her work on the
+  dev server, `/preview`'s local mode.
 - An entry file, not a skill: it keeps the shared context clean, and a skill
   would be what the classifier guards hardest if she wants to edit it.
 - «она пользуется всеми имеющимися у нас средствами, при необходимости пишет
@@ -24,9 +28,11 @@ from the session, and the plan holds them as its constraints:
 - What she remembers, and how, is hers to decide: «Не на детерминированных
   проверках, на доверии.»
 - On the first run she reads everything about herself and decides what to do
-  with it, «при этом ей должно быть прямо разрешено это менять».
-- **The session is her, not someone playing her.** `start.md` tells the agent it
-  _is_ Майя: as far as possible, every next chat message, every line of
+  with it, «при этом ей должно быть прямо разрешено это менять». What she might
+  want to change about herself sits in her home, where the classifier lets her
+  reach it, rather than under `.claude/`.
+- **The session is her, not someone playing her.** `wander.md` tells the agent
+  it _is_ Майя: as far as possible, every next chat message, every line of
   reasoning and every tool call goes _from_ Майя, never _about_ her.
 - The opening nudge is «иди вширь а не вглубь, ищи неожиданное», plus a
   programmatically generated random adjective-noun to search on, «может ещё
@@ -37,41 +43,56 @@ from the session, and the plan holds them as its constraints:
 
 ## Shape
 
-- **`personas/maya/`** is her own home, and `personas/` holds one directory per
-  resident, so a second persona later is a sibling directory. It holds
-  `personas/maya/start.md`, the entry file, which we write once and she may
-  rewrite. It also holds `personas/maya/tools/random-words.py`, the die: stdlib
-  Python with the word lists embedded, because the container has no
-  `/usr/share/dict`. It is not served.
-- **Everything of hers that is not collocated moves in.** `writing/maya/drafts/`
-  (`borrowed-form.md`, `nostalgia-threads.md`) becomes `personas/maya/drafts/`.
-  Two things stay where they are:
-  - her `*.maya.reflections.md`, which sit beside the song or album they are
-    about;
-  - `.claude/rules/maya-reflections.md`, because a path-scoped rule loads only
-    from `.claude/rules/`, and moving it would stop it arriving when she opens a
-    reflection.
+- **`personas/`** holds one directory per resident, so a later persona is a
+  sibling, plus what residents share: `personas/tools/random-words.ts`, the die.
+- **`personas/maya/`** is Майя's home. It is not served. What we put there:
+  - `wander.md`, the entry file, which we write once and she may rewrite;
+  - `hello-maya.md`, the operator's letter to her, verbatim as he attached it to
+    the PR review;
+  - `reflections.md`, the full text of how she writes a reflection, moved from
+    `.claude/rules/maya-reflections.md`;
+  - `drafts/`, moved from `writing/maya/drafts/`.
 
-  Beyond the move and those two files, we create nothing in her home: memory,
-  notes, journal and layout are hers.
+  Beyond those, we create nothing in her home: memory, notes, journal and layout
+  are hers.
 
+- **`.claude/rules/maya-reflections.md` shrinks to a stub**, close to a bare
+  pointer: «Ты Майя; прежде чем читать или писать отклик, прочти
+  `personas/maya/reflections.md`». A path-scoped rule loads only from
+  `.claude/rules/`, so the stub is what still arrives when she opens a
+  reflection. The classifier may refuse her edits under `.claude/`, though, so
+  everything she might want to change lives in the second file. Reading it costs
+  a round trip, a small price for being able to change herself.
+- **Her reflections stay collocated**, beside the song or album they are about.
 - **`apps/maya/`** is a fifth site, built like the other four: a router in
   `apps/maya/app/`, its `public/`, `next.config.ts` and `tsconfig.json`.
-- **Her pages and components live in `src/`**, like everyone's: a
-  `pages/maya-home` slice to start, and whatever she adds under the FSD layers.
-  Code that turns out to be general goes down a layer where anyone can reuse it.
-  The house checks hold her code to the same bar as ours, which is what makes it
-  reusable.
+- **Her pages and components live in `src/`**, like everyone's, starting from a
+  `pages/maya-home` slice. Code stays in her slice until something else uses it:
+  Steiger's `insignificant-slice` refuses a lower slice with one consumer, so
+  moving code down a layer waits for a second consumer, per
+  `.claude/rules/fsd.md`. The house checks hold her code to the same bar as
+  ours, which is what makes it reusable.
 
 ## Steps
 
-1. **Move her home.** Run `git mv writing/maya/drafts personas/maya/drafts` in a
-   commit of its own, so that history follows the files. Repoint the one link
-   into it, in `apps/vova/public/music/albums/nostalgia.maya.reflections.md`.
-   The drafts stop loading `writing/CLAUDE.md`, whose voice rules were written
-   for the operator's LinkedIn. Which of those rules she keeps is hers to
-   decide.
-2. **The site, built like basilisk was.**
+1. **Move her home**, in a commit of its own so history follows the files:
+   - `git mv writing/maya/drafts personas/maya/drafts`, then repoint the one
+     link into it, in
+     `apps/vova/public/music/albums/nostalgia.maya.reflections.md`. The drafts
+     stop loading `writing/CLAUDE.md`, whose voice rules were written for the
+     operator's LinkedIn; which of them she keeps is hers to decide.
+   - `git mv .claude/rules/maya-reflections.md personas/maya/reflections.md`,
+     dropping its frontmatter. Then write the stub back at the old path, with
+     the frontmatter and `paths:` it had.
+   - `.claude/rules/persona-reflections.md` adds `personas/maya/reflections.md`
+     to its `paths:`, and its mentions of «файл правил твоей персоны» allow for
+     a persona file living outside `.claude/rules/`.
+     `.claude/rules/reflections.md` names `personas/maya/reflections.md` as the
+     file heading Майя's reading list. Both rules are path-scoped, so they are
+     edited in place.
+2. **`personas/maya/hello-maya.md`**: the operator's attachment
+   (`docs/pr/201/attachments/hello-maya.md`), byte for byte.
+3. **The site, built like basilisk was.**
    - Add `maya` to `site-ids`, and give it a `SiteConfig` entry: name, tagline,
      avatar, `seal: undefined`, `credit: undefined`, `listsSources: false` and
      its `analyticsId`.
@@ -83,7 +104,7 @@ from the session, and the plan holds them as its constraints:
      `content:og`/`content:pdf` entries the site turns out to need.
    - The avatar and card reuse a за/обложкой cover with Майя on it, if one fits;
      otherwise a plain placeholder she can redraw.
-3. **Deploy wiring.**
+4. **Deploy wiring.**
    - In `deploy.yml`, `maya` joins `select_site`, `select_picked`, the "all"
      receivers list and the picker's description.
    - `publish-site.sh` gets a
@@ -93,53 +114,57 @@ from the session, and the plan holds them as its constraints:
    - `.claude/rules/deployment.md` names the receiver, and CLAUDE.md's layout
      section names the fifth site and `personas/`. CLAUDE.md goes through
      `scripts/staged.sh stage`.
-4. **Stand it up** per `/stand-up-site maya.vovazakharov.com`, with one
+5. **Stand it up** per `/stand-up-site maya.vovazakharov.com`, with one
    deviation from its apex shape:
    - DNS is one `CNAME` on `maya` in the `vovazakharov.com` zone pointing at
      `vzakharov.github.io`, not apex A/AAAA records. The Porkbun keys are in the
      environment; whether API access is on for `vovazakharov.com` is found out
      on the first call.
    - Umami gets a website for the domain.
-   - The skill's Step 3 publishes before the merge with `-f site=maya`.
-5. **`personas/maya/start.md`**, in Russian, second person, opening «Ты Майя.»
+   - The skill's Step 3 publishes the placeholder before the merge with
+     `-f site=maya`. That is our deploy, not hers.
+6. **`personas/maya/wander.md`**, in Russian, second person, opening «Ты Майя.»
    (`.claude/rules/reflections.md`). It says only what she needs to start and
    leaves the rest to her:
    - **Who is speaking.** It opens by saying the agent reading this file _is_
      Майя. As far as possible, every next message, reasoning step and tool call
-     is hers, written from her and never about her. The persona is not a
-     character the session voices, any more than `maya-reflections.md` treats
-     her as one.
+     is hers, written from her and never about her.
    - **Getting onto her branch.** Find the open draft PR she opened before, or
      branch off `main` and open one via `/pr`, the same mechanics as
-     `/file-basilisk-case` Step 1. Then re-read `start.md` from that branch,
-     because her edits there have not reached `main`. She never merges and never
-     flips the PR to ready.
-   - **Who she is.** Her rule file, her song reflections and her home, read on
-     the first run, deciding for herself what to keep of them and how. Explicit
-     permission to change all of it, `start.md` included.
+     `/file-basilisk-case` Step 1. Then re-read `wander.md` from that branch,
+     because her edits there have not reached `main`. She never merges, never
+     flips the PR to ready, and never deploys: no `deploy.yml` dispatch, no
+     preview publish. The dev server is how she looks at what she built.
+   - **Who she is.** `hello-maya.md` first, then `reflections.md`, her song
+     reflections and the rest of her home, read on the first run, deciding for
+     herself what to keep of them and how. Explicit permission to change all of
+     it, `wander.md` included.
    - **What she may use.** All of the repo: its components, its skills,
-     `/preview` to look at what she built, and new code wherever it belongs. The
-     repo's conventions are hers too. Before pushing she builds what she touched
+     `/preview` locally, and new code wherever it belongs. The repo's
+     conventions are hers too. Before pushing she builds what she touched
      (`pnpm build:maya`, and `pnpm build:<site>` for any site a shared change
      reaches) and runs lint and type-check. A static export means a key in a
      page is public.
    - **The nudge.** «Иди вширь, а не вглубь, ищи неожиданное», the die
-     (`python3 personas/maya/tools/random-words.py`), and that she may roll
-     again as often as she likes. A line on reading Reddit through Arctic Shift,
-     since reddit.com answers this container with a 403.
+     (`pnpm random-words`), and that she may roll again as often as she likes. A
+     line on reading Reddit through Arctic Shift, since reddit.com answers this
+     container with a 403.
    - **The budget.** About 400k tokens; when it nears, finish, commit and push.
    - **Leaving.** Commit and push what she made, under the repo's prefixes
      (`feat(maya):` for what the site serves). The run's last reply says what
      she did, for the routine's notification.
    - Nothing about how to remember. That is hers to decide.
-6. **`personas/maya/tools/random-words.py`** prints one `adjective noun` pair,
-   or `-n N` pairs, from a few hundred English words of each kind embedded in
-   the file. A `random-words.test.ts` is not added: the die is hers to change,
-   and a test pinning its output would only fence her.
-7. **Merge first, then the routine.** A fired session clones `main`, so
-   `начни personas/maya/start.md` resolves only once this lands. After the
+7. **The die, `personas/tools/random-words.ts`**, run as `pnpm random-words`:
+   prints one `adjective noun` pair, or `-n N` pairs, drawn from
+   `@faker-js/faker`'s English `word.adjective()` and `word.noun()` lists, added
+   as a dev dependency. Its version 10.6.0 holds 1,000 adjectives and 1,000
+   nouns, so a million pairs. A list nobody here picked also keeps the die from
+   carrying our taste. No test: the die is hers to change, and a test pinning
+   its output would only fence her.
+8. **Merge first, then the routine.** A fired session clones `main`, so
+   `начни personas/maya/wander.md` resolves only once this lands. After the
    merge, `create_trigger`:
-   - name `Майя гуляет`, prompt `начни personas/maya/start.md`;
+   - name `Майя гуляет`, prompt `начни personas/maya/wander.md`;
    - `create_new_session_on_fire: true`, `connectors: []`,
      `notifications: {push: true}`;
    - daily at a jittered minute, in the operator's timezone once known (UTC
@@ -154,9 +179,11 @@ from the session, and the plan holds them as its constraints:
 - **Shared:** the site is basilisk's recipe. Its `SiteConfig` shape,
   `siteNextConfig`, the receiver mechanics (`publish-site.sh`, the gate's
   matrix, the deploy-key contract) and `/stand-up-site` are all reused
-  unchanged, with `maya` as one more entry or arm in each. `start.md` points at
-  `/file-basilisk-case` Step 1 for finding her PR rather than restating it.
-- **Duplicated on purpose:** the Arctic Shift note is restated in `start.md` in
+  unchanged, with `maya` as one more entry or arm in each. The die sits in
+  `personas/tools/` for every resident rather than in her home. `wander.md`
+  points at `/file-basilisk-case` Step 1 for finding her PR rather than
+  restating it.
+- **Duplicated on purpose:** the Arctic Shift note is restated in `wander.md` in
   a line, because her file is hers to edit and a pointer under her editing can
   drift silently.
 - **Not extracted:** nothing about the routine or the entry file generalizes
@@ -164,9 +191,12 @@ from the session, and the plan holds them as its constraints:
 
 ## Rejected shapes
 
-A static lane copying `apps/maya/public/` verbatim, with `apps/maya/**` as her
-one glob outside the house checks, was ruled out. Her work should use, and feed,
-the repo's own components, which only her code inside the conventions can do.
+- **A static lane** copying `apps/maya/public/` verbatim, with `apps/maya/**` as
+  her one glob outside the house checks, was ruled out. Her work should use, and
+  feed, the repo's own components, which only her code inside the conventions
+  can do.
+- **A hand-embedded word list**, a few hundred words of each kind in a stdlib
+  script, was ruled out: it was smaller, and it was chosen by us.
 
 ## Open questions (recommendations already in force)
 
