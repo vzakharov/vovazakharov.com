@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "29efa2d9a76dd7327a11906a10fe705bf4d50918",
-  "lastSyncedAt": "2026-10-16",
+  "lastSyncedSha": "3380c691761202667d8c90f37bfa622d2dbe386e",
+  "lastSyncedAt": "2026-10-23",
   "optIn": "take every opt-in path unless the operator's request says otherwise — the operator's standing call, 2026-10-08",
   "adopted": [
     {
@@ -23,7 +23,7 @@
       ".claude/context-budget/": "adopted whole, this repo's `MUTHUR_CONTEXT_BUDGET_SUBAGENT` extension included. `manual-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; a source entry for a handle is that operator's to set here, not a port."
     },
     {
-      ".claude/costs/": "the rows are each repo's own, on its `cost-ledger` branch, and never synced. The Stop hook keeps a gate the source lacks, on when the branch's display copy is committed — `.claude/costs/CLAUDE.md` § \"When the branch's copy is committed\" — so a verbatim re-copy of the hook drops it."
+      ".claude/costs/": "the rows are each repo's own, on its `cost-ledger` branch, and never synced. The Stop hook keeps a gate the source lacks, on when the branch's display copy is committed — `.claude/costs/CLAUDE.md` § \"When the branch's copy is committed\" — so a verbatim re-copy of the hook drops it. `rates.json` is the shared table, taken verbatim: this repo's own roles, `musician` and `persona`, live in `rates.repo.json` on `cost-ledger`, so a role it adds is a `role set`, never an edit to the tree's table."
     },
     ".claude/cold-cache/",
     {
@@ -98,7 +98,14 @@
     "scripts/staged.sh",
     {
       ".claude/skills/bootstrap-workflow-dispatch/": "taken without the source's /test-on-gh pointer, which this repo declines: preview.yml, a dispatch-only workflow, is what made the 404 this skill clears reachable here."
-    }
+    },
+    {
+      ".claude/rules/multi-repo.md": "taken with one translation: its citation of the setup-script hook names vzakharov/muthur's docs/adopting/web-remote.md, which this repo declines, so the local copy says where that doc lives."
+    },
+    "scripts/find-repo.py",
+    "scripts/multi-repo-hooks.py",
+    "scripts/lib/session.py",
+    "scripts/relay-last-reply.py"
   ],
   "declined": {
     ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
