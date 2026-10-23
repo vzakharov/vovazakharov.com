@@ -2,6 +2,7 @@
 description: What scripts/vet.sh runs and why each check is in it, and the four sites a toolchain change has to wire
 paths:
   - scripts/vet.sh
+  - scripts/attest.sh
   - .github/workflows/vet.yml
   - .github/actions/setup-toolchain/**
   - scripts/run-parallel.sh
@@ -33,6 +34,7 @@ pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
 python3 scripts/lib/test_hearing.py # transcribe.py's word merge │
 python3 scripts/song-intake/test_song_facts.py # spectrogram facts │
+python3 scripts/attest_test.py  # attest.sh against a fake gh   │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-notes-length.sh   # writing/notes/ ceiling        │
 scripts/check-skill-catalog.sh  # skill @-references            │
@@ -47,13 +49,19 @@ python3 .claude/keepalive/test_keepalive.py                   # │
 python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 ```
 
-**`scripts/vet.sh` runs that list split across GitHub's runners**: the phases
-`vet.sh`'s header names, every job starting at once, bar the checks that read
-the branch against its merge base or the cost ledger, which run on this machine
-— a runner has neither without a full-history checkout, which costs more than
-they take, and each passes quietly without it. It vets the **pushed** head and
-refuses a tree that differs from it. Against the whole list run in one container
-it halves the wall clock.
+**Bare, `scripts/vet.sh` runs that list here, in about a minute**, bar the four
+builds, the three checks over their exports, and ESLint over any file the branch
+did not change. It reads the working tree and needs no push, so it is the check
+run while working and at `/finalize`'s Step 1.
+
+**`scripts/vet.sh all` runs the whole list split across GitHub's runners**: the
+phases `vet.sh`'s header names, every job starting at once, bar the checks that
+read the branch against its merge base or the cost ledger, which run on this
+machine — a runner has neither without a full-history checkout, which costs more
+than they take, and each passes quietly without it. It vets the **pushed** head
+and refuses a tree that differs from it. Against the whole list run in one
+container it halves the wall clock. `scripts/attest.sh` is its caller: it runs
+`all` at `/finalize`'s Step 7 and records the result as the PR's attestation.
 
 Twenty things about that list are deliberate:
 

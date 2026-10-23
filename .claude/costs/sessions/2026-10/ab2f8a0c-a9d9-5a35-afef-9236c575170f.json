@@ -1,0 +1,101 @@
+{
+  "total": {
+    "inputTokens": 266,
+    "cacheWrite5mTokens": 103262,
+    "cacheWrite1hTokens": 254336,
+    "cacheReadTokens": 25841031,
+    "outputTokens": 74852,
+    "thinkingTokens": 19728,
+    "responses": 133,
+    "costUsd": 9.217308199999996
+  },
+  "estimate": {
+    "at": "2026-10-23T07:41:25.641Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "land prep resolved a base conflict in vet tooling, where a wrong merge breaks the only pre-merge gate"
+      },
+      {
+        "hours": 1.0,
+        "grade": "staff",
+        "role": "architect",
+        "comment": "the split's shape and its naming have to hold for muthur's adopters, not just this repo"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "re-cutting vet.sh's modes and a stack-free attest.sh with its test reaches every skill that runs the gate"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "ab2f8a0c-a9d9-5a35-afef-9236c575170f",
+  "branch": "claude/split-vet",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/vet-on-pull-requests — land PR #192: finalize and merge.",
+  "prs": [
+    192,
+    199
+  ],
+  "url": "https://claude.ai/code/session_01Ay5R381kxbdP1ksi4Y7TCK",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-23T05:37:13.737Z",
+  "lastResponseAt": "2026-10-23T07:42:10.801Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 5.0759908,
+  "ownTurns": {
+    "inputTokens": 244,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 254336,
+    "cacheReadTokens": 24988804,
+    "outputTokens": 70370,
+    "thinkingTokens": 18323,
+    "responses": 122,
+    "costUsd": 8.440824799999996
+  },
+  "subagents": {
+    "inputTokens": 22,
+    "cacheWrite5mTokens": 103262,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 852227,
+    "outputTokens": 4482,
+    "thinkingTokens": 1405,
+    "responses": 11,
+    "costUsd": 0.7764834
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 266,
+      "cacheWrite5mTokens": 103262,
+      "cacheWrite1hTokens": 254336,
+      "cacheReadTokens": 25841031,
+      "outputTokens": 74852,
+      "thinkingTokens": 19728,
+      "responses": 133,
+      "costUsd": 9.217308199999996
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".github/workflows/vet.yml",
+    "endedAt": "2026-10-23T05:38:35.371Z",
+    "contextTokens": 101754,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 100066,
+      "cacheWrite1hTokens": 73886,
+      "cacheReadTokens": 1587278,
+      "outputTokens": 4445,
+      "thinkingTokens": 1726,
+      "responses": 18,
+      "costUsd": 1.4979176000000003
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

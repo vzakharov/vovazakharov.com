@@ -11,11 +11,12 @@ argument has no target token, skip this and finalize the current branch as
 usual.
 
 **`no vet` is the docs-only mode.** Pass it when the diff has nothing to verify
-— markdown, top-level docs, read-only reference data. It skips the vet run
-(there is nothing for it to check) and skips any bucket dispatch. It does
-**not** skip step 7: the attestation still goes up, stating that verification
-was a deliberate no-op and why. Everything else below still applies. (`no ci`
-and `no attest` are accepted spellings of this flag.)
+— markdown, top-level docs, read-only reference data. It skips step 1's vet run
+and step 7's `vet all` (there is nothing for either to check) and skips any
+bucket dispatch. It does **not** skip step 7: the attestation still goes up,
+through `scripts/attest.sh --no-vet`, stating that verification was a deliberate
+no-op and why. Everything else below still applies. (`no ci` and `no attest` are
+accepted spellings of this flag.)
 
 **`revoke` withdraws the attestation instead of making one** — for a branch that
 needs work again after it was finalized. It runs
@@ -53,11 +54,12 @@ everything below depends on it: check whether any workflow runs on a PR in this
 repo (`.github/workflows/` triggers, or `gh pr checks` on an existing PR).
 
 - **If nothing runs on a PR**, _you_ are the entire gate — nothing downstream
-  will report on this branch before someone merges it. Step 1's
-  `./scripts/vet.sh` is the only thing that runs the project's checks before the
-  merge, which is why vetting is not optional on this path even though ordinary
-  development skips it. An empty Checks tab after step 4 is then the expected
-  end state; do **not** push an empty commit to "relaunch CI".
+  will report on this branch before someone merges it. Step 7's
+  `scripts/attest.sh`, which runs `scripts/vet.sh all`, is the only thing that
+  runs every check the project has before the merge, which is why it is not
+  optional on this path even though ordinary development skips it. An empty
+  Checks tab after step 4 is then the expected end state; do **not** push an
+  empty commit to "relaunch CI".
 - **If a workflow does run on PRs**, the vet run still happens here — it's
   faster and it catches things before a reviewer sees red — but step 4 also
   means watching that run to green (`@.claude/skills/watch-ci/SKILL.md`), and
@@ -93,8 +95,7 @@ duplication like any other.
 
 Steps (stop on first unresolved failure):
 
-1. **Vet**: push, then `./scripts/vet.sh`, which vets the pushed head. Fix, push
-   and rerun until green.
+1. **Vet**: `./scripts/vet.sh`. Fix and rerun until green.
 2. **Merge the base branch**: load `@.claude/skills/sync-branch/SKILL.md` and
    follow it, passing `no vet` in `no vet` mode. It owns the merge — the
    conflicts committed as git left them, the resolution in a commit of its own,
@@ -211,63 +212,39 @@ Steps (stop on first unresolved failure):
    operator, or by step 8 itself.
 
 7. **Attest** — the last act, and the only durable record that this branch was
-   verified beyond whatever CI reports. Post it on the PR — or, on a re-run,
-   edit it in place; it is sticky, keyed on the `<!-- finalize-attestation`
-   marker, and the marker is how you find it (mechanic below the templates). The
-   marker carries the head's full SHA, which the cost ledger's `Stop` hook
-   parses (`.claude/costs/lib/finalized.py`) to stop writing display copies onto
-   a finalized branch:
+   verified beyond whatever CI reports. Push, then run `scripts/attest.sh`: it
+   runs `scripts/vet.sh all` on the pushed head — every check the project has,
+   where step 1 ran the fast ones — and posts the result as the PR's sticky
+   attestation comment, or edits it in place on a re-run. Its header says what
+   the comment holds and how it is found; the marker carries the head's full
+   SHA, which the cost ledger's `Stop` hook parses
+   (`.claude/costs/lib/finalized.py`) to stop writing display copies onto a
+   finalized branch. A red run is still posted, as red, and fixed under the
+   two-shot rule like any failure, re-attesting after the fix.
+
+   What the script cannot know goes in through `--note <file>`, lines appended
+   under its verdict:
 
    ```md
-   <!-- finalize-attestation <full-head-sha> -->
-
-   ### Attestation
-
-   Verified <short-sha> (`<branch>`) against `<base>` @ <base-short-sha> "<base subject>".
-
-   - `./scripts/vet.sh` — **green**
    - CI on this PR — **<green (run link) | nothing runs on a PR in this repo>**
    - CI-only buckets — **<dispatched and passed (run link) | not dispatched: the diff doesn't reach them | /test-on-gh is an unhydrated stub>**
 
-   <If nothing runs on a PR here: "No workflow runs on a PR; this comment is the verification record.">
-   ```
-
-   In `no vet` mode the comment still goes up — same marker, same place — saying
-   that there was nothing to verify:
-
-   ```md
-   <!-- finalize-attestation <full-head-sha> -->
-
-   ### Attestation — none required
-
-   <short-sha> (`<branch>`) against `<base>` @ <base-short-sha> "<base subject>".
-
-   Finalized in `no vet` mode: <why the diff has nothing to verify — e.g. "markdown only, no code path touched">. `./scripts/vet.sh` was skipped rather than run green, and no bucket was dispatched.
+   <Anything else the run turned up that a reviewer should know — a conflict the base merge resolved, a check stopped under the two-shot rule.>
 
    <If nothing runs on a PR here: "No workflow runs on a PR; this comment is the verification record.">
    ```
 
-   **Finding the comment: match the marker, never `--edit-last`.** Same mechanic
-   `@.claude/skills/squash-message/SKILL.md` § "Emit" uses for its own sticky
-   comment — list the PR's comments
-   (`gh api repos/<owner>/<repo>/issues/<n>/comments --paginate`), pick the one
-   whose body contains `<!-- finalize-attestation`, and
-   `gh api repos/<owner>/<repo>/issues/comments/<id> -X PATCH -F body=@<file>`
-   that id; post a new comment only when no match exists.
-   `gh pr comment --edit-last` looks like the tool for this and is not: it
-   targets your most recent comment on the PR whatever that happens to be, so on
-   the ordinary finalize ordering — squash proposal posted at step 5,
-   attestation at step 7 — it overwrites the squash proposal with the
-   attestation. Both comments are then one comment, and the loss is silent.
+   In `no vet` mode,
+   `scripts/attest.sh --no-vet "<why the diff has nothing to verify — e.g. markdown only, no code path touched>"`
+   posts the same comment's "none required" form, running nothing.
 
    Rules that make it worth trusting:
-   - **Attest what you vetted, not what you meant to vet.** If the vet run was
-     not green, or a dispatch was skipped for a reason other than "the diff
-     doesn't reach it", or you stopped under the two-shot rule — say exactly
-     that, in the comment. An honest partial attestation is useful; a tidy one
-     that overstates is worse than none. That includes naming a stub:
-     "`./scripts/vet.sh` is not implemented in this project yet" is an honest
-     line, and it tells the reviewer exactly how much the attestation is worth.
+   - **Attest what you vetted, not what you meant to vet.** The verdict line is
+     the script's, so it cannot overstate the run; the note is yours, and holds
+     to the same bar: a dispatch skipped for a reason other than "the diff
+     doesn't reach it", or a stop under the two-shot rule, is said exactly. An
+     honest partial attestation is useful; a tidy one that overstates is worse
+     than none.
    - **One comment, edited in place.** Re-running `/finalize` after a
      base-advanced re-verify updates it; it must always describe the branch's
      current head, not the first pass. A branch finalized once in `no vet` mode
@@ -277,10 +254,8 @@ Steps (stop on first unresolved failure):
      another machine — cannot distinguish "verification was skipped on purpose"
      from "nobody ever finalized this" unless one of them is written down, and
      the missing comment looks identical to the forgotten one. Say which it was.
-   - **The SHAs go bare, not in code spans** — GitHub only auto-links an
-     un-backticked hash, per CLAUDE.md § "GitHub comments".
-   - End the body with the attribution footer the repo requires of every GitHub
-     comment.
+   - **The SHAs in a note go bare, not in code spans** — GitHub only auto-links
+     an un-backticked hash, per CLAUDE.md § "GitHub comments".
    - **A head that moved only by `.claude/costs/sessions/` is still the head you
      verified.** The cost ledger's `Stop` hook relies on it: it stops writing a
      branch's display copy once the marker's SHA holds, and treats a commit
