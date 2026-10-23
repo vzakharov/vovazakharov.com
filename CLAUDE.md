@@ -94,15 +94,17 @@ pre-merge signal there is. `.claude/rules/deployment.md` carries the rest.
 
 ## Vetting
 
-`./scripts/vet.sh` is the fast local check — every site's build, then lint,
-type-check, format-check, the repo's own gates and the tests. It runs at
-milestones, with `/finalize` as the canonical caller, **not before every
-commit**. A failure it should have caught is a signal to extend it.
+`./scripts/vet.sh` is the fast check — every site's build, lint, type-check,
+format-check, the repo's own gates and the tests, as parallel jobs on GitHub's
+runners from the **pushed** head. It runs at milestones, with `/finalize` as the
+canonical caller, **not before every commit**. A failure it should have caught
+is a signal to extend it.
 
-**A toolchain change has three sites to wire**: `scripts/vet.sh`,
-`.claude/hooks/install-deps.sh`, and the environment setup script, which no
-agent can edit — so the report says what the operator must add there.
-`.claude/rules/stack.md` carries the roster.
+**A toolchain change has four sites to wire**: `scripts/vet.sh`,
+`.claude/hooks/install-deps.sh`, CI (`.github/actions/setup-toolchain` and
+`vet.yml`), and the environment setup script, which no agent can edit — so the
+report says what the operator must add there. `.claude/rules/stack.md` carries
+the roster.
 
 ## Key principles
 

@@ -149,24 +149,27 @@ references the old way, a pattern the branch should now follow. A clear,
 low-risk fix goes in a commit of its own; an ambiguous or large one is surfaced
 to the operator rather than shipped as redundancy.
 
-### Step 5 — Verify locally
+### Step 5 — Verify
 
 ```bash
 git grep -nE '^(<<<<<<<|>>>>>>>) ' || echo clean     # no conflict markers survived
+git push                                             # Step 6's push, now: vet reads the pushed head
 ./scripts/vet.sh                                     # unless `no vet` was passed
 ```
 
-Fix real errors before pushing. **Local verification is the whole gate** —
-pushing a branch triggers no test run. That is why the full vet run happens here
-and not just a type-check: a merge can type-check cleanly and still behave
+Fix real errors in commits of their own, pushed before the next vet run, which
+refuses a tree that differs from the pushed head. **The vet run is the whole
+gate** — pushing a branch triggers no test run. That is why it happens here and
+not just a type-check: a merge can type-check cleanly and still behave
 differently. If the merge pulled in changes on a surface the vet run doesn't
 cover (a bucket that only runs in CI), dispatch that bucket too — `/test-on-gh`,
 if the project has hydrated it.
 
 ### Step 6 — Push, then report for after-the-fact review
 
-Push the branch to its own upstream — no pre-push greenlight, and never between
-the merge commit and the resolution commit:
+Push the branch to its own upstream — a no-op once Step 5 has pushed — with no
+pre-push greenlight, and never between the merge commit and the resolution
+commit:
 
 ```bash
 git push        # plain push == fast-forward; 2/4/8/16s backoff on network errors

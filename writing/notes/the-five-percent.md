@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×82)
+## What it was handed, it treats as fixed (×83)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -98,6 +98,11 @@ in with the music PR for Майя's voice; drawing is `designer`. Every earlier
 `artist` part had been a persona reflection, so the label had drifted between
 sessions already. Now `musician`.
 
+**22 October — "nothing runs on pull requests," read as the request.** Asked to
+move `vet.sh` "into GitHub," the agent built CI on every PR, the docs' gap, and
+never asked why. The why was a bigger machine; GitHub's standard runner here is
+the session's own 4 cores and 16 GB, so the build bought nothing it was for.
+
 ## An account that explains the code stands in for running it (×26)
 
 The worse half of "It checks the render against its intent" below: here the
@@ -137,7 +142,7 @@ and the River link were two notes, and no part was opened: the second's
 «расправив крыла… промчусь баттерфляем» carries the wings, and its last line
 makes the father the drop, the rain and the river.
 
-## It edits the copy in front of it, not the fact behind it (×17)
+## It edits the copy in front of it, not the fact behind it (×18)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
@@ -147,6 +152,14 @@ alone, and the divergence exists only between them.
 and Railway to Playgram's tech line, the agent edited one of its three
 renderings. Told a reflection called the Clerk "them," it fixed that sentence;
 three more sat beside it.
+
+**23 October — the rows it was editing, fixed; the rows its change falsified,
+left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
+updated the two muthur watermark rows it was already in. Three more had gone
+false: `vet.sh`'s still told the old one-machine sequence, and the two skills'
+bare rows would have the next sync re-copy them verbatim, dropping the push. The
+plan trusted that sync to "carry them back"; it only copies in. _мы не
+отдрифтились отсюда?_
 
 ## It writes its reasoning into the artifact (×13)
 
@@ -219,7 +232,7 @@ the bot's failure being its own; to him the butt is whoever let it agree deals.
 proverb about eyes and the soul it plays on: his two sentences in the order he
 said them, not the order in which one sets up the other.
 
-## What it defends in writing, it stops asking about (×7)
+## What it defends in writing, it stops asking about (×8)
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it, each honest that it was deliberate and silent on its being right.
@@ -235,6 +248,14 @@ became "Grandpa of Mine," because the crib had it so: _Разве "grandpa of mi
 (BAS-0019) went down as running AI, and the agent's own reflection said it took
 that answer because it suited the docket's `noAi` balance. The admission had
 been the finding.
+
+**23 October — a lag written down three times, never timed.** The Vet
+workflow's export check dropped `needs` on the builds because GitHub marks them
+done "minutes" late: a workflow comment, a script header and the squash proposal
+said so, and the agent relayed it to the operator as fact. _инфа 100% или
+hand-waving?_ Five runs still on `needs` answered in one API call: dependents
+started three seconds after the last build. The real gain is checkout and setup,
+15–20 s, overlapping the builds.
 
 ## It checks the render against its intent, not against the page (×6)
 
