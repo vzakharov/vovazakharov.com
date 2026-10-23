@@ -14,10 +14,12 @@ words, Whisper large-v3 23%.
 
 So transcribe.py hears Russian speech with GigaAM-v3 first and every
 other language, and songs, with Whisper large-v3 first, each model the
-other's second opinion; it absorbs song-intake's lyrics.py, and on
-Russian re-places Whisper's words with a numpy CTC aligner over
-GigaAM-v3's frames, which caption tracks are timed from. Responses keep
-their shape, so the hearings already committed read as before.
+other's second opinion, each with a doubt floor on its own confidence
+scale; it absorbs song-intake's lyrics.py, and on Russian re-places
+Whisper's words with a numpy CTC aligner over GigaAM-v3's frames, which
+caption tracks are timed from. Both models run from one torch-free
+venv, scripts/requirements-hearing.txt. Responses keep their shape, so
+the hearings already committed read as before.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
