@@ -79,7 +79,7 @@ from the session, and the plan holds them as its constraints:
 
 Approved («звучит хорошо, давай начинать»).
 
-- **Done:** Steps 1–4.
+- **Done:** Steps 1–7.
   - Step 1: the move is de94886 and the split 90049e8. The stub
     `.claude/rules/maya.md` is also scoped to her song reflections.
   - Step 2: 0b502fc.
@@ -100,7 +100,8 @@ Approved («звучит хорошо, давай начинать»).
     `cname`, now a trap in `/stand-up-site`.
   - The operator asked for the footer «(с) 2026 Майя из за/обложкой», the band
     linked to its page under /music: `SiteFooter` takes a `byline`.
-- **Left:** Step 8, after the merge.
+- **Left:** `/go`'s Step 3 (`/polish`) and Step 4 (`/pr`); then the merge, which
+  is the operator's call through `/finalize`; then Step 8, the routine.
 - **Known red:** the staged CLAUDE.md puts CLAUDE.md and its imports at 30130
   chars, past the 30000 ceiling. `scripts/check-claude-md-size.sh` wants a cut
   to 29000 and says to hand the trim to a subagent.
