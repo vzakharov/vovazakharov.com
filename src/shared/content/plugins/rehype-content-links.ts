@@ -4,26 +4,8 @@ import type { Element, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { resolveAuthoredPath } from '../collections';
+import { resolveAuthoredUrl } from '../collections';
 import type { FileInCollection } from '../documents';
-
-/** `./x`, `../x` and bare `x` — anything that resolves against the document. */
-function isRelative(url: string): boolean {
-  return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
-}
-
-function rewrite(
-  { collection, fileName }: FileInCollection,
-  url: string,
-): string {
-  if (!isRelative(url)) return url;
-
-  const hashAt = url.indexOf('#');
-  const pathPart = hashAt === -1 ? url : url.slice(0, hashAt);
-  const fragment = hashAt === -1 ? '' : url.slice(hashAt);
-
-  return `${resolveAuthoredPath(collection, fileName, pathPart)}${fragment}`;
-}
 
 const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
   a: 'href',
@@ -39,9 +21,10 @@ const URL_ATTRIBUTE: Record<string, 'href' | 'src'> = {
  *
  * A link's absolute address, which paper needs, is `ContentLink`'s to give.
  */
-export const rehypeContentLinks: Plugin<[FileInCollection], Root> = (
-  context,
-) => {
+export const rehypeContentLinks: Plugin<[FileInCollection], Root> = ({
+  collection,
+  fileName,
+}) => {
   return (tree) => {
     visit(tree, 'element', (node: Element) => {
       const attribute = URL_ATTRIBUTE[node.tagName];
@@ -52,7 +35,11 @@ export const rehypeContentLinks: Plugin<[FileInCollection], Root> = (
 
       if (typeof value !== 'string') return;
 
-      node.properties[attribute] = rewrite(context, value);
+      node.properties[attribute] = resolveAuthoredUrl(
+        collection,
+        fileName,
+        value,
+      );
     });
   };
 };

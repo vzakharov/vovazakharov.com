@@ -1,7 +1,6 @@
 ---
 title: 'Мой Султан'
 date: 2024-09-16
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'sultan'

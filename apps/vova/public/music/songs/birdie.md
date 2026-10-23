@@ -1,7 +1,6 @@
 ---
 title: Птичка
 date: 2026-04-04
-status: done
 language: ru
 project: [Грёбаный бал]
 repo: birdie

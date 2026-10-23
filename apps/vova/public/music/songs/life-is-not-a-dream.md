@@ -1,7 +1,6 @@
 ---
 title: 'Life, believe, is not a dream…'
 date: 2024-11-19
-status: done
 language: en
 project: ['Полуживые', 'за/обложкой', 'GENERATED']
 repo: 'bronte'

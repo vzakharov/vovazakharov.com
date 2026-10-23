@@ -1,7 +1,6 @@
 ---
 title: 'In the Shadow'
 date: 2024-07-23
-status: done
 language: en
 project: ['GENERATED']
 repo: 'nightmares'

@@ -2,7 +2,6 @@
 title: 'Wanderer’s Farewell'
 titleLanguage: en
 date: 2024-12-16
-status: done
 language: instrumental
 project: ['Полуживые', 'GENERATED']
 repo: 'vagabond_album'

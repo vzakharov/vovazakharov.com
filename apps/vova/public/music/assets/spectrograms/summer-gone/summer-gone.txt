@@ -1,0 +1,14 @@
+summer-gone.mp3 — 4:03
+tempo 83 BPM
+key G minor (r 0.84; next G major, 0.73)
+tuning A = 440 Hz +3 ¢
+bars drawn on no zoom — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–0:23  83 BPM  −18 dB  Gm B♭ D♭m Gm
+2  0:23–0:47  83 BPM  −10 dB  Gm Em C Gm C G
+3  0:47–0:57  84 BPM  −13 dB  G
+4  0:57–1:55  83 BPM  −11 dB  G Em Gm E♭ G
+5  1:55–3:27  83 BPM  −10 dB  G Em Gm E♭ Gm Em C Gm E♭m + Gm E♭ ×2
+6  3:27–3:39  83 BPM  −13 dB  G
+7  3:39–3:53  82 BPM  −30 dB  G
+8  3:53–4:03  – BPM  −58 dB  

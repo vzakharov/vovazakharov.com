@@ -1,7 +1,6 @@
 ---
 title: 'Мир, какой он есть'
 date: 2023-12
-status: done
 language: ru
 project: ['за/обложкой']
 repo: world-as-it-is

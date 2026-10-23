@@ -211,6 +211,31 @@ export function resolveAuthoredPath(
   );
 }
 
+/** `./x`, `../x` and bare `x` — anything that resolves against the document. */
+function isRelative(url: string): boolean {
+  return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
+}
+
+/**
+ * A link or source written in `fileName`, as the page should carry it: a
+ * relative one by `resolveAuthoredPath`, its fragment kept; anything absolute,
+ * site-root or in-page as written. Every place that renders authored markdown
+ * goes through this, or its `./x.md` links reach the reader as files.
+ */
+export function resolveAuthoredUrl(
+  id: CollectionId,
+  fileName: string,
+  url: string,
+): string {
+  if (!isRelative(url)) return url;
+
+  const hashAt = url.indexOf('#');
+  const pathPart = hashAt === -1 ? url : url.slice(0, hashAt);
+  const fragment = hashAt === -1 ? '' : url.slice(hashAt);
+
+  return `${resolveAuthoredPath(id, fileName, pathPart)}${fragment}`;
+}
+
 /** Where a collection is listed — its index page, or the site's home. */
 export function collectionRoute(id: CollectionId): string {
   return COLLECTIONS[id].homeIndexed ? '/' : collectionPath(id);

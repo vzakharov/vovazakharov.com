@@ -1,7 +1,6 @@
 ---
 title: Папа
 date: 2025-11-09
-status: done
 language: ru
 project: [Полуживые]
 repo: sashas

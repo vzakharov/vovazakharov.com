@@ -1,7 +1,6 @@
 ---
 title: 'Behind the Mask'
 date: 2024-11-05
-status: done
 language: en
 project: ['GENERATED']
 repo: 'mask'

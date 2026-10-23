@@ -1,7 +1,6 @@
 ---
 title: Слизь
 date: 2026-08-23
-status: done
 language: ru
 project: [Грёбаный бал, за/обложкой]
 repo: slime

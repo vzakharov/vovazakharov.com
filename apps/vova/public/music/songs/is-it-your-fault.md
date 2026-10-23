@@ -1,7 +1,6 @@
 ---
 title: 'Твоя ль вина, что милый образ твой…'
 date: 2024-12-20
-status: done
 language: ru
 project: ['Дамы и господа', 'Полуживые']
 repo: 'sonnet61'

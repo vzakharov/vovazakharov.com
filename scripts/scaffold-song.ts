@@ -149,7 +149,6 @@ function document(fields: DocumentFields): string {
   return `---
 title: ${yaml(own)}
 date: ${date}
-status: done
 language: ${language.length === 1 ? language.join('') : `[${language.join(', ')}]`}
 ${
   project === undefined

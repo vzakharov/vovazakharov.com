@@ -1,7 +1,6 @@
 ---
 title: 'I Love Little Pussy'
 date: 2024-07-23
-status: done
 language: en
 project: ['GENERATED']
 repo: 'meow'

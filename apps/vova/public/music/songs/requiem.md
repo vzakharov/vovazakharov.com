@@ -1,7 +1,6 @@
 ---
 title: 'Уж сколько их упало в эту бездну…'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Дамы и господа', 'Полуживые']
 repo: 'requiem'

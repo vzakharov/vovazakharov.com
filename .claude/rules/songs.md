@@ -55,10 +55,10 @@ beside it as `<src>.<language>.vtt` per lyrics column (the build fails without
 the sung one's; `scripts/song-intake/CLAUDE.md` § "Captions"), and its
 `offsetSeconds`, where the master starts on it; opened from a button beside the
 play control rather than linked in the story, so that starting it can pause the
-player — `status`, `language` — what the vocal is in, independent of what the
-page is rendered in — `project` as a list with the artist first and features
-after, `explicit`, `segue` where the song runs into its release's next track,
-which a shuffle then never parts it from, `album`, and `credits.lyrics` /
+player — `language` — what the vocal is in, independent of what the page is
+rendered in — `project` as a list with the artist first and features after,
+`explicit`, `segue` where the song runs into its release's next track, which a
+shuffle then never parts it from, `album`, and `credits.lyrics` /
 `credits.music` as lists of people in contribution order, absent meaning the
 author alone — each name in either locale's spelling from
 `shared/music-catalogue/people.ts`, which shows it in the reader's. **Each album
@@ -216,8 +216,7 @@ changes how a draft of one is written and what a review of it means.
   spread over every story it touches.
 - **A change to a song's story or words is checked against its reflection.**
   Майя's `<slug>.maya.reflections.md` may quote or answer what changed; where it
-  does, she adds a closing paragraph per `persona-reflections.md`, never a
-  rewrite.
+  does, she adds a closing paragraph per `persona-reflections.md`.
 - **Nothing is explained on his behalf.** He writes for people who already know
   him, so a fact he left out was left out. Adding the line of context a stranger
   would want takes the piece away from the reader it was written for.

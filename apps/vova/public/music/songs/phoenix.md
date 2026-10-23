@@ -1,7 +1,6 @@
 ---
 title: 'Phoenix'
 date: 2024-11-30
-status: done
 language: en
 project: ['GENERATED']
 repo: 'phoenix'

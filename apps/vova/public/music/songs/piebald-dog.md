@@ -1,7 +1,6 @@
 ---
 title: 'Пегий пёс, бегущий краем моря'
 date: 2024-09-17
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'pes'

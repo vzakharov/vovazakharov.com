@@ -1,7 +1,6 @@
 ---
 title: 'Каприс Каркасси'
 date: 2024-09-15
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'caprice'

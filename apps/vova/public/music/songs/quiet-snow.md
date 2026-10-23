@@ -1,7 +1,6 @@
 ---
 title: 'Мы вспоминаем тихий снег…'
 date: 2024-12-20
-status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'sneg'

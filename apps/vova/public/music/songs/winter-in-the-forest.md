@@ -1,7 +1,6 @@
 ---
 title: 'Зима в лесу'
 date: 2023-12
-status: wip
 language: ru
 project: ['Полуживые']
 repo: 'winter-in-the-forest'
@@ -31,6 +30,14 @@ ru:
 Tarkovsky wrote “There is no freedom in nature…” in 1973; it was printed in his _Izbrannoye_ (“Selected poems”) of 1982.
 
 The boyar Kolychev of its last stanza is Metropolitan Philip, born Fyodor Kolychev. He became Metropolitan of Moscow in 1566 on condition that the oprichnina be abolished, in March 1568 refused to bless Ivan the Terrible and publicly condemned the terror, and was deposed on false charges and, in 1569, strangled by Malyuta Skuratov.
+
+<!-- lang:ru -->
+
+В конце, как и на «[Бессоннице](./insomnia.md)», — «ленивый», как некоторые говорят, фейд-аут, так что я дважды ленив в этом альбоме. Меня это творчески мучало (ну и в принципе то, что в нём две похожие, условно, «баллады»), но лучше варианта не нашёл.
+
+<!-- lang:en -->
+
+The song ends, as [“Insomnia”](./insomnia.md) does, on what some call a “lazy” fade-out, so I am lazy twice on this album. It tormented me creatively (as did, really, the album having two similar, loosely speaking, “ballads”), but I found nothing better.
 
 <!-- lyrics:ru -->
 

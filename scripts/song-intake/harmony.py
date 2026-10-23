@@ -3,6 +3,7 @@
 import numpy as np
 
 from audio import QUIET, steady_path
+from pitch import fold_fifths
 
 # Krumhansl and Kessler's probe-tone ratings, C as the tonic.
 KEY_PROFILES = {
@@ -44,18 +45,21 @@ def beat_chords(chroma, loudest, step, beats, end):
     cosine between its template and the beat's 12-class chroma, plus
     BASS_ROOT_WEIGHT times the share of the bass octaves, C2–B3, its root
     holds: a melody note held over a chord pulls the cosine toward a
-    neighbour, and the bass, which plays the root, pulls it back. The path
+    neighbour, and the bass, which plays the root, pulls it back. The bass's
+    fifths are folded onto their roots first (`fold_fifths`), or a bass
+    sounding root and fifth votes half for the chord a fifth up. The path
     through the beats maximizes the scores less CHORD_CHANGE_COST per change
     (Viterbi), so a beat the voice pulls astray does not break a held chord.
     """
     by_octave = chroma.reshape(len(chroma), -1, 12)
+    bass_octaves = fold_fifths(by_octave[:, :2].reshape(len(chroma), -1)).reshape(len(chroma), 2, 12)
     roots = np.array([root for root, _ in TRIAD_NAMES])
     frame = np.round(np.concatenate([beats, [end]]) / step).astype(int)
     scores, quiet = [], []
     for a, b in zip(frame[:-1], frame[1:]):
         b = max(b, a + 1)
         whole = by_octave[a:b].sum(axis=(0, 1))
-        bass = by_octave[a:b, :2].sum(axis=(0, 1))
+        bass = bass_octaves[a:b].sum(axis=(0, 1))
         quiet.append(loudest[a:b].max(initial=0) < QUIET or not whole.any())
         fit = TRIADS @ (whole / max(np.linalg.norm(whole), 1e-12))
         scores.append(fit + BASS_ROOT_WEIGHT * bass[roots] / max(bass.sum(), 1e-12))

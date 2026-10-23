@@ -1,7 +1,6 @@
 ---
 title: 'Мне нравится, что вы больны не мной…'
 date: 2024-12-20
-status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'mne-nravitsa'

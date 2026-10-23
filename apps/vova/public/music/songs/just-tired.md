@@ -1,7 +1,6 @@
 ---
 title: 'Просто устал'
 date: 2025-10-30
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'burmakin'

@@ -1,7 +1,6 @@
 ---
 title: 'Окна'
 date: 2024-11-21
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'okna'

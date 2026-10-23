@@ -1,7 +1,6 @@
 ---
 title: 'Приглашение в путешествие'
 date: 2023-12
-status: wip
 language: ru
 project: ['Полуживые']
 repo: nostalgia
