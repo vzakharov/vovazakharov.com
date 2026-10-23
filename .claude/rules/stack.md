@@ -49,10 +49,10 @@ python3 .claude/keepalive/test_keepalive.py                   # │
 python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 ```
 
-**Bare, `scripts/vet.sh` runs that list here, in about a minute, bar what needs
-a build**: the four builds, the three checks over their exports, and ESLint over
-any file the branch did not change. It reads the working tree and needs no push,
-so it is the check run while working and at `/finalize`'s Step 1.
+**Bare, `scripts/vet.sh` runs that list here, in about a minute**, bar the four
+builds, the three checks over their exports, and ESLint over any file the branch
+did not change. It reads the working tree and needs no push, so it is the check
+run while working and at `/finalize`'s Step 1.
 
 **`scripts/vet.sh all` runs the whole list split across GitHub's runners**: the
 phases `vet.sh`'s header names, every job starting at once, bar the checks that
