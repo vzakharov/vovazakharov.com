@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 69470,
+    "cacheReadTokens": 794081,
+    "outputTokens": 5513,
+    "thinkingTokens": 2186,
+    "responses": 8,
+    "costUsd": 0.8249002
+  },
+  "estimate": {
+    "at": "2026-10-23T09:59:37.698Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "weighing where an autonomous persona's freedom can live without putting four production sites in its blast radius is an architecture call, not a prompt tweak"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "7a26f442-d105-50bf-8fc1-70db5c231044",
+  "branch": "claude/blissful-sagan-cfdyi2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "хочу создать флоу, который я буду запускать простым промтом по рутине, по которому Майя будет ходить в интернет -- куда ей захочется, и делать что ей захочется,…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01K5trw7n5rYxDcyNGXx2ngr",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-23T09:58:55.928Z",
+  "lastResponseAt": "2026-10-23T10:00:06.127Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 69470,
+    "cacheReadTokens": 794081,
+    "outputTokens": 5513,
+    "thinkingTokens": 2186,
+    "responses": 8,
+    "costUsd": 0.8249002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 69470,
+      "cacheReadTokens": 794081,
+      "outputTokens": 5513,
+      "thinkingTokens": 2186,
+      "responses": 8,
+      "costUsd": 0.8249002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-23T10:00:06.127Z",
+    "contextTokens": 118300,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 66927,
+      "cacheReadTokens": 678326,
+      "outputTokens": 5392,
+      "thinkingTokens": 2102,
+      "responses": 7,
+      "costUsd": 0.7789771999999999
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
