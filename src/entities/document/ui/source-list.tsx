@@ -46,7 +46,9 @@ export function SourceList({ sources }: SourceListProps) {
                   </>
                 )}
                 , {outlet},{' '}
-                {typeof date === 'number' ? date : formatDocumentDate(date, locale)}
+                {typeof date === 'number'
+                  ? date
+                  : formatDocumentDate(date, locale)}
               </div>
               {raster && (
                 // TODO: localize with `content-video.tsx`'s printed note.

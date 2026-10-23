@@ -77,7 +77,14 @@ export function constructMetadata({
   ogImageSize,
   hidden = false,
 }: ConstructMetadataParams = {}): Metadata {
-  const { url: siteUrl, name: siteName, author, social, avatar } = SITE_CONFIG;
+  const {
+    url: siteUrl,
+    name: siteName,
+    author,
+    social,
+    avatar,
+    locale,
+  } = SITE_CONFIG;
   const { name: authorName } = author;
 
   const absoluteUrl = path === undefined ? siteUrl : getAbsoluteUrl(path);
@@ -116,7 +123,7 @@ export function constructMetadata({
     },
     openGraph: {
       type: ogType,
-      locale: OG_LOCALES[SITE_CONFIG.locale],
+      locale: OG_LOCALES[locale],
       url: absoluteUrl,
       siteName,
       title: sharedTitle,
