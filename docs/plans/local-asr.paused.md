@@ -77,18 +77,24 @@ the two complement each other: GigaAM got «30 сентября», «разба�
   behind Whisper on Russian. Whisper is large-v3, never turbo (the 01.10 note).
 - **Word timings for a song**: Whisper large-v3 at VAD 0.1 for the words,
   GigaAM-v3 CTC forced alignment for where they fall.
-- **Captions**: `captions.py` takes the printed lyrics and aligns them itself
-  with GigaAM-v3 CTC, so a line is placed where it was sung rather than where a
-  recognizer happened to hear it; `--at` stays for a line the aligner misplaces.
+- **Captions**: `captions.py` keeps reading a hearing of the video and its own
+  word alignment, because GigaAM-v3 CTC spells Russian alone and a caption track
+  serves any language. What changes is the hearing it reads: `transcribe.py` on
+  a Russian video re-places Whisper's words with the CTC aligner, so its timings
+  are the 0.06 s kind. Aligning the printed lyrics directly placed all twelve
+  `hello` cues on the full mix too (median 0.10 s) — a Russian-only upgrade left
+  for later, not this PR.
 - **The response stays in its present shape** (`metadata`,
   `results.channels[0] .alternatives[0]` with `words` and `paragraphs`), so
   every committed `.deepgram.json.gz`, `hearing.py`'s merge and the subtitles
   skill read old and new hearings alike. New files are named for their model,
   `<slug>.<model>.json.gz`, under `docs/remove-before-merging/transcripts/`.
 - **The venv**: one `scripts/requirements-hearing.txt` (faster-whisper,
-  onnx-asr, torch and torchaudio from the CPU index), installed into
+  `onnx-asr[cpu,hub]` — no torch, the aligner being numpy), installed into
   `tmp/hearing-venv` the way song-intake's is; `transcribe.py` runs under it.
-  Models download from Hugging Face on first use, into `tmp/` for onnx-asr —
+  `song-intake/requirements.txt` pulls it in with
+  `-r ../requirements-hearing.txt` and drops its own faster-whisper line. Models
+  download from Hugging Face on first use, into `tmp/` for onnx-asr —
   onnxruntime refuses external weights behind the Hugging Face cache's symlinks.
 
 ## Steps
@@ -110,13 +116,48 @@ the two complement each other: GigaAM got «30 сентября», «разба�
 4. `scripts/song-intake/lyrics.py` — folded into `transcribe.py`
    (`--model whisper-large-v3 --vad 0.1`), the one place Whisper is driven; its
    citations in `song-intake/CLAUDE.md` move to the new command.
-5. `scripts/song-intake/captions.py` — aligns the printed lyrics with
-   `ears.place` instead of reading a response; verified by re-timing `hello` and
-   diffing against the committed `hello.ru.vtt`.
-6. Prose: `dictation`, `subtitles` skills, `song-intake/CLAUDE.md`,
-   `.claude/rules/stack.md`'s roster line for `test_hearing.py`. The CV's
+5. `scripts/song-intake/captions.py` — docstring and argument name only (no
+   longer "deepgram"); verified by `transcribe.py` on `hello.mp4`
+   (`--model whisper-large-v3 --vad 0.1`), then `captions.py`, diffing against
+   the committed `hello.ru.vtt`.
+6. Prose: `dictation`, `subtitles` skills, `song-intake/CLAUDE.md`. The CV's
    `cv-stack.ts` keeps Deepgram — it lists what Вова has used, not what this
    repo runs.
+
+## Progress
+
+Done (pushed):
+
+- Step 1 — `hearing.py`: `from_segments` cuts at sentence-ending words,
+  `words_from_tokens` added (word = least sure token); 23 tests pass.
+- `scripts/lib/ctc.py` + `test_ctc.py` — numpy CTC Viterbi,
+  `spans(log_probs, words, blank, space)`; matches
+  `torchaudio.functional.forced_align` to the frame on the `hello` mix, in 0.1
+  s. Wired into `scripts/vet.sh` (`ctc=`) and `.claude/rules/stack.md`.
+
+Left: steps 2–7. Notes for step 2, from the spike (`tmp/asr/bench.py`,
+`tmp/asr/align.py` — gone with the container, so restated here):
+
+- onnx-asr: `onnx_asr.load_model(name, path=<repo>/tmp/models/<name>)`, names
+  `gigaam-v3-e2e-rnnt`, `gigaam-v3-ctc`, `nemo-parakeet-tdt-0.6b-v3`;
+  `model.with_vad(onnx_asr.load_vad("silero"), threshold=…, neg_threshold=…)`
+  **then** `.with_timestamps()`; `.recognize(pcm, sample_rate=16000)` on a mono
+  float32 array (a stereo wav path is refused). Each segment has `start`, `end`,
+  `tokens`, `timestamps` (relative to `start`), `logprobs`.
+- GigaAM CTC frames: `asr = model.asr`;
+  `asr._encode(*asr._preprocessor(pcm[None], np.array([len(pcm)])))` gives
+  `(log_probs, lens)`; 0.04 s a frame
+  (`asr.window_step * asr._subsampling_factor`); vocab `asr._vocab` id→token,
+  lowercase а–я (no ё — map to е), `" "` and `<blk>`. A 146 s song is 3611
+  frames in one pass; past ~5 min, compute in overlapping windows and stitch
+  before `ctc.spans`.
+- faster-whisper `large-v3`, `compute_type="int8"`,
+  `condition_on_previous_text=False`, `word_timestamps=True`,
+  `vad_parameters={"threshold": …}`, `hotwords` for keyterms; `detect_language`
+  when `--language` is omitted.
+- Confidence floor for GigaAM still to calibrate on the 19.10 note
+  (`life/health/migraine/sources/2026-10-19-voice-note.{m4a,md}`).
+
 7. `/polish`, `/pr`. Then the mirror in `life`, planned there against its own
    `transcribe-audio.py` (utterances, `--diarize`, `--json`), which this PR's
    modules do not reach.
@@ -127,8 +168,6 @@ the two complement each other: GigaAM got «30 сентября», «разба�
   new recognizers write into it rather than a second shape.
 - `lyrics.py` and `transcribe.py` both drive Whisper today; folding the first
   into the second leaves one loader, one decode, one set of transcribe options.
-- `captions.py`'s own word-level DP alignment stays for nothing once the lyrics
-  are force-aligned; it goes, rather than living beside the new path.
 - `life/scripts/transcribe-audio.py` duplicates `hearing.py`'s merge across
   repositories. The repos share no code, so the mirror PR copies `ears.py` into
   `life` rather than importing across them — a cross-repo package would cost
