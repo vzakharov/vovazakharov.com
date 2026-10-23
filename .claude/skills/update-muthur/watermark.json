@@ -39,7 +39,9 @@
     ".claude/skills/branch-rename/",
     ".claude/skills/check-merge/",
     ".claude/skills/dry/",
-    ".claude/skills/finalize/",
+    {
+      ".claude/skills/finalize/": "taken with one edit: Step 1 pushes before vetting, because this repo's vet.sh vets the pushed head and refuses a tree that differs from it. A verbatim re-copy of SKILL.md drops the push and leaves Step 1 refused on every unpushed fix."
+    },
     ".claude/skills/from-branch/",
     ".claude/skills/go/",
     ".claude/skills/handle/",
@@ -70,7 +72,9 @@
     {
       ".claude/skills/squash-message/": "taken with one translation: the title rule allows a site scope, `<type>[(<site>)]:`, because here the squash subject's scope picks which site a merge publishes (CLAUDE.md § \"Deployment\"). The source forbids a scope, having one site to deploy; a sync that re-copies the rule unscoped makes every merge publish every site."
     },
-    ".claude/skills/sync-branch/",
+    {
+      ".claude/skills/sync-branch/": "taken with one edit: Step 5 pushes before vetting, and Step 6's push is then a no-op, for the reason `/finalize`'s row gives. A verbatim re-copy of SKILL.md vets an unpushed merge, which this repo's vet.sh refuses."
+    },
     ".claude/skills/tend-prose/",
     ".claude/skills/watch-ci/",
     "scripts/check-claude-md-size.sh",
@@ -89,7 +93,7 @@
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
     {
-      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. .claude/rules/stack.md carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
+      "scripts/vet.sh": "rewritten for this stack: bare, it dispatches .github/workflows/vet.yml on the pushed head and runs its own `local` phase beside it; each other phase is one job there, its checks fanned out through run-parallel.sh. .claude/rules/stack.md carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
     },
     "scripts/staged.sh",
     {

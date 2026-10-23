@@ -107,8 +107,9 @@ ordering. Measured: 1m49s (run 39816552252).
 Swept for what assumed the old run («и просвипи на похожее»): `/sync-branch`
 vetted before pushing, which the new vet refuses, so its Step 5 pushes first;
 `/finalize` Step 1, README, `vet.sh`'s header and the `test-on-gh` watermark
-reason say "after pushing" / "dispatches to CI". The two skills are muthur-owned
-— the next sync carries them back or flags the drift.
+reason say "after pushing" / "dispatches to CI". The two skills are
+muthur-owned, so the watermark's rows for them, and for `vet.sh`, name the local
+edits a verbatim re-copy would drop.
 
 Left: `/go` Steps 3–4 (polish, PR body).
 

@@ -2,27 +2,29 @@ Proposed squash body:
 
 ```
 A vet run is four static-export builds and some thirty checks, and in
-the session's own 4-core container it took about 4.5 minutes. The bare
-./scripts/vet.sh now dispatches a new Vet workflow that runs it split
-across parallel GitHub jobs, and waits for it: about 2 minutes. It
-vets the pushed head and refuses a tree that differs from it; nothing
-triggers the workflow on its own, and the one-machine run is gone.
+a Claude Code cloud session's 4-core container it took about 4.5
+minutes. The bare ./scripts/vet.sh now dispatches a new Vet workflow
+that runs it split across parallel GitHub jobs, and waits for it:
+about 2 minutes. It vets the pushed head and refuses a tree that
+differs from it; nothing triggers the workflow on its own, and the
+one-machine run is gone.
 
 vet.sh gains phases, one job each and all starting at once, so the
 workflow names phases and the checks keep one list: one site's build,
 an ESLint shard, the type check, the checks no build feeds, and those
 over the exports, which wait on the builds' uploaded artifacts rather
-than on GitHub marking the jobs done. The lint shards and the type
-check write route types with next typegen instead of waiting on a
-build, safe because no runner builds and checks types in one tree.
+than on GitHub marking the jobs done, which can lag the last upload by
+minutes. The lint shards and the type check write route types with
+next typegen instead of waiting on a build, safe because no runner
+builds and checks types in one tree.
 
 The checks that read the branch's history or the cost ledger run on
 the caller's machine while the workflow runs: a one-commit checkout
 would pass them vacuously, and a full one costs more than they take.
-The runner supplies the git identity and numpy the tests assume, and
-keeps per-check logs, since vet prints only failures. /finalize and
-/sync-branch push before vetting, and CI's setup is now a fourth site
-a toolchain change wires.
+The job running the Python suites supplies the numpy one of them needs
+and the git identity others assume, and keeps per-check logs, since
+vet prints only failures. /finalize and /sync-branch push before
+vetting, and CI's setup is now a fourth site a toolchain change wires.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
