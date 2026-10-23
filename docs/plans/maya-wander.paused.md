@@ -75,6 +75,12 @@ from the session, and the plan holds them as its constraints:
   `.claude/rules/fsd.md`. The house checks hold her code to the same bar as
   ours, which is what makes it reusable.
 
+## Progress
+
+Approved («звучит хорошо, давай начинать»), and paused before any step was built
+so a fresh session could take the work with its context free. Done: nothing.
+Left: every step below, from Step 1.
+
 ## Steps
 
 1. **Move her home**, in a commit of its own so history follows the files:
