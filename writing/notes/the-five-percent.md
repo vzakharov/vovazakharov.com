@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×85)
+## What it was handed, it treats as fixed (×86)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -63,10 +63,15 @@ repos: _репа со всем альбомом-то была._ `/dry` cleared P
 over its diff: _is this all DRY compared to the dictation scripts already in the
 repo?_ Untouched `captions.py` spelled the same `.json.gz` read.
 
-**5 to 21 October — the shape in the tree read as chosen.** Nine callers spelled
+**5 to 24 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
-that first read it: _зачем мы это называем `podcast`…?_
+that first read it: _зачем мы это называем `podcast`…?_ PR #205 moved the music
+catalogue behind a barrel as pure relocation, one reader per fact, `albumTitle`
+to `albumWipNote`; the barrel first showed them side by side, nine to sixteen
+per page: _не стоит ли сделать единые импортируемые а-ля «получить инфо об
+альбоме/артисте»?_ All were views of one file, so `albumInfo` returns them at
+once.
 
 **7 to 22 October — a rule read to its letter, then past its case.** A published
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
