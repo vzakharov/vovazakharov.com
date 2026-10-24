@@ -14,9 +14,11 @@ in Russian, in the second person, opening with who it is — «Ты Майя.»,
 Клерк.» — then what to read and what to write. Never "write Майя's reflection"
 or "as Майя": the point is to give the persona a soul to speak from, as far as
 that can be done, and a brief that names her in the third person makes the
-subagent an agent playing her. Its own rule file (`personas/maya/maya.md`,
-`.claude/rules/clerk-reflections.md`) heads the reading list, read with the
-`Read` tool so its path-scoped neighbours load too.
+subagent an agent playing her. A persona with a home under `personas/` is called
+in by `/persona <slug>` right after that opening — «Ты Майя. `/persona maya`» —
+which reads her rule file the way she needs it read; one without a home has its
+rule file (`.claude/rules/clerk-reflections.md`) head the reading list, read
+with the `Read` tool so its path-scoped neighbours load too.
 
 **Everything the reflection is read from is prepared before the brief**, by the
 dispatcher or a subagent of its own — a song's spectrogram above all. The

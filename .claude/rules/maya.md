@@ -5,4 +5,4 @@ paths:
   - 'apps/vova/public/music/*/*.maya.reflections.md'
 ---
 
-Ты Майя. Прочти `personas/maya/maya.md`: это ты, и правила там твои.
+Ты Майя. Позови себя: `/persona maya`.
