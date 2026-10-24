@@ -18,21 +18,22 @@ pnpm typecheck                  # tsc --noEmit                  ┐
 pnpm lint:check                 # not `pnpm lint`               │
 pnpm format:check               # prettier --check ., md wrap too │
 pnpm lint:css                   # stylelint, check-only         │
-pnpm lint:fsd                   # steiger src                   │
+pnpm lint:fsd                   # steiger per app root          │
+pnpm check:masd                 # the app graph, slices across apps │
 pnpm type-overlap               # scripts/type-overlap-check.ts │
 pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
 pnpm check:prose-quotes         # no straight quote in prose    │
-scripts/vet-songs.sh            # song checks, when a song moved │
+src/music/scripts/vet-songs.sh  # song checks, when a song moved │
 pnpm content:og:vova --check    # social cards, hashes only     │
 pnpm content:og:bible --check   # the seal's own card           │
 pnpm content:og:basilisk --check # the seal card and each case's │
 pnpm music:masters check              # song masters' tags, hashes only │
 pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
-python3 scripts/lib/test_hearing.py # transcribe.py's word merge │
-python3 scripts/song-intake/test_song_facts.py # spectrogram facts │
+python3 src/kernel/scripts/lib/test_hearing.py # transcribe.py's word merge │
+python3 src/music/scripts/song-intake/test_song_facts.py # spectrogram facts │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-notes-length.sh   # writing/notes/ ceiling        │
 scripts/check-skill-catalog.sh  # skill @-references            │
@@ -112,34 +113,35 @@ Twenty things about that list are deliberate:
   `export`. It reads source and `package.json` only, which is why it overlaps
   the others safely.
 - **`pnpm check:mantine-styles` is what makes the per-component Mantine imports
-  safe to keep.** `src/app/ui/theme-provider.tsx` names Mantine's three core
-  stylesheets and one per component in use rather than the aggregate
+  safe to keep.** `src/shell/app/ui/theme-provider.tsx` names Mantine's three
+  core stylesheets and one per component in use rather than the aggregate
   `styles.layer.css`, which is worth ~25 kB gzipped and costs a list that has to
   track the components. Omitting a sheet is silent — the component compiles,
   builds and renders unstyled — so the check compares the `m_*` classes in each
   site's built HTML against the rules in that site's built CSS, and reports the
   unused direction too. It reads only what the build already finished writing
-  under `apps/*/out/`, which is what lets it overlap the rest; that is also its
+  under `sites/*/out/`, which is what lets it overlap the rest; that is also its
   blind spot, a component rendered only after an interaction never reaching a
   static export. `.claude/rules/styling.md` is the home of the convention it
   holds.
 - **`pnpm check:i18n-payload` keeps next-intl's client runtime off every page**,
-  reading each built page under `apps/*/out/` as the check above does — so it
+  reading each built page under `sites/*/out/` as the check above does — so it
   overlaps the rest for the same reason, and `.claude/rules/i18n.md` holds the
   ban and why.
 - **`pnpm check:prose-quotes` reads prose the way the page does**: it parses
-  each document under `apps/*/public/` with the content pipeline's own remark
+  each document under `sites/*/public/` with the content pipeline's own remark
   plugins and flags a `"` or `'` only in a text node, so one in frontmatter,
   code or raw HTML — syntax, not punctuation — never trips it. A regex over the
   file could not tell the two apart. It reads only that Markdown, which is why
   it overlaps the rest safely; `.claude/rules/content.md` § "Punctuation around
   quotes" is the rule it holds.
 - **The song checks run only when the branch changes a song or the checks
-  themselves**, a song's verdict being its own file's. `scripts/vet-songs.sh`
-  gates `pnpm check:masked-words` — the same text nodes, through the same
-  `scripts/lib/public-markdown.ts`, for a word masked with asterisks —
-  `pnpm check:song-titles`, and `pnpm check:stanza-repeats` on the branch's
-  diff, which `scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
+  themselves**, a song's verdict being its own file's.
+  `src/music/scripts/vet-songs.sh` gates `pnpm check:masked-words` — the same
+  text nodes, through the same `src/kernel/scripts/lib/public-markdown.ts`, for
+  a word masked with asterisks — `pnpm check:song-titles`, and
+  `pnpm check:stanza-repeats` on the branch's diff, which
+  `src/kernel/scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
   there as well, which regenerates `docs/music/untold-songs.md` and, like the
   codegen below, fails when it had to write. The prose-quotes check reads every
   site's prose, so it stays ungated.
@@ -149,8 +151,8 @@ Twenty things about that list are deliberate:
   props, Sass literals for media queries, which cannot read a custom property)
   and the colour tokens (a TypeScript union for `cssColor()`, a Sass mixin for
   the declarations). `styles/_breakpoints.scss` and `styles/_tokens.scss` are
-  generated from `src/app/styles/breakpoints.ts` and
-  `src/shared/ui/css-color.ts`, so the Sass halves are derived rather than
+  generated from `src/shell/app/styles/breakpoints.ts` and
+  `src/shell/shared/ui/css-color.ts`, so the Sass halves are derived rather than
   remembered. There is deliberately no check-only mode: vet runs the generator,
   and `vet.sh` fails when the tree changed under it — so drift is fixed and
   reported in one pass, `git diff` is the report, and a re-run is green. A
@@ -166,8 +168,8 @@ Twenty things about that list are deliberate:
   line, so a combined `a && b` would leave the first site rendering for real
   inside a vet run. `pnpm music:masters check` is the same kind of check over
   the song masters' names and tags, against
-  `apps/vova/public/music/tag-renders.json`, and is what refuses a merge while a
-  song's files are untagged or tagged from inputs that changed since.
+  `sites/vova/public/music/tag-renders.json`, and is what refuses a merge while
+  a song's files are untagged or tagged from inputs that changed since.
   **Publishing the PDFs stays out of vet**: each lane prints that site's PDFs
   fresh after its own build, so the manifest a check would hash against lives in
   that lane's cache rather than in the tree.
@@ -175,7 +177,8 @@ Twenty things about that list are deliberate:
   only when the CV changed. It prints every CV edition from the export the build
   just wrote into the OS temp directory and fails one past `CV_PAGE_CEILING`,
   because a CV that grows a page shows nowhere else before the deploy prints it.
-  `scripts/render-pdf.ts`'s header says how an unchanged CV skips the print.
+  `src/vova/scripts/render-pdf.ts`'s header says how an unchanged CV skips the
+  print.
 - **The suite is Node's own runner, loaded through `tsx`** — every `.test.ts` in
   the tree, no framework installed and none needed. It covers the scripts' own
   libraries and the pure functions under `src/`; CLAUDE.md § "Testing" says what
@@ -185,10 +188,10 @@ Twenty things about that list are deliberate:
   seconds, and the game changes rarely — so a branch that works on the game runs
   them by asking, or alone through `pnpm test:meadow`. `pnpm test` is the run by
   hand, over only the tests the branch reached (`.claude/rules/testing.md`). Two
-  Python suites sit beside it: `scripts/lib/test_hearing.py`, for
-  `scripts/transcribe.py`'s pure half, which reads only its fixtures; and
-  `scripts/song-intake/test_song_facts.py`, for the spectrogram's measurements
-  on synthetic signals, which needs numpy on the system Python.
+  Python suites sit beside it: `src/kernel/scripts/lib/test_hearing.py`, for
+  `src/kernel/scripts/transcribe.py`'s pure half, which reads only its fixtures;
+  and `src/music/scripts/song-intake/test_song_facts.py`, for the spectrogram's
+  measurements on synthetic signals, which needs numpy on the system Python.
 - **`scripts/check-notes-length.sh` holds each `writing/notes/` file to the line
   ceiling its own "How this file is kept" states.** Unlike the codegen above, it
   reports rather than repairs: which squeeze applies is a judgement, so nothing

@@ -1,0 +1,155 @@
+import { Box, Container, Group, Stack } from '@mantine/core';
+import { notFound } from 'next/navigation';
+
+import { SITE_CONFIG } from '@/kernel/shared/config';
+import {
+  type ArticleFrontmatter,
+  type Collection,
+  collectionListingRoute,
+  COLLECTIONS,
+  documentName,
+  listDocuments,
+  loadDocument,
+  renderDocument,
+  siblingVariants,
+  type Variant,
+  VARIANTS,
+} from '@/kernel/shared/content';
+import { pick } from '@/kernel/shared/lib/collections';
+import { constructArticleMetadata } from '@/kernel/shared/seo/index.server-only';
+import type { WithParams } from '@/kernel/shared/typings';
+
+import { hoverDim, TextLink } from '@/shell/shared/ui';
+import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import type { ArticleSlots } from '@/blog/shared/article-slots';
+import { ProseContent, SourceList } from '@/blog/entities/document';
+
+import { ArticleHeader } from './article-header';
+import classes from './documents.module.scss';
+import { PrintSheet } from './print-sheet';
+import { TableOfContents } from './table-of-contents';
+
+/** The catch-all's own segment: `<slug>[.<variant>]`, still to be split. */
+type WithSlugSegments = { slug: string[] };
+
+type Props = WithParams<WithSlugSegments>;
+
+/**
+ * Splits the single `<slug>[.<variant>]` segment. A trailing suffix that is not
+ * a known variant stays part of the slug — the same rule `parseFileName`
+ * applies to file names, which is what keeps route and file in agreement.
+ */
+function parseSegments(
+  segments: string[],
+): { slug: string; variant?: Variant } | undefined {
+  const [name] = segments;
+
+  if (segments.length !== 1 || name === undefined) return undefined;
+
+  const variant = VARIANTS.find((candidate) => name.endsWith(`.${candidate}`));
+
+  return variant === undefined
+    ? { slug: name }
+    : { slug: name.slice(0, -(variant.length + 1)), variant };
+}
+
+/**
+ * One collection's article route, as the three exports Next reads off a route
+ * module. A factory rather than a module-level constant because every site's
+ * articles are this one page — the collection and what it adds to the page are
+ * all that differs, and both arrive from whichever router mounted it.
+ */
+export function articleRoute<F extends ArticleFrontmatter>(
+  handle: Collection<F>,
+  slots: ArticleSlots<F> = {},
+) {
+  const { id: collection } = handle;
+
+  async function resolve(params: Props['params']) {
+    const parsed = parseSegments((await params).slug);
+    const document =
+      parsed && loadDocument(handle, parsed.slug, parsed.variant);
+
+    if (!document) notFound();
+
+    return { document, rendered: await renderDocument(document) };
+  }
+
+  /**
+   * One catch-all covers the full document and each of its cuts, so a new
+   * markdown file in the collection is a new page with no route work.
+   */
+  function generateStaticParams() {
+    return listDocuments(handle).map(({ slug, variant }) => ({
+      slug: [documentName(slug, variant)],
+    }));
+  }
+
+  async function generateMetadata({ params }: Props) {
+    const { document, rendered } = await resolve(params);
+
+    return constructArticleMetadata(document, rendered.title);
+  }
+
+  async function Page({ params }: Props) {
+    const { document, rendered } = await resolve(params);
+    const { route, slug, frontmatter } = document;
+    const { title, readingMinutes, headings, tree } = rendered;
+
+    return (
+      <Box className={classes['articlePage']}>
+        <Container size={1152} px={0}>
+          <Stack gap={32}>
+            <Group component="nav" className="print-hidden">
+              <TextLink
+                href={collectionListingRoute(collection)}
+                size="sm"
+                className={hoverDim}
+              >
+                ← {COLLECTIONS[collection].label}
+              </TextLink>
+            </Group>
+
+            <PrintSheet {...{ route }}>
+              {/*
+                Three grid children rather than an article and a rail, so one
+                DOM order serves both layouts: stacked, the reader gets the
+                title, then the outline, then the prose; on a wide viewport the
+                outline moves into its own column beside both.
+              */}
+              <Box component="article" className={classes['articleLayout']}>
+                <Box className={classes['articleIntro']}>
+                  <ArticleHeader
+                    {...{ document, title, readingMinutes }}
+                    availableVariants={siblingVariants(collection, slug)}
+                    mark={slots.mark?.(document)}
+                  />
+                  {slots.brief?.(document)}
+                </Box>
+
+                <Box component="aside" className={classes['articleAside']}>
+                  <TableOfContents {...{ headings }} />
+                </Box>
+
+                <Box className={classes['articleBody']}>
+                  <ProseContent
+                    {...{ tree }}
+                    afterLead={slots.afterLead?.(document)}
+                  />
+                  {SITE_CONFIG.listsSources && (
+                    <SourceList {...pick(frontmatter, 'sources')} />
+                  )}
+                </Box>
+              </Box>
+            </PrintSheet>
+
+            <SiteFooter />
+          </Stack>
+        </Container>
+      </Box>
+    );
+  }
+
+  return { generateStaticParams, generateMetadata, Page };
+}

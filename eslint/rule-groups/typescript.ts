@@ -4,17 +4,15 @@ import { withSeverity } from './rule-severity';
 
 // What is banned is the bare specifier alone, from anywhere: that entry is the
 // client runtime, so a module reaching it is what makes a page ship it.
-// Translating on the server goes through `next-intl/server`, which is
-// unrestricted.
+// `next-intl/server`, which the request config needs, is unrestricted.
 export const NEXT_INTL_CLIENT = {
   name: 'next-intl',
   allowTypeImports: true,
   message:
     "next-intl's bare entry is its client runtime, and a page whose " +
     'graph reaches it ships 14 kB gzipped of it. Every locale is its ' +
-    'own pre-rendered page here, so translate on the server — ' +
-    '`getTranslations` from `next-intl/server`, or the catalogue ' +
-    'itself through `@/shared/i18n` — and pass the strings down. ' +
+    "own pre-rendered page here, so translate on the server — the app's " +
+    'own catalogue, through its `shared/i18n` — and pass the strings down. ' +
     'Reaching for a hook means a page that switches language in ' +
     'place, which is the decision `.claude/rules/i18n.md` records; ' +
     'change it there first.',
@@ -29,7 +27,7 @@ const BARE_ANCHOR = {
     'A Mantine `Anchor` states its own font-size, so one dropped into ' +
     'running text sets its words larger than the sentence around them, ' +
     'and print re-keys the paragraph but never the link. Use `TextLink` ' +
-    'from `@/shared/ui`, which takes the surrounding size unless given a ' +
+    'from `@/shell/shared/ui`, which takes the surrounding size unless given a ' +
     '`size`, pairs a link to this site for paper, and opens a page off ' +
     'the site in a new tab.',
 };

@@ -1,0 +1,11 @@
+{
+  "kernel": [],
+  "shell": ["kernel"],
+  "blog": ["shell"],
+  "music": ["blog"],
+  "lsa": ["shell"],
+  "bible": ["blog"],
+  "basilisk": ["blog"],
+  "mushrooms": ["kernel"],
+  "vova": ["blog", "music", "mushrooms"]
+}

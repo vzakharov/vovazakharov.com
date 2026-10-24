@@ -159,7 +159,7 @@ built_checks=(
 )
 # The checks that read the branch against its merge base, or the cost ledger.
 local_checks=(
-  songs='scripts/vet-songs.sh'
+  songs='src/music/scripts/vet-songs.sh'
   squash='scripts/check-squash-message.sh'
   claude-md-size='scripts/check-claude-md-size.sh'
   estimates='python3 .claude/costs/check_estimates.py'
@@ -168,6 +168,7 @@ source_checks=(
   format='pnpm format:check'
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
+  masd='pnpm check:masd'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   prose-quotes='pnpm check:prose-quotes'
@@ -178,8 +179,8 @@ source_checks=(
   og-basilisk='pnpm content:og:basilisk --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
-  hearing='python3 scripts/lib/test_hearing.py'
-  song-facts='python3 scripts/song-intake/test_song_facts.py'
+  hearing='python3 src/kernel/scripts/lib/test_hearing.py'
+  song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
   notes='scripts/check-notes-length.sh'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'

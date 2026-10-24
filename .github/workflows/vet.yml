@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: out-${{ matrix.site }}
-          path: apps/${{ matrix.site }}/out
+          path: sites/${{ matrix.site }}/out
           retention-days: 1
 
   # The lint shards and the type check need no build: the route types they read
@@ -123,7 +123,7 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       # The runner's system Python refuses a pip install (PEP 668), and
-      # scripts/song-intake/test_song_facts.py needs numpy. Ungated, unlike the
+      # src/music/scripts/song-intake/test_song_facts.py needs numpy. Ungated, unlike the
       # song checks: install and test take ~5 s, and a gate on song-intake
       # changes needs the merge base this one-commit checkout lacks.
       - name: Set up Python

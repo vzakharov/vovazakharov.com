@@ -28,15 +28,15 @@
 // This config is TypeScript; ESLint loads it via jiti (a direct devDependency).
 
 import eslintReact from '@eslint-react/eslint-plugin';
-import { type Config, defineConfig, globalIgnores } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import prettierConfig from 'eslint-config-prettier';
-import boundariesPlugin from 'eslint-plugin-boundaries';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unicornPlugin from 'eslint-plugin-unicorn';
 
+import { boundariesConfig } from './eslint/masd-boundaries';
 import { coreRules } from './eslint/rule-groups/core';
 import { importSortRules } from './eslint/rule-groups/import-sort';
 import { jsxA11yRules } from './eslint/rule-groups/jsx-a11y';
@@ -58,134 +58,6 @@ import noRedundantTypeAlias from './eslint/rules/no-redundant-type-alias';
 import noSplitJsxSpreads from './eslint/rules/no-split-jsx-spreads';
 import noUncausedRethrow from './eslint/rules/no-uncaused-rethrow';
 import preferShorthandSpread from './eslint/rules/prefer-shorthand-spread';
-
-// FSD layers, highest first. Each may import from the layers below it plus
-// `shared`, and from its own slice. See .claude/rules/fsd.md.
-const FSD_LAYERS = ['pages', 'widgets', 'features', 'entities'];
-
-// A closed list, so any other `index.*.ts` is still reaching into internals.
-// See .claude/rules/fsd.md.
-const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
-
-// `shared/lib` holds one sub-library per file instead of a segment-wide barrel,
-// so a file there is its own public API — there is nothing beside it to hide.
-// Entry stays at the top level: `*.ts` does not cross a slash, so anything a
-// sub-library grows a directory for is internals again. See .claude/rules/fsd.md.
-const SHARED_LIB_ENTRY = {
-  type: 'shared',
-  captured: { segmentName: 'lib' },
-  fileInternalPath: '*.ts',
-};
-
-// Steiger (`pnpm lint:fsd`) checks the same directionality and public-API
-// discipline at CLI time; boundaries restates them as inline editor feedback,
-// which Steiger has no live extension for. Scoped to src/ — root `app/` is the
-// FSD app layer, above every slice, so it imports downward by definition.
-//
-// `boundaries/dependencies` carries all of it: v7 folds the former `entry-point`
-// and `external` rules into its policies.
-const boundariesConfig: Config = {
-  plugins: { boundaries: boundariesPlugin },
-  files: ['src/**/*.{ts,tsx}'],
-  settings: {
-    'boundaries/elements': [
-      // The app layer is segmented, not sliced — like `shared`, and unlike
-      // every layer in FSD_LAYERS.
-      {
-        type: 'app',
-        pattern: ['src/app/(*)/**'],
-        capture: ['segmentName'],
-        partialMatch: false,
-      },
-      ...FSD_LAYERS.map((layer) => ({
-        type: layer,
-        pattern: [`src/${layer}/(*)/**`],
-        capture: ['sliceName'],
-        partialMatch: false,
-      })),
-      {
-        type: 'shared',
-        pattern: ['src/shared/(*)/**'],
-        capture: ['segmentName'],
-        partialMatch: false,
-      },
-    ],
-  },
-  rules: {
-    'boundaries/dependencies': [
-      'error',
-      {
-        default: 'disallow',
-        policies: [
-          // The app layer sits above all of them, so it may import any,
-          // through their public API.
-          {
-            from: { element: { type: 'app' } },
-            allow: {
-              to: {
-                element: {
-                  types: { anyOf: [...FSD_LAYERS, 'shared'] },
-                  fileInternalPath: PUBLIC_API,
-                },
-              },
-            },
-          },
-          // It is one unit rather than a set of isolated slices, so its
-          // segments reach each other directly.
-          {
-            from: { element: { type: 'app' } },
-            allow: { to: { element: { type: 'app' } } },
-          },
-          // Entering `shared/lib` does not vary by the layer doing it, so one
-          // policy grants it to every layer above shared.
-          {
-            from: { element: { types: { anyOf: ['app', ...FSD_LAYERS] } } },
-            allow: { to: { element: SHARED_LIB_ENTRY } },
-          },
-          ...FSD_LAYERS.flatMap((layer, index) => [
-            // Downward, and only through the target's public API.
-            {
-              from: { element: { type: layer } },
-              allow: {
-                to: {
-                  element: {
-                    types: {
-                      anyOf: [...FSD_LAYERS.slice(index + 1), 'shared'],
-                    },
-                    fileInternalPath: PUBLIC_API,
-                  },
-                },
-              },
-            },
-            // Inside its own slice, a file reaches any sibling directly.
-            {
-              from: { element: { type: layer } },
-              allow: {
-                to: {
-                  element: {
-                    type: layer,
-                    captured: { sliceName: '{{ from.captured.sliceName }}' },
-                  },
-                },
-              },
-            },
-          ]),
-          // Shared is a layer and a slice at once — FSD's own exception, which
-          // is why every file in it reaches every other directly, the way the
-          // app layer's segments do. The public API it exposes is the one the
-          // layers above enter by, not a wall between its own segments.
-          {
-            from: { element: { type: 'shared' } },
-            allow: { to: { element: { type: 'shared' } } },
-          },
-        ],
-      },
-    ],
-    'boundaries/no-ignored-dependencies': 'error',
-    'boundaries/no-unknown-dependencies': 'error',
-    'boundaries/no-unknown-files': 'error',
-  },
-};
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -269,14 +141,88 @@ const eslintConfig = defineConfig([
   // a slice from the list if its page is ever localized; the rule stays `error`
   // everywhere else, including every component the CV renders.
   {
-    files: ['src/pages/{home,writing,music}/ui/**/*.tsx'],
+    files: [
+      'src/vova/pages/{home,writing}/ui/**/*.tsx',
+      'src/music/pages/music/ui/**/*.tsx',
+    ],
     rules: { 'vova/no-hardcoded-strings': 'off' },
+  },
+  // Temporary, tracked by #170: app scripts that reach past a public API into
+  // their own app's layers, which `.claude/rules/masd.md` forbids. Each app's
+  // entries leave as #170 restructures it, then the block goes. A new file is
+  // never added here.
+  {
+    files: [
+      // basilisk
+      'src/basilisk/scripts/lib/basilisk-card.ts',
+      'src/basilisk/scripts/lib/docket.ts',
+      'src/basilisk/scripts/lib/read-docket.ts',
+      // kernel
+      'src/kernel/scripts/lib/content-tree.ts',
+      'src/kernel/scripts/lib/og-job.ts',
+      'src/kernel/scripts/lib/public-markdown.ts',
+      'src/kernel/scripts/render-mermaid.ts',
+      // mushrooms
+      'src/mushrooms/scripts/build-mushroom-artifact.ts',
+      'src/mushrooms/scripts/lib/flier-watch.ts',
+      'src/mushrooms/scripts/lib/mushroom-probe-answers.ts',
+      'src/mushrooms/scripts/lib/mushroom-probe-drive.ts',
+      'src/mushrooms/scripts/lib/mushroom-probe-reads.ts',
+      'src/mushrooms/scripts/lib/painted-cap.ts',
+      'src/mushrooms/scripts/lib/play-approach.ts',
+      'src/mushrooms/scripts/lib/play-band.ts',
+      'src/mushrooms/scripts/lib/play-buzzers.ts',
+      'src/mushrooms/scripts/lib/play-dusk.ts',
+      'src/mushrooms/scripts/lib/play-fliers.ts',
+      'src/mushrooms/scripts/lib/play-house.ts',
+      'src/mushrooms/scripts/lib/play-insects.ts',
+      'src/mushrooms/scripts/lib/play-keep.ts',
+      'src/mushrooms/scripts/lib/play-keys.ts',
+      'src/mushrooms/scripts/lib/play-map.ts',
+      'src/mushrooms/scripts/lib/play-night-run.ts',
+      'src/mushrooms/scripts/lib/play-opening.ts',
+      'src/mushrooms/scripts/lib/play-rain.ts',
+      'src/mushrooms/scripts/lib/play-runs.ts',
+      'src/mushrooms/scripts/lib/play-species.ts',
+      'src/mushrooms/scripts/lib/play-sprouts.ts',
+      'src/mushrooms/scripts/lib/play-veer.ts',
+      'src/mushrooms/scripts/lib/play-walk-checks.ts',
+      'src/mushrooms/scripts/lib/play-walk-flight.ts',
+      'src/mushrooms/scripts/lib/play-walk-swipe.ts',
+      'src/mushrooms/scripts/lib/play-walk.ts',
+      'src/mushrooms/scripts/lib/play-worms.ts',
+      'src/mushrooms/scripts/lib/veer-dash.ts',
+      'src/mushrooms/scripts/lib/veer-report.test.ts',
+      'src/mushrooms/scripts/lib/veer-report.ts',
+      'src/mushrooms/scripts/lib/veer-watch.ts',
+      'src/mushrooms/scripts/sweep-mushrooms.ts',
+      'src/mushrooms/scripts/veer-away.ts',
+      // music
+      'src/music/scripts/lib/music-cards.ts',
+      'src/music/scripts/lib/music-collage.ts',
+      'src/music/scripts/lib/music-relay.ts',
+      'src/music/scripts/lib/music-repo.ts',
+      'src/music/scripts/lib/song-tag-paths.ts',
+      'src/music/scripts/lib/song-tag-source.ts',
+      'src/music/scripts/lib/song-tag-writer.ts',
+      'src/music/scripts/lib/song-tagging.ts',
+      'src/music/scripts/lib/song-tags.ts',
+      'src/music/scripts/list-untold-songs.ts',
+      'src/music/scripts/scaffold-song.ts',
+      // shell
+      'src/shell/scripts/generate-styles.ts',
+      // vova
+      'src/vova/scripts/lib/cv-card.ts',
+      'src/vova/scripts/render-og.ts',
+      'src/vova/scripts/render-pdf.ts',
+    ],
+    rules: { 'boundaries/dependencies': 'off' },
   },
   // The two links built on a bare `Anchor`: `TextLink` itself, and `FileLink`,
   // whose site-root `href` names a file to save rather than a page, so it wants
   // neither `next/link` nor a printed half.
   {
-    files: ['src/shared/ui/{text,file}-link.tsx'],
+    files: ['src/shell/shared/ui/{text,file}-link.tsx'],
     rules: {
       '@typescript-eslint/no-restricted-imports': [
         'error',
@@ -306,8 +252,8 @@ const eslintConfig = defineConfig([
   },
   // Override default ignores of eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next, re-stated for `apps/*` because each
-    // app builds into its own directory rather than the repository root.
+    // Default ignores of eslint-config-next, re-stated for `sites/*` because each
+    // site builds into its own directory rather than the repository root.
     '**/.next/**',
     '**/out/**',
     'build/**',

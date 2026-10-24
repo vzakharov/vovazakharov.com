@@ -14,7 +14,7 @@ set -uo pipefail
 
 cd "$(dirname "$0")/.."
 
-MEADOW='src/pages/mushrooms/'
+MEADOW='src/mushrooms/pages/mushrooms/'
 
 mapfile -t files < <(
   {

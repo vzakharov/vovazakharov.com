@@ -24,14 +24,16 @@
 ## The play script
 
 - **Looking at a canvas page needs its own recipe, committed as a script,
-  written with the page.** `pnpm play:mushrooms` (`scripts/play-mushrooms.ts`,
-  `scripts/lib/cdp.ts`) builds a probe export, serves it, drives Chromium over
-  the DevTools protocol with Node's own `WebSocket` — no Playwright, as
-  `/preview` keeps none — steps the sleeping loop, taps every control on every
-  screen, checks the state after each tap and fails on any page error. Every
-  session before it rewrote the recipe from a relay summary, and the one bug
-  that shipped (every tap dead) passed vet. The skill should have bite 1 write
-  the play script with the page and every bite extend it with its own controls.
+  written with the page.** `pnpm play:mushrooms`
+  (`src/mushrooms/scripts/play-mushrooms.ts`,
+  `src/mushrooms/scripts/lib/cdp.ts`) builds a probe export, serves it, drives
+  Chromium over the DevTools protocol with Node's own `WebSocket` — no
+  Playwright, as `/preview` keeps none — steps the sleeping loop, taps every
+  control on every screen, checks the state after each tap and fails on any page
+  error. Every session before it rewrote the recipe from a relay summary, and
+  the one bug that shipped (every tap dead) passed vet. The skill should have
+  bite 1 write the play script with the page and every bite extend it with its
+  own controls.
 - **Step the simulation; never time a screenshot.** One screenshot of the canvas
   takes ~1 s under swiftshader, so a shot "90 ms after a tap" shows the scene a
   second later, and bite 2's review nearly reported the bloom as broken. What

@@ -272,12 +272,13 @@ semantically owns the member. **Module-local is the default and needs no
 justification** — when both declarers sit in one file, the base belongs in that
 file, and a "why it lives here" docstring clause on such a base gets deleted. A
 base that is genuinely cross-cutting, or whose declarers share no natural
-upstream module, belongs in the `src/shared/` segment that owns the concept —
-`Summarized`, the card copy both home cards render, sits in `shared/ui` beside
-the `Card` they both import. There is no repo-wide catalog module: a segment
-named for the types it holds rather than their purpose is exactly what Steiger's
-`segments-by-purpose` rejects, and one drawer for every base makes the import
-graph stop describing anything.
+upstream module, belongs in the repo-wide catalog, `src/kernel/shared/typings` —
+`Summarized`, the title and description a feed, an RSS item, `SummaryCard` and
+vova's project card all carry, sits there because those declarers span kernel,
+shell and vova. It is the one segment named for what it holds rather than its
+purpose, because a single home for each shared member is this gate's whole
+point; module-local first is what keeps it from becoming one drawer for every
+type.
 
 **Don't mint a file per base.** Group them. Upstream's module shapes —
 `*-mixins.ts`, `*-flags.ts`, `*-refs.ts` — are the pattern to reach for once a

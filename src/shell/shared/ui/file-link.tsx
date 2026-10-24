@@ -1,0 +1,30 @@
+'use client';
+
+import { Anchor } from '@mantine/core';
+
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { DocumentFile, WithChildren } from '@/kernel/shared/typings';
+
+import { hoverDim } from './hover-dim';
+
+export type FileLinkProps = DocumentFile & WithChildren;
+
+/**
+ * One of a page's own files, served at that page's URL plus an extension. It
+ * saves rather than opens, so the file never replaces the page in the tab.
+ */
+export function FileLink({ href, download, children }: FileLinkProps) {
+  return (
+    <Anchor
+      {...{ href, download }}
+      size="sm"
+      className={cx('print-hidden', hoverDim)}
+    >
+      {/* On the span, not the anchor: Umami cancels a click on a tagged anchor
+          and follows its href itself, which drops `download`. */}
+      <span data-umami-event="download" data-umami-event-file={href}>
+        {children}
+      </span>
+    </Anchor>
+  );
+}

@@ -1,44 +1,45 @@
 ---
-description: How long-form markdown under apps/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
+description: How long-form markdown under sites/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
 paths:
-  - apps/*/public/case-studies/**
-  - apps/bible/public/**
-  - apps/basilisk/public/**
-  - apps/*/public/music/**
-  - src/pages/music/**
-  - apps/*/app/music/**
-  - apps/*/public/generated/**
-  - src/shared/content/**
-  - src/pages/documents/**
-  - src/pages/cv/**
-  - apps/*/app/case-studies/**
-  - apps/bible/app/**
-  - apps/basilisk/app/**
-  - scripts/render-mermaid.ts
-  - scripts/render-og.ts
-  - scripts/render-pdf.ts
-  - scripts/lib/**
-  - apps/*/public/cv/**
+  - sites/*/public/case-studies/**
+  - sites/bible/public/**
+  - sites/basilisk/public/**
+  - sites/*/public/music/**
+  - src/music/pages/music/**
+  - sites/*/app/**/music/**
+  - sites/*/public/generated/**
+  - src/kernel/shared/content/**
+  - src/blog/pages/documents/**
+  - src/vova/pages/cv/**
+  - sites/*/app/**/case-studies/**
+  - sites/bible/app/**
+  - sites/basilisk/app/**
+  - src/kernel/scripts/render-mermaid.ts
+  - src/*/scripts/render-og.ts
+  - src/*/scripts/render-pdf.ts
+  - src/*/scripts/lib/*-card*.ts
+  - src/*/scripts/lib/{og-job,og-render,print-job,content-tree,render-manifest,music-collage}.ts
+  - sites/*/public/cv/**
 ---
 
 # Content
 
 Long-form writing lives as markdown under a site's `public/<collection>/` —
-`apps/vova/public/case-studies/` and `apps/vova/public/music/songs/` — and
+`sites/vova/public/case-studies/` and `sites/vova/public/music/songs/` — and
 `next build` renders it once per deploy. **A collection whose site is named for
 it is rooted instead**, its base empty and its directory that site's whole
-`public/`: the Bible is `apps/bible/public/`, and an article is
+`public/`: the Bible is `sites/bible/public/`, and an article is
 `agentic.bible/<slug>` rather than repeating the collection's name after a
 domain that already says it. The pipeline stops at the hast tree and hands it to
 React through `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`)
-is where that happens. The paths below are written from the app directory, which
-is where every build and every render script is entered.
+is where that happens. The paths below are written from the site directory,
+which is where every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because
-`public/` is per app: every walk over the registry goes through
+`public/` is per site: every walk over the registry goes through
 `collectionsForSite()`, or the other site's build reads a directory that is not
 there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the
-app directory it is entered in — `scripts/in-site.sh` is what pairs the two, so
+site directory it is entered in — `scripts/in-site.sh` is what pairs the two, so
 no `package.json` entry spells either out — and `content:pdf` and `content:og`
 are therefore one script per site, while `content:mermaid` is `vova`'s until
 another site authors a diagram.
@@ -64,7 +65,7 @@ public/cv/
 ```
 
 **A document's file sits at its route plus an extension.** The page at
-`/case-studies/playgram` is `apps/vova/public/case-studies/playgram.md` served
+`/case-studies/playgram` is `sites/vova/public/case-studies/playgram.md` served
 raw, and `.pdf` beside it; a cut is a dotted suffix on the slug —
 `/case-studies/playgram.mini`, `playgram.mini.md`, `playgram.mini.pdf` — rather
 than a nested segment, so the route matches the name the file was authored as.
@@ -112,8 +113,7 @@ whole design exists for. Every module starts with `import 'server-only'` so that
 is enforced rather than hoped for: importing one from a `'use client'` component
 fails the build. When a client component needs something the registry owns — a
 route, say — the **server page resolves it and passes it down**; that is what
-`apps/vova/app/cv/[[...variantAndLocale]]/page.tsx` does for the CV's case-study
-link.
+`src/vova/pages/cv/ui/cv-page.tsx` does for the CV's case-study link.
 
 The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and
 `collections.ts`, which `render-mermaid.ts` runs under bare Node, outside any
@@ -121,19 +121,19 @@ bundler — hence no `server-only`, and an explicit `.ts` on the import so Node'
 resolver finds it. That script needs Node 22.18 or newer for type stripping.
 `collections.ts` qualifies because it is string constants and pure path
 functions; `documents.ts` keeps `server-only`, and with it the invariant that
-matters — it is the module that pulls in `fs`, `gray-matter` and `zod`.
-`render-og.ts` and `render-pdf.ts` run under `tsx`: the CV card reads the
-message catalogue through `cvMessages`, and a JSON import is what bare Node
-cannot take without an attribute. They reach `src/` by the `@/` alias, and still
-never through `shared/content`'s barrel, whose `server-only` modules throw
-outside a React server bundle. `render-og.ts` runs under the `react-server`
-condition, which resolves `server-only` to its empty module as a build does, so
-its cards reach `shared/content`'s leaf modules and parse a case with
-`caseFrontmatterSchema`.
+matters — it is the module that pulls in `fs`, `gray-matter` and `zod`. Each
+site's `scripts/render-og.ts` and `scripts/render-pdf.ts` run under `tsx`: the
+CV card reads the message catalogue through `cvMessages`, and a JSON import is
+what bare Node cannot take without an attribute. They reach `src/` by the `@/`
+alias, and `shared/content` through its `index.node-safe.ts` barrel, since the
+ordinary one's `server-only` modules throw outside a React server bundle.
+`render-og.ts` runs under the `react-server` condition, which resolves
+`server-only` to its empty module as a build does, so basilisk's cards reach the
+ordinary barrel and parse a case with `caseFrontmatterSchema`.
 
 ## Adding a document
 
-1. Write `apps/<site>/public/<collection>/<slug>.md` with frontmatter:
+1. Write `sites/<site>/public/<collection>/<slug>.md` with frontmatter:
 
    ```yaml
    ---
@@ -172,18 +172,17 @@ its cards reach `shared/content`'s leaf modules and parse a case with
 2. That's it. `generateStaticParams` and the sitemap both read the collection
    registry, so the page, its variants and their sitemap entries follow with no
    route work. A new collection is one entry in `shared/content/collections.ts`
-   — naming the site that serves it — the schema that reads it in
-   `collection-schemas.ts`'s `COLLECTION_SCHEMAS` (by way of
-   `ARTICLE_COLLECTIONS` when it is article-shaped, which is what `articleRoute`
-   accepts), its directory under that site's `public/`, and a router per page
-   binding `collectionIndexRoute`/`articleRoute` to it. A **rooted** collection
-   writes an empty `base` and gets no index router: its site's home page is its
-   index, written as a page slice of its own because the copy above the list is
-   that page's whole substance. `homeIndexed` says the same of a collection with
-   a base of its own — basilisk's cases and FAQ share the home page as their
-   index — and is what points `collectionRoute` at `/` rather than at a page
-   nothing serves, and an article's back link at the home section whose id is
-   the base.
+   — naming the site that serves it — its directory under that site's `public/`,
+   and a router per page binding `collectionIndexRoute`/`articleRoute` to it. An
+   article-shaped collection is read through `articleCollection(id)`; one that
+   holds more is a `Collection` beside its owning app's schema (`SONGS`,
+   `CASES`), which its routes pass instead. A **rooted** collection writes an
+   empty `base` and gets no index router: its site's home page is its index,
+   written as a page slice of its own because the copy above the list is that
+   page's whole substance. `homeIndexed` says the same of a collection with a
+   base of its own — basilisk's cases and FAQ share the home page as their index
+   — and is what points `collectionRoute` at `/` rather than at a page nothing
+   serves, and an article's back link at the home section whose id is the base.
 
 ## The three things a document can author beyond markdown
 
@@ -230,18 +229,20 @@ collections' documents; the rest is held by reading.
   extension is free, which is what makes `.md` and `.pdf` safe and leaves room
   for a third.
 - **The PDFs are build artifacts, and `PRINT_SOURCES` is the whole of what keeps
-  them current.** Each publishing lane runs `render-pdf.ts --from-out` after
-  that site's `next build`, over a cache of what it printed last, and reprints
+  them current.** Each publishing lane runs its site's
+  `src/<site>/scripts/render-pdf.ts --from-out`, where there is one, after that
+  site's `next build`, over a cache of what it printed last, and reprints
   whatever the source hashes say drifted — so the hashes are the only judge
   there is, and a vet run sees none of it. A PDF's sources are more than the
   page's own text — the print stylesheet, the theme it is drawn with, the
   presentation components, and `shared/config`, whose name and URL the footer
-  prints. `PRINT_SOURCES` in `scripts/render-pdf.ts` names what shapes any
-  printed page; `DOCUMENT_SOURCES` and `CV_SOURCES` name what each kind adds, so
-  a tweak to the shared part reprints every PDF while a CV printable, hashing
-  only its own locale's catalogue, leaves the other language alone. **Anything
-  that shapes the printed page belongs in one of those lists**, or a change to
-  it ships as a cached PDF the deploy never reprints — which nothing anywhere
+  prints. `PRINT_SOURCES` in `src/blog/scripts/lib/print-job.ts` names what
+  shapes any printed page; `DOCUMENT_SOURCES` there, a site entry's
+  `documentSources` and vova's `CV_SOURCES` name what each kind adds, so a tweak
+  to the shared part reprints every PDF while a CV printable, hashing only its
+  own locale's catalogue, leaves the other language alone. **Anything that
+  shapes the printed page belongs in one of those lists**, or a change to it
+  ships as a cached PDF the deploy never reprints — which nothing anywhere
   reports.
 - **A `.pdf` link is unconditional, so in a working tree it usually
   answers 404.** `cvPdfFile()` and the article header both derive it from the
@@ -251,14 +252,14 @@ collections' documents; the rest is held by reading.
   export matches the deploy's only if you rendered first.
 - **A PDF that LinkedIn uploads as "0 pages" names a domain it blocks.** The
   upload gives no other reason, and the file is otherwise valid. The domain goes
-  into `PRINT_RASTER_DOMAINS` (`src/shared/lib/print-raster.ts`).
+  into `PRINT_RASTER_DOMAINS` (`src/kernel/shared/lib/print-raster.ts`).
 - **A render and that site's own `pnpm dev` cannot both spawn a server.** Next
-  holds `apps/<site>/.next/dev/lock`, so a second `next dev` in the same app
+  holds `sites/<site>/.next/dev/lock`, so a second `next dev` in the same site
   directory refuses to start. Print from the one already up instead —
   `pnpm content:pdf:vova --origin http://localhost:3000` — or from a built
   export with `--from-out`, which is what the deploy does and the only shape
-  that prints exactly what it publishes. The lock is per app, so `pnpm dev:vova`
-  and `pnpm content:pdf:bible` never meet.
+  that prints exactly what it publishes. The lock is per site, so
+  `pnpm dev:vova` and `pnpm content:pdf:bible` never meet.
 - **The printed footer takes two mechanisms, because neither holds both
   halves.** `PrintSheet` wraps the article in a presentational table whose
   `<tfoot>` reserves a band at the foot of every page — only a real one does, a
@@ -326,27 +327,28 @@ collections' documents; the rest is held by reading.
   read from the PNG and published alongside the URL, which several consumers
   need to render it at all.
   - **The CV's cards have no authored source.**
-    `apps/vova/public/cv/<variant>.og.png` is rendered from a page
-    `scripts/lib/cv-card.ts` generates off the message catalogue and the
-    portrait, and the manifest hashes that page and the portrait's bytes — so
-    editing the template, `ava.png`, or any catalogue slice the page reads —
+    `sites/vova/public/cv/<variant>.og.png` is rendered from a page
+    `src/vova/scripts/lib/cv-card.ts` generates off the message catalogue and
+    the portrait, and the manifest hashes that page and the portrait's bytes —
+    so editing the template, `ava.png`, or any catalogue slice the page reads —
     `cv.header`, `cv.contact`, and the offer block heading that framing's
     `OFFER_BLOCKS` list — re-flags both cards, and the same
     `pnpm content:og:vova` renders them. English only: a `ru` card would double
     the committed weight for the secondary surface, and the localized
     `og:description` already says which language the reader got.
   - **basilisk.fyi's site card is generated the same way**, by
-    `scripts/lib/basilisk-card.ts`: the lettered seal beside the home page's
-    memo, read from `src/pages/basilisk-home/lib/memo.ts`, with the
-    highest-numbered case's number and title under it — so filing a case
-    re-flags the card — in a JetBrains Mono staged from
+    `src/basilisk/scripts/lib/basilisk-card.ts`: the lettered seal beside the
+    home page's memo, read from `src/basilisk/pages/basilisk-home/lib/memo.ts`,
+    with the highest-numbered case's number and title under it — so filing a
+    case re-flags the card — in a JetBrains Mono staged from
     `@fontsource/jetbrains-mono`. Its avatar therefore carries no `vector`, and
     states the canvas's pixel size, as every card-backed avatar does.
   - **The music index and each artist with two covers or more unfurl as a
-    collage of them**, a `.og.jpg` generated by `scripts/lib/music-collage.ts` —
-    the index's at `public/music.og.jpg`, an artist's at its locale-less
-    route's, one card for both languages. The covers' bytes are hashed, so a
-    release with a cover re-flags the index and its artist.
+    collage of them**, a `.og.jpg` generated by
+    `src/music/scripts/lib/music-collage.ts` — the index's at
+    `public/music.og.jpg`, an artist's at its locale-less route's, one card for
+    both languages. The covers' bytes are hashed, so a release with a cover
+    re-flags the index and its artist.
   - **A case unfurls as its own card**, the same template with the case's
     trimmed frontmatter for the memo, at the case's route plus `.og.png` beside
     its markdown. The collection's `generatedCards` is what makes `documents.ts`

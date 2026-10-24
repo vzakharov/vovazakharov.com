@@ -67,7 +67,7 @@ CLAUDE.md § "Key principles" on the `Edit`/`Write` tools says what that costs.
 What may stay in the root `CLAUDE.md` at all is its § "About this file"'s test.
 
 **A directory whose files are served is the exception**: a `CLAUDE.md` under
-`apps/*/public/` would be published with the site, so conventions for a served
+`sites/*/public/` would be published with the site, so conventions for a served
 directory stay a rule file here (`logos.md`).
 
 ## Good candidates
