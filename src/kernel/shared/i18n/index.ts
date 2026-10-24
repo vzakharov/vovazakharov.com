@@ -1,4 +1,4 @@
-export { loadMessages, type Messages } from './load-messages';
+export { catalogue } from './catalogue';
 export {
   addressLocale,
   byLocale,

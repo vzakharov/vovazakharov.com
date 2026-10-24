@@ -1,6 +1,6 @@
 import { Container, Title } from '@mantine/core';
 
-import { loadMessages } from '@/kernel/shared/i18n';
+import { messages } from '@/music/shared/i18n';
 
 import { NOSTALGIA } from '../model/blind-test';
 import { BlindTestPlayer } from './blind-test-player';
@@ -12,7 +12,7 @@ export function BlindTestPage() {
         {NOSTALGIA.title}
       </Title>
       {/* Russian only: its one listener is the author. */}
-      <BlindTestPlayer test={NOSTALGIA} copy={loadMessages('ru').blindTest} />
+      <BlindTestPlayer test={NOSTALGIA} copy={messages('ru').blindTest} />
     </Container>
   );
 }

@@ -4,7 +4,8 @@ import { Button, Modal } from '@mantine/core';
 import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 
 import type { Slugged } from '@/kernel/shared/content';
-import type { Messages } from '@/kernel/shared/i18n';
+
+import type { Messages } from '@/music/shared/i18n';
 
 import type { SongVideo } from '../lib/song-video';
 import classes from './music.module.scss';
@@ -14,7 +15,7 @@ export type SongVideoButtonProps = SongVideo &
   Slugged & {
     /** The dialog's heading — the song's name, as the page shows it. */
     heading: ReactNode;
-    labels: Messages['music']['video'];
+    labels: Messages['video'];
   };
 
 /**

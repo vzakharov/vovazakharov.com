@@ -1,7 +1,9 @@
 import { collectionRoute, MUSIC_ROUTE } from '@/kernel/shared/content';
-import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { byLocale } from '@/kernel/shared/i18n';
 
 import { PageShell } from '@/shell/shared/ui';
+
+import { messages } from '@/vova/shared/i18n';
 
 import { MovedSong } from './moved-song';
 
@@ -12,7 +14,7 @@ export function NotFoundPage() {
       <MovedSong
         musicRoute={MUSIC_ROUTE}
         songsRoute={collectionRoute('music')}
-        copy={byLocale((locale) => loadMessages(locale).notFound)}
+        copy={byLocale((locale) => messages(locale).notFound)}
       />
     </PageShell>
   );

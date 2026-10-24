@@ -4,13 +4,13 @@ import { Text, Title, UnstyledButton } from '@mantine/core';
 import { Info, Radio } from 'lucide-react';
 import { useEffect, useEffectEvent, useState } from 'react';
 
-import type { Messages } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { InternalButton, NameLink } from '@/shell/shared/ui';
 
 import type { HookRun } from '@/music/shared/catalogue';
+import type { Messages } from '@/music/shared/i18n';
 
 import type { SpelledLink } from '../lib/player-state';
 import { stationOffset } from '../lib/station';
@@ -31,7 +31,7 @@ export type OnAirExtras = {
 };
 
 export type OnAirProps = {
-  labels: Messages['music']['radioPage'];
+  labels: Messages['radioPage'];
   zoom: CoverZoomLabels;
   /** The song page's “from {album}”. */
   albumLine: string;

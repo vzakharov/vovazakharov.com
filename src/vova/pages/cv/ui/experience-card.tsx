@@ -1,10 +1,11 @@
 import { Text, Title } from '@mantine/core';
 
 import { TECH_STACKS } from '@/kernel/shared/config';
-import type { Messages } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 
 import { Card } from '@/shell/shared/ui';
+
+import type { Messages } from '@/vova/shared/i18n';
 
 import type { WithCaseStudy } from '../lib/cv-messages';
 import { CaseStudyLink } from './case-study-link';

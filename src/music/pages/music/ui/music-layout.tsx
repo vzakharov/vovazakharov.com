@@ -1,5 +1,7 @@
-import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { byLocale } from '@/kernel/shared/i18n';
 import type { WithChildren } from '@/kernel/shared/typings';
+
+import { messages } from '@/music/shared/i18n';
 
 import { radioPath } from '../lib/music-urls';
 import { listSongs } from '../lib/songs';
@@ -15,7 +17,7 @@ export function MusicLayout({ children }: WithChildren) {
   return (
     <PlayerProvider
       tracks={listSongs()}
-      labels={byLocale((locale) => loadMessages(locale).music.player)}
+      labels={byLocale((locale) => messages(locale).player)}
       radioRoutes={byLocale((locale) => radioPath(locale))}
     >
       {children}

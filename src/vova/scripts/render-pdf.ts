@@ -63,10 +63,7 @@ function cvPrintables(): Printable[] {
         outputPath: path.join(PUBLIC_DIR, `${route}.pdf`),
         sourceHash: hashFiles([
           ...shared,
-          path.join(
-            REPO_ROOT,
-            `src/kernel/shared/i18n/messages/${locale}.json`,
-          ),
+          path.join(REPO_ROOT, `src/vova/shared/i18n/messages/${locale}.json`),
         ]),
       };
     }),

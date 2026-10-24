@@ -1,12 +1,9 @@
-import {
-  loadMessages,
-  type Locale,
-  LOCALES,
-  type WithLocale,
-} from '@/kernel/shared/i18n';
+import { type Locale, LOCALES, type WithLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { type Chip, ChipNav } from '@/shell/shared/ui';
+
+import { messages } from '@/music/shared/i18n';
 
 import { ScriptChip } from './script-chip';
 
@@ -44,7 +41,7 @@ export function LocaleChips({ locale, hrefs, sample }: LocaleChipsProps) {
           <ScriptChip
             label={locale.toUpperCase()}
             {...{ sample }}
-            {...pick(loadMessages(locale).music, 'originalScript')}
+            {...pick(messages(locale), 'originalScript')}
           />
         )
       }

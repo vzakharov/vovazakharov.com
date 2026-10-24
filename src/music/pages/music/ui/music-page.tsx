@@ -3,12 +3,13 @@ import type { ReactNode } from 'react';
 
 import { SITE_ID } from '@/kernel/shared/config';
 import { findFeed } from '@/kernel/shared/content';
-import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { byLocale } from '@/kernel/shared/i18n';
 
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { scriptSample } from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 
 import { albumArtist, albumCover, albumTitle } from '../lib/albums';
 import { projectName } from '../lib/artists';
@@ -56,7 +57,7 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
               seconds: songs.map(({ frontmatter }) => frontmatter.seconds),
             },
             locale,
-            loadMessages(locale).music.size,
+            messages(locale).size,
           )}
           {...{ locale }}
         />

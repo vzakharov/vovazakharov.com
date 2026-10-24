@@ -9,11 +9,12 @@ import {
   DEFAULT_LOCALE,
   isLocale,
   type Locale,
-  type Messages,
   type WithOptionalLocale,
 } from '@/kernel/shared/i18n';
 
 import { TextLink } from '@/shell/shared/ui';
+
+import type { Messages } from '@/vova/shared/i18n';
 
 type MovedSongProps = {
   /** The music section's root, where a song once sat directly. */

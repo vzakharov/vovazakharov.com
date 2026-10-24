@@ -16,7 +16,7 @@ import {
   type ProseSource,
   renderProse,
 } from '@/kernel/shared/content';
-import { loadMessages, type Locale } from '@/kernel/shared/i18n';
+import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { feedHtml } from '@/kernel/shared/lib/feed-html';
 import type { RssPodcast } from '@/kernel/shared/lib/rss';
@@ -27,6 +27,7 @@ import {
   spelledText,
   textHook,
 } from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 
 import { preludeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
@@ -80,8 +81,7 @@ async function songContent(
   localized: LocalizedSongDocument,
   locale: Locale,
 ): Promise<string> {
-  const { feedPageLink, feedDownload, ...headings } =
-    loadMessages(locale).music;
+  const { feedPageLink, feedDownload, ...headings } = messages(locale);
   const parts = await Promise.all(
     storyOrder<ProseSource>(
       preludeOf(document, locale),
@@ -159,5 +159,6 @@ async function songFeedEntries(locale: Locale): Promise<FeedEntry[]> {
 /** Both songs feeds, one per language, each a podcast. */
 export const SONG_FEED: FeedSource = {
   entries: songFeedEntries,
+  description: (locale) => messages(locale).metaDescription,
   podcast: songPodcast,
 };

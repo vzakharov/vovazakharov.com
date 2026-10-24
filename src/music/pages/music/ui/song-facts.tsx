@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 
 import { documentMonth, formatDocumentMonth } from '@/kernel/shared/content';
-import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+import type { WithLocale } from '@/kernel/shared/i18n';
 
 import { NameLink } from '@/shell/shared/ui';
 
 import type { MusicAlbum } from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 
 import { songPlacements } from '../lib/album-tracks';
 import { albumTitle } from '../lib/albums';
@@ -27,7 +28,7 @@ export type SongFactsProps = SongOnRelease & WithLocale;
  */
 function songFacts({ document, album, locale }: SongFactsProps) {
   const { date, language, project, seconds } = document.frontmatter;
-  const messages = loadMessages(locale).music;
+  const copy = messages(locale);
 
   /** The message with each album linked in its `{album}` slot, or nothing for none. */
   const albumsFact = (message: string, albums: readonly MusicAlbum[]) => {
@@ -54,7 +55,7 @@ function songFacts({ document, album, locale }: SongFactsProps) {
           <Spelling {...projectName(artist, locale)} />
         </NameLink>
       )),
-      album: albumsFact(messages.album, album === null ? [] : [album]),
+      album: albumsFact(copy.album, album === null ? [] : [album]),
     },
     details: {
       date: (
@@ -62,9 +63,9 @@ function songFacts({ document, album, locale }: SongFactsProps) {
           {formatDocumentMonth(date, locale)}
         </time>
       ),
-      language: language.map((sung) => messages.language[sung]).join(', '),
+      language: language.map((sung) => copy.language[sung]).join(', '),
       alsoOn: albumsFact(
-        messages.alsoOn,
+        copy.alsoOn,
         songPlacements(document.frontmatter)
           .map((placement) => placement.album)
           .filter((other) => other !== album),

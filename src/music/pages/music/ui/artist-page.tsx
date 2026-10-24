@@ -1,12 +1,13 @@
 import { Stack } from '@mantine/core';
 
-import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { byLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { scriptSample } from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 
 import { albumCover, albumTitle } from '../lib/albums';
 import { projectGloss, projectName } from '../lib/artists';
@@ -35,7 +36,7 @@ import { Story } from './story';
  */
 export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const songs = catalogueSongs();
-  const messages = loadMessages(locale).music;
+  const copy = messages(locale);
   const text = artistText(artist, locale);
   const name = projectName(artist, locale);
   const { albums, singles } = artistDiscography(artist, locale, songs);
@@ -73,13 +74,13 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
     <PageShell>
       <Stack gap={48}>
         <MusicNav
-          back={{ href: musicPath(locale), label: messages.back }}
+          back={{ href: musicPath(locale), label: copy.back }}
           hrefs={byLocale((alternate) => artistPath(artist, alternate))}
           {...{ locale, sample }}
         />
 
         <CatalogueHeader
-          kind={messages.kind.artist}
+          kind={copy.kind.artist}
           title={name}
           gloss={projectGloss(artist, locale)}
           size={catalogueSize(
@@ -88,7 +89,7 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
               seconds: billed.map(({ frontmatter }) => frontmatter.seconds),
             },
             locale,
-            messages.size,
+            copy.size,
           )}
           {...pick(text, 'markdown')}
         >
@@ -97,14 +98,14 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
 
         <Story
           {...pick(text, 'prelude', 'story')}
-          {...pick(messages, 'behindTheScenes', 'preludeHeadings', 'readMore')}
+          {...pick(copy, 'behindTheScenes', 'preludeHeadings', 'readMore')}
         />
 
-        <CatalogueGrid title={messages.albums} tiles={albumTiles} />
+        <CatalogueGrid title={copy.albums} tiles={albumTiles} />
 
-        <CatalogueGrid title={messages.singles} tiles={singleTiles} />
+        <CatalogueGrid title={copy.singles} tiles={singleTiles} />
 
-        <SongList {...pick(messages, 'title')} {...{ tracks, locale }} />
+        <SongList {...pick(copy, 'title')} {...{ tracks, locale }} />
 
         <SiteFooter {...{ locale }} />
       </Stack>

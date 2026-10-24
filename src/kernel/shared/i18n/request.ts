@@ -1,10 +1,7 @@
 import { getRequestConfig } from 'next-intl/server';
 
-import { loadMessages } from './load-messages';
 import { routing } from './routing';
 
-export default getRequestConfig(() => {
-  const locale = routing.defaultLocale;
-
-  return { locale, messages: loadMessages(locale) };
-});
+// No messages: each app reads its own catalogue, so a page loads only those of
+// the apps it renders.
+export default getRequestConfig(() => ({ locale: routing.defaultLocale }));

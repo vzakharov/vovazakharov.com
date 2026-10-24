@@ -1,9 +1,7 @@
-import type { Messages } from './load-messages';
 import type { Locale } from './locales';
 
-// Registers the catalogs with next-intl so `getTranslations` keys are checked
-// against `en.json`. That server call is the only one this types: everything
-// else reads `Messages` directly, where the shape is already the catalog's own.
+// Locales only: each app reads its own catalogue, and next-intl's one global
+// `Messages` type could hold a single site's at most.
 
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- declaration
    merging into a library's own type is only expressible as an `interface`, so
@@ -12,6 +10,5 @@ import type { Locale } from './locales';
 declare module 'next-intl' {
   interface AppConfig {
     Locale: Locale;
-    Messages: Messages;
   }
 }

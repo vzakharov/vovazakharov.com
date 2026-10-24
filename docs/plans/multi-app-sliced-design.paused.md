@@ -170,6 +170,23 @@ Slice 3, app scripts in their apps: vet clean.
   `inLocale`; `check:masd` counts no script as a reference (nothing it flagged);
   knip enters `src/*/scripts/*.ts`.
 
+Slice 4, the message catalogue inverted: vet clean, every site built.
+
+- **Each app owns its catalogue** —
+  `src/<app>/shared/i18n/messages/{en,ru}.json` behind a loader built with
+  kernel's `catalogue()`, whose typing against `en` keeps the two files in sync,
+  exported in every app as `messages` (typed `Messages`), an importer needing
+  two renaming one: shell's (`toggleTheme`, `backToHome`), music's (what was the
+  `music` namespace), vova's (`notFound`, `cv`, `cvVariants`). kernel keeps
+  locales, routing, the request config and `MESSAGE_MARKDOWN`.
+- **A page loads only the catalogues of the apps it renders**, by import.
+  `getTranslations` is gone: the request config carries no messages and
+  `next-intl.d.ts` registers the locale alone, next-intl's `Messages` being one
+  global type that could check a single site's catalogue at most.
+- **A feed's description is its source's** — `FeedSource.description`, which
+  `SONG_FEED` supplies, else the site's tagline — so `Feed` carries none and
+  kernel names no app's strings.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -180,11 +197,6 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **4. Inverted message catalogue.** `kernel/shared/i18n` still holds every
-  app's strings, so a kernel module knows all of its consumers — the inversion
-  slice 1 did for schemas, left undone for messages. Each app owns its namespace
-  of the catalogue, a site loads those of the apps it mounts, and
-  `src/kernel/scripts/check-i18n-payload.ts` follows.
 - **5. Music as an app.** `music-route.tsx`, which decides whether a URL shows
   an album, an artist, a song or the radio, becomes music's app layer, and those
   four become real pages under `music/pages/`. Which entities they share is

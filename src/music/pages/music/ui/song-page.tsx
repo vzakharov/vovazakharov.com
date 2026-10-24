@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
 import type { Routed } from '@/kernel/shared/content';
-import { byLocale, loadMessages } from '@/kernel/shared/i18n';
+import { byLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import {
   constructMetadata,
@@ -19,6 +19,7 @@ import {
   spelledText,
   textHook,
 } from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 
 import { preludeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';
@@ -117,7 +118,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
   const localized = localizeSong(document, locale);
   const { gloss, hook, repo, explicit, cribNote } = localized.frontmatter;
   const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
-  const messages = loadMessages(locale).music;
+  const copy = messages(locale);
   const lyrics = songLyrics(document, locale);
   const track = songTrack(document, album);
   const sample = scriptSample(
@@ -136,7 +137,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
     <PageShell>
       <Stack gap={48}>
         <MusicNav
-          back={{ href: musicPath(locale), label: messages.back }}
+          back={{ href: musicPath(locale), label: copy.back }}
           hrefs={byLocale((alternate) => songPath(slug, alternate))}
           {...{ locale, sample }}
         />
@@ -146,15 +147,15 @@ export function SongPage({ slug, locale }: SongPageProps) {
             <CoverHead
               {...{ picture }}
               zoom={{
-                enlargeLabel: messages.enlargeCover,
-                closeLabel: messages.closeCover,
+                enlargeLabel: copy.enlargeCover,
+                closeLabel: copy.closeCover,
               }}
               kicker={<SongByline {...{ document, album, locale }} />}
             >
               <Stack gap={8} align="flex-start">
                 <Title order={1}>
                   {title}
-                  {explicit && <ExplicitBadge label={messages.explicit} />}
+                  {explicit && <ExplicitBadge label={copy.explicit} />}
                 </Title>
                 <TitleGlossLine {...{ gloss }} />
                 <HookLine>{hook}</HookLine>
@@ -167,7 +168,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
                       {...video}
                       {...{ slug }}
                       heading={title}
-                      labels={messages.video}
+                      labels={copy.video}
                     />
                   )}
                 </Group>
@@ -193,7 +194,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
                   size="sm"
                   className={hoverDim}
                 >
-                  {messages.source}
+                  {copy.source}
                 </TextLink>
               </Group>
             </Group>
@@ -205,8 +206,8 @@ export function SongPage({ slug, locale }: SongPageProps) {
         <Story
           prelude={preludeOf(document, locale)}
           story={localized.body === '' ? undefined : localized}
-          {...pick(messages, 'behindTheScenes', 'preludeHeadings')}
-          readMore={lyrics && messages.readMore}
+          {...pick(copy, 'behindTheScenes', 'preludeHeadings')}
+          readMore={lyrics && copy.readMore}
         />
 
         {lyrics && (

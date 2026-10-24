@@ -1,17 +1,14 @@
 import 'server-only';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
-import {
-  loadMessages,
-  type Locale,
-  type WithLocale,
-} from '@/kernel/shared/i18n';
+import type { Locale, WithLocale } from '@/kernel/shared/i18n';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
 
 import { spelledText, textHook } from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 
 import { albumArtist, albumCover, albumTitle } from './albums';
 import { projectName } from './artists';
@@ -49,14 +46,12 @@ function catalogueMetadata(
 
 /** What a music page's unfurl is titled, naming what it plays. */
 export function listenTitle(name: string, locale: Locale): string {
-  return loadMessages(locale).music.ogTitle.replace('{name}', name);
+  return messages(locale).ogTitle.replace('{name}', name);
 }
 
 /** The index, titled by its tab where that is not the artists it opens on. */
 export function generateMusicMetadata(page: IndexPageProps) {
-  const { metaTitle, metaDescription, ogTitleIndex } = loadMessages(
-    page.locale,
-  ).music;
+  const { metaTitle, metaDescription, ogTitleIndex } = messages(page.locale);
 
   return catalogueMetadata(
     page,
@@ -72,7 +67,7 @@ export function generateMusicMetadata(page: IndexPageProps) {
 
 export function generateArtistMetadata(page: ArtistPageProps) {
   const name = spelledText(projectName(page.artist, page.locale));
-  const { artistDescription } = loadMessages(page.locale).music;
+  const { artistDescription } = messages(page.locale);
 
   return catalogueMetadata(
     page,
@@ -89,7 +84,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
 
 export function generateAlbumMetadata(page: AlbumPageProps) {
   const name = spelledText(albumTitle(page.album, page.locale));
-  const { albumDescription } = loadMessages(page.locale).music;
+  const { albumDescription } = messages(page.locale);
 
   return catalogueMetadata(
     page,

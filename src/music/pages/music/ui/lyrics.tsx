@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import Markdown, { type Components } from 'react-markdown';
 
 import { resolveAuthoredUrl } from '@/kernel/shared/content';
-import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
+import type { WithLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithFileName, WithText } from '@/kernel/shared/typings';
 
@@ -14,6 +14,7 @@ import {
   SONGS,
   type SungLanguage,
 } from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 
 import { inlineRuns } from '../lib/lyric-inline';
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';
@@ -65,7 +66,7 @@ function noteComponents(fileName: string): Components {
 export function Lyrics({ lyrics, locale, fileName, cribNote }: LyricsProps) {
   const { stanzas, translation, language, transliteration, keepsScript } =
     lyrics;
-  const { lyrics: labels } = loadMessages(locale).music;
+  const { lyrics: labels } = messages(locale);
   const notes = noteComponents(fileName);
   const words = {
     stanzas,
