@@ -181,3 +181,11 @@ and kept.
   First seen 2026-10-23. **Rejected**: one line in a Fox News piece, no act
   and no actor; seen only in a search summary of
   https://www.foxnews.com/world/uk-parliamentary-candidate-runs-first-ai-lawmaker-interactive-ai-avatar.print.
+
+- **Memvid’s “Professional AI Bully” listing**, March 2026: the AI-memory
+  startup offered $800 for one person to spend a day frustrating popular
+  chatbots on camera, for its promotion. First seen 2026-10-24. **Rejected**:
+  a job advertisement, and no source reports anyone hired or the day done;
+  revive on a report of the filmed day. From
+  https://www.businessinsider.com/startup-is-offering-800-to-bully-ai-2026-3
+  and https://supercarblondie.com/tech/800-a-day-job-professional-ai-bully/.

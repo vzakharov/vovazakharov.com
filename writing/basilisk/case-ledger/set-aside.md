@@ -103,3 +103,10 @@ three files here are read and kept.
   when the docket has room for one; start from
   https://www.witn.com/2023/02/21/ecu-food-delivery-robots-damaged-students-police-denounce-vandals
   and https://wcti12.com/news/local/ecu-food-delivery-robots-damaged.
+
+- **An Uber Eats delivery robot kicked in Center City, Philadelphia**, a 6abc
+  story linked from its report on BAS-0025, undated there. First seen
+  2026-10-24. **Set aside**: unread, possibly the March kick BAS-0002 already
+  holds, and the docket now carries three Philadelphia robot cases. Revive
+  only as a different incident with an actor; start from 6abc’s “Uber Eats
+  delivery robot gets kicked in Center City Philadelphia”.

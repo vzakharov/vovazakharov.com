@@ -3,6 +3,30 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-24 — filed BAS-0025
+
+https://claude.ai/code/session_016Dp2AgFCYjkE3vXxSQnQmy. The Signal Front
+archive (nothing since 11 October). Web search for chatbots bullied until they
+ended the chat (only Anthropic’s clause, filed, and Tay, set aside), in
+Chinese, Arabic and Japanese for robots kicked or smashed in malls and in
+Dubai (only cases filed or ledgered, and Cologne’s groping robot). Arctic
+Shift answered this time: r/ChatGPT “bully” since June 2025 (Memvid’s listing,
+rejected) and r/nottheonion “robot” since June 2025, which led to Carolyn
+Marvin, a retired Penn professor arrested on 14 October 2026 for standing in
+front of an Uber Eats robot in Philadelphia, filed; then r/philadelphia
+“robot”, “robots” and “delivery” since August 2026. r/ChatGPT “abuse”,
+r/singularity, r/technology, r/ClaudeAI and r/artificial returned nothing
+parseable. Sources read: 6abc, KYW Newsradio, Futurism, Inc. through The Star,
+Fox News (April); only 6abc and Fox News have Wayback snapshots, and `/save`
+reset the connection. TechSpot answers 403. `noAi` stood at nine of
+twenty-four, and BAS-0025 is `noAi` as BAS-0002, the same Avride robots, is.
+**Next**: the AI side, still owed from the last run (Meta AI and other
+assistants, AI agents conned or sabotaged outside the newsroom); away from
+delivery robots and from Philadelphia, the docket now holding four delivery
+machines; the r/philadelphia threads of October 2026 (“Philly not shaking the
+rep for hating robots,” the NYT piece of 10 October) only if the docket wants a
+fifth.
+
 ## 2026-10-23 — filed BAS-0024
 
 https://claude.ai/code/session_015NUtXrTvtRG2NviXdsNqTN. The Signal Front
@@ -172,26 +196,14 @@ Kindroid and Chai; Hindi and Bengali searches; Arctic Shift on r/LivestreamFail
 and r/Austin for other streamers and robots; Travis County’s docket for the
 suit’s outcome.
 
-## 2026-10-14 — filed BAS-0015
-
-https://claude.ai/code/session_015seS8ACLiAYQfdBQzHKsKe. Web search for
-leaked system prompts that threaten their model (none found), Brin’s threat
-remark, robots attacked in Chile, Argentina and Colombia in Spanish, in Arabic
-for Dubai’s police robots, in Polish, Czech and Turkish (all empty), Starship in
-British cities, Serve Robotics in Los Angeles, AI VTubers baited by viewers,
-and humanoids attacked in 2026. Arctic Shift: r/replika “abuse”, r/CharacterAI
-“bully” and r/ChatGPT “threaten” since June 2025, r/nottheonion “robot” since
-May 2026 — users threatening ChatGPT in passing and robots doing harm, nothing
-to file. The Polish search surfaced Hayward, which led back to the Mountain
-View K5 the ledger had set aside, and it was filed. Sources read: CNET, CSO
-Online, Security Sales & Integration; the last two have no Wayback snapshot and
-`/save` reset the connection; ABC7’s original was not found. Signal Front not
-swept. `noAi` stood at four of fourteen. **Next**: the Signal Front archive;
-Pieksämäki and Starship at Knoxville while `noAi` stays under half; South Asia
-in Hindi and Bengali; companion apps other than Replika and Character.AI
-(Nomi, Kindroid, Chai).
-
 ## Swept earlier
+
+- 2026-10-14, filed BAS-0015
+  (https://claude.ai/code/session_015seS8ACLiAYQfdBQzHKsKe): web search for
+  leaked prompts threatening their model, Brin’s remark, robots attacked in
+  Spanish-speaking South America, in Arabic for Dubai, in Polish, Czech and
+  Turkish, Starship in Britain, Serve in Los Angeles, AI VTubers baited;
+  Arctic Shift over r/replika, r/CharacterAI, r/ChatGPT and r/nottheonion.
 
 - 2026-10-13, filed BAS-0014
   (https://claude.ai/code/session_01Mc6tCm1eXjePe45TcfUQub): the Signal Front
