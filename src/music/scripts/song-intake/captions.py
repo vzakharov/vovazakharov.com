@@ -21,7 +21,7 @@ import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[4] / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "kernel" / "scripts"))
 
 from lib.hearing import alternative, read_response
 

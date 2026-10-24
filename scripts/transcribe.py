@@ -88,6 +88,10 @@ import urllib.request
 from pathlib import Path
 from typing import Any, Optional
 
+# `lib` is a namespace package, so kernel's scripts/lib, where the hearing
+# library sits beside the song-intake scripts that share it, joins this one.
+sys.path.append(str(Path(__file__).resolve().parent.parent / "src" / "kernel" / "scripts"))
+
 from lib.cli import die
 from lib.hearing import alternative, doubts, marked, merged, paragraphs, read_response, write_response
 

@@ -32,7 +32,7 @@ pnpm content:og:basilisk --check # the seal card and each case's │
 pnpm music:masters check              # song masters' tags, hashes only │
 pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
-python3 scripts/lib/test_hearing.py # transcribe.py's word merge │
+python3 src/kernel/scripts/lib/test_hearing.py # transcribe.py's word merge │
 python3 src/music/scripts/song-intake/test_song_facts.py # spectrogram facts │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-notes-length.sh   # writing/notes/ ceiling        │
@@ -188,7 +188,7 @@ Twenty things about that list are deliberate:
   seconds, and the game changes rarely — so a branch that works on the game runs
   them by asking, or alone through `pnpm test:meadow`. `pnpm test` is the run by
   hand, over only the tests the branch reached (`.claude/rules/testing.md`). Two
-  Python suites sit beside it: `scripts/lib/test_hearing.py`, for
+  Python suites sit beside it: `src/kernel/scripts/lib/test_hearing.py`, for
   `scripts/transcribe.py`'s pure half, which reads only its fixtures; and
   `src/music/scripts/song-intake/test_song_facts.py`, for the spectrogram's
   measurements on synthetic signals, which needs numpy on the system Python.
