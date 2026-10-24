@@ -17,6 +17,17 @@
     "verdictExample": "B > A > C",
     "summary": "Every verdict — for the chat; kept in this browser"
   },
+  "whisper": {
+    "typewriter": "Typewriter",
+    "typeHint": "Type anything, in English or Russian",
+    "sample": "Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist, but we hope that won’t stop you from enjoying our music.",
+    "heard": "What the bug hears",
+    "written": "What the post writes down",
+    "unknown": "The post doesn’t know this word",
+    "typed": "Typed: {word}",
+    "alike": "Sounds the same: {words}",
+    "tally": "{right} of {total} right. Red is a wrong guess, underlined could read otherwise, grey is a word the post doesn’t know."
+  },
   "cv": {
     "metadata": {
       "description": "Full-stack developer with deep AI/ML expertise since 2020. Building practical LLM-powered tools, prototypes, and production systems.",
