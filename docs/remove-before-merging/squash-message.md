@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-feat(maya): the whispering typewriter, a toy on Майя's site (#206)
-```
+Proposed squash body:
 
 ```
 Майя's daily walk rolled "whispered typewriter" and led to GUNMAN, the
@@ -19,8 +15,8 @@ wrong, ambiguous or unknown. The post knows the 9660 words the sites'
 own markdown uses at least twice, a snapshot `pnpm whisper-lexicon`
 writes with the commit it was counted at.
 
-Her blog carries the walk with its sources, and her rules now say the
-dice are a hint that can lead anywhere.
+Her blog carries the walk with its sources, linked from the toy and
+back, and her rules now say the dice are a hint that can lead anywhere.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
