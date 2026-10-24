@@ -7,14 +7,7 @@
 
 export { albumTracks, songPlacements } from './album-tracks.ts';
 export { type CreditedName, SONG_AUTHOR } from './author.ts';
-// Types only: the schemas are zod, which a client component entering this
-// barrel would carry into every song page's bundle.
-export {
-  billedArtists,
-  type SongBilling,
-  songFileName,
-  songFileNames,
-} from './file-name.ts';
+export { billedArtists, type SongBilling } from './file-name.ts';
 export { inlineRuns } from './lyric-inline.ts';
 export { entryText, type LyricLine, type WithStanzas } from './lyric-notes.ts';
 export {
@@ -24,10 +17,11 @@ export {
   type WithBranch,
   type WithRepo,
 } from './master-url.ts';
-export type { MusicAlbum, MusicProject } from './name-brands.ts';
+// Types only: the schemas are zod, which a client component entering this
+// barrel would carry into every song page's bundle.
+export type { MusicAlbum } from './name-brands.ts';
 export { MUSIC_ORGANIZATION } from './organization.ts';
 export { bill, songRepositoryUrl } from './projects.ts';
-export { romanizeRussian } from './romanize.ts';
 export {
   localeProse,
   splitSections,
@@ -45,10 +39,8 @@ export {
   type WithExtension,
 } from './song-files.ts';
 export {
-  spell,
   type Spelled,
   spelledText,
-  type WithSpelledName,
   type WithSpelledTitle,
 } from './spelling.ts';
 export {

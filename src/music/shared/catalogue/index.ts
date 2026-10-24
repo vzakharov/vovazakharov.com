@@ -19,24 +19,13 @@ export {
   preludeOf,
   type StoryParts,
 } from './catalogue-text';
-export type { SongBilling } from './file-name';
 export {
-  albumFrontmatterSchema,
-  type AlbumPlacement,
-  artistFrontmatterSchema,
   type CreditedSong,
-  type LocalName,
-  type Mastered,
   type Playable,
-  type Released,
-  type RepoHeld,
   type ScriptKept,
-  type SongFrontmatter,
   SONGS,
   type SungLanguage,
   type TitleGloss,
-  type Tracked,
-  type UntitledSongText,
 } from './frontmatter';
 export { type HookRun, hookRuns, textHook } from './hook-marks';
 export {
@@ -61,7 +50,6 @@ export {
   type MusicProject,
   musicProjectNames,
   projectBySlug,
-  projectSlug,
 } from './names';
 export {
   artistCard,
@@ -96,12 +84,7 @@ export {
   songTrack,
   trackNames,
 } from './songs';
-export {
-  mostlyNeedsLatin,
-  scriptSample,
-  songTitle,
-  spelledText,
-} from './spelling';
+export { scriptSample, songTitle, spelledText } from './spelling';
 export {
   readTagManifest,
   TAG_MANIFEST,
