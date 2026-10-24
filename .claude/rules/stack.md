@@ -33,6 +33,7 @@ pnpm music:masters check              # song masters' tags, hashes only │
 pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
 python3 scripts/lib/test_hearing.py # transcribe.py's word merge │
+python3 scripts/lib/test_ctc.py # forced alignment             │
 python3 scripts/song-intake/test_song_facts.py # spectrogram facts │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-notes-length.sh   # writing/notes/ ceiling        │
@@ -185,11 +186,12 @@ Twenty things about that list are deliberate:
   `VET_MEADOW=1` asks for them** — they take over half an hour, the rest
   seconds, and the game changes rarely — so a branch that works on the game runs
   them by asking, or alone through `pnpm test:meadow`. `pnpm test` is the run by
-  hand, over only the tests the branch reached (`.claude/rules/testing.md`). Two
-  Python suites sit beside it: `scripts/lib/test_hearing.py`, for
-  `scripts/transcribe.py`'s pure half, which reads only its fixtures; and
+  hand, over only the tests the branch reached (`.claude/rules/testing.md`).
+  Three Python suites sit beside it: `scripts/lib/test_hearing.py`, for
+  `scripts/transcribe.py`'s pure half, which reads only its fixtures;
+  `scripts/lib/test_ctc.py`, for the forced alignment on hand-built frames; and
   `scripts/song-intake/test_song_facts.py`, for the spectrogram's measurements
-  on synthetic signals, which needs numpy on the system Python.
+  on synthetic signals — the last two needing numpy on the system Python.
 - **`scripts/check-notes-length.sh` holds each `writing/notes/` file to the line
   ceiling its own "How this file is kept" states.** Unlike the codegen above, it
   reports rather than repairs: which squeeze applies is a judgement, so nothing
