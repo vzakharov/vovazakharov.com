@@ -50,18 +50,12 @@ cannot — a stretch the first model dropped whole comes back as Whisper's words
 on a line of their own. For speech, Whisper is Deepgram's hosted model rather
 than a local faster-whisper: on a mumbled voice note a local `large-v3-turbo`
 dropped sixteen seconds the hosted model still turned into words, and closed on
-<<<<<<< HEAD
-an invented «Спасибо. Спасибо.» Sung vocals are the other way round —
-`src/music/scripts/song-intake/lyrics.py`'s local large-v3 is their first hearing, and this
-script their second.
-=======
 an invented «Спасибо. Спасибо.»
 
 **`--second-opinion-from <whisper.json.gz>` merges a hearing already on disk
-instead** — the one `scripts/song-intake/lyrics.py --json-dir` writes. Sung
+instead** — the one `src/music/scripts/song-intake/lyrics.py --json-dir` writes. Sung
 vocals are the other way round from speech: the local large-v3 hears them better
 than either hosted model, so a song's transcript merges nova-3 with that.
->>>>>>> origin/main
 
 `--keyterm` (repeatable, nova-3 only) names a word the recording uses that the
 model would mishear unprompted — a name, a drug, a coinage.

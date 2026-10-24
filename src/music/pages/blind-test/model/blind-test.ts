@@ -1,4 +1,4 @@
-import type { Titled, WithId } from '@/shared/typings';
+import type { Titled, WithId } from '@/kernel/shared/typings';
 
 /** One song under test, `id` naming its directory of `mix.mp3`, `1.mp3`… */
 type BlindPiece = Titled & WithId;

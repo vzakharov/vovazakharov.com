@@ -13,11 +13,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-<<<<<<< HEAD:src/music/shared/catalogue/catalogue-names.ts
-import { collectionDir } from '../../../kernel/shared/content/collections.ts';
-=======
-import { collectionDir, isDocumentFile } from '../content/collections.ts';
->>>>>>> origin/main:src/shared/music-catalogue/catalogue-names.ts
+import {
+  collectionDir,
+  isDocumentFile,
+} from '../../../kernel/shared/content/collections.ts';
 import { musicAlbumSchema, musicProjectSchema, SLUG } from './name-brands.ts';
 
 /** What this module reads of an artist's file; `artistFrontmatterSchema` reads the rest. */

@@ -19,15 +19,9 @@ import { z } from 'zod';
 
 import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
 import type { RepoBranch } from '@/music/pages/music/lib/master-url';
+import { SONG_BRANCH } from '@/music/pages/music/lib/song-files';
 
-<<<<<<< HEAD:src/music/scripts/lib/music-repo.ts
 import { REPO_ROOT } from '../../../kernel/scripts/lib/content-tree.ts';
-=======
-import type { RepoBranch } from '@/pages/music/lib/master-url';
-import { SONG_BRANCH } from '@/pages/music/lib/song-files';
-
-import { REPO_ROOT } from './content-tree.ts';
->>>>>>> origin/main:scripts/lib/music-repo.ts
 import {
   apiStderr,
   githubApi,

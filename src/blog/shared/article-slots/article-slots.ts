@@ -12,6 +12,8 @@ type Slot<F extends BaseFrontmatter> = (
  * them in, so the page never names an app below it.
  */
 export type ArticleSlots<F extends BaseFrontmatter> = {
+  /** Right of the lede, under the title. */
+  mark?: Slot<F>;
   /** Under the header. */
   brief?: Slot<F>;
   /** Inside the body, after its first paragraph. */

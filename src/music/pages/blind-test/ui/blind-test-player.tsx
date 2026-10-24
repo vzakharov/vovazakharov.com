@@ -17,7 +17,7 @@ import {
   useSyncExternalStore,
 } from 'react';
 
-import type { Messages } from '@/shared/i18n';
+import type { Messages } from '@/kernel/shared/i18n';
 
 import { BlindPlayer } from '../model/blind-player';
 import {

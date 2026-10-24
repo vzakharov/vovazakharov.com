@@ -33,7 +33,7 @@ pnpm music:masters check              # song masters' tags, hashes only │
 pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
 python3 scripts/lib/test_hearing.py # transcribe.py's word merge │
-python3 scripts/song-intake/test_song_facts.py # spectrogram facts │
+python3 src/music/scripts/song-intake/test_song_facts.py # spectrogram facts │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-notes-length.sh   # writing/notes/ ceiling        │
 scripts/check-skill-catalog.sh  # skill @-references            │
@@ -190,8 +190,8 @@ Twenty things about that list are deliberate:
   hand, over only the tests the branch reached (`.claude/rules/testing.md`). Two
   Python suites sit beside it: `scripts/lib/test_hearing.py`, for
   `scripts/transcribe.py`'s pure half, which reads only its fixtures; and
-  `scripts/song-intake/test_song_facts.py`, for the spectrogram's measurements
-  on synthetic signals, which needs numpy on the system Python.
+  `src/music/scripts/song-intake/test_song_facts.py`, for the spectrogram's
+  measurements on synthetic signals, which needs numpy on the system Python.
 - **`scripts/check-notes-length.sh` holds each `writing/notes/` file to the line
   ceiling its own "How this file is kept" states.** Unlike the codegen above, it
   reports rather than repairs: which squeeze applies is a judgement, so nothing

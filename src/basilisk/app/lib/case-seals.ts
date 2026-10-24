@@ -1,10 +1,7 @@
-import {
-  ARTICLE_COLLECTIONS,
-  listPrimaryDocuments,
-  PUBLIC_DIR,
-} from '@/shared/content';
+import { listPrimaryDocuments, PUBLIC_DIR } from '@/kernel/shared/content';
 
-import { caseSealFile, caseSealSvg, SEAL_CUTS } from '@/entities/case';
+import { CASES } from '@/basilisk/shared/content';
+import { caseSealFile, caseSealSvg, SEAL_CUTS } from '@/basilisk/entities/case';
 
 type SealParams = { file: string };
 
@@ -13,12 +10,10 @@ type SealContext = { params: Promise<SealParams> };
 /** Every cut of every case's seal, by the file name it is served under. */
 function sealFiles() {
   return new Map(
-    listPrimaryDocuments(ARTICLE_COLLECTIONS['basilisk-cases']).flatMap(
-      (document) =>
-        SEAL_CUTS.map(
-          (cut) =>
-            [caseSealFile(document.slug, cut), { document, cut }] as const,
-        ),
+    listPrimaryDocuments(CASES).flatMap((document) =>
+      SEAL_CUTS.map(
+        (cut) => [caseSealFile(document.slug, cut), { document, cut }] as const,
+      ),
     ),
   );
 }

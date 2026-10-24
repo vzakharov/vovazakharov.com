@@ -21,25 +21,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-<<<<<<< HEAD:src/basilisk/scripts/lib/basilisk-card.ts
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 import { documentDateTime, formatDocumentDate } from '@/kernel/shared/content';
-import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
+import {
+  documentRoute,
+  PUBLIC_DIR,
+} from '@/kernel/shared/content/index.node-safe';
 import type { Titled } from '@/kernel/shared/typings';
 
-import { gradeLabel } from '@/basilisk/entities/case/index.node-safe';
-import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
-=======
-import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
-import { documentRoute, PUBLIC_DIR } from '@/shared/content/collections';
 import {
-  documentDateTime,
-  formatDocumentDate,
-} from '@/shared/content/document-date';
-import type { Titled } from '@/shared/typings';
-
-import { caseSealSvg, gradeLabel } from '@/entities/case/index.node-safe';
->>>>>>> origin/main:scripts/lib/basilisk-card.ts
+  caseSealSvg,
+  gradeLabel,
+} from '@/basilisk/entities/case/index.node-safe';
+import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
 
 import {
   CANVAS_BACKGROUND,

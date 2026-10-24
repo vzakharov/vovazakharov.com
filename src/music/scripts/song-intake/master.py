@@ -5,14 +5,10 @@ Usage:
   master.py <song> <reference> <out.mp3|out.flac> [--strength 0.5] [--lufs N]
             [--title T] [--album A] [--artist R] [--track N/M]
 
-<<<<<<< HEAD:src/music/scripts/song-intake/master.py
-The chain, each step there for a reason src/music/scripts/song-intake/CLAUDE.md gives:
-=======
 The output's extension picks the codec: V0 mp3, or 24-bit FLAC for a lossless
 source, whose limiter is the same so that both decode to one master.
 
-The chain, each step there for a reason scripts/song-intake/CLAUDE.md gives:
->>>>>>> origin/main:scripts/song-intake/master.py
+The chain, each step there for a reason src/music/scripts/song-intake/CLAUDE.md gives:
 
   1. Matchering matches the song to the reference — loudness, spectrum, peaks.
   2. The smoothed spectrum difference between that match and the song, scaled

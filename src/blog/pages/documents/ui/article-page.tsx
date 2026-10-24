@@ -123,7 +123,7 @@ export function articleRoute<F extends ArticleFrontmatter>(
                   <ArticleHeader
                     {...{ document, title, readingMinutes }}
                     availableVariants={siblingVariants(collection, slug)}
-                    mark={slots?.mark?.(document)}
+                    mark={slots.mark?.(document)}
                   />
                   {slots.brief?.(document)}
                 </Box>

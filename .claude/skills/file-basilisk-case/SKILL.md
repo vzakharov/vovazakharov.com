@@ -166,7 +166,7 @@ weak case filed to have filed one is the failure this step exists to prevent.
    voice are `basilisk-voice.md`'s. **Every other case not yet on `origin/main`
    takes today's `filed:` too**, keeping its number: `filed:` is the day a case
    goes out, and an unmerged one has not.
-3. **Draw its emblem**, `apps/basilisk/public/cases/<slug>.emblem.svg`: the
+3. **Draw its emblem**, `sites/basilisk/public/cases/<slug>.emblem.svg`: the
    picture that replaces the eye in the case's seal, on its card, its docket row
    and its page. One `<svg viewBox="0 0 1024 1024">` that draws only in
    `currentColor` (the ink is read off the grade), kept within 290 of the centre

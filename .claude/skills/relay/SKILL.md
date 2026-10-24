@@ -54,22 +54,14 @@ sessions each claiming the whole job would count it twice.
 
 ### Step 2 — Write the summary
 
-<<<<<<< HEAD
 Walk the conversation in order first, then write `relay-<N>.md` in the branch's
 own working directory, `$(scripts/working-dir.sh)`, `<N>` one past the highest
-there or else 1, and commit and push it. Each summary keeps its name for good,
-so git shows every relay as one added file; the highest `<N>` is the current
-one, which `/relay take` reads. The branch's `/finalize` sweeps the directory. A
-bite numbers its relays apart from the elephant's, so neither's `take` reads the
+there or else 1, run `python3 scripts/relay-last-reply.py <that file>`, and
+commit and push it. Each summary keeps its name for good, so git shows every
+relay as one added file; the highest `<N>` is the current one, which
+`/relay take` reads. The branch's `/finalize` sweeps the directory. A bite
+numbers its relays apart from the elephant's, so neither's `take` reads the
 other's.
-=======
-Walk the conversation in order first, then write
-`docs/remove-before-merging/relay-<N>.md`, `<N>` one past the highest there or
-else 1, run `python3 scripts/relay-last-reply.py <that file>`, and commit and
-push it. Each summary keeps its name for good, so git shows every relay as one
-added file; the highest `<N>` is the current one, which `/relay take` reads.
-`/finalize` sweeps the directory.
->>>>>>> origin/main
 
 - **English**, being agent-facing, with the operator's words quoted in their own
   language.

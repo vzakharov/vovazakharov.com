@@ -1,11 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type {
-  CaseFrontmatter,
-  Routed,
-  WithFrontmatter,
-} from '@/shared/content';
+import type { Routed, WithFrontmatter } from '@/kernel/shared/content';
+
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
 
 type Grade = CaseFrontmatter['grade'];
 

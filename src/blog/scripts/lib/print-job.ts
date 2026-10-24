@@ -48,18 +48,8 @@ import {
   type Routed,
 } from '@/kernel/shared/content/index.node-safe';
 
-<<<<<<< HEAD:src/blog/scripts/lib/print-job.ts
 import { flag, given } from '../../../kernel/scripts/lib/argv.ts';
 import { findChromium } from '../../../kernel/scripts/lib/chromium.ts';
-=======
-import { caseSealSources } from '@/entities/case/index.node-safe';
-
-import { cvPath } from '@/pages/cv/lib/cv-urls';
-import { CV_PAGE_CEILING, CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
-
-import { flag, given } from './lib/argv.ts';
-import { findChromium } from './lib/chromium.ts';
->>>>>>> origin/main:scripts/render-pdf.ts
 import {
   CONTENT_DIRS,
   contentFiles,
@@ -197,22 +187,14 @@ export function sourceFiles(...sources: string[][]): string[] {
 }
 
 /**
- * A case prints its seal beside its lede, composed from its emblem and the
- * lettered site seal, which sit under `public/` as the end mark does. A
- * document with no emblem is not a case.
- */
-function caseSealFiles(route: string): string[] {
-  const { siteSeal, emblem } = caseSealSources(PUBLIC_DIR, route, 'lettered');
-
-  return fs.existsSync(emblem) ? [emblem, siteSeal] : [];
-}
-
-/**
  * Each printable collection's PDFs. The route is the output path's own place
  * under `public/`, minus the extension — which is the whole of the rule this
  * pipeline rests on.
  */
-function documentPrintables(documentSources: string[]): Printable[] {
+function documentPrintables(
+  documentSources: string[],
+  documentFiles: (route: string) => string[],
+): Printable[] {
   const shared = sourceFiles(
     PRINT_SOURCES,
     DOCUMENT_SOURCES,
@@ -231,7 +213,7 @@ function documentPrintables(documentSources: string[]): Printable[] {
         sourceHash: hashFiles([
           documentPath,
           ...referencedAssets(documentPath),
-          ...caseSealFiles(route),
+          ...documentFiles(route),
           ...shared,
         ]),
       };
@@ -371,17 +353,21 @@ export async function printAll(stale: Printable[]): Promise<void> {
 
 /**
  * What a site adds to the core: `documentSources` shape its documents' print
- * on top of the core's; `printables` are pages of its own, outside the content
- * tree, under `manifestDirs`; `onRendered` runs after a render that wrote.
+ * on top of the core's, and `documentFiles` names the files that shape one
+ * document's alone, by its route; `printables` are pages of its own, outside
+ * the content tree, under `manifestDirs`; `onRendered` runs after a render that
+ * wrote.
  */
 export type PdfOptions = ManifestRoots & {
   documentSources?: string[];
+  documentFiles?: (route: string) => string[];
   printables?: Printable[];
   onRendered?: () => void;
 };
 
 export async function renderPdfs({
   documentSources = [],
+  documentFiles = () => [],
   printables = [],
   manifestDirs = [],
   onRendered,
@@ -394,7 +380,10 @@ export async function renderPdfs({
       manifestName: MANIFEST_NAME,
       isOutput: (name) => name.endsWith('.pdf'),
       manifestDirs: [...CONTENT_DIRS, ...manifestDirs],
-      entries: [...documentPrintables(documentSources), ...printables],
+      entries: [
+        ...documentPrintables(documentSources, documentFiles),
+        ...printables,
+      ],
       render: printAll,
     },
     check,

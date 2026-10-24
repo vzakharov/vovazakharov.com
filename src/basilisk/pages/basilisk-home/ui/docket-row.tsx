@@ -8,12 +8,12 @@ import {
 } from '@/kernel/shared/content';
 import type { Titled } from '@/kernel/shared/typings';
 
-<<<<<<< HEAD:src/basilisk/pages/basilisk-home/ui/docket-row.tsx
 import type { CaseFrontmatter } from '@/basilisk/shared/content';
-import { aggravations, GradeStamp } from '@/basilisk/entities/case';
-=======
-import { aggravations, caseSealPath, GradeStamp } from '@/entities/case';
->>>>>>> origin/main:src/pages/basilisk-home/ui/docket-row.tsx
+import {
+  aggravations,
+  caseSealPath,
+  GradeStamp,
+} from '@/basilisk/entities/case';
 
 import classes from './basilisk-home.module.scss';
 

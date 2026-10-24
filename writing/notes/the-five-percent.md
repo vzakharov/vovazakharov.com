@@ -38,11 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-<<<<<<< HEAD
-## What it was handed, it treats as fixed (×73)
-=======
-## What it was handed, it treats as fixed (×83)
->>>>>>> origin/main
+## What it was handed, it treats as fixed (×85)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -90,19 +86,12 @@ the spectrogram's keys, the agent called it a tie; its own script had counted G,
 C's third harmonic, as a note. The Clerk's reflections had converged on «Первое
 — / Второе —», a form re-read before each new one.
 
-<<<<<<< HEAD
 **16 to 17 October — a split read as settled, because a session settled it.**
 PR #169's planning session carved its work into #170 and five child issues, the
 choice between tickets and one PR eaten in bites never put to him. Later rounds
 reasoned inside the carve, offering the missing music restructuring #174 or this
 PR, and app-specific scripts an issue of their own. _все слайсы должны были быть частью этого
 пиара-слона, а не отдельными тикетами._ He had assumed the elephant all along.
-
-**20 October — its own last four reflections, read as the template.** The
-basilisk Clerk's reflections had converged on «Первое — / Второе —», a funny
-paragraph and a one-line caveat: a form set by the first few and by the rule's
-own items, re-read four times before each new one. The operator saw it; the
-agent had not.
 
 **20 October — an app read as what it held, not what it was.** PR #169 put
 each site's sitemap in its router, since kernel imports no app above it, and
@@ -111,8 +100,6 @@ new do-nothing apps. _vovazakharov.com-as-an-app is exactly the thing that needs
 to know about music and the game._ It had read `vova` as the CV and home page;
 it was the site, and the composition it wanted already existed under that name.
 
-## An account that explains the code stands in for running it (×23)
-=======
 **21 October — the beat tracker's grid, read as the beat.** The agent tuned
 which beat opens a bar; the author heard sorry's third section start half a beat
 early, the tracker locked onto the syncopated kick. It never asked whether the
@@ -124,7 +111,6 @@ read as "illustrator": _нене, погоди, artist это про музык�
 in with the music PR for Майя's voice; drawing is `designer`. Every earlier
 `artist` part had been a persona reflection, so the label had drifted between
 sessions already. Now `musician`.
->>>>>>> origin/main
 
 **22 October — "nothing runs on pull requests," read as the request.** Asked to
 move `vet.sh` "into GitHub," the agent built CI on every PR, the docs' gap, and

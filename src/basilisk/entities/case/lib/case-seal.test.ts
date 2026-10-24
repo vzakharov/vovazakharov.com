@@ -109,7 +109,7 @@ function contrast(a: string, b: string): number {
 const BACKGROUNDS = [
   ...fs
     .readFileSync(
-      new URL('../../../app/styles/globals.scss', import.meta.url),
+      new URL('../../../../shell/app/styles/globals.scss', import.meta.url),
       'utf8',
     )
     .matchAll(/@include tokens\.colors\(\s*(#[\da-f]{3,6})/gi),

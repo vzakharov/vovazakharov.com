@@ -51,7 +51,7 @@ operator has to listen to — so `transcribe.py` merges Whisper's hearing into i
 transcript:
 
 ```sh
-tmp/song-intake-venv/bin/python scripts/song-intake/lyrics.py <slug>.mp3 \
+tmp/song-intake-venv/bin/python src/music/scripts/song-intake/lyrics.py <slug>.mp3 \
   --json-dir docs/music/transcripts > docs/music/transcripts/<slug>.whisper.md
 python3 scripts/transcribe.py <slug>.mp3 --language ru \
   --out-dir docs/music/transcripts --json-dir docs/music/transcripts \
@@ -159,8 +159,8 @@ from memory.
 `blind-abc.py split <key> <dir> --mix <source>` writes the same four as whole
 files, `mix.mp3`, `1.mp3`, `2.mp3`, `3.mp3`, in the key's order, so one seal
 covers both. The vova site's unlinked `/music/mastering-blind-test`
-(`src/pages/blind-test/`) plays all four at once and switches by gain, so a
-switch never restarts the song; it fetches them from the branch through
+(`src/music/pages/blind-test/`) plays all four at once and switches by gain, so
+a switch never restarts the song; it fetches them from the branch through
 raw.githubusercontent, whose CORS header Web Audio needs. The key's paths are
 relative to this directory, so `split` runs from here.
 
@@ -214,11 +214,7 @@ loads on reading a reflection, never on the `Write` that creates the first one �
 so read it first.
 
 She reads the song first as its spectrogram —
-<<<<<<< HEAD:src/music/scripts/song-intake/CLAUDE.md
-`spectrogram.py <master> sites/vova/public/music/assets/spectrograms/<slug>.png`,
-=======
-`spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>/<slug>.png tmp/stems/htdemucs/<slug>`,
->>>>>>> origin/main:scripts/song-intake/CLAUDE.md
+`spectrogram.py <master> sites/vova/public/music/assets/spectrograms/<slug>/<slug>.png tmp/stems/htdemucs/<slug>`,
 the whole song across, pitch up, its section boundaries dashed, over its
 loudness, a chromagram strip each for the melody, the harmony and the bass,
 coloured by octave, and the drums, the docstring saying how to read it —

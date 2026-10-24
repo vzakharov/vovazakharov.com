@@ -149,64 +149,6 @@ if [[ "$phase" != built && "$phase" != local ]]; then
   logged styles pnpm styles:codegen
 fi
 
-<<<<<<< HEAD
-# None of these writes anything another one reads, so they overlap freely.
-# The Open Graph check is one entry per site, not one script running both: pnpm
-# appends a passed `--check` to the end of the command line, so a combined
-# `a && b` would leave the first site rendering for real inside a vet run.
-# The one PDF entry holds the CV to its page ceiling: it prints from the export
-# the build above wrote into the OS temp directory, and records a pass under
-# `tmp/` that nothing else reads. Publishing the PDFs stays each lane's job,
-# since the manifest deciding what to reprint lives in that lane's cache.
-# Not `pnpm lint` — it carries --fix, and the fan-out must not mutate the tree;
-# `lint:css` is the check-only stylelint form, for the same reason.
-# type-overlap and knip read source text only — no generated types, nothing
-# another check writes, and knip writes nothing without --fix, which vet never
-# passes; the test run adds only writes into the OS temp directory, and
-# the `--check` render passes and the song-tag check only hash files, needing
-# no browser, and the cost ledger's, context budget's, cold-cache guard's and keepalive's tests write only into
-# their own temporary directories. The squash check reads the proposal under
-# docs/remove-before-merging/ (or its own history) and the notes check counts
-# lines under writing/notes/, neither of which anything else here touches.
-# The Mantine and i18n-payload checks only read what the build above already
-# finished writing under `sites/*/out/`, which nothing here writes to. The
-# prose-quotes check and the song checks only read the Markdown under
-# `sites/*/public/`.
-# The last eight read the agent infrastructure itself and nothing else here
-# touches it.
-scripts/run-parallel.sh \
-  typecheck='pnpm typecheck' \
-  eslint='pnpm exec eslint .' \
-  format='pnpm format:check' \
-  stylelint='pnpm lint:css' \
-  fsd='pnpm lint:fsd' \
-  masd='pnpm check:masd' \
-  type-overlap='pnpm type-overlap' \
-  knip='pnpm knip' \
-  mantine-styles='pnpm check:mantine-styles' \
-  i18n-payload='pnpm check:i18n-payload' \
-  prose-quotes='pnpm check:prose-quotes' \
-  songs='src/music/scripts/vet-songs.sh' \
-  og-vova='pnpm content:og:vova --check' \
-  og-bible='pnpm content:og:bible --check' \
-  og-basilisk='pnpm content:og:basilisk --check' \
-  music-masters='pnpm music:masters check' \
-  cv-pages='pnpm content:pdf:vova --cv-pages --from-out' \
-  test='scripts/vet-test.sh' \
-  hearing='python3 scripts/lib/test_hearing.py' \
-  squash='scripts/check-squash-message.sh' \
-  notes='scripts/check-notes-length.sh' \
-  skills='scripts/check-skill-catalog.sh' \
-  tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh' \
-  staged='scripts/staged.sh check' \
-  claude-md-size='scripts/check-claude-md-size.sh' \
-  costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done' \
-  estimates='python3 .claude/costs/check_estimates.py' \
-  context-budget='python3 .claude/context-budget/test_context_budget.py' \
-  cold-cache='python3 .claude/cold-cache/test_cold_cache.py' \
-  keepalive='python3 .claude/keepalive/test_keepalive.py' \
-  hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done' || status=1
-=======
 # Each array is one phase's fan-out. Nothing in one writes what another reads,
 # so they overlap freely; `.claude/rules/stack.md` says why each check
 # qualifies, and a check added here has to as well.
@@ -217,7 +159,7 @@ built_checks=(
 )
 # The checks that read the branch against its merge base, or the cost ledger.
 local_checks=(
-  songs='scripts/vet-songs.sh'
+  songs='src/music/scripts/vet-songs.sh'
   squash='scripts/check-squash-message.sh'
   claude-md-size='scripts/check-claude-md-size.sh'
   estimates='python3 .claude/costs/check_estimates.py'
@@ -226,6 +168,7 @@ source_checks=(
   format='pnpm format:check'
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
+  masd='pnpm check:masd'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   prose-quotes='pnpm check:prose-quotes'
@@ -237,7 +180,7 @@ source_checks=(
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
   hearing='python3 scripts/lib/test_hearing.py'
-  song-facts='python3 scripts/song-intake/test_song_facts.py'
+  song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
   notes='scripts/check-notes-length.sh'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
@@ -250,6 +193,5 @@ source_checks=(
 )
 checks="${phase}_checks[@]"
 scripts/run-parallel.sh "${!checks}" || status=1
->>>>>>> origin/main
 
 verdict "$status"
