@@ -14,6 +14,7 @@ import {
 import { routing } from '@/shared/i18n';
 
 import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/pages/cv';
+import { WHISPER_ROUTE } from '@/pages/maya-whisper';
 import { musicCatalogueRoutes } from '@/pages/music';
 
 /**
@@ -57,6 +58,7 @@ export function sitemap(): MetadataRoute.Sitemap {
     ...new Set([
       '/',
       ...(SITE_ID === 'vova' ? vovaRoutes() : []),
+      ...(SITE_ID === 'maya' ? [WHISPER_ROUTE] : []),
       ...collectionsForSite(SITE_ID).flatMap((id) =>
         documentAddresses(collectionRoute(id), id),
       ),
