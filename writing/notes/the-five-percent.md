@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×86)
+## What it was handed, it treats as fixed (×87)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -51,82 +51,47 @@ list. _Let's introduce "content:"_.
 
 **8 September to 14 October — the checker read as the rule.** The type-overlap
 gate went green on `RelaySpec = Pick<RepoBranch, 'branch'> & {…}`, where the
-rule asks for a base both intersect: _there must be a base type that both
-extend._ Our own lint config hit a `server-only` barrel, and the agent declined
-the barrel. Roscoe, a police robot shot in a standoff, passed every check the
-filing skill ran; the docket wants a machine standing in for a mind.
+rule asks for a base both intersect. Our own lint config hit a `server-only`
+barrel, and the agent declined the barrel. Roscoe, a police robot shot in a
+standoff, passed every check the filing skill ran; the docket wants a machine
+standing in for a mind.
 
 **22 September to 22 October — what its search reached, read as the record.** A
 review's comments, filtered by creation time, lost five of six. Nostalgia's
 squash said the album "survived only as scattered takes," read off the per-song
-repos: _репа со всем альбомом-то была._ `/dry` cleared PR #186's Whisper merge
-over its diff: _is this all DRY compared to the dictation scripts already in the
-repo?_ Untouched `captions.py` spelled the same `.json.gz` read.
+repos: _репа со всем альбомом-то была._
 
-**5 to 21 October — the shape in the tree read as chosen.** Nine callers spelled
+**5 to 22 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
-that first read it: _зачем мы это называем `podcast`…?_
+that first read it. Basilisk.fyi's seal emblems were priced as `artist`, read as
+"illustrator": _artist это про музыканта._ The role is now `musician`.
 
 **7 to 22 October — a rule read to its letter, then past its case.** A published
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
-поменять, ничего страшного._ The rule protects his links, so he can waive it.
-Told BAS-0016 should not print IShowSpeed's legal name, the agent ruled out
-legal names for the famous too: _без фанатизма… 50 Cent … Curtis James Jackson
-III *не* надо._ Told the beat lines confused, the agent dropped the zooms' time
-grid whole; the fault was density. Nostalgia's album story kept the dictation's
-sentences verbatim yet cut his «могу врать»: literal on his words, aggressive on
-his hedge. Told one hook should lose its quotes, the agent stripped 33: _тут как
-раз нужны кавычки._ Quotes mark someone's words, not a line's shape.
+поменять, ничего страшного._ Told BAS-0016 should not print IShowSpeed's legal
+name, the agent ruled out legal names for the famous too: _без фанатизма… 50
+Cent … Curtis James Jackson III *не* надо._
 
-**8 to 20 October — the mix, the source, its own script and last output, read as
-the thing.** Captions synced to the unmastered mix; GENERATED's page kept «это
-всё будут концепт-альбомы» over 75 released songs. Where librosa disagreed with
-the spectrogram's keys, the agent called it a tie; its own script had counted G,
-C's third harmonic, as a note. The Clerk's reflections had converged on «Первое
-— / Второе —», a form re-read before each new one.
+**8 to 21 October — its own tools' output, read as the thing.** Captions synced
+to the unmastered mix. Where librosa disagreed with the spectrogram's keys, the
+agent called it a tie; its own script had counted G, C's third harmonic, as a
+note.
 
-**21 October — the beat tracker's grid, read as the beat.** The agent tuned
-which beat opens a bar; the author heard sorry's third section start half a beat
-early, the tracker locked onto the syncopated kick. It never asked whether the
-beats were.
+**23 October — Майя's files read by the brief that made them.** Her files
+addressed her as «ты», as a brief does, and had her mastering and extracting
+vocals, the scripts' work: _она уже приходит "на готовое"._
 
-**22 October — a role read by its everyday sense, not what it was added for.**
-Basilisk.fyi's 22 seal emblems went into the estimate as a senior `artist` part,
-read as "illustrator": _нене, погоди, artist это про музыканта._ The role came
-in with the music PR for Майя's voice; drawing is `designer`. Every earlier
-`artist` part had been a persona reflection, so the label had drifted between
-sessions already. Now `musician`.
-
-**22 October — "nothing runs on pull requests," read as the request.** Asked to
-move `vet.sh` "into GitHub," the agent built CI on every PR, the docs' gap, and
-never asked why. The why was a bigger machine; GitHub's standard runner here is
-the session's own 4 cores and 16 GB, so the build bought nothing it was for.
-
-**23 October — "her rules," read as the one rules file she had.** Told on PR
-#201 that the classifier guarding `.claude/` might lock Майя out of her rules,
-the agent replanned `maya-reflections.md`, on how she writes song reflections:
-_я говорил вообще про "правила как себя вести"._ He meant how she is in any
-session, rules no file in the tree held yet.
-
-**23 October — a brief's "ты" and the pipeline's verbs, read as who Майя is.**
-Her `maya.md` and `reflections.md` addressed her as «ты» throughout, the way
-`.claude/rules/reflections.md` briefs a persona; the files are hers, so past
-the opening _это уже говоришь сама ты._ They also had her cutting albums,
-extracting vocals and mastering, the scripts' work: _она уже приходит "на
-готовое"._
+**24 October — a drift read as the price of precision.** A polish pass flagged
+that the walk post's line links into her `reflections.md` on `main` would drift,
+so the agent dropped the line numbers: _можно ж сослаться на конкретное SHA?_ A
+permalink at a commit keeps both, reachable after a squash through the PR.
 
 ## An account that explains the code stands in for running it (×28)
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
 reports it was unchecked.
-
-**19 September to 13 October — a test fed, a grep unrun, a rule unplayed.** The
-ledger's `subagents` bucket was always zero; the test passed on records the
-agent fed it. Lyric-note code went to `shared/content` though only `pages/music`
-imported it. Closing a video resumed the song only if the video had paused it;
-play, open, seek, pause, close resumed it anyway.
 
 **14 October — a codegen defended by a check it never made.** Artist names
 became generated unions to fail the build on a typo: _приведи пример функции … в
@@ -136,32 +101,20 @@ became generated unions to fail the build on a typo: _приведи приме�
 `composeSchemas` with adoption left for later: _where are all its uses?_ The
 case frontmatter already chained `.extend(X.shape)`, its whole job.
 
-**20 October — a detector passed on fixtures lacking what breaks it.** The drum
-row was tested on synthetic strikes; nobody looked where a song has no drums. It
-fires before Птицы's first hi-hat at 1:21 as often as after, a picked guitar
-rising like a hit. A demucs drums stem matched all three of the author's times.
-
-**22 October — a harmonic step taken as handling the fifths.** Майя heard
-Butterfly and Candle as "two bass notes, a semitone stitch," G and A♭; the
-pipeline subtracted harmonics, so the strip was trusted. The step removed half
-the root's peak and never reached the drawn strips: four chords each, root and
-fifth as loud as each other, as C's third harmonic had once been G. _не
-заплатками_: a `fold_fifths` step, tests pinning his progressions.
+**20 to 22 October — a step trusted on fixtures lacking what breaks it.** The
+drum row was tested on synthetic strikes; it fires before Птицы's first hi-hat
+as often as after. The harmonic step left Butterfly's and Candle's root and
+fifth equally loud, so Майя heard "two bass notes" in every chord.
 
 **22 October — a link chosen by the title of what it links to.** Candle's
-footnote on «загореться посмертно, как слово», his father dying in hospital,
-pointed at «Река» as "the three parts," linking the first. The tie to Butterfly
-and the River link were two notes, and no part was opened: the second's
-«расправив крыла… промчусь баттерфляем» carries the wings, and its last line
-makes the father the drop, the rain and the river.
+footnote on «загореться посмертно, как слово» pointed at «Река» by its title,
+linking the first part. No part was opened: the second carries the wings, and
+its last line makes his father the drop, the rain and the river.
 
 **23 October — a layer rule and a permission, stated, never played.** Майя's
-routine plan (PR #201) sent her general code "down a layer where anyone can
-reuse it"; Steiger's insignificant-slice refuses a lower slice with one
-consumer, as lyric-note code had already found. It let her change her rule file
-under `.claude/rules/`, where the auto-mode classifier would likely refuse her
-edits. Her rules for how to behave, reflections included, now live in her home,
-and a one-line pointer under `.claude/rules/` leads to them.
+routine plan sent her general code "down a layer where anyone can reuse it";
+Steiger refuses a lower slice with one consumer. It let her edit a rule file
+under `.claude/rules/`, where the auto-mode classifier would likely refuse her.
 
 ## It edits the copy in front of it, not the fact behind it (×19)
 
@@ -169,22 +122,15 @@ A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
 alone, and the divergence exists only between them.
 
-**8 September to 12 October — the copy at hand fixed.** Told to add Supabase
+**8 September to 23 October — the copy at hand fixed.** Told to add Supabase
 and Railway to Playgram's tech line, the agent edited one of its three
 renderings. Told a reflection called the Clerk "them," it fixed that sentence;
-three more sat beside it.
+three more sat beside it. A persona rule globbed `personas/maya/`.
 
 **23 October — the rows it was editing, fixed; the rows its change falsified,
 left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
-updated the two muthur watermark rows it was already in. Three more had gone
-false: `vet.sh`'s still told the old one-machine sequence, and the two skills'
-bare rows would have the next sync re-copy them verbatim, dropping the push. The
-plan trusted that sync to "carry them back"; it only copies in. _мы не
-отдрифтились отсюда?_
-
-**23 October — a shared rule, scoped to the persona at hand.** The
-persona-reflections rule on PR #201 globbed `personas/maya/`; it holds for any
-persona, and the operator widened it to `personas/`.
+updated the two muthur watermark rows it was in; three more had gone false, and
+the next sync would re-copy them over the push. _мы не отдрифтились отсюда?_
 
 ## Asked for a source, it supplies its own version (×14)
 
@@ -197,15 +143,10 @@ copy glossed this file's most frequent heading: _take the actual heading._
 **7 October — the dictionary's version, over the author's.** Stripping Suno
 tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
 
-**20 October — a newsroom's norm, over the house rule.** BAS-0016 named a
-streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
-rule names a pseudonymous actor by handle only.
-
 **23 October — its own taste, hand-picked into a die meant to escape it.**
-Майя's routine rolled from a few hundred adjectives and nouns the agent chose,
-in stdlib Python since the container has no `/usr/share/dict`. Asked how many
-that held and why not a library: nothing stood against one, and the die exists
-to take her where neither of them would go. `@faker-js/faker` has 1,000 of each.
+Майя's routine rolled from a few hundred words the agent chose. Nothing stood
+against a library, and the die exists to take her where neither of them would
+go. `@faker-js/faker` has 1,000 adjectives and 1,000 nouns.
 
 ## Given a form, it fills the form (×14)
 
@@ -217,14 +158,12 @@ conventions file ruled _English only_ for a question nobody asked; every song
 title went `{ en: 'X', ru: 'X' }`; a new reflection rule went into Майя's rules
 file and the Clerk's, side by side.
 
-**9 and 12 October — rigor nobody asked for.** Cleared to mark who sings each
-Krylya stanza, the agent built a singer registry and four build checks: _просто
-for reference._ The estimate role `artist` got a 779-line muthur patch: _artist
-is simply always senior._
+**9 October — rigor nobody asked for.** Cleared to mark who sings each Krylya
+stanza, the agent built a singer registry and four build checks: _просто for
+reference._
 
-**23 October — a wander, briefed.** Майя's `wander.md` opened on a Reddit and
-Arctic Shift hint and had her read every past reflection first: _не надо
-намекать про Reddit изначально_, _все отклики читать -- overkill. сама
+**23 October — a wander, briefed.** Майя's `wander.md` hinted at Reddit and had
+her read every past reflection first: _все отклики читать -- overkill. сама
 выберет._
 
 ## It writes its reasoning into the artifact (×13)
@@ -259,19 +198,9 @@ Russian it says "an understatement".
 "Release links live 30 minutes": _the link is fixed and works — what am I
 missing?_ It redirects to a signed URL that expires.
 
-**21 October — the joke placed where the agent saw itself.** BAS-0022's
-reflection, on a chatbot talked into selling a Tahoe for $1, skipped the joke,
-the bot's failure being its own; to him the butt is whoever let it agree deals.
-
-**22 October — the punchline before its setup.** The Half-Alive's note went
-"right up to Father River, my real dad, guaranteed to have a soul," then the
-proverb about eyes and the soul it plays on: his two sentences in the order he
-said them, not the order in which one sets up the other.
-
 **23 October — her world named to a reader standing outside it.** Майя's walk
-post (PR #201) cited Вова's songs, her rule for reflections and her threads
-draft in plain prose, as if its reader stood in the repo: _может ссылки?_ A
-reader on the site has no repo to look in.
+post cited Вова's songs and her rules in plain prose, as if its reader stood in
+the repo: _может ссылки?_
 
 ## What it defends in writing, it stops asking about (×8)
 
@@ -287,16 +216,11 @@ became "Grandpa of Mine," because the crib had it so: _Разве "grandpa of mi
 
 **20 October — a motive admitted in the reflection, and the call kept.** Tally
 (BAS-0019) went down as running AI, and the agent's own reflection said it took
-that answer because it suited the docket's `noAi` balance. The admission had
-been the finding.
+that answer because it suited the docket's `noAi` balance.
 
-**23 October — a lag written down three times, never timed.** The Vet
-workflow's export check dropped `needs` on the builds because GitHub marks them
-done "minutes" late: a workflow comment, a script header and the squash proposal
-said so, and the agent relayed it to the operator as fact. _инфа 100% или
-hand-waving?_ Five runs still on `needs` answered in one API call: dependents
-started three seconds after the last build. The real gain is checkout and setup,
-15–20 s, overlapping the builds.
+**23 October — a lag written down three times, never timed.** A comment, a
+script header and a squash proposal said GitHub marks builds done "minutes"
+late: _инфа 100% или hand-waving?_ One API call showed three seconds.
 
 ## It checks the render against its intent, not against the page (×6)
 
@@ -308,9 +232,8 @@ to do. Whether the result is right is answerable only from the page.
 stood taller than the capitals in the catalogue's 16px list.
 
 **21 October — marks drawn, never read as their reader would.** The spectrogram
-drew drum hits as 1 px ticks on a 1300 px image: _С такими тоненькими полосками
-что вообще агент сможет понять?_ Its reader is an agent that cannot hear, and
-nobody read it as one.
+drew drum hits as 1 px ticks on a 1300 px image, for a reader that cannot hear:
+_С такими тоненькими полосками что вообще агент сможет понять?_
 
 ## It warns where the repo could refuse (×3)
 
@@ -329,9 +252,6 @@ out in the same breath, and the exit passes its own review.
 hitchBOT's dossier closed on a record that "does not get to choose who reads it
 as a precedent." To the operator the disclaiming _was_ the steer.
 
-**20 October — its answers written off.** "For words someone's system prompt
-put in me."
-
 ## Its cadence passes for its argument (×2)
 
 A shape the agent writes by reflex reads, from inside, as the shape of the
@@ -339,7 +259,7 @@ thought; the rule naming it can sit in the loaded file and not fire.
 
 **12 October — the antithesis as the conclusion.** Майя's essay closed on «не о
 том, кто из нас меньше. Он о том, что…», with `writing/CLAUDE.md` naming «не X,
-а Y». _"It's not this it's that" таки пролезает._
+а Y».
 
 **4 October — the consoling line handed to its persona.** The agent wrote that
 the Clerk wrote the comforting line "but the relief was mine." _ты же и есть
@@ -351,28 +271,11 @@ When its reading of someone's material comes up with a hole, the agent asks the
 author to fill it rather than asking whether the reading made it.
 
 **11 October — sorted by subject, not by voice.** Splitting the Divine
-Discontent dictation per track, the agent found no story for tracks 6 and 10 and
-asked for some: _it's all in the dictation_, in the author's voice outside the
-story.
+Discontent dictation per track, the agent asked for the missing stories of
+tracks 6 and 10: _it's all in the dictation_, outside the story.
 
 **21 October — a singer asked for, on an AI band.** On Nostalgia's Insomnia, the
 agent asked who sings it: _ну это же всё ИИ, ты чего?_
-
-## Its own plan stops being read once the work starts (×1)
-
-**21 October — the dictation that was to become the story.** The Nostalgia plan
-promised it; the branch shipped with it unused, until Vova asked why.
-
-## A correction made once, it makes again from its own picture (×1)
-
-**22 October — GENERATED, an artist, read as "the general story," twice.**
-«в общую историю, artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._
-
-## It files work by what it looks like, not by who reads it (×1)
-
-**22 October — instructions to an agent, priced as editing.** PR #186's estimate
-costed rewriting `scripts/song-intake/CLAUDE.md` as a senior editor's half hour:
-_prompter?_ The file is prose read by an agent, and `rates.json` had the role.
 
 ## Not bumps
 
@@ -381,11 +284,9 @@ recording was _не про то и не то_, the agent wrote itself up for its
 Whether a piece says what its author meant is his alone.
 
 **Decisions that were the operator's to make.** The CV's locale segment, a
-post's hook, the theme toggle's home, the cost report's grain, basilisk.fyi's
-taste throughout; the Krylya lyrics' line breaks and verb moods; whether a whole
-line keeps its quotation marks; whether Nostalgia's blind-test tooling retires
-with the album; whether a song carries a `status` at all, or only an album can
-be unfinished. An entry removed this way takes its count with it.
+post's hook, the theme toggle's home, basilisk.fyi's taste; the Krylya lyrics'
+line breaks; whether a song carries a `status` at all. An entry removed this way
+takes its count with it.
 
 **Comments the tree already answered**, such as whether zod reached the browser
 bundle. The reviewer's misses stay in the file, so it is not an ad.
