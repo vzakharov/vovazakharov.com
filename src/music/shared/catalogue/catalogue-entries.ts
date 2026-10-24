@@ -36,8 +36,8 @@ import type { SpelledLink, WithTrack } from './track.ts';
 
 /*
  * Everything a page shows of an artist, an album or a song, read in one
- * language at once, so a page names the thing once rather than asking a
- * function per fact.
+ * language at once. A page reads the entry whole: the per-fact readers it is
+ * built from stay behind the barrel.
  */
 
 /** What an artist's or an album's own file says of it, linked to its page in that language. */
