@@ -189,8 +189,8 @@ Twenty things about that list are deliberate:
   them by asking, or alone through `pnpm test:meadow`. `pnpm test` is the run by
   hand, over only the tests the branch reached (`.claude/rules/testing.md`). Two
   Python suites sit beside it: `src/kernel/scripts/lib/test_hearing.py`, for
-  `scripts/transcribe.py`'s pure half, which reads only its fixtures; and
-  `src/music/scripts/song-intake/test_song_facts.py`, for the spectrogram's
+  `src/kernel/scripts/transcribe.py`'s pure half, which reads only its fixtures;
+  and `src/music/scripts/song-intake/test_song_facts.py`, for the spectrogram's
   measurements on synthetic signals, which needs numpy on the system Python.
 - **`scripts/check-notes-length.sh` holds each `writing/notes/` file to the line
   ceiling its own "How this file is kept" states.** Unlike the codegen above, it

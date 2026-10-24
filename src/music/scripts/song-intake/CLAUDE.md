@@ -45,15 +45,15 @@ at once buys nothing on one machine.
 
 `lyrics.py` on the vocals stem is the primary hearing: Whisper large-v3 hears
 sung Russian far better than Deepgram's nova-3 (`персонажи Мураками`, where
-nova-3 heard `персонажи-муратами`). `scripts/transcribe.py` on the same stem is
-the second opinion, since the lines the two disagree on are the ones the
-operator has to listen to — so `transcribe.py` merges Whisper's hearing into its
-transcript:
+nova-3 heard `персонажи-муратами`). `src/kernel/scripts/transcribe.py` on the
+same stem is the second opinion, since the lines the two disagree on are the
+ones the operator has to listen to — so `transcribe.py` merges Whisper's hearing
+into its transcript:
 
 ```sh
 tmp/song-intake-venv/bin/python src/music/scripts/song-intake/lyrics.py <slug>.mp3 \
   --json-dir docs/music/transcripts > docs/music/transcripts/<slug>.whisper.md
-python3 scripts/transcribe.py <slug>.mp3 --language ru \
+python3 src/kernel/scripts/transcribe.py <slug>.mp3 --language ru \
   --out-dir docs/music/transcripts --json-dir docs/music/transcripts \
   --second-opinion-from docs/music/transcripts/<slug>.whisper.json.gz
 ```

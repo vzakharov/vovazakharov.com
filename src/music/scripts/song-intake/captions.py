@@ -3,7 +3,7 @@
 
 Usage: captions.py <song.md> <deepgram.json.gz> <out-prefix> [--at LINE=SECONDS]...
 
-The timings come from `scripts/transcribe.py` run on the video itself, never on
+The timings come from `src/kernel/scripts/transcribe.py` run on the video itself, never on
 the master: a video is cut on its own, so its words sit seconds away from the
 mp3's. The text comes from the song's markdown, never from the recogniser,
 which mishears sung words; Deepgram only says when each printed line starts.
