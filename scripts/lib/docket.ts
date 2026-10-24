@@ -1,15 +1,14 @@
 /**
- * The docket as the basilisk.fyi cards read it. Types only from `src/`, so the
- * test runner, which has no `react-server` condition, can load it;
- * `read-docket.ts` is the half that parses through the schema.
+ * The docket as the basilisk.fyi cards read it. Imports types only, so the test
+ * runner, which has no `react-server` condition, can load it;
+ * `read-collection.ts` is the half that parses through the schema.
  */
 
 import type { CaseFrontmatter } from '@/shared/content/basilisk-frontmatter';
-import type { Slugged } from '@/shared/content/collections';
-import type { WithFrontmatter } from '@/shared/content/frontmatter';
-import type { Titled } from '@/shared/typings';
 
-export type DocketCase = Slugged & Titled & WithFrontmatter<CaseFrontmatter>;
+import type { CollectionEntry } from './read-collection.ts';
+
+export type DocketCase = CollectionEntry<CaseFrontmatter>;
 
 const TITLE = /^# (.+)$/m;
 

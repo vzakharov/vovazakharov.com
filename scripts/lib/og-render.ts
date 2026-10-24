@@ -19,7 +19,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { PIXELS } from '../../src/shared/config/index.node-safe.ts';
-import type { Sized } from '../../src/shared/typings/index.ts';
+import type { Sized, Titled } from '../../src/shared/typings/index.ts';
 import { REPO_ROOT } from './content-tree.ts';
 import type { Renderable } from './render-manifest.ts';
 
@@ -52,6 +52,9 @@ export type StagedPage = {
 };
 
 export type Card = Renderable & StagedPage;
+
+/** A generated card's title and the small line over it. */
+export type CardHeading = Titled & { kicker: string };
 
 export function renderCard(card: Card, chromium: string): void {
   const { width, height } = card.pixels ?? PIXELS;

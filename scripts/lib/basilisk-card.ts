@@ -27,7 +27,6 @@ import {
   documentDateTime,
   formatDocumentDate,
 } from '@/shared/content/document-date';
-import type { Titled } from '@/shared/typings';
 
 import { caseSealSvg, gradeLabel } from '@/entities/case/index.node-safe';
 
@@ -36,6 +35,7 @@ import { MEMO } from '@/pages/basilisk-home/lib/memo';
 import { type DocketCase, lastFiledCase } from './docket.ts';
 import {
   CANVAS_BACKGROUND,
+  type CardHeading,
   escapeHtml,
   INK,
   INK_DIM,
@@ -54,8 +54,8 @@ const fontPath = fileURLToPath(
 
 type MemoRow = (typeof MEMO)[number];
 
-/** What one card prints: its memo, and the line over its title. */
-type CardCopy = Titled & { rows: readonly MemoRow[]; kicker: string };
+/** What one card prints: its heading, and its memo. */
+type CardCopy = CardHeading & { rows: readonly MemoRow[] };
 
 /**
  * How a card kind lays its memo out: CSS spliced into the template, and

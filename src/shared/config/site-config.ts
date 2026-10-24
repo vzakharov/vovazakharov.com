@@ -5,7 +5,7 @@
  * each read what they need without the environment read coming along.
  */
 
-import type { Locale } from '@/shared/i18n';
+import type { WithLocale } from '@/shared/i18n';
 import type {
   Billed,
   Linked,
@@ -63,6 +63,10 @@ export type WithAvatar = {
  */
 type SiteConfig = Billed &
   WithAvatar &
+  // `locale` is the language of every page that names none — `<html lang>`,
+  // `og:locale`, an unlocalized collection's chrome and feed. A localized
+  // page's own locale wins over it.
+  WithLocale &
   WithUrl & {
     /**
      * Leads the name a downloaded document is saved under, standing in for the
@@ -105,12 +109,6 @@ type SiteConfig = Billed &
      * unrendered. Spelled by every site for the same reason `seal` is.
      */
     listsSources: boolean;
-    /**
-     * The language of every page that names none — `<html lang>`, `og:locale`,
-     * an unlocalized collection's chrome and feed. A localized page's own
-     * locale wins over it.
-     */
-    locale: Locale;
     /**
      * The site's website ID in Umami — public by design, as every page's HTML
      * carries it. A new site gets one at `/stand-up-site`.

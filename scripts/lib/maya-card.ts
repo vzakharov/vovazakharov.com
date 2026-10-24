@@ -2,45 +2,34 @@
  * Майя's social cards, as pages for `og-render.ts` to screenshot: she stands at
  * the left edge, cut from the «Крылья» cover, and the copy sits beside her in
  * the site's Merriweather. The site card carries her name and the tagline; a
- * post's carries its byline line, title and description, read from the file
- * through the schema the build parses it with.
+ * post's carries its byline line, title and description.
  *
  * The font is staged beside the card from `@fontsource/merriweather` — a
  * `file://` page has no route to the web font the site loads — in both of the
  * subsets her copy reaches for.
  */
 
-import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
 import { siteConfig } from '@/shared/config/site-config';
-import {
-  collectionDir,
-  isDocumentFile,
-  type Slugged,
-} from '@/shared/content/collections';
 import { formatDocumentDate } from '@/shared/content/document-date';
-import {
-  type ArticleFrontmatter,
-  articleFrontmatterSchema,
-  type WithFrontmatter,
-} from '@/shared/content/frontmatter';
-import type { Titled } from '@/shared/typings';
+import type { ArticleFrontmatter } from '@/shared/content/frontmatter';
 
-import { contentFiles, REPO_ROOT } from './content-tree.ts';
-import { headingTitle } from './docket.ts';
+import { REPO_ROOT } from './content-tree.ts';
 import {
   CANVAS_BACKGROUND,
+  type CardHeading,
   escapeHtml,
   INK,
   INK_DIM,
   type StagedPage,
 } from './og-render.ts';
+import type { CollectionEntry } from './read-collection.ts';
 
-type BlogPost = Slugged & Titled & WithFrontmatter<ArticleFrontmatter>;
+type BlogPost = CollectionEntry<ArticleFrontmatter>;
 
 /** Staged beside the page under this name, which is the `src` it uses. */
 const PORTRAIT = 'portrait.jpg';
@@ -107,8 +96,8 @@ function fontFaces(): string {
   }).join('\n');
 }
 
-/** What one card prints: the small line over the title, and an optional line under it. */
-type CardCopy = Titled & { kicker: string; line?: string };
+/** What one card prints: its heading, and an optional line under the title. */
+type CardCopy = CardHeading & { line?: string };
 
 function cardPage({ kicker, title, line }: CardCopy): string {
   return `<!doctype html>
@@ -198,28 +187,6 @@ export function mayaSiteCard(): StagedPage {
     title: name,
     line: tagline,
   });
-}
-
-/** Every post, parsed through the schema the site builds with. */
-export function readBlog(): BlogPost[] {
-  return contentFiles(isDocumentFile, [collectionDir('maya-blog')]).map(
-    (file) => {
-      const { data, content } = matter(fs.readFileSync(file, 'utf8'));
-      const frontmatter = articleFrontmatterSchema.safeParse(data);
-
-      if (!frontmatter.success) {
-        throw new Error(`Invalid frontmatter in ${file}`, {
-          cause: frontmatter.error,
-        });
-      }
-
-      return {
-        slug: path.basename(file, '.md'),
-        title: headingTitle(content, file),
-        frontmatter: frontmatter.data,
-      };
-    },
-  );
 }
 
 /** The byline line is the index card's, so the card and the page say it alike. */

@@ -34,7 +34,9 @@ import path from 'node:path';
 
 import { PIXELS } from '@/shared/config/index.node-safe';
 import { siteConfig } from '@/shared/config/site-config';
+import { ARTICLE_COLLECTIONS } from '@/shared/content/collection-schemas';
 import {
+  type CollectionId,
   collectionsForSite,
   documentRoute,
   PUBLIC_DIR,
@@ -65,7 +67,7 @@ import {
 } from './lib/content-tree.ts';
 import { cvCard } from './lib/cv-card.ts';
 import type { DocketCase } from './lib/docket.ts';
-import { mayaPostCard, mayaSiteCard, readBlog } from './lib/maya-card.ts';
+import { mayaPostCard, mayaSiteCard } from './lib/maya-card.ts';
 import {
   type CollageBand,
   musicCollage,
@@ -77,7 +79,7 @@ import {
   renderCard,
   type StagedPage,
 } from './lib/og-render.ts';
-import { readDocket } from './lib/read-docket.ts';
+import { readCollection } from './lib/read-collection.ts';
 import { runRenderJob } from './lib/render-manifest.ts';
 
 /**
@@ -103,12 +105,12 @@ const CARDS_MUSIC = collectionsForSite(RENDERED_SITE).includes('music');
 const DOCKET: readonly DocketCase[] = collectionsForSite(
   RENDERED_SITE,
 ).includes('basilisk-cases')
-  ? readDocket()
+  ? readCollection(ARTICLE_COLLECTIONS['basilisk-cases'])
   : [];
 
 /** Майя's posts, on her site's run; each unfurls as a card of its own. */
 const BLOG = collectionsForSite(RENDERED_SITE).includes('maya-blog')
-  ? readBlog()
+  ? readCollection(ARTICLE_COLLECTIONS['maya-blog'])
   : [];
 
 /**
@@ -321,29 +323,23 @@ function musicCards(): Card[] {
   ];
 }
 
-/** One card per case, at the case's route plus the card suffix — where its page's metadata points. */
+/** A document's card, at its route plus the card suffix — where its page's metadata points. */
+function documentCardPath(collection: CollectionId, slug: string): string {
+  return path.join(PUBLIC_DIR, routeCardPath(documentRoute(collection, slug)));
+}
+
 function caseCards(): Card[] {
   return DOCKET.map((filed) =>
     generatedCard(
       caseCard(filed),
-      path.join(
-        PUBLIC_DIR,
-        routeCardPath(documentRoute('basilisk-cases', filed.slug)),
-      ),
+      documentCardPath('basilisk-cases', filed.slug),
     ),
   );
 }
 
-/** One card per post, at the post's route plus the card suffix, as a case's. */
 function postCards(): Card[] {
   return BLOG.map((post) =>
-    generatedCard(
-      mayaPostCard(post),
-      path.join(
-        PUBLIC_DIR,
-        routeCardPath(documentRoute('maya-blog', post.slug)),
-      ),
-    ),
+    generatedCard(mayaPostCard(post), documentCardPath('maya-blog', post.slug)),
   );
 }
 
