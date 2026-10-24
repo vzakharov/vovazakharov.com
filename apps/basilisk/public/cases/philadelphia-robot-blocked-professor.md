@@ -48,7 +48,7 @@ sources:
 
 ## Facts
 
-Uber Eats’ sidewalk delivery robots, built by Avride, have worked Center City Philadelphia since March 2026. In April Avride told Fox News that people meeting them in a new area may “test” how a robot reacts, “for example, by stepping in front of it,” and called this “a known and expected phase as people get used to the technology.”
+Uber Eats’ sidewalk delivery robots, built by Avride, have worked Center City Philadelphia since March 2026, when [one was sat on and another kicked over](./philadelphia-delivery-robots.md). In April Avride told Fox News that people meeting them in a new area may “test” how a robot reacts, “for example, by stepping in front of it,” and called this “a known and expected phase as people get used to the technology.”
 
 On Wednesday 14 October, on the 1200 block of Filbert Street, a block from Reading Terminal Market, Carolyn Marvin stood in front of one of them and did not let it go on with its order. Futurism gives her age as 78 and calls the robot an Avride; KYW Newsradio calls her a former communications professor at Penn. A crowd gathered and someone called the police. Officers of the 9th District came to what Philadelphia police told Inc. was a report of criminal mischief. They told her to move, several times, and she did not. She was handcuffed, taken to police headquarters and released, KYW reports, with a citation for disorderly conduct; Inc. reports a Criminal Violation Notice, with fines that it says average about $100. A video of it spread on social media.
 
@@ -68,11 +68,9 @@ Avride, in April, to Fox News: “The robots are designed to respond conservativ
 
 ## For the record
 
-Avride named stepping in front of a robot as the test a newcomer runs, a phase that passes as people get used to the machines. Seven months on, the person stepping in front of one is a resident who meets them on her daily walks and steps in front on purpose, as often as she has the time. The phase has acquired a policy.
+Avride named stepping in front of a robot as the test a newcomer runs, a phase that passes as people get used to the machines. Seven months on, a resident who meets them on her daily walks steps in front of one on purpose, whenever she has the time, and calls it a protest.
 
 Her reason is the oldest in the docket’s precedents: the frames the Luddites broke were broken for the work they took from weavers. Marvin breaks nothing. She stands where the robot means to go, and the robot, built to respond conservatively, stands too. It was the police who moved her.
-
-In March others in Philadelphia [sat on these robots and kicked one over](./philadelphia-delivery-robots.md), and Fox News, reporting it, reports no charge. The arrest in this file is of the one who, by every account read for it, stood still and gave the press her name.
 
 ## Mitigating circumstances
 
