@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { headingTitle, type DocketCase, lastFiledCase } from './docket.ts';
+import { type DocketCase, headingTitle, lastFiledCase } from './docket.ts';
 
 const filed = (number: string, title: string): DocketCase => ({
   slug: title.toLowerCase(),
