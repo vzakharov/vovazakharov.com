@@ -13,6 +13,11 @@ entities that would each need @x imports of the others. A track's shape
 is cut from the player's state into track.ts, since songs.ts builds it,
 and the author's name from people.ts into author.ts.
 
+A page reads each thing once: albumInfo, artistInfo and songInfo give
+everything about an album, an artist or a song in one language, and
+catalogueAlbum adds what the songs say of it. The per-fact readers they
+are built from stay behind the barrel.
+
 Its two barrels split by runtime graph. index.node-safe.ts holds only
 modules that reach no server-only, filesystem or zod at run time, so a
 client component or a script without the react-server condition can
