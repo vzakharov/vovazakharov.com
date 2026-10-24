@@ -1,6 +1,5 @@
 export { albumArtist, albumCover, albumGloss, albumTitle } from './albums';
 export { projectGloss, projectName } from './artists';
-export { type CreditedName, SONG_AUTHOR } from './author';
 export {
   albumDetail,
   albumKind,
