@@ -28,6 +28,10 @@ const fill = (template: string, values: Record<string, string | number>) =>
     String(values[name] ?? slot),
   );
 
+/** One test for both the tally’s right and the text’s red, so they agree. */
+const readRight = (guess: string | undefined, typed: string) =>
+  guess === fold(typed);
+
 function Heard({ stretches }: WithStretches) {
   return (
     <Text ff="monospace" style={{ overflowWrap: 'anywhere' }}>
@@ -56,7 +60,7 @@ function Written({ stretches, lexicon, copy }: WrittenProps) {
           );
         }
 
-        const right = reading.guess === fold(stretch.typed);
+        const right = readRight(reading.guess, stretch.typed);
         const rivals = reading.passedOver.slice(0, RIVALS_SHOWN);
         const label = [
           right ? undefined : fill(copy.typed, { word: stretch.typed }),
@@ -90,9 +94,8 @@ export function WhisperTypewriter({ words, copy }: WhisperTypewriterProps) {
   const [text, setText] = useState(copy.sample);
   const stretches = useMemo(() => overhear(text), [text]);
   const typed = stretches.filter((stretch) => stretch.word);
-  const right = typed.filter(
-    ({ sounds, typed: word }) =>
-      readSounds(sounds, lexicon).guess === fold(word),
+  const right = typed.filter(({ sounds, typed: word }) =>
+    readRight(readSounds(sounds, lexicon).guess, word),
   ).length;
 
   return (

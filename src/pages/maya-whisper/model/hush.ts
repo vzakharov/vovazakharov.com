@@ -42,9 +42,10 @@ export type Stretch = Typed &
 
 /** Splits typing into words, which the bug hears, and what lies between, which it hears only as a pause. */
 export function overhear(text: string): Stretch[] {
-  return [...text.matchAll(/[a-zа-яё]+|[^a-zа-яё]+/gi)].map(([typed]) =>
-    /[a-zа-яё]/i.test(typed)
-      ? { typed, word: true, sounds: hush(typed) }
-      : { typed, word: false },
+  return [...text.matchAll(/([a-zа-яё]+)|[^a-zа-яё]+/gi)].map(
+    ([typed, word]) =>
+      word === undefined
+        ? { typed, word: false }
+        : { typed, word: true, sounds: hush(word) },
   );
 }

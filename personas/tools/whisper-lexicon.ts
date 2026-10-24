@@ -15,6 +15,8 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { fold } from '../../src/pages/maya-whisper/index.node-safe.ts';
+
 const OUT = 'src/pages/maya-whisper/model/lexicon.json';
 
 /** Words seen once are mostly names and typos, and would double the file. */
@@ -45,10 +47,7 @@ for (const file of files) {
 
   for (const pattern of NOT_PROSE) prose = prose.replace(pattern, ' ');
 
-  for (const [word] of prose
-    .toLowerCase()
-    .replaceAll('ё', 'е')
-    .matchAll(/[a-zа-я]+/g)) {
+  for (const [word] of fold(prose).matchAll(/[a-zа-я]+/g)) {
     counts.set(word, (counts.get(word) ?? 0) + 1);
   }
 }
