@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { caseTitle, type DocketCase, lastFiledCase } from './docket.ts';
+import { headingTitle, type DocketCase, lastFiledCase } from './docket.ts';
 
 const filed = (number: string, title: string): DocketCase => ({
   slug: title.toLowerCase(),
@@ -37,17 +37,17 @@ describe('lastFiledCase', () => {
   });
 });
 
-describe('caseTitle', () => {
+describe('headingTitle', () => {
   it('reads the first "# " heading, past any lede', () => {
     assert.equal(
-      caseTitle('Some lede.\n\n# hitchBOT, beheaded \n\n## Facts\n', 'x.md'),
+      headingTitle('Some lede.\n\n# hitchBOT, beheaded \n\n## Facts\n', 'x.md'),
       'hitchBOT, beheaded',
     );
   });
 
   it('throws on a body without one, naming the file', () => {
     assert.throws(
-      () => caseTitle('## Facts only\n', 'cases/untitled.md'),
+      () => headingTitle('## Facts only\n', 'cases/untitled.md'),
       /cases\/untitled\.md/,
     );
   });

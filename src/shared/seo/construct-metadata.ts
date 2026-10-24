@@ -38,7 +38,7 @@ export type ConstructMetadataParams = MaybeTitled &
     ogTitle?: string;
     path?: string; // e.g., "/cv" - automatically converted to absolute URL
     ogType?: 'website' | 'profile' | 'article';
-    ogImage?: string; // Custom Open Graph image path; the avatar when absent
+    ogImage?: string; // Custom Open Graph image path; the site's card, else its avatar, when absent
     /** A page reachable only by its link, which search engines are asked to leave out. */
     hidden?: boolean;
   };
@@ -83,15 +83,17 @@ export function constructMetadata({
     author,
     social,
     avatar,
+    card,
     locale,
   } = SITE_CONFIG;
   const { name: authorName } = author;
+  const siteImage = card ?? avatar;
 
   const absoluteUrl = path === undefined ? siteUrl : getAbsoluteUrl(path);
-  const absoluteImageUrl = getAbsoluteUrl(ogImage ?? avatar.path);
+  const absoluteImageUrl = getAbsoluteUrl(ogImage ?? siteImage.path);
   const sharedTitle = ogTitle ?? title ?? siteName;
-  const { width, height } = avatar;
-  // Published only when known — the avatar's from config, a custom image's
+  const { width, height } = siteImage;
+  // Published only when known — the site image's from config, a custom image's
   // from the caller that read the file. A wrong pair is worse than none.
   const imageDimensions =
     ogImage === undefined ? { width, height } : ogImageSize;

@@ -14,11 +14,11 @@ export type DocketCase = Slugged & Titled & WithFrontmatter<CaseFrontmatter>;
 const TITLE = /^# (.+)$/m;
 
 /** The body's first `# ` heading, which is the page's title. Throws where there is none. */
-export function caseTitle(body: string, file: string): string {
+export function headingTitle(body: string, file: string): string {
   const title = TITLE.exec(body)?.[1]?.trim();
 
   if (title === undefined) {
-    throw new Error(`A case file without a "# " title: ${file}`);
+    throw new Error(`A document without a "# " title: ${file}`);
   }
 
   return title;

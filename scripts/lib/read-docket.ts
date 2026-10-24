@@ -14,7 +14,7 @@ import { caseFrontmatterSchema } from '@/shared/content/basilisk-frontmatter';
 import { collectionDir, isDocumentFile } from '@/shared/content/collections';
 
 import { contentFiles } from './content-tree.ts';
-import { caseTitle, type DocketCase } from './docket.ts';
+import { type DocketCase,headingTitle } from './docket.ts';
 
 export function readDocket(): DocketCase[] {
   return contentFiles(isDocumentFile, [collectionDir('basilisk-cases')]).map(
@@ -30,7 +30,7 @@ export function readDocket(): DocketCase[] {
 
       return {
         slug: path.basename(file, '.md'),
-        title: caseTitle(content, file),
+        title: headingTitle(content, file),
         frontmatter: frontmatter.data,
       };
     },

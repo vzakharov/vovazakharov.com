@@ -100,7 +100,8 @@ export const COLLECTIONS = {
     printable: false,
     localized: false,
     homeIndexed: true,
-    generatedCards: false,
+    /** Drawn by `scripts/lib/maya-card.ts`. */
+    generatedCards: true,
     feed: true,
   },
 } as const satisfies Record<

@@ -4,8 +4,9 @@
  * Rasterizes every Open Graph card the site advertises into a committed PNG:
  * the chart cards a content document's frontmatter names, from the SVG beside
  * each, the CV's card per framing, from a page generated off the message
- * catalogue, and basilisk.fyi's card per case, from a page generated off its
- * frontmatter — and the music section's cover collages, as JPEGs.
+ * catalogue, basilisk.fyi's card per case and Майя's per post, each from a page
+ * generated off its frontmatter — and the music section's cover collages, as
+ * JPEGs.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -64,6 +65,7 @@ import {
 } from './lib/content-tree.ts';
 import { cvCard } from './lib/cv-card.ts';
 import type { DocketCase } from './lib/docket.ts';
+import { mayaPostCard, mayaSiteCard, readBlog } from './lib/maya-card.ts';
 import {
   type CollageBand,
   musicCollage,
@@ -102,6 +104,11 @@ const DOCKET: readonly DocketCase[] = collectionsForSite(
   RENDERED_SITE,
 ).includes('basilisk-cases')
   ? readDocket()
+  : [];
+
+/** Майя's posts, on her site's run; each unfurls as a card of its own. */
+const BLOG = collectionsForSite(RENDERED_SITE).includes('maya-blog')
+  ? readBlog()
   : [];
 
 /**
@@ -229,17 +236,22 @@ function generatedCard(staged: StagedPage, outputPath: string): Card {
 
 /**
  * The card a site unfurls as. basilisk.fyi's is generated, the seal beside the
- * home page's memo. Elsewhere it is the site's mark: authored as SVG and
- * rendered that way on every page, so this is the one place it has to be a
- * raster, and the pair is `avatar.vector` beside `avatar.path` — the two cuts
- * of a seal share no stem for the convention above to pair them by.
+ * home page's memo, and so is Майя's, beside her figure. Elsewhere it is the
+ * site's mark: authored as SVG and rendered that way on every page, so this is
+ * the one place it has to be a raster, and the pair is `avatar.vector` beside
+ * `avatar.path` — the two cuts of a seal share no stem for the convention above
+ * to pair them by.
  */
 function siteCards(): Card[] {
-  const { avatar } = siteConfig(RENDERED_SITE);
-  const outputPath = path.join(PUBLIC_DIR, avatar.path);
+  const { avatar, card } = siteConfig(RENDERED_SITE);
+  const outputPath = path.join(PUBLIC_DIR, (card ?? avatar).path);
 
   if (RENDERED_SITE === 'basilisk') {
     return [generatedCard(basiliskCard(DOCKET), outputPath)];
+  }
+
+  if (RENDERED_SITE === 'maya') {
+    return [generatedCard(mayaSiteCard(), outputPath)];
   }
 
   return avatar.vector === undefined
@@ -322,6 +334,19 @@ function caseCards(): Card[] {
   );
 }
 
+/** One card per post, at the post's route plus the card suffix, as a case's. */
+function postCards(): Card[] {
+  return BLOG.map((post) =>
+    generatedCard(
+      mayaPostCard(post),
+      path.join(
+        PUBLIC_DIR,
+        routeCardPath(documentRoute('maya-blog', post.slug)),
+      ),
+    ),
+  );
+}
+
 const siteEntries = siteCards();
 
 await runRenderJob(
@@ -346,6 +371,7 @@ await runRenderJob(
       ...cvCards(),
       ...musicCards(),
       ...caseCards(),
+      ...postCards(),
     ],
     render: (stale) => {
       const chromium = findScreenshotChromium();
