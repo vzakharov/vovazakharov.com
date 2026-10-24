@@ -30,7 +30,7 @@ const files = git('ls-files', '-z', 'apps/*/public/*.md')
   .split('\0')
   .filter(Boolean);
 
-/** Markup that is not prose: frontmatter, code, link targets, tags, directives. */
+/** Markup that is not prose: frontmatter, code, link targets, HTML, bare URLs. */
 const NOT_PROSE = [
   /^---\n[\S\s]*?\n---\n/,
   /```[\S\s]*?```/g,

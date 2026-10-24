@@ -21,10 +21,7 @@ export function fileBySound(words: readonly Counted[]): Lexicon {
   return lexicon;
 }
 
-/**
- * The post's reading of one heard word: the commonest word that sounds so, and
- * the others it passed over. No guess where nothing in the lexicon sounds so.
- */
+/** The post's reading of a heard word: the commonest that sounds so, and the rest it passed over. */
 type Reading =
   | { guess: string; passedOver: readonly string[] }
   | { guess: undefined };

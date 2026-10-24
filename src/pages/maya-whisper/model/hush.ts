@@ -20,7 +20,7 @@ const SOUND_OF = new Map(
   ),
 );
 
-/** The spelling both the lexicon and the bug go by: lower case, `ё` as `е`. */
+/** The spelling both the lexicon and the bug go by. */
 export const fold = (word: string) => word.toLowerCase().replaceAll('ё', 'е');
 
 /** A word as the listening post receives it: one sound a letter. */
@@ -36,7 +36,6 @@ export function hush(word: string): string {
 
 type Typed = { typed: string };
 
-/** A stretch of typing: a word the bug hears, or what lies between words. */
 export type Stretch = Typed &
   ({ word: true; sounds: string } | { word: false });
 
