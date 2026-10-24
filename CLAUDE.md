@@ -59,11 +59,8 @@ language — runs `scripts/staged.sh swap` on the spot and commits.
 - **`writing/`** — Drafts for channels the site does not publish, today
   `linkedin/`. Outside `public/` so no draft is crawlable before it runs.
   `writing/CLAUDE.md` carries the conventions.
-<<<<<<< HEAD
 - **`personas/`** — Unserved homes, one per resident persona (`maya/`) and each
   its resident's own to change, plus their shared `tools/`.
-=======
->>>>>>> origin/main
 - **`.claude/costs/`** — Per-session cost rows at Claude API rates, written by a
   `Stop` hook; `pnpm costs` sums them and writes nothing. The directory's own
   `CLAUDE.md` carries the rest.
@@ -186,8 +183,6 @@ the roster.
   stages both (vet at Step 1, base merge at Step 2), so a session finding its PR
   `CONFLICTING` or red reports it and does what it was invoked for, taking
   either on only when the operator asks or passes `and finalize`.
-<<<<<<< HEAD
-=======
 
 ## Sessions with several repositories
 
@@ -196,7 +191,6 @@ with several repositories attached, starting in their parent — `Read`
 `.claude/rules/multi-repo.md` in any attached repository that carries it, before
 anything else, once per session: no hook runs and no skill knows its repository
 until it has.
->>>>>>> origin/main
 
 ## Plan mode & questions in web sessions
 
@@ -344,13 +338,6 @@ settled, what the comment changed — and take back one line saying where it
 landed once the check passes. Nothing else goes in the prompt: the file's "How
 this file is kept" is the brief. In doubt hand it over; ruling a comment not a
 bump is the subagent's call.
-<<<<<<< HEAD
-=======
-
-**This is temporary by construction**: the collection exists to make one post
-draftable (`writing/linkedin/plan.md`, row 18), and the file and this paragraph
-retire together when it runs.
->>>>>>> origin/main
 
 ## Git conventions
 
