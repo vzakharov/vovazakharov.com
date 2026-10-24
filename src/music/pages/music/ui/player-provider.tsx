@@ -10,7 +10,7 @@ import {
 } from '@/kernel/shared/i18n';
 import type { WithChildren } from '@/kernel/shared/typings';
 
-import type { MusicMessages } from '@/music/shared/i18n';
+import type { Messages } from '@/music/shared/i18n';
 
 import type { WithTracks } from '../lib/player-state';
 import {
@@ -22,7 +22,7 @@ import classes from './music.module.scss';
 import { PlayerBar } from './player-bar';
 
 /** The bar's own words, in one language, as the catalogue spells them. */
-type PlayerLabels = MusicMessages['player'];
+type PlayerLabels = Messages['player'];
 
 export type WithPlayerLabels = { labels: PlayerLabels };
 

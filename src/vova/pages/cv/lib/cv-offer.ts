@@ -1,10 +1,10 @@
 import type { Labeled } from '@/kernel/shared/typings';
 
-import type { VovaMessages } from '@/vova/shared/i18n';
+import type { Messages } from '@/vova/shared/i18n';
 
 import type { CvVariant } from './cv-variants';
 
-type OfferBlocks = VovaMessages['cv']['whatIOffer']['blocks'];
+type OfferBlocks = Messages['cv']['whatIOffer']['blocks'];
 
 type OfferBlockKey = keyof OfferBlocks;
 
@@ -31,7 +31,7 @@ export type OfferHeadline = { offerTitle: string; offer: string[] };
 
 /** The framing's offer in a line per item: a labelled item by its label alone. */
 export function offerHeadline(
-  { cv }: VovaMessages,
+  { cv }: Messages,
   variant: CvVariant,
 ): OfferHeadline {
   const { title, blocks } = cv.whatIOffer;

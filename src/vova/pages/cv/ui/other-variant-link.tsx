@@ -2,7 +2,7 @@ import { Text } from '@mantine/core';
 
 import { TextLink } from '@/shell/shared/ui';
 
-import type { VovaMessages } from '@/vova/shared/i18n';
+import type { Messages } from '@/vova/shared/i18n';
 
 import { cvPath } from '../lib/cv-urls';
 import type { CvEdition, CvVariant } from '../lib/cv-variants';
@@ -16,7 +16,7 @@ const OTHER_VARIANT = {
 
 export type OtherVariantLinkProps = CvEdition & {
   /** One invitation per framing, so this link names whichever it sends to. */
-  labels: VovaMessages['cvVariants'];
+  labels: Messages['cvVariants'];
 };
 
 /**

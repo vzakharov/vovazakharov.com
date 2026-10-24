@@ -3,7 +3,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { type Chip, ChipNav } from '@/shell/shared/ui';
 
-import { musicMessages } from '@/music/shared/i18n';
+import { messages } from '@/music/shared/i18n';
 
 import { ScriptChip } from './script-chip';
 
@@ -41,7 +41,7 @@ export function LocaleChips({ locale, hrefs, sample }: LocaleChipsProps) {
           <ScriptChip
             label={locale.toUpperCase()}
             {...{ sample }}
-            {...pick(musicMessages(locale), 'originalScript')}
+            {...pick(messages(locale), 'originalScript')}
           />
         )
       }

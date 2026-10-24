@@ -10,7 +10,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { InternalButton, NameLink } from '@/shell/shared/ui';
 
 import type { HookRun } from '@/music/shared/catalogue';
-import type { MusicMessages } from '@/music/shared/i18n';
+import type { Messages } from '@/music/shared/i18n';
 
 import type { SpelledLink } from '../lib/player-state';
 import { stationOffset } from '../lib/station';
@@ -31,7 +31,7 @@ export type OnAirExtras = {
 };
 
 export type OnAirProps = {
-  labels: MusicMessages['radioPage'];
+  labels: Messages['radioPage'];
   zoom: CoverZoomLabels;
   /** The song page's “from {album}”. */
   albumLine: string;

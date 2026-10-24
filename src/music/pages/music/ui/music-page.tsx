@@ -9,7 +9,7 @@ import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { scriptSample } from '@/music/shared/catalogue';
-import { musicMessages } from '@/music/shared/i18n';
+import { messages } from '@/music/shared/i18n';
 
 import { albumArtist, albumCover, albumTitle } from '../lib/albums';
 import { projectName } from '../lib/artists';
@@ -57,7 +57,7 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
               seconds: songs.map(({ frontmatter }) => frontmatter.seconds),
             },
             locale,
-            musicMessages(locale).size,
+            messages(locale).size,
           )}
           {...{ locale }}
         />

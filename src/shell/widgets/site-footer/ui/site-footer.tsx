@@ -5,7 +5,7 @@ import { BUILD_YEAR } from '@/kernel/shared/config/index.server-only';
 import { DEFAULT_LOCALE, type WithOptionalLocale } from '@/kernel/shared/i18n';
 import type { WithOptionalChildren } from '@/kernel/shared/typings';
 
-import { shellMessages } from '@/shell/shared/i18n';
+import { messages } from '@/shell/shared/i18n';
 import { cssColor, TextLink } from '@/shell/shared/ui';
 
 type SiteFooterProps = WithOptionalChildren &
@@ -37,7 +37,7 @@ export function SiteFooter({
         <Text size="sm" opacity={0.6} flex={1} miw="min(360px, 100%)">
           {children ??
             (!onHomePage && (
-              <TextLink href="/">{shellMessages(locale).backToHome}</TextLink>
+              <TextLink href="/">{messages(locale).backToHome}</TextLink>
             ))}
         </Text>
         <Text size="sm" opacity={0.6}>

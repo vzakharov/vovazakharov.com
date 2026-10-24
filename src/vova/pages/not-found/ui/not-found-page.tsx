@@ -3,7 +3,7 @@ import { byLocale } from '@/kernel/shared/i18n';
 
 import { PageShell } from '@/shell/shared/ui';
 
-import { vovaMessages } from '@/vova/shared/i18n';
+import { messages } from '@/vova/shared/i18n';
 
 import { MovedSong } from './moved-song';
 
@@ -14,7 +14,7 @@ export function NotFoundPage() {
       <MovedSong
         musicRoute={MUSIC_ROUTE}
         songsRoute={collectionRoute('music')}
-        copy={byLocale((locale) => vovaMessages(locale).notFound)}
+        copy={byLocale((locale) => messages(locale).notFound)}
       />
     </PageShell>
   );

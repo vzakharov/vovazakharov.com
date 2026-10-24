@@ -7,7 +7,7 @@ import { NameLink, PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { scriptSample } from '@/music/shared/catalogue';
-import { musicMessages } from '@/music/shared/i18n';
+import { messages } from '@/music/shared/i18n';
 
 import { albumTracks } from '../lib/album-tracks';
 import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
@@ -33,7 +33,7 @@ import { Story } from './story';
  */
 export function AlbumPage({ album, locale }: AlbumPageProps) {
   const songs = catalogueSongs();
-  const messages = musicMessages(locale);
+  const copy = messages(locale);
   const artist = albumArtist(album, locale);
   const tracks = albumTracks(album, songs);
   const text = albumText(album, locale);
@@ -49,20 +49,20 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
     <PageShell>
       <Stack gap={48}>
         <MusicNav
-          back={{ href: musicPath(locale), label: messages.back }}
+          back={{ href: musicPath(locale), label: copy.back }}
           hrefs={byLocale((alternate) => albumPath(album, alternate))}
           {...{ locale, sample }}
         />
 
         <CatalogueHeader
-          kind={messages.kind[albumKind(album, songs)]}
+          kind={copy.kind[albumKind(album, songs)]}
           {...{ title }}
           gloss={albumGloss(album, locale)}
           picture={albumCover(album)}
           size={catalogueSize(
             { seconds: tracks.map(({ song }) => song.frontmatter.seconds) },
             locale,
-            messages.size,
+            copy.size,
           )}
           {...pick(text, 'markdown')}
           wip={albumWipNote(album, locale)}
@@ -89,11 +89,11 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
 
         <Story
           {...pick(text, 'universe', 'story')}
-          {...pick(messages, 'makingOf', 'readMore')}
+          {...pick(copy, 'makingOf', 'readMore')}
         />
 
         <SongList
-          {...pick(messages, 'title')}
+          {...pick(copy, 'title')}
           tracks={queue}
           trackNumbers={
             new Map(tracks.map(({ song, track }) => [song.slug, track]))

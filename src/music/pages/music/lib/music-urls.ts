@@ -10,7 +10,7 @@ import {
   type MusicProject,
   projectSlug,
 } from '@/music/shared/catalogue';
-import { musicMessages } from '@/music/shared/i18n';
+import { messages } from '@/music/shared/i18n';
 
 export const ARTISTS_SEGMENT = 'artists';
 
@@ -38,7 +38,7 @@ const TAB_SEGMENTS: Record<CatalogueTab, string | undefined> = {
 
 /** What each tab is called, its heading's word for what it lists. */
 export function tabLabels(locale: Locale): Record<CatalogueTab, string> {
-  const { artists, albums, title } = musicMessages(locale);
+  const { artists, albums, title } = messages(locale);
 
   return { artists, albums, songs: title };
 }

@@ -1,6 +1,6 @@
 import { DEFAULT_LOCALE } from '@/kernel/shared/i18n';
 
-import { shellMessages } from '@/shell/shared/i18n';
+import { messages } from '@/shell/shared/i18n';
 import { ThemeToggle } from '@/shell/features/switch-theme';
 
 import classes from './theme-corner.module.scss';
@@ -13,7 +13,7 @@ import classes from './theme-corner.module.scss';
 export function ThemeCorner() {
   return (
     <div className={classes['corner']}>
-      <ThemeToggle label={shellMessages(DEFAULT_LOCALE).toggleTheme} />
+      <ThemeToggle label={messages(DEFAULT_LOCALE).toggleTheme} />
     </div>
   );
 }

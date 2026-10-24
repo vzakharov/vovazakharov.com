@@ -8,7 +8,7 @@ import {
   type MusicProject,
   musicProjectNames,
 } from '@/music/shared/catalogue';
-import { musicMessages } from '@/music/shared/i18n';
+import { messages } from '@/music/shared/i18n';
 
 import { albumTracks } from './album-tracks';
 import { albumArtist, albumWip } from './albums';
@@ -72,7 +72,7 @@ export function albumDetail(
   locale: Locale,
   songs: readonly SongDocument[],
 ): string[] {
-  const { kind } = musicMessages(locale);
+  const { kind } = messages(locale);
   const sized = albumKind(album, songs);
 
   return [
@@ -86,7 +86,7 @@ export function albumWipNote(
   album: MusicAlbum,
   locale: Locale,
 ): string | undefined {
-  return albumWip(album) ? musicMessages(locale).wip.note : undefined;
+  return albumWip(album) ? messages(locale).wip.note : undefined;
 }
 
 /** The albums with a song in this catalogue, by slug. */

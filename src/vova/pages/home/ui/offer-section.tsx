@@ -5,7 +5,7 @@ import { FEATURED_CASE_STUDY_ROUTE } from '@/kernel/shared/content';
 
 import { Section, TextLink } from '@/shell/shared/ui';
 
-import { vovaMessages } from '@/vova/shared/i18n';
+import { messages } from '@/vova/shared/i18n';
 
 import { ReadCvButton } from './read-cv-button';
 
@@ -13,7 +13,7 @@ import { ReadCvButton } from './read-cv-button';
  * The engagement names are the CV's own list, read off the catalogue rather
  * than retyped, so the landing page cannot offer something the CV does not.
  */
-const ENGAGEMENTS = vovaMessages('en').cv.whatIOffer.blocks.engagements.items;
+const ENGAGEMENTS = messages('en').cv.whatIOffer.blocks.engagements.items;
 
 export function OfferSection() {
   return (

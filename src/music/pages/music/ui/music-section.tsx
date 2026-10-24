@@ -4,7 +4,7 @@ import type { WithLocale } from '@/kernel/shared/i18n';
 
 import { Section } from '@/shell/shared/ui';
 
-import { musicMessages } from '@/music/shared/i18n';
+import { messages } from '@/music/shared/i18n';
 
 import { SizeLine } from './fact-line';
 import { LaunchButtons } from './launch-buttons';
@@ -14,7 +14,7 @@ export function MusicSection({
   locale,
   size,
 }: WithLocale & { size: readonly string[] }) {
-  const labels = musicMessages(locale);
+  const labels = messages(locale);
 
   return (
     <Section id="music" standalone>

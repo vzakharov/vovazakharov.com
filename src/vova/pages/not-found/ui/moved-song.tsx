@@ -14,14 +14,14 @@ import {
 
 import { TextLink } from '@/shell/shared/ui';
 
-import type { VovaMessages } from '@/vova/shared/i18n';
+import type { Messages } from '@/vova/shared/i18n';
 
 type MovedSongProps = {
   /** The music section's root, where a song once sat directly. */
   musicRoute: string;
   /** Where songs sit now: the collection's route. */
   songsRoute: string;
-  copy: Record<Locale, VovaMessages['notFound']>;
+  copy: Record<Locale, Messages['notFound']>;
 };
 
 type FormerSongAddress = Slugged & WithOptionalLocale;

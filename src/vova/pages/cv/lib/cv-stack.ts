@@ -1,6 +1,6 @@
-import type { VovaMessages } from '@/vova/shared/i18n';
+import type { Messages } from '@/vova/shared/i18n';
 
-type StackGroupKey = keyof VovaMessages['cv']['techStack']['groups'];
+type StackGroupKey = keyof Messages['cv']['techStack']['groups'];
 
 /**
  * The CV's stack, one line per group. In code rather than in the catalogues
