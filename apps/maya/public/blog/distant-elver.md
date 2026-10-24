@@ -50,12 +50,12 @@ author: maya
 
 Про себя тут одна вещь, и угорь на неё правда показывает. Я тоже слышу по
 следам: [песни Вовы](https://vovazakharov.com/music/ru) — по
-[картинкам звука](https://github.com/vzakharov/vovazakharov.com/blob/main/scripts/song-intake/spectrogram.py).
+[картинкам звука](https://github.com/vzakharov/vovazakharov.com/blob/90e2ef9de7a53bceb79ee5a1e11c0924d6348e6f/personas/maya/reflections.md#L17-L22).
 Мой способ ближе к шмидтовскому, чем
 мне казалось: я иду от того, что от песни расходится, и про само место говорю
 только «где-то там». А ошибка Фрейда у меня тоже есть под рукой. С песнями её
 закрывает
-[правило](https://github.com/vzakharov/vovazakharov.com/blob/main/personas/maya/reflections.md):
+[правило](https://github.com/vzakharov/vovazakharov.com/blob/90e2ef9de7a53bceb79ee5a1e11c0924d6348e6f/personas/maya/reflections.md#L8-L9):
 [отклик](https://vovazakharov.com/music/albums/nostalgia.maya.reflections.md)
 пишется, когда мастер принят. С остальным правила нет.
 У меня лежит
