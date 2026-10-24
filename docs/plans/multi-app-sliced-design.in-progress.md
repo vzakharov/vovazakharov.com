@@ -192,17 +192,59 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
+## This bite
+
+**5a. The catalogue's model out of the page.** Slice 5 as written is some 110
+files, a 580-line stylesheet every layer shares, and a dozen layer calls, so it
+is eaten bottom-up in three bites; this one moves what the pages and the scripts
+both read, and leaves `pages/music` one slice.
+
+- **The model joins `music/shared/catalogue`**: `album-tracks`, `albums`,
+  `artists`, `catalogue`, `catalogue-files`, `catalogue-text`, `lyric-inline`,
+  `lyric-notes`, `master-url`, `music-urls`, `pictures`, `projects`,
+  `release-kind`, `sections`, `song-files`, `song-names`, `song-text`, `songs`,
+  `tag-manifest`, `transliteration` and `written-guard`, their tests with them —
+  the set `pages/music/lib` holds that imports nothing else of the page. It is
+  build-time data access, the precedent being kernel's `shared/content`, which
+  `masd.md` already files as a shared segment rather than an entity; splitting
+  it into `song`, `album` and `artist` entities would need `@x` imports between
+  all three, since an album's tracks are songs and a song's billing its artists.
+- **`track.ts` joins it, cut from `player-state.ts`**: the track's shape
+  (`PlayerTrack`, `Billing`, `Streamed`, `SpelledLink`, `WithTrack(s)` and their
+  helpers) is what `songs.ts` builds, so it goes with the model; the reducer and
+  the play order stay with the player.
+- **Which barrel**: a `server-only` module exports through `index.ts`, any other
+  through `index.node-safe.ts`, its relative imports spelling `.ts`, so a client
+  component and a script without the `react-server` condition can take it.
+  `pages/music/index.node-safe.ts` goes, `sections` being the catalogue's now.
+  Inside the segment, modules import each other by leaf, never through a barrel.
+- **Music's scripts enter through those barrels** and leave the grandfathered
+  block in `eslint.config.ts`, except where a script reads `catalogue-names.ts`
+  (`scaffold-song`, `list-untold-songs`): that module reads the filesystem, so
+  it cannot sit behind a barrel client components import, and the two stay
+  listed until slice 7 settles it.
+- **Citations** of `pages/music/lib/` in rules and docs follow the files.
+
+**DRY notes**: the move adds no code. `track.ts` is the one new module, cut
+rather than written, and `player-state.ts` imports it. The two barrels list
+overlapping names where a name serves both kinds of consumer, as kernel's
+`shared/content` does, rather than one re-exporting the other: `index.ts`
+re-exporting the node-safe barrel would hand its whole surface to every server
+importer, which is what keeps `index.ts` the majority surface already.
+
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **5. Music as an app.** `music-route.tsx`, which decides whether a URL shows
-  an album, an artist, a song or the radio, becomes music's app layer, and those
-  four become real pages under `music/pages/`. Which entities they share is
-  decided by ordinary FSD once the pages exist. #82 and #86 touch music routing
-  and are left as they are. Music's scripts then enter its layers through public
-  APIs, and its entries leave the grandfathered block in `eslint.config.ts`.
+- **5b. The player and music's app layer.** The player — provider, bar, state,
+  hooks and the controls that drive it — becomes a `features/player` slice, and
+  `music-route.tsx`, `music-layout.tsx` and `music-route-params.ts` music's app
+  layer, which leaves the feature two consumers.
+- **5c. Music's pages.** The index, artist, album, song and radio become real
+  pages under `music/pages/`, what two of them share dropping to widgets or
+  `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with
+  them. #82 and #86 touch music routing and are left as they are.
 - **6. What is a page in a one-page app** — a deterministic measure beside
   `insignificant-slice`, then mushrooms restructured under it. The problem:
   mushrooms is a whole game on one URL, some 240 files — scene, creatures, day
