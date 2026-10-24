@@ -1,8 +1,7 @@
 /**
- * For `scripts/`, the tests and client components, none of which may take a
- * `server-only` module or one reading the filesystem: the name brands' types,
- * the spellings, a track's shape and the files a song is served as. A script
- * reads the names themselves off `catalogue-names.ts`.
+ * For `scripts/`, the tests and client components: the runtime graph behind it
+ * reaches no `server-only`, filesystem or zod, and spells every extension. A
+ * script reads the names themselves off `catalogue-names.ts`.
  */
 
 export { albumTracks, songPlacements } from './album-tracks.ts';

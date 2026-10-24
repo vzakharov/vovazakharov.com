@@ -1,7 +1,5 @@
 /** Where a song's project is made and how a song is billed; a project's shown name is `artists.ts`'s. */
 
-// The node-safe barrel, which `projects.test.ts` runs under: the other one
-// carries the schema and its `server-only`.
 import type { MusicProject } from './name-brands.ts';
 import { MUSIC_ORGANIZATION } from './organization.ts';
 
