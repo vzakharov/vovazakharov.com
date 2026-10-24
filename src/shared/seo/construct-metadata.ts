@@ -38,7 +38,7 @@ export type ConstructMetadataParams = MaybeTitled &
     ogTitle?: string;
     path?: string; // e.g., "/cv" - automatically converted to absolute URL
     ogType?: 'website' | 'profile' | 'article';
-    ogImage?: string; // Custom Open Graph image path; the site's card, else its avatar, when absent
+    ogImage?: string; // Custom Open Graph image path; the site's card when absent
     /** A page reachable only by its link, which search engines are asked to leave out. */
     hidden?: boolean;
   };
@@ -82,12 +82,10 @@ export function constructMetadata({
     name: siteName,
     author,
     social,
-    avatar,
-    card,
+    card: siteImage,
     locale,
   } = SITE_CONFIG;
   const { name: authorName } = author;
-  const siteImage = card ?? avatar;
 
   const absoluteUrl = path === undefined ? siteUrl : getAbsoluteUrl(path);
   const absoluteImageUrl = getAbsoluteUrl(ogImage ?? siteImage.path);

@@ -246,7 +246,7 @@ function generatedCard(staged: StagedPage, outputPath: string): Card {
  */
 function siteCards(): Card[] {
   const { avatar, card } = siteConfig(RENDERED_SITE);
-  const outputPath = path.join(PUBLIC_DIR, (card ?? avatar).path);
+  const outputPath = path.join(PUBLIC_DIR, card.path);
 
   if (RENDERED_SITE === 'basilisk') {
     return [generatedCard(basiliskCard(DOCKET), outputPath)];

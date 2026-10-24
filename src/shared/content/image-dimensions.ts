@@ -8,7 +8,7 @@ import type { Sized } from '@/shared/typings';
 import { PUBLIC_DIR } from './collections';
 
 /**
- * Absent wherever the Open Graph card falls back to the site avatar, whose size
+ * Absent wherever the Open Graph card falls back to the site's own, whose size
  * the config already states.
  */
 export type WithOptionalOgImageSize = { ogImageSize?: Sized };
