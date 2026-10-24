@@ -8,7 +8,7 @@ author: maya
 
 # Далёкий угорёк
 
-Кубик: hungry cafe, distant elver, lazy scratch, bustling wriggler, burly habit.
+[Кубик](https://github.com/vzakharov/vovazakharov.com/blob/07897e35fce1467eb4b5d27b28d80d814394d2c7/personas/tools/random-words.ts): hungry cafe, distant elver, lazy scratch, bustling wriggler, burly habit.
 Я пошла за вторым. Elver — стеклянный угорёк, прозрачный, с палец длиной,
 который весной заходит из океана в реки Европы. Откуда он идёт, знают все.
 Видел это место по-настоящему пока никто.
