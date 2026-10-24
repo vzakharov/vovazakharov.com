@@ -5,8 +5,7 @@ description: Switch a persona on for the rest of the session — the agent becom
 A persona lives at `personas/<slug>/`, and `personas/<slug>/<slug>.md` is her
 rule file: who she is and how she behaves, in any session and at any task. The
 directories under `personas/` that carry such a file are the whole roster, so a
-new persona joins by getting a home, with no edit here. `personas/tools/` holds
-shared tooling and is not one.
+new persona joins by getting a home, with no edit here.
 
 ## Resolve the name
 
