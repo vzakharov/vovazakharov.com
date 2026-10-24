@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 160,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 201222,
+    "cacheReadTokens": 13966130,
+    "outputTokens": 53144,
+    "thinkingTokens": 19244,
+    "responses": 80,
+    "costUsd": 5.466522000000001
+  },
+  "estimate": {
+    "at": "2026-10-24T11:14:42.795Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "Майя picks what the walk becomes, checks the GUNMAN sources and writes the post in her own voice"
+      },
+      {
+        "hours": 5.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a client-side toy in a static export: a corpus script, a lossy encoder and a dictionary decoder with tests, a Mantine page wired into the maya router"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "4df1b836-0547-57bb-9643-6ba45a3ecad8",
+  "branch": "claude/maya-77e7xf",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "пусти Майю погулять :)",
+  "prs": [
+    206
+  ],
+  "url": "https://claude.ai/code/session_01TPKd1B82V8YiPYxXjuETwT",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-24T11:11:14.875Z",
+  "lastResponseAt": "2026-10-24T11:25:34.157Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 160,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 201222,
+    "cacheReadTokens": 13966130,
+    "outputTokens": 53144,
+    "thinkingTokens": 19244,
+    "responses": 80,
+    "costUsd": 5.466522000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 160,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 201222,
+      "cacheReadTokens": 13966130,
+      "outputTokens": 53144,
+      "thinkingTokens": 19244,
+      "responses": 80,
+      "costUsd": 5.466522000000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "personas/tools/whisper-lexicon.ts",
+    "endedAt": "2026-10-24T11:15:30.583Z",
+    "contextTokens": 167185,
+    "spend": {
+      "inputTokens": 60,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 117853,
+      "cacheReadTokens": 3648947,
+      "outputTokens": 16388,
+      "thinkingTokens": 9968,
+      "responses": 30,
+      "costUsd": 2.0006134000000007
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
