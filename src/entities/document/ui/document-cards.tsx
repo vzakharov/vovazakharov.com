@@ -1,12 +1,14 @@
 import { Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
+import { SITE_CONFIG } from '@/shared/config';
 import {
   type ArticleFrontmatter,
   type DocumentCard,
   documentRoute,
   type WithCollectionId,
 } from '@/shared/content';
+import { loadMessages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { Card, NameLink, TextLink } from '@/shared/ui';
 
@@ -23,6 +25,8 @@ type DocumentCardsProps = WithCollectionId & {
  * home page both render it, differing only in the copy above it.
  */
 export function DocumentCards({ collection, cards }: DocumentCardsProps) {
+  const copy = loadMessages(SITE_CONFIG.locale).documents;
+
   return (
     <Stack gap={24}>
       {cards.map(({ document, rendered, variants }, index) => {
@@ -57,14 +61,14 @@ export function DocumentCards({ collection, cards }: DocumentCardsProps) {
                   {frontmatter.description}
                 </Text>
                 <Group component="p" gap={12} wrap="wrap" fz="sm">
-                  <TextLink href={route}>Read</TextLink>
+                  <TextLink href={route}>{copy.read}</TextLink>
                   {variants.map((variant) => (
                     <TextLink
                       key={variant}
                       href={documentRoute(collection, slug, variant)}
                       className={classes['variantLink']}
                     >
-                      {variant} version
+                      {copy.version.replace('{variant}', variant)}
                     </TextLink>
                   ))}
                 </Group>

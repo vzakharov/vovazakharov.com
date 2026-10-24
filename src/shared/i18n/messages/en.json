@@ -385,5 +385,14 @@
       "cto": "Looking for a CTO?",
       "dev": "Looking for a dev?"
     }
+  },
+  "documents": {
+    "by": "By",
+    "readingTime": "{minutes} min read",
+    "part": "Part {part}",
+    "read": "Read",
+    "version": "{variant} version",
+    "cuts": { "full": "Full", "mini": "Mini", "nano": "Nano" },
+    "sources": "Sources"
   }
 }

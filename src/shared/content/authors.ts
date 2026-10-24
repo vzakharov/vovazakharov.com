@@ -1,13 +1,13 @@
 import 'server-only';
 
-import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
+import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/shared/config';
 import { pick } from '@/shared/lib/collections';
 import type { Linked, Named } from '@/shared/typings';
 
 import { documentRoute } from './collections';
 
 /** Whom an article's byline may name. Frontmatter states the id, so each name and link has one home. */
-export const AUTHOR_IDS = ['vova', 'clerk'] as const;
+export const AUTHOR_IDS = ['vova', 'clerk', 'maya'] as const;
 
 export type AuthorId = (typeof AUTHOR_IDS)[number];
 
@@ -18,4 +18,5 @@ export const AUTHORS: Record<AuthorId, Named & Linked> = {
     name: 'the Clerk',
     href: documentRoute('basilisk-faq', 'who-writes-this'),
   },
+  maya: { name: 'Майя', href: siteConfig('maya').url },
 };

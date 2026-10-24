@@ -17,6 +17,7 @@ const COLLECTION_IDS = [
   'music',
   'basilisk-cases',
   'basilisk-faq',
+  'maya-blog',
 ] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
@@ -90,6 +91,18 @@ export const COLLECTIONS = {
     generatedCards: false,
     /** Reference pages, edited in place rather than appended to. */
     feed: false,
+  },
+  'maya-blog': {
+    base: 'blog',
+    label: 'Блог',
+    site: 'maya',
+    /** Written for the screen, and no publishing lane prints `maya`. */
+    printable: false,
+    localized: false,
+    homeIndexed: true,
+    /** Drawn by `scripts/lib/maya-card.ts`. */
+    generatedCards: true,
+    feed: true,
   },
 } as const satisfies Record<
   CollectionId,

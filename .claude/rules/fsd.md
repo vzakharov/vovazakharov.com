@@ -24,7 +24,7 @@ Lowest (most generic) first — an import may only point downward:
 - **`features/`** — user-facing capabilities, currently `switch-theme`
 - **`widgets/`** — composite blocks two page slices share: `site-footer`
 - **`pages/`** — page composition: `home`, `lsa-home`, `bible-home`,
-  `basilisk-home`, `cv`, `documents`
+  `basilisk-home`, `maya-home`, `cv`, `documents`
 - **`app/`** — root layout, Mantine provider, global stylesheets and theme,
   sitemap: `ui`, `styles` and `lib` segments
 

@@ -5,9 +5,9 @@
 Vova Zakharov's personal site and CV —
 [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project
 built as a **static export** (`output: 'export'`) and deployed to GitHub Pages:
-React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves four
+React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves five
 sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com`,
-`agentic.bible` and `basilisk.fyi`.
+`agentic.bible`, `basilisk.fyi` and `maya.vovazakharov.com`.
 
 Static export is the constraint that shapes everything else — there is no server
 at runtime, so no API routes, no server actions, no request-time rendering.
@@ -38,11 +38,11 @@ language — runs `scripts/staged.sh swap` on the spot and commits.
 - **`src/`** — All application code, in Feature-Sliced Design layers (`shared/`,
   `features/`, `pages/`, `app/`). `@.claude/rules/fsd.md` carries the
   conventions both checkers enforce.
-- **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`),
-  each holding its `app/` (**routing only** — the FSD app layer is `src/app`),
-  `public/`, `next.config.ts` and `tsconfig.json`. All four build from the one
-  `src/`, and a build is entered in its app directory rather than pointed at
-  from the root.
+- **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`,
+  `maya/`), each holding its `app/` (**routing only** — the FSD app layer is
+  `src/app`), `public/`, `next.config.ts` and `tsconfig.json`. All five build
+  from the one `src/`, and a build is entered in its app directory rather than
+  pointed at from the root.
 - **`apps/*/public/`** — Static assets served at that site's root: `.nojekyll`
   (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each
   site with a domain of its own (which a force-push would otherwise drop), and
@@ -59,6 +59,8 @@ language — runs `scripts/staged.sh swap` on the spot and commits.
 - **`writing/`** — Drafts for channels the site does not publish, today
   `linkedin/`. Outside `public/` so no draft is crawlable before it runs.
   `writing/CLAUDE.md` carries the conventions.
+- **`personas/`** — Unserved homes, one per resident persona (`maya/`) and each
+  its resident's own to change, plus their shared `tools/`.
 - **`.claude/costs/`** — Per-session cost rows at Claude API rates, written by a
   `Stop` hook; `pnpm costs` sums them and writes nothing. The directory's own
   `CLAUDE.md` carries the rest.
@@ -276,8 +278,8 @@ it drift.
 ## Testing
 
 `pnpm test` runs **Node's built-in test runner** (`node --import tsx --test`)
-over the tests the branch reached — each changed `*.test.ts` and the one beside
-each changed file; `pnpm test:all` is the whole suite, which vet runs. No
+over the tests the branch reached (`.claude/rules/testing.md` says which, and
+how to test a CLI); `pnpm test:all` is the whole suite, which vet runs. No
 framework, no config: a test imports `node:test` and `node:assert/strict` and
 sits beside the module it covers. Keep it so unless something needs a framework.
 
@@ -286,7 +288,7 @@ sits beside the module it covers. Keep it so unless something needs a framework.
 stand-in: it type-checks every page and renders every route, but says nothing
 about whether a page is _correct_ — `/preview` is how to look. Anything whose
 behavior is a pure function of its input belongs in the suite rather than in a
-QA checklist row; `.claude/rules/testing.md` carries how to test a CLI.
+QA checklist row.
 
 - **Layer tests**: fast unit/integration plus slower E2E against built
   artifacts.
@@ -336,10 +338,6 @@ settled, what the comment changed — and take back one line saying where it
 landed once the check passes. Nothing else goes in the prompt: the file's "How
 this file is kept" is the brief. In doubt hand it over; ruling a comment not a
 bump is the subagent's call.
-
-**This is temporary by construction**: the collection exists to make one post
-draftable (`writing/linkedin/plan.md`, row 18), and the file and this paragraph
-retire together when it runs.
 
 ## Git conventions
 
