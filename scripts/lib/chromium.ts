@@ -6,18 +6,26 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-/** The Playwright-managed builds whose directory starts with `prefix`, newest first. */
-function playwrightBuilds(prefix: string, binary: string): string[] {
+/**
+ * The Playwright-managed builds of `<prefix>-<revision>`, newest revision
+ * first, each tried at every `layouts` path in turn: Playwright moved its
+ * builds from `chrome-linux/` to a `*-linux64/` directory, renaming the
+ * headless shell's binary with it, and an image may carry either.
+ */
+function playwrightBuilds(prefix: string, layouts: string[]): string[] {
   const root = process.env['PLAYWRIGHT_BROWSERS_PATH'];
 
   if (root === undefined || !fs.existsSync(root)) return [];
 
   return fs
     .readdirSync(root)
-    .filter((name) => name.startsWith(prefix))
-    .toSorted()
-    .toReversed()
-    .map((name) => path.join(root, name, 'chrome-linux', binary));
+    .filter(
+      (name) =>
+        name.startsWith(`${prefix}-`) &&
+        /^\d+$/.test(name.slice(prefix.length + 1)),
+    )
+    .toSorted((a, b) => b.localeCompare(a, 'en', { numeric: true }))
+    .flatMap((name) => layouts.map((layout) => path.join(root, name, layout)));
 }
 
 /**
@@ -27,7 +35,10 @@ function playwrightBuilds(prefix: string, binary: string): string[] {
 export function findChromium(): string {
   const candidates = [
     process.env['PUPPETEER_EXECUTABLE_PATH'],
-    ...playwrightBuilds('chromium', 'chrome'),
+    ...playwrightBuilds('chromium', [
+      'chrome-linux64/chrome',
+      'chrome-linux/chrome',
+    ]),
     '/usr/bin/chromium',
     '/usr/bin/chromium-browser',
     '/usr/bin/google-chrome',
@@ -52,10 +63,10 @@ export function findChromium(): string {
  * `--window-size` and crops the bottom of a card.
  */
 export function findScreenshotChromium(): string {
-  const shell = playwrightBuilds(
-    'chromium_headless_shell',
-    'headless_shell',
-  ).find((candidate) => fs.existsSync(candidate));
+  const shell = playwrightBuilds('chromium_headless_shell', [
+    'chrome-headless-shell-linux64/chrome-headless-shell',
+    'chrome-linux/headless_shell',
+  ]).find((candidate) => fs.existsSync(candidate));
 
   return shell ?? findChromium();
 }
