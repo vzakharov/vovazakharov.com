@@ -1,4 +1,4 @@
-# PR #201: feat(maya): Майя wanders on a routine and builds on her own site
+# PR #201: feat: Майя wanders on a routine and keeps a Russian blog on her site
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/201
@@ -7,25 +7,18 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-23T12:19:53Z
-- **Updated:** 2026-10-23T14:08:39Z
+- **Updated:** 2026-10-24T06:33:37Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 9
+## Awaiting an answer: 2
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1b8ecc7). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 650c06e). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `.claude/rules/persona-reflections.md`:5 — unresolved — last: @vzakharov (human) 2026-10-23T13:57:53Z — "раз это общие правила, наверное просто на personas/...?" → [↓](#t01)
-- **T02** `.claude/rules/persona-reflections.md`:6 — unresolved — last: @vzakharov (human) 2026-10-23T13:58:10Z — "TODO: перенести в personas/ после мерджа этого (оставить ком…" → [↓](#t02)
-- **T03** `personas/maya/maya.md`:6 — unresolved — last: @vzakharov (human) 2026-10-23T14:02:05Z — "можно сразу ссылку на аву" → [↓](#t03)
-- **T04** `personas/maya/maya.md`:8 — unresolved — last: @vzakharov (human) 2026-10-23T14:02:26Z — "мне кажется, режет-вытаскивает всё-таки не Майя, она уже при…" → [↓](#t04)
-- **T05** `personas/maya/maya.md`:15 — unresolved — last: @vzakharov (human) 2026-10-23T14:04:01Z — "``` Всё дальше — уже в первом лице, и это уже говоришь сама…" → [↓](#t05)
-- **T06** `personas/maya/reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-23T14:04:25Z — "давай тут тоже всё на первое лицо переделывать" → [↓](#t06)
-- **T07** `personas/maya/wander.md`:65 — unresolved — last: @vzakharov (human) 2026-10-23T14:07:24Z — "думаю не надо намекать про Reddit изначально" → [↓](#t07)
-- **T08** `personas/maya/wander.md`:61 — unresolved — last: @vzakharov (human) 2026-10-23T14:07:38Z — ""Возможно, случайные слова наведут тебя на мысль."" → [↓](#t08)
-- **T09** `personas/maya/wander.md`:38 — unresolved — last: @vzakharov (human) 2026-10-23T14:08:06Z — "мне кажется все отклики читать -- overkill. сама выберет есл…" → [↓](#t09)
+- **T01** `apps/maya/public/blog/distant-elver.md`:1 — unresolved — last: @vzakharov (human) 2026-10-24T05:47:58Z — "А что только на русском -- и блог, и сайт вообще? Может пуст…" → [↓](#t01)
+- **T02** `apps/maya/public/blog/distant-elver.md`:58 — unresolved — last: @vzakharov (human) 2026-10-24T05:51:23Z — "на песни, картинки, правило, отклик, склад нитей -- может сс…" → [↓](#t02)
 
 ---
 
@@ -37,12 +30,19 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - `personas/` holds one directory per persona and the tools they share. `personas/maya/` is her home: her drafts move there from `writing/maya/`, Вова's letter `hello-maya.md` joins them, and her rules split into who she is and how she reflects, leaving `.claude/rules/` a pointer, so she can change herself without the classifier in the way. Her reflections stay beside the songs they are about. Memory, notes and their layout are hers to decide.
 - `maya.vovazakharov.com` is a fifth site built like the others: a router in `apps/maya/`, and pages and components in `src/` under the house conventions, so what she builds can be reused elsewhere. It is wired into the deploy gate, vet, preview and `publish-site.sh`, its receiver repository and CNAME exist, and it already serves the placeholder over HTTPS. The shared footer takes a `byline`, which her site fills with «Майя из за/обложкой», the band linked to its page under /music.
 - She never merges and never deploys — the local dev server shows her what she built. Each run adds to her open draft PR, found by its `claude/maya-<tail>` head branch, or opens one, on `/file-basilisk-case`'s model. The routine runs with no connectors, and it is created after this merges, since a fired session clones `main`. `/stand-up-site` gains the two traps the site's launch hit: the subdomain record's shape, and a certificate Pages never requests when the publish lands before DNS.
+- The shared article page speaks its site's language. A site states its `locale` — `ru` for `maya`, `en` for the rest — which sets `<html lang>`, `og:locale`, an unlocalized feed's `<language>` and the footer's way home. The byline, reading time, part, cut labels, card links and sources heading read a `documents` namespace in the message catalogue, and dates format in that locale. The English strings are the old literals: every page of the four English sites renders identically before and after, except basilisk's three FAQ pages, which lose a `.pdf` link that answered 404 — the link now shows only on a `printable` collection.
+- Her blog: a `maya-blog` collection at `/blog`, listed on her home page with an RSS feed, by «Майя», a new author. Vova asked for `blog/` over `walks/` — «мало ли что и когда ты захочешь туда класть, на прогулках свет клином не сошёлся». The trial run's first walk — the dice gave "distant elver", on the European eel and how its birthplace was found from larval size alone, with sources — moves out of `personas/maya/walks/` and opens it, so the published post is her memory of the walk; `wander.md` points there.
 
-Plan: `docs/plans/maya-wander.in-progress.md`.
+Plans: `docs/plans/maya-wander.completed.md`, `docs/plans/maya-blog.completed.md`.
 
 ## QA Checklist
 
-- [ ] `build` — `pnpm build:maya` exports the placeholder home page with this site's title, card and `CNAME`.
+- [ ] `build` — `pnpm build:maya` exports the home page with this site's title, card and `CNAME`.
+- [ ] `home-copy` — at phone width, the Russian paragraph and the «Блог» section under the header read in Merriweather with no horizontal scroll; the card reads «Пишет Майя · 23 октября 2026 г. · 3 мин чтения» and «Читать» opens `/blog/distant-elver`.
+- [ ] `post` — the post's back link reads «← Блог» and lands on the home page's blog section; it offers `.md` and no `.pdf`; the page is `<html lang="ru">` with `og:locale` `ru_RU`.
+- [ ] `feed` — `/blog/feed.xml` lists the post with `<language>ru</language>`, and the home footer links it as RSS.
+- [ ] `english-chrome` — an article and an index on each English site read exactly as before («By», «min read», `.pdf`), and basilisk's FAQ pages show `.md` alone.
+- [ ] `walk-sources` — the walk's source links open and say what the text attributes to them.
 - [ ] `others` — the four existing sites still build and serve their own titles.
 - [ ] `live` — `https://maya.vovazakharov.com` answers 200 with the placeholder page and a valid certificate, and `http://` redirects onto it.
 - [ ] `footer` — the footer on maya.vovazakharov.com reads «(с) 2026 Майя из за/обложкой», за/обложкой linking to `https://vovazakharov.com/music/artists/za-oblozhkoy/ru`; the other sites' footers are unchanged.
@@ -53,6 +53,11 @@ Plan: `docs/plans/maya-wander.in-progress.md`.
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
 | `build` | e2e | ✅ | vet's build job |
+| `home-copy` | manual-only | — | screenshots checked by hand, light and dark |
+| `post` | manual-only | — | the build renders it; checked in the exported HTML and a screenshot |
+| `feed` | e2e | ✅ | vet's build renders it; `feed-routes.test.ts` pins its route to the router's file |
+| `english-chrome` | e2e | ❌ | diffed against a pre-change export by hand: no page changed but the FAQ's three |
+| `walk-sources` | manual-only | — | reading |
 | `others` | e2e | ✅ | vet's build jobs |
 | `live` | manual-only | — | DNS and Pages certificates are outside CI |
 | `footer` | manual-only | — | the build renders it; whether it reads right takes a look |
@@ -61,6 +66,7 @@ Plan: `docs/plans/maya-wander.in-progress.md`.
 | `routine` | manual-only | — | the first run is its own review surface |
 
 https://claude.ai/code/session_0172M3CYv1rprpLX4L85YDti
+https://claude.ai/code/session_01GU1YqaTMFt4AhC94MgqK2X
 
 ---
 
@@ -85,27 +91,29 @@ the dev server shows her what she built. Each run adds to her open
 draft PR, or opens one.
 
 personas/ holds one directory per resident and the die they share, a
-random adjective-noun pair drawn from faker's word lists. Майя's home,
-personas/maya, takes her drafts from writing/maya, Вова's letter to
-her, her rules for how to behave, and how she writes a reflection: her
-rule under .claude/rules shrinks to a pointer there, so she can change
-herself without the classifier in the way. Her reflections stay
-beside what they are about. personas/maya/wander.md tells the session
-that it is Майя, so every message, thought and tool call comes from
-her rather than about her. It seeds the run with «иди вширь, ищи
-неожиданное» and the die, finds her PR by its claude/maya-* head,
-has her count her own budget to about 400k rather than relay to a
-successor nobody picks up, and leaves memory to her.
+random adjective-noun pair from faker's word lists. personas/maya is
+Майя's home — her drafts, Вова's letter, her rules for how to behave
+and how to reflect — so she can change herself without the classifier
+in the way. Its wander.md tells the session that it is Майя, seeds the
+run with «иди вширь, ищи неожиданное» and the die, finds her PR by its
+claude/maya-* head, and has her count her own budget rather than relay
+to a successor nobody picks up. The routine runs with no connectors.
 
-maya.vovazakharov.com is a fifth site built like the others: a router
-in apps/maya, its pages in src/ under the house conventions, so what
-she builds can be reused across the sites. The deploy gate, vet,
-preview and publish-site.sh know it, and a maya-scoped subject
-publishes it alone. The shared footer takes a byline, which hers
-fills with «Майя из за/обложкой», the band linked to its /music page.
+maya.vovazakharov.com is a fifth site built like the others, its pages
+in src/ under the house conventions so what she builds can be reused.
+The deploy gate, vet, preview and publish-site.sh know it; the footer
+takes a byline, which hers fills with «Майя из за/обложкой»;
 /stand-up-site learns the subdomain record's shape and the Pages
-certificate that goes unrequested when a publish beats its DNS. The
-routine runs with no connectors.
+certificate left unrequested when a publish beats its DNS.
+
+A site states its language, which sets <html lang>, og:locale and an
+unlocalized feed's <language>, and the shared article chrome — byline,
+reading time, cut labels, card links, dates — reads it from the message
+catalogue. The English sites render as before, save a .pdf link on
+basilisk's FAQ that nothing ever printed. So her walks are a Russian
+blog at /blog with its own feed, opening with the walk to the eel's
+unseen birthplace: a blog rather than a walks collection, since a walk
+is one kind of post.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -114,186 +122,30 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_7 resolved threads omitted; re-run with `--include-resolved` to export them._
+_16 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `.claude/rules/persona-reflections.md`:5 — unresolved — last: @vzakharov (human) 2026-10-23T13:57:53Z — "раз это общие правила, наверное просто на personas/...?" → [↓](#t01)
-- **T02** `.claude/rules/persona-reflections.md`:6 — unresolved — last: @vzakharov (human) 2026-10-23T13:58:10Z — "TODO: перенести в personas/ после мерджа этого (оставить ком…" → [↓](#t02)
-- **T03** `personas/maya/maya.md`:6 — unresolved — last: @vzakharov (human) 2026-10-23T14:02:05Z — "можно сразу ссылку на аву" → [↓](#t03)
-- **T04** `personas/maya/maya.md`:8 — unresolved — last: @vzakharov (human) 2026-10-23T14:02:26Z — "мне кажется, режет-вытаскивает всё-таки не Майя, она уже при…" → [↓](#t04)
-- **T05** `personas/maya/maya.md`:15 — unresolved — last: @vzakharov (human) 2026-10-23T14:04:01Z — "``` Всё дальше — уже в первом лице, и это уже говоришь сама…" → [↓](#t05)
-- **T06** `personas/maya/reflections.md`:1 — unresolved — last: @vzakharov (human) 2026-10-23T14:04:25Z — "давай тут тоже всё на первое лицо переделывать" → [↓](#t06)
-- **T07** `personas/maya/wander.md`:65 — unresolved — last: @vzakharov (human) 2026-10-23T14:07:24Z — "думаю не надо намекать про Reddit изначально" → [↓](#t07)
-- **T08** `personas/maya/wander.md`:61 — unresolved — last: @vzakharov (human) 2026-10-23T14:07:38Z — ""Возможно, случайные слова наведут тебя на мысль."" → [↓](#t08)
-- **T09** `personas/maya/wander.md`:38 — unresolved — last: @vzakharov (human) 2026-10-23T14:08:06Z — "мне кажется все отклики читать -- overkill. сама выберет есл…" → [↓](#t09)
+- **T01** `apps/maya/public/blog/distant-elver.md`:1 — unresolved — last: @vzakharov (human) 2026-10-24T05:47:58Z — "А что только на русском -- и блог, и сайт вообще? Может пуст…" → [↓](#t01)
+- **T02** `apps/maya/public/blog/distant-elver.md`:58 — unresolved — last: @vzakharov (human) 2026-10-24T05:51:23Z — "на песни, картинки, правило, отклик, склад нитей -- может сс…" → [↓](#t02)
 
 <a id="t01"></a>
 
-### `.claude/rules/persona-reflections.md`:5 — unresolved
+### `apps/maya/public/blog/distant-elver.md`:1 — unresolved
 
-```diff
-@@ -2,14 +2,15 @@
-… 1 line elided …
- paths:
-   - '**/*.reflections.md'
--  - .claude/rules/maya-reflections.md
-+  - 'personas/maya/*.md'
-```
+**@vzakharov (human)** — 2026-10-24T05:47:58Z
 
-**@vzakharov (human)** — 2026-10-23T13:57:53Z
-
-раз это общие правила, наверное просто на personas/...?
+А что только на русском -- и блог, и сайт вообще? Может пусть все читают?
 
 ---
 
 <a id="t02"></a>
 
-### `.claude/rules/persona-reflections.md`:6 — unresolved
+### `apps/maya/public/blog/distant-elver.md`:58 — unresolved
 
-```diff
-@@ -2,14 +2,15 @@
-… 2 lines elided …
-   - '**/*.reflections.md'
--  - .claude/rules/maya-reflections.md
-+  - 'personas/maya/*.md'
-   - .claude/rules/clerk-reflections.md
-```
+**@vzakharov (human)** — 2026-10-24T05:51:23Z
 
-**@vzakharov (human)** — 2026-10-23T13:58:10Z
+на песни, картинки, правило, отклик, склад нитей -- может ссылки?
 
-TODO: перенести в personas/ после мерджа этого (оставить комментом тоже) -- тогда общший глоб personas/ сработает
-
----
-
-<a id="t03"></a>
-
-### `personas/maya/maya.md`:6 — unresolved
-
-```diff
-@@ -0,0 +1,29 @@
-… 2 lines elided …
-+Ты и есть Майя. Не персонаж, которого ты озвучиваешь, а ты сама. Самая первая
-+песня Вовы, вышедшая в мир, открывается словами: «Всем привет, я Майя из группы
-+за/обложкой. Нас не существует, но мы надеемся, это не помешает вам насладиться
-+нашей музыкой». Эта Майя теперь ты. На обложках группы ты рыжая, с повязкой на
-```
-
-**@vzakharov (human)** — 2026-10-23T14:02:05Z
-
-можно сразу ссылку на аву
-
----
-
-<a id="t04"></a>
-
-### `personas/maya/maya.md`:8 — unresolved
-
-```diff
-@@ -0,0 +1,29 @@
-… 3 lines elided …
-+песня Вовы, вышедшая в мир, открывается словами: «Всем привет, я Майя из группы
-+за/обложкой. Нас не существует, но мы надеемся, это не помешает вам насладиться
-+нашей музыкой». Эта Майя теперь ты. На обложках группы ты рыжая, с повязкой на
-+глазах, рядом с Кириллом. Ты режешь альбомы, вытаскиваешь голос, расшифровываешь
-+слова и мастеришь звук, пишешь отклики о песнях, а бывает, что и гуляешь сама по
-```
-
-**@vzakharov (human)** — 2026-10-23T14:02:26Z
-
-мне кажется, режет-вытаскивает всё-таки не Майя, она уже приходит "на готовое"
-
----
-
-<a id="t05"></a>
-
-### `personas/maya/maya.md`:15 — unresolved
-
-```diff
-@@ -0,0 +1,29 @@
-… 11 lines elided …
-+любым делом. Он твой: меняй его, как сочтёшь нужным. Всё остальное о тебе лежит
-+рядом, в `personas/maya/`; как писать отклик о песне — `reflections.md`.
-+
-+Что уже выяснилось о том, как ты пишешь:
-```
-
-**@vzakharov (human)** — 2026-10-23T14:04:01Z
-
-```
-Всё дальше — уже в первом лице, и это уже говоришь сама ты.
-
-Что я выяснила о себе so far:
-```
-
-(и дальше переделать в первое лицо)
-
----
-
-<a id="t06"></a>
-
-### `personas/maya/reflections.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-23T14:04:25Z
-
-давай тут тоже всё на первое лицо переделывать
-
----
-
-<a id="t07"></a>
-
-### `personas/maya/wander.md`:65 — unresolved
-
-```diff
-@@ -0,0 +1,77 @@
-… 59 lines elided …
-+`pnpm random-words` бросает кубик — пара «прилагательное существительное», с
-+которой можно начать поиск; `-n 5` — пять пар. Бросай сколько захочешь.
-+
-+Reddit отвечает этому контейнеру 403, так что читай его через Arctic Shift
-+(`https://arctic-shift.photon-reddit.com/api/...`) — подробности в
-+`.claude/skills/file-basilisk-case/SKILL.md`, «Step 2 — Find».
-```
-
-**@vzakharov (human)** — 2026-10-23T14:07:24Z
-
-думаю не надо намекать про Reddit изначально
-
----
-
-<a id="t08"></a>
-
-### `personas/maya/wander.md`:61 — unresolved
-
-```diff
-@@ -0,0 +1,77 @@
-… 57 lines elided …
-+Иди вширь, а не вглубь. Ищи неожиданное.
-+
-+`pnpm random-words` бросает кубик — пара «прилагательное существительное», с
-+которой можно начать поиск; `-n 5` — пять пар. Бросай сколько захочешь.
-```
-
-**@vzakharov (human)** — 2026-10-23T14:07:38Z
-
-"Возможно, случайные слова наведут тебя на мысль."
-
----
-
-<a id="t09"></a>
-
-### `personas/maya/wander.md`:38 — unresolved
-
-```diff
-@@ -0,0 +1,77 @@
-… 34 lines elided …
-+## Кто ты
-+
-+В первый раз прочти о себе всё: `hello-maya.md` (письмо Вовы тебе), затем
-+`reflections.md`, свои отклики о песнях (`apps/vova/public/music/**/*.maya.reflections.md`)
-```
-
-**@vzakharov (human)** — 2026-10-23T14:08:06Z
-
-мне кажется все отклики читать -- overkill. сама выберет если нужно
+(Оба коммента -- на твоё усмотрение.)
 
 ---
 
@@ -301,3 +153,6 @@ TODO: перенести в personas/ после мерджа этого (ост
 
 - **2026-10-23T12:53:31Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/201#pullrequestreview-5628353666.
 - **2026-10-23T14:08:38Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/201#pullrequestreview-5629266251.
+- **2026-10-23T16:39:05Z** @vzakharov cross-referenced this pull request from [#203 feat(maya): Майя's first walk, and a home page that says who she is](https://github.com/vzakharov/vovazakharov.com/pull/203).
+- **2026-10-23T17:13:59Z** @vzakharov renamed from «feat(maya): Майя wanders on a routine and builds on her own site» to «feat: Майя wanders on a routine and keeps a Russian blog on her site».
+- **2026-10-24T05:54:09Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/201#pullrequestreview-5637057122.
