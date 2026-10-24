@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 170,
+    "cacheWrite5mTokens": 150962,
+    "cacheWrite1hTokens": 141215,
+    "cacheReadTokens": 11095659,
+    "outputTokens": 41924,
+    "thinkingTokens": 17441,
+    "responses": 84,
+    "costUsd": 4.9428218
+  },
+  "estimate": {
+    "at": "2026-10-24T22:48:04.582Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a one-line internal link in an existing page, with the review loop and a finalize run around it"
+      },
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "the link's sentence speaks in Майя's voice on her own page"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "20fae833-abbe-581a-9b1d-7fae72ef9c55",
+  "branch": "claude/maya-77e7xf",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle & finalize claude/maya-77e7xf",
+  "prs": [
+    206
+  ],
+  "url": "https://claude.ai/code/session_01MHoFwM6JJctsmLf9kfC1r4",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-24T22:41:11.363Z",
+  "lastResponseAt": "2026-10-24T23:49:26.154Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 112,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 141215,
+    "cacheReadTokens": 7685450,
+    "outputTokens": 20876,
+    "thinkingTokens": 6355,
+    "responses": 55,
+    "costUsd": 3.084778
+  },
+  "subagents": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 150962,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3410209,
+    "outputTokens": 21048,
+    "thinkingTokens": 11086,
+    "responses": 29,
+    "costUsd": 1.8580438
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 170,
+      "cacheWrite5mTokens": 150962,
+      "cacheWrite1hTokens": 141215,
+      "cacheReadTokens": 11095659,
+      "outputTokens": 41924,
+      "thinkingTokens": 17441,
+      "responses": 84,
+      "costUsd": 4.9428218
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/pages/maya-whisper/ui/whisper-page.tsx",
+    "endedAt": "2026-10-24T22:42:16.748Z",
+    "contextTokens": 124639,
+    "spend": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 75014,
+      "cacheReadTokens": 1680575,
+      "outputTokens": 3166,
+      "thinkingTokens": 448,
+      "responses": 16,
+      "costUsd": 0.9996750000000001
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
