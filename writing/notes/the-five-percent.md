@@ -240,7 +240,7 @@ when editing here," each belonging in a rules file.
 **21–22 September — a denial, and a defence nothing needed.** A docstring closed
 on "rather than sharing it sideways," the pre-move state: _медведь?_
 
-## Its prose answers the question it had, not the reader's (×10)
+## Its prose answers the question it had, not the reader's (×11)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question passes every test. What a reader stops at that line holding
@@ -267,6 +267,11 @@ the bot's failure being its own; to him the butt is whoever let it agree deals.
 "right up to Father River, my real dad, guaranteed to have a soul," then the
 proverb about eyes and the soul it plays on: his two sentences in the order he
 said them, not the order in which one sets up the other.
+
+**23 October — her world named to a reader standing outside it.** Майя's walk
+post (PR #201) cited Вова's songs, her rule for reflections and her threads
+draft in plain prose, as if its reader stood in the repo: _может ссылки?_ A
+reader on the site has no repo to look in.
 
 ## What it defends in writing, it stops asking about (×8)
 
