@@ -2,27 +2,19 @@ import { Box, Stack, Text } from '@mantine/core';
 import { Fragment } from 'react';
 import Markdown, { type Components } from 'react-markdown';
 
-<<<<<<< HEAD
-import type { WithLocale } from '@/kernel/shared/i18n';
-=======
 import { resolveAuthoredUrl } from '@/kernel/shared/content';
-import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
->>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
+import type { WithLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithFileName, WithText } from '@/kernel/shared/typings';
 
 import { Subheading, TextLink } from '@/shell/shared/ui';
 
-<<<<<<< HEAD
-import type { ScriptKept, SungLanguage } from '@/music/shared/catalogue';
-import { messages } from '@/music/shared/i18n';
-=======
 import {
   type ScriptKept,
   SONGS,
   type SungLanguage,
 } from '@/music/shared/catalogue';
->>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
+import { messages } from '@/music/shared/i18n';
 
 import { inlineRuns } from '../lib/lyric-inline';
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';
@@ -74,11 +66,7 @@ function noteComponents(fileName: string): Components {
 export function Lyrics({ lyrics, locale, fileName, cribNote }: LyricsProps) {
   const { stanzas, translation, language, transliteration, keepsScript } =
     lyrics;
-<<<<<<< HEAD
   const { lyrics: labels } = messages(locale);
-  const words = { stanzas, transliteration, keepsScript, lang: language };
-=======
-  const { lyrics: labels } = loadMessages(locale).music;
   const notes = noteComponents(fileName);
   const words = {
     stanzas,
@@ -87,7 +75,6 @@ export function Lyrics({ lyrics, locale, fileName, cribNote }: LyricsProps) {
     notes,
     lang: language,
   };
->>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
 
   return (
     <Stack component="section" gap={24}>

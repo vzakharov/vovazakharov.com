@@ -97,13 +97,8 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
         </CatalogueHeader>
 
         <Story
-<<<<<<< HEAD
-          {...pick(text, 'universe', 'story')}
-          {...pick(copy, 'makingOf', 'readMore')}
-=======
           {...pick(text, 'prelude', 'story')}
-          {...pick(messages, 'behindTheScenes', 'preludeHeadings', 'readMore')}
->>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
+          {...pick(copy, 'behindTheScenes', 'preludeHeadings', 'readMore')}
         />
 
         <CatalogueGrid title={copy.albums} tiles={albumTiles} />

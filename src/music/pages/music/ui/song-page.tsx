@@ -206,13 +206,8 @@ export function SongPage({ slug, locale }: SongPageProps) {
         <Story
           prelude={preludeOf(document, locale)}
           story={localized.body === '' ? undefined : localized}
-<<<<<<< HEAD
-          {...pick(copy, 'makingOf')}
+          {...pick(copy, 'behindTheScenes', 'preludeHeadings')}
           readMore={lyrics && copy.readMore}
-=======
-          {...pick(messages, 'behindTheScenes', 'preludeHeadings')}
-          readMore={lyrics && messages.readMore}
->>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
         />
 
         {lyrics && (

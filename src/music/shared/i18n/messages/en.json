@@ -88,7 +88,11 @@
   "closeCover": "Close the cover",
   "source": "source",
   "readMore": "Read more",
-  "makingOf": "Making of",
+  "behindTheScenes": "Behind the scenes",
+  "preludeHeadings": {
+    "universe": "In the album’s world",
+    "source": "About the source"
+  },
   "feedPageLink": "Lyrics and notes on the song’s page",
   "feedDownload": "Download",
   "video": {
@@ -121,5 +125,17 @@
     "timeToggle": "Switch between the song’s length and the time left",
     "volume": "Volume",
     "lossless": "Lossless (FLAC)"
+  },
+  "blindTest": {
+    "mix": "Mix",
+    "play": "Play",
+    "pause": "Pause",
+    "failed": "Error",
+    "copy": "Copy",
+    "copied": "Copied",
+    "keys": "Keys: M — the mix, A, B, C — the masters, space — pause, ← → — one second. All four at the mix's loudness.",
+    "verdict": "Verdict",
+    "verdictExample": "B > A > C",
+    "summary": "Every verdict — for the chat; kept in this browser"
   }
 }

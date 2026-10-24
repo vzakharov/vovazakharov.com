@@ -81,16 +81,7 @@ async function songContent(
   localized: LocalizedSongDocument,
   locale: Locale,
 ): Promise<string> {
-<<<<<<< HEAD
-  const { makingOf, feedPageLink, feedDownload } = messages(locale);
-  const universe = universeOf(document, locale);
-  const [world, told] = await Promise.all([
-    universe && renderProse(universe),
-    localized.body === '' ? undefined : renderProse(localized),
-  ]);
-=======
-  const { feedPageLink, feedDownload, ...headings } =
-    loadMessages(locale).music;
+  const { feedPageLink, feedDownload, ...headings } = messages(locale);
   const parts = await Promise.all(
     storyOrder<ProseSource>(
       preludeOf(document, locale),
@@ -101,7 +92,6 @@ async function songContent(
       heading,
     })),
   );
->>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
   const root: Root = {
     type: 'root',
     children: [
