@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 127998,
+    "cacheWrite1hTokens": 66264,
+    "cacheReadTokens": 2233175,
+    "outputTokens": 11076,
+    "thinkingTokens": 6267,
+    "responses": 23,
+    "costUsd": 1.838441
+  },
+  "estimate": {
+    "at": "2026-10-24T10:29:13.612Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "land prep on a 94-commit branch: vet, base merge, squash record reconciliation and the merge gate need someone who knows the deploy switch"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "9945671a-947b-5563-9f46-28cfe15c62b4",
+  "branch": "claude/maya-wander-cfdyi2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge claude/maya-wander-cfdyi2",
+  "prs": [
+    201
+  ],
+  "url": "https://claude.ai/code/session_01SaeFe14Wubycx6dQBLTuQv",
+  "operator": null,
+  "firstResponseAt": "2026-10-24T10:28:32.559Z",
+  "lastResponseAt": "2026-10-24T10:31:44.572Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 24,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 66264,
+    "cacheReadTokens": 1244461,
+    "outputTokens": 3337,
+    "thinkingTokens": 730,
+    "responses": 12,
+    "costUsd": 0.8458402
+  },
+  "subagents": {
+    "inputTokens": 22,
+    "cacheWrite5mTokens": 127998,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 988714,
+    "outputTokens": 7739,
+    "thinkingTokens": 5537,
+    "responses": 11,
+    "costUsd": 0.9926008000000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 127998,
+      "cacheWrite1hTokens": 66264,
+      "cacheReadTokens": 2233175,
+      "outputTokens": 11076,
+      "thinkingTokens": 6267,
+      "responses": 23,
+      "costUsd": 1.838441
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-24T10:31:44.572Z",
+    "contextTokens": 115094,
+    "spend": {
+      "inputTokens": 44,
+      "cacheWrite5mTokens": 127998,
+      "cacheWrite1hTokens": 65380,
+      "cacheReadTokens": 2118967,
+      "outputTokens": 10864,
+      "thinkingTokens": 6158,
+      "responses": 22,
+      "costUsd": 1.8042794
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
