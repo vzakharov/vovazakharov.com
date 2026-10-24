@@ -5,21 +5,18 @@ import {
 } from '@/kernel/shared/content';
 import { byLocale, isLocale, type Locale } from '@/kernel/shared/i18n';
 
-import {
-  type MusicAlbum,
-  type SongBilling,
-  SONGS,
-  songTitle,
-} from '@/music/shared/catalogue';
-
-import { albumsTogether, songPlacements } from './album-tracks';
-import { projectName } from './artists';
-import { artistPath, songPath } from './music-urls';
-import type { PlayerTrack } from './player-state';
-import { bill } from './projects';
-import { playedName, songUrl } from './song-files';
-import type { SongDocument, SongOnRelease } from './song-text';
-import { assertWritten } from './written-guard';
+import { albumsTogether, songPlacements } from './album-tracks.ts';
+import { projectName } from './artists.ts';
+import type { SongBilling } from './file-name.ts';
+import { SONGS } from './frontmatter.ts';
+import { artistPath, songPath } from './music-urls.ts';
+import type { MusicAlbum } from './names.ts';
+import { bill } from './projects.ts';
+import { playedName, songUrl } from './song-files.ts';
+import type { SongDocument, SongOnRelease } from './song-text.ts';
+import { songTitle } from './spelling.ts';
+import type { PlayerTrack } from './track.ts';
+import { assertWritten } from './written-guard.ts';
 
 /**
  * The catalogue, newest first. A slug that is a locale is rejected here, where

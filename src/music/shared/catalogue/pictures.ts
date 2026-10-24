@@ -4,19 +4,18 @@ import { intrinsicDimensions } from '@/kernel/shared/content';
 import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/kernel/shared/seo';
 
-import type { MusicAlbum, MusicProject } from '@/music/shared/catalogue';
-
-import { albumCover } from './albums';
+import { albumCover } from './albums.ts';
 import {
   artistDiscography,
   type ArtistRelease,
   artistSongs,
   catalogueReleases,
   releasedBy,
-} from './catalogue';
-import { artistPath, musicPath, radioPath } from './music-urls';
-import type { SongDocument } from './song-text';
-import { catalogueSongs } from './songs';
+} from './catalogue.ts';
+import { artistPath, musicPath, radioPath } from './music-urls.ts';
+import type { MusicAlbum, MusicProject } from './names.ts';
+import type { SongDocument } from './song-text.ts';
+import { catalogueSongs } from './songs.ts';
 
 /*
  * What each page of the catalogue is pictured by — on the page, on a tile, and

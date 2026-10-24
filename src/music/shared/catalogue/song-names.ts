@@ -1,13 +1,9 @@
 import { isLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
 
-import {
-  songFileName,
-  songFileNames,
-} from '@/music/shared/catalogue/index.node-safe';
-
-import { songUrl } from './song-files';
-import type { SongDocument } from './song-text';
-import { songBilling } from './songs';
+import { songFileName, songFileNames } from './file-name.ts';
+import { songUrl } from './song-files.ts';
+import type { SongDocument } from './song-text.ts';
+import { songBilling } from './songs.ts';
 
 /** The locale whose page calls the song by its own name, the one it is sung in first. */
 function ownLocale({ frontmatter }: SongDocument): Locale {

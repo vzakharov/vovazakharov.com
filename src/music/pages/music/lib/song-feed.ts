@@ -22,24 +22,23 @@ import { feedHtml } from '@/kernel/shared/lib/feed-html';
 import type { RssPodcast } from '@/kernel/shared/lib/rss';
 
 import {
+  assertWritten,
+  type LocalizedSongDocument,
+  localizeSong,
+  mp3Url,
+  PODCAST_COVER,
+  preludeOf,
+  type SongDocument,
+  songPicture,
   SONGS,
   songTitle,
   spelledText,
   textHook,
 } from '@/music/shared/catalogue';
+import { storyOrder } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
-import { preludeOf } from './catalogue-text';
-import { PODCAST_COVER, songPicture } from './pictures';
-import { storyOrder } from './sections';
 import { songDownloads } from './song-downloads';
-import { mp3Url } from './song-names';
-import {
-  type LocalizedSongDocument,
-  localizeSong,
-  type SongDocument,
-} from './song-text';
-import { assertWritten } from './written-guard';
 
 function text(value: string): ElementContent {
   return { type: 'text', value };

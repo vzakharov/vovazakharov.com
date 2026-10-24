@@ -11,20 +11,20 @@ import {
 import { oneOf } from '@/kernel/shared/lib/collections';
 
 import {
-  type MusicAlbum,
-  musicAlbumSlugs,
-  type MusicProject,
-  projectBySlug,
-} from '@/music/shared/catalogue';
-
-import { catalogueAlbums, catalogueArtists } from './catalogue';
-import {
   albumPath,
   ALBUMS_SEGMENT,
   artistPath,
   ARTISTS_SEGMENT,
   CATALOGUE_TABS,
+  catalogueAlbums,
+  catalogueArtists,
+  catalogueSongs,
+  listSongPages,
+  type MusicAlbum,
+  musicAlbumSlugs,
   musicPath,
+  type MusicProject,
+  projectBySlug,
   RADIO_SEGMENT,
   radioPath,
   songPath,
@@ -32,8 +32,7 @@ import {
   tabBySegment,
   tabPath,
   type WithTab,
-} from './music-urls';
-import { catalogueSongs, listSongPages } from './songs';
+} from '@/music/shared/catalogue';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };

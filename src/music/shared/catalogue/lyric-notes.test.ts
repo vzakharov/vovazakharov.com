@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { readVerse, withoutNotes } from './lyric-notes';
+import { readVerse, withoutNotes } from './lyric-notes.ts';
 
 const FILE = 'song.md';
 

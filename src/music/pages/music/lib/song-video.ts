@@ -7,7 +7,7 @@ import { PUBLIC_DIR } from '@/kernel/shared/content';
 import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 import type { Labeled, Sourced } from '@/kernel/shared/typings';
 
-import type { SongDocument } from './song-text';
+import type { SongDocument } from '@/music/shared/catalogue';
 
 /**
  * One WebVTT file beside a song's video, as the `<track>` that loads it reads

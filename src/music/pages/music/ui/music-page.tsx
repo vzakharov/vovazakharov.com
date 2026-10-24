@@ -8,23 +8,29 @@ import { byLocale } from '@/kernel/shared/i18n';
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { scriptSample } from '@/music/shared/catalogue';
-import { messages } from '@/music/shared/i18n';
-
-import { albumArtist, albumCover, albumTitle } from '../lib/albums';
-import { projectName } from '../lib/artists';
 import {
+  albumArtist,
+  albumCover,
   albumDetail,
+  albumPath,
+  albumTitle,
   albumWipNote,
+  artistPath,
+  artistPicture,
   catalogueAlbums,
   catalogueArtists,
+  catalogueSongs,
   newestAlbums,
-} from '../lib/catalogue';
+  projectName,
+  scriptSample,
+  songTrack,
+  tabPath,
+  trackNames,
+} from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
+
 import { catalogueSize } from '../lib/duration';
 import type { IndexPageProps } from '../lib/music-route-params';
-import { albumPath, artistPath, tabPath } from '../lib/music-urls';
-import { artistPicture } from '../lib/pictures';
-import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueTabs } from './catalogue-tabs';
 import { MusicNav } from './music-nav';

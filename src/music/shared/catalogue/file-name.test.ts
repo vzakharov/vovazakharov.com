@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { songFileName, songFileNames } from './file-name';
-import { spell } from './spelling';
+import { songFileName, songFileNames } from './file-name.ts';
+import { spell } from './spelling.ts';
 
 const poluzhivye = spell({ text: 'Полуживые', language: 'ru' }, 'en');
 const generated = { original: 'GENERATED' };

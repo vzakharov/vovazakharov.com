@@ -4,30 +4,29 @@ import type { ContentDocument } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  mostlyNeedsLatin,
-  type MusicAlbum,
-  type ScriptKept,
-  type SongFrontmatter,
-  type SungLanguage,
-  type TitleGloss,
-  type UntitledSongText,
-} from '@/music/shared/catalogue';
-
+import type {
+  ScriptKept,
+  SongFrontmatter,
+  SungLanguage,
+  TitleGloss,
+  UntitledSongText,
+} from './frontmatter.ts';
 import {
   entryText,
   readVerse,
   type Stanzas,
   withoutNotes,
   type WithStanzas,
-} from './lyric-notes';
-import { localeProse, splitSections } from './sections';
+} from './lyric-notes.ts';
+import type { MusicAlbum } from './names.ts';
+import { localeProse, splitSections } from './sections.ts';
+import { mostlyNeedsLatin } from './spelling.ts';
 import {
   alignTransliteration,
   romanizedTag,
   romanizeStanzas,
   type Transliteration,
-} from './transliteration';
+} from './transliteration.ts';
 
 export type SongDocument = ContentDocument<SongFrontmatter>;
 

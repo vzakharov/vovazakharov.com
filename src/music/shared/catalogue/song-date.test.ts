@@ -2,7 +2,7 @@ import matter from 'gray-matter';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { songDateSchema } from './song-date';
+import { songDateSchema } from './song-date.ts';
 
 /** The value as a song file's frontmatter hands it over, YAML's typing included. */
 function parseFrontmatterDate(value: string) {

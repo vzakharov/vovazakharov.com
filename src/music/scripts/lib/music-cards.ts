@@ -10,16 +10,16 @@ import path from 'node:path';
 import { siteConfig } from '@/kernel/shared/config';
 import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 
-import { musicProjectNames } from '@/music/shared/catalogue';
-import { messages } from '@/music/shared/i18n';
 import {
   artistCollage,
   artistCollageCovers,
   MUSIC_COLLAGE,
   musicCollageCovers,
+  musicProjectNames,
   PODCAST_COVER,
   RADIO_CARD,
-} from '@/music/pages/music/lib/pictures';
+} from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 
 import { RENDERED_SITE } from '../../../kernel/scripts/lib/content-tree.ts';
 import {

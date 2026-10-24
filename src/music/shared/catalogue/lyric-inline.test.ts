@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { inlineRuns } from './lyric-inline';
+import { inlineRuns } from './lyric-inline.ts';
 
 describe('inlineRuns', () => {
   it('sets an underscored word in italics', () => {

@@ -5,16 +5,18 @@ import type { WithLocale } from '@/kernel/shared/i18n';
 
 import { NameLink } from '@/shell/shared/ui';
 
-import type { MusicAlbum } from '@/music/shared/catalogue';
+import {
+  albumPath,
+  albumTitle,
+  artistPath,
+  type MusicAlbum,
+  projectName,
+  type SongOnRelease,
+} from '@/music/shared/catalogue';
+import { bill, songPlacements } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
-import { songPlacements } from '../lib/album-tracks';
-import { albumTitle } from '../lib/albums';
-import { projectName } from '../lib/artists';
 import { formatDuration } from '../lib/duration';
-import { albumPath, artistPath } from '../lib/music-urls';
-import { bill } from '../lib/projects';
-import type { SongOnRelease } from '../lib/song-text';
 import { FactLine } from './fact-line';
 import { Spelling } from './spelling';
 

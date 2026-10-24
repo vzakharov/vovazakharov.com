@@ -10,15 +10,24 @@ import {
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { hookRuns, scriptSample } from '@/music/shared/catalogue';
+import {
+  albumPath,
+  albumTitle,
+  catalogueSongs,
+  hookRuns,
+  listSongs,
+  localizeSong,
+  musicPath,
+  pictureCard,
+  RADIO_CARD,
+  radioPath,
+  scriptSample,
+  songPicture,
+  trackNames,
+} from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { albumTitle } from '../lib/albums';
 import { spokenLength } from '../lib/duration';
-import { albumPath, musicPath, radioPath } from '../lib/music-urls';
-import { pictureCard, RADIO_CARD, songPicture } from '../lib/pictures';
-import { localizeSong } from '../lib/song-text';
-import { catalogueSongs, listSongs, trackNames } from '../lib/songs';
 import { MusicNav } from './music-nav';
 import { OnAir, type OnAirExtras } from './on-air';
 

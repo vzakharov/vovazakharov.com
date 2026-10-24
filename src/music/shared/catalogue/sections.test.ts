@@ -6,7 +6,7 @@ import {
   localeProse,
   splitStanzas,
   storyOrder,
-} from './sections';
+} from './sections.ts';
 
 describe('localePrelude', () => {
   const body = [

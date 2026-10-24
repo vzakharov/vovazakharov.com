@@ -1,12 +1,7 @@
-import type { Mastered, RepoHeld } from '@/music/shared/catalogue';
-import {
-  type SongBilling,
-  songFileName,
-  songFileNames,
-  type Spelled,
-} from '@/music/shared/catalogue/index.node-safe';
-
-import { rawUrl, type RepoLocation } from './master-url';
+import { type SongBilling, songFileName, songFileNames } from './file-name.ts';
+import type { Mastered, RepoHeld } from './frontmatter.ts';
+import { rawUrl, type RepoLocation } from './master-url.ts';
+import type { Spelled } from './spelling.ts';
 
 /** A file's extension, lowercase and without its dot. */
 export type WithExtension = { extension: string };

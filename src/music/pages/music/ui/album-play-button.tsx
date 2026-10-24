@@ -1,6 +1,8 @@
 'use client';
 
-import { isQueued, placeTracks, type WithTracks } from '../lib/player-state';
+import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
+
+import { isQueued, placeTracks } from '../lib/player-state';
 import { usePlayer } from './player-provider';
 import { ListenButton } from './song-play-button';
 

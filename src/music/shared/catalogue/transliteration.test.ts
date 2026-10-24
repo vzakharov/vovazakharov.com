@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { readVerse } from './lyric-notes';
-import { splitSections } from './sections';
+import { readVerse } from './lyric-notes.ts';
+import { splitSections } from './sections.ts';
 import {
   alignTransliteration,
   romanizedTag,
   romanizeStanzas,
-} from './transliteration';
+} from './transliteration.ts';
 
 const FILE = 'song.md';
 

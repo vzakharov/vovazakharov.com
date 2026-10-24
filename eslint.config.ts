@@ -198,17 +198,7 @@ const eslintConfig = defineConfig([
       'src/mushrooms/scripts/sweep-mushrooms.ts',
       'src/mushrooms/scripts/veer-away.ts',
       // music
-      'src/music/scripts/lib/music-cards.ts',
-      'src/music/scripts/lib/music-collage.ts',
-      'src/music/scripts/lib/music-relay.ts',
-      'src/music/scripts/lib/music-repo.ts',
-      'src/music/scripts/lib/song-tag-paths.ts',
-      'src/music/scripts/lib/song-tag-source.ts',
-      'src/music/scripts/lib/song-tag-writer.ts',
-      'src/music/scripts/lib/song-tagging.ts',
-      'src/music/scripts/lib/song-tags.ts',
       'src/music/scripts/list-untold-songs.ts',
-      'src/music/scripts/scaffold-song.ts',
       // shell
       'src/shell/scripts/generate-styles.ts',
       // vova

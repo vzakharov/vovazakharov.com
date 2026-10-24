@@ -17,9 +17,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
-import type { RepoBranch } from '@/music/pages/music/lib/master-url';
-import { SONG_BRANCH } from '@/music/pages/music/lib/song-files';
+import {
+  MUSIC_ORGANIZATION,
+  type RepoBranch,
+  SONG_BRANCH,
+} from '@/music/shared/catalogue/index.node-safe';
 
 import { REPO_ROOT } from '../../../kernel/scripts/lib/content-tree.ts';
 import {

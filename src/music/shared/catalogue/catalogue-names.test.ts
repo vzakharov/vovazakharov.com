@@ -4,7 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { after, describe, it } from 'node:test';
 
-import { readCatalogueNames } from './catalogue-names';
+import { readCatalogueNames } from './catalogue-names.ts';
 
 const musicDir = fs.mkdtempSync(path.join(os.tmpdir(), 'catalogue-names-'));
 

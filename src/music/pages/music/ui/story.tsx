@@ -4,8 +4,12 @@ import { renderProse } from '@/kernel/shared/content';
 
 import { ProseContent } from '@/blog/entities/document';
 
-import type { StoryParts } from '../lib/catalogue-text';
-import { type StoryHeadings, storyOrder } from '../lib/sections';
+import type { StoryParts } from '@/music/shared/catalogue';
+import {
+  type StoryHeadings,
+  storyOrder,
+} from '@/music/shared/catalogue/index.node-safe';
+
 import { ReadMore } from './read-more';
 
 type StoryProps = StoryParts &

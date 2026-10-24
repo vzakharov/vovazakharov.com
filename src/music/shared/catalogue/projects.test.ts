@@ -2,8 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { z } from 'zod';
 
-import type { MusicProject } from '@/music/shared/catalogue/index.node-safe';
-
+import type { MusicProject } from './name-brands.ts';
 import { bill } from './projects.ts';
 
 describe('bill', () => {

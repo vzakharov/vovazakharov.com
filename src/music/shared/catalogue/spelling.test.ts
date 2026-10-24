@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mostlyNeedsLatin, needsLatin, scriptSample, spell } from './spelling';
+import {
+  mostlyNeedsLatin,
+  needsLatin,
+  scriptSample,
+  spell,
+} from './spelling.ts';
 
 describe('needsLatin', () => {
   it('asks for Latin by script, not by language', () => {
