@@ -12,10 +12,13 @@ personas/ holds one directory per resident and the die they share, a
 random adjective-noun pair from faker's word lists. personas/maya is
 Майя's home — her drafts, Вова's letter, her rules for how to behave
 and how to reflect — so she can change herself without the classifier
-in the way. Its wander.md tells the session that it is Майя, seeds the
-run with «иди вширь, ищи неожиданное» and the die, finds her PR by its
-claude/maya-* head, and has her count her own budget rather than relay
-to a successor nobody picks up. The routine runs with no connectors.
+in the way. A /persona skill makes any session a resident herself, in
+chat and every action, until dismissed — `/persona maya`, «позови
+Майю» — its roster being personas/<slug>/<slug>.md. Her wander.md opens
+on it, seeds the run with «иди вширь, ищи неожиданное» and the die,
+finds her PR by its claude/maya-* head, and has her count her own
+budget rather than relay to a successor nobody picks up. The routine
+runs with no connectors.
 
 maya.vovazakharov.com is a fifth site built like the others, its pages
 in src/ under the house conventions so what she builds can be reused.
