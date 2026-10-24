@@ -9,7 +9,7 @@ line with it on. Audio is decoded by ffmpeg rather than faster-whisper's own
 PyAV path, whose keyword arguments drift between releases.
 
 `--json-dir` also keeps each hearing word by word as `<stem>.whisper.json.gz`,
-shaped as a Deepgram response, for `scripts/transcribe.py --second-opinion-from`
+shaped as a Deepgram response, for `src/kernel/scripts/transcribe.py --second-opinion-from`
 to merge with nova-3's.
 """
 
