@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 40,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 89841,
+    "cacheReadTokens": 2307119,
+    "outputTokens": 8896,
+    "thinkingTokens": 1702,
+    "responses": 20,
+    "costUsd": 1.3582318
+  },
+  "estimate": {
+    "at": "2026-10-24T10:51:46.008Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a path-resolution fix in a small helper, but it needs the old and new Playwright layouts known and a real render to prove the headless shell is picked"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "e843ede8-babd-562e-87fb-5b7d38ddc84d",
+  "branch": "fix/chromium-playwright-layout",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task",
+  "prs": [
+    204
+  ],
+  "url": "https://claude.ai/code/session_01KNkqV1HnmkW7ci8jCArsLf",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-24T10:49:53.051Z",
+  "lastResponseAt": "2026-10-24T10:52:34.790Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 40,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 89841,
+    "cacheReadTokens": 2307119,
+    "outputTokens": 8896,
+    "thinkingTokens": 1702,
+    "responses": 20,
+    "costUsd": 1.3582318
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 89841,
+      "cacheReadTokens": 2307119,
+      "outputTokens": 8896,
+      "thinkingTokens": 1702,
+      "responses": 20,
+      "costUsd": 1.3582318
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "scripts/lib/chromium.ts",
+    "endedAt": "2026-10-24T10:50:11.781Z",
+    "contextTokens": 110876,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 60581,
+      "cacheReadTokens": 239645,
+      "outputTokens": 1472,
+      "thinkingTokens": 665,
+      "responses": 3,
+      "costUsd": 0.562041
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
