@@ -1,7 +1,6 @@
 ---
 title: 'На пальцы'
 date: 2025-12-11
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'fingers'
@@ -13,6 +12,9 @@ explicit: false
 en:
   title:
     translation: 'Onto Fingers'
+  hook: 'And stars from the sky onto fingers — and they don’t melt.'
+ru:
+  hook: 'А звёзды с неба на пальцы — и не тают.'
 ---
 
 <!-- For Vova to check: Project is a guess: the EDM version was posted to the Грёбаный бал channel on 2025-12-12. The checklist names no master: `На пальцы (EDM).flac` is the one that was posted; the alternative is `На пальцы.flac`, the same length. The title is the file name’s. -->

@@ -1,7 +1,6 @@
 ---
 title: 'За горизонт'
 date: 2026-03-24
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'bezm'

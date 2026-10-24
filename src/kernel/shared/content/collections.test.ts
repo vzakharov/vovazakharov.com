@@ -8,6 +8,7 @@ import {
   documentRoute,
   isDocumentFile,
   resolveAuthoredPath,
+  resolveAuthoredUrl,
 } from './collections.ts';
 
 describe('collectionRoute', () => {
@@ -87,6 +88,25 @@ describe('resolveAuthoredPath', () => {
       resolveAuthoredPath('case-studies', 'playgram.md', './playgram.mini.md'),
       '/case-studies/playgram.mini',
     );
+  });
+});
+
+describe('resolveAuthoredUrl', () => {
+  it('links a sibling song’s file to its page, fragment kept', () => {
+    assert.equal(
+      resolveAuthoredUrl('music', 'invitation.md', './butterfly-rock.md'),
+      '/music/songs/butterfly-rock',
+    );
+    assert.equal(
+      resolveAuthoredUrl('music', 'invitation.md', 'butterfly-rock.md#lyrics'),
+      '/music/songs/butterfly-rock#lyrics',
+    );
+  });
+
+  it('leaves an absolute, site-root or in-page address as written', () => {
+    for (const url of ['https://example.com/x.md', '/music', '#lyrics']) {
+      assert.equal(resolveAuthoredUrl('music', 'invitation.md', url), url);
+    }
   });
 });
 

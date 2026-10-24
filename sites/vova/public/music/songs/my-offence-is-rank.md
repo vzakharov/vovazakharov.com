@@ -1,7 +1,6 @@
 ---
 title: 'O, my offence is rank…'
 date: 2024-09-23
-status: done
 language: en
 project: ['Полуживые', 'GENERATED']
 repo: 'rank'
@@ -14,9 +13,12 @@ alsoOn: [{ album: hamlet, track: 2 }]
 credits:
   lyrics: [William Shakespeare]
   music: [Vladimir Zakharov Sr.]
+en:
+  hook: 'May one be pardon’d and retain the offence?'
 ru:
   title:
     translation: 'О, гнусен грех мой…'
+  hook: 'Прощён ли, кто предмет удержит злодеянья?'
   cribNote: 'Русский текст — перевод К. Р. (великого князя Константина Романова); песня поёт шекспировский оригинал.'
 ---
 

@@ -1,14 +1,13 @@
 ---
 title: 'Гамлет (Extended Version)'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'hamlet'
 album: hamlet
 track: 5
 seconds: 353
-mp3Bytes: 14149477
+mp3Bytes: 14149505
 explicit: false
 credits:
   lyrics:
@@ -16,6 +15,7 @@ credits:
     - 'Борис Пастернак'
     - 'Михаил Лозинский'
     - 'Михаил Козаков'
+    - 'Вова Захаров'
 en:
   title:
     translation: 'Hamlet (Extended Version)'

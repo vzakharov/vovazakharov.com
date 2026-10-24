@@ -1,7 +1,6 @@
 ---
 title: 'Снег'
 date: 2025-02-28
-status: done
 language: ru
 project: ['Дамы и господа', 'Полуживые']
 repo: 'sneg_0'

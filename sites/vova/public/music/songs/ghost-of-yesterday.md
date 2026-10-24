@@ -1,7 +1,6 @@
 ---
 title: 'Ghost of Yesterday'
 date: 2024-08-07
-status: done
 language: en
 project: ['Downtemple']
 repo: 'ghost'

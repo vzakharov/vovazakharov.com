@@ -17,10 +17,13 @@ from the master, or the voice's harmonics in a spectrogram of that stretch
 
 import argparse
 import difflib
-import gzip
-import json
 import re
 import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "kernel" / "scripts"))
+
+from lib.hearing import alternative, read_response
 
 MARKER = re.compile(r"^<!-- (lang|lyrics):([\w-]+) -->$")
 COMMENT = re.compile(r"^<!--.*-->$")
@@ -150,7 +153,7 @@ def main() -> None:
     cols = columns(front)
     if not sung or sung[1] not in cols:
         sys.exit("the song states no `language` with a lyrics column of its own")
-    heard = json.load(gzip.open(args.deepgram))["results"]["channels"][0]["alternatives"][0]["words"]
+    heard = alternative(read_response(Path(args.deepgram)))["words"]
     placed = align(cols[sung[1]], heard)
     for at in args.at:
         line, seconds = at.split("=")

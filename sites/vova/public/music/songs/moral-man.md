@@ -1,12 +1,11 @@
 ---
 title: 'Нравственный человек'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'moral-'
 seconds: 231
-mp3Bytes: 9372264
+mp3Bytes: 9372272
 explicit: false
 album: who-is-happy-in-russia
 track: 2
@@ -57,8 +56,10 @@ en:
 Но стала вдруг бледнеть и гаснуть Маша
 И через год в чахотке умерла,
 Сразив весь дом глубокою печалью…
+
 Живя согласно с строгою моралью,
 Я никому не сделал в жизни зла…
+x4
 
 <!-- lyrics:en -->
 
@@ -90,7 +91,11 @@ I threatened her with my curse: she gave in
 And married a gray-haired rich man.
 Their house was splendid, full as a cup;
 But Masha suddenly began to pale and fade
-And within a year died of consumption,
+And within a year died of [consumption][^consumption-en],
 Striking the whole house with deep sorrow…
+
+[^consumption-en]: Consumption — the old name for tuberculosis of the lungs, which “consumed” its victim as she wasted away.
+
 Living by a strict morality,
 I have never done anyone harm…
+x4

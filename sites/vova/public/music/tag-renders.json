@@ -1,6 +1,6 @@
 {
   "20": {
-    "hash": "e4ef7680d401",
+    "hash": "2d6ef43bd0e9",
     "paths": [
       "first/Poluzhivye - Dvadtsatʼ feat. Gryobany bal.flac",
       "first/Poluzhivye - Dvadtsatʼ feat. Gryobany bal.mp3",
@@ -44,6 +44,14 @@
       "Divine-Discontent--album-/GENERATED - 300,000 Years.flac",
       "Divine-Discontent--album-/GENERATED - 300,000 Years.mp3",
       "Divine-Discontent--album-/GENERATED - 300,000 Years.mp4"
+    ]
+  },
+  "actor": {
+    "hash": "40b2de8f8b0b",
+    "paths": [
+      "actor/Poluzhivye - Aktyor.mp3",
+      "actor/actor.mp3",
+      "actor/Полуживые - Актёр.mp3"
     ]
   },
   "after-us": {
@@ -204,7 +212,7 @@
     ]
   },
   "birds": {
-    "hash": "3595aaf05d06",
+    "hash": "b18c11a49adb",
     "paths": [
       "birds/birds.mp3",
       "birds/za_oblozhkoy - Ptitsy.mp3",
@@ -222,7 +230,7 @@
     ]
   },
   "boundless-skies": {
-    "hash": "df15a6804f2b",
+    "hash": "6845cc49f8ea",
     "paths": [
       "bezm/Poluzhivye - V bezmernosti nebes.flac",
       "bezm/Poluzhivye - V bezmernosti nebes.mp3",
@@ -245,6 +253,14 @@
       "june/Полуживые - Breathe feat. GENERATED.mp3",
       "june/Полуживые - Повелитель ветра feat. GENERATED.flac",
       "june/Полуживые - Повелитель ветра feat. GENERATED.mp3"
+    ]
+  },
+  "butterfly-rock": {
+    "hash": "b2891381c29c",
+    "paths": [
+      "butterfly-rock/Poluzhivye - Babochka.mp3",
+      "butterfly-rock/butterfly-rock.mp3",
+      "butterfly-rock/Полуживые - Бабочка.mp3"
     ]
   },
   "buy-you-a-house": {
@@ -325,6 +341,26 @@
       "rak/Не смотри.mp3"
     ]
   },
+  "candle-burnt": {
+    "hash": "82415ee690e3",
+    "paths": [
+      "candle-burnt/Poluzhivye - Svecha gorela.flac",
+      "candle-burnt/Poluzhivye - Svecha gorela.mp3",
+      "candle-burnt/Poluzhivye - Svecha gorela.mp4",
+      "candle-burnt/candle-burnt.flac",
+      "candle-burnt/candle-burnt.master.mp3",
+      "candle-burnt/Полуживые - Свеча горела.flac",
+      "candle-burnt/Полуживые - Свеча горела.mp3"
+    ]
+  },
+  "candle-tarkovsky": {
+    "hash": "e7e7e91c2789",
+    "paths": [
+      "candle-tarkovsky/Poluzhivye - Svecha.mp3",
+      "candle-tarkovsky/candle-tarkovsky.mp3",
+      "candle-tarkovsky/Полуживые - Свеча.mp3"
+    ]
+  },
   "cant-take-your-eyes-out-of-you": {
     "hash": "a6090ff1f83c",
     "paths": [
@@ -336,7 +372,7 @@
     ]
   },
   "carcassi-caprice": {
-    "hash": "53492ce8d689",
+    "hash": "c881c857f030",
     "paths": [
       "caprice/Poluzhivye - Kapris Karkassi.flac",
       "caprice/Poluzhivye - Kapris Karkassi.mp3",
@@ -434,7 +470,7 @@
     ]
   },
   "dad": {
-    "hash": "1c2c3ede791c",
+    "hash": "c66d01169573",
     "paths": [
       "sashas/Poluzhivye - Papa.flac",
       "sashas/Poluzhivye - Papa.mp3",
@@ -561,7 +597,7 @@
     ]
   },
   "farewell": {
-    "hash": "0624adf8e294",
+    "hash": "db990219b0a4",
     "paths": [
       "wangwei/Poluzhivye - Proshchaniye.flac",
       "wangwei/Poluzhivye - Proshchaniye.mp3",
@@ -748,7 +784,7 @@
     ]
   },
   "hamlet": {
-    "hash": "53289d18eaf1",
+    "hash": "71d8f58f253b",
     "paths": [
       "hamlet/Poluzhivye - Gamlet.flac",
       "hamlet/Poluzhivye - Gamlet.mp3",
@@ -760,7 +796,7 @@
     ]
   },
   "hamlet-extended": {
-    "hash": "8c219e630d0c",
+    "hash": "4cb1119e8395",
     "paths": [
       "hamlet/Poluzhivye - Gamlet (Extended Version).flac",
       "hamlet/Poluzhivye - Gamlet (Extended Version).mp3",
@@ -820,7 +856,7 @@
     ]
   },
   "how-could-you-leave": {
-    "hash": "719f93f14f00",
+    "hash": "0e007496b51d",
     "paths": [
       "hcyl/GENERATED - How Could You Leave.flac",
       "hcyl/GENERATED - How Could You Leave.mp3",
@@ -886,7 +922,7 @@
     ]
   },
   "in-holy-rus": {
-    "hash": "26bef4549669",
+    "hash": "1b6ab56fdfd9",
     "paths": [
       "asa/Poluzhivye - Na Rusi svyatoy.flac",
       "asa/Poluzhivye - Na Rusi svyatoy.mp3",
@@ -1009,6 +1045,14 @@
       "inside/inside_master_pop.mp3"
     ]
   },
+  "insomnia": {
+    "hash": "62b386d0fbcd",
+    "paths": [
+      "insomnia/Poluzhivye - Bessonnitsa.mp3",
+      "insomnia/insomnia.mp3",
+      "insomnia/Полуживые - Бессонница.mp3"
+    ]
+  },
   "intermezzo": {
     "hash": "f10ae4381b69",
     "paths": [
@@ -1040,6 +1084,14 @@
       "vagabond_album/vagabond_album-003.mp3",
       "vagabond_album/Полуживые - Inverno feat. GENERATED.flac",
       "vagabond_album/Полуживые - Inverno feat. GENERATED.mp3"
+    ]
+  },
+  "invitation": {
+    "hash": "1fff4ec7e37c",
+    "paths": [
+      "nostalgia/Poluzhivye - Priglasheniye v puteshestviye.mp3",
+      "nostalgia/invitation.mp3",
+      "nostalgia/Полуживые - Приглашение в путешествие.mp3"
     ]
   },
   "is-it-your-fault": {
@@ -1299,7 +1351,7 @@
     ]
   },
   "moral-man": {
-    "hash": "03849c4dc937",
+    "hash": "d66a77d4744a",
     "paths": [
       "moral-/Poluzhivye - Nravstvenny chelovek.flac",
       "moral-/Poluzhivye - Nravstvenny chelovek.mp3",
@@ -1708,7 +1760,7 @@
     ]
   },
   "snow": {
-    "hash": "52c33f737463",
+    "hash": "90568706f7d8",
     "paths": [
       "sneg_0/Damy i gospoda - Sneg feat. Poluzhivye.flac",
       "sneg_0/Damy i gospoda - Sneg feat. Poluzhivye.mp3",
@@ -1720,7 +1772,7 @@
     ]
   },
   "snow-is-falling": {
-    "hash": "ef35787af84f",
+    "hash": "9504a7b2cd58",
     "paths": [
       "sneg_idet/Poluzhivye - Sneg idyot.flac",
       "sneg_idet/Poluzhivye - Sneg idyot.mp3",
@@ -1796,6 +1848,14 @@
       "succumb/GENERATED - Succumb to Me.mp4",
       "succumb/succumb.flac",
       "succumb/succumb.mp3"
+    ]
+  },
+  "summer-gone": {
+    "hash": "3cdc42199426",
+    "paths": [
+      "summer-gone/Poluzhivye - Leto proshlo.mp3",
+      "summer-gone/summer-gone.mp3",
+      "summer-gone/Полуживые - Лето прошло.mp3"
     ]
   },
   "there": {
@@ -1979,6 +2039,18 @@
       "okna/Грёбаный бал - Окна.mp3",
       "okna/Окна.flac",
       "okna/Окна.mp3"
+    ]
+  },
+  "winter-in-the-forest": {
+    "hash": "fd3255b51ca8",
+    "paths": [
+      "winter-in-the-forest/Poluzhivye - Zima v lesu.flac",
+      "winter-in-the-forest/Poluzhivye - Zima v lesu.mp3",
+      "winter-in-the-forest/Poluzhivye - Zima v lesu.mp4",
+      "winter-in-the-forest/winter-in-the-forest.flac",
+      "winter-in-the-forest/winter-in-the-forest.master.mp3",
+      "winter-in-the-forest/Полуживые - Зима в лесу.flac",
+      "winter-in-the-forest/Полуживые - Зима в лесу.mp3"
     ]
   },
   "world-as-it-is": {

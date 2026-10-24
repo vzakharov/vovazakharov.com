@@ -1,7 +1,6 @@
 ---
 title: 'Назови меня по имени'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'nazovi'

@@ -1,7 +1,6 @@
 ---
 title: 'Can’t Take Your Eyes out of You'
 date: 2024-12-05
-status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'

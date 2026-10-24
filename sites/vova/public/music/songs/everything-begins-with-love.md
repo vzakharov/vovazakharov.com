@@ -1,7 +1,6 @@
 ---
 title: 'Всё в этой жизни начинается с любви'
 date: 2024-09-14
-status: done
 language: ru
 project: ['Полуживые']
 repo: '40days'
@@ -16,6 +15,9 @@ credits:
 en:
   title:
     translation: 'Everything in This Life Begins with Love'
+  hook: 'Where there is no way, even running in place is a way.'
+ru:
+  hook: 'Где нет пути, и бег на месте — путь.'
 ---
 
 <!-- For Vova to check: The title is corrected from the checklist's «начинаетс» to «начинается», as the album entry and Apple Music spell it. -->

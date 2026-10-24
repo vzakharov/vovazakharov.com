@@ -1,7 +1,6 @@
 ---
 title: 'Here’s to the Virus'
 date: 2024-07-23
-status: done
 language: en
 project: ['GENERATED']
 repo: 'virus'

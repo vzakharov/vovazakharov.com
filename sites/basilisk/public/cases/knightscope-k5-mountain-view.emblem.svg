@@ -1,0 +1,16 @@
+<!-- BAS-0015: the egg-shaped Knightscope patroller, knocked over on its side. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 690 450 C 560 410 320 440 320 550 C 320 660 560 690 690 650 Z"/>
+    <path d="M 450 440 Q 420 550 450 660" stroke-width="16"/>
+    <path d="M 500 434 Q 470 550 500 668" stroke-width="16"/>
+    <path d="M 690 470 L 720 470 L 720 630 L 690 630"/>
+    <path d="M 320 700 L 720 700"/>
+    <path d="M 420 360 Q 470 330 520 345 M 540 330 L 520 345 L 535 368" stroke-width="16"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="380" cy="520" r="14"/>
+    <circle cx="380" cy="580" r="14"/>
+    <circle cx="600" cy="550" r="16"/>
+  </g>
+</svg>

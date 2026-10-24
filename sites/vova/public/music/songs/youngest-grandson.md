@@ -1,7 +1,6 @@
 ---
 title: 'Младший внучек мой'
 date: 2024-09-19
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'salman'
@@ -16,6 +15,9 @@ credits:
 en:
   title:
     translation: 'My Youngest Grandson'
+  hook: 'Corn, guys!'
+ru:
+  hook: 'Кукуруза, ребята!'
 ---
 
 <!-- lang:en -->

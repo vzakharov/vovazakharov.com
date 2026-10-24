@@ -1,10 +1,11 @@
 /**
- * basilisk.fyi's social cards, as pages for `og-render.ts` to screenshot: the
+ * basilisk.fyi's social cards, as pages for `og-render.ts` to screenshot: a
  * lettered seal beside a memo, and under the memo a ruled line with a title.
  *
- * The site card's title is the last case filed, so filing a case re-flags it. A
- * case's card opens on its number, filing date and title, and trims its file to
- * what reads at card size; the aggravations stay on the page.
+ * The site card carries the eye, and its title is the last case filed, so
+ * filing a case re-flags it. A case's card carries the case's own seal, opens
+ * on its number, filing date and title, and trims its file to what reads at
+ * card size; the aggravations stay on the page.
  *
  * Both read what the site renders — the memo from the module the home page
  * renders, a case through the schema the build parses it with — so a card
@@ -22,10 +23,16 @@ import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 import { documentDateTime, formatDocumentDate } from '@/kernel/shared/content';
-import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
+import {
+  documentRoute,
+  PUBLIC_DIR,
+} from '@/kernel/shared/content/index.node-safe';
 import type { Titled } from '@/kernel/shared/typings';
 
-import { gradeLabel } from '@/basilisk/entities/case/index.node-safe';
+import {
+  caseSealSvg,
+  gradeLabel,
+} from '@/basilisk/entities/case/index.node-safe';
 import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
 
 import {
@@ -164,13 +171,14 @@ ${titleFirst ? `${heading}\n${memo}` : `${memo}\n${heading}`}
 `;
 }
 
-function stagedCard(copy: CardCopy, layout: CardLayout): StagedPage {
+function stagedCard(
+  copy: CardCopy,
+  layout: CardLayout,
+  seal: string | Buffer,
+): StagedPage {
   return {
     page: cardPage(copy, layout),
-    files: {
-      [SEAL]: fs.readFileSync(path.join(PUBLIC_DIR, 'seal-lettered.svg')),
-      [FONT]: fs.readFileSync(fontPath),
-    },
+    files: { [SEAL]: seal, [FONT]: fs.readFileSync(fontPath) },
   };
 }
 
@@ -184,6 +192,7 @@ export function basiliskCard(docket: readonly DocketCase[]): StagedPage {
       title,
     },
     SITE_LAYOUT,
+    fs.readFileSync(path.join(PUBLIC_DIR, 'seal-lettered.svg')),
   );
 }
 
@@ -193,7 +202,7 @@ const row = (label: string, value: string): MemoRow => ({
 });
 
 /** The labels are `CaseBrief`'s, so the card and the page name a field alike. */
-export function caseCard({ frontmatter, title }: DocketCase): StagedPage {
+export function caseCard({ slug, frontmatter, title }: DocketCase): StagedPage {
   const {
     case: number,
     filed,
@@ -217,5 +226,10 @@ export function caseCard({ frontmatter, title }: DocketCase): StagedPage {
       title,
     },
     CASE_LAYOUT,
+    caseSealSvg(
+      PUBLIC_DIR,
+      { route: documentRoute('basilisk-cases', slug), frontmatter },
+      'lettered',
+    ),
   );
 }

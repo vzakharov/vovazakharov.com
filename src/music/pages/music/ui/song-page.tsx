@@ -21,7 +21,7 @@ import {
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { universeOf } from '../lib/catalogue-text';
+import { preludeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';
 import type { SongPageProps } from '../lib/music-route-params';
 import { musicPath, songPath } from '../lib/music-urls';
@@ -204,13 +204,23 @@ export function SongPage({ slug, locale }: SongPageProps) {
         {/* Held behind «…» only above words, which a long story would keep
             the reader from. */}
         <Story
-          universe={universeOf(document, locale)}
+          prelude={preludeOf(document, locale)}
           story={localized.body === '' ? undefined : localized}
+<<<<<<< HEAD
           {...pick(copy, 'makingOf')}
           readMore={lyrics && copy.readMore}
+=======
+          {...pick(messages, 'behindTheScenes', 'preludeHeadings')}
+          readMore={lyrics && messages.readMore}
+>>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
         />
 
-        {lyrics && <Lyrics {...{ lyrics, locale, cribNote }} />}
+        {lyrics && (
+          <Lyrics
+            {...{ lyrics, locale, cribNote }}
+            {...pick(document, 'fileName')}
+          />
+        )}
 
         <SongCredits
           {...{ locale }}

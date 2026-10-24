@@ -1,7 +1,6 @@
 ---
 title: 'Не ветер бушует над бором…'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'moroz'

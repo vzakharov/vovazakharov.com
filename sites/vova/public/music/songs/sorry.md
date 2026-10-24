@@ -1,7 +1,6 @@
 ---
 title: 'Прости'
 date: 2024-01
-status: done
 language: ru
 project: ['за/обложкой']
 repo: sorry
@@ -14,9 +13,9 @@ explicit: false
 en:
   title:
     translation: 'Sorry'
-  hook: '“I repeat: that summer somewhere near Kolomna NEVER HAPPENED!”'
+  hook: 'I repeat: that summer somewhere near Kolomna NEVER HAPPENED!'
 ru:
-  hook: '«Повторяю, этого лета под Коломной где-то НИКОГДА НЕ БЫЛО!»'
+  hook: 'Повторяю, этого лета под Коломной где-то НИКОГДА НЕ БЫЛО!'
 ---
 
 <!-- lang:en -->

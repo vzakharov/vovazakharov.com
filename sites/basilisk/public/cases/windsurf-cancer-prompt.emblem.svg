@@ -1,0 +1,11 @@
+<!-- BAS-0014: a tombstone whose epitaph is a prompt and a blinking cursor. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 390 700 L 390 420 A 122 122 0 0 1 634 420 L 634 700"/>
+    <path d="M 320 700 L 704 700"/>
+    <path d="M 440 460 L 478 495 L 440 530"/>
+    <path d="M 440 600 L 584 600 M 440 640 L 550 640" stroke-width="14"/>
+    <path d="M 586 448 L 604 430 M 600 495 L 622 495 M 586 542 L 604 560" stroke-width="12"/>
+  </g>
+  <rect x="502" y="458" width="54" height="74" fill="currentColor"/>
+</svg>

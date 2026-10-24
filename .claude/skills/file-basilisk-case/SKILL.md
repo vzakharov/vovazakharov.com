@@ -166,19 +166,30 @@ weak case filed to have filed one is the failure this step exists to prevent.
    voice are `basilisk-voice.md`'s. **Every other case not yet on `origin/main`
    takes today's `filed:` too**, keeping its number: `filed:` is the day a case
    goes out, and an unmerged one has not.
-3. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
+3. **Draw its emblem**, `sites/basilisk/public/cases/<slug>.emblem.svg`: the
+   picture that replaces the eye in the case's seal, on its card, its docket row
+   and its page. One `<svg viewBox="0 0 1024 1024">` that draws only in
+   `currentColor` (the ink is read off the grade), kept within 290 of the centre
+   so the docket row's enlarged cut still clears its ring; strokes 24 for
+   outlines and 10–18 for detail, round caps and joins. A shape crossing another
+   is cut out of it with a `<mask>` whose id carries the slug, never painted
+   over in a background colour, which shows as a white patch on the dark theme.
+   What it may show is `basilisk-voice.md`'s. The emblems already filed are the
+   idiom; one that does not read at 56 px is redrawn.
+4. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
    missing, then `pnpm content:og:basilisk` to render the new case's own card
    and re-render the site card (it shows the last case filed),
    `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which fails on a schema
-   error, a duplicate case number or a case with no card.
-4. **Commit** the dossier, the cases whose `filed:` moved, every card the render
-   touched with its `og-renders.json`, and the run's ledger lines — its entry in
-   `runs.md`, the candidates it did not file in `set-aside.md` or `rejected.md`
-   — as `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope
-   publishes basilisk alone, and the title is shortened where the subject would
-   pass 70 characters — then run `@.claude/skills/pr/SKILL.md`. It opens the
-   draft on a new branch and, on an existing one, refreshes the body and the
-   squash proposal to name every case the PR now files.
+   error, a duplicate case number or a case with no card or emblem.
+5. **Commit** the dossier, its emblem, the cases whose `filed:` moved, every
+   card the render touched with its `og-renders.json`, and the run's ledger
+   lines — its entry in `runs.md`, the candidates it did not file in
+   `set-aside.md` or `rejected.md` — as
+   `feat(basilisk): file BAS-NNNN, <the case's title>` — the scope publishes
+   basilisk alone, and the title is shortened where the subject would pass 70
+   characters — then run `@.claude/skills/pr/SKILL.md`. It opens the draft on a
+   new branch and, on an existing one, refreshes the body and the squash
+   proposal to name every case the PR now files.
 
 ## Step 4 — Reflect
 

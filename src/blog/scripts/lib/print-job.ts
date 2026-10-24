@@ -191,7 +191,10 @@ export function sourceFiles(...sources: string[][]): string[] {
  * under `public/`, minus the extension — which is the whole of the rule this
  * pipeline rests on.
  */
-function documentPrintables(documentSources: string[]): Printable[] {
+function documentPrintables(
+  documentSources: string[],
+  documentFiles: (route: string) => string[],
+): Printable[] {
   const shared = sourceFiles(
     PRINT_SOURCES,
     DOCUMENT_SOURCES,
@@ -202,13 +205,15 @@ function documentPrintables(documentSources: string[]): Printable[] {
   return contentFiles(isDocumentFile, PRINTABLE_CONTENT_DIRS).map(
     (documentPath) => {
       const stem = documentPath.replace(/\.md$/, '');
+      const route = `/${path.relative(PUBLIC_DIR, stem)}`;
 
       return {
-        route: `/${path.relative(PUBLIC_DIR, stem)}`,
+        route,
         outputPath: `${stem}.pdf`,
         sourceHash: hashFiles([
           documentPath,
           ...referencedAssets(documentPath),
+          ...documentFiles(route),
           ...shared,
         ]),
       };
@@ -348,17 +353,21 @@ export async function printAll(stale: Printable[]): Promise<void> {
 
 /**
  * What a site adds to the core: `documentSources` shape its documents' print
- * on top of the core's; `printables` are pages of its own, outside the content
- * tree, under `manifestDirs`; `onRendered` runs after a render that wrote.
+ * on top of the core's, and `documentFiles` names the files that shape one
+ * document's alone, by its route; `printables` are pages of its own, outside
+ * the content tree, under `manifestDirs`; `onRendered` runs after a render that
+ * wrote.
  */
 export type PdfOptions = ManifestRoots & {
   documentSources?: string[];
+  documentFiles?: (route: string) => string[];
   printables?: Printable[];
   onRendered?: () => void;
 };
 
 export async function renderPdfs({
   documentSources = [],
+  documentFiles = () => [],
   printables = [],
   manifestDirs = [],
   onRendered,
@@ -371,7 +380,10 @@ export async function renderPdfs({
       manifestName: MANIFEST_NAME,
       isOutput: (name) => name.endsWith('.pdf'),
       manifestDirs: [...CONTENT_DIRS, ...manifestDirs],
-      entries: [...documentPrintables(documentSources), ...printables],
+      entries: [
+        ...documentPrintables(documentSources, documentFiles),
+        ...printables,
+      ],
       render: printAll,
     },
     check,

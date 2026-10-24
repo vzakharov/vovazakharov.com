@@ -1,7 +1,6 @@
 ---
 title: 'Прощание'
 date: 2025-12-19
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'wangwei'
@@ -13,6 +12,9 @@ explicit: false
 en:
   title:
     translation: 'Farewell'
+  hook: 'Probably the last song Dad wrote.'
+ru:
+  hook: 'Наверное, последняя песня, которую написал папа.'
 ---
 
 <!-- For Vova to check: Project is a guess: it is your father's last song, posted on the «Владимир Захаров. Жизнь и творчество» channel, like the other Полуживые songs of his. The Russian glosses on the Chinese bridge (Wang Wei's «送别») are mine, not his. -->

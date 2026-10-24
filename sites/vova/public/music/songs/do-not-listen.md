@@ -1,7 +1,6 @@
 ---
 title: 'Do Not Listen'
 date: 2024-12-05
-status: done
 language: en
 project: ['GENERATED']
 repo: 'nsfl'

@@ -3,7 +3,6 @@ title: 'مِثْقَال'
 titleLatin: 'Mithqāl'
 keepsScript: true
 date: 2025-09-09
-status: done
 language: ar
 project: ['GENERATED']
 repo: 'mithqal'

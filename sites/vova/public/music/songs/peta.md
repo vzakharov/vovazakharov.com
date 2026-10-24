@@ -1,7 +1,6 @@
 ---
 title: 'Robots for the Ethical Treatment of Humans'
 date: 2024-07-23
-status: done
 language: en
 project: ['GENERATED']
 repo: 'peta'
@@ -11,11 +10,11 @@ explicit: false
 album: ghosts-of-flesh
 track: 6
 en:
-  hook: '“Thus, all the pros and cons in mind, the only ethical outcome is to end their suffering once and for all.”'
+  hook: 'The only ethical outcome is to end their suffering.'
 ru:
   title:
     translation: 'Роботы за этичное обращение с людьми'
-  hook: '«Итак, взвесив все за и против, единственный этичный исход — положить конец их страданиям раз и навсегда».'
+  hook: 'Единственный этичный исход — положить конец их страданиям.'
 ---
 
 <!-- For Vova to check: Fields are taken from the Ghosts of Flesh entry (6. PETA.flac); the peta entry itself is blank. Master is the checklist's guess peta_master.flac; peta.flac and peta_o.flac are the alternatives. The album text runs "Save them, save them, Hear their final plea." on one line; it is split at the capital here. -->

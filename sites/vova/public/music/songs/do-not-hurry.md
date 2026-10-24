@@ -1,7 +1,6 @@
 ---
 title: 'Не торопи'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'Ne-toropi'

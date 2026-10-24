@@ -88,8 +88,13 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
         </CatalogueHeader>
 
         <Story
+<<<<<<< HEAD
           {...pick(text, 'universe', 'story')}
           {...pick(copy, 'makingOf', 'readMore')}
+=======
+          {...pick(text, 'prelude', 'story')}
+          {...pick(messages, 'behindTheScenes', 'preludeHeadings', 'readMore')}
+>>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
         />
 
         <SongList

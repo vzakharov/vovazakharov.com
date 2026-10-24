@@ -1,7 +1,6 @@
 ---
 title: 'Уходи'
 date: 2026-01-17
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'ukhodi'

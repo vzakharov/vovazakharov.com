@@ -1,7 +1,6 @@
 ---
 title: 'A Guy Without a Plan'
 date: 2024-12-27
-status: done
 language: en
 project: ['GENERATED']
 repo: 'guy'

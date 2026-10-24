@@ -1,7 +1,6 @@
 ---
 title: 'Through the Cracks'
 date: 2024-09-16
-status: done
 language: en
 project: ['GENERATED']
 repo: 'cracks'

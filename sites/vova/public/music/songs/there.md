@@ -1,7 +1,6 @@
 ---
 title: 'Там'
 date: 2025-09-10
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'f-ec'

@@ -1,7 +1,6 @@
 ---
 title: 'Love (Makes the World Go Round)'
 date: 2024-07-23
-status: done
 language: en
 project: ['Downtemple']
 repo: 'love'

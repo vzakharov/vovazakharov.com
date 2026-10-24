@@ -1,7 +1,6 @@
 ---
 title: 'Метель'
 date: 2025-11-01
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'poko'
@@ -15,8 +14,10 @@ credits:
 en:
   title:
     translation: 'Snowstorm'
+  hook: 'The years are gone, the never has arrived.'
   cribNote: 'The chorus and the bridge are Alexander Blok’s “Покойник спать ложится…” (1909); where the song keeps Blok’s words, the crib is Dmitri N. Smirnov’s translation, “The calm snowstorm.”'
 ru:
+  hook: 'Прошли года, настало никогда.'
   cribNote: 'Припев и бридж — стихотворение Александра Блока «Покойник спать ложится…» (1909); там, где песня поёт Блока как есть, подстрочник — перевод Дмитрия Смирнова «The calm snowstorm».'
 ---
 
@@ -131,12 +132,12 @@ Even if I didn’t make it
 The light wool of snow
 Where does it fly to, where
 The years will go, will go
-Never will arrive
+The never will arrive
 
 The light wool of snow
 Where does it fly to, where
 The years are gone, are gone
-Never has arrived
+The never has arrived
 
 All night there lightly swirls
 The calm snowstorm

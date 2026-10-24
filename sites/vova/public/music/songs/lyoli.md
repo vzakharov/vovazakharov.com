@@ -1,7 +1,6 @@
 ---
 title: 'Лёли'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые', 'Downtemple']
 repo: 'rus-'
