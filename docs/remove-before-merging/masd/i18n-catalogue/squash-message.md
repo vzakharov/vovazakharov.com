@@ -9,8 +9,10 @@ link, music what was the music namespace, vova the CV, the 404 and the
 CV's variant labels - behind a loader built with kernel's catalogue(),
 whose typing against en fails the check on a key ru lacks.
 
-A page loads only the catalogues of the apps it renders, by import.
-ThemeCorner reads shell's catalogue rather than getTranslations, so the
+A page loads only the catalogues of the apps it renders, by import. The
+loader is messages in every app, so the import path names the app and
+an importer needing two renames one, as MASD does for two slices of one
+name. ThemeCorner reads shell's rather than getTranslations, so the
 request config carries no messages and next-intl is registered with
 the locales alone: its one global Messages type could check a single
 site's catalogue at most.
