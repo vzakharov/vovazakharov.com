@@ -210,6 +210,10 @@ stylesheet every layer shares, and a dozen layer calls.
   under `react-server` as `music:masters` does, and leave the grandfathered
   block — all but `list-untold-songs`, which reads `catalogue-names.ts` under
   bare Node, a module no barrel a client component imports may hold.
+- **A page reads each thing once** (review on #205): `catalogue-entries.ts`'s
+  `artistInfo`, `albumInfo`, `catalogueAlbum` and `songInfo` give everything a
+  page shows of one in a language, and the per-fact readers they are built from
+  left the barrel.
 
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
