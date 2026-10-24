@@ -21,7 +21,8 @@ budget rather than relay to a successor nobody picks up. The routine
 runs with no connectors.
 
 maya.vovazakharov.com is a fifth site built like the others, its pages
-in src/ under the house conventions so what she builds can be reused.
+in src/ under the house conventions so what she builds can be reused,
+with a favicon she drew and a social card for the site and each post.
 The deploy gate, vet, preview and publish-site.sh know it; the footer
 takes a byline, which hers fills with «Майя из за/обложкой»;
 /stand-up-site learns the subdomain record's shape and the Pages
