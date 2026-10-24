@@ -12,10 +12,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { WithFileName } from '@/kernel/shared/typings';
 
 import {
-  albumArtist,
-  albumTitle,
+  albumInfo,
   listSongPages,
-  projectName,
   savedNames,
   songBilling,
   type SongDocument,
@@ -72,6 +70,21 @@ function releaseTotal(
   );
 }
 
+function releaseTags(
+  album: MusicAlbum,
+  track: number,
+  songs: readonly SongDocument[],
+): NonNullable<TagSource['release']> {
+  const { name, artist } = albumInfo(album, 'en');
+
+  return {
+    title: name,
+    artist: artist.name,
+    track,
+    total: releaseTotal(album, songs),
+  };
+}
+
 function tagSource(
   document: SongDocument,
   songs: readonly SongDocument[],
@@ -86,14 +99,7 @@ function tagSource(
   return {
     ...songBilling(document, 'en'),
     ...(album !== null &&
-      track !== undefined && {
-        release: {
-          title: albumTitle(album, 'en'),
-          artist: projectName(albumArtist(album, 'en'), 'en'),
-          track,
-          total: releaseTotal(album, songs),
-        },
-      }),
+      track !== undefined && { release: releaseTags(album, track, songs) }),
     date,
     sungLanguage: sung,
     ...(credits && { credits }),

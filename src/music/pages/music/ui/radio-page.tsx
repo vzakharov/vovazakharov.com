@@ -2,6 +2,7 @@ import { Stack } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import { byLocale, type WithLocale } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
 import {
   constructMetadata,
   localizedAddresses,
@@ -11,8 +12,7 @@ import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
-  albumPath,
-  albumTitle,
+  albumInfo,
   catalogueSongs,
   hookRuns,
   listSongs,
@@ -60,10 +60,7 @@ function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
           album:
             album === null
               ? undefined
-              : {
-                  name: albumTitle(album, locale),
-                  href: albumPath(album, locale),
-                },
+              : pick(albumInfo(album, locale), 'name', 'href'),
           hook: hook === undefined ? undefined : hookRuns(hook),
         },
       ];

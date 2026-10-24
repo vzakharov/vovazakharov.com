@@ -7,19 +7,10 @@ import { NameLink, PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
-  albumArtist,
-  albumCover,
-  albumGloss,
-  albumKind,
   albumPath,
-  albumText,
-  albumTitle,
-  albumWipNote,
-  albumYears,
-  artistPath,
+  catalogueAlbum,
   catalogueSongs,
   musicPath,
-  projectName,
   scriptSample,
   songTrack,
   trackNames,
@@ -45,14 +36,15 @@ import { Story } from './story';
 export function AlbumPage({ album, locale }: AlbumPageProps) {
   const songs = catalogueSongs();
   const copy = messages(locale);
-  const artist = albumArtist(album, locale);
+  const { name, gloss, text, artist, cover, wip, kind, years } = catalogueAlbum(
+    album,
+    locale,
+    songs,
+  );
   const tracks = albumTracks(album, songs);
-  const text = albumText(album, locale);
   const queue = tracks.map(({ song }) => songTrack(song, album));
-  const title = albumTitle(album, locale);
-  const artistName = projectName(artist, locale);
   const sample = scriptSample(
-    [title.original, artistName.original, ...trackNames(queue, locale)],
+    [name.original, artist.name.original, ...trackNames(queue, locale)],
     locale,
   );
 
@@ -66,26 +58,25 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
         />
 
         <CatalogueHeader
-          kind={copy.kind[albumKind(album, songs)]}
-          {...{ title }}
-          gloss={albumGloss(album, locale)}
-          picture={albumCover(album)}
+          kind={copy.kind[kind]}
+          title={name}
+          picture={cover}
           size={catalogueSize(
             { seconds: tracks.map(({ song }) => song.frontmatter.seconds) },
             locale,
             copy.size,
           )}
           {...pick(text, 'markdown')}
-          wip={albumWipNote(album, locale)}
+          {...{ gloss, wip }}
         >
           <FactLine
             facts={{
               artist: (
-                <NameLink href={artistPath(artist, locale)}>
-                  <Spelling {...artistName} />
+                <NameLink {...pick(artist, 'href')}>
+                  <Spelling {...artist.name} />
                 </NameLink>
               ),
-              years: albumYears(album, songs),
+              years,
             }}
             fz="sm"
             opacity={0.7}

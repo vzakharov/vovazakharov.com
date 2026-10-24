@@ -8,18 +8,14 @@ import {
 } from '@/kernel/shared/seo/index.server-only';
 
 import {
-  albumArtist,
-  albumCover,
+  albumInfo,
   albumPath,
-  albumText,
-  albumTitle,
   artistCard,
+  artistInfo,
   artistPath,
-  artistText,
   catalogueSongs,
   MUSIC_COLLAGE,
   pictureCard,
-  projectName,
   spelledText,
   tabLabels,
   tabPath,
@@ -77,24 +73,28 @@ export function generateMusicMetadata(page: IndexPageProps) {
 }
 
 export function generateArtistMetadata(page: ArtistPageProps) {
-  const name = spelledText(projectName(page.artist, page.locale));
+  const { name: spelled, text } = artistInfo(page.artist, page.locale);
+  const name = spelledText(spelled);
   const { artistDescription } = messages(page.locale);
 
   return catalogueMetadata(
     page,
     name,
     listenTitle(name, page.locale),
-    textHook(
-      artistText(page.artist, page.locale).hook ??
-        artistDescription.replace('{artist}', name),
-    ),
+    textHook(text.hook ?? artistDescription.replace('{artist}', name)),
     (locale) => artistPath(page.artist, locale),
     artistCard(page.artist, page.locale, catalogueSongs()),
   );
 }
 
 export function generateAlbumMetadata(page: AlbumPageProps) {
-  const name = spelledText(albumTitle(page.album, page.locale));
+  const {
+    name: spelled,
+    text,
+    artist,
+    cover,
+  } = albumInfo(page.album, page.locale);
+  const name = spelledText(spelled);
   const { albumDescription } = messages(page.locale);
 
   return catalogueMetadata(
@@ -102,17 +102,12 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
     name,
     listenTitle(name, page.locale),
     textHook(
-      albumText(page.album, page.locale).hook ??
+      text.hook ??
         albumDescription
           .replace('{album}', name)
-          .replace(
-            '{artist}',
-            spelledText(
-              projectName(albumArtist(page.album, page.locale), page.locale),
-            ),
-          ),
+          .replace('{artist}', spelledText(artist.name)),
     ),
     (locale) => albumPath(page.album, locale),
-    albumCover(page.album),
+    cover,
   );
 }

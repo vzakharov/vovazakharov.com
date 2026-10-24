@@ -54,6 +54,8 @@ const titleGlossSchema = z.object({
 
 export type TitleGloss = z.infer<typeof titleGlossSchema>;
 
+export type Glossed = { gloss: TitleGloss | undefined };
+
 /** A song's, an album's or an artist's hook in one locale, and its page's meta description. */
 const hookedSchema = z.object({ hook: z.string().min(1).optional() });
 

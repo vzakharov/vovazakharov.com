@@ -1,30 +1,25 @@
-export { albumArtist, albumCover, albumGloss, albumTitle } from './albums';
-export { projectGloss, projectName } from './artists';
 export {
-  albumDetail,
-  albumKind,
-  albumWipNote,
-  albumYears,
   artistDiscography,
   artistSongs,
   catalogueAlbums,
   catalogueArtists,
   newestAlbums,
 } from './catalogue';
-export { readSiteCatalogueNames } from './catalogue-names';
 export {
-  albumText,
-  artistText,
-  preludeOf,
-  type StoryParts,
-} from './catalogue-text';
+  albumInfo,
+  artistInfo,
+  catalogueAlbum,
+  songInfo,
+} from './catalogue-entries';
+export { readSiteCatalogueNames } from './catalogue-names';
+export { preludeOf, type StoryParts } from './catalogue-text';
 export {
   type CreditedSong,
+  type Glossed,
   type Playable,
   type ScriptKept,
   SONGS,
   type SungLanguage,
-  type TitleGloss,
 } from './frontmatter';
 export { type HookRun, hookRuns, textHook } from './hook-marks';
 export {
@@ -69,7 +64,6 @@ export {
   localizeSong,
   type SongDocument,
   type SongLyrics,
-  songLyrics,
   type SongOnRelease,
   sungStanzas,
   wordsText,

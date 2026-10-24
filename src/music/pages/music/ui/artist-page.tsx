@@ -7,19 +7,13 @@ import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
-  albumCover,
-  albumDetail,
-  albumPath,
-  albumTitle,
-  albumWipNote,
   artistDiscography,
+  artistInfo,
   artistPath,
   artistSongs,
-  artistText,
+  catalogueAlbum,
   catalogueSongs,
   musicPath,
-  projectGloss,
-  projectName,
   scriptSample,
   songPicture,
   songTrack,
@@ -43,18 +37,17 @@ import { Story } from './story';
 export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const songs = catalogueSongs();
   const copy = messages(locale);
-  const text = artistText(artist, locale);
-  const name = projectName(artist, locale);
+  const { name, gloss, text } = artistInfo(artist, locale);
   const { albums, singles } = artistDiscography(artist, locale, songs);
   const billed = artistSongs(artist, songs);
-  const albumTiles = albums.map((album) => ({
-    href: albumPath(album, locale),
-    slug: album,
-    name: albumTitle(album, locale),
-    cover: albumCover(album),
-    detail: albumDetail(album, locale, songs).join(' · '),
-    wip: albumWipNote(album, locale),
-  }));
+  const albumTiles = albums.map((album) => {
+    const { detail, ...tile } = catalogueAlbum(album, locale, songs);
+
+    return {
+      ...pick(tile, 'href', 'slug', 'name', 'cover', 'wip'),
+      detail: detail.join(' · '),
+    };
+  });
   const singleTiles = singles.map((single) => {
     const { titles, routes } = songTrack(single);
 
@@ -88,7 +81,7 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
         <CatalogueHeader
           kind={copy.kind.artist}
           title={name}
-          gloss={projectGloss(artist, locale)}
+          {...{ gloss }}
           size={catalogueSize(
             {
               albums: albums.length,
