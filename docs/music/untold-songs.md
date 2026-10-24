@@ -20,13 +20,6 @@
 - [Мы вспоминаем тихий снег…](../../sites/vova/public/music/songs/quiet-snow.md) — hook, story
 - [Уж сколько их упало в эту бездну…](../../sites/vova/public/music/songs/requiem.md) — hook, story
 
-<<<<<<< HEAD
-### Singles
-
-- [Ты не терзайся…](../../sites/vova/public/music/songs/sonnet-74.md) — hook
-
-=======
->>>>>>> origin/main
 ## Dead Pixel Lounge
 
 ### Singles
@@ -135,13 +128,9 @@
 
 ### for-none-and-for-all
 
-<<<<<<< HEAD
 - [Просто устал](../../sites/vova/public/music/songs/just-tired.md) — hook, story
-- [На пальцы](../../sites/vova/public/music/songs/onto-fingers.md) — hook
-- [Я куплю тебе дом](../../sites/vova/public/music/songs/buy-you-a-house.md) — hook
 - [Назови меня по имени](../../sites/vova/public/music/songs/call-me-by-name.md) — hook, story
 - [Там](../../sites/vova/public/music/songs/there.md) — hook, story
-- [Метель](../../sites/vova/public/music/songs/dead-man.md) — hook
 - [Призрачный блюз](../../sites/vova/public/music/songs/ghostly-blues.md) — hook, story
 - [Уходи](../../sites/vova/public/music/songs/go-away.md) — hook, story
 - [Окна](../../sites/vova/public/music/songs/windows.md) — hook, story
@@ -149,24 +138,8 @@
 ### stronger-than-love
 
 - [Сколько](../../sites/vova/public/music/songs/how-long.md) — hook, story
-- [Студентка](../../sites/vova/public/music/songs/student-girl.md) — hook
-- [Яд](../../sites/vova/public/music/songs/poison.md) — hook
 - [Доброе утро](../../sites/vova/public/music/songs/good-morning.md) — hook, story
 - [За горизонт](../../sites/vova/public/music/songs/beyond-the-horizon.md) — hook, story
-=======
-- [Просто устал](../../apps/vova/public/music/songs/just-tired.md) — hook, story
-- [Назови меня по имени](../../apps/vova/public/music/songs/call-me-by-name.md) — hook, story
-- [Там](../../apps/vova/public/music/songs/there.md) — hook, story
-- [Призрачный блюз](../../apps/vova/public/music/songs/ghostly-blues.md) — hook, story
-- [Уходи](../../apps/vova/public/music/songs/go-away.md) — hook, story
-- [Окна](../../apps/vova/public/music/songs/windows.md) — hook, story
-
-### stronger-than-love
-
-- [Сколько](../../apps/vova/public/music/songs/how-long.md) — hook, story
-- [Доброе утро](../../apps/vova/public/music/songs/good-morning.md) — hook, story
-- [За горизонт](../../apps/vova/public/music/songs/beyond-the-horizon.md) — hook, story
->>>>>>> origin/main
 
 ## Иске Кормаш
 
@@ -194,64 +167,27 @@
 
 ### father-river
 
-<<<<<<< HEAD
-- [Река. Часть первая / Побег](../../sites/vova/public/music/songs/river-part-one.md) — hook
-- [Пегий пёс, бегущий краем моря](../../sites/vova/public/music/songs/piebald-dog.md) — hook
-- [Мой Султан](../../sites/vova/public/music/songs/my-sultan.md) — hook
-- [O, my offence is rank…](../../sites/vova/public/music/songs/my-offence-is-rank.md) — hook
-- [Валентинов день](../../sites/vova/public/music/songs/valentines-day.md) — hook
-- [Река. Часть третья](../../sites/vova/public/music/songs/river-part-three.md) — hook
 - [Пегий пёс (Реприза)](../../sites/vova/public/music/songs/piebald-dog-reprise.md) — hook, story
-- [Всё в этой жизни начинается с любви](../../sites/vova/public/music/songs/everything-begins-with-love.md) — hook
-- [Младший внучек мой](../../sites/vova/public/music/songs/youngest-grandson.md) — hook
-
-### father-sea
-
-- [Каприс Каркасси](../../sites/vova/public/music/songs/carcassi-caprice.md) — hook
-- [В безмерности небес](../../sites/vova/public/music/songs/boundless-skies.md) — hook
-- [Снег идёт](../../sites/vova/public/music/songs/snow-is-falling.md) — hook
-- [Прощание](../../sites/vova/public/music/songs/farewell.md) — hook
 
 ### hamlet
 
 - [Гамлет](../../sites/vova/public/music/songs/hamlet.md) — hook, story
-- [Why Let the Stricken Deer Go Weep](../../sites/vova/public/music/songs/stricken-deer.md) — hook
 - [Гамлет (Extended Version)](../../sites/vova/public/music/songs/hamlet-extended.md) — hook, story
-=======
-- [Пегий пёс (Реприза)](../../apps/vova/public/music/songs/piebald-dog-reprise.md) — hook, story
-
-### hamlet
-
-- [Гамлет](../../apps/vova/public/music/songs/hamlet.md) — hook, story
-- [Гамлет (Extended Version)](../../apps/vova/public/music/songs/hamlet-extended.md) — hook, story
->>>>>>> origin/main
 
 ### nostalgia
 
-- [Бабочка](../../apps/vova/public/music/songs/butterfly-rock.md) — story
+- [Бабочка](../../sites/vova/public/music/songs/butterfly-rock.md) — story
 
 ### vagabond
 
-<<<<<<< HEAD
 - [Calm into the Storm](../../sites/vova/public/music/songs/calm-into-the-storm.md) — hook, story
 - [Mist over Azov](../../sites/vova/public/music/songs/mist-over-azov.md) — hook, story
-- [Inverno](../../sites/vova/public/music/songs/inverno.md) — hook
 - [8849](../../sites/vova/public/music/songs/8849.md) — hook, story
 - [Call of the Steppe](../../sites/vova/public/music/songs/call-of-the-steppe.md) — hook, story
 - [Sirens of the Sands](../../sites/vova/public/music/songs/sirens-of-the-sands.md) — hook, story
 - [Wanderer’s Farewell](../../sites/vova/public/music/songs/wanderers-farewell.md) — hook, story
 - [Άγιος ο σκοπός](../../sites/vova/public/music/songs/agios-o-skopos.md) — hook, story
 - [Vagabond](../../sites/vova/public/music/songs/vagabond.md) — hook, story
-=======
-- [Calm into the Storm](../../apps/vova/public/music/songs/calm-into-the-storm.md) — hook, story
-- [Mist over Azov](../../apps/vova/public/music/songs/mist-over-azov.md) — hook, story
-- [8849](../../apps/vova/public/music/songs/8849.md) — hook, story
-- [Call of the Steppe](../../apps/vova/public/music/songs/call-of-the-steppe.md) — hook, story
-- [Sirens of the Sands](../../apps/vova/public/music/songs/sirens-of-the-sands.md) — hook, story
-- [Wanderer’s Farewell](../../apps/vova/public/music/songs/wanderers-farewell.md) — hook, story
-- [Άγιος ο σκοπός](../../apps/vova/public/music/songs/agios-o-skopos.md) — hook, story
-- [Vagabond](../../apps/vova/public/music/songs/vagabond.md) — hook, story
->>>>>>> origin/main
 
 ### who-is-happy-in-russia
 
