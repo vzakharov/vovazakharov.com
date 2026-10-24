@@ -11,26 +11,28 @@ import type { Slugged } from '@/kernel/shared/content';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithFileName } from '@/kernel/shared/typings';
 
-import type { MusicAlbum } from '@/music/shared/catalogue/index.node-safe';
-import { songPlacements } from '@/music/pages/music/lib/album-tracks';
-import { albumArtist, albumTitle } from '@/music/pages/music/lib/albums';
-import { projectName } from '@/music/pages/music/lib/artists';
-import { entryText } from '@/music/pages/music/lib/lyric-notes';
-import type { RepoLocation } from '@/music/pages/music/lib/master-url';
-import { songPath } from '@/music/pages/music/lib/music-urls';
-import { songPicture } from '@/music/pages/music/lib/pictures';
+import {
+  albumArtist,
+  albumTitle,
+  listSongPages,
+  projectName,
+  savedNames,
+  songBilling,
+  type SongDocument,
+  songPath,
+  songPicture,
+  sungStanzas,
+} from '@/music/shared/catalogue';
 import {
   downloadExtensions,
+  entryText,
+  type MusicAlbum,
   playedName,
+  type RepoLocation,
   songHome,
+  songPlacements,
   type WithExtension,
-} from '@/music/pages/music/lib/song-files';
-import { savedNames } from '@/music/pages/music/lib/song-names';
-import {
-  type SongDocument,
-  sungStanzas,
-} from '@/music/pages/music/lib/song-text';
-import { listSongPages, songBilling } from '@/music/pages/music/lib/songs';
+} from '@/music/shared/catalogue/index.node-safe';
 
 import { buildTags, type SongTags, type TagSource } from './song-tags.ts';
 

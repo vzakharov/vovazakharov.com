@@ -21,8 +21,8 @@ import {
   songFiles,
 } from '../../kernel/scripts/lib/public-markdown.ts';
 import type { WithFilePath } from '../../kernel/shared/typings/index.ts';
-import { localeProse } from '../pages/music/index.node-safe.ts';
 import { readCatalogueNames } from '../shared/catalogue/catalogue-names.ts';
+import { localeProse } from '../shared/catalogue/index.node-safe.ts';
 
 const LIST = 'docs/music/untold-songs.md';
 const LOCALES = ['en', 'ru'] as const;

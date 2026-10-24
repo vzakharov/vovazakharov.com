@@ -18,7 +18,7 @@ import { z } from 'zod';
 import type {
   RepoBranch,
   WithBranch,
-} from '@/music/pages/music/lib/master-url';
+} from '@/music/shared/catalogue/index.node-safe';
 
 import {
   githubApi,

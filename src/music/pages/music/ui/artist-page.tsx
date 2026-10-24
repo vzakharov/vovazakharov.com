@@ -6,23 +6,29 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { scriptSample } from '@/music/shared/catalogue';
-import { messages } from '@/music/shared/i18n';
-
-import { albumCover, albumTitle } from '../lib/albums';
-import { projectGloss, projectName } from '../lib/artists';
 import {
+  albumCover,
   albumDetail,
+  albumPath,
+  albumTitle,
   albumWipNote,
   artistDiscography,
+  artistPath,
   artistSongs,
-} from '../lib/catalogue';
-import { artistText } from '../lib/catalogue-text';
+  artistText,
+  catalogueSongs,
+  musicPath,
+  projectGloss,
+  projectName,
+  scriptSample,
+  songPicture,
+  songTrack,
+  trackNames,
+} from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
+
 import { catalogueSize } from '../lib/duration';
 import type { ArtistPageProps } from '../lib/music-route-params';
-import { albumPath, artistPath, musicPath } from '../lib/music-urls';
-import { songPicture } from '../lib/pictures';
-import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
 import { HookLine } from './hook-line';

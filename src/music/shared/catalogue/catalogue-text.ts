@@ -3,10 +3,13 @@ import 'server-only';
 import type { ProseSource, ServedMarkdown } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
 
-import type { MusicAlbum, MusicProject } from '@/music/shared/catalogue';
-
-import { albumFile, artistFile } from './catalogue-files';
-import { localePrelude, localeProse, type PreludePlacement } from './sections';
+import { albumFile, artistFile } from './catalogue-files.ts';
+import type { MusicAlbum, MusicProject } from './names.ts';
+import {
+  localePrelude,
+  localeProse,
+  type PreludePlacement,
+} from './sections.ts';
 
 /** A page's prose in its two parts, either of which may be missing. */
 export type StoryParts = {

@@ -34,14 +34,16 @@ import { collectionDir } from '@/kernel/shared/content/index.node-safe';
 import { byLocale, inLocale } from '@/kernel/shared/i18n';
 import type { Dated, Named, Timed } from '@/kernel/shared/typings';
 
-import { readSiteCatalogueNames } from '@/music/shared/catalogue/catalogue-names';
-import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
-import { servedPath } from '@/music/pages/music/lib/master-url';
-import { SONG_BRANCH } from '@/music/pages/music/lib/song-files';
 import {
+  readSiteCatalogueNames,
   readTagManifest,
   writeTagManifest,
-} from '@/music/pages/music/lib/tag-manifest';
+} from '@/music/shared/catalogue';
+import {
+  MUSIC_ORGANIZATION,
+  servedPath,
+  SONG_BRANCH,
+} from '@/music/shared/catalogue/index.node-safe';
 
 import { fetchStreamInfo, type StreamInfo } from './lib/flac-stream-info.ts';
 import {

@@ -1,13 +1,12 @@
-import type { SungLanguage } from '@/music/shared/catalogue';
-import { romanizeRussian } from '@/music/shared/catalogue/index.node-safe';
-
+import type { SungLanguage } from './frontmatter.ts';
 import {
   carriesNote,
   entryText,
   type LyricLine,
   type Stanzas,
-} from './lyric-notes';
-import { splitStanzas } from './sections';
+} from './lyric-notes.ts';
+import { romanizeRussian } from './romanize.ts';
+import { splitStanzas } from './sections.ts';
 
 /**
  * The words in Latin letters, entry for entry with their read stanzas. An entry

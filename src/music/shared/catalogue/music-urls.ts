@@ -5,12 +5,9 @@ import {
 } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
 
-import {
-  type MusicAlbum,
-  type MusicProject,
-  projectSlug,
-} from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
+
+import { type MusicAlbum, type MusicProject, projectSlug } from './names.ts';
 
 export const ARTISTS_SEGMENT = 'artists';
 

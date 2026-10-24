@@ -44,7 +44,7 @@
     "content:pdf:vova": "scripts/in-site.sh vova tsx src/vova/scripts/render-pdf.ts",
     "content:pdf:bible": "scripts/in-site.sh bible tsx src/bible/scripts/render-pdf.ts",
     "content:pdf:basilisk": "scripts/in-site.sh basilisk tsx src/basilisk/scripts/render-pdf.ts",
-    "music:scaffold": "scripts/in-site.sh vova tsx src/music/scripts/scaffold-song.ts",
+    "music:scaffold": "scripts/in-site.sh vova tsx --conditions=react-server src/music/scripts/scaffold-song.ts",
     "music:masters": "scripts/in-site.sh vova tsx --conditions=react-server src/music/scripts/masters.ts",
     "music:untold": "node src/music/scripts/list-untold-songs.ts",
     "styles:codegen": "node src/shell/scripts/generate-styles.ts",

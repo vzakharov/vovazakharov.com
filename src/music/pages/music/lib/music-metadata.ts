@@ -7,20 +7,31 @@ import {
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
 
-import { spelledText, textHook } from '@/music/shared/catalogue';
+import {
+  albumArtist,
+  albumCover,
+  albumPath,
+  albumText,
+  albumTitle,
+  artistCard,
+  artistPath,
+  artistText,
+  catalogueSongs,
+  MUSIC_COLLAGE,
+  pictureCard,
+  projectName,
+  spelledText,
+  tabLabels,
+  tabPath,
+  textHook,
+} from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { albumArtist, albumCover, albumTitle } from './albums';
-import { projectName } from './artists';
-import { albumText, artistText } from './catalogue-text';
 import type {
   AlbumPageProps,
   ArtistPageProps,
   IndexPageProps,
 } from './music-route-params';
-import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
-import { artistCard, MUSIC_COLLAGE, pictureCard } from './pictures';
-import { catalogueSongs } from './songs';
 
 /**
  * A catalogue page, in one language, deferring to the addressed one as the

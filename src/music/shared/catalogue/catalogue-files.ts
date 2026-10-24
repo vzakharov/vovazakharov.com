@@ -7,14 +7,11 @@ import {
   albumFrontmatterSchema,
   artistFrontmatterSchema,
   type LocalName,
-  type MusicAlbum,
-  type MusicProject,
-  projectSlug,
   type TitleGloss,
-} from '@/music/shared/catalogue';
-import { spell, type Spelled } from '@/music/shared/catalogue/index.node-safe';
-
-import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls';
+} from './frontmatter.ts';
+import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls.ts';
+import { type MusicAlbum, type MusicProject, projectSlug } from './names.ts';
+import { spell, type Spelled } from './spelling.ts';
 
 type CatalogueFile<F> = NonNullable<ReturnType<typeof loadProse<F>>>;
 

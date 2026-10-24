@@ -9,9 +9,9 @@ import {
 import { byLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
 import { composeSchemas } from '@/kernel/shared/lib/compose-schemas';
 
-import { albumSchema, projectSchema } from './names';
-import { creditedNameSchema } from './people';
-import { songDateSchema } from './song-date';
+import { albumSchema, projectSchema } from './names.ts';
+import { creditedNameSchema } from './people.ts';
+import { songDateSchema } from './song-date.ts';
 
 /**
  * What the vocal is in — `instrumental` where there is none. Beyond the site's

@@ -2,10 +2,15 @@ import 'server-only';
 
 import type { Locale } from '@/kernel/shared/i18n';
 
-import { type SongFile, songFiles } from './song-files';
-import type { SongDocument } from './song-text';
-import { songBilling } from './songs';
-import { assertWritten } from './written-guard';
+import {
+  assertWritten,
+  songBilling,
+  type SongDocument,
+} from '@/music/shared/catalogue';
+import {
+  type SongFile,
+  songFiles,
+} from '@/music/shared/catalogue/index.node-safe';
 
 /** The song's files as the locale's page links them, each one a tag run wrote. */
 export function songDownloads(

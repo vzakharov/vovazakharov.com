@@ -1,10 +1,9 @@
 import { byLocale } from '@/kernel/shared/i18n';
 import type { WithChildren } from '@/kernel/shared/typings';
 
+import { listSongs, radioPath } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { radioPath } from '../lib/music-urls';
-import { listSongs } from '../lib/songs';
 import { PlayerProvider } from './player-provider';
 
 /**

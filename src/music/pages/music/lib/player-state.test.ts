@@ -3,8 +3,11 @@ import { describe, it } from 'node:test';
 
 import {
   billingText,
-  currentTrack,
   hasLossless,
+} from '@/music/shared/catalogue/index.node-safe';
+
+import {
+  currentTrack,
   initialPlayerState,
   isQueued,
   placeTracks,

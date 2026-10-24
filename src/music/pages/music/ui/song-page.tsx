@@ -14,29 +14,33 @@ import { FileLink, hoverDim, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
+  listSongPages,
+  localizeSong,
+  musicPath,
+  pictureCard,
+  preludeOf,
   scriptSample,
+  songLyrics,
+  type SongPageEntry,
+  songPath,
+  songPicture,
   songTitle,
+  songTrack,
   spelledText,
   textHook,
+  trackNames,
+  wordsText,
 } from '@/music/shared/catalogue';
+import {
+  type SongFile,
+  songRepositoryUrl,
+} from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
-import { preludeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';
 import type { SongPageProps } from '../lib/music-route-params';
-import { musicPath, songPath } from '../lib/music-urls';
-import { pictureCard, songPicture } from '../lib/pictures';
-import { songRepositoryUrl } from '../lib/projects';
 import { songDownloads } from '../lib/song-downloads';
-import type { SongFile } from '../lib/song-files';
-import { localizeSong, songLyrics, wordsText } from '../lib/song-text';
 import { songVideo } from '../lib/song-video';
-import {
-  listSongPages,
-  type SongPageEntry,
-  songTrack,
-  trackNames,
-} from '../lib/songs';
 import { CoverHead } from './cover-head';
 import { ExplicitBadge } from './explicit-badge';
 import { HookLine } from './hook-line';

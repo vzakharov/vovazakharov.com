@@ -4,12 +4,8 @@
  * counts a song on two releases on both.
  */
 
-import type {
-  AlbumPlacement,
-  MusicAlbum,
-  Released,
-  Tracked,
-} from '@/music/shared/catalogue';
+import type { AlbumPlacement, Released, Tracked } from './frontmatter.ts';
+import type { MusicAlbum } from './names.ts';
 
 /** Every release the song is on, the one it is filed under first. */
 export function songPlacements({

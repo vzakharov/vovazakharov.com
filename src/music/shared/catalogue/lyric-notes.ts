@@ -1,6 +1,6 @@
 import type { Labeled, WithText } from '@/kernel/shared/typings';
 
-import { splitStanzas } from './sections';
+import { splitStanzas } from './sections.ts';
 
 /**
  * A stretch of a line, and the note it carries where it has one — a line of

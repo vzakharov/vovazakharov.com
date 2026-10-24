@@ -11,15 +11,19 @@ import { Subheading, TextLink } from '@/shell/shared/ui';
 
 import {
   type ScriptKept,
+  type SongLyrics,
   SONGS,
   type SungLanguage,
 } from '@/music/shared/catalogue';
+import {
+  inlineRuns,
+  type LyricLine,
+  romanizedTag,
+  type Transliteration,
+  type WithStanzas,
+} from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
-import { inlineRuns } from '../lib/lyric-inline';
-import type { LyricLine, WithStanzas } from '../lib/lyric-notes';
-import type { SongLyrics } from '../lib/song-text';
-import { romanizedTag, type Transliteration } from '../lib/transliteration';
 import classes from './music.module.scss';
 import { NotedSpan } from './noted-span';
 

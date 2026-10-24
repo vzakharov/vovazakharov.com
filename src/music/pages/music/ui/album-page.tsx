@@ -6,18 +6,29 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { NameLink, PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { scriptSample } from '@/music/shared/catalogue';
+import {
+  albumArtist,
+  albumCover,
+  albumGloss,
+  albumKind,
+  albumPath,
+  albumText,
+  albumTitle,
+  albumWipNote,
+  albumYears,
+  artistPath,
+  catalogueSongs,
+  musicPath,
+  projectName,
+  scriptSample,
+  songTrack,
+  trackNames,
+} from '@/music/shared/catalogue';
+import { albumTracks } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
-import { albumTracks } from '../lib/album-tracks';
-import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
-import { projectName } from '../lib/artists';
-import { albumKind, albumWipNote, albumYears } from '../lib/catalogue';
-import { albumText } from '../lib/catalogue-text';
 import { catalogueSize } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
-import { albumPath, artistPath, musicPath } from '../lib/music-urls';
-import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
 import { FactLine } from './fact-line';

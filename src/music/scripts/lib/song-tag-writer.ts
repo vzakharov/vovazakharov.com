@@ -20,7 +20,7 @@ import {
   XiphComment,
 } from 'node-taglib-sharp';
 
-import { extensionOf } from '@/music/pages/music/lib/song-files';
+import { extensionOf } from '@/music/shared/catalogue/index.node-safe';
 
 import type { SongTags } from './song-tags.ts';
 

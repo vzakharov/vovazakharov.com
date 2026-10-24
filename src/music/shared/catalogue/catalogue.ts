@@ -2,18 +2,18 @@ import 'server-only';
 
 import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 
+import { messages } from '@/music/shared/i18n';
+
+import { albumTracks } from './album-tracks.ts';
+import { albumArtist, albumWip } from './albums.ts';
 import {
   type MusicAlbum,
   musicAlbumSlugs,
   type MusicProject,
   musicProjectNames,
-} from '@/music/shared/catalogue';
-import { messages } from '@/music/shared/i18n';
-
-import { albumTracks } from './album-tracks';
-import { albumArtist, albumWip } from './albums';
-import { type ReleaseKind, releaseKind } from './release-kind';
-import type { SongDocument } from './song-text';
+} from './names.ts';
+import { type ReleaseKind, releaseKind } from './release-kind.ts';
+import type { SongDocument } from './song-text.ts';
 
 /*
  * The catalogue's artists and albums, each derived from the songs handed in, so

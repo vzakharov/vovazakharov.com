@@ -9,9 +9,12 @@ import { contentHash } from '@/kernel/shared/content/index.node-safe';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithPath } from '@/kernel/shared/typings';
 
-import { servedPath, type WithRepo } from '@/music/pages/music/lib/master-url';
-import { extensionOf } from '@/music/pages/music/lib/song-files';
-import { TAG_MANIFEST } from '@/music/pages/music/lib/tag-manifest';
+import { TAG_MANIFEST } from '@/music/shared/catalogue';
+import {
+  extensionOf,
+  servedPath,
+  type WithRepo,
+} from '@/music/shared/catalogue/index.node-safe';
 
 import type { MasterFile, SongTagJob } from './song-tag-source.ts';
 
