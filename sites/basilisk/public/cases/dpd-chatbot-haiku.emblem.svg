@@ -1,0 +1,21 @@
+<!-- BAS-0023: a chat bubble full of swearing, with a parcel at its tail. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <mask id="dpd-chatbot-haiku-parcel">
+      <rect width="1024" height="1024" fill="#fff"/>
+      <rect x="548" y="572" width="174" height="150" fill="#000"/>
+    </mask>
+  </defs>
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path mask="url(#dpd-chatbot-haiku-parcel)" d="M 360 320 L 664 320 Q 724 320 724 380 L 724 560 Q 724 620 664 620 L 470 620 L 390 700 L 405 620 L 360 620 Q 300 620 300 560 L 300 380 Q 300 320 360 320 Z"/>
+    <g stroke-width="18">
+      <path d="M 385 420 L 370 530 M 425 420 L 410 530 M 355 455 L 445 455 M 350 495 L 440 495"/>
+      <path d="M 510 405 L 510 485"/>
+      <circle cx="510" cy="530" r="6" fill="currentColor"/>
+      <path d="M 610 420 L 610 520 M 567 445 L 653 495 M 567 495 L 653 445"/>
+    </g>
+    <rect x="568" y="604" width="134" height="98" rx="6"/>
+    <path d="M 568 604 L 590 584 L 724 584 L 702 604 M 724 584 L 724 680 L 702 702" stroke-width="18"/>
+    <path d="M 635 604 L 635 640" stroke-width="14"/>
+  </g>
+</svg>

@@ -1,7 +1,6 @@
 ---
 title: 'Река. Часть первая / Побег'
 date: 2024-09-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'pobeg'
@@ -16,6 +15,9 @@ credits:
 en:
   title:
     translation: 'The River. Part One / Escape'
+  hook: 'A lark that ran away and became a river.'
+ru:
+  hook: 'Жаворонок, сбежавший и ставший рекой.'
 ---
 
 <!-- For Vova to check: The pobeg repository also holds reka.flac, which may be another render of «Река. Часть вторая» (reka-2, which plays the album's 4_reka.flac). -->

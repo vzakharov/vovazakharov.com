@@ -1,7 +1,6 @@
 ---
 title: 'The Other Heart'
 date: 2024-07-23
-status: done
 language: en
 project: ['GENERATED']
 repo: 'heart'

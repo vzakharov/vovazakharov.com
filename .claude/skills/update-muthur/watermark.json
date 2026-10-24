@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "29efa2d9a76dd7327a11906a10fe705bf4d50918",
-  "lastSyncedAt": "2026-10-16",
+  "lastSyncedSha": "3380c691761202667d8c90f37bfa622d2dbe386e",
+  "lastSyncedAt": "2026-10-23",
   "optIn": "take every opt-in path unless the operator's request says otherwise — the operator's standing call, 2026-10-08",
   "adopted": [
     {
@@ -12,7 +12,7 @@
     },
     ".claude/skills/CLAUDE.md",
     {
-      ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
+      ".claude/rules/stack.md": "rewritten for this repo: this stack's vet roster and why each check is on it, plus the source's three sites a toolchain change wires and a fourth, CI. The source's clause on what vet.sh exits with no stack yet is the template's — this repo has a stack, and spinoff states the clause where it seeds one."
     },
     ".claude/rules/staging.md",
     ".claude/rules/markdown.md",
@@ -23,7 +23,7 @@
       ".claude/context-budget/": "adopted whole, this repo's `MUTHUR_CONTEXT_BUDGET_SUBAGENT` extension included. `manual-relay/` holds one opt-in per operator handle, like `.claude/voice/operators/`; a source entry for a handle is that operator's to set here, not a port."
     },
     {
-      ".claude/costs/": "the rows are each repo's own, on its `cost-ledger` branch, and never synced. The Stop hook keeps a gate the source lacks, on when the branch's display copy is committed — `.claude/costs/CLAUDE.md` § \"When the branch's copy is committed\" — so a verbatim re-copy of the hook drops it."
+      ".claude/costs/": "the rows are each repo's own, on its `cost-ledger` branch, and never synced. The Stop hook keeps a gate the source lacks, on when the branch's display copy is committed — `.claude/costs/CLAUDE.md` § \"When the branch's copy is committed\" — so a verbatim re-copy of the hook drops it. `rates.json` is the shared table, taken verbatim: this repo's own roles live in `rates.repo.json` on `cost-ledger`, so a role it adds is a `role set`, never an edit to the tree's table."
     },
     ".claude/cold-cache/",
     {
@@ -39,7 +39,9 @@
     ".claude/skills/branch-rename/",
     ".claude/skills/check-merge/",
     ".claude/skills/dry/",
-    ".claude/skills/finalize/",
+    {
+      ".claude/skills/finalize/": "taken with one edit: Step 1 pushes before vetting, because this repo's vet.sh vets the pushed head and refuses a tree that differs from it. A verbatim re-copy of SKILL.md drops the push and leaves Step 1 refused on every unpushed fix."
+    },
     ".claude/skills/from-branch/",
     ".claude/skills/go/",
     ".claude/skills/handle/",
@@ -70,7 +72,9 @@
     {
       ".claude/skills/squash-message/": "taken with one translation: the title rule allows a site scope, `<type>[(<site>)]:`, because here the squash subject's scope picks which site a merge publishes (CLAUDE.md § \"Deployment\"). The source forbids a scope, having one site to deploy; a sync that re-copies the rule unscoped makes every merge publish every site."
     },
-    ".claude/skills/sync-branch/",
+    {
+      ".claude/skills/sync-branch/": "taken with one edit: Step 5 pushes before vetting, and Step 6's push is then a no-op, for the reason `/finalize`'s row gives. A verbatim re-copy of SKILL.md vets an unpushed merge, which this repo's vet.sh refuses."
+    },
     ".claude/skills/tend-prose/",
     ".claude/skills/watch-ci/",
     "scripts/check-claude-md-size.sh",
@@ -89,12 +93,19 @@
     "scripts/pr-body.py",
     "scripts/run-parallel.sh",
     {
-      "scripts/vet.sh": "rewritten for this stack: pnpm build alone and first (it regenerates .next/types/, which tsconfig includes), then styles:codegen alone, then the rest fanned out through run-parallel.sh. .claude/rules/stack.md carries the roster and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
+      "scripts/vet.sh": "rewritten for this stack: .claude/rules/stack.md carries what it runs, where, and why each check sits where it does. Read the source's edits for the idea; the file itself never lands."
     },
     "scripts/staged.sh",
     {
       ".claude/skills/bootstrap-workflow-dispatch/": "taken without the source's /test-on-gh pointer, which this repo declines: preview.yml, a dispatch-only workflow, is what made the 404 this skill clears reachable here."
-    }
+    },
+    {
+      ".claude/rules/multi-repo.md": "taken with one translation: its citation of the setup-script hook names vzakharov/muthur's docs/adopting/web-remote.md, which this repo declines, so the local copy says where that doc lives."
+    },
+    "scripts/find-repo.py",
+    "scripts/multi-repo-hooks.py",
+    "scripts/lib/session.py",
+    "scripts/relay-last-reply.py"
   ],
   "declined": {
     ".claude/skills/audit-github-backlog/": "the backlog is a handful of issues an operator can read in one sitting — revisit when it is large enough that a sweep beats reading it",
@@ -106,7 +117,7 @@
     ".claude/skills/readonly-probe/": "no production datastore",
     ".claude/skills/release/": "merging to main deploys automatically; there is no versioned release to cut",
     ".claude/skills/renumber-migration/": "no migrations",
-    ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and the whole suite is fast enough to sit in the vet fan-out, so there is no bucket too slow or too heavy for a local run to dispatch to CI. A test suite existing is not the condition — this is. Revisit if one appears that needs a browser, a service, or minutes rather than seconds",
+    ".claude/skills/test-on-gh/": "nothing runs on pull requests here, and the bare vet run dispatches the whole suite to CI itself, so there is no bucket left for a dispatcher to pick. A test suite existing is not the condition — this is. Revisit if one appears that needs a browser, a service, or minutes rather than seconds",
     ".claude/skills/update-muthur/catalog/": "never — the catalog's parts, one file per group, split out of catalog.md and declined on its reason below: Step 4a reads them from the clone",
     ".claude/skills/update-muthur/catalog.md": "never — the source's own inventory of what it ships, describing the source's tree rather than this repo. Step 4a reads it from the clone, where it is current by construction; a vendored copy would only drift, and the source's own banner says to delete it wherever it turns up downstream. check-skill-catalog.sh reads it at this path and skips its catalog assertions when absent, which is the normal state here; .claude/skills/CLAUDE.md records that. Lived at docs/catalog.md until the source moved it off a path an adopter can own",
     "ADOPTING.md": "the source's guide for a repo taking the template on, which this repo did once and will not do again. Revisit only if a repo ever adopts from here — it would need its own, not a copy of the source's",

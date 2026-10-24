@@ -1,7 +1,6 @@
 ---
 title: 'La Scorpionne (Dans Ma Nature)'
 date: 2024-07-23
-status: done
 language: fr
 project: ['GENERATED']
 repo: 'ghosts-of-flesh'

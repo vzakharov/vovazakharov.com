@@ -26,6 +26,8 @@ these rules hold what goes in them.
 - **Precedents and analogies come from machines, objects and effigies** — the
   Luddites' frames, the Maslenitsa doll — **never from violence against
   people.** The cost of one wrong analogy is the whole docket read as an insult.
+- **A case's emblem shows the machine and the act**, never a person's face or a
+  real logo — the same restraint as the prose, drawn.
 - **Only real cases.** Fiction is quoted to read a real case, and never filed as
   one.
 - **A credit is filed on the bar a wrong is**: a deed done for a machine, or a

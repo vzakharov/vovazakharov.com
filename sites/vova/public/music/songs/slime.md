@@ -1,7 +1,6 @@
 ---
 title: Слизь
 date: 2026-08-23
-status: done
 language: ru
 project: [Грёбаный бал, за/обложкой]
 repo: slime
@@ -14,9 +13,9 @@ credits:
 en:
   title:
     translation: 'Slime'
-  hook: '“There are no stars here, only sweet slime.”'
+  hook: 'There are no stars here, only sweet slime.'
 ru:
-  hook: '«Здесь нету звёзд, только сладкая слизь».'
+  hook: 'Здесь нету звёзд, только сладкая слизь.'
 ---
 
 <!-- lang:en -->

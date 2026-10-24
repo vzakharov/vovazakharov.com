@@ -1,0 +1,11 @@
+actor.mp3 — 3:59
+tempo 128–133 BPM, median 129
+key F♯ minor (r 0.63; next B minor, 0.63)
+tuning A = 440 Hz +1 ¢
+bars drawn on no zoom — only where the snare or the chord changes settle where one starts, so a section without them still has bars; the whole song's picture draws none
+sections — number, start–end, tempo, loudness, chords with runs merged and a repeating loop folded (N: no chord, the accompaniment too quiet to name one):
+1  0:00–1:18  128 BPM  −9 dB  Bm D G Em ×4 + B Em B Em Bm C♯ F♯m G G♯m E G F♯m Bm F♯m Bm F♯m
+2  1:18–2:38  130 BPM  −9 dB  Bm Dm G Em Bm D G Em Bm Em Bm C♯m F♯m G B + F♯m Bm ×3 + Em Bm C♯m F♯m G
+3  2:38–2:47  133 BPM  −12 dB  G Am B
+4  2:47–3:47  129 BPM  −9 dB  B F♯m Bm F♯m E B F♯m Bm F♯m D Bm Em G F♯m C♯m F♯m G Bm C♯m F♯m G F♯m
+5  3:47–3:59  131 BPM  −10 dB  F♯m Bm

@@ -1,7 +1,6 @@
 ---
 title: 'Ink'
 date: 2024-09-08
-status: done
 language: en
 project: ['GENERATED']
 repo: 'ink'

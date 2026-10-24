@@ -13,7 +13,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+<<<<<<< HEAD:src/music/shared/catalogue/catalogue-names.ts
 import { collectionDir } from '../../../kernel/shared/content/collections.ts';
+=======
+import { collectionDir, isDocumentFile } from '../content/collections.ts';
+>>>>>>> origin/main:src/shared/music-catalogue/catalogue-names.ts
 import { musicAlbumSchema, musicProjectSchema, SLUG } from './name-brands.ts';
 
 /** What this module reads of an artist's file; `artistFrontmatterSchema` reads the rest. */
@@ -22,7 +26,7 @@ const artistNamingSchema = z.object({ name: musicProjectSchema });
 function slugs(directory: string): string[] {
   const found = fs
     .readdirSync(directory)
-    .filter((file) => file.endsWith('.md'))
+    .filter((file) => isDocumentFile(file))
     .map((file) => file.slice(0, -'.md'.length))
     .toSorted();
   const misnamed = found.find((slug) => !SLUG.test(slug));

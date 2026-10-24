@@ -2,7 +2,6 @@
 title: 'Artemis'
 titleLanguage: en
 date: 2024-10-28
-status: done
 language: [en, el]
 project: ['GENERATED']
 repo: 'artemis'

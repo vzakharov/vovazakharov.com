@@ -1,14 +1,13 @@
 ---
 title: 'Гамлет'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'hamlet'
 album: hamlet
 track: 1
 seconds: 244
-mp3Bytes: 9812058
+mp3Bytes: 9812086
 explicit: false
 credits:
   lyrics:
@@ -16,6 +15,7 @@ credits:
     - 'Борис Пастернак'
     - 'Михаил Лозинский'
     - 'Михаил Козаков'
+    - 'Вова Захаров'
 en:
   title:
     translation: 'Hamlet'

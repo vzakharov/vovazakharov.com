@@ -2,6 +2,7 @@ import { Box, Stack, Text } from '@mantine/core';
 import { Fragment } from 'react';
 import Markdown, { type Components } from 'react-markdown';
 
+<<<<<<< HEAD:src/music/pages/music/ui/lyrics.tsx
 import { loadMessages, type WithLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithText } from '@/kernel/shared/typings';
@@ -9,6 +10,14 @@ import type { WithText } from '@/kernel/shared/typings';
 import { Subheading, TextLink } from '@/shell/shared/ui';
 
 import type { ScriptKept, SungLanguage } from '@/music/shared/catalogue';
+=======
+import { resolveAuthoredUrl, SONGS } from '@/shared/content';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
+import { cx } from '@/shared/lib/class-names';
+import type { ScriptKept, SungLanguage } from '@/shared/music-catalogue';
+import type { WithFileName, WithText } from '@/shared/typings';
+import { Subheading, TextLink } from '@/shared/ui';
+>>>>>>> origin/main:src/pages/music/ui/lyrics.tsx
 
 import { inlineRuns } from '../lib/lyric-inline';
 import type { LyricLine, WithStanzas } from '../lib/lyric-notes';
@@ -17,22 +26,32 @@ import { romanizedTag, type Transliteration } from '../lib/transliteration';
 import classes from './music.module.scss';
 import { NotedSpan } from './noted-span';
 
-export type LyricsProps = WithLocale & {
-  lyrics: SongLyrics;
-  /** What the crib is, where it is more than a crib: one line of markdown. */
-  cribNote?: string;
-};
+/** `fileName` is the song's file, which the notes' relative links resolve
+ * against. */
+export type LyricsProps = WithLocale &
+  WithFileName & {
+    lyrics: SongLyrics;
+    /** What the crib is, where it is more than a crib: one line of markdown. */
+    cribNote?: string;
+  };
 
 /**
  * A note is one line of markdown, so the paragraph the parser wraps it in is
- * dropped, and a link opens beside the song rather than over it.
+ * dropped, and a link opens beside the song rather than over it — at the page
+ * a `./x.md` names, as in the song's story.
  */
-const NOTE_COMPONENTS: Components = {
-  p: ({ children }) => <>{children}</>,
-  // The type is HTML's, where an `<a>` may have no address; a markdown link
-  // always has one.
-  a: ({ href = '', children }) => <TextLink {...{ href }}>{children}</TextLink>,
-};
+function noteComponents(fileName: string): Components {
+  return {
+    p: ({ children }) => <>{children}</>,
+    // The type is HTML's, where an `<a>` may have no address; a markdown link
+    // always has one.
+    a: ({ href = '', children }) => (
+      <TextLink href={resolveAuthoredUrl(SONGS.id, fileName, href)}>
+        {children}
+      </TextLink>
+    ),
+  };
+}
 
 /**
  * The words, and their crib beside them where the reader's language is not the
@@ -47,11 +66,18 @@ const NOTE_COMPONENTS: Components = {
  * title switches: in Latin mode each line shows in Latin letters, in place of
  * the script — or, for words that keep their script, line under line beside it.
  */
-export function Lyrics({ lyrics, locale, cribNote }: LyricsProps) {
+export function Lyrics({ lyrics, locale, fileName, cribNote }: LyricsProps) {
   const { stanzas, translation, language, transliteration, keepsScript } =
     lyrics;
   const { lyrics: labels } = loadMessages(locale).music;
-  const words = { stanzas, transliteration, keepsScript, lang: language };
+  const notes = noteComponents(fileName);
+  const words = {
+    stanzas,
+    transliteration,
+    keepsScript,
+    notes,
+    lang: language,
+  };
 
   return (
     <Stack component="section" gap={24}>
@@ -62,7 +88,7 @@ export function Lyrics({ lyrics, locale, cribNote }: LyricsProps) {
             {cribNote === undefined ? (
               labels.crib
             ) : (
-              <Markdown components={NOTE_COMPONENTS}>{cribNote}</Markdown>
+              <Markdown components={notes}>{cribNote}</Markdown>
             )}
           </Text>
         )}
@@ -79,7 +105,12 @@ export function Lyrics({ lyrics, locale, cribNote }: LyricsProps) {
             style={{ '--stanzas': stanzas.length }}
           >
             <LyricsColumn {...words} />
-            <LyricsColumn stanzas={translation} lang={locale} muted />
+            <LyricsColumn
+              stanzas={translation}
+              lang={locale}
+              {...{ notes }}
+              muted
+            />
           </Box>
         </Box>
       )}
@@ -91,8 +122,12 @@ type Romanizable = {
   transliteration?: Transliteration | undefined;
 } & Partial<ScriptKept>;
 
+/** How a note's markdown is set: `noteComponents`, for the song's file. */
+type NoteSetting = { notes: Components };
+
 type LyricsColumnProps = WithStanzas &
-  Romanizable & {
+  Romanizable &
+  NoteSetting & {
     lang: SungLanguage;
     /** The crib: set dimmer than the words, so they are what reads first. */
     muted?: boolean;
@@ -113,8 +148,9 @@ function StanzaList({
   stanzas,
   transliteration,
   keepsScript = false,
+  notes,
   lang,
-}: WithStanzas & Romanizable & { lang: SungLanguage }) {
+}: WithStanzas & Romanizable & NoteSetting & { lang: SungLanguage }) {
   const tag = romanizedTag(lang);
 
   // Stanzas have no identity of their own, and a repeated chorus is a repeated
@@ -122,7 +158,7 @@ function StanzaList({
   return stanzas.map((lines, index) => (
     <Stanza
       key={index}
-      {...{ lines, tag, keepsScript }}
+      {...{ lines, tag, keepsScript, notes }}
       romanized={transliteration?.[index]}
     />
   ));
@@ -131,7 +167,10 @@ function StanzaList({
 /** The BCP 47 tag romanized lines are set in. */
 type Tagged = { tag: string };
 
-type StanzaProps = Tagged & {
+/** How a line of the words is set: its romanization's tag and its notes. */
+type LineSetting = Tagged & NoteSetting;
+
+type StanzaProps = LineSetting & {
   lines: LyricLine[];
   /** Each entry's romanization, where the words have one. */
   romanized: string[] | undefined;
@@ -148,7 +187,7 @@ type StanzaProps = Tagged & {
  * Both spellings are in the static HTML, `<html>`'s `data-script` picking which
  * shows.
  */
-function Stanza({ lines, romanized, tag, keepsScript }: StanzaProps) {
+function Stanza({ lines, romanized, tag, keepsScript, notes }: StanzaProps) {
   return (
     <Text component="div" lh={1.75}>
       {lines.map((spans, index) => {
@@ -157,11 +196,11 @@ function Stanza({ lines, romanized, tag, keepsScript }: StanzaProps) {
         return (
           <div key={index} className={classes['lyricLine']}>
             {latin === undefined || keepsScript ? (
-              <LineWords {...{ spans, tag }} under={latin} />
+              <LineWords {...{ spans, tag, notes }} under={latin} />
             ) : (
               <>
                 <div data-spelling="original">
-                  <LineWords {...{ spans, tag }} />
+                  <LineWords {...{ spans, tag, notes }} />
                 </div>
                 <div data-spelling="latin">
                   <i lang={tag}>
@@ -177,14 +216,14 @@ function Stanza({ lines, romanized, tag, keepsScript }: StanzaProps) {
   );
 }
 
-type LineWordsProps = Tagged & {
+type LineWordsProps = LineSetting & {
   spans: LyricLine;
   /** The line's romanization, set under it in Latin mode. */
   under?: string | undefined;
 };
 
 /** A line's words with their notes, and its romanization under it where given. */
-function LineWords({ spans, tag, under }: LineWordsProps) {
+function LineWords({ spans, tag, under, notes }: LineWordsProps) {
   const block = under?.includes('\n') === true ? under : undefined;
 
   return (
@@ -201,7 +240,7 @@ function LineWords({ spans, tag, under }: LineWordsProps) {
           <Fragment key={at}>{words}</Fragment>
         ) : (
           <NotedSpan key={at} {...{ words }}>
-            <Markdown components={NOTE_COMPONENTS}>{note}</Markdown>
+            <Markdown components={notes}>{note}</Markdown>
           </NotedSpan>
         );
       })}

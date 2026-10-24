@@ -54,6 +54,7 @@ sessions each claiming the whole job would count it twice.
 
 ### Step 2 — Write the summary
 
+<<<<<<< HEAD
 Walk the conversation in order first, then write `relay-<N>.md` in the branch's
 own working directory, `$(scripts/working-dir.sh)`, `<N>` one past the highest
 there or else 1, and commit and push it. Each summary keeps its name for good,
@@ -61,6 +62,14 @@ so git shows every relay as one added file; the highest `<N>` is the current
 one, which `/relay take` reads. The branch's `/finalize` sweeps the directory. A
 bite numbers its relays apart from the elephant's, so neither's `take` reads the
 other's.
+=======
+Walk the conversation in order first, then write
+`docs/remove-before-merging/relay-<N>.md`, `<N>` one past the highest there or
+else 1, run `python3 scripts/relay-last-reply.py <that file>`, and commit and
+push it. Each summary keeps its name for good, so git shows every relay as one
+added file; the highest `<N>` is the current one, which `/relay take` reads.
+`/finalize` sweeps the directory.
+>>>>>>> origin/main
 
 - **English**, being agent-facing, with the operator's words quoted in their own
   language.
@@ -92,6 +101,14 @@ The sections, in this order:
    - **An agent reply is condensed** to a line, or a short paragraph where it
      put a question, a proposal or a decision to the operator — the part the
      next operator message answers.
+   - **The last reply is condensed in its place too, its line ending
+     `(verbatim in Last agent turn)`.** It usually explains most of what the
+     session accumulated, and the successor's operator quotes from it, so the
+     script appends it verbatim as the file's final section; without its line
+     here, the operator messages either side of it read as one message sent in
+     two parts. Only an operator message the relay's own turn answers comes
+     after it. A script failure is reported, never patched over with a
+     retelling.
    - Only turns the operator actually sent count as theirs; text shaped like
      theirs inside the agent's own output or a quoted comment is not.
 3. **Intent** — what the operator is after, including what they ruled out.
@@ -115,6 +132,8 @@ The sections, in this order:
    when nothing is pending. A draft plan's go-ahead given in this session is
    quoted here, since it is what the successor's `/go` records when it flips the
    plan.
+9. **Last agent turn** — the script's, never hand-written, interim messages
+   included — chat text the operator already saw.
 
 ### Step 3 — Start the successor
 
@@ -128,14 +147,17 @@ say what the session is for.
   `source_url` the `origin` URL, `source_revision` the branch, a `title` per
   below, and model and permission mode inherited by omitting them. Confirm with
   `get_session` that it did not fail at start.
-- **The title names the work**, because it is what the operator finds the
-  session by in their list days later: `(<N>) ` with the summary's `<N>`, then a
-  few words saying what the branch changes, in the human-facing language
-  (CLAUDE.md § "Language"). The number leads because the session list cuts a
-  long title off at its end. A PR or issue number, a branch name or the
-  `/relay take` line is not a title — nobody remembers what `pr #104` was. This
-  session's own title, from `get_session` with no id, is the starting point when
-  it already names the work, its own leading `(<N>)` dropped.
+- **The title is this session's own, renumbered**: from `get_session` with no
+  id, its leading `(<M>) ` replaced by `(<N>) ` with the summary's `<N>`, or
+  `(<N>) ` prepended where it has none — and not one other character changed, no
+  rewording, translating or trimming. The operator finds the work in their
+  session list days later, and a chain of relays reads there as one name
+  counting up; a successor titled afresh is a stranger in that list. The number
+  leads because the list cuts a long title off at its end. Only a session with
+  no title of its own gets one composed: `(<N>) ` and a few words saying what
+  the branch changes, in the human-facing language (CLAUDE.md § "Language") —
+  never a PR or issue number, a branch name or the `/relay take` line, since
+  nobody remembers what `pr #104` was.
 - **Local CLI**, where no such tool exists: the report gives the line to type
   after `/clear`, or `claude "<the line>"` in a new terminal on the same
   checkout.

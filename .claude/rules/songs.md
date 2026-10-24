@@ -55,10 +55,10 @@ beside it as `<src>.<language>.vtt` per lyrics column (the build fails without
 the sung one's; `src/music/scripts/song-intake/CLAUDE.md` § "Captions"), and its
 `offsetSeconds`, where the master starts on it; opened from a button beside the
 play control rather than linked in the story, so that starting it can pause the
-player — `status`, `language` — what the vocal is in, independent of what the
-page is rendered in — `project` as a list with the artist first and features
-after, `explicit`, `segue` where the song runs into its release's next track,
-which a shuffle then never parts it from, `album`, and `credits.lyrics` /
+player — `language` — what the vocal is in, independent of what the page is
+rendered in — `project` as a list with the artist first and features after,
+`explicit`, `segue` where the song runs into its release's next track, which a
+shuffle then never parts it from, `album`, and `credits.lyrics` /
 `credits.music` as lists of people in contribution order, absent meaning the
 author alone — each name in either locale's spelling from
 `music/shared/catalogue/people.ts`, which shows it in the reader's. **Each album
@@ -68,7 +68,9 @@ file's name and everything else the catalogue knows of it in its frontmatter —
 cover when `assets/covers/<slug>.jpg` exists. A song's `album` and `project`
 must name one of those files, `music/shared/catalogue/catalogue-names.ts`
 reading them off the directory, so a typo fails the build rather than quietly
-rendering an artist nobody has.
+rendering an artist nobody has. **`artists/generated.md` is GENERATED, an artist
+like the others** — the one with the most songs — never a general story of
+Vova's music: a note spanning several artists goes on each of their pages.
 
 **A song's slug is its name in English, chosen once.** The file name is the
 address, and a static export has no redirects, so renaming a published song
@@ -102,13 +104,17 @@ about, and the page's meta description too. Its one mark is `~~…~~`, words mea
 to be seen crossed out — in the meta description and the feed too. A joke struck
 in one locale's hook is struck in the other's too, in that language's own idiom.
 **A hook earns its words one by one**: the fewest that pull, often a line of the
-song quoted with nothing around it, quotation marks kept, unless the song's
-story holds a better hook than its words do. A gloss explaining the line is
-overthinking it. The author's oxymorons («Этот жар — всё, что тебе нужно, чтобы
-не сгореть») are his signature, and a song that has one offers it first. An
-album's or an artist's file carries its hook the same way, under each locale's
-key. `pnpm music:untold` writes what each song still lacks to
-`docs/music/untold-songs.md`, and the song vet fails while that list is stale.
+song standing on its own, unquoted, unless the song's story holds a better hook
+than its words do. Quotation marks belong to someone's words being quoted: a
+line from the story, a line the song itself sings as a quotation (a son's
+question in `20`), or a quote inside the hook's own sentence. A gloss explaining
+the line is overthinking it. **The hook is the agent's to write, unasked**, once
+the song has a story: a song is left without one only while it has none. The
+author's oxymorons («Этот жар — всё, что тебе нужно, чтобы не сгореть») are his
+signature, and a song that has one offers it first. An album's or an artist's
+file carries its hook the same way, under each locale's key. `pnpm music:untold`
+writes what each song still lacks to `docs/music/untold-songs.md`, and the song
+vet fails while that list is stale.
 
 ## Body
 
@@ -122,22 +128,29 @@ carries a footnote there translating it. Identical consecutive stanzas are one
 stanza closed by `x2`, `x3` …, which `pnpm check:stanza-repeats --fix` writes.
 Anything before the first marker belongs to every locale. A song or album set in
 a concept album's world tells that world under `<!-- universe:<locale> -->`,
-shown ahead of the `lang:` story, which then reads as its making-of. **The test
-is the voice, not the subject: could a narrator inside the world say it?** What
-happens there passes, told as fiction; anything that speaks _about_ the song —
-what it echoes or quotes, how it opens, unfolds or sounds, how it was made —
-fails, however short and however much it is about the world's god, and is the
-making-of. The world is the agent's literary telling of the author's plot, the
-dictation being the plot and never the text; the page's hook is the seed it
-grows from. The marker is an HTML comment because the authored file is read raw
-— on GitHub, and at its own `.md` URL — and anything else would be markup the
-reader has to look past. The lyrics are rendered by the page rather than by the
-markdown pipeline, one element per line, so a line break is a line break and
-needs no two invisible spaces at the end of it. The one inline mark they take is
-`_…_`, which sets a transliteration in italics: a word sung in another script is
-written in the column's letters — in-the-flesh's English sings _Poekhali!_, not
-«Поехали!» — and a transliteration is italic wherever the page shows one, a
-title's Latin spelling included.
+which the page shows where the file puts it beside the `lang:` story: the first
+of the two is never headed, and the second is headed by what it is — behind the
+scenes for the story, its kind for the prelude. **The test is the voice, not the
+subject: could a narrator inside the world say it?** What happens there passes,
+told as fiction; anything that speaks _about_ the song — what it echoes or
+quotes, how it opens, unfolds or sounds, how it was made — fails, however short
+and however much it is about the world's god, and goes behind the scenes. The
+world is the agent's literary telling of the author's plot, the dictation being
+the plot and never the text; the page's hook is the seed it grows from. **A song
+resting on someone else's text — a poem it sets, a song it covers — tells that
+source's story under `<!-- source:<locale> -->`** in the same slot — when and
+why it was written, where it appeared, what it was later set to — so the
+author's own story follows behind the scenes; a file has one or the other.
+Unlike his story the source's is the agent's to write, from sources, each fact
+one a source states. The marker is an HTML comment because the authored file is
+read raw — on GitHub, and at its own `.md` URL — and anything else would be
+markup the reader has to look past. The lyrics are rendered by the page rather
+than by the markdown pipeline, one element per line, so a line break is a line
+break and needs no two invisible spaces at the end of it. The one inline mark
+they take is `_…_`, which sets a transliteration in italics: a word sung in
+another script is written in the column's letters — in-the-flesh's English sings
+_Poekhali!_, not «Поехали!» — and a transliteration is italic wherever the page
+shows one, a title's Latin spelling included.
 
 **Who sings is noted on the sung words, for reference.**
 `<!-- voice: Кирилл -->`, `<!-- voice: Майя, Кирилл -->` for a duet, or a bare
@@ -192,19 +205,19 @@ changes how a draft of one is written and what a review of it means.
   unless he says otherwise; a `---` after it separates the verbatim part from
   instructions about it. Translating into the other language is the agent's, and
   so is the blurb; retelling the story in better words is not. It is too
-  personal to come from anywhere but him. A concept album's world is the one
-  exception, told in the agent's words from his plot (§ "Body").
-- **A dictation is speech, and a page is writing.** What reaches a making-of is
-  his facts in his first person, written down: the fillers, hedges and asides to
-  the transcriber go («скажем», «наверное», «так сказать», «ты, Клод, …»), and
-  with them a doubt he voiced about a fact, which keeps the fact off the page
-  rather than hedging it there. A general note in a dictation — the covers, the
-  platforms, the tooling — stays in the dictation unless he places it on a page;
-  it is kept for later, not spread over every story it touches.
+  personal to come from anywhere but him. The two preludes are the exceptions (§
+  "Body"): a concept album's world, told in the agent's words from his plot, and
+  a source's story, from sources.
+- **A dictation is speech, and a page is writing.** What reaches a story is his
+  facts in his first person, written down: the fillers, hedges and asides to the
+  transcriber go («скажем», «наверное», «так сказать», «ты, Клод, …»), and with
+  them a doubt he voiced about a fact, which keeps the fact off the page rather
+  than hedging it there. A general note in a dictation — the covers, the
+  platforms, the tooling — stays in the dictation; it is kept for later, not
+  spread over every story it touches.
 - **A change to a song's story or words is checked against its reflection.**
   Майя's `<slug>.maya.reflections.md` may quote or answer what changed; where it
-  does, she adds a closing paragraph per `persona-reflections.md`, never a
-  rewrite.
+  does, she adds a closing paragraph per `persona-reflections.md`.
 - **Nothing is explained on his behalf.** He writes for people who already know
   him, so a fact he left out was left out. Adding the line of context a stranger
   would want takes the piece away from the reader it was written for.

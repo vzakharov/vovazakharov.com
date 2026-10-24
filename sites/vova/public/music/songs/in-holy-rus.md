@@ -1,12 +1,11 @@
 ---
 title: 'На Руси святой'
 date: 2024-07-23
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'asa'
 seconds: 157
-mp3Bytes: 6406779
+mp3Bytes: 6406973
 explicit: false
 album: who-is-happy-in-russia
 track: 1
@@ -52,9 +51,20 @@ en:
 Славно жить народу
 На Руси святой!
 
+На Руси святой
+x4
+
+На Руси святой (славно жить народу!)
+x8
+
+На Руси святой
+x4
+
+Кушай тюрю, Яша!
+
 <!-- lyrics:en -->
 
-“Eat your bread and kvass, Yasha!
+“Eat your [_tyurya_][^tyurya-en], Yasha!
 There’s no milk, you see!”
 “Where’s our little cow gone?”
 “They took her, my love!
@@ -62,6 +72,8 @@ The master led her home
 To breed calves for him!”
 What a fine life the people have
 In holy Rus!
+
+[^tyurya-en]: _Tyurya_ — bread crumbled into kvass or water, the Russian peasant’s food when there was nothing else.
 
 “Where have our hens gone?”
 The little girls cry.
@@ -80,3 +92,14 @@ Only the cripple is left
 To live out his days at home.
 What a fine life the people have
 In holy Rus!
+
+In holy Rus
+x4
+
+In holy Rus (what a fine life the people have!)
+x8
+
+In holy Rus
+x4
+
+Eat your _tyurya_, Yasha!

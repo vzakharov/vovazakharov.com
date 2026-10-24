@@ -1,0 +1,156 @@
+name: Vet
+
+# Dispatched by a bare `scripts/vet.sh`, which runs its `local` phase beside
+# it; never on its own. Each job is one of vet.sh's phases, every one starting
+# at once; only the checks over the exports wait, for the builds that write
+# them.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A second dispatch on the same branch means the first one's head is stale.
+concurrency:
+  group: vet-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        site: [vova, lsa, bible, basilisk]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Build
+        run: ./scripts/vet.sh build ${{ matrix.site }}
+
+      - name: Upload the export
+        uses: actions/upload-artifact@v4
+        with:
+          name: out-${{ matrix.site }}
+          path: apps/${{ matrix.site }}/out
+          retention-days: 1
+
+  # The lint shards and the type check need no build: the route types they read
+  # come from `next typegen`.
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ['1/3', '2/3', '3/3']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: ESLint, shard ${{ matrix.shard }}
+        run: ./scripts/vet.sh lint ${{ matrix.shard }}
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Type check
+        run: ./scripts/vet.sh typecheck
+
+  # No `needs`: checkout and toolchain setup (~15 s) run beside the builds, and
+  # the job then waits only for their exports. A setup job of its own would not
+  # help — the job that `needs` it gets a fresh machine and still pays checkout
+  # and cache restore (~10 s). This pays only while `built` finishes the run;
+  # once `source` does, a plain `needs` is as fast and simpler.
+  built:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: Wait for the exports
+        timeout-minutes: 15
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./.github/scripts/wait-for-exports.sh
+
+      - name: Download the exports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: out-*
+          path: tmp/artifacts
+
+      - name: Place the exports
+        run: ./.github/scripts/place-vet-artifacts.sh
+
+      - name: Checks over the exports
+        run: ./scripts/vet.sh built
+
+      - name: Upload the logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vet-logs-built
+          path: tmp/run-parallel/
+          retention-days: 14
+
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      # One commit is enough: the checks that read history are `vet.sh local`'s.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      # The runner's system Python refuses a pip install (PEP 668), and
+      # scripts/song-intake/test_song_facts.py needs numpy. Ungated, unlike the
+      # song checks: install and test take ~5 s, and a gate on song-intake
+      # changes needs the merge base this one-commit checkout lacks.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install numpy
+        run: python -m pip install numpy
+
+      # The tests that build throwaway repositories commit into them.
+      - name: Set a git identity
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Checks over the source
+        run: ./scripts/vet.sh source
+
+      # vet.sh prints only what failed, and several checks pass quietly when
+      # they had nothing to read, so a green run is checked by its logs.
+      - name: Upload the logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vet-logs-source
+          path: |
+            tmp/run-parallel/
+            tmp/vet-*.log
+          retention-days: 14

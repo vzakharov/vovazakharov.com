@@ -13,6 +13,7 @@ import {
   filedDate,
   isListed,
   listPrimaryDocuments,
+  type ProseSource,
   renderProse,
 } from '@/kernel/shared/content';
 import { loadMessages, type Locale } from '@/kernel/shared/i18n';
@@ -27,8 +28,9 @@ import {
   textHook,
 } from '@/music/shared/catalogue';
 
-import { universeOf } from './catalogue-text';
+import { preludeOf } from './catalogue-text';
 import { PODCAST_COVER, songPicture } from './pictures';
+import { storyOrder } from './sections';
 import { songDownloads } from './song-downloads';
 import { mp3Url } from './song-names';
 import {
@@ -68,8 +70,8 @@ function downloadLinks(
 }
 
 /**
- * The song's prose as its page's story shows it — the world first where it has
- * one, then the making-of under its label — then a link to the page for the
+ * The song's prose as its page's story shows it — prelude and story in the
+ * file's order, the second under its label — then a link to the page for the
  * words and their notes, whose columns and popovers are the page's to lay out,
  * and the song's files.
  */
@@ -78,18 +80,25 @@ async function songContent(
   localized: LocalizedSongDocument,
   locale: Locale,
 ): Promise<string> {
-  const { makingOf, feedPageLink, feedDownload } = loadMessages(locale).music;
-  const universe = universeOf(document, locale);
-  const [world, told] = await Promise.all([
-    universe && renderProse(universe),
-    localized.body === '' ? undefined : renderProse(localized),
-  ]);
+  const { feedPageLink, feedDownload, ...headings } =
+    loadMessages(locale).music;
+  const parts = await Promise.all(
+    storyOrder<ProseSource>(
+      preludeOf(document, locale),
+      localized.body === '' ? undefined : localized,
+      headings,
+    ).map(async ({ part, heading }) => ({
+      rendered: await renderProse(part),
+      heading,
+    })),
+  );
   const root: Root = {
     type: 'root',
     children: [
-      ...(world?.tree.children ?? []),
-      ...(world && told ? [element('h2', {}, makingOf)] : []),
-      ...(told?.tree.children ?? []),
+      ...parts.flatMap(({ rendered, heading }) => [
+        ...(heading === undefined ? [] : [element('h2', {}, heading)]),
+        ...rendered.tree.children,
+      ]),
       paragraph([element('a', { href: localized.route }, feedPageLink)]),
       paragraph([
         text(`${feedDownload}: `),

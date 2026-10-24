@@ -1,7 +1,6 @@
 ---
 title: Река. Часть вторая
 date: 2024-03-04
-status: done
 language: ru
 project: [Полуживые]
 repo: reka-2

@@ -48,8 +48,18 @@ import {
   type Routed,
 } from '@/kernel/shared/content/index.node-safe';
 
+<<<<<<< HEAD:src/blog/scripts/lib/print-job.ts
 import { flag, given } from '../../../kernel/scripts/lib/argv.ts';
 import { findChromium } from '../../../kernel/scripts/lib/chromium.ts';
+=======
+import { caseSealSources } from '@/entities/case/index.node-safe';
+
+import { cvPath } from '@/pages/cv/lib/cv-urls';
+import { CV_PAGE_CEILING, CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
+
+import { flag, given } from './lib/argv.ts';
+import { findChromium } from './lib/chromium.ts';
+>>>>>>> origin/main:scripts/render-pdf.ts
 import {
   CONTENT_DIRS,
   contentFiles,
@@ -187,6 +197,17 @@ export function sourceFiles(...sources: string[][]): string[] {
 }
 
 /**
+ * A case prints its seal beside its lede, composed from its emblem and the
+ * lettered site seal, which sit under `public/` as the end mark does. A
+ * document with no emblem is not a case.
+ */
+function caseSealFiles(route: string): string[] {
+  const { siteSeal, emblem } = caseSealSources(PUBLIC_DIR, route, 'lettered');
+
+  return fs.existsSync(emblem) ? [emblem, siteSeal] : [];
+}
+
+/**
  * Each printable collection's PDFs. The route is the output path's own place
  * under `public/`, minus the extension — which is the whole of the rule this
  * pipeline rests on.
@@ -202,13 +223,15 @@ function documentPrintables(documentSources: string[]): Printable[] {
   return contentFiles(isDocumentFile, PRINTABLE_CONTENT_DIRS).map(
     (documentPath) => {
       const stem = documentPath.replace(/\.md$/, '');
+      const route = `/${path.relative(PUBLIC_DIR, stem)}`;
 
       return {
-        route: `/${path.relative(PUBLIC_DIR, stem)}`,
+        route,
         outputPath: `${stem}.pdf`,
         sourceHash: hashFiles([
           documentPath,
           ...referencedAssets(documentPath),
+          ...caseSealFiles(route),
           ...shared,
         ]),
       };

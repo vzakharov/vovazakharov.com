@@ -1,7 +1,6 @@
 ---
 title: 'Why Let the Stricken Deer Go Weep'
 date: 2025-07-16
-status: done
 language: en
 project: ['Полуживые']
 repo: 'deer'
@@ -12,9 +11,12 @@ mp3Bytes: 7686350
 explicit: false
 credits:
   lyrics: ['William Shakespeare']
+en:
+  hook: 'For some must watch, while some must sleep.'
 ru:
   title:
     translation: 'Пусть раненый олень ревёт'
+  hook: 'Где — спят, а где — ночной обход.'
   cribNote: 'Песня Гамлета — в переводе Бориса Пастернака; молитва Клавдия — в переводе К. Р., строки разбиты по песне.'
 ---
 

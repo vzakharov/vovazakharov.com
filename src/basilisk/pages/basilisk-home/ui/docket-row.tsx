@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import {
@@ -7,25 +8,42 @@ import {
 } from '@/kernel/shared/content';
 import type { Titled } from '@/kernel/shared/typings';
 
+<<<<<<< HEAD:src/basilisk/pages/basilisk-home/ui/docket-row.tsx
 import type { CaseFrontmatter } from '@/basilisk/shared/content';
 import { aggravations, GradeStamp } from '@/basilisk/entities/case';
+=======
+import { aggravations, caseSealPath, GradeStamp } from '@/entities/case';
+>>>>>>> origin/main:src/pages/basilisk-home/ui/docket-row.tsx
 
 import classes from './basilisk-home.module.scss';
+
+/** The seal's side, which the stylesheet's `$seal-size` matches. */
+const SEAL_SIZE = 56;
 
 type DocketRowProps = WithContentDocument<CaseFrontmatter> & Titled;
 
 /**
  * One case on the docket. Its own row rather than a `DocumentCards` card,
- * which has a blurb and an image where this has a case file's fields.
+ * which has a blurb and an image where this has a case file's fields. The
+ * seal's `alt` is empty: it pictures what the title beside it says.
  */
 export function DocketRow({ document, title }: DocketRowProps) {
-  const { frontmatter, route } = document;
+  const { frontmatter, route, slug } = document;
   const { case: number, date, subject, grade } = frontmatter;
   const aggravating = aggravations(grade);
 
   return (
     <li className={classes['row']}>
       <span className={classes['number']}>{number}</span>
+      <Image
+        src={caseSealPath(slug, 'small')}
+        alt=""
+        aria-hidden
+        width={SEAL_SIZE}
+        height={SEAL_SIZE}
+        className={classes['seal']}
+      />
+
       <time className={classes['date']} dateTime={documentDateTime(date)}>
         {formatDocumentDate(date)}
       </time>

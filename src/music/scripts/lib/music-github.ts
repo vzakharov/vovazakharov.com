@@ -18,6 +18,13 @@ export const sleep = (ms: number): void => {
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 };
 
+/** What `gh api` printed to stderr before failing, `undefined` for any other error. */
+export const apiStderr = (error: unknown): string | undefined =>
+  z
+    .object({ stderr: z.instanceof(Buffer) })
+    .safeParse(error)
+    .data?.stderr.toString('utf8');
+
 /**
  * One call to `endpoint`, its JSON reply parsed — `undefined` for an empty
  * one, as a `DELETE` answers. A 5xx is retried: a publish's writes are
@@ -50,10 +57,7 @@ export function githubApi(
 
       return reply.trim() === '' ? undefined : JSON.parse(reply);
     } catch (error) {
-      const stderr = z
-        .object({ stderr: z.instanceof(Buffer) })
-        .safeParse(error)
-        .data?.stderr.toString('utf8');
+      const stderr = apiStderr(error);
 
       if (stderr === undefined) throw error;
       process.stderr.write(stderr);

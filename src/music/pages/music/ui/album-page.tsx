@@ -87,8 +87,8 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
         </CatalogueHeader>
 
         <Story
-          {...pick(text, 'universe', 'story')}
-          {...pick(messages, 'makingOf', 'readMore')}
+          {...pick(text, 'prelude', 'story')}
+          {...pick(messages, 'behindTheScenes', 'preludeHeadings', 'readMore')}
         />
 
         <SongList

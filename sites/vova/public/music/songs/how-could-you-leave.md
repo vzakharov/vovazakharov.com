@@ -1,7 +1,6 @@
 ---
 title: 'How Could You Leave'
 date: 2024-09-02
-status: done
 language: en
 project: ['GENERATED']
 repo: 'hcyl'

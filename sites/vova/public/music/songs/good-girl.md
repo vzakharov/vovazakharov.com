@@ -1,7 +1,6 @@
 ---
 title: 'Good Girl'
 date: 2025-02-26
-status: done
 language: en
 project: ['GENERATED']
 repo: 'gg'

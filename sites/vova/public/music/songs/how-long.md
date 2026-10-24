@@ -1,7 +1,6 @@
 ---
 title: 'Сколько'
 date: 2025-09-18
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'skolko'

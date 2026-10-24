@@ -1,7 +1,6 @@
 ---
 title: 'Пегий пёс, бегущий краем моря'
 date: 2024-09-17
-status: done
 language: ru
 project: ['Полуживые']
 repo: 'pes'
@@ -16,6 +15,9 @@ credits:
 en:
   title:
     translation: 'Piebald Dog Running Along the Shore'
+  hook: 'The piebald dog is the fine line between life and death.'
+ru:
+  hook: 'Пегий пёс — это тонкая грань между жизнью и смертью.'
 ---
 
 <!-- For Vova to check: Master is pes.flac as the checklist names it; the repository also holds pes_faster.flac. -->

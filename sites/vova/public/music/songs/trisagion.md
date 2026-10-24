@@ -2,7 +2,6 @@
 title: 'Trisagion'
 titleLanguage: en
 date: 2024-09-09
-status: done
 language: [ru, la, en]
 project: ['Downtemple']
 repo: 'trisagion'

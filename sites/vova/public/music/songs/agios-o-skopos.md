@@ -3,7 +3,6 @@ title: 'Άγιος ο σκοπός'
 titleLanguage: el
 titleLatin: 'Ágios o skopós'
 date: 2024-12-07
-status: done
 language: ru
 project: ['Полуживые', 'GENERATED']
 repo: 'triswiatoje'

@@ -1,7 +1,6 @@
 ---
 title: 'Доброе утро'
 date: 2026-02-11
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'utro'

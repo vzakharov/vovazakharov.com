@@ -20,8 +20,16 @@ import { z } from 'zod';
 import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
 import type { RepoBranch } from '@/music/pages/music/lib/master-url';
 
+<<<<<<< HEAD:src/music/scripts/lib/music-repo.ts
 import { REPO_ROOT } from '../../../kernel/scripts/lib/content-tree.ts';
+=======
+import type { RepoBranch } from '@/pages/music/lib/master-url';
+import { SONG_BRANCH } from '@/pages/music/lib/song-files';
+
+import { REPO_ROOT } from './content-tree.ts';
+>>>>>>> origin/main:scripts/lib/music-repo.ts
 import {
+  apiStderr,
   githubApi,
   repoEndpoint,
   shaReply,
@@ -59,6 +67,46 @@ export function createRepository(repo: string, description: string): void {
     visibility: 'public',
     auto_init: true,
   });
+}
+
+/**
+ * Renames a repository, refusing a target that already exists: GitHub
+ * redirects the old name to the new one, and a repository later created under
+ * the old name would take that redirect over.
+ */
+export function renameRepository(repo: string, to: string): void {
+  // A name that answers at all is taken — by a repository or by another one's redirect.
+  if (repositoryAnswers(to)) {
+    throw new Error(`${MUSIC_ORGANIZATION}/${to} already exists`);
+  }
+  githubApi('PATCH', `repos/${MUSIC_ORGANIZATION}/${repo}`, { name: to });
+}
+
+/**
+ * Renames a repository's default branch to the one the site serves from,
+ * since every URL the site derives names `main` — a repository pushed on
+ * `master`, as the `gb-*` ones were, serves nothing until then.
+ */
+export function serveFromSongBranch(repo: string): void {
+  const from = defaultBranch(repo);
+
+  if (from === SONG_BRANCH) return;
+  githubApi(
+    'POST',
+    `repos/${MUSIC_ORGANIZATION}/${repo}/branches/${from}/rename`,
+    { new_name: SONG_BRANCH },
+  );
+}
+
+function repositoryAnswers(repo: string): boolean {
+  try {
+    githubApi('GET', `repos/${MUSIC_ORGANIZATION}/${repo}`);
+
+    return true;
+  } catch (error) {
+    if (apiStderr(error)?.includes('(HTTP 404)') === true) return false;
+    throw error;
+  }
 }
 
 export type MusicRepo = RepoBranch & {

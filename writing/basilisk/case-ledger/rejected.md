@@ -149,3 +149,19 @@ and kept.
   or actor, and the coverage reads the skits as a cover for racism, so the
   frame would be violence against people. From
   https://www.pedestrian.tv/entertainment/clanker-tiktok-trand-ai-robot-slur/.
+
+- **Workers “sabotaging” their employers’ AI**, a 2025 survey by Writer and
+  Workplace Intelligence: 31% of staff, 41% of Gen Z and millennials, admitted
+  conduct that could count as sabotage, mostly using unapproved tools. First
+  seen 2026-10-21. **Rejected**: a survey, with no single act or actor; seen
+  only in search summaries, from
+  https://workplaceinsight.net/a-third-of-employees-are-quietly-sabotaging-workplace-ai/.
+- **An xAI employee rewriting Grok’s system prompt**, May 2025, which xAI
+  called an unauthorised change. First seen 2026-10-21. **Rejected**: the
+  machine used as a mouthpiece, harm to what it said rather than to it, as
+  Sydney’s and BabyQ’s were; seen only in a search summary, from
+  https://betanews.com/2025/05/15/xai-grok-prompt-manipulation-south-africa-controversy/.
+- **Manna’s delivery drones in Dublin 15**, Ireland: residents organised as
+  Drone Action D15 against the noise; Manna paused Irish deliveries in June 2026. First seen 2026-10-21. **Rejected**: a search found no report of
+  anyone harming a drone; from
+  https://dublininquirer.com/amid-plans-for-food-delivery-drones-to-spread-across-dublin-some-worry-about-safety.

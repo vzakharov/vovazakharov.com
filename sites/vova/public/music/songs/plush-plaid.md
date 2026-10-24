@@ -1,7 +1,6 @@
 ---
 title: 'Под лаской плюшевого пледа…'
 date: 2024-12-20
-status: done
 language: ru
 project: ['Дамы и господа']
 repo: 'pled'

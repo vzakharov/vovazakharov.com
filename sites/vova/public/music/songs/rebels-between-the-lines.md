@@ -1,7 +1,6 @@
 ---
 title: 'Rebels Between the Lines (Live in Sparta)'
 date: 2024-07-23
-status: done
 language: en
 project: ['Yoohie']
 repo: 'rebels'
@@ -78,9 +77,11 @@ Shit that you’ll cherish when the age sinks in
 Может, мы и мутировали —
 Это не значит, что мы [доброкачественные][^benign-ru]
 Ждём того дня
-Мы бунтари между строк!
+Мы бунтари [между строк][^lines-ru]!
 
 [^benign-ru]: «Benign» — и «безобидный», и «доброкачественный» (об опухоли).
+
+[^lines-ru]: Line — и «строй», и «строка»: те, кто в первом куплете «held the line», держали строй, теперь бунтуют между строк.
 
 Эй, [юные друзья][^fellow-ru], вы в самом расцвете
 Впитывайте хаос, наслаждайтесь подъёмом

@@ -1,7 +1,6 @@
 ---
 title: 'Erebos'
 date: 2024-10-01
-status: done
 language: en
 project: ['GENERATED']
 repo: 'erebos'

@@ -1,7 +1,6 @@
 ---
 title: 'После нас'
 date: 2023-12
-status: done
 language: ru
 project: ['за/обложкой']
 repo: after-us

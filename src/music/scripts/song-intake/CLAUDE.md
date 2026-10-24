@@ -8,9 +8,6 @@ here runs on the session's CPU from a venv the setup script does not provide:
 python3 -m venv tmp/song-intake-venv && tmp/song-intake-venv/bin/pip install -r src/music/scripts/song-intake/requirements.txt
 ```
 
-`spectrogram.py` alone needs only `pip install matplotlib`, which spares the
-venv the torch the rest pulls in.
-
 Lab output lives under `docs/remove-before-merging/<album>/` — the split songs,
 `mastered/`, `lyrics/` — committed so the operator can listen from another
 machine, and swept before the merge. The transcripts are the exception, kept in
@@ -50,8 +47,19 @@ at once buys nothing on one machine.
 sung Russian far better than Deepgram's nova-3 (`персонажи Мураками`, where
 nova-3 heard `персонажи-муратами`). `scripts/transcribe.py` on the same stem is
 the second opinion, since the lines the two disagree on are the ones the
-operator has to listen to. Whisper's first timecode can jump across an
-instrumental; Deepgram's place the line.
+operator has to listen to — so `transcribe.py` merges Whisper's hearing into its
+transcript:
+
+```sh
+tmp/song-intake-venv/bin/python scripts/song-intake/lyrics.py <slug>.mp3 \
+  --json-dir docs/music/transcripts > docs/music/transcripts/<slug>.whisper.md
+python3 scripts/transcribe.py <slug>.mp3 --language ru \
+  --out-dir docs/music/transcripts --json-dir docs/music/transcripts \
+  --second-opinion-from docs/music/transcripts/<slug>.whisper.json.gz
+```
+
+Its `## Second opinion` merges the two word by word on nova-3's lines, whose
+timecodes place a line where Whisper's first can jump across an instrumental.
 
 **A song Whisper returns a line or two for, or fills with `Субтитры …` and
 `КОНЕЦ`, is heard in pieces.** Its voice filter can drop sung vocals whole
@@ -60,11 +68,39 @@ subtitle credits instead. Cut the stem at its silences and hear each sung
 stretch on its own — that recovered Птицы where both whole-file runs failed. A
 credit line in any transcript is invented and never reaches the words.
 
+**A stem with bleed has no silences to cut at**: `silencedetect` finds none
+where the instruments leak through. A loudness envelope in 2-second windows does
+— the sung stretches stand 10 dB or so above the bleed. A stretch that stays
+unheard in pieces too (a growl, heavy effects, a whisper) is asked about, never
+filled in from the poem.
+
 Neither transcript is the lyrics. The draft reconciles both, keeps the line
 breaks the music makes, and marks every line the two disagreed on, because the
-agent cannot hear the song and the operator can. A setting of a published poem —
-`Послушайте` is Mayakovsky — takes the canonical text and flags only where the
-recording departs from it.
+agent cannot hear the song and the operator can.
+
+**A setting of a published poem** — `Послушайте` is Mayakovsky, «Ностальгия» is
+Tarkovsky — starts from the poem as the operator pastes it, never one the agent
+recalls, and is made to read as sung:
+
+- **The transcripts give the shape**: a refrain sung where the poem has it once,
+  a line or stanza the song drops, lines moved or added. Where both recognisers
+  agree on the shape, the draft takes it; where they disagree or hear nothing,
+  it keeps the poem's text and asks.
+- **The poem gives the words.** A recogniser's word is a mishearing until both
+  agree on it against the poem, and even then it is asked rather than taken.
+- **The paste's layout is the website's, not the poem's**: a ladder broken over
+  several lines, an indented half-line, a word split at a line end are joined
+  into the line the music sings; a source link goes. Spelling follows `songs.md`
+  — ё restored, en dashes and hyphens as em dashes.
+- **Questions go out numbered**, each with the timecode and what each recogniser
+  heard, and an `<!-- ask N -->` line above the stanza in the draft, which the
+  page drops. The draft holds the agent's best reading meanwhile, so the answers
+  change lines rather than unblock the work.
+- **The crib comes with the words**, line for line, per `songs.md` § "Body", its
+  footnotes only where a name or idiom means nothing in English.
+
+Drafts live in `docs/remove-before-merging/<album>/lyrics/<slug>.md`, one per
+song, until the scaffolded song file takes them.
 
 ## Captions
 
@@ -104,6 +140,29 @@ the whole song, the louder side brought down to the quieter rather than the
 quieter raised, whose peaks would clip — otherwise the ear hears level, not
 sound. `spectrum.py` shows what an EQ actually did, which is the place to start
 when the operator says "too bright" or "muddy".
+
+**Picking the reference is a blind A/B/C.** The three catalogue masters most
+like the song's mix (`spectrum.py`, loudness, crest factor) each master it, and
+`blind-abc.py build --mix` alternates the three in that A/B's windows, in one
+random order the operator hears as "first, second, third", each round opening on
+the unmastered mix. All four are brought down to the quietest — in practice the
+mix — because a louder master always sounds better, and the ear is choosing the
+sound. The candidate masters go to the `music-sources` release as one tar until
+the verdict, since a container's `tmp/` dies with it. The commit carries the
+order's sha256, and the key file base64-encoded beside the blind file, so a
+session in another container can reveal it (`base64 -d` to a file under `tmp/`,
+then `blind-abc.py reveal`) — the operator is told not to decode it before
+answering. A key lost anyway means a rebuild with a new order, never a reveal
+from memory.
+
+**The operator listens on the site, not to the 5-second file.**
+`blind-abc.py split <key> <dir> --mix <source>` writes the same four as whole
+files, `mix.mp3`, `1.mp3`, `2.mp3`, `3.mp3`, in the key's order, so one seal
+covers both. The vova site's unlinked `/music/mastering-blind-test`
+(`src/pages/blind-test/`) plays all four at once and switches by gain, so a
+switch never restarts the song; it fetches them from the branch through
+raw.githubusercontent, whose CORS header Web Audio needs. The key's paths are
+relative to this directory, so `split` runs from here.
 
 ## A song's repository
 
@@ -155,18 +214,22 @@ loads on reading a reflection, never on the `Write` that creates the first one �
 so read it first.
 
 She reads the song first as its spectrogram —
+<<<<<<< HEAD:src/music/scripts/song-intake/CLAUDE.md
 `spectrogram.py <master> sites/vova/public/music/assets/spectrograms/<slug>.png`,
+=======
+`spectrogram.py <master> apps/vova/public/music/assets/spectrograms/<slug>/<slug>.png tmp/stems/htdemucs/<slug>`,
+>>>>>>> origin/main:scripts/song-intake/CLAUDE.md
 the whole song across, pitch up, its section boundaries dashed, over its
-loudness and a chromagram strip each for the treble and the bass, coloured by
-octave, the docstring saying how to read it — committed beside the master so the
-next session has it without the venv.
-
-The two strips split at middle C, which puts a low male voice's tune in the bass
-strip, mixed into the bass line. `--split C3` moves the split an octave down,
-leaving the bass strip the bass alone; `--split C5` moves it up for a high one.
-Render a song with a low male lead that way, and re-render when Майя asks for
-another split. No split draws a line for a vocal with no pitch to follow: a
-growl or a shout is noise, and the treble strip stays grey under it.
+loudness, a chromagram strip each for the melody, the harmony and the bass,
+coloured by octave, and the drums, the docstring saying how to read it —
+committed beside the master so the next session has it without the venv. So are
+the `<slug>.txt` sidecar the same run writes beside it, the tempo, key, tuning
+and chords as numbers, and the section zooms `<n>.png`, all in the song's one
+folder; re-render them together, so they never describe different versions of
+the song. The strips and the drums are read off the master's four stems, cut
+first with `python -m demucs -n htdemucs -o tmp/stems <masters>` (~2 min a song
+on 4 cores) and too big to commit. A vocal with no pitch to follow, a growl or a
+shout, is noise, and the melody strip stays grey under it.
 
 ## Traps
 

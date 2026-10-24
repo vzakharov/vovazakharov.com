@@ -1,7 +1,6 @@
 ---
 title: 'Яд'
 date: 2026-02-09
-status: done
 language: ru
 project: ['Грёбаный бал']
 repo: 'yad'
@@ -15,6 +14,9 @@ credits:
 en:
   title:
     translation: 'Poison'
+  hook: 'Run, love, while I’m not a beast yet.'
+ru:
+  hook: 'Беги, любовь, пока я ещё не зверь.'
 ---
 
 <!-- For Vova to check: Project is a guess: the master was posted on the Грёбаный бал Telegram channel on 10 February 2026. Title is «Яд» rather than the checklist's «Яд_master2», which is the file name. Master is the checklist's `Яд_master2.flac`; the repo also has `Яд.flac`, which is the one posted to Telegram (3:55). -->

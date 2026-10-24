@@ -96,8 +96,8 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
         </CatalogueHeader>
 
         <Story
-          {...pick(text, 'universe', 'story')}
-          {...pick(messages, 'makingOf', 'readMore')}
+          {...pick(text, 'prelude', 'story')}
+          {...pick(messages, 'behindTheScenes', 'preludeHeadings', 'readMore')}
         />
 
         <CatalogueGrid title={messages.albums} tiles={albumTiles} />

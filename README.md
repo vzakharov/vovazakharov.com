@@ -45,8 +45,8 @@ pnpm build
 A Next project directory is `sites/<site>/`, so every build and dev server is
 entered there — hence no root `pnpm dev`.
 
-`./scripts/vet.sh` is the check to run before pushing; `.claude/rules/stack.md`
-says what it covers.
+`./scripts/vet.sh` is the check to run before merging — on GitHub's runners,
+from the pushed head; `.claude/rules/stack.md` says what it covers.
 
 ## Project Structure
 

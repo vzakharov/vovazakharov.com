@@ -1,7 +1,6 @@
 ---
 title: 'Every Monday'
 date: 2024-12-21
-status: done
 language: en
 project: ['GENERATED', 'Yoohie']
 repo: 'monday'

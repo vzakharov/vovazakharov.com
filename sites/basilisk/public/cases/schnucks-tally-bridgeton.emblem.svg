@@ -1,0 +1,22 @@
+<!-- BAS-0019: a shelf-scanning robot lying flat on a grocery floor, the shelf still stocked. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 340 560 L 340 300 L 600 300 L 600 560"/>
+    <path d="M 340 386 L 600 386 M 340 472 L 600 472" stroke-width="16"/>
+    <rect x="370" y="330" width="44" height="56" stroke-width="12"/>
+    <rect x="430" y="340" width="44" height="46" stroke-width="12"/>
+    <rect x="490" y="322" width="44" height="64" stroke-width="12"/>
+    <rect x="390" y="420" width="56" height="52" stroke-width="12"/>
+    <rect x="470" y="410" width="44" height="62" stroke-width="12"/>
+    <rect x="530" y="426" width="44" height="46" stroke-width="12"/>
+    <path d="M 410 615 L 690 615 Q 712 615 712 637 L 712 653 Q 712 675 690 675 L 410 675"/>
+    <path d="M 410 600 L 410 690 L 360 690 L 360 600 Z"/>
+    <path d="M 320 712 L 724 712"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="660" cy="645" r="12"/>
+    <circle cx="610" cy="645" r="12"/>
+    <circle cx="340" cy="618" r="14"/>
+    <circle cx="340" cy="672" r="14"/>
+  </g>
+</svg>
