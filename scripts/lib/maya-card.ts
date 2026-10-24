@@ -41,9 +41,8 @@ const COVER = path.join(
 );
 
 /**
- * The body and the title, each in both scripts; a cut is staged as
- * `<subset>-<weight>.woff2`. Each specifier is spelled whole, which is how knip
- * sees the package used.
+ * The body and the title, each in both scripts. Each specifier is spelled
+ * whole, which is how knip sees the package used.
  */
 const FONT_CUTS = [
   {
