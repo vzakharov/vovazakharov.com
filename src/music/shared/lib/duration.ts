@@ -2,9 +2,8 @@ import type { Locale } from '@/kernel/shared/i18n';
 
 /**
  * `m:ss`, as a track length is written everywhere, and `h:mm:ss` from an hour
- * up. Its own module because both the track list and the player bar want it,
- * and the bar is a client component that must not reach the build-time modules
- * beside it.
+ * up. The player bar wants it as well as the track list, and the bar is a
+ * client component, so this module reaches no build-time one.
  */
 export function formatDuration(seconds: number): string {
   const whole = Math.max(0, Math.floor(seconds));

@@ -58,7 +58,7 @@ export const COLLECTIONS = {
     feed: true,
   },
   music: {
-    /** The music catalogue's songs tab, which `pages/music`'s parser reads a
+    /** The music catalogue's songs tab, which `music/app`'s parser reads a
      * song under — the two move together. */
     base: 'music/songs',
     label: 'Songs',
