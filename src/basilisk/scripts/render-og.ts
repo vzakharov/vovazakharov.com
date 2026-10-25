@@ -16,15 +16,17 @@ import {
 } from '@/kernel/shared/content/index.node-safe';
 import { routeCardPath } from '@/kernel/shared/seo';
 
+import { CASES } from '@/basilisk/shared/content';
+
 import {
   generatedCard,
   renderOgCards,
   siteCardPath,
 } from '../../kernel/scripts/lib/og-job.ts';
+import { readCollection } from '../../kernel/scripts/lib/read-collection.ts';
 import { basiliskCard, caseCard } from './lib/basilisk-card.ts';
-import { readDocket } from './lib/read-docket.ts';
 
-const docket = readDocket();
+const docket = readCollection(CASES);
 
 await renderOgCards({
   siteCards: [generatedCard(basiliskCard(docket), siteCardPath())],

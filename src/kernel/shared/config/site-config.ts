@@ -5,7 +5,7 @@
  * each read what they need without the environment read coming along.
  */
 
-import type { WithLocale } from '@/shared/i18n';
+import type { WithLocale } from '@/kernel/shared/i18n';
 import type {
   Billed,
   Linked,

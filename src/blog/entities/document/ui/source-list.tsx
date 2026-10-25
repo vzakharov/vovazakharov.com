@@ -1,13 +1,13 @@
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import { formatDocumentDate, type Source } from '@/kernel/shared/content';
-
-import { messages } from '@/blog/shared/i18n';
 import {
   mentionsPrintRasterDomain,
   PRINT_RASTER_CLASS,
 } from '@/kernel/shared/lib/print-raster';
 
 import { TextLink } from '@/shell/shared/ui';
+
+import { messages } from '@/blog/shared/i18n';
 
 import classes from './source-list.module.scss';
 

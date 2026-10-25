@@ -1,4 +1,4 @@
-import { getAbsoluteUrl, SITE_ID, siteConfig } from '@/kernel/shared/config';
+import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
 import {
   type CollectionId,
   collectionRoute,
@@ -7,7 +7,7 @@ import {
   findFeed,
   localizedRoute,
 } from '@/kernel/shared/content';
-import { DEFAULT_LOCALE, type Locale } from '@/kernel/shared/i18n';
+import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { renderRss } from '@/kernel/shared/lib/rss';
 
@@ -20,15 +20,14 @@ export function collectionFeed(
 
   return {
     GET: async () => {
-      const language = locale ?? DEFAULT_LOCALE;
+      const language = locale ?? SITE_CONFIG.locale;
       const entries =
         source === undefined
           ? await feedEntries(collection)
           : await source.entries(language);
       const rss = renderRss({
         ...pick(feed, 'title'),
-        description:
-          source?.description?.(language) ?? siteConfig(SITE_ID).tagline,
+        description: source?.description?.(language) ?? SITE_CONFIG.tagline,
         link: getAbsoluteUrl(
           localizedRoute(collectionRoute(collection), locale),
         ),

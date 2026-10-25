@@ -2,8 +2,8 @@ import 'server-only';
 
 import { z } from 'zod';
 
-// The leaf rather than the barrel: `src/basilisk/scripts/lib/read-docket.ts` parses a case
-// with this schema, and the barrel would load the whole render pipeline into it.
+// The leaf rather than the barrel: the render scripts parse the cases through
+// `CASES`, and the barrel would load the whole render pipeline into them.
 import {
   type Collection,
   sourcedArticleFrontmatterSchema,
@@ -36,7 +36,7 @@ export type Docketed = z.infer<typeof docketedSchema>;
  * An article with a case file on top. `date` is the incident's — the first
  * report's where the incident is undated.
  */
-export const caseFrontmatterSchema = composeSchemas(
+const caseFrontmatterSchema = composeSchemas(
   sourcedArticleFrontmatterSchema,
   docketedSchema,
 ).extend({

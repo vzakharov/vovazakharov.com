@@ -4,7 +4,7 @@
  * frontmatter names, from the SVG beside each, and the site's own card, from
  * its mark — and each site's `scripts/render-og.ts` adds its own as bundles:
  * vova's CV cards and music's collages, basilisk's generated site and case
- * cards.
+ * cards, Майя's site and post cards.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -196,17 +196,12 @@ function defaultSiteCards(): Card[] {
 
   return avatar.vector === undefined
     ? []
-    : [
-        svgCard(
-          path.join(PUBLIC_DIR, avatar.vector),
-          path.join(PUBLIC_DIR, avatar.path),
-        ),
-      ];
+    : [svgCard(path.join(PUBLIC_DIR, avatar.vector), siteCardPath())];
 }
 
 /** Where the site's own card is written, for a bundle that generates it. */
 export function siteCardPath(): string {
-  return path.join(PUBLIC_DIR, siteConfig(RENDERED_SITE).avatar.path);
+  return path.join(PUBLIC_DIR, siteConfig(RENDERED_SITE).card.path);
 }
 
 /**

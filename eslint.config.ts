@@ -156,7 +156,6 @@ const eslintConfig = defineConfig([
       // basilisk
       'src/basilisk/scripts/lib/basilisk-card.ts',
       'src/basilisk/scripts/lib/docket.ts',
-      'src/basilisk/scripts/lib/read-docket.ts',
       // kernel
       'src/kernel/scripts/lib/content-tree.ts',
       'src/kernel/scripts/lib/og-job.ts',

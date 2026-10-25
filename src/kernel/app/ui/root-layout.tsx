@@ -35,7 +35,7 @@ export function RootLayout({
   head?: ReactNode;
 }>) {
   return (
-    <html lang="en" {...htmlProps}>
+    <html lang={SITE_CONFIG.locale} {...htmlProps}>
       <head>
         {head}
         {/* `data-domains` keeps a dev server or a preview from counting as the site. */}

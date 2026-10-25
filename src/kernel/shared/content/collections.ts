@@ -100,7 +100,7 @@ export const COLLECTIONS = {
     printable: false,
     localized: false,
     homeIndexed: true,
-    /** Drawn by `scripts/lib/maya-card.ts`. */
+    /** Drawn by `src/maya/scripts/lib/maya-card.ts`. */
     generatedCards: true,
     feed: true,
   },

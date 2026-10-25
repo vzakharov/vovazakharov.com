@@ -394,7 +394,8 @@ the alias. Case studies are unlocalized: the documents are English-only, and a
 the English one.
 
 **An unlocalized collection is in its site's language**, `SITE_CONFIG.locale`:
-the article chrome reads the catalogue's `documents` namespace in that locale.
+the article chrome reads blog's catalogue (`src/blog/shared/i18n/`) in that
+locale.
 
 The CV's social cards sit on the same seam from the other side: the page is
 localized and the card is not, and a `ru` card would be

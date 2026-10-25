@@ -27,9 +27,10 @@ const files = contentFiles(
 );
 
 const llmTarget = new Map(
-  readCollection(CASES).map(
-    ({ slug, frontmatter }) => [slug, frontmatter.llmTarget],
-  ),
+  readCollection(CASES).map(({ slug, frontmatter }) => [
+    slug,
+    frontmatter.llmTarget,
+  ]),
 );
 
 for (const file of pickReflections(files, llmTarget, COUNT)) {

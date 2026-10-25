@@ -16,7 +16,6 @@ import {
 import { type Chip, ChipNav, FileLink } from '@/shell/shared/ui';
 
 import { messages } from '@/blog/shared/i18n';
-
 import { DocumentMeta } from '@/blog/entities/document';
 
 import classes from './documents.module.scss';

@@ -1,4 +1,4 @@
-import { SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG } from '@/kernel/shared/config';
 import {
   documentDateTime,
   formatDocumentDate,

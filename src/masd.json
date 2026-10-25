@@ -6,6 +6,7 @@
   "lsa": ["shell"],
   "bible": ["blog"],
   "basilisk": ["blog"],
+  "maya": ["blog"],
   "mushrooms": ["kernel"],
   "vova": ["blog", "music", "mushrooms"]
 }

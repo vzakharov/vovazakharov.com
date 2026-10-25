@@ -15,9 +15,9 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { fold } from '../../src/pages/maya-whisper/index.node-safe.ts';
+import { fold } from '../../src/maya/pages/whisper/index.node-safe.ts';
 
-const OUT = 'src/pages/maya-whisper/model/lexicon.json';
+const OUT = 'src/maya/pages/whisper/model/lexicon.json';
 
 /** Words seen once are mostly names and typos, and would double the file. */
 const MIN_COUNT = 2;
@@ -26,7 +26,7 @@ const git = (...args: string[]) =>
   execFileSync('git', args, { encoding: 'utf8' }).trim();
 
 // A plain pathspec's `*` crosses slashes, so this reaches every depth.
-const files = git('ls-files', '-z', 'apps/*/public/*.md')
+const files = git('ls-files', '-z', 'sites/*/public/*.md')
   .split('\0')
   .filter(Boolean);
 
