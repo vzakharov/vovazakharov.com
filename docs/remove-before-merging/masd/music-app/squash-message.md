@@ -15,8 +15,9 @@ and the author's name from people.ts into author.ts.
 
 A page reads each thing once: albumInfo, artistInfo and songInfo give
 everything about an album, an artist or a song in one language, and
-catalogueAlbum adds what the songs say of it. The per-fact readers they
-are built from stay behind the barrel.
+catalogueInfo reads the songs once for the artists, the albums and
+what the songs say of each album. The per-fact readers they are built
+from stay behind the barrel.
 
 Its two barrels split by runtime graph. index.node-safe.ts holds only
 modules that reach no server-only, filesystem or zod at run time, so a
