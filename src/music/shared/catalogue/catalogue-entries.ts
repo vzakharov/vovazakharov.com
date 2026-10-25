@@ -62,7 +62,7 @@ export type AlbumInfo = CatalogueEntry & {
   wip: string | undefined;
 };
 
-/** An album with what the songs handed in say of it besides. */
+/** An album with what the catalogue's songs say of it besides. */
 export type CatalogueAlbum = AlbumInfo & {
   kind: ReleaseKind;
   /** `2019`, or `2019–2021`. */
@@ -81,7 +81,7 @@ export type ArtistWorks = {
   billed: SongDocument[];
 };
 
-/** An artist with what the songs handed in say of it besides. */
+/** An artist with what the catalogue's songs say of it besides. */
 export type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks;
 
 /** `track.routes` is the song's page in each language. */
