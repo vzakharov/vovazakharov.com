@@ -1,5 +1,7 @@
 import { Box, Divider, Group, Text } from '@mantine/core';
+import type { ReactNode } from 'react';
 
+<<<<<<< HEAD:src/shell/widgets/site-footer/ui/site-footer.tsx
 import { AUTHOR_URL, SITE_CONFIG } from '@/kernel/shared/config';
 import { BUILD_YEAR } from '@/kernel/shared/config/index.server-only';
 import { DEFAULT_LOCALE, type WithOptionalLocale } from '@/kernel/shared/i18n';
@@ -7,6 +9,13 @@ import type { WithOptionalChildren } from '@/kernel/shared/typings';
 
 import { messages } from '@/shell/shared/i18n';
 import { cssColor, TextLink } from '@/shell/shared/ui';
+=======
+import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
+import { BUILD_YEAR } from '@/shared/config/index.server-only';
+import { loadMessages, type WithOptionalLocale } from '@/shared/i18n';
+import type { WithOptionalChildren } from '@/shared/typings';
+import { cssColor, TextLink } from '@/shared/ui';
+>>>>>>> origin/main:src/widgets/site-footer/ui/site-footer.tsx
 
 type SiteFooterProps = WithOptionalChildren &
   WithOptionalLocale & {
@@ -14,6 +23,8 @@ type SiteFooterProps = WithOptionalChildren &
     feed?: string;
     /** On its site's root page, no note means no note rather than the way home. */
     onHomePage?: boolean;
+    /** Whom the copyright names, in place of the author linked home. */
+    byline?: ReactNode;
   };
 
 /**
@@ -26,7 +37,8 @@ export function SiteFooter({
   children,
   feed,
   onHomePage = false,
-  locale = DEFAULT_LOCALE,
+  byline,
+  locale = SITE_CONFIG.locale,
 }: SiteFooterProps) {
   const { author, url } = SITE_CONFIG;
 
@@ -42,11 +54,12 @@ export function SiteFooter({
         </Text>
         <Text size="sm" opacity={0.6}>
           © {BUILD_YEAR} {/* The author's own site does not link to itself. */}
-          {url === AUTHOR_URL ? (
-            author.name
-          ) : (
-            <TextLink href={AUTHOR_URL}>{author.name}</TextLink>
-          )}
+          {byline ??
+            (url === AUTHOR_URL ? (
+              author.name
+            ) : (
+              <TextLink href={AUTHOR_URL}>{author.name}</TextLink>
+            ))}
           {feed !== undefined && (
             <>
               {' · '}

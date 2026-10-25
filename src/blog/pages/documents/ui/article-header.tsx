@@ -1,29 +1,33 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import type { ReactNode } from 'react';
 
+<<<<<<< HEAD:src/blog/pages/documents/ui/article-header.tsx
 import { pageFile } from '@/kernel/shared/config';
+=======
+import { pageFile, SITE_CONFIG } from '@/shared/config';
+>>>>>>> origin/main:src/pages/documents/ui/article-header.tsx
 import {
   type ArticleFrontmatter,
+  COLLECTIONS,
   type DocumentRef,
   documentRoute,
   type Headlined,
   type Variant,
   VARIANTS,
   type WithContentDocument,
+<<<<<<< HEAD:src/blog/pages/documents/ui/article-header.tsx
 } from '@/kernel/shared/content';
+=======
+} from '@/shared/content';
+import { loadMessages } from '@/shared/i18n';
+import { type Chip, ChipNav, FileLink } from '@/shared/ui';
+>>>>>>> origin/main:src/pages/documents/ui/article-header.tsx
 
 import { type Chip, ChipNav, FileLink } from '@/shell/shared/ui';
 
 import { DocumentMeta } from '@/blog/entities/document';
 
 import classes from './documents.module.scss';
-
-/** How each cut is offered to the reader. `undefined` is the full document. */
-const CUT_LABELS: Record<Variant | 'full', string> = {
-  full: 'Full',
-  mini: 'Mini',
-  nano: 'Nano',
-};
 
 type CutSwitcherProps = DocumentRef & {
   current?: Variant;
@@ -41,9 +45,11 @@ function CutSwitcher({
     ...VARIANTS.filter((variant) => available.includes(variant)),
   ];
 
+  // `undefined` is the full document.
+  const labels = loadMessages(SITE_CONFIG.locale).documents.cuts;
   const chips = cuts.map(
     (cut): Chip => ({
-      label: CUT_LABELS[cut ?? 'full'],
+      label: labels[cut ?? 'full'],
       href: documentRoute(collection, slug, cut),
       current: cut === current,
     }),
@@ -110,7 +116,9 @@ export function ArticleHeader({
 
           <Group gap={16} wrap="wrap">
             <FileLink {...markdown}>.md</FileLink>
-            <FileLink {...pageFile(route, 'pdf')}>.pdf</FileLink>
+            {COLLECTIONS[collection].printable && (
+              <FileLink {...pageFile(route, 'pdf')}>.pdf</FileLink>
+            )}
           </Group>
         </Group>
       </Stack>

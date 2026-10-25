@@ -24,10 +24,16 @@ import { fileURLToPath } from 'node:url';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 import { documentDateTime, formatDocumentDate } from '@/kernel/shared/content';
 import {
+<<<<<<< HEAD:src/basilisk/scripts/lib/basilisk-card.ts
   documentRoute,
   PUBLIC_DIR,
 } from '@/kernel/shared/content/index.node-safe';
 import type { Titled } from '@/kernel/shared/typings';
+=======
+  documentDateTime,
+  formatDocumentDate,
+} from '@/shared/content/document-date';
+>>>>>>> origin/main:scripts/lib/basilisk-card.ts
 
 import {
   caseSealSvg,
@@ -37,6 +43,7 @@ import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
 
 import {
   CANVAS_BACKGROUND,
+  type CardHeading,
   escapeHtml,
   INK,
   INK_DIM,
@@ -56,8 +63,8 @@ const fontPath = fileURLToPath(
 
 type MemoRow = (typeof MEMO)[number];
 
-/** What one card prints: its memo, and the line over its title. */
-type CardCopy = Titled & { rows: readonly MemoRow[]; kicker: string };
+/** What one card prints: its heading, and its memo. */
+type CardCopy = CardHeading & { rows: readonly MemoRow[] };
 
 /**
  * How a card kind lays its memo out: CSS spliced into the template, and
@@ -219,7 +226,7 @@ export function caseCard({ slug, frontmatter, title }: DocketCase): StagedPage {
         row('Subject', subject),
         row('Object', object),
         ...(place === undefined ? [] : [row('Place', place)]),
-        row('Date', formatDocumentDate(date)),
+        row('Date', formatDocumentDate(date, 'en')),
         row('Grade', gradeLabel(grade)),
       ],
       kicker: `Case ${number} · Filed ${documentDateTime(filed)}`,

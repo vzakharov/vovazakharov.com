@@ -8,8 +8,9 @@
 #   scripts/publish-site.sh <site>
 #   scripts/publish-site.sh <site> --preview
 #
-# `--preview` sends any site, `vova` included, to the one preview receiver,
-# which serves whichever site was published there last.
+# `--preview` sends any site, `vova` included, to a preview receiver, which
+# serves whichever site was published there last: preview.vovazakharov.com, or
+# the slot PREVIEW_HOST names, its receiver being vzakharov/$PREVIEW_HOST.
 #
 # Reads PAGES_DEPLOY_KEY: the private half of an ed25519 deploy key whose
 # public half is installed on the target receiving repository with write
@@ -37,7 +38,7 @@ usage='usage: publish-site.sh <site> [--preview]'
 SITE=${1:?$usage}
 TARGET=${2:-production}
 BRANCH=gh-pages
-PREVIEW_HOST=preview.vovazakharov.com
+PREVIEW_HOST=${PREVIEW_HOST:-preview.vovazakharov.com}
 
 case "$TARGET" in
   production) ;;
@@ -59,6 +60,7 @@ else
     lsa) RECEIVER=vzakharov/latestageagentic.com ;;
     bible) RECEIVER=vzakharov/agentic.bible ;;
     basilisk) RECEIVER=vzakharov/basilisk.fyi ;;
+    maya) RECEIVER=vzakharov/maya.vovazakharov.com ;;
     *)
       printf 'No receiving repository for site %s.\n' "$SITE" >&2
       exit 1

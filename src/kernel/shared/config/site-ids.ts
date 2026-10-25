@@ -6,8 +6,13 @@
  * `site-env.ts` for that reason.
  */
 
+<<<<<<< HEAD:src/kernel/shared/config/site-ids.ts
 /** The ids are the source of truth: each names a directory under `sites/`. */
 export const SITE_IDS = ['vova', 'lsa', 'bible', 'basilisk'] as const;
+=======
+/** The ids are the source of truth: each names a directory under `apps/`. */
+export const SITE_IDS = ['vova', 'lsa', 'bible', 'basilisk', 'maya'] as const;
+>>>>>>> origin/main:src/shared/config/site-ids.ts
 
 export type SiteId = (typeof SITE_IDS)[number];
 
