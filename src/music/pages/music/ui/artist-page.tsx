@@ -7,7 +7,6 @@ import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
-  artistInfo,
   artistPath,
   catalogueInfo,
   musicPath,
@@ -34,9 +33,13 @@ import { Story } from './story';
 export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const catalogue = catalogueInfo();
   const copy = messages(locale);
-  const { name, gloss, text } = artistInfo(artist, locale);
-  const { albums, singles } = catalogue.artistDiscography(artist, locale);
-  const billed = catalogue.artistSongs(artist);
+  const {
+    name,
+    gloss,
+    text,
+    discography: { albums, singles },
+    billed,
+  } = catalogue.artist(artist, locale);
   const albumTiles = albums.map((album) => {
     const { detail, ...tile } = catalogue.album(album, locale);
 

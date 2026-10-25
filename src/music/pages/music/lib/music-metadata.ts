@@ -10,7 +10,7 @@ import {
 import {
   albumInfo,
   albumPath,
-  artistInfo,
+  artistCard,
   artistPath,
   catalogueInfo,
   MUSIC_COLLAGE,
@@ -72,7 +72,11 @@ export function generateMusicMetadata(page: IndexPageProps) {
 }
 
 export function generateArtistMetadata(page: ArtistPageProps) {
-  const { name: spelled, text } = artistInfo(page.artist, page.locale);
+  const {
+    name: spelled,
+    text,
+    picture,
+  } = catalogueInfo().artist(page.artist, page.locale);
   const name = spelledText(spelled);
   const { artistDescription } = messages(page.locale);
 
@@ -82,7 +86,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
     listenTitle(name, page.locale),
     textHook(text.hook ?? artistDescription.replace('{artist}', name)),
     (locale) => artistPath(page.artist, locale),
-    catalogueInfo().artistCard(page.artist, page.locale),
+    artistCard(page.artist, picture),
   );
 }
 

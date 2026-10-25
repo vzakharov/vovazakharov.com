@@ -40,6 +40,7 @@ export {
   projectBySlug,
 } from './names';
 export {
+  artistCard,
   artistCollage,
   artistCollageCovers,
   COLLAGE_SIZE,

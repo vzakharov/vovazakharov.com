@@ -150,12 +150,11 @@ const MUSIC_PLACEHOLDER = MUSIC_COLLAGE;
 /** An artist's card: its collage where it has one, else its picture. */
 export function artistCard(
   artist: MusicProject,
-  locale: Locale,
-  songs: readonly SongDocument[],
+  picture: string | undefined,
 ): string | undefined {
   return artistCollageCovers(artist).length > 0
     ? artistCollage(artist)
-    : artistPicture(artist, locale, songs);
+    : picture;
 }
 
 /**

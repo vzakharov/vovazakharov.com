@@ -10,7 +10,6 @@ import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
-  artistInfo,
   type CatalogueInfo,
   catalogueInfo,
   scriptSample,
@@ -83,7 +82,7 @@ function tabContent(
     artists,
     albums,
     album: catalogueAlbum,
-    artistPicture,
+    artist: catalogueArtist,
   }: CatalogueInfo,
 ): {
   content: ReactNode;
@@ -91,10 +90,11 @@ function tabContent(
 } {
   switch (tab) {
     case 'artists': {
-      const tiles = artists.map((artist) => ({
-        ...pick(artistInfo(artist, locale), 'href', 'slug', 'name'),
-        cover: artistPicture(artist, locale),
-      }));
+      const tiles = artists.map((artist) => {
+        const { picture, ...tile } = catalogueArtist(artist, locale);
+
+        return { ...pick(tile, 'href', 'slug', 'name'), cover: picture };
+      });
 
       return {
         content: <CatalogueGrid {...{ tiles }} />,

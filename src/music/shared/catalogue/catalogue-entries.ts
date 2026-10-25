@@ -25,7 +25,7 @@ import {
 import type { Glossed } from './frontmatter.ts';
 import { albumPath, artistPath } from './music-urls.ts';
 import type { MusicAlbum, MusicProject } from './names.ts';
-import { artistCard, artistPicture, songPicture } from './pictures.ts';
+import { artistPicture, songPicture } from './pictures.ts';
 import type { ReleaseKind } from './release-kind.ts';
 import {
   type LocalizedSongDocument,
@@ -69,13 +69,25 @@ export type CatalogueAlbum = AlbumInfo & {
   years: string;
   /** What its tile says under its name. */
   detail: string[];
+  tracks: Array<AlbumTrack<SongDocument>>;
 };
+
+/** The cover a page or a tile is pictured by, where it has one. */
+type Pictured = { picture: string | undefined };
+
+/** An artist with what the songs handed in say of it besides. */
+export type CatalogueArtist = ArtistInfo &
+  Pictured & {
+    discography: ReturnType<typeof artistDiscography>;
+    /** Every song billing it, as the artist or as a feature. */
+    billed: SongDocument[];
+  };
 
 /** `track.routes` is the song's page in each language. */
 export type SongInfo = WithSpelledTitle &
-  WithTrack & {
+  WithTrack &
+  Pictured & {
     localized: LocalizedSongDocument;
-    picture: string | undefined;
     lyrics: SongLyrics | undefined;
     prelude: StoryParts['prelude'];
   };
@@ -104,8 +116,8 @@ export function albumInfo(album: MusicAlbum, locale: Locale): AlbumInfo {
 }
 
 /**
- * The catalogue as one read of the songs: whatever derives from them is a
- * reader here closing over that read, never one taking the songs beside it.
+ * The catalogue as one read of the songs: an album or an artist is read whole
+ * through it, everything the songs say of either closing over that read.
  */
 export type CatalogueInfo = {
   /** Every listed song, in catalogue order. */
@@ -115,14 +127,7 @@ export type CatalogueInfo = {
   /** Newest first. */
   albums: MusicAlbum[];
   album: (album: MusicAlbum, locale: Locale) => CatalogueAlbum;
-  albumTracks: (album: MusicAlbum) => Array<AlbumTrack<SongDocument>>;
-  artistSongs: (artist: MusicProject) => SongDocument[];
-  artistDiscography: (
-    artist: MusicProject,
-    locale: Locale,
-  ) => ReturnType<typeof artistDiscography>;
-  artistPicture: (artist: MusicProject, locale: Locale) => string | undefined;
-  artistCard: (artist: MusicProject, locale: Locale) => string | undefined;
+  artist: (artist: MusicProject, locale: Locale) => CatalogueArtist;
 };
 
 export function catalogueInfo(): CatalogueInfo {
@@ -137,13 +142,14 @@ export function catalogueInfo(): CatalogueInfo {
       kind: albumKind(album, songs),
       years: albumYears(album, songs),
       detail: albumDetail(album, locale, songs),
+      tracks: albumTracks(album, songs),
     }),
-    albumTracks: (album) => albumTracks(album, songs),
-    artistSongs: (artist) => artistSongs(artist, songs),
-    artistDiscography: (artist, locale) =>
-      artistDiscography(artist, locale, songs),
-    artistPicture: (artist, locale) => artistPicture(artist, locale, songs),
-    artistCard: (artist, locale) => artistCard(artist, locale, songs),
+    artist: (artist, locale) => ({
+      ...artistInfo(artist, locale),
+      discography: artistDiscography(artist, locale, songs),
+      billed: artistSongs(artist, songs),
+      picture: artistPicture(artist, locale, songs),
+    }),
   };
 }
 

@@ -32,11 +32,9 @@ import { Story } from './story';
  * where it has one, and its songs in track order.
  */
 export function AlbumPage({ album, locale }: AlbumPageProps) {
-  const catalogue = catalogueInfo();
   const copy = messages(locale);
-  const { name, gloss, text, artist, cover, wip, kind, years } =
-    catalogue.album(album, locale);
-  const tracks = catalogue.albumTracks(album);
+  const { name, gloss, text, artist, cover, wip, kind, years, tracks } =
+    catalogueInfo().album(album, locale);
   const queue = tracks.map(({ song }) => songTrack(song, album));
   const sample = scriptSample(
     [name.original, artist.name.original, ...trackNames(queue, locale)],
