@@ -15,10 +15,10 @@ and the author's name from people.ts into author.ts.
 
 A page reads each thing once: albumInfo, artistInfo and songInfo give
 everything about an album, an artist or a song in one language, and
-catalogueInfo reads the songs once, and everything derived from them —
-the artists, the albums, an album's kind and tracks, an artist's
-releases and picture — is a reader closing over that read. The
-per-fact readers they are built from stay behind the barrel.
+catalogueInfo reads the songs once, and an album or an artist is read
+whole through it: an album with its kind, years and tracks, an artist
+with its releases and picture. The per-fact readers they are built
+from stay behind the barrel.
 
 Its two barrels split by runtime graph. index.node-safe.ts holds only
 modules that reach no server-only, filesystem or zod at run time, so a
