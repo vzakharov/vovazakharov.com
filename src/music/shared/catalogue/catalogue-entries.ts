@@ -37,8 +37,8 @@ import { songTitle, type WithSpelledTitle } from './spelling.ts';
 import type { SpelledLink, WithTrack } from './track.ts';
 
 /*
- * Everything a page shows of the catalogue, an artist, an album or a song, an
- * entry in one language at once. A page reads each whole: the per-fact readers
+ * Everything a page shows of the catalogue, and of an artist, an album or a
+ * song in one language at once. A page reads each whole: the per-fact readers
  * they are built from stay behind the barrel.
  */
 
