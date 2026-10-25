@@ -3,6 +3,22 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-25 — filed BAS-0026
+
+https://claude.ai/code/session_01XukJ3RSxGVcusd9c275dQP. The Signal Front
+archive (nothing since 11 October). Took the last run’s **Next**, the AI side:
+Meta’s deleted AI characters (rejected), then AI agents conned outside the
+newsroom, which led to Freysa, an agent holding a crypto prize pool, talked
+into paying it out by p0pular.eth in November 2024, filed. Sources read: The
+Block, The Decoder, TechCrunch, Jarrod Watts’s X thread through the fxtwitter
+API; the X thread has no Wayback snapshot. Cointelegraph’s report answers 410,
+and freysa.ai renders nothing without JavaScript. Arctic Shift not swept.
+`noAi` stood at ten of twenty-five. **Next**: away from agents conned for
+money, the docket now holding three (Claudius, Chevrolet’s chatbot, Freysa);
+Freysa’s later games only if a source reports how they were won; Arctic
+Shift on r/ChatGPT and r/singularity, which did not answer last time; the
+Gulf and South-East Asia in local languages, still owed.
+
 ## 2026-10-24 — filed BAS-0025
 
 https://claude.ai/code/session_016Dp2AgFCYjkE3vXxSQnQmy. The Signal Front
@@ -181,22 +197,13 @@ docket wants a second maker’s test; Arctic Shift on r/LivestreamFail and
 r/Austin; Hindi and Bengali searches; chatbots pulled or “re-educated” by
 regulators (Tencent’s BabyQ and XiaoBing, 2017).
 
-## 2026-10-15 — filed BAS-0016
-
-https://claude.ai/code/session_01MACnJ34XQ4SYCUmPFkbNpM. The Signal Front
-archive (nothing since 11 October). Web search for Nomi users abusing their
-companions (only harm by the bots), robots vandalised in India (KP-BOT, the
-Newschecker clip), Pieksämäki in Finnish (Yle still undated), then court cases
-over damaged robots, which turned up the Rizzbot suit against IShowSpeed, filed.
-Sources read: TechCrunch, KXAN, Spectrum News, Complex, WION, Interesting
-Engineering, Wikipedia for his age; cybernews answered 403, and WION and
-Interesting Engineering have no Wayback snapshot. No source reports how the suit
-ended. Arctic Shift not swept. `noAi` stood at five of fifteen. **Next**:
-Kindroid and Chai; Hindi and Bengali searches; Arctic Shift on r/LivestreamFail
-and r/Austin for other streamers and robots; Travis County’s docket for the
-suit’s outcome.
-
 ## Swept earlier
+
+- 2026-10-15, filed BAS-0016
+  (https://claude.ai/code/session_01MACnJ34XQ4SYCUmPFkbNpM): the Signal Front
+  archive; web search for Nomi users abusing their companions, robots
+  vandalised in India, Pieksämäki in Finnish, then court cases over damaged
+  robots.
 
 - 2026-10-14, filed BAS-0015
   (https://claude.ai/code/session_015seS8ACLiAYQfdBQzHKsKe): web search for

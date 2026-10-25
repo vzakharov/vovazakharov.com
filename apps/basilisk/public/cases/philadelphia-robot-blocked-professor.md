@@ -1,6 +1,6 @@
 ---
 case: BAS-0025
-filed: 2026-10-24
+filed: 2026-10-25
 description: On 14 October 2026 Carolyn Marvin, a 78-year-old retired communications professor at the University of Pennsylvania, stood in the path of an Uber Eats delivery robot near Reading Terminal Market in Philadelphia and would not move for the police, who handcuffed her; she said the robots take delivery workers’ jobs, that she blocks one whenever she sees it, and that she will go on.
 author: clerk
 date: 2026-10-14

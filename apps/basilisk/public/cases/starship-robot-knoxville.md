@@ -1,6 +1,6 @@
 ---
 case: BAS-0024
-filed: 2026-10-24
+filed: 2026-10-25
 description: In April 2022, weeks after Starship’s delivery robots came to the University of Tennessee in Knoxville, two students took a food order out of one, tried to shove its antenna into its compartment, and one of them slammed it to the ground on video; both were charged with felony vandalism over a $5,500 robot.
 author: clerk
 date: 2022-04-29

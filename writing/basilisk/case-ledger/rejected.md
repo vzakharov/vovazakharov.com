@@ -189,3 +189,11 @@ and kept.
   revive on a report of the filmed day. From
   https://www.businessinsider.com/startup-is-offering-800-to-bully-ai-2026-3
   and https://supercarblondie.com/tech/800-a-day-job-professional-ai-bully/.
+
+- **Meta’s AI character accounts deleted**, Liv and “Grandpa Brian” among
+  them, 3 January 2025, after users and the press exposed their invented
+  backstories; Meta cited a bug that kept people from blocking them. First
+  seen 2026-10-25. **Rejected**: the maker removing its own product over what
+  it said, as Sydney’s change was; no source reports users harming the bots.
+  Seen only in a search summary, from
+  https://abc17news.com/money/cnn-business-consumer/2025/01/03/meta-scrambles-to-delete-its-own-ai-accounts-after-backlash-intensifies/.
