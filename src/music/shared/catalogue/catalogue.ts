@@ -204,7 +204,7 @@ export function releasedBy(
 }
 
 /** The artist's releases, newest first, its albums — EPs and maxi singles among them — apart from its singles. */
-export function artistDiscography(
+function artistDiscography(
   artist: MusicProject,
   locale: Locale,
   songs: readonly SongDocument[],
@@ -218,5 +218,22 @@ export function artistDiscography(
     singles: releases.flatMap((release) =>
       'single' in release ? [release.single] : [],
     ),
+  };
+}
+
+export type ArtistWorks = {
+  discography: ReturnType<typeof artistDiscography>;
+  /** Every song billing it, as the artist or as a feature. */
+  billed: SongDocument[];
+};
+
+export function artistWorks(
+  artist: MusicProject,
+  locale: Locale,
+  songs: readonly SongDocument[],
+): ArtistWorks {
+  return {
+    discography: artistDiscography(artist, locale, songs),
+    billed: artistSongs(artist, songs),
   };
 }

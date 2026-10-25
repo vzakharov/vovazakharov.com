@@ -7,10 +7,10 @@ import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/kernel/shared/seo';
 import { albumCover } from './albums.ts';
 import {
   type ArtistRelease,
+  type ArtistWorks,
   catalogueReleases,
   releasedBy,
 } from './catalogue.ts';
-import type { ArtistWorks } from './catalogue-entries.ts';
 import { artistPath, musicPath, radioPath } from './music-urls.ts';
 import type { MusicAlbum, MusicProject } from './names.ts';
 import type { SongDocument } from './song-text.ts';

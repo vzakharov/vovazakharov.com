@@ -10,8 +10,8 @@ import {
   albumKind,
   albumWipNote,
   albumYears,
-  artistDiscography,
-  artistSongs,
+  type ArtistWorks,
+  artistWorks,
   catalogueArtists,
   newestAlbums,
 } from './catalogue.ts';
@@ -74,12 +74,6 @@ export type CatalogueAlbum = AlbumInfo & {
 
 /** The cover a page or a tile is pictured by, where it has one. */
 type Pictured = { picture: string | undefined };
-
-export type ArtistWorks = {
-  discography: ReturnType<typeof artistDiscography>;
-  /** Every song billing it, as the artist or as a feature. */
-  billed: SongDocument[];
-};
 
 /** An artist with what the catalogue's songs say of it besides. */
 export type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks;
@@ -146,10 +140,7 @@ export function catalogueInfo(): CatalogueInfo {
       tracks: albumTracks(album, songs),
     }),
     artist: (artist, locale) => {
-      const works: ArtistWorks = {
-        discography: artistDiscography(artist, locale, songs),
-        billed: artistSongs(artist, songs),
-      };
+      const works = artistWorks(artist, locale, songs);
 
       return {
         ...artistInfo(artist, locale),
