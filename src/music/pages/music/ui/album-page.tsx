@@ -14,7 +14,6 @@ import {
   songTrack,
   trackNames,
 } from '@/music/shared/catalogue';
-import { albumTracks } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
 import { catalogueSize } from '../lib/duration';
@@ -37,7 +36,7 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
   const copy = messages(locale);
   const { name, gloss, text, artist, cover, wip, kind, years } =
     catalogue.album(album, locale);
-  const tracks = albumTracks(album, catalogue.songs);
+  const tracks = catalogue.albumTracks(album);
   const queue = tracks.map(({ song }) => songTrack(song, album));
   const sample = scriptSample(
     [name.original, artist.name.original, ...trackNames(queue, locale)],

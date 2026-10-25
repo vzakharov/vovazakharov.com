@@ -4,7 +4,7 @@
  * script reads the names themselves off `catalogue-names.ts`.
  */
 
-export { albumTracks, songPlacements } from './album-tracks.ts';
+export { songPlacements } from './album-tracks.ts';
 export { type CreditedName, SONG_AUTHOR } from './author.ts';
 export { billedArtists, type SongBilling } from './file-name.ts';
 export { inlineRuns } from './lyric-inline.ts';

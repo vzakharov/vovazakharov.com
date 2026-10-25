@@ -1,4 +1,3 @@
-export { artistDiscography, artistSongs } from './catalogue';
 export {
   albumInfo,
   artistInfo,
@@ -41,10 +40,8 @@ export {
   projectBySlug,
 } from './names';
 export {
-  artistCard,
   artistCollage,
   artistCollageCovers,
-  artistPicture,
   COLLAGE_SIZE,
   MUSIC_COLLAGE,
   musicCollageCovers,

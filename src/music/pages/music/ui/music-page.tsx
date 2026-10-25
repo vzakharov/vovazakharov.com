@@ -11,7 +11,6 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
   artistInfo,
-  artistPicture,
   type CatalogueInfo,
   catalogueInfo,
   scriptSample,
@@ -79,7 +78,13 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
 /** The tab's list, and the names it shows for `scriptSample` to read. */
 function tabContent(
   { tab, locale }: IndexPageProps,
-  { songs, artists, albums, album: catalogueAlbum }: CatalogueInfo,
+  {
+    songs,
+    artists,
+    albums,
+    album: catalogueAlbum,
+    artistPicture,
+  }: CatalogueInfo,
 ): {
   content: ReactNode;
   names: string[];
@@ -88,7 +93,7 @@ function tabContent(
     case 'artists': {
       const tiles = artists.map((artist) => ({
         ...pick(artistInfo(artist, locale), 'href', 'slug', 'name'),
-        cover: artistPicture(artist, locale, songs),
+        cover: artistPicture(artist, locale),
       }));
 
       return {

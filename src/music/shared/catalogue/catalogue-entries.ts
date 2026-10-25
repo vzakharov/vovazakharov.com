@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { Locale } from '@/kernel/shared/i18n';
 
+import { type AlbumTrack, albumTracks } from './album-tracks.ts';
 import { albumArtist, albumCover, albumGloss, albumTitle } from './albums.ts';
 import { projectGloss, projectName } from './artists.ts';
 import {
@@ -9,6 +10,8 @@ import {
   albumKind,
   albumWipNote,
   albumYears,
+  artistDiscography,
+  artistSongs,
   catalogueArtists,
   newestAlbums,
 } from './catalogue.ts';
@@ -22,7 +25,7 @@ import {
 import type { Glossed } from './frontmatter.ts';
 import { albumPath, artistPath } from './music-urls.ts';
 import type { MusicAlbum, MusicProject } from './names.ts';
-import { songPicture } from './pictures.ts';
+import { artistCard, artistPicture, songPicture } from './pictures.ts';
 import type { ReleaseKind } from './release-kind.ts';
 import {
   type LocalizedSongDocument,
@@ -102,7 +105,8 @@ export function albumInfo(album: MusicAlbum, locale: Locale): AlbumInfo {
 
 /**
  * The catalogue as one read of the songs, which everything else in it derives
- * from — an album's kind and years included, so `album` closes over that read.
+ * from — an album's kind and years, an artist's releases and picture — so each
+ * reader here closes over that read.
  */
 export type CatalogueInfo = {
   /** Every listed song, in catalogue order. */
@@ -112,6 +116,14 @@ export type CatalogueInfo = {
   /** Newest first. */
   albums: MusicAlbum[];
   album: (album: MusicAlbum, locale: Locale) => CatalogueAlbum;
+  albumTracks: (album: MusicAlbum) => Array<AlbumTrack<SongDocument>>;
+  artistSongs: (artist: MusicProject) => SongDocument[];
+  artistDiscography: (
+    artist: MusicProject,
+    locale: Locale,
+  ) => ReturnType<typeof artistDiscography>;
+  artistPicture: (artist: MusicProject, locale: Locale) => string | undefined;
+  artistCard: (artist: MusicProject, locale: Locale) => string | undefined;
 };
 
 export function catalogueInfo(): CatalogueInfo {
@@ -127,6 +139,12 @@ export function catalogueInfo(): CatalogueInfo {
       years: albumYears(album, songs),
       detail: albumDetail(album, locale, songs),
     }),
+    albumTracks: (album) => albumTracks(album, songs),
+    artistSongs: (artist) => artistSongs(artist, songs),
+    artistDiscography: (artist, locale) =>
+      artistDiscography(artist, locale, songs),
+    artistPicture: (artist, locale) => artistPicture(artist, locale, songs),
+    artistCard: (artist, locale) => artistCard(artist, locale, songs),
   };
 }
 
