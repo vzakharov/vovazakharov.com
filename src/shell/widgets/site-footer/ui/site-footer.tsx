@@ -1,21 +1,13 @@
 import { Box, Divider, Group, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
 
-<<<<<<< HEAD:src/shell/widgets/site-footer/ui/site-footer.tsx
 import { AUTHOR_URL, SITE_CONFIG } from '@/kernel/shared/config';
 import { BUILD_YEAR } from '@/kernel/shared/config/index.server-only';
-import { DEFAULT_LOCALE, type WithOptionalLocale } from '@/kernel/shared/i18n';
+import type { WithOptionalLocale } from '@/kernel/shared/i18n';
 import type { WithOptionalChildren } from '@/kernel/shared/typings';
 
 import { messages } from '@/shell/shared/i18n';
 import { cssColor, TextLink } from '@/shell/shared/ui';
-=======
-import { AUTHOR_URL, SITE_CONFIG } from '@/shared/config';
-import { BUILD_YEAR } from '@/shared/config/index.server-only';
-import { loadMessages, type WithOptionalLocale } from '@/shared/i18n';
-import type { WithOptionalChildren } from '@/shared/typings';
-import { cssColor, TextLink } from '@/shared/ui';
->>>>>>> origin/main:src/widgets/site-footer/ui/site-footer.tsx
 
 type SiteFooterProps = WithOptionalChildren &
   WithOptionalLocale & {

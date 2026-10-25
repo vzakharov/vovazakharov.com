@@ -4,32 +4,11 @@
  * `read-collection.ts` is the half that parses through the schema.
  */
 
-<<<<<<< HEAD:src/basilisk/scripts/lib/docket.ts
-import type { WithFrontmatter } from '@/kernel/shared/content';
-import type { Slugged } from '@/kernel/shared/content/index.node-safe';
-import type { Titled } from '@/kernel/shared/typings';
-
 import type { CaseFrontmatter } from '@/basilisk/shared/content/basilisk-frontmatter';
-=======
-import type { CaseFrontmatter } from '@/shared/content/basilisk-frontmatter';
->>>>>>> origin/main:scripts/lib/docket.ts
 
-import type { CollectionEntry } from './read-collection.ts';
+import type { CollectionEntry } from '../../../kernel/scripts/lib/read-collection.ts';
 
 export type DocketCase = CollectionEntry<CaseFrontmatter>;
-
-const TITLE = /^# (.+)$/m;
-
-/** The body's first `# ` heading, which is the page's title. Throws where there is none. */
-export function headingTitle(body: string, file: string): string {
-  const title = TITLE.exec(body)?.[1]?.trim();
-
-  if (title === undefined) {
-    throw new Error(`A document without a "# " title: ${file}`);
-  }
-
-  return title;
-}
 
 /**
  * Numbers are zero-padded, so their string order is their filing order. Throws

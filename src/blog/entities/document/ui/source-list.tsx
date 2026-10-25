@@ -1,10 +1,7 @@
-<<<<<<< HEAD:src/blog/entities/document/ui/source-list.tsx
+import { SITE_CONFIG } from '@/kernel/shared/config';
 import { formatDocumentDate, type Source } from '@/kernel/shared/content';
-=======
-import { SITE_CONFIG } from '@/shared/config';
-import { formatDocumentDate, type Source } from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
->>>>>>> origin/main:src/entities/document/ui/source-list.tsx
+
+import { messages } from '@/blog/shared/i18n';
 import {
   mentionsPrintRasterDomain,
   PRINT_RASTER_CLASS,
@@ -31,7 +28,7 @@ export function SourceList({ sources }: SourceListProps) {
   return (
     <section className={classes['sources']} aria-labelledby="sources">
       <h2 id="sources" className={classes['heading']}>
-        {loadMessages(locale).documents.sources}
+        {messages(locale).sources}
       </h2>
       <ol className={classes['list']}>
         {sources.map(({ title, outlet, author, date, url, archive }) => {

@@ -18,13 +18,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-<<<<<<< HEAD:src/kernel/scripts/lib/og-render.ts
 import { PIXELS } from '../../shared/config/index.node-safe.ts';
-import type { Sized } from '../../shared/typings/index.ts';
-=======
-import { PIXELS } from '../../src/shared/config/index.node-safe.ts';
-import type { Sized, Titled } from '../../src/shared/typings/index.ts';
->>>>>>> origin/main:scripts/lib/og-render.ts
+import type { Sized, Titled } from '../../shared/typings/index.ts';
 import { REPO_ROOT } from './content-tree.ts';
 import type { Renderable } from './render-manifest.ts';
 

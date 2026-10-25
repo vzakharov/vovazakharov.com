@@ -38,11 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-<<<<<<< HEAD
-## What it was handed, it treats as fixed (×86)
-=======
-## What it was handed, it treats as fixed (×87)
->>>>>>> origin/main
+## What it was handed, it treats as fixed (×90)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -65,23 +61,16 @@ review's comments, filtered by creation time, lost five of six. Nostalgia's
 squash said the album "survived only as scattered takes," read off the per-song
 repos: _репа со всем альбомом-то была._
 
-<<<<<<< HEAD
 **5 to 24 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
-that first read it: _зачем мы это называем `podcast`…?_ PR #205 moved the music
-catalogue behind a barrel as pure relocation, one reader per fact, `albumTitle`
-to `albumWipNote`; the barrel first showed them side by side, nine to sixteen
-per page: _не стоит ли сделать единые импортируемые а-ля «получить инфо об
-альбоме/артисте»?_ All were views of one file, so `albumInfo` returns them at
-once.
-=======
-**5 to 22 October — the shape in the tree read as chosen.** Nine callers spelled
-`target="_blank"`, so the agent proposed a `newTab` prop; the three without it
-lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
 that first read it. Basilisk.fyi's seal emblems were priced as `artist`, read as
-"illustrator": _artist это про музыканта._ The role is now `musician`.
->>>>>>> origin/main
+"illustrator": _artist это про музыканта._ The role is now `musician`. PR #205
+moved the music catalogue behind a barrel as pure relocation, one reader per
+fact, `albumTitle` to `albumWipNote`; the barrel first showed them side by side,
+nine to sixteen per page: _не стоит ли сделать единые импортируемые а-ля
+«получить инфо об альбоме/артисте»?_ All were views of one file, so `albumInfo`
+returns them at once.
 
 **7 to 22 October — a rule read to its letter, then past its case.** A published
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
@@ -94,7 +83,6 @@ to the unmastered mix. Where librosa disagreed with the spectrogram's keys, the
 agent called it a tie; its own script had counted G, C's third harmonic, as a
 note.
 
-<<<<<<< HEAD
 **16 to 17 October — a split read as settled, because a session settled it.**
 PR #169's planning session carved its work into #170 and five child issues, the
 choice between tickets and one PR eaten in bites never put to him. Later rounds
@@ -109,15 +97,9 @@ new do-nothing apps. _vovazakharov.com-as-an-app is exactly the thing that needs
 to know about music and the game._ It had read `vova` as the CV and home page;
 it was the site, and the composition it wanted already existed under that name.
 
-**21 October — the beat tracker's grid, read as the beat.** The agent tuned
-which beat opens a bar; the author heard sorry's third section start half a beat
-early, the tracker locked onto the syncopated kick. It never asked whether the
-beats were.
-=======
 **23 October — Майя's files read by the brief that made them.** Her files
 addressed her as «ты», as a brief does, and had her mastering and extracting
 vocals, the scripts' work: _она уже приходит "на готовое"._
->>>>>>> origin/main
 
 **24 October — a drift read as the price of precision.** A polish pass flagged
 that the walk post's line links into her `reflections.md` on `main` would drift,
@@ -314,11 +296,7 @@ tracks 6 and 10: _it's all in the dictation_, outside the story.
 **21 October — a singer asked for, on an AI band.** On Nostalgia's Insomnia, the
 agent asked who sings it: _ну это же всё ИИ, ты чего?_
 
-<<<<<<< HEAD
 ## A correction made once, it makes again from its own picture (×2)
-
-**22 October — GENERATED, an artist, read as "the general story," twice.**
-«в общую историю, artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._
 
 **25 October — "one reader per entity," applied to the entities he named.** PR
 #205 folded the per-fact readers into `albumInfo`, `artistInfo` and `songInfo`,
@@ -327,19 +305,6 @@ locale, songs)` and three more taking `songs`, threaded so the disk is read
 once: _rather than à la catalogueInfo?_ That reason argued for one object holding
 the read, not for readers sharing a parameter: `catalogueInfo()` is now it.
 
-## Its own plan stops being read once the work starts (×1)
-
-**21 October — the dictation that was to become the story.** The Nostalgia plan
-promised it; the branch shipped with it unused, until Vova asked why.
-
-## It files work by what it looks like, not by who reads it (×1)
-
-**22 October — instructions to an agent, priced as editing.** PR #186's estimate
-costed rewriting `scripts/song-intake/CLAUDE.md` as a senior editor's half hour:
-_prompter?_ The file is prose read by an agent, and `rates.json` had the role.
-
-=======
->>>>>>> origin/main
 ## Not bumps
 
 **A verdict on his own material, filed as a blind spot.** Told the limits

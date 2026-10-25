@@ -1,23 +1,18 @@
 import { Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
-import { SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG } from '@/kernel/shared/config';
 import {
   type ArticleFrontmatter,
   type DocumentCard,
   documentRoute,
   type WithCollectionId,
-<<<<<<< HEAD:src/blog/entities/document/ui/document-cards.tsx
 } from '@/kernel/shared/content';
 import { cx } from '@/kernel/shared/lib/class-names';
 
 import { Card, NameLink, TextLink } from '@/shell/shared/ui';
-=======
-} from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import { Card, NameLink, TextLink } from '@/shared/ui';
->>>>>>> origin/main:src/entities/document/ui/document-cards.tsx
+
+import { messages } from '@/blog/shared/i18n';
 
 import classes from './document-cards.module.scss';
 import { DocumentMeta } from './document-meta';
@@ -32,7 +27,7 @@ type DocumentCardsProps = WithCollectionId & {
  * home page both render it, differing only in the copy above it.
  */
 export function DocumentCards({ collection, cards }: DocumentCardsProps) {
-  const copy = loadMessages(SITE_CONFIG.locale).documents;
+  const copy = messages(SITE_CONFIG.locale);
 
   return (
     <Stack gap={24}>

@@ -1,14 +1,8 @@
 import 'server-only';
 
-<<<<<<< HEAD:src/kernel/shared/content/authors.ts
-import { AUTHOR_URL, SITE_CONFIG } from '@/kernel/shared/config';
+import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/kernel/shared/config';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Linked, Named } from '@/kernel/shared/typings';
-=======
-import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/shared/config';
-import { pick } from '@/shared/lib/collections';
-import type { Linked, Named } from '@/shared/typings';
->>>>>>> origin/main:src/shared/content/authors.ts
 
 import { documentRoute } from './collections';
 

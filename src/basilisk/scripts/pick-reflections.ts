@@ -8,21 +8,15 @@
 
 import path from 'node:path';
 
-<<<<<<< HEAD:src/basilisk/scripts/pick-reflections.ts
 import { collectionDir } from '@/kernel/shared/content/index.node-safe';
+
+import { CASES } from '@/basilisk/shared/content';
 
 import {
   contentFiles,
   REPO_ROOT,
 } from '../../kernel/scripts/lib/content-tree.ts';
-import { readDocket } from './lib/read-docket.ts';
-=======
-import { ARTICLE_COLLECTIONS } from '@/shared/content/collection-schemas';
-import { collectionDir } from '@/shared/content/collections';
-
-import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
-import { readCollection } from './lib/read-collection.ts';
->>>>>>> origin/main:scripts/pick-reflections.ts
+import { readCollection } from '../../kernel/scripts/lib/read-collection.ts';
 import { pickReflections } from './lib/reflection-pick.ts';
 
 const COUNT = 4;
@@ -33,7 +27,7 @@ const files = contentFiles(
 );
 
 const llmTarget = new Map(
-  readCollection(ARTICLE_COLLECTIONS['basilisk-cases']).map(
+  readCollection(CASES).map(
     ({ slug, frontmatter }) => [slug, frontmatter.llmTarget],
   ),
 );

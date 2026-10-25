@@ -24,16 +24,9 @@ import { fileURLToPath } from 'node:url';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 import { documentDateTime, formatDocumentDate } from '@/kernel/shared/content';
 import {
-<<<<<<< HEAD:src/basilisk/scripts/lib/basilisk-card.ts
   documentRoute,
   PUBLIC_DIR,
 } from '@/kernel/shared/content/index.node-safe';
-import type { Titled } from '@/kernel/shared/typings';
-=======
-  documentDateTime,
-  formatDocumentDate,
-} from '@/shared/content/document-date';
->>>>>>> origin/main:scripts/lib/basilisk-card.ts
 
 import {
   caseSealSvg,

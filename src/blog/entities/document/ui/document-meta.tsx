@@ -1,6 +1,6 @@
 import { Group } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG } from '@/kernel/shared/config';
 import {
   type ArticleFrontmatter,
   AUTHORS,
@@ -8,19 +8,13 @@ import {
   formatDocumentDate,
   type WithFrontmatter,
   type WithReadingMinutes,
-<<<<<<< HEAD:src/blog/entities/document/ui/document-meta.tsx
 } from '@/kernel/shared/content';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/kernel/shared/typings';
 
 import { NameLink } from '@/shell/shared/ui';
-=======
-} from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import type { WithOptionalClassName } from '@/shared/typings';
-import { NameLink } from '@/shared/ui';
->>>>>>> origin/main:src/entities/document/ui/document-meta.tsx
+
+import { messages } from '@/blog/shared/i18n';
 
 import classes from './document-meta.module.scss';
 
@@ -40,7 +34,7 @@ export function DocumentMeta({
 }: DocumentMetaProps) {
   const { name, href } = AUTHORS[frontmatter.author];
   const { locale } = SITE_CONFIG;
-  const copy = loadMessages(locale).documents;
+  const copy = messages(locale);
 
   return (
     <Group

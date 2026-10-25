@@ -1,15 +1,9 @@
 ---
 description: Handing a reflection to a subagent — Майя's on a song, the Clerk's on a case — briefed as the persona itself, with its inputs already prepared
 paths:
-<<<<<<< HEAD
   - 'sites/vova/public/music/*/*.maya.reflections.md'
   - 'sites/basilisk/public/cases/*.clerk.reflections.md'
-  - .claude/rules/maya-reflections.md
-=======
-  - 'apps/vova/public/music/*/*.maya.reflections.md'
-  - 'apps/basilisk/public/cases/*.clerk.reflections.md'
   - 'personas/maya/*.md'
->>>>>>> origin/main
   - .claude/rules/clerk-reflections.md
 ---
 

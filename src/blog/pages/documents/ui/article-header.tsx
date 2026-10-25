@@ -1,11 +1,7 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import type { ReactNode } from 'react';
 
-<<<<<<< HEAD:src/blog/pages/documents/ui/article-header.tsx
-import { pageFile } from '@/kernel/shared/config';
-=======
-import { pageFile, SITE_CONFIG } from '@/shared/config';
->>>>>>> origin/main:src/pages/documents/ui/article-header.tsx
+import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
 import {
   type ArticleFrontmatter,
   COLLECTIONS,
@@ -15,15 +11,11 @@ import {
   type Variant,
   VARIANTS,
   type WithContentDocument,
-<<<<<<< HEAD:src/blog/pages/documents/ui/article-header.tsx
 } from '@/kernel/shared/content';
-=======
-} from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
-import { type Chip, ChipNav, FileLink } from '@/shared/ui';
->>>>>>> origin/main:src/pages/documents/ui/article-header.tsx
 
 import { type Chip, ChipNav, FileLink } from '@/shell/shared/ui';
+
+import { messages } from '@/blog/shared/i18n';
 
 import { DocumentMeta } from '@/blog/entities/document';
 
@@ -46,7 +38,7 @@ function CutSwitcher({
   ];
 
   // `undefined` is the full document.
-  const labels = loadMessages(SITE_CONFIG.locale).documents.cuts;
+  const labels = messages(SITE_CONFIG.locale).cuts;
   const chips = cuts.map(
     (cut): Chip => ({
       label: labels[cut ?? 'full'],
