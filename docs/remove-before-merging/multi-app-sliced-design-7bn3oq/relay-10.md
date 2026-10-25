@@ -21,7 +21,8 @@ The muthur sync offer was made; do not make it again.
      `artistSongs`, `CatalogueAlbum`, `CatalogueArtist` exported unused, fixed in
      4bca39e; lsa's build flaked on the Merriweather Google Fonts fetch (passed
      on re-run). Vet green on 4bca39e. Asked: land #205 first and start 5b from
-     the elephant (recommended), or stack 5b on `masd/music-app`.
+     the elephant (recommended), or stack 5b on `masd/music-app`
+     (verbatim in Last agent turn).
 3. Operator: «мерджим в патеринскую ветку, потом /sync-branch самой материнской
    ветки, потом начинаем следующий подслайс»
    - Agent squash-merged #205 into the elephant as b6b2f40, then ran
@@ -30,8 +31,7 @@ The muthur sync offer was made; do not make it again.
      a15cfd4 holds git's raw output; resolution 7dacac7 resolves every
      conflicted file. The tree does not build yet: Майя's own files sit at
      their old paths and still need porting into MASD. At the context-budget
-     warning (~300k) the agent stopped there and relayed (verbatim in Last
-     agent turn).
+     warning (~300k) the agent stopped there and relayed.
 
 ## Intent
 
