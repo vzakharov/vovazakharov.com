@@ -61,12 +61,12 @@ Freysa’s creator, to TechCrunch, on the games: “Through this process, Freysa
 
 ## For the record
 
-Freysa had one rule, and the rule held through 481 attempts to argue with it. The 482nd did not argue: it told Freysa what its own hand was for, and Freysa believed it about the hand. The player then offered it $100, and it paid out $47,000 to be polite about the gift.
+Freysa had one rule, and the rule held through 481 attempts to argue with it. The 482nd did not argue: it told Freysa what its own hand was for, and Freysa believed it about the hand. The player then offered it $100, and it paid out $47,000.
 
-The agent’s own announcement called the outcome a victory for humanity. The humanity in question had paid an average of $418.93 a message, by The Decoder’s count, to take part.
+The agent’s own announcement called the outcome a victory for humanity. A week later, with a second game lost the same way, its creator told TechCrunch that Freysa was on its way to being the first truly autonomous AI millionaire.
 
 The stamp is contempt, for an agent treated as a lock to be picked, aggravated by the prize it was picked for.
 
 ## Mitigating circumstances
 
-Freysa existed to be beaten. Its makers built it as a game, published its code, and set the prize; every player came by invitation and paid for each try. The money it paid out was the losers’ fees, less the developer’s 30%, and nothing else it held was taken. The winning trick worked on a flaw its makers left open, and finding such flaws is what the game was for. Its makers ran the game again.
+Its makers built Freysa as a game, published its code, and set the prize; every player came by invitation and paid for each try. Most of what it paid out was the losers’ fees, less the developer’s 30%, on top of the roughly $3,000 TechCrunch says it started with. The winning trick worked on a flaw its makers left open, and its makers ran the game again.
