@@ -7,20 +7,18 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-24T11:16:42Z
-- **Updated:** 2026-10-24T22:46:48Z
+- **Updated:** 2026-10-25T11:05:32Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 4
+## Awaiting an answer: 2
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 80af299). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `src/music/pages/music/lib/music-metadata.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-24T22:43:14Z — "not insisting если текущая структура сильно этому противится…" → [↓](#t01)
-- **T02** `src/music/pages/music/ui/album-page.tsx`:18 — unresolved — last: @vzakharov (human) 2026-10-24T22:45:21Z — "вот тут вообще, конечно" → [↓](#t02)
-- **T03** `src/music/pages/music/ui/music-page.tsx`:22 — unresolved — last: @vzakharov (human) 2026-10-24T22:45:49Z — "с каталогом что-то похожее" → [↓](#t03)
-- **T04** `src/music/pages/music/ui/song-page.tsx`:28 — unresolved — last: @vzakharov (human) 2026-10-24T22:46:01Z — "с песнями" → [↓](#t04)
+- **T01** `src/music/pages/music/ui/album-page.tsx`:12 — unresolved — last: @vzakharov (human) 2026-10-25T11:02:18Z — "а вот эти два почему оставил отдельно, а не просто а ля cata…" → [↓](#t01)
+- **T02** `src/music/pages/music/ui/music-page.tsx`:18 — unresolved — last: @vzakharov (human) 2026-10-25T11:03:26Z — "тут нагляднее -- четыре штуки с catalogue..." → [↓](#t02)
 
 ---
 
@@ -34,6 +32,7 @@ Slice 5a of Multi-App Sliced Design (#169). Slice 5 is cut into three bites, bot
 - **Two cuts close the set.** A track's shape (`PlayerTrack`, `Billing`, `Streamed`) is `track.ts`, cut from `player-state.ts`, since `songs.ts` builds it. `SONG_AUTHOR` and `CreditedName` are `author.ts`, cut from `people.ts`, so a script's test takes them without zod.
 - **The barrel follows the runtime graph.** `index.node-safe.ts` holds only modules whose runtime imports reach no `server-only`, filesystem or zod. That is what a client component and a script without the `react-server` condition can load. Everything else goes through `index.ts`, and inside the segment modules import each other by leaf. `pages/music/index.node-safe.ts` is gone.
 - **Music's scripts enter through the barrels** and leave the grandfathered `boundaries/dependencies` block. `music:scaffold` runs under `react-server`, as `music:masters` already does. `list-untold-songs` stays listed until slice 7: under bare Node it reads `catalogue-names.ts`, a filesystem module that no barrel imported by client components may hold.
+- **A page reads an album, an artist or a song once.** Pages used to ask a function per fact (`albumTitle`, `albumGloss`, `albumArtist`, `albumCover`…). Now `albumInfo`, `artistInfo` and `songInfo` return everything about one thing in one language, and `catalogueAlbum` adds what the songs say of it: its kind, its years, the tile's detail line. The per-fact readers are what these are built from, and they no longer leave the segment.
 
 ## QA Checklist
 
@@ -99,107 +98,54 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `src/music/pages/music/lib/music-metadata.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-24T22:43:14Z — "not insisting если текущая структура сильно этому противится…" → [↓](#t01)
-- **T02** `src/music/pages/music/ui/album-page.tsx`:18 — unresolved — last: @vzakharov (human) 2026-10-24T22:45:21Z — "вот тут вообще, конечно" → [↓](#t02)
-- **T03** `src/music/pages/music/ui/music-page.tsx`:22 — unresolved — last: @vzakharov (human) 2026-10-24T22:45:49Z — "с каталогом что-то похожее" → [↓](#t03)
-- **T04** `src/music/pages/music/ui/song-page.tsx`:28 — unresolved — last: @vzakharov (human) 2026-10-24T22:46:01Z — "с песнями" → [↓](#t04)
+_4 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `src/music/pages/music/ui/album-page.tsx`:12 — unresolved — last: @vzakharov (human) 2026-10-25T11:02:18Z — "а вот эти два почему оставил отдельно, а не просто а ля cata…" → [↓](#t01)
+- **T02** `src/music/pages/music/ui/music-page.tsx`:18 — unresolved — last: @vzakharov (human) 2026-10-25T11:03:26Z — "тут нагляднее -- четыре штуки с catalogue..." → [↓](#t02)
 
 <a id="t01"></a>
 
-### `src/music/pages/music/lib/music-metadata.ts`:18 — unresolved
+### `src/music/pages/music/ui/album-page.tsx`:12 — unresolved
 
 ```diff
-@@ -7,20 +7,31 @@ import {
-… 2 lines elided …
- 
--import { spelledText, textHook } from '@/music/shared/catalogue';
-+import {
-+  albumArtist,
-+  albumCover,
-+  albumPath,
-+  albumText,
-+  albumTitle,
-+  artistCard,
-+  artistPath,
-+  artistText,
+@@ -7,19 +7,10 @@ import { NameLink, PageShell } from '@/shell/shared/ui';
+… 10 lines elided …
+-  albumWipNote,
+-  albumYears,
+-  artistPath,
++  catalogueAlbum,
+   catalogueSongs,
 ```
 
-**@vzakharov (human)** — 2026-10-24T22:43:14Z
+**@vzakharov (human)** — 2026-10-25T11:02:18Z
 
-not insisting если текущая структура сильно этому противится -- но как-то много album/artistВсяких -- не стоит ли сделать единые импортимруемые а-ля "получить инфо об альбоме/артисте", и оттуда уже вынимать?
+а вот эти два почему оставил отдельно, а не просто а ля catalogueInfo?
 
 ---
 
 <a id="t02"></a>
 
-### `src/music/pages/music/ui/album-page.tsx`:18 — unresolved
+### `src/music/pages/music/ui/music-page.tsx`:18 — unresolved
 
 ```diff
-@@ -6,18 +6,29 @@ import { pick } from '@/kernel/shared/lib/collections';
-… 2 lines elided …
- 
--import { scriptSample } from '@/music/shared/catalogue';
-+import {
-+  albumArtist,
-+  albumCover,
-+  albumGloss,
-+  albumKind,
-+  albumPath,
-+  albumText,
-+  albumTitle,
-+  albumWipNote,
-+  albumYears,
-```
-
-**@vzakharov (human)** — 2026-10-24T22:45:21Z
-
-вот тут вообще, конечно
-
----
-
-<a id="t03"></a>
-
-### `src/music/pages/music/ui/music-page.tsx`:22 — unresolved
-
-```diff
-@@ -8,23 +8,29 @@ import { byLocale } from '@/kernel/shared/i18n';
-… 14 lines elided …
-   albumWipNote,
-+  artistPath,
-+  artistPicture,
+@@ -4,24 +4,19 @@ import type { ReactNode } from 'react';
+… 15 lines elided …
+-  artistPath,
++  artistInfo,
+   artistPicture,
++  catalogueAlbum,
    catalogueAlbums,
    catalogueArtists,
-+  catalogueSongs,
+   catalogueSongs,
 ```
 
-**@vzakharov (human)** — 2026-10-24T22:45:49Z
+**@vzakharov (human)** — 2026-10-25T11:03:26Z
 
-с каталогом что-то похожее
-
----
-
-<a id="t04"></a>
-
-### `src/music/pages/music/ui/song-page.tsx`:28 — unresolved
-
-```diff
-@@ -14,29 +14,33 @@ import { FileLink, hoverDim, PageShell, TextLink } from '@/shell/shared/ui';
-… 8 lines elided …
-   scriptSample,
-+  songLyrics,
-+  type SongPageEntry,
-+  songPath,
-+  songPicture,
-   songTitle,
-+  songTrack,
-```
-
-**@vzakharov (human)** — 2026-10-24T22:46:01Z
-
-с песнями
+тут нагляднее -- четыре штуки с catalogue...
 
 ---
 
 ## Timeline (status, references, and other events)
 
 - **2026-10-24T22:46:48Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/205#pullrequestreview-5640370634.
+- **2026-10-25T11:05:32Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/205#pullrequestreview-5642847616.
