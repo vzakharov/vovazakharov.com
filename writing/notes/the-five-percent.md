@@ -336,15 +336,22 @@ story.
 **21 October — a singer asked for, on an AI band.** On Nostalgia's Insomnia, the
 agent asked who sings it: _ну это же всё ИИ, ты чего?_
 
+## A correction made once, it makes again from its own picture (×2)
+
+**22 October — GENERATED, an artist, read as "the general story," twice.**
+«в общую историю, artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._
+
+**25 October — "one reader per entity," applied to the entities he named.** PR
+#205 folded the per-fact readers into `albumInfo`, `artistInfo` and `songInfo`,
+and left the catalogue as five: `catalogueSongs()`, `catalogueAlbum(album,
+locale, songs)` and three more taking `songs`, threaded so the disk is read
+once: _rather than à la catalogueInfo?_ That reason argued for one object holding
+the read, not for readers sharing a parameter: `catalogueInfo()` is now it.
+
 ## Its own plan stops being read once the work starts (×1)
 
 **21 October — the dictation that was to become the story.** The Nostalgia plan
 promised it; the branch shipped with it unused, until Vova asked why.
-
-## A correction made once, it makes again from its own picture (×1)
-
-**22 October — GENERATED, an artist, read as "the general story," twice.**
-«в общую историю, artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._
 
 ## It files work by what it looks like, not by who reads it (×1)
 
