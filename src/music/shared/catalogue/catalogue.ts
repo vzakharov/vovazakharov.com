@@ -22,7 +22,7 @@ import type { SongDocument } from './song-text.ts';
  */
 
 /** Every song billing the project, as the artist or as a feature. */
-export function artistSongs(
+function artistSongs(
   artist: MusicProject,
   songs: readonly SongDocument[],
 ): SongDocument[] {

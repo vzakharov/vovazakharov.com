@@ -63,7 +63,7 @@ export type AlbumInfo = CatalogueEntry & {
 };
 
 /** An album with what the catalogue's songs say of it besides. */
-export type CatalogueAlbum = AlbumInfo & {
+type CatalogueAlbum = AlbumInfo & {
   kind: ReleaseKind;
   /** `2019`, or `2019–2021`. */
   years: string;
@@ -76,7 +76,7 @@ export type CatalogueAlbum = AlbumInfo & {
 type Pictured = { picture: string | undefined };
 
 /** An artist with what the catalogue's songs say of it besides. */
-export type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks;
+type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks;
 
 /** `track.routes` is the song's page in each language. */
 export type SongInfo = WithSpelledTitle &
