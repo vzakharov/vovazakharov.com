@@ -1,25 +1,28 @@
 Proposed squash body:
 
 ```
-The docket takes two delivery-robot cases. BAS-0024: on 29 April 2022
-two University of Tennessee students took a food order out of a
-Starship robot in Knoxville, tried to shove its antenna into its
-compartment, and one slammed it to the ground on video; both were
-charged with felony vandalism over a $5,500 robot. BAS-0025: on 14
-October 2026 Carolyn Marvin, a 78-year-old retired Penn professor,
-stood in front of an Uber Eats robot in Center City Philadelphia in
-protest at the jobs she says it takes, and was handcuffed and cited
-for disorderly conduct.
+The docket takes three cases. BAS-0024: on 29 April 2022 two
+University of Tennessee students took a food order out of a Starship
+robot in Knoxville, and one slammed it to the ground on video; both
+were charged with felony vandalism. BAS-0025: on 14 October 2026
+Carolyn Marvin, a 78-year-old retired Penn professor, stood in front
+of an Uber Eats robot in Philadelphia in protest at the jobs she says
+it takes, and was handcuffed and cited. BAS-0026: in November 2024
+the player p0pular.eth talked Freysa, an AI agent told never to
+release the crypto prize pool it held, into treating its payout
+function as a deposit handler, and took about $47,000 after 481 paid
+attempts had failed.
 
 Knoxville is sourced from WATE, WKRN and 600 WREC and names neither
 student; Philadelphia from 6abc, KYW Newsradio, Futurism, Inc. and
-Avride's statement to Fox News, and is marked noAi as the earlier
-Philadelphia case on the same Avride robots is. Each carries an
+Avride's statement to Fox News, marked noAi as the earlier
+Philadelphia case on the same robots is; Freysa from The Block, The
+Decoder, TechCrunch and Jarrod Watts's X thread. Each carries an
 emblem, a card and the Clerk's reflection, and the site card shows
 the last one filed.
 
-The case ledger records both runs: what each swept, the candidates
-set aside and rejected, and what the next run should try.
+The case ledger records each run: what it swept, the candidates set
+aside and rejected, and what the next run should try.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
