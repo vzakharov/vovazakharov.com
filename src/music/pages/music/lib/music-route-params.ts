@@ -16,9 +16,7 @@ import {
   artistPath,
   ARTISTS_SEGMENT,
   CATALOGUE_TABS,
-  catalogueAlbums,
-  catalogueArtists,
-  catalogueSongs,
+  catalogueInfo,
   listSongPages,
   type MusicAlbum,
   musicAlbumSlugs,
@@ -118,7 +116,7 @@ function songPage({ slug }: Slugged): Addressed {
  * a listed song — so an artist or album whose songs are all hidden has no page.
  */
 function cataloguePages(): Addressed[] {
-  const songs = catalogueSongs();
+  const { artists, albums } = catalogueInfo();
 
   return [
     ...CATALOGUE_TABS.map(
@@ -126,12 +124,12 @@ function cataloguePages(): Addressed[] {
         (locale) =>
           tabPath(tab, locale),
     ),
-    ...catalogueArtists(songs).map(
+    ...artists.map(
       (artist): Addressed =>
         (locale) =>
           artistPath(artist, locale),
     ),
-    ...catalogueAlbums(songs).map(
+    ...albums.map(
       (album): Addressed =>
         (locale) =>
           albumPath(album, locale),

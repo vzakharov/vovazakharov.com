@@ -9,6 +9,8 @@ import {
   albumKind,
   albumWipNote,
   albumYears,
+  catalogueArtists,
+  newestAlbums,
 } from './catalogue.ts';
 import {
   albumText,
@@ -30,14 +32,14 @@ import {
   songLyrics,
   type SongOnRelease,
 } from './song-text.ts';
-import { songTrack } from './songs.ts';
+import { catalogueSongs, songTrack } from './songs.ts';
 import { songTitle, type WithSpelledTitle } from './spelling.ts';
 import type { SpelledLink, WithTrack } from './track.ts';
 
 /*
- * Everything a page shows of an artist, an album or a song, read in one
- * language at once. A page reads the entry whole: the per-fact readers it is
- * built from stay behind the barrel.
+ * Everything a page shows of the catalogue, an artist, an album or a song, an
+ * entry in one language at once. A page reads each whole: the per-fact readers
+ * they are built from stay behind the barrel.
  */
 
 /** What an artist's or an album's own file says of it, linked to its page in that language. */
@@ -98,16 +100,34 @@ export function albumInfo(album: MusicAlbum, locale: Locale): AlbumInfo {
   };
 }
 
-export function catalogueAlbum(
-  album: MusicAlbum,
-  locale: Locale,
-  songs: readonly SongDocument[],
-): CatalogueAlbum {
+/**
+ * The catalogue as one read of the songs, which everything else in it derives
+ * from: an album's kind and years included, hence `album` rather than a reader
+ * taking the songs beside it.
+ */
+export type CatalogueInfo = {
+  /** Every listed song, in catalogue order. */
+  songs: SongDocument[];
+  /** The one billed on the most songs first. */
+  artists: MusicProject[];
+  /** Newest first. */
+  albums: MusicAlbum[];
+  album: (album: MusicAlbum, locale: Locale) => CatalogueAlbum;
+};
+
+export function catalogueInfo(): CatalogueInfo {
+  const songs = catalogueSongs();
+
   return {
-    ...albumInfo(album, locale),
-    kind: albumKind(album, songs),
-    years: albumYears(album, songs),
-    detail: albumDetail(album, locale, songs),
+    songs,
+    artists: catalogueArtists(songs),
+    albums: newestAlbums(songs),
+    album: (album, locale) => ({
+      ...albumInfo(album, locale),
+      kind: albumKind(album, songs),
+      years: albumYears(album, songs),
+      detail: albumDetail(album, locale, songs),
+    }),
   };
 }
 

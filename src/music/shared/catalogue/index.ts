@@ -1,14 +1,9 @@
-export {
-  artistDiscography,
-  artistSongs,
-  catalogueAlbums,
-  catalogueArtists,
-  newestAlbums,
-} from './catalogue';
+export { artistDiscography, artistSongs } from './catalogue';
 export {
   albumInfo,
   artistInfo,
-  catalogueAlbum,
+  type CatalogueInfo,
+  catalogueInfo,
   songInfo,
 } from './catalogue-entries';
 export { readSiteCatalogueNames } from './catalogue-names';
@@ -69,7 +64,6 @@ export {
   wordsText,
 } from './song-text';
 export {
-  catalogueSongs,
   listSongPages,
   listSongs,
   songBilling,

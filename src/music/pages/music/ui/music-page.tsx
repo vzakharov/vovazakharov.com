@@ -12,11 +12,8 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 import {
   artistInfo,
   artistPicture,
-  catalogueAlbum,
-  catalogueAlbums,
-  catalogueArtists,
-  catalogueSongs,
-  newestAlbums,
+  type CatalogueInfo,
+  catalogueInfo,
   scriptSample,
   songTrack,
   tabPath,
@@ -38,8 +35,9 @@ import { Spelling } from './spelling';
  * or every album, or every song — one tab each.
  */
 export function MusicPage({ locale, tab }: IndexPageProps) {
-  const songs = catalogueSongs();
-  const { content, names } = tabContent({ tab, locale });
+  const catalogue = catalogueInfo();
+  const { songs, artists, albums } = catalogue;
+  const { content, names } = tabContent({ tab, locale }, catalogue);
 
   return (
     <PageShell>
@@ -53,8 +51,8 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
         <MusicSection
           size={catalogueSize(
             {
-              artists: catalogueArtists(songs).length,
-              albums: catalogueAlbums(songs).length,
+              artists: artists.length,
+              albums: albums.length,
               seconds: songs.map(({ frontmatter }) => frontmatter.seconds),
             },
             locale,
@@ -79,15 +77,16 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
 }
 
 /** The tab's list, and the names it shows for `scriptSample` to read. */
-function tabContent({ tab, locale }: IndexPageProps): {
+function tabContent(
+  { tab, locale }: IndexPageProps,
+  { songs, artists, albums, album: catalogueAlbum }: CatalogueInfo,
+): {
   content: ReactNode;
   names: string[];
 } {
-  const songs = catalogueSongs();
-
   switch (tab) {
     case 'artists': {
-      const tiles = catalogueArtists(songs).map((artist) => ({
+      const tiles = artists.map((artist) => ({
         ...pick(artistInfo(artist, locale), 'href', 'slug', 'name'),
         cover: artistPicture(artist, locale, songs),
       }));
@@ -98,12 +97,8 @@ function tabContent({ tab, locale }: IndexPageProps): {
       };
     }
     case 'albums': {
-      const tiles = newestAlbums(songs).map((album) => {
-        const { artist, detail, ...tile } = catalogueAlbum(
-          album,
-          locale,
-          songs,
-        );
+      const tiles = albums.map((album) => {
+        const { artist, detail, ...tile } = catalogueAlbum(album, locale);
 
         return {
           ...pick(tile, 'href', 'slug', 'name', 'cover', 'wip'),

@@ -8,8 +8,7 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
   albumPath,
-  catalogueAlbum,
-  catalogueSongs,
+  catalogueInfo,
   musicPath,
   scriptSample,
   songTrack,
@@ -34,14 +33,11 @@ import { Story } from './story';
  * where it has one, and its songs in track order.
  */
 export function AlbumPage({ album, locale }: AlbumPageProps) {
-  const songs = catalogueSongs();
+  const catalogue = catalogueInfo();
   const copy = messages(locale);
-  const { name, gloss, text, artist, cover, wip, kind, years } = catalogueAlbum(
-    album,
-    locale,
-    songs,
-  );
-  const tracks = albumTracks(album, songs);
+  const { name, gloss, text, artist, cover, wip, kind, years } =
+    catalogue.album(album, locale);
+  const tracks = albumTracks(album, catalogue.songs);
   const queue = tracks.map(({ song }) => songTrack(song, album));
   const sample = scriptSample(
     [name.original, artist.name.original, ...trackNames(queue, locale)],

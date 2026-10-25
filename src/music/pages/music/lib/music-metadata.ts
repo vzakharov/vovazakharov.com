@@ -13,7 +13,7 @@ import {
   artistCard,
   artistInfo,
   artistPath,
-  catalogueSongs,
+  catalogueInfo,
   MUSIC_COLLAGE,
   pictureCard,
   spelledText,
@@ -83,7 +83,7 @@ export function generateArtistMetadata(page: ArtistPageProps) {
     listenTitle(name, page.locale),
     textHook(text.hook ?? artistDescription.replace('{artist}', name)),
     (locale) => artistPath(page.artist, locale),
-    artistCard(page.artist, page.locale, catalogueSongs()),
+    artistCard(page.artist, page.locale, catalogueInfo().songs),
   );
 }
 

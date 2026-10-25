@@ -11,8 +11,7 @@ import {
   artistInfo,
   artistPath,
   artistSongs,
-  catalogueAlbum,
-  catalogueSongs,
+  catalogueInfo,
   musicPath,
   scriptSample,
   songPicture,
@@ -35,13 +34,17 @@ import { Story } from './story';
  * singles, then every song it is billed on.
  */
 export function ArtistPage({ artist, locale }: ArtistPageProps) {
-  const songs = catalogueSongs();
+  const catalogue = catalogueInfo();
   const copy = messages(locale);
   const { name, gloss, text } = artistInfo(artist, locale);
-  const { albums, singles } = artistDiscography(artist, locale, songs);
-  const billed = artistSongs(artist, songs);
+  const { albums, singles } = artistDiscography(
+    artist,
+    locale,
+    catalogue.songs,
+  );
+  const billed = artistSongs(artist, catalogue.songs);
   const albumTiles = albums.map((album) => {
-    const { detail, ...tile } = catalogueAlbum(album, locale, songs);
+    const { detail, ...tile } = catalogue.album(album, locale);
 
     return {
       ...pick(tile, 'href', 'slug', 'name', 'cover', 'wip'),

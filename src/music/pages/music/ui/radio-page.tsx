@@ -13,7 +13,7 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
   albumInfo,
-  catalogueSongs,
+  catalogueInfo,
   hookRuns,
   listSongs,
   localizeSong,
@@ -50,7 +50,7 @@ export function generateRadioMetadata({ locale }: WithLocale) {
  */
 function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
   return Object.fromEntries(
-    catalogueSongs().map((document) => {
+    catalogueInfo().songs.map((document) => {
       const { album, hook } = localizeSong(document, locale).frontmatter;
 
       return [

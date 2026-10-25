@@ -90,7 +90,7 @@ export function albumWipNote(
 }
 
 /** The albums with a song in this catalogue, by slug. */
-export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
+function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   return musicAlbumSlugs().filter(
     (album) => albumSongs(album, songs).length > 0,
   );
