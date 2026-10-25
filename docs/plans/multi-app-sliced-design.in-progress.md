@@ -63,6 +63,7 @@ tree is its ancestors' layers overlaid, plus its own. So:
   "lsa": ["shell"],
   "bible": ["blog"],
   "basilisk": ["blog"],
+  "maya": ["blog"],
   "mushrooms": ["kernel"],
   "vova": ["blog", "music", "mushrooms"]
 }
@@ -77,7 +78,7 @@ the parsed object, and fails naming both apps when a parent comes late.
 
 **An abstract app is earned the way a slice is**: an app with exactly one child
 and nothing of its own mounted by a router is insignificant. Today `kernel` (2
-children), `shell` (2) and `blog` (4) pass; a `game` between `kernel` and
+children), `shell` (2) and `blog` (5) pass; a `game` between `kernel` and
 `mushrooms` waits for a second game.
 
 **A router only says what is shown at which URL.** `sites/<domain>/app/` maps
@@ -220,15 +221,45 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
+## This bite
+
+**5b. The player and music's app layer**, on `masd/music-player`.
+
+- **`music/features/player`** — `ui/`: `player-provider`, `player-bar`,
+  `volume-control`, `radio-toggle`, `marquee` (the bar's alone), and the
+  controls pages place that drive it: `track-button`, `song-play-button`,
+  `album-play-button`, `launch-buttons`, `use-open-radio`. `model/`: the state
+  and its hooks — `player-state`, `radio-state`, `station`, `decks`,
+  `use-audio-player`, `use-media-session`, `use-player-keys`, `use-station`,
+  `use-stored-setting`, tests beside them. Its `index.ts` exports what pages
+  place or read (`usePlayer`, the buttons, `stationOffset`) and the provider the
+  app layer mounts.
+- **The stylesheet splits on its seam**: the bar's and its controls' rules
+  (`.playerBar` through `.losslessChip`, `.playerClearance`, `.controlOn`, the
+  range mixins) are `player.module.scss` in the feature; every other rule stays
+  in `music.module.scss` for 5c.
+- **What both the feature and the pages draw drops to music's `shared/`**:
+  `Spelling` and `BillingLinks` (the bar's credits and the radio page's) to
+  `shared/ui`, `duration.ts` with its test to `shared/lib/duration.ts`.
+- **music's app layer** — `app/ui/music-layout.tsx` (mounts the provider),
+  `app/ui/music-route.tsx` (address to page), `app/lib/music-route-params.ts`
+  (the parse, the segment params, the sitemap's routes, `MusicAddress`). The
+  page prop types stay with the pages (`pages/music/lib/page-props.ts`), whose
+  `index.ts` exports the five pages and their metadata, as 5c will need. vova's
+  router and sitemap enter the app layer, `SONG_FEED` staying the pages'.
+- **Done when** vet is green, vova builds, and `/music`, a song and the radio
+  play under `/preview`.
+
+DRY: nothing new is written — every file moves whole except `music.module.scss`,
+which is cut, and `music-route-params.ts`, whose page prop types are lifted out
+and imported back; the shared pieces exist once, in music's `shared/`, rather
+than copied into the feature.
+
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **5b. The player and music's app layer.** The player — provider, bar, state,
-  hooks and the controls that drive it — becomes a `features/player` slice, and
-  `music-route.tsx`, `music-layout.tsx` and `music-route-params.ts` music's app
-  layer, which leaves the feature two consumers.
 - **5c. Music's pages.** The index, artist, album, song and radio become real
   pages under `music/pages/`, what two of them share dropping to widgets or
   `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with
