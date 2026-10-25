@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 77864,
+    "cacheReadTokens": 2135743,
+    "outputTokens": 6966,
+    "thinkingTokens": 1800,
+    "responses": 19,
+    "costUsd": 1.1895326
+  },
+  "estimate": {
+    "at": "2026-10-25T10:39:40.598Z",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "landing an already-vetted PR: one delegated call on the lexicon question, a re-run of the gate and the merge"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "4f00a8df-26e7-5f26-bdcc-910b97c9ca0b",
+  "branch": "claude/maya-77e7xf",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/maya-77e7xf — ждём ответа Вовы про словарь, затем finalize and merge слушай, ну реши на своё усмотрение, а потом мерджи уже :)",
+  "prs": [
+    206
+  ],
+  "url": "https://claude.ai/code/session_016NfVxHzYisucT2pEc3qeUT",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-25T10:38:47.580Z",
+  "lastResponseAt": "2026-10-25T10:43:25.343Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 77864,
+    "cacheReadTokens": 2135743,
+    "outputTokens": 6966,
+    "thinkingTokens": 1800,
+    "responses": 19,
+    "costUsd": 1.1895326
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 77864,
+      "cacheReadTokens": 2135743,
+      "outputTokens": 6966,
+      "thinkingTokens": 1800,
+      "responses": 19,
+      "costUsd": 1.1895326
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-25T10:43:25.343Z",
+    "contextTokens": 126694,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 77613,
+      "cacheReadTokens": 2009302,
+      "outputTokens": 6138,
+      "thinkingTokens": 1708,
+      "responses": 18,
+      "costUsd": 1.1456684
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
