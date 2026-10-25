@@ -1,17 +1,16 @@
 import 'server-only';
 
 import { intrinsicDimensions } from '@/kernel/shared/content';
-import { type Locale, LOCALES } from '@/kernel/shared/i18n';
+import { LOCALES } from '@/kernel/shared/i18n';
 import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/kernel/shared/seo';
 
 import { albumCover } from './albums.ts';
 import {
-  artistDiscography,
   type ArtistRelease,
-  artistSongs,
   catalogueReleases,
   releasedBy,
 } from './catalogue.ts';
+import type { ArtistWorks } from './catalogue-entries.ts';
 import { artistPath, musicPath, radioPath } from './music-urls.ts';
 import type { MusicAlbum, MusicProject } from './names.ts';
 import type { SongDocument } from './song-text.ts';
@@ -63,17 +62,13 @@ function releasePicture(release: ArtistRelease): string | undefined {
  * stand for the whole body of work; else by its newest single that has one,
  * else by the newest song billing it, a feature included, that has one.
  */
-export function artistPicture(
-  artist: MusicProject,
-  locale: Locale,
-  songs: readonly SongDocument[],
-): string | undefined {
-  const { albums, singles } = artistDiscography(artist, locale, songs);
+export function artistPicture({
+  discography: { albums, singles },
+  billed,
+}: ArtistWorks): string | undefined {
   const pictures = [
     ...albums.map((album) => albumCover(album)),
-    ...[...singles, ...artistSongs(artist, songs)].map((song) =>
-      songPicture(song),
-    ),
+    ...[...singles, ...billed].map((song) => songPicture(song)),
   ];
 
   return pictures.find((picture) => picture !== undefined);

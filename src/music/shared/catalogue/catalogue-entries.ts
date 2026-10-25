@@ -75,13 +75,14 @@ export type CatalogueAlbum = AlbumInfo & {
 /** The cover a page or a tile is pictured by, where it has one. */
 type Pictured = { picture: string | undefined };
 
+export type ArtistWorks = {
+  discography: ReturnType<typeof artistDiscography>;
+  /** Every song billing it, as the artist or as a feature. */
+  billed: SongDocument[];
+};
+
 /** An artist with what the songs handed in say of it besides. */
-export type CatalogueArtist = ArtistInfo &
-  Pictured & {
-    discography: ReturnType<typeof artistDiscography>;
-    /** Every song billing it, as the artist or as a feature. */
-    billed: SongDocument[];
-  };
+export type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks;
 
 /** `track.routes` is the song's page in each language. */
 export type SongInfo = WithSpelledTitle &
@@ -144,12 +145,18 @@ export function catalogueInfo(): CatalogueInfo {
       detail: albumDetail(album, locale, songs),
       tracks: albumTracks(album, songs),
     }),
-    artist: (artist, locale) => ({
-      ...artistInfo(artist, locale),
-      discography: artistDiscography(artist, locale, songs),
-      billed: artistSongs(artist, songs),
-      picture: artistPicture(artist, locale, songs),
-    }),
+    artist: (artist, locale) => {
+      const works: ArtistWorks = {
+        discography: artistDiscography(artist, locale, songs),
+        billed: artistSongs(artist, songs),
+      };
+
+      return {
+        ...artistInfo(artist, locale),
+        ...works,
+        picture: artistPicture(works),
+      };
+    },
   };
 }
 
