@@ -18,15 +18,15 @@ import {
   trackNames,
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
+import { catalogueSize } from '@/music/shared/lib/duration';
+import { Spelling } from '@/music/shared/ui';
 
-import { catalogueSize } from '../lib/duration';
-import type { IndexPageProps } from '../lib/music-route-params';
+import type { IndexPageProps } from '../lib/page-props';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueTabs } from './catalogue-tabs';
 import { MusicNav } from './music-nav';
 import { MusicSection } from './music-section';
 import { SongList } from './song-list';
-import { Spelling } from './spelling';
 
 /**
  * The section's front page: the artists, each a way into its albums and songs,

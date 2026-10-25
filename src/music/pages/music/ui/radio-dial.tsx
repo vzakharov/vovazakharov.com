@@ -5,7 +5,8 @@ import { useState } from 'react';
 
 import type { Timed } from '@/kernel/shared/typings';
 
-import { formatDuration } from '../lib/duration';
+import { formatDuration } from '@/music/shared/lib/duration';
+
 import classes from './radio.module.scss';
 
 /** A short tick every quarter of a minute, a long one on the minute. */

@@ -16,9 +16,9 @@ import {
   trackNames,
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
+import { catalogueSize } from '@/music/shared/lib/duration';
 
-import { catalogueSize } from '../lib/duration';
-import type { ArtistPageProps } from '../lib/music-route-params';
+import type { ArtistPageProps } from '../lib/page-props';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
 import { HookLine } from './hook-line';

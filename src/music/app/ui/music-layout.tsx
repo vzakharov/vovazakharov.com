@@ -3,8 +3,7 @@ import type { WithChildren } from '@/kernel/shared/typings';
 
 import { listSongs, radioPath } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
-
-import { PlayerProvider } from './player-provider';
+import { PlayerProvider } from '@/music/features/player';
 
 /**
  * Every page under `/music`, wrapped in the player. A server component, so the

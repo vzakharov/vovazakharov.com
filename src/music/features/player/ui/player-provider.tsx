@@ -17,8 +17,8 @@ import {
   type PlayerControls,
   type QueuedPlayback,
   useAudioPlayer,
-} from '../lib/use-audio-player';
-import classes from './music.module.scss';
+} from '../model/use-audio-player';
+import classes from './player.module.scss';
 import { PlayerBar } from './player-bar';
 
 /** The bar's own words, in one language, as the catalogue spells them. */

@@ -6,10 +6,10 @@ import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import type { Slugged } from '@/kernel/shared/content';
 
 import type { Messages } from '@/music/shared/i18n';
+import { usePlayer } from '@/music/features/player';
 
 import type { SongVideo } from '../lib/song-video';
 import classes from './music.module.scss';
-import { usePlayer } from './player-provider';
 
 export type SongVideoButtonProps = SongVideo &
   Slugged & {

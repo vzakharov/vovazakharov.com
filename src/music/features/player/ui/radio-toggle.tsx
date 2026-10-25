@@ -5,7 +5,7 @@ import { Radio } from 'lucide-react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
 
-import classes from './music.module.scss';
+import classes from './player.module.scss';
 import { usePlayer } from './player-provider';
 import { useOnRadioPage, useOpenRadio } from './use-open-radio';
 

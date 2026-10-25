@@ -8,8 +8,9 @@ import type { Labeled } from '@/kernel/shared/typings';
 
 import { CURRENT_CHIP_CLASS } from '@/shell/shared/ui';
 
+import { Spelling } from '@/music/shared/ui';
+
 import classes from './music.module.scss';
-import { Spelling } from './spelling';
 
 export type ScriptChipProps = Labeled & {
   /** Three letters of the script the page's names are in, from `scriptSample`. */
