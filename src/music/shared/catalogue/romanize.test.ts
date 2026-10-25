@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { romanizeRussian } from './romanize';
+import { romanizeRussian } from './romanize.ts';
 
 function spells(cases: Record<string, string>) {
   for (const [russian, latin] of Object.entries(cases)) {

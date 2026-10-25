@@ -10,9 +10,9 @@ import {
 } from '@/kernel/shared/i18n';
 import type { WithChildren } from '@/kernel/shared/typings';
 
+import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
 import type { Messages } from '@/music/shared/i18n';
 
-import type { WithTracks } from '../lib/player-state';
 import {
   type PlayerControls,
   type QueuedPlayback,

@@ -11,7 +11,7 @@ import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 import type { Sized, Titled } from '@/kernel/shared/typings';
 
-import { COLLAGE_SIZE } from '@/music/pages/music/lib/pictures';
+import { COLLAGE_SIZE } from '@/music/shared/catalogue';
 
 import {
   escapeHtml,

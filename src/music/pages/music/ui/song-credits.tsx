@@ -2,11 +2,11 @@ import { Stack, Text } from '@mantine/core';
 
 import type { WithLocale } from '@/kernel/shared/i18n';
 
+import type { CreditedSong } from '@/music/shared/catalogue';
 import {
   type CreditedName,
-  type CreditedSong,
   SONG_AUTHOR,
-} from '@/music/shared/catalogue';
+} from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
 export type SongCreditsProps = WithLocale & CreditedSong;

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { playedName, songFiles } from './song-files';
+import { playedName, songFiles } from './song-files.ts';
 
 const RAW = 'https://raw.githubusercontent.com/vovas-music';
 

@@ -11,17 +11,20 @@ import {
 import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
+import {
+  type PlayerTrack,
+  trackSource,
+  type WithTracks,
+} from '@/music/shared/catalogue/index.node-safe';
+
 import { createDecks, type Decks } from './decks';
 import {
   currentTrack,
   isQueued,
   placeTracks,
-  type PlayerTrack,
   seguePositions,
   shouldRestart,
-  trackSource,
   upcomingTrack,
-  type WithTracks,
 } from './player-state';
 import {
   initialRadioPlayerState,

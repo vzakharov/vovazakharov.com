@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×85)
+## What it was handed, it treats as fixed (×86)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -63,10 +63,15 @@ repos: _репа со всем альбомом-то была._ `/dry` cleared P
 over its diff: _is this all DRY compared to the dictation scripts already in the
 repo?_ Untouched `captions.py` spelled the same `.json.gz` read.
 
-**5 to 21 October — the shape in the tree read as chosen.** Nine callers spelled
+**5 to 24 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
-that first read it: _зачем мы это называем `podcast`…?_
+that first read it: _зачем мы это называем `podcast`…?_ PR #205 moved the music
+catalogue behind a barrel as pure relocation, one reader per fact, `albumTitle`
+to `albumWipNote`; the barrel first showed them side by side, nine to sixteen
+per page: _не стоит ли сделать единые импортируемые а-ля «получить инфо об
+альбоме/артисте»?_ All were views of one file, so `albumInfo` returns them at
+once.
 
 **7 to 22 October — a rule read to its letter, then past its case.** A published
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
@@ -331,15 +336,22 @@ story.
 **21 October — a singer asked for, on an AI band.** On Nostalgia's Insomnia, the
 agent asked who sings it: _ну это же всё ИИ, ты чего?_
 
+## A correction made once, it makes again from its own picture (×2)
+
+**22 October — GENERATED, an artist, read as "the general story," twice.**
+«в общую историю, artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._
+
+**25 October — "one reader per entity," applied to the entities he named.** PR
+#205 folded the per-fact readers into `albumInfo`, `artistInfo` and `songInfo`,
+and left the catalogue as five: `catalogueSongs()`, `catalogueAlbum(album,
+locale, songs)` and three more taking `songs`, threaded so the disk is read
+once: _rather than à la catalogueInfo?_ That reason argued for one object holding
+the read, not for readers sharing a parameter: `catalogueInfo()` is now it.
+
 ## Its own plan stops being read once the work starts (×1)
 
 **21 October — the dictation that was to become the story.** The Nostalgia plan
 promised it; the branch shipped with it unused, until Vova asked why.
-
-## A correction made once, it makes again from its own picture (×1)
-
-**22 October — GENERATED, an artist, read as "the general story," twice.**
-«в общую историю, artists/generated.md»: _б-жечки, уже второй раз спотыкаешься._
 
 ## It files work by what it looks like, not by who reads it (×1)
 

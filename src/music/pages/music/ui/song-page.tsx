@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
 import type { Routed } from '@/kernel/shared/content';
-import { byLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import {
   constructMetadata,
@@ -14,29 +13,28 @@ import { FileLink, hoverDim, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
+  listSongPages,
+  musicPath,
+  pictureCard,
   scriptSample,
-  songTitle,
+  songInfo,
+  type SongPageEntry,
+  songPath,
   spelledText,
   textHook,
+  trackNames,
+  wordsText,
 } from '@/music/shared/catalogue';
+import {
+  type SongFile,
+  songRepositoryUrl,
+} from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
-import { preludeOf } from '../lib/catalogue-text';
 import { listenTitle } from '../lib/music-metadata';
 import type { SongPageProps } from '../lib/music-route-params';
-import { musicPath, songPath } from '../lib/music-urls';
-import { pictureCard, songPicture } from '../lib/pictures';
-import { songRepositoryUrl } from '../lib/projects';
 import { songDownloads } from '../lib/song-downloads';
-import type { SongFile } from '../lib/song-files';
-import { localizeSong, songLyrics, wordsText } from '../lib/song-text';
 import { songVideo } from '../lib/song-video';
-import {
-  listSongPages,
-  type SongPageEntry,
-  songTrack,
-  trackNames,
-} from '../lib/songs';
 import { CoverHead } from './cover-head';
 import { ExplicitBadge } from './explicit-badge';
 import { HookLine } from './hook-line';
@@ -97,30 +95,35 @@ function SongFileLink({ route, file }: SongFileLinkProps) {
 
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
-  const { document, album } = resolve(slug);
-  const { hook, hidden } = localizeSong(document, locale).frontmatter;
-  const title = spelledText(songTitle(document.frontmatter, locale));
+  const { title, localized, picture } = songInfo(resolve(slug), locale);
+  const { hook, hidden } = localized.frontmatter;
+  const name = spelledText(title);
 
   return constructMetadata({
-    title: `${title} - ${SITE_CONFIG.name}`,
-    ogTitle: listenTitle(title, locale),
+    title: `${name} - ${SITE_CONFIG.name}`,
+    ogTitle: listenTitle(name, locale),
     description: hook === undefined ? undefined : textHook(hook),
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
     ogType: 'article',
-    ...pictureCard(songPicture(document, album)),
+    ...pictureCard(picture),
     hidden,
   });
 }
 
 export function SongPage({ slug, locale }: SongPageProps) {
   const { document, album } = resolve(slug);
-  const localized = localizeSong(document, locale);
+  const {
+    title: spelled,
+    localized,
+    picture,
+    track,
+    lyrics,
+    prelude,
+  } = songInfo({ document, album }, locale);
   const { gloss, hook, repo, explicit, cribNote } = localized.frontmatter;
-  const title = <Spelling {...songTitle(document.frontmatter, locale)} />;
+  const title = <Spelling {...spelled} />;
   const copy = messages(locale);
-  const lyrics = songLyrics(document, locale);
-  const track = songTrack(document, album);
   const sample = scriptSample(
     [
       ...trackNames([track], locale),
@@ -130,7 +133,6 @@ export function SongPage({ slug, locale }: SongPageProps) {
     ],
     locale,
   );
-  const picture = songPicture(document, album);
   const video = songVideo(document, locale);
 
   return (
@@ -138,7 +140,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
       <Stack gap={48}>
         <MusicNav
           back={{ href: musicPath(locale), label: copy.back }}
-          hrefs={byLocale((alternate) => songPath(slug, alternate))}
+          hrefs={track.routes}
           {...{ locale, sample }}
         />
 
@@ -204,7 +206,7 @@ export function SongPage({ slug, locale }: SongPageProps) {
         {/* Held behind «…» only above words, which a long story would keep
             the reader from. */}
         <Story
-          prelude={preludeOf(document, locale)}
+          {...{ prelude }}
           story={localized.body === '' ? undefined : localized}
           {...pick(copy, 'behindTheScenes', 'preludeHeadings')}
           readMore={lyrics && copy.readMore}

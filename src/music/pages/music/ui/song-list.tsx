@@ -5,10 +5,10 @@ import type { MaybeTitled } from '@/kernel/shared/typings';
 
 import { Card, NameLink, Subheading } from '@/shell/shared/ui';
 
+import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
 import { formatDuration } from '../lib/duration';
-import type { WithTracks } from '../lib/player-state';
 import { ExplicitBadge } from './explicit-badge';
 import classes from './music.module.scss';
 import { Spelling } from './spelling';

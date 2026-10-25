@@ -2,9 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { z } from 'zod';
 
-import type { MusicAlbum } from '@/music/shared/catalogue/index.node-safe';
-
 import { albumsTogether, albumTracks, songPlacements } from './album-tracks.ts';
+import type { MusicAlbum } from './name-brands.ts';
 
 // The catalogue's own schema stays out of the barrel a client component
 // enters; a fixture brands its slugs with a schema of the same brand.

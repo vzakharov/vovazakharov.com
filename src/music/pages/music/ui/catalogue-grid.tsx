@@ -8,9 +8,11 @@ import type { MaybeTitled } from '@/kernel/shared/typings';
 
 import { NameLink, Subheading } from '@/shell/shared/ui';
 
-import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
+import type {
+  Spelled,
+  SpelledLink,
+} from '@/music/shared/catalogue/index.node-safe';
 
-import type { SpelledLink } from '../lib/player-state';
 import { tileHue } from '../lib/tile-hue';
 import classes from './music.module.scss';
 import { Spelling } from './spelling';

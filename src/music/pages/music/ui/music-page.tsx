@@ -4,27 +4,23 @@ import type { ReactNode } from 'react';
 import { SITE_ID } from '@/kernel/shared/config';
 import { findFeed } from '@/kernel/shared/content';
 import { byLocale } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { scriptSample } from '@/music/shared/catalogue';
+import {
+  type CatalogueInfo,
+  catalogueInfo,
+  scriptSample,
+  songTrack,
+  tabPath,
+  trackNames,
+} from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { albumArtist, albumCover, albumTitle } from '../lib/albums';
-import { projectName } from '../lib/artists';
-import {
-  albumDetail,
-  albumWipNote,
-  catalogueAlbums,
-  catalogueArtists,
-  newestAlbums,
-} from '../lib/catalogue';
 import { catalogueSize } from '../lib/duration';
 import type { IndexPageProps } from '../lib/music-route-params';
-import { albumPath, artistPath, tabPath } from '../lib/music-urls';
-import { artistPicture } from '../lib/pictures';
-import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueTabs } from './catalogue-tabs';
 import { MusicNav } from './music-nav';
@@ -37,8 +33,9 @@ import { Spelling } from './spelling';
  * or every album, or every song — one tab each.
  */
 export function MusicPage({ locale, tab }: IndexPageProps) {
-  const songs = catalogueSongs();
-  const { content, names } = tabContent({ tab, locale });
+  const catalogue = catalogueInfo();
+  const { songs, artists, albums } = catalogue;
+  const { content, names } = tabContent({ tab, locale }, catalogue);
 
   return (
     <PageShell>
@@ -52,8 +49,8 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
         <MusicSection
           size={catalogueSize(
             {
-              artists: catalogueArtists(songs).length,
-              albums: catalogueAlbums(songs).length,
+              artists: artists.length,
+              albums: albums.length,
               seconds: songs.map(({ frontmatter }) => frontmatter.seconds),
             },
             locale,
@@ -78,20 +75,26 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
 }
 
 /** The tab's list, and the names it shows for `scriptSample` to read. */
-function tabContent({ tab, locale }: IndexPageProps): {
+function tabContent(
+  { tab, locale }: IndexPageProps,
+  {
+    songs,
+    artists,
+    albums,
+    album: catalogueAlbum,
+    artist: catalogueArtist,
+  }: CatalogueInfo,
+): {
   content: ReactNode;
   names: string[];
 } {
-  const songs = catalogueSongs();
-
   switch (tab) {
     case 'artists': {
-      const tiles = catalogueArtists(songs).map((artist) => ({
-        href: artistPath(artist, locale),
-        slug: artist,
-        name: projectName(artist, locale),
-        cover: artistPicture(artist, locale, songs),
-      }));
+      const tiles = artists.map((artist) => {
+        const { picture, ...tile } = catalogueArtist(artist, locale);
+
+        return { ...pick(tile, 'href', 'slug', 'name'), cover: picture };
+      });
 
       return {
         content: <CatalogueGrid {...{ tiles }} />,
@@ -99,22 +102,18 @@ function tabContent({ tab, locale }: IndexPageProps): {
       };
     }
     case 'albums': {
-      const tiles = newestAlbums(songs).map((album) => {
-        const artist = projectName(albumArtist(album, locale), locale);
+      const tiles = albums.map((album) => {
+        const { artist, detail, ...tile } = catalogueAlbum(album, locale);
 
         return {
-          href: albumPath(album, locale),
-          slug: album,
-          name: albumTitle(album, locale),
+          ...pick(tile, 'href', 'slug', 'name', 'cover', 'wip'),
           artist,
-          cover: albumCover(album),
           detail: (
             <>
-              <Spelling {...artist} />
-              {albumDetail(album, locale, songs).map((fact) => ` · ${fact}`)}
+              <Spelling {...artist.name} />
+              {detail.map((fact) => ` · ${fact}`)}
             </>
           ),
-          wip: albumWipNote(album, locale),
         };
       });
 
@@ -122,7 +121,7 @@ function tabContent({ tab, locale }: IndexPageProps): {
         content: <CatalogueGrid {...{ tiles }} />,
         names: tiles.flatMap(({ name, artist }) => [
           name.original,
-          artist.original,
+          artist.name.original,
         ]),
       };
     }

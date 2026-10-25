@@ -187,6 +187,34 @@ Slice 4, the message catalogue inverted: vet clean, every site built.
   `SONG_FEED` supplies, else the site's tagline — so `Feed` carries none and
   kernel names no app's strings.
 
+Slice 5a, the catalogue's model out of the page: vet clean, every site built.
+Slice 5 is eaten bottom-up in three bites — this one, the player with music's
+app layer, then the pages — since as one it was some 110 files, a 580-line
+stylesheet every layer shares, and a dozen layer calls.
+
+- **`music/shared/catalogue` holds the model** every music page and script reads
+  — songs, albums, artists, their files, texts, pictures and addresses, their
+  tests beside them — the precedent being kernel's `shared/content`: it is
+  build-time data access, and as `song`, `album` and `artist` entities each
+  would need `@x` imports of the others. `pages/music/lib` keeps the player's
+  state and hooks, the page metadata, the feed and the route's parse.
+- **Two cuts made the set close**: a track's shape (`PlayerTrack`, `Billing`,
+  `Streamed`) is `track.ts`, since `songs.ts` builds it, leaving the reducer in
+  `player-state.ts`; `SONG_AUTHOR` and `CreditedName` are `author.ts`, so a test
+  takes them without zod.
+- **The barrel follows the runtime graph**, not the `server-only` marker alone:
+  `index.node-safe.ts` holds only modules whose runtime imports reach no
+  `server-only`, filesystem or zod, each spelling `.ts`; everything else is
+  `index.ts`'s. Inside the segment modules import each other by leaf.
+- **Music's scripts enter through the barrels**, `music:scaffold` now running
+  under `react-server` as `music:masters` does, and leave the grandfathered
+  block — all but `list-untold-songs`, which reads `catalogue-names.ts` under
+  bare Node, a module no barrel a client component imports may hold.
+- **A page reads each thing once** (review on #205): `catalogue-entries.ts`'s
+  `artistInfo`, `albumInfo`, `catalogueAlbum` and `songInfo` give everything a
+  page shows of one in a language, and the per-fact readers they are built from
+  left the barrel.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -197,12 +225,14 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **5. Music as an app.** `music-route.tsx`, which decides whether a URL shows
-  an album, an artist, a song or the radio, becomes music's app layer, and those
-  four become real pages under `music/pages/`. Which entities they share is
-  decided by ordinary FSD once the pages exist. #82 and #86 touch music routing
-  and are left as they are. Music's scripts then enter its layers through public
-  APIs, and its entries leave the grandfathered block in `eslint.config.ts`.
+- **5b. The player and music's app layer.** The player — provider, bar, state,
+  hooks and the controls that drive it — becomes a `features/player` slice, and
+  `music-route.tsx`, `music-layout.tsx` and `music-route-params.ts` music's app
+  layer, which leaves the feature two consumers.
+- **5c. Music's pages.** The index, artist, album, song and radio become real
+  pages under `music/pages/`, what two of them share dropping to widgets or
+  `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with
+  them. #82 and #86 touch music routing and are left as they are.
 - **6. What is a page in a one-page app** — a deterministic measure beside
   `insignificant-slice`, then mushrooms restructured under it. The problem:
   mushrooms is a whole game on one URL, some 240 files — scene, creatures, day
@@ -227,7 +257,8 @@ those slices carry their own tools along.
   shell's and vova's scripts enter their layers through public APIs — a
   `index.node-safe.ts` where a script runs without a bundler — and the
   `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
-  slices 5 and 6 left in it.
+  slices 5 and 6 left in it — `list-untold-songs` among them, whose
+  `catalogue-names.ts` reads the filesystem under bare Node.
 
 ## DRY notes
 
@@ -253,6 +284,10 @@ those slices carry their own tools along.
   run the whole job; a site's entry passes only what is its own, and
   `ManifestRoots` in `render-manifest.ts` is the one declaration of the roots
   both walk.
+- **Cut, not written.** `track.ts` and `author.ts` are lifted out of the modules
+  that held them, which import them back. Neither catalogue barrel re-exports
+  the other: `index.ts` would otherwise carry every node-safe name to server
+  importers that have the leaf's own barrel already.
 - **Not extracted:** a `masd` package or a Steiger plugin. A plugin's rule sees
   one root, which is the problem; a package earns nothing a script and one data
   file do not already give.

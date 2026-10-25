@@ -6,18 +6,18 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { NameLink, PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { scriptSample } from '@/music/shared/catalogue';
+import {
+  albumPath,
+  catalogueInfo,
+  musicPath,
+  scriptSample,
+  songTrack,
+  trackNames,
+} from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { albumTracks } from '../lib/album-tracks';
-import { albumArtist, albumCover, albumGloss, albumTitle } from '../lib/albums';
-import { projectName } from '../lib/artists';
-import { albumKind, albumWipNote, albumYears } from '../lib/catalogue';
-import { albumText } from '../lib/catalogue-text';
 import { catalogueSize } from '../lib/duration';
 import type { AlbumPageProps } from '../lib/music-route-params';
-import { albumPath, artistPath, musicPath } from '../lib/music-urls';
-import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { AlbumPlayButton } from './album-play-button';
 import { CatalogueHeader } from './catalogue-header';
 import { FactLine } from './fact-line';
@@ -32,16 +32,12 @@ import { Story } from './story';
  * where it has one, and its songs in track order.
  */
 export function AlbumPage({ album, locale }: AlbumPageProps) {
-  const songs = catalogueSongs();
   const copy = messages(locale);
-  const artist = albumArtist(album, locale);
-  const tracks = albumTracks(album, songs);
-  const text = albumText(album, locale);
+  const { name, gloss, text, artist, cover, wip, kind, years, tracks } =
+    catalogueInfo().album(album, locale);
   const queue = tracks.map(({ song }) => songTrack(song, album));
-  const title = albumTitle(album, locale);
-  const artistName = projectName(artist, locale);
   const sample = scriptSample(
-    [title.original, artistName.original, ...trackNames(queue, locale)],
+    [name.original, artist.name.original, ...trackNames(queue, locale)],
     locale,
   );
 
@@ -55,26 +51,25 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
         />
 
         <CatalogueHeader
-          kind={copy.kind[albumKind(album, songs)]}
-          {...{ title }}
-          gloss={albumGloss(album, locale)}
-          picture={albumCover(album)}
+          kind={copy.kind[kind]}
+          title={name}
+          picture={cover}
           size={catalogueSize(
             { seconds: tracks.map(({ song }) => song.frontmatter.seconds) },
             locale,
             copy.size,
           )}
           {...pick(text, 'markdown')}
-          wip={albumWipNote(album, locale)}
+          {...{ gloss, wip }}
         >
           <FactLine
             facts={{
               artist: (
-                <NameLink href={artistPath(artist, locale)}>
-                  <Spelling {...artistName} />
+                <NameLink {...pick(artist, 'href')}>
+                  <Spelling {...artist.name} />
                 </NameLink>
               ),
-              years: albumYears(album, songs),
+              years,
             }}
             fz="sm"
             opacity={0.7}

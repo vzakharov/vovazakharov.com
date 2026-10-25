@@ -10,16 +10,14 @@ import type { Titled, WithLanguage, WithUrl } from '@/kernel/shared/typings';
 
 import {
   billedArtists,
+  type CreditedName,
+  inlineRuns,
+  SONG_AUTHOR,
   type SongBilling,
   type Spelled,
   spelledText,
   type WithSpelledTitle,
 } from '@/music/shared/catalogue/index.node-safe';
-import {
-  type CreditedName,
-  SONG_AUTHOR,
-} from '@/music/shared/catalogue/people';
-import { inlineRuns } from '@/music/pages/music/lib/lyric-inline';
 
 /** Where on a release the song sits, and what the release is. */
 type TagRelease = WithSpelledTitle & {

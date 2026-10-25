@@ -2,7 +2,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { NameLink } from '@/shell/shared/ui';
 
-import type { Billing } from '../lib/player-state';
+import type { Billing } from '@/music/shared/catalogue/index.node-safe';
+
 import { Spelling } from './spelling';
 
 type BillingLinksProps = { billing: Billing };

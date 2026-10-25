@@ -11,20 +11,18 @@ import {
 import { oneOf } from '@/kernel/shared/lib/collections';
 
 import {
-  type MusicAlbum,
-  musicAlbumSlugs,
-  type MusicProject,
-  projectBySlug,
-} from '@/music/shared/catalogue';
-
-import { catalogueAlbums, catalogueArtists } from './catalogue';
-import {
   albumPath,
   ALBUMS_SEGMENT,
   artistPath,
   ARTISTS_SEGMENT,
   CATALOGUE_TABS,
+  catalogueInfo,
+  listSongPages,
+  type MusicAlbum,
+  musicAlbumSlugs,
   musicPath,
+  type MusicProject,
+  projectBySlug,
   RADIO_SEGMENT,
   radioPath,
   songPath,
@@ -32,8 +30,7 @@ import {
   tabBySegment,
   tabPath,
   type WithTab,
-} from './music-urls';
-import { catalogueSongs, listSongPages } from './songs';
+} from '@/music/shared/catalogue';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };
@@ -119,7 +116,7 @@ function songPage({ slug }: Slugged): Addressed {
  * a listed song — so an artist or album whose songs are all hidden has no page.
  */
 function cataloguePages(): Addressed[] {
-  const songs = catalogueSongs();
+  const { artists, albums } = catalogueInfo();
 
   return [
     ...CATALOGUE_TABS.map(
@@ -127,12 +124,12 @@ function cataloguePages(): Addressed[] {
         (locale) =>
           tabPath(tab, locale),
     ),
-    ...catalogueArtists(songs).map(
+    ...artists.map(
       (artist): Addressed =>
         (locale) =>
           artistPath(artist, locale),
     ),
-    ...catalogueAlbums(songs).map(
+    ...albums.map(
       (album): Addressed =>
         (locale) =>
           albumPath(album, locale),

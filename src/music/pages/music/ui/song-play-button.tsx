@@ -3,7 +3,9 @@
 import { Button } from '@mantine/core';
 import { Pause, Play } from 'lucide-react';
 
-import type { Playing, WithTrack } from '../lib/player-state';
+import type { WithTrack } from '@/music/shared/catalogue/index.node-safe';
+
+import type { Playing } from '../lib/player-state';
 import type { WithPlayerLabels } from './player-provider';
 import { useTrackPlayback } from './track-button';
 

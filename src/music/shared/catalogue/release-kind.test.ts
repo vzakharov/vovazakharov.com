@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { releaseKind } from './release-kind';
+import { releaseKind } from './release-kind.ts';
 
 describe('releaseKind', () => {
   it('makes 25 minutes and up an album, however few the tracks', () => {

@@ -2,6 +2,7 @@ import { Stack } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import { byLocale, type WithLocale } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
 import {
   constructMetadata,
   localizedAddresses,
@@ -10,15 +11,23 @@ import {
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { hookRuns, scriptSample } from '@/music/shared/catalogue';
+import {
+  albumInfo,
+  catalogueInfo,
+  hookRuns,
+  listSongs,
+  localizeSong,
+  musicPath,
+  pictureCard,
+  RADIO_CARD,
+  radioPath,
+  scriptSample,
+  songPicture,
+  trackNames,
+} from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { albumTitle } from '../lib/albums';
 import { spokenLength } from '../lib/duration';
-import { albumPath, musicPath, radioPath } from '../lib/music-urls';
-import { pictureCard, RADIO_CARD, songPicture } from '../lib/pictures';
-import { localizeSong } from '../lib/song-text';
-import { catalogueSongs, listSongs, trackNames } from '../lib/songs';
 import { MusicNav } from './music-nav';
 import { OnAir, type OnAirExtras } from './on-air';
 
@@ -41,7 +50,7 @@ export function generateRadioMetadata({ locale }: WithLocale) {
  */
 function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
   return Object.fromEntries(
-    catalogueSongs().map((document) => {
+    catalogueInfo().songs.map((document) => {
       const { album, hook } = localizeSong(document, locale).frontmatter;
 
       return [
@@ -51,10 +60,7 @@ function onAirExtras({ locale }: WithLocale): Record<string, OnAirExtras> {
           album:
             album === null
               ? undefined
-              : {
-                  name: albumTitle(album, locale),
-                  href: albumPath(album, locale),
-                },
+              : pick(albumInfo(album, locale), 'name', 'href'),
           hook: hook === undefined ? undefined : hookRuns(hook),
         },
       ];

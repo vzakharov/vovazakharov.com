@@ -1,22 +1,20 @@
 import 'server-only';
 
 import { intrinsicDimensions } from '@/kernel/shared/content';
-import { type Locale, LOCALES } from '@/kernel/shared/i18n';
+import { LOCALES } from '@/kernel/shared/i18n';
 import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/kernel/shared/seo';
 
-import type { MusicAlbum, MusicProject } from '@/music/shared/catalogue';
-
-import { albumCover } from './albums';
+import { albumCover } from './albums.ts';
 import {
-  artistDiscography,
   type ArtistRelease,
-  artistSongs,
+  type ArtistWorks,
   catalogueReleases,
   releasedBy,
-} from './catalogue';
-import { artistPath, musicPath, radioPath } from './music-urls';
-import type { SongDocument } from './song-text';
-import { catalogueSongs } from './songs';
+} from './catalogue.ts';
+import { artistPath, musicPath, radioPath } from './music-urls.ts';
+import type { MusicAlbum, MusicProject } from './names.ts';
+import type { SongDocument } from './song-text.ts';
+import { catalogueSongs } from './songs.ts';
 
 /*
  * What each page of the catalogue is pictured by — on the page, on a tile, and
@@ -64,17 +62,13 @@ function releasePicture(release: ArtistRelease): string | undefined {
  * stand for the whole body of work; else by its newest single that has one,
  * else by the newest song billing it, a feature included, that has one.
  */
-export function artistPicture(
-  artist: MusicProject,
-  locale: Locale,
-  songs: readonly SongDocument[],
-): string | undefined {
-  const { albums, singles } = artistDiscography(artist, locale, songs);
+export function artistPicture({
+  discography: { albums, singles },
+  billed,
+}: ArtistWorks): string | undefined {
   const pictures = [
     ...albums.map((album) => albumCover(album)),
-    ...[...singles, ...artistSongs(artist, songs)].map((song) =>
-      songPicture(song),
-    ),
+    ...[...singles, ...billed].map((song) => songPicture(song)),
   ];
 
   return pictures.find((picture) => picture !== undefined);
@@ -151,12 +145,11 @@ const MUSIC_PLACEHOLDER = MUSIC_COLLAGE;
 /** An artist's card: its collage where it has one, else its picture. */
 export function artistCard(
   artist: MusicProject,
-  locale: Locale,
-  songs: readonly SongDocument[],
+  picture: string | undefined,
 ): string | undefined {
   return artistCollageCovers(artist).length > 0
     ? artistCollage(artist)
-    : artistPicture(artist, locale, songs);
+    : picture;
 }
 
 /**

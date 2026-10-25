@@ -16,7 +16,7 @@ import {
   type WithStart,
 } from '../../../kernel/scripts/lib/public-markdown.ts';
 import type { Named, WithText } from '../../../kernel/shared/typings/index.ts';
-import { splitSections } from '../../pages/music/index.node-safe.ts';
+import { splitSections } from '../../shared/catalogue/index.node-safe.ts';
 
 const LYRICS = 'lyrics:';
 
@@ -26,7 +26,7 @@ const REPEAT = /^x(\d+)$/;
 /**
  * `[^label]: …`, a note's definition, which the page lifts out of the verse —
  * so a block of nothing else is no stanza. The syntax is `NOTE_DEFINITION`'s in
- * `src/music/pages/music/lib/lyric-notes.ts`, a module bare Node cannot import.
+ * `src/music/shared/catalogue/lyric-notes.ts`.
  */
 const NOTE_DEFINITION = /^\[\^[^\s\]]+]:/;
 

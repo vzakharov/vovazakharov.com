@@ -1,24 +1,55 @@
 /**
- * For `scripts/`, the tests and client components, none of which may take the
- * schema, whose module is `server-only`: the name brands' types and the spellings.
- * A script reads the names themselves off `catalogue-names.ts`.
+ * For `scripts/`, the tests and client components: the runtime graph behind it
+ * reaches no `server-only`, filesystem or zod, and spells every extension. A
+ * script reads the names themselves off `catalogue-names.ts`.
  */
 
+export { songPlacements } from './album-tracks.ts';
+export { type CreditedName, SONG_AUTHOR } from './author.ts';
+export { billedArtists, type SongBilling } from './file-name.ts';
+export { inlineRuns } from './lyric-inline.ts';
+export { entryText, type LyricLine, type WithStanzas } from './lyric-notes.ts';
+export {
+  type RepoBranch,
+  type RepoLocation,
+  servedPath,
+  type WithBranch,
+  type WithRepo,
+} from './master-url.ts';
 // Types only: the schemas are zod, which a client component entering this
 // barrel would carry into every song page's bundle.
-export {
-  billedArtists,
-  type SongBilling,
-  songFileName,
-  songFileNames,
-} from './file-name.ts';
-export type { MusicAlbum, MusicProject } from './name-brands.ts';
+export type { MusicAlbum } from './name-brands.ts';
 export { MUSIC_ORGANIZATION } from './organization.ts';
-export { romanizeRussian } from './romanize.ts';
+export { bill, songRepositoryUrl } from './projects.ts';
 export {
-  spell,
+  localeProse,
+  splitSections,
+  type StoryHeadings,
+  storyOrder,
+} from './sections.ts';
+export {
+  downloadExtensions,
+  extensionOf,
+  playedName,
+  SONG_BRANCH,
+  type SongFile,
+  songFiles,
+  songHome,
+  type WithExtension,
+} from './song-files.ts';
+export {
   type Spelled,
   spelledText,
-  type WithSpelledName,
   type WithSpelledTitle,
 } from './spelling.ts';
+export {
+  type Billing,
+  billingText,
+  hasLossless,
+  type PlayerTrack,
+  type SpelledLink,
+  trackSource,
+  type WithTrack,
+  type WithTracks,
+} from './track.ts';
+export { romanizedTag, type Transliteration } from './transliteration.ts';

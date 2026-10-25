@@ -1,12 +1,9 @@
 import { Text, type TextProps } from '@mantine/core';
 
-import type { TitleGloss } from '@/music/shared/catalogue';
+import type { Glossed } from '@/music/shared/catalogue';
 
 /** The muted line under a title the reader may not understand: what it means. */
-export function TitleGlossLine({
-  gloss,
-  mt,
-}: Pick<TextProps, 'mt'> & { gloss: TitleGloss | undefined }) {
+export function TitleGlossLine({ gloss, mt }: Pick<TextProps, 'mt'> & Glossed) {
   if (gloss === undefined) return null;
 
   return (

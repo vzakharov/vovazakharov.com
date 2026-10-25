@@ -7,20 +7,26 @@ import {
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
 
-import { spelledText, textHook } from '@/music/shared/catalogue';
+import {
+  albumInfo,
+  albumPath,
+  artistCard,
+  artistPath,
+  catalogueInfo,
+  MUSIC_COLLAGE,
+  pictureCard,
+  spelledText,
+  tabLabels,
+  tabPath,
+  textHook,
+} from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { albumArtist, albumCover, albumTitle } from './albums';
-import { projectName } from './artists';
-import { albumText, artistText } from './catalogue-text';
 import type {
   AlbumPageProps,
   ArtistPageProps,
   IndexPageProps,
 } from './music-route-params';
-import { albumPath, artistPath, tabLabels, tabPath } from './music-urls';
-import { artistCard, MUSIC_COLLAGE, pictureCard } from './pictures';
-import { catalogueSongs } from './songs';
 
 /**
  * A catalogue page, in one language, deferring to the addressed one as the
@@ -66,24 +72,32 @@ export function generateMusicMetadata(page: IndexPageProps) {
 }
 
 export function generateArtistMetadata(page: ArtistPageProps) {
-  const name = spelledText(projectName(page.artist, page.locale));
+  const {
+    name: spelled,
+    text,
+    picture,
+  } = catalogueInfo().artist(page.artist, page.locale);
+  const name = spelledText(spelled);
   const { artistDescription } = messages(page.locale);
 
   return catalogueMetadata(
     page,
     name,
     listenTitle(name, page.locale),
-    textHook(
-      artistText(page.artist, page.locale).hook ??
-        artistDescription.replace('{artist}', name),
-    ),
+    textHook(text.hook ?? artistDescription.replace('{artist}', name)),
     (locale) => artistPath(page.artist, locale),
-    artistCard(page.artist, page.locale, catalogueSongs()),
+    artistCard(page.artist, picture),
   );
 }
 
 export function generateAlbumMetadata(page: AlbumPageProps) {
-  const name = spelledText(albumTitle(page.album, page.locale));
+  const {
+    name: spelled,
+    text,
+    artist,
+    cover,
+  } = albumInfo(page.album, page.locale);
+  const name = spelledText(spelled);
   const { albumDescription } = messages(page.locale);
 
   return catalogueMetadata(
@@ -91,17 +105,12 @@ export function generateAlbumMetadata(page: AlbumPageProps) {
     name,
     listenTitle(name, page.locale),
     textHook(
-      albumText(page.album, page.locale).hook ??
+      text.hook ??
         albumDescription
           .replace('{album}', name)
-          .replace(
-            '{artist}',
-            spelledText(
-              projectName(albumArtist(page.album, page.locale), page.locale),
-            ),
-          ),
+          .replace('{artist}', spelledText(artist.name)),
     ),
     (locale) => albumPath(page.album, locale),
-    albumCover(page.album),
+    cover,
   );
 }

@@ -13,7 +13,7 @@ cd "$(dirname "$0")/../../.."
 # shellcheck source=src/kernel/scripts/lib/changed-files.sh
 source src/kernel/scripts/lib/changed-files.sh
 
-INPUTS='^(sites/vova/public/music/songs/[^/]+\.md|src/music/scripts/(check-masked-words|check-song-titles|check-stanza-repeats|list-untold-songs)\.ts|docs/music/untold-songs\.md|src/music/pages/music/lib/sections\.ts|sites/vova/public/music/(albums|artists)/[^/]+\.md|src/music/shared/catalogue/catalogue-names\.ts|src/kernel/scripts/lib/(public-markdown\.ts|changed-files\.sh)|src/music/scripts/(lib/stanza-repeats\.ts|vet-songs\.sh))$'
+INPUTS='^(sites/vova/public/music/songs/[^/]+\.md|src/music/scripts/(check-masked-words|check-song-titles|check-stanza-repeats|list-untold-songs)\.ts|docs/music/untold-songs\.md|src/music/shared/catalogue/sections\.ts|sites/vova/public/music/(albums|artists)/[^/]+\.md|src/music/shared/catalogue/catalogue-names\.ts|src/kernel/scripts/lib/(public-markdown\.ts|changed-files\.sh)|src/music/scripts/(lib/stanza-repeats\.ts|vet-songs\.sh))$'
 
 if changed="$(changed_files)" && ! grep -qE "$INPUTS" <<<"$changed"; then
   printf 'vet-songs: no song has changed, so the song checks are skipped.\n'

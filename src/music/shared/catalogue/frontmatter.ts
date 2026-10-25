@@ -9,9 +9,9 @@ import {
 import { byLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
 import { composeSchemas } from '@/kernel/shared/lib/compose-schemas';
 
-import { albumSchema, projectSchema } from './names';
-import { creditedNameSchema } from './people';
-import { songDateSchema } from './song-date';
+import { albumSchema, projectSchema } from './names.ts';
+import { creditedNameSchema } from './people.ts';
+import { songDateSchema } from './song-date.ts';
 
 /**
  * What the vocal is in — `instrumental` where there is none. Beyond the site's
@@ -53,6 +53,8 @@ const titleGlossSchema = z.object({
 });
 
 export type TitleGloss = z.infer<typeof titleGlossSchema>;
+
+export type Glossed = { gloss: TitleGloss | undefined };
 
 /** A song's, an album's or an artist's hook in one locale, and its page's meta description. */
 const hookedSchema = z.object({ hook: z.string().min(1).optional() });

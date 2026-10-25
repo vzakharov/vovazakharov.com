@@ -6,23 +6,19 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { scriptSample } from '@/music/shared/catalogue';
+import {
+  artistPath,
+  catalogueInfo,
+  musicPath,
+  scriptSample,
+  songPicture,
+  songTrack,
+  trackNames,
+} from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { albumCover, albumTitle } from '../lib/albums';
-import { projectGloss, projectName } from '../lib/artists';
-import {
-  albumDetail,
-  albumWipNote,
-  artistDiscography,
-  artistSongs,
-} from '../lib/catalogue';
-import { artistText } from '../lib/catalogue-text';
 import { catalogueSize } from '../lib/duration';
 import type { ArtistPageProps } from '../lib/music-route-params';
-import { albumPath, artistPath, musicPath } from '../lib/music-urls';
-import { songPicture } from '../lib/pictures';
-import { catalogueSongs, songTrack, trackNames } from '../lib/songs';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
 import { HookLine } from './hook-line';
@@ -35,20 +31,23 @@ import { Story } from './story';
  * singles, then every song it is billed on.
  */
 export function ArtistPage({ artist, locale }: ArtistPageProps) {
-  const songs = catalogueSongs();
+  const catalogue = catalogueInfo();
   const copy = messages(locale);
-  const text = artistText(artist, locale);
-  const name = projectName(artist, locale);
-  const { albums, singles } = artistDiscography(artist, locale, songs);
-  const billed = artistSongs(artist, songs);
-  const albumTiles = albums.map((album) => ({
-    href: albumPath(album, locale),
-    slug: album,
-    name: albumTitle(album, locale),
-    cover: albumCover(album),
-    detail: albumDetail(album, locale, songs).join(' · '),
-    wip: albumWipNote(album, locale),
-  }));
+  const {
+    name,
+    gloss,
+    text,
+    discography: { albums, singles },
+    billed,
+  } = catalogue.artist(artist, locale);
+  const albumTiles = albums.map((album) => {
+    const { detail, ...tile } = catalogue.album(album, locale);
+
+    return {
+      ...pick(tile, 'href', 'slug', 'name', 'cover', 'wip'),
+      detail: detail.join(' · '),
+    };
+  });
   const singleTiles = singles.map((single) => {
     const { titles, routes } = songTrack(single);
 
@@ -82,7 +81,7 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
         <CatalogueHeader
           kind={copy.kind.artist}
           title={name}
-          gloss={projectGloss(artist, locale)}
+          {...{ gloss }}
           size={catalogueSize(
             {
               albums: albums.length,

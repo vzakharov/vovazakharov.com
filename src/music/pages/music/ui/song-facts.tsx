@@ -5,16 +5,20 @@ import type { WithLocale } from '@/kernel/shared/i18n';
 
 import { NameLink } from '@/shell/shared/ui';
 
-import type { MusicAlbum } from '@/music/shared/catalogue';
+import {
+  albumInfo,
+  artistInfo,
+  type MusicAlbum,
+  type SongOnRelease,
+} from '@/music/shared/catalogue';
+import {
+  bill,
+  songPlacements,
+  type SpelledLink,
+} from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 
-import { songPlacements } from '../lib/album-tracks';
-import { albumTitle } from '../lib/albums';
-import { projectName } from '../lib/artists';
 import { formatDuration } from '../lib/duration';
-import { albumPath, artistPath } from '../lib/music-urls';
-import { bill } from '../lib/projects';
-import type { SongOnRelease } from '../lib/song-text';
 import { FactLine } from './fact-line';
 import { Spelling } from './spelling';
 
@@ -29,6 +33,11 @@ export type SongFactsProps = SongOnRelease & WithLocale;
 function songFacts({ document, album, locale }: SongFactsProps) {
   const { date, language, project, seconds } = document.frontmatter;
   const copy = messages(locale);
+  const nameLink = ({ href, name }: SpelledLink) => (
+    <NameLink key={href} {...{ href }}>
+      <Spelling {...name} />
+    </NameLink>
+  );
 
   /** The message with each album linked in its `{album}` slot, or nothing for none. */
   const albumsFact = (message: string, albums: readonly MusicAlbum[]) => {
@@ -39,9 +48,7 @@ function songFacts({ document, album, locale }: SongFactsProps) {
         before,
         ...albums.flatMap((linked, index) => [
           index > 0 && ', ',
-          <NameLink key={linked} href={albumPath(linked, locale)}>
-            <Spelling {...albumTitle(linked, locale)} />
-          </NameLink>,
+          nameLink(albumInfo(linked, locale)),
         ]),
         after,
       ]
@@ -50,11 +57,7 @@ function songFacts({ document, album, locale }: SongFactsProps) {
 
   return {
     byline: {
-      billing: bill(project, (artist) => (
-        <NameLink key={artist} href={artistPath(artist, locale)}>
-          <Spelling {...projectName(artist, locale)} />
-        </NameLink>
-      )),
+      billing: bill(project, (artist) => nameLink(artistInfo(artist, locale))),
       album: albumsFact(copy.album, album === null ? [] : [album]),
     },
     details: {

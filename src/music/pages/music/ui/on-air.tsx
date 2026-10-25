@@ -10,9 +10,9 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { InternalButton, NameLink } from '@/shell/shared/ui';
 
 import type { HookRun } from '@/music/shared/catalogue';
+import type { SpelledLink } from '@/music/shared/catalogue/index.node-safe';
 import type { Messages } from '@/music/shared/i18n';
 
-import type { SpelledLink } from '../lib/player-state';
 import { stationOffset } from '../lib/station';
 import { BillingLinks } from './billing-links';
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';

@@ -6,14 +6,10 @@ import path from 'node:path';
 import { PUBLIC_DIR } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
 
-import type {
-  MusicAlbum,
-  MusicProject,
-  TitleGloss,
-} from '@/music/shared/catalogue';
-import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
-
-import { albumFile, localGloss, localName } from './catalogue-files';
+import { albumFile, localGloss, localName } from './catalogue-files.ts';
+import type { TitleGloss } from './frontmatter.ts';
+import type { MusicAlbum, MusicProject } from './names.ts';
+import type { Spelled } from './spelling.ts';
 
 /** A release's title under a locale, romanized by the Russian rule where the locale cannot read it. */
 export function albumTitle(album: MusicAlbum, locale: Locale): Spelled {

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { hookRuns, textHook } from './hook-marks';
+import { hookRuns, textHook } from './hook-marks.ts';
 
 const CROSSROADS = 'Лучшее ещё впереди. ~~Но это не точно~~';
 

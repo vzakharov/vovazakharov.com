@@ -4,7 +4,7 @@ import type { ServedMarkdown } from '@/kernel/shared/content';
 
 import { FileLink } from '@/shell/shared/ui';
 
-import type { TitleGloss } from '@/music/shared/catalogue';
+import type { Glossed } from '@/music/shared/catalogue';
 import type { WithSpelledTitle } from '@/music/shared/catalogue/index.node-safe';
 
 import { CoverHead, type CoverHeadBody } from './cover-head';
@@ -16,10 +16,10 @@ import { WipMark, type WipNoted } from './wip-mark';
 export type CatalogueHeaderProps = CoverHeadBody &
   Partial<ServedMarkdown> &
   WipNoted &
-  WithSpelledTitle & {
+  WithSpelledTitle &
+  Glossed & {
     /** What the page is of — “Artist”, “Album” — above its name. */
     kind: string;
-    gloss: TitleGloss | undefined;
     /** On the line across the header's foot, under the name and its art both. */
     size: readonly string[];
   };

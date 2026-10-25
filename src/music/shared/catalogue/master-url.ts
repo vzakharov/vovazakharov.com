@@ -4,7 +4,7 @@
  * `pnpm music:masters tag` both derive their names in.
  */
 
-import { MUSIC_ORGANIZATION } from '@/music/shared/catalogue/index.node-safe';
+import { MUSIC_ORGANIZATION } from './organization.ts';
 
 const RAW_HOST = 'raw.githubusercontent.com';
 

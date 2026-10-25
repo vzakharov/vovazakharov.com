@@ -2,18 +2,18 @@ import 'server-only';
 
 import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 
+import { messages } from '@/music/shared/i18n';
+
+import { albumTracks } from './album-tracks.ts';
+import { albumArtist, albumWip } from './albums.ts';
 import {
   type MusicAlbum,
   musicAlbumSlugs,
   type MusicProject,
   musicProjectNames,
-} from '@/music/shared/catalogue';
-import { messages } from '@/music/shared/i18n';
-
-import { albumTracks } from './album-tracks';
-import { albumArtist, albumWip } from './albums';
-import { type ReleaseKind, releaseKind } from './release-kind';
-import type { SongDocument } from './song-text';
+} from './names.ts';
+import { type ReleaseKind, releaseKind } from './release-kind.ts';
+import type { SongDocument } from './song-text.ts';
 
 /*
  * The catalogue's artists and albums, each derived from the songs handed in, so
@@ -22,7 +22,7 @@ import type { SongDocument } from './song-text';
  */
 
 /** Every song billing the project, as the artist or as a feature. */
-export function artistSongs(
+function artistSongs(
   artist: MusicProject,
   songs: readonly SongDocument[],
 ): SongDocument[] {
@@ -90,7 +90,7 @@ export function albumWipNote(
 }
 
 /** The albums with a song in this catalogue, by slug. */
-export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
+function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   return musicAlbumSlugs().filter(
     (album) => albumSongs(album, songs).length > 0,
   );
@@ -204,7 +204,7 @@ export function releasedBy(
 }
 
 /** The artist's releases, newest first, its albums — EPs and maxi singles among them — apart from its singles. */
-export function artistDiscography(
+function artistDiscography(
   artist: MusicProject,
   locale: Locale,
   songs: readonly SongDocument[],
@@ -218,5 +218,22 @@ export function artistDiscography(
     singles: releases.flatMap((release) =>
       'single' in release ? [release.single] : [],
     ),
+  };
+}
+
+export type ArtistWorks = {
+  discography: ReturnType<typeof artistDiscography>;
+  /** Every song billing it, as the artist or as a feature. */
+  billed: SongDocument[];
+};
+
+export function artistWorks(
+  artist: MusicProject,
+  locale: Locale,
+  songs: readonly SongDocument[],
+): ArtistWorks {
+  return {
+    discography: artistDiscography(artist, locale, songs),
+    billed: artistSongs(artist, songs),
   };
 }

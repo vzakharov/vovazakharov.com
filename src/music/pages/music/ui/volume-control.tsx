@@ -19,7 +19,8 @@ import {
 
 import { cx } from '@/kernel/shared/lib/class-names';
 
-import { hasLossless } from '../lib/player-state';
+import { hasLossless } from '@/music/shared/catalogue/index.node-safe';
+
 import { useStoredSetting, type WithVolume } from '../lib/use-stored-setting';
 import classes from './music.module.scss';
 import { usePlayer } from './player-provider';

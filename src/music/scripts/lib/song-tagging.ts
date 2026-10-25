@@ -30,12 +30,12 @@ import {
   PUBLIC_DIR,
 } from '@/kernel/shared/content/index.node-safe';
 
-import { servedPath } from '@/music/pages/music/lib/master-url';
 import {
   readTagManifest,
   type TagManifest,
   writeTagManifest,
-} from '@/music/pages/music/lib/tag-manifest';
+} from '@/music/shared/catalogue';
+import { servedPath } from '@/music/shared/catalogue/index.node-safe';
 
 import {
   cloneRepo,

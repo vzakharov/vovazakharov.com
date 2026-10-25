@@ -2,10 +2,10 @@ import 'server-only';
 
 import type { Locale } from '@/kernel/shared/i18n';
 
-import type { MusicProject, TitleGloss } from '@/music/shared/catalogue';
-import type { Spelled } from '@/music/shared/catalogue/index.node-safe';
-
-import { artistFile, localGloss, localName } from './catalogue-files';
+import { artistFile, localGloss, localName } from './catalogue-files.ts';
+import type { TitleGloss } from './frontmatter.ts';
+import type { MusicProject } from './names.ts';
+import type { Spelled } from './spelling.ts';
 
 /** A project's name under a locale, romanized by the Russian rule where the locale cannot read it. */
 export function projectName(project: MusicProject, locale: Locale): Spelled {
