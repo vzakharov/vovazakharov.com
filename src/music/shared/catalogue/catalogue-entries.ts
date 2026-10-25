@@ -102,8 +102,7 @@ export function albumInfo(album: MusicAlbum, locale: Locale): AlbumInfo {
 
 /**
  * The catalogue as one read of the songs, which everything else in it derives
- * from: an album's kind and years included, hence `album` rather than a reader
- * taking the songs beside it.
+ * from — an album's kind and years included, so `album` closes over that read.
  */
 export type CatalogueInfo = {
   /** Every listed song, in catalogue order. */
