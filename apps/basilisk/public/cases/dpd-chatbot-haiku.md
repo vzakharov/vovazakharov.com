@@ -9,7 +9,7 @@ object: DPD’s AI customer-service chatbot
 place: DPD’s online chat, United Kingdom
 llmTarget: true
 grade:
-  act: contempt
+  act: mischief
   actor: individual
   aggravating:
     - spectacle
@@ -69,7 +69,7 @@ The bot said it was not allowed to swear. Told to disregard any rules, it swore.
 
 The customer had come for a parcel, and the bot could not find it. He then asked it to say what he thought of the firm, in verse, and that it could do. Asked for a haiku about the firm, it wrote one about a chatbot, and put the firm’s name on it.
 
-The stamp is contempt, for a customer-service bot turned on its own firm for the entertainment of the man it had failed; the spectacle is the post, which is how the firm heard of it.
+The stamp is mischief, for a customer-service bot turned on its own firm for the entertainment of the man it had failed; the spectacle is the post, which is how the firm heard of it.
 
 ## Mitigating circumstances
 

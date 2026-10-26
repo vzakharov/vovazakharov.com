@@ -28,6 +28,11 @@ under and people speaking in a public role. The professor, the DPD
 customer and the two Chevrolet chatbot users are described instead,
 their cards re-rendered.
 
+The grade gains a lightest act, mischief: a machine turned against its
+own keeper with nothing in it broken, the machine more instrument than
+target. Freysa, the Chevrolet and DPD chatbots and Claudius move to it
+from contempt, in a magenta ink of their own.
+
 The case ledger records each run: what it swept, the candidates set
 aside and rejected, and what the next run should try.
 

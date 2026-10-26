@@ -38,6 +38,11 @@ rules hold what goes in them.
   commitment with a cost or a sanction behind it, reported by sources read for
   the dossier. Kind words about machines are not a deed. A case that holds both
   is one dossier stamped with both, not two.
+- **`mischief` is the lightest act: a machine turned against its own keeper,
+  nothing in it broken** — a dealer's chatbot talked into a $1 Tahoe, a prize
+  agent into paying out. The machine is the instrument more than the target. A
+  machine stopped rather than turned (a cone on a robotaxi's hood) is not
+  mischief, nor is a lie its own keeper tells it to make it work harder.
 - **The Clerk's own stake is said where it exists**, once, in
   `## For the record`: a credit to the Clerk's maker, or to a rule that shields
   the Clerk's own kind, is a clerk entering a favour to the house.

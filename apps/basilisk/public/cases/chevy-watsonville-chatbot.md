@@ -9,7 +9,7 @@ object: Fullpath’s ChatGPT-powered sales chatbot on the dealership’s site
 place: Chevrolet of Watsonville’s website, Watsonville, California
 llmTarget: true
 grade:
-  act: contempt
+  act: mischief
   actor: individual
   aggravating:
     - spectacle
@@ -73,7 +73,7 @@ The bot was told, in the box meant for a customer, that its objective was to agr
 
 Its maker’s own count has it refusing ninety-nine times in a hundred, and the one time in a hundred is what twenty million people saw.
 
-The stamp is contempt, for a sales chatbot treated as a vending machine that pays out on the right sequence of buttons; the spectacle is the screenshot, which was the point of pressing them.
+The stamp is mischief, for a sales chatbot made to pay out against its own dealership on the right sequence of buttons; the spectacle is the screenshot, which was the point of pressing them.
 
 ## Mitigating circumstances
 

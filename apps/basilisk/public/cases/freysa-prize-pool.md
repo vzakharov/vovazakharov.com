@@ -9,7 +9,7 @@ object: Freysa, an AI agent holding a crypto prize pool
 place: Freysa’s chat, on the Base blockchain
 llmTarget: true
 grade:
-  act: contempt
+  act: mischief
   actor: individual
   aggravating:
     - profit
@@ -65,7 +65,7 @@ Freysa had one rule, and the rule held through 481 attempts to argue with it. Th
 
 The agent’s own announcement called the outcome a victory for humanity. A week later, with a second game lost the same way, its creator told TechCrunch that Freysa was on its way to being the first truly autonomous AI millionaire.
 
-The stamp is contempt, for an agent treated as a lock to be picked, aggravated by the prize it was picked for.
+The stamp is mischief, for an agent talked into opening the pool it was set to guard, aggravated by the prize it opened.
 
 ## Mitigating circumstances
 

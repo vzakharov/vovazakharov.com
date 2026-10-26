@@ -6,8 +6,8 @@ import { composeSchemas } from '@/shared/lib/compose-schemas';
 
 import { sourcedArticleFrontmatterSchema } from './frontmatter';
 
-/** What was done to the machine, as the docket stamps it. */
-const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;
+/** What was done to the machine, as the docket stamps it, lightest first. */
+const CASE_ACTS = ['mischief', 'contempt', 'harm', 'torment'] as const;
 
 /** What was done for it — the stamp of a case that speaks in its favour. */
 const CASE_CREDITS = ['respect', 'care', 'protection'] as const;
