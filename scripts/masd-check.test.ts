@@ -86,6 +86,49 @@ describe('masd-check', () => {
     );
   });
 
+  describe('a slice with one reference and a narrow public API', () => {
+    const CONSUMER = {
+      'src/site/pages/home/ui.ts': "import { a } from '@/blog/entities/card';",
+    };
+    // Six names defined, the barrel handing on `count` of them.
+    const card = (barrel: string): Tree => ({
+      ...CONSUMER,
+      [ENTITY]: barrel,
+      'src/blog/entities/card/a.ts':
+        'export const a = 1;\nexport function b() {}\nexport type C = 1;',
+      'src/blog/entities/card/d.ts':
+        'export class D {}\nexport const e = 1, f = 2;',
+    });
+
+    it('passes when the barrel hands on a third', () => {
+      assert.deepEqual(run(card("export { a, D } from './a';")), {
+        status: 0,
+        stderr: '',
+      });
+    });
+
+    it('is flagged when it hands on more', () => {
+      assert.equal(
+        run(card("export { a, b, D } from './a';")).stderr,
+        'src/blog/entities/card: This slice has only one reference in slice "pages/home". Consider merging them.\n',
+      );
+    });
+
+    it('counts every name of a file a barrel re-exports whole', () => {
+      assert.equal(run(card("export * from './d';")).status, 1);
+    });
+
+    it('is still flagged with no references', () => {
+      assert.equal(
+        run({
+          ...card("export { a } from './a';"),
+          'src/site/pages/home/ui.ts': '',
+        }).stderr,
+        'src/blog/entities/card: This slice has no references. Consider removing it.\n',
+      );
+    });
+  });
+
   it('flags a slice nothing uses', () => {
     assert.equal(
       run({ [ENTITY]: 'export const card = 1;' }).stderr,

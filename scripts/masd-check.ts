@@ -11,7 +11,8 @@
  *   app earned no better than an insignificant slice;
  * - Steiger's `insignificant-slice`, with each slice's references counted
  *   across the composition — its own app, every descendant and the routers —
- *   rather than within one app root, its messages kept word for word.
+ *   rather than within one app root, its messages kept word for word; a slice
+ *   with one reference passes when its public API is narrow.
  *
  * Reads `src/` and `sites/*\/app/` under the working directory, so a test runs
  * it against a tree of its own. Bare Node runs this file, relying on its type
@@ -27,6 +28,7 @@ import {
   insignificantApps,
   loadGraph,
   type MasdGraph,
+  PUBLIC_API,
   SLICED_LAYERS,
 } from '../eslint/masd-graph.ts';
 
@@ -34,6 +36,12 @@ const SLICED = new Set(SLICED_LAYERS);
 // The sliced layers Steiger checks; a page has nothing above it to be
 // referenced by.
 const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
+
+// The most of a slice's exported names its barrels may hand on for it to be a
+// module whoever its one consumer is: it hides the rest. The repo's slices
+// built as modules — the player, the CV page — sit at a fifth or under, and a
+// grab bag re-exporting everything at all of it.
+const NARROW_API = 1 / 3;
 
 const ROOT = process.cwd();
 const SOURCE = /\.tsx?$/;
@@ -73,6 +81,86 @@ function resolveImport(from: string, specifier: string): string | undefined {
   return undefined;
 }
 
+function sourceFile(base: string): string | undefined {
+  const stem = base.replace(SOURCE, '');
+  return [base, `${stem}.ts`, `${stem}.tsx`, path.join(stem, 'index.ts')].find(
+    (candidate) => SOURCE.test(candidate) && existsSync(candidate),
+  );
+}
+
+const isExported = (statement: ts.Statement): boolean =>
+  ts.canHaveModifiers(statement) &&
+  (ts.getModifiers(statement) ?? []).some(
+    ({ kind }) => kind === ts.SyntaxKind.ExportKeyword,
+  );
+
+/**
+ * The names a file exports — through an `export *` of a relative module too,
+ * when `following`, which is how a barrel hands on a whole file.
+ */
+function exportedNames(file: string, following: boolean): Set<string> {
+  const names = new Set<string>();
+  const { statements } = ts.createSourceFile(
+    file,
+    readFileSync(file, 'utf8'),
+    ts.ScriptTarget.Latest,
+  );
+  for (const statement of statements) {
+    if (ts.isExportDeclaration(statement)) {
+      const { exportClause, moduleSpecifier } = statement;
+      if (exportClause !== undefined && ts.isNamedExports(exportClause)) {
+        for (const { name } of exportClause.elements) names.add(name.text);
+      } else if (
+        following &&
+        moduleSpecifier !== undefined &&
+        ts.isStringLiteral(moduleSpecifier)
+      ) {
+        const resolved = resolveImport(file, moduleSpecifier.text);
+        const target =
+          resolved === undefined ? undefined : sourceFile(resolved);
+        if (target !== undefined) {
+          for (const name of exportedNames(target, true)) names.add(name);
+        }
+      }
+    } else if (ts.isExportAssignment(statement)) {
+      names.add('default');
+    } else if (isExported(statement)) {
+      if (ts.isVariableStatement(statement)) {
+        for (const { name } of statement.declarationList.declarations) {
+          if (ts.isIdentifier(name)) names.add(name.text);
+        }
+      } else if (
+        (ts.isFunctionDeclaration(statement) ||
+          ts.isClassDeclaration(statement) ||
+          ts.isTypeAliasDeclaration(statement) ||
+          ts.isInterfaceDeclaration(statement) ||
+          ts.isEnumDeclaration(statement)) &&
+        statement.name !== undefined
+      ) {
+        names.add(statement.name.text);
+      }
+    }
+  }
+  return names;
+}
+
+/** Whether a slice's barrels hand on at most `NARROW_API` of what its files export. */
+function narrowApi(slice: string): boolean {
+  const directory = path.join('src', slice);
+  const barrels = new Set(PUBLIC_API.map((name) => path.join(directory, name)));
+  const handedOn = new Set(
+    [...barrels]
+      .filter((barrel) => existsSync(barrel))
+      .flatMap((barrel) => [...exportedNames(barrel, true)]),
+  );
+  const defined = walk(directory)
+    .filter((file) => !barrels.has(file))
+    .flatMap((file) =>
+      [...exportedNames(file, false)].map((name) => `${file}#${name}`),
+    );
+  return defined.length > 0 && handedOn.size <= defined.length * NARROW_API;
+}
+
 function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
   return [
     ...directoryMismatches(graph, subdirectories('src')),
@@ -91,7 +179,9 @@ function sliceProblems(references: ReadonlyMap<string, ReadonlySet<string>>) {
         `src/${slice}: This slice has no references. Consider removing it.`,
       ];
     }
-    if (others.length > 0 || reference === 'router') return [];
+    if (others.length > 0 || reference === 'router' || narrowApi(slice)) {
+      return [];
+    }
     const [, layer, sourceSlice] = reference.split('/');
     if (sourceSlice !== undefined) {
       return [

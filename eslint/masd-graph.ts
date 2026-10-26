@@ -18,6 +18,16 @@ export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 /** FSD's layers, highest first. */
 export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
 
+/**
+ * A slice's or a segment's entry points. A closed list, so any other
+ * `index.*.ts` is still reaching into internals.
+ */
+export const PUBLIC_API = [
+  'index.ts',
+  'index.server-only.ts',
+  'index.node-safe.ts',
+];
+
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
 // Kebab-case also keeps every key non-numeric, which is what makes JS hand the

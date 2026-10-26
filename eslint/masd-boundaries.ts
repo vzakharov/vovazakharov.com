@@ -8,10 +8,13 @@
 import type { Config } from 'eslint/config';
 import boundariesPlugin from 'eslint-plugin-boundaries';
 
-import { ancestors, LAYERS, loadGraph, SLICED_LAYERS } from './masd-graph';
-
-// A closed list, so any other `index.*.ts` is still reaching into internals.
-const PUBLIC_API = ['index.ts', 'index.server-only.ts', 'index.node-safe.ts'];
+import {
+  ancestors,
+  LAYERS,
+  loadGraph,
+  PUBLIC_API,
+  SLICED_LAYERS,
+} from './masd-graph';
 
 const graph = loadGraph();
 const APPS = [...graph.keys()];
