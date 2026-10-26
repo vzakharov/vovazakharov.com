@@ -37,13 +37,19 @@ Vova: «если ты будешь писать сразу и то и то, то
 отдельным ходом, переводишь его на английский. А пусть это даже делаешь не ты, а
 подагент (который НЕ является тобой)». So:
 
-- `blog/<slug>.md` — the original, in Russian, as today;
-- `blog/<slug>.en.md` — its translation, made by a translator subagent briefed
-  as a translator, not as Майя, once the Russian is finished.
+- `blog/<slug>.ru.md` — the original, in Russian, the only file a walk writes;
+- `blog/<slug>.md` — its English translation, made by a translator subagent
+  briefed as a translator, not as Майя, once the Russian is finished.
+
+**The file names follow the addresses**, so the bare name is English as the bare
+address is: `/blog/<slug>` serves `<slug>.md`, `/blog/<slug>/ru` serves
+`<slug>.ru.md`. Which file is the original is said by the stamp below, not by
+which one goes without a suffix. The three existing posts are renamed to
+`.ru.md` (their `.md` URLs therefore change, which nobody links to).
 
 A locale is a dotted suffix on the file, as a cut is (`playgram.mini.md`), and a
 trailing segment on the route — `content.md` § "The locale seam" gets that
-sentence. Each page's `.md` link names its own language's file. `.en` must never
+sentence. Each page's `.md` link names its own language's file. `.ru` must never
 parse as a cut or a slug: `VARIANTS` and `LOCALES` share no member, and
 `parseFileName` learns the locale suffix.
 
@@ -56,10 +62,11 @@ translator runs again and re-stamps. Nothing publishes half-translated.
 ## Steps
 
 1. **Shared content: localized articles.**
-   - The loader pairs `<slug>.md` with `<slug>.<locale>.md` for a localized
+   - The loader pairs `<slug>.ru.md` with `<slug>.md` for a localized
      collection; the translation's frontmatter carries its own `description` and
      the stamp, and inherits `date` and `cardImage` from the original rather
-     than restating them.
+     than restating them. A `.ru.md` with no translation beside it builds
+     nothing and fails the drift check.
    - `articleRoute` learns a localized collection: `generateStaticParams` emits
      `[slug]`, `[slug, 'en']`, `[slug, 'ru']` (`localeTailAddresses`); `resolve`
      picks the locale's file; metadata carries `localizedAddresses` as the song
@@ -102,9 +109,9 @@ translator runs again and re-stamps. Nothing publishes half-translated.
    CV's are; the generated figure card for a post with no drawing prints the
    English title.
 7. **Translate.** A translator subagent — briefed in English as a literary
-   translator, never as Майя — gets each Russian file and writes its `.en.md`
-   with the stamp; the same for the home page's and the typewriter's Russian
-   copy into the catalogue. American punctuation and curly quotes per
+   translator, never as Майя — gets each `<slug>.ru.md` and writes its
+   `<slug>.md` with the stamp; the same for the home page's and the typewriter's
+   Russian copy into the catalogue. American punctuation and curly quotes per
    `content.md` § "Punctuation around quotes". Майя reads the result and may
    send a line back; she does not rewrite it herself.
 8. **Her home.** `personas/maya/wander.md`: strike the promise; § "Уходя" says a
@@ -137,3 +144,14 @@ translator runs again and re-stamps. Nothing publishes half-translated.
 - **Not extracted:** the per-locale route shells for the home and whisper pages
   (`[[...locale]]` + a parse). Each is three lines the router needs as its own
   file; a factory would hide which page a route serves.
+
+## Questions (the plan is written with the recommendation in force)
+
+1. **Which file goes without a suffix?** a) The English, `<slug>.md`, with the
+   Russian original at `<slug>.ru.md` — names follow addresses: the English
+   page's `.md` is its address plus `.md`, the Russian's differs from its
+   address only in `/ru` becoming `.ru`. **Recommended.** b) The Russian
+   original keeps `<slug>.md`, the translation is `<slug>.en.md` — the original
+   reads as the main file, but neither page's `.md` then sits at its address:
+   the English page at `/blog/<slug>` serves `<slug>.en.md`, the Russian at
+   `/blog/<slug>/ru` serves `<slug>.md`.
