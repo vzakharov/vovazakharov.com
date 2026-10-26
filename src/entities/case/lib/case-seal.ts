@@ -24,6 +24,7 @@ const SITE_INK = '#b3261e';
  */
 export const CASE_INKS = {
   harm: SITE_INK,
+  mischief: '#b0306f',
   contempt: '#a0670a',
   torment: '#8445bf',
   respect: '#2f62c4',
