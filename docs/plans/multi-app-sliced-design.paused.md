@@ -320,7 +320,13 @@ tuned — the null model is the bar.
   references across). Compute both on the game's dry-run tree and on the repo's
   real slices, show the operator where the verdicts differ and what each costs
   in code, then pause with that question, nothing built; the session that has
-  their pick builds it.
+  their pick builds it. **Measured** (`modularity-two-graphs.md` beside the
+  dry-run tree, the spike script inside it): the two agree on every real checked
+  slice and on every slice of the dry-run tree; they part only on the random-ten
+  control, which sits at chance in both — own rejects it, desc admits it,
+  because desc's extra edges lower every slice's expectation — and desc measures
+  a low app against the whole repo (`switch-theme` ×11 own, ×259 desc). The code
+  is one line apart. Recommended: own. **Waiting on the operator's pick.**
 - **Where the game's page sits is out of this bite** (operator: «пока не
   трогаем»): the page stays in `pages/mushrooms`, and moving it to the app layer
   is neither done nor ruled out.
