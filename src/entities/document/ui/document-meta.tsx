@@ -3,7 +3,7 @@ import { Group } from '@mantine/core';
 import { SITE_CONFIG } from '@/shared/config';
 import {
   type ArticleFrontmatter,
-  AUTHORS,
+  author,
   documentDateTime,
   formatDocumentDate,
   type WithFrontmatter,
@@ -32,7 +32,7 @@ export function DocumentMeta({
   className,
   locale = SITE_CONFIG.locale,
 }: DocumentMetaProps) {
-  const { name, href } = AUTHORS[frontmatter.author];
+  const { name, href } = author(frontmatter.author, locale);
   const copy = loadMessages(locale).documents;
 
   return (

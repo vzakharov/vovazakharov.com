@@ -1,4 +1,4 @@
-export { AUTHORS } from './authors';
+export { author } from './authors';
 export { type CaseFrontmatter, type Docketed } from './basilisk-frontmatter';
 export {
   ARTICLE_COLLECTIONS,
