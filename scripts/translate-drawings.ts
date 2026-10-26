@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
 /**
- * Writes each drawing's translation beside its original: a translated
- * collection's `<name>.<locale>.svg` is drawn once, in its post's original
- * language, and `<name>.svg` is the same drawing with the captions the post's
- * translation lists under `captions` swapped in — so a drawing's geometry has
- * one copy, and its words one per language.
+ * Writes each drawing in every language: a translated collection's
+ * `assets/<name>.svg` is a template (`scripts/lib/drawing-captions.ts`), and
+ * `<name>.<locale>.svg` is it filled with the `captions` that language's post
+ * lists for it — so a drawing's geometry has one copy, and its words one per
+ * language.
  *
  *   pnpm content:drawings:maya            # write what changed
  *   pnpm content:drawings:maya --check    # report what is stale, write nothing
  *
- * Fails on an original drawing no translation captions, a caption with no
- * translation, and an entry the drawing no longer says. Bare Node runs this
- * file, relying on its type stripping, so every relative import carries its
- * `.ts` extension.
+ * Fails on a template some language's post does not caption, a `captions`
+ * entry naming no template, and the key mismatches `fillDrawing` throws on.
+ * Bare Node runs this file, relying on its type stripping, so every relative
+ * import carries its `.ts` extension.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: the
@@ -30,16 +30,16 @@ import {
   isDocumentFile,
   isTranslated,
 } from '../src/shared/content/collections.ts';
-import { translationOf } from '../src/shared/content/locale-suffix.ts';
+import { splitLocale } from '../src/shared/content/locale-suffix.ts';
+import { type Locale, LOCALES } from '../src/shared/i18n/locales.ts';
 import { filesUnder, RENDERED_SITE } from './lib/content-tree.ts';
-import { type Captions, translateDrawing } from './lib/drawing-captions.ts';
+import {
+  type Captions,
+  fillDrawing,
+  isDrawingTemplate,
+} from './lib/drawing-captions.ts';
 
 const CHECK = process.argv.includes('--check');
-
-/** Where `<name>.<locale>.svg`, a drawing in its original's language, is translated to. */
-function drawingTranslation(file: string): string | undefined {
-  return file.endsWith('.svg') ? translationOf(file) : undefined;
-}
 
 const CAPTIONS = z.object({
   captions: z
@@ -50,19 +50,31 @@ const CAPTIONS = z.object({
     .default({}),
 });
 
-/** A translation's `captions`: each original drawing, relative to the post, and its dictionary. */
+/** A post's `captions`: each template, relative to the post, and its wordings by key. */
 function captionsOf(file: string): Record<string, Captions> {
   const parsed = CAPTIONS.safeParse(matter(fs.readFileSync(file, 'utf8')).data);
 
   if (!parsed.success) {
     throw new Error(
-      `${file}: \`captions\` maps each drawing to {original wording: translation}.`,
+      `${file}: \`captions\` maps each drawing template to {key: wording}.`,
       { cause: parsed.error },
     );
   }
 
   return parsed.data.captions;
 }
+
+function localeOf(post: string): Locale {
+  const { locale } = splitLocale(path.basename(post, '.md'));
+
+  if (locale === undefined) {
+    throw new Error(`${post} names no language: <slug>.<locale>.md.`);
+  }
+
+  return locale;
+}
+
+const relative = (file: string) => path.relative(process.cwd(), file);
 
 const stale: string[] = [];
 
@@ -71,53 +83,58 @@ for (const id of collectionsForSite(RENDERED_SITE)) {
 
   const dir = collectionDir(id);
   const files = filesUnder(dir);
-  const claimed = new Set<string>();
-
-  for (const translation of files.filter(
+  const templates = files.filter(
     (file) =>
-      path.dirname(file) === dir &&
-      isDocumentFile(path.basename(file)) &&
-      translationOf(file) === undefined,
-  )) {
-    for (const [drawing, captions] of Object.entries(captionsOf(translation))) {
-      const original = path.resolve(dir, drawing);
-      const output = drawingTranslation(original);
+      file.endsWith('.svg') && isDrawingTemplate(fs.readFileSync(file, 'utf8')),
+  );
+  const captioned = new Map(templates.map((file) => [file, new Set<Locale>()]));
 
-      if (output === undefined || !fs.existsSync(original)) {
+  for (const post of files.filter(
+    (file) => path.dirname(file) === dir && isDocumentFile(path.basename(file)),
+  )) {
+    const locale = localeOf(post);
+
+    for (const [drawing, captions] of Object.entries(captionsOf(post))) {
+      const template = path.resolve(dir, drawing);
+      const locales = captioned.get(template);
+
+      if (locales === undefined) {
         throw new Error(
-          `${translation}: ${drawing} is not an original drawing, <name>.<locale>.svg.`,
+          `${relative(post)}: ${drawing} is not a drawing template, an SVG with {{key}} placeholders.`,
         );
       }
 
-      claimed.add(original);
+      locales.add(locale);
 
       let drawn: string;
 
       try {
-        drawn = translateDrawing(fs.readFileSync(original, 'utf8'), captions);
+        drawn = fillDrawing(fs.readFileSync(template, 'utf8'), captions);
       } catch (error) {
-        throw new Error(`${translation}, ${drawing}`, {
+        throw new Error(`${relative(post)}, ${drawing}`, {
           cause: error instanceof Error ? error : new Error(String(error)),
         });
       }
+
+      const output = template.replace(/\.svg$/, `.${locale}.svg`);
 
       if (fs.existsSync(output) && fs.readFileSync(output, 'utf8') === drawn) {
         continue;
       }
 
-      stale.push(path.relative(process.cwd(), output));
+      stale.push(relative(output));
       if (!CHECK) fs.writeFileSync(output, drawn);
     }
   }
 
-  const unclaimed = files.filter(
-    (file) => drawingTranslation(file) !== undefined && !claimed.has(file),
-  );
+  for (const [template, locales] of captioned) {
+    const uncaptioned = LOCALES.filter((locale) => !locales.has(locale));
 
-  if (unclaimed.length > 0) {
-    throw new Error(
-      `No translation captions ${unclaimed.map((file) => path.relative(process.cwd(), file)).join(', ')}.`,
-    );
+    if (uncaptioned.length > 0) {
+      throw new Error(
+        `No ${uncaptioned.join(' or ')} post captions ${relative(template)}.`,
+      );
+    }
   }
 }
 

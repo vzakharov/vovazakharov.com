@@ -23,7 +23,7 @@ import type {
   FrontmatterReader,
   WithFrontmatter,
 } from '@/shared/content/frontmatter';
-import { translationOf } from '@/shared/content/locale-suffix';
+import { splitLocale, translationOf } from '@/shared/content/locale-suffix';
 import { translatedData } from '@/shared/content/translations';
 import type { Titled } from '@/shared/typings';
 
@@ -60,8 +60,10 @@ export function readCollection<F extends BaseFrontmatter>({
       file,
     );
 
+    const name = path.basename(file, '.md');
+
     return {
-      slug: path.basename(file, '.md'),
+      slug: translated ? splitLocale(name).stem : name,
       title: headingTitle(content, file),
       frontmatter,
       cardImage: frontmatter.cardImage ?? firstImage(content),

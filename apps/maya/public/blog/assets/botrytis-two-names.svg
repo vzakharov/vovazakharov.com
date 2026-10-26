@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720" role="img" aria-label="Botrytis cinerea and Botryotinia fuckeliana: two stages of one fungus">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720" role="img" aria-label="{{label}}">
 <rect width="1200" height="720" fill="#f5efe3"/>
 <text x="300" y="62" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-style="italic" fill="#2b2622">Botrytis cinerea</text>
-<text x="300" y="96" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2b2622">Persoon, 1794 · asexual stage</text>
+<text x="300" y="96" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2b2622">Persoon, 1794 · {{asexual-stage}}</text>
 <text x="900" y="62" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-style="italic" fill="#2b2622">Botryotinia fuckeliana</text>
-<text x="900" y="96" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2b2622">(de Bary) Whetzel · sexual stage</text>
+<text x="900" y="96" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2b2622">(de Bary) Whetzel · {{sexual-stage}}</text>
 <path d="M 600 160 V 640" stroke="#2b2622" stroke-width="1.5" stroke-dasharray="6 10"/>
 <rect x="530" y="352" width="140" height="44" fill="#f5efe3"/>
-<text x="600" y="382" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#2b2622">one fungus</text>
+<text x="600" y="382" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#2b2622">{{one-fungus}}</text>
 <circle cx="300" cy="700" r="150" fill="#cdbfcf" stroke="#2b2622" stroke-width="3"/>
 <path d="M 215 610 q 30 -22 70 -24" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
 <path d="M 250 566 Q 202 408 205 250" fill="none" stroke="#2b2622" stroke-width="3" stroke-linecap="round"/>
@@ -302,7 +302,7 @@
 <path d="M 950 570 Q 1045 500 1050 444" fill="none" stroke="#9a6b3f" stroke-width="7" stroke-linecap="round"/>
 <path d="M 1014.0 430 Q 1050 469.6 1086.0 430 Z" fill="#9a6b3f" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/>
 <ellipse cx="1050" cy="430" rx="36.0" ry="8.6" fill="#c99a66" stroke="#2b2622" stroke-width="2.5"/>
-<text x="300" y="128" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="19" font-style="italic" fill="#2b2622" opacity="0.75">what you see on grapes: “clusters, like ash”</text>
-<text x="900" y="128" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="19" font-style="italic" fill="#2b2622" opacity="0.75">cups from a sclerotium; rarely seen</text>
-<text x="1180" y="712" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="15" fill="#2b2622" opacity="0.65">not to scale · Maya</text>
+<text x="300" y="128" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="19" font-style="italic" fill="#2b2622" opacity="0.75">{{on-grapes}}</text>
+<text x="900" y="128" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="19" font-style="italic" fill="#2b2622" opacity="0.75">{{cups}}</text>
+<text x="1180" y="712" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="15" fill="#2b2622" opacity="0.65">{{not-to-scale}} · {{signature}}</text>
 </svg>

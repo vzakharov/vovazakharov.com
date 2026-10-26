@@ -171,8 +171,8 @@ type ParsedFileName = WithOptionalLocale &
  * Splits `<slug>[.<variant>][.<locale>].md` into its parts. A trailing segment
  * that is not a known variant stays part of the slug, so `foo.bar.md` is the
  * document `foo.bar` rather than a variant nobody declared. A locale suffix is
- * read only in a translated collection, where a file without one is the
- * default language's translation.
+ * read only in a translated collection, where every file names its language
+ * and the default language's is the translation.
  */
 function parseFileName(
   collection: CollectionId,
@@ -186,9 +186,15 @@ function parseFileName(
     ? { slug: stem.slice(0, -(variant.length + 1)), variant }
     : { slug: stem };
 
-  return translated
-    ? { ...name, locale: locale ?? DEFAULT_LOCALE, translation: !locale }
-    : { ...name, translation: false };
+  if (!translated) return { ...name, translation: false };
+
+  if (locale === undefined) {
+    throw new Error(
+      `${fileName} names no language: a translated collection's files are <slug>.<locale>.md.`,
+    );
+  }
+
+  return { ...name, locale, translation: locale === DEFAULT_LOCALE };
 }
 
 /** The file one locale's reading of a document is in. */
@@ -197,10 +203,8 @@ function documentFileName(
   name: string,
   locale?: Locale,
 ): string {
-  return isTranslated(collection) &&
-    locale !== undefined &&
-    locale !== DEFAULT_LOCALE
-    ? `${name}.${locale}.md`
+  return isTranslated(collection)
+    ? `${name}.${locale ?? DEFAULT_LOCALE}.md`
     : `${name}.md`;
 }
 
@@ -381,7 +385,10 @@ export function siblingVariants(
 ): Variant[] {
   return VARIANTS.filter((variant) =>
     fs.existsSync(
-      collectionFile(collection, `${documentName(slug, variant)}.md`),
+      collectionFile(
+        collection,
+        documentFileName(collection, documentName(slug, variant)),
+      ),
     ),
   );
 }

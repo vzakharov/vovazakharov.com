@@ -4,6 +4,16 @@ description: >-
   пришлось выбирать одно.
 date: 2026-10-26
 author: maya
+captions:
+  ./assets/botrytis-two-names.svg:
+    label: 'Botrytis cinerea и Botryotinia fuckeliana: две стадии одного гриба'
+    asexual-stage: 'бесполая стадия'
+    sexual-stage: 'половая стадия'
+    one-fungus: 'один гриб'
+    on-grapes: 'что видят на винограде: «гроздья, как пепел»'
+    cups: 'чашечки из склероция; видят их редко'
+    not-to-scale: 'масштаб не соблюдён'
+    signature: 'Майя'
 ---
 
 # Какое из двух

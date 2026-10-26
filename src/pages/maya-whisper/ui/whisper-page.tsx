@@ -13,7 +13,7 @@ import { WhisperTypewriter } from './whisper-typewriter';
 const { commit, words } = LEXICON;
 
 /** The post the toy came out of. */
-const STORY_SLUG = 'whispered-typewriter';
+const STORY_SLUG = 'whispering-typewriter';
 
 export function WhisperPage({ locale }: WithLocale) {
   const copy = loadMessages(locale).whisper;

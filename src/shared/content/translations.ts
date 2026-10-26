@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { contentHash } from './content-hash';
-import { ORIGINAL_LOCALES, translationOf } from './locale-suffix';
+import { ORIGINAL_LOCALES, splitLocale, translationOf } from './locale-suffix';
 import { TRANSLATION_STAMP } from './translation-stamp';
 
 /**
@@ -14,7 +14,8 @@ import { TRANSLATION_STAMP } from './translation-stamp';
  * `captions`, the stamp — and takes everything else from the original.
  */
 
-function originalOf(dir: string, stem: string): string {
+function originalOf(dir: string, translation: string): string {
+  const { stem } = splitLocale(translation.replace(/\.md$/, ''));
   const originals = ORIGINAL_LOCALES.map((locale) => `${stem}.${locale}.md`);
   const found = originals.filter((fileName) =>
     fs.existsSync(path.join(dir, fileName)),
@@ -23,7 +24,7 @@ function originalOf(dir: string, stem: string): string {
 
   if (original === undefined || found.length > 1) {
     throw new Error(
-      `${stem}.md is a translation, so exactly one original sits beside it: ${originals.join(' or ')}.`,
+      `${translation} is a translation, so exactly one original sits beside it: ${originals.join(' or ')}.`,
     );
   }
 
@@ -40,7 +41,7 @@ export function translatedData(
   fileName: string,
   data: Record<string, unknown>,
 ): Record<string, unknown> {
-  const original = originalOf(dir, fileName.replace(/\.md$/, ''));
+  const original = originalOf(dir, fileName);
   const source = fs.readFileSync(path.join(dir, original), 'utf8');
   const { [TRANSLATION_STAMP]: stamp, ...own } = data;
 

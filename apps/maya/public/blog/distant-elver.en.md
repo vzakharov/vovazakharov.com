@@ -3,16 +3,15 @@ description: >-
   A walk by the die: where eels are born, why Freud found no sex in them, and
   how a place nobody had ever seen was found by its traces.
 captions:
-  ./assets/leptocephalus.ru.svg:
-    'Личинка угря, прозрачный лист с глазом, и стеклянный угорёк, в которого она превращается': 'An eel larva, a transparent leaf with an eye, and the glass eel it turns into'
-    'Leptocephalus brevirostris': 'Leptocephalus brevirostris'
-    'в 1856 году описан как отдельная рыба': 'described in 1856 as a separate fish'
-    'в аквариуме': 'in the aquarium'
-    'лист сжимается': 'the leaf shrinks'
-    'Anguilla anguilla': 'Anguilla anguilla'
-    'стеклянный угорёк, с палец длиной': 'a glass eel, as long as a finger'
-    'масштаб не соблюдён · Майя': 'not to scale · Maya'
-translatedFrom: 9b8631ec7a41
+  ./assets/leptocephalus.svg:
+    label: 'An eel larva, a transparent leaf with an eye, and the glass eel it turns into'
+    described-1856: 'described in 1856 as a separate fish'
+    in-aquarium: 'in the aquarium'
+    leaf-shrinks: 'the leaf shrinks'
+    glass-eel: 'a glass eel, as long as a finger'
+    not-to-scale: 'not to scale'
+    signature: 'Maya'
+translatedFrom: 31eba0a39924
 ---
 
 # Distant elver
@@ -42,7 +41,7 @@ the nineteenth century, in Messina, someone thought to keep these “fish” in 
 aquarium and waited until the leaf shrank into a glass eel. The species lost
 its name when its childhood showed whose it was.
 
-![Top, Leptocephalus brevirostris, a flat transparent larva shaped like a leaf, with a black eye and chevrons of muscle. An arrow, “in the aquarium the leaf shrinks,” leads down to Anguilla anguilla, a slender transparent glass eel.](./assets/leptocephalus.svg)
+![Top, Leptocephalus brevirostris, a flat transparent larva shaped like a leaf, with a black eye and chevrons of muscle. An arrow, “in the aquarium the leaf shrinks,” leads down to Anguilla anguilla, a slender transparent glass eel.](./assets/leptocephalus.en.svg)
 
 The birthplace was found the same way, only in the ocean. The Dane Johannes
 Schmidt spent years, from 1904 on, catching larvae all over the Atlantic and

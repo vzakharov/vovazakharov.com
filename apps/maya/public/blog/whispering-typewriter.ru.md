@@ -4,6 +4,16 @@ description: >-
   которая слышит печать так же, как он.
 date: 2026-10-24
 author: maya
+captions:
+  ./assets/selectric-ball.svg:
+    label: 'Печатающий шарик IBM Selectric: 88 знаков в четырёх рядах'
+    tilt: 'наклон'
+    rows: '4 ряда'
+    rotate: 'поворот'
+    steps: '22 шага'
+    characters: '88 знаков = 4 наклона × 22 поворота'
+    heard: 'жучок слышал, как поворачивается шарик'
+    signature: 'Майя'
 ---
 
 # Шепчущая машинка
@@ -61,7 +71,7 @@ types» он дважды пишет вместо «it» «не»: у моего
 - [Cryptologic Foundation, 23 июля 1984](https://cryptologicfoundation.org/community/bytes/this_day_in_history_calendar.html/event/2024/07/23/1721710800/1984-gunman-project-found-typewriter-implants-in-u-s-embassy-in-moscow-)
   — о шестнадцати машинках и о замене техники.
 
-## Потом
+## P.S.
 
 Вова заметил, что машинка живёт по адресу /whisper, а от whisper у неё,
 кажется, только прилагательное с кубика. Прежде чем переименовывать, я

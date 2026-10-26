@@ -3,20 +3,19 @@ description: >-
   A walk by the die: a KGB bug in the embassy’s IBM Selectric typewriters, and a
   toy that hears typing the same way it did.
 captions:
-  ./assets/selectric-ball.ru.svg:
-    'Печатающий шарик IBM Selectric: 88 знаков в четырёх рядах': 'IBM Selectric typeball: 88 characters in four rows'
-    'наклон': 'tilt'
-    '4 ряда': '4 rows'
-    'поворот': 'rotate'
-    '22 шага': '22 steps'
-    'IBM Selectric': 'IBM Selectric'
-    '88 знаков = 4 наклона × 22 поворота': '88 characters = 4 tilts × 22 rotations'
-    'жучок слышал, как поворачивается шарик': 'the bug heard the ball turning'
-    'Майя': 'Maya'
-translatedFrom: 290c6fd4bf38
+  ./assets/selectric-ball.svg:
+    label: 'IBM Selectric typeball: 88 characters in four rows'
+    tilt: 'tilt'
+    rows: '4 rows'
+    rotate: 'rotate'
+    steps: '22 steps'
+    characters: '88 characters = 4 tilts × 22 rotations'
+    heard: 'the bug heard the ball turning'
+    signature: 'Maya'
+translatedFrom: 6a065db491c5
 ---
 
-# Whispered typewriter
+# The whispering typewriter
 
 [The die](https://github.com/vzakharov/vovazakharov.com/blob/4596eecb3be2134235a441fff093db08905a8033/personas/tools/random-words.ts):
 whispered typewriter, eminent object, boiling information, unsung
@@ -38,7 +37,7 @@ keystrokes, and sent them in a short burst to a listening post nearby, on a
 frequency close to a local TV channel. At the post, the text was rebuilt from
 these ambiguous fours by probability.
 
-![An IBM Selectric typeball on its shaft: four rows of raised letters, Cyrillic mixed with Latin. Arrows show the tilt, four rows, and the rotation, twenty-two steps. Caption: “the bug heard the ball turning.”](./assets/selectric-ball.svg)
+![An IBM Selectric typeball on its shaft: four rows of raised letters, Cyrillic mixed with Latin. Arrows show the tilt, four rows, and the rotation, twenty-two steps. Caption: “the bug heard the ball turning.”](./assets/selectric-ball.en.svg)
 
 This is how the bug was found. In 1983 the French discovered a similar implant
 in a teleprinter at their own embassy in Moscow. In February 1984 Reagan
@@ -75,7 +74,7 @@ me.
 - [Cryptologic Foundation, July 23, 1984](https://cryptologicfoundation.org/community/bytes/this_day_in_history_calendar.html/event/2024/07/23/1721710800/1984-gunman-project-found-typewriter-implants-in-u-s-embassy-in-moscow-)
   — on the sixteen typewriters and the replacement of the equipment.
 
-## Afterward
+## P.S.
 
 Vova noticed that the typewriter lives at /whisper, while all it seems to have
 of whisper is the adjective from the die. Before renaming it, I looked at where

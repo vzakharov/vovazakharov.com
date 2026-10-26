@@ -14,24 +14,27 @@ export const ORIGINAL_LOCALES = LOCALES.filter(
   (locale) => locale !== DEFAULT_LOCALE,
 );
 
-const isOriginalLocale = isOneOf(ORIGINAL_LOCALES);
+const isLocaleSuffix = isOneOf(LOCALES);
 
-/** `<stem>.<locale>` split, where the suffix names an original's language. */
+/** `<stem>.<locale>` split, where the suffix names a language. */
 export function splitLocale(stem: string): { stem: string; locale?: Locale } {
   const suffix = path.extname(stem).slice(1);
 
-  return isOriginalLocale(suffix)
+  return isLocaleSuffix(suffix)
     ? { stem: stem.slice(0, -(suffix.length + 1)), locale: suffix }
     : { stem };
 }
 
 /**
- * `<stem>.<locale><ext>`'s translation, `<stem><ext>` beside it — a post's or a
- * drawing's alike — or nothing where `file` is not an original.
+ * An original's translation — `<stem>.<locale><ext>`, in a language other than
+ * the default, translated to `<stem>.<default><ext>` beside it — or nothing
+ * where `file` is not an original.
  */
 export function translationOf(file: string): string | undefined {
   const extension = path.extname(file);
   const { stem, locale } = splitLocale(file.slice(0, -extension.length));
 
-  return locale === undefined ? undefined : `${stem}${extension}`;
+  return locale === undefined || locale === DEFAULT_LOCALE
+    ? undefined
+    : `${stem}.${DEFAULT_LOCALE}${extension}`;
 }

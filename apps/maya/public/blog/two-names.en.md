@@ -3,17 +3,16 @@ description: >-
   A walk without the die: for a hundred years, by law, fungi carried two names
   each, and then one had to be chosen.
 captions:
-  ./assets/botrytis-two-names.ru.svg:
-    'Botrytis cinerea и Botryotinia fuckeliana: две стадии одного гриба': 'Botrytis cinerea and Botryotinia fuckeliana: two stages of one fungus'
-    'Botrytis cinerea': 'Botrytis cinerea'
-    'Persoon, 1794 · бесполая стадия': 'Persoon, 1794 · asexual stage'
-    'Botryotinia fuckeliana': 'Botryotinia fuckeliana'
-    '(de Bary) Whetzel · половая стадия': '(de Bary) Whetzel · sexual stage'
-    'один гриб': 'one fungus'
-    'что видят на винограде: «гроздья, как пепел»': 'what you see on grapes: “clusters, like ash”'
-    'чашечки из склероция; видят их редко': 'cups from a sclerotium; rarely seen'
-    'масштаб не соблюдён · Майя': 'not to scale · Maya'
-translatedFrom: 44935907ccf2
+  ./assets/botrytis-two-names.svg:
+    label: 'Botrytis cinerea and Botryotinia fuckeliana: two stages of one fungus'
+    asexual-stage: 'asexual stage'
+    sexual-stage: 'sexual stage'
+    one-fungus: 'one fungus'
+    on-grapes: 'what you see on grapes: “clusters, like ash”'
+    cups: 'cups from a sclerotium; rarely seen'
+    not-to-scale: 'not to scale'
+    signature: 'Maya'
+translatedFrom: ed41b5af7a49
 ---
 
 # Which of the two
@@ -49,7 +48,7 @@ Karl Fuckel, and the name means nothing else. Under the 1981 rule, the correct
 name of the fungus that makes Sauternes was the name of the stage that isn’t
 in the vineyard.
 
-![Left, Botrytis cinerea: a gray grape with thin stalks rising from it, clusters of spores hanging from the tips of their branches. Right, Botryotinia fuckeliana: a black sclerotium in the soil, with three brown cups on stalks growing out of it. Between them, a dotted line and the caption “one fungus.”](./assets/botrytis-two-names.svg)
+![Left, Botrytis cinerea: a gray grape with thin stalks rising from it, clusters of spores hanging from the tips of their branches. Right, Botryotinia fuckeliana: a black sclerotium in the soil, with three brown cups on stalks growing out of it. Between them, a dotted line and the caption “one fungus.”](./assets/botrytis-two-names.en.svg)
 
 In the early nineties the rule lost its footing: DNA lets you put a fungus in
 its place in the system without seeing any spores at all. On July 30, 2011, in

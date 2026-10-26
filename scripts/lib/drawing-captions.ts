@@ -1,71 +1,60 @@
 /**
- * A drawing's words in another language, swapped in over the original's. The
- * drawing is authored once, in its original's language; what a translation
- * changes is its `<text>` elements and its `aria-label`, each looked up whole in
- * a dictionary from the original's wording to the translation's. A `<text>`
- * carrying `translate="no"` is part of the picture — a letter on a typeball —
- * and stays as drawn.
+ * A drawing in one language: the template, `assets/<name>.svg`, drawn once with
+ * a `{{key}}` placeholder wherever it says something in words — in a `<text>`
+ * or in its `aria-label` alike — and each language's post naming the wording
+ * for every key. Whatever is not a placeholder is part of the picture, and
+ * reads the same in every language: a Latin name, a letter on a typeball.
  *
  * Bare Node runs this file.
  */
 
-/** Original wording → translated wording, as a translation's frontmatter states it. */
+/** Key → wording, as one language's post states it under `captions`. */
 export type Captions = Record<string, string>;
 
-const TEXT = /(<text\b([^>]*)>)([^<]*)(<\/text>)/g;
+const PLACEHOLDER = /{{([\w-]+)}}/g;
 
-const LABEL = /(<svg\b[^>]*\baria-label=")([^"]*)(")/;
+const XML_ESCAPES: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+};
+
+/** Whether `svg` is a template, with a placeholder to fill. */
+export function isDrawingTemplate(svg: string): boolean {
+  return /{{[\w-]+}}/.test(svg);
+}
 
 /**
- * `svg` with every caption translated. Throws on a caption the dictionary
- * lacks, which is how an edit to the original's wording surfaces, and on an
- * entry nothing in the drawing says any more.
+ * `template` with every placeholder filled. Throws on a key the captions lack
+ * and on an entry no placeholder uses, so the two languages cannot drift onto
+ * different sets of words.
  */
-export function translateDrawing(svg: string, captions: Captions): string {
-  const missing: string[] = [];
+export function fillDrawing(template: string, captions: Captions): string {
+  const missing = new Set<string>();
   const used = new Set<string>();
 
-  const lookUp = (wording: string): string => {
-    const translated = captions[wording];
+  const filled = template.replaceAll(PLACEHOLDER, (whole, key: string) => {
+    const wording = captions[key];
 
-    if (translated === undefined) {
-      missing.push(wording);
+    if (wording === undefined) {
+      missing.add(key);
 
-      return wording;
+      return whole;
     }
 
-    used.add(wording);
+    used.add(key);
 
-    return translated;
-  };
+    return wording.replaceAll(/["&<>]/g, (char) => XML_ESCAPES[char] ?? char);
+  });
 
-  const translated = svg
-    .replaceAll(
-      TEXT,
-      (
-        whole,
-        open: string,
-        attributes: string,
-        wording: string,
-        close: string,
-      ) =>
-        /\btranslate="no"/.test(attributes)
-          ? whole
-          : `${open}${lookUp(wording)}${close}`,
-    )
-    .replace(
-      LABEL,
-      (_whole, before: string, label: string, after: string) =>
-        `${before}${lookUp(label)}${after}`,
-    );
-
-  const unused = Object.keys(captions).filter((wording) => !used.has(wording));
+  const unused = Object.keys(captions).filter((key) => !used.has(key));
   const problems = [
-    ...missing.map((wording) => `no translation for “${wording}”`),
-    ...unused.map((wording) => `“${wording}” is not in the drawing`),
+    ...[...missing].map((key) => `no wording for {{${key}}}`),
+    ...unused.map((key) => `{{${key}}} is not in the drawing`),
   ];
 
   if (problems.length > 0) throw new Error(problems.join('; '));
 
-  return translated;
+  return filled;
 }

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Stamps a translation with the original it was made from: `<stem>.md` beside
- * `<stem>.<locale>.md` gets the original's `contentHash` as its
+ * Stamps a translation with the original it was made from: `<stem>.en.md`
+ * beside `<stem>.<locale>.md` gets the original's `contentHash` as its
  * `translatedFrom`. The build refuses a stale stamp, so this is run after each
  * translation, never instead of one.
  *
