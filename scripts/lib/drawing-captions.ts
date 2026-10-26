@@ -22,7 +22,8 @@ const XML_ESCAPES: Record<string, string> = {
 
 /** Whether `svg` is a template, with a placeholder to fill. */
 export function isDrawingTemplate(svg: string): boolean {
-  return /{{[\w-]+}}/.test(svg);
+  // `search`, not `test`: it ignores the global flag's `lastIndex`.
+  return svg.search(PLACEHOLDER) !== -1;
 }
 
 /**
