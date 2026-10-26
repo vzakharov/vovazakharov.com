@@ -4,12 +4,13 @@ import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import type { ClumpGround } from './anchored-ground';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
-import type { Bedded } from './flower-layout';
-import { FLOWER_SWAY } from './flower-layout';
-import type { FlowerPlotsLayout } from './flower-plots';
-import { flowersOf, type StandingFlower } from './flower-plots';
-import type { FlowerSightLayout } from './flower-sight';
-import { sightingOf, type Stand } from './flower-sight';
+import { type Bedded, FLOWER_SWAY } from './flower-layout';
+import {
+  type FlowerPlotsLayout,
+  flowersOf,
+  type StandingFlower,
+} from './flower-plots';
+import { type FlowerSightLayout, sightingOf, type Stand } from './flower-sight';
 import type { Tuft, WithTuft } from './grass';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
 /** What of the meadow's layout this reads. */

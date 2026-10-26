@@ -14,25 +14,23 @@ import type { WithHeight } from '@/kernel/shared/typings';
 
 import { browDistance } from '../../model/eye-height';
 import { distanceBetween, type Point } from '../../model/geometry';
-import type { WithCamera } from '../../model/ground';
-import { sameFoot } from '../../model/ground';
 import {
   CLUMP_DISTANCE,
   D_SEE,
   type Eye,
   type Footing,
   OPENING_EYE,
+  sameFoot,
+  type WithCamera,
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
 import type { Random } from '../../model/random';
 import type { ClumpGround } from './anchored-ground';
 import { depthOf, UNPLACED } from './bed-place';
 import { coversShown, inSightPast } from './flower-cover';
-import type { Bedded } from './flower-layout';
-import { FLOWER_SIZE } from './flower-layout';
+import { type Bedded, FLOWER_SIZE } from './flower-layout';
 import { pulledFeet } from './flower-plots';
-import type { Stand } from './flower-sight';
-import type { FlowerSightLayout } from './flower-sight';
+import type { FlowerSightLayout,Stand } from './flower-sight';
 import {
   BLADE_OVERHANG,
   downAt,
@@ -45,11 +43,11 @@ import {
   turfAt,
   type WithTuft,
 } from './grass';
-import type { LawnLayout } from './lawn';
 import {
   CELL,
   type Cell,
   cellOf,
+  type LawnLayout,
   LiveLawn,
   regrowTufts,
   type Sprout,
@@ -57,8 +55,7 @@ import {
 } from './lawn';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
-import type { TendingLayout } from './tending';
-import { Tended, tendedIn } from './tending';
+import { Tended, tendedIn,type TendingLayout } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
 import {
   behindHills,

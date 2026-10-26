@@ -17,7 +17,7 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
+import type { WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import { anchorOf } from '../../model/anchor';
 import { isCrowdedAt } from '../../model/crowding';
@@ -29,13 +29,13 @@ import {
   distanceToEdge,
   type Point,
 } from '../../model/geometry';
-import type { WithCamera } from '../../model/ground';
 import {
   anchored,
   type Eye,
   type Ground,
   groundFootOf,
   OPENING_EYE,
+  type WithCamera,
 } from '../../model/ground';
 import { EMPTY_HOUSE } from '../../model/house';
 import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
@@ -48,12 +48,11 @@ import {
   type WithOptionalSpan,
 } from '../../model/placement';
 import type { Seeded } from '../../model/random';
-import { type ClumpGround,groundIn } from './anchored-ground';
+import { type ClumpGround, groundIn } from './anchored-ground';
 import { anchoredStand } from './anchored-stand';
 import { aboutFoot } from './bed-place';
 import { capBox } from './cap-cover';
-import type { Placement } from './clump-layout';
-import { FOREST_SPLAY, placeOnGround } from './clump-layout';
+import { FOREST_SPLAY, type Placement, placeOnGround } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
 import { layoutShown } from './eye-crop';
 import { coversShown, type ShownCover } from './flower-cover';
@@ -69,8 +68,7 @@ import {
 } from './mushroom-patch';
 import { dotInSight } from './spore-sight';
 import { doorsKept, partsInView, standingOn } from './standing-weighed';
-import type { Sunned, SunWashed } from './sun-layout';
-import { SUN_RAY_REACH } from './sun-layout';
+import { SUN_RAY_REACH,type Sunned, type SunWashed } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { behindHills, cull, ofLayout, type View } from './view';
 

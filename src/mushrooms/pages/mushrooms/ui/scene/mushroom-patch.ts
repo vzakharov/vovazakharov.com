@@ -31,10 +31,9 @@ import {
 import type { Splayed } from '../../model/mushroom-pose';
 import { openingIndex } from '../../model/placement';
 import { groundIn, type MushroomGround } from './anchored-ground';
-import type { Placement } from './clump-layout';
-import { placeIn } from './clump-layout';
+import { placeIn,type Placement } from './clump-layout';
 import { standingAt } from './door-sight';
-import { type FlowerPlotsLayout,flowersOf } from './flower-plots';
+import { type FlowerPlotsLayout, flowersOf } from './flower-plots';
 import { flowerTapReach, type Stand } from './flower-sight';
 import { meadowCamera } from './meadow-camera';
 import {
@@ -45,9 +44,6 @@ import {
   type MushroomTarget,
   tapTarget,
 } from './mushroom-tap';
-
-/** What of the meadow's layout this reads. */
-export type MushroomPatchLayout = FlowerPlotsLayout;
 
 /**
  * The least radius, in CSS px, of the disc the opening clump's own patch
@@ -146,7 +142,7 @@ export function patchTarget(
 }
 
 /** What takes a tap in `stand`'s world: its flowers and its mushrooms. */
-export function tappedIn<L extends MushroomPatchLayout>(
+export function tappedIn<L extends FlowerPlotsLayout>(
   stand: Stand<L>,
 ): Tapped {
   const { layout, mushrooms } = stand;
@@ -168,7 +164,7 @@ export function tappedIn<L extends MushroomPatchLayout>(
  * wide as `least` asks of the mushroom standing on its foot, `patchFloor`
  * by default (`tappedIn`).
  */
-export function patchlessIn<L extends MushroomPatchLayout>(
+export function patchlessIn<L extends FlowerPlotsLayout>(
   stand: Stand<L>,
   least: (foot: Point) => number = (foot) =>
     floorOn(stand.layout.mushrooms, foot),
@@ -182,7 +178,7 @@ export function patchlessIn<L extends MushroomPatchLayout>(
 }
 
 /** Every flower standing in `stand`, as a tap finds its head. */
-function flowerTaps<L extends MushroomPatchLayout>(
+function flowerTaps<L extends FlowerPlotsLayout>(
   stand: Stand<L>,
 ): FlowerTap[] {
   return flowersOf(stand).map(({ place, seed }) => {
@@ -323,7 +319,7 @@ type Held = { target: PatchTarget; floor: number; patch: Point | undefined };
 export type Around = WithCamera & { tapped: Tapped; held: readonly Held[] };
 
 /** `stand` as a new mushroom is tried on it (`keepsPatches`). */
-export function patchesAround<L extends MushroomPatchLayout>(
+export function patchesAround<L extends FlowerPlotsLayout>(
   stand: Stand<L>,
 ): Around {
   const tapped = tappedIn(stand);

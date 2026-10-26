@@ -7,7 +7,7 @@
  * judged round its newcomers alone (`lostOn`).
  */
 
-import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
+import type { WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import { anchorOf } from '../../model/anchor';
 import { flowersCrowdAt } from '../../model/crowding';
@@ -15,25 +15,24 @@ import { browDistance } from '../../model/eye-height';
 import { azimuthOf } from '../../model/flight-frame';
 import { FLOWER_RANGES, flowerGenes } from '../../model/flower-genes';
 import { boxesMeet, distanceBetween, wrap } from '../../model/geometry';
-import type { WithCamera } from '../../model/ground';
-import type { GroundBand } from '../../model/ground';
-import { sameFoot } from '../../model/ground';
 import {
   type Eye,
   type Footing,
+  type GroundBand,
   groundFootOf,
   OPENING_EYE,
+  sameFoot,
+  type WithCamera,
 } from '../../model/ground';
 import { pinholeOf } from '../../model/pinhole';
 import type { ClumpGround } from './anchored-ground';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
-import type { Bedded } from './flower-layout';
-import { headClear, standingOn } from './flower-layout';
+import { type Bedded, headClear, standingOn } from './flower-layout';
 import { flowersOf, groundFor, mushroomFeet } from './flower-plots';
-import type { FlowerSightLayout } from './flower-sight';
 import {
   type Cover,
   coversOn,
+  type FlowerSightLayout,
   roomIn,
   type Stand,
   widestSpanOn,

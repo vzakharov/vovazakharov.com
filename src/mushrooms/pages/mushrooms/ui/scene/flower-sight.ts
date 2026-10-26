@@ -44,7 +44,7 @@ import type { ClumpGround, MushroomGround } from './anchored-ground';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
-import { type Bedded,FLOWER_SWAY, standingOn } from './flower-layout';
+import { type Bedded, FLOWER_SWAY, standingOn } from './flower-layout';
 import {
   flowersOf,
   groundFor,
