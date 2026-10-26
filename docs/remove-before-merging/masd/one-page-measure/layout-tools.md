@@ -9,15 +9,15 @@ Copy each into `tmp/modularity/` under its name and run from the repository root
 // named nowhere stays with the whole, in widgets/meadow.
 const TREE: [string, string][] = [
   ['shared/lib', 'geometry random motion colour crescent light tap-reach cruise glide line-course'],
-  ['shared/world', 'ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place'],
+  ['shared/world', 'acting dusk weather ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place'],
   ['shared/ui', 'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking bake-picture'],
-  ['entities/mushroom', 'crowding door-sight clump-shade cap-cover clump-layout shelter-seats placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light'],
+  ['entities/mushroom', 'planted crowding door-sight clump-shade cap-cover clump-layout shelter-seats placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light'],
   ['entities/worm', 'worm draw-worm'],
   ['entities/mouse', 'mouse-run-clock mouse-run-course draw-mouse mouse-head'],
   ['entities/insect', 'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis flight flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans'],
-  ['entities/flower', 'anchored-stand flower-cover flower-plots flower-layout flower-sight flower-genes flower-sounds notes draw-flower flower-tints flower-ring'],
+  ['entities/flower', 'flower-planting anchored-stand flower-cover flower-plots flower-layout flower-sight flower-genes flower-sounds notes draw-flower flower-tints flower-ring'],
   ['entities/firefly', 'firefly firefly-view firefly-tap'],
-  ['entities/sky', 'dusk weather sun-layout moon-view moon-face paint-moon paint-sky paint-backdrop backdrop-tones backdrop-depths dusk-sky dusk-stars star-images dusk-view dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade'],
+  ['entities/sky', 'sun-layout moon-view moon-face paint-moon paint-sky paint-backdrop backdrop-tones backdrop-depths dusk-sky dusk-stars star-images dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade'],
   ['entities/lawn', 'lawn tufts mottles grain brow far-band grass paint-land'],
   ['features/plant-flower', 'tuft-tap tending flower-icons'],
   ['features/sow-spores', 'sprouting spore-seats spore-sight spore-bed spore-drift spores'],
@@ -762,6 +762,12 @@ for (const f of files) {
     const spec = st.moduleSpecifier.text;
     if (!spec.startsWith('.') && !spec.startsWith('@/mushrooms')) continue;
     if (stemOf(f, spec) === homeStem) continue;
+    // FROM=<file> repoints only imports of that file, where a name is declared twice.
+    if (
+      process.env.FROM &&
+      stemOf(f, spec) !== path.resolve(process.env.FROM).replace(/\.tsx?$/, '')
+    )
+      continue;
     const c = st.importClause;
     const nb = c?.namedBindings;
     if (!c || !nb || !ts.isNamedImports(nb)) continue;
@@ -1064,4 +1070,143 @@ for (const file of process.argv.slice(2)) {
   writeFileSync(file, text);
   console.log(`${file}: ${ends.length}`);
 }
+```
+
+## scc.ts
+
+The import cycles among the game's production files, each with the slices its files are laid in: a cycle is one slice or an untying.
+
+```ts
+// Strongly connected components of the game's production import graph (files),
+// each printed with the slices its files are laid in.
+import path from 'node:path';
+
+import { allFiles, imports, sliceOf } from './layout.ts';
+
+const prod = allFiles.filter((f) => !/\.test\.tsx?$/.test(f));
+const edges = new Map<string, Set<string>>(prod.map((f) => [f, new Set()]));
+for (const u of prod.flatMap(imports))
+  if (edges.has(u.to)) edges.get(u.from)!.add(u.to);
+let index = 0;
+const idx = new Map<string, number>();
+const low = new Map<string, number>();
+const on = new Set<string>();
+const stack: string[] = [];
+const comps: string[][] = [];
+function visit(v: string) {
+  idx.set(v, index);
+  low.set(v, index);
+  index++;
+  stack.push(v);
+  on.add(v);
+  for (const w of edges.get(v)!) {
+    if (!idx.has(w)) {
+      visit(w);
+      low.set(v, Math.min(low.get(v)!, low.get(w)!));
+    } else if (on.has(w)) low.set(v, Math.min(low.get(v)!, idx.get(w)!));
+  }
+  if (low.get(v) === idx.get(v)) {
+    const c: string[] = [];
+    let w: string;
+    do {
+      w = stack.pop()!;
+      on.delete(w);
+      c.push(w);
+    } while (w !== v);
+    comps.push(c);
+  }
+}
+for (const v of prod) if (!idx.has(v)) visit(v);
+for (const c of comps
+  .filter((c) => c.length > 1)
+  .sort((a, b) => b.length - a.length)) {
+  const bySlice = new Map<string, string[]>();
+  for (const f of c) {
+    const s = sliceOf(f);
+    bySlice.set(s, [
+      ...(bySlice.get(s) ?? []),
+      path.basename(f).replace(/\.tsx?$/, ''),
+    ]);
+  }
+  console.log(`\n${c.length} files:`);
+  for (const [s, fs] of bySlice) console.log(`  ${s}: ${fs.join(' ')}`);
+}
+```
+
+## lift.ts
+
+The floor: every file whose imports break the layout lifted into the widget, to a fixpoint, and what each slice keeps.
+
+```ts
+// The floor: lift every file whose imports break the layout into the whole
+// (widgets/meadow), to a fixpoint, and print what each slice keeps.
+import path from 'node:path';
+
+import { allFiles, imports, legal, sliceOf } from './layout.ts';
+import { WHOLE } from './nouns.ts';
+
+const prod = allFiles.filter((f) => !/\.test\.tsx?$/.test(f));
+const uses = prod.flatMap(imports);
+const at = new Map(prod.map((f) => [f, sliceOf(f)]));
+const lifted: string[] = [];
+for (let changed = true; changed; ) {
+  changed = false;
+  for (const u of uses) {
+    const a = at.get(u.from)!;
+    const b = at.get(u.to);
+    if (b === undefined || legal(a, b) || a === WHOLE || a.startsWith('pages'))
+      continue;
+    at.set(u.from, WHOLE);
+    lifted.push(`${path.basename(u.from)} (${a}, for ${path.basename(u.to)} in ${b})`);
+    changed = true;
+  }
+}
+const kept = new Map<string, number>();
+for (const s of at.values()) kept.set(s, (kept.get(s) ?? 0) + 1);
+const before = new Map<string, number>();
+for (const f of prod) before.set(sliceOf(f), (before.get(sliceOf(f)) ?? 0) + 1);
+for (const [s, n] of [...before].sort())
+  console.log(`${s}: ${n} -> ${kept.get(s) ?? 0}`);
+console.log(`\nlifted ${lifted.length}:`);
+for (const l of lifted) console.log(`  ${l}`);
+```
+
+## reach.ts
+
+Each entity-laid file's transitive reach into the other entities, grouped: a file reaching two nouns is no one noun's. Noisy while a hub reaches everything.
+
+```ts
+// Each entity-laid file's transitive reach into the entity slices: a file
+// reaching two nouns cannot be either noun's. Prints the files whose reach
+// leaves their own slice, grouped by what they reach.
+import path from 'node:path';
+
+import { allFiles, imports, sliceOf } from './layout.ts';
+
+const prod = allFiles.filter((f) => !/\.test\.tsx?$/.test(f));
+const out = new Map<string, string[]>(prod.map((f) => [f, []]));
+for (const u of prod.flatMap(imports)) if (out.has(u.to)) out.get(u.from)!.push(u.to);
+const memo = new Map<string, Set<string>>();
+function reach(f: string, seen = new Set<string>()): Set<string> {
+  const known = memo.get(f);
+  if (known) return known;
+  if (seen.has(f)) return new Set();
+  seen.add(f);
+  const r = new Set<string>();
+  const s = sliceOf(f);
+  if (s.startsWith('entities/')) r.add(s);
+  for (const t of out.get(f)!) for (const x of reach(t, seen)) r.add(x);
+  memo.set(f, r);
+  return r;
+}
+const groups = new Map<string, string[]>();
+for (const f of prod) {
+  const s = sliceOf(f);
+  if (!s.startsWith('entities/')) continue;
+  const r = [...reach(f)].filter((x) => x !== s).sort();
+  if (r.length === 0) continue;
+  const key = `${s} reaches ${r.join(' ')}`;
+  groups.set(key, [...(groups.get(key) ?? []), path.basename(f).replace(/\.tsx?$/, '')]);
+}
+for (const [k, fs] of [...groups].sort()) console.log(`${k}:\n  ${fs.join(' ')}`);
 ```

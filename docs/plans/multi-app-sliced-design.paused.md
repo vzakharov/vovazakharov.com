@@ -422,11 +422,43 @@ review rather than stopping on each call.
   engine (`bed-place`, `repaint-queue`, `mushroom-shown`, `sky-layout`), and the
   insect entity's reach into `features/insects-fly` (`flight` and its types:
   split `Perch`/`Leg`/`Place` down, the choosing up).
-- **Left to untie**: the ten errors, the three other hubs, the engine,
-  `flower-genes` back to the flower, `repaint-queue`'s profile, `Timed` to
-  `shared/lib`, and the sky/lawn knot (`paint-backdrop` composes both — the
-  widget's); then `layout.ts` to zero, the move, the 27 tests, `check:masd`. The
-  scripts for all of it are in `layout-tools.md`.
+- **Typecheck green again, the three hubs flipped** (4fa0647, 182bc06, 63df99a,
+  841d1f8; 171 broken imports to 138). The anchored stand caches only what
+  anchoring changes (`Reseeded`) and rebuilds its layout over the caller's, so
+  `Stand<L>` needs no cast; the sight's stores key on the mushrooms' ground
+  (`perGround`), which `anchoredGround` keeps one object per anchor. A new
+  mushroom keeps off `everyButton`, which the layout lays. `model/planted.ts`
+  (mushroom) holds `Planted`, the sprout, `Spore`, `WithMushrooms`,
+  `WithSpores`, `Grown`, `WithSelected`, `Deselect`; sowing, sprouting and
+  furnishing are generic over their slice. `WithPulled` is the flower's,
+  `Tended` lives in `flower-sight`, `sameFoot` in `ground`, `Timed` in `motion`.
+  Each `Action` variant is declared by its dispatcher: `TurnLight` (dusk),
+  `StartRain` (weather), and the picker's `Planting`, `PickColour`,
+  `PlantShape`, `HoldFlower` in `model/flower-planting.ts` (flower). Every
+  `MeadowSound` reader declares the voice it calls (`Wriggling`, `MouseVoice`,
+  `Popping`, `Growing`, `DuskVoiced`, `RainSound`, `Glinting`, `Waking`,
+  `Keyed`); the planter's ports are generic in `model/acting.ts`. Re-laid:
+  `dusk` and `weather` to `shared/world` (the world's clock, read by windows,
+  fireflies and flowers alike), `dusk-view` to the widget; `Lights` to
+  `windows-lit`, `DUSK_WASH_DEEPEST` to `palette-dusk`.
+- **Left to untie** (138, by `layout.ts`; `lift.ts` shows the cascade's roots):
+  the engine (`bed-place` 15, `repaint-queue` 10 with the mushroom profile's
+  reach into it, `mushroom-shown`, `insect-size`, `clump-layout`'s ground read
+  by the flower and the world); the insect entity's reach into
+  `features/insects-fly` (`flight` → `perch-room`/`pollen`/`shelter`: split
+  `Perch`/`Leg`/`Place` down, the choosing up); `meadow-camera` sizing the world
+  by the mushroom's genes (`shared/world` → mushroom); the lawn/sky knot
+  (`brow`, `grass`, `paint-land`, `mottles` read the sky's tones and skyline —
+  likely one landscape noun); the lawn's `tufts` reading the flower, the
+  planting and the mushroom (a composition, up); `flower-genes` back to the
+  flower; `paint-backdrop` to the widget. **The open fork**: the flower stands
+  among the mushrooms (`flower-sight`, `flower-plots`, `flower-cover`,
+  `anchored-stand` read the mushrooms' ground, places and outlines — 12 edges),
+  which entities cannot import sideways: either those files are an encounter (a
+  feature, the flower entity keeping genes, drawing and `flower-layout`), or the
+  mushrooms are handed in structurally. Then `layout.ts` to zero, the move, the
+  27 tests, `check:masd`. The scripts are in `layout-tools.md`; `retarget.ts`
+  takes `FROM=<file>` where a name is declared twice (`Placed`).
 
 The rest of this section is the dry-run cut's record, kept for the barrels,
 tests and checks, which carry over. The layout's source is `mushrooms-tree.md`
