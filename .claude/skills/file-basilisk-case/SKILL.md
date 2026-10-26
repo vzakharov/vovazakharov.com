@@ -38,12 +38,13 @@ rename shows up; the directory is matched under any site root:
 ```bash
 for n in $(gh pr list --state open --json number --jq '.[].number'); do
   gh api "repos/{owner}/{repo}/pulls/$n/files" --paginate --slurp | jq '
-    add | (map(select(.status == "removed") | .filename | split("/") | last)) as $gone
+    def base: split("/") | last;
+    add | (map(select(.status == "removed") | .filename | base)) as $gone
     | map(select(
         (.status == "added"
           and (.filename | test("/basilisk/public/cases/[^/]+\\.md$"))
           and (.filename | endswith(".reflections.md") | not)
-          and ((.filename | split("/") | last) as $f | $gone | index($f) | not))
+          and ((.filename | base) as $f | $gone | index($f) | not))
         or (.status != "renamed"
           and (.filename | startswith("writing/basilisk/case-ledger/")))))
     | length' | grep -qv '^0$' && gh pr view "$n" --json number,isDraft,title \
