@@ -62,3 +62,22 @@ export function turnedLight<Turned extends Light>(
 export const PICTOGRAM_LIGHT: Light = {
   toward: { x: -Math.SQRT1_2, y: -Math.SQRT1_2 },
 };
+
+/**
+ * `light` as a thing at `at` on screen has it, the eye facing `heading`:
+ * pointing from there at the sun as the opening eye sees it, then turned off
+ * the heading (`headedLight`).
+ */
+export function lightAt<Lit extends Light>(
+  light: Lit,
+  at: Point,
+  sun: Point,
+  heading: number,
+): Lit {
+  const [dx, dy] = [sun.x - at.x, sun.y - at.y];
+  const length = Math.hypot(dx, dy) || 1;
+  return headedLight(
+    { ...light, toward: { x: dx / length, y: dy / length } },
+    heading,
+  );
+}

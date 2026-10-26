@@ -20,6 +20,7 @@ import { closingsDue, closingStep, meanClosing } from './flower-closing';
 import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY } from './flower-layout';
+import { flowerLight } from './flower-light';
 import { standingFlowers } from './flower-plots';
 import { FlowerRing } from './flower-ring';
 import { flowerLift, flowerLiftAt } from './flower-seat';
@@ -38,7 +39,6 @@ import type { Seat } from './insect-seat';
 import type { Instrument } from './instrument';
 import type { Answers, FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
-import { flowerLight } from './mushroom-light';
 import { browPale, repaintsDue } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
 

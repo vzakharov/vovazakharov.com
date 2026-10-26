@@ -1,12 +1,11 @@
 /**
- * Where the light falls on a mushroom and on a flower: each one lit from the
- * sun as seen from where it stands, its cap's shade, rim light and shine on
+ * Where the light falls on a mushroom: lit from the sun as seen from where
+ * it stands, its cap's shade, rim light and shine on
  * the side that gives it, as strong as the light is sideways. In the cap's
  * frame (units of size, y up) unless said otherwise.
  */
 
 import { mouthEdges } from '../../model/chanterelle-outline';
-import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import {
   type Circle,
   placedAt,
@@ -15,7 +14,7 @@ import {
   type Scaled,
 } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
-import { headedLight, type Light, turnedLight } from '../../model/light';
+import { type Light, lightAt, turnedLight } from '../../model/light';
 import {
   type ChanterelleGenes,
   hasTrumpet,
@@ -33,25 +32,6 @@ import { PALETTE } from './palette';
 
 /** How sideways a light, as its across share, gives a full side shade: about 37° off straight above. */
 const FULL_SIDE = 0.6;
-
-/**
- * `light` as a thing at `at` on screen has it, the eye facing `heading`:
- * pointing from there at the sun as the opening eye sees it, then turned off
- * the heading (`headedLight`).
- */
-function lightAt<Lit extends Light>(
-  light: Lit,
-  at: Point,
-  sun: Point,
-  heading: number,
-): Lit {
-  const [dx, dy] = [sun.x - at.x, sun.y - at.y];
-  const length = Math.hypot(dx, dy) || 1;
-  return headedLight(
-    { ...light, toward: { x: dx / length, y: dy / length } },
-    heading,
-  );
-}
 
 /**
  * How much of a full side shade `toward` gives: none with the light straight
@@ -86,26 +66,6 @@ export function mushroomLights<Lit extends Light>(
     body: turnedLight(lightAt(light, at, sun, heading), turn),
     ground: lightAt(light, foot, sun, heading),
   };
-}
-
-/**
- * The light a flower standing at `foot`, `size` tall, is painted in, the eye
- * facing `heading`: from its head toward the sun.
- */
-export function flowerLight<Lit extends Light>(
-  light: Lit,
-  genes: FlowerGenes,
-  foot: Point & Scaled,
-  sun: Point,
-  heading = OPENING_EYE.heading,
-): Lit {
-  const head = flowerHead(genes, foot.size);
-  return lightAt(
-    light,
-    { x: foot.x + head.x, y: foot.y + head.y },
-    sun,
-    heading,
-  );
 }
 
 /** The dome's arc from `from` past its crown to the rim, on `side`. */
