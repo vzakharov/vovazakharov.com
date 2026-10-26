@@ -68,10 +68,11 @@ Lowest (most generic) first, each optional per app:
   own (`shell/shared/ui`, `blog/shared/content`, `music/shared/catalogue`,
   `basilisk/shared/content`, `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
-  cards, its body and its sources), `basilisk/entities/case` (its brief).
+  cards, its body and its sources), `basilisk/entities/case` (its brief),
+  music's `cover`, `hook` and `song`.
 - **`features/`** — user-facing capabilities: `shell/features/switch-theme`.
 - **`widgets/`** — composite blocks two page slices share:
-  `shell/widgets/site-footer`.
+  `shell/widgets/site-footer`, `music/widgets/catalogue-header`.
 - **`pages/`** — page composition, one or more per app.
 - **`app/`** — root layouts, Mantine provider, global stylesheets and theme,
   sitemap and feed: `ui`, `styles` and `lib` segments.
@@ -91,14 +92,22 @@ the block _is_, not on the fact that it is shared:
   (reaches `shared/content` for a route) and `DocumentMeta` are about a document
   and nothing else, so they are `entities/document/ui`; a list of one entity's
   cards is that entity's UI, not a widget. FSD asks no model of an entity, so a
-  ui-only one is a legal form.
-- **`widgets/`** — the block _combines_ rather than belonging to one noun, and
-  reads the resolved site. `SiteFooter` (needs `BUILD_YEAR`) is the site's foot,
-  not a document's, so it stays a widget.
-- **`shared/ui`** — the block needs no site configuration at all. It is the
-  barrel client components import, so a component there takes what it needs as
-  props rather than reading the resolved site; `SummaryCard` sits here because
-  it reads none.
+  ui-only one is a legal form. Showing is the test, not stillness: music's
+  `CoverZoom` opens a dialog, but changes nothing past it, so it is the cover's
+  UI; a block changing state the rest of the site sees (the player) is a
+  feature.
+- **`widgets/`** — the block _combines_ rather than belonging to one noun.
+  `SiteFooter` is the site's foot, not a document's; music's `CatalogueHeader`
+  sets a cover, a title's gloss and facts together.
+- **`shared/ui`** — the block knows no business noun: a primitive any page could
+  set, whatever it shows. `SummaryCard` is a heading and a blurb; music's
+  `NotedSpan` is a popover on words, `FactLine` a row of facts. It is the barrel
+  client components import, so a component there takes what it needs as props.
+
+**Blocks that import each other go in one slice or on different layers.** A
+sliced layer forbids the sideways import, so components that call each other
+group by the noun they share (`CoverHead` and the `CoverZoom` inside it are one
+`cover`), and whatever composes them sits a layer up.
 
 `entities/document` is born ui-only: its model stays in blog's `shared/content`,
 which is build-time and `server-only`, so a content page costs zero client JS —
@@ -143,7 +152,10 @@ as `shared/config` is.
     `resolveSiteId`, blog's `shared/content` one over the collection registry
     and the mermaid paths, and `entities/case` one over the grade stamp's text,
     which the case's social card prints. A script reaching past a public API
-    into a leaf is the smell that this barrel is missing.
+    into a leaf is the smell that this barrel is missing. Carrying no
+    `server-only`, it is also the client components' entry into a segment whose
+    `index.ts` is server-only: `music/shared/catalogue`'s, where the player and
+    the hook line take what they read.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time
   (`@/kernel/shared/lib/class-names`), each **a single file** and its own public
   API — nothing sits beside it to hide, so `boundaries` lets the layers above
