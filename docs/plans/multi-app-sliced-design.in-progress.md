@@ -267,15 +267,63 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
+## This bite
+
+**5c. Music's pages.** `pages/music` holds five pages; four leave it, so each
+URL kind is a slice of its own. #82 and #86 touch music routing and are left as
+they are.
+
+- **`pages/music` stays the index** — `MusicPage`, `CatalogueTabs`,
+  `MusicSection`, `generateMusicMetadata`, `IndexPageProps`. Named for the app,
+  as `basilisk-home` is not, because the slice already holds the name and the
+  `masd.md` trap about `shared/catalogue` rests on it.
+- **`pages/artist`, `pages/album`, `pages/song`, `pages/radio`** take their
+  page, its props type and its metadata. The song page takes `Lyrics`,
+  `SongCredits`, `SongFacts`, `SongVideoButton` and `song-video.ts`; the radio
+  page `OnAir`, `RadioDial` and `radio.module.scss`.
+- **Shared by two pages or more, by `masd.md`'s test:**
+  - **`music/shared/ui`** — what reads no site and imports nothing above
+    `shared`: `CatalogueGrid` (with `tile-hue.ts` and its test, `WipMark`),
+    `CatalogueHeader`, `CoverHead`, `CoverZoom`, `TitleGlossLine`, `FactLine`
+    and `SizeLine`, `ExplicitBadge`, `HookLine`, `HookRuns`, `NotedSpan`. The
+    barrel is entered by client components (the player, `OnAir`), so `HookLine`
+    reads `hookRuns` through the catalogue's node-safe barrel, which gains it;
+    nothing else there reaches `server-only` at runtime.
+  - **`music/widgets/music-nav`** — `MusicNav`, `LocaleChips`, `ScriptChip`: it
+    reads music's message catalogue, which would otherwise ride the shared
+    barrel into the player's bundle.
+  - **`music/widgets/song-list`** — places the player's `TrackButton`, a
+    feature, so it sits above `features/`.
+  - **`music/widgets/story`** — `Story` with `ReadMore`, which renders blog's
+    `ProseContent`, an entity.
+  - **`music/shared/seo`** — `catalogueMetadata` and `listenTitle`, the metadata
+    three pages build on (`server-only`).
+  - **`songDownloads`** joins `shared/catalogue` (the song page and the feed
+    read it), and **`SONG_FEED`** joins music's `app/lib`, beside the route
+    parse: a feed is the app layer's, as blog's `collectionFeed` is.
+- **`music.module.scss` splits along the components**: the tiles and covers
+  (which share `tileArt`) into `shared/ui/covers.module.scss`, the badge and the
+  noted span into sheets of their own beside them, the nav's and script chip's
+  rules into the widget, the track row's into `song-list`, the lyrics' and the
+  video's into the song page.
+- **References follow**: the `no-hardcoded-strings` override in
+  `eslint.config.ts`, the `.tileArtless` exemption in `styling.md`, comments in
+  `feeds.ts` and `check-mantine-styles.ts`, and `masd.md`'s layer examples —
+  followed on `compare/fsd-vs-masd`.
+
+### DRY notes
+
+- Nothing is written; every file moves whole or is cut on a seam. The one new
+  module is `music/shared/seo`, lifted from `music-metadata.ts`, whose three
+  generators each call `catalogueMetadata` rather than restating it.
+- `music.module.scss` is cut, not copied: each rule lands in exactly one sheet,
+  `tileArt` in the one its three users share.
+
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **5c. Music's pages.** The index, artist, album, song and radio become real
-  pages under `music/pages/`, what two of them share dropping to widgets or
-  `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with
-  them. #82 and #86 touch music routing and are left as they are.
 - **6. What is a page in a one-page app** — a deterministic measure beside
   `insignificant-slice`, then mushrooms restructured under it. The problem:
   mushrooms is a whole game on one URL, some 240 files — scene, creatures, day
@@ -301,7 +349,12 @@ those slices carry their own tools along.
   `index.node-safe.ts` where a script runs without a bundler — and the
   `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
   slices 5 and 6 left in it — `list-untold-songs` among them, whose
-  `catalogue-names.ts` reads the filesystem under bare Node.
+  `catalogue-names.ts` reads the filesystem under bare Node. With it every
+  script runs under `tsx` (the operator's «давай» on #169): each
+  `node <file>.ts` entry in `package.json` becomes `tsx <file>.ts`, its files
+  take the `@/` alias, and `eslint/bare-node.ts`, its `vova/no-relative-escape`
+  exemption and `masd.md`'s bare-Node import rule go. `personas/tools/` stays as
+  it is, being Майя's.
 
 ## DRY notes
 
