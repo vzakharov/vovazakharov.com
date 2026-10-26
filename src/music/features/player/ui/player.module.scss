@@ -1,11 +1,5 @@
 @use '../../../../../styles/mantine' as mantine;
-
-// Takes the space its row leaves, and may shrink below its content to do it —
-// a flex or grid item's automatic minimum is otherwise its content's width.
-@mixin fill {
-  flex: 1;
-  min-width: 0;
-}
+@use '../../../shared/styles';
 
 // Pinned rather than in flow: the bar is the one control that has to stay
 // reachable while the reader is anywhere in a song's prose.
@@ -107,7 +101,7 @@
 }
 
 .seekBar {
-  @include fill;
+  @include styles.fill;
   @include range;
 }
 
