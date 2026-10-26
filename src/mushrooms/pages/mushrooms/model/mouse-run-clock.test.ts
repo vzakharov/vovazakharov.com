@@ -2,10 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { distanceBetween, type Point } from './geometry';
-import { doorStations } from './house';
 import {
   courseOf,
-  endOf,
   hop,
   pathBetween,
   RUN_LEAST,
@@ -21,13 +19,12 @@ import {
 } from './mouse-run-clock';
 import {
   alongPath,
-  runPathLength,
   RUN_BOW,
   RUNNER_SPAN,
   type RunPath,
+  runPathLength,
   sideOf,
 } from './mouse-run-course';
-import { mushroomGenes } from './mushroom-genes';
 
 const FRAME = 1 / 60;
 const frames = (from: number, to: number) => {
@@ -341,24 +338,6 @@ describe('courseOf', () => {
         pathBetween(door, ground, eye, -1),
       );
     }
-  });
-});
-
-describe('endOf', () => {
-  it('reads a door’s width and its sill’s height off its place, in the clump’s size', () => {
-    const genes = mushroomGenes({ seed: 3, species: 'fly-agaric' });
-    const [lowest] = doorStations(genes);
-    assert.ok(lowest);
-    const end = endOf({ x: 0, y: 9 }, lowest, 0.5);
-    assert.equal(end.across, lowest.width * 0.5);
-    assert.ok(end.sillHeight > 0);
-    assert.ok(end.sillHeight < lowest.y * 0.5);
-    assert.equal(end.foot, undefined);
-    const foot = { x: 0, y: 9.1 };
-    assert.deepEqual(endOf({ x: 0, y: 9 }, lowest, 0.5, foot), {
-      ...end,
-      foot,
-    });
   });
 });
 

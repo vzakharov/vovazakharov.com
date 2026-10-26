@@ -7,7 +7,7 @@
  */
 
 import { distanceBetween, type Point, type Wide } from './geometry';
-import { type DoorPlace, onStem } from './house';
+import type { Stood } from './ground';
 import { PEEK_DUCK, PEEK_RISE, smooth } from './motion';
 import {
   alongPath,
@@ -17,7 +17,6 @@ import {
   type RunPath,
   straightPath,
 } from './mouse-run-course';
-import type { Stood } from './ground';
 
 /** How fast a mouse runs along the plane, at full pace. */
 export const RUN_PACE = 0.6;
@@ -223,26 +222,6 @@ export function runAt(elapsed: number, course: RunCourse): RunMoment {
  */
 export type RunEnd = Wide &
   Partial<Stood> & { front: Point; sillHeight: number };
-
-/**
- * The run's end at a door seated at `door` on a mushroom of `size` in the
- * clump's, with its `front` on the plane and its stem's `foot`; with none
- * given, its course is held clear of its front instead, which stands nearer
- * the eye, so the course bows deeper than it needs.
- */
-export function endOf(
-  front: Point,
-  door: DoorPlace,
-  size: number,
-  foot?: Point,
-): RunEnd {
-  return {
-    front,
-    ...(foot && { foot }),
-    across: door.width * size,
-    sillHeight: onStem(door)({ x: 0, y: 0 }).y * size,
-  };
-}
 
 /** How long a tapped runner's jump lasts, and how high it goes, in the runner's width. */
 const TAP_HOP = 0.3;

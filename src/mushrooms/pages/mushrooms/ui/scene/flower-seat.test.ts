@@ -7,7 +7,8 @@ import {
   flowerHead,
 } from '../../model/flower-genes';
 import { INSECT_KINDS } from '../../model/insect-genes';
-import { BUD, CLOSING_STEPS, folding, OPEN } from './flower-closing';
+import { CLOSING_STEPS } from './flower-closing';
+import { BUD, folding, OPEN } from './flower-fold';
 import { flowerLift, flowerLiftAt, type SeatZooms } from './flower-lift';
 import { foldedHead } from './flower-seat';
 import type { HeadReach } from './seat-reach';

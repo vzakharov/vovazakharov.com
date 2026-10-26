@@ -1,5 +1,5 @@
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
-import { BUD, type Folding } from './flower-closing';
+import { BUD, type Folding } from './flower-fold';
 import type { HeadReach } from './seat-reach';
 
 /**

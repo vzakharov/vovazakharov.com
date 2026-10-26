@@ -16,7 +16,7 @@ import {
   paintFlowerHead,
   paintFlowerLit,
 } from './draw-flower';
-import { type Folding, folding, type Shut } from './flower-closing';
+import { type Folding, folding, type Shut } from './flower-fold';
 import { laidFlower } from './flower-layout';
 import type { Placed, StandingFlower } from './flower-plots';
 import type { Ringed } from './flower-ring';

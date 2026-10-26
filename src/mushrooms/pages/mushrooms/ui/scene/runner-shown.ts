@@ -9,7 +9,6 @@ import type { Scaled } from '../../model/geometry';
 import { onStem } from '../../model/house';
 import type { TapTimed } from '../../model/motion';
 import {
-  endOf,
   hop,
   type RunEnd,
   type RunMoment,
@@ -18,6 +17,7 @@ import {
 import { facingAlong, type RunPath } from '../../model/mouse-run-course';
 import { stemHalfWidth } from '../../model/mushroom-profile';
 import { pinholeOf } from '../../model/pinhole';
+import { endOf } from '../../model/run-ends';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
 import { paintRunner } from './draw-mouse';
 import { type Dusked, hazeTone } from './haze-tone';
