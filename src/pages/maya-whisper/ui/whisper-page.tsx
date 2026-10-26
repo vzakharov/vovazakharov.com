@@ -6,6 +6,7 @@ import { PageShell, TextLink } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
+import { WHISPER_TITLE } from '../lib/whisper-copy';
 import { LEXICON } from '../model/lexicon';
 import { WhisperTypewriter } from './whisper-typewriter';
 
@@ -16,7 +17,7 @@ export function WhisperPage() {
     <PageShell>
       <Stack gap={48}>
         <Stack gap="md">
-          <Title order={1}>Шепчущая машинка</Title>
+          <Title order={1}>{WHISPER_TITLE}</Title>
           <Text size="lg" lh={1.625}>
             В 1984 году в американском посольстве в Москве и консульстве в
             Ленинграде нашли шестнадцать пишущих машинок IBM Selectric, которые
