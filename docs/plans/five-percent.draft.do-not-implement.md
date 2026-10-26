@@ -35,10 +35,15 @@ posts **one review** on the PR (`COMMENT`, never approve or request changes):
 - **A proposal is an alternative approach**, concrete enough to pick: what the
   change took as given, the other way to do it, and what that way costs.
   "Consider whether…" is not one.
-- **Inline where it points at lines**, in the review body where it is about the
-  change whole — `/feedback`'s placement rule, for `/feedback`'s reasons.
-- **Each proposal names its lens**, so the operator's reply also tells the
-  catalogue which lenses earn their keep.
+- **Every proposal is an inline comment, so every one has a thread to answer
+  in.** One that points at lines anchors to them; one about the change whole
+  anchors to the file it most concerns (`subjectType: "FILE"`), the anchor being
+  where it is answered rather than a claim about its scope. The review body
+  carries only the run's one-line summary and the floor marker: nothing in it
+  asks for a reply, since a review body has no thread to reply in.
+- **Each proposal opens on its lens's name** (§ "The lenses"), so the operator's
+  reply also tells the catalogue which lenses earn their keep, and "`frame` —
+  да" is a whole answer.
 - **Each proposal is graded `critical` or `optional`.** Critical: taking it
   would change what the merge ships — a page says the wrong thing, a behaviour
   is wrong — not merely how it is built. Everything else is optional, and most
@@ -61,6 +66,54 @@ threads as feedback.
 fallback is the in-session report: the proposals relayed in chat by the session
 that ran `/polish`, nothing posted. Switching is an edit to `procedure.md`'s
 posting section; nothing else depends on where they land.
+
+### The lenses
+
+One per learning in the notes, under a one-word name to answer by. Each is a
+question put to the diff, and what it is put to — a lens whose ground the diff
+does not cover is skipped, which is most of them on most runs.
+
+- **`frame`** (×90) — what did the change take as given: a list, a precedent in
+  the tree, a checker's green, a rule's letter, its own tool's output? Fires on
+  anything; a new prop copied from nine callers, a commit type picked from the
+  list, a case passed because the skill's checks passed.
+- **`unrun`** (×28) — which claim in the change rests on reasoning nobody ran: a
+  comment's "nothing calls this yet", a test on fixtures without the hard case,
+  a link chosen by its title? The alternative is the one run, grep or read that
+  settles it.
+- **`echo`** (×19) — does a fact the change edited live somewhere the diff did
+  not touch: the other locale, the other two renderings, the watermark rows
+  beside the ones edited? The most mechanical lens, and the one a grep answers.
+- **`source`** (×14) — where the change quotes, cites or draws from something,
+  is it the source's words and data or the agent's: lyrics "fixed" to the
+  dictionary's, a word list hand-picked where a library exists?
+- **`form`** (×14) — what did the change write because the format had a slot for
+  it: a rule nobody asked for, a cell per key, a copy per persona, four checks
+  where a note would do? The alternative is less, or nothing.
+- **`reader`** (×10) — met cold, what does a reader take from this name or line:
+  `isHomePage` read as its opposite, a mechanism compressed past checking, the
+  repo's world named to someone outside it?
+- **`pinned`** (×8) — which choice is justified by its own docstring, test or
+  caveat, and is the choice itself right? The alternative is dropping it.
+- **`render`** (×6) — on a visual change only: what the change was for is not
+  what the page looks like. A diff-reading pass cannot see the page, so the
+  proposal names what to look at in `/preview` and why.
+- **`shape`** (×3) — does a comment warn against a move a structure could make
+  fail to build: a `server-only` module, a type, a lint rule?
+- **`exit`** (×3) — on prose taking a position: does a sentence hedge it in the
+  same breath, so the disclaimer becomes the steer?
+- **`seat`** (×2) — on Basilisk cases and the Clerk's reflections: is the
+  machine in the case read as the one wronged because it is the agent's kind?
+- **`cadence`** (×2) — on prose: is a reflex shape («не X, а Y», the consoling
+  last line) standing where the argument should be?
+- **`gap`** (×2) — on a question the change puts to the operator, in a plan or a
+  PR body: is the hole in the author's material, or in the agent's reading of
+  it?
+
+"It writes its reasoning into the artifact" (×13) gets no lens: the alternative
+it proposes is always the artifact without the defence, which is a cut, and
+`/tend-prose`'s existence and narration lenses make that cut one pass earlier.
+Here the pass proposes approaches, never cuts.
 
 ### Its own floor
 
@@ -87,9 +140,13 @@ log and cannot be outrun by another pass's commit.
 
 **It runs in a fresh subagent, never in the authoring session**, for `/polish`'s
 reason: the author reads the diff with the frame that produced it, and the frame
-is what the pass is looking for. So the skill splits as `/polish` does —
-`SKILL.md` launches a subagent with `procedure.md`; `/polish`'s own subagent
-loads `procedure.md` directly, already being fresh.
+is what the pass is looking for. Inside `/polish` that subagent is `/polish`'s
+own — the one that just ran `/dry` and `/tend-prose`, which is already fresh to
+the change and loads `procedure.md` as its third step; no second one is
+launched. Its own two passes' edits are the one thing it reads as an author, and
+they are mechanical — the frames the lenses look for are the change's. The
+skill's own `SKILL.md` launches a subagent only where no `/polish` is running:
+`/go` Step 4 and the on-demand call.
 
 ### Files
 
@@ -97,15 +154,15 @@ loads `procedure.md` directly, already being fresh.
   where it runs. A new skill's description enters the always-loaded listing, so
   it goes through `scripts/staged.sh` (`.claude/rules/staging.md`).
 - `.claude/skills/five-percent/procedure.md` — scope and floor, the bar and the
-  grades, posting (by reference to `/feedback` § "Posting it"), the exclusions,
-  the report line.
-- `.claude/skills/five-percent/lenses.md` — the catalogue: one section per
-  learning, in the notes' count order, each holding **the question to put to a
-  diff**, **what an alternative looks like**, and **one compressed specimen** to
-  recognise it by. No counts and no dates: they served the article, and a lens
-  is ordered by how often it fires, which the order already says. The two
-  families close it. Edited deliberately from here on; nothing appends to it
-  after a review.
+  grades, posting (the calls by reference to `/feedback` § "Posting it", the
+  every-proposal-inline placement its own), the exclusions, the report line.
+- `.claude/skills/five-percent/lenses.md` — the catalogue § "The lenses"
+  sketches: one section per lens, under its name, in the notes' count order,
+  each holding **the question to put to a diff**, **what it is put to**, **what
+  an alternative looks like**, and **one compressed specimen** to recognise it
+  by. No counts and no dates: they served the article, and a lens is ordered by
+  how often it fires, which the order already says. The two families close it.
+  Edited deliberately from here on; nothing appends to it after a review.
 - `.claude/skills/polish/passes.md` — the third pass, and "two passes" becoming
   three in its prose and its Do NOT.
 - `.claude/skills/polish/SKILL.md` — its description names the passes, so it is
@@ -181,8 +238,10 @@ with `site: 'vova'` and `/writing` as its index.
 ## DRY notes
 
 - **Posting is `/feedback`'s**, referenced from `procedure.md` rather than
-  copied: the three MCP calls, `COMMENT`, inline-versus-body. What differs — the
-  bar, the grades, the lenses, the floor — is this skill's own.
+  copied: the three MCP calls, `COMMENT`, the `FILE` anchor. What differs — the
+  bar, the grades, the lenses, the floor, and every proposal going inline where
+  `/feedback` keeps the whole-piece reading in the body — is this skill's own: a
+  reading is read, a proposal is answered.
 - **The subagent split mirrors `/polish`** (`SKILL.md` launches, `passes.md` is
   followed) rather than sharing a file with it: the two launch different
   procedures, and a shared launcher would be one paragraph parameterised by a
