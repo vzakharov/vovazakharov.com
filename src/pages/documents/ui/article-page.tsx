@@ -8,8 +8,10 @@ import {
   type ArticleFrontmatterOf,
   type Collection,
   collectionListingRoute,
+  collectionRoute,
   COLLECTIONS,
   documentName,
+  isTranslated,
   listDocuments,
   loadDocument,
   renderDocument,
@@ -17,6 +19,13 @@ import {
   type Variant,
   VARIANTS,
 } from '@/shared/content';
+import {
+  DEFAULT_LOCALE,
+  inLocale,
+  isLocale,
+  type Locale,
+  localeTailAddresses,
+} from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { constructArticleMetadata } from '@/shared/seo/index.server-only';
 import type { WithParams } from '@/shared/typings';
@@ -41,28 +50,39 @@ const HANDLES: {
   [C in ArticleCollectionId]: Collection<ArticleFrontmatterOf<C>>;
 } = ARTICLE_COLLECTIONS;
 
-/** The catch-all's own segment: `<slug>[.<variant>]`, still to be split. */
+/**
+ * The catch-all's own segments: `<slug>[.<variant>]`, still to be split, and
+ * the locale after it where the collection keeps one file per language.
+ */
 type WithSlugSegments = { slug: string[] };
 
 type Props = WithParams<WithSlugSegments>;
 
 /**
- * Splits the single `<slug>[.<variant>]` segment. A trailing suffix that is not
- * a known variant stays part of the slug — the same rule `parseFileName`
- * applies to file names, which is what keeps route and file in agreement.
+ * Splits the `<slug>[.<variant>]` segment. A trailing suffix that is not a
+ * known variant stays part of the slug — the same rule `parseFileName` applies
+ * to file names, which is what keeps route and file in agreement. A locale
+ * segment after it is read only where `translated` says the collection has
+ * one.
  */
 function parseSegments(
   segments: string[],
-): { slug: string; variant?: Variant } | undefined {
-  const [name] = segments;
+  translated: boolean,
+): { slug: string; variant?: Variant; locale?: Locale } | undefined {
+  const [name, locale, ...rest] = segments;
 
-  if (segments.length !== 1 || name === undefined) return undefined;
+  if (name === undefined || rest.length > 0) return undefined;
+  if (locale !== undefined && !(translated && isLocale(locale))) {
+    return undefined;
+  }
 
   const variant = VARIANTS.find((candidate) => name.endsWith(`.${candidate}`));
+  const parsed =
+    variant === undefined
+      ? { slug: name }
+      : { slug: name.slice(0, -(variant.length + 1)), variant };
 
-  return variant === undefined
-    ? { slug: name }
-    : { slug: name.slice(0, -(variant.length + 1)), variant };
+  return translated ? { ...parsed, locale: locale ?? DEFAULT_LOCALE } : parsed;
 }
 
 /**
@@ -75,11 +95,13 @@ function parseSegments(
 export function articleRoute<C extends ArticleCollectionId>(collection: C) {
   const handle = HANDLES[collection];
   const slots = ARTICLE_SLOTS[collection];
+  const translated = isTranslated(collection);
 
   async function resolve(params: Props['params']) {
-    const parsed = parseSegments((await params).slug);
+    const parsed = parseSegments((await params).slug, translated);
     const document =
-      parsed && loadDocument(handle, parsed.slug, parsed.variant);
+      parsed &&
+      loadDocument(handle, parsed.slug, parsed.variant, parsed.locale);
 
     if (!document) notFound();
 
@@ -88,12 +110,19 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
 
   /**
    * One catch-all covers the full document and each of its cuts, so a new
-   * markdown file in the collection is a new page with no route work.
+   * markdown file in the collection is a new page with no route work. A
+   * translated document answers at its locale-less alias and once per
+   * language, each language's file listed once.
    */
   function generateStaticParams() {
-    return listDocuments(handle).map(({ slug, variant }) => ({
-      slug: [documentName(slug, variant)],
-    }));
+    return listDocuments(handle)
+      .filter(({ locale }) => !translated || locale === DEFAULT_LOCALE)
+      .flatMap(({ slug, variant }) => {
+        const name = documentName(slug, variant);
+
+        return translated ? localeTailAddresses(name) : [[name]];
+      })
+      .map((segments) => ({ slug: segments }));
   }
 
   async function generateMetadata({ params }: Props) {
@@ -106,6 +135,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
     const { document, rendered } = await resolve(params);
     const { route, slug, frontmatter } = document;
     const { title, readingMinutes, headings, tree } = rendered;
+    const locale = document.locale ?? SITE_CONFIG.locale;
 
     return (
       <Box className={classes['articlePage']}>
@@ -113,11 +143,11 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
           <Stack gap={32}>
             <Group component="nav" className="print-hidden">
               <TextLink
-                href={collectionListingRoute(collection)}
+                href={collectionListingRoute(collection, document.locale)}
                 size="sm"
                 className={hoverDim}
               >
-                ← {COLLECTIONS[collection].label}
+                ← {inLocale(COLLECTIONS[collection].label, locale)}
               </TextLink>
             </Group>
 
@@ -154,7 +184,10 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
               </Box>
             </PrintSheet>
 
-            <SiteFooter />
+            <SiteFooter
+              {...{ locale }}
+              home={collectionRoute(collection, document.locale)}
+            />
           </Stack>
         </Container>
       </Box>

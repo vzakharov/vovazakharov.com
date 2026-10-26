@@ -7,7 +7,7 @@ Vova Zakharov's personal site and CV —
 built as a **static export** (`output: 'export'`) and deployed to GitHub Pages:
 React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves five
 sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com`,
-`agentic.bible`, `basilisk.fyi` and `maya.vovazakharov.com`.
+`agentic.bible`, `basilisk.fyi` and `mayawonders.com`.
 
 Static export is the constraint that shapes everything else — there is no server
 at runtime, so no API routes, no server actions, no request-time rendering.

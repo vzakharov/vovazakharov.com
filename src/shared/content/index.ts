@@ -1,4 +1,4 @@
-export { AUTHORS } from './authors';
+export { author } from './authors';
 export { type CaseFrontmatter, type Docketed } from './basilisk-frontmatter';
 export {
   ARTICLE_COLLECTIONS,
@@ -16,6 +16,7 @@ export {
   type DocumentRef,
   documentRoute,
   FEATURED_CASE_STUDY_ROUTE,
+  isTranslated,
   localizedRoute,
   PUBLIC_DIR,
   resolveAuthoredUrl,

@@ -9,6 +9,7 @@ import path from 'node:path';
 // rather than resolving an `@/` alias it cannot follow, and a value import
 // would reach `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
 import type { SiteId, WithSiteId } from '@/shared/config';
+import type { Localizable } from '@/shared/i18n';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
 const COLLECTION_IDS = [
@@ -65,7 +66,7 @@ export const COLLECTIONS = {
     site: 'vova',
     /** A song is a recording with prose around it; there is nothing to print. */
     printable: false,
-    localized: true,
+    localized: 'inline',
     homeIndexed: false,
     generatedCards: false,
     feed: true,
@@ -94,11 +95,11 @@ export const COLLECTIONS = {
   },
   'maya-blog': {
     base: 'blog',
-    label: 'Блог',
+    label: { en: 'Blog', ru: 'Блог' },
     site: 'maya',
     /** Written for the screen, and no publishing lane prints `maya`. */
     printable: false,
-    localized: false,
+    localized: 'translated',
     homeIndexed: true,
     /** Drawn by `scripts/lib/maya-card.ts`. */
     generatedCards: true,
@@ -108,9 +109,16 @@ export const COLLECTIONS = {
   CollectionId,
   WithSiteId & {
     base: string;
-    label: string;
+    label: Localizable;
     printable: boolean;
-    localized: boolean;
+    /**
+     * Whether its pages exist once per language, and how a document carries
+     * them: `inline`, both in one file cut on `lang:` markers, written
+     * together; `translated`, the original as `<slug>.<locale>.md` and the
+     * default language's translation as `<slug>.<default>.md` beside it, made
+     * after.
+     */
+    localized: false | 'inline' | 'translated';
     /**
      * Listed on its site's home page rather than on an index page of its own,
      * which is what a route base of `/` means — and all a rooted collection
@@ -134,6 +142,11 @@ export const COLLECTIONS = {
 /** The collections one site serves — every registry walk starts here. */
 export function collectionsForSite(site: SiteId): CollectionId[] {
   return COLLECTION_IDS.filter((id) => COLLECTIONS[id].site === site);
+}
+
+/** Whether a collection keeps an original and its translation as two files. */
+export function isTranslated(id: CollectionId): boolean {
+  return COLLECTIONS[id].localized === 'translated';
 }
 
 /** The document the home page and the CV both cross-link. */
@@ -225,7 +238,7 @@ export function resolveAuthoredPath(
 }
 
 /** `./x`, `../x` and bare `x` — anything that resolves against the document. */
-function isRelative(url: string): boolean {
+export function isRelative(url: string): boolean {
   return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
 }
 
@@ -249,9 +262,12 @@ export function resolveAuthoredUrl(
   return `${resolveAuthoredPath(id, fileName, pathPart)}${fragment}`;
 }
 
-/** Where a collection is listed — its index page, or the site's home. */
-export function collectionRoute(id: CollectionId): string {
-  return COLLECTIONS[id].homeIndexed ? '/' : collectionPath(id);
+/** Where a collection is listed — its index page, or the site's home — in `locale` where it names one. */
+export function collectionRoute(id: CollectionId, locale?: string): string {
+  return localizedRoute(
+    COLLECTIONS[id].homeIndexed ? '/' : collectionPath(id),
+    locale,
+  );
 }
 
 /**
@@ -259,10 +275,14 @@ export function collectionRoute(id: CollectionId): string {
  * with a base of its own lists it in a section whose id is that base, so the
  * link lands on the section rather than the top of the page.
  */
-export function collectionListingRoute(id: CollectionId): string {
+export function collectionListingRoute(
+  id: CollectionId,
+  locale?: string,
+): string {
   const { homeIndexed, base } = COLLECTIONS[id];
+  const route = collectionRoute(id, locale);
 
-  return homeIndexed && base !== '' ? `/#${base}` : collectionRoute(id);
+  return homeIndexed && base !== '' ? `${route}#${base}` : route;
 }
 
 /**
@@ -274,8 +294,12 @@ export function documentRoute(
   id: CollectionId,
   slug: string,
   variant?: Variant,
+  locale?: string,
 ): string {
-  return collectionPath(id, documentName(slug, variant));
+  return localizedRoute(
+    collectionPath(id, documentName(slug, variant)),
+    locale,
+  );
 }
 
 /** The route of the case study the home page and the CV cross-link. */
@@ -291,7 +315,7 @@ export const FEATURED_CASE_STUDY_ROUTE = documentRoute(
  * alias — the same page, at the address that does not name a language.
  */
 export function localizedRoute(route: string, locale?: string): string {
-  return locale === undefined ? route : `${route}/${locale}`;
+  return locale === undefined ? route : `${route.replace(/\/$/, '')}/${locale}`;
 }
 
 /**
@@ -309,9 +333,9 @@ export function feedRoutes<L extends string>(
 
   if (!feed) return [];
 
-  return localized
-    ? locales.map((locale) => ({ route: route(locale), locale }))
-    : [{ route: route() }];
+  return localized === false
+    ? [{ route: route() }]
+    : locales.map((locale) => ({ route: route(locale), locale }));
 }
 
 /** The `<slug>[.<variant>]` stem a document's route and its files share. */
