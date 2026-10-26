@@ -3,16 +3,8 @@ description: What a song is beyond any other document — its title, frontmatter
 paths:
   - sites/*/public/music/**
   - sites/*/app/**/music/**
-  - src/music/pages/**
-  - src/music/widgets/**
-  - src/music/shared/**
+  - src/music/**
   - docs/music/**
-  - src/music/scripts/check-song-titles.ts
-  - src/music/scripts/check-masked-words.ts
-  - src/music/scripts/check-stanza-repeats.ts
-  - src/music/scripts/list-untold-songs.ts
-  - src/music/scripts/scaffold-song.ts
-  - src/music/scripts/vet-songs.sh
 ---
 
 # Songs

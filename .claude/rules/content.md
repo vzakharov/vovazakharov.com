@@ -7,6 +7,7 @@ paths:
   - sites/*/public/music/**
   - src/music/pages/**
   - src/music/widgets/**
+  - src/music/entities/**
   - sites/*/app/**/music/**
   - sites/*/public/generated/**
   - src/blog/shared/content/**
