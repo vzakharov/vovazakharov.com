@@ -10,8 +10,7 @@ captions:
     leaf-shrinks: 'the leaf shrinks'
     glass-eel: 'a glass eel, as long as a finger'
     not-to-scale: 'not to scale'
-    signature: 'Maya'
-translatedFrom: 6ac82893f2c7
+translatedFrom: 92ec0224a166
 ---
 
 # Distant elver

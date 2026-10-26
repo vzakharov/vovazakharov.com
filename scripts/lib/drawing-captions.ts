@@ -20,6 +20,35 @@ const XML_ESCAPES: Record<string, string> = {
   '"': '&quot;',
 };
 
+function escapeXml(text: string): string {
+  return text.replaceAll(/["&<>]/g, (char) => XML_ESCAPES[char] ?? char);
+}
+
+const VIEW_BOX = /<svg\b[^>]*\bviewBox="(?:[\d.]+ ){2}([\d.]+) ([\d.]+)"/;
+
+/** How far the mark sits from the drawing's bottom-right corner, in its units. */
+const MARK_INSET = 10;
+
+/**
+ * `svg` with `mark` — the site's domain — set small and grey in its
+ * bottom-right corner, so no template draws its own and a move of the site
+ * re-signs every drawing. Throws on a drawing with no `viewBox` to place it by.
+ */
+export function signDrawing(svg: string, mark: string): string {
+  const size = VIEW_BOX.exec(svg);
+
+  if (size === null) throw new Error('no viewBox to place the mark by');
+
+  const x = Number(size[1]) - MARK_INSET;
+  const y = Number(size[2]) - MARK_INSET;
+  const text = `<text x="${x}" y="${y}" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#2b2622" opacity="0.4">${escapeXml(mark)}</text>`;
+  const signed = svg.replace(/<\/svg>\s*$/, `${text}\n</svg>\n`);
+
+  if (signed === svg) throw new Error('no closing </svg> to sign before');
+
+  return signed;
+}
+
 /** Whether `svg` is a template, with a placeholder to fill. */
 export function isDrawingTemplate(svg: string): boolean {
   // `search`, not `test`: it ignores the global flag's `lastIndex`.
@@ -46,7 +75,7 @@ export function fillDrawing(template: string, captions: Captions): string {
 
     used.add(key);
 
-    return wording.replaceAll(/["&<>]/g, (char) => XML_ESCAPES[char] ?? char);
+    return escapeXml(wording);
   });
 
   const unused = Object.keys(captions).filter((key) => !used.has(key));

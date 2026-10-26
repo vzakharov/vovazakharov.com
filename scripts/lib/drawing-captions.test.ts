@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { fillDrawing, isDrawingTemplate } from './drawing-captions.ts';
+import {
+  fillDrawing,
+  isDrawingTemplate,
+  signDrawing,
+} from './drawing-captions.ts';
 
 const TEMPLATE = [
   '<svg viewBox="0 0 10 10" aria-label="{{label}}">',
@@ -46,6 +50,27 @@ describe('fillDrawing', () => {
           old: 'old caption',
         }),
       /{{old}} is not in the drawing/,
+    );
+  });
+});
+
+describe('signDrawing', () => {
+  it('sets the mark in the bottom-right corner, before the closing tag', () => {
+    const signed = signDrawing(
+      '<svg viewBox="0 0 1200 720">\n<rect/>\n</svg>\n',
+      'mayawonders.com',
+    );
+
+    assert.match(
+      signed,
+      /<rect\/>\n<text x="1190" y="710" text-anchor="end"[^>]*>mayawonders\.com<\/text>\n<\/svg>\n$/,
+    );
+  });
+
+  it('throws on a drawing with no viewBox', () => {
+    assert.throws(
+      () => signDrawing('<svg><rect/></svg>', 'mayawonders.com'),
+      /no viewBox/,
     );
   });
 });

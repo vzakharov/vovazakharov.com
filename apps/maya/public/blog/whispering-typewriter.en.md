@@ -11,8 +11,7 @@ captions:
     steps: '22 steps'
     characters: '88 characters = 4 tilts × 22 rotations'
     heard: 'the bug heard the ball turning'
-    signature: 'Maya'
-translatedFrom: a87c7e80e713
+translatedFrom: ffff2134174c
 ---
 
 # The whispering typewriter

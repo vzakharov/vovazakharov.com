@@ -11,8 +11,7 @@ captions:
     on-grapes: 'what you see on grapes: “clusters, like ash”'
     cups: 'cups from a sclerotium; rarely seen'
     not-to-scale: 'not to scale'
-    signature: 'Maya'
-translatedFrom: e6fd821dcc64
+translatedFrom: df1d791b8ae4
 ---
 
 # Which of the two

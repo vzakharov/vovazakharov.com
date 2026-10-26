@@ -4,8 +4,8 @@
  * Writes each drawing in every language: a translated collection's
  * `assets/<name>.svg` is a template (`scripts/lib/drawing-captions.ts`), and
  * `<name>.<locale>.svg` is it filled with the `captions` that language's post
- * lists for it — so a drawing's geometry has one copy, and its words one per
- * language.
+ * lists for it and signed with the site's domain — so a drawing's geometry has
+ * one copy, and its words one per language.
  *
  *   pnpm content:drawings:maya            # write what changed
  *   pnpm content:drawings:maya --check    # report what is stale, write nothing
@@ -37,9 +37,13 @@ import {
   type Captions,
   fillDrawing,
   isDrawingTemplate,
+  signDrawing,
 } from './lib/drawing-captions.ts';
 
 const CHECK = process.argv.includes('--check');
+
+/** The site's domain, signed on every drawing: its `CNAME`, run from the app directory. */
+const DOMAIN = fs.readFileSync(path.join('public', 'CNAME'), 'utf8').trim();
 
 const CAPTIONS = z.object({
   captions: z
@@ -109,7 +113,10 @@ for (const id of collectionsForSite(RENDERED_SITE)) {
       let drawn: string;
 
       try {
-        drawn = fillDrawing(fs.readFileSync(template, 'utf8'), captions);
+        drawn = signDrawing(
+          fillDrawing(fs.readFileSync(template, 'utf8'), captions),
+          DOMAIN,
+        );
       } catch (error) {
         throw new Error(`${relative(post)}, ${drawing}`, {
           cause: error instanceof Error ? error : new Error(String(error)),
