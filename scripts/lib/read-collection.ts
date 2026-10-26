@@ -22,6 +22,7 @@ import type {
   FrontmatterReader,
   WithFrontmatter,
 } from '@/shared/content/frontmatter';
+import { firstImage } from '@/shared/content/first-image';
 import { splitLocale, translatedData } from '@/shared/content/translations';
 import type { Titled } from '@/shared/typings';
 
@@ -30,7 +31,10 @@ import { headingTitle } from './docket.ts';
 
 export type CollectionEntry<F extends BaseFrontmatter> = Slugged &
   Titled &
-  WithFrontmatter<F>;
+  WithFrontmatter<F> & {
+    /** What stands for it on a list: `cardImage`, else the body's first image. */
+    cardImage?: string;
+  };
 
 /**
  * A translated collection is read in its default language, the one its cards
@@ -59,6 +63,7 @@ export function readCollection<F extends BaseFrontmatter>({
       slug: path.basename(file, '.md'),
       title: headingTitle(content, file),
       frontmatter,
+      cardImage: frontmatter.cardImage ?? firstImage(content),
     };
   });
 }

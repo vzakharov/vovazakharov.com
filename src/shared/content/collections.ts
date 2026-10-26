@@ -232,7 +232,7 @@ export function resolveAuthoredPath(
 }
 
 /** `./x`, `../x` and bare `x` — anything that resolves against the document. */
-function isRelative(url: string): boolean {
+export function isRelative(url: string): boolean {
   return !/^(?:[a-z][\d+.a-z-]*:|\/\/|\/|#)/i.test(url);
 }
 

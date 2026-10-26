@@ -227,19 +227,22 @@ function drawnCard(drawing: string): StagedPage {
 }
 
 /**
- * A post's `cardImage` — the drawing its index card shows too — where it has
- * one; else the byline line, the index card's, so the card and the page say it
- * alike.
+ * The drawing its index card shows too, where it has one; else the byline
+ * line, the index card's, so the card and the page say it alike.
  */
-export function mayaPostCard({ title, frontmatter }: BlogPost): StagedPage {
-  const { cardImage, date, description } = frontmatter;
+export function mayaPostCard({
+  title,
+  frontmatter,
+  cardImage,
+}: BlogPost): StagedPage {
+  const { date, description } = frontmatter;
 
   if (cardImage !== undefined) {
     return drawnCard(path.resolve(collectionDir('maya-blog'), cardImage));
   }
 
   return stagedCard({
-    kicker: `${siteConfig('maya').name} · ${formatDocumentDate(date, 'ru')}`,
+    kicker: `${siteConfig('maya').name} · ${formatDocumentDate(date, siteConfig('maya').locale)}`,
     title,
     line: description,
   });

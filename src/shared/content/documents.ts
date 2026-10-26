@@ -41,6 +41,7 @@ import type {
   FrontmatterReader,
   WithFrontmatter,
 } from './frontmatter';
+import { firstImage } from './first-image';
 import {
   intrinsicDimensions,
   type WithOptionalOgImageSize,
@@ -95,7 +96,7 @@ export type ProseSource = FileInCollection &
 type ResolvedImage = Sized & Sourced;
 
 type WithCardImage = {
-  /** The frontmatter's `cardImage`, resolved as `ogImageUrl` is. */
+  /** The frontmatter's `cardImage`, else the body's first image, resolved as `ogImageUrl` is. */
   cardImage?: ResolvedImage;
 };
 
@@ -265,7 +266,7 @@ function readDocument<F extends BaseFrontmatter>(
     ),
     route,
     ...resolveOgImage(id, cardRoute, frontmatter.ogImage),
-    ...resolveCardImage(id, frontmatter.cardImage),
+    ...resolveCardImage(id, frontmatter.cardImage ?? firstImage(content)),
   };
 }
 
