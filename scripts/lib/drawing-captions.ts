@@ -41,7 +41,7 @@ export function signDrawing(svg: string, mark: string): string {
 
   const x = Number(size[1]) - MARK_INSET;
   const y = Number(size[2]) - MARK_INSET;
-  const text = `<text x="${x}" y="${y}" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#2b2622" opacity="0.4">${escapeXml(mark)}</text>`;
+  const text = `<text x="${x}" y="${y}" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#2b2622" opacity="0.55">${escapeXml(mark)}</text>`;
   const signed = svg.replace(/<\/svg>\s*$/, `${text}\n</svg>\n`);
 
   if (signed === svg) throw new Error('no closing </svg> to sign before');
