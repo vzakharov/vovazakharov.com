@@ -63,7 +63,6 @@ import {
   patchesAround,
   patchTarget,
 } from './mushroom-patch';
-import { standingControls } from './sky-layout';
 import { dotInSight } from './spore-sight';
 import { doorsKept, partsInView, standingOn } from './standing-weighed';
 import { SUN_RAY_REACH } from './sun-layout';
@@ -75,6 +74,9 @@ import type { Sunned, SunWashed } from './sun-layout';
 import type { ClumpGround } from './clump-layout';
 import type { Bedded } from './flower-layout';
 
+/** Every control's hit area on the screen, open pickers and all: what a new mushroom's cap keeps off. */
+export type EveryButton = { everyButton: readonly Circle[] };
+
 /** What of the meadow's layout this reads. */
 export type MushroomRoomLayout = WithWidth &
   WithHeight &
@@ -82,7 +84,8 @@ export type MushroomRoomLayout = WithWidth &
   Sunned &
   SunWashed &
   ClumpGround &
-  Bedded;
+  Bedded &
+  EveryButton;
 
 /**
  * How close, as a camera lays the ground out (`apartOnScreen`), in the
@@ -127,7 +130,7 @@ function viewFrom(anchor: Eye, view: View): View {
 
 /** `stage` as a new mushroom is held to on it, in `view`. */
 function screenOn(stage: MushroomRoomLayout, view: View | undefined): Screen {
-  const { camera, sun, picker, housePicker } = stage;
+  const { camera, sun, everyButton } = stage;
   const edges = { left: EDGE_MARGIN, right: camera.world - EDGE_MARGIN };
   if (!view) return { stage, edges, keepOff: [] };
   const shown = layoutShown(view);
@@ -137,9 +140,10 @@ function screenOn(stage: MushroomRoomLayout, view: View | undefined): Screen {
     edges,
     view,
     keepOff: [
-      ...[...standingControls(stage), ...picker, ...housePicker].map(
-        (control) => ({ ...control, r: tapReach(control.r) }),
-      ),
+      ...everyButton.map((control) => ({
+        ...control,
+        r: tapReach(control.r),
+      })),
       { ...sun, r: sun.r * SUN_RAY_REACH },
     ],
     ...(shown && {
@@ -407,7 +411,7 @@ export function fitsView<L extends MushroomRoomLayout>(
 }
 
 /** What a room was found in, where, and the eye it was found from. */
-type Found = Stand &
+type Found = Stand<MushroomRoomLayout> &
   Seeded & { foot: Footed | undefined; eye: Eye | undefined };
 
 /** What of a stand the room in it is found from. */

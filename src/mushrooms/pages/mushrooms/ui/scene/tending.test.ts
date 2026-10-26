@@ -27,7 +27,7 @@ import { viewAt } from './view';
 import { type Opened, opened } from './visit-play';
 
 /** Steps `tending` until it hands back its tufts, and how many steps that took. */
-function drained(tending: Tending): [Sprout[], number] {
+function drained(tending: Tending<MeadowLayout>): [Sprout[], number] {
   for (let steps = 1; ; steps++) {
     const standing = tending.step();
     if (standing) return [standing, steps];

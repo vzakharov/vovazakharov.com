@@ -34,7 +34,7 @@ import { pinholeOf } from '../../model/pinhole';
 import { type Plot, slotTaken } from '../../model/pollen';
 import type { WithSpores } from '../../model/sprouting';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
-import { placeIn } from './clump-layout';
+import { type MushroomGround, placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { FLOWER_SWAY, standingOn } from './flower-layout';
 import type { Footing } from '../../model/ground';
@@ -171,18 +171,21 @@ function sightingsAt(
 }
 
 /**
- * `measure` of a layout, measured once a layout: a layout is never changed
- * once laid out, so what the sight reads off it alone is read once.
+ * A store made once per mushrooms' ground (`MushroomGround`): what the sight
+ * keeps reads off a layout only its camera, the screen it draws and the sizes
+ * it scales by, which the ground holds, and its anchor, which the ground is a
+ * new object for (`anchoredGround`). Keyed by the ground rather than the
+ * layout, it holds across an anchored stand's layouts, which are made afresh.
  */
-function perLayout<Measured extends object>(
-  measure: (layout: FlowerSightLayout) => Measured,
-): (layout: FlowerSightLayout) => Measured {
-  const measured = new WeakMap<FlowerSightLayout, Measured>();
-  return (layout) => {
-    const known = measured.get(layout);
+function perGround<Store extends object>(
+  make: () => Store,
+): (layout: FlowerSightLayout) => Store {
+  const stores = new WeakMap<MushroomGround, Store>();
+  return ({ mushrooms }) => {
+    const known = stores.get(mushrooms);
     if (known) return known;
-    const fresh = measure(layout);
-    measured.set(layout, fresh);
+    const fresh = make();
+    stores.set(mushrooms, fresh);
     return fresh;
   };
 }
@@ -248,8 +251,8 @@ export function flowerInSight(
   );
 }
 
-/** Each layout's covers, by the mushrooms standing on it (`coversOn`). */
-const coverings = perLayout(
+/** Each ground's covers, by the mushrooms standing on it (`coversOn`). */
+const coverings = perGround(
   () => new WeakMap<Stand['mushrooms'], readonly Cover[]>(),
 );
 
@@ -329,8 +332,8 @@ function plantable(
 /** How a flower planted on a foot would be seen, whatever its genes: in sight past the covers (`flowerInSight`), and its head whole on the screen (`headOnScreen`). */
 type FootSight = Record<'inSight' | 'onScreen', boolean>;
 
-/** Each layout's `FootSight`s, by the covers judged against and the foot. */
-const footSights = perLayout(
+/** Each ground's `FootSight`s, by the covers judged against and the foot. */
+const footSights = perGround(
   () => new WeakMap<readonly Cover[], Map<string, FootSight>>(),
 );
 

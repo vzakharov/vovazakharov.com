@@ -14,7 +14,11 @@ import {
   sunOnScreen,
   sunSunk,
 } from './dusk-sky';
-import { type FireflyGround, FireflyView } from './firefly-view';
+import {
+  type FireflyGround,
+  FireflyView,
+  type FireflyViewLayout,
+} from './firefly-view';
 import { MoonView } from './moon-view';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
@@ -30,7 +34,8 @@ export type DuskViewLayout = WithWidth &
   WithCamera &
   Sunned &
   Clouded &
-  SunWashed;
+  SunWashed &
+  FireflyViewLayout;
 
 /** The dusk wash's alpha at full dusk. */
 export const DUSK_WASH_DEEPEST = 0.38;

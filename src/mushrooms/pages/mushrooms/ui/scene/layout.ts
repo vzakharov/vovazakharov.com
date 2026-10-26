@@ -30,12 +30,14 @@ import {
 import { gaitSpot } from './gait-spot';
 import { type InsectCamera, insectScaled } from './insect-size';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
+import type { EveryButton } from './mushroom-room';
 import { type Clouded, skyClouds } from './panorama';
 import {
   type Controls,
   type Crossed,
   flowerCross,
   placeControls,
+  standingControls,
   sunControls,
 } from './sky-layout';
 import {
@@ -58,7 +60,8 @@ type Stood = ControlledScreen &
   Horizoned &
   NearHilled &
   ClumpGround &
-  Clouded;
+  Clouded &
+  EveryButton;
 
 export type MeadowLayout = Stood & Bedded & SunWashed;
 
@@ -202,6 +205,11 @@ function standMeadow(width: number, height: number): Stood {
     cross,
     clouds: skyClouds(camera),
     ...controls,
+    everyButton: [
+      ...standingControls(controls),
+      ...controls.picker,
+      ...controls.housePicker,
+    ],
     mushrooms,
     ...insectScaled(unit),
   };

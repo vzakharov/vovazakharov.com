@@ -18,14 +18,10 @@ import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
 import type { WithHeight } from '@/kernel/shared/typings';
 import type { WithCamera } from '../../model/ground';
-
 import type { GrassLayout } from './grass';
-import type { FlowerSightLayout } from './flower-sight';
+
 /** What of the meadow's layout this reads. */
-export type LawnLayout = WithHeight &
-  WithCamera &
-  GrassLayout &
-  FlowerSightLayout;
+export type LawnLayout = WithHeight & WithCamera & GrassLayout;
 
 /** A tuft the child can plant on, and the foot on the plane a flower planted there stands on. */
 export type Sprout = Rooted & WithTuft;
@@ -97,7 +93,7 @@ export function regrowTufts(
 }
 
 /** A lawn: the visit's `seed`, which every cell's stream is drawn off, laid out on `layout`. */
-export type Lawn = Seeded & WithLayout;
+export type Lawn = Seeded & WithLayout<LawnLayout>;
 
 /**
  * How many tufts of the seam's grass a cell grows: 2.2 to a square of the
