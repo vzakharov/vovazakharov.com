@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 132,
+    "inputTokens": 160,
     "cacheWrite5mTokens": 80883,
-    "cacheWrite1hTokens": 136073,
-    "cacheReadTokens": 9075934,
-    "outputTokens": 44487,
-    "thinkingTokens": 19251,
-    "responses": 66,
-    "costUsd": 4.1984538
+    "cacheWrite1hTokens": 158357,
+    "cacheReadTokens": 11847676,
+    "outputTokens": 48733,
+    "thinkingTokens": 19620,
+    "responses": 80,
+    "costUsd": 5.0161062
   },
   "estimate": {
     "at": "2026-10-26T08:34:24.975Z",
@@ -31,22 +31,24 @@
   "branch": "claude/ios-one-deck-sezifk",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "айфонный баг с двойным проигрыванием текущей и следующей песни опять появился (не у меня поэтому как воспроизвести не скажу). давай на айфоне вообще не грузить …",
-  "prs": [],
+  "prs": [
+    215
+  ],
   "url": "https://claude.ai/code/session_015Xc1s3yETR97mqqrdP5xK4",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-26T08:31:23.800Z",
-  "lastResponseAt": "2026-10-26T08:48:17.058Z",
+  "lastResponseAt": "2026-10-26T08:50:01.031Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 102,
+    "inputTokens": 130,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 136073,
-    "cacheReadTokens": 7588648,
-    "outputTokens": 35160,
-    "thinkingTokens": 15158,
-    "responses": 51,
-    "costUsd": 3.3099216
+    "cacheWrite1hTokens": 158357,
+    "cacheReadTokens": 10360390,
+    "outputTokens": 39406,
+    "thinkingTokens": 15527,
+    "responses": 65,
+    "costUsd": 4.127574
   },
   "subagents": {
     "inputTokens": 30,
@@ -60,14 +62,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 132,
+      "inputTokens": 160,
       "cacheWrite5mTokens": 80883,
-      "cacheWrite1hTokens": 136073,
-      "cacheReadTokens": 9075934,
-      "outputTokens": 44487,
-      "thinkingTokens": 19251,
-      "responses": 66,
-      "costUsd": 4.1984538
+      "cacheWrite1hTokens": 158357,
+      "cacheReadTokens": 11847676,
+      "outputTokens": 48733,
+      "thinkingTokens": 19620,
+      "responses": 80,
+      "costUsd": 5.0161062
     }
   },
   "warnings": [],
