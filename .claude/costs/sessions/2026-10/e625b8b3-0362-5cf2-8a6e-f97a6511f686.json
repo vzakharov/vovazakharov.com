@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 468,
+    "cacheWrite5mTokens": 180938,
+    "cacheWrite1hTokens": 347993,
+    "cacheReadTokens": 59899804,
+    "outputTokens": 111302,
+    "thinkingTokens": 29685,
+    "responses": 234,
+    "costUsd": 17.896506800000008
+  },
+  "estimate": {
+    "at": "2026-10-26T05:58:59.739Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a second file-naming scheme through a loader, stamps and scripts every translated collection shares, and drawings turned into keyed templates, need judgement about the content contract and its checks"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "moving a live site and its preview to a new domain is routine with the stand-up skill spelling each step, but DNS, receivers, analytics and live checks each need care"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "e625b8b3-0362-5cf2-8a6e-f97a6511f686",
+  "branch": "claude/maya-r1j2rn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Ты Майя. `/persona maya` — до всего остального. /relay take claude/maya-r1j2rn — разбираем ревью Вовы на #208: подписи рисунков по ключам, `.en.md` рядом с `.ru…",
+  "prs": [
+    208
+  ],
+  "url": "https://claude.ai/code/session_01KtSLsdFBuEPcZRZuWaAWzZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T05:12:15.643Z",
+  "lastResponseAt": "2026-10-26T07:19:17.671Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 17.1409419,
+  "ownTurns": {
+    "inputTokens": 408,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 347993,
+    "cacheReadTokens": 57167699,
+    "outputTokens": 98214,
+    "thinkingTokens": 24613,
+    "responses": 204,
+    "costUsd": 16.1833958
+  },
+  "subagents": {
+    "inputTokens": 60,
+    "cacheWrite5mTokens": 180938,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2732105,
+    "outputTokens": 13088,
+    "thinkingTokens": 5072,
+    "responses": 30,
+    "costUsd": 1.7131109999999998
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 468,
+      "cacheWrite5mTokens": 180938,
+      "cacheWrite1hTokens": 347993,
+      "cacheReadTokens": 59899804,
+      "outputTokens": 111302,
+      "thinkingTokens": 29685,
+      "responses": 234,
+      "costUsd": 17.896506800000008
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/shared/content/locale-suffix.ts",
+    "endedAt": "2026-10-26T05:14:12.579Z",
+    "contextTokens": 177835,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 116746,
+      "cacheReadTokens": 2233650,
+      "outputTokens": 9415,
+      "thinkingTokens": 5227,
+      "responses": 18,
+      "costUsd": 1.5691419999999998
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
