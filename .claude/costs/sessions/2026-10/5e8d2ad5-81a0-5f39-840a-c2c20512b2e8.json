@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 66,
+    "cacheWrite5mTokens": 75989,
+    "cacheWrite1hTokens": 101581,
+    "cacheReadTokens": 3529813,
+    "outputTokens": 12760,
+    "thinkingTokens": 3922,
+    "responses": 33,
+    "costUsd": 2.1540195999999994
+  },
+  "estimate": {
+    "at": "2026-10-26T17:21:44.543Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "booking a past session's hours under the right role needs reading the site's authorship rule and the ledger's role table, then answering the reviewer"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "5e8d2ad5-81a0-5f39-840a-c2c20512b2e8",
+  "branch": "claude/cases-fzyjz8",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "прости, продолжай",
+  "prs": [
+    209
+  ],
+  "url": "https://claude.ai/code/session_01PqVFM2cawxWJt26QiWCFaQ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T17:19:00.558Z",
+  "lastResponseAt": "2026-10-26T17:22:06.079Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 101581,
+    "cacheReadTokens": 3319259,
+    "outputTokens": 10816,
+    "thinkingTokens": 3379,
+    "responses": 29,
+    "costUsd": 1.6930517999999999
+  },
+  "subagents": {
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 75989,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 210554,
+    "outputTokens": 1944,
+    "thinkingTokens": 543,
+    "responses": 4,
+    "costUsd": 0.4609677999999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 66,
+      "cacheWrite5mTokens": 75989,
+      "cacheWrite1hTokens": 101581,
+      "cacheReadTokens": 3529813,
+      "outputTokens": 12760,
+      "thinkingTokens": 3922,
+      "responses": 33,
+      "costUsd": 2.1540195999999994
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "writing/notes/the-five-percent.md",
+    "endedAt": "2026-10-26T17:21:56.040Z",
+    "contextTokens": 74998,
+    "spend": {
+      "inputTokens": 60,
+      "cacheWrite5mTokens": 74317,
+      "cacheWrite1hTokens": 100832,
+      "cacheReadTokens": 3230840,
+      "outputTokens": 10954,
+      "thinkingTokens": 3758,
+      "responses": 30,
+      "costUsd": 2.043729
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
