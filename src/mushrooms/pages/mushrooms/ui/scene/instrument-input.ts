@@ -1,12 +1,31 @@
 import * as Phaser from 'phaser';
 
+import type { Direction } from '../../model/cruise';
 import type { FlowerSound } from '../../model/flower-sounds';
 import { chordFingers } from './chord-fingers';
-import type { EyeInput } from './eye-input';
-import type { Answering, ChordTapped } from './flower-bed';
 import type { Instrument } from './instrument';
 import { listenForKeys } from './keyboard';
-import { type FlowerInView, type KeyedPlay, playKey } from './keyed-flowers';
+import {
+  type Answers,
+  type FlowerInView,
+  type KeyedPlay,
+  playKey,
+} from './keyed-flowers';
+
+/** What the keys move: the eye they turn, walk and strafe, held and let go. */
+export type Looking = {
+  readonly holdTurn: (direction: Direction) => void;
+  readonly letGoTurn: (direction: Direction) => void;
+  readonly holdWalk: (direction: Direction) => void;
+  readonly letGoWalk: (direction: Direction) => void;
+  readonly holdStrafe: (direction: Direction) => void;
+  readonly letGoStrafe: (direction: Direction) => void;
+};
+
+export type ChordTapped = {
+  chordTap: (object: Phaser.GameObjects.GameObject) => boolean;
+};
+export type Answering = Answers & { hush: (id: string) => void };
 
 function ids(list: TouchList): number[] {
   return [...list].map(({ identifier }) => identifier);
@@ -83,7 +102,7 @@ export function playTheMeadow(
   scene: Phaser.Scene,
   instrument: Instrument,
   flowers: ChordTapped & Answering,
-  eye: EyeInput,
+  eye: Looking,
   planter: SoundPlanting,
   waiting: () => boolean,
   pressMap: () => void,

@@ -7,13 +7,13 @@
 
 import type { Drum } from '../../model/flower-sounds';
 import { frequencyOf, HIGHEST_NOTE, LOWEST_NOTE } from '../../model/notes';
+import type { Band, HissPart, Part } from './part-loudness';
 import {
   type Attacked,
   type Envelope,
   envelopeAt,
   type Pitched,
   type Sustained,
-  type Swell,
   swell,
   type Voice,
 } from './synth';
@@ -52,20 +52,6 @@ export function noteEnvelope(note: number): NoteEnvelope {
 const NOTE_BRIGHTNESS = 3;
 /** The most the filter ever opens, in Hz: the voice stays round at the top. */
 const NOTE_CEILING = 4200;
-
-/** A filter's centre or corner, in Hz, and its Q as Web Audio reads it for that filter's type. */
-export type Band = { frequency: number; q: number };
-
-/** One enveloped oscillator of a voice, through a lowpass where one is given (`q` in dB). */
-export type TonePart = Swell & { lowpass?: Band };
-
-/** White noise through a bandpass, enveloped. */
-type HissPart = Envelope & Band;
-
-/** What a voice is made of, which `playParts` plays and the tests measure. */
-export type Part =
-  | ({ kind: 'tone' } & TonePart)
-  | ({ kind: 'hiss' } & HissPart);
 
 /** A soft keyed note: a sine and a quiet triangle under a lowpass, and a sine an octave up. */
 export function noteParts(note: number): Part[] {

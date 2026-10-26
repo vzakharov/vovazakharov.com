@@ -4,15 +4,13 @@ import { describe, it } from 'node:test';
 import { DRUMS } from '../../model/flower-sounds';
 import { HIGHEST_NOTE, LOWEST_NOTE } from '../../model/notes';
 import {
-  type Band,
   DRUM_SPECS,
   drumParts,
   type DrumSpec,
   noteEnvelope,
   noteParts,
-  type Part,
 } from './instrument-voices';
-import { loudest } from './part-loudness';
+import { type Band, loudest, type Part } from './part-loudness';
 
 describe('noteEnvelope', () => {
   it('comes down in loudness and length from the lowest note to the highest', () => {

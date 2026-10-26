@@ -10,7 +10,7 @@ import type * as Phaser from 'phaser';
 
 import { type FlowerColour, flowerGenes } from '../../model/flower-genes';
 import { paintFlowerHead, paintFlowerStem } from './draw-flower';
-import { drawDisc, iconLighting } from './hud';
+import { drawDisc, iconLighting } from './icon-disc';
 import { PALETTE } from './palette';
 import { inkedDisc } from './shapes';
 

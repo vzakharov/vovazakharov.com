@@ -2,10 +2,10 @@ import * as Phaser from 'phaser';
 
 import type { Hushing } from '@/kernel/shared/typings';
 
+import type { Waking } from './instrument';
 import { playTheMeadow } from './instrument-input';
 import type { Unfolding } from './map-view';
 import type { Binding } from './meadow-keeping';
-import type { Waking } from './instrument';
 
 type Played = Parameters<typeof playTheMeadow>;
 
@@ -19,7 +19,8 @@ type MeadowPieces = {
   ) => void;
   instrument: Played[1];
   flowers: Played[2];
-  eye: Played[3];
+  /** The eye the keys move, and the pointer it listens to. */
+  eye: Played[3] & { listen: (scene: Phaser.Scene) => () => void };
   planter: Played[4];
   /** Started on a tap's release, as a browser lets sound start only there. */
   voice: Waking & Hushing;

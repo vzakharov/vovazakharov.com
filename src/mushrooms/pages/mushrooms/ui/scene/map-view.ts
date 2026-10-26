@@ -1,4 +1,3 @@
-import type { MeadowLayout } from './layout';
 import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
@@ -30,16 +29,16 @@ import { paintFlowerHead, paintFlowerStem } from './draw-flower';
 import { paintHouse } from './draw-house';
 import { drawMapGround } from './draw-map-ground';
 import { drawMushroom } from './draw-mushroom';
-import { DUSK_WASH_DEEPEST } from './palette-dusk';
 import { flowersOf } from './flower-plots';
 import type { Stand } from './flower-sight';
-import { iconLighting } from './hud';
+import { iconLighting } from './icon-disc';
 import type { Lighting } from './ink';
+import type { MeadowLayout } from './layout';
 import { drawChild, drawView } from './map-child';
 import { drawCompass } from './map-compass';
 import type { DoorSeating } from './mushroom-bed';
 import { PALETTE } from './palette';
-import { DUSK } from './palette-dusk';
+import { DUSK, DUSK_WASH_DEEPEST } from './palette-dusk';
 import { azimuthAt } from './panorama';
 import { BUTTON_INSET } from './tap-reach';
 

@@ -7,8 +7,21 @@
  * which scale every voice alike until a voice is loud enough to be squeezed.
  */
 
-import type { Band, Part, TonePart } from './instrument-voices';
-import type { Envelope } from './synth';
+import type { Envelope, Swell } from './synth';
+
+/** A filter's centre or corner, in Hz, and its Q as Web Audio reads it for that filter's type. */
+export type Band = { frequency: number; q: number };
+
+/** One enveloped oscillator of a voice, through a lowpass where one is given (`q` in dB). */
+export type TonePart = Swell & { lowpass?: Band };
+
+/** White noise through a bandpass, enveloped. */
+export type HissPart = Envelope & Band;
+
+/** What a voice is made of, which `playParts` plays and the tests measure. */
+export type Part =
+  | ({ kind: 'tone' } & TonePart)
+  | ({ kind: 'hiss' } & HissPart);
 
 /** The sample rate the filters are computed at: a phone's, and most browsers'. */
 const RATE = 48_000;

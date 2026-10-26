@@ -37,7 +37,8 @@ import { containsFlower } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Seat } from './insect-seat';
 import type { Instrument } from './instrument';
-import type { Answers, FlowerInView } from './keyed-flowers';
+import type { Answering, ChordTapped } from './instrument-input';
+import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { browPale, repaintsDue } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
@@ -48,11 +49,6 @@ import { type Following, onScreen, type View } from './view';
  * letting the hazy hills behind it through, at no repaint.
  */
 const BROW_FADE = 1.5;
-
-export type ChordTapped = {
-  chordTap: (object: Phaser.GameObjects.GameObject) => boolean;
-};
-export type Answering = Answers & { hush: (id: string) => void };
 
 /**
  * The meadow's flowers on screen, kept by id, the visit's seeded ones and the

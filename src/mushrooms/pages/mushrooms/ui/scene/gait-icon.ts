@@ -2,7 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { alongQuadratic, lerpPoint, type Point } from '../../model/geometry';
 import type { Walk } from '../../model/walk';
-import { drawDisc } from './hud';
+import { drawDisc } from './icon-disc';
 import { PALETTE } from './palette';
 import { fillShape, strokeShape } from './shapes';
 

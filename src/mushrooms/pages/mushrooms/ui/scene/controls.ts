@@ -34,7 +34,6 @@ import { standingOn } from './flower-layout';
 import { drawGaitButton } from './gait-icon';
 import {
   drawCloseButton,
-  drawDisc,
   drawFurnishButton,
   drawGrowButton,
   drawHouseButton,
@@ -42,6 +41,7 @@ import {
   drawReleaseButton,
   drawSpeciesButton,
 } from './hud';
+import { drawDisc } from './icon-disc';
 import type { MeadowLayout } from './layout';
 import { unfolded } from './map-view';
 import { Picker } from './picker';
