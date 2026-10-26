@@ -316,6 +316,28 @@ tree passing.
   приземлять этот слайс отдельно от следующего -- разбиения "грибов" -- так как
   именно он покажет, правильны ли были наши теоретизирования».
 
+- **The dry-run cut was built and then rejected** (e7a4c9a, after 4763c65
+  renamed the three exports a barrel would have held twice): typecheck, knip,
+  Steiger bar the tests, `check:masd`, vova's build and all 2273 meadow tests
+  passed on it. The operator rejected it as a domain cut: «червяк -- внутри
+  entity "гриб", при этом в pages/mushroom/ui/scene есть … house-worm.ts, а
+  между ними -- "meadow", которое как название фичи звучит непонятно». **The
+  finding for 6a**: a cut drawn from the import graph reproduces how the code is
+  stitched — `draw-house` paints the mice and the worm, `worm.ts` imports
+  `house.ts` — so modularity found mushroom, house, mice and worm one module,
+  true of the code and false of the nouns. Modularity tests whether a cut holds;
+  the nouns draw it.
+- **Rules the operator set for the re-cut**: base entities never import one
+  another, and where two meet is a feature named for what happens («цветок
+  вырастает, когда нажимаем на травку» = фича); super-entities are an idea for
+  later, tried only once feature grouping stops sufficing. Nothing goes into
+  `shared` to quiet a checker: «нужно было его совать прямо туда где его
+  используют … а иначе что это за лайфхак такой» — so `firefly`, `flower-genes`
+  and `shelter-seats` leave `shared/world`, and `shared` keeps what is about
+  nothing in particular. The play runs wait for `/finalize` («не надо гонять
+  игру на каждом пуке»); whether the suite is worth keeping whole is the
+  operator's open thought.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -328,17 +350,41 @@ The game's dry-run slice tree, every file assigned and nothing moved, is
 
 ## Rest of the bite
 
-**6b. Mushrooms restructured along the dry-run tree, on #216.** The layout's
-source is `mushrooms-tree.md` with these overrides, decided while untying:
-`flier-rest` and `furnishing` join `features/meadow` (their one consumer);
-`flower-genes` (which insects and mushrooms both read), `shelter-seats` and
-`firefly` (a one-file slice would be flagged) join `shared/world`. **The map
-stays in the page**: `map-view` computes its flowers with the scene's own layout
-engine (`flowersOf`, `Stand`, `sizeOn`, `DoorSeating`), so a `widgets/map` needs
-those injected rather than moved down — a change of the map's API, left for
-later. The tools (`layout-tools.md` in this bite's directory, three scripts to
-copy into `tmp/modularity/`) print the layout's broken imports (none now), each
-file's slice, importers and imports, and which files reach Phaser.
+**6b, re-cut by nouns — waiting on three answers.** Put to the operator, each
+with its recommendation:
+
+1. **Is the house part of the mushroom?** Recommended yes: `house.ts` knows only
+   the mushroom. The worm and the mice become base entities taking windows and
+   doors as parameters, and «червяк выглядывает из окна» and «мыши бегают между
+   дверями» become features.
+2. **How fine are features?** Recommended one per interaction a player could
+   name — a flower grows from a tap on a tuft, a bee drinks, an insect perches,
+   an insect shelters from the rain, the worm peeks, the mice run, the meadow is
+   kept and opened — merged only where their code is one, which 6a's modularity
+   then checks.
+3. **Where does the meadow's whole state live?** `game.ts` composes every
+   entity, and `sprouting` and `game` import each other today. Recommended:
+   `widgets/meadow` holds the state with the scene and hands each feature its
+   part (flowers, mushrooms, insects), the biggest untying in the bite.
+
+The order, proposed rather than asked: revert e7a4c9a with a revert commit;
+write the target tree as a file beside `mushrooms-tree.md` for the operator's
+look; untie the code in place; then move along that tree with the tools in
+`layout-tools.md`. The 27 tests' question below is re-asked once the tree
+stands, since their set changes with it.
+
+The rest of this section is the dry-run cut's record, kept for the barrels,
+tests and checks, which carry over. The layout's source is `mushrooms-tree.md`
+with these overrides, decided while untying: `flier-rest` and `furnishing` join
+`features/meadow` (their one consumer); `flower-genes` (which insects and
+mushrooms both read), `shelter-seats` and `firefly` (a one-file slice would be
+flagged) join `shared/world`. **The map stays in the page**: `map-view` computes
+its flowers with the scene's own layout engine (`flowersOf`, `Stand`, `sizeOn`,
+`DoorSeating`), so a `widgets/map` needs those injected rather than moved down —
+a change of the map's API, left for later. The tools (`layout-tools.md` in this
+bite's directory, three scripts to copy into `tmp/modularity/`) print the
+layout's broken imports (none now), each file's slice, importers and imports,
+and which files reach Phaser.
 
 - **Two barrels where a slice mixes Phaser with pure modules**: `index.ts` holds
   everything, `index.node-safe.ts` only what reaches no Phaser at runtime — the
