@@ -4,17 +4,14 @@ import type { DuskTapped } from './dusk-view';
 import type { Sporing } from './mushroom-bed';
 import { restingOn } from './perch-hosts';
 import type { TappedThrough } from './perches';
-import type {
-  Dispatching,
-  MeadowActed,
-  SightSeen,
-  TuftTapping,
-} from './planter';
+import type { Dispatching } from '../../model/acting';
+import type { Action } from '../../model/game';
+import type { MeadowActed, SightSeen, TuftTapping } from './planter';
 import type { RainTapped } from './rain-view';
 import type { Grass } from './tufts';
 
 /** What of the scene, as it stands at the tap, a tap on the meadow acts through. */
-type MeadowTapped = Dispatching & {
+type MeadowTapped = Dispatching<Action> & {
   camera: Phaser.Cameras.Scene2D.Camera;
   planter: TuftTapping;
   grass: Grass | undefined;

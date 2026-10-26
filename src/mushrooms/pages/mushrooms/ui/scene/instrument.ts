@@ -1,4 +1,4 @@
-import type { FlowerSound } from '../../model/flower-sounds';
+import type { Drum, FlowerSound } from '../../model/flower-sounds';
 import {
   HOME_OCTAVE,
   type Melody,
@@ -7,7 +7,15 @@ import {
   strike,
 } from '../../model/notes';
 import type { PlayedKey } from './keyboard';
-import type { Keyed, Waking } from './sound';
+
+/** What wakes the meadow's sound: a browser lets a page play only after a tap. */
+export type Waking = { start: () => void };
+
+/** What a key plays through the meadow's sound: a note, or a drum. */
+export type Keyed = {
+  note: (note: number) => void;
+  drum: (drum: Drum) => void;
+};
 
 /** What of the meadow's synth the instrument plays through. */
 type Synth = Keyed & Waking;

@@ -30,3 +30,6 @@ export const DUSK = {
   cloudShade: 0xff_b0_96,
   cloudLit: 0xc4_b0_e0,
 } as const;
+
+/** The dusk wash's alpha at full dusk. */
+export const DUSK_WASH_DEEPEST = 0.38;

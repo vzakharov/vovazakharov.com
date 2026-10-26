@@ -21,8 +21,8 @@ import { tappedFirefly } from './firefly-tap';
 import type { CircleFigure } from './hit-areas';
 import { PALETTE } from './palette';
 import type { HostBeds, Seat } from './perch-hosts';
-import type { MeadowSeen } from './planter';
-import type { Glinting } from './sound';
+import type { MeadowSeen } from '../../model/acting';
+import type { WithMushrooms } from '../../model/planted';
 import { TAP_RADIUS } from './tap-reach';
 import { tuftUnder } from './tufts';
 import type { WithWidth } from '@/kernel/shared/typings';
@@ -31,6 +31,9 @@ import type { SunWashed } from './sun-layout';
 import type { InsectScaled } from './insect-size';
 import type { ClumpGround } from './clump-layout';
 import type { Bedded } from './flower-layout';
+
+/** What a firefly's flare plays: a chime, panned to where it flares. */
+export type Glinting = { glint: (pan: number) => void };
 
 /** What of the meadow's layout this reads. */
 export type FireflyViewLayout = WithWidth &
@@ -69,7 +72,7 @@ const BAKED = {
 type Part = keyof typeof BAKED;
 
 /** What the fireflies circle — the meadow's mushrooms, and the beds that draw them and the flowers — and the visit's seed the dozen grow from. */
-export type FireflyGround = MeadowSeen &
+export type FireflyGround = MeadowSeen<WithMushrooms> &
   Seeded & {
     beds: () => HostBeds;
   };

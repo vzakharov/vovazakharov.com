@@ -19,7 +19,7 @@ import { doorHitArea } from './door-reach';
 import { paintHouse, type ShownWindow } from './draw-house';
 import { paintMouse } from './draw-mouse';
 import { paintWorm } from './draw-worm';
-import type { Lights } from './dusk-view';
+import type { Lights } from './windows-lit';
 import { type Dusked, hazeTone } from './haze-tone';
 import { containsOutline, drawnMushrooms } from './hit-areas';
 import { HouseWorm } from './house-worm';

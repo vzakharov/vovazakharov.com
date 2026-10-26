@@ -28,13 +28,18 @@ import {
   WASH_DEEPEST,
   wetnessShown,
 } from './rain-sky';
-import type { RainSound } from './sound';
 import { focusTwins, shade } from './twin-fade';
 import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
 import type { WithCamera } from '../../model/ground';
 import type { Sunned, SunWashed } from './sun-layout';
 import type { Clouded } from './panorama';
 import type { Bedded } from './flower-layout';
+
+/** What the rain asks of the meadow's sound: the shower's hiss, and the whoosh a cloud tap answers with. */
+export type RainSound = {
+  shower: (downpour: number, wetness: number) => void;
+  whoosh: () => void;
+};
 
 /** What of the meadow's layout this reads. */
 export type RainViewLayout = WithWidth &

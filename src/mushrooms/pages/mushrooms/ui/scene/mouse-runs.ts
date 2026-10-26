@@ -66,8 +66,14 @@ import {
   type PaintedEnd,
   type ShownRunner,
 } from './runner-shown';
-import type { MeadowSound } from './sound';
 import type { View } from './view';
+
+/** What the mice's voice plays: a knock at a door, a running patter, a squeak. */
+export type MouseVoice = {
+  knock: () => void;
+  patter: (pan: number, level: number) => void;
+  squeak: () => void;
+};
 
 /**
  * A run under way, as its doors see it (`DoorRun`); its ends as last stood
@@ -108,13 +114,13 @@ export class MouseRuns {
   private dusk = 0;
 
   private readonly scene: Phaser.Scene;
-  private readonly voice: MeadowSound;
+  private readonly voice: MouseVoice;
   private readonly now: () => number;
   private readonly shown: () => ReadonlyMap<string, Shown>;
 
   constructor(
     scene: Phaser.Scene,
-    voice: MeadowSound,
+    voice: MouseVoice,
     now: () => number,
     shown: () => ReadonlyMap<string, Shown>,
   ) {

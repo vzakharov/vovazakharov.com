@@ -1,16 +1,23 @@
 import * as Phaser from 'phaser';
 
+import type { FlowerSound } from '../../model/flower-sounds';
 import { chordFingers } from './chord-fingers';
 import type { EyeInput } from './eye-input';
 import type { Answering, ChordTapped } from './flower-bed';
 import type { Instrument } from './instrument';
 import { listenForKeys } from './keyboard';
-import { type KeyedPlay, playKey } from './keyed-flowers';
-import type { SoundPlanting } from './planter';
+import { type FlowerInView, type KeyedPlay, playKey } from './keyed-flowers';
 
 function ids(list: TouchList): number[] {
   return [...list].map(({ identifier }) => identifier);
 }
+
+/** What a key plants through: the open picker, the grass in view, and the flowers keys sowed since the last frame. */
+export type SoundPlanting = {
+  readonly plantSounding: (sound: FlowerSound) => boolean;
+  readonly sowSounding: (sound: FlowerSound) => string | undefined;
+  readonly sownInView: () => readonly FlowerInView[];
+};
 
 /** An identifier no Phaser pointer holds, for the pointer a chord's finger is hit-tested with. */
 const CHORD_POINTER = 99;

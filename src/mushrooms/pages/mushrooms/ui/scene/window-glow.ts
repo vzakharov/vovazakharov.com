@@ -5,7 +5,7 @@ import { windowSlots } from '../../model/house';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { mix } from './colour';
 import { paintWindows, type ShownWindow, windowPlace } from './draw-house';
-import { DUSK_WASH_DEEPEST } from './dusk-view';
+import { DUSK_WASH_DEEPEST } from './palette-dusk';
 import type { DrawnMushroom } from './hit-areas';
 import { drawnHolds } from './mushroom-tap';
 import { mushroomTints } from './mushroom-tints';

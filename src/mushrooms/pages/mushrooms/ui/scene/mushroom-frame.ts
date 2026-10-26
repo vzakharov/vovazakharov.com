@@ -7,7 +7,7 @@ import {
   wobble,
 } from '../../model/motion';
 import { sproutScale } from '../../model/planted';
-import type { Lights } from './dusk-view';
+import type { Lights } from './windows-lit';
 import type { Shown } from './mushroom-shown';
 
 /** A tapped mushroom's rock to and fro, against its squash. */

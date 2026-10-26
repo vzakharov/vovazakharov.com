@@ -2,14 +2,8 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  type Dusk,
-  duskness,
-  type TurnLight,
-  type WithDusk,
-} from '../../model/dusk';
+import { type Dusk, duskness, type TurnLight } from '../../model/dusk';
 import type { Circle, Point } from '../../model/geometry';
-import type { Layered } from '../../model/ground';
 import {
   cloudOverMoon,
   moonAt,
@@ -22,15 +16,24 @@ import {
   type FireflyGround,
   FireflyView,
   type FireflyViewLayout,
+  type Glinting,
 } from './firefly-view';
 import { MoonView } from './moon-view';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
-import type { DuskVoiced, Glinting } from './sound';
+import { DUSK_WASH_DEEPEST } from './palette-dusk';
+import type { Growing } from './spore-drift';
+import type { Lights } from './windows-lit';
 import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
 import type { WithCamera } from '../../model/ground';
 import type { Sunned, SunWashed } from './sun-layout';
 import type { Clouded } from './panorama';
+
+/** What the dusk plays: a mushroom coming up and going down, and the crickets at `level` of dusk. */
+export type DuskVoiced = Growing & {
+  sink: () => void;
+  dusk: (level: number) => void;
+};
 
 /** What of the meadow's layout this reads. */
 export type DuskViewLayout = WithWidth &
@@ -40,18 +43,6 @@ export type DuskViewLayout = WithWidth &
   Clouded &
   SunWashed &
   FireflyViewLayout;
-
-/** The dusk wash's alpha at full dusk. */
-export const DUSK_WASH_DEEPEST = 0.38;
-
-/**
- * The meadow's dusk as the houses' windows light by it, the turn `before` it
- * that a lagging house still reads (the dusk itself until it is first
- * turned), and the depth over the dusk wash they are drawn at.
- */
-export type Lights = DuskFrom & Layered;
-/** Which way the light is going, and which way it went before. */
-export type DuskFrom = WithDusk & { before: Dusk };
 
 /**
  * What the turning light asks of the meadow's sound: a sinking slide toward

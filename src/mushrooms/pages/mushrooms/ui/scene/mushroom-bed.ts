@@ -21,7 +21,7 @@ import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorSeats } from './door-seats';
 import { tappedDoor } from './door-tap';
-import type { Lights } from './dusk-view';
+import type { Lights } from './windows-lit';
 import { containsMushroom } from './hit-areas';
 import { HouseView } from './house-view';
 import type { Lighting } from './ink';

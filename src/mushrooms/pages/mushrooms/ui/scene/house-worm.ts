@@ -25,7 +25,9 @@ import {
 } from '../../model/worm-way';
 import { SHUT_WINDOW, type WindowSwing } from './draw-house';
 import type { ShownWorm } from './draw-worm';
-import type { MeadowSound } from './sound';
+
+/** What a worm's voice plays: its pip-pip, `level` of its full loudness. */
+export type Wriggling = { wriggle: (level?: number) => void };
 
 /**
  * A worm's trip, fixed at the tap that called it out of window `source`: to
@@ -57,7 +59,7 @@ export class HouseWorm {
   private previous: Trip | undefined;
   /** How many trips it has made, which way from the middle window the next goes (`wormTarget`). */
   trips = 0;
-  private readonly voice: MeadowSound;
+  private readonly voice: Wriggling;
   private readonly phase: number;
   /** The cap it was last painted on and the zoom that put it on the screen, which a trip's way is laid on, and whether it showed there. */
   private drawn:
@@ -67,7 +69,7 @@ export class HouseWorm {
   /** Its head's middle and its girth as last painted, in its house's graphics' pixels, as the probe reads them: `undefined` while it is in, the head while it is behind a pane. */
   painted: { head: Point | undefined; girth: number } | undefined;
 
-  constructor(voice: MeadowSound, phase: number) {
+  constructor(voice: Wriggling, phase: number) {
     this.voice = voice;
     this.phase = phase;
   }

@@ -5,7 +5,7 @@ import type { Hushing } from '@/kernel/shared/typings';
 import { playTheMeadow } from './instrument-input';
 import type { Unfolding } from './map-view';
 import type { Binding } from './meadow-keeping';
-import type { Waking } from './sound';
+import type { Waking } from './instrument';
 
 type Played = Parameters<typeof playTheMeadow>;
 

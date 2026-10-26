@@ -17,18 +17,13 @@ import { plantedId } from '../../model/pollen';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
 import { type FlowerInView, keyPlanting, sowingTuft } from './keyed-flowers';
+import type { SoundPlanting } from './instrument-input';
 import type { PlanterVoice } from './sound';
+import type { Dispatching, MeadowSeen, StandSeen } from '../../model/acting';
 import { plantableIn, type Refusing, type Sprout } from './tufts';
-import type { View } from './view';
 
-export type Dispatching = { dispatch: (action: Action) => void };
-export type MeadowSeen = { meadow: () => Meadow | undefined };
 /** What acts on the meadow: the reducer, and the meadow it reduces. */
-export type MeadowActed = Dispatching & MeadowSeen;
-export type StandSeen = {
-  stand: () => Stand<MeadowLayout> | undefined;
-  view: () => View | undefined;
-};
+export type MeadowActed = Dispatching<Action> & MeadowSeen<Meadow>;
 export type SightSeen = { sight: () => Sight };
 
 /**
@@ -39,7 +34,7 @@ export type SightSeen = { sight: () => Sight };
  * shown takes the flower it is tapped for until the grass is tended again.
  */
 export type Scened = MeadowActed &
-  StandSeen & {
+  StandSeen<Stand<MeadowLayout>> & {
     tufts: () => readonly Sprout[];
     tendedAt: () => Eye;
   };
@@ -51,11 +46,6 @@ export type PickerPlanting = {
   readonly colour: (colour: FlowerColour) => void;
   readonly plant: (shape: FlowerShape) => void;
   readonly plantable: (meadow: Meadow) => boolean;
-};
-export type SoundPlanting = {
-  readonly plantSounding: (sound: FlowerSound) => boolean;
-  readonly sowSounding: (sound: FlowerSound) => string | undefined;
-  readonly sownInView: () => readonly FlowerInView[];
 };
 export type TuftTapping = {
   tapTuft: (sprout: Sprout, grass: Refusing) => void;

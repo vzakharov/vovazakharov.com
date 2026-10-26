@@ -13,6 +13,7 @@ import { type Perches, perchName, type Sight } from './flight';
 import type { Timed } from './motion';
 import type { Onscreen } from './flight-in';
 import {
+  type HoldFlower,
   type PickColour,
   type Planting,
   type PlantShape,
@@ -86,8 +87,7 @@ export type Action =
   | { kind: 'house' }
   | { kind: 'furnish'; piece: Furnishing }
   | ({ kind: 'tuft' } & Rooted)
-  // A long press on the flower `id`, standing at `foot`.
-  | ({ kind: 'flower' } & WithId & Rooted)
+  | HoldFlower
   | PickColour
   | PlantShape
   // A key's flower grown on a tuft, the picker shut: none in view sounded it.

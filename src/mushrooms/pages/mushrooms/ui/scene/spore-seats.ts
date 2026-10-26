@@ -4,9 +4,11 @@
  * the parent (`roomFor`'s `near`) for the `select` to carry.
  */
 
-import { sowable, type SporeTap } from '../../model/sprouting';
-import { roomFor } from './mushroom-room';
-import type { MeadowSeen, StandSeen } from './planter';
+import type { MeadowSeen, StandSeen } from '../../model/acting';
+import type { WithMushrooms } from '../../model/planted';
+import { sowable, type Spored, type SporeTap } from '../../model/sprouting';
+import type { Stand } from './flower-sight';
+import { type MushroomRoomLayout, roomFor } from './mushroom-room';
 
 /**
  * The spore a tap on the mushroom `id` at `now`, in ms, settles, as the
@@ -15,7 +17,11 @@ import type { MeadowSeen, StandSeen } from './planter';
  * mushroom sows none or the seed finds no room.
  */
 export function sporeOnTap(
-  { meadow, stand, view }: MeadowSeen & StandSeen,
+  {
+    meadow,
+    stand,
+    view,
+  }: MeadowSeen<WithMushrooms & Spored> & StandSeen<Stand<MushroomRoomLayout>>,
   id: string,
   now: number,
 ): SporeTap {

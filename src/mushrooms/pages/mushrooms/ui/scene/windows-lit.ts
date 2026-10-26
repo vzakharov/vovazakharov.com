@@ -1,6 +1,13 @@
-import { duskness } from '../../model/dusk';
+import { type DuskFrom, duskness } from '../../model/dusk';
+import type { Layered } from '../../model/ground';
 import { smooth } from '../../model/motion';
-import type { DuskFrom } from './dusk-view';
+
+/**
+ * The meadow's dusk as the houses' windows light by it, the turn `before` it
+ * that a lagging house still reads (the dusk itself until it is first
+ * turned), and the depth over the dusk wash they are drawn at.
+ */
+export type Lights = DuskFrom & Layered;
 
 /** The longest a house's windows light after the meadow's dusk, in ms, so the village lights up house by house. */
 export const LIT_DELAY_MOST = 1500;

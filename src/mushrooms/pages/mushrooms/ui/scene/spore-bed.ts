@@ -11,12 +11,14 @@ import { hazeTone } from './haze-tone';
 import type { Shown } from './mushroom-shown';
 import { PALETTE } from './palette';
 import { hazeAhead } from './repaint-queue';
-import type { MeadowSound } from './sound';
 import { crownOf, fall } from './spore-drift';
 import { drawnAt, puffSpores } from './spores';
 import { TAP_RADIUS } from './tap-reach';
 import type { View } from './view';
 import type { WithCamera } from '../../model/ground';
+
+/** What a spore settling plays: a pop. */
+export type Popping = { pop: () => void };
 
 /** What of the meadow's layout this reads. */
 export type SporeBedLayout = WithCamera;
@@ -50,7 +52,7 @@ export class SporeBed {
   /** How far toward dusk the meadow shows (`duskness`), which the dots' haze turns toward the dusk air with. */
   private dusk = 0;
   private readonly scene: Phaser.Scene;
-  private readonly voice: MeadowSound;
+  private readonly voice: Popping;
   /** The depth a falling spore and a pick-up's puff are drawn at, over everything. */
   private readonly flying: number;
   /** How much nearer than its row a resting dot sorts. */
@@ -58,7 +60,7 @@ export class SporeBed {
 
   constructor(
     scene: Phaser.Scene,
-    voice: MeadowSound,
+    voice: Popping,
     flying: number,
     nearer: number,
   ) {

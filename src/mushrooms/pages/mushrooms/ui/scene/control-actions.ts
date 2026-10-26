@@ -4,7 +4,9 @@ import type { Summoning } from './arrivals';
 import type { ControlHandlers } from './controls';
 import type { GaitFlipping } from './eye-input';
 import type { Flippable } from './map-view';
-import type { Dispatching, PickerPlanting } from './planter';
+import type { Dispatching } from '../../model/acting';
+import type { Action } from '../../model/game';
+import type { PickerPlanting } from './planter';
 import type { MeadowSound } from './sound';
 
 /**
@@ -12,7 +14,7 @@ import type { MeadowSound } from './sound';
  * of the controls themselves, the map's switch, the eye's gait, and the
  * arrivals and the planter, whose own handlers the buttons call straight.
  */
-export type ControlScene = Dispatching & {
+export type ControlScene = Dispatching<Action> & {
   voice: MeadowSound;
   repaint: () => void;
   map: Flippable;

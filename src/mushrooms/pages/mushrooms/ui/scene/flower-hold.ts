@@ -1,5 +1,6 @@
+import type { Dispatching } from '../../model/acting';
+import type { HoldFlower } from '../../model/flower-planting';
 import type { Footing } from '../../model/ground';
-import type { Dispatching } from './planter';
 
 /**
  * How long, in seconds, a finger stays on a flower inside the slop before the
@@ -9,7 +10,7 @@ import type { Dispatching } from './planter';
 export const LONG_PRESS = 0.45;
 
 /** What a long press reads and acts through. */
-type Holding = Dispatching & {
+type Holding = Dispatching<HoldFlower> & {
   /** How long the pressed finger has stood inside the slop (`EyeInput.heldStill`); none once it turned or stepped, or lifted. */
   heldStill: () => number | undefined;
   /** Where the flower `id` stands on the ground; none while the screen has no room for it. */

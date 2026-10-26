@@ -63,3 +63,6 @@ export type WithDusk = {
 
 /** A tap on the sun or the moon: turns the light the other way. */
 export type TurnLight = { kind: 'dusk' } & Timed;
+
+/** Which way the light is going, and which way it went before. */
+export type DuskFrom = WithDusk & { before: Dusk };

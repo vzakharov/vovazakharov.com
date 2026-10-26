@@ -30,7 +30,7 @@ import { paintFlowerHead, paintFlowerStem } from './draw-flower';
 import { paintHouse } from './draw-house';
 import { drawMapGround } from './draw-map-ground';
 import { drawMushroom } from './draw-mushroom';
-import { DUSK_WASH_DEEPEST } from './dusk-view';
+import { DUSK_WASH_DEEPEST } from './palette-dusk';
 import { flowersOf } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { iconLighting } from './hud';

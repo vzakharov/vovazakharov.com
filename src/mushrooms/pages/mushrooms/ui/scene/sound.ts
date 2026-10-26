@@ -11,10 +11,17 @@ import { duskyAt } from '../../model/dusk';
 import type { Drum } from '../../model/flower-sounds';
 import type { InsectKind } from '../../model/insect-genes';
 import { DuskVoice, morningComes } from './dusk-voice';
+import type { DuskVoiced } from './dusk-view';
+import type { Glinting } from './firefly-view';
 import { FOOT_PAN, footstep } from './footsteps';
+import type { Wriggling } from './house-worm';
 import { SHY, TAKE_OFF } from './insect-voices';
+import type { Keyed, Waking } from './instrument';
 import { drumVoice, noteVoice } from './instrument-voices';
+import type { MouseVoice } from './mouse-runs';
 import { RainVoice, whoosh } from './rain-voice';
+import type { RainSound } from './rain-view';
+import type { Popping } from './spore-bed';
 import { brownNoise, panned, PENTATONIC, tone, type Voice } from './synth';
 import type { Foot } from './walking';
 
@@ -169,25 +176,8 @@ function startBreeze(context: AudioContext, out: AudioNode): void {
   gust.start();
 }
 
-export type Waking = { start: () => void };
-
-export type Keyed = {
-  note: (note: number) => void;
-  drum: (drum: Drum) => void;
-};
 /** What the planter plays: a pop for a colour picked, a "nuh-uh" for a flower refused. */
-export type PlanterVoice = { pop: () => void; nuhUh: () => void };
-export type Glinting = { glint: (pan: number) => void };
-export type DuskVoiced = {
-  grow: () => void;
-  sink: () => void;
-  dusk: (level: number) => void;
-};
-/** What the rain asks of the meadow's sound: the shower's hiss, and the whoosh a cloud tap answers with. */
-export type RainSound = {
-  shower: (downpour: number, wetness: number) => void;
-  whoosh: () => void;
-};
+export type PlanterVoice = Popping & { nuhUh: () => void };
 
 export class MeadowSound
   implements
@@ -197,7 +187,9 @@ export class MeadowSound
     PlanterVoice,
     Glinting,
     DuskVoiced,
-    RainSound
+    RainSound,
+    Wriggling,
+    MouseVoice
 {
   private context: AudioContext | undefined;
   private master: GainNode | undefined;

@@ -3,6 +3,8 @@
  * far, and the two picks it takes — a colour, then a shape.
  */
 
+import type { WithId } from '@/kernel/shared/typings';
+
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
 import type { Rooted } from './ground';
@@ -25,6 +27,9 @@ export type Planting = Rooted & {
   chosen: Chosen | undefined;
   flower: string | undefined;
 };
+
+/** A long press on the flower `id`, standing at `foot`: opens the picker on it. */
+export type HoldFlower = { kind: 'flower' } & WithId & Rooted;
 
 /** The picker's first pick: a colour, and the seeds its shapes grow from. */
 export type PickColour = { kind: 'colour' } & Chosen;

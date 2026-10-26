@@ -18,8 +18,10 @@ import { SPORE_FALL_MS } from '../../model/sprouting';
 import { SPROUT_START } from '../../model/planted';
 import type { Shown } from './mushroom-shown';
 import { PALETTE } from './palette';
-import type { MeadowSound } from './sound';
 import { drawnSize, puffSpores } from './spores';
+
+/** What a mushroom's coming up plays: a rising bloop. */
+export type Growing = { grow: () => void };
 
 /** How far over the higher end the arc rises, of the distance it spans. */
 const RISE = 0.3;
@@ -39,7 +41,7 @@ export function crownOf(genes: MushroomGenes): Point {
  */
 export function driftSpores(
   scene: Phaser.Scene,
-  voice: MeadowSound,
+  voice: Growing,
   born: readonly Shown[],
   depth: number,
 ): void {

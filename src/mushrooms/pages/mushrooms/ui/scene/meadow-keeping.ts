@@ -14,7 +14,7 @@ import { type Kept, KEPT_VERSION } from '../../model/kept-record';
 import type { Seeded } from '../../model/random';
 import type { WalkStart } from '../../model/walk';
 import type { EyeHeld } from './eye-input';
-import type { MeadowSeen } from './planter';
+import type { MeadowSeen } from '../../model/acting';
 import type { Meadowed } from './visit-play';
 
 /** The record of `meadow` at rest as of `now` (ms on the scene's clock), seen from `start`. */
@@ -79,7 +79,7 @@ function sameStart(a: WalkStart, b: WalkStart): boolean {
  */
 export function meadowKeeping(
   opening: Reopened & KeptBy,
-  scened: MeadowSeen,
+  scened: MeadowSeen<Meadow>,
   eye: EyeHeld,
   now: () => number,
   page: () => KeptPage = thePage,
