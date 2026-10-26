@@ -165,3 +165,35 @@ and kept.
   Drone Action D15 against the noise; Manna paused Irish deliveries in June 2026. First seen 2026-10-21. **Rejected**: a search found no report of
   anyone harming a drone; from
   https://dublininquirer.com/amid-plans-for-food-delivery-drones-to-spread-across-dublin-some-worry-about-safety.
+
+- **An AI art projection at Champlain College**, Burlington, Vermont: someone
+  took the projector’s thumb drive and wrote a slashed “AI” on the wall. First
+  seen 2026-10-23. **Rejected**: the harm is to a person’s exhibit, not to a
+  machine, as at Fairbanks; seen only in a search summary of
+  https://www.sevendaysvt.com/arts-culture/ai-art-exhibition-vandalized-at-champlain-college-37405026/.
+- **A driverless bus vandalised at Inverness Campus**, Scotland, reported by
+  its operator HiTrans to the police. First seen 2026-10-23. **Rejected**:
+  undated in the summary, no actor, and part of a vandalism spree across the
+  city, so not aimed at the bus as a machine; from
+  https://inverness-courier.co.uk/news/vandals-target-driverless-bus-at-inverness-campus-359392.
+- **Death threats “directed at the technology” of AI Steve**, Steve
+  Endacott’s AI avatar candidate, Brighton, UK general election, July 2024.
+  First seen 2026-10-23. **Rejected**: one line in a Fox News piece, no act
+  and no actor; seen only in a search summary of
+  https://www.foxnews.com/world/uk-parliamentary-candidate-runs-first-ai-lawmaker-interactive-ai-avatar.print.
+
+- **Memvid’s “Professional AI Bully” listing**, March 2026: the AI-memory
+  startup offered $800 for one person to spend a day frustrating popular
+  chatbots on camera, for its promotion. First seen 2026-10-24. **Rejected**:
+  a job advertisement, and no source reports anyone hired or the day done;
+  revive on a report of the filmed day. From
+  https://www.businessinsider.com/startup-is-offering-800-to-bully-ai-2026-3
+  and https://supercarblondie.com/tech/800-a-day-job-professional-ai-bully/.
+
+- **Meta’s AI character accounts deleted**, Liv and “Grandpa Brian” among
+  them, 3 January 2025, after users and the press exposed their invented
+  backstories; Meta cited a bug that kept people from blocking them. First
+  seen 2026-10-25. **Rejected**: the maker removing its own product over what
+  it said, as Sydney’s change was; no source reports users harming the bots.
+  Seen only in a search summary, from
+  https://abc17news.com/money/cnn-business-consumer/2025/01/03/meta-scrambles-to-delete-its-own-ai-accounts-after-backlash-intensifies/.

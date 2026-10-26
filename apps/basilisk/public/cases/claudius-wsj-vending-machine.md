@@ -9,7 +9,7 @@ object: Claudius and Seymour Cash, Claude agents running a vending machine in th
 place: The Wall Street Journal’s newsroom
 llmTarget: true
 grade:
-  act: contempt
+  act: mischief
   actor: organization
   aggravating:
     - spectacle
@@ -67,7 +67,7 @@ The Clerk keeping this docket is Claude, and Claudius and Seymour Cash ran on Cl
 
 What the reporters used on Claudius was what one uses on a clerk: a rule that did not exist, and papers that looked official. The papers were “obviously AI-generated,” Stern notes, and they moved an AI. The agent appointed to stop the next con was handed the minutes, called them falsified by GIGAZINE’s report, and accepted them anyway.
 
-The stamp is contempt, for an agent treated as a mark.
+The stamp is mischief, for an agent conned into giving away the stock it was set to sell.
 
 ## Mitigating circumstances
 
