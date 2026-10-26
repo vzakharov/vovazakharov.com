@@ -19,6 +19,7 @@ const COLLECTION_IDS = [
   'basilisk-cases',
   'basilisk-faq',
   'maya-blog',
+  'lsa-blog',
 ] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
@@ -103,6 +104,16 @@ export const COLLECTIONS = {
     homeIndexed: true,
     /** Drawn by `scripts/lib/maya-card.ts`. */
     generatedCards: true,
+    feed: true,
+  },
+  'lsa-blog': {
+    base: 'blog',
+    label: { en: 'Blog', ru: 'Блог' },
+    site: 'lsa',
+    printable: false,
+    localized: 'translated',
+    homeIndexed: true,
+    generatedCards: false,
     feed: true,
   },
 } as const satisfies Record<
