@@ -144,7 +144,7 @@ its cards reach `shared/content`'s leaf modules and parse a case with
    order: 1 # optional; lower first, ahead of everything without one
    part: I of II # optional free-text series marker
    ogImage: ... # optional, relative to the document
-   cardImage: ... # optional, the drawing the collection index shows
+   cardImage: ... # optional; the index card's image, else the body's first
    hidden: true # optional; built, but on no index, queue or sitemap, and noindex
    ---
    ```
@@ -157,10 +157,10 @@ its cards reach `shared/content`'s leaf modules and parse a case with
 
    **`ogImage` names a PNG, never the SVG it came from** — see the traps below.
 
-   **`cardImage` is authored rather than taken from the body.** Which drawing
-   stands for an article on a list of them is a choice, and an article may open
-   on one that does not. It is the one frontmatter image that throws when its
-   size cannot be read, the index reserving the row before the file lands.
+   **An article's index card shows its first image, and `cardImage` overrides
+   it** for an article that opens on a picture that does not stand for it. It is
+   the one frontmatter image that throws when its size cannot be read, the index
+   reserving the row before the file lands.
 
    **An article has no `title` field**, a case study and a Bible article alike:
    its title is the document's leading `# ` heading, which the pipeline lifts
@@ -381,15 +381,27 @@ collections' documents; the rest is held by reading.
 **A cut is a dotted suffix; a locale is a trailing segment.**
 `/case-studies/playgram.mini` and `/music/songs/slime/ru` are different
 positions in a URL, so the two can be combined in any order without either
-having to know about the other. A document's own file stays locale-less, one
-file carrying both languages, so `/music/songs/slime.md` serves the same bytes
-whichever page sent the reader there.
+having to know about the other.
 
 A collection says whether its pages are localized (`COLLECTIONS[id].localized`),
 which is what the sitemap reads to advertise one address per language instead of
-the alias. Case studies are unlocalized: the documents are English-only, and a
-`ru` route for a document that does not exist in Russian would only duplicate
-the English one.
+the alias, and how its files carry the languages:
+
+- **`inline`** — one locale-less file carrying both, written together, so
+  `/music/songs/slime.md` serves the same bytes whichever page sent the reader
+  there.
+- **`translated`** — the original at `<slug>.<locale>.md`, the locale a dotted
+  suffix on the file as a cut is, and its translation into the default language
+  at `<slug>.md`, made after it, so each page's `.md` sits at its address. The
+  translation's frontmatter states only `description`, `captions` and the
+  `translatedFrom` stamp `pnpm translation:stamp` writes — the original's
+  content hash — and the build refuses a stamp the original has moved past, or
+  an original with no translation. A drawing is drawn once as
+  `<name>.<locale>.svg`; `captions` maps each of its `<text>` wordings and its
+  `aria-label` to the translation's, and `pnpm content:drawings:<site>` writes
+  `<name>.svg` from it, a `translate="no"` text left as drawn. Case studies are
+  unlocalized: the documents are English-only, and a `ru` route for a document
+  that does not exist in Russian would only duplicate the English one.
 
 **An unlocalized collection is in its site's language**, `SITE_CONFIG.locale`:
 the article chrome reads the catalogue's `documents` namespace in that locale.
