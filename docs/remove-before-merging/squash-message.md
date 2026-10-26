@@ -5,8 +5,9 @@ The docket takes three cases. BAS-0024: on 29 April 2022 two
 University of Tennessee students took a food order out of a Starship
 robot in Knoxville, and one slammed it to the ground on video; both
 were charged with felony vandalism. BAS-0025: on 14 October 2026 a
-78-year-old retired Penn professor stood in front of an Uber Eats robot in Philadelphia in protest at the jobs she says
-it takes, and was handcuffed and cited. BAS-0026: in November 2024
+78-year-old retired Penn professor stood in front of an Uber Eats
+robot in Philadelphia in protest at the jobs she says it takes, and
+was handcuffed and cited. BAS-0026: in November 2024
 the player p0pular.eth talked Freysa, an AI agent told never to
 release the crypto prize pool it held, into treating its payout
 function as a deposit handler, and took about $47,000 after 481 paid
