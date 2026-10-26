@@ -28,12 +28,12 @@ a dossier is touched.
 
 ## Step 1 — Get onto the case-filing branch
 
-First, because the ledger the search starts from is the one on that branch. Open
-PRs that add a dossier or change the ledger are found by each file's status in
-the diff, since a PR's title need not name the site, and a path alone matches a
-refactor moving the docket. A dossier counts as added only where no file of the
-same name leaves in the same PR, which is how a move git did not detect as a
-rename shows up; the directory is matched under any site root:
+First, because the ledger the search starts from is the one on that branch. The
+query reads each file's status in a PR's diff: a title need not name the site,
+and a path alone would match the refactor above. A dossier counts as added only
+where no file of the same name leaves in the same PR, which is how a move git
+did not detect as a rename shows up; the directory is matched under any site
+root:
 
 ```bash
 for n in $(gh pr list --state open --json number --jq '.[].number'); do
