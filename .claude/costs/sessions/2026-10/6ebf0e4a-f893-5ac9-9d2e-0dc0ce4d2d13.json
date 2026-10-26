@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 106176,
+    "cacheReadTokens": 3440729,
+    "outputTokens": 14994,
+    "thinkingTokens": 6993,
+    "responses": 27,
+    "costUsd": 1.8376497999999997
+  },
+  "estimate": {
+    "at": "2026-10-26T03:18:03.065Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "answering four review threads on a docket that judges people means weighing a naming policy against 29 dossiers' precedent, an editor's call on privacy versus record, not a copy task"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "6ebf0e4a-f893-5ac9-9d2e-0dc0ce4d2d13",
+  "branch": "claude/cases-3j0aip",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/cases-3j0aip",
+  "prs": [
+    198
+  ],
+  "url": "https://claude.ai/code/session_01NarKyuQMHeF2whyFuDifug",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T03:15:55.830Z",
+  "lastResponseAt": "2026-10-26T03:19:42.377Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 106176,
+    "cacheReadTokens": 3440729,
+    "outputTokens": 14994,
+    "thinkingTokens": 6993,
+    "responses": 27,
+    "costUsd": 1.8376497999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 106176,
+      "cacheReadTokens": 3440729,
+      "outputTokens": 14994,
+      "thinkingTokens": 6993,
+      "responses": 27,
+      "costUsd": 1.8376497999999997
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-26T03:19:42.377Z",
+    "contextTokens": 155006,
+    "spend": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 104634,
+      "cacheReadTokens": 3287267,
+      "outputTokens": 14972,
+      "thinkingTokens": 6993,
+      "responses": 26,
+      "costUsd": 1.7941733999999996
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
