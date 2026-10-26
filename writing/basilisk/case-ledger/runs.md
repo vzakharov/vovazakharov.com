@@ -3,6 +3,25 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-26 — filed BAS-0027
+
+https://claude.ai/code/session_019WUDb6evvDSDTkgD1EvSm9. First filed on PR
+#169, which matched Step 1’s query only by moving `apps/` to `sites/`; moved
+to a case-filing PR of its own at the operator’s ask. The Signal Front archive
+(nothing since 11 October). Took the last run’s **Next**: Arctic Shift on r/singularity
+“abuse” since January 2025, which led to WhistlinDiesel’s “What Happens if you
+Abuse a Robot?” (a Unitree G1 hit with his truck, September 2025), filed;
+“threaten” there and on r/ChatGPT timed out. Web search in English for robots
+attacked in Dubai, Riyadh and Doha and in Indonesian for restaurant robots
+(both empty), and for chatbots tormented by users (only harm by bots).
+Sources read: the YouTube page through oEmbed (the page itself answers 429),
+Dexerto, Interesting Engineering, Futurism; all have Wayback snapshots. Daily
+Car Blog read, too thin to cite. `noAi` stood at eleven of twenty-seven.
+**Next**: away from YouTubers and owner-destroyed robots, the docket now
+holding Rizzbot, Spot, Figure 02 and Ben; r/ChatGPT “threaten” and “jailbreak”
+in short date ranges; the Gulf in Arabic and South-East Asia in Thai and
+Vietnamese, still owed.
+
 ## 2026-10-25 — filed BAS-0026
 
 https://claude.ai/code/session_01XukJ3RSxGVcusd9c275dQP. The Signal Front
@@ -182,22 +201,12 @@ red-team or field trials (Andon Labs’ other deployments, Vending-Bench); robot
 in Africa and the Middle East in French and Arabic; Pieksämäki and Starship at
 Knoxville while `noAi` stays under half.
 
-## 2026-10-16 — filed BAS-0017
-
-https://claude.ai/code/session_01NfzVzUtKpNmovwpQWucX4Z. The Signal Front
-archive (nothing since 11 October). Web search for Kindroid and Chai users
-abusing their bots (none), then away from the docket’s targets: a robot held
-at a border (Ai-Da), chatbots harassed in Korea (Lee Luda), an influencer’s
-clone (CarynAI), robots kicked in makers’ own videos (EngineAI, then Boston
-Dynamics’ “Introducing Spot,” 2015, filed). Sources read: the YouTube page,
-CBC, NPR, CNN through WTKR, Vice, Boston Magazine, the Register, SiliconANGLE,
-Discover; all have Wayback snapshots. Arctic Shift not swept. `noAi` stood at
-six of sixteen. **Next**: Atlas pushed with a hockey stick (2016) only if the
-docket wants a second maker’s test; Arctic Shift on r/LivestreamFail and
-r/Austin; Hindi and Bengali searches; chatbots pulled or “re-educated” by
-regulators (Tencent’s BabyQ and XiaoBing, 2017).
-
 ## Swept earlier
+
+- 2026-10-16, filed BAS-0017
+  (https://claude.ai/code/session_01NfzVzUtKpNmovwpQWucX4Z): the Signal Front
+  archive; web search for Kindroid and Chai users abusing their bots, Ai-Da,
+  Lee Luda, CarynAI, robots kicked in makers’ own videos.
 
 - 2026-10-15, filed BAS-0016
   (https://claude.ai/code/session_01MACnJ34XQ4SYCUmPFkbNpM): the Signal Front
