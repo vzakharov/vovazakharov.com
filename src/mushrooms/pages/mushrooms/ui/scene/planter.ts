@@ -1,3 +1,4 @@
+import type { MeadowLayout } from './layout';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Sight } from '../../model/flight';
@@ -24,7 +25,7 @@ export type MeadowSeen = { meadow: () => Meadow | undefined };
 /** What acts on the meadow: the reducer, and the meadow it reduces. */
 export type MeadowActed = Dispatching & MeadowSeen;
 export type StandSeen = {
-  stand: () => Stand | undefined;
+  stand: () => Stand<MeadowLayout> | undefined;
   view: () => View | undefined;
 };
 export type SightSeen = { sight: () => Sight };

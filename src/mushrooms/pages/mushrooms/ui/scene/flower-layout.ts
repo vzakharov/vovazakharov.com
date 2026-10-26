@@ -157,6 +157,9 @@ export function groundOf(camera: Camera, { x, y, size }: Footing): GroundFoot {
  */
 export type Bed = ReadonlyArray<Footing | undefined>;
 
+/** The visit's seeded flowers as a screen stands them. */
+export type Bedded = { flowers: Bed };
+
 /** Each foot of `bed` as `camera` shows it, a slot left out still left out. */
 export function flowersOn(camera: Camera, bed: Bed): Bed {
   return bed.map((foot) => foot && standingOn(camera, foot));

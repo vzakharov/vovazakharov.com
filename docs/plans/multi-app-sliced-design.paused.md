@@ -396,9 +396,37 @@ review rather than stopping on each call.
   cap and the windows' swing; `mouse-head.ts` the mouse's head size;
   `paintHouse` takes its tenants as painters, which `house-view` composes, so
   `house-view` joins the widget.
-- **Left to untie**: the four hubs, the layout engine, `flower-genes` back to
-  the flower, `repaint-queue`'s profile, `Timed` to `shared/lib`; then
-  `layout.ts` to zero, the move, the 27 tests, `check:masd`.
+- **Re-laid in `nouns.ts`** (no code): `placement`, `crowding`, `door-sight`,
+  `clump-shade`, `cap-cover`, `clump-layout` and `shelter-seats` to the
+  mushroom; `flower-sight`, `flower-layout`, `flower-plots`, `flower-cover` and
+  `anchored-stand` to the flower; `gait-spot` and the whole of `keep-meadow` to
+  the widget (the kept record is the whole meadow's); and `insects-perch`,
+  `insects-shelter` and `bee-pollinates` merged into one `features/insects-fly`,
+  since they import one another (answer 2).
+- **`MeadowLayout` flipped** (680a999 and the commit after it): the narrow types
+  live with their owners — `Sunned`, `Horizoned`, `NearHilled`, `HillsSunned`,
+  `SunWashed` and `SunControls` in `sun-layout` (which takes the buttons and
+  places the widget hands it), `InsectScaled`/`InsectSized`/
+  `InsectCamera`/`LEAST_SPANS` in a new `insect-size`, `Placement` and
+  `ClumpGround` in `clump-layout`, `Clouded` in `panorama`, `Bedded` in
+  `flower-layout`; `MeadowLayout` is their intersection. Each of its 22 readers
+  declares `<File>Layout`, the field types it reads plus its callees'. `Stand`
+  and its parts are generic in the layout (`Stand<L>`), a reader bounding `L` by
+  its own alias; the widget, tests and scripts spell `Stand<MeadowLayout>`. The
+  second commit is **typecheck-red, 10 errors**: `anchored-stand`'s per-layout
+  cache (typed without `L`), `dusk-view` painting the fireflies (a composition —
+  the widget's), `lawn` 129, `mushroom-room` reading the pickers (`Controls`:
+  flip like `SunControls`), its `Found` and the `Stand<MeadowLayout>` it passes,
+  `tending.test.ts` naming `Tending` bare. 171 imports break; the hubs left are
+  `Meadow`/`Planted`/`Action` (`game.ts`), `MeadowSound`, `MeadowSeen`, the
+  engine (`bed-place`, `repaint-queue`, `mushroom-shown`, `sky-layout`), and the
+  insect entity's reach into `features/insects-fly` (`flight` and its types:
+  split `Perch`/`Leg`/`Place` down, the choosing up).
+- **Left to untie**: the ten errors, the three other hubs, the engine,
+  `flower-genes` back to the flower, `repaint-queue`'s profile, `Timed` to
+  `shared/lib`, and the sky/lawn knot (`paint-backdrop` composes both — the
+  widget's); then `layout.ts` to zero, the move, the 27 tests, `check:masd`. The
+  scripts for all of it are in `layout-tools.md`.
 
 The rest of this section is the dry-run cut's record, kept for the barrels,
 tests and checks, which carry over. The layout's source is `mushrooms-tree.md`

@@ -23,8 +23,17 @@ import { isBeeSown, type Sown } from '../../model/pollen';
 import { anchoredGround } from './clump-layout';
 import { groundOf, standingOn } from './flower-layout';
 import type { SeededLayout, Stand } from './flower-sight';
-import type { MeadowLayout } from './layout';
 import { PALE_SPAN } from './repaint-queue';
+import type { WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+/** What of the meadow's layout this reads. */
+export type AnchoredStandLayout = WithHeight &
+  WithCamera &
+  ClumpGround &
+  Bedded;
 
 /**
  * How far from the anchor an anchored stand reads the meadow: a foot the rules
@@ -69,7 +78,7 @@ function keptAt<Key extends object, Kept>(
 
 /** Each layout's anchored layout and seeded flowers, by the seeded flowers it lays (`seededAt`). */
 const anchoredLayouts = new WeakMap<
-  MeadowLayout,
+  AnchoredStandLayout,
   AtAnchor<SeededLayout & { from: readonly Flower[] }>
 >();
 /** Each mushrooms list's mushrooms in reach of the last anchor asked (`STAND_REACH`). */
@@ -84,10 +93,10 @@ const mushroomsInReach = new WeakMap<
  * per layout while the anchor stays, so whatever a rule keeps per layout
  * (`perLayout`) holds until the anchor moves.
  */
-function seededAt(
-  { layout, flowers }: SeededLayout,
+function seededAt<L extends AnchoredStandLayout>(
+  { layout, flowers }: SeededLayout<L>,
   anchor: Eye,
-): SeededLayout {
+): SeededLayout<L> {
   const known = anchoredLayouts.get(layout);
   if (known?.kept.from === flowers && sameAnchor(known.anchor, anchor)) {
     return known.kept;
@@ -123,7 +132,10 @@ function seededAt(
  * objects while the anchor stays, so a rule's caches by them hold
  * (`coversOn`). At `OPENING_EYE` it is `stand` itself.
  */
-export function anchoredStand(stand: Stand, anchor: Eye): Stand {
+export function anchoredStand<L extends AnchoredStandLayout>(
+  stand: Stand<L>,
+  anchor: Eye,
+): Stand<L> {
   if (sameAnchor(anchor, OPENING_EYE)) return stand;
   const { mushrooms, planted } = stand;
   const seeded = seededAt(stand, anchor);

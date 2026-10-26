@@ -19,13 +19,26 @@ import { capSeat } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
 import { tappedFirefly } from './firefly-tap';
 import type { CircleFigure } from './hit-areas';
-import type { MeadowLayout } from './layout';
 import { PALETTE } from './palette';
 import type { HostBeds, Seat } from './perch-hosts';
 import type { MeadowSeen } from './planter';
 import type { Glinting } from './sound';
 import { TAP_RADIUS } from './tap-reach';
 import { tuftUnder } from './tufts';
+import type { WithWidth } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { SunWashed } from './sun-layout';
+import type { InsectScaled } from './insect-size';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+/** What of the meadow's layout this reads. */
+export type FireflyViewLayout = WithWidth &
+  WithCamera &
+  SunWashed &
+  InsectScaled &
+  ClumpGround &
+  Bedded;
 
 /** How many of the nearest hosts the fireflies spread over. */
 const NEAREST = 6;
@@ -188,7 +201,7 @@ export class FireflyView {
   }
 
   /** Bakes every firefly's shapes at the insects' size on `layout`. */
-  paint(layout: MeadowLayout): void {
+  paint(layout: FireflyViewLayout): void {
     const unit = layout.insectSize;
     this.unit = unit;
     this.width = layout.width;

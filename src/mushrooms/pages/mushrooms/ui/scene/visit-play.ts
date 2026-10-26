@@ -35,7 +35,7 @@ export type Meadowed = { meadow: Meadow };
  * A stand, the meadow it stands, and the meadow as the last shower found it,
  * every spore of its round lying (the meadow itself with no shower).
  */
-export type Opened = Stand & Meadowed & { sowed: Meadow };
+export type Opened = Stand<MeadowLayout> & Meadowed & { sowed: Meadow };
 
 /** How long a shower in `opened` waits after the last: its rain, then every sprout grown old. */
 const SHOWER_EVERY = RAIN_MS + SPROUT_MS;
@@ -129,8 +129,8 @@ function sownUp(
  * against the opening clump still standing, at this screen's zoom, the
  * screen a new crop of it.
  */
-export function relaidOn(
-  { mushrooms }: Stand,
+export function relaidOn<L extends MeadowLayout>(
+  { mushrooms }: Stand<L>,
   seed: number,
   width: number,
   height: number,
@@ -144,7 +144,10 @@ export function relaidOn(
 }
 
 /** Each of `stand`'s mushrooms as the scene stands it on its layout. */
-export function standingIn({ layout, mushrooms }: Stand): Among[] {
+export function standingIn<L extends MeadowLayout>({
+  layout,
+  mushrooms,
+}: Stand<L>): Among[] {
   return mushrooms.map((mushroom) => {
     const place = placeIn(layout.mushrooms, mushroom);
     if (!place) throw new Error(`${mushroom.id} off the screen`);
@@ -153,7 +156,7 @@ export function standingIn({ layout, mushrooms }: Stand): Among[] {
 }
 
 /** How wide `stand`'s caps span together, as a share of its screen's width. */
-export function capsSpan(stand: Stand): number {
+export function capsSpan<L extends MeadowLayout>(stand: Stand<L>): number {
   const caps = standingIn(stand).map(({ standing }) => capBox(standing));
   const left = Math.min(...caps.map((cap) => cap.left));
   const right = Math.max(...caps.map((cap) => cap.right));

@@ -17,6 +17,8 @@ export type NearHilled = { nearHills: number };
 export type Sunned = { sun: Circle };
 /** The screen with the hills and the sun over it: what the sky is painted on. */
 export type HillsSunned = Sized & NearHilled & Sunned;
+/** The radii of the sun's wash over the sky, innermost first (`washRings`). */
+export type SunWashed = { wash: readonly number[] };
 
 /**
  * The buttons the sun's rays keep off: every one that stands, and every

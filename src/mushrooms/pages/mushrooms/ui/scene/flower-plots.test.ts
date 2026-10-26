@@ -69,7 +69,7 @@ const BED_VISITS = 200;
 const PLANTINGS = 15;
 
 /** A planted-out visit, and how to lay it out on another screen. */
-type PlantedOut = Stand & {
+type PlantedOut = Stand<MeadowLayout> & {
   on: (width: number, height: number) => MeadowLayout;
 };
 
@@ -130,7 +130,7 @@ function median(counts: readonly number[]): number {
  */
 function assertGrounded(
   seed: number,
-  stand: Stand,
+  stand: Stand<MeadowLayout>,
   screen: MeadowLayout,
 ): void {
   const placed = standingFlowers(

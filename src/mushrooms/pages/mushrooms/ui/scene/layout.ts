@@ -20,11 +20,17 @@ import { pinholeOf } from '../../model/pinhole';
 import { type ClumpGround, clumpCrowns, everyPlace } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import { FAR_BAND } from './far-band';
-import { type Bed, flowersOn, NEAR_BAND, seededBed } from './flower-layout';
+import {
+  type Bed,
+  type Bedded,
+  flowersOn,
+  NEAR_BAND,
+  seededBed,
+} from './flower-layout';
 import { gaitSpot } from './gait-spot';
 import { type InsectCamera, insectScaled } from './insect-size';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
-import { type Cloud, skyClouds } from './panorama';
+import { type Clouded, skyClouds } from './panorama';
 import {
   type Controls,
   type Crossed,
@@ -39,6 +45,7 @@ import {
   placeSun,
   SUN_RAY_REACH,
   type Sunned,
+  type SunWashed,
   washRings,
 } from './sun-layout';
 
@@ -50,13 +57,10 @@ type Stood = ControlledScreen &
   InsectCamera &
   Horizoned &
   NearHilled &
-  ClumpGround & { clouds: readonly Cloud[] };
+  ClumpGround &
+  Clouded;
 
-export type MeadowLayout = Stood & {
-  flowers: Bed;
-  /** The radii of the sun's wash over the sky, innermost first (`washRings`). */
-  wash: readonly number[];
-};
+export type MeadowLayout = Stood & Bedded & SunWashed;
 
 /**
  * `seed` is the visit's: it places what varies between visits, and a resize

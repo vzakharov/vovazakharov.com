@@ -16,7 +16,6 @@ import { type BrowBlade, browBlades, drawBrow } from './brow';
 import { PUFF_REACH } from './cloud-puffs';
 import { moonAt, starClear, sunOnScreen } from './dusk-sky';
 import { duskStars } from './dusk-stars';
-import type { MeadowLayout } from './layout';
 import {
   drawHills,
   type HillLayers,
@@ -40,6 +39,21 @@ import { SUN_RAY_REACH } from './sun-layout';
 import { focusTwins, shade } from './twin-fade';
 import { type Following, type View, viewAt } from './view';
 import { GROUND_BOB } from './walking';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { Sunned, NearHilled, SunWashed } from './sun-layout';
+import type { Clouded } from './panorama';
+
+import type { PaintLandLayout } from './paint-land';
+/** What of the meadow's layout this reads. */
+export type PaintBackdropLayout = WithWidth &
+  WithHeight &
+  WithCamera &
+  Sunned &
+  NearHilled &
+  Clouded &
+  SunWashed &
+  PaintLandLayout;
 
 /** How far past the tips of its rays the sun's picture runs, in CSS px, for their smoothed edge. */
 const SUN_MARGIN = 2;
@@ -126,7 +140,7 @@ export type Backdrop = Following & {
 export function paintBackdrop(
   scene: Phaser.Scene,
   existing: Backdrop | undefined,
-  layout: MeadowLayout,
+  layout: PaintBackdropLayout,
   random: Random,
   ratio: number,
 ): Backdrop {
@@ -393,7 +407,7 @@ function turn({ columns, home, offsets }: Turning, view: View, at: number) {
  */
 function placeClouds(
   { clouds: drawn, duskClouds, rainClouds, view, drifted }: Backdrop,
-  { clouds, width }: MeadowLayout,
+  { clouds, width }: PaintBackdropLayout,
 ): void {
   for (const [index, graphics] of drawn.entries()) {
     const cloud = clouds[index];
@@ -411,7 +425,7 @@ function placeClouds(
 /** Drifts `backdrop`'s clouds round the sky to where they are `t` seconds into the visit, through the view it last followed. */
 export function driftClouds(
   backdrop: Backdrop,
-  layout: MeadowLayout,
+  layout: PaintBackdropLayout,
   t: number,
 ): void {
   backdrop.drifted = t;

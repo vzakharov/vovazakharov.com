@@ -9,7 +9,12 @@ import {
   SUPERSAMPLE,
 } from './baking';
 import type { Band } from './grain';
-import type { MeadowLayout } from './layout';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { Sunned } from './sun-layout';
+
+/** What of the meadow's layout this reads. */
+export type BakePictureLayout = WithWidth & WithHeight & WithCamera & Sunned;
 
 /**
  * A picture baked in columns side by side, left to right, each texture at
@@ -81,7 +86,7 @@ export function bake(
 
 /** The square `reach` either way of the sun's middle, across and down, on whole device pixels, never above the screen's top. */
 export function aboutTheSun(
-  { sun }: MeadowLayout,
+  { sun }: BakePictureLayout,
   reach: number,
   ratio: number,
 ): Spread {

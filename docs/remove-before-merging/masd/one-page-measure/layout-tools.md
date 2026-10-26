@@ -1,54 +1,39 @@
 # The layout tools of bite 6b
 
-Copy each into `tmp/modularity/` under its name and run from the repository root with `pnpm exec tsx tmp/modularity/<name>`. `layout.ts` reads `nouns.ts`, the noun tree file by file, where a file named nowhere stays with the whole in `widgets/meadow`; its plain run prints every import the layout would break. `move.ts` does the move from the pre-move tree (`--dry` prints the barrels), `merge.ts` folds imports of one barrel into one, `rename.ts` renames an export everywhere through the language service, and `redo.sh` undoes a move pass and runs it again with merge, prettier, `eslint --fix` and `tsc`.
+Copy each into `tmp/modularity/` under its name and run from the repository root with `pnpm exec tsx tmp/modularity/<name>`. `layout.ts` reads `nouns.ts`, the noun tree file by file, where a file named nowhere stays with the whole in `widgets/meadow`; its plain run prints every import the layout would break. `move.ts` does the move from the pre-move tree (`--dry` prints the barrels), `merge.ts` folds imports of one barrel into one, `rename.ts` renames an export everywhere through the language service, `retarget.ts` points every import of named exports at their new home, `narrow.ts` replaces `MeadowLayout` in a scene file with a local alias of the field types it mentions, `compose.ts` adds callees' layout types to a file's alias, `genericize.ts` makes a file's stand-taking functions generic in the stand's layout, `stand-full.ts` spells `<MeadowLayout>` on bare stands in the widget, tests and scripts, and `redo.sh` undoes a move pass and runs it again with merge, prettier, `eslint --fix` and `tsc`.
 
 ## nouns.ts
 
 ```ts
 // The noun tree, file by file: each game file's stem -> its slice. A file
 // named nowhere stays with the whole, in widgets/meadow.
-const TREE: Record<string, string> = {
-  'shared/lib':
-    'geometry random motion colour crescent light tap-reach cruise glide line-course',
-  'shared/world':
-    'ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place',
-  'shared/ui':
-    'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking bake-picture',
-  'entities/mushroom':
-    'mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light',
-  'entities/worm': 'worm draw-worm',
-  'entities/mouse': 'mouse-run-clock mouse-run-course draw-mouse mouse-head',
-  'entities/insect':
-    'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis flight flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans',
-  'entities/flower':
-    'flower-genes flower-sounds notes draw-flower flower-tints flower-ring',
-  'entities/firefly': 'firefly firefly-view firefly-tap',
-  'entities/sky':
-    'dusk weather sun-layout moon-view moon-face paint-moon paint-sky paint-backdrop backdrop-tones backdrop-depths dusk-sky dusk-stars star-images dusk-view dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade',
-  'entities/lawn': 'lawn tufts mottles grain brow far-band grass paint-land',
-  'features/plant-flower': 'tuft-tap tending flower-icons',
-  'features/sow-spores':
-    'sprouting spore-seats spore-sight spore-bed spore-drift spores',
-  'features/grow-mushroom': 'mushroom-room placement crowding standing-weighed',
-  'features/furnish-house': 'furnishing door-sight door-seats',
-  'features/worm-peeks': 'house-worm worm-way',
-  'features/mice-run':
-    'mouse-run night-runs mouse-door mouse-runs runner-shown run-front',
-  'features/insects-perch':
-    'perch-room perch-sight perch-hosts perch-crowding flower-seat air-spots perches insects',
-  'features/bee-pollinates': 'pollen flower-sight',
-  'features/insects-shelter': 'shelter shelter-seats shelter-cover roost',
-  'features/flowers-close': 'flower-closing',
-  'features/play-flowers':
-    'instrument instrument-input instrument-voices keyboard keyed-flowers chord-fingers flower-touch flower-hold',
-  'features/walk-meadow': 'eye-input gait-icon gait-spot footsteps',
-  'features/keep-meadow':
-    'keeping kept-record flier-rest meadow-number fake-store keeper meadow-store open-kept meadow-keeping',
-  'pages/mushrooms': 'mushrooms-page meadow-canvas mushrooms-metadata index',
-};
+const TREE: [string, string][] = [
+  ['shared/lib', 'geometry random motion colour crescent light tap-reach cruise glide line-course'],
+  ['shared/world', 'ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place'],
+  ['shared/ui', 'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking bake-picture'],
+  ['entities/mushroom', 'crowding door-sight clump-shade cap-cover clump-layout shelter-seats placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light'],
+  ['entities/worm', 'worm draw-worm'],
+  ['entities/mouse', 'mouse-run-clock mouse-run-course draw-mouse mouse-head'],
+  ['entities/insect', 'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis flight flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans'],
+  ['entities/flower', 'anchored-stand flower-cover flower-plots flower-layout flower-sight flower-genes flower-sounds notes draw-flower flower-tints flower-ring'],
+  ['entities/firefly', 'firefly firefly-view firefly-tap'],
+  ['entities/sky', 'dusk weather sun-layout moon-view moon-face paint-moon paint-sky paint-backdrop backdrop-tones backdrop-depths dusk-sky dusk-stars star-images dusk-view dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade'],
+  ['entities/lawn', 'lawn tufts mottles grain brow far-band grass paint-land'],
+  ['features/plant-flower', 'tuft-tap tending flower-icons'],
+  ['features/sow-spores', 'sprouting spore-seats spore-sight spore-bed spore-drift spores'],
+  ['features/grow-mushroom', 'mushroom-room standing-weighed'],
+  ['features/furnish-house', 'furnishing door-seats'],
+  ['features/worm-peeks', 'house-worm worm-way'],
+  ['features/mice-run', 'mouse-run night-runs mouse-door mouse-runs runner-shown run-front'],
+  ['features/insects-fly', 'perch-room perch-sight perch-hosts perch-crowding flower-seat air-spots perches insects pollen shelter shelter-cover roost'],
+  ['features/flowers-close', 'flower-closing'],
+  ['features/play-flowers', 'instrument instrument-input instrument-voices keyboard keyed-flowers chord-fingers flower-touch flower-hold'],
+  ['features/walk-meadow', 'eye-input gait-icon footsteps'],
+  ['pages/mushrooms', 'mushrooms-page meadow-canvas mushrooms-metadata index'],
+];
 
 export const NOUNS = new Map<string, string>();
-for (const [slice, stems] of Object.entries(TREE))
+for (const [slice, stems] of TREE)
   for (const stem of stems.split(' ')) {
     if (NOUNS.has(stem)) throw new Error(`${stem} twice`);
     NOUNS.set(stem, slice);
@@ -725,4 +710,358 @@ NODE_OPTIONS="--max-old-space-size=6144" pnpm exec eslint --fix "${files[@]}" 2>
   grep -E '^\s+[0-9]+:' | grep -v 'boundaries/dependencies' || true
 git add -A src/mushrooms
 pnpm exec tsc --noEmit -p . | head -20
+```
+
+## retarget.ts
+
+```ts
+// Points every import of the named exports at the file that now declares them.
+// pnpm exec tsx tmp/modularity/retarget.ts <home file> <name>...
+// A name imported from any other game module moves to an import of <home>,
+// spelled relative to the importer (or as the importer spelled its own).
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import ts from 'typescript';
+
+const [home, ...names] = process.argv.slice(2);
+const ROOTS = ['src/mushrooms'];
+const homeAbs = path.resolve(home);
+const homeStem = homeAbs.replace(/\.tsx?$/, '');
+
+const files = ROOTS.flatMap((r) =>
+  readdirSync(r, { withFileTypes: true, recursive: true })
+    .filter((e) => e.isFile() && /\.tsx?$/.test(e.name))
+    .map((e) => path.resolve(e.parentPath, e.name)),
+);
+
+function specTo(from: string, like: string): string {
+  if (like.startsWith('@/'))
+    return `@/${path.relative(path.resolve('src'), homeStem)}`;
+  let r = path.relative(path.dirname(from), homeStem);
+  if (!r.startsWith('.')) r = `./${r}`;
+  return r;
+}
+const stemOf = (from: string, spec: string) =>
+  (spec.startsWith('@/')
+    ? path.resolve('src', spec.slice(2))
+    : path.resolve(path.dirname(from), spec)
+  ).replace(/\.tsx?$/, '');
+
+let touched = 0;
+for (const f of files) {
+  if (f === homeAbs) continue;
+  const text = readFileSync(f, 'utf8');
+  if (!names.some((n) => text.includes(n))) continue;
+  const sf = ts.createSourceFile(f, text, ts.ScriptTarget.Latest, true);
+  const edits: { start: number; end: number; text: string }[] = [];
+  const moved: string[] = [];
+  let spelled = '';
+  for (const st of sf.statements) {
+    if (!ts.isImportDeclaration(st) || !ts.isStringLiteral(st.moduleSpecifier))
+      continue;
+    const spec = st.moduleSpecifier.text;
+    if (!spec.startsWith('.') && !spec.startsWith('@/mushrooms')) continue;
+    if (stemOf(f, spec) === homeStem) continue;
+    const c = st.importClause;
+    const nb = c?.namedBindings;
+    if (!c || !nb || !ts.isNamedImports(nb)) continue;
+    const keep: string[] = [];
+    let hit = false;
+    for (const e of nb.elements) {
+      const name = (e.propertyName ?? e.name).text;
+      const txt = e.getText(sf).replace(/^type\s+/, '');
+      const typed = c.isTypeOnly || e.isTypeOnly;
+      if (names.includes(name)) {
+        hit = true;
+        moved.push(typed ? `type ${txt}` : txt);
+      } else keep.push(e.isTypeOnly ? `type ${txt}` : txt);
+    }
+    if (!hit) continue;
+    spelled ||= spec;
+    let end = st.getEnd();
+    if (text[end] === '\n') end++;
+    edits.push({
+      start: st.getStart(sf),
+      end,
+      text:
+        keep.length || c.name
+          ? `import ${c.isTypeOnly ? 'type ' : ''}${c.name ? `${c.name.text}, ` : ''}{ ${keep.join(', ')} } from '${spec}';\n`
+          : '',
+    });
+  }
+  if (!moved.length) continue;
+  const allTypes = moved.every((m) => m.startsWith('type '));
+  const list = allTypes ? moved.map((m) => m.slice(5)) : moved;
+  const first = edits.reduce((a, b) => (a.start < b.start ? a : b));
+  first.text += `import ${allTypes ? 'type ' : ''}{ ${list.join(', ')} } from '${specTo(f, spelled)}';\n`;
+  let out = text;
+  for (const e of edits.sort((a, b) => b.start - a.start))
+    out = out.slice(0, e.start) + e.text + out.slice(e.end);
+  writeFileSync(f, out);
+  touched++;
+  console.log(`${path.relative(process.cwd(), f)}: ${moved.join(', ')}`);
+}
+console.log(`${touched} files`);
+```
+
+## narrow.ts
+
+```ts
+// Replaces MeadowLayout in each named scene file with a local alias of the
+// narrow field types the file mentions.
+// pnpm exec tsx tmp/modularity/narrow.ts <stem>...
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+
+const SCENE = 'src/mushrooms/pages/mushrooms/ui/scene';
+// field -> [type, module relative to the scene]
+const FIELDS: Record<string, [string, string]> = {
+  width: ['WithWidth', '@/kernel/shared/typings'],
+  height: ['WithHeight', '@/kernel/shared/typings'],
+  groundTop: ['Grounded', '../../model/ground'],
+  camera: ['WithCamera', '../../model/ground'],
+  sun: ['Sunned', './sun-layout'],
+  horizon: ['Horizoned', './sun-layout'],
+  nearHills: ['NearHilled', './sun-layout'],
+  clouds: ['Clouded', './panorama'],
+  wash: ['SunWashed', './sun-layout'],
+  insectSize: ['InsectScaled', './insect-size'],
+  insectSizes: ['InsectSized', './insect-size'],
+  mushrooms: ['ClumpGround', './clump-layout'],
+  flowers: ['Bedded', './flower-layout'],
+};
+const pascal = (s: string) =>
+  s.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase());
+
+for (const stem of process.argv.slice(2)) {
+  const file = path.join(SCENE, `${stem}.ts`);
+  let text = readFileSync(file, 'utf8');
+  const used = Object.entries(FIELDS).filter(([f]) =>
+    new RegExp(`\\b${f}\\b`).test(text),
+  );
+  let types = used.map(([, [t]]) => t);
+  if (types.includes('InsectScaled')) types = types.filter((t) => t !== 'InsectSized');
+  const alias = `${pascal(stem)}Layout`;
+  // drop MeadowLayout from its import
+  text = text.replace(
+    /import (type )?\{([^}]*)\} from '\.\/layout';\n/,
+    (_, ty: string | undefined, list: string) => {
+      const rest = list
+        .split(',')
+        .map((s) => s.trim())
+        .filter((s) => s && !/\bMeadowLayout\b/.test(s));
+      return rest.length
+        ? `import ${ty ?? ''}{ ${rest.join(', ')} } from './layout';\n`
+        : '';
+    },
+  );
+  text = text.replace(/\bMeadowLayout\b/g, alias);
+  const byModule = new Map<string, string[]>();
+  for (const [, [t, m]] of used)
+    if (types.includes(t)) byModule.set(m, [...(byModule.get(m) ?? []), t]);
+  const imports = [...byModule]
+    .map(([m, ts]) => `import type { ${ts.join(', ')} } from '${m}';\n`)
+    .join('');
+  // after the last top-level import
+  const lines = text.split('\n');
+  let last = -1;
+  let inImport = false;
+  lines.forEach((l, i) => {
+    if (/^import /.test(l)) inImport = true;
+    if (inImport && /from '.*';$|^import '.*';$/.test(l)) {
+      last = i;
+      inImport = false;
+    }
+  });
+  const decl = `\n/** What of the meadow's layout this reads. */\ntype ${alias} = ${types.join(' & ') || 'object'};\n`;
+  lines.splice(last + 1, 0, imports.trimEnd(), decl);
+  writeFileSync(file, lines.join('\n'));
+  console.log(`${stem}: ${types.join(' & ')}`);
+}
+```
+
+## compose.ts
+
+```ts
+// Adds layout types to a scene file's own layout alias, importing each from the
+// scene file that exports it.
+// pnpm exec tsx tmp/modularity/compose.ts <stem> <Type>...
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+
+const SCENE = 'src/mushrooms/pages/mushrooms/ui/scene';
+const MODEL = 'src/mushrooms/pages/mushrooms/model';
+const KNOWN: Record<string, string> = {
+  GroundBand: '../../model/ground',
+  GroundedScreen: '../../model/ground',
+  Grounded: '../../model/ground',
+  WithCamera: '../../model/ground',
+  WithWidth: '@/kernel/shared/typings',
+  WithHeight: '@/kernel/shared/typings',
+  Sized: '@/kernel/shared/typings',
+};
+const [stem, ...types] = process.argv.slice(2);
+const file = path.join(SCENE, `${stem}.ts`);
+const alias = `${stem.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase())}Layout`;
+let text = readFileSync(file, 'utf8');
+
+function home(type: string): string {
+  if (KNOWN[type]) return KNOWN[type];
+  for (const dir of [SCENE, MODEL])
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith('.ts') || f.endsWith('.test.ts')) continue;
+      const t = readFileSync(path.join(dir, f), 'utf8');
+      if (new RegExp(`export type ${type}\\b`).test(t)) {
+        const rel = path.relative(SCENE, path.join(dir, f)).replace(/\.ts$/, '');
+        return rel.startsWith('.') ? rel : `./${rel}`;
+      }
+    }
+  throw new Error(`no home for ${type}`);
+}
+
+const m = new RegExp(`(export )?type ${alias}(<[^=]*>)? =([^;]*);`).exec(text);
+if (!m) throw new Error(`no ${alias} in ${file}`);
+const body = m[3].trim();
+const have = new Set(body.split('&').map((s) => s.trim()));
+const add = types.filter((t) => !have.has(t));
+text =
+  text.slice(0, m.index) +
+  `export type ${alias}${m[2] ?? ''} = ${[body, ...add].join(' & ')};` +
+  text.slice(m.index + m[0].length);
+const imports = add
+  .filter((t) => !new RegExp(`import[^;]*\\b${t}\\b[^;]*;`).test(text))
+  .map((t) => `import type { ${t} } from '${home(t)}';\n`)
+  .join('');
+const at = text.indexOf('\n/** What of the meadow');
+text = text.slice(0, at + 1) + imports + text.slice(at + 1);
+writeFileSync(file, text);
+console.log(`${alias} += ${add.join(' & ')}`);
+```
+
+## genericize.ts
+
+```ts
+// Makes each function of a scene file that takes a bare Stand (or one of its
+// parts) generic in the stand's layout, bounded by the file's own layout alias.
+// pnpm exec tsx tmp/modularity/genericize.ts <stem> [<alias>]
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import ts from 'typescript';
+
+const SCENE = 'src/mushrooms/pages/mushrooms/ui/scene';
+const CARRIERS = new Set(['Stand', 'WithLayout', 'SeededLayout', 'PlotGround']);
+const [stem, given] = process.argv.slice(2);
+const file = stem.includes('/') ? stem : path.join(SCENE, `${stem}.ts`);
+const alias =
+  given ??
+  `${path
+    .basename(file, '.ts')
+    .replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase())}Layout`;
+const text = readFileSync(file, 'utf8');
+const sf = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
+const edits: { start: number; end: number; text: string }[] = [];
+
+function bareCarriers(node: ts.Node, out: ts.TypeReferenceNode[]) {
+  if (
+    ts.isTypeReferenceNode(node) &&
+    ts.isIdentifier(node.typeName) &&
+    CARRIERS.has(node.typeName.text) &&
+    !node.typeArguments
+  ) {
+    // Stand['mushrooms'] reads a member the layout does not change
+    if (!ts.isIndexedAccessTypeNode(node.parent)) out.push(node);
+  }
+  ts.forEachChild(node, (c) => bareCarriers(c, out));
+}
+
+type Fn =
+  | ts.FunctionDeclaration
+  | ts.MethodDeclaration
+  | ts.ArrowFunction
+  | ts.FunctionExpression;
+function visit(node: ts.Node) {
+  if (
+    ts.isFunctionDeclaration(node) ||
+    ts.isMethodDeclaration(node) ||
+    ts.isArrowFunction(node) ||
+    ts.isFunctionExpression(node)
+  ) {
+    const fn = node as Fn;
+    const refs: ts.TypeReferenceNode[] = [];
+    for (const p of fn.parameters) if (p.type) bareCarriers(p.type, refs);
+    if (refs.length && !fn.typeParameters?.some((t) => t.name.text === 'L')) {
+      if (fn.type) bareCarriers(fn.type, refs);
+      for (const r of refs)
+        edits.push({ start: r.getEnd(), end: r.getEnd(), text: '<L>' });
+      const param = `L extends ${alias}`;
+      if (fn.typeParameters?.length) {
+        const last = fn.typeParameters[fn.typeParameters.length - 1];
+        edits.push({ start: last.getEnd(), end: last.getEnd(), text: `, ${param}` });
+      } else if (ts.isArrowFunction(fn) && !fn.getText(sf).startsWith('(')) {
+        const p = fn.parameters[0];
+        edits.push({ start: p.getStart(sf), end: p.getStart(sf), text: `<${param}>(` });
+        edits.push({ start: p.getEnd(), end: p.getEnd(), text: ')' });
+      } else {
+        const open = fn
+          .getChildren(sf)
+          .find((c) => c.kind === ts.SyntaxKind.OpenParenToken)!;
+        edits.push({ start: open.getStart(sf), end: open.getStart(sf), text: `<${param}>` });
+      }
+    }
+  }
+  ts.forEachChild(node, visit);
+}
+visit(sf);
+let out = text;
+for (const e of edits.sort((a, b) => b.start - a.start))
+  out = out.slice(0, e.start) + e.text + out.slice(e.end);
+writeFileSync(file, out);
+console.log(`${path.basename(file)}: ${edits.length} edits, bound ${alias}`);
+```
+
+## stand-full.ts
+
+```ts
+// Spells the whole meadow's layout on every bare stand carrier in the given
+// files: the widget's and the tests' stands carry all of it.
+// pnpm exec tsx tmp/modularity/stand-full.ts <file>...
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import ts from 'typescript';
+
+const CARRIERS = new Set(['Stand', 'WithLayout', 'SeededLayout', 'PlotGround']);
+const LAYOUT = path.resolve('src/mushrooms/pages/mushrooms/ui/scene/layout');
+
+for (const file of process.argv.slice(2)) {
+  let text = readFileSync(file, 'utf8');
+  const sf = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
+  const ends: number[] = [];
+  const walk = (node: ts.Node) => {
+    if (
+      ts.isTypeReferenceNode(node) &&
+      ts.isIdentifier(node.typeName) &&
+      CARRIERS.has(node.typeName.text) &&
+      !node.typeArguments &&
+      !ts.isIndexedAccessTypeNode(node.parent)
+    )
+      ends.push(node.getEnd());
+    ts.forEachChild(node, walk);
+  };
+  walk(sf);
+  if (!ends.length) continue;
+  for (const e of ends.sort((a, b) => b - a))
+    text = text.slice(0, e) + '<MeadowLayout>' + text.slice(e);
+  if (!/\bMeadowLayout\b[^<]/.test(text.replace(/<MeadowLayout>/g, ''))) {
+    const scripts = file.includes('/scripts/');
+    let spec = scripts
+      ? '@/mushrooms/pages/mushrooms/ui/scene/layout'
+      : path.relative(path.dirname(path.resolve(file)), LAYOUT);
+    if (!scripts && !spec.startsWith('.')) spec = `./${spec}`;
+    const line = `import type { MeadowLayout } from '${spec}';\n`;
+    const firstImport = text.search(/^import /m);
+    text = text.slice(0, firstImport) + line + text.slice(firstImport);
+  }
+  writeFileSync(file, text);
+  console.log(`${file}: ${ends.length}`);
+}
 ```

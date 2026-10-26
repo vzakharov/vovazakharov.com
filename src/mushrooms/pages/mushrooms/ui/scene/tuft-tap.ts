@@ -7,8 +7,17 @@ import { FLOWER_SWAY } from './flower-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';
 import { sightingOf, type Stand } from './flower-sight';
 import type { Tuft, WithTuft } from './grass';
-import type { MeadowLayout } from './layout';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+import type { FlowerPlotsLayout } from './flower-plots';
+import type { FlowerSightLayout } from './flower-sight';
+/** What of the meadow's layout this reads. */
+export type TuftTapLayout = ClumpGround &
+  Bedded &
+  FlowerPlotsLayout &
+  FlowerSightLayout;
 
 /** How far round its middle a tuft answers a tap at the least, in CSS px: a small finger's pad. */
 export const TUFT_REACH = 22;
@@ -56,7 +65,9 @@ export function tuftAt<Tufted extends WithTuft>(
  * middle or `BARE_CORE`. A tuft a turn slides under a control is the
  * control's, the controls being the screen's. `stand` is read once.
  */
-export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
+export function bareToTap<L extends TuftTapLayout>(
+  stand: Stand<L>,
+): (tuft: Tuft) => boolean {
   return bareAmong(stand.layout, flowersOf(stand), stand.mushrooms);
 }
 
@@ -66,7 +77,7 @@ export function bareToTap(stand: Stand): (tuft: Tuft) => boolean {
  * alone tell which tufts a change covers (`lostOn`).
  */
 export function bareAmong(
-  layout: MeadowLayout,
+  layout: TuftTapLayout,
   flowers: readonly StandingFlower[],
   mushrooms: Stand['mushrooms'],
 ): (tuft: Tuft) => boolean {

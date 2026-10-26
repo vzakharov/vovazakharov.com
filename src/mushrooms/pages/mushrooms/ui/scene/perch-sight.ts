@@ -58,12 +58,25 @@ import {
   type Stand,
 } from './flower-sight';
 import { awayPlaces, releasedAway, wayOutOf } from './insect-away';
-import type { MeadowLayout } from './layout';
 import { MEADOW_FRAME } from './meadow-camera';
 import { crowdings, seatsWith, type Track } from './perch-crowding';
 import { discCovered } from './shelter-cover';
 import { rowAt, type View, viewAt } from './view';
 import { widestOn } from './widest-spans';
+import type { WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { InsectScaled } from './insect-size';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+import type { InsectAwayLayout } from './insect-away';
+/** What of the meadow's layout this reads. */
+export type PerchSightLayout = WithHeight &
+  WithCamera &
+  InsectScaled &
+  ClumpGround &
+  Bedded &
+  InsectAwayLayout;
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
 export const MOST_OVERLAP = 0.25;
@@ -99,8 +112,8 @@ export function perchSpot(insect: Seeded): number {
  * The flower `id` as `stand` stands it on its screen, among its `standing`
  * flowers; `undefined` where it stands nowhere.
  */
-function flowerAt(
-  stand: Stand,
+function flowerAt<L extends PerchSightLayout>(
+  stand: Stand<L>,
   id: string,
   standing: readonly StandingFlower[],
 ): (Sighting & Seeded) | undefined {
@@ -142,8 +155,8 @@ export function dropped<At extends Point>(at: At, by: number): At {
  * Where `stand` stands the point `local` puts in the mushroom `id`'s own
  * frame, from its genes as it stands; `undefined` where it stands nowhere.
  */
-function capAt(
-  stand: Stand,
+function capAt<L extends PerchSightLayout>(
+  stand: Stand<L>,
   id: string,
 ): ((local: (genes: MushroomGenes) => Point) => Point) | undefined {
   const mushroom = stand.mushrooms.find((each) => each.id === id);
@@ -159,8 +172,8 @@ function capAt(
  * breath move it; `undefined` for a perch that stands nowhere on this
  * screen. The perch is looked up once, however many seats are asked of it.
  */
-function seaterOn(
-  stand: Stand,
+function seaterOn<L extends PerchSightLayout>(
+  stand: Stand<L>,
   perch: Perch,
   standing?: readonly StandingFlower[],
 ): Seater | undefined {
@@ -211,8 +224,8 @@ function seaterOn(
  * (`perchSpot`), as the layout stands it, before sway and breath move it;
  * `undefined` for a perch that stands nowhere on this screen.
  */
-export function seatAt(
-  stand: Stand,
+export function seatAt<L extends PerchSightLayout>(
+  stand: Stand<L>,
   perch: Perch,
   spot: number,
   kind: InsectKind = 'butterfly',
@@ -241,7 +254,7 @@ function spotsOn({ kind }: Perch): readonly number[] {
  * sprout still small among them, offers none, and a funnel none at all.
  */
 function sheltersUnder(
-  layout: MeadowLayout,
+  layout: PerchSightLayout,
   caps: readonly Planted[],
   now = Infinity,
 ): ShelterSeat[] {
@@ -267,8 +280,8 @@ const SHELTER_REACH = 0.5;
  * over an insect of any kind sheltering there (`discCovered`), as far round
  * its middle as `SHELTER_REACH` says.
  */
-function shelterCovered(
-  stand: Stand,
+function shelterCovered<L extends PerchSightLayout>(
+  stand: Stand<L>,
   seat: ShelterSeat,
   covers: readonly Cover[],
 ): boolean {
@@ -300,7 +313,10 @@ function shelterCovered(
  * every two spots in the air on which two insects of their kinds would
  * overlap at all; and where each of them stands (`Places`).
  */
-export function perchSight(stand: Stand, now?: number): Sight {
+export function perchSight<L extends PerchSightLayout>(
+  stand: Stand<L>,
+  now?: number,
+): Sight {
   const { layout, mushrooms } = stand;
   const covers = coversOn(layout, mushrooms);
   const standing = flowersOf(stand);
@@ -383,13 +399,13 @@ export type FootRows = ReadonlyMap<string, number>;
  * `perchSight` measures `Place`'s `fromEye` by, and what `perchDistance`
  * measures at the opening eye.
  */
-function perchDistanceAtOpening(layout: MeadowLayout, row: number): number {
+function perchDistanceAtOpening(layout: PerchSightLayout, row: number): number {
   return rowAt(layout.camera, row).opening;
 }
 
 /** The ground row each cap's and standing flower's foot stands on in `stand`, among its `standing` flowers. */
-export function footRows(
-  stand: Stand,
+export function footRows<L extends PerchSightLayout>(
+  stand: Stand<L>,
   standing: readonly StandingFlower[] = flowersOf(stand),
 ): FootRows {
   const { layout, mushrooms } = stand;
@@ -422,7 +438,7 @@ export function footRows(
  * `released` insect standing away (`releasedAway`).
  */
 export function onscreenOf(
-  layout: MeadowLayout,
+  layout: PerchSightLayout,
   view: View | undefined,
   released?: Seeded & Kinded,
 ): Onscreen | undefined {

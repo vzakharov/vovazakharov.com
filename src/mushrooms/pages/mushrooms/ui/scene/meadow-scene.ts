@@ -293,7 +293,7 @@ export class MeadowScene extends Phaser.Scene {
   }
 
   /** The meadow as it stands on the screen last painted, once there is one. */
-  private stand(): Stand | undefined {
+  private stand(): Stand<MeadowLayout> | undefined {
     const { layout, flowers, meadow } = this;
     if (!layout || !meadow) return undefined;
     return standOf(layout, flowers?.seeded ?? [], meadow);

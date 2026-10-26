@@ -55,7 +55,6 @@ import { layoutShown } from './eye-crop';
 import { coversShown, type ShownCover } from './flower-cover';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
-import type { MeadowLayout } from './layout';
 import type { Placement } from './clump-layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import {
@@ -70,6 +69,20 @@ import { doorsKept, partsInView, standingOn } from './standing-weighed';
 import { SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { behindHills, cull, ofLayout, type View } from './view';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { Sunned, SunWashed } from './sun-layout';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+/** What of the meadow's layout this reads. */
+export type MushroomRoomLayout = WithWidth &
+  WithHeight &
+  WithCamera &
+  Sunned &
+  SunWashed &
+  ClumpGround &
+  Bedded;
 
 /**
  * How close, as a camera lays the ground out (`apartOnScreen`), in the
@@ -88,7 +101,7 @@ const FLOWER_APART = 0.2;
  * world, which no control stands over.
  */
 type Screen = WithOptionalSpan & {
-  stage: MeadowLayout;
+  stage: MushroomRoomLayout;
   edges: Record<'left' | 'right', number>;
   view?: View;
   keepOff: readonly Circle[];
@@ -113,7 +126,7 @@ function viewFrom(anchor: Eye, view: View): View {
 }
 
 /** `stage` as a new mushroom is held to on it, in `view`. */
-function screenOn(stage: MeadowLayout, view: View | undefined): Screen {
+function screenOn(stage: MushroomRoomLayout, view: View | undefined): Screen {
   const { camera, sun, picker, housePicker } = stage;
   const edges = { left: EDGE_MARGIN, right: camera.world - EDGE_MARGIN };
   if (!view) return { stage, edges, keepOff: [] };
@@ -275,7 +288,7 @@ const risings = new WeakMap<
  * judged against the mushroom it will be. The same array of mushrooms while
  * neither the mushrooms nor the spores change, so what is cached on it holds.
  */
-function risen(stand: Stand): Stand {
+function risen<L extends MushroomRoomLayout>(stand: Stand<L>): Stand<L> {
   const { mushrooms, spores } = stand;
   if (spores.length === 0) return stand;
   const known = risings.get(spores);
@@ -311,8 +324,8 @@ export const SPORE_REACH = 1;
  * every control and the sun's rays; `undefined` where the anchor has no
  * ground under `near`.
  */
-export function roomFor(
-  stand: Stand,
+export function roomFor<L extends MushroomRoomLayout>(
+  stand: Stand<L>,
   seed: number,
   view?: View,
   near?: Point,
@@ -375,8 +388,8 @@ export function roomFor(
  * screen, judged from the view's anchor: all of `roomFor`'s rules that a
  * turn or a step changes.
  */
-export function fitsView(
-  { layout }: Stand,
+export function fitsView<L extends MushroomRoomLayout>(
+  { layout }: Stand<L>,
   seed: number,
   { foot }: Footed,
   view?: View,

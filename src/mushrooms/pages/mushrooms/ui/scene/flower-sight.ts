@@ -18,7 +18,7 @@ import {
   flowerGenes,
   flowerHead,
 } from '../../model/flower-genes';
-import type { Meadow, Tended } from '../../model/game';
+import type { Tended } from '../../model/game';
 import {
   type Box,
   boxAround,
@@ -49,9 +49,20 @@ import {
   type StandingFlower,
 } from './flower-plots';
 import { flowerLift } from './flower-seat';
-import type { MeadowLayout } from './layout';
 import { tapReach } from './tap-reach';
 import { middleOf } from './view';
+import type { WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { InsectScaled } from './insect-size';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+/** What of the meadow's layout this reads. */
+export type FlowerSightLayout = WithHeight &
+  WithCamera &
+  InsectScaled &
+  ClumpGround &
+  Bedded;
 
 /**
  * How far off a cap's crown toward its rims, or off a flower's centre toward
@@ -63,7 +74,7 @@ export const PERCH_SPREAD = 0.3;
 export const WIDEST_SPAN = 1.22;
 
 /** The widest a butterfly's wings span on `layout`, in px: the span `flowerInSight` judges by unless told. */
-export function widestSpanOn({ insectSize }: MeadowLayout): number {
+export function widestSpanOn({ insectSize }: FlowerSightLayout): number {
   return WIDEST_SPAN * insectSize;
 }
 /**
@@ -77,22 +88,32 @@ const HEAD_RING = 8;
 /** What of the meadow a `Stand` reads: the mushrooms standing, the spores lying, the planted flowers, and the ones the child pulled up. */
 const STOOD = ['mushrooms', 'spores', 'planted', 'pulled'] as const;
 
-/** The meadow as the scene stands it: the layout, the visit's seeded flowers, and what of the meadow `STOOD` names. */
-export type Stand = PlotGround & WithSpores;
+/**
+ * The meadow as the scene stands it: the layout, the visit's seeded flowers,
+ * and what of the meadow `STOOD` names; generic in the layout, which the
+ * scene reads more of than the sight does.
+ */
+export type Stand<L = FlowerSightLayout> = PlotGround<L> & WithSpores;
 
 /** The layout the scene stands the meadow on. */
-export type WithLayout = { layout: MeadowLayout };
+export type WithLayout<L = FlowerSightLayout> = {
+  layout: L;
+};
 /** The layout and the visit's seeded flowers on it. */
-export type SeededLayout = WithLayout & { flowers: readonly Flower[] };
+export type SeededLayout<L = FlowerSightLayout> = WithLayout<L> & {
+  flowers: readonly Flower[];
+};
 /** A `Stand` but for its spores: what the flowers' plots are laid among. */
-export type PlotGround = SeededLayout & Tended & WithPlanted;
+export type PlotGround<L = FlowerSightLayout> = SeededLayout<L> &
+  Tended &
+  WithPlanted;
 
 /** `meadow` as it stands on `layout` among the visit's seeded `flowers`. */
-export function standOf(
-  layout: MeadowLayout,
+export function standOf<L extends FlowerSightLayout>(
+  layout: L,
   flowers: readonly Flower[],
-  meadow: Meadow,
-): Stand {
+  meadow: Tended & WithPlanted & WithSpores,
+): Stand<L> {
   return { layout, flowers, ...pick(meadow, ...STOOD) };
 }
 
@@ -105,7 +126,7 @@ export type Sighting = Placed & { head: Circle; lift: number };
 /** A standing flower as the sight reads it for an insect of `kind` (`Sighting`). */
 export function sightingOf(
   { place, seed }: StandingFlower,
-  { insectSizes }: MeadowLayout,
+  { insectSizes }: FlowerSightLayout,
   kind: InsectKind = 'butterfly',
 ): Sighting {
   const genes = flowerGenes({ seed });
@@ -126,7 +147,10 @@ export function sightingOf(
  * its stem bent either way or not at all, its head and its centre at their
  * smallest and largest.
  */
-function sightingsAt(place: Footing, { insectSize }: MeadowLayout): Sighting[] {
+function sightingsAt(
+  place: Footing,
+  { insectSize }: FlowerSightLayout,
+): Sighting[] {
   const [least, most] = FLOWER_RANGES.stemBend;
   return [least, 0, most].flatMap((bend) =>
     FLOWER_RANGES.petalLength.flatMap((petal) =>
@@ -151,9 +175,9 @@ function sightingsAt(place: Footing, { insectSize }: MeadowLayout): Sighting[] {
  * once laid out, so what the sight reads off it alone is read once.
  */
 function perLayout<Measured extends object>(
-  measure: (layout: MeadowLayout) => Measured,
-): (layout: MeadowLayout) => Measured {
-  const measured = new WeakMap<MeadowLayout, Measured>();
+  measure: (layout: FlowerSightLayout) => Measured,
+): (layout: FlowerSightLayout) => Measured {
+  const measured = new WeakMap<FlowerSightLayout, Measured>();
   return (layout) => {
     const known = measured.get(layout);
     if (known) return known;
@@ -184,7 +208,7 @@ export type Cover = Layered & BoxedOutlines;
  * `covers` standing nearer the front covers the head's middle (`HEAD_SHOWN`).
  */
 export function flowerInSight(
-  layout: MeadowLayout,
+  layout: FlowerSightLayout,
   { place, head, lift }: Sighting,
   covers: readonly Cover[],
   span: number = widestSpanOn(layout),
@@ -231,7 +255,7 @@ const coverings = perLayout(
 
 /** Every standing mushroom of `mushrooms` on `layout`, as the flowers' sight reads it. */
 export function coversOn(
-  layout: MeadowLayout,
+  layout: FlowerSightLayout,
   mushrooms: Stand['mushrooms'],
 ): readonly Cover[] {
   // The meadow's mushrooms are never changed in place, only replaced.
@@ -269,7 +293,7 @@ export function screenSides(camera: Camera): Record<'left' | 'right', number> {
  * between the screen's sides on `layout` (`screenSides`).
  */
 function headOnScreen(
-  { camera }: MeadowLayout,
+  { camera }: FlowerSightLayout,
   { place, head }: Sighting,
 ): boolean {
   const { left, right } = screenSides(camera);
@@ -290,7 +314,7 @@ type Ground = {
  * `FLOWER_SLOTS` of `standing` stand round it (`flowersCrowdAt`).
  */
 function plantable(
-  layout: MeadowLayout,
+  layout: FlowerSightLayout,
   foot: Footing,
   { standing, claimed }: Ground,
   covers: readonly Cover[],
@@ -318,7 +342,7 @@ const footSights = perLayout(
  * every mushroom's outline.
  */
 function sightAt(
-  layout: MeadowLayout,
+  layout: FlowerSightLayout,
   covers: readonly Cover[],
   foot: Footing,
 ): FootSight {
@@ -340,7 +364,7 @@ function sightAt(
 }
 
 /** The flowers standing in `stand`, and the mushrooms' feet a planting keeps off. */
-function groundIn(stand: Stand): Ground {
+function groundIn<L extends FlowerSightLayout>(stand: Stand<L>): Ground {
   const { layout, mushrooms } = stand;
   return {
     standing: flowersOf(stand),
@@ -354,7 +378,11 @@ function groundIn(stand: Stand): Ground {
  * would be, and in the flowers' band, so the flower stands and is in sight
  * on every screen (`roomFrom`, for one foot).
  */
-export function takesFlower(stand: Stand, foot: Footing, eye: Eye): boolean {
+export function takesFlower<L extends FlowerSightLayout>(
+  stand: Stand<L>,
+  foot: Footing,
+  eye: Eye,
+): boolean {
   return roomFrom(stand, eye)(foot);
 }
 
@@ -363,7 +391,10 @@ export function takesFlower(stand: Stand, foot: Footing, eye: Eye): boolean {
  * for a foot on the plane: moved with the anchor, and taking no flower in
  * the sliver straight behind it, which has no ground.
  */
-function roomFrom(stand: Stand, eye: Eye): (foot: Footing) => boolean {
+function roomFrom<L extends FlowerSightLayout>(
+  stand: Stand<L>,
+  eye: Eye,
+): (foot: Footing) => boolean {
   const anchor = anchorOf(eye);
   const room = roomIn(anchoredStand(stand, anchor));
   return (foot) => {
@@ -377,7 +408,9 @@ function roomFrom(stand: Stand, eye: Eye): (foot: Footing) => boolean {
  * and be in sight (`plantable`), in the flowers' band (`inFlowerBand`): what
  * `stand` holds read once, for every foot asked after.
  */
-export function roomIn(stand: Stand): (foot: Footing) => boolean {
+export function roomIn<L extends FlowerSightLayout>(
+  stand: Stand<L>,
+): (foot: Footing) => boolean {
   const { layout, mushrooms } = stand;
   const ground = groundIn(stand);
   const covers = coversOn(layout, mushrooms);
@@ -393,8 +426,8 @@ export function roomIn(stand: Stand): (foot: Footing) => boolean {
  * whole on the screen (`headOnScreen`), so the child sees every flower a bee
  * plants come up. A flower whose ring has no such slot takes none.
  */
-export function roomFor(
-  stand: Stand,
+export function roomFor<L extends FlowerSightLayout>(
+  stand: Stand<L>,
   shown: readonly string[],
   covers: readonly Cover[],
 ): Plot['room'] {

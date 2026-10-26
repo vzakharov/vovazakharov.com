@@ -8,7 +8,6 @@ import type { Spore } from '../../model/sprouting';
 import { standAt, type Standing, UNPLACED, viewedOrLaid } from './bed-place';
 import { type Laid, laidOf } from './clump-layout';
 import { hazeTone } from './haze-tone';
-import type { MeadowLayout } from './layout';
 import type { Shown } from './mushroom-shown';
 import { PALETTE } from './palette';
 import { hazeAhead } from './repaint-queue';
@@ -17,6 +16,10 @@ import { crownOf, fall } from './spore-drift';
 import { drawnAt, puffSpores } from './spores';
 import { TAP_RADIUS } from './tap-reach';
 import type { View } from './view';
+import type { WithCamera } from '../../model/ground';
+
+/** What of the meadow's layout this reads. */
+export type SporeBedLayout = WithCamera;
 
 /** A resting spore's radius, of the size a mushroom standing on its foot is laid out at. */
 const DOT = 0.05;
@@ -72,7 +75,7 @@ export class SporeBed {
   reconcile(
     spores: readonly Spore[],
     shown: ReadonlyMap<string, Shown>,
-    layout: MeadowLayout,
+    layout: SporeBedLayout,
     opening: boolean,
   ): void {
     const ids = new Set(spores.map(({ id }) => id));

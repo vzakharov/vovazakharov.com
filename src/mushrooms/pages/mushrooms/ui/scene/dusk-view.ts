@@ -15,11 +15,22 @@ import {
   sunSunk,
 } from './dusk-sky';
 import { type FireflyGround, FireflyView } from './firefly-view';
-import type { MeadowLayout } from './layout';
 import { MoonView } from './moon-view';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
 import type { DuskVoiced, Glinting } from './sound';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { Sunned, SunWashed } from './sun-layout';
+import type { Clouded } from './panorama';
+
+/** What of the meadow's layout this reads. */
+export type DuskViewLayout = WithWidth &
+  WithHeight &
+  WithCamera &
+  Sunned &
+  Clouded &
+  SunWashed;
 
 /** The dusk wash's alpha at full dusk. */
 export const DUSK_WASH_DEEPEST = 0.38;
@@ -73,7 +84,7 @@ export class DuskView implements DuskTapped {
   private readonly dispatch: (action: Action) => void;
   private readonly sound: DuskSound;
   private readonly fireflies: FireflyView;
-  private layout: MeadowLayout | undefined;
+  private layout: DuskViewLayout | undefined;
   private backdrop: Backdrop | undefined;
   /** Where each of the sun's columns was baked, before it sinks. */
   private sunRows: number[] = [];
@@ -105,7 +116,7 @@ export class DuskView implements DuskTapped {
   }
 
   /** Lays the wash over `layout`'s screen, draws the moon at the sun's size and the fireflies at the insects', and takes the sun `backdrop` baked. */
-  paint(layout: MeadowLayout, backdrop: Backdrop): void {
+  paint(layout: DuskViewLayout, backdrop: Backdrop): void {
     this.layout = layout;
     this.backdrop = backdrop;
     this.wash.setSize(layout.width, layout.height);
@@ -172,7 +183,7 @@ export class DuskView implements DuskTapped {
  */
 function cloudsOver(
   { clouds, duskClouds, level }: Backdrop,
-  layout: MeadowLayout,
+  layout: DuskViewLayout,
   moon: Circle,
 ): Phaser.GameObjects.Graphics[] {
   return clouds.flatMap((day, index) => {

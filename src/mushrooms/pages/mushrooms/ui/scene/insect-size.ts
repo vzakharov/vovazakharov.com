@@ -34,7 +34,7 @@ const KIND_SCALE = {
 /** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
 export type InsectSized = { insectSizes: Readonly<Record<InsectKind, number>> };
 /** The unit a butterfly's genes are painted in, and each kind's. */
-type InsectScaled = InsectSized & { insectSize: number };
+export type InsectScaled = InsectSized & { insectSize: number };
 /** What the meadow is shown through, which a turn or a resize fits anew, and the insects' units on it. */
 export type InsectCamera = WithCamera & InsectScaled;
 

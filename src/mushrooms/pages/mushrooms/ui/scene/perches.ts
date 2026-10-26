@@ -6,7 +6,6 @@ import { airAloftOf, airAlofts } from './air-spots';
 import { anchoredStand } from './anchored-stand';
 import type { Stand } from './flower-sight';
 import { type Away, awayPlaces } from './insect-away';
-import type { MeadowLayout } from './layout';
 import {
   type HostBeds,
   type Perched,
@@ -17,6 +16,18 @@ import {
 import { footRows, perchSight } from './perch-sight';
 import { aloftOfLayout, placeOfAloft } from './plane-place';
 import type { View } from './view';
+import type { WithCamera } from '../../model/ground';
+import type { InsectScaled } from './insect-size';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+import type { InsectAwayLayout } from './insect-away';
+/** What of the meadow's layout this reads. */
+export type PerchesLayout = WithCamera &
+  InsectScaled &
+  ClumpGround &
+  Bedded &
+  InsectAwayLayout;
 
 /** How far the eye walks, in the clump's size, before the perches are judged afresh: coarser than the rules' anchor (`anchorOf`), a fresh sight costing a frame's worth. */
 const PERCH_STEP = 2;
@@ -51,7 +62,7 @@ export class Perches implements TappedThrough {
   /** Every perch `sight` places but the away spots, as the fixed point in the world it is laid out at, by its name (`perchName`). */
   private placed: ReadonlyMap<string, Aloft> = new Map();
   /** The layout the perches were last seen on. */
-  private layout: MeadowLayout | undefined;
+  private layout: PerchesLayout | undefined;
   /** The beds the perches stand on, as the scene holds them now. */
   private readonly beds: () => HostBeds;
 
@@ -64,7 +75,11 @@ export class Perches implements TappedThrough {
    * (`anchoredStand`, `perchSight`), every place on a bed taken back to the plane
    * (`unanchored`), and the air's as the plane holds it (`airAlofts`).
    */
-  see(stand: Stand, anchor: Eye = OPENING_EYE, now?: number): void {
+  see<L extends PerchesLayout>(
+    stand: Stand<L>,
+    anchor: Eye = OPENING_EYE,
+    now?: number,
+  ): void {
     const judged = anchoredStand(stand, anchor);
     const { layout } = judged;
     this.sight = perchSight(judged, now);

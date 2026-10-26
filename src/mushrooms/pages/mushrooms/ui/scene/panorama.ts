@@ -159,6 +159,9 @@ export type Cloud = Ordinate &
     drift: number;
   };
 
+/** The clouds a screen shows, each leading its lane. */
+export type Clouded = { clouds: readonly Cloud[] };
+
 /**
  * The clouds the opening screen shows, across and down it and by its short
  * side, and how far each drifts a second, in CSS px across the screen's

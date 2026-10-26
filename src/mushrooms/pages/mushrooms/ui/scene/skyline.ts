@@ -9,9 +9,20 @@ import type { Camera, GroundBand } from '../../model/ground';
 import type { Light } from '../../model/light';
 import { pinholeOf } from '../../model/pinhole';
 import { between, type Random } from '../../model/random';
-import type { MeadowLayout } from './layout';
 import { azimuthAt, type Crest, ringWave, type WithCrest } from './panorama';
 import { SUN_RAY_REACH } from './sun-layout';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { Grounded, WithCamera } from '../../model/ground';
+import type { Sunned, Horizoned, NearHilled } from './sun-layout';
+
+/** What of the meadow's layout this reads. */
+export type SkylineLayout = WithWidth &
+  WithHeight &
+  Grounded &
+  WithCamera &
+  Sunned &
+  Horizoned &
+  NearHilled;
 
 /** A skyline's points to a screen's width. */
 export const HILL_STEPS = 64;
@@ -119,7 +130,7 @@ export type FarRange = WithCrest & { highest: number };
  * measured in azimuth, `arc` px to the radian, which a view spreads across
  * the screen at least as wide, so the bowl clears the rays from any heading.
  */
-function sunBowl({ sun, camera }: MeadowLayout): Crest {
+function sunBowl({ sun, camera }: SkylineLayout): Crest {
   const { arc } = pinholeOf(camera);
   const middle = azimuthAt(camera, sun.x);
   const depth = sun.r * PARTED_DEPTH;
@@ -140,7 +151,7 @@ function sunBowl({ sun, camera }: MeadowLayout): Crest {
  */
 export function partedUnderSun(
   { crest, highest }: FarRange,
-  layout: MeadowLayout,
+  layout: SkylineLayout,
 ): Crest {
   const { nearHills } = layout;
   const bowl = sunBowl(layout);
@@ -167,7 +178,7 @@ function farRangeOn(
 }
 
 /** The far hills' range: a rolling crest rising from the horizon. */
-export function farRange(random: Random, layout: MeadowLayout): FarRange {
+export function farRange(random: Random, layout: SkylineLayout): FarRange {
   const { horizon, groundTop, camera } = layout;
   return farRangeOn(random, camera, horizon, (groundTop - horizon) * FAR_RISE);
 }
@@ -176,7 +187,7 @@ export function farRange(random: Random, layout: MeadowLayout): FarRange {
  * The farthest hills' range, behind the far range: its foot a little above
  * the horizon and its rise lower, so it shows in the far range's dips.
  */
-export function farthestRange(random: Random, layout: MeadowLayout): FarRange {
+export function farthestRange(random: Random, layout: SkylineLayout): FarRange {
   const { horizon, groundTop, camera } = layout;
   const rise = groundTop - horizon;
   const foot = horizon - rise * FARTHEST_LIFT;
@@ -184,19 +195,19 @@ export function farthestRange(random: Random, layout: MeadowLayout): FarRange {
 }
 
 /** The far hills' skyline, parted under the sun. */
-export function farSkyline(random: Random, layout: MeadowLayout): Crest {
+export function farSkyline(random: Random, layout: SkylineLayout): Crest {
   return partedUnderSun(farRange(random, layout), layout);
 }
 
 /** The farthest hills' skyline, parted under the sun as the far range is. */
-export function farthestSkyline(random: Random, layout: MeadowLayout): Crest {
+export function farthestSkyline(random: Random, layout: SkylineLayout): Crest {
   return partedUnderSun(farthestRange(random, layout), layout);
 }
 
 /** The near hills' skyline, rolling across the band below the far hills'. */
 export function nearSkyline(
   random: Random,
-  { nearHills, groundTop, camera }: MeadowLayout,
+  { nearHills, groundTop, camera }: SkylineLayout,
 ): Crest {
   return hillCrest(
     random,
@@ -239,7 +250,7 @@ export function seamTop(layout: GroundBand): number {
  * has no straight line in it; the hills' foot and the grass along it both
  * read it.
  */
-export function seamCrest(layout: MeadowLayout): Crest {
+export function seamCrest(layout: SkylineLayout): Crest {
   const { groundTop, camera } = layout;
   const reach = seamReach(layout);
   const swell = swellOf(

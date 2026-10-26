@@ -32,7 +32,12 @@ import {
 } from './flower-layout';
 import type { Footing } from '../../model/ground';
 import type { PlotGround, Stand } from './flower-sight';
-import type { MeadowLayout } from './layout';
+import type { WithCamera } from '../../model/ground';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+/** What of the meadow's layout this reads. */
+export type FlowerPlotsLayout = WithCamera & ClumpGround & Bedded;
 
 /**
  * Each ring slot round a parent, a bee's planting taking any free one
@@ -150,7 +155,7 @@ export function groundFor(
  * keeps off every flower (`pickFoot`), so a flower keeps off only these.
  */
 export function mushroomFeet(
-  layout: MeadowLayout,
+  layout: FlowerPlotsLayout,
   mushrooms: Meadow['mushrooms'],
 ): Footing[] {
   return standingPlaces(layout.mushrooms, mushrooms).map((place) =>
@@ -185,7 +190,7 @@ function footOf(
  * round it keeps its slot round where it stood.
  */
 export function standingFlowers(
-  layout: MeadowLayout,
+  layout: FlowerPlotsLayout,
   seeded: readonly Flower[],
   planted: readonly Sown[],
   mushrooms: Meadow['mushrooms'],
@@ -199,13 +204,13 @@ export function standingFlowers(
  * `standingFlowers`, and the foot on the ground of every flower that stands
  * or would but for `pulled`, by id.
  */
-function plotted({
+function plotted<L extends FlowerPlotsLayout>({
   layout,
   flowers: seeded,
   planted,
   mushrooms,
   pulled,
-}: PlotGround): {
+}: PlotGround<L>): {
   standing: StandingFlower[];
   feet: ReadonlyMap<string, Footing>;
 } {
@@ -234,7 +239,9 @@ function plotted({
 }
 
 /** Every flower standing in `stand` (`standingFlowers`). */
-export function flowersOf(stand: Stand): StandingFlower[] {
+export function flowersOf<L extends FlowerPlotsLayout>(
+  stand: Stand<L>,
+): StandingFlower[] {
   return plotted(stand).standing;
 }
 
@@ -243,7 +250,9 @@ export function flowersOf(stand: Stand): StandingFlower[] {
  * they went: the spot it leaves the child to plant on again. A flower that
  * never stood on this layout, pulled or not, has none.
  */
-export function pulledFeet(stand: Stand): Footing[] {
+export function pulledFeet<L extends FlowerPlotsLayout>(
+  stand: Stand<L>,
+): Footing[] {
   const { feet } = plotted(stand);
   return stand.pulled.flatMap((id) => {
     const foot = feet.get(id);
@@ -255,6 +264,8 @@ export function pulledFeet(stand: Stand): Footing[] {
  * Every flower standing in `stand`, seeded and planted, as its foot on the
  * ground, for a mushroom's foot to keep off (`roomFor`).
  */
-export function flowerFeet(stand: Stand): Footing[] {
+export function flowerFeet<L extends FlowerPlotsLayout>(
+  stand: Stand<L>,
+): Footing[] {
   return flowersOf(stand).map(({ foot }) => foot);
 }

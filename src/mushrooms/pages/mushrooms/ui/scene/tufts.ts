@@ -49,7 +49,6 @@ import {
   type Sprout,
   sproutOn,
 } from './lawn';
-import type { MeadowLayout } from './layout';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
 import { Tended, tendedIn } from './tending';
@@ -65,6 +64,22 @@ import {
   type View,
   viewAt,
 } from './view';
+import type { WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
+
+import type { FlowerSightLayout } from './flower-sight';
+import type { LawnLayout } from './lawn';
+import type { TendingLayout } from './tending';
+/** What of the meadow's layout this reads. */
+export type TuftsLayout = WithHeight &
+  WithCamera &
+  ClumpGround &
+  Bedded &
+  FlowerSightLayout &
+  LawnLayout &
+  TendingLayout;
 
 export type { Sprout } from './lawn';
 export { plantableIn, tendedIn, tendTufts } from './tending';
@@ -78,8 +93,8 @@ const TUFT_HEIGHT = 2;
  * where the foot stands (`grownAt`), holds, so a seeded flower's spot, or a
  * bee's, can be planted on again. Each stays on its foot from then on.
  */
-export function leaveTufts(
-  stand: Stand,
+export function leaveTufts<L extends TuftsLayout>(
+  stand: Stand<L>,
   grownAt: (foot: Point) => readonly Sprout[],
   left: readonly Sprout[],
   random: Random,
@@ -255,7 +270,7 @@ export class Grass implements Refusing {
   private readonly growing: Random;
   /** The seed every cell of the lawn is grown off (`cellLawn`). */
   private readonly seed: number;
-  private layout: MeadowLayout | undefined;
+  private layout: TuftsLayout | undefined;
   /** The lawn's tufts round the eye, laid out on `layout`. */
   private lawn: LiveLawn | undefined;
   /** The light the grass was last toned in, and the duskness it was toned for. */
@@ -294,7 +309,7 @@ export class Grass implements Refusing {
   }
 
   /** Lays the lawn out on `stand`'s layout, each tuft kept on its foot, and tends it. */
-  paint(stand: Stand): void {
+  paint<L extends TuftsLayout>(stand: Stand<L>): void {
     const { layout } = stand;
     const { seed, left, growing, view, tended } = this;
     if (this.layout !== layout) {
@@ -310,7 +325,7 @@ export class Grass implements Refusing {
    * view's eye, in place of any re-tend under way; the standing tufts it
    * covers go at once (`Tended.change`), so none shown shakes its head.
    */
-  tend(stand: Stand): void {
+  tend<L extends TuftsLayout>(stand: Stand<L>): void {
     this.tended.change(stand, this.view?.eye ?? OPENING_EYE);
   }
 
@@ -319,7 +334,10 @@ export class Grass implements Refusing {
    * those its pulled flowers left (`leaveTufts`), as many as the view from
    * `eye` tends (`tendedIn`).
    */
-  private grownRound(stand: Stand, eye: Eye): Sprout[] {
+  private grownRound<L extends TuftsLayout>(
+    stand: Stand<L>,
+    eye: Eye,
+  ): Sprout[] {
     const { lawn, growing } = this;
     if (!lawn) return [];
     const left = leaveTufts(stand, (foot) => lawn.of(foot), this.left, growing);

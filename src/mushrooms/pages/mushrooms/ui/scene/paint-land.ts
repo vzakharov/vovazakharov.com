@@ -11,7 +11,6 @@ import {
 import { browFloor, nearFoot } from './brow';
 import { mix } from './colour';
 import { type Band, grainPixels, grainStrips } from './grain';
-import type { MeadowLayout } from './layout';
 import { type Crest, crestAcross, type WithCrest } from './panorama';
 import { fillShape } from './shapes';
 import {
@@ -27,6 +26,18 @@ import {
 } from './skyline';
 import type { View } from './view';
 import { GROUND_BOB } from './walking';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { Grounded, WithCamera } from '../../model/ground';
+import type { Sunned } from './sun-layout';
+
+import type { SkylineLayout } from './skyline';
+/** What of the meadow's layout this reads. */
+export type PaintLandLayout = WithWidth &
+  WithHeight &
+  Grounded &
+  WithCamera &
+  Sunned &
+  SkylineLayout;
 
 const HILL_BANDS = 16;
 const GRAIN_KEY = 'grain';
@@ -64,7 +75,7 @@ export type Hills = {
  * same source raises the same hills: the farthest and far ranges stop at the
  * ground's top, the near one reaches under the whole seam.
  */
-export function hillsOf(layout: MeadowLayout, random: Random): Hills {
+export function hillsOf(layout: PaintLandLayout, random: Random): Hills {
   const ranges: Range[] = [
     {
       crest: farthestSkyline(random, layout),
@@ -144,7 +155,7 @@ export function drawHills(
  */
 export function paintGround(
   graphics: Phaser.GameObjects.Graphics,
-  layout: MeadowLayout,
+  layout: PaintLandLayout,
   tones?: Tones,
 ): Band {
   const { width, height, camera } = layout;
@@ -173,7 +184,7 @@ export function paintGround(
 export function paintGrain(
   scene: Phaser.Scene,
   existing: readonly Phaser.GameObjects.TileSprite[] | undefined,
-  layout: MeadowLayout,
+  layout: PaintLandLayout,
   seed: number,
 ): Phaser.GameObjects.TileSprite[] {
   if (!scene.textures.exists(GRAIN_KEY)) {

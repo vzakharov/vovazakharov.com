@@ -1,3 +1,4 @@
+import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -79,7 +80,7 @@ describe('Perches.sightFrom', () => {
 });
 
 /** `stand` with one more mushroom, `lone`, like its first, its foot at `at` on the plane. */
-function withLone(stand: Stand, at: Point): Stand {
+function withLone(stand: Stand<MeadowLayout>, at: Point): Stand<MeadowLayout> {
   const [first] = stand.mushrooms;
   assert.ok(first);
   return {

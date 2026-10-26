@@ -14,9 +14,18 @@ import { mulberry32, type Random, type Seeded } from '../../model/random';
 import { FLOWER_SIZE, standingOn } from './flower-layout';
 import type { WithLayout } from './flower-sight';
 import { tuftOn, type WithTuft } from './grass';
-import type { MeadowLayout } from './layout';
 import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
+import type { WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+
+import type { GrassLayout } from './grass';
+import type { FlowerSightLayout } from './flower-sight';
+/** What of the meadow's layout this reads. */
+export type LawnLayout = WithHeight &
+  WithCamera &
+  GrassLayout &
+  FlowerSightLayout;
 
 /** A tuft the child can plant on, and the foot on the plane a flower planted there stands on. */
 export type Sprout = Rooted & WithTuft;
@@ -70,7 +79,7 @@ export function cellSeed(seed: number, { i, j }: Cell): number {
 
 /** A tuft on `foot`, on the plane, drawn from `random` where `layout` lays it out. */
 export function sproutOn(
-  layout: MeadowLayout,
+  layout: LawnLayout,
   foot: Footing,
   random: Random,
 ): Sprout {
@@ -80,7 +89,7 @@ export function sproutOn(
 
 /** Each of `kept` on its own foot, its tuft drawn afresh for `layout` (`sproutOn`). */
 export function regrowTufts(
-  layout: MeadowLayout,
+  layout: LawnLayout,
   kept: readonly Sprout[],
   random: Random,
 ): Sprout[] {

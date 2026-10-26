@@ -1,3 +1,4 @@
+import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -89,7 +90,10 @@ type Drink = WithId & { seat: Point; span: number };
  * How a butterfly `span` px wide drinking at `seat` cannot be seen: its
  * wings reaching past the world's edge.
  */
-function hiddenHow({ layout }: Stand, { seat, span }: Drink): Count[] {
+function hiddenHow(
+  { layout }: Stand<MeadowLayout>,
+  { seat, span }: Drink,
+): Count[] {
   const { camera, height } = layout;
   const half = span / 2;
   return seat.x - half < 0 ||
@@ -106,7 +110,10 @@ function hiddenHow({ layout }: Stand, { seat, span }: Drink): Count[] {
  * perched share a perch or cover more than `MOST_OVERLAP` of each other, and
  * how each drinking at a flower cannot be seen there.
  */
-function watch(stand: Stand & { meadow: Meadow }, seed: number): Tally {
+function watch(
+  stand: Stand<MeadowLayout> & { meadow: Meadow },
+  seed: number,
+): Tally {
   const tally = { ...NOTHING };
   const releasing = mulberry32(seed ^ 0xb7_7e_f1);
   const sight = perchSight(stand);
@@ -390,7 +397,7 @@ describe('footRows', () => {
 });
 
 /** The perch names of `stand`'s far band of seeded flowers, which only flight's risen eye sees. */
-function farPerches({ flowers }: Stand): Set<string> {
+function farPerches({ flowers }: Stand<MeadowLayout>): Set<string> {
   return new Set(
     flowers
       .slice(NEAR_FLOWERS)

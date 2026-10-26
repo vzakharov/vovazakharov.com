@@ -1,3 +1,4 @@
+import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -71,13 +72,20 @@ describe('Tending', () => {
 const AWAY: Eye = { x: 6, y: 9, heading: 0.7 };
 
 /** `stand` with a flower the child planted on `sprout`'s foot. */
-function childPlanted(stand: Stand, { foot }: Sprout, seed: number): Stand {
+function childPlanted(
+  stand: Stand<MeadowLayout>,
+  { foot }: Sprout,
+  seed: number,
+): Stand<MeadowLayout> {
   const sown: Sown = { id: plantedId(stand.planted), seed, foot };
   return { ...stand, planted: [...stand.planted, sown] };
 }
 
 /** `stand` with a flower a bee planted in each slot `roomFor` offers round the flowers it stands, one stand a slot. */
-function beePlanted(stand: Stand, seed: number): Stand[] {
+function beePlanted(
+  stand: Stand<MeadowLayout>,
+  seed: number,
+): Stand<MeadowLayout>[] {
   const random = mulberry32(seed);
   const ids = flowersOf(stand).map(({ id }) => id);
   return beeRoomFor(stand, ids, coversOn(stand.layout, stand.mushrooms)).map(
@@ -101,23 +109,32 @@ function mushroomGrown(
   stand: Opened,
   eye: Eye,
   seed: number,
-): Array<[Stand, Stand]> {
+): Array<[Stand<MeadowLayout>, Stand<MeadowLayout>]> {
   const full = stand.meadow.mushrooms.length >= MUSHROOM_SLOTS;
   const mushrooms = full ? stand.mushrooms.slice(0, -1) : stand.mushrooms;
   const meadow = { ...stand.meadow, mushrooms };
   const was = { ...stand, meadow, mushrooms };
   const growing = mulberry32(seed);
-  return MUSHROOM_SPECIES.flatMap((species): Array<[Stand, Stand]> => {
-    const own = nextSeed(growing);
-    const foot = mushroomRoomFor(was, own, viewAt(stand.layout.camera, eye));
-    if (!foot) return [];
-    const grown = reduce(meadow, { kind: 'grow', species, seed: own, ...foot });
-    return [[was, { ...was, ...pick(grown, 'mushrooms') }]];
-  });
+  return MUSHROOM_SPECIES.flatMap(
+    (species): Array<[Stand<MeadowLayout>, Stand<MeadowLayout>]> => {
+      const own = nextSeed(growing);
+      const foot = mushroomRoomFor(was, own, viewAt(stand.layout.camera, eye));
+      if (!foot) return [];
+      const grown = reduce(meadow, {
+        kind: 'grow',
+        species,
+        seed: own,
+        ...foot,
+      });
+      return [[was, { ...was, ...pick(grown, 'mushrooms') }]];
+    },
+  );
 }
 
 /** The tufts the lawn of `stand`'s visit `seed` grows round `eye` and the view from it tends. */
-function gatherer(seed: number): (stand: Stand, eye: Eye) => Sprout[] {
+function gatherer(
+  seed: number,
+): (stand: Stand<MeadowLayout>, eye: Eye) => Sprout[] {
   let lawn: LiveLawn | undefined;
   return (stand, eye) => {
     lawn ??= new LiveLawn({ seed: seed * 31, ...pick(stand, 'layout') });
@@ -136,7 +153,10 @@ describe('lostOn', () => {
         const stand = opened(seed, 1180, 820, forest);
         const gather = gatherer(seed);
         /** Asserts `lostOn` on `was` → `now` against the full rules, over the tufts standing on `was`; how many went. */
-        const agrees = (was: Stand, now: Stand): number => {
+        const agrees = (
+          was: Stand<MeadowLayout>,
+          now: Stand<MeadowLayout>,
+        ): number => {
           const standing = tendTufts(was, gather(was, eye), eye);
           const losing = lostOn(was, now, eye);
           const judge = plantableIn(now, eye);
@@ -179,7 +199,7 @@ describe('Tended', () => {
       const gather = gatherer(seed);
       const touched = new Set<Sprout>();
       // Every tuft gathered, noting each one a judge reads the foot of.
-      const counted = (on: Stand, eye: Eye): Sprout[] =>
+      const counted = (on: Stand<MeadowLayout>, eye: Eye): Sprout[] =>
         gather(on, eye).map(({ foot, tuft }) => {
           const sprout: Sprout = {
             get foot() {

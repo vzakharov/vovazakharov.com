@@ -14,12 +14,24 @@ import type { Span } from './baking';
 import { PUFFS } from './cloud-puffs';
 import { mix } from './colour';
 import { STAR_RAY_REACH } from './dusk-stars';
-import type { MeadowLayout } from './layout';
 import { DUSK, PALETTE } from './palette';
 import { azimuthAt, OPENING_CLOUD_COUNT } from './panorama';
 import { rainbowArc } from './rain-sky';
 import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH } from './sun-layout';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { Sunned, NearHilled, SunWashed } from './sun-layout';
+import type { Clouded } from './panorama';
+
+/** What of the meadow's layout this reads. */
+export type PaintSkyLayout = WithWidth &
+  WithHeight &
+  WithCamera &
+  Sunned &
+  NearHilled &
+  Clouded &
+  SunWashed;
 
 const SUN_RAYS = 16;
 const WASH_ALPHA = 0.02;
@@ -41,7 +53,7 @@ export type Layer = () => Phaser.GameObjects.Graphics;
  */
 function paintCells(
   graphics: Phaser.GameObjects.Graphics,
-  layout: MeadowLayout,
+  layout: PaintSkyLayout,
   at: (x: number, y: number) => number,
   [from, to]: readonly [number, number],
 ): void {
@@ -68,7 +80,7 @@ function paintCells(
  */
 export function paintSky(
   graphics: Phaser.GameObjects.Graphics,
-  layout: MeadowLayout,
+  layout: PaintSkyLayout,
   tones?: Tones,
 ): void {
   const at = (_x: number, y: number) => skyAt(y / layout.nearHills, tones);
@@ -112,7 +124,7 @@ export function paintStar(
  */
 export function paintGlow(
   graphics: Phaser.GameObjects.Graphics,
-  layout: MeadowLayout,
+  layout: PaintSkyLayout,
 ): Span {
   const { across } = skyGrid(layout);
   const reach = haloReach(layout);
@@ -130,7 +142,7 @@ export function paintGlow(
  */
 export function paintSun(
   graphics: Phaser.GameObjects.Graphics,
-  { sun }: MeadowLayout,
+  { sun }: PaintSkyLayout,
 ): void {
   const step = (Math.PI * 2) / SUN_RAYS;
   for (const [offset, reach, width, colour] of [
@@ -176,7 +188,7 @@ export function paintSun(
 export function paintClouds(
   layer: Layer,
   twins: Record<'dusk' | 'rain', Layer>,
-  { clouds, sun, camera, height }: MeadowLayout,
+  { clouds, sun, camera, height }: PaintSkyLayout,
   random: Random,
 ): Phaser.GameObjects.Graphics[] {
   const { arc } = pinholeOf(camera);
@@ -237,7 +249,7 @@ export function paintClouds(
  */
 export function paintWash(
   graphics: Phaser.GameObjects.Graphics,
-  layout: MeadowLayout,
+  layout: PaintSkyLayout,
 ): void {
   const { sun, wash } = layout;
   graphics.setBlendMode(Phaser.BlendModes.SCREEN);
@@ -255,7 +267,7 @@ export function paintWash(
  */
 export function paintRainbow(
   graphics: Phaser.GameObjects.Graphics,
-  layout: MeadowLayout,
+  layout: PaintSkyLayout,
 ): ReturnType<typeof rainbowArc> {
   const arc = rainbowArc(layout);
   const { x, y, r, band } = arc;

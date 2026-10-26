@@ -7,7 +7,6 @@ import type { Circle, Point } from '../../model/geometry';
 import { widthFor, wobble } from '../../model/motion';
 import { downpour, type Rain, raining } from '../../model/weather';
 import { sunUp } from './dusk-sky';
-import type { MeadowLayout } from './layout';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
 import { driftedAzimuth } from './panorama';
@@ -27,6 +26,20 @@ import {
 } from './rain-sky';
 import type { RainSound } from './sound';
 import { focusTwins, shade } from './twin-fade';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { WithCamera } from '../../model/ground';
+import type { Sunned, SunWashed } from './sun-layout';
+import type { Clouded } from './panorama';
+import type { Bedded } from './flower-layout';
+
+/** What of the meadow's layout this reads. */
+export type RainViewLayout = WithWidth &
+  WithHeight &
+  WithCamera &
+  Sunned &
+  Clouded &
+  SunWashed &
+  Bedded;
 
 /** How the sky stands this frame, as the probe reads it. */
 export type SkyShown = { raining: boolean; wetness: number; rainbow: number };
@@ -50,7 +63,7 @@ export class RainView implements RainTapped {
   private readonly dispatch: (action: Action) => void;
   private readonly sound: RainSound;
   private readonly drops: RainDrops;
-  private layout: MeadowLayout | undefined;
+  private layout: RainViewLayout | undefined;
   private backdrop: Backdrop | undefined;
   private showers: Showers = NO_SHOWERS;
   /** The cloud whose tap started the shower, which the others darken after. */
@@ -87,7 +100,7 @@ export class RainView implements RainTapped {
   }
 
   /** Lays the wash over `layout`'s screen and takes the clouds `backdrop` painted on it. */
-  paint(layout: MeadowLayout, backdrop: Backdrop): void {
+  paint(layout: RainViewLayout, backdrop: Backdrop): void {
     this.layout = layout;
     this.backdrop = backdrop;
     this.wash.setSize(layout.width, layout.height);

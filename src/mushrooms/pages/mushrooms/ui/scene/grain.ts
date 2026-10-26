@@ -6,7 +6,11 @@
 
 import type { Topped } from '../../model/geometry';
 import { mulberry32 } from '../../model/random';
-import type { MeadowLayout } from './layout';
+import type { WithHeight } from '@/kernel/shared/typings';
+import type { Grounded } from '../../model/ground';
+
+/** What of the meadow's layout this reads. */
+export type GrainLayout = WithHeight & Grounded;
 
 /** Each pixel's own share against its four neighbours' in the blur, which softens noise into tooth. */
 const OWN = 0.5;
@@ -51,7 +55,7 @@ export type GrainStrip = Band & { share: number };
  * `GRAIN_RAMP` of the ground rather than stepping in along one line.
  */
 export function grainStrips(
-  { height, groundTop }: MeadowLayout,
+  { height, groundTop }: GrainLayout,
   top: number,
 ): GrainStrip[] {
   const step = ((height - groundTop) * GRAIN_RAMP) / GRAIN_STEPS;

@@ -1,3 +1,4 @@
+import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -20,14 +21,14 @@ const NEAR: Eye = { x: 0, y: 0, heading: 0 };
 const FAR: Eye = { x: 0, y: WALKED, heading: 0 };
 
 /** What the scene sees of `stand`'s perches judged at `anchor`, framed from there. */
-function sightAt(stand: Stand, anchor: Eye): Sight {
+function sightAt(stand: Stand<MeadowLayout>, anchor: Eye): Sight {
   const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
   perches.see(stand, anchor);
   return perches.sightFrom(viewAt(stand.layout.camera, anchor));
 }
 
 /** The opening forest, and its every mushroom again `WALKED` up the plane. */
-function twoForests(): { stand: Stand; meadow: Meadow } {
+function twoForests(): { stand: Stand<MeadowLayout>; meadow: Meadow } {
   const { meadow, ...stand } = opened(3, 1180, 820, true);
   const mushrooms = [
     ...stand.mushrooms,

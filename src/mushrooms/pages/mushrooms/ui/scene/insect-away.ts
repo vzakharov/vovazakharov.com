@@ -29,9 +29,13 @@ import { aloftAt, alongSight, pinholeOf } from '../../model/pinhole';
 import type { Seeded } from '../../model/random';
 import { WIDEST_SPAN } from './flower-sight';
 import { drawnAloft } from './insect-frame';
-import type { MeadowLayout } from './layout';
 import { perchDistance, placeOfAloft } from './plane-place';
 import { D_SEE, onScreen, type View, type Zooming } from './view';
+import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
+import type { InsectScaled } from './insect-size';
+
+/** What of the meadow's layout this reads. */
+export type InsectAwayLayout = WithWidth & WithHeight & InsectScaled;
 
 /**
  * The band of the screen's height an insect flies in from and out to off
@@ -67,7 +71,7 @@ export function ownAway(
 
 /** How the insect `insect`, about to be released on `layout`, stands away as `view` stands it (`ownAway`). */
 export function releasedAway(
-  layout: MeadowLayout,
+  layout: InsectAwayLayout,
   view: View,
   insect: Seeded & Kinded,
 ): Away {
@@ -169,7 +173,7 @@ export function legEnd(
  * an edge by a butterfly's widest wings on `layout`, at the middle of
  * `AWAY_BAND`.
  */
-function awayOn(layout: MeadowLayout, view: View): Away {
+function awayOn(layout: InsectAwayLayout, view: View): Away {
   return {
     span: WIDEST_SPAN * layout.insectSizes.butterfly,
     drop: awayDown(view.height, 0),
@@ -184,7 +188,7 @@ function awayOn(layout: MeadowLayout, view: View): Away {
  * (`apartIn`).
  */
 export function awayPlaces(
-  layout: MeadowLayout,
+  layout: InsectAwayLayout,
   view: View,
   away: Away = awayOn(layout, view),
 ): Places {
@@ -204,7 +208,7 @@ export function awayPlaces(
  * (`releasedAway`), else a butterfly's widest wings at the band's middle.
  */
 export function wayOutOf(
-  layout: MeadowLayout,
+  layout: InsectAwayLayout,
   view: View,
   away: Away = awayOn(layout, view),
 ): WayOut {

@@ -1,3 +1,4 @@
+import type { MeadowLayout } from './layout';
 import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
@@ -51,7 +52,7 @@ import { BUTTON_INSET } from './tap-reach';
 export type MapSnapshot = Eyed &
   AtRatio &
   Seeded & {
-    stand: Stand;
+    stand: Stand<MeadowLayout>;
     doors: DoorSeating;
     dusky: boolean;
   };

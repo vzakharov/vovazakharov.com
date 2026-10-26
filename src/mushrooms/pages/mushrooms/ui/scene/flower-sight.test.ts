@@ -1,3 +1,4 @@
+import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -41,7 +42,10 @@ const PLANTINGS = 15;
  * standing in it, seen or not, each planting in the first slot `roomFor`
  * offers, until `PLANTINGS` or no slot is left.
  */
-function plantedFrom(stand: Stand, seed: number): Stand {
+function plantedFrom(
+  stand: Stand<MeadowLayout>,
+  seed: number,
+): Stand<MeadowLayout> {
   const random = mulberry32(seed ^ 0x50_1d);
   const planted: Sown[] = [];
   let judged = { ...stand, planted };

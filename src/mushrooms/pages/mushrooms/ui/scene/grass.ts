@@ -5,9 +5,13 @@ import { type Phased, shake, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
 import { coloursAt, groundAt, type Tones, tonesAt } from './backdrop-tones';
 import { mix } from './colour';
-import type { MeadowLayout } from './layout';
 import type { Footing } from '../../model/ground';
 import { PALETTE } from './palette';
+import type { WithHeight } from '@/kernel/shared/typings';
+import type { Grounded } from '../../model/ground';
+
+/** What of the meadow's layout this reads. */
+export type GrassLayout = WithHeight & Grounded;
 
 /** How far a tuft's tip swings in the breeze, in units of its size. */
 const SWING = 0.35;
@@ -71,7 +75,7 @@ export function tuftColours(
  * the ground.
  */
 export function tuftOn(
-  layout: MeadowLayout,
+  layout: GrassLayout,
   x: number,
   y: number,
   random: Random,

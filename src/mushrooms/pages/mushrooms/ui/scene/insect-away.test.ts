@@ -1,3 +1,4 @@
+import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -41,7 +42,7 @@ const LEG_SCREENS = VIEWPORTS.filter(
 );
 
 /** `stand`'s perches, seen with no beds behind them, and each one's foot row. */
-function perchedOn(stand: Stand) {
+function perchedOn(stand: Stand<MeadowLayout>) {
   const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
   perches.see(stand);
   return { perches, rows: footRows(stand) };
