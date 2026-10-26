@@ -55,3 +55,8 @@ export function turned(dusk: Dusk, now: number): Dusk {
     from: duskness(dusk, now),
   };
 }
+
+export type WithDusk = {
+  /** Which way the light is going (`duskness`): the one record of the time of day. */
+  dusk: Dusk;
+};

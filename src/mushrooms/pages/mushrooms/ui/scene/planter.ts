@@ -9,7 +9,8 @@ import {
   seedSounding,
   shapeSeeds,
 } from '../../model/flower-sounds';
-import { type Action, type Meadow, sameFoot } from '../../model/game';
+import { type Action, type Meadow } from '../../model/game';
+import { sameFoot } from '../../model/ground';
 import type { Eye } from '../../model/ground';
 import type { Stamped } from '../../model/motion';
 import { plantedId } from '../../model/pollen';

@@ -2,7 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Planted } from '../../model/game';
+import type { Planted } from '../../model/planted';
 import type { Point, Tall } from '../../model/geometry';
 import type { Light } from '../../model/light';
 import {
@@ -19,7 +19,7 @@ import {
   curveSteps,
 } from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
-import type { Sprouting } from '../../model/sprouting';
+import type { Sprouting } from '../../model/planted';
 import { UNPLACED } from './bed-place';
 import type { LaidAhead } from './clump-layout';
 import { drawMushroom, drawMushroomShadow } from './draw-mushroom';

@@ -16,7 +16,7 @@ import {
   rubbing,
   trembleSize,
 } from '../../model/buzz-rest';
-import type { Timed } from '../../model/flight';
+import type { Timed } from '../../model/motion';
 import type { FlyGenes } from '../../model/fly-genes';
 import type { Point, Scaled, WithMiddle } from '../../model/geometry';
 import {

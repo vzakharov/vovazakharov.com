@@ -9,6 +9,9 @@ import { outAndBack, smooth, type Started } from './motion';
 /** A shower, from its first drop to the moment it stops. */
 export type Rain = Started & { stopsAt: number };
 
+/** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
+export type WithRain = { rain: Rain | undefined };
+
 /** How long a shower lasts from the tap that starts or restarts it. */
 export const RAIN_MS = 10_000;
 /** How long the meadow takes to get wet as a shower starts, and to dry as it stops. */

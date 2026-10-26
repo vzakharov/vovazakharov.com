@@ -1,4 +1,4 @@
-import type { Planted } from '../../model/game';
+import type { Planted } from '../../model/planted';
 import type { Eye } from '../../model/ground';
 import type { DoorPlace } from '../../model/house';
 import {

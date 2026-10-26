@@ -8,8 +8,9 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
 import { isCrowdedAt, isFull } from './crowding';
-import { type Dusk, dusky, FULL_DAY, turned } from './dusk';
-import { type Perches, perchName, type Sight, type Timed } from './flight';
+import { dusky, FULL_DAY, turned, type WithDusk } from './dusk';
+import { type Perches, perchName, type Sight } from './flight';
+import type { Timed } from './motion';
 import type { Onscreen } from './flight-in';
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
@@ -18,13 +19,8 @@ import {
   newestWithRoom,
   selectedMushroom,
 } from './furnishing';
-import type { Footing, Rooted } from './ground';
-import {
-  EMPTY_HOUSE,
-  type Furnishing,
-  FURNISHINGS,
-  type Housed,
-} from './house';
+import { type Rooted, sameFoot } from './ground';
+import { EMPTY_HOUSE, type Furnishing, FURNISHINGS } from './house';
 import type { InsectKind } from './insect-genes';
 import { released, startled, type Swarm, ticked } from './insects';
 import { firstMushrooms, type Species } from './mushroom-genes';
@@ -38,17 +34,15 @@ import { type Footed, OPENING_FOOTING } from './placement';
 import { plantedId, type Sown } from './pollen';
 import type { Random, Seeded, Seeds } from './random';
 import {
-  type Placed,
   sown,
   type Spored,
   type SporeTap,
   sproutedInRain,
-  type Sprouting,
   unsown,
 } from './sprouting';
-import { type Rain, RAIN_MS, raining } from './weather';
-
-export type Planted = Placed & Housed & Sprouting;
+import type { Grown, WithMushrooms, WithSelected } from './planted';
+import type { Tended } from '../ui/scene/flower-sight';
+import { RAIN_MS, raining, type WithRain } from './weather';
 
 /**
  * A colour the child picked to plant, and the seed each of `FLOWER_SHAPES`
@@ -81,46 +75,19 @@ export type Pickers = {
 };
 
 /** What of a meadow belongs to the load that has it: the selection, the pickers and the shower. */
-export type Unkept = Pickers & {
-  selected: string | undefined;
-  /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
-  rain: Rain | undefined;
-};
+export type Unkept = Pickers & WithSelected & WithRain;
 
 /** A meadow as a reload keeps it: all of it but `Unkept`. */
 export type KeptMeadow = Swarm &
   Tended &
   WithDusk &
-  Spored & {
-    /** How many mushrooms the meadow has ever grown, so every id is new. */
-    grown: number;
+  Spored &
+  Grown & {
     /** How many insects the meadow has ever released, so every id is new. */
     released: number;
     /** The mice's own outings at dusk (`nightRan`). */
     nightRuns: NightRuns;
   };
-
-/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
-export type Tended = WithMushrooms & WithPulled;
-
-export type WithMushrooms = {
-  /** In the order they were planted, so the last is the newest. */
-  mushrooms: readonly Planted[];
-};
-
-type WithPulled = {
-  /**
-   * The ids of the flowers the child pulled up or replaced, the visit's
-   * seeded ones and planted ones alike, in the order they went: none of them
-   * stands again, and a replacing flower is planted afresh in `planted`.
-   */
-  pulled: readonly string[];
-};
-
-export type WithDusk = {
-  /** Which way the light is going (`duskness`): the one record of the time of day. */
-  dusk: Dusk;
-};
 
 export type Action =
   | { kind: 'pick' }
@@ -237,10 +204,6 @@ const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
 /** `meadow` with the flower picker shut, the same object when it was. */
 const flowersShut = (meadow: Meadow): Meadow =>
   meadow.planting === undefined ? meadow : { ...meadow, planting: undefined };
-
-/** Whether `a` and `b` are the one foot on the plane, by the stored numbers. */
-export const sameFoot = (a: Footing, b: Footing): boolean =>
-  a.x === b.x && a.y === b.y && a.size === b.size;
 
 /** Every picker shut: the mushrooms', the house's and the flowers'. */
 export const PICKERS_SHUT = {

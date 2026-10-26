@@ -6,7 +6,7 @@ import {
   widthFor,
   wobble,
 } from '../../model/motion';
-import { sproutScale } from '../../model/sprouting';
+import { sproutScale } from '../../model/planted';
 import type { Lights } from './dusk-view';
 import type { Shown } from './mushroom-shown';
 

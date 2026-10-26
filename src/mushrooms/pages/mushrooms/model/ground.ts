@@ -406,3 +406,7 @@ export function fitCamera(screen: Sized, lens: Lens): Camera {
     unit,
   };
 }
+
+/** Whether `a` and `b` are the one foot on the plane, by the stored numbers. */
+export const sameFoot = (a: Footing, b: Footing): boolean =>
+  a.x === b.x && a.y === b.y && a.size === b.size;

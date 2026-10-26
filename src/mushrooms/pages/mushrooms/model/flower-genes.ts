@@ -87,3 +87,13 @@ export function flowerGenes({ seed }: Seeded): FlowerGenes {
 export function flowerHead(genes: FlowerGenes, size: number): Circle {
   return { x: genes.stemBend * size, y: -size, r: genes.petalLength * size };
 }
+
+/** The flowers the child pulled up, by id. */
+export type WithPulled = {
+  /**
+   * The ids of the flowers the child pulled up or replaced, the visit's
+   * seeded ones and planted ones alike, in the order they went: none of them
+   * stands again, and a replacing flower is planted afresh in `planted`.
+   */
+  pulled: readonly string[];
+};

@@ -4,7 +4,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { type Flower, flowerGenes } from '../../model/flower-genes';
 import { soundOf } from '../../model/flower-sounds';
-import type { Action, Meadow, Tended } from '../../model/game';
+import type { Action, Meadow } from '../../model/game';
+import type { Tended } from './flower-sight';
 import { placedAt } from '../../model/geometry';
 import { CLUMP_DISTANCE, gathered, OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';

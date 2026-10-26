@@ -10,7 +10,8 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Flower } from '../../model/flower-genes';
-import type { Meadow } from '../../model/game';
+import type { WithPulled } from '../../model/flower-genes';
+import type { WithMushrooms } from '../../model/planted';
 import {
   anchored,
   type Eye,
@@ -156,7 +157,7 @@ export function groundFor(
  */
 export function mushroomFeet(
   layout: FlowerPlotsLayout,
-  mushrooms: Meadow['mushrooms'],
+  mushrooms: WithMushrooms['mushrooms'],
 ): Footing[] {
   return standingPlaces(layout.mushrooms, mushrooms).map((place) =>
     planeFootOf(groundOf(layout.camera, place)),
@@ -193,8 +194,8 @@ export function standingFlowers(
   layout: FlowerPlotsLayout,
   seeded: readonly Flower[],
   planted: readonly Sown[],
-  mushrooms: Meadow['mushrooms'],
-  pulled: Meadow['pulled'],
+  mushrooms: WithMushrooms['mushrooms'],
+  pulled: WithPulled['pulled'],
 ): StandingFlower[] {
   return plotted({ layout, flowers: seeded, planted, mushrooms, pulled })
     .standing;

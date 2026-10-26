@@ -7,7 +7,7 @@
  * plants only through what the child can see.
  */
 
-import type { Planted } from '../../model/game';
+import type { Planted } from '../../model/planted';
 import { boxAround, containsPoint, type Point } from '../../model/geometry';
 import { aboutFoot, bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';

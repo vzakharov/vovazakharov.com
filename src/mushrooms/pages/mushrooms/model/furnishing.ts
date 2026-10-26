@@ -3,9 +3,12 @@
  * room for it.
  */
 
-import type { Meadow, Planted } from './game';
+import type { Planted, WithMushrooms, WithSelected } from './planted';
 import { furnished, type Furnishing, windowSlots } from './house';
 import { mushroomGenes } from './mushroom-genes';
+
+/** What of the meadow a pick of a piece reads: its mushrooms and which one is selected. */
+type Furnished = WithMushrooms & WithSelected;
 
 /** `mushroom` with `piece` put into its house, or `undefined` when it has no room for it. */
 function withPiece(mushroom: Planted, piece: Furnishing): Planted | undefined {
@@ -20,7 +23,7 @@ function withPiece(mushroom: Planted, piece: Furnishing): Planted | undefined {
 export function selectedMushroom({
   mushrooms,
   selected,
-}: Meadow): Planted | undefined {
+}: Furnished): Planted | undefined {
   return mushrooms.find(({ id }) => id === selected);
 }
 
@@ -30,7 +33,7 @@ export function selectedMushroom({
  * a full mushroom never greys the picker out while another still has room.
  */
 export function newestWithRoom(
-  { mushrooms }: Meadow,
+  { mushrooms }: WithMushrooms,
   pieces: readonly Furnishing[],
 ): Planted | undefined {
   return (
@@ -46,7 +49,7 @@ export function newestWithRoom(
  * room.
  */
 export function furnishedTarget(
-  meadow: Meadow,
+  meadow: Furnished,
   piece: Furnishing,
 ): Planted | undefined {
   const mushroom =
@@ -60,6 +63,6 @@ export function furnishedTarget(
  * Whether a pick of `piece` would furnish anything: not on an empty meadow,
  * not into a full row of windows, not a second door.
  */
-export function canFurnish(meadow: Meadow, piece: Furnishing): boolean {
+export function canFurnish(meadow: Furnished, piece: Furnishing): boolean {
   return furnishedTarget(meadow, piece) !== undefined;
 }

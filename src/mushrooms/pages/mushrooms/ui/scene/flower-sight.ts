@@ -17,8 +17,9 @@ import {
   FLOWER_RANGES,
   flowerGenes,
   flowerHead,
+  type WithPulled,
 } from '../../model/flower-genes';
-import type { Tended } from '../../model/game';
+import type { WithMushrooms } from '../../model/planted';
 import {
   type Box,
   boxAround,
@@ -32,7 +33,7 @@ import type { InsectKind } from '../../model/insect-genes';
 import type { WithPlanted } from '../../model/insects';
 import { pinholeOf } from '../../model/pinhole';
 import { type Plot, slotTaken } from '../../model/pollen';
-import type { WithSpores } from '../../model/sprouting';
+import type { WithSpores } from '../../model/planted';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { type MushroomGround, placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
@@ -84,6 +85,9 @@ export function widestSpanOn({ insectSize }: FlowerSightLayout): number {
  */
 const HEAD_SHOWN = 0.5;
 const HEAD_RING = 8;
+
+/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
+export type Tended = WithMushrooms & WithPulled;
 
 /** What of the meadow a `Stand` reads: the mushrooms standing, the spores lying, the planted flowers, and the ones the child pulled up. */
 const STOOD = ['mushrooms', 'spores', 'planted', 'pulled'] as const;

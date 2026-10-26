@@ -2,7 +2,8 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Meadow, Planted } from '../../model/game';
+import type { Meadow } from '../../model/game';
+import type { Planted } from '../../model/planted';
 import { placedAt, type Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
 import { type DoorPlace, paintedSpots } from '../../model/house';

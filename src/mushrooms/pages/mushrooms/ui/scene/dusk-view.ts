@@ -3,7 +3,8 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { type Dusk, duskness } from '../../model/dusk';
-import type { Action, WithDusk } from '../../model/game';
+import type { Action } from '../../model/game';
+import type { WithDusk } from '../../model/dusk';
 import type { Circle, Point } from '../../model/geometry';
 import type { Layered } from '../../model/ground';
 import {

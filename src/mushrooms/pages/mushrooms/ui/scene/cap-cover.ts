@@ -5,7 +5,7 @@
  * and the sweeps over it measure what the eye sees.
  */
 
-import type { Planted } from '../../model/game';
+import type { Planted } from '../../model/planted';
 import {
   type Box,
   boxAround,

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { firstMeadow, type Planted } from '../../model/game';
+import { firstMeadow } from '../../model/game';
+import type { Planted } from '../../model/planted';
 import {
   type Circle,
   containsPoint,

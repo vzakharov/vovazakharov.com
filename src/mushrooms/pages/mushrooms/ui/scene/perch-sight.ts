@@ -22,7 +22,7 @@ import {
 } from '../../model/flight';
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
-import type { Planted } from '../../model/game';
+import type { Planted } from '../../model/planted';
 import { distanceBetween, placedAt, type Point } from '../../model/geometry';
 import { D_SEE, OPENING_EYE, planeOf, scaleAt } from '../../model/ground';
 import {
@@ -41,7 +41,7 @@ import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
 import type { ShelterSeat } from '../../model/shelter';
 import { SHELTER_SEATS } from '../../model/shelter-seats';
-import { sproutScale } from '../../model/sprouting';
+import { sproutScale } from '../../model/planted';
 import { airOf, airSpots, clumpRow } from './air-spots';
 import { placeIn } from './clump-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';

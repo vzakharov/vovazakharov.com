@@ -8,13 +8,12 @@ import { type Meadow, reduce } from './game';
 import { reopened, settled } from './keeping';
 import { type Kept, RESTED_AT } from './kept-record';
 import {
-  isOld,
   SPORE_DWELL_MS,
   SPORE_FALL_MS,
   sproutedInRain,
   sproutMoment,
-  sproutScale,
 } from './sprouting';
+import { isOld, sproutScale } from './planted';
 import { RAIN_MS, rainbow, raining, wetness } from './weather';
 
 /** A meadow and the moment it was played to. */

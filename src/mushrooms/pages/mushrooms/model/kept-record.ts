@@ -14,7 +14,7 @@ import { INSECT_KINDS } from './insect-genes';
 import { MUSHROOM_SPECIES } from './mushroom-genes';
 import type { Seeded } from './random';
 import { SHELTER_SEATS } from './shelter-seats';
-import { SPROUT_MS } from './sprouting';
+import { SPROUT_MS } from './planted';
 import { GAITS } from './stride';
 import type { WalkStart } from './walk';
 

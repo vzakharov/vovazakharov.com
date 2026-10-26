@@ -4,7 +4,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '../../model/geometry';
 import type { Hazed } from '../../model/ground';
-import type { Spore } from '../../model/sprouting';
+import type { Spore } from '../../model/planted';
 import { standAt, type Standing, UNPLACED, viewedOrLaid } from './bed-place';
 import { type Laid, laidOf } from './clump-layout';
 import { hazeTone } from './haze-tone';

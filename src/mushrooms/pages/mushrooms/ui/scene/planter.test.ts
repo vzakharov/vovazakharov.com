@@ -4,7 +4,8 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { SEEDED_SOUNDS } from '../../model/flower-sounds';
-import { type Meadow, reduce, sameFoot } from '../../model/game';
+import { type Meadow, reduce } from '../../model/game';
+import { sameFoot } from '../../model/ground';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { plantedId, type Sown } from '../../model/pollen';
 import { mulberry32, nextSeed } from '../../model/random';

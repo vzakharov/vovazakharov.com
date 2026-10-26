@@ -5,7 +5,8 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { MUSHROOM_SLOTS } from '../../model/crowding';
-import { reduce, sameFoot } from '../../model/game';
+import { reduce } from '../../model/game';
+import { sameFoot } from '../../model/ground';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { plantedId, type Sown } from '../../model/pollen';

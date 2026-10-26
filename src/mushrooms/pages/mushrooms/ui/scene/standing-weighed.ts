@@ -6,7 +6,7 @@
  * view past `MOST_HIDDEN`.
  */
 
-import type { Planted } from '../../model/game';
+import type { Planted } from '../../model/planted';
 import { type Box, boxAround, boxesMeet } from '../../model/geometry';
 import {
   type Among,

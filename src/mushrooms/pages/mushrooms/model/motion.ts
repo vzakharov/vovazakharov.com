@@ -370,3 +370,6 @@ export const BLINK_SHUT = 0.14;
 export function blink(time: number, phase: number): boolean {
   return roundAt(time, BLINK_PERIOD, phase) < BLINK_SHUT;
 }
+
+/** A moment on the scene's clock, in ms. */
+export type Timed = { now: number };

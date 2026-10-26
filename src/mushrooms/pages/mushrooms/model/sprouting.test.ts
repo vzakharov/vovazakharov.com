@@ -9,18 +9,20 @@ import { OPENING_EYE } from './ground';
 import { type Footed, grownOn } from './placement';
 import { mulberry32, type Seeded } from './random';
 import {
-  isOld,
   sowable,
-  type Spore,
   SPORE_DWELL_MS,
   SPORE_SEATS,
-  SPROUT_MS,
-  SPROUT_START,
   SPROUT_WINDOW_MS,
   sproutedInRain,
   sproutMoment,
-  sproutScale,
 } from './sprouting';
+import {
+  isOld,
+  type Spore,
+  SPROUT_MS,
+  SPROUT_START,
+  sproutScale,
+} from './planted';
 import { darkAt, RAIN_MS } from './weather';
 
 const SIGHT = { flowers: [], air: [], crowded: [], room: [] };

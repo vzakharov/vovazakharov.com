@@ -11,19 +11,20 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
 import { isCrowdedAt, isFull } from './crowding';
-import type { Timed } from './flight';
-import type { Meadow, Planted } from './game';
+import type { Timed } from './motion';
 import { EMPTY_HOUSE } from './house';
-import type { Stamped } from './motion';
-import type { Mushroom } from './mushroom-genes';
 import type { Footed } from './placement';
-import { nextSeed, type Parented, saltedStream, type Seeded } from './random';
-import { darkAt, type Rain } from './weather';
+import {
+  type Grown,
+  isOld,
+  type Planted,
+  type Spore,
+  type WithMushrooms,
+  type WithSpores,
+} from './planted';
+import { nextSeed, saltedStream, type Seeded } from './random';
+import { darkAt, type Rain, type WithRain } from './weather';
 
-/** How big a sprout comes up, of its full size. */
-export const SPROUT_START = 0.4;
-/** How long a sprout takes from coming up to its full size. */
-export const SPROUT_MS = 120_000;
 /** How long a tap's spore takes to fall from its parent's cap to its foot. */
 export const SPORE_FALL_MS = 700;
 /** How many spores lie round one mushroom at most. */
@@ -37,41 +38,14 @@ const SPORE_SALT = 0x3c_9e_51_a7;
 /** Keeps a spore's sprouting moment in a shower apart from every other stream grown off its seed. */
 const MOMENT_SALT = 0x5b_e3_17_c4;
 
-/** A sprout's start: the moment its clock starts, and the parent that sowed it. */
-export type Sprout = Parented & Stamped;
-
-/** A mushroom come up from a spore carries its `sprout`; one the child or the opening grew carries none. */
-export type Sprouting = { sprout?: Sprout };
-
-/** A mushroom and where it stands: what a planted one and a spore both are. */
-export type Placed = Mushroom & Footed;
-
-/** A spore on the ground: the sprout it will be, its `at` the moment it settled. */
-export type Spore = Placed & Sprout;
-
 /** The spores on the ground, and how many the meadow has ever scattered, so every id and seed is new. */
 export type Spored = WithSpores & { scattered: number };
 
-/** The spores on the ground, in the order they settled. */
-export type WithSpores = { spores: readonly Spore[] };
+/** What of the meadow a spore is sown into: its mushrooms and its spores. */
+type Sowing = WithMushrooms & Spored;
 
 /** A tap's spore: the foot the scene found for it, and the tap's moment. */
 export type SporeTap = { spore?: Footed & Timed };
-
-/** Whether `mushroom` is full-grown: grown by the child or the opening, or a sprout that has finished growing. */
-export function isOld({ sprout }: Sprouting, now: number): boolean {
-  return sprout === undefined || now >= sprout.at + SPROUT_MS;
-}
-
-/**
- * How big a mushroom stands of its full size at `now`: from `SPROUT_START`
- * eased out to 1 over `SPROUT_MS`; 1 for one that never sprouted.
- */
-export function sproutScale(sprout: Sprout | undefined, now: number): number {
-  if (sprout === undefined) return 1;
-  const left = 1 - Math.min(1, Math.max(0, now - sprout.at) / SPROUT_MS);
-  return SPROUT_START + (1 - SPROUT_START) * (1 - left ** 2);
-}
 
 /**
  * The seed the next spore of the mushroom `id` grows from, or `undefined`
@@ -80,7 +54,7 @@ export function sproutScale(sprout: Sprout | undefined, now: number): number {
  * scene's search and the reducer's re-check draw the same seed.
  */
 export function sowable(
-  meadow: Meadow,
+  meadow: Sowing,
   id: string,
   now: number,
 ): Seeded | undefined {
@@ -97,7 +71,10 @@ export function sowable(
  * scene found, of its species, checked again as `grow` checks; the same
  * object when the tap carries none or it no longer may.
  */
-export function sown(meadow: Meadow, { id, spore }: WithId & SporeTap): Meadow {
+export function sown<M extends Sowing>(
+  meadow: M,
+  { id, spore }: WithId & SporeTap,
+): M {
   if (spore === undefined) return meadow;
   const { foot, lean, now } = spore;
   const parent = meadow.mushrooms.find((mushroom) => mushroom.id === id);
@@ -117,7 +94,7 @@ export function sown(meadow: Meadow, { id, spore }: WithId & SporeTap): Meadow {
 }
 
 /** `meadow` with the spore `id` picked up, the same object when none lies there. */
-export function unsown(meadow: Meadow, { id }: WithId): Meadow {
+export function unsown<M extends WithSpores>(meadow: M, { id }: WithId): M {
   const spores = meadow.spores.filter((spore) => spore.id !== id);
   return spores.length === meadow.spores.length
     ? meadow
@@ -145,7 +122,9 @@ export function sproutMoment(spore: Spore, rain: Rain): number | undefined {
  * starts at the moment, so it comes up as the spore goes; the spore already
  * held its place in every count. The same object when none sprouts.
  */
-export function sproutedInRain(meadow: Meadow, now: number): Meadow {
+export function sproutedInRain<
+  M extends WithMushrooms & WithSpores & WithRain & Grown,
+>(meadow: M, now: number): M {
   const { spores, rain } = meadow;
   if (spores.length === 0 || rain === undefined) return meadow;
   let { mushrooms, grown } = meadow;

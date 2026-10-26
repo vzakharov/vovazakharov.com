@@ -12,7 +12,7 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { browDistance } from '../../model/eye-height';
-import { sameFoot } from '../../model/game';
+import { sameFoot } from '../../model/ground';
 import { distanceBetween, type Point } from '../../model/geometry';
 import {
   CLUMP_DISTANCE,

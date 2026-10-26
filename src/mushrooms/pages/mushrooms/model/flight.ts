@@ -7,6 +7,7 @@
  * away (`flightAway`).
  */
 
+import type { Timed } from './motion';
 import type { WithId } from '@/kernel/shared/typings';
 
 import type { Pose } from './flight-frame';
@@ -164,9 +165,6 @@ export type Perches = Sight &
     /** Past half way to dusk: a flier seeks its `roost` first and never roams by choice (`roostedPerches`). */
     dusky?: boolean;
   };
-
-/** A moment on the scene's clock, in ms. */
-export type Timed = { now: number };
 
 /**
  * One flight and the stay after it: from `from` to `to` over `departs` to

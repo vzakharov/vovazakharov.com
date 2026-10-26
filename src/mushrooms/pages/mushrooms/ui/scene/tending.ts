@@ -12,7 +12,7 @@ import { flowersCrowdAt } from '../../model/crowding';
 import { browDistance } from '../../model/eye-height';
 import { azimuthOf } from '../../model/flight-frame';
 import { FLOWER_RANGES, flowerGenes } from '../../model/flower-genes';
-import { sameFoot } from '../../model/game';
+import { sameFoot } from '../../model/ground';
 import { boxesMeet, distanceBetween, wrap } from '../../model/geometry';
 import {
   type Eye,

@@ -19,7 +19,7 @@ import { pinholeOf } from '../../model/pinhole';
 import { mulberry32, nextSeed } from '../../model/random';
 import type { ShelterSeat } from '../../model/shelter';
 import { SHELTER_SEATS } from '../../model/shelter-seats';
-import { SPROUT_MS } from '../../model/sprouting';
+import { SPROUT_MS } from '../../model/planted';
 import { airAlofts, airSpots, clumpRow } from './air-spots';
 import { bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';

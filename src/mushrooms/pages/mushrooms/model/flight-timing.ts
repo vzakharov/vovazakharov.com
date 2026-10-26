@@ -3,7 +3,8 @@
  * apart its perches stand, and the stay after it.
  */
 
-import type { Leg, Perch, Place, Placed, Places, Route, Timed } from './flight';
+import type { Leg, Perch, Place, Placed, Places, Route } from './flight';
+import type { Timed } from './motion';
 import { levelWith, pairFramed } from './flight-frame';
 import type { Dash, Habits, Hops, Pace } from './flight-habits';
 import { CLUMP_DISTANCE } from './ground';
