@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { boxAround, type Point } from '../../model/geometry';
-import type { Cover } from './flower-sight';
+import type { Cover } from './occupant';
 import { discCovered, discPoints } from './shelter-cover';
 
 /** A cover standing at `depth` drawn as the square `left`..`left + side` across and `top`..`top + side` down. */

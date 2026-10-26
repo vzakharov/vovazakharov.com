@@ -20,8 +20,10 @@ import {
 import {
   CLUMP_DISTANCE,
   downOf,
+  type Footing,
   gathered,
   groundFootOf,
+  groundOf,
   planeFootOf,
 } from '../../model/ground';
 import { geneBounds } from '../../model/mushroom-genes';
@@ -35,7 +37,6 @@ import {
   FLOWER_SWAY,
   FLOWERS_APART,
   FOOT_CLEARANCE,
-  groundOf,
   laidFlower,
   MOST_SHADED,
   NEAR_BAND,
@@ -43,7 +44,6 @@ import {
   standingOn,
   widestHead,
 } from './flower-layout';
-import type { Footing } from '../../model/ground';
 import { type StandingFlower, standingFlowers } from './flower-plots';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { overMeadow, standingControls } from './sky-layout';

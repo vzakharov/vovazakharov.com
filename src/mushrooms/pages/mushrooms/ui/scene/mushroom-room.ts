@@ -55,20 +55,21 @@ import { capBox } from './cap-cover';
 import { FOREST_SPLAY, type Placement, placeOnGround } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
 import { layoutShown } from './eye-crop';
-import { coversShown, type ShownCover } from './flower-cover';
 import type { Bedded } from './flower-layout';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { EDGE_MARGIN } from './meadow-camera';
+import { coversShown } from './mushroom-cover';
 import {
   type Around,
   keepsPatches,
   patchesAround,
   patchTarget,
 } from './mushroom-patch';
+import type { ShownCover } from './occupant';
 import { dotInSight } from './spore-sight';
 import { doorsKept, partsInView, standingOn } from './standing-weighed';
-import { SUN_RAY_REACH,type Sunned, type SunWashed } from './sun-layout';
+import { SUN_RAY_REACH, type Sunned, type SunWashed } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { behindHills, cull, ofLayout, type View } from './view';
 

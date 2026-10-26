@@ -37,8 +37,8 @@ import {
   PARTS,
   partSighted,
 } from '@/mushrooms/pages/mushrooms/ui/scene/cap-cover';
-import { coversShown } from '@/mushrooms/pages/mushrooms/ui/scene/flower-cover';
 import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/scene/layout';
+import { coversShown } from '@/mushrooms/pages/mushrooms/ui/scene/mushroom-cover';
 import { patchlessIn } from '@/mushrooms/pages/mushrooms/ui/scene/mushroom-patch';
 import { dotInSight } from '@/mushrooms/pages/mushrooms/ui/scene/spore-sight';
 import { viewAt } from '@/mushrooms/pages/mushrooms/ui/scene/view';

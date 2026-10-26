@@ -10,7 +10,7 @@ import type { Box, Point } from '../../model/geometry';
 import { fromMap, type MapFrame, onMap } from '../../model/map-frame';
 import { between, mulberry32, type Random } from '../../model/random';
 import type { Blade } from './brow';
-import { CELL, cellSeed } from './lawn';
+import { cellSeed } from './lawn';
 import {
   type Mottle,
   mottleIn,
@@ -19,6 +19,7 @@ import {
   type ShownMottle,
   SOFT_EDGE,
 } from './mottles';
+import { CELL } from './occupant';
 
 /** About how far apart tufts stand on the map, in CSS px: a cell's side, whatever the zoom. */
 const TUFT_SPACING = 30;

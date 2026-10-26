@@ -4,13 +4,7 @@
  * as a silhouette of cells so a flower's many tries stay cheap.
  */
 
-import {
-  type Box,
-  boxesMeet,
-  type Circle,
-  type Cornered,
-  type Point,
-} from '../../model/geometry';
+import type { Box, Point } from '../../model/geometry';
 import {
   type MushroomGenes,
   mushroomGenes,
@@ -18,32 +12,12 @@ import {
 } from '../../model/mushroom-genes';
 import type { Footed } from '../../model/placement';
 import type { MushroomGround } from './anchored-ground';
-import { placeIn,type Placement } from './clump-layout';
+import { placeIn, type Placement } from './clump-layout';
 import { standingWith } from './door-sight';
+import { CELL, type ClumpShade, type Silhouette } from './occupant';
 
 /** A mushroom standing as a visit opens: its seed, and the foot it stands on. */
 export type Opener = MushroomSeed & Footed;
-
-/** A silhouette's cell, in units of the mushroom's size. */
-const CELL = 0.02;
-
-/**
- * Every cell a mushroom stood with one splay draws over, in its own units
- * about its foot, y down the screen, spread by a cell every way so the
- * cells hold the whole of what is drawn.
- */
-type Silhouette = Cornered & {
-  columns: number;
-  rows: number;
-  cells: Uint8Array;
-};
-
-/** The mushrooms of a visit's opening, each as its silhouette where it stands and the box round it. */
-export type ClumpShade = ReadonlyArray<{
-  place: Placement;
-  silhouette: Silhouette;
-  box: Box;
-}>;
 
 /** The shade of each of `openers` standing where `ground` stands it. */
 export function clumpShade(
@@ -143,73 +117,6 @@ function fill(outline: readonly Point[], into: Silhouette): void {
       }
     }
   }
-}
-
-/**
- * The most of any of `heads` the mushrooms of `shade` standing nearer the
- * front than `depth`, a foot's height on screen, draw over together: what
- * stands behind is drawn under. Every head is read at the points of one
- * lattice, `step` apart, that it holds.
- */
-export function mostShaded(
-  heads: readonly Circle[],
-  shade: ClumpShade,
-  depth: number,
-  step: number,
-): number {
-  const around = {
-    left: Math.min(...heads.map(({ x, r }) => x - r)),
-    right: Math.max(...heads.map(({ x, r }) => x + r)),
-    top: Math.min(...heads.map(({ y, r }) => y - r)),
-    bottom: Math.max(...heads.map(({ y, r }) => y + r)),
-  };
-  const nearer = shade.filter(
-    ({ place, box }) => place.y > depth && boxesMeet(around, box),
-  );
-  if (nearer.length === 0) return 0;
-  const columns = Math.ceil((around.right - around.left) / step);
-  const rows = Math.ceil((around.bottom - around.top) / step);
-  // Which lattice points any nearer mushroom draws over.
-  const over = new Uint8Array(columns * rows);
-  for (const { place, silhouette } of nearer) {
-    const { left, top, cells } = silhouette;
-    for (let row = 0; row < rows; row++) {
-      const y = around.top + (row + 0.5) * step;
-      const cellRow = Math.floor(((y - place.y) / place.size - top) / CELL);
-      if (cellRow < 0 || cellRow >= silhouette.rows) continue;
-      for (let column = 0; column < columns; column++) {
-        const x = around.left + (column + 0.5) * step;
-        const cell = Math.floor(((x - place.x) / place.size - left) / CELL);
-        if (
-          cell >= 0 &&
-          cell < silhouette.columns &&
-          cells[cellRow * silhouette.columns + cell] === 1
-        ) {
-          over[row * columns + column] = 1;
-        }
-      }
-    }
-  }
-  let most = 0;
-  for (const { x, y, r } of heads) {
-    let inside = 0;
-    let shaded = 0;
-    const first = Math.max(0, Math.floor((y - r - around.top) / step));
-    const last = Math.min(rows - 1, Math.ceil((y + r - around.top) / step));
-    const from = Math.max(0, Math.floor((x - r - around.left) / step));
-    const to = Math.min(columns - 1, Math.ceil((x + r - around.left) / step));
-    for (let row = first; row <= last; row++) {
-      const down = around.top + (row + 0.5) * step - y;
-      for (let column = from; column <= to; column++) {
-        const across = around.left + (column + 0.5) * step - x;
-        if (across * across + down * down > r * r) continue;
-        inside += 1;
-        shaded += over[row * columns + column] ?? 0;
-      }
-    }
-    most = Math.max(most, shaded / Math.max(1, inside));
-  }
-  return most;
 }
 
 /** The box on screen `silhouette` stays inside, stood at its place. */

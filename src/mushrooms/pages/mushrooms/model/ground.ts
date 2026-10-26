@@ -188,6 +188,15 @@ export function project(camera: Camera, { x, z }: Ground): Projected {
   };
 }
 
+/** The layout's ground a screen's footing stands on through `camera`: `project` undone, the size with it. */
+export function groundOf(camera: Camera, { x, y, size }: Footing): GroundFoot {
+  const near = project(camera, { x: 0, z: 0 });
+  const far = project(camera, { x: 0, z: 1 });
+  const z = (y - near.y) / (far.y - near.y);
+  const at = project(camera, { x: 0, z });
+  return { x: (x - at.x) / at.scale, z, size: size / at.scale };
+}
+
 /**
  * The row form above is a pinhole camera's: scale is linear in screen y and
  * vanishes `HORIZON_DOWN` of the way down the band, above its top, which is

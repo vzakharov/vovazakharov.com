@@ -27,6 +27,7 @@ import {
   type Framed,
   type GroundFoot,
   groundFootOf,
+  groundOf,
   planeFootOf,
   project,
   scaleAt,
@@ -35,7 +36,7 @@ import {
   zAt,
 } from '../../model/ground';
 import { between, mulberry32, type Random } from '../../model/random';
-import { type ClumpShade, mostShaded } from './clump-shade';
+import { type ClumpShade, mostShaded } from './occupant';
 
 /**
  * The slots the flowers grow around in each half of the world, as a fraction
@@ -139,15 +140,6 @@ export function laidFlower(camera: Camera, { size }: Footing): Footing {
 /** Where `foot` stands on the screen `camera` shows, and how big. */
 export function standingOn(camera: Camera, foot: Footing): Footing {
   return standingOnGround(camera, groundFootOf(foot));
-}
-
-/** The layout's ground a screen's footing stands on through `camera`: `standingOn` undone. */
-export function groundOf(camera: Camera, { x, y, size }: Footing): GroundFoot {
-  const near = project(camera, { x: 0, z: 0 });
-  const far = project(camera, { x: 0, z: 1 });
-  const z = (y - near.y) / (far.y - near.y);
-  const at = project(camera, { x: 0, z });
-  return { x: (x - at.x) / at.scale, z, size: size / at.scale };
 }
 
 /**

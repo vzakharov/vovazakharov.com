@@ -8,7 +8,7 @@
 
 import type { Point } from '../../model/geometry';
 import { bedPlace } from './bed-place';
-import { inSightPast, type ShownCover } from './flower-cover';
+import { inSightPast, type ShownCover } from './occupant';
 import { onScreen, type View } from './view';
 
 /**

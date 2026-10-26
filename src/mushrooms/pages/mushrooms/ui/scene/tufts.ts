@@ -27,10 +27,9 @@ import { smooth } from '../../model/motion';
 import type { Random } from '../../model/random';
 import type { ClumpGround } from './anchored-ground';
 import { depthOf, UNPLACED } from './bed-place';
-import { coversShown, inSightPast } from './flower-cover';
 import { type Bedded, FLOWER_SIZE } from './flower-layout';
 import { pulledFeet } from './flower-plots';
-import type { FlowerSightLayout,Stand } from './flower-sight';
+import type { FlowerSightLayout, Stand } from './flower-sight';
 import {
   BLADE_OVERHANG,
   downAt,
@@ -44,7 +43,6 @@ import {
   type WithTuft,
 } from './grass';
 import {
-  CELL,
   type Cell,
   cellOf,
   type LawnLayout,
@@ -54,8 +52,10 @@ import {
   sproutOn,
 } from './lawn';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
+import { coversShown } from './mushroom-cover';
+import { CELL,inSightPast } from './occupant';
 import { PALE_SPAN } from './repaint-queue';
-import { Tended, tendedIn,type TendingLayout } from './tending';
+import { Tended, tendedIn, type TendingLayout } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
 import {
   behindHills,

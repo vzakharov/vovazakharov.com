@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { placeIn, placeOf } from '../ui/scene/clump-layout';
-import { groundOf } from '../ui/scene/flower-layout';
 import { flowerFeet } from '../ui/scene/flower-plots';
 import {
   EDGE_MARGIN,
@@ -18,6 +17,7 @@ import {
   type Frame,
   gathered,
   type Ground,
+  groundOf,
   groundOfPlane,
   OPENING_EYE,
   planeOf,

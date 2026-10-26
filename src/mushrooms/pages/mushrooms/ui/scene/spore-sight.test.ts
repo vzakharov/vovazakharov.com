@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import type { Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
 import { bedPlace } from './bed-place';
-import type { ShownCover } from './flower-cover';
+import type { ShownCover } from './occupant';
 import { dotInSight } from './spore-sight';
 import { viewAt } from './view';
 import { opened } from './visit-play';

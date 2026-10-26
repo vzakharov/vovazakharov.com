@@ -3,8 +3,9 @@ import { describe, it } from 'node:test';
 
 import { distanceBetween, type Point } from '../../model/geometry';
 import { D_SEE, OPENING_EYE } from '../../model/ground';
-import { CELL, cellLawn, cellOf, cellTufts, type Lawn, LiveLawn } from './lawn';
+import { cellLawn, cellOf, cellTufts, type Lawn, LiveLawn } from './lawn';
 import { type Mottle, MOTTLES_PER_CELL, shownMottles } from './mottles';
+import { CELL } from './occupant';
 import { browRow, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';

@@ -21,20 +21,12 @@ import {
   type WithPulled,
 } from '../../model/flower-genes';
 import {
-  type Box,
   boxAround,
   boxesMeet,
   type Circle,
   containsPoint,
-  type Point,
 } from '../../model/geometry';
-import type {
-  Camera,
-  Eye,
-  Footing,
-  Layered,
-  WithCamera,
-} from '../../model/ground';
+import type { Camera, Eye, Footing, WithCamera } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import type { WithPlanted } from '../../model/insects';
 import { pinholeOf } from '../../model/pinhole';
@@ -57,6 +49,7 @@ import {
 } from './flower-plots';
 import { flowerLift } from './flower-seat';
 import type { InsectScaled } from './insect-size';
+import type { Cover } from './occupant';
 import { tapReach } from './tap-reach';
 import { middleOf } from './view';
 
@@ -200,14 +193,6 @@ function perGround<Store extends object>(
 export function flowerTapReach(r: number): number {
   return tapReach(r * 1.2);
 }
-
-/** A mushroom's outlines as drawn, each with the box round it. */
-export type BoxedOutlines = {
-  drawn: ReadonlyArray<{ outline: readonly Point[]; box: Box }>;
-};
-
-/** A standing mushroom as the flowers' sight reads it: how near the front it stands, and its outlines as drawn. */
-export type Cover = Layered & BoxedOutlines;
 
 /**
  * Whether an insect on `flower` can be seen there, on `layout`: its seat

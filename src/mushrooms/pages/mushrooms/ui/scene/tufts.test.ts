@@ -31,16 +31,10 @@ import {
 import { flowersOf } from './flower-plots';
 import { roomIn, type Stand, takesFlower } from './flower-sight';
 import { type Tuft, tuftSizeAt, turfAt } from './grass';
-import {
-  CELL,
-  cellOf,
-  cellTufts,
-  type Lawn,
-  LiveLawn,
-  TUFTS_PER_CELL,
-} from './lawn';
+import { cellOf, cellTufts, type Lawn, LiveLawn, TUFTS_PER_CELL } from './lawn';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
+import { CELL } from './occupant';
 import { perchSight } from './perch-sight';
 import { PALE_SPAN } from './repaint-queue';
 import { bareToTap, tuftAt } from './tuft-tap';

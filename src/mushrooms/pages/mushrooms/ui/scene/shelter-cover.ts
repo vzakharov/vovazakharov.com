@@ -11,7 +11,7 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
-import type { Cover } from './flower-sight';
+import type { Cover } from './occupant';
 
 /** How many points round each ring of a disc it is judged at. */
 const RING = 8;

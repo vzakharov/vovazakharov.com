@@ -16,6 +16,7 @@ import {
   type Footing,
   type Ground,
   groundFootOf,
+  groundOf,
   planeFootOf,
   type Rooted,
   SPREAD,
@@ -34,7 +35,6 @@ import {
   type Bedded,
   clearOfFeet,
   FLOWER_DOWN,
-  groundOf,
   headsApart,
   standingOn,
 } from './flower-layout';

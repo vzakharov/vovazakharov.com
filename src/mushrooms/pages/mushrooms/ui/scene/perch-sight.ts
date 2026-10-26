@@ -55,7 +55,6 @@ import type { Bedded } from './flower-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';
 import { flowerLift } from './flower-seat';
 import {
-  type Cover,
   coversOn,
   flowerInSight,
   PERCH_SPREAD,
@@ -73,6 +72,7 @@ import {
 } from './insect-away';
 import type { InsectScaled } from './insect-size';
 import { MEADOW_FRAME } from './meadow-camera';
+import type { Cover } from './occupant';
 import { crowdings, seatsWith, type Track } from './perch-crowding';
 import { discCovered } from './shelter-cover';
 import { rowAt, type View, viewAt } from './view';

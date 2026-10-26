@@ -30,7 +30,6 @@ import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { type Bedded, headClear, standingOn } from './flower-layout';
 import { flowersOf, groundFor, mushroomFeet } from './flower-plots';
 import {
-  type Cover,
   coversOn,
   type FlowerSightLayout,
   roomIn,
@@ -39,6 +38,7 @@ import {
 } from './flower-sight';
 import { type Tuft, tuftSizeAt } from './grass';
 import type { Sprout } from './lawn';
+import type { Cover } from './occupant';
 import { PALE_SPAN } from './repaint-queue';
 import { bareAmong, bareToTap } from './tuft-tap';
 import { cull, type View } from './view';

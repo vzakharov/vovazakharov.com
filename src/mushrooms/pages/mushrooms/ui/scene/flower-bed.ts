@@ -17,7 +17,6 @@ import { isBeeSown, type Sown } from '../../model/planted-flowers';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
 import { paintFlowerLit } from './draw-flower';
 import { closingsDue, closingStep, meanClosing } from './flower-closing';
-import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY } from './flower-layout';
 import { flowerLight } from './flower-light';
@@ -40,6 +39,8 @@ import type { Instrument } from './instrument';
 import type { Answering, ChordTapped } from './instrument-input';
 import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
+import { coversShown } from './mushroom-cover';
+import { inSightPast } from './occupant';
 import { browPale, repaintsDue } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
 
