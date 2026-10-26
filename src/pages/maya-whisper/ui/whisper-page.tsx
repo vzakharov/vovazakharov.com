@@ -6,7 +6,7 @@ import { ChipNav, localeChips, PageShell, TextLink } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
-import { WHISPER_ROUTE } from '../lib/whisper-copy';
+import { whisperPath } from '../lib/whisper-metadata';
 import { LEXICON } from '../model/lexicon';
 import { WhisperTypewriter } from './whisper-typewriter';
 
@@ -23,17 +23,15 @@ export function WhisperPage({ locale }: WithLocale) {
       <Stack gap={48}>
         <Stack gap="md">
           <Title order={1}>{copy.title}</Title>
-          <ChipNav
-            chips={localeChips(locale, (alternate) =>
-              localizedRoute(WHISPER_ROUTE, alternate),
-            )}
-          />
+          <ChipNav chips={localeChips(locale, whisperPath)} />
           <Text size="lg" lh={1.625}>
             {fillSlots(copy.story, {
               blog: (
                 <TextLink
-                  href={localizedRoute(
-                    documentRoute('maya-blog', STORY_SLUG),
+                  href={documentRoute(
+                    'maya-blog',
+                    STORY_SLUG,
+                    undefined,
                     locale,
                   )}
                 >

@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
 import { siteConfig } from '@/shared/config/site-config';
-import { collectionDir } from '@/shared/content/collections';
+import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
 import { formatDocumentDate } from '@/shared/content/document-date';
 import type { ArticleFrontmatter } from '@/shared/content/frontmatter';
 
@@ -250,5 +250,5 @@ export function mayaPostCard({
 
 /** A toy's card: its drawing, a path under her site's `public/`. */
 export function mayaToyCard(drawing: string): StagedPage {
-  return drawnCard(path.join(REPO_ROOT, 'apps/maya/public', drawing));
+  return drawnCard(path.join(PUBLIC_DIR, drawing));
 }

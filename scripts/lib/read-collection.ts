@@ -12,8 +12,8 @@ import path from 'node:path';
 
 import {
   collectionDir,
-  COLLECTIONS,
   isDocumentFile,
+  isTranslated,
   type Slugged,
 } from '@/shared/content/collections';
 import { firstImage } from '@/shared/content/first-image';
@@ -23,7 +23,8 @@ import type {
   FrontmatterReader,
   WithFrontmatter,
 } from '@/shared/content/frontmatter';
-import { splitLocale, translatedData } from '@/shared/content/translations';
+import { translationOf } from '@/shared/content/locale-suffix';
+import { translatedData } from '@/shared/content/translations';
 import type { Titled } from '@/shared/typings';
 
 import { contentFiles } from './content-tree.ts';
@@ -44,10 +45,10 @@ export function readCollection<F extends BaseFrontmatter>({
   id,
   schema,
 }: Collection<F>): Array<CollectionEntry<F>> {
-  const translated = COLLECTIONS[id].localized === 'translated';
+  const translated = isTranslated(id);
   const isRead = (fileName: string) =>
     isDocumentFile(fileName) &&
-    !(translated && splitLocale(path.basename(fileName, '.md')).locale);
+    !(translated && translationOf(fileName) !== undefined);
 
   return contentFiles(isRead, [collectionDir(id)]).map((file) => {
     const { data, content } = matter(fs.readFileSync(file, 'utf8'));

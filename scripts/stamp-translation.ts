@@ -19,6 +19,7 @@
 import fs from 'node:fs';
 
 import { contentHash } from '../src/shared/content/content-hash.ts';
+import { translationOf } from '../src/shared/content/locale-suffix.ts';
 import { stampFrontmatter } from '../src/shared/content/translation-stamp.ts';
 
 const [original, ...rest] = process.argv.slice(2);
@@ -27,13 +28,14 @@ if (original === undefined || rest.length > 0) {
   throw new Error('Usage: pnpm translation:stamp <stem>.<locale>.md');
 }
 
-const match = /^(.+)\.[a-z]{2}\.md$/.exec(original);
+const translation = original.endsWith('.md')
+  ? translationOf(original)
+  : undefined;
 
-if (match === null) {
+if (translation === undefined) {
   throw new Error(`${original} is not an original: <stem>.<locale>.md`);
 }
 
-const translation = `${match[1]}.md`;
 const hash = contentHash(fs.readFileSync(original, 'utf8'));
 
 fs.writeFileSync(

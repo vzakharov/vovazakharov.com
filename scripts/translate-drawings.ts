@@ -24,19 +24,22 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { resolveSiteId } from '../src/shared/config/index.node-safe.ts';
 import {
   collectionDir,
-  COLLECTIONS,
   collectionsForSite,
   isDocumentFile,
+  isTranslated,
 } from '../src/shared/content/collections.ts';
+import { translationOf } from '../src/shared/content/locale-suffix.ts';
+import { filesUnder, RENDERED_SITE } from './lib/content-tree.ts';
 import { type Captions, translateDrawing } from './lib/drawing-captions.ts';
 
 const CHECK = process.argv.includes('--check');
 
-/** `<name>.<locale>.svg` — a drawing in its original's language. */
-const ORIGINAL = /^(.+)\.[a-z]{2}\.svg$/;
+/** Where `<name>.<locale>.svg`, a drawing in its original's language, is translated to. */
+function drawingTranslation(file: string): string | undefined {
+  return file.endsWith('.svg') ? translationOf(file) : undefined;
+}
 
 const CAPTIONS = z.object({
   captions: z
@@ -61,17 +64,10 @@ function captionsOf(file: string): Record<string, Captions> {
   return parsed.data.captions;
 }
 
-function filesUnder(dir: string): string[] {
-  return fs
-    .readdirSync(dir, { withFileTypes: true, recursive: true })
-    .filter((entry) => entry.isFile())
-    .map((entry) => path.join(entry.parentPath, entry.name));
-}
-
 const stale: string[] = [];
 
-for (const id of collectionsForSite(resolveSiteId())) {
-  if (COLLECTIONS[id].localized !== 'translated') continue;
+for (const id of collectionsForSite(RENDERED_SITE)) {
+  if (!isTranslated(id)) continue;
 
   const dir = collectionDir(id);
   const files = filesUnder(dir);
@@ -81,13 +77,13 @@ for (const id of collectionsForSite(resolveSiteId())) {
     (file) =>
       path.dirname(file) === dir &&
       isDocumentFile(path.basename(file)) &&
-      !/\.[a-z]{2}\.md$/.test(file),
+      translationOf(file) === undefined,
   )) {
     for (const [drawing, captions] of Object.entries(captionsOf(translation))) {
       const original = path.resolve(dir, drawing);
-      const match = ORIGINAL.exec(original);
+      const output = drawingTranslation(original);
 
-      if (match === null || !fs.existsSync(original)) {
+      if (output === undefined || !fs.existsSync(original)) {
         throw new Error(
           `${translation}: ${drawing} is not an original drawing, <name>.<locale>.svg.`,
         );
@@ -95,7 +91,6 @@ for (const id of collectionsForSite(resolveSiteId())) {
 
       claimed.add(original);
 
-      const output = `${match[1]}.svg`;
       let drawn: string;
 
       try {
@@ -116,7 +111,7 @@ for (const id of collectionsForSite(resolveSiteId())) {
   }
 
   const unclaimed = files.filter(
-    (file) => ORIGINAL.test(file) && !claimed.has(file),
+    (file) => drawingTranslation(file) !== undefined && !claimed.has(file),
   );
 
   if (unclaimed.length > 0) {

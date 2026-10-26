@@ -8,7 +8,6 @@ import {
   type DocumentRef,
   documentRoute,
   type Headlined,
-  localizedRoute,
   type Variant,
   VARIANTS,
   type WithContentDocument,
@@ -102,10 +101,7 @@ export function ArticleHeader({
             {document.locale !== undefined && (
               <ChipNav
                 chips={localeChips(document.locale, (alternate) =>
-                  localizedRoute(
-                    documentRoute(collection, slug, variant),
-                    alternate,
-                  ),
+                  documentRoute(collection, slug, variant, alternate),
                 )}
               />
             )}

@@ -8,7 +8,6 @@ import {
   type ContentDocument,
   documentRoute,
   listFeeds,
-  localizedRoute,
   type WithOptionalOgImageSize,
 } from '@/shared/content';
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
@@ -168,8 +167,7 @@ export function constructArticleMetadata(
     locale,
     ...(locale !== undefined &&
       localizedAddresses(
-        (alternate) =>
-          localizedRoute(documentRoute(collection, slug, variant), alternate),
+        (alternate) => documentRoute(collection, slug, variant, alternate),
         locale,
       )),
     ogType: 'article',

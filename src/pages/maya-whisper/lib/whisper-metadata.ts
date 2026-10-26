@@ -11,6 +11,11 @@ import { WHISPER_ROUTE } from './whisper-copy';
 /** Its card, `pnpm content:og:maya` renders at the route plus the card suffix. */
 const ogImage = routeCardPath(WHISPER_ROUTE);
 
+/** The toy's address in `locale`, or its locale-less alias. */
+export function whisperPath(locale?: string): string {
+  return localizedRoute(WHISPER_ROUTE, locale);
+}
+
 export function whisperMetadata({ locale }: WithLocale) {
   const { title, description } = loadMessages(locale).whisper;
 
@@ -18,10 +23,7 @@ export function whisperMetadata({ locale }: WithLocale) {
     title: `${title} - ${loadMessages(locale).maya.name}`,
     description,
     locale,
-    ...localizedAddresses(
-      (alternate) => localizedRoute(WHISPER_ROUTE, alternate),
-      locale,
-    ),
+    ...localizedAddresses(whisperPath, locale),
     ogImage,
     ogImageSize: intrinsicDimensions(ogImage),
   });

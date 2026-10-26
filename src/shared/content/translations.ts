@@ -4,9 +4,8 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { DEFAULT_LOCALE, isLocale, type Locale, LOCALES } from '@/shared/i18n';
-
 import { contentHash } from './content-hash';
+import { ORIGINAL_LOCALES, translationOf } from './locale-suffix';
 import { TRANSLATION_STAMP } from './translation-stamp';
 
 /**
@@ -15,18 +14,6 @@ import { TRANSLATION_STAMP } from './translation-stamp';
  * `<stem>.md`. The translation states only what differs — its description,
  * and the stamp — and takes everything else from the original.
  */
-
-/** The languages an original can be in: any but the one it is translated into. */
-const ORIGINAL_LOCALES = LOCALES.filter((locale) => locale !== DEFAULT_LOCALE);
-
-/** `<stem>.<locale>` split, where the suffix names an original's language. */
-export function splitLocale(stem: string): { stem: string; locale?: Locale } {
-  const suffix = path.extname(stem).slice(1);
-
-  return isLocale(suffix) && suffix !== DEFAULT_LOCALE
-    ? { stem: stem.slice(0, -(suffix.length + 1)), locale: suffix }
-    : { stem };
-}
 
 function originalOf(dir: string, stem: string): string {
   const originals = ORIGINAL_LOCALES.map((locale) => `${stem}.${locale}.md`);
@@ -70,11 +57,11 @@ export function translatedData(
 /** Throws on an original with no translation beside it, which would publish in one language only. */
 export function assertTranslated(fileNames: string[]): void {
   for (const fileName of fileNames) {
-    const { stem, locale } = splitLocale(fileName.replace(/\.md$/, ''));
+    const translation = translationOf(fileName);
 
-    if (locale !== undefined && !fileNames.includes(`${stem}.md`)) {
+    if (translation !== undefined && !fileNames.includes(translation)) {
       throw new Error(
-        `${fileName} has no translation: ${stem}.md, stamped by \`pnpm translation:stamp\`.`,
+        `${fileName} has no translation: ${translation}, stamped by \`pnpm translation:stamp\`.`,
       );
     }
   }

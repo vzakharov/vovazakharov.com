@@ -11,6 +11,7 @@ import {
   collectionRoute,
   COLLECTIONS,
   documentName,
+  isTranslated,
   listDocuments,
   loadDocument,
   renderDocument,
@@ -94,7 +95,7 @@ function parseSegments(
 export function articleRoute<C extends ArticleCollectionId>(collection: C) {
   const handle = HANDLES[collection];
   const slots = ARTICLE_SLOTS[collection];
-  const translated = COLLECTIONS[collection].localized === 'translated';
+  const translated = isTranslated(collection);
 
   async function resolve(params: Props['params']) {
     const parsed = parseSegments((await params).slug, translated);

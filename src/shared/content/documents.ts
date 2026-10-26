@@ -46,7 +46,8 @@ import {
   intrinsicDimensions,
   type WithOptionalOgImageSize,
 } from './image-dimensions';
-import { assertTranslated, splitLocale, translatedData } from './translations';
+import { splitLocale } from './locale-suffix';
+import { assertTranslated, translatedData } from './translations';
 
 /** An address, and the one language it is in where it is in one. */
 type LocaleRouted = Routed & WithOptionalLocale;
