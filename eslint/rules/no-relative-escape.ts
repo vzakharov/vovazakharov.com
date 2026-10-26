@@ -12,7 +12,7 @@ import { SLICED_LAYERS } from '../masd-graph';
 // follows no alias.
 
 /** The directory, relative to `src/`, a file under it may reach relatively. */
-export function relativeHome(fromSrc: string): string | undefined {
+function relativeHome(fromSrc: string): string | undefined {
   const [app, layer, unit, ...rest] = fromSrc.split(path.sep);
   if (app === undefined || layer === undefined || unit === undefined) {
     return undefined;
