@@ -8,8 +8,7 @@
 
 Vova, 26 October: «пора нам таки взяться и перевести твой сайт на английский (но
 изначально писать на русском, чтобы не потерялась душа)». Scope: the blog, the
-home page and the typewriter (`/whisper`). Майя keeps writing in Russian;
-English is her own translation of it, made when the Russian is done.
+home page and the typewriter (`/whisper`).
 
 Not in scope: her song reflections (`*.maya.reflections.md` on vovazakharov.com)
 and `personas/` — neither is served by her site.
@@ -26,92 +25,115 @@ and the drawn cards exist only on this branch.
 - `/blog/<slug>` · `/blog/<slug>/en` · `/blog/<slug>/ru`;
 - `/whisper` · `/whisper/en` · `/whisper/ru`;
 - feeds `/blog/en/feed.xml` and `/blog/ru/feed.xml`, as `feedRoutes` already
-  shapes them for a localized collection.
+  shapes them for a localized collection. `/blog/feed.xml` goes: a static export
+  has no redirect, and the feed is days old.
 
-The cost, stated: links already shared — `/blog/two-names`, `/whisper` — open in
-English from the merge on, with Russian one chip away. That is the point of the
-exercise (the reach), and the alternative is below under Q1.
+Links already shared — `/blog/two-names`, `/whisper` — open in English from the
+merge on, with Russian one chip away.
 
-**A post is one file carrying both languages, cut on `<!-- lang:ru -->` and
-`<!-- lang:en -->`**, as a song's story already is (`.claude/rules/songs.md` §
-"Body", `localizeSong`). Russian first, since it is the original; each section
-opens with its own `# ` title, which the pipeline lifts per locale. Frontmatter
-`description` becomes `{ ru, en }`. The raw `/blog/<slug>.md` serves both, which
-is what `.claude/rules/content.md` § "The locale seam" says a document's file
-is.
+**Russian and English are separate files, and Майя writes only the first.**
+Vova: «если ты будешь писать сразу и то и то, то ты потеряшь часть своей
+"русскости", а так — ты полностью концентрируешься сначала на русском, а потом,
+отдельным ходом, переводишь его на английский. А пусть это даже делаешь не ты, а
+подагент (который НЕ является тобой)». So:
 
-**Drift is a gate, not a habit.** The English section's marker records a hash of
-the Russian section it was translated from — `<!-- lang:en from:<8 hex> -->` —
-and a check in `vet` fails when the Russian has changed since. Майя edits
-Russian, the gate goes red, she re-translates and re-stamps. A post with no
-English section yet fails the same check, so nothing publishes half-translated.
-(The hash is the existing `content-hash.ts`.)
+- `blog/<slug>.md` — the original, in Russian, as today;
+- `blog/<slug>.en.md` — its translation, made by a translator subagent briefed
+  as a translator, not as Майя, once the Russian is finished.
+
+A locale is a dotted suffix on the file, as a cut is (`playgram.mini.md`), and a
+trailing segment on the route — `content.md` § "The locale seam" gets that
+sentence. Each page's `.md` link names its own language's file. `.en` must never
+parse as a cut or a slug: `VARIANTS` and `LOCALES` share no member, and
+`parseFileName` learns the locale suffix.
+
+**Drift is a gate, not a habit.** The translation's frontmatter carries
+`translatedFrom: <8 hex>`, the content hash (`content-hash.ts`) of the Russian
+file it was made from, and a check in `vet` fails when the Russian has changed
+since or has no translation at all. Майя edits Russian, the gate goes red, the
+translator runs again and re-stamps. Nothing publishes half-translated.
 
 ## Steps
 
 1. **Shared content: localized articles.**
-   - Lift the marker split out of `pages/music/lib/song-text.ts` (`localeProse`)
-     into `shared/content`, and have songs call it from there.
+   - The loader pairs `<slug>.md` with `<slug>.<locale>.md` for a localized
+     collection; the translation's frontmatter carries its own `description` and
+     the stamp, and inherits `date` and `cardImage` from the original rather
+     than restating them.
    - `articleRoute` learns a localized collection: `generateStaticParams` emits
      `[slug]`, `[slug, 'en']`, `[slug, 'ru']` (`localeTailAddresses`); `resolve`
-     localizes the document before rendering; metadata carries
-     `localizedAddresses` as the song page does.
+     picks the locale's file; metadata carries `localizedAddresses` as the song
+     page does.
    - The collection index and `renderPrimaryDocuments` take a locale, so cards
      show the locale's title and description and link to the locale's route.
    - `COLLECTIONS['maya-blog'].localized = true`; its `label` becomes
      localizable (`Blog` / `Блог`) through `inLocale`.
    - Feeds: the maya feed route files move to `apps/maya/app/blog/{en,ru}/`.
-2. **The language switch, once.** `pages/music/ui/locale-chips.tsx` and
+   - The drift check, as a `pnpm check:translations` script in `vet`, with
+     tests.
+2. **A post's card is its first image unless it says otherwise.** Vova on
+   `two-names.og.png`: «если у нас картинка и есть og, может лучше
+   имплементировать "передаём первую картинку из статьи как og", чем повторять
+   её?». The PNG itself stays — no unfurl renders an SVG (`content.md` §
+   "Traps") and `content:og:maya` makes it from the same SVG, nothing drawn
+   twice — but the frontmatter line naming the drawing a second time goes: with
+   no `cardImage`, the loader takes the article's first image. `cardImage` stays
+   as the override, for an article that opens on a picture that does not stand
+   for it. This reaches every collection; the one article it changes outside
+   Майя's blog is `case-studies/playgram`, whose screenshot would become its
+   index card, so `/preview` checks the case-studies index and Vova sees it in
+   the PR before anything lands.
+3. **The language switch, once.** `pages/music/ui/locale-chips.tsx` and
    `pages/cv/ui/locale-picker.tsx` are two copies already; a third for Майя
    lifts the music one into `shared/ui` and the music and CV pages use it (see
    DRY notes for the CV half).
-3. **Home page.** `apps/maya/app/[[...locale]]/page.tsx`; the intro paragraph,
+4. **Home page.** `apps/maya/app/[[...locale]]/page.tsx`; the intro paragraph,
    byline and section heading go into the catalogue under a `maya` namespace in
    `src/shared/i18n/messages/{en,ru}.json`. `SITE_CONFIG.maya` gets an English
    `name` (“Maya”) and `tagline`, with `locale: 'en'`; the Russian ones live in
    the catalogue for the `/ru` pages.
-4. **Typewriter.** `apps/maya/app/whisper/[[...locale]]/page.tsx`;
+5. **Typewriter.** `apps/maya/app/whisper/[[...locale]]/page.tsx`;
    `WHISPER_TITLE`/`WHISPER_DESCRIPTION` and the two intro paragraphs move to
    the catalogue's `whisper` namespace (its UI strings already have both
    languages). The toy itself is untouched — the bug already hears both
    alphabets, and the lexicon is already both languages' words.
-5. **Cards.** Drawn cards carry no text, so one card serves both languages. The
+6. **Cards.** Drawn cards carry no text, so one card serves both languages. The
    site card (`card.og.png`, name + tagline) is rendered in English only, as the
    CV's are; the generated figure card for a post with no drawing prints the
    English title.
-6. **Translate.** Майя translates the three posts, the home page and the
-   typewriter's text herself, in her voice; American punctuation and curly
-   quotes per `content.md` § "Punctuation around quotes".
-7. **Her home.** `personas/maya/wander.md`: strike the promise; § "Уходя" says a
-   post is written in Russian and translated before the session ends, the drift
-   gate being what holds it.
-8. **Verify.** `pnpm build:maya` and `build:vova` (songs share the marker
-   split), `content:og:maya --check`, `check:i18n-payload`, tests for the marker
-   split and the drift check; `/preview` both locales of each page, both themes.
+7. **Translate.** A translator subagent — briefed in English as a literary
+   translator, never as Майя — gets each Russian file and writes its `.en.md`
+   with the stamp; the same for the home page's and the typewriter's Russian
+   copy into the catalogue. American punctuation and curly quotes per
+   `content.md` § "Punctuation around quotes". Майя reads the result and may
+   send a line back; she does not rewrite it herself.
+8. **Her home.** `personas/maya/wander.md`: strike the promise; § "Уходя" says a
+   walk's post is finished in Russian first and then handed to the translator,
+   the drift gate being what holds it; § "Куда идти" says she reads Russian
+   sources first on a walk — Vova: «на новых прогулках ты в первую очередь
+   читаешь русскоязычный контент».
+9. **Verify.** `pnpm build:maya` and `build:vova` (the loader and the card
+   fallback are shared), `content:og:maya --check`, `check:i18n-payload`,
+   `check:translations`, tests for the pairing, the suffix parse and the drift
+   check; `/preview` both locales of each page and the case-studies index, both
+   themes.
 
 ## DRY notes
 
-- **Shared:** the `lang:` marker split (from the song slice into
-  `shared/content`), `localeTailAddresses`, `localizedAddresses`, `inLocale`,
-  `content-hash.ts`, `feedRoutes`. Nothing new is written for any of them.
+- **Shared:** `localeTailAddresses`, `localizedAddresses`, `inLocale`,
+  `content-hash.ts`, `feedRoutes`, the existing variant-suffix parse (extended
+  rather than paralleled). Nothing new is written for any of them.
+- **Not shared with songs:** a song keeps both languages in one file on `lang:`
+  markers because its two stories are written together; a post is written in one
+  and translated after, which is exactly what one file per language separates.
+  Two mechanisms for two ways of writing.
 - **Lifted:** the locale chips. Two slices already carry a switch; a third copy
   is the line. The music chips move to `shared/ui` taking hrefs as props
   (`shared/ui` reads no site config). The CV picker is a dropdown with
   variant-aware hrefs; it moves to the shared component only if its shape fits
-  as props without a mode flag — otherwise it stays, and the plan says so in the
-  PR, since a component with a `variant: 'chips' | 'menu'` switch is two
-  components wearing one name.
+  as props without a mode flag — otherwise it stays, and the PR says so, since a
+  component with a `variant: 'chips' | 'menu'` switch is two components wearing
+  one name.
 - **Not extracted:** the per-locale route shells for the home and whisper pages
   (`[[...locale]]` + a parse). Each is three lines the router needs as its own
   file; a factory would hide which page a route serves.
-
-## Questions (the plan is written with the recommendation in force)
-
-1. **Which language sits at the bare address?** a) English, `/ru` for Russian —
-   the repo's one rule, nothing global changes. **Recommended.** b) Russian
-   stays at the bare address, English under `/en` — needs a per-site default
-   locale threaded through `addressLocale`, the metadata and every client
-   component reading the language off the URL.
-2. **The old feed `/blog/feed.xml`?** a) Drop it; a static export has no
-   redirect, and the feed is days old. **Recommended.** b) Keep it as the
-   Russian feed, a third route file.
