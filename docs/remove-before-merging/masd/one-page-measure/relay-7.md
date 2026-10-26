@@ -10,7 +10,7 @@ The elephant is MASD (PR #169, branch `claude/multi-app-sliced-design-7bn3oq`). 
 ## The conversation
 
 1. **Operator** (launch): `/relay take masd/one-page-measure — дочинить десять ошибок типов, развязать оставшиеся три узла игры и движок раскладки, разложить по слайсам и принести результат`
-   **Agent:** attached (the session started on a detached HEAD at the relay commit, so there was no auto-branch to delete), set the estimate, flipped the plan to in-progress, cleared the ten type errors and flipped the three hubs (`game.ts`, `MeadowSound`, the planter's `MeadowSeen`/`StandSeen`/`Dispatching`), taking the layout from 171 broken imports to 138. At the context budget's 300k warning it paused the plan and relayed, with no operator message in between.
+   **Agent:** attached (the session started on a detached HEAD at the relay commit, so there was no auto-branch to delete), set the estimate, flipped the plan to in-progress, cleared the ten type errors and flipped the three hubs (`game.ts`, `MeadowSound`, the planter's `MeadowSeen`/`StandSeen`/`Dispatching`), taking the layout from 171 broken imports to 138. At the context budget's 300k warning it paused the plan and relayed, with no operator message in between. No Last agent turn section: the whole session was this one turn, and `scripts/relay-last-reply.py` reads only the turns before the relay's.
 
 ## Intent
 
