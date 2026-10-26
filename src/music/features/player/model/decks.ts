@@ -6,24 +6,27 @@ export type DeckListeners = ReadonlyArray<
 >;
 
 /**
- * Two audio elements taking turns, as a DJ's decks do: the active one plays and
- * every control drives it, while the standby one loads the track due next, so
- * changing to it starts a buffered file rather than a request.
+ * The player's audio: the active element plays and every control drives it,
+ * while the track due next is loaded ahead, so changing to it starts a file
+ * already on the device rather than a request.
  */
 export type Decks = Hushing & {
   active: () => HTMLAudioElement;
   /**
-   * The file due next, which the standby deck loads once the active one can
-   * play through, so the two never compete for the connection.
+   * The file the active element plays, as `load` or `cue` named it — never
+   * read off the element, whose `src` may be a copy of it held in memory.
+   */
+  loaded: () => string | undefined;
+  /** Point the active element at `src`, fetched afresh. */
+  load: (src: string) => void;
+  /**
+   * The file due next, which loads once the active element can play through,
+   * so the two never compete for the connection.
    */
   arm: (src: string | undefined) => void;
-  /** Make the standby deck the active one if it holds `src`, and say whether it did. */
+  /** Put the file due next on the active element if it is `src` and loaded, and say whether it did. */
   cue: (src: string) => boolean;
-  /**
-   * Play the active deck. A refusal reaches `onRefused`, unless it is the
-   * browser declining a deck the reader never started while the other one has
-   * played: the file then moves onto that one.
-   */
+  /** Play the active element; a refusal the audio cannot get past reaches `onRefused`. */
   play: (onRefused: () => void) => void;
   setVolume: (volume: number) => void;
 };
@@ -36,15 +39,44 @@ function loaded(deck: HTMLAudioElement): string | undefined {
   return deck.getAttribute('src') ?? undefined;
 }
 
-function refusal(error: unknown): string | undefined {
+export function refusal(error: unknown): string | undefined {
   return error instanceof DOMException ? error.name : undefined;
 }
 
+export function dueNext(
+  active: HTMLAudioElement,
+  upcoming: string | undefined,
+): string | undefined {
+  return active.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
+    ? upcoming
+    : undefined;
+}
+
+/** Wire each listener onto `deck` while `heard` says so, and hand back the unwiring. */
+export function listen(
+  deck: HTMLAudioElement,
+  listeners: DeckListeners,
+  heard: () => boolean = () => true,
+): Array<() => void> {
+  return listeners.map(([event, handler]) => {
+    const listener = () => {
+      if (heard()) handler(deck);
+    };
+
+    deck.addEventListener(event, listener);
+
+    return () => {
+      deck.removeEventListener(event, listener);
+    };
+  });
+}
+
 /**
- * The decks are audio engines rather than page content — the bar is what a
- * reader operates — so they are constructed and never enter the document. Each
- * listener hears the active deck only: the standby one's own loading, and the
- * pause of a deck swapped out, are nothing the player did.
+ * Two audio elements taking turns, as a DJ's decks do, the standby one loading
+ * the track due next. The decks are audio engines rather than page content —
+ * the bar is what a reader operates — so they are constructed and never enter
+ * the document. Each listener hears the active deck only: the standby one's own
+ * loading, and the pause of a deck swapped out, are nothing the player did.
  */
 export function createDecks(listeners: DeckListeners): Decks {
   const decks = [new Audio(), new Audio()] as const;
@@ -59,10 +91,7 @@ export function createDecks(listeners: DeckListeners): Decks {
   }
 
   function rearm() {
-    const wanted =
-      active.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
-        ? upcoming
-        : undefined;
+    const wanted = dueNext(active, upcoming);
     if (loaded(standby) === wanted || wanted === loaded(active)) return;
 
     // A file no longer due is dropped rather than left downloading.
@@ -77,6 +106,8 @@ export function createDecks(listeners: DeckListeners): Decks {
     standby.src = wanted;
   }
 
+  // The browser declining a deck the reader never started, while the other one
+  // has played, moves the file onto that one rather than reaching `onRefused`.
   function play(onRefused: () => void) {
     const deck = active;
 
@@ -114,21 +145,15 @@ export function createDecks(listeners: DeckListeners): Decks {
     ],
   ];
   const heard = decks.flatMap((deck) =>
-    wired.map(([event, handler]) => {
-      const listener = () => {
-        if (deck === active) handler(deck);
-      };
-
-      deck.addEventListener(event, listener);
-
-      return () => {
-        deck.removeEventListener(event, listener);
-      };
-    }),
+    listen(deck, wired, () => deck === active),
   );
 
   return {
     active: () => active,
+    loaded: () => loaded(active),
+    load: (src) => {
+      active.src = src;
+    },
     arm: (src) => {
       if (src === upcoming) return;
 
