@@ -5,7 +5,8 @@ paths:
   - sites/bible/public/**
   - sites/basilisk/public/**
   - sites/*/public/music/**
-  - src/music/pages/music/**
+  - src/music/pages/**
+  - src/music/widgets/**
   - sites/*/app/**/music/**
   - sites/*/public/generated/**
   - src/blog/shared/content/**

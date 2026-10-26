@@ -62,9 +62,9 @@ One exception is the `palette*.ts` modules in
 `src/mushrooms/pages/mushrooms/ui/scene/`, the game's colour table: a canvas is
 out of the tokens' reach, so every colour it paints is a literal there and
 nowhere else. The other is `.tileArtless` in
-`src/music/pages/music/ui/music.module.scss`, whose gradient takes a hue per
-release that no fixed token can carry, so its lightness and chroma are literals
-beside it.
+`src/music/shared/ui/covers.module.scss`, whose gradient takes a hue per release
+that no fixed token can carry, so its lightness and chroma are literals beside
+it.
 
 Mantine's own variables are bound to those tokens by the `cssVariablesResolver`
 in `src/shell/app/ui/theme-provider.tsx`, not by a `:root` block. Mantine
