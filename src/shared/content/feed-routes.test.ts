@@ -33,6 +33,9 @@ describe('feedRoutes', () => {
     assert.deepEqual(feedRoutes('basilisk-cases', LOCALES), [
       { route: '/cases/feed.xml' },
     ]);
+    assert.deepEqual(feedRoutes('maya-blog', LOCALES), [
+      { route: '/blog/feed.xml' },
+    ]);
   });
 
   it('gives a localized collection one feed per language', () => {

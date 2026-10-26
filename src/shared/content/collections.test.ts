@@ -28,6 +28,7 @@ describe('collectionListingRoute', () => {
   it('lands on the home page section a based collection fills', () => {
     assert.equal(collectionListingRoute('basilisk-cases'), '/#cases');
     assert.equal(collectionListingRoute('basilisk-faq'), '/#faq');
+    assert.equal(collectionListingRoute('maya-blog'), '/#blog');
   });
 
   it('is the collection’s route anywhere else', () => {

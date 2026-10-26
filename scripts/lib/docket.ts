@@ -1,24 +1,23 @@
 /**
- * The docket as the basilisk.fyi cards read it. Types only from `src/`, so the
- * test runner, which has no `react-server` condition, can load it;
- * `read-docket.ts` is the half that parses through the schema.
+ * The docket as the basilisk.fyi cards read it. Imports types only, so the test
+ * runner, which has no `react-server` condition, can load it;
+ * `read-collection.ts` is the half that parses through the schema.
  */
 
 import type { CaseFrontmatter } from '@/shared/content/basilisk-frontmatter';
-import type { Slugged } from '@/shared/content/collections';
-import type { WithFrontmatter } from '@/shared/content/frontmatter';
-import type { Titled } from '@/shared/typings';
 
-export type DocketCase = Slugged & Titled & WithFrontmatter<CaseFrontmatter>;
+import type { CollectionEntry } from './read-collection.ts';
+
+export type DocketCase = CollectionEntry<CaseFrontmatter>;
 
 const TITLE = /^# (.+)$/m;
 
 /** The body's first `# ` heading, which is the page's title. Throws where there is none. */
-export function caseTitle(body: string, file: string): string {
+export function headingTitle(body: string, file: string): string {
   const title = TITLE.exec(body)?.[1]?.trim();
 
   if (title === undefined) {
-    throw new Error(`A case file without a "# " title: ${file}`);
+    throw new Error(`A document without a "# " title: ${file}`);
   }
 
   return title;

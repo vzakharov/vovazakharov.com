@@ -12,6 +12,9 @@ import {
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
 import type { Described, MaybeTitled } from '@/shared/typings';
 
+/** Open Graph's tag for each language, which takes a region where BCP-47 needs none. */
+const OG_LOCALES: Record<Locale, string> = { en: 'en_US', ru: 'ru_RU' };
+
 type Addresses = {
   /**
    * Site-root path this page defers to, where two URLs serve one page. Left
@@ -35,7 +38,7 @@ export type ConstructMetadataParams = MaybeTitled &
     ogTitle?: string;
     path?: string; // e.g., "/cv" - automatically converted to absolute URL
     ogType?: 'website' | 'profile' | 'article';
-    ogImage?: string; // Custom Open Graph image path; the avatar when absent
+    ogImage?: string; // Custom Open Graph image path; the site's card when absent
     /** A page reachable only by its link, which search engines are asked to leave out. */
     hidden?: boolean;
   };
@@ -74,14 +77,21 @@ export function constructMetadata({
   ogImageSize,
   hidden = false,
 }: ConstructMetadataParams = {}): Metadata {
-  const { url: siteUrl, name: siteName, author, social, avatar } = SITE_CONFIG;
+  const {
+    url: siteUrl,
+    name: siteName,
+    author,
+    social,
+    card: siteImage,
+    locale,
+  } = SITE_CONFIG;
   const { name: authorName } = author;
 
   const absoluteUrl = path === undefined ? siteUrl : getAbsoluteUrl(path);
-  const absoluteImageUrl = getAbsoluteUrl(ogImage ?? avatar.path);
+  const absoluteImageUrl = getAbsoluteUrl(ogImage ?? siteImage.path);
   const sharedTitle = ogTitle ?? title ?? siteName;
-  const { width, height } = avatar;
-  // Published only when known — the avatar's from config, a custom image's
+  const { width, height } = siteImage;
+  // Published only when known — the site image's from config, a custom image's
   // from the caller that read the file. A wrong pair is worse than none.
   const imageDimensions =
     ogImage === undefined ? { width, height } : ogImageSize;
@@ -113,7 +123,7 @@ export function constructMetadata({
     },
     openGraph: {
       type: ogType,
-      locale: 'en_US',
+      locale: OG_LOCALES[locale],
       url: absoluteUrl,
       siteName,
       title: sharedTitle,

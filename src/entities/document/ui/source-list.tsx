@@ -1,4 +1,6 @@
+import { SITE_CONFIG } from '@/shared/config';
 import { formatDocumentDate, type Source } from '@/shared/content';
+import { loadMessages } from '@/shared/i18n';
 import {
   mentionsPrintRasterDomain,
   PRINT_RASTER_CLASS,
@@ -19,10 +21,12 @@ type SourceListProps = { sources?: readonly Source[] };
 export function SourceList({ sources }: SourceListProps) {
   if (sources === undefined) return null;
 
+  const { locale } = SITE_CONFIG;
+
   return (
     <section className={classes['sources']} aria-labelledby="sources">
       <h2 id="sources" className={classes['heading']}>
-        Sources
+        {loadMessages(locale).documents.sources}
       </h2>
       <ol className={classes['list']}>
         {sources.map(({ title, outlet, author, date, url, archive }) => {
@@ -42,7 +46,9 @@ export function SourceList({ sources }: SourceListProps) {
                   </>
                 )}
                 , {outlet},{' '}
-                {typeof date === 'number' ? date : formatDocumentDate(date)}
+                {typeof date === 'number'
+                  ? date
+                  : formatDocumentDate(date, locale)}
               </div>
               {raster && (
                 // TODO: localize with `content-video.tsx`'s printed note.

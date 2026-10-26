@@ -391,6 +391,9 @@ the alias. Case studies are unlocalized: the documents are English-only, and a
 `ru` route for a document that does not exist in Russian would only duplicate
 the English one.
 
+**An unlocalized collection is in its site's language**, `SITE_CONFIG.locale`:
+the article chrome reads the catalogue's `documents` namespace in that locale.
+
 The CV's social cards sit on the same seam from the other side: the page is
 localized and the card is not, and a `ru` card would be
 `<variant>.<locale>.og.png` in the same directory by the same rule.

@@ -1,7 +1,9 @@
 ---
-description: What scripts/vet.sh runs and why each check is in it, and the three sites a toolchain change has to wire
+description: What scripts/vet.sh runs and why each check is in it, and the four sites a toolchain change has to wire
 paths:
   - scripts/vet.sh
+  - .github/workflows/vet.yml
+  - .github/actions/setup-toolchain/**
   - scripts/run-parallel.sh
   - .claude/hooks/install-deps.sh
   - package.json
@@ -26,6 +28,7 @@ scripts/vet-songs.sh            # song checks, when a song moved │
 pnpm content:og:vova --check    # social cards, hashes only     │
 pnpm content:og:bible --check   # the seal's own card           │
 pnpm content:og:basilisk --check # the seal card and each case's │
+pnpm content:og:maya --check    # her card and each post's      │
 pnpm music:masters check              # song masters' tags, hashes only │
 pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
@@ -45,39 +48,45 @@ python3 .claude/keepalive/test_keepalive.py                   # │
 python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 ```
 
-Nineteen things about that list are deliberate:
+**`scripts/vet.sh` runs that list split across GitHub's runners**: the phases
+`vet.sh`'s header names, every job starting at once, bar the checks that read
+the branch against its merge base or the cost ledger, which run on this machine
+— a runner has neither without a full-history checkout, which costs more than
+they take, and each passes quietly without it. It vets the **pushed** head and
+refuses a tree that differs from it. Against the whole list run in one container
+it halves the wall clock.
+
+Twenty things about that list are deliberate:
 
 - **`pnpm build` is the only check that covers the app itself.** The suite
   reaches no page (CLAUDE.md § "Testing"), so the static-export build is what
   catches a broken page, route or import. It is what CI runs on `main` too — bar
   the PDF render each lane does after it, the one step of a deploy no local
-  check stands in for. It is **four** builds, one per site, run in sequence and
-  none cached — so a change to any one site's text pays for all of them. That is
-  the accepted cost of four sites out of one repository, and the first thing to
-  revisit if the run becomes annoying.
+  check stands in for. It is **four** builds, one job per site and none cached,
+  and the vova build is the run's critical path: the export checks wait on it
+  and every other job finishes first.
 - **Never call `pnpm lint` from vet.** That script is `lint:check --fix`, and a
   fix it picks is a judgment about source someone wrote — vet is not the place
   to have that made silently. `pnpm lint:check` is the checking form, and
   `pnpm lint:css` is stylelint's. The codegen is the exception below, and it is
   one because a generated file has no judgment in it: exactly one content is
-  correct. `lint:check` is also the one place ESLint's heap ceiling is set, at a
-  fixed 3072 MB appended to the `NODE_OPTIONS` the environment already sets
-  rather than replacing it: Node's default scales with the machine's memory, so
-  without it one tree passes on a laptop and runs out of heap in a cloud
-  container. A tree that outgrows the ceiling fails alike everywhere — the cue
-  to find what grew, not to raise the number.
-- **The builds and the codegen run alone, in that order, before the concurrent
-  checks.** Each build regenerates its app's `.next/types/`, which
-  `tsconfig.json` includes, so a type check overlapping it intermittently reads
-  a route-type module the build hasn't finished writing and fails on the missing
-  import. **Pre-generating with `next typegen` does not fix this and makes it
-  worse** — typegen emits a `cache-life.d.ts` that the build then deletes, so
-  instead of racing occasionally the type check fails every time on a file it
-  has already globbed. The codegen is out of the fan-out for the mirror-image
-  reason: it _writes_ files that `lint:css`, `format:check`, `typecheck` and
-  `knip` glob. The rest touch nothing each other reads, so
-  `scripts/run-parallel.sh` fans them out. A check added there has to be
-  independent of whatever it runs beside.
+  correct. `lint:files`, which `lint:check` and vet's lint shards both call, is
+  the one place ESLint's heap ceiling is set, at a fixed 3072 MB appended to the
+  `NODE_OPTIONS` the environment already sets rather than replacing it: Node's
+  default scales with the machine's memory, so without it one tree passes on a
+  laptop and runs out of heap in a cloud container. A tree that outgrows the
+  ceiling fails alike everywhere — the cue to find what grew, not to raise the
+  number.
+- **No build shares a tree with a type check or ESLint.** A build regenerates
+  its app's `.next/types/`, which `tsconfig.json` includes, so a type check
+  overlapping it reads a route-type module half-written; and `next typegen`,
+  which writes the same types in under a second, emits a `cache-life.d.ts` the
+  build then deletes under a running check. The `lint` and `typecheck` phases
+  run typegen on runners no build touches, which is the one place it is safe.
+- **The codegen runs alone, before the concurrent checks**, because it _writes_
+  files that `lint:css`, `format:check` and `knip` glob. The rest touch nothing
+  each other reads, so `scripts/run-parallel.sh` fans them out. A check added
+  there has to be independent of whatever it runs beside.
 - **Only failures are printed.** `run-parallel.sh` buffers each check under
   `tmp/run-parallel/` and replays just the ones that failed, prefixed by label
   and ending in the path to the verbatim log; the build does the same through
@@ -221,16 +230,22 @@ Nineteen things about that list are deliberate:
   it was authored; the script's header carries the caps and how it finds a
   proposal `/finalize` has already swept.
 
-## The three sites a toolchain change wires
+## The four sites a toolchain change wires
 
 A new runtime, a bumped pin, a new system dependency or a package-manager swap
-is unfinished until all three agree:
+is unfinished until all four agree:
 
-1. `scripts/vet.sh` runs the checks above under the new toolchain.
+1. `scripts/vet.sh` runs the checks above under the new toolchain. Where a check
+   too slow for it goes is CLAUDE.md § "Vetting".
 2. `.claude/hooks/install-deps.sh` installs the dependencies, so a resumed
    remote session tracks the current lockfile. It only re-syncs against the
    lockfile once the toolchain is there.
-3. **The environment setup script** installs and pins the toolchain for remote
+3. **CI**: `.github/actions/setup-toolchain` pins pnpm and Node for every
+   workflow, and `.github/workflows/vet.yml` adds what only vet needs — Python
+   with numpy, a git identity for the tests that commit. A runner starts bare,
+   so a system dependency the container happens to carry is one that the vet run
+   lacks.
+4. **The environment setup script** installs and pins the toolchain for remote
    sessions. No API, MCP tool or in-repo file stands behind it, so no agent can
    change it: **say in your report what the operator must add there**, or the
    next session runs under a version nobody chose. The one case that detects

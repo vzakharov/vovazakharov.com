@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { SITE_CONFIG } from '@/shared/config';
 import {
   type CaseFrontmatter,
   documentDateTime,
@@ -41,7 +42,7 @@ export function DocketRow({ document, title }: DocketRowProps) {
       />
 
       <time className={classes['date']} dateTime={documentDateTime(date)}>
-        {formatDocumentDate(date)}
+        {formatDocumentDate(date, SITE_CONFIG.locale)}
       </time>
       <span className={classes['subject']}>{subject}</span>
       <Link href={route} className={classes['title']}>

@@ -9,8 +9,8 @@
 read_payload
 need_command jq "no context-budget reading this tool call."
 
-warn="${MUTHUR_CONTEXT_BUDGET_WARN:-200000}"
-pause="${MUTHUR_CONTEXT_BUDGET_PAUSE:-300000}"
+warn="${MUTHUR_CONTEXT_BUDGET_WARN:-300000}"
+pause="${MUTHUR_CONTEXT_BUDGET_PAUSE:-400000}"
 pause_saving="${MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING:-20}"
 lines="${MUTHUR_CONTEXT_BUDGET_LINES:-priced}"
 subagent_line="${MUTHUR_CONTEXT_BUDGET_SUBAGENT:-170000}"
@@ -90,6 +90,10 @@ reading="$(read_context)"
 # a hand-set line stays fixed. Cached as `<warn> <pause> <reading>`.
 hooks="$(dirname "${BASH_SOURCE[0]}")"
 priced=
+cap='its fixed cap, there for context quality and the hard window rather than for cost'
+warn_why="$cap" pause_why="$cap"
+[ -z "${MUTHUR_CONTEXT_BUDGET_WARN:-}" ] || warn_why='set by MUTHUR_CONTEXT_BUDGET_WARN'
+[ -z "${MUTHUR_CONTEXT_BUDGET_PAUSE:-}" ] || pause_why='set by MUTHUR_CONTEXT_BUDGET_PAUSE'
 if [ "$lines" = priced ] && [ -z "${MUTHUR_CONTEXT_BUDGET_WARN:-}" -o -z "${MUTHUR_CONTEXT_BUDGET_PAUSE:-}" ] \
   && [ -f "$hooks/../../costs/lib/restart.py" ] && command -v python3 >/dev/null; then
   line_file="$state_dir/$session.line"
@@ -101,11 +105,17 @@ if [ "$lines" = priced ] && [ -z "${MUTHUR_CONTEXT_BUDGET_WARN:-}" -o -z "${MUTH
   fi
   if [ -z "${MUTHUR_CONTEXT_BUDGET_WARN:-}" ] && [[ "$priced_warn" =~ ^[0-9]+$ ]]; then
     priced=1
-    [ "$priced_warn" -ge "$warn" ] || warn="$priced_warn"
+    [ "$priced_warn" -ge "$warn" ] || {
+      warn="$priced_warn"
+      warn_why='where relaying starts to cost less than carrying on'
+    }
   fi
   if [ -z "${MUTHUR_CONTEXT_BUDGET_PAUSE:-}" ] && [[ "$priced_pause" =~ ^[0-9]+$ ]]; then
     priced=1
-    [ "$priced_pause" -ge "$pause" ] || pause="$priced_pause"
+    [ "$priced_pause" -ge "$pause" ] || {
+      pause="$priced_pause"
+      pause_why="where relaying saves ${pause_saving}% of what carrying on costs"
+    }
   fi
 fi
 
@@ -157,7 +167,7 @@ else
   fi
 fi
 
-past() { echo "Context budget: this session is carrying ~$(k "$reading") tokens of context, past the $(k "$1") $2 line."; }
+past() { echo "Context budget: this session is carrying ~$(k "$reading") tokens of context, past the $(k "$1") $2 line — $3."; }
 stopping='`@.claude/skills/go/SKILL.md` § "Stopping partway releases the plan" — which also covers work that has no plan yet'
 relay='`/relay` (`@.claude/skills/relay/SKILL.md`), which hands the branch to a fresh session starting from a summary of this one — the summary `/compact` would make, written to a file instead'
 # The warning's room: what the work may still spend, either finishing or
@@ -176,11 +186,11 @@ paused="follow ${stopping}. Push, ${ends}; the new session resumes the paused pl
 
 saving=
 [ -z "$priced" ] || saving="$(python3 "$hooks/priced_line.py" notice "$transcript" "$reading" "$finish")"
-priced_past() { echo "$(past "$@")${saving:+ $saving Give the operator those figures when you offer the choice.}"; }
+priced_past() { echo "$(past "$@")${saving:+ $saving Give the operator those figures, and why the line sits where it does, when you offer the choice.}"; }
 
 case "$level" in
   warn)
-    notice="$(priced_past "$warn" warning)
+    notice="$(priced_past "$warn" warning "$warn_why")
 
 Judge whether the work fits — the open bite, when the plan has a \`## This bite\` section: by your own estimate, under ~$(k "$room") more tokens of context to finish, roughly less than half of what this session has already carried. If it fits, carry on and finish it, and say in your report that the warning came and why you did not pause.
 
@@ -189,7 +199,7 @@ If it does not fit, steer to a pause within that same ~$(k "$room"): pick the be
 At $(k "$pause") this notice returns as the pause itself, which stops wherever the work stands."
     ;;
   pause)
-    notice="$(priced_past "$pause" pause)
+    notice="$(priced_past "$pause" pause "$pause_why")
 
 Pause now, without asking, wherever the work stands: there is no room left to steer to a better stopping point. The one exception is work literally a step from done — under ~$(k "$last_step") more tokens of context — which you finish first, saying in your report why. Otherwise commit what is in hand, leave the branch just resumable rather than tidy, and ${paused}"
     ;;

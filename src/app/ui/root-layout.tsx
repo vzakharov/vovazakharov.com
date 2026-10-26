@@ -50,7 +50,7 @@ export function RootLayout({
   // which reads them — on `:root`.
   return (
     <html
-      lang="en"
+      lang={SITE_CONFIG.locale}
       className={`${merriweather.variable} ${jetbrainsMono.variable}`}
       {...mantineHtmlProps}
     >

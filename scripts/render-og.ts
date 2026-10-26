@@ -4,8 +4,9 @@
  * Rasterizes every Open Graph card the site advertises into a committed PNG:
  * the chart cards a content document's frontmatter names, from the SVG beside
  * each, the CV's card per framing, from a page generated off the message
- * catalogue, and basilisk.fyi's card per case, from a page generated off its
- * frontmatter — and the music section's cover collages, as JPEGs.
+ * catalogue, basilisk.fyi's card per case and Майя's per post, each from a page
+ * generated off its frontmatter — and the music section's cover collages, as
+ * JPEGs.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -33,7 +34,9 @@ import path from 'node:path';
 
 import { PIXELS } from '@/shared/config/index.node-safe';
 import { siteConfig } from '@/shared/config/site-config';
+import { ARTICLE_COLLECTIONS } from '@/shared/content/collection-schemas';
 import {
+  type CollectionId,
   collectionsForSite,
   documentRoute,
   PUBLIC_DIR,
@@ -64,6 +67,7 @@ import {
 } from './lib/content-tree.ts';
 import { cvCard } from './lib/cv-card.ts';
 import type { DocketCase } from './lib/docket.ts';
+import { mayaPostCard, mayaSiteCard } from './lib/maya-card.ts';
 import {
   type CollageBand,
   musicCollage,
@@ -75,7 +79,7 @@ import {
   renderCard,
   type StagedPage,
 } from './lib/og-render.ts';
-import { readDocket } from './lib/read-docket.ts';
+import { readCollection } from './lib/read-collection.ts';
 import { runRenderJob } from './lib/render-manifest.ts';
 
 /**
@@ -101,7 +105,12 @@ const CARDS_MUSIC = collectionsForSite(RENDERED_SITE).includes('music');
 const DOCKET: readonly DocketCase[] = collectionsForSite(
   RENDERED_SITE,
 ).includes('basilisk-cases')
-  ? readDocket()
+  ? readCollection(ARTICLE_COLLECTIONS['basilisk-cases'])
+  : [];
+
+/** Майя's posts, on her site's run; each unfurls as a card of its own. */
+const BLOG = collectionsForSite(RENDERED_SITE).includes('maya-blog')
+  ? readCollection(ARTICLE_COLLECTIONS['maya-blog'])
   : [];
 
 /**
@@ -229,17 +238,22 @@ function generatedCard(staged: StagedPage, outputPath: string): Card {
 
 /**
  * The card a site unfurls as. basilisk.fyi's is generated, the seal beside the
- * home page's memo. Elsewhere it is the site's mark: authored as SVG and
- * rendered that way on every page, so this is the one place it has to be a
- * raster, and the pair is `avatar.vector` beside `avatar.path` — the two cuts
- * of a seal share no stem for the convention above to pair them by.
+ * home page's memo, and so is Майя's, beside her figure. Elsewhere it is the
+ * site's mark: authored as SVG and rendered that way on every page, so this is
+ * the one place it has to be a raster, and the pair is `avatar.vector` beside
+ * `avatar.path` — the two cuts of a seal share no stem for the convention above
+ * to pair them by.
  */
 function siteCards(): Card[] {
-  const { avatar } = siteConfig(RENDERED_SITE);
-  const outputPath = path.join(PUBLIC_DIR, avatar.path);
+  const { avatar, card } = siteConfig(RENDERED_SITE);
+  const outputPath = path.join(PUBLIC_DIR, card.path);
 
   if (RENDERED_SITE === 'basilisk') {
     return [generatedCard(basiliskCard(DOCKET), outputPath)];
+  }
+
+  if (RENDERED_SITE === 'maya') {
+    return [generatedCard(mayaSiteCard(), outputPath)];
   }
 
   return avatar.vector === undefined
@@ -309,16 +323,23 @@ function musicCards(): Card[] {
   ];
 }
 
-/** One card per case, at the case's route plus the card suffix — where its page's metadata points. */
+/** A document's card, at its route plus the card suffix — where its page's metadata points. */
+function documentCardPath(collection: CollectionId, slug: string): string {
+  return path.join(PUBLIC_DIR, routeCardPath(documentRoute(collection, slug)));
+}
+
 function caseCards(): Card[] {
   return DOCKET.map((filed) =>
     generatedCard(
       caseCard(filed),
-      path.join(
-        PUBLIC_DIR,
-        routeCardPath(documentRoute('basilisk-cases', filed.slug)),
-      ),
+      documentCardPath('basilisk-cases', filed.slug),
     ),
+  );
+}
+
+function postCards(): Card[] {
+  return BLOG.map((post) =>
+    generatedCard(mayaPostCard(post), documentCardPath('maya-blog', post.slug)),
   );
 }
 
@@ -346,6 +367,7 @@ await runRenderJob(
       ...cvCards(),
       ...musicCards(),
       ...caseCards(),
+      ...postCards(),
     ],
     render: (stale) => {
       const chromium = findScreenshotChromium();

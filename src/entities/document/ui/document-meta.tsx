@@ -1,5 +1,6 @@
 import { Group } from '@mantine/core';
 
+import { SITE_CONFIG } from '@/shared/config';
 import {
   type ArticleFrontmatter,
   AUTHORS,
@@ -8,6 +9,7 @@ import {
   type WithFrontmatter,
   type WithReadingMinutes,
 } from '@/shared/content';
+import { loadMessages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
 import { NameLink } from '@/shared/ui';
@@ -29,6 +31,8 @@ export function DocumentMeta({
   className,
 }: DocumentMetaProps) {
   const { name, href } = AUTHORS[frontmatter.author];
+  const { locale } = SITE_CONFIG;
+  const copy = loadMessages(locale).documents;
 
   return (
     <Group
@@ -40,18 +44,20 @@ export function DocumentMeta({
       className={cx(classes['meta'], className)}
     >
       <span>
-        By <NameLink {...{ href }}>{name}</NameLink>
+        {copy.by} <NameLink {...{ href }}>{name}</NameLink>
       </span>
       <span aria-hidden>·</span>
       <time dateTime={documentDateTime(frontmatter.date)}>
-        {formatDocumentDate(frontmatter.date)}
+        {formatDocumentDate(frontmatter.date, locale)}
       </time>
       <span aria-hidden>·</span>
-      <span>{readingMinutes} min read</span>
+      <span>
+        {copy.readingTime.replace('{minutes}', String(readingMinutes))}
+      </span>
       {frontmatter.part !== undefined && (
         <>
           <span aria-hidden>·</span>
-          <span>Part {frontmatter.part}</span>
+          <span>{copy.part.replace('{part}', frontmatter.part)}</span>
         </>
       )}
     </Group>
