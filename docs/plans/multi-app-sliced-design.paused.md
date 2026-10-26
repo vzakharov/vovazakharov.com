@@ -270,16 +270,18 @@ and phone) and the radio screenshotted pixel-identical to the elephant's.
   with it `masd.md`'s `shared/catalogue` trap); `pages/artist`, `pages/album`,
   `pages/song` and `pages/radio` each hold their page, props type and metadata,
   the song page its lyrics, credits, facts and video, the radio its dial.
-- **What pages share sits by what it imports**: `music/shared/ui` holds the
-  tiles, covers, badge, fact and hook lines and noted span — client-safe, so
-  `HookLine` reads `hookRuns` through the node-safe barrel; `widgets/music-nav`
-  reads music's catalogue, which would otherwise ride the shared barrel into the
-  player's bundle; `widgets/song-list` places the player's `TrackButton`;
-  `widgets/story` renders blog's `ProseContent`. `music/shared/seo` holds
-  `catalogueMetadata` and `listenTitle`, `songDownloads` joined
-  `shared/catalogue`, and `SONG_FEED` music's `app/lib`.
-- **`music.module.scss` is gone**, cut along its components: the tiles and
-  covers share `shared/ui/covers.module.scss`.
+- **What pages share sits by what it is** (review on #214): `entities/cover`,
+  `entities/hook` and `entities/song` (the explicit badge) show one noun each;
+  `widgets/catalogue-header`, `catalogue-grid`, `music-nav`, `song-list` and
+  `story` compose; `music/shared/ui` keeps only what knows no music — fact
+  lines, the noted span, the WIP mark, the title gloss. `HookLine` reads
+  `hookRuns` through the catalogue's node-safe barrel, the radio's client card
+  entering its slice. `music/shared/seo` holds `catalogueMetadata` and
+  `listenTitle`, `songDownloads` joined `shared/catalogue`, and `SONG_FEED`
+  music's `app/lib`. `masd.md` states the noun test for `shared/ui` and the
+  node-safe barrel as a client's entry.
+- **`music.module.scss` is gone**, cut along its components; the square of art
+  the covers and tiles both draw is the `art` mixin in `shared/styles`.
 
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
