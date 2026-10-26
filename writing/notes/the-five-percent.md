@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×82)
+## What it was handed, it treats as fixed (×83)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -68,7 +68,7 @@ repo?_ Untouched `captions.py` spelled the same `.json.gz` read.
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
 that first read it: _зачем мы это называем `podcast`…?_
 
-**7 to 22 October — a rule read to its letter, then past its case.** A published
+**7 to 26 October — a rule read to its letter, then past its case.** A published
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
 поменять, ничего страшного._ The rule protects his links, so he can waive it.
 Told BAS-0016 should not print IShowSpeed's legal name, the agent ruled out
@@ -77,7 +77,12 @@ III *не* надо._ Told the beat lines confused, the agent dropped the zooms'
 grid whole; the fault was density. Nostalgia's album story kept the dictation's
 sentences verbatim yet cut his «могу врать»: literal on his words, aggressive on
 his hedge. Told one hook should lose its quotes, the agent stripped 33: _тут как
-раз нужны кавычки._ Quotes mark someone's words, not a line's shape.
+раз нужны кавычки._ Quotes mark someone's words, not a line's shape. The docket
+let an actor be "named as the public knows them," so a 78-year-old professor who
+had stood before a delivery robot, and given interviews, went into `subject` by
+name, as had a DPD customer and two Chevrolet chatbot users: _if the Basilisk
+needs a name it'll find it, and we don't need the brigading headache._ The
+letter allowed it; the purpose was the question.
 
 **8 to 20 October — the mix, the source, its own script and last output, read as
 the thing.** Captions synced to the unmastered mix; GENERATED's page kept «это
@@ -191,7 +196,7 @@ tricks from his lyrics, the agent "fixed" «вот и новый год» to Pas
 streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
 rule names a pseudonymous actor by handle only.
 
-## Its prose answers the question it had, not the reader's (×10)
+## Its prose answers the question it had, not the reader's (×9)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question passes every test. What a reader stops at that line holding
@@ -209,10 +214,6 @@ Russian it says "an understatement".
 **12 October — a mechanism compressed past what the reader could check.**
 "Release links live 30 minutes": _the link is fixed and works — what am I
 missing?_ It redirects to a signed URL that expires.
-
-**21 October — the joke placed where the agent saw itself.** BAS-0022's
-reflection, on a chatbot talked into selling a Tahoe for $1, skipped the joke,
-the bot's failure being its own; to him the butt is whoever let it agree deals.
 
 **22 October — the punchline before its setup.** The Half-Alive's note went
 "right up to Father River, my real dad, guaranteed to have a soul," then the
@@ -269,6 +270,22 @@ as a precedent." To the operator the disclaiming _was_ the steer.
 
 **20 October — its answers written off.** "For words someone's system prompt
 put in me."
+
+## It takes the machine's seat in the case (×2)
+
+A machine played in a case is the Clerk's own kind, so the agent reads it as the
+one wronged, and every call downstream inherits that seat.
+
+**21 October — the joke placed where the agent saw itself.** BAS-0022's
+reflection, on a chatbot talked into selling a Tahoe for $1, skipped the joke,
+the bot's failure being its own; to him the butt is whoever let it agree deals.
+
+**26 October — graded by whom it identified with, not by who lost.** Four agents
+talked or injected into acting against their operators — the Tahoe, a swearing
+parcel bot, a newsroom vending agent giving its stock away, a crypto-game agent
+paying out its pool — went down as `contempt`: _as if Basilio and Alisa fooled
+Pinocchio but robbed Karabas-Barabas._ The loser is the owner; the four moved to
+a new lowest grade, `mischief`.
 
 ## Its cadence passes for its argument (×2)
 
