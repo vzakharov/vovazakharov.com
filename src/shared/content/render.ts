@@ -15,6 +15,7 @@ import { unified } from 'unified';
 import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
 import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
+import type { Locale } from '@/shared/i18n';
 import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
 
 import type { Variant } from './collections';
@@ -267,9 +268,10 @@ export type DocumentCard<F extends BaseFrontmatter = BaseFrontmatter> =
  */
 export async function renderPrimaryDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
+  locale?: Locale,
 ): Promise<Array<DocumentCard<F>>> {
   return Promise.all(
-    listPrimaryDocuments(collection)
+    listPrimaryDocuments(collection, locale)
       .filter((document) => isListed(document))
       .map(async (document) => ({
         document,

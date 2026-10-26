@@ -5,8 +5,8 @@
  * the chart cards a content document's frontmatter names, from the SVG beside
  * each, the CV's card per framing, from a page generated off the message
  * catalogue, basilisk.fyi's card per case and Майя's per post, each from a page
- * generated off its frontmatter — and the music section's cover collages, as
- * JPEGs.
+ * generated off its frontmatter, Майя's per toy, off its drawing — and the
+ * music section's cover collages, as JPEGs.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -49,6 +49,10 @@ import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES, routeCardPath } from '@/shared/seo';
 import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
 import {
+  WHISPER_DRAWING,
+  WHISPER_ROUTE,
+} from '@/pages/maya-whisper/lib/whisper-copy';
+import {
   artistCollage,
   artistCollageCovers,
   MUSIC_COLLAGE,
@@ -67,7 +71,7 @@ import {
 } from './lib/content-tree.ts';
 import { cvCard } from './lib/cv-card.ts';
 import type { DocketCase } from './lib/docket.ts';
-import { mayaPostCard, mayaSiteCard } from './lib/maya-card.ts';
+import { mayaPostCard, mayaSiteCard, mayaToyCard } from './lib/maya-card.ts';
 import {
   type CollageBand,
   musicCollage,
@@ -343,6 +347,18 @@ function postCards(): Card[] {
   );
 }
 
+/** Майя's toys, each unfurling as its own card rather than her site's. */
+function toyCards(): Card[] {
+  if (RENDERED_SITE !== 'maya') return [];
+
+  return [
+    generatedCard(
+      mayaToyCard(WHISPER_DRAWING),
+      path.join(PUBLIC_DIR, routeCardPath(WHISPER_ROUTE)),
+    ),
+  ];
+}
+
 const siteEntries = siteCards();
 
 await runRenderJob(
@@ -368,6 +384,7 @@ await runRenderJob(
       ...musicCards(),
       ...caseCards(),
       ...postCards(),
+      ...toyCards(),
     ],
     render: (stale) => {
       const chromium = findScreenshotChromium();

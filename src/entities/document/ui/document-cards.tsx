@@ -8,24 +8,29 @@ import {
   documentRoute,
   type WithCollectionId,
 } from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
+import { loadMessages, type WithOptionalLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { Card, NameLink, TextLink } from '@/shared/ui';
 
 import classes from './document-cards.module.scss';
 import { DocumentMeta } from './document-meta';
 
-type DocumentCardsProps = WithCollectionId & {
-  cards: Array<DocumentCard<ArticleFrontmatter>>;
-};
+type DocumentCardsProps = WithCollectionId &
+  WithOptionalLocale & {
+    cards: Array<DocumentCard<ArticleFrontmatter>>;
+  };
 
 /**
  * A collection's documents as a list of cards — the drawing, the byline, the
  * blurb and the links to every cut. The collection's index and the Bible's
  * home page both render it, differing only in the copy above it.
  */
-export function DocumentCards({ collection, cards }: DocumentCardsProps) {
-  const copy = loadMessages(SITE_CONFIG.locale).documents;
+export function DocumentCards({
+  collection,
+  cards,
+  locale = SITE_CONFIG.locale,
+}: DocumentCardsProps) {
+  const copy = loadMessages(locale).documents;
 
   return (
     <Stack gap={24}>
@@ -54,7 +59,7 @@ export function DocumentCards({ collection, cards }: DocumentCardsProps) {
                   <NameLink href={route}>{title}</NameLink>
                 </Title>
                 <DocumentMeta
-                  {...{ frontmatter, readingMinutes }}
+                  {...{ frontmatter, readingMinutes, locale }}
                   className={classes['cardMeta']}
                 />
                 <Text lh={1.625} mb={16}>

@@ -3,7 +3,6 @@ description: Most people stay in a local terminal because a terminal is where se
 date: 2026-09-16
 author: vova
 order: 3
-cardImage: ./assets/trunk.jpg
 ---
 
 # Drive your agents from the web, not from the CLI
