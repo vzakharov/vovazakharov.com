@@ -9,8 +9,9 @@ split from each other without first taking it out.
 music/features/player now holds the player: its provider, bar and the
 buttons pages place, its state and hooks under model/. Its rules leave
 music.module.scss as player.module.scss, cut on the seam; what the bar
-and the pages both draw, Spelling, BillingLinks and duration, goes to
-music's shared/.
+and the pages both draw, Spelling, BillingLinks, duration and the fill
+mixin, goes to music's shared/. A header's size line is read off
+catalogueInfo with the rest of what a page shows.
 
 Music gets an app layer that mounts the player, maps an address to a
 page and parses the route. The page prop types stay with the pages,
