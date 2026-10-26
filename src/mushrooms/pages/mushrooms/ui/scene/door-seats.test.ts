@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { OPENING_EYE } from '../../model/ground';
-import { anchoredGround, laidOf, placeIn } from './clump-layout';
+import { anchoredGround } from './anchored-ground';
+import { laidOf, placeIn } from './clump-layout';
 import { doorSeats } from './door-seats';
 import { doorInSight, standingAt } from './door-sight';
 import { opened } from './visit-play';

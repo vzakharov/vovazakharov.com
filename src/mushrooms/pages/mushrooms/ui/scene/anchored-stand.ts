@@ -23,7 +23,7 @@ import {
   type WithCamera,
 } from '../../model/ground';
 import { isBeeSown, type Sown } from '../../model/planted-flowers';
-import { anchoredGround, type ClumpGround } from './clump-layout';
+import { anchoredGround, type ClumpGround } from './anchored-ground';
 import { type Bedded,groundOf, standingOn } from './flower-layout';
 import type { SeededLayout, Stand } from './flower-sight';
 import { PALE_SPAN } from './repaint-queue';

@@ -40,8 +40,9 @@ import type { WithPlanted } from '../../model/insects';
 import { pinholeOf } from '../../model/pinhole';
 import type { WithMushrooms, WithSpores } from '../../model/planted';
 import { type Plot, slotTaken } from '../../model/planted-flowers';
+import type { ClumpGround, MushroomGround } from './anchored-ground';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
-import { type ClumpGround,type MushroomGround, placeIn } from './clump-layout';
+import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { type Bedded,FLOWER_SWAY, standingOn } from './flower-layout';
 import {

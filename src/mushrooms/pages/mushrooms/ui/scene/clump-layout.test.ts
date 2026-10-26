@@ -13,14 +13,9 @@ import {
 } from '../../model/ground';
 import { mushroomGenes } from '../../model/mushroom-genes';
 import { grownOn, OPENING_FOOTING, openingIndex } from '../../model/placement';
+import { anchoredGround } from './anchored-ground';
 import { bedPlace } from './bed-place';
-import {
-  anchoredGround,
-  extremes,
-  laidOf,
-  placeIn,
-  placeOf,
-} from './clump-layout';
+import { extremes, laidOf, placeIn, placeOf } from './clump-layout';
 import { meadowLayout } from './layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import { viewAt } from './view';

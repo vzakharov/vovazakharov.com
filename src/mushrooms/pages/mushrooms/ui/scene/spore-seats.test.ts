@@ -5,7 +5,7 @@ import { type Meadow, reduce } from '../../model/game';
 import { OPENING_EYE } from '../../model/ground';
 import { apartOnScreen } from '../../model/placement';
 import { SPORE_SEATS } from '../../model/sprouting';
-import { groundIn } from './clump-layout';
+import { groundIn } from './anchored-ground';
 import { standOf } from './flower-sight';
 import { SPORE_REACH } from './mushroom-room';
 import { sporeOnTap } from './spore-seats';

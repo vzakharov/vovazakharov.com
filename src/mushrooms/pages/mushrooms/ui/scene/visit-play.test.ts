@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { OPENING_EYE } from '../../model/ground';
 import { apartOnScreen } from '../../model/placement';
 import { SPORE_SEATS } from '../../model/sprouting';
+import { groundIn } from './anchored-ground';
 import {
   hiddenOf,
   hidersOf,
@@ -11,7 +12,6 @@ import {
   PARTS,
   partSighted,
 } from './cap-cover';
-import { groundIn } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { patchlessIn } from './mushroom-patch';
 import { SPORE_REACH } from './mushroom-room';

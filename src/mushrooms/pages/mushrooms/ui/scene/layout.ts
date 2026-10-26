@@ -17,7 +17,8 @@ import {
 } from '../../model/ground';
 import { openingPan, screenOf } from '../../model/pan';
 import { pinholeOf } from '../../model/pinhole';
-import { type ClumpGround, clumpCrowns, everyPlace } from './clump-layout';
+import type { ClumpGround } from './anchored-ground';
+import { clumpCrowns, everyPlace } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import { FAR_BAND } from './far-band';
 import {

@@ -28,7 +28,8 @@ import {
   type RootedFlower,
   type Sown,
 } from '../../model/planted-flowers';
-import { type ClumpGround,standingPlaces } from './clump-layout';
+import type { ClumpGround } from './anchored-ground';
+import { standingPlaces } from './clump-layout';
 import {
   type Bedded,
   clearOfFeet,

@@ -1,12 +1,8 @@
-import type { Planted } from '../../model/planted';
 import type { Eye } from '../../model/ground';
 import type { DoorPlace } from '../../model/house';
-import {
-  anchoredGround,
-  laidOf,
-  type MushroomGround,
-  placeIn,
-} from './clump-layout';
+import type { Planted } from '../../model/planted';
+import { anchoredGround, type MushroomGround } from './anchored-ground';
+import { laidOf, placeIn } from './clump-layout';
 import { doorInSight, type Standing, standingAt } from './door-sight';
 
 /**

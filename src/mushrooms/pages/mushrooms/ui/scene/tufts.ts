@@ -10,10 +10,12 @@
 import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { WithHeight } from '@/kernel/shared/typings';
 
 import { browDistance } from '../../model/eye-height';
-import { sameFoot } from '../../model/ground';
 import { distanceBetween, type Point } from '../../model/geometry';
+import type { WithCamera } from '../../model/ground';
+import { sameFoot } from '../../model/ground';
 import {
   CLUMP_DISTANCE,
   D_SEE,
@@ -23,11 +25,14 @@ import {
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
 import type { Random } from '../../model/random';
+import type { ClumpGround } from './anchored-ground';
 import { depthOf, UNPLACED } from './bed-place';
 import { coversShown, inSightPast } from './flower-cover';
+import type { Bedded } from './flower-layout';
 import { FLOWER_SIZE } from './flower-layout';
 import { pulledFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
+import type { FlowerSightLayout } from './flower-sight';
 import {
   BLADE_OVERHANG,
   downAt,
@@ -40,6 +45,7 @@ import {
   turfAt,
   type WithTuft,
 } from './grass';
+import type { LawnLayout } from './lawn';
 import {
   CELL,
   type Cell,
@@ -51,6 +57,7 @@ import {
 } from './lawn';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
+import type { TendingLayout } from './tending';
 import { Tended, tendedIn } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
 import {
@@ -64,14 +71,6 @@ import {
   type View,
   viewAt,
 } from './view';
-import type { WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
-
-import type { FlowerSightLayout } from './flower-sight';
-import type { LawnLayout } from './lawn';
-import type { TendingLayout } from './tending';
 /** What of the meadow's layout this reads. */
 export type TuftsLayout = WithHeight &
   WithCamera &

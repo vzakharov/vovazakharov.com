@@ -30,11 +30,12 @@ import {
 } from '../../model/ground';
 import type { Splayed } from '../../model/mushroom-pose';
 import { openingIndex } from '../../model/placement';
-import { groundIn, type MushroomGround, placeIn } from './clump-layout';
-import { standingAt } from './door-sight';
-import { flowersOf, type FlowerPlotsLayout } from './flower-plots';
-import { flowerTapReach, type Stand } from './flower-sight';
+import { groundIn, type MushroomGround } from './anchored-ground';
 import type { Placement } from './clump-layout';
+import { placeIn } from './clump-layout';
+import { standingAt } from './door-sight';
+import { type FlowerPlotsLayout,flowersOf } from './flower-plots';
+import { flowerTapReach, type Stand } from './flower-sight';
 import { meadowCamera } from './meadow-camera';
 import {
   drawnHolds,

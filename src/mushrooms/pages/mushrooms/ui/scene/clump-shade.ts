@@ -17,9 +17,10 @@ import {
   type MushroomSeed,
 } from '../../model/mushroom-genes';
 import type { Footed } from '../../model/placement';
-import { type MushroomGround, placeIn } from './clump-layout';
-import { standingWith } from './door-sight';
+import type { MushroomGround } from './anchored-ground';
 import type { Placement } from './clump-layout';
+import { placeIn } from './clump-layout';
+import { standingWith } from './door-sight';
 
 /** A mushroom standing as a visit opens: its seed, and the foot it stands on. */
 export type Opener = MushroomSeed & Footed;

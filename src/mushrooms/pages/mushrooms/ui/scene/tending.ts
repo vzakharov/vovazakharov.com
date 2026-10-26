@@ -7,13 +7,17 @@
  * judged round its newcomers alone (`lostOn`).
  */
 
+import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
+
 import { anchorOf } from '../../model/anchor';
 import { flowersCrowdAt } from '../../model/crowding';
 import { browDistance } from '../../model/eye-height';
 import { azimuthOf } from '../../model/flight-frame';
 import { FLOWER_RANGES, flowerGenes } from '../../model/flower-genes';
-import { sameFoot } from '../../model/ground';
 import { boxesMeet, distanceBetween, wrap } from '../../model/geometry';
+import type { WithCamera } from '../../model/ground';
+import type { GroundBand } from '../../model/ground';
+import { sameFoot } from '../../model/ground';
 import {
   type Eye,
   type Footing,
@@ -21,9 +25,12 @@ import {
   OPENING_EYE,
 } from '../../model/ground';
 import { pinholeOf } from '../../model/pinhole';
+import type { ClumpGround } from './anchored-ground';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
+import type { Bedded } from './flower-layout';
 import { headClear, standingOn } from './flower-layout';
 import { flowersOf, groundFor, mushroomFeet } from './flower-plots';
+import type { FlowerSightLayout } from './flower-sight';
 import {
   type Cover,
   coversOn,
@@ -36,13 +43,6 @@ import type { Sprout } from './lawn';
 import { PALE_SPAN } from './repaint-queue';
 import { bareAmong, bareToTap } from './tuft-tap';
 import { cull, type View } from './view';
-import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
-
-import type { FlowerSightLayout } from './flower-sight';
-import type { GroundBand } from '../../model/ground';
 /** What of the meadow's layout this reads. */
 export type TendingLayout = WithWidth &
   WithHeight &

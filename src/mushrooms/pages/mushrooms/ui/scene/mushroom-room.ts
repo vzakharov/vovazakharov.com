@@ -17,6 +17,7 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
 
 import { anchorOf } from '../../model/anchor';
 import { isCrowdedAt } from '../../model/crowding';
@@ -28,6 +29,7 @@ import {
   distanceToEdge,
   type Point,
 } from '../../model/geometry';
+import type { WithCamera } from '../../model/ground';
 import {
   anchored,
   type Eye,
@@ -46,16 +48,18 @@ import {
   type WithOptionalSpan,
 } from '../../model/placement';
 import type { Seeded } from '../../model/random';
+import { type ClumpGround,groundIn } from './anchored-ground';
 import { anchoredStand } from './anchored-stand';
 import { aboutFoot } from './bed-place';
 import { capBox } from './cap-cover';
-import { FOREST_SPLAY, groundIn, placeOnGround } from './clump-layout';
+import type { Placement } from './clump-layout';
+import { FOREST_SPLAY, placeOnGround } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
 import { layoutShown } from './eye-crop';
 import { coversShown, type ShownCover } from './flower-cover';
+import type { Bedded } from './flower-layout';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
-import type { Placement } from './clump-layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import {
   type Around,
@@ -65,14 +69,10 @@ import {
 } from './mushroom-patch';
 import { dotInSight } from './spore-sight';
 import { doorsKept, partsInView, standingOn } from './standing-weighed';
+import type { Sunned, SunWashed } from './sun-layout';
 import { SUN_RAY_REACH } from './sun-layout';
 import { tapReach } from './tap-reach';
 import { behindHills, cull, ofLayout, type View } from './view';
-import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { Sunned, SunWashed } from './sun-layout';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
 
 /** Every control's hit area on the screen, open pickers and all: what a new mushroom's cap keeps off. */
 export type EveryButton = { everyButton: readonly Circle[] };

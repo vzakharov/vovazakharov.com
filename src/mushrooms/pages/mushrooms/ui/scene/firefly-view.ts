@@ -19,7 +19,7 @@ import { smooth, type TapTimed } from '../../model/motion';
 import { capSeat } from '../../model/mushroom-pose';
 import type { WithMushrooms } from '../../model/planted';
 import type { Seeded } from '../../model/random';
-import type { ClumpGround } from './clump-layout';
+import type { ClumpGround } from './anchored-ground';
 import { tappedFirefly } from './firefly-tap';
 import type { Bedded } from './flower-layout';
 import type { CircleFigure } from './hit-areas';

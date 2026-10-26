@@ -6,8 +6,9 @@
  * view past `MOST_HIDDEN`.
  */
 
-import type { Planted } from '../../model/planted';
 import { type Box, boxAround, boxesMeet } from '../../model/geometry';
+import type { Planted } from '../../model/planted';
+import type { MushroomGround } from './anchored-ground';
 import {
   type Among,
   amongAt,
@@ -21,7 +22,7 @@ import {
   pastMore,
   type Sighted,
 } from './cap-cover';
-import { type MushroomGround, placeIn } from './clump-layout';
+import { placeIn } from './clump-layout';
 import { doorInSight, IN_SIGHT, sightOf, type Standing } from './door-sight';
 
 /**

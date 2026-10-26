@@ -9,8 +9,8 @@ import {
 } from '../../model/ground';
 import { type Perch, perchName } from '../../model/perch';
 import { airAloftOf, airAlofts } from './air-spots';
+import type { ClumpGround } from './anchored-ground';
 import { anchoredStand } from './anchored-stand';
-import type { ClumpGround } from './clump-layout';
 import type { Bedded } from './flower-layout';
 import type { Stand } from './flower-sight';
 import { type Away, awayPlaces, type InsectAwayLayout } from './insect-away';
