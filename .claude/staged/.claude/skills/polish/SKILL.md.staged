@@ -1,8 +1,9 @@
 ---
 description: >-
   Run the standard quality passes over work just done — `/dry`, then
-  `/tend-prose` — scoped to what the branch has changed since it was last
-  polished, committing what they change. These are the passes `/go` runs at its
+  `/tend-prose`, committing what they change, then `/five-percent`, posting its
+  alternatives as a PR review — scoped to what the branch has changed since it
+  was last polished. These are the passes `/go` runs at its
   Step 3; this skill is how work that never went through `/go` gets them. Invoke
   as `/polish [focus guidance]`, or `/polish full` to re-read the branch's whole
   diff against its base rather than only what it changed since the last polish

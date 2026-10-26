@@ -1,7 +1,7 @@
 # The polish passes
 
 The subagent `@.claude/skills/polish/SKILL.md` launches follows this file; the
-session that launched it never reads it. Two passes, in this order, over one
+session that launched it never reads it. Three passes, in this order, over one
 scope:
 
 1. **`/dry`** — load `@.claude/skills/dry/SKILL.md`. Duplication that was not
@@ -9,14 +9,20 @@ scope:
    ambiguous calls.
 2. **`/tend-prose`** — load `@.claude/skills/tend-prose/SKILL.md`. The four
    defects, over the prose the work added.
+3. **`/five-percent`** — load and follow
+   `@.claude/skills/five-percent/procedure.md`. What the change took as given,
+   put to it as alternatives on the PR; it edits nothing, keeps its own floor,
+   and defers when the branch has no PR.
 
 **The order is load-bearing.** An extraction writes its own comments as it goes
 and moves prose between files, so tending first works over text `/dry` is about
-to rewrite or delete. Prose is tended last, over what survives.
+to rewrite or delete. Prose is tended after it, over what survives, and the
+third pass reads what survives both, so it proposes nothing they already
+changed.
 
-Each pass is a real read of the diff and commits its own edits. "The diff looks
-clean" is a conclusion a pass reaches, never a reason not to run it — and a pass
-that changes nothing is a result, reported as one.
+Each pass is a real read of the diff, and the first two commit their own edits.
+"The diff looks clean" is a conclusion a pass reaches, never a reason not to run
+it — and a pass that changes nothing is a result, reported as one.
 
 **Push before reporting.** Every run leaves a commit — each pass's edits, or the
 empty mark below — and in a remote session an unpushed commit is invisible to
@@ -25,16 +31,16 @@ caller is pre-empted: `/go` and `/finalize` push again for their own reasons,
 and pushing unvetted mid-branch work is ordinary development here rather than a
 shortcut past land prep.
 
-Any argument other than `full` is focus guidance and rides through to both
-passes unchanged — including a lens name, which is `/tend-prose`'s to read.
-`full` is `/polish`'s own, and § "The floor" below says what it does.
+Any argument other than `full` is focus guidance and rides through to every pass
+unchanged — including a lens name, which is `/tend-prose`'s to read. `full` is
+`/polish`'s own, and § "The floor" below says what it does.
 
 **The report is the run's whole output**, relayed by the session that launched
 it: what each pass changed with its commits, the calls `/dry` leaves for the
-operator, and the prose the run would have cut or rewritten but for intent it
-could not establish — each of those as a question, not an edit. Intent the plan,
-the diff and the code leave unrecoverable is intent a reviewer will not recover
-either, which is a finding in itself.
+operator, the third pass's own line, and the prose the run would have cut or
+rewritten but for intent it could not establish — each of those as a question,
+not an edit. Intent the plan, the diff and the code leave unrecoverable is
+intent a reviewer will not recover either, which is a finding in itself.
 
 ## Scope: the branch, not the session
 
@@ -44,7 +50,7 @@ seconds after implementing, and wrong everywhere else this skill is called from:
 at `/finalize`, or on a branch another session wrote, the work is already pushed
 and the ladder falls through to "nothing to review".
 
-So the scope is resolved **here**, once, and handed to both passes:
+So the scope is resolved **here**, once, and handed to every pass:
 
 ```bash
 gh pr view --json baseRefName --jq .baseRefName   # the base, when there is a PR and gh reaches it
@@ -142,5 +148,4 @@ as context.
   own land prep, and `/go` flips its plan file once this returns.
 - Widen past the scope above into a general refactor of code the branch did not
   touch. Both passes are about the change, not the codebase.
-- Skip either pass. Two passes are the whole skill; running one is not running
-  it.
+- Skip a pass. Three passes are the whole skill; running two is not running it.

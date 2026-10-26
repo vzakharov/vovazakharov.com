@@ -7,9 +7,9 @@ under it the times a review bumped into it. It feeds row 18 of
 `writing/linkedin/plan.md`, and bumps stay in whatever they show: a collection
 that only vindicates the reviewer is an ad.
 
-**Adding to it is mandatory after a review session** that changed something the
-agent had settled (`CLAUDE.md` § "GitHub comments"). **The file has an end:** it
-retires with that rule once row 18 is posted.
+**Closed to entries.** Its learnings are `/five-percent`'s lenses now
+(`.claude/skills/five-percent/lenses.md`), and the file retires with the article
+it feeds.
 
 ## How this file is kept
 
