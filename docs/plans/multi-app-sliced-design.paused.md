@@ -232,6 +232,15 @@ looked at playing.
   prop types stay the pages', whose barrel exports the five pages and their
   metadata. vova's router and sitemap enter it.
 
+Collections into blog, begun on `masd/collections-blog` (9d9a870): typecheck
+clean, nothing else run.
+
+- **`blog/shared/content`** is the old `kernel/shared/content`, every alias
+  importer repointed. What names no collection stayed kernel's: `PUBLIC_DIR` and
+  `GENERATED_DIR` (`shared/config/public-dir.ts`, node-safe barrel only),
+  `shared/lib/content-hash.ts`, `WithOptionalOgImageSize` in `shared/seo`'s
+  `og-card.ts`, `Routed` in `shared/typings`.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -273,7 +282,7 @@ those slices carry their own tools along.
   slices 5 and 6 left in it — `list-untold-songs` among them, whose
   `catalogue-names.ts` reads the filesystem under bare Node.
 
-## This bite
+## Rest of the bite
 
 **Collections into blog** (review on #169). Only blog and its descendants read
 the collection registry; kernel holds it because its own sitemap, feed and
@@ -281,13 +290,10 @@ metadata factories do. Those take what they need from outside, and
 `kernel/shared/content` moves to `blog/shared/content`, which kernel no longer
 imports:
 
-- **What names no collection stays kernel's**: `PUBLIC_DIR` and `GENERATED_DIR`
-  in `shared/config`'s `public-dir.ts`, behind its node-safe barrel only (it
-  reads `node:path`, which the client-imported `index.ts` must not hold);
-  `contentHash` as `shared/lib/content-hash.ts`; `WithOptionalOgImageSize` in
-  `shared/seo` beside `constructMetadata`, its one kernel reader. Everything
-  else in the segment, `image-dimensions.ts` and `music-route.ts` included,
-  moves.
+- **Still reading blog from kernel**, to cut loose below: `app/lib`'s sitemap
+  and feed, `shared/seo/construct-metadata.ts`, and the scripts
+  `render-mermaid`, `content-tree`, `public-markdown`, `read-collection` and
+  `og-job` (the first three now reach blog by a relative path).
 - **Sitemap**: kernel's `sitemap(pages)` takes a thunk of
   `{ route, lastModified? }` and adds only `/`; blog's app layer has
   `sitemap(routes)`, which adds the collections' indexes and documents — vova,
