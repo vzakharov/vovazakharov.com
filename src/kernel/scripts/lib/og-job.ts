@@ -2,9 +2,7 @@
  * Rasterizes every Open Graph card a site advertises into a committed PNG. The
  * core is the cards every site has — the chart cards a content document's
  * frontmatter names, from the SVG beside each, and the site's own card, from
- * its mark — and each site's `scripts/render-og.ts` adds its own as bundles:
- * vova's CV cards and music's collages, basilisk's generated site and case
- * cards, Майя's site and post cards.
+ * its mark — and each site's `scripts/render-og.ts` adds its own as bundles.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to

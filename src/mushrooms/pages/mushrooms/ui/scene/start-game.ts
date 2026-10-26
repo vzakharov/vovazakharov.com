@@ -57,8 +57,8 @@ function run(parent: HTMLElement, opening: Opening): () => void {
     game.scale.resize(parent.clientWidth * ratio, parent.clientHeight * ratio);
   };
   fit();
-  // A probe build hands the game to `src/mushrooms/scripts/play-mushrooms.ts`, which steps
-  // and taps it; every other build compiles this out.
+  // A probe build hands the game to `src/mushrooms/scripts/play-mushrooms.ts`,
+  // which steps and taps it; every other build compiles this out.
   if (process.env.NEXT_PUBLIC_MUSHROOM_PROBE !== undefined) {
     Object.assign(globalThis, { __game: game });
   }

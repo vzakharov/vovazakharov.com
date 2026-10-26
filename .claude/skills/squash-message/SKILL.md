@@ -99,16 +99,15 @@ there, so the comment opens with a block holding `<title> (#<n>)` to paste over
 it. The count is the PR's as this run sees it, and every reconcile recounts.
 
 **Which file: presence decides.** The tracked path is
-`$(scripts/working-dir.sh)/squash-message.md`, the branch's own working
-directory, so a bite never edits the draft of the elephant it branched off. If
-it is on the branch, that is the working file, and it is a **live doc, not a
-blank sheet**: what's already in it — earlier wording, the operator's edits,
-whatever a previous run settled on — is the starting point, and this run edits
-it in light of what has changed since. Step 5 commits and pushes it. The path is
-a tripwire: the tree's name states its whole contract, and `/finalize` sweeps it
-once CI is green, so the proposal's own source never rides the squash onto the
-base branch. The sweep is the last thing that happens to it, after that run's
-own reconcile — so even the final edit, the one that becomes the permanent
+`$(scripts/working-dir.sh)/squash-message.md`, in the branch's own working
+directory. If it is on the branch, that is the working file, and it is a **live
+doc, not a blank sheet**: what's already in it — earlier wording, the operator's
+edits, whatever a previous run settled on — is the starting point, and this run
+edits it in light of what has changed since. Step 5 commits and pushes it. The
+path is a tripwire: the tree's name states its whole contract, and `/finalize`
+sweeps it once CI is green, so the proposal's own source never rides the squash
+onto the base branch. The sweep is the last thing that happens to it, after that
+run's own reconcile — so even the final edit, the one that becomes the permanent
 record, is made with the doc in hand.
 
 **Absent → load `@.claude/skills/squash-message/working-file.md`**, which picks

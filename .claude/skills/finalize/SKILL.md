@@ -10,12 +10,10 @@ and follow it to attach to `<target>`, then run the finalize steps below. If the
 argument has no target token, skip this and finalize the current branch as
 usual.
 
-**A bite does not finalize.** A bite is a PR whose base is an elephant's branch
-rather than the repo's default (`@.claude/skills/plan/elephant.md`): what it
-lands on is no trunk, and the elephant's own finalize sweeps, swaps and vets
-everything its bites landed. So on a bite this skill — `and merge` and an
-operator's ask to merge included — runs `@.claude/skills/plan/elephant.md` §
-"Landing a bite" instead, and nothing below.
+**A bite does not finalize.** On a PR whose base is an elephant's branch rather
+than the repo's default, this skill — `and merge` and an operator's ask to merge
+included — runs `@.claude/skills/plan/elephant.md` § "Landing a bite" instead,
+and nothing below.
 
 **`no vet` is the docs-only mode.** Pass it when the diff has nothing to verify
 — markdown, top-level docs, read-only reference data. It skips the vet run

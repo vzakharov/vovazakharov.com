@@ -12,10 +12,6 @@
  * The caller renders, handed every stale entry at once so one browser or one
  * dev server covers the batch, and awaited so the prune and the manifest write
  * see what it produced.
- *
- * Bare Node runs the scripts that use this, relying on its type stripping, so
- * this file stays free of syntax the stripper cannot erase and every relative
- * import carries its `.ts` extension.
  */
 
 /* eslint-disable no-console -- stdout is the calling script's interface:

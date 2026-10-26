@@ -15,6 +15,9 @@ import { z } from 'zod';
 /** FSD's sliced layers, highest first; `app` and `shared` are segmented. */
 export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 
+/** FSD's layers, highest first. */
+export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
+
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
 // Kebab-case also keeps every key non-numeric, which is what makes JS hand the

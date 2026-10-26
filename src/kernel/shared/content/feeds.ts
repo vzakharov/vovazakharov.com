@@ -32,8 +32,8 @@ export type FeedEntry = UnlinkedRssItem & Routed;
  * A feed's items in one language, and what makes it a podcast where it is one.
  * A collection read as articles has a source of its own; any other is fed by
  * the app that owns its schema. A source with no `description` is described by
- * the site's tagline — the songs' has one, the author's tagline selling a CTO,
- * not a record.
+ * the site's tagline; the songs' brings its own, since the author's tagline
+ * sells a CTO, not a record.
  */
 export type FeedSource = {
   entries: (locale: Locale) => Promise<FeedEntry[]>;

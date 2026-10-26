@@ -1,16 +1,14 @@
 import type { Linter } from 'eslint';
 
-import { loadGraph } from '../masd-graph';
+import { LAYERS, loadGraph } from '../masd-graph';
 import { withSeverity } from './rule-severity';
-
-// FSD's layers, lowest first.
-const LAYERS = ['shared', 'entities', 'features', 'widgets', 'pages', 'app'];
 
 // One group per app in graph order — `masd.json` declares every parent above
 // its child, so a file's own app comes last. An inner array sorts by which of
-// its patterns matched, with no blank line between them: the layers in order.
+// its patterns matched, with no blank line between them: the layers lowest
+// first.
 const appGroups = [...loadGraph().keys()].map((app) =>
-  LAYERS.map((layer) => `^@/${app}/${layer}/`),
+  LAYERS.toReversed().map((layer) => `^@/${app}/${layer}/`),
 );
 
 // simple-import-sort — deterministic, auto-fixable, Prettier-compatible import and
