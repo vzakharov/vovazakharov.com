@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# What the branch has changed, for the checks that run only when it reaches them
-# (src/music/scripts/vet-songs.sh, and `pnpm test` through scripts/test-changed.sh).
+# What the branch has changed, for the checks that run only when it reaches
+# them (src/music/scripts/vet-songs.sh, and `pnpm test` through
+# scripts/test-changed.sh).
 #
 # This file is meant to be SOURCED, not executed — it defines functions and does
 # not set shell options.

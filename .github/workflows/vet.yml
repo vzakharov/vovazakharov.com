@@ -123,9 +123,10 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       # The runner's system Python refuses a pip install (PEP 668), and
-      # src/music/scripts/song-intake/test_song_facts.py needs numpy. Ungated, unlike the
-      # song checks: install and test take ~5 s, and a gate on song-intake
-      # changes needs the merge base this one-commit checkout lacks.
+      # src/music/scripts/song-intake/test_song_facts.py needs numpy.
+      # Ungated, unlike the song checks: install and test take ~5 s, and a
+      # gate on song-intake changes needs the merge base this one-commit
+      # checkout lacks.
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
