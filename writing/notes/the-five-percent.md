@@ -106,7 +106,7 @@ that the walk post's line links into her `reflections.md` on `main` would drift,
 so the agent dropped the line numbers: _можно ж сослаться на конкретное SHA?_ A
 permalink at a commit keeps both, reachable after a squash through the PR.
 
-## An account that explains the code stands in for running it (×28)
+## An account that explains the code stands in for running it (×29)
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
@@ -134,6 +134,13 @@ its last line makes his father the drop, the rain and the river.
 routine plan sent her general code "down a layer where anyone can reuse it";
 Steiger refuses a lower slice with one consumer. It let her edit a rule file
 under `.claude/rules/`, where the auto-mode classifier would likely refuse her.
+
+**26 October — a shared partial priced, never tried.** Splitting PR #207's
+580-line stylesheet, the agent restated a two-line `fill` mixin in both halves,
+a shared partial costing more than the repeat, and handed him the call on that
+price: _давай общий файл, в src/music/shared, получается?_ The whole cost was an
+`index.scss` in `src/music/shared/styles/`, which Steiger takes as the segment's
+public API.
 
 ## It edits the copy in front of it, not the fact behind it (×19)
 
@@ -254,6 +261,22 @@ stood taller than the capitals in the catalogue's 16px list.
 drew drum hits as 1 px ticks on a 1300 px image, for a reader that cannot hear:
 _С такими тоненькими полосками что вообще агент сможет понять?_
 
+## A correction made once, it makes again from its own picture (×3)
+
+**25 October — "one reader per entity," applied to the entities he named.** PR
+#205 folded the per-fact readers into `albumInfo`, `artistInfo` and `songInfo`,
+and left the catalogue as five: `catalogueSongs()`, `catalogueAlbum(album,
+locale, songs)` and three more taking `songs`, threaded so the disk is read
+once: _rather than à la catalogueInfo?_ That reason argued for one object holding
+the read, not for readers sharing a parameter: `catalogueInfo()` is now it.
+
+**26 October — "a page reads each thing once," carried to the readers, not to
+what pages assemble.** PR #207 moved `catalogueSize`, the "7 songs · 25 minutes"
+line, into music's `shared/lib`, and left three pages each building its counts
+and seconds from `catalogueInfo()`: _а этому size не место в catalogueInfo
+случайно?_ The counts are catalogue facts, and `catalogueInfo` already returned
+localized strings, so the line now comes off it.
+
 ## It warns where the repo could refuse (×3)
 
 A decision the agent wants to survive, it secures by explaining it; a structure
@@ -295,15 +318,6 @@ tracks 6 and 10: _it's all in the dictation_, outside the story.
 
 **21 October — a singer asked for, on an AI band.** On Nostalgia's Insomnia, the
 agent asked who sings it: _ну это же всё ИИ, ты чего?_
-
-## A correction made once, it makes again from its own picture (×2)
-
-**25 October — "one reader per entity," applied to the entities he named.** PR
-#205 folded the per-fact readers into `albumInfo`, `artistInfo` and `songInfo`,
-and left the catalogue as five: `catalogueSongs()`, `catalogueAlbum(album,
-locale, songs)` and three more taking `songs`, threaded so the disk is read
-once: _rather than à la catalogueInfo?_ That reason argued for one object holding
-the read, not for readers sharing a parameter: `catalogueInfo()` is now it.
 
 ## Not bumps
 
