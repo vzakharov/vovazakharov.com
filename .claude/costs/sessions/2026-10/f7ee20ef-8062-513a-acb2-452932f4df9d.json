@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 108,
+    "cacheWrite5mTokens": 131106,
+    "cacheWrite1hTokens": 108452,
+    "cacheReadTokens": 6645515,
+    "outputTokens": 27417,
+    "thinkingTokens": 12280,
+    "responses": 54,
+    "costUsd": 3.401020999999999
+  },
+  "estimate": {
+    "at": "2026-10-26T05:34:30.625Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "two of the three answers weigh toolchain trade-offs across Node, tsx, TypeScript and every resolver in the build, which takes someone who knows the whole tool chain"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the timings and the plan entry are routine once the calls are made"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "f7ee20ef-8062-513a-acb2-452932f4df9d",
+  "branch": "claude/multi-app-sliced-design-7bn3oq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/multi-app-sliced-design-7bn3oq",
+  "prs": [
+    169
+  ],
+  "url": "https://claude.ai/code/session_01ADTjLcS4Hnm998knagdJVp",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T05:31:44.180Z",
+  "lastResponseAt": "2026-10-26T05:37:53.783Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108452,
+    "cacheReadTokens": 3698629,
+    "outputTokens": 16565,
+    "thinkingTokens": 7716,
+    "responses": 29,
+    "costUsd": 1.9388737999999999
+  },
+  "subagents": {
+    "inputTokens": 50,
+    "cacheWrite5mTokens": 131106,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2946886,
+    "outputTokens": 10852,
+    "thinkingTokens": 4564,
+    "responses": 25,
+    "costUsd": 1.4621472
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 108,
+      "cacheWrite5mTokens": 131106,
+      "cacheWrite1hTokens": 108452,
+      "cacheReadTokens": 6645515,
+      "outputTokens": 27417,
+      "thinkingTokens": 12280,
+      "responses": 54,
+      "costUsd": 3.401020999999999
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/plans/multi-app-sliced-design.paused.md",
+    "endedAt": "2026-10-26T05:34:16.670Z",
+    "contextTokens": 141296,
+    "spend": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 89443,
+      "cacheReadTokens": 1921054,
+      "outputTokens": 8519,
+      "thinkingTokens": 4620,
+      "responses": 17,
+      "costUsd": 1.2702708
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
