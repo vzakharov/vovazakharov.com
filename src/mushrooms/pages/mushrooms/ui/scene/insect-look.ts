@@ -16,7 +16,7 @@ import {
   rubbing,
   trembleSize,
 } from '../../model/buzz-rest';
-import type { Timed } from '../../model/motion';
+import type { Flier } from '../../model/flier';
 import type { FlyGenes } from '../../model/fly-genes';
 import type { Point, Scaled, WithMiddle } from '../../model/geometry';
 import {
@@ -31,11 +31,11 @@ import {
   type Stay,
   wingBeat,
 } from '../../model/insect-motion';
-import { buzzTurn, type BodySide } from '../../model/insect-outline';
+import { type BodySide,buzzTurn } from '../../model/insect-outline';
 import type { Airborne } from '../../model/insect-paths';
-import type { Flier } from '../../model/insects';
 import { turnedLight } from '../../model/light';
-import { type Specked, specksAt } from '../../model/pollen';
+import type { Timed } from '../../model/motion';
+import { type Specked, specksAt } from '../../model/pollen-load';
 import { inBody } from '../../model/proboscis';
 import { drawBee, paintBeeBody, paintBeeLegs } from './draw-bee';
 import type { BuzzParts } from './draw-buzz';
@@ -47,7 +47,7 @@ import {
   type Proboscis,
 } from './draw-insect';
 import type { Lighted, Lighting } from './ink';
-import type { Nectared } from './perch-hosts';
+import type { Nectared } from './insect-seat';
 
 /** How far a butterfly's wings fold at the most closed, seen from above, as a share of open. */
 const FOLDED = 0.12;

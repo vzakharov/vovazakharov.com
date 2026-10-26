@@ -1,3 +1,4 @@
+import type { Flier } from '../../model/flier';
 import type { Sight } from '../../model/flight';
 import type { Aloft } from '../../model/flight-frame';
 import {
@@ -6,7 +7,6 @@ import {
   unanchored,
   type WithCamera,
 } from '../../model/ground';
-import type { Flier } from '../../model/insects';
 import { type Perch, perchName } from '../../model/perch';
 import { airAloftOf, airAlofts } from './air-spots';
 import { anchoredStand } from './anchored-stand';

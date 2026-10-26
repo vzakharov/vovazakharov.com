@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Flier } from '../../model/flier';
 import {
   type Aloft,
   centreOf,
@@ -17,7 +18,7 @@ import type { InsectKind } from '../../model/insect-genes';
 import { aloft, carriedFrom, landingBob } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
-import { caughtAloft, type Flier, isShying } from '../../model/insects';
+import { caughtAloft, isShying } from '../../model/insects';
 import { smooth, wobble } from '../../model/motion';
 import { isSeat } from '../../model/perch-room';
 import { aloftAt } from '../../model/pinhole';

@@ -11,14 +11,14 @@ import type { BeeGenes } from '../../model/bee-genes';
 import { beeAnatomy, beeOutline, type Oval } from '../../model/bee-outline';
 import { type Point, sample } from '../../model/geometry';
 import { litCrest } from '../../model/insect-light';
-import { POLLEN_MOST } from '../../model/pollen';
+import { POLLEN_MOST } from '../../model/pollen-load';
 import { mix, nudgeHue } from './colour';
 import { crescent } from './crescent';
 import {
+  BODY_SIDES,
   type BuzzParts,
   drawBuzzWings,
   paintLeg,
-  BODY_SIDES,
 } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
 import { awayAngle, inkFor, type Lighting, lineInk, TAPER } from './ink';

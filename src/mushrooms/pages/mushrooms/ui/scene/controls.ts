@@ -2,6 +2,7 @@ import type * as Phaser from 'phaser';
 
 import { isFull } from '../../model/crowding';
 import type { FlowerColour } from '../../model/flower-genes';
+import { shapeSeed } from '../../model/flower-planting';
 import {
   FLOWER_SHAPES,
   type FlowerShape,
@@ -9,13 +10,12 @@ import {
 } from '../../model/flower-sounds';
 import { canFurnish } from '../../model/furnishing';
 import { isEmpty, type Meadow } from '../../model/game';
-import { shapeSeed } from '../../model/flower-planting';
-import type { Planted } from '../../model/planted';
 import type { Point } from '../../model/geometry';
 import { type Furnishing, FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
-import { isBeeSown, type Sown } from '../../model/pollen';
+import type { Planted } from '../../model/planted';
+import { isBeeSown, type Sown } from '../../model/planted-flowers';
 import type { Walk } from '../../model/walk';
 import {
   type Button,

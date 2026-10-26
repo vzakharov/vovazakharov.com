@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { ALL_TEN, opened, play } from '../ui/scene/visit-play';
+import type { Flier } from './flier';
 import { restedFliers } from './flier-rest';
-import type { Flier } from './insects';
 import { RESTED_AT } from './kept-record';
 import { isAloft, isLeaving } from './perch';
 

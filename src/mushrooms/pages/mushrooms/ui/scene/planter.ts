@@ -1,6 +1,6 @@
-import type { MeadowLayout } from './layout';
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Dispatching, MeadowSeen, StandSeen } from '../../model/acting';
 import type { Sight } from '../../model/flight';
 import type { FlowerColour } from '../../model/flower-genes';
 import {
@@ -9,17 +9,16 @@ import {
   seedSounding,
   shapeSeeds,
 } from '../../model/flower-sounds';
-import { type Action, type Meadow } from '../../model/game';
-import { sameFoot } from '../../model/ground';
-import type { Eye } from '../../model/ground';
+import type { Action, Meadow } from '../../model/game';
+import { type Eye,sameFoot } from '../../model/ground';
 import type { Stamped } from '../../model/motion';
-import { plantedId } from '../../model/pollen';
+import { plantedId } from '../../model/planted-flowers';
 import { mulberry32, type Random } from '../../model/random';
 import { type Stand, takesFlower } from './flower-sight';
-import { type FlowerInView, keyPlanting, sowingTuft } from './keyed-flowers';
 import type { SoundPlanting } from './instrument-input';
+import { type FlowerInView, keyPlanting, sowingTuft } from './keyed-flowers';
+import type { MeadowLayout } from './layout';
 import type { PlanterVoice } from './sound';
-import type { Dispatching, MeadowSeen, StandSeen } from '../../model/acting';
 import { plantableIn, type Refusing, type Sprout } from './tufts';
 
 /** What acts on the meadow: the reducer, and the meadow it reduces. */

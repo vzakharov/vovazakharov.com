@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
+import type { Flier } from '../../model/flier';
 import { isShown } from '../../model/flight-in';
 import { NEAR_FLOWERS } from '../../model/flower-sounds';
 import { type Meadow, reduce } from '../../model/game';
@@ -11,7 +12,6 @@ import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE, D_SEE, OPENING_EYE } from '../../model/ground';
 import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
-import type { Flier } from '../../model/insects';
 import { hasTrumpet, mushroomGenes } from '../../model/mushroom-genes';
 import { perchName, type ShelterSeat } from '../../model/perch';
 import { isSeat } from '../../model/perch-room';

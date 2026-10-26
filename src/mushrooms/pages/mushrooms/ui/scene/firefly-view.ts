@@ -1,8 +1,9 @@
 import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithId } from '@/kernel/shared/typings';
+import type { WithId, WithWidth } from '@/kernel/shared/typings';
 
+import type { MeadowSeen } from '../../model/acting';
 import {
   awake,
   circling,
@@ -13,24 +14,22 @@ import {
   tailGlow,
 } from '../../model/firefly';
 import { lerpPoint, type Point } from '../../model/geometry';
-import { CLUMP_DISTANCE } from '../../model/ground';
+import { CLUMP_DISTANCE, type WithCamera } from '../../model/ground';
 import { smooth, type TapTimed } from '../../model/motion';
 import { capSeat } from '../../model/mushroom-pose';
-import type { Seeded } from '../../model/random';
-import { tappedFirefly } from './firefly-tap';
-import type { CircleFigure } from './hit-areas';
-import { PALETTE } from './palette';
-import type { HostBeds, Seat } from './perch-hosts';
-import type { MeadowSeen } from '../../model/acting';
 import type { WithMushrooms } from '../../model/planted';
+import type { Seeded } from '../../model/random';
+import type { ClumpGround } from './clump-layout';
+import { tappedFirefly } from './firefly-tap';
+import type { Bedded } from './flower-layout';
+import type { CircleFigure } from './hit-areas';
+import type { Seat } from './insect-seat';
+import type { InsectScaled } from './insect-size';
+import { PALETTE } from './palette';
+import type { HostBeds } from './perch-hosts';
+import type { SunWashed } from './sun-layout';
 import { TAP_RADIUS } from './tap-reach';
 import { tuftUnder } from './tufts';
-import type { WithWidth } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { SunWashed } from './sun-layout';
-import type { InsectScaled } from './insect-size';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
 
 /** What a firefly's flare plays: a chime, panned to where it flares. */
 export type Glinting = { glint: (pan: number) => void };

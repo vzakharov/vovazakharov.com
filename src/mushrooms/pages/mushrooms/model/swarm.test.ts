@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { Flier } from './flier';
 import type { Sight } from './flight';
 import { type Action, firstMeadow, type Meadow, reduce } from './game';
 import type { InsectKind } from './insect-genes';
-import { type Flier, INSECT_LIMITS } from './insects';
-import { type BeeSown, POLLEN_MOST, slotTaken, type Sown } from './pollen';
+import { INSECT_LIMITS } from './insects';
+import { type BeeSown, slotTaken, type Sown } from './planted-flowers';
+import { POLLEN_MOST } from './pollen-load';
 import { mulberry32 } from './random';
 
 const SEEDED = ['flower-1', 'flower-2', 'flower-3', 'flower-4'];

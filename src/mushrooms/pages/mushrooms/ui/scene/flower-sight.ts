@@ -9,6 +9,7 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { WithHeight } from '@/kernel/shared/typings';
 
 import { anchorOf } from '../../model/anchor';
 import { flowersCrowdAt } from '../../model/crowding';
@@ -19,7 +20,6 @@ import {
   flowerHead,
   type WithPulled,
 } from '../../model/flower-genes';
-import type { WithMushrooms } from '../../model/planted';
 import {
   type Box,
   boxAround,
@@ -28,17 +28,22 @@ import {
   containsPoint,
   type Point,
 } from '../../model/geometry';
-import type { Camera, Eye, Layered } from '../../model/ground';
+import type {
+  Camera,
+  Eye,
+  Footing,
+  Layered,
+  WithCamera,
+} from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import type { WithPlanted } from '../../model/insects';
 import { pinholeOf } from '../../model/pinhole';
-import { type Plot, slotTaken } from '../../model/pollen';
-import type { WithSpores } from '../../model/planted';
+import type { WithMushrooms, WithSpores } from '../../model/planted';
+import { type Plot, slotTaken } from '../../model/planted-flowers';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
-import { type MushroomGround, placeIn } from './clump-layout';
+import { type ClumpGround,type MushroomGround, placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
-import { FLOWER_SWAY, standingOn } from './flower-layout';
-import type { Footing } from '../../model/ground';
+import { type Bedded,FLOWER_SWAY, standingOn } from './flower-layout';
 import {
   flowersOf,
   groundFor,
@@ -50,13 +55,9 @@ import {
   type StandingFlower,
 } from './flower-plots';
 import { flowerLift } from './flower-seat';
+import type { InsectScaled } from './insect-size';
 import { tapReach } from './tap-reach';
 import { middleOf } from './view';
-import type { WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { InsectScaled } from './insect-size';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
 
 /** What of the meadow's layout this reads. */
 export type FlowerSightLayout = WithHeight &

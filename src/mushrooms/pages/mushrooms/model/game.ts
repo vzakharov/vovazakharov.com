@@ -39,7 +39,7 @@ import {
 import { perchName } from './perch';
 import { type Footed, OPENING_FOOTING } from './placement';
 import type { Deselect, Grown, WithMushrooms, WithSelected } from './planted';
-import { plantedId, type Sown } from './pollen';
+import { plantedId, type Sown } from './planted-flowers';
 import type { Random, Seeded } from './random';
 import {
   sown,

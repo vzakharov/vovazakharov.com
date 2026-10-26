@@ -3,7 +3,7 @@
  * with what was left of its stay, so the next load finds none in the air.
  */
 
-import type { Flier } from './insects';
+import type { Flier } from './flier';
 import { RESTED_AT } from './kept-record';
 import type { Leg } from './perch';
 

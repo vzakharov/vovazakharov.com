@@ -8,7 +8,7 @@ import { type Aloft, azimuthOf } from '../../model/flight-frame';
 import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE, SPREAD } from '../../model/ground';
 import { aloftAt, bendAt, pinholeOf } from '../../model/pinhole';
-import type { Standing } from './bed-place';
+import type { Host, Standing } from './bed-place';
 import type { Zoomed } from './insect-away';
 import {
   type SeatEnds,
@@ -16,8 +16,18 @@ import {
   veeredAlong,
   veerOf,
 } from './insect-frame';
-import type { Seat } from './perch-hosts';
 import type { View } from './view';
+
+/**
+ * Where an insect sits on a cap or a flower, in world px at the opening eye,
+ * and at a flower the head's middle it drinks from; the host it sits on,
+ * which draws it, and the seat as the host draws it this frame (`drawn`, CSS
+ * px), its parts on the host at the host's zoom and its lift off the host at
+ * the sitter's own.
+ */
+export type Seat = Point & Nectared & { on: Host; drawn: Point };
+/** The middle of the flower a seat drinks at, where it has one. */
+export type Nectared = { nectar?: Point };
 
 /**
  * Where `view` draws an insect flying at `raw`, `flown` of the way along its

@@ -4,16 +4,15 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Leg, Perch } from './perch';
+import type { Plot, Sown } from './planted-flowers';
+import { sown } from './pollen';
 import {
   NO_POLLEN,
-  type Plot,
   type Pollen,
   POLLEN_MOST,
   pollenAfter,
-  type Sown,
-  sown,
   specksAt,
-} from './pollen';
+} from './pollen-load';
 
 const flower = (id: string): Perch => ({ kind: 'flower', id });
 const AIR: Perch = { kind: 'air', id: 'air-1' };

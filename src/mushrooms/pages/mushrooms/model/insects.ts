@@ -7,6 +7,7 @@
  * (`sown`), so these hand back the planted flowers with the insects.
  */
 
+import type { Flier } from './flier';
 import {
   firstFlight,
   flightAway,
@@ -15,17 +16,12 @@ import {
   type Perches,
 } from './flight';
 import type { Onscreen } from './flight-in';
-import type { Insect, InsectKind, OfKind } from './insect-genes';
+import type { Insect, InsectKind } from './insect-genes';
 import { type Flight, isAloft, isLeaving } from './perch';
 import { flowerFreed, givesWay, type Held } from './perch-room';
-import {
-  type Carrying,
-  NO_POLLEN,
-  type Plot,
-  pollenAfter,
-  type Sown,
-  sown,
-} from './pollen';
+import type { Plot, Sown } from './planted-flowers';
+import { sown } from './pollen';
+import { NO_POLLEN, pollenAfter } from './pollen-load';
 import { type Dusked, roostedPerches, sitsOut } from './roost';
 import {
   dashesForCover,
@@ -33,18 +29,6 @@ import {
   type Showered,
   stayingDry,
 } from './shelter';
-
-/** A kind that carries no pollen. */
-type Visitor = OfKind<Exclude<InsectKind, 'bee'>>;
-/** A bee, and the pollen it carries: only a bee has any. */
-type Pollinator = OfKind<'bee'> & Carrying;
-/**
- * `shied`, the leg, by its count in `legs`, a catch in the air set the flier
- * shying on (`insect-dart.ts`): it darts on that leg alone, so a later leg
- * carrying the count on never darts.
- */
-type Shying = { shied?: number };
-export type Flier = Insect & Flight & Shying & (Visitor | Pollinator);
 
 /**
  * What the insects make of the meadow: the fliers, in the order they were

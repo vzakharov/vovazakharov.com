@@ -24,6 +24,7 @@ import { tappedDoor } from './door-tap';
 import { containsMushroom } from './hit-areas';
 import { HouseView } from './house-view';
 import type { Lighting } from './ink';
+import type { Seat } from './insect-seat';
 import type { MeadowLayout } from './layout';
 import { MouseRuns } from './mouse-runs';
 import { moveMushroom } from './mushroom-frame';
@@ -35,7 +36,6 @@ import {
   stepsHere,
   unplacedShown,
 } from './mushroom-shown';
-import type { Seat } from './perch-hosts';
 import {
   type Detailing,
   type Dusking,

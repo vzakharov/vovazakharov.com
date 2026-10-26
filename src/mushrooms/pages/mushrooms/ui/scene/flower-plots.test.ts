@@ -11,12 +11,13 @@ import {
   anchored,
   CLUMP_DISTANCE,
   downOf,
+  type Footing,
   groundFootOf,
   OPENING_EYE,
   unanchored,
 } from '../../model/ground';
 import { openingIndex } from '../../model/placement';
-import { isBeeSown, type Sown } from '../../model/pollen';
+import { isBeeSown, type Sown } from '../../model/planted-flowers';
 import { between, mulberry32, nextSeed } from '../../model/random';
 import { anchoredStand } from './anchored-stand';
 import { FAR_BAND } from './far-band';
@@ -27,7 +28,6 @@ import {
   HEAD_REACH,
   NEAR_BAND,
 } from './flower-layout';
-import type { Footing } from '../../model/ground';
 import {
   flowerFeet,
   flowersOf,

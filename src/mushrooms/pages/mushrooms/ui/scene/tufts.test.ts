@@ -12,6 +12,7 @@ import {
   type Camera,
   D_SEE,
   type Eye,
+  type Footing,
   groundFootOf,
   OPENING_EYE,
   planeOf,
@@ -19,7 +20,7 @@ import {
 } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { pinholeOf } from '../../model/pinhole';
-import { plantedId, type Sown } from '../../model/pollen';
+import { plantedId, type Sown } from '../../model/planted-flowers';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import {
   FLOWER_DOWN,
@@ -27,7 +28,6 @@ import {
   headClear,
   standingOn,
 } from './flower-layout';
-import type { Footing } from '../../model/ground';
 import { flowersOf } from './flower-plots';
 import { roomIn, type Stand, takesFlower } from './flower-sight';
 import { type Tuft, tuftSizeAt, turfAt } from './grass';

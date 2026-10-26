@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { type Dusk, FULL_DAY, FULL_DUSK } from './dusk';
+import type { Flier } from './flier';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { wingBeat } from './insect-motion';
-import { type Flier, released, startled, type Swarm, ticked } from './insects';
+import { released, startled, type Swarm, ticked } from './insects';
 import { roostedPerches, sitsOut, WAKE_MS, wingsShut } from './roost';
 
 const SIGHT = {

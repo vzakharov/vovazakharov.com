@@ -1,4 +1,3 @@
-import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -6,14 +5,14 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { MUSHROOM_SLOTS } from '../../model/crowding';
 import { reduce } from '../../model/game';
-import { sameFoot } from '../../model/ground';
-import { type Eye, OPENING_EYE } from '../../model/ground';
+import { type Eye, OPENING_EYE,sameFoot } from '../../model/ground';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { plantedId, type Sown } from '../../model/pollen';
+import { plantedId, type Sown } from '../../model/planted-flowers';
 import { mulberry32, nextSeed } from '../../model/random';
 import { flowersOf } from './flower-plots';
 import { coversOn, roomFor as beeRoomFor, type Stand } from './flower-sight';
 import { LiveLawn, type Sprout } from './lawn';
+import type { MeadowLayout } from './layout';
 import { roomFor as mushroomRoomFor } from './mushroom-room';
 import {
   lostOn,
@@ -86,7 +85,7 @@ function childPlanted(
 function beePlanted(
   stand: Stand<MeadowLayout>,
   seed: number,
-): Stand<MeadowLayout>[] {
+): Array<Stand<MeadowLayout>> {
   const random = mulberry32(seed);
   const ids = flowersOf(stand).map(({ id }) => id);
   return beeRoomFor(stand, ids, coversOn(stand.layout, stand.mushrooms)).map(

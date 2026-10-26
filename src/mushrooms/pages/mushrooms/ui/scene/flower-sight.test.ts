@@ -1,4 +1,3 @@
-import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
@@ -6,7 +5,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { anchorOf } from '../../model/anchor';
 import { OPENING_EYE } from '../../model/ground';
-import type { Sown } from '../../model/pollen';
+import type { Sown } from '../../model/planted-flowers';
 import { mulberry32, nextSeed } from '../../model/random';
 import { anchoredStand } from './anchored-stand';
 import { flowersOf } from './flower-plots';
@@ -17,6 +16,7 @@ import {
   sightingOf,
   type Stand,
 } from './flower-sight';
+import type { MeadowLayout } from './layout';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 

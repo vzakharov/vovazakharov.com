@@ -6,6 +6,8 @@
  * a rule finds there goes back to the plane through `unanchored`.
  */
 
+import type { WithHeight } from '@/kernel/shared/typings';
+
 import { sameAnchor } from '../../model/anchor';
 import { D_SEE_MOST } from '../../model/eye-height';
 import type { Flower } from '../../model/flower-genes';
@@ -18,16 +20,13 @@ import {
   gathered,
   OPENING_EYE,
   planeFootOf,
+  type WithCamera,
 } from '../../model/ground';
-import { isBeeSown, type Sown } from '../../model/pollen';
-import { anchoredGround } from './clump-layout';
-import { groundOf, standingOn } from './flower-layout';
+import { isBeeSown, type Sown } from '../../model/planted-flowers';
+import { anchoredGround, type ClumpGround } from './clump-layout';
+import { type Bedded,groundOf, standingOn } from './flower-layout';
 import type { SeededLayout, Stand } from './flower-sight';
 import { PALE_SPAN } from './repaint-queue';
-import type { WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
 
 /** What of the meadow's layout this reads. */
 export type AnchoredStandLayout = WithHeight &
@@ -106,13 +105,14 @@ function seededAt<L extends AnchoredStandLayout>(
       ? known.kept
       : reseed(layout, flowers, anchor);
   reseedings.set(layout, { anchor, kept: reseeded });
+  const { feet, flowers: standing } = reseeded;
   return {
     layout: {
       ...layout,
       mushrooms: anchoredGround(layout.mushrooms, anchor),
-      flowers: reseeded.feet,
+      flowers: feet,
     },
-    flowers: reseeded.flowers,
+    flowers: standing,
   };
 }
 

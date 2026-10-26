@@ -9,33 +9,35 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Flower } from '../../model/flower-genes';
-import type { WithPulled } from '../../model/flower-genes';
-import type { WithMushrooms } from '../../model/planted';
+import type { Flower, WithPulled } from '../../model/flower-genes';
 import {
   anchored,
   type Eye,
+  type Footing,
   type Ground,
   groundFootOf,
   planeFootOf,
   type Rooted,
   SPREAD,
+  type WithCamera,
   zAt,
 } from '../../model/ground';
-import { isBeeSown, type RootedFlower, type Sown } from '../../model/pollen';
-import { standingPlaces } from './clump-layout';
+import type { WithMushrooms } from '../../model/planted';
 import {
+  isBeeSown,
+  type RootedFlower,
+  type Sown,
+} from '../../model/planted-flowers';
+import { type ClumpGround,standingPlaces } from './clump-layout';
+import {
+  type Bedded,
   clearOfFeet,
   FLOWER_DOWN,
   groundOf,
   headsApart,
   standingOn,
 } from './flower-layout';
-import type { Footing } from '../../model/ground';
 import type { PlotGround, Stand } from './flower-sight';
-import type { WithCamera } from '../../model/ground';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
 
 /** What of the meadow's layout this reads. */
 export type FlowerPlotsLayout = WithCamera & ClumpGround & Bedded;

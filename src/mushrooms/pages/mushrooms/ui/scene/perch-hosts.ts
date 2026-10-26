@@ -1,26 +1,14 @@
+import type { Flier } from '../../model/flier';
 import type { Aloft, AtAloft } from '../../model/flight-frame';
-import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
-import type { Flier } from '../../model/insects';
 import { capUnder } from '../../model/mushroom-outline';
 import { capSeat } from '../../model/mushroom-pose';
 import { isAloft, isLeaving, type Perch } from '../../model/perch';
-import type { Host } from './bed-place';
 import type { FlowerBed } from './flower-bed';
+import type { Seat } from './insect-seat';
 import type { MushroomBed } from './mushroom-bed';
 import { dropped, perchSpot, shelterDrop } from './perch-sight';
-
-/**
- * Where an insect sits on a cap or a flower, in world px at the opening eye,
- * and at a flower the head's middle it drinks from; the host it sits on,
- * which draws it, and the seat as the host draws it this frame (`drawn`, CSS
- * px), its parts on the host at the host's zoom and its lift off the host at
- * the sitter's own.
- */
-export type Seat = Point & Nectared & { on: Host; drawn: Point };
-/** The middle of the flower a seat drinks at, where it has one. */
-export type Nectared = { nectar?: Point };
 
 /** Where an insect sits on a perch: a seat on a host, or a spot in the open air as a fixed point in the world. */
 export type Perched = Seat | AtAloft;

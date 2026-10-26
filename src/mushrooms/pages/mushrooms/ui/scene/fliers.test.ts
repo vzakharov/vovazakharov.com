@@ -4,6 +4,7 @@ import { isDeepStrictEqual } from 'node:util';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Flier } from '../../model/flier';
 import type { Sight } from '../../model/flight';
 import type { Point } from '../../model/geometry';
 import {
@@ -14,10 +15,9 @@ import {
 import { carriedFrom } from '../../model/insect-motion';
 import { wingspan } from '../../model/insect-outline';
 import { type Carried, flightPoint } from '../../model/insect-paths';
-import type { Flier } from '../../model/insects';
 import { phaseOf } from '../../model/motion';
 import { type Flight, isAloft, perchName } from '../../model/perch';
-import { blockedFor, type Held,isSeat } from '../../model/perch-room';
+import { blockedFor, type Held, isSeat } from '../../model/perch-room';
 import { LINGER_MS, lingerOf } from '../../model/shelter';
 import { raining } from '../../model/weather';
 import { airAlofts, EVERY_ONE } from './air-spots';

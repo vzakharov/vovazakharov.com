@@ -5,9 +5,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { SEEDED_SOUNDS } from '../../model/flower-sounds';
 import { type Meadow, reduce } from '../../model/game';
-import { sameFoot } from '../../model/ground';
-import { type Eye, OPENING_EYE } from '../../model/ground';
-import { plantedId, type Sown } from '../../model/pollen';
+import { type Eye, OPENING_EYE,sameFoot } from '../../model/ground';
+import { plantedId, type Sown } from '../../model/planted-flowers';
 import { mulberry32, nextSeed } from '../../model/random';
 import { takesFlower } from './flower-sight';
 import { LiveLawn } from './lawn';

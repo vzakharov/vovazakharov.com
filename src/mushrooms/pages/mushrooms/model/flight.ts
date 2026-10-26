@@ -37,7 +37,7 @@ import {
   SIDES,
 } from './perch';
 import { blockedFor, flowersFor, type Held, keptForBees } from './perch-room';
-import type { Plot } from './pollen';
+import type { Plot } from './planted-flowers';
 import {
   mulberry32,
   nextSeed,

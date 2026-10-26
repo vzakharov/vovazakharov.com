@@ -14,11 +14,10 @@ import { onHost } from './bed-place';
 import { reachesScreen, type Zoomed } from './insect-away';
 import { aloftFramed, type SeatEnds } from './insect-frame';
 import type { Sipping } from './insect-look';
-import { drawnFlier, drawnSitter } from './insect-seat';
+import { drawnFlier, drawnSitter, type Seat } from './insect-seat';
 import { shadowOf, type ShadowPlace } from './insect-shadow';
 import type { FlownSpan } from './insect-shown';
 import { type Faded, sinkingOf, type Under } from './insect-sink';
-import type { Seat } from './perch-hosts';
 import { tapReach } from './tap-reach';
 import type { View, Zooming } from './view';
 

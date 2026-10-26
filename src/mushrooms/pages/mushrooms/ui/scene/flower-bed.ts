@@ -2,18 +2,18 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Flier } from '../../model/flier';
 import { type Flower, flowerGenes } from '../../model/flower-genes';
 import { soundOf } from '../../model/flower-sounds';
 import type { Action, Meadow } from '../../model/game';
-import type { Tended } from './flower-sight';
 import { placedAt } from '../../model/geometry';
 import { CLUMP_DISTANCE, gathered, OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
-import type { Flier, WithPlanted } from '../../model/insects';
+import type { WithPlanted } from '../../model/insects';
 import { headedLight } from '../../model/light';
 import { bloom, emerge, sway } from '../../model/motion';
-import { isBeeSown, type Sown } from '../../model/pollen';
+import { isBeeSown, type Sown } from '../../model/planted-flowers';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
 import { paintFlowerLit } from './draw-flower';
 import { closingsDue, closingStep, meanClosing } from './flower-closing';
@@ -30,14 +30,15 @@ import {
   type Shown,
   unplacedShown,
 } from './flower-shown';
+import type { Tended } from './flower-sight';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower } from './hit-areas';
 import type { Lighting } from './ink';
+import type { Seat } from './insect-seat';
 import type { Instrument } from './instrument';
 import type { Answers, FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { flowerLight } from './mushroom-light';
-import type { Seat } from './perch-hosts';
 import { browPale, repaintsDue } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
 
