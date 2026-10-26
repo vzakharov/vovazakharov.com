@@ -37,8 +37,9 @@ planless work recorded here because the session paused at its context budget.
   English heading becomes “P.S.” too; restamp.
 - **Title** — the typewriter's English title becomes “The whispering
   typewriter”: the post's `# ` heading, `en.json`'s `whisper.title`, and any
-  drawing caption carrying it. The slug `whispered-typewriter` stays (shared
-  URLs).
+  drawing caption carrying it. The slug follows it, `whispering-typewriter` —
+  Vova, in the session, against keeping the published address: «не переживай,
+  никто не читал)».
 - **Playgram's card** — stays the chart (Vova: «playgram -- ок»).
 - **T04, the squash record's focus** — Vova: «что-то прогулке здесь очень мало
   места посвящено -- я б скорее её делал в фокусе, а перевод -- это важный, но
@@ -50,19 +51,10 @@ planless work recorded here because the session paused at its context budget.
 ## Done
 
 - T04's file, 3454416.
+- T01, T02, T03, the title and slug: 1664c44, the card 0929cd6; docs e71f7ce;
+  `/polish` d7ce269, 73d6987. Every check in the list passes.
 
-## Left, in order
+## Left
 
-1. T02 rename and code, then T01's templates (the three drawings to `{{key}}`
-   templates; `scripts/lib/drawing-captions.ts` rewritten to substitute keys,
-   its test with it; both posts' `captions`), then T03 and the title. Re-run
-   `pnpm translation:stamp` on each `.ru.md` and `pnpm content:drawings:maya`,
-   then `content:og:maya` (Chromium:
-   `PUPPETEER_EXECUTABLE_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`).
-2. Checks: `build:maya`, `build:vova`, `build:bible`, `typecheck`, `lint:check`,
-   `knip`, `type-overlap`, `pnpm test`, `format:check`,
-   `content:drawings:maya --check`, `content:og:maya --check`.
-3. Docs: `content.md` § "The locale seam" (the `translated` bullet), the PR body
-   (`python3 scripts/pr-body.py pull 208` / `push`).
-4. `/polish`, then a reply on each of T01–T04 with the commit SHA (bare), per
-   CLAUDE.md § "GitHub comments"; threads stay open.
+- The PR body, then a reply on each of T01–T04 with the commit SHA (bare), per
+  CLAUDE.md § "GitHub comments"; threads stay open.
