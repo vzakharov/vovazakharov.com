@@ -47,6 +47,15 @@ export function refusal(error: unknown): string | undefined {
   return error instanceof DOMException ? error.name : undefined;
 }
 
+export function dueNext(
+  active: HTMLAudioElement,
+  upcoming: string | undefined,
+): string | undefined {
+  return active.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
+    ? upcoming
+    : undefined;
+}
+
 /** Wire each listener onto `deck` while `heard` says so, and hand back the unwiring. */
 export function listen(
   deck: HTMLAudioElement,
@@ -86,10 +95,7 @@ export function createDecks(listeners: DeckListeners): Decks {
   }
 
   function rearm() {
-    const wanted =
-      active.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
-        ? upcoming
-        : undefined;
+    const wanted = dueNext(active, upcoming);
     if (loaded(standby) === wanted || wanted === loaded(active)) return;
 
     // A file no longer due is dropped rather than left downloading.

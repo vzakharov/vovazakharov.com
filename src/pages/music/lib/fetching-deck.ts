@@ -1,12 +1,22 @@
 import { pick } from '@/shared/lib/collections';
 import type { Sourced, WithUrl } from '@/shared/typings';
 
-import { type DeckListeners, type Decks, listen, refusal } from './decks';
+import {
+  type DeckListeners,
+  type Decks,
+  dueNext,
+  listen,
+  refusal,
+} from './decks';
 
 /** A file the deck holds or fetches, and the in-memory copy it plays once there is one. */
 type Copied = Sourced & Partial<WithUrl>;
 
 type Fetching = Copied & { controller: AbortController };
+
+function release(url: string | undefined) {
+  if (url !== undefined) URL.revokeObjectURL(url);
+}
 
 /**
  * Every iOS browser, Safari's engine under each — an iPad asking for the
@@ -40,22 +50,19 @@ export function createFetchingDeck(listeners: DeckListeners): Decks {
 
     held = next;
     deck.src = next.url ?? next.src;
-    if (outgoing !== undefined) URL.revokeObjectURL(outgoing);
+    release(outgoing);
   }
 
   function drop() {
     if (fetching === undefined) return;
 
     fetching.controller.abort();
-    if (fetching.url !== undefined) URL.revokeObjectURL(fetching.url);
+    release(fetching.url);
     fetching = undefined;
   }
 
   function prefetch() {
-    const wanted =
-      deck.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
-        ? upcoming
-        : undefined;
+    const wanted = dueNext(deck, upcoming);
     if (fetching?.src === wanted || wanted === held?.src) return;
 
     drop();
@@ -122,7 +129,7 @@ export function createFetchingDeck(listeners: DeckListeners): Decks {
       for (const unhear of heard) unhear();
       deck.pause();
       drop();
-      if (held?.url !== undefined) URL.revokeObjectURL(held.url);
+      release(held?.url);
     },
   };
 }
