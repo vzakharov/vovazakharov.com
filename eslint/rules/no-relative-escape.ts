@@ -8,9 +8,8 @@ import { SLICED_LAYERS } from '../masd-graph';
 // A relative import under `src/` stays inside the importer's home — its slice,
 // its segmented layer (`app` and `shared` overlay as one unit), or its app's
 // `scripts/` — and anything past it is reached by its `@/` path, so an import
-// says which app and layer it enters. The one exception is a file bare Node
-// runs, which follows no alias: `bare-node.ts` derives that set from
-// `package.json` rather than from a list kept beside it.
+// says which app and layer it enters. A file bare Node runs is exempt, since it
+// follows no alias.
 
 /** The directory, relative to `src/`, a file under it may reach relatively. */
 export function relativeHome(fromSrc: string): string | undefined {

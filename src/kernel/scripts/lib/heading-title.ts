@@ -1,6 +1,6 @@
 /**
- * Apart from `read-collection.ts`, which reaches gray-matter and `server-only`
- * modules the test runner cannot load.
+ * Kept out of `read-collection.ts`, whose gray-matter and `server-only`
+ * imports the test runner cannot load.
  */
 
 const TITLE = /^# (.+)$/m;
