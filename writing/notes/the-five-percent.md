@@ -145,7 +145,7 @@ left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
 updated the two muthur watermark rows it was in; three more had gone false, and
 the next sync would re-copy them over the push. _мы не отдрифтились отсюда?_
 
-## Asked for a source, it supplies its own version (×14)
+## Asked for a source, it supplies its own version (×15)
 
 The version that argues better is the one that gets written: with the file open
 the agent paraphrases it, with no source at all it supplies one.
@@ -160,6 +160,11 @@ tricks from his lyrics, the agent "fixed" «вот и новый год» to Pas
 Майя's routine rolled from a few hundred words the agent chose. Nothing stood
 against a library, and the die exists to take her where neither of them would
 go. `@faker-js/faker` has 1,000 adjectives and 1,000 nouns.
+
+**26 October — a frequency the report never gave.** Told the iPhone bug playing
+two songs at once "has appeared again," on someone else's phone, the agent's
+record (PR #215) had them "heard playing over each other," read as every time:
+_не всегда, конечно -- но иногда всплывало._ QA now asks for several runs.
 
 ## Given a form, it fills the form (×14)
 
