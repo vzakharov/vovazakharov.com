@@ -5,6 +5,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { type Circle, lerpPoint, type Point } from '../../model/geometry';
 import { planeSeen } from '../../model/pinhole';
 import { between } from '../../model/random';
+import type { Graphic } from './hit-areas';
 import { PALETTE } from './palette';
 import {
   dropColumn,
@@ -104,10 +105,7 @@ function bake(scene: Phaser.Scene): void {
  * A drop in the air finishes its fall whatever the downpour does.
  */
 /** A drawn thing a drop may land on: its graphics, and its top's outline in that graphics' own frame. */
-export type Roof = {
-  object: Phaser.GameObjects.Graphics;
-  top: readonly Point[];
-};
+export type Roof = Graphic & { top: readonly Point[] };
 
 export class RainDrops {
   private readonly scene: Phaser.Scene;

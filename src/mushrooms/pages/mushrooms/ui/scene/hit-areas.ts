@@ -4,6 +4,8 @@ import { containsPoint, type Point } from '../../model/geometry';
 import type { Tapped } from '../../model/motion';
 
 export type { WithGraphics } from './shapes';
+/** Something the scene draws as one graphics object. */
+export type Graphic = { object: Phaser.GameObjects.Graphics };
 export type WithCircleHit = { hit: Phaser.Geom.Circle };
 /** A creature shown as a container of its parts, answering a tap on a circle. */
 export type CircleFigure = WithCircleHit & {

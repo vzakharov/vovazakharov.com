@@ -26,9 +26,11 @@ export type SunWashed = { wash: readonly number[] };
  */
 export type SunControls = Record<'plus' | 'minus' | 'house', Circle> & {
   releases: Readonly<Record<string, Circle>>;
-  standing: readonly Circle[];
   picks: readonly Circle[];
-};
+} & Standing;
+
+/** The buttons standing on the screen, each as drawn. */
+export type Standing = { standing: readonly Circle[] };
 
 /** The sun's glow reaches this many radii out, and must stay on screen. */
 export const SUN_GLOW_REACH = 2.6;

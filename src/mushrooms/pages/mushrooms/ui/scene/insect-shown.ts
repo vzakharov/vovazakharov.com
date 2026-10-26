@@ -12,8 +12,9 @@ import {
 import { type Bobbed, phaseOf } from '../../model/motion';
 import type { Origin } from '../../model/perch';
 import type { CircleFigure, TappedFigure } from './hit-areas';
-import type { SetOff, Spanned } from './insect-away';
+import type { SetOff } from './insect-away';
 import type { Flying, Look } from './insect-look';
+import type { Spanned } from './seat-reach';
 
 export type Looked = { look: Look };
 

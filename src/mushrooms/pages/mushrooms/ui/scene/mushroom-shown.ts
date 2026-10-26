@@ -3,7 +3,7 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point, Tall } from '../../model/geometry';
-import type { DoorPlace } from '../../model/house';
+import type { DoorPlace, Housed } from '../../model/house';
 import type { Light } from '../../model/light';
 import {
   type Lit,
@@ -20,7 +20,7 @@ import {
 } from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
 import type { Planted, Sprouting } from '../../model/planted';
-import { type LaidAhead,UNPLACED } from './bed-place';
+import { type LaidAhead, UNPLACED } from './bed-place';
 import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
 import type { Dusked } from './haze-tone';
 import type { WithGraphics } from './hit-areas';
@@ -52,15 +52,13 @@ export type Body = HazedGraphics &
  * A shown mushroom's shadow and its house, `House` being whatever the bed
  * shows its windows and door with.
  */
-type HouseShadowed<House> = {
+type HouseShadowed<House> = Housed<House> & {
   /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
   shadow: Phaser.GameObjects.Graphics;
-  /** Its windows and door, which follow it. */
-  house: House;
 };
 
 /** A house that repaints when its mushroom is. */
-type Repainting = { repaint: () => void };
+export type Repainting = { repaint: () => void };
 
 /** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
 export type Shown<House = unknown> = Tapped &

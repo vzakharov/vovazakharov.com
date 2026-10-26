@@ -32,6 +32,7 @@ import type { Seeded } from '../../model/random';
 import { drawnAloft } from './insect-frame';
 import type { InsectScaled } from './insect-size';
 import { perchDistance, placeOfAloft } from './plane-place';
+import type { Spanned } from './seat-reach';
 import { D_SEE, onScreen, type View, type Zooming } from './view';
 import { WIDEST_SPAN } from './widest-spans';
 
@@ -45,8 +46,6 @@ export type InsectAwayLayout = WithWidth & WithHeight & InsectScaled;
 const AWAY_BAND = [0.18, 0.5] as const;
 
 /** How far an insect's open wings span on screen, in px. */
-export type Spanned = { span: number };
-
 /** An insect away: past an edge by its span, and how far down the screen it flies, in px. */
 export type Away = Spanned & { drop: number };
 

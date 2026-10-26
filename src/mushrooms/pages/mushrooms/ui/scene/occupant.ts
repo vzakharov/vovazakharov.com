@@ -13,7 +13,7 @@ import {
   type Cornered,
   type Point,
 } from '../../model/geometry';
-import type { Footing, Layered } from '../../model/ground';
+import type { Footing, Layered, Rooted } from '../../model/ground';
 import type { MushroomGround } from './anchored-ground';
 import type { Distant } from './view';
 
@@ -26,7 +26,7 @@ export type BoxedOutlines = {
 export type Cover = Layered & BoxedOutlines;
 
 /** An occupant as a screen's ground stands it: its foot on the plane, and what it hides (`Cover`). */
-export type Occupant = { foot: Footing; cover: Cover };
+export type Occupant = Rooted & { cover: Cover };
 
 /**
  * Every one of `standing` that `ground` shows, as an occupant: what an entity

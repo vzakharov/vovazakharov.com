@@ -46,7 +46,8 @@ export type House = {
   windows: readonly WindowKind[];
   door: boolean;
 };
-export type Housed = { house: House };
+/** Something holding a house: the model's, or whatever a bed shows one with. */
+export type Housed<H = House> = { house: H };
 
 export const EMPTY_HOUSE: House = { windows: [], door: false };
 

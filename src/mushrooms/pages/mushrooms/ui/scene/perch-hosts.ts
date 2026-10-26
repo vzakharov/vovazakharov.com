@@ -1,13 +1,15 @@
+import type { WithId } from '@/kernel/shared/typings';
+
 import type { Flier } from '../../model/flier';
 import type { Aloft, AtAloft } from '../../model/flight-frame';
+import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
+import type { MushroomGenes } from '../../model/mushroom-genes';
 import { capUnder } from '../../model/mushroom-outline';
 import { capSeat } from '../../model/mushroom-pose';
 import { isAloft, isLeaving, type Perch } from '../../model/perch';
-import type { FlowerBed } from './flower-bed';
 import type { Seat } from './insect-seat';
-import type { MushroomBed } from './mushroom-bed';
 import { dropped, perchSpot, shelterDrop } from './perch-sight';
 
 /** Where an insect sits on a perch: a seat on a host, or a spot in the open air as a fixed point in the world. */
@@ -30,9 +32,27 @@ export type PerchAt = (perch: Perch, insect: Flier) => Perched | undefined;
 export type PerchHosts = HostBeds &
   Alofted & { sizes: Readonly<Record<InsectKind, number>> | undefined };
 
+/** The beds the perches stand on, while the scene has drawn them. */
 export type HostBeds = {
-  bed: MushroomBed | undefined;
-  flowers: FlowerBed | undefined;
+  bed: CapSeats | undefined;
+  flowers: FlowerSeats | undefined;
+};
+
+/** A bed a tap on a perch passes on to, by its host's id. */
+type Tapping = { tap: (id: string) => void };
+
+/** The mushrooms' bed as a perch reads it: a seat on a cap at `local`, a point in the mushroom's own frame. */
+export type CapSeats = Tapping & {
+  seat: (
+    id: string,
+    local: (genes: MushroomGenes) => Point,
+  ) => Seat | undefined;
+};
+
+/** The flowers' bed as a perch reads it: a seat across a head at `spot` for `kind`, and the flowers in view. */
+export type FlowerSeats = Tapping & {
+  seat: (id: string, spot: number, kind: InsectKind) => Seat | undefined;
+  inView: () => readonly WithId[];
 };
 
 export type Alofted = { alofts: ReadonlyMap<string, Aloft> };

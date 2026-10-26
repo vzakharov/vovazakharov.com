@@ -8,6 +8,7 @@ import { dusky } from '../../model/dusk';
 import type { Flier } from '../../model/flier';
 import type { Sight } from '../../model/flight';
 import { type Action, type Meadow, reduce } from '../../model/game';
+import type { Point } from '../../model/geometry';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { sunLight } from '../../model/light';
 import { mulberry32 } from '../../model/random';
@@ -38,7 +39,7 @@ import type { Roof } from './rain-drops';
 import { RainView } from './rain-view';
 import { MeadowSound } from './sound';
 import { sporeOnTap } from './spore-seats';
-import { Grass } from './tufts';
+import { Grass, tuftUnder } from './tufts';
 import { type View, viewAt } from './view';
 import { Gait } from './walking';
 
@@ -182,7 +183,11 @@ export class MeadowScene extends Phaser.Scene {
     this.map.mount(this, HUD_DEPTH - 0.5, actions.map);
     const lit = [this, HUD_DEPTH, this.now, this.scened.dispatch] as const;
     this.rain = new RainView(...lit, this.voice, capsOf);
-    const ground = { ...this.scened, beds: () => this.beds() };
+    const ground = {
+      ...this.scened,
+      beds: () => this.beds(),
+      bare: (finger: Point) => tuftUnder(this, finger),
+    };
     this.dusk = new DuskView(...lit, this.voice, {
       ...ground,
       ...pick(this.opening, 'seed'),

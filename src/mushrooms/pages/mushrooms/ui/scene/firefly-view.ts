@@ -29,7 +29,6 @@ import { PALETTE } from './palette';
 import type { HostBeds } from './perch-hosts';
 import type { SunWashed } from './sun-layout';
 import { TAP_RADIUS } from './tap-reach';
-import { tuftUnder } from './tufts';
 
 /** What a firefly's flare plays: a chime, panned to where it flares. */
 export type Glinting = { glint: (pan: number) => void };
@@ -70,10 +69,16 @@ const BAKED = {
 } as const;
 type Part = keyof typeof BAKED;
 
-/** What the fireflies circle — the meadow's mushrooms, and the beds that draw them and the flowers — and the visit's seed the dozen grow from. */
+/**
+ * What the fireflies circle — the meadow's mushrooms, and the beds that draw
+ * them and the flowers — the visit's seed the dozen grow from, and whether a
+ * finger at a point on the screen is within a bare tuft's reach, which a tap
+ * on a firefly yields to.
+ */
 export type FireflyGround = MeadowSeen<WithMushrooms> &
   Seeded & {
     beds: () => HostBeds;
+    bare: (finger: Point) => boolean;
   };
 
 type Shown = CircleFigure &
@@ -196,9 +201,7 @@ export class FireflyView {
     return tappedFirefly(
       finger,
       targets,
-      () =>
-        othersAnswer(this.scene, finger, dozen) ||
-        tuftUnder(this.scene, finger),
+      () => othersAnswer(this.scene, finger, dozen) || this.ground.bare(finger),
     );
   }
 

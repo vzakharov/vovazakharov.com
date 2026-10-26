@@ -13,4 +13,6 @@ export type HeadReach = Radiused & { disc: number };
 export type Lifting = (reach: HeadReach) => number;
 
 /** A sitter on a flower's head: how wide it spans, and where it sits (`Lifting`). */
-export type Sitter = { span: number; lift: Lifting };
+/** How wide a thing spans across, in its own unit. */
+export type Spanned = { span: number };
+export type Sitter = Spanned & { lift: Lifting };

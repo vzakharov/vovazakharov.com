@@ -7,6 +7,7 @@
 import type { WithWidth } from '@/kernel/shared/typings';
 
 import type { Circle } from '../../model/geometry';
+import type { Standing } from './sun-layout';
 import {
   apart,
   BUTTON_INSET,
@@ -120,7 +121,7 @@ function rowAcross(
  */
 type Room = Record<'from' | 'to', number> & Floor;
 /** A band's floor, and the buttons standing over it. */
-type Floor = Record<'floor', number> & { standing: readonly Circle[] };
+type Floor = Record<'floor', number> & Standing;
 
 /**
  * A picker of `count` buttons whose `row` holds only some of them: the rest

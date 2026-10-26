@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import type { Point } from '../../model/geometry';
 import { TAP_PARTS, type TapArea } from '../../model/mushroom-outline';
+import type { Graphic } from './hit-areas';
 import {
   drawnHolds,
   type MushroomTarget,
@@ -19,9 +20,7 @@ export function containsMushroom(area: TapArea, x: number, y: number) {
 }
 
 /** A shown mushroom's graphics and its tap area, in that graphics' own frame. */
-export type DrawnMushroom = WithTapArea & {
-  object: Phaser.GameObjects.Graphics;
-};
+export type DrawnMushroom = WithTapArea & Graphic;
 
 /** The scene's mushrooms that take a tap, in the scene's display order. */
 export function drawnMushrooms(scene: Phaser.Scene): DrawnMushroom[] {

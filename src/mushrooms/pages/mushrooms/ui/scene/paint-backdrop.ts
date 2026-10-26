@@ -23,6 +23,7 @@ import {
   hillsOf,
   paintGrain,
   paintGround,
+  type PaintLandLayout,
 } from './paint-land';
 import {
   type Layer,
@@ -30,6 +31,7 @@ import {
   paintGlow,
   paintRainbow,
   paintSky,
+  type PaintSkyLayout,
   paintSun,
   paintWash,
 } from './paint-sky';
@@ -39,21 +41,9 @@ import { SUN_RAY_REACH } from './sun-layout';
 import { focusTwins, shade } from './twin-fade';
 import { type Following, type View, viewAt } from './view';
 import { GROUND_BOB } from './walking';
-import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { Sunned, NearHilled, SunWashed } from './sun-layout';
-import type { Clouded } from './panorama';
 
-import type { PaintLandLayout } from './paint-land';
 /** What of the meadow's layout this reads. */
-export type PaintBackdropLayout = WithWidth &
-  WithHeight &
-  WithCamera &
-  Sunned &
-  NearHilled &
-  Clouded &
-  SunWashed &
-  PaintLandLayout;
+export type PaintBackdropLayout = PaintSkyLayout & PaintLandLayout;
 
 /** How far past the tips of its rays the sun's picture runs, in CSS px, for their smoothed edge. */
 const SUN_MARGIN = 2;
