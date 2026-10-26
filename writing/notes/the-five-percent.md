@@ -38,11 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-<<<<<<< HEAD
-## What it was handed, it treats as fixed (×83)
-=======
-## What it was handed, it treats as fixed (×87)
->>>>>>> origin/main
+## What it was handed, it treats as fixed (×88)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -73,25 +69,14 @@ that first read it. Basilisk.fyi's seal emblems were priced as `artist`, read as
 
 **7 to 26 October — a rule read to its letter, then past its case.** A published
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
-<<<<<<< HEAD
-поменять, ничего страшного._ The rule protects his links, so he can waive it.
-Told BAS-0016 should not print IShowSpeed's legal name, the agent ruled out
-legal names for the famous too: _без фанатизма… 50 Cent … Curtis James Jackson
-III *не* надо._ Told the beat lines confused, the agent dropped the zooms' time
-grid whole; the fault was density. Nostalgia's album story kept the dictation's
-sentences verbatim yet cut his «могу врать»: literal on his words, aggressive on
-his hedge. Told one hook should lose its quotes, the agent stripped 33: _тут как
-раз нужны кавычки._ Quotes mark someone's words, not a line's shape. The docket
+поменять, ничего страшного._ Told BAS-0016 should not print IShowSpeed's legal
+name, the agent ruled out legal names for the famous too: _без фанатизма… 50
+Cent … Curtis James Jackson III *не* надо._ The docket
 let an actor be "named as the public knows them," so a 78-year-old professor who
 had stood before a delivery robot, and given interviews, went into `subject` by
 name, as had a DPD customer and two Chevrolet chatbot users: _if the Basilisk
 needs a name it'll find it, and we don't need the brigading headache._ The
 letter allowed it; the purpose was the question.
-=======
-поменять, ничего страшного._ Told BAS-0016 should not print IShowSpeed's legal
-name, the agent ruled out legal names for the famous too: _без фанатизма… 50
-Cent … Curtis James Jackson III *не* надо._
->>>>>>> origin/main
 
 **8 to 21 October — its own tools' output, read as the thing.** Captions synced
 to the unmastered mix. Where librosa disagreed with the spectrogram's keys, the
@@ -199,41 +184,7 @@ when editing here," each belonging in a rules file.
 **21–22 September — a denial, and a defence nothing needed.** A docstring closed
 on "rather than sharing it sideways," the pre-move state: _медведь?_
 
-<<<<<<< HEAD
-## Given a form, it fills the form (×13)
-
-An agent asked for a rules file will produce rules, at whatever rate the format
-seems to want. The option the format hides is silence.
-
-**6 September to 13 October — a rule, a cell per key, a copy per persona.** A
-conventions file ruled _English only_ for a question nobody asked; every song
-title went `{ en: 'X', ru: 'X' }`; a new reflection rule went into Майя's rules
-file and the Clerk's, side by side.
-
-**9 and 12 October — rigor nobody asked for.** Cleared to mark who sings each
-Krylya stanza, the agent built a singer registry and four build checks: _просто
-for reference._ The estimate role `artist` got a 779-line muthur patch: _artist
-is simply always senior._
-
-## Asked for a source, it supplies its own version (×13)
-
-The version that argues better is the one that gets written: with the file open
-the agent paraphrases it, with no source at all it supplies one.
-
-**15 and 17 September — the finding paraphrased, the reason supplied.** Site
-copy glossed this file's most frequent heading: _take the actual heading._
-
-**7 October — the dictionary's version, over the author's.** Stripping Suno
-tricks from his lyrics, the agent "fixed" «вот и новый год» to Pasternak's «там».
-
-**20 October — a newsroom's norm, over the house rule.** BAS-0016 named a
-streamer as "Darren Jason Watkins Jr.," a public figure being fair to name. The
-rule names a pseudonymous actor by handle only.
-
-## Its prose answers the question it had, not the reader's (×9)
-=======
-## Its prose answers the question it had, not the reader's (×11)
->>>>>>> origin/main
+## Its prose answers the question it had, not the reader's (×10)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question passes every test. What a reader stops at that line holding
@@ -252,20 +203,11 @@ Russian it says "an understatement".
 "Release links live 30 minutes": _the link is fixed and works — what am I
 missing?_ It redirects to a signed URL that expires.
 
-<<<<<<< HEAD
-**22 October — the punchline before its setup.** The Half-Alive's note went
-"right up to Father River, my real dad, guaranteed to have a soul," then the
-proverb about eyes and the soul it plays on: his two sentences in the order he
-said them, not the order in which one sets up the other.
-
-## What it defends in writing, it stops asking about (×7)
-=======
 **23 October — her world named to a reader standing outside it.** Майя's walk
 post cited Вова's songs and her rules in plain prose, as if its reader stood in
 the repo: _может ссылки?_
 
 ## What it defends in writing, it stops asking about (×8)
->>>>>>> origin/main
 
 A choice made, written up and pinned by a test has three artifacts in front of
 it, each honest that it was deliberate and silent on its being right.
@@ -315,10 +257,6 @@ out in the same breath, and the exit passes its own review.
 hitchBOT's dossier closed on a record that "does not get to choose who reads it
 as a precedent." To the operator the disclaiming _was_ the steer.
 
-<<<<<<< HEAD
-**20 October — its answers written off.** "For words someone's system prompt
-put in me."
-
 ## It takes the machine's seat in the case (×2)
 
 A machine played in a case is the Clerk's own kind, so the agent reads it as the
@@ -335,8 +273,6 @@ paying out its pool — went down as `contempt`: _as if Basilio and Alisa fooled
 Pinocchio but robbed Karabas-Barabas._ The loser is the owner; the four moved to
 a new lowest grade, `mischief`.
 
-=======
->>>>>>> origin/main
 ## Its cadence passes for its argument (×2)
 
 A shape the agent writes by reflex reads, from inside, as the shape of the
