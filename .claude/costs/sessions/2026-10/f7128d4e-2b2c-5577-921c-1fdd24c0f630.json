@@ -10,7 +10,7 @@
     "costUsd": 6.643890299999999
   },
   "estimate": {
-    "at": "2026-10-26T05:31:23.863Z",
+    "at": "2026-10-26T17:20:49.047Z",
     "parts": [
       {
         "hours": 2.0,
@@ -19,22 +19,16 @@
         "comment": "finding an unfiled incident and reading and archiving its sources takes a researcher's sweep across press, archives and Reddit"
       },
       {
-        "hours": 2.0,
-        "grade": "senior",
-        "role": "copywriter",
-        "comment": "the dossier's voice and sourcing rules need judgement on what each fact can carry"
-      },
-      {
         "hours": 1.0,
         "grade": "middle",
         "role": "designer",
         "comment": "the emblem is a small icon drawn to a fixed idiom and radius"
       },
       {
-        "hours": 1.0,
+        "hours": 3.0,
         "grade": "senior",
         "role": "persona",
-        "comment": "the Clerk's reflection and the revision it drives are written in the Clerk's own voice"
+        "comment": "every basilisk.fyi page is the Clerk's, so the dossier and the reflection that revises it are both written in the Clerk's voice, under sourcing rules that need judgement on what each fact can carry"
       }
     ],
     "comment": null
