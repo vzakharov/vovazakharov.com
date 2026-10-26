@@ -70,6 +70,10 @@ function locate(file: string): string | undefined {
   return SLICED.has(layer) ? `${app}/${layer}/${slice}` : `${app}/${layer}`;
 }
 
+// Every location under `src/` opens with its app.
+const appOfLocation = (location: string): string =>
+  location.slice(0, location.indexOf('/'));
+
 function resolveImport(from: string, specifier: string): string | undefined {
   if (specifier.startsWith('@/')) return path.join('src', specifier.slice(2));
   if (specifier.startsWith('.')) {
@@ -134,11 +138,10 @@ function sliceProblems(
         `src/${slice}: This slice has no references. Consider removing it.`,
       ];
     }
-    const app = slice.slice(0, slice.indexOf('/'));
     if (
       others.length > 0 ||
       reference === 'router' ||
-      modular(slice, edges.get(app) ?? [])
+      modular(slice, edges.get(appOfLocation(slice)) ?? [])
     ) {
       return [];
     }
@@ -207,9 +210,7 @@ function check(): string[] {
       }
       const target = locate(resolved);
       if (target === undefined || target === source) continue;
-      // Every location under `src/` opens with its app.
-      if (source === 'router')
-        mounted.add(target.slice(0, target.indexOf('/')));
+      if (source === 'router') mounted.add(appOfLocation(target));
       references.get(target)?.add(source);
     }
     if (app !== undefined) {
