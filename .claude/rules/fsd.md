@@ -242,7 +242,7 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   `scripts/` run outside any bundler: they spell the alias out under `tsx`, and
   a relative path with its extension when they run under bare Node, which
   follows no alias — the rule's one exemption, derived from the `node <file>`
-  entries in `package.json` and what they import, so nothing lists those files.
+  entries in `package.json` and what they import.
 - **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
   ESLint loads it under jiti and the scripts under bare Node.
 - **next-intl's request config is found by path, not by import.** Each site's
