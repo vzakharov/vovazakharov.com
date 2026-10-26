@@ -8,7 +8,7 @@ import {
 
 import { WHISPER_ROUTE } from './whisper-copy';
 
-/** Its card, `pnpm content:og:maya` renders at the route plus the card suffix. */
+/** The toy's card, which `pnpm content:og:maya` renders. */
 const ogImage = routeCardPath(WHISPER_ROUTE);
 
 /** The toy's address in `locale`, or its locale-less alias. */

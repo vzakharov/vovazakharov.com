@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Stamps a translation with the original it was made from, once it has been
- * translated: `<stem>.md` beside `<stem>.<locale>.md` gets the original's
- * `contentHash` as its `translatedFrom`. The build refuses a translation whose
- * stamp no longer matches its original, so this is run after each translation,
- * never instead of one.
+ * Stamps a translation with the original it was made from: `<stem>.md` beside
+ * `<stem>.<locale>.md` gets the original's `contentHash` as its
+ * `translatedFrom`. The build refuses a stale stamp, so this is run after each
+ * translation, never instead of one.
  *
  *   pnpm translation:stamp apps/maya/public/blog/two-names.ru.md
  *

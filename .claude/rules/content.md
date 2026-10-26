@@ -115,21 +115,20 @@ route, say — the **server page resolves it and passes it down**; that is what
 `apps/vova/app/cv/[[...variantAndLocale]]/page.tsx` does for the CV's case-study
 link.
 
-The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and
-`collections.ts`, which `render-mermaid.ts` runs under bare Node, outside any
-bundler — hence no `server-only`, and an explicit `.ts` on the import so Node's
-resolver finds it. That script needs Node 22.18 or newer for type stripping.
-`collections.ts` qualifies because it is string constants and pure path
-functions; `documents.ts` keeps `server-only`, and with it the invariant that
-matters — it is the module that pulls in `fs`, `gray-matter` and `zod`.
-`render-og.ts` and `render-pdf.ts` run under `tsx`: the CV card reads the
-message catalogue through `cvMessages`, and a JSON import is what bare Node
-cannot take without an attribute. They reach `src/` by the `@/` alias, and still
-never through `shared/content`'s barrel, whose `server-only` modules throw
-outside a React server bundle. `render-og.ts` runs under the `react-server`
-condition, which resolves `server-only` to its empty module as a build does, so
-its cards reach `shared/content`'s leaf modules and parse a case with
-`caseFrontmatterSchema`.
+The exceptions are the modules a script runs under bare Node, outside any
+bundler, each saying so in its header — hence no `server-only`, and an explicit
+`.ts` on each import so Node's resolver finds it. Those scripts need Node 22.18
+or newer for type stripping. `collections.ts` qualifies because it is string
+constants and pure path functions; `documents.ts` keeps `server-only`, and with
+it the invariant that matters — it is the module that pulls in `fs`,
+`gray-matter` and `zod`. `render-og.ts` and `render-pdf.ts` run under `tsx`: the
+CV card reads the message catalogue through `cvMessages`, and a JSON import is
+what bare Node cannot take without an attribute. They reach `src/` by the `@/`
+alias, and still never through `shared/content`'s barrel, whose `server-only`
+modules throw outside a React server bundle. `render-og.ts` runs under the
+`react-server` condition, which resolves `server-only` to its empty module as a
+build does, so its cards reach `shared/content`'s leaf modules and parse a case
+with `caseFrontmatterSchema`.
 
 ## Adding a document
 
@@ -399,9 +398,11 @@ the alias, and how its files carry the languages:
   an original with no translation. A drawing is drawn once as
   `<name>.<locale>.svg`; `captions` maps each of its `<text>` wordings and its
   `aria-label` to the translation's, and `pnpm content:drawings:<site>` writes
-  `<name>.svg` from it, a `translate="no"` text left as drawn. Case studies are
-  unlocalized: the documents are English-only, and a `ru` route for a document
-  that does not exist in Russian would only duplicate the English one.
+  `<name>.svg` from it, a `translate="no"` text left as drawn.
+
+Case studies are unlocalized: the documents are English-only, and a `ru` route
+for a document that does not exist in Russian would only duplicate the English
+one.
 
 **An unlocalized collection is in its site's language**, `SITE_CONFIG.locale`:
 the article chrome reads the catalogue's `documents` namespace in that locale.

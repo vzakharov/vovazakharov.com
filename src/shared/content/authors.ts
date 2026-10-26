@@ -12,7 +12,7 @@ export const AUTHOR_IDS = ['vova', 'clerk', 'maya'] as const;
 
 export type AuthorId = (typeof AUTHOR_IDS)[number];
 
-/** The byline's name and link in the page's language. Lower-case `the`, as it reads mid-line: "By the Clerk". */
+/** Lower-case `the`, as it reads mid-line: "By the Clerk". */
 export function author(id: AuthorId, locale: Locale): Named & Linked {
   const authors: Record<AuthorId, Named & Linked> = {
     vova: { ...pick(SITE_CONFIG.author, 'name'), href: AUTHOR_URL },

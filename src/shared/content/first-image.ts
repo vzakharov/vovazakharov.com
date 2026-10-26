@@ -1,6 +1,6 @@
 /**
- * No `import 'server-only'`: `scripts/lib/maya-card.ts` cards a post by the same
- * image its index card shows.
+ * No `import 'server-only'`: `scripts/lib/read-collection.ts` reads it too, so
+ * a post's social card shows the image its index card does.
  */
 
 import remarkParse from 'remark-parse';

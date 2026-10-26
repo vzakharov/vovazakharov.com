@@ -9,10 +9,9 @@ import { ORIGINAL_LOCALES, translationOf } from './locale-suffix';
 import { TRANSLATION_STAMP } from './translation-stamp';
 
 /**
- * A `translated` collection (`COLLECTIONS[id].localized`) keeps an original as
- * `<stem>.<locale>.md` and its translation into the default language as
- * `<stem>.md`. The translation states only what differs — its description,
- * and the stamp — and takes everything else from the original.
+ * A `translated` collection's translation (`COLLECTIONS[id].localized`) states
+ * only what differs from its original — its description, its drawings'
+ * `captions`, the stamp — and takes everything else from the original.
  */
 
 function originalOf(dir: string, stem: string): string {
