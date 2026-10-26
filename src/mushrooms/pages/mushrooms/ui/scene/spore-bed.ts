@@ -2,19 +2,21 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { hazeAhead,hazeTone, PALETTE } from '@/mushrooms/shared/ui';
-import type { Hazed, View } from '@/mushrooms/shared/world';
-import type { Spore } from '@/mushrooms/features/meadow';
-
+import type { Point } from '../../model/geometry';
+import type { Hazed } from '../../model/ground';
+import type { Spore } from '../../model/sprouting';
 import { standAt, type Standing, UNPLACED, viewedOrLaid } from './bed-place';
 import { type Laid, laidOf } from './clump-layout';
+import { hazeTone } from './haze-tone';
 import type { MeadowLayout } from './layout';
 import type { Shown } from './mushroom-shown';
+import { PALETTE } from './palette';
+import { hazeAhead } from './repaint-queue';
 import type { MeadowSound } from './sound';
 import { crownOf, fall } from './spore-drift';
 import { drawnAt, puffSpores } from './spores';
+import { TAP_RADIUS } from './tap-reach';
+import type { View } from './view';
 
 /** A resting spore's radius, of the size a mushroom standing on its foot is laid out at. */
 const DOT = 0.05;

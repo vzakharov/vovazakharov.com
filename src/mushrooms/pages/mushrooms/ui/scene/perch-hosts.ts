@@ -1,19 +1,11 @@
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
-import {
-  type Aloft,
-  type AtAloft,
-  type Flier,
-  type InsectKind,
-  isAloft,
-  isLeaving,
-  type Perch,
-} from '@/mushrooms/entities/insect/index.node-safe';
-import {
-  capSeat,
-  capUnder,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
-
+import { isAloft, isLeaving, type Perch } from '../../model/flight';
+import type { Aloft, AtAloft } from '../../model/flight-frame';
+import type { Point } from '../../model/geometry';
+import { CLUMP_DISTANCE } from '../../model/ground';
+import type { InsectKind } from '../../model/insect-genes';
+import type { Flier } from '../../model/insects';
+import { capUnder } from '../../model/mushroom-outline';
+import { capSeat } from '../../model/mushroom-pose';
 import type { Host } from './bed-place';
 import type { FlowerBed } from './flower-bed';
 import type { MushroomBed } from './mushroom-bed';

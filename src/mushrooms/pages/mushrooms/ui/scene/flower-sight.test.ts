@@ -3,10 +3,10 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
-import { anchorOf, OPENING_EYE } from '@/mushrooms/shared/world';
-import type { Sown } from '@/mushrooms/entities/insect/index.node-safe';
-
+import { anchorOf } from '../../model/anchor';
+import { OPENING_EYE } from '../../model/ground';
+import type { Sown } from '../../model/pollen';
+import { mulberry32, nextSeed } from '../../model/random';
 import { anchoredStand } from './anchored-stand';
 import { flowersOf } from './flower-plots';
 import {

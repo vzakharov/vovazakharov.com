@@ -8,15 +8,11 @@ import {
   type Eye,
   FRAME_DEPTH,
   groundOfPlane,
-  grownOn,
   OPENING_EYE,
-  OPENING_FOOTING,
-  openingIndex,
   scaleAt,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import { mushroomGenes } from '@/mushrooms/entities/mushroom/index.node-safe';
-
+} from '../../model/ground';
+import { mushroomGenes } from '../../model/mushroom-genes';
+import { grownOn, OPENING_FOOTING, openingIndex } from '../../model/placement';
 import { bedPlace } from './bed-place';
 import {
   anchoredGround,
@@ -27,6 +23,7 @@ import {
 } from './clump-layout';
 import { meadowLayout } from './layout';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
+import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 

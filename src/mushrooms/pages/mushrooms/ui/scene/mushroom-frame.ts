@@ -5,9 +5,8 @@ import {
   sink,
   widthFor,
   wobble,
-} from '@/mushrooms/shared/lib/motion';
-import { sproutScale } from '@/mushrooms/features/meadow';
-
+} from '../../model/motion';
+import { sproutScale } from '../../model/sprouting';
 import type { Lights } from './dusk-view';
 import type { Shown } from './mushroom-shown';
 

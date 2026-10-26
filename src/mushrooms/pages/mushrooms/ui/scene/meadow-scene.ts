@@ -2,26 +2,15 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { sunLight } from '@/mushrooms/shared/lib/light';
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import {
-  dusky,
-  type Eye,
-  Gait,
-  OPENING_EYE,
-  sameAnchor,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import { bedClosing } from '@/mushrooms/entities/flower';
-import type { Flier,Sight } from '@/mushrooms/entities/insect';
-import {
-  type Action,
-  type Meadow,
-  type Opening,
-  reduce,
-} from '@/mushrooms/features/meadow';
-
+import type { Opening } from '../../api/open-kept';
+import { sameAnchor } from '../../model/anchor';
+import { dusky } from '../../model/dusk';
+import type { Sight } from '../../model/flight';
+import { type Action, type Meadow, reduce } from '../../model/game';
+import { type Eye, OPENING_EYE } from '../../model/ground';
+import type { Flier } from '../../model/insects';
+import { sunLight } from '../../model/light';
+import { mulberry32 } from '../../model/random';
 import { Arrivals } from './arrivals';
 import type { Opener } from './clump-shade';
 import { controlActions, type ControlScene } from './control-actions';
@@ -29,6 +18,7 @@ import { Controls } from './controls';
 import { DuskView } from './dusk-view';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
+import { bedClosing } from './flower-closing';
 import { type Stand, standOf } from './flower-sight';
 import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
@@ -47,6 +37,8 @@ import { RainView } from './rain-view';
 import { MeadowSound } from './sound';
 import { sporeOnTap } from './spore-seats';
 import { Grass } from './tufts';
+import { type View, viewAt } from './view';
+import { Gait } from './walking';
 
 /** The registry key the host writes the device pixel ratio under. */
 export const PIXEL_RATIO_KEY = 'pixelRatio';

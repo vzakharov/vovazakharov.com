@@ -1,28 +1,26 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Aloft } from '../../model/flight-frame';
+import type { Point } from '../../model/geometry';
 import {
-  aloftAt,
   CLUMP_DISTANCE,
   gathered,
   groundOfPlane,
   OPENING_EYE,
-  OPENING_FEET,
   planeOf,
   project,
   unanchored,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import type { Aloft } from '@/mushrooms/entities/insect/index.node-safe';
-
+} from '../../model/ground';
+import { aloftAt } from '../../model/pinhole';
+import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, type Host, onHost } from './bed-place';
 import { laidOf } from './clump-layout';
 import { drawnAloft, veerOf } from './insect-frame';
 import { drawnFlier, drawnSitter, seatAloft, seatedZoom } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
 import { aloftOfLayout } from './plane-place';
+import { type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
 /** Headings the eye turns through, the clump still ahead. */

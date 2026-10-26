@@ -1,9 +1,9 @@
 import * as Phaser from 'phaser';
 
-import { PALETTE } from '@/mushrooms/shared/ui';
-import { type Opening, openKept,openStore } from '@/mushrooms/features/meadow';
-
+import { openStore } from '../../api/meadow-store';
+import { type Opening, openKept } from '../../api/open-kept';
 import { MeadowScene, PIXEL_RATIO_KEY } from './meadow-scene';
+import { PALETTE } from './palette';
 
 /** Past this, a denser buffer costs fill rate without a visible gain. */
 const MAX_PIXEL_RATIO = 3;

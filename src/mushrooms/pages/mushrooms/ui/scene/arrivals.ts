@@ -1,16 +1,9 @@
-import {
-  mulberry32,
-  nextSeed,
-  type Random,
-} from '@/mushrooms/shared/lib/random';
-import type { Footed } from '@/mushrooms/shared/world';
-import {
-  type InsectKind,
-  panOf,
-  perchName,
-} from '@/mushrooms/entities/insect/index.node-safe';
-import type { Species } from '@/mushrooms/entities/mushroom/index.node-safe';
-
+import { panOf } from '../../model/flight-frame';
+import type { InsectKind } from '../../model/insect-genes';
+import type { Species } from '../../model/mushroom-genes';
+import { perchName } from '../../model/perch-room';
+import type { Footed } from '../../model/placement';
+import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
 import { keptRoom } from './mushroom-room';
 import { onscreenOf } from './perch-sight';

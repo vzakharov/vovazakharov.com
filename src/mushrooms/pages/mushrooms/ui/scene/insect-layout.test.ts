@@ -3,31 +3,28 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import { BEE_RANGES, type BeeGenes, beeGenes } from '../../model/bee-genes';
+import { beeOutline } from '../../model/bee-outline';
+import { crawl, CRAWL_REACH } from '../../model/buzz-rest';
+import { FLOWER_RANGES, flowerGenes } from '../../model/flower-genes';
 import {
   boxAround,
   containsPoint,
   placedAt,
   type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import { FLOWER_RANGES, flowerGenes } from '@/mushrooms/shared/world';
+} from '../../model/geometry';
 import {
-  BEE_RANGES,
-  type BeeGenes,
-  beeGenes,
-  beeOutline,
-  buzzWing,
-  crawl,
-  CRAWL_REACH,
   INSECT_KINDS,
   insectGenes,
   type InsectKind,
+} from '../../model/insect-genes';
+import {
   LANDING,
   REST_LEAN,
   type Stay,
   wingBeat,
-  wingspan,
-} from '@/mushrooms/entities/insect/index.node-safe';
-
+} from '../../model/insect-motion';
+import { buzzWing, wingspan } from '../../model/insect-outline';
 import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
 import { flowerLift, type HeadReach } from './flower-seat';

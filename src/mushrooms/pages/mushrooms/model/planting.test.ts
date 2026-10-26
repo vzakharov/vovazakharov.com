@@ -1,24 +1,17 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import {
-  FLOWER_COLOURS,
-  flowerGenes,
-  type Footing,
-  planeFootOf,
-} from '@/mushrooms/shared/world';
-import {
-  FLOWER_SHAPES,
-  shapeSeeds,
-} from '@/mushrooms/entities/flower/index.node-safe';
+import { FLOWER_COLOURS, flowerGenes } from './flower-genes';
+import { FLOWER_SHAPES, shapeSeeds } from './flower-sounds';
 import {
   type Action,
   firstMeadow,
   type Meadow,
   type Planting,
   reduce,
-} from '@/mushrooms/features/meadow';
+} from './game';
+import { type Footing, planeFootOf } from './ground';
+import { mulberry32 } from './random';
 
 const TUFT = planeFootOf({ x: 0.4, z: 1.3, size: 0.28 });
 const OTHER_TUFT = planeFootOf({ x: -0.6, z: 0.8, size: 0.28 });

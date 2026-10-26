@@ -1,4 +1,4 @@
-import type { Action } from '@/mushrooms/features/meadow';
+import type { Action } from '../../model/game';
 
 /** How a finger reaches a flower: Phaser's one pointer taps it; any finger past that plays it in a chord. */
 export type FlowerTouch = 'tap' | 'chord';

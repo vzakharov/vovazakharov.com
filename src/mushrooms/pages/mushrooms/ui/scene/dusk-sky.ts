@@ -5,15 +5,14 @@
  * meadow's `duskness`.
  */
 
-import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
-import { smooth } from '@/mushrooms/shared/lib/motion';
-import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import type { View } from '@/mushrooms/shared/world';
-
+import type { Circle, Point } from '../../model/geometry';
+import { smooth } from '../../model/motion';
 import { cloudBox } from './cloud-puffs';
 import { STAR_RAY_REACH } from './dusk-stars';
 import { shiftOf } from './panorama';
 import { SUN_RAY_REACH } from './sun-layout';
+import { TAP_RADIUS } from './tap-reach';
+import type { View } from './view';
 
 /** How far the sun sinks toward the hills by full dusk, in its radii. */
 const SUN_SINK = 0.4;

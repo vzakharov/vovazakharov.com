@@ -1,8 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { firstSteering } from '@/mushrooms/entities/insect/index.node-safe';
-
+import { firstSteering } from '../../model/insect-steering';
 import { legSetOff } from './insect-shown';
 
 /**

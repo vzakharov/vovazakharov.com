@@ -1,16 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import {
-  browRow,
-  OPENING_EYE,
-  pinholeOf,
-  viewAt,
-} from '@/mushrooms/shared/world';
-
+import type { Circle, Point } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
+import { mulberry32 } from '../../model/random';
 import { clumpCrowns, everyPlace } from './clump-layout';
 import { meadowLayout } from './layout';
 import { azimuthAt, crestAcross, crestAt, screenAt } from './panorama';
@@ -28,6 +22,8 @@ import {
   SUN_RAY_REACH,
   WASH_FOOT_CLEAR,
 } from './sun-layout';
+import { tapReach } from './tap-reach';
+import { browRow, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How many points across a disc its showing share is measured at. */

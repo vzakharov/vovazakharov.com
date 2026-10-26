@@ -2,34 +2,11 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Facing, Point } from '@/mushrooms/shared/lib/geometry';
-import {
-  emerge,
-  EMERGE_DURATION,
-  sink,
-  SINK_DURATION,
-} from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
-import { BUTTON_INSET } from '@/mushrooms/shared/lib/tap-reach';
-import { DUSK,type Lighting, PALETTE } from '@/mushrooms/shared/ui';
-import {
-  duskyAt,
-  type Eyed,
-  flowerGenes,
-  flowerHead,
-  OPENING_EYE,
-  OPENING_FEET,
-} from '@/mushrooms/shared/world';
-import { paintFlowerHead, paintFlowerStem } from '@/mushrooms/entities/flower';
-import {
-  type DoorPlace,
-  doorStations,
-  drawMushroom,
-  mushroomGenes,
-  paintedSpots,
-  paintHouse,
-} from '@/mushrooms/entities/mushroom';
-
+import { duskyAt } from '../../model/dusk';
+import { flowerGenes, flowerHead } from '../../model/flower-genes';
+import type { Facing, Point } from '../../model/geometry';
+import { type Eyed, OPENING_EYE } from '../../model/ground';
+import { type DoorPlace, doorStations, paintedSpots } from '../../model/house';
 import {
   headingOnMap,
   type MapFrame,
@@ -37,17 +14,33 @@ import {
   onMap,
   thingScale,
 } from '../../model/map-frame';
+import {
+  emerge,
+  EMERGE_DURATION,
+  sink,
+  SINK_DURATION,
+} from '../../model/motion';
+import { mushroomGenes } from '../../model/mushroom-genes';
+import { OPENING_FEET } from '../../model/placement';
+import type { Seeded } from '../../model/random';
 import type { AtRatio } from './baking';
 import { sizeOn } from './clump-layout';
+import { paintFlowerHead, paintFlowerStem } from './draw-flower';
+import { paintHouse } from './draw-house';
 import { drawMapGround } from './draw-map-ground';
+import { drawMushroom } from './draw-mushroom';
 import { DUSK_WASH_DEEPEST } from './dusk-view';
 import { flowersOf } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { iconLighting } from './hud';
+import type { Lighting } from './ink';
 import { drawChild, drawView } from './map-child';
 import { drawCompass } from './map-compass';
 import type { DoorSeating } from './mushroom-bed';
+import { PALETTE } from './palette';
+import { DUSK } from './palette-dusk';
 import { azimuthAt } from './panorama';
+import { BUTTON_INSET } from './tap-reach';
 
 /**
  * What the map is drawn from as it opens: the meadow as it stands, the eye,

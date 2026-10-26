@@ -2,35 +2,27 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { smooth, wobble } from '@/mushrooms/shared/lib/motion';
-import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import type { Lighting } from '@/mushrooms/shared/ui';
-import { aloftAt, CLUMP_DISTANCE, type View } from '@/mushrooms/shared/world';
+import { isSeat, type Span } from '../../model/flight';
 import {
   type Aloft,
-  aloft,
-  carriedFrom,
-  caughtAloft,
   centreOf,
-  dartAt,
-  dartWay,
-  type Flier,
   framedOf,
-  type InsectKind,
-  isSeat,
-  isShying,
-  landingBob,
-  outOfView,
   panOf,
-  type Span,
-  startLeg,
-  steer,
-  wingspan,
-  wingsShut,
-} from '@/mushrooms/entities/insect';
-
+} from '../../model/flight-frame';
+import { outOfView } from '../../model/flight-in';
+import type { Point } from '../../model/geometry';
+import { CLUMP_DISTANCE } from '../../model/ground';
+import { dartAt, dartWay } from '../../model/insect-dart';
+import type { InsectKind } from '../../model/insect-genes';
+import { aloft, carriedFrom, landingBob } from '../../model/insect-motion';
+import { wingspan } from '../../model/insect-outline';
+import { startLeg, steer } from '../../model/insect-steering';
+import { caughtAloft, type Flier, isShying } from '../../model/insects';
+import { smooth, wobble } from '../../model/motion';
+import { aloftAt } from '../../model/pinhole';
+import { wingsShut } from '../../model/roost';
 import { containsCircle } from './hit-areas';
+import type { Lighting } from './ink';
 import { type Away, entryAloft, legEnd, ownAway, seenFor } from './insect-away';
 import { drawnInsect } from './insect-drawn';
 import { eyeFrameOf, mixD } from './insect-frame';
@@ -49,6 +41,8 @@ import { tappedInsect } from './insect-tap';
 import type { MeadowLayout } from './layout';
 import { isSeated, type PerchAt } from './perch-hosts';
 import type { MeadowSound } from './sound';
+import { tapReach } from './tap-reach';
+import type { View } from './view';
 
 /** How far a flight's flutter lifts it at most, per unit of the insect's size. */
 const FLUTTER = 0.28;

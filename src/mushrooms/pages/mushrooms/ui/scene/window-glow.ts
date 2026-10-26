@@ -1,24 +1,16 @@
 import type * as Phaser from 'phaser';
 
-import { mix } from '@/mushrooms/shared/lib/colour';
-import {
-  type Box,
-  boxAround,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import { type Brush,PALETTE } from '@/mushrooms/shared/ui';
-import {
-  drawnHolds,
-  type MushroomGenes,
-  mushroomTints,
-  paintWindows,
-  type ShownWindow,
-  windowPlace,
-  windowSlots,
-} from '@/mushrooms/entities/mushroom';
-
+import { type Box, boxAround, type Point } from '../../model/geometry';
+import { windowSlots } from '../../model/house';
+import type { MushroomGenes } from '../../model/mushroom-genes';
+import { mix } from './colour';
+import { paintWindows, type ShownWindow, windowPlace } from './draw-house';
 import { DUSK_WASH_DEEPEST } from './dusk-view';
 import type { DrawnMushroom } from './hit-areas';
+import { drawnHolds } from './mushroom-tap';
+import { mushroomTints } from './mushroom-tints';
+import { PALETTE } from './palette';
+import type { Brush } from './shapes';
 
 /** The halo round a lit window: how far it reaches past the window's middle, in the window's side; its rings, each laid at `HALO_ALPHA` over the ones outside it. */
 const HALO_REACH = 1.3;

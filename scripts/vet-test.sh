@@ -14,14 +14,13 @@ set -uo pipefail
 
 cd "$(dirname "$0")/.."
 
-# The game's layers; its scripts' tests are quick and stay in.
-MEADOW='src/mushrooms/(shared|entities|features|pages)/'
+MEADOW='src/mushrooms/pages/mushrooms/'
 
 mapfile -t files < <(
   {
     git ls-files '*.test.ts'
     git ls-files --others --exclude-standard '*.test.ts'
-  } | if [ "${VET_MEADOW:-}" = 1 ]; then cat; else grep -Ev "^$MEADOW"; fi
+  } | if [ "${VET_MEADOW:-}" = 1 ]; then cat; else grep -v "^$MEADOW"; fi
 )
 if [ "${VET_MEADOW:-}" != 1 ]; then
   printf 'vet-test: the meadow'\''s tests are skipped; VET_MEADOW=1 runs them.\n'

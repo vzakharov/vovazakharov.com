@@ -1,11 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { sunLight } from '@/mushrooms/shared/lib/light';
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { type Camera, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
-
+import type { Point } from '../../model/geometry';
+import { type Camera, OPENING_EYE } from '../../model/ground';
+import { sunLight } from '../../model/light';
+import { mulberry32 } from '../../model/random';
 import { type MeadowLayout, meadowLayout } from './layout';
 import {
   azimuthAt,
@@ -27,6 +26,7 @@ import {
   PATH_SKIP,
 } from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
+import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** A simple polygon's area, by the shoelace formula. */

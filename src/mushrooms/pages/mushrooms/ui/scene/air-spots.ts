@@ -10,11 +10,15 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
 import {
-  distanceBetween,
-  type Point,
-  wrap,
-} from '@/mushrooms/shared/lib/geometry';
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
+  type Crowding,
+  type Perch,
+  perchName,
+  type Place,
+  type Places,
+  type Sited,
+} from '../../model/flight';
+import { type Aloft, type AtAloft, azimuthOf } from '../../model/flight-frame';
+import { distanceBetween, type Point, wrap } from '../../model/geometry';
 import {
   anchored,
   type Camera,
@@ -22,30 +26,17 @@ import {
   type Eye,
   OPENING_EYE,
   project,
-  rowAt,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import {
-  type Aloft,
-  type AtAloft,
-  azimuthOf,
-  type Crowding,
-  INSECT_KINDS,
-  INSECT_LIMITS,
-  type InsectKind,
-  type Perch,
-  perchName,
-  type Place,
-  type Places,
-  type Sited,
-} from '@/mushrooms/entities/insect/index.node-safe';
-
+} from '../../model/ground';
+import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import { INSECT_LIMITS } from '../../model/insects';
+import { mulberry32 } from '../../model/random';
 import type { Zoomed } from './insect-away';
 import { drawnAloft } from './insect-frame';
 import type { InsectCamera } from './layout';
 import { pointCrowdings } from './perch-crowding';
 import type { Alofted } from './perch-hosts';
 import { placeOfAloft } from './plane-place';
+import { rowAt, viewAt } from './view';
 import { widestOn } from './widest-spans';
 
 /** How far the open air reaches down over the back of the ground, as a share of the ground's depth. */

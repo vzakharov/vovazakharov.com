@@ -10,16 +10,13 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { alongQuadratic, type Point } from '@/mushrooms/shared/lib/geometry';
-import { PALETTE } from '@/mushrooms/shared/ui';
-import {
-  capFrame,
-  capSurface,
-  type MushroomGenes,
-} from '@/mushrooms/entities/mushroom';
-import { SPORE_FALL_MS, SPROUT_START } from '@/mushrooms/features/meadow';
-
+import { alongQuadratic, type Point } from '../../model/geometry';
+import type { MushroomGenes } from '../../model/mushroom-genes';
+import { capFrame } from '../../model/mushroom-pose';
+import { capSurface } from '../../model/mushroom-profile';
+import { SPORE_FALL_MS, SPROUT_START } from '../../model/sprouting';
 import type { Shown } from './mushroom-shown';
+import { PALETTE } from './palette';
 import type { MeadowSound } from './sound';
 import { drawnSize, puffSpores } from './spores';
 

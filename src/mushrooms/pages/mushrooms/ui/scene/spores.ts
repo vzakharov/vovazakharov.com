@@ -5,12 +5,12 @@ import {
   placedAt,
   type Point,
   type Scaled,
-} from '@/mushrooms/shared/lib/geometry';
-import { PALETTE } from '@/mushrooms/shared/ui';
-import { type Splayed,toCanvas } from '@/mushrooms/entities/mushroom';
-
+} from '../../model/geometry';
+import { toCanvas } from '../../model/mushroom-outline';
+import type { Splayed } from '../../model/mushroom-pose';
 import type { Standing } from './bed-place';
 import type { WithGraphics } from './hit-areas';
+import { PALETTE } from './palette';
 
 /** Dots in the outer ring; the inner ring has half as many, between them. */
 const RING_DOTS = 12;

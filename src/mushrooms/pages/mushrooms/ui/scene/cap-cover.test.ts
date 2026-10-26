@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { boxesMeet } from '@/mushrooms/shared/lib/geometry';
-import { mushroomGenes } from '@/mushrooms/entities/mushroom/index.node-safe';
-
+import { boxesMeet } from '../../model/geometry';
+import { mushroomGenes } from '../../model/mushroom-genes';
 import {
   capBox,
   hiddenOf,

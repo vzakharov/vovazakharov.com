@@ -1,14 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
-import { type Eye, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
-import {
-  apartIn,
-  type Perch,
-  perchName,
-} from '@/mushrooms/entities/insect/index.node-safe';
-
+import { type Perch, perchName } from '../../model/flight';
+import { apartIn } from '../../model/flight-timing';
+import { distanceBetween, type Point } from '../../model/geometry';
+import { type Eye, OPENING_EYE } from '../../model/ground';
 import { anchoredStand } from './anchored-stand';
 import { placeIn } from './clump-layout';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
@@ -17,6 +13,7 @@ import { drawnAloft } from './insect-frame';
 import { footRows, PERCH_REACH, perchSight, seatAt } from './perch-sight';
 import { Perches } from './perches';
 import { aloftOfLayout } from './plane-place';
+import { viewAt } from './view';
 import { opened } from './visit-play';
 
 /** Eyes walked into the forest and turned, from which the screen still shows caps. */

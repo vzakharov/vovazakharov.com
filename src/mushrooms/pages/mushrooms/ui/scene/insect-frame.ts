@@ -8,33 +8,34 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import {
-  alongAzimuth,
-  distanceBetween,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import { smooth } from '@/mushrooms/shared/lib/motion';
-import {
-  bendAt,
-  buried,
-  type Camera,
-  CLUMP_DISTANCE,
-  type Eye,
-  EYE_HEIGHT,
-  middleOf,
-  pinholeOf,
-  type Placed,
-  placedAt,
-  sunkOver,
-  V_NEAR,
-  type View,
-} from '@/mushrooms/shared/world';
-import {
   type Aloft,
   azimuthOf,
   type EyeFrame,
   type Framed,
   unframed,
-} from '@/mushrooms/entities/insect/index.node-safe';
+} from '../../model/flight-frame';
+import {
+  alongAzimuth,
+  distanceBetween,
+  type Point,
+} from '../../model/geometry';
+import {
+  type Camera,
+  CLUMP_DISTANCE,
+  type Eye,
+  EYE_HEIGHT,
+} from '../../model/ground';
+import { smooth } from '../../model/motion';
+import { bendAt, pinholeOf } from '../../model/pinhole';
+import {
+  buried,
+  middleOf,
+  type Placed,
+  placedAt,
+  sunkOver,
+  V_NEAR,
+  type View,
+} from './view';
 
 /** `view`'s pinhole as the frame a leg is drawn in (`EyeFrame`), in px of `unit` CSS px: the world px of the opening layout at 1. */
 export function eyeFrameOf(view: View, unit = 1): EyeFrame {

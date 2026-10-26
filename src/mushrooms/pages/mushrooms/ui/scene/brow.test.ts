@@ -1,16 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  browRow,
-  OPENING_EYE,
-  pinholeOf,
-  viewAt,
-} from '@/mushrooms/shared/world';
-
+import { OPENING_EYE } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { browBlades, browShown, type ShownBlade } from './brow';
 import { meadowCamera } from './meadow-camera';
 import { seamReach } from './skyline';
+import { browRow, viewAt } from './view';
 import { CAMERAS } from './viewports';
 
 /** How tall a shown blade stands, root to tip, in CSS px. */

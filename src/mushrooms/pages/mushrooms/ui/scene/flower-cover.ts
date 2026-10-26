@@ -7,19 +7,14 @@
  * plants only through what the child can see.
  */
 
-import {
-  boxAround,
-  containsPoint,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import type { Distant, View } from '@/mushrooms/shared/world';
-import type { Planted } from '@/mushrooms/features/meadow';
-
+import type { Planted } from '../../model/game';
+import { boxAround, containsPoint, type Point } from '../../model/geometry';
 import { aboutFoot, bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import type { BoxedOutlines } from './flower-sight';
 import type { ClumpGround } from './layout';
+import type { Distant, View } from './view';
 
 /** A mushroom as a frame draws it: how far from the eye it stands, and its outlines on the screen. */
 export type ShownCover = Distant & BoxedOutlines;

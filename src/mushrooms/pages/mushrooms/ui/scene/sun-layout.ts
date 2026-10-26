@@ -5,13 +5,13 @@
 
 import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
-import type { Box, Circle } from '@/mushrooms/shared/lib/geometry';
-import { BUTTON_INSET, tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import { type Grounded, pinholeOf } from '@/mushrooms/shared/world';
-
+import type { Box, Circle } from '../../model/geometry';
+import type { Grounded } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { everyPlace } from './clump-layout';
 import type { ClumpGround, Horizoned, Sunned } from './layout';
 import { type Controls, standingControls } from './sky-layout';
+import { BUTTON_INSET, tapReach } from './tap-reach';
 
 /** The sun's glow reaches this many radii out, and must stay on screen. */
 export const SUN_GLOW_REACH = 2.6;

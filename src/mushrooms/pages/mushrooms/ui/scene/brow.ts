@@ -11,32 +11,27 @@
 
 import type * as Phaser from 'phaser';
 
-import { mix } from '@/mushrooms/shared/lib/colour';
 import {
   type Abscissa,
   type Leaning,
   type Point,
   sample,
   type Tall,
-} from '@/mushrooms/shared/lib/geometry';
+} from '../../model/geometry';
+import type { Camera } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import {
   between,
   mulberry32,
   type Random,
   skewedBetween,
-} from '@/mushrooms/shared/lib/random';
-import {
-  browLowest,
-  browRow,
-  type Camera,
-  deepestBob,
-  pinholeOf,
-  type View,
-} from '@/mushrooms/shared/world';
-
+} from '../../model/random';
 import { groundRowAt, type Tones } from './backdrop-tones';
+import { mix } from './colour';
 import { type Azimuthed, screenAt } from './panorama';
 import { hillBands, seamReach } from './skyline';
+import { browLowest, browRow, type View } from './view';
+import { deepestBob } from './walking';
 
 /** The brow's own stream, so growing its blades draws nothing from the backdrop's. */
 const BROW_SEED = 0xb7_0a;

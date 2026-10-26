@@ -1,12 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  DRUMS,
-  HIGHEST_NOTE,
-  LOWEST_NOTE,
-} from '@/mushrooms/entities/flower/index.node-safe';
-
+import { DRUMS } from '../../model/flower-sounds';
+import { HIGHEST_NOTE, LOWEST_NOTE } from '../../model/notes';
 import {
   type Band,
   DRUM_SPECS,

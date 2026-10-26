@@ -1,47 +1,27 @@
 import type * as Phaser from 'phaser';
 
-import { alongQuadratic, type Point } from '@/mushrooms/shared/lib/geometry';
-import { PICTOGRAM_LIGHT } from '@/mushrooms/shared/lib/light';
+import { alongQuadratic, type Point } from '../../model/geometry';
+import { DOOR_ASPECT, type Furnishing } from '../../model/house';
 import {
-  type Brush,
-  fillShape,
-  type Lighting,
-  PALETTE,
-  strokeShape,
-} from '@/mushrooms/shared/ui';
-import {
-  BEE_VEINS,
-  BODY_SIDES,
   type Buzzing,
-  buzzRoot,
-  buzzTurn,
   insectGenes,
   type InsectKind,
-  paintBeeBody,
-  paintBeeLegs,
-  paintBody,
-  paintFlyBody,
-  paintFlyLegs,
-  paintWing,
-  paintWings,
   PICTOGRAM_SEED,
-  scaled,
-  wingspan,
-} from '@/mushrooms/entities/insect';
-import {
-  capOnCanvas,
-  DOOR_ASPECT,
-  drawMushroom,
-  type Furnishing,
-  iconGenes,
-  iconSize,
-  type MushroomGenes,
-  paintDoor,
-  paintWindow,
-  type Species,
-  SPECIES_ICON_HEIGHT,
-  toCanvas,
-} from '@/mushrooms/entities/mushroom';
+} from '../../model/insect-genes';
+import { buzzRoot, buzzTurn, wingspan } from '../../model/insect-outline';
+import { PICTOGRAM_LIGHT } from '../../model/light';
+import type { MushroomGenes, Species } from '../../model/mushroom-genes';
+import { capOnCanvas, toCanvas } from '../../model/mushroom-outline';
+import { BEE_VEINS, paintBeeBody, paintBeeLegs } from './draw-bee';
+import { paintWing, BODY_SIDES } from './draw-buzz';
+import { paintFlyBody, paintFlyLegs } from './draw-fly';
+import { paintDoor, paintWindow } from './draw-house';
+import { paintBody, paintWings, scaled } from './draw-insect';
+import { drawMushroom } from './draw-mushroom';
+import { iconGenes, iconSize, SPECIES_ICON_HEIGHT } from './icon-genes';
+import type { Lighting } from './ink';
+import { PALETTE } from './palette';
+import { type Brush, fillShape, strokeShape } from './shapes';
 
 /**
  * A pictogram's light, the same on every button whatever the sun does, and

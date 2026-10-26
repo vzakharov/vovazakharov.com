@@ -5,33 +5,29 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Scaled } from '@/mushrooms/shared/lib/geometry';
-import type { TapTimed } from '@/mushrooms/shared/lib/motion';
-import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import {
-  type Dusked,
-  hazeAhead,
-  hazeTone,
-  type Lighted,
-} from '@/mushrooms/shared/ui';
-import { pinholeOf, type View } from '@/mushrooms/shared/world';
+import type { Scaled } from '../../model/geometry';
+import { onStem } from '../../model/house';
+import type { TapTimed } from '../../model/motion';
 import {
   endOf,
-  facingAlong,
   hop,
-  onStem,
-  paintRunner,
   type RunEnd,
   type RunMoment,
   type Runner,
-  type RunPath,
-  stemHalfWidth,
-} from '@/mushrooms/entities/mushroom';
-
+} from '../../model/mouse-run-clock';
+import { facingAlong, type RunPath } from '../../model/mouse-run-course';
+import { stemHalfWidth } from '../../model/mushroom-profile';
+import { pinholeOf } from '../../model/pinhole';
 import { type BedPlace, bedPlace, standAt } from './bed-place';
+import { paintRunner } from './draw-mouse';
+import { type Dusked, hazeTone } from './haze-tone';
 import type { WithCircleHit, WithGraphics } from './hit-areas';
+import type { Lighted } from './ink';
 import type { Shown } from './mushroom-shown';
+import { hazeAhead } from './repaint-queue';
 import { doorFront } from './run-front';
+import { tapReach } from './tap-reach';
+import type { View } from './view';
 
 /** How high a runner's body's middle stands over its feet, in its width: where its tap circle centres. */
 const RUNNER_MIDDLE = 0.3;

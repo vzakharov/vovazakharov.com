@@ -1,8 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-
+import type { Point } from '../../model/geometry';
 import { moonFace } from './moon-face';
 
 const MOON = { x: 40, y: -10, r: 20 };

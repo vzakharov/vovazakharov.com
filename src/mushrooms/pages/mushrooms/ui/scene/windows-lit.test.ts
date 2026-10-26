@@ -7,8 +7,7 @@ import {
   FULL_DAY,
   FULL_DUSK,
   turned,
-} from '@/mushrooms/shared/world';
-
+} from '../../model/dusk';
 import { LIT_DELAY_MOST, windowsLit } from './windows-lit';
 
 const START = 5000;

@@ -10,15 +10,12 @@ import {
   outingOf,
   peekAfterTap,
   type Tapped,
-} from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
-import {
-  type Opened,
-  type PeekingOut,
-  runAt,
-  type RunCourse,
-  type RunEnds,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
+} from '../../model/motion';
+import type { RunEnds } from '../../model/mouse-run';
+import { runAt, type RunCourse } from '../../model/mouse-run-clock';
+import type { Seeded } from '../../model/random';
+import type { Opened } from './draw-house';
+import type { PeekingOut } from './draw-mouse';
 
 /**
  * How far a door's mouse's head is out and the door open (0 to 1), as its

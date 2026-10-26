@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "test": "scripts/test-changed.sh",
     "test:all": "scripts/vet-test.sh",
-    "test:meadow": "node --import tsx --test \"src/mushrooms/{shared,entities,features,pages}/**/*.test.ts\"",
+    "test:meadow": "node --import tsx --test \"src/mushrooms/pages/mushrooms/**/*.test.ts\"",
     "type-overlap": "tsx scripts/type-overlap-check.ts",
     "knip": "knip",
     "check:mantine-styles": "node src/shell/scripts/check-mantine-styles.ts",

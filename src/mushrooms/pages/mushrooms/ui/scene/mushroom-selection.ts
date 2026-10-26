@@ -1,13 +1,12 @@
 import type * as Phaser from 'phaser';
 
+import type { TapArea } from '../../model/mushroom-outline';
+import { standAt } from './bed-place';
 import {
   drawSelection,
   drawSelectionRing,
   type RingGraphics,
-  type TapArea,
-} from '@/mushrooms/entities/mushroom';
-
-import { standAt } from './bed-place';
+} from './draw-mushroom';
 import type { Puffing } from './spores';
 
 /**

@@ -8,12 +8,11 @@
 
 import type { Sized } from '@/kernel/shared/typings';
 
-import { channels, mix, packed } from '@/mushrooms/shared/lib/colour';
-import type { Ramped } from '@/mushrooms/shared/lib/motion';
-import { DUSK, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import type { GroundBand } from '@/mushrooms/shared/world';
-
+import type { GroundBand } from '../../model/ground';
+import type { Ramped } from '../../model/motion';
+import { channels, mix, packed } from './colour';
 import type { HillsSunned, Sunned } from './layout';
+import { DUSK, PALETTE } from './palette';
 import { SEAM_REACH, seamTop } from './skyline';
 import { SUN_GLOW_REACH } from './sun-layout';
 

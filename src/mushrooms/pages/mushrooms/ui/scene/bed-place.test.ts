@@ -1,36 +1,27 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { castShadow } from '@/mushrooms/shared/ui/index.node-safe';
+import { flowerGenes, flowerHead } from '../../model/flower-genes';
+import type { Point } from '../../model/geometry';
+import { OPENING_EYE, planeOf, zAt } from '../../model/ground';
+import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
+import { TAP_PARTS, tapArea, toCanvas } from '../../model/mushroom-outline';
+import { splayed } from '../../model/mushroom-pose';
+import { pinholeOf } from '../../model/pinhole';
+import { bedPlace, depthOf, SIDE_OVERHANG } from './bed-place';
+import { placeIn } from './clump-layout';
+import { standingFlowers } from './flower-plots';
+import { castShadow } from './ink';
 import {
   browRow,
   cull,
   D_SEE,
-  flowerGenes,
-  flowerHead,
   ofGround,
-  OPENING_EYE,
-  pinholeOf,
-  planeOf,
   sunk,
   sunkAway,
   type View,
   viewAt,
-  zAt,
-} from '@/mushrooms/shared/world';
-import {
-  MUSHROOM_SPECIES,
-  mushroomGenes,
-  splayed,
-  TAP_PARTS,
-  tapArea,
-  toCanvas,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
-
-import { bedPlace, depthOf, SIDE_OVERHANG } from './bed-place';
-import { placeIn } from './clump-layout';
-import { standingFlowers } from './flower-plots';
+} from './view';
 import { EITHER_WAY } from './viewports';
 import { opened } from './visit-play';
 

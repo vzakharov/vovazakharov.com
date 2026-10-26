@@ -1,20 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  behindHills,
-  gaitHeight,
-  ofGround,
-  OPENING_EYE,
-  sunk,
-  sunkAway,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import { NEAR_FLOWERS } from '@/mushrooms/entities/flower/index.node-safe';
-
+import { gaitHeight } from '../../model/eye-height';
+import { NEAR_FLOWERS } from '../../model/flower-sounds';
+import { OPENING_EYE } from '../../model/ground';
 import { FAR_FLOWERS } from './far-band';
 import { HEAD_REACH } from './flower-layout';
 import { flowersOf } from './flower-plots';
+import { behindHills, ofGround, sunk, sunkAway, viewAt } from './view';
 import { EITHER_WAY, VISITS } from './viewports';
 import { opened } from './visit-play';
 

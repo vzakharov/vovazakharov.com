@@ -3,15 +3,11 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import {
-  type Crowding,
-  INSECT_KINDS,
-  type InsectKind,
-  type OnPerch,
-} from '@/mushrooms/entities/insect/index.node-safe';
-
+import type { Crowding } from '../../model/flight';
+import type { Point } from '../../model/geometry';
+import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import type { OnPerch } from '../../model/perch-room';
+import { mulberry32 } from '../../model/random';
 import { pointCrowdings } from './perch-crowding';
 
 type Apart = (first: InsectKind, second: InsectKind) => number;

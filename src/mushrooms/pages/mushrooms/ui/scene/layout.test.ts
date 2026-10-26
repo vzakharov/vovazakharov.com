@@ -3,6 +3,8 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import { MUSHROOM_SLOTS } from '../../model/crowding';
+import { firstMeadow } from '../../model/game';
 import {
   type Box,
   boxAround,
@@ -10,32 +12,32 @@ import {
   containsPoint,
   type Point,
   sample,
-} from '@/mushrooms/shared/lib/geometry';
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { TAP_RADIUS, tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import { MUSHROOM_SLOTS, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+} from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import {
-  doorHitArea,
   doorStations,
   FURNISHINGS,
+  onStem,
+  paintedDoor,
+} from '../../model/house';
+import {
   MUSHROOM_SPECIES,
   mushroomGenes,
   type MushroomSeed,
-  onStem,
-  paintedDoor,
-  stemAt,
-  tapArea,
-  toCanvas,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
-import { firstMeadow } from '@/mushrooms/features/meadow';
-
+} from '../../model/mushroom-genes';
+import { tapArea, toCanvas } from '../../model/mushroom-outline';
+import { stemAt } from '../../model/mushroom-pose';
+import { mulberry32 } from '../../model/random';
 import { hiddenOf, partOf, sighted } from './cap-cover';
 import { everyPlace, placeIn } from './clump-layout';
+import { doorHitArea } from './door-reach';
 import { standingAt } from './door-sight';
 import { type MeadowLayout, meadowLayout, type Placement } from './layout';
 import { PICK_APART, PICK_CLEAR } from './picker-rows';
 import { flowerPicker, shownOverPickers, standingControls } from './sky-layout';
 import { SUN_GLOW_REACH, SUN_RAY_REACH } from './sun-layout';
+import { TAP_RADIUS, tapReach } from './tap-reach';
+import { viewAt } from './view';
 import {
   FLOOR_HELD,
   type Screen,

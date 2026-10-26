@@ -6,39 +6,32 @@
  * is timed between the points it is drawn between.
  */
 
-import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
-import { phaseOf } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
+import { browDistance } from '../../model/eye-height';
 import {
-  aloftAt,
-  alongSight,
-  browDistance,
-  CLUMP_DISTANCE,
-  D_SEE,
-  onScreen,
-  pinholeOf,
-  type View,
-  type Zooming,
-} from '@/mushrooms/shared/world';
-import {
-  type Aloft,
-  azimuthOf,
-  type InsectGenes,
-  insectGenes,
-  type Kinded,
   type Perch,
   perchName,
   type Places,
   type Side,
   SIDES,
-  type WayOut,
-  wingspan,
-} from '@/mushrooms/entities/insect/index.node-safe';
-
+} from '../../model/flight';
+import { type Aloft, azimuthOf } from '../../model/flight-frame';
+import type { WayOut } from '../../model/flight-in';
+import { type Point, wrap } from '../../model/geometry';
+import { CLUMP_DISTANCE } from '../../model/ground';
+import {
+  type InsectGenes,
+  insectGenes,
+  type Kinded,
+} from '../../model/insect-genes';
+import { wingspan } from '../../model/insect-outline';
+import { phaseOf } from '../../model/motion';
+import { aloftAt, alongSight, pinholeOf } from '../../model/pinhole';
+import type { Seeded } from '../../model/random';
 import { WIDEST_SPAN } from './flower-sight';
 import { drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { perchDistance, placeOfAloft } from './plane-place';
+import { D_SEE, onScreen, type View, type Zooming } from './view';
 
 /**
  * The band of the screen's height an insect flies in from and out to off

@@ -4,17 +4,12 @@
  * the sun leave free, so that it moves none of them on any screen.
  */
 
-import type { Circle } from '@/mushrooms/shared/lib/geometry';
-import {
-  apart,
-  BUTTON_INSET,
-  tapReach,
-} from '@/mushrooms/shared/lib/tap-reach';
-
+import type { Circle } from '../../model/geometry';
 import type { ControlledScreen } from './layout';
 import { PICK_APART, PICK_CLEAR } from './picker-rows';
 import { flowerPicker, type Gaited, standingControls } from './sky-layout';
 import { SUN_RAY_REACH } from './sun-layout';
+import { apart, BUTTON_INSET, tapReach } from './tap-reach';
 
 /** The gait button's radius: drawn smaller than a finger, though one reaches it as far (`tapReach`). */
 const GAIT_R = 22;

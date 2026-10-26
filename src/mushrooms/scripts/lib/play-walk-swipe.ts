@@ -7,11 +7,11 @@
 
 import { z } from 'zod';
 
-import { GLIDE_OVER, GLIDE_TAU } from '@/mushrooms/shared/lib/glide';
+import { GLIDE_OVER, GLIDE_TAU } from '@/mushrooms/pages/mushrooms/model/glide';
 import {
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
-} from '@/mushrooms/shared/world/stride';
+} from '@/mushrooms/pages/mushrooms/model/stride';
 
 import { Eye, Point } from './mushroom-probe-answers.ts';
 import type { Expect, Page } from './mushroom-probe-drive.ts';

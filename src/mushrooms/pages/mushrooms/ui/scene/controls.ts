@@ -1,32 +1,25 @@
 import type * as Phaser from 'phaser';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { type FlowerColour, isFull, type Walk } from '@/mushrooms/shared/world';
+import { isFull } from '../../model/crowding';
+import type { FlowerColour } from '../../model/flower-genes';
 import {
   FLOWER_SHAPES,
   type FlowerShape,
   PICKED_COLOURS,
-} from '@/mushrooms/entities/flower';
+} from '../../model/flower-sounds';
+import { canFurnish } from '../../model/furnishing';
 import {
-  INSECT_KINDS,
-  type InsectKind,
-  isBeeSown,
-  type Sown,
-} from '@/mushrooms/entities/insect';
-import {
-  type Furnishing,
-  FURNISHINGS,
-  MUSHROOM_SPECIES,
-  type Species,
-} from '@/mushrooms/entities/mushroom';
-import {
-  canFurnish,
   isEmpty,
   type Meadow,
   type Planted,
   shapeSeed,
-} from '@/mushrooms/features/meadow';
-
+} from '../../model/game';
+import type { Point } from '../../model/geometry';
+import { type Furnishing, FURNISHINGS } from '../../model/house';
+import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
+import { isBeeSown, type Sown } from '../../model/pollen';
+import type { Walk } from '../../model/walk';
 import {
   type Button,
   buttonMaker,

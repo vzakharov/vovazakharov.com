@@ -7,29 +7,20 @@
  * judged round its newcomers alone (`lostOn`).
  */
 
+import { anchorOf } from '../../model/anchor';
+import { flowersCrowdAt } from '../../model/crowding';
+import { browDistance } from '../../model/eye-height';
+import { azimuthOf } from '../../model/flight-frame';
+import { FLOWER_RANGES, flowerGenes } from '../../model/flower-genes';
+import { sameFoot } from '../../model/game';
+import { boxesMeet, distanceBetween, wrap } from '../../model/geometry';
 import {
-  boxesMeet,
-  distanceBetween,
-  wrap,
-} from '@/mushrooms/shared/lib/geometry';
-import { PALE_SPAN } from '@/mushrooms/shared/ui/index.node-safe';
-import {
-  anchorOf,
-  browDistance,
-  cull,
   type Eye,
-  FLOWER_RANGES,
-  flowerGenes,
-  flowersCrowdAt,
   type Footing,
   groundFootOf,
   OPENING_EYE,
-  pinholeOf,
-  type View,
-} from '@/mushrooms/shared/world';
-import { azimuthOf } from '@/mushrooms/entities/insect/index.node-safe';
-import { sameFoot } from '@/mushrooms/features/meadow';
-
+} from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { headClear, standingOn } from './flower-layout';
 import { flowersOf, groundFor, mushroomFeet } from './flower-plots';
@@ -43,7 +34,9 @@ import {
 import { type Tuft, tuftSizeAt } from './grass';
 import type { Sprout } from './lawn';
 import type { MeadowLayout } from './layout';
+import { PALE_SPAN } from './repaint-queue';
 import { bareAmong, bareToTap } from './tuft-tap';
+import { cull, type View } from './view';
 
 /**
  * How many screens either side of the view a tuft is tended in: judging a

@@ -1,11 +1,11 @@
 import type * as Phaser from 'phaser';
 
-import type { Box } from '@/mushrooms/shared/lib/geometry';
-import { fillShape, PALETTE, strokeShape } from '@/mushrooms/shared/ui';
-import { type Camera, D_SEE, type Eye } from '@/mushrooms/shared/world';
-
+import type { Box } from '../../model/geometry';
+import { type Camera, D_SEE, type Eye } from '../../model/ground';
 import { headingOnMap, type MapFrame, onMap } from '../../model/map-frame';
+import { PALETTE } from './palette';
 import { azimuthAt } from './panorama';
+import { fillShape, strokeShape } from './shapes';
 
 const CHILD_RADIUS = 5;
 const ARROW = 16;

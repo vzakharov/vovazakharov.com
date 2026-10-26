@@ -1,11 +1,7 @@
 import type * as Phaser from 'phaser';
 
-import { mix } from '@/mushrooms/shared/lib/colour';
-import { type Light, sunLight } from '@/mushrooms/shared/lib/light';
-import type { Random } from '@/mushrooms/shared/lib/random';
-import { fillShape } from '@/mushrooms/shared/ui';
-import { GROUND_BOB,type View } from '@/mushrooms/shared/world';
-
+import { type Light, sunLight } from '../../model/light';
+import type { Random } from '../../model/random';
 import {
   GROUND_BANDS,
   groundRowAt,
@@ -13,9 +9,11 @@ import {
   type Tones,
 } from './backdrop-tones';
 import { browFloor, nearFoot } from './brow';
+import { mix } from './colour';
 import { type Band, grainPixels, grainStrips } from './grain';
 import type { MeadowLayout } from './layout';
 import { type Crest, crestAcross, type WithCrest } from './panorama';
+import { fillShape } from './shapes';
 import {
   farSkyline,
   farthestSkyline,
@@ -27,6 +25,8 @@ import {
   seamCrest,
   seamTop,
 } from './skyline';
+import type { View } from './view';
+import { GROUND_BOB } from './walking';
 
 const HILL_BANDS = 16;
 const GRAIN_KEY = 'grain';

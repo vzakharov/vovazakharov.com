@@ -15,45 +15,33 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import {
-  distanceBetween,
-  placedAt,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import { phaseOf } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
-import {
-  D_SEE,
-  flowerGenes,
-  OPENING_EYE,
-  planeOf,
-  rowAt,
-  scaleAt,
-  SHELTER_SEATS,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
+  type Perch,
+  perchName,
+  type Place,
+  type Sight,
+} from '../../model/flight';
+import type { Onscreen } from '../../model/flight-in';
+import { flowerGenes } from '../../model/flower-genes';
+import type { Planted } from '../../model/game';
+import { distanceBetween, placedAt, type Point } from '../../model/geometry';
+import { D_SEE, OPENING_EYE, planeOf, scaleAt } from '../../model/ground';
 import {
   INSECT_KINDS,
   type InsectKind,
   type Kinded,
-  type Onscreen,
-  type Perch,
-  perchName,
-  type Place,
-  type ShelterSeat,
-  type Sight,
-} from '@/mushrooms/entities/insect/index.node-safe';
+} from '../../model/insect-genes';
+import { phaseOf } from '../../model/motion';
 import {
-  capSeat,
-  capUnder,
   hasTrumpet,
   type MushroomGenes,
   mushroomGenes,
-  splayed,
-  toCanvas,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
-import { type Planted, sproutScale } from '@/mushrooms/features/meadow';
-
+} from '../../model/mushroom-genes';
+import { capUnder, toCanvas } from '../../model/mushroom-outline';
+import { capSeat, splayed } from '../../model/mushroom-pose';
+import type { Seeded } from '../../model/random';
+import type { ShelterSeat } from '../../model/shelter';
+import { SHELTER_SEATS } from '../../model/shelter-seats';
+import { sproutScale } from '../../model/sprouting';
 import { airOf, airSpots, clumpRow } from './air-spots';
 import { placeIn } from './clump-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';
@@ -74,6 +62,7 @@ import type { MeadowLayout } from './layout';
 import { MEADOW_FRAME } from './meadow-camera';
 import { crowdings, seatsWith, type Track } from './perch-crowding';
 import { discCovered } from './shelter-cover';
+import { rowAt, type View, viewAt } from './view';
 import { widestOn } from './widest-spans';
 
 /** How much of the narrower of two perched insects' spans the other may cover. */

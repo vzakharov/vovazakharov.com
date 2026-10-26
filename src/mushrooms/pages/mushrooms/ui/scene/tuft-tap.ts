@@ -1,16 +1,6 @@
 /** Where a finger meets the grass: which tuft a tap lands on, and whether one is drawn bare to it. */
 
-import {
-  type Circle,
-  distanceBetween,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import {
-  type MushroomTarget,
-  tappedMushroom,
-  tapTarget,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
-
+import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { FLOWER_SWAY } from './flower-layout';
@@ -18,6 +8,7 @@ import { flowersOf, type StandingFlower } from './flower-plots';
 import { sightingOf, type Stand } from './flower-sight';
 import type { Tuft, WithTuft } from './grass';
 import type { MeadowLayout } from './layout';
+import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
 
 /** How far round its middle a tuft answers a tap at the least, in CSS px: a small finger's pad. */
 export const TUFT_REACH = 22;

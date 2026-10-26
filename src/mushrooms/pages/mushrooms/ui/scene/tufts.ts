@@ -11,29 +11,18 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
-import { smooth } from '@/mushrooms/shared/lib/motion';
-import type { Random } from '@/mushrooms/shared/lib/random';
-import { PALE_SPAN } from '@/mushrooms/shared/ui/index.node-safe';
+import { browDistance } from '../../model/eye-height';
+import { sameFoot } from '../../model/game';
+import { distanceBetween, type Point } from '../../model/geometry';
 import {
-  behindHills,
-  browDistance,
   CLUMP_DISTANCE,
-  cull,
   D_SEE,
   type Eye,
   type Footing,
-  ofGround,
-  onScreen,
   OPENING_EYE,
-  placedAt,
-  sunk,
-  sunkAway,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import { sameFoot } from '@/mushrooms/features/meadow';
-
+} from '../../model/ground';
+import { smooth } from '../../model/motion';
+import type { Random } from '../../model/random';
 import { depthOf, UNPLACED } from './bed-place';
 import { coversShown, inSightPast } from './flower-cover';
 import { FLOWER_SIZE } from './flower-layout';
@@ -62,8 +51,20 @@ import {
 } from './lawn';
 import type { MeadowLayout } from './layout';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
+import { PALE_SPAN } from './repaint-queue';
 import { Tended, tendedIn } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
+import {
+  behindHills,
+  cull,
+  ofGround,
+  onScreen,
+  placedAt,
+  sunk,
+  sunkAway,
+  type View,
+  viewAt,
+} from './view';
 
 export type { Sprout } from './lawn';
 export { plantableIn, tendedIn, tendTufts } from './tending';

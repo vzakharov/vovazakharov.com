@@ -2,21 +2,11 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  type Circle,
-  lerpPoint,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import { between } from '@/mushrooms/shared/lib/random';
-import { PALETTE } from '@/mushrooms/shared/ui';
-import {
-  browRow,
-  ofGround,
-  planeSeen,
-  type View,
-} from '@/mushrooms/shared/world';
-
+import { type Circle, lerpPoint, type Point } from '../../model/geometry';
+import { planeSeen } from '../../model/pinhole';
+import { between } from '../../model/random';
 import { type DrawnMushroom, drawnMushrooms } from './hit-areas';
+import { PALETTE } from './palette';
 import {
   dropColumn,
   type DropsInAir,
@@ -26,6 +16,7 @@ import {
   shownFrom,
   steadyToStart,
 } from './rain-fall';
+import { browRow, ofGround, type View } from './view';
 
 /** The pool's slots: the drops in the air and the rings of those just landed. */
 const SLOTS = 160;

@@ -2,11 +2,10 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
-import { PALETTE } from '@/mushrooms/shared/ui';
-import { type Dusk, duskness, type Layered } from '@/mushrooms/shared/world';
-import type { Action, WithDusk } from '@/mushrooms/features/meadow';
-
+import { type Dusk, duskness } from '../../model/dusk';
+import type { Action, WithDusk } from '../../model/game';
+import type { Circle, Point } from '../../model/geometry';
+import type { Layered } from '../../model/ground';
 import {
   cloudOverMoon,
   moonAt,
@@ -19,6 +18,7 @@ import { type FireflyGround, FireflyView } from './firefly-view';
 import type { MeadowLayout } from './layout';
 import { MoonView } from './moon-view';
 import type { Backdrop } from './paint-backdrop';
+import { PALETTE } from './palette';
 import type { DuskVoiced, Glinting } from './sound';
 
 /** The dusk wash's alpha at full dusk. */

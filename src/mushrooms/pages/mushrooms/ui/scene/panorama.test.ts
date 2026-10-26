@@ -1,13 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  OPENING_EYE,
-  pinholeOf,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
-
+import { OPENING_EYE } from '../../model/ground';
+import { pinholeOf } from '../../model/pinhole';
 import { haloReach, litSkyAt, skyAt } from './backdrop-tones';
 import { meadowLayout } from './layout';
 import {
@@ -20,6 +15,7 @@ import {
   shiftOf,
   shownAzimuths,
 } from './panorama';
+import { type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
 /** How many of `clouds`, drifted by `t`, `view` shows the middle of. */

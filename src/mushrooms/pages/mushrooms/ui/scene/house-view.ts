@@ -2,44 +2,36 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import type { Circle, Point } from '../../model/geometry';
+import { type DoorPlace, type House, windowSlots } from '../../model/house';
 import {
   blink,
   emerge,
   EMERGE_DURATION,
   lookAbout,
   type Tapped,
-} from '@/mushrooms/shared/lib/motion';
-import {
-  type Brush,
-  type Dusked,
-  hazeTone,
-  type Lighted,
-} from '@/mushrooms/shared/ui';
-import {
-  capFrame,
-  doorHitArea,
-  type DoorPlace,
-  type HazedGraphics,
-  type House,
-  type HousePart,
-  mouseHead,
-  paintHouse,
-  type ShownWindow,
-  tappedPart,
-  windowFace,
-  windowReaches,
-  windowSlots,
-} from '@/mushrooms/entities/mushroom';
-
+} from '../../model/motion';
+import { capFrame } from '../../model/mushroom-pose';
 import { type BedPlace, standAt } from './bed-place';
+import { doorHitArea, mouseHead } from './door-reach';
+import { paintHouse, type ShownWindow } from './draw-house';
 import type { Lights } from './dusk-view';
+import { type Dusked, hazeTone } from './haze-tone';
 import { containsOutline, drawnMushrooms } from './hit-areas';
 import { HouseWorm } from './house-worm';
+import type { Lighted } from './ink';
 import type { DoorShown, MouseDoor } from './mouse-door';
+import type { HazedGraphics } from './mushroom-paint';
+import type { Brush } from './shapes';
 import type { MeadowSound } from './sound';
 import { puffFrom, type Puffing } from './spores';
 import { coveredAt, WindowGlow, windowMiddles } from './window-glow';
+import {
+  type HousePart,
+  tappedPart,
+  windowFace,
+  windowReaches,
+} from './window-reach';
 import { windowsLit } from './windows-lit';
 
 /** How much sooner than its mouse's head a door swings all the way open. */

@@ -1,7 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-
+import type { Point } from '../../model/geometry';
 import { SUPERSAMPLE } from './baking';
 import { drawMoon, moonReach } from './paint-moon';
 

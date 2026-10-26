@@ -2,40 +2,20 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { placedAt } from '@/mushrooms/shared/lib/geometry';
-import { headedLight } from '@/mushrooms/shared/lib/light';
-import { bloom, emerge, sway } from '@/mushrooms/shared/lib/motion';
-import { browPale, type Lighting, repaintsDue } from '@/mushrooms/shared/ui';
-import {
-  CLUMP_DISTANCE,
-  type Flower,
-  flowerGenes,
-  type Following,
-  gathered,
-  onScreen,
-  OPENING_EYE,
-  type View,
-} from '@/mushrooms/shared/world';
-import {
-  closingsDue,
-  closingStep,
-  meanClosing,
-  paintFlowerLit,
-  soundOf,
-} from '@/mushrooms/entities/flower';
-import {
-  type Dip,
-  drinkDip,
-  type Flier,
-  type InsectKind,
-  isBeeSown,
-  type Sown,
-  type WithPlanted,
-} from '@/mushrooms/entities/insect';
-import { flowerLight } from '@/mushrooms/entities/mushroom';
-import type { Action, Meadow, Tended } from '@/mushrooms/features/meadow';
-
+import { type Flower, flowerGenes } from '../../model/flower-genes';
+import { soundOf } from '../../model/flower-sounds';
+import type { Action, Meadow, Tended } from '../../model/game';
+import { placedAt } from '../../model/geometry';
+import { CLUMP_DISTANCE, gathered, OPENING_EYE } from '../../model/ground';
+import type { InsectKind } from '../../model/insect-genes';
+import { type Dip, drinkDip } from '../../model/insect-motion';
+import type { Flier, WithPlanted } from '../../model/insects';
+import { headedLight } from '../../model/light';
+import { bloom, emerge, sway } from '../../model/motion';
+import { isBeeSown, type Sown } from '../../model/pollen';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
+import { paintFlowerLit } from './draw-flower';
+import { closingsDue, closingStep, meanClosing } from './flower-closing';
 import { coversShown, inSightPast } from './flower-cover';
 import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY } from './flower-layout';
@@ -51,10 +31,14 @@ import {
 } from './flower-shown';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower } from './hit-areas';
+import type { Lighting } from './ink';
 import type { Instrument } from './instrument';
 import type { Answers, FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
+import { flowerLight } from './mushroom-light';
 import type { Seat } from './perch-hosts';
+import { browPale, repaintsDue } from './repaint-queue';
+import { type Following, onScreen, type View } from './view';
 
 /**
  * How much a flower sinking behind the brow fades for each share of haze it

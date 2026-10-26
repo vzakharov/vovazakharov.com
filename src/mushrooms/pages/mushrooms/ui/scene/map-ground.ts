@@ -6,14 +6,9 @@
  * the things however the map is framed at that zoom.
  */
 
-import type { Box, Point } from '@/mushrooms/shared/lib/geometry';
-import {
-  between,
-  mulberry32,
-  type Random,
-} from '@/mushrooms/shared/lib/random';
-
+import type { Box, Point } from '../../model/geometry';
 import { fromMap, type MapFrame, onMap } from '../../model/map-frame';
+import { between, mulberry32, type Random } from '../../model/random';
 import type { Blade } from './brow';
 import { CELL, cellSeed } from './lawn';
 import {

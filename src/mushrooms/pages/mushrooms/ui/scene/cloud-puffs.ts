@@ -4,7 +4,7 @@
  * drawn. Every length is in the cloud's radii.
  */
 
-import type { Circle } from '@/mushrooms/shared/lib/geometry';
+import type { Circle } from '../../model/geometry';
 
 export const PUFFS = {
   /** How many puffs stand in a row; the middle one is a full radius. */

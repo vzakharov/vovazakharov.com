@@ -1,14 +1,7 @@
 import * as Phaser from 'phaser';
 
-import type { Random } from '@/mushrooms/shared/lib/random';
-import {
-  type Following,
-  GROUND_BOB,
-  OPENING_EYE,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
-
+import { OPENING_EYE } from '../../model/ground';
+import type { Random } from '../../model/random';
 import { DEPTHS } from './backdrop-depths';
 import { DUSK_TONES, tonesAt } from './backdrop-tones';
 import {
@@ -45,6 +38,8 @@ import { driftedAzimuth, placedLeft, screenAt } from './panorama';
 import { starImages } from './star-images';
 import { SUN_RAY_REACH } from './sun-layout';
 import { focusTwins, shade } from './twin-fade';
+import { type Following, type View, viewAt } from './view';
+import { GROUND_BOB } from './walking';
 
 /** How far past the tips of its rays the sun's picture runs, in CSS px, for their smoothed edge. */
 const SUN_MARGIN = 2;

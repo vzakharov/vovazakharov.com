@@ -1,7 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import type { Layered } from '@/mushrooms/shared/world';
-
+import type { Layered } from '../../model/ground';
 import {
   bakeTiles,
   onPixels,

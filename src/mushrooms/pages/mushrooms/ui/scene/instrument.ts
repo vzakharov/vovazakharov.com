@@ -1,12 +1,11 @@
+import type { FlowerSound } from '../../model/flower-sounds';
 import {
-  type FlowerSound,
   HOME_OCTAVE,
   type Melody,
   shiftMelody,
   shiftOctave,
   strike,
-} from '@/mushrooms/entities/flower/index.node-safe';
-
+} from '../../model/notes';
 import type { PlayedKey } from './keyboard';
 import type { Keyed, Waking } from './sound';
 

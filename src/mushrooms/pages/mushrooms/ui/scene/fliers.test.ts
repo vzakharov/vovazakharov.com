@@ -4,35 +4,34 @@ import { isDeepStrictEqual } from 'node:util';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { phaseOf } from '@/mushrooms/shared/lib/motion';
-import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import { raining, viewAt } from '@/mushrooms/shared/world';
 import {
-  blockedFor,
-  type Carried,
-  carriedFrom,
-  type Flier,
   type Flight,
-  flightPoint,
-  type Held,
+  isAloft,
+  isSeat,
+  perchName,
+  type Sight,
+} from '../../model/flight';
+import type { Point } from '../../model/geometry';
+import {
   INSECT_KINDS,
   insectGenes,
   type InsectKind,
-  isAloft,
-  isSeat,
-  LINGER_MS,
-  lingerOf,
-  perchName,
-  type Sight,
-  wingspan,
-} from '@/mushrooms/entities/insect/index.node-safe';
-
+} from '../../model/insect-genes';
+import { carriedFrom } from '../../model/insect-motion';
+import { wingspan } from '../../model/insect-outline';
+import { type Carried, flightPoint } from '../../model/insect-paths';
+import type { Flier } from '../../model/insects';
+import { phaseOf } from '../../model/motion';
+import { blockedFor, type Held } from '../../model/perch-room';
+import { LINGER_MS, lingerOf } from '../../model/shelter';
+import { raining } from '../../model/weather';
 import { airAlofts, EVERY_ONE } from './air-spots';
 import type { Zoomed } from './insect-away';
 import { drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { MOST_OVERLAP, perchSight, perchSpot, seatAt } from './perch-sight';
+import { tapReach } from './tap-reach';
+import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import {
   ALL_TEN,

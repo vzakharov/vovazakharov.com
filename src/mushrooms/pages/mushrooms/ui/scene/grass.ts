@@ -1,13 +1,12 @@
 import type * as Phaser from 'phaser';
 
-import { mix } from '@/mushrooms/shared/lib/colour';
-import { type Phased, shake, sway } from '@/mushrooms/shared/lib/motion';
-import { between, type Random } from '@/mushrooms/shared/lib/random';
-import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import type { GroundBand } from '@/mushrooms/shared/world';
-
+import type { GroundBand } from '../../model/ground';
+import { type Phased, shake, sway } from '../../model/motion';
+import { between, type Random } from '../../model/random';
 import { coloursAt, groundAt, type Tones, tonesAt } from './backdrop-tones';
+import { mix } from './colour';
 import type { Footing, MeadowLayout } from './layout';
+import { PALETTE } from './palette';
 
 /** How far a tuft's tip swings in the breeze, in units of its size. */
 const SWING = 0.35;

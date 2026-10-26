@@ -8,10 +8,10 @@
 
 import { z } from 'zod';
 
-import { wrap } from '@/mushrooms/shared/lib/geometry';
-import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
-import { INSECT_KINDS } from '@/mushrooms/entities/insect/model/insect-genes';
-import { LANDING } from '@/mushrooms/entities/insect/model/insect-motion';
+import { wrap } from '@/mushrooms/pages/mushrooms/model/geometry';
+import { INSECT_KINDS } from '@/mushrooms/pages/mushrooms/model/insect-genes';
+import { LANDING } from '@/mushrooms/pages/mushrooms/model/insect-motion';
+import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
 import { SEAT_FADE } from '@/mushrooms/pages/mushrooms/ui/scene/insect-frame';
 
 export const FPS = 60;

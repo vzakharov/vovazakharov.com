@@ -1,0 +1,176 @@
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
+
+import { settled } from '../model/keeping';
+import { type Kept, KEPT_VERSION } from '../model/kept-record';
+import { opened } from '../ui/scene/visit-play';
+import { fakeStore, later as landed } from './fake-store';
+import { keeper, POLL_MS } from './keeper';
+import type { Store } from './meadow-store';
+
+const stand = opened(3, 1180, 820, false);
+
+/** A kept record told apart from the others by its seed. */
+function record(seed: number): Kept {
+  return {
+    version: KEPT_VERSION,
+    seed,
+    eye: { x: 0, y: 0, heading: 0 },
+    gait: 'steps',
+    meadow: settled(stand.meadow, 0),
+  };
+}
+
+const unreported = (error: unknown) => {
+  assert.fail(`a write was refused: ${String(error)}`);
+};
+const seeds = (written: readonly Kept[]) => written.map(({ seed }) => seed);
+
+/** A report collecting what keeping reports into `reported`. */
+const reporting = () => {
+  const reported: unknown[] = [];
+  const report = (error: unknown) => {
+    reported.push(error);
+  };
+  return { reported, report };
+};
+
+/** A reopen answering `store` a turn later, as `openStore` does. */
+const reopensAs = (store?: Store) => async () => {
+  await landed();
+  return store;
+};
+
+/** Long enough for a refusal, the reopen after it and the retry on it. */
+const reopenedAndRetried = async () => {
+  await landed();
+  await landed();
+};
+
+describe('keeper', () => {
+  it('writes at once with nothing in flight', () => {
+    const store = fakeStore(new Map(), 'held');
+    keeper(store, 4, unreported).keep(record(1));
+    assert.deepEqual(seeds(store.written), [1]);
+    assert.deepEqual(store.records.get(4), record(1));
+  });
+
+  it('keeps one write in flight, the newest waiting behind it', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const keeping = keeper(store, 4, unreported);
+    for (const seed of [1, 2, 3, 4]) keeping.keep(record(seed));
+    assert.deepEqual(seeds(store.written), [1]);
+    store.land();
+    await landed();
+    assert.deepEqual(seeds(store.written), [1, 4]);
+    store.land();
+    await landed();
+    keeping.keep(record(5));
+    assert.deepEqual(seeds(store.written), [1, 4, 5]);
+  });
+
+  it('retries the newest record on a reopened store after a refused write', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const fresh = fakeStore();
+    const keeping = keeper(store, 4, unreported, reopensAs(fresh));
+    keeping.keep(record(1));
+    keeping.keep(record(2));
+    store.refuse(new Error('Connection to Indexed Database server lost'));
+    await reopenedAndRetried();
+    keeping.keep(record(3));
+    await landed();
+    assert.deepEqual(seeds(store.written), [1]);
+    assert.deepEqual(seeds(fresh.written), [2, 3]);
+  });
+
+  it('retries a record kept while the store reopens over the refused one', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const fresh = fakeStore();
+    const keeping = keeper(store, 4, unreported, reopensAs(fresh));
+    keeping.keep(record(1));
+    store.refuse(new Error('Connection to Indexed Database server lost'));
+    await Promise.resolve();
+    keeping.keep(record(2));
+    await reopenedAndRetried();
+    assert.deepEqual(seeds(fresh.written), [2]);
+  });
+
+  it('stops keeping when the store will not reopen, reporting the refusal once', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const { reported, report } = reporting();
+    const keeping = keeper(store, 4, report, reopensAs());
+    keeping.keep(record(1));
+    keeping.keep(record(2));
+    const refusal = new Error('quota');
+    store.refuse(refusal);
+    await reopenedAndRetried();
+    keeping.keep(record(3));
+    keeping.poll(0, () => record(4));
+    await reopenedAndRetried();
+    assert.deepEqual(seeds(store.written), [1]);
+    assert.deepEqual(reported, [refusal]);
+  });
+
+  it('stops keeping when the retry is refused too', async () => {
+    const store = fakeStore(new Map(), 'held');
+    const fresh = fakeStore(new Map(), 'held');
+    const { reported, report } = reporting();
+    const keeping = keeper(store, 4, report, reopensAs(fresh));
+    keeping.keep(record(1));
+    store.refuse(new Error('quota'));
+    await reopenedAndRetried();
+    const again = new Error('quota again');
+    fresh.refuse(again);
+    await landed();
+    keeping.keep(record(2));
+    await reopenedAndRetried();
+    assert.deepEqual(seeds(fresh.written), [1]);
+    assert.deepEqual(reported, [again]);
+  });
+
+  it('reopens a connection the browser closed before writing on it', async () => {
+    const store = fakeStore();
+    const fresh = fakeStore();
+    const keeping = keeper(store, 4, unreported, reopensAs(fresh));
+    keeping.keep(record(1));
+    await landed();
+    store.drop('lost');
+    keeping.keep(record(2));
+    await reopenedAndRetried();
+    assert.deepEqual(seeds(store.written), [1]);
+    assert.deepEqual(seeds(fresh.written), [2]);
+  });
+
+  it('stops keeping once the store yielded to a newer build, reopening nothing', async () => {
+    const store = fakeStore();
+    const fresh = fakeStore();
+    const { reported, report } = reporting();
+    const keeping = keeper(store, 4, report, reopensAs(fresh));
+    keeping.keep(record(1));
+    await landed();
+    store.drop('yielded');
+    keeping.keep(record(2));
+    await reopenedAndRetried();
+    keeping.keep(record(3));
+    await landed();
+    assert.deepEqual(seeds(store.written), [1]);
+    assert.deepEqual(fresh.written, []);
+    assert.equal(reported.length, 1);
+  });
+
+  it('polls at most once a period, building the record only then', () => {
+    const store = fakeStore();
+    const keeping = keeper(store, 4, unreported);
+    const built: number[] = [];
+    const at = (now: number) => {
+      keeping.poll(now, () => {
+        built.push(now);
+        return record(now);
+      });
+    };
+    for (const now of [0, 400, POLL_MS - 1, POLL_MS, POLL_MS + 10, 2500]) {
+      at(now);
+    }
+    assert.deepEqual(built, [0, POLL_MS, 2500]);
+  });
+});

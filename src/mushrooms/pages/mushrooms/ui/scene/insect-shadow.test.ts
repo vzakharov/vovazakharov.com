@@ -1,19 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  CLUMP_DISTANCE,
-  D_SEE,
-  OPENING_EYE,
-  type Placed,
-  placedAt,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
-
+import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
 import { DEPTHS } from './backdrop-depths';
 import { shadowOf } from './insect-shadow';
 import { meadowCamera } from './meadow-camera';
+import { D_SEE, type Placed, placedAt, type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
 /** An insect's open wings, in CSS px at its own size. */

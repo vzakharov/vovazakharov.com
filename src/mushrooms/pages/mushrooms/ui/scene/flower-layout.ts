@@ -11,21 +11,18 @@
  */
 
 import {
+  FLOWER_RANGES,
+  type FlowerGenes,
+  flowerHead,
+} from '../../model/flower-genes';
+import {
   type Circle,
   distanceBetween,
   distanceToSegment,
   type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import {
-  between,
-  mulberry32,
-  type Random,
-} from '@/mushrooms/shared/lib/random';
+} from '../../model/geometry';
 import {
   type Camera,
-  FLOWER_RANGES,
-  type FlowerGenes,
-  flowerHead,
   type Footing,
   type Framed,
   type GroundFoot,
@@ -36,8 +33,8 @@ import {
   UP_PER_Z,
   type WorldScreen,
   zAt,
-} from '@/mushrooms/shared/world';
-
+} from '../../model/ground';
+import { between, mulberry32, type Random } from '../../model/random';
 import { type ClumpShade, mostShaded } from './clump-shade';
 
 /**
@@ -111,7 +108,7 @@ export type FlowerGround = WorldScreen &
     clump: ClumpShade;
   };
 
-export { type Footing } from '@/mushrooms/shared/world';
+export { type Footing } from '../../model/ground';
 
 /** The camera a visit's opening screen shows its ground through. */
 function cameraOf({

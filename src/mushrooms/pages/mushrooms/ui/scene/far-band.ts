@@ -5,14 +5,8 @@
  * steps sees none of it, and reaches up to `FLIGHT_TOP` under flight's brow.
  */
 
-import {
-  downOf,
-  FLIGHT_RISE,
-  groundOfPlane,
-  planeOf,
-  zAt,
-} from '@/mushrooms/shared/world';
-
+import { FLIGHT_RISE } from '../../model/eye-height';
+import { downOf, groundOfPlane, planeOf, zAt } from '../../model/ground';
 import { type Band, bandSlots } from './flower-layout';
 
 /** How far down the ground's depth the point `distance` straight ahead of the opening eye stands. */

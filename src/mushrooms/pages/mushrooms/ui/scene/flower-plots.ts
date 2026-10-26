@@ -9,24 +9,19 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Flower } from '../../model/flower-genes';
+import type { Meadow } from '../../model/game';
 import {
   anchored,
   type Eye,
-  type Flower,
   type Ground,
   groundFootOf,
   planeFootOf,
   type Rooted,
   SPREAD,
   zAt,
-} from '@/mushrooms/shared/world';
-import {
-  isBeeSown,
-  type RootedFlower,
-  type Sown,
-} from '@/mushrooms/entities/insect/index.node-safe';
-import type { Meadow } from '@/mushrooms/features/meadow';
-
+} from '../../model/ground';
+import { isBeeSown, type RootedFlower, type Sown } from '../../model/pollen';
 import { standingPlaces } from './clump-layout';
 import {
   clearOfFeet,

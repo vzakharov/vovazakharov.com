@@ -1,26 +1,25 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
-import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
 import {
-  bodyTurn,
-  type Carried,
-  carriedFrom,
   firstFlight,
   type Flight,
   FLIGHT_HABITS,
-  flightPoint,
-  flyingTurn,
-  heading,
   isSeat,
   nextFlight,
-  type Path,
   type Perch,
   type Perches,
+} from './flight';
+import { type Point, wrap } from './geometry';
+import {
+  bodyTurn,
+  carriedFrom,
+  flyingTurn,
   turned,
   type Turns,
-} from '@/mushrooms/entities/insect/index.node-safe';
+} from './insect-motion';
+import { type Carried, flightPoint, heading, type Path } from './insect-paths';
+import { between, mulberry32 } from './random';
 
 const { flying: FLYING } = FLIGHT_HABITS.butterfly;
 /** No spotted caps, and nowhere to plant: what the butterfly's legs never read. */

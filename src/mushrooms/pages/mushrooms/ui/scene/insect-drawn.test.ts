@@ -1,28 +1,25 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
-import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
+import { framedOf } from '../../model/flight-frame';
+import { type Point, wrap } from '../../model/geometry';
 import {
-  aloftAt,
-  behindHills,
   CLUMP_DISTANCE,
   D_SEE,
   gathered,
   groundOfPlane,
   OPENING_EYE,
-  OPENING_FEET,
   project,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import { framedOf } from '@/mushrooms/entities/insect/index.node-safe';
-
+} from '../../model/ground';
+import { aloftAt } from '../../model/pinhole';
+import { OPENING_FEET } from '../../model/placement';
 import { bedPlace, onHost } from './bed-place';
 import { drawnInsect, type LegFlight } from './insect-drawn';
 import { aloftFramed, eyeFrameOf } from './insect-frame';
 import { drawnFlier, drawnSitter } from './insect-seat';
 import { meadowCamera } from './meadow-camera';
+import { tapReach } from './tap-reach';
+import { behindHills, type View, viewAt } from './view';
 
 const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
 

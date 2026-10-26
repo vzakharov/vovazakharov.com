@@ -1,12 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import { RAIN_MS, rainbow, wetness } from '@/mushrooms/shared/world';
-
+import { RAIN_MS, rainbow, wetness } from '../../model/weather';
 import { PUFF_REACH } from './cloud-puffs';
 import { meadowLayout } from './layout';
+import { PALETTE } from './palette';
 import { azimuthAt } from './panorama';
 import {
   cloudAt,
@@ -22,6 +20,7 @@ import {
   sunShown,
   wetnessShown,
 } from './rain-sky';
+import { TAP_RADIUS } from './tap-reach';
 import { VIEWPORTS } from './viewports';
 
 const first = { startedAt: 0, stopsAt: RAIN_MS };

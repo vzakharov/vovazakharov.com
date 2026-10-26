@@ -4,15 +4,11 @@
  * from any heading without painting.
  */
 
-import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
-import type { Light } from '@/mushrooms/shared/lib/light';
-import { between, type Random } from '@/mushrooms/shared/lib/random';
-import {
-  type Camera,
-  type GroundBand,
-  pinholeOf,
-} from '@/mushrooms/shared/world';
-
+import { type Point, wrap } from '../../model/geometry';
+import type { Camera, GroundBand } from '../../model/ground';
+import type { Light } from '../../model/light';
+import { pinholeOf } from '../../model/pinhole';
+import { between, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';
 import { azimuthAt, type Crest, ringWave, type WithCrest } from './panorama';
 import { SUN_RAY_REACH } from './sun-layout';

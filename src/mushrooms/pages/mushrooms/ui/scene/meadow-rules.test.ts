@@ -1,27 +1,18 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { firstMeadow, type Planted } from '../../model/game';
 import {
   type Circle,
   containsPoint,
   distanceToEdge,
   type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import {
-  ofLayout,
-  OPENING_EYE,
-  openingIndex,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import {
-  MUSHROOM_SPECIES,
-  type Species,
-  tapArea,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
-import { firstMeadow, type Planted } from '@/mushrooms/features/meadow';
-
+} from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
+import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
+import { tapArea } from '../../model/mushroom-outline';
+import { openingIndex } from '../../model/placement';
+import { mulberry32 } from '../../model/random';
 import { aboutFoot } from './bed-place';
 import {
   amongAt,
@@ -44,6 +35,8 @@ import { type MeadowLayout, meadowLayout } from './layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import { overMeadow } from './sky-layout';
 import { SUN_RAY_REACH } from './sun-layout';
+import { tapReach } from './tap-reach';
+import { ofLayout, viewAt } from './view';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 

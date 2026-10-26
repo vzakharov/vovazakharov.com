@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
-
+import type { Point } from '../../model/geometry';
+import { OPENING_EYE } from '../../model/ground';
 import { bedPlace } from './bed-place';
 import type { ShownCover } from './flower-cover';
 import { dotInSight } from './spore-sight';
+import { viewAt } from './view';
 import { opened } from './visit-play';
 
 /** A cover 20 px square round `at`, standing `distance` from the eye. */

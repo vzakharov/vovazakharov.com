@@ -1,13 +1,15 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { apartOnScreen, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
-import { type Meadow, reduce, SPORE_SEATS } from '@/mushrooms/features/meadow';
-
+import { type Meadow, reduce } from '../../model/game';
+import { OPENING_EYE } from '../../model/ground';
+import { apartOnScreen } from '../../model/placement';
+import { SPORE_SEATS } from '../../model/sprouting';
 import { groundIn } from './clump-layout';
 import { standOf } from './flower-sight';
 import { SPORE_REACH } from './mushroom-room';
 import { sporeOnTap } from './spore-seats';
+import { viewAt } from './view';
 import { opened } from './visit-play';
 
 describe('the spore a tap on a mushroom settles', () => {

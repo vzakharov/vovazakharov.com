@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import { wrap } from '@/mushrooms/shared/lib/geometry';
+import { wrap } from '@/mushrooms/pages/mushrooms/model/geometry';
 
 import {
   type Box,

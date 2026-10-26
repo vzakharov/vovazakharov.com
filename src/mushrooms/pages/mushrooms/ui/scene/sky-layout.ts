@@ -6,28 +6,12 @@
 
 import type { WithWidth } from '@/kernel/shared/typings';
 
-import type { Circle } from '@/mushrooms/shared/lib/geometry';
-import {
-  apart,
-  BUTTON_INSET,
-  GROW_GAP,
-  TAP_RADIUS,
-  tapReach,
-} from '@/mushrooms/shared/lib/tap-reach';
-import type { Grounded, GroundedScreen } from '@/mushrooms/shared/world';
-import {
-  FLOWER_SHAPES,
-  PICKED_COLOURS,
-} from '@/mushrooms/entities/flower/index.node-safe';
-import {
-  INSECT_KINDS,
-  type InsectKind,
-} from '@/mushrooms/entities/insect/index.node-safe';
-import {
-  FURNISHINGS,
-  MUSHROOM_SPECIES,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
-
+import { FLOWER_SHAPES, PICKED_COLOURS } from '../../model/flower-sounds';
+import type { Circle } from '../../model/geometry';
+import type { Grounded, GroundedScreen } from '../../model/ground';
+import { FURNISHINGS } from '../../model/house';
+import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import {
   beside,
   completed,
@@ -39,6 +23,13 @@ import {
   stacked,
   type WithMap,
 } from './picker-rows';
+import {
+  apart,
+  BUTTON_INSET,
+  GROW_GAP,
+  TAP_RADIUS,
+  tapReach,
+} from './tap-reach';
 
 /** The map button's radius. */
 const BUTTON_R = 28;

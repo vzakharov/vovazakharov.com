@@ -1,6 +1,5 @@
-import { smooth } from '@/mushrooms/shared/lib/motion';
-import { duskness } from '@/mushrooms/shared/world';
-
+import { duskness } from '../../model/dusk';
+import { smooth } from '../../model/motion';
 import type { DuskFrom } from './dusk-view';
 
 /** The longest a house's windows light after the meadow's dusk, in ms, so the village lights up house by house. */

@@ -18,6 +18,8 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import { anchorOf } from '../../model/anchor';
+import { isCrowdedAt } from '../../model/crowding';
 import {
   type Box,
   boxAround,
@@ -25,41 +27,31 @@ import {
   containsPoint,
   distanceToEdge,
   type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
-import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
+} from '../../model/geometry';
 import {
   anchored,
-  anchorOf,
-  apartOnScreen,
-  behindHills,
-  cull,
   type Eye,
-  type Footed,
   type Ground,
   groundFootOf,
-  grownOn,
-  isCrowdedAt,
-  layoutShown,
-  ofLayout,
   OPENING_EYE,
-  pickFoot,
-  type View,
-  type WithOptionalSpan,
-} from '@/mushrooms/shared/world';
+} from '../../model/ground';
+import { EMPTY_HOUSE } from '../../model/house';
+import { MUSHROOM_SPECIES, mushroomGenes } from '../../model/mushroom-genes';
+import { type Splayed, splayed } from '../../model/mushroom-pose';
 import {
-  EMPTY_HOUSE,
-  MUSHROOM_SPECIES,
-  mushroomGenes,
-  type Splayed,
-  splayed,
-} from '@/mushrooms/entities/mushroom/index.node-safe';
-
+  apartOnScreen,
+  type Footed,
+  grownOn,
+  pickFoot,
+  type WithOptionalSpan,
+} from '../../model/placement';
+import type { Seeded } from '../../model/random';
 import { anchoredStand } from './anchored-stand';
 import { aboutFoot } from './bed-place';
 import { capBox } from './cap-cover';
 import { FOREST_SPLAY, groundIn, placeOnGround } from './clump-layout';
 import { type Standing, standingAs } from './door-sight';
+import { layoutShown } from './eye-crop';
 import { coversShown, type ShownCover } from './flower-cover';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
@@ -75,6 +67,8 @@ import { standingControls } from './sky-layout';
 import { dotInSight } from './spore-sight';
 import { doorsKept, partsInView, standingOn } from './standing-weighed';
 import { SUN_RAY_REACH } from './sun-layout';
+import { tapReach } from './tap-reach';
+import { behindHills, cull, ofLayout, type View } from './view';
 
 /**
  * How close, as a camera lays the ground out (`apartOnScreen`), in the

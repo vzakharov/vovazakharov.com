@@ -6,29 +6,16 @@
  * `src/mushrooms/scripts/sweep-mushrooms.ts` read it.
  */
 
-import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
-import {
-  MUSHROOM_SLOTS,
-  openingIndex,
-  RAIN_MS,
-  type View,
-} from '@/mushrooms/shared/world';
-import { visitFlowers } from '@/mushrooms/entities/flower/index.node-safe';
-import type {
-  InsectKind,
-  Sight,
-  Timed,
-} from '@/mushrooms/entities/insect/index.node-safe';
-import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/index.node-safe';
-import {
-  firstMeadow,
-  type Meadow,
-  reduce,
-  SPORE_SEATS,
-  SPROUT_MS,
-  sproutedInRain,
-} from '@/mushrooms/features/meadow';
-
+import { MUSHROOM_SLOTS } from '../../model/crowding';
+import type { Sight, Timed } from '../../model/flight';
+import { visitFlowers } from '../../model/flower-sounds';
+import { firstMeadow, type Meadow, reduce } from '../../model/game';
+import type { InsectKind } from '../../model/insect-genes';
+import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
+import { openingIndex } from '../../model/placement';
+import { mulberry32, nextSeed } from '../../model/random';
+import { SPORE_SEATS, SPROUT_MS, sproutedInRain } from '../../model/sprouting';
+import { RAIN_MS } from '../../model/weather';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
 import { FAR_FLOWERS } from './far-band';
@@ -37,8 +24,9 @@ import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
 import { sporeOnTap } from './spore-seats';
+import type { View } from './view';
 
-export { tapTarget } from '@/mushrooms/entities/mushroom/index.node-safe';
+export { tapTarget } from './mushroom-tap';
 
 /** The meadow as it stands. */
 export type Meadowed = { meadow: Meadow };

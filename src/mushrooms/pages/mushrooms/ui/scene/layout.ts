@@ -10,18 +10,16 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Sized } from '@/kernel/shared/typings';
 
-import type { Box, Circle } from '@/mushrooms/shared/lib/geometry';
+import type { Box, Circle } from '../../model/geometry';
 import {
   type Camera,
   type GroundedScreen,
   type Hazed,
   OPENING_EYE,
-  openingPan,
-  screenOf,
   type WithCamera,
-} from '@/mushrooms/shared/world';
-import type { InsectKind } from '@/mushrooms/entities/insect/index.node-safe';
-
+} from '../../model/ground';
+import type { InsectKind } from '../../model/insect-genes';
+import { openingPan, screenOf } from '../../model/pan';
 import { clumpCrowns, type MushroomGround } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import { FAR_BAND } from './far-band';
@@ -48,6 +46,7 @@ import { horizonAt, placeSun, SUN_RAY_REACH, washRings } from './sun-layout';
  * haze, the farthest the palest.
  */
 export type Placement = Footing & Hazed & { splay: number };
+export type { Hazed } from '../../model/ground';
 /**
  * Where a thing's foot stands, and its size: the unit its genes are in, a
  * flower's height to its head.

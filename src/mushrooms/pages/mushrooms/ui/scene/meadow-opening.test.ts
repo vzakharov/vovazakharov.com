@@ -1,16 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/world';
-import {
-  firstMeadow,
-  type Kept,
-  KEPT_VERSION,
-  reopened,
-  settled,
-} from '@/mushrooms/features/meadow';
-
+import { FULL_DAY, FULL_DUSK } from '../../model/dusk';
+import { firstMeadow } from '../../model/game';
+import { reopened, settled } from '../../model/keeping';
+import { type Kept, KEPT_VERSION } from '../../model/kept-record';
+import { mulberry32 } from '../../model/random';
 import { meadowOpening } from './meadow-opening';
 
 const SEED = 0x5e_ed_18;

@@ -1,20 +1,17 @@
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import type { Looking, TapTimed } from '@/mushrooms/shared/lib/motion';
+import type { Point } from '../../model/geometry';
+import { windowSlots } from '../../model/house';
+import type { Looking, TapTimed } from '../../model/motion';
+import type { MushroomGenes } from '../../model/mushroom-genes';
+import { capOnCanvas } from '../../model/mushroom-outline';
 import {
-  capOnCanvas,
-  type MushroomGenes,
   pathLength,
   PEEK_SPAN,
   peekPath,
   peekWindow,
-  type ShownWorm,
-  SHUT_WINDOW,
   type TripPhase,
   tripSpan,
   tripWindows,
   WINDOW_SWING,
-  windowSlots,
-  type WindowSwing,
   wormBody,
   wormClock,
   wormGirth,
@@ -23,8 +20,9 @@ import {
   type WormPose,
   wormTarget,
   wormTrip,
-} from '@/mushrooms/entities/mushroom';
-
+} from '../../model/worm';
+import { SHUT_WINDOW, type WindowSwing } from './draw-house';
+import type { ShownWorm } from './draw-worm';
 import type { MeadowSound } from './sound';
 
 /**

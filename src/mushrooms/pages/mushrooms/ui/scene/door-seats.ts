@@ -1,7 +1,6 @@
-import type { Eye } from '@/mushrooms/shared/world';
-import type { DoorPlace } from '@/mushrooms/entities/mushroom/index.node-safe';
-import type { Planted } from '@/mushrooms/features/meadow';
-
+import type { Planted } from '../../model/game';
+import type { Eye } from '../../model/ground';
+import type { DoorPlace } from '../../model/house';
 import {
   anchoredGround,
   laidOf,

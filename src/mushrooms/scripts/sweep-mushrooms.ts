@@ -27,10 +27,9 @@
 
 import { z } from 'zod';
 
-import { MUSHROOM_SLOTS } from '@/mushrooms/shared/world/crowding';
-import { OPENING_EYE } from '@/mushrooms/shared/world/ground';
-import { viewAt } from '@/mushrooms/shared/world/view';
-import { SPORE_SEATS } from '@/mushrooms/features/meadow/model/sprouting';
+import { MUSHROOM_SLOTS } from '@/mushrooms/pages/mushrooms/model/crowding';
+import { OPENING_EYE } from '@/mushrooms/pages/mushrooms/model/ground';
+import { SPORE_SEATS } from '@/mushrooms/pages/mushrooms/model/sprouting';
 import {
   hiddenOf,
   hidersOf,
@@ -42,6 +41,7 @@ import { coversShown } from '@/mushrooms/pages/mushrooms/ui/scene/flower-cover';
 import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/scene/layout';
 import { patchlessIn } from '@/mushrooms/pages/mushrooms/ui/scene/mushroom-patch';
 import { dotInSight } from '@/mushrooms/pages/mushrooms/ui/scene/spore-sight';
+import { viewAt } from '@/mushrooms/pages/mushrooms/ui/scene/view';
 import {
   VIEWPORTS,
   VISITS,

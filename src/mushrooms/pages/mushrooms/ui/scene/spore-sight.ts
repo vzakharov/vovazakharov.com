@@ -6,11 +6,10 @@
  * flower's head or a tuft is judged).
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { onScreen, type View } from '@/mushrooms/shared/world';
-
+import type { Point } from '../../model/geometry';
 import { bedPlace } from './bed-place';
 import { inSightPast, type ShownCover } from './flower-cover';
+import { onScreen, type View } from './view';
 
 /**
  * Where on `view`'s screen the dot of a spore lying on `foot`, on the plane,

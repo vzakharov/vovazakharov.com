@@ -1,10 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { planeFootOf } from '@/mushrooms/shared/world';
-import { firstMeadow, type Meadow, reduce } from '@/mushrooms/features/meadow';
-
+import { firstMeadow, type Meadow, reduce } from '../../model/game';
+import { planeFootOf } from '../../model/ground';
+import { mulberry32 } from '../../model/random';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 
 /** A meadow with a mushroom selected and the flower picker open on a tuft. */

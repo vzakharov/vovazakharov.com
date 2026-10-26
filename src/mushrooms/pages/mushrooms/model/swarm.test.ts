@@ -1,23 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import {
-  type BeeSown,
-  type Flier,
-  INSECT_LIMITS,
-  type InsectKind,
-  POLLEN_MOST,
-  type Sight,
-  slotTaken,
-  type Sown,
-} from '@/mushrooms/entities/insect/index.node-safe';
-import {
-  type Action,
-  firstMeadow,
-  type Meadow,
-  reduce,
-} from '@/mushrooms/features/meadow';
+import type { Sight } from './flight';
+import { type Action, firstMeadow, type Meadow, reduce } from './game';
+import type { InsectKind } from './insect-genes';
+import { type Flier, INSECT_LIMITS } from './insects';
+import { type BeeSown, POLLEN_MOST, slotTaken, type Sown } from './pollen';
+import { mulberry32 } from './random';
 
 const SEEDED = ['flower-1', 'flower-2', 'flower-3', 'flower-4'];
 const AIR = ['air-1', 'air-2', 'air-3', 'air-4', 'air-5', 'air-6'];

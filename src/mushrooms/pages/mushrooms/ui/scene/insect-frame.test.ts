@@ -2,41 +2,25 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  alongAzimuth,
-  type Point,
-  wrap,
-} from '@/mushrooms/shared/lib/geometry';
-import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
-import {
-  aloftAt,
-  buried,
-  CLUMP_DISTANCE,
-  D_SEE,
-  type Eye,
-  EYE_HEIGHT,
-  layoutOfPlane,
-  middleOf,
-  ofLayout,
-  OPENING_EYE,
-  pinholeOf,
-  rowAt,
-  SPREAD,
-  spread,
-  sunkOver,
-  V_NEAR,
-  type View,
-  viewAt,
-} from '@/mushrooms/shared/world';
-import {
   type Aloft,
   centreOf,
-  flightPoint,
   FRAME_MARGIN,
   type Framed,
   framedOf,
   unframed,
-} from '@/mushrooms/entities/insect/index.node-safe';
-
+} from '../../model/flight-frame';
+import { alongAzimuth, type Point, wrap } from '../../model/geometry';
+import {
+  CLUMP_DISTANCE,
+  type Eye,
+  EYE_HEIGHT,
+  OPENING_EYE,
+  SPREAD,
+  spread,
+} from '../../model/ground';
+import { flightPoint } from '../../model/insect-paths';
+import { aloftAt, pinholeOf } from '../../model/pinhole';
+import { between, mulberry32 } from '../../model/random';
 import {
   aloftFramed,
   drawnAloft,
@@ -51,6 +35,18 @@ import {
   veerOf,
 } from './insect-frame';
 import { meadowCamera } from './meadow-camera';
+import {
+  buried,
+  D_SEE,
+  layoutOfPlane,
+  middleOf,
+  ofLayout,
+  rowAt,
+  sunkOver,
+  V_NEAR,
+  type View,
+  viewAt,
+} from './view';
 import { CAMERAS } from './viewports';
 
 function near(actual: number, expected: number, tolerance: number): void {

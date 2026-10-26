@@ -1,13 +1,9 @@
-import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import type { Flower } from '@/mushrooms/shared/world';
-import { visitFlowers } from '@/mushrooms/entities/flower/index.node-safe';
-import {
-  firstMeadow,
-  type Meadow,
-  type Reopened,
-  reopened,
-} from '@/mushrooms/features/meadow';
-
+import type { Reopened } from '../../api/open-kept';
+import type { Flower } from '../../model/flower-genes';
+import { visitFlowers } from '../../model/flower-sounds';
+import { firstMeadow, type Meadow } from '../../model/game';
+import { reopened } from '../../model/keeping';
+import { mulberry32 } from '../../model/random';
 import type { Opener } from './clump-shade';
 import { FAR_FLOWERS } from './far-band';
 

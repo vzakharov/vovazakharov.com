@@ -17,11 +17,11 @@
 
 import { z } from 'zod';
 
-import { wrap } from '@/mushrooms/shared/lib/geometry';
-import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
-import { pinholeOf } from '@/mushrooms/shared/world/pinhole';
-import { azimuthOf } from '@/mushrooms/entities/insect/model/flight-frame';
-import type { InsectKind } from '@/mushrooms/entities/insect/model/insect-genes';
+import { azimuthOf } from '@/mushrooms/pages/mushrooms/model/flight-frame';
+import { wrap } from '@/mushrooms/pages/mushrooms/model/geometry';
+import type { InsectKind } from '@/mushrooms/pages/mushrooms/model/insect-genes';
+import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
+import { pinholeOf } from '@/mushrooms/pages/mushrooms/model/pinhole';
 
 import {
   Camera,

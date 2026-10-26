@@ -1,9 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { viewAt } from '@/mushrooms/shared/world';
-
 import { cloudBox } from './cloud-puffs';
 import {
   cloudOverMoon,
@@ -20,6 +17,8 @@ import {
 import { duskStars, STAR_RAY_REACH } from './dusk-stars';
 import { meadowLayout } from './layout';
 import { SUN_RAY_REACH } from './sun-layout';
+import { TAP_RADIUS } from './tap-reach';
+import { viewAt } from './view';
 import { EITHER_WAY } from './viewports';
 
 const [sunX, sunY, sunR] = [300, 120, 40];

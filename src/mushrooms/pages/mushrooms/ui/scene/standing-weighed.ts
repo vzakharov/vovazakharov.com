@@ -6,13 +6,8 @@
  * view past `MOST_HIDDEN`.
  */
 
-import {
-  type Box,
-  boxAround,
-  boxesMeet,
-} from '@/mushrooms/shared/lib/geometry';
-import type { Planted } from '@/mushrooms/features/meadow';
-
+import type { Planted } from '../../model/game';
+import { type Box, boxAround, boxesMeet } from '../../model/geometry';
 import {
   type Among,
   amongAt,

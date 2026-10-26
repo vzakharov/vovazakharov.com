@@ -3,29 +3,28 @@ import * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import { lerpPoint, type Point } from '@/mushrooms/shared/lib/geometry';
-import { smooth, type TapTimed } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
-import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { PALETTE } from '@/mushrooms/shared/ui';
 import {
   awake,
   circling,
-  CLUMP_DISTANCE,
   fireflies,
   type FireflyGenes,
   flare,
   hostFor,
   tailGlow,
-} from '@/mushrooms/shared/world';
-import { capSeat } from '@/mushrooms/entities/mushroom';
-
+} from '../../model/firefly';
+import { lerpPoint, type Point } from '../../model/geometry';
+import { CLUMP_DISTANCE } from '../../model/ground';
+import { smooth, type TapTimed } from '../../model/motion';
+import { capSeat } from '../../model/mushroom-pose';
+import type { Seeded } from '../../model/random';
 import { tappedFirefly } from './firefly-tap';
 import type { CircleFigure } from './hit-areas';
 import type { MeadowLayout } from './layout';
+import { PALETTE } from './palette';
 import type { HostBeds, Seat } from './perch-hosts';
 import type { MeadowSeen } from './planter';
 import type { Glinting } from './sound';
+import { TAP_RADIUS } from './tap-reach';
 import { tuftUnder } from './tufts';
 
 /** How many of the nearest hosts the fireflies spread over. */

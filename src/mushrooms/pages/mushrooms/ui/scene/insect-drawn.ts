@@ -8,14 +8,8 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { type Turned, wrap } from '@/mushrooms/shared/lib/geometry';
-import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import type { View, Zooming } from '@/mushrooms/shared/world';
-import type {
-  Aloft,
-  Forward,
-} from '@/mushrooms/entities/insect/index.node-safe';
-
+import type { Aloft, Forward } from '../../model/flight-frame';
+import { type Turned, wrap } from '../../model/geometry';
 import { onHost } from './bed-place';
 import { reachesScreen, type Zoomed } from './insect-away';
 import { aloftFramed, type SeatEnds } from './insect-frame';
@@ -25,6 +19,8 @@ import { shadowOf, type ShadowPlace } from './insect-shadow';
 import type { FlownSpan } from './insect-shown';
 import { type Faded, sinkingOf, type Under } from './insect-sink';
 import type { Seat } from './perch-hosts';
+import { tapReach } from './tap-reach';
+import type { View, Zooming } from './view';
 
 /**
  * An insect's flight this frame, in its leg's frame, centred at the azimuth

@@ -5,15 +5,14 @@
  * and the sweeps over it measure what the eye sees.
  */
 
+import type { Planted } from '../../model/game';
 import {
   type Box,
   boxAround,
   containsPoint,
   type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import { openingIndex } from '@/mushrooms/shared/world';
-import type { Planted } from '@/mushrooms/features/meadow';
-
+} from '../../model/geometry';
+import { openingIndex } from '../../model/placement';
 import { boxOf, type Standing, standingAt } from './door-sight';
 import type { Placement } from './layout';
 
