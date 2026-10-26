@@ -116,38 +116,21 @@ fails the build. When a client component needs something the registry owns — a
 route, say — the **server page resolves it and passes it down**; that is what
 `src/vova/pages/cv/ui/cv-page.tsx` does for the CV's case-study link.
 
-<<<<<<< HEAD
-The exceptions are `mermaid-renders.ts`, `collections.ts` and the
-`index.node-safe.ts` barrel over them, which `render-mermaid.ts` runs under bare
-Node, outside any bundler — hence no `server-only`, and an explicit `.ts` on the
-import so Node's resolver finds it. That script needs Node 22.18 or newer for
-type stripping. `collections.ts` qualifies because it is string constants and
-pure path functions; `documents.ts` keeps `server-only`, and with it the
-invariant that matters — it is the module that pulls in `fs`, `gray-matter` and
-`zod`. Each site's `render-og.ts` and `render-pdf.ts` run under `tsx`: the CV
-card reads the message catalogue through `cvMessages`, and a JSON import is what
-bare Node cannot take without an attribute. They reach `src/` by the `@/` alias,
-and `shared/content` through its `index.node-safe.ts` barrel, since the ordinary
+The exceptions are the modules a script runs under bare Node, outside any
+bundler, each saying so in its header, and the `index.node-safe.ts` barrel over
+some of them — hence no `server-only`, and an explicit `.ts` on each import so
+Node's resolver finds it. Those scripts need Node 22.18 or newer for type
+stripping. `collections.ts` qualifies because it is string constants and pure
+path functions; `documents.ts` keeps `server-only`, and with it the invariant
+that matters — it is the module that pulls in `fs`, `gray-matter` and `zod`.
+Each site's `render-og.ts` and `render-pdf.ts` run under `tsx`: the CV card
+reads the message catalogue through `cvMessages`, and a JSON import is what bare
+Node cannot take without an attribute. They reach `src/` by the `@/` alias, and
+`shared/content` through its `index.node-safe.ts` barrel, since the ordinary
 one's `server-only` modules throw outside a React server bundle. `render-og.ts`
 runs under the `react-server` condition, which resolves `server-only` to its
 empty module as a build does, so basilisk's reads its cases through `CASES` and
 `readCollection`, parsed by the schema the site builds with.
-=======
-The exceptions are the modules a script runs under bare Node, outside any
-bundler, each saying so in its header — hence no `server-only`, and an explicit
-`.ts` on each import so Node's resolver finds it. Those scripts need Node 22.18
-or newer for type stripping. `collections.ts` qualifies because it is string
-constants and pure path functions; `documents.ts` keeps `server-only`, and with
-it the invariant that matters — it is the module that pulls in `fs`,
-`gray-matter` and `zod`. `render-og.ts` and `render-pdf.ts` run under `tsx`: the
-CV card reads the message catalogue through `cvMessages`, and a JSON import is
-what bare Node cannot take without an attribute. They reach `src/` by the `@/`
-alias, and still never through `shared/content`'s barrel, whose `server-only`
-modules throw outside a React server bundle. `render-og.ts` runs under the
-`react-server` condition, which resolves `server-only` to its empty module as a
-build does, so its cards reach `shared/content`'s leaf modules and parse a case
-with `caseFrontmatterSchema`.
->>>>>>> origin/main
 
 ## Adding a document
 
@@ -419,7 +402,7 @@ the alias, and how its files carry the languages:
   translation, and a file with no language. A drawing is drawn once, as the
   template `assets/<name>.svg` with a `{{key}}` wherever it says something in
   words; each language's post maps every key to its wording under `captions`,
-  and `pnpm content:drawings:<site>` writes `<name>.<locale>.svg` from it.
+  and `pnpm content:drawings <site>` writes `<name>.<locale>.svg` from it.
 
 Case studies are unlocalized: the documents are English-only, and a `ru` route
 for a document that does not exist in Russian would only duplicate the English

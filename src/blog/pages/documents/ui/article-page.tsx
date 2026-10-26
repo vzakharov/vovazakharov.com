@@ -2,6 +2,13 @@ import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+import {
+  DEFAULT_LOCALE,
+  inLocale,
+  isLocale,
+  type Locale,
+  localeTailAddresses,
+} from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithParams } from '@/kernel/shared/typings';
 
@@ -23,51 +30,19 @@ import {
   siblingVariants,
   type Variant,
   VARIANTS,
-<<<<<<< HEAD:src/blog/pages/documents/ui/article-page.tsx
 } from '@/blog/shared/content';
 import { constructArticleMetadata } from '@/blog/shared/seo';
 import { ProseContent, SourceList } from '@/blog/entities/document';
-=======
-} from '@/shared/content';
-import {
-  DEFAULT_LOCALE,
-  inLocale,
-  isLocale,
-  type Locale,
-  localeTailAddresses,
-} from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
-import { constructArticleMetadata } from '@/shared/seo/index.server-only';
-import type { WithParams } from '@/shared/typings';
-import { hoverDim, TextLink } from '@/shared/ui';
-
-import { ProseContent, SourceList } from '@/entities/document';
-
-import { SiteFooter } from '@/widgets/site-footer';
->>>>>>> origin/main:src/pages/documents/ui/article-page.tsx
 
 import { ArticleHeader } from './article-header';
 import classes from './documents.module.scss';
 import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';
 
-<<<<<<< HEAD:src/blog/pages/documents/ui/article-page.tsx
-/** The catch-all's own segment: `<slug>[.<variant>]`, still to be split. */
-=======
-/**
- * The registry restated per key, which the compiler checks entry by entry; a
- * lookup by a generic id then reads as that collection's own frontmatter,
- * where one on `ARTICLE_COLLECTIONS` widens to the union of all three.
- */
-const HANDLES: {
-  [C in ArticleCollectionId]: Collection<ArticleFrontmatterOf<C>>;
-} = ARTICLE_COLLECTIONS;
-
 /**
  * The catch-all's own segments: `<slug>[.<variant>]`, still to be split, and
  * the locale after it where the collection keeps one file per language.
  */
->>>>>>> origin/main:src/pages/documents/ui/article-page.tsx
 type WithSlugSegments = { slug: string[] };
 
 type Props = WithParams<WithSlugSegments>;
@@ -105,19 +80,12 @@ function parseSegments(
  * articles are this one page — the collection and what it adds to the page are
  * all that differs, and both arrive from whichever router mounted it.
  */
-<<<<<<< HEAD:src/blog/pages/documents/ui/article-page.tsx
 export function articleRoute<F extends ArticleFrontmatter>(
   handle: Collection<F>,
   slots: ArticleSlots<F> = {},
 ) {
   const { id: collection } = handle;
-=======
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- `C` correlates HANDLES[collection] with ARTICLE_SLOTS[collection] (microsoft/TypeScript#47109); without it `slots.brief` takes no document type
-export function articleRoute<C extends ArticleCollectionId>(collection: C) {
-  const handle = HANDLES[collection];
-  const slots = ARTICLE_SLOTS[collection];
   const translated = isTranslated(collection);
->>>>>>> origin/main:src/pages/documents/ui/article-page.tsx
 
   async function resolve(params: Props['params']) {
     const parsed = parseSegments((await params).slug, translated);

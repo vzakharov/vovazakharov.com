@@ -10,11 +10,14 @@ export {
   collectionsForSite,
   documentRoute,
   isDocumentFile,
+  isTranslated,
   type Slugged,
 } from './collections.ts';
+export { splitLocale, translationOf } from './locale-suffix.ts';
 export {
   COLOR_SCHEMES,
   type ColorScheme,
   MERMAID_DIR,
   mermaidFileName,
 } from './mermaid-renders.ts';
+export { stampFrontmatter } from './translation-stamp.ts';

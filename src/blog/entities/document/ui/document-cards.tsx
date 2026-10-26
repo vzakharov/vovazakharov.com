@@ -2,6 +2,7 @@ import { Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+import type { WithOptionalLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 
 import { Card, NameLink, TextLink } from '@/shell/shared/ui';
@@ -11,15 +12,8 @@ import {
   type DocumentCard,
   documentRoute,
   type WithCollectionId,
-<<<<<<< HEAD:src/blog/entities/document/ui/document-cards.tsx
 } from '@/blog/shared/content';
 import { messages } from '@/blog/shared/i18n';
-=======
-} from '@/shared/content';
-import { loadMessages, type WithOptionalLocale } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import { Card, NameLink, TextLink } from '@/shared/ui';
->>>>>>> origin/main:src/entities/document/ui/document-cards.tsx
 
 import classes from './document-cards.module.scss';
 import { DocumentMeta } from './document-meta';
@@ -34,17 +28,12 @@ type DocumentCardsProps = WithCollectionId &
  * blurb and the links to every cut. The collection's index and the Bible's
  * home page both render it, differing only in the copy above it.
  */
-<<<<<<< HEAD:src/blog/entities/document/ui/document-cards.tsx
-export function DocumentCards({ collection, cards }: DocumentCardsProps) {
-  const copy = messages(SITE_CONFIG.locale);
-=======
 export function DocumentCards({
   collection,
   cards,
   locale = SITE_CONFIG.locale,
 }: DocumentCardsProps) {
-  const copy = loadMessages(locale).documents;
->>>>>>> origin/main:src/entities/document/ui/document-cards.tsx
+  const copy = messages(locale);
 
   return (
     <Stack gap={24}>

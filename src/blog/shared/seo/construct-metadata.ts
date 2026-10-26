@@ -6,12 +6,14 @@ import { SITE_ID } from '@/kernel/shared/config';
 import {
   constructMetadata as constructSiteMetadata,
   type ConstructMetadataParams,
+  localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
 import type { Described } from '@/kernel/shared/typings';
 
 import {
   type BaseFrontmatter,
   type ContentDocument,
+  documentRoute,
   listFeeds,
 } from '@/blog/shared/content';
 
@@ -30,13 +32,20 @@ export function constructArticleMetadata(
   document: ContentDocument<BaseFrontmatter & Described>,
   title: string,
 ): Metadata {
-  const { frontmatter, route, ogImageUrl, ogImageSize } = document;
+  const { frontmatter, route, ogImageUrl, ogImageSize, locale } = document;
+  const { collection, slug, variant } = document;
   const { description, hidden } = frontmatter;
 
   return constructMetadata({
     title,
     description,
     path: route,
+    locale,
+    ...(locale !== undefined &&
+      localizedAddresses(
+        (alternate) => documentRoute(collection, slug, variant, alternate),
+        locale,
+      )),
     ogType: 'article',
     ogImage: ogImageUrl,
     ogImageSize,

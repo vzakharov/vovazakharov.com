@@ -1,21 +1,14 @@
 import { Stack, Text, Title } from '@mantine/core';
 
-<<<<<<< HEAD:src/maya/pages/whisper/ui/whisper-page.tsx
-import { SITE_CONFIG } from '@/kernel/shared/config';
-=======
-import { documentRoute, localizedRoute } from '@/shared/content';
-import { fillSlots, loadMessages, type WithLocale } from '@/shared/i18n';
-import { ChipNav, localeChips, PageShell, TextLink } from '@/shared/ui';
->>>>>>> origin/main:src/pages/maya-whisper/ui/whisper-page.tsx
+import { fillSlots, type WithLocale } from '@/kernel/shared/i18n';
 
-import { PageShell, TextLink } from '@/shell/shared/ui';
+import { ChipNav, localeChips, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-<<<<<<< HEAD:src/maya/pages/whisper/ui/whisper-page.tsx
+import { documentRoute, localizedRoute } from '@/blog/shared/content';
+
 import { messages } from '../i18n';
-=======
 import { whisperPath } from '../lib/whisper-metadata';
->>>>>>> origin/main:src/pages/maya-whisper/ui/whisper-page.tsx
 import { LEXICON } from '../model/lexicon';
 import { WhisperTypewriter } from './whisper-typewriter';
 
@@ -25,7 +18,7 @@ const { commit, words } = LEXICON;
 const STORY_SLUG = 'whispering-typewriter';
 
 export function WhisperPage({ locale }: WithLocale) {
-  const copy = loadMessages(locale).whisper;
+  const copy = messages(locale);
 
   return (
     <PageShell>
@@ -63,11 +56,7 @@ export function WhisperPage({ locale }: WithLocale) {
           </Text>
         </Stack>
 
-<<<<<<< HEAD:src/maya/pages/whisper/ui/whisper-page.tsx
-        <WhisperTypewriter {...{ words }} copy={messages(SITE_CONFIG.locale)} />
-=======
         <WhisperTypewriter {...{ words, copy }} />
->>>>>>> origin/main:src/pages/maya-whisper/ui/whisper-page.tsx
 
         <SiteFooter {...{ locale }} home={localizedRoute('/', locale)} />
       </Stack>

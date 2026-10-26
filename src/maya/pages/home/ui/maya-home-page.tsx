@@ -1,8 +1,17 @@
 import { Stack, Text, Title } from '@mantine/core';
 
 import { AUTHOR_URL, SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
+import { fillSlots, inLocale, type WithLocale } from '@/kernel/shared/i18n';
+import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
 
-import { PageShell, Section, SiteAvatar, TextLink } from '@/shell/shared/ui';
+import {
+  ChipNav,
+  localeChips,
+  PageShell,
+  Section,
+  SiteAvatar,
+  TextLink,
+} from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import {
@@ -11,49 +20,22 @@ import {
   findFeed,
   localizedRoute,
   renderPrimaryDocuments,
-<<<<<<< HEAD:src/maya/pages/home/ui/maya-home-page.tsx
 } from '@/blog/shared/content';
+import { messages as blogMessages } from '@/blog/shared/i18n';
+import { constructMetadata } from '@/blog/shared/seo';
 import { DocumentCards } from '@/blog/entities/document';
 
-const COLLECTION = 'maya-blog';
-
-export async function MayaHomePage() {
-  const { name, tagline } = SITE_CONFIG;
-  const cards = await renderPrimaryDocuments(articleCollection(COLLECTION));
-=======
-} from '@/shared/content';
-import {
-  fillSlots,
-  inLocale,
-  loadMessages,
-  type WithLocale,
-} from '@/shared/i18n';
-import {
-  constructMetadata,
-  localizedAddresses,
-} from '@/shared/seo/index.server-only';
-import {
-  ChipNav,
-  localeChips,
-  PageShell,
-  Section,
-  SiteAvatar,
-  TextLink,
-} from '@/shared/ui';
-
-import { DocumentCards } from '@/entities/document';
-
-import { SiteFooter } from '@/widgets/site-footer';
+import { messages } from '../i18n';
 
 const COLLECTION = 'maya-blog';
 
 const homePath = (locale?: string) => localizedRoute('/', locale);
 
 export function mayaHomeMetadata({ locale }: WithLocale) {
-  const { name, tagline } = loadMessages(locale).maya;
+  const { tagline } = messages(locale);
 
   return constructMetadata({
-    title: name,
+    title: blogMessages(locale).authors.maya,
     description: tagline,
     locale,
     ...localizedAddresses(homePath, locale),
@@ -61,12 +43,12 @@ export function mayaHomeMetadata({ locale }: WithLocale) {
 }
 
 export async function MayaHomePage({ locale }: WithLocale) {
-  const { name, tagline, intro, byline, band } = loadMessages(locale).maya;
+  const name = blogMessages(locale).authors.maya;
+  const { tagline, intro, byline, band } = messages(locale);
   const cards = await renderPrimaryDocuments(
-    ARTICLE_COLLECTIONS[COLLECTION],
+    articleCollection(COLLECTION),
     locale,
   );
->>>>>>> origin/main:src/pages/maya-home/ui/maya-home-page.tsx
 
   return (
     <PageShell>

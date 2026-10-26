@@ -2,8 +2,9 @@ import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import type { ReactNode } from 'react';
 
 import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
+import type { WithLocale } from '@/kernel/shared/i18n';
 
-import { type Chip, ChipNav, FileLink } from '@/shell/shared/ui';
+import { type Chip, ChipNav, FileLink, localeChips } from '@/shell/shared/ui';
 
 import {
   type ArticleFrontmatter,
@@ -14,17 +15,9 @@ import {
   type Variant,
   VARIANTS,
   type WithContentDocument,
-<<<<<<< HEAD:src/blog/pages/documents/ui/article-header.tsx
 } from '@/blog/shared/content';
 import { messages } from '@/blog/shared/i18n';
 import { DocumentMeta } from '@/blog/entities/document';
-=======
-} from '@/shared/content';
-import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { type Chip, ChipNav, FileLink, localeChips } from '@/shared/ui';
-
-import { DocumentMeta } from '@/entities/document';
->>>>>>> origin/main:src/pages/documents/ui/article-header.tsx
 
 import classes from './documents.module.scss';
 
@@ -47,11 +40,7 @@ function CutSwitcher({
   ];
 
   // `undefined` is the full document.
-<<<<<<< HEAD:src/blog/pages/documents/ui/article-header.tsx
-  const labels = messages(SITE_CONFIG.locale).cuts;
-=======
-  const labels = loadMessages(locale).documents.cuts;
->>>>>>> origin/main:src/pages/documents/ui/article-header.tsx
+  const labels = messages(locale).cuts;
   const chips = cuts.map(
     (cut): Chip => ({
       label: labels[cut ?? 'full'],

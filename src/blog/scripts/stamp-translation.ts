@@ -6,7 +6,7 @@
  * `translatedFrom`. The build refuses a stale stamp, so this is run after each
  * translation, never instead of one.
  *
- *   pnpm translation:stamp apps/maya/public/blog/two-names.ru.md
+ *   pnpm translation:stamp sites/maya/public/blog/two-names.ru.md
  *
  * Bare Node runs this file, relying on its type stripping, so every relative
  * import carries its `.ts` extension.
@@ -17,9 +17,11 @@
 
 import fs from 'node:fs';
 
-import { contentHash } from '../src/shared/content/content-hash.ts';
-import { translationOf } from '../src/shared/content/locale-suffix.ts';
-import { stampFrontmatter } from '../src/shared/content/translation-stamp.ts';
+import { contentHash } from '../../kernel/shared/lib/content-hash.ts';
+import {
+  stampFrontmatter,
+  translationOf,
+} from '../shared/content/index.node-safe.ts';
 
 const [original, ...rest] = process.argv.slice(2);
 

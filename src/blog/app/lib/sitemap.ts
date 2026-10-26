@@ -20,9 +20,9 @@ import {
  * resolve a duplicate the canonical link already resolved.
  */
 function documentAddresses(route: string, collection: CollectionId): string[] {
-  return COLLECTIONS[collection].localized
-    ? routing.locales.map((locale) => localizedRoute(route, locale))
-    : [route];
+  return COLLECTIONS[collection].localized === false
+    ? [route]
+    : routing.locales.map((locale) => localizedRoute(route, locale));
 }
 
 /**
@@ -38,8 +38,12 @@ export function sitemap(mountedRoutes: readonly string[] = []) {
     ),
     ...listAllDocuments(SITE_ID)
       .filter((document) => isListed(document))
-      .flatMap(({ route, collection, frontmatter }) =>
-        documentAddresses(route, collection).map((address) => ({
+      // A document already in one language is advertised at its own address.
+      .flatMap(({ route, collection, locale, frontmatter }) =>
+        (locale === undefined
+          ? documentAddresses(route, collection)
+          : [route]
+        ).map((address) => ({
           route: address,
           lastModified: filedDate(frontmatter),
         })),

@@ -38,11 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-<<<<<<< HEAD
-## What it was handed, it treats as fixed (×93)
-=======
-## What it was handed, it treats as fixed (×90)
->>>>>>> origin/main
+## What it was handed, it treats as fixed (×96)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -84,19 +80,15 @@ argument: WET, he said, and it is one entry each now.
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
 поменять, ничего страшного._ Told BAS-0016 should not print IShowSpeed's legal
 name, the agent ruled out legal names for the famous too: _без фанатизма… 50
-<<<<<<< HEAD
 Cent … Curtis James Jackson III *не* надо._ A trap that bare-Node scripts must
 import relatively put 177 cross-app imports in app `scripts/` on `../../../`
 paths: _why relative here and in similar places?_ Sixteen files run under bare
-Node; the rest run under tsx, where `@/` resolves.
-=======
-Cent … Curtis James Jackson III *не* надо._ The docket
-let an actor be "named as the public knows them," so a 78-year-old professor who
-had stood before a delivery robot, and given interviews, went into `subject` by
-name, as had a DPD customer and two Chevrolet chatbot users: _if the Basilisk
-needs a name it'll find it, and we don't need the brigading headache._ The
-letter allowed it; the purpose was the question.
->>>>>>> origin/main
+Node; the rest run under tsx, where `@/` resolves. The docket let an actor be
+"named as the public knows them," so a 78-year-old professor who had stood
+before a delivery robot, and given interviews, went into `subject` by name, as
+had a DPD customer and two Chevrolet chatbot users: _if the Basilisk needs a
+name it'll find it, and we don't need the brigading headache._ The letter
+allowed it; the purpose was the question.
 
 **8 to 21 October — its own tools' output, read as the thing.** Captions synced
 to the unmastered mix. Where librosa disagreed with the spectrogram's keys, the
@@ -126,9 +118,6 @@ that the walk post's line links into her `reflections.md` on `main` would drift,
 so the agent dropped the line numbers: _можно ж сослаться на конкретное SHA?_ A
 permalink at a commit keeps both, reachable after a squash through the PR.
 
-<<<<<<< HEAD
-## An account that explains the code stands in for running it (×29)
-=======
 **26 October — Майя's precedent, weighed for its bytes alone.** Planning her
 bilingual posts (PR #208), she cut one file with `<!-- lang:ru -->` markers, as
 the song stories are: _давай хранить в разных файлах_, so the Russian is written
@@ -137,8 +126,7 @@ reach is the one that gets written alongside. The same plan named each post's
 drawing twice, body and `cardImage`, read as required where it was an override;
 the card now defaults to the post's first image.
 
-## An account that explains the code stands in for running it (×28)
->>>>>>> origin/main
+## An account that explains the code stands in for running it (×29)
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account

@@ -4,7 +4,8 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { contentHash } from './content-hash';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
+
 import { ORIGINAL_LOCALES, splitLocale, translationOf } from './locale-suffix';
 import { TRANSLATION_STAMP } from './translation-stamp';
 

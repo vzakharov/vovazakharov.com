@@ -1,4 +1,4 @@
-import { type Locale, LOCALES } from '@/shared/i18n';
+import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 
 import type { Chip } from './chip-nav';
 

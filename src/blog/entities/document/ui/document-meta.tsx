@@ -1,6 +1,7 @@
 import { Group } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+import type { WithOptionalLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/kernel/shared/typings';
 
@@ -13,16 +14,8 @@ import {
   formatDocumentDate,
   type WithFrontmatter,
   type WithReadingMinutes,
-<<<<<<< HEAD:src/blog/entities/document/ui/document-meta.tsx
 } from '@/blog/shared/content';
 import { messages } from '@/blog/shared/i18n';
-=======
-} from '@/shared/content';
-import { loadMessages, type WithOptionalLocale } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import type { WithOptionalClassName } from '@/shared/typings';
-import { NameLink } from '@/shared/ui';
->>>>>>> origin/main:src/entities/document/ui/document-meta.tsx
 
 import classes from './document-meta.module.scss';
 
@@ -42,14 +35,8 @@ export function DocumentMeta({
   className,
   locale = SITE_CONFIG.locale,
 }: DocumentMetaProps) {
-<<<<<<< HEAD:src/blog/entities/document/ui/document-meta.tsx
-  const { name, href } = AUTHORS[frontmatter.author];
-  const { locale } = SITE_CONFIG;
-  const copy = messages(locale);
-=======
   const { name, href } = author(frontmatter.author, locale);
-  const copy = loadMessages(locale).documents;
->>>>>>> origin/main:src/entities/document/ui/document-meta.tsx
+  const copy = messages(locale);
 
   return (
     <Group

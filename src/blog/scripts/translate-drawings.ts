@@ -2,13 +2,13 @@
 
 /**
  * Writes each drawing in every language: a translated collection's
- * `assets/<name>.svg` is a template (`scripts/lib/drawing-captions.ts`), and
+ * `assets/<name>.svg` is a template (`./lib/drawing-captions.ts`), and
  * `<name>.<locale>.svg` is it filled with the `captions` that language's post
  * lists for it and signed with the site's domain — so a drawing's geometry has
  * one copy, and its words one per language.
  *
- *   pnpm content:drawings:maya            # write what changed
- *   pnpm content:drawings:maya --check    # report what is stale, write nothing
+ *   pnpm content:drawings maya            # write what changed
+ *   pnpm content:drawings maya --check    # report what is stale, write nothing
  *
  * Fails on a template some language's post does not caption, a `captions`
  * entry naming no template, and the key mismatches `fillDrawing` throws on.
@@ -25,14 +25,20 @@ import path from 'node:path';
 import { z } from 'zod';
 
 import {
+  filesUnder,
+  RENDERED_SITE,
+} from '../../kernel/scripts/lib/site-tree.ts';
+import {
+  type Locale,
+  LOCALES,
+} from '../../kernel/shared/i18n/index.node-safe.ts';
+import {
   collectionDir,
   collectionsForSite,
   isDocumentFile,
   isTranslated,
-} from '../src/shared/content/collections.ts';
-import { splitLocale } from '../src/shared/content/locale-suffix.ts';
-import { type Locale, LOCALES } from '../src/shared/i18n/locales.ts';
-import { filesUnder, RENDERED_SITE } from './lib/content-tree.ts';
+  splitLocale,
+} from '../shared/content/index.node-safe.ts';
 import {
   type Captions,
   fillDrawing,
@@ -147,7 +153,7 @@ for (const id of collectionsForSite(RENDERED_SITE)) {
 
 if (CHECK && stale.length > 0) {
   console.error(
-    `Stale drawings — run \`pnpm content:drawings:<site>\`:\n${stale.join('\n')}`,
+    `Stale drawings — run \`pnpm content:drawings <site>\`:\n${stale.join('\n')}`,
   );
   process.exit(1);
 }

@@ -1,16 +1,11 @@
 import 'server-only';
 
-<<<<<<< HEAD:src/blog/shared/content/authors.ts
 import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/kernel/shared/config';
+import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Linked, Named } from '@/kernel/shared/typings';
-=======
-import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/shared/config';
-import { loadMessages, type Locale } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
-import type { Linked, Named } from '@/shared/typings';
->>>>>>> origin/main:src/shared/content/authors.ts
 
+import { messages } from '../i18n';
 import { documentRoute } from './collections';
 
 /** Whom an article's byline may name. Frontmatter states the id, so each name and link has one home. */
@@ -26,10 +21,7 @@ export function author(id: AuthorId, locale: Locale): Named & Linked {
       name: 'the Clerk',
       href: documentRoute('basilisk-faq', 'who-writes-this'),
     },
-    maya: {
-      ...pick(loadMessages(locale).maya, 'name'),
-      href: siteConfig('maya').url,
-    },
+    maya: { name: messages(locale).authors.maya, href: siteConfig('maya').url },
   };
 
   return authors[id];

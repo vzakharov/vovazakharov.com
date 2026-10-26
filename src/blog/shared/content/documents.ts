@@ -4,22 +4,16 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
-<<<<<<< HEAD:src/blog/shared/content/documents.ts
 import { pageFile, type SiteId } from '@/kernel/shared/config';
-import type { WithOptionalLocale } from '@/kernel/shared/i18n';
-import {
-  routeCardPath,
-  type WithOptionalOgImageSize,
-} from '@/kernel/shared/seo';
-=======
-import { pageFile, type SiteId } from '@/shared/config';
 import {
   DEFAULT_LOCALE,
   type Locale,
   type WithOptionalLocale,
-} from '@/shared/i18n';
-import { routeCardPath } from '@/shared/seo';
->>>>>>> origin/main:src/shared/content/documents.ts
+} from '@/kernel/shared/i18n';
+import {
+  routeCardPath,
+  type WithOptionalOgImageSize,
+} from '@/kernel/shared/seo';
 import type {
   DocumentFile,
   Routed,
@@ -37,17 +31,13 @@ import {
   documentName,
   documentRoute,
   isDocumentFile,
-<<<<<<< HEAD:src/blog/shared/content/documents.ts
-=======
   isTranslated,
-  type Routed,
   type Slugged,
->>>>>>> origin/main:src/shared/content/documents.ts
   type Variant,
   VARIANTS,
   type WithCollectionId,
 } from './collections';
-<<<<<<< HEAD:src/blog/shared/content/documents.ts
+import { firstImage } from './first-image';
 import {
   type BaseFrontmatter,
   baseFrontmatterSchema,
@@ -56,21 +46,8 @@ import {
   type WithFrontmatter,
 } from './frontmatter';
 import { intrinsicDimensions } from './image-dimensions';
-=======
-import { firstImage } from './first-image';
-import type {
-  BaseFrontmatter,
-  Collection,
-  FrontmatterReader,
-  WithFrontmatter,
-} from './frontmatter';
-import {
-  intrinsicDimensions,
-  type WithOptionalOgImageSize,
-} from './image-dimensions';
 import { splitLocale } from './locale-suffix';
 import { assertTranslated, translatedData } from './translations';
->>>>>>> origin/main:src/shared/content/documents.ts
 
 /** An address, and the one language it is in where it is in one. */
 type LocaleRouted = Routed & WithOptionalLocale;

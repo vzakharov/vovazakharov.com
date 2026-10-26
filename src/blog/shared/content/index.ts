@@ -1,15 +1,4 @@
-<<<<<<< HEAD:src/blog/shared/content/index.ts
-export { AUTHORS } from './authors';
-=======
 export { author } from './authors';
-export { type CaseFrontmatter, type Docketed } from './basilisk-frontmatter';
-export {
-  ARTICLE_COLLECTIONS,
-  type ArticleCollectionId,
-  type ArticleFrontmatterOf,
-  SONGS,
-} from './collection-schemas';
->>>>>>> origin/main:src/shared/content/index.ts
 export {
   type CollectionId,
   collectionListingRoute,
@@ -54,6 +43,7 @@ export {
   findFeed,
   listFeeds,
 } from './feeds';
+export { firstImage } from './first-image';
 export {
   articleCollection,
   type ArticleFrontmatter,
@@ -76,3 +66,4 @@ export {
   type WithHeadings,
   type WithReadingMinutes,
 } from './render';
+export { translatedData } from './translations';

@@ -9,7 +9,6 @@ import {
   feedEntries,
   type FeedSource,
   findFeed,
-  localizedRoute,
 } from '@/blog/shared/content';
 
 export function collectionFeed(
@@ -24,14 +23,12 @@ export function collectionFeed(
       const language = locale ?? SITE_CONFIG.locale;
       const entries =
         source === undefined
-          ? await feedEntries(collection)
+          ? await feedEntries(collection, locale)
           : await source.entries(language);
       const rss = renderRss({
         ...pick(feed, 'title'),
         description: source?.description?.(language) ?? SITE_CONFIG.tagline,
-        link: getAbsoluteUrl(
-          localizedRoute(collectionRoute(collection), locale),
-        ),
+        link: getAbsoluteUrl(collectionRoute(collection, locale)),
         language,
         self: getAbsoluteUrl(feed.route),
         ...(source?.podcast === undefined ? {} : { podcast: source.podcast() }),

@@ -12,31 +12,21 @@ import path from 'node:path';
 
 import type { Titled } from '@/kernel/shared/typings';
 
-import type {
-  BaseFrontmatter,
-  Collection,
-  WithFrontmatter,
+import {
+  type BaseFrontmatter,
+  type Collection,
+  firstImage,
+  translatedData,
+  type WithFrontmatter,
 } from '@/blog/shared/content';
 import {
   collectionDir,
   isDocumentFile,
   isTranslated,
   type Slugged,
-<<<<<<< HEAD:src/blog/scripts/lib/read-collection.ts
+  splitLocale,
+  translationOf,
 } from '@/blog/shared/content/index.node-safe';
-=======
-} from '@/shared/content/collections';
-import { firstImage } from '@/shared/content/first-image';
-import type {
-  BaseFrontmatter,
-  Collection,
-  FrontmatterReader,
-  WithFrontmatter,
-} from '@/shared/content/frontmatter';
-import { splitLocale, translationOf } from '@/shared/content/locale-suffix';
-import { translatedData } from '@/shared/content/translations';
-import type { Titled } from '@/shared/typings';
->>>>>>> origin/main:scripts/lib/read-collection.ts
 
 import { contentFiles } from './content-tree.ts';
 import { headingTitle } from './heading-title.ts';

@@ -25,18 +25,9 @@ pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
 pnpm check:prose-quotes         # no straight quote in prose    │
-<<<<<<< HEAD
 src/music/scripts/vet-songs.sh  # song checks, when a song moved │
 pnpm content:og <site> --check # social cards, hashes only, a site each │
-=======
-scripts/vet-songs.sh            # song checks, when a song moved │
-pnpm content:og:vova --check    # social cards, hashes only     │
-pnpm content:og:bible --check   # the seal's own card           │
-pnpm content:og:basilisk --check # the seal card and each case's │
-pnpm content:og:maya --check    # her card and each post's      │
-pnpm content:drawings:maya --check # each drawing's English copy │
->>>>>>> origin/main
-pnpm music:masters check              # song masters' tags, hashes only │
+pnpm content:drawings maya --check # each drawing's per-language copy │pnpm music:masters check              # song masters' tags, hashes only │
 pnpm content:pdf vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
 python3 src/kernel/scripts/lib/test_hearing.py # transcribe.py's word merge │

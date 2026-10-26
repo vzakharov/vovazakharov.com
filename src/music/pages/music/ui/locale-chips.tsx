@@ -1,15 +1,9 @@
-<<<<<<< HEAD:src/music/pages/music/ui/locale-chips.tsx
-import { type Locale, LOCALES, type WithLocale } from '@/kernel/shared/i18n';
+import type { Locale, WithLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { type Chip, ChipNav } from '@/shell/shared/ui';
+import { ChipNav, localeChips } from '@/shell/shared/ui';
 
 import { messages } from '@/music/shared/i18n';
-=======
-import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
-import { pick } from '@/shared/lib/collections';
-import { ChipNav, localeChips } from '@/shared/ui';
->>>>>>> origin/main:src/pages/music/ui/locale-chips.tsx
 
 import { ScriptChip } from './script-chip';
 

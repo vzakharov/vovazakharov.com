@@ -15,21 +15,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-<<<<<<< HEAD:src/maya/scripts/lib/maya-card.ts
 import { siteConfig } from '@/kernel/shared/config';
-import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
-=======
-import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
-import { siteConfig } from '@/shared/config/site-config';
-import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
-import { formatDocumentDate } from '@/shared/content/document-date';
-import type { ArticleFrontmatter } from '@/shared/content/frontmatter';
->>>>>>> origin/main:scripts/lib/maya-card.ts
+import {
+  CANVAS,
+  PUBLIC_DIR,
+  SCALE,
+} from '@/kernel/shared/config/index.node-safe';
 
 import {
   type ArticleFrontmatter,
   formatDocumentDate,
 } from '@/blog/shared/content';
+import { collectionDir } from '@/blog/shared/content/index.node-safe';
 
 import type { CollectionEntry } from '@/blog/scripts/lib/read-collection';
 import {

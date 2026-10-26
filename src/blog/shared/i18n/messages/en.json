@@ -9,5 +9,8 @@
     "mini": "Mini",
     "nano": "Nano"
   },
-  "sources": "Sources"
+  "sources": "Sources",
+  "authors": {
+    "maya": "Maya"
+  }
 }

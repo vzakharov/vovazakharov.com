@@ -44,13 +44,7 @@ export function SiteFooter({
         <Text size="sm" opacity={0.6} flex={1} miw="min(360px, 100%)">
           {children ??
             (!onHomePage && (
-<<<<<<< HEAD:src/shell/widgets/site-footer/ui/site-footer.tsx
-              <TextLink href="/">{messages(locale).backToHome}</TextLink>
-=======
-              <TextLink href={home}>
-                {loadMessages(locale).ui.backToHome}
-              </TextLink>
->>>>>>> origin/main:src/widgets/site-footer/ui/site-footer.tsx
+              <TextLink href={home}>{messages(locale).backToHome}</TextLink>
             ))}
         </Text>
         <Text size="sm" opacity={0.6}>

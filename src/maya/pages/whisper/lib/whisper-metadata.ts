@@ -1,20 +1,15 @@
-<<<<<<< HEAD:src/maya/pages/whisper/lib/whisper-metadata.ts
-import { SITE_CONFIG } from '@/kernel/shared/config';
+import type { WithLocale } from '@/kernel/shared/i18n';
+import { routeCardPath } from '@/kernel/shared/seo';
+import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
 
+import { intrinsicDimensions, localizedRoute } from '@/blog/shared/content';
+import { messages as blogMessages } from '@/blog/shared/i18n';
 import { constructMetadata } from '@/blog/shared/seo';
-=======
-import { intrinsicDimensions, localizedRoute } from '@/shared/content';
-import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { routeCardPath } from '@/shared/seo';
-import {
-  constructMetadata,
-  localizedAddresses,
-} from '@/shared/seo/index.server-only';
->>>>>>> origin/main:src/pages/maya-whisper/lib/whisper-metadata.ts
 
+import { messages } from '../i18n';
 import { WHISPER_ROUTE } from './whisper-copy';
 
-/** The toy's card, which `pnpm content:og:maya` renders. */
+/** The toy's card, which `pnpm content:og maya` renders. */
 const ogImage = routeCardPath(WHISPER_ROUTE);
 
 /** The toy's address in `locale`, or its locale-less alias. */
@@ -23,10 +18,10 @@ export function whisperPath(locale?: string): string {
 }
 
 export function whisperMetadata({ locale }: WithLocale) {
-  const { title, description } = loadMessages(locale).whisper;
+  const { title, description } = messages(locale);
 
   return constructMetadata({
-    title: `${title} - ${loadMessages(locale).maya.name}`,
+    title: `${title} - ${blogMessages(locale).authors.maya}`,
     description,
     locale,
     ...localizedAddresses(whisperPath, locale),

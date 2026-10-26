@@ -1,5 +1,5 @@
 /**
- * No `import 'server-only'`: `scripts/lib/read-collection.ts` reads it too, so
+ * No `import 'server-only'`: `src/blog/scripts/lib/read-collection.ts` reads it too, so
  * a post's social card shows the image its index card does.
  */
 

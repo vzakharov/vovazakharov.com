@@ -8,15 +8,11 @@ import path from 'node:path';
 // Type-only, and it has to stay that way: bare Node erases the statement
 // rather than resolving an `@/` alias it cannot follow, and a value import
 // would reach `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
-<<<<<<< HEAD:src/blog/shared/content/collections.ts
 import type { SiteId, WithSiteId } from '@/kernel/shared/config';
+import type { Localizable } from '@/kernel/shared/i18n';
 import type { Routed } from '@/kernel/shared/typings';
 
 import { PUBLIC_DIR } from '../../../kernel/shared/config/index.node-safe.ts';
-=======
-import type { SiteId, WithSiteId } from '@/shared/config';
-import type { Localizable } from '@/shared/i18n';
->>>>>>> origin/main:src/shared/content/collections.ts
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
 const COLLECTION_IDS = [

@@ -6,8 +6,12 @@
 
 import path from 'node:path';
 
-import { DEFAULT_LOCALE, type Locale, LOCALES } from '../i18n/locales.ts';
-import { isOneOf } from '../lib/collections.ts';
+import {
+  DEFAULT_LOCALE,
+  type Locale,
+  LOCALES,
+} from '../../../kernel/shared/i18n/locales.ts';
+import { isOneOf } from '../../../kernel/shared/lib/collections.ts';
 
 /** The languages an original can be in: any but the one it is translated into. */
 export const ORIGINAL_LOCALES = LOCALES.filter(
