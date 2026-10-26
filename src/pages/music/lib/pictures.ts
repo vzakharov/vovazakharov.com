@@ -12,6 +12,7 @@ import {
   artistSongs,
   catalogueReleases,
   releasedBy,
+  wipApart,
 } from './catalogue';
 import { artistPath, musicPath, radioPath } from './music-urls';
 import type { SongDocument } from './song-text';
@@ -59,9 +60,11 @@ function releasePicture(release: ArtistRelease): string | undefined {
 }
 
 /**
- * By the artist's newest album that has a cover, so a later single does not
- * stand for the whole body of work; else by its newest single that has one,
- * else by the newest song billing it, a feature included, that has one.
+ * By the artist's newest finished album that has a cover, so neither a later
+ * single nor a release still in the works stands for the whole body of work;
+ * else by its newest album in the works that has one, else by its newest single
+ * that has one, else by the newest song billing it, a feature included, that
+ * has one.
  */
 export function artistPicture(
   artist: MusicProject,
@@ -69,8 +72,9 @@ export function artistPicture(
   songs: readonly SongDocument[],
 ): string | undefined {
   const { albums, singles } = artistDiscography(artist, locale, songs);
+  const { finished, wip } = wipApart(albums);
   const pictures = [
-    ...albums.map((album) => albumCover(album)),
+    ...[...finished, ...wip].map((album) => albumCover(album)),
     ...[...singles, ...artistSongs(artist, songs)].map((song) =>
       songPicture(song),
     ),
