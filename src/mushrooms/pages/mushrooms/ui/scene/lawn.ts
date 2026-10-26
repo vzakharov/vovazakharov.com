@@ -7,18 +7,23 @@
  * (`LiveLawn`).
  */
 
+import type { WithHeight } from '@/kernel/shared/typings';
+
 import { D_SEE_MOST } from '../../model/eye-height';
 import type { Point } from '../../model/geometry';
-import type { Eye, Footing, Rooted } from '../../model/ground';
+import {
+  type Eye,
+  FLOWER_SIZE,
+  type Footing,
+  type Rooted,
+  standingOn,
+  type WithCamera,
+  type WithLayout,
+} from '../../model/ground';
 import { mulberry32, type Random, type Seeded } from '../../model/random';
-import { FLOWER_SIZE, standingOn } from './flower-layout';
-import type { WithLayout } from './flower-sight';
-import { tuftOn, type WithTuft } from './grass';
+import { type GrassLayout,tuftOn, type WithTuft } from './grass';
 import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
 import { PALE_SPAN } from './repaint-queue';
-import type { WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { GrassLayout } from './grass';
 
 /** What of the meadow's layout this reads. */
 export type LawnLayout = WithHeight & WithCamera & GrassLayout;

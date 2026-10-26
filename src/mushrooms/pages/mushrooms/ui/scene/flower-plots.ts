@@ -20,6 +20,7 @@ import {
   planeFootOf,
   type Rooted,
   SPREAD,
+  standingOn,
   type Stood,
   type WithCamera,
   zAt,
@@ -35,7 +36,6 @@ import {
   clearOfFeet,
   FLOWER_DOWN,
   headsApart,
-  standingOn,
 } from './flower-layout';
 import type { Stand } from './flower-sight';
 import type { Occupant } from './occupant';

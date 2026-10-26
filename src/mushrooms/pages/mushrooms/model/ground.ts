@@ -62,6 +62,8 @@ export type GroundBand = WithHeight & Grounded;
 export type GroundedScreen = WithWidth & GroundBand;
 /** The camera a thing is seen through. */
 export type WithCamera = { camera: Camera };
+/** Something laid out on the meadow's screen: the layout it reads. */
+export type WithLayout<L> = { layout: L };
 
 /** The depth a thing is drawn at: the nearer, the deeper, so it is drawn over what stands behind. */
 export type Layered = { depth: number };
@@ -319,6 +321,23 @@ export function groundFootOf(foot: Footing): GroundFoot {
 export function planeFootOf({ size, ...ground }: GroundFoot): Footing {
   return { ...planeOf(ground), size };
 }
+
+/** Where the layout's `foot` stands on the screen `camera` shows, and how big. */
+export function standingOnGround(camera: Camera, foot: GroundFoot): Footing {
+  const { x, y, scale } = project(camera, foot);
+  return { x, y, size: foot.size * scale };
+}
+
+/** Where `foot` stands on the screen `camera` shows, and how big. */
+export function standingOn(camera: Camera, foot: Footing): Footing {
+  return standingOnGround(camera, groundFootOf(foot));
+}
+
+/**
+ * A flower's height, as a share of the clump's size, before depth scales it:
+ * every tuft of the lawn grows at it, a flower being planted on one.
+ */
+export const FLOWER_SIZE = 0.28;
 
 /**
  * `point` moved with `eye` onto `OPENING_EYE`: `viewOf` reads only the offset

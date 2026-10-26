@@ -18,6 +18,7 @@ import {
   CLUMP_DISTANCE,
   D_SEE,
   type Eye,
+  FLOWER_SIZE,
   type Footing,
   OPENING_EYE,
   sameFoot,
@@ -28,7 +29,7 @@ import type { Planted } from '../../model/planted';
 import type { Random } from '../../model/random';
 import type { ClumpGround } from './anchored-ground';
 import { depthOf, UNPLACED } from './bed-place';
-import { type Bedded, FLOWER_SIZE } from './flower-layout';
+import type { Bedded } from './flower-layout';
 import { pulledFeet } from './flower-plots';
 import type { FlowerSightLayout, Stand } from './flower-sight';
 import {

@@ -11,6 +11,7 @@ import {
   anchored,
   CLUMP_DISTANCE,
   downOf,
+  FLOWER_SIZE,
   type Footing,
   groundFootOf,
   OPENING_EYE,
@@ -23,7 +24,6 @@ import { between, mulberry32, nextSeed } from '../../model/random';
 import { anchoredStand } from './anchored-stand';
 import { FAR_BAND } from './far-band';
 import {
-  FLOWER_SIZE,
   FLOWERS_APART,
   FOOT_CLEARANCE,
   HEAD_REACH,

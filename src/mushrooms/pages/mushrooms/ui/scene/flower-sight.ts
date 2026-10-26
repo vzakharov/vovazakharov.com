@@ -26,11 +26,18 @@ import {
   type Circle,
   containsPoint,
 } from '../../model/geometry';
-import type { Camera, Footing, Stood, WithCamera } from '../../model/ground';
+import {
+  type Camera,
+  type Footing,
+  standingOn,
+  type Stood,
+  type WithCamera,
+  type WithLayout,
+} from '../../model/ground';
 import { pinholeOf } from '../../model/pinhole';
 import type { WithPlanted } from '../../model/planted-flowers';
 import type { ClumpGround, MushroomGround } from './anchored-ground';
-import { type Bedded, FLOWER_SWAY, standingOn } from './flower-layout';
+import { type Bedded, FLOWER_SWAY } from './flower-layout';
 import {
   flowersOf,
   groundFor,
@@ -61,9 +68,6 @@ const HEAD_SHOWN = 0.5;
 const HEAD_RING = 8;
 
 /** The layout the scene stands the meadow on. */
-export type WithLayout<L = FlowerSightLayout> = {
-  layout: L;
-};
 /** The layout and the visit's seeded flowers on it. */
 export type SeededLayout<L = FlowerSightLayout> = WithLayout<L> & {
   flowers: readonly Flower[];

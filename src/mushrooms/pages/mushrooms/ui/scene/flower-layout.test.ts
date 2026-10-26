@@ -25,6 +25,7 @@ import {
   groundFootOf,
   groundOf,
   planeFootOf,
+  standingOn,
 } from '../../model/ground';
 import { geneBounds } from '../../model/mushroom-genes';
 import { mulberry32 } from '../../model/random';
@@ -41,7 +42,6 @@ import {
   MOST_SHADED,
   NEAR_BAND,
   seededBed,
-  standingOn,
   widestHead,
 } from './flower-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';

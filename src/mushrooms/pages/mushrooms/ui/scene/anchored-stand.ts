@@ -21,12 +21,13 @@ import {
   groundOf,
   OPENING_EYE,
   planeFootOf,
+  standingOn,
   type Stood,
   type WithCamera,
 } from '../../model/ground';
 import { isBeeSown, type Sown } from '../../model/planted-flowers';
 import { anchoredGround, type ClumpGround } from './anchored-ground';
-import { type Bedded, standingOn } from './flower-layout';
+import type { Bedded } from './flower-layout';
 import type { SeededLayout, Stand } from './flower-sight';
 import { PALE_SPAN } from './repaint-queue';
 

@@ -33,7 +33,6 @@ import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
 import type { WithCamera } from '../../model/ground';
 import type { Sunned, SunWashed } from './sun-layout';
 import type { Clouded } from './panorama';
-import type { Bedded } from './flower-layout';
 
 /** What the rain asks of the meadow's sound: the shower's hiss, and the whoosh a cloud tap answers with. */
 export type RainSound = {
@@ -47,8 +46,7 @@ export type RainViewLayout = WithWidth &
   WithCamera &
   Sunned &
   Clouded &
-  SunWashed &
-  Bedded;
+  SunWashed;
 
 /** How the sky stands this frame, as the probe reads it. */
 export type SkyShown = { raining: boolean; wetness: number; rainbow: number };

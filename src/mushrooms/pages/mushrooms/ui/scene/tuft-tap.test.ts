@@ -1,8 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { planeFootOf } from '../../model/ground';
-import { FLOWER_SIZE } from './flower-layout';
+import { FLOWER_SIZE,planeFootOf } from '../../model/ground';
 import { TUFT_REACH, tuftAt, tuftReach } from './tuft-tap';
 import type { Sprout } from './tufts';
 

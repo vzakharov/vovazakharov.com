@@ -23,14 +23,15 @@ import {
 } from '../../model/geometry';
 import {
   type Camera,
+  FLOWER_SIZE,
   type Footing,
   type Framed,
   type GroundFoot,
-  groundFootOf,
   groundOf,
   planeFootOf,
-  project,
   scaleAt,
+  standingOn,
+  standingOnGround,
   UP_PER_Z,
   type WorldScreen,
   zAt,
@@ -70,8 +71,6 @@ const FLOWER_ACROSS = [0.05, 0.95] as const;
 export const FLOWER_DOWN = [0.12, 0.96] as const;
 /** Tries at a spot off the slot before a flower is left out. */
 const FLOWER_TRIES = 48;
-/** A flower's height, as a share of the clump's size, before depth scales it. */
-export const FLOWER_SIZE = 0.28;
 /**
  * How far round a mushroom's foot, per unit of its size, no flower stands: the
  * foot and its shadow, the one thing Syama drew being two stems standing
@@ -121,12 +120,6 @@ function cameraOf({
   return { width, height, groundTop, ground, world, midline: world / 2, unit };
 }
 
-/** Where the layout's `foot` stands on the screen `camera` shows, and how big. */
-function standingOnGround(camera: Camera, foot: GroundFoot): Footing {
-  const { x, y, scale } = project(camera, foot);
-  return { x, y, size: foot.size * scale };
-}
-
 /**
  * Where a bed lays a flower grown off the opening out to paint it: at the
  * clump's front foot straight ahead, `CLUMP_DISTANCE` from the eye, at
@@ -135,11 +128,6 @@ function standingOnGround(camera: Camera, foot: GroundFoot): Footing {
  */
 export function laidFlower(camera: Camera, { size }: Footing): Footing {
   return standingOnGround(camera, { x: 0, z: 0, size });
-}
-
-/** Where `foot` stands on the screen `camera` shows, and how big. */
-export function standingOn(camera: Camera, foot: Footing): Footing {
-  return standingOnGround(camera, groundFootOf(foot));
 }
 
 /**

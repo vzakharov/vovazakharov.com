@@ -22,13 +22,14 @@ import {
   groundFootOf,
   OPENING_EYE,
   sameFoot,
+  standingOn,
   type WithCamera,
 } from '../../model/ground';
 import { pinholeOf } from '../../model/pinhole';
 import type { Planted } from '../../model/planted';
 import type { ClumpGround } from './anchored-ground';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
-import { type Bedded, headClear, standingOn } from './flower-layout';
+import { type Bedded, headClear } from './flower-layout';
 import { flowersOf, groundFor } from './flower-plots';
 import { roomIn } from './flower-room';
 import type { FlowerSightLayout, Stand } from './flower-sight';

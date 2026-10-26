@@ -11,6 +11,7 @@ import {
 import { canFurnish } from '../../model/furnishing';
 import { isEmpty, type Meadow } from '../../model/game';
 import type { Point } from '../../model/geometry';
+import { standingOn } from '../../model/ground';
 import { type Furnishing, FURNISHINGS } from '../../model/house';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { MUSHROOM_SPECIES, type Species } from '../../model/mushroom-genes';
@@ -30,7 +31,6 @@ import {
   drawPullButton,
   drawShapeButton,
 } from './flower-icons';
-import { standingOn } from './flower-layout';
 import { drawGaitButton } from './gait-icon';
 import {
   drawCloseButton,
