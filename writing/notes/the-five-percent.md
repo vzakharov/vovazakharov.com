@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×90)
+## What it was handed, it treats as fixed (×93)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -61,7 +61,7 @@ review's comments, filtered by creation time, lost five of six. Nostalgia's
 squash said the album "survived only as scattered takes," read off the per-song
 repos: _репа со всем альбомом-то была._
 
-**5 to 24 October — the shape in the tree read as chosen.** Nine callers spelled
+**5 to 26 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
 that first read it. Basilisk.fyi's seal emblems were priced as `artist`, read as
@@ -70,13 +70,20 @@ moved the music catalogue behind a barrel as pure relocation, one reader per
 fact, `albumTitle` to `albumWipNote`; the barrel first showed them side by side,
 nine to sixteen per page: _не стоит ли сделать единые импортируемые а-ля
 «получить инфо об альбоме/артисте»?_ All were views of one file, so `albumInfo`
-returns them at once.
+returns them at once. Майя's message catalogue went to `shared/i18n`, where
+every other app keeps one, though only the typewriter page reads it; it moved
+into `pages/whisper`. Each session adding a site had copied `content:og:<site>`,
+`build:<site>` and `dev:<site>` once more, never asking whether the site was an
+argument: WET, he said, and it is one entry each now.
 
-**7 to 22 October — a rule read to its letter, then past its case.** A published
+**7 to 26 October — a rule read to its letter, then past its case.** A published
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
 поменять, ничего страшного._ Told BAS-0016 should not print IShowSpeed's legal
 name, the agent ruled out legal names for the famous too: _без фанатизма… 50
-Cent … Curtis James Jackson III *не* надо._
+Cent … Curtis James Jackson III *не* надо._ A trap that bare-Node scripts must
+import relatively put 177 cross-app imports in app `scripts/` on `../../../`
+paths: _why relative here and in similar places?_ Sixteen files run under bare
+Node; the rest run under tsx, where `@/` resolves.
 
 **8 to 21 October — its own tools' output, read as the thing.** Captions synced
 to the unmastered mix. Where librosa disagreed with the spectrogram's keys, the
