@@ -319,7 +319,8 @@ tuned — the null model is the bar.
   over its app with its descendants (the composition `check:masd` counts
   references across). Compute both on the game's dry-run tree and on the repo's
   real slices, show the operator where the verdicts differ and what each costs
-  in code, and build the one they pick.
+  in code, then pause with that question, nothing built; the session that has
+  their pick builds it.
 - **Where the game's page sits is out of this bite** (operator: «пока не
   трогаем»): the page stays in `pages/mushrooms`, and moving it to the app layer
   is neither done nor ruled out.
