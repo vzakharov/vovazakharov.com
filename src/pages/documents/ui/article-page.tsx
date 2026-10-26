@@ -17,6 +17,7 @@ import {
   type Variant,
   VARIANTS,
 } from '@/shared/content';
+import { inLocale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 import { constructArticleMetadata } from '@/shared/seo/index.server-only';
 import type { WithParams } from '@/shared/typings';
@@ -117,7 +118,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
                 size="sm"
                 className={hoverDim}
               >
-                ← {COLLECTIONS[collection].label}
+                ← {inLocale(COLLECTIONS[collection].label, SITE_CONFIG.locale)}
               </TextLink>
             </Group>
 

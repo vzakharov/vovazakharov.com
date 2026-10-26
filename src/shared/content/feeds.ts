@@ -3,6 +3,7 @@ import 'server-only';
 import { getAbsoluteUrl, siteConfig, type SiteId } from '@/shared/config';
 import {
   DEFAULT_LOCALE,
+  inLocale,
   loadMessages,
   type Locale,
   LOCALES,
@@ -48,7 +49,7 @@ export function listFeeds(site: SiteId): Feed[] {
       locale,
       title: [
         collections.length > 1
-          ? `${name} — ${COLLECTIONS[collection].label}`
+          ? `${name} — ${inLocale(COLLECTIONS[collection].label, locale ?? siteConfig(site).locale)}`
           : name,
         ...(locale === undefined ? [] : [`(${locale})`]),
       ].join(' '),

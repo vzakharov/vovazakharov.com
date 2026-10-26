@@ -7,6 +7,7 @@ import {
   findFeed,
   renderPrimaryDocuments,
 } from '@/shared/content';
+import { inLocale } from '@/shared/i18n';
 import { PageShell, Section, SiteAvatar, TextLink } from '@/shared/ui';
 
 import { DocumentCards } from '@/entities/document';
@@ -35,13 +36,15 @@ export async function MayaHomePage() {
         </Text>
 
         <Section id={COLLECTIONS[COLLECTION].base}>
-          <Title order={2}>{COLLECTIONS[COLLECTION].label}</Title>
+          <Title order={2}>
+            {inLocale(COLLECTIONS[COLLECTION].label, SITE_CONFIG.locale)}
+          </Title>
           <DocumentCards collection={COLLECTION} {...{ cards }} />
         </Section>
 
         <SiteFooter
           onHomePage
-          feed={findFeed(SITE_ID, COLLECTION).route}
+          feed={findFeed(SITE_ID, COLLECTION, SITE_CONFIG.locale).route}
           byline={
             <>
               Майя из{' '}

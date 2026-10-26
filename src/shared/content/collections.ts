@@ -9,6 +9,7 @@ import path from 'node:path';
 // rather than resolving an `@/` alias it cannot follow, and a value import
 // would reach `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
 import type { SiteId, WithSiteId } from '@/shared/config';
+import type { Localizable } from '@/shared/i18n';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
 const COLLECTION_IDS = [
@@ -65,7 +66,7 @@ export const COLLECTIONS = {
     site: 'vova',
     /** A song is a recording with prose around it; there is nothing to print. */
     printable: false,
-    localized: true,
+    localized: 'inline',
     homeIndexed: false,
     generatedCards: false,
     feed: true,
@@ -94,11 +95,11 @@ export const COLLECTIONS = {
   },
   'maya-blog': {
     base: 'blog',
-    label: 'Блог',
+    label: { en: 'Blog', ru: 'Блог' },
     site: 'maya',
     /** Written for the screen, and no publishing lane prints `maya`. */
     printable: false,
-    localized: false,
+    localized: 'translated',
     homeIndexed: true,
     /** Drawn by `scripts/lib/maya-card.ts`. */
     generatedCards: true,
@@ -108,9 +109,15 @@ export const COLLECTIONS = {
   CollectionId,
   WithSiteId & {
     base: string;
-    label: string;
+    label: Localizable;
     printable: boolean;
-    localized: boolean;
+    /**
+     * Whether its pages exist once per language, and how a document carries
+     * them: `inline`, both in one file cut on `lang:` markers, written
+     * together; `translated`, the original as `<slug>.<locale>.md` and the
+     * default language's translation as `<slug>.md` beside it, made after.
+     */
+    localized: false | 'inline' | 'translated';
     /**
      * Listed on its site's home page rather than on an index page of its own,
      * which is what a route base of `/` means — and all a rooted collection

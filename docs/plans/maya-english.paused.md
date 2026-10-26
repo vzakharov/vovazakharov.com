@@ -151,3 +151,45 @@ translator runs again and re-stamps. Nothing publishes half-translated.
    reads as the main file, but neither page's `.md` then sits at its address:
    the English page at `/blog/<slug>` serves `<slug>.en.md`, the Russian at
    `/blog/<slug>/ru` serves `<slug>.md`.
+
+Vova's go-ahead, 26 October: «хорошо, давай начнём и сразу же и задогфудим» —
+read as: the three existing posts are translated through the very path being
+built (the translator subagent writes the stamped `.md`, the drift gate checks
+it), not by hand.
+
+## Progress
+
+Paused at the context budget's warning, the tree building (`pnpm build:maya`,
+`typecheck`, the content tests green).
+
+**Done:**
+
+- `COLLECTIONS[id].localized` is `false | 'inline' | 'translated'` (music
+  `inline`, `maya-blog` `translated`); a collection's `label` is `Localizable`,
+  read through `inLocale` (exported from `@/shared/i18n` with the type) at
+  `feeds.ts`, `article-page.tsx` and `maya-home-page.tsx`.
+- `src/shared/content/translations.ts` — `splitLocale`, `translatedData` (the
+  translation's frontmatter over its original's, throwing on a stale stamp),
+  `assertTranslated` (an original with no translation throws). Written, **not
+  yet called** — knip will flag it until step 1's loader uses it.
+- `src/shared/content/translation-stamp.ts` (+ test) — `TRANSLATION_STAMP` and
+  `stampFrontmatter`, bare-Node safe for the stamp script.
+- Feeds: `apps/maya/app/blog/{en,ru}/feed.xml/route.ts`; the home page asks for
+  its locale's feed. `feedEntries` does not filter by locale yet.
+
+**Deviation from the plan:** the drift check is the build itself, not a
+`check:translations` script in vet — `translatedData` and `assertTranslated`
+throw at load, so a stale or missing translation fails every build, the deploy's
+included. What replaces the script is `pnpm translation:stamp <original.ru.md>`,
+still to write (`scripts/stamp-translation.ts`, bare Node: `contentHash` of the
+original's whole file → `stampFrontmatter` on the sibling `.md`).
+
+**Left, in order:** the stamp script and its `package.json` entry; step 1's
+loader (`documents.ts`: `parseFileName` learns the locale suffix for a
+`translated` collection, `readDocument` sets `locale`, routes through
+`localizedRoute`, `markdown` from the file's own name, the og card at the
+locale-less route, `translatedData` for the default-locale file,
+`assertTranslated` in `listDocuments`), `articleRoute`'s locale segment, the
+index and `feedEntries` by locale, `read-collection.ts` for the cards; then
+steps 2–9. The posts are still `<slug>.md` in Russian: renaming them to `.ru.md`
+comes with the loader, and translating them is step 7.
