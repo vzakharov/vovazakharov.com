@@ -307,6 +307,15 @@ tree passing.
   by `check:masd`, which runs under bare Node and cannot load the config.
 - **Where the game's page sits stays open** (operator: «пока не трогаем»).
 
+- **6b's untying is done** (62e41dc): every production import the layout would
+  turn sideways or upward now targets a file the layers allow — the cast shadow
+  in `ink.ts`, `Aloft` in `pinhole.ts`, `Drawn` in `placement.ts`,
+  `WithGraphics` in `shapes.ts`, `Chorded` in `repaint-queue.ts`, the cap's
+  seats in a new `shelter-seats.ts`, the footfalls in `walking.ts` — with no
+  behaviour change. The operator asked for 6b on this same PR: «я не вижу смысла
+  приземлять этот слайс отдельно от следующего -- разбиения "грибов" -- так как
+  именно он покажет, правильны ли были наши теоретизирования».
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -317,20 +326,50 @@ The game's dry-run slice tree, every file assigned and nothing moved, is
 `docs/remove-before-merging/masd/one-page-measure/mushrooms-tree.md`, with the
 13 edges it would break.
 
+## Rest of the bite
+
+**6b. Mushrooms restructured along the dry-run tree, on #216.** The layout's
+source is `mushrooms-tree.md` with these overrides, decided while untying:
+`flier-rest` and `furnishing` join `features/meadow` (their one consumer);
+`flower-genes` (which insects and mushrooms both read), `shelter-seats` and
+`firefly` (a one-file slice would be flagged) join `shared/world`. **The map
+stays in the page**: `map-view` computes its flowers with the scene's own layout
+engine (`flowersOf`, `Stand`, `sizeOn`, `DoorSeating`), so a `widgets/map` needs
+those injected rather than moved down — a change of the map's API, left for
+later. The tools (`layout-tools.md` in this bite's directory, three scripts to
+copy into `tmp/modularity/`) print the layout's broken imports (none now), each
+file's slice, importers and imports, and which files reach Phaser.
+
+- **Two barrels where a slice mixes Phaser with pure modules**: `index.ts` holds
+  everything, `index.node-safe.ts` only what reaches no Phaser at runtime — the
+  game's tests run under Node, where importing Phaser throws, so an importer
+  whose names are all node-safe enters by that barrel. Phaser reach per slice:
+  the page 40 of 128, insect 4 of 27, mushroom 7 of 25, flower 1 of 5,
+  `shared/ui` 1 of 8; meadow, `shared/world` and `shared/lib` none. `masd.md`'s
+  node-safe line names this axis beside the bundler one; this barrel spells no
+  extensions, since nothing under bare Node reads it.
+- **27 tests import above their module's layer** — most build the page's
+  `meadowLayout` over `VIEWPORTS` to test a lower module on real screens
+  (`phaser.ts` lists them). Recommended: such a test moves up beside the page,
+  named for what it checks, since it tests the composition; ask the operator
+  before moving them, the alternative being fixtures moved down.
+- **Then the move**: `git mv` per slice (`model/` and `ui/` segments, the
+  scene's files into `ui/`), imports rewritten — relative inside a slice, the
+  barrel across slices, `@/mushrooms/shared/lib/<file>` per sub-library — and
+  barrels exporting what other slices use. `scripts/vet-test.sh`'s `MEADOW` and
+  `test:meadow` in `package.json` widen to `src/mushrooms/`; `README.md`,
+  `.claude/rules/styling.md` and the mushrooms scripts' deep imports follow the
+  paths (the scripts stay grandfathered, entering through public APIs in 7).
+- **Checks**: typecheck, lint (boundaries), `pnpm lint:fsd`, `check:masd` (the
+  meadow and the entities must pass, the meadow by modularity alone), knip, the
+  quick tests, then `pnpm test:meadow` and `pnpm play:mushrooms`, and vova built
+  and the game looked at.
+
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **6b. Mushrooms restructured along the dry-run tree.** `shared/` as `lib`,
-  `world` (ground, eye, weather, dusk, the firefly) and `ui`;
-  `entities/mushroom` (the house, mouse and worm with it), `insect` (pollen with
-  it) and `flower`; `features/meadow` (game, sprouting, saves, `api/`);
-  `widgets/map`, once the nine helpers it takes from the scene move down; the
-  scene, some 120 files the graph shows as one interwoven piece, stays the page.
-  The 13 broken edges in the tree's file are untied first. Mushrooms' scripts
-  then enter it through public APIs, their entries leaving the grandfathered
-  block.
 - **7. The grandfathered script imports, retired.** basilisk's, kernel's,
   shell's and vova's scripts enter their layers through public APIs — a
   `index.node-safe.ts` where a script runs without a bundler — and the
