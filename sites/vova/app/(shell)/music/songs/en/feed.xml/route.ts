@@ -1,4 +1,4 @@
-import { collectionFeed } from '@/kernel/app/lib';
+import { collectionFeed } from '@/blog/app/lib';
 
 import { SONG_FEED } from '@/music/pages/music';
 

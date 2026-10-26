@@ -1,1 +1,5 @@
-export { RootLayout, rootMetadata } from './root-layout';
+export {
+  constructRootMetadata,
+  RootLayout,
+  rootMetadata,
+} from './root-layout';

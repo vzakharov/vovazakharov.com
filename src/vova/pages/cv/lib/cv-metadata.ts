@@ -1,10 +1,8 @@
 import { SITE_CONFIG } from '@/kernel/shared/config';
-import {
-  constructMetadata,
-  localizedAddresses,
-} from '@/kernel/shared/seo/index.server-only';
+import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
 
 import { intrinsicDimensions } from '@/blog/shared/content';
+import { constructMetadata } from '@/blog/shared/seo';
 
 import { cvMessages } from './cv-messages';
 import { cvAddressDefaults } from './cv-route-params';

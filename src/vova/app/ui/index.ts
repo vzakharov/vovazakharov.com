@@ -1,2 +1,2 @@
 export { GlobalNotFound } from './global-not-found';
-export { rootMetadata } from '@/kernel/app/ui';
+export { rootMetadata } from '@/blog/app/lib';
