@@ -35,7 +35,6 @@ import {
 } from './flower-shown';
 import { standOf } from './flower-sight';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
-import { containsFlower } from './hit-areas';
 import type { Lighting } from './ink';
 import type { Seat } from './insect-seat';
 import type { Instrument } from './instrument';
@@ -43,8 +42,11 @@ import type { Answering, ChordTapped } from './instrument-input';
 import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
 import { coversShown, occupantsOn } from './mushroom-cover';
+import { shownMushrooms } from './mushroom-hits';
+import { drawnUnder, flowerTakes } from './mushroom-tap';
 import { inSightPast } from './occupant';
 import { browPale, repaintsDue } from './repaint-queue';
+import { tuftUnder } from './tufts';
 import { type Following, onScreen, type View } from './view';
 
 /**
@@ -53,6 +55,35 @@ import { type Following, onScreen, type View } from './view';
  * letting the hazy hills behind it through, at no repaint.
  */
 const BROW_FADE = 1.5;
+
+/**
+ * A flower head's hit test, bound with its petals' reach `petals()` in the
+ * head's own frame: its tap circle `area` (`flowerTakes`), yielding past the
+ * petals to any mushroom drawn under the finger, and to a bare tuft whose
+ * reach holds it (`tuftUnder`).
+ */
+function containsFlower(petals: () => number) {
+  return (
+    area: Phaser.Geom.Circle,
+    x: number,
+    y: number,
+    flower: Phaser.GameObjects.GameObject,
+  ): boolean =>
+    flowerTakes(
+      Math.hypot(x - area.x, y - area.y),
+      { petals: petals(), tap: area.radius },
+      () => {
+        if (!(flower instanceof Phaser.GameObjects.Graphics)) return false;
+        const finger = flower
+          .getWorldTransformMatrix()
+          .transformPoint(x, y, { x: 0, y: 0 });
+        return (
+          drawnUnder(finger, shownMushrooms(flower.scene)) ||
+          tuftUnder(flower.scene, finger)
+        );
+      },
+    );
+}
 
 /**
  * The meadow's flowers on screen, kept by id, the visit's seeded ones and the

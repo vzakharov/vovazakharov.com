@@ -28,11 +28,13 @@ import { listenOnMeadow } from './meadow-listeners';
 import { meadowOpening } from './meadow-opening';
 import { tapInsect, tapMeadow } from './meadow-taps';
 import { MushroomBed } from './mushroom-bed';
+import { drawnMushrooms } from './mushroom-hits';
 import { type GrowingStand, growingStandOf } from './mushroom-room';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import type { HostBeds } from './perch-hosts';
 import { perchAnchorOf, Perches } from './perches';
 import { Planter, type Scened } from './planter';
+import type { Roof } from './rain-drops';
 import { RainView } from './rain-view';
 import { MeadowSound } from './sound';
 import { sporeOnTap } from './spore-seats';
@@ -51,6 +53,14 @@ const HUD_DEPTH = 2e5;
  * taps.
  */
 const INSECT_DEPTH = 1.5e5;
+
+/** The roofs the rain lands on: each mushroom's cap that takes a tap. */
+function capsOf(scene: Phaser.Scene): Roof[] {
+  return drawnMushrooms(scene).map(({ object, area }) => ({
+    object,
+    top: area.cap,
+  }));
+}
 
 /**
  * The meadow. Everything that varies between visits comes from one seed, so a
@@ -171,7 +181,7 @@ export class MeadowScene extends Phaser.Scene {
     // Over the rain, under the map button.
     this.map.mount(this, HUD_DEPTH - 0.5, actions.map);
     const lit = [this, HUD_DEPTH, this.now, this.scened.dispatch] as const;
-    this.rain = new RainView(...lit, this.voice);
+    this.rain = new RainView(...lit, this.voice, capsOf);
     const ground = { ...this.scened, beds: () => this.beds() };
     this.dusk = new DuskView(...lit, this.voice, {
       ...ground,

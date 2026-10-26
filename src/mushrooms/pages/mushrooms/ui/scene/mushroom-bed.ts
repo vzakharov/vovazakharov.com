@@ -21,13 +21,13 @@ import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorSeats } from './door-seats';
 import { tappedDoor } from './door-tap';
-import { containsMushroom } from './hit-areas';
 import { HouseView } from './house-view';
 import type { Lighting } from './ink';
 import type { Seat } from './insect-seat';
 import type { MeadowLayout } from './layout';
 import { MouseRuns } from './mouse-runs';
 import { moveMushroom } from './mushroom-frame';
+import { containsMushroom } from './mushroom-hits';
 import { mushroomLights } from './mushroom-light';
 import { MushroomSelection } from './mushroom-selection';
 import {

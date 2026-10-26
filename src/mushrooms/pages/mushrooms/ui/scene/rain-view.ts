@@ -1,8 +1,10 @@
 import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
 
 import type { Circle, Point } from '../../model/geometry';
+import type { WithCamera } from '../../model/ground';
 import { widthFor, wobble } from '../../model/motion';
 import {
   downpour,
@@ -13,8 +15,8 @@ import {
 import { sunUp } from './dusk-sky';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
-import { driftedAzimuth } from './panorama';
-import { RainDrops } from './rain-drops';
+import { type Clouded,driftedAzimuth } from './panorama';
+import { RainDrops, type Roof } from './rain-drops';
 import {
   cloudAt,
   cloudDarkness,
@@ -28,11 +30,8 @@ import {
   WASH_DEEPEST,
   wetnessShown,
 } from './rain-sky';
-import { focusTwins, shade } from './twin-fade';
-import type { WithWidth, WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
 import type { Sunned, SunWashed } from './sun-layout';
-import type { Clouded } from './panorama';
+import { focusTwins, shade } from './twin-fade';
 
 /** What the rain asks of the meadow's sound: the shower's hiss, and the whoosh a cloud tap answers with. */
 export type RainSound = {
@@ -84,7 +83,8 @@ export class RainView implements RainTapped {
 
   /**
    * The wash lies just under `hudDepth`, over every creature, leaving the
-   * one depth between it and the HUD for the drops and their splashes.
+   * one depth between it and the HUD for the drops and their splashes,
+   * which land on `roofs`.
    */
   constructor(
     scene: Phaser.Scene,
@@ -92,11 +92,12 @@ export class RainView implements RainTapped {
     now: () => number,
     dispatch: (action: StartRain) => void,
     sound: RainSound,
+    roofs: (scene: Phaser.Scene) => readonly Roof[],
   ) {
     this.now = now;
     this.dispatch = dispatch;
     this.sound = sound;
-    this.drops = new RainDrops(scene, hudDepth - 1);
+    this.drops = new RainDrops(scene, hudDepth - 1, roofs);
     this.camera = scene.cameras.main;
     this.wash = scene.add
       .rectangle(0, 0, 1, 1, PALETTE.rainWash)

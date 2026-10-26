@@ -5,7 +5,6 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { type Circle, lerpPoint, type Point } from '../../model/geometry';
 import { planeSeen } from '../../model/pinhole';
 import { between } from '../../model/random';
-import { type DrawnMushroom, drawnMushrooms } from './hit-areas';
 import { PALETTE } from './palette';
 import {
   dropColumn,
@@ -97,25 +96,38 @@ function bake(scene: Phaser.Scene): void {
 /**
  * The shower's drops and their splashes: at most `MOST_DROPS` images of
  * one baked streak in the air, each falling, slanted, to a landing picked
- * when it starts — the top of the first drawn cap its path crosses, else
+ * when it starts — the first roof its path crosses (`Roof`), else
  * the ground — and splashing there as a ring that widens and fades. One
  * whose path passes behind a cloud shows only once out from under it. A
  * landing is kept as a foot on the plane or a point on its cap and placed
  * afresh each frame, so a splash stays put as the child turns and walks.
  * A drop in the air finishes its fall whatever the downpour does.
  */
+/** A drawn thing a drop may land on: its graphics, and its top's outline in that graphics' own frame. */
+export type Roof = {
+  object: Phaser.GameObjects.Graphics;
+  top: readonly Point[];
+};
+
 export class RainDrops {
   private readonly scene: Phaser.Scene;
   private readonly depth: number;
   private readonly slots: Slot[] = [];
   private readonly matrix = new Phaser.GameObjects.Components.TransformMatrix();
   private readonly parent = new Phaser.GameObjects.Components.TransformMatrix();
-  /** The mushrooms a drop may land on this frame, read once the first drop starts in it. */
-  private caps: DrawnMushroom[] | undefined;
+  /** What in the scene a drop may land on: the mushrooms' caps, as the meadow hands them. */
+  private readonly roofs: (scene: Phaser.Scene) => readonly Roof[];
+  /** The roofs a drop may land on this frame, read once the first drop starts in it. */
+  private caps: readonly Roof[] | undefined;
 
-  constructor(scene: Phaser.Scene, depth: number) {
+  constructor(
+    scene: Phaser.Scene,
+    depth: number,
+    roofs: (scene: Phaser.Scene) => readonly Roof[],
+  ) {
     this.scene = scene;
     this.depth = depth;
+    this.roofs = roofs;
     bake(scene);
   }
 
@@ -203,18 +215,18 @@ export class RainDrops {
     return true;
   }
 
-  /** The first drawn cap the path `from` → `to` crosses, and how far along. */
+  /** The first roof the path `from` → `to` crosses, and how far along. */
   private capOn(
     from: Point,
     to: Point,
   ): (CapLanding & { along: number }) | undefined {
-    this.caps ??= drawnMushrooms(this.scene);
+    this.caps ??= this.roofs(this.scene);
     let first: (CapLanding & { along: number }) | undefined;
-    for (const { object, area } of this.caps) {
+    for (const { object, top } of this.caps) {
       const matrix = object.getWorldTransformMatrix(this.matrix, this.parent);
       const a = matrix.applyInverse(from.x, from.y);
       const b = matrix.applyInverse(to.x, to.y);
-      const along = firstCrossing(area.cap, a, b);
+      const along = firstCrossing(top, a, b);
       if (along === undefined || (first && first.along <= along)) continue;
       first = { cap: object, local: lerpPoint(a, b, along), along };
     }

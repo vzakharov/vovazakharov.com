@@ -5,11 +5,11 @@ import { windowSlots } from '../../model/house';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { mix } from './colour';
 import { paintWindows, type ShownWindow, windowPlace } from './draw-house';
-import { DUSK_WASH_DEEPEST } from './palette-dusk';
-import type { DrawnMushroom } from './hit-areas';
+import type { DrawnMushroom } from './mushroom-hits';
 import { drawnHolds } from './mushroom-tap';
 import { mushroomTints } from './mushroom-tints';
 import { PALETTE } from './palette';
+import { DUSK_WASH_DEEPEST } from './palette-dusk';
 import type { Brush } from './shapes';
 
 /** The halo round a lit window: how far it reaches past the window's middle, in the window's side; its rings, each laid at `HALO_ALPHA` over the ones outside it. */
