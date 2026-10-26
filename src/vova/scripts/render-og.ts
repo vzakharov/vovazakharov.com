@@ -1,9 +1,8 @@
 #!/usr/bin/env tsx
 
 /**
- * vovazakharov.com's Open Graph cards: the core's, the CV's one per framing,
- * and the music section's. `src/kernel/scripts/lib/og-job.ts` carries the
- * contract.
+ * vovazakharov.com's Open Graph cards: blog's, the CV's one per framing, and
+ * the music section's. `src/blog/scripts/lib/og-job.ts` carries the contract.
  */
 
 import path from 'node:path';

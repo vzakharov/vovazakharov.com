@@ -1,10 +1,10 @@
 #!/usr/bin/env tsx
 
 /**
- * basilisk.fyi's Open Graph cards: the core's chart cards, a site card
- * generated with the seal beside the home page's memo in place of one rendered
- * from the mark, and a card per case. `src/kernel/scripts/lib/og-job.ts`
- * carries the contract.
+ * basilisk.fyi's Open Graph cards: blog's chart cards, a site card generated
+ * with the seal beside the home page's memo in place of one rendered from the
+ * mark, and a card per case. `src/blog/scripts/lib/og-job.ts` carries the
+ * contract.
  */
 
 import { CASES } from '@/basilisk/shared/content';

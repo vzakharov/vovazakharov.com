@@ -1,9 +1,9 @@
 #!/usr/bin/env tsx
 
 /**
- * maya.vovazakharov.com's Open Graph cards: the core's chart cards, a site card
+ * maya.vovazakharov.com's Open Graph cards: blog's chart cards, a site card
  * generated with Майя beside her name in place of one rendered from a mark, and
- * a card per post. `src/kernel/scripts/lib/og-job.ts` carries the contract.
+ * a card per post. `src/blog/scripts/lib/og-job.ts` carries the contract.
  */
 
 import { articleCollection } from '@/blog/shared/content';
