@@ -1,6 +1,7 @@
 import 'server-only';
 
 import {
+<<<<<<< HEAD:src/blog/shared/content/feeds.ts
   getAbsoluteUrl,
   siteConfig,
   type SiteId,
@@ -10,12 +11,25 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { feedHtml } from '@/kernel/shared/lib/feed-html';
 import type { RssPodcast, UnlinkedRssItem } from '@/kernel/shared/lib/rss';
 import type { Routed, Titled } from '@/kernel/shared/typings';
+=======
+  DEFAULT_LOCALE,
+  inLocale,
+  loadMessages,
+  type Locale,
+  LOCALES,
+} from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
+import { feedHtml } from '@/shared/lib/feed-html';
+import type { UnlinkedRssItem } from '@/shared/lib/rss';
+import type { Summarized } from '@/shared/typings';
+>>>>>>> origin/main:src/shared/content/feeds.ts
 
 import {
   type CollectionId,
   COLLECTIONS,
   collectionsForSite,
   feedRoutes,
+<<<<<<< HEAD:src/blog/shared/content/feeds.ts
   type WithCollectionId,
 } from './collections';
 import type { LocaleRouted } from './documents';
@@ -23,6 +37,15 @@ import { articleCollection, filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
 export type Feed = WithCollectionId & LocaleRouted & Titled;
+=======
+  type Routed,
+} from './collections';
+import type { RoutedInCollection } from './documents';
+import { filedDate } from './frontmatter';
+import { renderPrimaryDocuments } from './render';
+
+export type Feed = RoutedInCollection & Summarized;
+>>>>>>> origin/main:src/shared/content/feeds.ts
 
 /** An item before its link is made absolute, which is the site's to do. */
 export type FeedEntry = UnlinkedRssItem & Routed;
@@ -51,7 +74,7 @@ export function listFeeds(site: SiteId): Feed[] {
       locale,
       title: [
         collections.length > 1
-          ? `${name} — ${COLLECTIONS[collection].label}`
+          ? `${name} — ${inLocale(COLLECTIONS[collection].label, locale ?? siteConfig(site).locale)}`
           : name,
         ...(locale === undefined ? [] : [`(${locale})`]),
       ].join(' '),
@@ -88,6 +111,7 @@ export function findFeed(
  * `pages/music` reads, so the songs feed is built there.
  */
 export async function feedEntries(
+<<<<<<< HEAD:src/blog/shared/content/feeds.ts
   collection: CollectionId,
 ): Promise<FeedEntry[]> {
   return (await renderPrimaryDocuments(articleCollection(collection))).map(
@@ -99,4 +123,18 @@ export async function feedEntries(
       content: feedHtml(tree, getAbsoluteUrl),
     }),
   );
+=======
+  collection: ArticleCollectionId,
+  locale?: Locale,
+): Promise<FeedEntry[]> {
+  return (
+    await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection], locale)
+  ).map(({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
+    title,
+    ...pick(frontmatter, 'description'),
+    route,
+    published: filedDate(frontmatter),
+    content: feedHtml(tree, getAbsoluteUrl),
+  }));
+>>>>>>> origin/main:src/shared/content/feeds.ts
 }

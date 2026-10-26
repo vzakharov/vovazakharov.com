@@ -1,10 +1,15 @@
 /**
  * The locale list on its own, with no next-intl behind it: a client component
  * that has to recognize a language in a URL imports from here and pulls none of
- * the i18n runtime into the browser bundle.
+ * the i18n runtime into the browser bundle. Bare Node reaches it too, through
+ * `shared/content/locale-suffix.ts`, so its import spells its extension.
  */
 
+<<<<<<< HEAD:src/kernel/shared/i18n/locales.ts
 import { isOneOf } from '@/kernel/shared/lib/collections';
+=======
+import { isOneOf } from '../lib/collections.ts';
+>>>>>>> origin/main:src/shared/i18n/locales.ts
 
 export const LOCALES = ['en', 'ru'] as const;
 
@@ -48,6 +53,32 @@ export function localeTailAddresses<Head extends string>(
   return [[head], ...LOCALES.map<LocaleTail<Head>>((locale) => [head, locale])];
 }
 
+/** A page whose whole address past its own is an optional locale: `[[...locale]]`. */
+export type WithLocaleSegment = { locale?: string[] };
+
+/** Every address such a page answers: the alias, and one per locale. */
+export function localeSegmentParams(): Array<Required<WithLocaleSegment>> {
+  return [[], ...LOCALES.map((locale) => [locale])].map((locale) => ({
+    locale,
+  }));
+}
+
+/**
+ * The language such an address is in. A segment that names none throws, which
+ * under `output: 'export'` fails the build rather than a reader's request.
+ */
+export function parseLocaleSegment({
+  locale: segments = [],
+}: WithLocaleSegment): Locale {
+  const [locale = DEFAULT_LOCALE, ...rest] = segments;
+
+  if (!isLocale(locale) || rest.length > 0) {
+    throw new Error(`/${segments.join('/')} is not a locale.`);
+  }
+
+  return locale;
+}
+
 /**
  * One value per language, built by asking for each. Spelled out rather than
  * mapped over `LOCALES` so it stays cast-free: a third locale fails to compile
@@ -61,7 +92,7 @@ export function byLocale<T>(pick: (locale: Locale) => T): Record<Locale, T> {
  * A string stated once where the languages agree and once per locale where they
  * do not — the common case being the first, a name that is not translated.
  */
-type Localizable<T extends string = string> = T | Record<Locale, T>;
+export type Localizable<T extends string = string> = T | Record<Locale, T>;
 
 export function inLocale<T extends string>(
   value: Localizable<T>,

@@ -1,9 +1,15 @@
+<<<<<<< HEAD:src/music/pages/music/ui/locale-chips.tsx
 import { type Locale, LOCALES, type WithLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { type Chip, ChipNav } from '@/shell/shared/ui';
 
 import { messages } from '@/music/shared/i18n';
+=======
+import { loadMessages, type Locale, type WithLocale } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
+import { ChipNav, localeChips } from '@/shared/ui';
+>>>>>>> origin/main:src/pages/music/ui/locale-chips.tsx
 
 import { ScriptChip } from './script-chip';
 
@@ -24,14 +30,7 @@ export type LocaleChipsProps = WithLocale & {
  * without asking the client which language it is in.
  */
 export function LocaleChips({ locale, hrefs, sample }: LocaleChipsProps) {
-  const chips = LOCALES.map(
-    (alternate): Chip => ({
-      label: alternate.toUpperCase(),
-      href: hrefs[alternate],
-      hrefLang: alternate,
-      current: alternate === locale,
-    }),
-  );
+  const chips = localeChips(locale, (alternate) => hrefs[alternate]);
 
   return (
     <ChipNav

@@ -14,6 +14,7 @@ import type { BuiltinLanguage } from 'shiki';
 import { unified } from 'unified';
 import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
+<<<<<<< HEAD:src/blog/shared/content/render.ts
 import { getAbsoluteUrl, SITE_CONFIG } from '@/kernel/shared/config';
 import type {
   MaybeTitled,
@@ -21,6 +22,11 @@ import type {
   WithId,
   WithText,
 } from '@/kernel/shared/typings';
+=======
+import { getAbsoluteUrl, SITE_CONFIG } from '@/shared/config';
+import type { Locale } from '@/shared/i18n';
+import type { MaybeTitled, Titled, WithId, WithText } from '@/shared/typings';
+>>>>>>> origin/main:src/shared/content/render.ts
 
 import type { Variant } from './collections';
 import {
@@ -272,9 +278,10 @@ export type DocumentCard<F extends BaseFrontmatter = BaseFrontmatter> =
  */
 export async function renderPrimaryDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
+  locale?: Locale,
 ): Promise<Array<DocumentCard<F>>> {
   return Promise.all(
-    listPrimaryDocuments(collection)
+    listPrimaryDocuments(collection, locale)
       .filter((document) => isListed(document))
       .map(async (document) => ({
         document,

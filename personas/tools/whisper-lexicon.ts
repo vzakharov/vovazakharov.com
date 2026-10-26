@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Teaches the listening post on maya.vovazakharov.com/whisper its language: counts
+ * Teaches the listening post on mayawonders.com/whisper its language: counts
  * every word in the markdown the sites serve and writes the commonest, with
  * the commit they were counted at, to the lexicon the page decodes against.
  *

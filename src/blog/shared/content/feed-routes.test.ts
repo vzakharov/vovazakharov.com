@@ -42,7 +42,8 @@ describe('feedRoutes', () => {
       { route: '/cases/feed.xml' },
     ]);
     assert.deepEqual(feedRoutes('maya-blog', LOCALES), [
-      { route: '/blog/feed.xml' },
+      { route: '/blog/en/feed.xml', locale: 'en' },
+      { route: '/blog/ru/feed.xml', locale: 'ru' },
     ]);
   });
 

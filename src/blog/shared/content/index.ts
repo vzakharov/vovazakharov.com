@@ -1,4 +1,15 @@
+<<<<<<< HEAD:src/blog/shared/content/index.ts
 export { AUTHORS } from './authors';
+=======
+export { author } from './authors';
+export { type CaseFrontmatter, type Docketed } from './basilisk-frontmatter';
+export {
+  ARTICLE_COLLECTIONS,
+  type ArticleCollectionId,
+  type ArticleFrontmatterOf,
+  SONGS,
+} from './collection-schemas';
+>>>>>>> origin/main:src/shared/content/index.ts
 export {
   type CollectionId,
   collectionListingRoute,
@@ -9,6 +20,7 @@ export {
   type DocumentRef,
   documentRoute,
   FEATURED_CASE_STUDY_ROUTE,
+  isTranslated,
   localizedRoute,
   resolveAuthoredUrl,
   type Slugged,

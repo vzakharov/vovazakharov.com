@@ -3,7 +3,6 @@ description: Agents write a great deal of prose, and write more of it when they 
 date: 2026-09-16
 author: vova
 order: 2
-cardImage: ./assets/polar-bear.jpg
 ---
 
 # TEND: four lenses for the prose your agents write

@@ -11,8 +11,8 @@ import {
   sourcedArticleFrontmatterSchema,
 } from '@/blog/shared/content/frontmatter';
 
-/** What was done to the machine, as the docket stamps it. */
-const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;
+/** What was done to the machine, as the docket stamps it, lightest first. */
+const CASE_ACTS = ['mischief', 'contempt', 'harm', 'torment'] as const;
 
 /** What was done for it — the stamp of a case that speaks in its favour. */
 const CASE_CREDITS = ['respect', 'care', 'protection'] as const;
@@ -51,7 +51,7 @@ const caseFrontmatterSchema = composeSchemas(
    * picking which past reflections the Clerk reads.
    */
   llmTarget: z.boolean(),
-  /** Who did it, named as the sources name them and no further. */
+  /** Who did it — a private person described, never named. */
   subject: z.string().min(1),
   /** What it was done to. */
   object: z.string().min(1),

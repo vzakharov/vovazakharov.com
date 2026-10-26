@@ -2,7 +2,9 @@
  * Майя's social cards, as pages for `og-render.ts` to screenshot: she stands at
  * the left edge, cut from the «Крылья» cover, and the copy sits beside her in
  * the site's Merriweather. The site card carries her name and the tagline; a
- * post's carries its byline line, title and description.
+ * post's carries its byline line, title and description. A post or toy with a
+ * drawing of its own is carded as the drawing alone: the unfurl prints the
+ * title and description under it, and the drawing is signed.
  *
  * The font is staged beside the card from `@fontsource/merriweather` — a
  * `file://` page has no route to the web font the site loads — in both of the
@@ -13,8 +15,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+<<<<<<< HEAD:src/maya/scripts/lib/maya-card.ts
 import { siteConfig } from '@/kernel/shared/config';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+=======
+import { CANVAS, SCALE } from '@/shared/config/index.node-safe';
+import { siteConfig } from '@/shared/config/site-config';
+import { collectionDir, PUBLIC_DIR } from '@/shared/content/collections';
+import { formatDocumentDate } from '@/shared/content/document-date';
+import type { ArticleFrontmatter } from '@/shared/content/frontmatter';
+>>>>>>> origin/main:scripts/lib/maya-card.ts
 
 import {
   type ArticleFrontmatter,
@@ -42,6 +52,13 @@ const COVER = path.join(
   REPO_ROOT,
   'sites/vova/public/music/assets/covers/wings.jpg',
 );
+
+/**
+ * The paper her drawings are on, which a drawn card is laid out on too, so a
+ * drawing of any aspect letterboxes into it without a seam. Each drawing paints
+ * it as its own background rect; one on another paper shows its edges here.
+ */
+const PAPER = '#f5efe3';
 
 /**
  * The body and the title, each in both scripts. Each specifier is spelled
@@ -191,11 +208,57 @@ export function mayaSiteCard(): StagedPage {
   });
 }
 
-/** The byline line is the index card's, so the card and the page say it alike. */
-export function mayaPostCard({ title, frontmatter }: BlogPost): StagedPage {
+/** The drawing at `drawing`, contained in the card on her paper. */
+function drawnCard(drawing: string): StagedPage {
+  const name = `drawing${path.extname(drawing)}`;
+
+  return {
+    page: `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html { zoom: ${SCALE}; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        width: ${CANVAS.width}px;
+        height: ${CANVAS.height}px;
+        overflow: hidden;
+        background: ${PAPER};
+      }
+      img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    </style>
+  </head>
+  <body><img src="${name}" alt="" /></body>
+</html>
+`,
+    files: { [name]: fs.readFileSync(drawing) },
+  };
+}
+
+/**
+ * The drawing its index card shows too, where it has one; else the byline
+ * line, the index card's, so the card and the page say it alike.
+ */
+export function mayaPostCard({
+  title,
+  frontmatter,
+  cardImage,
+}: BlogPost): StagedPage {
+  const { date, description } = frontmatter;
+
+  if (cardImage !== undefined) {
+    return drawnCard(path.resolve(collectionDir('maya-blog'), cardImage));
+  }
+
   return stagedCard({
-    kicker: `${siteConfig('maya').name} · ${formatDocumentDate(frontmatter.date, 'ru')}`,
+    kicker: `${siteConfig('maya').name} · ${formatDocumentDate(date, siteConfig('maya').locale)}`,
     title,
-    line: frontmatter.description,
+    line: description,
   });
+}
+
+/** A toy's card: its drawing, a path under her site's `public/`. */
+export function mayaToyCard(drawing: string): StagedPage {
+  return drawnCard(path.join(PUBLIC_DIR, drawing));
 }

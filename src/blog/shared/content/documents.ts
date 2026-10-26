@@ -4,12 +4,22 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
+<<<<<<< HEAD:src/blog/shared/content/documents.ts
 import { pageFile, type SiteId } from '@/kernel/shared/config';
 import type { WithOptionalLocale } from '@/kernel/shared/i18n';
 import {
   routeCardPath,
   type WithOptionalOgImageSize,
 } from '@/kernel/shared/seo';
+=======
+import { pageFile, type SiteId } from '@/shared/config';
+import {
+  DEFAULT_LOCALE,
+  type Locale,
+  type WithOptionalLocale,
+} from '@/shared/i18n';
+import { routeCardPath } from '@/shared/seo';
+>>>>>>> origin/main:src/shared/content/documents.ts
 import type {
   DocumentFile,
   Routed,
@@ -25,13 +35,19 @@ import {
   COLLECTIONS,
   collectionsForSite,
   documentName,
-  type DocumentRef,
   documentRoute,
   isDocumentFile,
+<<<<<<< HEAD:src/blog/shared/content/documents.ts
+=======
+  isTranslated,
+  type Routed,
+  type Slugged,
+>>>>>>> origin/main:src/shared/content/documents.ts
   type Variant,
   VARIANTS,
   type WithCollectionId,
 } from './collections';
+<<<<<<< HEAD:src/blog/shared/content/documents.ts
 import {
   type BaseFrontmatter,
   baseFrontmatterSchema,
@@ -40,14 +56,38 @@ import {
   type WithFrontmatter,
 } from './frontmatter';
 import { intrinsicDimensions } from './image-dimensions';
+=======
+import { firstImage } from './first-image';
+import type {
+  BaseFrontmatter,
+  Collection,
+  FrontmatterReader,
+  WithFrontmatter,
+} from './frontmatter';
+import {
+  intrinsicDimensions,
+  type WithOptionalOgImageSize,
+} from './image-dimensions';
+import { splitLocale } from './locale-suffix';
+import { assertTranslated, translatedData } from './translations';
+>>>>>>> origin/main:src/shared/content/documents.ts
 
 /** An address, and the one language it is in where it is in one. */
-export type LocaleRouted = Routed & WithOptionalLocale;
+type LocaleRouted = Routed & WithOptionalLocale;
+
+/** A collection's page — a document or a feed — at its address. */
+export type RoutedInCollection = WithCollectionId & LocaleRouted;
 
 /** Where `public/` serves the card and how big it is — resolved together so they cannot disagree. */
 type ResolvedOgImage = WithOptionalOgImageSize & {
   /** Where `public/` serves the page's own card; absent where it unfurls as the site's. */
   ogImageUrl?: string;
+};
+
+/** A document's slug and which cut of it a file is. */
+type SluggedCut = Slugged & {
+  /** Absent on the full document; set on each shorter cut. */
+  variant?: Variant;
 };
 
 /**
@@ -59,17 +99,15 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
  * print's file from the route itself.
  */
 export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
-  DocumentRef &
+  SluggedCut &
     ProseSource &
     WithFrontmatter<F> &
     ResolvedOgImage &
     WithCardImage &
-    // The language is this reading's; absent on the file as authored, which
-    // carries both.
-    LocaleRouted & {
-      /** Absent on the full document; set on each shorter cut. */
-      variant?: Variant;
-    };
+    // The language is this reading's: a translated collection's file is in
+    // one, and its route names it; absent on a file as authored that carries
+    // both.
+    RoutedInCollection;
 
 /** The collection a body's relative links resolve in, and the file they resolve beside. */
 export type FileInCollection = WithCollectionId & WithFileName;
@@ -88,7 +126,7 @@ export type ProseSource = FileInCollection &
 type ResolvedImage = Sized & Sourced;
 
 type WithCardImage = {
-  /** The frontmatter's `cardImage`, resolved as `ogImageUrl` is. */
+  /** The frontmatter's `cardImage`, else the body's first image, resolved as `ogImageUrl` is. */
   cardImage?: ResolvedImage;
 };
 
@@ -146,29 +184,66 @@ export type WithContentDocument<F extends BaseFrontmatter = BaseFrontmatter> = {
   document: ContentDocument<F>;
 };
 
-/**
- * Splits `<slug>[.<variant>].md` into its parts. A trailing segment that is not
- * a known variant stays part of the slug, so `foo.bar.md` is the document
- * `foo.bar` rather than a variant nobody declared.
- */
-function parseFileName(fileName: string): { slug: string; variant?: Variant } {
-  const stem = fileName.replace(/\.md$/, '');
-  const variant = VARIANTS.find((candidate) => stem.endsWith(`.${candidate}`));
+type ParsedFileName = WithOptionalLocale &
+  SluggedCut & {
+    /** Whether the file is a translation, its frontmatter completed from its original's. */
+    translation: boolean;
+  };
 
-  return variant
+/**
+ * Splits `<slug>[.<variant>][.<locale>].md` into its parts. A trailing segment
+ * that is not a known variant stays part of the slug, so `foo.bar.md` is the
+ * document `foo.bar` rather than a variant nobody declared. A locale suffix is
+ * read only in a translated collection, where every file names its language
+ * and the default language's is the translation.
+ */
+function parseFileName(
+  collection: CollectionId,
+  fileName: string,
+): ParsedFileName {
+  const translated = isTranslated(collection);
+  const bare = fileName.replace(/\.md$/, '');
+  const { stem, locale } = translated ? splitLocale(bare) : { stem: bare };
+  const variant = VARIANTS.find((candidate) => stem.endsWith(`.${candidate}`));
+  const name = variant
     ? { slug: stem.slice(0, -(variant.length + 1)), variant }
     : { slug: stem };
+
+  if (!translated) return { ...name, translation: false };
+
+  if (locale === undefined) {
+    throw new Error(
+      `${fileName} names no language: a translated collection's files are <slug>.<locale>.md.`,
+    );
+  }
+
+  return { ...name, locale, translation: locale === DEFAULT_LOCALE };
+}
+
+/** The file one locale's reading of a document is in. */
+function documentFileName(
+  collection: CollectionId,
+  name: string,
+  locale?: Locale,
+): string {
+  return isTranslated(collection)
+    ? `${name}.${locale ?? DEFAULT_LOCALE}.md`
+    : `${name}.md`;
 }
 
 function collectionFile(collection: CollectionId, fileName: string): string {
   return path.join(collectionDir(collection), fileName);
 }
 
-/** A file's frontmatter, read by `schema`, and the body under it. */
+/**
+ * A file's frontmatter, read by `schema`, and the body under it. `complete`
+ * fills in what the file leaves to another — a translation's original.
+ */
 function readMatter<F>(
   collection: CollectionId,
   fileName: string,
   schema: FrontmatterReader<F>,
+  complete: (data: Record<string, unknown>) => unknown = (data) => data,
 ): { frontmatter: F; content: string } {
   const raw = fs.readFileSync(collectionFile(collection, fileName), {
     encoding: 'utf8',
@@ -180,7 +255,7 @@ function readMatter<F>(
   try {
     const { data, content } = matter(raw);
 
-    return { frontmatter: schema.parse(data), content };
+    return { frontmatter: schema.parse(complete(data)), content };
   } catch (error) {
     throw new Error(`Invalid frontmatter in ${fileName}`, {
       cause: error instanceof Error ? error : new Error(String(error)),
@@ -192,21 +267,34 @@ function readDocument<F extends BaseFrontmatter>(
   { id, schema }: Collection<F>,
   fileName: string,
 ): ContentDocument<F> {
-  const { slug, variant } = parseFileName(fileName);
-  const { frontmatter, content } = readMatter(id, fileName, schema);
-  const route = documentRoute(id, slug, variant);
+  const { slug, variant, locale, translation } = parseFileName(id, fileName);
+  const { frontmatter, content } = readMatter(
+    id,
+    fileName,
+    schema,
+    translation
+      ? (data) => translatedData(collectionDir(id), fileName, data)
+      : undefined,
+  );
+  // The card is one for every language, so it sits at the locale-less route.
+  const cardRoute = documentRoute(id, slug, variant);
+  const route = documentRoute(id, slug, variant, locale);
 
   return {
     collection: id,
     slug,
     variant,
+    locale,
     frontmatter,
     body: content,
     fileName,
-    markdown: pageFile(route, 'md'),
+    markdown: pageFile(
+      collectionAssetUrl(id, fileName.replace(/\.md$/, '')),
+      'md',
+    ),
     route,
-    ...resolveOgImage(id, route, frontmatter.ogImage),
-    ...resolveCardImage(id, frontmatter.cardImage),
+    ...resolveOgImage(id, cardRoute, frontmatter.ogImage),
+    ...resolveCardImage(id, frontmatter.cardImage ?? firstImage(content)),
   };
 }
 
@@ -223,22 +311,36 @@ function byReadingOrder(a: ContentDocument, b: ContentDocument): number {
   return ordered || b.frontmatter.date.getTime() - a.frontmatter.date.getTime();
 }
 
-/** Every document in a collection, variants included, in reading order. */
+/**
+ * Every document in a collection, variants and every language's reading
+ * included, in reading order.
+ */
 export function listDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
 ): Array<ContentDocument<F>> {
-  return fs
+  const fileNames = fs
     .readdirSync(collectionDir(collection.id))
-    .filter((fileName) => isDocumentFile(fileName))
+    .filter((fileName) => isDocumentFile(fileName));
+
+  if (isTranslated(collection.id)) assertTranslated(fileNames);
+
+  return fileNames
     .map((fileName) => readDocument(collection, fileName))
     .toSorted(byReadingOrder);
 }
 
-/** The full documents only, without the shorter cuts. */
+/**
+ * The full documents only, without the shorter cuts — in `locale` where a
+ * collection keeps one file per language.
+ */
 export function listPrimaryDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
+  locale: Locale = DEFAULT_LOCALE,
 ): Array<ContentDocument<F>> {
-  return listDocuments(collection).filter((doc) => !doc.variant);
+  return listDocuments(collection).filter(
+    (doc) =>
+      !doc.variant && (!isTranslated(collection.id) || doc.locale === locale),
+  );
 }
 
 // A build ignores the variable, which is what keeps one left in a shell out of
@@ -260,8 +362,13 @@ export function loadDocument<F extends BaseFrontmatter>(
   collection: Collection<F>,
   slug: string,
   variant?: Variant,
+  locale?: Locale,
 ): ContentDocument<F> | undefined {
-  const fileName = `${documentName(slug, variant)}.md`;
+  const fileName = documentFileName(
+    collection.id,
+    documentName(slug, variant),
+    locale,
+  );
   return fs.existsSync(collectionFile(collection.id, fileName))
     ? readDocument(collection, fileName)
     : undefined;
@@ -301,7 +408,10 @@ export function siblingVariants(
 ): Variant[] {
   return VARIANTS.filter((variant) =>
     fs.existsSync(
-      collectionFile(collection, `${documentName(slug, variant)}.md`),
+      collectionFile(
+        collection,
+        documentFileName(collection, documentName(slug, variant)),
+      ),
     ),
   );
 }

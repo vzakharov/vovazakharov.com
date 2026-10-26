@@ -13,45 +13,90 @@ import {
   type ArticleFrontmatter,
   type Collection,
   collectionListingRoute,
+  collectionRoute,
   COLLECTIONS,
   documentName,
+  isTranslated,
   listDocuments,
   loadDocument,
   renderDocument,
   siblingVariants,
   type Variant,
   VARIANTS,
+<<<<<<< HEAD:src/blog/pages/documents/ui/article-page.tsx
 } from '@/blog/shared/content';
 import { constructArticleMetadata } from '@/blog/shared/seo';
 import { ProseContent, SourceList } from '@/blog/entities/document';
+=======
+} from '@/shared/content';
+import {
+  DEFAULT_LOCALE,
+  inLocale,
+  isLocale,
+  type Locale,
+  localeTailAddresses,
+} from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
+import { constructArticleMetadata } from '@/shared/seo/index.server-only';
+import type { WithParams } from '@/shared/typings';
+import { hoverDim, TextLink } from '@/shared/ui';
+
+import { ProseContent, SourceList } from '@/entities/document';
+
+import { SiteFooter } from '@/widgets/site-footer';
+>>>>>>> origin/main:src/pages/documents/ui/article-page.tsx
 
 import { ArticleHeader } from './article-header';
 import classes from './documents.module.scss';
 import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';
 
+<<<<<<< HEAD:src/blog/pages/documents/ui/article-page.tsx
 /** The catch-all's own segment: `<slug>[.<variant>]`, still to be split. */
+=======
+/**
+ * The registry restated per key, which the compiler checks entry by entry; a
+ * lookup by a generic id then reads as that collection's own frontmatter,
+ * where one on `ARTICLE_COLLECTIONS` widens to the union of all three.
+ */
+const HANDLES: {
+  [C in ArticleCollectionId]: Collection<ArticleFrontmatterOf<C>>;
+} = ARTICLE_COLLECTIONS;
+
+/**
+ * The catch-all's own segments: `<slug>[.<variant>]`, still to be split, and
+ * the locale after it where the collection keeps one file per language.
+ */
+>>>>>>> origin/main:src/pages/documents/ui/article-page.tsx
 type WithSlugSegments = { slug: string[] };
 
 type Props = WithParams<WithSlugSegments>;
 
 /**
- * Splits the single `<slug>[.<variant>]` segment. A trailing suffix that is not
- * a known variant stays part of the slug — the same rule `parseFileName`
- * applies to file names, which is what keeps route and file in agreement.
+ * Splits the `<slug>[.<variant>]` segment. A trailing suffix that is not a
+ * known variant stays part of the slug — the same rule `parseFileName` applies
+ * to file names, which is what keeps route and file in agreement. A locale
+ * segment after it is read only where `translated` says the collection has
+ * one.
  */
 function parseSegments(
   segments: string[],
-): { slug: string; variant?: Variant } | undefined {
-  const [name] = segments;
+  translated: boolean,
+): { slug: string; variant?: Variant; locale?: Locale } | undefined {
+  const [name, locale, ...rest] = segments;
 
-  if (segments.length !== 1 || name === undefined) return undefined;
+  if (name === undefined || rest.length > 0) return undefined;
+  if (locale !== undefined && !(translated && isLocale(locale))) {
+    return undefined;
+  }
 
   const variant = VARIANTS.find((candidate) => name.endsWith(`.${candidate}`));
+  const parsed =
+    variant === undefined
+      ? { slug: name }
+      : { slug: name.slice(0, -(variant.length + 1)), variant };
 
-  return variant === undefined
-    ? { slug: name }
-    : { slug: name.slice(0, -(variant.length + 1)), variant };
+  return translated ? { ...parsed, locale: locale ?? DEFAULT_LOCALE } : parsed;
 }
 
 /**
@@ -60,16 +105,25 @@ function parseSegments(
  * articles are this one page — the collection and what it adds to the page are
  * all that differs, and both arrive from whichever router mounted it.
  */
+<<<<<<< HEAD:src/blog/pages/documents/ui/article-page.tsx
 export function articleRoute<F extends ArticleFrontmatter>(
   handle: Collection<F>,
   slots: ArticleSlots<F> = {},
 ) {
   const { id: collection } = handle;
+=======
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters -- `C` correlates HANDLES[collection] with ARTICLE_SLOTS[collection] (microsoft/TypeScript#47109); without it `slots.brief` takes no document type
+export function articleRoute<C extends ArticleCollectionId>(collection: C) {
+  const handle = HANDLES[collection];
+  const slots = ARTICLE_SLOTS[collection];
+  const translated = isTranslated(collection);
+>>>>>>> origin/main:src/pages/documents/ui/article-page.tsx
 
   async function resolve(params: Props['params']) {
-    const parsed = parseSegments((await params).slug);
+    const parsed = parseSegments((await params).slug, translated);
     const document =
-      parsed && loadDocument(handle, parsed.slug, parsed.variant);
+      parsed &&
+      loadDocument(handle, parsed.slug, parsed.variant, parsed.locale);
 
     if (!document) notFound();
 
@@ -78,12 +132,19 @@ export function articleRoute<F extends ArticleFrontmatter>(
 
   /**
    * One catch-all covers the full document and each of its cuts, so a new
-   * markdown file in the collection is a new page with no route work.
+   * markdown file in the collection is a new page with no route work. A
+   * translated document answers at its locale-less alias and once per
+   * language, each language's file listed once.
    */
   function generateStaticParams() {
-    return listDocuments(handle).map(({ slug, variant }) => ({
-      slug: [documentName(slug, variant)],
-    }));
+    return listDocuments(handle)
+      .filter(({ locale }) => !translated || locale === DEFAULT_LOCALE)
+      .flatMap(({ slug, variant }) => {
+        const name = documentName(slug, variant);
+
+        return translated ? localeTailAddresses(name) : [[name]];
+      })
+      .map((segments) => ({ slug: segments }));
   }
 
   async function generateMetadata({ params }: Props) {
@@ -96,6 +157,7 @@ export function articleRoute<F extends ArticleFrontmatter>(
     const { document, rendered } = await resolve(params);
     const { route, slug, frontmatter } = document;
     const { title, readingMinutes, headings, tree } = rendered;
+    const locale = document.locale ?? SITE_CONFIG.locale;
 
     return (
       <Box className={classes['articlePage']}>
@@ -103,11 +165,11 @@ export function articleRoute<F extends ArticleFrontmatter>(
           <Stack gap={32}>
             <Group component="nav" className="print-hidden">
               <TextLink
-                href={collectionListingRoute(collection)}
+                href={collectionListingRoute(collection, document.locale)}
                 size="sm"
                 className={hoverDim}
               >
-                ← {COLLECTIONS[collection].label}
+                ← {inLocale(COLLECTIONS[collection].label, locale)}
               </TextLink>
             </Group>
 
@@ -144,7 +206,10 @@ export function articleRoute<F extends ArticleFrontmatter>(
               </Box>
             </PrintSheet>
 
-            <SiteFooter />
+            <SiteFooter
+              {...{ locale }}
+              home={collectionRoute(collection, document.locale)}
+            />
           </Stack>
         </Container>
       </Box>

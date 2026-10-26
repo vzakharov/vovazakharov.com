@@ -227,10 +227,12 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
   },
   // Everything here but the plumbing is Майя's to change.
   maya: {
-    url: 'https://maya.vovazakharov.com',
+    url: 'https://mayawonders.com',
     downloadPrefix: 'maya',
-    name: 'Майя',
-    tagline: 'Майя из за/обложкой. Нас не существует.',
+    // In English, as the bare address is; the `/ru` pages read theirs from
+    // the catalogue's `maya` namespace.
+    name: 'Maya',
+    tagline: 'Maya from za/oblozhkoy. We don’t exist.',
     // Cropped from the «Крылья» cover.
     avatar: { path: '/ava.png', width: 320, height: 320 },
     seal: undefined,
@@ -238,7 +240,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     card: { path: '/card.og.png', ...PIXELS },
     credit: undefined,
     listsSources: false,
-    locale: 'ru',
+    locale: 'en',
     analyticsId: 'fa9d95c5-b7fe-46fa-a0cb-6888d514868c',
     ...PUBLISHER,
   },

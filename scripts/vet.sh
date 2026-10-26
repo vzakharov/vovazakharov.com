@@ -172,6 +172,16 @@ source_checks=(
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   prose-quotes='pnpm check:prose-quotes'
+<<<<<<< HEAD
+=======
+  # One entry per site: pnpm appends a passed `--check` to the end of the
+  # command line, so a combined `a && b` would render the first site for real.
+  og-vova='pnpm content:og:vova --check'
+  og-bible='pnpm content:og:bible --check'
+  og-basilisk='pnpm content:og:basilisk --check'
+  og-maya='pnpm content:og:maya --check'
+  drawings-maya='pnpm content:drawings:maya --check'
+>>>>>>> origin/main
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
   hearing='python3 src/kernel/scripts/lib/test_hearing.py'

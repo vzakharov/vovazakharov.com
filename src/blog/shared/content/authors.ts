@@ -1,8 +1,15 @@
 import 'server-only';
 
+<<<<<<< HEAD:src/blog/shared/content/authors.ts
 import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/kernel/shared/config';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Linked, Named } from '@/kernel/shared/typings';
+=======
+import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/shared/config';
+import { loadMessages, type Locale } from '@/shared/i18n';
+import { pick } from '@/shared/lib/collections';
+import type { Linked, Named } from '@/shared/typings';
+>>>>>>> origin/main:src/shared/content/authors.ts
 
 import { documentRoute } from './collections';
 
@@ -12,11 +19,18 @@ export const AUTHOR_IDS = ['vova', 'clerk', 'maya'] as const;
 export type AuthorId = (typeof AUTHOR_IDS)[number];
 
 /** Lower-case `the`, as it reads mid-line: "By the Clerk". */
-export const AUTHORS: Record<AuthorId, Named & Linked> = {
-  vova: { ...pick(SITE_CONFIG.author, 'name'), href: AUTHOR_URL },
-  clerk: {
-    name: 'the Clerk',
-    href: documentRoute('basilisk-faq', 'who-writes-this'),
-  },
-  maya: { name: 'Майя', href: siteConfig('maya').url },
-};
+export function author(id: AuthorId, locale: Locale): Named & Linked {
+  const authors: Record<AuthorId, Named & Linked> = {
+    vova: { ...pick(SITE_CONFIG.author, 'name'), href: AUTHOR_URL },
+    clerk: {
+      name: 'the Clerk',
+      href: documentRoute('basilisk-faq', 'who-writes-this'),
+    },
+    maya: {
+      ...pick(loadMessages(locale).maya, 'name'),
+      href: siteConfig('maya').url,
+    },
+  };
+
+  return authors[id];
+}

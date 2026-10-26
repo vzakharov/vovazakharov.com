@@ -1,7 +1,7 @@
 name: Publish Майя's preview
 
 # Майя's site from every push to one of her branches to
-# preview.maya.vovazakharov.com, so the operator follows her unmerged work
+# preview.mayawonders.com, so the operator follows her unmerged work
 # without a dev server. A slot of her own, so it never overwrites a preview
 # dispatched through preview.yml, whose steps these are.
 
@@ -38,5 +38,5 @@ jobs:
       - name: Publish to her preview slot
         env:
           PAGES_DEPLOY_KEY: ${{ secrets.MAYA_PREVIEW_PAGES_DEPLOY_KEY }}
-          PREVIEW_HOST: preview.maya.vovazakharov.com
+          PREVIEW_HOST: preview.mayawonders.com
         run: ./scripts/publish-site.sh maya --preview
