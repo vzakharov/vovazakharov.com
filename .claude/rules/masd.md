@@ -182,7 +182,10 @@ as `shared/config` is.
   off, because one root's reference map is exactly what it cannot see past. This
   is why the CV locale picker lives in `vova/pages/cv/ui/` and the home page's
   project and article cards in `vova/pages/home/ui/`, rather than each becoming
-  a feature.
+  a feature. **One consumer is enough for a slice with a narrow public API** —
+  its barrels handing on at most a third of the names its files export — since a
+  slice hiding the rest is a module whoever uses it, and a count alone would
+  keep a one-page app a single slice.
 - **An app's tooling is its `scripts/`, beside its layers rather than one of
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
