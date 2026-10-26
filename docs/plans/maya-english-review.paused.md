@@ -42,12 +42,10 @@ planless work recorded here because the session paused at its context budget.
 - **Playgram's card** — stays the chart (Vova: «playgram -- ок»).
 - **T04, the squash record's focus** — Vova: «что-то прогулке здесь очень мало
   места посвящено -- я б скорее её делал в фокусе, а перевод -- это важный, но
-  ride-along». Done in 3454416 (the file); **not posted**: the auto-mode
-  classifier denied PATCHing the PR comment and title. Post it
-  (`gh api repos/vzakharov/vovazakharov.com/issues/comments/6406855429 -X PATCH -F body=@docs/remove-before-merging/squash-message.md`)
-  and set the title to
-  `feat: Майя's walk on fungi with two names, and her site in English` once Vova
-  OKs it.
+  ride-along». Done in 3454416, posted to the proposal comment and the PR title
+  (`feat: Майя's walk on fungi with two names, and her site in English`) on
+  Vova's «разрешаю обновить сквош-комментарий». A later refresh keeps the walk
+  first and the English site a ride-along.
 
 ## Done
 
