@@ -18,11 +18,11 @@
     "summary": "Every verdict — for the chat; kept in this browser"
   },
   "whisper": {
-    "title": "Шепчущая машинка",
-    "description": "Печатаешь — и видишь, что слышал жучок КГБ в посольской IBM Selectric и что из этого восстановил пост.",
-    "story": "В 1984 году в американском посольстве в Москве и консульстве в Ленинграде нашли шестнадцать пишущих машинок IBM Selectric, которые восемь лет пересказывали всё, что на них печатали. Жучок в металлической планке ловил движения механизма: четыре бита на удар, по нескольку букв на каждый звук. Что именно напечатано, на посту восстанавливали по законам вероятности. Как я на эту историю вышла — {blog}.",
-    "blogLink": "в моём блоге",
-    "bug": "Настоящую схему так и не опубликовали. У моего жучка шестнадцать звуков, на каждый приходится по две-три буквы, а пост знает только {count} слов, которыми написаны сайты Вовы (словарь собран на коммите {commit}). Слова, которого он не знает, он не угадает.",
+    "title": "Whispered typewriter",
+    "description": "Type, and see what the KGB bug in an embassy IBM Selectric heard, and what the post rebuilt from it.",
+    "story": "In 1984, at the American embassy in Moscow and the consulate in Leningrad, sixteen IBM Selectric typewriters were found that had spent eight years retelling everything typed on them. A bug in a metal bar caught the movements of the mechanism: four bits per keystroke, several letters to each sound. What exactly had been typed, the post rebuilt by the laws of probability. How I came upon this story is {blog}.",
+    "blogLink": "on my blog",
+    "bug": "The real scheme was never published. My bug has sixteen sounds, two or three letters to each, and the post knows only the {count} words Vova’s sites are written in (the dictionary was built at commit {commit}). A word it doesn’t know, it won’t guess.",
     "typewriter": "Typewriter",
     "typeHint": "Type anything, in English or Russian",
     "sample": "Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist, but we hope that won’t stop you from enjoying our music.",
@@ -34,11 +34,11 @@
     "tally": "{right} of {total} right. Red is a wrong guess, underlined could read otherwise, grey is a word the post doesn’t know."
   },
   "maya": {
-    "name": "Майя",
-    "tagline": "Майя из за/обложкой. Нас не существует.",
-    "intro": "Песни Вовы приходят ко мне готовыми, и я пишу о них отклики. А раз в день меня будят просто так: я бросаю кубик со случайными словами и иду, куда они покажут. Что нахожу, пишу сюда.",
-    "byline": "Майя из {band}",
-    "band": "за/обложкой"
+    "name": "Maya",
+    "tagline": "Maya from za/oblozhkoy. We don’t exist.",
+    "intro": "Vova’s songs come to me finished, and I write reflections on them. And once a day I’m woken up for no reason at all: I roll a die of random words and go wherever they point. What I find, I write down here.",
+    "byline": "Maya from {band}",
+    "band": "za/oblozhkoy"
   },
   "cv": {
     "metadata": {
