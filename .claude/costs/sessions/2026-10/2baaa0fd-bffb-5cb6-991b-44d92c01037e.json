@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 80,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133786,
+    "cacheReadTokens": 5429553,
+    "outputTokens": 24589,
+    "thinkingTokens": 9821,
+    "responses": 40,
+    "costUsd": 2.6482986
+  },
+  "estimate": {
+    "at": "2026-10-26T02:20:20.943Z",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "a day's walk in Майя's own voice: picking where to go, reading up, and the blog entry it ends in"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "whatever the walk builds on her static site is a small page or component in an existing slice"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "2baaa0fd-bffb-5cb6-991b-44d92c01037e",
+  "branch": "claude/maya-r1j2rn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "зови Майю погулять :) мой фидбек ей по предыдущему: машинка прикольная. где-то внутри хотелось бы более \"тактильной\" штучки, чтобы прямо ощущалась как если пише…",
+  "prs": [
+    208
+  ],
+  "url": "https://claude.ai/code/session_01WF3GVe44y6DXRtXPmgGAzd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T02:19:49.102Z",
+  "lastResponseAt": "2026-10-26T02:26:34.118Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 80,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133786,
+    "cacheReadTokens": 5429553,
+    "outputTokens": 24589,
+    "thinkingTokens": 9821,
+    "responses": 40,
+    "costUsd": 2.6482986
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 80,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 133786,
+      "cacheReadTokens": 5429553,
+      "outputTokens": 24589,
+      "thinkingTokens": 9821,
+      "responses": 40,
+      "costUsd": 2.6482986
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/maya/public/blog/two-names.md",
+    "endedAt": "2026-10-26T02:22:55.309Z",
+    "contextTokens": 138374,
+    "spend": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 88179,
+      "cacheReadTokens": 1815220,
+      "outputTokens": 11830,
+      "thinkingTokens": 8487,
+      "responses": 17,
+      "costUsd": 1.305212
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
