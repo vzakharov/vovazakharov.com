@@ -308,9 +308,21 @@ its files, so `a_i²` is what a random rewiring keeping every file's degree woul
 put inside it. Positive means a module whoever its one consumer is; nothing is
 tuned — the null model is the bar.
 
-- **The graph**: every import between two files of the slice's app and its
-  descendants (the composition `check:masd` already counts references across),
-  each import one undirected edge, tests and scripts out.
+- **It rescues; it does not replace the count.** Two consumers or more keep a
+  slice significant as now — a block two slices share has to drop to a lower
+  layer by definition (operator: «два потребителя = по определению нужно
+  "поднимать"»), one file or many; one consumer passes when the slice's term is
+  positive; none is flagged.
+- **The graph is still open** (operator: «пусть следующая сессия посчитает так и
+  так, приценится, там и решим»). Every import between two files, one undirected
+  edge each, tests and scripts out — counted over the slice's own app alone, and
+  over its app with its descendants (the composition `check:masd` counts
+  references across). Compute both on the game's dry-run tree and on the repo's
+  real slices, show the operator where the verdicts differ and what each costs
+  in code, and build the one they pick.
+- **Where the game's page sits is out of this bite** (operator: «пока не
+  трогаем»): the page stays in `pages/mushrooms`, and moving it to the app layer
+  is neither done nor ruled out.
 - **Measured on the game's dry-run tree**: the map ×12 its random expectation,
   the meadow model ×8, flower ×7.6, insect ×5, mushroom ×4.5; ten random scene
   files ×1.0 and a one-file slice 0 — both not modules. The other candidate
