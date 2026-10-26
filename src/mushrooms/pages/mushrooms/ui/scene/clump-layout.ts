@@ -32,6 +32,7 @@ import {
   OPENING_FOOTING,
   openingIndex,
 } from '../../model/placement';
+import type { LaidAhead } from './bed-place';
 
 /**
  * Each opening foot's size against the clump's, back then front: the back
@@ -206,8 +207,6 @@ export function placeIn(
  * it from (`bedPlace`).
  */
 export type Laid = Placement & LaidAhead;
-/** How far ahead of the eye a thing is laid out, in the clump's size. */
-export type LaidAhead = { opening: number };
 
 /**
  * The ground a mushroom grown off the opening clump is laid out on: the

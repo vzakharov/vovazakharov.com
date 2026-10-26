@@ -11,11 +11,9 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Abscissa, Point } from '../../model/geometry';
-import type { LayeredPoint } from '../../model/ground';
+import type { LayeredPoint, Stood } from '../../model/ground';
 import type { Ahead } from '../../model/pinhole';
-import type { Drawn, Stood } from '../../model/placement';
 import { DEPTHS } from './backdrop-depths';
-import type { LaidAhead } from './clump-layout';
 import {
   behindHills,
   cull,
@@ -27,6 +25,11 @@ import {
   type View,
   type Zooming,
 } from './view';
+
+/** Whether a thing is drawn this frame. */
+export type Drawn = { drawn: boolean };
+/** How far ahead of the eye a thing is laid out, in the clump's size. */
+export type LaidAhead = { opening: number };
 
 /**
  * The depth a thing past the ground's top row is drawn about: midway between

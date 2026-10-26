@@ -11,7 +11,7 @@ import type { WithId } from '@/kernel/shared/typings';
 
 import { distanceBetween, type Point } from './geometry';
 import type { InLeg } from './mouse-run-clock';
-import type { Stood } from './placement';
+import type { Stood } from './ground';
 import { saltedStream, type Seeded } from './random';
 
 /** The share of a house's outings that become runs when a door is in reach and it holds one mouse. */

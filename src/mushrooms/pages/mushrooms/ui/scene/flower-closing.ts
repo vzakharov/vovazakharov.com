@@ -8,7 +8,7 @@
 
 import { type Point, wrap } from '../../model/geometry';
 import type { Ahead } from '../../model/pinhole';
-import type { Drawn } from '../../model/placement';
+import type { Drawn } from './bed-place';
 
 /** How many steps a flower closes in, each one repaint of its head. */
 export const CLOSING_STEPS = 12;

@@ -9,7 +9,7 @@ Copy each into `tmp/modularity/` under its name and run from the repository root
 // named nowhere stays with the whole, in widgets/meadow.
 const TREE: [string, string][] = [
   ['shared/lib', 'geometry random motion colour crescent light tap-reach cruise glide line-course'],
-  ['shared/world', 'acting dusk weather ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place'],
+  ['shared/world', 'acting dusk weather ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place bed-place backdrop-depths repaint-queue'],
   ['shared/ui', 'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking bake-picture'],
   ['entities/mushroom', 'planted crowding door-sight clump-shade cap-cover clump-layout shelter-seats placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light'],
   ['entities/worm', 'worm draw-worm'],
@@ -17,7 +17,7 @@ const TREE: [string, string][] = [
   ['entities/insect', 'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis flight flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans'],
   ['entities/flower', 'flower-planting anchored-stand flower-cover flower-plots flower-layout flower-sight flower-genes flower-sounds notes draw-flower flower-tints flower-ring'],
   ['entities/firefly', 'firefly firefly-view firefly-tap'],
-  ['entities/sky', 'sun-layout moon-view moon-face paint-moon paint-sky paint-backdrop backdrop-tones backdrop-depths dusk-sky dusk-stars star-images dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade'],
+  ['entities/sky', 'sun-layout moon-view moon-face paint-moon paint-sky paint-backdrop backdrop-tones dusk-sky dusk-stars star-images dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade'],
   ['entities/lawn', 'lawn tufts mottles grain brow far-band grass paint-land'],
   ['features/plant-flower', 'tuft-tap tending flower-icons'],
   ['features/sow-spores', 'sprouting spore-seats spore-sight spore-bed spore-drift spores'],

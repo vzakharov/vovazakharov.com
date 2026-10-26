@@ -15,6 +15,9 @@ import {
   type Scaled,
 } from './geometry';
 
+/** Where a thing stands for its whole life, on the plane. */
+export type Stood = { foot: Point };
+
 /**
  * A point on the ground, in the clump's size: `x` across from the middle of
  * the meadow, rightward, and `z` into the distance from the clump's

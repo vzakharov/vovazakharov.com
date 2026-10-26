@@ -17,7 +17,7 @@ import {
   type RunPath,
   straightPath,
 } from './mouse-run-course';
-import type { Stood } from './placement';
+import type { Stood } from './ground';
 
 /** How fast a mouse runs along the plane, at full pace. */
 export const RUN_PACE = 0.6;

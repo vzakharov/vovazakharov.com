@@ -21,7 +21,7 @@ import {
 import type { Footed } from '../../model/placement';
 import type { Sprouting } from '../../model/planted';
 import { UNPLACED } from './bed-place';
-import type { LaidAhead } from './clump-layout';
+import type { LaidAhead } from './bed-place';
 import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
 import type { WithGraphics } from './hit-areas';
 import type { Body, HouseView } from './house-view';

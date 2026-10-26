@@ -16,6 +16,7 @@ import {
   planeOf,
   scaleAt,
   seen,
+  type Stood,
   unanchored,
   UP_PER_Z,
 } from './ground';
@@ -37,9 +38,6 @@ export const OPENING_FEET: readonly [Point, Point] = [
 
 /** Which way a mushroom leans for its whole life: its splay's sign. */
 export type Lean = -1 | 1;
-
-/** Where a mushroom stands for its whole life, on the plane. */
-export type Stood = { foot: Point };
 
 /** Where a mushroom stands for its whole life, on the plane, and which way it leans. */
 export type Footed = Stood & { lean: Lean };
@@ -179,6 +177,3 @@ export function pickFoot(
   }
   return undefined;
 }
-
-/** Whether a thing is drawn this frame. */
-export type Drawn = { drawn: boolean };
