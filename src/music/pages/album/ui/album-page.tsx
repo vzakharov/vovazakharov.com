@@ -15,13 +15,10 @@ import {
   trackNames,
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
-import {
-  CatalogueHeader,
-  FactLine,
-  HookLine,
-  Spelling,
-} from '@/music/shared/ui';
+import { FactLine, Spelling } from '@/music/shared/ui';
+import { HookLine } from '@/music/entities/hook';
 import { AlbumPlayButton } from '@/music/features/player';
+import { CatalogueHeader } from '@/music/widgets/catalogue-header';
 import { MusicNav } from '@/music/widgets/music-nav';
 import { SongList } from '@/music/widgets/song-list';
 import { Story } from '@/music/widgets/story';

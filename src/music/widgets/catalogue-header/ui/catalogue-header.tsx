@@ -6,12 +6,14 @@ import type { ServedMarkdown } from '@/blog/shared/content';
 
 import type { Glossed } from '@/music/shared/catalogue';
 import type { WithSpelledTitle } from '@/music/shared/catalogue/index.node-safe';
-
-import { CoverHead, type CoverHeadBody } from './cover-head';
-import { SizeLine } from './fact-line';
-import { Spelling } from './spelling';
-import { TitleGlossLine } from './title-gloss-line';
-import { WipMark, type WipNoted } from './wip-mark';
+import {
+  SizeLine,
+  Spelling,
+  TitleGlossLine,
+  WipMark,
+  type WipNoted,
+} from '@/music/shared/ui';
+import { CoverHead, type CoverHeadBody } from '@/music/entities/cover';
 
 export type CatalogueHeaderProps = CoverHeadBody &
   Partial<ServedMarkdown> &

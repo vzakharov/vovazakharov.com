@@ -8,7 +8,8 @@ import { Card, NameLink, Subheading } from '@/shell/shared/ui';
 import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 import { formatDuration } from '@/music/shared/lib/duration';
-import { ExplicitBadge, Spelling } from '@/music/shared/ui';
+import { Spelling } from '@/music/shared/ui';
+import { ExplicitBadge } from '@/music/entities/song';
 import { TrackButton } from '@/music/features/player';
 
 import classes from './song-list.module.scss';

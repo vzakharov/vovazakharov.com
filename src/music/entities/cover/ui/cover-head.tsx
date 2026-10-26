@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithOptionalChildren } from '@/kernel/shared/typings';
 
+import classes from './cover.module.scss';
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
-import classes from './covers.module.scss';
 
 /** The cover a page's head sits beside, where it has one, and what sits beside it. */
 export type CoverHeadBody = WithOptionalChildren & { picture?: string };
@@ -32,10 +32,7 @@ export function CoverHead({ picture, zoom, kicker, children }: CoverHeadProps) {
       {picture !== undefined && (
         <div className={classes['coverHeadCover']}>
           {zoom === undefined ? (
-            <div
-              className={cx(classes['tileArt'], classes['cover'])}
-              aria-hidden
-            >
+            <div className={cx(classes['art'], classes['cover'])} aria-hidden>
               <Image
                 src={picture}
                 alt=""

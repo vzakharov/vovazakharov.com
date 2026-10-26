@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { Sourced } from '@/kernel/shared/typings';
 
-import classes from './covers.module.scss';
+import classes from './cover.module.scss';
 
 export type CoverZoomLabels = {
   enlargeLabel: string;
@@ -37,7 +37,7 @@ export function CoverZoom({
     <>
       <button
         type="button"
-        className={cx(classes['tileArt'], sizeClass, classes['coverOpen'])}
+        className={cx(classes['art'], sizeClass, classes['coverOpen'])}
         aria-label={enlargeLabel}
         onClick={() => dialogRef.current?.showModal()}
       >

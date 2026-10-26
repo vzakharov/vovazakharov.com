@@ -18,7 +18,8 @@ import {
   tabPath,
   trackNames,
 } from '@/music/shared/catalogue';
-import { CatalogueGrid, Spelling } from '@/music/shared/ui';
+import { Spelling } from '@/music/shared/ui';
+import { CatalogueGrid } from '@/music/widgets/catalogue-grid';
 import { MusicNav } from '@/music/widgets/music-nav';
 import { SongList } from '@/music/widgets/song-list';
 

@@ -33,13 +33,10 @@ import {
 } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 import { listenTitle } from '@/music/shared/seo';
-import {
-  CoverHead,
-  ExplicitBadge,
-  HookLine,
-  Spelling,
-  TitleGlossLine,
-} from '@/music/shared/ui';
+import { Spelling, TitleGlossLine } from '@/music/shared/ui';
+import { CoverHead } from '@/music/entities/cover';
+import { HookLine } from '@/music/entities/hook';
+import { ExplicitBadge } from '@/music/entities/song';
 import { SongPlayButton } from '@/music/features/player';
 import { MusicNav } from '@/music/widgets/music-nav';
 import { Story } from '@/music/widgets/story';

@@ -13,11 +13,10 @@ import type {
   Spelled,
   SpelledLink,
 } from '@/music/shared/catalogue/index.node-safe';
+import { Spelling, WipMark, type WipNoted } from '@/music/shared/ui';
 
-import classes from './covers.module.scss';
-import { Spelling } from './spelling';
+import classes from './catalogue-grid.module.scss';
 import { tileHue } from './tile-hue';
-import { WipMark, type WipNoted } from './wip-mark';
 
 /**
  * A tile linking to an artist, an album or a single: its art with its name

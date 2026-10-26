@@ -16,7 +16,9 @@ import {
   trackNames,
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
-import { CatalogueGrid, CatalogueHeader, HookLine } from '@/music/shared/ui';
+import { HookLine } from '@/music/entities/hook';
+import { CatalogueGrid } from '@/music/widgets/catalogue-grid';
+import { CatalogueHeader } from '@/music/widgets/catalogue-header';
 import { MusicNav } from '@/music/widgets/music-nav';
 import { SongList } from '@/music/widgets/song-list';
 import { Story } from '@/music/widgets/story';
