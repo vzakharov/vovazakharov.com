@@ -91,7 +91,7 @@ describe('masd-check', () => {
     const CONSUMER = {
       'src/site/pages/home/ui.ts': "import { a } from '@/blog/entities/card';",
     };
-    // Six names defined, the barrel handing on `count` of them.
+    // Six names defined, so a barrel handing on two is at a third.
     const card = (barrel: string): Tree => ({
       ...CONSUMER,
       [ENTITY]: barrel,

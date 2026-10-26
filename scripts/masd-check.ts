@@ -95,7 +95,7 @@ const isExported = (statement: ts.Statement): boolean =>
   );
 
 /**
- * The names a file exports — through an `export *` of a relative module too,
+ * The names a file exports — through an `export *` of another source file too,
  * when `following`, which is how a barrel hands on a whole file.
  */
 function exportedNames(file: string, following: boolean): Set<string> {
@@ -144,7 +144,6 @@ function exportedNames(file: string, following: boolean): Set<string> {
   return names;
 }
 
-/** Whether a slice's barrels hand on at most `NARROW_API` of what its files export. */
 function narrowApi(slice: string): boolean {
   const directory = path.join('src', slice);
   const barrels = new Set(PUBLIC_API.map((name) => path.join(directory, name)));
