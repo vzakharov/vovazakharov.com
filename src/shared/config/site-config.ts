@@ -227,7 +227,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
   },
   // Everything here but the plumbing is Майя's to change.
   maya: {
-    url: 'https://maya.vovazakharov.com',
+    url: 'https://mayawonders.com',
     downloadPrefix: 'maya',
     // In English, as the bare address is; the `/ru` pages read theirs from
     // the catalogue's `maya` namespace.
