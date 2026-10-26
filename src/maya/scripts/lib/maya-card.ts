@@ -21,7 +21,7 @@ import {
   formatDocumentDate,
 } from '@/blog/shared/content';
 
-import { REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
+import type { CollectionEntry } from '@/blog/scripts/lib/read-collection';
 import {
   CANVAS_BACKGROUND,
   type CardHeading,
@@ -30,7 +30,7 @@ import {
   INK_DIM,
   type StagedPage,
 } from '@/kernel/scripts/lib/og-render';
-import type { CollectionEntry } from '@/kernel/scripts/lib/read-collection';
+import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
 
 type BlogPost = CollectionEntry<ArticleFrontmatter>;
 

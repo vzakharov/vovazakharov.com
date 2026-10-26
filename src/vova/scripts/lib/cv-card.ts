@@ -12,8 +12,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { siteConfig, withoutScheme } from '@/kernel/shared/config';
-import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
-import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+import {
+  CANVAS,
+  PUBLIC_DIR,
+  SCALE,
+} from '@/kernel/shared/config/index.node-safe';
 import type { Billed } from '@/kernel/shared/typings';
 
 import { cvMessages } from '@/vova/pages/cv/lib/cv-messages';
@@ -23,7 +26,6 @@ import {
 } from '@/vova/pages/cv/lib/cv-offer';
 import type { CvVariant } from '@/vova/pages/cv/lib/cv-variants';
 
-import { RENDERED_SITE } from '@/kernel/scripts/lib/content-tree';
 import {
   CANVAS_BACKGROUND,
   escapeHtml,
@@ -31,6 +33,7 @@ import {
   INK_DIM,
   type StagedPage,
 } from '@/kernel/scripts/lib/og-render';
+import { RENDERED_SITE } from '@/kernel/scripts/lib/site-tree';
 
 /** The site this run renders for, resolved once at the top of it. */
 const SITE_CONFIG = siteConfig(RENDERED_SITE);

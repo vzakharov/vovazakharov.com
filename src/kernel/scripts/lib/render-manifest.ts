@@ -25,7 +25,7 @@ import { z } from 'zod';
 
 import type { Labeled } from '@/kernel/shared/typings';
 
-import { CONTENT_DIRS, filesUnder, REPO_ROOT } from './content-tree.ts';
+import { filesUnder, REPO_ROOT } from './site-tree.ts';
 
 /** One render, and the hash of everything it is derived from. */
 export type Renderable = {
@@ -37,10 +37,9 @@ export type Renderable = {
 export type ManifestRoots = {
   /**
    * The roots under which this job's renders live, walked for manifests so a
-   * render whose source is gone is still found and pruned. The content tree
-   * when left off.
+   * render whose source is gone is still found and pruned.
    */
-  manifestDirs?: string[];
+  manifestDirs: string[];
 };
 
 /** All the bookkeeping reads of a job, which is what keeps it blind to the entry type. */
@@ -89,7 +88,7 @@ function isStale(layout: ManifestLayout, entry: Renderable): boolean {
  * there yet holds no manifest: the job's first render is what creates it.
  */
 function manifestFiles(layout: ManifestLayout): string[] {
-  return (layout.manifestDirs ?? CONTENT_DIRS)
+  return layout.manifestDirs
     .filter((dir) => fs.existsSync(dir))
     .flatMap((dir) => filesUnder(dir))
     .filter((file) => path.basename(file) === layout.manifestName);

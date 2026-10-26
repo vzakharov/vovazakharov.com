@@ -24,17 +24,18 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
+import { findChromium } from '../../kernel/scripts/lib/chromium.ts';
+import { REPO_ROOT } from '../../kernel/scripts/lib/site-tree.ts';
+import { PUBLIC_DIR } from '../../kernel/shared/config/index.node-safe.ts';
+import { contentHash } from '../../kernel/shared/lib/content-hash.ts';
+import type { WithFilePath } from '../../kernel/shared/typings/index.ts';
 import {
   COLOR_SCHEMES,
   type ColorScheme,
   MERMAID_DIR,
   mermaidFileName,
-} from '../../blog/shared/content/mermaid-renders.ts';
-import { PUBLIC_DIR } from '../shared/config/index.node-safe.ts';
-import { contentHash } from '../shared/lib/content-hash.ts';
-import type { WithFilePath } from '../shared/typings/index.ts';
-import { findChromium } from './lib/chromium.ts';
-import { contentFiles, REPO_ROOT } from './lib/content-tree.ts';
+} from '../shared/content/index.node-safe.ts';
+import { contentFiles } from './lib/content-tree.ts';
 
 type Fence = WithFilePath & {
   hash: string;

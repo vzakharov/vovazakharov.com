@@ -3,36 +3,22 @@
 /**
  * maya.vovazakharov.com's Open Graph cards: the core's chart cards, a site card
  * generated with Майя beside her name in place of one rendered from a mark, and
- * a card per post at the post's route plus the card suffix — where its page's
- * metadata points. `src/kernel/scripts/lib/og-job.ts` carries the contract.
+ * a card per post. `src/kernel/scripts/lib/og-job.ts` carries the contract.
  */
 
-import path from 'node:path';
-
-import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
-import { routeCardPath } from '@/kernel/shared/seo';
-
 import { articleCollection } from '@/blog/shared/content';
-import { documentRoute } from '@/blog/shared/content/index.node-safe';
 
 import { mayaPostCard, mayaSiteCard } from './lib/maya-card.ts';
 
-import {
-  generatedCard,
-  renderOgCards,
-  siteCardPath,
-} from '@/kernel/scripts/lib/og-job';
-import { readCollection } from '@/kernel/scripts/lib/read-collection';
+import { entryCards, renderDocumentOgCards } from '@/blog/scripts/lib/og-job';
+import { readCollection } from '@/blog/scripts/lib/read-collection';
+import { generatedCard, siteCardPath } from '@/kernel/scripts/lib/og-job';
 
-await renderOgCards({
+await renderDocumentOgCards({
   siteCards: [generatedCard(mayaSiteCard(), siteCardPath())],
-  cards: readCollection(articleCollection('maya-blog')).map((post) =>
-    generatedCard(
-      mayaPostCard(post),
-      path.join(
-        PUBLIC_DIR,
-        routeCardPath(documentRoute('maya-blog', post.slug)),
-      ),
-    ),
+  cards: entryCards(
+    'maya-blog',
+    readCollection(articleCollection('maya-blog')),
+    mayaPostCard,
   ),
 });

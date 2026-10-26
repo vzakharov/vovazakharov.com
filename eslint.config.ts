@@ -159,10 +159,7 @@ const eslintConfig = defineConfig([
       'src/basilisk/scripts/lib/basilisk-card.ts',
       'src/basilisk/scripts/lib/docket.ts',
       // kernel
-      'src/kernel/scripts/lib/content-tree.ts',
       'src/kernel/scripts/lib/og-job.ts',
-      'src/kernel/scripts/lib/public-markdown.ts',
-      'src/kernel/scripts/render-mermaid.ts',
       // mushrooms
       'src/mushrooms/scripts/build-mushroom-artifact.ts',
       'src/mushrooms/scripts/lib/flier-watch.ts',

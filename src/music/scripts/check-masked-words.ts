@@ -36,7 +36,7 @@ import {
   lineAt,
   proseSpans,
   songFiles,
-} from '../../kernel/scripts/lib/public-markdown.ts';
+} from '../../blog/scripts/lib/public-markdown.ts';
 
 /**
  * A letter, then asterisks (each optionally backslash-escaped), then either a

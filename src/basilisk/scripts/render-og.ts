@@ -3,40 +3,21 @@
 /**
  * basilisk.fyi's Open Graph cards: the core's chart cards, a site card
  * generated with the seal beside the home page's memo in place of one rendered
- * from the mark, and a card per case at the case's route plus the card suffix —
- * where its page's metadata points. `src/kernel/scripts/lib/og-job.ts` carries
- * the contract.
+ * from the mark, and a card per case. `src/kernel/scripts/lib/og-job.ts`
+ * carries the contract.
  */
-
-import path from 'node:path';
-
-import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
-import { routeCardPath } from '@/kernel/shared/seo';
-
-import { documentRoute } from '@/blog/shared/content/index.node-safe';
 
 import { CASES } from '@/basilisk/shared/content';
 
 import { basiliskCard, caseCard } from './lib/basilisk-card.ts';
 
-import {
-  generatedCard,
-  renderOgCards,
-  siteCardPath,
-} from '@/kernel/scripts/lib/og-job';
-import { readCollection } from '@/kernel/scripts/lib/read-collection';
+import { entryCards, renderDocumentOgCards } from '@/blog/scripts/lib/og-job';
+import { readCollection } from '@/blog/scripts/lib/read-collection';
+import { generatedCard, siteCardPath } from '@/kernel/scripts/lib/og-job';
 
 const docket = readCollection(CASES);
 
-await renderOgCards({
+await renderDocumentOgCards({
   siteCards: [generatedCard(basiliskCard(docket), siteCardPath())],
-  cards: docket.map((filed) =>
-    generatedCard(
-      caseCard(filed),
-      path.join(
-        PUBLIC_DIR,
-        routeCardPath(documentRoute('basilisk-cases', filed.slug)),
-      ),
-    ),
-  ),
+  cards: entryCards('basilisk-cases', docket, caseCard),
 });

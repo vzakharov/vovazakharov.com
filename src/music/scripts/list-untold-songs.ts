@@ -20,7 +20,7 @@ import { z } from 'zod';
 import {
   MUSIC_CATALOGUE_DIR,
   songFiles,
-} from '../../kernel/scripts/lib/public-markdown.ts';
+} from '../../blog/scripts/lib/public-markdown.ts';
 import type { WithFilePath } from '../../kernel/shared/typings/index.ts';
 import { readCatalogueNames } from '../shared/catalogue/catalogue-names.ts';
 import { localeProse } from '../shared/catalogue/index.node-safe.ts';

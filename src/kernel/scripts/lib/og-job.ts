@@ -1,8 +1,8 @@
 /**
  * Rasterizes every Open Graph card a site advertises into a committed PNG. The
- * core is the cards every site has — the chart cards a content document's
- * frontmatter names, from the SVG beside each, and the site's own card, from
- * its mark — and each site's `scripts/render-og.ts` adds its own as bundles.
+ * core is the card every site has — its own, from its mark — and each site's
+ * `scripts/render-og.ts` adds its own as bundles, blog's `og-job.ts` the chart
+ * cards its documents name.
  *
  * The cards have to be PNGs because no major Open Graph consumer renders SVG —
  * X, Facebook, LinkedIn, Slack and iMessage all drop it and fall back to
@@ -36,18 +36,13 @@ import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES } from '@/kernel/shared/seo';
 
 import { findScreenshotChromium } from './chromium.ts';
 import {
-  CONTENT_DIRS,
-  contentFiles,
-  RENDERED_SITE,
-  REPO_ROOT,
-} from './content-tree.ts';
-import {
   CANVAS_BACKGROUND,
   type Card,
   renderCard,
   type StagedPage,
 } from './og-render.ts';
 import { type ManifestRoots, runRenderJob } from './render-manifest.ts';
+import { RENDERED_SITE, REPO_ROOT } from './site-tree.ts';
 
 /**
  * Inset between the drawing and the card's edge, in canvas pixels. Load-bearing
@@ -58,29 +53,6 @@ const PADDING = 24;
 
 /** Records each render's source hash, beside the render it describes. */
 const MANIFEST_NAME = 'og-renders.json';
-
-/**
- * The `ogImage` each document's frontmatter names, resolved against the
- * document. Read with a pattern rather than through the content pipeline for
- * the same reason the mermaid script reads fences that way: this runs outside
- * the bundler, where `shared/content` is unavailable.
- */
-function ogImagePaths(): string[] {
-  const frontmatterPattern = /^---\r?\n([\S\s]*?)^---/m;
-  const ogImagePattern = /^ogImage:[\t ]*(\S+)[\t ]*$/m;
-
-  return contentFiles((name) => name.endsWith('.md')).flatMap((file) => {
-    const frontmatter = frontmatterPattern.exec(fs.readFileSync(file, 'utf8'));
-
-    if (frontmatter === null) return [];
-
-    const reference = ogImagePattern.exec(frontmatter[1] ?? '');
-
-    return reference?.[1] === undefined
-      ? []
-      : [path.resolve(path.dirname(file), reference[1])];
-  });
-}
 
 /** Throws when a card names a source SVG that is not there. */
 function readSvg(svgPath: string, pngPath: string): string {
@@ -138,7 +110,7 @@ function svgPage(svgName: string): string {
 }
 
 /** One card rasterized from one authored SVG — the whole of what the drawn cards are. */
-function svgCard(svgPath: string, pngPath: string): Card {
+export function svgCard(svgPath: string, pngPath: string): Card {
   const svgName = path.basename(svgPath);
   const svg = readSvg(svgPath, pngPath);
 
@@ -148,19 +120,6 @@ function svgCard(svgPath: string, pngPath: string): Card {
     page: svgPage(svgName),
     files: { [svgName]: svg },
   };
-}
-
-/** One card per distinct PNG the frontmatter asks for, its source the SVG of the same stem. */
-function chartCards(): Card[] {
-  const pngPaths = [
-    ...new Set(
-      ogImagePaths().filter((pngPath) => pngPath.endsWith(OG_CARD_SUFFIX)),
-    ),
-  ];
-
-  return pngPaths.map((pngPath) =>
-    svgCard(`${pngPath.slice(0, -OG_CARD_SUFFIX.length)}.svg`, pngPath),
-  );
 }
 
 /**
@@ -203,11 +162,10 @@ export function siteCardPath(): string {
 
 /**
  * What a site adds to the core. `siteCards` replaces the card generated from
- * the site's mark; `manifestDirs` are walked beside the content tree, for cards
- * written outside it; and `outputNames` are file names the run owns beyond the
- * card suffixes.
+ * the site's mark; `manifestDirs` are the roots its cards are written under;
+ * and `outputNames` are file names the run owns beyond the card suffixes.
  */
-export type OgBundle = ManifestRoots & {
+export type OgBundle = Partial<ManifestRoots> & {
   siteCards?: Card[];
   cards?: Card[];
   outputNames?: string[];
@@ -227,17 +185,14 @@ export async function renderOgCards(...bundles: OgBundle[]): Promise<void> {
       isOutput: (name) =>
         OG_CARD_SUFFIXES.some((suffix) => name.endsWith(suffix)) ||
         outputNames.has(name),
-      // A site card sits at the root of `public/`, which the collection walk
-      // only reaches where the collection is rooted there.
+      // A site card sits at the root of `public/`.
       manifestDirs: [
         ...new Set([
-          ...CONTENT_DIRS,
           ...(siteCards.length > 0 ? [PUBLIC_DIR] : []),
           ...bundles.flatMap(({ manifestDirs }) => manifestDirs ?? []),
         ]),
       ],
       entries: [
-        ...chartCards(),
         ...siteCards,
         ...bundles.flatMap(({ cards }) => cards ?? []),
       ],

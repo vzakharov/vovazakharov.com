@@ -27,9 +27,9 @@ import {
   type MusicCollageOptions,
 } from './music-collage.ts';
 
-import { RENDERED_SITE } from '@/kernel/scripts/lib/content-tree';
 import { generatedCard, type OgBundle } from '@/kernel/scripts/lib/og-job';
 import type { Card } from '@/kernel/scripts/lib/og-render';
+import { RENDERED_SITE } from '@/kernel/scripts/lib/site-tree';
 
 function collageCard(
   covers: readonly string[],

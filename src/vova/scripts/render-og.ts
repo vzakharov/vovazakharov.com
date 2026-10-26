@@ -15,10 +15,11 @@ import { CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 
 import { cvCard } from './lib/cv-card.ts';
 
-import { generatedCard, renderOgCards } from '@/kernel/scripts/lib/og-job';
+import { renderDocumentOgCards } from '@/blog/scripts/lib/og-job';
+import { generatedCard } from '@/kernel/scripts/lib/og-job';
 import { musicCards } from '@/music/scripts/lib/music-cards';
 
-await renderOgCards(
+await renderDocumentOgCards(
   {
     cards: CV_VARIANTS.map((variant) =>
       generatedCard(

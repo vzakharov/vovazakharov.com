@@ -7,8 +7,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
-import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+import {
+  CANVAS,
+  PUBLIC_DIR,
+  SCALE,
+} from '@/kernel/shared/config/index.node-safe';
 import type { Sized, Titled } from '@/kernel/shared/typings';
 
 import { COLLAGE_SIZE } from '@/music/shared/catalogue';

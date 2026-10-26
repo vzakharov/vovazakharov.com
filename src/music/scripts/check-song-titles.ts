@@ -26,7 +26,7 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import { z } from 'zod';
 
-import { songFiles } from '../../kernel/scripts/lib/public-markdown.ts';
+import { songFiles } from '../../blog/scripts/lib/public-markdown.ts';
 
 /** The letters each sung language is written in; a language not listed is written in Latin. */
 const SCRIPTS: Partial<Record<string, RegExp>> = {

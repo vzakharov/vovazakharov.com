@@ -21,8 +21,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
-import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+import {
+  CANVAS,
+  PUBLIC_DIR,
+  SCALE,
+} from '@/kernel/shared/config/index.node-safe';
 
 import { documentDateTime, formatDocumentDate } from '@/blog/shared/content';
 import { documentRoute } from '@/blog/shared/content/index.node-safe';

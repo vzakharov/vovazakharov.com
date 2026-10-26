@@ -4,8 +4,8 @@ import type { Metadata } from 'next';
 
 import { SITE_ID } from '@/kernel/shared/config';
 import {
-  type ConstructMetadataParams,
   constructMetadata as constructSiteMetadata,
+  type ConstructMetadataParams,
 } from '@/kernel/shared/seo/index.server-only';
 import type { Described } from '@/kernel/shared/typings';
 

@@ -5,7 +5,16 @@
 
 export {
   collectionDir,
+  type CollectionId,
+  COLLECTIONS,
+  collectionsForSite,
   documentRoute,
   isDocumentFile,
   type Slugged,
 } from './collections.ts';
+export {
+  COLOR_SCHEMES,
+  type ColorScheme,
+  MERMAID_DIR,
+  mermaidFileName,
+} from './mermaid-renders.ts';
