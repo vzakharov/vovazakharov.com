@@ -40,7 +40,7 @@ const ROOT = process.cwd();
 const SOURCE = /\.tsx?$/;
 const TEST = /\.test\.tsx?$/;
 
-/** A pair of files one imports the other, within one app. */
+/** An importing file and the file it imports, both in one app. */
 type Edge = readonly [string, string];
 
 const walk = (directory: string): string[] =>
@@ -101,8 +101,8 @@ function appOf(file: string): string | undefined {
  * Whether a slice holds more of its app's import edges than chance would: its
  * term of Newman's modularity, `e − a²`, is positive — `e` the share of edges
  * with both ends in it, `a` the share of edge ends on it, so `a²` is what a
- * rewiring keeping every file's degree would put inside. The edges are its
- * own app's alone, since who uses an app says nothing of how it is cut.
+ * rewiring keeping every file's degree would put inside. `edges` are the
+ * slice's own app's alone, as masd.md states.
  */
 function modular(slice: string, edges: readonly Edge[]): boolean {
   const prefix = path.join('src', slice) + path.sep;
