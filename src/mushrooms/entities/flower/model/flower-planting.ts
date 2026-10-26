@@ -16,7 +16,7 @@ import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
  * grows from in it, in that order, drawn before the pick so the picker shows
  * the very flower that will grow.
  */
-export type Chosen = Coloured & Seeds;
+type Chosen = Coloured & Seeds;
 
 /**
  * Where the flower picker is open, as a foot on the plane, while it waits:

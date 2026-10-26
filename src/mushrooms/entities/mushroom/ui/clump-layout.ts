@@ -209,11 +209,3 @@ export function extremes({ across, near, far }: Frame): Footed[] {
 export function everyPlace({ camera, frame }: MushroomGround): Placement[] {
   return extremes(frame).map((foot) => placeOf(camera, foot));
 }
-
-/** Where each of `standing` stands on the screen `ground` is for. */
-export function standingPlaces(
-  ground: MushroomGround,
-  standing: readonly Footed[],
-): Placement[] {
-  return standing.flatMap((mushroom) => placeIn(ground, mushroom) ?? []);
-}

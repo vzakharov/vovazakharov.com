@@ -1,8 +1,6 @@
 import { BACKDROP } from './palette-backdrop';
 import { CREATURES } from './palette-creatures';
 
-export { DUSK } from './palette-dusk';
-
 /** The colours both the backdrop and the creatures paint with. */
 const SHARED = {
   skyHorizon: 0xd4_f1_ff,

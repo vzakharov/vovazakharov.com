@@ -23,7 +23,7 @@ export type Sprout = Parented & Stamped;
 export type Sprouting = { sprout?: Sprout };
 
 /** A mushroom and where it stands: what a planted one and a spore both are. */
-export type Placed = Mushroom & Footed;
+type Placed = Mushroom & Footed;
 
 /** A spore on the ground: the sprout it will be, its `at` the moment it settled. */
 export type Spore = Placed & Sprout;

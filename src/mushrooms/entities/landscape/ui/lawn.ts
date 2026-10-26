@@ -37,7 +37,7 @@ export type LawnLayout = WithHeight & WithCamera & GrassLayout;
 export type Sprout = Rooted & WithTuft;
 
 /** How wide a cell of the lawn stands, in the clump's size, either way. */
-export const CELL = 4;
+const CELL = 4;
 
 /**
  * How many tufts a cell grows: 0.85 to a square of the clump's size, the

@@ -50,7 +50,7 @@ export type HostBeds = {
 type Tapping = { tap: (id: string) => void };
 
 /** The mushrooms' bed as a perch reads it: a seat on a cap at `local`, a point in the mushroom's own frame. */
-export type CapSeats = Tapping & {
+type CapSeats = Tapping & {
   seat: (
     id: string,
     local: (genes: MushroomGenes) => Point,
@@ -58,7 +58,7 @@ export type CapSeats = Tapping & {
 };
 
 /** The flowers' bed as a perch reads it: a seat across a head at `spot` for `kind`, and the flowers in view. */
-export type FlowerSeats = Tapping & {
+type FlowerSeats = Tapping & {
   seat: (id: string, spot: number, kind: InsectKind) => Seat | undefined;
   inView: () => readonly WithId[];
 };

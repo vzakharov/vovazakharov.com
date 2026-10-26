@@ -85,7 +85,7 @@ export type TuftsLayout = WithHeight &
   LawnLayout &
   TendingLayout;
 
-export { plantableIn, tendedIn, tendTufts } from './tending';
+export { tendedIn, tendTufts } from './tending';
 export type { Sprout } from '@/mushrooms/entities/landscape/index.node-safe';
 
 /** How tall a tuft stands, in units of its size: its middle blade (`grass.ts`). */

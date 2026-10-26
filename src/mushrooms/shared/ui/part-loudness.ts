@@ -13,7 +13,7 @@ import type { Envelope, Swell } from './synth';
 export type Band = { frequency: number; q: number };
 
 /** One enveloped oscillator of a voice, through a lowpass where one is given (`q` in dB). */
-export type TonePart = Swell & { lowpass?: Band };
+type TonePart = Swell & { lowpass?: Band };
 
 /** White noise through a bandpass, enveloped. */
 export type HissPart = Envelope & Band;

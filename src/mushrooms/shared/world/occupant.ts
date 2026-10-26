@@ -18,7 +18,7 @@ import type { Footing, Layered, Rooted } from './ground';
 import type { Distant } from './view';
 
 /** An occupant's outlines as drawn, each with the box round it. */
-export type BoxedOutlines = {
+type BoxedOutlines = {
   drawn: ReadonlyArray<{ outline: readonly Point[]; box: Box }>;
 };
 
