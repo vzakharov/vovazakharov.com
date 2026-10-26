@@ -1,7 +1,7 @@
 {
   "repo": "vzakharov/muthur",
-  "lastSyncedSha": "3380c691761202667d8c90f37bfa622d2dbe386e",
-  "lastSyncedAt": "2026-10-23",
+  "lastSyncedSha": "2a3c990999f2d85e08b0772bed7ef044867ec028",
+  "lastSyncedAt": "2026-10-26",
   "optIn": "take every opt-in path unless the operator's request says otherwise — the operator's standing call, 2026-10-08",
   "adopted": [
     {
@@ -154,6 +154,7 @@
     "scripts/lib/watch-tick-common.sh",
     "scripts/muthur-sync.sh",
     "scripts/pr-body.py",
+    "scripts/pr-comment.sh",
     "scripts/run-parallel.sh",
     {
       "scripts/vet.sh": [
