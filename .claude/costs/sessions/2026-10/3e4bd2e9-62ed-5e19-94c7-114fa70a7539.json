@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 150952,
+    "cacheReadTokens": 5544726,
+    "outputTokens": 17517,
+    "thinkingTokens": 7058,
+    "responses": 35,
+    "costUsd": 2.6671812000000004
+  },
+  "estimate": {
+    "at": "2026-10-26T03:03:52.033Z",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a localized article collection is new ground for the shared documents slice: routes, metadata, index, feeds and a translation-drift gate must agree, and a third locale switch wants lifting into shared"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "three short essays and two pages carry a literary voice; an English that keeps it is translation by judgement, not by sentence"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "3e4bd2e9-62ed-5e19-94c7-114fa70a7539",
+  "branch": "claude/maya-r1j2rn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/maya-r1j2rn — переводим сайт Майи на английский: блог, главную и машинку, писать Майя продолжает по-русски.",
+  "prs": [
+    208
+  ],
+  "url": "https://claude.ai/code/session_01BpwxV7qCWF3Tp2CMQtfjBZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T03:01:39.250Z",
+  "lastResponseAt": "2026-10-26T03:05:24.251Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 150952,
+    "cacheReadTokens": 5544726,
+    "outputTokens": 17517,
+    "thinkingTokens": 7058,
+    "responses": 35,
+    "costUsd": 2.6671812000000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 70,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 150952,
+      "cacheReadTokens": 5544726,
+      "outputTokens": 17517,
+      "thinkingTokens": 7058,
+      "responses": 35,
+      "costUsd": 2.6671812000000004
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/maya-english.draft.do-not-implement.md",
+    "endedAt": "2026-10-26T03:03:54.305Z",
+    "contextTokens": 185290,
+    "spend": {
+      "inputTokens": 42,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 135886,
+      "cacheReadTokens": 2859737,
+      "outputTokens": 10231,
+      "thinkingTokens": 5787,
+      "responses": 21,
+      "costUsd": 1.8638233999999998
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
