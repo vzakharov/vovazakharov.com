@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 224,
+    "cacheWrite5mTokens": 307242,
+    "cacheWrite1hTokens": 194241,
+    "cacheReadTokens": 17881181,
+    "outputTokens": 67198,
+    "thinkingTokens": 21445,
+    "responses": 112,
+    "costUsd": 8.0112302
+  },
+  "estimate": {
+    "at": "2026-10-26T04:08:34.742Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the stamps, cards, three builds, the checks and the docs that state the conventions, against a loader the translation is the first real input to"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "three short essays, their drawings' captions and two pages carry a literary voice; an English that keeps it is translation by judgement, not by sentence"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "6586fa11-ee9e-5416-afe5-91627b5cf7bb",
+  "branch": "claude/maya-r1j2rn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Ты Майя. `/persona maya` /relay take claude/maya-r1j2rn — продолжаем перевод сайта Майи: подагент-переводчик переводит три поста, подписи рисунков и тексты глав…",
+  "prs": [
+    208
+  ],
+  "url": "https://claude.ai/code/session_01WvsBewEFiUuVQ8EJkniaYE",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T04:08:11.453Z",
+  "lastResponseAt": "2026-10-26T04:38:00.022Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 158,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 194241,
+    "cacheReadTokens": 14229155,
+    "outputTokens": 33796,
+    "thinkingTokens": 5149,
+    "responses": 79,
+    "costUsd": 5.076311
+  },
+  "subagents": {
+    "inputTokens": 66,
+    "cacheWrite5mTokens": 307242,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3652026,
+    "outputTokens": 33402,
+    "thinkingTokens": 16296,
+    "responses": 33,
+    "costUsd": 2.9349191999999995
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 224,
+      "cacheWrite5mTokens": 307242,
+      "cacheWrite1hTokens": 194241,
+      "cacheReadTokens": 17881181,
+      "outputTokens": 67198,
+      "thinkingTokens": 21445,
+      "responses": 112,
+      "costUsd": 8.0112302
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/maya/public/blog/two-names.md",
+    "endedAt": "2026-10-26T04:11:06.134Z",
+    "contextTokens": 107234,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 105014,
+      "cacheWrite1hTokens": 84776,
+      "cacheReadTokens": 1857655,
+      "outputTokens": 6491,
+      "thinkingTokens": 1014,
+      "responses": 20,
+      "costUsd": 1.704789
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
