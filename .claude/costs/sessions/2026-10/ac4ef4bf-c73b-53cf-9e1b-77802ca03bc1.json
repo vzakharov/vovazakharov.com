@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 116703,
+    "cacheReadTokens": 1783264,
+    "outputTokens": 9445,
+    "thinkingTokens": 3576,
+    "responses": 14,
+    "costUsd": 1.4792888
+  },
+  "estimate": {
+    "at": "2026-10-26T17:27:31.443Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "interview prep needs a recruiter's read of the thread, the interviewer's public writing and the company's values, mapped onto the candidate's record and its weak spots"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "ac4ef4bf-c73b-53cf-9e1b-77802ca03bc1",
+  "branch": "claude/quirky-einstein-yan3ng",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай подготовимся к интервью со Stacey Richey https://mail.google.com/mail/u/0/#inbox/FMfcgzQhWxTDSbjlDXwgsRHrbgRzPcXs",
+  "prs": [],
+  "url": "https://claude.ai/code/session_018sUaEsTQXawJESAWmgRu1t",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T17:25:53.657Z",
+  "lastResponseAt": "2026-10-26T17:27:46.036Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 116703,
+    "cacheReadTokens": 1783264,
+    "outputTokens": 9445,
+    "thinkingTokens": 3576,
+    "responses": 14,
+    "costUsd": 1.4792888
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 116703,
+      "cacheReadTokens": 1783264,
+      "outputTokens": 9445,
+      "thinkingTokens": 3576,
+      "responses": 14,
+      "costUsd": 1.4792888
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-26T17:27:46.036Z",
+    "contextTokens": 165533,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 116308,
+      "cacheReadTokens": 1618128,
+      "outputTokens": 7085,
+      "thinkingTokens": 3401,
+      "responses": 13,
+      "costUsd": 1.3958936
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
