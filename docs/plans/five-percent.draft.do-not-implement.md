@@ -42,8 +42,8 @@ posts **one review** on the PR (`COMMENT`, never approve or request changes):
   carries only the run's one-line summary and the floor marker: nothing in it
   asks for a reply, since a review body has no thread to reply in.
 - **Each proposal opens on its lens's name** (§ "The lenses"), so the operator's
-  reply also tells the catalogue which lenses earn their keep, and "`frame` —
-  да" is a whole answer.
+  reply also tells the catalogue which lenses earn their keep, and "`precedent`
+  — да" is a whole answer.
 - **Each proposal is graded `critical` or `optional`.** Critical: taking it
   would change what the merge ships — a page says the wrong thing, a behaviour
   is wrong — not merely how it is built. Everything else is optional, and most
@@ -73,10 +73,13 @@ One per learning in the notes, under a one-word name to answer by. Each is a
 question put to the diff, and what it is put to — a lens whose ground the diff
 does not cover is skipped, which is most of them on most runs.
 
-- **`frame`** (×90) — what did the change take as given: a list, a precedent in
-  the tree, a checker's green, a rule's letter, its own tool's output? Fires on
-  anything; a new prop copied from nine callers, a commit type picked from the
-  list, a case passed because the skill's checks passed.
+- **`precedent`** (×90) — what did the change take as given: a list, a pattern
+  in the tree, a checker's green, a rule's letter, its own tool's output? Fires
+  on anything; a new prop copied from nine callers, a commit type picked from
+  the list, a case passed because the skill's checks passed. The name is the
+  Bible's
+  ([the precedent fallacy](../../apps/bible/public/precedent-fallacy.md), "a
+  given, read as a rule"), and the lens links it rather than restating it.
 - **`unrun`** (×28) — which claim in the change rests on reasoning nobody ran: a
   comment's "nothing calls this yet", a test on fixtures without the hard case,
   a link chosen by its title? The alternative is the one run, grep or read that
