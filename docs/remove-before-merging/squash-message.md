@@ -12,6 +12,10 @@ the works" / «В работе», each keeping its newest-first order. One
 helper in the music catalogue does the split for both pages, and a list
 with no such album shows no heading.
 
+An artist's tile on /music is pictured by its newest finished album
+with a cover, falling back to one in the works only where no finished
+album has one, so Полуживые show Скиталец rather than Гамлет.
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
