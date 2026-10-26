@@ -87,42 +87,90 @@ describe('masd-check', () => {
     assert.equal(stderr, MERGE_INTO_HOME);
   });
 
-  describe('a slice with one reference and a narrow public API', () => {
-    const CONSUMER = {
+  describe('a slice with one reference, by modularity over its own app', () => {
+    const CONSUMER: Tree = {
       'src/site/pages/home/ui.ts': "import { a } from '@/blog/entities/card';",
     };
-    // Six names defined, so a barrel handing on two is at a third.
-    const card = (barrel: string): Tree => ({
+    // Three edges inside the card: the barrel to each file, and `a` to `b`.
+    const COHESIVE: Tree = {
       ...CONSUMER,
-      [ENTITY]: barrel,
+      [ENTITY]: "export * from './a';\nexport * from './b';",
       'src/blog/entities/card/a.ts':
-        'export const a = 1;\nexport function b() {}\nexport type C = 1;',
-      'src/blog/entities/card/d.ts':
-        'export class D {}\nexport const e = 1, f = 2;',
-    });
+        "import { b } from './b';\nexport const a = b;",
+      'src/blog/entities/card/b.ts': 'export const b = 1;',
+    };
+    // Two edges elsewhere in blog, so the card is not the whole graph.
+    const REST_OF_BLOG: Tree = {
+      'src/blog/pages/documents/index.ts': "export * from './ui';",
+      'src/blog/pages/documents/ui.ts': "import { x } from '@/blog/shared/x';",
+      'src/blog/shared/x/index.ts': 'export const x = 1;',
+    };
+    const shared = (names: string[]): Tree =>
+      Object.fromEntries(
+        names.map((name) => [
+          `src/blog/shared/${name}/index.ts`,
+          `export const ${name} = 1;`,
+        ]),
+      );
 
-    it('passes when the barrel hands on a third', () => {
-      assert.deepEqual(run(card("export { a, D } from './a';")), {
+    it('passes a slice holding more of its edges than chance', () => {
+      assert.deepEqual(run({ ...COHESIVE, ...REST_OF_BLOG }), {
         status: 0,
         stderr: '',
       });
     });
 
-    it('is flagged when it hands on more', () => {
+    it('flags one whose files mostly import outside it', () => {
       assert.equal(
-        run(card("export { a, b, D } from './a';")).stderr,
+        run({
+          ...CONSUMER,
+          ...REST_OF_BLOG,
+          ...shared(['p', 'q', 'r', 's', 't']),
+          [ENTITY]: "export * from './a';\nexport * from './b';",
+          'src/blog/entities/card/a.ts': [
+            "import { p } from '@/blog/shared/p';",
+            "import { q } from '@/blog/shared/q';",
+            "import { r } from '@/blog/shared/r';",
+            'export const a = p + q + r;',
+          ].join('\n'),
+          'src/blog/entities/card/b.ts': [
+            "import { s } from '@/blog/shared/s';",
+            "import { t } from '@/blog/shared/t';",
+            'export const b = s + t;',
+          ].join('\n'),
+        }).stderr,
         MERGE_INTO_HOME,
       );
     });
 
-    it('counts every name of a file a barrel re-exports whole', () => {
-      assert.equal(run(card("export * from './d';")).status, 1);
-    });
-
-    it('is still flagged with no references', () => {
+    it('flags a one-file slice, which has no edge inside it', () => {
       assert.equal(
         run({
-          ...card("export { a } from './a';"),
+          ...CONSUMER,
+          ...REST_OF_BLOG,
+          [ENTITY]: "import { x } from '@/blog/shared/x';\nexport const a = x;",
+        }).stderr,
+        MERGE_INTO_HOME,
+      );
+    });
+
+    it('counts no descendant edge, however many', () => {
+      // The card is the whole of blog, so it holds exactly its share by chance;
+      // the site's edges would lower that share if they counted.
+      const site = Object.fromEntries(
+        ['a', 'b', 'c', 'd'].map((name) => [
+          `src/site/pages/home/${name}.ts`,
+          "import './ui';\nexport const y = 1;",
+        ]),
+      );
+      assert.equal(run({ ...COHESIVE, ...site }).stderr, MERGE_INTO_HOME);
+    });
+
+    it('still flags it with no references', () => {
+      assert.equal(
+        run({
+          ...COHESIVE,
+          ...REST_OF_BLOG,
           'src/site/pages/home/ui.ts': '',
         }).stderr,
         UNREFERENCED,

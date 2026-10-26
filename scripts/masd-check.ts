@@ -12,7 +12,7 @@
  * - Steiger's `insignificant-slice`, with each slice's references counted
  *   across the composition — its own app, every descendant and the routers —
  *   rather than within one app root, its messages kept word for word; a slice
- *   with one reference passes when its public API is narrow.
+ *   with one reference passes when it is a module by its own app's imports.
  *
  * Reads `src/` and `sites/*\/app/` under the working directory, so a test runs
  * it against a tree of its own. Bare Node runs this file, relying on its type
@@ -28,7 +28,6 @@ import {
   insignificantApps,
   loadGraph,
   type MasdGraph,
-  PUBLIC_API,
   SLICED_LAYERS,
 } from '../eslint/masd-graph.ts';
 
@@ -37,14 +36,12 @@ const SLICED = new Set(SLICED_LAYERS);
 // referenced by.
 const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
-// The most of a slice's exported names its barrels may hand on for it to be a
-// module whoever its one consumer is: it hides the rest. The repo's slices
-// built as modules — the player, the CV page — sit at a fifth or under, and a
-// grab bag re-exporting everything at all of it.
-const NARROW_API = 1 / 3;
-
 const ROOT = process.cwd();
 const SOURCE = /\.tsx?$/;
+const TEST = /\.test\.tsx?$/;
+
+/** A pair of files one imports the other, within one app. */
+type Edge = readonly [string, string];
 
 const walk = (directory: string): string[] =>
   readdirSync(directory, { withFileTypes: true, recursive: true })
@@ -88,76 +85,32 @@ function sourceFile(base: string): string | undefined {
   );
 }
 
-const isExported = (statement: ts.Statement): boolean =>
-  ts.canHaveModifiers(statement) &&
-  (ts.getModifiers(statement) ?? []).some(
-    ({ kind }) => kind === ts.SyntaxKind.ExportKeyword,
-  );
-
-/**
- * The names a file exports — through an `export *` of another source file too,
- * when `following`, which is how a barrel hands on a whole file.
- */
-function exportedNames(file: string, following: boolean): Set<string> {
-  const names = new Set<string>();
-  const { statements } = ts.createSourceFile(
-    file,
-    readFileSync(file, 'utf8'),
-    ts.ScriptTarget.Latest,
-  );
-  for (const statement of statements) {
-    if (ts.isExportDeclaration(statement)) {
-      const { exportClause, moduleSpecifier } = statement;
-      if (exportClause !== undefined && ts.isNamedExports(exportClause)) {
-        for (const { name } of exportClause.elements) names.add(name.text);
-      } else if (
-        following &&
-        moduleSpecifier !== undefined &&
-        ts.isStringLiteral(moduleSpecifier)
-      ) {
-        const resolved = resolveImport(file, moduleSpecifier.text);
-        const target =
-          resolved === undefined ? undefined : sourceFile(resolved);
-        if (target !== undefined) {
-          for (const name of exportedNames(target, true)) names.add(name);
-        }
-      }
-    } else if (ts.isExportAssignment(statement)) {
-      names.add('default');
-    } else if (isExported(statement)) {
-      if (ts.isVariableStatement(statement)) {
-        for (const { name } of statement.declarationList.declarations) {
-          if (ts.isIdentifier(name)) names.add(name.text);
-        }
-      } else if (
-        (ts.isFunctionDeclaration(statement) ||
-          ts.isClassDeclaration(statement) ||
-          ts.isTypeAliasDeclaration(statement) ||
-          ts.isInterfaceDeclaration(statement) ||
-          ts.isEnumDeclaration(statement)) &&
-        statement.name !== undefined
-      ) {
-        names.add(statement.name.text);
-      }
-    }
-  }
-  return names;
+/** The app a shipped file under `src/` is part of; a test or script is none. */
+function appOf(file: string): string | undefined {
+  const [root, app, layer] = file.split(path.sep);
+  return root === 'src' && layer !== 'scripts' && !TEST.test(file)
+    ? app
+    : undefined;
 }
 
-function narrowApi(slice: string): boolean {
-  const directory = path.join('src', slice);
-  const barrels = new Set(PUBLIC_API.map((name) => path.join(directory, name)));
-  const handedOn = new Set(
-    [...barrels]
-      .filter((barrel) => existsSync(barrel))
-      .flatMap((barrel) => [...exportedNames(barrel, true)]),
-  );
-  const defined = walk(directory)
-    .filter((file) => !barrels.has(file))
-    .flatMap((file) =>
-      [...exportedNames(file, false)].map((name) => `${file}#${name}`),
-    );
-  return defined.length > 0 && handedOn.size <= defined.length * NARROW_API;
+/**
+ * Whether a slice holds more of its app's import edges than chance would: its
+ * term of Newman's modularity, `e − a²`, is positive — `e` the share of edges
+ * with both ends in it, `a` the share of edge ends on it, so `a²` is what a
+ * rewiring keeping every file's degree would put inside. The edges are its
+ * own app's alone, since who uses an app says nothing of how it is cut.
+ */
+function modular(slice: string, edges: readonly Edge[]): boolean {
+  const prefix = path.join('src', slice) + path.sep;
+  let inside = 0;
+  let ends = 0;
+  for (const [from, to] of edges) {
+    const both = [from, to].filter((file) => file.startsWith(prefix)).length;
+    if (both === 2) inside++;
+    ends += both;
+  }
+  // `inside / m > (ends / 2m)²`, multiplied through by `m`.
+  return inside > ends ** 2 / (4 * edges.length);
 }
 
 function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
@@ -170,7 +123,10 @@ function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
   ];
 }
 
-function sliceProblems(references: ReadonlyMap<string, ReadonlySet<string>>) {
+function sliceProblems(
+  references: ReadonlyMap<string, ReadonlySet<string>>,
+  edges: ReadonlyMap<string, readonly Edge[]>,
+) {
   return [...references].flatMap(([slice, sources]) => {
     const [reference, ...others] = sources;
     if (reference === undefined) {
@@ -178,7 +134,12 @@ function sliceProblems(references: ReadonlyMap<string, ReadonlySet<string>>) {
         `src/${slice}: This slice has no references. Consider removing it.`,
       ];
     }
-    if (others.length > 0 || reference === 'router' || narrowApi(slice)) {
+    const app = slice.slice(0, slice.indexOf('/'));
+    if (
+      others.length > 0 ||
+      reference === 'router' ||
+      modular(slice, edges.get(app) ?? [])
+    ) {
       return [];
     }
     const [, layer, sourceSlice] = reference.split('/');
@@ -215,6 +176,7 @@ function check(): string[] {
   }
 
   const mounted = new Set<string>();
+  const edges = new Map<string, Edge[]>();
   const files = [
     ...walk('src'),
     ...subdirectories('sites').flatMap((site) =>
@@ -229,18 +191,38 @@ function check(): string[] {
       true,
       true,
     );
+    const app = appOf(file);
+    const linked = new Set<string>();
     for (const { fileName } of importedFiles) {
       const resolved = resolveImport(file, fileName);
-      const target = resolved === undefined ? undefined : locate(resolved);
+      if (resolved === undefined) continue;
+      const imported = sourceFile(resolved);
+      if (
+        app !== undefined &&
+        imported !== undefined &&
+        imported !== file &&
+        appOf(imported) === app
+      ) {
+        linked.add(imported);
+      }
+      const target = locate(resolved);
       if (target === undefined || target === source) continue;
       // Every location under `src/` opens with its app.
       if (source === 'router')
         mounted.add(target.slice(0, target.indexOf('/')));
       references.get(target)?.add(source);
     }
+    if (app !== undefined) {
+      const own = edges.get(app) ?? [];
+      own.push(...[...linked].map((imported): Edge => [file, imported]));
+      edges.set(app, own);
+    }
   }
 
-  return [...graphProblems(graph, mounted), ...sliceProblems(references)];
+  return [
+    ...graphProblems(graph, mounted),
+    ...sliceProblems(references, edges),
+  ];
 }
 
 const problems = check();
