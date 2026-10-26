@@ -6,8 +6,8 @@ import type { JSXAttribute } from 'estree-jsx';
  *
  * User-facing copy belongs in its app's `messages/en.json` and
  * `messages/ru.json`, read on the server through its `shared/i18n` and passed
- * down as a prop. A literal in JSX is rendered verbatim in both locales, so it silently
- * defeats the `ru` catalog.
+ * down as a prop. A literal in JSX is rendered verbatim in both locales, so it
+ * silently defeats the `ru` catalog.
  */
 const rule: Rule.RuleModule = {
   meta: {
