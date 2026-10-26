@@ -2,9 +2,9 @@
  * Майя's social cards, as pages for `og-render.ts` to screenshot: she stands at
  * the left edge, cut from the «Крылья» cover, and the copy sits beside her in
  * the site's Merriweather. The site card carries her name and the tagline; a
- * post's carries its byline line, title and description. A post or page with a
- * drawing of its own shows the drawing in her place, on the paper she draws on,
- * and keeps her face as a mark beside the byline.
+ * post's carries its byline line, title and description. A post or toy with a
+ * drawing of its own is carded as the drawing alone: the unfurl prints the
+ * title and description under it, and the drawing is signed.
  *
  * The font is staged beside the card from `@fontsource/merriweather` — a
  * `file://` page has no route to the web font the site loads — in both of the
@@ -42,9 +42,6 @@ const COVER = path.join(
   REPO_ROOT,
   'apps/vova/public/music/assets/covers/wings.jpg',
 );
-
-/** Her face beside the byline of a card her drawing fills, staged under this name. */
-const MARK = 'mark.png';
 
 /**
  * The paper her drawings are on, which a drawn card is laid out on too, so a
@@ -111,35 +108,7 @@ function fontFaces(): string {
 /** What one card prints: its heading, and an optional line under the title. */
 type CardCopy = CardHeading & { line?: string };
 
-/**
- * A card's picture: her figure, or a drawing staged under `name` — which keeps
- * the source's extension, since the page loads it by name.
- */
-type Picture = { kind: 'figure' } | { kind: 'drawing'; name: string };
-
-function pictureStyle(picture: Picture): string {
-  return picture.kind === 'figure'
-    ? `      body { background: ${CANVAS_BACKGROUND}; }
-      /* Her figure, the balloon and the hand she holds: the cover's left half. */
-      .picture { width: 400px; object-fit: cover; object-position: 12% 0; }`
-    : `      body { background: ${PAPER}; }
-      .picture { width: 560px; object-fit: contain; }
-      .mark {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        vertical-align: middle;
-        margin-right: 14px;
-      }`;
-}
-
-function cardPage({ kicker, title, line }: CardCopy, picture: Picture): string {
-  const src = picture.kind === 'figure' ? PORTRAIT : picture.name;
-  const mark =
-    picture.kind === 'figure'
-      ? ''
-      : `<img class="mark" src="${MARK}" alt="" />`;
-
+function cardPage({ kicker, title, line }: CardCopy): string {
   return `<!doctype html>
 <html>
   <head>
@@ -154,11 +123,18 @@ ${fontFaces()}
         height: ${CANVAS.height}px;
         display: flex;
         overflow: hidden;
+        background: ${CANVAS_BACKGROUND};
         color: ${INK};
         font-family: "Card", serif;
       }
-      .picture { flex: none; height: 100%; }
-${pictureStyle(picture)}
+      /* Her figure, the balloon and the hand she holds: the cover's left half. */
+      img {
+        flex: none;
+        width: 400px;
+        height: 100%;
+        object-fit: cover;
+        object-position: 12% 0;
+      }
       main {
         display: flex;
         flex-direction: column;
@@ -190,9 +166,9 @@ ${pictureStyle(picture)}
     </style>
   </head>
   <body>
-    <img class="picture" src="${src}" alt="" />
+    <img src="${PORTRAIT}" alt="" />
     <main>
-      <p class="kicker">${mark}${escapeHtml(kicker)}</p>
+      <p class="kicker">${escapeHtml(kicker)}</p>
       <p class="title">${escapeHtml(title)}</p>
 ${line === undefined ? '' : `      <p class="line">${escapeHtml(line)}</p>\n`}    </main>
   </body>
@@ -200,33 +176,14 @@ ${line === undefined ? '' : `      <p class="line">${escapeHtml(line)}</p>\n`}  
 `;
 }
 
-/** Her face, as the site serves it. */
-const markFile = (): Buffer =>
-  fs.readFileSync(
-    path.join(REPO_ROOT, 'apps/maya/public', siteConfig('maya').avatar.path),
-  );
-
-/** `drawing` is a path to the drawing that takes her figure's place, if any. */
-function stagedCard(copy: CardCopy, drawing?: string): StagedPage {
-  const fonts = Object.fromEntries(
-    FONT_CUTS.map((cut) => [stagedFontName(cut), fontFile(cut)]),
-  );
-
-  if (drawing === undefined) {
-    return {
-      page: cardPage(copy, { kind: 'figure' }),
-      files: { [PORTRAIT]: fs.readFileSync(COVER), ...fonts },
-    };
-  }
-
-  const name = `drawing${path.extname(drawing)}`;
-
+function stagedCard(copy: CardCopy): StagedPage {
   return {
-    page: cardPage(copy, { kind: 'drawing', name }),
+    page: cardPage(copy),
     files: {
-      [name]: fs.readFileSync(drawing),
-      [MARK]: markFile(),
-      ...fonts,
+      [PORTRAIT]: fs.readFileSync(COVER),
+      ...Object.fromEntries(
+        FONT_CUTS.map((cut) => [stagedFontName(cut), fontFile(cut)]),
+      ),
     },
   };
 }
@@ -241,31 +198,54 @@ export function mayaSiteCard(): StagedPage {
   });
 }
 
+/** The drawing at `drawing`, contained in the card on her paper. */
+function drawnCard(drawing: string): StagedPage {
+  const name = `drawing${path.extname(drawing)}`;
+
+  return {
+    page: `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html { zoom: ${SCALE}; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        width: ${CANVAS.width}px;
+        height: ${CANVAS.height}px;
+        overflow: hidden;
+        background: ${PAPER};
+      }
+      img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    </style>
+  </head>
+  <body><img src="${name}" alt="" /></body>
+</html>
+`,
+    files: { [name]: fs.readFileSync(drawing) },
+  };
+}
+
 /**
- * The byline line is the index card's, so the card and the page say it alike.
- * The drawing is the post's `cardImage`, the one its index card shows too.
+ * A post's `cardImage` — the drawing its index card shows too — where it has
+ * one; else the byline line, the index card's, so the card and the page say it
+ * alike.
  */
 export function mayaPostCard({ title, frontmatter }: BlogPost): StagedPage {
   const { cardImage, date, description } = frontmatter;
 
-  return stagedCard(
-    {
-      kicker: `${siteConfig('maya').name} · ${formatDocumentDate(date, 'ru')}`,
-      title,
-      line: description,
-    },
-    cardImage === undefined
-      ? undefined
-      : path.resolve(collectionDir('maya-blog'), cardImage),
-  );
+  if (cardImage !== undefined) {
+    return drawnCard(path.resolve(collectionDir('maya-blog'), cardImage));
+  }
+
+  return stagedCard({
+    kicker: `${siteConfig('maya').name} · ${formatDocumentDate(date, 'ru')}`,
+    title,
+    line: description,
+  });
 }
 
-/**
- * A page of hers that is not a post — a toy — carded under its own heading,
- * with the drawing at `drawing`, a path under her site's `public/`.
- */
-export function mayaPageCard(copy: CardCopy & { drawing: string }): StagedPage {
-  const { drawing, ...heading } = copy;
-
-  return stagedCard(heading, path.join(REPO_ROOT, 'apps/maya/public', drawing));
+/** A toy's card: its drawing, a path under her site's `public/`. */
+export function mayaToyCard(drawing: string): StagedPage {
+  return drawnCard(path.join(REPO_ROOT, 'apps/maya/public', drawing));
 }

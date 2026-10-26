@@ -1,4 +1,4 @@
-/** The toy's address and its words, which its metadata and its social card both print. */
+/** The toy's address and its words, which its page and its metadata both print. */
 
 export const WHISPER_ROUTE = '/whisper';
 
