@@ -18,7 +18,10 @@ Riding along, her site reads in English while she still writes only
 Russian: English at the bare address, Russian under /ru, each page
 with a language switch. A translator subagent makes the English after
 she finishes, and the build refuses a translation stamped against an
-original that has since changed. An article's index card is its first
+original that has since changed. Her drawings are drawn once, their
+words filled in per language. The typewriter post becomes “The
+whispering typewriter”, at /blog/whispering-typewriter, and the old
+address goes. An article's index card is its first
 image unless cardImage says otherwise, which gives the Playgram case
 study its chart there.
 

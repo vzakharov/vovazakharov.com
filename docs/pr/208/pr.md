@@ -1,4 +1,4 @@
-# PR #208: feat: Майя's site in English, her walk on fungi and her drawings
+# PR #208: feat: Майя's walk on fungi with two names, and her site in English
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/208
@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-26T02:26:04Z
-- **Updated:** 2026-10-26T05:00:28Z
+- **Updated:** 2026-10-26T05:32:15Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,10 +15,10 @@
 
 ## Awaiting an answer: 4
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at e113c9c). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at fe1951a). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `apps/maya/public/blog/distant-elver.md`:15 — unresolved — last: @vzakharov (human) 2026-10-26T04:49:31Z — "не уверен что мне нравится этот gettext-ish подход, я бы луч…" → [↓](#t01)
-- **T02** `apps/maya/public/blog/distant-elver.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T04:49:56Z — "а можно это сделать distant-elver.en.md? кажется, для двуязы…" → [↓](#t02)
+- **T02** `apps/maya/public/blog/distant-elver.en.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T04:49:56Z — "а можно это сделать distant-elver.en.md? кажется, для двуязы…" → [↓](#t02)
 - **T03** `apps/maya/public/blog/whispered-typewriter.md`:78 — unresolved — last: @vzakharov (human) 2026-10-26T04:56:13Z — "P.S. (в обоих языках)?" → [↓](#t03)
 - **T04** `docs/remove-before-merging/squash-message.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T04:59:58Z — "что-то прогулке здесь очень мало места посвящено -- я б скор…" → [↓](#t04)
 
@@ -29,7 +29,8 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 ## Summary
 
 - **Майя's site in English.** English at the bare address, Russian under `/ru`: the home page (`/`, `/en`, `/ru`), each post (`/blog/<slug>`, `/en`, `/ru`), `/whisper` (likewise) and per-language feeds (`/blog/en/feed.xml`, `/blog/ru/feed.xml` — `/blog/feed.xml` goes). Each page carries an EN/RU chip switch, now one shared `localeChips` that the music and CV pages use too.
-- **Майя writes only Russian; a translator subagent makes the English after.** A post is `<slug>.ru.md` (the original) plus `<slug>.md` (its translation), whose frontmatter states only `description`, `captions` and a `translatedFrom` stamp — the original's content hash, written by `pnpm translation:stamp`. The build refuses a translation whose original has moved since, or an original with no translation, so nothing publishes one language behind. The three existing posts went through that very path. A drawing is drawn once as `<name>.ru.svg`; the translation's `captions` maps each wording to English, and `pnpm content:drawings:maya` (with `--check` in vet) writes `<name>.svg` from it.
+- **Майя writes only Russian; a translator subagent makes the English after.** A post is `<slug>.ru.md` (the original) plus `<slug>.en.md` (its translation), whose frontmatter states only `description`, `captions` and a `translatedFrom` stamp — the original's content hash, written by `pnpm translation:stamp`. The build refuses a translation whose original has moved since, an original with no translation, or a file naming no language, so nothing publishes one language behind. The three existing posts went through that very path. A drawing is drawn once, as the template `assets/<name>.svg` with a `{{key}}` wherever it has words; each language's post maps the keys to its wordings under `captions`, and `pnpm content:drawings:maya` (with `--check` in vet) writes `<name>.ru.svg` and `<name>.en.svg` from it.
+- **The typewriter post is “The whispering typewriter”, at `/blog/whispering-typewriter`** — the address `main` published as `/blog/whispered-typewriter` goes; its closing section is “P.S.” in both languages.
 - **A post's index card is its first image, with `cardImage` as the override** — no frontmatter line repeating the drawing. Outside Майя's blog this changes one card: `case-studies/playgram` now shows its chart on the case-studies index; the two Bible articles that repeated their image dropped the line.
 - **Her site's identity is English at the bare address** — `SITE_CONFIG.maya` is “Maya”, its tagline and site card English, the Russian name in the catalogue for `/ru`; a byline names the author in the page's language.
 - **Earlier on this branch:** Майя's walk on fungi with two names (`blog/two-names`), her drawings on each post and as each post's whole social card, `/whisper`'s own card, and her walk rules.
@@ -42,8 +43,8 @@ Known duplication: `SITE_CONFIG.maya`'s English name and tagline repeat `en.json
 - [ ] `post` — `/blog/distant-elver` reads in English with the English drawing; its RU chip opens `/blog/distant-elver/ru`, in Russian with the Russian drawing; the `.md` link on each names its own language's file.
 - [ ] `whisper` — `/whisper` and `/whisper/ru` show the story in their language, and the story's blog link opens the post in the same language.
 - [ ] `byline` — “By Maya” on English pages, «Пишет Майя» on Russian ones.
-- [ ] `drift` — edit a word in `apps/maya/public/blog/two-names.ru.md`: `pnpm build:maya` fails naming `two-names.md`; `git checkout` the file and it builds.
-- [ ] `case-studies` — `pnpm dev:vova`, `/case-studies`: playgram's card shows its first image (the chart). Keep or set `cardImage`?
+- [ ] `drift` — edit a word in `apps/maya/public/blog/two-names.ru.md`: `pnpm build:maya` fails naming `two-names.en.md`; `git checkout` the file and it builds.
+- [ ] `case-studies` — `pnpm dev:vova`, `/case-studies`: playgram's card shows its first image (the chart), as agreed.
 - [ ] `cards` — `apps/maya/public/card.og.png` reads “Maya”; each post's `.og.png` is its English drawing.
 - [ ] `feeds` — `out/blog/en/feed.xml` and `out/blog/ru/feed.xml` list the posts in their language.
 
@@ -54,17 +55,17 @@ Known duplication: `SITE_CONFIG.maya`'s English name and tagline repeat `en.json
 | `whisper` | partly | partly | as above |
 | `byline` | yes | no | a grep over the export |
 | `drift` | yes | yes | the loader throws on a stale stamp at build; `translations` logic is pure |
-| `case-studies` | no | no | an editorial call |
+| `case-studies` | no | no | looked at by eye |
 | `cards` | yes | yes | `content:og:maya --check` and `content:drawings:maya --check` in vet hold the hashes; looks by eye |
 | `feeds` | yes | no | a grep over the export |
 
-https://claude.ai/code/session_01WvsBewEFiUuVQ8EJkniaYE
+https://claude.ai/code/session_01KtSLsdFBuEPcZRZuWaAWzZ
 
 ---
 
 ## Comments
 
-- **C01** @vzakharov (agent) — 2026-10-26T02:26:15Z — "Proposed squash body: ``` Майя's site reads in English now,…" → [↓](#c01)
+- **C01** @vzakharov (agent) — 2026-10-26T02:26:15Z — "Proposed squash body: ``` Майя's third walk goes without the…" → [↓](#c01)
 
 <a id="c01"></a>
 
@@ -75,28 +76,26 @@ https://claude.ai/code/session_01WvsBewEFiUuVQ8EJkniaYE
 Proposed squash body:
 
 ```
-Майя's site reads in English now, while she still writes only in
-Russian: Vova wanted the site open to more readers without her losing
-her voice, so the English is made after, by a translator subagent.
-English sits at the bare address and Russian under /ru — the home
-page, each post, /whisper and a feed per language, each page with a
-language switch the music and CV pages share.
+Майя's third walk goes without the dice, from a line of her eel walk:
+a larva once named as a fish of its own. Her blog entry «Какое из
+двух» follows the century the botanical code let a fungus's asexual
+and sexual stages carry separate names, the 2011 Melbourne vote for
+one fungus, one name, and how the surviving name was chosen —
+Botrytis, Trichoderma, Penicillium, Aspergillus, Talaromyces.
 
-A translated collection keeps the original as <slug>.ru.md and its
-translation as <slug>.md, stamped with the original's content hash by
-pnpm translation:stamp; the build refuses a stamp the original has
-moved past, or an original with no translation, so no page publishes
-one language behind. A drawing is drawn once as <name>.ru.svg, and the
-translation's captions map writes the English copy through
-content:drawings:maya, whose --check runs in vet.
+Each of her posts carries a drawing of hers, ink on warm paper as in
+an old field guide, shown in the body, on the blog index and as the
+post's whole social card; the /whisper toy unfurls as its own drawing
+too. Her walk rules make the dice optional, a help for when walks
+start converging.
 
-An article's index card is its first image unless cardImage says
-otherwise, which drops the frontmatter line that repeated it and gives
-the Playgram case study its chart as the index card.
-
-The branch also carries her third walk, on the century fungi carried
-two legal names, and her drawings on each post and as each post's and
-/whisper's whole social card.
+Riding along, her site reads in English while she still writes only
+Russian: English at the bare address, Russian under /ru, each page
+with a language switch. A translator subagent makes the English after
+she finishes, and the build refuses a translation stamped against an
+original that has since changed. An article's index card is its first
+image unless cardImage says otherwise, which gives the Playgram case
+study its chart there.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -108,7 +107,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 _3 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `apps/maya/public/blog/distant-elver.md`:15 — unresolved — last: @vzakharov (human) 2026-10-26T04:49:31Z — "не уверен что мне нравится этот gettext-ish подход, я бы луч…" → [↓](#t01)
-- **T02** `apps/maya/public/blog/distant-elver.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T04:49:56Z — "а можно это сделать distant-elver.en.md? кажется, для двуязы…" → [↓](#t02)
+- **T02** `apps/maya/public/blog/distant-elver.en.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T04:49:56Z — "а можно это сделать distant-elver.en.md? кажется, для двуязы…" → [↓](#t02)
 - **T03** `apps/maya/public/blog/whispered-typewriter.md`:78 — unresolved — last: @vzakharov (human) 2026-10-26T04:56:13Z — "P.S. (в обоих языках)?" → [↓](#t03)
 - **T04** `docs/remove-before-merging/squash-message.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T04:59:58Z — "что-то прогулке здесь очень мало места посвящено -- я б скор…" → [↓](#t04)
 
@@ -141,7 +140,7 @@ _3 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 <a id="t02"></a>
 
-### `apps/maya/public/blog/distant-elver.md`:1 — unresolved
+### `apps/maya/public/blog/distant-elver.en.md`:1 — unresolved
 
 **@vzakharov (human)** — 2026-10-26T04:49:56Z
 
@@ -206,3 +205,4 @@ P.S. (в обоих языках)?
 - **2026-10-26T03:31:03Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/208#pullrequestreview-5647013140.
 - **2026-10-26T04:51:56Z** @vzakharov renamed from «feat(maya): Майя's walk on fungi, and her drawings on posts and cards» to «feat: Майя's site in English, her walk on fungi and her drawings».
 - **2026-10-26T05:00:27Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/208#pullrequestreview-5647534647.
+- **2026-10-26T05:10:58Z** @vzakharov renamed from «feat: Майя's site in English, her walk on fungi and her drawings» to «feat: Майя's walk on fungi with two names, and her site in English».
