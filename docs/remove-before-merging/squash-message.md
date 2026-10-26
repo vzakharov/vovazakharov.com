@@ -1,10 +1,10 @@
 Proposed squash body:
 
 ```
-On an iPhone the current song and the next were heard playing over
-each other. The player preloads the next track on a second audio
-element, and iOS is where that second element has been heard starting
-beside the first.
+On an iPhone the current song and the next were now and then heard
+playing over each other. The player preloads the next track on a
+second audio element, and iOS is where that second element has at
+times been heard starting beside the first.
 
 iOS, iPadOS included, now gets a single element. Once the playing
 track can play through, the next one is fetched whole into a blob, and
