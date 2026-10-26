@@ -7,9 +7,8 @@ import {
   type Scaled,
 } from '../../model/geometry';
 import { toCanvas } from '../../model/mushroom-outline';
-import type { Splayed } from '../../model/mushroom-pose';
 import type { Standing } from './bed-place';
-import type { WithGraphics } from './hit-areas';
+import type { Puffing } from './mushroom-selection';
 import { PALETTE } from './palette';
 
 /** Dots in the outer ring; the inner ring has half as many, between them. */
@@ -21,12 +20,6 @@ const PUFF_SECONDS = 0.9;
  * a puff follows what it rose from as a resize or a turn refits the meadow.
  */
 type Anchor = () => Circle;
-
-/**
- * A mushroom as the bed last stood it, which the bed moves in place on a
- * refit: `size` as laid out, drawn at its `stands`' zoom.
- */
-export type Puffing = WithGraphics & Splayed & Scaled & Standing;
 
 /** How big `body` is drawn as it stands now, in screen px. */
 export function drawnSize({ size, stands }: Scaled & Standing): number {

@@ -1,13 +1,21 @@
 import type * as Phaser from 'phaser';
 
+import type { Scaled } from '../../model/geometry';
 import type { TapArea } from '../../model/mushroom-outline';
-import { standAt } from './bed-place';
+import type { Splayed } from '../../model/mushroom-pose';
+import { standAt, type Standing } from './bed-place';
 import {
   drawSelection,
   drawSelectionRing,
   type RingGraphics,
 } from './draw-mushroom';
-import type { Puffing } from './spores';
+import type { WithGraphics } from './hit-areas';
+
+/**
+ * A mushroom as the bed last stood it, which the bed moves in place on a
+ * refit: `size` as laid out, drawn at its `stands`' zoom.
+ */
+export type Puffing = WithGraphics & Splayed & Scaled & Standing;
 
 /**
  * How much nearer than its mushroom each part of the selection is drawn: the

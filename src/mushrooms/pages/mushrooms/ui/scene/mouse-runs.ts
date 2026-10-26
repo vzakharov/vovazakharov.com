@@ -68,6 +68,9 @@ import {
 } from './runner-shown';
 import type { View } from './view';
 
+/** What a run reads of a shown mushroom's house: whether a door is in, and the mouse behind it. */
+type MouseHouse = { doored: boolean; mouse: Tapped };
+
 /** What the mice's voice plays: a knock at a door, a running patter, a squeak. */
 export type MouseVoice = {
   knock: () => void;
@@ -116,13 +119,13 @@ export class MouseRuns {
   private readonly scene: Phaser.Scene;
   private readonly voice: MouseVoice;
   private readonly now: () => number;
-  private readonly shown: () => ReadonlyMap<string, Shown>;
+  private readonly shown: () => ReadonlyMap<string, Shown<MouseHouse>>;
 
   constructor(
     scene: Phaser.Scene,
     voice: MouseVoice,
     now: () => number,
-    shown: () => ReadonlyMap<string, Shown>,
+    shown: () => ReadonlyMap<string, Shown<MouseHouse>>,
   ) {
     this.scene = scene;
     this.voice = voice;

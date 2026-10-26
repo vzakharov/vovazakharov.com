@@ -19,16 +19,14 @@ import { doorHitArea } from './door-reach';
 import { paintHouse, type ShownWindow } from './draw-house';
 import { paintMouse } from './draw-mouse';
 import { paintWorm } from './draw-worm';
-import type { Lights } from './windows-lit';
-import { type Dusked, hazeTone } from './haze-tone';
+import { hazeTone } from './haze-tone';
 import { containsOutline, drawnMushrooms } from './hit-areas';
 import { HouseWorm } from './house-worm';
-import type { Lighted } from './ink';
 import type { DoorShown, MouseDoor } from './mouse-door';
-import type { HazedGraphics } from './mushroom-paint';
+import type { Body } from './mushroom-shown';
 import type { Brush } from './shapes';
 import type { MeadowSound } from './sound';
-import { puffFrom, type Puffing } from './spores';
+import { puffFrom } from './spores';
 import { coveredAt, WindowGlow, windowMiddles } from './window-glow';
 import {
   type HousePart,
@@ -36,7 +34,7 @@ import {
   windowFace,
   windowReaches,
 } from './window-reach';
-import { windowsLit } from './windows-lit';
+import { type Lights, windowsLit } from './windows-lit';
 
 /** How much sooner than its mouse's head a door swings all the way open. */
 const DOOR_LEAD = 2;
@@ -48,18 +46,6 @@ function seated({ door }: Body): DoorPlace {
   if (!door) throw new Error('A door put in with no seat on its stem');
   return door;
 }
-
-/**
- * The mushroom a house stands in, as the bed last stood and moved it, and
- * where on its stem the bed seated its door: `undefined` until a door needs
- * one.
- */
-export type Body = HazedGraphics &
-  Dusked &
-  Lighted &
-  Puffing & {
-    door: DoorPlace | undefined;
-  };
 
 /** The windows and brush of a house's last paint, which its glow lights. */
 type Painted = { windows: ShownWindow[]; brush: Brush };

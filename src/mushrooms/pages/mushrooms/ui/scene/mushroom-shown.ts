@@ -2,8 +2,8 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Planted } from '../../model/planted';
 import type { Point, Tall } from '../../model/geometry';
+import type { DoorPlace } from '../../model/house';
 import type { Light } from '../../model/light';
 import {
   type Lit,
@@ -19,15 +19,15 @@ import {
   curveSteps,
 } from '../../model/mushroom-profile';
 import type { Footed } from '../../model/placement';
-import type { Sprouting } from '../../model/planted';
-import { UNPLACED } from './bed-place';
-import type { LaidAhead } from './bed-place';
+import type { Planted, Sprouting } from '../../model/planted';
+import { type LaidAhead,UNPLACED } from './bed-place';
 import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
+import type { Dusked } from './haze-tone';
 import type { WithGraphics } from './hit-areas';
-import type { Body, HouseView } from './house-view';
-import type { Lighting } from './ink';
+import type { Lighted, Lighting } from './ink';
 import type { MushroomLights } from './mushroom-light';
-import type { AreaHit, Selected } from './mushroom-selection';
+import type { HazedGraphics } from './mushroom-paint';
+import type { AreaHit, Puffing, Selected } from './mushroom-selection';
 import type { PaintedSide } from './repaint-queue';
 
 /** What a shown mushroom keeps of its mushroom as planted. */
@@ -36,22 +36,41 @@ const SHOWN_OF = ['foot', 'lean', 'sprout'] as const satisfies ReadonlyArray<
 >;
 type ShownOf = Footed & Sprouting;
 
-type HouseShadowed = {
+/**
+ * The mushroom a house stands in, as the bed last stood and moved it, and
+ * where on its stem the bed seated its door: `undefined` until a door needs
+ * one.
+ */
+export type Body = HazedGraphics &
+  Dusked &
+  Lighted &
+  Puffing & {
+    door: DoorPlace | undefined;
+  };
+
+/**
+ * A shown mushroom's shadow and its house, `House` being whatever the bed
+ * shows its windows and door with.
+ */
+type HouseShadowed<House> = {
   /** Apart from `graphics`, so it stays on the ground as the mushroom moves. */
   shadow: Phaser.GameObjects.Graphics;
   /** Its windows and door, which follow it. */
-  house: HouseView;
+  house: House;
 };
 
+/** A house that repaints when its mushroom is. */
+type Repainting = { repaint: () => void };
+
 /** `spots`: those its house left painted (`paintedSpots`) when it was last drawn. */
-export type Shown = Tapped &
+export type Shown<House = unknown> = Tapped &
   Sprouted &
   Lit &
   Body &
   Spotted &
   ShownOf &
   Selected &
-  HouseShadowed &
+  HouseShadowed<House> &
   // How far its tap area reaches above its foot, in world px at the opening eye.
   Tall & {
     /** When it was removed, and starts sinking; `Infinity` while it stands. */
@@ -74,12 +93,12 @@ export type Shown = Tapped &
  * objects the bed made for it: unshaped, unplaced and painted in `lighting`
  * alone until `place` shapes and lights it.
  */
-export function unplacedShown(
+export function unplacedShown<House>(
   mushroom: Planted,
   plantedAt: number,
   lighting: Lighting,
-  objects: WithGraphics & HouseShadowed & AreaHit,
-): Shown {
+  objects: WithGraphics & HouseShadowed<House> & AreaHit,
+): Shown<House> {
   const { sprout } = mushroom;
   return {
     ...objects,
@@ -120,7 +139,7 @@ export function stepsHere({ size, stands }: Shown): number {
  * as its size on screen asks (`stepsHere`), and keeps the light, sun side
  * and chords it painted.
  */
-export function paintLit(shown: Shown, heading: number): void {
+export function paintLit(shown: Shown<Repainting>, heading: number): void {
   const { graphics, shadow, genes, spots, size, haze, dusk, turn, house } =
     shown;
   const { body, ground } = shown.lightsAt(heading);

@@ -3,7 +3,6 @@ import * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Meadow } from '../../model/game';
-import type { Planted } from '../../model/planted';
 import { placedAt, type Point } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
 import { type DoorPlace, paintedSpots } from '../../model/house';
@@ -17,11 +16,11 @@ import {
   toCanvas,
 } from '../../model/mushroom-outline';
 import { splayed } from '../../model/mushroom-pose';
+import type { Planted } from '../../model/planted';
 import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorSeats } from './door-seats';
 import { tappedDoor } from './door-tap';
-import type { Lights } from './windows-lit';
 import { containsMushroom } from './hit-areas';
 import { HouseView } from './house-view';
 import type { Lighting } from './ink';
@@ -32,7 +31,7 @@ import { mushroomLights } from './mushroom-light';
 import { MushroomSelection } from './mushroom-selection';
 import {
   paintLit,
-  type Shown,
+  type Shown as ShownMushroom,
   stepsHere,
   unplacedShown,
 } from './mushroom-shown';
@@ -49,6 +48,10 @@ import { SporeBed } from './spore-bed';
 import { crownOf, driftSpores } from './spore-drift';
 import { drawnSize, puffFrom } from './spores';
 import type { Following, View } from './view';
+import type { Lights } from './windows-lit';
+
+/** A mushroom as this bed shows it, its windows and door in a `HouseView`. */
+type Shown = ShownMushroom<HouseView>;
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
 const SPORE_DEPTH = 1e5;
@@ -240,7 +243,8 @@ export class MushroomBed implements Following, DoorSeating, Sporing {
         this.shown.delete(id);
         continue;
       }
-      moveMushroom(shown, t, wetness, lights);
+      moveMushroom(shown, t, wetness);
+      shown.house.update(t, shown, lights);
       if (id === this.selected) this.selection.pose(shown);
     }
     this.runs.update(t, this.view);
