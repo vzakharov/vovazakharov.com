@@ -142,7 +142,7 @@ routine plan sent her general code "down a layer where anyone can reuse it";
 Steiger refuses a lower slice with one consumer. It let her edit a rule file
 under `.claude/rules/`, where the auto-mode classifier would likely refuse her.
 
-## It edits the copy in front of it, not the fact behind it (×19)
+## It edits the copy in front of it, not the fact behind it (×20)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
@@ -157,6 +157,12 @@ three more sat beside it. A persona rule globbed `personas/maya/`.
 left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
 updated the two muthur watermark rows it was in; three more had gone false, and
 the next sync would re-copy them over the push. _мы не отдрифтились отсюда?_
+
+**26 October — the tokens renamed, the sentences around them unread.** PR #169
+folded every per-site pnpm entry into one taking the site, and a regex swept the
+callers. The README still listed `pnpm dev` for four sites, `maya` missing, then
+"hence no root `pnpm dev`," which the change had made false; `stack.md` spelled
+out four `content:og <site> --check` lines that `vet.sh` now generated.
 
 ## Asked for a source, it supplies its own version (×14)
 
