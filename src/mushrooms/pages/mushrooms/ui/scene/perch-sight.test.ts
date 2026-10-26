@@ -34,7 +34,7 @@ import {
   perchSpot,
   seatAt,
 } from './perch-sight';
-import { Perches } from './perches';
+import { ScenePerches } from './perches';
 import { aloftOfLayout, perchDistance } from './plane-place';
 import { middleOf, ofLayout, rowAt, V_NEAR, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
@@ -316,7 +316,7 @@ describe('onscreenOf', () => {
       const { layout } = stand;
       const rows = footRows(stand);
       const { places: laid } = perchSight(stand);
-      const perches = new Perches(() => ({
+      const perches = new ScenePerches(() => ({
         bed: undefined,
         flowers: undefined,
       }));
@@ -348,7 +348,7 @@ describe('onscreenOf', () => {
     it(`counts no perch shown past the brow, though the screen's edges hold it, from an eye stepped back off the clump, on a ${name} screen`, () => {
       const stand = opened(3, width, height, true);
       const { layout } = stand;
-      const perches = new Perches(() => ({
+      const perches = new ScenePerches(() => ({
         bed: undefined,
         flowers: undefined,
       }));

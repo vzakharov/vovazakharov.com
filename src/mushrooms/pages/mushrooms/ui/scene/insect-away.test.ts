@@ -25,7 +25,7 @@ import { drawnAloft, eyeFrameOf, mixD } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { meadowCamera } from './meadow-camera';
 import { footRows, onscreenOf, seatAt } from './perch-sight';
-import { Perches } from './perches';
+import { ScenePerches } from './perches';
 import { aloftOfLayout, perchDistance, placeOfAloft } from './plane-place';
 import { D_SEE, onScreen, placedAt, V_NEAR, type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
@@ -44,7 +44,10 @@ const LEG_SCREENS = VIEWPORTS.filter(
 
 /** `stand`'s perches, seen with no beds behind them, and each one's foot row. */
 function perchedOn(stand: Stand<MeadowLayout, Planted>) {
-  const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
+  const perches = new ScenePerches(() => ({
+    bed: undefined,
+    flowers: undefined,
+  }));
   perches.see(stand);
   return { perches, rows: footRows(stand) };
 }

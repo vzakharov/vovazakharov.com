@@ -59,7 +59,7 @@ export type TappedThrough = { tapThrough: (under: Perch | undefined) => void };
  * insects see of them, and where each stands this frame on the beds the
  * scene holds or in the open air.
  */
-export class Perches implements TappedThrough {
+export class ScenePerches implements TappedThrough {
   /** What the insects see of the perches, as last seen. */
   sight: Sight = { flowers: [], air: [], crowded: [], room: [] };
   /** Each spot in the open air offered as last seen as a fixed point in the world, by id. */

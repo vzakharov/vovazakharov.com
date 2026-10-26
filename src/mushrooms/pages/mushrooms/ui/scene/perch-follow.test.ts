@@ -12,7 +12,7 @@ import type { Planted } from '../../model/planted';
 import type { Stand } from './flower-sight';
 import type { MeadowLayout } from './layout';
 import { PERCH_REACH } from './perch-sight';
-import { Perches } from './perches';
+import { ScenePerches } from './perches';
 import { viewAt } from './view';
 import { opened } from './visit-play';
 
@@ -24,7 +24,10 @@ const FAR: Eye = { x: 0, y: WALKED, heading: 0 };
 
 /** What the scene sees of `stand`'s perches judged at `anchor`, framed from there. */
 function sightAt(stand: Stand<MeadowLayout, Planted>, anchor: Eye): Sight {
-  const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
+  const perches = new ScenePerches(() => ({
+    bed: undefined,
+    flowers: undefined,
+  }));
   perches.see(stand, anchor);
   return perches.sightFrom(viewAt(stand.layout.camera, anchor));
 }

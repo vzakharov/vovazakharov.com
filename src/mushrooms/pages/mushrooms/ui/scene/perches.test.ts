@@ -13,7 +13,7 @@ import { awayDown, leavingAloft } from './insect-away';
 import { drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
 import { footRows, PERCH_REACH, perchSight, seatAt } from './perch-sight';
-import { Perches } from './perches';
+import { ScenePerches } from './perches';
 import { aloftOfLayout } from './plane-place';
 import { viewAt } from './view';
 import { opened } from './visit-play';
@@ -39,7 +39,7 @@ describe('Perches.sightFrom', () => {
       const stand = opened(3, width, height, true);
       const { layout, mushrooms } = stand;
       const { camera, insectSize: unit, insectSizes } = layout;
-      const perches = new Perches(() => ({
+      const perches = new ScenePerches(() => ({
         bed: undefined,
         flowers: undefined,
       }));
@@ -104,7 +104,7 @@ describe('perches judged at an anchor', () => {
     const stand = opened(3, 1180, 820, true);
     assert.equal(anchoredStand(stand, OPENING_EYE), stand);
     const [plain, anchored] = [undefined, OPENING_EYE].map((anchor) => {
-      const perches = new Perches(() => ({
+      const perches = new ScenePerches(() => ({
         bed: undefined,
         flowers: undefined,
       }));
@@ -133,7 +133,10 @@ describe('perches judged at an anchor', () => {
     const stand = withLone(opened(3, 1180, 820, true), { x: 0.3, y: -10 });
     assert.equal(perchSight(stand).places?.[LONE], undefined);
     const anchor: Eye = { x: 0, y: 0, heading: Math.PI };
-    const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
+    const perches = new ScenePerches(() => ({
+      bed: undefined,
+      flowers: undefined,
+    }));
     perches.see(stand, anchor);
     const place = perches.sightFrom(viewAt(stand.layout.camera, anchor))
       .places?.[LONE];

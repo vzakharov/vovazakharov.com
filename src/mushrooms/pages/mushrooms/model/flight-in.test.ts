@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { onscreenOf } from '../ui/scene/perch-sight';
-import { Perches as ScenePerches } from '../ui/scene/perches';
+import { ScenePerches } from '../ui/scene/perches';
 import { viewAt } from '../ui/scene/view';
 import { opened } from '../ui/scene/visit-play';
 import { firstFlight, nextFlight, type Perches, shownOf } from './flight';

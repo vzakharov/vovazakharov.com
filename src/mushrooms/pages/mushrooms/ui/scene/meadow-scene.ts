@@ -33,7 +33,7 @@ import { drawnMushrooms } from './mushroom-hits';
 import { type GrowingStand, growingStandOf } from './mushroom-room';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import type { HostBeds } from './perch-hosts';
-import { perchAnchorOf, Perches } from './perches';
+import { perchAnchorOf, ScenePerches } from './perches';
 import { Planter, type Scened } from './planter';
 import type { Roof } from './rain-drops';
 import { RainView } from './rain-view';
@@ -84,7 +84,7 @@ export class MeadowScene extends Phaser.Scene {
   private insects: InsectView | undefined;
   private rain: RainView | undefined;
   private dusk: DuskView | undefined;
-  private readonly perches: Perches;
+  private readonly perches: ScenePerches;
   /** The anchor the perches were last seen from (`perchAnchorOf`). */
   private seenFrom: Eye | undefined;
   /**
@@ -137,7 +137,7 @@ export class MeadowScene extends Phaser.Scene {
   constructor(opening: Opening) {
     super('meadow');
     this.opening = opening;
-    this.perches = new Perches(() => this.beds());
+    this.perches = new ScenePerches(() => this.beds());
     // Each its own stream, apart from the meadow's world.
     const { voice, now, scened, sighted, eye } = this;
     this.planter = new Planter(
