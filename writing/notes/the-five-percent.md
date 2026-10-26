@@ -162,7 +162,7 @@ price: _давай общий файл, в src/music/shared, получаетс�
 `index.scss` in `src/music/shared/styles/`, which Steiger takes as the segment's
 public API.
 
-## It edits the copy in front of it, not the fact behind it (×20)
+## It edits the copy in front of it, not the fact behind it (×21)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
@@ -183,6 +183,13 @@ folded every per-site pnpm entry into one taking the site, and a regex swept the
 callers. The README still listed `pnpm dev` for four sites, `maya` missing, then
 "hence no root `pnpm dev`," which the change had made false; `stack.md` spelled
 out four `content:og <site> --check` lines that `vet.sh` now generated.
+
+**26 October — a glob redrawn from the layers in mind, not the files it held.**
+PR #214 split music's pages into FSD slices, and the agent widened `songs.md`'s
+and `content.md`'s globs to `pages/**` and `widgets/**`; `entities/` and the
+song feed fell out of both, and `songs.md` had never reached the player or the
+masters scripts its own body describes: _does the glob still hold — for the
+additions and in general?_ `songs.md` now globs all of `src/music/`.
 
 ## Asked for a source, it supplies its own version (×14)
 
