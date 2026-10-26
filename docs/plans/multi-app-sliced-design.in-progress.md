@@ -283,8 +283,29 @@ and phone) and the radio screenshotted pixel-identical to the elephant's.
 - **`music.module.scss` is gone**, cut along its components; the square of art
   the covers and tiles both draw is the `art` mixin in `shared/styles`.
 
-- **`PUBLIC_API` lives in `masd-graph.ts`** (6a), read by the boundaries config
-  and by `check:masd`, which runs under bare Node and cannot load the config.
+Slice 6a, significance by modularity: `check:masd` and its tests clean, the real
+tree passing.
+
+- **A one-reference slice is significant when it is a module**: its term of
+  Newman's modularity, `e − a²`, is positive — `e` the share of its app's
+  file-import edges with both ends in it, `a` the share of edge ends on it, so
+  `a²` is what a rewiring keeping every file's degree would put inside. Nothing
+  is tuned; the null model is the bar (the operator, of the API-width third it
+  replaced: «а почему треть, а не четверть»). Two consumers or more stay
+  significant by definition, since a block two slices share drops a layer; none
+  is flagged.
+- **The graph is the slice's own app alone**, tests and scripts out (the
+  operator: «если мы написали приложение, мы не можем чисто формально знать, кто
+  им будет пользоваться, и разбивать на модули исходя из того, кто и как им
+  будет потом пользоваться, странно»). The rejected alternative, the app with
+  its descendants, agreed on every real slice and every slice of the game's
+  dry-run tree, but admitted ten random scene files, its unrelated edges
+  lowering every slice's bar; the measurement is `modularity-two-graphs.md`
+  beside the dry-run tree. On that tree the map scores ×13 its chance, flower
+  and meadow ×8, insect ×5, mushroom ×4.5; a one-file slice 0.
+- **`PUBLIC_API` lives in `masd-graph.ts`**, read by the boundaries config and
+  by `check:masd`, which runs under bare Node and cannot load the config.
+- **Where the game's page sits stays open** (operator: «пока не трогаем»).
 
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
@@ -295,57 +316,6 @@ from a grab bag — a well-layered slice imports downward, so its edges leave it
 The game's dry-run slice tree, every file assigned and nothing moved, is
 `docs/remove-before-merging/masd/one-page-measure/mushrooms-tree.md`, with the
 13 edges it would break.
-
-## Rest of the bite
-
-**6a, reworked on #216: a one-reference slice is significant when it is a module
-by Newman's modularity**, replacing the API-width third the branch carries now
-(the operator: «а почему треть, а не четверть»; «идея "умного" определения "что
-модуль а что нет" мне нравится, в рамках MASD или вне её»). Over the file-level
-import graph, a slice's own share of modularity is `e_ii − a_i²`: `e_ii` the
-share of all edges with both ends in its files, `a_i` the share of edge ends on
-its files, so `a_i²` is what a random rewiring keeping every file's degree would
-put inside it. Positive means a module whoever its one consumer is; nothing is
-tuned — the null model is the bar.
-
-- **It rescues; it does not replace the count.** Two consumers or more keep a
-  slice significant as now — a block two slices share has to drop to a lower
-  layer by definition (operator: «два потребителя = по определению нужно
-  "поднимать"»), one file or many; one consumer passes when the slice's term is
-  positive; none is flagged.
-- **The graph is still open** (operator: «пусть следующая сессия посчитает так и
-  так, приценится, там и решим»). Every import between two files, one undirected
-  edge each, tests and scripts out — counted over the slice's own app alone, and
-  over its app with its descendants (the composition `check:masd` counts
-  references across). Compute both on the game's dry-run tree and on the repo's
-  real slices, show the operator where the verdicts differ and what each costs
-  in code, then pause with that question, nothing built; the session that has
-  their pick builds it. **Measured** (`modularity-two-graphs.md` beside the
-  dry-run tree, the spike script inside it): the two agree on every real checked
-  slice and on every slice of the dry-run tree; they part only on the random-ten
-  control, which sits at chance in both — own rejects it, desc admits it,
-  because desc's extra edges lower every slice's expectation — and desc measures
-  a low app against the whole repo (`switch-theme` ×11 own, ×259 desc). The code
-  is one line apart. **Picked: own** (operator: «если мы написали приложение, мы
-  не можем чисто формально знать, кто им будет пользоваться, и разбивать на
-  модули исходя из того, кто и как им будет потом пользоваться, странно»).
-- **Where the game's page sits is out of this bite** (operator: «пока не
-  трогаем»): the page stays in `pages/mushrooms`, and moving it to the app layer
-  is neither done nor ruled out.
-- **Measured on the game's dry-run tree**: the map ×12 its random expectation,
-  the meadow model ×8, flower ×7.6, insect ×5, mushroom ×4.5; ten random scene
-  files ×1.0 and a one-file slice 0 — both not modules. The other candidate
-  question, whether merging a slice into its consumer raises Q, does not reject
-  the random ten (×0.96 against a huge page), so the slice's own term is the
-  test.
-- **Code**: `scripts/masd-check.ts` drops `narrowApi`, `exportedNames` and
-  `NARROW_API`, builds the file edges from the imports it already reads, and
-  spares a one-reference slice whose term is positive; `PUBLIC_API` stays in
-  `masd-graph.ts`. Tests: a cohesive slice with one consumer passes, a slice of
-  files that import nothing of each other is flagged, a one-file slice is
-  flagged, an unreferenced slice is flagged. `masd.md`'s "No insignificant
-  slices" sentence says it in words, `compare/fsd-vs-masd` follows, and #216's
-  title, body and squash proposal follow the new rule.
 
 ## Rest of the elephant
 
