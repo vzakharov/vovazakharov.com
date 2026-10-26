@@ -27,7 +27,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import type { Labeled } from '../../shared/typings/index.ts';
+import type { Labeled } from '@/kernel/shared/typings';
+
 import { CONTENT_DIRS, filesUnder, REPO_ROOT } from './content-tree.ts';
 
 /** One render, and the hash of everything it is derived from. */

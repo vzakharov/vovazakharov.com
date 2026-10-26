@@ -17,7 +17,7 @@ import {
   escapeHtml,
   INK,
   type StagedPage,
-} from '../../../kernel/scripts/lib/og-render.ts';
+} from '@/kernel/scripts/lib/og-render';
 
 /** Words laid across the covers in a band, for a card that names more than the covers do. */
 export type CollageBand = Titled & { line: string };

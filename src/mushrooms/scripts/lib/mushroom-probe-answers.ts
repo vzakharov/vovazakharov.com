@@ -5,17 +5,17 @@
 
 import { z } from 'zod';
 
-import { TOWARDS } from '../../pages/mushrooms/model/dusk.ts';
+import { TOWARDS } from '@/mushrooms/pages/mushrooms/model/dusk';
 import {
   type Perch as ModelPerch,
   type PerchKind,
   SIDES,
-} from '../../pages/mushrooms/model/flight.ts';
-import type { Camera as ModelCamera } from '../../pages/mushrooms/model/ground.ts';
-import { INSECT_KINDS } from '../../pages/mushrooms/model/insect-genes.ts';
-import { MUSHROOM_SPECIES } from '../../pages/mushrooms/model/mushroom-genes.ts';
-import { SHELTER_SEATS } from '../../pages/mushrooms/model/shelter.ts';
-import { GAITS } from '../../pages/mushrooms/model/stride.ts';
+} from '@/mushrooms/pages/mushrooms/model/flight';
+import type { Camera as ModelCamera } from '@/mushrooms/pages/mushrooms/model/ground';
+import { INSECT_KINDS } from '@/mushrooms/pages/mushrooms/model/insect-genes';
+import { MUSHROOM_SPECIES } from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
+import { SHELTER_SEATS } from '@/mushrooms/pages/mushrooms/model/shelter';
+import { GAITS } from '@/mushrooms/pages/mushrooms/model/stride';
 
 export const State = z.object({
   picking: z.boolean(),

@@ -5,7 +5,7 @@
  * and language, at the page's canonical address plus an extension.
  * `src/blog/scripts/lib/print-job.ts` carries the contract.
  *
- *   pnpm content:pdf:vova --cv-pages --from-out  # hold the CV to its page ceiling
+ *   pnpm content:pdf vova --cv-pages --from-out  # hold the CV to its page ceiling
  *
  * **The CV is held to `CV_PAGE_CEILING`** wherever it prints: a render that
  * leaves any edition past it fails, and `--cv-pages` prints the editions into a
@@ -32,6 +32,8 @@ import { routing } from '@/kernel/shared/i18n';
 import { cvPath } from '@/vova/pages/cv/lib/cv-urls';
 import { CV_PAGE_CEILING, CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 
+import { pdfPageCount } from './lib/pdf-pages.ts';
+
 import {
   hashFiles,
   PRINT_SOURCES,
@@ -39,10 +41,9 @@ import {
   printAll,
   renderPdfs,
   sourceFiles,
-} from '../../blog/scripts/lib/print-job.ts';
-import { given } from '../../kernel/scripts/lib/argv.ts';
-import { REPO_ROOT } from '../../kernel/scripts/lib/content-tree.ts';
-import { pdfPageCount } from './lib/pdf-pages.ts';
+} from '@/blog/scripts/lib/print-job';
+import { given } from '@/kernel/scripts/lib/argv';
+import { REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/vova/pages/cv'];

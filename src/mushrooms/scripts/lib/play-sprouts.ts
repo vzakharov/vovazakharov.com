@@ -10,9 +10,10 @@
 
 import { z } from 'zod';
 
-import { SPROUT_WINDOW_MS } from '../../pages/mushrooms/model/sprouting.ts';
-import { darkAt } from '../../pages/mushrooms/model/weather.ts';
-import { SPORE_REACH } from '../../pages/mushrooms/ui/scene/mushroom-room.ts';
+import { SPROUT_WINDOW_MS } from '@/mushrooms/pages/mushrooms/model/sprouting';
+import { darkAt } from '@/mushrooms/pages/mushrooms/model/weather';
+import { SPORE_REACH } from '@/mushrooms/pages/mushrooms/ui/scene/mushroom-room';
+
 import {
   type Controls,
   Point,

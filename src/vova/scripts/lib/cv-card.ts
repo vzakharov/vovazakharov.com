@@ -23,14 +23,14 @@ import {
 } from '@/vova/pages/cv/lib/cv-offer';
 import type { CvVariant } from '@/vova/pages/cv/lib/cv-variants';
 
-import { RENDERED_SITE } from '../../../kernel/scripts/lib/content-tree.ts';
+import { RENDERED_SITE } from '@/kernel/scripts/lib/content-tree';
 import {
   CANVAS_BACKGROUND,
   escapeHtml,
   INK,
   INK_DIM,
   type StagedPage,
-} from '../../../kernel/scripts/lib/og-render.ts';
+} from '@/kernel/scripts/lib/og-render';
 
 /** The site this run renders for, resolved once at the top of it. */
 const SITE_CONFIG = siteConfig(RENDERED_SITE);

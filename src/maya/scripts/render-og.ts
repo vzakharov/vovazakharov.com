@@ -16,13 +16,14 @@ import {
 } from '@/kernel/shared/content/index.node-safe';
 import { routeCardPath } from '@/kernel/shared/seo';
 
+import { mayaPostCard, mayaSiteCard } from './lib/maya-card.ts';
+
 import {
   generatedCard,
   renderOgCards,
   siteCardPath,
-} from '../../kernel/scripts/lib/og-job.ts';
-import { readCollection } from '../../kernel/scripts/lib/read-collection.ts';
-import { mayaPostCard, mayaSiteCard } from './lib/maya-card.ts';
+} from '@/kernel/scripts/lib/og-job';
+import { readCollection } from '@/kernel/scripts/lib/read-collection';
 
 await renderOgCards({
   siteCards: [generatedCard(mayaSiteCard(), siteCardPath())],

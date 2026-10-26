@@ -16,9 +16,10 @@
 
 import { z } from 'zod';
 
-import { FURNISHINGS } from '../../pages/mushrooms/model/house.ts';
-import { MUSHROOM_SPECIES } from '../../pages/mushrooms/model/mushroom-genes.ts';
-import { GAITS } from '../../pages/mushrooms/model/stride.ts';
+import { FURNISHINGS } from '@/mushrooms/pages/mushrooms/model/house';
+import { MUSHROOM_SPECIES } from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
+import { GAITS } from '@/mushrooms/pages/mushrooms/model/stride';
+
 import {
   type Controls,
   Eye,

@@ -13,12 +13,10 @@ import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 import { cvCardPath, cvPath } from '@/vova/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
 
-import {
-  generatedCard,
-  renderOgCards,
-} from '../../kernel/scripts/lib/og-job.ts';
-import { musicCards } from '../../music/scripts/lib/music-cards.ts';
 import { cvCard } from './lib/cv-card.ts';
+
+import { generatedCard, renderOgCards } from '@/kernel/scripts/lib/og-job';
+import { musicCards } from '@/music/scripts/lib/music-cards';
 
 await renderOgCards(
   {

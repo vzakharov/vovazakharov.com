@@ -10,14 +10,15 @@
 
 import { z } from 'zod';
 
-import { OPENING_EYE } from '../../pages/mushrooms/model/ground.ts';
-import { LANDING } from '../../pages/mushrooms/model/insect-motion.ts';
-import { TURN_CRUISE } from '../../pages/mushrooms/model/pan.ts';
+import { OPENING_EYE } from '@/mushrooms/pages/mushrooms/model/ground';
+import { LANDING } from '@/mushrooms/pages/mushrooms/model/insect-motion';
+import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
 import {
   browRow,
   ofLayout,
   viewAt,
-} from '../../pages/mushrooms/ui/scene/view.ts';
+} from '@/mushrooms/pages/mushrooms/ui/scene/view';
+
 import { Camera, type Controls, Point } from './mushroom-probe-answers.ts';
 import type { Expect, Page } from './mushroom-probe-drive.ts';
 import { fliersOn } from './play-fliers.ts';

@@ -236,9 +236,13 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   the repository root and it is not.
 - **`@/` points at `src/`.** Anything outside it — a site's `public/` and the
   markdown it serves, root `styles/` and the Sass partial it holds — is reached
-  by URL or relative path, not by alias. An app's `scripts/` run outside any
-  bundler and still sit under `src/`: they spell the alias out under `tsx`, and
-  a relative path with its extension when they run under bare Node.
+  by URL or relative path, not by alias. Inside `src/`, a relative import stays
+  in its slice, its segmented layer or its app's `scripts/`, and anything past
+  that is reached by alias — `vova/no-relative-escape` holds it. An app's
+  `scripts/` run outside any bundler: they spell the alias out under `tsx`, and
+  a relative path with its extension when they run under bare Node, which
+  follows no alias — the rule's one exemption, derived from the `node <file>`
+  entries in `package.json` and what they import, so nothing lists those files.
 - **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
   ESLint loads it under jiti and the scripts under bare Node.
 - **next-intl's request config is found by path, not by import.** Each site's
@@ -246,7 +250,7 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   moving that file means editing both. The path is relative to the site
   directory, which the plugin checks against the working directory and hands
   Turbopack to resolve against the project — the two agree only when a build is
-  entered in its site directory, which is what `pnpm build:<site>` does.
+  entered in its site directory, which is what `pnpm build <site>` does.
 - **The content pipeline is kernel's `shared/content`, not an entity.** It is
   build-time-only and every module opens with `import 'server-only'`;
   `@.claude/rules/content.md` owns its contract. It holds every collection's

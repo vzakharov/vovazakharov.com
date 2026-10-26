@@ -7,8 +7,8 @@ import { z } from 'zod';
 import {
   type Collection,
   sourcedArticleFrontmatterSchema,
-} from '../../../kernel/shared/content/frontmatter';
-import { composeSchemas } from '../../../kernel/shared/lib/compose-schemas';
+} from '@/kernel/shared/content/frontmatter';
+import { composeSchemas } from '@/kernel/shared/lib/compose-schemas';
 
 /** What was done to the machine, as the docket stamps it. */
 const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;

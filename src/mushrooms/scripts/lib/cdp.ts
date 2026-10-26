@@ -11,7 +11,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { findChromium } from '../../../kernel/scripts/lib/chromium.ts';
+import { findChromium } from '@/kernel/scripts/lib/chromium';
 
 /** A reply to a command when it carries an `id`, an event when a `method`. */
 const Message = z.object({

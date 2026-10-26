@@ -25,8 +25,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { flag, given } from '../../kernel/scripts/lib/argv.ts';
-import { REPO_ROOT } from '../../kernel/scripts/lib/content-tree.ts';
 import {
   cloneRepo,
   commitStaged,
@@ -41,6 +39,9 @@ import {
   stagedSummary,
 } from './lib/music-repo.ts';
 import { checkSongs, pruneSongs, tagSongs } from './lib/song-tagging.ts';
+
+import { flag, given } from '@/kernel/scripts/lib/argv';
+import { REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
 
 const COMMANDS = [
   'tag',

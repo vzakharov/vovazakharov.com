@@ -12,12 +12,14 @@
 
 import { z } from 'zod';
 
-import type { Sized } from '../../../kernel/shared/typings/index.ts';
-import { INSECT_LIMITS } from '../../pages/mushrooms/model/insects.ts';
-import { TURN_CRUISE } from '../../pages/mushrooms/model/pan.ts';
-import { pinholeOf } from '../../pages/mushrooms/model/pinhole.ts';
-import { HAZE_DRIFT } from '../../pages/mushrooms/ui/scene/repaint-queue.ts';
-import { TAP_RADIUS } from '../../pages/mushrooms/ui/scene/tap-reach.ts';
+import type { Sized } from '@/kernel/shared/typings';
+
+import { INSECT_LIMITS } from '@/mushrooms/pages/mushrooms/model/insects';
+import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
+import { pinholeOf } from '@/mushrooms/pages/mushrooms/model/pinhole';
+import { HAZE_DRIFT } from '@/mushrooms/pages/mushrooms/ui/scene/repaint-queue';
+import { TAP_RADIUS } from '@/mushrooms/pages/mushrooms/ui/scene/tap-reach';
+
 import { againstBudget, budgetReport, median } from './frame-budget.ts';
 import {
   Camera,

@@ -12,7 +12,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { PALETTE } from '../pages/mushrooms/ui/scene/palette';
+import { PALETTE } from '@/mushrooms/pages/mushrooms/ui/scene/palette';
 
 const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
 const OUT = path.resolve(

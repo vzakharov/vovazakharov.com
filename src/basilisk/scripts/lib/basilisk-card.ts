@@ -34,6 +34,8 @@ import {
 } from '@/basilisk/entities/case/index.node-safe';
 import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
 
+import { type DocketCase, lastFiledCase } from './docket.ts';
+
 import {
   CANVAS_BACKGROUND,
   type CardHeading,
@@ -41,8 +43,7 @@ import {
   INK,
   INK_DIM,
   type StagedPage,
-} from '../../../kernel/scripts/lib/og-render.ts';
-import { type DocketCase, lastFiledCase } from './docket.ts';
+} from '@/kernel/scripts/lib/og-render';
 
 /** Staged beside the page under these names, which are the `src`s it uses. */
 const SEAL = 'seal.svg';

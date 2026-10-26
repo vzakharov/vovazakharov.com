@@ -28,8 +28,6 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import { flag, given } from '../../kernel/scripts/lib/argv.ts';
-import { withPrintOrigin } from '../../kernel/scripts/lib/print-origin.ts';
 import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
 import { budgetReport } from './lib/frame-budget.ts';
@@ -60,6 +58,9 @@ import { playSprouts } from './lib/play-sprouts.ts';
 import { playTufts } from './lib/play-tufts.ts';
 import { playVeer } from './lib/play-veer.ts';
 import { playWalk } from './lib/play-walk.ts';
+
+import { flag, given } from '@/kernel/scripts/lib/argv';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
 
 const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
 const OUT = path.join(ROOT, 'sites/vova/out');
@@ -339,7 +340,7 @@ async function open(
 
 async function main(): Promise<void> {
   if (!given('no-build')) {
-    const built = spawnSync('pnpm', ['build:vova'], {
+    const built = spawnSync('pnpm', ['build', 'vova'], {
       cwd: ROOT,
       stdio: 'inherit',
       env: { ...process.env, NEXT_PUBLIC_MUSHROOM_PROBE: '1' },

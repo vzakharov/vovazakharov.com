@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { PIVOT_SHARE } from '../../pages/mushrooms/model/insect-motion.ts';
+import { PIVOT_SHARE } from '@/mushrooms/pages/mushrooms/model/insect-motion';
+
 import { dashPeak, pivotAllowance } from './veer-dash.ts';
 import { DASH_SLACK, flicks } from './veer-report.ts';
 import { FPS, type Sample } from './veer-watch.ts';

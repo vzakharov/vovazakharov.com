@@ -16,8 +16,8 @@
  * cannot ship behind a stale social card. It hashes sources only, needing no
  * browser, which is why `vet.sh` can run it beside every other check.
  *
- *   pnpm content:og:<site>          # render what changed, prune what is gone
- *   pnpm content:og:<site> --check  # report staleness, write nothing
+ *   pnpm content:og <site>          # render what changed, prune what is gone
+ *   pnpm content:og <site> --check  # report staleness, write nothing
  *
  * One run serves one site, because it is entered in that site's directory —
  * which is what `public/` resolves against.

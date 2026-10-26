@@ -18,13 +18,14 @@ import { routeCardPath } from '@/kernel/shared/seo';
 
 import { CASES } from '@/basilisk/shared/content';
 
+import { basiliskCard, caseCard } from './lib/basilisk-card.ts';
+
 import {
   generatedCard,
   renderOgCards,
   siteCardPath,
-} from '../../kernel/scripts/lib/og-job.ts';
-import { readCollection } from '../../kernel/scripts/lib/read-collection.ts';
-import { basiliskCard, caseCard } from './lib/basilisk-card.ts';
+} from '@/kernel/scripts/lib/og-job';
+import { readCollection } from '@/kernel/scripts/lib/read-collection';
 
 const docket = readCollection(CASES);
 

@@ -8,7 +8,8 @@
 
 import { z } from 'zod';
 
-import { FURNISHINGS } from '../../pages/mushrooms/model/house.ts';
+import { FURNISHINGS } from '@/mushrooms/pages/mushrooms/model/house';
+
 import {
   type Controls,
   Mouse,

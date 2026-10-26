@@ -55,6 +55,7 @@ import noPickOmit from './eslint/rules/no-pick-omit';
 import noRedundantDefaultedParamType from './eslint/rules/no-redundant-defaulted-param-type';
 import noRedundantPropertyCopy from './eslint/rules/no-redundant-property-copy';
 import noRedundantTypeAlias from './eslint/rules/no-redundant-type-alias';
+import noRelativeEscape from './eslint/rules/no-relative-escape';
 import noSplitJsxSpreads from './eslint/rules/no-split-jsx-spreads';
 import noUncausedRethrow from './eslint/rules/no-uncaused-rethrow';
 import preferShorthandSpread from './eslint/rules/prefer-shorthand-spread';
@@ -94,6 +95,7 @@ const eslintConfig = defineConfig([
           'no-redundant-defaulted-param-type': noRedundantDefaultedParamType,
           'no-redundant-property-copy': noRedundantPropertyCopy,
           'no-redundant-type-alias': noRedundantTypeAlias,
+          'no-relative-escape': noRelativeEscape,
           'no-split-jsx-spreads': noSplitJsxSpreads,
           'no-uncaused-rethrow': noUncausedRethrow,
           'prefer-shorthand-spread': preferShorthandSpread,

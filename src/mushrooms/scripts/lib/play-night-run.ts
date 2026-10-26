@@ -10,8 +10,9 @@
 
 import { z } from 'zod';
 
-import { DUSK_MS } from '../../pages/mushrooms/model/dusk.ts';
-import { NIGHT_GAP } from '../../pages/mushrooms/model/night-runs.ts';
+import { DUSK_MS } from '@/mushrooms/pages/mushrooms/model/dusk';
+import { NIGHT_GAP } from '@/mushrooms/pages/mushrooms/model/night-runs';
+
 import { type Controls, Runs, State } from './mushroom-probe-answers.ts';
 import {
   deselect,

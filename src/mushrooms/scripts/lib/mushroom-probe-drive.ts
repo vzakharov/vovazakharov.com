@@ -2,7 +2,8 @@
 
 import { z } from 'zod';
 
-import { wrap } from '../../pages/mushrooms/model/geometry.ts';
+import { wrap } from '@/mushrooms/pages/mushrooms/model/geometry';
+
 import {
   type Box,
   Clouds,
