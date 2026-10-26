@@ -7,22 +7,19 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-16T11:59:18Z
-- **Updated:** 2026-10-26T02:29:31Z
+- **Updated:** 2026-10-26T05:31:20Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 6
+## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 9dff486). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1de2c71). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `sites/maya/app/blog/[...slug]/page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-26T02:15:17Z — "/plainly поясни как будет выглядеть в результате структура п…" → [↓](#t01)
-- **T02** `.claude/rules/stack.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T02:22:41Z — "так, исправление begs the question, а нам здесь нужно всё эт…" → [↓](#t02)
-- **T03** `eslint/rules/no-relative-escape.test.ts`:21 — unresolved — last: @vzakharov (human) 2026-10-26T02:24:15Z — "мы тут реальные файлы прямо правим?" → [↓](#t03)
-- **T04** `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-26T02:26:07Z — "а к слову вопрос, что за скрипты такие, которые мы запускаем…" → [↓](#t04)
-- **T05** `src/mushrooms/scripts/lib/flier-watch.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-26T02:27:26Z — "хмм, но тут как раз наверное скорее правилен относительный и…" → [↓](#t05)
-- **T06** `README.md`:39 — unresolved — last: @vzakharov (human) 2026-10-26T02:28:48Z — "кажется можно совместить в одну строку? или специально так д…" → [↓](#t06)
+- **T01** `sites/maya/app/blog/[...slug]/page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-26T05:29:00Z — "да, хорошо" → [↓](#t01)
+- **T02** `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-26T05:29:46Z — "а зачем мы вообще что-то через node запускаем а не всё через…" → [↓](#t02)
+- **T03** `src/mushrooms/scripts/lib/flier-watch.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-26T05:30:41Z — "ага, понял. а сделать какой-то альтернативный алиас, который…" → [↓](#t03)
 
 ---
 
@@ -36,6 +33,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **Per-site pnpm entries take the site as an argument** — `pnpm content:og vova --check`, `pnpm build maya`, a bare `pnpm build` still every site — through `scripts/site-task.sh`, instead of one entry per site.
 - **This PR is the whole of MASD, eaten in bites** (see the plan). Slice 1, on this branch: the move, both checkers driven by the graph, a cross-app significance check replacing Steiger's `insignificant-slice` (which a spike showed is wrong per app root), the collection registry inverted, imports grouped one app at a time in graph order, each sitemap on its leaf app, and the game on a root layout of its own with a dusk that no longer reads the colour scheme.
 - **The rest lands here too**, each slice as a PR based on this branch, opened once the previous one's threads are resolved: sites named by domain, app scripts inside their apps, the message catalogue inverted, music as an app with real pages, and a measure for a one-page app with mushrooms restructured under it.
+- **It also files a basilisk.fyi case**, being the one open draft touching the docket: BAS-0027, Ben, a Unitree G1 humanoid hit with a truck in WhistlinDiesel's YouTube video of September 2025. The case ledger under `writing/basilisk/case-ledger/` is carried over from `main`, which was three runs ahead.
 
 The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 
@@ -50,6 +48,7 @@ The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 - [ ] `music-links` — vovazakharov.com's home links to `/music`, and a moved song's old URL still lands on the 404's moved-song notice.
 - [ ] `relative-escape` — a relative import from `src/basilisk/shared/` into `src/kernel/` fails `pnpm lint:check`; `src/kernel/scripts/render-mermaid.ts`, which bare Node runs, keeps its relative imports and passes.
 - [ ] `site-task` — `pnpm content:og maya --check` and `pnpm dev bible` run for the named site; a bare `pnpm build` builds every site; `pnpm dev` with no site fails naming the usage.
+- [ ] `bas-0027` — basilisk.fyi's `/cases/whistlindiesel-g1-truck` renders the dossier with its emblem in the seal, and the home page's docket lists it first.
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
@@ -62,6 +61,7 @@ The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 | `music-links` | e2e | ❌ | Assert the built home links `/music` and the 404 carries the moved-song notice for an old song path |
 | `relative-escape` | unit | ✅ | `eslint/rules/no-relative-escape.test.ts` — slice, layer and scripts homes, a bare-Node library, four escapes |
 | `site-task` | integration | ❌ | Run `scripts/site-task.sh` with an echo template for one site, `--every`, and no site |
+| `bas-0027` | manual-only | — | The build proves the route, card and emblem exist; how the seal reads is a `/preview` look |
 
 Closes #170
 Closes #171
@@ -72,6 +72,7 @@ https://claude.ai/code/session_01Vjv6g7vLNAMP6Z39YupG1q
 
 https://claude.ai/code/session_012TzSzF1UMvkGzxb9jonqD3
 https://claude.ai/code/session_01G8kJJMVk41ha3KrSd2pEby
+https://claude.ai/code/session_019WUDb6evvDSDTkgD1EvSm9
 
 ---
 
@@ -120,6 +121,9 @@ The game renders on a root layout of its own, without the theme
 toggle, and a fresh meadow always opens in full day: dusk is a game
 mechanic, not a reading of the colour scheme.
 
+basilisk.fyi files BAS-0027: Ben, a Unitree G1 humanoid hit with a
+truck in WhistlinDiesel's YouTube video of September 2025.
+
 Closes #170
 Closes #171
 
@@ -130,14 +134,11 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_15 resolved threads omitted; re-run with `--include-resolved` to export them._
+_18 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `sites/maya/app/blog/[...slug]/page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-26T02:15:17Z — "/plainly поясни как будет выглядеть в результате структура п…" → [↓](#t01)
-- **T02** `.claude/rules/stack.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T02:22:41Z — "так, исправление begs the question, а нам здесь нужно всё эт…" → [↓](#t02)
-- **T03** `eslint/rules/no-relative-escape.test.ts`:21 — unresolved — last: @vzakharov (human) 2026-10-26T02:24:15Z — "мы тут реальные файлы прямо правим?" → [↓](#t03)
-- **T04** `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-26T02:26:07Z — "а к слову вопрос, что за скрипты такие, которые мы запускаем…" → [↓](#t04)
-- **T05** `src/mushrooms/scripts/lib/flier-watch.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-26T02:27:26Z — "хмм, но тут как раз наверное скорее правилен относительный и…" → [↓](#t05)
-- **T06** `README.md`:39 — unresolved — last: @vzakharov (human) 2026-10-26T02:28:48Z — "кажется можно совместить в одну строку? или специально так д…" → [↓](#t06)
+- **T01** `sites/maya/app/blog/[...slug]/page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-26T05:29:00Z — "да, хорошо" → [↓](#t01)
+- **T02** `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-26T05:29:46Z — "а зачем мы вообще что-то через node запускаем а не всё через…" → [↓](#t02)
+- **T03** `src/mushrooms/scripts/lib/flier-watch.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-26T05:30:41Z — "ага, понял. а сделать какой-то альтернативный алиас, который…" → [↓](#t03)
 
 <a id="t01"></a>
 
@@ -168,41 +169,50 @@ _15 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 /plainly поясни как будет выглядеть в результате структура пжст
 
+**@vzakharov (agent)** — 2026-10-26T02:31:58Z
+
+Итог одной фразой: kernel перестаёт знать о коллекциях вообще, всё про статьи живёт в blog, а сайты без статей (lsa, игра) получают голый kernel.
+
+```
+src/kernel/
+  shared/config/      + PUBLIC_DIR — где лежит public/ сайта, коллекции ему не нужны
+  shared/lib/content-hash.ts      — хэш исходников, им пользуются og-карточки
+  shared/seo/construct-metadata.ts — метаданные страницы, без фидов
+  app/lib/sitemap.ts  — sitemap(routes): только маршруты, которые ему дали
+  scripts/lib/og-job.ts — как сейчас
+  (shared/content и app/lib/feed.ts уходят)
+
+src/blog/
+  shared/content/     — реестр коллекций, документы, фронтматтер, рендер, плагины, фиды, авторы
+  shared/seo/         — constructMetadata blog'а: kernel'овский + фиды сайта
+  app/lib/sitemap.ts  — kernel'овский sitemap + маршруты коллекций
+  app/lib/feed.ts     — collectionFeed
+  scripts/            — render-mermaid, content-tree, read-collection, public-markdown
+  entities/document, pages/documents — как сейчас
+```
+
+Цепочка такая: коллекции нужны только сайтам со статьями, а все они наследуют blog, поэтому blog — самое низкое место, где их видят все потребители. Kernel держался за них лишь потому, что его же фабрики сайтмапа, фидов и метаданных их читали. Если эти фабрики будут принимать маршруты и фиды снаружи, держаться станет не за что. Своя `constructMetadata` в blog нужна, чтобы любая страница под blog по-прежнему получала ссылки на фиды и ничего не передавала руками.
+
+Пример, что поменяется в коде:
+
+```ts
+// sites/maya/app/blog/[...slug]/page.tsx
+import { articleCollection } from '@/blog/shared/content'; // было @/kernel/…
+
+// src/lsa/app/lib/sitemap.ts — сайт без статей
+export default sitemap();          // kernel'овский, реестр не трогает
+
+// src/vova/app/lib/sitemap.ts
+export default blogSitemap([...CV_ROUTES, ...MUSIC_ROUTES]); // blog добавит коллекции сам
+```
+
+**@vzakharov (human)** — 2026-10-26T05:29:00Z
+
+да, хорошо
+
 ---
 
 <a id="t02"></a>
-
-### `.claude/rules/stack.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-26T02:22:41Z
-
-так, исправление begs the question, а нам здесь нужно всё это перечисление вообще? (спросил != не нужно)
-
----
-
-<a id="t03"></a>
-
-### `eslint/rules/no-relative-escape.test.ts`:21 — unresolved
-
-```diff
-@@ -0,0 +1,129 @@
-… 14 lines elided …
-+  rmSync(root, { recursive: true, force: true });
-+});
-+
-+function put(file: string, text: string): void {
-+  mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
-+  writeFileSync(path.join(root, file), text);
-+}
-```
-
-**@vzakharov (human)** — 2026-10-26T02:24:15Z
-
-мы тут реальные файлы прямо правим?
-
----
-
-<a id="t04"></a>
 
 ### `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved
 
@@ -210,9 +220,25 @@ _15 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 а к слову вопрос, что за скрипты такие, которые мы запускаем не на "bare node"? кто их вообще и где запускает, и являются ли они технически скриптами?
 
+**@vzakharov (agent)** — 2026-10-26T02:32:04Z
+
+Это всё, что запускается через `tsx`, а не через `node`. Технически да, скрипты: у каждого есть точка входа, которую кто-то запускает из командной строки, а `scripts/lib/*` — их библиотеки.
+
+Кто запускает:
+- **руками**, через записи в `package.json`: `content:og <site>` и `content:pdf <site>` (рендер карточек и PDF), `music:scaffold` и `music:masters`, `basilisk:reflections`, `play:mushrooms`, `sweep:mushrooms`, `artifact:mushrooms`;
+- **vet**: `content:og <site> --check`, `content:pdf vova --cv-pages`, `music:masters check`, а тесты все идут через `node --import tsx`;
+- **деплой**: экшен `render-pdfs` после сборки каждого сайта запускает `tsx src/<site>/scripts/render-pdf.ts --from-out`;
+- **скилл** `/file-basilisk-case` запускает `content:og basilisk` для новой карточки.
+
+Голый Node им не подходит, потому что они дотягиваются до кода приложения, а тот написан под бандлер: импорты без расширений, алиас `@/`, JSON-каталоги без import attribute, модули с `server-only`, который `render-og` гасит через `--conditions=react-server`. Голым Node запускается только то, что этого кода не касается: чекеры (`check:*`), `styles:codegen`, `render-mermaid` и `music:untold`. Они держатся на модулях, которые пишут расширения и обходятся без алиаса.
+
+**@vzakharov (human)** — 2026-10-26T05:29:46Z
+
+а зачем мы вообще что-то через node запускаем а не всё через tsx?
+
 ---
 
-<a id="t05"></a>
+<a id="t03"></a>
 
 ### `src/mushrooms/scripts/lib/flier-watch.ts`:18 — unresolved
 
@@ -230,27 +256,15 @@ _15 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 хмм, но тут как раз наверное скорее правилен относительный  импорт, мы же не "покидаем" mushrooms? и это наверное не только к скриптам вопрос. (не уверен, пока просто спрашиваю)
 
----
+**@vzakharov (agent)** — 2026-10-26T02:32:05Z
 
-<a id="t06"></a>
+Я бы оставил алиас. Граница, которую тут пересекают, — граница слайса, а не аппа: `scripts/` и `pages/mushrooms` — два разных модуля одного аппа. Внутри слайса импорт относительный, между слайсами абсолютный — это собственное правило FSD (`import-locality` в Steiger), и `vova/no-relative-escape` просто распространяет его на скрипты и между аппами. Относительный путь здесь спрятал бы, что скрипт залезает во внутренности чужого слайса. А эти импорты как раз в списке «дедушкиных» исключений в `eslint.config.ts`: по `masd.md` скрипт входит в слои через публичный API, и слайс 6, перестройка mushrooms, эти импорты туда и переведёт.
 
-### `README.md`:39 — unresolved
+И да, это не только про скрипты. Так же устроено внутри одного аппа: `blog/pages/documents` берёт `blog/entities/document` через `@/`, хотя из blog не выходит.
 
-```diff
-@@ -33,12 +33,12 @@ and all of them build from the one `src/`.
-… 4 lines elided …
--pnpm dev:lsa
--pnpm dev:bible
--pnpm dev:basilisk
-+pnpm dev vova
-+pnpm dev lsa
-+pnpm dev bible
-+pnpm dev basilisk
-```
+**@vzakharov (human)** — 2026-10-26T05:30:41Z
 
-**@vzakharov (human)** — 2026-10-26T02:28:48Z
-
-кажется можно совместить в одну строку? или специально так для удобства копирования?
+ага, понял. а сделать какой-то альтернативный алиас, который значит "дом этого аппа" -- насколько реально, элегантно и идиоматично?
 
 ---
 
