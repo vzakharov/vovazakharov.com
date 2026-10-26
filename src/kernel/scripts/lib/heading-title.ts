@@ -1,6 +1,6 @@
 /**
- * Kept out of `read-collection.ts`, whose gray-matter and `server-only`
- * imports the test runner cannot load.
+ * Kept out of `read-collection.ts`, which reaches `content-tree.ts`: that
+ * resolves the site on load, and the test runner runs with none.
  */
 
 const TITLE = /^# (.+)$/m;
