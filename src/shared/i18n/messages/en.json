@@ -308,6 +308,7 @@
       "maxi-single": "Maxi single"
     },
     "wip": {
+      "heading": "In the works",
       "note": "I’m still working on this release, so anything may change"
     },
     "ogTitle": "Listen to {name} by Vova",
