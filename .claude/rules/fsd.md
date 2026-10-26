@@ -64,14 +64,15 @@ so: a `game` between `kernel` and `mushrooms` waits for a second game.
 Lowest (most generic) first, each optional per app:
 
 - **`shared/`** — segments carrying no page composition. `kernel` holds the
-  repo-wide ones (`config`, `content`, `i18n`, `seo`, `typings`, `lib/*`); an
-  app adds its own (`shell/shared/ui`, `music/shared/catalogue`,
+  repo-wide ones (`config`, `i18n`, `seo`, `typings`, `lib/*`); an app adds its
+  own (`shell/shared/ui`, `blog/shared/content`, `music/shared/catalogue`,
   `basilisk/shared/content`, `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
-  cards, its body and its sources), `basilisk/entities/case` (its brief).
+  cards, its body and its sources), `basilisk/entities/case` (its brief),
+  music's `cover`, `hook` and `song`.
 - **`features/`** — user-facing capabilities: `shell/features/switch-theme`.
 - **`widgets/`** — composite blocks two page slices share:
-  `shell/widgets/site-footer`.
+  `shell/widgets/site-footer`, `music/widgets/catalogue-header`.
 - **`pages/`** — page composition, one or more per app.
 - **`app/`** — root layouts, Mantine provider, global stylesheets and theme,
   sitemap and feed: `ui`, `styles` and `lib` segments.
@@ -91,22 +92,30 @@ the block _is_, not on the fact that it is shared:
   (reaches `shared/content` for a route) and `DocumentMeta` are about a document
   and nothing else, so they are `entities/document/ui`; a list of one entity's
   cards is that entity's UI, not a widget. FSD asks no model of an entity, so a
-  ui-only one is a legal form.
-- **`widgets/`** — the block _combines_ rather than belonging to one noun, and
-  reads the resolved site. `SiteFooter` (needs `BUILD_YEAR`) is the site's foot,
-  not a document's, so it stays a widget.
-- **`shared/ui`** — the block needs no site configuration at all. It is the
-  barrel client components import, so a component there takes what it needs as
-  props rather than reading the resolved site; `SummaryCard` sits here because
-  it reads none.
+  ui-only one is a legal form. Showing is the test, not stillness: music's
+  `CoverZoom` opens a dialog, but changes nothing past it, so it is the cover's
+  UI; a block changing state the rest of the site sees (the player) is a
+  feature.
+- **`widgets/`** — the block _combines_ rather than belonging to one noun.
+  `SiteFooter` is the site's foot, not a document's; music's `CatalogueHeader`
+  sets a cover, a title's gloss and facts together.
+- **`shared/ui`** — the block knows no business noun: a primitive any page could
+  set, whatever it shows. `SummaryCard` is a heading and a blurb; music's
+  `NotedSpan` is a popover on words, `FactLine` a row of facts. It is the barrel
+  client components import, so a component there takes what it needs as props.
 
-`entities/document` is born ui-only: its model stays in kernel's
-`shared/content`, which is build-time and `server-only`, so a content page costs
-zero client JS — the model would move only if content ever stopped being
-build-time. Its barrel pulls `server-only` today (`DocumentCards` needs
-`linkTo`), but no client chain enters it, so a plain `index.ts` holds; a client
-component reaching for the byline is what would split it into `index.ts` +
-`index.server-only.ts`, exactly as `shared/config` is.
+**Blocks that import each other go in one slice or on different layers.** A
+sliced layer forbids the sideways import, so components that call each other
+group by the noun they share (`CoverHead` and the `CoverZoom` inside it are one
+`cover`), and whatever composes them sits a layer up.
+
+`entities/document` is born ui-only: its model stays in blog's `shared/content`,
+which is build-time and `server-only`, so a content page costs zero client JS —
+the model would move only if content ever stopped being build-time. Its barrel
+pulls `server-only` today (`DocumentCards` needs `linkTo`), but no client chain
+enters it, so a plain `index.ts` holds; a client component reaching for the
+byline is what would split it into `index.ts` + `index.server-only.ts`, exactly
+as `shared/config` is.
 
 ## Rules
 
@@ -114,9 +123,9 @@ component reaching for the byline is what would split it into `index.ts` +
   overlays its ancestors' as one unit**, which is FSD's own exception carried
   across apps: every file in them reaches every other directly, an ancestor's
   included. shell's root layout composes kernel's that way, and
-  `music/shared/catalogue` builds on kernel's `shared/content` by its leaf
-  module. A segment's `index.ts` is what the layers _above_ enter by, not a wall
-  between `shared/ui` and `shared/seo`.
+  `music/shared/catalogue` builds on blog's `shared/content` by its leaf module.
+  A segment's `index.ts` is what the layers _above_ enter by, not a wall between
+  `shared/ui` and `shared/seo`.
 - **Public API per slice and per shared segment.** A sliced layer reaching
   another slice — in its own app or an ancestor — goes through the target's
   `index.ts`; reaching into its internals is an error from both checkers. Within
@@ -140,10 +149,13 @@ component reaching for the byline is what would split it into `index.ts` +
     `scripts/`, which run with none — so the graph behind it spells its
     extensions, holds no CSS, JSX or asset import, and carries no `server-only`,
     which throws outside a React server bundle. `shared/config` has one, over
-    `resolveSiteId`, `shared/content` one over the collection registry's paths,
-    and `entities/case` one over the grade stamp's text, which the case's social
-    card prints. A script reaching past a public API into a leaf is the smell
-    that this barrel is missing.
+    `resolveSiteId`, blog's `shared/content` one over the collection registry
+    and the mermaid paths, and `entities/case` one over the grade stamp's text,
+    which the case's social card prints. A script reaching past a public API
+    into a leaf is the smell that this barrel is missing. Carrying no
+    `server-only`, it is also the client components' entry into a segment whose
+    `index.ts` is server-only: `music/shared/catalogue`'s, where the player and
+    the hook line take what they read.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time
   (`@/kernel/shared/lib/class-names`), each **a single file** and its own public
   API — nothing sits beside it to hide, so `boundaries` lets the layers above
@@ -196,9 +208,11 @@ API, and is reached only by Next's own routing conventions, never by import.
 
 **A site's sitemap belongs to its leaf app, which inherits every app the site
 mounts** — vovazakharov.com _is_ blog, music and mushrooms — so its app layer
-reaches each mounted app's routes and hands them to kernel's `sitemap()`, which
-adds every collection's own. Each site's `sitemap.ts` re-exports its leaf app's
-behind the route-segment config Next reads off the route module itself.
+reaches each mounted app's routes and hands them to blog's `sitemap()`, which
+adds every collection's own before kernel's adds `/` — or, on a site no
+collection serves, straight to kernel's. Each site's `sitemap.ts` re-exports its
+leaf app's behind the route-segment config Next reads off the route module
+itself.
 
 **A page the router has to parameterize costs three lines rather than one.** The
 document pages serve a collection the router picks, so they are factories: the
@@ -210,8 +224,10 @@ still decides nothing but which slice with which argument.
 
 **Every app layer lives under `src/`**, not beside the routers, which several
 sites would have to share. kernel's holds the base root layout (`<html>`,
-metadata, analytics) and the sitemap and feed factories; shell's root layout
-wraps kernel's with what every site but the game draws on (fonts, Mantine
+metadata, analytics) and the sitemap factory, which names no collection; blog's
+the collection sitemap, the feed factory and a root metadata advertising the
+site's feeds, which a blog site's router takes in kernel's place; shell's root
+layout wraps kernel's with what every site but the game draws on (fonts, Mantine
 provider and `ColorSchemeScript`, the stylesheets, `ThemeCorner`); each site's
 leaf app holds its sitemap, and vova's the `global-not-found` page too. A site
 with two root layouts splits its router into route groups — vovazakharov.com's
@@ -251,7 +267,7 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   directory, which the plugin checks against the working directory and hands
   Turbopack to resolve against the project — the two agree only when a build is
   entered in its site directory, which is what `pnpm build <site>` does.
-- **The content pipeline is kernel's `shared/content`, not an entity.** It is
+- **The content pipeline is blog's `shared/content`, not an entity.** It is
   build-time-only and every module opens with `import 'server-only'`;
   `@.claude/rules/content.md` owns its contract. It holds every collection's
   address and the base and article schemas; any other collection's schema is its
