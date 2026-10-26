@@ -236,7 +236,10 @@ those slices carry their own tools along.
     layer adds the collections' — vova calls blog's with the CV's and music's
     routes, lsa kernel's;
   - `collectionFeed` moves to blog's app layer, and `render-mermaid`,
-    `content-tree`, `read-collection` and `public-markdown` to blog's scripts;
+    `content-tree`, `read-collection` and `public-markdown` to blog's scripts,
+    where maya's and basilisk's `render-og.ts` give up their identical
+    one-card-per-entry block (at `routeCardPath(documentRoute(…))`, where
+    `resolveOgImage` looks) for one helper beside them;
   - kernel's `constructMetadata` takes the feed links as an argument, and blog
     has its own that supplies the site's, so no page under blog passes them by
     hand.
