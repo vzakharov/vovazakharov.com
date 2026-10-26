@@ -15,9 +15,9 @@ export default {
     // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.
     'src/kernel/shared/i18n/request.ts',
   ],
-  // The plugin looks for `app/` and `next.config.*` at the root; the three sites
-  // hold theirs one level down. The file names are the App Router's conventions,
-  // as the plugin's own defaults list them.
+  // The plugin looks for `app/` and `next.config.*` at the root; each site under
+  // `sites/` holds its own one level down. The file names are the App Router's
+  // conventions, as the plugin's own defaults list them.
   next: {
     config: ['sites/*/next.config.ts'],
     entry: [
@@ -34,9 +34,10 @@ export default {
     '@steiger/toolkit',
   ],
   ignoreBinaries: [
-    // A system tool `src/music/scripts/lib/song-tagging.ts` decodes with, to prove tagging left
-    // the audio alone. No npm package stands in: the ones that ship it download the
-    // binary in an install script, which pnpm here does not run.
+    // A system tool `src/music/scripts/lib/song-tagging.ts` decodes with, to
+    // prove tagging left the audio alone. No npm package stands in: the ones
+    // that ship it download the binary in an install script, which pnpm here
+    // does not run.
     'ffmpeg',
   ],
 } satisfies KnipConfig;
