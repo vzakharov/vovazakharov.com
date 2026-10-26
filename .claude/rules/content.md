@@ -8,13 +8,13 @@ paths:
   - src/music/pages/music/**
   - sites/*/app/**/music/**
   - sites/*/public/generated/**
-  - src/kernel/shared/content/**
+  - src/blog/shared/content/**
   - src/blog/pages/documents/**
   - src/vova/pages/cv/**
   - sites/*/app/**/case-studies/**
   - sites/bible/app/**
   - sites/basilisk/app/**
-  - src/kernel/scripts/render-mermaid.ts
+  - src/blog/scripts/render-mermaid.ts
   - src/*/scripts/render-og.ts
   - src/*/scripts/render-pdf.ts
   - src/*/scripts/lib/*-card*.ts
