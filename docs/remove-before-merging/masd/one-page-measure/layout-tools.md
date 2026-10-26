@@ -9,23 +9,23 @@ Copy each into `tmp/modularity/` under its name and run from the repository root
 // named nowhere stays with the whole, in widgets/meadow.
 const TREE: [string, string][] = [
   ['shared/lib', 'geometry random motion colour crescent light tap-reach cruise glide line-course'],
-  ['shared/world', 'acting dusk weather ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place bed-place backdrop-depths repaint-queue shelter-seats'],
+  ['shared/world', 'acting dusk weather ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place bed-place backdrop-depths repaint-queue shelter-seats anchored-ground crowding occupant seat-reach'],
   ['shared/ui', 'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking icon-disc bake-picture'],
-  ['entities/mushroom', 'planted crowding door-sight clump-shade cap-cover clump-layout placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light mushroom-shown'],
+  ['entities/mushroom', 'planted mushroom-cover door-sight clump-shade cap-cover clump-layout placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light mushroom-shown'],
   ['entities/worm', 'worm draw-worm'],
   ['entities/mouse', 'mouse-run-clock mouse-run-course draw-mouse mouse-head'],
-  ['entities/insect', 'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis perch flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans insect-size pollen-load flier'],
+  ['entities/insect', 'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis perch flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans insect-size pollen-load flier flower-lift'],
   ['entities/flower', 'flower-planting planted-flowers anchored-stand flower-cover flower-plots flower-layout flower-sight flower-genes flower-sounds notes draw-flower flower-tints flower-ring flower-light'],
   ['entities/firefly', 'firefly firefly-view firefly-tap'],
   ['entities/sky', 'sun-layout moon-view moon-face paint-moon paint-sky backdrop-tones dusk-sky dusk-stars star-images dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade'],
   ['entities/lawn', 'lawn tufts mottles grain brow far-band grass paint-land'],
-  ['features/plant-flower', 'tuft-tap tending flower-icons'],
+  ['features/plant-flower', 'tuft-tap tending flower-icons flower-room'],
   ['features/sow-spores', 'sprouting spore-seats spore-sight spore-bed spore-drift spores'],
   ['features/grow-mushroom', 'mushroom-room standing-weighed'],
   ['features/furnish-house', 'furnishing door-seats'],
   ['features/worm-peeks', 'house-worm worm-way'],
   ['features/mice-run', 'mouse-run night-runs mouse-door mouse-runs runner-shown run-front'],
-  ['features/insects-fly', 'flight perch-room perch-sight perch-hosts perch-crowding flower-seat air-spots perches insects pollen shelter shelter-cover roost'],
+  ['features/insects-fly', 'flight bee-room perch-room perch-sight perch-hosts perch-crowding flower-seat air-spots perches insects pollen shelter shelter-cover roost'],
   ['features/flowers-close', 'flower-closing'],
   ['features/play-flowers', 'instrument instrument-input instrument-voices keyboard keyed-flowers chord-fingers flower-touch flower-hold'],
   ['features/walk-meadow', 'eye-input gait-icon footsteps'],
@@ -1209,4 +1209,25 @@ for (const f of prod) {
   groups.set(key, [...(groups.get(key) ?? []), path.basename(f).replace(/\.tsx?$/, '')]);
 }
 for (const [k, fs] of [...groups].sort()) console.log(`${k}:\n  ${fs.join(' ')}`);
+```
+
+## tidy.sh
+
+```bash
+#!/usr/bin/env bash
+# Tidies the game files changed since HEAD (or those named): merges duplicate
+# imports, formats, fixes what eslint fixes, and prints what is left but the
+# boundaries rules the layout tools track.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+files=("$@")
+if [ ${#files[@]} -eq 0 ]; then
+  mapfile -t files < <( { git diff --name-only HEAD; git ls-files -o --exclude-standard; } | grep -E '^src/.*\.tsx?$' | sort -u)
+fi
+existing=()
+for f in "${files[@]}"; do [ -f "$f" ] && existing+=("$f"); done
+[ ${#existing[@]} -eq 0 ] && exit 0
+pnpm exec tsx tmp/modularity/merge.ts "${existing[@]}" >/dev/null
+pnpm exec prettier --write "${existing[@]}" >/dev/null
+pnpm exec eslint --fix "${existing[@]}" 2>&1 | grep -E '^\S|error|warning' | grep -v 'boundaries/' | grep -B1 -E 'error|warning' | grep -v '^--$'
+exit 0
 ```

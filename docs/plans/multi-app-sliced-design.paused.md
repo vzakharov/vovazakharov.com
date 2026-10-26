@@ -477,23 +477,43 @@ review rather than stopping on each call.
     MASD's barrels and checkers), an encounter feature (`Stand`'s four reading
     features would merge into it), the mushrooms' functions threaded through the
     flower's (about 30 files).
-- **Left to untie** (74, by `layout.ts`): the fork as decided above, which takes
-  the insect's `WIDEST_SPAN` from `flower-sight` and `flower-sight`'s reads of
-  the insect with it; the firefly (10 edges: it circles caps, tufts and flowers
-  — likely its view up to a feature, `fireflies-circle` per `nouns-tree.md`);
-  the lawn/sky knot (`brow`, `grass`, `paint-land`, `mottles` read the sky's
-  tones and skyline one way now that `paint-backdrop` is the widget's — likely
-  they join the sky as one landscape noun, `grain`'s `Band` with them),
-  `rain-view`'s read of `Backdrop`; `tufts` up (a composition);
-  `mouse-run-clock` → `house` (`DoorPlace`, `onStem`); `flower-closing` read by
-  `draw-flower` and `flower-seat`; `grow-mushroom` ↔ `sow-spores`;
-  `mushroom-patch`; `perch-hosts` → the beds; `shared/ui`'s `hit-areas` and
-  `bake-picture`; `shared/world`'s `plane-place` (insect frames),
-  `meadow-camera` and `ground-grid` (mushroom genes and opening feet). Then
-  `layout.ts` to zero, the move, the 27 tests, `check:masd`. The scripts are in
-  `layout-tools.md`; `retarget.ts` takes `FROM=<file>` where a name is declared
-  twice. Mechanical relocations with the home named in the brief can go to a
-  cheaper subagent in a worktree, reviewed before they land (the operator's
+- **The fork, built** (7d0e5ba to 2a3c6d1; 74 broken imports to 52, none left from
+  the flower to the mushroom or the insect). `shared/world` gains
+  `anchored-ground` (`MushroomGround`, `ClumpGround`, `anchoredGround`,
+  `groundIn`), `occupant` (`Occupant = { foot; cover }`, `Occupying<Thing>`,
+  `Occupied<Thing>` — `WithMushrooms` is `Occupied<Planted>` — `ShownCover`,
+  `inSightPast`, `ClumpShade`, `mostShaded`), `seat-reach` (`HeadReach`,
+  `Lifting`, `Sitter`), and `crowding` and `groundOf`. The mushroom turns itself
+  into occupants in `mushroom-cover` (`occupantsOn`, `coversShown`;
+  `flower-cover` renamed). `Stand<L, Thing>` carries `occupying`, and every
+  flower function taking a stand is generic in `Thing`: a closure bound to the
+  stand's own mushrooms was tried and dropped, since `risen` swaps the mushrooms
+  and the occupancy would not follow. The sight takes a `Sitter`; the insect
+  supplies it (`flower-lift`: `flowerLift`, `liftOn`; `widest-spans`:
+  `WIDEST_SPAN`, `widestSpanOn`, `butterflyOn`, one sitter per insect size so
+  the sight's stores hold). Up: `flower-room` (`takesFlower`, `roomIn`) in
+  plant-flower, `bee-room` (`roomFor`) in insects-fly,
+  `GrowingStand`/`growingStandOf` (the stand with its spores) in grow-mushroom.
+  `anchoredStand` no longer filters the mushrooms to `STAND_REACH` — a generic
+  cache of the filtered list needs a cast — so its readers see all of them and
+  the ground lays out only those it shows; meadow tests at `/finalize` check
+  that nothing judged changed. `Tended` is the widget's (`game.ts`). Typecheck
+  green, eslint clean but `boundaries/*`.
+- **Left to untie** (52, by `layout.ts`): the firefly (10 edges: it circles
+  caps, tufts and flowers — likely its view up to a feature, `fireflies-circle`
+  per `nouns-tree.md`); the lawn/sky knot (`brow`, `grass`, `paint-land`,
+  `mottles` read the sky's tones and skyline one way now that `paint-backdrop`
+  is the widget's — likely they join the sky as one landscape noun, `grain`'s
+  `Band` with them), `rain-view`'s read of `Backdrop`; `tufts` up (a
+  composition); `mouse-run-clock` → `house` (`DoorPlace`, `onStem`);
+  `flower-closing` read by `draw-flower` and `flower-seat`; `grow-mushroom` ↔
+  `sow-spores`; `mushroom-patch`; `perch-hosts` → the beds; `shared/ui`'s
+  `hit-areas` and `bake-picture`; `shared/world`'s `plane-place` (insect
+  frames), `meadow-camera` and `ground-grid` (mushroom genes and opening feet).
+  Then `layout.ts` to zero, the move, the 27 tests, `check:masd`. The scripts
+  are in `layout-tools.md`; `retarget.ts` takes `FROM=<file>` where a name is
+  declared twice. Mechanical relocations with the home named in the brief can go
+  to a cheaper subagent in a worktree, reviewed before they land (the operator's
   ask); the calls stay in the session.
 
 The rest of this section is the dry-run cut's record, kept for the barrels,
