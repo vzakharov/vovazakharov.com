@@ -1,7 +1,7 @@
 /**
- * Where the render scripts walk for their sources. Bare Node runs them, relying
- * on its type stripping, so this file stays free of syntax the stripper cannot
- * erase.
+ * Where the render scripts walk for their sources. Bare Node runs
+ * `render-mermaid.ts`, relying on its type stripping, so this file stays free
+ * of syntax the stripper cannot erase.
  */
 
 import fs from 'node:fs';

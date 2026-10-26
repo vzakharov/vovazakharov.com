@@ -21,17 +21,15 @@ import {
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { RENDERED_SITE } from '../../../kernel/scripts/lib/content-tree.ts';
-import {
-  generatedCard,
-  type OgBundle,
-} from '../../../kernel/scripts/lib/og-job.ts';
-import type { Card } from '../../../kernel/scripts/lib/og-render.ts';
 import {
   type CollageBand,
   musicCollage,
   type MusicCollageOptions,
 } from './music-collage.ts';
+
+import { RENDERED_SITE } from '@/kernel/scripts/lib/content-tree';
+import { generatedCard, type OgBundle } from '@/kernel/scripts/lib/og-job';
+import type { Card } from '@/kernel/scripts/lib/og-render';
 
 function collageCard(
   covers: readonly string[],

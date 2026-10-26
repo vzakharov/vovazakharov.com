@@ -242,6 +242,31 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
+<<<<<<< HEAD
+=======
+- **Collections into blog** (review on #169). Only blog and its descendants read
+  the collection registry; kernel holds it because its own sitemap, feed and
+  metadata factories do. Those take what they need from outside, and
+  `kernel/shared/content` moves to `blog/shared/content`, which kernel no longer
+  imports:
+  - kernel keeps `PUBLIC_DIR` (`shared/config`) and `contentHash`
+    (`shared/lib`), which name no collection, for `og-job` and the rest;
+  - kernel's `sitemap(routes)` takes only the routes it is given, and blog's app
+    layer adds the collections' — vova calls blog's with the CV's and music's
+    routes, lsa kernel's;
+  - `collectionFeed` moves to blog's app layer, and `render-mermaid`,
+    `content-tree`, `read-collection` and `public-markdown` to blog's scripts,
+    where maya's and basilisk's `render-og.ts` give up their identical
+    one-card-per-entry block (at `routeCardPath(documentRoute(…))`, where
+    `resolveOgImage` looks) for one helper beside them;
+  - kernel's `constructMetadata` takes the feed links as an argument, and blog
+    has its own that supplies the site's, so no page under blog passes them by
+    hand.
+- **5b. The player and music's app layer.** The player — provider, bar, state,
+  hooks and the controls that drive it — becomes a `features/player` slice, and
+  `music-route.tsx`, `music-layout.tsx` and `music-route-params.ts` music's app
+  layer, which leaves the feature two consumers.
+>>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
 - **5c. Music's pages.** The index, artist, album, song and radio become real
   pages under `music/pages/`, what two of them share dropping to widgets or
   `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with

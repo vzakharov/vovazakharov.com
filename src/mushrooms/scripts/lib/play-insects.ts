@@ -2,13 +2,15 @@
 
 import { z } from 'zod';
 
-import { pick } from '../../../kernel/shared/lib/collections.ts';
-import { distanceBetween } from '../../pages/mushrooms/model/geometry.ts';
-import { LANDING } from '../../pages/mushrooms/model/insect-motion.ts';
-import { INSECT_LIMITS } from '../../pages/mushrooms/model/insects.ts';
-import { isSamePerch } from '../../pages/mushrooms/model/perch-room.ts';
-import { PERCH_REACH } from '../../pages/mushrooms/ui/scene/perch-sight.ts';
-import { perchAnchorOf } from '../../pages/mushrooms/ui/scene/perches.ts';
+import { pick } from '@/kernel/shared/lib/collections';
+
+import { distanceBetween } from '@/mushrooms/pages/mushrooms/model/geometry';
+import { LANDING } from '@/mushrooms/pages/mushrooms/model/insect-motion';
+import { INSECT_LIMITS } from '@/mushrooms/pages/mushrooms/model/insects';
+import { isSamePerch } from '@/mushrooms/pages/mushrooms/model/perch-room';
+import { PERCH_REACH } from '@/mushrooms/pages/mushrooms/ui/scene/perch-sight';
+import { perchAnchorOf } from '@/mushrooms/pages/mushrooms/ui/scene/perches';
+
 import {
   type Controls,
   Eye,

@@ -177,9 +177,9 @@ weak case filed to have filed one is the failure this step exists to prevent.
    What it may show is `basilisk-voice.md`'s. The emblems already filed are the
    idiom; one that does not read at 56 px is redrawn.
 4. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
-   missing, then `pnpm content:og:basilisk` to render the new case's own card
+   missing, then `pnpm content:og basilisk` to render the new case's own card
    and re-render the site card (it shows the last case filed),
-   `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which fails on a schema
+   `pnpm check:prose-quotes`, and `pnpm build basilisk`, which fails on a schema
    error, a duplicate case number or a case with no card or emblem.
 5. **Commit** the dossier, its emblem, the cases whose `filed:` moved, every
    card the render touched with its `og-renders.json`, and the run's ledger

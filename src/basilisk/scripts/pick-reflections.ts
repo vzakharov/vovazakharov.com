@@ -12,12 +12,10 @@ import { collectionDir } from '@/kernel/shared/content/index.node-safe';
 
 import { CASES } from '@/basilisk/shared/content';
 
-import {
-  contentFiles,
-  REPO_ROOT,
-} from '../../kernel/scripts/lib/content-tree.ts';
-import { readCollection } from '../../kernel/scripts/lib/read-collection.ts';
 import { pickReflections } from './lib/reflection-pick.ts';
+
+import { contentFiles, REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
+import { readCollection } from '@/kernel/scripts/lib/read-collection';
 
 const COUNT = 4;
 

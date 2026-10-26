@@ -17,10 +17,10 @@
  * A render that says the same thing as the file already there keeps that file's
  * bytes, which is what lets a restored cache stay a cache rather than churn.
  *
- *   pnpm content:pdf:<site>                 # spawn a dev server and print from it
- *   pnpm content:pdf:<site> --origin <url>  # print from a server already up
- *   pnpm content:pdf:<site> --from-out      # print from `out/`, as the deploy does
- *   pnpm content:pdf:<site> --check         # report staleness, write nothing
+ *   pnpm content:pdf <site>                 # spawn a dev server and print from it
+ *   pnpm content:pdf <site> --origin <url>  # print from a server already up
+ *   pnpm content:pdf <site> --from-out      # print from `out/`, as the deploy does
+ *   pnpm content:pdf <site> --check         # report staleness, write nothing
  *
  * One run serves one site, because it is entered in that site's directory —
  * which is what `public/`, `out/` and the dev server it spawns all resolve
@@ -48,8 +48,10 @@ import {
   type Routed,
 } from '@/kernel/shared/content/index.node-safe';
 
-import { flag, given } from '../../../kernel/scripts/lib/argv.ts';
-import { findChromium } from '../../../kernel/scripts/lib/chromium.ts';
+import { sameRender } from './same-render.ts';
+
+import { flag, given } from '@/kernel/scripts/lib/argv';
+import { findChromium } from '@/kernel/scripts/lib/chromium';
 import {
   CONTENT_DIRS,
   contentFiles,
@@ -57,17 +59,16 @@ import {
   PRINTABLE_CONTENT_DIRS,
   RENDERED_SITE,
   REPO_ROOT,
-} from '../../../kernel/scripts/lib/content-tree.ts';
+} from '@/kernel/scripts/lib/content-tree';
 import {
   type PrintOrigin,
   withPrintOrigin,
-} from '../../../kernel/scripts/lib/print-origin.ts';
+} from '@/kernel/scripts/lib/print-origin';
 import {
   type ManifestRoots,
   type Renderable,
   runRenderJob,
-} from '../../../kernel/scripts/lib/render-manifest.ts';
-import { sameRender } from './same-render.ts';
+} from '@/kernel/scripts/lib/render-manifest';
 
 /** A document's PDF, and the route the dev server renders it from. */
 export type Printable = Renderable & Routed;

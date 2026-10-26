@@ -24,7 +24,10 @@ insignificant-slice replaced by scripts/masd-check.ts, which counts a
 slice's references across the composition and flags an abstract app
 with a single child, because Steiger sees one root's references only.
 Imports sort one group per app in graph order, so a file's imports
-read as its composition, its own app last.
+read as its composition, its own app last, and a relative import stays
+inside its slice, segmented layer or app scripts/, the rest going by
+@/ (vova/no-relative-escape) bar the files bare Node runs. Per-site
+pnpm entries take the site as an argument: pnpm build vova.
 
 The game renders on a root layout of its own, without the theme
 toggle, and a fresh meadow always opens in full day: dusk is a game

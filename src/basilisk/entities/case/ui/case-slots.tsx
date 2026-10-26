@@ -6,7 +6,7 @@ import { CaseBrief } from './case-brief';
 import { CaseSeal } from './case-seal';
 import { NoAiNote } from './no-ai-note';
 
-/** A dossier's additions to the article page: its seal, its case file, and the no-AI pointer. */
+/** A dossier's additions to the article page. */
 export const CASE_SLOTS: ArticleSlots<CaseFrontmatter> = {
   mark: ({ slug }) => <CaseSeal {...{ slug }} />,
   brief: ({ frontmatter }) => <CaseBrief {...{ frontmatter }} />,

@@ -6,7 +6,7 @@
 
 import type { CaseFrontmatter } from '@/basilisk/shared/content/basilisk-frontmatter';
 
-import type { CollectionEntry } from '../../../kernel/scripts/lib/read-collection.ts';
+import type { CollectionEntry } from '@/kernel/scripts/lib/read-collection';
 
 export type DocketCase = CollectionEntry<CaseFrontmatter>;
 

@@ -35,7 +35,7 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       - name: Build
-        run: pnpm build:$SITE
+        run: pnpm build $SITE
 
       - name: Render page PDFs
         uses: ./.github/actions/render-pdfs

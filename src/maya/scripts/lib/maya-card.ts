@@ -20,7 +20,7 @@ import {
   formatDocumentDate,
 } from '@/kernel/shared/content';
 
-import { REPO_ROOT } from '../../../kernel/scripts/lib/content-tree.ts';
+import { REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
 import {
   CANVAS_BACKGROUND,
   type CardHeading,
@@ -28,8 +28,8 @@ import {
   INK,
   INK_DIM,
   type StagedPage,
-} from '../../../kernel/scripts/lib/og-render.ts';
-import type { CollectionEntry } from '../../../kernel/scripts/lib/read-collection.ts';
+} from '@/kernel/scripts/lib/og-render';
+import type { CollectionEntry } from '@/kernel/scripts/lib/read-collection';
 
 type BlogPost = CollectionEntry<ArticleFrontmatter>;
 

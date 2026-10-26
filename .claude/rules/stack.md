@@ -26,12 +26,9 @@ pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
 pnpm check:prose-quotes         # no straight quote in prose    │
 src/music/scripts/vet-songs.sh  # song checks, when a song moved │
-pnpm content:og:vova --check    # social cards, hashes only     │
-pnpm content:og:bible --check   # the seal's own card           │
-pnpm content:og:basilisk --check # the seal card and each case's │
-pnpm content:og:maya --check    # her card and each post's      │
+pnpm content:og <site> --check # social cards, hashes only, a site each │
 pnpm music:masters check              # song masters' tags, hashes only │
-pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
+pnpm content:pdf vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
 python3 src/kernel/scripts/lib/test_hearing.py # transcribe.py's word merge │
 python3 src/music/scripts/song-intake/test_song_facts.py # spectrogram facts │
@@ -160,7 +157,7 @@ Twenty things about that list are deliberate:
   partial it leaves untouched is written to not at all, which is what keeps the
   write off the fan-out's files.
 - **The Open Graph check hashes files and nothing else**, so it needs no browser
-  and overlaps the rest safely: `content:og:<site> --check` compares each social
+  and overlaps the rest safely: `content:og <site> --check` compares each social
   card's source — a chart's authored SVG, the SVG a site's mark is drawn as, or
   the page the CV card is generated from — against `og-renders.json`, and fails
   rather than render, that being a committed, run-by-hand step
@@ -174,7 +171,7 @@ Twenty things about that list are deliberate:
   **Publishing the PDFs stays out of vet**: each lane prints that site's PDFs
   fresh after its own build, so the manifest a check would hash against lives in
   that lane's cache rather than in the tree.
-- **`content:pdf:vova --cv-pages` is the one check that runs a browser**, and
+- **`content:pdf vova --cv-pages` is the one check that runs a browser**, and
   only when the CV changed. It prints every CV edition from the export the build
   just wrote into the OS temp directory and fails one past `CV_PAGE_CEILING`,
   because a CV that grows a page shows nowhere else before the deploy prints it.

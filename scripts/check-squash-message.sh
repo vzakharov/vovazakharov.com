@@ -79,8 +79,8 @@ trap cleanup EXIT HUP INT TERM
 
 # The branch's own working directory, so a bite measures its draft rather than
 # the elephant's it inherited; the root is the fallback outside a branch.
-WORK_DIR=docs/remove-before-merging
-[ "$IN_REPO" -eq 0 ] || WORK_DIR=$("$REPO_ROOT/scripts/working-dir.sh" 2>/dev/null) || WORK_DIR=docs/remove-before-merging
+WORK_DIR=$([ "$IN_REPO" -eq 0 ] || "$REPO_ROOT/scripts/working-dir.sh" 2>/dev/null) || true
+WORK_DIR=${WORK_DIR:-docs/remove-before-merging}
 TRACKED_PATH="$WORK_DIR/squash-message.md"
 
 # Bounds the history rung to this branch's own commits. `origin/HEAD` is absent

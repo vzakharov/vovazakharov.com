@@ -17,11 +17,12 @@
 
 import { z } from 'zod';
 
-import { azimuthOf } from '../../pages/mushrooms/model/flight-frame.ts';
-import { wrap } from '../../pages/mushrooms/model/geometry.ts';
-import type { InsectKind } from '../../pages/mushrooms/model/insect-genes.ts';
-import { TURN_CRUISE } from '../../pages/mushrooms/model/pan.ts';
-import { pinholeOf } from '../../pages/mushrooms/model/pinhole.ts';
+import { azimuthOf } from '@/mushrooms/pages/mushrooms/model/flight-frame';
+import { wrap } from '@/mushrooms/pages/mushrooms/model/geometry';
+import type { InsectKind } from '@/mushrooms/pages/mushrooms/model/insect-genes';
+import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
+import { pinholeOf } from '@/mushrooms/pages/mushrooms/model/pinhole';
+
 import {
   Camera,
   type Controls,

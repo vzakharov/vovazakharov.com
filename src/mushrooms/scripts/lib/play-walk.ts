@@ -20,16 +20,20 @@
 
 import { z } from 'zod';
 
-import { walking } from '../../pages/mushrooms/model/eye-height.ts';
-import { GLIDE_TAU } from '../../pages/mushrooms/model/glide.ts';
-import { SLOP, TURN_CRUISE } from '../../pages/mushrooms/model/pan.ts';
-import { pinholeOf, planeSeen } from '../../pages/mushrooms/model/pinhole.ts';
+import { walking } from '@/mushrooms/pages/mushrooms/model/eye-height';
+import { GLIDE_TAU } from '@/mushrooms/pages/mushrooms/model/glide';
+import { SLOP, TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
+import {
+  pinholeOf,
+  planeSeen,
+} from '@/mushrooms/pages/mushrooms/model/pinhole';
 import {
   sidewaysOf,
   STRIDE_FLING_FASTEST,
-} from '../../pages/mushrooms/model/stride.ts';
-import { cloudAt } from '../../pages/mushrooms/ui/scene/rain-sky.ts';
-import { browRow } from '../../pages/mushrooms/ui/scene/view.ts';
+} from '@/mushrooms/pages/mushrooms/model/stride';
+import { cloudAt } from '@/mushrooms/pages/mushrooms/ui/scene/rain-sky';
+import { browRow } from '@/mushrooms/pages/mushrooms/ui/scene/view';
+
 import {
   Camera,
   type Controls,

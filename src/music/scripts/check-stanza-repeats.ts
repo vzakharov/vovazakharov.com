@@ -7,8 +7,9 @@
  *
  *   pnpm check:stanza-repeats [--fix] [<song.md>…]
  *
- * A repeat `src/music/scripts/lib/stanza-repeats.ts` refuses to collapse, since it would
- * misalign the lyrics sections, fails with or without `--fix`, saying why.
+ * A repeat `src/music/scripts/lib/stanza-repeats.ts` refuses to collapse, since
+ * it would misalign the lyrics sections, fails with or without `--fix`, saying
+ * why.
  */
 
 import fs from 'node:fs';

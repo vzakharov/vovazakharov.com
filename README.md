@@ -33,17 +33,14 @@ and all of them build from the one `src/`.
 pnpm install
 
 # Run one site's development server — http://localhost:3000
-pnpm dev:vova
-pnpm dev:lsa
-pnpm dev:bible
-pnpm dev:basilisk
+pnpm dev <site>    # vova, lsa, bible, basilisk or maya
 
-# Build every site for production (pnpm build:<site> for one)
+# Build every site for production (pnpm build <site> for one)
 pnpm build
 ```
 
 A Next project directory is `sites/<site>/`, so every build and dev server is
-entered there — hence no root `pnpm dev`.
+entered there — hence the site argument.
 
 `./scripts/vet.sh` is the check to run before merging — on GitHub's runners,
 from the pushed head; `.claude/rules/stack.md` says what it covers.

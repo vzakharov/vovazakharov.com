@@ -127,7 +127,7 @@ lint_shard() {
 # script so far — and what deploy.yml runs, bar the PDF render each lane does
 # after it, which nothing here stands in for.
 case "$phase" in
-  build) logged build pnpm "build:$2" ;;
+  build) logged build pnpm build "$2" ;;
   lint) logged typegen pnpm typegen && lint_shard "$2" ;;
   typecheck) logged typegen pnpm typegen && { pnpm -s typecheck || status=1; } ;;
 esac
@@ -155,7 +155,7 @@ fi
 built_checks=(
   mantine-styles='pnpm check:mantine-styles'
   i18n-payload='pnpm check:i18n-payload'
-  cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
+  cv-pages='pnpm content:pdf vova --cv-pages --from-out'
 )
 # The checks that read the branch against its merge base, or the cost ledger.
 local_checks=(
@@ -172,12 +172,6 @@ source_checks=(
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   prose-quotes='pnpm check:prose-quotes'
-  # One entry per site: pnpm appends a passed `--check` to the end of the
-  # command line, so a combined `a && b` would render the first site for real.
-  og-vova='pnpm content:og:vova --check'
-  og-bible='pnpm content:og:bible --check'
-  og-basilisk='pnpm content:og:basilisk --check'
-  og-maya='pnpm content:og:maya --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
   hearing='python3 src/kernel/scripts/lib/test_hearing.py'
@@ -192,6 +186,14 @@ source_checks=(
   keepalive='python3 .claude/keepalive/test_keepalive.py'
   hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
 )
+# One entry per site that renders social cards: pnpm appends a passed `--check`
+# to the end of the command line, so a combined `a && b` would render the first
+# site for real.
+for entry in src/*/scripts/render-og.ts; do
+  site=${entry#src/}
+  site=${site%%/*}
+  source_checks+=("og-$site=pnpm content:og $site --check")
+done
 checks="${phase}_checks[@]"
 scripts/run-parallel.sh "${!checks}" || status=1
 

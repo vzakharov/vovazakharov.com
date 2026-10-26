@@ -27,30 +27,35 @@
 
 import { z } from 'zod';
 
-import { flag } from '../../kernel/scripts/lib/argv.ts';
-import { MUSHROOM_SLOTS } from '../pages/mushrooms/model/crowding';
-import { OPENING_EYE } from '../pages/mushrooms/model/ground';
-import { SPORE_SEATS } from '../pages/mushrooms/model/sprouting';
+import { MUSHROOM_SLOTS } from '@/mushrooms/pages/mushrooms/model/crowding';
+import { OPENING_EYE } from '@/mushrooms/pages/mushrooms/model/ground';
+import { SPORE_SEATS } from '@/mushrooms/pages/mushrooms/model/sprouting';
 import {
   hiddenOf,
   hidersOf,
   MOST_HIDDEN,
   PARTS,
   partSighted,
-} from '../pages/mushrooms/ui/scene/cap-cover';
-import { coversShown } from '../pages/mushrooms/ui/scene/flower-cover';
-import type { MeadowLayout } from '../pages/mushrooms/ui/scene/layout';
-import { patchlessIn } from '../pages/mushrooms/ui/scene/mushroom-patch';
-import { dotInSight } from '../pages/mushrooms/ui/scene/spore-sight';
-import { viewAt } from '../pages/mushrooms/ui/scene/view';
-import { VIEWPORTS, VISITS } from '../pages/mushrooms/ui/scene/viewports';
+} from '@/mushrooms/pages/mushrooms/ui/scene/cap-cover';
+import { coversShown } from '@/mushrooms/pages/mushrooms/ui/scene/flower-cover';
+import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/scene/layout';
+import { patchlessIn } from '@/mushrooms/pages/mushrooms/ui/scene/mushroom-patch';
+import { dotInSight } from '@/mushrooms/pages/mushrooms/ui/scene/spore-sight';
+import { viewAt } from '@/mushrooms/pages/mushrooms/ui/scene/view';
+import {
+  VIEWPORTS,
+  VISITS,
+} from '@/mushrooms/pages/mushrooms/ui/scene/viewports';
 import {
   capsSpan,
   type Opened,
   opened,
   standingIn,
-} from '../pages/mushrooms/ui/scene/visit-play';
+} from '@/mushrooms/pages/mushrooms/ui/scene/visit-play';
+
 import { median } from './lib/frame-budget.ts';
+
+import { flag } from '@/kernel/scripts/lib/argv';
 
 const visits = z.coerce
   .number()

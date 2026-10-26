@@ -8,14 +8,14 @@
 
 import { z } from 'zod';
 
-import { D_SEE } from '../../pages/mushrooms/model/ground.ts';
-import { INSECT_KINDS } from '../../pages/mushrooms/model/insect-genes.ts';
+import { D_SEE } from '@/mushrooms/pages/mushrooms/model/ground';
+import { INSECT_KINDS } from '@/mushrooms/pages/mushrooms/model/insect-genes';
 import {
   LANDING,
   REST_LEAN,
-} from '../../pages/mushrooms/model/insect-motion.ts';
-import { PATH_SHAPES } from '../../pages/mushrooms/model/insect-paths.ts';
-import { TURN_RATE } from '../../pages/mushrooms/model/insect-steering.ts';
+} from '@/mushrooms/pages/mushrooms/model/insect-motion';
+import { PATH_SHAPES } from '@/mushrooms/pages/mushrooms/model/insect-paths';
+import { TURN_RATE } from '@/mushrooms/pages/mushrooms/model/insect-steering';
 
 /**
  * How long after landing a flier has turned to its rest facing, in ms: its

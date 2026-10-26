@@ -2,6 +2,6 @@
 
 /** agentic.bible's Open Graph cards: the core's alone. `src/kernel/scripts/lib/og-job.ts` carries the contract. */
 
-import { renderOgCards } from '../../kernel/scripts/lib/og-job.ts';
+import { renderOgCards } from '@/kernel/scripts/lib/og-job';
 
 await renderOgCards();

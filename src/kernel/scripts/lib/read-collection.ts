@@ -1,9 +1,9 @@
 /**
  * A collection's documents, parsed through the schema the site builds with.
- * Reaching `shared/content` needs the `react-server` condition the
- * `content:og:<site>` entries run under, which is what resolves `server-only`
- * to its empty module. Not `listDocuments`: it resolves each document's card,
- * so it throws before the first render.
+ * A schema's module is `server-only`, so a caller runs under the
+ * `react-server` condition, which resolves that to its empty module. Not
+ * `listDocuments`: it resolves each document's card, so it throws before the
+ * first render.
  */
 
 import matter from 'gray-matter';

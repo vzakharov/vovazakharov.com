@@ -9,9 +9,10 @@
 
 import { z } from 'zod';
 
-import { inkWidth } from '../../pages/mushrooms/model/mushroom-outline.ts';
-import { INK_REACH } from '../../pages/mushrooms/ui/scene/ink.ts';
-import { PALETTE } from '../../pages/mushrooms/ui/scene/palette.ts';
+import { inkWidth } from '@/mushrooms/pages/mushrooms/model/mushroom-outline';
+import { INK_REACH } from '@/mushrooms/pages/mushrooms/ui/scene/ink';
+import { PALETTE } from '@/mushrooms/pages/mushrooms/ui/scene/palette';
+
 import type { Page } from './mushroom-probe-drive.ts';
 
 /**

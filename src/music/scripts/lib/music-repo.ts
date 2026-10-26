@@ -23,7 +23,6 @@ import {
   SONG_BRANCH,
 } from '@/music/shared/catalogue/index.node-safe';
 
-import { REPO_ROOT } from '../../../kernel/scripts/lib/content-tree.ts';
 import {
   apiStderr,
   githubApi,
@@ -32,6 +31,8 @@ import {
   uploadBlob,
 } from './music-github.ts';
 import { API_BLOB_LIMIT, relayCommit } from './music-relay.ts';
+
+import { REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
 
 /** Where the clones live, each replaced by the next run on its repository. */
 export const MUSIC_WORK_DIR = path.join(REPO_ROOT, 'tmp', 'music-tag');

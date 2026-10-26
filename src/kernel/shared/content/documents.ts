@@ -249,7 +249,7 @@ const SHOW_HIDDEN =
 /**
  * Whether a document may be listed. Applied where documents are offered to a
  * reader, never where they are routed — a hidden page is still built.
- * `SHOW_HIDDEN=1 pnpm dev:<site>` lists every document, so a local session
+ * `SHOW_HIDDEN=1 pnpm dev <site>` lists every document, so a local session
  * browses the whole catalogue from the public pages.
  */
 export function isListed({ frontmatter }: WithFrontmatter): boolean {

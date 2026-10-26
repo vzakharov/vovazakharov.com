@@ -31,11 +31,11 @@ export type SongVideo = {
 };
 
 /**
- * The tracks `src/music/scripts/song-intake/captions.py` writes beside a song's video, one
- * per lyrics column, at the video's path with `.<language>.vtt` for its
- * extension. Throws where the sung words have no track, or the video lives off
- * the site where no track can sit beside it, so a video without its words fails
- * the build rather than reaching a reader who cannot hear it.
+ * The tracks `src/music/scripts/song-intake/captions.py` writes beside a song's
+ * video, one per lyrics column, at the video's path with `.<language>.vtt` for
+ * its extension. Throws where the sung words have no track, or the video lives
+ * off the site where no track can sit beside it, so a video without its words
+ * fails the build rather than reaching a reader who cannot hear it.
  */
 export function songVideo(
   { frontmatter: { video: authored, language }, fileName }: SongDocument,

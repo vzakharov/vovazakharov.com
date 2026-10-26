@@ -11,7 +11,7 @@ import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
 
 import { caseSealSources } from '@/basilisk/entities/case/index.node-safe';
 
-import { renderPdfs } from '../../blog/scripts/lib/print-job.ts';
+import { renderPdfs } from '@/blog/scripts/lib/print-job';
 
 /**
  * A case prints its seal beside its lede, composed from its emblem and the
