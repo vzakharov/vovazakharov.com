@@ -441,24 +441,48 @@ review rather than stopping on each call.
   `dusk` and `weather` to `shared/world` (the world's clock, read by windows,
   fireflies and flowers alike), `dusk-view` to the widget; `Lights` to
   `windows-lit`, `DUSK_WASH_DEEPEST` to `palette-dusk`.
-- **Left to untie** (138, by `layout.ts`; `lift.ts` shows the cascade's roots):
-  the engine (`bed-place` 15, `repaint-queue` 10 with the mushroom profile's
-  reach into it, `mushroom-shown`, `insect-size`, `clump-layout`'s ground read
-  by the flower and the world); the insect entity's reach into
-  `features/insects-fly` (`flight` → `perch-room`/`pollen`/`shelter`: split
-  `Perch`/`Leg`/`Place` down, the choosing up); `meadow-camera` sizing the world
-  by the mushroom's genes (`shared/world` → mushroom); the lawn/sky knot
-  (`brow`, `grass`, `paint-land`, `mottles` read the sky's tones and skyline —
-  likely one landscape noun); the lawn's `tufts` reading the flower, the
-  planting and the mushroom (a composition, up); `flower-genes` back to the
-  flower; `paint-backdrop` to the widget. **The open fork**: the flower stands
-  among the mushrooms (`flower-sight`, `flower-plots`, `flower-cover`,
-  `anchored-stand` read the mushrooms' ground, places and outlines — 12 edges),
-  which entities cannot import sideways: either those files are an encounter (a
-  feature, the flower entity keeping genes, drawing and `flower-layout`), or the
-  mushrooms are handed in structurally. Then `layout.ts` to zero, the move, the
-  27 tests, `check:masd`. The scripts are in `layout-tools.md`; `retarget.ts`
-  takes `FROM=<file>` where a name is declared twice (`Placed`).
+- **The engine down, the insect split** (7d13a4f to 21447f2; 138 broken imports
+  to 79). `bed-place`, `repaint-queue`, `backdrop-depths` and `shelter-seats`
+  are the world's (`Stood` in `ground`, `Drawn` and `LaidAhead` in `bed-place`).
+  `Shown<House>` is the mushroom's, its house a parameter: the bed passes
+  `HouseView` and moves the house after `moveMushroom`, `mouse-runs` reads
+  `{ doored, mouse }`; `Body` lives in `mushroom-shown`, `Puffing` in
+  `mushroom-selection`. `insect-size` is the insect's. `model/perch.ts` (insect)
+  holds the perch and leg vocabulary, `perchName`, `isSamePerch`, `ShelterSeat`;
+  `flight.ts` keeps the choosing and `shownOf` and goes up to
+  `features/insects-fly`, with no re-exports. `pollen.ts` split three ways:
+  `pollen-load` (insect), `planted-flowers` (flower: `Sown`, `Plot`,
+  `slotTaken`, `plantedId`), the sowing (feature). `Seat`/`Nectared` live in
+  `insect-seat`, `Flier` in `flier.ts`. `flowerLight` is the flower's
+  (`flower-light.ts`), `lightAt` in `model/light`, so the mushroom reads nothing
+  of the flower. `paint-backdrop` is the widget's.
+- **Left to untie** (79, by `layout.ts`): **the flower's fork, put to the
+  operator** — the flower reads the mushroom one way only now, through functions
+  rather than data (`standingPlaces`, `placeIn` + `standingAt`, `mostShaded`,
+  `anchoredGround`, `flowersCrowdAt`), and `Stand` is read by four features, so
+  neither recorded option holds cleanly: an encounter feature would merge
+  `insects-fly`, `plant-flower`, `sow-spores` and `grow-mushroom` into it, and
+  handing the mushrooms in structurally threads those functions through about 30
+  files. Recommended to the operator: flower and mushroom as one entity slice;
+  the other offer, FSD's `@x` cross-import, extends MASD's barrel list and its
+  checkers. Build nothing on the fork before the answer. Also left: the insect's
+  `WIDEST_SPAN` from `flower-sight` and `flower-sight`'s reads of the insect
+  (both the fork's); the firefly (10 edges: it circles caps, tufts and flowers —
+  likely its view up to a feature, `fireflies-circle` per `nouns-tree.md`); the
+  lawn/sky knot (`brow`, `grass`, `paint-land`, `mottles` read the sky's tones
+  and skyline one way now that `paint-backdrop` is the widget's — likely they
+  join the sky as one landscape noun, `grain`'s `Band` with them), `rain-view`'s
+  read of `Backdrop`; `tufts` up (a composition); `mouse-run-clock` → `house`
+  (`DoorPlace`, `onStem`); `flower-closing` read by `draw-flower` and
+  `flower-seat`; `grow-mushroom` ↔ `sow-spores`; `mushroom-patch`;
+  `perch-hosts` → the beds; `shared/ui`'s `hit-areas` and `bake-picture`;
+  `shared/world`'s `plane-place` (insect frames), `meadow-camera` and
+  `ground-grid` (mushroom genes and opening feet). A subagent was handed four
+  mechanical ones (`hud`'s `drawDisc`/`iconLighting`, `instrument-voices`' part
+  types, `instrument-input`'s `EyeInput`, `Answering`/`ChordTapped`); relay 8
+  says where its commit landed. Then `layout.ts` to zero, the move, the 27
+  tests, `check:masd`. The scripts are in `layout-tools.md`; `retarget.ts` takes
+  `FROM=<file>` where a name is declared twice.
 
 The rest of this section is the dry-run cut's record, kept for the barrels,
 tests and checks, which carry over. The layout's source is `mushrooms-tree.md`
