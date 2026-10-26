@@ -7,8 +7,8 @@ it. That is enough to put them to work before review, and to write
 them up.
 
 /five-percent is a third /polish pass, after /dry and /tend-prose, run
-by the same subagent. It puts thirteen of the learnings to the
-branch's diff as named lenses and posts at most three alternatives as
+by the same subagent. It distils the learnings into six named lenses,
+puts them to the branch's diff and posts at most three alternatives as
 one COMMENT review on the PR, each an inline comment on the lines or
 file it concerns, opening on its lens and graded critical or
 optional. It edits and commits nothing; an answered proposal becomes

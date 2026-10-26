@@ -69,54 +69,56 @@ posting section; nothing else depends on where they land.
 
 ### The lenses
 
-One per learning in the notes, under a one-word name to answer by. Each is a
-question put to the diff, and what it is put to — a lens whose ground the diff
-does not cover is skipped, which is most of them on most runs.
+Six, each under a one-word name to answer by, each a question put to the diff.
+Every one stands on ten bumps or more, and every one asks something no other
+pass or loaded rule already asks:
 
-- **`precedent`** (×90) — what did the change take as given: a list, a pattern
-  in the tree, a checker's green, a rule's letter, its own tool's output? Fires
-  on anything; a new prop copied from nine callers, a commit type picked from
-  the list, a case passed because the skill's checks passed. The name is the
-  Bible's
+- **`precedent`** (×100) — what did the change take as given: a list, a pattern
+  in the tree, a checker's green, a rule's letter, its own tool's output — or
+  its own earlier call, written up and pinned by a test? Fires on anything; a
+  new prop copied from nine callers, a commit type picked from the list, a
+  parameter defended by its own docstring. The name is the Bible's
   ([the precedent fallacy](../../apps/bible/public/precedent-fallacy.md), "a
   given, read as a rule"), and the lens links it rather than restating it.
-- **`unrun`** (×28) — which claim in the change rests on reasoning nobody ran: a
-  comment's "nothing calls this yet", a test on fixtures without the hard case,
-  a link chosen by its title? The alternative is the one run, grep or read that
-  settles it.
+- **`unrun`** (×34) — which claim rests on something nobody ran or looked at, or
+  looked at only for what it meant to show: "nothing calls this yet", a test on
+  fixtures without the hard case, a link chosen by its title, a visual change
+  checked against its intent? The alternative is the run, grep, read or
+  `/preview` that settles it.
 - **`echo`** (×19) — does a fact the change edited live somewhere the diff did
-  not touch: the other locale, the other two renderings, the watermark rows
-  beside the ones edited? The most mechanical lens, and the one a grep answers.
+  not touch: the other locale, the other renderings, the watermark rows beside
+  the ones edited? The one lens a grep answers.
 - **`source`** (×14) — where the change quotes, cites or draws from something,
-  is it the source's words and data or the agent's: lyrics "fixed" to the
+  is it the source's words and data or the agent's own: lyrics "fixed" to the
   dictionary's, a word list hand-picked where a library exists?
-- **`form`** (×14) — what did the change write because the format had a slot for
-  it: a rule nobody asked for, a cell per key, a copy per persona, four checks
-  where a note would do? The alternative is less, or nothing.
+- **`form`** (×14) — what did the change build because the format had room for
+  it: a cell per key, a copy per persona, a registry and four checks where a
+  reference note would do? The alternative is the lighter design; the prose half
+  of this learning — a rule nobody asked for — is `/tend-prose`'s existence
+  lens.
 - **`reader`** (×10) — met cold, what does a reader take from this name or line:
   `isHomePage` read as its opposite, a mechanism compressed past checking, the
   repo's world named to someone outside it?
-- **`pinned`** (×8) — which choice is justified by its own docstring, test or
-  caveat, and is the choice itself right? The alternative is dropping it.
-- **`render`** (×6) — on a visual change only: what the change was for is not
-  what the page looks like. A diff-reading pass cannot see the page, so the
-  proposal names what to look at in `/preview` and why.
-- **`shape`** (×3) — does a comment warn against a move a structure could make
-  fail to build: a `server-only` module, a type, a lint rule?
-- **`exit`** (×3) — on prose taking a position: does a sentence hedge it in the
-  same breath, so the disclaimer becomes the steer?
-- **`seat`** (×2) — on Basilisk cases and the Clerk's reflections: is the
-  machine in the case read as the one wronged because it is the agent's kind?
-- **`cadence`** (×2) — on prose: is a reflex shape («не X, а Y», the consoling
-  last line) standing where the argument should be?
-- **`gap`** (×2) — on a question the change puts to the operator, in a plan or a
-  PR body: is the hole in the author's material, or in the agent's reading of
-  it?
 
-"It writes its reasoning into the artifact" (×13) gets no lens: the alternative
-it proposes is always the artifact without the defence, which is a cut, and
-`/tend-prose`'s existence and narration lenses make that cut one pass earlier.
-Here the pass proposes approaches, never cuts.
+The other eight learnings are folded in or left to their homes:
+
+- **Folded:** "What it defends in writing, it stops asking about" (×8) and "It
+  files its own misreading as the author's gap" (×2) are `precedent` turned on
+  the agent's own output — its earlier choice, its own reading of the material.
+  "It checks the render against its intent" (×6) is, by the notes' own account,
+  `unrun`'s milder half.
+- **Already loaded where they apply:** "It steps out of the line it would have
+  to own" is `.claude/rules/basilisk-voice.md`'s disclaiming rule, "It takes the
+  machine's seat" its `mischief` grade and `clerk-reflections.md`'s «Смешное
+  записывай как смешное» («Узнав себя в машине…»), "Its cadence passes for its
+  argument" `writing/CLAUDE.md`'s «не X, а Y». A lens restating them is the same
+  rule in a second home.
+- **Another pass's:** "It writes its reasoning into the artifact" (×13) proposes
+  only the artifact without the defence — a cut, which `/tend-prose`'s existence
+  and narration lenses make one pass earlier. This pass proposes approaches,
+  never cuts.
+- **Too thin:** "It warns where the repo could refuse" (×3) is one theme, the
+  zod bundle's client cost, over two September reviews.
 
 ### Its own floor
 
