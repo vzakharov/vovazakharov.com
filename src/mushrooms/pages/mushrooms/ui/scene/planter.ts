@@ -10,14 +10,15 @@ import {
   shapeSeeds,
 } from '../../model/flower-sounds';
 import type { Action, Meadow } from '../../model/game';
-import { type Eye,sameFoot } from '../../model/ground';
+import { type Eye, sameFoot } from '../../model/ground';
 import type { Stamped } from '../../model/motion';
 import { plantedId } from '../../model/planted-flowers';
 import { mulberry32, type Random } from '../../model/random';
-import { type Stand, takesFlower } from './flower-sight';
+import { takesFlower } from './flower-room';
 import type { SoundPlanting } from './instrument-input';
 import { type FlowerInView, keyPlanting, sowingTuft } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
+import type { GrowingStand } from './mushroom-room';
 import type { PlanterVoice } from './sound';
 import { plantableIn, type Refusing, type Sprout } from './tufts';
 
@@ -33,7 +34,7 @@ export type SightSeen = { sight: () => Sight };
  * shown takes the flower it is tapped for until the grass is tended again.
  */
 export type Scened = MeadowActed &
-  StandSeen<Stand<MeadowLayout>> & {
+  StandSeen<GrowingStand<MeadowLayout>> & {
     tufts: () => readonly Sprout[];
     tendedAt: () => Eye;
   };

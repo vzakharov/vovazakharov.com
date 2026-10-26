@@ -7,8 +7,11 @@
 import type { MeadowSeen, StandSeen } from '../../model/acting';
 import type { WithMushrooms } from '../../model/planted';
 import { sowable, type Spored, type SporeTap } from '../../model/sprouting';
-import type { Stand } from './flower-sight';
-import { type MushroomRoomLayout, roomFor } from './mushroom-room';
+import {
+  type GrowingStand,
+  type MushroomRoomLayout,
+  roomFor,
+} from './mushroom-room';
 
 /**
  * The spore a tap on the mushroom `id` at `now`, in ms, settles, as the
@@ -21,7 +24,8 @@ export function sporeOnTap(
     meadow,
     stand,
     view,
-  }: MeadowSeen<WithMushrooms & Spored> & StandSeen<Stand<MushroomRoomLayout>>,
+  }: MeadowSeen<WithMushrooms & Spored> &
+    StandSeen<GrowingStand<MushroomRoomLayout>>,
   id: string,
   now: number,
 ): SporeTap {

@@ -8,6 +8,7 @@ import { distanceBetween } from '../../model/geometry';
 import type { Eye } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { perchName } from '../../model/perch';
+import type { Planted } from '../../model/planted';
 import type { Stand } from './flower-sight';
 import type { MeadowLayout } from './layout';
 import { PERCH_REACH } from './perch-sight';
@@ -22,14 +23,14 @@ const NEAR: Eye = { x: 0, y: 0, heading: 0 };
 const FAR: Eye = { x: 0, y: WALKED, heading: 0 };
 
 /** What the scene sees of `stand`'s perches judged at `anchor`, framed from there. */
-function sightAt(stand: Stand<MeadowLayout>, anchor: Eye): Sight {
+function sightAt(stand: Stand<MeadowLayout, Planted>, anchor: Eye): Sight {
   const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
   perches.see(stand, anchor);
   return perches.sightFrom(viewAt(stand.layout.camera, anchor));
 }
 
 /** The opening forest, and its every mushroom again `WALKED` up the plane. */
-function twoForests(): { stand: Stand<MeadowLayout>; meadow: Meadow } {
+function twoForests(): { stand: Stand<MeadowLayout, Planted>; meadow: Meadow } {
   const { meadow, ...stand } = opened(3, 1180, 820, true);
   const mushrooms = [
     ...stand.mushrooms,

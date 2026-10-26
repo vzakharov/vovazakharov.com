@@ -1,6 +1,7 @@
 /** Where a finger meets the grass: which tuft a tap lands on, and whether one is drawn bare to it. */
 
 import { type Circle, distanceBetween, type Point } from '../../model/geometry';
+import type { Planted } from '../../model/planted';
 import type { ClumpGround } from './anchored-ground';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
@@ -10,7 +11,7 @@ import {
   flowersOf,
   type StandingFlower,
 } from './flower-plots';
-import { type FlowerSightLayout, sightingOf, type Stand } from './flower-sight';
+import { type FlowerSightLayout, headOf, type Stand } from './flower-sight';
 import type { Tuft, WithTuft } from './grass';
 import { type MushroomTarget, tappedMushroom, tapTarget } from './mushroom-tap';
 /** What of the meadow's layout this reads. */
@@ -66,7 +67,7 @@ export function tuftAt<Tufted extends WithTuft>(
  * control's, the controls being the screen's. `stand` is read once.
  */
 export function bareToTap<L extends TuftTapLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
 ): (tuft: Tuft) => boolean {
   return bareAmong(stand.layout, flowersOf(stand), stand.mushrooms);
 }
@@ -79,10 +80,10 @@ export function bareToTap<L extends TuftTapLayout>(
 export function bareAmong(
   layout: TuftTapLayout,
   flowers: readonly StandingFlower[],
-  mushrooms: Stand['mushrooms'],
+  mushrooms: readonly Planted[],
 ): (tuft: Tuft) => boolean {
   const heads: Circle[] = flowers.map((flower) => {
-    const { head } = sightingOf(flower, layout);
+    const head = headOf(flower);
     const swayed = flower.place.size * Math.sin(FLOWER_SWAY);
     return { ...head, r: head.r + swayed };
   });

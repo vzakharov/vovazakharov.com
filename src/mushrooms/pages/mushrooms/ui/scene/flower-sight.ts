@@ -1,17 +1,17 @@
 /**
- * Whether a flower can be seen — by an insect sitting on it, and by a child
- * looking for a flower a bee planted — and where a bee could plant one, as
- * pure functions of the layout and what stands in it. A flower in sight
- * stands inside the world's edges by an insect's wings, its head in view past
- * the mushrooms in front of it, wherever the crop stands: the controls stand
- * on the screen, not the world, so a pan never changes what is in sight. A
- * flower is planted only where it would be in sight.
+ * Whether a flower can be seen — by whatever sits on it, and by a child
+ * looking for a flower a bee planted — and whether a flower planted on a foot
+ * would be, as pure functions of the layout and what stands in it. A flower
+ * in sight stands inside the world's edges by its sitter's wings, its head in
+ * view past the occupants in front of it, wherever the crop stands: the
+ * controls stand on the screen, not the world, so a pan never changes what is
+ * in sight. The things standing among the flowers are occupants to them
+ * (`Occupant`), whatever they are.
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithHeight } from '@/kernel/shared/typings';
 
-import { anchorOf } from '../../model/anchor';
 import { flowersCrowdAt } from '../../model/crowding';
 import {
   type Flower,
@@ -26,39 +26,25 @@ import {
   type Circle,
   containsPoint,
 } from '../../model/geometry';
-import type { Camera, Eye, Footing, WithCamera } from '../../model/ground';
-import type { InsectKind } from '../../model/insect-genes';
-import type { WithPlanted } from '../../model/insects';
+import type { Camera, Footing, Stood, WithCamera } from '../../model/ground';
 import { pinholeOf } from '../../model/pinhole';
-import type { WithMushrooms, WithSpores } from '../../model/planted';
-import { type Plot, slotTaken } from '../../model/planted-flowers';
+import type { WithPlanted } from '../../model/planted-flowers';
 import type { ClumpGround, MushroomGround } from './anchored-ground';
-import { anchoredStand, hasGround, movedTo } from './anchored-stand';
-import { placeIn } from './clump-layout';
-import { standingAt } from './door-sight';
 import { type Bedded, FLOWER_SWAY, standingOn } from './flower-layout';
 import {
   flowersOf,
   groundFor,
-  inFlowerBand,
-  mushroomFeet,
+  occupantsOf,
   type Placed,
-  RING_SLOTS,
-  ringFoot,
   type StandingFlower,
 } from './flower-plots';
-import { flowerLift } from './flower-seat';
-import type { InsectScaled } from './insect-size';
-import type { Cover } from './occupant';
+import type { Occupant, Occupied, Occupying } from './occupant';
+import type { HeadReach, Lifting, Sitter } from './seat-reach';
 import { tapReach } from './tap-reach';
 import { middleOf } from './view';
 
 /** What of the meadow's layout this reads. */
-export type FlowerSightLayout = WithHeight &
-  WithCamera &
-  InsectScaled &
-  ClumpGround &
-  Bedded;
+export type FlowerSightLayout = WithHeight & WithCamera & ClumpGround & Bedded;
 
 /**
  * How far off a cap's crown toward its rims, or off a flower's centre toward
@@ -66,33 +52,13 @@ export type FlowerSightLayout = WithHeight &
  * not every one lands dead centre.
  */
 export const PERCH_SPREAD = 0.3;
-/** The widest a butterfly's open wings span, in units of its size, whatever its genes. */
-export const WIDEST_SPAN = 1.22;
-
-/** The widest a butterfly's wings span on `layout`, in px: the span `flowerInSight` judges by unless told. */
-export function widestSpanOn({ insectSize }: FlowerSightLayout): number {
-  return WIDEST_SPAN * insectSize;
-}
 /**
  * How much of a flower's head, out from its centre as a share of its reach,
- * has to show past the mushrooms in front of it, and at how many points
+ * has to show past the occupants in front of it, and at how many points
  * round it that is read, beside the centre.
  */
 const HEAD_SHOWN = 0.5;
 const HEAD_RING = 8;
-
-/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
-export type Tended = WithMushrooms & WithPulled;
-
-/** What of the meadow a `Stand` reads: the mushrooms standing, the spores lying, the planted flowers, and the ones the child pulled up. */
-const STOOD = ['mushrooms', 'spores', 'planted', 'pulled'] as const;
-
-/**
- * The meadow as the scene stands it: the layout, the visit's seeded flowers,
- * and what of the meadow `STOOD` names; generic in the layout, which the
- * scene reads more of than the sight does.
- */
-export type Stand<L = FlowerSightLayout> = PlotGround<L> & WithSpores;
 
 /** The layout the scene stands the meadow on. */
 export type WithLayout<L = FlowerSightLayout> = {
@@ -102,54 +68,73 @@ export type WithLayout<L = FlowerSightLayout> = {
 export type SeededLayout<L = FlowerSightLayout> = WithLayout<L> & {
   flowers: readonly Flower[];
 };
-/** A `Stand` but for its spores: what the flowers' plots are laid among. */
-export type PlotGround<L = FlowerSightLayout> = SeededLayout<L> &
-  Tended &
-  WithPlanted;
 
-/** `meadow` as it stands on `layout` among the visit's seeded `flowers`. */
-export function standOf<L extends FlowerSightLayout>(
+/**
+ * The meadow as the scene stands it: the layout, the visit's seeded flowers,
+ * the planted ones and the ones the child pulled up, and the things standing
+ * among them, with how they occupy the ground (`Occupying`); generic in the
+ * layout, which the scene reads more of than the sight does, and in the
+ * things, which the flowers know only as occupants.
+ */
+export type Stand<
+  L = FlowerSightLayout,
+  Thing extends Stood = Stood,
+> = SeededLayout<L> &
+  WithPlanted &
+  WithPulled &
+  Occupied<Thing> & { occupying: Occupying<Thing> };
+
+/** `meadow` as it stands on `layout` among the visit's seeded `flowers`, its things occupying the ground as `occupying` says. */
+export function standOf<L extends FlowerSightLayout, Thing extends Stood>(
   layout: L,
   flowers: readonly Flower[],
-  meadow: Tended & WithPlanted & WithSpores,
-): Stand<L> {
-  return { layout, flowers, ...pick(meadow, ...STOOD) };
+  meadow: WithPlanted & WithPulled & Occupied<Thing>,
+  occupying: Occupying<Thing>,
+): Stand<L, Thing> {
+  return {
+    layout,
+    flowers,
+    ...pick(meadow, 'mushrooms', 'planted', 'pulled'),
+    occupying,
+  };
 }
 
 /**
  * A flower as the sight reads it: its place, its head on screen, and how far
- * over the head's middle the insect it is read for sits (`flowerLift`).
+ * over the head's middle what it is read for sits (`Lifting`).
  */
 export type Sighting = Placed & { head: Circle; lift: number };
 
-/** A standing flower as the sight reads it for an insect of `kind` (`Sighting`). */
-export function sightingOf(
-  { place, seed }: StandingFlower,
-  { insectSizes }: FlowerSightLayout,
-  kind: InsectKind = 'butterfly',
-): Sighting {
+/** A standing flower's head on screen, and how far it and its centre reach (`HeadReach`). */
+function headAt({ place, seed }: StandingFlower): {
+  head: Circle;
+  reach: HeadReach;
+} {
   const genes = flowerGenes({ seed });
   const head = flowerHead(genes, place.size);
   return {
-    place,
     head: { ...head, x: place.x + head.x, y: place.y + head.y },
-    lift: flowerLift(
-      { ...pick(head, 'r'), disc: genes.centre * place.size },
-      insectSizes[kind],
-      kind,
-    ),
+    reach: { ...pick(head, 'r'), disc: genes.centre * place.size },
   };
+}
+
+/** A standing flower's head on screen. */
+export function headOf(standing: StandingFlower): Circle {
+  return headAt(standing).head;
+}
+
+/** A standing flower as the sight reads it for a sitter lifted by `lift` (`Sighting`). */
+export function sightingOf(standing: StandingFlower, lift: Lifting): Sighting {
+  const { head, reach } = headAt(standing);
+  return { ...pick(standing, 'place'), head, lift: lift(reach) };
 }
 
 /**
  * A flower to be planted at `place` as it could grow, whatever its genes:
  * its stem bent either way or not at all, its head and its centre at their
- * smallest and largest.
+ * smallest and largest, `sitter` on it.
  */
-function sightingsAt(
-  place: Footing,
-  { insectSize }: FlowerSightLayout,
-): Sighting[] {
+function sightingsAt(place: Footing, { lift }: Sitter): Sighting[] {
   const [least, most] = FLOWER_RANGES.stemBend;
   return [least, 0, most].flatMap((bend) =>
     FLOWER_RANGES.petalLength.flatMap((petal) =>
@@ -160,21 +145,18 @@ function sightingsAt(
           y: place.y - place.size,
           r: petal * place.size,
         },
-        lift: flowerLift(
-          { r: petal * place.size, disc: centre * place.size },
-          insectSize,
-        ),
+        lift: lift({ r: petal * place.size, disc: centre * place.size }),
       })),
     ),
   );
 }
 
 /**
- * A store made once per mushrooms' ground (`MushroomGround`): what the sight
- * keeps reads off a layout only its camera, the screen it draws and the sizes
- * it scales by, which the ground holds, and its anchor, which the ground is a
- * new object for (`anchoredGround`). Keyed by the ground rather than the
- * layout, it holds across an anchored stand's layouts, which are made afresh.
+ * A store made once per ground (`MushroomGround`): what the sight keeps reads
+ * off a layout only its camera and the screen it draws, which the ground
+ * holds, and its anchor, which the ground is a new object for
+ * (`anchoredGround`). Keyed by the ground rather than the layout, it holds
+ * across an anchored stand's layouts, which are made afresh.
  */
 function perGround<Store extends object>(
   make: () => Store,
@@ -195,17 +177,17 @@ export function flowerTapReach(r: number): number {
 }
 
 /**
- * Whether an insect on `flower` can be seen there, on `layout`: its seat
+ * Whether what sits on `flower` can be seen there, on `layout`: its seat
  * (`Sighting`), as far as the sway and its spot move it, stands inside the
- * world's edges by half `span`, its kind's widest wingspan, a butterfly's
- * unless said, and no mushroom of
- * `covers` standing nearer the front covers the head's middle (`HEAD_SHOWN`).
+ * world's edges by half `span`, its widest wingspan, and no occupant of
+ * `occupants` standing nearer the front covers the head's middle
+ * (`HEAD_SHOWN`).
  */
 export function flowerInSight(
   layout: FlowerSightLayout,
   { place, head, lift }: Sighting,
-  covers: readonly Cover[],
-  span: number = widestSpanOn(layout),
+  occupants: readonly Occupant[],
+  span: number,
 ): boolean {
   const centre = pick(head, 'x', 'y');
   const seat = { ...centre, y: centre.y - lift };
@@ -231,8 +213,8 @@ export function flowerInSight(
     }),
   ];
   const headBox = boxAround(points);
-  return covers.every(
-    ({ depth, drawn }) =>
+  return occupants.every(
+    ({ cover: { depth, drawn } }) =>
       depth <= place.y ||
       drawn.every(
         ({ outline, box }) =>
@@ -240,34 +222,6 @@ export function flowerInSight(
           points.every((point) => !containsPoint(outline, point)),
       ),
   );
-}
-
-/** Each ground's covers, by the mushrooms standing on it (`coversOn`). */
-const coverings = perGround(
-  () => new WeakMap<Stand['mushrooms'], readonly Cover[]>(),
-);
-
-/** Every standing mushroom of `mushrooms` on `layout`, as the flowers' sight reads it. */
-export function coversOn(
-  layout: FlowerSightLayout,
-  mushrooms: Stand['mushrooms'],
-): readonly Cover[] {
-  // The meadow's mushrooms are never changed in place, only replaced.
-  const covering = coverings(layout);
-  const known = covering.get(mushrooms);
-  if (known) return known;
-  const covers = mushrooms.flatMap((mushroom) => {
-    const place = placeIn(layout.mushrooms, mushroom);
-    if (!place) return [];
-    const { depth, drawn } = standingAt(place, mushroom);
-    const outlines = drawn.map((outline) => ({
-      outline,
-      box: boxAround(outline),
-    }));
-    return [{ depth, drawn: outlines }];
-  });
-  covering.set(mushrooms, covers);
-  return covers;
 }
 
 /**
@@ -295,150 +249,82 @@ function headOnScreen(
   return head.x - reach >= left && head.x + reach <= right;
 }
 
-/** The flowers standing where a bee plants, and every foot on the ground a planting keeps off. */
-type Ground = {
+/** The flowers standing where a flower is planted, and every foot on the ground a planting keeps off. */
+export type PlantingGround = {
   standing: readonly StandingFlower[];
   claimed: readonly Footing[];
 };
 
+/** The flowers standing in `stand`, and its occupants' feet a planting keeps off. */
+export function plantingGroundIn<
+  L extends FlowerSightLayout,
+  Thing extends Stood,
+>(stand: Stand<L, Thing>): PlantingGround {
+  return {
+    standing: flowersOf(stand),
+    claimed: occupantsOf(stand).map(({ foot }) => foot),
+  };
+}
+
 /**
  * Whether a flower planted at `foot` would have ground there among the
  * flowers of `standing`, off every foot of `claimed` (`groundFor`), and be
- * in sight on `layout` (`flowerInSight`), whatever its genes, and fewer than
- * `FLOWER_SLOTS` of `standing` stand round it (`flowersCrowdAt`).
+ * in sight on `layout` past `occupants` with `sitter` on it (`sightAt`),
+ * whatever its genes, and fewer than `FLOWER_SLOTS` of `standing` stand round
+ * it (`flowersCrowdAt`).
  */
-function plantable(
+export function plantable(
   layout: FlowerSightLayout,
   foot: Footing,
-  { standing, claimed }: Ground,
-  covers: readonly Cover[],
+  { standing, claimed }: PlantingGround,
+  occupants: readonly Occupant[],
+  sitter: Sitter,
 ): boolean {
   return (
     !flowersCrowdAt(standing, foot) &&
     groundFor(foot, standing, claimed) &&
-    sightAt(layout, covers, foot).inSight
+    sightAt(layout, occupants, foot, sitter).inSight
   );
 }
 
-/** How a flower planted on a foot would be seen, whatever its genes: in sight past the covers (`flowerInSight`), and its head whole on the screen (`headOnScreen`). */
+/** How a flower planted on a foot would be seen, whatever its genes: in sight past the occupants (`flowerInSight`), and its head whole on the screen (`headOnScreen`). */
 type FootSight = Record<'inSight' | 'onScreen', boolean>;
 
-/** Each ground's `FootSight`s, by the covers judged against and the foot. */
+/** Each ground's `FootSight`s, by the occupants judged against, the sitter and the foot. */
 const footSights = perGround(
-  () => new WeakMap<readonly Cover[], Map<string, FootSight>>(),
+  () =>
+    new WeakMap<readonly Occupant[], WeakMap<Sitter, Map<string, FootSight>>>(),
 );
 
 /**
- * How a flower planted at `foot` on `layout` would be seen among `covers`,
- * judged once a foot: what it reads is the layout, the covers and the foot
- * alone, and a sow re-judges the same ring slots round every flower that
- * still has room (`roomFor`), each of them testing every sighting against
- * every mushroom's outline.
+ * How a flower planted at `foot` on `layout` would be seen among `occupants`
+ * with `sitter` on it, judged once a foot: what it reads is the layout, the
+ * occupants, the sitter and the foot alone, and a sow re-judges the same ring
+ * slots round every flower that still has room, each of them testing every
+ * sighting against every occupant's outline.
  */
-function sightAt(
+export function sightAt(
   layout: FlowerSightLayout,
-  covers: readonly Cover[],
+  occupants: readonly Occupant[],
   foot: Footing,
+  sitter: Sitter,
 ): FootSight {
-  const byCovers = footSights(layout);
-  const known = byCovers.get(covers) ?? new Map<string, FootSight>();
-  byCovers.set(covers, known);
+  const byOccupants = footSights(layout);
+  const bySitter =
+    byOccupants.get(occupants) ?? new WeakMap<Sitter, Map<string, FootSight>>();
+  byOccupants.set(occupants, bySitter);
+  const known = bySitter.get(sitter) ?? new Map<string, FootSight>();
+  bySitter.set(sitter, known);
   const key = `${String(foot.x)} ${String(foot.y)} ${String(foot.size)}`;
   const judged = known.get(key);
   if (judged) return judged;
-  const sightings = sightingsAt(standingOn(layout.camera, foot), layout);
+  const sightings = sightingsAt(standingOn(layout.camera, foot), sitter);
   const fresh = {
     inSight: sightings.every((sighting) =>
-      flowerInSight(layout, sighting, covers),
+      flowerInSight(layout, sighting, occupants, sitter.span),
     ),
     onScreen: sightings.every((sighting) => headOnScreen(layout, sighting)),
   };
   known.set(key, fresh);
   return fresh;
-}
-
-/** The flowers standing in `stand`, and the mushrooms' feet a planting keeps off. */
-function groundIn<L extends FlowerSightLayout>(stand: Stand<L>): Ground {
-  const { layout, mushrooms } = stand;
-  return {
-    standing: flowersOf(stand),
-    claimed: mushroomFeet(layout, mushrooms),
-  };
-}
-
-/**
- * Whether the child can plant a flower at `foot`, on the plane, on `stand`
- * as the anchor of `eye` judges it: it is `plantable` as a bee's planting
- * would be, and in the flowers' band, so the flower stands and is in sight
- * on every screen (`roomFrom`, for one foot).
- */
-export function takesFlower<L extends FlowerSightLayout>(
-  stand: Stand<L>,
-  foot: Footing,
-  eye: Eye,
-): boolean {
-  return roomFrom(stand, eye)(foot);
-}
-
-/**
- * `roomIn` on `stand` as the anchor of `eye` judges it (`anchoredStand`),
- * for a foot on the plane: moved with the anchor, and taking no flower in
- * the sliver straight behind it, which has no ground.
- */
-function roomFrom<L extends FlowerSightLayout>(
-  stand: Stand<L>,
-  eye: Eye,
-): (foot: Footing) => boolean {
-  const anchor = anchorOf(eye);
-  const room = roomIn(anchoredStand(stand, anchor));
-  return (foot) => {
-    const moved = movedTo(anchor, foot);
-    return hasGround(moved) && room(moved);
-  };
-}
-
-/**
- * Whether the child's flower planted at a foot on `stand` would stand there
- * and be in sight (`plantable`), in the flowers' band (`inFlowerBand`): what
- * `stand` holds read once, for every foot asked after.
- */
-export function roomIn<L extends FlowerSightLayout>(
-  stand: Stand<L>,
-): (foot: Footing) => boolean {
-  const { layout, mushrooms } = stand;
-  const ground = groundIn(stand);
-  const covers = coversOn(layout, mushrooms);
-  return (foot) =>
-    inFlowerBand(foot) && plantable(layout, foot, ground, covers);
-}
-
-/**
- * Where a bee could plant round each flower of `shown`, on `stand` as judged
- * from the anchor: the first ring slot no planted flower takes that is
- * `plantable`, in sight, off the foot of every mushroom standing
- * (`mushroomFeet`), at any depth, and whose head, whatever its genes, stands
- * whole on the screen (`headOnScreen`), so the child sees every flower a bee
- * plants come up. A flower whose ring has no such slot takes none.
- */
-export function roomFor<L extends FlowerSightLayout>(
-  stand: Stand<L>,
-  shown: readonly string[],
-  covers: readonly Cover[],
-): Plot['room'] {
-  const { layout, planted } = stand;
-  const ground = groundIn(stand);
-  return shown.flatMap((id) => {
-    const parent = ground.standing.find((flower) => flower.id === id);
-    if (!parent) return [];
-    const ring = RING_SLOTS.findIndex((_, slot) => {
-      if (slotTaken(planted, id, slot)) return false;
-      const spot = ringFoot(parent.foot, slot, layout.mushrooms.anchor);
-      return (
-        spot !== undefined &&
-        plantable(layout, spot, ground, covers) &&
-        sightAt(layout, covers, spot).onScreen
-      );
-    });
-    return ring === -1 ? [] : [{ flower: id, ring }];
-  });
 }

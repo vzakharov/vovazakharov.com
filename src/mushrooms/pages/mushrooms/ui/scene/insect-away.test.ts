@@ -8,6 +8,7 @@ import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
 import { INSECT_KINDS } from '../../model/insect-genes';
 import { type Perch, perchName } from '../../model/perch';
 import { aloftAt } from '../../model/pinhole';
+import type { Planted } from '../../model/planted';
 import type { Stand } from './flower-sight';
 import {
   awayDown,
@@ -42,7 +43,7 @@ const LEG_SCREENS = VIEWPORTS.filter(
 );
 
 /** `stand`'s perches, seen with no beds behind them, and each one's foot row. */
-function perchedOn(stand: Stand<MeadowLayout>) {
+function perchedOn(stand: Stand<MeadowLayout, Planted>) {
   const perches = new Perches(() => ({ bed: undefined, flowers: undefined }));
   perches.see(stand);
   return { perches, rows: footRows(stand) };

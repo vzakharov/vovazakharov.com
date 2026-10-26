@@ -3,12 +3,12 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { flowerLift } from '../ui/scene/flower-seat';
+import { flowerLift } from '../ui/scene/flower-lift';
 import { flowerGenes, flowerHead } from './flower-genes';
 import { placedAt, type Point } from './geometry';
 import { insectGenes } from './insect-genes';
 import { REST_LEAN, SIP_DEPTH } from './insect-motion';
-import { ABDOMEN, headOf, type BodySide } from './insect-outline';
+import { ABDOMEN, type BodySide, headOf } from './insect-outline';
 import { inBody, PROBOSCIS_STEPS, proboscisLine } from './proboscis';
 
 const SEEDS = Array.from({ length: 60 }, (_, index) => index * 4099 + 11);

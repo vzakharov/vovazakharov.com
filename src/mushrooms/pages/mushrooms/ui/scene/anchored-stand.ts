@@ -21,6 +21,7 @@ import {
   groundOf,
   OPENING_EYE,
   planeFootOf,
+  type Stood,
   type WithCamera,
 } from '../../model/ground';
 import { isBeeSown, type Sown } from '../../model/planted-flowers';
@@ -62,20 +63,6 @@ function inReach(anchor: Eye, foot: Point): boolean {
 /** One thing kept per key, for the last anchor it was asked at. */
 type AtAnchor<Kept> = { anchor: Eye; kept: Kept };
 
-/** `make`'s answer for `key` at `anchor`, the same object while the anchor stays (`sameAnchor`). */
-function keptAt<Key extends object, Kept>(
-  cache: WeakMap<Key, AtAnchor<Kept>>,
-  key: Key,
-  anchor: Eye,
-  make: () => Kept,
-): Kept {
-  const known = cache.get(key);
-  if (known && sameAnchor(known.anchor, anchor)) return known.kept;
-  const kept = make();
-  cache.set(key, { anchor, kept });
-  return kept;
-}
-
 /** What anchoring a layout at an anchor changes: its flowers' feet and the seeded flowers on them, `from` the visit's. */
 type Reseeded = {
   feet: Footing[];
@@ -85,11 +72,6 @@ type Reseeded = {
 
 /** Each layout's `Reseeded`, by the seeded flowers it lays (`seededAt`). */
 const reseedings = new WeakMap<AnchoredStandLayout, AtAnchor<Reseeded>>();
-/** Each mushrooms list's mushrooms in reach of the last anchor asked (`STAND_REACH`). */
-const mushroomsInReach = new WeakMap<
-  Stand['mushrooms'],
-  AtAnchor<Stand['mushrooms']>
->();
 
 /**
  * `stand`'s layout anchored at `anchor`, its mushrooms' ground anchored
@@ -139,20 +121,21 @@ function reseed(
 }
 
 /**
- * `stand` as `anchor` sees it, out to `STAND_REACH`: its mushrooms on their
- * ground anchored there (`anchoredGround`), its flowers moved with it onto
- * `OPENING_EYE` (`anchored`), none kept in the sliver behind the eye that has
- * no ground. A bee's flower is kept unmoved while its parent is, `ringFoot`
- * turning its slot with the anchor. The layout's ground and the mushrooms are
- * the same objects while the anchor stays, so a rule's caches by them hold
- * (`coversOn`). At `OPENING_EYE` it is `stand` itself.
+ * `stand` as `anchor` sees it: its things on their ground anchored there
+ * (`anchoredGround`), all of them, the ground showing only those it lays
+ * out; its flowers out to `STAND_REACH` moved with it onto `OPENING_EYE`
+ * (`anchored`), none kept in the sliver behind the eye that has no ground. A
+ * bee's flower is kept unmoved while its parent is, `ringFoot` turning its
+ * slot with the anchor. The layout's ground and the things are the same
+ * objects while the anchor stays, so a rule's caches by them hold
+ * (`occupantsOn`). At `OPENING_EYE` it is `stand` itself.
  */
-export function anchoredStand<L extends AnchoredStandLayout>(
-  stand: Stand<L>,
-  anchor: Eye,
-): Stand<L> {
+export function anchoredStand<
+  L extends AnchoredStandLayout,
+  Thing extends Stood,
+>(stand: Stand<L, Thing>, anchor: Eye): Stand<L, Thing> {
   if (sameAnchor(anchor, OPENING_EYE)) return stand;
-  const { mushrooms, planted } = stand;
+  const { planted } = stand;
   const seeded = seededAt(stand, anchor);
   const kept = new Set(seeded.flowers.map(({ id }) => id));
   const reached = planted.flatMap((sown): Sown[] => {
@@ -167,12 +150,5 @@ export function anchoredStand<L extends AnchoredStandLayout>(
     kept.add(sown.id);
     return [{ ...sown, foot }];
   });
-  return {
-    ...stand,
-    ...seeded,
-    mushrooms: keptAt(mushroomsInReach, mushrooms, anchor, () =>
-      mushrooms.filter(({ foot }) => inReach(anchor, foot)),
-    ),
-    planted: reached,
-  };
+  return { ...stand, ...seeded, planted: reached };
 }

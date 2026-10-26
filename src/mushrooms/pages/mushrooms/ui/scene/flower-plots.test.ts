@@ -17,6 +17,7 @@ import {
   unanchored,
 } from '../../model/ground';
 import { openingIndex } from '../../model/placement';
+import type { Planted } from '../../model/planted';
 import { isBeeSown, type Sown } from '../../model/planted-flowers';
 import { between, mulberry32, nextSeed } from '../../model/random';
 import { anchoredStand } from './anchored-stand';
@@ -31,14 +32,13 @@ import {
 import {
   flowerFeet,
   flowersOf,
-  mushroomFeet,
   pulledFeet,
   RING_SLOTS,
   ringFoot,
-  standingFlowers,
 } from './flower-plots';
 import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
+import { occupantsOn } from './mushroom-cover';
 import { perchSight } from './perch-sight';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
@@ -69,7 +69,7 @@ const BED_VISITS = 200;
 const PLANTINGS = 15;
 
 /** A planted-out visit, and how to lay it out on another screen. */
-type PlantedOut = Stand<MeadowLayout> & {
+type PlantedOut = Stand<MeadowLayout, Planted> & {
   on: (width: number, height: number) => MeadowLayout;
 };
 
@@ -94,7 +94,15 @@ function plantedOut(
   const { mushrooms } = meadow;
   const { layout, flowers } = visit;
   const planted: Sown[] = [];
-  const stand = { layout, flowers, mushrooms, spores: [], planted, pulled: [] };
+  const stand = {
+    layout,
+    flowers,
+    mushrooms,
+    spores: [],
+    planted,
+    pulled: [],
+    occupying: occupantsOn,
+  };
   const random = mulberry32(seed ^ 0x50_1d);
   while (planted.length < PLANTINGS) {
     const [slot] = perchSight(stand).room;
@@ -130,17 +138,13 @@ function median(counts: readonly number[]): number {
  */
 function assertGrounded(
   seed: number,
-  stand: Stand<MeadowLayout>,
+  stand: Stand<MeadowLayout, Planted>,
   screen: MeadowLayout,
 ): void {
-  const placed = standingFlowers(
-    screen,
-    stand.flowers,
-    stand.planted,
-    stand.mushrooms,
-    stand.pulled,
+  const placed = flowersOf({ ...stand, layout: screen });
+  const feet = occupantsOn(screen.mushrooms, stand.mushrooms).map(
+    ({ foot }) => foot,
   );
-  const feet = mushroomFeet(screen, stand.mushrooms);
   for (const { id } of stand.planted) {
     const flower = placed.find((each) => each.id === id);
     assert.ok(flower, `visit ${String(seed)}: ${id} hidden on a turn`);

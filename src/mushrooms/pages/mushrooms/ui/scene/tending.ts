@@ -25,23 +25,22 @@ import {
   type WithCamera,
 } from '../../model/ground';
 import { pinholeOf } from '../../model/pinhole';
+import type { Planted } from '../../model/planted';
 import type { ClumpGround } from './anchored-ground';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { type Bedded, headClear, standingOn } from './flower-layout';
-import { flowersOf, groundFor, mushroomFeet } from './flower-plots';
-import {
-  coversOn,
-  type FlowerSightLayout,
-  roomIn,
-  type Stand,
-  widestSpanOn,
-} from './flower-sight';
+import { flowersOf, groundFor } from './flower-plots';
+import { roomIn } from './flower-room';
+import type { FlowerSightLayout, Stand } from './flower-sight';
 import { type Tuft, tuftSizeAt } from './grass';
+import type { InsectScaled } from './insect-size';
 import type { Sprout } from './lawn';
+import { occupantsOn } from './mushroom-cover';
 import type { Cover } from './occupant';
 import { PALE_SPAN } from './repaint-queue';
 import { bareAmong, bareToTap } from './tuft-tap';
 import { cull, type View } from './view';
+import { widestSpanOn } from './widest-spans';
 /** What of the meadow's layout this reads. */
 export type TendingLayout = WithWidth &
   WithHeight &
@@ -49,6 +48,7 @@ export type TendingLayout = WithWidth &
   ClumpGround &
   Bedded &
   FlowerSightLayout &
+  InsectScaled &
   GroundBand;
 
 /**
@@ -85,7 +85,7 @@ function stoodAt(layout: TendingLayout, tuft: Tuft, foot: Footing): Tuft {
  * re-stood tuft is bare to a finger (`bareToTap`). `stand` is read once.
  */
 export function plantableIn<L extends TendingLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   eye: Eye,
 ): (sprout: Sprout) => boolean {
   const anchor = anchorOf(eye);
@@ -144,8 +144,8 @@ function mayCover(
  * flower (`mayCover`). Exactly `!plantableIn(now, eye)` on such a tuft.
  */
 export function lostOn<L extends TendingLayout>(
-  was: Stand<L>,
-  now: Stand<L>,
+  was: Stand<L, Planted>,
+  now: Stand<L, Planted>,
   eye: Eye,
 ): (sprout: Sprout) => boolean {
   const anchor = anchorOf(eye);
@@ -161,13 +161,14 @@ export function lostOn<L extends TendingLayout>(
   const kept = new Set(before.mushrooms);
   const grown = mushrooms.filter((mushroom) => !kept.has(mushroom));
   if (sown.length === 0 && grown.length === 0) return () => false;
-  const feet = mushroomFeet(layout, grown);
+  const occupants = occupantsOn(layout.mushrooms, grown);
+  const feet = occupants.map(({ foot }) => foot);
   const heads = sown.map((flower) => ({
     foot: groundFootOf(flower.foot),
     genes: flowerGenes(flower),
   }));
   const bare = bareAmong(layout, sown, grown);
-  const covers = coversOn(layout, grown);
+  const covers = occupants.map(({ cover }) => cover);
   let judge: ((sprout: Sprout) => boolean) | undefined;
   return (sprout) => {
     const moved = movedTo(anchor, sprout.foot);
@@ -251,7 +252,7 @@ export function sightSlack(layout: TendingLayout): number {
  * hides until what kept it away goes.
  */
 export function tendTufts<L extends TendingLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   grown: readonly Sprout[],
   eye: Eye,
 ): Sprout[] {
@@ -267,13 +268,13 @@ export function tendTufts<L extends TendingLayout>(
 export class Tending<L extends TendingLayout> {
   /** The eye the tufts are judged from, which they stand as tended from once done. */
   readonly eye: Eye;
-  private readonly stand: Stand<L>;
+  private readonly stand: Stand<L, Planted>;
   private readonly grown: readonly Sprout[];
   private judge: ((sprout: Sprout) => boolean) | undefined;
   private judged = 0;
   private readonly standing: Sprout[] = [];
 
-  constructor(stand: Stand<L>, grown: readonly Sprout[], eye: Eye) {
+  constructor(stand: Stand<L, Planted>, grown: readonly Sprout[], eye: Eye) {
     this.stand = stand;
     this.grown = grown;
     this.eye = eye;
@@ -305,9 +306,9 @@ export class Tending<L extends TendingLayout> {
  */
 export class Tended<L extends TendingLayout> {
   /** The tufts to judge for a stand from an eye (`tendedIn`). */
-  private readonly gather: (stand: Stand<L>, eye: Eye) => Sprout[];
+  private readonly gather: (stand: Stand<L, Planted>, eye: Eye) => Sprout[];
   /** The stand the standing tufts are judged on. */
-  private stood: Stand<L> | undefined;
+  private stood: Stand<L, Planted> | undefined;
   private tufts: readonly Sprout[] = [];
   /** The eye the standing tufts were tended from. */
   private tendedFrom: Eye | undefined;
@@ -320,7 +321,7 @@ export class Tended<L extends TendingLayout> {
    */
   private changed = false;
 
-  constructor(gather: (stand: Stand<L>, eye: Eye) => Sprout[]) {
+  constructor(gather: (stand: Stand<L, Planted>, eye: Eye) => Sprout[]) {
     this.gather = gather;
   }
 
@@ -330,7 +331,7 @@ export class Tended<L extends TendingLayout> {
   }
 
   /** The stand the standing tufts are judged on, once tended. */
-  stand(): Stand<L> | undefined {
+  stand(): Stand<L, Planted> | undefined {
     return this.stood;
   }
 
@@ -340,7 +341,7 @@ export class Tended<L extends TendingLayout> {
   }
 
   /** Tends the tufts to `stand` from `eye` at once, in place of any re-tend under way: for a screen laid out afresh, whose tufts nothing yet shows. */
-  whole(stand: Stand<L>, eye: Eye): void {
+  whole(stand: Stand<L, Planted>, eye: Eye): void {
     this.stood = stand;
     this.tending = undefined;
     this.changed = false;
@@ -353,7 +354,7 @@ export class Tended<L extends TendingLayout> {
    * frame in place of any re-tend under way; the standing tufts `stand`
    * covers go now (`lostOn`). On a stand laid out afresh, tends it whole.
    */
-  change(stand: Stand<L>, eye: Eye): void {
+  change(stand: Stand<L, Planted>, eye: Eye): void {
     const { stood, tufts } = this;
     if (stood?.layout !== stand.layout) {
       this.whole(stand, eye);
@@ -383,7 +384,7 @@ export class Tended<L extends TendingLayout> {
   }
 
   /** Starts a re-tend of `stand` from `eye`, its tufts gathered now and judged from the next `follow` on (`tendOn`). */
-  private retend(stand: Stand<L>, eye: Eye): void {
+  private retend(stand: Stand<L, Planted>, eye: Eye): void {
     this.tending = new Tending(stand, this.gather(stand, eye), eye);
   }
 

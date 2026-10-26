@@ -8,6 +8,7 @@ import {
   type WithCamera,
 } from '../../model/ground';
 import { type Perch, perchName } from '../../model/perch';
+import type { Planted } from '../../model/planted';
 import { airAloftOf, airAlofts } from './air-spots';
 import type { ClumpGround } from './anchored-ground';
 import { anchoredStand } from './anchored-stand';
@@ -80,7 +81,7 @@ export class Perches implements TappedThrough {
    * (`unanchored`), and the air's as the plane holds it (`airAlofts`).
    */
   see<L extends PerchesLayout>(
-    stand: Stand<L>,
+    stand: Stand<L, Planted>,
     anchor: Eye = OPENING_EYE,
     now?: number,
   ): void {

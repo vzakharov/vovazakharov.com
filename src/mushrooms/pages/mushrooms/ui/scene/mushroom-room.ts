@@ -21,6 +21,7 @@ import type { WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import { anchorOf } from '../../model/anchor';
 import { isCrowdedAt } from '../../model/crowding';
+import type { Flower, WithPulled } from '../../model/flower-genes';
 import {
   type Box,
   boxAround,
@@ -47,6 +48,13 @@ import {
   pickFoot,
   type WithOptionalSpan,
 } from '../../model/placement';
+import type {
+  Planted,
+  Spore,
+  WithMushrooms,
+  WithSpores,
+} from '../../model/planted';
+import type { WithPlanted } from '../../model/planted-flowers';
 import type { Seeded } from '../../model/random';
 import { type ClumpGround, groundIn } from './anchored-ground';
 import { anchoredStand } from './anchored-stand';
@@ -57,9 +65,9 @@ import { type Standing, standingAs } from './door-sight';
 import { layoutShown } from './eye-crop';
 import type { Bedded } from './flower-layout';
 import { flowerFeet } from './flower-plots';
-import type { Stand } from './flower-sight';
+import { type Stand, standOf } from './flower-sight';
 import { EDGE_MARGIN } from './meadow-camera';
-import { coversShown } from './mushroom-cover';
+import { coversShown, occupantsOn } from './mushroom-cover';
 import {
   type Around,
   keepsPatches,
@@ -276,13 +284,28 @@ function shownTrials(
     : undefined;
 }
 
+/** A stand of the meadow's mushrooms with the spores lying among them: what a new mushroom's room is found in. */
+export type GrowingStand<L> = Stand<L, Planted> & WithSpores;
+
+/** `meadow` as it stands on `layout` among the visit's seeded `flowers` (`standOf`), its mushrooms the occupants (`occupantsOn`) and its spores lying. */
+export function growingStandOf<L extends MushroomRoomLayout>(
+  layout: L,
+  flowers: readonly Flower[],
+  meadow: WithPlanted & WithPulled & WithMushrooms & WithSpores,
+): GrowingStand<L> {
+  return {
+    ...standOf(layout, flowers, meadow, occupantsOn),
+    ...pick(meadow, 'spores'),
+  };
+}
+
 /** The id a mushroom being tried is sought by among the meadow's. */
 const TRIED = 'the tried mushroom';
 
 /** The mushrooms `risen` stands, by the spores lying and the mushrooms standing it joined. */
 const risings = new WeakMap<
-  Stand['spores'],
-  { mushrooms: Stand['mushrooms']; risen: Stand['mushrooms'] }
+  readonly Spore[],
+  { mushrooms: readonly Planted[]; risen: readonly Planted[] }
 >();
 
 /**
@@ -291,7 +314,9 @@ const risings = new WeakMap<
  * judged against the mushroom it will be. The same array of mushrooms while
  * neither the mushrooms nor the spores change, so what is cached on it holds.
  */
-function risen<L extends MushroomRoomLayout>(stand: Stand<L>): Stand<L> {
+function risen<L extends MushroomRoomLayout>(
+  stand: GrowingStand<L>,
+): GrowingStand<L> {
   const { mushrooms, spores } = stand;
   if (spores.length === 0) return stand;
   const known = risings.get(spores);
@@ -328,7 +353,7 @@ export const SPORE_REACH = 1;
  * ground under `near`.
  */
 export function roomFor<L extends MushroomRoomLayout>(
-  stand: Stand<L>,
+  stand: GrowingStand<L>,
   seed: number,
   view?: View,
   near?: Point,
@@ -392,7 +417,7 @@ export function roomFor<L extends MushroomRoomLayout>(
  * turn or a step changes.
  */
 export function fitsView<L extends MushroomRoomLayout>(
-  { layout }: Stand<L>,
+  { layout }: GrowingStand<L>,
   seed: number,
   { foot }: Footed,
   view?: View,
@@ -410,7 +435,7 @@ export function fitsView<L extends MushroomRoomLayout>(
 }
 
 /** What a room was found in, where, and the eye it was found from. */
-type Found = Stand<MushroomRoomLayout> &
+type Found = GrowingStand<MushroomRoomLayout> &
   Seeded & { foot: Footed | undefined; eye: Eye | undefined };
 
 /** What of a stand the room in it is found from. */

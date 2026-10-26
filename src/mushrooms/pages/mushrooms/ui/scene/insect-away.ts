@@ -6,7 +6,7 @@
  * is timed between the points it is drawn between.
  */
 
-import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
+import type { WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import { browDistance } from '../../model/eye-height';
 import { type Aloft, azimuthOf } from '../../model/flight-frame';
@@ -29,11 +29,11 @@ import {
 } from '../../model/perch';
 import { aloftAt, alongSight, pinholeOf } from '../../model/pinhole';
 import type { Seeded } from '../../model/random';
-import { WIDEST_SPAN } from './flower-sight';
 import { drawnAloft } from './insect-frame';
 import type { InsectScaled } from './insect-size';
 import { perchDistance, placeOfAloft } from './plane-place';
 import { D_SEE, onScreen, type View, type Zooming } from './view';
+import { WIDEST_SPAN } from './widest-spans';
 
 /** What of the meadow's layout this reads. */
 export type InsectAwayLayout = WithWidth & WithHeight & InsectScaled;

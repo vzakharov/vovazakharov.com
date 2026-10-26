@@ -44,8 +44,10 @@ import {
   standingOn,
   widestHead,
 } from './flower-layout';
-import { type StandingFlower, standingFlowers } from './flower-plots';
+import { flowersOf, type StandingFlower } from './flower-plots';
+import { standOf } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
+import { occupantsOn } from './mushroom-cover';
 import { overMeadow, standingControls } from './sky-layout';
 import { EITHER_WAY, VIEWPORTS, VISITS } from './viewports';
 import { type Opened, opened, relaidOn } from './visit-play';
@@ -245,7 +247,14 @@ describe('the seeded flowers', () => {
       const { layout, flowers, mushrooms } = visit;
       // The near band's alone: the far band's are flight's extra.
       const near = flowers.slice(0, NEAR_FLOWERS);
-      const standing = standingFlowers(layout, near, [], mushrooms, []);
+      const standing = flowersOf(
+        standOf(
+          layout,
+          near,
+          { planted: [], mushrooms, pulled: [] },
+          occupantsOn,
+        ),
+      );
       const at = `visit ${String(VISITS[index])}`;
       assert.deepEqual(
         sounds(standing.filter(({ foot }) => foot.x < 0)),
@@ -363,12 +372,13 @@ describe('the seeded flowers', () => {
       for (const [index, visit] of visitsOn(width, height).entries()) {
         const controls = drawnControls(visit.layout);
         // The near band's alone: the far band's stand hidden behind the brow.
-        for (const flower of standingFlowers(
-          visit.layout,
-          visit.flowers.slice(0, NEAR_FLOWERS),
-          [],
-          visit.mushrooms,
-          [],
+        for (const flower of flowersOf(
+          standOf(
+            visit.layout,
+            visit.flowers.slice(0, NEAR_FLOWERS),
+            { ...pick(visit, 'mushrooms'), planted: [], pulled: [] },
+            occupantsOn,
+          ),
         )) {
           for (const head of headsOf(flower)) {
             for (const control of controls) {
@@ -404,12 +414,13 @@ describe('the seeded flowers', () => {
           }));
           return [{ depth: place.y, drawn }];
         });
-        const standing = standingFlowers(
-          visit.layout,
-          visit.flowers,
-          [],
-          visit.mushrooms,
-          [],
+        const standing = flowersOf(
+          standOf(
+            visit.layout,
+            visit.flowers,
+            { ...pick(visit, 'mushrooms'), planted: [], pulled: [] },
+            occupantsOn,
+          ),
         );
         flowers += standing.length;
         for (const flower of standing) {

@@ -5,24 +5,27 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Flier } from '../../model/flier';
 import { type Flower, flowerGenes } from '../../model/flower-genes';
 import { soundOf } from '../../model/flower-sounds';
-import type { Action, Meadow } from '../../model/game';
+import type { Action, Meadow, Tended } from '../../model/game';
 import { placedAt } from '../../model/geometry';
 import { CLUMP_DISTANCE, gathered, OPENING_EYE } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import { type Dip, drinkDip } from '../../model/insect-motion';
-import type { WithPlanted } from '../../model/insects';
 import { headedLight } from '../../model/light';
 import { bloom, emerge, sway } from '../../model/motion';
-import { isBeeSown, type Sown } from '../../model/planted-flowers';
+import {
+  isBeeSown,
+  type Sown,
+  type WithPlanted,
+} from '../../model/planted-flowers';
 import { onHost, standAt, UNPLACED, viewedOrLaid } from './bed-place';
 import { paintFlowerLit } from './draw-flower';
 import { closingsDue, closingStep, meanClosing } from './flower-closing';
 import { FlowerHold } from './flower-hold';
 import { FLOWER_SWAY } from './flower-layout';
+import { flowerLift, flowerLiftAt } from './flower-lift';
 import { flowerLight } from './flower-light';
-import { standingFlowers } from './flower-plots';
+import { flowersOf, type StandingFlower } from './flower-plots';
 import { FlowerRing } from './flower-ring';
-import { flowerLift, flowerLiftAt } from './flower-seat';
 import {
   closeShown,
   laidOut,
@@ -30,7 +33,7 @@ import {
   type Shown,
   unplacedShown,
 } from './flower-shown';
-import type { Tended } from './flower-sight';
+import { standOf } from './flower-sight';
 import { FLOWER_TOUCH_ACTIONS, type FlowerTouch } from './flower-touch';
 import { containsFlower } from './hit-areas';
 import type { Lighting } from './ink';
@@ -39,7 +42,7 @@ import type { Instrument } from './instrument';
 import type { Answering, ChordTapped } from './instrument-input';
 import type { FlowerInView } from './keyed-flowers';
 import type { MeadowLayout } from './layout';
-import { coversShown } from './mushroom-cover';
+import { coversShown, occupantsOn } from './mushroom-cover';
 import { inSightPast } from './occupant';
 import { browPale, repaintsDue } from './repaint-queue';
 import { type Following, onScreen, type View } from './view';
@@ -54,7 +57,7 @@ const BROW_FADE = 1.5;
 /**
  * The meadow's flowers on screen, kept by id, the visit's seeded ones and the
  * ones the bees plant alike: each stands where the layout puts it
- * (`standingFlowers`), sways in the breeze, blooms open when tapped and sags
+ * (`flowersOf`), sways in the breeze, blooms open when tapped and sags
  * under an insect drinking at it; a planted one, a bee's or the child's,
  * grows up out of the ground and opens sounding its note or drum. A press
  * held on one opens the flower picker on it (`FlowerHold`), and the flower
@@ -116,18 +119,19 @@ export class FlowerBed implements Following, ChordTapped, Answering {
     this.ring = new FlowerRing(scene);
   }
 
+  /** Every flower of the bed as `layout` stands it among the mushrooms (`flowersOf`). */
+  private standingOn(layout: MeadowLayout): StandingFlower[] {
+    const { seeded, planted, mushrooms, pulled } = this;
+    const meadow = { planted, mushrooms, pulled };
+    return flowersOf(standOf(layout, seeded, meadow, occupantsOn));
+  }
+
   /** Stands every flower where `layout` puts it, into the objects it has. */
   paint(layout: MeadowLayout, lighting: Lighting): void {
     this.layout = layout;
     this.lighting = lighting;
     this.sizes = layout.insectSizes;
-    const standing = standingFlowers(
-      layout,
-      this.seeded,
-      this.planted,
-      this.mushrooms,
-      this.pulled,
-    );
+    const standing = this.standingOn(layout);
     const seededIds = new Set(this.seeded.map(({ id }) => id));
     for (const flower of [...this.seeded, ...this.planted]) {
       const shown = this.shown.get(flower.id) ?? this.show(flower, -Infinity);
@@ -162,7 +166,7 @@ export class FlowerBed implements Following, ChordTapped, Answering {
    * each new flower grows up where `layout` stands it, blooming open with its
    * sound (grown and silent on the `opening`, as it was left), each planted
    * flower stands or hides as the mushrooms' feet leave it ground, and each
-   * of `pulled` hides (`standingFlowers`).
+   * of `pulled` hides (`flowersOf`).
    */
   reconcile(
     { planted, mushrooms, pulled }: WithPlanted & Tended,

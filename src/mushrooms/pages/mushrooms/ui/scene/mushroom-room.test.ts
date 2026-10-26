@@ -5,9 +5,8 @@ import { firstMeadow } from '../../model/game';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { grownOn } from '../../model/placement';
 import { mulberry32 } from '../../model/random';
-import { standOf } from './flower-sight';
 import { meadowLayout } from './layout';
-import { keptRoom, roomFor } from './mushroom-room';
+import { growingStandOf, keptRoom, roomFor } from './mushroom-room';
 import { ofGround, viewAt } from './view';
 
 /**
@@ -29,7 +28,7 @@ function counted() {
 
 describe('the room kept for the next mushroom', () => {
   const layout = meadowLayout(1180, 820, 1);
-  const stand = standOf(layout, [], firstMeadow(mulberry32(1)));
+  const stand = growingStandOf(layout, [], firstMeadow(mulberry32(1)));
   const from = (eye: Eye) => viewAt(layout.camera, eye);
   const opening = from(OPENING_EYE);
   const turned = from({ ...OPENING_EYE, heading: 0.1 });
@@ -86,7 +85,7 @@ describe('the room kept for the next mushroom', () => {
 
 describe('the room a `+` finds', () => {
   const layout = meadowLayout(1180, 820, 1);
-  const stand = standOf(layout, [], firstMeadow(mulberry32(1)));
+  const stand = growingStandOf(layout, [], firstMeadow(mulberry32(1)));
   const eyes: ReadonlyArray<readonly [string, Eye]> = [
     ['the opening eye', OPENING_EYE],
     ['an eye turned', { ...OPENING_EYE, heading: 0.3 }],

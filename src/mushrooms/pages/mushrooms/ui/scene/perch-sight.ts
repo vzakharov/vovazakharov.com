@@ -50,15 +50,14 @@ import type { Seeded } from '../../model/random';
 import { SHELTER_SEATS } from '../../model/shelter-seats';
 import { airOf, airSpots, clumpRow } from './air-spots';
 import type { ClumpGround } from './anchored-ground';
+import { roomFor } from './bee-room';
 import { placeIn } from './clump-layout';
 import type { Bedded } from './flower-layout';
-import { flowersOf, type StandingFlower } from './flower-plots';
-import { flowerLift } from './flower-seat';
+import { flowerLift, liftOn } from './flower-lift';
+import { flowersOf, occupantsOf, type StandingFlower } from './flower-plots';
 import {
-  coversOn,
   flowerInSight,
   PERCH_SPREAD,
-  roomFor,
   screenSides,
   type Sighting,
   sightingOf,
@@ -121,13 +120,15 @@ export function perchSpot(insect: Seeded): number {
  * flowers; `undefined` where it stands nowhere.
  */
 function flowerAt<L extends PerchSightLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   id: string,
   standing: readonly StandingFlower[],
 ): (Sighting & Seeded) | undefined {
   const found = standing.find((flower) => flower.id === id);
   const { layout } = stand;
-  return found && { ...sightingOf(found, layout), ...pick(found, 'seed') };
+  return (
+    found && { ...sightingOf(found, liftOn(layout)), ...pick(found, 'seed') }
+  );
 }
 
 /** Where on a perch an insect of `kind` sits, `spot` of the way out (`perchSpot`). */
@@ -164,7 +165,7 @@ export function dropped<At extends Point>(at: At, by: number): At {
  * frame, from its genes as it stands; `undefined` where it stands nowhere.
  */
 function capAt<L extends PerchSightLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   id: string,
 ): ((local: (genes: MushroomGenes) => Point) => Point) | undefined {
   const mushroom = stand.mushrooms.find((each) => each.id === id);
@@ -181,7 +182,7 @@ function capAt<L extends PerchSightLayout>(
  * screen. The perch is looked up once, however many seats are asked of it.
  */
 function seaterOn<L extends PerchSightLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   perch: Perch,
   standing?: readonly StandingFlower[],
 ): Seater | undefined {
@@ -233,7 +234,7 @@ function seaterOn<L extends PerchSightLayout>(
  * `undefined` for a perch that stands nowhere on this screen.
  */
 export function seatAt<L extends PerchSightLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   perch: Perch,
   spot: number,
   kind: InsectKind = 'butterfly',
@@ -289,7 +290,7 @@ const SHELTER_REACH = 0.5;
  * its middle as `SHELTER_REACH` says.
  */
 function shelterCovered<L extends PerchSightLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   seat: ShelterSeat,
   covers: readonly Cover[],
 ): boolean {
@@ -322,11 +323,12 @@ function shelterCovered<L extends PerchSightLayout>(
  * overlap at all; and where each of them stands (`Places`).
  */
 export function perchSight<L extends PerchSightLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   now?: number,
 ): Sight {
   const { layout, mushrooms } = stand;
-  const covers = coversOn(layout, mushrooms);
+  const occupants = occupantsOf(stand);
+  const covers = occupants.map(({ cover }) => cover);
   const standing = flowersOf(stand);
   const inSightTo = (kind: InsectKind) =>
     standing
@@ -335,7 +337,7 @@ export function perchSight<L extends PerchSightLayout>(
           inReach(flower.foot) &&
           flowerInSight(
             layout,
-            sightingOf(flower, layout, kind),
+            sightingOf(flower, liftOn(layout, kind)),
             [],
             widestOn(layout, kind),
           ),
@@ -393,7 +395,7 @@ export function perchSight<L extends PerchSightLayout>(
     air: air.spots.map(({ id }) => id),
     crowded: [...perched, ...air.aloft],
     places,
-    room: roomFor(stand, beeFlowers, covers),
+    room: roomFor(stand, beeFlowers, occupants),
     shelters,
   };
 }
@@ -413,7 +415,7 @@ function perchDistanceAtOpening(layout: PerchSightLayout, row: number): number {
 
 /** The ground row each cap's and standing flower's foot stands on in `stand`, among its `standing` flowers. */
 export function footRows<L extends PerchSightLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   standing: readonly StandingFlower[] = flowersOf(stand),
 ): FootRows {
   const { layout, mushrooms } = stand;

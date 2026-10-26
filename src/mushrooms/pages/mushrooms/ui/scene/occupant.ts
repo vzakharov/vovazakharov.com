@@ -38,6 +38,9 @@ export type Occupying<Thing> = (
   standing: readonly Thing[],
 ) => readonly Occupant[];
 
+/** The meadow's occupants as it holds them, in the order they were planted, so the last is the newest. */
+export type Occupied<Thing> = { mushrooms: readonly Thing[] };
+
 /** An occupant as a frame draws it: how far from the eye it stands, and its outlines on the screen. */
 export type ShownCover = Distant & BoxedOutlines;
 

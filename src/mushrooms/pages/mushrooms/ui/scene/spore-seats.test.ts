@@ -6,8 +6,7 @@ import { OPENING_EYE } from '../../model/ground';
 import { apartOnScreen } from '../../model/placement';
 import { SPORE_SEATS } from '../../model/sprouting';
 import { groundIn } from './anchored-ground';
-import { standOf } from './flower-sight';
-import { SPORE_REACH } from './mushroom-room';
+import { growingStandOf, SPORE_REACH } from './mushroom-room';
 import { sporeOnTap } from './spore-seats';
 import { viewAt } from './view';
 import { opened } from './visit-play';
@@ -21,7 +20,7 @@ describe('the spore a tap on a mushroom settles', () => {
   const { id, foot } = parent;
   const sceneOf = (meadow: Meadow) => ({
     meadow: () => meadow,
-    stand: () => standOf(stand.layout, stand.flowers, meadow),
+    stand: () => growingStandOf(stand.layout, stand.flowers, meadow),
     view: () => view,
   });
 

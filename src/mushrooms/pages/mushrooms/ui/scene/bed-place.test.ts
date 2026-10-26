@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { pick } from '@/kernel/shared/lib/collections';
+
 import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import type { Point } from '../../model/geometry';
 import { OPENING_EYE, planeOf, zAt } from '../../model/ground';
@@ -10,8 +12,10 @@ import { splayed } from '../../model/mushroom-pose';
 import { pinholeOf } from '../../model/pinhole';
 import { bedPlace, depthOf, SIDE_OVERHANG } from './bed-place';
 import { placeIn } from './clump-layout';
-import { standingFlowers } from './flower-plots';
+import { flowersOf } from './flower-plots';
+import { standOf } from './flower-sight';
 import { castShadow } from './ink';
+import { occupantsOn } from './mushroom-cover';
 import {
   browRow,
   cull,
@@ -44,9 +48,14 @@ describe('a bed object at the opening eye', () => {
             const at = placeIn(ground, mushroom);
             return at ? [{ what: id, foot, at }] : [];
           }),
-          ...standingFlowers(layout, flowers, [], meadow.mushrooms, []).map(
-            ({ id, foot, place }) => ({ what: id, foot, at: place }),
-          ),
+          ...flowersOf(
+            standOf(
+              layout,
+              flowers,
+              { ...pick(meadow, 'mushrooms'), planted: [], pulled: [] },
+              occupantsOn,
+            ),
+          ).map(({ id, foot, place }) => ({ what: id, foot, at: place })),
         ];
         assert.ok(laid.length > 14, `visit ${String(seed)}: too few laid`);
         for (const { what, foot, at } of laid) {
@@ -237,15 +246,20 @@ describe("a bed object off the screen's sides", () => {
             const { tall, reach } = mushroomReach(mushroom, at.size, at.splay);
             return [{ what, foot, tall, reach }];
           }),
-          ...standingFlowers(layout, flowers, [], meadow.mushrooms, []).map(
-            ({ id, foot, place }) => {
-              const flower = flowers.find((each) => each.id === id);
-              assert.ok(flower);
-              const head = flowerHead(flowerGenes(flower), place.size);
-              const reach = Math.abs(head.x) + head.r;
-              return { what: id, foot, tall: head.r - head.y, reach };
-            },
-          ),
+          ...flowersOf(
+            standOf(
+              layout,
+              flowers,
+              { ...pick(meadow, 'mushrooms'), planted: [], pulled: [] },
+              occupantsOn,
+            ),
+          ).map(({ id, foot, place }) => {
+            const flower = flowers.find((each) => each.id === id);
+            assert.ok(flower);
+            const head = flowerHead(flowerGenes(flower), place.size);
+            const reach = Math.abs(head.x) + head.r;
+            return { what: id, foot, tall: head.r - head.y, reach };
+          }),
         ];
         let reaching = 0;
         for (const { what, foot, tall, reach } of things) {

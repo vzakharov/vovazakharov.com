@@ -20,11 +20,12 @@ import { type Folding, folding, type Shut } from './flower-closing';
 import { laidFlower } from './flower-layout';
 import type { Placed, StandingFlower } from './flower-plots';
 import type { Ringed } from './flower-ring';
-import { foldedHead, type HeadReach } from './flower-seat';
+import { foldedHead } from './flower-seat';
 import { flowerTapReach } from './flower-sight';
 import type { CircleFigure, TappedFigure } from './hit-areas';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
+import type { HeadReach } from './seat-reach';
 
 /** How far ahead of the eye a thing is laid out at, where it is not where the layout stands it (`viewedOrLaid`). */
 type LaidAhead = { opening?: number };

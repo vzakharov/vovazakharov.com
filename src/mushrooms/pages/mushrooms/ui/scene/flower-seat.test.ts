@@ -8,13 +8,9 @@ import {
 } from '../../model/flower-genes';
 import { INSECT_KINDS } from '../../model/insect-genes';
 import { BUD, CLOSING_STEPS, folding, OPEN } from './flower-closing';
-import {
-  flowerLift,
-  flowerLiftAt,
-  foldedHead,
-  type HeadReach,
-  type SeatZooms,
-} from './flower-seat';
+import { flowerLift, flowerLiftAt, type SeatZooms } from './flower-lift';
+import { foldedHead } from './flower-seat';
+import type { HeadReach } from './seat-reach';
 /** How near two lifts in CSS px stand to count as one. */
 const SAME_PX = 1e-9;
 

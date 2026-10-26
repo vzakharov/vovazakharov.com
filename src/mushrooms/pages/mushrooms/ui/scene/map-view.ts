@@ -30,13 +30,13 @@ import { paintHouse } from './draw-house';
 import { drawMapGround } from './draw-map-ground';
 import { drawMushroom } from './draw-mushroom';
 import { flowersOf } from './flower-plots';
-import type { Stand } from './flower-sight';
 import { iconLighting } from './icon-disc';
 import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 import { drawChild, drawView } from './map-child';
 import { drawCompass } from './map-compass';
 import type { DoorSeating } from './mushroom-bed';
+import type { GrowingStand } from './mushroom-room';
 import { PALETTE } from './palette';
 import { DUSK, DUSK_WASH_DEEPEST } from './palette-dusk';
 import { azimuthAt } from './panorama';
@@ -51,7 +51,7 @@ import { BUTTON_INSET } from './tap-reach';
 export type MapSnapshot = Eyed &
   AtRatio &
   Seeded & {
-    stand: Stand<MeadowLayout>;
+    stand: GrowingStand<MeadowLayout>;
     doors: DoorSeating;
     dusky: boolean;
   };

@@ -9,7 +9,7 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Flower, WithPulled } from '../../model/flower-genes';
+import type { Flower } from '../../model/flower-genes';
 import {
   anchored,
   type Eye,
@@ -20,17 +20,16 @@ import {
   planeFootOf,
   type Rooted,
   SPREAD,
+  type Stood,
   type WithCamera,
   zAt,
 } from '../../model/ground';
-import type { WithMushrooms } from '../../model/planted';
 import {
   isBeeSown,
   type RootedFlower,
   type Sown,
 } from '../../model/planted-flowers';
 import type { ClumpGround } from './anchored-ground';
-import { standingPlaces } from './clump-layout';
 import {
   type Bedded,
   clearOfFeet,
@@ -38,7 +37,8 @@ import {
   headsApart,
   standingOn,
 } from './flower-layout';
-import type { PlotGround, Stand } from './flower-sight';
+import type { Stand } from './flower-sight';
+import type { Occupant } from './occupant';
 
 /** What of the meadow's layout this reads. */
 export type FlowerPlotsLayout = WithCamera & ClumpGround & Bedded;
@@ -153,18 +153,11 @@ export function groundFor(
   );
 }
 
-/**
- * The foot of each of `mushrooms` that `layout` shows, on the plane of its
- * anchor, for a flower to keep off (`groundFor`). A mushroom yet to grow
- * keeps off every flower (`pickFoot`), so a flower keeps off only these.
- */
-export function mushroomFeet(
-  layout: FlowerPlotsLayout,
-  mushrooms: WithMushrooms['mushrooms'],
-): Footing[] {
-  return standingPlaces(layout.mushrooms, mushrooms).map((place) =>
-    planeFootOf(groundOf(layout.camera, place)),
-  );
+/** Every thing standing in `stand` that its layout shows, as an occupant (`Occupancy`). */
+export function occupantsOf<L extends FlowerPlotsLayout, Thing extends Stood>(
+  stand: Stand<L, Thing>,
+): readonly Occupant[] {
+  return stand.occupying(stand.layout.mushrooms, stand.mushrooms);
 }
 
 /**
@@ -184,42 +177,25 @@ function footOf(
 }
 
 /**
- * Every flower that stands on `layout` among `mushrooms`: the seeded ones of
- * the visit's bed, then each planted one, a bee's round its parent and the
- * child's on its tuft, in the order they opened, so a parent always stands
- * before its children (`footOf`). A planted flower stands only where it has
- * ground (`groundFor`) off the feet of the mushrooms standing now, so a
- * mushroom grown on it hides it while that mushroom stands. A flower of
- * `pulled` stands nowhere and takes no ground, but a bee's flower ringed
- * round it keeps its slot round where it stood.
+ * Every flower that stands in `stand`: the seeded ones of the visit's bed,
+ * then each planted one, a bee's round its parent and the child's on its
+ * tuft, in the order they opened, so a parent always stands before its
+ * children (`footOf`). A planted flower stands only where it has ground
+ * (`groundFor`) off the feet of the occupants standing now, so a mushroom
+ * grown on it hides it while that mushroom stands. A flower of `pulled`
+ * stands nowhere and takes no ground, but a bee's flower ringed round it
+ * keeps its slot round where it stood. With them, the foot on the ground of
+ * every flower that stands or would but for `pulled`, by id.
  */
-export function standingFlowers(
-  layout: FlowerPlotsLayout,
-  seeded: readonly Flower[],
-  planted: readonly Sown[],
-  mushrooms: WithMushrooms['mushrooms'],
-  pulled: WithPulled['pulled'],
-): StandingFlower[] {
-  return plotted({ layout, flowers: seeded, planted, mushrooms, pulled })
-    .standing;
-}
-
-/**
- * `standingFlowers`, and the foot on the ground of every flower that stands
- * or would but for `pulled`, by id.
- */
-function plotted<L extends FlowerPlotsLayout>({
-  layout,
-  flowers: seeded,
-  planted,
-  mushrooms,
-  pulled,
-}: PlotGround<L>): {
+function plotted<L extends FlowerPlotsLayout, Thing extends Stood>(
+  stood: Stand<L, Thing>,
+): {
   standing: StandingFlower[];
   feet: ReadonlyMap<string, Footing>;
 } {
-  const { camera, flowers } = layout;
-  const claimed = mushroomFeet(layout, mushrooms);
+  const { layout, flowers: seeded, planted, pulled } = stood;
+  const { camera, flowers, mushrooms: ground } = layout;
+  const claimed = occupantsOf(stood).map(({ foot }) => foot);
   const up = new Set(pulled);
   const feet = new Map<string, Footing>();
   const standing: StandingFlower[] = [];
@@ -234,7 +210,7 @@ function plotted<L extends FlowerPlotsLayout>({
     if (place) stand(flower, planeFootOf(groundOf(camera, place)), place);
   }
   for (const sown of planted) {
-    const foot = footOf(sown, feet, layout.mushrooms.anchor);
+    const foot = footOf(sown, feet, ground.anchor);
     if (foot && groundFor(foot, standing, claimed)) {
       stand(sown, foot, standingOn(camera, foot));
     }
@@ -242,9 +218,9 @@ function plotted<L extends FlowerPlotsLayout>({
   return { standing, feet };
 }
 
-/** Every flower standing in `stand` (`standingFlowers`). */
-export function flowersOf<L extends FlowerPlotsLayout>(
-  stand: Stand<L>,
+/** Every flower standing in `stand` (`plotted`). */
+export function flowersOf<L extends FlowerPlotsLayout, Thing extends Stood>(
+  stand: Stand<L, Thing>,
 ): StandingFlower[] {
   return plotted(stand).standing;
 }
@@ -254,8 +230,8 @@ export function flowersOf<L extends FlowerPlotsLayout>(
  * they went: the spot it leaves the child to plant on again. A flower that
  * never stood on this layout, pulled or not, has none.
  */
-export function pulledFeet<L extends FlowerPlotsLayout>(
-  stand: Stand<L>,
+export function pulledFeet<L extends FlowerPlotsLayout, Thing extends Stood>(
+  stand: Stand<L, Thing>,
 ): Footing[] {
   const { feet } = plotted(stand);
   return stand.pulled.flatMap((id) => {
@@ -268,8 +244,8 @@ export function pulledFeet<L extends FlowerPlotsLayout>(
  * Every flower standing in `stand`, seeded and planted, as its foot on the
  * ground, for a mushroom's foot to keep off (`roomFor`).
  */
-export function flowerFeet<L extends FlowerPlotsLayout>(
-  stand: Stand<L>,
+export function flowerFeet<L extends FlowerPlotsLayout, Thing extends Stood>(
+  stand: Stand<L, Thing>,
 ): Footing[] {
   return flowersOf(stand).map(({ foot }) => foot);
 }

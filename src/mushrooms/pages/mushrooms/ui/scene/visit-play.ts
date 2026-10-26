@@ -8,22 +8,22 @@
 
 import { MUSHROOM_SLOTS } from '../../model/crowding';
 import type { Sight } from '../../model/flight';
-import type { Timed } from '../../model/motion';
 import { visitFlowers } from '../../model/flower-sounds';
 import { firstMeadow, type Meadow, reduce } from '../../model/game';
 import type { InsectKind } from '../../model/insect-genes';
+import type { Timed } from '../../model/motion';
 import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
 import { openingIndex } from '../../model/placement';
+import { type Planted, SPROUT_MS } from '../../model/planted';
 import { mulberry32, nextSeed } from '../../model/random';
 import { SPORE_SEATS, sproutedInRain } from '../../model/sprouting';
-import { SPROUT_MS } from '../../model/planted';
 import { RAIN_MS } from '../../model/weather';
 import { type Among, amongAt, capBox } from './cap-cover';
 import { placeIn } from './clump-layout';
 import { FAR_FLOWERS } from './far-band';
-import { type Stand, standOf } from './flower-sight';
+import type { Stand } from './flower-sight';
 import { type MeadowLayout, meadowLayout } from './layout';
-import { roomFor } from './mushroom-room';
+import { type GrowingStand, growingStandOf, roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
 import { sporeOnTap } from './spore-seats';
 import type { View } from './view';
@@ -37,7 +37,7 @@ export type Meadowed = { meadow: Meadow };
  * A stand, the meadow it stands, and the meadow as the last shower found it,
  * every spore of its round lying (the meadow itself with no shower).
  */
-export type Opened = Stand<MeadowLayout> & Meadowed & { sowed: Meadow };
+export type Opened = GrowingStand<MeadowLayout> & Meadowed & { sowed: Meadow };
 
 /** How long a shower in `opened` waits after the last: its rain, then every sprout grown old. */
 const SHOWER_EVERY = RAIN_MS + SPROUT_MS;
@@ -75,7 +75,7 @@ export function opened(
     const species =
       MUSHROOM_SPECIES[index % MUSHROOM_SPECIES.length] ?? 'fly-agaric';
     const own = nextSeed(growing);
-    const foot = roomFor(standOf(layout, flowers, meadow), own, view);
+    const foot = roomFor(growingStandOf(layout, flowers, meadow), own, view);
     if (!foot) break;
     meadow = reduce(meadow, {
       kind: 'grow',
@@ -90,7 +90,7 @@ export function opened(
     for (const { id } of meadow.mushrooms) {
       meadow = sownUp(meadow, id, now, (sowing) => ({
         meadow: () => sowing,
-        stand: () => standOf(layout, flowers, sowing),
+        stand: () => growingStandOf(layout, flowers, sowing),
         view: () => view,
       }));
     }
@@ -98,7 +98,7 @@ export function opened(
     meadow = reduce(meadow, { kind: 'rain', now });
     meadow = sproutedInRain(meadow, now + RAIN_MS);
   }
-  return { meadow, sowed, ...standOf(layout, flowers, meadow) };
+  return { meadow, sowed, ...growingStandOf(layout, flowers, meadow) };
 }
 
 /**
@@ -132,7 +132,7 @@ function sownUp(
  * screen a new crop of it.
  */
 export function relaidOn<L extends MeadowLayout>(
-  { mushrooms }: Stand<L>,
+  { mushrooms }: Stand<L, Planted>,
   seed: number,
   width: number,
   height: number,
@@ -149,7 +149,7 @@ export function relaidOn<L extends MeadowLayout>(
 export function standingIn<L extends MeadowLayout>({
   layout,
   mushrooms,
-}: Stand<L>): Among[] {
+}: Stand<L, Planted>): Among[] {
   return mushrooms.map((mushroom) => {
     const place = placeIn(layout.mushrooms, mushroom);
     if (!place) throw new Error(`${mushroom.id} off the screen`);
@@ -158,7 +158,9 @@ export function standingIn<L extends MeadowLayout>({
 }
 
 /** How wide `stand`'s caps span together, as a share of its screen's width. */
-export function capsSpan<L extends MeadowLayout>(stand: Stand<L>): number {
+export function capsSpan<L extends MeadowLayout>(
+  stand: Stand<L, Planted>,
+): number {
   const caps = standingIn(stand).map(({ standing }) => capBox(standing));
   const left = Math.min(...caps.map((cap) => cap.left));
   const right = Math.max(...caps.map((cap) => cap.right));

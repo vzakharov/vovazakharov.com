@@ -48,3 +48,6 @@ export function slotTaken(
 export function plantedId(planted: readonly Sown[]): string {
   return `planted-${String(planted.length + 1)}`;
 }
+
+/** The flowers planted since the visit opened, bees' and the child's, in the order they opened. */
+export type WithPlanted = { planted: readonly Sown[] };

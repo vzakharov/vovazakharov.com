@@ -16,14 +16,14 @@ import { hasTrumpet, mushroomGenes } from '../../model/mushroom-genes';
 import { perchName, type ShelterSeat } from '../../model/perch';
 import { isSeat } from '../../model/perch-room';
 import { pinholeOf } from '../../model/pinhole';
-import { SPROUT_MS } from '../../model/planted';
+import { type Planted, SPROUT_MS } from '../../model/planted';
 import { mulberry32, nextSeed } from '../../model/random';
 import { SHELTER_SEATS } from '../../model/shelter-seats';
 import { airAlofts, airSpots, clumpRow } from './air-spots';
 import { bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
 import { flowersOf } from './flower-plots';
-import { type Stand, WIDEST_SPAN } from './flower-sight';
+import type { Stand } from './flower-sight';
 import { drawnAloft } from './insect-frame';
 import { type MeadowLayout, meadowLayout } from './layout';
 import {
@@ -39,7 +39,7 @@ import { aloftOfLayout, perchDistance } from './plane-place';
 import { middleOf, ofLayout, rowAt, V_NEAR, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
-import { widestOn } from './widest-spans';
+import { WIDEST_SPAN, widestOn } from './widest-spans';
 
 /** How long each visit is watched, how often the model ticks, and how often perches are read, in ms. */
 const VISIT = 40_000;
@@ -90,7 +90,7 @@ type Drink = WithId & { seat: Point; span: number };
  * wings reaching past the world's edge.
  */
 function hiddenHow(
-  { layout }: Stand<MeadowLayout>,
+  { layout }: Stand<MeadowLayout, Planted>,
   { seat, span }: Drink,
 ): Count[] {
   const { camera, height } = layout;
@@ -110,7 +110,7 @@ function hiddenHow(
  * how each drinking at a flower cannot be seen there.
  */
 function watch(
-  stand: Stand<MeadowLayout> & { meadow: Meadow },
+  stand: Stand<MeadowLayout, Planted> & { meadow: Meadow },
   seed: number,
 ): Tally {
   const tally = { ...NOTHING };
@@ -396,7 +396,7 @@ describe('footRows', () => {
 });
 
 /** The perch names of `stand`'s far band of seeded flowers, which only flight's risen eye sees. */
-function farPerches({ flowers }: Stand<MeadowLayout>): Set<string> {
+function farPerches({ flowers }: Stand<MeadowLayout, Planted>): Set<string> {
   return new Set(
     flowers
       .slice(NEAR_FLOWERS)

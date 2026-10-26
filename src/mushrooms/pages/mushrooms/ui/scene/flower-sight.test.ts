@@ -5,18 +5,15 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { anchorOf } from '../../model/anchor';
 import { OPENING_EYE } from '../../model/ground';
+import type { Planted } from '../../model/planted';
 import type { Sown } from '../../model/planted-flowers';
 import { mulberry32, nextSeed } from '../../model/random';
 import { anchoredStand } from './anchored-stand';
+import { roomFor } from './bee-room';
 import { flowersOf } from './flower-plots';
-import {
-  coversOn,
-  roomFor,
-  screenSides,
-  sightingOf,
-  type Stand,
-} from './flower-sight';
+import { headOf, screenSides, type Stand } from './flower-sight';
 import type { MeadowLayout } from './layout';
+import { occupantsOn } from './mushroom-cover';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 
@@ -43,9 +40,9 @@ const PLANTINGS = 15;
  * offers, until `PLANTINGS` or no slot is left.
  */
 function plantedFrom(
-  stand: Stand<MeadowLayout>,
+  stand: Stand<MeadowLayout, Planted>,
   seed: number,
-): Stand<MeadowLayout> {
+): Stand<MeadowLayout, Planted> {
   const random = mulberry32(seed ^ 0x50_1d);
   const planted: Sown[] = [];
   let judged = { ...stand, planted };
@@ -54,7 +51,7 @@ function plantedFrom(
     const [slot] = roomFor(
       judged,
       ids,
-      coversOn(judged.layout, judged.mushrooms),
+      occupantsOn(judged.layout.mushrooms, judged.mushrooms),
     );
     if (!slot) break;
     planted.push({
@@ -90,7 +87,7 @@ describe('a bee’s planting', () => {
           for (const flower of flowersOf(out)) {
             if (!own.has(flower.id)) continue;
             heads += 1;
-            const { head } = sightingOf(flower, out.layout);
+            const head = headOf(flower);
             assert.ok(
               head.x - head.r >= left && head.x + head.r <= right,
               `visit ${String(seed)}, anchor ${JSON.stringify(anchor)}: ${flower.id} at ${String(head.x)}±${String(head.r)} past ${String(left)}–${String(right)}`,

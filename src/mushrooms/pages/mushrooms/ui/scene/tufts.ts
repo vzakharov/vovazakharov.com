@@ -24,6 +24,7 @@ import {
   type WithCamera,
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
+import type { Planted } from '../../model/planted';
 import type { Random } from '../../model/random';
 import type { ClumpGround } from './anchored-ground';
 import { depthOf, UNPLACED } from './bed-place';
@@ -53,7 +54,7 @@ import {
 } from './lawn';
 import { MOTTLE_DEPTH, paintMottles, shownMottles } from './mottles';
 import { coversShown } from './mushroom-cover';
-import { CELL,inSightPast } from './occupant';
+import { CELL, inSightPast } from './occupant';
 import { PALE_SPAN } from './repaint-queue';
 import { Tended, tendedIn, type TendingLayout } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
@@ -90,7 +91,7 @@ const TUFT_HEIGHT = 2;
  * bee's, can be planted on again. Each stays on its foot from then on.
  */
 export function leaveTufts<L extends TuftsLayout>(
-  stand: Stand<L>,
+  stand: Stand<L, Planted>,
   grownAt: (foot: Point) => readonly Sprout[],
   left: readonly Sprout[],
   random: Random,
@@ -305,7 +306,7 @@ export class Grass implements Refusing {
   }
 
   /** Lays the lawn out on `stand`'s layout, each tuft kept on its foot, and tends it. */
-  paint<L extends TuftsLayout>(stand: Stand<L>): void {
+  paint<L extends TuftsLayout>(stand: Stand<L, Planted>): void {
     const { layout } = stand;
     const { seed, left, growing, view, tended } = this;
     if (this.layout !== layout) {
@@ -321,7 +322,7 @@ export class Grass implements Refusing {
    * view's eye, in place of any re-tend under way; the standing tufts it
    * covers go at once (`Tended.change`), so none shown shakes its head.
    */
-  tend<L extends TuftsLayout>(stand: Stand<L>): void {
+  tend<L extends TuftsLayout>(stand: Stand<L, Planted>): void {
     this.tended.change(stand, this.view?.eye ?? OPENING_EYE);
   }
 
@@ -331,7 +332,7 @@ export class Grass implements Refusing {
    * `eye` tends (`tendedIn`).
    */
   private grownRound<L extends TuftsLayout>(
-    stand: Stand<L>,
+    stand: Stand<L, Planted>,
     eye: Eye,
   ): Sprout[] {
     const { lawn, growing } = this;

@@ -7,11 +7,11 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Tended } from '../ui/scene/flower-sight';
 import { isCrowdedAt, isFull } from './crowding';
 import { dusky, FULL_DAY, turned, type TurnLight, type WithDusk } from './dusk';
 import type { Perches, Sight } from './flight';
 import type { Onscreen } from './flight-in';
+import type { WithPulled } from './flower-genes';
 import {
   type HoldFlower,
   type PickColour,
@@ -64,6 +64,9 @@ export type Pickers = {
 
 /** What of a meadow belongs to the load that has it: the selection, the pickers and the shower. */
 export type Unkept = Pickers & WithSelected & WithRain;
+
+/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
+export type Tended = WithMushrooms & WithPulled;
 
 /** A meadow as a reload keeps it: all of it but `Unkept`. */
 export type KeptMeadow = Swarm &

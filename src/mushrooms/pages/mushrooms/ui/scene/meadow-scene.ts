@@ -19,7 +19,6 @@ import { DuskView } from './dusk-view';
 import { EyeInput } from './eye-input';
 import { FlowerBed } from './flower-bed';
 import { bedClosing } from './flower-closing';
-import { type Stand, standOf } from './flower-sight';
 import { InsectView } from './insect-view';
 import { Instrument } from './instrument';
 import { type MeadowLayout, meadowLayout } from './layout';
@@ -29,6 +28,7 @@ import { listenOnMeadow } from './meadow-listeners';
 import { meadowOpening } from './meadow-opening';
 import { tapInsect, tapMeadow } from './meadow-taps';
 import { MushroomBed } from './mushroom-bed';
+import { type GrowingStand, growingStandOf } from './mushroom-room';
 import { type Backdrop, driftClouds, paintBackdrop } from './paint-backdrop';
 import type { HostBeds } from './perch-hosts';
 import { perchAnchorOf, Perches } from './perches';
@@ -293,10 +293,10 @@ export class MeadowScene extends Phaser.Scene {
   }
 
   /** The meadow as it stands on the screen last painted, once there is one. */
-  private stand(): Stand<MeadowLayout> | undefined {
+  private stand(): GrowingStand<MeadowLayout> | undefined {
     const { layout, flowers, meadow } = this;
     if (!layout || !meadow) return undefined;
-    return standOf(layout, flowers?.seeded ?? [], meadow);
+    return growingStandOf(layout, flowers?.seeded ?? [], meadow);
   }
 
   private fliers(): readonly Flier[] {

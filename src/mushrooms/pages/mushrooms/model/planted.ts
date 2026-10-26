@@ -4,6 +4,7 @@
  * mushroom it will be. How a sprout grows to full size is the mushroom's own.
  */
 
+import type { Occupied } from '../ui/scene/occupant';
 import type { Housed } from './house';
 import type { Stamped } from './motion';
 import type { Mushroom } from './mushroom-genes';
@@ -28,10 +29,7 @@ export type Spore = Placed & Sprout;
 
 export type Planted = Placed & Housed & Sprouting;
 
-export type WithMushrooms = {
-  /** In the order they were planted, so the last is the newest. */
-  mushrooms: readonly Planted[];
-};
+export type WithMushrooms = Occupied<Planted>;
 
 /** How many mushrooms the meadow has ever grown, so every id is new. */
 export type Grown = { grown: number };

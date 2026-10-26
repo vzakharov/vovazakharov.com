@@ -26,11 +26,13 @@ import {
 } from '../../model/insect-motion';
 import { buzzWing, wingspan } from '../../model/insect-outline';
 import { FLOWER_SWAY } from './flower-layout';
-import { standingFlowers } from './flower-plots';
-import { flowerLift, type HeadReach } from './flower-seat';
-import { PERCH_SPREAD, sightingOf } from './flower-sight';
-import { meadowLayout } from './layout';
+import { flowerLift } from './flower-lift';
+import { flowersOf } from './flower-plots';
+import { headOf, PERCH_SPREAD, standOf } from './flower-sight';
 import { LEAST_SPANS } from './insect-size';
+import { meadowLayout } from './layout';
+import { occupantsOn } from './mushroom-cover';
+import type { HeadReach } from './seat-reach';
 import { FLOOR_HELD, VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 
@@ -92,15 +94,20 @@ const GRID = 28;
 function headsOn(width: number, height: number) {
   const standing = VISITS.slice(0, 200).flatMap((seed) => {
     const { layout, flowers, mushrooms } = opened(seed, width, height, false);
-    return standingFlowers(layout, flowers, [], mushrooms, []).map(
-      (flower) => ({
-        ...pick(flower.place, 'size'),
-        head: {
-          ...pick(sightingOf(flower, layout).head, 'r'),
-          disc: flowerGenes(flower).centre * flower.place.size,
-        },
-      }),
-    );
+    return flowersOf(
+      standOf(
+        layout,
+        flowers,
+        { planted: [], mushrooms, pulled: [] },
+        occupantsOn,
+      ),
+    ).map((flower) => ({
+      ...pick(flower.place, 'size'),
+      head: {
+        ...pick(headOf(flower), 'r'),
+        disc: flowerGenes(flower).centre * flower.place.size,
+      },
+    }));
   });
   const sorted = standing.toSorted((a, b) => a.head.r - b.head.r);
   const middle = sorted[Math.floor(sorted.length / 2)];

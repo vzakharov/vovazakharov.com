@@ -5,9 +5,10 @@ import { apartIn } from '../../model/flight-timing';
 import { distanceBetween, type Point } from '../../model/geometry';
 import { type Eye, OPENING_EYE } from '../../model/ground';
 import { type Perch, perchName } from '../../model/perch';
+import type { Planted } from '../../model/planted';
 import { anchoredStand } from './anchored-stand';
 import { placeIn } from './clump-layout';
-import { type Stand, WIDEST_SPAN } from './flower-sight';
+import type { Stand } from './flower-sight';
 import { awayDown, leavingAloft } from './insect-away';
 import { drawnAloft } from './insect-frame';
 import type { MeadowLayout } from './layout';
@@ -16,6 +17,7 @@ import { Perches } from './perches';
 import { aloftOfLayout } from './plane-place';
 import { viewAt } from './view';
 import { opened } from './visit-play';
+import { WIDEST_SPAN } from './widest-spans';
 
 /** Eyes walked into the forest and turned, from which the screen still shows caps. */
 const EYES = [
@@ -80,7 +82,10 @@ describe('Perches.sightFrom', () => {
 });
 
 /** `stand` with one more mushroom, `lone`, like its first, its foot at `at` on the plane. */
-function withLone(stand: Stand<MeadowLayout>, at: Point): Stand<MeadowLayout> {
+function withLone(
+  stand: Stand<MeadowLayout, Planted>,
+  at: Point,
+): Stand<MeadowLayout, Planted> {
   const [first] = stand.mushrooms;
   assert.ok(first);
   return {

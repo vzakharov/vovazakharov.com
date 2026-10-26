@@ -19,7 +19,7 @@ import type { Onscreen } from './flight-in';
 import type { Insect, InsectKind } from './insect-genes';
 import { type Flight, isAloft, isLeaving } from './perch';
 import { flowerFreed, givesWay, type Held } from './perch-room';
-import type { Plot, Sown } from './planted-flowers';
+import type { Plot, Sown, WithPlanted } from './planted-flowers';
 import { sown } from './pollen';
 import { NO_POLLEN, pollenAfter } from './pollen-load';
 import { type Dusked, roostedPerches, sitsOut } from './roost';
@@ -38,8 +38,6 @@ import {
 export type Swarm = WithInsects & WithPlanted;
 
 type WithInsects = { insects: readonly Flier[] };
-
-export type WithPlanted = { planted: readonly Sown[] };
 
 /**
  * A swarm, the shower it flies in, which sends its fliers under the caps

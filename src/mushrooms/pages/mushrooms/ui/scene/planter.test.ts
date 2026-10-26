@@ -5,10 +5,10 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { SEEDED_SOUNDS } from '../../model/flower-sounds';
 import { type Meadow, reduce } from '../../model/game';
-import { type Eye, OPENING_EYE,sameFoot } from '../../model/ground';
+import { type Eye, OPENING_EYE, sameFoot } from '../../model/ground';
 import { plantedId, type Sown } from '../../model/planted-flowers';
 import { mulberry32, nextSeed } from '../../model/random';
-import { takesFlower } from './flower-sight';
+import { takesFlower } from './flower-room';
 import { LiveLawn } from './lawn';
 import { Planter } from './planter';
 import { sightSlack, strayed, Tended } from './tending';
