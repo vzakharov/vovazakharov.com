@@ -33,9 +33,6 @@ The game renders on a root layout of its own, without the theme
 toggle, and a fresh meadow always opens in full day: dusk is a game
 mechanic, not a reading of the colour scheme.
 
-basilisk.fyi files BAS-0027: Ben, a Unitree G1 humanoid hit with a
-truck in WhistlinDiesel's YouTube video of September 2025.
-
 Closes #170
 Closes #171
 
