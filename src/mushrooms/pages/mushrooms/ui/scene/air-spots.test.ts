@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { perchName } from '../../model/flight';
 import { OPENING_EYE } from '../../model/ground';
 import { INSECT_KINDS } from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
+import { perchName } from '../../model/perch';
 import {
   AIR_BELOW,
   airAloftOf,

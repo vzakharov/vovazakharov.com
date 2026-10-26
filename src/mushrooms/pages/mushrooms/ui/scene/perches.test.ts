@@ -1,16 +1,16 @@
-import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Perch, perchName } from '../../model/flight';
 import { apartIn } from '../../model/flight-timing';
 import { distanceBetween, type Point } from '../../model/geometry';
 import { type Eye, OPENING_EYE } from '../../model/ground';
+import { type Perch, perchName } from '../../model/perch';
 import { anchoredStand } from './anchored-stand';
 import { placeIn } from './clump-layout';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { awayDown, leavingAloft } from './insect-away';
 import { drawnAloft } from './insect-frame';
+import type { MeadowLayout } from './layout';
 import { footRows, PERCH_REACH, perchSight, seatAt } from './perch-sight';
 import { Perches } from './perches';
 import { aloftOfLayout } from './plane-place';

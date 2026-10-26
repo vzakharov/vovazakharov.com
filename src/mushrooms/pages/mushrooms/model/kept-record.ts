@@ -7,14 +7,14 @@
 import { z } from 'zod';
 
 import { TOWARDS } from './dusk';
-import { PERCH_KINDS, SIDES } from './flight';
 import { type KeptMeadow, PICKERS_SHUT, type Unkept } from './game';
 import { WINDOW_KINDS } from './house';
 import { INSECT_KINDS } from './insect-genes';
 import { MUSHROOM_SPECIES } from './mushroom-genes';
+import { PERCH_KINDS, SIDES } from './perch';
+import { SPROUT_MS } from './planted';
 import type { Seeded } from './random';
 import { SHELTER_SEATS } from './shelter-seats';
-import { SPROUT_MS } from './planted';
 import { GAITS } from './stride';
 import type { WalkStart } from './walk';
 

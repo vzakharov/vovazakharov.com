@@ -9,19 +9,15 @@
 
 import {
   firstFlight,
-  type Flight,
   flightAway,
-  flowerFreed,
-  givesWay,
-  type Held,
-  isAloft,
-  isLeaving,
   isOffered,
   nextFlight,
   type Perches,
 } from './flight';
 import type { Onscreen } from './flight-in';
 import type { Insect, InsectKind, OfKind } from './insect-genes';
+import { type Flight, isAloft, isLeaving } from './perch';
+import { flowerFreed, givesWay, type Held } from './perch-room';
 import {
   type Carrying,
   NO_POLLEN,

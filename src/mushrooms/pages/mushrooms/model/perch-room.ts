@@ -5,28 +5,16 @@
  * (`keptForBees`).
  */
 
-import type { Flowered, FlowersSeen, Pairing, Perch, Sight } from './flight';
+import type { Flowered, FlowersSeen, Pairing, Sight } from './flight';
 import type { InsectKind, Kinded } from './insect-genes';
+import { isSamePerch, type Perch, perchName } from './perch';
 
 /** A perch an insect sits on. */
 type Seat = Extract<Perch, { kind: 'flower' | 'cap' | 'shelter' }>;
 
-export function isSamePerch(a: Perch, b: Perch): boolean {
-  if (a.kind === 'away' || b.kind === 'away') return false;
-  if (a.kind !== b.kind || a.id !== b.id) return false;
-  return a.kind !== 'shelter' || b.kind !== 'shelter' || a.seat === b.seat;
-}
-
 /** A perch another insect sits on or is heading to, and that insect's kind. */
 export type Held = Kinded & OnPerch;
 export type OnPerch = { perch: Perch };
-
-/** A perch's name, the same for the same perch, as `Places` keys it. */
-export function perchName(perch: Perch): string {
-  if (perch.kind === 'away') return `away ${perch.side}`;
-  if (perch.kind === 'shelter') return `shelter ${perch.id} ${perch.seat}`;
-  return `${perch.kind} ${perch.id}`;
-}
 
 const hasPairing = (pairings: readonly Pairing[], [a, b]: Pairing) =>
   pairings.some(([first, second]) => first === a && second === b);

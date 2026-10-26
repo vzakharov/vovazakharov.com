@@ -7,31 +7,36 @@
  * away (`flightAway`).
  */
 
-import type { Timed } from './motion';
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Pose } from './flight-frame';
 import { FLIGHT_HABITS, type Habits } from './flight-habits';
 import {
   enteringSide,
   entryOf,
+  isShown,
   type Onscreen,
   outFirst,
   outOf,
   outWay,
-  shownOf,
 } from './flight-in';
-import { apartIn, legTo, placesSetOff, type Span } from './flight-timing';
-import type { Point } from './geometry';
+import { apartIn, legTo, placesSetOff } from './flight-timing';
+import { CLUMP_DISTANCE } from './ground';
 import type { InsectKind, InsectSeed, Kinded } from './insect-genes';
+import type { Timed } from './motion';
 import {
-  blockedFor,
-  flowersFor,
-  type Held,
+  type Flight,
   isSamePerch,
-  keptForBees,
+  type Origin,
+  type Perch,
+  type PerchKind,
   perchName,
-} from './perch-room';
+  type Placed,
+  type Places,
+  type ShelterSeat,
+  type Side,
+  SIDES,
+} from './perch';
+import { blockedFor, flowersFor, type Held, keptForBees } from './perch-room';
 import type { Plot } from './pollen';
 import {
   mulberry32,
@@ -41,73 +46,7 @@ import {
   saltedStream,
   weighted,
 } from './random';
-import { nearestShelter, offersShelter, type ShelterSeat } from './shelter';
-
-export { FLIGHT_HABITS } from './flight-habits';
-export type { Span } from './flight-timing';
-export {
-  flowerFreed,
-  givesWay,
-  type Held,
-  isSeat,
-  perchName,
-} from './perch-room';
-
-export const SIDES = ['left', 'right'] as const;
-export type Side = (typeof SIDES)[number];
-
-export const PERCH_KINDS = ['flower', 'cap', 'air', 'shelter', 'away'] as const;
-export type PerchKind = (typeof PERCH_KINDS)[number];
-
-/** What each kind of perch carries beside its kind. */
-type PerchFields = {
-  flower: WithId;
-  cap: WithId;
-  air: WithId;
-  shelter: ShelterSeat;
-  away: { side: Side };
-};
-
-/**
- * Where an insect wants to be: a flower or a cap by id, a seat under a cap
- * (`ShelterSeat`), a spot in the open air by id, which it only passes
- * through, or `away`, off screen past that side's edge.
- */
-export type Perch = {
-  [Kind in PerchKind]: { kind: Kind } & PerchFields[Kind];
-}[PerchKind];
-
-/**
- * Two kinds of insect, the first on the first perch of a `Crowding` and the
- * second on the second.
- */
-export type Pairing = readonly [InsectKind, InsectKind];
-
-/**
- * Two perches standing too close for an insect on each, and for which kinds
- * on them: the wider two insects' wings, the farther apart they must sit.
- */
-export type Crowding = readonly [Perch, Perch, readonly Pairing[]];
-
-/**
- * Where a perch stands, in units of a butterfly's size as the layout draws
- * one, and `fromEye`, how far from the eye, in the clump's size: an insect there
- * is drawn `CLUMP_DISTANCE / fromEye` of that size; and, where the scene
- * gives it, where it stands on the plane (`Pose`), so a leg is timed in the
- * frame it is drawn in (`pairFramed`).
- */
-export type Place = Sited & { pose?: Pose };
-/** A point on the plane, and how far it stands from the eye. */
-export type Sited = Point & FromEye;
-/** How far from the eye a thing stands, in the clump's size. */
-type FromEye = { fromEye: number };
-
-/**
- * Where each perch stands (`Place`), by its name (`perchName`), so a distance
- * between two reads the same on every screen; `away` by its side, just past
- * the screen's edge.
- */
-export type Places = Readonly<Record<string, Place>>;
+import { nearestShelter, offersShelter } from './shelter';
 
 /**
  * What the scene sees of the perches, which only the screen can say, and
@@ -135,19 +74,6 @@ type Crowded = { crowded: readonly Crowding[] };
 /** The flowers in sight, and the perches crowded by taken ones. */
 export type FlowersSeen = Flowered & Crowded;
 
-/** What of `Sight` times a leg. */
-export type Placed = {
-  /** Where the perches stand, so a long flight takes longer than a short one (`Habits`). */
-  places?: Places;
-  /**
-   * Where the scene last drew each flier, by its id, in the places' frame:
-   * only its steering knows where a flier cut off mid-flight sets off from.
-   */
-  drawn?: Readonly<Record<string, Place>>;
-  /** Each flier's own away spots, by its id: the scene draws one leaving at its own height and span past the edge. */
-  aways?: Readonly<Record<string, Places>>;
-};
-
 /** The seats under the caps in sight, offered only while it rains (`shelteredPerches`). */
 export type Sheltered = { shelters?: readonly ShelterSeat[] };
 
@@ -166,38 +92,24 @@ export type Perches = Sight &
     dusky?: boolean;
   };
 
-/**
- * One flight and the stay after it: from `from` to `to` over `departs` to
- * `arrives`, then sitting there until `leaves`, when the next leg is due. A
- * leg to the air hovers there a while (`hovering`); an `away` leg leaves as
- * it arrives, and the insect is gone.
- */
-export type Leg = Span & Route & Leaving & OutFirst;
-
-/** Where a leg sets off from. */
-export type Origin = { from: Perch };
-
-/** Where a leg flies to. */
-export type Destination = { to: Perch };
-
-/** Where a leg sets off from and flies to. */
-export type Route = Origin & Destination;
-
-/** When a leg's stay ends and the next leg is due, in ms. */
-export type Leaving = { leaves: number };
-
-/** On a first leg flown out of view first (`outFirst`), how long that stretch takes, in ms. */
-export type OutFirst = { out?: number };
-
-/** An insect's current leg, and how many legs it has flown, that one included. */
-export type Flight = { leg: Leg; legs: number };
-
 /** Keeps a leg's stream apart from the genes grown off the same seed. */
 const LEG_SALT = 0x5b_d1_e9_95;
 
 function legRandom(seed: number, legs: number): Random {
   return mulberry32(nextSeed(saltedStream(seed, LEG_SALT, legs)));
 }
+
+/**
+ * Two kinds of insect, the first on the first perch of a `Crowding` and the
+ * second on the second.
+ */
+export type Pairing = readonly [InsectKind, InsectKind];
+
+/**
+ * Two perches standing too close for an insect on each, and for which kinds
+ * on them: the wider two insects' wings, the farther apart they must sit.
+ */
+export type Crowding = readonly [Perch, Perch, readonly Pairing[]];
 
 /** What `nextPerch` weighs a choice by: where the insect is, what it cannot take, and the kind and habits choosing. */
 type Choosing = Kinded &
@@ -463,10 +375,42 @@ export function isOffered(
   }
 }
 
-export function isLeaving({ leg }: Flight): boolean {
-  return leg.to.kind === 'away';
+/**
+ * `perches` cut down to those `onscreen` shows, with the away spots at the
+ * screen's edges rather than past the world's, so a perch is the likelier
+ * the nearer it stands to the edge a release is drawn from (`nextPerch`).
+ * Without `places` nothing can be told shown, and `perches` comes back as it
+ * is.
+ */
+export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
+  const { places, flowers, beeFlowers, caps, spotted, air, shelters } = perches;
+  if (!places) return perches;
+  const shown = (perch: Perch) => isShown(onscreen, places[perchName(perch)]);
+  const within =
+    (kind: Exclude<PerchKind, 'away' | 'shelter'>) =>
+    (ids: readonly string[]): string[] =>
+      ids.filter((id) => shown({ kind, id }));
+  const [flowersIn, capsIn] = [within('flower'), within('cap')];
+  return {
+    ...perches,
+    flowers: flowersIn(flowers),
+    ...(beeFlowers && { beeFlowers: flowersIn(beeFlowers) }),
+    caps: capsIn(caps),
+    spotted: capsIn(spotted),
+    air: within('air')(air),
+    ...(shelters && {
+      shelters: shelters.filter((seat) => shown({ kind: 'shelter', ...seat })),
+    }),
+    places: { ...places, ...edgesOf(places, onscreen) },
+  };
 }
 
-export function isAloft({ leg }: Flight, now: number): boolean {
-  return now >= leg.departs && now < leg.arrives;
+/** The away spots of `places` moved to `onscreen`'s edges, at the heights `places` gives them. */
+function edgesOf(places: Places, { left, right }: Onscreen): Places {
+  const edge = (side: Side, x: number) => {
+    const name = perchName({ kind: 'away', side });
+    const { y, fromEye } = places[name] ?? { y: 0, fromEye: CLUMP_DISTANCE };
+    return [name, { x, y, fromEye }] as const;
+  };
+  return Object.fromEntries([edge('left', left), edge('right', right)]);
 }

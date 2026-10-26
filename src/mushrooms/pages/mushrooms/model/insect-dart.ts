@@ -6,7 +6,7 @@
  * the air are; it never turns the body.
  */
 
-import type { Span } from './flight';
+import type { Span } from './flight-timing';
 import type { Point } from './geometry';
 import type { InsectKind } from './insect-genes';
 import { phaseBow } from './insect-paths';

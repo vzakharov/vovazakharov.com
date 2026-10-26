@@ -7,10 +7,11 @@
  */
 
 import { type Dusk, DUSK_MS, dusky } from './dusk';
-import type { Leg, Perches } from './flight';
+import type { Perches } from './flight';
 import { FLIGHT_HABITS } from './flight-habits';
 import type { InsectSeed } from './insect-genes';
 import { smooth } from './motion';
+import type { Leg } from './perch';
 import { between, saltedStream } from './random';
 
 /** The meadow's light, as the swarm reads it off the meadow. */

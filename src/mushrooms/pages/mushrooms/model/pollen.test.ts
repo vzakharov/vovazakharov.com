@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Leg, Perch } from './flight';
+import type { Leg, Perch } from './perch';
 import {
   NO_POLLEN,
   type Plot,

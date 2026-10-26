@@ -7,10 +7,10 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
+import type { Tended } from '../ui/scene/flower-sight';
 import { isCrowdedAt, isFull } from './crowding';
 import { dusky, FULL_DAY, turned, type TurnLight, type WithDusk } from './dusk';
-import { type Perches, perchName, type Sight } from './flight';
-import type { Timed } from './motion';
+import type { Perches, Sight } from './flight';
 import type { Onscreen } from './flight-in';
 import {
   type HoldFlower,
@@ -28,6 +28,7 @@ import { type Rooted, sameFoot } from './ground';
 import { EMPTY_HOUSE, type Furnishing, FURNISHINGS } from './house';
 import type { InsectKind } from './insect-genes';
 import { released, startled, type Swarm, ticked } from './insects';
+import type { Timed } from './motion';
 import { firstMushrooms, type Species } from './mushroom-genes';
 import {
   type Burrows,
@@ -35,7 +36,9 @@ import {
   type NightRuns,
   NO_NIGHT_RUNS,
 } from './night-runs';
+import { perchName } from './perch';
 import { type Footed, OPENING_FOOTING } from './placement';
+import type { Deselect, Grown, WithMushrooms, WithSelected } from './planted';
 import { plantedId, type Sown } from './pollen';
 import type { Random, Seeded } from './random';
 import {
@@ -45,8 +48,6 @@ import {
   sproutedInRain,
   unsown,
 } from './sprouting';
-import type { Deselect, Grown, WithMushrooms, WithSelected } from './planted';
-import type { Tended } from '../ui/scene/flower-sight';
 import { RAIN_MS, raining, type StartRain, type WithRain } from './weather';
 
 export type Meadow = Unkept & KeptMeadow;

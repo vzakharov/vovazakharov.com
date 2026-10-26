@@ -4,7 +4,7 @@
  * every two kinds.
  */
 
-import type { Crowding, Pairing, Perch } from '../../model/flight';
+import type { Crowding, Pairing } from '../../model/flight';
 import {
   boxAround,
   type Circle,
@@ -13,6 +13,7 @@ import {
   type Point,
 } from '../../model/geometry';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
+import type { Perch } from '../../model/perch';
 import type { OnPerch } from '../../model/perch-room';
 
 /** Every two kinds, the first on one perch and the second on another. */

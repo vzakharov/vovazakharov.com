@@ -13,10 +13,6 @@
  */
 
 import {
-  type Perch,
-  perchName,
-} from '@/mushrooms/pages/mushrooms/model/flight';
-import {
   type Aloft,
   centreOf,
   framedOf,
@@ -32,6 +28,7 @@ import {
   type InsectKind,
 } from '@/mushrooms/pages/mushrooms/model/insect-genes';
 import { wingspan } from '@/mushrooms/pages/mushrooms/model/insect-outline';
+import { type Perch, perchName } from '@/mushrooms/pages/mushrooms/model/perch';
 import { airAlofts } from '@/mushrooms/pages/mushrooms/ui/scene/air-spots';
 import {
   type Away,

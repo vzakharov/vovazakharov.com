@@ -4,7 +4,7 @@
  * the scene measures them; the model never says where a perch stands.
  */
 
-import type { Destination, Leaving, Leg, Perch, Span } from './flight';
+import type { Span } from './flight-timing';
 import { type Point, wrap } from './geometry';
 import type { InsectKind } from './insect-genes';
 import {
@@ -15,6 +15,7 @@ import {
   tilt,
 } from './insect-paths';
 import { roundAt, smooth, wave } from './motion';
+import type { Destination, Leaving, Leg, Perch } from './perch';
 import { mulberry32 } from './random';
 
 /** A leg with its stay: where it goes and when it leaves. */

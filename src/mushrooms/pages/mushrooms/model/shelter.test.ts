@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FLIGHT_HABITS, type Perch, type Perches, type Places } from './flight';
+import type { Perches } from './flight';
+import { FLIGHT_HABITS } from './flight-habits';
 import { CLUMP_DISTANCE } from './ground';
 import type { InsectKind } from './insect-genes';
 import { type Flier, released, startled, type Swarm, ticked } from './insects';
-import { perchName } from './perch-room';
+import { type Perch, perchName,type Places } from './perch';
 import {
   dashesForCover,
   LINGER_MS,

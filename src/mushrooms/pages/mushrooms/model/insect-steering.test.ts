@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { FLIGHT_HABITS } from './flight';
+import { FLIGHT_HABITS } from './flight-habits';
 import { type Point, wrap } from './geometry';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { carriedFrom } from './insect-motion';

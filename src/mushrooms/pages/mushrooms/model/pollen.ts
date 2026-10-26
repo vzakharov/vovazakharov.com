@@ -6,9 +6,9 @@
  * ground round its parent, and says which flowers have room, and in which.
  */
 
-import type { Flight, Leg } from './flight';
 import type { Flower } from './flower-genes';
 import type { Rooted } from './ground';
+import type { Flight, Leg } from './perch';
 import {
   nextSeed,
   type Parented,

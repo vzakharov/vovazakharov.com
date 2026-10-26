@@ -8,9 +8,9 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Place } from './flight';
 import { alongAzimuth, distanceBetween, type Point, wrap } from './geometry';
 import { type Eye, EYE_HEIGHT, type Eyed, SPREAD } from './ground';
+import type { Place } from './perch';
 import type { Aloft } from './pinhole';
 
 export type { Aloft } from './pinhole';

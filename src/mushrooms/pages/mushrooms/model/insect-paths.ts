@@ -6,7 +6,7 @@
  * and turns its heading no faster than a body can follow.
  */
 
-import type { Span } from './flight';
+import type { Span } from './flight-timing';
 import type { Point } from './geometry';
 import type { InsectKind, Kinded } from './insect-genes';
 import type { Phased } from './motion';

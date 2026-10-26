@@ -3,12 +3,19 @@
  * apart its perches stand, and the stay after it.
  */
 
-import type { Leg, Perch, Place, Placed, Places, Route } from './flight';
-import type { Timed } from './motion';
 import { levelWith, pairFramed } from './flight-frame';
 import type { Dash, Habits, Hops, Pace } from './flight-habits';
 import { CLUMP_DISTANCE } from './ground';
-import { perchName } from './perch-room';
+import type { Timed } from './motion';
+import {
+  type Leg,
+  type Perch,
+  perchName,
+  type Place,
+  type Placed,
+  type Places,
+  type Route,
+} from './perch';
 import { between, type Random } from './random';
 
 /** When a leg's flight takes off, in ms on the scene's clock. */

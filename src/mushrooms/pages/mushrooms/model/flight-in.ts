@@ -9,20 +9,17 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type {
-  Leg,
-  OutFirst,
-  Perch,
-  Perches,
-  PerchKind,
-  Place,
-  Places,
-  Side,
-} from './flight';
 import { apartOf, type Scheduled } from './flight-timing';
 import { distanceBetween, type Lefted, type Point } from './geometry';
-import { CLUMP_DISTANCE } from './ground';
-import { perchName } from './perch-room';
+import {
+  type Leg,
+  type OutFirst,
+  type Perch,
+  perchName,
+  type Place,
+  type Places,
+  type Side,
+} from './perch';
 
 /**
  * A release's way out of view as the screen draws it, in the units of
@@ -137,46 +134,6 @@ export function outOfView({
  */
 export function outFirst(leg: Leg, out: number): Leg {
   return { ...leg, arrives: leg.arrives + out, leaves: leg.leaves + out, out };
-}
-
-/**
- * `perches` cut down to those `onscreen` shows, with the away spots at the
- * screen's edges rather than past the world's, so a perch is the likelier
- * the nearer it stands to the edge a release is drawn from (`nextPerch`).
- * Without `places` nothing can be told shown, and `perches` comes back as it
- * is.
- */
-export function shownOf(perches: Perches, onscreen: Onscreen): Perches {
-  const { places, flowers, beeFlowers, caps, spotted, air, shelters } = perches;
-  if (!places) return perches;
-  const shown = (perch: Perch) => isShown(onscreen, places[perchName(perch)]);
-  const within =
-    (kind: Exclude<PerchKind, 'away' | 'shelter'>) =>
-    (ids: readonly string[]): string[] =>
-      ids.filter((id) => shown({ kind, id }));
-  const [flowersIn, capsIn] = [within('flower'), within('cap')];
-  return {
-    ...perches,
-    flowers: flowersIn(flowers),
-    ...(beeFlowers && { beeFlowers: flowersIn(beeFlowers) }),
-    caps: capsIn(caps),
-    spotted: capsIn(spotted),
-    air: within('air')(air),
-    ...(shelters && {
-      shelters: shelters.filter((seat) => shown({ kind: 'shelter', ...seat })),
-    }),
-    places: { ...places, ...edgesOf(places, onscreen) },
-  };
-}
-
-/** The away spots of `places` moved to `onscreen`'s edges, at the heights `places` gives them. */
-function edgesOf(places: Places, { left, right }: Onscreen): Places {
-  const edge = (side: Side, x: number) => {
-    const name = perchName({ kind: 'away', side });
-    const { y, fromEye } = places[name] ?? { y: 0, fromEye: CLUMP_DISTANCE };
-    return [name, { x, y, fromEye }] as const;
-  };
-  return Object.fromEntries([edge('left', left), edge('right', right)]);
 }
 
 /** The edge an insect flying in to `to` enters by: the one nearer where `places` puts it, `drawn` where it puts it nowhere. */

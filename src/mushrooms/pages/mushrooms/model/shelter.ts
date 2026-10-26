@@ -6,25 +6,18 @@
  * shelter did not exist.
  */
 
-import type { WithId } from '@/kernel/shared/typings';
-
-import type {
-  Destination,
-  Flight,
-  Hemmed,
-  Perch,
-  Perches,
-  Raining,
-  Sheltered,
-} from './flight';
+import type { Hemmed, Perches, Raining, Sheltered } from './flight';
 import { apartIn, type Departing } from './flight-timing';
-import { isSamePerch, perchName } from './perch-room';
+import {
+  type Destination,
+  type Flight,
+  isSamePerch,
+  type Perch,
+  perchName,
+  type ShelterSeat,
+} from './perch';
 import { between, saltedStream, type Seeded } from './random';
-import type { ShelterSide } from './shelter-seats';
 import { type Rain, raining } from './weather';
-
-/** A seat under a cap: the cap's id, and which side of the stem. */
-export type ShelterSeat = WithId & { seat: ShelterSide };
 
 type Shelter = Extract<Perch, { kind: 'shelter' }>;
 

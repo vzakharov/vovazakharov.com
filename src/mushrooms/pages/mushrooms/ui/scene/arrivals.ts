@@ -1,7 +1,7 @@
 import { panOf } from '../../model/flight-frame';
 import type { InsectKind } from '../../model/insect-genes';
 import type { Species } from '../../model/mushroom-genes';
-import { perchName } from '../../model/perch-room';
+import { perchName } from '../../model/perch';
 import type { Footed } from '../../model/placement';
 import { mulberry32, nextSeed, type Random } from '../../model/random';
 import type { MeadowLayout } from './layout';

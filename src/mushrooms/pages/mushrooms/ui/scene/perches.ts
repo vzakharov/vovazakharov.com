@@ -1,11 +1,20 @@
-import { type Perch, perchName, type Sight } from '../../model/flight';
+import type { Sight } from '../../model/flight';
 import type { Aloft } from '../../model/flight-frame';
-import { type Eye, OPENING_EYE, unanchored } from '../../model/ground';
+import {
+  type Eye,
+  OPENING_EYE,
+  unanchored,
+  type WithCamera,
+} from '../../model/ground';
 import type { Flier } from '../../model/insects';
+import { type Perch, perchName } from '../../model/perch';
 import { airAloftOf, airAlofts } from './air-spots';
 import { anchoredStand } from './anchored-stand';
+import type { ClumpGround } from './clump-layout';
+import type { Bedded } from './flower-layout';
 import type { Stand } from './flower-sight';
-import { type Away, awayPlaces } from './insect-away';
+import { type Away, awayPlaces, type InsectAwayLayout } from './insect-away';
+import type { InsectScaled } from './insect-size';
 import {
   type HostBeds,
   type Perched,
@@ -16,12 +25,7 @@ import {
 import { footRows, perchSight } from './perch-sight';
 import { aloftOfLayout, placeOfAloft } from './plane-place';
 import type { View } from './view';
-import type { WithCamera } from '../../model/ground';
-import type { InsectScaled } from './insect-size';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
 
-import type { InsectAwayLayout } from './insect-away';
 /** What of the meadow's layout this reads. */
 export type PerchesLayout = WithCamera &
   InsectScaled &

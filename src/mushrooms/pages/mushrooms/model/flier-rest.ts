@@ -3,9 +3,9 @@
  * with what was left of its stay, so the next load finds none in the air.
  */
 
-import type { Leg } from './flight';
 import type { Flier } from './insects';
 import { RESTED_AT } from './kept-record';
+import type { Leg } from './perch';
 
 /**
  * `insects` at rest, settled at `now`: one leaving is gone; one under a cap

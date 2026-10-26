@@ -13,18 +13,19 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { WithHeight } from '@/kernel/shared/typings';
 
-import {
-  type Perch,
-  perchName,
-  type Place,
-  type Sight,
-} from '../../model/flight';
+import type { Sight } from '../../model/flight';
 import type { Onscreen } from '../../model/flight-in';
 import { flowerGenes } from '../../model/flower-genes';
-import type { Planted } from '../../model/planted';
 import { distanceBetween, placedAt, type Point } from '../../model/geometry';
-import { D_SEE, OPENING_EYE, planeOf, scaleAt } from '../../model/ground';
+import {
+  D_SEE,
+  OPENING_EYE,
+  planeOf,
+  scaleAt,
+  type WithCamera,
+} from '../../model/ground';
 import {
   INSECT_KINDS,
   type InsectKind,
@@ -38,12 +39,18 @@ import {
 } from '../../model/mushroom-genes';
 import { capUnder, toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
+import {
+  type Perch,
+  perchName,
+  type Place,
+  type ShelterSeat,
+} from '../../model/perch';
+import { type Planted, sproutScale } from '../../model/planted';
 import type { Seeded } from '../../model/random';
-import type { ShelterSeat } from '../../model/shelter';
 import { SHELTER_SEATS } from '../../model/shelter-seats';
-import { sproutScale } from '../../model/planted';
 import { airOf, airSpots, clumpRow } from './air-spots';
-import { placeIn } from './clump-layout';
+import { type ClumpGround,placeIn } from './clump-layout';
+import type { Bedded } from './flower-layout';
 import { flowersOf, type StandingFlower } from './flower-plots';
 import { flowerLift } from './flower-seat';
 import {
@@ -57,19 +64,19 @@ import {
   sightingOf,
   type Stand,
 } from './flower-sight';
-import { awayPlaces, releasedAway, wayOutOf } from './insect-away';
+import {
+  awayPlaces,
+  type InsectAwayLayout,
+  releasedAway,
+  wayOutOf,
+} from './insect-away';
+import type { InsectScaled } from './insect-size';
 import { MEADOW_FRAME } from './meadow-camera';
 import { crowdings, seatsWith, type Track } from './perch-crowding';
 import { discCovered } from './shelter-cover';
 import { rowAt, type View, viewAt } from './view';
 import { widestOn } from './widest-spans';
-import type { WithHeight } from '@/kernel/shared/typings';
-import type { WithCamera } from '../../model/ground';
-import type { InsectScaled } from './insect-size';
-import type { ClumpGround } from './clump-layout';
-import type { Bedded } from './flower-layout';
 
-import type { InsectAwayLayout } from './insect-away';
 /** What of the meadow's layout this reads. */
 export type PerchSightLayout = WithHeight &
   WithCamera &

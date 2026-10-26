@@ -5,16 +5,8 @@ import { onscreenOf } from '../ui/scene/perch-sight';
 import { Perches as ScenePerches } from '../ui/scene/perches';
 import { viewAt } from '../ui/scene/view';
 import { opened } from '../ui/scene/visit-play';
-import {
-  firstFlight,
-  type Flight,
-  FLIGHT_HABITS,
-  nextFlight,
-  type Perch,
-  type Perches,
-  perchName,
-  type Places,
-} from './flight';
+import { firstFlight, nextFlight, type Perches, shownOf } from './flight';
+import { FLIGHT_HABITS } from './flight-habits';
 import {
   entryOf,
   isShown,
@@ -24,12 +16,12 @@ import {
   outOf,
   outOfView,
   outWay,
-  shownOf,
 } from './flight-in';
 import { apartIn, apartOf } from './flight-timing';
 import { alongAzimuth } from './geometry';
 import { CLUMP_DISTANCE, D_SEE, OPENING_EYE } from './ground';
 import { INSECT_KINDS } from './insect-genes';
+import { type Flight, type Perch, perchName, type Places } from './perch';
 
 /** A world 100 units across, the screen showing 30 to 60 of it. */
 const WORLD = 100;

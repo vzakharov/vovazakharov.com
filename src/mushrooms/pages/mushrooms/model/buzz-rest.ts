@@ -10,11 +10,11 @@
  * leg off from where it last drew the insect.
  */
 
-import type { Leaving } from './flight';
 import type { Arriving } from './flight-timing';
 import type { Point } from './geometry';
 import { LANDING } from './insect-motion';
 import { type Phased, roundAt, smooth, wave } from './motion';
+import type { Leaving } from './perch';
 
 /** A stay on a perch: when the insect landed there, and when it is due to leave. */
 type Sitting = Arriving & Leaving;

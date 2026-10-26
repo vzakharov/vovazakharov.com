@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FLIGHT_HABITS } from './flight';
+import { FLIGHT_HABITS } from './flight-habits';
 import { type Point, wrap } from './geometry';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
 import { flyingTurn } from './insect-motion';

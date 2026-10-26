@@ -1,15 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  FLIGHT_HABITS,
-  flightAway,
-  perchName,
-  type Place,
-  type Places,
-} from './flight';
+import { flightAway } from './flight';
+import { FLIGHT_HABITS } from './flight-habits';
 import { legTo } from './flight-timing';
 import { CLUMP_DISTANCE } from './ground';
+import { perchName, type Place, type Places } from './perch';
 import { mulberry32 } from './random';
 
 const fly = 'fly' as const;

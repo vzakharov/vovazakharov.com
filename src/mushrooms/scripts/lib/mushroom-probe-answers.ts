@@ -6,14 +6,14 @@
 import { z } from 'zod';
 
 import { TOWARDS } from '@/mushrooms/pages/mushrooms/model/dusk';
+import type { Camera as ModelCamera } from '@/mushrooms/pages/mushrooms/model/ground';
+import { INSECT_KINDS } from '@/mushrooms/pages/mushrooms/model/insect-genes';
+import { MUSHROOM_SPECIES } from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
 import {
   type Perch as ModelPerch,
   type PerchKind,
   SIDES,
-} from '@/mushrooms/pages/mushrooms/model/flight';
-import type { Camera as ModelCamera } from '@/mushrooms/pages/mushrooms/model/ground';
-import { INSECT_KINDS } from '@/mushrooms/pages/mushrooms/model/insect-genes';
-import { MUSHROOM_SPECIES } from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
+} from '@/mushrooms/pages/mushrooms/model/perch';
 import { SHELTER_SEATS } from '@/mushrooms/pages/mushrooms/model/shelter-seats';
 import { GAITS } from '@/mushrooms/pages/mushrooms/model/stride';
 

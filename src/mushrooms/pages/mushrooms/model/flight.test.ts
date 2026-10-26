@@ -1,23 +1,20 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  firstFlight,
-  type Flight,
-  FLIGHT_HABITS,
-  flightAway,
-  type Held,
-  isAloft,
-  isLeaving,
-  type Leg,
-  nextFlight,
-  type Perch,
-  type Perches,
-  perchName,
-} from './flight';
+import { firstFlight, flightAway, nextFlight, type Perches } from './flight';
+import { FLIGHT_HABITS } from './flight-habits';
 import { apartOf, legTo } from './flight-timing';
 import { CLUMP_DISTANCE } from './ground';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
+import {
+  type Flight,
+  isAloft,
+  isLeaving,
+  type Leg,
+  type Perch,
+  perchName,
+} from './perch';
+import type { Held } from './perch-room';
 import { mulberry32 } from './random';
 
 const kind = 'butterfly' as const;

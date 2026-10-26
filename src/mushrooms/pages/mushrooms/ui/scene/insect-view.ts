@@ -2,7 +2,6 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { isSeat, type Span } from '../../model/flight';
 import {
   type Aloft,
   centreOf,
@@ -10,6 +9,7 @@ import {
   panOf,
 } from '../../model/flight-frame';
 import { outOfView } from '../../model/flight-in';
+import type { Span } from '../../model/flight-timing';
 import type { Point } from '../../model/geometry';
 import { CLUMP_DISTANCE } from '../../model/ground';
 import { dartAt, dartWay } from '../../model/insect-dart';
@@ -19,6 +19,7 @@ import { wingspan } from '../../model/insect-outline';
 import { startLeg, steer } from '../../model/insect-steering';
 import { caughtAloft, type Flier, isShying } from '../../model/insects';
 import { smooth, wobble } from '../../model/motion';
+import { isSeat } from '../../model/perch-room';
 import { aloftAt } from '../../model/pinhole';
 import { wingsShut } from '../../model/roost';
 import { containsCircle } from './hit-areas';

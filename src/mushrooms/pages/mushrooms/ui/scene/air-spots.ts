@@ -9,14 +9,7 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import {
-  type Crowding,
-  type Perch,
-  perchName,
-  type Place,
-  type Places,
-  type Sited,
-} from '../../model/flight';
+import type { Crowding } from '../../model/flight';
 import { type Aloft, type AtAloft, azimuthOf } from '../../model/flight-frame';
 import { distanceBetween, type Point, wrap } from '../../model/geometry';
 import {
@@ -29,6 +22,13 @@ import {
 } from '../../model/ground';
 import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
 import { INSECT_LIMITS } from '../../model/insects';
+import {
+  type Perch,
+  perchName,
+  type Place,
+  type Places,
+  type Sited,
+} from '../../model/perch';
 import { mulberry32 } from '../../model/random';
 import type { Zoomed } from './insect-away';
 import { drawnAloft } from './insect-frame';

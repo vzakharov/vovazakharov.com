@@ -1,18 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  firstFlight,
-  type Flight,
-  FLIGHT_HABITS,
-  flowerFreed,
-  givesWay,
-  type Held,
-  type Leg,
-  nextFlight,
-  type Perches,
-} from './flight';
+import { firstFlight, nextFlight, type Perches } from './flight';
+import { FLIGHT_HABITS } from './flight-habits';
 import { INSECT_KINDS, type InsectKind } from './insect-genes';
+import type { Flight, Leg } from './perch';
+import { flowerFreed, givesWay, type Held } from './perch-room';
 
 const CAPS = ['mushroom-1', 'mushroom-2', 'mushroom-3', 'mushroom-4'];
 const FLOWERS = ['flower-1', 'flower-2', 'flower-3'];

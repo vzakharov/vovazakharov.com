@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { firstFlight, type Flight, FLIGHT_HABITS, flightAway } from './flight';
+import { firstFlight, flightAway } from './flight';
+import { FLIGHT_HABITS } from './flight-habits';
 import { legTo } from './flight-timing';
 import { type Point, wrap } from './geometry';
 import { INSECT_KINDS } from './insect-genes';
@@ -25,6 +26,7 @@ import {
 import { flightPoint, heading, type Path } from './insect-paths';
 import { TURN_RATE } from './insect-steering';
 import { ticked } from './insects';
+import type { Flight } from './perch';
 import { between, mulberry32, type Random } from './random';
 
 const kind = 'butterfly' as const;

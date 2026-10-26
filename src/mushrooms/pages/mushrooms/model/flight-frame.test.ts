@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Place } from './flight';
 import {
   type Aloft,
   centreOf,
@@ -14,6 +13,7 @@ import {
 } from './flight-frame';
 import { apartOf, placesFlying } from './flight-timing';
 import { CLUMP_DISTANCE, SPREAD, unanchored } from './ground';
+import type { Place } from './perch';
 
 /** A sideways tablet's frame in insect sizes of 40 px: 1180 px across, four screens to a turn. */
 const UNIT = 40;

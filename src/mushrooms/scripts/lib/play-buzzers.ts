@@ -7,7 +7,7 @@
 
 import { z } from 'zod';
 
-import { FLIGHT_HABITS } from '@/mushrooms/pages/mushrooms/model/flight';
+import { FLIGHT_HABITS } from '@/mushrooms/pages/mushrooms/model/flight-habits';
 import type { InsectKind } from '@/mushrooms/pages/mushrooms/model/insect-genes';
 import { LIGHT_STEP } from '@/mushrooms/pages/mushrooms/model/insect-light';
 import { INSECT_LIMITS } from '@/mushrooms/pages/mushrooms/model/insects';

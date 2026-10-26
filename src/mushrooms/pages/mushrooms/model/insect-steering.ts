@@ -3,7 +3,7 @@
  * step `InsectView` takes each frame, pure so a test flies it the same way.
  */
 
-import type { Span } from './flight';
+import type { Span } from './flight-timing';
 import { type Point, type Scaled, type Turned, wrap } from './geometry';
 import type { InsectKind } from './insect-genes';
 import {

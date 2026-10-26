@@ -1,14 +1,15 @@
-import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { perchName, type Sight } from '../../model/flight';
+import type { Sight } from '../../model/flight';
 import { type Meadow, reduce } from '../../model/game';
 import { distanceBetween } from '../../model/geometry';
 import type { Eye } from '../../model/ground';
 import type { InsectKind } from '../../model/insect-genes';
 import type { Flier } from '../../model/insects';
+import { perchName } from '../../model/perch';
 import type { Stand } from './flower-sight';
+import type { MeadowLayout } from './layout';
 import { PERCH_REACH } from './perch-sight';
 import { Perches } from './perches';
 import { viewAt } from './view';

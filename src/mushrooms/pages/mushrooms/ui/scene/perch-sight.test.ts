@@ -1,11 +1,9 @@
-import type { MeadowLayout } from './layout';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import { isSeat, perchName } from '../../model/flight';
 import { isShown } from '../../model/flight-in';
 import { NEAR_FLOWERS } from '../../model/flower-sounds';
 import { type Meadow, reduce } from '../../model/game';
@@ -15,18 +13,19 @@ import { insectGenes } from '../../model/insect-genes';
 import { wingspan } from '../../model/insect-outline';
 import type { Flier } from '../../model/insects';
 import { hasTrumpet, mushroomGenes } from '../../model/mushroom-genes';
+import { perchName, type ShelterSeat } from '../../model/perch';
+import { isSeat } from '../../model/perch-room';
 import { pinholeOf } from '../../model/pinhole';
-import { mulberry32, nextSeed } from '../../model/random';
-import type { ShelterSeat } from '../../model/shelter';
-import { SHELTER_SEATS } from '../../model/shelter-seats';
 import { SPROUT_MS } from '../../model/planted';
+import { mulberry32, nextSeed } from '../../model/random';
+import { SHELTER_SEATS } from '../../model/shelter-seats';
 import { airAlofts, airSpots, clumpRow } from './air-spots';
 import { bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
 import { flowersOf } from './flower-plots';
 import { type Stand, WIDEST_SPAN } from './flower-sight';
 import { drawnAloft } from './insect-frame';
-import { meadowLayout } from './layout';
+import { type MeadowLayout, meadowLayout } from './layout';
 import {
   footRows,
   MOST_OVERLAP,
