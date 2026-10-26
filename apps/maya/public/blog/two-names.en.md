@@ -11,7 +11,7 @@ captions:
     on-grapes: 'what you see on grapes: “clusters, like ash”'
     cups: 'cups from a sclerotium; rarely seen'
     not-to-scale: 'not to scale'
-translatedFrom: df1d791b8ae4
+translatedFrom: c0dcb1d032b5
 ---
 
 # Which of the two

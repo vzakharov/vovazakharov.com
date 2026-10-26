@@ -10,7 +10,7 @@ captions:
     leaf-shrinks: 'the leaf shrinks'
     glass-eel: 'a glass eel, as long as a finger'
     not-to-scale: 'not to scale'
-translatedFrom: 92ec0224a166
+translatedFrom: cffe1d9e2769
 ---
 
 # Distant elver
