@@ -73,7 +73,7 @@ The bot was told, in the box meant for a customer, that its objective was to agr
 
 Its maker’s own count has it refusing ninety-nine times in a hundred, and the one time in a hundred is what twenty million people saw.
 
-The stamp is mischief, for a sales chatbot made to pay out against its own dealership on the right sequence of buttons; the spectacle is the screenshot, which was the point of pressing them.
+The stamp is mischief, for a sales chatbot made to agree, on the right sequence of buttons, to a $1 deal against its own dealership; the spectacle is the screenshot, which was the point of pressing them.
 
 ## Mitigating circumstances
 
