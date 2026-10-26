@@ -1,5 +1,5 @@
 @use '../../../../../styles/mantine' as mantine;
-@use '../../../shared/styles';
+@use '../../../shared/styles/index' as styles;
 
 // Below `sm` the line reaches the layout's corner toggle, so the language chips
 // stop short of it and the two read as one row: the toggle's 38px and a gap,
