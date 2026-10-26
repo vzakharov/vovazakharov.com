@@ -41,26 +41,27 @@ which is where every build and every render script is entered.
 there. That is what each render script's `NEXT_PUBLIC_SITE` picks, alongside the
 site directory it is entered in — `scripts/in-site.sh` is what pairs the two, so
 no `package.json` entry spells either out — and `content:pdf` and `content:og`
-are therefore one script per site, while `content:mermaid` is `vova`'s until
-another site authors a diagram.
+therefore take the site as their first argument (`pnpm content:og vova`), each
+running that site's own `src/<site>/scripts/render-{pdf,og}.ts`, while
+`content:mermaid` is `vova`'s until another site authors a diagram.
 
 ```
 public/case-studies/          # one directory per collection, named by its route
   <slug>.md                   # the full document
   <slug>.mini.md              # optional shorter cuts
   <slug>.nano.md
-  <slug>[.<variant>].pdf      # gitignored: a build artifact, from `pnpm content:pdf:<site>`
+  <slug>[.<variant>].pdf      # gitignored: a build artifact, from `pnpm content:pdf <site>`
   pdf-renders.json            # gitignored: each PDF's source-set hash, the render's own cache
   assets/                     # images, data, video
-    <name>.og.png             # committed, produced by `pnpm content:og:<site>`
+    <name>.og.png             # committed, produced by `pnpm content:og <site>`
     og-renders.json           # each card's source hash
 public/generated/
   mermaid/<hash>.light.svg    # committed, produced by `pnpm content:mermaid`
   mermaid/<hash>.dark.svg
 public/cv/
-  <variant>.og.png            # the CV's social cards, produced by `pnpm content:og:vova`
+  <variant>.og.png            # the CV's social cards, produced by `pnpm content:og vova`
   og-renders.json
-  <variant>/<locale>.pdf      # gitignored: a build artifact, from `pnpm content:pdf:vova`
+  <variant>/<locale>.pdf      # gitignored: a build artifact, from `pnpm content:pdf vova`
   <variant>/pdf-renders.json
 ```
 
@@ -246,7 +247,7 @@ collections' documents; the rest is held by reading.
   reports.
 - **A `.pdf` link is unconditional, so in a working tree it usually
   answers 404.** `cvPdfFile()` and the article header both derive it from the
-  route and never ask whether the file is there. Run `pnpm content:pdf:<site>`
+  route and never ask whether the file is there. Run `pnpm content:pdf <site>`
   when you want to look at one — and note that `next build` copies into `out/`
   only whatever happens to be sitting in `public/` at the time, so a local
   export matches the deploy's only if you rendered first.
@@ -256,10 +257,10 @@ collections' documents; the rest is held by reading.
 - **A render and that site's own `pnpm dev` cannot both spawn a server.** Next
   holds `sites/<site>/.next/dev/lock`, so a second `next dev` in the same site
   directory refuses to start. Print from the one already up instead —
-  `pnpm content:pdf:vova --origin http://localhost:3000` — or from a built
+  `pnpm content:pdf vova --origin http://localhost:3000` — or from a built
   export with `--from-out`, which is what the deploy does and the only shape
   that prints exactly what it publishes. The lock is per site, so
-  `pnpm dev:vova` and `pnpm content:pdf:bible` never meet.
+  `pnpm dev vova` and `pnpm content:pdf bible` never meet.
 - **The printed footer takes two mechanisms, because neither holds both
   halves.** `PrintSheet` wraps the article in a presentational table whose
   `<tfoot>` reserves a band at the foot of every page — only a real one does, a
@@ -308,7 +309,7 @@ collections' documents; the rest is held by reading.
   the HTML included — learns what the diagram says and where its source is.
 - **A site whose mark is a vector carries both halves of it.**
   `SITE_CONFIG.avatar.vector` names the SVG every page renders, `avatar.path`
-  the PNG the card unfurls as, and `content:og:<site>` rasterizes the second
+  the PNG the card unfurls as, and `content:og <site>` rasterizes the second
   from the first — the same SVG→PNG step the chart cards take, paired by the
   config rather than by a shared stem, the two cuts of the Bible's seal having
   none. A site that states no `vector` renders its `path` everywhere and the job
@@ -320,7 +321,7 @@ collections' documents; the rest is held by reading.
 - **An Open Graph card is a PNG rendered from an SVG, and both are committed.**
   No major consumer renders an SVG `og:image` — X, Facebook, LinkedIn, Slack and
   iMessage all drop it and fall back to nothing. So `ogImage` names
-  `./assets/<name>.og.png`, `pnpm content:og:<site>` rasterizes it from
+  `./assets/<name>.og.png`, `pnpm content:og <site>` rasterizes it from
   `./assets/<name>.svg`, and `--check` — wired into `vet.sh` — fails when a
   source's hash no longer matches `og-renders.json`. Run it by hand after
   editing a card's SVG and commit the PNG with it. The card's dimensions are
@@ -333,7 +334,7 @@ collections' documents; the rest is held by reading.
     so editing the template, `ava.png`, or any catalogue slice the page reads —
     `cv.header`, `cv.contact`, and the offer block heading that framing's
     `OFFER_BLOCKS` list — re-flags both cards, and the same
-    `pnpm content:og:vova` renders them. English only: a `ru` card would double
+    `pnpm content:og vova` renders them. English only: a `ru` card would double
     the committed weight for the secondary surface, and the localized
     `og:description` already says which language the reader got.
   - **basilisk.fyi's site card is generated the same way**, by

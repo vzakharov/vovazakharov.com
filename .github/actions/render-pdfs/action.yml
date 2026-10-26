@@ -30,7 +30,7 @@ runs:
         key: pdf-${{ inputs.site }}-${{ github.sha }}
         restore-keys: pdf-${{ inputs.site }}-
 
-    # The site's own entry by path rather than a `content:pdf:<site>` script,
+    # The site's own entry by path rather than a `content:pdf <site>` script,
     # so one call covers every site: a site that prints nothing has no entry,
     # and costs an exit — no browser and no server.
     #

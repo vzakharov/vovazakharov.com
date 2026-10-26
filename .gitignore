@@ -18,7 +18,7 @@
 out/
 
 # Page PDFs are build artifacts: the deploy renders them into out/ after the
-# build, and `pnpm content:pdf:<site>` renders them locally. Their manifests are
+# build, and `pnpm content:pdf <site>` renders them locally. Their manifests are
 # the render's own cache bookkeeping, so they are ignored alongside what they
 # describe. .claude/rules/content.md carries the contract.
 sites/*/public/**/*.pdf

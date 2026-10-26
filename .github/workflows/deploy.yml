@@ -149,7 +149,7 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       - name: Build
-        run: pnpm build:vova
+        run: pnpm build vova
 
       - name: Render page PDFs
         uses: ./.github/actions/render-pdfs
@@ -198,7 +198,7 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       - name: Build
-        run: pnpm build:${{ matrix.site }}
+        run: pnpm build ${{ matrix.site }}
 
       - name: Render page PDFs
         uses: ./.github/actions/render-pdfs

@@ -47,7 +47,7 @@
   "Drive motion from the clock").
 - **Render only what it shoots, and split the build from the run.** With the
   house the run took ~8 minutes, near the tool's ten-minute ceiling, most of it
-  the probe build: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova` and then
+  the probe build: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build vova` and then
   `pnpm play:mushrooms --no-build` as two foreground calls keep each well
   inside. Bite 5's scene agent had each probe `step` draw only its last frame,
   and the run fell to ~2.5 minutes: under a software renderer the drawing, not

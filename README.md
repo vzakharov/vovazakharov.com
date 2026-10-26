@@ -33,12 +33,12 @@ and all of them build from the one `src/`.
 pnpm install
 
 # Run one site's development server — http://localhost:3000
-pnpm dev:vova
-pnpm dev:lsa
-pnpm dev:bible
-pnpm dev:basilisk
+pnpm dev vova
+pnpm dev lsa
+pnpm dev bible
+pnpm dev basilisk
 
-# Build every site for production (pnpm build:<site> for one)
+# Build every site for production (pnpm build <site> for one)
 pnpm build
 ```
 

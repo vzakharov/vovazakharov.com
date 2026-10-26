@@ -73,7 +73,7 @@ cd "$(dirname "$0")/.."
 OUT="sites/$SITE/out"
 
 [ -d "$OUT" ] || {
-  printf 'No %s — run `pnpm build:%s` first.\n' "$OUT" "$SITE" >&2
+  printf 'No %s — run `pnpm build %s` first.\n' "$OUT" "$SITE" >&2
   exit 1
 }
 
