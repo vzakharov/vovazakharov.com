@@ -5,8 +5,7 @@ import { SITE_CONFIG } from '@/kernel/shared/config';
 import { PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { messages } from '@/maya/shared/i18n';
-
+import { messages } from '../i18n';
 import { LEXICON } from '../model/lexicon';
 import { WhisperTypewriter } from './whisper-typewriter';
 

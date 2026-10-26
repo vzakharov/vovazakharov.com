@@ -3,8 +3,7 @@
 import { Stack, Text, Textarea, Title, Tooltip } from '@mantine/core';
 import { useMemo, useState } from 'react';
 
-import type { Messages } from '@/maya/shared/i18n';
-
+import type { Messages } from '../i18n';
 import { fold, overhear, type Stretch } from '../model/hush';
 import {
   type Counted,
