@@ -63,6 +63,7 @@ tree is its ancestors' layers overlaid, plus its own. So:
   "lsa": ["shell"],
   "bible": ["blog"],
   "basilisk": ["blog"],
+  "maya": ["blog"],
   "mushrooms": ["kernel"],
   "vova": ["blog", "music", "mushrooms"]
 }
@@ -77,7 +78,7 @@ the parsed object, and fails naming both apps when a parent comes late.
 
 **An abstract app is earned the way a slice is**: an app with exactly one child
 and nothing of its own mounted by a router is insignificant. Today `kernel` (2
-children), `shell` (2) and `blog` (4) pass; a `game` between `kernel` and
+children), `shell` (2) and `blog` (5) pass; a `game` between `kernel` and
 `mushrooms` waits for a second game.
 
 **A router only says what is shown at which URL.** `sites/<domain>/app/` maps
@@ -215,6 +216,22 @@ stylesheet every layer shares, and a dozen layer calls.
   page shows of one in a language, and the per-fact readers they are built from
   left the barrel.
 
+Slice 5b, the player and music's app layer: vet clean, vova built, the bar
+looked at playing.
+
+- **`music/features/player`** holds the provider, the bar and the controls pages
+  place (`TrackButton`, `SongPlayButton`, `AlbumPlayButton`, `LaunchButtons`),
+  the state and its hooks under `model/`; its rules are `player.module.scss`,
+  cut from `music.module.scss` on the seam, the `fill` mixin both use in
+  `shared/styles`, whose `index.scss` is the segment's public API, as Steiger
+  asks; a sheet `@use`s it by that name, since knip follows no directory.
+- **What the bar and the pages both draw is music's `shared/`**: `Spelling` and
+  `BillingLinks` in `shared/ui`, `duration.ts` in `shared/lib`.
+- **music's app layer** mounts the player (`MusicLayout`), maps an address to a
+  page (`MusicRoute`) and parses the route (`music-route-params.ts`); the page
+  prop types stay the pages', whose barrel exports the five pages and their
+  metadata. vova's router and sitemap enter it.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -243,10 +260,6 @@ those slices carry their own tools along.
   - kernel's `constructMetadata` takes the feed links as an argument, and blog
     has its own that supplies the site's, so no page under blog passes them by
     hand.
-- **5b. The player and music's app layer.** The player — provider, bar, state,
-  hooks and the controls that drive it — becomes a `features/player` slice, and
-  `music-route.tsx`, `music-layout.tsx` and `music-route-params.ts` music's app
-  layer, which leaves the feature two consumers.
 - **5c. Music's pages.** The index, artist, album, song and radio become real
   pages under `music/pages/`, what two of them share dropping to widgets or
   `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with

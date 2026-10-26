@@ -18,7 +18,6 @@ import {
   CATALOGUE_TABS,
   catalogueInfo,
   listSongPages,
-  type MusicAlbum,
   musicAlbumSlugs,
   musicPath,
   type MusicProject,
@@ -29,19 +28,16 @@ import {
   SONGS_SEGMENT,
   tabBySegment,
   tabPath,
-  type WithTab,
 } from '@/music/shared/catalogue';
+import type {
+  AlbumPageProps,
+  ArtistPageProps,
+  IndexPageProps,
+  SongPageProps,
+} from '@/music/pages/music';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };
-
-export type IndexPageProps = WithLocale & WithTab;
-
-export type ArtistPageProps = WithLocale & { artist: MusicProject };
-
-export type AlbumPageProps = WithLocale & { album: MusicAlbum };
-
-export type SongPageProps = WithLocale & Slugged;
 
 /** Which page an address resolves to, and in which language. */
 export type MusicAddress =

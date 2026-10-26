@@ -2,6 +2,9 @@ import 'server-only';
 
 import type { Locale } from '@/kernel/shared/i18n';
 
+import { messages } from '@/music/shared/i18n';
+import { type AheadCounts, catalogueSize } from '@/music/shared/lib/duration';
+
 import { type AlbumTrack, albumTracks } from './album-tracks.ts';
 import { albumArtist, albumCover, albumGloss, albumTitle } from './albums.ts';
 import { projectGloss, projectName } from './artists.ts';
@@ -62,21 +65,25 @@ export type AlbumInfo = CatalogueEntry & {
   wip: string | undefined;
 };
 
+/** Its header's size line — `21 songs`, `1 hour 12 minutes` — one part per fact. */
+type WithSizeLine = { size: string[] };
+
 /** An album with what the catalogue's songs say of it besides. */
-type CatalogueAlbum = AlbumInfo & {
-  kind: ReleaseKind;
-  /** `2019`, or `2019–2021`. */
-  years: string;
-  /** What its tile says under its name. */
-  detail: string[];
-  tracks: Array<AlbumTrack<SongDocument>>;
-};
+type CatalogueAlbum = AlbumInfo &
+  WithSizeLine & {
+    kind: ReleaseKind;
+    /** `2019`, or `2019–2021`. */
+    years: string;
+    /** What its tile says under its name. */
+    detail: string[];
+    tracks: Array<AlbumTrack<SongDocument>>;
+  };
 
 /** The cover a page or a tile is pictured by, where it has one. */
 type Pictured = { picture: string | undefined };
 
 /** An artist with what the catalogue's songs say of it besides. */
-type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks;
+type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks & WithSizeLine;
 
 /** `track.routes` is the song's page in each language. */
 export type SongInfo = WithSpelledTitle &
@@ -121,24 +128,41 @@ export type CatalogueInfo = {
   artists: MusicProject[];
   /** Newest first. */
   albums: MusicAlbum[];
+  /** The whole catalogue's size line. */
+  size: (locale: Locale) => string[];
   album: (album: MusicAlbum, locale: Locale) => CatalogueAlbum;
   artist: (artist: MusicProject, locale: Locale) => CatalogueArtist;
 };
 
 export function catalogueInfo(): CatalogueInfo {
   const songs = catalogueSongs();
+  const artists = catalogueArtists(songs);
+  const albums = newestAlbums(songs);
 
   return {
     songs,
-    artists: catalogueArtists(songs),
-    albums: newestAlbums(songs),
-    album: (album, locale) => ({
-      ...albumInfo(album, locale),
-      kind: albumKind(album, songs),
-      years: albumYears(album, songs),
-      detail: albumDetail(album, locale, songs),
-      tracks: albumTracks(album, songs),
-    }),
+    artists,
+    albums,
+    size: (locale) =>
+      sizeLine(songs, locale, {
+        artists: artists.length,
+        albums: albums.length,
+      }),
+    album: (album, locale) => {
+      const tracks = albumTracks(album, songs);
+
+      return {
+        ...albumInfo(album, locale),
+        kind: albumKind(album, songs),
+        years: albumYears(album, songs),
+        detail: albumDetail(album, locale, songs),
+        tracks,
+        size: sizeLine(
+          tracks.map(({ song }) => song),
+          locale,
+        ),
+      };
+    },
     artist: (artist, locale) => {
       const works = artistWorks(artist, locale, songs);
 
@@ -146,9 +170,24 @@ export function catalogueInfo(): CatalogueInfo {
         ...artistInfo(artist, locale),
         ...works,
         picture: artistPicture(works),
+        size: sizeLine(works.billed, locale, {
+          albums: works.discography.albums.length,
+        }),
       };
     },
   };
+}
+
+function sizeLine(
+  songs: readonly SongDocument[],
+  locale: Locale,
+  ahead: AheadCounts = {},
+): string[] {
+  return catalogueSize(
+    { ...ahead, seconds: songs.map(({ frontmatter }) => frontmatter.seconds) },
+    locale,
+    messages(locale).size,
+  );
 }
 
 /** The song as the page on `album` shows it. */

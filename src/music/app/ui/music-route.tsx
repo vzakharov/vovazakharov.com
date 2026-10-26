@@ -1,14 +1,17 @@
 import {
+  AlbumPage,
+  ArtistPage,
   generateAlbumMetadata,
   generateArtistMetadata,
   generateMusicMetadata,
-} from '../lib/music-metadata';
+  generateRadioMetadata,
+  generateSongMetadata,
+  MusicPage,
+  RadioPage,
+  SongPage,
+} from '@/music/pages/music';
+
 import type { MusicAddress } from '../lib/music-route-params';
-import { AlbumPage } from './album-page';
-import { ArtistPage } from './artist-page';
-import { MusicPage } from './music-page';
-import { generateRadioMetadata, RadioPage } from './radio-page';
-import { generateSongMetadata, SongPage } from './song-page';
 
 export type MusicRouteProps = { address: MusicAddress };
 

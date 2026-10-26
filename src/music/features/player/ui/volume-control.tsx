@@ -21,8 +21,8 @@ import { cx } from '@/kernel/shared/lib/class-names';
 
 import { hasLossless } from '@/music/shared/catalogue/index.node-safe';
 
-import { useStoredSetting, type WithVolume } from '../lib/use-stored-setting';
-import classes from './music.module.scss';
+import { useStoredSetting, type WithVolume } from '../model/use-stored-setting';
+import classes from './player.module.scss';
 import { usePlayer } from './player-provider';
 
 let volumeSettable = true;

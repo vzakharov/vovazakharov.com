@@ -30,9 +30,11 @@ import {
   songRepositoryUrl,
 } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
+import { Spelling } from '@/music/shared/ui';
+import { SongPlayButton } from '@/music/features/player';
 
 import { listenTitle } from '../lib/music-metadata';
-import type { SongPageProps } from '../lib/music-route-params';
+import type { SongPageProps } from '../lib/page-props';
 import { songDownloads } from '../lib/song-downloads';
 import { songVideo } from '../lib/song-video';
 import { CoverHead } from './cover-head';
@@ -42,9 +44,7 @@ import { Lyrics } from './lyrics';
 import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
-import { SongPlayButton } from './song-play-button';
 import { SongVideoButton } from './song-video-button';
-import { Spelling } from './spelling';
 import { Story } from './story';
 import { TitleGlossLine } from './title-gloss-line';
 

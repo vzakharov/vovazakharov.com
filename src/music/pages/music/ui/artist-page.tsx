@@ -17,8 +17,7 @@ import {
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 
-import { catalogueSize } from '../lib/duration';
-import type { ArtistPageProps } from '../lib/music-route-params';
+import type { ArtistPageProps } from '../lib/page-props';
 import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueHeader } from './catalogue-header';
 import { HookLine } from './hook-line';
@@ -39,6 +38,7 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
     text,
     discography: { albums, singles },
     billed,
+    size,
   } = catalogue.artist(artist, locale);
   const albumTiles = albums.map((album) => {
     const { detail, ...tile } = catalogue.album(album, locale);
@@ -81,15 +81,7 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
         <CatalogueHeader
           kind={copy.kind.artist}
           title={name}
-          {...{ gloss }}
-          size={catalogueSize(
-            {
-              albums: albums.length,
-              seconds: billed.map(({ frontmatter }) => frontmatter.seconds),
-            },
-            locale,
-            copy.size,
-          )}
+          {...{ gloss, size }}
           {...pick(text, 'markdown')}
         >
           <HookLine>{text.hook}</HookLine>

@@ -9,14 +9,14 @@ import { cx } from '@/kernel/shared/lib/class-names';
 
 import { NameLink } from '@/shell/shared/ui';
 
-import { formatDuration } from '../lib/duration';
-import { useStoredSetting } from '../lib/use-stored-setting';
-import { BillingLinks } from './billing-links';
+import { formatDuration } from '@/music/shared/lib/duration';
+import { BillingLinks, Spelling } from '@/music/shared/ui';
+
+import { useStoredSetting } from '../model/use-stored-setting';
 import { Marquee } from './marquee';
-import classes from './music.module.scss';
+import classes from './player.module.scss';
 import { usePlayer } from './player-provider';
 import { RadioToggle } from './radio-toggle';
-import { Spelling } from './spelling';
 import { VolumeControl } from './volume-control';
 
 /**

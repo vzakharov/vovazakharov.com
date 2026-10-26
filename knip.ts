@@ -28,6 +28,12 @@ export default {
   // SCSS is in: knip follows `@use` and `@forward`, so a stylesheet nothing reaches
   // is reported like any other file.
   project: ['**/*.{ts,tsx,mjs,scss}'],
+  // knip expands a `pnpm <script> <args>` spawned from a source file and resolves
+  // the script's local binary against that file's directory, ignoring the spawn's
+  // `cwd`; pnpm runs it from the repository root, where this one exists.
+  // `play-mushrooms.ts` builds through `pnpm build vova`. knip's configuration
+  // hints report the entry once nothing needs it.
+  ignoreUnresolved: ['scripts/site-task.sh'],
   ignoreDependencies: [
     // Imported only by the declarations `@feature-sliced/steiger-plugin` ships;
     // without it every type they carry reads as `any` (f00deba).

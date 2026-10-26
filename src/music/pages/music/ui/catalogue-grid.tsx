@@ -12,10 +12,10 @@ import type {
   Spelled,
   SpelledLink,
 } from '@/music/shared/catalogue/index.node-safe';
+import { Spelling } from '@/music/shared/ui';
 
 import { tileHue } from '../lib/tile-hue';
 import classes from './music.module.scss';
-import { Spelling } from './spelling';
 import { WipMark, type WipNoted } from './wip-mark';
 
 /**

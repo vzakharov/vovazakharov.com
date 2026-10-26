@@ -1,1 +1,1 @@
-export { MusicLayout as default } from '@/music/pages/music';
+export { MusicLayout as default } from '@/music/app/ui';

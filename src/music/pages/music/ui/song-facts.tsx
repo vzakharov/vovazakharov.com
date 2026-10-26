@@ -17,10 +17,10 @@ import {
   type SpelledLink,
 } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
+import { formatDuration } from '@/music/shared/lib/duration';
+import { Spelling } from '@/music/shared/ui';
 
-import { formatDuration } from '../lib/duration';
 import { FactLine } from './fact-line';
-import { Spelling } from './spelling';
 
 export type SongFactsProps = SongOnRelease & WithLocale;
 

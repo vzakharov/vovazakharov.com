@@ -1,12 +1,11 @@
 import type { WithParams } from '@/kernel/shared/typings';
 
 import {
-  generateMusicRouteMetadata,
-  MusicRoute,
   musicSegmentParams,
   parseMusicSegments,
   type WithOptionalMusicSegments,
-} from '@/music/pages/music';
+} from '@/music/app/lib';
+import { generateMusicRouteMetadata, MusicRoute } from '@/music/app/ui';
 
 type Props = WithParams<WithOptionalMusicSegments>;
 

@@ -26,7 +26,7 @@ import type {
   AlbumPageProps,
   ArtistPageProps,
   IndexPageProps,
-} from './music-route-params';
+} from './page-props';
 
 /**
  * A catalogue page, in one language, deferring to the addressed one as the

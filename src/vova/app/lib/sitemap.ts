@@ -1,7 +1,7 @@
 import { PAGE_ROUTES } from '@/kernel/shared/config';
 import { sitemap as collectionSitemap } from '@/kernel/app/lib';
 
-import { musicCatalogueRoutes } from '@/music/pages/music';
+import { musicCatalogueRoutes } from '@/music/app/lib';
 
 import { cvRoutes } from '@/vova/pages/cv';
 

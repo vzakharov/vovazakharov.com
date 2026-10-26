@@ -12,16 +12,14 @@ import { InternalButton, NameLink } from '@/shell/shared/ui';
 import type { HookRun } from '@/music/shared/catalogue';
 import type { SpelledLink } from '@/music/shared/catalogue/index.node-safe';
 import type { Messages } from '@/music/shared/i18n';
+import { BillingLinks, Spelling } from '@/music/shared/ui';
+import { stationOffset, usePlayer } from '@/music/features/player';
 
-import { stationOffset } from '../lib/station';
-import { BillingLinks } from './billing-links';
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
 import { HookRuns } from './hook-runs';
 import { NotedSpan } from './noted-span';
-import { usePlayer } from './player-provider';
 import classes from './radio.module.scss';
 import { RadioDial } from './radio-dial';
-import { Spelling } from './spelling';
 
 /** What the page shows beside a song, resolved at build for every one the radio may play. */
 export type OnAirExtras = {

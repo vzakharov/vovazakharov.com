@@ -4,7 +4,7 @@ import { NameLink, SUBHEADING_GAP } from '@/shell/shared/ui';
 
 import { CATALOGUE_TABS, tabLabels, tabPath } from '@/music/shared/catalogue';
 
-import type { IndexPageProps } from '../lib/music-route-params';
+import type { IndexPageProps } from '../lib/page-props';
 
 /**
  * The index's heading, naming what it lists, beside the other two lists it can
