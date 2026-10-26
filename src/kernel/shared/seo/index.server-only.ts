@@ -1,5 +1,6 @@
 export {
-  constructArticleMetadata,
   constructMetadata,
+  type ConstructMetadataParams,
+  type FeedLink,
   localizedAddresses,
 } from './construct-metadata';

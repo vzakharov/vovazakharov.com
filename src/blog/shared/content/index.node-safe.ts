@@ -5,10 +5,16 @@
 
 export {
   collectionDir,
+  type CollectionId,
+  COLLECTIONS,
+  collectionsForSite,
   documentRoute,
   isDocumentFile,
-  PUBLIC_DIR,
-  type Routed,
   type Slugged,
 } from './collections.ts';
-export { contentHash } from './content-hash.ts';
+export {
+  COLOR_SCHEMES,
+  type ColorScheme,
+  MERMAID_DIR,
+  mermaidFileName,
+} from './mermaid-renders.ts';

@@ -1,5 +1,4 @@
-import { articleCollection } from '@/kernel/shared/content';
-
+import { articleCollection } from '@/blog/shared/content';
 import { articleRoute } from '@/blog/pages/documents';
 
 const { Page, generateMetadata, generateStaticParams } = articleRoute(

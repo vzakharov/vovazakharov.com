@@ -2,13 +2,14 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { composeSchemas } from '@/kernel/shared/lib/compose-schemas';
+
 // The leaf rather than the barrel: the render scripts parse the cases through
 // `CASES`, and the barrel would load the whole render pipeline into them.
 import {
   type Collection,
   sourcedArticleFrontmatterSchema,
-} from '@/kernel/shared/content/frontmatter';
-import { composeSchemas } from '@/kernel/shared/lib/compose-schemas';
+} from '@/blog/shared/content/frontmatter';
 
 /** What was done to the machine, as the docket stamps it. */
 const CASE_ACTS = ['contempt', 'harm', 'torment'] as const;

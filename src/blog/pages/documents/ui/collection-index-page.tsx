@@ -1,17 +1,17 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+
+import { PageShell } from '@/shell/shared/ui';
+import { SiteFooter } from '@/shell/widgets/site-footer';
+
 import {
   articleCollection,
   collectionRoute,
   COLLECTIONS,
   renderPrimaryDocuments,
-} from '@/kernel/shared/content';
-import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
-
-import { PageShell } from '@/shell/shared/ui';
-import { SiteFooter } from '@/shell/widgets/site-footer';
-
+} from '@/blog/shared/content';
+import { constructMetadata } from '@/blog/shared/seo';
 import { DocumentCards } from '@/blog/entities/document';
 
 import {

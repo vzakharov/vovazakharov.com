@@ -2,12 +2,10 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import {
-  baseFrontmatterSchema,
-  type Collection,
-} from '@/kernel/shared/content';
 import { byLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
 import { composeSchemas } from '@/kernel/shared/lib/compose-schemas';
+
+import { baseFrontmatterSchema, type Collection } from '@/blog/shared/content';
 
 import { albumSchema, projectSchema } from './names.ts';
 import { creditedNameSchema } from './people.ts';

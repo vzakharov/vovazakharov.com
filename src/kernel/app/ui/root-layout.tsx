@@ -6,20 +6,28 @@ import {
   SITE_CONFIG,
   withoutScheme,
 } from '@/kernel/shared/config';
-import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
+import {
+  constructMetadata,
+  type FeedLink,
+} from '@/kernel/shared/seo/index.server-only';
 
 /**
- * What every route without metadata of its own — `/` — publishes. Reaches Next
- * only through `app/layout.tsx`'s re-export, as each page's does through its
- * route module: a `metadata` this file exports and the route does not is never
- * read.
+ * What every route without metadata of its own — `/` — publishes, advertising
+ * `feeds`. Reaches Next only through `app/layout.tsx`'s re-export, as each
+ * page's does through its route module: a `metadata` this file exports and the
+ * route does not is never read.
  */
-export const rootMetadata: Metadata = {
-  metadataBase: new URL(SITE_CONFIG.url),
-  // Through the helper, not beside it: the spread carries every key the
-  // helper knows, so a `title` set here would be overwritten with undefined.
-  ...constructMetadata({ title: SITE_CONFIG.name }),
-};
+export function constructRootMetadata(feeds?: readonly FeedLink[]): Metadata {
+  return {
+    metadataBase: new URL(SITE_CONFIG.url),
+    // Through the helper, not beside it: the spread carries every key the
+    // helper knows, so a `title` set here would be overwritten with undefined.
+    ...constructMetadata({ title: SITE_CONFIG.name }, feeds),
+  };
+}
+
+/** The root metadata of a site that publishes no feed. */
+export const rootMetadata = constructRootMetadata();
 
 /**
  * The document every site renders, bare as the game takes it; a layout

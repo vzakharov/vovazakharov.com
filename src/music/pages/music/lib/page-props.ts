@@ -1,5 +1,6 @@
-import type { Slugged } from '@/kernel/shared/content';
 import type { WithLocale } from '@/kernel/shared/i18n';
+
+import type { Slugged } from '@/blog/shared/content';
 
 import type {
   MusicAlbum,

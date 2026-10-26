@@ -1,6 +1,11 @@
 import { Group } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+import { cx } from '@/kernel/shared/lib/class-names';
+import type { WithOptionalClassName } from '@/kernel/shared/typings';
+
+import { NameLink } from '@/shell/shared/ui';
+
 import {
   type ArticleFrontmatter,
   AUTHORS,
@@ -8,12 +13,7 @@ import {
   formatDocumentDate,
   type WithFrontmatter,
   type WithReadingMinutes,
-} from '@/kernel/shared/content';
-import { cx } from '@/kernel/shared/lib/class-names';
-import type { WithOptionalClassName } from '@/kernel/shared/typings';
-
-import { NameLink } from '@/shell/shared/ui';
-
+} from '@/blog/shared/content';
 import { messages } from '@/blog/shared/i18n';
 
 import classes from './document-meta.module.scss';

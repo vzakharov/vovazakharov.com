@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
 
-import { documentMonth, formatDocumentMonth } from '@/kernel/shared/content';
 import type { WithLocale } from '@/kernel/shared/i18n';
 
 import { NameLink } from '@/shell/shared/ui';
+
+import { documentMonth, formatDocumentMonth } from '@/blog/shared/content';
 
 import {
   albumInfo,

@@ -8,7 +8,7 @@
 import path from 'node:path';
 
 import { siteConfig } from '@/kernel/shared/config';
-import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 
 import {
   artistCollage,
@@ -27,9 +27,9 @@ import {
   type MusicCollageOptions,
 } from './music-collage.ts';
 
-import { RENDERED_SITE } from '@/kernel/scripts/lib/content-tree';
 import { generatedCard, type OgBundle } from '@/kernel/scripts/lib/og-job';
 import type { Card } from '@/kernel/scripts/lib/og-render';
+import { RENDERED_SITE } from '@/kernel/scripts/lib/site-tree';
 
 function collageCard(
   covers: readonly string[],

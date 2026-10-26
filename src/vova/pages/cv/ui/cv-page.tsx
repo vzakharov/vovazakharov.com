@@ -1,4 +1,4 @@
-import { FEATURED_CASE_STUDY_ROUTE } from '@/kernel/shared/content';
+import { FEATURED_CASE_STUDY_ROUTE } from '@/blog/shared/content';
 
 import { cvPdfFile } from '../lib/cv-files';
 import { cvMessages } from '../lib/cv-messages';

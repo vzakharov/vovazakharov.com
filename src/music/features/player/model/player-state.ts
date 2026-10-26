@@ -1,5 +1,6 @@
-import type { Slugged } from '@/kernel/shared/content';
 import type { Seeded } from '@/kernel/shared/typings';
+
+import type { Slugged } from '@/blog/shared/content';
 
 import type { Playable } from '@/music/shared/catalogue';
 

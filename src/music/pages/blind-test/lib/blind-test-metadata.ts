@@ -1,5 +1,6 @@
 import { SITE_CONFIG } from '@/kernel/shared/config';
-import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
+
+import { constructMetadata } from '@/blog/shared/seo';
 
 /** Linked from nowhere and kept out of the sitemap and the index: a tool for the author, not a page for readers. */
 const BLIND_TEST_PATH = '/music/mastering-blind-test';

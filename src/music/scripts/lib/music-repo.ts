@@ -32,7 +32,7 @@ import {
 } from './music-github.ts';
 import { API_BLOB_LIMIT, relayCommit } from './music-relay.ts';
 
-import { REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
 
 /** Where the clones live, each replaced by the next run on its repository. */
 export const MUSIC_WORK_DIR = path.join(REPO_ROOT, 'tmp', 'music-tag');

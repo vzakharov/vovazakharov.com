@@ -41,25 +41,21 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { siteConfig } from '@/kernel/shared/config';
-import {
-  contentHash,
-  isDocumentFile,
-  PUBLIC_DIR,
-  type Routed,
-} from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
+import type { Routed } from '@/kernel/shared/typings';
 
+import { isDocumentFile } from '@/blog/shared/content/index.node-safe';
+
+import {
+  CONTENT_DIRS,
+  contentFiles,
+  PRINTABLE_CONTENT_DIRS,
+} from './content-tree.ts';
 import { sameRender } from './same-render.ts';
 
 import { flag, given } from '@/kernel/scripts/lib/argv';
 import { findChromium } from '@/kernel/scripts/lib/chromium';
-import {
-  CONTENT_DIRS,
-  contentFiles,
-  filesUnder,
-  PRINTABLE_CONTENT_DIRS,
-  RENDERED_SITE,
-  REPO_ROOT,
-} from '@/kernel/scripts/lib/content-tree';
 import {
   type PrintOrigin,
   withPrintOrigin,
@@ -69,6 +65,11 @@ import {
   type Renderable,
   runRenderJob,
 } from '@/kernel/scripts/lib/render-manifest';
+import {
+  filesUnder,
+  RENDERED_SITE,
+  REPO_ROOT,
+} from '@/kernel/scripts/lib/site-tree';
 
 /** A document's PDF, and the route the dev server renders it from. */
 export type Printable = Renderable & Routed;
@@ -104,7 +105,7 @@ const DOCUMENT_SOURCES = [
   'src/shell/app/styles/prose.scss',
   'src/blog/entities/document',
   'src/blog/pages/documents/ui',
-  'src/kernel/shared/content',
+  'src/blog/shared/content',
 ];
 
 /**
@@ -359,7 +360,7 @@ export async function printAll(stale: Printable[]): Promise<void> {
  * the content tree, under `manifestDirs`; `onRendered` runs after a render that
  * wrote.
  */
-export type PdfOptions = ManifestRoots & {
+export type PdfOptions = Partial<ManifestRoots> & {
   documentSources?: string[];
   documentFiles?: (route: string) => string[];
   printables?: Printable[];

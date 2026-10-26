@@ -6,9 +6,13 @@ import path from 'node:path';
 
 import { pageFile, type SiteId } from '@/kernel/shared/config';
 import type { WithOptionalLocale } from '@/kernel/shared/i18n';
-import { routeCardPath } from '@/kernel/shared/seo';
+import {
+  routeCardPath,
+  type WithOptionalOgImageSize,
+} from '@/kernel/shared/seo';
 import type {
   DocumentFile,
+  Routed,
   Sized,
   Sourced,
   WithFileName,
@@ -24,7 +28,6 @@ import {
   type DocumentRef,
   documentRoute,
   isDocumentFile,
-  type Routed,
   type Variant,
   VARIANTS,
   type WithCollectionId,
@@ -36,10 +39,7 @@ import {
   type FrontmatterReader,
   type WithFrontmatter,
 } from './frontmatter';
-import {
-  intrinsicDimensions,
-  type WithOptionalOgImageSize,
-} from './image-dimensions';
+import { intrinsicDimensions } from './image-dimensions';
 
 /** An address, and the one language it is in where it is in one. */
 export type LocaleRouted = Routed & WithOptionalLocale;

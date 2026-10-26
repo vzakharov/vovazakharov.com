@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
-/** agentic.bible's Open Graph cards: the core's alone. `src/kernel/scripts/lib/og-job.ts` carries the contract. */
+/** agentic.bible's Open Graph cards: blog's alone. `src/blog/scripts/lib/og-job.ts` carries the contract. */
 
-import { renderOgCards } from '@/kernel/scripts/lib/og-job';
+import { renderDocumentOgCards } from '@/blog/scripts/lib/og-job';
 
-await renderOgCards();
+await renderDocumentOgCards();

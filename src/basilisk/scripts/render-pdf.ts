@@ -7,7 +7,7 @@
 
 import fs from 'node:fs';
 
-import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 
 import { caseSealSources } from '@/basilisk/entities/case/index.node-safe';
 

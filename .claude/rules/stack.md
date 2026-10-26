@@ -136,8 +136,8 @@ Twenty things about that list are deliberate:
 - **The song checks run only when the branch changes a song or the checks
   themselves**, a song's verdict being its own file's.
   `src/music/scripts/vet-songs.sh` gates `pnpm check:masked-words` — the same
-  text nodes, through the same `src/kernel/scripts/lib/public-markdown.ts`, for
-  a word masked with asterisks — `pnpm check:song-titles`, and
+  text nodes, through the same `src/blog/scripts/lib/public-markdown.ts`, for a
+  word masked with asterisks — `pnpm check:song-titles`, and
   `pnpm check:stanza-repeats` on the branch's diff, which
   `src/kernel/scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
   there as well, which regenerates `docs/music/untold-songs.md` and, like the

@@ -2,15 +2,15 @@ import { Box, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
 import { SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
-import {
-  articleCollection,
-  findFeed,
-  renderPrimaryDocuments,
-} from '@/kernel/shared/content';
 
 import { PageShell, Section } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
+import {
+  articleCollection,
+  findFeed,
+  renderPrimaryDocuments,
+} from '@/blog/shared/content';
 import { DocumentCards } from '@/blog/entities/document';
 
 import { SealMark } from './seal-mark';

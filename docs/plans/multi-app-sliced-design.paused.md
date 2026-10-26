@@ -232,6 +232,36 @@ looked at playing.
   prop types stay the pages', whose barrel exports the five pages and their
   metadata. vova's router and sitemap enter it.
 
+Collections into blog (review on #169): typecheck, lint, Steiger, `check:masd`,
+knip, the tests and every render's `--check` clean; bible, lsa and vova built.
+kernel imports nothing of blog's.
+
+- **`blog/shared/content`** is the old `kernel/shared/content`. What names no
+  collection stayed kernel's: `PUBLIC_DIR` and `GENERATED_DIR`
+  (`shared/config/public-dir.ts`, node-safe barrel only),
+  `shared/lib/content-hash.ts`, `WithOptionalOgImageSize` in `shared/seo`'s
+  `og-card.ts`, `Routed` in `shared/typings`.
+- **kernel's factories take what names a collection from outside**: `sitemap` a
+  thunk of pages beside `/`, `constructMetadata` the feeds to advertise, and
+  `constructRootMetadata` the same for `/`. blog's app layer holds the
+  collection `sitemap`, `collectionFeed` and a `rootMetadata` advertising the
+  site's feeds, which every blog site's layouts and vova's `global-not-found`
+  take; `blog/shared/seo` holds a `constructMetadata` supplying the feeds and
+  `constructArticleMetadata`, which every page under blog calls. mushrooms calls
+  kernel's, so `/mushrooms` advertises no feed; lsa, serving no collection,
+  keeps kernel's sitemap and root metadata.
+- **Scripts**: kernel's `site-tree.ts` (`REPO_ROOT`, `RENDERED_SITE`,
+  `filesUnder`) and blog's `content-tree.ts` (the collection roots and
+  `contentFiles`); `read-collection`, `heading-title`, `public-markdown`,
+  `check-prose-quotes` and `render-mermaid` are blog's. kernel's `og-job` keeps
+  the mechanism and the site card, exporting `svgCard`; blog's `og-job.ts` adds
+  the chart cards and the content tree's manifest roots in
+  `renderDocumentOgCards`, which every printing site calls, and `entryCards`
+  makes maya's and basilisk's card per entry. `ManifestRoots.manifestDirs` is
+  required. blog's scripts enter `shared/content` through its node-safe barrel,
+  which holds the registry and the mermaid paths, so kernel's three entries in
+  the grandfathered block went and none of blog's joined it.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -242,24 +272,6 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **Collections into blog** (review on #169). Only blog and its descendants read
-  the collection registry; kernel holds it because its own sitemap, feed and
-  metadata factories do. Those take what they need from outside, and
-  `kernel/shared/content` moves to `blog/shared/content`, which kernel no longer
-  imports:
-  - kernel keeps `PUBLIC_DIR` (`shared/config`) and `contentHash`
-    (`shared/lib`), which name no collection, for `og-job` and the rest;
-  - kernel's `sitemap(routes)` takes only the routes it is given, and blog's app
-    layer adds the collections' — vova calls blog's with the CV's and music's
-    routes, lsa kernel's;
-  - `collectionFeed` moves to blog's app layer, and `render-mermaid`,
-    `content-tree`, `read-collection` and `public-markdown` to blog's scripts,
-    where maya's and basilisk's `render-og.ts` give up their identical
-    one-card-per-entry block (at `routeCardPath(documentRoute(…))`, where
-    `resolveOgImage` looks) for one helper beside them;
-  - kernel's `constructMetadata` takes the feed links as an argument, and blog
-    has its own that supplies the site's, so no page under blog passes them by
-    hand.
 - **5c. Music's pages.** The index, artist, album, song and radio become real
   pages under `music/pages/`, what two of them share dropping to widgets or
   `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with
@@ -309,8 +321,12 @@ those slices carry their own tools along.
   adding to `<html>` and `<head>` through its `htmlProps` and `head`; the
   mushrooms layout is kernel's as it stands. No layout restates the document.
 - **One address registry.** `MUSIC_ROUTE` sits with `COLLECTIONS` and
-  `collectionRoute` in kernel instead of a second map of mount points; the
-  router's folders and these constants still agree by hand, which #86 is about.
+  `collectionRoute` in blog's `shared/content` instead of a second map of mount
+  points; the router's folders and these constants still agree by hand, which
+  #86 is about.
+- **blog wraps kernel's factories rather than copying them.** Its `sitemap`,
+  `constructMetadata` and `rootMetadata` each hand kernel's what the collections
+  add, so the URL, metadata and card logic stays in one place.
 - **One render core per kind.** kernel's `og-job.ts` and blog's `print-job.ts`
   run the whole job; a site's entry passes only what is its own, and
   `ManifestRoots` in `render-manifest.ts` is the one declaration of the roots

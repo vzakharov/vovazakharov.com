@@ -1,8 +1,9 @@
 import 'server-only';
 
-import type { ContentDocument } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
+
+import type { ContentDocument } from '@/blog/shared/content';
 
 import type {
   ScriptKept,

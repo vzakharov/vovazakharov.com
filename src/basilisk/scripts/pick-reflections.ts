@@ -8,14 +8,15 @@
 
 import path from 'node:path';
 
-import { collectionDir } from '@/kernel/shared/content/index.node-safe';
+import { collectionDir } from '@/blog/shared/content/index.node-safe';
 
 import { CASES } from '@/basilisk/shared/content';
 
 import { pickReflections } from './lib/reflection-pick.ts';
 
-import { contentFiles, REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
-import { readCollection } from '@/kernel/scripts/lib/read-collection';
+import { contentFiles } from '@/blog/scripts/lib/content-tree';
+import { readCollection } from '@/blog/scripts/lib/read-collection';
+import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
 
 const COUNT = 4;
 

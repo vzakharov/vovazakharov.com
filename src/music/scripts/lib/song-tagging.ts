@@ -25,10 +25,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import {
-  collectionDir,
-  PUBLIC_DIR,
-} from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+
+import { collectionDir } from '@/blog/shared/content/index.node-safe';
 
 import {
   readTagManifest,

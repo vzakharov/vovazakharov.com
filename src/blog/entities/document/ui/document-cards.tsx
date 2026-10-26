@@ -2,16 +2,16 @@ import { Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+import { cx } from '@/kernel/shared/lib/class-names';
+
+import { Card, NameLink, TextLink } from '@/shell/shared/ui';
+
 import {
   type ArticleFrontmatter,
   type DocumentCard,
   documentRoute,
   type WithCollectionId,
-} from '@/kernel/shared/content';
-import { cx } from '@/kernel/shared/lib/class-names';
-
-import { Card, NameLink, TextLink } from '@/shell/shared/ui';
-
+} from '@/blog/shared/content';
 import { messages } from '@/blog/shared/i18n';
 
 import classes from './document-cards.module.scss';

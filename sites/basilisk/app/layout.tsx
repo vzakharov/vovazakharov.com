@@ -1,4 +1,2 @@
-export {
-  RootLayout as default,
-  rootMetadata as metadata,
-} from '@/shell/app/ui';
+export { rootMetadata as metadata } from '@/blog/app/lib';
+export { RootLayout as default } from '@/shell/app/ui';

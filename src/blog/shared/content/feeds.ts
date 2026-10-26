@@ -9,14 +9,13 @@ import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { feedHtml } from '@/kernel/shared/lib/feed-html';
 import type { RssPodcast, UnlinkedRssItem } from '@/kernel/shared/lib/rss';
-import type { Titled } from '@/kernel/shared/typings';
+import type { Routed, Titled } from '@/kernel/shared/typings';
 
 import {
   type CollectionId,
   COLLECTIONS,
   collectionsForSite,
   feedRoutes,
-  type Routed,
   type WithCollectionId,
 } from './collections';
 import type { LocaleRouted } from './documents';

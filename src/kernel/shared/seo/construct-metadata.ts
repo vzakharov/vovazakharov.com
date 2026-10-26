@@ -2,15 +2,13 @@ import 'server-only';
 
 import type { Metadata } from 'next';
 
-import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
-import {
-  type BaseFrontmatter,
-  type ContentDocument,
-  listFeeds,
-  type WithOptionalOgImageSize,
-} from '@/kernel/shared/content';
+import { getAbsoluteUrl, SITE_CONFIG } from '@/kernel/shared/config';
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/kernel/shared/i18n';
-import type { Described, MaybeTitled } from '@/kernel/shared/typings';
+import type { WithOptionalOgImageSize } from '@/kernel/shared/seo';
+import type { MaybeTitled, Routed, Titled } from '@/kernel/shared/typings';
+
+/** A feed a page advertises, by its site-root route. */
+export type FeedLink = Routed & Titled;
 
 /** Open Graph's tag for each language, which takes a region where BCP-47 needs none. */
 const OG_LOCALES: Record<Locale, string> = { en: 'en_US', ru: 'ru_RU' };
@@ -64,19 +62,27 @@ export function localizedAddresses(
   };
 }
 
-export function constructMetadata({
-  title,
-  description = SITE_CONFIG.tagline,
-  ogDescription,
-  ogTitle,
-  path,
-  canonical,
-  languages,
-  ogType = 'website',
-  ogImage,
-  ogImageSize,
-  hidden = false,
-}: ConstructMetadataParams = {}): Metadata {
+/**
+ * `feeds` go on every page, not only a listing, so a reader handed any of the
+ * site's addresses finds them — which makes them the caller's to supply: the
+ * collections that publish feeds are blog's.
+ */
+export function constructMetadata(
+  {
+    title,
+    description = SITE_CONFIG.tagline,
+    ogDescription,
+    ogTitle,
+    path,
+    canonical,
+    languages,
+    ogType = 'website',
+    ogImage,
+    ogImageSize,
+    hidden = false,
+  }: ConstructMetadataParams = {},
+  feeds: readonly FeedLink[] = [],
+): Metadata {
   const {
     url: siteUrl,
     name: siteName,
@@ -95,10 +101,9 @@ export function constructMetadata({
   // from the caller that read the file. A wrong pair is worse than none.
   const imageDimensions =
     ogImage === undefined ? { width, height } : ogImageSize;
-  // Every page, not only a listing, so a reader handed any of the site's
-  // addresses finds the feeds. Here rather than in the root layout's metadata,
-  // which a page's own `alternates` would replace wholesale.
-  const feeds = listFeeds(SITE_ID).map(({ route, title: feedTitle }) => ({
+  // Here rather than in the root layout's metadata alone, which a page's own
+  // `alternates` would replace wholesale.
+  const feedLinks = feeds.map(({ route, title: feedTitle }) => ({
     url: getAbsoluteUrl(route),
     title: feedTitle,
   }));
@@ -119,7 +124,10 @@ export function constructMetadata({
                 getAbsoluteUrl(languagePath),
               ]),
             ),
-      types: feeds.length === 0 ? undefined : { 'application/rss+xml': feeds },
+      types:
+        feedLinks.length === 0
+          ? undefined
+          : { 'application/rss+xml': feedLinks },
     },
     openGraph: {
       type: ogType,
@@ -141,28 +149,4 @@ export function constructMetadata({
     authors: [{ name: authorName, url: siteUrl }],
     creator: siteName,
   };
-}
-
-/**
- * Article metadata, routed through `constructMetadata` so a content page's
- * cards are built the same way as the rest of the site's. The title comes from
- * the rendered document rather than from frontmatter — the markdown's own
- * leading heading is the one copy of it.
- */
-export function constructArticleMetadata(
-  document: ContentDocument<BaseFrontmatter & Described>,
-  title: string,
-): Metadata {
-  const { frontmatter, route, ogImageUrl, ogImageSize } = document;
-  const { description, hidden } = frontmatter;
-
-  return constructMetadata({
-    title,
-    description,
-    path: route,
-    ogType: 'article',
-    ogImage: ogImageUrl,
-    ogImageSize,
-    hidden,
-  });
 }

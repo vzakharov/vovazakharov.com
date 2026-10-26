@@ -1,5 +1,4 @@
 import { SITE_CONFIG } from '@/kernel/shared/config';
-import { formatDocumentDate, type Source } from '@/kernel/shared/content';
 import {
   mentionsPrintRasterDomain,
   PRINT_RASTER_CLASS,
@@ -7,6 +6,7 @@ import {
 
 import { TextLink } from '@/shell/shared/ui';
 
+import { formatDocumentDate, type Source } from '@/blog/shared/content';
 import { messages } from '@/blog/shared/i18n';
 
 import classes from './source-list.module.scss';

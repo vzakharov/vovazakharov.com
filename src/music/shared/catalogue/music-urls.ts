@@ -1,9 +1,10 @@
+import type { Locale } from '@/kernel/shared/i18n';
+
 import {
   documentRoute,
   localizedRoute,
   MUSIC_ROUTE,
-} from '@/kernel/shared/content';
-import type { Locale } from '@/kernel/shared/i18n';
+} from '@/blog/shared/content';
 
 import { messages } from '@/music/shared/i18n';
 

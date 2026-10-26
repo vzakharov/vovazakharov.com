@@ -5,8 +5,8 @@
 
 import fs from 'node:fs';
 
-import { contentHash } from '@/kernel/shared/content/index.node-safe';
 import { pick } from '@/kernel/shared/lib/collections';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
 import type { WithPath } from '@/kernel/shared/typings';
 
 import { TAG_MANIFEST } from '@/music/shared/catalogue';

@@ -3,13 +3,12 @@ import { Stack } from '@mantine/core';
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import { byLocale, type WithLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
-import {
-  constructMetadata,
-  localizedAddresses,
-} from '@/kernel/shared/seo/index.server-only';
+import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
 
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import { constructMetadata } from '@/blog/shared/seo';
 
 import {
   albumInfo,

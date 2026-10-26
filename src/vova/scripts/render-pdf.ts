@@ -23,11 +23,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import {
-  contentHash,
-  PUBLIC_DIR,
-} from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { routing } from '@/kernel/shared/i18n';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
 
 import { cvPath } from '@/vova/pages/cv/lib/cv-urls';
 import { CV_PAGE_CEILING, CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
@@ -43,7 +41,7 @@ import {
   sourceFiles,
 } from '@/blog/scripts/lib/print-job';
 import { given } from '@/kernel/scripts/lib/argv';
-import { REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/vova/pages/cv'];

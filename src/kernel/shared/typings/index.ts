@@ -66,6 +66,9 @@ export type WithFileName = { fileName: string };
 /** Where a file sits, relative to whatever root holds it. */
 export type WithPath = { path: string };
 
+/** A site-root path, as a page or a feed is addressed. */
+export type Routed = { route: string };
+
 /** Rendered or authored text, as opposed to a title or a label. */
 export type WithText = { text: string };
 

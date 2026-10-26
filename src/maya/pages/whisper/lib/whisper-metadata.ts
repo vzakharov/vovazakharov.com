@@ -1,5 +1,6 @@
 import { SITE_CONFIG } from '@/kernel/shared/config';
-import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
+
+import { constructMetadata } from '@/blog/shared/seo';
 
 export const WHISPER_ROUTE = '/whisper';
 

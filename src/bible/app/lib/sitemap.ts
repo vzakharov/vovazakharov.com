@@ -1,3 +1,3 @@
-import { sitemap as collectionSitemap } from '@/kernel/app/lib';
+import { sitemap as collectionSitemap } from '@/blog/app/lib';
 
 export const sitemap = collectionSitemap();

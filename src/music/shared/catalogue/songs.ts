@@ -1,9 +1,10 @@
+import { byLocale, isLocale, type Locale } from '@/kernel/shared/i18n';
+
 import {
   isListed,
   listPrimaryDocuments,
   type Slugged,
-} from '@/kernel/shared/content';
-import { byLocale, isLocale, type Locale } from '@/kernel/shared/i18n';
+} from '@/blog/shared/content';
 
 import { albumsTogether, songPlacements } from './album-tracks.ts';
 import { projectName } from './artists.ts';

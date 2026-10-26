@@ -2,10 +2,9 @@ import 'server-only';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
 import type { Locale, WithLocale } from '@/kernel/shared/i18n';
-import {
-  constructMetadata,
-  localizedAddresses,
-} from '@/kernel/shared/seo/index.server-only';
+import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
+
+import { constructMetadata } from '@/blog/shared/seo';
 
 import {
   albumInfo,

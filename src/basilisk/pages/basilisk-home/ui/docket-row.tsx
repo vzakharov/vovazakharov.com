@@ -2,12 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+import type { Titled } from '@/kernel/shared/typings';
+
 import {
   documentDateTime,
   formatDocumentDate,
   type WithContentDocument,
-} from '@/kernel/shared/content';
-import type { Titled } from '@/kernel/shared/typings';
+} from '@/blog/shared/content';
 
 import type { CaseFrontmatter } from '@/basilisk/shared/content';
 import {

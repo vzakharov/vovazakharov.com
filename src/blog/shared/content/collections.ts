@@ -9,6 +9,9 @@ import path from 'node:path';
 // rather than resolving an `@/` alias it cannot follow, and a value import
 // would reach `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
 import type { SiteId, WithSiteId } from '@/kernel/shared/config';
+import type { Routed } from '@/kernel/shared/typings';
+
+import { PUBLIC_DIR } from '../../../kernel/shared/config/index.node-safe.ts';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
 const COLLECTION_IDS = [
@@ -162,30 +165,8 @@ export function isDocumentFile(fileName: string): boolean {
 export type WithCollectionId = { collection: CollectionId };
 export type Slugged = { slug: string };
 
-/** Carries a site-root path, as `documentRoute` and `collectionRoute` shape one. */
-export type Routed = { route: string };
-
 /** Addresses one document inside its collection — what `documentRoute` shapes a URL from. */
 export type DocumentRef = WithCollectionId & Slugged;
-
-/**
- * The site's static assets, resolved against the working directory — which is
- * the site's own directory under `sites/`, every build and render script being
- * entered there. Run one from the repository root and this points at nothing.
- */
-export const PUBLIC_DIR = path.join(process.cwd(), 'public');
-
-/**
- * Where the pipeline's whole-site renders land under `public/`, and the one
- * directory a walk for sources skips: an output read back as an input never
- * settles, a render's own product hashing into the source set that decides
- * whether it is stale. The name is therefore a contract — a run writes here
- * and never reads here.
- *
- * A rooted collection's directory is the site's whole `public/`, which is what
- * makes that separation this constant rather than where the directories sit.
- */
-export const GENERATED_DIR = 'generated';
 
 export function collectionDir(id: CollectionId): string {
   return path.join(PUBLIC_DIR, COLLECTIONS[id].base);

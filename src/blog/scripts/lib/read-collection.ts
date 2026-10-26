@@ -10,17 +10,18 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import type { Titled } from '@/kernel/shared/typings';
+
 import type {
   BaseFrontmatter,
   Collection,
   WithFrontmatter,
-} from '@/kernel/shared/content';
+} from '@/blog/shared/content';
 import {
   collectionDir,
   isDocumentFile,
   type Slugged,
-} from '@/kernel/shared/content/index.node-safe';
-import type { Titled } from '@/kernel/shared/typings';
+} from '@/blog/shared/content/index.node-safe';
 
 import { contentFiles } from './content-tree.ts';
 import { headingTitle } from './heading-title.ts';

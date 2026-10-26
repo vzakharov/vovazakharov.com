@@ -2,6 +2,9 @@ import { Box, Group, Stack, Text, Title } from '@mantine/core';
 import type { ReactNode } from 'react';
 
 import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
+
+import { type Chip, ChipNav, FileLink } from '@/shell/shared/ui';
+
 import {
   type ArticleFrontmatter,
   COLLECTIONS,
@@ -11,10 +14,7 @@ import {
   type Variant,
   VARIANTS,
   type WithContentDocument,
-} from '@/kernel/shared/content';
-
-import { type Chip, ChipNav, FileLink } from '@/shell/shared/ui';
-
+} from '@/blog/shared/content';
 import { messages } from '@/blog/shared/i18n';
 import { DocumentMeta } from '@/blog/entities/document';
 

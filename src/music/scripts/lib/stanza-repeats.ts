@@ -14,7 +14,7 @@
 import {
   frontmatterSpan,
   type WithStart,
-} from '../../../kernel/scripts/lib/public-markdown.ts';
+} from '../../../blog/scripts/lib/public-markdown.ts';
 import type { Named, WithText } from '../../../kernel/shared/typings/index.ts';
 import { splitSections } from '../../shared/catalogue/index.node-safe.ts';
 

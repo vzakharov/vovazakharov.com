@@ -10,9 +10,7 @@ export {
   documentRoute,
   FEATURED_CASE_STUDY_ROUTE,
   localizedRoute,
-  PUBLIC_DIR,
   resolveAuthoredUrl,
-  type Routed,
   type Slugged,
   type Variant,
   VARIANTS,
@@ -54,10 +52,7 @@ export {
   type Source,
   type WithFrontmatter,
 } from './frontmatter';
-export {
-  intrinsicDimensions,
-  type WithOptionalOgImageSize,
-} from './image-dimensions';
+export { intrinsicDimensions } from './image-dimensions';
 export { MUSIC_ROUTE } from './music-route';
 export {
   type DocumentCard,

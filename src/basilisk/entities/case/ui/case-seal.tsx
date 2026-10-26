@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import type { Slugged } from '@/kernel/shared/content';
+import type { Slugged } from '@/blog/shared/content';
 
 import { caseSealPath } from '../lib/case-seal';
 import classes from './case.module.scss';

@@ -2,6 +2,13 @@ import { Box, Container, Group, Stack } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { WithParams } from '@/kernel/shared/typings';
+
+import { hoverDim, TextLink } from '@/shell/shared/ui';
+import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import type { ArticleSlots } from '@/blog/shared/article-slots';
 import {
   type ArticleFrontmatter,
   type Collection,
@@ -14,15 +21,8 @@ import {
   siblingVariants,
   type Variant,
   VARIANTS,
-} from '@/kernel/shared/content';
-import { pick } from '@/kernel/shared/lib/collections';
-import { constructArticleMetadata } from '@/kernel/shared/seo/index.server-only';
-import type { WithParams } from '@/kernel/shared/typings';
-
-import { hoverDim, TextLink } from '@/shell/shared/ui';
-import { SiteFooter } from '@/shell/widgets/site-footer';
-
-import type { ArticleSlots } from '@/blog/shared/article-slots';
+} from '@/blog/shared/content';
+import { constructArticleMetadata } from '@/blog/shared/seo';
 import { ProseContent, SourceList } from '@/blog/entities/document';
 
 import { ArticleHeader } from './article-header';

@@ -4,35 +4,17 @@
  * of syntax the stripper cannot erase.
  */
 
-import fs from 'node:fs';
 import path from 'node:path';
 
-import { resolveSiteId } from '../../shared/config/index.node-safe.ts';
+import {
+  filesUnder,
+  RENDERED_SITE,
+} from '../../../kernel/scripts/lib/site-tree.ts';
 import {
   collectionDir,
   COLLECTIONS,
   collectionsForSite,
-  GENERATED_DIR,
-} from '../../shared/content/collections.ts';
-
-export const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..', '..');
-
-/**
- * Every file under `target`, recursively — or `target` itself when it is a
- * file. {@link GENERATED_DIR} is skipped, which is what keeps the walk off the
- * pipeline's own output.
- */
-export function filesUnder(target: string): string[] {
-  return fs.statSync(target).isDirectory()
-    ? fs
-        .readdirSync(target)
-        .filter((name) => name !== GENERATED_DIR)
-        .flatMap((name) => filesUnder(path.join(target, name)))
-    : [target];
-}
-
-/** Which site's content this run walks — the same variable its app's build reads. */
-export const RENDERED_SITE = resolveSiteId();
+} from '../../shared/content/index.node-safe.ts';
 
 /** The directories under `public/` of the collections this site serves — the content tree's roots. */
 export const CONTENT_DIRS = collectionsForSite(RENDERED_SITE).map((id) =>
