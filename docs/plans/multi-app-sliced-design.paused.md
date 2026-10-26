@@ -283,31 +283,63 @@ and phone) and the radio screenshotted pixel-identical to the elephant's.
 - **`music.module.scss` is gone**, cut along its components; the square of art
   the covers and tiles both draw is the `art` mixin in `shared/styles`.
 
-- **A one-reference slice with a narrow public API is significant** (6a):
-  `check:masd` spares it when its barrels hand on at most a third of the names
-  its files export, `PUBLIC_API` now living in `masd-graph.ts` for both readers.
-  `masd.md` states it under "No insignificant slices".
+- **`PUBLIC_API` lives in `masd-graph.ts`** (6a), read by the boundaries config
+  and by `check:masd`, which runs under bare Node and cannot load the config.
 
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 Measured over the tree, boundary-vs-internal import edges cannot tell a module
-from a grab bag — a well-layered slice imports downward, so its edges leave it —
-while API width can: the player 11%, the CV page 20%, the game's noun groups cut
-by file-name prefix 29–60%.
+from a grab bag — a well-layered slice imports downward, so its edges leave it.
+The game's dry-run slice tree, every file assigned and nothing moved, is
+`docs/remove-before-merging/masd/one-page-measure/mushrooms-tree.md`, with the
+13 edges it would break.
+
+## Rest of the bite
+
+**6a, reworked on #216: a one-reference slice is significant when it is a module
+by Newman's modularity**, replacing the API-width third the branch carries now
+(the operator: «а почему треть, а не четверть»; «идея "умного" определения "что
+модуль а что нет" мне нравится, в рамках MASD или вне её»). Over the file-level
+import graph, a slice's own share of modularity is `e_ii − a_i²`: `e_ii` the
+share of all edges with both ends in its files, `a_i` the share of edge ends on
+its files, so `a_i²` is what a random rewiring keeping every file's degree would
+put inside it. Positive means a module whoever its one consumer is; nothing is
+tuned — the null model is the bar.
+
+- **The graph**: every import between two files of the slice's app and its
+  descendants (the composition `check:masd` already counts references across),
+  each import one undirected edge, tests and scripts out.
+- **Measured on the game's dry-run tree**: the map ×12 its random expectation,
+  the meadow model ×8, flower ×7.6, insect ×5, mushroom ×4.5; ten random scene
+  files ×1.0 and a one-file slice 0 — both not modules. The other candidate
+  question, whether merging a slice into its consumer raises Q, does not reject
+  the random ten (×0.96 against a huge page), so the slice's own term is the
+  test.
+- **Code**: `scripts/masd-check.ts` drops `narrowApi`, `exportedNames` and
+  `NARROW_API`, builds the file edges from the imports it already reads, and
+  spares a one-reference slice whose term is positive; `PUBLIC_API` stays in
+  `masd-graph.ts`. Tests: a cohesive slice with one consumer passes, a slice of
+  files that import nothing of each other is flagged, a one-file slice is
+  flagged, an unreferenced slice is flagged. `masd.md`'s "No insignificant
+  slices" sentence says it in words, `compare/fsd-vs-masd` follows, and #216's
+  title, body and squash proposal follow the new rule.
 
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **6b. Mushrooms restructured under 6a's measure.** The game is some 240 files
-  on one URL — scene, creatures, day cycle, saves, the UI over the canvas — in
-  one `pages/mushrooms` slice, `model/` and `ui/scene/` each flat. Every slice
-  it could be cut into has one consumer, so it stands on 6a's measure alone.
-  Mushrooms' scripts then enter it through public APIs, their entries leaving
-  the grandfathered block.
+- **6b. Mushrooms restructured along the dry-run tree.** `shared/` as `lib`,
+  `world` (ground, eye, weather, dusk, the firefly) and `ui`;
+  `entities/mushroom` (the house, mouse and worm with it), `insect` (pollen with
+  it) and `flower`; `features/meadow` (game, sprouting, saves, `api/`);
+  `widgets/map`, once the nine helpers it takes from the scene move down; the
+  scene, some 120 files the graph shows as one interwoven piece, stays the page.
+  The 13 broken edges in the tree's file are untied first. Mushrooms' scripts
+  then enter it through public APIs, their entries leaving the grandfathered
+  block.
 - **7. The grandfathered script imports, retired.** basilisk's, kernel's,
   shell's and vova's scripts enter their layers through public APIs — a
   `index.node-safe.ts` where a script runs without a bundler — and the
