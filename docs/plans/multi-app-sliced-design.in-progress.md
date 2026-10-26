@@ -350,28 +350,30 @@ The game's dry-run slice tree, every file assigned and nothing moved, is
 
 ## Rest of the bite
 
-**6b, re-cut by nouns — waiting on three answers.** Put to the operator, each
-with its recommendation:
+**6b, re-cut by nouns.** The dry-run cut is reverted (7fb1f33). The operator's
+answers:
 
-1. **Is the house part of the mushroom?** Recommended yes: `house.ts` knows only
-   the mushroom. The worm and the mice become base entities taking windows and
-   doors as parameters, and «червяк выглядывает из окна» and «мыши бегают между
-   дверями» become features.
-2. **How fine are features?** Recommended one per interaction a player could
-   name — a flower grows from a tap on a tuft, a bee drinks, an insect perches,
-   an insect shelters from the rain, the worm peeks, the mice run, the meadow is
-   kept and opened — merged only where their code is one, which 6a's modularity
-   then checks.
-3. **Where does the meadow's whole state live?** `game.ts` composes every
-   entity, and `sprouting` and `game` import each other today. Recommended:
-   `widgets/meadow` holds the state with the scene and hands each feature its
-   part (flowers, mushrooms, insects), the biggest untying in the bite.
+1. **The house is part of the mushroom** («1 ок»). The worm and the mice are
+   base entities taking windows and doors as parameters; «червяк выглядывает из
+   окна» and «мыши бегают между дверями» are features.
+2. **Features are cut by what happens, and two that would import each other are
+   one**: «если вдруг фичам надобиться импортить друг друга, то их суём в одну
+   фичу … собственно это и есть критерий "код общий"», 6a's modularity checking
+   what each holds.
+3. **The whole is built from its parts, above them.** A part declares the slice
+   of state it reads as a structural `With…` type over entity types and is
+   generic in the rest (`sown<M extends WithMushrooms & Spored>(meadow: M): M`),
+   so nothing below imports `Meadow`. A noun's own data and life go to its
+   entity (the sprout, `Planted`, the house to the mushroom); an encounter goes
+   to a feature declaring its slice; `Meadow`, the `Action` union and `reduce`
+   go with the scene to `widgets/meadow`, provided it passes as a module (the
+   operator: «если наш виджет пройдёт критерий модульности -- почему нет»), the
+   page keeping the React shell.
 
-The order, proposed rather than asked: revert e7a4c9a with a revert commit;
-write the target tree as a file beside `mushrooms-tree.md` for the operator's
-look; untie the code in place; then move along that tree with the tools in
-`layout-tools.md`. The 27 tests' question below is re-asked once the tree
-stands, since their set changes with it.
+The order: write the target tree as `nouns-tree.md` beside `mushrooms-tree.md`
+for the operator's look; untie the code in place; then move along that tree with
+the tools in `layout-tools.md`. The 27 tests' question below is re-asked once
+the tree stands, since their set changes with it.
 
 The rest of this section is the dry-run cut's record, kept for the barrels,
 tests and checks, which carry over. The layout's source is `mushrooms-tree.md`
@@ -412,6 +414,10 @@ and which files reach Phaser.
   and the game looked at.
 
 ## Rest of the elephant
+
+- **Later, the converse of 6a** (the operator: «как бы нам определять, когда в
+  одном слайсе скопилось что-то (кластер?), что заслуживает вынесения в модуль?
+  но отложим»): when a cluster inside one slice earns a slice of its own.
 
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
