@@ -26,8 +26,8 @@ import {
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 import { spokenLength } from '@/music/shared/lib/duration';
+import { MusicNav } from '@/music/widgets/music-nav';
 
-import { MusicNav } from './music-nav';
 import { OnAir, type OnAirExtras } from './on-air';
 
 export function generateRadioMetadata({ locale }: WithLocale) {

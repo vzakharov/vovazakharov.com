@@ -1,6 +1,6 @@
 import type { Labeled } from '@/kernel/shared/typings';
 
-import classes from './music.module.scss';
+import classes from './explicit-badge.module.scss';
 
 /**
  * The streaming platforms' mark for explicit lyrics: a small square `E` right

@@ -5,7 +5,7 @@ import { type PointerEvent, type ReactNode, useRef, useState } from 'react';
 
 import type { WithChildren } from '@/kernel/shared/typings';
 
-import classes from './music.module.scss';
+import classes from './noted-span.module.scss';
 
 /** The words the note hangs off, as set; the note itself is the children. */
 export type NotedSpanProps = WithChildren & { words: ReactNode };

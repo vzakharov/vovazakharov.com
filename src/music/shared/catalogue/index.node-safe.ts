@@ -7,6 +7,7 @@
 export { songPlacements } from './album-tracks.ts';
 export { type CreditedName, SONG_AUTHOR } from './author.ts';
 export { billedArtists, type SongBilling } from './file-name.ts';
+export { hookRuns } from './hook-marks.ts';
 export { inlineRuns } from './lyric-inline.ts';
 export { entryText, type LyricLine, type WithStanzas } from './lyric-notes.ts';
 export {
@@ -33,7 +34,6 @@ export {
   playedName,
   SONG_BRANCH,
   type SongFile,
-  songFiles,
   songHome,
   type WithExtension,
 } from './song-files.ts';

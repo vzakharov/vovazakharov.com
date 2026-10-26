@@ -5,7 +5,7 @@ import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithOptionalChildren } from '@/kernel/shared/typings';
 
 import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
-import classes from './music.module.scss';
+import classes from './covers.module.scss';
 
 /** The cover a page's head sits beside, where it has one, and what sits beside it. */
 export type CoverHeadBody = WithOptionalChildren & { picture?: string };

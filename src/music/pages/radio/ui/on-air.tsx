@@ -12,12 +12,16 @@ import { InternalButton, NameLink } from '@/shell/shared/ui';
 import type { HookRun } from '@/music/shared/catalogue';
 import type { SpelledLink } from '@/music/shared/catalogue/index.node-safe';
 import type { Messages } from '@/music/shared/i18n';
-import { BillingLinks, Spelling } from '@/music/shared/ui';
+import {
+  BillingLinks,
+  CoverZoom,
+  type CoverZoomLabels,
+  HookRuns,
+  NotedSpan,
+  Spelling,
+} from '@/music/shared/ui';
 import { stationOffset, usePlayer } from '@/music/features/player';
 
-import { CoverZoom, type CoverZoomLabels } from './cover-zoom';
-import { HookRuns } from './hook-runs';
-import { NotedSpan } from './noted-span';
 import classes from './radio.module.scss';
 import { RadioDial } from './radio-dial';
 

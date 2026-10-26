@@ -16,14 +16,12 @@ import {
   trackNames,
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
+import { CatalogueGrid, CatalogueHeader, HookLine } from '@/music/shared/ui';
+import { MusicNav } from '@/music/widgets/music-nav';
+import { SongList } from '@/music/widgets/song-list';
+import { Story } from '@/music/widgets/story';
 
-import type { ArtistPageProps } from '../lib/page-props';
-import { CatalogueGrid } from './catalogue-grid';
-import { CatalogueHeader } from './catalogue-header';
-import { HookLine } from './hook-line';
-import { MusicNav } from './music-nav';
-import { SongList } from './song-list';
-import { Story } from './story';
+import type { ArtistPageProps } from '../lib/artist-metadata';
 
 /**
  * One project: its own text where it has one, the albums it put out, then its

@@ -10,7 +10,7 @@ import { CURRENT_CHIP_CLASS } from '@/shell/shared/ui';
 
 import { Spelling } from '@/music/shared/ui';
 
-import classes from './music.module.scss';
+import classes from './music-nav.module.scss';
 
 export type ScriptChipProps = Labeled & {
   /** Three letters of the script the page's names are in, from `scriptSample`. */

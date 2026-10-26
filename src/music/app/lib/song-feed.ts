@@ -30,6 +30,7 @@ import {
   PODCAST_COVER,
   preludeOf,
   type SongDocument,
+  songDownloads,
   songPicture,
   SONGS,
   songTitle,
@@ -38,8 +39,6 @@ import {
 } from '@/music/shared/catalogue';
 import { storyOrder } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
-
-import { songDownloads } from './song-downloads';
 
 function text(value: string): ElementContent {
   return { type: 'text', value };

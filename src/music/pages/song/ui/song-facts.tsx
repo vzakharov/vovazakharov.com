@@ -19,9 +19,7 @@ import {
 } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 import { formatDuration } from '@/music/shared/lib/duration';
-import { Spelling } from '@/music/shared/ui';
-
-import { FactLine } from './fact-line';
+import { FactLine, Spelling } from '@/music/shared/ui';
 
 export type SongFactsProps = SongOnRelease & WithLocale;
 

@@ -2,6 +2,7 @@ import { Box, Group, Stack, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
+import type { WithLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
 import type { Routed } from '@/kernel/shared/typings';
@@ -9,6 +10,7 @@ import type { Routed } from '@/kernel/shared/typings';
 import { FileLink, hoverDim, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
+import type { Slugged } from '@/blog/shared/content';
 import { constructMetadata } from '@/blog/shared/seo';
 
 import {
@@ -16,6 +18,7 @@ import {
   musicPath,
   pictureCard,
   scriptSample,
+  songDownloads,
   songInfo,
   type SongPageEntry,
   songPath,
@@ -29,23 +32,25 @@ import {
   songRepositoryUrl,
 } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
-import { Spelling } from '@/music/shared/ui';
+import { listenTitle } from '@/music/shared/seo';
+import {
+  CoverHead,
+  ExplicitBadge,
+  HookLine,
+  Spelling,
+  TitleGlossLine,
+} from '@/music/shared/ui';
 import { SongPlayButton } from '@/music/features/player';
+import { MusicNav } from '@/music/widgets/music-nav';
+import { Story } from '@/music/widgets/story';
 
-import { listenTitle } from '../lib/music-metadata';
-import type { SongPageProps } from '../lib/page-props';
-import { songDownloads } from '../lib/song-downloads';
 import { songVideo } from '../lib/song-video';
-import { CoverHead } from './cover-head';
-import { ExplicitBadge } from './explicit-badge';
-import { HookLine } from './hook-line';
 import { Lyrics } from './lyrics';
-import { MusicNav } from './music-nav';
 import { SongCredits } from './song-credits';
 import { SongByline, SongFacts } from './song-facts';
 import { SongVideoButton } from './song-video-button';
-import { Story } from './story';
-import { TitleGlossLine } from './title-gloss-line';
+
+export type SongPageProps = WithLocale & Slugged;
 
 function resolve(slug: string): SongPageEntry {
   const page = listSongPages().find((entry) => entry.slug === slug);

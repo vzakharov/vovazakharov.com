@@ -6,7 +6,7 @@ import type { LabeledLink } from '@/kernel/shared/typings';
 import { hoverDim, TextLink } from '@/shell/shared/ui';
 
 import { LocaleChips, type LocaleChipsProps } from './locale-chips';
-import classes from './music.module.scss';
+import classes from './music-nav.module.scss';
 
 export type MusicNavProps = LocaleChipsProps & {
   /** Where the page sits in the section — absent on the index, which is the top. */

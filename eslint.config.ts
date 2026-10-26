@@ -145,7 +145,9 @@ const eslintConfig = defineConfig([
   {
     files: [
       'src/vova/pages/{home,writing}/ui/**/*.tsx',
-      'src/music/pages/music/ui/**/*.tsx',
+      'src/music/pages/{music,artist,album,song,radio}/ui/**/*.tsx',
+      'src/music/widgets/*/ui/**/*.tsx',
+      'src/music/shared/ui/*.tsx',
     ],
     rules: { 'vova/no-hardcoded-strings': 'off' },
   },

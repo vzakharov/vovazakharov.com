@@ -1,2 +1,12 @@
 export { BillingLinks } from './billing-links';
+export { CatalogueGrid } from './catalogue-grid';
+export { CatalogueHeader } from './catalogue-header';
+export { CoverHead } from './cover-head';
+export { CoverZoom, type CoverZoomLabels } from './cover-zoom';
+export { ExplicitBadge } from './explicit-badge';
+export { FactLine, SizeLine } from './fact-line';
+export { HookLine } from './hook-line';
+export { HookRuns } from './hook-runs';
+export { NotedSpan } from './noted-span';
 export { Spelling } from './spelling';
+export { TitleGlossLine } from './title-gloss-line';

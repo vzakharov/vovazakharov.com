@@ -1,4 +1,4 @@
-import { hookRuns } from '@/music/shared/catalogue';
+import { hookRuns } from '@/music/shared/catalogue/index.node-safe';
 
 import { HookRuns } from './hook-runs';
 

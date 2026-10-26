@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { Sourced } from '@/kernel/shared/typings';
 
-import classes from './music.module.scss';
+import classes from './covers.module.scss';
 
 export type CoverZoomLabels = {
   enlargeLabel: string;

@@ -8,11 +8,10 @@ import { Card, NameLink, Subheading } from '@/shell/shared/ui';
 import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
 import { formatDuration } from '@/music/shared/lib/duration';
-import { Spelling } from '@/music/shared/ui';
+import { ExplicitBadge, Spelling } from '@/music/shared/ui';
 import { TrackButton } from '@/music/features/player';
 
-import { ExplicitBadge } from './explicit-badge';
-import classes from './music.module.scss';
+import classes from './song-list.module.scss';
 
 /** Untitled under a heading of the page's own, as the index's tabs are. */
 export type SongListProps = WithLocale &

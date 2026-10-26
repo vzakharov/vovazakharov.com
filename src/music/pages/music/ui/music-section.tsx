@@ -5,9 +5,8 @@ import type { WithLocale } from '@/kernel/shared/i18n';
 import { Section } from '@/shell/shared/ui';
 
 import { messages } from '@/music/shared/i18n';
+import { SizeLine } from '@/music/shared/ui';
 import { LaunchButtons } from '@/music/features/player';
-
-import { SizeLine } from './fact-line';
 
 /** The section's intro, the whole catalogue's size under it, and the buttons that play it. */
 export function MusicSection({

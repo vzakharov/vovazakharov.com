@@ -15,16 +15,18 @@ import {
   trackNames,
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
-import { Spelling } from '@/music/shared/ui';
+import {
+  CatalogueHeader,
+  FactLine,
+  HookLine,
+  Spelling,
+} from '@/music/shared/ui';
 import { AlbumPlayButton } from '@/music/features/player';
+import { MusicNav } from '@/music/widgets/music-nav';
+import { SongList } from '@/music/widgets/song-list';
+import { Story } from '@/music/widgets/story';
 
-import type { AlbumPageProps } from '../lib/page-props';
-import { CatalogueHeader } from './catalogue-header';
-import { FactLine } from './fact-line';
-import { HookLine } from './hook-line';
-import { MusicNav } from './music-nav';
-import { SongList } from './song-list';
-import { Story } from './story';
+import type { AlbumPageProps } from '../lib/album-metadata';
 
 /**
  * One release: who put it out, whether it is still being made, its own text

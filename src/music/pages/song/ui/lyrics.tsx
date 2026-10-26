@@ -24,9 +24,9 @@ import {
   type WithStanzas,
 } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
+import { NotedSpan } from '@/music/shared/ui';
 
-import classes from './music.module.scss';
-import { NotedSpan } from './noted-span';
+import classes from './lyrics.module.scss';
 
 /** `fileName` is the song's file, which the notes' relative links resolve
  * against. */

@@ -30,12 +30,10 @@ import {
   tabBySegment,
   tabPath,
 } from '@/music/shared/catalogue';
-import type {
-  AlbumPageProps,
-  ArtistPageProps,
-  IndexPageProps,
-  SongPageProps,
-} from '@/music/pages/music';
+import type { AlbumPageProps } from '@/music/pages/album';
+import type { ArtistPageProps } from '@/music/pages/artist';
+import type { IndexPageProps } from '@/music/pages/music';
+import type { SongPageProps } from '@/music/pages/song';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalMusicSegments = { slugAndLocale?: string[] };

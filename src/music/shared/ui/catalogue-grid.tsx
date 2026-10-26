@@ -13,10 +13,10 @@ import type {
   Spelled,
   SpelledLink,
 } from '@/music/shared/catalogue/index.node-safe';
-import { Spelling } from '@/music/shared/ui';
 
-import { tileHue } from '../lib/tile-hue';
-import classes from './music.module.scss';
+import classes from './covers.module.scss';
+import { Spelling } from './spelling';
+import { tileHue } from './tile-hue';
 import { WipMark, type WipNoted } from './wip-mark';
 
 /**

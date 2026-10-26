@@ -9,7 +9,7 @@ import type { Messages } from '@/music/shared/i18n';
 import { usePlayer } from '@/music/features/player';
 
 import type { SongVideo } from '../lib/song-video';
-import classes from './music.module.scss';
+import classes from './song-video.module.scss';
 
 export type SongVideoButtonProps = SongVideo &
   Slugged & {
