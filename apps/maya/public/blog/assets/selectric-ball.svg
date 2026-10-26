@@ -54,5 +54,5 @@
 <text x="60" y="80" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-style="italic" fill="#2b2622">IBM Selectric</text>
 <text x="60" y="114" font-family="Georgia, 'Times New Roman', serif" font-size="20" fill="#2b2622">{{characters}}</text>
 <text x="1140" y="630" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-style="italic" fill="#2b2622" opacity="0.8">{{heard}}</text>
-<text x="1180" y="706" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="15" fill="#2b2622" opacity="0.65">{{signature}}</text>
+<text x="1180" y="706" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="15" fill="#2b2622" opacity="0.65">{{signature}} · mayawonders.com</text>
 </svg>

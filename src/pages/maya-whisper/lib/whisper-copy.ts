@@ -2,5 +2,8 @@
 
 export const WHISPER_ROUTE = '/whisper';
 
-/** The drawing on its card, a path under the site's `public/`. */
-export const WHISPER_DRAWING = '/blog/assets/selectric-ball.svg';
+/**
+ * The drawing on its card, a path under the site's `public/`: the English one,
+ * the card being one for both languages and the drawing's template unfilled.
+ */
+export const WHISPER_DRAWING = '/blog/assets/selectric-ball.en.svg';
