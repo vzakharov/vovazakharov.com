@@ -44,11 +44,11 @@ intent a reviewer will not recover either, which is a finding in itself.
 
 ## Scope: the branch, not the session
 
-Both passes carry their own scope ladders and both bottom out at unpushed work
-(`git diff HEAD`, then `@{u}..HEAD`). That is right when they are invoked
-seconds after implementing, and wrong everywhere else this skill is called from:
-at `/finalize`, or on a branch another session wrote, the work is already pushed
-and the ladder falls through to "nothing to review".
+`/dry` and `/tend-prose` carry their own scope ladders, both bottoming out at
+unpushed work (`git diff HEAD`, then `@{u}..HEAD`). That is right when they are
+invoked seconds after implementing, and wrong everywhere else this skill is
+called from: at `/finalize`, or on a branch another session wrote, the work is
+already pushed and the ladder falls through to "nothing to review".
 
 So the scope is resolved **here**, once, and handed to every pass:
 
@@ -81,7 +81,8 @@ pair `scripts/staged.sh list` prints, and the rest of the copy is context.
 A branch is polished more than once — at `/go`, again at `/finalize` — and the
 second run has no business re-reading what the first one cleared. The passes
 commit their own edits, so the run is already in the history; what makes it
-findable is the subject line every commit either pass makes here carries:
+findable is the subject line every commit `/dry` or `/tend-prose` makes here
+carries:
 
 ```
 polish: <what the passes changed>
@@ -147,5 +148,5 @@ as context.
 - Run the vet suite, touch the PR, or flip a plan file — every caller owns its
   own land prep, and `/go` flips its plan file once this returns.
 - Widen past the scope above into a general refactor of code the branch did not
-  touch. Both passes are about the change, not the codebase.
+  touch. Every pass is about the change, not the codebase.
 - Skip a pass. Three passes are the whole skill; running two is not running it.
