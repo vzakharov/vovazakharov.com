@@ -10,7 +10,7 @@ Copy each into `tmp/modularity/` under its name and run from the repository root
 const TREE: [string, string][] = [
   ['shared/lib', 'geometry random motion colour crescent light tap-reach cruise glide line-course'],
   ['shared/world', 'acting dusk weather ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place bed-place backdrop-depths repaint-queue shelter-seats'],
-  ['shared/ui', 'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking bake-picture'],
+  ['shared/ui', 'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking icon-disc bake-picture'],
   ['entities/mushroom', 'planted crowding door-sight clump-shade cap-cover clump-layout placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light mushroom-shown'],
   ['entities/worm', 'worm draw-worm'],
   ['entities/mouse', 'mouse-run-clock mouse-run-course draw-mouse mouse-head'],
