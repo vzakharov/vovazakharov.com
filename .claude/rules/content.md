@@ -123,14 +123,14 @@ resolver finds it. That script needs Node 22.18 or newer for type stripping.
 `collections.ts` qualifies because it is string constants and pure path
 functions; `documents.ts` keeps `server-only`, and with it the invariant that
 matters — it is the module that pulls in `fs`, `gray-matter` and `zod`. Each
-site's `scripts/render-og.ts` and `scripts/render-pdf.ts` run under `tsx`: the
-CV card reads the message catalogue through `cvMessages`, and a JSON import is
-what bare Node cannot take without an attribute. They reach `src/` by the `@/`
-alias, and `shared/content` through its `index.node-safe.ts` barrel, since the
-ordinary one's `server-only` modules throw outside a React server bundle.
-`render-og.ts` runs under the `react-server` condition, which resolves
-`server-only` to its empty module as a build does, so basilisk's cards reach the
-ordinary barrel and parse a case with `caseFrontmatterSchema`.
+site's `render-og.ts` and `render-pdf.ts` run under `tsx`: the CV card reads the
+message catalogue through `cvMessages`, and a JSON import is what bare Node
+cannot take without an attribute. They reach `src/` by the `@/` alias, and
+`shared/content` through its `index.node-safe.ts` barrel, since the ordinary
+one's `server-only` modules throw outside a React server bundle. `render-og.ts`
+runs under the `react-server` condition, which resolves `server-only` to its
+empty module as a build does, so basilisk's reads its cases through `CASES` and
+`readCollection`, parsed by the schema the site builds with.
 
 ## Adding a document
 
