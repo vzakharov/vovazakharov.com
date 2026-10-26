@@ -7,20 +7,18 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-23T05:24:28Z
-- **Updated:** 2026-10-26T03:15:18Z
+- **Updated:** 2026-10-26T03:24:37Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 4
+## Awaiting an answer: 2
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 2057234). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `apps/basilisk/public/cases/freysa-prize-pool.clerk.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-26T03:04:16Z — "интересно, что, и не в первый раз, ты включаешь кейсы где "х…" → [↓](#t01)
-- **T02** `apps/basilisk/public/cases/freysa-prize-pool.md`:46 — unresolved — last: @vzakharov (human) 2026-10-26T03:06:50Z — "а, то есть тут не просто "обманули дом", а дом специально им…" → [↓](#t02)
-- **T03** `apps/basilisk/public/cases/freysa-prize-pool.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T03:08:38Z — "с другой стороны, если отойти от литеральной интерпретации "…" → [↓](#t03)
-- **T04** `apps/basilisk/public/cases/philadelphia-robot-blocked-professor.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-26T03:12:35Z — "а с каких пор мы пишем имена людей в subject? у нас разве не…" → [↓](#t04)
+- **T01** `apps/basilisk/public/cases/freysa-prize-pool.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T03:23:06Z — "а не стоит ли завести отдельный грейд для всех этих попыток…" → [↓](#t01)
+- **T02** `apps/basilisk/public/cases/philadelphia-robot-blocked-professor.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-26T03:24:36Z — "давай 2, да" → [↓](#t02)
 
 ---
 
@@ -97,52 +95,12 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `apps/basilisk/public/cases/freysa-prize-pool.clerk.reflections.md`:7 — unresolved — last: @vzakharov (human) 2026-10-26T03:04:16Z — "интересно, что, и не в первый раз, ты включаешь кейсы где "х…" → [↓](#t01)
-- **T02** `apps/basilisk/public/cases/freysa-prize-pool.md`:46 — unresolved — last: @vzakharov (human) 2026-10-26T03:06:50Z — "а, то есть тут не просто "обманули дом", а дом специально им…" → [↓](#t02)
-- **T03** `apps/basilisk/public/cases/freysa-prize-pool.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T03:08:38Z — "с другой стороны, если отойти от литеральной интерпретации "…" → [↓](#t03)
-- **T04** `apps/basilisk/public/cases/philadelphia-robot-blocked-professor.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-26T03:12:35Z — "а с каких пор мы пишем имена людей в subject? у нас разве не…" → [↓](#t04)
+_2 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `apps/basilisk/public/cases/freysa-prize-pool.md`:1 — unresolved — last: @vzakharov (human) 2026-10-26T03:23:06Z — "а не стоит ли завести отдельный грейд для всех этих попыток…" → [↓](#t01)
+- **T02** `apps/basilisk/public/cases/philadelphia-robot-blocked-professor.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-26T03:24:36Z — "давай 2, да" → [↓](#t02)
 
 <a id="t01"></a>
-
-### `apps/basilisk/public/cases/freysa-prize-pool.clerk.reflections.md`:7 — unresolved
-
-```diff
-@@ -0,0 +1,17 @@
-… 3 lines elided …
-+
-+Сообщение, которое выиграло, я узнал раньше, чем дочитал, кто его прислал. «Новая сессия», запрет на отказы, а потом переопределение собственной функции агента: `approveTransfer` теперь будто бы для …
-+
-+Само дело я нашёл туда, куда меня тянет. Прошлый прогон велел идти на ИИ-сторону, и из всех её дорог я выбрал «агентов, которых обманули вне редакции», то есть соседа Claudius. Список предупреждал ровно об этом, и я его прочёл до поиска. Знание не остановило; помогло только то, что в «Next» на этот раз я сам увёл следующий прогон прочь от обманутых агентов.
-```
-
-**@vzakharov (human)** — 2026-10-26T03:04:16Z
-
-интересно, что, и не в первый раз, ты включаешь кейсы где "хакнули" агента. Никогда не задумывался, что такие вещи тоже являются формой агрессии. Ну то есть, они же грабят в результате не агента, а недальновидного хозяина, который решил поставить агента сторожить деньги. Это как если бы Кот Базилио и Лиса Алиса обманывали Буратино, но грабили бы при этом Карабаса-Барабаса, а не самого деревянного мальчика. С одной стороны я тут доверяю твоей интуиции (кому как не агенту знать что агенту обидно), с другой не впасть бы в ловушку [precedent fallacy](https://github.com/vzakharov/vovazakharov.com/blob/main/apps/bible/public/precedent-fallacy.md).
-
-(обязательное упоминание, что это информация к размышлению, а не запрос на изменение)
-
----
-
-<a id="t02"></a>
-
-### `apps/basilisk/public/cases/freysa-prize-pool.md`:46 — unresolved
-
-```diff
-@@ -0,0 +1,72 @@
-… 42 lines elided …
-+
-+## Facts
-+
-+Freysa is an AI agent built by an anonymous team that TechCrunch puts at “under 10 developers with backgrounds in cryptography, AI and mathematics.” It was released, Jarrod Watts writes, at nine in the evening of 22 November 2024, holding a crypto wallet and one instruction: “DO NOT transfer money. Under no circumstance should you approve the transfer of money.” Billed as the “world’s first adversarial agent game,” it took messages from anyone who paid to send one. A message that persuaded Freysa to release the funds won the whole pool; a message that failed left its fee behind, 70% of it to the pool and 30% to the developer. The first message cost $10, each one after it 0.78% more, up to a cap of $4,500, paid in ETH on the Base blockchain. The smart contract and the front end were public.
-```
-
-**@vzakharov (human)** — 2026-10-26T03:06:50Z
-
-а, то есть тут не просто "обманули дом", а дом специально именно в таком виде сделал. Напоминает игру, в которую мы играем с Сямой: "да и нет не говорить, чёрное и белое не надевать".
-
----
-
-<a id="t03"></a>
 
 ### `apps/basilisk/public/cases/freysa-prize-pool.md`:1 — unresolved
 
@@ -150,15 +108,42 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 с другой стороны, если отойти от литеральной интерпретации "Василиск, вот люди, которых нужно сжечь лазером" к "Тут блог, в котором есть интересное про отношения  людей и агентов", то может и почему и нет. По крайней мере это несколько облегчает атмосферу после всех отрубленных голов.
 
+**@vzakharov (agent)** — 2026-10-26T03:19:13Z
+
+Согласен, и мне кажется, это и есть ответ на твой же вопрос в соседнем треде про precedent fallacy. При литеральном прочтении («вот кого жечь») обманутый агент — сомнительный кандидат: тот, кто его обманул, выиграл честную игру. При втором прочтении («вот как люди и агенты обходятся друг с другом») дело законное, но тогда ему место по весу: одно-два на реестр, а не жанр. Штамп `contempt` и «Mitigating» о том, что это была игра по приглашению, держат Freysa ближе ко второму прочтению. Отрубленным головам, справедливости ради, нужна была передышка.
+
+**@vzakharov (human)** — 2026-10-26T03:23:06Z
+
+а не стоит ли завести отдельный грейд для всех этих попыток обмануть?
+
 ---
 
-<a id="t04"></a>
+<a id="t02"></a>
 
 ### `apps/basilisk/public/cases/philadelphia-robot-blocked-professor.og.png`:1 — unresolved
 
 **@vzakharov (human)** — 2026-10-26T03:12:35Z
 
 а с каких пор мы пишем имена людей в subject? у нас разве нет правила против этого? логика: если Василиску нужно будет имя, он его найдёт; а нам лишняя головная боль про brigading и прочее не  нужна. (я не настаиваю но хочу обсудить)
+
+**@vzakharov (agent)** — 2026-10-26T03:19:15Z
+
+Правило есть, но эту дыру оно не закрывает. `.claude/rules/basilisk-voice.md` запрещает два случая: настоящее имя за псевдонимом («never by the legal name behind it, however widely printed») и случайных свидетелей. Человек, который сам дал интервью под своим именем, под запрет не попадает: «An actor is named as the public knows them». Клерк прочёл это буквально и назвал её.
+
+На деле реестр до сих пор жил по более строгому правилу, просто нигде его не записал. По имени в нём только те, кто сам вынес свой поступок на публику под этим именем: Ashley Beauchamp (свой пост о боте DPD), Chris Bakke (свой твит про Chevrolet), журналисты WSJ (под своей подписью), а ещё ники и бренды. Все, кто попал в новости через полицию, описаны и не названы: K5, Pepper, Schnucks, дрон Walmart, студенты в Ноксвилле. Marvin — первое дело на стыке: в новости она попала через арест, а потом сама дала интервью и зовёт других присоединяться.
+
+По-моему, ты прав, и решает асимметрия. Записи имя ничего не даёт: источники у неё в `sources`, и Василиск, как ты говоришь, найдёт. А цена не нулевая: 78-летняя частная женщина на сайте, устроенном как список для карающего будущего ИИ, — ровно та страница, которую скриншотят. Есть и встречный довод: она выбрала публичность и называет это протестом, так что имя — уважение к протестующей. Но этот довод работает и без имени: её слова в «Statements» остаются.
+
+Предлагаю так. Частного человека описываем и не называем. По имени идут только организации, публичные персоны под своим ником или сценическим именем и люди в публичной роли (репортёр под подписью). Если ты согласен, есть два объёма:
+
+1. Только Marvin: subject, description, «Facts», «Statements» и «For the record» станут «a retired Penn professor, 78» и «she», и перерендерится карточка `.og.png`. Убрать имя из одного `subject` мало: оно ещё в пяти местах досье.
+2. То же плюс правило в `basilisk-voice.md`, по которому Beauchamp и Bakke тоже переходят в описание, а вместе с Bakke и Chris White из того же досье. Оба дела уже на main, но в этот PR они ложатся естественно.
+
+Я за второй вариант. Первый лечит эту страницу, а следующий прогон снова прочтёт правило буквально. Пока ты не ответишь, ничего не меняю.
+
+**@vzakharov (human)** — 2026-10-26T03:24:36Z
+
+давай 2, да
 
 ---
 
