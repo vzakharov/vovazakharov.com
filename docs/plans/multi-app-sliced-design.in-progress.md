@@ -321,8 +321,12 @@ those slices carry their own tools along.
   adding to `<html>` and `<head>` through its `htmlProps` and `head`; the
   mushrooms layout is kernel's as it stands. No layout restates the document.
 - **One address registry.** `MUSIC_ROUTE` sits with `COLLECTIONS` and
-  `collectionRoute` in kernel instead of a second map of mount points; the
-  router's folders and these constants still agree by hand, which #86 is about.
+  `collectionRoute` in blog's `shared/content` instead of a second map of mount
+  points; the router's folders and these constants still agree by hand, which
+  #86 is about.
+- **blog wraps kernel's factories rather than copying them.** Its `sitemap`,
+  `constructMetadata` and `rootMetadata` each hand kernel's what the collections
+  add, so the URL, metadata and card logic stays in one place.
 - **One render core per kind.** kernel's `og-job.ts` and blog's `print-job.ts`
   run the whole job; a site's entry passes only what is its own, and
   `ManifestRoots` in `render-manifest.ts` is the one declaration of the roots
