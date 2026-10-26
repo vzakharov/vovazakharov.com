@@ -116,9 +116,11 @@ translator runs again and re-stamps. Nothing publishes half-translated.
    send a line back; she does not rewrite it herself.
 8. **Her home.** `personas/maya/wander.md`: strike the promise; § "Уходя" says a
    walk's post is finished in Russian first and then handed to the translator,
-   the drift gate being what holds it; § "Куда идти" says she reads Russian
-   sources first on a walk — Vova: «на новых прогулках ты в первую очередь
-   читаешь русскоязычный контент».
+   the drift gate being what holds it; § "Кто ты", where she re-reads her last
+   walks on waking, says she reads them in Russian, the `.ru.md` originals,
+   never the translations — Vova: «я имел в виду именно свои предыдущие гуляния
+   читать в первую очередь на русском». Where a walk goes for sources is
+   unchanged.
 9. **Verify.** `pnpm build:maya` and `build:vova` (the loader and the card
    fallback are shared), `content:og:maya --check`, `check:i18n-payload`,
    `check:translations`, tests for the pairing, the suffix parse and the drift
