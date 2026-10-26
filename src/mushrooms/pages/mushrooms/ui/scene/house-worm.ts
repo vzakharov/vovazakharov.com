@@ -5,22 +5,24 @@ import type { MushroomGenes } from '../../model/mushroom-genes';
 import { capOnCanvas } from '../../model/mushroom-outline';
 import {
   pathLength,
+  type TripPhase,
+  wormBody,
+  wormGirth,
+  wormPeek,
+  type WormPose,
+  wormTrip,
+} from '../../model/worm';
+import {
   PEEK_SPAN,
   peekPath,
   peekWindow,
-  type TripPhase,
   tripSpan,
   tripWindows,
   WINDOW_SWING,
-  wormBody,
   wormClock,
-  wormGirth,
   wormPath,
-  wormPeek,
-  type WormPose,
   wormTarget,
-  wormTrip,
-} from '../../model/worm';
+} from '../../model/worm-way';
 import { SHUT_WINDOW, type WindowSwing } from './draw-house';
 import type { ShownWorm } from './draw-worm';
 import type { MeadowSound } from './sound';

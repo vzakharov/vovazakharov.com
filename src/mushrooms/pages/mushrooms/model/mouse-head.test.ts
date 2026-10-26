@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mouseHead } from './door-reach';
+import { mouseHead } from './mouse-head';
 
 describe('mouseHead', () => {
   for (const door of [8, 20, 60]) {

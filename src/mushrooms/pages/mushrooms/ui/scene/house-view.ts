@@ -11,10 +11,14 @@ import {
   lookAbout,
   type Tapped,
 } from '../../model/motion';
+import { mouseHead } from '../../model/mouse-head';
+import { capOnCanvas } from '../../model/mushroom-outline';
 import { capFrame } from '../../model/mushroom-pose';
 import { type BedPlace, standAt } from './bed-place';
-import { doorHitArea, mouseHead } from './door-reach';
+import { doorHitArea } from './door-reach';
 import { paintHouse, type ShownWindow } from './draw-house';
+import { paintMouse } from './draw-mouse';
+import { paintWorm } from './draw-worm';
 import type { Lights } from './dusk-view';
 import { type Dusked, hazeTone } from './haze-tone';
 import { containsOutline, drawnMushrooms } from './hit-areas';
@@ -359,9 +363,21 @@ export class HouseView {
     this.face = windowFace(genes, size);
     this.painted = { windows, brush };
     const worm = this.worm.shown(t, genes, size, this.zoom);
-    paintHouse(this.graphics, genes, size, windows, door, brush, worm);
+    const { graphics, hit } = this;
+    paintHouse(graphics, genes, size, windows, door, brush, {
+      worm:
+        worm &&
+        (() => {
+          paintWorm(graphics, capOnCanvas(genes, size), size, worm, brush);
+        }),
+      mouse:
+        door &&
+        ((place, opening) => {
+          paintMouse(graphics, place, opening, door, brush);
+        }),
+    });
     if (!door) return;
-    this.hit.push(...doorHitArea(door.station, size));
+    hit.push(...doorHitArea(door.station, size));
     this.shownHead = mouseHead(door.station.width * size * door.popped);
   }
 

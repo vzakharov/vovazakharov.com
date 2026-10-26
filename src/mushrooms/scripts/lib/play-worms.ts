@@ -12,10 +12,8 @@
 import type { z } from 'zod';
 
 import { FURNISHINGS } from '@/mushrooms/pages/mushrooms/model/house';
-import {
-  WINDOW_SWING,
-  WORM_GIRTH_LEAST,
-} from '@/mushrooms/pages/mushrooms/model/worm';
+import { WORM_GIRTH_LEAST } from '@/mushrooms/pages/mushrooms/model/worm';
+import { WINDOW_SWING } from '@/mushrooms/pages/mushrooms/model/worm-way';
 
 import {
   Box,

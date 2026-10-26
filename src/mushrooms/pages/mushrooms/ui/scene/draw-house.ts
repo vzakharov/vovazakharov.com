@@ -18,8 +18,6 @@ import {
 } from '../../model/house';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import { capOnCanvas, toCanvas } from '../../model/mushroom-outline';
-import { paintMouse, type Peeking } from './draw-mouse';
-import { paintWorm, type ShownWorm } from './draw-worm';
 import { inkFor, innerInk } from './ink';
 import { haloFor, mushroomTints } from './mushroom-tints';
 import { PALETTE } from './palette';
@@ -376,7 +374,17 @@ type Popped = { popped: number };
 /** A window as the house paints it, and how far a worm's trip has it open. */
 export type ShownWindow = Popped & { kind: WindowKind; swing?: WindowSwing };
 /** A door as the house paints it: where on the stem it stands, and how open. */
-export type ShownDoor = Popped & Peeking & Opened & { station: DoorPlace };
+export type ShownDoor = Popped & Opened & { station: DoorPlace };
+
+/**
+ * Who lives in a house, each painted at its moment in the house's own: the
+ * worm over the windows, the mouse in the open doorway under the leaf, at
+ * `place` with `opening` the doorway's outline.
+ */
+export type Tenants = {
+  worm?: () => void;
+  mouse?: (place: Place, opening: readonly Point[]) => void;
+};
 
 /**
  * A mushroom's windows on its cap, each in its slot of `windowSlots` in the
@@ -407,8 +415,7 @@ export function paintWindows(
  * `drawMushroom` paints it in — the foot at the graphics' own position — so
  * they go wherever the mushroom does. Each window in its slot of
  * `windowSlots`, in the order it was put in; the door at its station on the
- * stem, with the mouse in its doorway while it is open; and `worm`, out of
- * a window, over the windows.
+ * stem; and the `tenants` at their moments.
  */
 export function paintHouse(
   graphics: Phaser.GameObjects.Graphics,
@@ -417,10 +424,10 @@ export function paintHouse(
   windows: readonly ShownWindow[],
   door: ShownDoor | undefined,
   brush: Brush,
-  worm?: ShownWorm,
+  { worm, mouse }: Tenants = {},
 ): void {
   paintWindows(graphics, genes, size, windows, brush);
-  if (worm) paintWorm(graphics, genes, size, worm, brush);
+  worm?.();
   if (!door || door.popped <= 0) return;
   const tints = mushroomTints(genes);
   const { place, aspect } = doorFrame(door.station, size, door.popped);
@@ -429,6 +436,6 @@ export function paintHouse(
     halo: haloFor(PALETTE.woodDeep, brush.tone(tints.stem)),
   };
   paintDoor(graphics, place, aspect, door.open, onItsStem, () => {
-    paintMouse(graphics, place, doorway(aspect), door, brush);
+    mouse?.(place, doorway(aspect));
   });
 }

@@ -413,10 +413,7 @@ function paintHome(
   const door = station && {
     station,
     popped: 1,
-    out: 0,
     open: 0,
-    look: 0,
-    shut: false,
   };
   const windows = house.windows.map((kind) => ({ kind, popped: 1 }));
   const brush = {

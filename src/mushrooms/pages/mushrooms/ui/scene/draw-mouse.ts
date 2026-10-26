@@ -2,8 +2,8 @@ import type * as Phaser from 'phaser';
 
 import { clipToConvex, ellipse, type Point } from '../../model/geometry';
 import type { Looking } from '../../model/motion';
+import { MOUSE_HEAD_R } from '../../model/mouse-head';
 import { RUNNER_REACH } from '../../model/mouse-run-course';
-import { MOUSE_HEAD_R } from './door-reach';
 import { inkFor, TAPER, taperedLine, upward, weightedOutline } from './ink';
 import { PALETTE } from './palette';
 import { box, type Brush, fillShape, type Place } from './shapes';

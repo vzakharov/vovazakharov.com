@@ -1,7 +1,6 @@
 /**
- * A door as a finger's target, whatever the size its stem leaves the door,
- * and its mouse's size: in the pixels its house's graphics paints in, which
- * at rest are CSS pixels.
+ * A door as a finger's target, whatever the size its stem leaves the door:
+ * in the pixels its house's graphics paints in, which at rest are CSS pixels.
  */
 
 import { ellipse, type Point, ROUND_STEPS } from '../../model/geometry';
@@ -29,12 +28,4 @@ export function doorHitArea(door: DoorPlace, size: number): Point[] {
     middle,
     Math.max(TAP_RADIUS, reach) / Math.cos(Math.PI / ROUND_STEPS),
   );
-}
-
-/** The mouse's head radius, in door widths, drawn at its door's own scale. */
-export const MOUSE_HEAD_R = 0.3;
-
-/** How far across, in pixels, the mouse's head is drawn at a door `doorWidth` pixels wide. */
-export function mouseHead(doorWidth: number): number {
-  return 2 * MOUSE_HEAD_R * doorWidth;
 }
