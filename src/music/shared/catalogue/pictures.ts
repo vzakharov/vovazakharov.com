@@ -11,19 +11,12 @@ import {
   type ArtistWorks,
   catalogueReleases,
   releasedBy,
-<<<<<<< HEAD:src/music/shared/catalogue/pictures.ts
+  wipApart,
 } from './catalogue.ts';
 import { artistPath, musicPath, radioPath } from './music-urls.ts';
 import type { MusicAlbum, MusicProject } from './names.ts';
 import type { SongDocument } from './song-text.ts';
 import { catalogueSongs } from './songs.ts';
-=======
-  wipApart,
-} from './catalogue';
-import { artistPath, musicPath, radioPath } from './music-urls';
-import type { SongDocument } from './song-text';
-import { catalogueSongs } from './songs';
->>>>>>> origin/main:src/pages/music/lib/pictures.ts
 
 /*
  * What each page of the catalogue is pictured by — on the page, on a tile, and
@@ -72,28 +65,14 @@ function releasePicture(release: ArtistRelease): string | undefined {
  * so neither a later single nor a release still in the works stands for the
  * whole body of work.
  */
-<<<<<<< HEAD:src/music/shared/catalogue/pictures.ts
 export function artistPicture({
   discography: { albums, singles },
   billed,
 }: ArtistWorks): string | undefined {
-  const pictures = [
-    ...albums.map((album) => albumCover(album)),
-    ...[...singles, ...billed].map((song) => songPicture(song)),
-=======
-export function artistPicture(
-  artist: MusicProject,
-  locale: Locale,
-  songs: readonly SongDocument[],
-): string | undefined {
-  const { albums, singles } = artistDiscography(artist, locale, songs);
   const { finished, wip } = wipApart(albums);
   const pictures = [
     ...[...finished, ...wip].map((album) => albumCover(album)),
-    ...[...singles, ...artistSongs(artist, songs)].map((song) =>
-      songPicture(song),
-    ),
->>>>>>> origin/main:src/pages/music/lib/pictures.ts
+    ...[...singles, ...billed].map((song) => songPicture(song)),
   ];
 
   return pictures.find((picture) => picture !== undefined);

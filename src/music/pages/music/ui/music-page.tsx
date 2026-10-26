@@ -13,11 +13,14 @@ import { findFeed } from '@/blog/shared/content';
 import {
   type CatalogueInfo,
   catalogueInfo,
+  type MusicAlbum,
   scriptSample,
   songTrack,
   tabPath,
   trackNames,
+  wipApart,
 } from '@/music/shared/catalogue';
+import { messages } from '@/music/shared/i18n';
 import { Spelling } from '@/music/shared/ui';
 import { CatalogueGrid } from '@/music/widgets/catalogue-grid';
 import { MusicNav } from '@/music/widgets/music-nav';
@@ -29,7 +32,7 @@ import { MusicSection } from './music-section';
 
 /**
  * The section's front page: the artists, each a way into its albums and songs,
- * or every album, or every song — one tab each.
+ * or every album, those in the works last, or every song — one tab each.
  */
 export function MusicPage({ locale, tab }: IndexPageProps) {
   const catalogue = catalogueInfo();
@@ -89,7 +92,7 @@ function tabContent(
       };
     }
     case 'albums': {
-      const tiles = albums.map((album) => {
+      const albumTile = (album: MusicAlbum) => {
         const { artist, detail, ...tile } = catalogueAlbum(album, locale);
 
         return {
@@ -102,11 +105,23 @@ function tabContent(
             </>
           ),
         };
-      });
+      };
+      const { finished, wip } = wipApart(albums);
+      const tiles = finished.map((album) => albumTile(album));
+      const wipTiles = wip.map((album) => albumTile(album));
 
       return {
-        content: <CatalogueGrid {...{ tiles }} />,
-        names: tiles.flatMap(({ name, artist }) => [
+        content: (
+          <Stack gap={48}>
+            <CatalogueGrid {...{ tiles }} />
+
+            <CatalogueGrid
+              title={messages(locale).wip.heading}
+              tiles={wipTiles}
+            />
+          </Stack>
+        ),
+        names: [...tiles, ...wipTiles].flatMap(({ name, artist }) => [
           name.original,
           artist.name.original,
         ]),

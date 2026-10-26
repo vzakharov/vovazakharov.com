@@ -1,5 +1,5 @@
-import { pick } from '@/shared/lib/collections';
-import type { Sourced, WithUrl } from '@/shared/typings';
+import { pick } from '@/kernel/shared/lib/collections';
+import type { Sourced, WithUrl } from '@/kernel/shared/typings';
 
 import {
   type DeckListeners,

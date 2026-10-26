@@ -178,7 +178,6 @@ left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
 updated the two muthur watermark rows it was in; three more had gone false, and
 the next sync would re-copy them over the push. _мы не отдрифтились отсюда?_
 
-<<<<<<< HEAD
 **26 October — the tokens renamed, the sentences around them unread.** PR #169
 folded every per-site pnpm entry into one taking the site, and a regex swept the
 callers. The README still listed `pnpm dev` for four sites, `maya` missing, then
@@ -192,10 +191,7 @@ song feed fell out of both, and `songs.md` had never reached the player or the
 masters scripts its own body describes: _does the glob still hold — for the
 additions and in general?_ `songs.md` now globs all of `src/music/`.
 
-## Asked for a source, it supplies its own version (×14)
-=======
 ## Asked for a source, it supplies its own version (×15)
->>>>>>> origin/main
 
 The version that argues better is the one that gets written: with the file open
 the agent paraphrases it, with no source at all it supplies one.

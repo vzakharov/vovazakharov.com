@@ -1,20 +1,12 @@
 import { type ActionDispatch, useEffect, useMemo, useRef } from 'react';
 
-<<<<<<< HEAD:src/music/features/player/model/use-station.ts
 import type {
   PlayerTrack,
   WithTrack,
 } from '@/music/shared/catalogue/index.node-safe';
 
-import { seguePositions } from './player-state';
-=======
 import type { Decks } from './decks';
-import {
-  type PlayerTrack,
-  seguePositions,
-  type WithTrack,
-} from './player-state';
->>>>>>> origin/main:src/pages/music/lib/use-station.ts
+import { seguePositions } from './player-state';
 import type { OnRadio, RadioPlayerAction } from './radio-state';
 import {
   nextStation,

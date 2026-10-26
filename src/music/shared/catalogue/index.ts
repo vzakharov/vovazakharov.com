@@ -1,3 +1,4 @@
+export { wipApart } from './catalogue';
 export {
   albumInfo,
   artistInfo,

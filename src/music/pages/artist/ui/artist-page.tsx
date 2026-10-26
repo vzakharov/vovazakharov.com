@@ -9,11 +9,13 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 import {
   artistPath,
   catalogueInfo,
+  type MusicAlbum,
   musicPath,
   scriptSample,
   songPicture,
   songTrack,
   trackNames,
+  wipApart,
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
 import { HookLine } from '@/music/entities/hook';
@@ -26,8 +28,8 @@ import { Story } from '@/music/widgets/story';
 import type { ArtistPageProps } from '../lib/artist-metadata';
 
 /**
- * One project: its own text where it has one, the albums it put out, then its
- * singles, then every song it is billed on.
+ * One project: its own text where it has one, the albums it put out, then those
+ * still in the works, then its singles, then every song it is billed on.
  */
 export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const catalogue = catalogueInfo();
@@ -40,14 +42,17 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
     billed,
     size,
   } = catalogue.artist(artist, locale);
-  const albumTiles = albums.map((album) => {
+  const albumTile = (album: MusicAlbum) => {
     const { detail, ...tile } = catalogue.album(album, locale);
 
     return {
       ...pick(tile, 'href', 'slug', 'name', 'cover', 'wip'),
       detail: detail.join(' · '),
     };
-  });
+  };
+  const { finished, wip } = wipApart(albums);
+  const albumTiles = finished.map((album) => albumTile(album));
+  const wipTiles = wip.map((album) => albumTile(album));
   const singleTiles = singles.map((single) => {
     const { titles, routes } = songTrack(single);
 
@@ -63,7 +68,9 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const sample = scriptSample(
     [
       name.original,
-      ...[...albumTiles, ...singleTiles].map((tile) => tile.name.original),
+      ...[...albumTiles, ...wipTiles, ...singleTiles].map(
+        (tile) => tile.name.original,
+      ),
       ...trackNames(tracks, locale),
     ],
     locale,
@@ -93,6 +100,8 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
         />
 
         <CatalogueGrid title={copy.albums} tiles={albumTiles} />
+
+        <CatalogueGrid title={copy.wip.heading} tiles={wipTiles} />
 
         <CatalogueGrid title={copy.singles} tiles={singleTiles} />
 
