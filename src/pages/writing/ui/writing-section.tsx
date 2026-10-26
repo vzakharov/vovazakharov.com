@@ -30,6 +30,12 @@ export function WritingSection() {
 
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing={16}>
         <SummaryCard
+          title="The Five Percent"
+          description="For seven weeks my agent logged every review that overturned something it had settled: 214 of them, and 90 were one mistake — taking what it was handed as fixed. With the half that deflates the count."
+          href="https://latestageagentic.com/blog/the-five-percent"
+        />
+
+        <SummaryCard
           title="Hard Times, Strong Men, and Other Convenient Memes"
           description="Systematic dismantling of the civilizational cycle meme with historical counterexamples and a warning against uncritical support for authoritarian rhetoric."
           href="https://glitchporn.substack.com/p/hard-times-strong-men"
