@@ -72,7 +72,10 @@ export function entryCards<E extends Slugged>(
   return entries.map((entry) =>
     generatedCard(
       card(entry),
-      path.join(PUBLIC_DIR, routeCardPath(documentRoute(collection, entry.slug))),
+      path.join(
+        PUBLIC_DIR,
+        routeCardPath(documentRoute(collection, entry.slug)),
+      ),
     ),
   );
 }

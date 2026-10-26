@@ -232,14 +232,35 @@ looked at playing.
   prop types stay the pages', whose barrel exports the five pages and their
   metadata. vova's router and sitemap enter it.
 
-Collections into blog, begun on `masd/collections-blog` (9d9a870): typecheck
-clean, nothing else run.
+Collections into blog (review on #169): typecheck, lint, Steiger, `check:masd`,
+knip, the tests and every render's `--check` clean; bible, lsa and vova built.
+kernel imports nothing of blog's.
 
-- **`blog/shared/content`** is the old `kernel/shared/content`, every alias
-  importer repointed. What names no collection stayed kernel's: `PUBLIC_DIR` and
-  `GENERATED_DIR` (`shared/config/public-dir.ts`, node-safe barrel only),
+- **`blog/shared/content`** is the old `kernel/shared/content`. What names no
+  collection stayed kernel's: `PUBLIC_DIR` and `GENERATED_DIR`
+  (`shared/config/public-dir.ts`, node-safe barrel only),
   `shared/lib/content-hash.ts`, `WithOptionalOgImageSize` in `shared/seo`'s
   `og-card.ts`, `Routed` in `shared/typings`.
+- **kernel's factories take what names a collection from outside**: `sitemap` a
+  thunk of pages beside `/`, `constructMetadata` the feeds to advertise, and
+  `constructRootMetadata` the same for `/`. blog's app layer holds the
+  collection `sitemap`, `collectionFeed` and a `rootMetadata` advertising the
+  site's feeds, which every blog site's layouts and vova's `global-not-found`
+  take; `blog/shared/seo` holds a `constructMetadata` supplying the feeds and
+  `constructArticleMetadata`, which every page under blog calls. mushrooms calls
+  kernel's, so `/mushrooms` advertises no feed; lsa, serving no collection,
+  keeps kernel's sitemap and root metadata.
+- **Scripts**: kernel's `site-tree.ts` (`REPO_ROOT`, `RENDERED_SITE`,
+  `filesUnder`) and blog's `content-tree.ts` (the collection roots and
+  `contentFiles`); `read-collection`, `heading-title`, `public-markdown`,
+  `check-prose-quotes` and `render-mermaid` are blog's. kernel's `og-job` keeps
+  the mechanism and the site card, exporting `svgCard`; blog's `og-job.ts` adds
+  the chart cards and the content tree's manifest roots in
+  `renderDocumentOgCards`, which every printing site calls, and `entryCards`
+  makes maya's and basilisk's card per entry. `ManifestRoots.manifestDirs` is
+  required. blog's scripts enter `shared/content` through its node-safe barrel,
+  which holds the registry and the mermaid paths, so kernel's three entries in
+  the grandfathered block went and none of blog's joined it.
 
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
@@ -281,42 +302,6 @@ those slices carry their own tools along.
   `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
   slices 5 and 6 left in it — `list-untold-songs` among them, whose
   `catalogue-names.ts` reads the filesystem under bare Node.
-
-## This bite
-
-**Collections into blog** (review on #169). Only blog and its descendants read
-the collection registry; kernel holds it because its own sitemap, feed and
-metadata factories do. Those take what they need from outside, and
-`kernel/shared/content` moves to `blog/shared/content`, which kernel no longer
-imports:
-
-- **Still reading blog from kernel**, to cut loose below: `app/lib`'s sitemap
-  and feed, `shared/seo/construct-metadata.ts`, and the scripts
-  `render-mermaid`, `content-tree`, `public-markdown`, `read-collection` and
-  `og-job` (the first three now reach blog by a relative path).
-- **Sitemap**: kernel's `sitemap(pages)` takes a thunk of
-  `{ route, lastModified? }` and adds only `/`; blog's app layer has
-  `sitemap(routes)`, which adds the collections' indexes and documents — vova,
-  bible, basilisk and maya call blog's, lsa kernel's.
-- **Feed**: `collectionFeed` is blog's app layer's; the feed routers import it
-  there.
-- **Metadata**: kernel's `constructMetadata` takes `feeds` (`{ route, title }`
-  links) as a parameter. `blog/shared/seo` has a `constructMetadata` that
-  supplies `listFeeds(SITE_ID)`, and `constructArticleMetadata`, so every page
-  under blog calls blog's. mushrooms calls kernel's with none, so `/mushrooms`
-  stops advertising the site's feeds — a game page, which no feed reader is sent
-  to; recommended over threading the feeds through vova's app layer.
-- **Scripts**: kernel's `content-tree.ts` keeps what names no collection
-  (`REPO_ROOT`, `RENDERED_SITE`, `filesUnder`) as `site-tree.ts`; blog's
-  `scripts/lib/content-tree.ts` holds `CONTENT_DIRS`, `PRINTABLE_CONTENT_DIRS`
-  and `contentFiles`. `read-collection`, `public-markdown`, `render-mermaid` and
-  `check-prose-quotes` (which reads collections through `public-markdown`) move
-  to blog's scripts. kernel's `og-job` keeps the mechanism and the site card,
-  and its `chartCards` — a document's frontmatter `ogImage` — move to blog's
-  `og-job.ts`, whose `renderDocumentOgCards` adds them and the content tree's
-  manifest roots before delegating; `render-manifest`'s `manifestDirs` becomes
-  required. Beside it `entryCards(collection, entries, card)` replaces maya's
-  and basilisk's one-card-per-entry block.
 
 ## DRY notes
 

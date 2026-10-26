@@ -192,10 +192,7 @@ export async function renderOgCards(...bundles: OgBundle[]): Promise<void> {
           ...bundles.flatMap(({ manifestDirs }) => manifestDirs ?? []),
         ]),
       ],
-      entries: [
-        ...siteCards,
-        ...bundles.flatMap(({ cards }) => cards ?? []),
-      ],
+      entries: [...siteCards, ...bundles.flatMap(({ cards }) => cards ?? [])],
       render: (stale) => {
         const chromium = findScreenshotChromium();
         for (const card of stale) renderCard(card, chromium);

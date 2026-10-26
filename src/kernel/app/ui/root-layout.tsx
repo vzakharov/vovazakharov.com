@@ -17,9 +17,7 @@ import {
  * page's does through its route module: a `metadata` this file exports and the
  * route does not is never read.
  */
-export function constructRootMetadata(
-  feeds?: readonly FeedLink[],
-): Metadata {
+export function constructRootMetadata(feeds?: readonly FeedLink[]): Metadata {
   return {
     metadataBase: new URL(SITE_CONFIG.url),
     // Through the helper, not beside it: the spread carries every key the
