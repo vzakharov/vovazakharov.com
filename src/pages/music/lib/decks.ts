@@ -26,11 +26,7 @@ export type Decks = Hushing & {
   arm: (src: string | undefined) => void;
   /** Put the file due next on the active element if it is `src` and loaded, and say whether it did. */
   cue: (src: string) => boolean;
-  /**
-   * Play the active deck. A refusal reaches `onRefused`, unless it is the
-   * browser declining a deck the reader never started while the other one has
-   * played: the file then moves onto that one.
-   */
+  /** Play the active element; a refusal the audio cannot get past reaches `onRefused`. */
   play: (onRefused: () => void) => void;
   setVolume: (volume: number) => void;
 };
@@ -110,6 +106,8 @@ export function createDecks(listeners: DeckListeners): Decks {
     standby.src = wanted;
   }
 
+  // The browser declining a deck the reader never started, while the other one
+  // has played, moves the file onto that one rather than reaching `onRefused`.
   function play(onRefused: () => void) {
     const deck = active;
 
