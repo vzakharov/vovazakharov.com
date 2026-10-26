@@ -1,3 +1,11 @@
+import type { Sized } from '@/kernel/shared/typings';
+
+/**
+ * Absent wherever the Open Graph card falls back to the site's own, whose size
+ * the config already states.
+ */
+export type WithOptionalOgImageSize = { ogImageSize?: Sized };
+
 /**
  * The suffix of a committed Open Graph render. `pnpm content:og` produces every
  * image under it, and its `--check` holds each to the source it was rendered

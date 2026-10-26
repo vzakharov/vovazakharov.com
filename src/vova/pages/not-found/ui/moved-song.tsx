@@ -3,7 +3,6 @@
 import { Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
-import type { Slugged } from '@/kernel/shared/content';
 import {
   addressLocale,
   DEFAULT_LOCALE,
@@ -13,6 +12,8 @@ import {
 } from '@/kernel/shared/i18n';
 
 import { TextLink } from '@/shell/shared/ui';
+
+import type { Slugged } from '@/blog/shared/content';
 
 import type { Messages } from '@/vova/shared/i18n';
 

@@ -7,13 +7,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { resolveSiteId } from '../../shared/config/index.node-safe.ts';
 import {
   collectionDir,
   COLLECTIONS,
   collectionsForSite,
-  GENERATED_DIR,
-} from '../../shared/content/collections.ts';
+} from '../../../blog/shared/content/collections.ts';
+import { resolveSiteId } from '../../shared/config/index.node-safe.ts';
+import { GENERATED_DIR } from '../../shared/config/index.node-safe.ts';
 
 export const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..', '..');
 

@@ -10,11 +10,10 @@
 
 import path from 'node:path';
 
-import {
-  documentRoute,
-  PUBLIC_DIR,
-} from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { routeCardPath } from '@/kernel/shared/seo';
+
+import { documentRoute } from '@/blog/shared/content/index.node-safe';
 
 import { CASES } from '@/basilisk/shared/content';
 

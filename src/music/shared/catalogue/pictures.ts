@@ -1,8 +1,9 @@
 import 'server-only';
 
-import { intrinsicDimensions } from '@/kernel/shared/content';
 import { LOCALES } from '@/kernel/shared/i18n';
 import { OG_PHOTO_CARD_SUFFIX, routeCardPath } from '@/kernel/shared/seo';
+
+import { intrinsicDimensions } from '@/blog/shared/content';
 
 import { albumCover } from './albums.ts';
 import {

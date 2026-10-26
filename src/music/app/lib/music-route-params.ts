@@ -1,6 +1,5 @@
 import 'server-only';
 
-import { isListed, type Slugged } from '@/kernel/shared/content';
 import {
   DEFAULT_LOCALE,
   isLocale,
@@ -9,6 +8,8 @@ import {
   type WithLocale,
 } from '@/kernel/shared/i18n';
 import { oneOf } from '@/kernel/shared/lib/collections';
+
+import { isListed, type Slugged } from '@/blog/shared/content';
 
 import {
   albumPath,

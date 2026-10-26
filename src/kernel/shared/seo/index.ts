@@ -3,4 +3,5 @@ export {
   OG_CARD_SUFFIXES,
   OG_PHOTO_CARD_SUFFIX,
   routeCardPath,
+  type WithOptionalOgImageSize,
 } from './og-card';

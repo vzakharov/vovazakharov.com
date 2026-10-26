@@ -1,11 +1,12 @@
 import { SITE_CONFIG } from '@/kernel/shared/config';
+
+import { type MemoField, MemoFields } from '@/shell/shared/ui';
+
 import {
   documentDateTime,
   formatDocumentDate,
   type WithFrontmatter,
-} from '@/kernel/shared/content';
-
-import { type MemoField, MemoFields } from '@/shell/shared/ui';
+} from '@/blog/shared/content';
 
 import type { CaseFrontmatter } from '@/basilisk/shared/content';
 

@@ -1,7 +1,8 @@
-import { collectionRoute, MUSIC_ROUTE } from '@/kernel/shared/content';
 import { byLocale } from '@/kernel/shared/i18n';
 
 import { PageShell } from '@/shell/shared/ui';
+
+import { collectionRoute, MUSIC_ROUTE } from '@/blog/shared/content';
 
 import { messages } from '@/vova/shared/i18n';
 

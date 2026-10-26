@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next';
 
 import { getAbsoluteUrl, SITE_ID } from '@/kernel/shared/config';
+import { routing } from '@/kernel/shared/i18n';
+
 import {
   type CollectionId,
   collectionRoute,
@@ -10,8 +12,7 @@ import {
   isListed,
   listAllDocuments,
   localizedRoute,
-} from '@/kernel/shared/content';
-import { routing } from '@/kernel/shared/i18n';
+} from '@/blog/shared/content';
 
 /**
  * Which addresses a page in this collection is advertised at. A localized

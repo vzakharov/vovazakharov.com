@@ -1,8 +1,8 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
 
-import type { ServedMarkdown } from '@/kernel/shared/content';
-
 import { FileLink } from '@/shell/shared/ui';
+
+import type { ServedMarkdown } from '@/blog/shared/content';
 
 import type { Glossed } from '@/music/shared/catalogue';
 import type { WithSpelledTitle } from '@/music/shared/catalogue/index.node-safe';

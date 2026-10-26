@@ -3,14 +3,15 @@ import 'server-only';
 import type { Metadata } from 'next';
 
 import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
+import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/kernel/shared/i18n';
+import type { WithOptionalOgImageSize } from '@/kernel/shared/seo';
+import type { Described, MaybeTitled } from '@/kernel/shared/typings';
+
 import {
   type BaseFrontmatter,
   type ContentDocument,
   listFeeds,
-  type WithOptionalOgImageSize,
-} from '@/kernel/shared/content';
-import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/kernel/shared/i18n';
-import type { Described, MaybeTitled } from '@/kernel/shared/typings';
+} from '@/blog/shared/content';
 
 /** Open Graph's tag for each language, which takes a region where BCP-47 needs none. */
 const OG_LOCALES: Record<Locale, string> = { en: 'en_US', ru: 'ru_RU' };

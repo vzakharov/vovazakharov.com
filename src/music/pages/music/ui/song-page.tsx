@@ -2,12 +2,12 @@ import { Box, Group, Stack, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
 
 import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
-import type { Routed } from '@/kernel/shared/content';
 import { pick } from '@/kernel/shared/lib/collections';
 import {
   constructMetadata,
   localizedAddresses,
 } from '@/kernel/shared/seo/index.server-only';
+import type { Routed } from '@/kernel/shared/typings';
 
 import { FileLink, hoverDim, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';

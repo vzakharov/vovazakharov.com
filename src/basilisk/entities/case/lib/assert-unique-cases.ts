@@ -2,7 +2,7 @@ import type {
   BaseFrontmatter,
   Slugged,
   WithFrontmatter,
-} from '@/kernel/shared/content';
+} from '@/blog/shared/content';
 
 import type { Docketed } from '@/basilisk/shared/content';
 

@@ -21,12 +21,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
-import { documentDateTime, formatDocumentDate } from '@/kernel/shared/content';
-import {
-  documentRoute,
-  PUBLIC_DIR,
-} from '@/kernel/shared/content/index.node-safe';
+
+import { documentDateTime, formatDocumentDate } from '@/blog/shared/content';
+import { documentRoute } from '@/blog/shared/content/index.node-safe';
 
 import {
   caseSealSvg,

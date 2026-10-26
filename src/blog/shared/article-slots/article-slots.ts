@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { BaseFrontmatter, ContentDocument } from '@/kernel/shared/content';
+import type { BaseFrontmatter, ContentDocument } from '@/blog/shared/content';
 
 type Slot<F extends BaseFrontmatter> = (
   document: ContentDocument<F>,

@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 
-import type { CollectionId } from '@/kernel/shared/content';
 import type { Described } from '@/kernel/shared/typings';
+
+import type { CollectionId } from '@/blog/shared/content';
 
 /** The line that is both a collection index's meta description and its lede, and the prose under it where one line is not enough. */
 type CollectionIntro = Described & { intro?: ReactNode };

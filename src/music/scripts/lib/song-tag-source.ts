@@ -7,9 +7,10 @@
 import path from 'node:path';
 
 import { getAbsoluteUrl } from '@/kernel/shared/config';
-import type { Slugged } from '@/kernel/shared/content';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithFileName } from '@/kernel/shared/typings';
+
+import type { Slugged } from '@/blog/shared/content';
 
 import {
   albumInfo,

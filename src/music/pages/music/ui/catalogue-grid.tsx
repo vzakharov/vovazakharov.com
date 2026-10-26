@@ -2,11 +2,12 @@ import { Box, Text } from '@mantine/core';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 
-import type { Slugged } from '@/kernel/shared/content';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { MaybeTitled } from '@/kernel/shared/typings';
 
 import { NameLink, Subheading } from '@/shell/shared/ui';
+
+import type { Slugged } from '@/blog/shared/content';
 
 import type {
   Spelled,

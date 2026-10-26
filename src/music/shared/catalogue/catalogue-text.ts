@@ -1,7 +1,8 @@
 import 'server-only';
 
-import type { ProseSource, ServedMarkdown } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
+
+import type { ProseSource, ServedMarkdown } from '@/blog/shared/content';
 
 import { albumFile, artistFile } from './catalogue-files.ts';
 import type { MusicAlbum, MusicProject } from './names.ts';

@@ -1,7 +1,6 @@
 import { Stack, Text } from '@mantine/core';
 
-import { renderProse } from '@/kernel/shared/content';
-
+import { renderProse } from '@/blog/shared/content';
 import { ProseContent } from '@/blog/entities/document';
 
 import type { StoryParts } from '@/music/shared/catalogue';

@@ -30,9 +30,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { collectionDir } from '@/kernel/shared/content/index.node-safe';
 import { byLocale, inLocale } from '@/kernel/shared/i18n';
 import type { Dated, Named, Timed } from '@/kernel/shared/typings';
+
+import { collectionDir } from '@/blog/shared/content/index.node-safe';
 
 import {
   readSiteCatalogueNames,

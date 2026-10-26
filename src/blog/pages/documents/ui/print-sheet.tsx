@@ -1,5 +1,5 @@
-import type { Routed } from '@/kernel/shared/content';
 import type { WithChildren } from '@/kernel/shared/typings';
+import type { Routed } from '@/kernel/shared/typings';
 
 import classes from './documents.module.scss';
 import { PrintedFrom } from './printed-from';

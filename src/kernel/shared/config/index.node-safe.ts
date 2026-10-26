@@ -4,4 +4,5 @@
  */
 
 export { CANVAS, PIXELS, SCALE } from './og-canvas.ts';
+export { GENERATED_DIR, PUBLIC_DIR } from './public-dir.ts';
 export { resolveSiteId } from './site-env.ts';

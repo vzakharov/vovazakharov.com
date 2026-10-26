@@ -3,15 +3,8 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import type { Sized } from '@/kernel/shared/typings';
-
-import { PUBLIC_DIR } from './collections';
-
-/**
- * Absent wherever the Open Graph card falls back to the site's own, whose size
- * the config already states.
- */
-export type WithOptionalOgImageSize = { ogImageSize?: Sized };
 
 /** IHDR is the first chunk: 8-byte signature, 4-byte length, 4-byte type. */
 function pngDimensions(file: Buffer): Sized {

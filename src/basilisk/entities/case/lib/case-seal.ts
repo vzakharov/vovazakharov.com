@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import type { Routed, WithFrontmatter } from '@/kernel/shared/content';
+import type { Routed } from '@/kernel/shared/typings';
+
+import type { WithFrontmatter } from '@/blog/shared/content';
 
 import type { CaseFrontmatter } from '@/basilisk/shared/content';
 

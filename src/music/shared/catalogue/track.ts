@@ -1,7 +1,8 @@
-import type { Slugged } from '@/kernel/shared/content';
 import type { Locale } from '@/kernel/shared/i18n';
 import type { Script } from '@/kernel/shared/lib/script-preference';
 import type { Linked } from '@/kernel/shared/typings';
+
+import type { Slugged } from '@/blog/shared/content';
 
 import type { Playable } from './frontmatter.ts';
 import { type Spelled, spelledText, type WithSpelledName } from './spelling.ts';

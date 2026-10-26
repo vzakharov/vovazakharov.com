@@ -1,9 +1,10 @@
 import { List, ListItem, Stack, Text, Title } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
-import { FEATURED_CASE_STUDY_ROUTE } from '@/kernel/shared/content';
 
 import { Section, TextLink } from '@/shell/shared/ui';
+
+import { FEATURED_CASE_STUDY_ROUTE } from '@/blog/shared/content';
 
 import { messages } from '@/vova/shared/i18n';
 

@@ -15,10 +15,11 @@ import { fileURLToPath } from 'node:url';
 
 import { siteConfig } from '@/kernel/shared/config';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+
 import {
   type ArticleFrontmatter,
   formatDocumentDate,
-} from '@/kernel/shared/content';
+} from '@/blog/shared/content';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/content-tree';
 import {

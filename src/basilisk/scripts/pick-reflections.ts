@@ -8,7 +8,7 @@
 
 import path from 'node:path';
 
-import { collectionDir } from '@/kernel/shared/content/index.node-safe';
+import { collectionDir } from '@/blog/shared/content/index.node-safe';
 
 import { CASES } from '@/basilisk/shared/content';
 

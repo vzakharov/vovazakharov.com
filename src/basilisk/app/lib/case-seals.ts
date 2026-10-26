@@ -1,4 +1,6 @@
-import { listPrimaryDocuments, PUBLIC_DIR } from '@/kernel/shared/content';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+
+import { listPrimaryDocuments } from '@/blog/shared/content';
 
 import { CASES } from '@/basilisk/shared/content';
 import { caseSealFile, caseSealSvg, SEAL_CUTS } from '@/basilisk/entities/case';

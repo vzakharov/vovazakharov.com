@@ -1,16 +1,16 @@
 import { Stack, Text, Title } from '@mantine/core';
 
 import { AUTHOR_URL, SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
+
+import { PageShell, Section, SiteAvatar, TextLink } from '@/shell/shared/ui';
+import { SiteFooter } from '@/shell/widgets/site-footer';
+
 import {
   articleCollection,
   COLLECTIONS,
   findFeed,
   renderPrimaryDocuments,
-} from '@/kernel/shared/content';
-
-import { PageShell, Section, SiteAvatar, TextLink } from '@/shell/shared/ui';
-import { SiteFooter } from '@/shell/widgets/site-footer';
-
+} from '@/blog/shared/content';
 import { DocumentCards } from '@/blog/entities/document';
 
 const COLLECTION = 'maya-blog';

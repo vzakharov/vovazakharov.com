@@ -3,7 +3,7 @@ import 'server-only';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PUBLIC_DIR } from '@/kernel/shared/content';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import type { Locale } from '@/kernel/shared/i18n';
 
 import { albumFile, localGloss, localName } from './catalogue-files.ts';

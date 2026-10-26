@@ -2,12 +2,13 @@ import { Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
 
 import { SITE_ID } from '@/kernel/shared/config';
-import { findFeed } from '@/kernel/shared/content';
 import { byLocale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { PageShell } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import { findFeed } from '@/blog/shared/content';
 
 import {
   type CatalogueInfo,

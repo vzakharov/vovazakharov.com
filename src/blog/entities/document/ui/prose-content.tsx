@@ -3,7 +3,7 @@ import { type Components, toJsxRuntime } from 'hast-util-to-jsx-runtime';
 import type { ReactNode } from 'react';
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 
-import type { WithContentTree } from '@/kernel/shared/content';
+import type { WithContentTree } from '@/blog/shared/content';
 
 import { ContentLink } from './content-link';
 import { ContentVideo } from './content-video';

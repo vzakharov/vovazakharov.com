@@ -5,8 +5,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { Plugin } from 'unified';
 
-import { PUBLIC_DIR } from '../collections';
-import { contentHash } from '../content-hash.ts';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
+
 import { replaceElements } from '../hast-elements';
 import {
   COLOR_SCHEMES,

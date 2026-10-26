@@ -29,10 +29,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PIXELS } from '@/kernel/shared/config/index.node-safe';
+import { PIXELS, PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { siteConfig } from '@/kernel/shared/config/site-config';
-import { PUBLIC_DIR } from '@/kernel/shared/content/collections';
-import { contentHash } from '@/kernel/shared/content/content-hash';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
 import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES } from '@/kernel/shared/seo';
 
 import { findScreenshotChromium } from './chromium.ts';

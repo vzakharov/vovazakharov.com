@@ -41,12 +41,11 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { siteConfig } from '@/kernel/shared/config';
-import {
-  contentHash,
-  isDocumentFile,
-  PUBLIC_DIR,
-  type Routed,
-} from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
+import type { Routed } from '@/kernel/shared/typings';
+
+import { isDocumentFile } from '@/blog/shared/content/index.node-safe';
 
 import { sameRender } from './same-render.ts';
 
@@ -104,7 +103,7 @@ const DOCUMENT_SOURCES = [
   'src/shell/app/styles/prose.scss',
   'src/blog/entities/document',
   'src/blog/pages/documents/ui',
-  'src/kernel/shared/content',
+  'src/blog/shared/content',
 ];
 
 /**

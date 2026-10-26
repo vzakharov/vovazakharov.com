@@ -4,16 +4,17 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 
 import { SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
+import { pick } from '@/kernel/shared/lib/collections';
+
+import { MemoFields, PageShell } from '@/shell/shared/ui';
+import { SiteFooter } from '@/shell/widgets/site-footer';
+
 import {
   articleCollection,
   COLLECTIONS,
   findFeed,
   renderPrimaryDocuments,
-} from '@/kernel/shared/content';
-import { pick } from '@/kernel/shared/lib/collections';
-
-import { MemoFields, PageShell } from '@/shell/shared/ui';
-import { SiteFooter } from '@/shell/widgets/site-footer';
+} from '@/blog/shared/content';
 
 import { CASES } from '@/basilisk/shared/content';
 import { assertUniqueCases, byFilingOrder } from '@/basilisk/entities/case';

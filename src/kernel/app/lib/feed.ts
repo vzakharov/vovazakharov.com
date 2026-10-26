@@ -1,4 +1,8 @@
 import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
+import type { Locale } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
+import { renderRss } from '@/kernel/shared/lib/rss';
+
 import {
   type CollectionId,
   collectionRoute,
@@ -6,10 +10,7 @@ import {
   type FeedSource,
   findFeed,
   localizedRoute,
-} from '@/kernel/shared/content';
-import type { Locale } from '@/kernel/shared/i18n';
-import { pick } from '@/kernel/shared/lib/collections';
-import { renderRss } from '@/kernel/shared/lib/rss';
+} from '@/blog/shared/content';
 
 export function collectionFeed(
   collection: CollectionId,

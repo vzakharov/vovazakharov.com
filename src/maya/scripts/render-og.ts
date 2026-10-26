@@ -9,12 +9,11 @@
 
 import path from 'node:path';
 
-import { articleCollection } from '@/kernel/shared/content';
-import {
-  documentRoute,
-  PUBLIC_DIR,
-} from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { routeCardPath } from '@/kernel/shared/seo';
+
+import { articleCollection } from '@/blog/shared/content';
+import { documentRoute } from '@/blog/shared/content/index.node-safe';
 
 import { mayaPostCard, mayaSiteCard } from './lib/maya-card.ts';
 

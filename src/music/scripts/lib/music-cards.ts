@@ -8,7 +8,7 @@
 import path from 'node:path';
 
 import { siteConfig } from '@/kernel/shared/config';
-import { PUBLIC_DIR } from '@/kernel/shared/content/index.node-safe';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 
 import {
   artistCollage,
