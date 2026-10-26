@@ -59,7 +59,7 @@ mixin that declares them, so adding one is a single edit there. They are
 colour-scheme aware, so nothing branches on the scheme itself.
 
 One exception is the `palette*.ts` modules in
-`src/mushrooms/pages/mushrooms/ui/scene/`, the game's colour table: a canvas is
+`src/mushrooms/shared/ui/`, the game's colour table: a canvas is
 out of the tokens' reach, so every colour it paints is a literal there and
 nowhere else. The other is `.tileArtless` in
 `src/music/widgets/catalogue-grid/ui/catalogue-grid.module.scss`, whose gradient
