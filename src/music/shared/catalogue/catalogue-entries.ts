@@ -178,7 +178,6 @@ export function catalogueInfo(): CatalogueInfo {
   };
 }
 
-/** The size line of `songs`, led by the counts handed in. */
 function sizeLine(
   songs: readonly SongDocument[],
   locale: Locale,
