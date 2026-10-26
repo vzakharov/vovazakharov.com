@@ -108,8 +108,6 @@ export type FlowerGround = WorldScreen &
     clump: ClumpShade;
   };
 
-export { type Footing } from '../../model/ground';
-
 /** The camera a visit's opening screen shows its ground through. */
 function cameraOf({
   width,

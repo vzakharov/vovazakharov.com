@@ -1,6 +1,6 @@
 import type { InsectKind } from '../../model/insect-genes';
 import { WIDEST_SPAN } from './flower-sight';
-import type { InsectSized } from './layout';
+import type { InsectSized } from './insect-size';
 
 /**
  * The widest each kind's open wings span, in units of its own size, whatever

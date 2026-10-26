@@ -13,7 +13,7 @@ import { smooth } from '../../model/motion';
 import { pinholeOf } from '../../model/pinhole';
 import { type Rain, rainbow, wetness } from '../../model/weather';
 import { PUFF_REACH } from './cloud-puffs';
-import type { NearHilled, Sunned } from './layout';
+import type { NearHilled, Sunned } from './sun-layout';
 import { PALETTE } from './palette';
 import { TAP_RADIUS } from './tap-reach';
 

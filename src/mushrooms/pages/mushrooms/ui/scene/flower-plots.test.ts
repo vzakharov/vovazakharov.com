@@ -24,10 +24,10 @@ import {
   FLOWER_SIZE,
   FLOWERS_APART,
   FOOT_CLEARANCE,
-  type Footing,
   HEAD_REACH,
   NEAR_BAND,
 } from './flower-layout';
+import type { Footing } from '../../model/ground';
 import {
   flowerFeet,
   flowersOf,

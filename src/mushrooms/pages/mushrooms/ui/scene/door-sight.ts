@@ -32,7 +32,7 @@ import {
   toCanvas,
 } from '../../model/mushroom-outline';
 import { type Splayed, splayed } from '../../model/mushroom-pose';
-import type { Placement } from './layout';
+import type { Placement } from './clump-layout';
 
 /** How much of a painted door, and of its doorway, has to show past the mushrooms in front of it. */
 export const IN_SIGHT = 0.8;

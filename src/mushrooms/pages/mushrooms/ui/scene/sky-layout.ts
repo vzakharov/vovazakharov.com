@@ -23,6 +23,7 @@ import {
   stacked,
   type WithMap,
 } from './picker-rows';
+import type { SunControls } from './sun-layout';
 import {
   apart,
   BUTTON_INSET,
@@ -115,6 +116,19 @@ export function standingControls({
     house,
     ...INSECT_KINDS.map((kind) => releases[kind]),
   ];
+}
+
+/** The buttons the sun keeps its rays off, as `placeSun` reads them. */
+export function sunControls(controls: Controls): SunControls {
+  const { plus, minus, house, releases, picker, housePicker } = controls;
+  return {
+    plus,
+    minus,
+    house,
+    releases,
+    standing: standingControls(controls),
+    picks: [...picker, ...housePicker],
+  };
 }
 
 /**

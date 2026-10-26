@@ -29,7 +29,8 @@ import { FLOWER_SWAY } from './flower-layout';
 import { standingFlowers } from './flower-plots';
 import { flowerLift, type HeadReach } from './flower-seat';
 import { PERCH_SPREAD, sightingOf } from './flower-sight';
-import { LEAST_SPANS, meadowLayout } from './layout';
+import { meadowLayout } from './layout';
+import { LEAST_SPANS } from './insect-size';
 import { FLOOR_HELD, VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 

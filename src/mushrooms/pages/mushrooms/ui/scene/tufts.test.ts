@@ -24,10 +24,10 @@ import { mulberry32, nextSeed, type Random } from '../../model/random';
 import {
   FLOWER_DOWN,
   FLOWER_SIZE,
-  type Footing,
   headClear,
   standingOn,
 } from './flower-layout';
+import type { Footing } from '../../model/ground';
 import { flowersOf } from './flower-plots';
 import { roomIn, type Stand, takesFlower } from './flower-sight';
 import { type Tuft, tuftSizeAt, turfAt } from './grass';

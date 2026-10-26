@@ -34,7 +34,7 @@ import { groundIn, type MushroomGround, placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { flowersOf } from './flower-plots';
 import { flowerTapReach, type Stand } from './flower-sight';
-import type { Placement } from './layout';
+import type { Placement } from './clump-layout';
 import { meadowCamera } from './meadow-camera';
 import {
   drawnHolds,

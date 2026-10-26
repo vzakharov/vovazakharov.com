@@ -36,7 +36,8 @@ import type { WithSpores } from '../../model/sprouting';
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
-import { FLOWER_SWAY, type Footing, standingOn } from './flower-layout';
+import { FLOWER_SWAY, standingOn } from './flower-layout';
+import type { Footing } from '../../model/ground';
 import {
   flowersOf,
   groundFor,

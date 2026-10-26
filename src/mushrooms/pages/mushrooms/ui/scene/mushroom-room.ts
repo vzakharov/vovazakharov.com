@@ -55,7 +55,8 @@ import { layoutShown } from './eye-crop';
 import { coversShown, type ShownCover } from './flower-cover';
 import { flowerFeet } from './flower-plots';
 import type { Stand } from './flower-sight';
-import type { MeadowLayout, Placement } from './layout';
+import type { MeadowLayout } from './layout';
+import type { Placement } from './clump-layout';
 import { EDGE_MARGIN } from './meadow-camera';
 import {
   type Around,

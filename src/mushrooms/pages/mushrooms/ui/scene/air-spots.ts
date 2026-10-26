@@ -32,7 +32,7 @@ import { INSECT_LIMITS } from '../../model/insects';
 import { mulberry32 } from '../../model/random';
 import type { Zoomed } from './insect-away';
 import { drawnAloft } from './insect-frame';
-import type { InsectCamera } from './layout';
+import type { InsectCamera } from './insect-size';
 import { pointCrowdings } from './perch-crowding';
 import type { Alofted } from './perch-hosts';
 import { placeOfAloft } from './plane-place';

@@ -5,7 +5,8 @@ import { type Phased, shake, sway } from '../../model/motion';
 import { between, type Random } from '../../model/random';
 import { coloursAt, groundAt, type Tones, tonesAt } from './backdrop-tones';
 import { mix } from './colour';
-import type { Footing, MeadowLayout } from './layout';
+import type { MeadowLayout } from './layout';
+import type { Footing } from '../../model/ground';
 import { PALETTE } from './palette';
 
 /** How far a tuft's tip swings in the breeze, in units of its size. */

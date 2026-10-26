@@ -8,29 +8,21 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { Sized } from '@/kernel/shared/typings';
 
-import type { Box, Circle } from '../../model/geometry';
+import type { Box } from '../../model/geometry';
 import {
   type Camera,
   type GroundedScreen,
-  type Hazed,
   OPENING_EYE,
-  type WithCamera,
 } from '../../model/ground';
-import type { InsectKind } from '../../model/insect-genes';
 import { openingPan, screenOf } from '../../model/pan';
-import { clumpCrowns, type MushroomGround } from './clump-layout';
+import { pinholeOf } from '../../model/pinhole';
+import { type ClumpGround, clumpCrowns, everyPlace } from './clump-layout';
 import { clumpShade, type Opener } from './clump-shade';
 import { FAR_BAND } from './far-band';
-import {
-  type Bed,
-  flowersOn,
-  type Footing,
-  NEAR_BAND,
-  seededBed,
-} from './flower-layout';
+import { type Bed, flowersOn, NEAR_BAND, seededBed } from './flower-layout';
 import { gaitSpot } from './gait-spot';
+import { type InsectCamera, insectScaled } from './insect-size';
 import { MEADOW_FRAME, meadowCamera } from './meadow-camera';
 import { type Cloud, skyClouds } from './panorama';
 import {
@@ -38,70 +30,17 @@ import {
   type Crossed,
   flowerCross,
   placeControls,
+  sunControls,
 } from './sky-layout';
-import { horizonAt, placeSun, SUN_RAY_REACH, washRings } from './sun-layout';
-
-/**
- * A mushroom's footing, the `splay` it is stood with (`splayed`), and its
- * haze, the farthest the palest.
- */
-export type Placement = Footing & Hazed & { splay: number };
-export type { Hazed } from '../../model/ground';
-/**
- * Where a thing's foot stands, and its size: the unit its genes are in, a
- * flower's height to its head.
- */
-export { type Footing } from './flower-layout';
-
-/**
- * A butterfly's size, the unit its genes are in, as a share of the clump's,
- * and the least it is painted at, which holds on every screen and every
- * refit, however small the clump stands: an insect a child cannot make out
- * is not in the meadow at all, where a butterfly wider than a small cap is
- * only a big butterfly. So a refit that zooms out shrinks the ground under
- * insects kept at the least, and a tap stays a finger's (`tapReach`).
- */
-const INSECT_SCALE = 0.3;
-const INSECT_LEAST = 60;
-/**
- * The least each kind's open wings span as drawn, in CSS px, to read on a
- * phone, which `INSECT_LEAST` keeps every gene above.
- */
-export const LEAST_SPANS = {
-  butterfly: 52,
-  fly: 30,
-  bee: 30,
-} as const satisfies Record<InsectKind, number>;
-
-function insectSizeFor(unit: number): number {
-  return Math.max(INSECT_LEAST, unit * INSECT_SCALE);
-}
-/**
- * Each kind's size against the butterfly's: a fly and a bee are small beside
- * it, and still read on a phone.
- */
-const KIND_SCALE = {
-  butterfly: 1,
-  fly: 0.55,
-  bee: 0.65,
-} as const satisfies Record<InsectKind, number>;
-
-/** Where the far hills meet the sky. */
-export type Horizoned = { horizon: number };
-/** The top of the near hills' band. */
-export type NearHilled = { nearHills: number };
-/** The sun as the opening screen shows it; it stands at that azimuth (`azimuthAt`). */
-export type Sunned = { sun: Circle };
-/** How the mushrooms stand, each by its foot (`placeIn`), as the opening eye judges them (`anchoredGround`). */
-export type ClumpGround = { mushrooms: MushroomGround };
-/** The unit each kind's genes are painted in, the butterfly's `insectSize`. */
-export type InsectSized = { insectSizes: Readonly<Record<InsectKind, number>> };
-/** The unit a butterfly's genes are painted in, and each kind's. */
-type InsectScaled = InsectSized & { insectSize: number };
-/** What the meadow is shown through, which a turn or a resize fits anew, and the insects' units on it. */
-export type InsectCamera = WithCamera & InsectScaled;
-/** The screen with the hills and the sun over it: what the sky is painted on. */
-export type HillsSunned = Sized & NearHilled & Sunned;
+import {
+  horizonAt,
+  type Horizoned,
+  type NearHilled,
+  placeSun,
+  SUN_RAY_REACH,
+  type Sunned,
+  washRings,
+} from './sun-layout';
 
 /** The screen with its buttons, the flower picker's cross and the sun on it: what the gait button is placed among (`gaitSpot`). */
 export type ControlledScreen = GroundedScreen & Controls & Crossed & Sunned;
@@ -137,7 +76,11 @@ export function meadowLayout(
   return {
     ...layout,
     flowers: flowersOn(layout.camera, keptBed(seed, openers)),
-    wash: washRings(layout),
+    wash: washRings({
+      ...layout,
+      places: everyPlace(layout.mushrooms),
+      horizonRow: pinholeOf(layout.camera).y,
+    }),
   };
 }
 
@@ -233,12 +176,11 @@ function standMeadow(width: number, height: number): Stood {
   const short = Math.min(width, height);
   const mushrooms = { camera, frame: MEADOW_FRAME, anchor: OPENING_EYE };
   const placed = placeControls(width, height, groundTop);
-  const insectSize = insectSizeFor(unit);
   const crossed = { ...placed, width, groundTop };
   const sun = placeSun(
     { width, height, horizon },
     short * 0.075,
-    placed,
+    sunControls(placed),
     openingCrowns(camera),
     [flowerCross(crossed, [])],
   );
@@ -257,11 +199,6 @@ function standMeadow(width: number, height: number): Stood {
     clouds: skyClouds(camera),
     ...controls,
     mushrooms,
-    insectSize,
-    insectSizes: {
-      butterfly: insectSize * KIND_SCALE.butterfly,
-      fly: insectSize * KIND_SCALE.fly,
-      bee: insectSize * KIND_SCALE.bee,
-    },
+    ...insectScaled(unit),
   };
 }

@@ -19,7 +19,7 @@ import {
 import type { Footed } from '../../model/placement';
 import { type MushroomGround, placeIn } from './clump-layout';
 import { standingWith } from './door-sight';
-import type { Placement } from './layout';
+import type { Placement } from './clump-layout';
 
 /** A mushroom standing as a visit opens: its seed, and the foot it stands on. */
 export type Opener = MushroomSeed & Footed;

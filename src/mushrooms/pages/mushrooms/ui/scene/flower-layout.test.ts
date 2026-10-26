@@ -35,7 +35,6 @@ import {
   FLOWER_SWAY,
   FLOWERS_APART,
   FOOT_CLEARANCE,
-  type Footing,
   groundOf,
   laidFlower,
   MOST_SHADED,
@@ -44,6 +43,7 @@ import {
   standingOn,
   widestHead,
 } from './flower-layout';
+import type { Footing } from '../../model/ground';
 import { type StandingFlower, standingFlowers } from './flower-plots';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { overMeadow, standingControls } from './sky-layout';

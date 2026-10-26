@@ -26,11 +26,11 @@ import { standingPlaces } from './clump-layout';
 import {
   clearOfFeet,
   FLOWER_DOWN,
-  type Footing,
   groundOf,
   headsApart,
   standingOn,
 } from './flower-layout';
+import type { Footing } from '../../model/ground';
 import type { PlotGround, Stand } from './flower-sight';
 import type { MeadowLayout } from './layout';
 

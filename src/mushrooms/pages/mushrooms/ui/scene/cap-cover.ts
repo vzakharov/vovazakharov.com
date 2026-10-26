@@ -14,7 +14,7 @@ import {
 } from '../../model/geometry';
 import { openingIndex } from '../../model/placement';
 import { boxOf, type Standing, standingAt } from './door-sight';
-import type { Placement } from './layout';
+import type { Placement } from './clump-layout';
 
 /** The parts of a mushroom whose share hidden is held. */
 export const PARTS = ['cap', 'stem'] as const;

@@ -13,10 +13,12 @@ import {
   type Camera,
   CLUMP_DISTANCE,
   type Eye,
+  type Footing,
   type Frame,
   gathered,
   type Ground,
   groundOfPlane,
+  type Hazed,
   OPENING_EYE,
   project,
   scaleAt,
@@ -30,7 +32,6 @@ import {
   OPENING_FOOTING,
   openingIndex,
 } from '../../model/placement';
-import type { Placement } from './layout';
 
 /**
  * Each opening foot's size against the clump's, back then front: the back
@@ -51,6 +52,15 @@ const CLUMP_SPLAY = 0.22;
 const FOREST_SIZE = 0.7;
 /** How far a forest mushroom turns away from the middle of the meadow. */
 export const FOREST_SPLAY = 0.1;
+
+/**
+ * A mushroom's footing, the `splay` it is stood with (`splayed`), and its
+ * haze, the farthest the palest.
+ */
+export type Placement = Footing & Hazed & { splay: number };
+
+/** How the mushrooms stand, each by its foot (`placeIn`), as the opening eye judges them (`anchoredGround`). */
+export type ClumpGround = { mushrooms: MushroomGround };
 
 /**
  * How a screen stands the meadow's mushrooms: through its camera, their feet

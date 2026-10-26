@@ -6,12 +6,27 @@
 import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import type { Box, Circle } from '../../model/geometry';
-import type { Grounded } from '../../model/ground';
-import { pinholeOf } from '../../model/pinhole';
-import { everyPlace } from './clump-layout';
-import type { ClumpGround, Horizoned, Sunned } from './layout';
-import { type Controls, standingControls } from './sky-layout';
+import type { Footing, Grounded } from '../../model/ground';
 import { BUTTON_INSET, tapReach } from './tap-reach';
+
+/** Where the far hills meet the sky. */
+export type Horizoned = { horizon: number };
+/** The top of the near hills' band. */
+export type NearHilled = { nearHills: number };
+/** The sun as the opening screen shows it; it stands at that azimuth (`azimuthAt`). */
+export type Sunned = { sun: Circle };
+/** The screen with the hills and the sun over it: what the sky is painted on. */
+export type HillsSunned = Sized & NearHilled & Sunned;
+
+/**
+ * The buttons the sun's rays keep off: every one that stands, and every
+ * picker's pick; `sunAt` steps round the columns' own and the insects'.
+ */
+export type SunControls = Record<'plus' | 'minus' | 'house', Circle> & {
+  releases: Readonly<Record<string, Circle>>;
+  standing: readonly Circle[];
+  picks: readonly Circle[];
+};
 
 /** The sun's glow reaches this many radii out, and must stay on screen. */
 export const SUN_GLOW_REACH = 2.6;
@@ -58,16 +73,16 @@ const SKY_STEP = 2;
 export function placeSun(
   { width, height, horizon }: SunScreen,
   r: number,
-  controls: Controls,
+  controls: SunControls,
   crowns: readonly Box[],
   spared: readonly Circle[] = [],
 ): Circle {
   const buttons = [
-    ...standingControls(controls).map((button) => ({
+    ...controls.standing.map((button) => ({
       ...button,
       r: tapReach(button.r) + BUTTON_INSET,
     })),
-    ...[...controls.picker, ...controls.housePicker].map((pick) => ({
+    ...controls.picks.map((pick) => ({
       ...pick,
       r: tapReach(pick.r),
     })),
@@ -89,7 +104,7 @@ export function placeSun(
 function sunIn(
   sky: Sky & WithHeight,
   r: number,
-  controls: Controls,
+  controls: SunControls,
 ): Circle | undefined {
   const { width, height } = sky;
   for (let size = r; size >= r * SUN_LEAST; size--) {
@@ -184,7 +199,7 @@ function sunAt(
   width: number,
   height: number,
   r: number,
-  { plus, minus, house, releases, picker, housePicker }: Controls,
+  { plus, minus, house, releases, picks }: SunControls,
 ): Circle {
   const glow = r * SUN_GLOW_REACH;
   const rays = r * SUN_RAY_REACH;
@@ -192,7 +207,6 @@ function sunAt(
     x: Math.min(width * 0.84, width - glow),
     y: Math.max(height * 0.15, glow),
   };
-  const picks = [...picker, ...housePicker];
   const meets = (reach: number) =>
     picks.some(
       (pick) =>
@@ -230,8 +244,12 @@ const WASH_RINGS = 10;
 /** The wash's innermost and outermost rings, in sun radii, before it is shrunk to fit. */
 const WASH_REACH = [4, 14] as const;
 
-/** What the sun's wash is laid out over. */
-type Washed = Sunned & Grounded & ClumpGround;
+/**
+ * What the sun's wash is laid out over: the ground, and every place a
+ * mushroom can stand on it with the row its camera's horizon falls on.
+ */
+type Washed = Sunned &
+  Grounded & { places: readonly Footing[]; horizonRow: number };
 
 /**
  * The farthest the sun's wash reaches from its middle: it stays on the sky,
@@ -242,10 +260,14 @@ type Washed = Sunned & Grounded & ClumpGround;
  * height above it, far slower than its foot climbs, so the farthest foot
  * bounds every nearer one, from every eye on the glade.
  */
-function washReach({ sun, groundTop, mushrooms }: Washed): number {
-  const horizon = pinholeOf(mushrooms.camera).y;
+function washReach({
+  sun,
+  groundTop,
+  places,
+  horizonRow: horizon,
+}: Washed): number {
   const farthest = Math.max(
-    ...everyPlace(mushrooms).map(
+    ...places.map(
       ({ y, size }) => (size * (groundTop - horizon)) / (y - horizon),
     ),
   );

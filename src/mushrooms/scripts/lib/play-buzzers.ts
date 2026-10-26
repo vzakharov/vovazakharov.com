@@ -11,7 +11,7 @@ import { FLIGHT_HABITS } from '@/mushrooms/pages/mushrooms/model/flight';
 import type { InsectKind } from '@/mushrooms/pages/mushrooms/model/insect-genes';
 import { LIGHT_STEP } from '@/mushrooms/pages/mushrooms/model/insect-light';
 import { INSECT_LIMITS } from '@/mushrooms/pages/mushrooms/model/insects';
-import { LEAST_SPANS } from '@/mushrooms/pages/mushrooms/ui/scene/layout';
+import { LEAST_SPANS } from '@/mushrooms/pages/mushrooms/ui/scene/insect-size';
 
 import {
   HEADING_AFTER,

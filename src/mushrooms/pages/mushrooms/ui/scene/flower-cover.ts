@@ -13,7 +13,7 @@ import { aboutFoot, bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import type { BoxedOutlines } from './flower-sight';
-import type { ClumpGround } from './layout';
+import type { ClumpGround } from './clump-layout';
 import type { Distant, View } from './view';
 
 /** A mushroom as a frame draws it: how far from the eye it stands, and its outlines on the screen. */

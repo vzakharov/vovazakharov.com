@@ -19,7 +19,8 @@ import { splayed } from '../../model/mushroom-pose';
 import { capSurface, CURVE_STEPS } from '../../model/mushroom-profile';
 import { everyPlace } from './clump-layout';
 import { luminance, mix, toHsv } from './colour';
-import { type MeadowLayout, meadowLayout, type Placement } from './layout';
+import { type MeadowLayout, meadowLayout } from './layout';
+import type { Placement } from './clump-layout';
 import {
   type CapLight,
   capLight,
