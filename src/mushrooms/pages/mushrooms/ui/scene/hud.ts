@@ -13,7 +13,7 @@ import { PICTOGRAM_LIGHT } from '../../model/light';
 import type { MushroomGenes, Species } from '../../model/mushroom-genes';
 import { capOnCanvas, toCanvas } from '../../model/mushroom-outline';
 import { BEE_VEINS, paintBeeBody, paintBeeLegs } from './draw-bee';
-import { paintWing, SIDES } from './draw-buzz';
+import { paintWing, BODY_SIDES } from './draw-buzz';
 import { paintFlyBody, paintFlyLegs } from './draw-fly';
 import { paintDoor, paintWindow } from './draw-house';
 import { paintBody, paintWings, scaled } from './draw-insect';
@@ -227,7 +227,7 @@ function paintIconWings(
   veins: number,
   lighting: Lighting,
 ): void {
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     const root = scaled(size)(buzzRoot(genes, side));
     graphics.save();
     graphics.translateCanvas(root.x, root.y);

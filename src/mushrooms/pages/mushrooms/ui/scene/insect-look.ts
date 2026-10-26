@@ -31,7 +31,7 @@ import {
   type Stay,
   wingBeat,
 } from '../../model/insect-motion';
-import { buzzTurn, type Side as BodySide } from '../../model/insect-outline';
+import { buzzTurn, type BodySide } from '../../model/insect-outline';
 import type { Airborne } from '../../model/insect-paths';
 import type { Flier } from '../../model/insects';
 import { turnedLight } from '../../model/light';

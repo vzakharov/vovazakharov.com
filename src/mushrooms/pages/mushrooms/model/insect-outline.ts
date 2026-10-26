@@ -42,7 +42,7 @@ export const INNER_REACH = 0.88;
 export const INNER_BREADTH = 0.8;
 
 /** Which side of the body: -1 left, 1 right. */
-export type Side = -1 | 1;
+export type BodySide = -1 | 1;
 
 type Axis = { root: Point; along: Point; across: Point };
 
@@ -50,7 +50,7 @@ type Axis = { root: Point; along: Point; across: Point };
  * A wing's axis off `root`, the right side's root mirrored for the left, at
  * `angle` in radians from +x with y down, mirrored the same way.
  */
-function axisAt(root: Point, angle: number, side: Side): Axis {
+function axisAt(root: Point, angle: number, side: BodySide): Axis {
   const along = { x: side * Math.cos(angle), y: Math.sin(angle) };
   // Of the two ways across the axis, the one toward the tail: every wing sweeps back.
   const turned = { x: -along.y, y: along.x };
@@ -58,7 +58,7 @@ function axisAt(root: Point, angle: number, side: Side): Axis {
   return { root: { ...root, x: side * root.x }, along, across };
 }
 
-function axisOf(genes: Bodied, pair: WingPair, side: Side): Axis {
+function axisOf(genes: Bodied, pair: WingPair, side: BodySide): Axis {
   const root = {
     x: genes.bodyWidth * 0.3,
     y: genes.bodyLength * WING_ROOT[pair],
@@ -93,7 +93,7 @@ function onWing(axis: Axis, wing: Wing, u: number, v: number): Point {
 export function wingOutline(
   genes: ButterflyGenes,
   pair: WingPair,
-  side: Side,
+  side: BodySide,
   [reach, breadth]: readonly [number, number] = [1, 1],
 ): Point[] {
   const own = genes[pair];
@@ -122,7 +122,7 @@ function outlineAlong(axis: Axis, wing: Wing): Point[] {
 export function wingTrailingEdge(
   genes: ButterflyGenes,
   pair: WingPair,
-  side: Side,
+  side: BodySide,
 ): Point[] {
   const axis = axisOf(genes, pair, side);
   const wing = genes[pair];
@@ -135,7 +135,7 @@ export function wingTrailingEdge(
 export function eyeCentre(
   genes: ButterflyGenes,
   pair: WingPair,
-  side: Side,
+  side: BodySide,
 ): Point {
   return onWing(axisOf(genes, pair, side), genes[pair], genes.eyeAt, 0);
 }
@@ -174,7 +174,7 @@ export function headOf(genes: Bodied): Point & { r: number } {
 }
 
 /** One antenna, from the head out and forward, curling at its end where its club sits. */
-export function antenna(genes: Bodied, side: Side): Point[] {
+export function antenna(genes: Bodied, side: BodySide): Point[] {
   const head = headOf(genes);
   const reach = genes.bodyLength * 0.42;
   return sample(0, 1, 10, (t) => ({
@@ -192,7 +192,7 @@ const BUZZ_WING_ANGLE = { rest: 1.25, open: -0.25 } as const;
 const BUZZ_ROOT = { out: 0.3, down: -0.18 } as const;
 
 /** Where a fly's or a bee's wing on `side` roots on its body. */
-export function buzzRoot(genes: Buzzing, side: Side): Point {
+export function buzzRoot(genes: Buzzing, side: BodySide): Point {
   return {
     x: side * genes.bodyWidth * BUZZ_ROOT.out,
     y: genes.bodyLength * BUZZ_ROOT.down,
@@ -204,7 +204,7 @@ export function buzzRoot(genes: Buzzing, side: Side): Point {
  * `spread`, in radians clockwise on a screen whose y points down, off laid
  * back over the body.
  */
-export function buzzTurn(side: Side, spread: number): number {
+export function buzzTurn(side: BodySide, spread: number): number {
   const { rest, open } = BUZZ_WING_ANGLE;
   return side * (open - rest) * spread;
 }
@@ -213,7 +213,11 @@ export function buzzTurn(side: Side, spread: number): number {
  * One of a fly's or a bee's two wings, `spread` of the way from laid back
  * over the body (0) to open (1): the angle turns, the shape is the same.
  */
-export function buzzWing(genes: Buzzing, side: Side, spread: number): Point[] {
+export function buzzWing(
+  genes: Buzzing,
+  side: BodySide,
+  spread: number,
+): Point[] {
   const { rest, open } = BUZZ_WING_ANGLE;
   const root = buzzRoot(genes, 1);
   return outlineAlong(

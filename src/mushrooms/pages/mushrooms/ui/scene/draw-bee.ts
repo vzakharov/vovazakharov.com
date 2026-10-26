@@ -14,7 +14,12 @@ import { litCrest } from '../../model/insect-light';
 import { POLLEN_MOST } from '../../model/pollen';
 import { mix, nudgeHue } from './colour';
 import { crescent } from './crescent';
-import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
+import {
+  type BuzzParts,
+  drawBuzzWings,
+  paintLeg,
+  BODY_SIDES,
+} from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
 import { awayAngle, inkFor, type Lighting, lineInk, TAPER } from './ink';
 import { PALETTE } from './palette';
@@ -142,7 +147,7 @@ function paintHead(
   const ink = insectInk(size);
   const r = head.r * size;
   const middle = { x: head.x * size, y: head.y * size };
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     const line = sample(0, 1, 6, (t) => ({
       x: middle.x + side * (r * 0.35 + r * 1.1 * t),
       y: middle.y - r * 0.6 - r * 1.5 * Math.sin((t * Math.PI) / 2.4),
@@ -157,7 +162,7 @@ function paintHead(
     }
   }
   inkedDisc(graphics, middle, r, PALETTE.beeBlack, ink, lighting);
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     const eye = { x: middle.x + side * r * 0.45, y: middle.y - r * 0.15 };
     graphics.fillStyle(PALETTE.highlight);
     graphics.fillCircle(eye.x, eye.y, Math.max(1.2, r * 0.38));
@@ -186,7 +191,7 @@ export function paintBeeLegs(
   const ink = insectInk(size);
   const { thorax } = beeAnatomy(genes);
   const reach = genes.legLength;
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     for (const [down, out, back] of [
       [-0.5, 0.75, -0.5],
       [0.3, 0.95, 0.25],

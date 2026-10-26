@@ -11,7 +11,7 @@ import {
   headOf,
   INNER_BREADTH,
   INNER_REACH,
-  type Side,
+  type BodySide,
   wingOutline,
   type WingPair,
   wingTrailingEdge,
@@ -29,7 +29,7 @@ import {
   strokeTapered,
 } from './shapes';
 
-const SIDES: readonly Side[] = [-1, 1];
+const SIDES: readonly BodySide[] = [-1, 1];
 const SHADE_ALPHA = 0.2;
 const SHINE_ALPHA = 0.4;
 /** How far the hind wings' base goes toward the pattern, so the two pairs read apart. */
@@ -230,7 +230,7 @@ export function paintBody(
 }
 
 /** How far the proboscis is out, where it reaches in the body's frame, and which side it bows to (`proboscisLine`). */
-export type Reaching = Proboscis & { side: Side };
+export type Reaching = Proboscis & { side: BodySide };
 /** How far the proboscis is out, and where it reaches. */
 export type Proboscis = Reach & NectarReached;
 /** Where the proboscis reaches, the flower's middle in the body's frame. */

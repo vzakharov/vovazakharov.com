@@ -21,7 +21,7 @@ import {
 } from './mouse-run-clock';
 import {
   alongPath,
-  pathLength,
+  runPathLength,
   RUN_BOW,
   RUNNER_SPAN,
   type RunPath,
@@ -329,7 +329,7 @@ describe('courseOf', () => {
   it('runs a course re-targeted from the ground straight, in under a second', () => {
     const path = courseOf(ground, door, eye, { bowSign: 1, opening: 'run' });
     assert.deepEqual(path.bend, { x: 0, y: 10 });
-    const runLength = pathLength(path);
+    const runLength = runPathLength(path);
     assert.ok(Math.abs(runLength - 0.2) < 1e-9, `${runLength}`);
     assert.ok(runDuration(course(runLength, { opening: 'run' })) < 1);
   });

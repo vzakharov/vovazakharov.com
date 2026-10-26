@@ -8,7 +8,7 @@
 import type { Point } from './geometry';
 import type { Bodied } from './insect-genes';
 import { SIP_DEPTH } from './insect-motion';
-import { headOf, type Side } from './insect-outline';
+import { headOf, type BodySide } from './insect-outline';
 
 /** How far round the tube coils curled up, in radians, and its length then, as a share of the body's. */
 const COIL = Math.PI * 3.5;
@@ -68,7 +68,7 @@ export function proboscisLine(
   genes: Bodied,
   reach: number,
   nectar: Point,
-  side: Side,
+  side: BodySide,
 ): Point[] {
   const head = headOf(genes);
   const unrolled = Math.min(1, reach / (1 - SIP_DEPTH));

@@ -7,7 +7,7 @@ import {
   alongPath,
   bowedPath,
   facingAlong,
-  pathLength,
+  runPathLength,
   RUN_BOW,
   RUNNER_SPAN,
   type RunPath,
@@ -71,11 +71,11 @@ describe('bowedPath', () => {
 
   it('bows a short course out to its side until, so bowed alone, it is the least length', () => {
     const path = course(BACK, FRONT, LEAST);
-    assert.ok(pathLength(path) >= LEAST);
+    assert.ok(runPathLength(path) >= LEAST);
     // The aside bow alone makes the least length, the toward bow adding to it.
     const alone = course(BACK, FRONT, LEAST, Infinity);
-    assert.ok(Math.abs(pathLength(alone) - LEAST) < 1e-6);
-    assert.ok(pathLength(path) > pathLength(alone));
+    assert.ok(Math.abs(runPathLength(alone) - LEAST) < 1e-6);
+    assert.ok(runPathLength(path) > runPathLength(alone));
     // Doors one behind the other: the course swings across the line of sight
     // as far however near the eye its middle runs.
     const swing = (each: RunPath) => {
@@ -85,7 +85,7 @@ describe('bowedPath', () => {
     assert.ok(swing(alone) > 0.02);
     assert.ok(swing(path) > swing(alone) * 0.9);
     const long = course(LEFT, RIGHT, LEAST);
-    assert.ok(pathLength(long) > 2 && pathLength(long) < 2.1);
+    assert.ok(runPathLength(long) > 2 && runPathLength(long) < 2.1);
   });
 
   it('bows out to the side of its chord nearer the eye, kept as given', () => {
@@ -104,7 +104,7 @@ describe('bowedPath', () => {
 
   it('moves smoothly along by length, facing along the course', () => {
     const path = course(BACK, FRONT, LEAST);
-    const whole = pathLength(path);
+    const whole = runPathLength(path);
     const steps = 300;
     let last = alongPath(path, 0);
     for (let step = 1; step <= steps; step++) {

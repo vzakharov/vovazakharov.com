@@ -68,7 +68,7 @@ function lengthsOf(path: RunPath): number[] {
   return lengths;
 }
 
-export const pathLength = (path: RunPath): number =>
+export const runPathLength = (path: RunPath): number =>
   lengthsOf(path)[PIECES] ?? 0;
 
 /** How far `point` is from an eye at `eye`, and the unit way from it to the eye. */
@@ -138,12 +138,12 @@ export function bowedPath(
     y: middle.y + aside.y * side * out,
   });
   let out = 0;
-  if (pathLength(through(middle)) < least) {
+  if (runPathLength(through(middle)) < least) {
     // Bowed out by half its least length, a course is longer than that.
     let [low, high] = [0, least / 2];
     for (let halving = 0; halving < HALVINGS; halving++) {
       const tried = (low + high) / 2;
-      if (pathLength(through(outBy(tried))) < least) low = tried;
+      if (runPathLength(through(outBy(tried))) < least) low = tried;
       else high = tried;
     }
     out = high;

@@ -9,13 +9,13 @@ import type * as Phaser from 'phaser';
 
 import { type Point, sample } from '../../model/geometry';
 import type { Buzzing } from '../../model/insect-genes';
-import { buzzRoot, buzzWing, type Side } from '../../model/insect-outline';
+import { buzzRoot, buzzWing, type BodySide } from '../../model/insect-outline';
 import { insectInk, scaled } from './draw-insect';
 import { type Hairlined, inkFor, type Lighting, TAPER } from './ink';
 import { PALETTE } from './palette';
 import { fillShape, strokeLine, strokeShape, strokeTapered } from './shapes';
 
-export const SIDES: readonly Side[] = [-1, 1];
+export const BODY_SIDES: readonly BodySide[] = [-1, 1];
 /** A clear wing's glass, and its veins', alpha. */
 const GLASS_ALPHA = 0.5;
 const VEIN_ALPHA = 0.75;
@@ -47,7 +47,7 @@ type BlurredWings = Wings & Record<'blur', Phaser.GameObjects.Graphics>;
 export function paintWing(
   graphics: Phaser.GameObjects.Graphics,
   genes: Buzzing,
-  side: Side,
+  side: BodySide,
   size: number,
   veins: number,
   { hairline }: Hairlined,
@@ -103,7 +103,7 @@ function paintBlur(
   size: number,
 ): void {
   const at = scaled(size);
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     for (const spread of sample(BLUR_FROM, 1, BLUR_LAYERS - 1, (u) => u)) {
       graphics.fillStyle(PALETTE.wingGlass, BLUR_ALPHA);
       fillShape(

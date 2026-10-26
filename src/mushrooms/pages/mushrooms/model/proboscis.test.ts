@@ -8,7 +8,7 @@ import { flowerGenes, flowerHead } from './flower-genes';
 import { placedAt, type Point } from './geometry';
 import { insectGenes } from './insect-genes';
 import { REST_LEAN, SIP_DEPTH } from './insect-motion';
-import { ABDOMEN, headOf, type Side } from './insect-outline';
+import { ABDOMEN, headOf, type BodySide } from './insect-outline';
 import { inBody, PROBOSCIS_STEPS, proboscisLine } from './proboscis';
 
 const SEEDS = Array.from({ length: 60 }, (_, index) => index * 4099 + 11);
@@ -20,7 +20,7 @@ const SIZES = [
   [36, 60],
   [105, 108],
 ] as const;
-const SIDES: readonly Side[] = [-1, 1];
+const SIDES: readonly BodySide[] = [-1, 1];
 
 /**
  * Every butterfly drinking at every flower, as the scene seats it over the

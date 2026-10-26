@@ -39,7 +39,11 @@ import {
   runnerAt,
   type RunOpening,
 } from '../../model/mouse-run-clock';
-import { facingAlong, pathLength, sideOf } from '../../model/mouse-run-course';
+import {
+  facingAlong,
+  runPathLength,
+  sideOf,
+} from '../../model/mouse-run-course';
 import type { Burrows, NightRun } from '../../model/night-runs';
 import type { Seeded } from '../../model/random';
 import type { BedPlace } from './bed-place';
@@ -332,7 +336,7 @@ export class MouseRuns {
       start && end && eye ? sideOf(start.front, end.front, eye) : 1;
     const runLength =
       start && end && eye
-        ? pathLength(courseOf(start, end, eye, { bowSign, opening }))
+        ? runPathLength(courseOf(start, end, eye, { bowSign, opening }))
         : 0;
     const hit = new Phaser.Geom.Circle();
     const run: MouseRun = {

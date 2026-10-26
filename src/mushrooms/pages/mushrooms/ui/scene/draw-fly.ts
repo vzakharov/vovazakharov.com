@@ -11,7 +11,12 @@ import { ellipse, lerpPoint, type Point } from '../../model/geometry';
 import { litCrest } from '../../model/insect-light';
 import { mix, nudgeHue } from './colour';
 import { crescent } from './crescent';
-import { type BuzzParts, drawBuzzWings, paintLeg, SIDES } from './draw-buzz';
+import {
+  type BuzzParts,
+  drawBuzzWings,
+  paintLeg,
+  BODY_SIDES,
+} from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
 import { awayAngle, type Lighting } from './ink';
 import { PALETTE } from './palette';
@@ -97,7 +102,7 @@ function paintEyes(
   const away = awayAngle(sun);
   const glint = litCrest(sun, [r, r], 0.42);
   const catchlight = litCrest(sun, [r, r], -0.3);
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     const eye = {
       x: (head.x + side * (head.r * 0.55 + eyeRadius * 0.45)) * size,
       y: (head.y - eyeRadius * 0.15) * size,
@@ -131,7 +136,7 @@ export function paintFlyLegs(
   const at = scaled(size);
   const { thorax, head } = anatomy(genes);
   const reach = genes.legLength;
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     // Middle and hind pairs: out, and bent back at the knee.
     for (const [down, out, back] of [
       [0.2, 0.9, 0.2],
