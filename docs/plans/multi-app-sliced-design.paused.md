@@ -456,33 +456,45 @@ review rather than stopping on each call.
   `insect-seat`, `Flier` in `flier.ts`. `flowerLight` is the flower's
   (`flower-light.ts`), `lightAt` in `model/light`, so the mushroom reads nothing
   of the flower. `paint-backdrop` is the widget's.
-- **Left to untie** (79, by `layout.ts`): **the flower's fork, put to the
-  operator** — the flower reads the mushroom one way only now, through functions
-  rather than data (`standingPlaces`, `placeIn` + `standingAt`, `mostShaded`,
-  `anchoredGround`, `flowersCrowdAt`), and `Stand` is read by four features, so
-  neither recorded option holds cleanly: an encounter feature would merge
-  `insects-fly`, `plant-flower`, `sow-spores` and `grow-mushroom` into it, and
-  handing the mushrooms in structurally threads those functions through about 30
-  files. Recommended to the operator: flower and mushroom as one entity slice;
-  the other offer, FSD's `@x` cross-import, extends MASD's barrel list and its
-  checkers. Build nothing on the fork before the answer. Also left: the insect's
-  `WIDEST_SPAN` from `flower-sight` and `flower-sight`'s reads of the insect
-  (both the fork's); the firefly (10 edges: it circles caps, tufts and flowers —
-  likely its view up to a feature, `fireflies-circle` per `nouns-tree.md`); the
-  lawn/sky knot (`brow`, `grass`, `paint-land`, `mottles` read the sky's tones
-  and skyline one way now that `paint-backdrop` is the widget's — likely they
-  join the sky as one landscape noun, `grain`'s `Band` with them), `rain-view`'s
-  read of `Backdrop`; `tufts` up (a composition); `mouse-run-clock` → `house`
-  (`DoorPlace`, `onStem`); `flower-closing` read by `draw-flower` and
-  `flower-seat`; `grow-mushroom` ↔ `sow-spores`; `mushroom-patch`;
-  `perch-hosts` → the beds; `shared/ui`'s `hit-areas` and `bake-picture`;
-  `shared/world`'s `plane-place` (insect frames), `meadow-camera` and
-  `ground-grid` (mushroom genes and opening feet). A subagent was handed four
-  mechanical ones (`hud`'s `drawDisc`/`iconLighting`, `instrument-voices`' part
-  types, `instrument-input`'s `EyeInput`, `Answering`/`ChordTapped`); relay 8
-  says where its commit landed. Then `layout.ts` to zero, the move, the 27
-  tests, `check:masd`. The scripts are in `layout-tools.md`; `retarget.ts` takes
-  `FROM=<file>` where a name is declared twice.
+- **The flower's fork, decided** (the operator: «хорошо, давай»). The flower and
+  the mushroom meet in two ways only: each takes up ground (a foot nothing else
+  stands on) and each hides what stands behind it (an outline and a depth,
+  `mostShaded` being the same read precomputed); a new mushroom keeps off the
+  flowers the same way, so the meeting is mutual. So:
+  - **the planting decisions go up**, each to its feature with both entities in
+    reach: the child's (`takesFlower`, `roomIn`) to `plant-flower`, the bee's
+    (`roomFor`) to `insects-fly`, the mushroom's already in `grow-mushroom`;
+  - **the shared geometry goes down** to `shared/world` as an occupant
+    (`Occupant = { feet; cover }`, the name the build's to settle): "visible
+    past what stands in front" and "ground taken", which the insects' perching,
+    the bee's and the child's planting and the visit's opening layout all read.
+    The mushroom and the flower each turn themselves into occupants (their
+    entities' functions); whoever composes the stand hands the list in, so the
+    flower imports nothing of the mushroom and both stay nouns of their own.
+    Re-anchoring the stand likely goes up with the planting to the features that
+    need it; the code decides.
+  - Rejected: one entity slice for both (loses the nouns), FSD's `@x` (extends
+    MASD's barrels and checkers), an encounter feature (`Stand`'s four reading
+    features would merge into it), the mushrooms' functions threaded through the
+    flower's (about 30 files).
+- **Left to untie** (74, by `layout.ts`): the fork as decided above, which takes
+  the insect's `WIDEST_SPAN` from `flower-sight` and `flower-sight`'s reads of
+  the insect with it; the firefly (10 edges: it circles caps, tufts and flowers
+  — likely its view up to a feature, `fireflies-circle` per `nouns-tree.md`);
+  the lawn/sky knot (`brow`, `grass`, `paint-land`, `mottles` read the sky's
+  tones and skyline one way now that `paint-backdrop` is the widget's — likely
+  they join the sky as one landscape noun, `grain`'s `Band` with them),
+  `rain-view`'s read of `Backdrop`; `tufts` up (a composition);
+  `mouse-run-clock` → `house` (`DoorPlace`, `onStem`); `flower-closing` read by
+  `draw-flower` and `flower-seat`; `grow-mushroom` ↔ `sow-spores`;
+  `mushroom-patch`; `perch-hosts` → the beds; `shared/ui`'s `hit-areas` and
+  `bake-picture`; `shared/world`'s `plane-place` (insect frames),
+  `meadow-camera` and `ground-grid` (mushroom genes and opening feet). Then
+  `layout.ts` to zero, the move, the 27 tests, `check:masd`. The scripts are in
+  `layout-tools.md`; `retarget.ts` takes `FROM=<file>` where a name is declared
+  twice. Mechanical relocations with the home named in the brief can go to a
+  cheaper subagent in a worktree, reviewed before they land (the operator's
+  ask); the calls stay in the session.
 
 The rest of this section is the dry-run cut's record, kept for the barrels,
 tests and checks, which carry over. The layout's source is `mushrooms-tree.md`
@@ -524,6 +536,11 @@ and which files reach Phaser.
 
 ## Rest of the elephant
 
+- **Later, sub-entities** (the operator: «очень уж чешется вариант с
+  "подсущностями" (надо только имя получше подобрать: абстракции? зародыши?
+  кирпичики/parts?), но наверное не сейчас уже»): a facet several entities share
+  — the occupant is the first — as a named kind of slice of its own rather than
+  a file in `shared/world`.
 - **Later, the converse of 6a** (the operator: «как бы нам определять, когда в
   одном слайсе скопилось что-то (кластер?), что заслуживает вынесения в модуль?
   но отложим»): when a cluster inside one slice earns a slice of its own.
