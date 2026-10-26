@@ -4,7 +4,7 @@
  * the clock and nothing has to end a shower.
  */
 
-import { outAndBack, smooth, type Started } from './motion';
+import { outAndBack, smooth, type Started, type Timed } from './motion';
 
 /** A shower, from its first drop to the moment it stops. */
 export type Rain = Started & { stopsAt: number };
@@ -69,3 +69,6 @@ export function rainbow(rain: Rain | undefined, now: number): number {
     RAINBOW_FADE_MS,
   );
 }
+
+/** A tap on a cloud: starts a shower, or while one falls restarts its time. */
+export type StartRain = { kind: 'rain' } & Timed;

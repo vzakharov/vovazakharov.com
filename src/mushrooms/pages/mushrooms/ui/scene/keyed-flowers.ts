@@ -6,7 +6,11 @@ import {
   type FlowerSound,
   sameSound,
 } from '../../model/flower-sounds';
-import type { Action, Planting } from '../../model/game';
+import type {
+  PickColour,
+  Planting,
+  PlantShape,
+} from '../../model/flower-planting';
 import { pick, type Random } from '../../model/random';
 import type { Playable } from './instrument';
 import type { PlayedKey } from './keyboard';
@@ -40,10 +44,10 @@ export function keyPlanting(
   planting: Planting | undefined,
   sound: FlowerSound,
   seedsOf: (colour: FlowerColour) => readonly number[],
-): Action[] | undefined {
+): Array<PickColour | PlantShape> | undefined {
   if (planting === undefined) return undefined;
   const { colour, shape } = classOf(sound);
-  const plant: Action = { kind: 'plant', shape };
+  const plant: PlantShape = { kind: 'plant', shape };
   if (planting.chosen?.colour === colour) return [plant];
   return [{ kind: 'colour', colour, seeds: seedsOf(colour) }, plant];
 }

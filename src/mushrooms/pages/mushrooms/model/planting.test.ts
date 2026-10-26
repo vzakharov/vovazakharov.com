@@ -3,13 +3,8 @@ import { describe, it } from 'node:test';
 
 import { FLOWER_COLOURS, flowerGenes } from './flower-genes';
 import { FLOWER_SHAPES, shapeSeeds } from './flower-sounds';
-import {
-  type Action,
-  firstMeadow,
-  type Meadow,
-  type Planting,
-  reduce,
-} from './game';
+import { type Action, firstMeadow, type Meadow, reduce } from './game';
+import type { Planting } from './flower-planting';
 import { type Footing, planeFootOf } from './ground';
 import { mulberry32 } from './random';
 

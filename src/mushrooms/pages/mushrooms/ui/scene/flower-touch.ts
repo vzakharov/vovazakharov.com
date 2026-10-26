@@ -1,4 +1,4 @@
-import type { Action } from '../../model/game';
+import type { Deselect } from '../../model/planted';
 
 /** How a finger reaches a flower: Phaser's one pointer taps it; any finger past that plays it in a chord. */
 export type FlowerTouch = 'tap' | 'chord';
@@ -11,4 +11,4 @@ export type FlowerTouch = 'tap' | 'chord';
 export const FLOWER_TOUCH_ACTIONS = {
   tap: [{ kind: 'deselect' }],
   chord: [],
-} as const satisfies Record<FlowerTouch, readonly Action[]>;
+} as const satisfies Record<FlowerTouch, readonly Deselect[]>;

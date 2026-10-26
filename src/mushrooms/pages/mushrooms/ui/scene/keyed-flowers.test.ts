@@ -2,12 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { FLOWER_SHAPES, type FlowerSound } from '../../model/flower-sounds';
-import {
-  type Action,
-  firstMeadow,
-  type Planting,
-  reduce,
-} from '../../model/game';
+import { type Action, firstMeadow, reduce } from '../../model/game';
+import type { Planting } from '../../model/flower-planting';
 import { planeFootOf } from '../../model/ground';
 import { mulberry32 } from '../../model/random';
 import type { PlayedKey } from './keyboard';

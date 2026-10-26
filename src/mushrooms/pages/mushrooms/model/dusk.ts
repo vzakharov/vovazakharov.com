@@ -5,7 +5,7 @@
  * `dusky` and nothing ends a fade.
  */
 
-import { type Ramp, rampAt } from './motion';
+import { type Ramp, rampAt, type Timed } from './motion';
 
 /** The two ways the light can be going. */
 export const TOWARDS = ['dusk', 'day'] as const;
@@ -60,3 +60,6 @@ export type WithDusk = {
   /** Which way the light is going (`duskness`): the one record of the time of day. */
   dusk: Dusk;
 };
+
+/** A tap on the sun or the moon: turns the light the other way. */
+export type TurnLight = { kind: 'dusk' } & Timed;

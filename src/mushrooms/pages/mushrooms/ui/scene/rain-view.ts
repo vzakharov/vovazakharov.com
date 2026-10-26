@@ -2,10 +2,14 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Action } from '../../model/game';
 import type { Circle, Point } from '../../model/geometry';
 import { widthFor, wobble } from '../../model/motion';
-import { downpour, type Rain, raining } from '../../model/weather';
+import {
+  downpour,
+  type Rain,
+  raining,
+  type StartRain,
+} from '../../model/weather';
 import { sunUp } from './dusk-sky';
 import type { Backdrop } from './paint-backdrop';
 import { PALETTE } from './palette';
@@ -60,7 +64,7 @@ export class RainView implements RainTapped {
   private readonly camera: Phaser.Cameras.Scene2D.Camera;
   /** The scene's clock, in seconds. */
   private readonly now: () => number;
-  private readonly dispatch: (action: Action) => void;
+  private readonly dispatch: (action: StartRain) => void;
   private readonly sound: RainSound;
   private readonly drops: RainDrops;
   private layout: RainViewLayout | undefined;
@@ -83,7 +87,7 @@ export class RainView implements RainTapped {
     scene: Phaser.Scene,
     hudDepth: number,
     now: () => number,
-    dispatch: (action: Action) => void,
+    dispatch: (action: StartRain) => void,
     sound: RainSound,
   ) {
     this.now = now;

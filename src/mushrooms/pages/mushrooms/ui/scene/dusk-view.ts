@@ -2,9 +2,12 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { type Dusk, duskness } from '../../model/dusk';
-import type { Action } from '../../model/game';
-import type { WithDusk } from '../../model/dusk';
+import {
+  type Dusk,
+  duskness,
+  type TurnLight,
+  type WithDusk,
+} from '../../model/dusk';
 import type { Circle, Point } from '../../model/geometry';
 import type { Layered } from '../../model/ground';
 import {
@@ -87,7 +90,7 @@ export class DuskView implements DuskTapped {
   private readonly camera: Phaser.Cameras.Scene2D.Camera;
   /** The scene's clock, in seconds. */
   private readonly now: () => number;
-  private readonly dispatch: (action: Action) => void;
+  private readonly dispatch: (action: TurnLight) => void;
   private readonly sound: DuskSound;
   private readonly fireflies: FireflyView;
   private layout: DuskViewLayout | undefined;
@@ -102,7 +105,7 @@ export class DuskView implements DuskTapped {
     scene: Phaser.Scene,
     hudDepth: number,
     now: () => number,
-    dispatch: (action: Action) => void,
+    dispatch: (action: TurnLight) => void,
     sound: DuskSound,
     ground: FireflyGround,
   ) {

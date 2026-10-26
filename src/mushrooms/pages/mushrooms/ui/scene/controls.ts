@@ -8,7 +8,8 @@ import {
   PICKED_COLOURS,
 } from '../../model/flower-sounds';
 import { canFurnish } from '../../model/furnishing';
-import { isEmpty, type Meadow, shapeSeed } from '../../model/game';
+import { isEmpty, type Meadow } from '../../model/game';
+import { shapeSeed } from '../../model/flower-planting';
 import type { Planted } from '../../model/planted';
 import type { Point } from '../../model/geometry';
 import { type Furnishing, FURNISHINGS } from '../../model/house';

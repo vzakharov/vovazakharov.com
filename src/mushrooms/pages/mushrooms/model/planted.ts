@@ -56,3 +56,6 @@ export function sproutScale(sprout: Sprout | undefined, now: number): number {
   const left = 1 - Math.min(1, Math.max(0, now - sprout.at) / SPROUT_MS);
   return SPROUT_START + (1 - SPROUT_START) * (1 - left ** 2);
 }
+
+/** A tap that selects nothing: the selection let go. */
+export type Deselect = { kind: 'deselect' };
