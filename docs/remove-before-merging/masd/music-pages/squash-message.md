@@ -9,15 +9,19 @@ pages/music keeps the index; artist, album, song and radio are slices
 of their own, each holding its page, props and metadata, and music's
 app layer routes to each through its own barrel.
 
-What pages share drops below them by what it imports. Tiles, covers,
-badges, hook lines and the noted span are music/shared/ui, which client
-components import, so HookLine reads hookRuns through the node-safe
-barrel. The nav reads music's messages and is a widget, as are the
-song list (it places the player) and the story (it renders blog's
-prose). catalogueMetadata and listenTitle are music/shared/seo,
-songDownloads joins the catalogue and SONG_FEED music's app layer.
-music.module.scss is cut along those components; the pages render
-pixel-identical.
+What pages share drops below them by what it is. Covers, hooks and the
+explicit badge are entities, each one noun's UI; the catalogue header
+and grid, the nav, the song list and the story are widgets composing
+them; music/shared/ui keeps only primitives that know no music.
+catalogueMetadata and listenTitle are music/shared/seo, songDownloads
+joins the catalogue and SONG_FEED music's app layer.
+music.module.scss is cut along those components, the square of art
+they share an art mixin; the pages render pixel-identical.
+
+masd.md gains the rules this settled: shared/ui is what knows no
+business noun, blocks that import each other share a slice or sit on
+different layers, and a segment whose index.ts is server-only lets
+client components in through its node-safe barrel.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
