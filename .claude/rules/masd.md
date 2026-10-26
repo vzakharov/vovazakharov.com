@@ -177,18 +177,19 @@ as `shared/config` is.
   crosses slices.
 - **No insignificant slices.** A slice with a single upward consumer belongs
   _inside_ that consumer. `check:masd` says so, counting references across the
-  composition — the slice's own app, every descendant and the routers — with
-  Steiger's `insignificant-slice` messages word for word; Steiger's own rule is
-  off, because one root's reference map is exactly what it cannot see past. This
-  is why the CV locale picker lives in `vova/pages/cv/ui/` and the home page's
-  project and article cards in `vova/pages/home/ui/`, rather than each becoming
-  a feature. **One consumer is enough for a slice that is a module** — more of
-  its own app's file-import edges falling inside it than a rewiring keeping
-  every file's degree would put there, its term of Newman's modularity being
-  positive — since a module is one whoever uses it, and a count alone would keep
-  a one-page app a single slice. The graph is the slice's own app alone:
-  descendants are who uses an app, which says nothing of how it is cut, and
-  their unrelated edges would lower the bar for everyone.
+  composition — the slice's own app, every descendant and the routers, tests and
+  scripts left out — with Steiger's `insignificant-slice` messages word for
+  word; Steiger's own rule is off, because one root's reference map is exactly
+  what it cannot see past. This is why the CV locale picker lives in
+  `vova/pages/cv/ui/` and the home page's project and article cards in
+  `vova/pages/home/ui/`, rather than each becoming a feature. **One consumer is
+  enough for a slice that is a module** — more of its own app's file-import
+  edges falling inside it than a rewiring keeping every file's degree would put
+  there, its term of Newman's modularity being positive — since a module is one
+  whoever uses it, and a count alone would keep a one-page app a single slice.
+  The graph is the slice's own app alone: descendants are who uses an app, which
+  says nothing of how it is cut, and their unrelated edges would lower the bar
+  for everyone.
 - **An app's tooling is its `scripts/`, beside its layers rather than one of
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
