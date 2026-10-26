@@ -389,16 +389,16 @@ the alias, and how its files carry the languages:
 - **`inline`** — one locale-less file carrying both, written together, so
   `/music/songs/slime.md` serves the same bytes whichever page sent the reader
   there.
-- **`translated`** — the original at `<slug>.<locale>.md`, the locale a dotted
-  suffix on the file as a cut is, and its translation into the default language
-  at `<slug>.md`, made after it, so each page's `.md` sits at its address. The
-  translation's frontmatter states only `description`, `captions` and the
-  `translatedFrom` stamp `pnpm translation:stamp` writes — the original's
-  content hash — and the build refuses a stamp the original has moved past, or
-  an original with no translation. A drawing is drawn once as
-  `<name>.<locale>.svg`; `captions` maps each of its `<text>` wordings and its
-  `aria-label` to the translation's, and `pnpm content:drawings:<site>` writes
-  `<name>.svg` from it, a `translate="no"` text left as drawn.
+- **`translated`** — every file names its language, a dotted suffix as a cut is:
+  the original at `<slug>.<locale>.md`, and its translation into the default
+  language at `<slug>.<default>.md`, made after it. The translation's
+  frontmatter states only `description`, `captions` and the `translatedFrom`
+  stamp `pnpm translation:stamp` writes — the original's content hash — and the
+  build refuses a stamp the original has moved past, an original with no
+  translation, and a file with no language. A drawing is drawn once, as the
+  template `assets/<name>.svg` with a `{{key}}` wherever it says something in
+  words; each language's post maps every key to its wording under `captions`,
+  and `pnpm content:drawings:<site>` writes `<name>.<locale>.svg` from it.
 
 Case studies are unlocalized: the documents are English-only, and a `ru` route
 for a document that does not exist in Russian would only duplicate the English
