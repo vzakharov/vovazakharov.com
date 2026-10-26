@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { containsPoint, type Point } from '../../model/geometry';
-import { OPENING_EYE } from '../../model/ground';
+import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+
 import { bedPlace } from './bed-place';
 import { coversShown, inSightPast, type ShownCover } from './flower-cover';
-import { viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';
 

@@ -4,7 +4,8 @@
  * the parent (`roomFor`'s `near`) for the `select` to carry.
  */
 
-import { sowable, type SporeTap } from '../../model/sprouting';
+import { sowable, type SporeTap } from '@/mushrooms/features/meadow';
+
 import { roomFor } from './mushroom-room';
 import type { MeadowSeen, StandSeen } from './planter';
 

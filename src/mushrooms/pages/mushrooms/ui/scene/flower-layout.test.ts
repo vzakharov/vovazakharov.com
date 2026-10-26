@@ -3,29 +3,30 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { flowerGenes } from '../../model/flower-genes';
-import {
-  NEAR_FLOWERS,
-  SEEDED_SOUNDS,
-  seedSounding,
-  soundOf,
-} from '../../model/flower-sounds';
 import {
   type Box,
   boxAround,
   type Circle,
   containsPoint,
   type Point,
-} from '../../model/geometry';
+} from '@/mushrooms/shared/lib/geometry';
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import {
   CLUMP_DISTANCE,
   downOf,
+  flowerGenes,
   gathered,
   groundFootOf,
   planeFootOf,
-} from '../../model/ground';
-import { geneBounds } from '../../model/mushroom-genes';
-import { mulberry32 } from '../../model/random';
+} from '@/mushrooms/shared/world';
+import {
+  NEAR_FLOWERS,
+  SEEDED_SOUNDS,
+  seedSounding,
+  soundOf,
+} from '@/mushrooms/entities/flower/index.node-safe';
+import { geneBounds } from '@/mushrooms/entities/mushroom/index.node-safe';
+
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
 import { FAR_BAND } from './far-band';

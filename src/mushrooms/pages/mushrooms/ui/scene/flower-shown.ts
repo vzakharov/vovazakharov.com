@@ -2,28 +2,32 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import { phaseOf, type Sprouted } from '@/mushrooms/shared/lib/motion';
+import type { Lighting } from '@/mushrooms/shared/ui';
 import {
+  CLUMP_DISTANCE,
   type Flower,
   type FlowerGenes,
   flowerHead,
-} from '../../model/flower-genes';
-import { CLUMP_DISTANCE, type Rooted } from '../../model/ground';
-import { phaseOf, type Sprouted } from '../../model/motion';
-import { UNPLACED } from './bed-place';
+  type Rooted,
+} from '@/mushrooms/shared/world';
 import {
   drawFlower,
   type FlowerPainting,
+  type Folding,
+  folding,
   paintFlowerHead,
   paintFlowerLit,
-} from './draw-flower';
-import { type Folding, folding, type Shut } from './flower-closing';
+  type Shut,
+} from '@/mushrooms/entities/flower';
+
+import { UNPLACED } from './bed-place';
 import { laidFlower } from './flower-layout';
 import type { Placed, StandingFlower } from './flower-plots';
 import type { Ringed } from './flower-ring';
 import { foldedHead, type HeadReach } from './flower-seat';
 import { flowerTapReach } from './flower-sight';
 import type { CircleFigure, TappedFigure } from './hit-areas';
-import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 
 /** How far ahead of the eye a thing is laid out at, where it is not where the layout stands it (`viewedOrLaid`). */

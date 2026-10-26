@@ -7,15 +7,20 @@
 
 import type { WithWidth } from '@/kernel/shared/typings';
 
-import { type Circle, type Point, wrap } from '../../model/geometry';
-import type { WithCamera } from '../../model/ground';
-import { smooth } from '../../model/motion';
-import { pinholeOf } from '../../model/pinhole';
-import { type Rain, rainbow, wetness } from '../../model/weather';
+import { type Circle, type Point, wrap } from '@/mushrooms/shared/lib/geometry';
+import { smooth } from '@/mushrooms/shared/lib/motion';
+import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
+import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
+import {
+  pinholeOf,
+  type Rain,
+  rainbow,
+  wetness,
+  type WithCamera,
+} from '@/mushrooms/shared/world';
+
 import { PUFF_REACH } from './cloud-puffs';
 import type { NearHilled, Sunned } from './layout';
-import { PALETTE } from './palette';
-import { TAP_RADIUS } from './tap-reach';
 
 /** How long after the tapped cloud the one opposite it round the sky starts to darken. */
 export const DARKEN_LAG_MS = 600;

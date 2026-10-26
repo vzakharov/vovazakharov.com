@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { lerpPoint } from '../../model/geometry';
-import { between, mulberry32 } from '../../model/random';
+import { lerpPoint } from '@/mushrooms/shared/lib/geometry';
+import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
+
 import { cloudBox, PUFF_REACH } from './cloud-puffs';
 import {
   cloudSpan,

@@ -4,16 +4,21 @@
  * every two kinds.
  */
 
-import type { Crowding, Pairing, Perch } from '../../model/flight';
 import {
   boxAround,
   type Circle,
   distanceBetween,
   distanceToSegment,
   type Point,
-} from '../../model/geometry';
-import { INSECT_KINDS, type InsectKind } from '../../model/insect-genes';
-import type { OnPerch } from '../../model/perch-room';
+} from '@/mushrooms/shared/lib/geometry';
+import {
+  type Crowding,
+  INSECT_KINDS,
+  type InsectKind,
+  type OnPerch,
+  type Pairing,
+  type Perch,
+} from '@/mushrooms/entities/insect/index.node-safe';
 
 /** Every two kinds, the first on one perch and the second on another. */
 const PAIRINGS: readonly Pairing[] = INSECT_KINDS.flatMap((first) =>

@@ -12,40 +12,38 @@ import * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import { panOf } from '../../model/flight-frame';
-import { CLUMP_DISTANCE } from '../../model/ground';
 import {
   outingOf,
   outingStart,
   type Tapped,
   type TapTimed,
-} from '../../model/motion';
+} from '@/mushrooms/shared/lib/motion';
+import type { Seeded } from '@/mushrooms/shared/lib/random';
+import { CLUMP_DISTANCE, type View } from '@/mushrooms/shared/world';
+import { panOf } from '@/mushrooms/entities/insect';
 import {
   answerTap,
+  type Burrows,
+  courseOf,
   entered,
+  facingAlong,
   FLEE_EVERY,
   left,
   type Mice,
   miceAt,
+  type NightRun,
   outingTarget,
   retarget,
-  type RunDoor,
-  scattered,
-} from '../../model/mouse-run';
-import {
-  courseOf,
   runAt,
+  type RunDoor,
   type RunMoment,
   runnerAt,
   type RunOpening,
-} from '../../model/mouse-run-clock';
-import {
-  facingAlong,
   runPathLength,
+  scattered,
   sideOf,
-} from '../../model/mouse-run-course';
-import type { Burrows, NightRun } from '../../model/night-runs';
-import type { Seeded } from '../../model/random';
+} from '@/mushrooms/entities/mushroom';
+
 import type { BedPlace } from './bed-place';
 import {
   containsCircle,
@@ -67,7 +65,6 @@ import {
   type ShownRunner,
 } from './runner-shown';
 import type { MeadowSound } from './sound';
-import type { View } from './view';
 
 /**
  * A run under way, as its doors see it (`DoorRun`); its ends as last stood

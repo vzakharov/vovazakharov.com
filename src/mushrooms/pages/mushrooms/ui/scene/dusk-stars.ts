@@ -4,8 +4,9 @@
  * meadow's `random` is never drawn from.
  */
 
-import type { Circle } from '../../model/geometry';
-import { between, mulberry32 } from '../../model/random';
+import type { Circle } from '@/mushrooms/shared/lib/geometry';
+import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
+
 import type { HillsSunned } from './layout';
 import { SUN_GLOW_REACH } from './sun-layout';
 

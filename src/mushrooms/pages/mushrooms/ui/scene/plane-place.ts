@@ -4,12 +4,23 @@
  * timed by, so every end a leg is drawn to is timed where it is drawn.
  */
 
-import type { Place } from '../../model/flight';
-import { type Aloft, framedOf, placeOf } from '../../model/flight-frame';
-import type { Point } from '../../model/geometry';
-import { type Camera, spread } from '../../model/ground';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
+import {
+  type Camera,
+  middleOf,
+  rowAt,
+  spread,
+  V_NEAR,
+  type View,
+} from '@/mushrooms/shared/world';
+import {
+  type Aloft,
+  framedOf,
+  type Place,
+  placeOf,
+} from '@/mushrooms/entities/insect/index.node-safe';
+
 import { eyeFrameOf } from './insect-frame';
-import { middleOf, rowAt, V_NEAR, type View } from './view';
 
 /**
  * `point`, in world px as `camera`'s layout lays it out over the ground row

@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Action } from '../../model/game';
-import type { Footing } from '../../model/ground';
+import type { Footing } from '@/mushrooms/shared/world';
+import type { Action } from '@/mushrooms/features/meadow';
+
 import { FlowerHold, LONG_PRESS } from './flower-hold';
 
 const FOOT: Footing = { x: 10, y: 20, size: 1 };

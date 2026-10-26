@@ -6,25 +6,29 @@
  * a rule finds there goes back to the plane through `unanchored`.
  */
 
-import { sameAnchor } from '../../model/anchor';
-import { D_SEE_MOST } from '../../model/eye-height';
-import type { Flower } from '../../model/flower-genes';
-import { distanceBetween, type Point } from '../../model/geometry';
+import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
+import { PALE_SPAN } from '@/mushrooms/shared/ui/index.node-safe';
 import {
   anchored,
   D_SEE,
+  D_SEE_MOST,
   type Eye,
+  type Flower,
   type Footing,
   gathered,
   OPENING_EYE,
   planeFootOf,
-} from '../../model/ground';
-import { isBeeSown, type Sown } from '../../model/pollen';
+  sameAnchor,
+} from '@/mushrooms/shared/world';
+import {
+  isBeeSown,
+  type Sown,
+} from '@/mushrooms/entities/insect/index.node-safe';
+
 import { anchoredGround } from './clump-layout';
 import { groundOf, standingOn } from './flower-layout';
 import type { SeededLayout, Stand } from './flower-sight';
 import type { MeadowLayout } from './layout';
-import { PALE_SPAN } from './repaint-queue';
 
 /**
  * How far from the anchor an anchored stand reads the meadow: a foot the rules

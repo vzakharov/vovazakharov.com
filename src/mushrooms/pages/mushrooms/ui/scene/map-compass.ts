@@ -1,8 +1,9 @@
 import type * as Phaser from 'phaser';
 
-import type { Point } from '../../model/geometry';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
+import { PALETTE } from '@/mushrooms/shared/ui';
+
 import { drawMoon } from './paint-moon';
-import { PALETTE } from './palette';
 
 const SUN_RADIUS = 7;
 const SUN_RAYS = 8;

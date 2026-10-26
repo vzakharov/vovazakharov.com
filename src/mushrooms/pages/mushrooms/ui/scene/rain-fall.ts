@@ -5,8 +5,9 @@
  * the first point of its path a drawn outline stops it at.
  */
 
-import type { Circle, Point } from '../../model/geometry';
-import { between, type Random } from '../../model/random';
+import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import { between, type Random } from '@/mushrooms/shared/lib/random';
+
 import { cloudBox } from './cloud-puffs';
 
 /** The share of the drops that fall in the tapped cloud's span while it shows. */

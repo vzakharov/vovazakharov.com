@@ -2,33 +2,34 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Planted } from '../../model/game';
-import type { Point, Tall } from '../../model/geometry';
-import type { Light } from '../../model/light';
+import type { Point, Tall } from '@/mushrooms/shared/lib/geometry';
+import type { Light } from '@/mushrooms/shared/lib/light';
 import {
   type Lit,
   phaseOf,
   type Sprouted,
   type Tapped,
   UNLIT,
-} from '../../model/motion';
-import { mushroomGenes, type Spotted } from '../../model/mushroom-genes';
+} from '@/mushrooms/shared/lib/motion';
+import type { Lighting, PaintedSide } from '@/mushrooms/shared/ui';
+import type { Footed } from '@/mushrooms/shared/world';
 import {
   type Chorded,
   CURVE_STEPS,
   curveSteps,
-} from '../../model/mushroom-profile';
-import type { Footed } from '../../model/placement';
-import type { Sprouting } from '../../model/sprouting';
+  drawMushroom,
+  drawMushroomShadow,
+  mushroomGenes,
+  type MushroomLights,
+  type Spotted,
+} from '@/mushrooms/entities/mushroom';
+import type { Planted, Sprouting } from '@/mushrooms/features/meadow';
+
 import { UNPLACED } from './bed-place';
 import type { LaidAhead } from './clump-layout';
-import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
 import type { WithGraphics } from './hit-areas';
 import type { Body, HouseView } from './house-view';
-import type { Lighting } from './ink';
-import type { MushroomLights } from './mushroom-light';
 import type { AreaHit, Selected } from './mushroom-selection';
-import type { PaintedSide } from './repaint-queue';
 
 /** What a shown mushroom keeps of its mushroom as planted. */
 const SHOWN_OF = ['foot', 'lean', 'sprout'] as const satisfies ReadonlyArray<

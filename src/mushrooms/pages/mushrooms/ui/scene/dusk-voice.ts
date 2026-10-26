@@ -9,7 +9,7 @@ import {
   countFrom,
   mulberry32,
   type Random,
-} from '../../model/random';
+} from '@/mushrooms/shared/lib/random';
 
 /** The chorus's loudness at full dusk: a single pulse peaks at this, about half a bird note's. */
 const CRICKET_LOUDNESS = 0.018;

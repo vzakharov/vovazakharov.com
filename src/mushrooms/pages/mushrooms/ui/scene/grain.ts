@@ -4,8 +4,9 @@
  * and leaves the fill's colour as it was on the whole.
  */
 
-import type { Topped } from '../../model/geometry';
-import { mulberry32 } from '../../model/random';
+import type { Topped } from '@/mushrooms/shared/lib/geometry';
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
+
 import type { MeadowLayout } from './layout';
 
 /** Each pixel's own share against its four neighbours' in the blur, which softens noise into tooth. */

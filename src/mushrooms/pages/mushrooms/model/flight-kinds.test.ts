@@ -8,11 +8,12 @@ import {
   flowerFreed,
   givesWay,
   type Held,
+  INSECT_KINDS,
+  type InsectKind,
   type Leg,
   nextFlight,
   type Perches,
-} from './flight';
-import { INSECT_KINDS, type InsectKind } from './insect-genes';
+} from '@/mushrooms/entities/insect/index.node-safe';
 
 const CAPS = ['mushroom-1', 'mushroom-2', 'mushroom-3', 'mushroom-4'];
 const FLOWERS = ['flower-1', 'flower-2', 'flower-3'];

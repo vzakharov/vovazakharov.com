@@ -2,14 +2,15 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Action } from '../../model/game';
-import type { Circle, Point } from '../../model/geometry';
-import { widthFor, wobble } from '../../model/motion';
-import { downpour, type Rain, raining } from '../../model/weather';
+import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import { widthFor, wobble } from '@/mushrooms/shared/lib/motion';
+import { PALETTE } from '@/mushrooms/shared/ui';
+import { downpour, type Rain, raining } from '@/mushrooms/shared/world';
+import type { Action } from '@/mushrooms/features/meadow';
+
 import { sunUp } from './dusk-sky';
 import type { MeadowLayout } from './layout';
 import type { Backdrop } from './paint-backdrop';
-import { PALETTE } from './palette';
 import { driftedAzimuth } from './panorama';
 import { RainDrops } from './rain-drops';
 import {

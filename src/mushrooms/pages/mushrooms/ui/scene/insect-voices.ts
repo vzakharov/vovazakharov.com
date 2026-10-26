@@ -4,7 +4,8 @@
  * then silent — no drone while it flies.
  */
 
-import type { InsectKind } from '../../model/insect-genes';
+import type { InsectKind } from '@/mushrooms/entities/insect/index.node-safe';
+
 import { PENTATONIC, tone, type Voice, type Voiced } from './synth';
 
 /**

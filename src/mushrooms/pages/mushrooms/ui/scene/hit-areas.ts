@@ -1,18 +1,20 @@
 import * as Phaser from 'phaser';
 
-import { containsPoint, type Point } from '../../model/geometry';
-import type { Tapped } from '../../model/motion';
-import { TAP_PARTS, type TapArea } from '../../model/mushroom-outline';
+import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
+import type { Tapped } from '@/mushrooms/shared/lib/motion';
 import {
   drawnHolds,
   drawnUnder,
   flowerTakes,
   type MushroomTarget,
+  TAP_PARTS,
+  type TapArea,
   type WithTapArea,
-} from './mushroom-tap';
+} from '@/mushrooms/entities/mushroom';
+
 import { tuftUnder } from './tufts';
 
-export type { WithGraphics } from './shapes';
+export type { WithGraphics } from '@/mushrooms/shared/ui';
 export type WithCircleHit = { hit: Phaser.Geom.Circle };
 /** A creature shown as a container of its parts, answering a tap on a circle. */
 export type CircleFigure = WithCircleHit & {

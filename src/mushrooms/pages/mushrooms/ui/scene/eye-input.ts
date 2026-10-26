@@ -1,31 +1,34 @@
 import * as Phaser from 'phaser';
 
-import type { Direction } from '../../model/cruise';
-import type { Point } from '../../model/geometry';
-import type { Camera, Eye } from '../../model/ground';
+import type { Direction } from '@/mushrooms/shared/lib/cruise';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
 import {
+  type Camera,
+  type Eye,
   eyeAt,
   haltAt,
   heldStill,
   holdStrafe,
   holdTurn,
   holdWalk,
+  layoutUnder,
   lensAt,
   letGoStrafe,
   letGoTurn,
   letGoWalk,
   liftAt,
   moveTo,
+  ofLayout,
   openingWalk,
   pressAt,
   refit,
   tickWalk,
+  type View,
+  viewAt,
   type Walk,
   type WalkStart,
   withGait,
-} from '../../model/walk';
-import { ofLayout, type View, viewAt } from './view';
-import { layoutUnder } from './view-inverse';
+} from '@/mushrooms/shared/world';
 
 /** Whether `object` stands fixed on the screen however the camera scrolls, as every control and picker button does. */
 function isFixed(object: Phaser.GameObjects.GameObject): boolean {

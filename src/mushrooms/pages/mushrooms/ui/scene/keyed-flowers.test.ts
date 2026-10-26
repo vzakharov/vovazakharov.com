@@ -1,15 +1,19 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FLOWER_SHAPES, type FlowerSound } from '../../model/flower-sounds';
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
+import { planeFootOf } from '@/mushrooms/shared/world';
+import {
+  FLOWER_SHAPES,
+  type FlowerSound,
+} from '@/mushrooms/entities/flower/index.node-safe';
 import {
   type Action,
   firstMeadow,
   type Planting,
   reduce,
-} from '../../model/game';
-import { planeFootOf } from '../../model/ground';
-import { mulberry32 } from '../../model/random';
+} from '@/mushrooms/features/meadow';
+
 import type { PlayedKey } from './keyboard';
 import {
   type FlowerInView,

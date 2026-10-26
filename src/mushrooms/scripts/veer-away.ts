@@ -12,26 +12,24 @@
  * Run: `node --import tsx src/mushrooms/scripts/veer-away.ts`.
  */
 
+import { CLUMP_DISTANCE, OPENING_EYE } from '@/mushrooms/shared/world/ground';
+import { type View, viewAt } from '@/mushrooms/shared/world/view';
 import {
   type Perch,
   perchName,
-} from '@/mushrooms/pages/mushrooms/model/flight';
+} from '@/mushrooms/entities/insect/model/flight';
 import {
   type Aloft,
   centreOf,
   framedOf,
-} from '@/mushrooms/pages/mushrooms/model/flight-frame';
-import { outOf, outWay } from '@/mushrooms/pages/mushrooms/model/flight-in';
-import { apartIn } from '@/mushrooms/pages/mushrooms/model/flight-timing';
-import {
-  CLUMP_DISTANCE,
-  OPENING_EYE,
-} from '@/mushrooms/pages/mushrooms/model/ground';
+} from '@/mushrooms/entities/insect/model/flight-frame';
+import { outOf, outWay } from '@/mushrooms/entities/insect/model/flight-in';
+import { apartIn } from '@/mushrooms/entities/insect/model/flight-timing';
 import {
   insectGenes,
   type InsectKind,
-} from '@/mushrooms/pages/mushrooms/model/insect-genes';
-import { wingspan } from '@/mushrooms/pages/mushrooms/model/insect-outline';
+} from '@/mushrooms/entities/insect/model/insect-genes';
+import { wingspan } from '@/mushrooms/entities/insect/model/insect-outline';
 import { airAlofts } from '@/mushrooms/pages/mushrooms/ui/scene/air-spots';
 import {
   type Away,
@@ -50,7 +48,6 @@ import {
   seatAt,
 } from '@/mushrooms/pages/mushrooms/ui/scene/perch-sight';
 import { aloftOfLayout } from '@/mushrooms/pages/mushrooms/ui/scene/plane-place';
-import { type View, viewAt } from '@/mushrooms/pages/mushrooms/ui/scene/view';
 import { opened } from '@/mushrooms/pages/mushrooms/ui/scene/visit-play';
 
 import { dashPeak } from './lib/veer-dash.ts';

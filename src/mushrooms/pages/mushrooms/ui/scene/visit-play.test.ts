@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE } from '../../model/ground';
-import { apartOnScreen } from '../../model/placement';
-import { SPORE_SEATS } from '../../model/sprouting';
+import { apartOnScreen, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { SPORE_SEATS } from '@/mushrooms/features/meadow';
+
 import {
   hiddenOf,
   hidersOf,
@@ -15,7 +15,6 @@ import { groundIn } from './clump-layout';
 import type { MeadowLayout } from './layout';
 import { patchlessIn } from './mushroom-patch';
 import { SPORE_REACH } from './mushroom-room';
-import { viewAt } from './view';
 import { opened, standingIn } from './visit-play';
 
 const atOpening = (layout: MeadowLayout) => viewAt(layout.camera, OPENING_EYE);

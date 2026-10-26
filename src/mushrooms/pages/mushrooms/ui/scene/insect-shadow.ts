@@ -10,20 +10,23 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Ordinate } from '../../model/geometry';
-import type { Layered } from '../../model/ground';
-import { depthOf, UNPLACED } from './bed-place';
-import type { ShadowLayer } from './ink';
-import { PALETTE } from './palette';
-import { hazeAhead } from './repaint-queue';
+import type { Ordinate } from '@/mushrooms/shared/lib/geometry';
+import {
+  hazeAhead,
+  PALETTE,
+  type ShadowLayer,
+} from '@/mushrooms/shared/ui/index.node-safe';
 import {
   behindHills,
+  type Layered,
   onScreen,
   type Placed,
   sunk,
   sunkAway,
   type View,
-} from './view';
+} from '@/mushrooms/shared/world';
+
+import { depthOf, UNPLACED } from './bed-place';
 
 /** How wide a shadow lies, against the insect's open wings. */
 const ACROSS = 0.6;

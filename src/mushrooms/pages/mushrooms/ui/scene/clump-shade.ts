@@ -10,13 +10,14 @@ import {
   type Circle,
   type Cornered,
   type Point,
-} from '../../model/geometry';
+} from '@/mushrooms/shared/lib/geometry';
+import type { Footed } from '@/mushrooms/shared/world';
 import {
   type MushroomGenes,
   mushroomGenes,
   type MushroomSeed,
-} from '../../model/mushroom-genes';
-import type { Footed } from '../../model/placement';
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
 import { type MushroomGround, placeIn } from './clump-layout';
 import { standingWith } from './door-sight';
 import type { Placement } from './layout';

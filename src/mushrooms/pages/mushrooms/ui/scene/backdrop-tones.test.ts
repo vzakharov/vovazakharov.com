@@ -1,8 +1,17 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE } from '../../model/ground';
-import { mulberry32 } from '../../model/random';
+import {
+  channels,
+  contrast,
+  luminance,
+  mix,
+  toHsv,
+} from '@/mushrooms/shared/lib/colour';
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
+import { DUSK, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+
 import {
   DUSK_TONES,
   GROUND_STOPS,
@@ -13,14 +22,11 @@ import {
   skyGrid,
   tonesAt,
 } from './backdrop-tones';
-import { channels, contrast, luminance, mix, toHsv } from './colour';
 import { tuftColours, turfAt } from './grass';
 import { type MeadowLayout, meadowLayout } from './layout';
-import { DUSK, PALETTE } from './palette';
 import { azimuthAt, crestAt, screenAt } from './panorama';
 import { farSkyline, farthestSkyline, nearSkyline } from './skyline';
 import { SUN_RAY_REACH } from './sun-layout';
-import { viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 const rgb = (colour: number) => {

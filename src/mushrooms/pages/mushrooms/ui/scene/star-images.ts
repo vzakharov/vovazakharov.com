@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 
-import type { Circle } from '../../model/geometry';
+import type { Circle } from '@/mushrooms/shared/lib/geometry';
+
 import { DEPTHS } from './backdrop-depths';
 import { starTexels } from './dusk-stars';
 import { paintStar } from './paint-sky';

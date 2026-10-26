@@ -1,10 +1,14 @@
 import type * as Phaser from 'phaser';
 
-import { alongQuadratic, lerpPoint, type Point } from '../../model/geometry';
-import type { Walk } from '../../model/walk';
+import {
+  alongQuadratic,
+  lerpPoint,
+  type Point,
+} from '@/mushrooms/shared/lib/geometry';
+import { fillShape, PALETTE, strokeShape } from '@/mushrooms/shared/ui';
+import type { Walk } from '@/mushrooms/shared/world';
+
 import { drawDisc } from './hud';
-import { PALETTE } from './palette';
-import { fillShape, strokeShape } from './shapes';
 
 /**
  * The two bare footprints, one a step ahead of the other, each turned a

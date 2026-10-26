@@ -3,17 +3,20 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { SEEDED_SOUNDS } from '../../model/flower-sounds';
-import { type Meadow, reduce, sameFoot } from '../../model/game';
-import { type Eye, OPENING_EYE } from '../../model/ground';
-import { plantedId, type Sown } from '../../model/pollen';
-import { mulberry32, nextSeed } from '../../model/random';
+import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
+import { type Eye, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { SEEDED_SOUNDS } from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  plantedId,
+  type Sown,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import { type Meadow, reduce, sameFoot } from '@/mushrooms/features/meadow';
+
 import { takesFlower } from './flower-sight';
 import { LiveLawn } from './lawn';
 import { Planter } from './planter';
 import { sightSlack, strayed, Tended } from './tending';
 import { type Sprout, tendedIn, tendTufts } from './tufts';
-import { viewAt } from './view';
 import { type Opened, opened } from './visit-play';
 
 /** How many visits are walked, half of them in a forest. */

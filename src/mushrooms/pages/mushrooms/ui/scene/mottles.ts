@@ -8,22 +8,28 @@
 
 import type * as Phaser from 'phaser';
 
-import { browDistance } from '../../model/eye-height';
+import { mix } from '@/mushrooms/shared/lib/colour';
 import {
   distanceBetween,
   type Point,
   type Wide,
   type WithMiddle,
-} from '../../model/geometry';
-import { smooth } from '../../model/motion';
-import { viewOf } from '../../model/pinhole';
-import { between, type Random } from '../../model/random';
-import { forwardOf } from '../../model/stride';
+} from '@/mushrooms/shared/lib/geometry';
+import { smooth } from '@/mushrooms/shared/lib/motion';
+import { between, type Random } from '@/mushrooms/shared/lib/random';
+import {
+  PALETTE,
+  type Translucent,
+} from '@/mushrooms/shared/ui/index.node-safe';
+import {
+  browDistance,
+  forwardOf,
+  V_NEAR,
+  type View,
+  viewOf,
+} from '@/mushrooms/shared/world';
+
 import { DEPTHS } from './backdrop-depths';
-import { mix } from './colour';
-import type { Translucent } from './ink';
-import { PALETTE } from './palette';
-import { V_NEAR, type View } from './view';
 
 export const MOTTLES_PER_CELL = 3;
 

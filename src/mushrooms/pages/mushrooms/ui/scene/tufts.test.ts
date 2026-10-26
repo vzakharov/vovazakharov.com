@@ -3,24 +3,43 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { MUSHROOM_SLOTS } from '../../model/crowding';
-import { browDistance, gaitHeight } from '../../model/eye-height';
-import { flowerGenes, flowerHead } from '../../model/flower-genes';
-import { type Action, reduce } from '../../model/game';
-import { type Circle, distanceBetween, type Point } from '../../model/geometry';
 import {
+  type Circle,
+  distanceBetween,
+  type Point,
+} from '@/mushrooms/shared/lib/geometry';
+import {
+  mulberry32,
+  nextSeed,
+  type Random,
+} from '@/mushrooms/shared/lib/random';
+import { PALE_SPAN } from '@/mushrooms/shared/ui/index.node-safe';
+import {
+  behindHills,
+  browDistance,
   type Camera,
+  cull,
   D_SEE,
   type Eye,
+  flowerGenes,
+  flowerHead,
+  gaitHeight,
   groundFootOf,
+  MUSHROOM_SLOTS,
+  ofGround,
   OPENING_EYE,
+  pinholeOf,
   planeOf,
+  viewAt,
   zAt,
-} from '../../model/ground';
-import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { pinholeOf } from '../../model/pinhole';
-import { plantedId, type Sown } from '../../model/pollen';
-import { mulberry32, nextSeed, type Random } from '../../model/random';
+} from '@/mushrooms/shared/world';
+import {
+  plantedId,
+  type Sown,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/index.node-safe';
+import { type Action, reduce } from '@/mushrooms/features/meadow';
+
 import {
   FLOWER_DOWN,
   FLOWER_SIZE,
@@ -42,7 +61,6 @@ import {
 import { type MeadowLayout, meadowLayout } from './layout';
 import { roomFor } from './mushroom-room';
 import { perchSight } from './perch-sight';
-import { PALE_SPAN } from './repaint-queue';
 import { bareToTap, tuftAt } from './tuft-tap';
 import {
   leaveTufts,
@@ -56,7 +74,6 @@ import {
   tendedIn,
   tendTufts,
 } from './tufts';
-import { behindHills, cull, ofGround, viewAt } from './view';
 import { FLOOR_HELD, VIEWPORTS } from './viewports';
 import { type Opened, opened, relaidOn } from './visit-play';
 

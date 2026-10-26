@@ -1,6 +1,6 @@
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Circle, Point } from '../../model/geometry';
+import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
 
 /** An insect as a tap finds it: where its body is drawn, and how far round it a tap reaches it. */
 export type TapTarget = Circle & WithId;

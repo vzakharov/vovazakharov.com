@@ -6,13 +6,17 @@
  * to.
  */
 
-import type { KeptBy, Reopened } from '../../api/open-kept';
-import { sameAnchor } from '../../model/anchor';
-import type { Meadow } from '../../model/game';
-import { settled } from '../../model/keeping';
-import { type Kept, KEPT_VERSION } from '../../model/kept-record';
-import type { Seeded } from '../../model/random';
-import type { WalkStart } from '../../model/walk';
+import type { Seeded } from '@/mushrooms/shared/lib/random';
+import { sameAnchor, type WalkStart } from '@/mushrooms/shared/world';
+import {
+  type Kept,
+  KEPT_VERSION,
+  type KeptBy,
+  type Meadow,
+  type Reopened,
+  settled,
+} from '@/mushrooms/features/meadow';
+
 import type { EyeHeld } from './eye-input';
 import type { MeadowSeen } from './planter';
 import type { Meadowed } from './visit-play';

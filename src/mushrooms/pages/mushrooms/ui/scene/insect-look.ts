@@ -8,45 +8,50 @@
 
 import type * as Phaser from 'phaser';
 
-import type { BeeGenes } from '../../model/bee-genes';
+import type {
+  Point,
+  Scaled,
+  WithMiddle,
+} from '@/mushrooms/shared/lib/geometry';
+import { turnedLight } from '@/mushrooms/shared/lib/light';
+import type { Lighted, Lighting } from '@/mushrooms/shared/ui';
 import {
-  crawl,
-  hop,
-  jitter,
-  rubbing,
-  trembleSize,
-} from '../../model/buzz-rest';
-import type { Timed } from '../../model/flight';
-import type { FlyGenes } from '../../model/fly-genes';
-import type { Point, Scaled, WithMiddle } from '../../model/geometry';
-import {
-  type ButterflyGenes,
-  insectGenes,
-  type OfKind,
-} from '../../model/insect-genes';
-import { litTurn } from '../../model/insect-light';
-import {
+  type Airborne,
   aloft,
-  proboscis,
-  type Stay,
-  wingBeat,
-} from '../../model/insect-motion';
-import { buzzTurn, type BodySide } from '../../model/insect-outline';
-import type { Airborne } from '../../model/insect-paths';
-import type { Flier } from '../../model/insects';
-import { turnedLight } from '../../model/light';
-import { type Specked, specksAt } from '../../model/pollen';
-import { inBody } from '../../model/proboscis';
-import { drawBee, paintBeeBody, paintBeeLegs } from './draw-bee';
-import type { BuzzParts } from './draw-buzz';
-import { drawFly, paintFlyBody, paintFlyLegs } from './draw-fly';
-import {
+  type BeeGenes,
+  type BodySide,
+  type ButterflyGenes,
+  type BuzzParts,
+  buzzTurn,
+  crawl,
+  drawBee,
+  drawFly,
   drawInsect,
+  type Flier,
+  type FlyGenes,
+  hop,
+  inBody,
+  insectGenes,
   type InsectParts,
+  jitter,
+  litTurn,
+  type OfKind,
+  paintBeeBody,
+  paintBeeLegs,
+  paintFlyBody,
+  paintFlyLegs,
   paintProboscis,
   type Proboscis,
-} from './draw-insect';
-import type { Lighted, Lighting } from './ink';
+  proboscis,
+  rubbing,
+  type Specked,
+  specksAt,
+  type Stay,
+  type Timed,
+  trembleSize,
+  wingBeat,
+} from '@/mushrooms/entities/insect';
+
 import type { Nectared } from './perch-hosts';
 
 /** How far a butterfly's wings fold at the most closed, seen from above, as a share of open. */

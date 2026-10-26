@@ -1,9 +1,9 @@
 import type * as Phaser from 'phaser';
 
-import type { Circle } from '../../model/geometry';
+import type { Circle } from '@/mushrooms/shared/lib/geometry';
+import { fillShape,PALETTE } from '@/mushrooms/shared/ui';
+
 import { moonFace } from './moon-face';
-import { PALETTE } from './palette';
-import { fillShape } from './shapes';
 
 /** The halo's soft rings, outermost first: each its reach in radii and its alpha. */
 const RINGS = [

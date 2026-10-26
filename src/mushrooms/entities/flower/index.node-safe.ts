@@ -1,0 +1,35 @@
+export {
+  classOf,
+  type Drum,
+  DRUMS,
+  FLOWER_SHAPES,
+  type FlowerShape,
+  type FlowerSound,
+  NEAR_FLOWERS,
+  PICKED_COLOURS,
+  PITCH_CLASSES,
+  type PitchClass,
+  sameSound,
+  SEEDED_SOUNDS,
+  seedSounding,
+  shapeSeeds,
+  soundOf,
+  visitFlowers,
+} from './model/flower-sounds';
+export {
+  frequencyOf,
+  HIGHEST_NOTE,
+  HOME_OCTAVE,
+  LOWEST_NOTE,
+  type Melody,
+  shiftMelody,
+  shiftOctave,
+  strike,
+} from './model/notes';
+export {
+  BUD,
+  CLOSING_STEPS,
+  type Folding,
+  folding,
+  OPEN,
+} from './ui/flower-closing';

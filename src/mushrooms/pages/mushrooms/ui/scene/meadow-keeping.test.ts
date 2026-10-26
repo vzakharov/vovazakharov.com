@@ -1,14 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { later } from '../../api/fake-store';
-import type { Keeper } from '../../api/keeper';
-import { FULL_DUSK } from '../../model/dusk';
-import type { Meadow } from '../../model/game';
-import type { Eye } from '../../model/ground';
-import { settled } from '../../model/keeping';
-import { type Kept, KEPT_VERSION } from '../../model/kept-record';
-import type { WalkStart } from '../../model/walk';
+import { type Eye, FULL_DUSK, type WalkStart } from '@/mushrooms/shared/world';
+import {
+  type Keeper,
+  type Kept,
+  KEPT_VERSION,
+  later,
+  type Meadow,
+  settled,
+} from '@/mushrooms/features/meadow';
+
 import { type KeptPage, keptRecord, meadowKeeping } from './meadow-keeping';
 import { opened } from './visit-play';
 

@@ -1,6 +1,6 @@
 /** Where a run meets a door on the plane: pure, for `MouseRuns`. */
 
-import type { Point } from '../../model/geometry';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
 
 /**
  * Where a door's runs stand at the plane: in front of its stem, its `foot`

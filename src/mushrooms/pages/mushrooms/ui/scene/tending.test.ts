@@ -3,12 +3,20 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { MUSHROOM_SLOTS } from '../../model/crowding';
-import { reduce, sameFoot } from '../../model/game';
-import { type Eye, OPENING_EYE } from '../../model/ground';
-import { MUSHROOM_SPECIES } from '../../model/mushroom-genes';
-import { plantedId, type Sown } from '../../model/pollen';
-import { mulberry32, nextSeed } from '../../model/random';
+import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
+import {
+  type Eye,
+  MUSHROOM_SLOTS,
+  OPENING_EYE,
+  viewAt,
+} from '@/mushrooms/shared/world';
+import {
+  plantedId,
+  type Sown,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/index.node-safe';
+import { reduce, sameFoot } from '@/mushrooms/features/meadow';
+
 import { flowersOf } from './flower-plots';
 import { coversOn, roomFor as beeRoomFor, type Stand } from './flower-sight';
 import { LiveLawn, type Sprout } from './lawn';
@@ -22,7 +30,6 @@ import {
   Tending,
   tendTufts,
 } from './tending';
-import { viewAt } from './view';
 import { type Opened, opened } from './visit-play';
 
 /** Steps `tending` until it hands back its tufts, and how many steps that took. */

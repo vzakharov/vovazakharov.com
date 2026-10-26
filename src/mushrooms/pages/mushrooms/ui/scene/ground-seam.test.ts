@@ -1,8 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { alongAzimuth, distanceBetween } from '../../model/geometry';
-import { D_SEE, type Eye, OPENING_EYE } from '../../model/ground';
+import { alongAzimuth, distanceBetween } from '@/mushrooms/shared/lib/geometry';
+import { PALE_SPAN } from '@/mushrooms/shared/ui/index.node-safe';
+import {
+  browRow,
+  D_SEE,
+  type Eye,
+  OPENING_EYE,
+  viewAt,
+} from '@/mushrooms/shared/world';
+
 import { hasGround } from './anchored-stand';
 import { groundAt, RANGES } from './backdrop-tones';
 import { grainStrips } from './grain';
@@ -10,7 +18,6 @@ import { turfAt } from './grass';
 import { cellOf, LiveLawn } from './lawn';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { crestAcross } from './panorama';
-import { PALE_SPAN } from './repaint-queue';
 import { SEAM_REACH, SEAM_STEPS, seamCrest, seamTop } from './skyline';
 import {
   crossesSeam,
@@ -20,7 +27,6 @@ import {
   shownSeam,
   shownSprouts,
 } from './tufts';
-import { browRow, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 
 /** How far across, as a share of the screen, the seam may run level at most. */

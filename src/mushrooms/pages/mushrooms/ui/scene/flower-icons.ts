@@ -8,11 +8,11 @@
 
 import type * as Phaser from 'phaser';
 
-import { type FlowerColour, flowerGenes } from '../../model/flower-genes';
-import { paintFlowerHead, paintFlowerStem } from './draw-flower';
+import { inkedDisc,PALETTE } from '@/mushrooms/shared/ui';
+import { type FlowerColour, flowerGenes } from '@/mushrooms/shared/world';
+import { paintFlowerHead, paintFlowerStem } from '@/mushrooms/entities/flower';
+
 import { drawDisc, iconLighting } from './hud';
-import { PALETTE } from './palette';
-import { inkedDisc } from './shapes';
 
 /** A colour swatch's radius, in its button's. */
 const SWATCH = 0.62;

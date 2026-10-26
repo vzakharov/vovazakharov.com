@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { distanceBetween, type Point } from '../../model/geometry';
-import { D_SEE, OPENING_EYE } from '../../model/ground';
+import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
+import { browRow, D_SEE, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+
 import { CELL, cellLawn, cellOf, cellTufts, type Lawn, LiveLawn } from './lawn';
 import { type Mottle, MOTTLES_PER_CELL, shownMottles } from './mottles';
-import { browRow, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';
 

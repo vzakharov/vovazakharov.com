@@ -2,32 +2,51 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Meadow, Planted } from '../../model/game';
-import { placedAt, type Point } from '../../model/geometry';
-import { OPENING_EYE } from '../../model/ground';
-import { type DoorPlace, paintedSpots } from '../../model/house';
-import { headedLight } from '../../model/light';
-import { letGo, lightUp, phaseOf, SINK_DURATION } from '../../model/motion';
-import { type MushroomGenes, mushroomGenes } from '../../model/mushroom-genes';
+import { placedAt, type Point } from '@/mushrooms/shared/lib/geometry';
+import { headedLight } from '@/mushrooms/shared/lib/light';
 import {
+  letGo,
+  lightUp,
+  phaseOf,
+  SINK_DURATION,
+} from '@/mushrooms/shared/lib/motion';
+import {
+  type Detailing,
+  type Dusking,
+  hazeAhead,
+  type Hazing,
+  type Lighting,
+  repaintsDue,
+} from '@/mushrooms/shared/ui';
+import {
+  type Following,
+  OPENING_EYE,
+  type View,
+} from '@/mushrooms/shared/world';
+import {
+  type DoorPlace,
+  type MushroomGenes,
+  mushroomGenes,
+  mushroomLights,
+  paintedSpots,
+  splayed,
   TAP_PARTS,
   type TapArea,
   tapArea,
+  tappedDoor,
   toCanvas,
-} from '../../model/mushroom-outline';
-import { splayed } from '../../model/mushroom-pose';
+} from '@/mushrooms/entities/mushroom';
+import type { Meadow, Planted } from '@/mushrooms/features/meadow';
+
 import { onHost, standAt, viewedOrLaid } from './bed-place';
 import { laidOf, placeIn } from './clump-layout';
 import { doorSeats } from './door-seats';
-import { tappedDoor } from './door-tap';
 import type { Lights } from './dusk-view';
 import { containsMushroom } from './hit-areas';
 import { HouseView } from './house-view';
-import type { Lighting } from './ink';
 import type { MeadowLayout } from './layout';
 import { MouseRuns } from './mouse-runs';
 import { moveMushroom } from './mushroom-frame';
-import { mushroomLights } from './mushroom-light';
 import { MushroomSelection } from './mushroom-selection';
 import {
   paintLit,
@@ -36,18 +55,10 @@ import {
   unplacedShown,
 } from './mushroom-shown';
 import type { Seat } from './perch-hosts';
-import {
-  type Detailing,
-  type Dusking,
-  hazeAhead,
-  type Hazing,
-  repaintsDue,
-} from './repaint-queue';
 import type { MeadowSound } from './sound';
 import { SporeBed } from './spore-bed';
 import { crownOf, driftSpores } from './spore-drift';
 import { drawnSize, puffFrom } from './spores';
-import type { Following, View } from './view';
 
 /** Above everything in the meadow, whose depth is where its foot stands. */
 const SPORE_DEPTH = 1e5;

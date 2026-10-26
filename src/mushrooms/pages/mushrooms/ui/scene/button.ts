@@ -1,11 +1,12 @@
 import * as Phaser from 'phaser';
 
-import type { Meadow } from '../../model/game';
-import type { Circle, Point } from '../../model/geometry';
-import { shake, wobble } from '../../model/motion';
+import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import { shake, wobble } from '@/mushrooms/shared/lib/motion';
+import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
+import type { Meadow } from '@/mushrooms/features/meadow';
+
 import { type AtRatio, faceFrame, SUPERSAMPLE } from './baking';
 import { containsCircle, type WithCircleHit } from './hit-areas';
-import { tapReach } from './tap-reach';
 
 /** How deep a pressed button sinks in, against a mushroom's squash. */
 const PRESS_DEPTH = 0.6;

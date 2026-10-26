@@ -4,10 +4,20 @@
  * under it draws its seat, at the zoom that landing gave it.
  */
 
-import { type Aloft, azimuthOf } from '../../model/flight-frame';
-import type { Point } from '../../model/geometry';
-import { CLUMP_DISTANCE, SPREAD } from '../../model/ground';
-import { aloftAt, bendAt, pinholeOf } from '../../model/pinhole';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
+import {
+  aloftAt,
+  bendAt,
+  CLUMP_DISTANCE,
+  pinholeOf,
+  SPREAD,
+  type View,
+} from '@/mushrooms/shared/world';
+import {
+  type Aloft,
+  azimuthOf,
+} from '@/mushrooms/entities/insect/index.node-safe';
+
 import type { Standing } from './bed-place';
 import type { Zoomed } from './insect-away';
 import {
@@ -17,7 +27,6 @@ import {
   veerOf,
 } from './insect-frame';
 import type { Seat } from './perch-hosts';
-import type { View } from './view';
 
 /**
  * Where `view` draws an insect flying at `raw`, `flown` of the way along its

@@ -1,10 +1,11 @@
 import type * as Phaser from 'phaser';
 
+import { mix } from '@/mushrooms/shared/lib/colour';
+import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
+
 import type { MapFrame } from '../../model/map-frame';
-import { mix } from './colour';
 import { type GroundBox, mapGround } from './map-ground';
 import { fillMottles } from './mottles';
-import { PALETTE } from './palette';
 
 /** How far the map's wash goes from the meadow's ground toward its sunlit ground: a lighter green, so the things and the child's marker stand out on it. */
 const WASH_LIGHT = 0.5;

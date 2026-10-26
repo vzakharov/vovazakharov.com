@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { anchorOf } from '../../model/anchor';
-import { type Eye, OPENING_EYE } from '../../model/ground';
-import { openingIndex } from '../../model/placement';
+import {
+  anchorOf,
+  type Eye,
+  OPENING_EYE,
+  openingIndex,
+  viewAt,
+} from '@/mushrooms/shared/world';
+import { drawnHolds } from '@/mushrooms/entities/mushroom/index.node-safe';
+
 import { anchoredStand } from './anchored-stand';
 import {
   patchlessIn,
@@ -12,8 +18,6 @@ import {
   type Tapped,
   tappedIn,
 } from './mushroom-patch';
-import { drawnHolds } from './mushroom-tap';
-import { viewAt } from './view';
 import { type Screen, VIEWPORTS, VISITS } from './viewports';
 import { opened } from './visit-play';
 

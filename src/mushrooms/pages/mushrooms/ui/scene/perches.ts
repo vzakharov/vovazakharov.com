@@ -1,7 +1,17 @@
-import { type Perch, perchName, type Sight } from '../../model/flight';
-import type { Aloft } from '../../model/flight-frame';
-import { type Eye, OPENING_EYE, unanchored } from '../../model/ground';
-import type { Flier } from '../../model/insects';
+import {
+  type Eye,
+  OPENING_EYE,
+  unanchored,
+  type View,
+} from '@/mushrooms/shared/world';
+import {
+  type Aloft,
+  type Flier,
+  type Perch,
+  perchName,
+  type Sight,
+} from '@/mushrooms/entities/insect/index.node-safe';
+
 import { airAloftOf, airAlofts } from './air-spots';
 import { anchoredStand } from './anchored-stand';
 import type { Stand } from './flower-sight';
@@ -16,7 +26,6 @@ import {
 } from './perch-hosts';
 import { footRows, perchSight } from './perch-sight';
 import { aloftOfLayout, placeOfAloft } from './plane-place';
-import type { View } from './view';
 
 /** How far the eye walks, in the clump's size, before the perches are judged afresh: coarser than the rules' anchor (`anchorOf`), a fresh sight costing a frame's worth. */
 const PERCH_STEP = 2;

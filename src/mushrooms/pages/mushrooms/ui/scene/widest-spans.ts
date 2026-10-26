@@ -1,4 +1,5 @@
-import type { InsectKind } from '../../model/insect-genes';
+import type { InsectKind } from '@/mushrooms/entities/insect/index.node-safe';
+
 import { WIDEST_SPAN } from './flower-sight';
 import type { InsectSized } from './layout';
 

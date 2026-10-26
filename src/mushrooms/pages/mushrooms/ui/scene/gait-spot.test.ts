@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
+
 import { meadowLayout } from './layout';
-import { tapReach } from './tap-reach';
 
 /**
  * Screens smaller than any the meadow is laid out for, whose sky holds no

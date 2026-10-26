@@ -7,16 +7,25 @@
  * (`LiveLawn`).
  */
 
-import { D_SEE_MOST } from '../../model/eye-height';
-import type { Point } from '../../model/geometry';
-import type { Eye, Footing, Rooted } from '../../model/ground';
-import { mulberry32, type Random, type Seeded } from '../../model/random';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
+import {
+  mulberry32,
+  type Random,
+  type Seeded,
+} from '@/mushrooms/shared/lib/random';
+import { PALE_SPAN } from '@/mushrooms/shared/ui/index.node-safe';
+import {
+  D_SEE_MOST,
+  type Eye,
+  type Footing,
+  type Rooted,
+} from '@/mushrooms/shared/world';
+
 import { FLOWER_SIZE, standingOn } from './flower-layout';
 import type { WithLayout } from './flower-sight';
 import { tuftOn, type WithTuft } from './grass';
 import type { MeadowLayout } from './layout';
 import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
-import { PALE_SPAN } from './repaint-queue';
 
 /** A tuft the child can plant on, and the foot on the plane a flower planted there stands on. */
 export type Sprout = Rooted & WithTuft;

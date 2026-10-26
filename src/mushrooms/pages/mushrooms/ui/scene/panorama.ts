@@ -13,12 +13,11 @@ import {
   type Radiused,
   sample,
   wrap,
-} from '../../model/geometry';
-import type { Camera } from '../../model/ground';
-import { pinholeOf } from '../../model/pinhole';
-import { between, mulberry32 } from '../../model/random';
+} from '@/mushrooms/shared/lib/geometry';
+import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
+import { type Camera, pinholeOf, type View } from '@/mushrooms/shared/world';
+
 import type { Span } from './baking';
-import type { View } from './view';
 
 const TURN = Math.PI * 2;
 

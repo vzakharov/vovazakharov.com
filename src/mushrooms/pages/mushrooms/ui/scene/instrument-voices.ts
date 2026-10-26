@@ -5,8 +5,13 @@
  * data, which the tests measure, and `playParts` plays them.
  */
 
-import type { Drum } from '../../model/flower-sounds';
-import { frequencyOf, HIGHEST_NOTE, LOWEST_NOTE } from '../../model/notes';
+import {
+  type Drum,
+  frequencyOf,
+  HIGHEST_NOTE,
+  LOWEST_NOTE,
+} from '@/mushrooms/entities/flower/index.node-safe';
+
 import {
   type Attacked,
   type Envelope,

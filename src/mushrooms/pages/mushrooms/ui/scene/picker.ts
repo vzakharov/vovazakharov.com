@@ -1,8 +1,18 @@
 import type * as Phaser from 'phaser';
 
-import type { Meadow } from '../../model/game';
-import { type Circle, lerpPoint, type Point } from '../../model/geometry';
-import { emerge, launch, sink, SINK_DURATION } from '../../model/motion';
+import {
+  type Circle,
+  lerpPoint,
+  type Point,
+} from '@/mushrooms/shared/lib/geometry';
+import {
+  emerge,
+  launch,
+  sink,
+  SINK_DURATION,
+} from '@/mushrooms/shared/lib/motion';
+import type { Meadow } from '@/mushrooms/features/meadow';
+
 import {
   type Able,
   type Button,

@@ -4,21 +4,36 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import { isSeat, perchName } from '../../model/flight';
-import { isShown } from '../../model/flight-in';
-import { NEAR_FLOWERS } from '../../model/flower-sounds';
-import { type Meadow, reduce } from '../../model/game';
-import type { Point } from '../../model/geometry';
-import { CLUMP_DISTANCE, D_SEE, OPENING_EYE } from '../../model/ground';
-import { insectGenes } from '../../model/insect-genes';
-import { wingspan } from '../../model/insect-outline';
-import type { Flier } from '../../model/insects';
-import { hasTrumpet, mushroomGenes } from '../../model/mushroom-genes';
-import { pinholeOf } from '../../model/pinhole';
-import { mulberry32, nextSeed } from '../../model/random';
-import type { ShelterSeat } from '../../model/shelter';
-import { SHELTER_SEATS } from '../../model/shelter-seats';
-import { SPROUT_MS } from '../../model/sprouting';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
+import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
+import {
+  CLUMP_DISTANCE,
+  D_SEE,
+  middleOf,
+  ofLayout,
+  OPENING_EYE,
+  pinholeOf,
+  rowAt,
+  SHELTER_SEATS,
+  V_NEAR,
+  viewAt,
+} from '@/mushrooms/shared/world';
+import { NEAR_FLOWERS } from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  type Flier,
+  insectGenes,
+  isSeat,
+  isShown,
+  perchName,
+  type ShelterSeat,
+  wingspan,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  hasTrumpet,
+  mushroomGenes,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+import { type Meadow, reduce, SPROUT_MS } from '@/mushrooms/features/meadow';
+
 import { airAlofts, airSpots, clumpRow } from './air-spots';
 import { bedPlace } from './bed-place';
 import { placeIn } from './clump-layout';
@@ -36,7 +51,6 @@ import {
 } from './perch-sight';
 import { Perches } from './perches';
 import { aloftOfLayout, perchDistance } from './plane-place';
-import { middleOf, ofLayout, rowAt, V_NEAR, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { opened, overlap } from './visit-play';
 import { widestOn } from './widest-spans';

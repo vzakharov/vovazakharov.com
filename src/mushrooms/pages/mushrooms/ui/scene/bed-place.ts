@@ -10,23 +10,25 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Abscissa, Point } from '../../model/geometry';
-import type { LayeredPoint } from '../../model/ground';
-import type { Ahead } from '../../model/pinhole';
-import type { Drawn, Stood } from '../../model/placement';
-import { DEPTHS } from './backdrop-depths';
-import type { LaidAhead } from './clump-layout';
+import type { Abscissa, Point } from '@/mushrooms/shared/lib/geometry';
 import {
+  type Ahead,
   behindHills,
   cull,
+  type Drawn,
+  type LayeredPoint,
   ofGround,
   placedAt,
   type Receding,
+  type Stood,
   sunk,
   sunkAway,
   type View,
   type Zooming,
-} from './view';
+} from '@/mushrooms/shared/world';
+
+import { DEPTHS } from './backdrop-depths';
+import type { LaidAhead } from './clump-layout';
 
 /**
  * The depth a thing past the ground's top row is drawn about: midway between

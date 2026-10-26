@@ -1,4 +1,5 @@
-import type { Point } from '../../model/geometry';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
+
 import { tappedInsect, type TapTarget } from './insect-tap';
 
 /**

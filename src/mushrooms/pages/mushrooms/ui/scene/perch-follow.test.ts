@@ -1,16 +1,19 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { perchName, type Sight } from '../../model/flight';
-import { type Meadow, reduce } from '../../model/game';
-import { distanceBetween } from '../../model/geometry';
-import type { Eye } from '../../model/ground';
-import type { InsectKind } from '../../model/insect-genes';
-import type { Flier } from '../../model/insects';
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
+import { type Eye, viewAt } from '@/mushrooms/shared/world';
+import {
+  type Flier,
+  type InsectKind,
+  perchName,
+  type Sight,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import { type Meadow, reduce } from '@/mushrooms/features/meadow';
+
 import type { Stand } from './flower-sight';
 import { PERCH_REACH } from './perch-sight';
 import { Perches } from './perches';
-import { viewAt } from './view';
 import { opened } from './visit-play';
 
 /** How far up the plane the child walks: the opening's perches all past `PERCH_REACH` of him there. */

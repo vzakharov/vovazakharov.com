@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { DRUMS, PITCH_CLASSES } from '../../model/flower-sounds';
+import {
+  DRUMS,
+  PITCH_CLASSES,
+} from '@/mushrooms/entities/flower/index.node-safe';
+
 import { type KeyAction, keyAction, KEYS, letGoMove } from './keyboard';
 
 const press = (code: string, held: Partial<KeyboardEvent> = {}) =>

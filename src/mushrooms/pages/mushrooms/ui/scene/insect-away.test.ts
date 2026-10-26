@@ -1,13 +1,32 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Perch, perchName } from '../../model/flight';
-import { type Aloft, centreOf, framedOf } from '../../model/flight-frame';
-import { entryOf, isShown, nearerSide, outWay } from '../../model/flight-in';
-import { apartIn, placesSetOff } from '../../model/flight-timing';
-import { CLUMP_DISTANCE, OPENING_EYE } from '../../model/ground';
-import { INSECT_KINDS } from '../../model/insect-genes';
-import { aloftAt } from '../../model/pinhole';
+import {
+  aloftAt,
+  CLUMP_DISTANCE,
+  D_SEE,
+  onScreen,
+  OPENING_EYE,
+  placedAt,
+  V_NEAR,
+  type View,
+  viewAt,
+} from '@/mushrooms/shared/world';
+import {
+  type Aloft,
+  apartIn,
+  centreOf,
+  entryOf,
+  framedOf,
+  INSECT_KINDS,
+  isShown,
+  nearerSide,
+  outWay,
+  type Perch,
+  perchName,
+  placesSetOff,
+} from '@/mushrooms/entities/insect/index.node-safe';
+
 import type { Stand } from './flower-sight';
 import {
   awayDown,
@@ -25,7 +44,6 @@ import { meadowCamera } from './meadow-camera';
 import { footRows, onscreenOf, seatAt } from './perch-sight';
 import { Perches } from './perches';
 import { aloftOfLayout, perchDistance, placeOfAloft } from './plane-place';
-import { D_SEE, onScreen, placedAt, V_NEAR, type View, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 import { opened } from './visit-play';
 

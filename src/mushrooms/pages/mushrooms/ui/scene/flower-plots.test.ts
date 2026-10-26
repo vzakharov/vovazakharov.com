@@ -3,21 +3,25 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { anchorOf } from '../../model/anchor';
-import { NEAR_FLOWERS } from '../../model/flower-sounds';
-import { reduce } from '../../model/game';
-import { distanceBetween } from '../../model/geometry';
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
+import { between, mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
 import {
   anchored,
+  anchorOf,
   CLUMP_DISTANCE,
   downOf,
   groundFootOf,
   OPENING_EYE,
+  openingIndex,
   unanchored,
-} from '../../model/ground';
-import { openingIndex } from '../../model/placement';
-import { isBeeSown, type Sown } from '../../model/pollen';
-import { between, mulberry32, nextSeed } from '../../model/random';
+} from '@/mushrooms/shared/world';
+import { NEAR_FLOWERS } from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  isBeeSown,
+  type Sown,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import { reduce } from '@/mushrooms/features/meadow';
+
 import { anchoredStand } from './anchored-stand';
 import { FAR_BAND } from './far-band';
 import {

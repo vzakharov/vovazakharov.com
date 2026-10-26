@@ -1,16 +1,18 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Origin } from '../../model/flight';
-import type { Aloft, Framed } from '../../model/flight-frame';
-import type { Departing } from '../../model/flight-timing';
-import type { Point } from '../../model/geometry';
-import type { CarryingOver } from '../../model/insect-paths';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
+import { type Bobbed, phaseOf } from '@/mushrooms/shared/lib/motion';
 import {
+  type Aloft,
+  type CarryingOver,
+  type Departing,
   firstSteering,
+  type Framed,
+  type Origin,
   startLeg,
   type Steering,
-} from '../../model/insect-steering';
-import { type Bobbed, phaseOf } from '../../model/motion';
+} from '@/mushrooms/entities/insect/index.node-safe';
+
 import type { CircleFigure, TappedFigure } from './hit-areas';
 import type { SetOff, Spanned } from './insect-away';
 import type { Flying, Look } from './insect-look';

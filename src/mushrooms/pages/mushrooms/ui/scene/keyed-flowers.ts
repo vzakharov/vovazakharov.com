@@ -1,13 +1,14 @@
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { FlowerColour } from '../../model/flower-genes';
+import { pick, type Random } from '@/mushrooms/shared/lib/random';
+import type { FlowerColour } from '@/mushrooms/shared/world';
 import {
   classOf,
   type FlowerSound,
   sameSound,
-} from '../../model/flower-sounds';
-import type { Action, Planting } from '../../model/game';
-import { pick, type Random } from '../../model/random';
+} from '@/mushrooms/entities/flower/index.node-safe';
+import type { Action, Planting } from '@/mushrooms/features/meadow';
+
 import type { Playable } from './instrument';
 import type { PlayedKey } from './keyboard';
 

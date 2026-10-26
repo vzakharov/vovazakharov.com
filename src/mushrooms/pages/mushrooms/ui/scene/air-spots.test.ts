@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { perchName } from '../../model/flight';
-import { OPENING_EYE } from '../../model/ground';
-import { INSECT_KINDS } from '../../model/insect-genes';
-import { INSECT_LIMITS } from '../../model/insects';
+import { OPENING_EYE, rowAt, viewAt } from '@/mushrooms/shared/world';
+import {
+  INSECT_KINDS,
+  INSECT_LIMITS,
+  perchName,
+} from '@/mushrooms/entities/insect/index.node-safe';
+
 import {
   AIR_BELOW,
   airAloftOf,
@@ -16,7 +19,6 @@ import {
 import { drawnAloft } from './insect-frame';
 import { meadowLayout } from './layout';
 import { placeOfAloft } from './plane-place';
-import { rowAt, viewAt } from './view';
 import { VIEWPORTS, VISITS } from './viewports';
 import { widestOn } from './widest-spans';
 

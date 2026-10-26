@@ -1,23 +1,28 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Sight } from '../../model/flight';
-import type { FlowerColour } from '../../model/flower-genes';
+import type { Stamped } from '@/mushrooms/shared/lib/motion';
+import { mulberry32, type Random } from '@/mushrooms/shared/lib/random';
+import type { Eye, FlowerColour, View } from '@/mushrooms/shared/world';
 import {
   type FlowerShape,
   type FlowerSound,
   seedSounding,
   shapeSeeds,
-} from '../../model/flower-sounds';
-import { type Action, type Meadow, sameFoot } from '../../model/game';
-import type { Eye } from '../../model/ground';
-import type { Stamped } from '../../model/motion';
-import { plantedId } from '../../model/pollen';
-import { mulberry32, type Random } from '../../model/random';
+} from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  plantedId,
+  type Sight,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  type Action,
+  type Meadow,
+  sameFoot,
+} from '@/mushrooms/features/meadow';
+
 import { type Stand, takesFlower } from './flower-sight';
 import { type FlowerInView, keyPlanting, sowingTuft } from './keyed-flowers';
 import type { PlanterVoice } from './sound';
 import { plantableIn, type Refusing, type Sprout } from './tufts';
-import type { View } from './view';
 
 export type Dispatching = { dispatch: (action: Action) => void };
 export type MeadowSeen = { meadow: () => Meadow | undefined };

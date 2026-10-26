@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Drum } from '../../model/flower-sounds';
-import { LOWEST_NOTE } from '../../model/notes';
+import {
+  type Drum,
+  LOWEST_NOTE,
+} from '@/mushrooms/entities/flower/index.node-safe';
+
 import { Instrument } from './instrument';
 
 /** What the instrument asked the synth for, in order. */

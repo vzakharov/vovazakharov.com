@@ -1,14 +1,19 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { firstMeadow } from '../../model/game';
-import { type Eye, OPENING_EYE } from '../../model/ground';
-import { grownOn } from '../../model/placement';
-import { mulberry32 } from '../../model/random';
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
+import {
+  type Eye,
+  grownOn,
+  ofGround,
+  OPENING_EYE,
+  viewAt,
+} from '@/mushrooms/shared/world';
+import { firstMeadow } from '@/mushrooms/features/meadow';
+
 import { standOf } from './flower-sight';
 import { meadowLayout } from './layout';
 import { keptRoom, roomFor } from './mushroom-room';
-import { ofGround, viewAt } from './view';
 
 /**
  * `keptRoom` over a finder that counts how often it is asked, and a view

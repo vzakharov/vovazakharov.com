@@ -5,9 +5,15 @@ import {
   FLOWER_RANGES,
   flowerGenes,
   flowerHead,
-} from '../../model/flower-genes';
-import { INSECT_KINDS } from '../../model/insect-genes';
-import { BUD, CLOSING_STEPS, folding, OPEN } from './flower-closing';
+} from '@/mushrooms/shared/world';
+import {
+  BUD,
+  CLOSING_STEPS,
+  folding,
+  OPEN,
+} from '@/mushrooms/entities/flower/index.node-safe';
+import { INSECT_KINDS } from '@/mushrooms/entities/insect/index.node-safe';
+
 import {
   flowerLift,
   flowerLiftAt,

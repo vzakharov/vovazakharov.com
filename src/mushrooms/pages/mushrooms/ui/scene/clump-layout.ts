@@ -6,30 +6,32 @@
  * other stands as the forest does.
  */
 
-import { sameAnchor } from '../../model/anchor';
-import type { Box, Point } from '../../model/geometry';
+import type { Box, Point } from '@/mushrooms/shared/lib/geometry';
 import {
   anchored,
   type Camera,
   CLUMP_DISTANCE,
   type Eye,
+  type Footed,
   type Frame,
   gathered,
   type Ground,
   groundOfPlane,
-  OPENING_EYE,
-  project,
-  scaleAt,
-} from '../../model/ground';
-import { OPENING_SPECIES } from '../../model/mushroom-genes';
-import { speciesHeight, speciesReach } from '../../model/mushroom-pose';
-import {
-  type Footed,
   grownOn,
   type Lean,
+  OPENING_EYE,
   OPENING_FOOTING,
   openingIndex,
-} from '../../model/placement';
+  project,
+  sameAnchor,
+  scaleAt,
+} from '@/mushrooms/shared/world';
+import {
+  OPENING_SPECIES,
+  speciesHeight,
+  speciesReach,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
 import type { Placement } from './layout';
 
 /**

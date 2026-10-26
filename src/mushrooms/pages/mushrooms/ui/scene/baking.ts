@@ -4,7 +4,12 @@
  * which device pixels each texture covers and how it is baked tile by tile.
  */
 
-import type { Circle, Cornered, Lefted, Wide } from '../../model/geometry';
+import type {
+  Circle,
+  Cornered,
+  Lefted,
+  Wide,
+} from '@/mushrooms/shared/lib/geometry';
 
 /** Device pixels to a CSS pixel. */
 export type AtRatio = { ratio: number };

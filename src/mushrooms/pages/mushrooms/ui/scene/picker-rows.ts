@@ -6,14 +6,14 @@
 
 import type { WithWidth } from '@/kernel/shared/typings';
 
-import type { Circle } from '../../model/geometry';
+import type { Circle } from '@/mushrooms/shared/lib/geometry';
 import {
   apart,
   BUTTON_INSET,
   GROW_GAP,
   TAP_RADIUS,
   tapReach,
-} from './tap-reach';
+} from '@/mushrooms/shared/lib/tap-reach';
 
 /**
  * The picker's buttons at their largest, and their spacing in radii: at the

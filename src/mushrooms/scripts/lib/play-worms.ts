@@ -11,11 +11,11 @@
 
 import type { z } from 'zod';
 
-import { FURNISHINGS } from '@/mushrooms/pages/mushrooms/model/house';
+import { FURNISHINGS } from '@/mushrooms/entities/mushroom/model/house';
 import {
   WINDOW_SWING,
   WORM_GIRTH_LEAST,
-} from '@/mushrooms/pages/mushrooms/model/worm';
+} from '@/mushrooms/entities/mushroom/model/worm';
 
 import {
   Box,

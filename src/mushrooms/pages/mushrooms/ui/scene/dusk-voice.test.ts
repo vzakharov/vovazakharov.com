@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { mulberry32 } from '../../model/random';
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
+
 import { chirpRhythm, fillChirps, MORNING, morningComes } from './dusk-voice';
 
 /** The onsets of `onsets` that open a chirp: the ones further than a pulse's spacing after the last. */

@@ -1,5 +1,6 @@
+import type { Foot } from '@/mushrooms/shared/world';
+
 import { brownNoise, envelopeAt, type Voice } from './synth';
-import type { Foot } from './walking';
 
 /** How far to each side a foot's step sounds. */
 export const FOOT_PAN: Readonly<Record<Foot, number>> = {

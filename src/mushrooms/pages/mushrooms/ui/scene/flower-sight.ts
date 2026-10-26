@@ -10,15 +10,6 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { anchorOf } from '../../model/anchor';
-import { flowersCrowdAt } from '../../model/crowding';
-import {
-  type Flower,
-  FLOWER_RANGES,
-  flowerGenes,
-  flowerHead,
-} from '../../model/flower-genes';
-import type { Meadow, Tended } from '../../model/game';
 import {
   type Box,
   boxAround,
@@ -26,13 +17,29 @@ import {
   type Circle,
   containsPoint,
   type Point,
-} from '../../model/geometry';
-import type { Camera, Eye, Layered } from '../../model/ground';
-import type { InsectKind } from '../../model/insect-genes';
-import type { WithPlanted } from '../../model/insects';
-import { pinholeOf } from '../../model/pinhole';
-import { type Plot, slotTaken } from '../../model/pollen';
-import type { WithSpores } from '../../model/sprouting';
+} from '@/mushrooms/shared/lib/geometry';
+import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
+import {
+  anchorOf,
+  type Camera,
+  type Eye,
+  type Flower,
+  FLOWER_RANGES,
+  flowerGenes,
+  flowerHead,
+  flowersCrowdAt,
+  type Layered,
+  middleOf,
+  pinholeOf,
+} from '@/mushrooms/shared/world';
+import {
+  type InsectKind,
+  type Plot,
+  slotTaken,
+  type WithPlanted,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import type { Meadow, Tended, WithSpores } from '@/mushrooms/features/meadow';
+
 import { anchoredStand, hasGround, movedTo } from './anchored-stand';
 import { placeIn } from './clump-layout';
 import { standingAt } from './door-sight';
@@ -49,8 +56,6 @@ import {
 } from './flower-plots';
 import { flowerLift } from './flower-seat';
 import type { MeadowLayout } from './layout';
-import { tapReach } from './tap-reach';
-import { middleOf } from './view';
 
 /**
  * How far off a cap's crown toward its rims, or off a flower's centre toward

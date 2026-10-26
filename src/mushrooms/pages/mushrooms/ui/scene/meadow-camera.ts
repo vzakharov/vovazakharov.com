@@ -4,18 +4,22 @@
  * the world's, the same on every screen.
  */
 
+import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import {
   type Camera,
   fitCamera,
   type Frame,
   FRAME_DEPTH,
   type Lens,
-} from '../../model/ground';
-import { GENE_RANGES, OPENING_SPECIES } from '../../model/mushroom-genes';
-import { maxReach } from '../../model/mushroom-pose';
-import { OPENING_FEET } from '../../model/placement';
+  OPENING_FEET,
+} from '@/mushrooms/shared/world';
+import {
+  GENE_RANGES,
+  maxReach,
+  OPENING_SPECIES,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
 import { extremes, placeOf } from './clump-layout';
-import { TAP_RADIUS } from './tap-reach';
 
 /** How close, in CSS pixels, a cap may come to the side of the screen. */
 export const EDGE_MARGIN = 12;

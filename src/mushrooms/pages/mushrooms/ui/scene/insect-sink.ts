@@ -9,12 +9,20 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '../../model/geometry';
-import type { Layered } from '../../model/ground';
+import type { Point } from '@/mushrooms/shared/lib/geometry';
+import {
+  browPale,
+  type Translucent,
+} from '@/mushrooms/shared/ui/index.node-safe';
+import {
+  behindHills,
+  type Distant,
+  type Layered,
+  sunkAway,
+  type View,
+} from '@/mushrooms/shared/world';
+
 import { depthOf, UNPLACED } from './bed-place';
-import type { Translucent } from './ink';
-import { browPale } from './repaint-queue';
-import { behindHills, type Distant, sunkAway, type View } from './view';
 
 /**
  * How many screen rows nearer than the ground it is over an insect sorts

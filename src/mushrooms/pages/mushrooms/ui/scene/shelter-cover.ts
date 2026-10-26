@@ -10,7 +10,8 @@ import {
   boxesMeet,
   containsPoint,
   type Point,
-} from '../../model/geometry';
+} from '@/mushrooms/shared/lib/geometry';
+
 import type { Cover } from './flower-sight';
 
 /** How many points round each ring of a disc it is judged at. */

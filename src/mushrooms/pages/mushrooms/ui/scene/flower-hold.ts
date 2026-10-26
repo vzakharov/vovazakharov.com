@@ -1,4 +1,5 @@
-import type { Footing } from '../../model/ground';
+import type { Footing } from '@/mushrooms/shared/world';
+
 import type { Dispatching } from './planter';
 
 /**

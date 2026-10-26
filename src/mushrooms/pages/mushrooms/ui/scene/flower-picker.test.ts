@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FLOWER_SHAPES, PICKED_COLOURS } from '../../model/flower-sounds';
+import {
+  FLOWER_SHAPES,
+  PICKED_COLOURS,
+} from '@/mushrooms/entities/flower/index.node-safe';
+
 import { meadowLayout } from './layout';
 import { flowerPicker } from './sky-layout';
 import { FLOOR_HELD, TURNED_SMALL, VIEWPORTS } from './viewports';

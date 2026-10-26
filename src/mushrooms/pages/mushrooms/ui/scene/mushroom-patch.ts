@@ -11,7 +11,6 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import { flowerGenes, flowerHead } from '../../model/flower-genes';
 import {
   type Box,
   boxAround,
@@ -19,31 +18,34 @@ import {
   placedAt,
   type Point,
   type WithMiddle,
-} from '../../model/geometry';
+} from '@/mushrooms/shared/lib/geometry';
 import {
   type Camera,
+  flowerGenes,
+  flowerHead,
   type Ground,
   type Layered,
   type LayeredPoint,
+  openingIndex,
   scaleAt,
   type WithCamera,
-} from '../../model/ground';
-import type { Splayed } from '../../model/mushroom-pose';
-import { openingIndex } from '../../model/placement';
-import { groundIn, type MushroomGround, placeIn } from './clump-layout';
-import { standingAt } from './door-sight';
-import { flowersOf } from './flower-plots';
-import { flowerTapReach, type Stand } from './flower-sight';
-import type { Placement } from './layout';
-import { meadowCamera } from './meadow-camera';
+} from '@/mushrooms/shared/world';
 import {
   drawnHolds,
   drawnUnder,
   type FlowerReach,
   flowerTakes,
   type MushroomTarget,
+  type Splayed,
   tapTarget,
-} from './mushroom-tap';
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
+import { groundIn, type MushroomGround, placeIn } from './clump-layout';
+import { standingAt } from './door-sight';
+import { flowersOf } from './flower-plots';
+import { flowerTapReach, type Stand } from './flower-sight';
+import type { Placement } from './layout';
+import { meadowCamera } from './meadow-camera';
 
 /**
  * The least radius, in CSS px, of the disc the opening clump's own patch

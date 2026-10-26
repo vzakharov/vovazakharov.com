@@ -1,8 +1,15 @@
 import * as Phaser from 'phaser';
 
-import { type Circle, wrap } from '../../model/geometry';
-import { pinholeOf } from '../../model/pinhole';
-import { between, mulberry32, type Random } from '../../model/random';
+import { mix } from '@/mushrooms/shared/lib/colour';
+import { type Circle, wrap } from '@/mushrooms/shared/lib/geometry';
+import {
+  between,
+  mulberry32,
+  type Random,
+} from '@/mushrooms/shared/lib/random';
+import { DUSK, fillShape, PALETTE, petal } from '@/mushrooms/shared/ui';
+import { pinholeOf } from '@/mushrooms/shared/world';
+
 import {
   haloReach,
   litSkyAt,
@@ -12,13 +19,10 @@ import {
 } from './backdrop-tones';
 import type { Span } from './baking';
 import { PUFFS } from './cloud-puffs';
-import { mix } from './colour';
 import { STAR_RAY_REACH } from './dusk-stars';
 import type { MeadowLayout } from './layout';
-import { DUSK, PALETTE } from './palette';
 import { azimuthAt, OPENING_CLOUD_COUNT } from './panorama';
 import { rainbowArc } from './rain-sky';
-import { fillShape, petal } from './shapes';
 import { SUN_RAY_REACH } from './sun-layout';
 
 const SUN_RAYS = 16;

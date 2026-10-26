@@ -4,12 +4,14 @@
  * crawling on the lower rim.
  */
 
-import { FACE_REACH } from '../../model/bee-outline';
-import { CRAWL_REACH } from '../../model/buzz-rest';
-import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
-import type { Radiused } from '../../model/geometry';
-import type { InsectKind } from '../../model/insect-genes';
-import { BUD, type Folding } from './flower-closing';
+import type { Radiused } from '@/mushrooms/shared/lib/geometry';
+import { type FlowerGenes, flowerHead } from '@/mushrooms/shared/world';
+import { BUD, type Folding } from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  CRAWL_REACH,
+  FACE_REACH,
+  type InsectKind,
+} from '@/mushrooms/entities/insect/index.node-safe';
 
 /**
  * How far above a flower's centre a drinking butterfly's middle sits, past

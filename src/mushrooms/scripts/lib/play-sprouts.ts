@@ -10,8 +10,8 @@
 
 import { z } from 'zod';
 
-import { SPROUT_WINDOW_MS } from '@/mushrooms/pages/mushrooms/model/sprouting';
-import { darkAt } from '@/mushrooms/pages/mushrooms/model/weather';
+import { darkAt } from '@/mushrooms/shared/world/weather';
+import { SPROUT_WINDOW_MS } from '@/mushrooms/features/meadow/model/sprouting';
 import { SPORE_REACH } from '@/mushrooms/pages/mushrooms/ui/scene/mushroom-room';
 
 import {

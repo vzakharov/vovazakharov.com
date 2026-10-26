@@ -9,8 +9,12 @@
  * layout plays the same.
  */
 
-import type { Direction } from '../../model/cruise';
-import type { Drum, FlowerSound, PitchClass } from '../../model/flower-sounds';
+import type { Direction } from '@/mushrooms/shared/lib/cruise';
+import type {
+  Drum,
+  FlowerSound,
+  PitchClass,
+} from '@/mushrooms/entities/flower/index.node-safe';
 
 /** What a key plays on the instrument. */
 export type PlayedKey = FlowerSound | { kind: 'octave'; step: -1 | 1 };

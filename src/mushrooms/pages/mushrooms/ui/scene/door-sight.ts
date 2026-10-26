@@ -11,27 +11,25 @@ import {
   containsPoint,
   placedAt,
   type Point,
-} from '../../model/geometry';
-import type { Layered } from '../../model/ground';
+} from '@/mushrooms/shared/lib/geometry';
+import type { Layered } from '@/mushrooms/shared/world';
 import {
+  capOutlines,
   DOOR_ASPECT,
   type DoorPlace,
   doorStations,
   doorway,
-  onStem,
-  paintedDoor,
-} from '../../model/house';
-import {
   type MushroomGenes,
   mushroomGenes,
   type MushroomSeed,
-} from '../../model/mushroom-genes';
-import {
-  capOutlines,
+  onStem,
+  paintedDoor,
+  type Splayed,
+  splayed,
   stemOutline,
   toCanvas,
-} from '../../model/mushroom-outline';
-import { type Splayed, splayed } from '../../model/mushroom-pose';
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
 import type { Placement } from './layout';
 
 /** How much of a painted door, and of its doorway, has to show past the mushrooms in front of it. */

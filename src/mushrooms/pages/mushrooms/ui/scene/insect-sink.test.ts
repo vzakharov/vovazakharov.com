@@ -1,12 +1,19 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { EYE_HEIGHT, OPENING_EYE } from '../../model/ground';
+import {
+  browRow,
+  buried,
+  D_SEE,
+  EYE_HEIGHT,
+  OPENING_EYE,
+  viewAt,
+} from '@/mushrooms/shared/world';
+
 import { DEPTHS } from './backdrop-depths';
 import { sinkingAloft } from './insect-frame';
 import { sinkingOf } from './insect-sink';
 import { meadowCamera } from './meadow-camera';
-import { browRow, buried, D_SEE, viewAt } from './view';
 import { VIEWPORTS } from './viewports';
 
 /** Where the insects are drawn this side of the brow. */
