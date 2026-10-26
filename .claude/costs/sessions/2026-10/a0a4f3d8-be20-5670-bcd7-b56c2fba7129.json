@@ -1,28 +1,28 @@
 {
   "total": {
-    "inputTokens": 124,
-    "cacheWrite5mTokens": 117563,
-    "cacheWrite1hTokens": 142248,
-    "cacheReadTokens": 8870100,
-    "outputTokens": 28285,
-    "thinkingTokens": 7088,
-    "responses": 62,
-    "costUsd": 4.066015000000001
+    "inputTokens": 178,
+    "cacheWrite5mTokens": 228761,
+    "cacheWrite1hTokens": 162216,
+    "cacheReadTokens": 12967048,
+    "outputTokens": 37905,
+    "thinkingTokens": 9599,
+    "responses": 89,
+    "costUsd": 5.793754599999998
   },
   "estimate": {
-    "at": "2026-10-26T08:11:20.279Z",
+    "at": "2026-10-26T08:44:58.175Z",
     "parts": [
       {
-        "hours": 1.0,
+        "hours": 1.25,
         "grade": "middle",
         "role": "developer",
-        "comment": "a routine split of two existing grids along a frontmatter flag already parsed, with one shared helper and two catalogue strings"
+        "comment": "a routine split of two existing grids along a frontmatter flag already parsed, plus the artist-picture fallback order reusing the same helper"
       },
       {
         "hours": 0.25,
         "grade": "middle",
         "role": "qa",
-        "comment": "two pages in two locales to eyeball for order and the new heading"
+        "comment": "two pages and an artist tile in two locales to eyeball for order, heading and cover"
       }
     ],
     "comment": null
@@ -37,39 +37,39 @@
   "url": "https://claude.ai/code/session_01L8oCX9zaXCRB2cnYoGwSY1",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-26T08:09:20.219Z",
-  "lastResponseAt": "2026-10-26T08:39:13.358Z",
+  "lastResponseAt": "2026-10-26T08:51:32.781Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": 3.2069291999999994,
   "ownTurns": {
-    "inputTokens": 104,
+    "inputTokens": 134,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 142248,
-    "cacheReadTokens": 8052579,
-    "outputTokens": 23766,
-    "thinkingTokens": 5012,
-    "responses": 52,
-    "costUsd": 3.2242358000000007
+    "cacheWrite1hTokens": 162216,
+    "cacheReadTokens": 11137909,
+    "outputTokens": 29296,
+    "thinkingTokens": 6284,
+    "responses": 67,
+    "costUsd": 4.111765800000001
   },
   "subagents": {
-    "inputTokens": 20,
-    "cacheWrite5mTokens": 117563,
+    "inputTokens": 44,
+    "cacheWrite5mTokens": 228761,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 817521,
-    "outputTokens": 4519,
-    "thinkingTokens": 2076,
-    "responses": 10,
-    "costUsd": 0.8417792000000001
+    "cacheReadTokens": 1829139,
+    "outputTokens": 8609,
+    "thinkingTokens": 3315,
+    "responses": 22,
+    "costUsd": 1.6819888000000003
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 124,
-      "cacheWrite5mTokens": 117563,
-      "cacheWrite1hTokens": 142248,
-      "cacheReadTokens": 8870100,
-      "outputTokens": 28285,
-      "thinkingTokens": 7088,
-      "responses": 62,
-      "costUsd": 4.066015000000001
+      "inputTokens": 178,
+      "cacheWrite5mTokens": 228761,
+      "cacheWrite1hTokens": 162216,
+      "cacheReadTokens": 12967048,
+      "outputTokens": 37905,
+      "thinkingTokens": 9599,
+      "responses": 89,
+      "costUsd": 5.793754599999998
     }
   },
   "warnings": [],
