@@ -371,10 +371,34 @@ answers:
    page keeping the React shell.
 
 The order: the target tree is written, `nouns-tree.md` beside
-`mushrooms-tree.md` (5e0f1cd), waiting on the operator's look at it and its five
-calls; untie the code in place; then move along that tree with the tools in
-`layout-tools.md`. The 27 tests' question below is re-asked once the tree
-stands, since their set changes with it.
+`mushrooms-tree.md` (5e0f1cd), and the operator took its five calls as
+recommended («звучит хорошо, давай попробуем»); untie the code in place; then
+move along that tree with the tools in `layout-tools.md`. The 27 tests' question
+below is re-asked once the tree stands, since their set changes with it.
+
+**Laid out file by file (`nouns.ts` in `layout-tools.md`), the tree breaks 220
+imports, not the handful its untyings list.** Over half go into four hubs the
+tree left in the widget: `MeadowLayout` (`layout.ts`, read by 25 files),
+`MeadowSound` (`sound.ts`), `MeadowSeen` (`planter.ts`), and `Meadow`, `Planted`
+and `Action` (`game.ts`). The rest go into the layout engine every feature uses:
+`clump-layout`, `flower-layout`, `flower-plots`, `bed-place`, `anchored-stand`,
+`cap-cover`, `flower-cover`, `mushroom-shown`. The operator's answer: answer 3
+holds for all four hubs, each part declaring the narrow type it reads («звучит
+логично, будем смотреть по реализации»), and the engine goes down by nouns: a
+mushroom's place to `entities/mushroom`, the flowers' to `entities/flower` with
+the bee's planted flowers a parameter, a point on the bed to `shared/world`.
+Call 3 (the map in the widget) is re-asked once the engine has left the widget.
+«делай, по результатам будем смотреть»: build through, and bring the result for
+review rather than stopping on each call.
+
+- **Untied**: the worm and the mouse lose the house (601300f) — `worm.ts` is the
+  body and its clock, `worm-way.ts` (`worm-peeks`) the window, the way over the
+  cap and the windows' swing; `mouse-head.ts` the mouse's head size;
+  `paintHouse` takes its tenants as painters, which `house-view` composes, so
+  `house-view` joins the widget.
+- **Left to untie**: the four hubs, the layout engine, `flower-genes` back to
+  the flower, `repaint-queue`'s profile, `Timed` to `shared/lib`; then
+  `layout.ts` to zero, the move, the 27 tests, `check:masd`.
 
 The rest of this section is the dry-run cut's record, kept for the barrels,
 tests and checks, which carry over. The layout's source is `mushrooms-tree.md`

@@ -1,6 +1,60 @@
 # The layout tools of bite 6b
 
-Copy each into `tmp/modularity/` under its name and run from the repository root with `pnpm exec tsx tmp/modularity/<name>`. `layout.ts` reads `mushrooms-tree.md` beside this file; its overrides are e7a4c9a's layout, the one the operator then rejected for a cut by nouns. `move.ts` does the move from the pre-move tree (`--dry` prints the barrels), `merge.ts` folds imports of one barrel into one, `rename.ts` renames an export everywhere through the language service, and `redo.sh` undoes a move pass and runs it again with merge, prettier, `eslint --fix` and `tsc`.
+Copy each into `tmp/modularity/` under its name and run from the repository root with `pnpm exec tsx tmp/modularity/<name>`. `layout.ts` reads `nouns.ts`, the noun tree file by file, where a file named nowhere stays with the whole in `widgets/meadow`; its plain run prints every import the layout would break. `move.ts` does the move from the pre-move tree (`--dry` prints the barrels), `merge.ts` folds imports of one barrel into one, `rename.ts` renames an export everywhere through the language service, and `redo.sh` undoes a move pass and runs it again with merge, prettier, `eslint --fix` and `tsc`.
+
+## nouns.ts
+
+```ts
+// The noun tree, file by file: each game file's stem -> its slice. A file
+// named nowhere stays with the whole, in widgets/meadow.
+const TREE: Record<string, string> = {
+  'shared/lib':
+    'geometry random motion colour crescent light tap-reach cruise glide line-course',
+  'shared/world':
+    'ground ground-grid pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor meadow-camera viewports plane-place',
+  'shared/ui':
+    'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking bake-picture',
+  'entities/mushroom':
+    'mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light',
+  'entities/worm': 'worm draw-worm',
+  'entities/mouse': 'mouse-run-clock mouse-run-course draw-mouse mouse-head',
+  'entities/insect':
+    'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis flight flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans',
+  'entities/flower':
+    'flower-genes flower-sounds notes draw-flower flower-tints flower-ring',
+  'entities/firefly': 'firefly firefly-view firefly-tap',
+  'entities/sky':
+    'dusk weather sun-layout moon-view moon-face paint-moon paint-sky paint-backdrop backdrop-tones backdrop-depths dusk-sky dusk-stars star-images dusk-view dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade',
+  'entities/lawn': 'lawn tufts mottles grain brow far-band grass paint-land',
+  'features/plant-flower': 'tuft-tap tending flower-icons',
+  'features/sow-spores':
+    'sprouting spore-seats spore-sight spore-bed spore-drift spores',
+  'features/grow-mushroom': 'mushroom-room placement crowding standing-weighed',
+  'features/furnish-house': 'furnishing door-sight door-seats',
+  'features/worm-peeks': 'house-worm worm-way',
+  'features/mice-run':
+    'mouse-run night-runs mouse-door mouse-runs runner-shown run-front',
+  'features/insects-perch':
+    'perch-room perch-sight perch-hosts perch-crowding flower-seat air-spots perches insects',
+  'features/bee-pollinates': 'pollen flower-sight',
+  'features/insects-shelter': 'shelter shelter-seats shelter-cover roost',
+  'features/flowers-close': 'flower-closing',
+  'features/play-flowers':
+    'instrument instrument-input instrument-voices keyboard keyed-flowers chord-fingers flower-touch flower-hold',
+  'features/walk-meadow': 'eye-input gait-icon gait-spot footsteps',
+  'features/keep-meadow':
+    'keeping kept-record flier-rest meadow-number fake-store keeper meadow-store open-kept meadow-keeping',
+  'pages/mushrooms': 'mushrooms-page meadow-canvas mushrooms-metadata index',
+};
+
+export const NOUNS = new Map<string, string>();
+for (const [slice, stems] of Object.entries(TREE))
+  for (const stem of stems.split(' ')) {
+    if (NOUNS.has(stem)) throw new Error(`${stem} twice`);
+    NOUNS.set(stem, slice);
+  }
+export const WHOLE = 'widgets/meadow';
+```
 
 ## layout.ts
 
@@ -22,55 +76,8 @@ const known = new Set(files);
 
 const stemOf = (f: string) => f.replace(TEST, '').replace(SOURCE, '');
 
-// stem (relative to PAGE, no extension) -> slice, e.g. 'mushrooms/entities/insect'
-export const slices = new Map<string, string>();
-{
-  const tree = readFileSync(
-    'docs/remove-before-merging/masd/one-page-measure/mushrooms-tree.md',
-    'utf8',
-  ).split('## Edges')[0];
-  let layer = '';
-  let slice = '';
-  for (const line of tree.split('\n')) {
-    const heading = line.match(/^[│ ]*[├└]── (\w+)\/(?:\s|$)/);
-    if (heading) {
-      if (/^[├└]── /.test(line)) layer = heading[1];
-      else slice = `${layer}/${heading[1]}`;
-      continue;
-    }
-    if (!slice || !line.includes('│     ')) continue;
-    for (const token of line.replace(/│/g, ' ').trim().split(/\s+/)) {
-      const rel = token.startsWith('m:')
-        ? `model/${token.slice(2)}`
-        : token.startsWith('s:')
-          ? `ui/scene/${token.slice(2)}`
-          : token;
-      slices.set(rel, slice);
-    }
-  }
-}
-// Decided while untying: one-reference model files join their consumer, what
-// two entities share drops to shared/world, and the map stays in the page.
-for (const [stem, slice] of [
-  ['model/flier-rest', 'features/meadow'],
-  ['model/furnishing', 'features/meadow'],
-  ['model/flower-genes', 'shared/world'],
-  ['model/shelter-seats', 'shared/world'],
-  ['model/firefly', 'shared/world'],
-  // shared/lib past Steiger's 15: what one slice alone reads goes back to it
-  ['model/meadow-number', 'features/meadow'],
-  ['ui/scene/backdrop-depths', 'pages/mushrooms'],
-  ['ui/scene/baking', 'pages/mushrooms'],
-  ['ui/scene/chord-fingers', 'pages/mushrooms'],
-  ['ui/scene/cloud-puffs', 'pages/mushrooms'],
-  ['ui/scene/insect-tap', 'pages/mushrooms'],
-  ['ui/scene/moon-face', 'pages/mushrooms'],
-  ['ui/scene/run-front', 'pages/mushrooms'],
-  ['ui/scene/twin-fade', 'pages/mushrooms'],
-  // a door as a tap finds it is the mushroom house's
-  ['ui/scene/door-tap', 'entities/mushroom'],
-] as const)
-  slices.set(stem, slice);
+import { NOUNS, WHOLE } from './nouns.ts';
+export const slices = NOUNS;
 
 const RANK: Record<string, number> = {
   shared: 0,
@@ -81,11 +88,8 @@ const RANK: Record<string, number> = {
 };
 
 export function sliceOf(file: string): string {
-  const rel = stemOf(path.relative(PAGE, file));
-  const s = slices.get(rel);
-  if (s) return s;
-  if (rel.startsWith('api/')) return 'features/meadow';
-  return 'pages/mushrooms';
+  const stem = path.basename(stemOf(file));
+  return NOUNS.get(stem) ?? WHOLE;
 }
 
 function resolve(from: string, spec: string): string | undefined {
@@ -282,7 +286,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 // Moves the game's files into their slices and rewrites every import.
 // pnpm exec tsx tmp/modularity/move.ts [--dry]
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
@@ -292,7 +302,11 @@ import { reachesPhaser } from './phaser.ts';
 const DRY = process.argv.includes('--dry');
 const APP = 'src/mushrooms';
 const TEST = /\.test\.tsx?$/;
-const SEGMENT: Record<string, string> = { model: 'model', ui: 'ui', api: 'api' };
+const SEGMENT: Record<string, string> = {
+  model: 'model',
+  ui: 'ui',
+  api: 'api',
+};
 
 // ---- the new path of every game file
 const moves = new Map<string, string>();
@@ -309,11 +323,18 @@ for (const f of allFiles) {
   moves.set(f, to);
 }
 const schema = path.join(PAGE, 'model/kept-record.schema.json');
-moves.set(schema, path.join(path.dirname(moves.get(path.join(PAGE, 'model/kept-record.ts'))!), 'kept-record.schema.json'));
+moves.set(
+  schema,
+  path.join(
+    path.dirname(moves.get(path.join(PAGE, 'model/kept-record.ts'))!),
+    'kept-record.schema.json',
+  ),
+);
 {
   const seen = new Map<string, string>();
   for (const [from, to] of moves) {
-    if (seen.has(to)) throw new Error(`collision: ${from} and ${seen.get(to)} -> ${to}`);
+    if (seen.has(to))
+      throw new Error(`collision: ${from} and ${seen.get(to)} -> ${to}`);
     seen.set(to, from);
   }
 }
@@ -342,7 +363,8 @@ function kindsOf(file: string): Map<string, Kind> {
   const sym = sf && checker.getSymbolAtLocation(sf);
   if (sym)
     for (const e of checker.getExportsOfModule(sym)) {
-      const target = e.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(e) : e;
+      const target =
+        e.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(e) : e;
       const decl = target.declarations?.[0]?.getSourceFile().fileName;
       m.set(e.name, {
         isType: !(target.flags & ts.SymbolFlags.Value),
@@ -354,7 +376,10 @@ function kindsOf(file: string): Map<string, Kind> {
 }
 
 // ---- which files take part
-const scriptFiles = readdirSync(path.join(APP, 'scripts'), { recursive: true, withFileTypes: true })
+const scriptFiles = readdirSync(path.join(APP, 'scripts'), {
+  recursive: true,
+  withFileTypes: true,
+})
   .filter((e) => e.isFile() && /\.tsx?$/.test(e.name))
   .map((e) => path.join(e.parentPath, e.name));
 const outside = ['sites/vova/app/(game)/mushrooms/page.tsx'];
@@ -376,16 +401,26 @@ function relative(from: string, to: string, ext: boolean) {
   return ext ? r : noExt(r);
 }
 
-type Barrel = { names: Map<string, { file: string; isType: boolean }>; index: Set<string>; safe: Set<string> };
+type Barrel = {
+  names: Map<string, { file: string; isType: boolean }>;
+  index: Set<string>;
+  safe: Set<string>;
+};
 const barrels = new Map<string, Barrel>(); // slice -> barrel
 const mixed = (slice: string) => {
   const files = allFiles.filter((f) => !TEST.test(f) && sliceOf(f) === slice);
-  return files.some((f) => reachesPhaser(f)) && files.some((f) => !reachesPhaser(f));
+  return (
+    files.some((f) => reachesPhaser(f)) && files.some((f) => !reachesPhaser(f))
+  );
 };
 const upward: string[] = [];
 const clashes = new Set<string>();
 
-function specFor(u: Use, isTypeOnlyDecl: boolean, elementTypes: boolean[]): string {
+function specFor(
+  u: Use,
+  isTypeOnlyDecl: boolean,
+  elementTypes: boolean[],
+): string {
   const from = u.from;
   const to = u.to;
   const nf = newPath(from);
@@ -393,7 +428,8 @@ function specFor(u: Use, isTypeOnlyDecl: boolean, elementTypes: boolean[]): stri
   const uf = unit(from);
   const ext = spellsExt(u.spec);
   if (nf === from && nt === to) return u.spec;
-  if (uf === 'scripts' || uf === 'outside') return ext ? `${alias(nt)}` : noExt(alias(nt));
+  if (uf === 'scripts' || uf === 'outside')
+    return ext ? `${alias(nt)}` : noExt(alias(nt));
   const st = sliceOf(to);
   const ut = st.startsWith('shared/') ? 'shared' : st;
   if (uf === ut) return relative(nf, nt, ext);
@@ -407,19 +443,28 @@ function specFor(u: Use, isTypeOnlyDecl: boolean, elementTypes: boolean[]): stri
   if (u.names.includes('default') || u.names.includes('*'))
     throw new Error(`cannot barrel ${u.names} in ${from} -> ${to}`);
   const kinds = kindsOf(to);
-  const b = barrels.get(st) ?? { names: new Map(), index: new Set(), safe: new Set() };
+  const b = barrels.get(st) ?? {
+    names: new Map(),
+    index: new Set(),
+    safe: new Set(),
+  };
   barrels.set(st, b);
   // an importer that reaches no Phaser enters a mixed slice by its node-safe barrel
   const viaSafe = mixed(st) && (TEST.test(from) || !reachesPhaser(from));
   u.names.forEach((n, i) => {
     const k = kinds.get(n);
     const isType = k?.isType ?? (isTypeOnlyDecl || elementTypes[i]);
-    const origin = k?.origin && allFiles.includes(k.origin) && sliceOf(k.origin) === st ? k.origin : to;
+    const origin =
+      k?.origin && allFiles.includes(k.origin) && sliceOf(k.origin) === st
+        ? k.origin
+        : to;
     const file = newPath(origin);
     const prev = b.names.get(n);
-    if (prev && prev.file !== file) clashes.add(`${st}: ${n} — ${prev.file} / ${file}`);
+    if (prev && prev.file !== file)
+      clashes.add(`${st}: ${n} — ${prev.file} / ${file}`);
     b.names.set(n, { file, isType });
-    if (viaSafe && !(isType || !reachesPhaser(origin))) throw new Error(`${from} takes Phaser's ${n}`);
+    if (viaSafe && !(isType || !reachesPhaser(origin)))
+      throw new Error(`${from} takes Phaser's ${n}`);
     (viaSafe ? b.safe : b.index).add(n);
   });
   const root = `@/${path.relative('src', path.join(APP, st))}`;
@@ -444,7 +489,8 @@ for (const f of editable) {
     if (ts.isImportDeclaration(st)) {
       typeOnly = !!st.importClause?.isTypeOnly;
       const nb = st.importClause?.namedBindings;
-      if (nb && ts.isNamedImports(nb)) elementTypes = nb.elements.map((e) => e.isTypeOnly);
+      if (nb && ts.isNamedImports(nb))
+        elementTypes = nb.elements.map((e) => e.isTypeOnly);
     } else {
       typeOnly = st.isTypeOnly;
       if (st.exportClause && ts.isNamedExports(st.exportClause))
@@ -456,16 +502,25 @@ for (const f of editable) {
       const c = st.importClause;
       if (c?.name) own.names.push('default');
       const nb = c?.namedBindings;
-      if (nb && ts.isNamedImports(nb)) for (const e of nb.elements) own.names.push((e.propertyName ?? e.name).text);
+      if (nb && ts.isNamedImports(nb))
+        for (const e of nb.elements)
+          own.names.push((e.propertyName ?? e.name).text);
       if (nb && ts.isNamespaceImport(nb)) own.names.push('*');
     } else if (st.exportClause && ts.isNamedExports(st.exportClause)) {
-      for (const e of st.exportClause.elements) own.names.push((e.propertyName ?? e.name).text);
+      for (const e of st.exportClause.elements)
+        own.names.push((e.propertyName ?? e.name).text);
     } else own.names.push('*');
     const spec = specFor(own, typeOnly, elementTypes);
-    if (spec !== ms.text) edits.push({ start: ms.getStart(sf) + 1, end: ms.getEnd() - 1, text: spec });
+    if (spec !== ms.text)
+      edits.push({
+        start: ms.getStart(sf) + 1,
+        end: ms.getEnd() - 1,
+        text: spec,
+      });
   }
   let out = text;
-  for (const e of edits.sort((a, b) => b.start - a.start)) out = out.slice(0, e.start) + e.text + out.slice(e.end);
+  for (const e of edits.sort((a, b) => b.start - a.start))
+    out = out.slice(0, e.start) + e.text + out.slice(e.end);
   if (out !== text) rewrites.set(f, out);
 }
 
@@ -493,12 +548,25 @@ function barrelText(slice: string, b: Barrel, which: Set<string>): string {
 }
 const barrelFiles = new Map<string, string>();
 for (const [slice, b] of barrels) {
-  if (b.index.size) barrelFiles.set(path.join(APP, slice, 'index.ts'), barrelText(slice, b, b.index));
-  if (b.safe.size) barrelFiles.set(path.join(APP, slice, 'index.node-safe.ts'), barrelText(slice, b, b.safe));
+  if (b.index.size)
+    barrelFiles.set(
+      path.join(APP, slice, 'index.ts'),
+      barrelText(slice, b, b.index),
+    );
+  if (b.safe.size)
+    barrelFiles.set(
+      path.join(APP, slice, 'index.node-safe.ts'),
+      barrelText(slice, b, b.safe),
+    );
 }
 
-console.log(`${moves.size} moves, ${rewrites.size} files rewritten, barrels: ${[...barrelFiles.keys()].join(' ')}`);
-if (clashes.size) { console.log([...clashes].join('\n')); process.exit(1); }
+console.log(
+  `${moves.size} moves, ${rewrites.size} files rewritten, barrels: ${[...barrelFiles.keys()].join(' ')}`,
+);
+if (clashes.size) {
+  console.log([...clashes].join('\n'));
+  process.exit(1);
+}
 console.log(`left deep (tests above their layer): ${upward.length}`);
 if (DRY) {
   for (const [f, t] of barrelFiles) console.log(`\n== ${f}\n${t}`);
@@ -529,9 +597,11 @@ for (const file of process.argv.slice(2)) {
   const sf = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
   const groups = new Map<string, ts.ImportDeclaration[]>();
   for (const st of sf.statements) {
-    if (!ts.isImportDeclaration(st) || !ts.isStringLiteral(st.moduleSpecifier)) continue;
+    if (!ts.isImportDeclaration(st) || !ts.isStringLiteral(st.moduleSpecifier))
+      continue;
     const c = st.importClause;
-    if (!c || c.name || !c.namedBindings || !ts.isNamedImports(c.namedBindings)) continue;
+    if (!c || c.name || !c.namedBindings || !ts.isNamedImports(c.namedBindings))
+      continue;
     const key = st.moduleSpecifier.text;
     groups.set(key, [...(groups.get(key) ?? []), st]);
   }
@@ -542,7 +612,9 @@ for (const file of process.argv.slice(2)) {
       const nb = d.importClause!.namedBindings as ts.NamedImports;
       return nb.elements.map((e) => ({
         type: d.importClause!.isTypeOnly || e.isTypeOnly,
-        text: e.propertyName ? `${e.propertyName.text} as ${e.name.text}` : e.name.text,
+        text: e.propertyName
+          ? `${e.propertyName.text} as ${e.name.text}`
+          : e.name.text,
       }));
     });
     const allTypes = elements.every((e) => e.type);
@@ -563,7 +635,8 @@ for (const file of process.argv.slice(2)) {
   }
   if (!edits.length) continue;
   let out = text;
-  for (const e of edits.sort((a, b) => b.start - a.start)) out = out.slice(0, e.start) + e.text + out.slice(e.end);
+  for (const e of edits.sort((a, b) => b.start - a.start))
+    out = out.slice(0, e.start) + e.text + out.slice(e.end);
   writeFileSync(file, out);
 }
 ```
@@ -578,17 +651,24 @@ import path from 'node:path';
 import ts from 'typescript';
 
 const [file, name, next] = process.argv.slice(2);
-const config = ts.getParsedCommandLineOfConfigFile('tsconfig.json', {}, {
-  ...ts.sys,
-  onUnRecoverableConfigFileDiagnostic: (d) => {
-    throw new Error(String(d.messageText));
+const config = ts.getParsedCommandLineOfConfigFile(
+  'tsconfig.json',
+  {},
+  {
+    ...ts.sys,
+    onUnRecoverableConfigFileDiagnostic: (d) => {
+      throw new Error(String(d.messageText));
+    },
   },
-})!;
+)!;
 const files = config.fileNames.filter((f) => f.includes('/src/mushrooms/'));
 const host: ts.LanguageServiceHost = {
   getScriptFileNames: () => files,
   getScriptVersion: () => '0',
-  getScriptSnapshot: (f) => (ts.sys.fileExists(f) ? ts.ScriptSnapshot.fromString(ts.sys.readFile(f)!) : undefined),
+  getScriptSnapshot: (f) =>
+    ts.sys.fileExists(f)
+      ? ts.ScriptSnapshot.fromString(ts.sys.readFile(f)!)
+      : undefined,
   getCurrentDirectory: () => process.cwd(),
   getCompilationSettings: () => config.options,
   getDefaultLibFileName: ts.getDefaultLibFilePath,
@@ -599,12 +679,18 @@ const host: ts.LanguageServiceHost = {
 const service = ts.createLanguageService(host);
 const abs = path.resolve(file);
 const text = readFileSync(abs, 'utf8');
-const decl = new RegExp(`export (?:const|function|type|class|let) ${name}\\b`).exec(text);
+const decl = new RegExp(
+  `export (?:const|function|type|class|let) ${name}\\b`,
+).exec(text);
 if (!decl) throw new Error(`no export ${name} in ${file}`);
 const at = decl.index + decl[0].length - name.length;
-const locations = service.findRenameLocations(abs, at, false, false, { providePrefixAndSuffixTextForRename: true }) ?? [];
+const locations =
+  service.findRenameLocations(abs, at, false, false, {
+    providePrefixAndSuffixTextForRename: true,
+  }) ?? [];
 const byFile = new Map<string, ts.RenameLocation[]>();
-for (const l of locations) byFile.set(l.fileName, [...(byFile.get(l.fileName) ?? []), l]);
+for (const l of locations)
+  byFile.set(l.fileName, [...(byFile.get(l.fileName) ?? []), l]);
 for (const [f, ls] of byFile) {
   let out = readFileSync(f, 'utf8');
   for (const l of ls.sort((a, b) => b.textSpan.start - a.textSpan.start))
