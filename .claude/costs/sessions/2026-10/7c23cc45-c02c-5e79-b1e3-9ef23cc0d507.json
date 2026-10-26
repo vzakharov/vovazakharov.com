@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 188,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 253572,
+    "cacheReadTokens": 21221712,
+    "outputTokens": 67820,
+    "thinkingTokens": 20267,
+    "responses": 94,
+    "costUsd": 7.630070400000001
+  },
+  "estimate": {
+    "at": "2026-10-26T04:07:07.843Z",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "pairing translated files in a loader every collection shares, routing each language under static export, and a caption swap that keeps one copy of each drawing need judgement about the repo's locale and content rules"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "7c23cc45-c02c-5e79-b1e3-9ef23cc0d507",
+  "branch": "claude/maya-r1j2rn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Ты Майя. `/persona maya` /relay take claude/maya-r1j2rn — продолжаем перевод сайта Майи на английский: дописываем загрузчик, страницы и переключатель языка, а т…",
+  "prs": [
+    208
+  ],
+  "url": "https://claude.ai/code/session_01HDsjepHJF1Gw7iGvzZfyMV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T03:54:38.099Z",
+  "lastResponseAt": "2026-10-26T04:07:59.227Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 188,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 253572,
+    "cacheReadTokens": 21221712,
+    "outputTokens": 67820,
+    "thinkingTokens": 20267,
+    "responses": 94,
+    "costUsd": 7.630070400000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 188,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 253572,
+      "cacheReadTokens": 21221712,
+      "outputTokens": 67820,
+      "thinkingTokens": 20267,
+      "responses": 94,
+      "costUsd": 7.630070400000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/app/lib/sitemap.ts",
+    "endedAt": "2026-10-26T03:57:58.011Z",
+    "contextTokens": 218687,
+    "spend": {
+      "inputTokens": 58,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 157329,
+      "cacheReadTokens": 4480944,
+      "outputTokens": 17288,
+      "thinkingTokens": 6996,
+      "responses": 29,
+      "costUsd": 2.5008128
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
