@@ -242,24 +242,6 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **Collections into blog** (review on #169). Only blog and its descendants read
-  the collection registry; kernel holds it because its own sitemap, feed and
-  metadata factories do. Those take what they need from outside, and
-  `kernel/shared/content` moves to `blog/shared/content`, which kernel no longer
-  imports:
-  - kernel keeps `PUBLIC_DIR` (`shared/config`) and `contentHash`
-    (`shared/lib`), which name no collection, for `og-job` and the rest;
-  - kernel's `sitemap(routes)` takes only the routes it is given, and blog's app
-    layer adds the collections' — vova calls blog's with the CV's and music's
-    routes, lsa kernel's;
-  - `collectionFeed` moves to blog's app layer, and `render-mermaid`,
-    `content-tree`, `read-collection` and `public-markdown` to blog's scripts,
-    where maya's and basilisk's `render-og.ts` give up their identical
-    one-card-per-entry block (at `routeCardPath(documentRoute(…))`, where
-    `resolveOgImage` looks) for one helper beside them;
-  - kernel's `constructMetadata` takes the feed links as an argument, and blog
-    has its own that supplies the site's, so no page under blog passes them by
-    hand.
 - **5c. Music's pages.** The index, artist, album, song and radio become real
   pages under `music/pages/`, what two of them share dropping to widgets or
   `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with
@@ -290,6 +272,45 @@ those slices carry their own tools along.
   `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
   slices 5 and 6 left in it — `list-untold-songs` among them, whose
   `catalogue-names.ts` reads the filesystem under bare Node.
+
+## This bite
+
+**Collections into blog** (review on #169). Only blog and its descendants read
+the collection registry; kernel holds it because its own sitemap, feed and
+metadata factories do. Those take what they need from outside, and
+`kernel/shared/content` moves to `blog/shared/content`, which kernel no longer
+imports:
+
+- **What names no collection stays kernel's**: `PUBLIC_DIR` and `GENERATED_DIR`
+  in `shared/config`'s `public-dir.ts`, behind its node-safe barrel only (it
+  reads `node:path`, which the client-imported `index.ts` must not hold);
+  `contentHash` as `shared/lib/content-hash.ts`; `WithOptionalOgImageSize` in
+  `shared/seo` beside `constructMetadata`, its one kernel reader. Everything
+  else in the segment, `image-dimensions.ts` and `music-route.ts` included,
+  moves.
+- **Sitemap**: kernel's `sitemap(pages)` takes a thunk of
+  `{ route, lastModified? }` and adds only `/`; blog's app layer has
+  `sitemap(routes)`, which adds the collections' indexes and documents — vova,
+  bible, basilisk and maya call blog's, lsa kernel's.
+- **Feed**: `collectionFeed` is blog's app layer's; the feed routers import it
+  there.
+- **Metadata**: kernel's `constructMetadata` takes `feeds` (`{ route, title }`
+  links) as a parameter. `blog/shared/seo` has a `constructMetadata` that
+  supplies `listFeeds(SITE_ID)`, and `constructArticleMetadata`, so every page
+  under blog calls blog's. mushrooms calls kernel's with none, so `/mushrooms`
+  stops advertising the site's feeds — a game page, which no feed reader is sent
+  to; recommended over threading the feeds through vova's app layer.
+- **Scripts**: kernel's `content-tree.ts` keeps what names no collection
+  (`REPO_ROOT`, `RENDERED_SITE`, `filesUnder`) as `site-tree.ts`; blog's
+  `scripts/lib/content-tree.ts` holds `CONTENT_DIRS`, `PRINTABLE_CONTENT_DIRS`
+  and `contentFiles`. `read-collection`, `public-markdown`, `render-mermaid` and
+  `check-prose-quotes` (which reads collections through `public-markdown`) move
+  to blog's scripts. kernel's `og-job` keeps the mechanism and the site card,
+  and its `chartCards` — a document's frontmatter `ogImage` — move to blog's
+  `og-job.ts`, whose `renderDocumentOgCards` adds them and the content tree's
+  manifest roots before delegating; `render-manifest`'s `manifestDirs` becomes
+  required. Beside it `entryCards(collection, entries, card)` replaces maya's
+  and basilisk's one-card-per-entry block.
 
 ## DRY notes
 
