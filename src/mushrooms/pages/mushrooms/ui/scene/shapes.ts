@@ -3,15 +3,19 @@ import * as Phaser from 'phaser';
 import { ellipse, type Point, sample } from '../../model/geometry';
 import type { Light } from '../../model/light';
 import {
+  castShadow,
   type Hairlined,
   inkFor,
   type Lighted,
   type Lighting,
+  type ShadowLayer,
   taperedLine,
   weightedOutline,
 } from './ink';
-import { castShadow, type ShadowLayer } from './mushroom-light';
 import { PALETTE } from './palette';
+
+/** A thing drawn through a Phaser graphics object of its own. */
+export type WithGraphics = { graphics: Phaser.GameObjects.Graphics };
 
 /** Phaser's typings ask for its own vectors where any `{ x, y }` would do. */
 function vectors(points: readonly Point[]): Phaser.Math.Vector2[] {

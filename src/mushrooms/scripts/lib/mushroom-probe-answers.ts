@@ -14,7 +14,7 @@ import {
 import type { Camera as ModelCamera } from '@/mushrooms/pages/mushrooms/model/ground';
 import { INSECT_KINDS } from '@/mushrooms/pages/mushrooms/model/insect-genes';
 import { MUSHROOM_SPECIES } from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
-import { SHELTER_SEATS } from '@/mushrooms/pages/mushrooms/model/shelter';
+import { SHELTER_SEATS } from '@/mushrooms/pages/mushrooms/model/shelter-seats';
 import { GAITS } from '@/mushrooms/pages/mushrooms/model/stride';
 
 export const State = z.object({

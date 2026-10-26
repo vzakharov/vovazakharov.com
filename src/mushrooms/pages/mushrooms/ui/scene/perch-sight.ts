@@ -39,7 +39,8 @@ import {
 import { capUnder, toCanvas } from '../../model/mushroom-outline';
 import { capSeat, splayed } from '../../model/mushroom-pose';
 import type { Seeded } from '../../model/random';
-import { SHELTER_SEATS, type ShelterSeat } from '../../model/shelter';
+import type { ShelterSeat } from '../../model/shelter';
+import { SHELTER_SEATS } from '../../model/shelter-seats';
 import { sproutScale } from '../../model/sprouting';
 import { airOf, airSpots, clumpRow } from './air-spots';
 import { placeIn } from './clump-layout';

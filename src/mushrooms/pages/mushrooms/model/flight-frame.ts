@@ -11,9 +11,9 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Place } from './flight';
 import { alongAzimuth, distanceBetween, type Point, wrap } from './geometry';
 import { type Eye, EYE_HEIGHT, type Eyed, SPREAD } from './ground';
+import type { Aloft } from './pinhole';
 
-/** A point in the air: a plane point and its height over the plane, both in the clump's size. */
-export type Aloft = Point & { h: number };
+export type { Aloft } from './pinhole';
 
 /** An `Aloft` in a leg's frame: across and down in the units of its `EyeFrame`, and `forward`, its distance ahead of the eye along the frame’s centre, in the clump's size. */
 export type Framed = Point & Forward;

@@ -20,7 +20,8 @@ import {
   RIM_ROUNDS,
   stemHalfWidth,
 } from './mushroom-profile';
-import type { ShelterSeat } from './shelter';
+import type { ShelterSide } from './shelter-seats';
+
 /** A mushroom's ink line, in units of its size, wherever it is painted big enough to leave its pixel floor. */
 export const MUSHROOM_INK = 0.014;
 
@@ -215,10 +216,7 @@ const UNDER_OUT = 0.55;
  * insect's own drop below it left to its seater, which knows its size. A
  * trumpet offers no shelter; asked of one, its rim's line.
  */
-export function capUnder(
-  genes: MushroomGenes,
-  seat: ShelterSeat['seat'],
-): Point {
+export function capUnder(genes: MushroomGenes, seat: ShelterSide): Point {
   const x = ((seat === 0 ? -1 : 1) * UNDER_OUT * genes.capWidth) / 2;
   return capFrame(genes)({
     x,

@@ -13,7 +13,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Abscissa, Point } from '../../model/geometry';
 import type { LayeredPoint } from '../../model/ground';
 import type { Ahead } from '../../model/pinhole';
-import type { Stood } from '../../model/placement';
+import type { Drawn, Stood } from '../../model/placement';
 import { DEPTHS } from './backdrop-depths';
 import type { LaidAhead } from './clump-layout';
 import {
@@ -69,7 +69,6 @@ export type BedPlace = LayeredPoint &
   Ahead &
   Receding &
   Drawn & { behind: boolean };
-export type Drawn = { drawn: boolean };
 
 /** A bed object's place on the screen as last placed. */
 export type Standing = { stands: BedPlace };

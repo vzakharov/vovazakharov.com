@@ -4,7 +4,6 @@
  */
 
 import type { Raised } from './eye-height';
-import type { Aloft } from './flight-frame';
 import { alongAzimuth, type Point, wrap } from './geometry';
 import {
   type Camera,
@@ -15,6 +14,9 @@ import {
   type Scaling,
   SPREAD,
 } from './ground';
+
+/** A point in the air: a plane point and its height over the plane, both in the clump's size. */
+export type Aloft = Point & { h: number };
 
 /**
  * The lens `camera` is, in CSS px: the screen point straight ahead on the

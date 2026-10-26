@@ -179,3 +179,6 @@ export function pickFoot(
   }
   return undefined;
 }
+
+/** Whether a thing is drawn this frame. */
+export type Drawn = { drawn: boolean };

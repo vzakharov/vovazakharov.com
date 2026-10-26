@@ -20,13 +20,11 @@ import type {
 import { apartIn, type Departing } from './flight-timing';
 import { isSamePerch, perchName } from './perch-room';
 import { between, saltedStream, type Seeded } from './random';
+import type { ShelterSide } from './shelter-seats';
 import { type Rain, raining } from './weather';
 
-/** A cap's two seats underneath, left and right of its stem. */
-export const SHELTER_SEATS = [0, 1] as const;
-
 /** A seat under a cap: the cap's id, and which side of the stem. */
-export type ShelterSeat = WithId & { seat: (typeof SHELTER_SEATS)[number] };
+export type ShelterSeat = WithId & { seat: ShelterSide };
 
 type Shelter = Extract<Perch, { kind: 'shelter' }>;
 

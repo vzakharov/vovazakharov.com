@@ -11,11 +11,12 @@ import { duskyAt } from '../../model/dusk';
 import type { Drum } from '../../model/flower-sounds';
 import type { InsectKind } from '../../model/insect-genes';
 import { DuskVoice, morningComes } from './dusk-voice';
-import { type Foot, FOOT_PAN, footstep } from './footsteps';
+import { FOOT_PAN, footstep } from './footsteps';
 import { SHY, TAKE_OFF } from './insect-voices';
 import { drumVoice, noteVoice } from './instrument-voices';
 import { RainVoice, whoosh } from './rain-voice';
 import { brownNoise, panned, PENTATONIC, tone, type Voice } from './synth';
+import type { Foot } from './walking';
 
 const LOUDNESS = 0.8;
 const BIRD_GAP_SECONDS = [5, 12] as const;

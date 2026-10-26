@@ -5,9 +5,8 @@
  * shape faces the light and which way its shadow falls.
  */
 
-import type { Point } from '../../model/geometry';
+import type { Abscissa, Point, Tall, Wide } from '../../model/geometry';
 import type { Light } from '../../model/light';
-import { GROUND_STOPS } from './backdrop-tones';
 import { darken, dimTo, lightenTo, luminance, mix } from './colour';
 import { PALETTE } from './palette';
 
@@ -43,10 +42,11 @@ const darkerBy = (other: number, ratio: number) =>
 const lighterBy = (other: number, ratio: number) =>
   (other + 0.05) * ratio - 0.05;
 
-/** The luminance of the darkest the ground gets, at its bottom edge. */
-const GROUND_DARKEST = Math.min(
-  ...GROUND_STOPS.map(([, colour]) => luminance(colour)),
-);
+/**
+ * The luminance of the darkest the ground gets, at its bottom edge: the
+ * backdrop's ground deepens to `groundDeep` and never past it.
+ */
+const GROUND_DARKEST = luminance(PALETTE.groundDeep);
 
 /**
  * The ink that edges `fill` — the fill as drawn, haze and all. Every edge
@@ -270,4 +270,43 @@ const SHADOW_FALL = 0.25;
  */
 export function shadowFall({ x }: Point, width: number): number {
   return -x * SHADOW_FALL * width;
+}
+
+/** A cast shadow's soft outer shade, its core and its contact at the foot: each one's size, as a share of the shadow's, and alpha. */
+const SHADOW_LAYERS = [
+  { across: 1.3, tall: 1.3, alpha: 0.12, falls: true },
+  { across: 0.8, tall: 0.8, alpha: 0.2, falls: true },
+  { across: 0.25, tall: 0.6, alpha: 0.3, falls: false },
+] as const;
+
+/** One ellipse of a cast shadow, round `x` along the ground from the foot: its full width and height, and alpha. */
+export type ShadowLayer = Abscissa & Wide & Tall & Translucent;
+
+/**
+ * The shadow a thing standing at the origin casts on the ground, `across` by
+ * `tall`: fallen away from the sun, soft at its edge, and darkest at the
+ * foot, where its contact is centred under it — at least `contact` across by
+ * tall, for a foot wider than the contact's own share.
+ */
+export function castShadow(
+  [across, tall]: readonly [number, number],
+  { toward }: Light,
+  contact: readonly [number, number] = [0, 0],
+): ShadowLayer[] {
+  const fall = shadowFall(toward, across);
+  return SHADOW_LAYERS.map(({ falls, alpha, ...share }) =>
+    falls
+      ? {
+          x: fall,
+          across: across * share.across,
+          tall: tall * share.tall,
+          alpha,
+        }
+      : {
+          x: 0,
+          across: Math.max(contact[0], across * share.across),
+          tall: Math.max(contact[1], tall * share.tall),
+          alpha,
+        },
+  );
 }

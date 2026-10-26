@@ -8,14 +8,11 @@
 import { mouthEdges } from '../../model/chanterelle-outline';
 import { type FlowerGenes, flowerHead } from '../../model/flower-genes';
 import {
-  type Abscissa,
   type Circle,
   placedAt,
   type Point,
   sample,
   type Scaled,
-  type Tall,
-  type Wide,
 } from '../../model/geometry';
 import { OPENING_EYE } from '../../model/ground';
 import { headedLight, type Light, turnedLight } from '../../model/light';
@@ -31,7 +28,7 @@ import {
   CURVE_STEPS,
   detailed,
 } from '../../model/mushroom-profile';
-import { awayAngle, litSide, shadowFall, type Translucent } from './ink';
+import { awayAngle, castShadow, litSide, type ShadowLayer } from './ink';
 import { PALETTE } from './palette';
 
 /** How sideways a light, as its across share, gives a full side shade: about 37° off straight above. */
@@ -323,45 +320,6 @@ export function stemLight(lit: number, steps = CURVE_STEPS): StemLayer[] {
 
 /** A pale stem's light, its warm side in `stemLit`. */
 export const STEM_LIGHT: readonly StemLayer[] = stemLight(PALETTE.stemLit);
-
-/** A cast shadow's soft outer shade, its core and its contact at the foot: each one's size, as a share of the shadow's, and alpha. */
-const SHADOW_LAYERS = [
-  { across: 1.3, tall: 1.3, alpha: 0.12, falls: true },
-  { across: 0.8, tall: 0.8, alpha: 0.2, falls: true },
-  { across: 0.25, tall: 0.6, alpha: 0.3, falls: false },
-] as const;
-
-/** One ellipse of a cast shadow, round `x` along the ground from the foot: its full width and height, and alpha. */
-export type ShadowLayer = Abscissa & Wide & Tall & Translucent;
-
-/**
- * The shadow a thing standing at the origin casts on the ground, `across` by
- * `tall`: fallen away from the sun, soft at its edge, and darkest at the
- * foot, where its contact is centred under it — at least `contact` across by
- * tall, for a foot wider than the contact's own share.
- */
-export function castShadow(
-  [across, tall]: readonly [number, number],
-  { toward }: Light,
-  contact: readonly [number, number] = [0, 0],
-): ShadowLayer[] {
-  const fall = shadowFall(toward, across);
-  return SHADOW_LAYERS.map(({ falls, alpha, ...share }) =>
-    falls
-      ? {
-          x: fall,
-          across: across * share.across,
-          tall: tall * share.tall,
-          alpha,
-        }
-      : {
-          x: 0,
-          across: Math.max(contact[0], across * share.across),
-          tall: Math.max(contact[1], tall * share.tall),
-          alpha,
-        },
-  );
-}
 
 /** A mushroom's shadow's contact under its foot, across and tall, in the foot's width as it stands. */
 const CONTACT = [1.3, 0.32] as const;

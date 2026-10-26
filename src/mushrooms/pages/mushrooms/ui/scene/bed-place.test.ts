@@ -11,7 +11,7 @@ import { pinholeOf } from '../../model/pinhole';
 import { bedPlace, depthOf, SIDE_OVERHANG } from './bed-place';
 import { placeIn } from './clump-layout';
 import { standingFlowers } from './flower-plots';
-import { castShadow } from './mushroom-light';
+import { castShadow } from './ink';
 import {
   browRow,
   cull,

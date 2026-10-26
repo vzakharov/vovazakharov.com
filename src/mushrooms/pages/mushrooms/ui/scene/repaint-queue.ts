@@ -17,10 +17,12 @@ import {
   scaleAt,
 } from '../../model/ground';
 import { smooth } from '../../model/motion';
-import type { Chorded } from '../../model/mushroom-profile';
 import type { Ahead } from '../../model/pinhole';
 import type { Dusked } from './haze-tone';
 import type { Distant } from './view';
+
+/** How many chords each curve of a mushroom is painted with (`curveSteps`). */
+export type Chorded = { steps: number };
 
 /** How far a thing's haze drifts from its paint before it is repainted. */
 export const HAZE_DRIFT = 0.04;

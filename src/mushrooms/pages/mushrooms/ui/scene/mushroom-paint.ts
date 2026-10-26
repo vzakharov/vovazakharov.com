@@ -12,6 +12,7 @@ import {
   ROUND_STEPS,
   type Scaled,
 } from '../../model/geometry';
+import type { Hazed } from '../../model/ground';
 import type { MushroomGenes } from '../../model/mushroom-genes';
 import {
   capOnCanvas,
@@ -27,9 +28,7 @@ import {
 } from '../../model/mushroom-profile';
 import { crescent } from './crescent';
 import { hazeTone } from './haze-tone';
-import type { WithGraphics } from './hit-areas';
 import { inkFor, type Lighting, litSide } from './ink';
-import type { Hazed } from './layout';
 import {
   type CapLight,
   shadedHalf,
@@ -38,7 +37,7 @@ import {
 } from './mushroom-light';
 import { heldHaze, type MushroomTints, mushroomTints } from './mushroom-tints';
 import { PALETTE } from './palette';
-import { type Brush, fillShape, inkUnder } from './shapes';
+import { type Brush, fillShape, inkUnder, type WithGraphics } from './shapes';
 
 const SHINE_ALPHA = 0.45;
 const SPOT_SHADE_ALPHA = 0.13;

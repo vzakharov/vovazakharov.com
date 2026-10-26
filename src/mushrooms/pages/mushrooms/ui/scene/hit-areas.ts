@@ -12,7 +12,7 @@ import {
 } from './mushroom-tap';
 import { tuftUnder } from './tufts';
 
-export type WithGraphics = { graphics: Phaser.GameObjects.Graphics };
+export type { WithGraphics } from './shapes';
 export type WithCircleHit = { hit: Phaser.Geom.Circle };
 /** A creature shown as a container of its parts, answering a tap on a circle. */
 export type CircleFigure = WithCircleHit & {

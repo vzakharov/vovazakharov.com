@@ -1,21 +1,5 @@
-import { STEP_LENGTH } from '../../model/stride';
 import { brownNoise, envelopeAt, type Voice } from './synth';
-
-/** Which foot a step lands on, and so which side it sounds on. */
-export type Foot = 'left' | 'right';
-
-/**
- * The feet that land as the eye's walk goes from `before` to `after`, in the
- * clump's size walked in all: one each time the walk crosses a multiple of
- * `STEP_LENGTH`, in order, alternating, the visit's first step on the left.
- */
-export function footfalls(before: number, after: number): Foot[] {
-  const from = Math.floor(before / STEP_LENGTH);
-  const to = Math.floor(after / STEP_LENGTH);
-  return Array.from({ length: Math.max(0, to - from) }, (_, index) =>
-    (from + index + 1) % 2 === 1 ? 'left' : 'right',
-  );
-}
+import type { Foot } from './walking';
 
 /** How far to each side a foot's step sounds. */
 export const FOOT_PAN: Readonly<Record<Foot, number>> = {

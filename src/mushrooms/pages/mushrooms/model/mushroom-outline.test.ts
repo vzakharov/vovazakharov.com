@@ -14,7 +14,7 @@ import {
   stemOutline,
 } from './mushroom-outline';
 import { capSeat, stemAt } from './mushroom-pose';
-import { SHELTER_SEATS } from './shelter';
+import { SHELTER_SEATS } from './shelter-seats';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 

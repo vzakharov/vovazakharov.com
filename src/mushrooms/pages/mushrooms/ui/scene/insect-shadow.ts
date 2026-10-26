@@ -13,7 +13,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Ordinate } from '../../model/geometry';
 import type { Layered } from '../../model/ground';
 import { depthOf, UNPLACED } from './bed-place';
-import type { ShadowLayer } from './mushroom-light';
+import type { ShadowLayer } from './ink';
 import { PALETTE } from './palette';
 import { hazeAhead } from './repaint-queue';
 import {

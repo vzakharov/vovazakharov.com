@@ -41,8 +41,7 @@ export function curveSteps(drawn: number): number {
   return Math.min(CURVE_STEPS, Math.max(LEAST_STEPS, steps));
 }
 
-/** How many chords each curve of a mushroom is painted with (`curveSteps`). */
-export type Chorded = { steps: number };
+export type { Chorded } from '../ui/scene/repaint-queue';
 
 /**
  * A count a near mushroom is painted with, `full`, for one painted with
