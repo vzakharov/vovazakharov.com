@@ -1,7 +1,6 @@
 import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
 import { widthFor, wobble } from '@/mushrooms/shared/lib/motion';
@@ -11,12 +10,11 @@ import {
   type Rain,
   raining,
   type StartRain,
-  type WithCamera,
 } from '@/mushrooms/shared/world';
 
 import { sunUp } from './dusk-sky';
 import type { Backdrop } from './paint-backdrop';
-import { type Clouded, driftedAzimuth } from './panorama';
+import { driftedAzimuth } from './panorama';
 import { RainDrops, type Roof } from './rain-drops';
 import {
   cloudAt,
@@ -31,7 +29,7 @@ import {
   WASH_DEEPEST,
   wetnessShown,
 } from './rain-sky';
-import type { Sunned, SunWashed } from './sun-layout';
+import type { SunlitSky } from './sun-layout';
 import { focusTwins, shade } from './twin-fade';
 
 /** What the rain asks of the meadow's sound: the shower's hiss, and the whoosh a cloud tap answers with. */
@@ -39,14 +37,6 @@ export type RainSound = {
   shower: (downpour: number, wetness: number) => void;
   whoosh: () => void;
 };
-
-/** What of the meadow's layout this reads. */
-export type RainViewLayout = WithWidth &
-  WithHeight &
-  WithCamera &
-  Sunned &
-  Clouded &
-  SunWashed;
 
 /** How the sky stands this frame, as the probe reads it. */
 export type SkyShown = { raining: boolean; wetness: number; rainbow: number };
@@ -70,7 +60,7 @@ export class RainView implements RainTapped {
   private readonly dispatch: (action: StartRain) => void;
   private readonly sound: RainSound;
   private readonly drops: RainDrops;
-  private layout: RainViewLayout | undefined;
+  private layout: SunlitSky | undefined;
   private backdrop: Backdrop | undefined;
   private showers: Showers = NO_SHOWERS;
   /** The cloud whose tap started the shower, which the others darken after. */
@@ -109,7 +99,7 @@ export class RainView implements RainTapped {
   }
 
   /** Lays the wash over `layout`'s screen and takes the clouds `backdrop` painted on it. */
-  paint(layout: RainViewLayout, backdrop: Backdrop): void {
+  paint(layout: SunlitSky, backdrop: Backdrop): void {
     this.layout = layout;
     this.backdrop = backdrop;
     this.wash.setSize(layout.width, layout.height);

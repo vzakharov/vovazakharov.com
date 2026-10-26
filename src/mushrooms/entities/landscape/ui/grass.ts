@@ -1,17 +1,12 @@
 import type * as Phaser from 'phaser';
 
-import type { WithHeight } from '@/kernel/shared/typings';
-
 import { mix } from '@/mushrooms/shared/lib/colour';
 import { type Phased, shake, sway } from '@/mushrooms/shared/lib/motion';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import type { Footing, GroundBand, Grounded } from '@/mushrooms/shared/world';
+import type { Footing, GroundBand } from '@/mushrooms/shared/world';
 
 import { coloursAt, groundAt, type Tones, tonesAt } from './backdrop-tones';
-
-/** What of the meadow's layout this reads. */
-export type GrassLayout = WithHeight & Grounded;
 
 /** How far a tuft's tip swings in the breeze, in units of its size. */
 const SWING = 0.35;
@@ -75,7 +70,7 @@ export function tuftColours(
  * the ground.
  */
 export function tuftOn(
-  layout: GrassLayout,
+  layout: GroundBand,
   x: number,
   y: number,
   random: Random,

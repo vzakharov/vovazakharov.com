@@ -7,7 +7,9 @@ import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import type { Box, Circle } from '@/mushrooms/shared/lib/geometry';
 import { BUTTON_INSET, tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import type { Footing, Grounded } from '@/mushrooms/shared/world';
+import type { Footing, Grounded, WithCamera } from '@/mushrooms/shared/world';
+
+import type { Clouded } from './panorama';
 
 /** Where the far hills meet the sky. */
 export type Horizoned = { horizon: number };
@@ -16,9 +18,19 @@ export type NearHilled = { nearHills: number };
 /** The sun as the opening screen shows it; it stands at that azimuth (`azimuthAt`). */
 export type Sunned = { sun: Circle };
 /** The screen with the hills and the sun over it: what the sky is painted on. */
-export type HillsSunned = Sized & NearHilled & Sunned;
+export type HillsSunned = SunnedScreen & NearHilled;
 /** The radii of the sun's wash over the sky, innermost first (`washRings`). */
 export type SunWashed = { wash: readonly number[] };
+/** Where the far hills meet the sky and where the near hills' band begins. */
+export type HilledHorizon = Horizoned & NearHilled;
+/** The screen with the sun on it. */
+export type SunnedScreen = Sized & Sunned;
+/** The sun's screen as its camera shows it. */
+export type SunlitScreen = SunnedScreen & WithCamera;
+/** The sunlit screen with the sun's wash over it. */
+export type SunWashedScreen = SunlitScreen & SunWashed;
+/** The sun-washed screen with the clouds over it: what the sky's weather is painted on. */
+export type SunlitSky = SunWashedScreen & Clouded;
 
 /**
  * The buttons the sun's rays keep off: every one that stands, and every

@@ -6,13 +6,10 @@
  * a rule finds there goes back to the plane through `unanchored`.
  */
 
-import type { WithHeight } from '@/kernel/shared/typings';
-
 import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
 import {
   anchored,
   anchoredGround,
-  type ClumpGround,
   D_SEE,
   D_SEE_MOST,
   type Eye,
@@ -25,19 +22,11 @@ import {
   sameAnchor,
   standingOn,
   type Stood,
-  type WithCamera,
 } from '@/mushrooms/shared/world';
 
 import type { Flower } from '../model/flower-genes';
 import { isBeeSown, type Sown } from '../model/planted-flowers';
-import type { Bedded } from './flower-layout';
-import type { SeededLayout, Stand } from './flower-sight';
-
-/** What of the meadow's layout this reads. */
-export type AnchoredStandLayout = WithHeight &
-  WithCamera &
-  ClumpGround &
-  Bedded;
+import type { FlowerSightLayout, SeededLayout, Stand } from './flower-sight';
 
 /**
  * How far from the anchor an anchored stand reads the meadow: a foot the rules
@@ -74,14 +63,14 @@ type Reseeded = {
 };
 
 /** Each layout's `Reseeded`, by the seeded flowers it lays (`seededAt`). */
-const reseedings = new WeakMap<AnchoredStandLayout, AtAnchor<Reseeded>>();
+const reseedings = new WeakMap<FlowerSightLayout, AtAnchor<Reseeded>>();
 
 /**
  * `stand`'s layout anchored at `anchor`, its mushrooms' ground anchored
  * there (`anchoredGround`) and each seeded flower in reach re-stood at its
  * anchored foot, the re-standing kept per layout while the anchor stays.
  */
-function seededAt<L extends AnchoredStandLayout>(
+function seededAt<L extends FlowerSightLayout>(
   { layout, flowers }: SeededLayout<L>,
   anchor: Eye,
 ): SeededLayout<L> {
@@ -104,7 +93,7 @@ function seededAt<L extends AnchoredStandLayout>(
 
 /** Each of `flowers` seeded on `layout` in reach of `anchor`, re-stood at its anchored foot. */
 function reseed(
-  { camera, flowers: feet }: AnchoredStandLayout,
+  { camera, flowers: feet }: FlowerSightLayout,
   flowers: readonly Flower[],
   anchor: Eye,
 ): Reseeded {
@@ -133,10 +122,10 @@ function reseed(
  * objects while the anchor stays, so a rule's caches by them hold
  * (`occupantsOn`). At `OPENING_EYE` it is `stand` itself.
  */
-export function anchoredStand<
-  L extends AnchoredStandLayout,
-  Thing extends Stood,
->(stand: Stand<L, Thing>, anchor: Eye): Stand<L, Thing> {
+export function anchoredStand<L extends FlowerSightLayout, Thing extends Stood>(
+  stand: Stand<L, Thing>,
+  anchor: Eye,
+): Stand<L, Thing> {
   if (sameAnchor(anchor, OPENING_EYE)) return stand;
   const { planted } = stand;
   const seeded = seededAt(stand, anchor);

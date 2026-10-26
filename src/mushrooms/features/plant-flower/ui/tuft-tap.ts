@@ -5,9 +5,7 @@ import {
   distanceBetween,
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
-import type { ClumpGround } from '@/mushrooms/shared/world';
 import {
-  type Bedded,
   FLOWER_SWAY,
   type FlowerPlotsLayout,
   type FlowerSightLayout,
@@ -29,10 +27,7 @@ import {
   tapTarget,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 /** What of the meadow's layout this reads. */
-export type TuftTapLayout = ClumpGround &
-  Bedded &
-  FlowerPlotsLayout &
-  FlowerSightLayout;
+export type TuftTapLayout = FlowerPlotsLayout & FlowerSightLayout;
 
 /** How far round its middle a tuft answers a tap at the least, in CSS px: a small finger's pad. */
 export const TUFT_REACH = 22;

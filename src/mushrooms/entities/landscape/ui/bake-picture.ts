@@ -1,7 +1,5 @@
 import type * as Phaser from 'phaser';
 
-import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
-
 import {
   bakeTiles,
   onPixels,
@@ -9,13 +7,10 @@ import {
   type Span,
   SUPERSAMPLE,
 } from '@/mushrooms/shared/ui/index.node-safe';
-import type { Layered, WithCamera } from '@/mushrooms/shared/world';
+import type { Layered } from '@/mushrooms/shared/world';
 
 import type { Band } from './grain';
-import type { Sunned } from './sun-layout';
-
-/** What of the meadow's layout this reads. */
-export type BakePictureLayout = WithWidth & WithHeight & WithCamera & Sunned;
+import type { SunlitScreen } from './sun-layout';
 
 /**
  * A picture baked in columns side by side, left to right, each texture at
@@ -87,7 +82,7 @@ export function bake(
 
 /** The square `reach` either way of the sun's middle, across and down, on whole device pixels, never above the screen's top. */
 export function aboutTheSun(
-  { sun }: BakePictureLayout,
+  { sun }: SunlitScreen,
   reach: number,
   ratio: number,
 ): Spread {

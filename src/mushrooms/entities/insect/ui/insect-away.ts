@@ -6,7 +6,7 @@
  * is timed between the points it is drawn between.
  */
 
-import type { WithHeight, WithWidth } from '@/kernel/shared/typings';
+import type { Sized } from '@/kernel/shared/typings';
 
 import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
 import { phaseOf } from '@/mushrooms/shared/lib/motion';
@@ -45,7 +45,7 @@ import { perchDistance, placeOfAloft } from './plane-place';
 import { WIDEST_SPAN } from './widest-spans';
 
 /** What of the meadow's layout this reads. */
-export type InsectAwayLayout = WithWidth & WithHeight & InsectScaled;
+export type InsectAwayLayout = Sized & InsectScaled;
 
 /**
  * The band of the screen's height an insect flies in from and out to off

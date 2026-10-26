@@ -8,14 +8,8 @@ import { smooth, type TapTimed } from '@/mushrooms/shared/lib/motion';
 import type { Seeded } from '@/mushrooms/shared/lib/random';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { type CircleFigure, PALETTE } from '@/mushrooms/shared/ui';
-import {
-  CLUMP_DISTANCE,
-  type ClumpGround,
-  type MeadowSeen,
-  type WithCamera,
-} from '@/mushrooms/shared/world';
-import type { Bedded } from '@/mushrooms/entities/flower';
-import type { InsectScaled,Seat } from '@/mushrooms/entities/insect';
+import { CLUMP_DISTANCE, type MeadowSeen } from '@/mushrooms/shared/world';
+import type { Seat } from '@/mushrooms/entities/insect';
 import type { SunWashed } from '@/mushrooms/entities/landscape';
 import { capSeat, type WithMushrooms } from '@/mushrooms/entities/mushroom';
 
@@ -30,17 +24,13 @@ import {
 } from '../model/firefly';
 import { tappedFirefly } from './firefly-tap';
 import type { HostBeds } from './perch-hosts';
+import type { BeddedInsectView } from './perch-sight';
 
 /** What a firefly's flare plays: a chime, panned to where it flares. */
 export type Glinting = { glint: (pan: number) => void };
 
 /** What of the meadow's layout this reads. */
-export type FireflyViewLayout = WithWidth &
-  WithCamera &
-  SunWashed &
-  InsectScaled &
-  ClumpGround &
-  Bedded;
+export type FireflyViewLayout = WithWidth & SunWashed & BeddedInsectView;
 
 /** How many of the nearest hosts the fireflies spread over. */
 const NEAREST = 6;

@@ -7,8 +7,6 @@
  * (`LiveLawn`).
  */
 
-import type { WithHeight } from '@/kernel/shared/typings';
-
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import {
   mulberry32,
@@ -20,6 +18,7 @@ import {
   type Eye,
   FLOWER_SIZE,
   type Footing,
+  type GroundBand,
   PALE_SPAN,
   type Rooted,
   standingOn,
@@ -27,11 +26,11 @@ import {
   type WithLayout,
 } from '@/mushrooms/shared/world';
 
-import { type GrassLayout, tuftOn, type WithTuft } from './grass';
+import { tuftOn, type WithTuft } from './grass';
 import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
 
 /** What of the meadow's layout this reads. */
-export type LawnLayout = WithHeight & WithCamera & GrassLayout;
+export type LawnLayout = WithCamera & GroundBand;
 
 /** A tuft the child can plant on, and the foot on the plane a flower planted there stands on. */
 export type Sprout = Rooted & WithTuft;

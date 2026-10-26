@@ -10,7 +10,6 @@
 import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithHeight } from '@/kernel/shared/typings';
 
 import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
 import { smooth } from '@/mushrooms/shared/lib/motion';
@@ -20,7 +19,6 @@ import {
   browDistance,
   CELL,
   CLUMP_DISTANCE,
-  type ClumpGround,
   cull,
   D_SEE,
   depthOf,
@@ -39,11 +37,8 @@ import {
   UNPLACED,
   type View,
   viewAt,
-  type WithCamera,
 } from '@/mushrooms/shared/world';
 import {
-  type Bedded,
-  type FlowerSightLayout,
   pulledFeet,
   type Stand,
 } from '@/mushrooms/entities/flower/index.node-safe';
@@ -77,13 +72,7 @@ import {
 import { Tended, tendedIn, type TendingLayout } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
 /** What of the meadow's layout this reads. */
-export type TuftsLayout = WithHeight &
-  WithCamera &
-  ClumpGround &
-  Bedded &
-  FlowerSightLayout &
-  LawnLayout &
-  TendingLayout;
+export type TuftsLayout = LawnLayout & TendingLayout;
 
 export { tendedIn, tendTufts } from './tending';
 export type { Sprout } from '@/mushrooms/entities/landscape/index.node-safe';

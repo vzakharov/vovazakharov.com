@@ -12,4 +12,4 @@ export { drawMoon } from './ui/paint-moon';
 export { azimuthAt, type Clouded } from './ui/panorama';
 export type { Roof } from './ui/rain-drops';
 export { RainView } from './ui/rain-view';
-export type { Sunned, SunWashed } from './ui/sun-layout';
+export type { SunlitSky, Sunned, SunWashed } from './ui/sun-layout';

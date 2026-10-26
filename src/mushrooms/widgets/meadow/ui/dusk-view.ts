@@ -1,28 +1,20 @@
 import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
 
 import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
-import { DUSK_WASH_DEEPEST,PALETTE } from '@/mushrooms/shared/ui';
-import {
-  type Dusk,
-  duskness,
-  type TurnLight,
-  type WithCamera,
-} from '@/mushrooms/shared/world';
+import { DUSK_WASH_DEEPEST, PALETTE } from '@/mushrooms/shared/ui';
+import { type Dusk, duskness, type TurnLight } from '@/mushrooms/shared/world';
 import {
   type Backdrop,
-  type Clouded,
   cloudOverMoon,
   moonAt,
   moonUp,
   MoonView,
   onTheSun,
-  type Sunned,
+  type SunlitSky,
   sunOnScreen,
   sunSunk,
-  type SunWashed,
 } from '@/mushrooms/entities/landscape';
 import type { Lights } from '@/mushrooms/entities/mushroom';
 import type { Growing } from '@/mushrooms/features/grow-mushroom';
@@ -40,13 +32,7 @@ export type DuskVoiced = Growing & {
 };
 
 /** What of the meadow's layout this reads. */
-export type DuskViewLayout = WithWidth &
-  WithHeight &
-  WithCamera &
-  Sunned &
-  Clouded &
-  SunWashed &
-  FireflyViewLayout;
+export type DuskViewLayout = SunlitSky & FireflyViewLayout;
 
 /**
  * What the turning light asks of the meadow's sound: a sinking slide toward

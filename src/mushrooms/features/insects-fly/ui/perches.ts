@@ -1,14 +1,11 @@
 import {
-  type ClumpGround,
   type Eye,
   OPENING_EYE,
   unanchored,
   type View,
-  type WithCamera,
 } from '@/mushrooms/shared/world';
 import {
   anchoredStand,
-  type Bedded,
   type Stand,
 } from '@/mushrooms/entities/flower/index.node-safe';
 import {
@@ -17,8 +14,6 @@ import {
   type Away,
   awayPlaces,
   type Flier,
-  type InsectAwayLayout,
-  type InsectScaled,
   type Perch,
   perchName,
   placeOfAloft,
@@ -34,14 +29,7 @@ import {
   type PerchHosts,
   tapThrough,
 } from './perch-hosts';
-import { footRows, perchSight } from './perch-sight';
-
-/** What of the meadow's layout this reads. */
-export type PerchesLayout = WithCamera &
-  InsectScaled &
-  ClumpGround &
-  Bedded &
-  InsectAwayLayout;
+import { footRows, perchSight, type PerchSightLayout } from './perch-sight';
 
 /** How far the eye walks, in the clump's size, before the perches are judged afresh: coarser than the rules' anchor (`anchorOf`), a fresh sight costing a frame's worth. */
 const PERCH_STEP = 2;
@@ -76,7 +64,7 @@ export class ScenePerches implements TappedThrough {
   /** Every perch `sight` places but the away spots, as the fixed point in the world it is laid out at, by its name (`perchName`). */
   private placed: ReadonlyMap<string, Aloft> = new Map();
   /** The layout the perches were last seen on. */
-  private layout: PerchesLayout | undefined;
+  private layout: PerchSightLayout | undefined;
   /** The beds the perches stand on, as the scene holds them now. */
   private readonly beds: () => HostBeds;
 
@@ -89,7 +77,7 @@ export class ScenePerches implements TappedThrough {
    * (`anchoredStand`, `perchSight`), every place on a bed taken back to the plane
    * (`unanchored`), and the air's as the plane holds it (`airAlofts`).
    */
-  see<L extends PerchesLayout>(
+  see<L extends PerchSightLayout>(
     stand: Stand<L, Planted>,
     anchor: Eye = OPENING_EYE,
     now?: number,

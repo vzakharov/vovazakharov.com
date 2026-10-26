@@ -4,14 +4,9 @@
  * and leaves the fill's colour as it was on the whole.
  */
 
-import type { WithHeight } from '@/kernel/shared/typings';
-
 import type { Topped } from '@/mushrooms/shared/lib/geometry';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import type { Grounded } from '@/mushrooms/shared/world';
-
-/** What of the meadow's layout this reads. */
-export type GrainLayout = WithHeight & Grounded;
+import type { GroundBand } from '@/mushrooms/shared/world';
 
 /** Each pixel's own share against its four neighbours' in the blur, which softens noise into tooth. */
 const OWN = 0.5;
@@ -56,7 +51,7 @@ export type GrainStrip = Band & { share: number };
  * `GRAIN_RAMP` of the ground rather than stepping in along one line.
  */
 export function grainStrips(
-  { height, groundTop }: GrainLayout,
+  { height, groundTop }: GroundBand,
   top: number,
 ): GrainStrip[] {
   const step = ((height - groundTop) * GRAIN_RAMP) / GRAIN_STEPS;

@@ -17,7 +17,6 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import {
   type Box,
@@ -34,7 +33,6 @@ import {
   anchored,
   anchorOf,
   behindHills,
-  type ClumpGround,
   cull,
   type Eye,
   type Ground,
@@ -46,13 +44,12 @@ import {
   OPENING_EYE,
   type ShownCover,
   type View,
-  type WithCamera,
 } from '@/mushrooms/shared/world';
 import {
   anchoredStand,
-  type Bedded,
   type Flower,
   flowerFeet,
+  type FlowerPlotsLayout,
   type Stand,
   standOf,
   type WithPlanted,
@@ -60,8 +57,7 @@ import {
 } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   SUN_RAY_REACH,
-  type Sunned,
-  type SunWashed,
+  type SunWashedScreen,
 } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   apartOnScreen,
@@ -102,13 +98,8 @@ import { doorsKept, partsInView, standingOn } from './standing-weighed';
 export type EveryButton = { everyButton: readonly Circle[] };
 
 /** What of the meadow's layout this reads. */
-export type MushroomRoomLayout = WithWidth &
-  WithHeight &
-  WithCamera &
-  Sunned &
-  SunWashed &
-  ClumpGround &
-  Bedded &
+export type MushroomRoomLayout = SunWashedScreen &
+  FlowerPlotsLayout &
   EveryButton;
 
 /**

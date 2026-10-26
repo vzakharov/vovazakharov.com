@@ -1,7 +1,5 @@
 import * as Phaser from 'phaser';
 
-import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
-
 import { mix } from '@/mushrooms/shared/lib/colour';
 import { type Circle, wrap } from '@/mushrooms/shared/lib/geometry';
 import {
@@ -16,7 +14,7 @@ import {
   petal,
   type Span,
 } from '@/mushrooms/shared/ui';
-import { pinholeOf, type WithCamera } from '@/mushrooms/shared/world';
+import { pinholeOf } from '@/mushrooms/shared/world';
 
 import {
   haloReach,
@@ -27,23 +25,12 @@ import {
 } from './backdrop-tones';
 import { PUFFS } from './cloud-puffs';
 import { STAR_RAY_REACH } from './dusk-stars';
-import { azimuthAt, type Clouded,OPENING_CLOUD_COUNT } from './panorama';
+import { azimuthAt, OPENING_CLOUD_COUNT } from './panorama';
 import { rainbowArc } from './rain-sky';
-import {
-  type NearHilled,
-  SUN_RAY_REACH,
-  type Sunned,
-  type SunWashed,
-} from './sun-layout';
+import { type NearHilled, SUN_RAY_REACH, type SunlitSky } from './sun-layout';
 
 /** What of the meadow's layout this reads. */
-export type PaintSkyLayout = WithWidth &
-  WithHeight &
-  WithCamera &
-  Sunned &
-  NearHilled &
-  Clouded &
-  SunWashed;
+export type PaintSkyLayout = SunlitSky & NearHilled;
 
 const SUN_RAYS = 16;
 const WASH_ALPHA = 0.02;

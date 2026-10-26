@@ -1,17 +1,10 @@
 import type * as Phaser from 'phaser';
 
-import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
-
 import { mix } from '@/mushrooms/shared/lib/colour';
 import { type Light, sunLight } from '@/mushrooms/shared/lib/light';
 import type { Random } from '@/mushrooms/shared/lib/random';
 import { fillShape } from '@/mushrooms/shared/ui';
-import {
-  GROUND_BOB,
-  type Grounded,
-  type View,
-  type WithCamera,
-} from '@/mushrooms/shared/world';
+import { GROUND_BOB, type View } from '@/mushrooms/shared/world';
 
 import {
   GROUND_BANDS,
@@ -34,15 +27,6 @@ import {
   seamTop,
   type SkylineLayout,
 } from './skyline';
-import type { Sunned } from './sun-layout';
-
-/** What of the meadow's layout this reads. */
-export type PaintLandLayout = WithWidth &
-  WithHeight &
-  Grounded &
-  WithCamera &
-  Sunned &
-  SkylineLayout;
 
 const HILL_BANDS = 16;
 const GRAIN_KEY = 'grain';
@@ -80,7 +64,7 @@ export type Hills = {
  * same source raises the same hills: the farthest and far ranges stop at the
  * ground's top, the near one reaches under the whole seam.
  */
-export function hillsOf(layout: PaintLandLayout, random: Random): Hills {
+export function hillsOf(layout: SkylineLayout, random: Random): Hills {
   const ranges: Range[] = [
     {
       crest: farthestSkyline(random, layout),
@@ -160,7 +144,7 @@ export function drawHills(
  */
 export function paintGround(
   graphics: Phaser.GameObjects.Graphics,
-  layout: PaintLandLayout,
+  layout: SkylineLayout,
   tones?: Tones,
 ): Band {
   const { width, height, camera } = layout;
@@ -189,7 +173,7 @@ export function paintGround(
 export function paintGrain(
   scene: Phaser.Scene,
   existing: readonly Phaser.GameObjects.TileSprite[] | undefined,
-  layout: PaintLandLayout,
+  layout: SkylineLayout,
   seed: number,
 ): Phaser.GameObjects.TileSprite[] {
   if (!scene.textures.exists(GRAIN_KEY)) {

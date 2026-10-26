@@ -44,6 +44,7 @@ export type { RainSound, RainTapped } from './ui/rain-view';
 export { RainVoice, whoosh } from './ui/rain-voice';
 export { SEAM_REACH, SEAM_STEPS, seamCrest, seamTop } from './ui/skyline';
 export {
+  type HilledHorizon,
   horizonAt,
   type Horizoned,
   type NearHilled,
@@ -52,7 +53,9 @@ export {
   SUN_GLOW_REACH,
   SUN_RAY_REACH,
   type SunControls,
+  type SunlitScreen,
   type Sunned,
   type SunWashed,
+  type SunWashedScreen,
   washRings,
 } from './ui/sun-layout';

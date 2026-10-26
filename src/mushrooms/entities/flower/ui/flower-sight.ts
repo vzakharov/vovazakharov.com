@@ -21,7 +21,6 @@ import {
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import {
   type Camera,
-  type ClumpGround,
   flowersCrowdAt,
   type Footing,
   type HeadReach,
@@ -35,7 +34,6 @@ import {
   type Sitter,
   standingOn,
   type Stood,
-  type WithCamera,
   type WithLayout,
 } from '@/mushrooms/shared/world';
 
@@ -47,8 +45,9 @@ import {
   type WithPulled,
 } from '../model/flower-genes';
 import type { WithPlanted } from '../model/planted-flowers';
-import { type Bedded, FLOWER_SWAY } from './flower-layout';
+import { FLOWER_SWAY } from './flower-layout';
 import {
+  type FlowerPlotsLayout,
   flowersOf,
   groundFor,
   occupantsOf,
@@ -57,7 +56,7 @@ import {
 } from './flower-plots';
 
 /** What of the meadow's layout this reads. */
-export type FlowerSightLayout = WithHeight & WithCamera & ClumpGround & Bedded;
+export type FlowerSightLayout = WithHeight & FlowerPlotsLayout;
 
 /**
  * How far off a cap's crown toward its rims, or off a flower's centre toward

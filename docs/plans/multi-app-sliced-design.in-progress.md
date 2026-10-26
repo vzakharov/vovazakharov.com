@@ -529,7 +529,8 @@ review rather than stopping on each call.
   `meadowCamera`). Open, put to the operator: move each such test up beside the
   widget, named for what it checks (recommended — it tests the composition), or
   fixtures down. `type-overlap`'s repeated layout combinations, left by the
-  `MeadowLayout` flip (46 findings at this session's start), are being named.
+  `MeadowLayout` flip (46 findings at this session's start), are named
+  (`SunlitSky` and its bases in `sun-layout`, `BeddedInsectView`).
 - **Left**: the tests' answer and its move; `pnpm test:meadow` and
   `pnpm play:mushrooms` at `/finalize`, which also confirm the dropped
   `STAND_REACH` filter judged nothing differently; vova built and the game

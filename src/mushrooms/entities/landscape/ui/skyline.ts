@@ -4,8 +4,6 @@
  * from any heading without painting.
  */
 
-import type { WithHeight,WithWidth } from '@/kernel/shared/typings';
-
 import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
 import type { Light } from '@/mushrooms/shared/lib/light';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
@@ -14,25 +12,17 @@ import {
   type GroundBand,
   type Grounded,
   pinholeOf,
-  type WithCamera,
 } from '@/mushrooms/shared/world';
 
 import { azimuthAt, type Crest, ringWave, type WithCrest } from './panorama';
 import {
-  type Horizoned,
-  type NearHilled,
+  type HilledHorizon,
   SUN_RAY_REACH,
-  type Sunned,
+  type SunlitScreen,
 } from './sun-layout';
 
 /** What of the meadow's layout this reads. */
-export type SkylineLayout = WithWidth &
-  WithHeight &
-  Grounded &
-  WithCamera &
-  Sunned &
-  Horizoned &
-  NearHilled;
+export type SkylineLayout = SunlitScreen & Grounded & HilledHorizon;
 
 /** A skyline's points to a screen's width. */
 export const HILL_STEPS = 64;

@@ -7,8 +7,6 @@
  * judged round its newcomers alone (`lostOn`).
  */
 
-import type { WithHeight, WithWidth } from '@/kernel/shared/typings';
-
 import {
   boxesMeet,
   distanceBetween,
@@ -17,13 +15,12 @@ import {
 import {
   anchorOf,
   browDistance,
-  type ClumpGround,
   type Cover,
   cull,
   type Eye,
   flowersCrowdAt,
   type Footing,
-  type GroundBand,
+  type GroundedScreen,
   groundFootOf,
   OPENING_EYE,
   PALE_SPAN,
@@ -31,14 +28,11 @@ import {
   sameFoot,
   standingOn,
   type View,
-  type WithCamera,
 } from '@/mushrooms/shared/world';
 import {
   anchoredStand,
-  type Bedded,
   FLOWER_RANGES,
   flowerGenes,
-  type FlowerSightLayout,
   flowersOf,
   groundFor,
   hasGround,
@@ -48,7 +42,6 @@ import {
 } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   azimuthOf,
-  type InsectScaled,
   widestSpanOn,
 } from '@/mushrooms/entities/insect/index.node-safe';
 import {
@@ -61,17 +54,10 @@ import {
   type Planted,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { roomIn } from './flower-room';
+import { type FlowerRoomLayout, roomIn } from './flower-room';
 import { bareAmong, bareToTap } from './tuft-tap';
 /** What of the meadow's layout this reads. */
-export type TendingLayout = WithWidth &
-  WithHeight &
-  WithCamera &
-  ClumpGround &
-  Bedded &
-  FlowerSightLayout &
-  InsectScaled &
-  GroundBand;
+export type TendingLayout = FlowerRoomLayout & GroundedScreen;
 
 /**
  * How many screens either side of the view a tuft is tended in: judging a

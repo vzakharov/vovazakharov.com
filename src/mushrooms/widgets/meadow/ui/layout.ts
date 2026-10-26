@@ -33,9 +33,8 @@ import {
 } from '@/mushrooms/entities/insect/index.node-safe';
 import {
   type Clouded,
+  type HilledHorizon,
   horizonAt,
-  type Horizoned,
-  type NearHilled,
   placeSun,
   skyClouds,
   SUN_RAY_REACH,
@@ -69,8 +68,7 @@ export type ControlledScreen = GroundedScreen & Controls & Crossed & Sunned;
 /** Everything the meadow stands on a screen but its flowers and the sun's wash. */
 type Stood = ControlledScreen &
   InsectCamera &
-  Horizoned &
-  NearHilled &
+  HilledHorizon &
   ClumpGround &
   Clouded &
   EveryButton;

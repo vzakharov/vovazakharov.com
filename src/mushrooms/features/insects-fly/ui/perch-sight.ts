@@ -13,7 +13,6 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithHeight } from '@/kernel/shared/typings';
 
 import {
   distanceBetween,
@@ -23,7 +22,6 @@ import {
 import { phaseOf } from '@/mushrooms/shared/lib/motion';
 import type { Seeded } from '@/mushrooms/shared/lib/random';
 import {
-  type ClumpGround,
   type Cover,
   D_SEE,
   OPENING_EYE,
@@ -33,12 +31,11 @@ import {
   SHELTER_SEATS,
   type View,
   viewAt,
-  type WithCamera,
 } from '@/mushrooms/shared/world';
 import {
-  type Bedded,
   flowerGenes,
   flowerInSight,
+  type FlowerPlotsLayout,
   flowersOf,
   occupantsOf,
   PERCH_SPREAD,
@@ -53,8 +50,8 @@ import {
   flowerLift,
   INSECT_KINDS,
   type InsectAwayLayout,
+  type InsectCamera,
   type InsectKind,
-  type InsectScaled,
   type Kinded,
   liftOn,
   type Onscreen,
@@ -87,12 +84,11 @@ import { crowdings, seatsWith, type Track } from './perch-crowding';
 import { discCovered } from './shelter-cover';
 
 /** What of the meadow's layout this reads. */
-export type PerchSightLayout = WithHeight &
-  WithCamera &
-  InsectScaled &
-  ClumpGround &
-  Bedded &
-  InsectAwayLayout;
+/** The flower beds as the camera shows them, with the insects' units on it. */
+export type BeddedInsectView = InsectCamera & FlowerPlotsLayout;
+
+/** What of the meadow's layout this reads. */
+export type PerchSightLayout = BeddedInsectView & InsectAwayLayout;
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
 export const MOST_OVERLAP = 0.25;
