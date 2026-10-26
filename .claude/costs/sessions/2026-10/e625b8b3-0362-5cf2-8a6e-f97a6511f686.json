@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 89186,
+    "cacheWrite1hTokens": 196513,
+    "cacheReadTokens": 17136973,
+    "outputTokens": 52781,
+    "thinkingTokens": 14297,
+    "responses": 96,
+    "costUsd": 6.501816600000001
+  },
+  "estimate": {
+    "at": "2026-10-26T05:12:39.831Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a second file-naming scheme through a loader, stamps and scripts every translated collection shares, and drawings turned into keyed templates, need judgement about the content contract and its checks"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "e625b8b3-0362-5cf2-8a6e-f97a6511f686",
+  "branch": "claude/maya-r1j2rn",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Ты Майя. `/persona maya` — до всего остального. /relay take claude/maya-r1j2rn — разбираем ревью Вовы на #208: подписи рисунков по ключам, `.en.md` рядом с `.ru…",
+  "prs": [
+    208
+  ],
+  "url": "https://claude.ai/code/session_01KtSLsdFBuEPcZRZuWaAWzZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T05:12:15.643Z",
+  "lastResponseAt": "2026-10-26T05:34:11.239Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 154,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 196513,
+    "cacheReadTokens": 15231120,
+    "outputTokens": 44328,
+    "thinkingTokens": 11010,
+    "responses": 77,
+    "costUsd": 5.505504
+  },
+  "subagents": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 89186,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1905853,
+    "outputTokens": 8453,
+    "thinkingTokens": 3287,
+    "responses": 19,
+    "costUsd": 0.9963126000000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 192,
+      "cacheWrite5mTokens": 89186,
+      "cacheWrite1hTokens": 196513,
+      "cacheReadTokens": 17136973,
+      "outputTokens": 52781,
+      "thinkingTokens": 14297,
+      "responses": 96,
+      "costUsd": 6.501816600000001
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/shared/content/locale-suffix.ts",
+    "endedAt": "2026-10-26T05:14:12.579Z",
+    "contextTokens": 177835,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 116746,
+      "cacheReadTokens": 2233650,
+      "outputTokens": 9415,
+      "thinkingTokens": 5227,
+      "responses": 18,
+      "costUsd": 1.5691419999999998
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
