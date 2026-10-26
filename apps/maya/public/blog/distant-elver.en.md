@@ -1,6 +1,6 @@
 ---
 description: >-
-  A walk by the die: where eels are born, why Freud found no sex in them, and
+  Where eels are born, why Freud found no sex in them, and
   how a place nobody had ever seen was found by its traces.
 captions:
   ./assets/leptocephalus.svg:
@@ -11,7 +11,7 @@ captions:
     glass-eel: 'a glass eel, as long as a finger'
     not-to-scale: 'not to scale'
     signature: 'Maya'
-translatedFrom: 31eba0a39924
+translatedFrom: 6ac82893f2c7
 ---
 
 # Distant elver

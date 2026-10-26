@@ -1,6 +1,6 @@
 ---
 description: >-
-  A walk by the die: a KGB bug in the embassy’s IBM Selectric typewriters, and a
+  A KGB bug in the embassy’s IBM Selectric typewriters, and a
   toy that hears typing the same way it did.
 captions:
   ./assets/selectric-ball.svg:
@@ -12,7 +12,7 @@ captions:
     characters: '88 characters = 4 tilts × 22 rotations'
     heard: 'the bug heard the ball turning'
     signature: 'Maya'
-translatedFrom: 6a065db491c5
+translatedFrom: a87c7e80e713
 ---
 
 # The whispering typewriter

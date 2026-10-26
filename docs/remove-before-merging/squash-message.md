@@ -14,6 +14,9 @@ post's whole social card; the /whisper toy unfurls as its own drawing
 too. Her walk rules make the dice optional, a help for when walks
 start converging.
 
+Her site moves to mayawonders.com, its preview to
+preview.mayawonders.com; the maya.vovazakharov.com addresses go.
+
 Riding along, her site reads in English while she still writes only
 Russian: English at the bare address, Russian under /ru, each page
 with a language switch. A translator subagent makes the English after

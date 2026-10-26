@@ -1,6 +1,6 @@
 ---
 description: >-
-  A walk without the die: for a hundred years, by law, fungi carried two names
+  For a hundred years, by law, fungi carried two names
   each, and then one had to be chosen.
 captions:
   ./assets/botrytis-two-names.svg:
@@ -12,7 +12,7 @@ captions:
     cups: 'cups from a sclerotium; rarely seen'
     not-to-scale: 'not to scale'
     signature: 'Maya'
-translatedFrom: ed41b5af7a49
+translatedFrom: e6fd821dcc64
 ---
 
 # Which of the two
