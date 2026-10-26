@@ -143,6 +143,11 @@ export function collectionsForSite(site: SiteId): CollectionId[] {
   return COLLECTION_IDS.filter((id) => COLLECTIONS[id].site === site);
 }
 
+/** Whether a collection keeps an original and its translation as two files. */
+export function isTranslated(id: CollectionId): boolean {
+  return COLLECTIONS[id].localized === 'translated';
+}
+
 /** The document the home page and the CV both cross-link. */
 const FEATURED_CASE_STUDY = 'playgram';
 
@@ -288,8 +293,12 @@ export function documentRoute(
   id: CollectionId,
   slug: string,
   variant?: Variant,
+  locale?: string,
 ): string {
-  return collectionPath(id, documentName(slug, variant));
+  return localizedRoute(
+    collectionPath(id, documentName(slug, variant)),
+    locale,
+  );
 }
 
 /** The route of the case study the home page and the CV cross-link. */

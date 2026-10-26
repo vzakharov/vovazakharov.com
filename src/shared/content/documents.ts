@@ -28,7 +28,7 @@ import {
   documentName,
   documentRoute,
   isDocumentFile,
-  localizedRoute,
+  isTranslated,
   type Routed,
   type Slugged,
   type Variant,
@@ -166,10 +166,6 @@ type ParsedFileName = WithOptionalLocale &
     translation: boolean;
   };
 
-function isTranslated(collection: CollectionId): boolean {
-  return COLLECTIONS[collection].localized === 'translated';
-}
-
 /**
  * Splits `<slug>[.<variant>][.<locale>].md` into its parts. A trailing segment
  * that is not a known variant stays part of the slug, so `foo.bar.md` is the
@@ -182,9 +178,8 @@ function parseFileName(
   fileName: string,
 ): ParsedFileName {
   const translated = isTranslated(collection);
-  const { stem, locale } = translated
-    ? splitLocale(fileName.replace(/\.md$/, ''))
-    : { stem: fileName.replace(/\.md$/, '') };
+  const bare = fileName.replace(/\.md$/, '');
+  const { stem, locale } = translated ? splitLocale(bare) : { stem: bare };
   const variant = VARIANTS.find((candidate) => stem.endsWith(`.${candidate}`));
   const name = variant
     ? { slug: stem.slice(0, -(variant.length + 1)), variant }
@@ -255,7 +250,7 @@ function readDocument<F extends BaseFrontmatter>(
   );
   // The card is one for every language, so it sits at the locale-less route.
   const cardRoute = documentRoute(id, slug, variant);
-  const route = localizedRoute(cardRoute, locale);
+  const route = documentRoute(id, slug, variant, locale);
 
   return {
     collection: id,
