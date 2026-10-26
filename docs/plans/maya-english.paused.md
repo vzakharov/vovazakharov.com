@@ -159,37 +159,75 @@ it), not by hand.
 
 ## Progress
 
-Paused at the context budget's warning, the tree building (`pnpm build:maya`,
-`typecheck`, the content tests green).
+Paused a second time at the context budget's warning, with the code built
+around a tree that does not build yet: the loader refuses an original with no
+translation, and the three posts have none.
 
-**Done:**
+**Vova, after the first pause** (chat, 26 October), on the drawings' Russian
+captions: «что становится с картинками — на них есть текст, и переводить его
+хочется DRY». Agreed shape («да, хорошо», then «.ru.svg тоже ж?» — yes): the
+drawing is authored once as `<name>.ru.svg`; the post's translation carries
+`captions: { ./assets/<name>.ru.svg: { <Russian wording>: <English> } }` in
+its frontmatter, every `<text>` and the root `aria-label` keyed verbatim;
+`pnpm content:drawings:maya` (`scripts/translate-drawings.ts`, its swap in
+`scripts/lib/drawing-captions.ts`) writes the English `<name>.svg` beside it,
+and its `--check` is in vet. A `<text translate="no">` stays as drawn — the
+typeball's 38 letters carry it. All three drawings have captions, the ball
+included. One social card per post, from the English drawing.
 
-- `COLLECTIONS[id].localized` is `false | 'inline' | 'translated'` (music
-  `inline`, `maya-blog` `translated`); a collection's `label` is `Localizable`,
-  read through `inLocale` (exported from `@/shared/i18n` with the type) at
-  `feeds.ts`, `article-page.tsx` and `maya-home-page.tsx`.
-- `src/shared/content/translations.ts` — `splitLocale`, `translatedData` (the
-  translation's frontmatter over its original's, throwing on a stale stamp),
-  `assertTranslated` (an original with no translation throws). Written, **not
-  yet called** — knip will flag it until step 1's loader uses it.
-- `src/shared/content/translation-stamp.ts` (+ test) — `TRANSLATION_STAMP` and
-  `stampFrontmatter`, bare-Node safe for the stamp script.
-- Feeds: `apps/maya/app/blog/{en,ru}/feed.xml/route.ts`; the home page asks for
-  its locale's feed. `feedEntries` does not filter by locale yet.
+**Done** (commits de5d59a, 101aca4, on top of the first session's):
 
-**Deviation from the plan:** the drift check is the build itself, not a
-`check:translations` script in vet — `translatedData` and `assertTranslated`
-throw at load, so a stale or missing translation fails every build, the deploy's
-included. What replaces the script is `pnpm translation:stamp <original.ru.md>`,
-still to write (`scripts/stamp-translation.ts`, bare Node: `contentHash` of the
-original's whole file → `stampFrontmatter` on the sibling `.md`).
+- Loader (`documents.ts`): `parseFileName` reads the locale suffix in a
+  `translated` collection; each file is a document with its `locale`, its
+  `route` the locale's (`/blog/<slug>/en`, `/blog/<slug>/ru`), `markdown` its
+  own file, the og card at the locale-less route; the translation's frontmatter
+  goes through `translatedData`; `listDocuments` runs `assertTranslated`;
+  `listPrimaryDocuments`/`renderPrimaryDocuments`/`feedEntries` take a locale;
+  `loadDocument` takes one.
+- `localizedRoute('/', 'ru')` is `/ru`; `collectionRoute` and
+  `collectionListingRoute` take a locale.
+- `articleRoute`: `[slug]`, `[slug, en]`, `[slug, ru]` for a translated
+  collection; metadata carries `localizedAddresses` and the page's `locale`
+  (`constructMetadata` takes `locale` now, for `og:locale`); the back link,
+  byline, cut labels and footer read the document's locale; a language switch
+  in the article header.
+- `localeChips` in `shared/ui`, used by music, the CV (the picker turned out to
+  be chips already, so it moved whole) and Майя's pages.
+- Home: `apps/maya/app/[[...locale]]/page.tsx`, `mayaHomeMetadata`;
+  typewriter: `apps/maya/app/whisper/[[...locale]]/page.tsx`. Both through
+  `localeSegmentParams`/`parseLocaleSegment` (new in `shared/i18n/locales.ts`,
+  **untested yet**). Copy in the catalogue: `maya.{name,tagline,intro,byline,
+  band}`, `whisper.{title,description,story,blogLink,bug}`, links slotted by
+  `fillSlots` (`shared/i18n/message-slots.tsx`, tested). **`en.json` holds the
+  Russian copy as a placeholder** for the translator to replace.
+- `SiteFooter` takes `home`, the way home on a site with a home per language.
+- Step 2: no `cardImage` means the body's first image (`first-image.ts`,
+  tested), in the loader and in `read-collection.ts` for the cards; the three
+  posts and two Bible articles dropped the line that repeated it.
+- Posts renamed to `<slug>.ru.md`; their links to each other and to
+  `/whisper` point at the `/ru` pages.
+- `pnpm translation:stamp <original>` (`scripts/stamp-translation.ts`).
 
-**Left, in order:** the stamp script and its `package.json` entry; step 1's
-loader (`documents.ts`: `parseFileName` learns the locale suffix for a
-`translated` collection, `readDocument` sets `locale`, routes through
-`localizedRoute`, `markdown` from the file's own name, the og card at the
-locale-less route, `translatedData` for the default-locale file,
-`assertTranslated` in `listDocuments`), `articleRoute`'s locale segment, the
-index and `feedEntries` by locale, `read-collection.ts` for the cards; then
-steps 2–9. The posts are still `<slug>.md` in Russian: renaming them to `.ru.md`
-comes with the loader, and translating them is step 7.
+**Left, in order:**
+
+1. The translator subagent (step 7), briefed in English as a literary
+   translator, never as Майя: each `<slug>.md` with only `description` and
+   `captions` in its frontmatter, body translated, images at
+   `./assets/<name>.svg`, links to the English pages; the `en.json` strings
+   above, placeholders kept. Then `pnpm translation:stamp` on each original and
+   `pnpm content:drawings:maya`.
+2. `SITE_CONFIG.maya`: English `name`/`tagline` matching `en.json`'s `maya`,
+   `locale: 'en'`; `maya-card.ts`'s site card reads them. Then
+   `pnpm content:og:maya` (cards change: English drawings, English site card).
+3. Builds — `build:maya`, `build:vova`, `build:bible` — and `typecheck`,
+   `lint:check`, `knip`, `type-overlap`, `pnpm test`; tests for
+   `localeSegmentParams`/`parseLocaleSegment` in `locales.test.ts`.
+4. Docs: `.claude/rules/stack.md`'s list gains
+   `pnpm content:drawings:maya --check`; `content.md` — the `cardImage`
+   paragraph (now an override of the first image), the locale seam's sentence
+   for a translated collection, and the drawings; step 8's `wander.md`.
+5. `/preview` both locales of each page and the case-studies index (playgram's
+   chart becomes its index card), then `/polish` and `/pr`.
+
+Noticed, not in scope: `<html lang>` is the site's locale on every page, the
+`/ru` pages included — the music and CV pages share it.
