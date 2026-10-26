@@ -64,9 +64,9 @@ function locate(file: string): string | undefined {
   if (parts[0] === 'sites') return parts[2] === 'app' ? 'router' : undefined;
   if (parts[0] !== 'src' || parts.length < 4) return undefined;
   const [, app, layer = '', slice] = parts;
-  // An app's scripts are tooling, not consumers: a slice only they reach is
-  // still one nothing shipped needs.
-  if (layer === 'scripts') return undefined;
+  // An app's scripts and the tests are tooling, not consumers: a slice only
+  // they reach is still one nothing shipped needs.
+  if (layer === 'scripts' || TEST.test(file)) return undefined;
   return SLICED.has(layer) ? `${app}/${layer}/${slice}` : `${app}/${layer}`;
 }
 
@@ -89,12 +89,12 @@ function sourceFile(base: string): string | undefined {
   );
 }
 
-/** The app a shipped file under `src/` is part of; a test or script is none. */
+/** The app a shipped file under `src/` is part of. */
 function appOf(file: string): string | undefined {
-  const [root, app, layer] = file.split(path.sep);
-  return root === 'src' && layer !== 'scripts' && !TEST.test(file)
-    ? app
-    : undefined;
+  const location = locate(file);
+  return location === undefined || location === 'router'
+    ? undefined
+    : appOfLocation(location);
 }
 
 /**

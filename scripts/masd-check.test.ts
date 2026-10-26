@@ -196,6 +196,17 @@ describe('masd-check', () => {
     );
   });
 
+  it('does not count a test as a reference', () => {
+    assert.equal(
+      run({
+        [ENTITY]: 'export const card = 1;',
+        'src/blog/pages/documents/ui.test.ts':
+          "import { card } from '@/blog/entities/card';",
+      }).stderr,
+      UNREFERENCED,
+    );
+  });
+
   it('flags a slice only one shared layer uses, and spares one the app layer uses', () => {
     assert.equal(
       run({
