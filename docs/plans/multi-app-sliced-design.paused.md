@@ -326,7 +326,9 @@ tuned — the null model is the bar.
   control, which sits at chance in both — own rejects it, desc admits it,
   because desc's extra edges lower every slice's expectation — and desc measures
   a low app against the whole repo (`switch-theme` ×11 own, ×259 desc). The code
-  is one line apart. Recommended: own. **Waiting on the operator's pick.**
+  is one line apart. **Picked: own** (operator: «если мы написали приложение, мы
+  не можем чисто формально знать, кто им будет пользоваться, и разбивать на
+  модули исходя из того, кто и как им будет потом пользоваться, странно»).
 - **Where the game's page sits is out of this bite** (operator: «пока не
   трогаем»): the page stays in `pages/mushrooms`, and moving it to the app layer
   is neither done nor ruled out.
