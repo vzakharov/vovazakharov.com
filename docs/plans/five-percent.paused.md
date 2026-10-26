@@ -15,23 +15,23 @@
   `[[...locale]]` home reading a new `lsa` catalogue namespace (en verbatim, ru
   new) and listing the blog, article and feed routes.
 
-**Left, in order:**
+- The article draft — c36aa7c, `apps/lsa/public/blog/the-five-percent.ru.md`,
+  three openings (А number, Б admission, В the `content:` case) above the body
+  under a draft comment. Figures re-derived from the notes' full history (the
+  clone had to be unshallowed: the file starts 7 September, at 9 bumps).
+- A provisional `.en.md` — 0831518, stamped
+  (`pnpm translation:stamp <the .ru.md>`). `pnpm build:lsa` passes.
+- The `/writing` card on vovazakharov.com — 18b0959.
+- Published to preview.vovazakharov.com from 18b0959.
 
-1. **The article** — `apps/lsa/public/blog/the-five-percent.ru.md`. Until it
-   exists `pnpm build:lsa` fails: an article route with no documents has no
-   `generateStaticParams` to export. Figures re-derived from the notes and
-   `git log -p writing/notes/the-five-percent.md`; two or three openings offered
-   to Вова.
-2. **A provisional `.en.md`**, by a subagent, stamped with
-   `pnpm translation:stamp` — the build refuses an original with no translation,
-   so the draft can't be previewed without one. Redone once the original is
-   approved.
-3. The `/writing` card on vovazakharov.com pointing at the article.
-4. `/preview live lsa` for Вова to read the draft.
-5. After approval: the final translation, the notes retired (tombstone,
-   `scripts/check-notes-length.sh` and its rows in `scripts/vet.sh` and
-   `.claude/rules/stack.md`, row 18 of `writing/linkedin/plan.md`).
-6. Step 3 (`/polish`) and Step 4 (`/pr`) of `/go`.
+**Left, in order — waiting on Вова:**
+
+1. **His pick of an opening and his edits to the text.** The other two openings
+   and the draft comment go; then the final translation, stamped again.
+2. The notes retired (tombstone, `scripts/check-notes-length.sh` and its rows in
+   `scripts/vet.sh` and `.claude/rules/stack.md`, row 18 of
+   `writing/linkedin/plan.md`).
+3. Step 3 (`/polish`) and Step 4 (`/pr`) of `/go`.
 
 `writing/notes/the-five-percent.md` has done its job as a collection: 214 bumps
 over fourteen learnings, 6 September to 26 October, the top one
