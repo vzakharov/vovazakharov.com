@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×87)
+## What it was handed, it treats as fixed (×89)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -86,6 +86,14 @@ vocals, the scripts' work: _она уже приходит "на готовое"
 that the walk post's line links into her `reflections.md` on `main` would drift,
 so the agent dropped the line numbers: _можно ж сослаться на конкретное SHA?_ A
 permalink at a commit keeps both, reachable after a squash through the PR.
+
+**26 October — Майя's precedent, weighed for its bytes alone.** Planning her
+bilingual posts (PR #208), she cut one file with `<!-- lang:ru -->` markers, as
+the song stories are: _давай хранить в разных файлах_, so the Russian is written
+whole before anyone, maybe a subagent, translates it. The translation within
+reach is the one that gets written alongside. The same plan named each post's
+drawing twice, body and `cardImage`, read as required where it was an override;
+the card now defaults to the post's first image.
 
 ## An account that explains the code stands in for running it (×28)
 
