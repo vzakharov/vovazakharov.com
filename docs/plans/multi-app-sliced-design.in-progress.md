@@ -288,31 +288,47 @@ root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
 
+## This bite
+
+**6a. The measure, wired into `check:masd`; mushrooms untouched.** A slice with
+one reference is significant when its public API is narrow: the names its
+barrels (`index.ts` and the two suffixed ones) export, against the names its
+other files export, at most a third. Such a slice hides two thirds of itself
+from its one consumer, which is what a module is whoever uses it; a grab bag
+re-exporting everything sits at 100%. `knip` keeps the numerator honest, since a
+barrel export nothing reads fails it. An unreferenced slice gets no reprieve,
+and the messages stay Steiger's word for word.
+
+Why this measure and not the other candidate, measured over the tree as it is (a
+spike over every slice, and over the noun groups the game's file names suggest —
+insects, flowers, mushrooms, house, sky, map, instrument):
+
+- **Boundary vs internal edges fails.** A well-layered slice imports downward,
+  so its edges leave it: the game's noun groups score 20–48%, the repo's shared
+  slices 10–64%, and a two-file slice is low by arithmetic. It punishes the
+  layering MASD asks for.
+- **API width separates.** The repo's slices built as modules sit low — the
+  player 11%, the CV page 20%, Майя's whisper 19% — while the noun groups cut by
+  file-name prefix land 29–60%, so the bar asks 6b to draw boundaries better
+  than a prefix does, which is the restructure's job.
+
+Tests in `scripts/masd-check.test.ts`: a one-reference slice exporting a third
+of its names through its barrel passes, one exporting more is flagged as now,
+and a re-exporting barrel counts every name of the file it re-exports. `masd.md`
+§ "Rules" states the measure beside "No insignificant slices", and
+`compare/fsd-vs-masd` follows.
+
 ## Rest of the elephant
 
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **6. What is a page in a one-page app** — a deterministic measure beside
-  `insignificant-slice`, then mushrooms restructured under it. The problem:
-  mushrooms is a whole game on one URL, some 240 files — scene, creatures, day
-  cycle, saves, the UI over the canvas — and FSD names a page by its URL, so it
-  is all one `pages/mushrooms` slice. Splitting it the FSD way fails too:
-  `entities/creature` or `widgets/meadow` each has exactly one consumer, which
-  is what `insignificant-slice` flags, so the rule pushes everything back into a
-  grab bag with its own unenforced structure. Any one-page app hits it — Claude
-  Code on the web is one page, and nobody would put it in one slice — because a
-  reference count cannot tell "used once because it is a detail of its consumer"
-  from "used once because the app has one consumer at all". MASD sharpens it: as
-  its own app, every slice mushrooms could have is insignificant by
-  construction. Candidates to weigh: **boundary vs internal import edges** (a
-  slice whose files mostly import each other, reached through a narrow surface,
-  is a real module whoever its one consumer is) and **public-API width** (how
-  much of a slice its consumers touch, against how much it holds). The
-  deliverable is the measure, its threshold argued from this repo's real slices,
-  its wiring into `scripts/masd-check.ts`, and then the game restructured —
-  mushrooms' scripts entering it through public APIs, their entries leaving the
-  grandfathered block.
+- **6b. Mushrooms restructured under 6a's measure.** The game is some 240 files
+  on one URL — scene, creatures, day cycle, saves, the UI over the canvas — in
+  one `pages/mushrooms` slice, `model/` and `ui/scene/` each flat. Every slice
+  it could be cut into has one consumer, so it stands on 6a's measure alone.
+  Mushrooms' scripts then enter it through public APIs, their entries leaving
+  the grandfathered block.
 - **7. The grandfathered script imports, retired.** basilisk's, kernel's,
   shell's and vova's scripts enter their layers through public APIs — a
   `index.node-safe.ts` where a script runs without a bundler — and the
