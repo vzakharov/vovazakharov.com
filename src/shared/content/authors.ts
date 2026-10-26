@@ -21,7 +21,7 @@ export function author(id: AuthorId, locale: Locale): Named & Linked {
       href: documentRoute('basilisk-faq', 'who-writes-this'),
     },
     maya: {
-      name: loadMessages(locale).maya.name,
+      ...pick(loadMessages(locale).maya, 'name'),
       href: siteConfig('maya').url,
     },
   };

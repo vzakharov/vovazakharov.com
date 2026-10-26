@@ -33,11 +33,10 @@ describe('localeSegmentParams', () => {
 
 describe('parseLocaleSegment', () => {
   it('reads every address localeSegmentParams lists', () => {
-    assert.deepEqual(localeSegmentParams().map(parseLocaleSegment), [
-      'en',
-      'en',
-      'ru',
-    ]);
+    assert.deepEqual(
+      localeSegmentParams().map((params) => parseLocaleSegment(params)),
+      ['en', 'en', 'ru'],
+    );
   });
 
   it('takes a missing segment as the default locale', () => {

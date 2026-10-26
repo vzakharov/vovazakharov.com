@@ -323,9 +323,9 @@ export function feedRoutes<L extends string>(
 
   if (!feed) return [];
 
-  return localized
-    ? locales.map((locale) => ({ route: route(locale), locale }))
-    : [{ route: route() }];
+  return localized === false
+    ? [{ route: route() }]
+    : locales.map((locale) => ({ route: route(locale), locale }));
 }
 
 /** The `<slug>[.<variant>]` stem a document's route and its files share. */

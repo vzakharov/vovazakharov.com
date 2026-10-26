@@ -1,15 +1,9 @@
-import {
-  localeSegmentParams,
-  parseLocaleSegment,
-  type WithLocaleSegment,
-} from '@/shared/i18n';
+import { parseLocaleSegment, type WithLocaleSegment } from '@/shared/i18n';
 import type { WithParams } from '@/shared/typings';
 
-import { MayaHomePage, mayaHomeMetadata } from '@/pages/maya-home';
+import { mayaHomeMetadata, MayaHomePage } from '@/pages/maya-home';
 
 type Props = WithParams<WithLocaleSegment>;
-
-export const generateStaticParams = localeSegmentParams;
 
 export async function generateMetadata({ params }: Props) {
   return mayaHomeMetadata({ locale: parseLocaleSegment(await params) });
@@ -18,3 +12,5 @@ export async function generateMetadata({ params }: Props) {
 export default async function Page({ params }: Props) {
   return <MayaHomePage locale={parseLocaleSegment(await params)} />;
 }
+
+export { localeSegmentParams as generateStaticParams } from '@/shared/i18n';

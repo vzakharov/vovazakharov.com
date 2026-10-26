@@ -23,13 +23,12 @@ import {
   collectionsForSite,
   feedRoutes,
   type Routed,
-  type WithCollectionId,
 } from './collections';
-import type { LocaleRouted } from './documents';
+import type { RoutedInCollection } from './documents';
 import { filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
-export type Feed = WithCollectionId & LocaleRouted & Summarized;
+export type Feed = RoutedInCollection & Summarized;
 
 /** An item before its link is made absolute, which is the site's to do. */
 export type FeedEntry = UnlinkedRssItem & Routed;

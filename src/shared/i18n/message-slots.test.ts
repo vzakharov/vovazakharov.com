@@ -18,10 +18,10 @@ describe('fillSlots', () => {
   });
 
   it('throws on a placeholder no slot fills', () => {
-    assert.throws(() => fillSlots('Read {link}.', {}), /\{link\}/);
+    assert.throws(() => fillSlots('Read {link}.', {}), /{link}/);
   });
 
   it('throws on a slot with no placeholder', () => {
-    assert.throws(() => fillSlots('Read it.', { link: 'x' }), /\{link\}/);
+    assert.throws(() => fillSlots('Read it.', { link: 'x' }), /{link}/);
   });
 });

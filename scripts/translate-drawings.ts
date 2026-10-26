@@ -22,6 +22,7 @@
 import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
+import { z } from 'zod';
 
 import { resolveSiteId } from '../src/shared/config/index.node-safe.ts';
 import {
@@ -37,27 +38,27 @@ const CHECK = process.argv.includes('--check');
 /** `<name>.<locale>.svg` — a drawing in its original's language. */
 const ORIGINAL = /^(.+)\.[a-z]{2}\.svg$/;
 
+const CAPTIONS = z.object({
+  captions: z
+    .record(
+      z.string(),
+      z.record(z.string(), z.string()) satisfies z.ZodType<Captions>,
+    )
+    .default({}),
+});
+
 /** A translation's `captions`: each original drawing, relative to the post, and its dictionary. */
 function captionsOf(file: string): Record<string, Captions> {
-  const { captions = {} } = matter(fs.readFileSync(file, 'utf8')).data as {
-    captions?: unknown;
-  };
-  const isDictionary = (value: unknown): value is Captions =>
-    typeof value === 'object' &&
-    value !== null &&
-    Object.values(value).every((entry) => typeof entry === 'string');
+  const parsed = CAPTIONS.safeParse(matter(fs.readFileSync(file, 'utf8')).data);
 
-  if (
-    typeof captions !== 'object' ||
-    captions === null ||
-    !Object.values(captions).every(isDictionary)
-  ) {
+  if (!parsed.success) {
     throw new Error(
       `${file}: \`captions\` maps each drawing to {original wording: translation}.`,
+      { cause: parsed.error },
     );
   }
 
-  return captions as Record<string, Captions>;
+  return parsed.data.captions;
 }
 
 function filesUnder(dir: string): string[] {
@@ -100,7 +101,9 @@ for (const id of collectionsForSite(resolveSiteId())) {
       try {
         drawn = translateDrawing(fs.readFileSync(original, 'utf8'), captions);
       } catch (error) {
-        throw new Error(`${translation}, ${drawing}`, { cause: error });
+        throw new Error(`${translation}, ${drawing}`, {
+          cause: error instanceof Error ? error : new Error(String(error)),
+        });
       }
 
       if (fs.existsSync(output) && fs.readFileSync(output, 'utf8') === drawn) {

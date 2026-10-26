@@ -25,9 +25,9 @@ import { musicCatalogueRoutes } from '@/pages/music';
  * duplicate the canonical link already resolved.
  */
 function documentAddresses(route: string, collection: CollectionId): string[] {
-  return COLLECTIONS[collection].localized
-    ? routing.locales.map((locale) => localizedRoute(route, locale))
-    : [route];
+  return COLLECTIONS[collection].localized === false
+    ? [route]
+    : routing.locales.map((locale) => localizedRoute(route, locale));
 }
 
 /**

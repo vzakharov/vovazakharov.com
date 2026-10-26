@@ -26,22 +26,22 @@ import {
   COLLECTIONS,
   collectionsForSite,
   documentName,
-  type DocumentRef,
   documentRoute,
   isDocumentFile,
+  localizedRoute,
   type Routed,
+  type Slugged,
   type Variant,
   VARIANTS,
   type WithCollectionId,
-  localizedRoute,
 } from './collections';
+import { firstImage } from './first-image';
 import type {
   BaseFrontmatter,
   Collection,
   FrontmatterReader,
   WithFrontmatter,
 } from './frontmatter';
-import { firstImage } from './first-image';
 import {
   intrinsicDimensions,
   type WithOptionalOgImageSize,
@@ -49,12 +49,21 @@ import {
 import { assertTranslated, splitLocale, translatedData } from './translations';
 
 /** An address, and the one language it is in where it is in one. */
-export type LocaleRouted = Routed & WithOptionalLocale;
+type LocaleRouted = Routed & WithOptionalLocale;
+
+/** A collection's page — a document or a feed — at its address. */
+export type RoutedInCollection = WithCollectionId & LocaleRouted;
 
 /** Where `public/` serves the card and how big it is — resolved together so they cannot disagree. */
 type ResolvedOgImage = WithOptionalOgImageSize & {
   /** Where `public/` serves the page's own card; absent where it unfurls as the site's. */
   ogImageUrl?: string;
+};
+
+/** A document's slug and which cut of it a file is. */
+type SluggedCut = Slugged & {
+  /** Absent on the full document; set on each shorter cut. */
+  variant?: Variant;
 };
 
 /**
@@ -66,7 +75,7 @@ type ResolvedOgImage = WithOptionalOgImageSize & {
  * print's file from the route itself.
  */
 export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
-  DocumentRef &
+  SluggedCut &
     ProseSource &
     WithFrontmatter<F> &
     ResolvedOgImage &
@@ -74,10 +83,7 @@ export type ContentDocument<F extends BaseFrontmatter = BaseFrontmatter> =
     // The language is this reading's: a translated collection's file is in
     // one, and its route names it; absent on a file as authored that carries
     // both.
-    LocaleRouted & {
-      /** Absent on the full document; set on each shorter cut. */
-      variant?: Variant;
-    };
+    RoutedInCollection;
 
 /** The collection a body's relative links resolve in, and the file they resolve beside. */
 export type FileInCollection = WithCollectionId & WithFileName;
@@ -154,12 +160,11 @@ export type WithContentDocument<F extends BaseFrontmatter = BaseFrontmatter> = {
   document: ContentDocument<F>;
 };
 
-type ParsedFileName = WithOptionalLocale & {
-  slug: string;
-  variant?: Variant;
-  /** Whether the file is a translation, its frontmatter completed from its original's. */
-  translation: boolean;
-};
+type ParsedFileName = WithOptionalLocale &
+  SluggedCut & {
+    /** Whether the file is a translation, its frontmatter completed from its original's. */
+    translation: boolean;
+  };
 
 function isTranslated(collection: CollectionId): boolean {
   return COLLECTIONS[collection].localized === 'translated';

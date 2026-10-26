@@ -16,13 +16,13 @@ import {
   isDocumentFile,
   type Slugged,
 } from '@/shared/content/collections';
+import { firstImage } from '@/shared/content/first-image';
 import type {
   BaseFrontmatter,
   Collection,
   FrontmatterReader,
   WithFrontmatter,
 } from '@/shared/content/frontmatter';
-import { firstImage } from '@/shared/content/first-image';
 import { splitLocale, translatedData } from '@/shared/content/translations';
 import type { Titled } from '@/shared/typings';
 

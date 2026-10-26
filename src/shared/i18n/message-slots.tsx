@@ -9,8 +9,8 @@ import { Fragment, type ReactNode } from 'react';
 export function fillSlots(
   message: string,
   slots: Record<string, ReactNode>,
-): ReactNode {
-  const parts = message.split(/\{(\w+)\}/);
+): ReactNode[] {
+  const parts = message.split(/{(\w+)}/);
   const used = new Set<string>();
 
   const nodes = parts.map((part, index) => {

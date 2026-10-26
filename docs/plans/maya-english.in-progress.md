@@ -159,16 +159,16 @@ it), not by hand.
 
 ## Progress
 
-Paused a second time at the context budget's warning, with the code built
-around a tree that does not build yet: the loader refuses an original with no
+Paused a second time at the context budget's warning, with the code built around
+a tree that does not build yet: the loader refuses an original with no
 translation, and the three posts have none.
 
 **Vova, after the first pause** (chat, 26 October), on the drawings' Russian
 captions: «что становится с картинками — на них есть текст, и переводить его
 хочется DRY». Agreed shape («да, хорошо», then «.ru.svg тоже ж?» — yes): the
 drawing is authored once as `<name>.ru.svg`; the post's translation carries
-`captions: { ./assets/<name>.ru.svg: { <Russian wording>: <English> } }` in
-its frontmatter, every `<text>` and the root `aria-label` keyed verbatim;
+`captions: { ./assets/<name>.ru.svg: { <Russian wording>: <English> } }` in its
+frontmatter, every `<text>` and the root `aria-label` keyed verbatim;
 `pnpm content:drawings:maya` (`scripts/translate-drawings.ts`, its swap in
 `scripts/lib/drawing-captions.ts`) writes the English `<name>.svg` beside it,
 and its `--check` is in vet. A `<text translate="no">` stays as drawn — the
@@ -189,23 +189,24 @@ included. One social card per post, from the English drawing.
 - `articleRoute`: `[slug]`, `[slug, en]`, `[slug, ru]` for a translated
   collection; metadata carries `localizedAddresses` and the page's `locale`
   (`constructMetadata` takes `locale` now, for `og:locale`); the back link,
-  byline, cut labels and footer read the document's locale; a language switch
-  in the article header.
+  byline, cut labels and footer read the document's locale; a language switch in
+  the article header.
 - `localeChips` in `shared/ui`, used by music, the CV (the picker turned out to
   be chips already, so it moved whole) and Майя's pages.
-- Home: `apps/maya/app/[[...locale]]/page.tsx`, `mayaHomeMetadata`;
-  typewriter: `apps/maya/app/whisper/[[...locale]]/page.tsx`. Both through
+- Home: `apps/maya/app/[[...locale]]/page.tsx`, `mayaHomeMetadata`; typewriter:
+  `apps/maya/app/whisper/[[...locale]]/page.tsx`. Both through
   `localeSegmentParams`/`parseLocaleSegment` (new in `shared/i18n/locales.ts`,
-  **untested yet**). Copy in the catalogue: `maya.{name,tagline,intro,byline,
-  band}`, `whisper.{title,description,story,blogLink,bug}`, links slotted by
-  `fillSlots` (`shared/i18n/message-slots.tsx`, tested). **`en.json` holds the
-  Russian copy as a placeholder** for the translator to replace.
+  **untested yet**). Copy in the catalogue:
+  `maya.{name,tagline,intro,byline, band}`,
+  `whisper.{title,description,story,blogLink,bug}`, links slotted by `fillSlots`
+  (`shared/i18n/message-slots.tsx`, tested). **`en.json` holds the Russian copy
+  as a placeholder** for the translator to replace.
 - `SiteFooter` takes `home`, the way home on a site with a home per language.
 - Step 2: no `cardImage` means the body's first image (`first-image.ts`,
   tested), in the loader and in `read-collection.ts` for the cards; the three
   posts and two Bible articles dropped the line that repeated it.
-- Posts renamed to `<slug>.ru.md`; their links to each other and to
-  `/whisper` point at the `/ru` pages.
+- Posts renamed to `<slug>.ru.md`; their links to each other and to `/whisper`
+  point at the `/ru` pages.
 - `pnpm translation:stamp <original>` (`scripts/stamp-translation.ts`).
 
 **Left, in order:**

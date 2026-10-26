@@ -19,7 +19,7 @@ export function firstImage(body: string): string | undefined {
   let found: string | undefined;
 
   visit(unified().use(remarkParse).parse(body), 'image', ({ url }) => {
-    if (!isRelative(url)) return undefined;
+    if (!isRelative(url)) return;
 
     found = url;
 

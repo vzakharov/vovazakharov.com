@@ -40,7 +40,7 @@ export function translateDrawing(svg: string, captions: Captions): string {
   };
 
   const translated = svg
-    .replace(
+    .replaceAll(
       TEXT,
       (
         whole,

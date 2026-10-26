@@ -6,7 +6,7 @@
 /** The frontmatter key a translation carries its original's `contentHash` under. */
 export const TRANSLATION_STAMP = 'translatedFrom';
 
-const FRONTMATTER = /^---\n([\s\S]*?)\n---\n/;
+const FRONTMATTER = /^---\n([\S\s]*?)\n---\n/;
 
 /** `raw` with its frontmatter's stamp set to `hash`, added where it has none. */
 export function stampFrontmatter(raw: string, hash: string): string {
