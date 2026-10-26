@@ -283,40 +283,19 @@ and phone) and the radio screenshotted pixel-identical to the elephant's.
 - **`music.module.scss` is gone**, cut along its components; the square of art
   the covers and tiles both draw is the `art` mixin in `shared/styles`.
 
+- **A one-reference slice with a narrow public API is significant** (6a):
+  `check:masd` spares it when its barrels hand on at most a third of the names
+  its files export, `PUBLIC_API` now living in `masd-graph.ts` for both readers.
+  `masd.md` states it under "No insignificant slices".
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
 a spike goes in the scratchpad, run from the repo root so its config resolves.
-
-## This bite
-
-**6a. The measure, wired into `check:masd`; mushrooms untouched.** A slice with
-one reference is significant when its public API is narrow: the names its
-barrels (`index.ts` and the two suffixed ones) export, against the names its
-other files export, at most a third. Such a slice hides two thirds of itself
-from its one consumer, which is what a module is whoever uses it; a grab bag
-re-exporting everything sits at 100%. `knip` keeps the numerator honest, since a
-barrel export nothing reads fails it. An unreferenced slice gets no reprieve,
-and the messages stay Steiger's word for word.
-
-Why this measure and not the other candidate, measured over the tree as it is (a
-spike over every slice, and over the noun groups the game's file names suggest —
-insects, flowers, mushrooms, house, sky, map, instrument):
-
-- **Boundary vs internal edges fails.** A well-layered slice imports downward,
-  so its edges leave it: the game's noun groups score 20–48%, the repo's shared
-  slices 10–64%, and a two-file slice is low by arithmetic. It punishes the
-  layering MASD asks for.
-- **API width separates.** The repo's slices built as modules sit low — the
-  player 11%, the CV page 20%, Майя's whisper 19% — while the noun groups cut by
-  file-name prefix land 29–60%, so the bar asks 6b to draw boundaries better
-  than a prefix does, which is the restructure's job.
-
-Tests in `scripts/masd-check.test.ts`: a one-reference slice exporting a third
-of its names through its barrel passes, one exporting more is flagged as now,
-and a re-exporting barrel counts every name of the file it re-exports. `masd.md`
-§ "Rules" states the measure beside "No insignificant slices", and
-`compare/fsd-vs-masd` follows.
+Measured over the tree, boundary-vs-internal import edges cannot tell a module
+from a grab bag — a well-layered slice imports downward, so its edges leave it —
+while API width can: the player 11%, the CV page 20%, the game's noun groups cut
+by file-name prefix 29–60%.
 
 ## Rest of the elephant
 
