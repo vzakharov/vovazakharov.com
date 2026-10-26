@@ -370,10 +370,11 @@ answers:
    operator: «если наш виджет пройдёт критерий модульности -- почему нет»), the
    page keeping the React shell.
 
-The order: write the target tree as `nouns-tree.md` beside `mushrooms-tree.md`
-for the operator's look; untie the code in place; then move along that tree with
-the tools in `layout-tools.md`. The 27 tests' question below is re-asked once
-the tree stands, since their set changes with it.
+The order: the target tree is written, `nouns-tree.md` beside
+`mushrooms-tree.md` (5e0f1cd), waiting on the operator's look at it and its five
+calls; untie the code in place; then move along that tree with the tools in
+`layout-tools.md`. The 27 tests' question below is re-asked once the tree
+stands, since their set changes with it.
 
 The rest of this section is the dry-run cut's record, kept for the barrels,
 tests and checks, which carry over. The layout's source is `mushrooms-tree.md`
