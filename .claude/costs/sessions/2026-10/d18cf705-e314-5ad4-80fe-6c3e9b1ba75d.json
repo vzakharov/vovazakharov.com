@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 132,
+    "cacheWrite5mTokens": 80883,
+    "cacheWrite1hTokens": 136073,
+    "cacheReadTokens": 9075934,
+    "outputTokens": 44487,
+    "thinkingTokens": 19251,
+    "responses": 66,
+    "costUsd": 4.1984538
+  },
+  "estimate": {
+    "at": "2026-10-26T08:34:24.975Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "iOS media quirks are untestable here, so the swap has to be argued from WebKit's behaviour and kept behind the same interface the queue, radio and segues already drive"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "a phone run through skips, segues and the radio is the only proof"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "d18cf705-e314-5ad4-80fe-6c3e9b1ba75d",
+  "branch": "claude/ios-one-deck-sezifk",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "айфонный баг с двойным проигрыванием текущей и следующей песни опять появился (не у меня поэтому как воспроизвести не скажу). давай на айфоне вообще не грузить …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_015Xc1s3yETR97mqqrdP5xK4",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T08:31:23.800Z",
+  "lastResponseAt": "2026-10-26T08:48:17.058Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 102,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 136073,
+    "cacheReadTokens": 7588648,
+    "outputTokens": 35160,
+    "thinkingTokens": 15158,
+    "responses": 51,
+    "costUsd": 3.3099216
+  },
+  "subagents": {
+    "inputTokens": 30,
+    "cacheWrite5mTokens": 80883,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1487286,
+    "outputTokens": 9327,
+    "thinkingTokens": 4093,
+    "responses": 15,
+    "costUsd": 0.8885322
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 132,
+      "cacheWrite5mTokens": 80883,
+      "cacheWrite1hTokens": 136073,
+      "cacheReadTokens": 9075934,
+      "outputTokens": 44487,
+      "thinkingTokens": 19251,
+      "responses": 66,
+      "costUsd": 4.1984538
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/pages/music/lib/decks.ts",
+    "endedAt": "2026-10-26T08:34:38.350Z",
+    "contextTokens": 148537,
+    "spend": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 99429,
+      "cacheReadTokens": 2167480,
+      "outputTokens": 13310,
+      "thinkingTokens": 9712,
+      "responses": 18,
+      "costUsd": 1.495272
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
