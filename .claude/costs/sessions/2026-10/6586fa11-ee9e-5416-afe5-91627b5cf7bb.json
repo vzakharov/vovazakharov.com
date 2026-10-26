@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 390,
+    "inputTokens": 426,
     "cacheWrite5mTokens": 571641,
-    "cacheWrite1hTokens": 231840,
-    "cacheReadTokens": 31116868,
-    "outputTokens": 116003,
-    "thinkingTokens": 36581,
-    "responses": 192,
-    "costUsd": 13.257918600000002
+    "cacheWrite1hTokens": 266632,
+    "cacheReadTokens": 36761044,
+    "outputTokens": 130216,
+    "thinkingTokens": 40810,
+    "responses": 210,
+    "costUsd": 14.9494938
   },
   "estimate": {
-    "at": "2026-10-26T04:08:34.742Z",
+    "at": "2026-10-26T05:10:47.778Z",
     "parts": [
       {
         "hours": 2.5,
@@ -37,18 +37,18 @@
   "url": "https://claude.ai/code/session_01WvsBewEFiUuVQ8EJkniaYE",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-26T04:08:11.453Z",
-  "lastResponseAt": "2026-10-26T04:52:31.056Z",
+  "lastResponseAt": "2026-10-26T05:12:06.027Z",
   "pricesAsOf": "2026-10-06",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 13.490216000000006,
   "ownTurns": {
-    "inputTokens": 202,
+    "inputTokens": 238,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 231840,
-    "cacheReadTokens": 19367844,
-    "outputTokens": 42774,
-    "thinkingTokens": 5928,
-    "responses": 98,
-    "costUsd": 6.584576800000001
+    "cacheWrite1hTokens": 266632,
+    "cacheReadTokens": 25012020,
+    "outputTokens": 56987,
+    "thinkingTokens": 10157,
+    "responses": 116,
+    "costUsd": 8.276152000000002
   },
   "subagents": {
     "inputTokens": 188,
@@ -62,14 +62,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 390,
+      "inputTokens": 426,
       "cacheWrite5mTokens": 571641,
-      "cacheWrite1hTokens": 231840,
-      "cacheReadTokens": 31116868,
-      "outputTokens": 116003,
-      "thinkingTokens": 36581,
-      "responses": 192,
-      "costUsd": 13.257918600000002
+      "cacheWrite1hTokens": 266632,
+      "cacheReadTokens": 36761044,
+      "outputTokens": 130216,
+      "thinkingTokens": 40810,
+      "responses": 210,
+      "costUsd": 14.9494938
     }
   },
   "warnings": [],
