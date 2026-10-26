@@ -12,23 +12,25 @@ import {
   VARIANTS,
   type WithContentDocument,
 } from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
-import { type Chip, ChipNav, FileLink } from '@/shared/ui';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
+import { type Chip, ChipNav, FileLink, localeChips } from '@/shared/ui';
 
 import { DocumentMeta } from '@/entities/document';
 
 import classes from './documents.module.scss';
 
-type CutSwitcherProps = DocumentRef & {
-  current?: Variant;
-  available: Variant[];
-};
+type CutSwitcherProps = DocumentRef &
+  WithLocale & {
+    current?: Variant;
+    available: Variant[];
+  };
 
 function CutSwitcher({
   collection,
   slug,
   current,
   available,
+  locale,
 }: CutSwitcherProps) {
   const cuts: Array<Variant | undefined> = [
     undefined,
@@ -36,7 +38,7 @@ function CutSwitcher({
   ];
 
   // `undefined` is the full document.
-  const labels = loadMessages(SITE_CONFIG.locale).documents.cuts;
+  const labels = loadMessages(locale).documents.cuts;
   const chips = cuts.map(
     (cut): Chip => ({
       label: labels[cut ?? 'full'],
@@ -62,6 +64,7 @@ export function ArticleHeader({
   mark,
 }: ArticleHeaderProps) {
   const { frontmatter, collection, slug, variant, markdown, route } = document;
+  const locale = document.locale ?? SITE_CONFIG.locale;
 
   const lede = (
     <Text size="lg" lh={1.625} opacity={0.8}>
@@ -86,23 +89,30 @@ export function ArticleHeader({
           )}
         </Stack>
 
-        <DocumentMeta {...{ frontmatter, readingMinutes }} />
+        <DocumentMeta {...{ frontmatter, readingMinutes, locale }} />
 
         {/*
           With no cuts the switcher would be one chip reading "Full", offering
-          the page the reader is already on. The empty span holds its place so
+          the page the reader is already on. The empty group holds its place so
           the file links stay right-aligned.
         */}
         <Group justify="space-between" gap={16} wrap="wrap">
-          {availableVariants.length > 0 ? (
-            <CutSwitcher
-              {...{ collection, slug }}
-              current={variant}
-              available={availableVariants}
-            />
-          ) : (
-            <span />
-          )}
+          <Group gap={16} wrap="wrap">
+            {document.locale !== undefined && (
+              <ChipNav
+                chips={localeChips(document.locale, (alternate) =>
+                  documentRoute(collection, slug, variant, alternate),
+                )}
+              />
+            )}
+            {availableVariants.length > 0 && (
+              <CutSwitcher
+                {...{ collection, slug, locale }}
+                current={variant}
+                available={availableVariants}
+              />
+            )}
+          </Group>
 
           <Group gap={16} wrap="wrap">
             <FileLink {...markdown}>.md</FileLink>

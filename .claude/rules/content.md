@@ -115,21 +115,20 @@ route, say — the **server page resolves it and passes it down**; that is what
 `apps/vova/app/cv/[[...variantAndLocale]]/page.tsx` does for the CV's case-study
 link.
 
-The exceptions are `shared/content/content-hash.ts`, `mermaid-renders.ts` and
-`collections.ts`, which `render-mermaid.ts` runs under bare Node, outside any
-bundler — hence no `server-only`, and an explicit `.ts` on the import so Node's
-resolver finds it. That script needs Node 22.18 or newer for type stripping.
-`collections.ts` qualifies because it is string constants and pure path
-functions; `documents.ts` keeps `server-only`, and with it the invariant that
-matters — it is the module that pulls in `fs`, `gray-matter` and `zod`.
-`render-og.ts` and `render-pdf.ts` run under `tsx`: the CV card reads the
-message catalogue through `cvMessages`, and a JSON import is what bare Node
-cannot take without an attribute. They reach `src/` by the `@/` alias, and still
-never through `shared/content`'s barrel, whose `server-only` modules throw
-outside a React server bundle. `render-og.ts` runs under the `react-server`
-condition, which resolves `server-only` to its empty module as a build does, so
-its cards reach `shared/content`'s leaf modules and parse a case with
-`caseFrontmatterSchema`.
+The exceptions are the modules a script runs under bare Node, outside any
+bundler, each saying so in its header — hence no `server-only`, and an explicit
+`.ts` on each import so Node's resolver finds it. Those scripts need Node 22.18
+or newer for type stripping. `collections.ts` qualifies because it is string
+constants and pure path functions; `documents.ts` keeps `server-only`, and with
+it the invariant that matters — it is the module that pulls in `fs`,
+`gray-matter` and `zod`. `render-og.ts` and `render-pdf.ts` run under `tsx`: the
+CV card reads the message catalogue through `cvMessages`, and a JSON import is
+what bare Node cannot take without an attribute. They reach `src/` by the `@/`
+alias, and still never through `shared/content`'s barrel, whose `server-only`
+modules throw outside a React server bundle. `render-og.ts` runs under the
+`react-server` condition, which resolves `server-only` to its empty module as a
+build does, so its cards reach `shared/content`'s leaf modules and parse a case
+with `caseFrontmatterSchema`.
 
 ## Adding a document
 
@@ -144,7 +143,7 @@ its cards reach `shared/content`'s leaf modules and parse a case with
    order: 1 # optional; lower first, ahead of everything without one
    part: I of II # optional free-text series marker
    ogImage: ... # optional, relative to the document
-   cardImage: ... # optional, the drawing the collection index shows
+   cardImage: ... # optional; the index card's image, else the body's first
    hidden: true # optional; built, but on no index, queue or sitemap, and noindex
    ---
    ```
@@ -157,10 +156,10 @@ its cards reach `shared/content`'s leaf modules and parse a case with
 
    **`ogImage` names a PNG, never the SVG it came from** — see the traps below.
 
-   **`cardImage` is authored rather than taken from the body.** Which drawing
-   stands for an article on a list of them is a choice, and an article may open
-   on one that does not. It is the one frontmatter image that throws when its
-   size cannot be read, the index reserving the row before the file lands.
+   **An article's index card shows its first image, and `cardImage` overrides
+   it** for an article that opens on a picture that does not stand for it. It is
+   the one frontmatter image that throws when its size cannot be read, the index
+   reserving the row before the file lands.
 
    **An article has no `title` field**, a case study and a Bible article alike:
    its title is the document's leading `# ` heading, which the pipeline lifts
@@ -381,15 +380,29 @@ collections' documents; the rest is held by reading.
 **A cut is a dotted suffix; a locale is a trailing segment.**
 `/case-studies/playgram.mini` and `/music/songs/slime/ru` are different
 positions in a URL, so the two can be combined in any order without either
-having to know about the other. A document's own file stays locale-less, one
-file carrying both languages, so `/music/songs/slime.md` serves the same bytes
-whichever page sent the reader there.
+having to know about the other.
 
 A collection says whether its pages are localized (`COLLECTIONS[id].localized`),
 which is what the sitemap reads to advertise one address per language instead of
-the alias. Case studies are unlocalized: the documents are English-only, and a
-`ru` route for a document that does not exist in Russian would only duplicate
-the English one.
+the alias, and how its files carry the languages:
+
+- **`inline`** — one locale-less file carrying both, written together, so
+  `/music/songs/slime.md` serves the same bytes whichever page sent the reader
+  there.
+- **`translated`** — every file names its language, a dotted suffix as a cut is:
+  the original at `<slug>.<locale>.md`, and its translation into the default
+  language at `<slug>.<default>.md`, made after it. The translation's
+  frontmatter states only `description`, `captions` and the `translatedFrom`
+  stamp `pnpm translation:stamp` writes — the original's content hash — and the
+  build refuses a stamp the original has moved past, an original with no
+  translation, and a file with no language. A drawing is drawn once, as the
+  template `assets/<name>.svg` with a `{{key}}` wherever it says something in
+  words; each language's post maps every key to its wording under `captions`,
+  and `pnpm content:drawings:<site>` writes `<name>.<locale>.svg` from it.
+
+Case studies are unlocalized: the documents are English-only, and a `ru` route
+for a document that does not exist in Russian would only duplicate the English
+one.
 
 **An unlocalized collection is in its site's language**, `SITE_CONFIG.locale`:
 the article chrome reads the catalogue's `documents` namespace in that locale.

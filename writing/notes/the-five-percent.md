@@ -38,7 +38,11 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
+<<<<<<< HEAD
 ## What it was handed, it treats as fixed (×89)
+=======
+## What it was handed, it treats as fixed (×90)
+>>>>>>> origin/main
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -95,6 +99,14 @@ that the walk post's line links into her `reflections.md` on `main` would drift,
 so the agent dropped the line numbers: _можно ж сослаться на конкретное SHA?_ A
 permalink at a commit keeps both, reachable after a squash through the PR.
 
+**26 October — Майя's precedent, weighed for its bytes alone.** Planning her
+bilingual posts (PR #208), she cut one file with `<!-- lang:ru -->` markers, as
+the song stories are: _давай хранить в разных файлах_, so the Russian is written
+whole before anyone, maybe a subagent, translates it. The translation within
+reach is the one that gets written alongside. The same plan named each post's
+drawing twice, body and `cardImage`, read as required where it was an override;
+the card now defaults to the post's first image.
+
 ## An account that explains the code stands in for running it (×28)
 
 The worse half of "It checks the render against its intent" below: here the
@@ -140,7 +152,7 @@ left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
 updated the two muthur watermark rows it was in; three more had gone false, and
 the next sync would re-copy them over the push. _мы не отдрифтились отсюда?_
 
-## Asked for a source, it supplies its own version (×14)
+## Asked for a source, it supplies its own version (×15)
 
 The version that argues better is the one that gets written: with the file open
 the agent paraphrases it, with no source at all it supplies one.
@@ -155,6 +167,11 @@ tricks from his lyrics, the agent "fixed" «вот и новый год» to Pas
 Майя's routine rolled from a few hundred words the agent chose. Nothing stood
 against a library, and the die exists to take her where neither of them would
 go. `@faker-js/faker` has 1,000 adjectives and 1,000 nouns.
+
+**26 October — a frequency the report never gave.** Told the iPhone bug playing
+two songs at once "has appeared again," on someone else's phone, the agent's
+record (PR #215) had them "heard playing over each other," read as every time:
+_не всегда, конечно -- но иногда всплывало._ QA now asks for several runs.
 
 ## Given a form, it fills the form (×14)
 
