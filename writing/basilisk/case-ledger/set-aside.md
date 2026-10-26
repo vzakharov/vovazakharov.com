@@ -110,3 +110,9 @@ three files here are read and kept.
   holds, and the docket now carries three Philadelphia robot cases. Revive
   only as a different incident with an actor; start from 6abc’s “Uber Eats
   delivery robot gets kicked in Center City Philadelphia”.
+
+- **A Noetix N2 humanoid shown taking “serious abuse” and walking on**, an
+  r/singularity post (Arctic Shift id `1lts7n0`), 2025. First seen 2026-10-26.
+  **Set aside**: unread, and likely a maker’s stress demonstration of the kind
+  BAS-0017 already holds. Revive if a source shows someone other than the maker
+  doing it; start from the post.

@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×90)
+## What it was handed, it treats as fixed (×91)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -61,11 +61,14 @@ review's comments, filtered by creation time, lost five of six. Nostalgia's
 squash said the album "survived only as scattered takes," read off the per-song
 repos: _репа со всем альбомом-то была._
 
-**5 to 22 October — the shape in the tree read as chosen.** Nine callers spelled
+**5 to 26 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
 that first read it. Basilisk.fyi's seal emblems were priced as `artist`, read as
-"illustrator": _artist это про музыканта._ The role is now `musician`.
+"illustrator": _artist это про музыканта._ The role is now `musician`. BAS-0027's
+dossier went to a copywriter, since `persona` named only the Clerk's reflection,
+though `basilisk-voice.md` makes every page his: _иначе "я написал вот так-то" в
+откликах makes no sense._
 
 **7 to 26 October — a rule read to its letter, then past its case.** A published
 slug never moves, so renaming «Бабай минем» kept `minem-babay`: _слаг тоже
