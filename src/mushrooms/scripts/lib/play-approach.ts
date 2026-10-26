@@ -14,11 +14,11 @@ import { z } from 'zod';
 
 import type { Sized } from '@/kernel/shared/typings';
 
-import { INSECT_LIMITS } from '@/mushrooms/pages/mushrooms/model/insects';
-import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
-import { pinholeOf } from '@/mushrooms/pages/mushrooms/model/pinhole';
-import { HAZE_DRIFT } from '@/mushrooms/pages/mushrooms/ui/scene/repaint-queue';
-import { TAP_RADIUS } from '@/mushrooms/pages/mushrooms/ui/scene/tap-reach';
+import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
+import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
+import { pinholeOf } from '@/mushrooms/shared/world/pinhole';
+import { HAZE_DRIFT } from '@/mushrooms/shared/world/repaint-queue';
+import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/model/insects';
 
 import { againstBudget, budgetReport, median } from './frame-budget.ts';
 import {

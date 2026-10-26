@@ -7,13 +7,10 @@
 
 import type { z } from 'zod';
 
-import {
-  gaitHeight,
-  RISE_EASE,
-} from '@/mushrooms/pages/mushrooms/model/eye-height';
-import { SLOP } from '@/mushrooms/pages/mushrooms/model/pan';
-import { planeSeen, viewOf } from '@/mushrooms/pages/mushrooms/model/pinhole';
-import { crossingOf } from '@/mushrooms/pages/mushrooms/model/walk';
+import { gaitHeight, RISE_EASE } from '@/mushrooms/shared/world/eye-height';
+import { SLOP } from '@/mushrooms/shared/world/pan';
+import { planeSeen, viewOf } from '@/mushrooms/shared/world/pinhole';
+import { crossingOf } from '@/mushrooms/shared/world/walk';
 
 import {
   type Camera,

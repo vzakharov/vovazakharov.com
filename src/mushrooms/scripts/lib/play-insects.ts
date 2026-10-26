@@ -4,12 +4,12 @@ import { z } from 'zod';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { distanceBetween } from '@/mushrooms/pages/mushrooms/model/geometry';
-import { LANDING } from '@/mushrooms/pages/mushrooms/model/insect-motion';
-import { INSECT_LIMITS } from '@/mushrooms/pages/mushrooms/model/insects';
-import { isSamePerch } from '@/mushrooms/pages/mushrooms/model/perch';
-import { PERCH_REACH } from '@/mushrooms/pages/mushrooms/ui/scene/perch-sight';
-import { perchAnchorOf } from '@/mushrooms/pages/mushrooms/ui/scene/perches';
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
+import { LANDING } from '@/mushrooms/entities/insect/model/insect-motion';
+import { isSamePerch } from '@/mushrooms/entities/insect/model/perch';
+import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/model/insects';
+import { PERCH_REACH } from '@/mushrooms/features/insects-fly/ui/perch-sight';
+import { perchAnchorOf } from '@/mushrooms/features/insects-fly/ui/perches';
 
 import {
   type Controls,

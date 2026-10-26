@@ -4,9 +4,9 @@ import { z } from 'zod';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { FLIGHT_HABITS } from '@/mushrooms/pages/mushrooms/model/flight-habits';
-import { LANDING } from '@/mushrooms/pages/mushrooms/model/insect-motion';
-import { TAP_RADIUS } from '@/mushrooms/pages/mushrooms/ui/scene/tap-reach';
+import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
+import { FLIGHT_HABITS } from '@/mushrooms/entities/insect/model/flight-habits';
+import { LANDING } from '@/mushrooms/entities/insect/model/insect-motion';
 
 import {
   Insects,

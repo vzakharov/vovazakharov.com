@@ -16,16 +16,12 @@
 
 import { z } from 'zod';
 
-import { INSECT_KINDS } from '@/mushrooms/pages/mushrooms/model/insect-genes';
-import { MUSHROOM_SPECIES } from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
-import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
-import { LINGER_MS } from '@/mushrooms/pages/mushrooms/model/shelter';
-import {
-  RAIN_MS,
-  rainbow,
-  wetness,
-} from '@/mushrooms/pages/mushrooms/model/weather';
-import { closingStep } from '@/mushrooms/pages/mushrooms/ui/scene/flower-closing';
+import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
+import { RAIN_MS, rainbow, wetness } from '@/mushrooms/shared/world/weather';
+import { INSECT_KINDS } from '@/mushrooms/entities/insect/model/insect-genes';
+import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/model/mushroom-genes';
+import { closingStep } from '@/mushrooms/features/flowers-close/ui/flower-closing';
+import { LINGER_MS } from '@/mushrooms/features/insects-fly/model/shelter';
 
 import { budgetReport } from './frame-budget.ts';
 import { type Controls, Shower, Sun } from './mushroom-probe-answers.ts';

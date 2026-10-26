@@ -12,7 +12,7 @@ import { z } from 'zod';
 import {
   MUSHROOM_SPECIES,
   type Species,
-} from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
+} from '@/mushrooms/entities/mushroom/model/mushroom-genes';
 
 import { Box, type Controls, Point, State } from './mushroom-probe-answers.ts';
 import { type Expect, inTurn, type Page } from './mushroom-probe-drive.ts';
