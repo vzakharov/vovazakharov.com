@@ -142,7 +142,6 @@ routine plan sent her general code "down a layer where anyone can reuse it";
 Steiger refuses a lower slice with one consumer. It let her edit a rule file
 under `.claude/rules/`, where the auto-mode classifier would likely refuse her.
 
-<<<<<<< HEAD
 **26 October — a shared partial priced, never tried.** Splitting PR #207's
 580-line stylesheet, the agent restated a two-line `fill` mixin in both halves,
 a shared partial costing more than the repeat, and handed him the call on that
@@ -150,10 +149,7 @@ price: _давай общий файл, в src/music/shared, получаетс�
 `index.scss` in `src/music/shared/styles/`, which Steiger takes as the segment's
 public API.
 
-## It edits the copy in front of it, not the fact behind it (×19)
-=======
 ## It edits the copy in front of it, not the fact behind it (×20)
->>>>>>> origin/claude/multi-app-sliced-design-7bn3oq
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
