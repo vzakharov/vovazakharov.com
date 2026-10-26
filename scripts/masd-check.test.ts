@@ -54,6 +54,10 @@ function run(tree: Tree): { status: number; stderr: string } {
 }
 
 const ENTITY = 'src/blog/entities/card/index.ts';
+const UNREFERENCED =
+  'src/blog/entities/card: This slice has no references. Consider removing it.\n';
+const MERGE_INTO_HOME =
+  'src/blog/entities/card: This slice has only one reference in slice "pages/home". Consider merging them.\n';
 
 describe('masd-check', () => {
   it('passes a clean tree', () => {
@@ -80,10 +84,7 @@ describe('masd-check', () => {
         "import { card } from '@/blog/entities/card';",
     });
     assert.equal(status, 1);
-    assert.equal(
-      stderr,
-      'src/blog/entities/card: This slice has only one reference in slice "pages/home". Consider merging them.\n',
-    );
+    assert.equal(stderr, MERGE_INTO_HOME);
   });
 
   describe('a slice with one reference and a narrow public API', () => {
@@ -110,7 +111,7 @@ describe('masd-check', () => {
     it('is flagged when it hands on more', () => {
       assert.equal(
         run(card("export { a, b, D } from './a';")).stderr,
-        'src/blog/entities/card: This slice has only one reference in slice "pages/home". Consider merging them.\n',
+        MERGE_INTO_HOME,
       );
     });
 
@@ -124,7 +125,7 @@ describe('masd-check', () => {
           ...card("export { a } from './a';"),
           'src/site/pages/home/ui.ts': '',
         }).stderr,
-        'src/blog/entities/card: This slice has no references. Consider removing it.\n',
+        UNREFERENCED,
       );
     });
   });
@@ -132,7 +133,7 @@ describe('masd-check', () => {
   it('flags a slice nothing uses', () => {
     assert.equal(
       run({ [ENTITY]: 'export const card = 1;' }).stderr,
-      'src/blog/entities/card: This slice has no references. Consider removing it.\n',
+      UNREFERENCED,
     );
   });
 
@@ -143,7 +144,7 @@ describe('masd-check', () => {
         'src/blog/scripts/render.ts':
           "import { card } from '@/blog/entities/card';",
       }).stderr,
-      'src/blog/entities/card: This slice has no references. Consider removing it.\n',
+      UNREFERENCED,
     );
   });
 
