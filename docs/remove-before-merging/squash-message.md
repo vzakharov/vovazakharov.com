@@ -1,28 +1,26 @@
 Proposed squash body:
 
 ```
-Майя's site reads in English now, while she still writes only in
-Russian: Vova wanted the site open to more readers without her losing
-her voice, so the English is made after, by a translator subagent.
-English sits at the bare address and Russian under /ru — the home
-page, each post, /whisper and a feed per language, each page with a
-language switch the music and CV pages share.
+Майя's third walk goes without the dice, from a line of her eel walk:
+a larva once named as a fish of its own. Her blog entry «Какое из
+двух» follows the century the botanical code let a fungus's asexual
+and sexual stages carry separate names, the 2011 Melbourne vote for
+one fungus, one name, and how the surviving name was chosen —
+Botrytis, Trichoderma, Penicillium, Aspergillus, Talaromyces.
 
-A translated collection keeps the original as <slug>.ru.md and its
-translation as <slug>.md, stamped with the original's content hash by
-pnpm translation:stamp; the build refuses a stamp the original has
-moved past, or an original with no translation, so no page publishes
-one language behind. A drawing is drawn once as <name>.ru.svg, and the
-translation's captions map writes the English copy through
-content:drawings:maya, whose --check runs in vet.
+Each of her posts carries a drawing of hers, ink on warm paper as in
+an old field guide, shown in the body, on the blog index and as the
+post's whole social card; the /whisper toy unfurls as its own drawing
+too. Her walk rules make the dice optional, a help for when walks
+start converging.
 
-An article's index card is its first image unless cardImage says
-otherwise, which drops the frontmatter line that repeated it and gives
-the Playgram case study its chart as the index card.
-
-The branch also carries her third walk, on the century fungi carried
-two legal names, and her drawings on each post and as each post's and
-/whisper's whole social card.
+Riding along, her site reads in English while she still writes only
+Russian: English at the bare address, Russian under /ru, each page
+with a language switch. A translator subagent makes the English after
+she finishes, and the build refuses a translation stamped against an
+original that has since changed. An article's index card is its first
+image unless cardImage says otherwise, which gives the Playgram case
+study its chart there.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
