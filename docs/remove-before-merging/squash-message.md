@@ -1,27 +1,27 @@
-Proposed squash title/body:
+Proposed squash body:
 
 ```
-chore: /five-percent, a review-notes polish pass that edits nothing (#212)
-```
-
-```
-writing/notes/the-five-percent.md collected 212 bumps over fourteen
+writing/notes/the-five-percent.md collected 214 bumps over fourteen
 learnings, each a frame the agent took as given until a review broke
-it. That is enough to put them to work before review rather than
-after it.
+it. That is enough to put them to work before review, and to write
+them up.
 
 /five-percent is a third /polish pass, after /dry and /tend-prose. A
 fresh subagent puts each learning to the branch's diff as a lens and
-posts the alternatives it finds as one COMMENT review on the PR,
-anchored to the lines they concern, each naming its lens. It edits and
-commits nothing; an answered proposal becomes work through /handle.
-Its floor is a head-SHA marker in its own last review, so a run with
-no PR to post on moves nothing. Planless /go runs it after /pr, and
-/finalize and merge stops on a review its own run posted.
+posts at most three alternatives as one COMMENT review on the PR,
+anchored to the lines they concern, each naming its lens and graded
+critical or optional. It edits and commits nothing; an answered
+proposal becomes work through /handle. Its floor is a head-SHA marker
+in its own last review. Planless /go runs it after /pr, and /finalize
+and merge stops on a critical proposal its own run posted.
 
-The notes close to entries, and the mandatory entry after a review
-session leaves CLAUDE.md. The file stays as the evidence for an
-article on a new vovazakharov.com blog, and retires with it.
+latestageagentic.com gets a blog, bilingual as Майя's is: English at
+the bare address, Russian under /ru. It opens with the five-percent
+article, a measurement written in Russian and translated, its
+deflating half kept in. vovazakharov.com's /writing points at it.
+
+The notes retire with the article, and the mandatory entry after a
+review session leaves CLAUDE.md.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

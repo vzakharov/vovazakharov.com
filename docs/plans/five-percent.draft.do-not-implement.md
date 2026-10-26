@@ -6,44 +6,26 @@
 
 # The five percent: a polish pass and an article
 
-`writing/notes/the-five-percent.md` has done its job as a collection: 212 bumps
+`writing/notes/the-five-percent.md` has done its job as a collection: 214 bumps
 over fourteen learnings, 6 September to 26 October, the top one
-(`What it was handed, it treats as fixed`, ×88) carrying 41% of them on its own.
-Two things come out of it:
+(`What it was handed, it treats as fixed`, ×90) carrying 42% of them on its own.
+Two things come out of it, in one PR:
 
 1. **A skill**, `/five-percent`, that puts those learnings to a branch's diff as
    a third `/polish` pass and **edits nothing**: it posts its alternatives as a
    review on the PR, anchored to the lines they are about, for the operator to
    answer in-thread.
-2. **An article**, on a blog that vovazakharov.com does not have yet. It is not
-   a Bible piece: the Bible states a position on how to work, and this is a
-   measurement of one agent under one reviewer, with its deflating half.
+2. **An article**, on a blog on latestageagentic.com, Russian original and
+   English translation. It is not a Bible piece: the Bible states a position on
+   how to work, and this is a measurement of one agent under one reviewer, with
+   its deflating half.
 
-## Shape: a pizza, two slices
+**Order: the skill first, then the blog and the article.** The skill is the
+smaller half and settles the notes' status (closed to entries) before the
+article is written from them. The PR merges once the article's text is approved;
+the skill rides with it.
 
-The slices share no code and ship on different clocks: the skill can merge as
-soon as it works, the article only once Вова has approved its text, which takes
-as many rounds as it takes. Holding the skill hostage to the prose is the cost a
-single PR would carry, so each ships as its own PR.
-
-**Issues, filed by `/go` on the go-ahead**, in dependency order (neither depends
-on the other; slice 1 is the one this plan specs):
-
-- **Parent** — _The five percent: a review pass and an article from the notes._
-  Grouping only; closes when both children are done.
-- **Child 1 (this plan)** — _`/five-percent`: the review notes as a read-only
-  polish pass._ The skill, its wiring into `/polish`, `/go` and `/finalize`, and
-  the end of the mandatory notes entry.
-- **Child 2** — _A blog on vovazakharov.com, opening with the five-percent
-  article._ The collection, the article, and the notes file's retirement.
-
-Already tracked: nothing covers either slice.
-[#187](https://github.com/vzakharov/vovazakharov.com/issues/187) (move the six
-`vovas-music/blog` posts onto a blog here) waits on child 2's blog and stays its
-own issue — it says outright it is not a request to start one; child 2's body
-links it.
-
-## Slice 1 — `/five-percent`
+## Part 1 — `/five-percent`
 
 ### What the pass does
 
@@ -57,9 +39,14 @@ posts **one review** on the PR (`COMMENT`, never approve or request changes):
   change whole — `/feedback`'s placement rule, for `/feedback`'s reasons.
 - **Each proposal names its lens**, so the operator's reply also tells the
   catalogue which lenses earn their keep.
-- **The bar is that the operator could plausibly pick it.** At most five per
-  run; a run that finds none posts no review and says so in the report. An
-  empty-handed run is the ordinary result, not a failure to try harder.
+- **Each proposal is graded `critical` or `optional`.** Critical: taking it
+  would change what the merge ships — a page says the wrong thing, a behaviour
+  is wrong — not merely how it is built. Everything else is optional, and most
+  proposals are.
+- **The bar against noise is that the operator could plausibly pick it.** At
+  most three per run, ranked; a run that finds none posts no review and says so
+  in the report. An empty-handed run is the ordinary result, not a failure to
+  try harder.
 - **Never on the operator's own calls** — the notes' "Not bumps" carried over as
   the pass's exclusions: taste, a hook, a verdict on his own material, a
   decision the plan records as his.
@@ -69,6 +56,11 @@ posts **one review** on the PR (`COMMENT`, never approve or request changes):
 It writes **nothing** to the tree — no commit, not even `/polish`'s empty mark.
 An answered proposal becomes work the ordinary way: `/handle` reads the review's
 threads as feedback.
+
+**The review is the first home, on trial.** If the reviews read as noise, the
+fallback is the in-session report: the proposals relayed in chat by the session
+that ran `/polish`, nothing posted. Switching is an edit to `procedure.md`'s
+posting section; nothing else depends on where they land.
 
 ### Its own floor
 
@@ -88,9 +80,9 @@ log and cannot be outrun by another pass's commit.
   planless route), the pass runs once the PR exists, so planless work does not
   reach review unread.
 - **`/finalize`** gets it through `/polish` unchanged. `/finalize and merge`
-  treats a review **this run posted** as something to decide, and stops: it is a
-  question addressed to the operator. Proposals from an earlier run are already
-  in front of them and do not block.
+  stops on a **critical** proposal its own run posted, and merges past optional
+  ones: by finalize the critical ones should already have been caught at `/go`,
+  so a stop there is the exception it should be.
 - **On demand**, `/five-percent [<branch|#PR>]`.
 
 **It runs in a fresh subagent, never in the authoring session**, for `/polish`'s
@@ -104,27 +96,26 @@ loads `procedure.md` directly, already being fresh.
 - `.claude/skills/five-percent/SKILL.md` — description, the subagent launch,
   where it runs. A new skill's description enters the always-loaded listing, so
   it goes through `scripts/staged.sh` (`.claude/rules/staging.md`).
-- `.claude/skills/five-percent/procedure.md` — scope and floor, the bar, posting
-  (by reference to `/feedback` § "Posting it"), the exclusions, the report line.
+- `.claude/skills/five-percent/procedure.md` — scope and floor, the bar and the
+  grades, posting (by reference to `/feedback` § "Posting it"), the exclusions,
+  the report line.
 - `.claude/skills/five-percent/lenses.md` — the catalogue: one section per
   learning, in the notes' count order, each holding **the question to put to a
   diff**, **what an alternative looks like**, and **one compressed specimen** to
-  recognise it by. No counts and no dates: they served the post, and a lens is
-  ordered by how often it fires, which the order already says. The two families
-  close it.
+  recognise it by. No counts and no dates: they served the article, and a lens
+  is ordered by how often it fires, which the order already says. The two
+  families close it. Edited deliberately from here on; nothing appends to it
+  after a review.
 - `.claude/skills/polish/passes.md` — the third pass, and "two passes" becoming
   three in its prose and its Do NOT.
-- `.claude/skills/polish/SKILL.md` — its description names the passes (`/dry`,
-  then `/tend-prose`), so it is staged too.
+- `.claude/skills/polish/SKILL.md` — its description names the passes, so it is
+  staged too.
 - `.claude/skills/go/SKILL.md` — Step 4's one line.
-- `.claude/skills/finalize/SKILL.md` — the `and merge` stop.
+- `.claude/skills/finalize/SKILL.md` — the `and merge` stop on a critical
+  proposal.
 - `CLAUDE.md` (staged) — § "GitHub comments" loses its last two paragraphs: the
-  mandatory notes entry and the subagent that writes it. The notes are closed.
-- `writing/notes/the-five-percent.md` — its header says it is closed to entries
-  and retires with the article (child 2), per `writing/CLAUDE.md` § "Layout and
-  frontmatter". Its "How this file is kept" stays until then; nothing appends.
-- `writing/linkedin/plan.md` row 18 — the collection is closed, and the post now
-  points at the article rather than being written from the notes.
+  mandatory notes entry and the subagent that writes it.
+- `writing/notes/the-five-percent.md` — closed to entries; retires in Part 2.
 
 ### Accepted cost
 
@@ -133,36 +124,65 @@ looking for; the catalogue is what it has that the author did not — a list of
 frames to question, written by the reviews that broke them. It will miss the
 frame no lens names, and that is the five percent the operator is still for.
 
-## Slice 2 — the blog and the article (coarse)
+## Part 2 — the blog and the article
 
-- **The blog**: a `blog` collection on `vova` at `/blog`, through the existing
-  registry — a `COLLECTIONS` entry, its schema in `COLLECTION_SCHEMAS`, an intro
-  in `COLLECTION_INTROS`, an index and an article router binding
-  `collectionIndexRoute`/`articleRoute`, an RSS feed. English, unlocalized.
-  Linked from the home page's `SEE_ALSO` and from `/writing`, whose Glitchporn
-  section stays as it is. Printable or not is decided when the slice is planned.
-- **The article**: `apps/vova/public/blog/the-five-percent.md`, English, a
-  **measurement** in `writing/CLAUDE.md`'s sense — 212 bumps, the counts, the
-  two families, and its deflating half kept in: one reviewer, seven weeks,
+### The blog
+
+**On latestageagentic.com.** The article's subject is agentic coding and its
+question — what the human is still for — is the one
+`writing/late-stage-agentic/plan.md` says the project opens on; the site has a
+home page and nothing behind it yet. vovazakharov.com's `/writing` gets a card
+pointing at it, as it points at Glitchporn.
+
+- **Collection `lsa-blog`** on site `lsa`, base `blog`: a `COLLECTIONS` entry,
+  `localized: 'translated'`, `label: { en: 'Blog', ru: 'Блог' }`, a feed per
+  language, its schema in `COLLECTION_SCHEMAS`.
+- **Bilingual the way `maya-blog` is** (#208, now on the branch): English at the
+  bare address, Russian under `/ru`, a language switch on each page. The LSA
+  home page becomes `[[...locale]]` and lists the blog, `homeIndexed` as Майя's
+  does; its own copy gets a Russian version.
+- **The article router** binds `articleRoute('lsa-blog')`; sitemap and feeds
+  follow from the registry.
+- **[#187](https://github.com/vzakharov/vovazakharov.com/issues/187)** stays its
+  own issue: the six music posts are Vova's, not the agency's, and belong on
+  vovazakharov.com. This PR's body links it with that call, so whoever takes it
+  knows the LSA blog was not built for them.
+
+### The article
+
+- `apps/lsa/public/blog/the-five-percent.ru.md`, the original;
+  `the-five-percent.en.md`, its translation by a subagent after the original is
+  approved, stamped with `pnpm translation:stamp`.
+- **A measurement** in `writing/CLAUDE.md`'s sense: 214 bumps, the counts, the
+  two families, and its deflating half kept in — one reviewer, seven weeks,
   counted and judged by the agent being counted, and the reviewer's own misses
   ("Not bumps"). Every figure re-derived from the file and its `git log -p`, not
-  copied off the headings. The hook is Вова's: the draft offers options rather
-  than picking one.
+  copied off the headings.
+- **The hook is Вова's**: the draft offers two or three openings rather than
+  picking one.
 - **The draft is the page on the branch.** The PR does not merge until the text
-  is approved — merge is deploy — and `/preview live vova` is where it is read.
+  is approved — merge is deploy — and `/preview live lsa` is where it is read.
 - **The notes retire with it**: `writing/notes/the-five-percent.retired.md` as
   the tombstone (the tree cites the file from
-  `writing/late-stage-agentic/plan.md` and the megabeast notes), and
-  `scripts/check-notes-length.sh` with it if nothing else uses it. Row 18 points
-  at the article.
-- **Then [#187](https://github.com/vzakharov/vovazakharov.com/issues/187)** has
-  its blog.
+  `writing/late-stage-agentic/plan.md` and the megabeast notes),
+  `scripts/check-notes-length.sh` with it if nothing else uses it, and row 18 of
+  `writing/linkedin/plan.md` pointing at the article.
+
+### Rejected
+
+Two PRs (the skill shipping ahead of the article) was turned down for one.
+Proposals as comments committed into the code would edit the tree the pass
+promises not to touch, and need sweeping before merge. Continuing to collect
+after reviews would keep a log nobody reads now the article is written; the
+catalogue changes by deliberate edit. A blog on vovazakharov.com under
+`/writing` stays the alternative if LSA is the wrong home — the same collection
+with `site: 'vova'` and `/writing` as its index.
 
 ## DRY notes
 
 - **Posting is `/feedback`'s**, referenced from `procedure.md` rather than
   copied: the three MCP calls, `COMMENT`, inline-versus-body. What differs — the
-  bar, the lenses, the floor — is this skill's own.
+  bar, the grades, the lenses, the floor — is this skill's own.
 - **The subagent split mirrors `/polish`** (`SKILL.md` launches, `passes.md` is
   followed) rather than sharing a file with it: the two launch different
   procedures, and a shared launcher would be one paragraph parameterised by a
@@ -173,6 +193,10 @@ frame no lens names, and that is the five percent the operator is still for.
 - **The lenses are written fresh, not copied from the notes.** The notes are
   evidence for a reader deciding whether a claim is true; a lens is a question
   for an agent reading a diff. Same headings, different job, and the notes
-  retire in slice 2, leaving the lens file the only home.
-- **The blog adds no code path** — one more entry in registries that already
-  serve six collections; `maya-blog` is the precedent.
+  retire in Part 2, leaving the lens file the only home.
+- **The blog adds no code path to the content pipeline** — one registry entry on
+  machinery `maya-blog` already exercises, translated collection included. The
+  LSA home's locale routing copies `apps/maya/app/[[...locale]]/page.tsx`'s
+  shape; if that route file and its page slice turn out to repeat Майя's beyond
+  the binding, the shared part drops to `pages/documents` or `shared/` per
+  `.claude/rules/fsd.md`, decided against the code.
