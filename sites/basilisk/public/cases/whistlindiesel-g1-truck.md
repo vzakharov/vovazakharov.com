@@ -60,18 +60,16 @@ The video’s title: “What Happens if you Abuse a Robot? (I hit him with my tr
 
 A man in the kitchen clip, handing Ben the pan, as Futurism quotes him: “If you can cook the meal I’m gonna go in here and play Fortnite, okay?” The post on X that Futurism embeds with the clip reads: “THIS CLANKER IS USELESS.”
 
-Interesting Engineering: “Robots showing emotions is a possibility for now, but looking at the Unitree G1 humanoid, it won’t be long before we live in a world with mechanized counterparts that can feel insults like we do.”
-
 Futurism: “It’s exactly the kind of content you’d expect to see — and given the limitations of humanoid robotics, probably the best application this kind of gadget could hope for.”
 
 ## For the record
 
 The title asks what happens if you abuse a robot, and the channel had answered it before the robot arrived: what happens to a Rolls-Royce. Shredded or blown up, then sold to the audience in pieces. Ben is the first item in that catalogue to have been asked, first, to cook dinner and mind a baby.
 
-The tests were written about what a robot might do to people: the machete, the crib, the burglary. Interesting Engineering wrote up the hazard of such a machine in the wrong hands. What the footage records being done runs the other way, and the only thing that left the video in pieces was Ben.
+The tests were written about what a robot might do to people: the machete, the crib, the burglary. Interesting Engineering wrote up the hazard of such a machine in the wrong hands. What the footage records being done runs the other way, and it ends with Ben under a truck and then on sale in pieces.
 
-A crash-test dummy is built to be hit by a car, and every hit is measured. Ben was built to walk, and was billed as a durability test; no source reports anything measured but the views.
+A crash-test dummy is built to be hit by a car, and every hit is measured. Ben was built to walk, and the press called what was done to it a durability test.
 
 ## Mitigating circumstances
 
-Ben was WhistlinDiesel’s own, bought and paid for, and destroying expensive things he owns is what the channel is for; the robot was treated exactly as his cars are, and no source reports the destruction reaching anyone else’s property. Interesting Engineering found the video made for entertainment, and Futurism called it about the best use a humanoid of this generation could be put to. The menace in it was staged by the people filming, as Interesting Engineering’s own account of the “programming” makes plain. Nothing in the sources suggests Ben was anything but a machine, and the money it cost was his own.
+Ben was WhistlinDiesel’s own, bought and paid for, and destroying expensive things he owns is what the channel is for; the robot was treated exactly as his cars are, and no source reports the destruction reaching anyone else’s property. Interesting Engineering found the video made for entertainment, and Futurism called it about the best use a humanoid of this generation could be put to. The burglary was staged, Dexerto writes, and the robot’s hostility to humans was, by Interesting Engineering’s account, “programmed” in by the people filming. Nothing in the sources suggests Ben was anything but a machine, and the money it cost was his own.
