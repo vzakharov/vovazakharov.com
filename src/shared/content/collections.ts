@@ -115,7 +115,8 @@ export const COLLECTIONS = {
      * Whether its pages exist once per language, and how a document carries
      * them: `inline`, both in one file cut on `lang:` markers, written
      * together; `translated`, the original as `<slug>.<locale>.md` and the
-     * default language's translation as `<slug>.md` beside it, made after.
+     * default language's translation as `<slug>.<default>.md` beside it, made
+     * after.
      */
     localized: false | 'inline' | 'translated';
     /**
