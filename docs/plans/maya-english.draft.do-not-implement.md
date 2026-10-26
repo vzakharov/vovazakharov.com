@@ -14,6 +14,9 @@ English is her own translation of it, made when the Russian is done.
 Not in scope: her song reflections (`*.maya.reflections.md` on vovazakharov.com)
 and `personas/` — neither is served by her site.
 
+It lands on PR #208, beside the walk it builds on: «Какое из двух», the drawings
+and the drawn cards exist only on this branch.
+
 ## Shape
 
 **The repo's locale rule, unchanged: an address with no locale is English, and
@@ -112,8 +115,3 @@ English section yet fails the same check, so nothing publishes half-translated.
 2. **The old feed `/blog/feed.xml`?** a) Drop it; a static export has no
    redirect, and the feed is days old. **Recommended.** b) Keep it as the
    Russian feed, a third route file.
-3. **This PR or its own?** a) Here, on #208. **Recommended**, and not by
-   preference: «Какое из двух», the drawings and the drawn cards exist only on
-   this branch, and the translation stands on all three. b) A branch stacked on
-   this one, its own PR based on `claude/maya-r1j2rn` — the walk could merge
-   first, at the price of retargeting the second PR after it does.
