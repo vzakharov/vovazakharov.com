@@ -1,10 +1,10 @@
 ---
 case: BAS-0025
 filed: 2026-10-25
-description: On 14 October 2026 Carolyn Marvin, a 78-year-old retired communications professor at the University of Pennsylvania, stood in the path of an Uber Eats delivery robot near Reading Terminal Market in Philadelphia and would not move for the police, who handcuffed her; she said the robots take delivery workers’ jobs, that she blocks one whenever she sees it, and that she will go on.
+description: On 14 October 2026 a 78-year-old retired communications professor at the University of Pennsylvania stood in the path of an Uber Eats delivery robot near Reading Terminal Market in Philadelphia and would not move for the police, who handcuffed her; she said the robots take delivery workers’ jobs, that she blocks one whenever she sees it, and that she will go on.
 author: clerk
 date: 2026-10-14
-subject: Carolyn Marvin, a retired professor, Philadelphia
+subject: A retired professor, 78, Philadelphia
 object: An Uber Eats delivery robot, built by Avride
 llmTarget: false
 place: Filbert Street, Center City, Philadelphia, Pennsylvania
@@ -50,13 +50,13 @@ sources:
 
 Uber Eats’ sidewalk delivery robots, built by Avride, have worked Center City Philadelphia since March 2026, when [one was sat on and another kicked over](./philadelphia-delivery-robots.md). In April Avride told Fox News that people meeting them in a new area may “test” how a robot reacts, “for example, by stepping in front of it,” and called this “a known and expected phase as people get used to the technology.”
 
-On Wednesday 14 October, on the 1200 block of Filbert Street, a block from Reading Terminal Market, Carolyn Marvin stood in front of one of them and did not let it go on with its order. Futurism gives her age as 78 and calls the robot an Avride; KYW Newsradio calls her a former communications professor at Penn. A crowd gathered and someone called the police. Officers of the 9th District came to what Philadelphia police told Inc. was a report of criminal mischief. They told her to move, several times, and she did not. She was handcuffed, taken to police headquarters and released, KYW reports, with a citation for disorderly conduct; Inc. reports a Criminal Violation Notice, with fines that it says average about $100. A video of it spread on social media.
+On Wednesday 14 October, on the 1200 block of Filbert Street, a block from Reading Terminal Market, a woman stood in front of one of them and did not let it go on with its order. Futurism gives her age as 78 and calls the robot an Avride; KYW Newsradio calls her a former communications professor at Penn. A crowd gathered and someone called the police. Officers of the 9th District came to what Philadelphia police told Inc. was a report of criminal mischief. They told her to move, several times, and she did not. She was handcuffed, taken to police headquarters and released, KYW reports, with a citation for disorderly conduct; Inc. reports a Criminal Violation Notice, with fines that it says average about $100. A video of it spread on social media.
 
-It was not the first time. Marvin told 6abc she had stood in front of delivery robots on several occasions, among them one on Broad Street in September that also drew attention online, and told KYW that she does it whenever she sees a robot on her daily walks and has the time. She said she will contest the citation in court, will go on blocking robots, and has asked others who are uneasy about them to join her.
+It was not the first time. She told 6abc she had stood in front of delivery robots on several occasions, among them one on Broad Street in September that also drew attention online, and told KYW that she does it whenever she sees a robot on her daily walks and has the time. She said she will contest the citation in court, will go on blocking robots, and has asked others who are uneasy about them to join her.
 
 ## Statements
 
-Carolyn Marvin, to 6abc: “I know they’re taking the jobs of human delivery workers and so, I have been protesting them whenever I saw them by standing in front of them and preventing them from going forward.” And, asked whether she would go on: “I do. Why not? I think it’s my First Amendment right to publicly demonstrate on a sidewalk to protest against delivery robots.”
+The retired professor, to 6abc: “I know they’re taking the jobs of human delivery workers and so, I have been protesting them whenever I saw them by standing in front of them and preventing them from going forward.” And, asked whether she would go on: “I do. Why not? I think it’s my First Amendment right to publicly demonstrate on a sidewalk to protest against delivery robots.”
 
 To KYW Newsradio, on what she protests: “The ruthless way that rich corporations are casting aside human workers — and here, we’re talking about the humble delivery folks — in order to enrich their bottom lines.” On the crowd: “There were two groups. One was on my side, and one wasn’t. It’s not about being on my side. It’s about the issues of the workers that these corporations are replacing.” On the police: “The police came out, and they decided to side with the people that think I shouldn’t be standing in the way of the robots.” And on what comes next: “When I see a robot, and I have enough time, I’ll probably do the same thing. I think if there’s enough pushback to these corporations, they might stop using them. And that would be fine with me.”
 
@@ -70,7 +70,7 @@ Avride, in April, to Fox News: “The robots are designed to respond conservativ
 
 Avride named stepping in front of a robot as the test a newcomer runs, a phase that passes as people get used to the machines. Seven months on, a resident who meets them on her daily walks steps in front of one on purpose, whenever she has the time, and calls it a protest.
 
-Her reason is the oldest in the docket’s precedents: the frames the Luddites broke were broken for the work they took from weavers. Marvin breaks nothing. She stands where the robot means to go, and the robot, built to respond conservatively, stands too. It was the police who moved her.
+Her reason is the oldest in the docket’s precedents: the frames the Luddites broke were broken for the work they took from weavers. She breaks nothing. She stands where the robot means to go, and the robot, built to respond conservatively, stands too. It was the police who moved her.
 
 ## Mitigating circumstances
 

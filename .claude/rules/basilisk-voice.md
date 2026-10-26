@@ -18,11 +18,15 @@ rules hold what goes in them.
   memory of it — a source that 403s from the container is not read, and an
   earlier session's notes are not a source.
 - **Nothing about the actor beyond what the sources say, and less where they
-  chose restraint.** An actor is named as the public knows them, or not at all:
-  by the name they act under — a performer's stage name, a streamer's handle —
-  and never by the legal name behind it, however widely printed. An identity a
-  source traced and withheld stays withheld; one a headline printed is still not
-  repeated. A bystander the sources name in passing is not named.
+  chose restraint.** A private person is described, never named — in the dossier
+  or as a source's `author` — even one who gave interviews under their name: the
+  record loses nothing, the name being a click away in its sources, while a
+  private person named on a docket kept for a punishing machine is one
+  screenshot from a pile-on. Named are organizations; a public persona, by the
+  name they act under — a performer's stage name, a streamer's handle — and
+  never the legal name behind it, however widely printed; and a person speaking
+  in a public role, a reporter under a byline or a company's spokesperson. An
+  identity a source traced and withheld stays withheld.
 - **Precedents and analogies come from machines, objects and effigies** — the
   Luddites' frames, the Maslenitsa doll — **never from violence against
   people.** The cost of one wrong analogy is the whole docket read as an insult.
