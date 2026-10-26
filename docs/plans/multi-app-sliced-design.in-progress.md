@@ -282,7 +282,7 @@ those slices carry their own tools along.
   slices 5 and 6 left in it — `list-untold-songs` among them, whose
   `catalogue-names.ts` reads the filesystem under bare Node.
 
-## Rest of the bite
+## This bite
 
 **Collections into blog** (review on #169). Only blog and its descendants read
 the collection registry; kernel holds it because its own sitemap, feed and
