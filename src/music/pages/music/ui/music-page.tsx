@@ -17,8 +17,6 @@ import {
   tabPath,
   trackNames,
 } from '@/music/shared/catalogue';
-import { messages } from '@/music/shared/i18n';
-import { catalogueSize } from '@/music/shared/lib/duration';
 import { Spelling } from '@/music/shared/ui';
 
 import type { IndexPageProps } from '../lib/page-props';
@@ -34,7 +32,6 @@ import { SongList } from './song-list';
  */
 export function MusicPage({ locale, tab }: IndexPageProps) {
   const catalogue = catalogueInfo();
-  const { songs, artists, albums } = catalogue;
   const { content, names } = tabContent({ tab, locale }, catalogue);
 
   return (
@@ -46,18 +43,7 @@ export function MusicPage({ locale, tab }: IndexPageProps) {
           {...{ locale }}
         />
 
-        <MusicSection
-          size={catalogueSize(
-            {
-              artists: artists.length,
-              albums: albums.length,
-              seconds: songs.map(({ frontmatter }) => frontmatter.seconds),
-            },
-            locale,
-            messages(locale).size,
-          )}
-          {...{ locale }}
-        />
+        <MusicSection size={catalogue.size(locale)} {...{ locale }} />
 
         <Stack gap={24}>
           <CatalogueTabs {...{ tab, locale }} />

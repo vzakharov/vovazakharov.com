@@ -43,7 +43,9 @@ function counter(locale: Locale) {
     (wording[rules.select(n)] ?? wording.other).replace('#', String(n));
 }
 
-export type CatalogueSize = Partial<Record<CountedAhead, number>> & {
+export type AheadCounts = Partial<Record<CountedAhead, number>>;
+
+export type CatalogueSize = AheadCounts & {
   seconds: readonly number[];
 };
 

@@ -15,7 +15,6 @@ import {
   trackNames,
 } from '@/music/shared/catalogue';
 import { messages } from '@/music/shared/i18n';
-import { catalogueSize } from '@/music/shared/lib/duration';
 import { Spelling } from '@/music/shared/ui';
 import { AlbumPlayButton } from '@/music/features/player';
 
@@ -33,7 +32,7 @@ import { Story } from './story';
  */
 export function AlbumPage({ album, locale }: AlbumPageProps) {
   const copy = messages(locale);
-  const { name, gloss, text, artist, cover, wip, kind, years, tracks } =
+  const { name, gloss, text, artist, cover, wip, kind, years, tracks, size } =
     catalogueInfo().album(album, locale);
   const queue = tracks.map(({ song }) => songTrack(song, album));
   const sample = scriptSample(
@@ -54,13 +53,8 @@ export function AlbumPage({ album, locale }: AlbumPageProps) {
           kind={copy.kind[kind]}
           title={name}
           picture={cover}
-          size={catalogueSize(
-            { seconds: tracks.map(({ song }) => song.frontmatter.seconds) },
-            locale,
-            copy.size,
-          )}
           {...pick(text, 'markdown')}
-          {...{ gloss, wip }}
+          {...{ gloss, wip, size }}
         >
           <FactLine
             facts={{
