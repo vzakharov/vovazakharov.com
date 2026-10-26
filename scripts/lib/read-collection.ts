@@ -12,6 +12,7 @@ import path from 'node:path';
 
 import {
   collectionDir,
+  COLLECTIONS,
   isDocumentFile,
   type Slugged,
 } from '@/shared/content/collections';
@@ -21,6 +22,7 @@ import type {
   FrontmatterReader,
   WithFrontmatter,
 } from '@/shared/content/frontmatter';
+import { splitLocale, translatedData } from '@/shared/content/translations';
 import type { Titled } from '@/shared/typings';
 
 import { contentFiles } from './content-tree.ts';
@@ -30,13 +32,28 @@ export type CollectionEntry<F extends BaseFrontmatter> = Slugged &
   Titled &
   WithFrontmatter<F>;
 
+/**
+ * A translated collection is read in its default language, the one its cards
+ * print: each original is skipped for the translation beside it.
+ */
 export function readCollection<F extends BaseFrontmatter>({
   id,
   schema,
 }: Collection<F>): Array<CollectionEntry<F>> {
-  return contentFiles(isDocumentFile, [collectionDir(id)]).map((file) => {
+  const translated = COLLECTIONS[id].localized === 'translated';
+  const isRead = (fileName: string) =>
+    isDocumentFile(fileName) &&
+    !(translated && splitLocale(path.basename(fileName, '.md')).locale);
+
+  return contentFiles(isRead, [collectionDir(id)]).map((file) => {
     const { data, content } = matter(fs.readFileSync(file, 'utf8'));
-    const frontmatter = parseFrontmatter(schema, data, file);
+    const frontmatter = parseFrontmatter(
+      schema,
+      translated
+        ? translatedData(path.dirname(file), path.basename(file), data)
+        : data,
+      file,
+    );
 
     return {
       slug: path.basename(file, '.md'),

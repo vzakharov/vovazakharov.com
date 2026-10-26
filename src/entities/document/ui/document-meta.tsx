@@ -9,7 +9,7 @@ import {
   type WithFrontmatter,
   type WithReadingMinutes,
 } from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
+import { loadMessages, type WithOptionalLocale } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import type { WithOptionalClassName } from '@/shared/typings';
 import { NameLink } from '@/shared/ui';
@@ -18,7 +18,8 @@ import classes from './document-meta.module.scss';
 
 export type DocumentMetaProps = WithFrontmatter<ArticleFrontmatter> &
   WithReadingMinutes &
-  WithOptionalClassName;
+  WithOptionalClassName &
+  WithOptionalLocale;
 
 /**
  * A document's byline — the same one on an index card and above the article.
@@ -29,9 +30,9 @@ export function DocumentMeta({
   frontmatter,
   readingMinutes,
   className,
+  locale = SITE_CONFIG.locale,
 }: DocumentMetaProps) {
   const { name, href } = AUTHORS[frontmatter.author];
-  const { locale } = SITE_CONFIG;
   const copy = loadMessages(locale).documents;
 
   return (

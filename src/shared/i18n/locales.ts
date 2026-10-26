@@ -48,6 +48,32 @@ export function localeTailAddresses<Head extends string>(
   return [[head], ...LOCALES.map<LocaleTail<Head>>((locale) => [head, locale])];
 }
 
+/** A page whose whole address past its own is an optional locale: `[[...locale]]`. */
+export type WithLocaleSegment = { locale?: string[] };
+
+/** Every address such a page answers: the alias, and one per locale. */
+export function localeSegmentParams(): Array<Required<WithLocaleSegment>> {
+  return [[], ...LOCALES.map((locale) => [locale])].map((locale) => ({
+    locale,
+  }));
+}
+
+/**
+ * The language such an address is in. A segment that names none throws, which
+ * under `output: 'export'` fails the build rather than a reader's request.
+ */
+export function parseLocaleSegment({
+  locale: segments = [],
+}: WithLocaleSegment): Locale {
+  const [locale = DEFAULT_LOCALE, ...rest] = segments;
+
+  if (!isLocale(locale) || rest.length > 0) {
+    throw new Error(`/${segments.join('/')} is not a locale.`);
+  }
+
+  return locale;
+}
+
 /**
  * One value per language, built by asking for each. Spelled out rather than
  * mapped over `LOCALES` so it stays cast-free: a third locale fails to compile

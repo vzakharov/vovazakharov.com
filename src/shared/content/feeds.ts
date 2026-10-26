@@ -91,14 +91,15 @@ export function findFeed(
  */
 export async function feedEntries(
   collection: ArticleCollectionId,
+  locale?: Locale,
 ): Promise<FeedEntry[]> {
-  return (await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])).map(
-    ({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
-      title,
-      ...pick(frontmatter, 'description'),
-      route,
-      published: filedDate(frontmatter),
-      content: feedHtml(tree, getAbsoluteUrl),
-    }),
-  );
+  return (
+    await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection], locale)
+  ).map(({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
+    title,
+    ...pick(frontmatter, 'description'),
+    route,
+    published: filedDate(frontmatter),
+    content: feedHtml(tree, getAbsoluteUrl),
+  }));
 }

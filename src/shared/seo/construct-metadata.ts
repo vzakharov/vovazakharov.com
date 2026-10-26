@@ -6,7 +6,9 @@ import { getAbsoluteUrl, SITE_CONFIG, SITE_ID } from '@/shared/config';
 import {
   type BaseFrontmatter,
   type ContentDocument,
+  documentRoute,
   listFeeds,
+  localizedRoute,
   type WithOptionalOgImageSize,
 } from '@/shared/content';
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/shared/i18n';
@@ -41,6 +43,8 @@ export type ConstructMetadataParams = MaybeTitled &
     ogImage?: string; // Custom Open Graph image path; the site's card when absent
     /** A page reachable only by its link, which search engines are asked to leave out. */
     hidden?: boolean;
+    /** The page's language, where it is not the site's. */
+    locale?: Locale;
   };
 
 /**
@@ -76,6 +80,7 @@ export function constructMetadata({
   ogImage,
   ogImageSize,
   hidden = false,
+  locale = SITE_CONFIG.locale,
 }: ConstructMetadataParams = {}): Metadata {
   const {
     url: siteUrl,
@@ -83,7 +88,6 @@ export function constructMetadata({
     author,
     social,
     card: siteImage,
-    locale,
   } = SITE_CONFIG;
   const { name: authorName } = author;
 
@@ -153,13 +157,21 @@ export function constructArticleMetadata(
   document: ContentDocument<BaseFrontmatter & Described>,
   title: string,
 ): Metadata {
-  const { frontmatter, route, ogImageUrl, ogImageSize } = document;
+  const { frontmatter, route, ogImageUrl, ogImageSize, locale } = document;
+  const { collection, slug, variant } = document;
   const { description, hidden } = frontmatter;
 
   return constructMetadata({
     title,
     description,
     path: route,
+    locale,
+    ...(locale !== undefined &&
+      localizedAddresses(
+        (alternate) =>
+          localizedRoute(documentRoute(collection, slug, variant), alternate),
+        locale,
+      )),
     ogType: 'article',
     ogImage: ogImageUrl,
     ogImageSize,

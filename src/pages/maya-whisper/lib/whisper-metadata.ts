@@ -1,21 +1,28 @@
-import { SITE_CONFIG } from '@/shared/config';
-import { intrinsicDimensions } from '@/shared/content';
+import { intrinsicDimensions, localizedRoute } from '@/shared/content';
+import { loadMessages, type WithLocale } from '@/shared/i18n';
 import { routeCardPath } from '@/shared/seo';
-import { constructMetadata } from '@/shared/seo/index.server-only';
-
 import {
-  WHISPER_DESCRIPTION,
-  WHISPER_ROUTE,
-  WHISPER_TITLE,
-} from './whisper-copy';
+  constructMetadata,
+  localizedAddresses,
+} from '@/shared/seo/index.server-only';
+
+import { WHISPER_ROUTE } from './whisper-copy';
 
 /** Its card, `pnpm content:og:maya` renders at the route plus the card suffix. */
 const ogImage = routeCardPath(WHISPER_ROUTE);
 
-export const whisperMetadata = constructMetadata({
-  title: `${WHISPER_TITLE} - ${SITE_CONFIG.name}`,
-  description: WHISPER_DESCRIPTION,
-  path: WHISPER_ROUTE,
-  ogImage,
-  ogImageSize: intrinsicDimensions(ogImage),
-});
+export function whisperMetadata({ locale }: WithLocale) {
+  const { title, description } = loadMessages(locale).whisper;
+
+  return constructMetadata({
+    title: `${title} - ${loadMessages(locale).maya.name}`,
+    description,
+    locale,
+    ...localizedAddresses(
+      (alternate) => localizedRoute(WHISPER_ROUTE, alternate),
+      locale,
+    ),
+    ogImage,
+    ogImageSize: intrinsicDimensions(ogImage),
+  });
+}

@@ -1,1 +1,1 @@
-export { MayaHomePage } from './ui/maya-home-page';
+export { MayaHomePage, mayaHomeMetadata } from './ui/maya-home-page';

@@ -1,52 +1,64 @@
 import { Stack, Text, Title } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config';
-import { loadMessages } from '@/shared/i18n';
-import { PageShell, TextLink } from '@/shared/ui';
+import { documentRoute, localizedRoute } from '@/shared/content';
+import { fillSlots, loadMessages, type WithLocale } from '@/shared/i18n';
+import { ChipNav, localeChips, PageShell, TextLink } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
-import { WHISPER_TITLE } from '../lib/whisper-copy';
+import { WHISPER_ROUTE } from '../lib/whisper-copy';
 import { LEXICON } from '../model/lexicon';
 import { WhisperTypewriter } from './whisper-typewriter';
 
 const { commit, words } = LEXICON;
 
-export function WhisperPage() {
+/** The post the toy came out of. */
+const STORY_SLUG = 'whispered-typewriter';
+
+export function WhisperPage({ locale }: WithLocale) {
+  const copy = loadMessages(locale).whisper;
+
   return (
     <PageShell>
       <Stack gap={48}>
         <Stack gap="md">
-          <Title order={1}>{WHISPER_TITLE}</Title>
+          <Title order={1}>{copy.title}</Title>
+          <ChipNav
+            chips={localeChips(locale, (alternate) =>
+              localizedRoute(WHISPER_ROUTE, alternate),
+            )}
+          />
           <Text size="lg" lh={1.625}>
-            В 1984 году в американском посольстве в Москве и консульстве в
-            Ленинграде нашли шестнадцать пишущих машинок IBM Selectric, которые
-            восемь лет пересказывали всё, что на них печатали. Жучок в
-            металлической планке ловил движения механизма: четыре бита на удар,
-            по нескольку букв на каждый звук. Что именно напечатано, на посту
-            восстанавливали по законам вероятности. Как я на эту историю вышла —{' '}
-            <TextLink href="/blog/whispered-typewriter">в моём блоге</TextLink>.
+            {fillSlots(copy.story, {
+              blog: (
+                <TextLink
+                  href={localizedRoute(
+                    documentRoute('maya-blog', STORY_SLUG),
+                    locale,
+                  )}
+                >
+                  {copy.blogLink}
+                </TextLink>
+              ),
+            })}
           </Text>
           <Text size="lg" lh={1.625}>
-            Настоящую схему так и не опубликовали. У моего жучка шестнадцать
-            звуков, на каждый приходится по две-три буквы, а пост знает только{' '}
-            {words.length} слов, которыми написаны сайты Вовы (словарь собран на
-            коммите{' '}
-            <TextLink
-              href={`https://github.com/vzakharov/vovazakharov.com/tree/${commit}`}
-            >
-              {commit.slice(0, 7)}
-            </TextLink>
-            ). Слова, которого он не знает, он не угадает.
+            {fillSlots(copy.bug, {
+              count: words.length,
+              commit: (
+                <TextLink
+                  href={`https://github.com/vzakharov/vovazakharov.com/tree/${commit}`}
+                >
+                  {commit.slice(0, 7)}
+                </TextLink>
+              ),
+            })}
           </Text>
         </Stack>
 
-        <WhisperTypewriter
-          {...{ words }}
-          copy={loadMessages(SITE_CONFIG.locale).whisper}
-        />
+        <WhisperTypewriter {...{ words, copy }} />
 
-        <SiteFooter />
+        <SiteFooter {...{ locale }} home={localizedRoute('/', locale)} />
       </Stack>
     </PageShell>
   );

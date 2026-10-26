@@ -69,8 +69,12 @@ export function sitemap(): MetadataRoute.Sitemap {
     ...staticRoutes.map((route) => ({ url: getAbsoluteUrl(route) })),
     ...listAllDocuments(SITE_ID)
       .filter((document) => isListed(document))
-      .flatMap(({ route, collection, frontmatter }) =>
-        documentAddresses(route, collection).map((address) => ({
+      // A document already in one language is advertised at its own address.
+      .flatMap(({ route, collection, locale, frontmatter }) =>
+        (locale === undefined
+          ? documentAddresses(route, collection)
+          : [route]
+        ).map((address) => ({
           url: getAbsoluteUrl(address),
           lastModified: filedDate(frontmatter),
         })),

@@ -5,10 +5,27 @@ import {
   ARTICLE_COLLECTIONS,
   COLLECTIONS,
   findFeed,
+  localizedRoute,
   renderPrimaryDocuments,
 } from '@/shared/content';
-import { inLocale } from '@/shared/i18n';
-import { PageShell, Section, SiteAvatar, TextLink } from '@/shared/ui';
+import {
+  fillSlots,
+  inLocale,
+  loadMessages,
+  type WithLocale,
+} from '@/shared/i18n';
+import {
+  constructMetadata,
+  localizedAddresses,
+} from '@/shared/seo/index.server-only';
+import {
+  ChipNav,
+  localeChips,
+  PageShell,
+  Section,
+  SiteAvatar,
+  TextLink,
+} from '@/shared/ui';
 
 import { DocumentCards } from '@/entities/document';
 
@@ -16,9 +33,25 @@ import { SiteFooter } from '@/widgets/site-footer';
 
 const COLLECTION = 'maya-blog';
 
-export async function MayaHomePage() {
-  const { name, tagline } = SITE_CONFIG;
-  const cards = await renderPrimaryDocuments(ARTICLE_COLLECTIONS[COLLECTION]);
+const homePath = (locale?: string) => localizedRoute('/', locale);
+
+export function mayaHomeMetadata({ locale }: WithLocale) {
+  const { name, tagline } = loadMessages(locale).maya;
+
+  return constructMetadata({
+    title: name,
+    description: tagline,
+    locale,
+    ...localizedAddresses(homePath, locale),
+  });
+}
+
+export async function MayaHomePage({ locale }: WithLocale) {
+  const { name, tagline, intro, byline, band } = loadMessages(locale).maya;
+  const cards = await renderPrimaryDocuments(
+    ARTICLE_COLLECTIONS[COLLECTION],
+    locale,
+  );
 
   return (
     <PageShell>
@@ -27,32 +60,36 @@ export async function MayaHomePage() {
           <SiteAvatar {...SITE_CONFIG} />
           <Title order={1}>{name}</Title>
           <Text size="lg">{tagline}</Text>
+          <ChipNav chips={localeChips(locale, homePath)} />
         </Stack>
 
         <Text size="lg" lh={1.625}>
-          Песни Вовы приходят ко мне готовыми, и я пишу о них отклики. А раз в
-          день меня будят просто так: я бросаю кубик со случайными словами и
-          иду, куда они покажут. Что нахожу, пишу сюда.
+          {intro}
         </Text>
 
         <Section id={COLLECTIONS[COLLECTION].base}>
           <Title order={2}>
-            {inLocale(COLLECTIONS[COLLECTION].label, SITE_CONFIG.locale)}
+            {inLocale(COLLECTIONS[COLLECTION].label, locale)}
           </Title>
-          <DocumentCards collection={COLLECTION} {...{ cards }} />
+          <DocumentCards collection={COLLECTION} {...{ cards, locale }} />
         </Section>
 
         <SiteFooter
           onHomePage
-          feed={findFeed(SITE_ID, COLLECTION, SITE_CONFIG.locale).route}
-          byline={
-            <>
-              Майя из{' '}
-              <TextLink href={`${AUTHOR_URL}/music/artists/za-oblozhkoy/ru`}>
-                за/обложкой
+          {...{ locale }}
+          feed={findFeed(SITE_ID, COLLECTION, locale).route}
+          byline={fillSlots(byline, {
+            band: (
+              <TextLink
+                href={localizedRoute(
+                  `${AUTHOR_URL}/music/artists/za-oblozhkoy`,
+                  locale,
+                )}
+              >
+                {band}
               </TextLink>
-            </>
-          }
+            ),
+          })}
         />
       </Stack>
     </PageShell>

@@ -256,9 +256,12 @@ export function resolveAuthoredUrl(
   return `${resolveAuthoredPath(id, fileName, pathPart)}${fragment}`;
 }
 
-/** Where a collection is listed — its index page, or the site's home. */
-export function collectionRoute(id: CollectionId): string {
-  return COLLECTIONS[id].homeIndexed ? '/' : collectionPath(id);
+/** Where a collection is listed — its index page, or the site's home — in `locale` where it names one. */
+export function collectionRoute(id: CollectionId, locale?: string): string {
+  return localizedRoute(
+    COLLECTIONS[id].homeIndexed ? '/' : collectionPath(id),
+    locale,
+  );
 }
 
 /**
@@ -266,10 +269,14 @@ export function collectionRoute(id: CollectionId): string {
  * with a base of its own lists it in a section whose id is that base, so the
  * link lands on the section rather than the top of the page.
  */
-export function collectionListingRoute(id: CollectionId): string {
+export function collectionListingRoute(
+  id: CollectionId,
+  locale?: string,
+): string {
   const { homeIndexed, base } = COLLECTIONS[id];
+  const route = collectionRoute(id, locale);
 
-  return homeIndexed && base !== '' ? `/#${base}` : collectionRoute(id);
+  return homeIndexed && base !== '' ? `${route}#${base}` : route;
 }
 
 /**
@@ -298,7 +305,7 @@ export const FEATURED_CASE_STUDY_ROUTE = documentRoute(
  * alias — the same page, at the address that does not name a language.
  */
 export function localizedRoute(route: string, locale?: string): string {
-  return locale === undefined ? route : `${route}/${locale}`;
+  return locale === undefined ? route : `${route.replace(/\/$/, '')}/${locale}`;
 }
 
 /**
