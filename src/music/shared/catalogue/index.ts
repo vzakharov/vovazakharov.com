@@ -51,6 +51,7 @@ export {
   RADIO_CARD,
   songPicture,
 } from './pictures';
+export { songDownloads } from './song-downloads';
 export { mp3Url, savedNames } from './song-names';
 export {
   type LocalizedSongDocument,

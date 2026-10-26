@@ -84,7 +84,7 @@ export function findFeed(
 /**
  * An article feed's items: the blurb in `description` for a reader's list, the
  * body as HTML for its reading pane. A song's item is cut from markers only
- * `pages/music` reads, so the songs feed is built there.
+ * music's catalogue reads, so the songs feed is music's own `SONG_FEED`.
  */
 export async function feedEntries(
   collection: CollectionId,

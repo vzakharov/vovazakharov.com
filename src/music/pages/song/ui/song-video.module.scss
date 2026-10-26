@@ -1,0 +1,11 @@
+// A square video, as wide as the viewport's height allows past the dialog's
+// header and margins, so the whole frame shows unscrolled; Mantine caps it at
+// the screen's width.
+.videoModal {
+  flex-basis: min(848px, calc(100dvh - 12rem));
+}
+
+.video {
+  display: block;
+  width: 100%;
+}

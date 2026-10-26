@@ -19,13 +19,13 @@ import {
   trackNames,
 } from '@/music/shared/catalogue';
 import { Spelling } from '@/music/shared/ui';
+import { CatalogueGrid } from '@/music/widgets/catalogue-grid';
+import { MusicNav } from '@/music/widgets/music-nav';
+import { SongList } from '@/music/widgets/song-list';
 
 import type { IndexPageProps } from '../lib/page-props';
-import { CatalogueGrid } from './catalogue-grid';
 import { CatalogueTabs } from './catalogue-tabs';
-import { MusicNav } from './music-nav';
 import { MusicSection } from './music-section';
-import { SongList } from './song-list';
 
 /**
  * The section's front page: the artists, each a way into its albums and songs,

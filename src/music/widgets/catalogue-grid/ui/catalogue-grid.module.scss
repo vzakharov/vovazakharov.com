@@ -1,0 +1,110 @@
+@use '../../../../../styles/mantine' as mantine;
+@use '../../../shared/styles/index' as styles;
+
+// Square tiles, two to a row on a phone and four in the desktop column — few
+// enough that a name set on the square keeps a size worth reading.
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 16px;
+  align-items: start;
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include mantine.larger-than(mantine.$breakpoint-md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+// The tile is one link — the name's, stretched over it.
+.tile {
+  position: relative;
+
+  @include mantine.hover {
+    .tileArt {
+      opacity: styles.$art-hover-opacity;
+    }
+  }
+}
+
+// A work in progress's sign is not the link, and a dimmed square would show
+// through the note it opens.
+.tile:has(button:hover, button:focus) .tileArt {
+  opacity: 1;
+}
+
+.tileLink::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+}
+
+.tileArt {
+  @include styles.art;
+}
+
+// A release without art gets a gradient in its place, of the release's own hue
+// (`--tile-hue`, from `tileHue`): the tiles differ in colour and nothing else,
+// light in the light scheme and dark in the dark, so the name set over it reads
+// in the text colour. Each stop is mixed toward the surface colour and made
+// see-through, so a placeholder reads as one beside a real cover.
+@function placeholder-tone($color) {
+  @return color-mix(
+    in oklch,
+    color-mix(
+      in oklch,
+      #{$color},
+      var(--color-surface-strong) var(--tile-grey)
+    ),
+    transparent var(--tile-clear)
+  );
+}
+
+// Nothing to crop without art, so a work in progress's note can leave the
+// square: it spans the tile just under it, the sign at the end of a name
+// leaving no room to hang it from without running into the next tile.
+.tileArtless {
+  --tile-from: oklch(90% 0.06 var(--tile-hue));
+  --tile-to: oklch(80% 0.1 calc(var(--tile-hue) + 50));
+  --tile-grey: 60%;
+  --tile-clear: 50%;
+  --wip-anchor: static;
+  --wip-note-top: calc(100cqi + 6px);
+  --wip-note-left: 0;
+  --wip-note-right: 0;
+  --wip-note-width: auto;
+
+  overflow: visible;
+  background: linear-gradient(
+    135deg,
+    placeholder-tone(var(--tile-from)),
+    placeholder-tone(var(--tile-to))
+  );
+
+  @include mantine.dark {
+    --tile-from: oklch(40% 0.08 var(--tile-hue));
+    --tile-to: oklch(28% 0.1 calc(var(--tile-hue) + 50));
+  }
+}
+
+// A release without art gets its name set large on the square instead, sized
+// off the tile's width and shrunk further for a name whose longest word
+// (`--tile-word`, in letters) would not otherwise fit the 82% of it inside the
+// padding: a word breaks only between words, never inside one.
+.tileName {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  padding: 9cqi;
+  font-size: min(1.75rem, 11cqi, 82cqi / (var(--tile-word) * 0.68));
+  font-weight: 700;
+  line-height: 1.1;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: manual;
+}

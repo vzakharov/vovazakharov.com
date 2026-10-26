@@ -1,0 +1,22 @@
+@use '../../../../../styles/mantine' as mantine;
+
+// Below `sm` the line reaches the layout's corner toggle, so the language chips
+// stop short of it and the two read as one row: the toggle's 38px and a gap,
+// and its height, so the row's middle is the toggle's.
+.nav {
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    min-height: 38px;
+    padding-inline-end: 50px;
+  }
+}
+
+// The current language chip as the script switch: the row's type, not the
+// button's, and dimmed on hover as the chips beside it are tinted.
+.scriptChip {
+  font: inherit;
+  transition: opacity 150ms ease;
+
+  @include mantine.hover {
+    opacity: 0.8;
+  }
+}

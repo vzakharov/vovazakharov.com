@@ -262,6 +262,27 @@ kernel imports nothing of blog's.
   which holds the registry and the mermaid paths, so kernel's three entries in
   the grandfathered block went and none of blog's joined it.
 
+Slice 5c, music's pages: typecheck, lint, Steiger, `check:masd`, knip and the
+music tests clean, vova built, the index, an artist, an album, a song (desktop
+and phone) and the radio screenshotted pixel-identical to the elephant's.
+
+- **One slice per page**: `pages/music` keeps the index (the name stays, and
+  with it `masd.md`'s `shared/catalogue` trap); `pages/artist`, `pages/album`,
+  `pages/song` and `pages/radio` each hold their page, props type and metadata,
+  the song page its lyrics, credits, facts and video, the radio its dial.
+- **What pages share sits by what it is** (review on #214): `entities/cover`,
+  `entities/hook` and `entities/song` (the explicit badge) show one noun each;
+  `widgets/catalogue-header`, `catalogue-grid`, `music-nav`, `song-list` and
+  `story` compose; `music/shared/ui` keeps only what knows no music — fact
+  lines, the noted span, the WIP mark, the title gloss. `HookLine` reads
+  `hookRuns` through the catalogue's node-safe barrel, the radio's client card
+  entering its slice. `music/shared/seo` holds `catalogueMetadata` and
+  `listenTitle`, `songDownloads` joined `shared/catalogue`, and `SONG_FEED`
+  music's `app/lib`. `masd.md` states the noun test for `shared/ui` and the
+  node-safe barrel as a client's entry.
+- **`music.module.scss` is gone**, cut along its components; the square of art
+  the covers and tiles both draw is the `art` mixin in `shared/styles`.
+
 **Spike findings the rest builds on**: Steiger run per app root counts only that
 root's references, wrong in both directions, and run on the parent of several
 roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
@@ -272,10 +293,6 @@ a spike goes in the scratchpad, run from the repo root so its config resolves.
 In this order: the scripts move before music and the game are restructured, so
 those slices carry their own tools along.
 
-- **5c. Music's pages.** The index, artist, album, song and radio become real
-  pages under `music/pages/`, what two of them share dropping to widgets or
-  `music/shared/ui` by `masd.md`'s test, and `music.module.scss` split with
-  them. #82 and #86 touch music routing and are left as they are.
 - **6. What is a page in a one-page app** — a deterministic measure beside
   `insignificant-slice`, then mushrooms restructured under it. The problem:
   mushrooms is a whole game on one URL, some 240 files — scene, creatures, day
@@ -301,7 +318,12 @@ those slices carry their own tools along.
   `index.node-safe.ts` where a script runs without a bundler — and the
   `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
   slices 5 and 6 left in it — `list-untold-songs` among them, whose
-  `catalogue-names.ts` reads the filesystem under bare Node.
+  `catalogue-names.ts` reads the filesystem under bare Node. With it every
+  script runs under `tsx` (the operator's «давай» on #169): each
+  `node <file>.ts` entry in `package.json` becomes `tsx <file>.ts`, its files
+  take the `@/` alias, and `eslint/bare-node.ts`, its `vova/no-relative-escape`
+  exemption and `masd.md`'s bare-Node import rule go. `personas/tools/` stays as
+  it is, being Майя's.
 
 ## DRY notes
 
