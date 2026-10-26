@@ -477,8 +477,8 @@ review rather than stopping on each call.
     MASD's barrels and checkers), an encounter feature (`Stand`'s four reading
     features would merge into it), the mushrooms' functions threaded through the
     flower's (about 30 files).
-- **The fork, built** (7d0e5ba to 2a3c6d1; 74 broken imports to 52, none left from
-  the flower to the mushroom or the insect). `shared/world` gains
+- **The fork, built** (7d0e5ba to 2a3c6d1; 74 broken imports to 52, none left
+  from the flower to the mushroom or the insect). `shared/world` gains
   `anchored-ground` (`MushroomGround`, `ClumpGround`, `anchoredGround`,
   `groundIn`), `occupant` (`Occupant = { foot; cover }`, `Occupying<Thing>`,
   `Occupied<Thing>` — `WithMushrooms` is `Occupied<Planted>` — `ShownCover`,
@@ -499,60 +499,46 @@ review rather than stopping on each call.
   the ground lays out only those it shows; meadow tests at `/finalize` check
   that nothing judged changed. `Tended` is the widget's (`game.ts`). Typecheck
   green, eslint clean but `boundaries/*`.
-- **Left to untie** (52, by `layout.ts`): the firefly (10 edges: it circles
-  caps, tufts and flowers — likely its view up to a feature, `fireflies-circle`
-  per `nouns-tree.md`); the lawn/sky knot (`brow`, `grass`, `paint-land`,
-  `mottles` read the sky's tones and skyline one way now that `paint-backdrop`
-  is the widget's — likely they join the sky as one landscape noun, `grain`'s
-  `Band` with them), `rain-view`'s read of `Backdrop`; `tufts` up (a
-  composition); `mouse-run-clock` → `house` (`DoorPlace`, `onStem`);
-  `flower-closing` read by `draw-flower` and `flower-seat`; `grow-mushroom` ↔
-  `sow-spores`; `mushroom-patch`; `perch-hosts` → the beds; `shared/ui`'s
-  `hit-areas` and `bake-picture`; `shared/world`'s `plane-place` (insect
-  frames), `meadow-camera` and `ground-grid` (mushroom genes and opening feet).
-  Then `layout.ts` to zero, the move, the 27 tests, `check:masd`. The scripts
-  are in `layout-tools.md`; `retarget.ts` takes `FROM=<file>` where a name is
-  declared twice. Mechanical relocations with the home named in the brief can go
-  to a cheaper subagent in a worktree, reviewed before they land (the operator's
-  ask); the calls stay in the session.
-
-The rest of this section is the dry-run cut's record, kept for the barrels,
-tests and checks, which carry over. The layout's source is `mushrooms-tree.md`
-with these overrides, decided while untying: `flier-rest` and `furnishing` join
-`features/meadow` (their one consumer); `flower-genes` (which insects and
-mushrooms both read), `shelter-seats` and `firefly` (a one-file slice would be
-flagged) join `shared/world`. **The map stays in the page**: `map-view` computes
-its flowers with the scene's own layout engine (`flowersOf`, `Stand`, `sizeOn`,
-`DoorSeating`), so a `widgets/map` needs those injected rather than moved down —
-a change of the map's API, left for later. The tools (`layout-tools.md` in this
-bite's directory, three scripts to copy into `tmp/modularity/`) print the
-layout's broken imports (none now), each file's slice, importers and imports,
-and which files reach Phaser.
-
-- **Two barrels where a slice mixes Phaser with pure modules**: `index.ts` holds
-  everything, `index.node-safe.ts` only what reaches no Phaser at runtime — the
-  game's tests run under Node, where importing Phaser throws, so an importer
-  whose names are all node-safe enters by that barrel. Phaser reach per slice:
-  the page 40 of 128, insect 4 of 27, mushroom 7 of 25, flower 1 of 5,
-  `shared/ui` 1 of 8; meadow, `shared/world` and `shared/lib` none. `masd.md`'s
-  node-safe line names this axis beside the bundler one; this barrel spells no
-  extensions, since nothing under bare Node reads it.
-- **27 tests import above their module's layer** — most build the page's
-  `meadowLayout` over `VIEWPORTS` to test a lower module on real screens
-  (`phaser.ts` lists them). Recommended: such a test moves up beside the page,
-  named for what it checks, since it tests the composition; ask the operator
-  before moving them, the alternative being fixtures moved down.
-- **Then the move**: `git mv` per slice (`model/` and `ui/` segments, the
-  scene's files into `ui/`), imports rewritten — relative inside a slice, the
-  barrel across slices, `@/mushrooms/shared/lib/<file>` per sub-library — and
-  barrels exporting what other slices use. `scripts/vet-test.sh`'s `MEADOW` and
-  `test:meadow` in `package.json` widen to `src/mushrooms/`; `README.md`,
-  `.claude/rules/styling.md` and the mushrooms scripts' deep imports follow the
-  paths (the scripts stay grandfathered, entering through public APIs in 7).
-- **Checks**: typecheck, lint (boundaries), `pnpm lint:fsd`, `check:masd` (the
-  meadow and the entities must pass, the meadow by modularity alone), knip, the
-  quick tests, then `pnpm test:meadow` and `pnpm play:mushrooms`, and vova built
-  and the game looked at.
+- **Untied to zero and moved** (de4c613 to a96e7ad). `standingOn`,
+  `standingOnGround`, `FLOWER_SIZE` and `WithLayout<L>` are the world's
+  (`model/ground`). The lawn and the sky are one noun, `entities/landscape`,
+  `paint-backdrop` and `bake-picture` with them, since the backdrop paints both;
+  `far-band` is the flower's. `hit-areas` keeps only what knows no noun
+  (`Graphic`, the circle and outline tests): a mushroom's hit test and the
+  scene's drawn mushrooms are `mushroom-hits` (mushroom), the flower's hit test
+  is `flower-bed`'s, and the rain lands on `Roof`s the scene hands it (the
+  caps), so the landscape reads nothing of the mushroom. The firefly joins
+  `features/insects-fly` (it circles the hosts the insects perch on); the beds
+  it and the perches read are structural there (`CapSeats`, `FlowerSeats`), and
+  the scene hands it `bare` (a tuft under the finger), so `tufts` goes up to
+  `plant-flower`. `meadow-camera`, `viewports` and `ground-grid` are the
+  mushroom's (the camera is fitted to the clump; the other two are test
+  fixtures); `plane-place` the insect's. `endOf` goes up to `mice-run`
+  (`run-ends`), the head's folding down to the flower (`flower-fold`), and
+  `sow-spores` merges into `grow-mushroom` with `mushroom-patch`, since they
+  import each other (answer 2). The scene's `Perches` class is `ScenePerches`.
+  `move.ts` then moved 409 files; the page keeps the React shell and loads the
+  widget's `startGame` through `widgets/meadow`'s barrel; `vet-test.sh`,
+  `test:meadow`, the artifact build, `styling.md` and the game's `CLAUDE.md`
+  (now `src/mushrooms/CLAUDE.md`) follow.
+- **Checks after the move**: typecheck green; `check:masd` passes; knip clean;
+  eslint and Steiger clean on every production file. Both fail only on tests:
+  **63 test files (177 imports) reach above their own slice** — 46 build the
+  widget's `meadowLayout`/`opened`/`Meadow` to test a lower module on real
+  screens, 17 reach a sibling (mostly the mushroom's `VIEWPORTS` and
+  `meadowCamera`). Open, put to the operator: move each such test up beside the
+  widget, named for what it checks (recommended — it tests the composition), or
+  fixtures down. `type-overlap`'s repeated layout combinations, left by the
+  `MeadowLayout` flip (46 findings at this session's start), are being named.
+- **Left**: the tests' answer and its move; `pnpm test:meadow` and
+  `pnpm play:mushrooms` at `/finalize`, which also confirm the dropped
+  `STAND_REACH` filter judged nothing differently; vova built and the game
+  looked at. **The map can leave the widget now**: `map-view` reads only two of
+  the meadow's types, `MeadowLayout` and `DoorSeating`; narrowed the way every
+  other part's were, `map-*`, `draw-map-ground` and `model/map-frame` make a
+  slice of their own — call 3, re-asked. The tools in `layout-tools.md` read the
+  pre-move tree; after the move, eslint's `boundaries` and Steiger are the
+  layout's check.
 
 ## Rest of the elephant
 
