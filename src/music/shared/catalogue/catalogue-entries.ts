@@ -66,11 +66,11 @@ export type AlbumInfo = CatalogueEntry & {
 };
 
 /** Its header's size line — `21 songs`, `1 hour 12 minutes` — one part per fact. */
-type Sized = { size: string[] };
+type WithSizeLine = { size: string[] };
 
 /** An album with what the catalogue's songs say of it besides. */
 type CatalogueAlbum = AlbumInfo &
-  Sized & {
+  WithSizeLine & {
     kind: ReleaseKind;
     /** `2019`, or `2019–2021`. */
     years: string;
@@ -83,7 +83,7 @@ type CatalogueAlbum = AlbumInfo &
 type Pictured = { picture: string | undefined };
 
 /** An artist with what the catalogue's songs say of it besides. */
-type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks & Sized;
+type CatalogueArtist = ArtistInfo & Pictured & ArtistWorks & WithSizeLine;
 
 /** `track.routes` is the song's page in each language. */
 export type SongInfo = WithSpelledTitle &
