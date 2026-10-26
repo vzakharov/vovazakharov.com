@@ -60,11 +60,10 @@ function releasePicture(release: ArtistRelease): string | undefined {
 }
 
 /**
- * By the artist's newest finished album that has a cover, so neither a later
- * single nor a release still in the works stands for the whole body of work;
- * else by its newest album in the works that has one, else by its newest single
- * that has one, else by the newest song billing it, a feature included, that
- * has one.
+ * By the newest cover among the artist's finished albums, else its albums in
+ * the works, else its singles, else the songs billing it, a feature included —
+ * so neither a later single nor a release still in the works stands for the
+ * whole body of work.
  */
 export function artistPicture(
   artist: MusicProject,
