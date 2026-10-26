@@ -50,13 +50,12 @@
   }
 }
 
-// Dimmed on hover as a tile's art is.
 .coverOpen {
   padding: 0;
   cursor: zoom-in;
 
   @include mantine.hover {
-    opacity: 0.8;
+    opacity: styles.$art-hover-opacity;
   }
 }
 

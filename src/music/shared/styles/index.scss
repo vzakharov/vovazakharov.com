@@ -5,6 +5,9 @@
   min-width: 0;
 }
 
+// How far a release's art dims under a pointer that would open it.
+$art-hover-opacity: 0.8;
+
 // A release's square of art: a cover, or the tile standing in for one.
 @mixin art {
   container-type: inline-size;
