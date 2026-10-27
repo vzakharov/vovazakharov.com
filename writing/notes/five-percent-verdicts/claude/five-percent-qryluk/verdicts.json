@@ -1,0 +1,11 @@
+{
+  "pr": 212,
+  "verdicts": [
+    {
+      "comment": 4378724025,
+      "lens": "echo",
+      "about": "Take the /writing card's text verbatim from the article's description",
+      "verdict": 0.3
+    }
+  ]
+}

@@ -78,17 +78,21 @@ thread resolved — and two differences:
 - **The body is one line and the marker**: how many proposals, of which
   critical, and on the last line `<!-- five-percent: <full head sha> -->`.
 
-Each comment opens on its lens and grade, then the alternative:
+Each comment opens on the marker, then its lens and grade, then the alternative:
 
 ```
+<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
 **`precedent`** · optional
 
 <what the change took as given> → <the other way>. <What it costs.>
 ```
 
-The name leading is what makes a reply like "`precedent` — да" a whole answer,
-and what tells the catalogue which lenses earn their keep. **In the operator's
-language** — a review is conversation (CLAUDE.md § "Language").
+The marker is what tells a proposal from an agent's reply in the PR export, both
+posted under the operator's login, and what sends the session answering it to
+`@.claude/skills/five-percent/verdicts.md`. The name leading is what makes a
+reply like "`precedent` — да" a whole answer, and what the verdicts tally by.
+**In the operator's language** — a review is conversation (CLAUDE.md §
+"Language").
 
 **No PR, no review.** The pass reports itself deferred and posts nothing
 elsewhere; without a marker posted, the next run's floor stays where it was.

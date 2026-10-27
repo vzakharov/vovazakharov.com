@@ -15,6 +15,8 @@ aesthetic it prefers.
 writing/
   notes/
     <slug>.md          # evidence gathered for a post not yet drafted
+    five-percent-verdicts/
+      <branch>/verdicts.json  # .claude/skills/five-percent/verdicts.md
   <channel>/
     plan.md            # the backlog for that channel
     ideas/

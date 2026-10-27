@@ -23,6 +23,12 @@
   (`pnpm translation:stamp <the .ru.md>`). `pnpm build:lsa` passes.
 - The `/writing` card on vovazakharov.com — 18b0959.
 - Published to preview.vovazakharov.com from 18b0959.
+- From Вова's answer on the pass's first review: proposals open on a marker
+  pointing at `.claude/skills/five-percent/verdicts.md`, and each answered one
+  is scored into `writing/notes/five-percent-verdicts/<branch>/verdicts.json`,
+  summed by `scripts/five-percent-verdicts/tally.py` (in vet).
+- **Open with Вова:** whether the six lenses collapse into `precedent` and its
+  variants; whether vovazakharov.com's `/writing` goes, and the card with it.
 
 **Left, in order — waiting on Вова:**
 
