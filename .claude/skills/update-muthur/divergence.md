@@ -1,14 +1,12 @@
 # How this repo differs from vzakharov/muthur
 
 The record `/update-muthur` reads whole on every sync; its § "The divergence
-record" holds the three rules this file keeps. A source path here and unnamed
-below is taken as is.
+record" holds the three rules this file keeps.
 
 ## Across the tree
 
 - **The operator's standing answer to `opt-in: ask` rows is take**, unless the
-  request that starts a sync says otherwise — given 2026-10-08. Such a row is
-  taken and reported with its criteria rather than asked.
+  request that starts a sync says otherwise — given 2026-10-08.
 - **This repo has a stack, and the files describing it are its own**:
   `CLAUDE.md` (adopted in full, with § "Language" filled in, and none of the
   source's stackless-vet clause, since `scripts/vet.sh` is real),

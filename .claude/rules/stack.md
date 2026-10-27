@@ -209,8 +209,8 @@ Twenty things about that list are deliberate:
   `.claude/rules/markdown.md`, and runs only while that rule exists.
   `scripts/staged.sh check` holds `.claude/staged/` to
   `.claude/rules/staging.md`, the delegation notes cap holds `/go`'s
-  `delegation-model-capabilities.md` to the 100 lines its keeping rule sets, so
-  a summary rewritten every session cannot drift into a log,
+  `delegation-model-capabilities.md` to the cap its keeping rule sets, so a
+  summary rewritten every session cannot drift into a log,
   `scripts/check-claude-md-size.sh` caps what `CLAUDE.md` and its imports cost
   every turn, measured as the branch will land them, the cost ledger's, context
   budget's, cold-cache guard's and keepalive's tests run the code under
