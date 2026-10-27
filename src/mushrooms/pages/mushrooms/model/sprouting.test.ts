@@ -3,25 +3,35 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { FIELD_MUSHROOMS, MUSHROOM_SLOTS } from './crowding';
-import { type Action, firstMeadow, type Meadow, reduce } from './game';
-import { OPENING_EYE } from './ground';
-import { type Footed, grownOn } from './placement';
-import { mulberry32, type Seeded } from './random';
+import { mulberry32, type Seeded } from '@/mushrooms/shared/lib/random';
 import {
+  darkAt,
+  FIELD_MUSHROOMS,
+  MUSHROOM_SLOTS,
+  OPENING_EYE,
+  RAIN_MS,
+} from '@/mushrooms/shared/world';
+import {
+  type Footed,
+  grownOn,
   isOld,
-  sowable,
   type Spore,
-  SPORE_DWELL_MS,
-  SPORE_SEATS,
   SPROUT_MS,
   SPROUT_START,
-  SPROUT_WINDOW_MS,
+  sproutScale,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  SPORE_DWELL_MS,
+  SPORE_SEATS,
   sproutedInRain,
   sproutMoment,
-  sproutScale,
-} from './sprouting';
-import { darkAt, RAIN_MS } from './weather';
+} from '@/mushrooms/features/grow-mushroom/index.node-safe';
+import {
+  sowable,
+  SPROUT_WINDOW_MS,
+} from '@/mushrooms/features/grow-mushroom/index.test-only';
+
+import { type Action, firstMeadow, type Meadow, reduce } from './game';
 
 const SIGHT = { flowers: [], air: [], crowded: [], room: [] };
 

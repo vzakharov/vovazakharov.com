@@ -4,12 +4,12 @@ import { z } from 'zod';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { distanceBetween } from '@/mushrooms/pages/mushrooms/model/geometry';
-import { LANDING } from '@/mushrooms/pages/mushrooms/model/insect-motion';
-import { INSECT_LIMITS } from '@/mushrooms/pages/mushrooms/model/insects';
-import { isSamePerch } from '@/mushrooms/pages/mushrooms/model/perch-room';
-import { PERCH_REACH } from '@/mushrooms/pages/mushrooms/ui/scene/perch-sight';
-import { perchAnchorOf } from '@/mushrooms/pages/mushrooms/ui/scene/perches';
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
+import { LANDING } from '@/mushrooms/entities/insect/model/insect-motion';
+import { isSamePerch } from '@/mushrooms/entities/insect/model/perch';
+import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/model/insects';
+import { PERCH_REACH } from '@/mushrooms/features/insects-fly/ui/perch-sight';
+import { perchAnchorOf } from '@/mushrooms/features/insects-fly/ui/perches';
 
 import {
   type Controls,
@@ -20,6 +20,7 @@ import {
 } from './mushroom-probe-answers.ts';
 import {
   type Expect,
+  FPS,
   grow,
   inTurn,
   type Page,
@@ -31,7 +32,6 @@ import {
   MOST_LOOKS,
   REST_LOOK,
 } from './play-fliers.ts';
-import { FPS } from './play-walk-checks.ts';
 
 /** How many butterflies are released: one past their limit, so the oldest leaves. */
 const RELEASES = INSECT_LIMITS.butterfly + 1;

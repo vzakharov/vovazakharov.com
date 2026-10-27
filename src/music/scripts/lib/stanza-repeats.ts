@@ -11,12 +11,14 @@
  * to a person.
  */
 
+import type { Named, WithText } from '@/kernel/shared/typings';
+
+import { splitSections } from '@/music/shared/catalogue/index.node-safe';
+
 import {
   frontmatterSpan,
   type WithStart,
-} from '../../../blog/scripts/lib/public-markdown.ts';
-import type { Named, WithText } from '../../../kernel/shared/typings/index.ts';
-import { splitSections } from '../../shared/catalogue/index.node-safe.ts';
+} from '@/blog/scripts/lib/public-markdown';
 
 const LYRICS = 'lyrics:';
 

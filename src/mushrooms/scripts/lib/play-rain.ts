@@ -16,16 +16,12 @@
 
 import { z } from 'zod';
 
-import { INSECT_KINDS } from '@/mushrooms/pages/mushrooms/model/insect-genes';
-import { MUSHROOM_SPECIES } from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
-import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
-import { LINGER_MS } from '@/mushrooms/pages/mushrooms/model/shelter';
-import {
-  RAIN_MS,
-  rainbow,
-  wetness,
-} from '@/mushrooms/pages/mushrooms/model/weather';
-import { closingStep } from '@/mushrooms/pages/mushrooms/ui/scene/flower-closing';
+import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
+import { RAIN_MS, rainbow, wetness } from '@/mushrooms/shared/world/weather';
+import { INSECT_KINDS } from '@/mushrooms/entities/insect/model/insect-genes';
+import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/model/mushroom-genes';
+import { closingStep } from '@/mushrooms/features/flowers-close/ui/flower-closing';
+import { LINGER_MS } from '@/mushrooms/features/insects-fly/model/shelter';
 
 import { budgetReport } from './frame-budget.ts';
 import { type Controls, Shower, Sun } from './mushroom-probe-answers.ts';
@@ -66,7 +62,7 @@ const OPEN_BY = frameWhen(STOP, (ms) => closingAt(ms) === 0) + REPAINT;
 /** How far shut the flowers must be, on average, mid-shower. */
 const SHUT = 0.5;
 /** How far open again, dry. */
-const OPEN = 0.05;
+const DRY_OPEN = 0.05;
 
 /** The species grown beside the opening's fly agarics: the banded domes. */
 const GROWN = ['porcini', 'russula'] as const;
@@ -196,7 +192,7 @@ export async function playRain(
     `dry, the sky is still ${dry.wetness.toFixed(2)} wet`,
   );
   expect(
-    dry.closing <= OPEN,
+    dry.closing <= DRY_OPEN,
     `dry, the flowers are still shut ${dry.closing.toFixed(2)} on average`,
   );
   await page.shoot('rain-4-dry');

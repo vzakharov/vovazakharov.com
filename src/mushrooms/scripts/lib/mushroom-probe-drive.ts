@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-import { wrap } from '@/mushrooms/pages/mushrooms/model/geometry';
+import { wrap } from '@/mushrooms/shared/lib/geometry';
 
 import {
   type Box,
@@ -52,8 +52,11 @@ export const KEY_CODES = {
   ...MAP_KEYS,
 } as const;
 
+/** How many frames the page steps a second of game time in. */
+export const FPS = 60;
+
 /** A stepped frame's game time, in ms. */
-export const FRAME_MS = 1000 / 60;
+export const FRAME_MS = 1000 / FPS;
 
 /** The page `play-mushrooms.ts` drives, a frame and a tap at a time. */
 export type Page = {

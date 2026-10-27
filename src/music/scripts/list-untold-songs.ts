@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Writes `docs/music/untold-songs.md`, the list of every song still lacking a
@@ -17,13 +17,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
+import type { WithFilePath } from '@/kernel/shared/typings';
+
+import { readCatalogueNames } from '@/music/shared/catalogue/catalogue-names';
+import { localeProse } from '@/music/shared/catalogue/index.node-safe';
+
 import {
   MUSIC_CATALOGUE_DIR,
   songFiles,
-} from '../../blog/scripts/lib/public-markdown.ts';
-import type { WithFilePath } from '../../kernel/shared/typings/index.ts';
-import { readCatalogueNames } from '../shared/catalogue/catalogue-names.ts';
-import { localeProse } from '../shared/catalogue/index.node-safe.ts';
+} from '@/blog/scripts/lib/public-markdown';
 
 const LIST = 'docs/music/untold-songs.md';
 const LOCALES = ['en', 'ru'] as const;

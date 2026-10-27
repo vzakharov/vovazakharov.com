@@ -1,18 +1,16 @@
 /**
  * No `import 'server-only'`, unlike most of `shared/content/`: string constants
- * and pure path functions, which the render scripts run under bare Node.
+ * and pure path functions, which the render scripts run outside any bundler.
  */
 
 import path from 'node:path';
 
-// Type-only, and it has to stay that way: bare Node erases the statement
-// rather than resolving an `@/` alias it cannot follow, and a value import
-// would reach `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
+// Type-only, and it has to stay that way: a value import would reach
+// `site-config`'s throw on an unset `NEXT_PUBLIC_SITE`.
 import type { SiteId, WithSiteId } from '@/kernel/shared/config';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import type { Localizable } from '@/kernel/shared/i18n';
 import type { Routed } from '@/kernel/shared/typings';
-
-import { PUBLIC_DIR } from '../../../kernel/shared/config/index.node-safe.ts';
 
 /** The ids are the source of truth; `CollectionId` and `COLLECTIONS` derive from them. */
 const COLLECTION_IDS = [
@@ -301,8 +299,7 @@ export function localizedRoute(route: string, locale?: string): string {
 
 /**
  * A collection's feeds, at its base rather than its listing route, which a
- * home-indexed collection shares with its siblings. The locales are an argument
- * because bare Node runs this module and cannot follow their import's alias.
+ * home-indexed collection shares with its siblings.
  */
 export function feedRoutes<L extends string>(
   id: CollectionId,

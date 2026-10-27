@@ -1,21 +1,35 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ALL_TEN, opened, play } from '../ui/scene/visit-play';
-import { DUSK_MS, duskness, FULL_DAY, FULL_DUSK } from './dusk';
-import { isAloft, isLeaving } from './flight';
-import { type Meadow, reduce } from './game';
-import { reopened, settled } from './keeping';
-import { type Kept, RESTED_AT } from './kept-record';
+import {
+  DUSK_MS,
+  duskness,
+  FULL_DAY,
+  FULL_DUSK,
+  RAIN_MS,
+  rainbow,
+  raining,
+  wetness,
+} from '@/mushrooms/shared/world';
+import {
+  isAloft,
+  isLeaving,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   isOld,
+  sproutScale,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
   SPORE_DWELL_MS,
   SPORE_FALL_MS,
   sproutedInRain,
   sproutMoment,
-  sproutScale,
-} from './sprouting';
-import { RAIN_MS, rainbow, raining, wetness } from './weather';
+} from '@/mushrooms/features/grow-mushroom/index.node-safe';
+
+import { ALL_TEN, opened, play } from '../ui/visit-play';
+import { type Meadow, reduce } from './game';
+import { reopened, settled } from './keeping';
+import { type Kept, RESTED_AT } from './kept-record';
 
 /** A meadow and the moment it was played to. */
 type Moment = { meadow: Meadow; now: number };

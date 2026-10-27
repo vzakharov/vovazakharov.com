@@ -1,321 +1,65 @@
 # Multi-App Sliced Design (MASD)
 
 `src/` stops being one FSD tree and becomes a set of apps, each an FSD tree of
-its own, composed along a declared graph. The design was settled in the session
-that wrote this plan; this file is what it settled and how the work is carved.
+its own, composed along a declared graph. The model and every standing decision
+are `multi-app-sliced-design/decisions.md`; each bite's contract is a file
+beside it, indexed under "Eaten so far".
 
 **This file outlives the merge.** The operator asked for it to be kept under
 `docs/` as the reference for taking MASD outside the repo (a site of its own,
 say): «его давай сохраним после мерджа где-то в docs, будем к нему возвращаться
 если вдруг захотим продвигать тему вовне». So `/finalize` moves it to
-`docs/masd.md` rather than sweeping it, the elephant's own sections dropped.
-
-## How this elephant is eaten
-
-PR #169 is the whole of MASD: it closes #170 and #171, and lands every slice
-below on `main` in one merge. The slices are bites of it, not tickets of their
-own. This loop is being dogfooded here, and moves to muthur if it holds up.
-
-- **Slice 1 is built on the elephant's branch,
-  `claude/multi-app-sliced-design-7bn3oq`.** Every later bite is a PR of its own
-  whose base is that branch, so its commits and review threads stay off #169.
-- **A bite starts only once every review thread on the previous bite's PR is
-  resolved** — slice 1's on #169 itself. `/handle` attaches to one branch, so a
-  bite opened over unresolved threads leaves them with no session to answer
-  them.
-- **A bite's PR carries its own edits to this file**: it folds itself into
-  `## Eaten so far` and takes itself out of `## Rest of the elephant`, so the
-  elephant's branch holds the current contract once the bite is merged into it.
-- **`compare/fsd-vs-masd` follows every change to `.claude/rules/masd.md`.** The
-  branch is `main` plus commits that each replace `.claude/rules/fsd.md`'s text
-  with `masd.md`'s as it then stood, so GitHub shows the change against the
-  retired `fsd.md` as one file's diff and its history as `masd.md`'s. A commit
-  that edits `masd.md` is followed by one there, never force-pushed over.
-
-## The model
-
-**Composition, not dependency: an app that extends `blog` _is_ `blog`.** Its FSD
-tree is its ancestors' layers overlaid, plus its own. So:
-
-- An import may target **the same app or an ancestor**, and only a **strictly
-  lower layer** — or, inside the same app, its own slice. The same layer across
-  apps is a sideways import, forbidden exactly as between two slices of one app;
-  so is any import between apps neither of which is the other's ancestor.
-- Entry across apps is through the **slice's public API**, as today. There is no
-  app-level barrel: path-based checkers would lose the layer axis behind it, and
-  one barrel per app cannot hold the `server-only` / `node-safe` split.
-- **An app may have several parents.** Nothing uses that today, and it is
-  allowed because "this one is both a blog and a game" is a plausible next app.
-  A diamond is harmless — inheriting is only the right to import, nothing
-  overrides anything — and two ancestors may hold slices of the same name, the
-  importer renaming one where its context needs it.
-- An app with no ancestors is plain FSD, so every FSD project is a one-app MASD
-  project.
-
-**The graph is data**, `src/masd.json`, each app listing its parents:
-
-```json
-{
-  "kernel": [],
-  "shell": ["kernel"],
-  "blog": ["shell"],
-  "music": ["blog"],
-  "lsa": ["shell"],
-  "bible": ["blog"],
-  "basilisk": ["blog"],
-  "maya": ["blog"],
-  "mushrooms": ["kernel"],
-  "vova": ["blog", "music", "mushrooms"]
-}
-```
-
-**A parent is declared above its child, and that is the acyclicity check**: a
-cycle needs some app whose parent comes after it, which the order forbids, so
-one pass from the top settles it. The order guarantees acyclicity, not
-permission — `lsa` sits below `music` and still may not import it. JS keeps the
-insertion order of non-numeric string keys, so the loader reads the order off
-the parsed object, and fails naming both apps when a parent comes late.
-
-**An abstract app is earned the way a slice is**: an app with exactly one child
-and nothing of its own mounted by a router is insignificant. Today `kernel` (2
-children), `shell` (2) and `blog` (5) pass; a `game` between `kernel` and
-`mushrooms` waits for a second game.
-
-**A router only says what is shown at which URL.** `sites/<domain>/app/` maps
-addresses to apps — on vovazakharov.com, `/` and `/cv` to vova, `/music/...` to
-music, `/mushrooms` to mushrooms — and decides nothing else. **A site's sitemap
-is its leaf app's**, which inherits every app the site mounts: vova is
-vovazakharov.com, so its parents are blog, music and mushrooms, and its app
-layer gathers the CV's and the music catalogue's routes; the router re-exports
-it.
+`docs/masd.md` rather than sweeping it, with `decisions.md` folded in and the
+elephant's own sections dropped.
 
 ## Eaten so far
 
-Slice 1, the MASD core: vet clean with `VET_MEADOW=1` but for the staged
-CLAUDE.md's `fsd.md` citation, and every site looked at under the split layouts.
+`src/` is ten apps along `src/masd.json` — kernel, shell, blog, music, lsa,
+bible, basilisk, maya, mushrooms, vova — each an FSD tree with its own
+`scripts/`, message catalogue and registries; kernel imports nothing above it,
+and every site's `sites/<site>/app/` is a router only. Three checkers hold the
+model: `boundaries` generated from the graph, Steiger once per app, and
+`check:masd` (the graph, and significance counted across the composition, a
+one-consumer slice passing when it is a module). Music is cut into its model
+(`shared/catalogue`), the player feature, a page per page and the entities and
+widgets those share; the game into its nouns, its tests and plays sharded across
+vet's runners on request (`VET_MEADOW=1`).
 
-- **The graph** — `src/masd.json`, loaded only by `eslint/masd-graph.ts` (the
-  schema, the order check, ancestors and descendants, insignificant apps,
-  directory mismatches), tested on invented graphs with several parents and a
-  diamond.
-- **The tree** — the code moved into the nine apps, one `git mv` commit per app.
-  kernel holds `shared/{config,content,i18n,lib,seo,typings}`, `MUSIC_ROUTE`
-  among content's addresses, and in its app layer the bare document every site
-  renders (`<html>`, metadata, analytics) and the sitemap and feed factories.
-  shell holds what every site but the game draws on: `shared/ui`, the
-  stylesheets and theme provider, a root layout adding the fonts, Mantine,
-  `ColorSchemeScript`, the script picker and `ThemeCorner` to kernel's,
-  `features/switch-theme` and `widgets/site-footer`. blog holds
-  `entities/document` and `pages/documents`, with `ArticleSlots` in
-  `shared/article-slots`; basilisk holds `entities/case` (and `CASE_SLOTS`),
-  `pages/basilisk-home` and `shared/content`; bible, lsa and vova hold their
-  pages, vova an app layer with the `global-not-found` page; music holds
-  `pages/music` as it stood and `shared/catalogue`; mushrooms `pages/mushrooms`
-  as it stood.
-- **The registries** — the schema registry inverted: `articleCollection(id)` in
-  kernel, `SONGS` in music's catalogue, `CASES` behind basilisk's
-  `shared/content`; addresses stay kernel's. kernel imports no app above it:
-  each site's leaf app calls `sitemap(mountedRoutes)` — vova with the CV's and
-  music catalogue's routes, the rest with none — and the router re-exports it;
-  `collectionFeed(collection, locale, source?)` takes a `FeedSource` (music
-  exports `SONG_FEED`).
-- **Two root layouts on vovazakharov.com** — `(shell)` for every page but the
-  game, `(game)/mushrooms` on kernel's; `experimental.globalNotFound` on every
-  site. A fresh meadow opens in full day, whatever the colour scheme, and the
-  `dark` play in `scripts/play-mushrooms.ts` asserts it.
-- **The checkers** — `eslint/masd-boundaries.ts` generates the boundaries config
-  from the graph (folder patterns with `partialMatch`; `app` and `shared`
-  overlay their ancestors' as one unit, sliced layers go strictly down);
-  `pnpm lint:fsd` runs Steiger once per app with `insignificant-slice` off;
-  `pnpm check:masd` (`scripts/masd-check.ts`, in `vet.sh`) checks the graph and
-  counts slice references across the composition. Imports sort one group per app
-  in graph order, the layers in order within each.
-- **The conventions** — `.claude/rules/masd.md`, `fsd.retired.md` as the
-  tombstone, citations repointed, CLAUDE.md's layout in its staged copy (the
-  live CLAUDE.md cites `fsd.md` until `/finalize` swaps it in, so
-  `check-skill-catalog` fails until then).
-
-Slice 2, sites out of `apps/`: vet clean but for the same citation, every site
-built.
-
-- **`sites/<site>/`** holds each router, `public/`, Next config and tsconfig,
-  with `sites/site-next-config.ts` beside them, so "app" names only an app under
-  `src/`.
-- **A site keeps its short id** (`vova`, `lsa`, `bible`, `basilisk`) in the
-  directory, `NEXT_PUBLIC_SITE`, the squash scope and every `pnpm` entry — a
-  domain in each of those spent characters on every command for nothing, so it
-  stays where it was, once, in the site's `url`.
-
-Slice 3, app scripts in their apps: vet clean.
-
-- **Each app's tooling is `src/<app>/scripts/`**, beside its layers: 104 files
-  moved to their owners (mushrooms 45, music 37, basilisk 8, the rest kernel,
-  shell, blog and vova), root `scripts/` keeping the repo's and the agent's.
-- **`render-og` and `render-pdf` split like the sitemap.** kernel's `og-job.ts`
-  renders chart cards and the site card from its mark and takes `OgBundle`s;
-  each printing site has `src/<site>/scripts/render-{og,pdf}.ts` — vova the CV
-  and music's collage bundle, basilisk its generated site card and case cards,
-  bible the cores alone. The PDF core is blog's `print-job.ts`, not kernel's as
-  first recommended: printing documents is blog's and `PRINT_SOURCES` names
-  shell's files. basilisk passes its case UI as a document source, which moves
-  it out of the other sites' hashes; lsa has no entry and the render-pdfs action
-  skips a site without one.
-- **The checkers**: a `script` element in `eslint/masd-boundaries.ts` — its own
-  app's and its ancestors' scripts directly, every layer, its own app's
-  included, through a public API (the operator overturned the recommended
-  own-app exception: «ну нет, кажется что это не кошерно… можно пока заигнорить
-  эти ошибки значит, но потом отыгнорить и починить»). The 56 script files that
-  already reach past one are grandfathered in a scoped `boundaries/dependencies`
-  override in `eslint.config.ts`, grouped by app. `shared/content`'s node-safe
-  barrel grew the registry's paths and `contentHash`, and i18n's barrel
-  `inLocale`; `check:masd` counts no script as a reference (nothing it flagged);
-  knip enters `src/*/scripts/*.ts`.
-
-Slice 4, the message catalogue inverted: vet clean, every site built.
-
-- **Each app owns its catalogue** —
-  `src/<app>/shared/i18n/messages/{en,ru}.json` behind a loader built with
-  kernel's `catalogue()`, whose typing against `en` keeps the two files in sync,
-  exported in every app as `messages` (typed `Messages`), an importer needing
-  two renaming one: shell's (`toggleTheme`, `backToHome`), music's (what was the
-  `music` namespace), vova's (`notFound`, `cv`, `cvVariants`). kernel keeps
-  locales, routing, the request config and `MESSAGE_MARKDOWN`.
-- **A page loads only the catalogues of the apps it renders**, by import.
-  `getTranslations` is gone: the request config carries no messages and
-  `next-intl.d.ts` registers the locale alone, next-intl's `Messages` being one
-  global type that could check a single site's catalogue at most.
-- **A feed's description is its source's** — `FeedSource.description`, which
-  `SONG_FEED` supplies, else the site's tagline — so `Feed` carries none and
-  kernel names no app's strings.
-
-Slice 5a, the catalogue's model out of the page: vet clean, every site built.
-Slice 5 is eaten bottom-up in three bites — this one, the player with music's
-app layer, then the pages — since as one it was some 110 files, a 580-line
-stylesheet every layer shares, and a dozen layer calls.
-
-- **`music/shared/catalogue` holds the model** every music page and script reads
-  — songs, albums, artists, their files, texts, pictures and addresses, their
-  tests beside them — the precedent being kernel's `shared/content`: it is
-  build-time data access, and as `song`, `album` and `artist` entities each
-  would need `@x` imports of the others. `pages/music/lib` keeps the player's
-  state and hooks, the page metadata, the feed and the route's parse.
-- **Two cuts made the set close**: a track's shape (`PlayerTrack`, `Billing`,
-  `Streamed`) is `track.ts`, since `songs.ts` builds it, leaving the reducer in
-  `player-state.ts`; `SONG_AUTHOR` and `CreditedName` are `author.ts`, so a test
-  takes them without zod.
-- **The barrel follows the runtime graph**, not the `server-only` marker alone:
-  `index.node-safe.ts` holds only modules whose runtime imports reach no
-  `server-only`, filesystem or zod, each spelling `.ts`; everything else is
-  `index.ts`'s. Inside the segment modules import each other by leaf.
-- **Music's scripts enter through the barrels**, `music:scaffold` now running
-  under `react-server` as `music:masters` does, and leave the grandfathered
-  block — all but `list-untold-songs`, which reads `catalogue-names.ts` under
-  bare Node, a module no barrel a client component imports may hold.
-- **A page reads each thing once** (review on #205): `catalogue-entries.ts`'s
-  `artistInfo`, `albumInfo`, `catalogueAlbum` and `songInfo` give everything a
-  page shows of one in a language, and the per-fact readers they are built from
-  left the barrel.
-
-Slice 5b, the player and music's app layer: vet clean, vova built, the bar
-looked at playing.
-
-- **`music/features/player`** holds the provider, the bar and the controls pages
-  place (`TrackButton`, `SongPlayButton`, `AlbumPlayButton`, `LaunchButtons`),
-  the state and its hooks under `model/`; its rules are `player.module.scss`,
-  cut from `music.module.scss` on the seam, the `fill` mixin both use in
-  `shared/styles`, whose `index.scss` is the segment's public API, as Steiger
-  asks; a sheet `@use`s it by that name, since knip follows no directory.
-- **What the bar and the pages both draw is music's `shared/`**: `Spelling` and
-  `BillingLinks` in `shared/ui`, `duration.ts` in `shared/lib`.
-- **music's app layer** mounts the player (`MusicLayout`), maps an address to a
-  page (`MusicRoute`) and parses the route (`music-route-params.ts`); the page
-  prop types stay the pages', whose barrel exports the five pages and their
-  metadata. vova's router and sitemap enter it.
-
-Collections into blog (review on #169): typecheck, lint, Steiger, `check:masd`,
-knip, the tests and every render's `--check` clean; bible, lsa and vova built.
-kernel imports nothing of blog's.
-
-- **`blog/shared/content`** is the old `kernel/shared/content`. What names no
-  collection stayed kernel's: `PUBLIC_DIR` and `GENERATED_DIR`
-  (`shared/config/public-dir.ts`, node-safe barrel only),
-  `shared/lib/content-hash.ts`, `WithOptionalOgImageSize` in `shared/seo`'s
-  `og-card.ts`, `Routed` in `shared/typings`.
-- **kernel's factories take what names a collection from outside**: `sitemap` a
-  thunk of pages beside `/`, `constructMetadata` the feeds to advertise, and
-  `constructRootMetadata` the same for `/`. blog's app layer holds the
-  collection `sitemap`, `collectionFeed` and a `rootMetadata` advertising the
-  site's feeds, which every blog site's layouts and vova's `global-not-found`
-  take; `blog/shared/seo` holds a `constructMetadata` supplying the feeds and
-  `constructArticleMetadata`, which every page under blog calls. mushrooms calls
-  kernel's, so `/mushrooms` advertises no feed; lsa, serving no collection,
-  keeps kernel's sitemap and root metadata.
-- **Scripts**: kernel's `site-tree.ts` (`REPO_ROOT`, `RENDERED_SITE`,
-  `filesUnder`) and blog's `content-tree.ts` (the collection roots and
-  `contentFiles`); `read-collection`, `heading-title`, `public-markdown`,
-  `check-prose-quotes` and `render-mermaid` are blog's. kernel's `og-job` keeps
-  the mechanism and the site card, exporting `svgCard`; blog's `og-job.ts` adds
-  the chart cards and the content tree's manifest roots in
-  `renderDocumentOgCards`, which every printing site calls, and `entryCards`
-  makes maya's and basilisk's card per entry. `ManifestRoots.manifestDirs` is
-  required. blog's scripts enter `shared/content` through its node-safe barrel,
-  which holds the registry and the mermaid paths, so kernel's three entries in
-  the grandfathered block went and none of blog's joined it.
-
-Slice 5c, music's pages: typecheck, lint, Steiger, `check:masd`, knip and the
-music tests clean, vova built, the index, an artist, an album, a song (desktop
-and phone) and the radio screenshotted pixel-identical to the elephant's.
-
-- **One slice per page**: `pages/music` keeps the index (the name stays, and
-  with it `masd.md`'s `shared/catalogue` trap); `pages/artist`, `pages/album`,
-  `pages/song` and `pages/radio` each hold their page, props type and metadata,
-  the song page its lyrics, credits, facts and video, the radio its dial.
-- **What pages share sits by what it is** (review on #214): `entities/cover`,
-  `entities/hook` and `entities/song` (the explicit badge) show one noun each;
-  `widgets/catalogue-header`, `catalogue-grid`, `music-nav`, `song-list` and
-  `story` compose; `music/shared/ui` keeps only what knows no music — fact
-  lines, the noted span, the WIP mark, the title gloss. `HookLine` reads
-  `hookRuns` through the catalogue's node-safe barrel, the radio's client card
-  entering its slice. `music/shared/seo` holds `catalogueMetadata` and
-  `listenTitle`, `songDownloads` joined `shared/catalogue`, and `SONG_FEED`
-  music's `app/lib`. `masd.md` states the noun test for `shared/ui` and the
-  node-safe barrel as a client's entry.
-- **`music.module.scss` is gone**, cut along its components; the square of art
-  the covers and tiles both draw is the `art` mixin in `shared/styles`.
-
-**Spike findings the rest builds on**: Steiger run per app root counts only that
-root's references, wrong in both directions, and run on the parent of several
-roots it finds no FSD root at all (Steiger 0.6.0); it skips gitignored paths, so
-a spike goes in the scratchpad, run from the repo root so its config resolves.
+- `bite-01.md` — the MASD core: the graph, the tree in nine apps, the registries
+  inverted, two root layouts, the checkers, `masd.md`.
+- `bite-01b.md` — collections into blog, kernel's factories taking what names a
+  collection from outside (review on #169).
+- `bite-02.md` — sites out of `apps/`, into `sites/<site>/`.
+- `bite-03.md` — each app's tooling in `src/<app>/scripts/`, `render-og` and
+  `render-pdf` split like the sitemap.
+- `bite-04.md` — each app owns its message catalogue.
+- `bite-05a.md` — music's catalogue model out of the page.
+- `bite-05b.md` — the player and music's app layer.
+- `bite-05c.md` — music's pages, one slice each (#214).
+- `bite-06a.md` — significance by modularity (#216).
+- `bite-06b.md` — the game cut by its nouns (#216).
 
 ## Rest of the elephant
 
-In this order: the scripts move before music and the game are restructured, so
-those slices carry their own tools along.
+- **Later, the plays cut down.** The first sharded run (40453462582) played 22
+  of 30 groups red, and 6b's base with the same wiring (40454592494, branch
+  `baseline/6b-game-play`, never merged) the same 22 with the same messages, so
+  they predate MASD; the operator checked the game by hand, found it fine, and
+  had the plays' jobs commented out in `vet.yml`: «пока закомменть это, я думаю
+  мы все равно сильно-сильно все эти прогоны резать будем, кажется,
+  необходимость в них отпала после того как игру уже написали».
 
-- **6. What is a page in a one-page app** — a deterministic measure beside
-  `insignificant-slice`, then mushrooms restructured under it. The problem:
-  mushrooms is a whole game on one URL, some 240 files — scene, creatures, day
-  cycle, saves, the UI over the canvas — and FSD names a page by its URL, so it
-  is all one `pages/mushrooms` slice. Splitting it the FSD way fails too:
-  `entities/creature` or `widgets/meadow` each has exactly one consumer, which
-  is what `insignificant-slice` flags, so the rule pushes everything back into a
-  grab bag with its own unenforced structure. Any one-page app hits it — Claude
-  Code on the web is one page, and nobody would put it in one slice — because a
-  reference count cannot tell "used once because it is a detail of its consumer"
-  from "used once because the app has one consumer at all". MASD sharpens it: as
-  its own app, every slice mushrooms could have is insignificant by
-  construction. Candidates to weigh: **boundary vs internal import edges** (a
-  slice whose files mostly import each other, reached through a narrow surface,
-  is a real module whoever its one consumer is) and **public-API width** (how
-  much of a slice its consumers touch, against how much it holds). The
-  deliverable is the measure, its threshold argued from this repo's real slices,
-  its wiring into `scripts/masd-check.ts`, and then the game restructured —
-  mushrooms' scripts entering it through public APIs, their entries leaving the
-  grandfathered block.
+- **Later, sub-entities** (the operator: «очень уж чешется вариант с
+  "подсущностями" (надо только имя получше подобрать: абстракции? зародыши?
+  кирпичики/parts?), но наверное не сейчас уже»): a facet several entities share
+  — the occupant is the first — as a named kind of slice of its own rather than
+  a file in `shared/world`.
+- **Later, the converse of 6a** (the operator: «как бы нам определять, когда в
+  одном слайсе скопилось что-то (кластер?), что заслуживает вынесения в модуль?
+  но отложим»): when a cluster inside one slice earns a slice of its own.
 - **7. The grandfathered script imports, retired.** basilisk's, kernel's,
-  shell's and vova's scripts enter their layers through public APIs — a
-  `index.node-safe.ts` where a script runs without a bundler — and the
+  shell's, vova's and mushrooms' scripts enter their layers through public APIs
+  — a `index.node-safe.ts` where a script runs without a bundler — and the
   `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
   slices 5 and 6 left in it — `list-untold-songs` among them, whose
   `catalogue-names.ts` reads the filesystem under bare Node. With it every
@@ -324,6 +68,26 @@ those slices carry their own tools along.
   take the `@/` alias, and `eslint/bare-node.ts`, its `vova/no-relative-escape`
   exemption and `masd.md`'s bare-Node import rule go. `personas/tools/` stays as
   it is, being Майя's.
+
+## How this elephant is eaten
+
+PR #169 is the whole of MASD: it closes #170 and #171, and lands every bite on
+`main` in one merge. This loop is being dogfooded here, and moves to muthur if
+it holds up.
+
+- **Slice 1 is built on the elephant's branch,
+  `claude/multi-app-sliced-design-7bn3oq`.** Every later bite is a PR of its own
+  based on that branch, so its commits and review threads stay off #169.
+- **A bite starts only once every review thread on the previous bite's PR is
+  resolved.** `/handle` attaches to one branch, so a bite opened over unresolved
+  threads leaves them with no session to answer them.
+- **A bite's PR carries its own edits to this file**: it folds itself into
+  "Eaten so far" and takes itself out of "Rest of the elephant".
+- **`compare/fsd-vs-masd` follows every change to `.claude/rules/masd.md`.** The
+  branch is `main` plus commits that each replace `.claude/rules/fsd.md`'s text
+  with `masd.md`'s as it then stood, so GitHub shows the change against the
+  retired `fsd.md` as one file's diff. A commit that edits `masd.md` is followed
+  by one there, never force-pushed over.
 
 ## DRY notes
 
@@ -357,6 +121,10 @@ those slices carry their own tools along.
   that held them, which import them back. Neither catalogue barrel re-exports
   the other: `index.ts` would otherwise carry every node-safe name to server
   importers that have the leaf's own barrel already.
+- **A part's types live with the part that reads them.** The map declares
+  `MapLayout`, `WithMap` and `DoorSeating` and the page imports them, rather
+  than the map importing the page's `MeadowLayout`; the combination it reads of
+  the sun is landscape's `SunnedScreen`, not spelled again.
 - **Not extracted:** a `masd` package or a Steiger plugin. A plugin's rule sees
   one root, which is the problem; a package earns nothing a script and one data
   file do not already give.

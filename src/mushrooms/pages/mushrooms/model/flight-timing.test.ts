@@ -1,16 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
+import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
 import {
   FLIGHT_HABITS,
-  flightAway,
+  legTo,
   perchName,
   type Place,
   type Places,
-} from './flight';
-import { legTo } from './flight-timing';
-import { CLUMP_DISTANCE } from './ground';
-import { mulberry32 } from './random';
+} from '@/mushrooms/entities/insect/index.node-safe';
+import { flightAway } from '@/mushrooms/features/insects-fly/index.test-only';
 
 const fly = 'fly' as const;
 const { cruising } = FLIGHT_HABITS[fly];

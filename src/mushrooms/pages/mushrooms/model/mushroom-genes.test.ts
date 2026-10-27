@@ -1,29 +1,34 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { placeOf } from '../ui/scene/clump-layout';
-import { meadowLayout } from '../ui/scene/layout';
-import { ZOOM_FLOOR } from '../ui/scene/meadow-camera';
-import { TAP_RADIUS } from '../ui/scene/tap-reach';
-import { FLOOR_HELD, VIEWPORTS } from '../ui/scene/viewports';
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
+import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import {
-  domeHeight,
   firstMushrooms,
-  GENE_RANGES,
+  FLOOR_HELD,
+  headOutlines,
   MUSHROOM_SPECIES,
   mushroomGenes,
+  OPENING_FOOTING,
+  type Species,
+  stemAt,
+  stemHalfWidth,
+  VIEWPORTS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  capOutlines,
+  domeHeight,
+  GENE_RANGES,
   OPENING_SPECIES,
+  placeOf,
   RUSSULA_HOLLOW,
   RUSSULA_TONES,
-  type Species,
   SPOT_MARGIN,
   TRUMPET_RANGES,
-} from './mushroom-genes';
-import { capOutlines, headOutlines } from './mushroom-outline';
-import { stemAt } from './mushroom-pose';
-import { stemHalfWidth } from './mushroom-profile';
-import { OPENING_FOOTING } from './placement';
-import { mulberry32 } from './random';
+  ZOOM_FLOOR,
+} from '@/mushrooms/entities/mushroom/index.test-only';
+
+import { meadowLayout } from '../ui/layout';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
 const median = (values: readonly number[]) =>

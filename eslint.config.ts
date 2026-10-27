@@ -49,6 +49,7 @@ import {
 import { unicornRules } from './eslint/rule-groups/unicorn';
 import { vovaRules } from './eslint/rule-groups/vova';
 import noDefaultTrue from './eslint/rules/no-default-true';
+import noExportNamesake from './eslint/rules/no-export-namesake';
 import noHardcodedStrings from './eslint/rules/no-hardcoded-strings';
 import noInlineObjectParamType from './eslint/rules/no-inline-object-param-type';
 import noPickOmit from './eslint/rules/no-pick-omit';
@@ -89,6 +90,7 @@ const eslintConfig = defineConfig([
       vova: {
         rules: {
           'no-default-true': noDefaultTrue,
+          'no-export-namesake': noExportNamesake,
           'no-hardcoded-strings': noHardcodedStrings,
           'no-inline-object-param-type': noInlineObjectParamType,
           'no-pick-omit': noPickOmit,

@@ -1,10 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { meadowLayout } from '../ui/scene/layout';
-import { VIEWPORTS, VISITS } from '../ui/scene/viewports';
 import {
+  buzzTurn,
   crawl,
+  INSECT_KINDS,
+  type InsectKind,
+  LANDING,
+  type Stay,
+  wingBeat,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import {
   hop,
   HOP_EVERY,
   HOP_REACH,
@@ -12,10 +18,13 @@ import {
   LEAST_TREMBLE,
   rubbing,
   trembleSize,
-} from './buzz-rest';
-import { INSECT_KINDS, type InsectKind } from './insect-genes';
-import { LANDING, type Stay, wingBeat } from './insect-motion';
-import { buzzTurn } from './insect-outline';
+} from '@/mushrooms/entities/insect/index.test-only';
+import {
+  VIEWPORTS,
+  VISITS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
+import { meadowLayout } from '../ui/layout';
 
 /** A stay on a cap: flying from 0, landing at 1000, due to leave at 9000. */
 const STAY: Stay = {

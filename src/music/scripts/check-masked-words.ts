@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Fails on a word masked with asterisks — `f*ck`, `f\*\*k`, `х\*й`, `s***` — in
@@ -36,7 +36,7 @@ import {
   lineAt,
   proseSpans,
   songFiles,
-} from '../../blog/scripts/lib/public-markdown.ts';
+} from '@/blog/scripts/lib/public-markdown';
 
 /**
  * A letter, then asterisks (each optionally backslash-escaped), then either a

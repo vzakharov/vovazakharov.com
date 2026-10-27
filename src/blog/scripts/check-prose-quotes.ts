@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Fails on a straight quote or apostrophe in the prose of any site's content —

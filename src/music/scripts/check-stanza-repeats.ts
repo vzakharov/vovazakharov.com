@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Fails on a stanza that repeats the one before it in a song's lyrics — every
@@ -14,13 +14,14 @@
 
 import fs from 'node:fs';
 
+import { stanzaRepeats } from './lib/stanza-repeats.ts';
+
 import {
   findingLines,
   lineAt,
   songFiles,
-} from '../../blog/scripts/lib/public-markdown.ts';
-import { given } from '../../kernel/scripts/lib/argv.ts';
-import { stanzaRepeats } from './lib/stanza-repeats.ts';
+} from '@/blog/scripts/lib/public-markdown';
+import { given } from '@/kernel/scripts/lib/argv';
 
 const fix = given('fix');
 const named = process.argv.slice(2).filter((arg) => !arg.startsWith('--'));

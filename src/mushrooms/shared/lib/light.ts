@@ -1,0 +1,83 @@
+/**
+ * Where the light comes from: one sun, seen from where each thing stands and
+ * turned into its own frame, which every lit crest and every shade takes its
+ * side from.
+ */
+
+import type { Sized } from '@/kernel/shared/typings';
+
+import type { Point } from './geometry';
+
+/** `toward` is a unit vector, in screen axes (y down), pointing at the light. */
+export type Light = { toward: Point };
+
+/**
+ * The meadow's light: from the middle of the ground, where the mushrooms
+ * stand, toward the sun.
+ */
+export function sunLight({
+  width,
+  height,
+  groundTop,
+  sun,
+}: Sized & { groundTop: number; sun: Point }): Light {
+  const dx = sun.x - width / 2;
+  const dy = sun.y - (groundTop + height) / 2;
+  const length = Math.hypot(dx, dy);
+  return { toward: { x: dx / length, y: dy / length } };
+}
+
+/**
+ * `light`, as the opening eye sees it, seen from an eye facing `heading`: its
+ * across share `sin(α − heading)`, `α` the sun's azimuth as the opening eye
+ * sees it, its height kept. At the opening heading it is `light` exactly.
+ */
+export function headedLight<Headed extends Light>(
+  light: Headed,
+  heading: number,
+): Headed {
+  const { x, y } = light.toward;
+  const ahead = Math.sqrt(Math.max(0, 1 - x * x));
+  return {
+    ...light,
+    toward: { x: x * Math.cos(heading) - ahead * Math.sin(heading), y },
+  };
+}
+
+/**
+ * `light` as a body turned `turn` radians clockwise on screen sees it, in
+ * its own frame: what a painter drawing that body before it is turned has
+ * to be handed, so the body shows the light where the light is.
+ */
+export function turnedLight<Turned extends Light>(
+  light: Turned,
+  turn: number,
+): Turned {
+  const [cos, sin] = [Math.cos(turn), Math.sin(turn)];
+  const { x, y } = light.toward;
+  return { ...light, toward: { x: x * cos + y * sin, y: y * cos - x * sin } };
+}
+
+/** The HUD's pictograms' light, fixed to the upper left whatever the sun does. */
+export const PICTOGRAM_LIGHT: Light = {
+  toward: { x: -Math.SQRT1_2, y: -Math.SQRT1_2 },
+};
+
+/**
+ * `light` as a thing at `at` on screen has it, the eye facing `heading`:
+ * pointing from there at the sun as the opening eye sees it, then turned off
+ * the heading (`headedLight`).
+ */
+export function lightAt<Lit extends Light>(
+  light: Lit,
+  at: Point,
+  sun: Point,
+  heading: number,
+): Lit {
+  const [dx, dy] = [sun.x - at.x, sun.y - at.y];
+  const length = Math.hypot(dx, dy) || 1;
+  return headedLight(
+    { ...light, toward: { x: dx / length, y: dy / length } },
+    heading,
+  );
+}

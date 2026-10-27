@@ -11,7 +11,7 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import { DUSK_MS } from '@/mushrooms/pages/mushrooms/model/dusk';
+import { DUSK_MS } from '@/mushrooms/shared/world/dusk';
 
 import {
   type Controls,

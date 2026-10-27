@@ -2,14 +2,13 @@ import type { Rule } from 'eslint';
 import type * as ESTree from 'estree';
 import path from 'node:path';
 
-import { bareNodeFiles } from '../bare-node';
 import { SLICED_LAYERS } from '../masd-graph';
 
 // A relative import under `src/` stays inside the importer's home — its slice,
 // its segmented layer (`app` and `shared` overlay as one unit), or its app's
 // `scripts/` — and anything past it is reached by its `@/` path, so an import
-// says which app and layer it enters. A file bare Node runs is exempt, since it
-// follows no alias.
+// says which app and layer it enters. Bare Node follows no alias, so a script
+// it runs that needs to reach past home moves to tsx.
 
 /** The directory, relative to `src/`, a file under it may reach relatively. */
 function relativeHome(fromSrc: string): string | undefined {
@@ -22,28 +21,17 @@ function relativeHome(fromSrc: string): string | undefined {
     : path.join(app, layer);
 }
 
-const bareByRoot = new Map<string, ReadonlySet<string>>();
-
-function bareFiles(root: string): ReadonlySet<string> {
-  let files = bareByRoot.get(root);
-  if (files === undefined) {
-    files = bareNodeFiles(root);
-    bareByRoot.set(root, files);
-  }
-  return files;
-}
-
 const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
     docs: {
       description:
-        'Disallow a relative import under src/ that leaves its slice, segmented layer or app scripts — unless bare Node runs the file',
+        'Disallow a relative import under src/ that leaves its slice, segmented layer or app scripts',
     },
     schema: [],
     messages: {
       escapes:
-        'This relative import leaves `src/{{home}}`: import it as `{{alias}}`. Only a file bare Node runs, which follows no alias, reaches across relatively.',
+        'This relative import leaves `src/{{home}}`: import it as `{{alias}}`. A script bare Node runs moves its `package.json` entry to `tsx` first, since Node follows no alias.',
     },
   },
 
@@ -51,9 +39,7 @@ const rule: Rule.RuleModule = {
     const src = path.join(context.cwd, 'src');
     const fromSrc = path.relative(src, context.filename);
     const home = fromSrc.startsWith('..') ? undefined : relativeHome(fromSrc);
-    if (home === undefined || bareFiles(context.cwd).has(context.filename)) {
-      return {};
-    }
+    if (home === undefined) return {};
 
     function check(source: ESTree.Node | null | undefined): void {
       if (

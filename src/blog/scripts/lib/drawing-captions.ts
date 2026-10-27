@@ -4,8 +4,6 @@
  * or in its `aria-label` alike — and each language's post naming the wording
  * for every key. Whatever is not a placeholder is part of the picture, and
  * reads the same in every language: a Latin name, a letter on a typeball.
- *
- * Bare Node runs this file.
  */
 
 /** Key → wording, as one language's post states it under `captions`. */

@@ -18,6 +18,28 @@ export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 /** FSD's layers, highest first. */
 export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
 
+/**
+ * A slice's or a segment's entry points. A closed list, so any other
+ * `index.*.ts` is still reaching into internals.
+ */
+export const PUBLIC_API = [
+  'index.ts',
+  'index.server-only.ts',
+  'index.node-safe.ts',
+];
+
+/** The entry point only test code may take, beside the public API. */
+export const TEST_API = 'index.test-only.ts';
+
+/** What several tests of a slice share, imported by test code alone. */
+export const TEST_KIT = '**/*.test-kit.ts';
+
+/** Test code: the tests, and the kits they share. */
+export const TEST_CODE = ['**/*.test.ts', TEST_KIT];
+
+/** `TEST_CODE`'s files, for a reader matching a path rather than a glob. */
+export const TEST_FILE = /\.test(-kit)?\.tsx?$/;
+
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
 // Kebab-case also keeps every key non-numeric, which is what makes JS hand the

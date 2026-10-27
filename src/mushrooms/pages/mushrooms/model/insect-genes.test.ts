@@ -1,19 +1,27 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { containsPoint, ellipse, type Point } from './geometry';
+import {
+  containsPoint,
+  ellipse,
+  type Point,
+} from '@/mushrooms/shared/lib/geometry';
+import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
+import {
+  insectGenes,
+  PICTOGRAM_SEED,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   BUTTERFLY_COLOURS,
   BUTTERFLY_RANGES,
   EYE_RADIUS,
   EYE_RINGS,
-  insectGenes,
+  eyeCentre,
   PATTERN_TURN,
-  PICTOGRAM_SEED,
-} from './insect-genes';
-import { eyeCentre, WING_PAIRS, wingOutline } from './insect-outline';
-import { INSECT_LIMITS } from './insects';
-import { mulberry32, nextSeed } from './random';
+  WING_PAIRS,
+  wingOutline,
+} from '@/mushrooms/entities/insect/index.test-only';
+import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/index.node-safe';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
 const butterflies = SEEDS.map((seed) =>

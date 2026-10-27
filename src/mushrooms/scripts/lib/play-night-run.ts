@@ -10,8 +10,8 @@
 
 import { z } from 'zod';
 
-import { DUSK_MS } from '@/mushrooms/pages/mushrooms/model/dusk';
-import { NIGHT_GAP } from '@/mushrooms/pages/mushrooms/model/night-runs';
+import { DUSK_MS } from '@/mushrooms/shared/world/dusk';
+import { NIGHT_GAP } from '@/mushrooms/features/mice-run/model/night-runs';
 
 import { type Controls, Runs, State } from './mushroom-probe-answers.ts';
 import {
@@ -37,7 +37,7 @@ const MARGIN = 6;
 /** Mushrooms the child grows: enough that `+` spreads them across the screen. */
 const GROWN = 3;
 /** Frames for the house picker to open, and for a door's pop to settle. */
-const OPEN = 30;
+const OPEN_FRAMES = 30;
 const SETTLE = 45;
 /** Frames from the sun's tap to full dusk, and the harness clock's slack. */
 const TO_DUSK = Math.round(DUSK_MS / FRAME_MS) + 20;
@@ -135,7 +135,7 @@ async function growDoored(
   await inTurn(controls.picker.slice(0, GROWN), async (cap) => {
     await grow(page, controls, cap);
     await page.tap(controls.house);
-    await page.step(OPEN);
+    await page.step(OPEN_FRAMES);
     if (door) await page.tap(door);
     await page.step(6);
     await page.tap(controls.house);

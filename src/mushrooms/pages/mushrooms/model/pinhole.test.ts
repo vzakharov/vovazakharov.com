@@ -1,23 +1,36 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { MEADOW_FRAME, meadowCamera } from '../ui/scene/meadow-camera';
-import { EITHER_WAY, VIEWPORTS } from '../ui/scene/viewports';
-import { walking } from './eye-height';
 import {
   anchored,
+  bendAt,
   type Eye,
   EYE_HEIGHT,
   OPENING_EYE,
+  openingPan,
+  pinholeOf,
   planeOf,
+  planeSeen,
   project,
   unanchored,
-} from './ground';
-import { feetOver } from './ground-grid';
-import { MUSHROOM_SPECIES } from './mushroom-genes';
-import { speciesHeight } from './mushroom-pose';
-import { leftAt, openingPan } from './pan';
-import { bendAt, pinholeOf, planeSeen, type Viewed, viewOf } from './pinhole';
+  viewOf,
+} from '@/mushrooms/shared/world';
+import {
+  leftAt,
+  type Viewed,
+  walking,
+} from '@/mushrooms/shared/world/index.test-only';
+import {
+  MEADOW_FRAME,
+  meadowCamera,
+  MUSHROOM_SPECIES,
+  VIEWPORTS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  EITHER_WAY,
+  feetOver,
+  speciesHeight,
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 /** How near two views count as one, in px and in the clump's size. */
 const SAME_VIEW = 1e-9;

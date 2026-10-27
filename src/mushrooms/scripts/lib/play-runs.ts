@@ -15,16 +15,16 @@ import { z } from 'zod';
 
 import type { Named } from '@/kernel/shared/typings';
 
-import { FURNISHINGS } from '@/mushrooms/pages/mushrooms/model/house';
-import type { Stamped } from '@/mushrooms/pages/mushrooms/model/motion';
+import type { Stamped } from '@/mushrooms/shared/lib/motion';
 import {
   type Opened,
   RUN_LEAST,
   runAt,
   runDuration,
   type RunOpening,
-} from '@/mushrooms/pages/mushrooms/model/mouse-run-clock';
-import { MUSHROOM_SPECIES } from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
+} from '@/mushrooms/entities/mouse/model/mouse-run-clock';
+import { FURNISHINGS } from '@/mushrooms/entities/mushroom/model/house';
+import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/model/mushroom-genes';
 
 import {
   Box,

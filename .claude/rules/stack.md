@@ -184,9 +184,14 @@ Twenty things about that list are deliberate:
   (`pnpm test:all`), which drops the mushroom meadow's tests unless
   `VET_MEADOW=1` asks for them** — they take over half an hour, the rest
   seconds, and the game changes rarely — so a branch that works on the game runs
-  them by asking, or alone through `pnpm test:meadow`. `pnpm test` is the run by
-  hand, over only the tests the branch reached (`.claude/rules/testing.md`). Two
-  Python suites sit beside it: `src/kernel/scripts/lib/test_hearing.py`, for
+  them by asking, or alone through `pnpm test:meadow`. Asked, the bare vet run
+  passes it on as `vet.yml`'s `meadow` input, which shards those tests across
+  runners. The game's plays (`pnpm play:mushrooms`, every screen in groups,
+  hours in one container) sit commented out there while they are cut down,
+  `vet.sh`'s `probe` and `play` phases running them by hand. `pnpm test` is the
+  run by hand, over only the tests the branch reached
+  (`.claude/rules/testing.md`). Two Python suites sit beside it:
+  `src/kernel/scripts/lib/test_hearing.py`, for
   `src/kernel/scripts/transcribe.py`'s pure half, which reads only its fixtures;
   and `src/music/scripts/song-intake/test_song_facts.py`, for the spectrogram's
   measurements on synthetic signals, which needs numpy on the system Python.

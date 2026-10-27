@@ -11,7 +11,8 @@
  *   app earned no better than an insignificant slice;
  * - Steiger's `insignificant-slice`, with each slice's references counted
  *   across the composition — its own app, every descendant and the routers —
- *   rather than within one app root, its messages kept word for word.
+ *   rather than within one app root, its messages kept word for word; a slice
+ *   with one reference passes when it is a module by its own app's imports.
  *
  * Reads `src/` and `sites/*\/app/` under the working directory, so a test runs
  * it against a tree of its own. Bare Node runs this file, relying on its type
@@ -28,6 +29,7 @@ import {
   loadGraph,
   type MasdGraph,
   SLICED_LAYERS,
+  TEST_FILE,
 } from '../eslint/masd-graph.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
@@ -37,6 +39,9 @@ const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
 const SOURCE = /\.tsx?$/;
+
+/** An importing file and the file it imports, both in one app. */
+type Edge = readonly [string, string];
 
 const walk = (directory: string): string[] =>
   readdirSync(directory, { withFileTypes: true, recursive: true })
@@ -59,11 +64,15 @@ function locate(file: string): string | undefined {
   if (parts[0] === 'sites') return parts[2] === 'app' ? 'router' : undefined;
   if (parts[0] !== 'src' || parts.length < 4) return undefined;
   const [, app, layer = '', slice] = parts;
-  // An app's scripts are tooling, not consumers: a slice only they reach is
-  // still one nothing shipped needs.
-  if (layer === 'scripts') return undefined;
+  // An app's scripts and the tests are tooling, not consumers: a slice only
+  // they reach is still one nothing shipped needs.
+  if (layer === 'scripts' || TEST_FILE.test(file)) return undefined;
   return SLICED.has(layer) ? `${app}/${layer}/${slice}` : `${app}/${layer}`;
 }
+
+// Every location under `src/` opens with its app.
+const appOfLocation = (location: string): string =>
+  location.slice(0, location.indexOf('/'));
 
 function resolveImport(from: string, specifier: string): string | undefined {
   if (specifier.startsWith('@/')) return path.join('src', specifier.slice(2));
@@ -71,6 +80,41 @@ function resolveImport(from: string, specifier: string): string | undefined {
     return path.join(path.dirname(from), specifier);
   }
   return undefined;
+}
+
+function sourceFile(base: string): string | undefined {
+  const stem = base.replace(SOURCE, '');
+  return [base, `${stem}.ts`, `${stem}.tsx`, path.join(stem, 'index.ts')].find(
+    (candidate) => SOURCE.test(candidate) && existsSync(candidate),
+  );
+}
+
+/** The app a shipped file under `src/` is part of. */
+function appOf(file: string): string | undefined {
+  const location = locate(file);
+  return location === undefined || location === 'router'
+    ? undefined
+    : appOfLocation(location);
+}
+
+/**
+ * Whether a slice holds more of its app's import edges than chance would: its
+ * term of Newman's modularity, `e − a²`, is positive — `e` the share of edges
+ * with both ends in it, `a` the share of edge ends on it, so `a²` is what a
+ * rewiring keeping every file's degree would put inside. `edges` are the
+ * slice's own app's alone, as masd.md states.
+ */
+function modular(slice: string, edges: readonly Edge[]): boolean {
+  const prefix = path.join('src', slice) + path.sep;
+  let inside = 0;
+  let ends = 0;
+  for (const [from, to] of edges) {
+    const both = [from, to].filter((file) => file.startsWith(prefix)).length;
+    if (both === 2) inside++;
+    ends += both;
+  }
+  // `inside / m > (ends / 2m)²`, multiplied through by `m`.
+  return inside > ends ** 2 / (4 * edges.length);
 }
 
 function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
@@ -83,7 +127,10 @@ function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
   ];
 }
 
-function sliceProblems(references: ReadonlyMap<string, ReadonlySet<string>>) {
+function sliceProblems(
+  references: ReadonlyMap<string, ReadonlySet<string>>,
+  edges: ReadonlyMap<string, readonly Edge[]>,
+) {
   return [...references].flatMap(([slice, sources]) => {
     const [reference, ...others] = sources;
     if (reference === undefined) {
@@ -91,7 +138,13 @@ function sliceProblems(references: ReadonlyMap<string, ReadonlySet<string>>) {
         `src/${slice}: This slice has no references. Consider removing it.`,
       ];
     }
-    if (others.length > 0 || reference === 'router') return [];
+    if (
+      others.length > 0 ||
+      reference === 'router' ||
+      modular(slice, edges.get(appOfLocation(slice)) ?? [])
+    ) {
+      return [];
+    }
     const [, layer, sourceSlice] = reference.split('/');
     if (sourceSlice !== undefined) {
       return [
@@ -126,6 +179,7 @@ function check(): string[] {
   }
 
   const mounted = new Set<string>();
+  const edges = new Map<string, Edge[]>();
   const files = [
     ...walk('src'),
     ...subdirectories('sites').flatMap((site) =>
@@ -140,18 +194,36 @@ function check(): string[] {
       true,
       true,
     );
+    const app = appOf(file);
+    const linked = new Set<string>();
     for (const { fileName } of importedFiles) {
       const resolved = resolveImport(file, fileName);
-      const target = resolved === undefined ? undefined : locate(resolved);
+      if (resolved === undefined) continue;
+      const imported = sourceFile(resolved);
+      if (
+        app !== undefined &&
+        imported !== undefined &&
+        imported !== file &&
+        appOf(imported) === app
+      ) {
+        linked.add(imported);
+      }
+      const target = locate(resolved);
       if (target === undefined || target === source) continue;
-      // Every location under `src/` opens with its app.
-      if (source === 'router')
-        mounted.add(target.slice(0, target.indexOf('/')));
+      if (source === 'router') mounted.add(appOfLocation(target));
       references.get(target)?.add(source);
+    }
+    if (app !== undefined) {
+      const own = edges.get(app) ?? [];
+      own.push(...[...linked].map((imported): Edge => [file, imported]));
+      edges.set(app, own);
     }
   }
 
-  return [...graphProblems(graph, mounted), ...sliceProblems(references)];
+  return [
+    ...graphProblems(graph, mounted),
+    ...sliceProblems(references, edges),
+  ];
 }
 
 const problems = check();

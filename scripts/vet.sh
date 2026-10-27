@@ -13,6 +13,13 @@
 #   scripts/vet.sh source         the codegen and the checks no build feeds
 #   scripts/vet.sh built          the checks that read the exports on disk
 #   scripts/vet.sh local          the checks that read the branch's history
+#   scripts/vet.sh probe          the game's probe build of vova
+#   scripts/vet.sh meadow <k>/<n> the k-th of n shards of the game's tests
+#   scripts/vet.sh play <screen> <plays>  those plays of the game, on that screen
+#
+# `meadow` runs only when `VET_MEADOW=1` asks, the bare run passing it on as
+# the workflow's `meadow` input; `probe` and `play` run by hand, their jobs
+# commented out in vet.yml while the plays are cut down.
 #
 # `lint` and `typecheck` write the route types with `next typegen` rather than
 # wait on a build — safe only in a tree no build shares
@@ -22,7 +29,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 usage() {
-  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | typecheck | source | built | local]\n' >&2
+  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | typecheck | source | built | local | probe | meadow <k>/<n> | play <screen> <plays>]\n' >&2
   exit 2
 }
 
@@ -69,7 +76,7 @@ dispatched() {
       --limit 20 --json databaseId,headSha --jq ".[] | select(.headSha == \"$head\") | .databaseId"
   }
   before=$(runs) || exit 1
-  gh workflow run vet.yml --ref "$branch" >/dev/null || exit 1
+  gh workflow run vet.yml --ref "$branch" -f meadow="$([ "${VET_MEADOW:-}" = 1 ] && echo true || echo false)" >/dev/null || exit 1
 
   scripts/vet.sh local || status=1
 
@@ -97,8 +104,9 @@ dispatched() {
 
 phase="$1"
 case "$phase" in
-  typecheck | source | built | local) [ "$#" -eq 1 ] || usage ;;
-  build | lint) [ "$#" -eq 2 ] || usage ;;
+  typecheck | source | built | local | probe) [ "$#" -eq 1 ] || usage ;;
+  build | lint | meadow) [ "$#" -eq 2 ] || usage ;;
+  play) [ "$#" -eq 3 ] || usage ;;
   *) usage ;;
 esac
 
@@ -130,8 +138,11 @@ case "$phase" in
   build) logged build pnpm build "$2" ;;
   lint) logged typegen pnpm typegen && lint_shard "$2" ;;
   typecheck) logged typegen pnpm typegen && { pnpm -s typecheck || status=1; } ;;
+  probe) logged probe env NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build vova ;;
+  meadow) MEADOW_SHARD="$2" pnpm -s test:meadow || status=1 ;;
+  play) pnpm -s play:mushrooms --no-build --screens "$2" --plays "$3" || status=1 ;;
 esac
-if [[ "$phase" == build || "$phase" == lint || "$phase" == typecheck ]]; then
+if [[ "$phase" =~ ^(build|lint|typecheck|probe|meadow|play)$ ]]; then
   ((status)) && exit 1
   exit 0
 fi

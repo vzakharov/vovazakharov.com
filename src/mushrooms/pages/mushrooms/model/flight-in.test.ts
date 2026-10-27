@@ -1,35 +1,41 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { onscreenOf } from '../ui/scene/perch-sight';
-import { Perches as ScenePerches } from '../ui/scene/perches';
-import { viewAt } from '../ui/scene/view';
-import { opened } from '../ui/scene/visit-play';
+import { alongAzimuth } from '@/mushrooms/shared/lib/geometry';
 import {
-  firstFlight,
+  CLUMP_DISTANCE,
+  D_SEE,
+  OPENING_EYE,
+  viewAt,
+} from '@/mushrooms/shared/world';
+import {
+  apartIn,
+  apartOf,
+  entryOf,
   type Flight,
   FLIGHT_HABITS,
-  nextFlight,
-  type Perch,
-  type Perches,
-  perchName,
-  type Places,
-} from './flight';
-import {
-  entryOf,
+  INSECT_KINDS,
   isShown,
-  nearerSide,
   type Onscreen,
   outFirst,
   outOf,
   outOfView,
   outWay,
-  shownOf,
-} from './flight-in';
-import { apartIn, apartOf } from './flight-timing';
-import { alongAzimuth } from './geometry';
-import { CLUMP_DISTANCE, D_SEE, OPENING_EYE } from './ground';
-import { INSECT_KINDS } from './insect-genes';
+  type Perch,
+  perchName,
+  type Places,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import { nearerSide } from '@/mushrooms/entities/insect/index.test-only';
+import {
+  firstFlight,
+  nextFlight,
+  onscreenOf,
+  type Perches,
+  ScenePerches,
+} from '@/mushrooms/features/insects-fly/index.node-safe';
+import { shownOf } from '@/mushrooms/features/insects-fly/index.test-only';
+
+import { opened } from '../ui/visit-play';
 
 /** A world 100 units across, the screen showing 30 to 60 of it. */
 const WORLD = 100;

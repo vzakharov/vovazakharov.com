@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Writes each drawing in every language: a translated collection's
@@ -12,8 +12,6 @@
  *
  * Fails on a template some language's post does not caption, a `captions`
  * entry naming no template, and the key mismatches `fillDrawing` throws on.
- * Bare Node runs this file, relying on its type stripping, so every relative
- * import carries its `.ts` extension.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: the
@@ -24,27 +22,24 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
-import {
-  filesUnder,
-  RENDERED_SITE,
-} from '../../kernel/scripts/lib/site-tree.ts';
-import {
-  type Locale,
-  LOCALES,
-} from '../../kernel/shared/i18n/index.node-safe.ts';
+import { type Locale, LOCALES } from '@/kernel/shared/i18n/index.node-safe';
+
 import {
   collectionDir,
   collectionsForSite,
   isDocumentFile,
   isTranslated,
   splitLocale,
-} from '../shared/content/index.node-safe.ts';
+} from '@/blog/shared/content/index.node-safe';
+
 import {
   type Captions,
   fillDrawing,
   isDrawingTemplate,
   signDrawing,
 } from './lib/drawing-captions.ts';
+
+import { filesUnder, RENDERED_SITE } from '@/kernel/scripts/lib/site-tree';
 
 const CHECK = process.argv.includes('--check');
 

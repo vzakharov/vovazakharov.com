@@ -64,9 +64,10 @@ so: a `game` between `kernel` and `mushrooms` waits for a second game.
 Lowest (most generic) first, each optional per app:
 
 - **`shared/`** — segments carrying no page composition. `kernel` holds the
-  repo-wide ones (`config`, `i18n`, `seo`, `typings`, `lib/*`); an app adds its
-  own (`shell/shared/ui`, `blog/shared/content`, `music/shared/catalogue`,
-  `basilisk/shared/content`, `blog/shared/article-slots`).
+  repo-wide ones (`cache`, `config`, `i18n`, `seo`, `typings`, `lib/*`); an app
+  adds its own (`shell/shared/ui`, `blog/shared/content`,
+  `music/shared/catalogue`, `basilisk/shared/content`,
+  `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
   cards, its body and its sources), `basilisk/entities/case` (its brief),
   music's `cover`, `hook` and `song`.
@@ -132,8 +133,8 @@ as `shared/config` is.
   a slice, use relative imports.
 - **Two suffixed barrels join `index.ts` as legal entry points**, on two axes,
   and the list is closed at those three names (`PUBLIC_API` in
-  `eslint/masd-boundaries.ts`). `index.ts` keeps the majority surface either
-  way, so a consumer needing neither suffix never learns they exist.
+  `eslint/masd-graph.ts`). `index.ts` keeps the majority surface either way, so
+  a consumer needing neither suffix never learns they exist.
   - **`index.server-only.ts`** is the client-bundle axis: what a browser must
     not hold. Every module behind it opens with `import 'server-only'`, which is
     what enforces the split the barrel only names. Two segments are split this
@@ -146,9 +147,9 @@ as `shared/config` is.
     dependency's weight is not one, since removing the dependency removes the
     fence and whatever was built on it.
   - **`index.node-safe.ts`** is the bundler axis: what resolves under an app's
-    `scripts/`, which run with none — so the graph behind it spells its
-    extensions, holds no CSS, JSX or asset import, and carries no `server-only`,
-    which throws outside a React server bundle. `shared/config` has one, over
+    `scripts/` and its tests, which run with none — so the graph behind it holds
+    no CSS, JSX or asset import, and carries no `server-only`, which throws
+    outside a React server bundle. `shared/config` has one, over
     `resolveSiteId`, blog's `shared/content` one over the collection registry
     and the mermaid paths, and `entities/case` one over the grade stamp's text,
     which the case's social card prints. A script reaching past a public API
@@ -156,6 +157,16 @@ as `shared/config` is.
     `server-only`, it is also the client components' entry into a segment whose
     `index.ts` is server-only: `music/shared/catalogue`'s, where the player and
     the hook line take what they read.
+- **`index.test-only.ts` is test code's entry, and no one else's** (`TEST_API`
+  in `eslint/masd-graph.ts`): what a test reads of a lower slice that nothing in
+  production does — a constant it pins, a helper it calls on its own. A test
+  checking a lower module on the screens a page lays out sits in that page, and
+  enters the module's slice by this barrel beside its public API — the
+  `index.node-safe.ts` one where the slice's `index.ts` loads a module that
+  needs a browser, as the game's Phaser does. `boundaries` lets only test code
+  (`TEST_CODE`: a `*.test.ts`, or a kit `@.claude/rules/testing.md` describes)
+  take it, so the public API stays what production reads; Steiger reads any
+  `index.*` as an entry.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time
   (`@/kernel/shared/lib/class-names`), each **a single file** and its own public
   API — nothing sits beside it to hide, so `boundaries` lets the layers above
@@ -177,12 +188,18 @@ as `shared/config` is.
   crosses slices.
 - **No insignificant slices.** A slice with a single upward consumer belongs
   _inside_ that consumer. `check:masd` says so, counting references across the
-  composition — the slice's own app, every descendant and the routers — with
-  Steiger's `insignificant-slice` messages word for word; Steiger's own rule is
-  off, because one root's reference map is exactly what it cannot see past. This
-  is why the CV locale picker lives in `vova/pages/cv/ui/` and the home page's
-  project and article cards in `vova/pages/home/ui/`, rather than each becoming
-  a feature.
+  composition — the slice's own app, every descendant and the routers, tests
+  left out — with Steiger's `insignificant-slice` messages word for word;
+  Steiger's own rule is off, because one root's reference map is exactly what it
+  cannot see past. This is why the CV locale picker lives in `vova/pages/cv/ui/`
+  and the home page's project and article cards in `vova/pages/home/ui/`, rather
+  than each becoming a feature. **One consumer is enough for a slice that is a
+  module** — more of its own app's file-import edges falling inside it than a
+  rewiring keeping every file's degree would put there, its term of Newman's
+  modularity being positive — since a module is one whoever uses it, and a count
+  alone would keep a one-page app a single slice. The graph is the slice's own
+  app alone: descendants are who uses an app, which says nothing of how it is
+  cut, and their unrelated edges would lower the bar for everyone.
 - **An app's tooling is its `scripts/`, beside its layers rather than one of
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
@@ -255,12 +272,11 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   by URL or relative path, not by alias. Inside `src/`, a relative import stays
   in its slice, its segmented layer or its app's `scripts/`, and anything past
   that is reached by alias — `vova/no-relative-escape` holds it. An app's
-  `scripts/` run outside any bundler: they spell the alias out under `tsx`, and
-  a relative path with its extension when they run under bare Node, which
-  follows no alias — the rule's one exemption, derived from the `node <file>`
-  entries in `package.json` and what they import.
+  `scripts/` run outside any bundler, under `tsx`, which follows the alias. A
+  script under bare Node, which does not, moves to `tsx` the moment it needs
+  anything past its home.
 - **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
-  ESLint loads it under jiti and the scripts under bare Node.
+  ESLint loads it under jiti and root `scripts/` under bare Node.
 - **next-intl's request config is found by path, not by import.** Each site's
   `next.config.ts` names `../../src/kernel/shared/i18n/request.ts` explicitly;
   moving that file means editing both. The path is relative to the site

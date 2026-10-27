@@ -1,17 +1,20 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FULL_DAY, FULL_DUSK } from './dusk';
-import { firstMeadow, type Meadow, reduce } from './game';
-import type { RunDoor } from './mouse-run';
+import { mulberry32 } from '@/mushrooms/shared/lib/random';
+import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/world';
 import {
   type Burrows,
-  NIGHT_GAP,
   nightRan,
   type NightRuns,
   NO_NIGHT_RUNS,
-} from './night-runs';
-import { mulberry32 } from './random';
+} from '@/mushrooms/features/mice-run/index.node-safe';
+import {
+  NIGHT_GAP,
+  type RunDoor,
+} from '@/mushrooms/features/mice-run/index.test-only';
+
+import { firstMeadow, type Meadow, reduce } from './game';
 
 const door = (id: string, x: number, hidden = false): RunDoor => ({
   id,

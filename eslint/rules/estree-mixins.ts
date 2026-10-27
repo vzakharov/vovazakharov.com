@@ -6,7 +6,11 @@
 import type * as ESTree from 'estree';
 
 // Relative, not `@/` — jiti gives `eslint/` no path alias.
-export type { Named, WithText } from '../../src/kernel/shared/typings';
+export type {
+  Named,
+  WithFile,
+  WithText,
+} from '../../src/kernel/shared/typings';
 
 /** Loosely-typed AST node — the TS-specific node kinds aren't in @types/estree. */
 export type AstNode = ESTree.Node & Record<string, unknown>;

@@ -5,25 +5,21 @@
 
 import type { z } from 'zod';
 
-import { CLUMP_DISTANCE } from '@/mushrooms/pages/mushrooms/model/ground';
+import { CLUMP_DISTANCE } from '@/mushrooms/shared/world/ground';
+import { bendAt, type Pinhole } from '@/mushrooms/shared/world/pinhole';
+import { D_SEE, V_NEAR } from '@/mushrooms/shared/world/view';
 import {
   INSECT_KINDS,
   type InsectKind,
-} from '@/mushrooms/pages/mushrooms/model/insect-genes';
-import {
-  bendAt,
-  type Pinhole,
-} from '@/mushrooms/pages/mushrooms/model/pinhole';
-import { D_SEE, V_NEAR } from '@/mushrooms/pages/mushrooms/ui/scene/view';
+} from '@/mushrooms/entities/insect/model/insect-genes';
 
 import type { Point } from './mushroom-probe-answers.ts';
-import type { Expect } from './mushroom-probe-drive.ts';
+import { type Expect, FPS } from './mushroom-probe-drive.ts';
 import { dashPeak, pivotAllowance } from './veer-dash.ts';
 import {
   byInsect,
   byLeg,
   fading,
-  FPS,
   hiddenRuns,
   inFlight,
   most,

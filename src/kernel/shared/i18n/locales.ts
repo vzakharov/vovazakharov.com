@@ -1,8 +1,7 @@
 /**
  * The locale list on its own, with no next-intl behind it: a client component
  * that has to recognize a language in a URL imports from here and pulls none of
- * the i18n runtime into the browser bundle. Bare Node reaches it too, through
- * blog's `shared/content/locale-suffix.ts`, so its import spells its extension.
+ * the i18n runtime into the browser bundle.
  */
 
 import { isOneOf } from '../lib/collections.ts';

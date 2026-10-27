@@ -1,20 +1,26 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { everyPlace } from '../ui/scene/clump-layout';
-import { meadowLayout } from '../ui/scene/layout';
-import { VIEWPORTS } from '../ui/scene/viewports';
-import { containsPoint, type Point } from './geometry';
-import { HEAD_KIND, MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
+import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
+import { SHELTER_SEATS } from '@/mushrooms/shared/world';
+import {
+  capSeat,
+  capUnder,
+  everyPlace,
+  headOutlines,
+  MUSHROOM_SPECIES,
+  mushroomGenes,
+  stemAt,
+  VIEWPORTS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
   capOutlines,
-  capUnder,
   gillLines,
-  headOutlines,
+  HEAD_KIND,
   stemOutline,
-} from './mushroom-outline';
-import { capSeat, stemAt } from './mushroom-pose';
-import { SHELTER_SEATS } from './shelter';
+} from '@/mushrooms/entities/mushroom/index.test-only';
+
+import { meadowLayout } from '../ui/layout';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 

@@ -17,11 +17,11 @@
 
 import { z } from 'zod';
 
-import { azimuthOf } from '@/mushrooms/pages/mushrooms/model/flight-frame';
-import { wrap } from '@/mushrooms/pages/mushrooms/model/geometry';
-import type { InsectKind } from '@/mushrooms/pages/mushrooms/model/insect-genes';
-import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
-import { pinholeOf } from '@/mushrooms/pages/mushrooms/model/pinhole';
+import { wrap } from '@/mushrooms/shared/lib/geometry';
+import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
+import { pinholeOf } from '@/mushrooms/shared/world/pinhole';
+import { azimuthOf } from '@/mushrooms/entities/insect/model/flight-frame';
+import type { InsectKind } from '@/mushrooms/entities/insect/model/insect-genes';
 
 import {
   Camera,
@@ -32,6 +32,7 @@ import {
 } from './mushroom-probe-answers.ts';
 import {
   type Expect,
+  FPS,
   grow,
   inTurn,
   type Page,
@@ -49,7 +50,7 @@ import {
   walkedIn,
   zooms,
 } from './veer-report.ts';
-import { FPS, most, type Sample, Samples, VEER } from './veer-watch.ts';
+import { most, type Sample, Samples, VEER } from './veer-watch.ts';
 
 /** The headings round the eye a perch is looked for at, in radians. */
 const HEADINGS = Array.from(

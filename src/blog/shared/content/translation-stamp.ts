@@ -1,6 +1,6 @@
 /**
  * No `import 'server-only'`, unlike most of `shared/content/`:
- * `src/blog/scripts/stamp-translation.ts` runs this under bare Node.
+ * `src/blog/scripts/stamp-translation.ts` runs this outside any bundler.
  */
 
 /** The frontmatter key a translation carries its original's `contentHash` under. */

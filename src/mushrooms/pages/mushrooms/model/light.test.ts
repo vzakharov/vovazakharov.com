@@ -1,10 +1,15 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { meadowLayout } from '../ui/scene/layout';
-import { VISITS } from '../ui/scene/viewports';
-import { OPENING_EYE } from './ground';
-import { headedLight, PICTOGRAM_LIGHT, sunLight } from './light';
+import {
+  headedLight,
+  PICTOGRAM_LIGHT,
+  sunLight,
+} from '@/mushrooms/shared/lib/light';
+import { OPENING_EYE } from '@/mushrooms/shared/world';
+import { VISITS } from '@/mushrooms/entities/mushroom/index.node-safe';
+
+import { meadowLayout } from '../ui/layout';
 
 describe('sunLight', () => {
   for (const [name, width, height, side] of [

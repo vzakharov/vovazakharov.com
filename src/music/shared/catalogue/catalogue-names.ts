@@ -3,9 +3,9 @@
  * directory's `albums/` and `artists/`, so a name the schema accepts is a file
  * that exists.
  *
- * Bare Node runs this for `scripts/`, so it spells its extensions and carries
- * no `server-only`. It stays out of `index.node-safe.ts` all the same, which
- * client components enter and which must not reach `node:fs`.
+ * `scripts/` run this outside any bundler, so it carries no `server-only`. It
+ * stays out of `index.node-safe.ts` all the same, which client components enter
+ * and which must not reach `node:fs`.
  */
 
 import matter from 'gray-matter';
@@ -16,7 +16,8 @@ import { z } from 'zod';
 import {
   collectionDir,
   isDocumentFile,
-} from '../../../blog/shared/content/collections.ts';
+} from '@/blog/shared/content/collections';
+
 import { musicAlbumSchema, musicProjectSchema, SLUG } from './name-brands.ts';
 
 /** What this module reads of an artist's file; `artistFrontmatterSchema` reads the rest. */

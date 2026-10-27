@@ -7,13 +7,10 @@
 
 import type { z } from 'zod';
 
-import {
-  gaitHeight,
-  RISE_EASE,
-} from '@/mushrooms/pages/mushrooms/model/eye-height';
-import { SLOP } from '@/mushrooms/pages/mushrooms/model/pan';
-import { planeSeen, viewOf } from '@/mushrooms/pages/mushrooms/model/pinhole';
-import { crossingOf } from '@/mushrooms/pages/mushrooms/model/walk';
+import { gaitHeight, RISE_EASE } from '@/mushrooms/shared/world/eye-height';
+import { SLOP } from '@/mushrooms/shared/world/pan';
+import { planeSeen, viewOf } from '@/mushrooms/shared/world/pinhole';
+import { crossingOf } from '@/mushrooms/shared/world/walk';
 
 import {
   type Camera,
@@ -21,9 +18,14 @@ import {
   Eye,
   Point,
 } from './mushroom-probe-answers.ts';
-import { dragMoves, type Expect, type Page } from './mushroom-probe-drive.ts';
+import {
+  dragMoves,
+  type Expect,
+  FPS,
+  type Page,
+} from './mushroom-probe-drive.ts';
 import { BARE_START } from './play-taps.ts';
-import { FPS, type Seen } from './play-walk-checks.ts';
+import type { Seen } from './play-walk-checks.ts';
 
 /** How far off the finger, as a share of its swipe, the ground under it may stand while it is down. */
 const UNDER_SHARE = 0.03;

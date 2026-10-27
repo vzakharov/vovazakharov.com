@@ -1,7 +1,6 @@
 /**
  * No `import 'server-only'`, unlike most of `shared/content/`: the translation
- * scripts run this under bare Node, which is why its imports spell their
- * extensions.
+ * scripts run this outside any bundler.
  */
 
 import path from 'node:path';
@@ -10,8 +9,8 @@ import {
   DEFAULT_LOCALE,
   type Locale,
   LOCALES,
-} from '../../../kernel/shared/i18n/locales.ts';
-import { isOneOf } from '../../../kernel/shared/lib/collections.ts';
+} from '@/kernel/shared/i18n/locales';
+import { isOneOf } from '@/kernel/shared/lib/collections';
 
 /** The languages an original can be in: any but the one it is translated into. */
 export const ORIGINAL_LOCALES = LOCALES.filter(

@@ -14,6 +14,9 @@ export default {
     'steiger.config.mjs',
     // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.
     'src/kernel/shared/i18n/request.ts',
+    // Run by `scripts/vet-test.sh`, which hands node the files rather than a
+    // glob a `package.json` script spells.
+    '**/*.test.ts',
   ],
   // The plugin looks for `app/` and `next.config.*` at the root; each site under
   // `sites/` holds its own one level down. The file names are the App Router's

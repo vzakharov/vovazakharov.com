@@ -6,21 +6,25 @@
 
 import { z } from 'zod';
 
-import { wrap } from '@/mushrooms/pages/mushrooms/model/geometry';
-import { KEY_EASE, TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
+import { wrap } from '@/mushrooms/shared/lib/geometry';
+import { KEY_EASE, TURN_CRUISE } from '@/mushrooms/shared/world/pan';
 import {
   forwardOf,
   sidewaysOf,
   STEP_LENGTH,
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
-} from '@/mushrooms/pages/mushrooms/model/stride';
-import { SHOWN_LEAST } from '@/mushrooms/pages/mushrooms/ui/scene/view';
+} from '@/mushrooms/shared/world/stride';
+import { SHOWN_LEAST } from '@/mushrooms/shared/world/view';
 
 import { Eye, type Point } from './mushroom-probe-answers.ts';
-import type { Arrow, Expect, Strafe } from './mushroom-probe-drive.ts';
+import {
+  type Arrow,
+  type Expect,
+  FPS,
+  type Strafe,
+} from './mushroom-probe-drive.ts';
 
-export const FPS = 60;
 /** How far over a cruise a frame's pace may run, for the float left over. */
 export const OVER = 1.02;
 

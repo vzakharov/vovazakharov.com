@@ -1,39 +1,13 @@
 import * as parser from '@typescript-eslint/parser';
 import { Linter } from 'eslint';
 import assert from 'node:assert/strict';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { after, describe, it } from 'node:test';
+import { describe, it } from 'node:test';
 
 import rule from './no-relative-escape';
 
-// A throwaway repository: `package.json` names one bare-Node entry, which
-// reaches a library relatively; everything else runs under a bundler or tsx.
-const root = mkdtempSync(path.join(tmpdir(), 'no-relative-escape-'));
-after(() => {
-  rmSync(root, { recursive: true, force: true });
-});
-
-function put(file: string, text: string): void {
-  mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
-  writeFileSync(path.join(root, file), text);
-}
-
-put(
-  'package.json',
-  JSON.stringify({
-    scripts: {
-      check: 'node src/kernel/scripts/check.ts',
-      test: 'node --import tsx --test "src/**/*.test.ts"',
-    },
-  }),
-);
-put('src/kernel/scripts/check.ts', "import './lib/walk.ts';");
-put(
-  'src/kernel/scripts/lib/walk.ts',
-  "import '../../shared/content/paths.ts';",
-);
+const root = path.join(tmpdir(), 'no-relative-escape');
 
 const linter = new Linter({ configType: 'flat', cwd: root });
 
@@ -80,11 +54,6 @@ describe('no-relative-escape', () => {
       "import { x } from '../masters';",
     ],
     [
-      'a library bare Node reaches',
-      'src/kernel/scripts/lib/walk.ts',
-      "import '../../shared/content/paths.ts';",
-    ],
-    [
       'a file outside src',
       'scripts/check.ts',
       "import '../src/kernel/shared/content/paths.ts';",
@@ -113,6 +82,12 @@ describe('no-relative-escape', () => {
       'src/basilisk/scripts/lib/docket.ts',
       "import type { X } from '../../../kernel/scripts/lib/read-collection.ts';",
       '@/kernel/scripts/lib/read-collection',
+    ],
+    [
+      'a script reaching its own app layers with the extension bare Node needs',
+      'src/kernel/scripts/lib/walk.ts',
+      "import '../../shared/content/paths.ts';",
+      '@/kernel/shared/content/paths',
     ],
     [
       'a script reaching its own app layers',

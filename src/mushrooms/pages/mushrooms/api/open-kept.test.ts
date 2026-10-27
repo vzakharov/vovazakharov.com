@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { settled } from '../model/keeping';
 import { type Kept, KEPT_VERSION } from '../model/kept-record';
-import { opened } from '../ui/scene/visit-play';
+import { opened } from '../ui/visit-play';
 import { fakeStore, later } from './fake-store';
 import { openStore } from './meadow-store';
 import { openKept } from './open-kept';

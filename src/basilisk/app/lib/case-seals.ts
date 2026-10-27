@@ -1,13 +1,12 @@
 import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+import type { WithFile } from '@/kernel/shared/typings';
 
 import { listPrimaryDocuments } from '@/blog/shared/content';
 
 import { CASES } from '@/basilisk/shared/content';
 import { caseSealFile, caseSealSvg, SEAL_CUTS } from '@/basilisk/entities/case';
 
-type SealParams = { file: string };
-
-type SealContext = { params: Promise<SealParams> };
+type SealContext = { params: Promise<WithFile> };
 
 /** Every cut of every case's seal, by the file name it is served under. */
 function sealFiles() {
@@ -26,7 +25,7 @@ function sealFiles() {
  */
 export function caseSealRoute() {
   return {
-    generateStaticParams: (): SealParams[] =>
+    generateStaticParams: (): WithFile[] =>
       [...sealFiles().keys()].map((file) => ({ file })),
     GET: async (_request: Request, { params }: SealContext) => {
       const { file } = await params;

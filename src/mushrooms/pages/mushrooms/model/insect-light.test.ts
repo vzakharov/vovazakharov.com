@@ -1,13 +1,34 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { outwardNormals, weightedOutline } from '../ui/scene/ink';
-import { meadowLayout } from '../ui/scene/layout';
-import { VIEWPORTS, VISITS } from '../ui/scene/viewports';
-import { ellipse, placedAt, type Point, ROUND_STEPS, wrap } from './geometry';
-import { LIGHT_STEP, litCrest, litTurn } from './insect-light';
-import { type Light, sunLight, turnedLight } from './light';
-import { between, mulberry32 } from './random';
+import {
+  ellipse,
+  placedAt,
+  type Point,
+  ROUND_STEPS,
+  wrap,
+} from '@/mushrooms/shared/lib/geometry';
+import {
+  type Light,
+  sunLight,
+  turnedLight,
+} from '@/mushrooms/shared/lib/light';
+import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
+import {
+  outwardNormals,
+  weightedOutline,
+} from '@/mushrooms/shared/ui/index.node-safe';
+import {
+  LIGHT_STEP,
+  litCrest,
+  litTurn,
+} from '@/mushrooms/entities/insect/index.test-only';
+import {
+  VIEWPORTS,
+  VISITS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
+import { meadowLayout } from '../ui/layout';
 
 const ORIGIN = { x: 0, y: 0 };
 const angleOf = ({ x, y }: Point) => Math.atan2(y, x);

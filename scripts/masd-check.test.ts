@@ -54,6 +54,10 @@ function run(tree: Tree): { status: number; stderr: string } {
 }
 
 const ENTITY = 'src/blog/entities/card/index.ts';
+const UNREFERENCED =
+  'src/blog/entities/card: This slice has no references. Consider removing it.\n';
+const MERGE_INTO_HOME =
+  'src/blog/entities/card: This slice has only one reference in slice "pages/home". Consider merging them.\n';
 
 describe('masd-check', () => {
   it('passes a clean tree', () => {
@@ -80,16 +84,104 @@ describe('masd-check', () => {
         "import { card } from '@/blog/entities/card';",
     });
     assert.equal(status, 1);
-    assert.equal(
-      stderr,
-      'src/blog/entities/card: This slice has only one reference in slice "pages/home". Consider merging them.\n',
-    );
+    assert.equal(stderr, MERGE_INTO_HOME);
+  });
+
+  describe('a slice with one reference, by modularity over its own app', () => {
+    const CONSUMER: Tree = {
+      'src/site/pages/home/ui.ts': "import { a } from '@/blog/entities/card';",
+    };
+    // Three edges inside the card: the barrel to each file, and `a` to `b`.
+    const COHESIVE: Tree = {
+      ...CONSUMER,
+      [ENTITY]: "export * from './a';\nexport * from './b';",
+      'src/blog/entities/card/a.ts':
+        "import { b } from './b';\nexport const a = b;",
+      'src/blog/entities/card/b.ts': 'export const b = 1;',
+    };
+    // Two edges elsewhere in blog, so the card is not the whole graph.
+    const REST_OF_BLOG: Tree = {
+      'src/blog/pages/documents/index.ts': "export * from './ui';",
+      'src/blog/pages/documents/ui.ts': "import { x } from '@/blog/shared/x';",
+      'src/blog/shared/x/index.ts': 'export const x = 1;',
+    };
+    const shared = (names: string[]): Tree =>
+      Object.fromEntries(
+        names.map((name) => [
+          `src/blog/shared/${name}/index.ts`,
+          `export const ${name} = 1;`,
+        ]),
+      );
+
+    it('passes a slice holding more of its edges than chance', () => {
+      assert.deepEqual(run({ ...COHESIVE, ...REST_OF_BLOG }), {
+        status: 0,
+        stderr: '',
+      });
+    });
+
+    it('flags one whose files mostly import outside it', () => {
+      assert.equal(
+        run({
+          ...CONSUMER,
+          ...REST_OF_BLOG,
+          ...shared(['p', 'q', 'r', 's', 't']),
+          [ENTITY]: "export * from './a';\nexport * from './b';",
+          'src/blog/entities/card/a.ts': [
+            "import { p } from '@/blog/shared/p';",
+            "import { q } from '@/blog/shared/q';",
+            "import { r } from '@/blog/shared/r';",
+            'export const a = p + q + r;',
+          ].join('\n'),
+          'src/blog/entities/card/b.ts': [
+            "import { s } from '@/blog/shared/s';",
+            "import { t } from '@/blog/shared/t';",
+            'export const b = s + t;',
+          ].join('\n'),
+        }).stderr,
+        MERGE_INTO_HOME,
+      );
+    });
+
+    it('flags a one-file slice, which has no edge inside it', () => {
+      assert.equal(
+        run({
+          ...CONSUMER,
+          ...REST_OF_BLOG,
+          [ENTITY]: "import { x } from '@/blog/shared/x';\nexport const a = x;",
+        }).stderr,
+        MERGE_INTO_HOME,
+      );
+    });
+
+    it('counts no descendant edge, however many', () => {
+      // The card is the whole of blog, so it holds exactly its share by chance;
+      // the site's edges would lower that share if they counted.
+      const site = Object.fromEntries(
+        ['a', 'b', 'c', 'd'].map((name) => [
+          `src/site/pages/home/${name}.ts`,
+          "import './ui';\nexport const y = 1;",
+        ]),
+      );
+      assert.equal(run({ ...COHESIVE, ...site }).stderr, MERGE_INTO_HOME);
+    });
+
+    it('still flags it with no references', () => {
+      assert.equal(
+        run({
+          ...COHESIVE,
+          ...REST_OF_BLOG,
+          'src/site/pages/home/ui.ts': '',
+        }).stderr,
+        UNREFERENCED,
+      );
+    });
   });
 
   it('flags a slice nothing uses', () => {
     assert.equal(
       run({ [ENTITY]: 'export const card = 1;' }).stderr,
-      'src/blog/entities/card: This slice has no references. Consider removing it.\n',
+      UNREFERENCED,
     );
   });
 
@@ -100,7 +192,29 @@ describe('masd-check', () => {
         'src/blog/scripts/render.ts':
           "import { card } from '@/blog/entities/card';",
       }).stderr,
-      'src/blog/entities/card: This slice has no references. Consider removing it.\n',
+      UNREFERENCED,
+    );
+  });
+
+  it('does not count a test as a reference', () => {
+    assert.equal(
+      run({
+        [ENTITY]: 'export const card = 1;',
+        'src/blog/pages/documents/ui.test.ts':
+          "import { card } from '@/blog/entities/card';",
+      }).stderr,
+      UNREFERENCED,
+    );
+  });
+
+  it('does not count a test kit as a reference', () => {
+    assert.equal(
+      run({
+        [ENTITY]: 'export const card = 1;',
+        'src/blog/pages/documents/ui.test-kit.ts':
+          "import { card } from '@/blog/entities/card';",
+      }).stderr,
+      UNREFERENCED,
     );
   });
 

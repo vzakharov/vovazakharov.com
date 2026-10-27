@@ -6,17 +6,25 @@
 
 import { z } from 'zod';
 
-import { TOWARDS } from './dusk';
-import { PERCH_KINDS, SIDES } from './flight';
+import type { Seeded } from '@/mushrooms/shared/lib/random';
+import {
+  GAITS,
+  SHELTER_SEATS,
+  TOWARDS,
+  type WalkStart,
+} from '@/mushrooms/shared/world';
+import {
+  INSECT_KINDS,
+  PERCH_KINDS,
+  SIDES,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  MUSHROOM_SPECIES,
+  SPROUT_MS,
+  WINDOW_KINDS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
 import { type KeptMeadow, PICKERS_SHUT, type Unkept } from './game';
-import { WINDOW_KINDS } from './house';
-import { INSECT_KINDS } from './insect-genes';
-import { MUSHROOM_SPECIES } from './mushroom-genes';
-import type { Seeded } from './random';
-import { SHELTER_SEATS } from './shelter';
-import { SPROUT_MS } from './sprouting';
-import { GAITS } from './stride';
-import type { WalkStart } from './walk';
 
 /** The record's format: a record of any other is not read, and is never overwritten. */
 export const KEPT_VERSION = 1;

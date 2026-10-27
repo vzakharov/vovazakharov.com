@@ -1,7 +1,5 @@
 /**
- * Where the scripts find the repository and the site a run serves. Bare Node
- * runs `render-mermaid.ts`, relying on its type stripping, so this file stays
- * free of syntax the stripper cannot erase.
+ * Where the scripts find the repository and the site a run serves.
  */
 
 import fs from 'node:fs';
@@ -10,9 +8,9 @@ import path from 'node:path';
 import {
   GENERATED_DIR,
   resolveSiteId,
-} from '../../shared/config/index.node-safe.ts';
+} from '@/kernel/shared/config/index.node-safe';
 
-export const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..', '..');
+export { REPO_ROOT } from './repo-root.ts';
 
 /**
  * Every file under `target`, recursively — or `target` itself when it is a

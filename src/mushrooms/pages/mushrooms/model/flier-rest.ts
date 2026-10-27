@@ -3,8 +3,8 @@
  * with what was left of its stay, so the next load finds none in the air.
  */
 
-import type { Leg } from './flight';
-import type { Flier } from './insects';
+import type { Flier, Leg } from '@/mushrooms/entities/insect/index.node-safe';
+
 import { RESTED_AT } from './kept-record';
 
 /**

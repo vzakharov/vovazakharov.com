@@ -14,6 +14,9 @@ export type Named = { name: string };
 
 export type WithId = { id: string };
 
+/** A file named by path or by the name it is served under. */
+export type WithFile = { file: string };
+
 export type Titled = { title: string };
 
 /** A box's width and height: an image's intrinsic pixel size, which reserves its box before it loads, or a drawn part's. */

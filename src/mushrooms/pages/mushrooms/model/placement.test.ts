@@ -1,12 +1,22 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { MEADOW_FRAME } from '../ui/scene/meadow-camera';
-import { VIEWPORTS, VISITS } from '../ui/scene/viewports';
-import { opened } from '../ui/scene/visit-play';
-import { type Frame, type Ground, scaleAt, seen } from './ground';
-import { apartOnScreen, pickFoot } from './placement';
-import { mulberry32, type Random } from './random';
+import { mulberry32, type Random } from '@/mushrooms/shared/lib/random';
+import {
+  type Frame,
+  type Ground,
+  scaleAt,
+  seen,
+} from '@/mushrooms/shared/world';
+import {
+  apartOnScreen,
+  MEADOW_FRAME,
+  pickFoot,
+  VIEWPORTS,
+  VISITS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+
+import { opened } from '../ui/visit-play';
 
 /** How many feet an evenness trial lays out: a meadow's six. */
 const FEET = 6;

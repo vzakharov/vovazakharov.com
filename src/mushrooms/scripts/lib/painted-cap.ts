@@ -10,20 +10,20 @@ import {
   boxAround,
   containsPoint,
   distanceToEdge,
-} from '@/mushrooms/pages/mushrooms/model/geometry';
+} from '@/mushrooms/shared/lib/geometry';
 import {
   MUSHROOM_SPECIES,
   mushroomGenes,
-} from '@/mushrooms/pages/mushrooms/model/mushroom-genes';
+} from '@/mushrooms/entities/mushroom/model/mushroom-genes';
 import {
   headOutlines,
   toCanvas,
-} from '@/mushrooms/pages/mushrooms/model/mushroom-outline';
+} from '@/mushrooms/entities/mushroom/model/mushroom-outline';
 import {
   capFrame,
   splayed,
-} from '@/mushrooms/pages/mushrooms/model/mushroom-pose';
-import { placeOf } from '@/mushrooms/pages/mushrooms/ui/scene/clump-layout';
+} from '@/mushrooms/entities/mushroom/model/mushroom-pose';
+import { placeOf } from '@/mushrooms/entities/mushroom/ui/clump-layout';
 
 import type { Camera, Point } from './mushroom-probe-answers.ts';
 

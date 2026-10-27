@@ -3,12 +3,13 @@ import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 import { z } from 'zod';
 
-import { ALL_TEN, opened, play } from '../ui/scene/visit-play';
+import { OPENING_EYE } from '@/mushrooms/shared/world';
+import { grownOn } from '@/mushrooms/entities/mushroom/index.node-safe';
+
+import { ALL_TEN, opened, play } from '../ui/visit-play';
 import { type Action, type Meadow, reduce } from './game';
-import { OPENING_EYE } from './ground';
 import { settled } from './keeping';
 import { type Kept, KEPT_VERSION, KeptSchema, readKept } from './kept-record';
-import { grownOn } from './placement';
 
 const SEED = 5;
 /** Past the shower tapped at 6 s, so a spore sown then lies on. */

@@ -1,23 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { placeIn, placeOf } from '../ui/scene/clump-layout';
-import { groundOf } from '../ui/scene/flower-layout';
-import { flowerFeet } from '../ui/scene/flower-plots';
-import {
-  EDGE_MARGIN,
-  MEADOW_FRAME,
-  meadowCamera,
-  WORLD_ACROSS,
-} from '../ui/scene/meadow-camera';
-import { FLOOR_HELD, VIEWPORTS, VISITS } from '../ui/scene/viewports';
-import { opened, relaidOn } from '../ui/scene/visit-play';
 import {
   anchored,
   CLUMP_DISTANCE,
   type Frame,
   gathered,
   type Ground,
+  groundOf,
   groundOfPlane,
   OPENING_EYE,
   planeOf,
@@ -26,10 +16,29 @@ import {
   seen,
   spread,
   unanchored,
-} from './ground';
-import { feetOver, gridOver } from './ground-grid';
-import { maxReach } from './mushroom-pose';
-import { type Footed, grownOn, OPENING_FOOTING } from './placement';
+} from '@/mushrooms/shared/world';
+import { flowerFeet } from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  EDGE_MARGIN,
+  FLOOR_HELD,
+  type Footed,
+  grownOn,
+  MEADOW_FRAME,
+  meadowCamera,
+  OPENING_FOOTING,
+  placeIn,
+  VIEWPORTS,
+  VISITS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  feetOver,
+  gridOver,
+  maxReach,
+  placeOf,
+  WORLD_ACROSS,
+} from '@/mushrooms/entities/mushroom/index.test-only';
+
+import { opened, relaidOn } from '../ui/visit-play';
 
 /** `feetOver` as mushrooms stand on them, grown at the opening eye. */
 const footedOver = (frame: Frame): Footed[] => [

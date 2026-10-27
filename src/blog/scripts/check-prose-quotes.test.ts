@@ -6,11 +6,12 @@
  */
 
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, it } from 'node:test';
+
+import { runTsxScript } from '@/kernel/scripts/lib/tsx-script';
 
 const SCRIPT = path.resolve(import.meta.dirname, 'check-prose-quotes.ts');
 
@@ -23,10 +24,7 @@ function run(tree: Tree) {
     mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
     writeFileSync(path.join(root, file), text);
   }
-  const { status, stdout } = spawnSync(process.execPath, [SCRIPT], {
-    cwd: root,
-    encoding: 'utf8',
-  });
+  const { status, stdout } = runTsxScript(SCRIPT, [], { cwd: root });
   return { status, stdout };
 }
 

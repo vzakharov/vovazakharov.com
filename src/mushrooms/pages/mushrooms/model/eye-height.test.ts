@@ -1,23 +1,32 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { meadowCamera } from '../ui/scene/meadow-camera';
-import { VIEWPORTS } from '../ui/scene/viewports';
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import {
   browDistance,
+  D_SEE,
   D_SEE_MOST,
+  EYE_HEIGHT,
   FLIGHT_RISE,
   gaitHeight,
+  lensAt,
+  OPENING_EYE,
+  openingWalk,
+  pinholeOf,
+  planeSeen,
+  withGait,
+} from '@/mushrooms/shared/world';
+import {
   heightAt,
   OPENING_RISE,
   RISE_EASE,
   riseFrom,
   walking,
-} from './eye-height';
-import { distanceBetween } from './geometry';
-import { D_SEE, EYE_HEIGHT, OPENING_EYE } from './ground';
-import { pinholeOf, planeSeen } from './pinhole';
-import { lensAt, openingWalk, withGait } from './walk';
+} from '@/mushrooms/shared/world/index.test-only';
+import {
+  meadowCamera,
+  VIEWPORTS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 
 describe('eye height', () => {
   it('stands at the walking height in steps and FLIGHT_RISE times it in flight', () => {

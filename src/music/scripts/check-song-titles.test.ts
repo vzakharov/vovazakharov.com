@@ -5,11 +5,12 @@
  */
 
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, it } from 'node:test';
+
+import { runTsxScript } from '@/kernel/scripts/lib/tsx-script';
 
 const SCRIPT = path.resolve(import.meta.dirname, 'check-song-titles.ts');
 
@@ -18,10 +19,7 @@ function run(frontmatter: string) {
   const dir = path.join(root, 'sites/vova/public/music/songs');
   mkdirSync(dir, { recursive: true });
   writeFileSync(path.join(dir, 'song.md'), `---\n${frontmatter}\n---\n`);
-  const { status, stdout } = spawnSync(process.execPath, [SCRIPT], {
-    cwd: root,
-    encoding: 'utf8',
-  });
+  const { status, stdout } = runTsxScript(SCRIPT, [], { cwd: root });
   return { status, stdout };
 }
 

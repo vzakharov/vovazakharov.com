@@ -10,20 +10,15 @@
 
 import { z } from 'zod';
 
-import { OPENING_EYE } from '@/mushrooms/pages/mushrooms/model/ground';
-import { LANDING } from '@/mushrooms/pages/mushrooms/model/insect-motion';
-import { TURN_CRUISE } from '@/mushrooms/pages/mushrooms/model/pan';
-import {
-  browRow,
-  ofLayout,
-  viewAt,
-} from '@/mushrooms/pages/mushrooms/ui/scene/view';
+import { OPENING_EYE } from '@/mushrooms/shared/world/ground';
+import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
+import { browRow, ofLayout, viewAt } from '@/mushrooms/shared/world/view';
+import { LANDING } from '@/mushrooms/entities/insect/model/insect-motion';
 
 import { Camera, type Controls, Point } from './mushroom-probe-answers.ts';
-import type { Expect, Page } from './mushroom-probe-drive.ts';
+import { type Expect, FPS, type Page } from './mushroom-probe-drive.ts';
 import { fliersOn } from './play-fliers.ts';
 
-const FPS = 60;
 /** How near, in CSS px, a thing drawn at the opening counts as where the lens stands it. */
 const SAME_PX = 0.5;
 /** How far, in CSS px, a perched insect may be drawn off its seat as the eye turns. */

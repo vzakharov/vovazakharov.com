@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 242,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 298841,
+    "cacheReadTokens": 30529634,
+    "outputTokens": 102906,
+    "thinkingTokens": 43048,
+    "responses": 121,
+    "costUsd": 10.555742800000004
+  },
+  "estimate": {
+    "at": "2026-10-26T20:50:25.307Z",
+    "parts": [
+      {
+        "hours": 0.2,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "the occupant's shape, the sitter port and dropping the anchored filter were calls across the flower, mushroom and insect slices"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "untying the flower from two entities touched ~45 files and their tests without casts"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "e6ae806a-1765-5077-bb45-b79d12784b65",
+  "branch": "masd/one-page-measure",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take masd/one-page-measure — построить «занимающего» (развилка цветка и грибов решена), разобрать светлячков и узел «газон/небо», довести раскладку по сл…",
+  "prs": [
+    216
+  ],
+  "url": "https://claude.ai/code/session_01PZzfTRU5ah9gdUk3dczccz",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-26T20:29:14.206Z",
+  "lastResponseAt": "2026-10-26T20:51:33.109Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 242,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 298841,
+    "cacheReadTokens": 30529634,
+    "outputTokens": 102906,
+    "thinkingTokens": 43048,
+    "responses": 121,
+    "costUsd": 10.555742800000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 242,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 298841,
+      "cacheReadTokens": 30529634,
+      "outputTokens": 102906,
+      "thinkingTokens": 43048,
+      "responses": 121,
+      "costUsd": 10.555742800000004
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/mushrooms/pages/mushrooms/ui/scene/anchored-ground.ts",
+    "endedAt": "2026-10-26T20:33:52.782Z",
+    "contextTokens": 207534,
+    "spend": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 147589,
+      "cacheReadTokens": 3872938,
+      "outputTokens": 23974,
+      "thinkingTokens": 18615,
+      "responses": 27,
+      "costUsd": 2.4349956
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}

@@ -3,13 +3,25 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { flowerLift } from '../ui/scene/flower-seat';
-import { flowerGenes, flowerHead } from './flower-genes';
-import { placedAt, type Point } from './geometry';
-import { insectGenes } from './insect-genes';
-import { REST_LEAN, SIP_DEPTH } from './insect-motion';
-import { ABDOMEN, headOf, type Side } from './insect-outline';
-import { inBody, PROBOSCIS_STEPS, proboscisLine } from './proboscis';
+import { placedAt, type Point } from '@/mushrooms/shared/lib/geometry';
+import {
+  flowerGenes,
+  flowerHead,
+} from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  flowerLift,
+  insectGenes,
+  REST_LEAN,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  ABDOMEN,
+  type BodySide,
+  headOf,
+  inBody,
+  PROBOSCIS_STEPS,
+  proboscisLine,
+  SIP_DEPTH,
+} from '@/mushrooms/entities/insect/index.test-only';
 
 const SEEDS = Array.from({ length: 60 }, (_, index) => index * 4099 + 11);
 const LEANS = [-REST_LEAN, -0.2, 0, 0.2, REST_LEAN];
@@ -20,7 +32,7 @@ const SIZES = [
   [36, 60],
   [105, 108],
 ] as const;
-const SIDES: readonly Side[] = [-1, 1];
+const SIDES: readonly BodySide[] = [-1, 1];
 
 /**
  * Every butterfly drinking at every flower, as the scene seats it over the

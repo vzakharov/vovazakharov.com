@@ -7,66 +7,77 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import { isCrowdedAt, isFull } from './crowding';
-import { type Dusk, dusky, FULL_DAY, turned } from './dusk';
-import { type Perches, perchName, type Sight, type Timed } from './flight';
-import type { Onscreen } from './flight-in';
-import type { Coloured } from './flower-genes';
-import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';
+import type { Timed } from '@/mushrooms/shared/lib/motion';
+import type { Random, Seeded } from '@/mushrooms/shared/lib/random';
+import {
+  dusky,
+  FULL_DAY,
+  isCrowdedAt,
+  isFull,
+  RAIN_MS,
+  raining,
+  type Rooted,
+  sameFoot,
+  type StartRain,
+  turned,
+  type TurnLight,
+  type WithDusk,
+  type WithRain,
+} from '@/mushrooms/shared/world';
+import {
+  type HoldFlower,
+  type PickColour,
+  plantedId,
+  type Planting,
+  type PlantShape,
+  shapeSeed,
+  type Sown,
+  type WithPulled,
+} from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  type InsectKind,
+  type Onscreen,
+  perchName,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  type Deselect,
+  EMPTY_HOUSE,
+  firstMushrooms,
+  type Footed,
+  type Furnishing,
+  FURNISHINGS,
+  type Grown,
+  OPENING_FOOTING,
+  type Species,
+  type WithMushrooms,
+  type WithSelected,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
   furnishedTarget,
   newestWithRoom,
   selectedMushroom,
-} from './furnishing';
-import type { Footing, Rooted } from './ground';
+} from '@/mushrooms/features/furnish-house';
 import {
-  EMPTY_HOUSE,
-  type Furnishing,
-  FURNISHINGS,
-  type Housed,
-} from './house';
-import type { InsectKind } from './insect-genes';
-import { released, startled, type Swarm, ticked } from './insects';
-import { firstMushrooms, type Species } from './mushroom-genes';
+  sown,
+  type Spored,
+  type SporeTap,
+  sproutedInRain,
+  unsown,
+} from '@/mushrooms/features/grow-mushroom/index.node-safe';
+import {
+  type Perches,
+  released,
+  type Sight,
+  startled,
+  type Swarm,
+  ticked,
+} from '@/mushrooms/features/insects-fly/index.node-safe';
 import {
   type Burrows,
   nightRan,
   type NightRuns,
   NO_NIGHT_RUNS,
-} from './night-runs';
-import { type Footed, OPENING_FOOTING } from './placement';
-import { plantedId, type Sown } from './pollen';
-import type { Random, Seeded, Seeds } from './random';
-import {
-  type Placed,
-  sown,
-  type Spored,
-  type SporeTap,
-  sproutedInRain,
-  type Sprouting,
-  unsown,
-} from './sprouting';
-import { type Rain, RAIN_MS, raining } from './weather';
-
-export type Planted = Placed & Housed & Sprouting;
-
-/**
- * A colour the child picked to plant, and the seed each of `FLOWER_SHAPES`
- * grows from in it, in that order, drawn before the pick so the picker shows
- * the very flower that will grow.
- */
-type Chosen = Coloured & Seeds;
-
-/**
- * Where the flower picker is open, as a foot on the plane, while it waits:
- * for a colour while `chosen` is `undefined`, then for a shape. On a tuft the
- * child tapped, `flower` is `undefined`; on a flower the child held, it is
- * that flower's id, which a pick replaces and the cross pulls up.
- */
-export type Planting = Rooted & {
-  chosen: Chosen | undefined;
-  flower: string | undefined;
-};
+} from '@/mushrooms/features/mice-run/index.node-safe';
 
 export type Meadow = Unkept & KeptMeadow;
 
@@ -81,46 +92,22 @@ export type Pickers = {
 };
 
 /** What of a meadow belongs to the load that has it: the selection, the pickers and the shower. */
-export type Unkept = Pickers & {
-  selected: string | undefined;
-  /** The latest shower, kept once it stops for what it leaves behind; `undefined` before the first. */
-  rain: Rain | undefined;
-};
+export type Unkept = Pickers & WithSelected & WithRain;
+
+/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
+export type Tended = WithMushrooms & WithPulled;
 
 /** A meadow as a reload keeps it: all of it but `Unkept`. */
 export type KeptMeadow = Swarm &
   Tended &
   WithDusk &
-  Spored & {
-    /** How many mushrooms the meadow has ever grown, so every id is new. */
-    grown: number;
+  Spored &
+  Grown & {
     /** How many insects the meadow has ever released, so every id is new. */
     released: number;
     /** The mice's own outings at dusk (`nightRan`). */
     nightRuns: NightRuns;
   };
-
-/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
-export type Tended = WithMushrooms & WithPulled;
-
-export type WithMushrooms = {
-  /** In the order they were planted, so the last is the newest. */
-  mushrooms: readonly Planted[];
-};
-
-type WithPulled = {
-  /**
-   * The ids of the flowers the child pulled up or replaced, the visit's
-   * seeded ones and planted ones alike, in the order they went: none of them
-   * stands again, and a replacing flower is planted afresh in `planted`.
-   */
-  pulled: readonly string[];
-};
-
-export type WithDusk = {
-  /** Which way the light is going (`duskness`): the one record of the time of day. */
-  dusk: Dusk;
-};
 
 export type Action =
   | { kind: 'pick' }
@@ -128,15 +115,14 @@ export type Action =
   | ({ kind: 'select' } & WithId & SporeTap)
   // A tap on a spore: picks it up.
   | ({ kind: 'unsow' } & WithId)
-  | { kind: 'deselect' }
+  | Deselect
   | { kind: 'remove' }
   | { kind: 'house' }
   | { kind: 'furnish'; piece: Furnishing }
   | ({ kind: 'tuft' } & Rooted)
-  // A long press on the flower `id`, standing at `foot`.
-  | ({ kind: 'flower' } & WithId & Rooted)
-  | ({ kind: 'colour' } & Chosen)
-  | { kind: 'plant'; shape: FlowerShape }
+  | HoldFlower
+  | PickColour
+  | PlantShape
   // A key's flower grown on a tuft, the picker shut: none in view sounded it.
   | ({ kind: 'sow' } & Seeded & Rooted)
   // The picker's cross: pulls up the flower it is open on.
@@ -146,10 +132,8 @@ export type Action =
   // The map button's press: every picker shut, so nothing but that button
   // stands above the open map.
   | { kind: 'map' }
-  // A tap on a cloud: starts a shower, or while one falls restarts its time.
-  | ({ kind: 'rain' } & Timed)
-  // A tap on the sun or the moon: turns the light the other way.
-  | ({ kind: 'dusk' } & Timed)
+  | StartRain
+  | TurnLight
   | ({ kind: 'release'; insect: InsectKind; onscreen?: Onscreen } & Seeded &
       Sighted)
   | ({ kind: 'startle' } & WithId & Sighted)
@@ -183,14 +167,6 @@ export function firstMeadow(random: Random): Meadow {
     spores: [],
     scattered: 0,
   };
-}
-
-/** The seed `shape` grows from in the colour `planting` has picked; `undefined` before a pick. */
-export function shapeSeed(
-  planting: Planting | undefined,
-  shape: FlowerShape,
-): number | undefined {
-  return planting?.chosen?.seeds[FLOWER_SHAPES.indexOf(shape)];
 }
 
 export function isEmpty({ mushrooms }: WithMushrooms): boolean {
@@ -237,10 +213,6 @@ const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
 /** `meadow` with the flower picker shut, the same object when it was. */
 const flowersShut = (meadow: Meadow): Meadow =>
   meadow.planting === undefined ? meadow : { ...meadow, planting: undefined };
-
-/** Whether `a` and `b` are the one foot on the plane, by the stored numbers. */
-export const sameFoot = (a: Footing, b: Footing): boolean =>
-  a.x === b.x && a.y === b.y && a.size === b.size;
 
 /** Every picker shut: the mushrooms', the house's and the flowers'. */
 export const PICKERS_SHUT = {

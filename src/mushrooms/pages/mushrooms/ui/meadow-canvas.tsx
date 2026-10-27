@@ -22,7 +22,7 @@ export function MeadowCanvas() {
     const fail = (error: unknown) => {
       setFailure(error instanceof Error ? error : new Error(String(error)));
     };
-    import('./scene/start-game')
+    import('./start-game')
       .then(({ startGame }) => {
         if (!unmounted) stop = startGame(parent, fail);
       })
