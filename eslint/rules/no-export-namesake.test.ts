@@ -44,15 +44,15 @@ function reports(tree: Tree, file: string): string[] {
 
 const LAWN = 'src/game/entities/landscape/lawn.ts';
 const WORLD = 'src/game/shared/world/occupant.ts';
+const PRIVATE_BESIDE_EXPORTED = {
+  [LAWN]: 'const CELL = 4;\nexport const lawn = CELL;',
+  [WORLD]: 'export const CELL = 0.02;',
+};
 
 describe('no-export-namesake', () => {
   it('flags a private value sharing an exported one’s name, on both sides', () => {
-    const tree = {
-      [LAWN]: 'const CELL = 4;\nexport const lawn = CELL;',
-      [WORLD]: 'export const CELL = 0.02;',
-    };
-    assert.equal(reports(tree, LAWN).length, 1);
-    assert.equal(reports(tree, WORLD).length, 1);
+    assert.equal(reports(PRIVATE_BESIDE_EXPORTED, LAWN).length, 1);
+    assert.equal(reports(PRIVATE_BESIDE_EXPORTED, WORLD).length, 1);
   });
 
   it('flags two exported namesakes', () => {
@@ -82,13 +82,7 @@ describe('no-export-namesake', () => {
   });
 
   it('names the namesake’s file in its message', () => {
-    const [message] = reports(
-      {
-        [LAWN]: 'const CELL = 4;\nexport const lawn = CELL;',
-        [WORLD]: 'export const CELL = 0.02;',
-      },
-      LAWN,
-    );
+    const [message] = reports(PRIVATE_BESIDE_EXPORTED, LAWN);
     assert.match(
       message ?? '',
       /`CELL`.*`src\/game\/shared\/world\/occupant\.ts`/,
