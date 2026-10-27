@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×96)
+## What it was handed, it treats as fixed (×97)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -49,12 +49,16 @@ agent checking it passes. The human's move is to change the frame.
 documents nothing: the agent weighed three prefixes and never looked past the
 list. _Let's introduce "content:"_.
 
-**8 September to 14 October — the checker read as the rule.** The type-overlap
+**8 September to 27 October — the checker read as the rule.** The type-overlap
 gate went green on `RelaySpec = Pick<RepoBranch, 'branch'> & {…}`, where the
 rule asks for a base both intersect. Our own lint config hit a `server-only`
 barrel, and the agent declined the barrel. Roscoe, a police robot shot in a
 standoff, passed every check the filing skill ran; the docket wants a machine
-standing in for a mind.
+standing in for a mind. PR #216 moved the whole mushroom game into
+`widgets/meadow` on his _пройдёт критерий модульности -- почему нет_, leaving
+the page four files: the bar says a cut holds together, not that it buys
+anything, and a slice holding all its one consumer had is that consumer renamed.
+_Не в виджет, а в страницу._
 
 **22 September to 22 October — what its search reached, read as the record.** A
 review's comments, filtered by creation time, lost five of six. Nostalgia's
