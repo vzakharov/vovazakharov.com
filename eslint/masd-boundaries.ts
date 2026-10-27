@@ -15,6 +15,8 @@ import {
   PUBLIC_API,
   SLICED_LAYERS,
   TEST_API,
+  TEST_CODE,
+  TEST_KIT,
 } from './masd-graph';
 
 const graph = loadGraph();
@@ -31,6 +33,15 @@ const sharedLibEntry = (apps: string[]) => ({
   type: 'shared',
   captured: { appName: apps, segmentName: 'lib' },
   fileInternalPath: '*.ts',
+});
+
+/** A file of the importing file's own slice. */
+const sibling = (layer: string) => ({
+  type: layer,
+  captured: {
+    appName: '{{ from.captured.appName }}',
+    sliceName: '{{ from.captured.sliceName }}',
+  },
 });
 
 const policiesFor = (app: string) => {
@@ -88,8 +99,8 @@ const policiesFor = (app: string) => {
       },
     },
     // Strictly downward, and only through the target's public API: the same
-    // layer in an ancestor is as sideways as a sibling slice. A test takes the
-    // test-only entry as well.
+    // layer in an ancestor is as sideways as a sibling slice. Test code takes
+    // the test-only entry as well.
     ...SLICED_LAYERS.flatMap((layer, index) => {
       const below = {
         types: { anyOf: [...SLICED_LAYERS.slice(index + 1), 'shared'] },
@@ -107,7 +118,7 @@ const policiesFor = (app: string) => {
             element: {
               type: layer,
               captured: { appName: app },
-              fileInternalPath: '**/*.test.ts',
+              fileInternalPath: TEST_CODE,
             },
           },
           allow: { to: { element: { ...below, fileInternalPath: TEST_API } } },
@@ -151,28 +162,25 @@ export const boundariesConfig: Config = {
         partialMatch: true,
       })),
     ],
+    'boundaries/files': [
+      { category: 'test-kit', pattern: TEST_KIT },
+      { category: 'test', pattern: TEST_CODE },
+    ],
   },
   rules: {
     'boundaries/dependencies': [
       'error',
       {
         default: 'disallow',
+        // A slice's files reaching each other are checked too, so a kit's
+        // fence below holds inside its own slice.
+        checkInternals: true,
         policies: [
           ...APPS.flatMap(policiesFor),
           // Inside its own slice, a file reaches any sibling directly.
           ...SLICED_LAYERS.map((layer) => ({
             from: { element: { type: layer } },
-            allow: {
-              to: {
-                element: {
-                  type: layer,
-                  captured: {
-                    appName: '{{ from.captured.appName }}',
-                    sliceName: '{{ from.captured.sliceName }}',
-                  },
-                },
-              },
-            },
+            allow: { to: { element: sibling(layer) } },
           })),
           // A router may mount any app, through its public API.
           {
@@ -190,6 +198,19 @@ export const boundariesConfig: Config = {
             from: { element: { type: 'router' } },
             allow: { to: { element: sharedLibEntry(APPS) } },
           },
+          // A kit is test code, which nothing shipped may load, so only the
+          // test code of its own slice reaches it. Last, because the last
+          // policy matching an import decides it.
+          { disallow: { to: { file: { categories: 'test-kit' } } } },
+          ...SLICED_LAYERS.map((layer) => ({
+            from: { element: { type: layer, fileInternalPath: TEST_CODE } },
+            allow: {
+              to: {
+                element: sibling(layer),
+                file: { categories: 'test-kit' },
+              },
+            },
+          })),
         ],
       },
     ],

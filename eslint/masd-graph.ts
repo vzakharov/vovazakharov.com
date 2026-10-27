@@ -28,8 +28,14 @@ export const PUBLIC_API = [
   'index.node-safe.ts',
 ];
 
-/** The entry point only a test may take, beside the public API. */
+/** The entry point only test code may take, beside the public API. */
 export const TEST_API = 'index.test-only.ts';
+
+/** What several tests of a slice share, imported by test code alone. */
+export const TEST_KIT = '**/*.test-kit.ts';
+
+/** Test code: the tests, and the kits they share. */
+export const TEST_CODE = ['**/*.test.ts', TEST_KIT];
 
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 

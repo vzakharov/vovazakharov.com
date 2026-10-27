@@ -38,7 +38,8 @@ const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
 const SOURCE = /\.tsx?$/;
-const TEST = /\.test\.tsx?$/;
+// `TEST_CODE`'s files: the tests, and the kits they share.
+const TEST = /\.test(-kit)?\.tsx?$/;
 
 /** An importing file and the file it imports, both in one app. */
 type Edge = readonly [string, string];

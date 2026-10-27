@@ -155,7 +155,7 @@ function scan(dir: string): void {
     }
     if (!/\.tsx?$/.test(entry.name)) continue;
     if (entry.name.endsWith('.d.ts')) continue;
-    if (/\.test\.tsx?$/.test(entry.name)) continue;
+    if (/\.test(-kit)?\.tsx?$/.test(entry.name)) continue;
     const rel = path.relative(ROOT, full);
     const text = readFileSync(full, 'utf8');
     const sf = ts.createSourceFile(
