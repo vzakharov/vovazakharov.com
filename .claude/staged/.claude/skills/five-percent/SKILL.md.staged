@@ -3,9 +3,9 @@ description: >-
   Ask of a branch's diff what it took as given, down to whether what it edits
   should exist, and post at most three alternative approaches as one review on
   its PR, each inline and graded critical or optional — editing and committing
-  nothing. The third
-  `/polish` pass; on its own, `/five-percent [<branch|#PR>]`. Use when the
-  operator asks what the change took for granted, or for "the five percent".
+  nothing. The third `/polish` pass; on its own, `/five-percent [<branch|#PR>]`.
+  Use when the operator asks what the change took for granted, or for "the five
+  percent".
 ---
 
 **The pass runs in a fresh subagent, never in the session that wrote the
