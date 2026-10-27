@@ -64,9 +64,10 @@ so: a `game` between `kernel` and `mushrooms` waits for a second game.
 Lowest (most generic) first, each optional per app:
 
 - **`shared/`** — segments carrying no page composition. `kernel` holds the
-  repo-wide ones (`config`, `i18n`, `seo`, `typings`, `lib/*`); an app adds its
-  own (`shell/shared/ui`, `blog/shared/content`, `music/shared/catalogue`,
-  `basilisk/shared/content`, `blog/shared/article-slots`).
+  repo-wide ones (`cache`, `config`, `i18n`, `seo`, `typings`, `lib/*`); an app
+  adds its own (`shell/shared/ui`, `blog/shared/content`,
+  `music/shared/catalogue`, `basilisk/shared/content`,
+  `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
   cards, its body and its sources), `basilisk/entities/case` (its brief),
   music's `cover`, `hook` and `song`.

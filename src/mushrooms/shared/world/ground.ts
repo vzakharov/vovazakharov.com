@@ -5,8 +5,8 @@
  * resizing the screen fits a new camera and moves nothing on the ground.
  */
 
+import { keptIn } from '@/kernel/shared/cache';
 import { pick } from '@/kernel/shared/lib/collections';
-import { keptIn } from '@/kernel/shared/lib/kept';
 import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import {

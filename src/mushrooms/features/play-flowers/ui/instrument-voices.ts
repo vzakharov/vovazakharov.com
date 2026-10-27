@@ -5,7 +5,7 @@
  * data, which the tests measure, and `playParts` plays them.
  */
 
-import { keptIn } from '@/kernel/shared/lib/kept';
+import { keptIn } from '@/kernel/shared/cache';
 
 import {
   type Attacked,

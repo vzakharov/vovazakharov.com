@@ -1,7 +1,7 @@
 import 'server-only';
 
+import { keptIn } from '@/kernel/shared/cache';
 import type { Locale } from '@/kernel/shared/i18n';
-import { keptIn } from '@/kernel/shared/lib/kept';
 
 import { loadProse } from '@/blog/shared/content';
 

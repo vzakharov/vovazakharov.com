@@ -9,8 +9,8 @@
  * (`Occupant`), whatever they are.
  */
 
+import { keptIn } from '@/kernel/shared/cache';
 import { pick } from '@/kernel/shared/lib/collections';
-import { keptIn } from '@/kernel/shared/lib/kept';
 import type { WithHeight } from '@/kernel/shared/typings';
 
 import {

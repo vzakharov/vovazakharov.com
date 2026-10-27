@@ -1,4 +1,4 @@
-import { keptIn } from '@/kernel/shared/lib/kept';
+import { keptIn } from '@/kernel/shared/cache';
 import type { WithId } from '@/kernel/shared/typings';
 
 import type { Bent, Circle, Leaning } from '@/mushrooms/shared/lib/geometry';

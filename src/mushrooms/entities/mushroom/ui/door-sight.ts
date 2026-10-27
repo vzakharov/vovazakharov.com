@@ -4,7 +4,7 @@
  * the scene stands and draws it on screen.
  */
 
-import { keptIn } from '@/kernel/shared/lib/kept';
+import { keptIn } from '@/kernel/shared/cache';
 
 import {
   type Box,

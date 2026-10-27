@@ -6,8 +6,8 @@
  * moves a spot; only which spots are offered changes.
  */
 
+import { keptIn } from '@/kernel/shared/cache';
 import { pick } from '@/kernel/shared/lib/collections';
-import { keptIn } from '@/kernel/shared/lib/kept';
 import type { WithId } from '@/kernel/shared/typings';
 
 import {

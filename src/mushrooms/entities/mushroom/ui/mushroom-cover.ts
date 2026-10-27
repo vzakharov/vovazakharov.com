@@ -8,7 +8,7 @@
  * plays and plants only through what the child can see.
  */
 
-import { keptIn } from '@/kernel/shared/lib/kept';
+import { keptIn } from '@/kernel/shared/cache';
 
 import { boxAround } from '@/mushrooms/shared/lib/geometry';
 import {

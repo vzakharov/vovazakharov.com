@@ -4,7 +4,7 @@
  * as a silhouette of cells so a flower's many tries stay cheap.
  */
 
-import { keptIn } from '@/kernel/shared/lib/kept';
+import { keptIn } from '@/kernel/shared/cache';
 
 import type { Box, Point } from '@/mushrooms/shared/lib/geometry';
 import {

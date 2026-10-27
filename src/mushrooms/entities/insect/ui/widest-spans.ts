@@ -1,4 +1,4 @@
-import { keptIn } from '@/kernel/shared/lib/kept';
+import { keptIn } from '@/kernel/shared/cache';
 
 import type { Sitter } from '@/mushrooms/shared/world';
 

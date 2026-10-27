@@ -4,7 +4,7 @@
  * every two kinds.
  */
 
-import { keptIn } from '@/kernel/shared/lib/kept';
+import { keptIn } from '@/kernel/shared/cache';
 
 import {
   boxAround,

@@ -7,7 +7,7 @@
  * whoosh's about 10 dB under.
  */
 
-import { keptIn } from '@/kernel/shared/lib/kept';
+import { keptIn } from '@/kernel/shared/cache';
 
 import {
   brownNoise,

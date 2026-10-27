@@ -14,9 +14,9 @@ import type { BuiltinLanguage } from 'shiki';
 import { unified } from 'unified';
 import { CONTINUE, SKIP, visit } from 'unist-util-visit';
 
+import { keptIn } from '@/kernel/shared/cache';
 import { getAbsoluteUrl, SITE_CONFIG } from '@/kernel/shared/config';
 import type { Locale } from '@/kernel/shared/i18n';
-import { keptIn } from '@/kernel/shared/lib/kept';
 import type {
   MaybeTitled,
   Titled,
