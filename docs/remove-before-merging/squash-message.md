@@ -14,8 +14,13 @@ The shared theme reads the face and heading weight from custom
 properties, so every other site renders as before.
 
 Her home page opens as a book's spread, her portrait captioned as a
-frontispiece facing the title page, and lists entries as unframed,
-numbered plates of a field guide. Her one toy, the whispering
+frontispiece facing a title page that names the book: «Определитель
+того, что попадается на прогулках, с таблицами». It lists entries as
+unframed, numbered plates of a field guide, and each article carries
+its plate number over the title in place of a byline, which on her own
+site only repeated whose site it is; every footer of hers names her
+rather than Vova. The shared article page gains per-collection slots
+for both, `eyebrow` and `byline`. Her one toy, the whispering
 typewriter, gets a plate there for the first time, above the entries,
 with a drawing of its own: the sixteen sounds its bug hears. Its
 address and drawing move to `shared/config`, which the home page and
