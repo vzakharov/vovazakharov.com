@@ -7,6 +7,7 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import { keptIn } from '@/kernel/shared/lib/kept';
 import type { WithId } from '@/kernel/shared/typings';
 
 import {
@@ -159,9 +160,11 @@ const lattices = new WeakMap<Camera, Lattice>();
  * wings under the world's top down to `AIR_BELOW` over the back of the ground.
  */
 function latticeOf(laid: InsectCamera): Lattice {
+  return keptIn(lattices, laid.camera, () => laidLattice(laid));
+}
+
+function laidLattice(laid: InsectCamera): Lattice {
   const { camera } = laid;
-  const known = lattices.get(camera);
-  if (known) return known;
   const row = clumpRow(camera);
   const { perPx } = rowAt(camera, row);
   const half = widestOn(laid, 'butterfly') / 2;
@@ -177,11 +180,9 @@ function latticeOf(laid: InsectCamera): Lattice {
     OPENING_EYE,
     new Map<number, Map<number, CellName>>(),
   );
-  const lattice = seatsEveryOne(laid, opening)
+  return seatsEveryOne(laid, opening)
     ? coarse
     : { ...band, spacing: coarse.spacing / 2 };
-  lattices.set(camera, lattice);
-  return lattice;
 }
 
 /** The share of its band a cell's height stands at, from the cell alone. */
@@ -220,9 +221,7 @@ function namedCell(
   row: number,
 ): CellName {
   const named = known.get(column)?.get(row) ?? namesOf(column, row);
-  const rows = kept.get(column) ?? new Map<number, CellName>();
-  kept.set(column, rows);
-  rows.set(row, named);
+  keptIn(kept, column, () => new Map<number, CellName>()).set(row, named);
   return named;
 }
 
@@ -293,8 +292,7 @@ const KEPT = 8;
  */
 export function airOf(laid: InsectCamera, anchor: Eye = OPENING_EYE): Air {
   const { camera, insectSize: unit } = laid;
-  const known = offered.get(camera) ?? new Map<string, Air>();
-  offered.set(camera, known);
+  const known = keptIn(offered, camera, () => new Map<string, Air>());
   const at = `${String(anchor.x)} ${String(anchor.y)} ${String(anchor.heading)}`;
   const laidBefore = known.get(at);
   if (laidBefore) return laidBefore;

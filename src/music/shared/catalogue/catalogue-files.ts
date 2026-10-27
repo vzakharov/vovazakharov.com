@@ -1,6 +1,7 @@
 import 'server-only';
 
 import type { Locale } from '@/kernel/shared/i18n';
+import { keptIn } from '@/kernel/shared/lib/kept';
 
 import { loadProse } from '@/blog/shared/content';
 
@@ -22,13 +23,7 @@ function readOnce<K, F>(
 ): (key: K) => CatalogueFile<F> {
   const cache = new Map<K, CatalogueFile<F>>();
 
-  return (key) => {
-    const cached = cache.get(key) ?? read(key);
-
-    cache.set(key, cached);
-
-    return cached;
-  };
+  return (key) => keptIn(cache, key, read);
 }
 
 function required<F>(

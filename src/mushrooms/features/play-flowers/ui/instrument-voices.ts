@@ -5,6 +5,8 @@
  * data, which the tests measure, and `playParts` plays them.
  */
 
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import {
   type Attacked,
   type Band,
@@ -160,8 +162,10 @@ export function drumParts(drum: Drum): Part[] {
 const noises = new WeakMap<AudioContext, AudioBuffer>();
 
 function noiseOf(context: AudioContext): AudioBuffer {
-  const known = noises.get(context);
-  if (known) return known;
+  return keptIn(noises, context, madeNoise);
+}
+
+function madeNoise(context: AudioContext): AudioBuffer {
   const buffer = context.createBuffer(
     1,
     context.sampleRate,
@@ -171,7 +175,6 @@ function noiseOf(context: AudioContext): AudioBuffer {
   for (let index = 0; index < samples.length; index++) {
     samples[index] = Math.random() * 2 - 1;
   }
-  noises.set(context, buffer);
   return buffer;
 }
 

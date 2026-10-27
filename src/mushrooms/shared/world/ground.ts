@@ -6,6 +6,7 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import { keptIn } from '@/kernel/shared/lib/kept';
 import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import {
@@ -310,11 +311,10 @@ const groundFeet = new WeakMap<Footing, GroundFoot>();
 
 /** `foot` on the layout's ground (`groundOfPlane`), its size kept. */
 export function groundFootOf(foot: Footing): GroundFoot {
-  const kept = groundFeet.get(foot);
-  if (kept) return kept;
-  const ground = { ...groundOfPlane(foot), ...pick(foot, 'size') };
-  groundFeet.set(foot, ground);
-  return ground;
+  return keptIn(groundFeet, foot, () => ({
+    ...groundOfPlane(foot),
+    ...pick(foot, 'size'),
+  }));
 }
 
 /** `foot` on the plane (`planeOf`), its size kept. */

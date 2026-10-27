@@ -6,6 +6,8 @@
  * view past `MOST_HIDDEN`.
  */
 
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import {
   type Box,
   boxAround,
@@ -94,17 +96,15 @@ export function standingOn(
   mushrooms: readonly Planted[],
   ground: MushroomGround,
 ): Weighed[] {
-  const byGround = standings.get(mushrooms) ?? new WeakMap();
-  standings.set(mushrooms, byGround);
-  const known = byGround.get(ground);
-  if (known) return known;
-  const here: Weighed[] = [];
-  for (const mushroom of mushrooms) {
-    const place = placeIn(ground, mushroom);
-    if (place) here.push(weighed(amongAt(place, mushroom), () => here));
-  }
-  byGround.set(ground, here);
-  return here;
+  const byGround = keptIn(standings, mushrooms, () => new WeakMap());
+  return keptIn(byGround, ground, () => {
+    const here: Weighed[] = [];
+    for (const mushroom of mushrooms) {
+      const place = placeIn(ground, mushroom);
+      if (place) here.push(weighed(amongAt(place, mushroom), () => here));
+    }
+    return here;
+  });
 }
 
 /** Those of `others` standing behind `own` whose box meets its own. */

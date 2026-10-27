@@ -4,6 +4,8 @@
  * every two kinds.
  */
 
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import {
   boxAround,
   type Circle,
@@ -96,11 +98,7 @@ export function seatsWith(
   // Kinds seated on one track share its segments, which `crowdings` then
   // measures once.
   const cut = new Map<Track, readonly Segment[]>();
-  const along = (kind: InsectKind) => {
-    const segments = cut.get(tracks[kind]) ?? segmentsOf(tracks[kind]);
-    cut.set(tracks[kind], segments);
-    return segments;
-  };
+  const along = (kind: InsectKind) => keptIn(cut, tracks[kind], segmentsOf);
   const segments = {
     butterfly: along('butterfly'),
     fly: along('fly'),
