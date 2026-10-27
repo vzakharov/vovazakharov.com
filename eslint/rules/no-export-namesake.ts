@@ -4,6 +4,7 @@ import path from 'node:path';
 import ts from 'typescript';
 
 import { TEST_FILE } from '../masd-graph';
+import type { Named, WithFile } from './estree-mixins';
 import { hasTypeServices } from './type-services';
 
 // An import binds by name, so an app holding two module-level values of one name
@@ -22,7 +23,7 @@ import { hasTypeServices } from './type-services';
 const CONVENTIONAL = new Set(['messages']);
 
 /** A module-level value; `exported` counts an export list as well as the keyword. */
-type Declared = { name: string; file: string; exported: boolean };
+type Declared = Named & WithFile & { exported: boolean };
 
 /** Every production file's module-level values, by app, then by name. */
 type AppIndex = Map<string, Map<string, Declared[]>>;
