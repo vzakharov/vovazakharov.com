@@ -308,7 +308,7 @@ The **only** exception is an explicit "no PR" from the operator (e.g.
 - Re-open a plan cycle or re-edit the plan file per code change — it's a
   transient artifact `/finalize` sweeps (see `@.claude/skills/plan/SKILL.md`).
   It changes when what it states stops being true (CLAUDE.md § "Writing things
-  down"), when an elephant's bite is taken, and at a pause, where it is what a
+  down") when an elephant's bite is taken, and at a pause, where it is what a
   fresh session picks the work up from.
 - Run the vet suite, merge the base branch, mark the PR ready, dispatch a
   CI-only bucket, or attest — those are `/finalize`. A PR that reads

@@ -44,10 +44,13 @@ model.
   those newer than the last response to `tmp/cold-cache/<session_id>.images/`,
   since a restart can reuse a number, and `!`'s context names the copies for the
   model to `Read`.
-- **What always passes:** the commands `PASSES` lists, whose comment says which;
-  a session whose re-cache costs under `MUTHUR_COLD_CACHE_MIN_USD` (default
-  `0.30`), where the stop costs more attention than it saves; and one whose
-  fresh session saves nothing over the next 100k, or less than
+- **What always passes:** `/compact`, `/clear` and its aliases, `/relay`, and
+  every built-in command that makes no model request — `PASSES`, taken from
+  code.claude.com/docs/en/commands. Skills and the built-ins that prompt the
+  model (`/go`, `/btw`, `/init`, `/plan`) are prompts like any other. Also
+  passing: a session whose re-cache costs under `MUTHUR_COLD_CACHE_MIN_USD`
+  (default `0.30`), where the stop costs more attention than it saves; and one
+  whose fresh session saves nothing over the next 100k, or less than
   `MUTHUR_COLD_CACHE_MARGIN` (default `0.10`) of the re-cache, where the stop
   has no real choice to offer. An unpriced model is still stopped, with the
   token count and, where a resume carried one, Claude Code's own estimate.
