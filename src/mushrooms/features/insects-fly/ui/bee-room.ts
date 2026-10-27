@@ -1,8 +1,3 @@
-/**
- * Where a bee plants: round a flower it visited, in the first ring slot that
- * would stand and be in sight, and whose flower the child would see come up.
- */
-
 import type { Occupant,Stood } from '@/mushrooms/shared/world';
 import {
   type FlowerSightLayout,

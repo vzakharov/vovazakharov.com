@@ -59,15 +59,11 @@ const BAKED = {
 } as const;
 type Part = keyof typeof BAKED;
 
-/**
- * What the fireflies circle — the meadow's mushrooms, and the beds that draw
- * them and the flowers — the visit's seed the dozen grow from, and whether a
- * finger at a point on the screen is within a bare tuft's reach, which a tap
- * on a firefly yields to.
- */
+/** What the fireflies circle — the meadow's mushrooms, and the beds that draw them and the flowers — and the visit's seed the dozen grow from. */
 export type FireflyGround = MeadowSeen<WithMushrooms> &
   Seeded & {
     beds: () => HostBeds;
+    /** Whether `finger` is within a bare tuft's reach, which a tap on a firefly yields to. */
     bare: (finger: Point) => boolean;
   };
 
