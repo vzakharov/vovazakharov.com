@@ -34,14 +34,14 @@
   provisional translation 65ee76d: 191 of 214 bumps read as the top one, the
   re-reading's bias in the caveats, the pass's `/writing` review as the close.
 
-**Left, in order — waiting on Вова:**
+- Вова's own edit of the text (611532d), tidied with its blanks filled and
+  Начало Б kept in his wording — 7020146; the `/writing` screenshot from
+  8317c0b^ — 1c4b438. Blog pages use real dashes (`.claude/rules/lsa-voice.md`).
+- The notes retired — 7e3497f, no tombstone: the two plans citing them point at
+  the article now, and the article links their last state on main.
 
-1. **His pick of an opening and his edits to the text.** The other two openings
-   and the draft comment go; then the final translation, stamped again.
-2. The notes retired (tombstone, `scripts/check-notes-length.sh` and its rows in
-   `scripts/vet.sh` and `.claude/rules/stack.md`, row 18 of
-   `writing/linkedin/plan.md`).
-3. Step 3 (`/polish`) and Step 4 (`/pr`) of `/go`.
+**Left:** the final translation, stamped; Step 3 (`/polish`) and Step 4 (`/pr`)
+of `/go`.
 
 `writing/notes/the-five-percent.md` has done its job as a collection: 214 bumps
 over fourteen learnings, 6 September to 26 October, the top one
