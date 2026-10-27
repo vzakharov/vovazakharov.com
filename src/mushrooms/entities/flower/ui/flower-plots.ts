@@ -41,7 +41,6 @@ import {
 } from './flower-layout';
 import type { Stand } from './flower-sight';
 
-/** What of the meadow's layout this reads. */
 export type FlowerPlotsLayout = WithCamera & ClumpGround & Bedded;
 
 /**
@@ -154,7 +153,7 @@ export function groundFor(
   );
 }
 
-/** Every thing standing in `stand` that its layout shows, as an occupant (`Occupancy`). */
+/** Every thing standing in `stand` that its layout shows, as an occupant (`Occupying`). */
 export function occupantsOf<L extends FlowerPlotsLayout, Thing extends Stood>(
   stand: Stand<L, Thing>,
 ): readonly Occupant[] {

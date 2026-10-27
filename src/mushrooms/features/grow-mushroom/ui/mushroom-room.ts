@@ -97,7 +97,6 @@ import { doorsKept, partsInView, standingOn } from './standing-weighed';
 /** Every control's hit area on the screen, open pickers and all: what a new mushroom's cap keeps off. */
 export type EveryButton = { everyButton: readonly Circle[] };
 
-/** What of the meadow's layout this reads. */
 export type MushroomRoomLayout = SunWashedScreen &
   FlowerPlotsLayout &
   EveryButton;

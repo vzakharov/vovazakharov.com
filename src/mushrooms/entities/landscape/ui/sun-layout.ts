@@ -21,13 +21,9 @@ export type Sunned = { sun: Circle };
 export type HillsSunned = SunnedScreen & NearHilled;
 /** The radii of the sun's wash over the sky, innermost first (`washRings`). */
 export type SunWashed = { wash: readonly number[] };
-/** Where the far hills meet the sky and where the near hills' band begins. */
 export type HilledHorizon = Horizoned & NearHilled;
-/** The screen with the sun on it. */
 export type SunnedScreen = Sized & Sunned;
-/** The sun's screen as its camera shows it. */
 export type SunlitScreen = SunnedScreen & WithCamera;
-/** The sunlit screen with the sun's wash over it. */
 export type SunWashedScreen = SunlitScreen & SunWashed;
 /** The sun-washed screen with the clouds over it: what the sky's weather is painted on. */
 export type SunlitSky = SunWashedScreen & Clouded;

@@ -44,7 +44,6 @@ import type { InsectScaled } from './insect-size';
 import { perchDistance, placeOfAloft } from './plane-place';
 import { WIDEST_SPAN } from './widest-spans';
 
-/** What of the meadow's layout this reads. */
 export type InsectAwayLayout = Sized & InsectScaled;
 
 /**
@@ -53,7 +52,6 @@ export type InsectAwayLayout = Sized & InsectScaled;
  */
 const AWAY_BAND = [0.18, 0.5] as const;
 
-/** How far an insect's open wings span on screen, in px. */
 /** An insect away: past an edge by its span, and how far down the screen it flies, in px. */
 export type Away = Spanned & { drop: number };
 

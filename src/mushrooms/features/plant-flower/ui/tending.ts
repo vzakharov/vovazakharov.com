@@ -56,7 +56,6 @@ import {
 
 import { type FlowerRoomLayout, roomIn } from './flower-room';
 import { bareAmong, bareToTap } from './tuft-tap';
-/** What of the meadow's layout this reads. */
 export type TendingLayout = FlowerRoomLayout & GroundedScreen;
 
 /**

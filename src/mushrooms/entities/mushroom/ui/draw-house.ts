@@ -423,7 +423,7 @@ export function paintWindows(
  * `drawMushroom` paints it in — the foot at the graphics' own position — so
  * they go wherever the mushroom does. Each window in its slot of
  * `windowSlots`, in the order it was put in; the door at its station on the
- * stem; and the `tenants` at their moments.
+ * stem; and its `Tenants` at their moments.
  */
 export function paintHouse(
   graphics: Phaser.GameObjects.Graphics,

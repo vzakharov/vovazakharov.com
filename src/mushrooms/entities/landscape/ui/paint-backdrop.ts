@@ -47,7 +47,6 @@ import { starImages } from './star-images';
 import { SUN_RAY_REACH } from './sun-layout';
 import { focusTwins, shade } from './twin-fade';
 
-/** What of the meadow's layout this reads. */
 export type PaintBackdropLayout = PaintSkyLayout & SkylineLayout;
 
 /** How far past the tips of its rays the sun's picture runs, in CSS px, for their smoothed edge. */

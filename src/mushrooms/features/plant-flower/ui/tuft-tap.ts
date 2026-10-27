@@ -26,7 +26,6 @@ import {
   tappedMushroom,
   tapTarget,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-/** What of the meadow's layout this reads. */
 export type TuftTapLayout = FlowerPlotsLayout & FlowerSightLayout;
 
 /** How far round its middle a tuft answers a tap at the least, in CSS px: a small finger's pad. */

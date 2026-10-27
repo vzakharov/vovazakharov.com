@@ -29,7 +29,6 @@ import type { BeddedInsectView } from './perch-sight';
 /** What a firefly's flare plays: a chime, panned to where it flares. */
 export type Glinting = { glint: (pan: number) => void };
 
-/** What of the meadow's layout this reads. */
 export type FireflyViewLayout = WithWidth & SunWashed & BeddedInsectView;
 
 /** How many of the nearest hosts the fireflies spread over. */

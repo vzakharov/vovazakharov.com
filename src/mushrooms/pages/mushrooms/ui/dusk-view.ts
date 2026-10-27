@@ -31,7 +31,6 @@ export type DuskVoiced = Growing & {
   dusk: (level: number) => void;
 };
 
-/** What of the meadow's layout this reads. */
 export type DuskViewLayout = SunlitSky & FireflyViewLayout;
 
 /**

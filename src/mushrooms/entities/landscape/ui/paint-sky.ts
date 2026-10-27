@@ -29,7 +29,6 @@ import { azimuthAt, OPENING_CLOUD_COUNT } from './panorama';
 import { rainbowArc } from './rain-sky';
 import { type NearHilled, SUN_RAY_REACH, type SunlitSky } from './sun-layout';
 
-/** What of the meadow's layout this reads. */
 export type PaintSkyLayout = SunlitSky & NearHilled;
 
 const SUN_RAYS = 16;

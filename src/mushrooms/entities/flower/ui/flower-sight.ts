@@ -55,7 +55,6 @@ import {
   type StandingFlower,
 } from './flower-plots';
 
-/** What of the meadow's layout this reads. */
 export type FlowerSightLayout = WithHeight & FlowerPlotsLayout;
 
 /**
@@ -72,7 +71,6 @@ export const PERCH_SPREAD = 0.3;
 const HEAD_SHOWN = 0.5;
 const HEAD_RING = 8;
 
-/** The layout the scene stands the meadow on. */
 /** The layout and the visit's seeded flowers on it. */
 export type SeededLayout<L = FlowerSightLayout> = WithLayout<L> & {
   flowers: readonly Flower[];

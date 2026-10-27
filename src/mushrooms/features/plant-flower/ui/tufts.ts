@@ -71,7 +71,6 @@ import {
 
 import { Tended, tendedIn, type TendingLayout } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
-/** What of the meadow's layout this reads. */
 export type TuftsLayout = LawnLayout & TendingLayout;
 
 export type { Sprout } from '@/mushrooms/entities/landscape/index.node-safe';

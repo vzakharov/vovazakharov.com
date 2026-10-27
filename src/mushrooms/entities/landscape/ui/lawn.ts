@@ -29,7 +29,6 @@ import {
 import { tuftOn, type WithTuft } from './grass';
 import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';
 
-/** What of the meadow's layout this reads. */
 export type LawnLayout = WithCamera & GroundBand;
 
 /** A tuft the child can plant on, and the foot on the plane a flower planted there stands on. */

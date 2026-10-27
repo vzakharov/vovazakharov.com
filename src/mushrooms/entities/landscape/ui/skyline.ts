@@ -21,7 +21,6 @@ import {
   type SunlitScreen,
 } from './sun-layout';
 
-/** What of the meadow's layout this reads. */
 export type SkylineLayout = SunlitScreen & Grounded & HilledHorizon;
 
 /** A skyline's points to a screen's width. */

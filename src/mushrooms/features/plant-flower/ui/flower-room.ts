@@ -26,7 +26,6 @@ import {
   type InsectScaled,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-/** What of the meadow's layout this reads. */
 export type FlowerRoomLayout = FlowerSightLayout & InsectScaled;
 
 /**

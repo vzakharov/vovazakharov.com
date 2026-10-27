@@ -83,11 +83,9 @@ import { roomFor } from './bee-room';
 import { crowdings, seatsWith, type Track } from './perch-crowding';
 import { discCovered } from './shelter-cover';
 
-/** What of the meadow's layout this reads. */
 /** The flower beds as the camera shows them, with the insects' units on it. */
 export type BeddedInsectView = InsectCamera & FlowerPlotsLayout;
 
-/** What of the meadow's layout this reads. */
 export type PerchSightLayout = BeddedInsectView & InsectAwayLayout;
 
 /** How much of the narrower of two perched insects' spans the other may cover. */
