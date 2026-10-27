@@ -1,11 +1,12 @@
 import { Text } from '@mantine/core';
 
 import { loadMessages, type WithLocale } from '@/shared/i18n';
-import { roman } from '@/shared/lib/roman';
+import type { Numbered } from '@/shared/typings';
 
+import { roman } from '../lib/roman';
 import classes from './plate-label.module.scss';
 
-type PlateLabelProps = WithLocale & { number: number };
+type PlateLabelProps = WithLocale & Numbered;
 
 /** «Табл. IV» — the plate's number as a field guide sets it, over its title. */
 export function PlateLabel({ number, locale }: PlateLabelProps) {

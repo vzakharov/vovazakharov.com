@@ -4,6 +4,8 @@ import { documentRoute, localizedRoute } from '@/shared/content';
 import { fillSlots, loadMessages, type WithLocale } from '@/shared/i18n';
 import { ChipNav, localeChips, PageShell, TextLink } from '@/shared/ui';
 
+import { MayaByline } from '@/entities/maya';
+
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { whisperPath } from '../lib/whisper-metadata';
@@ -56,7 +58,11 @@ export function WhisperPage({ locale }: WithLocale) {
 
         <WhisperTypewriter {...{ words, copy }} />
 
-        <SiteFooter {...{ locale }} home={localizedRoute('/', locale)} />
+        <SiteFooter
+          {...{ locale }}
+          home={localizedRoute('/', locale)}
+          byline={<MayaByline {...{ locale }} />}
+        />
       </Stack>
     </PageShell>
   );

@@ -18,11 +18,13 @@ import { NameLink } from '@/shared/ui';
 
 import classes from './document-meta.module.scss';
 
+/** Which collection's documents, read in which language. */
+export type CollectionInLocale = WithCollectionId & WithOptionalLocale;
+
 export type DocumentMetaProps = WithFrontmatter<ArticleFrontmatter> &
-  WithCollectionId &
+  CollectionInLocale &
   WithReadingMinutes &
-  WithOptionalClassName &
-  WithOptionalLocale;
+  WithOptionalClassName;
 
 /**
  * A document's byline — the same one on an index card and above the article.

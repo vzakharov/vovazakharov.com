@@ -42,6 +42,14 @@
   min-width: 0;
 }
 
+// The name and what the book is, set as one block of the title page.
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+}
+
 .tagline {
   font-style: italic;
 }

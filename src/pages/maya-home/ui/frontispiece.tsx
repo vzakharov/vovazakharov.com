@@ -9,6 +9,8 @@ import classes from './frontispiece.module.scss';
 
 type FrontispieceProps = Billed &
   WithChildren & {
+    /** What the title page says the book is, under the name. */
+    subtitle: string;
     /** What the portrait is, set in italics under it. */
     caption: ReactNode;
   };
@@ -19,6 +21,7 @@ type FrontispieceProps = Billed &
  */
 export function Frontispiece({
   name,
+  subtitle,
   tagline,
   caption,
   children,
@@ -40,7 +43,10 @@ export function Frontispiece({
         </Text>
       </figure>
       <div className={classes['titlePage']}>
-        <Title order={1}>{name}</Title>
+        <hgroup className={classes['title']}>
+          <Title order={1}>{name}</Title>
+          <Text size="lg">{subtitle}</Text>
+        </hgroup>
         <Text size="lg" className={classes['tagline']}>
           {tagline}
         </Text>

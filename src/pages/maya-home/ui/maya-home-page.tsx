@@ -33,6 +33,8 @@ import {
   TextLink,
 } from '@/shared/ui';
 
+import { MayaByline, plateNumber } from '@/entities/maya';
+
 import { SiteFooter } from '@/widgets/site-footer';
 
 import { Frontispiece } from './frontispiece';
@@ -65,6 +67,7 @@ async function entryPlates(locale: Locale): Promise<Plate[]> {
   return cards.map(({ document, rendered: { title } }) => {
     const {
       route,
+      slug,
       frontmatter: { description, date },
       cardImage,
       fileName,
@@ -74,7 +77,14 @@ async function entryPlates(locale: Locale): Promise<Plate[]> {
       throw new Error(`${fileName} has no drawing for its plate.`);
     }
 
-    return { href: route, title, description, date, image: cardImage };
+    return {
+      href: route,
+      title,
+      description,
+      date,
+      number: plateNumber(slug, locale),
+      image: cardImage,
+    };
   });
 }
 
@@ -103,23 +113,14 @@ export function mayaHomeMetadata({ locale }: WithLocale) {
 }
 
 export async function MayaHomePage({ locale }: WithLocale) {
-  const {
-    name,
-    tagline,
-    intro,
-    byline,
-    band,
-    plate,
-    toys,
-    frontispiece,
-    portraitAlbum,
-  } = loadMessages(locale).maya;
+  const { name, subtitle, tagline, intro, toys, frontispiece, portraitAlbum } =
+    loadMessages(locale).maya;
 
   return (
     <PageShell>
       <Stack gap={64}>
         <Frontispiece
-          {...{ name, tagline }}
+          {...{ name, subtitle, tagline }}
           caption={fillSlots(frontispiece, {
             album: (
               <TextLink
@@ -149,29 +150,14 @@ export async function MayaHomePage({ locale }: WithLocale) {
           <Title order={2}>
             {inLocale(COLLECTIONS[COLLECTION].label, locale)}
           </Title>
-          <Plates
-            plates={await entryPlates(locale)}
-            numbered={plate}
-            {...{ locale }}
-          />
+          <Plates plates={await entryPlates(locale)} {...{ locale }} />
         </Section>
 
         <SiteFooter
           onHomePage
           {...{ locale }}
           feed={findFeed(SITE_ID, COLLECTION, locale).route}
-          byline={fillSlots(byline, {
-            band: (
-              <TextLink
-                href={localizedRoute(
-                  `${AUTHOR_URL}/music/artists/za-oblozhkoy`,
-                  locale,
-                )}
-              >
-                {band}
-              </TextLink>
-            ),
-          })}
+          byline={<MayaByline {...{ locale }} />}
         />
       </Stack>
     </PageShell>
