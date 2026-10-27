@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×92)
+## What it was handed, it treats as fixed (×93)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -107,7 +107,11 @@ the card now defaults to the post's first image.
 palette and face went into `globals.scss` beside the other sites' rules. Asked
 whether they could live somewhere of her own, the agent moved them to
 `maya.scss`, which also fixed a red test `pnpm test` had never selected: it
-reads `globals.scss`'s backgrounds and expects two.
+reads `globals.scss`'s backgrounds and expects two. That file stayed in
+`src/app/styles/`, weighed only against a routing-only `apps/maya/app/` and a
+root layout all five sites share. Asked whether the layout could import it from
+her own realm, it can: it is the app layer, and `src/entities/maya` already
+existed between the two. The sheet is now that slice's `ui/site.scss`.
 
 ## An account that explains the code stands in for running it (×28)
 
