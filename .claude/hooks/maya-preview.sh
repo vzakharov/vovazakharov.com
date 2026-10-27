@@ -10,7 +10,8 @@
 
 . "$(dirname "${BASH_SOURCE[0]}")/lib.sh" || exit 0
 read_payload
-need_command jq "Майя's preview was not dispatched"
+unsent="Майя's preview was not dispatched"
+need_command jq "$unsent"
 
 root="$(project_root)"
 [ -n "$root" ] || exit 0
@@ -19,7 +20,7 @@ repo() { git -C "$root" "$@"; }
 branch="$(repo branch --show-current 2>/dev/null)"
 case "$branch" in claude/maya-*) ;; *) exit 0 ;; esac
 
-need_command gh "Майя's preview was not dispatched"
+need_command gh "$unsent"
 
 # Trees the site never reads: what changes only there leaves her preview as it
 # was, and is most of what her turns commit — reflections, drafts, cost rows.
@@ -45,7 +46,7 @@ err="$(cd "$root" && gh workflow run maya-preview.yml --ref "$branch" 2>&1)" || 
   # A re-fired `Stop` bails, as every `Stop` hook here does, or the turn never
   # ends; the marker is left alone, so the next turn's stop retries.
   [ "$(field stop_hook_active)" != "true" ] || exit 0
-  say "Майя's preview was not dispatched: ${err} Fix what that names if it is yours to fix, then just stop; the next turn's stop dispatches it again."
+  say "${unsent}: ${err} Fix what that names if it is yours to fix, then just stop; the next turn's stop dispatches it again."
   exit 2
 }
 
