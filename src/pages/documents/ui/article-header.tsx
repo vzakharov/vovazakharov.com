@@ -89,7 +89,9 @@ export function ArticleHeader({
           )}
         </Stack>
 
-        <DocumentMeta {...{ frontmatter, readingMinutes, locale }} />
+        <DocumentMeta
+          {...{ frontmatter, collection, readingMinutes, locale }}
+        />
 
         {/*
           With no cuts the switcher would be one chip reading "Full", offering

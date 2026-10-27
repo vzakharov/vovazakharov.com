@@ -4,8 +4,10 @@ import { SITE_CONFIG } from '@/shared/config';
 import {
   type ArticleFrontmatter,
   author,
+  COLLECTIONS,
   documentDateTime,
   formatDocumentDate,
+  type WithCollectionId,
   type WithFrontmatter,
   type WithReadingMinutes,
 } from '@/shared/content';
@@ -17,6 +19,7 @@ import { NameLink } from '@/shared/ui';
 import classes from './document-meta.module.scss';
 
 export type DocumentMetaProps = WithFrontmatter<ArticleFrontmatter> &
+  WithCollectionId &
   WithReadingMinutes &
   WithOptionalClassName &
   WithOptionalLocale;
@@ -28,6 +31,7 @@ export type DocumentMetaProps = WithFrontmatter<ArticleFrontmatter> &
  */
 export function DocumentMeta({
   frontmatter,
+  collection,
   readingMinutes,
   className,
   locale = SITE_CONFIG.locale,
@@ -44,10 +48,14 @@ export function DocumentMeta({
       opacity={0.7}
       className={cx(classes['meta'], className)}
     >
-      <span>
-        {copy.by} <NameLink {...{ href }}>{name}</NameLink>
-      </span>
-      <span aria-hidden>·</span>
+      {COLLECTIONS[collection].bylined && (
+        <>
+          <span>
+            {copy.by} <NameLink {...{ href }}>{name}</NameLink>
+          </span>
+          <span aria-hidden>·</span>
+        </>
+      )}
       <time dateTime={documentDateTime(frontmatter.date)}>
         {formatDocumentDate(frontmatter.date, locale)}
       </time>

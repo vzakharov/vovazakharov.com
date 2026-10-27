@@ -59,7 +59,7 @@ export function DocumentCards({
                   <NameLink href={route}>{title}</NameLink>
                 </Title>
                 <DocumentMeta
-                  {...{ frontmatter, readingMinutes, locale }}
+                  {...{ frontmatter, collection, readingMinutes, locale }}
                   className={classes['cardMeta']}
                 />
                 <Text lh={1.625} mb={16}>
