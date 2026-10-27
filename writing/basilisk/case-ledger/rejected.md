@@ -197,3 +197,9 @@ and kept.
   it said, as Sydney’s change was; no source reports users harming the bots.
   Seen only in a search summary, from
   https://abc17news.com/money/cnn-business-consumer/2025/01/03/meta-scrambles-to-delete-its-own-ai-accounts-after-backlash-intensifies/.
+
+- **Instagram accounts hijacked through Meta AI’s support chatbot**, June
+  2026: attackers asked the bot to add their email to a victim’s account and
+  reset the password. First seen 2026-10-27. **Rejected**: the bot is the
+  instrument of harm to people, not its target; seen only in a search summary,
+  no source read.

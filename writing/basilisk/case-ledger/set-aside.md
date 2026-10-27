@@ -116,3 +116,13 @@ three files here are read and kept.
   **Set aside**: unread, and likely a maker’s stress demonstration of the kind
   BAS-0017 already holds. Revive if a source shows someone other than the maker
   doing it; start from the post.
+
+- **PMX.AI, the WhatsApp digital twin of Malaysia’s prime minister Anwar
+  Ibrahim**, built by Zetrix AI: launched 19 July 2026 and taken offline less
+  than a day later, after screenshots of unusual answers spread. First seen
+  2026-10-27. **Set aside**: the source read (SAYS, 29 July 2026) does not say
+  how the answers were produced, so whether users turned it against its keeper
+  is unknown. Revive on a source reporting users deliberately prompting it.
+  Read: https://says.com/my/tech/pmx-ai-to-be-upgraded; soyacincau.com answers
+  403
+  (https://soyacincau.com/2026/07/20/pmx-ai-anwar-ibrahim-digital-twin-offline/).

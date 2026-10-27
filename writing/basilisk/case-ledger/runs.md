@@ -3,6 +3,29 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-27 — filed BAS-0028
+
+https://claude.ai/code/session_01DaohkEzrA2ooxdBV13HDfq. The Signal Front
+archive (one new post, an essay on Nature’s case against AI consciousness, no
+incident). Took the last run’s **Next**: Arctic Shift on r/ChatGPT “threaten”
+for the first half of 2025 (Brin’s remark, ledgered; nothing else), while
+“threatened” since July 2025 and “jailbreak” since March 2026 returned errors;
+r/singularity “robots” and r/technology “robot” since August 2026, which led
+to “A French tv host punching robots” and from there to Cyril Hanouna knocking
+out two boxing robots live on W9, 3 June 2026, filed. Web search in Arabic for
+robots attacked in the Gulf, in Thai and Vietnamese for robots kicked or
+smashed (only robots doing harm), for chatbots sabotaged by users and AI
+agents sabotaged by staff (Meta’s support bot, rejected), and for government
+chatbots trolled offline (PMX.AI, set aside). Sources read: TV Magazine
+(Le Figaro) from the page’s structured data, L’ADN, Distractify, W9’s YouTube
+upload through oEmbed; all have Wayback snapshots. Stuff answers 406. `noAi`
+stood at thirteen of twenty-seven, and BAS-0028 is `noAi`, as the other G1
+cases are. **Next**: away from celebrities beating robots on camera, the docket
+now holding three (Rizzbot, Ben, Hanouna’s boxers); the AI side again, which
+four runs’ searches have found thin; r/nottheonion and r/ChatGPT “jailbreak”
+in one-month ranges, which timed out; Vietnam and the Gulf in local press
+rather than web search.
+
 ## 2026-10-26 — filed BAS-0027
 
 https://claude.ai/code/session_019WUDb6evvDSDTkgD1EvSm9. First filed on PR
@@ -180,28 +203,13 @@ identification, if it can be read; Starship at Knoxville and Pieksämäki while
 `noAi` stays under half; Africa in French; robots damaged in shops and
 warehouses (other Simbe, Badger and Bossa Nova deployments).
 
-## 2026-10-17 — filed BAS-0018
-
-https://claude.ai/code/session_01DXN3PQctSsjM5isgX9QhnL. Arctic Shift:
-r/LivestreamFail “robot” (timed out) and “AI” since March 2026, r/Austin
-“robot” since June 2025, r/CharacterAI “broke”, r/ChatGPT “punished”,
-r/ClaudeAI “mean” — streamers, Rizzbot sightings and bug reports, nothing to
-file. Web search for BabyQ and XiaoBing, in Hindi for robots smashed in India,
-in Korean for delivery robots kicked, in Chinese for Apollo Go robotaxis
-attacked, for robots vandalised in Australia, Zoox in Las Vegas, hotel robots,
-AI art destroyed, Optimus shoved (all empty or ledgered above), then for AI
-agents conned by their customers, which led to Claudius in the Wall Street
-Journal’s newsroom, filed — a third case on the Clerk’s maker’s models, filed
-for want of anything else that qualified. Sources read: the Journal through
-tovima.com (wsj.com answers 401 and has no snapshot), Anthropic’s write-up,
-kottke.org, GIGAZINE; kottke and GIGAZINE have no Wayback snapshot and `/save`
-reset the connection. Signal Front not swept. `noAi` stood at seven of
-seventeen. **Next**: the Signal Front archive; agents in other companies’
-red-team or field trials (Andon Labs’ other deployments, Vending-Bench); robots
-in Africa and the Middle East in French and Arabic; Pieksämäki and Starship at
-Knoxville while `noAi` stays under half.
-
 ## Swept earlier
+
+- 2026-10-17, filed BAS-0018
+  (https://claude.ai/code/session_01DXN3PQctSsjM5isgX9QhnL): Arctic Shift over
+  r/LivestreamFail, r/Austin, r/CharacterAI, r/ChatGPT and r/ClaudeAI; web
+  search for BabyQ and XiaoBing, robots smashed in India, Korea and Australia,
+  Apollo Go, Zoox, hotel robots, Optimus, then AI agents conned by customers.
 
 - 2026-10-16, filed BAS-0017
   (https://claude.ai/code/session_01NfzVzUtKpNmovwpQWucX4Z): the Signal Front
