@@ -30,6 +30,9 @@
 - Вова's calls on 27 October: the six lenses collapse into one question,
   `procedure.md` § "The question", with no record of where the given hid;
   vovazakharov.com's `/writing` goes, the card with it (8317c0b).
+- The draft rewritten about one mistake on Вова's next call — 3d10614, its
+  provisional translation 65ee76d: 191 of 214 bumps read as the top one, the
+  re-reading's bias in the caveats, the pass's `/writing` review as the close.
 
 **Left, in order — waiting on Вова:**
 
