@@ -333,6 +333,11 @@ export function standingOn(camera: Camera, foot: Footing): Footing {
   return standingOnGround(camera, groundFootOf(foot));
 }
 
+/** `standingOn` run backwards: the plane foot a screen's `place` stands on through `camera`. */
+export function planeFootAt(camera: Camera, place: Footing): Footing {
+  return planeFootOf(groundOf(camera, place));
+}
+
 /**
  * A flower's height, as a share of the clump's size, before depth scales it:
  * every tuft of the lawn grows at it, a flower being planted on one.

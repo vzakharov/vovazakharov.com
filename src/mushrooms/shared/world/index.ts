@@ -79,6 +79,7 @@ export {
   type LayeredPoint,
   type Lens,
   OPENING_EYE,
+  planeFootAt,
   planeFootOf,
   planeOf,
   project,

@@ -15,10 +15,9 @@ import {
   type Eye,
   type Footing,
   gathered,
-  groundOf,
   OPENING_EYE,
   PALE_SPAN,
-  planeFootOf,
+  planeFootAt,
   sameAnchor,
   standingOn,
   type Stood,
@@ -100,7 +99,7 @@ function reseed(
   const seeded = flowers.flatMap((flower, index) => {
     const place = feet[index];
     if (!place) return [];
-    const stored = planeFootOf(groundOf(camera, place));
+    const stored = planeFootAt(camera, place);
     if (!inReach(anchor, stored)) return [];
     const foot = movedTo(anchor, stored);
     return hasGround(foot) ? [{ flower, place: standingOn(camera, foot) }] : [];

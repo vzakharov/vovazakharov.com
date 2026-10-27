@@ -13,11 +13,10 @@ import {
   aboutFoot,
   bedPlace,
   type ClumpGround,
-  groundOf,
   type MushroomGround,
   type Occupant,
   type Occupying,
-  planeFootOf,
+  planeFootAt,
   type ShownCover,
   type View,
 } from '@/mushrooms/shared/world';
@@ -52,7 +51,7 @@ export const occupantsOn: Occupying<Planted> = (ground, mushrooms) => {
     const { depth, drawn } = standingAt(place, mushroom);
     return [
       {
-        foot: planeFootOf(groundOf(ground.camera, place)),
+        foot: planeFootAt(ground.camera, place),
         cover: {
           depth,
           drawn: drawn.map((outline) => ({ outline, box: boxAround(outline) })),

@@ -16,9 +16,8 @@ import {
   type Footing,
   type Ground,
   groundFootOf,
-  groundOf,
   type Occupant,
-  planeFootOf,
+  planeFootAt,
   type Rooted,
   SPREAD,
   standingOn,
@@ -207,7 +206,7 @@ function plotted<L extends FlowerPlotsLayout, Thing extends Stood>(
   };
   for (const [index, flower] of seeded.entries()) {
     const place = flowers[index];
-    if (place) stand(flower, planeFootOf(groundOf(camera, place)), place);
+    if (place) stand(flower, planeFootAt(camera, place), place);
   }
   for (const sown of planted) {
     const foot = footOf(sown, feet, ground.anchor);
