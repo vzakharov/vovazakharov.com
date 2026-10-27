@@ -60,11 +60,9 @@ renders — read in its English form:
 
 - a `translated` collection's `<slug>.en.md` when its original's author is
   `vova` (the translation itself states no author);
-- an unlocalized document's whole body (case studies, the Bible);
-- a song whose lyrics credit is Vova alone: only its `lang:en` story, by way of
-  `localeProse(body, 'en')` from `src/pages/music/lib/sections.ts`. Lyrics,
-  `universe:` and `source:` preludes are never read — the first is sung, the
-  other two are the agent's by `songs.md`.
+- an unlocalized document's whole body (case studies, the Bible).
+
+Songs are left out, lyrics and stories alike: articles first.
 
 Everywhere: prose text nodes only (`proseSpans` from
 `scripts/lib/public-markdown.ts`), so code, links and frontmatter are never
@@ -99,7 +97,15 @@ after it:
 `draw a blank`, `wobbly`, `crooked` and `hotshot` go in neither list up front:
 Vova named them too idiomatic, but below stop-list level. They are what the
 sweep is checked against — at the chosen N each must flag (all but
-`draw a blank` do at 10k), and they land in the sweep report for his call.
+`draw a blank` do at 5k), and they land in the sweep report for his call.
+
+**A flag asks for a judgement, not for the plainest word.** Vova found the first
+replacements (`doesn’t make sense to me`, `wrong`, `cool`) too dry, and kept the
+middle ones now in the article: `blind spot`, `skewed`, `star blogger`. By rank
+the line between them is thin — `skewed` sits at ~21k, `pesky` at ~25k, `wobbly`
+at ~28k — so no N separates live language from ornate idiom by itself. The gate
+starts strict and widens from there, and the allow list is how the middle
+register gets through: `skewed` is its first entry after `copacetic`.
 
 ### 5. Two bites, one PR
 
@@ -111,9 +117,10 @@ lands in vet in this bite already — the stop list is settled and the corpus is
 clean of it today.
 
 **Bite 2 — the gate**, after his marks: the allow and stop lists filled from
-them, N fixed (recommended: **10,000**, the smallest N that catches all three of
-the single words he named, adjustable once the allow list exists), replacements
-made in the documents, and `pnpm check:rare-words` joins vet.
+them, N set to **5,000** — stricter than the 10,000 that first catches all three
+single words he named — replacements made in the documents, and
+`pnpm check:rare-words` joins vet. N is one constant, widened later as the allow
+list shows where the strict cut costs more than it catches.
 
 One script, `scripts/check-words.ts`, serves all three entries; each mode is a
 flag.
@@ -123,24 +130,23 @@ flag.
 The translating agent is the one reaching for idioms, so
 `.claude/rules/lsa-voice.md` (or whichever rule governs translating Vova's
 articles — to confirm on bite 1) gets one line: the stop list and the gate exist
-and are run before handing a translation over. The lists themselves are the
-content; the rule only points.
+and are run before handing a translation over, and a flagged word is replaced by
+living language rather than the flattest synonym (`blind spot`, not
+`doesn’t make sense to me`). The lists themselves are the content; the rule only
+points.
 
 ## Tests
 
 `scripts/check-words.test.ts` (node:test): tokenising (curly apostrophes,
 hyphens, sentence-initial capitals vs. proper nouns), inflection folding both
-ways, phrase matching across line breaks and inflections, and section selection
-on a song fixture (lyrics and preludes never read).
+ways, phrase matching across line breaks and inflections, and corpus selection
+(a translation qualifying by its original's `author`, blockquotes skipped).
 
 ## DRY notes
 
 - **Reused**: `proseSpans`, `findingLines`, `lineAt`, `frontmatterSpan` and
   `publicMarkdownFiles` from `scripts/lib/public-markdown.ts`, the same helpers
-  `check-masked-words.ts` stands on; `localeProse` from
-  `src/pages/music/lib/sections.ts` for a song's English story, rather than a
-  second marker parser (`scripts/lib/stanza-repeats.ts` parses lyrics only, so
-  it does not fit).
+  `check-masked-words.ts` stands on.
 - **Not shared**: the frontmatter read of `author`. `documents.ts` owns the
   schema but is `server-only`; the script reads the one field with `gray-matter`
   and a one-key zod schema, as `check-masked-words.ts` does for `masked`.
@@ -150,22 +156,10 @@ on a song fixture (lyrics and preludes never read).
   and tokeniser are the bulk of it, and the modes differ only in which list they
   test against.
 
-## Open questions
+## Settled
 
-Each has a recommendation already in force above, so silence keeps it.
-
-1. **Word list source.** (a) wordfreq, vendored — recommended: ranked, current,
-   multi-corpus, includes contractions. (b) SUBTLEX-US — film subtitles, closer
-   to spoken English, older and needs a download by hand. (c) Google's 10k list
-   — too short to try other N.
-2. **Inflection folding.** (a) Fold naive base forms — recommended; it removed
-   four of the sixteen false flags at 20k. (b) Exact forms only — simpler,
-   noisier.
-3. **Corpus.** (a) `author: vova` documents plus his songs' English stories —
-   recommended. (b) Articles only, songs left out. (c) Also the agent's own
-   English (Bible articles by other authors, preludes) — not what was asked.
-4. **N for the gate.** (a) 10,000 — recommended, per § 5. (b) 20,000 — about
-   half the flags, misses `crooked`. Settled for real after the sweep.
-5. **Stop list's reach.** (a) The same corpus — recommended. (b) Every English
-   document on every site, personas included — `pesky` would be banned from Майя
-   too, which is her voice, not his.
+Vova's answers: 1a, 2a, 3b, 4 stricter than proposed, 5a. Ruled out: SUBTLEX-US
+(older, a manual download) and Google's 10k list (too short to try other N);
+exact-form matching (noisier — folding removed four of sixteen false flags at
+20k); songs' English stories, for now; a stop list reaching the persona sites,
+where `pesky` is Майя's to use.

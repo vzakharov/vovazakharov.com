@@ -11,15 +11,15 @@ vet now checks every word of it against wordfreq's most frequent
 English words, so a rare word fails unless it is on an allow list of
 words he chose, like copacetic.
 
-The corpus is every document whose author is vova, read in English,
-plus the English stories of his songs; lyrics, the agent's preludes,
-blockquotes and the persona sites are never read. Inflections fold
-to their base form before the lookup, and proper nouns are skipped.
+The corpus is every article whose author is vova, read in English;
+songs, blockquotes and the persona sites are never read. Inflections
+fold to their base form before the lookup, and proper nouns are
+skipped. The cut starts strict, at the 5,000 most frequent words.
 
 A separate stop list fails on words and phrases at any rank, since an
 idiom made of common words passes any frequency cut. Both lists live
-beside the vendored word list in scripts/lib/word-frequency/, and the
-cut-off N was set from a sweep across several values.
+beside the vendored word list in scripts/lib/word-frequency/; the
+allow list was filled from a sweep Vova marked word by word.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
