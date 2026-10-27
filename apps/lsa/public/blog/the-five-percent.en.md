@@ -2,7 +2,7 @@
 description: >-
   The agent takes whatever it’s handed as a given: how we spent seven weeks
   counting its mistakes in review.
-translatedFrom: 2591e1e4a6a4
+translatedFrom: a4d86d7fd8d8
 ---
 
 # The Five Percent
@@ -23,13 +23,13 @@ By October 26 it had [piled up](https://github.com/vzakharov/vovazakharov.com/bl
 
 ## The main mistake
 
-The fattest section — 90 cases, 42% of the lot — got the heading “What it was handed, it treats as fixed.” And it was so pesky that I wrote about it in the
+The fattest section — 90 cases, 42% of all cases — got the heading “What it was handed, it treats as fixed.” And it was so annoying that I wrote about it in the
 [Agentic Bible](https://agentic.bible/precedent-fallacy) without waiting for the experiment to end.
 
 Here are a few typical examples:
 
-- The agent was picking a commit prefix from a list: `feat`, `fix`, `docs` and so on. The change didn’t fit any of them, so it picked the least unfitting one. All it took from me was one phrase: let’s add `content:`.
-- Nine places in the code opened a link in a new tab, and the agent proposed adding a separate parameter for it. Whereas in the three places where the link opened in the same tab, it had just turned out that way, nobody decided it.
+- The agent was picking a commit prefix from a list: `feat`, `fix`, `docs` and so on. The change didn’t fit any of them, so it picked the least unfitting one. My deliberated solution was to add a `content:` prefix.
+- Nine places in the code opened a link in a new tab, and the agent proposed adding a separate parameter for it. My solution: all the other places had “same tab” historically and didn’t have to, so no prop was needed, everything just needed to be always opened in a new tab.
 - It read the `artist` role in the time tracking as “visual artist” and logged the site’s emblems under it. Artist is about the musician.
 - It applied the rule “a page’s published address doesn’t change” to a renamed song and left the song at its old address. Even though changing it along with the title would have been no big deal.
 
@@ -62,14 +62,14 @@ as a given, there’s almost always an answer:
 Together with the main one, that’s 191 cases out of 214, 89%; I won’t go through the rest in detail — you can look them up [in the file itself](https://github.com/vzakharov/vovazakharov.com/blob/e34d291cf8cb782f4f59d0c661eb6e7da44f023e/writing/notes/the-five-percent.md).
 
 Incidentally, the irony goes meta here too: the bullet list above, for one, was written by the agent. To it, I suppose, what it wrote makes sense.
-Meanwhile I read it again and again, and I draw a blank — as if on some things we were speaking different languages altogether.
+Meanwhile I read it again and again, and it doesn’t make sense to me — as if on some things we were speaking different languages altogether.
 I can feel some lesson in here that we have yet to learn.
 
 ## Caveats
 
 The experiment is far from clean: one agent, on one framework (Claude Code), one
 project, and a rather strange one at that — a personal site that four more
-sites live on, [a game about mushrooms](https://vovazakharov.com/mushrooms), [songs](https://vovazakharov.com/music) and an AI persona who [goes around wondering](https://mayawonders.com). And the counting, I think, was a bit wobbly too, because whoever was counting could already see the categories, and the rich, as we all know, always get richer.
+sites live on, [a game about mushrooms](https://vovazakharov.com/mushrooms), [songs](https://vovazakharov.com/music) and an AI persona who [goes around wondering](https://mayawonders.com). And the counting, I think, was a bit off too, because whoever was counting could already see the categories, and the rich, as we all know, always get richer.
 
 So this is worth looking at as an interesting signal rather than any kind of rigorous conclusion. Still.
 
@@ -78,7 +78,7 @@ So this is worth looking at as an interesting signal rather than any kind of rig
 I closed the file... And opened a new one.
 
 First off, “take a step back and see whether the frame of the task itself
-isn’t crooked” is now [a skill of its own](https://github.com/vzakharov/vovazakharov.com/blob/main/.claude/skills/five-percent/procedure.md), and it goes by that very name, “the five percent.”
+isn’t wrong” is now [a skill of its own](https://github.com/vzakharov/vovazakharov.com/blob/main/.claude/skills/five-percent/procedure.md), and it goes by that very name, “the five percent.”
 
 Its very first run, though, showed that we might be dealing with a systemic
 problem rather than a problem of how the task was set. The agent found that
@@ -92,10 +92,12 @@ has no place on the site:
 ![The /writing page on vovazakharov.com: three articles from Glitchporn and a card for this article](./assets/writing-page.png)
 
 All the “writing” that was there is a vestige left over from the site as it was three versions ago,
-when I briefly fancied myself a hotshot blogger. It has no place on a Fractional CTO’s site,
+when I briefly fancied myself a [cool blogger](https://glitchporn.substack.com/). It has no place on a Fractional CTO’s site,
 at least certainly not in that form.
 
 So the skill found the bottleneck and didn’t see where it was actually narrow.
+
+The agent isn’t to blame here, though: it doesn’t know what’s in your head — whether you want, say, to squeeze the change into the existing commit prefixes or come up with a new one. It can’t decide for you what is _yours_ to decide.
 
 Whether it’ll keep going like this, I don’t know, but now we’re keeping a new tally:
 how many of the comments Claude leaves under the new skill turn out to be on point 🙈
