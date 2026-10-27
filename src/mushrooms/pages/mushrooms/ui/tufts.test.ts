@@ -86,6 +86,8 @@ import { type Action, reduce } from '../model/game';
 import { type MeadowLayout, meadowLayout } from './layout';
 import { type Opened, opened, relaidOn } from './visit-play';
 
+type MeadowStand = Stand<MeadowLayout, Planted>;
+
 const SCREENS = [...VIEWPORTS, FLOOR_HELD] as const;
 /** How many visits each screen is tried over, on a fresh meadow. */
 const VISITS = 40;
@@ -109,10 +111,7 @@ function tendedOn(layout: MeadowLayout, seed: number): Sprout[] {
     .filter(tendedIn(viewAt(layout.camera, OPENING_EYE)));
 }
 /** The tufts of `stand` the opening eye tends as a visit of `seed` grows them, and those that stand. */
-function grassOf(
-  stand: Stand<MeadowLayout, Planted>,
-  seed: number,
-): [Sprout[], Sprout[]] {
+function grassOf(stand: MeadowStand, seed: number): [Sprout[], Sprout[]] {
   const grown = tendedOn(stand.layout, seed);
   return [grown, tendTufts(stand, grown, OPENING_EYE)];
 }
@@ -121,7 +120,7 @@ const grownAtOf = (layout: MeadowLayout, seed: number) => (foot: Point) =>
   cellTufts(lawnOf(layout, seed), cellOf(foot));
 
 /** `stand` with a flower planted on `sprout`, as the scene plants it. */
-function plantedOn<Standing extends Stand<MeadowLayout, Planted>>(
+function plantedOn<Standing extends MeadowStand>(
   stand: Standing,
   { foot }: Sprout,
   seed: number,
@@ -216,7 +215,7 @@ function headAt(seed: number, place: Footing): Circle {
  * does not stand.
  */
 function faultsOf(
-  stand: Stand<MeadowLayout, Planted>,
+  stand: MeadowStand,
   grown: readonly Sprout[],
   standing: readonly Sprout[],
 ): string[] {
@@ -434,12 +433,7 @@ describe('the ground’s grass', () => {
     for (const [, width, height] of SCREENS) {
       for (let visit = 0; visit < VISITS; visit++) {
         const seed = seedOf(visit);
-        let stand: Stand<MeadowLayout, Planted> = opened(
-          seed,
-          width,
-          height,
-          visit % 2 === 1,
-        );
+        let stand: MeadowStand = opened(seed, width, height, visit % 2 === 1);
         const choosing = mulberry32(seed);
         const [grown, first] = grassOf(stand, seed);
         let sprouts = first;
@@ -486,7 +480,7 @@ describe('the ground’s grass', () => {
 
   it('takes no second flower on a tuft planted, and stands nowhere once the world has no room, well past fourteen flowers', () => {
     const seed = 3;
-    let stand: Stand<MeadowLayout, Planted> = opened(seed, 1180, 820, false);
+    let stand: MeadowStand = opened(seed, 1180, 820, false);
     const [grown, first] = grassOf(stand, seed);
     let sprouts = first;
     const [tuft] = sprouts;
@@ -508,12 +502,7 @@ describe('the ground’s grass', () => {
   it('keeps every flower planted on a tuft through a turn and back, and no tuft standing at its root', () => {
     for (const [, width, height] of SCREENS) {
       const seed = 17;
-      let stand: Stand<MeadowLayout, Planted> = opened(
-        seed,
-        width,
-        height,
-        false,
-      );
+      let stand: MeadowStand = opened(seed, width, height, false);
       let grown = tendedOn(stand.layout, seed);
       let sprouts = tendTufts(stand, grown, OPENING_EYE);
       for (let planting = 0; planting < 4; planting++) {
