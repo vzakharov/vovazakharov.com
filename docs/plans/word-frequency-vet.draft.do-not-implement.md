@@ -117,7 +117,7 @@ lands in vet in this bite already — the stop list is settled and the corpus is
 clean of it today.
 
 **Bite 2 — the gate**, after his marks: the allow and stop lists filled from
-them, N set to **5,000** — stricter than the 10,000 that first catches all three
+them, N set to **5,000** — stricter than the 10,000 that still catches all three
 single words he named — replacements made in the documents, and
 `pnpm check:rare-words` joins vet. N is one constant, widened later as the allow
 list shows where the strict cut costs more than it catches.
