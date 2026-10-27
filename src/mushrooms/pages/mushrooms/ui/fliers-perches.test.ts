@@ -22,22 +22,63 @@ import {
   blockedFor,
   EVERY_ONE,
   type Held,
+  isSeat,
   LINGER_MS,
   lingerOf,
+  MOST_OVERLAP,
   perchSight,
+  perchSpot,
+  seatAt,
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 
-import {
-  pairsOf,
-  playingOf,
-  seatedClash,
-  SEEDS,
-  share,
-  spanOn,
-  TICK,
-} from './fliers.test-kit';
+import { playingOf, SEEDS, share, spanOn, TICK } from './fliers.test-kit';
 import type { MeadowLayout } from './layout';
-import { ALL_TEN, type Opened, opened, play } from './visit-play';
+import { ALL_TEN, type Opened, opened, overlap, play } from './visit-play';
+
+/** Every two of `items`. */
+const pairsOf = <Item>(items: readonly Item[]): Array<readonly [Item, Item]> =>
+  items.flatMap((item, index) =>
+    items.slice(index + 1).map((other) => [item, other] as const),
+  );
+
+/**
+ * How, at `now`, two of `fliers` sitting share a perch or cover more than
+ * `MOST_OVERLAP` of the narrower's wings, each seated as its kind sits there;
+ * `undefined` where none do.
+ */
+function seatedClash(
+  stand: Opened,
+  fliers: readonly Flier[],
+  now: number,
+  seats: Map<string, Point | undefined>,
+): string | undefined {
+  const { layout, planted } = stand;
+  const sitting = fliers.flatMap((flier) => {
+    const { to, arrives } = flier.leg;
+    if (now < arrives || !isSeat(to)) return [];
+    const name = perchName(to);
+    // A perch stands still once it stands, so a seat is found once.
+    const key = `${flier.id} ${name} ${String(planted.length)}`;
+    const seat = seats.has(key)
+      ? seats.get(key)
+      : seatAt(stand, to, perchSpot(flier), flier.kind);
+    seats.set(key, seat);
+    return seat ? [{ flier, seat, name }] : [];
+  });
+  for (const [a, b] of pairsOf(sitting)) {
+    if (a.name === b.name) return `${a.name} shared at ${String(now)}`;
+    const apart = Math.hypot(a.seat.x - b.seat.x, a.seat.y - b.seat.y);
+    const covered = overlap(
+      spanOn(layout, a.flier),
+      spanOn(layout, b.flier),
+      apart,
+    );
+    if (covered > MOST_OVERLAP) {
+      return `${a.flier.kind} on ${a.name} and ${b.flier.kind} on ${b.name} at ${String(now)}`;
+    }
+  }
+  return undefined;
+}
 
 /** Each layout's spots in the air by id, where its anchor draws each, found once a layout. */
 const spotted = new WeakMap<MeadowLayout, Map<string, Zoomed>>();
