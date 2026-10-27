@@ -27,7 +27,9 @@ The game's tests, split under ~450 lines a file, are sharded across
 vet's runners on VET_MEADOW=1; its plays are off in vet.yml, red the
 same way on the base, pending a cut-down. keptIn, in kernel's new
 shared/cache, is the one get-or-make for a Map or WeakMap cache across
-the apps.
+the apps. vova/no-export-namesake forbids two module-level values of
+one name in an app when either is exported, so no move rebinds an
+import to its namesake, as the lawn's to the occupant grid's CELL.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
