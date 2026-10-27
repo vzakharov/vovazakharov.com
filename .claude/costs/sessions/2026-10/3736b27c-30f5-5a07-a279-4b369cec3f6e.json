@@ -1,0 +1,77 @@
+{
+  "total": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 159085,
+    "cacheWrite1hTokens": 90678,
+    "cacheReadTokens": 5024923,
+    "outputTokens": 21674,
+    "thinkingTokens": 10211,
+    "responses": 43,
+    "costUsd": 2.9596576000000003
+  },
+  "estimate": null,
+  "sessionId": "3736b27c-30f5-5a07-a279-4b369cec3f6e",
+  "branch": "masd/one-page-measure",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/finalize & merge masd/one-page-measure",
+  "prs": [
+    216
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCrV4Ebn7t9sUPinAM",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-27T19:41:50.277Z",
+  "lastResponseAt": "2026-10-27T19:46:30.132Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 90678,
+    "cacheReadTokens": 2731781,
+    "outputTokens": 9063,
+    "thinkingTokens": 2231,
+    "responses": 23,
+    "costUsd": 1.4532242
+  },
+  "subagents": {
+    "inputTokens": 40,
+    "cacheWrite5mTokens": 159085,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2293142,
+    "outputTokens": 12611,
+    "thinkingTokens": 7980,
+    "responses": 20,
+    "costUsd": 1.5064333999999997
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 86,
+      "cacheWrite5mTokens": 159085,
+      "cacheWrite1hTokens": 90678,
+      "cacheReadTokens": 5024923,
+      "outputTokens": 21674,
+      "thinkingTokens": 10211,
+      "responses": 43,
+      "costUsd": 2.9596576000000003
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "CLAUDE.md",
+    "endedAt": "2026-10-27T19:43:02.778Z",
+    "contextTokens": 120520,
+    "spend": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 71052,
+      "cacheReadTokens": 1043109,
+      "outputTokens": 3009,
+      "thinkingTokens": 928,
+      "responses": 10,
+      "costUsd": 0.8372978000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
