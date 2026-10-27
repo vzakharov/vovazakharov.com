@@ -48,7 +48,7 @@ const PORTRAIT_ALBUM = 'wings';
 
 const homePath = (locale?: string) => localizedRoute('/', locale);
 
-/** Every entry and toy is drawn, so a plate without its drawing fails the build. */
+/** A toy is drawn, as every entry is, so one without its drawing fails the build. */
 function drawn(src: string, owner: string): Plate['image'] {
   const size = intrinsicDimensions(src);
 

@@ -1,25 +1,17 @@
+@use './leaf';
+
 // Leaves in a row stretch to one height, so captions of different lengths
 // still read as one set.
 .plate {
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin: 0;
-  border: 1px solid var(--color-border-hairline);
-  transition: border-color 150ms ease;
 
-  &:hover {
-    border-color: var(--color-border-hairline-strong);
-  }
+  @include leaf.edge;
 }
 
-// `height: auto` against the attributes: they reserve the row's space before
-// the file lands, and the width here is what the layout wants.
 .drawing {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-bottom: 1px solid var(--color-border-hairline);
+  @include leaf.head-drawing;
 }
 
 .caption {
