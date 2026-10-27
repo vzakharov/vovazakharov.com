@@ -100,12 +100,12 @@ export {
   zAt,
 } from './ground';
 export {
-  CELL,
   type ClumpShade,
   type Cover,
   inSightPast,
   mostShaded,
   type Occupant,
+  OCCUPANT_CELL,
   type Occupied,
   type Occupying,
   type ShownCover,

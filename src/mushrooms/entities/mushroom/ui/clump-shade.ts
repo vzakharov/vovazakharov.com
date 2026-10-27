@@ -6,9 +6,9 @@
 
 import type { Box, Point } from '@/mushrooms/shared/lib/geometry';
 import {
-  CELL,
   type ClumpShade,
   type MushroomGround,
+  OCCUPANT_CELL,
   type Silhouette,
 } from '@/mushrooms/shared/world';
 
@@ -53,10 +53,14 @@ function silhouetteOf(genes: MushroomGenes, splay: number): Silhouette {
   const xs = outlines.flat().map(({ x }) => x);
   const ys = outlines.flat().map(({ y }) => y);
   // A cell's margin all round, which the spread reaches into.
-  const left = Math.min(...xs) - 2 * CELL;
-  const top = Math.min(...ys) - 2 * CELL;
-  const columns = Math.ceil((Math.max(...xs) + 2 * CELL - left) / CELL);
-  const rows = Math.ceil((Math.max(...ys) + 2 * CELL - top) / CELL);
+  const left = Math.min(...xs) - 2 * OCCUPANT_CELL;
+  const top = Math.min(...ys) - 2 * OCCUPANT_CELL;
+  const columns = Math.ceil(
+    (Math.max(...xs) + 2 * OCCUPANT_CELL - left) / OCCUPANT_CELL,
+  );
+  const rows = Math.ceil(
+    (Math.max(...ys) + 2 * OCCUPANT_CELL - top) / OCCUPANT_CELL,
+  );
   const filled = new Uint8Array(columns * rows);
   for (const outline of outlines) {
     fill(outline, { left, top, columns, rows, cells: filled });
@@ -94,13 +98,13 @@ function fill(outline: readonly Point[], into: Silhouette): void {
     if (a !== undefined && a.y !== b.y) {
       const [low, high] = a.y < b.y ? [a, b] : [b, a];
       // The rows whose centre lies in [low.y, high.y).
-      const first = Math.max(0, Math.ceil((low.y - top) / CELL - 0.5));
+      const first = Math.max(0, Math.ceil((low.y - top) / OCCUPANT_CELL - 0.5));
       const last = Math.min(
         rows - 1,
-        Math.ceil((high.y - top) / CELL - 0.5) - 1,
+        Math.ceil((high.y - top) / OCCUPANT_CELL - 0.5) - 1,
       );
       for (let row = first; row <= last; row++) {
-        const y = top + (row + 0.5) * CELL;
+        const y = top + (row + 0.5) * OCCUPANT_CELL;
         crossings[row]?.push(
           low.x + ((y - low.y) * (high.x - low.x)) / (high.y - low.y),
         );
@@ -111,8 +115,10 @@ function fill(outline: readonly Point[], into: Silhouette): void {
   for (const [row, xs] of crossings.entries()) {
     xs.sort((p, q) => p - q);
     for (let index = 0; index + 1 < xs.length; index += 2) {
-      const from = Math.ceil(((xs[index] ?? 0) - left) / CELL - 0.5);
-      const to = Math.floor(((xs[index + 1] ?? 0) - left) / CELL - 0.5);
+      const from = Math.ceil(((xs[index] ?? 0) - left) / OCCUPANT_CELL - 0.5);
+      const to = Math.floor(
+        ((xs[index + 1] ?? 0) - left) / OCCUPANT_CELL - 0.5,
+      );
       for (
         let column = Math.max(0, from);
         column <= Math.min(columns - 1, to);
@@ -132,7 +138,7 @@ function placedBox(
   return {
     left: x + left * size,
     top: y + top * size,
-    right: x + (left + columns * CELL) * size,
-    bottom: y + (top + rows * CELL) * size,
+    right: x + (left + columns * OCCUPANT_CELL) * size,
+    bottom: y + (top + rows * OCCUPANT_CELL) * size,
   };
 }

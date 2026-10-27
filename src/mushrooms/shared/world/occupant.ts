@@ -68,7 +68,7 @@ export function inSightPast(
 }
 
 /** A silhouette's cell, in units of the occupant's size. */
-export const CELL = 0.02;
+export const OCCUPANT_CELL = 0.02;
 
 /**
  * Every cell an occupant draws over, in its own units about its foot, y down
@@ -118,11 +118,15 @@ export function mostShaded(
     const { left, top, cells } = silhouette;
     for (let row = 0; row < rows; row++) {
       const y = around.top + (row + 0.5) * step;
-      const cellRow = Math.floor(((y - place.y) / place.size - top) / CELL);
+      const cellRow = Math.floor(
+        ((y - place.y) / place.size - top) / OCCUPANT_CELL,
+      );
       if (cellRow < 0 || cellRow >= silhouette.rows) continue;
       for (let column = 0; column < columns; column++) {
         const x = around.left + (column + 0.5) * step;
-        const cell = Math.floor(((x - place.x) / place.size - left) / CELL);
+        const cell = Math.floor(
+          ((x - place.x) / place.size - left) / OCCUPANT_CELL,
+        );
         if (
           cell >= 0 &&
           cell < silhouette.columns &&
