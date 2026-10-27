@@ -17,8 +17,9 @@
 #   scripts/vet.sh meadow <k>/<n> the k-th of n shards of the game's tests
 #   scripts/vet.sh play <screen> <plays>  those plays of the game, on that screen
 #
-# The last three run only when `VET_MEADOW=1` asks, the bare run passing it on
-# as the workflow's `meadow` input.
+# `meadow` runs only when `VET_MEADOW=1` asks, the bare run passing it on as
+# the workflow's `meadow` input; `probe` and `play` run by hand, their jobs
+# commented out in vet.yml while the plays are cut down.
 #
 # `lint` and `typecheck` write the route types with `next typegen` rather than
 # wait on a build — safe only in a tree no build shares

@@ -41,14 +41,13 @@ vet's runners on request (`VET_MEADOW=1`).
 
 ## Rest of the elephant
 
-- **Open, the operator's call: the 22 red play groups.** The first sharded run
-  (40453462582) plays 22 of 30 groups red, and 6b's base with the same wiring
-  (40454592494, branch `baseline/6b-game-play`, never merged) plays the same 22
-  red with the same messages, so they predate MASD: the planted flower drawn
-  invisible, no sun on the screen at night-run's end, no tapped firefly flaring,
-  the sinking house sending no mouse, band gaps, a tap on the bare meadow
-  keeping a selection, among others. Recommended: an issue of their own off
-  `main`, since fixing the game is not cutting it.
+- **Later, the plays cut down.** The first sharded run (40453462582) played 22
+  of 30 groups red, and 6b's base with the same wiring (40454592494, branch
+  `baseline/6b-game-play`, never merged) the same 22 with the same messages, so
+  they predate MASD; the operator checked the game by hand, found it fine, and
+  had the plays' jobs commented out in `vet.yml`: «пока закомменть это, я думаю
+  мы все равно сильно-сильно все эти прогоны резать будем, кажется,
+  необходимость в них отпала после того как игру уже написали».
 
 - **Later, sub-entities** (the operator: «очень уж чешется вариант с
   "подсущностями" (надо только имя получше подобрать: абстракции? зародыши?

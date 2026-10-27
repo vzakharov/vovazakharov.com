@@ -186,10 +186,12 @@ Twenty things about that list are deliberate:
   seconds, and the game changes rarely — so a branch that works on the game runs
   them by asking, or alone through `pnpm test:meadow`. Asked, the bare vet run
   passes it on as `vet.yml`'s `meadow` input, which shards those tests across
-  runners and plays `pnpm play:mushrooms` on every screen in groups, against a
-  probe build of its own — hours in one container. `pnpm test` is the run by
-  hand, over only the tests the branch reached (`.claude/rules/testing.md`). Two
-  Python suites sit beside it: `src/kernel/scripts/lib/test_hearing.py`, for
+  runners. The game's plays (`pnpm play:mushrooms`, every screen in groups,
+  hours in one container) sit commented out there while they are cut down,
+  `vet.sh`'s `probe` and `play` phases running them by hand. `pnpm test` is the
+  run by hand, over only the tests the branch reached
+  (`.claude/rules/testing.md`). Two Python suites sit beside it:
+  `src/kernel/scripts/lib/test_hearing.py`, for
   `src/kernel/scripts/transcribe.py`'s pure half, which reads only its fixtures;
   and `src/music/scripts/song-intake/test_song_facts.py`, for the spectrogram's
   measurements on synthetic signals, which needs numpy on the system Python.
