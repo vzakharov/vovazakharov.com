@@ -48,8 +48,15 @@ The operator asked for 6b on 6a's PR: «я не вижу смысла призе
   `bee-room` in `insects-fly`, `GrowingStand` in `grow-mushroom`.
 - **`anchoredStand` shows every mushroom**, not only those within `STAND_REACH`,
   since a generic cache of the filtered list needs a cast; the ground lays out
-  only those it shows. The meadow tests at `/finalize` confirm nothing judged
-  differently.
+  only those it shows. `pnpm test:meadow` passes, so nothing judges differently.
+- **The page's tests enter a slice through `index.node-safe.ts`** wherever its
+  `index.ts` re-exports a module that imports Phaser, which reads `window` on
+  load and crashed 78 test files under bare Node.
+- **The lawn's cell is `LAWN_CELL`**: the cut bound every import of `CELL` to
+  the occupant grid's (0.02) in `shared/world`, so the seam and the map took the
+  lawn's cell (4) 200 times too small. A comparison of every import's
+  declaration against the base found no other import rebound to a different
+  value.
 - **The worm and the mouse take the house as a parameter**: `paintHouse` takes
   its tenants as painters, which the page's `house-view` composes.
 

@@ -146,23 +146,25 @@ as `shared/config` is.
     dependency's weight is not one, since removing the dependency removes the
     fence and whatever was built on it.
   - **`index.node-safe.ts`** is the bundler axis: what resolves under an app's
-    `scripts/`, which run with none — so the graph behind it spells its
-    extensions, holds no CSS, JSX or asset import, and carries no `server-only`,
-    which throws outside a React server bundle. `shared/config` has one, over
-    `resolveSiteId`, blog's `shared/content` one over the collection registry
-    and the mermaid paths, and `entities/case` one over the grade stamp's text,
-    which the case's social card prints. A script reaching past a public API
-    into a leaf is the smell that this barrel is missing. Carrying no
-    `server-only`, it is also the client components' entry into a segment whose
-    `index.ts` is server-only: `music/shared/catalogue`'s, where the player and
-    the hook line take what they read.
+    `scripts/` and its tests, which run with none — so the graph behind it
+    spells its extensions, holds no CSS, JSX or asset import, and carries no
+    `server-only`, which throws outside a React server bundle. `shared/config`
+    has one, over `resolveSiteId`, blog's `shared/content` one over the
+    collection registry and the mermaid paths, and `entities/case` one over the
+    grade stamp's text, which the case's social card prints. A script reaching
+    past a public API into a leaf is the smell that this barrel is missing.
+    Carrying no `server-only`, it is also the client components' entry into a
+    segment whose `index.ts` is server-only: `music/shared/catalogue`'s, where
+    the player and the hook line take what they read.
 - **`index.test-only.ts` is a test's entry, and no one else's** (`TEST_API` in
   `eslint/masd-graph.ts`): what a test reads of a lower slice that nothing in
   production does — a constant it pins, a helper it calls on its own. A test
   checking a lower module on the screens a page lays out sits in that page, and
-  enters the module's slice by this barrel beside its public API. `boundaries`
-  lets only a `*.test.ts` take it, so the public API stays what production
-  reads; Steiger reads any `index.*` as an entry.
+  enters the module's slice by this barrel beside its public API — the
+  `index.node-safe.ts` one where the slice's `index.ts` loads a module that
+  needs a browser, as the game's Phaser does. `boundaries` lets only a
+  `*.test.ts` take it, so the public API stays what production reads; Steiger
+  reads any `index.*` as an entry.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time
   (`@/kernel/shared/lib/class-names`), each **a single file** and its own public
   API — nothing sits beside it to hide, so `boundaries` lets the layers above
