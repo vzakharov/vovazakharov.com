@@ -100,7 +100,7 @@ export const COLLECTIONS = {
   },
   'maya-blog': {
     base: 'blog',
-    label: { en: 'Blog', ru: 'Блог' },
+    label: { en: 'Plates', ru: 'Таблицы' },
     site: 'maya',
     /** Written for the screen, and no publishing lane prints `maya`. */
     printable: false,

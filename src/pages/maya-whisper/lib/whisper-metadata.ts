@@ -19,7 +19,7 @@ export function whisperMetadata({ locale }: WithLocale) {
   const { title, description } = loadMessages(locale).whisper;
 
   return constructMetadata({
-    title: `${title} - ${loadMessages(locale).maya.name}`,
+    title: `${title} - ${loadMessages(locale).maya.title}`,
     description,
     locale,
     ...localizedAddresses(whisperPath, locale),

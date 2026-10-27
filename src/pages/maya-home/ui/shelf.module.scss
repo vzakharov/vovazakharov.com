@@ -1,0 +1,30 @@
+.heading {
+  font-size: 1rem;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+
+.toy {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 20px;
+  align-items: center;
+  margin: 0;
+}
+
+.drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-style: italic;
+}

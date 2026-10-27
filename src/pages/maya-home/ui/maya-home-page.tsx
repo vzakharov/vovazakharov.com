@@ -39,6 +39,7 @@ import { SiteFooter } from '@/widgets/site-footer';
 
 import { Frontispiece } from './frontispiece';
 import { type Plate, Plates } from './plates';
+import { Shelf } from './shelf';
 
 const COLLECTION = 'maya-blog';
 
@@ -102,10 +103,10 @@ function toyPlates(locale: Locale): Plate[] {
 }
 
 export function mayaHomeMetadata({ locale }: WithLocale) {
-  const { name, tagline } = loadMessages(locale).maya;
+  const { title, tagline } = loadMessages(locale).maya;
 
   return constructMetadata({
-    title: name,
+    title,
     description: tagline,
     locale,
     ...localizedAddresses(homePath, locale),
@@ -113,14 +114,22 @@ export function mayaHomeMetadata({ locale }: WithLocale) {
 }
 
 export async function MayaHomePage({ locale }: WithLocale) {
-  const { name, subtitle, tagline, intro, toys, frontispiece, portraitAlbum } =
-    loadMessages(locale).maya;
+  const {
+    name,
+    title,
+    subtitle,
+    tagline,
+    intro,
+    toys,
+    frontispiece,
+    portraitAlbum,
+  } = loadMessages(locale).maya;
 
   return (
     <PageShell>
       <Stack gap={64}>
         <Frontispiece
-          {...{ name, subtitle, tagline }}
+          {...{ name, title, subtitle, tagline }}
           caption={fillSlots(frontispiece, {
             album: (
               <TextLink
@@ -142,8 +151,7 @@ export async function MayaHomePage({ locale }: WithLocale) {
 
         {/* Toys first: they are few and stay, where entries keep coming. */}
         <Section id="toys">
-          <Title order={2}>{toys}</Title>
-          <Plates plates={toyPlates(locale)} {...{ locale }} />
+          <Shelf label={toys} toys={toyPlates(locale)} />
         </Section>
 
         <Section id={COLLECTIONS[COLLECTION].base}>

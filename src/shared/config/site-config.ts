@@ -231,7 +231,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     downloadPrefix: 'maya',
     // In English, as the bare address is; the `/ru` pages read theirs from
     // the catalogue's `maya` namespace.
-    name: 'Maya',
+    name: 'Maya wonders',
     tagline: 'Maya from za/oblozhkoy. We don’t exist.',
     // Cropped from the «Крылья» cover.
     avatar: { path: '/ava.png', width: 320, height: 320 },

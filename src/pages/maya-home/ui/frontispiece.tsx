@@ -3,12 +3,13 @@ import Image from 'next/image';
 import type { ReactNode } from 'react';
 
 import { SITE_CONFIG } from '@/shared/config';
-import type { Billed, WithChildren } from '@/shared/typings';
+import type { Billed, TitledBlock } from '@/shared/typings';
 
 import classes from './frontispiece.module.scss';
 
+/** `title` names the book on its title page; `name` is whose portrait faces it. */
 type FrontispieceProps = Billed &
-  WithChildren & {
+  TitledBlock & {
     /** What the title page says the book is, under the name. */
     subtitle: string;
     /** What the portrait is, set in italics under it. */
@@ -21,6 +22,7 @@ type FrontispieceProps = Billed &
  */
 export function Frontispiece({
   name,
+  title,
   subtitle,
   tagline,
   caption,
@@ -44,7 +46,7 @@ export function Frontispiece({
       </figure>
       <div className={classes['titlePage']}>
         <hgroup className={classes['title']}>
-          <Title order={1}>{name}</Title>
+          <Title order={1}>{title}</Title>
           <Text size="lg">{subtitle}</Text>
         </hgroup>
         <Text size="lg" className={classes['tagline']}>
