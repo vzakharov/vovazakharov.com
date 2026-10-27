@@ -36,7 +36,7 @@ from lib.estimate_model import Rates, shadow_notes, with_added_roles
 from lib.github import ADDED_ROLES, REPO, Client, GitHubError, remote_ledger
 from lib.hours import HoursTable
 from lib.period import FORMATS, KINDS, Period, PeriodError, month_of, period
-from lib.pricing import load_prices
+from lib.prices import parse_prices
 from lib.ledger_branch import BRANCH, LedgerError, fetch, ledger_rates, rows_at, shared_rates, union
 from lib.rows import SESSIONS, SessionCost, read_row, reshape
 from lib.shape import ShapeError, to_json
@@ -347,7 +347,7 @@ def report(rows: List[SessionCost], totals: Totals) -> None:
     # The hand-kept rate table has no published source to check itself against,
     # so the report states its age, and checks the arithmetic against the only
     # second opinion there is: what Claude Code itself counted the session at.
-    prices = load_prices()
+    prices = parse_prices((COSTS / "prices.json").read_text(encoding="utf-8"))
     age = (datetime.now(timezone.utc).date() - date.fromisoformat(prices.as_of)).days
     print(f"\nrates as of {prices.as_of} ({count(age, 'day')} ago), hand-kept in .claude/costs/prices.json")
 

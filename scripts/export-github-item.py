@@ -66,9 +66,9 @@ from gh_export.markdown import comments_parts, header_section
 from gh_export.previous import previous_export
 from gh_export.reviews import review_parts
 from gh_export.timeline import timeline_section
-from lib.cli import die
 from lib.github import (
     AllRoutesFailed,
+    die,
     format_route_statuses_and_bodies,
     gh_token,
 )
