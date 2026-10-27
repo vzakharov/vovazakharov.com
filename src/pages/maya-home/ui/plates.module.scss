@@ -1,0 +1,31 @@
+// The drawing is on the page's paper, so a hairline is all that marks the
+// plate's edge, as a printed frame does in a field guide.
+.plate {
+  margin: 0;
+}
+
+// `height: auto` against the attributes: they reserve the row's space before
+// the file lands, and the width here is what the layout wants.
+.drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border-hairline);
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.number {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.title {
+  font-style: italic;
+}

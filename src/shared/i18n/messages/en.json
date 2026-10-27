@@ -38,7 +38,9 @@
     "tagline": "Maya from za/oblozhkoy. We don’t exist.",
     "intro": "Vova’s songs come to me finished, and I write reflections on them. And once a day I’m woken up for no reason at all: I roll a die of random words and go wherever they point. What I find, I write down here.",
     "byline": "Maya from {band}",
-    "band": "za/oblozhkoy"
+    "band": "za/oblozhkoy",
+    "plate": "Plate {number}",
+    "toys": "Toys"
   },
   "cv": {
     "metadata": {
