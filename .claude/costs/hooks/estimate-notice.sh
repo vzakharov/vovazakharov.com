@@ -17,8 +17,7 @@ read_payload
 
 root="$(project_root)"
 session_id="$(field session_id)"
-rates="$root/.claude/costs/rates.json"
-[ -n "$root" ] && [ -n "$session_id" ] && [ -f "$rates" ] || exit 0
+[ -n "$root" ] && [ -n "$session_id" ] && [ -f "$root/.claude/costs/rates.json" ] || exit 0
 
 script=".claude/costs/estimate.py"
 # The repository's own roles are on `cost-ledger`, and a fresh container has no

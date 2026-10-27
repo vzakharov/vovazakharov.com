@@ -22,7 +22,7 @@ from typing import Any, Dict, List, Optional
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / ".claude" / "costs"))
 
-from lib.pricing import load_prices
+from lib.pricing import parse_prices
 from lib.restart import (
     SLICE,
     History,
@@ -36,6 +36,7 @@ from lib.restart import (
     session_of,
 )
 
+PRICES = ROOT / ".claude" / "costs" / "prices.json"
 RESEND = "!"
 DEFAULT_MIN_USD = 0.30
 DEFAULT_MARGIN = 0.10
@@ -187,7 +188,8 @@ def reason(context: int, priced: Optional[Session], claude_code_usd: Optional[fl
 
 
 def price(transcript: Path, history: History, context: int, project: Path) -> Optional[Session]:
-    return session_of(transcript, history, context, load_prices(), project, relay=False)
+    prices = parse_prices(PRICES.read_text(encoding="utf-8"))
+    return session_of(transcript, history, context, prices, project, relay=False)
 
 
 def outclassed(s: Session, margin: float) -> bool:

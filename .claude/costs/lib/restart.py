@@ -86,16 +86,10 @@ def recache(s: Session) -> float:
     return usd(s.context - shared, s.write) + usd(shared, s.rates.cache_read)
 
 
-def relay_fixed(s: Session) -> float:
-    """What a relay pays whatever the context: the summary's output and the
-    successor's reorientation."""
-    return usd(SUMMARY_OUT, s.rates.output) + s.reorientation.cost_usd
-
-
 def relay_once(s: Session) -> float:
     """The summary turn, one request at the whole context, plus the successor's
     reorientation."""
-    return usd(s.context, s.rates.cache_read) + relay_fixed(s)
+    return usd(s.context, s.rates.cache_read) + usd(SUMMARY_OUT, s.rates.output) + s.reorientation.cost_usd
 
 
 def _switch_over(s: Session, slice_tokens: int, carry_once: float, switch_once: float) -> Saving:
@@ -148,7 +142,7 @@ def line_for(s: Session, slice_tokens: int, share: float) -> Optional[int]:
     no context gets there."""
     n = slice_tokens * s.requests_per_token
     r = s.rates.cache_read / 1_000_000
-    fixed = relay_fixed(s)
+    fixed = usd(SUMMARY_OUT, s.rates.output) + s.reorientation.cost_usd
     per_token = r * (n - 1 - share * n)
     if per_token <= 0:
         return None
