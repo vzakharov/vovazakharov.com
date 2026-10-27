@@ -11,31 +11,27 @@ import {
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { DUSK, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 import { OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { azimuthAt } from '@/mushrooms/entities/landscape';
 import {
+  groundAt,
+  RANGES,
   SUN_RAY_REACH,
   tuftColours,
   turfAt,
 } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
+  crestAt,
   DUSK_TONES,
+  farSkyline,
+  farthestSkyline,
   GROUND_STOPS,
-  groundAt,
   litSkyAt,
-  RANGES,
+  nearSkyline,
+  screenAt,
   skyAt,
   skyGrid,
   tonesAt,
-} from '@/mushrooms/entities/landscape/ui/backdrop-tones';
-import {
-  azimuthAt,
-  crestAt,
-  screenAt,
-} from '@/mushrooms/entities/landscape/ui/panorama';
-import {
-  farSkyline,
-  farthestSkyline,
-  nearSkyline,
-} from '@/mushrooms/entities/landscape/ui/skyline';
+} from '@/mushrooms/entities/landscape/index.test-only';
 import {
   VIEWPORTS,
   VISITS,

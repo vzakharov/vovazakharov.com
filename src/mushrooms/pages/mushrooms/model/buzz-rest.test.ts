@@ -7,12 +7,12 @@ import {
   type InsectKind,
 } from '@/mushrooms/entities/insect';
 import {
+  crawl,
   LANDING,
   type Stay,
   wingBeat,
 } from '@/mushrooms/entities/insect/index.node-safe';
 import {
-  crawl,
   hop,
   HOP_EVERY,
   HOP_REACH,
@@ -20,7 +20,7 @@ import {
   LEAST_TREMBLE,
   rubbing,
   trembleSize,
-} from '@/mushrooms/entities/insect/model/buzz-rest';
+} from '@/mushrooms/entities/insect/index.test-only';
 import {
   VIEWPORTS,
   VISITS,

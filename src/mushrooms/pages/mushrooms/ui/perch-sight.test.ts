@@ -49,17 +49,17 @@ import {
 import { isSeat, ScenePerches } from '@/mushrooms/features/insects-fly';
 import {
   airAlofts,
-  airSpots,
-  clumpRow,
-} from '@/mushrooms/features/insects-fly/ui/air-spots';
-import {
-  footRows,
   MOST_OVERLAP,
   onscreenOf,
   perchSight,
   perchSpot,
   seatAt,
-} from '@/mushrooms/features/insects-fly/ui/perch-sight';
+} from '@/mushrooms/features/insects-fly/index.node-safe';
+import {
+  airSpots,
+  clumpRow,
+  footRows,
+} from '@/mushrooms/features/insects-fly/index.test-only';
 
 import { type Meadow, reduce } from '../model/game';
 import { type MeadowLayout, meadowLayout } from './layout';

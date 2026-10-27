@@ -9,17 +9,16 @@ import {
   toHsv,
 } from '@/mushrooms/shared/lib/colour';
 import { ellipse, type Point } from '@/mushrooms/shared/lib/geometry';
-import { PALETTE } from '@/mushrooms/shared/ui';
 import {
   facingArc,
   inkFor,
   lineInk,
-  outwardNormals,
-  shadowFall,
+  PALETTE,
   taperedLine,
   weightedOutline,
-} from '@/mushrooms/shared/ui/ink';
-import { CREATURES } from '@/mushrooms/shared/ui/palette-creatures';
+} from '@/mushrooms/shared/ui';
+import { outwardNormals } from '@/mushrooms/shared/ui/index.node-safe';
+import { CREATURES,shadowFall } from '@/mushrooms/shared/ui/index.test-only';
 import { groundAt } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   everyPlace,

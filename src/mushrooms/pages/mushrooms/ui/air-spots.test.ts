@@ -13,15 +13,17 @@ import {
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/index.node-safe';
+import {
+  airAlofts,
+  INSECT_LIMITS,
+} from '@/mushrooms/features/insects-fly/index.node-safe';
 import {
   AIR_BELOW,
   airAloftOf,
-  airAlofts,
   airOf,
   airSpots,
   clumpRow,
-} from '@/mushrooms/features/insects-fly/ui/air-spots';
+} from '@/mushrooms/features/insects-fly/index.test-only';
 
 import { meadowLayout } from './layout';
 

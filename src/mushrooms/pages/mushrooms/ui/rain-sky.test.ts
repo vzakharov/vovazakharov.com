@@ -5,7 +5,6 @@ import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 import { RAIN_MS, rainbow, wetness } from '@/mushrooms/shared/world';
 import { azimuthAt } from '@/mushrooms/entities/landscape';
-import { PUFF_REACH } from '@/mushrooms/entities/landscape/ui/cloud-puffs';
 import {
   cloudAt,
   cloudDarkness,
@@ -13,13 +12,14 @@ import {
   DARKEN_LAG_MS,
   nextShowers,
   NO_SHOWERS,
+  PUFF_REACH,
   RAINBOW_OUT_MS,
   rainbowArc,
   rainbowShown,
   SUN_DIMMED,
   sunShown,
   wetnessShown,
-} from '@/mushrooms/entities/landscape/ui/rain-sky';
+} from '@/mushrooms/entities/landscape/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { meadowLayout } from './layout';

@@ -6,20 +6,20 @@ import {
   bedPlace,
   D_SEE,
   FRAME_DEPTH,
+  hazeAhead,
+  type Hazing,
   OPENING_EYE,
   planeOf,
   project,
+  repaintsDue,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { walking } from '@/mushrooms/shared/world/eye-height';
 import {
   HAZE_DRIFT,
-  hazeAhead,
-  type Hazing,
   REPAINTS_PER_FRAME,
-  repaintsDue,
   SIDE_DRIFT,
-} from '@/mushrooms/shared/world/repaint-queue';
+  walking,
+} from '@/mushrooms/shared/world/index.test-only';
 import {
   mushroomGenes,
   mushroomLights,

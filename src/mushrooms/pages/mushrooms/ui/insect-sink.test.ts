@@ -10,8 +10,10 @@ import {
   OPENING_EYE,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { sinkingAloft } from '@/mushrooms/entities/insect/ui/insect-frame';
-import { sinkingOf } from '@/mushrooms/entities/insect/ui/insect-sink';
+import {
+  sinkingAloft,
+  sinkingOf,
+} from '@/mushrooms/entities/insect/index.test-only';
 import {
   meadowCamera,
   VIEWPORTS,

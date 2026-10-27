@@ -22,6 +22,7 @@ import {
   FAR_BAND,
   flowerFeet,
   flowersOf,
+  NEAR_BAND,
   NEAR_FLOWERS,
   pulledFeet,
   RING_SLOTS,
@@ -32,9 +33,8 @@ import {
   FLOWERS_APART,
   FOOT_CLEARANCE,
   HEAD_REACH,
-  NEAR_BAND,
-} from '@/mushrooms/entities/flower/ui/flower-layout';
-import { occupantsOn,type Planted } from '@/mushrooms/entities/mushroom';
+} from '@/mushrooms/entities/flower/index.test-only';
+import { occupantsOn, type Planted } from '@/mushrooms/entities/mushroom';
 import {
   openingIndex,
   VIEWPORTS,

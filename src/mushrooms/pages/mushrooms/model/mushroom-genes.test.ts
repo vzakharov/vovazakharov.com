@@ -3,32 +3,32 @@ import { describe, it } from 'node:test';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { stemHalfWidth } from '@/mushrooms/entities/mushroom';
 import {
+  MUSHROOM_SPECIES,
+  mushroomGenes,
+  type Species,
+  stemHalfWidth,
+} from '@/mushrooms/entities/mushroom';
+import {
+  firstMushrooms,
   FLOOR_HELD,
+  headOutlines,
   OPENING_FOOTING,
   stemAt,
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
+  capOutlines,
   domeHeight,
-  firstMushrooms,
   GENE_RANGES,
-  MUSHROOM_SPECIES,
-  mushroomGenes,
   OPENING_SPECIES,
+  placeOf,
   RUSSULA_HOLLOW,
   RUSSULA_TONES,
-  type Species,
   SPOT_MARGIN,
   TRUMPET_RANGES,
-} from '@/mushrooms/entities/mushroom/model/mushroom-genes';
-import {
-  capOutlines,
-  headOutlines,
-} from '@/mushrooms/entities/mushroom/model/mushroom-outline';
-import { placeOf } from '@/mushrooms/entities/mushroom/ui/clump-layout';
-import { ZOOM_FLOOR } from '@/mushrooms/entities/mushroom/ui/meadow-camera';
+  ZOOM_FLOOR,
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { meadowLayout } from '../ui/layout';
 

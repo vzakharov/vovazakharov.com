@@ -3,14 +3,16 @@ import { describe, it } from 'node:test';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/world';
-import type { RunDoor } from '@/mushrooms/features/mice-run/model/mouse-run';
 import {
   type Burrows,
-  NIGHT_GAP,
   nightRan,
   type NightRuns,
   NO_NIGHT_RUNS,
-} from '@/mushrooms/features/mice-run/model/night-runs';
+} from '@/mushrooms/features/mice-run/index.node-safe';
+import {
+  NIGHT_GAP,
+  type RunDoor,
+} from '@/mushrooms/features/mice-run/index.test-only';
 
 import { firstMeadow, type Meadow, reduce } from './game';
 

@@ -7,38 +7,40 @@ import {
   mulberry32,
   type Random,
 } from '@/mushrooms/shared/lib/random';
-import { INSECT_KINDS } from '@/mushrooms/entities/insect';
 import {
+  carriedFrom,
+  drinkDip,
+  INSECT_KINDS,
+  landingBob,
+} from '@/mushrooms/entities/insect';
+import {
+  bodyTurn,
   type Flight,
   FLIGHT_HABITS,
   flightPoint,
+  flyingTurn,
   heading,
+  LANDING,
   legTo,
   type Path,
-} from '@/mushrooms/entities/insect/index.node-safe';
-import {
-  bodyTurn,
-  carriedFrom,
-  drinkDip,
-  drinking,
-  flyingTurn,
-  hopAt,
-  LANDING,
-  landingBob,
-  proboscis,
   REST_LEAN,
-  restTurn,
   type Stay,
   turned,
   type Turns,
   wingBeat,
-} from '@/mushrooms/entities/insect/model/insect-motion';
-import { TURN_RATE } from '@/mushrooms/entities/insect/model/insect-steering';
-import { ticked } from '@/mushrooms/features/insects-fly/index.node-safe';
+} from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  drinking,
+  hopAt,
+  proboscis,
+  restTurn,
+  TURN_RATE,
+} from '@/mushrooms/entities/insect/index.test-only';
 import {
   firstFlight,
-  flightAway,
-} from '@/mushrooms/features/insects-fly/model/flight';
+  ticked,
+} from '@/mushrooms/features/insects-fly/index.node-safe';
+import { flightAway } from '@/mushrooms/features/insects-fly/index.test-only';
 
 const kind = 'butterfly' as const;
 const { flying: FLYING, drinking: DRINKING } = FLIGHT_HABITS[kind];

@@ -15,13 +15,13 @@ import {
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
+import { patchlessIn } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 import {
-  patchlessIn,
   type PatchTarget,
   takerAt,
   type Tapped,
   tappedIn,
-} from '@/mushrooms/features/grow-mushroom/ui/mushroom-patch';
+} from '@/mushrooms/features/grow-mushroom/index.test-only';
 
 import { opened } from './visit-play';
 

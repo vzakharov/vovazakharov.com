@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { seamTop } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
-  grainPixels,
   grainStrips,
-} from '@/mushrooms/entities/landscape/ui/grain';
+  seamTop,
+} from '@/mushrooms/entities/landscape/index.node-safe';
+import { grainPixels } from '@/mushrooms/entities/landscape/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { meadowLayout } from './layout';

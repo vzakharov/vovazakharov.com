@@ -27,16 +27,18 @@ import {
   type Planted,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { roomFor as mushroomRoomFor } from '@/mushrooms/features/grow-mushroom/index.node-safe';
-import { roomFor as beeRoomFor } from '@/mushrooms/features/insects-fly/ui/bee-room';
+import { roomFor as beeRoomFor } from '@/mushrooms/features/insects-fly/index.test-only';
 import {
-  lostOn,
   plantableIn,
-  TEND_SLICE,
   Tended,
   tendedIn,
-  Tending,
   tendTufts,
-} from '@/mushrooms/features/plant-flower/ui/tending';
+} from '@/mushrooms/features/plant-flower/index.node-safe';
+import {
+  lostOn,
+  TEND_SLICE,
+  Tending,
+} from '@/mushrooms/features/plant-flower/index.test-only';
 
 import { reduce } from '../model/game';
 import type { MeadowLayout } from './layout';

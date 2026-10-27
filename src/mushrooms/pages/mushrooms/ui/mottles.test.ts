@@ -10,17 +10,17 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import {
-  cellLawn,
   cellOf,
   cellTufts,
   type Lawn,
   LiveLawn,
-} from '@/mushrooms/entities/landscape/ui/lawn';
-import {
   type Mottle,
-  MOTTLES_PER_CELL,
   shownMottles,
-} from '@/mushrooms/entities/landscape/ui/mottles';
+} from '@/mushrooms/entities/landscape/index.node-safe';
+import {
+  cellLawn,
+  MOTTLES_PER_CELL,
+} from '@/mushrooms/entities/landscape/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { opened } from './visit-play';

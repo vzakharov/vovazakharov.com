@@ -7,21 +7,19 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
+import { azimuthAt } from '@/mushrooms/entities/landscape';
 import {
-  haloReach,
-  litSkyAt,
-  skyAt,
-} from '@/mushrooms/entities/landscape/ui/backdrop-tones';
-import {
-  azimuthAt,
   type Cloud,
   driftedAzimuth,
+  haloReach,
+  litSkyAt,
   OPENING_CLOUD_COUNT,
   placedLeft,
   screenAt,
   shiftOf,
   shownAzimuths,
-} from '@/mushrooms/entities/landscape/ui/panorama';
+  skyAt,
+} from '@/mushrooms/entities/landscape/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { meadowLayout } from './layout';

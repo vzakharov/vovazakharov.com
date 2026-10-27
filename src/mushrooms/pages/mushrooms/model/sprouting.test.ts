@@ -21,13 +21,15 @@ import {
   sproutScale,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
-  sowable,
   SPORE_DWELL_MS,
   SPORE_SEATS,
-  SPROUT_WINDOW_MS,
   sproutedInRain,
   sproutMoment,
-} from '@/mushrooms/features/grow-mushroom/model/sprouting';
+} from '@/mushrooms/features/grow-mushroom/index.node-safe';
+import {
+  sowable,
+  SPROUT_WINDOW_MS,
+} from '@/mushrooms/features/grow-mushroom/index.test-only';
 
 import { type Action, firstMeadow, type Meadow, reduce } from './game';
 

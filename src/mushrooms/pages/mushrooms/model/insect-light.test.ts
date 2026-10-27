@@ -22,7 +22,7 @@ import {
   LIGHT_STEP,
   litCrest,
   litTurn,
-} from '@/mushrooms/entities/insect/model/insect-light';
+} from '@/mushrooms/entities/insect/index.test-only';
 import {
   VIEWPORTS,
   VISITS,

@@ -27,30 +27,32 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { flightPoint } from '@/mushrooms/entities/insect/index.node-safe';
 import {
   type Aloft,
   centreOf,
-  FRAME_MARGIN,
-  type Framed,
+  eyeFrameOf,
   framedOf,
-  unframed,
-} from '@/mushrooms/entities/insect/model/flight-frame';
+  mixD,
+} from '@/mushrooms/entities/insect';
+import {
+  drawnAloft,
+  flightPoint,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   aloftFramed,
-  drawnAloft,
-  eyeFrameOf,
-  mixD,
+  FRAME_MARGIN,
+  type Framed,
   SEAT_FADE,
   type SeatEnds,
   SKIM,
+  unframed,
   type Veer,
   veered,
   veeredAlong,
   veerOf,
-} from '@/mushrooms/entities/insect/ui/insect-frame';
+} from '@/mushrooms/entities/insect/index.test-only';
 import { meadowCamera } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { CAMERAS } from '@/mushrooms/entities/mushroom/ui/viewports';
+import { CAMERAS } from '@/mushrooms/entities/mushroom/index.test-only';
 
 function near(actual: number, expected: number, tolerance: number): void {
   assert.ok(

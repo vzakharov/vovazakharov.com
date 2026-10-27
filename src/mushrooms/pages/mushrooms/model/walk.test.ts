@@ -7,30 +7,11 @@ import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { GLIDE_OVER, GLIDE_TAU } from '@/mushrooms/shared/lib/glide';
 import {
   type Camera,
-  OPENING_EYE,
-  pinholeOf,
-  viewAt,
-  viewOf,
-} from '@/mushrooms/shared/world';
-import {
-  gaitHeight,
-  RISE_EASE,
-  walking,
-} from '@/mushrooms/shared/world/eye-height';
-import { KEY_EASE, SLOP, TURN_CRUISE } from '@/mushrooms/shared/world/pan';
-import {
-  forwardOf,
-  GAITS,
-  sidewaysOf,
-  STRIDE_CRUISE,
-  STRIDE_FLING_FASTEST,
-} from '@/mushrooms/shared/world/stride';
-import { planeUnder } from '@/mushrooms/shared/world/view-inverse';
-import {
-  distanceOfRow,
   eyeAt,
+  forwardOf,
+  gaitHeight,
+  GAITS,
   haltAt,
-  headingAt,
   heldStill,
   holdStrafe,
   holdTurn,
@@ -39,16 +20,33 @@ import {
   letGoStrafe,
   letGoTurn,
   liftAt,
-  lockOf,
   moveTo,
+  OPENING_EYE,
   openingWalk,
+  pinholeOf,
   pressAt,
   refit,
   tickWalk,
+  viewAt,
+  viewOf,
   type Walk,
   type WalkStart,
   withGait,
-} from '@/mushrooms/shared/world/walk';
+} from '@/mushrooms/shared/world';
+import {
+  distanceOfRow,
+  headingAt,
+  KEY_EASE,
+  lockOf,
+  planeUnder,
+  RISE_EASE,
+  sidewaysOf,
+  SLOP,
+  STRIDE_CRUISE,
+  STRIDE_FLING_FASTEST,
+  TURN_CRUISE,
+  walking,
+} from '@/mushrooms/shared/world/index.test-only';
 import {
   meadowCamera,
   VIEWPORTS,

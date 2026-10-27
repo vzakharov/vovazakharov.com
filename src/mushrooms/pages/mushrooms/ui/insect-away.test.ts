@@ -16,40 +16,36 @@ import type { Stand } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   type Aloft,
   centreOf,
+  entryAloft,
+  eyeFrameOf,
   framedOf,
   INSECT_KINDS,
+  legEnd,
+  mixD,
+  seenFor,
 } from '@/mushrooms/entities/insect';
 import {
   aloftOfLayout,
   apartIn,
+  awayDown,
+  drawnAloft,
+  entryOf,
+  isShown,
+  leavingAloft,
+  outWay,
   type Perch,
   perchDistance,
   perchName,
   placeOfAloft,
   placesSetOff,
+  releasedAway,
 } from '@/mushrooms/entities/insect/index.node-safe';
 import {
-  entryOf,
-  isShown,
   nearerSide,
-  outWay,
-} from '@/mushrooms/entities/insect/model/flight-in';
-import {
-  awayDown,
-  entryAloft,
-  leavingAloft,
-  legEnd,
   offAloft,
   PAST_BROW,
   reachesScreen,
-  releasedAway,
-  seenFor,
-} from '@/mushrooms/entities/insect/ui/insect-away';
-import {
-  drawnAloft,
-  eyeFrameOf,
-  mixD,
-} from '@/mushrooms/entities/insect/ui/insect-frame';
+} from '@/mushrooms/entities/insect/index.test-only';
 import type { Planted } from '@/mushrooms/entities/mushroom';
 import {
   meadowCamera,
@@ -57,10 +53,10 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { ScenePerches } from '@/mushrooms/features/insects-fly';
 import {
-  footRows,
   onscreenOf,
   seatAt,
-} from '@/mushrooms/features/insects-fly/ui/perch-sight';
+} from '@/mushrooms/features/insects-fly/index.node-safe';
+import { footRows } from '@/mushrooms/features/insects-fly/index.test-only';
 
 import type { MeadowLayout } from './layout';
 import { opened } from './visit-play';

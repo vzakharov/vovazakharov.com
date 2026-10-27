@@ -3,8 +3,12 @@ import { describe, it } from 'node:test';
 
 import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import {
+  browDistance,
   D_SEE,
+  D_SEE_MOST,
   EYE_HEIGHT,
+  FLIGHT_RISE,
+  gaitHeight,
   lensAt,
   OPENING_EYE,
   openingWalk,
@@ -13,16 +17,12 @@ import {
   withGait,
 } from '@/mushrooms/shared/world';
 import {
-  browDistance,
-  D_SEE_MOST,
-  FLIGHT_RISE,
-  gaitHeight,
   heightAt,
   OPENING_RISE,
   RISE_EASE,
   riseFrom,
   walking,
-} from '@/mushrooms/shared/world/eye-height';
+} from '@/mushrooms/shared/world/index.test-only';
 import {
   meadowCamera,
   VIEWPORTS,

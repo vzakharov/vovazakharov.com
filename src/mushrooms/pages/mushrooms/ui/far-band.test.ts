@@ -15,8 +15,9 @@ import {
   FAR_FLOWERS,
   NEAR_FLOWERS,
 } from '@/mushrooms/entities/flower/index.node-safe';
-import { HEAD_REACH } from '@/mushrooms/entities/flower/ui/flower-layout';
-import { EITHER_WAY, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
+import { HEAD_REACH } from '@/mushrooms/entities/flower/index.test-only';
+import { VISITS } from '@/mushrooms/entities/mushroom/index.node-safe';
+import { EITHER_WAY } from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { opened } from './visit-play';
 

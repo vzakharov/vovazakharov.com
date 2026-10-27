@@ -18,10 +18,14 @@ import {
   unanchored,
 } from '@/mushrooms/shared/world';
 import { flowerFeet } from '@/mushrooms/entities/flower/index.node-safe';
+import { placeIn } from '@/mushrooms/entities/mushroom';
 import {
+  EDGE_MARGIN,
   FLOOR_HELD,
   type Footed,
   grownOn,
+  MEADOW_FRAME,
+  meadowCamera,
   OPENING_FOOTING,
   VIEWPORTS,
   VISITS,
@@ -29,18 +33,10 @@ import {
 import {
   feetOver,
   gridOver,
-} from '@/mushrooms/entities/mushroom/model/ground-grid';
-import { maxReach } from '@/mushrooms/entities/mushroom/model/mushroom-pose';
-import {
-  placeIn,
+  maxReach,
   placeOf,
-} from '@/mushrooms/entities/mushroom/ui/clump-layout';
-import {
-  EDGE_MARGIN,
-  MEADOW_FRAME,
-  meadowCamera,
   WORLD_ACROSS,
-} from '@/mushrooms/entities/mushroom/ui/meadow-camera';
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { opened, relaidOn } from '../ui/visit-play';
 

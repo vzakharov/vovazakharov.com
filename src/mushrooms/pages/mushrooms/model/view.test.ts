@@ -3,46 +3,44 @@ import { describe, it } from 'node:test';
 
 import { alongAzimuth, type Point } from '@/mushrooms/shared/lib/geometry';
 import {
-  type Eye,
-  EYE_HEIGHT,
-  groundOfPlane,
-  OPENING_EYE,
-  pinholeOf,
-  project,
-  viewOf,
-} from '@/mushrooms/shared/world';
-import { walking } from '@/mushrooms/shared/world/eye-height';
-import {
   behindHills,
   browLowest,
   browRow,
   buried,
   cull,
   D_SEE,
+  type Eye,
+  EYE_HEIGHT,
+  groundOfPlane,
   ofGround,
   ofLayout,
   onScreen,
+  OPENING_EYE,
+  pinholeOf,
   type Placed,
-  SHOWN_LEAST,
+  project,
   sunk,
   sunkAway,
   V_NEAR,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world/view';
+  viewOf,
+} from '@/mushrooms/shared/world';
+import { SHOWN_LEAST,walking } from '@/mushrooms/shared/world/index.test-only';
 import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom';
 import {
   type Footed,
   MEADOW_FRAME,
   meadowCamera,
   OPENING_FOOTING,
+  VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { speciesHeight } from '@/mushrooms/entities/mushroom/model/mushroom-pose';
 import {
+  CAMERAS,
   extremes,
   placeOf,
-} from '@/mushrooms/entities/mushroom/ui/clump-layout';
-import { CAMERAS, VIEWPORTS } from '@/mushrooms/entities/mushroom/ui/viewports';
+  speciesHeight,
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 /** Feet at the opening clump's and at the world frame's extremes. */
 const FEET: readonly Footed[] = [...OPENING_FOOTING, ...extremes(MEADOW_FRAME)];

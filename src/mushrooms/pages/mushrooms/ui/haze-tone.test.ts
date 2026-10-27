@@ -2,14 +2,14 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { luminance } from '@/mushrooms/shared/lib/colour';
-import { PALETTE } from '@/mushrooms/shared/ui';
-import { hazeAir, hazeTone } from '@/mushrooms/shared/ui/haze-tone';
-import { DUSK_TONES } from '@/mushrooms/entities/landscape/ui/backdrop-tones';
+import { hazeTone,PALETTE } from '@/mushrooms/shared/ui';
+import { hazeAir } from '@/mushrooms/shared/ui/index.test-only';
+import { DUSK_TONES } from '@/mushrooms/entities/landscape/index.test-only';
 import { MUSHROOM_SPECIES, mushroomGenes } from '@/mushrooms/entities/mushroom';
 import {
   heldHaze,
   mushroomTints,
-} from '@/mushrooms/entities/mushroom/ui/mushroom-tints';
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 /** A back-row mushroom's haze in flight: the ground's furthest haze and the brow's paling. */
 const FAR = 0.6;

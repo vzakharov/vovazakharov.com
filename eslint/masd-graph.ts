@@ -28,6 +28,12 @@ export const PUBLIC_API = [
   'index.node-safe.ts',
 ];
 
+/**
+ * The entry point only a test may take, beside the public API: what a test
+ * reads of a lower slice that nothing in production does.
+ */
+export const TEST_API = 'index.test-only.ts';
+
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
 // Kebab-case also keeps every key non-numeric, which is what makes JS hand the

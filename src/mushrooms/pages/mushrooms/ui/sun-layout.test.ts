@@ -10,24 +10,22 @@ import {
   pinholeOf,
   viewAt,
 } from '@/mushrooms/shared/world';
+import { azimuthAt } from '@/mushrooms/entities/landscape';
 import {
-  azimuthAt,
   crestAcross,
-  crestAt,
-  screenAt,
-} from '@/mushrooms/entities/landscape/ui/panorama';
+  SUN_GLOW_REACH,
+  SUN_RAY_REACH,
+} from '@/mushrooms/entities/landscape/index.node-safe';
 import {
+  crestAt,
   farSkyline,
   farthestSkyline,
   HILL_STEPS,
   nearSkyline,
-} from '@/mushrooms/entities/landscape/ui/skyline';
-import {
   raysClear,
-  SUN_GLOW_REACH,
-  SUN_RAY_REACH,
+  screenAt,
   WASH_FOOT_CLEAR,
-} from '@/mushrooms/entities/landscape/ui/sun-layout';
+} from '@/mushrooms/entities/landscape/index.test-only';
 import {
   clumpCrowns,
   everyPlace,

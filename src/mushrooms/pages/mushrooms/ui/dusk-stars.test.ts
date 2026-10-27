@@ -8,8 +8,8 @@ import {
   STAR_COUNT,
   STAR_RAY_REACH,
   starTexels,
-} from '@/mushrooms/entities/landscape/ui/dusk-stars';
-import { EITHER_WAY } from '@/mushrooms/entities/mushroom/ui/viewports';
+} from '@/mushrooms/entities/landscape/index.test-only';
+import { EITHER_WAY } from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { meadowLayout } from './layout';
 

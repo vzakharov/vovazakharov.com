@@ -8,14 +8,16 @@ import {
   type FlowerSound,
   type Planting,
 } from '@/mushrooms/entities/flower/index.node-safe';
-import type { PlayedKey } from '@/mushrooms/features/play-flowers/ui/keyboard';
+import type { FlowerInView } from '@/mushrooms/features/play-flowers';
 import {
-  type FlowerInView,
-  keyedFlowers,
   keyPlanting,
-  playKey,
   sowingTuft,
-} from '@/mushrooms/features/play-flowers/ui/keyed-flowers';
+} from '@/mushrooms/features/play-flowers/index.node-safe';
+import {
+  keyedFlowers,
+  type PlayedKey,
+  playKey,
+} from '@/mushrooms/features/play-flowers/index.test-only';
 
 import { type Action, firstMeadow, reduce } from '../model/game';
 

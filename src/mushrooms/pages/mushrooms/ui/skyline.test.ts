@@ -5,15 +5,14 @@ import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { sunLight } from '@/mushrooms/shared/lib/light';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { type Camera, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
-import { SUN_RAY_REACH } from '@/mushrooms/entities/landscape/index.node-safe';
+import { azimuthAt } from '@/mushrooms/entities/landscape';
 import {
-  azimuthAt,
-  type Crest,
   crestAcross,
-  crestAt,
-  screenAt,
-} from '@/mushrooms/entities/landscape/ui/panorama';
+  SUN_RAY_REACH,
+} from '@/mushrooms/entities/landscape/index.node-safe';
 import {
+  type Crest,
+  crestAt,
   farRange,
   farSkyline,
   farthestRange,
@@ -24,7 +23,8 @@ import {
   nearSkyline,
   partedUnderSun,
   PATH_SKIP,
-} from '@/mushrooms/entities/landscape/ui/skyline';
+  screenAt,
+} from '@/mushrooms/entities/landscape/index.test-only';
 import {
   VIEWPORTS,
   VISITS,

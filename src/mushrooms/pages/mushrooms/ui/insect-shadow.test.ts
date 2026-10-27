@@ -11,7 +11,7 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { shadowOf } from '@/mushrooms/entities/insect/ui/insect-shadow';
+import { shadowOf } from '@/mushrooms/entities/insect/index.test-only';
 import {
   meadowCamera,
   VIEWPORTS,

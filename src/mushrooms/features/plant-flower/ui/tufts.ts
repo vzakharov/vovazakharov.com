@@ -74,7 +74,6 @@ import { middleOf, tuftAt } from './tuft-tap';
 /** What of the meadow's layout this reads. */
 export type TuftsLayout = LawnLayout & TendingLayout;
 
-export { tendedIn, tendTufts } from './tending';
 export type { Sprout } from '@/mushrooms/entities/landscape/index.node-safe';
 
 /** How tall a tuft stands, in units of its size: its middle blade (`grass.ts`). */

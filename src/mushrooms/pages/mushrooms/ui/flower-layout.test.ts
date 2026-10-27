@@ -22,38 +22,40 @@ import {
   standingOn,
 } from '@/mushrooms/shared/world';
 import {
+  FLOWER_SWAY,
   flowerGenes,
   flowersOf,
+  laidFlower,
+  soundOf,
   type StandingFlower,
   standOf,
 } from '@/mushrooms/entities/flower';
-import { FAR_BAND } from '@/mushrooms/entities/flower/index.node-safe';
 import {
+  type Bed,
+  FAR_BAND,
+  NEAR_BAND,
   NEAR_FLOWERS,
   SEEDED_SOUNDS,
+  seededBed,
   seedSounding,
-  soundOf,
-} from '@/mushrooms/entities/flower/model/flower-sounds';
+} from '@/mushrooms/entities/flower/index.node-safe';
 import {
   bandSlots,
-  type Bed,
-  FLOWER_SWAY,
   FLOWERS_APART,
   FOOT_CLEARANCE,
-  laidFlower,
   MOST_SHADED,
-  NEAR_BAND,
-  seededBed,
   widestHead,
-} from '@/mushrooms/entities/flower/ui/flower-layout';
-import { occupantsOn,placeIn } from '@/mushrooms/entities/mushroom';
-import { standingAt } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { geneBounds } from '@/mushrooms/entities/mushroom/model/mushroom-genes';
+} from '@/mushrooms/entities/flower/index.test-only';
+import { occupantsOn, placeIn } from '@/mushrooms/entities/mushroom';
 import {
-  EITHER_WAY,
+  standingAt,
   VIEWPORTS,
   VISITS,
-} from '@/mushrooms/entities/mushroom/ui/viewports';
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  EITHER_WAY,
+  geneBounds,
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { type MeadowLayout, meadowLayout } from './layout';
 import { overMeadow, standingControls } from './sky-layout';

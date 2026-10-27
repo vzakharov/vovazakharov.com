@@ -7,20 +7,17 @@ import {
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
+import { insectGenes, PICTOGRAM_SEED } from '@/mushrooms/entities/insect';
 import {
   BUTTERFLY_COLOURS,
   BUTTERFLY_RANGES,
   EYE_RADIUS,
   EYE_RINGS,
-  insectGenes,
-  PATTERN_TURN,
-  PICTOGRAM_SEED,
-} from '@/mushrooms/entities/insect/model/insect-genes';
-import {
   eyeCentre,
+  PATTERN_TURN,
   WING_PAIRS,
   wingOutline,
-} from '@/mushrooms/entities/insect/model/insect-outline';
+} from '@/mushrooms/entities/insect/index.test-only';
 import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/index.node-safe';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);

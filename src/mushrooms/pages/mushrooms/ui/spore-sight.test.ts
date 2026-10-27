@@ -8,7 +8,7 @@ import {
   type ShownCover,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { dotInSight } from '@/mushrooms/features/grow-mushroom/ui/spore-sight';
+import { dotInSight } from '@/mushrooms/features/grow-mushroom/index.test-only';
 
 import { opened } from './visit-play';
 

@@ -10,11 +10,11 @@ import {
 import {
   browBlades,
   browShown,
+  seamReach,
   type ShownBlade,
-} from '@/mushrooms/entities/landscape/ui/brow';
-import { seamReach } from '@/mushrooms/entities/landscape/ui/skyline';
+} from '@/mushrooms/entities/landscape/index.test-only';
 import { meadowCamera } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { CAMERAS } from '@/mushrooms/entities/mushroom/ui/viewports';
+import { CAMERAS } from '@/mushrooms/entities/mushroom/index.test-only';
 
 /** How tall a shown blade stands, root to tip, in CSS px. */
 const standing = ({ root, tip }: ShownBlade) => root - tip.y;

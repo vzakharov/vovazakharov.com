@@ -5,19 +5,19 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
 import { anchorOf, OPENING_EYE } from '@/mushrooms/shared/world';
-import { flowersOf,type Sown } from '@/mushrooms/entities/flower';
+import { flowersOf, type Sown } from '@/mushrooms/entities/flower';
 import {
   anchoredStand,
   headOf,
   screenSides,
   type Stand,
 } from '@/mushrooms/entities/flower/index.node-safe';
-import { occupantsOn,type Planted } from '@/mushrooms/entities/mushroom';
+import { occupantsOn, type Planted } from '@/mushrooms/entities/mushroom';
 import {
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { roomFor } from '@/mushrooms/features/insects-fly/ui/bee-room';
+import { roomFor } from '@/mushrooms/features/insects-fly/index.test-only';
 
 import type { MeadowLayout } from './layout';
 import { opened } from './visit-play';

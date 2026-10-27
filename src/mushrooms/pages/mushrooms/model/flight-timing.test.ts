@@ -10,7 +10,7 @@ import {
   type Place,
   type Places,
 } from '@/mushrooms/entities/insect/index.node-safe';
-import { flightAway } from '@/mushrooms/features/insects-fly/model/flight';
+import { flightAway } from '@/mushrooms/features/insects-fly/index.test-only';
 
 const fly = 'fly' as const;
 const { cruising } = FLIGHT_HABITS[fly];

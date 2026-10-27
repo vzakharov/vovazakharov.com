@@ -6,9 +6,11 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { castShadow } from '@/mushrooms/shared/ui/index.node-safe';
 import {
+  bedPlace,
   browRow,
   cull,
   D_SEE,
+  depthOf,
   ofGround,
   OPENING_EYE,
   pinholeOf,
@@ -19,11 +21,7 @@ import {
   viewAt,
   zAt,
 } from '@/mushrooms/shared/world';
-import {
-  bedPlace,
-  depthOf,
-  SIDE_OVERHANG,
-} from '@/mushrooms/shared/world/bed-place';
+import { SIDE_OVERHANG } from '@/mushrooms/shared/world/index.test-only';
 import {
   flowerGenes,
   flowerHead,
@@ -40,7 +38,7 @@ import {
   tapArea,
   toCanvas,
 } from '@/mushrooms/entities/mushroom';
-import { EITHER_WAY } from '@/mushrooms/entities/mushroom/ui/viewports';
+import { EITHER_WAY } from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { opened } from '../ui/visit-play';
 

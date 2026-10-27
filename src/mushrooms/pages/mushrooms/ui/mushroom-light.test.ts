@@ -12,10 +12,14 @@ import {
   flowerLight,
 } from '@/mushrooms/entities/flower';
 import {
+  capOnCanvas,
+  capSurface,
   MUSHROOM_SPECIES,
   type MushroomGenes,
   mushroomGenes,
+  mushroomLights,
   splayed,
+  toCanvas,
 } from '@/mushrooms/entities/mushroom';
 import {
   everyPlace,
@@ -24,27 +28,19 @@ import {
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
-  capOnCanvas,
-  stemOutline,
-  toCanvas,
-} from '@/mushrooms/entities/mushroom/model/mushroom-outline';
-import {
-  capSurface,
-  CURVE_STEPS,
-} from '@/mushrooms/entities/mushroom/model/mushroom-profile';
-import {
   type CapLight,
   capLight,
   capRimArc,
   capShadeArc,
   capShine,
-  mushroomLights,
+  CURVE_STEPS,
   mushroomShadow,
   shadedHalf,
   STEM_LIGHT,
   type StemLayer,
   stemLight,
-} from '@/mushrooms/entities/mushroom/ui/mushroom-light';
+  stemOutline,
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { type MeadowLayout, meadowLayout } from './layout';
 

@@ -6,20 +6,16 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { placedAt, type Point } from '@/mushrooms/shared/lib/geometry';
 import { flowerGenes, flowerHead } from '@/mushrooms/entities/flower';
 import { flowerLift, insectGenes } from '@/mushrooms/entities/insect';
-import {
-  REST_LEAN,
-  SIP_DEPTH,
-} from '@/mushrooms/entities/insect/model/insect-motion';
+import { REST_LEAN } from '@/mushrooms/entities/insect/index.node-safe';
 import {
   ABDOMEN,
   type BodySide,
   headOf,
-} from '@/mushrooms/entities/insect/model/insect-outline';
-import {
   inBody,
   PROBOSCIS_STEPS,
   proboscisLine,
-} from '@/mushrooms/entities/insect/model/proboscis';
+  SIP_DEPTH,
+} from '@/mushrooms/entities/insect/index.test-only';
 
 const SEEDS = Array.from({ length: 60 }, (_, index) => index * 4099 + 11);
 const LEANS = [-REST_LEAN, -0.2, 0, 0.2, REST_LEAN];

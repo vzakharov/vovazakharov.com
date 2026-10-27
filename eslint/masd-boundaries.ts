@@ -14,6 +14,7 @@ import {
   loadGraph,
   PUBLIC_API,
   SLICED_LAYERS,
+  TEST_API,
 } from './masd-graph';
 
 const graph = loadGraph();
@@ -87,19 +88,32 @@ const policiesFor = (app: string) => {
       },
     },
     // Strictly downward, and only through the target's public API: the same
-    // layer in an ancestor is as sideways as a sibling slice.
-    ...SLICED_LAYERS.map((layer, index) => ({
-      from: { element: { type: layer, captured: { appName: app } } },
-      allow: {
-        to: {
-          element: {
-            types: { anyOf: [...SLICED_LAYERS.slice(index + 1), 'shared'] },
-            captured: { appName: apps },
-            fileInternalPath: PUBLIC_API,
+    // layer in an ancestor is as sideways as a sibling slice. A test takes the
+    // test-only entry as well.
+    ...SLICED_LAYERS.flatMap((layer, index) => {
+      const below = {
+        types: { anyOf: [...SLICED_LAYERS.slice(index + 1), 'shared'] },
+        captured: { appName: apps },
+      };
+      return [
+        {
+          from: { element: { type: layer, captured: { appName: app } } },
+          allow: {
+            to: { element: { ...below, fileInternalPath: PUBLIC_API } },
           },
         },
-      },
-    })),
+        {
+          from: {
+            element: {
+              type: layer,
+              captured: { appName: app },
+              fileInternalPath: '**/*.test.ts',
+            },
+          },
+          allow: { to: { element: { ...below, fileInternalPath: TEST_API } } },
+        },
+      ];
+    }),
   ];
 };
 

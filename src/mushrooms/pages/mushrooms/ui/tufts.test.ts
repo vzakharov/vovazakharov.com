@@ -64,25 +64,23 @@ import {
 import { roomFor } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 import { perchSight } from '@/mushrooms/features/insects-fly/index.node-safe';
 import {
-  roomIn,
-  takesFlower,
-} from '@/mushrooms/features/plant-flower/ui/flower-room';
-import {
-  bareToTap,
-  tuftAt,
-} from '@/mushrooms/features/plant-flower/ui/tuft-tap';
-import {
-  leaveTufts,
   SEAM_BAND,
   seamFaded,
   seamPatches,
-  seamReachOf,
   shownSeam,
   shownSprouts,
   type Sprout,
+  takesFlower,
   tendedIn,
   tendTufts,
-} from '@/mushrooms/features/plant-flower/ui/tufts';
+} from '@/mushrooms/features/plant-flower/index.node-safe';
+import {
+  bareToTap,
+  leaveTufts,
+  roomIn,
+  seamReachOf,
+  tuftAt,
+} from '@/mushrooms/features/plant-flower/index.test-only';
 
 import { type Action, reduce } from '../model/game';
 import { type MeadowLayout, meadowLayout } from './layout';

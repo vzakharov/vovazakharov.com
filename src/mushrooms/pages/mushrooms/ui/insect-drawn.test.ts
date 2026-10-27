@@ -17,19 +17,13 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { framedOf } from '@/mushrooms/entities/insect';
-import {
-  drawnInsect,
-  type LegFlight,
-} from '@/mushrooms/entities/insect/ui/insect-drawn';
+import { drawnInsect, eyeFrameOf,framedOf } from '@/mushrooms/entities/insect';
 import {
   aloftFramed,
-  eyeFrameOf,
-} from '@/mushrooms/entities/insect/ui/insect-frame';
-import {
   drawnFlier,
   drawnSitter,
-} from '@/mushrooms/entities/insect/ui/insect-seat';
+  type LegFlight,
+} from '@/mushrooms/entities/insect/index.test-only';
 import { OPENING_FEET } from '@/mushrooms/entities/mushroom';
 import { meadowCamera } from '@/mushrooms/entities/mushroom/index.node-safe';
 

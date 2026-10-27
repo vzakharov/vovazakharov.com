@@ -3,24 +3,21 @@ import { describe, it } from 'node:test';
 
 import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
 import { SHELTER_SEATS } from '@/mushrooms/shared/world';
+import { MUSHROOM_SPECIES, mushroomGenes } from '@/mushrooms/entities/mushroom';
 import {
   capSeat,
+  capUnder,
   everyPlace,
+  headOutlines,
   stemAt,
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
-  HEAD_KIND,
-  MUSHROOM_SPECIES,
-  mushroomGenes,
-} from '@/mushrooms/entities/mushroom/model/mushroom-genes';
-import {
   capOutlines,
-  capUnder,
   gillLines,
-  headOutlines,
+  HEAD_KIND,
   stemOutline,
-} from '@/mushrooms/entities/mushroom/model/mushroom-outline';
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { meadowLayout } from '../ui/layout';
 

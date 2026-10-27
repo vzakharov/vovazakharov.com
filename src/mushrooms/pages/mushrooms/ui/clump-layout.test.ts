@@ -14,7 +14,7 @@ import {
   scaleAt,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { mushroomGenes } from '@/mushrooms/entities/mushroom';
+import { laidOf, mushroomGenes, placeIn } from '@/mushrooms/entities/mushroom';
 import {
   grownOn,
   MEADOW_FRAME,
@@ -26,10 +26,8 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
   extremes,
-  laidOf,
-  placeIn,
   placeOf,
-} from '@/mushrooms/entities/mushroom/ui/clump-layout';
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { meadowLayout } from './layout';
 import { opened } from './visit-play';

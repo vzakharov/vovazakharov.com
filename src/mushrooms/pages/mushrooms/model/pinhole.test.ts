@@ -3,33 +3,34 @@ import { describe, it } from 'node:test';
 
 import {
   anchored,
+  bendAt,
   type Eye,
   EYE_HEIGHT,
   OPENING_EYE,
+  openingPan,
+  pinholeOf,
   planeOf,
+  planeSeen,
   project,
   unanchored,
-} from '@/mushrooms/shared/world';
-import { walking } from '@/mushrooms/shared/world/eye-height';
-import { leftAt, openingPan } from '@/mushrooms/shared/world/pan';
-import {
-  bendAt,
-  pinholeOf,
-  planeSeen,
-  type Viewed,
   viewOf,
-} from '@/mushrooms/shared/world/pinhole';
+} from '@/mushrooms/shared/world';
+import {
+  leftAt,
+  type Viewed,
+  walking,
+} from '@/mushrooms/shared/world/index.test-only';
 import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom';
 import {
   MEADOW_FRAME,
   meadowCamera,
+  VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { feetOver } from '@/mushrooms/entities/mushroom/model/ground-grid';
-import { speciesHeight } from '@/mushrooms/entities/mushroom/model/mushroom-pose';
 import {
   EITHER_WAY,
-  VIEWPORTS,
-} from '@/mushrooms/entities/mushroom/ui/viewports';
+  feetOver,
+  speciesHeight,
+} from '@/mushrooms/entities/mushroom/index.test-only';
 
 /** How near two views count as one, in px and in the clump's size. */
 const SAME_VIEW = 1e-9;

@@ -1,8 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ofLayout, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
-import { layoutAtRow, layoutShown } from '@/mushrooms/shared/world/eye-crop';
+import {
+  layoutShown,
+  ofLayout,
+  OPENING_EYE,
+  viewAt,
+} from '@/mushrooms/shared/world';
+import { layoutAtRow } from '@/mushrooms/shared/world/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { meadowLayout } from '../ui/layout';

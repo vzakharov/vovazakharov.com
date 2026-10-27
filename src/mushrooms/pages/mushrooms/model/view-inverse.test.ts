@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   type Eye,
   groundOfPlane,
+  layoutUnder,
   ofLayout,
   OPENING_EYE,
   project,
@@ -12,12 +13,11 @@ import {
 import {
   groundOfLayout,
   groundUnder,
-  layoutUnder,
   planeUnder,
-} from '@/mushrooms/shared/world/view-inverse';
+} from '@/mushrooms/shared/world/index.test-only';
 import { OPENING_FEET } from '@/mushrooms/entities/mushroom';
 import { meadowCamera } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { CAMERAS } from '@/mushrooms/entities/mushroom/ui/viewports';
+import { CAMERAS } from '@/mushrooms/entities/mushroom/index.test-only';
 
 const EYES: Eye[] = [
   OPENING_EYE,

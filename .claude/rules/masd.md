@@ -156,6 +156,13 @@ as `shared/config` is.
     `server-only`, it is also the client components' entry into a segment whose
     `index.ts` is server-only: `music/shared/catalogue`'s, where the player and
     the hook line take what they read.
+- **`index.test-only.ts` is a test's entry, and no one else's** (`TEST_API` in
+  `eslint/masd-graph.ts`): what a test reads of a lower slice that nothing in
+  production does — a constant it pins, a helper it calls on its own. A test
+  checking a lower module on the screens a page lays out sits in that page, and
+  enters the module's slice by this barrel beside its public API. `boundaries`
+  lets only a `*.test.ts` take it, so the public API stays what production
+  reads; Steiger reads any `index.*` as an entry.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time
   (`@/kernel/shared/lib/class-names`), each **a single file** and its own public
   API — nothing sits beside it to hide, so `boundaries` lets the layers above

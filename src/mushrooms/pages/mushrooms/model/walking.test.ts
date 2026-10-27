@@ -1,19 +1,27 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE } from '@/mushrooms/shared/world';
-import { STEP_LENGTH, STRIDE_CRUISE } from '@/mushrooms/shared/world/stride';
-import { browRow, SHOWN_LEAST, viewAt } from '@/mushrooms/shared/world/view';
+import {
+  browRow,
+  deepestBob,
+  Gait,
+  GROUND_BOB,
+  OPENING_EYE,
+  viewAt,
+} from '@/mushrooms/shared/world';
 import {
   BOB_SHARE,
   bobAt,
-  deepestBob,
   footfalls,
-  Gait,
   gaitOf,
-  GROUND_BOB,
-} from '@/mushrooms/shared/world/walking';
-import { browFloor, nearFoot } from '@/mushrooms/entities/landscape/ui/brow';
+  SHOWN_LEAST,
+  STEP_LENGTH,
+  STRIDE_CRUISE,
+} from '@/mushrooms/shared/world/index.test-only';
+import {
+  browFloor,
+  nearFoot,
+} from '@/mushrooms/entities/landscape/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { meadowLayout } from '../ui/layout';

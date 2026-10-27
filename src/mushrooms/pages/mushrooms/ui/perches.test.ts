@@ -23,11 +23,11 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { ScenePerches } from '@/mushrooms/features/insects-fly';
 import {
-  footRows,
   PERCH_REACH,
   perchSight,
   seatAt,
-} from '@/mushrooms/features/insects-fly/ui/perch-sight';
+} from '@/mushrooms/features/insects-fly/index.node-safe';
+import { footRows } from '@/mushrooms/features/insects-fly/index.test-only';
 
 import type { MeadowLayout } from './layout';
 import { opened } from './visit-play';

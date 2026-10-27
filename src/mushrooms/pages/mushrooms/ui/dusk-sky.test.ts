@@ -3,25 +3,25 @@ import { describe, it } from 'node:test';
 
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { viewAt } from '@/mushrooms/shared/world';
-import { SUN_RAY_REACH } from '@/mushrooms/entities/landscape/index.node-safe';
-import { cloudBox } from '@/mushrooms/entities/landscape/ui/cloud-puffs';
 import {
   cloudOverMoon,
-  duskReach,
   moonAt,
-  moonBelow,
   moonUp,
   onTheSun,
-  starClear,
   sunOnScreen,
   sunSunk,
-  sunUp,
-} from '@/mushrooms/entities/landscape/ui/dusk-sky';
+} from '@/mushrooms/entities/landscape';
+import { SUN_RAY_REACH } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
+  cloudBox,
+  duskReach,
   duskStars,
+  moonBelow,
   STAR_RAY_REACH,
-} from '@/mushrooms/entities/landscape/ui/dusk-stars';
-import { EITHER_WAY } from '@/mushrooms/entities/mushroom/ui/viewports';
+  starClear,
+  sunUp,
+} from '@/mushrooms/entities/landscape/index.test-only';
+import { EITHER_WAY } from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { meadowLayout } from './layout';
 
