@@ -96,14 +96,11 @@ decided, so a later session doesn't rediscover the objection from scratch.
   count and its window need re-deriving from the repo before either is
   repeated.
 - **18 — the 5%.** That a knowledgeable human still catches something is the
-  claim; naming _what_ needs specimens rather than argument. They are collected
-  in `writing/notes/the-five-percent.md`, as learnings carrying a count of how
-  many reviews bumped into each, sorted by it — so the post is written from the
-  top of that list rather than from whichever specimen is most vivid, and it is
-  draftable once the top is convincing on its own. An entry after a review that
-  changed something is mandatory (`CLAUDE.md` § "GitHub comments"), so it goes in
-  while it is still accurate rather than at drafting time. Posting this row
-  retires the collection and that rule with it.
+  claim; naming _what_ needs specimens rather than argument. Seven weeks of them
+  are counted in
+  [the five-percent article](../../apps/lsa/public/blog/the-five-percent.ru.md)
+  on latestageagentic.com — 214 reviews, nine in ten on one mistake — so the
+  post is a cut of that article, its number up front, linking to it.
 
 ## Not yet
 

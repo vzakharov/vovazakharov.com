@@ -37,7 +37,6 @@ python3 scripts/lib/test_hearing.py # transcribe.py's word merge │
 python3 scripts/song-intake/test_song_facts.py # spectrogram facts │
 python3 scripts/five-percent-verdicts/{test_tally,tally}.py # verdicts │
 scripts/check-squash-message.sh # squash proposal size          │
-scripts/check-notes-length.sh   # writing/notes/ ceiling        │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
 scripts/staged.sh check         # staged always-loaded copies   │
@@ -58,7 +57,7 @@ they take, and each passes quietly without it. It vets the **pushed** head and
 refuses a tree that differs from it. Against the whole list run in one container
 it halves the wall clock.
 
-Twenty things about that list are deliberate:
+Nineteen things about that list are deliberate:
 
 - **`pnpm build` is the only check that covers the app itself.** The suite
   reaches no page (CLAUDE.md § "Testing"), so the static-export build is what
@@ -195,12 +194,6 @@ Twenty things about that list are deliberate:
   `scripts/five-percent-verdicts/test_tally.py`, whose entry also runs
   `tally.py --check` over the committed verdicts, since a malformed row would
   otherwise surface only when the next article is written from them.
-- **`scripts/check-notes-length.sh` holds each `writing/notes/` file to the line
-  ceiling its own "How this file is kept" states.** Unlike the codegen above, it
-  reports rather than repairs: which squeeze applies is a judgement, so nothing
-  trims. It exists because the ceiling was prose in the file it governs, and
-  nothing reads a paragraph on its way to appending a section. POSIX `sh` and
-  `wc`, reading only `writing/notes/`, which nothing else here touches.
 - **The last ten read the agent infrastructure itself and write nothing another
   check reads, which is why they overlap the rest safely.**
   `scripts/check-skill-catalog.sh` asserts that every `@`-reference into
