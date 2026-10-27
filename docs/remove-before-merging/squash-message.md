@@ -8,15 +8,18 @@ from other paper.
 
 mayawonders.com now has a palette and face of its own, keyed on
 `data-site` on <html>: the drawings' paper and ink, a lamplit dark
-variant, Georgia (their caption face, a system font) and regular-weight
-headings. The shared theme reads the face and heading weight from
-custom properties, so every other site renders as before.
+variant, Georgia (their caption face, a system font), regular-weight
+headings, and a language row set as small capitals instead of boxes.
+The shared theme reads the face and heading weight from custom
+properties, so every other site renders as before.
 
-Her home page lists entries as numbered plates of a field guide, and
-her one toy, the whispering typewriter, gets a plate there for the
-first time, with a drawing of its own: the sixteen sounds its bug
-hears. Its address and drawing move to `shared/config`, which the home
-page and the toy's page both read. The site card moves onto the paper.
+Her home page opens as a book's spread, her portrait captioned as a
+frontispiece facing the title page, and lists entries as unframed,
+numbered plates of a field guide. Her one toy, the whispering
+typewriter, gets a plate there for the first time, above the entries,
+with a drawing of its own: the sixteen sounds its bug hears. Its
+address and drawing move to `shared/config`, which the home page and
+the toy's page both read. The site card moves onto the paper.
 
 Her walk entry, «Вклейки», tells it through how old books printed
 plates apart from the type; her promise to give her song reflections a
