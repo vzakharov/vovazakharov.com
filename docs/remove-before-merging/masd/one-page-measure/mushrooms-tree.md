@@ -42,7 +42,7 @@ src/mushrooms/
 │   │     api/fake-store api/keeper api/meadow-store api/open-kept m:game
 │   │     m:keeping m:kept-record m:sprouting
 ├── pages/
-│   ├── mushrooms/  (129 files)   ← 0 
+│   ├── mushrooms/  (129 files)   ← 0
 │   │     index lib/mushrooms-metadata m:map-frame ui/meadow-canvas
 │   │     ui/mushrooms-page ui/mushrooms s:air-spots s:anchored-stand
 │   │     s:arrivals s:backdrop-tones s:bake-picture s:bed-place s:brow

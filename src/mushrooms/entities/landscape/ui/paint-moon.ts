@@ -1,7 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import type { Circle } from '@/mushrooms/shared/lib/geometry';
-import { fillShape,PALETTE } from '@/mushrooms/shared/ui';
+import { fillShape, PALETTE } from '@/mushrooms/shared/ui';
 
 import { moonFace } from './moon-face';
 

@@ -8,7 +8,7 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { PALETTE } from '@/mushrooms/shared/ui';
 import type { Standing } from '@/mushrooms/shared/world';
-import { type Puffing,toCanvas } from '@/mushrooms/entities/mushroom';
+import { type Puffing, toCanvas } from '@/mushrooms/entities/mushroom';
 
 /** Dots in the outer ring; the inner ring has half as many, between them. */
 const RING_DOTS = 12;

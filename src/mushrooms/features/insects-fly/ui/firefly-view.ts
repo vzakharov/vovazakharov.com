@@ -75,7 +75,7 @@ type Shown = CircleFigure &
     halo: Phaser.GameObjects.Image;
     body: Phaser.GameObjects.Image;
     tail: Phaser.GameObjects.Image;
-    /** The host it circles, as `hostKey` names it, while awake. */
+    /** The `id` of the host it circles, while awake. */
     host?: string;
     /** Where it was drawn as it left its last host, and when, so it glides to the next. */
     left?: Point & { at: number };

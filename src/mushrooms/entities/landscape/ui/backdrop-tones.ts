@@ -14,7 +14,7 @@ import { DUSK, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 import type { GroundBand } from '@/mushrooms/shared/world';
 
 import { SEAM_REACH, seamTop } from './skyline';
-import { type HillsSunned, SUN_GLOW_REACH,type Sunned } from './sun-layout';
+import { type HillsSunned, SUN_GLOW_REACH, type Sunned } from './sun-layout';
 
 /** A range's colours: `lit` at its highest crest, `foot` where the mist lies at its base. */
 type RangeTones = { lit: number; foot: number };

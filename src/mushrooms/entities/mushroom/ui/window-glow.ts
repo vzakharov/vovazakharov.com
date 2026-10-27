@@ -6,7 +6,7 @@ import {
   boxAround,
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
-import { type Brush,DUSK_WASH_DEEPEST, PALETTE } from '@/mushrooms/shared/ui';
+import { type Brush, DUSK_WASH_DEEPEST, PALETTE } from '@/mushrooms/shared/ui';
 
 import { windowSlots } from '../model/house';
 import type { MushroomGenes } from '../model/mushroom-genes';

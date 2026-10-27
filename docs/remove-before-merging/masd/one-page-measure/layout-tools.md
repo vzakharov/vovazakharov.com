@@ -8,23 +8,56 @@ Copy each into `tmp/modularity/` under its name and run from the repository root
 // The noun tree, file by file: each game file's stem -> its slice. A file
 // named nowhere stays with the whole, in widgets/meadow.
 const TREE: [string, string][] = [
-  ['shared/lib', 'geometry random motion colour crescent light tap-reach cruise glide line-course'],
-  ['shared/world', 'acting dusk weather ground pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor bed-place backdrop-depths repaint-queue shelter-seats anchored-ground crowding occupant seat-reach'],
-  ['shared/ui', 'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking icon-disc'],
-  ['entities/mushroom', 'planted mushroom-cover door-sight clump-shade cap-cover clump-layout placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap mushroom-hits door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light mushroom-shown ground-grid meadow-camera viewports'],
+  [
+    'shared/lib',
+    'geometry random motion colour crescent light tap-reach cruise glide line-course',
+  ],
+  [
+    'shared/world',
+    'acting dusk weather ground pinhole pan view view-inverse eye-crop eye-height stride walk walking anchor bed-place backdrop-depths repaint-queue shelter-seats anchored-ground crowding occupant seat-reach',
+  ],
+  [
+    'shared/ui',
+    'palette palette-backdrop palette-creatures palette-dusk ink shapes haze-tone hit-areas synth part-loudness baking icon-disc',
+  ],
+  [
+    'entities/mushroom',
+    'planted mushroom-cover door-sight clump-shade cap-cover clump-layout placement mushroom-genes mushroom-outline mushroom-pose mushroom-profile chanterelle-outline porcini-margin house draw-house paint-dome paint-trumpet mushroom-paint mushroom-tints draw-mushroom mushroom-tap mushroom-hits door-reach window-reach door-tap window-glow windows-lit icon-genes mushroom-frame mushroom-selection mushroom-light mushroom-shown ground-grid meadow-camera viewports',
+  ],
   ['entities/worm', 'worm draw-worm'],
   ['entities/mouse', 'mouse-run-clock mouse-run-course draw-mouse mouse-head'],
-  ['entities/insect', 'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis perch flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans insect-size pollen-load flier flower-lift plane-place'],
-  ['entities/flower', 'flower-planting planted-flowers anchored-stand flower-cover flower-plots flower-layout flower-sight flower-genes flower-sounds notes draw-flower flower-tints flower-ring flower-light far-band flower-fold'],
-  ['entities/landscape', 'paint-backdrop bake-picture lawn mottles grain brow grass paint-land sun-layout moon-view moon-face paint-moon paint-sky backdrop-tones dusk-sky dusk-stars star-images dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade'],
+  [
+    'entities/insect',
+    'insect-genes bee-genes buzz-genes fly-genes bee-outline insect-outline proboscis perch flight-frame flight-habits flight-in flight-timing insect-paths insect-steering insect-dart insect-motion insect-light buzz-rest draw-insect draw-bee draw-buzz draw-fly insect-look insect-shadow insect-voices insect-tap insect-drawn insect-frame insect-seat insect-shown insect-away insect-sink widest-spans insect-size pollen-load flier flower-lift plane-place',
+  ],
+  [
+    'entities/flower',
+    'flower-planting planted-flowers anchored-stand flower-cover flower-plots flower-layout flower-sight flower-genes flower-sounds notes draw-flower flower-tints flower-ring flower-light far-band flower-fold',
+  ],
+  [
+    'entities/landscape',
+    'paint-backdrop bake-picture lawn mottles grain brow grass paint-land sun-layout moon-view moon-face paint-moon paint-sky backdrop-tones dusk-sky dusk-stars star-images dusk-voice rain-drops rain-fall rain-sky rain-view rain-voice cloud-puffs panorama skyline twin-fade',
+  ],
   ['features/plant-flower', 'tufts tuft-tap tending flower-icons flower-room'],
-  ['features/grow-mushroom', 'mushroom-room standing-weighed mushroom-patch sprouting spore-seats spore-sight spore-bed spore-drift spores'],
+  [
+    'features/grow-mushroom',
+    'mushroom-room standing-weighed mushroom-patch sprouting spore-seats spore-sight spore-bed spore-drift spores',
+  ],
   ['features/furnish-house', 'furnishing door-seats'],
   ['features/worm-peeks', 'house-worm worm-way'],
-  ['features/mice-run', 'run-ends mouse-run night-runs mouse-door mouse-runs runner-shown run-front'],
-  ['features/insects-fly', 'flight bee-room perch-room perch-sight perch-hosts perch-crowding flower-seat air-spots perches insects pollen shelter shelter-cover roost firefly firefly-view firefly-tap'],
+  [
+    'features/mice-run',
+    'run-ends mouse-run night-runs mouse-door mouse-runs runner-shown run-front',
+  ],
+  [
+    'features/insects-fly',
+    'flight bee-room perch-room perch-sight perch-hosts perch-crowding flower-seat air-spots perches insects pollen shelter shelter-cover roost firefly firefly-view firefly-tap',
+  ],
   ['features/flowers-close', 'flower-closing'],
-  ['features/play-flowers', 'instrument instrument-input instrument-voices keyboard keyed-flowers chord-fingers flower-touch flower-hold'],
+  [
+    'features/play-flowers',
+    'instrument instrument-input instrument-voices keyboard keyed-flowers chord-fingers flower-touch flower-hold',
+  ],
   ['features/walk-meadow', 'eye-input gait-icon footsteps'],
   ['pages/mushrooms', 'mushrooms-page meadow-canvas mushrooms-metadata index'],
 ];
@@ -843,7 +876,8 @@ for (const stem of process.argv.slice(2)) {
     new RegExp(`\\b${f}\\b`).test(text),
   );
   let types = used.map(([, [t]]) => t);
-  if (types.includes('InsectScaled')) types = types.filter((t) => t !== 'InsectSized');
+  if (types.includes('InsectScaled'))
+    types = types.filter((t) => t !== 'InsectSized');
   const alias = `${pascal(stem)}Layout`;
   // drop MeadowLayout from its import
   text = text.replace(
@@ -915,7 +949,9 @@ function home(type: string): string {
       if (!f.endsWith('.ts') || f.endsWith('.test.ts')) continue;
       const t = readFileSync(path.join(dir, f), 'utf8');
       if (new RegExp(`export type ${type}\\b`).test(t)) {
-        const rel = path.relative(SCENE, path.join(dir, f)).replace(/\.ts$/, '');
+        const rel = path
+          .relative(SCENE, path.join(dir, f))
+          .replace(/\.ts$/, '');
         return rel.startsWith('.') ? rel : `./${rel}`;
       }
     }
@@ -999,16 +1035,28 @@ function visit(node: ts.Node) {
       const param = `L extends ${alias}`;
       if (fn.typeParameters?.length) {
         const last = fn.typeParameters[fn.typeParameters.length - 1];
-        edits.push({ start: last.getEnd(), end: last.getEnd(), text: `, ${param}` });
+        edits.push({
+          start: last.getEnd(),
+          end: last.getEnd(),
+          text: `, ${param}`,
+        });
       } else if (ts.isArrowFunction(fn) && !fn.getText(sf).startsWith('(')) {
         const p = fn.parameters[0];
-        edits.push({ start: p.getStart(sf), end: p.getStart(sf), text: `<${param}>(` });
+        edits.push({
+          start: p.getStart(sf),
+          end: p.getStart(sf),
+          text: `<${param}>(`,
+        });
         edits.push({ start: p.getEnd(), end: p.getEnd(), text: ')' });
       } else {
         const open = fn
           .getChildren(sf)
           .find((c) => c.kind === ts.SyntaxKind.OpenParenToken)!;
-        edits.push({ start: open.getStart(sf), end: open.getStart(sf), text: `<${param}>` });
+        edits.push({
+          start: open.getStart(sf),
+          end: open.getStart(sf),
+          text: `<${param}>`,
+        });
       }
     }
   }
@@ -1154,7 +1202,9 @@ for (let changed = true; changed; ) {
     if (b === undefined || legal(a, b) || a === WHOLE || a.startsWith('pages'))
       continue;
     at.set(u.from, WHOLE);
-    lifted.push(`${path.basename(u.from)} (${a}, for ${path.basename(u.to)} in ${b})`);
+    lifted.push(
+      `${path.basename(u.from)} (${a}, for ${path.basename(u.to)} in ${b})`,
+    );
     changed = true;
   }
 }
@@ -1182,7 +1232,8 @@ import { allFiles, imports, sliceOf } from './layout.ts';
 
 const prod = allFiles.filter((f) => !/\.test\.tsx?$/.test(f));
 const out = new Map<string, string[]>(prod.map((f) => [f, []]));
-for (const u of prod.flatMap(imports)) if (out.has(u.to)) out.get(u.from)!.push(u.to);
+for (const u of prod.flatMap(imports))
+  if (out.has(u.to)) out.get(u.from)!.push(u.to);
 const memo = new Map<string, Set<string>>();
 function reach(f: string, seen = new Set<string>()): Set<string> {
   const known = memo.get(f);
@@ -1203,9 +1254,13 @@ for (const f of prod) {
   const r = [...reach(f)].filter((x) => x !== s).sort();
   if (r.length === 0) continue;
   const key = `${s} reaches ${r.join(' ')}`;
-  groups.set(key, [...(groups.get(key) ?? []), path.basename(f).replace(/\.tsx?$/, '')]);
+  groups.set(key, [
+    ...(groups.get(key) ?? []),
+    path.basename(f).replace(/\.tsx?$/, ''),
+  ]);
 }
-for (const [k, fs] of [...groups].sort()) console.log(`${k}:\n  ${fs.join(' ')}`);
+for (const [k, fs] of [...groups].sort())
+  console.log(`${k}:\n  ${fs.join(' ')}`);
 ```
 
 ## tidy.sh
