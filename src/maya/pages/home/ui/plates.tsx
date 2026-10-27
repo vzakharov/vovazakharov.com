@@ -2,12 +2,19 @@ import { SimpleGrid, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { documentDateTime, formatDocumentDate } from '@/shared/content';
-import type { WithLocale } from '@/shared/i18n';
-import type { Linked, Sized, Sourced, Summarized } from '@/shared/typings';
-import { NameLink } from '@/shared/ui';
+import type { WithLocale } from '@/kernel/shared/i18n';
+import type {
+  Linked,
+  Sized,
+  Sourced,
+  Summarized,
+} from '@/kernel/shared/typings';
 
-import { PlateLabel } from '@/entities/maya';
+import { NameLink } from '@/shell/shared/ui';
+
+import { documentDateTime, formatDocumentDate } from '@/blog/shared/content';
+
+import { PlateLabel } from '@/maya/entities/maya';
 
 import classes from './plates.module.scss';
 

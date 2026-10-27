@@ -6,4 +6,3 @@
 export { CANVAS, PIXELS, SCALE } from './og-canvas.ts';
 export { GENERATED_DIR, PUBLIC_DIR } from './public-dir.ts';
 export { resolveSiteId } from './site-env.ts';
-export { WHISPER_DRAWING, WHISPER_ROUTE } from './toys.ts';

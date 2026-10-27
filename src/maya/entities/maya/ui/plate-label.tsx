@@ -1,7 +1,9 @@
 import { Text } from '@mantine/core';
 
-import { loadMessages, type WithLocale } from '@/shared/i18n';
-import type { Numbered } from '@/shared/typings';
+import type { WithLocale } from '@/kernel/shared/i18n';
+import type { Numbered } from '@/kernel/shared/typings';
+
+import { messages } from '@/maya/shared/i18n';
 
 import { roman } from '../lib/roman';
 import classes from './plate-label.module.scss';
@@ -12,7 +14,7 @@ type PlateLabelProps = WithLocale & Numbered;
 export function PlateLabel({ number, locale }: PlateLabelProps) {
   return (
     <Text size="sm" className={classes['label']}>
-      {loadMessages(locale).maya.plate.replace('{number}', roman(number))}
+      {messages(locale).plate.replace('{number}', roman(number))}
     </Text>
   );
 }

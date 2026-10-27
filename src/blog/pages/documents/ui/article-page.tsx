@@ -153,12 +153,8 @@ export function articleRoute<F extends ArticleFrontmatter>(
                   <ArticleHeader
                     {...{ document, title, readingMinutes }}
                     availableVariants={siblingVariants(collection, slug)}
-<<<<<<< HEAD:src/blog/pages/documents/ui/article-page.tsx
+                    eyebrow={slots.eyebrow?.(document)}
                     mark={slots.mark?.(document)}
-=======
-                    eyebrow={slots?.eyebrow?.(document)}
-                    mark={slots?.mark?.(document)}
->>>>>>> origin/main:src/pages/documents/ui/article-page.tsx
                   />
                   {slots.brief?.(document)}
                 </Box>
@@ -182,7 +178,7 @@ export function articleRoute<F extends ArticleFrontmatter>(
             <SiteFooter
               {...{ locale }}
               home={collectionRoute(collection, document.locale)}
-              byline={slots?.byline?.(document)}
+              byline={slots.byline?.(document)}
             />
           </Stack>
         </Container>

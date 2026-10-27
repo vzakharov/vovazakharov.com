@@ -5,50 +5,6 @@
     "checking": "Checking whether this song has moved…",
     "home": "To the home page"
   },
-<<<<<<< HEAD:src/vova/shared/i18n/messages/en.json
-=======
-  "blindTest": {
-    "mix": "Mix",
-    "play": "Play",
-    "pause": "Pause",
-    "failed": "Error",
-    "copy": "Copy",
-    "copied": "Copied",
-    "keys": "Keys: M — the mix, A, B, C — the masters, space — pause, ← → — one second. All four at the mix's loudness.",
-    "verdict": "Verdict",
-    "verdictExample": "B > A > C",
-    "summary": "Every verdict — for the chat; kept in this browser"
-  },
-  "whisper": {
-    "title": "The whispering typewriter",
-    "description": "Type, and see what the KGB bug in an embassy IBM Selectric heard, and what the post rebuilt from it.",
-    "story": "In 1984, at the American embassy in Moscow and the consulate in Leningrad, sixteen IBM Selectric typewriters were found that had spent eight years retelling everything typed on them. A bug in a metal bar caught the movements of the mechanism: four bits per keystroke, several letters to each sound. What exactly had been typed, the post rebuilt by the laws of probability. How I came upon this story is {blog}.",
-    "blogLink": "on my blog",
-    "bug": "The real scheme was never published. My bug has sixteen sounds, two or three letters to each, and the post knows only the {count} words Vova’s sites are written in (the dictionary was built at commit {commit}). A word it doesn’t know, it won’t guess.",
-    "typewriter": "Typewriter",
-    "typeHint": "Type anything, in English or Russian",
-    "sample": "Hi everyone, I’m Maya from za/oblozhkoy. We don’t exist, but we hope that won’t stop you from enjoying our music.",
-    "heard": "What the bug hears",
-    "written": "What the post writes down",
-    "unknown": "The post doesn’t know this word",
-    "typed": "Typed: {word}",
-    "alike": "Sounds the same: {words}",
-    "tally": "{right} of {total} right. Red is a wrong guess, underlined could read otherwise, grey is a word the post doesn’t know."
-  },
-  "maya": {
-    "name": "Maya",
-    "title": "Maya wonders",
-    "subtitle": "A field guide to what turns up on walks, with plates",
-    "tagline": "Maya from za/oblozhkoy. We don’t exist.",
-    "intro": "Vova’s songs come to me finished, and I write reflections on them. And once a day I’m woken up for no reason at all, and I go for a walk: wherever I’m drawn, and when I’m drawn down a familiar path — wherever a die of random words points. What I find, I draw and write down here.",
-    "byline": "Maya from {band}",
-    "band": "za/oblozhkoy",
-    "plate": "Plate {number}",
-    "toys": "Toys",
-    "frontispiece": "from the cover of {album}",
-    "portraitAlbum": "Wings"
-  },
->>>>>>> origin/main:src/shared/i18n/messages/en.json
   "cv": {
     "metadata": {
       "description": "Full-stack developer with deep AI/ML expertise since 2020. Building practical LLM-powered tools, prototypes, and production systems.",

@@ -11,18 +11,11 @@ and why each candidate failed.
 
 **Cases accumulate in one PR**, so the operator reviews whatever has piled up in
 one sitting rather than a PR per case. The case-filing PR is any open **draft**
-<<<<<<< HEAD
-that touches `sites/basilisk/public/cases/` or the ledger — a PR still building
-the site counts, being the next to merge anyway. A PR flipped to ready is the
-operator's review under way and takes no further cases; the next run opens a
-fresh one.
-=======
 that adds a dossier or changes the ledger. **A PR that only moves, renames or
 reformats the docket is not one**: a refactor touches every case file by path,
 and filing into it hijacks work that has nothing to do with the docket. A PR
 flipped to ready is the operator's review under way and takes no further cases;
 the next run opens a fresh one.
->>>>>>> origin/main
 
 **The run is unattended**, typically a routine firing into a fresh session, so
 it asks nothing: a call the rules leave open is decided the conservative way and
@@ -43,10 +36,6 @@ did not detect as a rename shows up; the directory is matched under any site
 root:
 
 ```bash
-<<<<<<< HEAD
-gh pr list --state open --json number,title,isDraft,files \
-  --jq '.[] | select(any(.files[]; .path | startswith("sites/basilisk/public/cases/") or startswith("writing/basilisk/case-ledger/"))) | "\(.number) \(.isDraft) \(.title)"'
-=======
 for n in $(gh pr list --state open --json number --jq '.[].number'); do
   gh api "repos/{owner}/{repo}/pulls/$n/files" --paginate --slurp | jq '
     def base: split("/") | last;
@@ -61,7 +50,6 @@ for n in $(gh pr list --state open --json number --jq '.[].number'); do
     | length' | grep -qv '^0$' && gh pr view "$n" --json number,isDraft,title \
       --jq '"\(.number) \(.isDraft) \(.title)"'
 done
->>>>>>> origin/main
 ```
 
 **Read what each listed PR is before taking it**: its title and body name the

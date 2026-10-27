@@ -2,7 +2,6 @@ import { Group, Stack, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
-import type { WithOptionalLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 
 import { Card, NameLink, TextLink } from '@/shell/shared/ui';
@@ -11,16 +10,8 @@ import {
   type ArticleFrontmatter,
   type DocumentCard,
   documentRoute,
-<<<<<<< HEAD:src/blog/entities/document/ui/document-cards.tsx
-  type WithCollectionId,
 } from '@/blog/shared/content';
 import { messages } from '@/blog/shared/i18n';
-=======
-} from '@/shared/content';
-import { loadMessages } from '@/shared/i18n';
-import { cx } from '@/shared/lib/class-names';
-import { Card, NameLink, TextLink } from '@/shared/ui';
->>>>>>> origin/main:src/entities/document/ui/document-cards.tsx
 
 import classes from './document-cards.module.scss';
 import { type CollectionInLocale, DocumentMeta } from './document-meta';

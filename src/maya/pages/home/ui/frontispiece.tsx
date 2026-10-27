@@ -2,8 +2,8 @@ import { Text, Title } from '@mantine/core';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 
-import { SITE_CONFIG } from '@/shared/config';
-import type { Billed, TitledBlock } from '@/shared/typings';
+import { SITE_CONFIG } from '@/kernel/shared/config';
+import type { Billed, TitledBlock } from '@/kernel/shared/typings';
 
 import classes from './frontispiece.module.scss';
 

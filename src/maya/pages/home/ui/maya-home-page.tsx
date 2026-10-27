@@ -1,37 +1,14 @@
 import { Stack, Text, Title } from '@mantine/core';
 
-<<<<<<< HEAD:src/maya/pages/home/ui/maya-home-page.tsx
-import { AUTHOR_URL, SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
-import { fillSlots, inLocale, type WithLocale } from '@/kernel/shared/i18n';
-import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
-
-=======
-import {
-  AUTHOR_URL,
-  SITE_ID,
-  WHISPER_DRAWING,
-  WHISPER_ROUTE,
-} from '@/shared/config';
-import {
-  ARTICLE_COLLECTIONS,
-  COLLECTIONS,
-  findFeed,
-  intrinsicDimensions,
-  localizedRoute,
-  renderPrimaryDocuments,
-} from '@/shared/content';
+import { AUTHOR_URL, SITE_ID } from '@/kernel/shared/config';
 import {
   fillSlots,
   inLocale,
-  loadMessages,
   type Locale,
   type WithLocale,
-} from '@/shared/i18n';
-import {
-  constructMetadata,
-  localizedAddresses,
-} from '@/shared/seo/index.server-only';
->>>>>>> origin/main:src/pages/maya-home/ui/maya-home-page.tsx
+} from '@/kernel/shared/i18n';
+import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
+
 import {
   ChipNav,
   localeChips,
@@ -41,23 +18,22 @@ import {
 } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-<<<<<<< HEAD:src/maya/pages/home/ui/maya-home-page.tsx
 import {
   articleCollection,
   COLLECTIONS,
   findFeed,
+  intrinsicDimensions,
   localizedRoute,
   renderPrimaryDocuments,
 } from '@/blog/shared/content';
 import { messages as blogMessages } from '@/blog/shared/i18n';
 import { constructMetadata } from '@/blog/shared/seo';
-import { DocumentCards } from '@/blog/entities/document';
-=======
-import { MayaByline, plateNumber } from '@/entities/maya';
->>>>>>> origin/main:src/pages/maya-home/ui/maya-home-page.tsx
+
+import { WHISPER_DRAWING, WHISPER_ROUTE } from '@/maya/shared/config';
+import { messages as mayaMessages } from '@/maya/shared/i18n';
+import { MayaByline, plateNumber } from '@/maya/entities/maya';
 
 import { messages } from '../i18n';
-
 import { Frontispiece } from './frontispiece';
 import { type Plate, Plates } from './plates';
 import { Shelf } from './shelf';
@@ -82,7 +58,7 @@ function drawn(src: string, owner: string): Plate['image'] {
 
 async function entryPlates(locale: Locale): Promise<Plate[]> {
   const cards = await renderPrimaryDocuments(
-    ARTICLE_COLLECTIONS[COLLECTION],
+    articleCollection(COLLECTION),
     locale,
   );
 
@@ -111,7 +87,7 @@ async function entryPlates(locale: Locale): Promise<Plate[]> {
 }
 
 function toyPlates(locale: Locale): Plate[] {
-  const { title, description } = loadMessages(locale).whisper;
+  const { title, description } = mayaMessages(locale).whisper;
 
   return [
     {
@@ -124,17 +100,11 @@ function toyPlates(locale: Locale): Plate[] {
 }
 
 export function mayaHomeMetadata({ locale }: WithLocale) {
-<<<<<<< HEAD:src/maya/pages/home/ui/maya-home-page.tsx
   const { tagline } = messages(locale);
-
-  return constructMetadata({
-    title: blogMessages(locale).authors.maya,
-=======
-  const { title, tagline } = loadMessages(locale).maya;
+  const { title } = mayaMessages(locale);
 
   return constructMetadata({
     title,
->>>>>>> origin/main:src/pages/maya-home/ui/maya-home-page.tsx
     description: tagline,
     locale,
     ...localizedAddresses(homePath, locale),
@@ -142,25 +112,10 @@ export function mayaHomeMetadata({ locale }: WithLocale) {
 }
 
 export async function MayaHomePage({ locale }: WithLocale) {
-<<<<<<< HEAD:src/maya/pages/home/ui/maya-home-page.tsx
   const name = blogMessages(locale).authors.maya;
-  const { tagline, intro, byline, band } = messages(locale);
-  const cards = await renderPrimaryDocuments(
-    articleCollection(COLLECTION),
-    locale,
-  );
-=======
-  const {
-    name,
-    title,
-    subtitle,
-    tagline,
-    intro,
-    toys,
-    frontispiece,
-    portraitAlbum,
-  } = loadMessages(locale).maya;
->>>>>>> origin/main:src/pages/maya-home/ui/maya-home-page.tsx
+  const { title } = mayaMessages(locale);
+  const { subtitle, tagline, intro, toys, frontispiece, portraitAlbum } =
+    messages(locale);
 
   return (
     <PageShell>

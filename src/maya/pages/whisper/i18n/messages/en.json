@@ -1,6 +1,4 @@
 {
-  "title": "The whispering typewriter",
-  "description": "Type, and see what the KGB bug in an embassy IBM Selectric heard, and what the post rebuilt from it.",
   "story": "In 1984, at the American embassy in Moscow and the consulate in Leningrad, sixteen IBM Selectric typewriters were found that had spent eight years retelling everything typed on them. A bug in a metal bar caught the movements of the mechanism: four bits per keystroke, several letters to each sound. What exactly had been typed, the post rebuilt by the laws of probability. How I came upon this story is {blog}.",
   "blogLink": "on my blog",
   "bug": "The real scheme was never published. My bug has sixteen sounds, two or three letters to each, and the post knows only the {count} words Vova’s sites are written in (the dictionary was built at commit {commit}). A word it doesn’t know, it won’t guess.",

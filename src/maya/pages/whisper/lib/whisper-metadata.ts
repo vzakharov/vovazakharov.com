@@ -3,11 +3,10 @@ import { routeCardPath } from '@/kernel/shared/seo';
 import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
 
 import { intrinsicDimensions, localizedRoute } from '@/blog/shared/content';
-import { messages as blogMessages } from '@/blog/shared/i18n';
 import { constructMetadata } from '@/blog/shared/seo';
 
-import { messages } from '../i18n';
-import { WHISPER_ROUTE } from './whisper-copy';
+import { WHISPER_ROUTE } from '@/maya/shared/config';
+import { messages } from '@/maya/shared/i18n';
 
 /** The toy's card, which `pnpm content:og maya` renders. */
 const ogImage = routeCardPath(WHISPER_ROUTE);
@@ -18,10 +17,13 @@ export function whisperPath(locale?: string): string {
 }
 
 export function whisperMetadata({ locale }: WithLocale) {
-  const { title, description } = messages(locale);
+  const {
+    title: siteTitle,
+    whisper: { title, description },
+  } = messages(locale);
 
   return constructMetadata({
-    title: `${title} - ${blogMessages(locale).authors.maya}`,
+    title: `${title} - ${siteTitle}`,
     description,
     locale,
     ...localizedAddresses(whisperPath, locale),

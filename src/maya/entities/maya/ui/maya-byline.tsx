@@ -1,11 +1,15 @@
-import { AUTHOR_URL } from '@/shared/config';
-import { localizedRoute } from '@/shared/content';
-import { fillSlots, loadMessages, type WithLocale } from '@/shared/i18n';
-import { TextLink } from '@/shared/ui';
+import { AUTHOR_URL } from '@/kernel/shared/config';
+import { fillSlots, type WithLocale } from '@/kernel/shared/i18n';
+
+import { TextLink } from '@/shell/shared/ui';
+
+import { localizedRoute } from '@/blog/shared/content';
+
+import { messages } from '@/maya/shared/i18n';
 
 /** «Майя из за/обложкой», the band linked: whom her site's copyright names. */
 export function MayaByline({ locale }: WithLocale) {
-  const { byline, band } = loadMessages(locale).maya;
+  const { byline, band } = messages(locale);
 
   return fillSlots(byline, {
     band: (

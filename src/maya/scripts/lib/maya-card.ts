@@ -24,7 +24,6 @@ import {
   SCALE,
 } from '@/kernel/shared/config/index.node-safe';
 
-<<<<<<< HEAD:src/maya/scripts/lib/maya-card.ts
 import {
   type ArticleFrontmatter,
   formatDocumentDate,
@@ -33,19 +32,11 @@ import { collectionDir } from '@/blog/shared/content/index.node-safe';
 
 import type { CollectionEntry } from '@/blog/scripts/lib/read-collection';
 import {
-  CANVAS_BACKGROUND,
   type CardHeading,
   escapeHtml,
-  INK,
-  INK_DIM,
   type StagedPage,
 } from '@/kernel/scripts/lib/og-render';
 import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
-=======
-import { REPO_ROOT } from './content-tree.ts';
-import { type CardHeading, escapeHtml, type StagedPage } from './og-render.ts';
-import type { CollectionEntry } from './read-collection.ts';
->>>>>>> origin/main:scripts/lib/maya-card.ts
 
 type BlogPost = CollectionEntry<ArticleFrontmatter>;
 

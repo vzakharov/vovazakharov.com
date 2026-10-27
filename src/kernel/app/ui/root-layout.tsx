@@ -4,6 +4,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import {
   ANALYTICS_SCRIPT_URL,
   SITE_CONFIG,
+  SITE_ID,
   withoutScheme,
 } from '@/kernel/shared/config';
 import {
@@ -31,7 +32,8 @@ export const rootMetadata = constructRootMetadata();
 
 /**
  * The document every site renders, bare as the game takes it; a layout
- * extending it passes what it adds rather than restating `<html>`.
+ * extending it passes what it adds rather than restating `<html>`. A site's own
+ * styles key on `data-site`.
  */
 export function RootLayout({
   children,
@@ -43,7 +45,7 @@ export function RootLayout({
   head?: ReactNode;
 }>) {
   return (
-    <html lang={SITE_CONFIG.locale} {...htmlProps}>
+    <html lang={SITE_CONFIG.locale} data-site={SITE_ID} {...htmlProps}>
       <head>
         {head}
         {/* `data-domains` keeps a dev server or a preview from counting as the site. */}

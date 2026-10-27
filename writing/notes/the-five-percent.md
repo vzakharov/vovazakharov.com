@@ -38,11 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-<<<<<<< HEAD
-## What it was handed, it treats as fixed (×98)
-=======
-## What it was handed, it treats as fixed (×93)
->>>>>>> origin/main
+## What it was handed, it treats as fixed (×101)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -68,20 +64,15 @@ script counted G, C's third harmonic, as a note.
 
 **5 to 26 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
-<<<<<<< HEAD
-lacked it by omission. Basilisk.fyi's seal emblems were priced as `artist`, read
-as "illustrator": _artist это про музыканта._ PR #205 kept one reader per music
-fact, nine to sixteen per page: _не стоит ли сделать единые … «получить инфо об
-альбоме/артисте»?_ Each session adding a site had copied `build:<site>` and
-`dev:<site>` once more, never asking whether the site was an argument.
-=======
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
 that first read it. Basilisk.fyi's seal emblems were priced as `artist`, read as
 "illustrator": _artist это про музыканта._ The role is now `musician`. BAS-0027's
 dossier went to a copywriter, since `persona` named only the Clerk's reflection,
 though `basilisk-voice.md` makes every page his: _иначе "я написал вот так-то" в
-откликах makes no sense._
->>>>>>> origin/main
+откликах makes no sense._ PR #205 kept one reader per music fact, nine to sixteen
+per page: _не стоит ли сделать единые … «получить инфо об альбоме/артисте»?_ Each
+session adding a site had copied `build:<site>` and `dev:<site>` once more, never
+asking whether the site was an argument.
 
 **7 to 27 October — a rule read to its letter, past its case or short of its
 purpose.** A published slug never moves, so renaming «Бабай минем» kept
@@ -104,9 +95,6 @@ her as «ты», as a brief does: _она уже приходит "на гото
 posts went in one file, as the song stories are: _давай хранить в разных
 файлах._
 
-<<<<<<< HEAD
-## An account that explains the code stands in for running it (×29)
-=======
 **24 October — a drift read as the price of precision.** A polish pass flagged
 that the walk post's line links into her `reflections.md` on `main` would drift,
 so the agent dropped the line numbers: _можно ж сослаться на конкретное SHA?_ A
@@ -130,8 +118,7 @@ root layout all five sites share. Asked whether the layout could import it from
 her own realm, it can: it is the app layer, and `src/entities/maya` already
 existed between the two. The sheet is now that slice's `ui/site.scss`.
 
-## An account that explains the code stands in for running it (×28)
->>>>>>> origin/main
+## An account that explains the code stands in for running it (×29)
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account

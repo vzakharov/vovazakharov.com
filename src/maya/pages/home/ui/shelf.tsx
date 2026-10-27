@@ -2,8 +2,9 @@ import { SimpleGrid, Text, Title } from '@mantine/core';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { Labeled } from '@/shared/typings';
-import { NameLink } from '@/shared/ui';
+import type { Labeled } from '@/kernel/shared/typings';
+
+import { NameLink } from '@/shell/shared/ui';
 
 import type { Plate } from './plates';
 import classes from './shelf.module.scss';

@@ -18,4 +18,3 @@ export {
 } from './site-config';
 export { type SiteId, type WithSiteId } from './site-ids';
 export { TECH_STACKS } from './tech-stacks';
-export { WHISPER_DRAWING, WHISPER_ROUTE } from './toys';

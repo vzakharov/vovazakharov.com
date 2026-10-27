@@ -6,13 +6,8 @@
  * in.
  *
  * Every palette declares all of them — light and dark in
-<<<<<<< HEAD:src/shell/shared/ui/css-color.ts
- * `src/shell/app/styles/globals.scss`, print in `src/shell/app/styles/print.scss` — so
- * call sites never branch on the scheme.
-=======
- * `src/app/styles/globals.scss` and in a site's own sheet, print in
- * `src/app/styles/print.scss` — so call sites never branch on the scheme.
->>>>>>> origin/main:src/shared/ui/css-color.ts
+ * `src/shell/app/styles/globals.scss` and in a site's own sheet, print in
+ * `src/shell/app/styles/print.scss` — so call sites never branch on the scheme.
  */
 export const CSS_COLORS = [
   'background',

@@ -2,16 +2,13 @@ import { Stack, Text, Title } from '@mantine/core';
 
 import { fillSlots, type WithLocale } from '@/kernel/shared/i18n';
 
-<<<<<<< HEAD:src/maya/pages/whisper/ui/whisper-page.tsx
 import { ChipNav, localeChips, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
-=======
-import { MayaByline } from '@/entities/maya';
-
-import { SiteFooter } from '@/widgets/site-footer';
->>>>>>> origin/main:src/pages/maya-whisper/ui/whisper-page.tsx
 
 import { documentRoute, localizedRoute } from '@/blog/shared/content';
+
+import { messages as mayaMessages } from '@/maya/shared/i18n';
+import { MayaByline } from '@/maya/entities/maya';
 
 import { messages } from '../i18n';
 import { whisperPath } from '../lib/whisper-metadata';
@@ -30,7 +27,7 @@ export function WhisperPage({ locale }: WithLocale) {
     <PageShell>
       <Stack gap={48}>
         <Stack gap="md">
-          <Title order={1}>{copy.title}</Title>
+          <Title order={1}>{mayaMessages(locale).whisper.title}</Title>
           <ChipNav chips={localeChips(locale, whisperPath)} />
           <Text size="lg" lh={1.625}>
             {fillSlots(copy.story, {

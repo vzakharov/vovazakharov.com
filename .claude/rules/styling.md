@@ -4,12 +4,8 @@ paths:
   - src/shell/app/styles/**
   - src/shell/app/ui/theme-provider.tsx
   - styles/**
-<<<<<<< HEAD
   - src/shell/shared/ui/css-color.ts
-=======
-  - src/shared/ui/css-color.ts
-  - src/entities/*/ui/site.scss
->>>>>>> origin/main
+  - src/*/app/styles/site.scss
   - '**/*.module.scss'
 ---
 
@@ -57,12 +53,8 @@ attributes (`underline`), never for sizes or colours.
 ## Colours
 
 Never write a colour literal in a component. The tokens are declared in
-<<<<<<< HEAD
-`src/shell/app/styles/globals.scss` as `--color-*` and reached from TSX through
-=======
-`src/app/styles/globals.scss` as `--color-*` — a site's own palette in its
-entity's `ui/site.scss`, under `[data-site]` — and reached from TSX through
->>>>>>> origin/main
+`src/shell/app/styles/globals.scss` as `--color-*` — a site's own palette in its
+app's `app/styles/site.scss`, under `[data-site]` — and reached from TSX through
 `cssColor()`. Which tokens exist is settled by the `CSS_COLORS` array in
 `src/shell/shared/ui/css-color.ts` — it types `cssColor()` and generates the
 mixin that declares them, so adding one is a single edit there. They are

@@ -36,7 +36,7 @@ record" holds the three rules this file keeps.
 
 - **`.claude/rules/README.md`** — one paragraph of this repo's own: a directory
   whose files are served keeps its conventions in a rule file there, since a
-  `CLAUDE.md` under `apps/*/public/` would be published with the site.
+  `CLAUDE.md` under `sites/*/public/` would be published with the site.
 - **`.claude/rules/markdown-wrap.md`** — the wrap runs through the prettier
   `package.json` already pins, as a `proseWrap: always` override in
   `.prettierrc.json` that `pnpm format:check` enforces, so `scripts/prettier.sh`

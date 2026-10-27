@@ -1,9 +1,10 @@
+import type { Locale } from '@/kernel/shared/i18n';
+
 import {
-  ARTICLE_COLLECTIONS,
+  articleCollection,
   isListed,
   listPrimaryDocuments,
-} from '@/shared/content';
-import type { Locale } from '@/shared/i18n';
+} from '@/blog/shared/content';
 
 /**
  * An entry's plate number: its place among her listed entries counted from the
@@ -13,7 +14,7 @@ import type { Locale } from '@/shared/i18n';
 export function plateNumber(slug: string, locale: Locale): number | undefined {
   // Listed newest first.
   const listed = listPrimaryDocuments(
-    ARTICLE_COLLECTIONS['maya-blog'],
+    articleCollection('maya-blog'),
     locale,
   ).filter((document) => isListed(document));
   const index = listed.findIndex((document) => document.slug === slug);

@@ -4,7 +4,7 @@
  * other hash reopens the highest.
  */
 
-import type { Numbered } from '@/shared/typings';
+import type { Numbered } from '@/kernel/shared/typings';
 
 /** The meadow to open, and whether none is kept under its number yet. */
 export type MeadowChoice = Numbered & { fresh: boolean };
