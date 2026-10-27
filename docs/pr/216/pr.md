@@ -1,26 +1,25 @@
-# PR #216: feat: #170 a one-reference slice with a narrow public API is significant
+# PR #216: refactor: #170 significance by modularity, the mushroom game in slices
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/216
-- **Author:** @vzakharov (human)
+- **Author:** @vzakharov (agent)
 - **Base ← Head:** claude/multi-app-sliced-design-7bn3oq ← masd/one-page-measure
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-26T14:11:19Z
-- **Updated:** 2026-10-27T02:01:47Z
+- **Updated:** 2026-10-27T08:38:05Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 4
+## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1d4626a). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `docs/plans/multi-app-sliced-design.paused.md`:1 — unresolved — last: @vzakharov (human) 2026-10-27T01:54:01Z — "что-то безбожно выглядит файл, давай причешем, вынесем в сос…" → [↓](#t01)
-- **T02** `src/mushrooms/widgets/meadow/index.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-27T01:56:22Z — "чё-т я теперь не понял, зачем мы всю эту кухню перенесли в w…" → [↓](#t02)
-- **T03** `docs/plans/multi-app-sliced-design.paused.md`:533 — unresolved — last: @vzakharov (human) 2026-10-27T02:00:24Z — "ну да; только с учётом коммента выше, не в виджет, а в стран…" → [↓](#t03)
-- **T04** `docs/plans/multi-app-sliced-design.paused.md`:542 — unresolved — last: @vzakharov (human) 2026-10-27T02:01:09Z — "вот карту как раз сделать виджетом или, если она не грузит ф…" → [↓](#t04)
+- **T01** `src/mushrooms/entities/landscape/ui/lawn.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-27T08:34:36Z — "чтобы ошибка с перепутыванием CELL-а не повторилась, может,…" → [↓](#t01)
+- **T02** `src/mushrooms/entities/mushroom/ui/door-sight.ts`:136 — unresolved — last: @vzakharov (human) 2026-10-27T08:35:23Z — "у нас кстати во всеми этими кешами мемори ликов никаких не с…" → [↓](#t02)
+- **T03** `src/mushrooms/pages/mushrooms/ui/tufts.test.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-27T08:37:22Z — "раздуло, надо разделять (посмотри и другие если я упустил).…" → [↓](#t03)
 
 ---
 
@@ -28,34 +27,45 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 ## Summary
 
-- **A one-reference slice is significant when its public API is narrow.** `check:masd` spares a slice with a single consumer when its barrels (`index.ts` and the two suffixed ones) hand on at most a third of the names its files export: a slice hiding the rest is a module whoever uses it. A reference count alone cannot tell "used once because it is a detail of its consumer" from "used once because the app has one consumer at all", so without this a one-page app — the mushroom game — stays one grab-bag slice. An unreferenced slice is flagged as before, and the messages stay Steiger's word for word.
-- **Why API width and not boundary-vs-internal edges**, measured by a spike over every slice in the repo and over the noun groups the game's file names suggest: a well-layered slice imports downward, so edge cohesion scores the game's noun groups 20–48% and the repo's shared slices 10–64% — it punishes the layering MASD asks for. API width separates: the slices built as modules sit low (the player 11%, the CV page 20%, Майя's whisper 19%), while noun groups cut by file-name prefix land 29–60%, so the bar asks bite 6b to draw boundaries better than a prefix does. `knip` keeps the numerator honest, since a barrel export nothing reads fails it.
-- **`PUBLIC_API` moves to `eslint/masd-graph.ts`**, which both the boundaries config and the check read — the check runs under bare Node and cannot load the config. `masd.md` states the reprieve under "No insignificant slices", and `compare/fsd-vs-masd` follows.
-- The plan folds bite 6a in; 6b — mushrooms restructured under the measure — is next.
+- **A one-reference slice is significant when it is a module (bite 6a).** A reference count alone cannot tell a slice used once because it is a detail of its consumer from one used once because its app has one consumer at all, so a one-page app such as the mushroom game could only ever be one grab-bag slice. `check:masd` now spares a slice with a single consumer when its term of Newman's modularity, `e − a²`, is positive: more of its own app's file-import edges fall inside it than a degree-preserving rewiring would put there. Nothing is tuned — the null model is the bar, which is why it replaced the earlier "barrels hand on at most a third" API-width rule. The graph is the slice's own app alone, tests and scripts out, since who uses an app says nothing of how it is cut; the with-descendants alternative was measured and rejected (`docs/remove-before-merging/masd/one-page-measure/modularity-two-graphs.md`). Unreferenced slices are flagged as before, in Steiger's words.
+- **The mushroom game is cut into FSD slices by its nouns (bite 6b)**, which is what tests whether 6a's measure holds: `shared/world` (camera, ground, clock, depth order, the occupant), the entities (`mushroom`, `flower`, `insect`, `landscape`, `mouse`, `worm`), features named for what happens (`grow-mushroom`, `plant-flower`, `insects-fly`, …), `widgets/map`, and `pages/mushrooms` holding the scene, state, sound and keeping. Each reader declares the layout and the `Action` variants it uses rather than importing the page's whole; the flower and the mushroom meet only as occupants of the ground, so neither imports the other. The page's tests reach lower slices through `index.node-safe.ts` (Phaser crashes bare Node) and a new `index.test-only.ts` entry that boundaries lets only a `*.test.ts` take (`TEST_API`), so the public API stays what production reads. One regression the cut introduced — the lawn reading the occupant grid's `CELL` (0.02) instead of its own (4) — is fixed as `LAWN_CELL`; a comparison of every import against the base found no other rebinding.
+- **The game's tests are sharded across vet's runners on `VET_MEADOW=1`**, passed on as `vet.yml`'s `meadow` input: six test shards, with `vet-test.sh meadow` the one home of the game's layer list. The plays are commented out of `vet.yml` for now: 22 of 30 groups were red, the same 22 with the same messages on 6b's base, and the game checks out by hand — the operator expects to cut them down heavily.
+- **`keptIn`**, one get-or-make for a `Map` or `WeakMap` cache, replaces nine hand-spelled caches across the game, blog's render and music's catalogue files, as kernel's new `shared/cache` segment. The page's latest-N cache, which evicts, stays separate as `keptLatest`.
+- The plan (`docs/plans/multi-app-sliced-design.paused.md`) folds in `bite-06a.md` and `bite-06b.md`; the plays' cut-down, sub-entities and the converse of 6a are left in "Rest of the elephant".
 
 ## QA Checklist
 
-- [ ] `narrow` — a slice used by one other slice whose `index.ts` re-exports a third or less of what its files export passes `pnpm check:masd`.
-- [ ] `wide` — the same slice re-exporting more than a third is flagged with Steiger's "only one reference" message.
-- [ ] `star` — `export * from './x'` in a barrel counts every name `x` exports.
-- [ ] `unreferenced` — a narrow slice nothing imports is still flagged "no references".
-- [ ] `tree` — `pnpm check:masd` passes on the real tree unchanged.
+- [ ] `module` — a one-consumer slice holding more of its app's import edges than chance passes `pnpm check:masd`.
+- [ ] `not-module` — a one-consumer slice whose files mostly import outside it, or a one-file slice, is flagged with Steiger's "only one reference" message.
+- [ ] `own-app` — edges from descendant apps do not lift a slice's score; a test or a script importing a slice is no reference.
+- [ ] `tree` — `pnpm check:masd`, `pnpm lint` and Steiger pass on the real tree.
+- [ ] `test-only` — a production file importing a slice's `index.test-only.ts` fails eslint `boundaries`; a `*.test.ts` doing the same passes.
+- [ ] `play` — on vovazakharov.com's `/mushrooms` (`pnpm dev` or `/preview`): plant flowers, grow mushrooms and furnish a house, watch insects perch and shelter, mice run and the worm peek, walk the meadow, let dusk and rain come — all behave as on the base.
+- [ ] `lawn` — tufts grow along the lawn's seam and the map's ground shows its mottles at the lawn's scale.
+- [ ] `map` — the map button opens the map, which shows the patch and the door seating.
+- [ ] `shards` — `VET_MEADOW=1 ./scripts/vet.sh` adds the six `meadow` test shards to the run, all green, and no play jobs.
+- [ ] `kept` — `keptIn` makes a value once, keeps a `false` or `0`, and keys a `WeakMap` by object.
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
-| `narrow` | unit | ✅ | `scripts/masd-check.test.ts` — "passes when the barrel hands on a third" |
-| `wide` | unit | ✅ | same file — "is flagged when it hands on more" |
-| `star` | unit | ✅ | same file — "counts every name of a file a barrel re-exports whole" |
-| `unreferenced` | unit | ✅ | same file — "is still flagged with no references" |
-| `tree` | integration | ✅ | `scripts/vet.sh` runs `check:masd` |
+| `module` | unit | ✅ | `scripts/masd-check.test.ts` — "passes a slice holding more of its edges than chance" |
+| `not-module` | unit | ✅ | same file — "flags one whose files mostly import outside it", "flags a one-file slice" |
+| `own-app` | unit | ✅ | same file — "counts no descendant edge", "does not count a test / an app script as a reference" |
+| `tree` | integration | ✅ | `scripts/vet.sh` runs `check:masd`, lint and Steiger |
+| `test-only` | integration | ❌ | Lint two fixture files against the `TEST_API` boundary rule and assert one error, one pass |
+| `play` | manual-only | — | Feel and look of the whole game; the plays that would drive it are off pending their cut-down |
+| `lawn` | unit | ✅ | tufts' and the map ground's tests read `LAWN_CELL` (meadow shards) |
+| `map` | e2e | ❌ | A play opening the map from the page, once the plays are cut down and back on |
+| `shards` | integration | ✅ | `vet.yml`'s `meadow` job is the check itself |
+| `kept` | unit | ✅ | `src/kernel/shared/cache/kept.test.ts` |
 
-https://claude.ai/code/session_01HbwDMNsRgD8RbxTKqsBhnm
+https://claude.ai/code/session_01DaohkDiMgQutcFrsFSSB9a
 
 ---
 
 ## Comments
 
-- **C01** @vzakharov (agent) — 2026-10-26T14:11:33Z — "Proposed squash body: ``` Bite 6a of the multi-app split. A…" → [↓](#c01)
+- **C01** @vzakharov (agent) — 2026-10-26T14:11:33Z — "Proposed squash body: ``` Bites 6a and 6b of the multi-app s…" → [↓](#c01)
 
 <a id="c01"></a>
 
@@ -66,23 +76,30 @@ https://claude.ai/code/session_01HbwDMNsRgD8RbxTKqsBhnm
 Proposed squash body:
 
 ```
-Bite 6a of the multi-app split. A reference count cannot tell a slice
-used once because it is a detail of its consumer from one used once
-because its app has one consumer at all, so a one-page app such as the
-mushroom game could only ever be one grab-bag slice.
+Bites 6a and 6b of the multi-app split. A reference count cannot tell
+a slice used once because it is a detail of its consumer from one used
+once because its app has one consumer at all, so a one-page app such
+as the mushroom game could only ever be one grab-bag slice.
 
-check:masd now holds a slice with one reference significant when its
-public API is narrow: its barrels hand on at most a third of the names
-its files export, so it hides the rest from its consumer, which makes
-it a module whoever uses it. An unreferenced slice is flagged as
-before, and the messages stay Steiger's.
+check:masd now spares a one-consumer slice when its term of Newman's
+modularity is positive: more of its own app's file-import edges fall
+inside it than a degree-preserving rewiring would put there. The null
+model is the bar, so nothing is tuned; the graph is the slice's own
+app, tests and scripts out, since who uses an app says nothing of how
+it is cut.
 
-The measure was chosen over boundary-versus-internal import edges by
-measuring both across the repo: a well-layered slice imports downward,
-so edge cohesion punishes the layering MASD asks for, while API width
-puts the slices built as modules (the player, the CV page) at a fifth
-or under. PUBLIC_API moves to masd-graph.ts, which both the boundaries
-config and the bare-Node check read, and masd.md states the rule.
+The game is cut by its nouns to prove the measure: shared/world, six
+entities, features named for what happens, widgets/map, and the page
+holding scene, state, sound and keeping. Each reader declares the
+layout and actions it uses; the flower and the mushroom meet only as
+occupants of the ground. The page's tests enter lower slices through
+index.node-safe.ts, or index.test-only.ts, an entry boundaries grants
+to tests alone.
+
+VET_MEADOW=1 shards the game's tests across vet's runners; its plays
+are off in vet.yml, red the same way on the base, pending a cut-down.
+keptIn, in kernel's new shared/cache, is the one get-or-make for a Map
+or WeakMap cache across the apps.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -91,83 +108,63 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `docs/plans/multi-app-sliced-design.paused.md`:1 — unresolved — last: @vzakharov (human) 2026-10-27T01:54:01Z — "что-то безбожно выглядит файл, давай причешем, вынесем в сос…" → [↓](#t01)
-- **T02** `src/mushrooms/widgets/meadow/index.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-27T01:56:22Z — "чё-т я теперь не понял, зачем мы всю эту кухню перенесли в w…" → [↓](#t02)
-- **T03** `docs/plans/multi-app-sliced-design.paused.md`:533 — unresolved — last: @vzakharov (human) 2026-10-27T02:00:24Z — "ну да; только с учётом коммента выше, не в виджет, а в стран…" → [↓](#t03)
-- **T04** `docs/plans/multi-app-sliced-design.paused.md`:542 — unresolved — last: @vzakharov (human) 2026-10-27T02:01:09Z — "вот карту как раз сделать виджетом или, если она не грузит ф…" → [↓](#t04)
+_4 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `src/mushrooms/entities/landscape/ui/lawn.ts`:38 — unresolved — last: @vzakharov (human) 2026-10-27T08:34:36Z — "чтобы ошибка с перепутыванием CELL-а не повторилась, может,…" → [↓](#t01)
+- **T02** `src/mushrooms/entities/mushroom/ui/door-sight.ts`:136 — unresolved — last: @vzakharov (human) 2026-10-27T08:35:23Z — "у нас кстати во всеми этими кешами мемори ликов никаких не с…" → [↓](#t02)
+- **T03** `src/mushrooms/pages/mushrooms/ui/tufts.test.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-27T08:37:22Z — "раздуло, надо разделять (посмотри и другие если я упустил).…" → [↓](#t03)
 
 <a id="t01"></a>
 
-### `docs/plans/multi-app-sliced-design.paused.md`:1 — unresolved
+### `src/mushrooms/entities/landscape/ui/lawn.ts`:38 — unresolved
 
-**@vzakharov (human)** — 2026-10-27T01:54:01Z
+```diff
+@@ -29,42 +29,41 @@ import {
+… 8 lines elided …
+ 
+ /** How wide a cell of the lawn stands, in the clump's size, either way. */
+-const CELL = 4;
++export const LAWN_CELL = 4;
+```
 
-что-то безбожно выглядит файл, давай причешем, вынесем в соседние файлы что-то, что можно вынести, и т.п. Сейчас я (как человек по крайней мере), читая его, вообще не понимаю, где мы находимся и что дальше делать.
+**@vzakharov (human)** — 2026-10-27T08:34:36Z
+
+чтобы ошибка с перепутыванием CELL-а не повторилась, может, забрендить их? или это о другом было?
 
 ---
 
 <a id="t02"></a>
 
-### `src/mushrooms/widgets/meadow/index.ts`:1 — unresolved
+### `src/mushrooms/entities/mushroom/ui/door-sight.ts`:136 — unresolved
 
-**@vzakharov (human)** — 2026-10-27T01:56:22Z
+```diff
+@@ -134,11 +132,8 @@ export function sightOf(
+… 5 lines elided …
+-  const known = byTurn.get(turn) ?? doorStations(genes, turn);
+-  byTurn.set(turn, known);
+-  return known;
++  const byTurn = keptIn(stations, genes, () => new Map<number, DoorPlace[]>());
++  return keptIn(byTurn, turn, () => doorStations(genes, turn));
+```
 
-чё-т я теперь не понял, зачем мы всю эту кухню перенесли в widgets; мотивация была не делать греббег из pages/mushrooms -- но теперь у нас просто всё здесь, а в pages/mushrooms осталось четыре файла. При этом, бесспорно, количество уменьшилось, и это хорошо -- но оно должно "вернуться" в страницу, т.к. какой смысл ему быть в widget-е, который используется только в одном месте, и ничто кроме которого в этом единственном месте, где он используется, не используется.
+**@vzakharov (human)** — 2026-10-27T08:35:23Z
+
+у нас кстати во всеми этими кешами мемори ликов никаких не светит? викмэпы-шмикмэпы не подойдут (понятно что не для чисел-ключей, но если сделать шаг назад)?
 
 ---
 
 <a id="t03"></a>
 
-### `docs/plans/multi-app-sliced-design.paused.md`:533 — unresolved
+### `src/mushrooms/pages/mushrooms/ui/tufts.test.ts`:1 — unresolved
 
-```diff
-@@ -283,36 +283,278 @@ and phone) and the radio screenshotted pixel-identical to the elephant's.
-… 238 lines elided …
-+  widget's `startGame` through `widgets/meadow`'s barrel; `vet-test.sh`,
-+  `test:meadow`, the artifact build, `styling.md` and the game's `CLAUDE.md`
-+  (now `src/mushrooms/CLAUDE.md`) follow.
-+- **Checks after the move**: typecheck green; `check:masd` passes; knip clean;
-+  eslint and Steiger clean on every production file. Both fail only on tests:
-+  **63 test files (177 imports) reach above their own slice** — 46 build the
-+  widget's `meadowLayout`/`opened`/`Meadow` to test a lower module on real
-+  screens, 17 reach a sibling (mostly the mushroom's `VIEWPORTS` and
-+  `meadowCamera`). Open, put to the operator: move each such test up beside the
-+  widget, named for what it checks (recommended — it tests the composition), or
-+  fixtures down. `type-overlap`'s repeated layout combinations, left by the
-+  `MeadowLayout` flip (46 findings at this session's start), are named
-+  (`SunlitSky` and its bases in `sun-layout`, `BeddedInsectView`).
-```
+**@vzakharov (human)** — 2026-10-27T08:37:22Z
 
-**@vzakharov (human)** — 2026-10-27T02:00:24Z
-
-ну да; только с учётом коммента выше, не в виджет, а в страницу
-
----
-
-<a id="t04"></a>
-
-### `docs/plans/multi-app-sliced-design.paused.md`:542 — unresolved
-
-```diff
-@@ -283,36 +283,278 @@ and phone) and the radio screenshotted pixel-identical to the elephant's.
-… 251 lines elided …
-+- **Left**: the tests' answer and its move; `pnpm test:meadow` and
-+  `pnpm play:mushrooms` at `/finalize`, which also confirm the dropped
-+  `STAND_REACH` filter judged nothing differently; vova built and the game
-+  looked at. **The map can leave the widget now**: `map-view` reads only two of
-+  the meadow's types, `MeadowLayout` and `DoorSeating`; narrowed the way every
-+  other part's were, `map-*`, `draw-map-ground` and `model/map-frame` make a
-+  slice of their own — call 3, re-asked. The tools in `layout-tools.md` read the
-+  pre-move tree; after the move, eslint's `boundaries` and Steiger are the
-+  layout's check.
-```
-
-**@vzakharov (human)** — 2026-10-27T02:01:09Z
-
-вот карту как раз сделать виджетом или, если она не грузит фич, собственно фичей.
+раздуло, надо разделять (посмотри и другие если я упустил). если нужен общий харнес и если мы ещё здесь этого не придумали, придумать конвенцию для него, которая также сможет когда надо грузить .test-only.
 
 ---
 
 ## Timeline (status, references, and other events)
 
 - **2026-10-27T02:01:47Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/216#pullrequestreview-5661354989.
+- **2026-10-27T06:06:53Z** @vzakharov renamed from «feat: #170 a one-reference slice with a narrow public API is significant» to «refactor: #170 significance by modularity, the mushroom game in slices».
+- **2026-10-27T08:38:04Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/216#pullrequestreview-5664144885.
