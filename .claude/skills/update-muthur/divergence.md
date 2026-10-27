@@ -97,7 +97,8 @@ record" holds the three rules this file keeps.
   as any skill's `catalog.md`.
 - **`.claude/skills/update-muthur/SKILL.md`** — hydrated for this repo, where
   the source ships a stub, its watermark section describing this repo's file,
-  with paragraphs of its own: the unit of triage, the renumbered-reference trap,
+  with paragraphs of its own: the record naming a renamed path the source's way,
+  Step 3's backtick match, the unit of triage, the renumbered-reference trap,
   the passes that leave a `take` verbatim, the clone with no working tree, and
   the merge of an unmentioned path. It drops what addresses a repo this one is
   not: one with no record, one without the PR loop, one with no standing answer
