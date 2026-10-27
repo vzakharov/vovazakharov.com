@@ -1,10 +1,10 @@
-"""Shared GitHub plumbing for the scripts in `scripts/`.
+"""Shared GitHub plumbing for the stdlib-only scripts in `scripts/`.
 
-Imported as `from lib.github import …`. A script run as
-`python3 scripts/<name>.py` puts `scripts/` on `sys.path[0]`, so `lib.github`
-resolves as a PEP 420 namespace package from any working directory — no
-`__init__.py`, no `sys.path` manipulation. Both callers write output relative to
-the caller's cwd while living elsewhere, so that cwd-independence matters.
+Imported as `from lib.github import detect_origin_repo, die, fetch, gh_token`.
+Running a script as `python3 scripts/<name>.py` puts `scripts/` on `sys.path[0]`, so
+`lib.github` resolves as a PEP 420 namespace package from any working directory —
+no `__init__.py`, no `sys.path` manipulation. Both callers write output relative
+to the caller's cwd while living elsewhere, so that cwd-independence matters.
 
 Deliberately excluded: each script's `USER_AGENT` (they differ, which is how the
 two are told apart server-side) and the `DOCS_*_ROOT` output paths.
@@ -17,16 +17,20 @@ from __future__ import annotations
 import os
 import re
 import subprocess
+import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-from typing import Callable, NamedTuple
-
-from lib.cli import die
+from typing import Callable, NamedTuple, NoReturn
 
 # Both scripts pin the same REST API version, and a bump has to move them
 # together — unlike `USER_AGENT`, which is deliberately per-script.
 GITHUB_API_VERSION = "2022-11-28"
+
+
+def die(msg: str, code: int = 1) -> NoReturn:
+    print(msg, file=sys.stderr)
+    sys.exit(code)
 
 
 def gh_token() -> str:
@@ -154,8 +158,9 @@ def fetch(
     """Walk the opener ladder; return the first success as (body, headers).
 
     Takes a factory, not a `Request`: `ProxyHandler.proxy_open` rewrites the
-    request's host in place, so one `Request` reused across rungs would aim at
-    the proxy on every rung.
+    request's host in place, so one `Request` reused across rungs aims at the
+    proxy on every rung. Building one per rung is what keeps the direct rung
+    direct.
     """
     failures: list[RouteFailure] = []
     for opener in _openers():
