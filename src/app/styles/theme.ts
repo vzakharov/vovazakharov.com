@@ -42,7 +42,7 @@ const variantColorResolver: VariantColorsResolver = (input) =>
     : defaultVariantColorsResolver(input);
 
 // The face and the heading weight are custom properties rather than values, so
-// a site can set its own in `globals.scss`.
+// a site can set its own in a sheet keyed on `data-site`.
 export const theme = createTheme({
   fontFamily: 'var(--font-body)',
   fontFamilyMonospace: 'var(--font-mono), monospace',

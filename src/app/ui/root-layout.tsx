@@ -1,5 +1,8 @@
 import '../styles/globals.scss';
 import '../styles/print.scss';
+// A site's own sheet outweighs the defaults by its `[data-site]` selectors,
+// whichever is emitted first.
+import '@/entities/maya';
 
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import type { Metadata } from 'next';

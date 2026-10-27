@@ -1,9 +1,6 @@
 @use '../../../styles/tokens' as tokens;
 @use './prose';
 
-// Emitted above the defaults below, which its `[data-site]` selectors outweigh.
-@use './maya';
-
 :root {
   --font-body: var(--font-merriweather), serif;
   --font-heading-weight: 700;
