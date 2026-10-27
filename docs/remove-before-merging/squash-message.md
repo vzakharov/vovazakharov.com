@@ -1,25 +1,27 @@
 Proposed squash title/body:
 
 ```
-chore: vet Vova's English against word frequency and a stop list (#220)
+chore: show the agent rare words as it writes Vova's English (#220)
 ```
 
 ```
-English presented as Vova's kept picking up idioms in translation
-(pesky, of the lot, draw a blank in the five-percent article). The
-vet now checks every word of it against wordfreq's most frequent
-English words, so a rare word fails unless it is on an allow list of
-words he chose, like copacetic.
+Agents translating Vova's articles into English reached for ornate
+idioms (pesky, of the lot, draw a blank). A rare word is not the
+fault: pesky humans, said of an AI's plans, is irony and earns its
+place. The fault is a rare word where a plainer one says the same,
+and only the sentence shows which, so nothing here passes or fails.
 
-The corpus is every article whose author is vova, read in English;
-songs, blockquotes and the persona sites are never read. Inflections
-fold to their base form before the lookup, and proper nouns are
-skipped. The cut starts strict, at the 5,000 most frequent words.
+A PostToolUse hook on Edit and Write shows the agent the words it
+just wrote into such an article that fall outside wordfreq's 5,000
+most frequent English words, inflections folded and proper nouns
+skipped, with a list of idioms frequency cannot see. The agent keeps
+a word where it adds irony, colour or emphasis, and otherwise
+replaces it with living language rather than the flattest synonym.
 
-A separate stop list fails on words and phrases at any rank, since an
-idiom made of common words passes any frequency cut. Both lists live
-beside the vendored word list in scripts/lib/word-frequency/; the
-allow list was filled from a sweep Vova marked word by word.
+The repo's own terminology (repository, persona, verse) is never
+shown. pnpm words:sweep runs the same report over whole articles.
+Only English articles by vova are read; songs, blockquotes and the
+persona sites are not.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

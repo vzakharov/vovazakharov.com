@@ -4,16 +4,18 @@
 > and delete this banner (quoting the go-ahead in the commit) _before_ touching
 > code.
 
-# Vet Vova's English against a word-frequency list
+# Show the agent the rare words in Vova's English
 
 From the review of #212
 ([thread](https://github.com/vzakharov/vovazakharov.com/pull/212#discussion_r4385734308)):
-the English of an article presented as Vova's is checked against the N thousand
-most frequent English words, with an allow list for the rare words he likes
-(`copacetic`) and lyrics left out. The same review
-([thread](https://github.com/vzakharov/vovazakharov.com/pull/212#discussion_r4385608878))
-asks for a **stop list** — words never used at all — starting with `of the lot`
-and `pesky`.
+the English of an article presented as Vova's is read against the N thousand
+most frequent English words.
+
+**A rare word is not the fault; a rare word with no punch is.** `pesky humans`
+in a riff on AI wiping us out is irony, and stays. `pesky` where a plainer word
+says the same is slop. No list can tell those apart, so nothing here passes or
+fails a word: whenever an agent writes such an article, a hook shows it the rare
+words it just wrote, and the agent decides whether each one earns its place.
 
 ## What a trial sweep already shows
 
@@ -28,138 +30,129 @@ wordfreq's ranked English list, single words only, capitalised words skipped:
 | 30,000 | 8       | hotshot                                     |
 | 50,000 | 4       | —                                           |
 
-Three things follow:
-
 - **Frequency catches the odd word, never the odd phrase.** `of the lot` and
   `draw a blank` are made of the commonest words there are; only a phrase list
-  catches them. That is why the stop list is a list of phrases, not a list of
-  words.
-- **Most noise is inflection and tokenising, not vocabulary.** At 20k the rest
-  of the list is `fattest`, `paraphrased`, `prefixes`, `deliberated` (base forms
-  common), `doesn`/`isn` (a curly apostrophe split the word), and
-  `translatedfrom` (frontmatter). Folding inflections and reading prose nodes
-  only removes all of those.
-- **Domain words are the real allow-list material**: `repository`, `registry`,
-  `bottleneck`, `persona`, `parameter` at 10k. They are plain to this blog's
-  readers.
+  shows them (§ 4).
+- **Most noise is inflection and tokenising, not vocabulary.** `fattest`,
+  `paraphrased`, `deliberated` (base forms common), `doesn`/`isn` (a curly
+  apostrophe split the word), `translatedfrom` (frontmatter). Folding
+  inflections and reading prose nodes only removes them.
+- **No N separates live language from ornate idiom.** Vova kept `skewed` (~21k)
+  and `blind spot`, and found `pesky` (~25k) and `wobbly` (~28k) too much — and
+  found the flattest replacements (`doesn’t make sense to me`, `wrong`, `cool`)
+  too dry. The judgement is the agent's, against the sentence, which is the case
+  for showing rather than gating.
 
 ## The approach
 
 ### 1. The word list: wordfreq, vendored
 
 `scripts/lib/word-frequency/en.txt` holds wordfreq's top 50,000 English words,
-ranked, one per line (~400 KB), written by a small
-`scripts/lib/word-frequency/export.py` that is run by hand, not in vet. Vet
-reads the text file, so no Python package joins the toolchain. wordfreq's data
-is CC BY-SA 4.0: the file carries the attribution in a header comment.
+ranked, one per line (~400 KB), written by
+`scripts/lib/word-frequency/export.py`, run by hand. The hook reads the text
+file, so no Python package joins the toolchain. wordfreq's data is CC BY-SA 4.0:
+the file carries the attribution in a header comment.
 
-### 2. What counts as Vova's English
+### 2. Which files
 
-A document whose frontmatter says `author: vova` — the field the byline already
-renders — read in its English form:
+An article whose frontmatter says `author: vova`, in English:
 
 - a `translated` collection's `<slug>.en.md` when its original's author is
   `vova` (the translation itself states no author);
-- an unlocalized document's whole body (case studies, the Bible).
+- an unlocalized document (case studies, the Bible).
 
-Songs are left out, lyrics and stories alike: articles first.
-
-Everywhere: prose text nodes only (`proseSpans` from
+Songs are left out. Prose text nodes only (`proseSpans` from
 `scripts/lib/public-markdown.ts`), so code, links and frontmatter are never
-read, and `>` blockquotes are skipped, being someone else's words. basilisk.fyi
-(the Clerk) and mayawonders.com (Майя) never qualify, having no `author: vova`
-document.
+read, and `>` blockquotes are skipped, being someone else's words.
 
 ### 3. Matching
 
 - **Tokens**: letters with an inner apostrophe, curly or straight, folded to `'`
   and lowercased (`doesn’t` → `doesn't`, which the list carries).
-- **Proper nouns are skipped**: a capitalised word not at a sentence's start. A
-  sentence-initial word is checked lowercased.
-- **Inflections fold**: a word passes when it or a naive base form is in the top
-  N — `-s/-es/-ies`, `-ed/-d/-ied`, `-ing`, `-er/-est/-ier/-iest`, with doubled
-  consonant and dropped `e` undone (`fattest` → `fat`, `deliberated` →
-  `deliberate`). Over-folding only ever lets a word through, never flags one.
+- **Proper nouns are skipped**: a capitalised word not at a sentence's start.
+- **Inflections fold**: a word counts as common when it or a naive base form is
+  in the top N — `-s/-es/-ies`, `-ed/-d/-ied`, `-ing`, `-er/-est/-ier/-iest`,
+  doubled consonant and dropped `e` undone (`fattest` → `fat`).
 - **Hyphenated compounds** are checked part by part.
+- **N = 5,000** to start, one constant, widened once the hook's output shows
+  where it costs more attention than it buys.
 
-### 4. The two lists
+### 4. Phrases
 
-Both in `scripts/lib/word-frequency/`, one entry per line, `# reason` allowed
-after it:
+`scripts/lib/word-frequency/phrases.txt`, one per line: idioms made of common
+words that frequency cannot see — `of the lot`, `draw a blank`, `drew a blank`.
+Matched across line breaks and case, and shown exactly as a rare word is, under
+the same judgement. `pesky` needs no entry: frequency already shows it.
 
-- **`allow.txt`** — words that pass at any N. Seeded with `copacetic`; the rest
-  is filled from the sweep (§ 5).
-- **`stop.txt`** — words and phrases that fail at any N, matched across line
-  breaks and case, each word's regular inflections folded the same way (`pesky`
-  catches `peskier`); an irregular form is a line of its own (`drew a blank`
-  beside `draw a blank`). Seeded with `of the lot` and `pesky`.
+### 5. The repo's terminology
 
-`draw a blank`, `wobbly`, `crooked` and `hotshot` go in neither list up front:
-Vova named them too idiomatic, but below stop-list level. They are what the
-sweep is checked against — at the chosen N each must flag (all but
-`draw a blank` do at 5k), and they land in the sweep report for his call.
+`scripts/lib/word-frequency/terms.txt`: the standard vocabulary of what these
+sites are about — `repository`, `parameter`, `persona`, `musician`, `verse`.
+Rare in English at large, the plain word here, with nothing simpler to say
+instead, so the hook never shows them. It is not a list of words someone likes:
+a term goes in when it is the subject's own name for a thing, and a word kept
+for its colour (`copacetic`) is judged in its sentence like any other. Seeded
+from the first sweep's output, each entry put to Vova on the PR before it lands.
 
-**A flag asks for a judgement, not for the plainest word.** Vova found the first
-replacements (`doesn’t make sense to me`, `wrong`, `cool`) too dry, and kept the
-middle ones now in the article: `blind spot`, `skewed`, `star blogger`. By rank
-the line between them is thin — `skewed` sits at ~21k, `pesky` at ~25k, `wobbly`
-at ~28k — so no N separates live language from ornate idiom by itself. The gate
-starts strict and widens from there, and the allow list is how the middle
-register gets through: `skewed` is its first entry after `copacetic`.
+### 6. The hook
 
-### 5. Two bites, one PR
+`.claude/hooks/rare-words.sh`, PostToolUse on `Edit|Write|MultiEdit` beside
+`format-md.sh`, calls `node scripts/rare-words.ts <file>` with the text the tool
+wrote:
 
-**Bite 1 — the sweep.** `pnpm words:sweep [--n 5000,10000,20000,30000]` prints,
-per N, every flagged word with its count and the files it is in, and writes the
-same to `tmp/word-sweep.md`. The report goes on this PR as a comment, a table
-per N, so Vova marks each word: allow, replace, or stop. `pnpm check:stop-words`
-lands in vet in this bite already — the stop list is settled and the corpus is
-clean of it today.
+- **Write** — the whole file; **Edit/MultiEdit** — only each `new_string`, so a
+  one-line fix shows the words of that line, not the article's whole list again.
+- A file outside § 2 exits silently.
+- Nothing found → silent. Found → `additionalContext` listing each word or
+  phrase with its line, then the question, stated in the hook's output since
+  that is the moment it matters:
 
-**Bite 2 — the gate**, after his marks: the allow and stop lists filled from
-them, N set to **5,000** — stricter than the 10,000 that still catches all three
-single words he named — replacements made in the documents, and
-`pnpm check:rare-words` joins vet. N is one constant, widened later as the allow
-list shows where the strict cut costs more than it catches.
+  > Each of these is rare in English. Keep one where it does work the plain word
+  > cannot — irony, colour, emphasis (`pesky humans`, of an AI's plans).
+  > Otherwise replace it, with living language rather than the flattest synonym
+  > (`blind spot`, not `doesn’t make sense to me`).
 
-One script, `scripts/check-words.ts`, serves all three entries; each mode is a
-flag.
+- **Never blocks**: exit 0 always, so the edit stands and the agent decides.
 
-### 6. Where the agent learns of it
+### 7. On demand
 
-The translating agent is the one reaching for idioms, so
-`.claude/rules/lsa-voice.md` (or whichever rule governs translating Vova's
-articles — to confirm on bite 1) gets one line: the stop list and the gate exist
-and are run before handing a translation over, and a flagged word is replaced by
-living language rather than the flattest synonym (`blind spot`, not
-`doesn’t make sense to me`). The lists themselves are the content; the rule only
-points.
+`pnpm words:sweep [--n 5000,10000,20000] [<file>…]` prints the same report for
+whole files, defaulting to every file § 2 covers: for reviewing an article
+written before the hook, and for choosing N. Nothing joins vet — there is no
+verdict to gate on.
 
 ## Tests
 
-`scripts/check-words.test.ts` (node:test): tokenising (curly apostrophes,
-hyphens, sentence-initial capitals vs. proper nouns), inflection folding both
-ways, phrase matching across line breaks and inflections, and corpus selection
-(a translation qualifying by its original's `author`, blockquotes skipped).
+`scripts/lib/word-frequency/rare-words.test.ts` (node:test): tokenising (curly
+apostrophes, hyphens, sentence-initial capitals vs. proper nouns), inflection
+folding, phrase matching across line breaks, file selection (a translation
+qualifying by its original's `author`, a song or persona file never), and the
+Edit case reading `new_string` only.
 
 ## DRY notes
 
-- **Reused**: `proseSpans`, `findingLines`, `lineAt`, `frontmatterSpan` and
-  `publicMarkdownFiles` from `scripts/lib/public-markdown.ts`, the same helpers
-  `check-masked-words.ts` stands on.
+- **Reused**: `proseSpans`, `lineAt` and `publicMarkdownFiles` from
+  `scripts/lib/public-markdown.ts`, which `check-masked-words.ts` stands on; the
+  hook's payload reading and project-root check from `.claude/hooks/lib.sh`, as
+  `format-md.sh` does.
+- **One library, two entries**: `scripts/lib/word-frequency/` holds the list,
+  the phrases, the terms and the matcher; the hook's script and `words:sweep`
+  differ only in what text they hand it.
 - **Not shared**: the frontmatter read of `author`. `documents.ts` owns the
   schema but is `server-only`; the script reads the one field with `gray-matter`
   and a one-key zod schema, as `check-masked-words.ts` does for `masked`.
-  Importing the full schema would mean the `react-server` condition for one
-  string.
-- **One script for three entries** rather than three scripts: the corpus walk
-  and tokeniser are the bulk of it, and the modes differ only in which list they
-  test against.
 
 ## Settled
 
-Vova's answers: 1a, 2a, 3b, 4 stricter than proposed, 5a. Ruled out: SUBTLEX-US
-(older, a manual download) and Google's 10k list (too short to try other N);
-exact-form matching (noisier — folding removed four of sixteen false flags at
-20k); songs' English stories, for now; a stop list reaching the persona sites,
-where `pesky` is Майя's to use.
+Vova's answers: wordfreq, inflection folding, articles only, a strict N to
+start, the repo's terminology skipped (§ 5). Ruled out since: an allow list and
+a stop list, and with them any vet gate — a word is judged in its sentence,
+which a list cannot do; SUBTLEX-US and Google's 10k list as sources; songs, for
+now.
+
+## Open questions
+
+The recommendation is in force above; silence keeps it.
+
+1. **Phrases.** (a) Shown like rare words, no verdict — recommended, the same
+   reasoning as `pesky`. (b) `of the lot` still fails outright, as first asked.
