@@ -19,12 +19,15 @@ holding scene, state, sound and keeping. Each reader declares the
 layout and actions it uses; the flower and the mushroom meet only as
 occupants of the ground. The page's tests enter lower slices through
 index.node-safe.ts, or index.test-only.ts, an entry boundaries grants
-to tests alone.
+to test code alone: the tests, and the <subject>.test-kit.ts holding
+what several of a slice's tests share, which no production file may
+import.
 
-VET_MEADOW=1 shards the game's tests across vet's runners; its plays
-are off in vet.yml, red the same way on the base, pending a cut-down.
-keptIn, in kernel's new shared/cache, is the one get-or-make for a Map
-or WeakMap cache across the apps.
+The game's tests, split under ~450 lines a file, are sharded across
+vet's runners on VET_MEADOW=1; its plays are off in vet.yml, red the
+same way on the base, pending a cut-down. keptIn, in kernel's new
+shared/cache, is the one get-or-make for a Map or WeakMap cache across
+the apps.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
