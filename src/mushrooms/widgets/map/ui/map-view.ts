@@ -55,7 +55,6 @@ import { drawCompass } from './map-compass';
 /** Where the map button stands: the sheet unfolds out of it. */
 export type WithMap = { map: Circle };
 
-/** The screen as the map reads it: its size, the sun that sets up, the map button, and the ground its flowers stand on. */
 type MapLayout = SunnedScreen & WithMap & FlowerPlotsLayout;
 
 /** Where the meadow seated each mushroom's door, by the mushroom's id. */

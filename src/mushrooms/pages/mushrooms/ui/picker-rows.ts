@@ -66,7 +66,6 @@ function pickRadius(count: number, span: number, height: number): number {
   );
 }
 
-/** `map`: where the map button stands, which a picker's row keeps off. */
 type PickerRowParams = WithMap & { dropped: number };
 
 /**
