@@ -147,16 +147,16 @@ as `shared/config` is.
     dependency's weight is not one, since removing the dependency removes the
     fence and whatever was built on it.
   - **`index.node-safe.ts`** is the bundler axis: what resolves under an app's
-    `scripts/` and its tests, which run with none — so the graph behind it
-    spells its extensions, holds no CSS, JSX or asset import, and carries no
-    `server-only`, which throws outside a React server bundle. `shared/config`
-    has one, over `resolveSiteId`, blog's `shared/content` one over the
-    collection registry and the mermaid paths, and `entities/case` one over the
-    grade stamp's text, which the case's social card prints. A script reaching
-    past a public API into a leaf is the smell that this barrel is missing.
-    Carrying no `server-only`, it is also the client components' entry into a
-    segment whose `index.ts` is server-only: `music/shared/catalogue`'s, where
-    the player and the hook line take what they read.
+    `scripts/` and its tests, which run with none — so the graph behind it holds
+    no CSS, JSX or asset import, and carries no `server-only`, which throws
+    outside a React server bundle. `shared/config` has one, over
+    `resolveSiteId`, blog's `shared/content` one over the collection registry
+    and the mermaid paths, and `entities/case` one over the grade stamp's text,
+    which the case's social card prints. A script reaching past a public API
+    into a leaf is the smell that this barrel is missing. Carrying no
+    `server-only`, it is also the client components' entry into a segment whose
+    `index.ts` is server-only: `music/shared/catalogue`'s, where the player and
+    the hook line take what they read.
 - **`index.test-only.ts` is test code's entry, and no one else's** (`TEST_API`
   in `eslint/masd-graph.ts`): what a test reads of a lower slice that nothing in
   production does — a constant it pins, a helper it calls on its own. A test
@@ -273,10 +273,10 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   in its slice, its segmented layer or its app's `scripts/`, and anything past
   that is reached by alias — `vova/no-relative-escape` holds it. An app's
   `scripts/` run outside any bundler, under `tsx`, which follows the alias. A
-  script still under bare Node, which does not, moves to `tsx` the moment it
-  needs anything past its home.
+  script under bare Node, which does not, moves to `tsx` the moment it needs
+  anything past its home.
 - **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
-  ESLint loads it under jiti and the scripts under bare Node.
+  ESLint loads it under jiti and root `scripts/` under bare Node.
 - **next-intl's request config is found by path, not by import.** Each site's
   `next.config.ts` names `../../src/kernel/shared/i18n/request.ts` explicitly;
   moving that file means editing both. The path is relative to the site

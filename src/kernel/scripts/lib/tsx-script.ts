@@ -1,8 +1,7 @@
 /**
- * Runs a script the way its `package.json` entry does, from a working
- * directory of the caller's choosing — an end-to-end test's throwaway tree.
- * tsx finds the `@/` alias through the `tsconfig.json` it looks up from the
- * working directory, so the repository's is named rather than looked up.
+ * Runs a script under tsx from a working directory of the caller's choosing —
+ * an end-to-end test's throwaway tree, where tsx's own lookup of the
+ * `tsconfig.json` that maps the `@/` alias would come up empty.
  */
 
 import { spawnSync, type SpawnSyncOptions } from 'node:child_process';

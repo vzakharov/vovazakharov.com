@@ -7,7 +7,6 @@ import { describe, it } from 'node:test';
 
 import rule from './no-relative-escape';
 
-// The rule reads no file, so the repository needs no files of its own.
 const root = path.join(tmpdir(), 'no-relative-escape');
 
 const linter = new Linter({ configType: 'flat', cwd: root });
