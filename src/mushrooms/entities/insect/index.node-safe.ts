@@ -1,4 +1,4 @@
-export { BEE_RANGES, type BeeGenes,beeGenes } from './model/bee-genes';
+export { BEE_RANGES, type BeeGenes, beeGenes } from './model/bee-genes';
 export { beeOutline } from './model/bee-outline';
 export { crawl, CRAWL_REACH } from './model/buzz-rest';
 export type { Flier } from './model/flier';

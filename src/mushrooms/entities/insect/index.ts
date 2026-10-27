@@ -44,5 +44,4 @@ export {
 export { type Seat, seatAloft } from './ui/insect-seat';
 export { InsectShadows } from './ui/insect-shadow';
 export { freshShown, legSetOff, type Shown } from './ui/insect-shown';
-export type { InsectScaled } from './ui/insect-size';
 export { tappedInsect } from './ui/insect-tap';

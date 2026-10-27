@@ -26,7 +26,7 @@ export {
   paintFlowerStem,
 } from './ui/draw-flower';
 export { type Folding, folding, type Shut } from './ui/flower-fold';
-export { type Bedded, FLOWER_SWAY, laidFlower } from './ui/flower-layout';
+export { FLOWER_SWAY, laidFlower } from './ui/flower-layout';
 export { flowerLight } from './ui/flower-light';
 export {
   type FlowerPlotsLayout,

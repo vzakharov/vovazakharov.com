@@ -12,7 +12,7 @@ import type { Footing, Grounded, WithCamera } from '@/mushrooms/shared/world';
 import type { Clouded } from './panorama';
 
 /** Where the far hills meet the sky. */
-export type Horizoned = { horizon: number };
+type Horizoned = { horizon: number };
 /** The top of the near hills' band. */
 export type NearHilled = { nearHills: number };
 /** The sun as the opening screen shows it; it stands at that azimuth (`azimuthAt`). */
