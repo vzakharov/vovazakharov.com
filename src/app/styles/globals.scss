@@ -38,7 +38,7 @@
 // rather than on a card of its own. Georgia is a system face: nothing loads.
 // The palettes are screen-only, leaving paper to `print.scss`'s white.
 :root[data-site='maya'] {
-  --font-body: Georgia, 'Times New Roman', serif;
+  --font-body: 'Georgia', 'Times New Roman', serif;
   --font-heading-weight: 400;
 }
 

@@ -40,7 +40,9 @@
     "byline": "Майя из {band}",
     "band": "за/обложкой",
     "plate": "Табл. {number}",
-    "toys": "Игрушки"
+    "toys": "Игрушки",
+    "frontispiece": "с обложки «{album}»",
+    "portraitAlbum": "Крыльев"
   },
   "cv": {
     "metadata": {

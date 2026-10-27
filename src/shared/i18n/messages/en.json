@@ -40,7 +40,9 @@
     "byline": "Maya from {band}",
     "band": "za/oblozhkoy",
     "plate": "Plate {number}",
-    "toys": "Toys"
+    "toys": "Toys",
+    "frontispiece": "from the cover of {album}",
+    "portraitAlbum": "Wings"
   },
   "cv": {
     "metadata": {

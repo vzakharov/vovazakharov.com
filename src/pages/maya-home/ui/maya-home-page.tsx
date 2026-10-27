@@ -2,7 +2,6 @@ import { Stack, Text, Title } from '@mantine/core';
 
 import {
   AUTHOR_URL,
-  SITE_CONFIG,
   SITE_ID,
   WHISPER_DRAWING,
   WHISPER_ROUTE,
@@ -31,15 +30,18 @@ import {
   localeChips,
   PageShell,
   Section,
-  SiteAvatar,
   TextLink,
 } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
+import { Frontispiece } from './frontispiece';
 import { type Plate, Plates } from './plates';
 
 const COLLECTION = 'maya-blog';
+
+/** The album whose cover her portrait is cut from. */
+const PORTRAIT_ALBUM = 'wings';
 
 const homePath = (locale?: string) => localizedRoute('/', locale);
 
@@ -101,22 +103,47 @@ export function mayaHomeMetadata({ locale }: WithLocale) {
 }
 
 export async function MayaHomePage({ locale }: WithLocale) {
-  const { name, tagline, intro, byline, band, plate, toys } =
-    loadMessages(locale).maya;
+  const {
+    name,
+    tagline,
+    intro,
+    byline,
+    band,
+    plate,
+    toys,
+    frontispiece,
+    portraitAlbum,
+  } = loadMessages(locale).maya;
 
   return (
     <PageShell>
       <Stack gap={64}>
-        <Stack component="header" gap={24} ta="center" align="center">
-          <SiteAvatar {...SITE_CONFIG} />
-          <Title order={1}>{name}</Title>
-          <Text size="lg">{tagline}</Text>
+        <Frontispiece
+          {...{ name, tagline }}
+          caption={fillSlots(frontispiece, {
+            album: (
+              <TextLink
+                href={localizedRoute(
+                  `${AUTHOR_URL}/music/albums/${PORTRAIT_ALBUM}`,
+                  locale,
+                )}
+              >
+                {portraitAlbum}
+              </TextLink>
+            ),
+          })}
+        >
+          <Text size="lg" lh={1.625}>
+            {intro}
+          </Text>
           <ChipNav chips={localeChips(locale, homePath)} />
-        </Stack>
+        </Frontispiece>
 
-        <Text size="lg" lh={1.625}>
-          {intro}
-        </Text>
+        {/* Toys first: they are few and stay, where entries keep coming. */}
+        <Section id="toys">
+          <Title order={2}>{toys}</Title>
+          <Plates plates={toyPlates(locale)} {...{ locale }} />
+        </Section>
 
         <Section id={COLLECTIONS[COLLECTION].base}>
           <Title order={2}>
@@ -127,11 +154,6 @@ export async function MayaHomePage({ locale }: WithLocale) {
             numbered={plate}
             {...{ locale }}
           />
-        </Section>
-
-        <Section id="toys">
-          <Title order={2}>{toys}</Title>
-          <Plates plates={toyPlates(locale)} {...{ locale }} />
         </Section>
 
         <SiteFooter

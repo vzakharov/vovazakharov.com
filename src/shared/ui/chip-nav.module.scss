@@ -22,3 +22,32 @@
     background: var(--color-surface-strong);
   }
 }
+
+// mayawonders.com sets the row as type rather than as buttons, the way a book
+// names its other editions: small capitals, the current one underlined in ink.
+:global(:root[data-site='maya']) {
+  .chip {
+    padding: 0;
+    border: 0;
+    font-size: 16px;
+    font-variant: small-caps;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+  }
+
+  .chipCurrent {
+    background: none;
+    color: var(--color-foreground);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .chipLink {
+    opacity: 0.6;
+
+    @include mantine.hover {
+      background: none;
+      opacity: 1;
+    }
+  }
+}

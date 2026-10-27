@@ -1,16 +1,15 @@
-// The drawing is on the page's paper, so a hairline is all that marks the
-// plate's edge, as a printed frame does in a field guide.
 .plate {
   margin: 0;
 }
 
-// `height: auto` against the attributes: they reserve the row's space before
-// the file lands, and the width here is what the layout wants.
+// Unframed: the drawing is on the page's own paper, and a frame around it
+// reads as a faded card on faded paper. `height: auto` against the attributes:
+// they reserve the row's space before the file lands, and the width here is
+// what the layout wants.
 .drawing {
   display: block;
   width: 100%;
   height: auto;
-  border: 1px solid var(--color-border-hairline);
 }
 
 .caption {
