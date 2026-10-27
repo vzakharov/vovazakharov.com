@@ -21,7 +21,7 @@ import { hasTypeServices } from './type-services';
  */
 const CONVENTIONAL = new Set(['messages']);
 
-/** A module-level value: its name, its file, and whether the file exports it. */
+/** A module-level value; `exported` counts an export list as well as the keyword. */
 type Declared = { name: string; file: string; exported: boolean };
 
 /** Every production file's module-level values, by app, then by name. */
