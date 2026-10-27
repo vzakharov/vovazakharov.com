@@ -6,6 +6,7 @@ import { withSeverity } from './rule-severity';
 // each documents what the custom rule enforces and why.
 export const vovaRules = {
   ...withSeverity('error', [
+    'vova/no-alias-under-bare-node', // a file bare Node runs may not load a module by `@/`, which Node does not follow — its entry moves to tsx once it needs the alias
     'vova/no-default-true', // boolean params must default off — invert (enabled=true → disabled=false) instead of defaulting true
     'vova/no-export-namesake', // a module-level value may not share its name with another in its app when either is exported, since an import binds by name and a wrong constant of the right type passes tsc (type-aware)
     'vova/no-hardcoded-strings', // user-facing strings must come from messages/*.json, read on the server and passed down, not inline literals that render untranslated in every locale

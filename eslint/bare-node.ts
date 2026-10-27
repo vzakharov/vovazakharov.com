@@ -11,13 +11,55 @@ const manifestSchema = z.object({
 const NODE_ENTRY = /\bnode\s+([\w./-]+\.ts)\b/g;
 
 /**
- * Every file bare Node runs from a `package.json` script under `root`: each
- * `node <file>.ts` entry and whatever it reaches by relative import. Bare Node
- * follows no `@/` alias, so these files reach across `src/` relatively — and a
- * value import by alias in one of them is a crash at run time, not a lint
- * finding, which is why the set is derived rather than listed.
+ * The specifiers a file loads at run time. Type stripping erases a statement
+ * only when the statement itself is `import type` or `export type`; an inline
+ * `import { type X }` survives as `import {}` and still loads its module.
  */
-export function bareNodeFiles(root: string): ReadonlySet<string> {
+function loadedSpecifiers(file: string): string[] {
+  const source = ts.createSourceFile(
+    file,
+    readFileSync(file, 'utf8'),
+    ts.ScriptTarget.Latest,
+  );
+  const found: string[] = [];
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isImportDeclaration(node) &&
+      node.importClause?.isTypeOnly !== true &&
+      ts.isStringLiteral(node.moduleSpecifier)
+    ) {
+      found.push(node.moduleSpecifier.text);
+    }
+    if (
+      ts.isExportDeclaration(node) &&
+      !node.isTypeOnly &&
+      node.moduleSpecifier !== undefined &&
+      ts.isStringLiteral(node.moduleSpecifier)
+    ) {
+      found.push(node.moduleSpecifier.text);
+    }
+    if (
+      ts.isCallExpression(node) &&
+      node.expression.kind === ts.SyntaxKind.ImportKeyword &&
+      node.arguments[0] !== undefined &&
+      ts.isStringLiteralLike(node.arguments[0])
+    ) {
+      found.push(node.arguments[0].text);
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
+  return found;
+}
+
+/**
+ * Every file bare Node runs from a `package.json` script under `root`: each
+ * `node <file>.ts` entry and whatever it loads by relative import. Bare Node
+ * follows no `@/` alias, so these files reach across `src/` relatively — and a
+ * value import by alias in one of them is a crash at run time, which is why the
+ * set is derived rather than listed.
+ */
+function deriveBareNodeFiles(root: string): ReadonlySet<string> {
   const { scripts } = manifestSchema.parse(
     JSON.parse(readFileSync(path.join(root, 'package.json'), 'utf8')),
   );
@@ -37,15 +79,23 @@ export function bareNodeFiles(root: string): ReadonlySet<string> {
   for (let file = pending.pop(); file !== undefined; file = pending.pop()) {
     if (found.has(file) || !existsSync(file)) continue;
     found.add(file);
-    for (const { fileName } of ts.preProcessFile(
-      readFileSync(file, 'utf8'),
-      true,
-      true,
-    ).importedFiles) {
-      if (fileName.startsWith('.')) {
-        pending.push(path.resolve(path.dirname(file), fileName));
+    for (const specifier of loadedSpecifiers(file)) {
+      if (specifier.startsWith('.')) {
+        pending.push(path.resolve(path.dirname(file), specifier));
       }
     }
   }
   return found;
+}
+
+const byRoot = new Map<string, ReadonlySet<string>>();
+
+/** {@link deriveBareNodeFiles}, once per root for the whole lint run. */
+export function bareNodeFiles(root: string): ReadonlySet<string> {
+  let files = byRoot.get(root);
+  if (files === undefined) {
+    files = deriveBareNodeFiles(root);
+    byRoot.set(root, files);
+  }
+  return files;
 }

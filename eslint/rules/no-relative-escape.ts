@@ -22,17 +22,6 @@ function relativeHome(fromSrc: string): string | undefined {
     : path.join(app, layer);
 }
 
-const bareByRoot = new Map<string, ReadonlySet<string>>();
-
-function bareFiles(root: string): ReadonlySet<string> {
-  let files = bareByRoot.get(root);
-  if (files === undefined) {
-    files = bareNodeFiles(root);
-    bareByRoot.set(root, files);
-  }
-  return files;
-}
-
 const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
@@ -51,7 +40,10 @@ const rule: Rule.RuleModule = {
     const src = path.join(context.cwd, 'src');
     const fromSrc = path.relative(src, context.filename);
     const home = fromSrc.startsWith('..') ? undefined : relativeHome(fromSrc);
-    if (home === undefined || bareFiles(context.cwd).has(context.filename)) {
+    if (
+      home === undefined ||
+      bareNodeFiles(context.cwd).has(context.filename)
+    ) {
       return {};
     }
 
