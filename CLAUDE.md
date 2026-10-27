@@ -35,20 +35,20 @@ language — runs `scripts/staged.sh swap` on the spot and commits.
 
 ## Repository layout
 
-- **`src/`** — All application code, in Feature-Sliced Design layers (`shared/`,
-  `features/`, `pages/`, `app/`). `@.claude/rules/fsd.md` carries the
-  conventions both checkers enforce.
-- **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`,
-  `maya/`), each holding its `app/` (**routing only** — the FSD app layer is
-  `src/app`), `public/`, `next.config.ts` and `tsconfig.json`. All five build
-  from the one `src/`, and a build is entered in its app directory rather than
-  pointed at from the root.
-- **`apps/*/public/`** — Static assets served at that site's root: `.nojekyll`
+- **`src/`** — All application code, as apps (`src/<app>/`), each a
+  Feature-Sliced Design tree, composed along the graph in `src/masd.json`.
+  `@.claude/rules/masd.md` carries the conventions the checkers enforce.
+- **`sites/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`,
+  `maya/`), named by the site's id, each holding its `app/` (**routing only** —
+  the FSD app layers are under `src/`), `public/`, `next.config.ts` and
+  `tsconfig.json`. All five build from the one `src/`, and a build is entered in
+  its site directory rather than pointed at from the root.
+- **`sites/*/public/`** — Static assets served at that site's root: `.nojekyll`
   (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each
   site with a domain of its own (which a force-push would otherwise drop), and
   one directory per content collection, holding the authored markdown at the
-  path its page is routed to (`apps/vova/public/case-studies/`). A collection
-  rooted at its site's root has no directory: `apps/bible/public/` is both the
+  path its page is routed to (`sites/vova/public/case-studies/`). A collection
+  rooted at its site's root has no directory: `sites/bible/public/` is both the
   site's assets and the Bible's articles.
 - **`styles/`** — Sass partials shared across `src/`: `_mantine.scss`
   (counterparts to the mixins Mantine documents as a PostCSS preset) and the two
@@ -66,7 +66,7 @@ language — runs `scripts/staged.sh swap` on the spot and commits.
   `CLAUDE.md` carries the rest.
 - **`scripts/`** — Agent-facing tooling; `vet.sh` is § "Vetting"'s entrypoint.
   Every per-site entry in `package.json` goes through `in-site.sh`, which pairs
-  the app directory with `NEXT_PUBLIC_SITE` so no entry spells either out.
+  the site directory with `NEXT_PUBLIC_SITE` so no entry spells either out.
 - **`.claude/`** — Skills, rules and session hooks.
 
 Anything that holds only over part of that tree lives in the `CLAUDE.md` of the
@@ -420,7 +420,7 @@ retired file's siblings, so every tombstone matches `*retired.md`.
 **Human-facing prose is English** — `README.md`, the docs a person reads to
 decide something, commit subjects and bodies, PR titles and bodies, and the
 plans and issue exports published for review. (The site's own `en`/`ru` content
-is `src/shared/i18n/`'s product decision.)
+is `src/kernel/shared/i18n/`'s product decision.)
 
 - **Agent-facing — English**: `CLAUDE.md`, `.claude/skills/**`,
   `.claude/rules/**`, and code comments, docstrings, identifiers. Agents follow
