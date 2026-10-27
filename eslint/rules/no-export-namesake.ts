@@ -14,6 +14,13 @@ import { hasTypeServices } from './type-services';
 // what lets one file see its app's others; tests and kits are left out, being
 // imported by no production file.
 
+/**
+ * Names a convention gives every holder of one kind of module, so they are
+ * namesakes on purpose: an i18n catalogue's loader is `messages` wherever it
+ * sits, and its import path says whose (`.claude/rules/i18n.md`).
+ */
+const CONVENTIONAL = new Set(['messages']);
+
 /** A module-level value: its name, its file, and whether the file exports it. */
 type Declared = { name: string; file: string; exported: boolean };
 
@@ -62,7 +69,9 @@ function declaredIn(source: ts.SourceFile, file: string): Declared[] {
   for (const statement of source.statements) {
     if (!ts.isVariableStatement(statement)) continue;
     for (const { name } of statement.declarationList.declarations) {
-      if (ts.isIdentifier(name)) add(name.text, statement);
+      if (ts.isIdentifier(name) && !CONVENTIONAL.has(name.text)) {
+        add(name.text, statement);
+      }
     }
   }
   return declared;

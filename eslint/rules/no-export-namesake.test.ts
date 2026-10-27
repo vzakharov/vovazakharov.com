@@ -130,7 +130,14 @@ describe('no-export-namesake', () => {
       },
     ],
     [
-      'a function of the same name, which the type checker tells apart',
+      'a name a convention gives every catalogue',
+      {
+        [LAWN]: 'export const messages = 1;',
+        'src/game/pages/play/i18n/index.ts': 'export const messages = 2;',
+      },
+    ],
+    [
+      'a function of the same name, the rule reading variables alone',
       {
         [LAWN]: 'const CELL = 4;',
         [WORLD]: 'export function CELL() { return 0.02; }',

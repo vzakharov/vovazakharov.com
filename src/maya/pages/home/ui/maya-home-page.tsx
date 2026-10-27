@@ -25,14 +25,14 @@ import { messages as blogMessages } from '@/blog/shared/i18n';
 import { constructMetadata } from '@/blog/shared/seo';
 import { DocumentCards } from '@/blog/entities/document';
 
-import { homeMessages } from '../i18n';
+import { messages } from '../i18n';
 
 const COLLECTION = 'maya-blog';
 
 const homePath = (locale?: string) => localizedRoute('/', locale);
 
 export function mayaHomeMetadata({ locale }: WithLocale) {
-  const { tagline } = homeMessages(locale);
+  const { tagline } = messages(locale);
 
   return constructMetadata({
     title: blogMessages(locale).authors.maya,
@@ -44,7 +44,7 @@ export function mayaHomeMetadata({ locale }: WithLocale) {
 
 export async function MayaHomePage({ locale }: WithLocale) {
   const name = blogMessages(locale).authors.maya;
-  const { tagline, intro, byline, band } = homeMessages(locale);
+  const { tagline, intro, byline, band } = messages(locale);
   const cards = await renderPrimaryDocuments(
     articleCollection(COLLECTION),
     locale,
