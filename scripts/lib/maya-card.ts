@@ -3,10 +3,10 @@
  * the left edge, cut from the «Крылья» cover, and the copy sits beside her on
  * her paper, in her drawings' ink. The face is Merriweather rather than the
  * site's Georgia, which a Linux renderer does not carry and whose free
- * stand-in, Gelasio, has no Cyrillic. The site card carries her name and the tagline; a
- * post's carries its byline line, title and description. A post or toy with a
- * drawing of its own is carded as the drawing alone: the unfurl prints the
- * title and description under it, and the drawing is signed.
+ * stand-in, Gelasio, has no Cyrillic. The site card carries her name and the
+ * tagline; a post's carries its byline line, title and description. A post or
+ * toy with a drawing of its own is carded as the drawing alone: the unfurl
+ * prints the title and description under it, and the drawing is signed.
  *
  * The font is staged beside the card from `@fontsource/merriweather` — a
  * `file://` page has no route to the web font the site loads — in both of the

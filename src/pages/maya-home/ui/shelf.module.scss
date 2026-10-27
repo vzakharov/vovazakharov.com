@@ -6,9 +6,8 @@
   letter-spacing: 0.08em;
 }
 
-// A toy's leaf is a plate's laid on its side where there is room: the same
-// hairline edge, the drawing at its left on its own paper, the caption beside
-// it. Narrow, it stands upright as a plate does.
+// A toy's leaf is a plate's (`plates.module.scss`) laid on its side where there
+// is room, and upright where there is not.
 .toy {
   display: grid;
   height: 100%;

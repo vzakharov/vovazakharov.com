@@ -1,6 +1,5 @@
-// Each plate is a leaf: a hairline edge, the drawing across its head on its
-// own paper, the caption under a rule. Leaves in a row stretch to one height,
-// so captions of different lengths still read as one set.
+// Leaves in a row stretch to one height, so captions of different lengths
+// still read as one set.
 .plate {
   display: flex;
   flex-direction: column;

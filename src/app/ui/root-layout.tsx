@@ -48,8 +48,7 @@ export function RootLayout({
 }>) {
   // The font variables have to be on <html>: a custom property resolves in the
   // scope it is declared in, and Mantine declares `--mantine-font-family` —
-  // which reads them — on `:root`. `data-site` is what a site's own palette in
-  // `globals.scss` keys on.
+  // which reads them — on `:root`. A site's own styles key on `data-site`.
   return (
     <html
       lang={SITE_CONFIG.locale}
