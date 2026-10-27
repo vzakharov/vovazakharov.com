@@ -29,7 +29,9 @@ same way on the base, pending a cut-down. keptIn, in kernel's new
 shared/cache, is the one get-or-make for a Map or WeakMap cache across
 the apps. vova/no-export-namesake forbids two module-level values of
 one name in an app when either is exported, so no move rebinds an
-import to its namesake, as the lawn's to the occupant grid's CELL.
+import to its namesake. vova/no-relative-escape exempts no bare-Node
+file any more: a script reaching past its home runs under tsx and
+imports by alias.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
