@@ -137,7 +137,7 @@ jobs:
 
   # The plays are off while they are cut down: they were written to build the
   # game, and 22 of their 30 groups fail on checks the game has outgrown.
-  # `scripts/vet.sh probe` and `play` still run them by hand.
+  # `scripts/vet.sh probe` and `play` run them by hand.
   # # The probe export the plays drive, named outside `out-*` so `built` does
   # # not wait on it.
   # probe:

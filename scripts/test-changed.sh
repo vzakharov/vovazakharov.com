@@ -1,8 +1,8 @@
 #!/bin/bash
 # `pnpm test`: the tests the branch has reached — each changed `*.test.ts`, the
 # tests importing each changed `*.test-kit.ts`, and the `<stem>.test.ts` beside
-# each other changed file when there is one. Arguments
-# replace that selection and go to the runner as they are
+# each other changed file when there is one. Arguments replace that selection
+# and go to the runner as they are
 # (`pnpm test src/basilisk/scripts/lib/docket.test.ts`).
 #
 # The whole suite is `pnpm test:all`, vet's (scripts/vet-test.sh).
