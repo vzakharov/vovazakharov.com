@@ -7,21 +7,22 @@ it. That is enough to put them to work before review, and to write
 them up.
 
 /five-percent is a third /polish pass, after /dry and /tend-prose, run
-by the same subagent. It distils the learnings into six named lenses,
-puts them to the branch's diff and posts at most three alternatives as
-one COMMENT review on the PR, each an inline comment on the lines or
-file it concerns, opening on its lens and graded critical or
-optional. It edits and commits nothing; an answered proposal becomes
-work through /handle, which also scores the answer 0–1 into
+by the same subagent. It asks of the branch's diff the one question
+the top learning makes — what did it take as given, down to whether
+what it edits should exist — and posts at most three alternatives as
+one COMMENT review, each inline and graded critical or optional. It
+edits and commits nothing; an answered proposal becomes work through
+/handle, which also scores the answer 0–1 into
 writing/notes/five-percent-verdicts/<branch>/verdicts.json, one file
-per branch so none conflicts, for tally.py to sum by lens. Its floor
-is a head-SHA marker in its own last review. Planless /go runs it
-after /pr, and /finalize and merge stops on a critical proposal.
+per branch so none conflicts, for tally.py to sum. Its floor is a
+head-SHA marker in its own last review. Planless /go runs it after
+/pr, and /finalize and merge stops on a critical proposal.
 
 latestageagentic.com gets a blog, bilingual as Майя's is: English at
 the bare address, Russian under /ru. It opens with the five-percent
 article, a measurement written in Russian and translated, its
-deflating half kept in. vovazakharov.com's /writing points at it.
+deflating half kept in. vovazakharov.com drops /writing, a page of
+articles from another career a fractional CTO's site has no use for.
 
 The notes retire with the article, and the mandatory entry after a
 review session leaves CLAUDE.md.
