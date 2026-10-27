@@ -1,11 +1,28 @@
 # The five-percent pass
 
 Followed by a subagent: `/polish`'s, as its third pass, or the one
-`@.claude/skills/five-percent/SKILL.md` launches. It puts
-`@.claude/skills/five-percent/lenses.md` to a branch's diff and posts what it
-finds as one review on the PR. **It writes nothing to the tree** — no edit, no
-commit, not even `/polish`'s empty mark — so a `/polish` run reports this pass
-apart from the two that commit.
+`@.claude/skills/five-percent/SKILL.md` launches. It puts § "The question" to a
+branch's diff and posts what it finds as one review on the PR. **It writes
+nothing to the tree** — no edit, no commit, not even `/polish`'s empty mark — so
+a `/polish` run reports this pass apart from the two that commit.
+
+## The question
+
+**What did the change take as given — down to whether the thing it edits should
+exist at all?** A list it picked from, the callers it copied, a rule's letter, a
+checker's green, its own earlier call, the page or file it was asked to touch.
+Seven weeks of reviews broke that one frame more than every other mistake put
+together, and it cannot be seen from inside the change: the change's reasoning
+is sound within it. `apps/bible/public/precedent-fallacy.md` is the long
+account.
+
+**The alternative changes the frame rather than reasoning inside it**: the value
+the list lacks, the callers that are the exception read as the rule, the rule's
+purpose put to the case, the page that should go rather than be tidied.
+
+**Specimen:** asked to add an article card to `/writing`, the change checked the
+card's copy against the article's; the review asked why a fractional CTO's site
+had a page of articles from another career at all, and the page went.
 
 ## Scope
 
@@ -41,8 +58,8 @@ whether…" is not one, and neither is a cut — prose that should not exist is
 **The operator could plausibly pick it.** That is the whole bar against noise.
 At most three per run, ranked by how much taking it would change; a run that
 finds none posts nothing, and says so. **An empty-handed run is the ordinary
-result**, not a reason to look harder: a lens that has to be argued into firing
-is the agent filling a form, which `form` names.
+result**, not a reason to look harder: a proposal that has to be argued into
+existence is the agent filling a form.
 
 **Each proposal is graded:**
 
@@ -78,21 +95,19 @@ thread resolved — and two differences:
 - **The body is one line and the marker**: how many proposals, of which
   critical, and on the last line `<!-- five-percent: <full head sha> -->`.
 
-Each comment opens on the marker, then its lens and grade, then the alternative:
+Each comment opens on the marker, then its grade, then the alternative:
 
 ```
 <!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**`precedent`** · optional
+**optional**
 
 <what the change took as given> → <the other way>. <What it costs.>
 ```
 
 The marker is what tells a proposal from an agent's reply in the PR export, both
 posted under the operator's login, and what sends the session answering it to
-`@.claude/skills/five-percent/verdicts.md`. The name leading is what makes a
-reply like "`precedent` — да" a whole answer, and what the verdicts tally by.
-**In the operator's language** — a review is conversation (CLAUDE.md §
-"Language").
+`@.claude/skills/five-percent/verdicts.md`. **In the operator's language** — a
+review is conversation (CLAUDE.md § "Language").
 
 **No PR, no review.** The pass reports itself deferred and posts nothing
 elsewhere; without a marker posted, the next run's floor stays where it was.
@@ -104,5 +119,5 @@ reviewer and author.
 
 ## The report
 
-One line for the caller to relay: the review's link and each proposal's lens and
-grade, or "nothing to propose" with the scope it read, or "deferred: no PR".
+One line for the caller to relay: the review's link and each proposal's grade,
+or "nothing to propose" with the scope it read, or "deferred: no PR".

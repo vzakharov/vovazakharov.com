@@ -5,11 +5,10 @@ Each branch keeps its own file, `writing/notes/five-percent-verdicts/<branch>/ve
 so two branches never edit one file and every one merges clean:
 
     {"pr": 212, "verdicts": [
-      {"comment": 4378724025, "lens": "echo", "about": "<at most 80 characters>", "verdict": 0.4}
+      {"comment": 4378724025, "about": "<at most 80 characters>", "verdict": 0.4}
     ]}
 
-`.claude/skills/five-percent/verdicts.md` says what each field holds. `lens` is free text rather
-than checked against `lenses.md`, so a row outlives a lens the catalogue later drops.
+`.claude/skills/five-percent/verdicts.md` says what each field holds.
 
 Usage: `python3 scripts/five-percent-verdicts/tally.py [--json | --check]`. A malformed file
 fails the run, `--check` included, which is what `scripts/vet.sh` runs.
@@ -26,7 +25,7 @@ from typing import Any
 VERDICTS_DIR = Path(__file__).resolve().parents[2] / "writing/notes/five-percent-verdicts"
 LEAF = "verdicts.json"
 ABOUT_MAX = 80
-ROW_KEYS = {"comment", "lens", "about", "verdict"}
+ROW_KEYS = {"comment", "about", "verdict"}
 
 
 class Malformed(ValueError):
@@ -56,8 +55,6 @@ def parse_leaf(path: Path, branch: str) -> list[dict[str, Any]]:
             raise Malformed(f"{where}: expected exactly the keys {sorted(ROW_KEYS)}")
         if not _positive_int(row["comment"]):
             raise Malformed(f"{where}: comment must be a review-comment id")
-        if not isinstance(row["lens"], str) or not row["lens"].strip():
-            raise Malformed(f"{where}: lens must be a non-empty string")
         about = row["about"]
         if not isinstance(about, str) or not about.strip() or len(about) > ABOUT_MAX:
             raise Malformed(f"{where}: about must be 1–{ABOUT_MAX} characters")
@@ -86,16 +83,12 @@ def _summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def tally(rows: list[dict[str, Any]]) -> dict[str, Any]:
-    def grouped(key: str) -> dict[str, Any]:
-        groups: dict[str, list[dict[str, Any]]] = {}
-        for row in rows:
-            groups.setdefault(row[key], []).append(row)
-        return {name: _summary(group) for name, group in sorted(groups.items())}
-
+    branches: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        branches.setdefault(row["branch"], []).append(row)
     return {
         "all": _summary(rows) if rows else {"count": 0, "mean": None},
-        "byLens": grouped("lens"),
-        "byBranch": grouped("branch"),
+        "byBranch": {name: _summary(group) for name, group in sorted(branches.items())},
     }
 
 
@@ -103,9 +96,8 @@ def render(totals: dict[str, Any]) -> str:
     if not totals["all"]["count"]:
         return "No verdicts yet."
     lines = [f"All: {totals['all']['count']} proposals, mean verdict {totals['all']['mean']}"]
-    for title, key in (("By lens", "byLens"), ("By branch", "byBranch")):
-        lines.append(f"\n{title}:")
-        lines += [f"  {name}: {s['count']}, mean {s['mean']}" for name, s in totals[key].items()]
+    lines.append("\nBy branch:")
+    lines += [f"  {name}: {s['count']}, mean {s['mean']}" for name, s in totals["byBranch"].items()]
     return "\n".join(lines)
 
 

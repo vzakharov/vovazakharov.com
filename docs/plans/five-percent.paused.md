@@ -27,8 +27,9 @@
   pointing at `.claude/skills/five-percent/verdicts.md`, and each answered one
   is scored into `writing/notes/five-percent-verdicts/<branch>/verdicts.json`,
   summed by `scripts/five-percent-verdicts/tally.py` (in vet).
-- **Open with Вова:** whether the six lenses collapse into `precedent` and its
-  variants; whether vovazakharov.com's `/writing` goes, and the card with it.
+- Вова's calls on 27 October: the six lenses collapse into one question,
+  `procedure.md` § "The question", with no record of where the given hid;
+  vovazakharov.com's `/writing` goes, the card with it (8317c0b).
 
 **Left, in order — waiting on Вова:**
 
@@ -62,7 +63,7 @@ the skill rides with it.
 
 ### What the pass does
 
-Reads the branch's diff and its plan, puts each lens in the catalogue to it, and
+Reads the branch's diff and its plan, asks of it what it took as given, and
 posts **one review** on the PR (`COMMENT`, never approve or request changes):
 
 - **A proposal is an alternative approach**, concrete enough to pick: what the
@@ -74,9 +75,6 @@ posts **one review** on the PR (`COMMENT`, never approve or request changes):
   where it is answered rather than a claim about its scope. The review body
   carries only the run's one-line summary and the floor marker: nothing in it
   asks for a reply, since a review body has no thread to reply in.
-- **Each proposal opens on its lens's name** (§ "The lenses"), so the operator's
-  reply also tells the catalogue which lenses earn their keep, and "`precedent`
-  — да" is a whole answer.
 - **Each proposal is graded `critical` or `optional`.** Critical: taking it
   would change what the merge ships — a page says the wrong thing, a behaviour
   is wrong — not merely how it is built. Everything else is optional, and most
@@ -100,58 +98,11 @@ fallback is the in-session report: the proposals relayed in chat by the session
 that ran `/polish`, nothing posted. Switching is an edit to `procedure.md`'s
 posting section; nothing else depends on where they land.
 
-### The lenses
+### The question
 
-Six, each under a one-word name to answer by, each a question put to the diff.
-Every one stands on ten bumps or more, and every one asks something no other
-pass or loaded rule already asks:
-
-- **`precedent`** (×100) — what did the change take as given: a list, a pattern
-  in the tree, a checker's green, a rule's letter, its own tool's output — or
-  its own earlier call, written up and pinned by a test? Fires on anything; a
-  new prop copied from nine callers, a commit type picked from the list, a
-  parameter defended by its own docstring. The name is the Bible's
-  ([the precedent fallacy](../../apps/bible/public/precedent-fallacy.md), "a
-  given, read as a rule"), and the lens links it rather than restating it.
-- **`unrun`** (×34) — which claim rests on something nobody ran or looked at, or
-  looked at only for what it meant to show: "nothing calls this yet", a test on
-  fixtures without the hard case, a link chosen by its title, a visual change
-  checked against its intent? The alternative is the run, grep, read or
-  `/preview` that settles it.
-- **`echo`** (×19) — does a fact the change edited live somewhere the diff did
-  not touch: the other locale, the other renderings, the watermark rows beside
-  the ones edited? The one lens a grep answers.
-- **`source`** (×14) — where the change quotes, cites or draws from something,
-  is it the source's words and data or the agent's own: lyrics "fixed" to the
-  dictionary's, a word list hand-picked where a library exists?
-- **`form`** (×14) — what did the change build because the format had room for
-  it: a cell per key, a copy per persona, a registry and four checks where a
-  reference note would do? The alternative is the lighter design; the prose half
-  of this learning — a rule nobody asked for — is `/tend-prose`'s existence
-  lens.
-- **`reader`** (×10) — met cold, what does a reader take from this name or line:
-  `isHomePage` read as its opposite, a mechanism compressed past checking, the
-  repo's world named to someone outside it?
-
-The other eight learnings are folded in or left to their homes:
-
-- **Folded:** "What it defends in writing, it stops asking about" (×8) and "It
-  files its own misreading as the author's gap" (×2) are `precedent` turned on
-  the agent's own output — its earlier choice, its own reading of the material.
-  "It checks the render against its intent" (×6) is, by the notes' own account,
-  `unrun`'s milder half.
-- **Already loaded where they apply:** "It steps out of the line it would have
-  to own" is `.claude/rules/basilisk-voice.md`'s disclaiming rule, "It takes the
-  machine's seat" its `mischief` grade and `clerk-reflections.md`'s «Смешное
-  записывай как смешное» («Узнав себя в машине…»), "Its cadence passes for its
-  argument" `writing/CLAUDE.md`'s «не X, а Y». A lens restating them is the same
-  rule in a second home.
-- **Another pass's:** "It writes its reasoning into the artifact" (×13) proposes
-  only the artifact without the defence — a cut, which `/tend-prose`'s existence
-  and narration lenses make one pass earlier. This pass proposes approaches,
-  never cuts.
-- **Too thin:** "It warns where the repo could refuse" (×3) is one theme, the
-  zod bundle's client cost, over two September reviews.
+One, since Вова's call on 27 October: the six lenses first written here read as
+variants of `precedent`, and the narrower ones as other passes restated (`echo`
+beside `/dry`). `procedure.md` § "The question" holds it.
 
 ### Its own floor
 

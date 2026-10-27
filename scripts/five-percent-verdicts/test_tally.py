@@ -15,8 +15,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from tally import Malformed, load, tally
 
 
-def row(comment, lens="precedent", verdict=1, about="a proposal"):
-    return {"comment": comment, "lens": lens, "about": about, "verdict": verdict}
+def row(comment, verdict=1, about="a proposal"):
+    return {"comment": comment, "about": about, "verdict": verdict}
 
 
 class LedgerTest(unittest.TestCase):
@@ -38,12 +38,11 @@ class LedgerTest(unittest.TestCase):
         self.assertEqual(only["branch"], "claude/five-percent-qryluk")
         self.assertEqual(only["pr"], 212)
 
-    def test_tally_groups_by_lens_and_branch(self):
-        self.write("a", {"pr": 1, "verdicts": [row(1, "echo", 0), row(2, "precedent", 1)]})
-        self.write("b", {"pr": 2, "verdicts": [row(3, "precedent", 0.5)]})
+    def test_tally_sums_all_and_by_branch(self):
+        self.write("a", {"pr": 1, "verdicts": [row(1, 0), row(2, 1)]})
+        self.write("b", {"pr": 2, "verdicts": [row(3, 0.75)]})
         totals = tally(load(self.root))
-        self.assertEqual(totals["all"], {"count": 3, "mean": 0.5})
-        self.assertEqual(totals["byLens"]["precedent"], {"count": 2, "mean": 0.75})
+        self.assertEqual(totals["all"], {"count": 3, "mean": 0.583})
         self.assertEqual(totals["byBranch"]["a"], {"count": 2, "mean": 0.5})
 
     def test_an_empty_tree_tallies_to_nothing(self):
@@ -54,8 +53,7 @@ class LedgerTest(unittest.TestCase):
             "verdict above 1": {"pr": 1, "verdicts": [row(1, verdict=1.5)]},
             "verdict as a bool": {"pr": 1, "verdicts": [row(1, verdict=True)]},
             "about past 80": {"pr": 1, "verdicts": [row(1, about="x" * 81)]},
-            "empty lens": {"pr": 1, "verdicts": [row(1, lens=" ")]},
-            "extra key": {"pr": 1, "verdicts": [{**row(1), "grade": "optional"}]},
+            "extra key": {"pr": 1, "verdicts": [{**row(1), "lens": "echo"}]},
             "missing pr": {"verdicts": [row(1)]},
             "not JSON": "{",
         }
