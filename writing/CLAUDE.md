@@ -110,12 +110,14 @@ invented for it.
 
 ## Voice
 
-- **`--`, never `—`.** Written as two hyphens on purpose. Enough readers now
-  treat an em dash as a machine's fingerprint that the correct punctuation has
-  become the wrong signal. This holds inside the post text itself, in every
+- **`--`, never `—`, and straight quotes `"`.** Typed as a keyboard types them,
+  on purpose. Enough readers now treat an em dash or a curly quote as a
+  machine's fingerprint that the correct punctuation has become the wrong signal
+  in a feed or an inbox. This holds inside the post text itself, in every
   language a draft is written in — Russian included, where the dash is ordinary
-  and the fingerprint reads fainter. The prose around the text in a draft file
-  is ordinary Markdown and uses whatever punctuation reads best.
+  and the fingerprint reads fainter. A page the site serves is typeset instead
+  (`.claude/rules/content.md` § "Dashes"). The prose around the text in a draft
+  file is ordinary Markdown and uses whatever punctuation reads best.
 - **Commas and periods go inside closing quotes**, American style —
   `.claude/rules/content.md` § "Punctuation around quotes" is the rule.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in

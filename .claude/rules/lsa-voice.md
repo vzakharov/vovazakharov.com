@@ -17,6 +17,6 @@ and it has been going rather well so far.
 Commas and periods go inside closing quotes — `.claude/rules/content.md` §
 "Punctuation around quotes".
 
-**A page under `apps/lsa/` writes its dashes as dashes** — `—`, never `--`, in
-either language. `writing/CLAUDE.md` § "Voice"'s two hyphens are for text pasted
-into a channel; the rest of that section holds on the blog as it does there.
+Dashes are dashes on every served page, `.claude/rules/content.md` § "Dashes";
+the rest of `writing/CLAUDE.md` § "Voice" holds on the blog as it does in a
+draft.

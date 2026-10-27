@@ -1,9 +1,8 @@
 ---
 description: >-
-  Nearly every mistake I caught the agent making in review turned out to be the
-  same one: whatever it was handed, it treats as a given. For seven weeks it
-  wrote down every one — 214 entries, fourteen kinds.
-translatedFrom: d0ea51245667
+  The agent takes whatever it’s handed as a given: how we spent seven weeks
+  counting its mistakes in review.
+translatedFrom: 2591e1e4a6a4
 ---
 
 # The Five Percent
