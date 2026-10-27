@@ -118,16 +118,12 @@ fails the build. When a client component needs something the registry owns — a
 route, say — the **server page resolves it and passes it down**; that is what
 `src/vova/pages/cv/ui/cv-page.tsx` does for the CV's case-study link.
 
-The exceptions are the modules a script runs under bare Node, outside any
-bundler, each saying so in its header, and the `index.node-safe.ts` barrel over
-some of them — hence no `server-only`, and an explicit `.ts` on each import so
-Node's resolver finds it. Those scripts need Node 22.18 or newer for type
-stripping. `collections.ts` qualifies because it is string constants and pure
-path functions; `documents.ts` keeps `server-only`, and with it the invariant
-that matters — it is the module that pulls in `fs`, `gray-matter` and `zod`.
-Each site's `render-og.ts` and `render-pdf.ts` run under `tsx`: the CV card
-reads the message catalogue through `cvMessages`, and a JSON import is what bare
-Node cannot take without an attribute. They reach `src/` by the `@/` alias, and
+The exceptions are the modules a script runs outside any bundler, each saying so
+in its header, and the `index.node-safe.ts` barrel over some of them — hence no
+`server-only`. `collections.ts` qualifies because it is string constants and
+pure path functions; `documents.ts` keeps `server-only`, and with it the
+invariant that matters — it is the module that pulls in `fs`, `gray-matter` and
+`zod`. The scripts run under `tsx`, reach `src/` by the `@/` alias, and enter
 `shared/content` through its `index.node-safe.ts` barrel, since the ordinary
 one's `server-only` modules throw outside a React server bundle. `render-og.ts`
 runs under the `react-server` condition, which resolves `server-only` to its

@@ -3,9 +3,6 @@
  * screenshot. Its copy is read, never retyped: every string on it comes from the
  * message catalogue through the same variant merge the page uses, so the card
  * cannot say what the page has stopped saying.
- *
- * Runs under `tsx`, unlike the other render libraries: the catalogue is a JSON
- * import bare Node takes only with an attribute.
  */
 
 import fs from 'node:fs';

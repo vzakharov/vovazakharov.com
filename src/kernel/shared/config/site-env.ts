@@ -1,7 +1,6 @@
 /**
- * The raw environment read, kept apart from `resolved-site.ts` so bare Node can
- * reach it through `index.node-safe.ts` — which is why this file's imports
- * spell their extensions.
+ * The raw environment read, kept apart from `resolved-site.ts` so a script can
+ * reach it through `index.node-safe.ts`, outside any bundler.
  */
 
 import { oneOf } from '../lib/collections.ts';

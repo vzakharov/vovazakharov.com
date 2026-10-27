@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Renders every `mermaid` fence in the content tree to a committed pair of
@@ -10,9 +10,6 @@
  *
  *   pnpm content:mermaid            # render what changed, prune what is gone
  *   pnpm content:mermaid --check    # report staleness, write nothing
- *
- * Bare Node runs this file, relying on its type stripping, so it needs Node
- * 22.18 or newer and every relative import carries its `.ts` extension.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: progress,
@@ -24,18 +21,21 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { findChromium } from '../../kernel/scripts/lib/chromium.ts';
-import { REPO_ROOT } from '../../kernel/scripts/lib/site-tree.ts';
-import { PUBLIC_DIR } from '../../kernel/shared/config/index.node-safe.ts';
-import { contentHash } from '../../kernel/shared/lib/content-hash.ts';
-import type { WithFilePath } from '../../kernel/shared/typings/index.ts';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
+import type { WithFilePath } from '@/kernel/shared/typings';
+
 import {
   COLOR_SCHEMES,
   type ColorScheme,
   MERMAID_DIR,
   mermaidFileName,
-} from '../shared/content/index.node-safe.ts';
+} from '@/blog/shared/content/index.node-safe';
+
 import { contentFiles } from './lib/content-tree.ts';
+
+import { findChromium } from '@/kernel/scripts/lib/chromium';
+import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
 
 type Fence = WithFilePath & {
   hash: string;

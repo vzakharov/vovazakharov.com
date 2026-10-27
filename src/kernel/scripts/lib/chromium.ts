@@ -1,6 +1,5 @@
 /**
- * Where the render scripts find a browser. Bare Node runs them, relying on its
- * type stripping, so this file stays free of syntax the stripper cannot erase.
+ * Where the render scripts find a browser.
  */
 
 import fs from 'node:fs';

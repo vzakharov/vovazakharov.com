@@ -20,7 +20,7 @@ function introRegistry<Id extends CollectionId>(
 
 /**
  * What a collection's index says for itself. Here rather than in the content
- * registry, which shapes routes and runs under bare Node in the render
+ * registry, which shapes routes and runs outside any bundler in the render
  * scripts.
  *
  * A home-indexed collection is absent: its site's home page is its index, so

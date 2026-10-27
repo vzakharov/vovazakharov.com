@@ -2,9 +2,6 @@
  * The frame every Open Graph card is rendered into, here rather than beside the
  * renderer because a site whose avatar is a card publishes the PNG's size in its
  * metadata, and the two must not drift.
- *
- * Bare Node imports this file from the render scripts, so it stays free of
- * syntax type stripping cannot erase and of value imports.
  */
 
 import type { Sized } from '../typings/index.ts';

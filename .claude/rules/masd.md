@@ -272,12 +272,9 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   by URL or relative path, not by alias. Inside `src/`, a relative import stays
   in its slice, its segmented layer or its app's `scripts/`, and anything past
   that is reached by alias — `vova/no-relative-escape` holds it. An app's
-  `scripts/` run outside any bundler: they spell the alias out under `tsx`, and
-  a relative path with its extension when they run under bare Node, which
-  follows no alias — the rule's one exemption, derived from the `node <file>`
-  entries in `package.json` and what they load at run time.
-  `vova/no-alias-under-bare-node` holds the other side: a file there that needs
-  the alias moves its entry to `tsx` rather than reaching across relatively.
+  `scripts/` run outside any bundler, under `tsx`, which follows the alias. A
+  script still under bare Node, which does not, moves to `tsx` the moment it
+  needs anything past its home.
 - **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
   ESLint loads it under jiti and the scripts under bare Node.
 - **next-intl's request config is found by path, not by import.** Each site's

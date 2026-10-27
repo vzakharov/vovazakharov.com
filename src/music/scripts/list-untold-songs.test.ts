@@ -5,11 +5,12 @@
  */
 
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, it } from 'node:test';
+
+import { runTsxScript } from '@/kernel/scripts/lib/tsx-script';
 
 const SCRIPT = path.resolve(import.meta.dirname, 'list-untold-songs.ts');
 
@@ -38,10 +39,7 @@ function tree(songs: Record<string, string>) {
 }
 
 function run(root: string) {
-  const { status, stdout } = spawnSync(process.execPath, [SCRIPT], {
-    cwd: root,
-    encoding: 'utf8',
-  });
+  const { status, stdout } = runTsxScript(SCRIPT, [], { cwd: root });
   const list = readFileSync(
     path.join(root, 'docs/music/untold-songs.md'),
     'utf8',

@@ -6,11 +6,12 @@
  */
 
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, it } from 'node:test';
+
+import { runTsxScript } from '@/kernel/scripts/lib/tsx-script';
 
 const SCRIPT = path.resolve(import.meta.dirname, 'check-stanza-repeats.ts');
 const SONG = 'sites/vova/public/music/songs/song.md';
@@ -20,10 +21,7 @@ function run(markdown: string, ...args: string[]) {
   const file = path.join(root, SONG);
   mkdirSync(path.dirname(file), { recursive: true });
   writeFileSync(file, markdown);
-  const { status, stdout } = spawnSync(process.execPath, [SCRIPT, ...args], {
-    cwd: root,
-    encoding: 'utf8',
-  });
+  const { status, stdout } = runTsxScript(SCRIPT, args, { cwd: root });
   return { status, stdout, after: readFileSync(file, 'utf8') };
 }
 

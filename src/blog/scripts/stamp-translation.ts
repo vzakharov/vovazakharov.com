@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Stamps a translation with the original it was made from: `<stem>.en.md`
@@ -7,9 +7,6 @@
  * translation, never instead of one.
  *
  *   pnpm translation:stamp sites/maya/public/blog/two-names.ru.md
- *
- * Bare Node runs this file, relying on its type stripping, so every relative
- * import carries its `.ts` extension.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: the line
@@ -17,11 +14,12 @@
 
 import fs from 'node:fs';
 
-import { contentHash } from '../../kernel/shared/lib/content-hash.ts';
+import { contentHash } from '@/kernel/shared/lib/content-hash';
+
 import {
   stampFrontmatter,
   translationOf,
-} from '../shared/content/index.node-safe.ts';
+} from '@/blog/shared/content/index.node-safe';
 
 const [original, ...rest] = process.argv.slice(2);
 

@@ -12,8 +12,9 @@ import remarkParse from 'remark-parse';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { GENERATED_DIR } from '../../../kernel/shared/config/index.node-safe.ts';
-import { isDocumentFile } from '../../shared/content/index.node-safe.ts';
+import { GENERATED_DIR } from '@/kernel/shared/config/index.node-safe';
+
+import { isDocumentFile } from '@/blog/shared/content/index.node-safe';
 
 const FRONTMATTER = /^---\n[\S\s]*?\n---\n/;
 

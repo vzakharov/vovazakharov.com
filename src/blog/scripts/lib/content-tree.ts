@@ -1,20 +1,16 @@
 /**
- * Where the render scripts walk for their sources. Bare Node runs
- * `render-mermaid.ts`, relying on its type stripping, so this file stays free
- * of syntax the stripper cannot erase.
+ * Where the render scripts walk for their sources.
  */
 
 import path from 'node:path';
 
 import {
-  filesUnder,
-  RENDERED_SITE,
-} from '../../../kernel/scripts/lib/site-tree.ts';
-import {
   collectionDir,
   COLLECTIONS,
   collectionsForSite,
-} from '../../shared/content/index.node-safe.ts';
+} from '@/blog/shared/content/index.node-safe';
+
+import { filesUnder, RENDERED_SITE } from '@/kernel/scripts/lib/site-tree';
 
 /** The directories under `public/` of the collections this site serves — the content tree's roots. */
 export const CONTENT_DIRS = collectionsForSite(RENDERED_SITE).map((id) =>

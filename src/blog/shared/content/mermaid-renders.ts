@@ -1,4 +1,4 @@
-import { GENERATED_DIR } from '../../../kernel/shared/config/index.node-safe.ts';
+import { GENERATED_DIR } from '@/kernel/shared/config/index.node-safe';
 
 /** Where the renders live, relative to `public/` — under the directory a source walk skips. */
 export const MERMAID_DIR = `${GENERATED_DIR}/mermaid`;

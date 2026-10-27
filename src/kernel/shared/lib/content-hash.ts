@@ -7,7 +7,7 @@ import { createHash } from 'node:crypto';
  * committed render.
  *
  * No `import 'server-only'`, unlike the rest of `shared/content/`: the render
- * scripts run it under bare Node, outside any bundler.
+ * scripts run it outside any bundler.
  */
 export function contentHash(source: string): string {
   return createHash('sha256')
