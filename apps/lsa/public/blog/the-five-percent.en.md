@@ -62,7 +62,7 @@ as a given, there’s almost always an answer:
 Together with the main one, that’s 191 cases out of 214, 89%; I won’t go through the rest in detail — you can look them up [in the file itself](https://github.com/vzakharov/vovazakharov.com/blob/e34d291cf8cb782f4f59d0c661eb6e7da44f023e/writing/notes/the-five-percent.md).
 
 Incidentally, the irony goes meta here too: the bullet list above, for one, was written by the agent. To it, I suppose, what it wrote makes sense.
-Meanwhile I read it again and again, and it doesn’t make sense to me — as if on some things we were speaking different languages altogether.
+Meanwhile I read it again and again, and it’s like a blind spot for me — as if on some things we were speaking different languages altogether.
 I can feel some lesson in here that we have yet to learn.
 
 ## Caveats
@@ -78,7 +78,7 @@ So this is worth looking at as an interesting signal rather than any kind of rig
 I closed the file... And opened a new one.
 
 First off, “take a step back and see whether the frame of the task itself
-isn’t wrong” is now [a skill of its own](https://github.com/vzakharov/vovazakharov.com/blob/main/.claude/skills/five-percent/procedure.md), and it goes by that very name, “the five percent.”
+isn’t skewed” is now [a skill of its own](https://github.com/vzakharov/vovazakharov.com/blob/main/.claude/skills/five-percent/procedure.md), and it goes by that very name, “the five percent.”
 
 Its very first run, though, showed that we might be dealing with a systemic
 problem rather than a problem of how the task was set. The agent found that
@@ -92,7 +92,7 @@ has no place on the site:
 ![The /writing page on vovazakharov.com: three articles from Glitchporn and a card for this article](./assets/writing-page.png)
 
 All the “writing” that was there is a vestige left over from the site as it was three versions ago,
-when I briefly fancied myself a [cool blogger](https://glitchporn.substack.com/). It has no place on a Fractional CTO’s site,
+when I briefly fancied myself a [star blogger](https://glitchporn.substack.com/). It has no place on a Fractional CTO’s site,
 at least certainly not in that form.
 
 So the skill found the bottleneck and didn’t see where it was actually narrow.
