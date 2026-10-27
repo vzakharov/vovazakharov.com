@@ -1,6 +1,10 @@
 {
   "permissions": {
-    "allow": ["Bash(pnpm music:masters *)"]
+    "allow": [
+      "Bash(pnpm music:masters *)",
+      "Bash(scripts/pr-comment.sh *)",
+      "Bash(./scripts/pr-comment.sh *)"
+    ]
   },
   "hooks": {
     "SessionStart": [
