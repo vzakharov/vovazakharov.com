@@ -21,11 +21,12 @@ head-SHA marker in its own last review. Planless /go runs it after
 latestageagentic.com gets a blog, bilingual as Майя's is: English at
 the bare address, Russian under /ru. It opens with the five-percent
 article, a measurement written in Russian and translated, its
-deflating half kept in. vovazakharov.com drops /writing, a page of
-articles from another career a fractional CTO's site has no use for.
+caveats kept in; its pages write dashes as dashes. vovazakharov.com
+drops /writing, a page of articles from another career a fractional
+CTO's site has no use for.
 
-The notes retire with the article, and the mandatory entry after a
-review session leaves CLAUDE.md.
+The notes retire with the article, as does the length check only they
+used, and the mandatory entry after a review session leaves CLAUDE.md.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
