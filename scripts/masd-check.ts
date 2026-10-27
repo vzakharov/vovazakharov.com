@@ -29,6 +29,7 @@ import {
   loadGraph,
   type MasdGraph,
   SLICED_LAYERS,
+  TEST_FILE,
 } from '../eslint/masd-graph.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
@@ -38,8 +39,6 @@ const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
 const SOURCE = /\.tsx?$/;
-// `TEST_CODE`'s files: the tests, and the kits they share.
-const TEST = /\.test(-kit)?\.tsx?$/;
 
 /** An importing file and the file it imports, both in one app. */
 type Edge = readonly [string, string];
@@ -67,7 +66,7 @@ function locate(file: string): string | undefined {
   const [, app, layer = '', slice] = parts;
   // An app's scripts and the tests are tooling, not consumers: a slice only
   // they reach is still one nothing shipped needs.
-  if (layer === 'scripts' || TEST.test(file)) return undefined;
+  if (layer === 'scripts' || TEST_FILE.test(file)) return undefined;
   return SLICED.has(layer) ? `${app}/${layer}/${slice}` : `${app}/${layer}`;
 }
 

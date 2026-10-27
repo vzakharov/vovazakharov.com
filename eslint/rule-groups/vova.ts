@@ -7,6 +7,7 @@ import { withSeverity } from './rule-severity';
 export const vovaRules = {
   ...withSeverity('error', [
     'vova/no-default-true', // boolean params must default off — invert (enabled=true → disabled=false) instead of defaulting true
+    'vova/no-export-namesake', // a module-level value may not share its name with another in its app when either is exported, since an import binds by name and a wrong constant of the right type passes tsc (type-aware)
     'vova/no-hardcoded-strings', // user-facing strings must come from messages/*.json, read on the server and passed down, not inline literals that render untranslated in every locale
     'vova/no-inline-object-param-type', // inline object type literals in function params must be extracted to a named type alias
     'vova/no-pick-omit', // Pick/Omit over a type this repo declares carves the narrow type out of the wide one — declare the narrow type (or schema) first and build the wide one from it

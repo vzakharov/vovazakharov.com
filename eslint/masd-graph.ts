@@ -37,6 +37,9 @@ export const TEST_KIT = '**/*.test-kit.ts';
 /** Test code: the tests, and the kits they share. */
 export const TEST_CODE = ['**/*.test.ts', TEST_KIT];
 
+/** `TEST_CODE`'s files, for a reader matching a path rather than a glob. */
+export const TEST_FILE = /\.test(-kit)?\.tsx?$/;
+
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
 // Kebab-case also keeps every key non-numeric, which is what makes JS hand the
