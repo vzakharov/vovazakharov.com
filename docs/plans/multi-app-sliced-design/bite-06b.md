@@ -60,6 +60,16 @@ The operator asked for 6b on 6a's PR: «я не вижу смысла призе
 - **The worm and the mouse take the house as a parameter**: `paintHouse` takes
   its tenants as painters, which the page's `house-view` composes.
 
+## Proven by
+
+- **The game's own tests**, all six shards green on vet's runners.
+- **The plays, against the base**: the same 22 of 30 groups red on 6b's base as
+  on its head, each with the same message down to the coordinates, so the cut
+  changed nothing a play sees.
+- **`test:meadow` is `scripts/vet-test.sh meadow`**, the game's layer list held
+  in one place, and the caches' get-or-make is kernel's `keptIn` (both the
+  operator's calls on `/polish`'s `/dry` findings).
+
 ## Moved by
 
 `move.ts` and the tools in

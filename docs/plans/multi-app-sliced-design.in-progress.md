@@ -12,28 +12,6 @@ say): «его давай сохраним после мерджа где-то �
 `docs/masd.md` rather than sweeping it, with `decisions.md` folded in and the
 elephant's own sections dropped.
 
-## Rest of the bite
-
-**6b, the game cut by its nouns, on #216.** The tree stands: entities, features,
-the map widget, and the page holding the composition and the tests that build it
-(`bite-06b.md`). Typecheck, eslint, Steiger, `check:masd`, knip, `type-overlap`
-and `format:check` are clean; the page's tests reach the slices below through
-each slice's `index.test-only.ts`, and a Phaser-bound slice through its
-`index.node-safe.ts`. `pnpm test:meadow` passed once the lawn's `LAWN_CELL` was
-told from the occupant grid's; vova builds; `/polish` ran over the bite in five
-parts by path, the empty `polish:` commit 8b0c30109 its floor.
-`VET_MEADOW=1 ./scripts/vet.sh` now shards the game's tests and plays across
-vet's runners (111e8fcec), the operator's ask on #216: «давай сделаем здесь».
-
-What is left, in order:
-
-1. **`VET_MEADOW=1 ./scripts/vet.sh`**, the first run of its new jobs: a red
-   `meadow`, `probe` or `play` job is the wiring's first to fix, then the
-   game's. It is also the plays' first full run since the cut — in the container
-   only tabL's first groups ran, clean.
-2. **Fold 6b into "Eaten so far"**, `/pr`, and land the bite
-   (`.claude/skills/plan/elephant.md` § "Landing a bite").
-
 ## Eaten so far
 
 `src/` is ten apps along `src/masd.json` — kernel, shell, blog, music, lsa,
@@ -44,7 +22,8 @@ model: `boundaries` generated from the graph, Steiger once per app, and
 `check:masd` (the graph, and significance counted across the composition, a
 one-consumer slice passing when it is a module). Music is cut into its model
 (`shared/catalogue`), the player feature, a page per page and the entities and
-widgets those share; the game into its nouns (6b, open).
+widgets those share; the game into its nouns, its tests and plays sharded across
+vet's runners on request (`VET_MEADOW=1`).
 
 - `bite-01.md` — the MASD core: the graph, the tree in nine apps, the registries
   inverted, two root layouts, the checkers, `masd.md`.
@@ -58,9 +37,18 @@ widgets those share; the game into its nouns (6b, open).
 - `bite-05b.md` — the player and music's app layer.
 - `bite-05c.md` — music's pages, one slice each (#214).
 - `bite-06a.md` — significance by modularity (#216).
-- `bite-06b.md` — the game cut by its nouns (#216, open).
+- `bite-06b.md` — the game cut by its nouns (#216).
 
 ## Rest of the elephant
+
+- **Open, the operator's call: the 22 red play groups.** The first sharded run
+  (40453462582) plays 22 of 30 groups red, and 6b's base with the same wiring
+  (40454592494, branch `baseline/6b-game-play`, never merged) plays the same 22
+  red with the same messages, so they predate MASD: the planted flower drawn
+  invisible, no sun on the screen at night-run's end, no tapped firefly flaring,
+  the sinking house sending no mouse, band gaps, a tap on the bare meadow
+  keeping a selection, among others. Recommended: an issue of their own off
+  `main`, since fixing the game is not cutting it.
 
 - **Later, sub-entities** (the operator: «очень уж чешется вариант с
   "подсущностями" (надо только имя получше подобрать: абстракции? зародыши?
