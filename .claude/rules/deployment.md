@@ -55,9 +55,7 @@ last, in a concurrency group apart from `pages`.
 carries how it is used. Майя has a slot of her own,
 `vzakharov/preview.mayawonders.com`, which `.github/workflows/maya-preview.yml`
 republishes from a `claude/maya-*` branch when `.claude/hooks/maya-preview.sh`
-dispatches it, at the end of a turn that pushed a change the site serves. The
-workflow takes no push trigger: most of her pushes carry only reflections,
-drafts and cost rows, and each would be a run.
+dispatches it, at the end of a turn that pushed a change the site serves.
 
 **On an unmerged branch, an operator's "deploy" — «задеплой», «давай задеплоим»
 — means this door.** A branch dispatch of `deploy.yml` reaches production, so it

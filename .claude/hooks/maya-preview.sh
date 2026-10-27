@@ -2,7 +2,7 @@
 # `Stop` hook: on one of Майя's `claude/maya-*` branches, dispatch
 # `.github/workflows/maya-preview.yml` for the branch once the turn has pushed
 # something her site serves, so preview.mayawonders.com follows her work one run
-# per turn instead of one per push.
+# per turn.
 #
 # It shares the event with the cost hook, which may push a row while this runs:
 # the dispatch names the branch, not a commit, and a row changes nothing the site
@@ -29,7 +29,7 @@ site_differs() { ! repo diff --quiet "$1" "$2" -- . "${unserved[@]}" 2>/dev/null
 
 # The commit last dispatched for this branch. Without one — a fresh container, a
 # resumed branch — the branch is measured against where it left `main`, so a
-# turn that touched no served file dispatches nothing.
+# branch that touched no served file dispatches nothing.
 marker="$root/tmp/maya-preview/${branch//\//_}"
 since=''
 [ -f "$marker" ] && since="$(repo rev-parse -q --verify "$(cat -- "$marker")^{commit}")"
@@ -43,8 +43,8 @@ head="$(repo rev-parse -q --verify HEAD)" || exit 0
 site_differs "origin/$branch" HEAD && exit 0
 
 err="$(cd "$root" && gh workflow run maya-preview.yml --ref "$branch" 2>&1)" || {
-  # A re-fired `Stop` bails, as every `Stop` hook here does, or the turn never
-  # ends; the marker is left alone, so the next turn's stop retries.
+  # A re-fired `Stop` bails, or the turn never ends; the marker is left alone,
+  # so the next turn's stop retries.
   [ "$(field stop_hook_active)" != "true" ] || exit 0
   say "${unsent}: ${err} Fix what that names if it is yours to fix, then just stop; the next turn's stop dispatches it again."
   exit 2
