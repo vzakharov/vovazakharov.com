@@ -26,9 +26,9 @@ fixtures, a stand-up, an assertion of their own — goes in
 **A kit is test code, never a test**: no runner picks up `*.test-kit.ts`, and
 `TEST_CODE` in `eslint/masd-graph.ts` is what makes the checkers treat it as a
 test. `boundaries` lets it take a lower slice's `index.test-only.ts` exactly as
-a test does, and lets nothing but its own slice's test code import it, so no
-production file can load it; `check:masd` counts no import of it as a slice's
-reference, and `pnpm type-overlap` scans it no more than a test.
+a test does, and lets nothing but the test code of its own slice or segment
+import it, so no production file can load it; `check:masd` counts no import of
+it as a slice's reference, and `pnpm type-overlap` scans it no more than a test.
 
 # Testing a CLI
 

@@ -35,13 +35,18 @@ const sharedLibEntry = (apps: string[]) => ({
   fileInternalPath: '*.ts',
 });
 
-/** A file of the importing file's own slice. */
+/** A file of the importing file's own slice, or of its own segment. */
 const sibling = (layer: string) => ({
   type: layer,
-  captured: {
-    appName: '{{ from.captured.appName }}',
-    sliceName: '{{ from.captured.sliceName }}',
-  },
+  captured: SLICED_LAYERS.includes(layer)
+    ? {
+        appName: '{{ from.captured.appName }}',
+        sliceName: '{{ from.captured.sliceName }}',
+      }
+    : {
+        appName: '{{ from.captured.appName }}',
+        segmentName: '{{ from.captured.segmentName }}',
+      },
 });
 
 const policiesFor = (app: string) => {
@@ -202,7 +207,7 @@ export const boundariesConfig: Config = {
           // test code of its own slice reaches it. Last, because the last
           // policy matching an import decides it.
           { disallow: { to: { file: { categories: 'test-kit' } } } },
-          ...SLICED_LAYERS.map((layer) => ({
+          ...LAYERS.map((layer) => ({
             from: { element: { type: layer, fileInternalPath: TEST_CODE } },
             allow: {
               to: {
