@@ -8,8 +8,8 @@ import {
   type FlowerSound,
   type Planting,
 } from '@/mushrooms/entities/flower/index.node-safe';
-import type { FlowerInView } from '@/mushrooms/features/play-flowers';
 import {
+  type FlowerInView,
   keyPlanting,
   sowingTuft,
 } from '@/mushrooms/features/play-flowers/index.node-safe';

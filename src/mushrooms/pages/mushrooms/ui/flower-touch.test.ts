@@ -6,7 +6,7 @@ import { planeFootOf } from '@/mushrooms/shared/world';
 import {
   FLOWER_TOUCH_ACTIONS,
   type FlowerTouch,
-} from '@/mushrooms/features/play-flowers';
+} from '@/mushrooms/features/play-flowers/index.node-safe';
 
 import { firstMeadow, type Meadow, reduce } from '../model/game';
 

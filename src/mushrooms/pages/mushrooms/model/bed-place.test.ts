@@ -27,7 +27,7 @@ import {
   flowerHead,
   flowersOf,
   standOf,
-} from '@/mushrooms/entities/flower';
+} from '@/mushrooms/entities/flower/index.node-safe';
 import {
   MUSHROOM_SPECIES,
   mushroomGenes,
@@ -37,7 +37,7 @@ import {
   TAP_PARTS,
   tapArea,
   toCanvas,
-} from '@/mushrooms/entities/mushroom';
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 import { EITHER_WAY } from '@/mushrooms/entities/mushroom/index.test-only';
 
 import { opened } from '../ui/visit-play';

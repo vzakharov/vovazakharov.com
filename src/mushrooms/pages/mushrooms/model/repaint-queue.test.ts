@@ -25,8 +25,8 @@ import {
   mushroomLights,
   placeIn,
   splayed,
-} from '@/mushrooms/entities/mushroom';
-import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
+  VIEWPORTS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { opened } from '../ui/visit-play';
 

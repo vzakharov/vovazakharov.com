@@ -15,8 +15,10 @@ import {
   groundUnder,
   planeUnder,
 } from '@/mushrooms/shared/world/index.test-only';
-import { OPENING_FEET } from '@/mushrooms/entities/mushroom';
-import { meadowCamera } from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  meadowCamera,
+  OPENING_FEET,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 import { CAMERAS } from '@/mushrooms/entities/mushroom/index.test-only';
 
 const EYES: Eye[] = [

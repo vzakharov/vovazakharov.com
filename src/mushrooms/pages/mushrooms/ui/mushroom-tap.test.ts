@@ -16,15 +16,13 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import {
-  MUSHROOM_SPECIES,
-  mushroomGenes,
-  placeIn,
-  type Species,
-} from '@/mushrooms/entities/mushroom';
-import {
   drawnHolds,
   flowerTakes,
+  MUSHROOM_SPECIES,
+  mushroomGenes,
   type MushroomTarget,
+  placeIn,
+  type Species,
   standingAt,
   tappedMushroom,
   VIEWPORTS,

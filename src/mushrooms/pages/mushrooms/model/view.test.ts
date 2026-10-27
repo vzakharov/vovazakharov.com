@@ -26,12 +26,12 @@ import {
   viewAt,
   viewOf,
 } from '@/mushrooms/shared/world';
-import { SHOWN_LEAST,walking } from '@/mushrooms/shared/world/index.test-only';
-import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom';
+import { SHOWN_LEAST, walking } from '@/mushrooms/shared/world/index.test-only';
 import {
   type Footed,
   MEADOW_FRAME,
   meadowCamera,
+  MUSHROOM_SPECIES,
   OPENING_FOOTING,
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';

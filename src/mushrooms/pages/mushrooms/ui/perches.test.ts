@@ -21,10 +21,10 @@ import {
   placeIn,
   type Planted,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { ScenePerches } from '@/mushrooms/features/insects-fly';
 import {
   PERCH_REACH,
   perchSight,
+  ScenePerches,
   seatAt,
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 import { footRows } from '@/mushrooms/features/insects-fly/index.test-only';

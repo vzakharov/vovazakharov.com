@@ -6,6 +6,8 @@ export {
   type Aloft,
   type AtAloft,
   azimuthOf,
+  centreOf,
+  framedOf,
   panOf,
 } from './model/flight-frame';
 export { FLIGHT_HABITS, type Habits } from './model/flight-habits';
@@ -16,6 +18,7 @@ export {
   type Onscreen,
   outFirst,
   outOf,
+  outOfView,
   outWay,
 } from './model/flight-in';
 export {
@@ -32,19 +35,22 @@ export {
   type InsectKind,
   type InsectSeed,
   type Kinded,
+  PICTOGRAM_SEED,
 } from './model/insect-genes';
 export {
   bodyTurn,
   carriedFrom,
+  drinkDip,
   flyingTurn,
   LANDING,
+  landingBob,
   REST_LEAN,
   type Stay,
   turned,
   type Turns,
   wingBeat,
 } from './model/insect-motion';
-export { buzzWing, wingspan } from './model/insect-outline';
+export { buzzTurn, buzzWing, wingspan } from './model/insect-outline';
 export {
   type Carried,
   flightPoint,
@@ -90,14 +96,18 @@ export {
   type Away,
   awayDown,
   awayPlaces,
+  entryAloft,
   type InsectAwayLayout,
   leavingAloft,
+  legEnd,
   releasedAway,
+  seenFor,
   wayOutOf,
   type Zoomed,
 } from './ui/insect-away';
-export { drawnAloft } from './ui/insect-frame';
-export type { Seat } from './ui/insect-seat';
+export { drawnInsect } from './ui/insect-drawn';
+export { drawnAloft, eyeFrameOf, mixD } from './ui/insect-frame';
+export { type Seat, seatAloft } from './ui/insect-seat';
 export {
   type InsectCamera,
   type InsectScaled,

@@ -3,11 +3,9 @@ import { describe, it } from 'node:test';
 
 import {
   buzzTurn,
+  crawl,
   INSECT_KINDS,
   type InsectKind,
-} from '@/mushrooms/entities/insect';
-import {
-  crawl,
   LANDING,
   type Stay,
   wingBeat,

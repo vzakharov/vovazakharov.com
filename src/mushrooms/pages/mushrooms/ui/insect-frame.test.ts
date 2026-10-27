@@ -30,13 +30,11 @@ import {
 import {
   type Aloft,
   centreOf,
+  drawnAloft,
   eyeFrameOf,
+  flightPoint,
   framedOf,
   mixD,
-} from '@/mushrooms/entities/insect';
-import {
-  drawnAloft,
-  flightPoint,
 } from '@/mushrooms/entities/insect/index.node-safe';
 import {
   aloftFramed,

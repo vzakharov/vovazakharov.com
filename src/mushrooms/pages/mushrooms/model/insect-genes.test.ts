@@ -7,7 +7,10 @@ import {
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
-import { insectGenes, PICTOGRAM_SEED } from '@/mushrooms/entities/insect';
+import {
+  insectGenes,
+  PICTOGRAM_SEED,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   BUTTERFLY_COLOURS,
   BUTTERFLY_RANGES,

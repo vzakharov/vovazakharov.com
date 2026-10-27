@@ -23,14 +23,16 @@ export {
   type Species,
 } from './model/mushroom-genes';
 export {
+  capOnCanvas,
   capUnder,
   headOutlines,
   MUSHROOM_INK,
+  TAP_PARTS,
   tapArea,
   toCanvas,
 } from './model/mushroom-outline';
 export { capSeat, type Splayed, splayed, stemAt } from './model/mushroom-pose';
-export { capBase, capSurface } from './model/mushroom-profile';
+export { capBase, capSurface, stemHalfWidth } from './model/mushroom-profile';
 export {
   apartOnScreen,
   type Footed,
@@ -92,6 +94,7 @@ export {
 export type { Opened } from './ui/draw-house';
 export { EDGE_MARGIN, MEADOW_FRAME, meadowCamera } from './ui/meadow-camera';
 export { coversShown, occupantsOn } from './ui/mushroom-cover';
+export { mushroomLights } from './ui/mushroom-light';
 export type { Repainting } from './ui/mushroom-shown';
 export {
   drawnHolds,

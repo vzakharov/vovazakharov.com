@@ -17,10 +17,11 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { type Aloft, seatAloft } from '@/mushrooms/entities/insect';
 import {
+  type Aloft,
   aloftOfLayout,
   drawnAloft,
+  seatAloft,
 } from '@/mushrooms/entities/insect/index.node-safe';
 import {
   drawnFlier,
@@ -28,9 +29,10 @@ import {
   seatedZoom,
   veerOf,
 } from '@/mushrooms/entities/insect/index.test-only';
-import { laidOf, OPENING_FEET } from '@/mushrooms/entities/mushroom';
 import {
+  laidOf,
   meadowCamera,
+  OPENING_FEET,
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 

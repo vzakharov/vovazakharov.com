@@ -10,20 +10,18 @@ import {
   flowerGenes,
   flowerHead,
   flowerLight,
-} from '@/mushrooms/entities/flower';
+} from '@/mushrooms/entities/flower/index.node-safe';
 import {
   capOnCanvas,
   capSurface,
+  everyPlace,
   MUSHROOM_SPECIES,
   type MushroomGenes,
   mushroomGenes,
   mushroomLights,
+  type Placement,
   splayed,
   toCanvas,
-} from '@/mushrooms/entities/mushroom';
-import {
-  everyPlace,
-  type Placement,
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';

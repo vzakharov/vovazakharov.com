@@ -46,13 +46,14 @@ import {
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { isSeat, ScenePerches } from '@/mushrooms/features/insects-fly';
 import {
   airAlofts,
+  isSeat,
   MOST_OVERLAP,
   onscreenOf,
   perchSight,
   perchSpot,
+  ScenePerches,
   seatAt,
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 import {

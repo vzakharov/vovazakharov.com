@@ -10,9 +10,9 @@ import {
   sunkAway,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { flowersOf } from '@/mushrooms/entities/flower';
 import {
   FAR_FLOWERS,
+  flowersOf,
   NEAR_FLOWERS,
 } from '@/mushrooms/entities/flower/index.node-safe';
 import { HEAD_REACH } from '@/mushrooms/entities/flower/index.test-only';

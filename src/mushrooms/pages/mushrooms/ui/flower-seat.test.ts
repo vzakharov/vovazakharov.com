@@ -17,7 +17,7 @@ import {
   type SeatZooms,
 } from '@/mushrooms/entities/insect/index.node-safe';
 import { CLOSING_STEPS } from '@/mushrooms/features/flowers-close/index.test-only';
-import { foldedHead } from '@/mushrooms/features/insects-fly';
+import { foldedHead } from '@/mushrooms/features/insects-fly/index.node-safe';
 /** How near two lifts in CSS px stand to count as one. */
 const SAME_PX = 1e-9;
 

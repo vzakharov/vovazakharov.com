@@ -16,17 +16,18 @@ import {
   OPENING_EYE,
   unanchored,
 } from '@/mushrooms/shared/world';
-import { isBeeSown, type Sown } from '@/mushrooms/entities/flower';
 import {
   anchoredStand,
   FAR_BAND,
   flowerFeet,
   flowersOf,
+  isBeeSown,
   NEAR_BAND,
   NEAR_FLOWERS,
   pulledFeet,
   RING_SLOTS,
   ringFoot,
+  type Sown,
   type Stand,
 } from '@/mushrooms/entities/flower/index.node-safe';
 import {
@@ -34,9 +35,10 @@ import {
   FOOT_CLEARANCE,
   HEAD_REACH,
 } from '@/mushrooms/entities/flower/index.test-only';
-import { occupantsOn, type Planted } from '@/mushrooms/entities/mushroom';
 import {
+  occupantsOn,
   openingIndex,
+  type Planted,
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';

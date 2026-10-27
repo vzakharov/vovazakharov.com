@@ -4,17 +4,15 @@ import { describe, it } from 'node:test';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import {
-  MUSHROOM_SPECIES,
-  mushroomGenes,
-  type Species,
-  stemHalfWidth,
-} from '@/mushrooms/entities/mushroom';
-import {
   firstMushrooms,
   FLOOR_HELD,
   headOutlines,
+  MUSHROOM_SPECIES,
+  mushroomGenes,
   OPENING_FOOTING,
+  type Species,
   stemAt,
+  stemHalfWidth,
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {

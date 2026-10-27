@@ -22,22 +22,20 @@ import {
   standingOn,
 } from '@/mushrooms/shared/world';
 import {
+  type Bed,
+  FAR_BAND,
   FLOWER_SWAY,
   flowerGenes,
   flowersOf,
   laidFlower,
-  soundOf,
-  type StandingFlower,
-  standOf,
-} from '@/mushrooms/entities/flower';
-import {
-  type Bed,
-  FAR_BAND,
   NEAR_BAND,
   NEAR_FLOWERS,
   SEEDED_SOUNDS,
   seededBed,
   seedSounding,
+  soundOf,
+  type StandingFlower,
+  standOf,
 } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   bandSlots,
@@ -46,8 +44,9 @@ import {
   MOST_SHADED,
   widestHead,
 } from '@/mushrooms/entities/flower/index.test-only';
-import { occupantsOn, placeIn } from '@/mushrooms/entities/mushroom';
 import {
+  occupantsOn,
+  placeIn,
   standingAt,
   VIEWPORTS,
   VISITS,

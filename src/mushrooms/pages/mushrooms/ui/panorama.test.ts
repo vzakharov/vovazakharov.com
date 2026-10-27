@@ -7,7 +7,7 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { azimuthAt } from '@/mushrooms/entities/landscape';
+import { azimuthAt } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   type Cloud,
   driftedAzimuth,

@@ -30,6 +30,7 @@ export {
   SEEDED_SOUNDS,
   seedSounding,
   shapeSeeds,
+  soundOf,
   visitFlowers,
 } from './model/flower-sounds';
 export {
@@ -44,6 +45,7 @@ export {
 } from './model/notes';
 export {
   type BeeSown,
+  isBeeSown,
   plantedId,
   type Plot,
   slotTaken,
@@ -60,9 +62,11 @@ export {
   FLOWER_SWAY,
   flowersOn,
   headClear,
+  laidFlower,
   NEAR_BAND,
   seededBed,
 } from './ui/flower-layout';
+export { flowerLight } from './ui/flower-light';
 export {
   flowerFeet,
   type FlowerPlotsLayout,

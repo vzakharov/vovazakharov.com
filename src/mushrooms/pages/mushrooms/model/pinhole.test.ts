@@ -20,10 +20,10 @@ import {
   type Viewed,
   walking,
 } from '@/mushrooms/shared/world/index.test-only';
-import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom';
 import {
   MEADOW_FRAME,
   meadowCamera,
+  MUSHROOM_SPECIES,
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {

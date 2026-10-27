@@ -13,12 +13,12 @@ import {
   facingArc,
   inkFor,
   lineInk,
+  outwardNormals,
   PALETTE,
   taperedLine,
   weightedOutline,
-} from '@/mushrooms/shared/ui';
-import { outwardNormals } from '@/mushrooms/shared/ui/index.node-safe';
-import { CREATURES,shadowFall } from '@/mushrooms/shared/ui/index.test-only';
+} from '@/mushrooms/shared/ui/index.node-safe';
+import { CREATURES, shadowFall } from '@/mushrooms/shared/ui/index.test-only';
 import { groundAt } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   everyPlace,

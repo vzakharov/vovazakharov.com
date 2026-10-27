@@ -18,7 +18,6 @@ import {
   unanchored,
 } from '@/mushrooms/shared/world';
 import { flowerFeet } from '@/mushrooms/entities/flower/index.node-safe';
-import { placeIn } from '@/mushrooms/entities/mushroom';
 import {
   EDGE_MARGIN,
   FLOOR_HELD,
@@ -27,6 +26,7 @@ import {
   MEADOW_FRAME,
   meadowCamera,
   OPENING_FOOTING,
+  placeIn,
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';

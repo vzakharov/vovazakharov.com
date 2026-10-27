@@ -8,10 +8,10 @@ import {
   moonAt,
   moonUp,
   onTheSun,
+  SUN_RAY_REACH,
   sunOnScreen,
   sunSunk,
-} from '@/mushrooms/entities/landscape';
-import { SUN_RAY_REACH } from '@/mushrooms/entities/landscape/index.node-safe';
+} from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   cloudBox,
   duskReach,

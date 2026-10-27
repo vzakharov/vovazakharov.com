@@ -17,15 +17,21 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { drawnInsect, eyeFrameOf,framedOf } from '@/mushrooms/entities/insect';
+import {
+  drawnInsect,
+  eyeFrameOf,
+  framedOf,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   aloftFramed,
   drawnFlier,
   drawnSitter,
   type LegFlight,
 } from '@/mushrooms/entities/insect/index.test-only';
-import { OPENING_FEET } from '@/mushrooms/entities/mushroom';
-import { meadowCamera } from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  meadowCamera,
+  OPENING_FEET,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 
 const view = viewAt(meadowCamera(1180, 820), OPENING_EYE);
 

@@ -4,9 +4,15 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { placedAt, type Point } from '@/mushrooms/shared/lib/geometry';
-import { flowerGenes, flowerHead } from '@/mushrooms/entities/flower';
-import { flowerLift, insectGenes } from '@/mushrooms/entities/insect';
-import { REST_LEAN } from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  flowerGenes,
+  flowerHead,
+} from '@/mushrooms/entities/flower/index.node-safe';
+import {
+  flowerLift,
+  insectGenes,
+  REST_LEAN,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   ABDOMEN,
   type BodySide,

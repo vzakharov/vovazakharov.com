@@ -1,5 +1,13 @@
 export { groundAt, RANGES } from './ui/backdrop-tones';
 export type { Blade } from './ui/brow';
+export {
+  cloudOverMoon,
+  moonAt,
+  moonUp,
+  onTheSun,
+  sunOnScreen,
+  sunSunk,
+} from './ui/dusk-sky';
 export { DuskVoice, morningComes } from './ui/dusk-voice';
 export { grainStrips } from './ui/grain';
 export {
@@ -39,7 +47,7 @@ export {
   shownMottles,
   SOFT_EDGE,
 } from './ui/mottles';
-export { type Clouded, crestAcross, skyClouds } from './ui/panorama';
+export { azimuthAt, type Clouded, crestAcross, skyClouds } from './ui/panorama';
 export type { RainSound, RainTapped } from './ui/rain-view';
 export { RainVoice, whoosh } from './ui/rain-voice';
 export { SEAM_REACH, SEAM_STEPS, seamCrest, seamTop } from './ui/skyline';

@@ -8,29 +8,30 @@ import {
   OPENING_EYE,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { INSECT_KINDS, outOfView } from '@/mushrooms/entities/insect';
 import {
   apartIn,
   apartOf,
   entryOf,
   type Flight,
   FLIGHT_HABITS,
+  INSECT_KINDS,
   isShown,
   type Onscreen,
   outFirst,
   outOf,
+  outOfView,
   outWay,
   type Perch,
   perchName,
   type Places,
 } from '@/mushrooms/entities/insect/index.node-safe';
 import { nearerSide } from '@/mushrooms/entities/insect/index.test-only';
-import { ScenePerches } from '@/mushrooms/features/insects-fly';
 import {
   firstFlight,
   nextFlight,
   onscreenOf,
   type Perches,
+  ScenePerches,
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 import { shownOf } from '@/mushrooms/features/insects-fly/index.test-only';
 

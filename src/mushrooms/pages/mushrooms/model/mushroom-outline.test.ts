@@ -3,12 +3,13 @@ import { describe, it } from 'node:test';
 
 import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
 import { SHELTER_SEATS } from '@/mushrooms/shared/world';
-import { MUSHROOM_SPECIES, mushroomGenes } from '@/mushrooms/entities/mushroom';
 import {
   capSeat,
   capUnder,
   everyPlace,
   headOutlines,
+  MUSHROOM_SPECIES,
+  mushroomGenes,
   stemAt,
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';

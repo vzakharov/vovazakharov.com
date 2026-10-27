@@ -10,8 +10,8 @@ import {
   pinholeOf,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { azimuthAt } from '@/mushrooms/entities/landscape';
 import {
+  azimuthAt,
   crestAcross,
   SUN_GLOW_REACH,
   SUN_RAY_REACH,

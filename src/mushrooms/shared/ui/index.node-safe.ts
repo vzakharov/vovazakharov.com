@@ -5,14 +5,18 @@ export {
   type Span,
   SUPERSAMPLE,
 } from './baking';
+export { hazeTone } from './haze-tone';
 export type { CircleFigure, TappedFigure } from './hit-areas';
 export {
   awayAngle,
   castShadow,
+  facingArc,
   inkFor,
+  lineInk,
   litSide,
   outwardNormals,
   type ShadowLayer,
+  taperedLine,
   type Translucent,
   weightedOutline,
 } from './ink';

@@ -3,11 +3,11 @@ import { describe, it } from 'node:test';
 
 import { groundIn, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
 import { apartOnScreen } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { sporeOnTap } from '@/mushrooms/features/grow-mushroom';
 import {
   growingStandOf,
   SPORE_REACH,
   SPORE_SEATS,
+  sporeOnTap,
 } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 
 import { type Meadow, reduce } from '../model/game';

@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 import { RAIN_MS, rainbow, wetness } from '@/mushrooms/shared/world';
-import { azimuthAt } from '@/mushrooms/entities/landscape';
+import { azimuthAt } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   cloudAt,
   cloudDarkness,

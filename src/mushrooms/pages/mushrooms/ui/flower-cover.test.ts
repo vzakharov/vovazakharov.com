@@ -9,8 +9,10 @@ import {
   type ShownCover,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { coversShown } from '@/mushrooms/entities/mushroom';
-import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  coversShown,
+  VIEWPORTS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { opened } from './visit-play';
 

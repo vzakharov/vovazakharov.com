@@ -8,19 +8,17 @@ import {
   type Random,
 } from '@/mushrooms/shared/lib/random';
 import {
+  bodyTurn,
   carriedFrom,
   drinkDip,
-  INSECT_KINDS,
-  landingBob,
-} from '@/mushrooms/entities/insect';
-import {
-  bodyTurn,
   type Flight,
   FLIGHT_HABITS,
   flightPoint,
   flyingTurn,
   heading,
+  INSECT_KINDS,
   LANDING,
+  landingBob,
   legTo,
   type Path,
   REST_LEAN,

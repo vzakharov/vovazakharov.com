@@ -14,13 +14,15 @@ import {
   scaleAt,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { laidOf, mushroomGenes, placeIn } from '@/mushrooms/entities/mushroom';
 import {
   grownOn,
+  laidOf,
   MEADOW_FRAME,
   meadowCamera,
+  mushroomGenes,
   OPENING_FOOTING,
   openingIndex,
+  placeIn,
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';

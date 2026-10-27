@@ -21,6 +21,7 @@ export {
 export { LINGER_MS, lingerOf } from './model/shelter';
 export { airAlofts, EVERY_ONE } from './ui/air-spots';
 export type { Glinting } from './ui/firefly-view';
+export { foldedHead } from './ui/flower-seat';
 export { restingOn } from './ui/perch-hosts';
 export {
   MOST_OVERLAP,

@@ -5,15 +5,17 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
 import { anchorOf, OPENING_EYE } from '@/mushrooms/shared/world';
-import { flowersOf, type Sown } from '@/mushrooms/entities/flower';
 import {
   anchoredStand,
+  flowersOf,
   headOf,
   screenSides,
+  type Sown,
   type Stand,
 } from '@/mushrooms/entities/flower/index.node-safe';
-import { occupantsOn, type Planted } from '@/mushrooms/entities/mushroom';
 import {
+  occupantsOn,
+  type Planted,
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';

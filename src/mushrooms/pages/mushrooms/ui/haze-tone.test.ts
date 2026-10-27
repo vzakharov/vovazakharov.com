@@ -2,10 +2,13 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { luminance } from '@/mushrooms/shared/lib/colour';
-import { hazeTone,PALETTE } from '@/mushrooms/shared/ui';
+import { hazeTone, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 import { hazeAir } from '@/mushrooms/shared/ui/index.test-only';
 import { DUSK_TONES } from '@/mushrooms/entities/landscape/index.test-only';
-import { MUSHROOM_SPECIES, mushroomGenes } from '@/mushrooms/entities/mushroom';
+import {
+  MUSHROOM_SPECIES,
+  mushroomGenes,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
   heldHaze,
   mushroomTints,
