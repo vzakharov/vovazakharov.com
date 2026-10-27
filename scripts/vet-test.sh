@@ -6,9 +6,8 @@
 # file, over half an hour together — where everything else takes seconds, and
 # the game changes rarely. So they run on request, when the game is the work:
 # `VET_MEADOW=1 ./scripts/vet.sh`, or `pnpm test:meadow` alone — this script's
-# `meadow` mode, which runs only those, the `MEADOW_SHARD` (`<k>/<n>`) of them
-# when set. `pnpm test` is the run by hand, over only what the branch reached
-# (scripts/test-changed.sh).
+# `meadow` mode, sharded by `MEADOW_SHARD` (`<k>/<n>`) when set. `pnpm test` is
+# the run by hand, over only what the branch reached (scripts/test-changed.sh).
 #
 # The list comes from git rather than a glob so an agent's scratch worktree or
 # an ignored directory never joins the run.

@@ -18,8 +18,7 @@
 #   scripts/vet.sh play <screen> <plays>  those plays of the game, on that screen
 #
 # The last three run only when `VET_MEADOW=1` asks, the bare run passing it on
-# as the workflow's `meadow` input: the game's tests and plays take hours in
-# one container and the game changes rarely.
+# as the workflow's `meadow` input.
 #
 # `lint` and `typecheck` write the route types with `next typegen` rather than
 # wait on a build — safe only in a tree no build shares
