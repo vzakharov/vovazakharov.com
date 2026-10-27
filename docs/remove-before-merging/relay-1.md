@@ -47,8 +47,8 @@ sync on `main`. Done.
 ## State
 
 - `main` @ 2f8453e, the sync's squash. PR #219 merged.
-- Branch `chore/update-muthur-d26cb1f` restarted from that `main` to carry only
-  this summary.
+- Branch `chore/update-muthur-d26cb1f-parked`, cut from that `main` to carry
+  only this summary; the merged `chore/update-muthur-d26cb1f` is untouched.
 - `watermark.json` at `lastSyncedSha` d26cb1fdeb8396b453351b6a61835d65088b9c84.
 - Nothing running; the keepalive watcher ended on its last wake.
 
