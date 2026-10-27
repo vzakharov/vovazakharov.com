@@ -16,3 +16,7 @@ and it has been going rather well so far.
 
 Commas and periods go inside closing quotes — `.claude/rules/content.md` §
 "Punctuation around quotes".
+
+**A page under `apps/lsa/` writes its dashes as dashes** — `—`, never `--`, in
+either language. `writing/CLAUDE.md` § "Voice"'s two hyphens are for text pasted
+into a channel; the rest of that section holds on the blog as it does there.

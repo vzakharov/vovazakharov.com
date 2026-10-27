@@ -130,9 +130,10 @@ invented for it.
   просто занята, она ещё и держит вас за столом» followed «крышку не закроешь, а
   то агенты остановятся» and said it over again, in words different enough to
   pass for a second fact — which is why the sentence has to be read against the
-  ones around it. Its twin cadence, «не X, а Y», hides the same repeat. Either
-  the second half brings something of its own, or the plain line that said it
-  first is the one to keep.
+  ones around it. Its twin cadences, «не X, а Y» and «X или только Y»
+  («вытаскивает ли себя Мюнхгаузен за косу или только красиво за неё держится»),
+  hide the same repeat. Either the second half brings something of its own, or
+  the plain line that said it first is the one to keep.
 - **Cut the sentence that announces the next one.** "And it is worth saying out
   loud", "here is the thing", "make no mistake" — an agent writes these to mark
   that something important is coming, which a reader learns by reading the

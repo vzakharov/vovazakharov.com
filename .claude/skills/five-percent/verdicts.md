@@ -24,5 +24,8 @@ does not exist yet starts with the PR's number and an empty list.
   frame this pass is for.
 
 The operator coming back on the thread rewrites the row rather than adding one.
-Commit it with the reply it scores, and run
-`python3 scripts/five-percent-verdicts/tally.py --check`.
+**The row rides in a commit the session makes anyway** — the one carrying the
+work the answer asked for, or the next one where it asked for none — never in a
+commit of its own: the branch already takes the cost ledger's commits unasked,
+and a commit per verdict adds noise to the log. Run
+`python3 scripts/five-percent-verdicts/tally.py --check` before it.
