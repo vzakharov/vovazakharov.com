@@ -22,7 +22,7 @@ export function widestOn(layout: InsectSized, kind: InsectKind): number {
   return WIDEST_SPANS[kind] * layout.insectSizes[kind];
 }
 
-/** The widest a butterfly's wings span on `layout`, in px: the span a flower's sight judges a planting by. */
+/** The widest a butterfly's wings span on `layout`, in CSS px. */
 export function widestSpanOn({ insectSize }: InsectScaled): number {
   return WIDEST_SPAN * insectSize;
 }

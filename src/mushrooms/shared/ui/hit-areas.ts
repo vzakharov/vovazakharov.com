@@ -3,7 +3,6 @@ import * as Phaser from 'phaser';
 import { containsPoint, type Point } from '../lib/geometry';
 import type { Tapped } from '../lib/motion';
 
-/** Something the scene draws as one graphics object. */
 export type Graphic = { object: Phaser.GameObjects.Graphics };
 export type WithCircleHit = { hit: Phaser.Geom.Circle };
 /** A creature shown as a container of its parts, answering a tap on a circle. */

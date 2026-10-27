@@ -1,5 +1,3 @@
-/** An insect in the meadow: its genes, its flight, and a bee's pollen. */
-
 import type { Insect, InsectKind, OfKind } from './insect-genes';
 import type { Flight } from './perch';
 import type { Carrying } from './pollen-load';
