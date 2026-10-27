@@ -6,10 +6,11 @@ others: the white page, Merriweather, boxed cards. Only her drawings
 were hers, and on the white they sat like plates tipped into a book
 from other paper.
 
-mayawonders.com now has a palette and face of its own, keyed on
-`data-site` on <html>: the drawings' paper and ink, a lamplit dark
-variant, Georgia (their caption face, a system font), regular-weight
-headings, and a language row set as small capitals instead of boxes.
+mayawonders.com now has a palette and face of its own in
+`maya.scss`, keyed on `data-site` on <html>: the drawings' paper and
+ink, a lamplit dark variant, Georgia (their caption face, a system
+font), regular-weight headings, and a language row set as small
+capitals instead of boxes.
 The shared theme reads the face and heading weight from custom
 properties, so every other site renders as before.
 
