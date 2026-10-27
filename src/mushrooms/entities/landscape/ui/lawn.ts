@@ -36,35 +36,35 @@ export type LawnLayout = WithCamera & GroundBand;
 export type Sprout = Rooted & WithTuft;
 
 /** How wide a cell of the lawn stands, in the clump's size, either way. */
-const CELL = 4;
+export const LAWN_CELL = 4;
 
 /**
  * How many tufts a cell grows: 0.85 to a square of the clump's size, the
  * opening lawn's density on the plane, uniform in the cell.
  */
-export const TUFTS_PER_CELL = Math.round(0.85 * CELL * CELL);
+export const TUFTS_PER_CELL = Math.round(0.85 * LAWN_CELL * LAWN_CELL);
 
 /**
  * The farthest a live cell's middle stands from the eye's cell's: a tuft's
  * reach before the brow hides it, at the farthest the brow stands, plus a
  * diagonal for where in its cell the eye is.
  */
-const LIVE_REACH = D_SEE_MOST + PALE_SPAN + CELL * Math.SQRT2;
+const LIVE_REACH = D_SEE_MOST + PALE_SPAN + LAWN_CELL * Math.SQRT2;
 
-/** A cell of the lawn: `i` across, `j` into the distance, each `CELL` wide. */
+/** A cell of the lawn: `i` across, `j` into the distance, each `LAWN_CELL` wide. */
 export type Cell = Record<'i' | 'j', number>;
 
 export function cellOf({ x, y }: Point): Cell {
-  return { i: Math.floor(x / CELL), j: Math.floor(y / CELL) };
+  return { i: Math.floor(x / LAWN_CELL), j: Math.floor(y / LAWN_CELL) };
 }
 
 /** The cells that live while the eye stands in `cell`, by `LIVE_REACH`. */
 function liveCells(cell: Cell): Cell[] {
-  const span = Math.ceil(LIVE_REACH / CELL);
+  const span = Math.ceil(LIVE_REACH / LAWN_CELL);
   const cells: Cell[] = [];
   for (let di = -span; di <= span; di++) {
     for (let dj = -span; dj <= span; dj++) {
-      if (Math.hypot(di, dj) * CELL <= LIVE_REACH) {
+      if (Math.hypot(di, dj) * LAWN_CELL <= LIVE_REACH) {
         cells.push({ i: cell.i + di, j: cell.j + dj });
       }
     }
@@ -109,7 +109,7 @@ export type Lawn = Seeded & WithLayout<LawnLayout>;
  * clump's size, which the brow's band (`SEAM_BAND`) shows at about the
  * density the far ground needs to read as grassy to its edge.
  */
-const SEAM_PER_CELL = Math.round(2.2 * CELL * CELL);
+const SEAM_PER_CELL = Math.round(2.2 * LAWN_CELL * LAWN_CELL);
 
 /**
  * What a cell of the lawn grows: its tufts, its mottles, and its share of
@@ -127,8 +127,8 @@ function sproutsIn(
 ): Sprout[] {
   return Array.from({ length: count }, () => {
     const foot = {
-      x: (cell.i + random()) * CELL,
-      y: (cell.j + random()) * CELL,
+      x: (cell.i + random()) * LAWN_CELL,
+      y: (cell.j + random()) * LAWN_CELL,
       size: FLOWER_SIZE,
     };
     return sproutOn(lawn.layout, foot, random);
@@ -144,9 +144,9 @@ function sproutsIn(
 export function cellLawn(lawn: Lawn, cell: Cell): CellLawn {
   const random = mulberry32(cellSeed(lawn.seed, cell));
   const tufts = sproutsIn(lawn, cell, TUFTS_PER_CELL, random);
-  const corner = { x: cell.i * CELL, y: cell.j * CELL };
+  const corner = { x: cell.i * LAWN_CELL, y: cell.j * LAWN_CELL };
   const mottles = Array.from({ length: MOTTLES_PER_CELL }, () =>
-    mottleIn(random, corner, CELL),
+    mottleIn(random, corner, LAWN_CELL),
   );
   const seam = sproutsIn(lawn, cell, SEAM_PER_CELL, random);
   return { tufts, mottles, seam };

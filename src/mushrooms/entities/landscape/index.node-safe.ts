@@ -28,6 +28,7 @@ export {
   cellSeed,
   cellTufts,
   type Lawn,
+  LAWN_CELL,
   type LawnLayout,
   LiveLawn,
   regrowTufts,

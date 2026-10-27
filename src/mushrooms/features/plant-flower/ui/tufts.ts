@@ -17,7 +17,6 @@ import type { Random } from '@/mushrooms/shared/lib/random';
 import {
   behindHills,
   browDistance,
-  CELL,
   CLUMP_DISTANCE,
   cull,
   D_SEE,
@@ -47,6 +46,7 @@ import {
   type Cell,
   cellOf,
   downAt,
+  LAWN_CELL,
   type LawnLayout,
   LiveLawn,
   MOTTLE_DEPTH,
@@ -198,8 +198,8 @@ const CROSS_LEEWAY = 1e-9;
 /** Whether some foot in `cell`, edges included, stands in the seam's band from `eye`, the brow standing `brow` off. */
 export function crossesSeam(eye: Point, { i, j }: Cell, brow = D_SEE): boolean {
   const { near: seamNear, far: seamFar } = seamReachOf(brow);
-  const [left, right] = [i * CELL - eye.x, (i + 1) * CELL - eye.x];
-  const [near, far] = [j * CELL - eye.y, (j + 1) * CELL - eye.y];
+  const [left, right] = [i * LAWN_CELL - eye.x, (i + 1) * LAWN_CELL - eye.x];
+  const [near, far] = [j * LAWN_CELL - eye.y, (j + 1) * LAWN_CELL - eye.y];
   const nearest = Math.hypot(
     Math.max(left, 0, -right),
     Math.max(near, 0, -far),

@@ -12,10 +12,10 @@ import {
   mulberry32,
   type Random,
 } from '@/mushrooms/shared/lib/random';
-import { CELL } from '@/mushrooms/shared/world';
 import {
   type Blade,
   cellSeed,
+  LAWN_CELL,
   type Mottle,
   mottleIn,
   ringOf,
@@ -107,8 +107,8 @@ const onSheet = (frame: MapFrame, ring: readonly Point[]) =>
 
 /** A mottle the meadow's lawn would grow in a cell, scaled to a cell `side` wide at `corner`. */
 function mottleOver(random: Random, corner: Point, side: number): Mottle {
-  const grown = mottleIn(random, { x: 0, y: 0 }, CELL);
-  const scale = side / CELL;
+  const grown = mottleIn(random, { x: 0, y: 0 }, LAWN_CELL);
+  const scale = side / LAWN_CELL;
   return {
     ...grown,
     middle: {

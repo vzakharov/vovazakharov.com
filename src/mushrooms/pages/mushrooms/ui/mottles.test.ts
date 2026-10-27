@@ -2,17 +2,12 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
-import {
-  browRow,
-  CELL,
-  D_SEE,
-  OPENING_EYE,
-  viewAt,
-} from '@/mushrooms/shared/world';
+import { browRow, D_SEE, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
 import {
   cellOf,
   cellTufts,
   type Lawn,
+  LAWN_CELL,
   LiveLawn,
   type Mottle,
   shownMottles,
@@ -74,7 +69,7 @@ describe('the lawn’s mottles', () => {
     live.round(OPENING_EYE);
     const here = live.mottles;
     assert.ok(here.length > 0);
-    live.round({ ...OPENING_EYE, x: 30 * CELL, y: -12 * CELL });
+    live.round({ ...OPENING_EYE, x: 30 * LAWN_CELL, y: -12 * LAWN_CELL });
     assert.notDeepEqual(live.mottles, here);
     live.round(OPENING_EYE);
     assert.deepEqual(live.mottles, here);

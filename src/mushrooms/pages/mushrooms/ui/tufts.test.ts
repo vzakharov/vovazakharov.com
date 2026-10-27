@@ -17,7 +17,6 @@ import {
   behindHills,
   browDistance,
   type Camera,
-  CELL,
   cull,
   D_SEE,
   type Eye,
@@ -49,6 +48,7 @@ import {
   cellOf,
   cellTufts,
   type Lawn,
+  LAWN_CELL,
   LiveLawn,
   type Tuft,
   TUFTS_PER_CELL,
@@ -350,7 +350,7 @@ describe('the ground’s grass', () => {
       );
       const live = new LiveLawn(lawn);
       const here = [...live.round(OPENING_EYE)];
-      const away = { ...OPENING_EYE, x: 30 * CELL, y: -12 * CELL };
+      const away = { ...OPENING_EYE, x: 30 * LAWN_CELL, y: -12 * LAWN_CELL };
       const there = live.round(away);
       assert.ok(there.every(({ foot }) => !here.some((h) => h.foot === foot)));
       // Every cell of `here` left the live lawn, so coming back grows it anew.
