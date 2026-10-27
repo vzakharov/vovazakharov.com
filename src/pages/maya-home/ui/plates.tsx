@@ -22,8 +22,8 @@ export type Plate = Summarized &
 type PlatesProps = WithLocale & { plates: Plate[] };
 
 /**
- * Entries as the plates of a field guide: the drawing on the page's own paper,
- * the caption under it.
+ * Entries as the plates of a field guide, each a leaf with the drawing across
+ * its head and the caption under it.
  */
 export function Plates({ plates, locale }: PlatesProps) {
   return (

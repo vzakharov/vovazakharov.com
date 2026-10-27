@@ -24,7 +24,12 @@ export function Shelf({ label, toys }: ShelfProps) {
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={40} verticalSpacing={24}>
         {toys.map(({ href, title, description, image }) => (
           <figure key={href} className={classes['toy']}>
-            <Link {...{ href }} tabIndex={-1} aria-hidden>
+            <Link
+              {...{ href }}
+              tabIndex={-1}
+              aria-hidden
+              className={classes['drawingLink']}
+            >
               <Image
                 {...image}
                 alt=""

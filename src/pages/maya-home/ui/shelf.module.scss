@@ -1,27 +1,56 @@
+@use '../../../../styles/mantine' as mantine;
+
 .heading {
   font-size: 1rem;
   font-variant: small-caps;
   letter-spacing: 0.08em;
 }
 
+// A toy's leaf is a plate's laid on its side where there is room: the same
+// hairline edge, the drawing at its left on its own paper, the caption beside
+// it. Narrow, it stands upright as a plate does.
 .toy {
   display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 20px;
-  align-items: center;
+  height: 100%;
   margin: 0;
+  border: 1px solid var(--color-border-hairline);
+  transition: border-color 150ms ease;
+
+  &:hover {
+    border-color: var(--color-border-hairline-strong);
+  }
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-columns: 45% 1fr;
+  }
+}
+
+.drawingLink {
+  display: block;
 }
 
 .drawing {
   display: block;
   width: 100%;
   height: auto;
+  border-bottom: 1px solid var(--color-border-hairline);
+
+  // On its side the drawing fills the leaf at whatever height the caption
+  // sets, cropping only the empty paper around a drawing centred on it.
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    height: 100%;
+    object-fit: cover;
+    border-right: 1px solid var(--color-border-hairline);
+    border-bottom: 0;
+  }
 }
 
 .caption {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 4px;
+  padding: 12px 20px;
 }
 
 .title {

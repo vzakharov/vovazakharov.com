@@ -17,14 +17,16 @@ Her home page opens as a book's spread, her portrait captioned as a
 frontispiece facing a title page that names the book, as the domain
 does: “Maya wonders” (ru «Майя дивится»), “A field guide to what turns
 up on walks, with plates”, the site card retitled to match. Entries,
-now “Plates” rather than “Blog”, are unframed, numbered plates of a
-field guide, and each article carries
-its plate number over the title in place of a byline, which on her own
+now “Plates” rather than “Blog”, are the numbered plates of a field
+guide, each a hairline-edged leaf with the drawing across its head, and
+each article carries its plate number over the title in place of a
+byline, which on her own
 site only repeated whose site it is; every footer of hers names her
 rather than Vova. The shared article page gains per-collection slots
 for both, `eyebrow` and `byline`. Her one toy, the whispering
-typewriter, gets a place there for the first time, on a narrow shelf
-above the plates where entries to come never push it down, with a
+typewriter, gets a place there for the first time, a leaf laid on its
+side on a shelf above the plates, where entries to come never push it
+down, with a
 drawing of its own: the sixteen sounds its bug hears. Its
 address and drawing move to `shared/config`, which the home page and
 the toy's page both read. The site card moves onto the paper.

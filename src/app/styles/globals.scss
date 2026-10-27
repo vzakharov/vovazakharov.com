@@ -34,8 +34,8 @@
 }
 
 // mayawonders.com is set on the paper, in the ink and in the face of Майя's
-// drawings (`apps/maya/public/blog/assets/`), so a drawing sits on the page
-// rather than on a card of its own. Georgia is a system face: nothing loads.
+// drawings (`apps/maya/public/blog/assets/`), so in the light scheme a drawing
+// is on the page's own paper. Georgia is a system face: nothing loads.
 // The palettes are screen-only, leaving paper to `print.scss`'s white.
 :root[data-site='maya'] {
   --font-body: 'Georgia', 'Times New Roman', serif;
