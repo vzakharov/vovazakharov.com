@@ -1,0 +1,88 @@
+{
+  "total": {
+    "inputTokens": 60,
+    "cacheWrite5mTokens": 73558,
+    "cacheWrite1hTokens": 99135,
+    "cacheReadTokens": 3509716,
+    "outputTokens": 12972,
+    "thinkingTokens": 4556,
+    "responses": 30,
+    "costUsd": 2.1224932
+  },
+  "estimate": {
+    "at": "2026-10-27T08:46:12.512Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "moving a site stylesheet across FSD layers needs knowing which layer may import which, and checking the build still links it on every page"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "c2f6611e-3aeb-53ec-adea-b00662077177",
+  "branch": "claude/maya-wi7vbj",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/maya-wi7vbj",
+  "prs": [
+    217
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDLp9NmtsceFtT2ftp",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-27T08:42:27.714Z",
+  "lastResponseAt": "2026-10-27T08:46:20.208Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 56,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 99135,
+    "cacheReadTokens": 3448272,
+    "outputTokens": 11708,
+    "thinkingTokens": 3915,
+    "responses": 28,
+    "costUsd": 1.7171184000000004
+  },
+  "subagents": {
+    "inputTokens": 4,
+    "cacheWrite5mTokens": 73558,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 61444,
+    "outputTokens": 1264,
+    "thinkingTokens": 641,
+    "responses": 2,
+    "costUsd": 0.4053748
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 60,
+      "cacheWrite5mTokens": 73558,
+      "cacheWrite1hTokens": 99135,
+      "cacheReadTokens": 3509716,
+      "outputTokens": 12972,
+      "thinkingTokens": 4556,
+      "responses": 30,
+      "costUsd": 2.1224932
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/entities/maya/ui/site.scss",
+    "endedAt": "2026-10-27T08:44:00.906Z",
+    "contextTokens": 133905,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 84235,
+      "cacheReadTokens": 1378184,
+      "outputTokens": 6278,
+      "thinkingTokens": 3087,
+      "responses": 13,
+      "costUsd": 1.0751808
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
