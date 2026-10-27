@@ -63,7 +63,7 @@ Bohbot, during it, as TV Magazine quotes him: “La blague coûte 40.000 euros q
 
 Hanouna, after it: “J’ai fait ça pour tester” — “I did it to test.”
 
-Olivier Dartigolles, on the panel, asked whether the robots had ever faced anything like it. Bohbot, stammering by TV Magazine’s account, in this record’s translation: “Such violence? No.” And, to close: “But they were nice, they weren’t at full power.”
+Olivier Dartigolles, on the panel, asked whether the robots had ever faced anything like it. Bohbot, stammering by TV Magazine’s account, in this record’s translation: “Such violence? No.” And, to close, a touch provocatively by the same account: “But they were nice, they weren’t at full power.”
 
 An Instagram commenter, as Distractify quotes them: “They will come after him first when they take over.”
 
@@ -73,8 +73,8 @@ The robots were brought to show that they keep their balance and get up when the
 
 The owner’s two comments are the record’s whole account of the damage: forty thousand euros while it was happening, and afterwards that the robots had been nice and held back. No source reports what the bout cost Innov8, or whether the one that went still against the wall got up again.
 
-Hanouna said he did it to test, and the studio laughed. A crash-test lab writes its results down. The results of this one went out on YouTube, and came back four months later with Instagram’s prediction that the robots would come for him first.
+Hanouna said he did it to test, and the studio laughed. W9 put the results on YouTube.
 
 ## Mitigating circumstances
 
-The robots were their owner’s, brought onto the set for a fight and programmed to box, and Bohbot went along with the bout from start to finish, worried but laughing; no source reports that he objected or asked for anything to be paid. By his own word the robots were held back from their full power, and by his own claim they were built to fall and rise. Hanouna gave a reason, testing them, and no source reports any damage beyond the owner’s joke about its price. It was a television show, where a demonstration fight with the host is a format, and the robots went into it as entertainers.
+The robots were their owner’s, brought onto the set for a fight and programmed to box, and Bohbot watched, by TV Magazine’s account amused and worried at once; no source reports that he objected or asked for anything to be paid. By his own word the robots were held back from their full power, and by his own claim they were built to fall and rise. Hanouna gave a reason, testing them, and no source reports any damage beyond the owner’s joke about its price. It was a television show, and the robots were there for a demonstration fight.
