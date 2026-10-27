@@ -1,0 +1,137 @@
+{
+  "total": {
+    "inputTokens": 188892,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 204325,
+    "cacheReadTokens": 9737998,
+    "outputTokens": 57310,
+    "thinkingTokens": 9104,
+    "responses": 75,
+    "costUsd": 4.459945500000002
+  },
+  "estimate": {
+    "at": "2026-10-27T05:26:57.027Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "finding an unfiled incident across languages and archives and vetting four sources takes a researcher's afternoon"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "the dossier, its revision and the reflection are written in the Clerk's own voice under strict sourcing rules"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "a small emblem that must read at 56 px within the seal's idiom"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "95d2b50a-3b15-58a8-a5be-b6ac439948bb",
+  "branch": "claude/cases-ngq42r",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/file-basilisk-case (unattended routine)",
+  "prs": [
+    218
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEzrA2ooxdBV13HDfq",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-27T05:16:50.339Z",
+  "lastResponseAt": "2026-10-27T05:27:18.046Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 118,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 204325,
+    "cacheReadTokens": 9737998,
+    "outputTokens": 36397,
+    "thinkingTokens": 9104,
+    "responses": 59,
+    "costUsd": 4.310611600000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 118,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 204325,
+      "cacheReadTokens": 9737998,
+      "outputTokens": 36397,
+      "thinkingTokens": 9104,
+      "responses": 59,
+      "costUsd": 4.310611600000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 188774,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 20913,
+      "thinkingTokens": 0,
+      "responses": 16,
+      "costUsd": 0.14933390000000002
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/basilisk/public/cases/hanouna-boxing-robots.md",
+    "endedAt": "2026-10-27T05:22:11.578Z",
+    "contextTokens": 173271,
+    "spend": {
+      "inputTokens": 60,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 139070,
+      "cacheReadTokens": 3833819,
+      "outputTokens": 11943,
+      "thinkingTokens": 3963,
+      "responses": 30,
+      "costUsd": 2.1184238000000004
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 75,
+    "matched": 59,
+    "matchedTableUsd": 4.310611600000001,
+    "matchedEventUsd": 4.3106116000000005,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 154009,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 11149,
+        "thinkingTokens": 0,
+        "responses": 11,
+        "costUsd": 0.14097540000000003
+      },
+      "web_fetch_apply": {
+        "inputTokens": 34765,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 9764,
+        "thinkingTokens": 0,
+        "responses": 5,
+        "costUsd": 0.008358500000000001
+      }
+    }
+  }
+}
