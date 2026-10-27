@@ -1,5 +1,6 @@
 import { type ActionDispatch, useEffect, useMemo, useRef } from 'react';
 
+import type { Decks } from './decks';
 import {
   type PlayerTrack,
   seguePositions,
@@ -33,8 +34,8 @@ export type StationControls = {
 };
 
 type StationInput = OnRadio & {
-  /** The player's element, read when it is needed rather than held. */
-  element: () => HTMLAudioElement | null;
+  /** The player's audio, read when it is needed rather than held. */
+  decks: () => Decks | null;
   /** The file the element loads for a track, in the quality the reader chose. */
   source: (track: PlayerTrack) => string;
   /** The public catalogue, whose positions the station's order holds. */
@@ -65,7 +66,7 @@ export type StationKeeper = StationControls & {
  * Keeps the playing element on the radio's timetable while the radio is on. The clock is the device's — there is no server to ask.
  */
 export function useStation({
-  element,
+  decks,
   source,
   catalogue,
   radio,
@@ -103,16 +104,19 @@ export function useStation({
     }
 
     function keepTime() {
-      const audio = element();
+      const playing = decks();
       const slot = slotRef.current;
       const track = slot && trackOf(slot);
 
+      if (playing === null) return;
+
+      const audio = playing.active();
+
       if (
-        audio === null ||
         slot === undefined ||
         track === undefined ||
         !(radio || seekOwedRef.current) ||
-        audio.getAttribute('src') !== source(track) ||
+        playing.loaded() !== source(track) ||
         audio.readyState < HTMLMediaElement.HAVE_METADATA
       ) {
         return;
@@ -143,14 +147,15 @@ export function useStation({
     }
 
     function tryTuneIn() {
-      const audio = element();
+      const playing = decks();
       const now = onAir(Date.now());
 
-      if (audio === null || now === undefined) return;
+      if (playing === null || now === undefined) return;
 
       slotRef.current = now.station;
       seekOwedRef.current = true;
-      audio.src = source(now.track);
+      playing.load(source(now.track));
+      const audio = playing.active();
       // Tuned afresh once allowed: the station may have moved on while the
       // browser decided.
       audio.play().then(tuneIn, (error: unknown) => {
@@ -184,14 +189,11 @@ export function useStation({
       if (next === undefined) return false;
 
       const track = trackOf(next);
-      tuneTo(
-        next,
-        track !== undefined && element()?.getAttribute('src') === source(track),
-      );
+      tuneTo(next, track !== undefined && decks()?.loaded() === source(track));
 
       return true;
     }
 
     return { tuneIn, tryTuneIn, onAir, upNext, handOver, keepTime };
-  }, [element, source, catalogue, radio, dispatch, storeShuffle]);
+  }, [decks, source, catalogue, radio, dispatch, storeShuffle]);
 }

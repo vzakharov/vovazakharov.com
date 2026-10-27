@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { SITE_ID } from '@/shared/config';
 import { findFeed } from '@/shared/content';
 import { byLocale, loadMessages } from '@/shared/i18n';
-import { scriptSample } from '@/shared/music-catalogue';
+import { type MusicAlbum, scriptSample } from '@/shared/music-catalogue';
 import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
@@ -17,6 +17,7 @@ import {
   catalogueAlbums,
   catalogueArtists,
   newestAlbums,
+  wipApart,
 } from '../lib/catalogue';
 import { catalogueSize } from '../lib/duration';
 import type { IndexPageProps } from '../lib/music-route-params';
@@ -32,7 +33,7 @@ import { Spelling } from './spelling';
 
 /**
  * The section's front page: the artists, each a way into its albums and songs,
- * or every album, or every song — one tab each.
+ * or every album, those in the works last, or every song — one tab each.
  */
 export function MusicPage({ locale, tab }: IndexPageProps) {
   const songs = catalogueSongs();
@@ -97,7 +98,7 @@ function tabContent({ tab, locale }: IndexPageProps): {
       };
     }
     case 'albums': {
-      const tiles = newestAlbums(songs).map((album) => {
+      const albumTile = (album: MusicAlbum) => {
         const artist = projectName(albumArtist(album, locale), locale);
 
         return {
@@ -114,11 +115,23 @@ function tabContent({ tab, locale }: IndexPageProps): {
           ),
           wip: albumWipNote(album, locale),
         };
-      });
+      };
+      const { finished, wip } = wipApart(newestAlbums(songs));
+      const tiles = finished.map((album) => albumTile(album));
+      const wipTiles = wip.map((album) => albumTile(album));
 
       return {
-        content: <CatalogueGrid {...{ tiles }} />,
-        names: tiles.flatMap(({ name, artist }) => [
+        content: (
+          <Stack gap={48}>
+            <CatalogueGrid {...{ tiles }} />
+
+            <CatalogueGrid
+              title={loadMessages(locale).music.wip.heading}
+              tiles={wipTiles}
+            />
+          </Stack>
+        ),
+        names: [...tiles, ...wipTiles].flatMap(({ name, artist }) => [
           name.original,
           artist.original,
         ]),

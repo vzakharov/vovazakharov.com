@@ -12,6 +12,7 @@ import type { Locale } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
 
 import { createDecks, type Decks } from './decks';
+import { createFetchingDeck, isIOS } from './fetching-deck';
 import {
   currentTrack,
   isQueued,
@@ -134,13 +135,14 @@ export function useAudioPlayer(
 
   const track = currentTrack(state);
   const current = track === undefined ? undefined : tracks[track];
+  const currentDecks = useCallback(() => decksRef.current, []);
   const element = useCallback(() => decksRef.current?.active() ?? null, []);
   const source = useCallback(
     (playing: PlayerTrack) => trackSource(playing, lossless),
     [lossless],
   );
   const station = useStation({
-    element,
+    decks: currentDecks,
     source,
     catalogue,
     ...pick(state, 'radio'),
@@ -278,7 +280,7 @@ export function useAudioPlayer(
   // This effect comes before the ones that drive the decks, which is what puts
   // the ref in place ahead of them.
   useEffect(() => {
-    const decks = createDecks([
+    const decks = (isIOS() ? createFetchingDeck : createDecks)([
       [
         'timeupdate',
         (audio) => {
@@ -346,10 +348,7 @@ export function useAudioPlayer(
     const wanted = source(current);
     const cued = decks.cue(wanted);
     const audio = decks.active();
-    // The attribute rather than the property: `src` reads back resolved to an
-    // absolute URL, which a site-root path never equals, and every pause would
-    // reload the track from the top.
-    const loaded = audio.getAttribute('src');
+    const loaded = decks.loaded();
 
     if (cued || loaded !== wanted) {
       // The same song in the other quality picks up where it was, once the new
@@ -360,7 +359,7 @@ export function useAudioPlayer(
 
       resumeAtRef.current = switched ? audio.currentTime : undefined;
       setSwitching(switched);
-      if (!cued) audio.src = wanted;
+      if (!cued) decks.load(wanted);
       if (!switched) setElapsed(0);
     }
 

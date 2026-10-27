@@ -13,14 +13,18 @@ import path from 'node:path';
 import {
   collectionDir,
   isDocumentFile,
+  isTranslated,
   type Slugged,
 } from '@/shared/content/collections';
+import { firstImage } from '@/shared/content/first-image';
 import type {
   BaseFrontmatter,
   Collection,
   FrontmatterReader,
   WithFrontmatter,
 } from '@/shared/content/frontmatter';
+import { splitLocale, translationOf } from '@/shared/content/locale-suffix';
+import { translatedData } from '@/shared/content/translations';
 import type { Titled } from '@/shared/typings';
 
 import { contentFiles } from './content-tree.ts';
@@ -28,20 +32,41 @@ import { headingTitle } from './docket.ts';
 
 export type CollectionEntry<F extends BaseFrontmatter> = Slugged &
   Titled &
-  WithFrontmatter<F>;
+  WithFrontmatter<F> & {
+    /** What stands for it on a list: `cardImage`, else the body's first image. */
+    cardImage?: string;
+  };
 
+/**
+ * A translated collection is read in its default language, the one its cards
+ * print: each original is skipped for the translation beside it.
+ */
 export function readCollection<F extends BaseFrontmatter>({
   id,
   schema,
 }: Collection<F>): Array<CollectionEntry<F>> {
-  return contentFiles(isDocumentFile, [collectionDir(id)]).map((file) => {
+  const translated = isTranslated(id);
+  const isRead = (fileName: string) =>
+    isDocumentFile(fileName) &&
+    !(translated && translationOf(fileName) !== undefined);
+
+  return contentFiles(isRead, [collectionDir(id)]).map((file) => {
     const { data, content } = matter(fs.readFileSync(file, 'utf8'));
-    const frontmatter = parseFrontmatter(schema, data, file);
+    const frontmatter = parseFrontmatter(
+      schema,
+      translated
+        ? translatedData(path.dirname(file), path.basename(file), data)
+        : data,
+      file,
+    );
+
+    const name = path.basename(file, '.md');
 
     return {
-      slug: path.basename(file, '.md'),
+      slug: translated ? splitLocale(name).stem : name,
       title: headingTitle(content, file),
       frontmatter,
+      cardImage: frontmatter.cardImage ?? firstImage(content),
     };
   });
 }

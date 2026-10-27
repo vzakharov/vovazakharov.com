@@ -5,4 +5,4 @@ import { collectionFeed } from '@/app/lib';
 // itself, which is why it is stated here rather than re-exported.
 export const dynamic = 'force-static';
 
-export const { GET } = collectionFeed('maya-blog');
+export const { GET } = collectionFeed('maya-blog', 'ru');

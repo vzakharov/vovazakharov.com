@@ -177,6 +177,7 @@ source_checks=(
   og-bible='pnpm content:og:bible --check'
   og-basilisk='pnpm content:og:basilisk --check'
   og-maya='pnpm content:og:maya --check'
+  drawings-maya='pnpm content:drawings:maya --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
   hearing='python3 scripts/lib/test_hearing.py'

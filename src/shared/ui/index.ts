@@ -4,6 +4,7 @@ export { cssColor } from './css-color';
 export { FileLink } from './file-link';
 export { hoverDim } from './hover-dim';
 export { InternalButton } from './internal-button';
+export { localeChips } from './locale-chips';
 export { type MemoField, MemoFields } from './memo-fields';
 export { NameLink } from './name-link';
 export { PageShell } from './page-shell';

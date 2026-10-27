@@ -3,6 +3,7 @@ import 'server-only';
 import { getAbsoluteUrl, siteConfig, type SiteId } from '@/shared/config';
 import {
   DEFAULT_LOCALE,
+  inLocale,
   loadMessages,
   type Locale,
   LOCALES,
@@ -22,13 +23,12 @@ import {
   collectionsForSite,
   feedRoutes,
   type Routed,
-  type WithCollectionId,
 } from './collections';
-import type { LocaleRouted } from './documents';
+import type { RoutedInCollection } from './documents';
 import { filedDate } from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
-export type Feed = WithCollectionId & LocaleRouted & Summarized;
+export type Feed = RoutedInCollection & Summarized;
 
 /** An item before its link is made absolute, which is the site's to do. */
 export type FeedEntry = UnlinkedRssItem & Routed;
@@ -48,7 +48,7 @@ export function listFeeds(site: SiteId): Feed[] {
       locale,
       title: [
         collections.length > 1
-          ? `${name} — ${COLLECTIONS[collection].label}`
+          ? `${name} — ${inLocale(COLLECTIONS[collection].label, locale ?? siteConfig(site).locale)}`
           : name,
         ...(locale === undefined ? [] : [`(${locale})`]),
       ].join(' '),
@@ -90,14 +90,15 @@ export function findFeed(
  */
 export async function feedEntries(
   collection: ArticleCollectionId,
+  locale?: Locale,
 ): Promise<FeedEntry[]> {
-  return (await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection])).map(
-    ({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
-      title,
-      ...pick(frontmatter, 'description'),
-      route,
-      published: filedDate(frontmatter),
-      content: feedHtml(tree, getAbsoluteUrl),
-    }),
-  );
+  return (
+    await renderPrimaryDocuments(ARTICLE_COLLECTIONS[collection], locale)
+  ).map(({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
+    title,
+    ...pick(frontmatter, 'description'),
+    route,
+    published: filedDate(frontmatter),
+    content: feedHtml(tree, getAbsoluteUrl),
+  }));
 }

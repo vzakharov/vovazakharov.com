@@ -15,6 +15,8 @@ type SiteFooterProps = WithOptionalChildren &
     onHomePage?: boolean;
     /** Whom the copyright names, in place of the author linked home. */
     byline?: ReactNode;
+    /** Where the way home leads, on a site whose home is a page per language. */
+    home?: string;
   };
 
 /**
@@ -29,6 +31,7 @@ export function SiteFooter({
   onHomePage = false,
   byline,
   locale = SITE_CONFIG.locale,
+  home = '/',
 }: SiteFooterProps) {
   const { author, url } = SITE_CONFIG;
 
@@ -39,7 +42,9 @@ export function SiteFooter({
         <Text size="sm" opacity={0.6} flex={1} miw="min(360px, 100%)">
           {children ??
             (!onHomePage && (
-              <TextLink href="/">{loadMessages(locale).ui.backToHome}</TextLink>
+              <TextLink href={home}>
+                {loadMessages(locale).ui.backToHome}
+              </TextLink>
             ))}
         </Text>
         <Text size="sm" opacity={0.6}>
