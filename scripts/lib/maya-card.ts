@@ -1,10 +1,12 @@
 /**
  * Майя's social cards, as pages for `og-render.ts` to screenshot: she stands at
- * the left edge, cut from the «Крылья» cover, and the copy sits beside her in
- * the site's Merriweather. The site card carries her name and the tagline; a
- * post's carries its byline line, title and description. A post or toy with a
- * drawing of its own is carded as the drawing alone: the unfurl prints the
- * title and description under it, and the drawing is signed.
+ * the left edge, cut from the «Крылья» cover, and the copy sits beside her on
+ * her paper, in her drawings' ink. The face is Merriweather rather than the
+ * site's Georgia, which a Linux renderer does not carry and whose free
+ * stand-in, Gelasio, has no Cyrillic. The site card carries her name and the
+ * tagline; a post's carries its byline line, title and description. A post or
+ * toy with a drawing of its own is carded as the drawing alone: the unfurl
+ * prints the title and description under it, and the drawing is signed.
  *
  * The font is staged beside the card from `@fontsource/merriweather` — a
  * `file://` page has no route to the web font the site loads — in both of the
@@ -22,14 +24,7 @@ import { formatDocumentDate } from '@/shared/content/document-date';
 import type { ArticleFrontmatter } from '@/shared/content/frontmatter';
 
 import { REPO_ROOT } from './content-tree.ts';
-import {
-  CANVAS_BACKGROUND,
-  type CardHeading,
-  escapeHtml,
-  INK,
-  INK_DIM,
-  type StagedPage,
-} from './og-render.ts';
+import { type CardHeading, escapeHtml, type StagedPage } from './og-render.ts';
 import type { CollectionEntry } from './read-collection.ts';
 
 type BlogPost = CollectionEntry<ArticleFrontmatter>;
@@ -44,11 +39,15 @@ const COVER = path.join(
 );
 
 /**
- * The paper her drawings are on, which a drawn card is laid out on too, so a
+ * The paper her drawings are on, which every card of hers is laid out on, so a
  * drawing of any aspect letterboxes into it without a seam. Each drawing paints
  * it as its own background rect; one on another paper shows its edges here.
  */
 const PAPER = '#f5efe3';
+
+/** The ink her drawings are lined in, and the grey their small print is in. */
+const INK = '#2b2622';
+const INK_DIM = '#8c8781';
 
 /**
  * The body and the title, each in both scripts. Each specifier is spelled
@@ -123,7 +122,7 @@ ${fontFaces()}
         height: ${CANVAS.height}px;
         display: flex;
         overflow: hidden;
-        background: ${CANVAS_BACKGROUND};
+        background: ${PAPER};
         color: ${INK};
         font-family: "Card", serif;
       }

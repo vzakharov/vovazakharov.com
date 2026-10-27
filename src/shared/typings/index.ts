@@ -45,6 +45,9 @@ export type Rated = { explicit: boolean };
 /** What a reproducible random draw starts from: the same seed, the same result. */
 export type Seeded = { seed: number };
 
+/** A place in a counted series — a meadow, a plate. */
+export type Numbered = { number: number };
+
 /** The short name a thing is shown or logged under. */
 export type Labeled = { label: string };
 

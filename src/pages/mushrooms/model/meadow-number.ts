@@ -4,8 +4,10 @@
  * other hash reopens the highest.
  */
 
+import type { Numbered } from '@/shared/typings';
+
 /** The meadow to open, and whether none is kept under its number yet. */
-export type MeadowChoice = { number: number; fresh: boolean };
+export type MeadowChoice = Numbered & { fresh: boolean };
 
 const NAMED = /^#[1-9]\d*$/;
 

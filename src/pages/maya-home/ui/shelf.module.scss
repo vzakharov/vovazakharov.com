@@ -1,0 +1,51 @@
+@use '../../../../styles/mantine' as mantine;
+@use './leaf';
+
+.heading {
+  font-size: 1rem;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+
+// A toy's leaf is a plate's (`plates.module.scss`) laid on its side where there
+// is room, and upright where there is not.
+.toy {
+  display: grid;
+  height: 100%;
+
+  @include leaf.edge;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    grid-template-columns: 45% 1fr;
+  }
+}
+
+.drawingLink {
+  display: block;
+}
+
+.drawing {
+  @include leaf.head-drawing;
+
+  // On its side the drawing fills the leaf at whatever height the caption
+  // sets, cropping only the empty paper around a drawing centred on it.
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    height: 100%;
+    object-fit: cover;
+    border-right: 1px solid var(--color-border-hairline);
+    border-bottom: 0;
+  }
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 20px;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-style: italic;
+}

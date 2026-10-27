@@ -1,5 +1,8 @@
 import '../styles/globals.scss';
 import '../styles/print.scss';
+// A site's own sheet outweighs the defaults by its `[data-site]` selectors,
+// whichever is emitted first.
+import '@/entities/maya';
 
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import type { Metadata } from 'next';
@@ -8,6 +11,7 @@ import { JetBrains_Mono, Merriweather } from 'next/font/google';
 import {
   ANALYTICS_SCRIPT_URL,
   SITE_CONFIG,
+  SITE_ID,
   withoutScheme,
 } from '@/shared/config';
 import { SCRIPT_PREFERENCE_SCRIPT } from '@/shared/lib/script-preference';
@@ -47,10 +51,11 @@ export function RootLayout({
 }>) {
   // The font variables have to be on <html>: a custom property resolves in the
   // scope it is declared in, and Mantine declares `--mantine-font-family` —
-  // which reads them — on `:root`.
+  // which reads them — on `:root`. A site's own styles key on `data-site`.
   return (
     <html
       lang={SITE_CONFIG.locale}
+      data-site={SITE_ID}
       className={`${merriweather.variable} ${jetbrainsMono.variable}`}
       {...mantineHtmlProps}
     >

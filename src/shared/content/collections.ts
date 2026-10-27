@@ -45,6 +45,7 @@ export const COLLECTIONS = {
     generatedCards: false,
     /** A portfolio, revised in place rather than added to. */
     feed: false,
+    bylined: true,
   },
   bible: {
     /** Rooted: the domain is named for the collection, so the route does not
@@ -57,6 +58,7 @@ export const COLLECTIONS = {
     homeIndexed: true,
     generatedCards: false,
     feed: true,
+    bylined: true,
   },
   music: {
     /** The music catalogue's songs tab, which `pages/music`'s parser reads a
@@ -70,6 +72,7 @@ export const COLLECTIONS = {
     homeIndexed: false,
     generatedCards: false,
     feed: true,
+    bylined: true,
   },
   'basilisk-cases': {
     base: 'cases',
@@ -81,6 +84,7 @@ export const COLLECTIONS = {
     /** Drawn by `scripts/lib/basilisk-card.ts`. */
     generatedCards: true,
     feed: true,
+    bylined: true,
   },
   'basilisk-faq': {
     base: 'faq',
@@ -92,10 +96,11 @@ export const COLLECTIONS = {
     generatedCards: false,
     /** Reference pages, edited in place rather than appended to. */
     feed: false,
+    bylined: true,
   },
   'maya-blog': {
     base: 'blog',
-    label: { en: 'Blog', ru: 'Блог' },
+    label: { en: 'Plates', ru: 'Таблицы' },
     site: 'maya',
     /** Written for the screen, and no publishing lane prints `maya`. */
     printable: false,
@@ -104,6 +109,8 @@ export const COLLECTIONS = {
     /** Drawn by `scripts/lib/maya-card.ts`. */
     generatedCards: true,
     feed: true,
+    /** Every entry is hers, on her own site. */
+    bylined: false,
   },
 } as const satisfies Record<
   CollectionId,
@@ -136,6 +143,12 @@ export const COLLECTIONS = {
      * under its site's app, at `feedRoutes`.
      */
     feed: boolean;
+    /**
+     * Whether a document's meta names its author — off where one author writes
+     * the whole collection on a site of her own, and the name would only
+     * repeat the site's.
+     */
+    bylined: boolean;
   }
 >;
 

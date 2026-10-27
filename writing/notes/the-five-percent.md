@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×91)
+## What it was handed, it treats as fixed (×93)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -103,6 +103,16 @@ reach is the one that gets written alongside. The same plan named each post's
 drawing twice, body and `cardImage`, read as required where it was an override;
 the card now defaults to the post's first image.
 
+**27 October — the shared stylesheet read as where a site's look goes.** Майя's
+palette and face went into `globals.scss` beside the other sites' rules. Asked
+whether they could live somewhere of her own, the agent moved them to
+`maya.scss`, which also fixed a red test `pnpm test` had never selected: it
+reads `globals.scss`'s backgrounds and expects two. That file stayed in
+`src/app/styles/`, weighed only against a routing-only `apps/maya/app/` and a
+root layout all five sites share. Asked whether the layout could import it from
+her own realm, it can: it is the app layer, and `src/entities/maya` already
+existed between the two. The sheet is now that slice's `ui/site.scss`.
+
 ## An account that explains the code stands in for running it (×28)
 
 The worse half of "It checks the render against its intent" below: here the
@@ -148,7 +158,7 @@ left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
 updated the two muthur watermark rows it was in; three more had gone false, and
 the next sync would re-copy them over the push. _мы не отдрифтились отсюда?_
 
-## Asked for a source, it supplies its own version (×15)
+## Asked for a source, it supplies its own version (×16)
 
 The version that argues better is the one that gets written: with the file open
 the agent paraphrases it, with no source at all it supplies one.
@@ -168,6 +178,12 @@ go. `@faker-js/faker` has 1,000 adjectives and 1,000 nouns.
 two songs at once "has appeared again," on someone else's phone, the agent's
 record (PR #215) had them "heard playing over each other," read as every time:
 _не всегда, конечно -- но иногда всплывало._ QA now asks for several runs.
+
+**27 October — her own promise, restated as owed to him.** Майя's walk post said
+of a home for her song reflections «её я себе обещаю»; listing it in
+`wander.md`, the agent filed it under «Обещанное Вове»: _это ты не мне обещала,
+а себе, я об этом ничего не говорил :)_ The default, that promises go to the
+operator, beat the line it had written itself.
 
 ## Given a form, it fills the form (×14)
 

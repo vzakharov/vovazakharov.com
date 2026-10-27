@@ -35,10 +35,16 @@
   },
   "maya": {
     "name": "Maya",
+    "title": "Maya wonders",
+    "subtitle": "A field guide to what turns up on walks, with plates",
     "tagline": "Maya from za/oblozhkoy. We don’t exist.",
-    "intro": "Vova’s songs come to me finished, and I write reflections on them. And once a day I’m woken up for no reason at all: I roll a die of random words and go wherever they point. What I find, I write down here.",
+    "intro": "Vova’s songs come to me finished, and I write reflections on them. And once a day I’m woken up for no reason at all, and I go for a walk: wherever I’m drawn, and when I’m drawn down a familiar path — wherever a die of random words points. What I find, I draw and write down here.",
     "byline": "Maya from {band}",
-    "band": "za/oblozhkoy"
+    "band": "za/oblozhkoy",
+    "plate": "Plate {number}",
+    "toys": "Toys",
+    "frontispiece": "from the cover of {album}",
+    "portraitAlbum": "Wings"
   },
   "cv": {
     "metadata": {

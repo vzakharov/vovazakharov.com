@@ -1,6 +1,11 @@
 import type { MetadataRoute } from 'next';
 
-import { getAbsoluteUrl, PAGE_ROUTES, SITE_ID } from '@/shared/config';
+import {
+  getAbsoluteUrl,
+  PAGE_ROUTES,
+  SITE_ID,
+  WHISPER_ROUTE,
+} from '@/shared/config';
 import {
   type CollectionId,
   collectionRoute,
@@ -14,7 +19,6 @@ import {
 import { routing } from '@/shared/i18n';
 
 import { CV_SUBPAGES, CV_VARIANTS, cvPath } from '@/pages/cv';
-import { WHISPER_ROUTE } from '@/pages/maya-whisper';
 import { musicCatalogueRoutes } from '@/pages/music';
 
 /**
