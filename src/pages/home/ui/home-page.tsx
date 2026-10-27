@@ -1,6 +1,6 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 
-import { PAGE_ROUTES, SITE_CONFIG } from '@/shared/config';
+import { SITE_CONFIG } from '@/shared/config';
 import { MUSIC_ROUTE } from '@/shared/music-catalogue';
 import { PageShell, SiteAvatar, TextLink } from '@/shared/ui';
 
@@ -11,7 +11,7 @@ import { OfferSection } from './offer-section';
 import { WorkSection } from './work-section';
 
 /** The nouns the hero claims that live on pages of their own. */
-const SEE_ALSO = [PAGE_ROUTES.writing, MUSIC_ROUTE];
+const SEE_ALSO = [MUSIC_ROUTE];
 
 export function HomePage() {
   const { name } = SITE_CONFIG;

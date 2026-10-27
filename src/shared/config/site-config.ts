@@ -25,7 +25,6 @@ import type { SiteId } from './site-ids';
  * reach each other sideways; the CV and the collections shape their own URLs.
  */
 export const PAGE_ROUTES = {
-  writing: '/writing',
   mushrooms: '/mushrooms',
 } as const;
 
