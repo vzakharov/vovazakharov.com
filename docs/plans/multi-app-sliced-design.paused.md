@@ -16,16 +16,22 @@ elephant's own sections dropped.
 
 **6b, the game cut by its nouns, on #216.** The tree stands: entities, features,
 the map widget, and the page holding the composition and the tests that build it
-(`bite-06b.md`). Typecheck, eslint, Steiger, `check:masd`, knip and
-`type-overlap` are clean; the page's tests reach the slices below through each
-slice's `index.test-only.ts`.
+(`bite-06b.md`). Typecheck, eslint, Steiger, `check:masd`, knip, `type-overlap`
+and `format:check` are clean; the page's tests reach the slices below through
+each slice's `index.test-only.ts`, and a Phaser-bound slice through its
+`index.node-safe.ts`. `pnpm test:meadow` passed once the lawn's `LAWN_CELL` was
+told from the occupant grid's; vova builds; `/polish` ran over the bite in five
+parts by path, the empty `polish:` commit 8b0c30109 its floor.
+`VET_MEADOW=1 ./scripts/vet.sh` now shards the game's tests and plays across
+vet's runners (111e8fcec), the operator's ask on #216: «давай сделаем здесь».
 
 What is left, in order:
 
-1. **`pnpm test:meadow` and `pnpm play:mushrooms`** at `/finalize`, which also
-   confirm that showing every mushroom (no `STAND_REACH` filter) judged nothing
-   differently; vova built and the game looked at.
-2. **Fold 6b into "Eaten so far"** and land the bite
+1. **`VET_MEADOW=1 ./scripts/vet.sh`**, the first run of its new jobs: a red
+   `meadow`, `probe` or `play` job is the wiring's first to fix, then the
+   game's. It is also the plays' first full run since the cut — in the container
+   only tabL's first groups ran, clean.
+2. **Fold 6b into "Eaten so far"**, `/pr`, and land the bite
    (`.claude/skills/plan/elephant.md` § "Landing a bite").
 
 ## Eaten so far
