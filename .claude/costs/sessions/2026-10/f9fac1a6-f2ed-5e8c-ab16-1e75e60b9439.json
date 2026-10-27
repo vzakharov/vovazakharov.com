@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 129603,
+    "cacheReadTokens": 5363457,
+    "outputTokens": 20368,
+    "thinkingTokens": 2815,
+    "responses": 35,
+    "costUsd": 2.5171554
+  },
+  "estimate": {
+    "at": "2026-10-27T04:38:29.073Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "the article head, footer and title-page subtitle are layout and type judgement on a look already set"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "wiring an existing entity into the home, toy and shared article page slots is routine component work"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "f9fac1a6-f2ed-5e8c-ab16-1e75e60b9439",
+  "branch": "claude/maya-wi7vbj",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/maya-wi7vbj — Майя доделывает шапку статьи, подвал, номера таблиц и подзаголовок сайта",
+  "prs": [
+    217
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDpBfyS3AN4K45jz2g",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-27T04:38:13.891Z",
+  "lastResponseAt": "2026-10-27T04:52:53.909Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 129603,
+    "cacheReadTokens": 5363457,
+    "outputTokens": 20368,
+    "thinkingTokens": 2815,
+    "responses": 35,
+    "costUsd": 2.5171554
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 70,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 129603,
+      "cacheReadTokens": 5363457,
+      "outputTokens": 20368,
+      "thinkingTokens": 2815,
+      "responses": 35,
+      "costUsd": 2.5171554
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/pages/maya-home/ui/plates.tsx",
+    "endedAt": "2026-10-27T04:38:51.294Z",
+    "contextTokens": 149750,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 87320,
+      "cacheReadTokens": 947545,
+      "outputTokens": 2732,
+      "thinkingTokens": 605,
+      "responses": 9,
+      "costUsd": 0.9427810000000002
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
