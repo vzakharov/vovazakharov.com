@@ -4,6 +4,8 @@
  * the scene stands and draws it on screen.
  */
 
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import {
   type Box,
   boxAround,
@@ -103,11 +105,7 @@ export type DoorPart = keyof typeof DOOR_PARTS;
 /** Each drawn outline's box, read once however many doors it is tried against. */
 const boxes = new WeakMap<readonly Point[], Box>();
 export function boxOf(outline: readonly Point[]): Box {
-  const known = boxes.get(outline);
-  if (known) return known;
-  const box = boxAround(outline);
-  boxes.set(outline, box);
-  return box;
+  return keptIn(boxes, outline, boxAround);
 }
 
 /**
@@ -134,11 +132,8 @@ export function sightOf(
 /** Each mushroom's door stations by its genes, laid out once: genes are never changed once grown. */
 const stations = new WeakMap<MushroomGenes, Map<number, DoorPlace[]>>();
 function stationsOf({ genes, turn }: Splayed): DoorPlace[] {
-  const byTurn = stations.get(genes) ?? new Map<number, DoorPlace[]>();
-  stations.set(genes, byTurn);
-  const known = byTurn.get(turn) ?? doorStations(genes, turn);
-  byTurn.set(turn, known);
-  return known;
+  const byTurn = keptIn(stations, genes, () => new Map<number, DoorPlace[]>());
+  return keptIn(byTurn, turn, () => doorStations(genes, turn));
 }
 
 /**

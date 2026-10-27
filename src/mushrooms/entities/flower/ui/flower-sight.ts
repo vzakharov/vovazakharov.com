@@ -10,6 +10,7 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import { keptIn } from '@/kernel/shared/lib/kept';
 import type { WithHeight } from '@/kernel/shared/typings';
 
 import {
@@ -169,13 +170,7 @@ function perGround<Store extends object>(
   make: () => Store,
 ): (layout: FlowerSightLayout) => Store {
   const stores = new WeakMap<MushroomGround, Store>();
-  return ({ mushrooms }) => {
-    const known = stores.get(mushrooms);
-    if (known) return known;
-    const fresh = make();
-    stores.set(mushrooms, fresh);
-    return fresh;
-  };
+  return ({ mushrooms }) => keptIn(stores, mushrooms, make);
 }
 
 /** How far round its head's middle a flower whose petals reach `r` answers a tap: a little past them, and never under `TAP_RADIUS`. */
@@ -316,22 +311,20 @@ export function sightAt(
   foot: Footing,
   sitter: Sitter,
 ): FootSight {
-  const byOccupants = footSights(layout);
-  const bySitter =
-    byOccupants.get(occupants) ?? new WeakMap<Sitter, Map<string, FootSight>>();
-  byOccupants.set(occupants, bySitter);
-  const known = bySitter.get(sitter) ?? new Map<string, FootSight>();
-  bySitter.set(sitter, known);
+  const bySitter = keptIn(
+    footSights(layout),
+    occupants,
+    () => new WeakMap<Sitter, Map<string, FootSight>>(),
+  );
+  const known = keptIn(bySitter, sitter, () => new Map<string, FootSight>());
   const key = `${String(foot.x)} ${String(foot.y)} ${String(foot.size)}`;
-  const judged = known.get(key);
-  if (judged) return judged;
-  const sightings = sightingsAt(standingOn(layout.camera, foot), sitter);
-  const fresh = {
-    inSight: sightings.every((sighting) =>
-      flowerInSight(layout, sighting, occupants, sitter.span),
-    ),
-    onScreen: sightings.every((sighting) => headOnScreen(layout, sighting)),
-  };
-  known.set(key, fresh);
-  return fresh;
+  return keptIn(known, key, () => {
+    const sightings = sightingsAt(standingOn(layout.camera, foot), sitter);
+    return {
+      inSight: sightings.every((sighting) =>
+        flowerInSight(layout, sighting, occupants, sitter.span),
+      ),
+      onScreen: sightings.every((sighting) => headOnScreen(layout, sighting)),
+    };
+  });
 }

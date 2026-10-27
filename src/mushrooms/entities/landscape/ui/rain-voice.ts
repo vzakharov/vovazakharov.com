@@ -7,6 +7,8 @@
  * whoosh's about 10 dB under.
  */
 
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import {
   brownNoise,
   envelopeAt,
@@ -90,10 +92,12 @@ type Buffers = { hiss: AudioBuffer; patter: AudioBuffer[] };
 const made = new WeakMap<BaseAudioContext, Buffers>();
 
 function buffersOf(context: BaseAudioContext): Buffers {
-  const known = made.get(context);
-  if (known) return known;
+  return keptIn(made, context, madeBuffers);
+}
+
+function madeBuffers(context: BaseAudioContext): Buffers {
   const length = Math.ceil(context.sampleRate * PATTER_SECONDS);
-  const buffers = {
+  return {
     hiss: brownNoise(context, 3),
     patter: Array.from({ length: PATTER_LAYERS }, () => {
       const buffer = context.createBuffer(1, length, context.sampleRate);
@@ -105,8 +109,6 @@ function buffersOf(context: BaseAudioContext): Buffers {
       return buffer;
     }),
   };
-  made.set(context, buffers);
-  return buffers;
 }
 
 /** A looping buffer into a gain held at 0, which `RainVoice` raises. */

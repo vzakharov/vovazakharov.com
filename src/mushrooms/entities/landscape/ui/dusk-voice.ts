@@ -4,6 +4,8 @@
  * dusk's level, under the meadow rather than over it.
  */
 
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import {
   between,
   countFrom,
@@ -98,18 +100,18 @@ type Placed = { buffer: AudioBuffer; pan: number };
 const made = new WeakMap<BaseAudioContext, Placed[]>();
 
 function buffersOf(context: BaseAudioContext): Placed[] {
-  const known = made.get(context);
-  if (known) return known;
+  return keptIn(made, context, madeBuffers);
+}
+
+function madeBuffers(context: BaseAudioContext): Placed[] {
   const rate = context.sampleRate;
-  const buffers = CRICKETS.map(({ pitch, pan, seed }) => {
+  return CRICKETS.map(({ pitch, pan, seed }) => {
     const { onsets, loopSeconds } = chirpRhythm(mulberry32(seed));
     const length = Math.ceil(loopSeconds * rate);
     const buffer = context.createBuffer(1, length, rate);
     fillChirps(buffer.getChannelData(0), rate, pitch, onsets);
     return { buffer, pan };
   });
-  made.set(context, buffers);
-  return buffers;
 }
 
 /**

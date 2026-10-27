@@ -1,3 +1,5 @@
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import type { Sitter } from '@/mushrooms/shared/world';
 
 import type { InsectKind } from '../model/insect-genes';
@@ -35,12 +37,8 @@ const butterflies = new Map<number, Sitter>();
  * wings at their widest: what a flower's planting is judged in sight by.
  */
 export function butterflyOn(layout: InsectScaled): Sitter {
-  const known = butterflies.get(layout.insectSize);
-  if (known) return known;
-  const made: Sitter = {
+  return keptIn(butterflies, layout.insectSize, (insectSize) => ({
     span: widestSpanOn(layout),
-    lift: (reach) => flowerLift(reach, layout.insectSize),
-  };
-  butterflies.set(layout.insectSize, made);
-  return made;
+    lift: (reach) => flowerLift(reach, insectSize),
+  }));
 }

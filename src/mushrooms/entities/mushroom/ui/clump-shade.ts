@@ -4,6 +4,8 @@
  * as a silhouette of cells so a flower's many tries stay cheap.
  */
 
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import type { Box, Point } from '@/mushrooms/shared/lib/geometry';
 import {
   type ClumpShade,
@@ -42,10 +44,15 @@ const silhouettes = new WeakMap<MushroomGenes, Map<number, Silhouette>>();
 
 /** The silhouette of `genes` stood with `splay` (`Silhouette`), drawn once. */
 function silhouetteOf(genes: MushroomGenes, splay: number): Silhouette {
-  const bySplay = silhouettes.get(genes) ?? new Map<number, Silhouette>();
-  silhouettes.set(genes, bySplay);
-  const known = bySplay.get(splay);
-  if (known) return known;
+  const bySplay = keptIn(
+    silhouettes,
+    genes,
+    () => new Map<number, Silhouette>(),
+  );
+  return keptIn(bySplay, splay, () => drawnSilhouette(genes, splay));
+}
+
+function drawnSilhouette(genes: MushroomGenes, splay: number): Silhouette {
   const outlines = standingWith(
     { x: 0, y: 0, size: 1, splay, haze: 0 },
     genes,
@@ -80,9 +87,7 @@ function silhouetteOf(genes: MushroomGenes, splay: number): Silhouette {
       }
     }
   }
-  const silhouette = { left, top, columns, rows, cells };
-  bySplay.set(splay, silhouette);
-  return silhouette;
+  return { left, top, columns, rows, cells };
 }
 
 /**

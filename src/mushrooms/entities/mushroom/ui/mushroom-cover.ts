@@ -8,6 +8,8 @@
  * plays and plants only through what the child can see.
  */
 
+import { keptIn } from '@/kernel/shared/lib/kept';
+
 import { boxAround } from '@/mushrooms/shared/lib/geometry';
 import {
   aboutFoot,
@@ -39,28 +41,30 @@ const occupancies = new WeakMap<
  * replaces.
  */
 export const occupantsOn: Occupying<Planted> = (ground, mushrooms) => {
-  const byMushrooms =
-    occupancies.get(ground) ??
-    new WeakMap<readonly Planted[], readonly Occupant[]>();
-  occupancies.set(ground, byMushrooms);
-  const known = byMushrooms.get(mushrooms);
-  if (known) return known;
-  const occupants = mushrooms.flatMap((mushroom): Occupant[] => {
-    const place = placeIn(ground, mushroom);
-    if (!place) return [];
-    const { depth, drawn } = standingAt(place, mushroom);
-    return [
-      {
-        foot: planeFootAt(ground.camera, place),
-        cover: {
-          depth,
-          drawn: drawn.map((outline) => ({ outline, box: boxAround(outline) })),
+  const byMushrooms = keptIn(
+    occupancies,
+    ground,
+    () => new WeakMap<readonly Planted[], readonly Occupant[]>(),
+  );
+  return keptIn(byMushrooms, mushrooms, () =>
+    mushrooms.flatMap((mushroom): Occupant[] => {
+      const place = placeIn(ground, mushroom);
+      if (!place) return [];
+      const { depth, drawn } = standingAt(place, mushroom);
+      return [
+        {
+          foot: planeFootAt(ground.camera, place),
+          cover: {
+            depth,
+            drawn: drawn.map((outline) => ({
+              outline,
+              box: boxAround(outline),
+            })),
+          },
         },
-      },
-    ];
-  });
-  byMushrooms.set(mushrooms, occupants);
-  return occupants;
+      ];
+    }),
+  );
 };
 
 /** Every one of `mushrooms` that `view` draws, as it covers what stands behind it. */

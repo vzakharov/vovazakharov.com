@@ -1,3 +1,4 @@
+import { keptIn } from '@/kernel/shared/lib/kept';
 import type { WithId } from '@/kernel/shared/typings';
 
 import type { Bent, Circle, Leaning } from '@/mushrooms/shared/lib/geometry';
@@ -275,9 +276,7 @@ const grown = new Map<string, MushroomGenes>();
 
 export function mushroomGenes(seeded: MushroomSeed): MushroomGenes {
   const key = `${seeded.species} ${String(seeded.seed)}`;
-  const known = grown.get(key) ?? growGenes(seeded);
-  grown.set(key, known);
-  return known;
+  return keptIn(grown, key, () => growGenes(seeded));
 }
 
 function growGenes({ seed, species }: MushroomSeed): MushroomGenes {
