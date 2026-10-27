@@ -8,9 +8,8 @@ so two branches never edit one file and every one merges clean:
       {"comment": 4378724025, "lens": "echo", "about": "<at most 80 characters>", "verdict": 0.4}
     ]}
 
-`comment` is the proposal's review-comment id on GitHub, `verdict` the agent's reading of the
-operator's answer, from 0 (declined) to 1 (taken as proposed). `lens` is free text rather than
-checked against `lenses.md`, so a row outlives a lens the catalogue later drops.
+`.claude/skills/five-percent/verdicts.md` says what each field holds. `lens` is free text rather
+than checked against `lenses.md`, so a row outlives a lens the catalogue later drops.
 
 Usage: `python3 scripts/five-percent-verdicts/tally.py [--json | --check]`. A malformed file
 fails the run, `--check` included, which is what `scripts/vet.sh` runs.
