@@ -37,6 +37,7 @@ scripts/check-notes-length.sh   # writing/notes/ ceiling        │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
 scripts/staged.sh check         # staged always-loaded copies   │
+wc -l delegation-model-capabilities.md # /go's notes, ≤100 lines │
 scripts/check-claude-md-size.sh # CLAUDE.md + imports size cap  │
 python3 .claude/costs/test_*.py # cost ledger, one run per file │
 python3 .claude/costs/check_estimates.py # every session estimated │
@@ -201,8 +202,8 @@ Twenty things about that list are deliberate:
   trims. It exists because the ceiling was prose in the file it governs, and
   nothing reads a paragraph on its way to appending a section. POSIX `sh` and
   `wc`, reading only `writing/notes/`, which nothing else here touches.
-- **The last ten read the agent infrastructure itself and write nothing another
-  check reads, which is why they overlap the rest safely.**
+- **The last eleven read the agent infrastructure itself and write nothing
+  another check reads, which is why they overlap the rest safely.**
   `scripts/check-skill-catalog.sh` asserts that every `@`-reference into
   `.claude/` resolves — the skill pointers and CLAUDE.md's own imports alike —
   and that every section citation into CLAUDE.md names a heading that exists;
@@ -211,19 +212,22 @@ Twenty things about that list are deliberate:
   `scripts/check-markdown-tables.sh` holds agent-facing Markdown to
   `.claude/rules/markdown.md`, and runs only while that rule exists.
   `scripts/staged.sh check` holds `.claude/staged/` to
-  `.claude/rules/staging.md`, `scripts/check-claude-md-size.sh` caps what
-  `CLAUDE.md` and its imports cost every turn, measured as the branch will land
-  them, the cost ledger's, context budget's, cold-cache guard's and keepalive's
-  tests run the code under `.claude/costs/`, `.claude/context-budget/`,
-  `.claude/cold-cache/` and `.claude/keepalive/` against temporary transcripts
-  and repositories of their own, and `.claude/hooks/`'s feed its hooks payloads
-  on stdin. `check_estimates.py` fails a branch carrying a session with no
-  human-hour estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying
-  why the gate sits here.
+  `.claude/rules/staging.md`, the delegation notes check holds `/go`'s
+  `delegation-model-capabilities.md` to its keeping rule's cap, so a summary
+  rewritten every session cannot drift into a log,
+  `scripts/check-claude-md-size.sh` caps what `CLAUDE.md` and its imports cost
+  every turn, measured as the branch will land them, the cost ledger's, context
+  budget's, cold-cache guard's and keepalive's tests run the code under
+  `.claude/costs/`, `.claude/context-budget/`, `.claude/cold-cache/` and
+  `.claude/keepalive/` against temporary transcripts and repositories of their
+  own, and `.claude/hooks/`'s feed its hooks payloads on stdin.
+  `check_estimates.py` fails a branch carrying a session with no human-hour
+  estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying why the
+  gate sits here.
 - **What makes a check a member is that it measures this repo's own code**,
   which is the test for the whole list — `scripts/gh_export/` is vendored byte
   for byte and edited only at the source, so its suite runs there.
-  `.claude/skills/update-muthur/watermark.json` carries that call, under
+  `.claude/skills/update-muthur/divergence.md` carries that call, under
   `scripts/check-muthur.sh` and `scripts/test_*.py`.
 - **`scripts/check-squash-message.sh` holds the squash proposal to the size caps
   `.claude/skills/squash-message/SKILL.md` states**, which is why it is the one

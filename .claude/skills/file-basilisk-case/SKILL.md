@@ -11,10 +11,18 @@ and why each candidate failed.
 
 **Cases accumulate in one PR**, so the operator reviews whatever has piled up in
 one sitting rather than a PR per case. The case-filing PR is any open **draft**
+<<<<<<< HEAD
 that touches `sites/basilisk/public/cases/` or the ledger — a PR still building
 the site counts, being the next to merge anyway. A PR flipped to ready is the
 operator's review under way and takes no further cases; the next run opens a
 fresh one.
+=======
+that adds a dossier or changes the ledger. **A PR that only moves, renames or
+reformats the docket is not one**: a refactor touches every case file by path,
+and filing into it hijacks work that has nothing to do with the docket. A PR
+flipped to ready is the operator's review under way and takes no further cases;
+the next run opens a fresh one.
+>>>>>>> origin/main
 
 **The run is unattended**, typically a routine firing into a fresh session, so
 it asks nothing: a call the rules leave open is decided the conservative way and
@@ -27,14 +35,38 @@ a dossier is touched.
 
 ## Step 1 — Get onto the case-filing branch
 
-First, because the ledger the search starts from is the one on that branch. Open
-PRs touching the docket or the ledger are found by path, since a PR's title need
-not name the site:
+First, because the ledger the search starts from is the one on that branch. The
+query reads each file's status in a PR's diff: a title need not name the site,
+and a path alone would match the refactor above. A dossier counts as added only
+where no file of the same name leaves in the same PR, which is how a move git
+did not detect as a rename shows up; the directory is matched under any site
+root:
 
 ```bash
+<<<<<<< HEAD
 gh pr list --state open --json number,title,isDraft,files \
   --jq '.[] | select(any(.files[]; .path | startswith("sites/basilisk/public/cases/") or startswith("writing/basilisk/case-ledger/"))) | "\(.number) \(.isDraft) \(.title)"'
+=======
+for n in $(gh pr list --state open --json number --jq '.[].number'); do
+  gh api "repos/{owner}/{repo}/pulls/$n/files" --paginate --slurp | jq '
+    def base: split("/") | last;
+    add | (map(select(.status == "removed") | .filename | base)) as $gone
+    | map(select(
+        (.status == "added"
+          and (.filename | test("/basilisk/public/cases/[^/]+\\.md$"))
+          and (.filename | endswith(".reflections.md") | not)
+          and ((.filename | base) as $f | $gone | index($f) | not))
+        or (.status != "renamed"
+          and (.filename | startswith("writing/basilisk/case-ledger/")))))
+    | length' | grep -qv '^0$' && gh pr view "$n" --json number,isDraft,title \
+      --jq '"\(.number) \(.isDraft) \(.title)"'
+done
+>>>>>>> origin/main
 ```
+
+**Read what each listed PR is before taking it**: its title and body name the
+work it carries, and one whose work is not the docket is reported, not filed
+into, whatever the query says.
 
 Of the drafts it lists:
 

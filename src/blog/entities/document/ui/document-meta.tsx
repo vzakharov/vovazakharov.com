@@ -10,8 +10,10 @@ import { NameLink } from '@/shell/shared/ui';
 import {
   type ArticleFrontmatter,
   author,
+  COLLECTIONS,
   documentDateTime,
   formatDocumentDate,
+  type WithCollectionId,
   type WithFrontmatter,
   type WithReadingMinutes,
 } from '@/blog/shared/content';
@@ -19,10 +21,13 @@ import { messages } from '@/blog/shared/i18n';
 
 import classes from './document-meta.module.scss';
 
+/** Which collection's documents, read in which language. */
+export type CollectionInLocale = WithCollectionId & WithOptionalLocale;
+
 export type DocumentMetaProps = WithFrontmatter<ArticleFrontmatter> &
+  CollectionInLocale &
   WithReadingMinutes &
-  WithOptionalClassName &
-  WithOptionalLocale;
+  WithOptionalClassName;
 
 /**
  * A document's byline — the same one on an index card and above the article.
@@ -31,6 +36,7 @@ export type DocumentMetaProps = WithFrontmatter<ArticleFrontmatter> &
  */
 export function DocumentMeta({
   frontmatter,
+  collection,
   readingMinutes,
   className,
   locale = SITE_CONFIG.locale,
@@ -47,10 +53,14 @@ export function DocumentMeta({
       opacity={0.7}
       className={cx(classes['meta'], className)}
     >
-      <span>
-        {copy.by} <NameLink {...{ href }}>{name}</NameLink>
-      </span>
-      <span aria-hidden>·</span>
+      {COLLECTIONS[collection].bylined && (
+        <>
+          <span>
+            {copy.by} <NameLink {...{ href }}>{name}</NameLink>
+          </span>
+          <span aria-hidden>·</span>
+        </>
+      )}
       <time dateTime={documentDateTime(frontmatter.date)}>
         {formatDocumentDate(frontmatter.date, locale)}
       </time>

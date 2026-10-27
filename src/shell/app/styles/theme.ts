@@ -41,14 +41,17 @@ const variantColorResolver: VariantColorsResolver = (input) =>
       }
     : defaultVariantColorsResolver(input);
 
+// The face and the heading weight are custom properties rather than values, so
+// a site can set its own in a sheet keyed on `data-site`.
 export const theme = createTheme({
-  fontFamily: 'var(--font-merriweather), serif',
+  fontFamily: 'var(--font-body)',
   fontFamilyMonospace: 'var(--font-mono), monospace',
   // Sizes live here rather than on call sites so that `print.scss` can re-key
   // them off `h1`–`h4`: a `fz` prop would render as an inline style no print
   // rule could reach.
   headings: {
-    fontFamily: 'var(--font-merriweather), serif',
+    fontFamily: 'var(--font-body)',
+    fontWeight: 'var(--font-heading-weight)',
     sizes: {
       h1: { fontSize: '36px', lineHeight: '40px' },
       h2: { fontSize: '30px', lineHeight: '36px' },

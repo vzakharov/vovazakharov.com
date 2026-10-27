@@ -2,6 +2,9 @@
 @use './prose';
 
 :root {
+  --font-body: var(--font-merriweather), serif;
+  --font-heading-weight: 700;
+
   @include tokens.colors(
     #fff,
     #000,

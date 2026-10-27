@@ -1,5 +1,6 @@
 {
   "repo": "vzakharov/muthur",
+<<<<<<< HEAD
   "lastSyncedSha": "3380c691761202667d8c90f37bfa622d2dbe386e",
   "lastSyncedAt": "2026-10-23",
   "optIn": "take every opt-in path unless the operator's request says otherwise — the operator's standing call, 2026-10-08",
@@ -127,4 +128,8 @@
     "scripts/test_*.py": "never, which is the catalog's own disposition for the row — the unit tests over the source's own scripts, `scripts/gh_export/` included. They rode in here as a side effect of porting the exporter's commits, and an adopter that carries them either runs them, certifying code it never edits, or carries two files nothing reaches. The suite stays where the code is edited; `scripts/gh_export/` itself is adopted, being what this repo runs. See vzakharov/muthur#82 on why the disposition never reached the triage",
     "docs/adopting/": "never — the source's adopter guide in its conditional chapters, the rest of ADOPTING.md, and declined on that file's reason: this repo adopted once and will not again, and a repo adopting from here would need its own guide rather than the source's"
   }
+=======
+  "lastSyncedSha": "d26cb1fdeb8396b453351b6a61835d65088b9c84",
+  "lastSyncedAt": "2026-10-27"
+>>>>>>> origin/main
 }

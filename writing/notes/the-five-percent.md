@@ -38,7 +38,11 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
+<<<<<<< HEAD
 ## What it was handed, it treats as fixed (×98)
+=======
+## What it was handed, it treats as fixed (×93)
+>>>>>>> origin/main
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -64,11 +68,20 @@ script counted G, C's third harmonic, as a note.
 
 **5 to 26 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
+<<<<<<< HEAD
 lacked it by omission. Basilisk.fyi's seal emblems were priced as `artist`, read
 as "illustrator": _artist это про музыканта._ PR #205 kept one reader per music
 fact, nine to sixteen per page: _не стоит ли сделать единые … «получить инфо об
 альбоме/артисте»?_ Each session adding a site had copied `build:<site>` and
 `dev:<site>` once more, never asking whether the site was an argument.
+=======
+lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
+that first read it. Basilisk.fyi's seal emblems were priced as `artist`, read as
+"illustrator": _artist это про музыканта._ The role is now `musician`. BAS-0027's
+dossier went to a copywriter, since `persona` named only the Clerk's reflection,
+though `basilisk-voice.md` makes every page his: _иначе "я написал вот так-то" в
+откликах makes no sense._
+>>>>>>> origin/main
 
 **7 to 27 October — a rule read to its letter, past its case or short of its
 purpose.** A published slug never moves, so renaming «Бабай минем» kept
@@ -91,7 +104,34 @@ her as «ты», as a brief does: _она уже приходит "на гото
 posts went in one file, as the song stories are: _давай хранить в разных
 файлах._
 
+<<<<<<< HEAD
 ## An account that explains the code stands in for running it (×29)
+=======
+**24 October — a drift read as the price of precision.** A polish pass flagged
+that the walk post's line links into her `reflections.md` on `main` would drift,
+so the agent dropped the line numbers: _можно ж сослаться на конкретное SHA?_ A
+permalink at a commit keeps both, reachable after a squash through the PR.
+
+**26 October — Майя's precedent, weighed for its bytes alone.** Planning her
+bilingual posts (PR #208), she cut one file with `<!-- lang:ru -->` markers, as
+the song stories are: _давай хранить в разных файлах_, so the Russian is written
+whole before anyone, maybe a subagent, translates it. The translation within
+reach is the one that gets written alongside. The same plan named each post's
+drawing twice, body and `cardImage`, read as required where it was an override;
+the card now defaults to the post's first image.
+
+**27 October — the shared stylesheet read as where a site's look goes.** Майя's
+palette and face went into `globals.scss` beside the other sites' rules. Asked
+whether they could live somewhere of her own, the agent moved them to
+`maya.scss`, which also fixed a red test `pnpm test` had never selected: it
+reads `globals.scss`'s backgrounds and expects two. That file stayed in
+`src/app/styles/`, weighed only against a routing-only `apps/maya/app/` and a
+root layout all five sites share. Asked whether the layout could import it from
+her own realm, it can: it is the app layer, and `src/entities/maya` already
+existed between the two. The sheet is now that slice's `ui/site.scss`.
+
+## An account that explains the code stands in for running it (×28)
+>>>>>>> origin/main
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
@@ -139,7 +179,7 @@ PR #214 widened `songs.md`'s glob to `pages/**` and `widgets/**`; `entities/`
 fell out, and the player it describes was never in: _does the glob still hold —
 for the additions and in general?_
 
-## Asked for a source, it supplies its own version (×15)
+## Asked for a source, it supplies its own version (×16)
 
 The version that argues better is the one that gets written: with the file open
 the agent paraphrases it, with no source at all it supplies one.
@@ -155,6 +195,12 @@ heading._ His «вот и новый год» was "fixed" to Pasternak's «та�
 **26 October — a frequency the report never gave.** Told the iPhone bug playing
 two songs at once "has appeared again," PR #215 had it happen every time: _не
 всегда, конечно -- но иногда всплывало._
+
+**27 October — her own promise, restated as owed to him.** Майя's walk post said
+of a home for her song reflections «её я себе обещаю»; listing it in
+`wander.md`, the agent filed it under «Обещанное Вове»: _это ты не мне обещала,
+а себе, я об этом ничего не говорил :)_ The default, that promises go to the
+operator, beat the line it had written itself.
 
 ## Given a form, it fills the form (×14)
 

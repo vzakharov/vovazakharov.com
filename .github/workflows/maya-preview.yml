@@ -1,13 +1,14 @@
 name: Publish Майя's preview
 
-# Майя's site from every push to one of her branches to
-# preview.mayawonders.com, so the operator follows her unmerged work
-# without a dev server. A slot of her own, so it never overwrites a preview
-# dispatched through preview.yml, whose steps these are.
+# Майя's site from one of her branches to preview.mayawonders.com, so the
+# operator follows her unmerged work without a dev server. A slot of her own,
+# so it never overwrites a preview dispatched through preview.yml, whose steps
+# these are. Dispatched with --ref <branch> by .claude/hooks/maya-preview.sh at
+# the end of each of her turns that changed the site, rather than on every push,
+# most of which carry nothing the site serves.
 
 on:
-  push:
-    branches: ['claude/maya-*']
+  workflow_dispatch:
 
 permissions:
   contents: read

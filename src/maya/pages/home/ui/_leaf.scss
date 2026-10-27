@@ -1,0 +1,20 @@
+@use '../../../../styles/mantine' as mantine;
+
+@mixin edge {
+  margin: 0;
+  border: 1px solid var(--color-border-hairline);
+  transition: border-color 150ms ease;
+
+  @include mantine.hover {
+    border-color: var(--color-border-hairline-strong);
+  }
+}
+
+// `height: auto` against the attributes: they reserve the row's space before
+// the file lands, and the width here is what the layout wants.
+@mixin head-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid var(--color-border-hairline);
+}

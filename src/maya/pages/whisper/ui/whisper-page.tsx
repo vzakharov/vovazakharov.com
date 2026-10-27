@@ -2,8 +2,14 @@ import { Stack, Text, Title } from '@mantine/core';
 
 import { fillSlots, type WithLocale } from '@/kernel/shared/i18n';
 
+<<<<<<< HEAD:src/maya/pages/whisper/ui/whisper-page.tsx
 import { ChipNav, localeChips, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
+=======
+import { MayaByline } from '@/entities/maya';
+
+import { SiteFooter } from '@/widgets/site-footer';
+>>>>>>> origin/main:src/pages/maya-whisper/ui/whisper-page.tsx
 
 import { documentRoute, localizedRoute } from '@/blog/shared/content';
 
@@ -58,7 +64,11 @@ export function WhisperPage({ locale }: WithLocale) {
 
         <WhisperTypewriter {...{ words, copy }} />
 
-        <SiteFooter {...{ locale }} home={localizedRoute('/', locale)} />
+        <SiteFooter
+          {...{ locale }}
+          home={localizedRoute('/', locale)}
+          byline={<MayaByline {...{ locale }} />}
+        />
       </Stack>
     </PageShell>
   );

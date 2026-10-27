@@ -54,7 +54,8 @@ last, in a concurrency group apart from `pages`.
 `.claude/skills/preview/SKILL.md` § "Published, for someone else to look at"
 carries how it is used. Майя has a slot of her own,
 `vzakharov/preview.mayawonders.com`, which `.github/workflows/maya-preview.yml`
-republishes on every push to a `claude/maya-*` branch.
+republishes from a `claude/maya-*` branch when `.claude/hooks/maya-preview.sh`
+dispatches it, at the end of a turn that pushed a change the site serves.
 
 **On an unmerged branch, an operator's "deploy" — «задеплой», «давай задеплоим»
 — means this door.** A branch dispatch of `deploy.yml` reaches production, so it
