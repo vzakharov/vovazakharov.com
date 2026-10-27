@@ -191,8 +191,10 @@ The log is unfiltered, so a source that puts agent infrastructure somewhere new
 — a `.github/` workflow, another top-level directory — surfaces like anything
 else. Sort each path it names, minus the ones § "Two invariants" excludes, by
 two questions — does it exist here, and does the record mention it
-(`grep -rF '<path>' divergence.md divergence/`, the path and each directory
-above it):
+(``grep -rF '`<path>`' divergence.md divergence/``, then each directory above it
+as ``'`<dir>/`'``). **The backticks are the match**: a bare `<dir>/` also hits
+every file the record names inside that directory, so one re-expressed file
+would mark its verbatim siblings mentioned and keep them from merging.
 
 - **Here, unmentioned** — taken as is: a port candidate for Step 4.
 - **Mentioned** — what the record says decides: re-expressed here, or declined

@@ -20,9 +20,9 @@ record" holds the three rules this file keeps.
   `.claude/skills/plan/SKILL.md` (other work is found by reading the open issue
   list), `.claude/skills/plan/carving.md` (states the `gh issue create` and
   `sub_issues` mechanics inline, without the dedupe pass, the judgment half
-  verbatim) and `.claude/skills/issue/` (the redirect, taken because `/issue`
-  was the shipped name here; its no-number branch names `/task` and says filing
-  is by hand).
+  verbatim) and `.claude/skills/issue/SKILL.md` (the redirect, taken because
+  `/issue` was the shipped name here; its no-number branch names `/task` and
+  says filing is by hand).
 - **`docs/adopting/` is declined, so nothing here cites it**:
   `.claude/hooks/gh-shim.sh` points at `.claude/skills/override-gh/SKILL.md`,
   which states the unproxied path's risk and its tell itself, and
@@ -49,37 +49,32 @@ record" holds the three rules this file keeps.
   here.
 - **`.claude/skills/CLAUDE.md`** — states that the closure check's catalog
   assertions skip here by design.
-- **`.claude/context-budget/`** — carries `MUTHUR_CONTEXT_BUDGET_SUBAGENT`: a
-  subagent gets its own notice, read off its own transcript, in
-  `.claude/context-budget/hooks/post-tool-context-budget.sh`, its test and its
-  `CLAUDE.md`. `manual-relay/` holds one opt-in per operator handle, each that
-  operator's to set.
-- **`.claude/costs/`** — the rows are this repo's own, on its `cost-ledger`
-  branch, and never synced. `.claude/costs/hooks/stop-session-cost.sh` keeps a
+- **`.claude/context-budget/hooks/post-tool-context-budget.sh`, with
+  `.claude/context-budget/test_context_budget.py` and
+  `.claude/context-budget/CLAUDE.md`** — carry `MUTHUR_CONTEXT_BUDGET_SUBAGENT`:
+  a subagent gets its own notice, read off its own transcript.
+- **`.claude/costs/hooks/stop-session-cost.sh`, with
+  `.claude/costs/test_stop_hook.py` and `.claude/costs/CLAUDE.md`** — keep a
   gate the source lacks, on when the branch's display copy is committed
-  (`.claude/costs/CLAUDE.md` § "When the branch's copy is committed", tested in
-  `.claude/costs/test_stop_hook.py`). `rates.json` is the shared table; this
-  repo's own roles live in `rates.repo.json` on `cost-ledger`, so a role it adds
-  is a `role set`, never an edit to the table.
-- **`.claude/keepalive/`** — the source's opt-in, taken; it imports the ledger's
-  `lib/restart.py`, so it stays only while `.claude/costs/` does. Its tests run
-  as an entry in `scripts/vet.sh`'s fan-out.
+  (`.claude/costs/CLAUDE.md` § "When the branch's copy is committed"). The rows
+  themselves are this repo's own, on its `cost-ledger` branch, and never synced.
 - **`.claude/settings.json`** — wires this repo's own hooks beside the source's
   (`.claude/hooks/allow-add-repo.py` among them) and allows its own commands.
-- **`.claude/hooks/`** — `install-deps.sh` carries this project's
+- **`.claude/hooks/install-deps.sh`** — carries this project's
   `corepack enable pnpm` and `pnpm install --frozen-lockfile` where the source
-  ships a TODO; `file-tools-nudge.py` cites `vzakharov/muthur#118` so it does
-  not resolve to this repo's own #118.
+  ships a TODO.
+- **`.claude/hooks/file-tools-nudge.py`** — cites `vzakharov/muthur#118`, so it
+  does not resolve to this repo's own #118.
 - **`.claude/voice/operators/vzakharov.md`** — the same operator's entry, kept
   here by them and possibly ahead of the source's. Another operator's file is
   their own, never a port.
-- **`.claude/skills/finalize/`** — `SKILL.md` Step 1 pushes before vetting,
-  because `scripts/vet.sh` vets the pushed head and refuses a tree that differs
-  from it. `merge.md` gives `pnpm styles:codegen` as its fixer example, and says
-  that here the merge is the deploy.
-- **`.claude/skills/sync-branch/`** — Step 5 pushes before vetting, for
+- **`.claude/skills/finalize/SKILL.md`** — Step 1 pushes before vetting, because
+  `scripts/vet.sh` vets the pushed head and refuses a tree that differs from it.
+- **`.claude/skills/finalize/merge.md`** — gives `pnpm styles:codegen` as its
+  fixer example, and says that here the merge is the deploy.
+- **`.claude/skills/sync-branch/SKILL.md`** — Step 5 pushes before vetting, for
   `/finalize`'s reason, and Step 6's push is then a no-op.
-- **`.claude/skills/squash-message/`** — the title allows a site scope,
+- **`.claude/skills/squash-message/SKILL.md`** — the title allows a site scope,
   `<type>[(<site>)]:`, because the scope picks which site a merge publishes
   (`CLAUDE.md` § "Deployment"), and the types are the ones `CLAUDE.md` lists. A
   re-copy of the source's unscoped rule makes every merge publish every site.
@@ -87,23 +82,27 @@ record" holds the three rules this file keeps.
   and a go-ahead in this one, neither as the rule.
 - **`.claude/skills/plan/elephant.md`** — points unattended runs at
   `.claude/skills/megabeast/notes/README.md`, this repo's own.
-- **`.claude/skills/preview/`** — hydrated for this stack where the source ships
-  a stub.
-- **`.claude/skills/take-issue/`** — two accommodations that make a
-  `user-attachments` download work here, S3 rejecting a second auth mechanism
-  and the egress proxy refusing the path, and in `video-frames.md` that the
-  `apt-get update` before installing ffmpeg is load-bearing.
-- **`.claude/skills/bootstrap-workflow-dispatch/`** — without the source's
-  `/test-on-gh` pointer: `preview.yml`, dispatch-only, is what makes the 404
-  reachable here.
-- **`.claude/skills/spinoff/`** — states the stackless-vet rule itself rather
-  than citing the source's `CLAUDE.md` clause, and reads the catalog link as any
-  `catalog.md` under `.claude/skills/`.
+- **`.claude/skills/preview/SKILL.md`** — hydrated for this stack where the
+  source ships a stub.
+- **`.claude/skills/take-issue/SKILL.md`** — two accommodations that make a
+  `user-attachments` download work here: S3 rejecting a second auth mechanism,
+  and the egress proxy refusing the path.
+- **`.claude/skills/take-issue/video-frames.md`** — says the `apt-get update`
+  before installing ffmpeg is load-bearing.
+- **`.claude/skills/bootstrap-workflow-dispatch/SKILL.md`** — without the
+  source's `/test-on-gh` pointer: `preview.yml`, dispatch-only, is what makes
+  the 404 reachable here.
+- **`.claude/skills/spinoff/SKILL.md`** — states the stackless-vet rule itself
+  rather than citing the source's `CLAUDE.md` clause, and reads the catalog link
+  as any skill's `catalog.md`.
 - **`.claude/skills/update-muthur/SKILL.md`** — hydrated for this repo, where
-  the source ships a stub, with paragraphs of its own: the unit of triage, the
-  renumbered-reference trap, the passes that leave a `take` verbatim, and the
-  merge of an unmentioned path. It drops the source's invariant on cost rows,
-  which this repo keeps on `cost-ledger`.
+  the source ships a stub, its watermark section describing this repo's file,
+  with paragraphs of its own: the unit of triage, the renumbered-reference trap,
+  the passes that leave a `take` verbatim, the clone with no working tree, and
+  the merge of an unmentioned path. It drops what addresses a repo this one is
+  not: one with no record, one without the PR loop, one with no standing answer
+  to opt-in rows (offered by their own path at the source), and one still
+  carrying the source's cost rows, which live on `cost-ledger` here.
 
 ## Declined
 
@@ -138,6 +137,13 @@ record" holds the three rules this file keeps.
 - **`scripts/check-muthur.sh` and `scripts/check-repo-identity.sh`** — never:
   both key on the catalog and exit 0 downstream, which is the source stating
   that an adopter runs none of it.
-- **`scripts/test_*.py`** — never: the unit tests over the source's own scripts,
-  `scripts/gh_export/` and `.claude/hooks/go-delegation.py` included. The suite
-  stays where that code is edited; the code itself is taken.
+- **The unit tests over the source's own scripts** — never: the suite stays
+  where that code is edited, and the code itself is taken. A new one is declined
+  here by name, as these are: `scripts/test_authorship.py`,
+  `scripts/test_claude_md_size.py`, `scripts/test_export_awaiting.py`,
+  `scripts/test_export_render.py`, `scripts/test_extract_session_images.py`,
+  `scripts/test_file_tools_nudge.py`, `scripts/test_find_repo.py`,
+  `scripts/test_go_delegation.py`, `scripts/test_markdown_tables.py`,
+  `scripts/test_markdown_wrap.py`, `scripts/test_multi_repo_hooks.py`,
+  `scripts/test_muthur_sync.py`, `scripts/test_relay_last_reply.py`,
+  `scripts/test_staged.py`.
