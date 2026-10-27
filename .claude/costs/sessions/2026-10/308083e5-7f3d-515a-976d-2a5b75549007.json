@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 108,
+    "inputTokens": 126,
     "cacheWrite5mTokens": 116189,
-    "cacheWrite1hTokens": 105320,
-    "cacheReadTokens": 6014723,
-    "outputTokens": 27462,
-    "thinkingTokens": 10649,
-    "responses": 53,
-    "costUsd": 3.1761216000000005
+    "cacheWrite1hTokens": 124871,
+    "cacheReadTokens": 7503840,
+    "outputTokens": 31449,
+    "thinkingTokens": 10967,
+    "responses": 62,
+    "costUsd": 3.7101650000000004
   },
   "estimate": {
     "at": "2026-10-27T08:31:30.987Z",
@@ -41,22 +41,24 @@
   "branch": "claude/stop-hook-preview-for-maya-phvbw9",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "давай Майин превью запускать только на конце хода, в стоп-хуке, а то у нас миллион прогонов Actions на каждом коммите, включая коммиты костов",
-  "prs": [],
+  "prs": [
+    221
+  ],
   "url": "https://claude.ai/code/session_01DaohkEKN6yq5J3ZApZufni",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-27T08:29:44.666Z",
-  "lastResponseAt": "2026-10-27T08:36:08.354Z",
+  "lastResponseAt": "2026-10-27T08:37:13.396Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 72,
+    "inputTokens": 90,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 105320,
-    "cacheReadTokens": 4485866,
-    "outputTokens": 17087,
-    "thinkingTokens": 6163,
-    "responses": 35,
-    "costUsd": 2.0817612000000003
+    "cacheWrite1hTokens": 124871,
+    "cacheReadTokens": 5974983,
+    "outputTokens": 21074,
+    "thinkingTokens": 6481,
+    "responses": 44,
+    "costUsd": 2.6158046
   },
   "subagents": {
     "inputTokens": 36,
@@ -70,14 +72,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 108,
+      "inputTokens": 126,
       "cacheWrite5mTokens": 116189,
-      "cacheWrite1hTokens": 105320,
-      "cacheReadTokens": 6014723,
-      "outputTokens": 27462,
-      "thinkingTokens": 10649,
-      "responses": 53,
-      "costUsd": 3.1761216000000005
+      "cacheWrite1hTokens": 124871,
+      "cacheReadTokens": 7503840,
+      "outputTokens": 31449,
+      "thinkingTokens": 10967,
+      "responses": 62,
+      "costUsd": 3.7101650000000004
     }
   },
   "warnings": [],
