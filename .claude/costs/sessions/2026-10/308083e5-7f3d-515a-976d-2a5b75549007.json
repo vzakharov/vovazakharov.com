@@ -1,0 +1,86 @@
+{
+  "total": {
+    "inputTokens": 100,
+    "cacheWrite5mTokens": 115225,
+    "cacheWrite1hTokens": 104949,
+    "cacheReadTokens": 5591100,
+    "outputTokens": 26040,
+    "thinkingTokens": 10561,
+    "responses": 50,
+    "costUsd": 3.0551370000000007
+  },
+  "estimate": {
+    "at": "2026-10-27T08:31:30.987Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a Stop hook that runs beside the harness's git check and the cost hook's commit, and must neither block a turn needlessly nor miss a pushed change, takes someone who knows the hook arrangement"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-27T08:29:47.817Z",
+    "contextTokens": 91087,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 39288,
+      "cacheReadTokens": 49176,
+      "outputTokens": 213,
+      "thinkingTokens": 55,
+      "responses": 1,
+      "costUsd": 0.32840719999999995
+    }
+  },
+  "sessionId": "308083e5-7f3d-515a-976d-2a5b75549007",
+  "branch": "claude/stop-hook-preview-for-maya-phvbw9",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай Майин превью запускать только на конце хода, в стоп-хуке, а то у нас миллион прогонов Actions на каждом коммите, включая коммиты костов",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEKN6yq5J3ZApZufni",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-27T08:29:44.666Z",
+  "lastResponseAt": "2026-10-27T08:35:53.743Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 66,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 104949,
+    "cacheReadTokens": 4177468,
+    "outputTokens": 16835,
+    "thinkingTokens": 6114,
+    "responses": 33,
+    "costUsd": 2.0120496000000005
+  },
+  "subagents": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 115225,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1413632,
+    "outputTokens": 9205,
+    "thinkingTokens": 4447,
+    "responses": 17,
+    "costUsd": 1.0430874
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 100,
+      "cacheWrite5mTokens": 115225,
+      "cacheWrite1hTokens": 104949,
+      "cacheReadTokens": 5591100,
+      "outputTokens": 26040,
+      "thinkingTokens": 10561,
+      "responses": 50,
+      "costUsd": 3.0551370000000007
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null
+}
