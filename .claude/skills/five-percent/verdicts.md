@@ -5,9 +5,8 @@ Every `/five-percent` proposal opens on a marker naming this file
 what it is for). **A thread whose root carries it and whose tail is the
 operator's is a verdict to record**, by the session answering that thread —
 usually `/handle`'s review lane — whatever else the answer asks for. The record
-is what says whether a rule distilled from seven weeks of reviews catches
-anything, so a skipped row is a hole in the one measurement the pass exists to
-make.
+is the only measure of whether lenses distilled from seven weeks of reviews
+catch anything, so a skipped row is a hole in it.
 
 **The row goes in the branch's own file**,
 `writing/notes/five-percent-verdicts/<branch>/verdicts.json`, the branch name
