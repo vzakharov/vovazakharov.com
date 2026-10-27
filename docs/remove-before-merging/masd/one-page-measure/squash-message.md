@@ -1,23 +1,30 @@
 Proposed squash body:
 
 ```
-Bite 6a of the multi-app split. A reference count cannot tell a slice
-used once because it is a detail of its consumer from one used once
-because its app has one consumer at all, so a one-page app such as the
-mushroom game could only ever be one grab-bag slice.
+Bites 6a and 6b of the multi-app split. A reference count cannot tell
+a slice used once because it is a detail of its consumer from one used
+once because its app has one consumer at all, so a one-page app such
+as the mushroom game could only ever be one grab-bag slice.
 
-check:masd now holds a slice with one reference significant when its
-public API is narrow: its barrels hand on at most a third of the names
-its files export, so it hides the rest from its consumer, which makes
-it a module whoever uses it. An unreferenced slice is flagged as
-before, and the messages stay Steiger's.
+check:masd now spares a one-consumer slice when its term of Newman's
+modularity is positive: more of its own app's file-import edges fall
+inside it than a degree-preserving rewiring would put there. The null
+model is the bar, so nothing is tuned; the graph is the slice's own
+app, tests and scripts out, since who uses an app says nothing of how
+it is cut.
 
-The measure was chosen over boundary-versus-internal import edges by
-measuring both across the repo: a well-layered slice imports downward,
-so edge cohesion punishes the layering MASD asks for, while API width
-puts the slices built as modules (the player, the CV page) at a fifth
-or under. PUBLIC_API moves to masd-graph.ts, which both the boundaries
-config and the bare-Node check read, and masd.md states the rule.
+The game is cut by its nouns to prove the measure: shared/world, six
+entities, features named for what happens, widgets/map, and the page
+holding scene, state, sound and keeping. Each reader declares the
+layout and actions it uses; the flower and the mushroom meet only as
+occupants of the ground. The page's tests enter lower slices through
+index.node-safe.ts, or index.test-only.ts, an entry boundaries grants
+to tests alone.
+
+VET_MEADOW=1 shards the game's tests across vet's runners; its plays
+are off in vet.yml, red the same way on the base, pending a cut-down.
+keptIn, in kernel's new shared/cache, is the one get-or-make for a Map
+or WeakMap cache across the apps.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
