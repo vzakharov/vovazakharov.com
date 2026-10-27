@@ -6,7 +6,7 @@ import { intrinsicDimensions, localizedRoute } from '@/blog/shared/content';
 import { messages as blogMessages } from '@/blog/shared/i18n';
 import { constructMetadata } from '@/blog/shared/seo';
 
-import { messages } from '../i18n';
+import { whisperMessages } from '../i18n';
 import { WHISPER_ROUTE } from './whisper-copy';
 
 /** The toy's card, which `pnpm content:og maya` renders. */
@@ -18,7 +18,7 @@ export function whisperPath(locale?: string): string {
 }
 
 export function whisperMetadata({ locale }: WithLocale) {
-  const { title, description } = messages(locale);
+  const { title, description } = whisperMessages(locale);
 
   return constructMetadata({
     title: `${title} - ${blogMessages(locale).authors.maya}`,

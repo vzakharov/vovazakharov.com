@@ -32,6 +32,7 @@ import {
 } from './mushroom-probe-answers.ts';
 import {
   type Expect,
+  FPS,
   grow,
   inTurn,
   type Page,
@@ -49,7 +50,7 @@ import {
   walkedIn,
   zooms,
 } from './veer-report.ts';
-import { FPS, most, type Sample, Samples, VEER } from './veer-watch.ts';
+import { most, type Sample, Samples, VEER } from './veer-watch.ts';
 
 /** The headings round the eye a perch is looked for at, in radians. */
 const HEADINGS = Array.from(

@@ -31,7 +31,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..');
+import { REPO_ROOT } from './lib/repo-root.ts';
 
 /**
  * Strings next-intl's client runtime carries into a minified chunk: its own

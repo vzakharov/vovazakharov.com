@@ -29,6 +29,7 @@ import {
   STRIDE_FLING_FASTEST,
 } from '@/mushrooms/shared/world/stride';
 import { browRow } from '@/mushrooms/shared/world/view';
+import { BOB_SHARE } from '@/mushrooms/shared/world/walking';
 import { cloudAt } from '@/mushrooms/entities/landscape/ui/rain-sky';
 
 import {
@@ -38,7 +39,12 @@ import {
   Point,
   Sun,
 } from './mushroom-probe-answers.ts';
-import type { Arrow, Expect, Page } from './mushroom-probe-drive.ts';
+import {
+  type Arrow,
+  type Expect,
+  FPS,
+  type Page,
+} from './mushroom-probe-drive.ts';
 import { BARE_START, playHeldDrags, TAPS } from './play-taps.ts';
 import {
   BACK_HELD,
@@ -46,7 +52,6 @@ import {
   checkPops,
   checkTurn,
   checkWalk,
-  FPS,
   goneAlong,
   type Seen,
   turned,
@@ -60,8 +65,6 @@ import { playHorizonSwipe } from './play-walk-swipe.ts';
 const SETTLE_FRAMES = 150;
 /** How near, in CSS px, a bed object back where it stood counts as there. */
 const SAME_PX = 0.5;
-/** The bob's depth as a share of the screen's height (`walking.ts`). */
-const BOB_SHARE = 0.004;
 /** Moves a drag's finger makes, a frame each, from its press to its lift. */
 const DRAG_MOVES = 12;
 

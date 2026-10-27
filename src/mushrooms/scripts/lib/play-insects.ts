@@ -20,6 +20,7 @@ import {
 } from './mushroom-probe-answers.ts';
 import {
   type Expect,
+  FPS,
   grow,
   inTurn,
   type Page,
@@ -31,7 +32,6 @@ import {
   MOST_LOOKS,
   REST_LOOK,
 } from './play-fliers.ts';
-import { FPS } from './play-walk-checks.ts';
 
 /** How many butterflies are released: one past their limit, so the oldest leaves. */
 const RELEASES = INSECT_LIMITS.butterfly + 1;

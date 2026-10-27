@@ -62,7 +62,7 @@ const OPEN_BY = frameWhen(STOP, (ms) => closingAt(ms) === 0) + REPAINT;
 /** How far shut the flowers must be, on average, mid-shower. */
 const SHUT = 0.5;
 /** How far open again, dry. */
-const OPEN = 0.05;
+const DRY_OPEN = 0.05;
 
 /** The species grown beside the opening's fly agarics: the banded domes. */
 const GROWN = ['porcini', 'russula'] as const;
@@ -192,7 +192,7 @@ export async function playRain(
     `dry, the sky is still ${dry.wetness.toFixed(2)} wet`,
   );
   expect(
-    dry.closing <= OPEN,
+    dry.closing <= DRY_OPEN,
     `dry, the flowers are still shut ${dry.closing.toFixed(2)} on average`,
   );
   await page.shoot('rain-4-dry');

@@ -36,7 +36,12 @@ import {
 /** Kept light on a chanterelle, so its cool shade deepens its orange rather than browning it. */
 const SHADE_ALPHA = 0.22;
 /** How deep each crescent of the lip's light reaches in from its arc, in the lip's thickness. */
-const DEPTHS = { shade: 0.7, rim: 0.3, 'dip-shade': 0.4, 'dip-light': 0.28 };
+const TRUMPET_DEPTHS = {
+  shade: 0.7,
+  rim: 0.3,
+  'dip-shade': 0.4,
+  'dip-light': 0.28,
+};
 /** The shade over the whole mouth, deeper than the lip round it. */
 const MOUTH_SHADE = 0.12;
 /** The funnel's shade on the side turned from the sun and in under the lip, each one's depth in the cap's width, and alpha. */
@@ -101,7 +106,7 @@ export function paintTrumpet(
     brush,
     layers.filter(({ kind }) => !inMouth(kind)),
     toMushroom({ x: 0, y: genes.capHeight + genes.lip * 0.2 }),
-    (kind) => thick * DEPTHS[kind],
+    (kind) => thick * TRUMPET_DEPTHS[kind],
     SHADE_ALPHA,
   );
   paintMouth(
@@ -139,7 +144,7 @@ function paintMouth(
     brush,
     layers,
     toMushroom({ x: 0, y: (top.y + bottom.y) / 2 }),
-    (kind) => thick * DEPTHS[kind],
+    (kind) => thick * TRUMPET_DEPTHS[kind],
     SHADE_ALPHA,
   );
   graphics.fillStyle(inkFor(tone(tints.cap)));

@@ -7,7 +7,7 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { documentRoute, localizedRoute } from '@/blog/shared/content';
 
-import { messages } from '../i18n';
+import { whisperMessages } from '../i18n';
 import { whisperPath } from '../lib/whisper-metadata';
 import { LEXICON } from '../model/lexicon';
 import { WhisperTypewriter } from './whisper-typewriter';
@@ -18,7 +18,7 @@ const { commit, words } = LEXICON;
 const STORY_SLUG = 'whispering-typewriter';
 
 export function WhisperPage({ locale }: WithLocale) {
-  const copy = messages(locale);
+  const copy = whisperMessages(locale);
 
   return (
     <PageShell>

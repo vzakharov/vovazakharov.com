@@ -33,12 +33,12 @@ import {
 import {
   type Arrow,
   type Expect,
+  FPS,
   inTurn,
   type Page,
 } from './mushroom-probe-drive.ts';
 import { paintedCap, Painting, painting } from './painted-cap.ts';
 
-const FPS = 60;
 /**
  * How many times the size it set off at the walked-up mushroom is drawn at
  * the least. Not its opening size: one walked up to from behind the opening

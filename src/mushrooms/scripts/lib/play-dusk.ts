@@ -44,7 +44,7 @@ const TURN = 30;
 /** Frames for the turn to come to rest. */
 const REST = 60;
 /** Frames for the house picker to open, and for a furnishing's pop to settle. */
-const OPEN = 30;
+const OPEN_FRAMES = 30;
 const SETTLE = 45;
 /** Frames from a tap on a firefly to its flare's height. */
 const FLARING = 15;
@@ -111,7 +111,7 @@ async function furnish(
     await page.step(6);
   };
   await page.tap(controls.house);
-  await page.step(OPEN);
+  await page.step(OPEN_FRAMES);
   await inTurn(controls.housePicker, pick);
   const { mushrooms } = await page.evaluate('__probe.state()', State);
   const older = mushrooms.at(-2);
@@ -169,10 +169,10 @@ export async function playDusk(
   await shootNightRun(page, expect, note);
   // The map, opened at dusk, under the wash as the meadow is.
   await page.tap(controls.map);
-  await page.step(OPEN);
+  await page.step(OPEN_FRAMES);
   await page.shoot('dusk-map');
   await page.tap(controls.map);
-  await page.step(OPEN);
+  await page.step(OPEN_FRAMES);
   // Turned toward the moon's side, so it crosses the screen's middle.
   const width = await page.evaluate('__probe.eye().width', z.number());
   const toward = sun.x < width / 2 ? 'ArrowLeft' : 'ArrowRight';

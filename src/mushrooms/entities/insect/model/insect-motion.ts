@@ -35,7 +35,7 @@ const BEAT_REST = 2600;
 /** The least a butterfly's wings close to at rest, as a share of fully open. */
 const REST_CLOSE = 0.3;
 /** How long the beat takes to speed up at take-off, and to calm at landing. */
-const TAKE_OFF = 220;
+const TAKE_OFF_MS = 220;
 const SETTLE = 500;
 /**
  * A drink's slow flex of the wings, held half shut: its period in ms and the
@@ -98,7 +98,7 @@ export function aloft(
 ): number {
   const settled = to.kind === 'air' ? 0 : smooth((now - arrives) / SETTLE);
   return Math.min(
-    Math.max(launch, smooth((now - departs) / TAKE_OFF)),
+    Math.max(launch, smooth((now - departs) / TAKE_OFF_MS)),
     1 - settled,
   );
 }

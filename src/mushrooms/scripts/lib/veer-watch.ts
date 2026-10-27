@@ -14,7 +14,8 @@ import { INSECT_KINDS } from '@/mushrooms/entities/insect/model/insect-genes';
 import { LANDING } from '@/mushrooms/entities/insect/model/insect-motion';
 import { SEAT_FADE } from '@/mushrooms/entities/insect/ui/insect-frame';
 
-export const FPS = 60;
+import { FPS } from './mushroom-probe-drive.ts';
+
 /** The most a frame's heading moves under a held turn, with margin for the turn's own jolt. */
 const TURN_STEP = (1.5 * TURN_CRUISE) / FPS;
 

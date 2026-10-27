@@ -5,4 +5,4 @@ import ru from './messages/ru.json';
 
 export type Messages = typeof en;
 
-export const messages = catalogue<Messages>({ en, ru });
+export const whisperMessages = catalogue<Messages>({ en, ru });

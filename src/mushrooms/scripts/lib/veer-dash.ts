@@ -12,7 +12,7 @@ import type { InsectKind } from '@/mushrooms/entities/insect/model/insect-genes'
 import { PIVOT_SHARE } from '@/mushrooms/entities/insect/model/insect-motion';
 import { flightPoint } from '@/mushrooms/entities/insect/model/insect-paths';
 
-import { FPS } from './veer-watch.ts';
+import { FPS } from './mushroom-probe-drive.ts';
 
 /** How finely, in ms, a leg is sampled for its fastest frame. */
 const SAMPLE = 1;

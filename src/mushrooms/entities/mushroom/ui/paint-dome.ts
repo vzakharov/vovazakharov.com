@@ -27,7 +27,12 @@ import { marginBand } from './porcini-margin';
 
 const SHADE_ALPHA = 0.26;
 /** How deep each crescent of a dome's light reaches in from its arc, in the cap's height. */
-const DEPTHS = { shade: 0.34, rim: 0.06, 'dip-shade': 0.2, 'dip-light': 0.06 };
+const DOME_DEPTHS = {
+  shade: 0.34,
+  rim: 0.06,
+  'dip-shade': 0.2,
+  'dip-light': 0.06,
+};
 /** A russula's pale middle: its half-width, in the cap's, and its height, in the cap's. */
 const CENTRE = [0.24, 0.16] as const;
 /** The cap's shadow across the top of a porcini's sponge or a russula's gills: how deep, in the cap's width, and how dark. */
@@ -66,7 +71,7 @@ export function paintDome(brush: MushroomBrush & { genes: DomeGenes }): void {
     brush,
     capLight(genes, lighting.toward, steps),
     toMushroom({ x: 0, y: genes.capHeight * 0.3 }),
-    (kind) => capHeight * DEPTHS[kind],
+    (kind) => capHeight * DOME_DEPTHS[kind],
     SHADE_ALPHA,
   );
 }

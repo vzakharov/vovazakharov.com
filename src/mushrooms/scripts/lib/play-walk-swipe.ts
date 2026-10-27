@@ -14,8 +14,8 @@ import {
 } from '@/mushrooms/shared/world/stride';
 
 import { Eye, Point } from './mushroom-probe-answers.ts';
-import type { Expect, Page } from './mushroom-probe-drive.ts';
-import { FPS, OVER, turned } from './play-walk-checks.ts';
+import { type Expect, FPS, type Page } from './mushroom-probe-drive.ts';
+import { OVER, turned } from './play-walk-checks.ts';
 
 /** How long the swipe takes, in seconds. */
 const SWIPE_SECONDS = 0.25;

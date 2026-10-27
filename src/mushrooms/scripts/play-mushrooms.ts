@@ -65,7 +65,7 @@ import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
 const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
 const OUT = path.join(ROOT, 'sites/vova/out');
 const FRAMES = path.join(ROOT, 'tmp/play');
-const POLL_MS = 250;
+const PAGE_POLL_MS = 250;
 const SEED = 12_345;
 
 const SCREENS = [
@@ -193,7 +193,7 @@ async function open(
           `${screen.name}: no game on the page — is sites/vova/out a probe build?`,
         );
       }
-      await sleep(POLL_MS);
+      await sleep(PAGE_POLL_MS);
       return ready(deadline);
     }
     await evaluate(
@@ -318,7 +318,7 @@ async function open(
           throw new Error(
             `${screen.name}: the game never refitted to the turn`,
           );
-        await sleep(POLL_MS);
+        await sleep(PAGE_POLL_MS);
         return refitted();
       };
       await refitted();

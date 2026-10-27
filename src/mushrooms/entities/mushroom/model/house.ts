@@ -184,9 +184,9 @@ const DOOR_FRAME = 0.09;
  * How far a door's frame keeps inside the stem's edge: a line of ink, and a
  * quarter more for the stem's curve between the points it is drawn through.
  */
-const FRAME_MARGIN = MUSHROOM_INK * 1.25;
+const DOOR_FRAME_MARGIN = MUSHROOM_INK * 1.25;
 /** How far the lowest door's sill stands above the ground, the ground's line clear of it. */
-const DOOR_SILL = FRAME_MARGIN;
+const DOOR_SILL = DOOR_FRAME_MARGIN;
 /** From one door station to the next up the stem, in `stemAt`'s `t`. */
 const STATION_STEP = 0.05;
 const RISE_STEP = 0.005;
@@ -228,7 +228,7 @@ export function onStem(door: DoorPlace, grown = 1): (point: Point) => Point {
 /**
  * A door with its middle `t` up the stem, as wide as the stem allows there:
  * `DOOR_WIDTH` of its narrowest width along the frame up to `DOOR_MOST`, and
- * never so wide that the frame comes nearer the stem's edge than `FRAME_MARGIN`.
+ * never so wide that the frame comes nearer the stem's edge than `DOOR_FRAME_MARGIN`.
  */
 function doorAt(genes: MushroomGenes, t: number): DoorPlace {
   const station = stemAt(genes, t);
@@ -253,7 +253,7 @@ function doorAt(genes: MushroomGenes, t: number): DoorPlace {
   const width = Math.min(
     DOOR_MOST,
     2 * narrowest * DOOR_WIDTH,
-    (2 * narrowest - 2 * FRAME_MARGIN) / (1 + DOOR_FRAME * 2),
+    (2 * narrowest - 2 * DOOR_FRAME_MARGIN) / (1 + DOOR_FRAME * 2),
   );
   return { ...station, width, height: width * DOOR_ASPECT };
 }
@@ -284,10 +284,10 @@ export function doorStations(genes: MushroomGenes, turn = 0): DoorPlace[] {
   const overhead = capOutlines(genes);
   const overBox = boxAround(overhead.flat());
   const frame = paintedDoor(DOOR_ASPECT);
-  // The whole frame, and `FRAME_MARGIN` round it, clear of the cap.
+  // The whole frame, and `DOOR_FRAME_MARGIN` round it, clear of the cap.
   const underCap = (door: DoorPlace) => {
     const place = onStem(door);
-    const around = outside(frame, FRAME_MARGIN / door.width).map((point) =>
+    const around = outside(frame, DOOR_FRAME_MARGIN / door.width).map((point) =>
       place(point),
     );
     return (

@@ -18,9 +18,13 @@ import {
 import { SHOWN_LEAST } from '@/mushrooms/shared/world/view';
 
 import { Eye, type Point } from './mushroom-probe-answers.ts';
-import type { Arrow, Expect, Strafe } from './mushroom-probe-drive.ts';
+import {
+  type Arrow,
+  type Expect,
+  FPS,
+  type Strafe,
+} from './mushroom-probe-drive.ts';
 
-export const FPS = 60;
 /** How far over a cruise a frame's pace may run, for the float left over. */
 export const OVER = 1.02;
 

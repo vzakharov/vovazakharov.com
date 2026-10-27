@@ -12,7 +12,7 @@ import {
   resolveSiteId,
 } from '../../shared/config/index.node-safe.ts';
 
-export const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..', '..');
+export { REPO_ROOT } from './repo-root.ts';
 
 /**
  * Every file under `target`, recursively — or `target` itself when it is a

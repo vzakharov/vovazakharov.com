@@ -36,7 +36,7 @@ const TUFT_HEIGHT = [4, 7] as const;
 const TUFT_LEAN = 0.25;
 /** A mottle cell's side, in tuft cells, and how many mottles one grows, as the meadow's lawn cell does. */
 const MOTTLE_CELLS = 4;
-const MOTTLES_PER_CELL = 2;
+const MAP_MOTTLES_PER_CELL = 2;
 /** Salts telling the tufts' cells from the mottles' at one zoom, and one zoom from the next. */
 const TUFT_SALT = 0x7f_4a_11;
 const MOTTLE_SALT = 0x3c_e9_05;
@@ -156,7 +156,7 @@ export function mapGround(
   const wide = side * MOTTLE_CELLS;
   const mottles = cellsUnder(frame, box, wide, salted(MOTTLE_SALT)).flatMap(
     ({ corner, random }) =>
-      Array.from({ length: MOTTLES_PER_CELL }, () =>
+      Array.from({ length: MAP_MOTTLES_PER_CELL }, () =>
         mottleOver(random, corner, wide),
       ).flatMap((mottle): ShownMottle[] => {
         const outer = onSheet(frame, ringOf(mottle, SOFT_EDGE));

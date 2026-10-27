@@ -26,7 +26,7 @@ const SWATCH = 0.62;
 /** A swatch's ink, in its button's radius, as a pictogram's is. */
 const SWATCH_INK = 0.07;
 /** A flower's head reach, and its stem from the foot to the head, in its button's radius. */
-const HEAD_REACH = 0.58;
+const ICON_HEAD_REACH = 0.58;
 const STEM = 0.9;
 /** How far below the button's middle the flower's foot stands, in its radius. */
 const FOOT_DOWN = 0.85;
@@ -92,7 +92,7 @@ export function drawShapeButton(
   paintFlowerHead(
     graphics,
     genes,
-    (r * HEAD_REACH) / genes.petalLength,
+    (r * ICON_HEAD_REACH) / genes.petalLength,
     lighting,
   );
   graphics.restore();

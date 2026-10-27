@@ -104,7 +104,7 @@ export function bloom(elapsed: number): number {
 }
 
 /** `value` wrapped into `[0, span)`, negative values included. */
-const wrap = (value: number, span: number) => ((value % span) + span) % span;
+const modulo = (value: number, span: number) => ((value % span) + span) % span;
 
 /** Where a drifting thing is after `time`, wrapping round a band `span` wide. */
 export function drift(
@@ -113,7 +113,7 @@ export function drift(
   time: number,
   span: number,
 ): number {
-  return wrap(start + speed * time, span);
+  return modulo(start + speed * time, span);
 }
 
 /**
@@ -284,7 +284,7 @@ const turnOf = (phase: number): number => phase / (Math.PI * 2);
  * round starting `phase` of a turn early; `time` in the same unit.
  */
 export function roundAt(time: number, period: number, phase: number): number {
-  return wrap(time + turnOf(phase) * period, period);
+  return modulo(time + turnOf(phase) * period, period);
 }
 
 /** How long a mouse takes to come out of its door, and to duck back in. */

@@ -31,7 +31,7 @@ import {
 } from './mushroom-probe-drive.ts';
 
 /** How many spores the play sows. */
-const TAPS = 3;
+const SPORES_SOWN = 3;
 /** Frames between two taps on the cap, a puff's worth. */
 const BETWEEN = 12;
 /** Frames from the last tap to the look at the dots, the falls landed. */
@@ -71,7 +71,7 @@ export async function playSprouts(
   }
 
   await inTurn(
-    Array.from({ length: TAPS }, (_, index) => index),
+    Array.from({ length: SPORES_SOWN }, (_, index) => index),
     async () => {
       await page.tap(cap);
       await page.step(BETWEEN);
@@ -80,8 +80,8 @@ export async function playSprouts(
   await page.step(LANDED);
   const sown = await read();
   expect(
-    sown.spores.length === TAPS,
-    `${String(TAPS)} taps on ${front} sowed ${String(sown.spores.length)} spores`,
+    sown.spores.length === SPORES_SOWN,
+    `${String(SPORES_SOWN)} taps on ${front} sowed ${String(sown.spores.length)} spores`,
   );
   for (const { id, parent, shown, at, apart } of sown.spores) {
     note(`${id} of ${parent}: ${apart?.toFixed(2) ?? 'no parent'} apart`);

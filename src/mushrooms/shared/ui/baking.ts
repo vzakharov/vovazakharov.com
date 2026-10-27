@@ -24,7 +24,7 @@ export const SUPERSAMPLE = 2;
  * How far a button's face reaches from its middle, in the button's radii, and
  * CSS pixels on top: past the disc, its ink ring and the shadow under it.
  */
-const FACE_REACH = 1.25;
+const BUTTON_FACE_REACH = 1.25;
 const FACE_MARGIN = 2;
 
 /**
@@ -38,7 +38,7 @@ export type FaceFrame = Cornered & {
 };
 
 export function faceFrame({ x, y, r }: Circle, ratio: number): FaceFrame {
-  const reach = r * FACE_REACH + FACE_MARGIN;
+  const reach = r * BUTTON_FACE_REACH + FACE_MARGIN;
   const left = Math.floor((x - reach) * ratio);
   const top = Math.floor((y - reach) * ratio);
   // Even, as a render texture rounds its size up to one.

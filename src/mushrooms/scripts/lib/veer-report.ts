@@ -14,13 +14,12 @@ import {
 } from '@/mushrooms/entities/insect/model/insect-genes';
 
 import type { Point } from './mushroom-probe-answers.ts';
-import type { Expect } from './mushroom-probe-drive.ts';
+import { type Expect, FPS } from './mushroom-probe-drive.ts';
 import { dashPeak, pivotAllowance } from './veer-dash.ts';
 import {
   byInsect,
   byLeg,
   fading,
-  FPS,
   hiddenRuns,
   inFlight,
   most,
