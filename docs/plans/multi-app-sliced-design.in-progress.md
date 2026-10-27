@@ -16,23 +16,16 @@ elephant's own sections dropped.
 
 **6b, the game cut by its nouns, on #216.** The tree stands: entities, features,
 the map widget, and the page holding the composition and the tests that build it
-(`bite-06b.md`). Typecheck, `check:masd`, knip and `type-overlap` are clean, and
-eslint and Steiger are clean on every production file.
+(`bite-06b.md`). Typecheck, eslint, Steiger, `check:masd`, knip and
+`type-overlap` are clean; the page's tests reach the slices below through each
+slice's `index.test-only.ts`.
 
 What is left, in order:
 
-1. **The page's tests reach into the slices below.** 55 tests make 125 imports
-   of 217 names, from 69 modules, that no barrel hands on — eslint's
-   `boundaries/dependencies` and Steiger's `no-public-api-sidestep` both flag
-   them. Put to the operator: let a page's tests enter the internals of the
-   slices below it, in both checkers (recommended — a test pinning a lower
-   module against the composed screens is the page's instrument, not a consumer
-   of the slice's API), or widen the 69 barrels with names nothing in production
-   reads.
-2. **`pnpm test:meadow` and `pnpm play:mushrooms`**, which also confirm that
-   showing every mushroom (no `STAND_REACH` filter) judged nothing differently;
-   vova built and the game looked at.
-3. **Fold 6b into "Eaten so far"** and land the bite
+1. **`pnpm test:meadow` and `pnpm play:mushrooms`** at `/finalize`, which also
+   confirm that showing every mushroom (no `STAND_REACH` filter) judged nothing
+   differently; vova built and the game looked at.
+2. **Fold 6b into "Eaten so far"** and land the bite
    (`.claude/skills/plan/elephant.md` § "Landing a bite").
 
 ## Eaten so far

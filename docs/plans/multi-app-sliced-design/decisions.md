@@ -102,5 +102,9 @@ well-layered slice imports downward, so its edges leave it.
   none, it would be a feature: «вот карту как раз сделать виджетом или, если она
   не грузит фич, собственно фичей».
 - **A test that checks a lower module on the screens the page lays out sits in
-  the page** («не в виджет, а в страницу»).
+  the page** («не в виджет, а в страницу»), and reads what no barrel hands on
+  through the slice's `index.test-only.ts`, which only a test may take («сделать
+  специальный баррель для тестов»). Rejected: letting tests reach internals (the
+  checkers would stop saying what a test reads), and widening the public APIs
+  with names nothing in production reads.
 - **The play runs wait for `/finalize`** («не надо гонять игру на каждом пуке»).
