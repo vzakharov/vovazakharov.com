@@ -7,8 +7,7 @@
  *
  * Every palette declares all of them — light and dark in
  * `src/app/styles/globals.scss` and in a site's own sheet, print in
- * `src/app/styles/print.scss` — so
- * call sites never branch on the scheme.
+ * `src/app/styles/print.scss` — so call sites never branch on the scheme.
  */
 export const CSS_COLORS = [
   'background',

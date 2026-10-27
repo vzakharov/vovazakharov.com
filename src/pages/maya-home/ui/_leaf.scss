@@ -1,6 +1,5 @@
 @use '../../../../styles/mantine' as mantine;
 
-// The edge every leaf on her home page shares, a plate's and a toy's alike.
 @mixin edge {
   margin: 0;
   border: 1px solid var(--color-border-hairline);
@@ -11,7 +10,6 @@
   }
 }
 
-// A drawing across a leaf's head, ruled off from the caption under it.
 // `height: auto` against the attributes: they reserve the row's space before
 // the file lands, and the width here is what the layout wants.
 @mixin head-drawing {
