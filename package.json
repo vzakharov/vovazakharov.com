@@ -15,7 +15,7 @@
     "test:meadow": "scripts/vet-test.sh meadow",
     "type-overlap": "tsx scripts/type-overlap-check.ts",
     "knip": "knip",
-    "check:mantine-styles": "node src/shell/scripts/check-mantine-styles.ts",
+    "check:mantine-styles": "tsx src/shell/scripts/check-mantine-styles.ts",
     "check:i18n-payload": "node src/kernel/scripts/check-i18n-payload.ts",
     "check:prose-quotes": "node src/blog/scripts/check-prose-quotes.ts",
     "check:masked-words": "node src/music/scripts/check-masked-words.ts",
@@ -40,7 +40,7 @@
     "music:untold": "node src/music/scripts/list-untold-songs.ts",
     "random-words": "node personas/tools/random-words.ts",
     "whisper-lexicon": "node personas/tools/whisper-lexicon.ts",
-    "styles:codegen": "node src/shell/scripts/generate-styles.ts",
+    "styles:codegen": "tsx src/shell/scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
     "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts"
   },

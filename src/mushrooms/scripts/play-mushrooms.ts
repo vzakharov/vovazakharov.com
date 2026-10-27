@@ -61,10 +61,10 @@ import { playWalk } from './lib/play-walk.ts';
 
 import { flag, given } from '@/kernel/scripts/lib/argv';
 import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
-const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
-const OUT = path.join(ROOT, 'sites/vova/out');
-const FRAMES = path.join(ROOT, 'tmp/play');
+const OUT = path.join(REPO_ROOT, 'sites/vova/out');
+const FRAMES = path.join(REPO_ROOT, 'tmp/play');
 const PAGE_POLL_MS = 250;
 const SEED = 12_345;
 
@@ -341,7 +341,7 @@ async function open(
 async function main(): Promise<void> {
   if (!given('no-build')) {
     const built = spawnSync('pnpm', ['build', 'vova'], {
-      cwd: ROOT,
+      cwd: REPO_ROOT,
       stdio: 'inherit',
       env: { ...process.env, NEXT_PUBLIC_MUSHROOM_PROBE: '1' },
     });
@@ -405,7 +405,7 @@ async function main(): Promise<void> {
     for (const line of [...errors, ...failures]) {
       process.stderr.write(`${line}\n`);
     }
-    process.stdout.write(`Frames in ${path.relative(ROOT, FRAMES)}/\n`);
+    process.stdout.write(`Frames in ${path.relative(REPO_ROOT, FRAMES)}/\n`);
   }
   if (errors.length > 0 || failures.length > 0) process.exitCode = 1;
 }

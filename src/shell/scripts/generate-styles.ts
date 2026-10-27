@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Generates the Sass partials under `styles/` whose contents are fixed by a
@@ -18,9 +18,6 @@
  * literals — a media-query condition cannot read a custom property — and is
  * what declares the tokens in the first place. TypeScript is the source in both
  * cases because it is the side a type can constrain.
- *
- * Bare Node runs this file, relying on its type stripping, so the imports of
- * the sources carry their `.ts` extension.
  */
 
 /* eslint-disable no-console -- stderr is how this script reports drift: which
@@ -30,10 +27,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { breakpoints } from '../app/styles/breakpoints.ts';
-import { CSS_COLORS } from '../shared/ui/css-color.ts';
+import { CSS_COLORS } from '@/shell/shared/ui/css-color';
+import { breakpoints } from '@/shell/app/styles/breakpoints';
 
-const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..');
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 function scale(): string {
   return Object.entries(breakpoints)

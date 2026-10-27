@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Holds the per-component Mantine stylesheet imports in
@@ -16,9 +16,6 @@
  * `UnstyledButton`'s, and no import in the tree names it. That is also the
  * limit — a component rendered only after an interaction never reaches a static
  * export, so one that grows that shape needs its sheet confirmed by eye.
- *
- * Bare Node runs this file, relying on its type stripping: it reads the build
- * output and `node_modules`, and imports nothing from the app.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: which sheet
@@ -29,7 +26,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const REPO_ROOT = path.join(import.meta.dirname, '..', '..', '..');
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+
 const MANTINE_CORE = path.join(REPO_ROOT, 'node_modules/@mantine/core');
 
 /** One stylesheet per component, which is what `theme-provider.tsx` imports. */
