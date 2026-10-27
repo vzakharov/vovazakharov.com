@@ -110,7 +110,7 @@ const stood = new Map<string, Stood>();
 const beds = new Map<string, Bed>();
 
 /** `make()`, kept in `store` under `key` among the latest `KEPT`. */
-function keptIn<Kept>(
+function keptLatest<Kept>(
   store: Map<string, Kept>,
   key: string,
   make: () => Kept,
@@ -127,7 +127,7 @@ function keptIn<Kept>(
 
 /** `standMeadow`, kept for the screens stood last: nothing it stands varies between visits. */
 function stoodMeadow(width: number, height: number): Stood {
-  return keptIn(stood, `${String(width)} ${String(height)}`, () =>
+  return keptLatest(stood, `${String(width)} ${String(height)}`, () =>
     standMeadow(width, height),
   );
 }
@@ -149,7 +149,7 @@ function keptBed(seed: number, openers: readonly Opener[]): Bed {
         `${String(foot.x)} ${String(foot.y)} ${String(lean)} ${species} ${String(own)}`,
     ),
   ].join(' ');
-  return keptIn(beds, key, () => {
+  return keptLatest(beds, key, () => {
     const { camera, mushrooms } = stoodMeadow(
       BED_SCREEN.width,
       BED_SCREEN.height,
