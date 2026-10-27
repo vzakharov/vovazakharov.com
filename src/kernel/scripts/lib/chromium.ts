@@ -6,8 +6,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-/** The Playwright-managed builds whose directory starts with `prefix`, newest first. */
-function playwrightBuilds(prefix: string, binary: string): string[] {
+/**
+ * The Playwright-managed builds whose directory starts with `prefix`, newest
+ * first, each at every `[directory, binary]` a Playwright release has laid it
+ * out as.
+ */
+function playwrightBuilds(
+  prefix: string,
+  layouts: ReadonlyArray<readonly [string, string]>,
+): string[] {
   const root = process.env['PLAYWRIGHT_BROWSERS_PATH'];
 
   if (root === undefined || !fs.existsSync(root)) return [];
@@ -17,7 +24,9 @@ function playwrightBuilds(prefix: string, binary: string): string[] {
     .filter((name) => name.startsWith(prefix))
     .toSorted()
     .toReversed()
-    .map((name) => path.join(root, name, 'chrome-linux', binary));
+    .flatMap((name) =>
+      layouts.map(([dir, binary]) => path.join(root, name, dir, binary)),
+    );
 }
 
 /**
@@ -27,7 +36,10 @@ function playwrightBuilds(prefix: string, binary: string): string[] {
 export function findChromium(): string {
   const candidates = [
     process.env['PUPPETEER_EXECUTABLE_PATH'],
-    ...playwrightBuilds('chromium', 'chrome'),
+    ...playwrightBuilds('chromium', [
+      ['chrome-linux', 'chrome'],
+      ['chrome-linux64', 'chrome'],
+    ]),
     '/usr/bin/chromium',
     '/usr/bin/chromium-browser',
     '/usr/bin/google-chrome',
@@ -52,10 +64,10 @@ export function findChromium(): string {
  * `--window-size` and crops the bottom of a card.
  */
 export function findScreenshotChromium(): string {
-  const shell = playwrightBuilds(
-    'chromium_headless_shell',
-    'headless_shell',
-  ).find((candidate) => fs.existsSync(candidate));
+  const shell = playwrightBuilds('chromium_headless_shell', [
+    ['chrome-linux', 'headless_shell'],
+    ['chrome-headless-shell-linux64', 'chrome-headless-shell'],
+  ]).find((candidate) => fs.existsSync(candidate));
 
   return shell ?? findChromium();
 }
