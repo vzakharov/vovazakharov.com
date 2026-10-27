@@ -6,7 +6,7 @@ import { splayed } from '@/mushrooms/entities/mushroom/model/mushroom-pose';
 import { placeIn } from '@/mushrooms/entities/mushroom/ui/clump-layout';
 import { mushroomLights } from '@/mushrooms/entities/mushroom/ui/mushroom-light';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { sunLight } from '../lib/light';
 import { bedPlace } from './bed-place';

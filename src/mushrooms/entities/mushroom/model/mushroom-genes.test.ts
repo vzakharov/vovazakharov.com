@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { placeOf } from '../ui/clump-layout';
 import { ZOOM_FLOOR } from '../ui/meadow-camera';

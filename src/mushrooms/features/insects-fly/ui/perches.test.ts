@@ -21,8 +21,8 @@ import {
   placeIn,
   type Planted,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import type { MeadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { footRows, PERCH_REACH, perchSight, seatAt } from './perch-sight';
 import { ScenePerches } from './perches';

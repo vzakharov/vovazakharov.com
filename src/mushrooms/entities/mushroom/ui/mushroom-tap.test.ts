@@ -15,7 +15,7 @@ import {
   OPENING_EYE,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { opened, tapTarget } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened, tapTarget } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import {
   MUSHROOM_SPECIES,

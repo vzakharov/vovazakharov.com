@@ -28,9 +28,9 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { roomFor as mushroomRoomFor } from '@/mushrooms/features/grow-mushroom/ui/mushroom-room';
 import { roomFor as beeRoomFor } from '@/mushrooms/features/insects-fly/ui/bee-room';
-import { reduce } from '@/mushrooms/widgets/meadow/model/game';
-import type { MeadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
-import { type Opened, opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { reduce } from '@/mushrooms/pages/mushrooms/model/game';
+import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
+import { type Opened, opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import {
   lostOn,

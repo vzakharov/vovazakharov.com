@@ -9,7 +9,7 @@ import { VIEWPORTS, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
 import {
   type MeadowLayout,
   meadowLayout,
-} from '@/mushrooms/widgets/meadow/ui/layout';
+} from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import {
   azimuthAt,

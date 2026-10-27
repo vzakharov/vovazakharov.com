@@ -58,6 +58,7 @@ import {
   SporeBed,
 } from '@/mushrooms/features/grow-mushroom';
 import { MouseRuns } from '@/mushrooms/features/mice-run';
+import type { DoorSeating } from '@/mushrooms/widgets/map';
 
 import type { Meadow } from '../model/game';
 import { HouseView } from './house-view';
@@ -75,7 +76,6 @@ const SHADOW_NEARER = -0.5;
 /** A mushroom as `repaintsDue` weighs it, with the mushroom itself. */
 type Repainting = Hazing & Dusking & { shown: Shown };
 
-export type DoorSeating = { seatedDoor: (id: string) => DoorPlace | undefined };
 export type Sporing = { readonly spores: SporeBed };
 
 /**

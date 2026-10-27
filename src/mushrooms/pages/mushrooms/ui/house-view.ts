@@ -10,7 +10,7 @@ import {
   lookAbout,
   type Tapped,
 } from '@/mushrooms/shared/lib/motion';
-import { type Brush,containsOutline, hazeTone } from '@/mushrooms/shared/ui';
+import { type Brush, containsOutline, hazeTone } from '@/mushrooms/shared/ui';
 import { type BedPlace, standAt } from '@/mushrooms/shared/world';
 import { mouseHead, paintMouse } from '@/mushrooms/entities/mouse';
 import {

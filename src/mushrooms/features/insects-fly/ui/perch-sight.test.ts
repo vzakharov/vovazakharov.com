@@ -46,12 +46,12 @@ import {
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { type Meadow, reduce } from '@/mushrooms/widgets/meadow/model/game';
+import { type Meadow, reduce } from '@/mushrooms/pages/mushrooms/model/game';
 import {
   type MeadowLayout,
   meadowLayout,
-} from '@/mushrooms/widgets/meadow/ui/layout';
-import { opened, overlap } from '@/mushrooms/widgets/meadow/ui/visit-play';
+} from '@/mushrooms/pages/mushrooms/ui/layout';
+import { opened, overlap } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { isSeat } from '../model/perch-room';
 import { airAlofts, airSpots, clumpRow } from './air-spots';

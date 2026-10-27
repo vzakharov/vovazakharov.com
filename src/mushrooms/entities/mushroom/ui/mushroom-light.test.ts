@@ -14,7 +14,7 @@ import { flowerLight } from '@/mushrooms/entities/flower/ui/flower-light';
 import {
   type MeadowLayout,
   meadowLayout,
-} from '@/mushrooms/widgets/meadow/ui/layout';
+} from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import {
   MUSHROOM_SPECIES,

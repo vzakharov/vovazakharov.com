@@ -42,7 +42,7 @@ import {
   perchSight,
   seatAt,
 } from '@/mushrooms/features/insects-fly/ui/perch-sight';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { dashPeak } from './lib/veer-dash.ts';
 

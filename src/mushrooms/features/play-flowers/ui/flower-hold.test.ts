@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Footing } from '@/mushrooms/shared/world';
-import type { Action } from '@/mushrooms/widgets/meadow/model/game';
+import type { Action } from '@/mushrooms/pages/mushrooms/model/game';
 
 import { FlowerHold, LONG_PRESS } from './flower-hold';
 

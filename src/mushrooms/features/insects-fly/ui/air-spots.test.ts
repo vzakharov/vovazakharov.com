@@ -13,7 +13,7 @@ import {
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { INSECT_LIMITS } from '../model/insects';
 import {

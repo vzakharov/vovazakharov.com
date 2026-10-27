@@ -21,12 +21,12 @@ import type { Planted } from '@/mushrooms/entities/mushroom/model/planted';
 import { occupantsOn } from '@/mushrooms/entities/mushroom/ui/mushroom-cover';
 import { VIEWPORTS, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
 import { perchSight } from '@/mushrooms/features/insects-fly/ui/perch-sight';
-import { reduce } from '@/mushrooms/widgets/meadow/model/game';
+import { reduce } from '@/mushrooms/pages/mushrooms/model/game';
 import {
   type MeadowLayout,
   meadowLayout,
-} from '@/mushrooms/widgets/meadow/ui/layout';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+} from '@/mushrooms/pages/mushrooms/ui/layout';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { NEAR_FLOWERS } from '../model/flower-sounds';
 import { isBeeSown, type Sown } from '../model/planted-flowers';

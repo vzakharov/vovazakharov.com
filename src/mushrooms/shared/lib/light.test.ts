@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { OPENING_EYE } from '../world/ground';
 import { headedLight, PICTOGRAM_LIGHT, sunLight } from './light';

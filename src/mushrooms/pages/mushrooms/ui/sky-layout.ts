@@ -28,6 +28,7 @@ import {
   FURNISHINGS,
   MUSHROOM_SPECIES,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
+import type { WithMap } from '@/mushrooms/widgets/map';
 
 import {
   beside,
@@ -38,7 +39,6 @@ import {
   pickerRow,
   rowsFrom,
   stacked,
-  type WithMap,
 } from './picker-rows';
 
 /** The map button's radius. */

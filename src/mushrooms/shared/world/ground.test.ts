@@ -27,7 +27,7 @@ import {
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { opened, relaidOn } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened, relaidOn } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import {
   anchored,

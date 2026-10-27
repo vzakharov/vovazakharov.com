@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { groundAt } from '@/mushrooms/entities/landscape/ui/backdrop-tones';
 import { everyPlace } from '@/mushrooms/entities/mushroom/ui/clump-layout';
 import { VIEWPORTS, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { contrast, luminance, mix, nudgeHue, toHsv } from '../lib/colour';
 import { ellipse, type Point } from '../lib/geometry';

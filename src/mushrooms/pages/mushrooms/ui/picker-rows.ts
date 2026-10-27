@@ -15,6 +15,7 @@ import {
   tapReach,
 } from '@/mushrooms/shared/lib/tap-reach';
 import type { Standing } from '@/mushrooms/entities/landscape/index.node-safe';
+import type { WithMap } from '@/mushrooms/widgets/map';
 
 /**
  * The picker's buttons at their largest, and their spacing in radii: at the
@@ -65,9 +66,7 @@ function pickRadius(count: number, span: number, height: number): number {
   );
 }
 
-/** Where the map button stands, which a picker's row keeps off. */
-export type WithMap = { map: Circle };
-
+/** `map`: where the map button stands, which a picker's row keeps off. */
 type PickerRowParams = WithMap & { dropped: number };
 
 /**

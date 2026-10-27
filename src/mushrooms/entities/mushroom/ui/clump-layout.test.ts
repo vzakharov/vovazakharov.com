@@ -14,8 +14,8 @@ import {
   scaleAt,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { mushroomGenes } from '../model/mushroom-genes';
 import { grownOn, OPENING_FOOTING, openingIndex } from '../model/placement';

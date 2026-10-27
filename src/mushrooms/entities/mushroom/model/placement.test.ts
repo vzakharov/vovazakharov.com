@@ -8,7 +8,7 @@ import {
   scaleAt,
   seen,
 } from '@/mushrooms/shared/world';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { MEADOW_FRAME } from '../ui/meadow-camera';
 import { VIEWPORTS, VISITS } from '../ui/viewports';

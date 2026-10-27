@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Facing, Point } from '@/mushrooms/shared/lib/geometry';
+import type { Circle, Facing, Point } from '@/mushrooms/shared/lib/geometry';
 import {
   emerge,
   EMERGE_DURATION,
@@ -23,11 +23,12 @@ import { duskyAt, type Eyed, OPENING_EYE } from '@/mushrooms/shared/world';
 import {
   flowerGenes,
   flowerHead,
+  type FlowerPlotsLayout,
   flowersOf,
   paintFlowerHead,
   paintFlowerStem,
 } from '@/mushrooms/entities/flower';
-import { azimuthAt } from '@/mushrooms/entities/landscape';
+import { azimuthAt, type SunnedScreen } from '@/mushrooms/entities/landscape';
 import {
   type DoorPlace,
   doorStations,
@@ -48,10 +49,17 @@ import {
   thingScale,
 } from '../model/map-frame';
 import { drawMapGround } from './draw-map-ground';
-import type { MeadowLayout } from './layout';
 import { drawChild, drawView } from './map-child';
 import { drawCompass } from './map-compass';
-import type { DoorSeating } from './mushroom-bed';
+
+/** Where the map button stands: the sheet unfolds out of it. */
+export type WithMap = { map: Circle };
+
+/** The screen as the map reads it: its size, the sun that sets up, the map button, and the ground its flowers stand on. */
+type MapLayout = SunnedScreen & WithMap & FlowerPlotsLayout;
+
+/** Where the meadow seated each mushroom's door, by the mushroom's id. */
+export type DoorSeating = { seatedDoor: (id: string) => DoorPlace | undefined };
 
 /**
  * What the map is drawn from as it opens: the meadow as it stands, the eye,
@@ -62,7 +70,7 @@ import type { DoorSeating } from './mushroom-bed';
 export type MapSnapshot = Eyed &
   AtRatio &
   Seeded & {
-    stand: GrowingStand<MeadowLayout>;
+    stand: GrowingStand<MapLayout>;
     doors: DoorSeating;
     dusky: boolean;
   };

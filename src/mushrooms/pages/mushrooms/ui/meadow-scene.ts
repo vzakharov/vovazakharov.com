@@ -22,7 +22,7 @@ import {
   RainView,
   type Roof,
 } from '@/mushrooms/entities/landscape';
-import { drawnMushrooms,type Opener } from '@/mushrooms/entities/mushroom';
+import { drawnMushrooms, type Opener } from '@/mushrooms/entities/mushroom';
 import { bedClosing } from '@/mushrooms/features/flowers-close';
 import {
   type GrowingStand,
@@ -38,6 +38,7 @@ import {
 import { Grass, tuftUnder } from '@/mushrooms/features/plant-flower';
 import { Instrument } from '@/mushrooms/features/play-flowers';
 import { EyeInput } from '@/mushrooms/features/walk-meadow';
+import { type MapSnapshot, MapView } from '@/mushrooms/widgets/map';
 
 import type { Opening } from '../api/open-kept';
 import { type Action, type Meadow, reduce } from '../model/game';
@@ -48,7 +49,6 @@ import { DuskView } from './dusk-view';
 import { FlowerBed } from './flower-bed';
 import { InsectView } from './insect-view';
 import { type MeadowLayout, meadowLayout } from './layout';
-import { type MapSnapshot, MapView } from './map-view';
 import { type MeadowKeeping, meadowKeeping } from './meadow-keeping';
 import { listenOnMeadow } from './meadow-listeners';
 import { meadowOpening } from './meadow-opening';

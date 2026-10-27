@@ -10,7 +10,7 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { cellLawn, cellOf, cellTufts, type Lawn, LiveLawn } from './lawn';
 import { type Mottle, MOTTLES_PER_CELL, shownMottles } from './mottles';

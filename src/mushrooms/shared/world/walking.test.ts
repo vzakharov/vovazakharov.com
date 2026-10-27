@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { browFloor, nearFoot } from '@/mushrooms/entities/landscape/ui/brow';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { OPENING_EYE } from './ground';
 import { STEP_LENGTH, STRIDE_CRUISE } from './stride';

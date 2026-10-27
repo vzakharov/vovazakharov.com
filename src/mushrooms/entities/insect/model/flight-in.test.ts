@@ -16,7 +16,7 @@ import {
 } from '@/mushrooms/features/insects-fly/model/flight';
 import { onscreenOf } from '@/mushrooms/features/insects-fly/ui/perch-sight';
 import { ScenePerches } from '@/mushrooms/features/insects-fly/ui/perches';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { FLIGHT_HABITS } from './flight-habits';
 import {

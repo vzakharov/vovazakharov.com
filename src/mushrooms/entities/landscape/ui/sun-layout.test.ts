@@ -15,13 +15,13 @@ import {
   everyPlace,
 } from '@/mushrooms/entities/mushroom/ui/clump-layout';
 import { VIEWPORTS, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
-import { PICK_CLEAR } from '@/mushrooms/widgets/meadow/ui/picker-rows';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
+import { PICK_CLEAR } from '@/mushrooms/pages/mushrooms/ui/picker-rows';
 import {
   flowerPicker,
   shownOverPickers,
   standingControls,
-} from '@/mushrooms/widgets/meadow/ui/sky-layout';
+} from '@/mushrooms/pages/mushrooms/ui/sky-layout';
 
 import { azimuthAt, crestAcross, crestAt, screenAt } from './panorama';
 import {

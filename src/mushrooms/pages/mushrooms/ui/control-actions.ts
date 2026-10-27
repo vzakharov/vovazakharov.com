@@ -3,11 +3,11 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Dispatching } from '@/mushrooms/shared/world';
 import type { Repainting } from '@/mushrooms/entities/mushroom/index.node-safe';
 import type { GaitFlipping } from '@/mushrooms/features/walk-meadow/index.node-safe';
+import type { Flippable } from '@/mushrooms/widgets/map';
 
 import type { Action } from '../model/game';
 import type { Summoning } from './arrivals';
 import type { ControlHandlers } from './controls';
-import type { Flippable } from './map-view';
 import type { PickerPlanting } from './planter';
 import type { MeadowSound } from './sound';
 

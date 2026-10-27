@@ -19,7 +19,7 @@ import {
   weightedOutline,
 } from '@/mushrooms/shared/ui/index.node-safe';
 import { VIEWPORTS, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { LIGHT_STEP, litCrest, litTurn } from './insect-light';
 

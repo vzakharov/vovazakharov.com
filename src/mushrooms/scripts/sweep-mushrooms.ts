@@ -42,13 +42,13 @@ import { VIEWPORTS, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
 import { SPORE_SEATS } from '@/mushrooms/features/grow-mushroom/model/sprouting';
 import { patchlessIn } from '@/mushrooms/features/grow-mushroom/ui/mushroom-patch';
 import { dotInSight } from '@/mushrooms/features/grow-mushroom/ui/spore-sight';
-import type { MeadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 import {
   capsSpan,
   type Opened,
   opened,
   standingIn,
-} from '@/mushrooms/widgets/meadow/ui/visit-play';
+} from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { median } from './lib/frame-budget.ts';
 

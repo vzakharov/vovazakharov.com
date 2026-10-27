@@ -3,8 +3,8 @@ import { describe, it } from 'node:test';
 
 import { groundIn, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
 import { apartOnScreen } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { type Meadow, reduce } from '@/mushrooms/widgets/meadow/model/game';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { type Meadow, reduce } from '@/mushrooms/pages/mushrooms/model/game';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { SPORE_SEATS } from '../model/sprouting';
 import { growingStandOf, SPORE_REACH } from './mushroom-room';

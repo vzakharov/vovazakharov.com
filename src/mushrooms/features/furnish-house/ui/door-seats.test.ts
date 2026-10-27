@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { anchoredGround,OPENING_EYE } from '@/mushrooms/shared/world';
+import { anchoredGround, OPENING_EYE } from '@/mushrooms/shared/world';
 import {
   doorInSight,
   laidOf,
   placeIn,
   standingAt,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { doorSeats } from './door-seats';
 

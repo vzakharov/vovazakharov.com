@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
 import { SHELTER_SEATS } from '@/mushrooms/shared/world';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { everyPlace } from '../ui/clump-layout';
 import { VIEWPORTS } from '../ui/viewports';

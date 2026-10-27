@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { viewAt } from '@/mushrooms/shared/world';
 import { EITHER_WAY } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { cloudBox } from './cloud-puffs';
 import {

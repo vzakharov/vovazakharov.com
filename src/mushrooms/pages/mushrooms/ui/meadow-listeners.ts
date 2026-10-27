@@ -2,9 +2,9 @@ import * as Phaser from 'phaser';
 
 import type { Hushing } from '@/kernel/shared/typings';
 
-import { playTheMeadow,type Waking } from '@/mushrooms/features/play-flowers';
+import { playTheMeadow, type Waking } from '@/mushrooms/features/play-flowers';
+import type { Unfolding } from '@/mushrooms/widgets/map';
 
-import type { Unfolding } from './map-view';
 import type { Binding } from './meadow-keeping';
 
 type Played = Parameters<typeof playTheMeadow>;

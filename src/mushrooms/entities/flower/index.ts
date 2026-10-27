@@ -28,6 +28,11 @@ export {
 export { type Folding, folding, type Shut } from './ui/flower-fold';
 export { type Bedded, FLOWER_SWAY, laidFlower } from './ui/flower-layout';
 export { flowerLight } from './ui/flower-light';
-export { flowersOf, type Placed, type StandingFlower } from './ui/flower-plots';
+export {
+  type FlowerPlotsLayout,
+  flowersOf,
+  type Placed,
+  type StandingFlower,
+} from './ui/flower-plots';
 export { FlowerRing, type Ringed } from './ui/flower-ring';
 export { flowerTapReach, standOf } from './ui/flower-sight';

@@ -11,7 +11,7 @@ import {
 } from '@/mushrooms/shared/world';
 import { coversShown } from '@/mushrooms/entities/mushroom/ui/mushroom-cover';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 const SQUARE: readonly Point[] = [
   { x: 0, y: 0 },

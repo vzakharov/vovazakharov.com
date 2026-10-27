@@ -12,7 +12,7 @@ import {
   type Action,
   firstMeadow,
   reduce,
-} from '@/mushrooms/widgets/meadow/model/game';
+} from '@/mushrooms/pages/mushrooms/model/game';
 
 import type { PlayedKey } from './keyboard';
 import {

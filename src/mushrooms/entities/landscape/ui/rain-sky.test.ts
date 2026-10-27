@@ -5,7 +5,7 @@ import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 import { RAIN_MS, rainbow, wetness } from '@/mushrooms/shared/world';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { PUFF_REACH } from './cloud-puffs';
 import { azimuthAt } from './panorama';

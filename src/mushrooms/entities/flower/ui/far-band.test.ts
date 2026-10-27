@@ -11,7 +11,7 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import { EITHER_WAY, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { NEAR_FLOWERS } from '../model/flower-sounds';
 import { FAR_FLOWERS } from './far-band';

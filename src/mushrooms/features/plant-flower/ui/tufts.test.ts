@@ -63,16 +63,16 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { roomFor } from '@/mushrooms/features/grow-mushroom/ui/mushroom-room';
 import { perchSight } from '@/mushrooms/features/insects-fly/ui/perch-sight';
-import { type Action, reduce } from '@/mushrooms/widgets/meadow/model/game';
+import { type Action, reduce } from '@/mushrooms/pages/mushrooms/model/game';
 import {
   type MeadowLayout,
   meadowLayout,
-} from '@/mushrooms/widgets/meadow/ui/layout';
+} from '@/mushrooms/pages/mushrooms/ui/layout';
 import {
   type Opened,
   opened,
   relaidOn,
-} from '@/mushrooms/widgets/meadow/ui/visit-play';
+} from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { roomIn, takesFlower } from './flower-room';
 import { bareToTap, tuftAt } from './tuft-tap';

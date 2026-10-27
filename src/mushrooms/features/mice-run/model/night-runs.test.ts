@@ -7,7 +7,7 @@ import {
   firstMeadow,
   type Meadow,
   reduce,
-} from '@/mushrooms/widgets/meadow/model/game';
+} from '@/mushrooms/pages/mushrooms/model/game';
 
 import type { RunDoor } from './mouse-run';
 import {

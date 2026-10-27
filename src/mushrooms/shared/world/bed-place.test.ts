@@ -22,7 +22,7 @@ import { splayed } from '@/mushrooms/entities/mushroom/model/mushroom-pose';
 import { placeIn } from '@/mushrooms/entities/mushroom/ui/clump-layout';
 import { occupantsOn } from '@/mushrooms/entities/mushroom/ui/mushroom-cover';
 import { EITHER_WAY } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import type { Point } from '../lib/geometry';
 import { castShadow } from '../ui/ink';

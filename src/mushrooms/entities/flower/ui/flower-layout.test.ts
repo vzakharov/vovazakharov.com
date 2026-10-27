@@ -33,16 +33,16 @@ import {
 import {
   type MeadowLayout,
   meadowLayout,
-} from '@/mushrooms/widgets/meadow/ui/layout';
+} from '@/mushrooms/pages/mushrooms/ui/layout';
 import {
   overMeadow,
   standingControls,
-} from '@/mushrooms/widgets/meadow/ui/sky-layout';
+} from '@/mushrooms/pages/mushrooms/ui/sky-layout';
 import {
   type Opened,
   opened,
   relaidOn,
-} from '@/mushrooms/widgets/meadow/ui/visit-play';
+} from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { flowerGenes } from '../model/flower-genes';
 import {

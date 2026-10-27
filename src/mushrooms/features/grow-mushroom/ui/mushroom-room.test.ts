@@ -9,8 +9,8 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import { grownOn } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { firstMeadow } from '@/mushrooms/widgets/meadow/model/game';
-import { meadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
+import { firstMeadow } from '@/mushrooms/pages/mushrooms/model/game';
+import { meadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
 
 import { growingStandOf, keptRoom, roomFor } from './mushroom-room';
 

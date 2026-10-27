@@ -28,6 +28,7 @@ import {
   drawShapeButton,
 } from '@/mushrooms/features/plant-flower';
 import { drawGaitButton } from '@/mushrooms/features/walk-meadow';
+import { unfolded } from '@/mushrooms/widgets/map';
 
 import { isEmpty, type Meadow } from '../model/game';
 import {
@@ -47,7 +48,6 @@ import {
   drawSpeciesButton,
 } from './hud';
 import type { MeadowLayout } from './layout';
-import { unfolded } from './map-view';
 import { Picker } from './picker';
 import { flowerPicker } from './sky-layout';
 

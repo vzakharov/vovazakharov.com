@@ -9,8 +9,8 @@ import type { Planted } from '@/mushrooms/entities/mushroom/model/planted';
 import { occupantsOn } from '@/mushrooms/entities/mushroom/ui/mushroom-cover';
 import { VIEWPORTS, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
 import { roomFor } from '@/mushrooms/features/insects-fly/ui/bee-room';
-import type { MeadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import type { Sown } from '../model/planted-flowers';
 import { anchoredStand } from './anchored-stand';

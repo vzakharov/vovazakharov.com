@@ -22,8 +22,8 @@ import {
   seatAt,
 } from '@/mushrooms/features/insects-fly/ui/perch-sight';
 import { ScenePerches } from '@/mushrooms/features/insects-fly/ui/perches';
-import type { MeadowLayout } from '@/mushrooms/widgets/meadow/ui/layout';
-import { opened } from '@/mushrooms/widgets/meadow/ui/visit-play';
+import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
+import { opened } from '@/mushrooms/pages/mushrooms/ui/visit-play';
 
 import { type Aloft, centreOf, framedOf } from '../model/flight-frame';
 import { entryOf, isShown, nearerSide, outWay } from '../model/flight-in';
