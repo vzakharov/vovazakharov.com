@@ -79,10 +79,24 @@ read, and `>` blockquotes are skipped, being someone else's words.
 
 ### 4. Phrases
 
-`scripts/lib/word-frequency/phrases.txt`, one per line: idioms made of common
-words that frequency cannot see — `of the lot`, `draw a blank`, `drew a blank`.
-Matched across line breaks and case, and shown exactly as a rare word is, under
-the same judgement. `pesky` needs no entry: frequency already shows it.
+An idiom is made of common words, so frequency cannot see it. Two sources, shown
+exactly as a rare word is and under the same judgement, labelled as idioms:
+
+- **Wiktionary's `Category:English idioms`**, vendored as
+  `scripts/lib/word-frequency/idioms.txt` by the same hand-run export (CC BY-SA,
+  attributed like the word list). It carries `draw a blank`, and not `at least`,
+  so its idea of an idiom is the figurative one. Its noise is measured on the
+  first sweep; a source that buries the useful idioms goes rather than being
+  filtered.
+- **`scripts/lib/word-frequency/phrases.txt`**, by hand, for what the dictionary
+  lacks — `of the lot` is not an entry there. It grows from review: a phrase
+  Vova marks as too idiomatic goes in, in the session that addresses the
+  comment, which `.claude/rules/lsa-voice.md` says in one line, since that
+  session reads the article and so loads the rule.
+
+Matching folds regular inflections word by word and takes irregular verb forms
+from a short table beside the matcher (`drew a blank` → `draw a blank`), across
+line breaks and case. `pesky` needs no entry: frequency already shows it.
 
 ### 5. The repo's terminology
 
@@ -136,8 +150,8 @@ Edit case reading `new_string` only.
   hook's payload reading and project-root check from `.claude/hooks/lib.sh`, as
   `format-md.sh` does.
 - **One library, two entries**: `scripts/lib/word-frequency/` holds the list,
-  the phrases, the terms and the matcher; the hook's script and `words:sweep`
-  differ only in what text they hand it.
+  the idioms, the phrases, the terms and the matcher; the hook's script and
+  `words:sweep` differ only in what text they hand it.
 - **Not shared**: the frontmatter read of `author`. `documents.ts` owns the
   schema but is `server-only`; the script reads the one field with `gray-matter`
   and a one-key zod schema, as `check-masked-words.ts` does for `masked`.
@@ -145,14 +159,7 @@ Edit case reading `new_string` only.
 ## Settled
 
 Vova's answers: wordfreq, inflection folding, articles only, a strict N to
-start, the repo's terminology skipped (§ 5). Ruled out since: an allow list and
-a stop list, and with them any vet gate — a word is judged in its sentence,
-which a list cannot do; SUBTLEX-US and Google's 10k list as sources; songs, for
-now.
-
-## Open questions
-
-The recommendation is in force above; silence keeps it.
-
-1. **Phrases.** (a) Shown like rare words, no verdict — recommended, the same
-   reasoning as `pesky`. (b) `of the lot` still fails outright, as first asked.
+start, the repo's terminology skipped (§ 5), idioms shown like rare words rather
+than banned (§ 4). Ruled out since: an allow list and a stop list, and with them
+any vet gate — a word is judged in its sentence, which a list cannot do;
+SUBTLEX-US and Google's 10k list as sources; songs, for now.
