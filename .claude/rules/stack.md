@@ -223,7 +223,7 @@ Twenty things about that list are deliberate:
 - **What makes a check a member is that it measures this repo's own code**,
   which is the test for the whole list — `scripts/gh_export/` is vendored byte
   for byte and edited only at the source, so its suite runs there.
-  `.claude/skills/update-muthur/watermark.json` carries that call, under
+  `.claude/skills/update-muthur/divergence.md` carries that call, under
   `scripts/check-muthur.sh` and `scripts/test_*.py`.
 - **`scripts/check-squash-message.sh` holds the squash proposal to the size caps
   `.claude/skills/squash-message/SKILL.md` states**, which is why it is the one

@@ -132,6 +132,16 @@
         ]
       },
       {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/format-md.sh",
+            "timeout": 60
+          }
+        ]
+      },
+      {
         "hooks": [
           {
             "type": "command",
@@ -140,16 +150,6 @@
           {
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/costs/hooks/start-telemetry-receiver.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|Write|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/format-md.sh",
-            "timeout": 60
           }
         ]
       }
