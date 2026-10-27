@@ -17,10 +17,15 @@ export {
   drinkDip,
   landingBob,
 } from './model/insect-motion';
-export { buzzRoot, buzzTurn, wingspan } from './model/insect-outline';
+export {
+  BODY_SIDES,
+  buzzRoot,
+  buzzTurn,
+  wingspan,
+} from './model/insect-outline';
 export { startLeg, steer } from './model/insect-steering';
 export { BEE_VEINS, paintBeeBody, paintBeeLegs } from './ui/draw-bee';
-export { BODY_SIDES, paintWing } from './ui/draw-buzz';
+export { paintWing } from './ui/draw-buzz';
 export { paintFlyBody, paintFlyLegs } from './ui/draw-fly';
 export { paintBody, paintWings, scaled } from './ui/draw-insect';
 export { flowerLift, flowerLiftAt } from './ui/flower-lift';

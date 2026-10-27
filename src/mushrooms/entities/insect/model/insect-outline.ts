@@ -49,6 +49,7 @@ export const INNER_BREADTH = 0.8;
 
 /** Which side of the body: -1 left, 1 right. */
 export type BodySide = -1 | 1;
+export const BODY_SIDES: readonly BodySide[] = [-1, 1];
 
 type Axis = { root: Point; along: Point; across: Point };
 

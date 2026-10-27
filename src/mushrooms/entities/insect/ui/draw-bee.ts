@@ -28,13 +28,9 @@ import {
 import type { BeeGenes } from '../model/bee-genes';
 import { beeAnatomy, beeOutline, type Oval } from '../model/bee-outline';
 import { litCrest } from '../model/insect-light';
+import { BODY_SIDES } from '../model/insect-outline';
 import { POLLEN_MOST } from '../model/pollen-load';
-import {
-  BODY_SIDES,
-  type BuzzParts,
-  drawBuzzWings,
-  paintLeg,
-} from './draw-buzz';
+import { type BuzzParts, drawBuzzWings, paintLeg } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
 
 const SHADE_ALPHA = 0.26;

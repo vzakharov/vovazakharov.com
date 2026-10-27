@@ -9,7 +9,7 @@ import type { Point } from '@/mushrooms/shared/lib/geometry';
 
 import type { Bodied } from './insect-genes';
 import { SIP_DEPTH } from './insect-motion';
-import { type BodySide,headOf } from './insect-outline';
+import { type BodySide, headOf } from './insect-outline';
 
 /** How far round the tube coils curled up, in radians, and its length then, as a share of the body's. */
 const COIL = Math.PI * 3.5;

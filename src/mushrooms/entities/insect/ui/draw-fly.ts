@@ -25,12 +25,8 @@ import {
 
 import type { FlyGenes } from '../model/fly-genes';
 import { litCrest } from '../model/insect-light';
-import {
-  BODY_SIDES,
-  type BuzzParts,
-  drawBuzzWings,
-  paintLeg,
-} from './draw-buzz';
+import { BODY_SIDES } from '../model/insect-outline';
+import { type BuzzParts, drawBuzzWings, paintLeg } from './draw-buzz';
 import { insectInk, scaled } from './draw-insect';
 
 /** How far the body takes its sheen, and its shine the same sheen paled. */

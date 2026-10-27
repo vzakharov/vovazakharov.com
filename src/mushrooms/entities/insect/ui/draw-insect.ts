@@ -25,6 +25,7 @@ import { litCrest } from '../model/insect-light';
 import {
   ABDOMEN,
   antenna,
+  BODY_SIDES,
   bodyParts,
   type BodySide,
   eyeCentre,
@@ -36,8 +37,6 @@ import {
   wingTrailingEdge,
 } from '../model/insect-outline';
 import { proboscisLine } from '../model/proboscis';
-
-const SIDES: readonly BodySide[] = [-1, 1];
 const SHADE_ALPHA = 0.2;
 const SHINE_ALPHA = 0.4;
 /** How far the hind wings' base goes toward the pattern, so the two pairs read apart. */
@@ -93,7 +92,7 @@ export function paintWings(
   const { base: own, pattern } = hues(genes);
   const base = pair === 'hind' ? mix(own, pattern, HIND_TOWARD_PATTERN) : own;
   const breadth = genes[pair].breadth * size;
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     const outline = wingOutline(genes, pair, side).map((point) => at(point));
     inkedFill(graphics, outline, pattern, ink, lighting);
     const inner = wingOutline(genes, pair, side, [
@@ -181,7 +180,7 @@ export function paintBody(
   const ink = insectInk(size);
   const feelerInk = lineInk(PALETTE.insectBody);
   const { pattern } = hues(genes);
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     const line = antenna(genes, side).map((point) => at(point));
     graphics.fillStyle(feelerInk);
     strokeTapered(graphics, line, [ink, ink * TAPER], lighting);
@@ -228,7 +227,7 @@ export function paintBody(
   );
 
   const { x, y, r } = headOf(genes);
-  for (const side of SIDES) {
+  for (const side of BODY_SIDES) {
     const eye = { x: (x + side * r * 0.45) * size, y: (y - r * 0.2) * size };
     graphics.fillStyle(PALETTE.highlight);
     graphics.fillCircle(eye.x, eye.y, r * size * 0.42);

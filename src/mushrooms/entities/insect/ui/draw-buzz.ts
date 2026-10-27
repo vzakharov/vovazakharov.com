@@ -21,10 +21,14 @@ import {
 } from '@/mushrooms/shared/ui';
 
 import type { Buzzing } from '../model/insect-genes';
-import { type BodySide,buzzRoot, buzzWing } from '../model/insect-outline';
+import {
+  BODY_SIDES,
+  type BodySide,
+  buzzRoot,
+  buzzWing,
+} from '../model/insect-outline';
 import { insectInk, scaled } from './draw-insect';
 
-export const BODY_SIDES: readonly BodySide[] = [-1, 1];
 /** A clear wing's glass, and its veins', alpha. */
 const GLASS_ALPHA = 0.5;
 const VEIN_ALPHA = 0.75;

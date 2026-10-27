@@ -20,7 +20,7 @@ import {
   TAP_PEEK_RISE,
 } from '@/mushrooms/shared/lib/motion';
 
-/** How thick a worm is drawn: a third of a window's side, so it slips through one as a mouse does a door. */
+/** How thick a worm is drawn: 0.35 of a window's side (the mushroom's `PANE`, kept in step by hand), so it slips through one as a mouse does a door. */
 export const WORM_GIRTH = 0.035;
 /** The thinnest a worm is drawn, in screen pixels: what an eye on it still reads at. */
 export const WORM_GIRTH_LEAST = 6;

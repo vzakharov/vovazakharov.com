@@ -41,7 +41,7 @@ export type WithSelected = { selected: string | undefined };
 /** The spores on the ground, in the order they settled. */
 export type WithSpores = { spores: readonly Spore[] };
 
-/** Whether `mushroom` is full-grown: grown by the child or the opening, or a sprout that has finished growing. */
+/** Whether a mushroom is full-grown: grown by the child or the opening, or a sprout that has finished growing. */
 export function isOld({ sprout }: Sprouting, now: number): boolean {
   return sprout === undefined || now >= sprout.at + SPROUT_MS;
 }
