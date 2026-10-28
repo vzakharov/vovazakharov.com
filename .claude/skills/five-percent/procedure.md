@@ -84,8 +84,8 @@ posting.
 ## Posting
 
 One review on the PR, by `@.claude/skills/feedback/SKILL.md` § "Posting it"'s
-three calls, `COMMENT` always, with its mechanics — no attribution of its own,
-body as text, no thread resolved — and two differences:
+three calls, `COMMENT` always, with its mechanics — the footer alone, body as
+text, no thread resolved — and two differences:
 
 - **Every proposal is an inline comment.** One that points at lines anchors to
   them (`subjectType: "LINE"`); one about the change whole anchors to the file
