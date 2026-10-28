@@ -3,7 +3,7 @@ import 'server-only';
 import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/kernel/shared/config';
 import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
-import type { Linked, Named } from '@/kernel/shared/typings';
+import type { Named,WithLink } from '@/kernel/shared/typings';
 
 import { messages } from '../i18n';
 import { documentRoute } from './collections';
@@ -14,8 +14,8 @@ export const AUTHOR_IDS = ['vova', 'clerk', 'maya'] as const;
 export type AuthorId = (typeof AUTHOR_IDS)[number];
 
 /** Lower-case `the`, as it reads mid-line: "By the Clerk". */
-export function author(id: AuthorId, locale: Locale): Named & Linked {
-  const authors: Record<AuthorId, Named & Linked> = {
+export function author(id: AuthorId, locale: Locale): Named & WithLink {
+  const authors: Record<AuthorId, Named & WithLink> = {
     vova: { ...pick(SITE_CONFIG.author, 'name'), href: AUTHOR_URL },
     clerk: {
       name: 'the Clerk',

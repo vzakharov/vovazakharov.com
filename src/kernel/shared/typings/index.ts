@@ -94,7 +94,7 @@ export type WithChildren = { children: ReactNode };
 export type WithOptionalChildren = { children?: ReactNode };
 
 /** Whom a page credits, in place of the site's author. */
-export type WithOptionalByline = { byline?: ReactNode };
+export type MaybeBylined = { byline?: ReactNode };
 
 /** A heading and whatever renders under it. */
 export type TitledBlock = Titled & WithChildren;
@@ -103,10 +103,10 @@ export type TitledBlock = Titled & WithChildren;
 export type LabeledBlock = Labeled & WithChildren;
 
 /** Where an anchor points. */
-export type Linked = { href: string };
+export type WithLink = { href: string };
 
 /** An anchor whose label is a string rather than markup. */
-export type LabeledLink = Labeled & Linked;
+export type LabeledLink = Labeled & WithLink;
 
 /** The URL an element loads its media from. */
 export type Sourced = { src: string };
@@ -123,20 +123,20 @@ export type WithOptionalEyebrow = { eyebrow?: string };
  * and whose once it has left the browser. Only an anchor's `download` can set
  * that name; a static export has no `Content-Disposition` to set it with.
  */
-export type DocumentFile = Linked & { download: string };
+export type DocumentFile = WithLink & { download: string };
 
 /**
  * Paper's copy of a link: absolute, because the page leaves the browser that
  * resolved it, and spelled without the scheme, which tells a reader holding
  * paper nothing. `printedUrl` builds one; a component takes one to render.
  */
-export type PrintedLink = Linked & WithText;
+export type PrintedLink = WithLink & WithText;
 
 /** What a Next route hands the page it resolves to, its segments still raw. */
 export type WithParams<Params> = { params: Promise<Params> };
 
 /** An anchor whose content is its own label — markup rather than a string. */
-export type Anchored = Linked & WithChildren;
+export type Anchored = WithLink & WithChildren;
 
 /**
  * A key either present with a value or wholly absent. Unlike a plain

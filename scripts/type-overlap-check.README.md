@@ -131,18 +131,24 @@ rules below hold what a table can't. `Named`, `WithId`, `WithFilePath`,
 `Titled`, `Described` are the families in miniature — the names to reach for
 first, wherever § 6 puts the base.
 
-| Member kind         | Required                                                          | `?:`                                  | `\| undefined`, required key | `\| null`              | may be both         |
-| ------------------- | ----------------------------------------------------------------- | ------------------------------------- | ---------------------------- | ---------------------- | ------------------- |
-| descriptive scalar  | `Named`, `Titled`, `Labeled`, `Described`, `Keyed`, `Timestamped` | `Maybe<Participle>`                   | —                            | `Nullably<Participle>` | —                   |
-| noun / value / node | `With<Noun>`                                                      | `WithOptional<Noun>`                  | `WithUndefinable<Noun>`      | `WithNullable<Noun>`   | `WithNilable<Noun>` |
-| id pointer          | `<Entity>Ref`                                                     | `OptionalPostRef`                     | `UndefinablePostRef`         | `NullablePostRef`      | —                   |
-| boolean flag        | `Whether<Flag>`                                                   | `Maybe<Flag>`                         | —                            | —                      | —                   |
-| callback            | `-able` / `Handles<Event>` / `Can<Verb…>`                         | `Maybe<Able>` / `MaybeHandles<Event>` | —                            | —                      | —                   |
+| Member kind    | Required                                                          | `?:`                                  | `\| undefined`, required key | `\| null`              | may be both         |
+| -------------- | ----------------------------------------------------------------- | ------------------------------------- | ---------------------------- | ---------------------- | ------------------- |
+| participle key | `Named`, `Titled`, `Labeled`, `Described`, `Keyed`, `Timestamped` | `Maybe<Participle>`                   | —                            | `Nullably<Participle>` | —                   |
+| any other key  | `With<Noun>`                                                      | `WithOptional<Noun>`                  | `WithUndefinable<Noun>`      | `WithNullable<Noun>`   | `WithNilable<Noun>` |
+| id pointer     | `<Entity>Ref`                                                     | `OptionalPostRef`                     | `UndefinablePostRef`         | `NullablePostRef`      | —                   |
+| boolean flag   | `Whether<Flag>`                                                   | `Maybe<Flag>`                         | —                            | —                      | —                   |
+| callback       | `-able` / `Handles<Event>` / `Can<Verb…>`                         | `Maybe<Able>` / `MaybeHandles<Event>` | —                            | —                      | —                   |
 
-`With` is the single "carries a thing" prefix — never `Has`. Coin participles
-freely where one reads well (`Keyed`, `Timestamped`, `Described`); short and
-intuitive beats grammatically strict. `WithNilable<Noun>` covers the
-doubly-loose forms, both `?: T | null` and a required `T | null | undefined`.
+**The key picks the row, never its type.** A key that reads naturally and
+unambiguously as a past participle takes the participle family, a string and a
+React node alike — `title` is `Titled`, `byline` is `Bylined` — and `With<Noun>`
+is for a key that does not: `children` stays `WithChildren`, since nothing is
+"childrened", and a link is `WithLink`, since "linked" reads as "connected to
+something" as readily as "carrying an `href`". `With` is the single "carries a
+thing" prefix — never `Has`. Coin participles freely where one reads well
+(`Keyed`, `Timestamped`, `Described`); short and intuitive beats grammatically
+strict. `WithNilable<Noun>` covers the doubly-loose forms, both `?: T | null`
+and a required `T | null | undefined`.
 
 **Booleans have two axes and each gets its own word.** Whether the _value_ holds
 → `Whether<Flag>`; whether the _key_ is present → `Maybe<Flag>`, the same sense

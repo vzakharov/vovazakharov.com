@@ -4,10 +4,10 @@ import Link from 'next/link';
 
 import type { WithLocale } from '@/kernel/shared/i18n';
 import type {
-  Linked,
   Sized,
   Sourced,
   Summarized,
+  WithLink,
 } from '@/kernel/shared/typings';
 
 import { NameLink } from '@/shell/shared/ui';
@@ -20,7 +20,7 @@ import classes from './plates.module.scss';
 
 /** A toy is not written on a day nor numbered, so only an entry carries those. */
 export type Plate = Summarized &
-  Linked & {
+  WithLink & {
     date?: Date;
     number?: number;
     image: Sized & Sourced;

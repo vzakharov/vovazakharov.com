@@ -4,7 +4,7 @@ import { AUTHOR_URL, SITE_CONFIG } from '@/kernel/shared/config';
 import { BUILD_YEAR } from '@/kernel/shared/config/index.server-only';
 import type { WithOptionalLocale } from '@/kernel/shared/i18n';
 import type {
-  WithOptionalByline,
+  MaybeBylined,
   WithOptionalChildren,
 } from '@/kernel/shared/typings';
 
@@ -13,7 +13,7 @@ import { cssColor, TextLink } from '@/shell/shared/ui';
 
 type SiteFooterProps = WithOptionalChildren &
   WithOptionalLocale &
-  WithOptionalByline & {
+  MaybeBylined & {
     /** The route of the feed the page's listing mirrors, linked beside the byline. */
     feed?: string;
     /** On its site's root page, no note means no note rather than the way home. */
