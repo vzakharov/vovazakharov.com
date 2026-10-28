@@ -42,23 +42,40 @@ Nothing built yet. In discussion, the search changed:
   context (`player-context.ts`). No merge and no parameter inversion was needed,
   and no break dropped a type.
 
+## This bite
+
+A first cut of the cluster report, taken on the operator's «давай попробуем
+_как-нибудь_, а после этого может лучше поймём, нужно ли было попробовать
+по-другому», with the spike's open questions settled by the agent's
+recommendations so the output can be judged rather than argued:
+
+- **`pnpm masd:clusters`** (`scripts/masd-clusters.ts`) prints, per slice of a
+  sliced layer, the clusters worth a slice of their own. A report, exit 0: vet
+  runs its tests, never the report.
+- **Candidates are downward closures**: a file and everything it reaches inside
+  its slice. They never import back into the rest of the slice, by construction,
+  which dominator subtrees nearly always do (the spike's finding). A closure
+  rooted at a door — a file something outside the slice imports — is the slice
+  itself, so it is skipped; so is one of fewer than two files or more than 80%
+  of the slice.
+- **Scored by ΔQ on the slice's own graph**: `−e_TR/m + 2·(d_T/2m)·(d_R/2m)`,
+  `m` the slice's internal edges. App-wide ΔQ is modularity's resolution limit
+  in action and found nothing in a large app. Reported when positive.
+- **A candidate made of whole segments is dropped**: FSD already cut there, so
+  `model/` alone is not a finding.
+- **Per slice, the best candidate and every other that does not overlap it**,
+  greedily by ΔQ.
+- **The resolver is PR #227's `scripts/lib/import-graph.ts`**, taken byte for
+  byte so whichever branch lands second merges it as a no-op. `masd-check.ts` is
+  left to #227, which moves it onto that module.
+
 ## Rest of the elephant
 
-- **The cluster report** (`pnpm masd:clusters`), still under discussion. The
-  current lean is to condense nothing, since cycles are gone, and to build the
-  dominator tree per slice from a virtual root wired to every file the slice is
-  entered by, routers included. A subtree is a candidate when:
-  - it imports nothing else in its slice, so the extracted slice would not
-    import upward;
-  - splitting it off raises the app's modularity (`ΔQ` against the rest of the
-    slice, the null model `check:masd` uses).
-
-  Open with the operator: whether clusters with two doors matter — the operator
-  asked whether those are already modules by their barrels; inside a slice they
-  are siblings under its one barrel, which no single subtree covers; report or
-  gate (the lean is a report `/five-percent` reads); acting on findings in a
-  later task. The `e − a² > 0` test is dropped as a filter: a dominator subtree
-  is connected by construction, so it nearly always passes.
+- **Tune the cluster report against what it prints**: a bar above `ΔQ > 0`,
+  clusters with two doors (siblings under the slice's one barrel, which no
+  single closure covers), whether `/five-percent` reads it, acting on findings
+  in later tasks. The `e − a² > 0` test is dropped as a filter: a closure is
+  connected by construction, so it nearly always passes.
 
 - **Poison check** (`docs/masd.md` § "Open directions", fourth item) builds on
   the same madge graph, so it gets cheaper once this bite lands. It is not part
