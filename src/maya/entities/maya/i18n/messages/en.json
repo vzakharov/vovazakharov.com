@@ -1,0 +1,10 @@
+{
+  "title": "Maya wonders",
+  "byline": "Maya from {band}",
+  "band": "za/oblozhkoy",
+  "plate": "Plate {number}",
+  "whisper": {
+    "title": "The whispering typewriter",
+    "description": "Type, and see what the KGB bug in an embassy IBM Selectric heard, and what the post rebuilt from it."
+  }
+}

@@ -6,7 +6,7 @@ description: >-
 
 inputs:
   site:
-    description: The site id — its directory under apps/, and what NEXT_PUBLIC_SITE is set to.
+    description: The site id — its directory under sites/, and what NEXT_PUBLIC_SITE is set to.
     required: true
 
 runs:
@@ -19,8 +19,8 @@ runs:
       uses: actions/cache/restore@v4
       with:
         path: |
-          apps/${{ inputs.site }}/public/**/*.pdf
-          apps/${{ inputs.site }}/public/**/pdf-renders.json
+          sites/${{ inputs.site }}/public/**/*.pdf
+          sites/${{ inputs.site }}/public/**/pdf-renders.json
         # The key is a miss by construction. What does the work is the prefix
         # fallback, which restores whatever this site printed last together
         # with the manifests describing it — and those are what render-pdf.ts
@@ -30,9 +30,9 @@ runs:
         key: pdf-${{ inputs.site }}-${{ github.sha }}
         restore-keys: pdf-${{ inputs.site }}-
 
-    # in-site.sh rather than a `content:pdf:<site>` script, so one call covers
-    # every site including the ones that print nothing — those cost an exit, no
-    # browser and no server.
+    # The site's own entry by path rather than `pnpm content:pdf <site>`, so a
+    # site that prints nothing, having no entry, costs an exit — no browser and
+    # no server.
     #
     # The ceiling is on the whole render, which the per-print timeout cannot
     # bound: a cold cache prints the collection entire, and that has to fit the
@@ -40,7 +40,10 @@ runs:
     # because `timeout-minutes` is unavailable on a composite action's steps.
     - name: Print what drifted
       shell: bash
-      run: timeout 20m scripts/in-site.sh '${{ inputs.site }}' tsx scripts/render-pdf.ts --from-out
+      run: |
+        entry='src/${{ inputs.site }}/scripts/render-pdf.ts'
+        [[ -f "$entry" ]] || exit 0
+        timeout 20m scripts/in-site.sh '${{ inputs.site }}' tsx "$entry" --from-out
 
     # The manifests stay behind: they are the render's bookkeeping, not
     # published files.
@@ -49,8 +52,8 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        public="apps/${{ inputs.site }}/public"
-        out="$PWD/apps/${{ inputs.site }}/out"
+        public="sites/${{ inputs.site }}/public"
+        out="$PWD/sites/${{ inputs.site }}/out"
         mapfile -t printed < <(cd "$public" && find . -name '*.pdf')
         if [ "${#printed[@]}" -gt 0 ]; then
           # `--parents` from inside public/, so each PDF lands in the export at
@@ -58,7 +61,7 @@ runs:
           (cd "$public" && cp --parents -t "$out" "${printed[@]}")
         fi
         echo "count=${#printed[@]}" >> "$GITHUB_OUTPUT"
-        echo "Rendered ${#printed[@]} PDF(s) into apps/${{ inputs.site }}/out." \
+        echo "Rendered ${#printed[@]} PDF(s) into sites/${{ inputs.site }}/out." \
           >> "$GITHUB_STEP_SUMMARY"
 
     - name: Keep the render for the next run
@@ -66,8 +69,8 @@ runs:
       uses: actions/cache/save@v4
       with:
         path: |
-          apps/${{ inputs.site }}/public/**/*.pdf
-          apps/${{ inputs.site }}/public/**/pdf-renders.json
+          sites/${{ inputs.site }}/public/**/*.pdf
+          sites/${{ inputs.site }}/public/**/pdf-renders.json
         key: pdf-${{ inputs.site }}-${{ github.sha }}
 
     # A PDF is not readable off a pull request's diff, so the run that produced
@@ -78,4 +81,4 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: pdfs-${{ inputs.site }}
-        path: apps/${{ inputs.site }}/public/**/*.pdf
+        path: sites/${{ inputs.site }}/public/**/*.pdf

@@ -29,7 +29,7 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       - name: Build
-        run: pnpm build:maya
+        run: pnpm build maya
 
       - name: Render page PDFs
         uses: ./.github/actions/render-pdfs

@@ -15,6 +15,8 @@ aesthetic it prefers.
 writing/
   notes/
     <slug>.md          # evidence gathered for a post not yet drafted
+    five-percent-verdicts/
+      <branch>/verdicts.json  # .claude/skills/five-percent/verdicts.md
   <channel>/
     plan.md            # the backlog for that channel
     ideas/
@@ -108,12 +110,15 @@ invented for it.
 
 ## Voice
 
-- **`--`, never `—`.** Written as two hyphens on purpose. Enough readers now
-  treat an em dash as a machine's fingerprint that the correct punctuation has
-  become the wrong signal. This holds inside the post text itself, in every
-  language a draft is written in — Russian included, where the dash is ordinary
-  and the fingerprint reads fainter. The prose around the text in a draft file
-  is ordinary Markdown and uses whatever punctuation reads best.
+- **On LinkedIn, `--`, never `—`, and straight quotes `"`.** Typed as a keyboard
+  types them, on purpose. Enough readers now treat an em dash or a curly quote
+  as a machine's fingerprint that the correct punctuation has become the wrong
+  signal in that feed. This holds inside the post text itself, in every language
+  a draft is written in. **Every other channel is typeset** like a page the site
+  serves (`.claude/rules/content.md` § "Dashes"): a Telegram channel reads as a
+  blog. The prose around the text in a draft file is ordinary Markdown and uses
+  whatever punctuation reads best. `pnpm check:typography` holds each draft's
+  `text` fence to its channel's side.
 - **Commas and periods go inside closing quotes**, American style —
   `.claude/rules/content.md` § "Punctuation around quotes" is the rule.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in
@@ -128,9 +133,10 @@ invented for it.
   просто занята, она ещё и держит вас за столом» followed «крышку не закроешь, а
   то агенты остановятся» and said it over again, in words different enough to
   pass for a second fact — which is why the sentence has to be read against the
-  ones around it. Its twin cadence, «не X, а Y», hides the same repeat. Either
-  the second half brings something of its own, or the plain line that said it
-  first is the one to keep.
+  ones around it. Its twin cadences, «не X, а Y» and «X или только Y»
+  («вытаскивает ли себя Мюнхгаузен за косу или только красиво за неё держится»),
+  hide the same repeat. Either the second half brings something of its own, or
+  the plain line that said it first is the one to keep.
 - **Cut the sentence that announces the next one.** "And it is worth saying out
   loud", "here is the thing", "make no mistake" — an agent writes these to mark
   that something important is coming, which a reader learns by reading the

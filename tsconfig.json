@@ -25,9 +25,8 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
-    // `scripts/render-mermaid.ts` and `scripts/generate-styles.ts` run
-    // under bare Node, whose ESM resolver needs the extension they import from
-    // `src/` by.
+    // The `node <file>.ts` entries in `package.json` run under bare Node, whose
+    // ESM resolver needs the extension on every relative import.
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -46,11 +45,11 @@
   // named here: TypeScript's wildcards skip dot-prefixed directories, which is
   // where Next writes them.
   "include": [
-    "apps/*/next-env.d.ts",
+    "sites/*/next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "apps/*/.next/types/**/*.ts",
-    "apps/*/.next/dev/types/**/*.ts",
+    "sites/*/.next/types/**/*.ts",
+    "sites/*/.next/dev/types/**/*.ts",
     "**/*.mts",
     "**/*.mjs",
     "**/*.cjs"
@@ -62,8 +61,8 @@
   "exclude": [
     "node_modules",
     "tmp",
-    "apps/*/out",
-    "apps/*/.next/types/validator.ts",
-    "apps/*/.next/dev/types/validator.ts"
+    "sites/*/out",
+    "sites/*/.next/types/validator.ts",
+    "sites/*/.next/dev/types/validator.ts"
   ]
 }

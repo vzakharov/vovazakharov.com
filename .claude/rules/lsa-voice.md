@@ -1,10 +1,10 @@
 ---
 description: The voice Late Stage Agentic is written in — its site copy, its drafts, and the posts the channel runs
 paths:
-  - 'src/pages/lsa-home/**'
+  - 'src/lsa/pages/lsa-home/**'
   - 'writing/late-stage-agentic/**'
-  - 'apps/lsa/**/*.md'
-  - 'apps/lsa/**/*.json'
+  - 'sites/lsa/**/*.md'
+  - 'sites/lsa/**/*.json'
 ---
 
 # The Late Stage Agentic voice
@@ -16,3 +16,7 @@ and it has been going rather well so far.
 
 Commas and periods go inside closing quotes — `.claude/rules/content.md` §
 "Punctuation around quotes".
+
+Dashes and quotes are typeset on every served page, `.claude/rules/content.md` §
+"Dashes"; the rest of `writing/CLAUDE.md` § "Voice" holds on the blog as it does
+in a draft.

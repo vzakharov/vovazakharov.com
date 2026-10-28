@@ -7,12 +7,20 @@ import { defineConfig } from 'steiger';
 export default defineConfig([
   ...fsd.configs.recommended,
   {
-    // The one override in the ruleset. Next's App Router requires a root
-    // layout, and a root layout is app-layer UI wherever it is filed —
-    // `no-ui-in-app` has no answer for a framework that mandates one.
-    files: ['./src/app/ui/**'],
+    // Next's App Router requires a root layout, and a root layout is app-layer
+    // UI wherever it is filed — `no-ui-in-app` has no answer for a framework
+    // that mandates one.
+    files: ['./src/*/app/ui/**'],
     rules: {
       'fsd/no-ui-in-app': 'off',
+    },
+  },
+  {
+    // Steiger runs once per app root and counts only that root's references,
+    // so a slice entered from a descendant app reads as unused.
+    // `scripts/masd-check.ts` counts across the composition instead.
+    rules: {
+      'fsd/insignificant-slice': 'off',
     },
   },
 ]);

@@ -257,6 +257,7 @@ describe('type-overlap: what the scan skips', () => {
   for (const [label, rel] of [
     ['scratch under tmp/', 'tmp/probe.ts'],
     ['test files', 'lib/probe.test.ts'],
+    ['test kits', 'lib/probe.test-kit.ts'],
     ['ambient declarations', 'lib/probe.d.ts'],
     ['dot-directories', '.scratch/probe.ts'],
     ['assets under public/', 'public/probe.ts'],

@@ -45,6 +45,11 @@ like any other change you authored.
 
 - **The staged swap** — it stopped on a conflict. Resolving one is deciding what
   the file says.
+- **The quality passes** — `/five-percent` posted a `critical` proposal in this
+  run: it leaves the branch untouched, so the predicate above never sees it, and
+  a `critical` one says the merge would ship something wrong. An `optional` one
+  merges past, and so does one an earlier run posted, which was in front of the
+  operator when they asked to merge.
 - **Pre-check** — `HEAD` was detached, or there was no PR and you created one. A
   PR opened and merged inside one turn was never a reviewable object. (A PR you
   flipped back to draft is fine — that is the ordinary re-finalize.)

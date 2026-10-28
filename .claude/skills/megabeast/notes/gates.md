@@ -43,10 +43,10 @@
   ms; the approach's 26.2 ms red sat at load 3–4. The skill should have every
   frame measure log the load average beside it, and read a median within a few
   ms of the budget at load > 2 as unsettled, not red.
-- **`tsc -p apps/<site>/tsconfig.json` skips the tests.** It passed while a test
-  had an implicit-`any` index that the root `tsconfig.json` (and vet) rejected.
-  The quick check between commits should be the root project, or just the gates
-  vet runs.
+- **`tsc -p sites/<site>/tsconfig.json` skips the tests.** It passed while a
+  test had an implicit-`any` index that the root `tsconfig.json` (and vet)
+  rejected. The quick check between commits should be the root project, or just
+  the gates vet runs.
 - **`/polish` keys its scope on a bare `polish:` subject, and the loop never
   writes one.** Bite-scoped runs wrote `polish(bite 6):` to avoid claiming the
   whole branch was covered, which the lookup skips, so every `/polish` from

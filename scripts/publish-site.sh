@@ -70,10 +70,10 @@ fi
 
 cd "$(dirname "$0")/.."
 
-OUT="apps/$SITE/out"
+OUT="sites/$SITE/out"
 
 [ -d "$OUT" ] || {
-  printf 'No %s — run `pnpm build:%s` first.\n' "$OUT" "$SITE" >&2
+  printf 'No %s — run `pnpm build %s` first.\n' "$OUT" "$SITE" >&2
   exit 1
 }
 
@@ -89,7 +89,7 @@ fi
 # Both of these fail silently at the far end: without CNAME, Pages serves the
 # built site at its github.io address and the custom domain is dropped from the
 # repository's settings; without .nojekyll, Jekyll strips the _next/ directory
-# and every page loads blank. They ride in apps/<site>/public/, so a miss here
+# and every page loads blank. They ride in sites/<site>/public/, so a miss here
 # means the build lost them rather than that someone forgot a publish step.
 for required in CNAME .nojekyll; do
   [ -e "$OUT/$required" ] || {

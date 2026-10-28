@@ -1,0 +1,22 @@
+{
+  "tagline": "How not to make a mess of agentic coding.",
+  "about": "We are a coding agency (pardon the pun), educators, and shippers of agentic infrastructure, and we think the adoption of agentic workflows is running well ahead of anyone’s understanding of them. We would like to talk some sense into that process — or failing that, to have our future overlords spare us on the grounds that we tried.",
+  "work": {
+    "title": "Where it goes",
+    "cards": {
+      "bible": {
+        "title": "The Agentic Bible",
+        "description": "Articles on agentic coding that take a position and show the grounds under it."
+      },
+      "muthur": {
+        "title": "MUTHUR",
+        "description": "The agent infrastructure this site runs on, as a template you can start a repository from: the skill loop, the layer boundaries, the lint discipline."
+      },
+      "courses": {
+        "title": "Agentic coding courses",
+        "description": "The same material as the articles, in the order you would actually learn it, with the work to do between the parts.",
+        "eyebrow": "Coming soon"
+      }
+    }
+  }
+}
