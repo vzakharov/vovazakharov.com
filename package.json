@@ -26,7 +26,7 @@
     "knip": "knip",
     "check:mantine-styles": "node scripts/check-mantine-styles.ts",
     "check:i18n-payload": "node scripts/check-i18n-payload.ts",
-    "check:prose-quotes": "node scripts/check-prose-quotes.ts",
+    "check:typography": "node scripts/check-typography.ts",
     "check:masked-words": "node scripts/check-masked-words.ts",
     "check:song-titles": "node scripts/check-song-titles.ts",
     "check:stanza-repeats": "node scripts/check-stanza-repeats.ts",

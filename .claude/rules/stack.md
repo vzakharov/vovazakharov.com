@@ -23,7 +23,7 @@ pnpm type-overlap               # scripts/type-overlap-check.ts │
 pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
-pnpm check:prose-quotes         # no straight quote in prose    │
+pnpm check:typography          # quotes and dashes per medium  │
 scripts/vet-songs.sh            # song checks, when a song moved │
 pnpm content:og:vova --check    # social cards, hashes only     │
 pnpm content:og:bible --check   # the seal's own card           │
@@ -130,13 +130,15 @@ Nineteen things about that list are deliberate:
   reading each built page under `apps/*/out/` as the check above does — so it
   overlaps the rest for the same reason, and `.claude/rules/i18n.md` holds the
   ban and why.
-- **`pnpm check:prose-quotes` reads prose the way the page does**: it parses
-  each document under `apps/*/public/` with the content pipeline's own remark
-  plugins and flags a `"` or `'` only in a text node, so one in frontmatter,
-  code or raw HTML — syntax, not punctuation — never trips it. A regex over the
-  file could not tell the two apart. It reads only that Markdown, which is why
-  it overlaps the rest safely; `.claude/rules/content.md` § "Punctuation around
-  quotes" is the rule it holds.
+- **`pnpm check:typography` reads prose the way the page does**: it parses each
+  document under `apps/*/public/` with the content pipeline's own remark plugins
+  and flags a `"`, `'` or `--` only in a text node, so one in frontmatter, code
+  or raw HTML — syntax, not punctuation — never trips it. A regex over the file
+  could not tell the two apart. It holds a channel post the other way round,
+  flagging a `—` inside a draft's `text` fence. It reads only that Markdown,
+  which is why it overlaps the rest safely; `.claude/rules/content.md` §
+  "Dashes" and § "Punctuation around quotes" and `writing/CLAUDE.md` § "Voice"
+  are the rules it holds.
 - **The song checks run only when the branch changes a song or the checks
   themselves**, a song's verdict being its own file's. `scripts/vet-songs.sh`
   gates `pnpm check:masked-words` — the same text nodes, through the same
@@ -144,7 +146,7 @@ Nineteen things about that list are deliberate:
   `pnpm check:song-titles`, and `pnpm check:stanza-repeats` on the branch's
   diff, which `scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
   there as well, which regenerates `docs/music/untold-songs.md` and, like the
-  codegen below, fails when it had to write. The prose-quotes check reads every
+  codegen below, fails when it had to write. The typography check reads every
   site's prose, so it stays ungated.
 - **`pnpm styles:codegen` repairs the generated Sass partials rather than
   reporting on them.** Two scales are needed on both sides of a boundary neither

@@ -118,6 +118,7 @@ invented for it.
   and the fingerprint reads fainter. A page the site serves is typeset instead
   (`.claude/rules/content.md` § "Dashes"). The prose around the text in a draft
   file is ordinary Markdown and uses whatever punctuation reads best.
+  `pnpm check:typography` fails on a `—` inside a draft's `text` fence.
 - **Commas and periods go inside closing quotes**, American style —
   `.claude/rules/content.md` § "Punctuation around quotes" is the rule.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in

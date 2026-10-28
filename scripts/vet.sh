@@ -170,7 +170,7 @@ source_checks=(
   fsd='pnpm lint:fsd'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
-  prose-quotes='pnpm check:prose-quotes'
+  typography='pnpm check:typography'
   # One entry per site: pnpm appends a passed `--check` to the end of the
   # command line, so a combined `a && b` would render the first site for real.
   og-vova='pnpm content:og:vova --check'

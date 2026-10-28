@@ -214,7 +214,8 @@ unconverted directive would otherwise reach the page as its own `:::` text.
 **Every page the site serves writes a dash as a dash** — `—`, never `--`, in
 every language, its documents and the copy in `src/` alike. Two hyphens and
 straight quotes are for text pasted into a channel, `writing/CLAUDE.md` §
-"Voice".
+"Voice". `pnpm check:typography` fails on `--` in the collections' documents;
+the copy in `src/` is held by reading.
 
 ## Punctuation around quotes
 
@@ -226,8 +227,8 @@ inside the closing quote (`“cheap,” and`), whether or not it belongs to the
 quotation and whatever the source's own style. A question mark, exclamation
 mark, colon or semicolon goes inside only when it is the quotation's own.
 Russian text keeps Russian rules, `«…»` included, and code spans, fences and
-identifiers are not prose. `pnpm check:prose-quotes` fails on a straight quote
-or apostrophe in the collections' documents; the rest is held by reading.
+identifiers are not prose. `pnpm check:typography` fails on a straight quote or
+apostrophe in the collections' documents; the rest is held by reading.
 
 ## Traps worth knowing
 
