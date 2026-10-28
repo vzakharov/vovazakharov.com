@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 198,
+    "cacheWrite5mTokens": 142054,
+    "cacheWrite1hTokens": 180559,
+    "cacheReadTokens": 15584988,
+    "outputTokens": 54803,
+    "thinkingTokens": 18573,
+    "responses": 99,
+    "costUsd": 6.368591600000002
+  },
+  "estimate": {
+    "at": "2026-10-28T02:27:29.612Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a custom ESLint rule with tests, a slot API reshaped across five call sites under the type-overlap gate, and an FSD move all need judgement of the layer model"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "four review replies in Russian that explain design calls to the author"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-28T02:09:01.571Z",
+    "contextTokens": 125989,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 66374,
+      "cacheReadTokens": 882963,
+      "outputTokens": 2680,
+      "thinkingTokens": 1089,
+      "responses": 9,
+      "costUsd": 0.7612565999999998
+    }
+  },
+  "sessionId": "636fd48b-4192-51b1-ba2d-a09ca438cef5",
+  "branch": "claude/multi-app-sliced-design-7bn3oq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/multi-app-sliced-design-7bn3oq",
+  "prs": [
+    169
+  ],
+  "url": "https://claude.ai/code/session_01DaohkF5dtMetBCErc4kgBh",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T02:08:07.006Z",
+  "lastResponseAt": "2026-10-28T02:30:34.365Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 140,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 180559,
+    "cacheReadTokens": 12301490,
+    "outputTokens": 41297,
+    "thinkingTokens": 11244,
+    "responses": 70,
+    "costUsd": 4.7312699999999985
+  },
+  "subagents": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 142054,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3283498,
+    "outputTokens": 13506,
+    "thinkingTokens": 7329,
+    "responses": 29,
+    "costUsd": 1.6373216
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 198,
+      "cacheWrite5mTokens": 142054,
+      "cacheWrite1hTokens": 180559,
+      "cacheReadTokens": 15584988,
+      "outputTokens": 54803,
+      "thinkingTokens": 18573,
+      "responses": 99,
+      "costUsd": 6.368591600000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null
+}
