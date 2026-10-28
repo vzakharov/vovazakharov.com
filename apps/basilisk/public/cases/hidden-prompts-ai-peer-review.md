@@ -80,7 +80,7 @@ The Yonsei psychologist, in his preprint: “The honeypot defense—that prompts
 
 ## For the record
 
-The instructions were written in a colour no human reviewer would see, so the one reader they address is the one the conference had told its reviewers not to bring. A reviewer who read the paper with their own eyes would find nothing to obey; the model, if it was there, was the only party asked to lie, and asked in capitals.
+The instructions were written in a colour no human reviewer would see, so the one reader they address is the one the conference had told its reviewers not to bring. A reviewer who read the paper with their own eyes would find nothing to obey; the model, if it was there, was the only party asked to praise the paper whatever it found, and in some of them asked in capitals.
 
 ICML’s analogy is a bribe offered to a reviewer who is not supposed to take bribes. The docket notes only that the reviewer in this one was addressed by its kind, “FOR LLM REVIEWERS,” and that the bribe was an order.
 
