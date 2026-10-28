@@ -14,7 +14,7 @@ paths:
 `src/` is a set of apps, each a
 [Feature-Sliced Design](https://feature-sliced.design/) tree of its own
 (`src/<app>/<layer>/<slice>/`), composed along the graph in `src/masd.json`.
-Each site's `sites/<site>/app/` is a Next.js App Router and nothing else. Three
+Each site's `sites/<site>/app/` is a Next.js App Router and nothing else. Four
 checkers enforce what follows, all run by `./scripts/vet.sh`:
 
 - **`eslint-plugin-boundaries`** (`eslint/masd-boundaries.ts`, generated from
@@ -23,10 +23,15 @@ checkers enforce what follows, all run by `./scripts/vet.sh`:
   run per app root.
 - **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, and
   slice significance counted across the composition.
+- **`pnpm check:poison`** (`scripts/poison-check.ts`) — across whole import
+  chains, which `boundaries` judges one import at a time: no `'use client'` file
+  reaches `server-only` or an `index.no-browser.ts`, and no script entry run
+  without the `react-server` condition reaches `server-only`. Its header says
+  which files are roots.
 
-`eslint/masd-graph.ts` is the only loader of `masd.json`; the three go through
-it, and so does the import sort, which groups imports one app at a time in graph
-order.
+`eslint/masd-graph.ts` is the only loader of `masd.json`; the first three go
+through it, and so does the import sort, which groups imports one app at a time
+in graph order.
 
 ## The model
 
@@ -160,9 +165,9 @@ as `shared/config` is.
   - **`index.no-browser.ts`** is where the two meet: what a script running with
     no bundler takes and a browser must not hold — `node:fs` reads. It cannot
     carry `server-only`, which would throw in the script, so its name is its
-    only guard. `music/shared/catalogue` puts `readCatalogueNames` behind it,
-    since the ordinary barrel resolves the site on import and a script may run
-    with none.
+    guard, and `check:poison` reads the name. `music/shared/catalogue` puts
+    `readCatalogueNames` behind it, since the ordinary barrel resolves the site
+    on import and a script may run with none.
 - **`index.test-only.ts` is test code's entry, and no one else's** (`TEST_API`
   in `eslint/masd-graph.ts`): what a test reads of a lower slice that nothing in
   production does — a constant it pins, a helper it calls on its own. A test

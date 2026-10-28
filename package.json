@@ -27,6 +27,7 @@
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:fsd": "tsx scripts/lint-fsd.ts",
     "check:masd": "tsx scripts/masd-check.ts",
+    "check:poison": "tsx scripts/poison-check.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "content:mermaid": "scripts/in-site.sh vova tsx src/blog/scripts/render-mermaid.ts",

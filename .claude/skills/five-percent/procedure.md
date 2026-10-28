@@ -84,8 +84,8 @@ posting.
 ## Posting
 
 One review on the PR, by `@.claude/skills/feedback/SKILL.md` § "Posting it"'s
-three calls, `COMMENT` always, with its mechanics — footer, body as text, no
-thread resolved — and two differences:
+three calls, `COMMENT` always, with its mechanics — signed by the footer alone,
+body as text, no thread resolved — and two differences:
 
 - **Every proposal is an inline comment.** One that points at lines anchors to
   them (`subjectType: "LINE"`); one about the change whole anchors to the file
@@ -103,8 +103,18 @@ alternative:
 <!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
 **/five-percent** · optional
 
-<what the change took as given> → <the other way>. <What it costs.>
+<what the change took as given>
+
+<the other way>
+
+<what it costs>
 ```
+
+**Each of the three is a sentence or two the operator follows on one read**, in
+their nouns per `.claude/voice/voice.md`: what a thing does, never the name a
+toolchain gives it — "Next refuses to build the site", not "the RSC transform".
+Evidence they would want to check goes after, behind a file path. A proposal the
+operator cannot parse cannot be picked, so it fails the bar however sound.
 
 The marker is what tells a proposal from an agent's reply in the PR export, both
 posted under the operator's login, and what sends the session answering it to

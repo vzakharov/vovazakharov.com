@@ -1,0 +1,10 @@
+{
+  "pr": 227,
+  "verdicts": [
+    {
+      "comment": 4398558756,
+      "about": "Drop the client half of the poison check, since pnpm build already fails it",
+      "verdict": 0.1
+    }
+  ]
+}
