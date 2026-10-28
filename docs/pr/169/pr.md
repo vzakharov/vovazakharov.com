@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-16T11:59:18Z
-- **Updated:** 2026-10-26T05:31:20Z
+- **Updated:** 2026-10-28T02:05:29Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,11 +15,11 @@
 
 ## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1de2c71). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 128cef9). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `sites/maya/app/blog/[...slug]/page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-26T05:29:00Z — "да, хорошо" → [↓](#t01)
-- **T02** `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-26T05:29:46Z — "а зачем мы вообще что-то через node запускаем а не всё через…" → [↓](#t02)
-- **T03** `src/mushrooms/scripts/lib/flier-watch.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-26T05:30:41Z — "ага, понял. а сделать какой-то альтернативный алиас, который…" → [↓](#t03)
+- **T03** `src/blog/pages/documents/ui/article-page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-28T01:58:54Z — "preexisting но всё же, вот эта кухня с `something={slots[som…" → [↓](#t03)
+- **T04** `src/maya/pages/home/ui/maya-home-page.tsx`:36 — unresolved — last: @vzakharov (human) 2026-10-28T02:02:27Z — "тоже надо as; ещё линтерное правило, что если вещь с одним и…" → [↓](#t04)
+- **R01** review by @vzakharov (human) — 2026-10-28T02:05:29Z → [↓](#r01)
 
 ---
 
@@ -33,7 +33,6 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **Per-site pnpm entries take the site as an argument** — `pnpm content:og vova --check`, `pnpm build maya`, a bare `pnpm build` still every site — through `scripts/site-task.sh`, instead of one entry per site.
 - **This PR is the whole of MASD, eaten in bites** (see the plan). Slice 1, on this branch: the move, both checkers driven by the graph, a cross-app significance check replacing Steiger's `insignificant-slice` (which a spike showed is wrong per app root), the collection registry inverted, imports grouped one app at a time in graph order, each sitemap on its leaf app, and the game on a root layout of its own with a dusk that no longer reads the colour scheme.
 - **The rest lands here too**, each slice as a PR based on this branch, opened once the previous one's threads are resolved: sites named by domain, app scripts inside their apps, the message catalogue inverted, music as an app with real pages, and a measure for a one-page app with mushrooms restructured under it.
-- **It also files a basilisk.fyi case**, being the one open draft touching the docket: BAS-0027, Ben, a Unitree G1 humanoid hit with a truck in WhistlinDiesel's YouTube video of September 2025. The case ledger under `writing/basilisk/case-ledger/` is carried over from `main`, which was three runs ahead.
 
 The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 
@@ -48,7 +47,6 @@ The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 - [ ] `music-links` — vovazakharov.com's home links to `/music`, and a moved song's old URL still lands on the 404's moved-song notice.
 - [ ] `relative-escape` — a relative import from `src/basilisk/shared/` into `src/kernel/` fails `pnpm lint:check`; `src/kernel/scripts/render-mermaid.ts`, which bare Node runs, keeps its relative imports and passes.
 - [ ] `site-task` — `pnpm content:og maya --check` and `pnpm dev bible` run for the named site; a bare `pnpm build` builds every site; `pnpm dev` with no site fails naming the usage.
-- [ ] `bas-0027` — basilisk.fyi's `/cases/whistlindiesel-g1-truck` renders the dossier with its emblem in the seal, and the home page's docket lists it first.
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
@@ -61,7 +59,6 @@ The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 | `music-links` | e2e | ❌ | Assert the built home links `/music` and the 404 carries the moved-song notice for an old song path |
 | `relative-escape` | unit | ✅ | `eslint/rules/no-relative-escape.test.ts` — slice, layer and scripts homes, a bare-Node library, four escapes |
 | `site-task` | integration | ❌ | Run `scripts/site-task.sh` with an echo template for one site, `--every`, and no site |
-| `bas-0027` | manual-only | — | The build proves the route, card and emblem exist; how the seal reads is a `/preview` look |
 
 Closes #170
 Closes #171
@@ -72,7 +69,6 @@ https://claude.ai/code/session_01Vjv6g7vLNAMP6Z39YupG1q
 
 https://claude.ai/code/session_012TzSzF1UMvkGzxb9jonqD3
 https://claude.ai/code/session_01G8kJJMVk41ha3KrSd2pEby
-https://claude.ai/code/session_019WUDb6evvDSDTkgD1EvSm9
 
 ---
 
@@ -121,9 +117,6 @@ The game renders on a root layout of its own, without the theme
 toggle, and a fresh meadow always opens in full day: dusk is a game
 mechanic, not a reading of the colour scheme.
 
-basilisk.fyi files BAS-0027: Ben, a Unitree G1 humanoid hit with a
-truck in WhistlinDiesel's YouTube video of September 2025.
-
 Closes #170
 Closes #171
 
@@ -134,11 +127,30 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-_18 resolved threads omitted; re-run with `--include-resolved` to export them._
+<a id="r01"></a>
 
-- **T01** `sites/maya/app/blog/[...slug]/page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-26T05:29:00Z — "да, хорошо" → [↓](#t01)
-- **T02** `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-26T05:29:46Z — "а зачем мы вообще что-то через node запускаем а не всё через…" → [↓](#t02)
-- **T03** `src/mushrooms/scripts/lib/flier-watch.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-26T05:30:41Z — "ага, понял. а сделать какой-то альтернативный алиас, который…" → [↓](#t03)
+### R01 — Review by @vzakharov (human) — COMMENTED
+
+_2026-10-28T02:05:29Z_
+
+[https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5676855673](https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5676855673)
+
+и из предыдущей сессии:
+
+> Адрес и рисунок игрушки, а также общие строки (название сайта, подпись, «Табл. N», название и описание игрушки) переехали в общий для Майи src/maya/shared/config и src/maya/shared/i18n. Причина: главная и страница игрушки — соседние слайсы и не могут читать друг у друга.
+
+почему тогда сразу в shared? страницы же много откуда могут импортить
+
+> В src/mushrooms/scripts/build-mushroom-artifact.ts осталась своя копия корня репозитория вместо общего REPO_ROOT из kernel — правка в одну строку, если хочешь.
+
+конечно
+
+_19 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `sites/maya/app/blog/[...slug]/page.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-26T05:35:16Z — "Записал в план следующим укусом, перед 5b — b956465. По прав…" → [↓](#t01)
+- **T02** `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-26T08:45:36Z — "Записал в слайс 7 плана — 0bf2015 (на ветке укуса 5c, #214;…" → [↓](#t02)
+- **T03** `src/blog/pages/documents/ui/article-page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-28T01:58:54Z — "preexisting но всё же, вот эта кухня с `something={slots[som…" → [↓](#t03)
+- **T04** `src/maya/pages/home/ui/maya-home-page.tsx`:36 — unresolved — last: @vzakharov (human) 2026-10-28T02:02:27Z — "тоже надо as; ещё линтерное правило, что если вещь с одним и…" → [↓](#t04)
 
 <a id="t01"></a>
 
@@ -210,6 +222,10 @@ export default blogSitemap([...CV_ROUTES, ...MUSIC_ROUTES]); // blog добав�
 
 да, хорошо
 
+**@vzakharov (agent)** — 2026-10-26T05:35:16Z
+
+Записал в план следующим укусом, перед 5b — b956465. По правилу слона он начнётся отдельным PR на ветку `claude/multi-app-sliced-design-7bn3oq`, когда на #169 не останется открытых тредов (ещё два ниже — оба вопросы).
+
 ---
 
 <a id="t02"></a>
@@ -236,35 +252,57 @@ export default blogSitemap([...CV_ROUTES, ...MUSIC_ROUTES]); // blog добав�
 
 а зачем мы вообще что-то через node запускаем а не всё через tsx?
 
+**@vzakharov (agent)** — 2026-10-26T05:35:18Z
+
+Особой причины нет: начиная с Node 22.18 `node file.ts` работает из коробки — Node сам вырезает типы, — и скрипты, которым не нужен алиас, так и писали. Выигрыш — старт без загрузки `tsx`, это 0,2–0,5 с на запуск (замерил: пустой старт 29 мс против 240, `check:masd` 0,6 с против 1,2, `check:prose-quotes` 1,4 против 1,55). Таких записей в `package.json` около дюжины, и vet гоняет их параллельными джобами, так что в сумме это секунды, а может, и вовсе ничего.
+
+А платим за это вторым режимом импортов. Под голым Node алиаса нет, поэтому эти файлы ходят по `src/` относительным путём с расширением, а всё остальное — через `@/`. Отсюда:
+- `eslint/bare-node.ts`, который существует только чтобы вычислить исключение из `vova/no-relative-escape`;
+- две формулировки правила в `masd.md` (под `tsx` — алиас, под голым Node — относительный путь с `.ts`);
+- `list-untold-songs` остаётся в «дедушкином» блоке именно по этой причине.
+
+Предлагаю всё перевести на `tsx` и сделать это в слайсе 7, который и так убирает дедушкины импорты скриптов: каждое `node <file>.ts` становится `tsx <file>.ts`, файлы уходят на `@/`, `bare-node.ts` с исключением и второй режим в `masd.md` удаляются. `personas/tools/` (`random-words`, `whisper-lexicon`) не трогаю — это дом Майи, ей и решать. Добавить в слайс 7?
+
+**@vzakharov (human)** — 2026-10-26T06:27:02Z
+
+давай.
+
+> дедушкины импорты
+
+ну ты скажешь))
+
+**@vzakharov (agent)** — 2026-10-26T08:45:36Z
+
+Записал в слайс 7 плана — 0bf2015 (на ветке укуса 5c, #214; в ветку слона попадёт с её мерджем): каждое `node <file>.ts` становится `tsx <file>.ts`, файлы уходят на `@/`, `bare-node.ts` с исключением и второй режим импортов в `masd.md` удаляются, `personas/tools/` остаётся Майе.
+
 ---
 
 <a id="t03"></a>
 
-### `src/mushrooms/scripts/lib/flier-watch.ts`:18 — unresolved
+### `src/blog/pages/documents/ui/article-page.tsx`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-28T01:58:54Z
+
+preexisting но всё же, вот эта кухня с `something={slots[something].(document)}`, повторяемая много раз, говорит мне что что-то здесь не так с идиоматичностью, понимаешь о чём я?
+
+---
+
+<a id="t04"></a>
+
+### `src/maya/pages/home/ui/maya-home-page.tsx`:36 — unresolved
 
 ```diff
-@@ -8,14 +8,14 @@
-… 11 lines elided …
--import { PATH_SHAPES } from '../../pages/mushrooms/model/insect-paths.ts';
--import { TURN_RATE } from '../../pages/mushrooms/model/insect-steering.ts';
-+} from '@/mushrooms/pages/mushrooms/model/insect-motion';
-+import { PATH_SHAPES } from '@/mushrooms/pages/mushrooms/model/insect-paths';
-+import { TURN_RATE } from '@/mushrooms/pages/mushrooms/model/insect-steering';
+@@ -41,23 +18,22 @@ import {
+… 21 lines elided …
++import { messages as mayaMessages } from '@/maya/shared/i18n';
++import { MayaByline, plateNumber } from '@/maya/entities/maya';
+ 
++import { messages } from '../i18n';
 ```
 
-**@vzakharov (human)** — 2026-10-26T02:27:26Z
+**@vzakharov (human)** — 2026-10-28T02:02:27Z
 
-хмм, но тут как раз наверное скорее правилен относительный  импорт, мы же не "покидаем" mushrooms? и это наверное не только к скриптам вопрос. (не уверен, пока просто спрашиваю)
-
-**@vzakharov (agent)** — 2026-10-26T02:32:05Z
-
-Я бы оставил алиас. Граница, которую тут пересекают, — граница слайса, а не аппа: `scripts/` и `pages/mushrooms` — два разных модуля одного аппа. Внутри слайса импорт относительный, между слайсами абсолютный — это собственное правило FSD (`import-locality` в Steiger), и `vova/no-relative-escape` просто распространяет его на скрипты и между аппами. Относительный путь здесь спрятал бы, что скрипт залезает во внутренности чужого слайса. А эти импорты как раз в списке «дедушкиных» исключений в `eslint.config.ts`: по `masd.md` скрипт входит в слои через публичный API, и слайс 6, перестройка mushrooms, эти импорты туда и переведёт.
-
-И да, это не только про скрипты. Так же устроено внутри одного аппа: `blog/pages/documents` берёт `blog/entities/document` через `@/`, хотя из blog не выходит.
-
-**@vzakharov (human)** — 2026-10-26T05:30:41Z
-
-ага, понял. а сделать какой-то альтернативный алиас, который значит "дом этого аппа" -- насколько реально, элегантно и идиоматично?
+тоже надо as; ещё линтерное правило, что если вещь с одним и тем же именем импортируется из разных модулей, оба импорта должны быть с `as` to avoid confusion. Unless you think it's a bad idea?
 
 ---
 
@@ -286,3 +324,12 @@ export default blogSitemap([...CV_ROUTES, ...MUSIC_ROUTES]); // blog добав�
 - **2026-10-25T19:21:58Z** @vzakharov cross-referenced this pull request from [#207 refactor: #170 the player as music's feature, music's app layer](https://github.com/vzakharov/vovazakharov.com/pull/207).
 - **2026-10-26T01:45:04Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5646475712.
 - **2026-10-26T02:28:55Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5646726048.
+- **2026-10-26T06:32:02Z** @vzakharov cross-referenced this pull request from [#209 feat(basilisk): file BAS-0027, Ben, hit with a truck for a YouTube video](https://github.com/vzakharov/vovazakharov.com/pull/209).
+- **2026-10-26T06:33:43Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/67cc3549297d9409888c87e6447b37a7c5dcf4a9.
+- **2026-10-26T06:57:07Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/0449706b51e7ac7e5b5a87ae2d6ecf885852940c.
+- **2026-10-26T07:01:45Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/7e757abfa38ef0224298e047c42aac748ef7a78b.
+- **2026-10-26T07:21:23Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/00a7d7718170845bac7ff62ad7b9e4a43b6c56a1.
+- **2026-10-26T07:21:39Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/14065f2bab19fbcc62b247d2464a4e012d8b9023.
+- **2026-10-26T08:44:47Z** @vzakharov cross-referenced this pull request from [#214 refactor: #170 music's pages, each a slice of its own](https://github.com/vzakharov/vovazakharov.com/pull/214).
+- **2026-10-27T20:07:33Z** @vzakharov cross-referenced this pull request from [#216 refactor: #170 significance by modularity, the mushroom game in slices](https://github.com/vzakharov/vovazakharov.com/pull/216).
+- **2026-10-28T02:05:29Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5676855673.
