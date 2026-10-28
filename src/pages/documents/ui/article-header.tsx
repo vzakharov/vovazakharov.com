@@ -53,6 +53,7 @@ function CutSwitcher({
 export type ArticleHeaderProps = WithContentDocument<ArticleFrontmatter> &
   Headlined & {
     availableVariants: Variant[];
+    eyebrow?: ReactNode;
     mark?: ReactNode;
   };
 
@@ -61,6 +62,7 @@ export function ArticleHeader({
   title,
   readingMinutes,
   availableVariants,
+  eyebrow,
   mark,
 }: ArticleHeaderProps) {
   const { frontmatter, collection, slug, variant, markdown, route } = document;
@@ -76,6 +78,7 @@ export function ArticleHeader({
     <Box component="header" className={classes['articleHeader']}>
       <Stack gap={24}>
         <Stack gap={12}>
+          {eyebrow}
           <Title order={1} className={classes['articleTitle']}>
             {title}
           </Title>
@@ -89,7 +92,9 @@ export function ArticleHeader({
           )}
         </Stack>
 
-        <DocumentMeta {...{ frontmatter, readingMinutes, locale }} />
+        <DocumentMeta
+          {...{ frontmatter, collection, readingMinutes, locale }}
+        />
 
         {/*
           With no cuts the switcher would be one chip reading "Full", offering

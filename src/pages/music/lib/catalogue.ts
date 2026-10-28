@@ -87,6 +87,17 @@ export function albumWipNote(
   return albumWip(album) ? loadMessages(locale).music.wip.note : undefined;
 }
 
+/** The albums finished apart from those still in the works, each keeping the order given. */
+export function wipApart(albums: readonly MusicAlbum[]): {
+  finished: MusicAlbum[];
+  wip: MusicAlbum[];
+} {
+  return {
+    finished: albums.filter((album) => !albumWip(album)),
+    wip: albums.filter((album) => albumWip(album)),
+  };
+}
+
 /** The albums with a song in this catalogue, by slug. */
 export function catalogueAlbums(songs: readonly SongDocument[]): MusicAlbum[] {
   return musicAlbumSlugs().filter(

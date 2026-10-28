@@ -6,19 +6,17 @@ import {
   type ArticleFrontmatter,
   type DocumentCard,
   documentRoute,
-  type WithCollectionId,
 } from '@/shared/content';
-import { loadMessages, type WithOptionalLocale } from '@/shared/i18n';
+import { loadMessages } from '@/shared/i18n';
 import { cx } from '@/shared/lib/class-names';
 import { Card, NameLink, TextLink } from '@/shared/ui';
 
 import classes from './document-cards.module.scss';
-import { DocumentMeta } from './document-meta';
+import { type CollectionInLocale, DocumentMeta } from './document-meta';
 
-type DocumentCardsProps = WithCollectionId &
-  WithOptionalLocale & {
-    cards: Array<DocumentCard<ArticleFrontmatter>>;
-  };
+type DocumentCardsProps = CollectionInLocale & {
+  cards: Array<DocumentCard<ArticleFrontmatter>>;
+};
 
 /**
  * A collection's documents as a list of cards — the drawing, the byline, the
@@ -59,7 +57,7 @@ export function DocumentCards({
                   <NameLink href={route}>{title}</NameLink>
                 </Title>
                 <DocumentMeta
-                  {...{ frontmatter, readingMinutes, locale }}
+                  {...{ frontmatter, collection, readingMinutes, locale }}
                   className={classes['cardMeta']}
                 />
                 <Text lh={1.625} mb={16}>

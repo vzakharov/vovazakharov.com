@@ -32,7 +32,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { PIXELS } from '@/shared/config/index.node-safe';
+import {
+  PIXELS,
+  WHISPER_DRAWING,
+  WHISPER_ROUTE,
+} from '@/shared/config/index.node-safe';
 import { siteConfig } from '@/shared/config/site-config';
 import { ARTICLE_COLLECTIONS } from '@/shared/content/collection-schemas';
 import {
@@ -48,10 +52,6 @@ import { OG_CARD_SUFFIX, OG_CARD_SUFFIXES, routeCardPath } from '@/shared/seo';
 
 import { cvCardPath, cvPath } from '@/pages/cv/lib/cv-urls';
 import { CV_VARIANTS } from '@/pages/cv/lib/cv-variants';
-import {
-  WHISPER_DRAWING,
-  WHISPER_ROUTE,
-} from '@/pages/maya-whisper/lib/whisper-copy';
 import {
   artistCollage,
   artistCollageCovers,

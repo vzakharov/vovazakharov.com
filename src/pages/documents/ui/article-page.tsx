@@ -163,6 +163,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
                   <ArticleHeader
                     {...{ document, title, readingMinutes }}
                     availableVariants={siblingVariants(collection, slug)}
+                    eyebrow={slots?.eyebrow?.(document)}
                     mark={slots?.mark?.(document)}
                   />
                   {slots?.brief?.(document)}
@@ -187,6 +188,7 @@ export function articleRoute<C extends ArticleCollectionId>(collection: C) {
             <SiteFooter
               {...{ locale }}
               home={collectionRoute(collection, document.locale)}
+              byline={slots?.byline?.(document)}
             />
           </Stack>
         </Container>

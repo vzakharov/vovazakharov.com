@@ -1,48 +1,97 @@
 # The API-rate cost ledger
 
-`sessions/<YYYY-MM>/<session-id>.json` records what a session would have cost at
-Claude API rates. The subscription price hides that number, and the point of
-having it is to know the size of the bill before subscription pricing stops
-being a bargain.
+`sessions/<YYYY-MM>/<branch>/<N>/<session-id>.json` records what a session would
+have cost at Claude API rates. The subscription price hides that number, and the
+point of having it is to know the size of the bill before subscription pricing
+stops being a bargain.
 
 ## Where rows live
 
 **`cost-ledger` is the source of truth**: an orphan branch on `origin` holding
-every row at its usual path, named once in `lib/ledger_branch.py`. The default
-branch carries none. The `Stop` hook writes the row there every turn, on every
-branch and the trunk alike, so a session counts whether or not its work merges.
+every row where § "Where a row is filed" places it, named once in
+`lib/ledger_branch.py`. The default branch carries none. The `Stop` hook writes
+the row there every turn, on every branch and the trunk alike, so a session
+counts whether or not its work merges.
 
 **A branch also carries a display copy until it is finalized**, so its PR's diff
-shows what the work cost. Finalized means the PR's last
-`<!-- finalize-attestation <sha> -->` names a SHA that `HEAD` still contains,
-and nothing after it touches more than rows. GitHub is asked until the answer is
-yes, and the yes is cached in `tmp/costs/finalized/<branch>`; a work commit
-after the SHA sends the question back. `/finalize` carries the copies into the
-ledger and deletes them before the branch lands, and `/finalize revoke`
-withdraws the attestation.
+shows what the work cost. It rides the agent's own commits:
+`hooks/stage-cost-row.sh`, a `PreToolUse` hook on `Bash`, prices the session and
+stages its row before a `git commit` runs, and nothing commits it otherwise. So
+the copy is as of the session's last commit, and a session that never commits
+leaves none — the ledger counts it all the same. The hook stages nothing where
+the row would be wrong in the commit:
+
+- **on the trunk or a finalized branch**, which carry no copy;
+- **for a commit in another work tree**, a delegate's worktree, unless the
+  command names this root by path as a multi-repo session's `cd <repo> &&` does;
+- **while a merge, cherry-pick, revert or rebase is in progress**, whose
+  concluding commit takes exactly what git left — `/sync-branch` relies on it;
+- **for a command naming `.claude/costs/sessions`**, which manages the rows
+  itself: a staged row would make `/finalize`'s `git rm` refuse, or come back in
+  the commit that sweeps it;
+- **for a commit with nothing else to take** — a clean index, and no
+  `git add|rm|mv`, `-a`, `--all` or `--amend` in the command — which would
+  otherwise succeed as a row-only commit where git said "nothing to commit".
+
+Finalized means the PR's last `<!-- finalize-attestation <sha> -->` names a SHA
+that `HEAD` still contains, and nothing after it touches more than rows. GitHub
+is asked until the answer is yes, and the yes is cached in
+`tmp/costs/finalized/<branch>`; a work commit after the SHA sends the question
+back. `/finalize` carries the copies into the ledger and deletes them before the
+branch lands, and `/finalize revoke` withdraws the attestation.
 
 **Readers union the ledger with the default branch's tree**, one row per session
-id, the later by `lib/ledger_branch.py`'s `recency` winning. The tree side is
-how a repository that has not migrated still counts, and how a copy that reached
-the trunk without `/finalize` is counted once.
+id, the later by `lib/rows.py`'s `recency` winning. The tree side is how a
+repository that has not migrated still counts, and how a copy that reached the
+trunk without `/finalize` is counted once.
 
 What each failure costs:
 
 - **A push that loses the ledger's tip** to another session re-reads it and
-  rebuilds, up to three tries; rows never collide, so a rebuild loses none.
-  After the third, or on a failed fetch, the hook blocks the stop once with
-  git's message. The next turn's row covers the missed one, so only a session's
-  last turn can be lost, and only when nobody acts on the block.
-- **A GitHub query that fails** counts as not finalized: the turn writes its
+  rebuilds, up to three tries, taking the next ordinal where the winner took the
+  one it planned on, so a rebuild loses none. After the third, or on a failed
+  fetch, the hook blocks the stop once with git's message. The next turn's row
+  covers the missed one, so only a session's last turn can be lost, and only
+  when nobody acts on the block.
+- **A GitHub query that fails** counts as not finalized: the commit carries its
   display copy and the next asks again. It is the ledger's one silent fallback,
   approved for that call site alone, and its worst case is a copy on a branch
   that merges after it, which the union counts once.
 
+## Where a row is filed
+
+The ledger reads as what each branch cost, session by session, and only the
+ledger sees every session on a branch, so it decides the path. The display copy
+goes where the local copy of the ledger files it (`ledger.py path-for`), which
+is as fresh as the last `Stop` hook's fetch, so a session's first commit before
+its first `Stop` can take an ordinal the ledger then gives another session; its
+next commit moves it. `lib/filing.py` holds the rules.
+
+- **`<YYYY-MM>` is the month of the branch's first filed session**, fixed once
+  the branch has a directory, so a branch never splits across months: the trunk
+  stays in its first month for good. A branchless row goes under its own month's
+  `.no-branch/`, a name git forbids as a ref component.
+- **`<N>` is one past the highest ordinal the branch holds**, so a gap is never
+  reused, and a branch name reused after deletion continues the old numbering.
+- **A row moves only when its session changes branch** — an auto-branch rename,
+  an attach — taking the new branch's next ordinal; its old path goes in the
+  same commit, on the ledger and on the branch.
+- **Every ledger write re-files whatever is not at its place**: a month-only
+  path, a duplicate copy, two sessions in one ordinal, one branch under two
+  months. That pass is the migration, run by a repository's first write on this
+  code, and what folds in the month-only rows a branch without it keeps writing.
+  Its steady state lists names and reads no row. A collision keeps the
+  earlier-started session in place; a backfill numbers by start time.
+- **A month directory does not bound when its rows started**, so readers take
+  rows at any depth and filter a period by each row's start. A `report.py` older
+  than this layout reads only the files directly under a month and undercounts a
+  migrated repository until its checkout updates.
+
 ## Reading a transcript
 
 Properties of `~/.claude/projects/<cwd-slug>/<session-id>.jsonl` that decide how
-`lib/pricing.py` reads it. Each is load-bearing: get one wrong and the totals
-are confidently incorrect rather than absent.
+`lib/transcript.py` and `lib/pricing.py` read it. Each is load-bearing: get one
+wrong and the totals are confidently incorrect rather than absent.
 
 - **A subagent's spend is in a different file.**
   `<session-id>/subagents/*.jsonl` beside the transcript, one per agent — and it
@@ -60,7 +109,10 @@ are confidently incorrect rather than absent.
   final. A matched event supplies the output; without one, the row warns that
   those responses' output is a floor.
 - **A response is billed at the rates for its `(model, speed)` pair.** Fast mode
-  doubles the rates, so `usage.speed` is read rather than assumed.
+  doubles the rates, so `usage.speed` is read rather than assumed. A row's
+  `above` is a second rate card for a model that bills a long prompt higher: a
+  response whose prompt — input plus cache reads and writes — runs past its
+  `prompt_tokens` is billed whole at it, output included.
 - **Cache writes are billed by TTL.** `usage.cache_creation` splits into
   `ephemeral_5m_input_tokens` and `ephemeral_1h_input_tokens` — ×1.25 and ×2 of
   the input rate, against ×0.1 for reads.
@@ -99,21 +151,27 @@ the token and so may be the agent's own account.
 
 ## Orientation
 
-A row's `orientation` is what the session spent before it first **acted**, and
-each of its `compactions` carries the same measure from that boundary on, plus
-the re-reads the summary forced. They feed the call on whether a fresh session
-or a compact is the cheaper way to shed context. `lib/orientation.py` holds the
-definitions.
+A row's `orientation` is what the session spent finding its bearings — until it
+**marks** them found or first **acts**, whichever comes first — and each of its
+`compactions` carries the same measure from that boundary on, plus the re-reads
+the summary forced. They feed the call on whether a fresh session or a compact
+is the cheaper way to shed context. `lib/orientation.py` holds the definitions.
 
-- **Acting is a write into the repository or a handover to the operator** — an
+- **Marking is a Bash call running `python3 .claude/costs/oriented.py` bare**,
+  which `hooks/estimate-notice.sh` asks for until the stretch has one. Knowing
+  what is what comes before the first edit or answer — a session tracing callers
+  before it changes anything is already working — and only the agent can tell
+  when. A subagent's mark is its own bearings, not the session's.
+- **Acting is a write into the repository or a handover to the operator**: an
   `Edit`, `Write` or `NotebookEdit` under the directory the session started in
   and outside its `tmp/`, an `AskUserQuestion` or `ExitPlanMode`, or the
   session's own `end_turn`. A scratch write is how an agent finds its bearings,
   not what it does with them. A subagent's `end_turn` only hands its result back
   to whoever spawned it, but a subagent's edit counts: delegated work is still
-  the session starting work.
-- **The acting response is left out of the spend**, since its output is the edit
-  or the answer itself.
+  the session starting work. `endedBy` says which ended it, `oriented` for the
+  mark, so the report shows how often agents mark.
+- **The ending response is left out of the spend**, since its output is the
+  mark, the edit or the answer itself.
 - **Timestamps order the responses, not file position**, because a subagent's
   spend sits in another file and its clock is what places it against the main
   file's.
@@ -127,14 +185,16 @@ definitions.
   cache write of the response it arrived in, and its dollars that write plus a
   cache read on every later response before the next boundary.
 
-**What it misses.** An edit made through `Bash` is not seen as acting, so such a
-session's orientation runs long. Re-reads are a floor: a hole read around — a
-`cat` after a `Read`, a narrower grep — or one that shows as a wrong turn goes
-uncounted, while a repeat that was simply due, a `git status` before each
-commit, counts; `byTool` is what lets `Bash` be read apart. The compaction call
-itself has no `usage` to price. A resume in a fresh container reloads the
-transcript with no boundary to restart at, so what it spends getting its
-bearings lands in the work.
+**What it misses.** The mark is the agent's word: one made early or late moves
+the phase with it, and a forgotten one leaves the phase to end at acting, later
+than it did. An edit made through `Bash` is not seen as acting, so such a
+session's orientation runs long unless it marks. Re-reads are a floor: a hole
+read around — a `cat` after a `Read`, a narrower grep — or one that shows as a
+wrong turn goes uncounted, while a repeat that was simply due, a `git status`
+before each commit, counts; `byTool` is what lets `Bash` be read apart. The
+compaction call itself has no `usage` to price. A resume in a fresh container
+reloads the transcript with no boundary to restart at, so what it spends getting
+its bearings lands in the work.
 
 ## Telemetry
 
@@ -155,10 +215,10 @@ does not list (`sdk` for a web session's main thread, `prompt_suggestion`,
 boundary. An event does not split its cache write by TTL, so an unseen call's
 write is filed under the 5-minute tokens. Events are only as complete as the
 receiver's uptime: what Claude Code sent before it started, or after the row was
-written, is in no row. The hook also runs after every tool call, silent there,
-and starts a receiver that is missing. That covers a session that checked out a
-branch carrying the hook, which registers it with `SessionStart` already past,
-and a receiver that died.
+written, is in no row. The hook also runs after every tool call and starts a
+receiver that is missing. That covers a session that checked out a branch
+carrying the hook, which registers it with `SessionStart` already past, and a
+receiver that died.
 
 **The export is the environment's to switch on, never the repository's.** Claude
 Code ignores its OpenTelemetry exporter variables in a project's
@@ -201,59 +261,39 @@ not a unit or a stale rate, which would miss by one factor in both.
 anthropics/claude-code#95837 carries the measurements and asks which figure is
 authoritative.
 
-## When the branch's copy is committed
-
-**The `Stop` hook commits the branch's display copy only when the operator has
-written since the last one it committed**; the ledger takes every turn's row.
-Turns a subagent's report, a task notification or a peer session start would
-otherwise each leave a commit on the branch, and on a delegating session they
-are most of them. Skipping one loses nothing: a row is the session's whole
-spend, rewritten each time, so the ledger already holds it and the next
-committed copy carries it.
-
-- **The operator wrote** where a record's `origin.kind` or
-  `attachment.origin.kind` is `human` — the latter a message queued mid-turn,
-  which starts no turn of its own. `hooks/last_operator_record.py` reads it,
-  counting whatever it cannot place as the operator's: the hook skips only on a
-  positive reading.
-- **The marker is `tmp/costs/<session-id>.human`**, the id of the last such
-  record a committed copy covered, kept out of the row so its shape does not
-  change. A missing marker — a fresh container, a relayed session — commits, as
-  does this session's copy being dirty or absent from the branch, so a restart
-  or a checkout can only add one.
-
 ## Running beside the harness's Stop check
 
 The harness registers its own `Stop` hook in `~/.claude/launcher-settings.json`
 — `stop-hook-git-check.sh`, which ends a turn with exit 2 on a tree that is
 unclean, holds untracked files, or is ahead of its remote. **Hooks for one event
-run in parallel**, so writing and committing the row is work done while that
-check may be reading the tree.
+run in parallel**, so whatever this hook does to the tree is done while that
+check may be reading it.
 
-**The row never makes the tree look unfinished.** It is priced into `tmp/`,
-committed in a throwaway index, and pushed before the branch moves; only then do
-the branch, the index entry and the file follow. So the tree differs from `HEAD`
-only between the ref move and the rename, and is never ahead of `origin` while a
-push is in flight.
+**The hook leaves the branch alone and the tree clean.** It prices the row into
+`tmp/` and writes it to the ledger only. A copy of the session's row it finds
+differing from `HEAD` is one no commit took — staged by
+`hooks/stage-cost-row.sh` for a commit that left it out (`git commit -- <path>`,
+a failed commit, a command that only mentioned one), along with the removal of
+the copy it moved from, or written by a hand run of `session_cost.py` — and each
+goes back to `HEAD`'s copy, or out of the index and tree where `HEAD` has none.
+Nothing is lost: the ledger holds the turn's row, and the next commit stages a
+fresh one.
 
-**The hook also waits the check out**, which leaves it only those two steps to
-guard. That check leaves nothing on disk — it reads the tree and writes to
-stderr — so its process is the only thing there is to wait on, and the hook
-polls for it by name at the last moment before anything it does can touch the
-tree, which is after the ledger write: that touches no file in it. A match that
-is an **ancestor** of the hook is not the check: the check is a sibling, and an
-ancestor carrying the name is a shell that merely mentions it, so waiting on one
-would outlast the turn.
+**It waits the check out before that put-back.** That check leaves nothing on
+disk — it reads the tree and writes to stderr — so its process is the only thing
+there is to wait on, and the hook polls for it by name at the last moment before
+anything it does can touch the tree, which is after the ledger write: that
+touches no file in it. A match that is an **ancestor** of the hook is not the
+check: the check is a sibling, and an ancestor carrying the name is a shell that
+merely mentions it, so waiting on one would outlast the turn.
 
-**What neither covers is a tree that was unclean before the hook started.** A
-hand run of `session_cost.py` rewrites the row in place, and a failed push
-leaves a commit the check will refuse on the _next_ turn, attributed to nobody.
-So the hook reads the tree after its own work and, where the row was part of
-what the check saw, exits 2 with one line naming it — the only channel a `Stop`
-hook has to the agent, spent solely where the check's own exit 2 is already
-continuing the turn. It bails on a re-fired `Stop` (`stop_hook_active`) exactly
-as the harness's check does: two hooks that can both block and neither bail
-would hold the turn open forever.
+**A row the check read before the put-back is named to the agent**: where it was
+all that kept the tree unclean, the hook exits 2 with one line saying so — the
+only channel a `Stop` hook has to the agent, spent solely where the check's own
+exit 2 is already continuing the turn. A put-back that fails exits 2 too, with
+the commands that do it by hand. It bails on a re-fired `Stop`
+(`stop_hook_active`) exactly as the harness's check does: two hooks that can
+both block and neither bail would hold the turn open forever.
 
 **A turn that cannot be priced blocks the stop once**, with the pricing error's
 last line — the missing `(model, speed)` pair, as a row to add to `prices.json`.

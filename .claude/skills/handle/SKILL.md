@@ -22,8 +22,8 @@ Four parts, order-free:
 - **`and merge`** (`@.claude/skills/finalize/SKILL.md`'s flag): read as
   `and finalize`, and **not forwarded** — a lane produces its diff in this same
   turn, so the flag was typed before the thing it would merge existed. Land-prep
-  as asked, then report that the merge was held and that
-  `/finalize <branch> and merge` lands it once the operator has looked.
+  as asked, then report that the merge was held and that `/merge <branch>` lands
+  it once the operator has looked.
 - **Extra guidance** (optional): any remaining prose. Not a lane of its own — it
   directs whichever lane runs, and when no lane is discovered it _is_ the work
   (Step 4).
@@ -203,9 +203,9 @@ anyone who looks at it. Absent the flag, the turn ends on the lane's own report
 ## Do NOT
 
 - Act on a referenced skill from memory, or from the one-line summary this file
-  gives it. Every skill named above is one to literally read, whatever verb
-  introduces it: its steps are its own and change without this one being
-  touched.
+  gives it. Every `@.claude/skills/…` reference above means literally read that
+  file before acting, whatever verb introduces it: its steps are its own and
+  change without this one being touched.
 - Finalize unasked, or merge anything — the base branch into this one included,
   however the PR's merge state reads, and the PR itself however the invocation
   was worded.

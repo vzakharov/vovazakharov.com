@@ -2,7 +2,7 @@ import { Stack } from '@mantine/core';
 
 import { byLocale, loadMessages } from '@/shared/i18n';
 import { pick } from '@/shared/lib/collections';
-import { scriptSample } from '@/shared/music-catalogue';
+import { type MusicAlbum, scriptSample } from '@/shared/music-catalogue';
 import { PageShell } from '@/shared/ui';
 
 import { SiteFooter } from '@/widgets/site-footer';
@@ -14,6 +14,7 @@ import {
   albumWipNote,
   artistDiscography,
   artistSongs,
+  wipApart,
 } from '../lib/catalogue';
 import { artistText } from '../lib/catalogue-text';
 import { catalogueSize } from '../lib/duration';
@@ -29,8 +30,8 @@ import { SongList } from './song-list';
 import { Story } from './story';
 
 /**
- * One project: its own text where it has one, the albums it put out, then its
- * singles, then every song it is billed on.
+ * One project: its own text where it has one, the albums it put out, then those
+ * still in the works, then its singles, then every song it is billed on.
  */
 export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const songs = catalogueSongs();
@@ -39,14 +40,17 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const name = projectName(artist, locale);
   const { albums, singles } = artistDiscography(artist, locale, songs);
   const billed = artistSongs(artist, songs);
-  const albumTiles = albums.map((album) => ({
+  const albumTile = (album: MusicAlbum) => ({
     href: albumPath(album, locale),
     slug: album,
     name: albumTitle(album, locale),
     cover: albumCover(album),
     detail: albumDetail(album, locale, songs).join(' · '),
     wip: albumWipNote(album, locale),
-  }));
+  });
+  const { finished, wip } = wipApart(albums);
+  const albumTiles = finished.map((album) => albumTile(album));
+  const wipTiles = wip.map((album) => albumTile(album));
   const singleTiles = singles.map((single) => {
     const { titles, routes } = songTrack(single);
 
@@ -62,7 +66,9 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
   const sample = scriptSample(
     [
       name.original,
-      ...[...albumTiles, ...singleTiles].map((tile) => tile.name.original),
+      ...[...albumTiles, ...wipTiles, ...singleTiles].map(
+        (tile) => tile.name.original,
+      ),
       ...trackNames(tracks, locale),
     ],
     locale,
@@ -100,6 +106,8 @@ export function ArtistPage({ artist, locale }: ArtistPageProps) {
         />
 
         <CatalogueGrid title={messages.albums} tiles={albumTiles} />
+
+        <CatalogueGrid title={messages.wip.heading} tiles={wipTiles} />
 
         <CatalogueGrid title={messages.singles} tiles={singleTiles} />
 
