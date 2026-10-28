@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 53765,
+    "cacheReadTokens": 1003838,
+    "outputTokens": 2574,
+    "thinkingTokens": 458,
+    "responses": 10,
+    "costUsd": 0.6824476
+  },
+  "estimate": {
+    "at": "2026-10-28T09:12:54.202Z",
+    "parts": [
+      {
+        "hours": 0.1,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "picking up a parked branch means checking its PR and head against the summary before the operator returns; nothing else is open"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-28T09:13:06.464Z",
+    "contextTokens": 113297,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53349,
+      "cacheReadTokens": 890959,
+      "outputTokens": 1962,
+      "thinkingTokens": 408,
+      "responses": 9,
+      "costUsd": 0.6442958000000001
+    }
+  },
+  "sessionId": "b9083e94-1cca-5ed6-96e5-67d1b164902b",
+  "branch": "feat/cv-profile-gaps",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take feat/cv-profile-gaps — ревью PR #224 отработано, в CV теперь только 4,5–5× на разработчика; ждём Вову",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCVy2t11nVht7hWmQf",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T09:12:28.425Z",
+  "lastResponseAt": "2026-10-28T09:13:06.464Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 53765,
+    "cacheReadTokens": 1003838,
+    "outputTokens": 2574,
+    "thinkingTokens": 458,
+    "responses": 10,
+    "costUsd": 0.6824476
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53765,
+      "cacheReadTokens": 1003838,
+      "outputTokens": 2574,
+      "thinkingTokens": 458,
+      "responses": 10,
+      "costUsd": 0.6824476
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 10,
+    "matched": 10,
+    "matchedTableUsd": 0.6824476,
+    "matchedEventUsd": 0.6824476,
+    "unseen": {}
+  }
+}
