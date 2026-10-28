@@ -146,8 +146,8 @@
             "text": "a production deploy every 2.4 days."
           },
           {
-            "lead": "About 2.5× the changes a week",
-            "text": "than the app shipped on Bubble before the rebuild, or 4.5–5× per developer."
+            "lead": "4.5–5× the changes a week per developer",
+            "text": "than the app shipped on Bubble before the rebuild."
           },
           {
             "lead": "Sub-second cold loads,",
