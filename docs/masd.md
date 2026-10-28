@@ -25,11 +25,10 @@ tree is its ancestors' layers overlaid, plus its own. So:
   There is no app-level barrel: path-based checkers would lose the layer axis
   behind it, and one barrel per app cannot hold the `server-only` / `node-safe`
   split.
-- **An app may have several parents.** Nothing here uses a diamond yet; it is
-  allowed because "this one is both a blog and a game" is a plausible next app.
-  A diamond is harmless — inheriting is only the right to import, nothing
-  overrides anything — and two ancestors may hold slices of the same name, the
-  importer renaming one where its context needs both.
+- **An app may have several parents.** `vova` has three, all descending from
+  `kernel`, so it closes a diamond. A diamond is harmless — inheriting is only
+  the right to import, nothing overrides anything — and two ancestors may hold
+  slices of the same name, the importer renaming each where it needs both.
 - **An app with no ancestors is plain FSD**, so every FSD project is a one-app
   MASD project.
 
@@ -194,10 +193,9 @@ and widgets. What it settled holds for any domain.
 - **One graph, four readers.** `eslint/masd-graph.ts` is the only loader of
   `masd.json`; the boundaries config, the import sort, `lint:fsd`'s per-app runs
   and `masd-check.ts` all go through it, so no reader restates an ancestor list
-  or an app name. `PUBLIC_API` and `SLICED_LAYERS` live there too, because
-  `check:masd` runs under bare Node and cannot load the ESLint config. The
-  import sort keeps its own list of all six layers, lowest first, as the one
-  reader that needs `app` and `shared` among them and the opposite order.
+  or an app name. `PUBLIC_API` and the layer lists live there too, because
+  `check:masd` runs under bare Node and cannot load the ESLint config; the
+  import sort reads `LAYERS` reversed rather than keeping a list of its own.
 - **Root layouts compose rather than copy.** shell's layout renders kernel's,
   adding through its `htmlProps` and `head`; the mushrooms layout is kernel's as
   it stands. No layout restates the document.
