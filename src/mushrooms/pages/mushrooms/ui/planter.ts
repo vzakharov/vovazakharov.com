@@ -32,7 +32,8 @@ import {
   sowingTuft,
 } from '@/mushrooms/features/play-flowers/index.node-safe';
 
-import type { Action, Meadow } from '../model/game';
+import type { Action } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import type { MeadowLayout } from './layout';
 import type { PlanterVoice } from './sound';
 

@@ -11,7 +11,8 @@ import {
   shapeSeeds,
 } from '@/mushrooms/entities/flower/index.node-safe';
 
-import { type Action, firstMeadow, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, firstMeadow, reduce } from './game';
 
 const TUFT = planeFootOf({ x: 0.4, z: 1.3, size: 0.28 });
 const OTHER_TUFT = planeFootOf({ x: -0.6, z: 0.8, size: 0.28 });

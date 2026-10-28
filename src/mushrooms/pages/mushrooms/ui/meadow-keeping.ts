@@ -15,9 +15,9 @@ import {
 import type { EyeHeld } from '@/mushrooms/features/walk-meadow/index.node-safe';
 
 import type { KeptBy, Reopened } from '../api/open-kept';
-import type { Meadow } from '../model/game';
 import { settled } from '../model/keeping';
-import { type Kept, KEPT_VERSION } from '../model/kept-record';
+import { type Kept, KEPT_VERSION } from '../shape/kept-record';
+import type { Meadow } from '../shape/meadow';
 import type { Meadowed } from './visit-play';
 
 /** The record of `meadow` at rest as of `now` (ms on the scene's clock), seen from `start`. */

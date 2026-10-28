@@ -8,7 +8,8 @@ import {
   type FlowerTouch,
 } from '@/mushrooms/features/play-flowers/index.node-safe';
 
-import { firstMeadow, type Meadow, reduce } from '../model/game';
+import { firstMeadow, reduce } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 
 /** A meadow with a mushroom selected and the flower picker open on a tuft. */
 const BUSY: Meadow = {

@@ -3,7 +3,8 @@ import { describe, it } from 'node:test';
 
 import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/index.node-safe';
 
-import { type Action, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, reduce } from './game';
 import { FLOWERS, grow, opening, run, SIGHT } from './game.test-kit';
 
 const release = (seed: number, now: number): Action => ({

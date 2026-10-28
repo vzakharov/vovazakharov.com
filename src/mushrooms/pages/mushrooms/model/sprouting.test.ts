@@ -31,7 +31,8 @@ import {
   SPROUT_WINDOW_MS,
 } from '@/mushrooms/features/grow-mushroom/index.test-only';
 
-import { type Action, firstMeadow, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, firstMeadow, reduce } from './game';
 
 const SIGHT = { flowers: [], air: [], crowded: [], room: [] };
 

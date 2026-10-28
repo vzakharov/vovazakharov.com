@@ -26,7 +26,8 @@ import {
   tendTufts,
 } from '@/mushrooms/features/plant-flower/index.node-safe';
 
-import { type Meadow, reduce } from '../model/game';
+import { reduce } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import { Planter } from './planter';
 import { type Opened, opened } from './visit-play';
 

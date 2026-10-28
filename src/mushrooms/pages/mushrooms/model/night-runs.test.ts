@@ -14,7 +14,8 @@ import {
   type RunDoor,
 } from '@/mushrooms/features/mice-run/index.test-only';
 
-import { firstMeadow, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { firstMeadow, reduce } from './game';
 
 const door = (id: string, x: number, hidden = false): RunDoor => ({
   id,

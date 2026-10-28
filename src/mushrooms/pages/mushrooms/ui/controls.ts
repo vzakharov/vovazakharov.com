@@ -30,7 +30,8 @@ import {
 import { drawGaitButton } from '@/mushrooms/features/walk-meadow';
 import { unfolded } from '@/mushrooms/widgets/map';
 
-import { isEmpty, type Meadow } from '../model/game';
+import { isEmpty } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import {
   type Button,
   buttonMaker,

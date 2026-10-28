@@ -41,7 +41,8 @@ import { EyeInput } from '@/mushrooms/features/walk-meadow';
 import { type MapSnapshot, MapView } from '@/mushrooms/widgets/map';
 
 import type { Opening } from '../api/open-kept';
-import { type Action, type Meadow, reduce } from '../model/game';
+import { type Action, reduce } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import { Arrivals } from './arrivals';
 import { controlActions, type ControlScene } from './control-actions';
 import { Controls } from './controls';

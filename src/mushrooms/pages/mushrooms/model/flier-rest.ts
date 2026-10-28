@@ -5,7 +5,7 @@
 
 import type { Flier, Leg } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { RESTED_AT } from './kept-record';
+import { RESTED_AT } from '../shape/kept-record';
 
 /**
  * `insects` at rest, settled at `now`: one leaving is gone; one under a cap

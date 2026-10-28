@@ -16,7 +16,8 @@ import {
   type Sight,
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 
-import { type Meadow, reduce } from '../model/game';
+import { reduce } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import type { MeadowLayout } from './layout';
 import { opened } from './visit-play';
 

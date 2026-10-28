@@ -68,7 +68,8 @@ import {
   type Instrument,
 } from '@/mushrooms/features/play-flowers';
 
-import type { Action, Meadow, Tended } from '../model/game';
+import type { Action } from '../model/game';
+import type { Meadow, Tended } from '../shape/meadow';
 import {
   closeShown,
   laidOut,

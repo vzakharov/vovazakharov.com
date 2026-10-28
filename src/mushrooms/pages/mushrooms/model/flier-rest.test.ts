@@ -7,9 +7,9 @@ import {
   isLeaving,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
+import { RESTED_AT } from '../shape/kept-record';
 import { ALL_TEN, opened, play } from '../ui/visit-play';
 import { restedFliers } from './flier-rest';
-import { RESTED_AT } from './kept-record';
 
 /** A flier as it was at `now`, and as it was kept then. */
 type Settling = { flier: Flier; now: number; rested: Flier | undefined };

@@ -16,7 +16,8 @@ import {
   OPENING_FEET,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { type Action, isEmpty, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, isEmpty, reduce } from './game';
 import { footedOf, grow, opening, run } from './game.test-kit';
 
 const footOf = (seed: number) => footedOf(seed).foot;

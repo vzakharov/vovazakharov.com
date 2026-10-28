@@ -60,7 +60,7 @@ import {
 import { MouseRuns } from '@/mushrooms/features/mice-run';
 import type { DoorSeating } from '@/mushrooms/widgets/map';
 
-import type { Meadow } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import { HouseView } from './house-view';
 import type { MeadowLayout } from './layout';
 import type { MeadowSound } from './sound';

@@ -10,7 +10,8 @@ import {
   sporeOnTap,
 } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 
-import { type Meadow, reduce } from '../model/game';
+import { reduce } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import { opened } from './visit-play';
 
 describe('the spore a tap on a mushroom settles', () => {

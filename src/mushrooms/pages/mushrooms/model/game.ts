@@ -21,18 +21,14 @@ import {
   type StartRain,
   turned,
   type TurnLight,
-  type WithDusk,
-  type WithRain,
 } from '@/mushrooms/shared/world';
 import {
   type HoldFlower,
   type PickColour,
   plantedId,
-  type Planting,
   type PlantShape,
   shapeSeed,
   type Sown,
-  type WithPulled,
 } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   type InsectKind,
@@ -46,11 +42,9 @@ import {
   type Footed,
   type Furnishing,
   FURNISHINGS,
-  type Grown,
   OPENING_FOOTING,
   type Species,
   type WithMushrooms,
-  type WithSelected,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
   furnishedTarget,
@@ -59,7 +53,6 @@ import {
 } from '@/mushrooms/features/furnish-house';
 import {
   sown,
-  type Spored,
   type SporeTap,
   sproutedInRain,
   unsown,
@@ -75,39 +68,10 @@ import {
 import {
   type Burrows,
   nightRan,
-  type NightRuns,
   NO_NIGHT_RUNS,
 } from '@/mushrooms/features/mice-run/index.node-safe';
 
-export type Meadow = Unkept & KeptMeadow;
-
-/** The pickers a meadow has open. */
-export type Pickers = {
-  /** Whether the four species are showing, waiting for a pick. */
-  picking: boolean;
-  /** Whether the windows and the door are showing, waiting for a pick. */
-  furnishing: boolean;
-  /** The flower picker, open on a tuft or a flower, `undefined` while closed. */
-  planting: Planting | undefined;
-};
-
-/** What of a meadow belongs to the load that has it: the selection, the pickers and the shower. */
-export type Unkept = Pickers & WithSelected & WithRain;
-
-/** The mushrooms standing and the flowers pulled up: what the child's hands left on the ground. */
-export type Tended = WithMushrooms & WithPulled;
-
-/** A meadow as a reload keeps it: all of it but `Unkept`. */
-export type KeptMeadow = Swarm &
-  Tended &
-  WithDusk &
-  Spored &
-  Grown & {
-    /** How many insects the meadow has ever released, so every id is new. */
-    released: number;
-    /** The mice's own outings at dusk (`nightRan`). */
-    nightRuns: NightRuns;
-  };
+import { type Meadow, PICKERS_SHUT } from '../shape/meadow';
 
 export type Action =
   | { kind: 'pick' }
@@ -213,13 +177,6 @@ const swarmed = (meadow: Meadow, swarm: Swarm): Meadow =>
 /** `meadow` with the flower picker shut, the same object when it was. */
 const flowersShut = (meadow: Meadow): Meadow =>
   meadow.planting === undefined ? meadow : { ...meadow, planting: undefined };
-
-/** Every picker shut: the mushrooms', the house's and the flowers'. */
-export const PICKERS_SHUT = {
-  picking: false,
-  furnishing: false,
-  planting: undefined,
-} as const satisfies Pickers;
 
 export function reduce(meadow: Meadow, action: Action): Meadow {
   switch (action.kind) {

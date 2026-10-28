@@ -6,10 +6,11 @@ import { z } from 'zod';
 import { OPENING_EYE } from '@/mushrooms/shared/world';
 import { grownOn } from '@/mushrooms/entities/mushroom/index.node-safe';
 
+import { type Kept, KEPT_VERSION, KeptSchema, readKept } from '../shape/kept-record';
+import type { Meadow } from '../shape/meadow';
 import { ALL_TEN, opened, play } from '../ui/visit-play';
-import { type Action, type Meadow, reduce } from './game';
+import { type Action, reduce } from './game';
 import { settled } from './keeping';
-import { type Kept, KEPT_VERSION, KeptSchema, readKept } from './kept-record';
 
 const SEED = 5;
 /** Past the shower tapped at 6 s, so a spore sown then lies on. */

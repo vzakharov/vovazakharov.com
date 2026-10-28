@@ -38,7 +38,8 @@ import {
   type Sight,
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 
-import { firstMeadow, type Meadow, reduce } from '../model/game';
+import { firstMeadow, reduce } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import { type MeadowLayout, meadowLayout } from './layout';
 
 export { tapTarget } from '@/mushrooms/entities/mushroom/index.node-safe';

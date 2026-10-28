@@ -1,6 +1,6 @@
 /**
  * What a reload brings back of a visit: one record per meadow, its meadow
- * settled at rest (`keeping.ts`), every moment in it on the next load's
+ * settled at rest (`model/keeping.ts`), every moment in it on the next load's
  * clock.
  */
 
@@ -24,7 +24,7 @@ import {
   WINDOW_KINDS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { type KeptMeadow, PICKERS_SHUT, type Unkept } from './game';
+import { type KeptMeadow, PICKERS_SHUT, type Unkept } from './meadow';
 
 /** The record's format: a record of any other is not read, and is never overwritten. */
 export const KEPT_VERSION = 1;
