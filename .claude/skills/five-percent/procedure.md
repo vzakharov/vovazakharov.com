@@ -92,22 +92,26 @@ thread resolved — and two differences:
   it most concerns (`subjectType: "FILE"`) — the anchor being where it is
   answered, not a claim about its scope. A review body has no thread to reply
   in, so nothing there asks for a reply.
-- **The body is one line and the marker**: how many proposals, of which
-  critical, and on the last line `<!-- five-percent: <full head sha> -->`.
+- **The body is one line and the marker**: `**/five-percent**:`, how many
+  proposals, of which critical, and on the last line
+  `<!-- five-percent: <full head sha> -->`.
 
-Each comment opens on the marker, then its grade, then the alternative:
+Each comment opens on the marker, then the pass's name and its grade, then the
+alternative:
 
 ```
 <!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**optional**
+**/five-percent** · optional
 
 <what the change took as given> → <the other way>. <What it costs.>
 ```
 
 The marker is what tells a proposal from an agent's reply in the PR export, both
 posted under the operator's login, and what sends the session answering it to
-`@.claude/skills/five-percent/verdicts.md`. **In the operator's language** — a
-review is conversation (CLAUDE.md § "Language").
+`@.claude/skills/five-percent/verdicts.md`. It is hidden on GitHub, so the
+visible name is what tells the operator which pass a comment came from, on a PR
+where an agent's replies and other passes post under the same login. **In the
+operator's language** — a review is conversation (CLAUDE.md § "Language").
 
 **No PR, no review.** The pass reports itself deferred and posts nothing
 elsewhere; without a marker posted, the next run's floor stays where it was.
