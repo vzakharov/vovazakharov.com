@@ -59,6 +59,14 @@ vet's runners on request (`VET_MEADOW=1`).
 - **Later, the converse of 6a** (the operator: «как бы нам определять, когда в
   одном слайсе скопилось что-то (кластер?), что заслуживает вынесения в модуль?
   но отложим»): when a cluster inside one slice earns a slice of its own.
+- **Later, a poison check** (the operator: «проверку на яд добавим четвёртым
+  Later на после мерджа»): `boundaries` judges one import at a time, so nothing
+  holds the barrels' runtime axes transitively — a `'use client'` file reaching
+  `index.no-browser.ts` or `server-only`, or a script without the `react-server`
+  condition reaching `server-only`. `playgramai/playgramapp`'s
+  `scripts/poison-check.ts` (madge's graph, `'use client'` and harness roots,
+  type-only imports dropped) is the model to port, its roots this repo's
+  `src/*/scripts/` and root `scripts/`, wired into `vet`.
 
 ## How this elephant is eaten
 
