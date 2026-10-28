@@ -19,8 +19,8 @@ import { z } from 'zod';
 
 import type { WithFilePath } from '@/kernel/shared/typings';
 
-import { readCatalogueNames } from '@/music/shared/catalogue/index.server-only';
 import { localeProse } from '@/music/shared/catalogue/index.node-safe';
+import { readCatalogueNames } from '@/music/shared/catalogue/index.server-only';
 
 import {
   MUSIC_CATALOGUE_DIR,

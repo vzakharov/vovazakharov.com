@@ -49,6 +49,27 @@ const sibling = (layer: string) => ({
       },
 });
 
+/**
+ * `type`'s files in `app` entering `targets` through a public API, and their
+ * test code through the test-only entry as well.
+ */
+const throughApi = (type: string, app: string, targets: object) => [
+  {
+    from: { element: { type, captured: { appName: app } } },
+    allow: { to: { element: { ...targets, fileInternalPath: PUBLIC_API } } },
+  },
+  {
+    from: {
+      element: {
+        type,
+        captured: { appName: app },
+        fileInternalPath: TEST_CODE,
+      },
+    },
+    allow: { to: { element: { ...targets, fileInternalPath: TEST_API } } },
+  },
+];
+
 const policiesFor = (app: string) => {
   const apps = reach(app);
   return [
@@ -82,72 +103,30 @@ const policiesFor = (app: string) => {
       },
       allow: { to: { element: sharedLibEntry(apps) } },
     },
-    // An app's scripts enter every layer, their own app's included, through a
-    // public API, and their own app's and ancestors' scripts, which have none,
-    // directly. Their tests take the test-only entry as well.
+    // An app's scripts enter their own app's and ancestors' scripts, which have
+    // no public API, directly, and every layer, their own app's included,
+    // through one.
     {
       from: { element: { type: 'script', captured: { appName: app } } },
       allow: {
         to: [
-          {
-            element: { type: 'script', captured: { appName: apps } },
-          },
-          {
-            element: {
-              types: { anyOf: LAYERS },
-              captured: { appName: apps },
-              fileInternalPath: PUBLIC_API,
-            },
-          },
+          { element: { type: 'script', captured: { appName: apps } } },
           { element: sharedLibEntry(apps) },
         ],
       },
     },
-    {
-      from: {
-        element: {
-          type: 'script',
-          captured: { appName: app },
-          fileInternalPath: TEST_CODE,
-        },
-      },
-      allow: {
-        to: {
-          element: {
-            types: { anyOf: LAYERS },
-            captured: { appName: apps },
-            fileInternalPath: TEST_API,
-          },
-        },
-      },
-    },
-    // Strictly downward, and only through the target's public API: the same
-    // layer in an ancestor is as sideways as a sibling slice. Test code takes
-    // the test-only entry as well.
-    ...SLICED_LAYERS.flatMap((layer, index) => {
-      const below = {
+    ...throughApi('script', app, {
+      types: { anyOf: LAYERS },
+      captured: { appName: apps },
+    }),
+    // Strictly downward: the same layer in an ancestor is as sideways as a
+    // sibling slice.
+    ...SLICED_LAYERS.flatMap((layer, index) =>
+      throughApi(layer, app, {
         types: { anyOf: [...SLICED_LAYERS.slice(index + 1), 'shared'] },
         captured: { appName: apps },
-      };
-      return [
-        {
-          from: { element: { type: layer, captured: { appName: app } } },
-          allow: {
-            to: { element: { ...below, fileInternalPath: PUBLIC_API } },
-          },
-        },
-        {
-          from: {
-            element: {
-              type: layer,
-              captured: { appName: app },
-              fileInternalPath: TEST_CODE,
-            },
-          },
-          allow: { to: { element: { ...below, fileInternalPath: TEST_API } } },
-        },
-      ];
-    }),
+      }),
+    ),
   ];
 };
 
