@@ -131,10 +131,10 @@ as `shared/config` is.
   another slice — in its own app or an ancestor — goes through the target's
   `index.ts`; reaching into its internals is an error from both checkers. Within
   a slice, use relative imports.
-- **Two suffixed barrels join `index.ts` as legal entry points**, on two axes,
-  and the list is closed at those three names (`PUBLIC_API` in
-  `eslint/masd-graph.ts`). `index.ts` keeps the majority surface either way, so
-  a consumer needing neither suffix never learns they exist.
+- **Three suffixed barrels join `index.ts` as legal entry points**, and the list
+  is closed at those four names (`PUBLIC_API` in `eslint/masd-graph.ts`).
+  `index.ts` keeps the majority surface either way, so a consumer needing no
+  suffix never learns they exist.
   - **`index.server-only.ts`** is the client-bundle axis: what a browser must
     not hold. Every module behind it opens with `import 'server-only'`, which is
     what enforces the split the barrel only names. Two segments are split this
@@ -143,11 +143,9 @@ as `shared/config` is.
     and puts `constructMetadata` behind the other, because `vova/pages/cv`'s URL
     module reads the suffix and a client component reads that; `shared/config`
     puts `BUILD_YEAR` behind it, which is evaluated once per deploy and would
-    otherwise re-evaluate at hydration. `music/shared/catalogue` puts
-    `readCatalogueNames` behind it, the one module there without the import: it
-    reads `node:fs`, and its test and a script load it bare. A fence wants a
-    reason of that kind: a dependency's weight is not one, since removing the
-    dependency removes the fence and whatever was built on it.
+    otherwise re-evaluate at hydration. A fence wants a reason of that kind: a
+    dependency's weight is not one, since removing the dependency removes the
+    fence and whatever was built on it.
   - **`index.node-safe.ts`** is the bundler axis: what resolves under an app's
     `scripts/` and its tests, which run with none — so the graph behind it holds
     no CSS, JSX or asset import, and carries no `server-only`, which throws
@@ -159,6 +157,12 @@ as `shared/config` is.
     `server-only`, it is also the client components' entry into a segment whose
     `index.ts` is server-only: `music/shared/catalogue`'s, where the player and
     the hook line take what they read.
+  - **`index.no-browser.ts`** is where the two meet: what a script running with
+    no bundler takes and a browser must not hold — `node:fs` reads. It cannot
+    carry `server-only`, which would throw in the script, so its name is its
+    only guard. `music/shared/catalogue` puts `readCatalogueNames` behind it,
+    since the ordinary barrel resolves the site on import and a script may run
+    with none.
 - **`index.test-only.ts` is test code's entry, and no one else's** (`TEST_API`
   in `eslint/masd-graph.ts`): what a test reads of a lower slice that nothing in
   production does — a constant it pins, a helper it calls on its own. A test
