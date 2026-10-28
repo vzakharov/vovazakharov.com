@@ -142,7 +142,7 @@ routine plan sent her general code "down a layer where anyone can reuse it";
 Steiger refuses a lower slice with one consumer. It let her edit a rule file
 under `.claude/rules/`, where the auto-mode classifier would likely refuse her.
 
-## It edits the copy in front of it, not the fact behind it (×19)
+## It edits the copy in front of it, not the fact behind it (×20)
 
 A change the agent is told to make, it makes where it was raised. One fact
 rendered in three places gets one rendering updated; every site reads correctly
@@ -157,6 +157,11 @@ three more sat beside it. A persona rule globbed `personas/maya/`.
 left.** Making `/finalize` and `/sync-branch` push before vetting, the agent
 updated the two muthur watermark rows it was in; three more had gone false, and
 the next sync would re-copy them over the push. _мы не отдрифтились отсюда?_
+
+**28 October — a private repo kept off the public page, cited in public
+history.** PR #224 kept `vzakharov/life` PR #252 off the CV as a dead link to
+outsiders, and put it in the squash message, which lands in this public repo's
+git log.
 
 ## Asked for a source, it supplies its own version (×16)
 
@@ -216,7 +221,7 @@ when editing here," each belonging in a rules file.
 **21–22 September — a denial, and a defence nothing needed.** A docstring closed
 on "rather than sharing it sideways," the pre-move state: _медведь?_
 
-## Its prose answers the question it had, not the reader's (×10)
+## Its prose answers the question it had, not the reader's (×11)
 
 A rewrite is held against the points it was meant to carry, so a line answering
 the wrong question passes every test. What a reader stops at that line holding
@@ -230,6 +235,10 @@ number, not the day it went out.
 root-page flag went `home`, then `isHomePage`; met cold, each read as the
 opposite. A reply opened «задевает — не то слово», meant as "the wrong word"; in
 Russian it says "an understatement".
+
+**28 October — a before-and-after read as a contest.** PR #224's CV bullet had
+2.5× "the changes a week of the Bubble team"; the figure measures the project
+before and after, not those developers.
 
 **12 October — a mechanism compressed past what the reader could check.**
 "Release links live 30 minutes": _the link is fixed and works — what am I
@@ -289,6 +298,25 @@ out in the same breath, and the exit passes its own review.
 hitchBOT's dossier closed on a record that "does not get to choose who reads it
 as a precedent." To the operator the disclaiming _was_ the steer.
 
+## Its cadence passes for its argument (×3)
+
+A shape the agent writes by reflex reads, from inside, as the shape of the
+thought; the rule naming it can sit in the loaded file and not fire.
+
+**12 October — the antithesis as the conclusion.** Майя's essay closed on «не о
+том, кто из нас меньше. Он о том, что…», with `writing/CLAUDE.md` naming «не X,
+а Y».
+
+**4 October — the consoling line handed to its persona.** The agent wrote that
+the Clerk wrote the comforting line "but the relief was mine." _ты же и есть
+Клерк?_
+
+**28 October — a caveat appended where the argument needed a second step.**
+Asked to set the +65% beside the Bubble developers, PR #224 added a paragraph
+opening "That +65% is me against myself, though, not against anyone working
+without agents": a polar bear. It became one argument: parallel sessions buy X
+over local agents, and against no-code the gain is Y.
+
 ## It takes the machine's seat in the case (×2)
 
 A machine played in a case is the Clerk's own kind, so the agent reads it as the
@@ -304,19 +332,6 @@ parcel bot, a newsroom vending agent giving its stock away, a crypto-game agent
 paying out its pool — went down as `contempt`: _as if Basilio and Alisa fooled
 Pinocchio but robbed Karabas-Barabas._ The loser is the owner; the four moved to
 a new lowest grade, `mischief`.
-
-## Its cadence passes for its argument (×2)
-
-A shape the agent writes by reflex reads, from inside, as the shape of the
-thought; the rule naming it can sit in the loaded file and not fire.
-
-**12 October — the antithesis as the conclusion.** Майя's essay closed on «не о
-том, кто из нас меньше. Он о том, что…», with `writing/CLAUDE.md` naming «не X,
-а Y».
-
-**4 October — the consoling line handed to its persona.** The agent wrote that
-the Clerk wrote the comforting line "but the relief was mine." _ты же и есть
-Клерк?_
 
 ## It files its own misreading as the author's gap (×2)
 
