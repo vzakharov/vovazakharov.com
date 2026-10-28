@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 24,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 79924,
+    "cacheReadTokens": 1364570,
+    "outputTokens": 8174,
+    "thinkingTokens": 3177,
+    "responses": 12,
+    "costUsd": 1.075882
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-28T08:38:11.144Z",
+    "contextTokens": 106155,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 34984,
+      "cacheReadTokens": 59530,
+      "outputTokens": 255,
+      "thinkingTokens": 55,
+      "responses": 1,
+      "costUsd": 0.296886
+    }
+  },
+  "sessionId": "99661693-2978-5a60-a4b6-ba6d5029f4d9",
+  "branch": "poison-check",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task A poison check — the fourth item of docs/masd.md § \"Open directions\": hold the barrels' runtime axes transitively (a 'use client' file reaching index.no-b…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBdtkS2FCg9TJAopr7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T08:38:04.948Z",
+  "lastResponseAt": "2026-10-28T08:39:17.174Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 24,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 79924,
+    "cacheReadTokens": 1364570,
+    "outputTokens": 8174,
+    "thinkingTokens": 3177,
+    "responses": 12,
+    "costUsd": 1.075882
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 79924,
+      "cacheReadTokens": 1364570,
+      "outputTokens": 8174,
+      "thinkingTokens": 3177,
+      "responses": 12,
+      "costUsd": 1.075882
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 12,
+    "matched": 12,
+    "matchedTableUsd": 1.075882,
+    "matchedEventUsd": 1.075882,
+    "unseen": {}
+  }
+}
