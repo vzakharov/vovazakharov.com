@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 51861,
+    "cacheReadTokens": 567182,
+    "outputTokens": 1457,
+    "thinkingTokens": 211,
+    "responses": 6,
+    "costUsd": 0.5575124
+  },
+  "estimate": {
+    "at": "2026-10-28T12:02:31.529Z",
+    "parts": [
+      {
+        "hours": 2.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a lint rule with tests, a config loader, splitting shared/world across 229 imports and re-homing 17 tests is routine but wide"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51861,
+      "cacheReadTokens": 567182,
+      "outputTokens": 1457,
+      "thinkingTokens": 211,
+      "responses": 6,
+      "costUsd": 0.5575124
+    }
+  },
+  "sessionId": "5da3bc0e-2cdf-5010-a2f2-c78fbe6dcb25",
+  "branch": "claude/masd-role-slices",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/masd-role-slices — план порядка сегментов одобрен, Steiger проверен, дальше реализация с шага 2 (go).",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCXTKcZ7kWpcJpFKiL",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T12:02:13.472Z",
+  "lastResponseAt": "2026-10-28T12:02:29.249Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 51861,
+    "cacheReadTokens": 567182,
+    "outputTokens": 1457,
+    "thinkingTokens": 211,
+    "responses": 6,
+    "costUsd": 0.5575124
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51861,
+      "cacheReadTokens": 567182,
+      "outputTokens": 1457,
+      "thinkingTokens": 211,
+      "responses": 6,
+      "costUsd": 0.5575124
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 6,
+    "matched": 6,
+    "matchedTableUsd": 0.5575124,
+    "matchedEventUsd": 0.5575124,
+    "unseen": {}
+  }
+}
