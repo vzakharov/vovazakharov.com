@@ -114,11 +114,11 @@ invented for it.
   types them, on purpose. Enough readers now treat an em dash or a curly quote
   as a machine's fingerprint that the correct punctuation has become the wrong
   signal in that feed. This holds inside the post text itself, in every language
-  a draft is written in. **A Telegram channel reads as a blog**, so its posts
-  are typeset like a page the site serves (`.claude/rules/content.md` §
-  "Dashes"). The prose around the text in a draft file is ordinary Markdown and
-  uses whatever punctuation reads best. `pnpm check:typography` holds each
-  channel's `text` fences to its side.
+  a draft is written in. **Every other channel is typeset** like a page the site
+  serves (`.claude/rules/content.md` § "Dashes"): a Telegram channel reads as a
+  blog. The prose around the text in a draft file is ordinary Markdown and uses
+  whatever punctuation reads best. `pnpm check:typography` holds each draft's
+  `text` fence to its channel's side.
 - **Commas and periods go inside closing quotes**, American style —
   `.claude/rules/content.md` § "Punctuation around quotes" is the rule.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in

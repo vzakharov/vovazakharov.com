@@ -11,7 +11,7 @@
  *   HTML are left alone — a quote there is syntax, not punctuation.
  * - **A channel post** — the `text` fence of a draft under `writing/*\/drafts/`,
  *   pasted as written — follows its channel: a keyboard channel's fails on a
- *   `—` or a curly quote, any other channel's on what served prose fails on.
+ *   `—` or a typeset quote, any other channel's on what served prose fails on.
  *   The draft's prose around the fence is ordinary Markdown and is not read.
  *
  * The rules are `.claude/rules/content.md` § "Dashes" and § "Punctuation around
