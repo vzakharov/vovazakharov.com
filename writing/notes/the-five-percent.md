@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×101)
+## What it was handed, it treats as fixed (×104)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -49,20 +49,23 @@ agent checking it passes. The human's move is to change the frame.
 documents nothing: the agent weighed three prefixes and never looked past the
 list. _Let's introduce "content:"_.
 
-**8 September to 27 October — the checker read as the rule.** The type-overlap
+**8 September to 28 October — the checker read as the rule.** The type-overlap
 gate passed `RelaySpec = Pick<RepoBranch, 'branch'> & {…}`, where the rule asks
 for a base both intersect. Roscoe, a police robot shot in a standoff, passed
 every check the filing skill ran; the docket wants a machine standing in for a
 mind. PR #216 moved the whole mushroom game into `widgets/meadow` because it
 _пройдёт критерий модульности_; a slice holding all its one consumer had is that
-consumer renamed. _Не в виджет, а в страницу._
+consumer renamed. _Не в виджет, а в страницу._ Two `messages` catalogues in
+one file took an `as` on one, the minimum the compiler forces, and `i18n.md`
+wrote that down as the convention; the bare one reads as the only catalogue
+there is. A lint rule now renames both.
 
 **22 September to 22 October — what its search and tools reached, read as the
 record.** Nostalgia's squash said the album "survived only as scattered takes,"
 read off the per-song repos: _репа со всем альбомом-то была._ Its own pitch
 script counted G, C's third harmonic, as a note.
 
-**5 to 26 October — the shape in the tree read as chosen.** Nine callers spelled
+**5 to 28 October — the shape in the tree read as chosen.** Nine callers spelled
 `target="_blank"`, so the agent proposed a `newTab` prop; the three without it
 lacked it by omission. Each song's MP3 went in as `podcast`, named for the feed
 that first read it. Basilisk.fyi's seal emblems were priced as `artist`, read as
@@ -72,7 +75,9 @@ though `basilisk-voice.md` makes every page his: _иначе "я написал 
 откликах makes no sense._ PR #205 kept one reader per music fact, nine to sixteen
 per page: _не стоит ли сделать единые … «получить инфо об альбоме/артисте»?_ Each
 session adding a site had copied `build:<site>` and `dev:<site>` once more, never
-asking whether the site was an argument.
+asking whether the site was an argument. The article page called each collection
+slot as `eyebrow={slots.eyebrow?.(document)}`, five times over, the slot record
+taken as settled; it is now one function of the document, destructured once.
 
 **7 to 27 October — a rule read to its letter, past its case or short of its
 purpose.** A published slug never moves, so renaming «Бабай минем» kept
@@ -108,7 +113,7 @@ reach is the one that gets written alongside. The same plan named each post's
 drawing twice, body and `cardImage`, read as required where it was an override;
 the card now defaults to the post's first image.
 
-**27 October — the shared stylesheet read as where a site's look goes.** Майя's
+**27 and 28 October — shared code read as where Майя's own things go.** Майя's
 palette and face went into `globals.scss` beside the other sites' rules. Asked
 whether they could live somewhere of her own, the agent moved them to
 `maya.scss`, which also fixed a red test `pnpm test` had never selected: it
@@ -116,7 +121,12 @@ reads `globals.scss`'s backgrounds and expects two. That file stayed in
 `src/app/styles/`, weighed only against a routing-only `apps/maya/app/` and a
 root layout all five sites share. Asked whether the layout could import it from
 her own realm, it can: it is the app layer, and `src/entities/maya` already
-existed between the two. The sheet is now that slice's `ui/site.scss`.
+existed between the two. The sheet is now that slice's `ui/site.scss`. Her site
+title, byline and «Табл. N», and her toy's address, had gone to `shared/`
+because the home and toy pages are sibling slices: a layer that lifted the
+sideways ban, never asked whether it was theirs. Asked why straight to shared
+when pages read entities too, they joined the byline that renders them in
+`entities/maya`.
 
 ## An account that explains the code stands in for running it (×29)
 
