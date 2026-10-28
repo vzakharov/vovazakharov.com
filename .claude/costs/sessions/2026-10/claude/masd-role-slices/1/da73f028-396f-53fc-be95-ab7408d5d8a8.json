@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70841,
+    "cacheReadTokens": 1072938,
+    "outputTokens": 8826,
+    "thinkingTokens": 3972,
+    "responses": 10,
+    "costUsd": 0.9579156000000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-28T08:38:06.447Z",
+    "contextTokens": 106059,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 34928,
+      "cacheReadTokens": 59530,
+      "outputTokens": 215,
+      "thinkingTokens": 15,
+      "responses": 1,
+      "costUsd": 0.295638
+    }
+  },
+  "sessionId": "da73f028-396f-53fc-be95-ab7408d5d8a8",
+  "branch": "claude/masd-role-slices",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task Sub-entities — the second item of docs/masd.md § \"Open directions\": a facet several entities share (the occupant is the first) as a named kind of slice of…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCQNvFh64xkX3U6A42",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T08:38:02.830Z",
+  "lastResponseAt": "2026-10-28T08:39:10.465Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70841,
+    "cacheReadTokens": 1072938,
+    "outputTokens": 8826,
+    "thinkingTokens": 3972,
+    "responses": 10,
+    "costUsd": 0.9579156000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 70841,
+      "cacheReadTokens": 1072938,
+      "outputTokens": 8826,
+      "thinkingTokens": 3972,
+      "responses": 10,
+      "costUsd": 0.9579156000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 10,
+    "matched": 10,
+    "matchedTableUsd": 0.9579156000000001,
+    "matchedEventUsd": 0.9579156000000001,
+    "unseen": {}
+  }
+}
