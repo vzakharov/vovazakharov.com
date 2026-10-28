@@ -5,7 +5,7 @@
  */
 
 import type { Point } from '../lib/geometry';
-import { sameAnchor } from './anchor';
+import { sameAnchor } from '../space/anchor';
 import {
   anchored,
   type Camera,
@@ -15,7 +15,7 @@ import {
   type Ground,
   groundOfPlane,
   OPENING_EYE,
-} from './ground';
+} from '../space/ground';
 
 /** How the mushrooms stand, each by its foot (`placeIn`), as the opening eye judges them (`anchoredGround`). */
 export type ClumpGround = { mushrooms: MushroomGround };

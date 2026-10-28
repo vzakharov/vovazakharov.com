@@ -1,4 +1,4 @@
-import { FULL_DAY } from '@/mushrooms/shared/world';
+import { FULL_DAY } from '@/mushrooms/shared/sky';
 import { NO_NIGHT_RUNS } from '@/mushrooms/features/mice-run/index.node-safe';
 
 import { type Kept, KEPT_VERSION } from './kept-record';

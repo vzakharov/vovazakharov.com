@@ -16,7 +16,7 @@ import {
   OPENING_EYE,
   TURN_CRUISE,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { LANDING } from '@/mushrooms/entities/insect/index.node-safe';
 
 import { Camera, type Controls, Point } from './mushroom-probe-answers.ts';

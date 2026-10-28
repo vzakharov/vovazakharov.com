@@ -1,4 +1,3 @@
-export { SIDE_OVERHANG } from './bed-place';
 export { layoutAtRow } from './eye-crop';
 export {
   heightAt,

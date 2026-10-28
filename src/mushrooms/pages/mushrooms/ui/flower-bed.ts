@@ -5,22 +5,24 @@ import { pick } from '@/kernel/shared/lib/collections';
 import { placedAt } from '@/mushrooms/shared/lib/geometry';
 import { headedLight } from '@/mushrooms/shared/lib/light';
 import { bloom, emerge, sway } from '@/mushrooms/shared/lib/motion';
-import type { Lighting } from '@/mushrooms/shared/ui';
+import {
+  inSightPast,
+  onHost,
+  standAt,
+  UNPLACED,
+  viewedOrLaid,
+} from '@/mushrooms/shared/meadow';
 import {
   browPale,
   CLUMP_DISTANCE,
   type Following,
   gathered,
-  inSightPast,
-  onHost,
   onScreen,
   OPENING_EYE,
   repaintsDue,
-  standAt,
-  UNPLACED,
   type View,
-  viewedOrLaid,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
+import type { Lighting } from '@/mushrooms/shared/ui';
 import {
   type Flower,
   FLOWER_SWAY,

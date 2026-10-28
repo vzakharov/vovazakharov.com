@@ -18,7 +18,7 @@ import {
   saltedStream,
   weighted,
 } from '@/mushrooms/shared/lib/random';
-import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
+import { CLUMP_DISTANCE } from '@/mushrooms/shared/space';
 import type { Plot } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   apartIn,

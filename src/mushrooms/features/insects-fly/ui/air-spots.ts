@@ -25,7 +25,7 @@ import {
   project,
   rowAt,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   type Aloft,
   type AtAloft,

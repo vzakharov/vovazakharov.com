@@ -1,9 +1,9 @@
+import type { Foot } from '@/mushrooms/shared/space';
 import {
   brownNoise,
   envelopeAt,
   type Voice,
 } from '@/mushrooms/shared/ui/index.node-safe';
-import type { Foot } from '@/mushrooms/shared/world';
 
 /** How far to each side a foot's step sounds. */
 export const FOOT_PAN: Readonly<Record<Foot, number>> = {

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Dusk, FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/world';
+import { type Dusk, FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/sky';
 import {
   type Flier,
   INSECT_KINDS,

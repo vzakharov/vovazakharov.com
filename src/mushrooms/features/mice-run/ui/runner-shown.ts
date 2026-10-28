@@ -8,6 +8,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Scaled } from '@/mushrooms/shared/lib/geometry';
 import type { TapTimed } from '@/mushrooms/shared/lib/motion';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
+import { type BedPlace, bedPlace, standAt } from '@/mushrooms/shared/meadow';
+import { hazeAhead, pinholeOf, type View } from '@/mushrooms/shared/space';
 import {
   type Dusked,
   hazeTone,
@@ -15,14 +17,6 @@ import {
   type WithCircleHit,
   type WithGraphics,
 } from '@/mushrooms/shared/ui';
-import {
-  type BedPlace,
-  bedPlace,
-  hazeAhead,
-  pinholeOf,
-  standAt,
-  type View,
-} from '@/mushrooms/shared/world';
 import {
   facingAlong,
   hop,

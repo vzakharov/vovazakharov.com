@@ -4,7 +4,7 @@
  * only its own slice and the scene hands every one the whole.
  */
 
-import type { View } from './view';
+import type { View } from '../space/view';
 
 /** What sends actions of kind `A` to the reducer. */
 export type Dispatching<A> = { dispatch: (action: A) => void };

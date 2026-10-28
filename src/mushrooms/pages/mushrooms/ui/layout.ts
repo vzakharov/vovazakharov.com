@@ -10,15 +10,15 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Box } from '@/mushrooms/shared/lib/geometry';
+import type { ClumpGround } from '@/mushrooms/shared/meadow';
 import {
   type Camera,
-  type ClumpGround,
   type GroundedScreen,
   OPENING_EYE,
   openingPan,
   pinholeOf,
   screenOf,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   type Bed,
   type Bedded,

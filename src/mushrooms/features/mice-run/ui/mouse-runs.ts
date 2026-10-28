@@ -19,16 +19,13 @@ import {
   type TapTimed,
 } from '@/mushrooms/shared/lib/motion';
 import type { Seeded } from '@/mushrooms/shared/lib/random';
+import type { BedPlace } from '@/mushrooms/shared/meadow';
+import { CLUMP_DISTANCE, type View } from '@/mushrooms/shared/space';
 import {
   containsCircle,
   type WithCircleHit,
   type WithGraphics,
 } from '@/mushrooms/shared/ui';
-import {
-  type BedPlace,
-  CLUMP_DISTANCE,
-  type View,
-} from '@/mushrooms/shared/world';
 import { panOf } from '@/mushrooms/entities/insect';
 import {
   courseOf,

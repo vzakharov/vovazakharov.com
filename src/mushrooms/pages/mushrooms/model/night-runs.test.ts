@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/world';
+import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/sky';
 import {
   type Burrows,
   nightRan,

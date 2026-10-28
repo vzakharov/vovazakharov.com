@@ -10,7 +10,7 @@ import {
   rainbow,
   raining,
   wetness,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/sky';
 import {
   isAloft,
   isLeaving,

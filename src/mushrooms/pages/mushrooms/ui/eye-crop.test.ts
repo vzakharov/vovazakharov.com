@@ -6,8 +6,8 @@ import {
   ofLayout,
   OPENING_EYE,
   viewAt,
-} from '@/mushrooms/shared/world';
-import { layoutAtRow } from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space';
+import { layoutAtRow } from '@/mushrooms/shared/space/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { meadowLayout } from './layout';

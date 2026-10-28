@@ -16,7 +16,7 @@ import {
   seen,
   spread,
   unanchored,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { flowerFeet } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   EDGE_MARGIN,

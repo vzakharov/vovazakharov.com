@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { anchoredGround, OPENING_EYE } from '@/mushrooms/shared/world';
+import { anchoredGround } from '@/mushrooms/shared/meadow';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import {
   doorInSight,
   laidOf,

@@ -11,17 +11,14 @@ import {
   type Tapped,
   UNLIT,
 } from '@/mushrooms/shared/lib/motion';
+import { type LaidAhead, UNPLACED } from '@/mushrooms/shared/meadow';
+import type { PaintedSide } from '@/mushrooms/shared/space';
 import type {
   Dusked,
   Lighted,
   Lighting,
   WithGraphics,
 } from '@/mushrooms/shared/ui';
-import {
-  type LaidAhead,
-  type PaintedSide,
-  UNPLACED,
-} from '@/mushrooms/shared/world';
 
 import type { DoorPlace, Housed } from '../model/house';
 import { mushroomGenes, type Spotted } from '../model/mushroom-genes';

@@ -2,7 +2,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Sized } from '@/kernel/shared/typings';
 
 import type { Point, WithMiddle } from '@/mushrooms/shared/lib/geometry';
-import type { Scaling } from '@/mushrooms/shared/world';
+import type { Scaling } from '@/mushrooms/shared/space';
 
 /**
  * How the map lays the meadow's plane on the screen: `centre`, a plane

@@ -12,7 +12,7 @@ import {
   type Wide,
 } from '@/mushrooms/shared/lib/geometry';
 import { PEEK_DUCK, PEEK_RISE, smooth } from '@/mushrooms/shared/lib/motion';
-import type { Stood } from '@/mushrooms/shared/world';
+import type { Stood } from '@/mushrooms/shared/space';
 
 import {
   alongPath,

@@ -1,5 +1,6 @@
 import type * as Phaser from 'phaser';
 
+import type { Layered } from '@/mushrooms/shared/space';
 import {
   bakeTiles,
   onPixels,
@@ -7,7 +8,6 @@ import {
   type Span,
   SUPERSAMPLE,
 } from '@/mushrooms/shared/ui/index.node-safe';
-import type { Layered } from '@/mushrooms/shared/world';
 
 import type { Band } from './grain';
 import type { SunlitScreen } from './sun-layout';

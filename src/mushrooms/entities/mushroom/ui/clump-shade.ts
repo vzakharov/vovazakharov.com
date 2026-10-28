@@ -12,7 +12,7 @@ import {
   type MushroomGround,
   OCCUPANT_CELL,
   type Silhouette,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/meadow';
 
 import {
   type MushroomGenes,

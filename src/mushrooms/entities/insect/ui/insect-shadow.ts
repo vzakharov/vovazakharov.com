@@ -11,22 +11,21 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Ordinate } from '@/mushrooms/shared/lib/geometry';
-import {
-  PALETTE,
-  type ShadowLayer,
-} from '@/mushrooms/shared/ui/index.node-safe';
+import { depthOf, UNPLACED } from '@/mushrooms/shared/meadow';
 import {
   behindHills,
-  depthOf,
   hazeAhead,
   type Layered,
   onScreen,
   type Placed,
   sunk,
   sunkAway,
-  UNPLACED,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
+import {
+  PALETTE,
+  type ShadowLayer,
+} from '@/mushrooms/shared/ui/index.node-safe';
 
 /** How wide a shadow lies, against the insect's open wings. */
 const ACROSS = 0.6;

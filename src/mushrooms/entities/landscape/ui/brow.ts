@@ -32,7 +32,7 @@ import {
   deepestBob,
   pinholeOf,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { groundRowAt, type Tones } from './backdrop-tones';
 import { type Azimuthed, screenAt } from './panorama';

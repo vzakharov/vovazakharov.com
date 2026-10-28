@@ -13,7 +13,8 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { TAP_RADIUS, tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import { MUSHROOM_SLOTS, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { MUSHROOM_SLOTS } from '@/mushrooms/shared/meadow';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import {
   SUN_GLOW_REACH,
   SUN_RAY_REACH,

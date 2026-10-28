@@ -11,7 +11,7 @@ import {
   type Frame,
   FRAME_DEPTH,
   type Lens,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { GENE_RANGES, OPENING_SPECIES } from '../model/mushroom-genes';
 import { maxReach } from '../model/mushroom-pose';

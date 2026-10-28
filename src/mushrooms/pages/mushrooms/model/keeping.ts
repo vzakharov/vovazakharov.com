@@ -7,7 +7,7 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/world';
+import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/sky';
 import { sproutedInRain } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 import { NO_NIGHT_RUNS } from '@/mushrooms/features/mice-run/index.node-safe';
 

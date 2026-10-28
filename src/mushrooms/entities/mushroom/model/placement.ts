@@ -20,7 +20,7 @@ import {
   type Stood,
   unanchored,
   UP_PER_Z,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 /**
  * Where the opening clump's two fly agarics stand on the plane, back foot

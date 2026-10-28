@@ -21,7 +21,7 @@ import {
   sunkOver,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   type Aloft,
   centreOf,

@@ -4,13 +4,13 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
+import { MUSHROOM_SLOTS } from '@/mushrooms/shared/meadow';
 import {
   type Eye,
-  MUSHROOM_SLOTS,
   OPENING_EYE,
   sameFoot,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   flowersOf,
   occupantsOf,

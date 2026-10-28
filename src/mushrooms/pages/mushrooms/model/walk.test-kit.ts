@@ -8,7 +8,7 @@ import {
   pressAt,
   tickWalk,
   type Walk,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   meadowCamera,
   VIEWPORTS,

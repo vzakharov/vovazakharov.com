@@ -23,7 +23,7 @@ import {
   viewAt,
   viewOf,
   type WalkStart,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   distanceOfRow,
   headingAt,
@@ -31,7 +31,7 @@ import {
   SLOP,
   TURN_CRUISE,
   walking,
-} from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space/index.test-only';
 
 import {
   axisOf,

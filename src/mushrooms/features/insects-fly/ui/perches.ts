@@ -3,7 +3,7 @@ import {
   OPENING_EYE,
   unanchored,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   anchoredStand,
   type Stand,

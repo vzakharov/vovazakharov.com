@@ -1,4 +1,4 @@
-import type { WithCamera } from '@/mushrooms/shared/world';
+import type { WithCamera } from '@/mushrooms/shared/space';
 
 import type { InsectKind } from '../model/insect-genes';
 

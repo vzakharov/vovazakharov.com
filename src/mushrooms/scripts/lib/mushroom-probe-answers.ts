@@ -5,12 +5,9 @@
 
 import { z } from 'zod';
 
-import {
-  type Camera as ModelCamera,
-  GAITS,
-  SHELTER_SEATS,
-  TOWARDS,
-} from '@/mushrooms/shared/world';
+import { SHELTER_SEATS } from '@/mushrooms/shared/meadow';
+import { TOWARDS } from '@/mushrooms/shared/sky';
+import { type Camera as ModelCamera, GAITS } from '@/mushrooms/shared/space';
 import {
   INSECT_KINDS,
   type Perch as ModelPerch,

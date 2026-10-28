@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { sunLight } from '@/mushrooms/shared/lib/light';
+import { bedPlace } from '@/mushrooms/shared/meadow';
 import {
-  bedPlace,
   D_SEE,
   FRAME_DEPTH,
   hazeAhead,
@@ -13,13 +13,13 @@ import {
   project,
   repaintsDue,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   HAZE_DRIFT,
   REPAINTS_PER_FRAME,
   SIDE_DRIFT,
   walking,
-} from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space/index.test-only';
 import {
   mushroomGenes,
   mushroomLights,

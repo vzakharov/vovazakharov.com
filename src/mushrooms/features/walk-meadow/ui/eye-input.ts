@@ -28,7 +28,7 @@ import {
   type Walk,
   type WalkStart,
   withGait,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 /** Whether `object` stands fixed on the screen however the camera scrolls, as every control and picker button does. */
 function isFixed(object: Phaser.GameObjects.GameObject): boolean {

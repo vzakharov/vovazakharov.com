@@ -7,7 +7,7 @@ import {
   D_SEE,
   OPENING_EYE,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   apartIn,
   apartOf,

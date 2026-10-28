@@ -4,13 +4,9 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { mulberry32, type Seeded } from '@/mushrooms/shared/lib/random';
-import {
-  darkAt,
-  FIELD_MUSHROOMS,
-  MUSHROOM_SLOTS,
-  OPENING_EYE,
-  RAIN_MS,
-} from '@/mushrooms/shared/world';
+import { FIELD_MUSHROOMS, MUSHROOM_SLOTS } from '@/mushrooms/shared/meadow';
+import { darkAt, RAIN_MS } from '@/mushrooms/shared/sky';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import {
   type Footed,
   grownOn,

@@ -7,12 +7,9 @@
 import { z } from 'zod';
 
 import type { Seeded } from '@/mushrooms/shared/lib/random';
-import {
-  GAITS,
-  SHELTER_SEATS,
-  TOWARDS,
-  type WalkStart,
-} from '@/mushrooms/shared/world';
+import { SHELTER_SEATS } from '@/mushrooms/shared/meadow';
+import { TOWARDS } from '@/mushrooms/shared/sky';
+import { GAITS, type WalkStart } from '@/mushrooms/shared/space';
 import {
   INSECT_KINDS,
   PERCH_KINDS,

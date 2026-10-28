@@ -11,7 +11,7 @@ import {
   groundOfPlane,
   planeOf,
   zAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { type Band, bandSlots } from './flower-layout';
 

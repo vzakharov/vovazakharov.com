@@ -15,7 +15,7 @@ import { z } from 'zod';
 import type { Sized } from '@/kernel/shared/typings';
 
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { HAZE_DRIFT, pinholeOf, TURN_CRUISE } from '@/mushrooms/shared/world';
+import { HAZE_DRIFT, pinholeOf, TURN_CRUISE } from '@/mushrooms/shared/space';
 import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/index.node-safe';
 
 import { againstBudget, budgetReport, median } from './frame-budget.ts';

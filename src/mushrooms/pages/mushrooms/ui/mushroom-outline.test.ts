@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
-import { SHELTER_SEATS } from '@/mushrooms/shared/world';
+import { SHELTER_SEATS } from '@/mushrooms/shared/meadow';
 import {
   capSeat,
   capUnder,

@@ -9,7 +9,7 @@ import {
   type Eye,
   type Footing,
   type Stood,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   anchoredStand,
   type FlowerSightLayout,

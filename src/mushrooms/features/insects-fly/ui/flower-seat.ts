@@ -1,4 +1,4 @@
-import type { HeadReach } from '@/mushrooms/shared/world';
+import type { HeadReach } from '@/mushrooms/shared/meadow';
 import {
   BUD,
   type FlowerGenes,

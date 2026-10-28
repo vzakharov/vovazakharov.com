@@ -16,13 +16,8 @@ import {
   saltedStream,
   type Seeded,
 } from '@/mushrooms/shared/lib/random';
-import {
-  darkAt,
-  isCrowdedAt,
-  isFull,
-  type Rain,
-  type WithRain,
-} from '@/mushrooms/shared/world';
+import { isCrowdedAt, isFull } from '@/mushrooms/shared/meadow';
+import { darkAt, type Rain, type WithRain } from '@/mushrooms/shared/sky';
 import {
   EMPTY_HOUSE,
   type Footed,

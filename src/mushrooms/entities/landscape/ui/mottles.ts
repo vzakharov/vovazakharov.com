@@ -18,17 +18,17 @@ import {
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
 import {
-  PALETTE,
-  type Translucent,
-} from '@/mushrooms/shared/ui/index.node-safe';
-import {
   browDistance,
   DEPTHS,
   forwardOf,
   V_NEAR,
   type View,
   viewOf,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
+import {
+  PALETTE,
+  type Translucent,
+} from '@/mushrooms/shared/ui/index.node-safe';
 
 export const MOTTLES_PER_CELL = 3;
 

@@ -8,7 +8,7 @@
 import { z } from 'zod';
 
 import { GLIDE_OVER, GLIDE_TAU } from '@/mushrooms/shared/lib/glide';
-import { STRIDE_CRUISE, STRIDE_FLING_FASTEST } from '@/mushrooms/shared/world';
+import { STRIDE_CRUISE, STRIDE_FLING_FASTEST } from '@/mushrooms/shared/space';
 
 import { Eye, Point } from './mushroom-probe-answers.ts';
 import { type Expect, FPS, type Page } from './mushroom-probe-drive.ts';

@@ -15,8 +15,8 @@ import {
   wrap,
 } from '@/mushrooms/shared/lib/geometry';
 import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
+import { type Camera, pinholeOf, type View } from '@/mushrooms/shared/space';
 import type { Span } from '@/mushrooms/shared/ui/index.node-safe';
-import { type Camera, pinholeOf, type View } from '@/mushrooms/shared/world';
 
 const TURN = Math.PI * 2;
 

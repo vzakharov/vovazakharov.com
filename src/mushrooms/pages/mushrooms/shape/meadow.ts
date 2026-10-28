@@ -3,7 +3,7 @@
  * game (`model/game.ts`) plays and the kept record (`kept-record.ts`) stores.
  */
 
-import type { WithDusk, WithRain } from '@/mushrooms/shared/world';
+import type { WithDusk, WithRain } from '@/mushrooms/shared/sky';
 import type {
   Planting,
   WithPulled,

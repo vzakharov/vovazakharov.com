@@ -4,7 +4,7 @@
  * crawling on the lower rim.
  */
 
-import type { HeadReach, Lifting } from '@/mushrooms/shared/world';
+import type { HeadReach, Lifting } from '@/mushrooms/shared/meadow';
 
 import { FACE_REACH } from '../model/bee-outline';
 import { CRAWL_REACH } from '../model/buzz-rest';

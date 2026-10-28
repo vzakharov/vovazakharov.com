@@ -7,7 +7,7 @@ import {
   ofGround,
   OPENING_EYE,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { grownOn } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
   growingStandOf,

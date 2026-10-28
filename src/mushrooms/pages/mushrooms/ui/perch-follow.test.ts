@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
-import { type Eye, viewAt } from '@/mushrooms/shared/world';
+import { type Eye, viewAt } from '@/mushrooms/shared/space';
 import type { Stand } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   type Flier,

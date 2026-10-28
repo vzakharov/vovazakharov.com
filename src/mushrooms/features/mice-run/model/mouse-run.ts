@@ -11,7 +11,7 @@ import type { WithId } from '@/kernel/shared/typings';
 
 import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
 import { saltedStream, type Seeded } from '@/mushrooms/shared/lib/random';
-import type { Stood } from '@/mushrooms/shared/world';
+import type { Stood } from '@/mushrooms/shared/space';
 import type { InLeg } from '@/mushrooms/entities/mouse/index.node-safe';
 
 /** The share of a house's outings that become runs when a door is in reach and it holds one mouse. */

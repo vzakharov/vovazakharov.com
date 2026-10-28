@@ -13,9 +13,9 @@ import {
   type Cornered,
   type Point,
 } from '../lib/geometry';
+import type { Footing, Layered, Rooted } from '../space/ground';
+import type { Distant } from '../space/view';
 import type { MushroomGround } from './anchored-ground';
-import type { Footing, Layered, Rooted } from './ground';
-import type { Distant } from './view';
 
 /** An occupant's outlines as drawn, each with the box round it. */
 type BoxedOutlines = {

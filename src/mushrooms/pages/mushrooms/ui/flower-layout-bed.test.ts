@@ -9,7 +9,7 @@ import {
   gathered,
   groundFootOf,
   standingOn,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   FAR_BAND,
   laidFlower,

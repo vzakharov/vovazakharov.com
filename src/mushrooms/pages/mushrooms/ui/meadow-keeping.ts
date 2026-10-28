@@ -7,11 +7,8 @@
  */
 
 import type { Seeded } from '@/mushrooms/shared/lib/random';
-import {
-  type MeadowSeen,
-  sameAnchor,
-  type WalkStart,
-} from '@/mushrooms/shared/world';
+import type { MeadowSeen } from '@/mushrooms/shared/meadow';
+import { sameAnchor, type WalkStart } from '@/mushrooms/shared/space';
 import type { EyeHeld } from '@/mushrooms/features/walk-meadow/index.node-safe';
 
 import type { KeptBy, Reopened } from '../api/open-kept';

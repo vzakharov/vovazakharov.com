@@ -7,6 +7,8 @@
 
 import type { Hushing } from '@/kernel/shared/typings';
 
+import { duskyAt } from '@/mushrooms/shared/sky';
+import type { Foot } from '@/mushrooms/shared/space';
 import {
   brownNoise,
   panned,
@@ -14,7 +16,6 @@ import {
   tone,
   type Voice,
 } from '@/mushrooms/shared/ui/index.node-safe';
-import { duskyAt, type Foot } from '@/mushrooms/shared/world';
 import type { Drum } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   type InsectKind,

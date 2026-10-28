@@ -4,7 +4,7 @@
  */
 
 import { distanceBetween, type Point } from '../lib/geometry';
-import { D_SEE, type Stood } from './ground';
+import { D_SEE, type Stood } from '../space/ground';
 
 /**
  * How many mushrooms stand at most within `D_SEE` of a new one's foot, room

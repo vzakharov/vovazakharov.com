@@ -14,7 +14,7 @@ import {
   placedAt,
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
-import type { Layered } from '@/mushrooms/shared/world';
+import type { Layered } from '@/mushrooms/shared/space';
 
 import {
   DOOR_ASPECT,

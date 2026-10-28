@@ -7,7 +7,7 @@ import {
   type Ground,
   scaleAt,
   seen,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   apartOnScreen,
   MEADOW_FRAME,

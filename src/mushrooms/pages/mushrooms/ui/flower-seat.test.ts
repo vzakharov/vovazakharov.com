@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { HeadReach } from '@/mushrooms/shared/world';
+import type { HeadReach } from '@/mushrooms/shared/meadow';
 import {
   BUD,
   FLOWER_RANGES,

@@ -9,14 +9,13 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { ClumpGround, Occupant } from '@/mushrooms/shared/meadow';
 import {
   anchored,
-  type ClumpGround,
   type Eye,
   type Footing,
   type Ground,
   groundFootOf,
-  type Occupant,
   planeFootAt,
   type Rooted,
   SPREAD,
@@ -24,7 +23,7 @@ import {
   type Stood,
   type WithCamera,
   zAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import type { Flower } from '../model/flower-genes';
 import {

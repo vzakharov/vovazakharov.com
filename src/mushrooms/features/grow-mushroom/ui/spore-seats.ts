@@ -4,7 +4,7 @@
  * the parent (`roomFor`'s `near`) for the `select` to carry.
  */
 
-import type { MeadowSeen, StandSeen } from '@/mushrooms/shared/world';
+import type { MeadowSeen, StandSeen } from '@/mushrooms/shared/meadow';
 import type { WithMushrooms } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { sowable, type Spored, type SporeTap } from '../model/sprouting';

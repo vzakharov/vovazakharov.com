@@ -1,6 +1,6 @@
 import { keptIn } from '@/kernel/shared/cache';
 
-import type { Sitter } from '@/mushrooms/shared/world';
+import type { Sitter } from '@/mushrooms/shared/meadow';
 
 import type { InsectKind } from '../model/insect-genes';
 import { flowerLift } from './flower-lift';

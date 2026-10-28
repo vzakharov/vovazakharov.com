@@ -11,9 +11,9 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Abscissa, Point } from '../lib/geometry';
-import { DEPTHS } from './backdrop-depths';
-import type { LayeredPoint, Stood } from './ground';
-import type { Ahead } from './pinhole';
+import { DEPTHS } from '../space/backdrop-depths';
+import type { LayeredPoint, Stood } from '../space/ground';
+import type { Ahead } from '../space/pinhole';
 import {
   behindHills,
   cull,
@@ -24,7 +24,7 @@ import {
   sunkAway,
   type View,
   type Zooming,
-} from './view';
+} from '../space/view';
 
 /** Whether a thing is drawn this frame. */
 export type Drawn = { drawn: boolean };

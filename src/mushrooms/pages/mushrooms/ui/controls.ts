@@ -1,8 +1,9 @@
 import type * as Phaser from 'phaser';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
+import { isFull } from '@/mushrooms/shared/meadow';
+import { standingOn, type Walk } from '@/mushrooms/shared/space';
 import { drawDisc } from '@/mushrooms/shared/ui';
-import { isFull, standingOn, type Walk } from '@/mushrooms/shared/world';
 import {
   FLOWER_SHAPES,
   type FlowerColour,

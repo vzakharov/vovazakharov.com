@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { viewAt } from '@/mushrooms/shared/world';
+import { viewAt } from '@/mushrooms/shared/space';
 import {
   cloudOverMoon,
   moonAt,

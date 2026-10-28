@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { CLUMP_DISTANCE, SPREAD, unanchored } from '@/mushrooms/shared/world';
+import { CLUMP_DISTANCE, SPREAD, unanchored } from '@/mushrooms/shared/space';
 
 import {
   type Aloft,

@@ -14,7 +14,7 @@
 
 import { z } from 'zod';
 
-import { DUSK_MS } from '@/mushrooms/shared/world';
+import { DUSK_MS } from '@/mushrooms/shared/sky';
 
 import {
   type Controls,

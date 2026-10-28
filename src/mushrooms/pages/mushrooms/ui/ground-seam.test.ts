@@ -9,7 +9,7 @@ import {
   OPENING_EYE,
   PALE_SPAN,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { hasGround } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   cellOf,

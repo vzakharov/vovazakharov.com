@@ -9,7 +9,7 @@ import {
   EYE_HEIGHT,
   OPENING_EYE,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   sinkingAloft,
   sinkingOf,

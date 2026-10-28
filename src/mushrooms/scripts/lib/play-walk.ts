@@ -31,7 +31,7 @@ import {
   STRIDE_FLING_FASTEST,
   TURN_CRUISE,
   walking,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { cloudAt } from '@/mushrooms/entities/landscape/index.node-safe';
 
 import {

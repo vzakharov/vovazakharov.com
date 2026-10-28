@@ -5,7 +5,7 @@ import {
   type Ground,
   groundOfPlane,
   scaleAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { OPENING_FEET } from './placement';
 

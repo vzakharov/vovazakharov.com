@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { planeFootOf } from '@/mushrooms/shared/world';
+import { planeFootOf } from '@/mushrooms/shared/space';
 import {
   FLOWER_TOUCH_ACTIONS,
   type FlowerTouch,

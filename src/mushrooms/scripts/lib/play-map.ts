@@ -16,7 +16,7 @@
 
 import { z } from 'zod';
 
-import { GAITS } from '@/mushrooms/shared/world';
+import { GAITS } from '@/mushrooms/shared/space';
 import {
   FURNISHINGS,
   MUSHROOM_SPECIES,

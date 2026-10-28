@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { CLUMP_DISTANCE, type Rain } from '@/mushrooms/shared/world';
+import type { Rain } from '@/mushrooms/shared/sky';
+import { CLUMP_DISTANCE } from '@/mushrooms/shared/space';
 import {
   type Flier,
   FLIGHT_HABITS,

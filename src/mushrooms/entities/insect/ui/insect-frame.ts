@@ -27,7 +27,7 @@ import {
   sunkOver,
   V_NEAR,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import {
   type Aloft,

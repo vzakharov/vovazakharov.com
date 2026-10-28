@@ -3,8 +3,8 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import { type Dusk, duskness, type TurnLight } from '@/mushrooms/shared/sky';
 import { DUSK_WASH_DEEPEST, PALETTE } from '@/mushrooms/shared/ui';
-import { type Dusk, duskness, type TurnLight } from '@/mushrooms/shared/world';
 import {
   type Backdrop,
   cloudOverMoon,

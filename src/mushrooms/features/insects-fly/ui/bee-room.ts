@@ -1,4 +1,5 @@
-import type { Occupant, Stood } from '@/mushrooms/shared/world';
+import type { Occupant } from '@/mushrooms/shared/meadow';
+import type { Stood } from '@/mushrooms/shared/space';
 import {
   type FlowerSightLayout,
   plantable,

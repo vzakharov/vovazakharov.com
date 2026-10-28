@@ -12,13 +12,12 @@ import {
   distanceBetween,
   wrap,
 } from '@/mushrooms/shared/lib/geometry';
+import { type Cover, flowersCrowdAt } from '@/mushrooms/shared/meadow';
 import {
   anchorOf,
   browDistance,
-  type Cover,
   cull,
   type Eye,
-  flowersCrowdAt,
   type Footing,
   type GroundedScreen,
   groundFootOf,
@@ -28,7 +27,7 @@ import {
   sameFoot,
   standingOn,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   anchoredStand,
   FLOWER_RANGES,

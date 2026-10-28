@@ -2,12 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
-import {
-  bedPlace,
-  OPENING_EYE,
-  type ShownCover,
-  viewAt,
-} from '@/mushrooms/shared/world';
+import { bedPlace, type ShownCover } from '@/mushrooms/shared/meadow';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import { dotInSight } from '@/mushrooms/features/grow-mushroom/index.test-only';
 
 import { opened } from './visit-play';

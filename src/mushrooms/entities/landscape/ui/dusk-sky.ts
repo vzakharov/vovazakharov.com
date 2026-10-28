@@ -8,7 +8,7 @@
 import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import type { View } from '@/mushrooms/shared/world';
+import type { View } from '@/mushrooms/shared/space';
 
 import { cloudBox } from './cloud-puffs';
 import { STAR_RAY_REACH } from './dusk-stars';

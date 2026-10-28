@@ -10,7 +10,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { type Turned, wrap } from '@/mushrooms/shared/lib/geometry';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import { onHost, type View, type Zooming } from '@/mushrooms/shared/world';
+import { onHost } from '@/mushrooms/shared/meadow';
+import type { View, Zooming } from '@/mushrooms/shared/space';
 
 import type { Aloft, Forward } from '../model/flight-frame';
 import { reachesScreen, type Zoomed } from './insect-away';

@@ -1,5 +1,5 @@
 import { mulberry32, type Random } from '@/mushrooms/shared/lib/random';
-import { OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import {
   plantedId,
   type Sown,

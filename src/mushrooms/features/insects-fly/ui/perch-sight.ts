@@ -21,17 +21,16 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { phaseOf } from '@/mushrooms/shared/lib/motion';
 import type { Seeded } from '@/mushrooms/shared/lib/random';
+import { type Cover, SHELTER_SEATS } from '@/mushrooms/shared/meadow';
 import {
-  type Cover,
   D_SEE,
   OPENING_EYE,
   planeOf,
   rowAt,
   scaleAt,
-  SHELTER_SEATS,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   flowerGenes,
   flowerInSight,

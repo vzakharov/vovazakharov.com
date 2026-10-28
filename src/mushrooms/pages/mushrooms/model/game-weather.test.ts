@@ -6,9 +6,9 @@ import {
   duskness,
   FULL_DAY,
   FULL_DUSK,
-  planeFootOf,
   RAIN_MS,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/sky';
+import { planeFootOf } from '@/mushrooms/shared/space';
 
 import type { Meadow } from '../shape/meadow';
 import { type Action, reduce } from './game';

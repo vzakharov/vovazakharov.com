@@ -9,7 +9,7 @@ import {
   OPENING_EYE,
   sameFoot,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   plantedId,
   SEEDED_SOUNDS,

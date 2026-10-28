@@ -14,7 +14,7 @@ import {
   saltedStream,
   type Seeded,
 } from '@/mushrooms/shared/lib/random';
-import { type Dusk, dusky } from '@/mushrooms/shared/world';
+import { type Dusk, dusky } from '@/mushrooms/shared/sky';
 
 import {
   type LeftFrom,

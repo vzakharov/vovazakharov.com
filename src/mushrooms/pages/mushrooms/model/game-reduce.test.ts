@@ -3,14 +3,14 @@ import { describe, it } from 'node:test';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import {
-  D_SEE,
   FIELD_MUSHROOMS,
   FLOWER_SLOTS,
   flowersCrowdAt,
   isCrowdedAt,
   isFull,
   MUSHROOM_SLOTS,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/meadow';
+import { D_SEE } from '@/mushrooms/shared/space';
 import {
   EMPTY_HOUSE,
   OPENING_FEET,

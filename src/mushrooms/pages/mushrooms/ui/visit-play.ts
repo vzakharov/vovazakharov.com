@@ -8,7 +8,9 @@
 
 import type { Timed } from '@/mushrooms/shared/lib/motion';
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
-import { MUSHROOM_SLOTS, RAIN_MS, type View } from '@/mushrooms/shared/world';
+import { MUSHROOM_SLOTS } from '@/mushrooms/shared/meadow';
+import { RAIN_MS } from '@/mushrooms/shared/sky';
+import type { View } from '@/mushrooms/shared/space';
 import {
   FAR_FLOWERS,
   type Stand,

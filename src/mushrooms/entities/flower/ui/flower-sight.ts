@@ -21,22 +21,24 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import {
-  type Camera,
   flowersCrowdAt,
-  type Footing,
   type HeadReach,
   type Lifting,
-  middleOf,
   type MushroomGround,
   type Occupant,
   type Occupied,
   type Occupying,
-  pinholeOf,
   type Sitter,
+} from '@/mushrooms/shared/meadow';
+import {
+  type Camera,
+  type Footing,
+  middleOf,
+  pinholeOf,
   standingOn,
   type Stood,
   type WithLayout,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import {
   type Flower,

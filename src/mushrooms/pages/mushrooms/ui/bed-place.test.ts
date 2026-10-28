@@ -4,13 +4,12 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { castShadow } from '@/mushrooms/shared/ui/index.node-safe';
+import { bedPlace, depthOf } from '@/mushrooms/shared/meadow';
+import { SIDE_OVERHANG } from '@/mushrooms/shared/meadow/index.test-only';
 import {
-  bedPlace,
   browRow,
   cull,
   D_SEE,
-  depthOf,
   ofGround,
   OPENING_EYE,
   pinholeOf,
@@ -20,8 +19,8 @@ import {
   type View,
   viewAt,
   zAt,
-} from '@/mushrooms/shared/world';
-import { SIDE_OVERHANG } from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space';
+import { castShadow } from '@/mushrooms/shared/ui/index.node-safe';
 import {
   flowerGenes,
   flowerHead,

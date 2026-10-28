@@ -13,7 +13,7 @@ import {
   boxAround,
   boxesMeet,
 } from '@/mushrooms/shared/lib/geometry';
-import type { MushroomGround } from '@/mushrooms/shared/world';
+import type { MushroomGround } from '@/mushrooms/shared/meadow';
 import {
   type Among,
   amongAt,

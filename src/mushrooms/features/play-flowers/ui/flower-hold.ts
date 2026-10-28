@@ -1,4 +1,5 @@
-import type { Dispatching, Footing } from '@/mushrooms/shared/world';
+import type { Dispatching } from '@/mushrooms/shared/meadow';
+import type { Footing } from '@/mushrooms/shared/space';
 import type { HoldFlower } from '@/mushrooms/entities/flower/index.node-safe';
 
 /**

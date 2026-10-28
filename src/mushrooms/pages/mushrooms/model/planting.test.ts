@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { type Footing, planeFootOf } from '@/mushrooms/shared/world';
+import { type Footing, planeFootOf } from '@/mushrooms/shared/space';
 import {
   FLOWER_COLOURS,
   FLOWER_SHAPES,

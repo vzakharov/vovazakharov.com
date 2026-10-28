@@ -8,7 +8,7 @@ import {
   GROUND_BOB,
   OPENING_EYE,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   BOB_SHARE,
   bobAt,
@@ -17,7 +17,7 @@ import {
   SHOWN_LEAST,
   STEP_LENGTH,
   STRIDE_CRUISE,
-} from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space/index.test-only';
 import {
   browFloor,
   nearFoot,

@@ -1,6 +1,6 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Dispatching } from '@/mushrooms/shared/world';
+import type { Dispatching } from '@/mushrooms/shared/meadow';
 import type { Repainting } from '@/mushrooms/entities/mushroom/index.node-safe';
 import type { GaitFlipping } from '@/mushrooms/features/walk-meadow/index.node-safe';
 import type { Flippable } from '@/mushrooms/widgets/map';

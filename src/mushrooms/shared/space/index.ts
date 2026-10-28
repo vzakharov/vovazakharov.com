@@ -1,48 +1,5 @@
-export type { Dispatching, MeadowSeen, StandSeen } from './acting';
 export { anchorOf, sameAnchor } from './anchor';
-export {
-  anchoredGround,
-  type ClumpGround,
-  groundIn,
-  type MushroomGround,
-} from './anchored-ground';
 export { DEPTHS } from './backdrop-depths';
-export {
-  aboutFoot,
-  type BedPlace,
-  bedPlace,
-  depthOf,
-  type Drawn,
-  type Host,
-  type LaidAhead,
-  onHost,
-  standAt,
-  type Standing,
-  UNPLACED,
-  viewedOrLaid,
-} from './bed-place';
-export {
-  FIELD_MUSHROOMS,
-  FLOWER_SLOTS,
-  flowersCrowdAt,
-  isCrowdedAt,
-  isFull,
-  MUSHROOM_SLOTS,
-} from './crowding';
-export {
-  type Dusk,
-  DUSK_MS,
-  type DuskFrom,
-  duskness,
-  dusky,
-  duskyAt,
-  FULL_DAY,
-  FULL_DUSK,
-  TOWARDS,
-  turned,
-  type TurnLight,
-  type WithDusk,
-} from './dusk';
 export { layoutShown } from './eye-crop';
 export {
   browDistance,
@@ -62,7 +19,6 @@ export {
   EYE_HEIGHT,
   type Eyed,
   fitCamera,
-  FLOWER_SIZE,
   type Footing,
   type Frame,
   FRAME_DEPTH,
@@ -102,18 +58,6 @@ export {
   type WorldScreen,
   zAt,
 } from './ground';
-export {
-  type ClumpShade,
-  type Cover,
-  inSightPast,
-  mostShaded,
-  type Occupant,
-  OCCUPANT_CELL,
-  type Occupied,
-  type Occupying,
-  type ShownCover,
-  type Silhouette,
-} from './occupant';
 export { KEY_EASE, openingPan, screenOf, SLOP, TURN_CRUISE } from './pan';
 export {
   type Ahead,
@@ -138,8 +82,6 @@ export {
   PALE_SPAN,
   repaintsDue,
 } from './repaint-queue';
-export type { HeadReach, Lifting, Sitter, Spanned } from './seat-reach';
-export { SHELTER_SEATS, type ShelterSide } from './shelter-seats';
 export {
   forwardOf,
   GAITS,
@@ -197,14 +139,3 @@ export {
   withGait,
 } from './walk';
 export { BOB_SHARE, deepestBob, type Foot, Gait, GROUND_BOB } from './walking';
-export {
-  darkAt,
-  downpour,
-  type Rain,
-  RAIN_MS,
-  rainbow,
-  raining,
-  type StartRain,
-  wetness,
-  type WithRain,
-} from './weather';

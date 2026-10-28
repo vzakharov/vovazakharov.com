@@ -3,20 +3,19 @@ import { describe, it } from 'node:test';
 
 import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
+import { bedPlace, onHost } from '@/mushrooms/shared/meadow';
 import {
   aloftAt,
-  bedPlace,
   behindHills,
   CLUMP_DISTANCE,
   D_SEE,
   gathered,
   groundOfPlane,
-  onHost,
   OPENING_EYE,
   project,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   drawnInsect,
   eyeFrameOf,

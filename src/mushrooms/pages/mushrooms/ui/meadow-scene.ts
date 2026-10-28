@@ -5,15 +5,15 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { sunLight } from '@/mushrooms/shared/lib/light';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
+import { dusky } from '@/mushrooms/shared/sky';
 import {
-  dusky,
   type Eye,
   Gait,
   OPENING_EYE,
   sameAnchor,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import type { Flier } from '@/mushrooms/entities/insect';
 import {
   type Backdrop,

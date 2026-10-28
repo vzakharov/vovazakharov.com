@@ -6,7 +6,7 @@
 
 import type { Topped } from '@/mushrooms/shared/lib/geometry';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import type { GroundBand } from '@/mushrooms/shared/world';
+import type { GroundBand } from '@/mushrooms/shared/space';
 
 /** Each pixel's own share against its four neighbours' in the blur, which softens noise into tooth. */
 const OWN = 0.5;

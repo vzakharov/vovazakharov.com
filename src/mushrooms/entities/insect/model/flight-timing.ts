@@ -5,7 +5,7 @@
 
 import type { Timed } from '@/mushrooms/shared/lib/motion';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
-import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
+import { CLUMP_DISTANCE } from '@/mushrooms/shared/space';
 
 import { levelWith, pairFramed } from './flight-frame';
 import type { Dash, Habits, Hops, Pace } from './flight-habits';

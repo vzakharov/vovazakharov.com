@@ -6,7 +6,7 @@ import {
   PICTOGRAM_LIGHT,
   sunLight,
 } from '@/mushrooms/shared/lib/light';
-import { OPENING_EYE } from '@/mushrooms/shared/world';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import { VISITS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { meadowLayout } from './layout';

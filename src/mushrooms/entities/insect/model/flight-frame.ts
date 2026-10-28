@@ -20,11 +20,11 @@ import {
   EYE_HEIGHT,
   type Eyed,
   SPREAD,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import type { Place } from './perch';
 
-export type { Aloft } from '@/mushrooms/shared/world';
+export type { Aloft } from '@/mushrooms/shared/space';
 
 /** An `Aloft` in a leg's frame: across and down in the units of its `EyeFrame`, and `forward`, its distance ahead of the eye along the frame’s centre, in the clump's size. */
 export type Framed = Point & Forward;

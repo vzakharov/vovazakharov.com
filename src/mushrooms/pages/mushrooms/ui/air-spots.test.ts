@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OPENING_EYE, rowAt, viewAt } from '@/mushrooms/shared/world';
+import { OPENING_EYE, rowAt, viewAt } from '@/mushrooms/shared/space';
 import {
   drawnAloft,
   INSECT_KINDS,

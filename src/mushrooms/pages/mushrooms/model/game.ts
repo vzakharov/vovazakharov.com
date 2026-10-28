@@ -9,19 +9,17 @@ import type { WithId } from '@/kernel/shared/typings';
 
 import type { Timed } from '@/mushrooms/shared/lib/motion';
 import type { Random, Seeded } from '@/mushrooms/shared/lib/random';
+import { isCrowdedAt, isFull } from '@/mushrooms/shared/meadow';
 import {
   dusky,
   FULL_DAY,
-  isCrowdedAt,
-  isFull,
   RAIN_MS,
   raining,
-  type Rooted,
-  sameFoot,
   type StartRain,
   turned,
   type TurnLight,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/sky';
+import { type Rooted, sameFoot } from '@/mushrooms/shared/space';
 import {
   type HoldFlower,
   type PickColour,

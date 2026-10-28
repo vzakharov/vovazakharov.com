@@ -1,6 +1,6 @@
 import type * as Phaser from 'phaser';
 
-import type { Dispatching } from '@/mushrooms/shared/world';
+import type { Dispatching } from '@/mushrooms/shared/meadow';
 import type { RainTapped } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   restingOn,

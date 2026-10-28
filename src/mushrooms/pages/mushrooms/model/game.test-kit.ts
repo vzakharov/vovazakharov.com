@@ -1,5 +1,5 @@
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { OPENING_EYE } from '@/mushrooms/shared/world';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import { grownOn } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import type { Meadow } from '../shape/meadow';

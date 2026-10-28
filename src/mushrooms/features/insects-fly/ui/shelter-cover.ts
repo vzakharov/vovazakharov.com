@@ -11,7 +11,7 @@ import {
   containsPoint,
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
-import type { Cover } from '@/mushrooms/shared/world';
+import type { Cover } from '@/mushrooms/shared/meadow';
 
 /** How many points round each ring of a disc it is judged at. */
 const RING = 8;

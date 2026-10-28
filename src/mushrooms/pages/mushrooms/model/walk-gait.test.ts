@@ -13,14 +13,14 @@ import {
   refit,
   type Walk,
   withGait,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   distanceOfRow,
   RISE_EASE,
   SLOP,
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
-} from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space/index.test-only';
 
 import {
   apart,

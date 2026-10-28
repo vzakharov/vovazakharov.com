@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { sunLight } from '@/mushrooms/shared/lib/light';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { type Camera, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { type Camera, OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import {
   azimuthAt,
   crestAcross,
