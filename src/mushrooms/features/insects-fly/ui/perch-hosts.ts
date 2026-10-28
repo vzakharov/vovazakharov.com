@@ -3,7 +3,6 @@ import type { WithId } from '@/kernel/shared/typings';
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
 import {
-  type Aloft,
   type AtAloft,
   type Flier,
   type InsectKind,
@@ -18,6 +17,7 @@ import {
   type MushroomGenes,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
+import type { Alofted } from './air-spots';
 import { dropped, perchSpot, shelterDrop } from './perch-sight';
 
 /** Where an insect sits on a perch: a seat on a host, or a spot in the open air as a fixed point in the world. */
@@ -62,8 +62,6 @@ type FlowerSeats = Tapping & {
   seat: (id: string, spot: number, kind: InsectKind) => Seat | undefined;
   inView: () => readonly WithId[];
 };
-
-export type Alofted = { alofts: ReadonlyMap<string, Aloft> };
 
 /**
  * Where `perch` stands this frame: over a flower's head, as it sways and

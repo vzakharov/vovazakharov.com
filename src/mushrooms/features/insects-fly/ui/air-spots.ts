@@ -47,7 +47,6 @@ import {
 import { INSECT_LIMITS } from '../model/insects';
 import type { Crowding } from '../model/offered';
 import { pointCrowdings } from './perch-crowding';
-import type { Alofted } from './perch-hosts';
 
 /** How far the open air reaches down over the back of the ground, as a share of the ground's depth. */
 export const AIR_BELOW = 0.15;
@@ -69,6 +68,9 @@ export const EVERY_ONE: readonly InsectKind[] = INSECT_KINDS.flatMap((kind) =>
  * and where the eye it is offered round draws it (`drawn`).
  */
 type Spot = CellName & Sited & AtAloft & { drawn: Zoomed };
+
+/** Each spot in the open air by id, as a fixed point in the world. */
+export type Alofted = { alofts: ReadonlyMap<string, Aloft> };
 
 /**
  * The air offered round an eye: its spots by id where the eye's anchored
