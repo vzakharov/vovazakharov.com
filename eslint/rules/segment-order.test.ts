@@ -10,7 +10,8 @@ import rule from './segment-order';
 
 const root = mkdtempSync(path.join(tmpdir(), 'segment-order-'));
 
-// A slice with the standard segments, and a shared layer declaring its own.
+// A slice with the standard segments, a shared layer declaring its own, and a
+// descendant app's shared reaching it.
 for (const segment of ['ui', 'model', 'api', 'shape', 'lib']) {
   mkdirSync(path.join(root, 'src/app1/pages/home', segment), {
     recursive: true,
@@ -19,6 +20,7 @@ for (const segment of ['ui', 'model', 'api', 'shape', 'lib']) {
 for (const segment of ['ui', 'seo', 'lib']) {
   mkdirSync(path.join(root, 'src/app1/shared', segment), { recursive: true });
 }
+mkdirSync(path.join(root, 'src/app2/shared/lib'), { recursive: true });
 writeFileSync(
   path.join(root, 'src/app1/shared/masd.json'),
   JSON.stringify({ segments: ['ui', 'seo', 'lib'] }),
@@ -83,6 +85,16 @@ describe('segment-order', () => {
       'src/app1/scripts/lib/x.ts',
       "import { y } from '../ui/y';",
     ],
+    [
+      'an alias into a lower segment of its own place',
+      'src/app1/shared/seo/meta.ts',
+      "import { x } from '@/app1/shared/lib/x';",
+    ],
+    [
+      'an alias into an ancestor’s shared',
+      'src/app2/shared/lib/x.ts',
+      "import { seo } from '@/app1/shared/seo';",
+    ],
   ] as const) {
     it(`allows ${name}`, () => {
       assert.deepEqual(reports(file, code), []);
@@ -115,6 +127,20 @@ describe('segment-order', () => {
       'a dynamic import upwards',
       'src/app1/shared/lib/x.ts',
       "const seo = await import('../seo/meta');",
+      'lib',
+      'seo',
+    ],
+    [
+      'an alias upwards in its own place',
+      'src/app1/shared/lib/x.ts',
+      "import { meta } from '@/app1/shared/seo/meta';",
+      'lib',
+      'seo',
+    ],
+    [
+      'an alias naming a segment by its directory',
+      'src/app1/shared/lib/x.ts',
+      "import { seo } from '@/app1/shared/seo';",
       'lib',
       'seo',
     ],

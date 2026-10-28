@@ -2,7 +2,7 @@ import type { Rule } from 'eslint';
 import path from 'node:path';
 
 import { placeOf } from '../masd-graph';
-import { onRelativeImports } from './relative-imports';
+import { onImports } from './import-sources';
 
 // A relative import under `src/` stays inside the importer's place — its slice,
 // its segmented layer (`app` and `shared` overlay as one unit), or its app's
@@ -29,7 +29,8 @@ const rule: Rule.RuleModule = {
     const home = fromSrc.startsWith('..') ? undefined : placeOf(fromSrc)?.place;
     if (home === undefined) return {};
 
-    return onRelativeImports(context, (source, resolved) => {
+    return onImports(context, (source, specifier, resolved) => {
+      if (!specifier.startsWith('.') || resolved === undefined) return;
       const target = path.relative(src, resolved);
       if (target === home || target.startsWith(home + path.sep)) return;
 
