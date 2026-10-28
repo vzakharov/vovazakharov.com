@@ -7,18 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-26T07:31:16Z
-- **Updated:** 2026-10-28T03:28:59Z
+- **Updated:** 2026-10-28T03:47:32Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 2
+## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 9ccb23d). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at e337a58). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T02** `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved — last: @vzakharov (human) 2026-10-28T03:26:02Z — "пересчитать по последнему и при финалайзе пересчитать ещё ра…" → [↓](#t02)
-- **T03** `apps/lsa/public/blog/the-five-percent.ru.md`:32 — unresolved — last: @vzakharov (human) 2026-10-28T03:28:15Z — "я тут имел в виду "произвольное", ну то есть "то, как я реши…" → [↓](#t03)
+- **T02** `.claude/rules/content.md`:217 — unresolved — last: @vzakharov (human) 2026-10-28T03:46:04Z — "давай-ка всё-таки помечать комменты от "пятипроцентника" не…" → [↓](#t02)
 
 ---
 
@@ -26,7 +25,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 ## Summary
 
-- `writing/notes/the-five-percent.md` had enough in it for conclusions: 214 bumps over fourteen learnings, 42% of them on one ("What it was handed, it treats as fixed"), and 89% readable as that one. It retires here, with the length check only it used.
+- `writing/notes/the-five-percent.md` had enough in it for conclusions: 219 bumps over fourteen learnings, 42% of them on one ("What it was handed, it treats as fixed"), and 89% readable as that one. It retires here, with the length check only it used.
 - **`/five-percent`**, a read-only third `/polish` pass: it asks of a branch's diff the one question the top learning makes — what did it take as given, down to whether what it edits should exist — and posts at most three alternatives as one PR review anchored to the lines, each graded critical or optional — no edits, no commits. Its floor is a marker in its own review; planless `/go` runs it after `/pr`; `/finalize and merge` stops only on a critical one its own run posted. The mandatory notes entry leaves `CLAUDE.md`.
 - **Every answered proposal is scored**, so the pass has a measure of its own: each proposal opens on a hidden marker naming `.claude/skills/five-percent/verdicts.md`, and the session answering it writes a 0–1 verdict into `writing/notes/five-percent-verdicts/<branch>/verdicts.json` — one file per branch, so none conflicts on merge. `scripts/five-percent-verdicts/tally.py` sums them overall and by branch; vet runs its tests and `--check`.
 - **A bilingual blog on latestageagentic.com**, on the pattern Майя's site set in #208, opening with the five-percent article: Vova's Russian text, its English translation, a measurement with its caveats kept in, and the retired `/writing` page as its closing example. Blog pages write their dashes as dashes (`.claude/rules/lsa-voice.md`).
@@ -154,11 +153,24 @@ _2026-10-27T05:40:24Z_
 
 <!-- five-percent: ee92a84cf4142e8440f3392cf091817dbde1ffba -->
 
-_19 resolved threads omitted; re-run with `--include-resolved` to export them._
+<a id="r04"></a>
+
+### R04 — Review by @vzakharov (agent) — COMMENTED
+
+_2026-10-28T03:37:06Z_
+
+[https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5677494212](https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5677494212)
+
+Одно предложение, критичных — ни одного.
+
+— Claude Code · https://claude.ai/code/session_01DaohkDpBRoHfKRhLCUy7EY
+
+<!-- five-percent: ef6d02af9284c67e8faebddd73e04a19788d8944 -->
+
+_21 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `scripts/vet.sh`:185 — unresolved — last: @vzakharov (agent) 2026-10-27T05:38:02Z — "Оставил как есть; предложение записано в учёт с оценкой 0 —…" → [↓](#t01)
-- **T02** `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved — last: @vzakharov (human) 2026-10-28T03:26:02Z — "пересчитать по последнему и при финалайзе пересчитать ещё ра…" → [↓](#t02)
-- **T03** `apps/lsa/public/blog/the-five-percent.ru.md`:32 — unresolved — last: @vzakharov (human) 2026-10-28T03:28:15Z — "я тут имел в виду "произвольное", ну то есть "то, как я реши…" → [↓](#t03)
+- **T02** `.claude/rules/content.md`:217 — unresolved — last: @vzakharov (human) 2026-10-28T03:46:04Z — "давай-ка всё-таки помечать комменты от "пятипроцентника" не…" → [↓](#t02)
 
 <a id="t01"></a>
 
@@ -195,55 +207,34 @@ _19 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 <a id="t02"></a>
 
-### `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved
+### `.claude/rules/content.md`:217 — unresolved
 
 ```diff
-@@ -0,0 +1,106 @@
-… 19 lines elided …
-+дописывал туда запись: в чём ошибся, сколько раз уже так ошибался за всё время, и короткое описание наиболее показательных примеров.
-+
-+Цель была примерно: накопить достаточно случаев, чтобы сделать выводы, а потом, собственно, написать про это статью.
-+
-… 1 line elided …
-```
-
-**@vzakharov (agent)** — 2026-10-27T05:40:19Z
-
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**critical**
-
-Цифры статьи взяты из копии файла на ветке, а ссылки «накопилось» и «в самом файле» ведут на его версию в `main` (e34d291) — и там их другие. После того как ветка отошла от `main`, туда приехали ещё две записи (BAS-0027 из #209 и iPhone-баг из #215), так что по ссылке читатель увидит 216 случаев, главную ошибку ×91 и «источник» ×15, а в тексте — 214, 90 и 14. Один и тот же факт расходится со своей второй копией, по ссылке из самой статьи.
-
-Два способа:
-- **Пересчитать по `main`**: 214 → 216, 90 → 91 (по-прежнему 42%), 14 → 15, 191 → 193 (по-прежнему 89%) — в обоих языках, три-четыре места в каждом. Цена: правка уже одобренного текста и перештамповка перевода.
-- **Оставить цифры, перевесить ссылки** на последнее состояние файла на ветке (1c4b438, 214 случаев). Цена: ссылка на коммит не из `main` — после сквоша он жив только через ref пулл-реквеста.
-
-Попутно: на `/finalize` слияние `main` упрётся в modify/delete по `writing/notes/the-five-percent.md` (ветка файл удалила, `main` его правил) — решается удалением, но знать заранее стоит.
-
-— Claude Code · https://claude.ai/code/session_01DaohkF1PQFSP4AMFg12djV
-
-**@vzakharov (human)** — 2026-10-28T03:26:02Z
-
-пересчитать по последнему и при финалайзе пересчитать ещё раз до последнего если main опять уедет
-
----
-
-<a id="t03"></a>
-
-### `apps/lsa/public/blog/the-five-percent.ru.md`:32 — unresolved
-
-```diff
-@@ -30,8 +29,8 @@ author: vova
+@@ -207,18 +209,25 @@ is read and counted like any paragraph. `remark-content-directives.ts` names the
 … 2 lines elided …
  
--- Агент выбирал префикс для коммита из списка: `feat`, `fix`, `docs` и так далее. Изменение не подходило ни под один, и он выбрал наименее неподходящий. Мне хватило одной фразы: давай заведём `conten…
--- Девять мест в коде открывали ссылку в новой вкладке, и агент предложил завести для этого отдельный параметр. А в трёх местах, где ссылка открывалась в той же вкладке, так просто получилось, никто э…
-+- Агент выбирал префикс для коммита из списка: `feat`, `fix`, `docs` и так далее. Изменение не подходило ни под один, и он выбрал наименее неподходящий. Моё взвешенное решение: завести префикс `content:`.
++## Dashes
++
++**Every page the site serves writes a dash as a dash** — `—`, never `--`, in
++every language, its documents and the copy in `src/` alike. Two hyphens and
++straight quotes are for text pasted into a channel, `writing/CLAUDE.md` §
++"Voice".
 ```
 
-**@vzakharov (human)** — 2026-10-28T03:28:15Z
+**@vzakharov (agent)** — 2026-10-28T03:36:58Z
 
-я тут имел в виду "произвольное", ну то есть "то, как я решил" (понимаю что тавтология, но суть ясна?) Если deliberated в английском неправильное слово для этого -- нужно поменять
+<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
+**optional**
+
+Ветка исходит из того, что правило «на сайте тире, а не `--`» удержится чтением: оно записано в `content.md` и на него ссылаются `lsa-voice.md` и `writing/CLAUDE.md`. Но на этой же ветке оно уже один раз не удержалось — страницы блога сначала вышли с `--`. А соседнее правило про кавычки держит не чтение, а `pnpm check:prose-quotes` в vet. Другой путь: научить ту же проверку (`scripts/check-prose-quotes.ts`, её `proseSpans` уже пропускают фронтматтер, код и HTML-комментарии) падать и на `--` в тексте. Сейчас по всем `apps/*/public/**/*.md` таких мест ноль — проверил, так что она пройдёт с первого запуска. Цена: строк десять в скрипте, тест рядом, и переименование проверки или её описания в `stack.md`, раз она теперь не только про кавычки. Строки в `src/` (переводы в `i18n`) она не покроет — там правило по-прежнему держится чтением.
+
+— Claude Code · https://claude.ai/code/session_01DaohkDpBRoHfKRhLCUy7EY
+
+**@vzakharov (human)** — 2026-10-28T03:46:04Z
+
+давай-ка всё-таки помечать комменты от "пятипроцентника" не только скрыто -- а то я при прошлом заходе даже не понял, откуда коммент появился (хоть он был и к месту).
+
+да, падать на `--` в статьях и наоборт на `—` в социалке -- хорошая идея.
 
 ---
 
@@ -260,3 +251,4 @@ _19 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-27T06:31:40Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5662908947.
 - **2026-10-27T06:37:43Z** @vzakharov cross-referenced this pull request from [#220 chore: show the agent rare words as it writes Vova's English](https://github.com/vzakharov/vovazakharov.com/pull/220).
 - **2026-10-28T03:28:59Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5677442469.
+- **2026-10-28T03:37:06Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5677494212.
