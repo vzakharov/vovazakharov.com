@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 144,
+    "inputTokens": 152,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 193295,
-    "cacheReadTokens": 13448876,
-    "outputTokens": 47508,
-    "thinkingTokens": 10268,
-    "responses": 72,
-    "costUsd": 5.1868712
+    "cacheWrite1hTokens": 200835,
+    "cacheReadTokens": 14471602,
+    "outputTokens": 49805,
+    "thinkingTokens": 10425,
+    "responses": 76,
+    "costUsd": 5.497708399999999
   },
   "estimate": {
     "at": "2026-10-28T09:41:45.772Z",
@@ -39,7 +39,7 @@
   },
   "sessionId": "2bef3310-cf11-50f3-adff-90633553d5f4",
   "branch": "claude/masd-slice-clusters-q7r4tm",
-  "cwd": "/home/user/vovazakharov.com/src/mushrooms",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — план одобрен на первый кусок: поставить madge и убрать 18 циклов импортов в src/, потом вернуться к кластерам",
   "prs": [
     228
@@ -47,18 +47,18 @@
   "url": "https://claude.ai/code/session_01DaohkFjE5k2mZsypSbXfxP",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-28T09:41:26.531Z",
-  "lastResponseAt": "2026-10-28T09:53:49.216Z",
+  "lastResponseAt": "2026-10-28T09:54:46.585Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 144,
+    "inputTokens": 152,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 193295,
-    "cacheReadTokens": 13448876,
-    "outputTokens": 47508,
-    "thinkingTokens": 10268,
-    "responses": 72,
-    "costUsd": 5.1868712
+    "cacheWrite1hTokens": 200835,
+    "cacheReadTokens": 14471602,
+    "outputTokens": 49805,
+    "thinkingTokens": 10425,
+    "responses": 76,
+    "costUsd": 5.497708399999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -72,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 144,
+      "inputTokens": 152,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 193295,
-      "cacheReadTokens": 13448876,
-      "outputTokens": 47508,
-      "thinkingTokens": 10268,
-      "responses": 72,
-      "costUsd": 5.1868712
+      "cacheWrite1hTokens": 200835,
+      "cacheReadTokens": 14471602,
+      "outputTokens": 49805,
+      "thinkingTokens": 10425,
+      "responses": 76,
+      "costUsd": 5.497708399999999
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 72,
-    "matched": 72,
-    "matchedTableUsd": 5.1868712,
-    "matchedEventUsd": 5.1868712,
+    "events": 76,
+    "matched": 76,
+    "matchedTableUsd": 5.497708399999999,
+    "matchedEventUsd": 5.497708399999999,
     "unseen": {}
   }
 }
