@@ -1,9 +1,3 @@
-/**
- * What the meadow offers a flier to choose from: the perches the scene sees,
- * which the flying (`flight.ts`) and what narrows its choice (`perch-room.ts`,
- * `shelter.ts`) all read.
- */
-
 import type { Plot } from '@/mushrooms/entities/flower/index.node-safe';
 import type {
   InsectKind,

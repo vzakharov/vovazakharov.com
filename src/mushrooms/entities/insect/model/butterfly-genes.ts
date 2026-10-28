@@ -46,9 +46,8 @@ export const PATTERN_TURN = [0.25, 0.75] as const;
 type ButterflyColour = (typeof BUTTERFLY_COLOURS)[number];
 
 /**
- * A butterfly's shape and colouring. Seen from above with the wings open: a
- * fore and a hind pair, each wing carrying the same eye, a mandala of
- * concentric rings.
+ * A butterfly's shape and colouring, seen from above with the wings open: each
+ * wing's eye a mandala of concentric rings.
  */
 export type ButterflyGenes = InsectBody &
   OfKind<'butterfly'> &

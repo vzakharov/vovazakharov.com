@@ -1,8 +1,3 @@
-/**
- * The meadow as the scene stands it, which both where the flowers stand
- * (`flower-plots.ts`) and whether they are seen (`flower-sight.ts`) read.
- */
-
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithHeight } from '@/kernel/shared/typings';
 

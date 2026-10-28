@@ -1,5 +1,5 @@
 /**
- * What the scene sees of the perches (`Sight` in `model/flight.ts`), as a
+ * What the scene sees of the perches (`Sight` in `model/offered.ts`), as a
  * pure function of the layout and what stands in it, and where on a perch an
  * insect sits. A flower is a perch only where an insect on it stays inside
  * the world's edges (`flower-sight.ts`), whatever stands in front of it, so

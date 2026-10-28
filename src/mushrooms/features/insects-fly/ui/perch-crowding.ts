@@ -1,6 +1,6 @@
 /**
  * Which two perches stand too close for an insect on each (`Crowding` in
- * `model/flight.ts`), measured along the tracks their seats run on, for
+ * `model/offered.ts`), measured along the tracks their seats run on, for
  * every two kinds.
  */
 
