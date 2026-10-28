@@ -1,0 +1,194 @@
+
+basilisk/entities/case  (11 files)
+  case-brief.tsx ×3  ΔQ=162.72e-3
+    lib/grade-label.ts ui/case-brief.tsx ui/grade-stamp.tsx
+  grade-stamp.tsx ×2  ΔQ=79.88e-3
+    lib/grade-label.ts ui/grade-stamp.tsx
+  case-seal.tsx ×2  ΔQ=79.88e-3
+    lib/case-seal.ts ui/case-seal.tsx
+  case-slots.tsx ×7  ΔQ=68.05e-3
+    lib/case-seal.ts lib/grade-label.ts ui/case-brief.tsx ui/case-seal.tsx ui/case-slots.tsx ui/grade-stamp.tsx ui/no-ai-note.tsx
+
+blog/entities/document  (7 files)
+  prose-content.tsx ×3  ΔQ=316.33e-3
+    ui/content-link.tsx ui/content-video.tsx ui/prose-content.tsx
+  document-cards.tsx ×2  ΔQ=122.45e-3
+    ui/document-cards.tsx ui/document-meta.tsx
+
+blog/pages/documents  (8 files)
+  article-page.tsx ×5  ΔQ=316.33e-3
+    ui/article-header.tsx ui/article-page.tsx ui/print-sheet.tsx ui/printed-from.tsx ui/table-of-contents.tsx
+  print-sheet.tsx ×2  ΔQ=193.88e-3
+    ui/print-sheet.tsx ui/printed-from.tsx
+  collection-index-page.tsx ×2  ΔQ=193.88e-3
+    ui/collection-index-page.tsx ui/collection-intros.tsx
+
+lsa/pages/lsa-home  (4 files)
+  lsa-home-page.tsx ×2  ΔQ=166.67e-3
+    i18n/index.ts ui/lsa-home-page.tsx
+
+maya/entities/maya  (9 files)
+  plate-label.tsx ×3  ΔQ=118.34e-3
+    i18n/index.ts lib/roman.ts ui/plate-label.tsx
+  maya-slots.tsx ×6  ΔQ=68.05e-3
+    i18n/index.ts lib/plate-number.ts lib/roman.ts ui/maya-byline.tsx ui/maya-slots.tsx ui/plate-label.tsx
+  maya-byline.tsx ×2  ΔQ=47.34e-3
+    i18n/index.ts ui/maya-byline.tsx
+
+maya/pages/home  (7 files)
+  maya-home-page.tsx ×5  ΔQ=193.88e-3
+    i18n/index.ts ui/frontispiece.tsx ui/maya-home-page.tsx ui/plates.tsx ui/shelf.tsx
+  shelf.tsx ×2  ΔQ=122.45e-3
+    ui/plates.tsx ui/shelf.tsx
+
+maya/pages/whisper  (10 files)
+  whisper-typewriter.tsx ×4  ΔQ=246.53e-3
+    i18n/index.ts model/hush.ts model/listening-post.ts ui/whisper-typewriter.tsx
+  whisper-page.tsx ×7  ΔQ=79.86e-3
+    i18n/index.ts lib/whisper-metadata.ts model/hush.ts model/lexicon.ts model/listening-post.ts ui/whisper-page.tsx ui/whisper-typewriter.tsx
+  listening-post.ts ×2  ΔQ=79.86e-3
+    model/hush.ts model/listening-post.ts
+
+mushrooms/entities/flower  (18 files)
+  flower-sight.ts ×6  ΔQ=85.16e-3
+    model/flower-genes.ts model/planted-flowers.ts ui/flower-layout.ts ui/flower-plots.ts ui/flower-sight.ts ui/stand.ts
+  draw-flower.ts ×4  ΔQ=63.82e-3
+    model/flower-genes.ts ui/draw-flower.ts ui/flower-fold.ts ui/flower-tints.ts
+  anchored-stand.ts ×5  ΔQ=36.14e-3
+    model/flower-genes.ts model/planted-flowers.ts ui/anchored-stand.ts ui/flower-layout.ts ui/stand.ts
+  flower-plots.ts ×5  ΔQ=29.80e-3
+    model/flower-genes.ts model/planted-flowers.ts ui/flower-layout.ts ui/flower-plots.ts ui/stand.ts
+
+mushrooms/entities/insect  (42 files)
+  widest-spans.ts ×14  ΔQ=87.26e-3
+    model/bee-genes.ts model/bee-outline.ts model/buzz-genes.ts model/buzz-rest.ts model/flight-frame.ts model/flight-habits.ts model/flight-timing.ts model/insect-motion.ts model/insect-paths.ts model/insect.ts model/perch.ts ui/flower-lift.ts ui/insect-size.ts ui/widest-spans.ts
+  insect-genes.ts ×7  ΔQ=79.71e-3
+    model/bee-genes.ts model/butterfly-genes.ts model/buzz-genes.ts model/fly-genes.ts model/insect-genes.ts model/insect-outline.ts model/insect.ts
+  insect-away.ts ×22  ΔQ=72.10e-3
+    model/bee-genes.ts model/bee-outline.ts model/butterfly-genes.ts model/buzz-genes.ts model/buzz-rest.ts model/flight-frame.ts model/flight-habits.ts model/flight-in.ts model/flight-timing.ts model/fly-genes.ts model/insect-genes.ts model/insect-motion.ts model/insect-outline.ts model/insect-paths.ts model/insect.ts model/perch.ts ui/flower-lift.ts ui/insect-away.ts ui/insect-frame.ts ui/insect-size.ts ui/plane-place.ts ui/widest-spans.ts
+  flower-lift.ts ×13  ΔQ=71.03e-3
+    model/bee-genes.ts model/bee-outline.ts model/buzz-genes.ts model/buzz-rest.ts model/flight-frame.ts model/flight-habits.ts model/flight-timing.ts model/insect-motion.ts model/insect-paths.ts model/insect.ts model/perch.ts ui/flower-lift.ts ui/insect-size.ts
+
+mushrooms/entities/landscape  (29 files)
+  paint-backdrop.ts ×16  ΔQ=180.55e-3
+    ui/backdrop-tones.ts ui/bake-picture.ts ui/brow.ts ui/cloud-puffs.ts ui/dusk-sky.ts ui/dusk-stars.ts ui/grain.ts ui/paint-backdrop.ts ui/paint-land.ts ui/paint-sky.ts ui/panorama.ts ui/rain-sky.ts ui/skyline.ts ui/star-images.ts ui/sun-layout.ts ui/twin-fade.ts
+  rain-view.ts ×19  ΔQ=156.17e-3
+    ui/backdrop-tones.ts ui/bake-picture.ts ui/brow.ts ui/cloud-puffs.ts ui/dusk-sky.ts ui/dusk-stars.ts ui/grain.ts ui/paint-backdrop.ts ui/paint-land.ts ui/paint-sky.ts ui/panorama.ts ui/rain-drops.ts ui/rain-fall.ts ui/rain-sky.ts ui/rain-view.ts ui/skyline.ts ui/star-images.ts ui/sun-layout.ts ui/twin-fade.ts
+  paint-land.ts ×7  ΔQ=113.75e-3
+    ui/backdrop-tones.ts ui/brow.ts ui/grain.ts ui/paint-land.ts ui/panorama.ts ui/skyline.ts ui/sun-layout.ts
+  star-images.ts ×9  ΔQ=80.00e-3
+    ui/backdrop-tones.ts ui/cloud-puffs.ts ui/dusk-stars.ts ui/paint-sky.ts ui/panorama.ts ui/rain-sky.ts ui/skyline.ts ui/star-images.ts ui/sun-layout.ts
+
+mushrooms/entities/mushroom  (37 files)
+  mushroom-selection.ts ×13  ΔQ=210.11e-3
+    model/chanterelle-outline.ts model/mushroom-genes.ts model/mushroom-outline.ts model/mushroom-pose.ts model/mushroom-profile.ts ui/draw-mushroom.ts ui/mushroom-light.ts ui/mushroom-paint.ts ui/mushroom-selection.ts ui/mushroom-tints.ts ui/paint-dome.ts ui/paint-trumpet.ts ui/porcini-margin.ts
+  draw-mushroom.ts ×12  ΔQ=199.60e-3
+    model/chanterelle-outline.ts model/mushroom-genes.ts model/mushroom-outline.ts model/mushroom-pose.ts model/mushroom-profile.ts ui/draw-mushroom.ts ui/mushroom-light.ts ui/mushroom-paint.ts ui/mushroom-tints.ts ui/paint-dome.ts ui/paint-trumpet.ts ui/porcini-margin.ts
+  mushroom-frame.ts ×18  ΔQ=134.11e-3
+    model/chanterelle-outline.ts model/house.ts model/mushroom-genes.ts model/mushroom-outline.ts model/mushroom-pose.ts model/mushroom-profile.ts model/placement.ts model/planted.ts ui/draw-mushroom.ts ui/mushroom-frame.ts ui/mushroom-light.ts ui/mushroom-paint.ts ui/mushroom-selection.ts ui/mushroom-shown.ts ui/mushroom-tints.ts ui/paint-dome.ts ui/paint-trumpet.ts ui/porcini-margin.ts
+  mushroom-shown.ts ×17  ΔQ=131.09e-3
+    model/chanterelle-outline.ts model/house.ts model/mushroom-genes.ts model/mushroom-outline.ts model/mushroom-pose.ts model/mushroom-profile.ts model/placement.ts model/planted.ts ui/draw-mushroom.ts ui/mushroom-light.ts ui/mushroom-paint.ts ui/mushroom-selection.ts ui/mushroom-shown.ts ui/mushroom-tints.ts ui/paint-dome.ts ui/paint-trumpet.ts ui/porcini-margin.ts
+
+mushrooms/features/grow-mushroom  (11 files)
+  spore-bed.ts ×4  ΔQ=155.00e-3
+    model/sprouting.ts ui/spore-bed.ts ui/spore-drift.ts ui/spores.ts
+  mushroom-room.ts ×4  ΔQ=148.75e-3
+    ui/mushroom-patch.ts ui/mushroom-room.ts ui/spore-sight.ts ui/standing-weighed.ts
+  spore-seats.ts ×6  ΔQ=95.00e-3
+    model/sprouting.ts ui/mushroom-patch.ts ui/mushroom-room.ts ui/spore-seats.ts ui/spore-sight.ts ui/standing-weighed.ts
+  spore-drift.ts ×3  ΔQ=75.00e-3
+    model/sprouting.ts ui/spore-drift.ts ui/spores.ts
+
+mushrooms/features/insects-fly  (20 files)
+  air-spots.ts ×9  ΔQ=186.08e-3
+    model/flight.ts model/insects.ts model/offered.ts model/perch-room.ts model/pollen.ts model/roost.ts model/shelter.ts ui/air-spots.ts ui/perch-crowding.ts
+  insects.ts ×7  ΔQ=178.20e-3
+    model/flight.ts model/insects.ts model/offered.ts model/perch-room.ts model/pollen.ts model/roost.ts model/shelter.ts
+  perch-sight.ts ×12  ΔQ=147.44e-3
+    model/flight.ts model/insects.ts model/offered.ts model/perch-room.ts model/pollen.ts model/roost.ts model/shelter.ts ui/air-spots.ts ui/bee-room.ts ui/perch-crowding.ts ui/perch-sight.ts ui/shelter-cover.ts
+  perch-hosts.ts ×13  ΔQ=78.24e-3
+    model/flight.ts model/insects.ts model/offered.ts model/perch-room.ts model/pollen.ts model/roost.ts model/shelter.ts ui/air-spots.ts ui/bee-room.ts ui/perch-crowding.ts ui/perch-hosts.ts ui/perch-sight.ts ui/shelter-cover.ts
+
+mushrooms/features/mice-run  (9 files)
+  runner-shown.ts ×3  ΔQ=246.53e-3
+    model/run-ends.ts ui/run-front.ts ui/runner-shown.ts
+  mouse-door.ts ×2  ΔQ=41.67e-3
+    model/mouse-run.ts ui/mouse-door.ts
+  night-runs.ts ×2  ΔQ=41.67e-3
+    model/mouse-run.ts model/night-runs.ts
+
+mushrooms/features/plant-flower  (7 files)
+  tending.ts ×3  ΔQ=49.38e-3
+    ui/flower-room.ts ui/tending.ts ui/tuft-tap.ts
+
+mushrooms/features/play-flowers  (10 files)
+  instrument-input.ts ×5  ΔQ=160.49e-3
+    ui/chord-fingers.ts ui/instrument-input.ts ui/instrument.ts ui/keyboard.ts ui/keyed-flowers.ts
+  keyed-flowers.ts ×3  ΔQ=72.53e-3
+    ui/instrument.ts ui/keyboard.ts ui/keyed-flowers.ts
+  instrument.ts ×2  ΔQ=12.35e-3
+    ui/instrument.ts ui/keyboard.ts
+
+mushrooms/pages/mushrooms  (39 files)
+  control-actions.ts ×14  ΔQ=194.60e-3
+    model/game.ts ui/arrivals.ts ui/button.ts ui/control-actions.ts ui/controls.ts ui/dusk-view.ts ui/gait-spot.ts ui/hud.ts ui/layout.ts ui/picker-rows.ts ui/picker.ts ui/planter.ts ui/sky-layout.ts ui/sound.ts
+  meadow-opening.ts ×9  ΔQ=178.72e-3
+    api/keeper.ts api/meadow-store.ts api/open-kept.ts model/flier-rest.ts model/game.ts model/keeping.ts model/kept-record.ts model/meadow-number.ts ui/meadow-opening.ts
+  meadow-listeners.ts ×15  ΔQ=163.02e-3
+    api/keeper.ts api/meadow-store.ts api/open-kept.ts model/flier-rest.ts model/game.ts model/keeping.ts model/kept-record.ts model/meadow-number.ts ui/gait-spot.ts ui/layout.ts ui/meadow-keeping.ts ui/meadow-listeners.ts ui/picker-rows.ts ui/sky-layout.ts ui/visit-play.ts
+  meadow-keeping.ts ×14  ΔQ=160.13e-3
+    api/keeper.ts api/meadow-store.ts api/open-kept.ts model/flier-rest.ts model/game.ts model/keeping.ts model/kept-record.ts model/meadow-number.ts ui/gait-spot.ts ui/layout.ts ui/meadow-keeping.ts ui/picker-rows.ts ui/sky-layout.ts ui/visit-play.ts
+
+mushrooms/widgets/map  (7 files)
+  draw-map-ground.ts ×3  ΔQ=166.67e-3
+    model/map-frame.ts ui/draw-map-ground.ts ui/map-ground.ts
+
+music/features/player  (23 files)
+  use-audio-player.ts ×11  ΔQ=341.41e-3
+    model/decks.ts model/fetching-deck.ts model/player-controls.ts model/player-state.ts model/radio-state.ts model/station.ts model/use-audio-player.ts model/use-media-session.ts model/use-player-keys.ts model/use-station.ts model/use-stored-setting.ts
+  use-media-session.ts ×7  ΔQ=179.93e-3
+    model/decks.ts model/player-controls.ts model/player-state.ts model/radio-state.ts model/station.ts model/use-media-session.ts model/use-station.ts
+  volume-control.tsx ×13  ΔQ=178.20e-3
+    model/decks.ts model/fetching-deck.ts model/player-controls.ts model/player-state.ts model/radio-state.ts model/station.ts model/use-audio-player.ts model/use-media-session.ts model/use-player-keys.ts model/use-station.ts model/use-stored-setting.ts ui/player-context.ts ui/volume-control.tsx
+  player-context.ts ×12  ΔQ=170.70e-3
+    model/decks.ts model/fetching-deck.ts model/player-controls.ts model/player-state.ts model/radio-state.ts model/station.ts model/use-audio-player.ts model/use-media-session.ts model/use-player-keys.ts model/use-station.ts model/use-stored-setting.ts ui/player-context.ts
+
+music/pages/blind-test  (7 files)
+  blind-test-player.tsx ×4  ΔQ=222.22e-3
+    model/blind-player.ts model/blind-test.ts model/verdicts.ts ui/blind-test-player.tsx
+  blind-test-page.tsx ×5  ΔQ=166.67e-3
+    model/blind-player.ts model/blind-test.ts model/verdicts.ts ui/blind-test-page.tsx ui/blind-test-player.tsx
+
+music/pages/music  (6 files)
+  music-page.tsx ×4  ΔQ=54.69e-3
+    lib/page-props.ts ui/catalogue-tabs.tsx ui/music-page.tsx ui/music-section.tsx
+
+music/pages/radio  (4 files)
+  on-air.tsx ×2  ΔQ=166.67e-3
+    ui/on-air.tsx ui/radio-dial.tsx
+
+music/pages/song  (7 files)
+  song-video-button.tsx ×2  ΔQ=122.45e-3
+    lib/song-video.ts ui/song-video-button.tsx
+
+music/widgets/music-nav  (4 files)
+  locale-chips.tsx ×2  ΔQ=166.67e-3
+    ui/locale-chips.tsx ui/script-chip.tsx
+
+vova/pages/cv  (21 files)
+  cv-offer-block.tsx ×4  ΔQ=41.42e-3
+    lib/cv-offer.ts lib/cv-variants.ts ui/cv-bullets.tsx ui/cv-offer-block.tsx
+  cv-metadata.ts ×5  ΔQ=29.59e-3
+    lib/cv-messages.ts lib/cv-metadata.ts lib/cv-route-params.ts lib/cv-urls.ts lib/cv-variants.ts
+  cv-intro-card.tsx ×4  ΔQ=28.85e-3
+    lib/cv-messages.ts lib/cv-offer.ts lib/cv-variants.ts ui/cv-intro-card.tsx
+  experience-card.tsx ×5  ΔQ=19.05e-3
+    lib/cv-messages.ts lib/cv-variants.ts ui/case-study-link.tsx ui/cv-bullets.tsx ui/experience-card.tsx
+
+vova/pages/home  (8 files)
+  work-section.tsx ×4  ΔQ=271.60e-3
+    ui/project-card.tsx ui/read-cv-button.tsx ui/tech-line.tsx ui/work-section.tsx
+  project-card.tsx ×2  ΔQ=123.46e-3
+    ui/project-card.tsx ui/tech-line.tsx
+  offer-section.tsx ×2  ΔQ=123.46e-3
+    ui/offer-section.tsx ui/read-cv-button.tsx

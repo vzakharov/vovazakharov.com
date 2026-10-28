@@ -104,11 +104,73 @@ move (export dropped).
 - PR #227 (`poison-check`) — `scripts/lib/import-graph.ts`.
 - This session's transcript: https://claude.ai/code/session_01DaohkFjE5k2mZsypSbXfxP
 
+## After the park: the cluster spike
+
+5. **Operator** (back after the park): «так что по кластерам получается? давай
+   смотреть, потом решать»
+   - Agent ran a spike, kept on the branch as
+     `docs/remove-before-merging/masd-slice-clusters-q7r4tm/cluster-spike.ts.txt`
+     (rename to `.ts` under `tmp/` and run
+     `npx tsx tmp/cluster-spike/clusters.ts [--local] [--all]` from the repo
+     root); its `--local` output is `cluster-spike-local.txt` beside it. Per
+     slice (46 sliced slices; those with ≥3 files): doors = files imported from
+     outside the slice (routers included); dominator tree over in-slice edges
+     from a virtual root wired to the doors; two candidate kinds per file —
+     `dom` (its dominator subtree) and `down` (its downward import closure in
+     the slice); candidates over 80% of the slice dropped; scored by ΔQ =
+     −e_TR/m + 2·a_T·a_R, either over the app's whole graph (default, as
+     check:masd's `modular()`) or over the slice's own graph (`--local`).
+   - Findings, reported to the operator in the relay turn's reply:
+     1. **App-wide ΔQ finds almost nothing**: of ~100 candidates, 3 pass, all in
+        small apps (basilisk `case-brief`+grade stamp, lsa home page). This is
+        modularity's resolution limit: a split pays at least one edge (the door)
+        against `degT·degR/2m²`, so in a large app (mushrooms) nothing inside a
+        slice can ever pass.
+     2. **Dominator subtrees nearly always look back**: they import the slice's
+        shared helpers (cv's `cv-messages`, `cv-urls`, `cv-variants`). So point
+        3 is not rare, it is the rule. The downward closure is the candidate
+        that never looks back by construction (the helpers go down with it, and
+        the rest imports them from the new slice).
+     3. **Slice-local ΔQ flags 26 of 46 slices**, with sensible clusters among
+        them: the player's model (`use-audio-player` ×11), the mushroom's
+        painting (`draw-mushroom` ×12), the landscape's backdrop
+        (`paint-backdrop` ×16), the document's prose body (`prose-content` ×3),
+        the article page (`article-page` ×5), the insect genes (×7, exactly the
+        bite-1 grouping), play-flowers' instrument, home's `work-section`. But
+        many top hits are just the slice's whole `model/` segment (insects-fly
+        `insects.ts` ×7, player model) — FSD's own segment split, a false
+        positive — and with no bar it nominates in over half the slices.
+   - Questions put to the operator: which ΔQ (app-wide finds nothing, local
+     finds too much); whether a candidate that is a whole segment (or segments)
+     is filtered out; `down` closures vs `dom` subtrees; then report vs gate.
+
 ## Next step
 
-Wait for the operator: the cluster report's open questions (two-door clusters,
-report vs gate, madge vs `import-graph.ts`) and the optional rule addition on PR
-#228 are theirs.
+Wait for the operator's reaction to the spike findings and the questions above;
+the earlier open questions (two-door clusters, madge vs `import-graph.ts`) and
+the optional rule addition on PR #228 stand too.
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Обновляю описание PR #228 и предложение для squash: старые описывали отброшенный план с бисекцией.
+
+Вова, первый кусок закончен и выложен в PR #228. madge стоит, все 18 циклов импортов в `src/` разорваны, и vet теперь сам не пустит новый.
+
+https://github.com/vzakharov/vovazakharov.com/pull/228
+
+- **Проверки качества** (их гонял отдельный субагент) поправили пять комментариев в коммите af25230. Два указывали на файл, откуда типы уже уехали, ещё в трёх были лишние или повторяющиеся шапки. Повторов кода не нашли.
+- **Одно необязательное предложение** он оставил ревью в PR. Ты это правило и сам увидишь, когда откроешь: `.claude/rules/masd.md` всё ещё говорит «три чекера», а правило «объявление переносим в его файл или к единственному читателю, а не копируем в обе стороны» записано только в плане, а план уйдёт при `/finalize`. Предложение — дописать то и другое в правило. Дописать или нет, решать тебе.
+- **PR обновлён.** Заголовок теперь `chore: break every import cycle in src/ and gate it with madge`, описание и предложение для squash переписаны. Старые описывали отброшенный план с бисекцией.
+- **План запаркован** до следующего куска (`masd-slice-clusters.paused.md`). Дальше по плану — отчёт о кластерах, но он ещё обсуждается. Открыты три вопроса: нужны ли кучки с двумя дверями, отчёт это или гейт, и на чём строить граф. Для графа после переписки с сессией poison-check склоняюсь к её `import-graph.ts` вместо madge.
+- **Не прогонял:** полный vet и долгие тесты игры (`VET_MEADOW=1`). Это работа `/finalize`.
+
+Есть ещё отдельная история: в vzakharov/muthur, откуда репозиторий синхронизирует агентскую инфраструктуру, появился один новый коммит (#243, про `pr-comment.sh`). Если хочешь, запущу отдельную сессию, она перенесёт его сюда.
+```
 
 ## Last agent turn
 

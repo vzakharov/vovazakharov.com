@@ -1,0 +1,224 @@
+// Spike: dominator-subtree cluster candidates per slice, scored by ΔQ.
+// Run from the repo root: pnpm tsx tmp/cluster-spike/clusters.ts [--all]
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import ts from 'typescript';
+
+const SOURCE = /\.tsx?$/;
+const TEST = /\.test(-kit|-only)?\.tsx?$|index\.test-only\.ts$/;
+const SLICED = new Set(['entities', 'features', 'widgets', 'pages']);
+const showAll = process.argv.includes('--all');
+const local = process.argv.includes('--local');
+
+const walk = (dir: string): string[] =>
+  readdirSync(dir, { withFileTypes: true, recursive: true })
+    .filter((e) => e.isFile() && SOURCE.test(e.name))
+    .map((e) => path.join(e.parentPath, e.name));
+
+function resolve(from: string, spec: string): string | undefined {
+  let base: string | undefined;
+  if (spec.startsWith('@/')) base = path.join('src', spec.slice(2));
+  else if (spec.startsWith('.')) base = path.join(path.dirname(from), spec);
+  if (!base) return undefined;
+  const stem = base.replace(SOURCE, '');
+  return [base, `${stem}.ts`, `${stem}.tsx`, path.join(stem, 'index.ts')].find(
+    (c) => SOURCE.test(c) && existsSync(c),
+  );
+}
+
+const sliceOf = (f: string): string | undefined => {
+  const p = f.split(path.sep);
+  if (p[0] !== 'src' || p.length < 5 || !SLICED.has(p[2] ?? '')) return undefined;
+  return p.slice(1, 4).join('/');
+};
+const appOf = (f: string) => (f.startsWith('src/') ? f.split(path.sep)[1] : undefined);
+
+const files = [
+  ...walk('src'),
+  ...readdirSync('sites').flatMap((s) =>
+    existsSync(`sites/${s}/app`) ? walk(`sites/${s}/app`) : [],
+  ),
+].filter((f) => !TEST.test(f) && !f.split(path.sep).includes('scripts'));
+
+const out = new Map<string, Set<string>>();
+const inn = new Map<string, Set<string>>();
+for (const f of files) {
+  const { importedFiles } = ts.preProcessFile(readFileSync(f, 'utf8'), true, true);
+  const set = new Set<string>();
+  for (const { fileName } of importedFiles) {
+    const r = resolve(f, fileName);
+    if (r && r !== f && !TEST.test(r)) set.add(r);
+  }
+  out.set(f, set);
+  for (const t of set) (inn.get(t) ?? inn.set(t, new Set()).get(t)!).add(f);
+}
+
+// Per-app undirected edge count and degrees, as check:masd's modular() reads.
+const appEdges = new Map<string, number>();
+const degree = new Map<string, number>();
+for (const [f, ts_] of out) {
+  const app = appOf(f);
+  if (!app) continue;
+  for (const t of ts_) {
+    if (appOf(t) !== app) continue;
+    appEdges.set(app, (appEdges.get(app) ?? 0) + 1);
+    degree.set(f, (degree.get(f) ?? 0) + 1);
+    degree.set(t, (degree.get(t) ?? 0) + 1);
+  }
+}
+
+type Candidate = {
+  slice: string;
+  door: string;
+  members: string[];
+  dq: number;
+  back: string[];
+};
+const candidates: Candidate[] = [];
+const slices = new Map<string, string[]>();
+for (const f of files) {
+  const s = sliceOf(f);
+  if (s) (slices.get(s) ?? slices.set(s, []).get(s)!).push(f);
+}
+
+const ROOT = '<root>';
+for (const [slice, members] of slices) {
+  const inSlice = new Set(members);
+  const app = slice.split('/')[0]!;
+  const m = appEdges.get(app) ?? 0;
+  if (members.length < 3 || m === 0) continue;
+  // Doors: files something outside the slice imports.
+  const doors = members.filter((f) =>
+    [...(inn.get(f) ?? [])].some((i) => !inSlice.has(i)),
+  );
+  // Topological order over in-slice edges from the doors (the graph is a DAG).
+  const preds = new Map<string, string[]>();
+  for (const f of members) {
+    preds.set(
+      f,
+      [...(inn.get(f) ?? [])].filter((i) => inSlice.has(i)),
+    );
+  }
+  for (const d of doors) preds.get(d)!.push(ROOT);
+  const reach = new Set<string>();
+  const stack = [...doors];
+  while (stack.length) {
+    const f = stack.pop()!;
+    if (reach.has(f)) continue;
+    reach.add(f);
+    for (const t of out.get(f) ?? []) if (inSlice.has(t)) stack.push(t);
+  }
+  const indeg = new Map<string, number>();
+  for (const f of reach) {
+    indeg.set(f, preds.get(f)!.filter((p) => p === ROOT || reach.has(p)).length);
+  }
+  const order: string[] = [];
+  const queue = doors.filter((d) => indeg.get(d) === 1 && reach.has(d));
+  const seen = new Map(indeg);
+  for (const d of doors) seen.set(d, (seen.get(d) ?? 1) - 1);
+  const ready = [...reach].filter((f) => seen.get(f) === 0);
+  void queue;
+  while (ready.length) {
+    const f = ready.shift()!;
+    order.push(f);
+    for (const t of out.get(f) ?? []) {
+      if (!reach.has(t)) continue;
+      seen.set(t, seen.get(t)! - 1);
+      if (seen.get(t) === 0) ready.push(t);
+    }
+  }
+  const idom = new Map<string, string>();
+  const depth = new Map<string, number>([[ROOT, 0]]);
+  const lca = (a: string, b: string) => {
+    while (a !== b) {
+      if (depth.get(a)! >= depth.get(b)!) a = idom.get(a)!;
+      else b = idom.get(b)!;
+    }
+    return a;
+  };
+  for (const f of order) {
+    const ps = preds.get(f)!.filter((p) => p === ROOT || reach.has(p));
+    const d = ps.reduce((acc, p) => lca(acc, p));
+    idom.set(f, d);
+    depth.set(f, depth.get(d)! + 1);
+  }
+  const subtree = new Map<string, string[]>();
+  for (const f of order.toReversed()) {
+    const own = [f, ...(subtree.get(f) ?? [])];
+    subtree.set(f, own);
+    const parent = idom.get(f)!;
+    if (parent !== ROOT) subtree.set(parent, [...(subtree.get(parent) ?? []), ...own]);
+  }
+  const closureOf = (d: string): string[] => {
+    const seenC = new Set<string>();
+    const st = [d];
+    while (st.length) {
+      const f = st.pop()!;
+      if (seenC.has(f)) continue;
+      seenC.add(f);
+      for (const t of out.get(f) ?? []) if (inSlice.has(t)) st.push(t);
+    }
+    return [...seenC];
+  };
+  const kinds: [string, string, string[]][] = [];
+  for (const [door, sub] of subtree) kinds.push(['dom', door, sub]);
+  for (const f of reach) kinds.push(['down', f, closureOf(f)]);
+  for (const [kind, door, sub] of kinds) {
+    if (sub.length < 2 || sub.length > 0.8 * members.length || doors.includes(door)) continue;
+    if (kind === 'down' && subtree.get(door)?.length === sub.length) continue;
+    const t = new Set(sub);
+    const rest = members.filter((f) => !t.has(f));
+    let eTR = 0;
+    let degT = 0;
+    let degR = 0;
+    for (const f of sub) degT += degree.get(f) ?? 0;
+    for (const f of rest) degR += degree.get(f) ?? 0;
+    for (const f of members) {
+      for (const g of out.get(f) ?? []) {
+        if (inSlice.has(g) && t.has(f) !== t.has(g)) eTR++;
+      }
+    }
+    const appDq = -eTR / m + (2 * (degT / (2 * m)) * (degR / (2 * m)));
+    // The same split scored on the slice's own graph alone.
+    let mS = 0;
+    let dT = 0;
+    let dR = 0;
+    for (const f of members) {
+      for (const g of out.get(f) ?? []) {
+        if (!inSlice.has(g)) continue;
+        mS++;
+        for (const x of [f, g]) {
+          if (t.has(x)) dT++;
+          else dR++;
+        }
+      }
+    }
+    const localDq = -eTR / mS + (2 * (dT / (2 * mS)) * (dR / (2 * mS)));
+    const dq = local ? localDq : appDq;
+    const back = sub.flatMap((f) =>
+      [...(out.get(f) ?? [])]
+        .filter((g) => inSlice.has(g) && !t.has(g))
+        .map((g) => `${path.basename(f)} → ${path.basename(g)}`),
+    );
+    candidates.push({ slice, door: `${kind}:${door}`, members: sub, dq, back });
+  }
+}
+
+// Per slice: the best non-overlapping candidates, clean ones first.
+const bySlice = Map.groupBy(candidates, (c) => c.slice);
+for (const [slice, cs] of [...bySlice].sort()) {
+  const picked = cs
+    .filter((c) => showAll || (c.dq > 0 && c.back.length === 0))
+    .toSorted((a, b) => b.dq - a.dq)
+    .slice(0, 4);
+  if (!picked.length) continue;
+  console.log(`\n${slice}  (${slices.get(slice)!.length} files)`);
+  for (const c of picked) {
+    const names = c.members.map((f) => f.split(path.sep).slice(4).join("/")).sort();
+    console.log(
+      `  ${path.basename(c.door)} ×${c.members.length}  ΔQ=${(c.dq * 1e3).toFixed(2)}e-3` +
+        (c.back.length ? `  BACK: ${c.back.join(', ')}` : ''),
+    );
+    console.log(`    ${names.join(' ')}`);
+  }
+}
