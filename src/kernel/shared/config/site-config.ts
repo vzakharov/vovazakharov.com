@@ -8,10 +8,10 @@
 import type { WithLocale } from '@/kernel/shared/i18n';
 import type {
   Billed,
-  Linked,
   Named,
   PresentOrAbsent,
   Sized,
+  WithLink,
   WithPath,
   WithUrl,
 } from '@/kernel/shared/typings';
@@ -48,7 +48,7 @@ export type SiteImage = Sized & WithPath & PresentOrAbsent<'vector', string>;
  * itself — the Bible's are the agency's — so the credit points a reader of an
  * article at the agency rather than at the author's own page.
  */
-type SiteCredit = Named & Linked;
+type SiteCredit = Named & WithLink;
 
 export type WithAvatar = {
   /** The file's own pixel size, which the metadata publishes; where the page renders it smaller, that is the page's number. */

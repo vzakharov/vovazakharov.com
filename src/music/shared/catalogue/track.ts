@@ -1,6 +1,6 @@
 import type { Locale } from '@/kernel/shared/i18n';
 import type { Script } from '@/kernel/shared/lib/script-preference';
-import type { Linked } from '@/kernel/shared/typings';
+import type { WithLink } from '@/kernel/shared/typings';
 
 import type { Slugged } from '@/blog/shared/content';
 
@@ -8,7 +8,7 @@ import type { Playable } from './frontmatter.ts';
 import { type Spelled, spelledText, type WithSpelledName } from './spelling.ts';
 
 /** A name linked to its page — an artist on a billing, a tile on a grid. */
-export type SpelledLink = Linked & WithSpelledName;
+export type SpelledLink = WithLink & WithSpelledName;
 
 /** A song's billing, each artist linked to its page and the joins between them as text. */
 export type Billing = Array<SpelledLink | string>;

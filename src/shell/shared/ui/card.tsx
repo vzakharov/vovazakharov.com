@@ -1,11 +1,11 @@
 import { Paper } from '@mantine/core';
 
-import type { Linked, WithChildren } from '@/kernel/shared/typings';
+import type { WithChildren,WithLink } from '@/kernel/shared/typings';
 
 import classes from './card.module.scss';
 
 /** The label a screen reader reads, the card's own markup not being one. */
-type CardLinkProps = Linked & {
+type CardLinkProps = WithLink & {
   'aria-label': string;
 };
 

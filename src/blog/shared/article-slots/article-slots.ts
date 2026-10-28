@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { WithOptionalByline } from '@/kernel/shared/typings';
+import type { MaybeBylined } from '@/kernel/shared/typings';
 
 import type { BaseFrontmatter, ContentDocument } from '@/blog/shared/content';
 
@@ -26,7 +26,7 @@ export type ArticleSlots<F extends BaseFrontmatter> = (
   document: ContentDocument<F>,
 ) => HeaderSlots &
   WithAfterLead &
-  WithOptionalByline & {
+  MaybeBylined & {
     /** Under the header. */
     brief?: ReactNode;
   };
