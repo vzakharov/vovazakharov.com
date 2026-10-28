@@ -1,25 +1,25 @@
 Proposed squash body:
 
 ```
-The CV and the Playgram case study lagged behind the job-search
-profile assembled in vzakharov/life PR #252: work and stack Vova has
-were missing, and the case study's headline figures lacked the
-comparison and caveats that make them honest.
+The CV and the Playgram case study lagged behind Vova's current
+profile: work and stack he has were missing, and the case study's
+headline figures lacked the comparison and caveats that make them
+honest.
 
 Both CV variants, in English and Russian, gain the mitko Telegram bot
 (aiogram, pgvector, PydanticAI) among independent projects, and Redis,
 Django Q2, SQLAlchemy, DRF, pgvector, PydanticAI and Azure OpenAI in
-the stack. The dev variant's working style gains a product-minded
-line; the Playgram experience gains a bullet on output against the
-Bubble team. To hold the 3-page ceiling, Unfindables and Flows leave
-the independent projects and the stack line drops its minor tools.
+the stack. The dev variant's working style is rewritten in a business
+register; the Playgram experience gains a bullet on changes a week
+against the Bubble era. To hold the 3-page ceiling, Unfindables and
+Flows leave the independent projects and the stack drops minor tools.
 
-The case study and its mini and nano cuts compare with the two Bubble
-developers: about four releases a week either side, but 8 changes per
-release against 3 -- about 2.5x the changes a week -- and 712 of the
-806 PRs merged 21 May - 10 August 2026 are Vova's, caveated that the
-early window was mostly porting and that the 4.x notes run finer. The
-+65% is marked as a comparison against his own earlier agent tooling.
+The case study and its mini and nano cuts frame the gain in two steps:
+parallel web sessions bought about 65% more work than a few local
+agents, and against two developers in Bubble's no-code editor the
+rewrite shipped about 35 changes a week to their 13.5 -- some 2.5x,
+2.3-2.8x for any August end of the window -- caveated that the early
+window was mostly porting and that the 4.x notes run finer.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

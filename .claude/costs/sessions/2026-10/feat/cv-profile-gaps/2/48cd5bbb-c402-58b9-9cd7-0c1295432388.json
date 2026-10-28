@@ -1,22 +1,28 @@
 {
   "total": {
-    "inputTokens": 116,
-    "cacheWrite5mTokens": 71468,
-    "cacheWrite1hTokens": 138119,
-    "cacheReadTokens": 7622942,
-    "outputTokens": 25308,
-    "thinkingTokens": 4032,
-    "responses": 58,
-    "costUsd": 3.493504399999999
+    "inputTokens": 136,
+    "cacheWrite5mTokens": 81964,
+    "cacheWrite1hTokens": 146113,
+    "cacheReadTokens": 9172150,
+    "outputTokens": 33702,
+    "thinkingTokens": 5232,
+    "responses": 67,
+    "costUsd": 4.087737999999999
   },
   "estimate": {
-    "at": "2026-10-28T05:15:30.618Z",
+    "at": "2026-10-28T06:55:33.907Z",
     "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "rewriting the case study's metric passages into its narrative and the CV's working style in a business register needs an editor's judgement of voice"
+      },
       {
         "hours": 0.5,
         "grade": "senior",
-        "role": "copywriter",
-        "comment": "fitting the last CV edition under the page ceiling and writing the PR needs judgement on what copy to cut"
+        "role": "analyst",
+        "comment": "the changes-a-week recount has to be checked against the release notes' heading conventions before a public figure rests on it"
       }
     ],
     "comment": null
@@ -47,48 +53,48 @@
   "url": "https://claude.ai/code/session_01DaohkEoTnfz5QUbDNT591q",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-28T05:15:17.765Z",
-  "lastResponseAt": "2026-10-28T06:54:56.725Z",
+  "lastResponseAt": "2026-10-28T06:59:11.800Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": 2.025268799999999,
   "ownTurns": {
-    "inputTokens": 102,
+    "inputTokens": 118,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 138119,
-    "cacheReadTokens": 7223699,
-    "outputTokens": 21800,
-    "thinkingTokens": 3901,
-    "responses": 51,
-    "costUsd": 2.986099799999999
+    "cacheWrite1hTokens": 146113,
+    "cacheReadTokens": 8627848,
+    "outputTokens": 26519,
+    "thinkingTokens": 4522,
+    "responses": 58,
+    "costUsd": 3.425325599999999
   },
   "subagents": {
-    "inputTokens": 14,
-    "cacheWrite5mTokens": 71468,
+    "inputTokens": 18,
+    "cacheWrite5mTokens": 81964,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 399243,
-    "outputTokens": 3508,
-    "thinkingTokens": 131,
-    "responses": 7,
-    "costUsd": 0.5074046
+    "cacheReadTokens": 544302,
+    "outputTokens": 7183,
+    "thinkingTokens": 710,
+    "responses": 9,
+    "costUsd": 0.6624124
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 116,
-      "cacheWrite5mTokens": 71468,
-      "cacheWrite1hTokens": 138119,
-      "cacheReadTokens": 7622942,
-      "outputTokens": 25308,
-      "thinkingTokens": 4032,
-      "responses": 58,
-      "costUsd": 3.493504399999999
+      "inputTokens": 136,
+      "cacheWrite5mTokens": 81964,
+      "cacheWrite1hTokens": 146113,
+      "cacheReadTokens": 9172150,
+      "outputTokens": 33702,
+      "thinkingTokens": 5232,
+      "responses": 67,
+      "costUsd": 4.087737999999999
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 58,
-    "matched": 58,
-    "matchedTableUsd": 3.493504399999999,
-    "matchedEventUsd": 3.4935043999999986,
+    "events": 67,
+    "matched": 67,
+    "matchedTableUsd": 4.087737999999999,
+    "matchedEventUsd": 4.087737999999999,
     "unseen": {}
   }
 }

@@ -10,18 +10,18 @@ ogImage: ./assets/playgram-commit-cumsum.og.png
 
 **Part I of II.**
 
-|                               |                                                                                                                                                      |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase                                                                         |
-| **Span**                      | 6 March – 10 August 2026 · 158 days                                                                                                                  |
-| **The “code” I started from** | an 11.6 MB minified JSON — the Bubble app export                                                                                                     |
-| **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of TypeScript: about 114,000 of production code and 116,000 of tests      |
-| **Throughput**                | 6.8 → 11.2 units of work a day (+65%) after the move into the cloud — me against myself with weaker agent tooling, not against a team without agents |
-| **Against the Bubble team**   | the same four releases a week the two Bubble developers shipped, at 8 changes each against their 3 — about 2.5× the changes a week                   |
-| **Cold load**                 | multi-second → sub-second                                                                                                                            |
-| **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days                                                                          |
-| **Cutovers**                  | 3 workspaces, zero rollbacks                                                                                                                         |
-| **Team**                      | four people, and ten to twenty-five Claude Code agents at a time                                                                                     |
+|                               |                                                                                                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Assignment**                | rebuild a live, feature-rich no-code app as a production Next.js 16 codebase                                                                    |
+| **Span**                      | 6 March – 10 August 2026 · 158 days                                                                                                             |
+| **The “code” I started from** | an 11.6 MB minified JSON — the Bubble app export                                                                                                |
+| **Shipped**                   | 1,395 units of work on `main` · 1,029 merged pull requests · 250,000 lines of TypeScript: about 114,000 of production code and 116,000 of tests |
+| **Throughput**                | 6.8 → 11.2 units of work a day (+65%) after the move from a few local agents to parallel cloud sessions                                         |
+| **Against no-code**           | about 35 changes a week against the 13.5 two Bubble developers shipped before the rewrite — about 2.5×                                          |
+| **Cold load**                 | multi-second → sub-second                                                                                                                       |
+| **Released**                  | 48 versioned releases plus 18 hotfixes — a production deploy every 2.4 days                                                                     |
+| **Cutovers**                  | 3 workspaces, zero rollbacks                                                                                                                    |
+| **Team**                      | four people, and ten to twenty-five Claude Code agents at a time                                                                                |
 
 _Disclaimer: the disclosures in this case study were approved by Playgram management, i.e. no NDA breach._
 
@@ -108,7 +108,7 @@ Before the grit, the shape of the thing.
 
 Let’s have a look at the dynamics for a bit. As you can see, the output steps up from 6.8 to 11.2 units of work a day — **by 65%!** — within days of the switch to web sessions in late April (more on that below). It then runs at its ceiling — four straight weeks in the eighties — right up to `4.1.0` on 24 June, and that stretch is a visible race: bug fixes are 39% of everything landing in it. The week after `4.1.0` it halves and never returns to the ceiling, which is where rebuilding Bubble-as-it-was stopped being the job: refactors go from 11% to 17% of the work, release management becomes a line item, and what’s left is new features, bug fixes and chores at a pace a normal team would recognise.
 
-That +65% is me against myself, though — the same person with weaker agent tooling, not someone working without agents. The fairer yardstick is the team the code replaced. Playgram’s two Bubble developers kept a release log: 124 releases between 22 December 2025 and 11 July 2026, about four a week, at three changes each on average. From `4.0.0` on 21 May to `4.4.3` on 10 August the rewrite shipped 48 versioned releases, hotfixes aside — about four a week, too — but at eight changes each: about 2.5 times the changes a week. 712 of the 806 pull requests merged in that window were mine. Two caveats. Almost everything up to 11 July was carrying over what Bubble already had rather than inventing new features. And the 4.x release notes are written by the `/release` skill, which splits a change finer than a human’s one-line note does.
+So moving from a few local agents to highly parallel web sessions buys about two thirds more work. Measured against how Playgram was built before — two developers in Bubble’s no-code editor — the gain is larger. Their release log counts 390 changes in 124 releases between 22 December 2025 and 11 July 2026, about 13.5 a week. The rewrite’s release notes, from `4.0.0` on 21 May to the 10 August handover, count about 35 a week: some 2.5 times as many, and between 2.3 and 2.8 times whichever August date the window ends on. 712 of the 806 pull requests merged in that window were mine. Two caveats. Almost everything up to 11 July was carrying over what Bubble already had rather than inventing new features. And the 4.x release notes are written by the `/release` skill, which splits a change finer than a human’s one-line note does.
 
 A word on what a “commit” means here, because it’s load-bearing for that chart. Before switching to a PR-based approach (more on that below), every commit to `main` was a finished set of work on a specific, well-defined scope. So, basically, you can say it _was_ a PR, just not formed as such. After the switch, every commit on `main` is a squash from a PR branch — so, throughout this codebase’s evolution, the “conceptual” meaning of a commit on `main` hasn’t changed.
 
@@ -467,7 +467,7 @@ In a way, I turned from a boss who’s constantly micromanaging his team into on
 
 Apart from handling database migrations, which do have the tendency to go south if worked on simultaneously in different branches (and I’ll get back to this later), agents turned out to be perfectly capable of resolving merge conflicts in a large variety of situations. I’m not only talking about leading the branch to _technically_ not having conflicting files with main, but about actually having a thought about what changed here, what changed there, and how the changes interact with each other. Yes, it took writing a [skill](https://github.com/vzakharov/agent-project-boilerplate/blob/main/.claude/skills/sync-branch/SKILL.md) to make sure the usual footguns are taken care of — but, after more than a thousand merged PRs resolved this way, I’ve had zero problems with agents doing this.
 
-And what did it actually buy? The chart at the top has it bracketed: 6.8 units of work a day on `main` in the six weeks before the switch, 11.2 in the eight weeks after, at the same median size of about 380 changed lines either side. 65% more shipped work, out of the same one person — reviewing instead of typing. (Against the Bubble team rather than against myself, it’s the 2.5× from the numbers section up top.)
+And what did it actually buy? The chart at the top has it bracketed: 6.8 units of work a day on `main` in the six weeks before the switch, 11.2 in the eight weeks after, at the same median size of about 380 changed lines either side. 65% more shipped work, out of the same one person — reviewing instead of typing. Next to the two developers who built the app in Bubble, it comes to about 2.5 times the changes a week.
 
 **Verdict: 10/10** — you can’t get back to the CLI or the VS Code plugin once you’ve mastered the zen of the cloud.
 
