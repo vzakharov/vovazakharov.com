@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 138,
+    "cacheWrite5mTokens": 125428,
+    "cacheWrite1hTokens": 150195,
+    "cacheReadTokens": 10344750,
+    "outputTokens": 45423,
+    "thinkingTokens": 10840,
+    "responses": 69,
+    "costUsd": 4.806662000000001
+  },
+  "estimate": {
+    "at": "2026-10-28T08:39:50.388Z",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a transitive import-graph walk over two runtimes, a resolver lifted out of a live checker without changing its verdicts, and tests against materialized trees"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "which runtime axes count as poison, and where the exemptions are read from, are judgement calls on the MASD model"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-28T08:38:11.144Z",
+    "contextTokens": 106155,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 34984,
+      "cacheReadTokens": 59530,
+      "outputTokens": 255,
+      "thinkingTokens": 55,
+      "responses": 1,
+      "costUsd": 0.296886
+    }
+  },
+  "sessionId": "99661693-2978-5a60-a4b6-ba6d5029f4d9",
+  "branch": "poison-check",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task A poison check — the fourth item of docs/masd.md § \"Open directions\": hold the barrels' runtime axes transitively (a 'use client' file reaching index.no-b…",
+  "prs": [
+    227
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBdtkS2FCg9TJAopr7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T08:38:04.948Z",
+  "lastResponseAt": "2026-10-28T08:48:43.405Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 106,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 150195,
+    "cacheReadTokens": 8757950,
+    "outputTokens": 36641,
+    "thinkingTokens": 7744,
+    "responses": 53,
+    "costUsd": 3.686394000000001
+  },
+  "subagents": {
+    "inputTokens": 32,
+    "cacheWrite5mTokens": 125428,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1586800,
+    "outputTokens": 8782,
+    "thinkingTokens": 3096,
+    "responses": 16,
+    "costUsd": 1.1202679999999998
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 138,
+      "cacheWrite5mTokens": 125428,
+      "cacheWrite1hTokens": 150195,
+      "cacheReadTokens": 10344750,
+      "outputTokens": 45423,
+      "thinkingTokens": 10840,
+      "responses": 69,
+      "costUsd": 4.806662000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 69,
+    "matched": 69,
+    "matchedTableUsd": 4.806662000000001,
+    "matchedEventUsd": 4.806662000000001,
+    "unseen": {}
+  }
+}
