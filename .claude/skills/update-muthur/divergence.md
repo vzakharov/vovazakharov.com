@@ -26,7 +26,8 @@ record" holds the three rules this file keeps.
 - **`docs/adopting/` is declined, so nothing here cites it**:
   `.claude/hooks/gh-shim.sh` points at `.claude/skills/override-gh/SKILL.md`,
   which states the unproxied path's risk and its tell itself, and
-  `.claude/rules/multi-repo.md` says where the source's `web-remote.md` lives.
+  `.claude/rules/multi-repo.md` and `scripts/pr-comment.sh` say where the
+  source's `web-remote.md` lives.
 - **No skill here ships to adopters**, so `.claude/skills/task/SKILL.md` gives
   its bare mentions the routing as their reason, and
   `.claude/skills/tend-prose/SKILL.md` sends a procedure to a skill rather than
@@ -53,11 +54,10 @@ record" holds the three rules this file keeps.
   `.claude/context-budget/test_context_budget.py` and
   `.claude/context-budget/CLAUDE.md`** — carry `MUTHUR_CONTEXT_BUDGET_SUBAGENT`:
   a subagent gets its own notice, read off its own transcript.
-- **`.claude/costs/hooks/stop-session-cost.sh`, with
-  `.claude/costs/test_stop_hook.py` and `.claude/costs/CLAUDE.md`** — keep a
-  gate the source lacks, on when the branch's display copy is committed
-  (`.claude/costs/CLAUDE.md` § "When the branch's copy is committed"). The rows
-  themselves are this repo's own, on its `cost-ledger` branch, and never synced.
+- **`.claude/costs/sessions/`** — the rows are this repo's own, on its
+  `cost-ledger` branch, and never synced.
+- **`.claude/hooks/lib.sh`** — its header also names `maya-preview.sh` among the
+  hooks that source it.
 - **`.claude/settings.json`** — wires this repo's own hooks beside the source's
   (`.claude/hooks/allow-add-repo.py` among them) and allows its own commands.
 - **`.claude/hooks/install-deps.sh`** — carries this project's

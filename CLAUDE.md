@@ -164,10 +164,6 @@ the roster.
   a directory before creating a file in it. Bash on a file only where clearly
   better, like one substitution across dozens of files; a file piped into
   another command or read inside a `$(…)` is data being processed, not read.
-- **Don't run Bash with `run_in_background`** — background tasks stall
-  unexplained; set a long `timeout` on a foreground call instead. The cache
-  keepalive's watcher is the one exception, started exactly as its hook says
-  (`.claude/keepalive/CLAUDE.md`).
 - **An auto-mode denial is routine, and the reply that meets it carries the way
   past it.** In that same reply, hand the operator a fenced message to send back
   that names the denied action exactly — command, file, target — unsoftened, in
