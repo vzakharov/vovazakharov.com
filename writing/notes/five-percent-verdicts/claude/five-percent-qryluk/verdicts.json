@@ -10,6 +10,11 @@
       "comment": 4384716726,
       "about": "Keep tally.py alone, dropping its tests and its vet job",
       "verdict": 0
+    },
+    {
+      "comment": 4385457208,
+      "about": "Recount the article's figures against the notes file on main",
+      "verdict": 1
     }
   ]
 }

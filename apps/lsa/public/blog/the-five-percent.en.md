@@ -2,7 +2,7 @@
 description: >-
   The agent takes whatever it’s handed as a given: how we spent seven weeks
   counting its mistakes in review.
-translatedFrom: a4d86d7fd8d8
+translatedFrom: 62951a4f05b8
 ---
 
 # The Five Percent
@@ -19,16 +19,16 @@ entry there: what it got wrong, how many times it had already got it wrong that 
 
 The goal was, roughly: collect enough cases to draw some conclusions, and then, well, write an article about it.
 
-By October 26 it had [piled up](https://github.com/vzakharov/vovazakharov.com/blob/e34d291cf8cb782f4f59d0c661eb6e7da44f023e/writing/notes/the-five-percent.md) to 214 cases and fourteen kinds of mistakes — the way the agents themselves sorted them.
+By October 27 it had [piled up](https://github.com/vzakharov/vovazakharov.com/blob/362e3560f2e560660abf1357e7cea6e634cee6da/writing/notes/the-five-percent.md) to 219 cases and fourteen kinds of mistakes — the way the agents themselves sorted them.
 
 ## The main mistake
 
-The fattest section — 90 cases, 42% of all cases — got the heading “What it was handed, it treats as fixed.” And it was so annoying that I wrote about it in the
+The fattest section — 93 cases, 42% of all cases — got the heading “What it was handed, it treats as fixed.” And it was so annoying that I wrote about it in the
 [Agentic Bible](https://agentic.bible/precedent-fallacy) without waiting for the experiment to end.
 
 Here are a few typical examples:
 
-- The agent was picking a commit prefix from a list: `feat`, `fix`, `docs` and so on. The change didn’t fit any of them, so it picked the least unfitting one. My deliberated solution was to add a `content:` prefix.
+- The agent was picking a commit prefix from a list: `feat`, `fix`, `docs` and so on. The change didn’t fit any of them, so it picked the least unfitting one. My executive decision was to add a `content:` prefix.
 - Nine places in the code opened a link in a new tab, and the agent proposed adding a separate parameter for it. My solution: all the other places had “same tab” historically and didn’t have to, so no prop was needed, everything just needed to be always opened in a new tab.
 - It read the `artist` role in the time tracking as “visual artist” and logged the site’s emblems under it. Artist is about the musician.
 - It applied the rule “a page’s published address doesn’t change” to a renamed song and left the song at its old address. Even though changing it along with the title would have been no big deal.
@@ -48,7 +48,7 @@ as a given, there’s almost always an answer:
   ready “in a few minutes”; one API request showed three seconds.
 - **Edits the copy in front of it, not the fact behind it** (19) — the given:
   there’s one copy, the one that’s open.
-- **Ask for a source, get its version of the source** (14) — the given: the
+- **Ask for a source, get its version of the source** (16) — the given: the
   way it remembers the text is the way the text looks.
 - **Give it a form and it’ll fill in the form** (14) — the given: if the format
   allows it, that’s how it should be. The agent was allowed to mark who sings
@@ -59,7 +59,7 @@ as a given, there’s almost always an answer:
 - Three smaller ones (8, 6 and 2) — its own past decision, its intent in place
   of the rendered page, its reading in place of the author’s text.
 
-Together with the main one, that’s 191 cases out of 214, 89%; I won’t go through the rest in detail — you can look them up [in the file itself](https://github.com/vzakharov/vovazakharov.com/blob/e34d291cf8cb782f4f59d0c661eb6e7da44f023e/writing/notes/the-five-percent.md).
+Together with the main one, that’s 196 cases out of 219, 89%; I won’t go through the rest in detail — you can look them up [in the file itself](https://github.com/vzakharov/vovazakharov.com/blob/362e3560f2e560660abf1357e7cea6e634cee6da/writing/notes/the-five-percent.md).
 
 Incidentally, the irony goes meta here too: the bullet list above, for one, was written by the agent. To it, I suppose, what it wrote makes sense.
 Meanwhile I read it again and again, and it’s like a blind spot for me — as if on some things we were speaking different languages altogether.

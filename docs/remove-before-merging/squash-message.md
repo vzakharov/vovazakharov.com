@@ -1,7 +1,7 @@
 Proposed squash body:
 
 ```
-writing/notes/the-five-percent.md collected 214 bumps over fourteen
+writing/notes/the-five-percent.md collected 219 bumps over fourteen
 learnings, each a frame the agent took as given until a review broke
 it. That is enough to put them to work before review, and to write
 them up.
