@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 542,
-    "cacheWrite5mTokens": 107,
-    "cacheWrite1hTokens": 82856,
-    "cacheReadTokens": 2038393,
-    "outputTokens": 13038,
-    "thinkingTokens": 7012,
-    "responses": 18,
-    "costUsd": 1.3343106000000002
+    "inputTokens": 1176,
+    "cacheWrite5mTokens": 121980,
+    "cacheWrite1hTokens": 141806,
+    "cacheReadTokens": 10509530,
+    "outputTokens": 53118,
+    "thinkingTokens": 19175,
+    "responses": 83,
+    "costUsd": 4.923472999999997
   },
   "estimate": {
     "at": "2026-10-28T16:52:42.351Z",
@@ -47,62 +47,64 @@
   "branch": "claude/five-percent-comment-readability-afrpg0",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "надо что-то делать с five-percent -- я просто даже прочесть не могу, что там пишут (пример #228), не то что как-то действовать или решать по этим комментариям",
-  "prs": [],
+  "prs": [
+    229
+  ],
   "url": "https://claude.ai/code/session_01DaohkDT4fvBDNrmuyRw9h3",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-28T16:51:35.093Z",
-  "lastResponseAt": "2026-10-28T16:55:13.217Z",
+  "lastResponseAt": "2026-10-28T17:41:08.178Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 36,
+    "inputTokens": 104,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 82856,
-    "cacheReadTokens": 1910374,
-    "outputTokens": 13018,
-    "thinkingTokens": 7012,
-    "responses": 17,
-    "costUsd": 1.3054268000000002
+    "cacheWrite1hTokens": 141806,
+    "cacheReadTokens": 7597544,
+    "outputTokens": 36110,
+    "thinkingTokens": 13316,
+    "responses": 51,
+    "costUsd": 3.3765727999999995
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 60,
+    "cacheWrite5mTokens": 118595,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
-    "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "cacheReadTokens": 2650115,
+    "outputTokens": 16968,
+    "thinkingTokens": 5859,
+    "responses": 30,
+    "costUsd": 1.4625980000000003
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 542,
-      "cacheWrite5mTokens": 107,
-      "cacheWrite1hTokens": 82856,
-      "cacheReadTokens": 2038393,
-      "outputTokens": 13038,
-      "thinkingTokens": 7012,
-      "responses": 18,
-      "costUsd": 1.3343106000000002
+      "inputTokens": 1176,
+      "cacheWrite5mTokens": 121980,
+      "cacheWrite1hTokens": 141806,
+      "cacheReadTokens": 10509530,
+      "outputTokens": 53118,
+      "thinkingTokens": 19175,
+      "responses": 83,
+      "costUsd": 4.923472999999997
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 18,
-    "matched": 17,
-    "matchedTableUsd": 1.3054268000000002,
-    "matchedEventUsd": 1.3054268,
+    "events": 83,
+    "matched": 81,
+    "matchedTableUsd": 4.839170799999997,
+    "matchedEventUsd": 4.839170799999996,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 107,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 3385,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 128019,
-        "outputTokens": 20,
+        "cacheReadTokens": 261871,
+        "outputTokens": 40,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.028883799999999998
+        "responses": 2,
+        "costUsd": 0.0843022
       }
     }
   }
