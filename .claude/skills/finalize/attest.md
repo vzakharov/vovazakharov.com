@@ -78,8 +78,7 @@ is silent.
   missing comment looks identical to the forgotten one. Say which it was.
 - **The SHAs go bare, not in code spans** — GitHub only auto-links an
   un-backticked hash, per CLAUDE.md § "GitHub comments".
-- **Attribution is the comment footer alone**, per
-  `@.claude/skills/feedback/SKILL.md` § "Posting it".
+- **The footer alone signs it**, per CLAUDE.md § "GitHub comments".
 - **A head that moved only by `.claude/costs/sessions/` is still the head you
   verified.** The cost ledger's staging hook relies on it: it stops staging a
   branch's display copy once the marker's SHA holds, and treats a commit

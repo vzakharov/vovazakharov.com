@@ -78,10 +78,7 @@ the PR's approval state is not this skill's to move.
 
 **The rest of the mechanics are `CLAUDE.md` § "GitHub comments"** — a body
 posted as text and not as a path, and **never resolving a thread**, which is the
-one an eight-block review puts most temptation in front of. **A comment's
-attribution is the footer alone**, the one the harness names and the server
-appends anyway: the "Generated with" line and session link are a PR body's, and
-in a comment they sign it twice.
+one an eight-block review puts most temptation in front of.
 
 ## The reading is posted, not pursued
 

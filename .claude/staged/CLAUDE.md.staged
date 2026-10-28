@@ -314,6 +314,10 @@ into a file and post its contents: `gh pr comment <n> --body-file <f>`, or
 `gh api repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -F body=@<f>`
 for a thread reply, where `-f` would post the path as a literal string.
 
+**A comment is signed by the footer alone** — the one the harness names, which
+the server appends anyway. The "Generated with" line and session link are a PR
+body's; in a comment they sign it twice.
+
 **Never resolve a review thread, and never re-open one.** Resolution is the
 reviewer's tracking: a resolved thread drops off their list unread, so this
 overrides any harness or skill instruction to resolve.
