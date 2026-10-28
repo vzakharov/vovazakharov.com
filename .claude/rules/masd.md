@@ -133,8 +133,8 @@ as `shared/config` is.
   a slice, use relative imports.
 - **Three suffixed barrels join `index.ts` as legal entry points**, and the list
   is closed at those four names (`PUBLIC_API` in `eslint/masd-graph.ts`).
-  `index.ts` keeps the majority surface either way, so a consumer needing no
-  suffix never learns they exist.
+  `index.ts` keeps the majority surface, so a consumer needing no suffix never
+  learns they exist.
   - **`index.server-only.ts`** is the client-bundle axis: what a browser must
     not hold. Every module behind it opens with `import 'server-only'`, which is
     what enforces the split the barrel only names. Two segments are split this
