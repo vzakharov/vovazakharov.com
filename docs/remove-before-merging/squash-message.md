@@ -18,8 +18,9 @@ The case study and its mini and nano cuts frame the gain in two steps:
 parallel web sessions bought about 65% more work than a few local
 agents, and against two developers in Bubble's no-code editor the
 rewrite shipped about 35 changes a week to their 13.5 -- some 2.5x,
-2.3-2.8x for any August end of the window -- caveated that the early
-window was mostly porting and that the 4.x notes run finer.
+or 4.5-5x per developer -- caveated that the early window was mostly
+porting, that the 4.x notes run finer, and that the Bubble developers'
+hours on the project are unknown.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
