@@ -7,24 +7,18 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-26T07:31:16Z
-- **Updated:** 2026-10-27T06:31:41Z
+- **Updated:** 2026-10-28T03:28:59Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 8
+## Awaiting an answer: 2
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at bcf06b0). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 9ccb23d). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T05** `apps/lsa/public/blog/the-five-percent.en.md`:26 — unresolved — last: @vzakharov (human) 2026-10-27T06:06:56Z — "of the lot, pesky в стоплист" → [↓](#t05)
-- **T06** `apps/lsa/public/blog/the-five-percent.en.md`:31 — unresolved — last: @vzakharov (human) 2026-10-27T06:07:18Z — "> My deliberated solution was to add a `content:` prefix. по…" → [↓](#t06)
-- **T07** `apps/lsa/public/blog/the-five-percent.en.md`:33 — unresolved — last: @vzakharov (human) 2026-10-27T06:09:23Z — "> ... for it. My solution: all the other places had "same ta…" → [↓](#t07)
-- **T08** `apps/lsa/public/blog/the-five-percent.en.md`:66 — unresolved — last: @vzakharov (human) 2026-10-27T06:26:55Z — "draw a blank -- слишком идиоматически (не на уровне стоп лис…" → [↓](#t08)
-- **T09** `apps/lsa/public/blog/the-five-percent.en.md`:73 — unresolved — last: @vzakharov (human) 2026-10-27T06:27:26Z — "wobbly заменить на что-то попроще" → [↓](#t09)
-- **T10** `apps/lsa/public/blog/the-five-percent.en.md`:73 — unresolved — last: @vzakharov (human) 2026-10-27T06:28:52Z — "а давай-ка начнём новую сессию: загрузить библиотеку со спис…" → [↓](#t10)
-- **T11** `apps/lsa/public/blog/the-five-percent.en.md`:82 — unresolved — last: @vzakharov (human) 2026-10-27T06:29:08Z — "crooked заменить" → [↓](#t11)
-- **T12** `apps/lsa/public/blog/the-five-percent.en.md`:96 — unresolved — last: @vzakharov (human) 2026-10-27T06:30:03Z — "ссылку на https://glitchporn.substack.com/ на hotshot blogge…" → [↓](#t12)
+- **T02** `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved — last: @vzakharov (human) 2026-10-28T03:26:02Z — "пересчитать по последнему и при финалайзе пересчитать ещё ра…" → [↓](#t02)
+- **T03** `apps/lsa/public/blog/the-five-percent.ru.md`:32 — unresolved — last: @vzakharov (human) 2026-10-28T03:28:15Z — "я тут имел в виду "произвольное", ну то есть "то, как я реши…" → [↓](#t03)
 
 ---
 
@@ -160,20 +154,11 @@ _2026-10-27T05:40:24Z_
 
 <!-- five-percent: ee92a84cf4142e8440f3392cf091817dbde1ffba -->
 
-_9 resolved threads omitted; re-run with `--include-resolved` to export them._
+_19 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `scripts/vet.sh`:185 — unresolved — last: @vzakharov (agent) 2026-10-27T05:38:02Z — "Оставил как есть; предложение записано в учёт с оценкой 0 —…" → [↓](#t01)
-- **T02** `apps/lsa/public/blog/the-five-percent.ru.md`:5 — unresolved — last: @vzakharov (agent) 2026-10-27T06:31:54Z — "Понял, по форме «что делает — как мы узнали»: «Агент принима…" → [↓](#t02)
-- **T03** `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved — last: @vzakharov (agent) 2026-10-27T06:31:56Z — "Правило теперь живёт в `.claude/rules/content.md` § «Dashes»…" → [↓](#t03)
-- **T04** `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved — last: @vzakharov (agent) 2026-10-27T05:40:19Z — "<!-- five-percent proposal · an answer here is scored by .cl…" → [↓](#t04)
-- **T05** `apps/lsa/public/blog/the-five-percent.en.md`:26 — unresolved — last: @vzakharov (human) 2026-10-27T06:06:56Z — "of the lot, pesky в стоплист" → [↓](#t05)
-- **T06** `apps/lsa/public/blog/the-five-percent.en.md`:31 — unresolved — last: @vzakharov (human) 2026-10-27T06:07:18Z — "> My deliberated solution was to add a `content:` prefix. по…" → [↓](#t06)
-- **T07** `apps/lsa/public/blog/the-five-percent.en.md`:33 — unresolved — last: @vzakharov (human) 2026-10-27T06:09:23Z — "> ... for it. My solution: all the other places had "same ta…" → [↓](#t07)
-- **T08** `apps/lsa/public/blog/the-five-percent.en.md`:66 — unresolved — last: @vzakharov (human) 2026-10-27T06:26:55Z — "draw a blank -- слишком идиоматически (не на уровне стоп лис…" → [↓](#t08)
-- **T09** `apps/lsa/public/blog/the-five-percent.en.md`:73 — unresolved — last: @vzakharov (human) 2026-10-27T06:27:26Z — "wobbly заменить на что-то попроще" → [↓](#t09)
-- **T10** `apps/lsa/public/blog/the-five-percent.en.md`:73 — unresolved — last: @vzakharov (human) 2026-10-27T06:28:52Z — "а давай-ка начнём новую сессию: загрузить библиотеку со спис…" → [↓](#t10)
-- **T11** `apps/lsa/public/blog/the-five-percent.en.md`:82 — unresolved — last: @vzakharov (human) 2026-10-27T06:29:08Z — "crooked заменить" → [↓](#t11)
-- **T12** `apps/lsa/public/blog/the-five-percent.en.md`:96 — unresolved — last: @vzakharov (human) 2026-10-27T06:30:03Z — "ссылку на https://glitchporn.substack.com/ на hotshot blogge…" → [↓](#t12)
+- **T02** `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved — last: @vzakharov (human) 2026-10-28T03:26:02Z — "пересчитать по последнему и при финалайзе пересчитать ещё ра…" → [↓](#t02)
+- **T03** `apps/lsa/public/blog/the-five-percent.ru.md`:32 — unresolved — last: @vzakharov (human) 2026-10-28T03:28:15Z — "я тут имел в виду "произвольное", ну то есть "то, как я реши…" → [↓](#t03)
 
 <a id="t01"></a>
 
@@ -210,69 +195,6 @@ _9 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 <a id="t02"></a>
 
-### `apps/lsa/public/blog/the-five-percent.ru.md`:5 — unresolved
-
-```diff
-@@ -1,7 +1,8 @@
- ---
- description: >-
-   Семь недель агент записывал каждый раз, когда моё ревью меняло то, что он
--  уже решил. 214 записей, четырнадцать ошибок, и одна из них -- это 42% всех.
-+  уже решил. 214 записей, четырнадцать видов ошибок -- и почти все они
-+  оказались одной: что ему дали, то он и считает данностью.
-```
-
-**@vzakharov (human)** — 2026-10-27T05:07:42Z
-
-Начинать с сути, контекст потом
-
-**@vzakharov (agent)** — 2026-10-27T05:38:07Z
-
-Описание теперь начинается с вывода: «Почти все ошибки, которые я ловил у агента на ревью, оказались одной: что ему дали, то он и считает данностью», а семь недель и 214 записей — после — 7020146.
-
-**@vzakharov (human)** — 2026-10-27T06:03:53Z
-
-Нет, я имел в виду "Агент делает то-то то-то: как мы то-то то-то"
-
-**@vzakharov (agent)** — 2026-10-27T06:31:54Z
-
-Понял, по форме «что делает — как мы узнали»: «Агент принимает за данность всё, что ему дали: как мы семь недель считали его ошибки на ревью». В английском так же, перевод перештампован — 65af142.
-
----
-
-<a id="t03"></a>
-
-### `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved
-
-```diff
-@@ -14,21 +15,21 @@ author: vova
-… 6 lines elided …
- **Начало Б -- признание.**
- 
- Почти во всём, что делает агент, он разбирается лучше меня. Я давно повторяю,
- что человек всё ещё нужен на оставшиеся пять процентов, -- и до недавнего
-```
-
-**@vzakharov (human)** — 2026-10-27T05:08:26Z
-
-в блоге должны быть нормальные тире а не --
-
-**@vzakharov (agent)** — 2026-10-27T05:38:09Z
-
-Все `--` в статье теперь `—`, кавычки «ёлочки». Чтобы следующий агент не потащил двойной дефис из `writing/CLAUDE.md` (он там для постов, вставляемых в LinkedIn), в `.claude/rules/lsa-voice.md` теперь написано: на страницах `apps/lsa/` тире — это тире — 7020146.
-
-**@vzakharov (human)** — 2026-10-27T06:04:24Z
-
-везде на сайте вообще, не только на страницах apps/lsa. -- и " это про соцсети, емейлы и прочее
-
-**@vzakharov (agent)** — 2026-10-27T06:31:56Z
-
-Правило теперь живёт в `.claude/rules/content.md` § «Dashes»: тире на любой странице сайта и в копии в `src/`, и правило подгружается для блогов LSA и Майи. `--` и прямые кавычки `"` — для соцсетей, емейлов и прочего, это написано в `writing/CLAUDE.md` § «Voice», а из `lsa-voice.md` осталась ссылка — 65af142. Других `--` на сайте нет, кроме одной твоей цитаты внутри HTML-комментария в `piebald-dog-reprise.md`; её не трогал.
-
----
-
-<a id="t04"></a>
-
 ### `apps/lsa/public/blog/the-five-percent.ru.md`:23 — unresolved
 
 ```diff
@@ -300,163 +222,28 @@ _9 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 — Claude Code · https://claude.ai/code/session_01DaohkF1PQFSP4AMFg12djV
 
----
+**@vzakharov (human)** — 2026-10-28T03:26:02Z
 
-<a id="t05"></a>
-
-### `apps/lsa/public/blog/the-five-percent.en.md`:26 — unresolved
-
-```diff
-@@ -1,151 +1,104 @@
-… 37 lines elided …
- 
--**Opening C -- a case.**
-+## The main mistake
- 
-… 6 lines elided …
-```
-
-**@vzakharov (human)** — 2026-10-27T06:06:56Z
-
-of the lot, pesky в стоплист
+пересчитать по последнему и при финалайзе пересчитать ещё раз до последнего если main опять уедет
 
 ---
 
-<a id="t06"></a>
+<a id="t03"></a>
 
-### `apps/lsa/public/blog/the-five-percent.en.md`:31 — unresolved
+### `apps/lsa/public/blog/the-five-percent.ru.md`:32 — unresolved
 
 ```diff
-@@ -1,151 +1,104 @@
-… 48 lines elided …
- 
-----
-+Here are a few typical examples:
- 
+@@ -30,8 +29,8 @@ author: vova
 … 2 lines elided …
-```
-
-**@vzakharov (human)** — 2026-10-27T06:07:18Z
-
-> My deliberated solution was to add a `content:` prefix.
-
-подумал тут, где-то в конце (не тут) нужно ещё добавить мысль а ля агент не виноват, он не знает, что там у вас в голове, хотите ли вы впихивать префиксы в существующие или придумывать новый; он не может решить за вас то, что является _вашим_.
-
----
-
-<a id="t07"></a>
-
-### `apps/lsa/public/blog/the-five-percent.en.md`:33 — unresolved
-
-```diff
-@@ -1,151 +1,104 @@
-… 51 lines elided …
  
--## What I counted
-+- The agent was picking a commit prefix from a list: `feat`, `fix`, `docs` and so on. The change didn’t fit any of them, so it picked the least unfitting one. All it took from me was one phrase: let’…
-+- Nine places in the code opened a link in a new tab, and the agent proposed adding a separate parameter for it. Whereas in the three places where the link opened in the same tab, it had just turned out that way, nobody decided it.
+-- Агент выбирал префикс для коммита из списка: `feat`, `fix`, `docs` и так далее. Изменение не подходило ни под один, и он выбрал наименее неподходящий. Мне хватило одной фразы: давай заведём `conten…
+-- Девять мест в коде открывали ссылку в новой вкладке, и агент предложил завести для этого отдельный параметр. А в трёх местах, где ссылка открывалась в той же вкладке, так просто получилось, никто э…
++- Агент выбирал префикс для коммита из списка: `feat`, `fix`, `docs` и так далее. Изменение не подходило ни под один, и он выбрал наименее неподходящий. Моё взвешенное решение: завести префикс `content:`.
 ```
 
-**@vzakharov (human)** — 2026-10-27T06:09:23Z
+**@vzakharov (human)** — 2026-10-28T03:28:15Z
 
-> ... for it. My solution: all the other places had "same tab" historically and didn't had to, so no prop was needed, everything just needed to be always opened in a new tab.
-
----
-
-<a id="t08"></a>
-
-### `apps/lsa/public/blog/the-five-percent.en.md`:66 — unresolved
-
-```diff
-@@ -1,151 +1,104 @@
-… 111 lines elided …
--page’s published address doesn’t change” to a renamed song and left it with
--the old address: “change the slug too, no big deal.”
-+Incidentally, the irony goes meta here too: the bullet list above, for one, was written by the agent. To it, I suppose, what it wrote makes sense.
-+Meanwhile I read it again and again, and I draw a blank — as if on some things we were speaking different languages altogether.
-```
-
-**@vzakharov (human)** — 2026-10-27T06:26:55Z
-
-draw a blank -- слишком идиоматически (не на уровне стоп листа, но исправить)
-
----
-
-<a id="t09"></a>
-
-### `apps/lsa/public/blog/the-five-percent.en.md`:73 — unresolved
-
-```diff
-@@ -1,151 +1,104 @@
-… 122 lines elided …
--## And the rest of them too
-+The experiment is far from clean: one agent, on one framework (Claude Code), one
-+project, and a rather strange one at that — a personal site that four more
-+sites live on, [a game about mushrooms](https://vovazakharov.com/mushrooms), [songs](https://vovazakharov.com/music) and an AI persona who [goes around wondering](https://mayawonders.com). And the counting, I think, was a bit wobbly too, because whoever was counting could already see the categories, and the rich, as we all know, always get richer.
-```
-
-**@vzakharov (human)** — 2026-10-27T06:27:26Z
-
-wobbly заменить на что-то попроще
-
----
-
-<a id="t10"></a>
-
-### `apps/lsa/public/blog/the-five-percent.en.md`:73 — unresolved
-
-```diff
-@@ -1,151 +1,104 @@
-… 122 lines elided …
--## And the rest of them too
-+The experiment is far from clean: one agent, on one framework (Claude Code), one
-+project, and a rather strange one at that — a personal site that four more
-+sites live on, [a game about mushrooms](https://vovazakharov.com/mushrooms), [songs](https://vovazakharov.com/music) and an AI persona who [goes around wondering](https://mayawonders.com). And the counting, I think, was a bit wobbly too, because whoever was counting could already see the categories, and the rich, as we all know, always get richer.
-```
-
-**@vzakharov (human)** — 2026-10-27T06:28:52Z
-
-а давай-ка начнём новую сессию: загрузить библиотеку со списком N тысяч (попробуем на разных N) наиболее употребляемых слов в английском, и веттить статьи (те которые как предполагается пишу я) по ним. Это не значит что всё редкое нужно исключать though, должен быть allow list, например я люблю странные словечки вроде copacetic; их мы посмотрим после свипа.
-
-также нужно исключать например лирику песен -- в общем есть где пофорковать.
-
----
-
-<a id="t11"></a>
-
-### `apps/lsa/public/blog/the-five-percent.en.md`:82 — unresolved
-
-```diff
-@@ -1,151 +1,104 @@
-… 158 lines elided …
- 
--## Why you shouldn’t trust these numbers too much
-+First off, “take a step back and see whether the frame of the task itself
-+isn’t crooked” is now [a skill of its own](https://github.com/vzakharov/vovazakharov.com/blob/main/.claude/skills/five-percent/procedure.md), and it goes by that very name, “the five percent.”
-```
-
-**@vzakharov (human)** — 2026-10-27T06:29:08Z
-
-crooked заменить
-
----
-
-<a id="t12"></a>
-
-### `apps/lsa/public/blog/the-five-percent.en.md`:96 — unresolved
-
-```diff
-@@ -1,151 +1,104 @@
-… 188 lines elided …
--October 13, 214 by the 26th. What I didn’t notice didn’t make it into the
--file.
-+All the “writing” that was there is a vestige left over from the site as it was three versions ago,
-+when I briefly fancied myself a hotshot blogger. It has no place on a Fractional CTO’s site,
-```
-
-**@vzakharov (human)** — 2026-10-27T06:30:03Z
-
-ссылку на https://glitchporn.substack.com/ на hotshot blogger, и "hotshot" заменить тоже.
+я тут имел в виду "произвольное", ну то есть "то, как я решил" (понимаю что тавтология, но суть ясна?) Если deliberated в английском неправильное слово для этого -- нужно поменять
 
 ---
 
@@ -471,3 +258,5 @@ crooked заменить
 - **2026-10-27T05:27:12Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5662444728.
 - **2026-10-27T05:40:24Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5662708879.
 - **2026-10-27T06:31:40Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5662908947.
+- **2026-10-27T06:37:43Z** @vzakharov cross-referenced this pull request from [#220 chore: show the agent rare words as it writes Vova's English](https://github.com/vzakharov/vovazakharov.com/pull/220).
+- **2026-10-28T03:28:59Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/212#pullrequestreview-5677442469.
