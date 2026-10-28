@@ -165,10 +165,9 @@ as `shared/config` is.
   `masd.json` beside its segments — `{ "segments": [...] }`, highest first,
   every segment the place has, the standard ones in the standard order. A place
   with only standard segments has none, and root `src/masd.json` stays the app
-  graph. `check:masd` loads every place's, since the rule loads only the places
-  it lints. Where two segments have no import between them, the more generic
-  goes lower. `mushrooms/shared` runs `meadow, sky, space, ui, lib`: `ui` sits
-  under `space`, whose repaint queue takes its haze colour from `ui/haze-tone`.
+  graph. Where two segments have no import between them, the more generic goes
+  lower. `mushrooms/shared` runs `meadow, sky, space, ui, lib`: `ui` sits under
+  `space`, whose repaint queue takes its haze colour from `ui/haze-tone`.
 - **Three suffixed barrels join `index.ts` as legal entry points**, and the list
   is closed at those four names (`PUBLIC_API` in `eslint/masd-graph.ts`).
   `index.ts` keeps the majority surface, so a consumer needing no suffix never

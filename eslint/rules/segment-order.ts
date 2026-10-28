@@ -5,11 +5,9 @@ import path from 'node:path';
 import { LAYERS, placeOf, segmentOrder } from '../masd-graph';
 import { onImports } from './import-sources';
 
-// A segment reaches only the segments below it in its place's order, so a
-// place's segments run from what knows the most of it down to what knows none.
-// Test code included: a test knows what the code it tests knows. An `@/` path
-// into the importer's own place counts as much as a relative one, since a
-// segmented layer reaches its other segments either way.
+// A segment reaches only those below it in its place's order, test code
+// included. An `@/` path into the importer's own place counts like a relative
+// one, since a segmented layer reaches its other segments by either.
 
 /** `resolved` as a file path: a directory is entered by its `index`. */
 const asFile = (resolved: string): string =>

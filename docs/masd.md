@@ -210,9 +210,9 @@ test («а model охуеть как хелпфул»), then kept it: «прее
 dropped, `types` and `store` being on Steiger's bad-name list.
 
 Tests are held to the order rather than exempted: «тестируем штуку, и для этого
-теста мы должны знать что-то, что штука не знает?» The keeper's tests had played
-the whole game to make a record the keeper never reads; they now build it from
-a kit in `shape`. Rejected for that kit: deriving its empty meadow from the zod
+теста мы должны знать что-то, что штука не знает?» A keeper test that plays the
+whole game to make a record the keeper never reads is the confusion the order
+catches, so the keeper's tests build their records from a kit in `shape`. Rejected for that kit: deriving its empty meadow from the zod
 schema's defaults, which would let `readKept` fill a field it must refuse a
 record for missing.
 
