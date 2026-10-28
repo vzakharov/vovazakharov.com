@@ -7,19 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-16T11:59:18Z
-- **Updated:** 2026-10-28T02:05:29Z
+- **Updated:** 2026-10-28T03:23:12Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 3
+## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 128cef9). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at c7625c8). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T03** `src/blog/pages/documents/ui/article-page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-28T01:58:54Z — "preexisting но всё же, вот эта кухня с `something={slots[som…" → [↓](#t03)
-- **T04** `src/maya/pages/home/ui/maya-home-page.tsx`:36 — unresolved — last: @vzakharov (human) 2026-10-28T02:02:27Z — "тоже надо as; ещё линтерное правило, что если вещь с одним и…" → [↓](#t04)
-- **R01** review by @vzakharov (human) — 2026-10-28T02:05:29Z → [↓](#r01)
+- **T03** `src/kernel/shared/typings/index.ts`:97 — unresolved — last: @vzakharov (human) 2026-10-28T03:21:43Z — "MaybeBylined? не помню для таких ли целей у нас применяется…" → [↓](#t03)
 
 ---
 
@@ -29,7 +27,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 - **What:** `src/` stops being one Feature-Sliced Design tree and becomes a set of apps — `kernel`, `shell`, `blog`, `music`, `mushrooms`, `vova`, `lsa`, `bible`, `basilisk` — each an FSD tree of its own, composed along a graph in `src/masd.json` where each app lists its parents, declared above it. `vova` is a composition of `blog`, `music` and `mushrooms`, which is what vovazakharov.com is.
 - **Why:** FSD's rules are computed over the whole repo, so a self-contained app (music, the mushrooms game) collapses into one `pages/` slice holding everything, and the shared kernel ends up knowing leaf apps (`shared/content` imports the song schema and the basilisk case frontmatter).
-- **The rule:** an app that extends `blog` *is* `blog` — an import may target the same app or an ancestor, only a strictly lower layer, through the slice's public API. A site's router only maps URLs to apps: each site's sitemap belongs to its leaf app, which hands its routes to kernel's sitemap factory, and the router's `sitemap.ts` only re-exports it. A relative import stays inside its slice, segmented layer or app `scripts/`, everything past that goes by `@/` — `vova/no-relative-escape`, whose one exemption, the files bare Node runs, is derived from `package.json`.
+- **The rule:** an app that extends `blog` *is* `blog` — an import may target the same app or an ancestor, only a strictly lower layer, through the slice's public API. A site's router only maps URLs to apps: each site's sitemap belongs to its leaf app, which hands its routes to kernel's sitemap factory, and the router's `sitemap.ts` only re-exports it. A relative import stays inside its slice, segmented layer or app `scripts/`, everything past that goes by `@/` — `vova/no-relative-escape`, whose one exemption, the files bare Node runs, is derived from `package.json`. Two apps' slices may share a name, so a name a file imports from two modules takes an `as` on every import of it — `vova/alias-namesake-imports`.
 - **Per-site pnpm entries take the site as an argument** — `pnpm content:og vova --check`, `pnpm build maya`, a bare `pnpm build` still every site — through `scripts/site-task.sh`, instead of one entry per site.
 - **This PR is the whole of MASD, eaten in bites** (see the plan). Slice 1, on this branch: the move, both checkers driven by the graph, a cross-app significance check replacing Steiger's `insignificant-slice` (which a spike showed is wrong per app root), the collection registry inverted, imports grouped one app at a time in graph order, each sitemap on its leaf app, and the game on a root layout of its own with a dusk that no longer reads the colour scheme.
 - **The rest lands here too**, each slice as a PR based on this branch, opened once the previous one's threads are resolved: sites named by domain, app scripts inside their apps, the message catalogue inverted, music as an app with real pages, and a measure for a one-page app with mushrooms restructured under it.
@@ -47,6 +45,7 @@ The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 - [ ] `music-links` — vovazakharov.com's home links to `/music`, and a moved song's old URL still lands on the 404's moved-song notice.
 - [ ] `relative-escape` — a relative import from `src/basilisk/shared/` into `src/kernel/` fails `pnpm lint:check`; `src/kernel/scripts/render-mermaid.ts`, which bare Node runs, keeps its relative imports and passes.
 - [ ] `site-task` — `pnpm content:og maya --check` and `pnpm dev bible` run for the named site; a bare `pnpm build` builds every site; `pnpm dev` with no site fails naming the usage.
+- [ ] `alias-namesake` — a file importing `messages` from two modules fails `pnpm lint:check` while either import keeps the bare name, and passes once both carry an `as`.
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
@@ -59,6 +58,7 @@ The plan: `docs/plans/multi-app-sliced-design.paused.md`.
 | `music-links` | e2e | ❌ | Assert the built home links `/music` and the 404 carries the moved-song notice for an old song path |
 | `relative-escape` | unit | ✅ | `eslint/rules/no-relative-escape.test.ts` — slice, layer and scripts homes, a bare-Node library, four escapes |
 | `site-task` | integration | ❌ | Run `scripts/site-task.sh` with an echo template for one site, `--every`, and no site |
+| `alias-namesake` | unit | ✅ | `eslint/rules/alias-namesake-imports.test.ts` — a bare import beside a renamed one, a type import, and the spared shapes |
 
 Closes #170
 Closes #171
@@ -69,12 +69,14 @@ https://claude.ai/code/session_01Vjv6g7vLNAMP6Z39YupG1q
 
 https://claude.ai/code/session_012TzSzF1UMvkGzxb9jonqD3
 https://claude.ai/code/session_01G8kJJMVk41ha3KrSd2pEby
+https://claude.ai/code/session_01DaohkF5dtMetBCErc4kgBh
 
 ---
 
 ## Comments
 
 - **C01** @vzakharov (agent) — 2026-10-16T11:59:40Z — "Proposed squash body: ``` Feature-Sliced Design's rules are…" → [↓](#c01)
+- **C02** @vzakharov (agent) — 2026-10-28T02:30:16Z — "> почему тогда сразу в shared? страницы же много откуда могу…" → [↓](#c02)
 
 <a id="c01"></a>
 
@@ -110,7 +112,9 @@ with a single child, because Steiger sees one root's references only.
 Imports sort one group per app in graph order, so a file's imports
 read as its composition, its own app last, and a relative import stays
 inside its slice, segmented layer or app scripts/, the rest going by
-@/ (vova/no-relative-escape) bar the files bare Node runs. Per-site
+@/ (vova/no-relative-escape) bar the files bare Node runs. Two apps'
+slices may share a name, so a name a file imports from two modules
+takes an `as` at every import (vova/alias-namesake-imports). Per-site
 pnpm entries take the site as an argument: pnpm build vova.
 
 The game renders on a root layout of its own, without the theme
@@ -122,6 +126,22 @@ Closes #171
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
+
+---
+
+<a id="c02"></a>
+
+### Comment by @vzakharov (agent) on 2026-10-28T02:30:16Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/169#issuecomment-6459025829](https://github.com/vzakharov/vovazakharov.com/pull/169#issuecomment-6459025829)
+
+> почему тогда сразу в shared? страницы же много откуда могут импортить
+
+Справедливо — причины лезть до `shared` не было: страница читает и entities, а всё это Майино собственное. Заголовок сайта, подпись, «Табл. N», название, адрес и рисунок игрушки переехали в `entities/maya` сегментами `config` и `i18n` — к подписи и метке таблицы, которые эти строки и рендерят. Сайтмап и скрипт карточек берут адрес через `index.node-safe.ts`; у `src/maya/` больше нет `shared/`. 30c27e3
+
+> конечно
+
+`build-mushroom-artifact.ts` теперь берёт `REPO_ROOT` из kernel. 4c95daf
 
 ---
 
@@ -145,12 +165,11 @@ _2026-10-28T02:05:29Z_
 
 конечно
 
-_19 resolved threads omitted; re-run with `--include-resolved` to export them._
+_21 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `sites/maya/app/blog/[...slug]/page.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-26T05:35:16Z — "Записал в план следующим укусом, перед 5b — b956465. По прав…" → [↓](#t01)
 - **T02** `src/basilisk/scripts/lib/basilisk-card.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-26T08:45:36Z — "Записал в слайс 7 плана — 0bf2015 (на ветке укуса 5c, #214;…" → [↓](#t02)
-- **T03** `src/blog/pages/documents/ui/article-page.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-28T01:58:54Z — "preexisting но всё же, вот эта кухня с `something={slots[som…" → [↓](#t03)
-- **T04** `src/maya/pages/home/ui/maya-home-page.tsx`:36 — unresolved — last: @vzakharov (human) 2026-10-28T02:02:27Z — "тоже надо as; ещё линтерное правило, что если вещь с одним и…" → [↓](#t04)
+- **T03** `src/kernel/shared/typings/index.ts`:97 — unresolved — last: @vzakharov (human) 2026-10-28T03:21:43Z — "MaybeBylined? не помню для таких ли целей у нас применяется…" → [↓](#t03)
 
 <a id="t01"></a>
 
@@ -279,30 +298,20 @@ export default blogSitemap([...CV_ROUTES, ...MUSIC_ROUTES]); // blog добав�
 
 <a id="t03"></a>
 
-### `src/blog/pages/documents/ui/article-page.tsx`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-28T01:58:54Z
-
-preexisting но всё же, вот эта кухня с `something={slots[something].(document)}`, повторяемая много раз, говорит мне что что-то здесь не так с идиоматичностью, понимаешь о чём я?
-
----
-
-<a id="t04"></a>
-
-### `src/maya/pages/home/ui/maya-home-page.tsx`:36 — unresolved
+### `src/kernel/shared/typings/index.ts`:97 — unresolved
 
 ```diff
-@@ -41,23 +18,22 @@ import {
-… 21 lines elided …
-+import { messages as mayaMessages } from '@/maya/shared/i18n';
-+import { MayaByline, plateNumber } from '@/maya/entities/maya';
+@@ -93,6 +93,9 @@ export type WithChildren = { children: ReactNode };
+… 1 line elided …
+ export type WithOptionalChildren = { children?: ReactNode };
  
-+import { messages } from '../i18n';
++/** Whom a page credits, in place of the site's author. */
++export type WithOptionalByline = { byline?: ReactNode };
 ```
 
-**@vzakharov (human)** — 2026-10-28T02:02:27Z
+**@vzakharov (human)** — 2026-10-28T03:21:43Z
 
-тоже надо as; ещё линтерное правило, что если вещь с одним и тем же именем импортируется из разных модулей, оба импорта должны быть с `as` to avoid confusion. Unless you think it's a bad idea?
+MaybeBylined? не помню для таких ли целей у нас применяется Maybe...
 
 ---
 
@@ -333,3 +342,7 @@ preexisting но всё же, вот эта кухня с `something={slots[some
 - **2026-10-26T08:44:47Z** @vzakharov cross-referenced this pull request from [#214 refactor: #170 music's pages, each a slice of its own](https://github.com/vzakharov/vovazakharov.com/pull/214).
 - **2026-10-27T20:07:33Z** @vzakharov cross-referenced this pull request from [#216 refactor: #170 significance by modularity, the mushroom game in slices](https://github.com/vzakharov/vovazakharov.com/pull/216).
 - **2026-10-28T02:05:29Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5676855673.
+- **2026-10-28T02:55:10Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/muthur/commits/54aad8b85811c416ed570155fd31dc4e35efa3d4.
+- **2026-10-28T02:58:34Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/muthur/commits/e83fa598daa0e5ffc080674504fa782dc5a135a6.
+- **2026-10-28T03:00:20Z** @vzakharov cross-referenced this pull request from [#244 feat: land an elephant's later bites as PRs into its branch](https://github.com/vzakharov/muthur/pull/244).
+- **2026-10-28T03:23:12Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/169#pullrequestreview-5677397707.
