@@ -1,8 +1,8 @@
 import type { RootContent } from 'hast';
 import { type Components, toJsxRuntime } from 'hast-util-to-jsx-runtime';
-import type { ReactNode } from 'react';
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 
+import type { WithAfterLead } from '@/blog/shared/article-slots';
 import type { WithContentTree } from '@/blog/shared/content';
 
 import { ContentLink } from './content-link';
@@ -14,10 +14,7 @@ const CONTENT_COMPONENTS: Partial<Components> = {
   video: ContentVideo,
 };
 
-type ProseContentProps = WithContentTree & {
-  /** Rendered after the body's first paragraph, or first in a body with none. */
-  afterLead?: ReactNode;
-};
+type ProseContentProps = WithContentTree & WithAfterLead;
 
 /**
  * Whatever the markdown pipeline compiled, under the class `prose.scss` styles

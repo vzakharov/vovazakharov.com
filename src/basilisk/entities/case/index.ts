@@ -6,5 +6,5 @@ export {
   caseSealSvg,
   SEAL_CUTS,
 } from './lib/case-seal';
-export { CASE_SLOTS } from './ui/case-slots';
+export { caseSlots } from './ui/case-slots';
 export { aggravations, GradeStamp } from './ui/grade-stamp';

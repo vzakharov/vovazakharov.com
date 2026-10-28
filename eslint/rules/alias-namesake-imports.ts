@@ -8,8 +8,6 @@ import type * as ESTree from 'estree';
 // every import of it is renamed for its source. A default or namespace import is
 // named by its importer anyway, so only named imports are read.
 
-type NamedImport = { source: string; specifier: ESTree.ImportSpecifier };
-
 const rule: Rule.RuleModule = {
   meta: {
     type: 'suggestion',
@@ -27,7 +25,8 @@ const rule: Rule.RuleModule = {
   create(context) {
     return {
       Program(program) {
-        const byName = new Map<string, NamedImport[]>();
+        // Each imported name's specifiers, by the module they import it from.
+        const byName = new Map<string, Map<string, ESTree.ImportSpecifier[]>>();
         for (const statement of program.body) {
           if (statement.type !== 'ImportDeclaration') continue;
           const source = String(statement.source.value);
@@ -39,21 +38,21 @@ const rule: Rule.RuleModule = {
               continue;
             }
             const { name } = specifier.imported;
-            byName.set(name, [
-              ...(byName.get(name) ?? []),
-              { source, specifier },
-            ]);
+            const bySource =
+              byName.get(name) ?? new Map<string, ESTree.ImportSpecifier[]>();
+            byName.set(name, bySource);
+            bySource.set(source, [...(bySource.get(source) ?? []), specifier]);
           }
         }
-        for (const [name, imports] of byName) {
-          const sources = new Set(imports.map(({ source }) => source));
-          if (sources.size < 2) continue;
-          for (const { specifier } of imports) {
+        for (const [name, bySource] of byName) {
+          if (bySource.size < 2) continue;
+          const sources = `\`${[...bySource.keys()].join('`, `')}\``;
+          for (const specifier of [...bySource.values()].flat()) {
             if (specifier.local.name !== name) continue;
             context.report({
               node: specifier,
               messageId: 'unaliased',
-              data: { name, sources: `\`${[...sources].join('`, `')}\`` },
+              data: { name, sources },
             });
           }
         }

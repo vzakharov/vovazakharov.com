@@ -82,7 +82,7 @@ function parseSegments(
  */
 export function articleRoute<F extends ArticleFrontmatter>(
   handle: Collection<F>,
-  slots: ArticleSlots<F> = {},
+  slots: ArticleSlots<F> = () => ({}),
 ) {
   const { id: collection } = handle;
   const translated = isTranslated(collection);
@@ -126,6 +126,7 @@ export function articleRoute<F extends ArticleFrontmatter>(
     const { route, slug, frontmatter } = document;
     const { title, readingMinutes, headings, tree } = rendered;
     const locale = document.locale ?? SITE_CONFIG.locale;
+    const { eyebrow, mark, brief, afterLead, byline } = slots(document);
 
     return (
       <Box className={classes['articlePage']}>
@@ -151,12 +152,10 @@ export function articleRoute<F extends ArticleFrontmatter>(
               <Box component="article" className={classes['articleLayout']}>
                 <Box className={classes['articleIntro']}>
                   <ArticleHeader
-                    {...{ document, title, readingMinutes }}
+                    {...{ document, title, readingMinutes, eyebrow, mark }}
                     availableVariants={siblingVariants(collection, slug)}
-                    eyebrow={slots.eyebrow?.(document)}
-                    mark={slots.mark?.(document)}
                   />
-                  {slots.brief?.(document)}
+                  {brief}
                 </Box>
 
                 <Box component="aside" className={classes['articleAside']}>
@@ -164,10 +163,7 @@ export function articleRoute<F extends ArticleFrontmatter>(
                 </Box>
 
                 <Box className={classes['articleBody']}>
-                  <ProseContent
-                    {...{ tree }}
-                    afterLead={slots.afterLead?.(document)}
-                  />
+                  <ProseContent {...{ tree, afterLead }} />
                   {SITE_CONFIG.listsSources && (
                     <SourceList {...pick(frontmatter, 'sources')} />
                   )}
@@ -176,9 +172,8 @@ export function articleRoute<F extends ArticleFrontmatter>(
             </PrintSheet>
 
             <SiteFooter
-              {...{ locale }}
+              {...{ locale, byline }}
               home={collectionRoute(collection, document.locale)}
-              byline={slots.byline?.(document)}
             />
           </Stack>
         </Container>

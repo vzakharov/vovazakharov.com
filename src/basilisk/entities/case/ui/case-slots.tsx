@@ -7,8 +7,11 @@ import { CaseSeal } from './case-seal';
 import { NoAiNote } from './no-ai-note';
 
 /** A dossier's additions to the article page. */
-export const CASE_SLOTS: ArticleSlots<CaseFrontmatter> = {
-  mark: ({ slug }) => <CaseSeal {...{ slug }} />,
-  brief: ({ frontmatter }) => <CaseBrief {...{ frontmatter }} />,
-  afterLead: ({ frontmatter }) => frontmatter.noAi === true && <NoAiNote />,
-};
+export const caseSlots: ArticleSlots<CaseFrontmatter> = ({
+  slug,
+  frontmatter,
+}) => ({
+  mark: <CaseSeal {...{ slug }} />,
+  brief: <CaseBrief {...{ frontmatter }} />,
+  afterLead: frontmatter.noAi === true && <NoAiNote />,
+});

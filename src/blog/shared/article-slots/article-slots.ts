@@ -1,25 +1,32 @@
 import type { ReactNode } from 'react';
 
+import type { WithOptionalByline } from '@/kernel/shared/typings';
+
 import type { BaseFrontmatter, ContentDocument } from '@/blog/shared/content';
 
-type Slot<F extends BaseFrontmatter> = (
-  document: ContentDocument<F>,
-) => ReactNode;
+/** The article header's two places. */
+export type HeaderSlots = {
+  /** Over the title. */
+  eyebrow?: ReactNode;
+  /** Right of the lede, under the title. */
+  mark?: ReactNode;
+};
+
+/** Rendered after the body's first paragraph, or first in a body with none. */
+export type WithAfterLead = { afterLead?: ReactNode };
 
 /**
  * What a collection adds to the shared article page, typed by its own
- * frontmatter. The app owning the collection states them and its router passes
- * them in, so the page never names an app below it.
+ * frontmatter: one call per document, filling any of the page's places — the
+ * byline in the footer's, in place of the site's author. The app owning the
+ * collection states it and its router passes it in, so the page never names an
+ * app below it.
  */
-export type ArticleSlots<F extends BaseFrontmatter> = {
-  /** Over the title. */
-  eyebrow?: Slot<F>;
-  /** Right of the lede, under the title. */
-  mark?: Slot<F>;
-  /** Under the header. */
-  brief?: Slot<F>;
-  /** Inside the body, after its first paragraph. */
-  afterLead?: Slot<F>;
-  /** Whom the footer's copyright names, in place of the site's author. */
-  byline?: Slot<F>;
-};
+export type ArticleSlots<F extends BaseFrontmatter> = (
+  document: ContentDocument<F>,
+) => HeaderSlots &
+  WithAfterLead &
+  WithOptionalByline & {
+    /** Under the header. */
+    brief?: ReactNode;
+  };

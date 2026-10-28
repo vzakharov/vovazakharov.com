@@ -93,6 +93,9 @@ export type WithChildren = { children: ReactNode };
 /** The same, for a wrapper that stands on its own when nothing is put in it. */
 export type WithOptionalChildren = { children?: ReactNode };
 
+/** Whom a page credits, in place of the site's author. */
+export type WithOptionalByline = { byline?: ReactNode };
+
 /** A heading and whatever renders under it. */
 export type TitledBlock = Titled & WithChildren;
 

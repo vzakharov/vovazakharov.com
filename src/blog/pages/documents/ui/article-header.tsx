@@ -1,11 +1,11 @@
 import { Box, Group, Stack, Text, Title } from '@mantine/core';
-import type { ReactNode } from 'react';
 
 import { pageFile, SITE_CONFIG } from '@/kernel/shared/config';
 import type { WithLocale } from '@/kernel/shared/i18n';
 
 import { type Chip, ChipNav, FileLink, localeChips } from '@/shell/shared/ui';
 
+import type { HeaderSlots } from '@/blog/shared/article-slots';
 import {
   type ArticleFrontmatter,
   COLLECTIONS,
@@ -53,10 +53,9 @@ function CutSwitcher({
 }
 
 export type ArticleHeaderProps = WithContentDocument<ArticleFrontmatter> &
-  Headlined & {
+  Headlined &
+  HeaderSlots & {
     availableVariants: Variant[];
-    eyebrow?: ReactNode;
-    mark?: ReactNode;
   };
 
 export function ArticleHeader({

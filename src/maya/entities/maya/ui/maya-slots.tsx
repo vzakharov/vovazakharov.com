@@ -8,11 +8,14 @@ import { MayaByline } from './maya-byline';
 import { PlateLabel } from './plate-label';
 
 /** An entry's additions to the article page: its plate number, and her byline. */
-export const MAYA_SLOTS: ArticleSlots<ArticleFrontmatter> = {
-  eyebrow: ({ slug, locale = SITE_CONFIG.locale }) => {
-    const number = plateNumber(slug, locale);
+export const mayaSlots: ArticleSlots<ArticleFrontmatter> = ({
+  slug,
+  locale = SITE_CONFIG.locale,
+}) => {
+  const number = plateNumber(slug, locale);
 
-    return number !== undefined && <PlateLabel {...{ number, locale }} />;
-  },
-  byline: ({ locale = SITE_CONFIG.locale }) => <MayaByline {...{ locale }} />,
+  return {
+    eyebrow: number !== undefined && <PlateLabel {...{ number, locale }} />,
+    byline: <MayaByline {...{ locale }} />,
+  };
 };
