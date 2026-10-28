@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import { DEFAULT_LOCALE } from '@/kernel/shared/i18n';
 
-import { usePlayer } from './player-provider';
+import { usePlayer } from './player-context';
 
 /** Whether the reader is on the radio's page, in either language. */
 export function useOnRadioPage(): boolean {

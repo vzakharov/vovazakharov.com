@@ -5,7 +5,7 @@ import { Radio, Shuffle } from 'lucide-react';
 
 import type { Messages } from '@/music/shared/i18n';
 
-import { usePlayer } from './player-provider';
+import { usePlayer } from './player-context';
 import { useOpenRadio } from './use-open-radio';
 
 /** The music section's strings, whole: `Messages` is the catalogue's JSON, with no narrower type to take. */

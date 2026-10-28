@@ -9,8 +9,8 @@ import {
   spelledText,
 } from '@/music/shared/catalogue/index.node-safe';
 
+import type { WithControls } from './player-controls';
 import type { Playing } from './player-state';
-import type { WithControls } from './use-audio-player';
 
 /** The locale is the page's, which the lock screen titles the track in. */
 type MediaSessionInput = WithControls &

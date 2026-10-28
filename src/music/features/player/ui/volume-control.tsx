@@ -23,7 +23,7 @@ import { hasLossless } from '@/music/shared/catalogue/index.node-safe';
 
 import { useStoredSetting, type WithVolume } from '../model/use-stored-setting';
 import classes from './player.module.scss';
-import { usePlayer } from './player-provider';
+import { usePlayer } from './player-context';
 
 let volumeSettable = true;
 let probed = false;

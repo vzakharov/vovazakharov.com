@@ -19,6 +19,7 @@ import {
 
 import { createDecks, type Decks } from './decks';
 import { createFetchingDeck, isIOS } from './fetching-deck';
+import type { PlayerControls, WithControls } from './player-controls';
 import {
   currentTrack,
   isQueued,
@@ -34,7 +35,7 @@ import {
 } from './radio-state';
 import { useMediaSession } from './use-media-session';
 import { usePlayerKeys } from './use-player-keys';
-import { type StationControls, useStation } from './use-station';
+import { useStation } from './use-station';
 import { useStoredSetting } from './use-stored-setting';
 
 /**
@@ -45,45 +46,6 @@ import { useStoredSetting } from './use-stored-setting';
 function freshShuffle(tracks: readonly PlayerTrack[]) {
   return { seed: Date.now(), segues: seguePositions(tracks) };
 }
-
-export type PlayerControls = StationControls & {
-  /**
-   * Play this track, or pause it if it is the one already playing. A track the
-   * queue does not hold yet joins its end.
-   */
-  play: (track: PlayerTrack) => void;
-  /**
-   * Make these tracks the queue and play them from the first, in this order,
-   * shuffle off — or pause and resume, once they already are the queue.
-   */
-  playInOrder: (tracks: PlayerTrack[]) => void;
-  toggle: () => void;
-  /** One way only, unlike `toggle`: nothing happens where playback already is. */
-  resume: () => void;
-  pause: () => void;
-  next: () => void;
-  /** Restarts the track before it steps back, once past `RESTART_AFTER_SECONDS`. */
-  previous: () => void;
-  shuffle: () => void;
-  /** The whole catalogue as the queue, shuffled afresh and played from the top. */
-  shuffleAll: () => void;
-  seek: (seconds: number) => void;
-  /** Relative to where playback is now, which is what the arrow keys want. */
-  seekBy: (seconds: number) => void;
-  /**
-   * Where playback sits this instant, read off the element: `elapsed` trails it
-   * by up to a `timeupdate`, a quarter of a second, which a cut between two
-   * recordings of one song can hear.
-   */
-  position: () => number;
-  /**
-   * Hand the lock screen and media keys to other media on the page, or take
-   * them back. The browser sends them to the page's handlers whatever is
-   * playing, so under the song's, a video's play button — picture-in-picture's
-   * included — would start the song.
-   */
-  yieldMediaSession: (yielded: boolean) => void;
-};
 
 /** What is playing and where, as the bar and the track buttons read it. */
 type Playback = {
@@ -97,8 +59,6 @@ type Playback = {
 
 /** Playback, and the tracks it plays from. */
 export type QueuedPlayback = Playback & WithTracks;
-
-export type WithControls = { controls: PlayerControls };
 
 export type AudioPlayer = QueuedPlayback & WithControls;
 

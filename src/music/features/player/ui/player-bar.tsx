@@ -15,7 +15,7 @@ import { BillingLinks, Spelling } from '@/music/shared/ui';
 import { useStoredSetting } from '../model/use-stored-setting';
 import { Marquee } from './marquee';
 import classes from './player.module.scss';
-import { usePlayer } from './player-provider';
+import { usePlayer } from './player-context';
 import { RadioToggle } from './radio-toggle';
 import { VolumeControl } from './volume-control';
 

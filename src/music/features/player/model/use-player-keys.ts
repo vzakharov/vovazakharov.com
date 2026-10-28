@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import type { PlayerControls } from './use-audio-player';
+import type { PlayerControls } from './player-controls';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
