@@ -134,6 +134,8 @@ They asked for 1.5–2 months. I agreed and missed it. At the two-month mark the
 
 The chart of units of work does show where my method changed, and it’s a single day: 25 April, when the work moved into the cloud. What takes a few weeks afterwards is the output catching up, not the switch. The number I like best is the dull one: **the median unit of work stays the same size, about 380 changed lines either side, while units per day go from 6.8 to 11.2** — the six weeks up to the switch against the eight after it, a week off in May aside. Same-sized pieces, two thirds again as many of them at a time. That’s what parallelism looks like from the outside.
 
+That is me against myself with weaker agent tooling, though, not against anyone working without agents. Against the two Bubble developers the code replaced: from `4.0.0` on 21 May to the 10 August handover the rewrite shipped about four releases a week, as many as they had shipped between December and July, but at eight changes per release against their three — about 2.5 times the changes a week, 712 of the window’s 806 merged pull requests mine. Two caveats: almost everything up to 11 July was carrying over what Bubble already had, and the 4.x notes are written by the `/release` skill, which splits changes finer than a human’s one-liners.
+
 ## The handover
 
 I shipped `4.4.3` on 10 August and stopped writing code. In the seventeen days since, 49 of the 52 pull requests merged to `main` were the rest of the team’s; my three were release notes, a CI permissions fix and some agent tooling.
