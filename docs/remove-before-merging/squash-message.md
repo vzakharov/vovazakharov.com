@@ -4,7 +4,9 @@ Proposed squash body:
 writing/notes/the-five-percent.md collected 219 bumps over fourteen
 learnings, each a frame the agent took as given until a review broke
 it. That is enough to put them to work before review, and to write
-them up.
+them up. The notes retire with the article, as does the length check
+only they used, and the mandatory entry after a review session leaves
+CLAUDE.md.
 
 /five-percent is a third /polish pass, after /dry and /tend-prose, run
 by the same subagent. It asks of the branch's diff the one question
@@ -22,11 +24,11 @@ latestageagentic.com gets a blog, bilingual as Майя's is: English at
 the bare address, Russian under /ru. It opens with the five-percent
 article, a measurement written in Russian and translated, its
 caveats kept in. vovazakharov.com drops /writing, a page of articles
-from another career a fractional CTO's site has no use for. Every
-served page writes its dashes as dashes; two hyphens are for channels.
+from another career a fractional CTO's site has no use for.
 
-The notes retire with the article, as does the length check only they
-used, and the mandatory entry after a review session leaves CLAUDE.md.
+check:prose-quotes becomes check:typography, holding each medium to
+its own dashes: it fails on `--` as well as on a straight quote in
+served prose, and on a `—` in a channel post's text.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
