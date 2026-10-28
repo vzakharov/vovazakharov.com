@@ -149,10 +149,15 @@ export type Placed = {
   segment?: string;
 };
 
-/** Places a path relative to `src/`; `undefined` above any layer. */
+/** Places a path relative to `src/`; `undefined` above any layer or outside `src/`. */
 export function placeOf(fromSrc: string): Placed | undefined {
   const [app, layer, unit, ...rest] = fromSrc.split(path.sep);
-  if (app === undefined || layer === undefined || unit === undefined) {
+  if (
+    app === undefined ||
+    app === '..' ||
+    layer === undefined ||
+    unit === undefined
+  ) {
     return undefined;
   }
   if (SLICED_LAYERS.includes(layer) && rest.length > 0) {

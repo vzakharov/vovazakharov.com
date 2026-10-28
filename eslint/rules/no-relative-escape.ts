@@ -26,7 +26,7 @@ const rule: Rule.RuleModule = {
   create(context) {
     const src = path.join(context.cwd, 'src');
     const fromSrc = path.relative(src, context.filename);
-    const home = fromSrc.startsWith('..') ? undefined : placeOf(fromSrc)?.place;
+    const home = placeOf(fromSrc)?.place;
     if (home === undefined) return {};
 
     return onImports(context, (source, specifier, resolved) => {

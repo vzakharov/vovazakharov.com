@@ -159,6 +159,13 @@ describe('placeOf', () => {
     assert.equal(placeOf('masd.json'), undefined);
     assert.equal(placeOf(path.join('kernel', 'shared')), undefined);
   });
+
+  it('places nothing outside src/', () => {
+    assert.equal(
+      placeOf(path.join('..', 'eslint', 'rules', 'x.ts')),
+      undefined,
+    );
+  });
 });
 
 describe('segmentOrder', () => {

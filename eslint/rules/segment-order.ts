@@ -34,7 +34,7 @@ const rule: Rule.RuleModule = {
   create(context) {
     const src = path.join(context.cwd, 'src');
     const fromSrc = path.relative(src, context.filename);
-    const placed = fromSrc.startsWith('..') ? undefined : placeOf(fromSrc);
+    const placed = placeOf(fromSrc);
     const layer = fromSrc.split(path.sep)[1];
     if (
       placed?.segment === undefined ||
