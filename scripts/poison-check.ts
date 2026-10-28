@@ -30,6 +30,7 @@ import { z } from 'zod';
 
 import { TEST_FILE } from '../eslint/masd-graph.ts';
 import {
+  appFiles,
   resolveImport,
   sourceFile,
   subdirectories,
@@ -172,14 +173,9 @@ function scriptRoots(): string[] {
 }
 
 function clientRoots(): string[] {
-  return [
-    ...walk('src'),
-    ...subdirectories('sites').flatMap((site) =>
-      subdirectories(path.join('sites', site)).includes('app')
-        ? walk(path.join('sites', site, 'app'))
-        : [],
-    ),
-  ].filter((file) => parse(file).directives.includes('use client'));
+  return appFiles().filter((file) =>
+    parse(file).directives.includes('use client'),
+  );
 }
 
 function check(): string[] {

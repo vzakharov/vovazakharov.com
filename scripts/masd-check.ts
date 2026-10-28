@@ -31,10 +31,10 @@ import {
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
 import {
+  appFiles,
   resolveImport,
   sourceFile,
   subdirectories,
-  walk,
 } from './lib/import-graph.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
@@ -157,13 +157,7 @@ function check(): string[] {
 
   const mounted = new Set<string>();
   const edges = new Map<string, Edge[]>();
-  const files = [
-    ...walk('src'),
-    ...subdirectories('sites').flatMap((site) =>
-      walk(path.join('sites', site, 'app')),
-    ),
-  ];
-  for (const file of files) {
+  for (const file of appFiles()) {
     const source = locate(file);
     if (source === undefined) continue;
     const { importedFiles } = ts.preProcessFile(

@@ -22,6 +22,14 @@ export const subdirectories = (directory: string): string[] =>
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name);
 
+/** Every source file of the apps under `src/` and of the sites' routers. */
+export const appFiles = (): string[] => [
+  ...walk('src'),
+  ...subdirectories('sites').flatMap((site) =>
+    walk(path.join('sites', site, 'app')),
+  ),
+];
+
 /**
  * The path a specifier names, before an extension or `index.ts` is tried; a
  * package specifier names none.
