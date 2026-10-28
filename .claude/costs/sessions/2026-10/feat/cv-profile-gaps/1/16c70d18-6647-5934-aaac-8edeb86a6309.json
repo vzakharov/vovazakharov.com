@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 174,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 180861,
+    "cacheReadTokens": 16188194,
+    "outputTokens": 48873,
+    "thinkingTokens": 13626,
+    "responses": 87,
+    "costUsd": 5.662682800000002
+  },
+  "estimate": {
+    "at": "2026-10-28T05:13:15.872Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "recounting two teams' release logs and PR authorship needs care over cutoffs and what counts as a change"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "CV and case-study claims in two languages need judgement on what to show and how to hedge it, and the CV's page ceiling forces cuts"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-28T03:55:46.641Z",
+    "contextTokens": 101594,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 36689,
+      "cacheReadTokens": 341124,
+      "outputTokens": 1577,
+      "thinkingTokens": 80,
+      "responses": 4,
+      "costUsd": 0.3933088
+    }
+  },
+  "sessionId": "16c70d18-6647-5934-aaac-8edeb86a6309",
+  "branch": "feat/cv-profile-gaps",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Обнови CV и кейс-стади Playgram по профилю Вовы, собранному в репе vzakharov/life (PR https://github.com/vzakharov/life/pull/252, файл work/job-search/profile.m…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCGarfY7S3Mh2V1b5n",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T03:55:23.618Z",
+  "lastResponseAt": "2026-10-28T05:14:54.797Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 174,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 180861,
+    "cacheReadTokens": 16188194,
+    "outputTokens": 48873,
+    "thinkingTokens": 13626,
+    "responses": 87,
+    "costUsd": 5.662682800000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 174,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 180861,
+      "cacheReadTokens": 16188194,
+      "outputTokens": 48873,
+      "thinkingTokens": 13626,
+      "responses": 87,
+      "costUsd": 5.662682800000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 87,
+    "matched": 87,
+    "matchedTableUsd": 5.662682800000002,
+    "matchedEventUsd": 5.662682800000002,
+    "unseen": {}
+  }
+}
