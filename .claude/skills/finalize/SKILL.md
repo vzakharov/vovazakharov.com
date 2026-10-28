@@ -86,8 +86,8 @@ has stopped moving.
 
 It carries no step number because the numbers below are cited from other skills
 and stay put; it runs before step 1 regardless. **`no vet` does not skip it** —
-a docs-only diff is squarely what both passes are for: `/tend-prose` by
-construction, and `/dry` because a constraint stated in two places is a
+a docs-only diff is squarely what the two editing passes are for: `/tend-prose`
+by construction, and `/dry` because a constraint stated in two places is a
 duplication like any other.
 
 Steps (stop on first unresolved failure):

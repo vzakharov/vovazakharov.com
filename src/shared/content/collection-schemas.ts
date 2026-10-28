@@ -23,6 +23,7 @@ export const ARTICLE_COLLECTIONS = {
   'basilisk-cases': { id: 'basilisk-cases', schema: caseFrontmatterSchema },
   'basilisk-faq': { id: 'basilisk-faq', schema: articleFrontmatterSchema },
   'maya-blog': { id: 'maya-blog', schema: articleFrontmatterSchema },
+  'lsa-blog': { id: 'lsa-blog', schema: articleFrontmatterSchema },
 } as const satisfies Record<string, Collection<ArticleFrontmatter>>;
 
 export type ArticleCollectionId = keyof typeof ARTICLE_COLLECTIONS;

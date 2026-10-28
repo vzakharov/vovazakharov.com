@@ -170,7 +170,7 @@ source_checks=(
   fsd='pnpm lint:fsd'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
-  prose-quotes='pnpm check:prose-quotes'
+  typography='pnpm check:typography'
   # One entry per site: pnpm appends a passed `--check` to the end of the
   # command line, so a combined `a && b` would render the first site for real.
   og-vova='pnpm content:og:vova --check'
@@ -182,7 +182,7 @@ source_checks=(
   test='scripts/vet-test.sh'
   hearing='python3 scripts/lib/test_hearing.py'
   song-facts='python3 scripts/song-intake/test_song_facts.py'
-  notes='scripts/check-notes-length.sh'
+  five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/tally.py --check'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
   staged='scripts/staged.sh check'

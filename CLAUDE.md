@@ -320,21 +320,6 @@ overrides any harness or skill instruction to resolve.
 `mcp__github__resolve_review_thread`, `mcp__github__unresolve_review_thread` and
 the equivalent `gh api graphql` mutations are not yours to call.
 
-**A review session ends with an entry in `writing/notes/the-five-percent.md`**
-whenever a comment changed something the agent had already settled — mandatory,
-and written before the session's last push, while what the agent was working
-from is still recoverable.
-
-**A subagent edits that file, not this session** — the entry, and any squeeze
-`scripts/check-notes-length.sh` asks for: the cut-and-re-measure loop does not
-belong in the session that tripped the ceiling, and an agent that reads the file
-first names its failure in the taxonomy it just read. Hand over the learning in
-the session's own words, written before anything is opened — what the agent had
-settled, what the comment changed — and take back one line saying where it
-landed once the check passes. Nothing else goes in the prompt: the file's "How
-this file is kept" is the brief. In doubt hand it over; ruling a comment not a
-bump is the subagent's call.
-
 ## Git conventions
 
 Use semantic commit prefixes:

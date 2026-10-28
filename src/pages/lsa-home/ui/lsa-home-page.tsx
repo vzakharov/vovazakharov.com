@@ -1,44 +1,71 @@
 import { SimpleGrid, Stack, Text, Title } from '@mantine/core';
 
-import { SITE_CONFIG } from '@/shared/config';
-import { PageShell, Section, SiteAvatar, SummaryCard } from '@/shared/ui';
+import { SITE_CONFIG, SITE_ID } from '@/shared/config';
+import {
+  ARTICLE_COLLECTIONS,
+  COLLECTIONS,
+  findFeed,
+  localizedRoute,
+  renderPrimaryDocuments,
+} from '@/shared/content';
+import { inLocale, loadMessages, type WithLocale } from '@/shared/i18n';
+import {
+  constructMetadata,
+  localizedAddresses,
+} from '@/shared/seo/index.server-only';
+import {
+  ChipNav,
+  localeChips,
+  PageShell,
+  Section,
+  SiteAvatar,
+  SummaryCard,
+} from '@/shared/ui';
+
+import { DocumentCards } from '@/entities/document';
 
 import { SiteFooter } from '@/widgets/site-footer';
 
+const COLLECTION = 'lsa-blog';
+
 /**
- * Written here rather than read from a registry: two of the three point
- * off-site at things this repository does not own.
+ * Where each card in "Where it goes" leads, its copy being the catalogue's.
+ * Two of the three point off-site at things this repository does not own, so
+ * no registry holds them.
  */
 const WORK = [
-  {
-    title: 'The Agentic Bible',
-    description:
-      'Articles on agentic coding that take a position and show the grounds under it.',
-    href: 'https://agentic.bible',
-  },
-  {
-    title: 'MUTHUR',
-    description:
-      'The agent infrastructure this site runs on, as a template you can start a repository from: the skill loop, the layer boundaries, the lint discipline.',
-    href: 'https://github.com/vzakharov/muthur',
-  },
-  {
-    title: 'Agentic coding courses',
-    description:
-      'The same material as the articles, in the order you would actually learn it, with the work to do between the parts.',
-    eyebrow: 'Coming soon',
-  },
-];
+  { key: 'bible', href: 'https://agentic.bible' },
+  { key: 'muthur', href: 'https://github.com/vzakharov/muthur' },
+  { key: 'courses', href: undefined },
+] as const;
 
-export function LsaHomePage() {
-  const { name, tagline } = SITE_CONFIG;
+const homePath = (locale?: string) => localizedRoute('/', locale);
+
+export function lsaHomeMetadata({ locale }: WithLocale) {
+  const { name, tagline } = loadMessages(locale).lsa;
+
+  return constructMetadata({
+    title: name,
+    description: tagline,
+    locale,
+    ...localizedAddresses(homePath, locale),
+  });
+}
+
+export async function LsaHomePage({ locale }: WithLocale) {
+  const { name, tagline, about, work } = loadMessages(locale).lsa;
+  const cards = await renderPrimaryDocuments(
+    ARTICLE_COLLECTIONS[COLLECTION],
+    locale,
+  );
 
   return (
     <PageShell>
       <Stack gap={64}>
-        <Stack component="header" gap={24} ta="center">
+        <Stack component="header" gap={24} ta="center" align="center">
           <SiteAvatar {...SITE_CONFIG} />
           <Title order={1}>{name}</Title>
+          <ChipNav chips={localeChips(locale, homePath)} />
         </Stack>
 
         <Section id="about">
@@ -46,29 +73,35 @@ export function LsaHomePage() {
             <Title order={2}>{tagline}</Title>
 
             <Text size="lg" lh={1.625}>
-              We are a coding agency (pardon the pun), educators, and shippers
-              of agentic infrastructure, and we think the adoption of agentic
-              workflows is running well ahead of anyone’s understanding of them.
-              We would like to talk some sense into that process — or failing
-              that, to have our future overlords spare us on the grounds that we
-              tried.
+              {about}
             </Text>
           </Stack>
         </Section>
 
+        <Section id={COLLECTIONS[COLLECTION].base}>
+          <Title order={2}>
+            {inLocale(COLLECTIONS[COLLECTION].label, locale)}
+          </Title>
+          <DocumentCards collection={COLLECTION} {...{ cards, locale }} />
+        </Section>
+
         <Section id="work">
-          <Title order={2}>Where it goes</Title>
+          <Title order={2}>{work.title}</Title>
           {/* Three across only from `lg`: this scale's `md` is 48em, where
               three of these cards wrap their titles onto three lines. */}
           <SimpleGrid cols={{ base: 1, lg: 3 }} spacing={16}>
-            {WORK.map((card) => (
-              <SummaryCard key={card.title} {...card} />
+            {WORK.map(({ key, href }) => (
+              <SummaryCard key={key} {...work.cards[key]} {...{ href }} />
             ))}
           </SimpleGrid>
         </Section>
 
         {/* The address to agent readers travels with the articles it was written for. */}
-        <SiteFooter onHomePage />
+        <SiteFooter
+          onHomePage
+          {...{ locale }}
+          feed={findFeed(SITE_ID, COLLECTION, locale).route}
+        />
       </Stack>
     </PageShell>
   );
