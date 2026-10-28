@@ -10,6 +10,8 @@ export {
   centreOf,
   framedOf,
   panOf,
+  type Place,
+  type Sited,
 } from './model/flight-frame';
 export { FLIGHT_HABITS, type Habits } from './model/flight-habits';
 export {
@@ -26,6 +28,10 @@ export {
   apartIn,
   apartOf,
   type Departing,
+  type Flight,
+  isAloft,
+  isLeaving,
+  type Leg,
   legTo,
   placesSetOff,
 } from './model/flight-timing';
@@ -63,23 +69,17 @@ export {
 export { TURN_RATE } from './model/insect-steering';
 export {
   type Destination,
-  type Flight,
-  isAloft,
-  isLeaving,
   isSamePerch,
-  type Leg,
   type Origin,
   type Perch,
   PERCH_KINDS,
   type PerchKind,
   perchName,
-  type Place,
   type Placed,
   type Places,
   type ShelterSeat,
   type Side,
   SIDES,
-  type Sited,
 } from './model/perch';
 export {
   type Carrying,

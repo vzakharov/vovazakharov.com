@@ -22,9 +22,20 @@ import {
   SPREAD,
 } from '@/mushrooms/shared/world';
 
-import type { Place } from './perch';
-
 export type { Aloft } from '@/mushrooms/shared/world';
+
+/**
+ * Where a perch stands, in units of a butterfly's size as the layout draws
+ * one, and `fromEye`, how far from the eye, in the clump's size: an insect there
+ * is drawn `CLUMP_DISTANCE / fromEye` of that size; and, where the scene
+ * gives it, where it stands on the plane (`Pose`), so a leg is timed in the
+ * frame it is drawn in (`pairFramed`).
+ */
+export type Place = Sited & { pose?: Pose };
+/** A point on the plane, and how far it stands from the eye. */
+export type Sited = Point & FromEye;
+/** How far from the eye a thing stands, in the clump's size. */
+type FromEye = { fromEye: number };
 
 /** An `Aloft` in a leg's frame: across and down in the units of its `EyeFrame`, and `forward`, its distance ahead of the eye along the frame’s centre, in the clump's size. */
 export type Framed = Point & Forward;

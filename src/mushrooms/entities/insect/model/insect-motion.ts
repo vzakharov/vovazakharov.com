@@ -8,7 +8,7 @@ import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
 import { roundAt, smooth, wave } from '@/mushrooms/shared/lib/motion';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 
-import type { Span } from './flight-timing';
+import type { Leaving, Leg, Span } from './flight-timing';
 import type { InsectKind } from './insect';
 import {
   type Airborne,
@@ -17,7 +17,7 @@ import {
   type Path,
   tilt,
 } from './insect-paths';
-import type { Destination, Leaving, Leg, Perch } from './perch';
+import type { Destination, Perch } from './perch';
 
 /** A leg with its stay: where it goes and when it leaves. */
 export type Stay = Launched & Destination & Leaving;

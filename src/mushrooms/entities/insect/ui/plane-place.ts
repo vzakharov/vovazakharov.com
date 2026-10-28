@@ -14,8 +14,12 @@ import {
   type View,
 } from '@/mushrooms/shared/world';
 
-import { type Aloft, framedOf, placeOf } from '../model/flight-frame';
-import type { Place } from '../model/perch';
+import {
+  type Aloft,
+  framedOf,
+  type Place,
+  placeOf,
+} from '../model/flight-frame';
 import { eyeFrameOf } from './insect-frame';
 
 /**
