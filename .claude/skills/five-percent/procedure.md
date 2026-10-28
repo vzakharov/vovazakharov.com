@@ -131,7 +131,7 @@ the fold, which may be dropped when there is nothing to check.
 posts**: write it to a file under `tmp/` and rewrite until the script is silent.
 It holds the shape above, the visible lines to 60 words, and them free of code
 spans, paths, links and code-cased names — the floor of the rule above, since a
-template alone was followed on one PR and ignored on the next.
+template alone is followed on one PR and ignored on the next.
 
 The marker is what tells a proposal from an agent's reply in the PR export, both
 posted under the operator's login, and what sends the session answering it to

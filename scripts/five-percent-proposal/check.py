@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Whether a `/five-percent` proposal's body is one the operator can read before posting it.
+"""Whether a `/five-percent` proposal's body is one the operator can read, run before it posts.
 
-The shape is `.claude/skills/five-percent/procedure.md` § "Posting"'s: the marker, the
-pass's name and grade, a bold yes-or-no question, a line on what the change does now, a
-line on what taking the proposal costs, an optional `<details>` fold for the evidence, and
-the footer. Only the three visible lines are held to the reading rules — the fold is for
-the session that acts on the answer, and may name anything.
+The shape is `.claude/skills/five-percent/procedure.md` § "Posting"'s. Only the three visible
+lines are held to the reading rules — the fold is for the session that acts on the answer,
+and may name anything.
 
 Usage: `python3 scripts/five-percent-proposal/check.py <body-file>...`. Every fault in
 every file is printed; the exit status is 1 when any was found.
