@@ -17,8 +17,8 @@ export type WithAfterLead = { afterLead?: ReactNode };
 
 /**
  * What a collection adds to the shared article page, typed by its own
- * frontmatter: one call per document, filling any of the page's places — the
- * byline in the footer's, in place of the site's author. The app owning the
+ * frontmatter: one call per document, filling any of the page's places, the
+ * footer's byline among them. The app owning the
  * collection states it and its router passes it in, so the page never names an
  * app below it.
  */
