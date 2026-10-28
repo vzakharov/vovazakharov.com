@@ -7,16 +7,16 @@ business" — a line the code showed is not binary. MASD keeps it in
 shared and orders it instead: shared knows the domain by gradient.
 
 Every segmented place now has a strict import order, a segment
-reaching only those below it. The standard one is ui, logic, api,
-shape, config, lib. model is banned: it named four purposes at once,
-against FSD's own purpose-not-essence rule, and caused the model/api
-cycle; stores and domain functions go to logic, schemas and their
-types to shape. A place with its own segments declares the order in a
-masd.json beside them; root src/masd.json stays the app graph.
+reaching only those below it. The standard one is FSD's segments,
+ui, model, api, config, lib, with model above api as FSD practice has
+it, plus one optional segment, shape, between api and config: where
+api needs a type from model, what both need moves down to shape. A
+place with its own segments declares the order in a masd.json beside
+them; root src/masd.json stays the app graph.
 
-vova/segment-order enforces the order; check:masd bans model and any
-non-.ts/.tsx source in a layer. The model segments are split, and
-mushrooms/shared/world becomes space, sky and meadow.
+vova/segment-order enforces the order; check:masd bans any
+non-.ts/.tsx source in a layer. mushrooms/shared/world becomes space,
+sky and meadow, and the meadow page's kept record moves to shape.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

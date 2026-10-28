@@ -4,7 +4,7 @@
 > and delete this banner (quoting the go-ahead in the commit) _before_ touching
 > code.
 
-# Segment order: a strict import order between segments, `model` split in two
+# Segment order: a strict import order between segments
 
 The second of `docs/masd.md` § "Open directions" — sub-entities, a facet several
 entities share — resolved without a new layer. Domain-aware code that is not an
@@ -22,23 +22,23 @@ knows the domain by gradient, rising up its order, rather than by a binary
 - **The standard segments, highest first**:
 
   ```
-  ui → logic → api → shape → config → lib
+  ui → model → api → shape → config → lib
   ```
 
-  - **`logic`** — what a slice does with its data: stores and their actions,
-    pure domain functions (`isReleased(movie)`).
+  - **`model` above `api`**, as FSD practice has it: a store calls a request
+    function at runtime (the surveyed repos: model → api in kinomore 9:0, cast
+    5:1, no runtime import the other way).
   - **`shape`** — what the data looks like: zod schemas and the types inferred
-    from them, drizzle tables, `const` arrays of enum values.
+    from them, drizzle tables, `const` arrays of enum values. Optional, the one
+    segment MASD adds: it exists for the import FSD practice runs upwards —
+    `api` reaching `model` for a type. What both need moves down to `shape`; a
+    slice whose `api` needs nothing of `model` has no `shape`, and its types
+    stay in `model` as in FSD.
   - **`config` below `shape`**, because a schema is built from a config's values
     (`z.enum(GENRES)`, per CLAUDE.md § "Derive types…").
   - **`lib` lowest**: a helper knowing neither the domain nor the settings;
     `kernel/shared/config/site-env.ts` already takes `oneOf` from `lib`.
 
-- **`model` is banned.** FSD's `model` holds "schemas, interfaces, stores, and
-  business logic" — four purposes under one name, which fails FSD's own rule
-  that a segment is named by purpose. Its contents go to `logic` and `shape`,
-  which also breaks the cycle FSD's surveyed repos show (model calls api at
-  runtime, api imports model's types).
 - **A place with a non-standard segment declares its order** in a `masd.json`
   beside its segments — `src/<app>/shared/masd.json`, or a slice's own — as
   `{ "segments": [...] }`, highest first. The array lists every segment of the
@@ -51,12 +51,16 @@ knows the domain by gradient, rising up its order, rather than by a binary
 - **No source file in a layer but `.ts` and `.tsx`**, so nothing escapes
   `boundaries`, which lints only those.
 
+Rejected: replacing `model` with `logic` and banning it — `model` does fail
+FSD's purpose-not-essence rule, but continuity with FSD is worth more than the
+cleaner name.
+
 ## Steps
 
 1. **Spike Steiger in `tmp/`**: a `masd.json` at a slice root and in `shared/`,
-   and segments named `logic` and `shape`, through `pnpm lint:fsd`. If a rule
-   fires (a root file read as a file segment, say), the plan stops and comes
-   back with what fired; no exemption without the operator.
+   and a segment named `shape`, through `pnpm lint:fsd`. If a rule fires (a root
+   file read as a file segment, say), the plan stops and comes back with what
+   fired; no exemption without the operator.
 2. **Loader** (`eslint/masd-graph.ts`): `STANDARD_SEGMENTS` in order, a zod
    schema for a place's `masd.json`, and `segmentOrder(placeDir)` returning the
    place's order — its file's, or the standard one. It fails when the file
@@ -68,13 +72,13 @@ knows the domain by gradient, rising up its order, rather than by a binary
    test code is exempt. Imports, re-exports and dynamic imports alike. Wired in
    `eslint.config.ts` with `error`, tested like `no-relative-escape.test.ts`.
 4. **`check:masd`** (`scripts/masd-check.ts`): fails on a `.js`, `.jsx`, `.mjs`,
-   `.cjs`, `.mts` or `.cts` under any `src/<app>/<layer>/`, and on a `model`
-   segment anywhere.
-5. **Split every `model`** (15 slices): each becomes `logic`, except what an
-   `api` reaches — in `mushrooms/pages/mushrooms`, `kept-record.ts` with its
-   `kept-record.schema.json` and `meadow-number.ts` move to `shape`. Imports
-   rewired; the only standard-segment edges today (ui → model 164, ui → lib 33,
-   ui → api 5, api → model 5, config → lib 1) all point down once that is done.
+   `.cjs`, `.mts` or `.cts` under any `src/<app>/<layer>/`.
+5. **Give `mushrooms/pages/mushrooms` a `shape`**, the one slice whose `api`
+   reaches its `model`: `kept-record.ts` with its `kept-record.schema.json` and
+   `meadow-number.ts` move there, and their importers are rewired. The
+   standard-segment edges today (ui → model 164, ui → lib 33, ui → api 5, api →
+   model 5, config → lib 1) then all point down; the other 14 `model` segments
+   stay as they are.
 6. **Split `mushrooms/shared/world`** into three segments, each with its own
    `index.ts` (and `index.test-only.ts` where the old one served it):
    - **`space`** — the space and camera engine: `ground`, `pinhole`,
@@ -98,16 +102,16 @@ knows the domain by gradient, rising up its order, rather than by a binary
    `shared`; where a place has two segments no import orders, the one more
    generic goes lower.
 8. **Prose**: `.claude/rules/masd.md` § "Rules" gains the order, the standard
-   list, `model`'s ban and the `masd.json` declaration, and § "Layers" drops
-   "shared knows no business" in favour of the gradient. `docs/masd.md` drops
-   sub-entities from "Open directions" ("Four things" → "Three") and records
-   where it went.
+   list, `shape` and when it is earned, and the `masd.json` declaration, and §
+   "Layers" drops "shared knows no business" in favour of the gradient.
+   `docs/masd.md` drops sub-entities from "Open directions" ("Four things" →
+   "Three") and records where it went.
 9. **Vet with `VET_MEADOW=1`** — the split touches the game
    (`src/mushrooms/CLAUDE.md`).
 
 ## Scope
 
-One session, one PR, no split: steps 2–4 are small, and 5–7 are wide but
+One session, one PR, no split: steps 2–5 are small, and 6–7 are wide but
 mechanical. Out of scope: the other three open directions, and turning Steiger's
 `forbidden-imports` off.
 
@@ -130,4 +134,4 @@ mechanical. Out of scope: the other three open directions, and turning Steiger's
    everything in it is a thing on the meadow) · b) `world` (keeps the old name
    for a smaller part) · c) yours.
 2. Test code and the order: **a) exempt** (recommended — `api`'s tests set up a
-   kept record with `logic`'s `settled`) · b) held to it like production code.
+   kept record with `model`'s `settled`) · b) held to it like production code.
