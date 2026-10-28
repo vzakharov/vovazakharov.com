@@ -7,8 +7,7 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { documentRoute, localizedRoute } from '@/blog/shared/content';
 
-import { messages as mayaMessages } from '@/maya/shared/i18n';
-import { MayaByline } from '@/maya/entities/maya';
+import { MayaByline, messages as mayaMessages } from '@/maya/entities/maya';
 
 import { messages as whisperMessages } from '../i18n';
 import { whisperPath } from '../lib/whisper-metadata';

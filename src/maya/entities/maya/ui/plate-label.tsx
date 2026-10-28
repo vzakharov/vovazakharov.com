@@ -3,8 +3,7 @@ import { Text } from '@mantine/core';
 import type { WithLocale } from '@/kernel/shared/i18n';
 import type { Numbered } from '@/kernel/shared/typings';
 
-import { messages } from '@/maya/shared/i18n';
-
+import { messages } from '../i18n';
 import { roman } from '../lib/roman';
 import classes from './plate-label.module.scss';
 

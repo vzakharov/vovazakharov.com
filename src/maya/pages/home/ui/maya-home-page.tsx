@@ -29,9 +29,13 @@ import {
 import { messages as blogMessages } from '@/blog/shared/i18n';
 import { constructMetadata } from '@/blog/shared/seo';
 
-import { WHISPER_DRAWING, WHISPER_ROUTE } from '@/maya/shared/config';
-import { messages as mayaMessages } from '@/maya/shared/i18n';
-import { MayaByline, plateNumber } from '@/maya/entities/maya';
+import {
+  MayaByline,
+  messages as mayaMessages,
+  plateNumber,
+  WHISPER_DRAWING,
+  WHISPER_ROUTE,
+} from '@/maya/entities/maya';
 
 import { messages as homeMessages } from '../i18n';
 import { Frontispiece } from './frontispiece';

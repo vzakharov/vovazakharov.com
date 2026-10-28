@@ -1,7 +1,6 @@
 /**
  * Майя's toy: its address and its drawing, which its page, her home page's
- * plate of it and its card all read. Below `pages/` because the home page and
- * the toy's own page are sibling slices.
+ * plate of it, her sitemap and its card all read.
  */
 
 export const WHISPER_ROUTE = '/whisper';

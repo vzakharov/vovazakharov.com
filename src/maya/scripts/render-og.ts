@@ -14,7 +14,10 @@ import { routeCardPath } from '@/kernel/shared/seo';
 
 import { articleCollection } from '@/blog/shared/content';
 
-import { WHISPER_DRAWING, WHISPER_ROUTE } from '@/maya/shared/config';
+import {
+  WHISPER_DRAWING,
+  WHISPER_ROUTE,
+} from '@/maya/entities/maya/index.node-safe';
 
 import { mayaPostCard, mayaSiteCard, mayaToyCard } from './lib/maya-card.ts';
 

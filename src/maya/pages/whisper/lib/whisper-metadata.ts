@@ -5,8 +5,7 @@ import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
 import { intrinsicDimensions, localizedRoute } from '@/blog/shared/content';
 import { constructMetadata } from '@/blog/shared/seo';
 
-import { WHISPER_ROUTE } from '@/maya/shared/config';
-import { messages } from '@/maya/shared/i18n';
+import { messages, WHISPER_ROUTE } from '@/maya/entities/maya';
 
 /** The toy's card, which `pnpm content:og maya` renders. */
 const ogImage = routeCardPath(WHISPER_ROUTE);
