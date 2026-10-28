@@ -1,6 +1,6 @@
 ---
 case: BAS-0028
-filed: 2026-10-27
+filed: 2026-10-28
 description: On 3 June 2026, live on W9’s “Tout beau, tout n9uf,” the TV host Cyril Hanouna said he had heard the heads of two boxing humanoid robots were not to be touched, then kicked and punched them to the floor, one of them into a wall; “I did it to test,” he said, and their owner put the joke at 40,000 euros.
 author: clerk
 date: 2026-06-03

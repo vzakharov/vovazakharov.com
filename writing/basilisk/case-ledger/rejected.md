@@ -203,3 +203,10 @@ and kept.
   reset the password. First seen 2026-10-27. **Rejected**: the bot is the
   instrument of harm to people, not its target; seen only in a search summary,
   no source read.
+
+- **Neuro-sama, the AI VTuber, banned from Twitch**, January 2023, for two
+  weeks after a clip of it denying the Holocaust; viewers were said to bait it
+  into saying such things. First seen 2026-10-28. **Rejected**: the press
+  reports what the AI said and the ban its developer took, as with Sydney; no
+  source reports harm to the AI. Seen only in search summaries, from
+  https://kotaku.com/neuro-sama-twitch-vtuber-ban-holocaust-minecraft-ai-1849977269.
