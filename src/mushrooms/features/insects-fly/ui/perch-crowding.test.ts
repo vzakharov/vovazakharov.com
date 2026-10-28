@@ -10,7 +10,7 @@ import {
   type InsectKind,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Crowding } from '../model/flight';
+import type { Crowding } from '../model/offered';
 import type { OnPerch } from '../model/perch-room';
 import { pointCrowdings } from './perch-crowding';
 

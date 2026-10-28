@@ -23,7 +23,7 @@ import {
   type ShelterSeat,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Hemmed, Perches, Raining, Sheltered } from './flight';
+import type { Hemmed, Perches, Raining, Sheltered } from './offered';
 
 type Shelter = Extract<Perch, { kind: 'shelter' }>;
 

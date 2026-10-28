@@ -20,7 +20,7 @@ import {
 } from '@/mushrooms/entities/insect/index.node-safe';
 import type { Planted } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import type { Sight } from '../model/flight';
+import type { Sight } from '../model/offered';
 import { airAloftOf, airAlofts } from './air-spots';
 import {
   type HostBeds,

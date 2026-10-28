@@ -44,8 +44,8 @@ import {
   type Zoomed,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Crowding } from '../model/flight';
 import { INSECT_LIMITS } from '../model/insects';
+import type { Crowding } from '../model/offered';
 import { pointCrowdings } from './perch-crowding';
 import type { Alofted } from './perch-hosts';
 

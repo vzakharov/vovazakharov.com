@@ -19,7 +19,7 @@ import {
   type Perch,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Crowding, Pairing } from '../model/flight';
+import type { Crowding, Pairing } from '../model/offered';
 import type { OnPerch } from '../model/perch-room';
 
 /** Every two kinds, the first on one perch and the second on another. */

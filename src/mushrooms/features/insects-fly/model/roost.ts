@@ -15,7 +15,7 @@ import {
   type Leg,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Perches } from './flight';
+import type { Perches } from './offered';
 
 /** The meadow's light, as the swarm reads it off the meadow. */
 export type Dusked = { dusk?: Dusk | undefined };

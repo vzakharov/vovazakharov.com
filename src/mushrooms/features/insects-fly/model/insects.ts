@@ -24,13 +24,8 @@ import {
   pollenAfter,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import {
-  firstFlight,
-  flightAway,
-  isOffered,
-  nextFlight,
-  type Perches,
-} from './flight';
+import { firstFlight, flightAway, isOffered, nextFlight } from './flight';
+import type { Perches } from './offered';
 import { flowerFreed, givesWay, type Held } from './perch-room';
 import { sown } from './pollen';
 import { type Dusked, roostedPerches, sitsOut } from './roost';

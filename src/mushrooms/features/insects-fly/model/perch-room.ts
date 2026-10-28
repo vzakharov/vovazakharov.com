@@ -13,7 +13,7 @@ import {
   perchName,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Flowered, FlowersSeen, Pairing, Sight } from './flight';
+import type { Flowered, FlowersSeen, Pairing, Sight } from './offered';
 
 /** A perch an insect sits on. */
 type Seat = Extract<Perch, { kind: 'flower' | 'cap' | 'shelter' }>;

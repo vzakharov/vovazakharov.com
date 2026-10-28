@@ -77,7 +77,7 @@ import {
   toCanvas,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import type { Sight } from '../model/flight';
+import type { Sight } from '../model/offered';
 import { airOf, airSpots, clumpRow } from './air-spots';
 import { roomFor } from './bee-room';
 import { crowdings, seatsWith, type Track } from './perch-crowding';
