@@ -38,7 +38,7 @@ retires with that rule once row 18 is posted.
 - **A dropped bump is recoverable** — `git log -p` over this file. One worth
   reviving comes back as a line under whatever learning it now fits.
 
-## What it was handed, it treats as fixed (×104)
+## What it was handed, it treats as fixed (×105)
 
 Whatever arrives as context — a list, a vocabulary, a published figure, a
 pattern already in the tree — the agent reasons _inside_ rather than _about_:
@@ -79,7 +79,7 @@ asking whether the site was an argument. The article page called each collection
 slot as `eyebrow={slots.eyebrow?.(document)}`, five times over, the slot record
 taken as settled; it is now one function of the document, destructured once.
 
-**7 to 27 October — a rule read to its letter, past its case or short of its
+**7 to 28 October — a rule read to its letter, past its case or short of its
 purpose.** A published slug never moves, so renaming «Бабай минем» kept
 `minem-babay`: _слаг тоже поменять, ничего страшного._ Told BAS-0016 should not
 print IShowSpeed's legal name, the agent ruled out legal names for the famous
@@ -88,7 +88,11 @@ let an actor be "named as the public knows them," so a professor who had given
 interviews went into `subject` by name: _we don't need the brigading headache._
 PR #216 moved the game's tests into its slices as they were, the ~450-line rule
 held to the production files it names; twelve ran 461 to 703 lines: _раздуло,
-надо разделять._ The letter allowed each; the purpose was the question.
+надо разделять._ PR #169's optional byline base went `WithOptionalByline`, a
+`ReactNode` being a "node" in the naming table's rows; asked about
+`MaybeBylined`, the agent cited the row, and he called it handwaving. The rule
+the rows stand for: a key that reads plainly as a participle takes `Maybe…`,
+whatever its type. The letter allowed each; the purpose was the question.
 
 **16 to 20 October — PR #169 read through the session that framed it.** Its
 planning carved the work into five child issues, the choice never put to him:
