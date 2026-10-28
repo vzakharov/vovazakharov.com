@@ -91,7 +91,7 @@ export async function LsaHomePage({ locale }: WithLocale) {
               three of these cards wrap their titles onto three lines. */}
           <SimpleGrid cols={{ base: 1, lg: 3 }} spacing={16}>
             {WORK.map(({ key, href }) => (
-              <SummaryCard key={key} {...work.cards[key]} href={href} />
+              <SummaryCard key={key} {...work.cards[key]} {...{ href }} />
             ))}
           </SimpleGrid>
         </Section>
