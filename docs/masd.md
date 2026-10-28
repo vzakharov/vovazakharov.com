@@ -100,14 +100,16 @@ shared block drops to, `shared/lib`, scripts, and the Next.js traps — is in
 
 ## The checkers
 
-Three checkers hold the model, all run by `./scripts/vet.sh`, and all read the
-graph through one loader, `eslint/masd-graph.ts`.
+Four checkers hold the model, all run by `./scripts/vet.sh`. The first three
+read the graph through one loader, `eslint/masd-graph.ts`; the fourth needs no
+graph, only the files' own imports.
 
-| Checker                                                  | Holds                                                                                                     |
-| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `eslint-plugin-boundaries` (`eslint/masd-boundaries.ts`) | Every import, across apps included; its config is generated from the graph                                |
-| Steiger (`pnpm lint:fsd`, `scripts/lint-fsd.ts`)         | FSD's own rules, one run per app root, `insignificant-slice` off                                          |
-| `pnpm check:masd` (`scripts/masd-check.ts`)              | The graph (order, apps vs. directories, insignificant apps) and slice significance across the composition |
+| Checker                                                  | Holds                                                                                                       |
+| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `eslint-plugin-boundaries` (`eslint/masd-boundaries.ts`) | Every import, across apps included; its config is generated from the graph                                  |
+| Steiger (`pnpm lint:fsd`, `scripts/lint-fsd.ts`)         | FSD's own rules, one run per app root, `insignificant-slice` off                                            |
+| `pnpm check:masd` (`scripts/masd-check.ts`)              | The graph (order, apps vs. directories, insignificant apps) and slice significance across the composition   |
+| `pnpm check:poison` (`scripts/poison-check.ts`)          | The suffixed barrels' runtime axes across whole import chains, from `'use client'` files and script entries |
 
 ### Why significance needed a checker of its own
 
@@ -225,7 +227,7 @@ and widgets. What it settled holds for any domain.
 
 ## Open directions
 
-Four things the operator set aside to take up, each in a session of its own.
+Three things the operator set aside to take up, each in a session of its own.
 
 - **The plays cut down.** The game's scripted plays were sharded across vet's
   runners (`VET_MEADOW=1`). The first sharded run (40453462582) played 22 of 30
@@ -244,11 +246,3 @@ Four things the operator set aside to take up, each in a session of its own.
   определять, когда в одном слайсе скопилось что-то (кластер?), что заслуживает
   вынесения в модуль? но отложим»): when a cluster inside one slice earns a
   slice of its own.
-- **A poison check** (the operator: «проверку на яд добавим четвёртым Later на
-  после мерджа»): `boundaries` judges one import at a time, so nothing holds the
-  barrels' runtime axes transitively — a `'use client'` file reaching
-  `index.no-browser.ts` or `server-only`, or a script without the
-  `react-server` condition reaching `server-only`. `playgramai/playgramapp`'s
-  `scripts/poison-check.ts` (madge's graph, `'use client'` and harness roots,
-  type-only imports dropped) is the model to port, its roots this repo's
-  `src/*/scripts/` and root `scripts/`, wired into `vet`.

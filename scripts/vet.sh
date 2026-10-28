@@ -180,6 +180,7 @@ source_checks=(
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
   masd='pnpm check:masd'
+  poison='pnpm check:poison'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   typography='pnpm check:typography'
