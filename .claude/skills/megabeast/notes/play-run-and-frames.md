@@ -201,10 +201,9 @@
 - **A full play run is a package per screen, not a step.** Bite 12b's tail gave
   one agent "fix the reds, then run all five screens": tabL alone took 19 min
   and four reds, each red took an agent to its 170k line, and three agents in a
-  row never reached the second screen. The foreground limit (10 min a call) also
-  pushed agents to `run_in_background`, against CLAUDE.md. The skill should
-  brief one play per call, a screen per agent, and the reds a screen turns up as
-  their own agents' work, so the screens get played while the reds are fixed.
+  row never reached the second screen. The skill should brief one play per call,
+  a screen per agent, and the reds a screen turns up as their own agents' work,
+  so the screens get played while the reds are fixed.
 - **A dash-bound red after a turn was the take-off, not the landing.** At 12b a
   fly's 82.6 px steps near a leg's end looked like the seat moving; measured per
   frame, the seat held to ±0.3 px, and the cause was the leg's start: a perch

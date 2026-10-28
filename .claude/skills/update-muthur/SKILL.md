@@ -299,6 +299,10 @@ that holds for the models and setup this repo runs, in its own words, keeping
 every lesson of its own. The result stays under its 100-line cap; where the two
 disagree, this repo's own runs win over the source's.
 
+**A port into an always-loaded file merges into its staged copy** — `CLAUDE.md`,
+or a `SKILL.md` whose `description:` it changes: stage the file first, per
+`@.claude/rules/staging.md`.
+
 ### Step 6 — Consistency sweep
 
 **A renumbered reference is the dangerous kind, because it still resolves.**
