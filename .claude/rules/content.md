@@ -1,6 +1,7 @@
 ---
 description: How long-form markdown under sites/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
 paths:
+<<<<<<< HEAD
   - sites/*/public/case-studies/**
   - sites/bible/public/**
   - sites/basilisk/public/**
@@ -22,6 +23,28 @@ paths:
   - src/*/scripts/lib/*-card*.ts
   - src/*/scripts/lib/{og-job,og-render,print-job,content-tree,render-manifest,music-collage}.ts
   - sites/*/public/cv/**
+=======
+  - apps/*/public/case-studies/**
+  - apps/bible/public/**
+  - apps/basilisk/public/**
+  - apps/lsa/public/**
+  - apps/maya/public/**
+  - apps/*/public/music/**
+  - src/pages/music/**
+  - apps/*/app/music/**
+  - apps/*/public/generated/**
+  - src/shared/content/**
+  - src/pages/documents/**
+  - src/pages/cv/**
+  - apps/*/app/case-studies/**
+  - apps/bible/app/**
+  - apps/basilisk/app/**
+  - scripts/render-mermaid.ts
+  - scripts/render-og.ts
+  - scripts/render-pdf.ts
+  - scripts/lib/**
+  - apps/*/public/cv/**
+>>>>>>> origin/main
 ---
 
 # Content
@@ -206,17 +229,25 @@ is read and counted like any paragraph. `remark-content-directives.ts` names the
 directives that exist and **throws on any other**, naming the file — an
 unconverted directive would otherwise reach the page as its own `:::` text.
 
+## Dashes
+
+**Every page the site serves writes a dash as a dash** — `—`, never `--`, in
+every language, its documents and the copy in `src/` alike. Two hyphens and
+straight quotes are for a LinkedIn post, `writing/CLAUDE.md` § "Voice".
+`pnpm check:typography` fails on `--` in the collections' documents; the copy in
+`src/` is held by reading.
+
 ## Punctuation around quotes
 
-**Typographic quotes, American punctuation, in every English sentence the repo's
-prose carries** — these collections' documents, the drafts under `writing/`, and
-the copy in `src/`. Quotes and apostrophes are curly (`“…”`, `it’s`), and a
-comma or period after a quoted passage goes inside the closing quote
-(`“cheap,” and`), whether or not it belongs to the quotation and whatever the
-source's own style. A question mark, exclamation mark, colon or semicolon goes
-inside only when it is the quotation's own. Russian text keeps Russian rules,
-`«…»` included, and code spans, fences and identifiers are not prose.
-`pnpm check:prose-quotes` fails on a straight quote or apostrophe in the
+**Typographic quotes, American punctuation, in every English sentence the site
+serves** — these collections' documents and the copy in `src/`; a LinkedIn draft
+keeps straight quotes (§ "Dashes" above). Quotes and apostrophes are curly
+(`“…”`, `it’s`), and a comma or period after a quoted passage goes inside the
+closing quote (`“cheap,” and`), whether or not it belongs to the quotation and
+whatever the source's own style. A question mark, exclamation mark, colon or
+semicolon goes inside only when it is the quotation's own. Russian text keeps
+Russian rules, `«…»` included, and code spans, fences and identifiers are not
+prose. `pnpm check:typography` fails on a straight quote or apostrophe in the
 collections' documents; the rest is held by reading.
 
 ## Traps worth knowing

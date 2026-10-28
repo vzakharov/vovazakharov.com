@@ -20,12 +20,10 @@ import { PIXELS } from './og-canvas';
 import type { SiteId } from './site-ids';
 
 /**
- * The unlocalized standalone pages. Below `pages/` because the footer that
- * links them is a different slice from the pages themselves, and slices may not
- * reach each other sideways; the CV and the collections shape their own URLs.
+ * The unlocalized standalone pages, which the sitemap lists whole; the CV and
+ * the collections shape their own URLs.
  */
 export const PAGE_ROUTES = {
-  writing: '/writing',
   mushrooms: '/mushrooms',
 } as const;
 

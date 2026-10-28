@@ -1,1 +1,1 @@
-export { LsaHomePage } from './ui/lsa-home-page';
+export { lsaHomeMetadata, LsaHomePage } from './ui/lsa-home-page';

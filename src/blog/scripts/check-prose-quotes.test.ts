@@ -1,8 +1,8 @@
 /**
- * End-to-end tests for the prose-quotes gate: the real script, run with `cwd`
+ * End-to-end tests for the typography gate: the real script, run with `cwd`
  * at a throwaway tree under the OS temp directory, asserted on exit code and
- * report. The fixtures are written here because a committed `.md` holding a
- * straight quote in prose would trip the repo's own run.
+ * report. The fixtures are written here because a committed `.md` holding
+ * what the gate flags would trip the repo's own run.
  */
 
 import assert from 'node:assert/strict';
@@ -11,15 +11,19 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, it } from 'node:test';
 
+<<<<<<<< HEAD:src/blog/scripts/check-prose-quotes.test.ts
 import { runTsxScript } from '@/kernel/scripts/lib/tsx-script';
 
 const SCRIPT = path.resolve(import.meta.dirname, 'check-prose-quotes.ts');
+========
+const SCRIPT = path.resolve(import.meta.dirname, 'check-typography.ts');
+>>>>>>>> origin/main:scripts/check-typography.test.ts
 
 /** Markdown files, keyed by path relative to the scan root. */
 type Tree = Record<string, string>;
 
 function run(tree: Tree) {
-  const root = mkdtempSync(path.join(tmpdir(), 'prose-quotes-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'typography-'));
   for (const [file, text] of Object.entries(tree)) {
     mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
     writeFileSync(path.join(root, file), text);
@@ -43,11 +47,22 @@ const SYNTAX_ONLY = [
   '',
 ].join('\n');
 
-describe('check-prose-quotes', () => {
+/** A draft whose notes around the fence carry every mark, so only the post text can trip. */
+const draft = (post: string) =>
+  [
+    '# Notes -- about the “post” — any marks',
+    '',
+    '```text',
+    post,
+    '```',
+    '',
+  ].join('\n');
+
+describe('check-typography', () => {
   it('passes quotes that are syntax: frontmatter, code and raw HTML', () => {
     const { status, stdout } = run({ 'sites/a/public/doc.md': SYNTAX_ONLY });
     assert.equal(status, 0);
-    assert.equal(stdout, 'prose-quotes: clean\n');
+    assert.equal(stdout, 'typography: clean\n');
   });
 
   it('fails a straight quote in prose, naming the file and line', () => {
@@ -67,6 +82,39 @@ describe('check-prose-quotes', () => {
     });
     assert.equal(status, 1);
     assert.match(stdout, /^sites\/a\/public\/doc\.md:1: It's straight\.$/m);
+  });
+
+  it('fails two hyphens in prose, and passes them in code', () => {
+    const { status, stdout } = run({
+      'apps/a/public/doc.md': 'Run `pnpm x --check` -- then wait.\n',
+    });
+    assert.equal(status, 1);
+    assert.match(stdout, /two hyphens/);
+    assert.match(stdout, /^apps\/a\/public\/doc\.md:1: /m);
+  });
+
+  it('fails typeset punctuation in a keyboard channel’s post, not around it', () => {
+    const { status, stdout } = run({
+      'writing/linkedin/drafts/post.md': draft('Typeset — not “fine”.'),
+    });
+    assert.equal(status, 1);
+    assert.match(stdout, /keyboard channel/);
+    assert.match(
+      stdout,
+      /^writing\/linkedin\/drafts\/post\.md:4: Typeset — not “fine”\.$/m,
+    );
+    assert.doesNotMatch(stdout, /post\.md:1:/);
+  });
+
+  it('fails keyboard punctuation in any other channel’s post', () => {
+    const { status, stdout } = run({
+      'writing/linkedin/drafts/ok.md': draft('Typed -- as "typed".'),
+      'writing/channel/drafts/post.md': draft('Typed -- not fine.'),
+    });
+    assert.equal(status, 1);
+    assert.match(stdout, /typeset channel/);
+    assert.match(stdout, /^writing\/channel\/drafts\/post\.md:4: /m);
+    assert.doesNotMatch(stdout, /ok\.md/);
   });
 
   it('skips the pipeline’s generated output', () => {

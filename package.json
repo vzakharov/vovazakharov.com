@@ -15,12 +15,21 @@
     "test:meadow": "scripts/vet-test.sh meadow",
     "type-overlap": "tsx scripts/type-overlap-check.ts",
     "knip": "knip",
+<<<<<<< HEAD
     "check:mantine-styles": "tsx src/shell/scripts/check-mantine-styles.ts",
     "check:i18n-payload": "tsx src/kernel/scripts/check-i18n-payload.ts",
     "check:prose-quotes": "tsx src/blog/scripts/check-prose-quotes.ts",
     "check:masked-words": "tsx src/music/scripts/check-masked-words.ts",
     "check:song-titles": "tsx src/music/scripts/check-song-titles.ts",
     "check:stanza-repeats": "tsx src/music/scripts/check-stanza-repeats.ts",
+=======
+    "check:mantine-styles": "node scripts/check-mantine-styles.ts",
+    "check:i18n-payload": "node scripts/check-i18n-payload.ts",
+    "check:typography": "node scripts/check-typography.ts",
+    "check:masked-words": "node scripts/check-masked-words.ts",
+    "check:song-titles": "node scripts/check-song-titles.ts",
+    "check:stanza-repeats": "node scripts/check-stanza-repeats.ts",
+>>>>>>> origin/main
     "lint": "pnpm lint:check --fix",
     "lint:check": "pnpm lint:files .",
     "lint:files": "NODE_OPTIONS=\"$NODE_OPTIONS --max-old-space-size=3072\" eslint --no-warn-ignored",

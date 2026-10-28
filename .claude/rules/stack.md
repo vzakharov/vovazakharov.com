@@ -24,6 +24,7 @@ pnpm type-overlap               # scripts/type-overlap-check.ts │
 pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
+<<<<<<< HEAD
 pnpm check:prose-quotes         # no straight quote in prose    │
 src/music/scripts/vet-songs.sh  # song checks, when a song moved │
 pnpm content:og <site> --check # social cards, hashes only, a site each │
@@ -32,8 +33,22 @@ pnpm content:pdf vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
 python3 src/kernel/scripts/lib/test_hearing.py # transcribe.py's word merge │
 python3 src/music/scripts/song-intake/test_song_facts.py # spectrogram facts │
+=======
+pnpm check:typography           # quotes and dashes per medium  │
+scripts/vet-songs.sh            # song checks, when a song moved │
+pnpm content:og:vova --check    # social cards, hashes only     │
+pnpm content:og:bible --check   # the seal's own card           │
+pnpm content:og:basilisk --check # the seal card and each case's │
+pnpm content:og:maya --check    # her card and each post's      │
+pnpm content:drawings:maya --check # each drawing's English copy │
+pnpm music:masters check              # song masters' tags, hashes only │
+pnpm content:pdf:vova --cv-pages --from-out # CV page ceiling  │
+scripts/vet-test.sh             # pnpm test:all, meadow on request │
+python3 scripts/lib/test_hearing.py # transcribe.py's word merge │
+python3 scripts/song-intake/test_song_facts.py # spectrogram facts │
+python3 scripts/five-percent-verdicts/{test_tally,tally}.py # verdicts │
+>>>>>>> origin/main
 scripts/check-squash-message.sh # squash proposal size          │
-scripts/check-notes-length.sh   # writing/notes/ ceiling        │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
 scripts/staged.sh check         # staged always-loaded copies   │
@@ -55,7 +70,7 @@ they take, and each passes quietly without it. It vets the **pushed** head and
 refuses a tree that differs from it. Against the whole list run in one container
 it halves the wall clock.
 
-Twenty things about that list are deliberate:
+Nineteen things about that list are deliberate:
 
 - **`pnpm build` is the only check that covers the app itself.** The suite
   reaches no page (CLAUDE.md § "Testing"), so the static-export build is what
@@ -127,6 +142,7 @@ Twenty things about that list are deliberate:
   reading each built page under `sites/*/out/` as the check above does — so it
   overlaps the rest for the same reason, and `.claude/rules/i18n.md` holds the
   ban and why.
+<<<<<<< HEAD
 - **`pnpm check:prose-quotes` reads prose the way the page does**: it parses
   each document under `sites/*/public/` with the content pipeline's own remark
   plugins and flags a `"` or `'` only in a text node, so one in frontmatter,
@@ -134,6 +150,17 @@ Twenty things about that list are deliberate:
   file could not tell the two apart. It reads only that Markdown, which is why
   it overlaps the rest safely; `.claude/rules/content.md` § "Punctuation around
   quotes" is the rule it holds.
+=======
+- **`pnpm check:typography` reads prose the way the page does**: it parses each
+  document under `apps/*/public/` with the content pipeline's own remark plugins
+  and flags a `"`, `'` or `--` only in a text node, so one in frontmatter, code
+  or raw HTML — syntax, not punctuation — never trips it. A regex over the file
+  could not tell the two apart. A draft's `text` fence it holds to its channel:
+  typeset like a page, or, on LinkedIn, typed as a keyboard types. It reads only
+  Markdown, which is why it overlaps the rest safely; `.claude/rules/content.md`
+  § "Dashes" and § "Punctuation around quotes" and `writing/CLAUDE.md` § "Voice"
+  are the rules it holds.
+>>>>>>> origin/main
 - **The song checks run only when the branch changes a song or the checks
   themselves**, a song's verdict being its own file's.
   `src/music/scripts/vet-songs.sh` gates `pnpm check:masked-words` — the same
@@ -142,7 +169,7 @@ Twenty things about that list are deliberate:
   `pnpm check:stanza-repeats` on the branch's diff, which
   `src/kernel/scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
   there as well, which regenerates `docs/music/untold-songs.md` and, like the
-  codegen below, fails when it had to write. The prose-quotes check reads every
+  codegen below, fails when it had to write. The typography check reads every
   site's prose, so it stays ungated.
 - **`pnpm styles:codegen` repairs the generated Sass partials rather than
   reporting on them.** Two scales are needed on both sides of a boundary neither
@@ -185,6 +212,7 @@ Twenty things about that list are deliberate:
   (`pnpm test:all`), which drops the mushroom meadow's tests unless
   `VET_MEADOW=1` asks for them** — they take over half an hour, the rest
   seconds, and the game changes rarely — so a branch that works on the game runs
+<<<<<<< HEAD
   them by asking, or alone through `pnpm test:meadow`. Asked, the bare vet run
   passes it on as `vet.yml`'s `meadow` input, which shards those tests across
   runners. The game's plays (`pnpm play:mushrooms`, every screen in groups,
@@ -202,6 +230,17 @@ Twenty things about that list are deliberate:
   trims. It exists because the ceiling was prose in the file it governs, and
   nothing reads a paragraph on its way to appending a section. POSIX `sh` and
   `wc`, reading only `writing/notes/`, which nothing else here touches.
+=======
+  them by asking, or alone through `pnpm test:meadow`. `pnpm test` is the run by
+  hand, over only the tests the branch reached (`.claude/rules/testing.md`).
+  Three Python suites sit beside it: `scripts/lib/test_hearing.py`, for
+  `scripts/transcribe.py`'s pure half, which reads only its fixtures;
+  `scripts/song-intake/test_song_facts.py`, for the spectrogram's measurements
+  on synthetic signals, which needs numpy on the system Python; and
+  `scripts/five-percent-verdicts/test_tally.py`, whose entry also runs
+  `tally.py --check` over the committed verdicts, since a malformed row would
+  otherwise surface only when the next article is written from them.
+>>>>>>> origin/main
 - **The last eleven read the agent infrastructure itself and write nothing
   another check reads, which is why they overlap the rest safely.**
   `scripts/check-skill-catalog.sh` asserts that every `@`-reference into

@@ -1,6 +1,12 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 
+<<<<<<< HEAD:src/vova/pages/home/ui/home-page.tsx
 import { PAGE_ROUTES, SITE_CONFIG } from '@/kernel/shared/config';
+=======
+import { SITE_CONFIG } from '@/shared/config';
+import { MUSIC_ROUTE } from '@/shared/music-catalogue';
+import { PageShell, SiteAvatar, TextLink } from '@/shared/ui';
+>>>>>>> origin/main:src/pages/home/ui/home-page.tsx
 
 import { PageShell, SiteAvatar, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
@@ -12,7 +18,7 @@ import { OfferSection } from './offer-section';
 import { WorkSection } from './work-section';
 
 /** The nouns the hero claims that live on pages of their own. */
-const SEE_ALSO = [PAGE_ROUTES.writing, MUSIC_ROUTE];
+const SEE_ALSO = [MUSIC_ROUTE];
 
 export function HomePage() {
   const { name } = SITE_CONFIG;

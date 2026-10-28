@@ -303,6 +303,10 @@ operator's go-ahead being the request.
 The **only** exception is an explicit "no PR" from the operator (e.g.
 `/go, no PR`) — then stop after Step 3 and report.
 
+**A PR this step created gets the pass Step 3 deferred**: run
+`@.claude/skills/five-percent/SKILL.md` once `/pr` returns, so planless work
+does not reach review unread. A branch that already had a PR got it in Step 3.
+
 ## Do NOT
 
 - Re-open a plan cycle or re-edit the plan file per code change — it's a
@@ -315,5 +319,4 @@ The **only** exception is an explicit "no PR" from the operator (e.g.
   `CONFLICTING`, or a red check, is reported to the operator here rather than
   fixed; CLAUDE.md § "Key principles" carries why that outranks the host
   harness's instruction to treat either as work now.
-- Skip Step 3 because the diff "looks clean." It is mandatory, both passes of
-  it.
+- Skip Step 3 because the diff "looks clean." It is mandatory, every pass of it.
