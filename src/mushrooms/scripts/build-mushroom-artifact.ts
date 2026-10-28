@@ -14,9 +14,10 @@ import { z } from 'zod';
 
 import { PALETTE } from '@/mushrooms/shared/ui/palette';
 
-const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+
 const OUT = path.resolve(
-  ROOT,
+  REPO_ROOT,
   process.argv[2] ?? 'tmp/mushroom-artifact/index.html',
 );
 
@@ -25,7 +26,7 @@ const { version: PHASER_VERSION } = z
   .parse(
     JSON.parse(
       await readFile(
-        path.resolve(ROOT, 'node_modules/phaser/package.json'),
+        path.resolve(REPO_ROOT, 'node_modules/phaser/package.json'),
         'utf8',
       ),
     ),
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const bundle = await build({
   stdin: {
     contents: ENTRY,
-    resolveDir: ROOT,
+    resolveDir: REPO_ROOT,
     loader: 'ts',
     sourcefile: 'artifact-entry.ts',
   },
@@ -70,7 +71,7 @@ const bundle = await build({
   format: 'iife',
   target: 'es2022',
   minify: true,
-  tsconfig: path.resolve(ROOT, 'tsconfig.json'),
+  tsconfig: path.resolve(REPO_ROOT, 'tsconfig.json'),
   define: { 'process.env.NEXT_PUBLIC_MUSHROOM_PROBE': 'undefined' },
   plugins: [phaserFromGlobal],
   logLevel: 'warning',
