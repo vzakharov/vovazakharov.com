@@ -27,8 +27,11 @@ import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { routing } from '@/kernel/shared/i18n';
 import { contentHash } from '@/kernel/shared/lib/content-hash';
 
-import { cvPath } from '@/vova/pages/cv/lib/cv-urls';
-import { CV_PAGE_CEILING, CV_VARIANTS } from '@/vova/pages/cv/lib/cv-variants';
+import {
+  CV_PAGE_CEILING,
+  CV_VARIANTS,
+  cvPath,
+} from '@/vova/pages/cv/index.node-safe';
 
 import { pdfPageCount } from './lib/pdf-pages.ts';
 

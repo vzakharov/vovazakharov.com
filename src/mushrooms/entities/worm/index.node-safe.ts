@@ -3,6 +3,7 @@ export {
   pathLength,
   tripDuration,
   WORM_GIRTH,
+  WORM_GIRTH_LEAST,
   WORM_LENGTH,
   WORM_OUT,
   WORM_PEEK_DURATION,

@@ -9,10 +9,12 @@
 import { z } from 'zod';
 
 import { wrap } from '@/mushrooms/shared/lib/geometry';
-import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
-import { INSECT_KINDS } from '@/mushrooms/entities/insect/model/insect-genes';
-import { LANDING } from '@/mushrooms/entities/insect/model/insect-motion';
-import { SEAT_FADE } from '@/mushrooms/entities/insect/ui/insect-frame';
+import { TURN_CRUISE } from '@/mushrooms/shared/world';
+import {
+  INSECT_KINDS,
+  LANDING,
+  SEAT_FADE,
+} from '@/mushrooms/entities/insect/index.node-safe';
 
 import { FPS } from './mushroom-probe-drive.ts';
 

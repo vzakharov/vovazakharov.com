@@ -3,7 +3,7 @@ import 'server-only';
 import { AUTHOR_URL, SITE_CONFIG, siteConfig } from '@/kernel/shared/config';
 import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
-import type { Named,WithLink } from '@/kernel/shared/typings';
+import type { Named, WithLink } from '@/kernel/shared/typings';
 
 import { messages } from '../i18n';
 import { documentRoute } from './collections';

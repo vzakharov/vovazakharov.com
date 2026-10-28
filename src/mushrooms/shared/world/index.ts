@@ -49,6 +49,8 @@ export {
   D_SEE_MOST,
   FLIGHT_RISE,
   gaitHeight,
+  RISE_EASE,
+  walking,
 } from './eye-height';
 export {
   anchored,
@@ -112,13 +114,14 @@ export {
   type ShownCover,
   type Silhouette,
 } from './occupant';
-export { openingPan, screenOf } from './pan';
+export { KEY_EASE, openingPan, screenOf, SLOP, TURN_CRUISE } from './pan';
 export {
   type Ahead,
   type Aloft,
   aloftAt,
   alongSight,
   bendAt,
+  type Pinhole,
   pinholeOf,
   planeSeen,
   viewOf,
@@ -128,6 +131,7 @@ export {
   type Chorded,
   type Detailing,
   type Dusking,
+  HAZE_DRIFT,
   hazeAhead,
   type Hazing,
   type PaintedSide,
@@ -136,7 +140,14 @@ export {
 } from './repaint-queue';
 export type { HeadReach, Lifting, Sitter, Spanned } from './seat-reach';
 export { SHELTER_SEATS, type ShelterSide } from './shelter-seats';
-export { forwardOf, GAITS } from './stride';
+export {
+  forwardOf,
+  GAITS,
+  sidewaysOf,
+  STEP_LENGTH,
+  STRIDE_CRUISE,
+  STRIDE_FLING_FASTEST,
+} from './stride';
 export {
   behindHills,
   browLowest,
@@ -153,6 +164,7 @@ export {
   type Placed,
   placedAt,
   rowAt,
+  SHOWN_LEAST,
   sunk,
   sunkAway,
   sunkOver,
@@ -163,6 +175,7 @@ export {
 } from './view';
 export { layoutUnder } from './view-inverse';
 export {
+  crossingOf,
   eyeAt,
   haltAt,
   heldStill,
@@ -183,7 +196,7 @@ export {
   type WalkStart,
   withGait,
 } from './walk';
-export { deepestBob, type Foot, Gait, GROUND_BOB } from './walking';
+export { BOB_SHARE, deepestBob, type Foot, Gait, GROUND_BOB } from './walking';
 export {
   darkAt,
   downpour,

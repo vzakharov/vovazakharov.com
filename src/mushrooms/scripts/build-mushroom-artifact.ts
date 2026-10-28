@@ -12,7 +12,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { z } from 'zod';
 
-import { PALETTE } from '@/mushrooms/shared/ui/palette';
+import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 

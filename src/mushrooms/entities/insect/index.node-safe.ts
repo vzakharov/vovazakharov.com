@@ -37,6 +37,7 @@ export {
   type Kinded,
   PICTOGRAM_SEED,
 } from './model/insect-genes';
+export { LIGHT_STEP } from './model/insect-light';
 export {
   bodyTurn,
   carriedFrom,
@@ -44,6 +45,7 @@ export {
   flyingTurn,
   LANDING,
   landingBob,
+  PIVOT_SHARE,
   REST_LEAN,
   type Stay,
   turned,
@@ -56,7 +58,9 @@ export {
   flightPoint,
   heading,
   type Path,
+  PATH_SHAPES,
 } from './model/insect-paths';
+export { TURN_RATE } from './model/insect-steering';
 export {
   type Destination,
   type Flight,
@@ -106,7 +110,7 @@ export {
   type Zoomed,
 } from './ui/insect-away';
 export { drawnInsect } from './ui/insect-drawn';
-export { drawnAloft, eyeFrameOf, mixD } from './ui/insect-frame';
+export { drawnAloft, eyeFrameOf, mixD, SEAT_FADE } from './ui/insect-frame';
 export { type Seat, seatAloft } from './ui/insect-seat';
 export {
   type InsectCamera,

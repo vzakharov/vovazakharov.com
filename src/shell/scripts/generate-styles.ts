@@ -27,8 +27,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { CSS_COLORS } from '@/shell/shared/ui/css-color';
-import { breakpoints } from '@/shell/app/styles/breakpoints';
+import { CSS_COLORS } from '@/shell/shared/ui/index.node-safe';
+import { breakpoints } from '@/shell/app/styles/index.node-safe';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 

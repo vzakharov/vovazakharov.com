@@ -27,28 +27,29 @@
 
 import { z } from 'zod';
 
-import { MUSHROOM_SLOTS } from '@/mushrooms/shared/world/crowding';
-import { OPENING_EYE } from '@/mushrooms/shared/world/ground';
-import { viewAt } from '@/mushrooms/shared/world/view';
+import { MUSHROOM_SLOTS, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
 import {
+  coversShown,
   hiddenOf,
   hidersOf,
   MOST_HIDDEN,
   PARTS,
   partSighted,
-} from '@/mushrooms/entities/mushroom/ui/cap-cover';
-import { coversShown } from '@/mushrooms/entities/mushroom/ui/mushroom-cover';
-import { VIEWPORTS, VISITS } from '@/mushrooms/entities/mushroom/ui/viewports';
-import { SPORE_SEATS } from '@/mushrooms/features/grow-mushroom/model/sprouting';
-import { patchlessIn } from '@/mushrooms/features/grow-mushroom/ui/mushroom-patch';
-import { dotInSight } from '@/mushrooms/features/grow-mushroom/ui/spore-sight';
-import type { MeadowLayout } from '@/mushrooms/pages/mushrooms/ui/layout';
+  VIEWPORTS,
+  VISITS,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
+import {
+  dotInSight,
+  patchlessIn,
+  SPORE_SEATS,
+} from '@/mushrooms/features/grow-mushroom/index.node-safe';
 import {
   capsSpan,
+  type MeadowLayout,
   type Opened,
   opened,
   standingIn,
-} from '@/mushrooms/pages/mushrooms/ui/visit-play';
+} from '@/mushrooms/pages/mushrooms/index.node-safe';
 
 import { median } from './lib/frame-budget.ts';
 

@@ -143,9 +143,11 @@ as `shared/config` is.
     and puts `constructMetadata` behind the other, because `vova/pages/cv`'s URL
     module reads the suffix and a client component reads that; `shared/config`
     puts `BUILD_YEAR` behind it, which is evaluated once per deploy and would
-    otherwise re-evaluate at hydration. A fence wants a reason of that kind: a
-    dependency's weight is not one, since removing the dependency removes the
-    fence and whatever was built on it.
+    otherwise re-evaluate at hydration. `music/shared/catalogue` puts
+    `readCatalogueNames` behind it, the one module there without the import: it
+    reads `node:fs`, and its test and a script load it bare. A fence wants a
+    reason of that kind: a dependency's weight is not one, since removing the
+    dependency removes the fence and whatever was built on it.
   - **`index.node-safe.ts`** is the bundler axis: what resolves under an app's
     `scripts/` and its tests, which run with none — so the graph behind it holds
     no CSS, JSX or asset import, and carries no `server-only`, which throws
@@ -204,10 +206,11 @@ as `shared/config` is.
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
   directly, since scripts have no public API, but every layer — its own app's
-  included — only through one; it never reaches root `scripts/`, which holds the
-  repo's and the agent's tooling. A script several sites run splits like the
-  sitemap: a core in the lowest app that owns the work, and an entry per site in
-  its leaf app — `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
+  included — only through one, its tests through `index.test-only.ts` as well;
+  it never reaches root `scripts/`, which holds the repo's and the agent's
+  tooling. A script several sites run splits like the sitemap: a core in the
+  lowest app that owns the work, and an entry per site in its leaf app —
+  `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported
   identifiers keep their PascalCase (`card.tsx` exports `Card`).
 - **The checkers run with the stock recommended ruleset and two overrides**,
@@ -271,12 +274,10 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   markdown it serves, root `styles/` and the Sass partial it holds — is reached
   by URL or relative path, not by alias. Inside `src/`, a relative import stays
   in its slice, its segmented layer or its app's `scripts/`, and anything past
-  that is reached by alias — `vova/no-relative-escape` holds it. An app's
-  `scripts/` run outside any bundler, under `tsx`, which follows the alias. A
-  script under bare Node, which does not, moves to `tsx` the moment it needs
-  anything past its home.
-- **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
-  ESLint loads it under jiti and root `scripts/` under bare Node.
+  that is reached by alias — `vova/no-relative-escape` holds it. Every script
+  runs outside any bundler, under `tsx`, which follows the alias.
+- **`eslint/masd-graph.ts` imports relatively**, since ESLint loads it under
+  jiti, which does not follow the alias.
 - **next-intl's request config is found by path, not by import.** Each site's
   `next.config.ts` names `../../src/kernel/shared/i18n/request.ts` explicitly;
   moving that file means editing both. The path is relative to the site

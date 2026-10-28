@@ -8,7 +8,7 @@
 
 import { z } from 'zod';
 
-import { FURNISHINGS } from '@/mushrooms/entities/mushroom/model/house';
+import { FURNISHINGS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import {
   type Controls,

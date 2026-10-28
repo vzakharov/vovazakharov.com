@@ -7,10 +7,12 @@
  * tenth of its dash.
  */
 
-import { FLIGHT_HABITS } from '@/mushrooms/entities/insect/model/flight-habits';
-import type { InsectKind } from '@/mushrooms/entities/insect/model/insect-genes';
-import { PIVOT_SHARE } from '@/mushrooms/entities/insect/model/insect-motion';
-import { flightPoint } from '@/mushrooms/entities/insect/model/insect-paths';
+import {
+  FLIGHT_HABITS,
+  flightPoint,
+  type InsectKind,
+  PIVOT_SHARE,
+} from '@/mushrooms/entities/insect/index.node-safe';
 
 import { FPS } from './mushroom-probe-drive.ts';
 

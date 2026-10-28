@@ -15,8 +15,7 @@
  *   with one reference passes when it is a module by its own app's imports.
  *
  * Reads `src/` and `sites/*\/app/` under the working directory, so a test runs
- * it against a tree of its own. Bare Node runs this file, relying on its type
- * stripping. See .claude/rules/masd.md.
+ * it against a tree of its own. See .claude/rules/masd.md.
  */
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';

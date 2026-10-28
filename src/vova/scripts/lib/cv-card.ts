@@ -16,12 +16,12 @@ import {
 } from '@/kernel/shared/config/index.node-safe';
 import type { Billed } from '@/kernel/shared/typings';
 
-import { cvMessages } from '@/vova/pages/cv/lib/cv-messages';
 import {
+  cvMessages,
+  type CvVariant,
   type OfferHeadline,
   offerHeadline,
-} from '@/vova/pages/cv/lib/cv-offer';
-import type { CvVariant } from '@/vova/pages/cv/lib/cv-variants';
+} from '@/vova/pages/cv/index.node-safe';
 
 import {
   CANVAS_BACKGROUND,

@@ -15,7 +15,7 @@ export const vovaRules = {
     'vova/no-redundant-defaulted-param-type', // drop a named type annotation on a fully-defaulted destructured param when types prove it redundant (type-aware; inline literals stay with no-inline-object-param-type)
     'vova/no-redundant-property-copy', // prefer destructuring over key: source.key
     'vova/no-redundant-type-alias', // `type A = B` that just renames another named type is a leftover — use B directly and delete the alias
-    'vova/no-relative-escape', // a relative import under src/ stays in its slice, segmented layer or app scripts — past that, the `@/` path, which moves a script bare Node runs to tsx
+    'vova/no-relative-escape', // a relative import under src/ stays in its slice, segmented layer or app scripts — past that, the `@/` path
     'vova/no-split-jsx-spreads', // multiple {...{ prop }} spreads on one element belong in one — merged when no attribute between them invokes anything
     'vova/no-uncaused-rethrow', // `throw new X(…)` in a catch block must carry the caught error as `{ cause }` (type-aware: a non-Error cause carries no stack)
     'vova/prefer-shorthand-spread', // enforce {...{ prop }} over prop={prop}

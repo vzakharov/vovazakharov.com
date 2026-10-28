@@ -12,6 +12,7 @@ import path from 'node:path';
 import { describe, it } from 'node:test';
 
 const SCRIPT = path.resolve(import.meta.dirname, 'masd-check.ts');
+const TSX = path.resolve(import.meta.dirname, '../node_modules/.bin/tsx');
 
 /** Fixture files, keyed by path relative to the tree's root. */
 type Tree = Record<string, string>;
@@ -45,7 +46,7 @@ function run(tree: Tree): { status: number; stderr: string } {
     mkdirSync(path.dirname(full), { recursive: true });
     writeFileSync(full, text);
   }
-  const { error, status, stderr } = spawnSync(process.execPath, [SCRIPT], {
+  const { error, status, stderr } = spawnSync(TSX, [SCRIPT], {
     cwd: dir,
     encoding: 'utf8',
   });

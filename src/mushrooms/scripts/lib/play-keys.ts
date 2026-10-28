@@ -13,12 +13,12 @@
 
 import { z } from 'zod';
 
-import { flowerGenes } from '@/mushrooms/entities/flower/model/flower-genes';
 import {
+  flowerGenes,
   type FlowerSound,
   sameSound,
   soundOf,
-} from '@/mushrooms/entities/flower/model/flower-sounds';
+} from '@/mushrooms/entities/flower/index.node-safe';
 
 import { type Controls, Flower, Point } from './mushroom-probe-answers.ts';
 import {

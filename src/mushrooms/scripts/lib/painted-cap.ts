@@ -12,18 +12,14 @@ import {
   distanceToEdge,
 } from '@/mushrooms/shared/lib/geometry';
 import {
+  capFrame,
+  headOutlines,
   MUSHROOM_SPECIES,
   mushroomGenes,
-} from '@/mushrooms/entities/mushroom/model/mushroom-genes';
-import {
-  headOutlines,
-  toCanvas,
-} from '@/mushrooms/entities/mushroom/model/mushroom-outline';
-import {
-  capFrame,
+  placeOf,
   splayed,
-} from '@/mushrooms/entities/mushroom/model/mushroom-pose';
-import { placeOf } from '@/mushrooms/entities/mushroom/ui/clump-layout';
+  toCanvas,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import type { Camera, Point } from './mushroom-probe-answers.ts';
 

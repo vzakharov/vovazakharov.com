@@ -22,9 +22,11 @@ import {
   runAt,
   runDuration,
   type RunOpening,
-} from '@/mushrooms/entities/mouse/model/mouse-run-clock';
-import { FURNISHINGS } from '@/mushrooms/entities/mushroom/model/house';
-import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/model/mushroom-genes';
+} from '@/mushrooms/entities/mouse/index.node-safe';
+import {
+  FURNISHINGS,
+  MUSHROOM_SPECIES,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import {
   Box,
