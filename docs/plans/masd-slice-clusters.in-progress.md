@@ -41,33 +41,20 @@ Nothing built yet. In discussion, the search changed:
   `ControlledScreen`, the player's controls (`player-controls.ts`) and its
   context (`player-context.ts`). No merge and no parameter inversion was needed,
   and no break dropped a type.
-
-## This bite
-
-A first cut of the cluster report, taken on the operator's «давай попробуем
-_как-нибудь_, а после этого может лучше поймём, нужно ли было попробовать
-по-другому», with the spike's open questions settled by the agent's
-recommendations so the output can be judged rather than argued:
-
-- **`pnpm masd:clusters`** (`scripts/masd-clusters.ts`) prints, per slice of a
-  sliced layer, the clusters worth a slice of their own. A report, exit 0: vet
-  runs its tests, never the report.
-- **Candidates are downward closures**: a file and everything it reaches inside
-  its slice. They never import back into the rest of the slice, by construction,
-  which dominator subtrees nearly always do (the spike's finding). A closure
-  rooted at a door — a file something outside the slice imports — is the slice
-  itself, so it is skipped; so is one of fewer than two files or more than 80%
-  of the slice.
-- **Scored by ΔQ on the slice's own graph**: `−e_TR/m + 2·(d_T/2m)·(d_R/2m)`,
-  `m` the slice's internal edges. App-wide ΔQ is modularity's resolution limit
-  in action and found nothing in a large app. Reported when positive.
-- **A candidate made of whole segments is dropped**: FSD already cut there, so
-  `model/` alone is not a finding.
-- **Per slice, the best candidate and every other that does not overlap it**,
-  greedily by ΔQ.
-- **The resolver is PR #227's `scripts/lib/import-graph.ts`**, taken byte for
-  byte so whichever branch lands second merges it as a no-op. `masd-check.ts` is
-  left to #227, which moves it onto that module.
+- **Bite 2 — `pnpm masd:clusters`, a first cut**, on the operator's «давай
+  попробуем _как-нибудь_, а после этого может лучше поймём, нужно ли было
+  попробовать по-другому». A report, exit 0, whose tests vet runs. Candidates
+  are downward closures — a file and all it reaches in its slice, so they never
+  import back — rooted at no door, two files up to 80% of the slice, not whole
+  segments, scored by ΔQ on the slice's own graph and kept when positive; per
+  slice the best and each next one overlapping none. The resolver is #227's
+  `scripts/lib/import-graph.ts`, `masd-check.ts` moved onto it as #227 does,
+  `walk` left unexported. First output: 27 of 46 slices flagged. Hits that read
+  right: the mushroom's painting (×13), the landscape's backdrop (×16), the
+  document's prose body, the article page, home's work section, the player's
+  model, play-flowers' instrument. Noise: a page's whole UI tree from its main
+  component (mushrooms `control-actions` ×14, maya home), and pairs at ΔQ near
+  zero.
 
 ## Rest of the elephant
 
