@@ -10,9 +10,10 @@ Both CV variants, in English and Russian, gain the mitko Telegram bot
 (aiogram, pgvector, PydanticAI) among independent projects, and Redis,
 Django Q2, SQLAlchemy, DRF, pgvector, PydanticAI and Azure OpenAI in
 the stack. The dev variant's working style is rewritten in a business
-register; the Playgram experience gains a bullet on changes a week
-against the Bubble era. To hold the 3-page ceiling, Unfindables and
-Flows leave the independent projects and the stack drops minor tools.
+register; the Playgram experience gains a bullet on changes a week per
+developer against the Bubble era. To hold the 3-page ceiling,
+Unfindables and Flows leave the independent projects and the stack
+drops minor tools.
 
 The case study and its mini and nano cuts frame the gain in two steps:
 parallel web sessions bought about 65% more work than a few local
