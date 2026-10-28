@@ -23,7 +23,7 @@ pnpm type-overlap               # scripts/type-overlap-check.ts │
 pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
-pnpm check:typography          # quotes and dashes per medium  │
+pnpm check:typography           # quotes and dashes per medium  │
 scripts/vet-songs.sh            # song checks, when a song moved │
 pnpm content:og:vova --check    # social cards, hashes only     │
 pnpm content:og:bible --check   # the seal's own card           │
@@ -135,10 +135,10 @@ Nineteen things about that list are deliberate:
   and flags a `"`, `'` or `--` only in a text node, so one in frontmatter, code
   or raw HTML — syntax, not punctuation — never trips it. A regex over the file
   could not tell the two apart. It holds a channel post the other way round,
-  flagging a `—` inside a draft's `text` fence. It reads only that Markdown,
-  which is why it overlaps the rest safely; `.claude/rules/content.md` §
-  "Dashes" and § "Punctuation around quotes" and `writing/CLAUDE.md` § "Voice"
-  are the rules it holds.
+  flagging a `—` inside a draft's `text` fence. It reads only Markdown, which is
+  why it overlaps the rest safely; `.claude/rules/content.md` § "Dashes" and §
+  "Punctuation around quotes" and `writing/CLAUDE.md` § "Voice" are the rules it
+  holds.
 - **The song checks run only when the branch changes a song or the checks
   themselves**, a song's verdict being its own file's. `scripts/vet-songs.sh`
   gates `pnpm check:masked-words` — the same text nodes, through the same

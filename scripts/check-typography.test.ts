@@ -1,8 +1,8 @@
 /**
  * End-to-end tests for the typography gate: the real script, run with `cwd`
  * at a throwaway tree under the OS temp directory, asserted on exit code and
- * report. The fixtures are written here because a committed `.md` holding a
- * straight quote in prose would trip the repo's own run.
+ * report. The fixtures are written here because a committed `.md` holding
+ * what the gate flags would trip the repo's own run.
  */
 
 import assert from 'node:assert/strict';

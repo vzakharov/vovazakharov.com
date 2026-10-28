@@ -108,9 +108,8 @@ alternative:
 
 The marker is what tells a proposal from an agent's reply in the PR export, both
 posted under the operator's login, and what sends the session answering it to
-`@.claude/skills/five-percent/verdicts.md`. It is hidden on GitHub, so the
-visible name is what tells the operator which pass a comment came from, on a PR
-where an agent's replies and other passes post under the same login. **In the
+`@.claude/skills/five-percent/verdicts.md`. It is hidden on GitHub, so there the
+visible name is what tells the operator which pass a comment came from. **In the
 operator's language** — a review is conversation (CLAUDE.md § "Language").
 
 **No PR, no review.** The pass reports itself deferred and posts nothing
