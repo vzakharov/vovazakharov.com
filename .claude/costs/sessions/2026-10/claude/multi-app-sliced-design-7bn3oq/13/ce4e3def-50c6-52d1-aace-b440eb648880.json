@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 208,
+    "inputTokens": 210,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 198479,
-    "cacheReadTokens": 19254126,
-    "outputTokens": 40641,
+    "cacheWrite1hTokens": 199710,
+    "cacheReadTokens": 19512135,
+    "outputTokens": 43291,
     "thinkingTokens": 7623,
-    "responses": 104,
-    "costUsd": 6.2523092
+    "responses": 105,
+    "costUsd": 6.366767
   },
   "estimate": {
     "at": "2026-10-28T08:00:28.293Z",
@@ -47,18 +47,18 @@
   "url": "https://claude.ai/code/session_01DaohkE8KaahxjUCR2HwuKH",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-28T06:53:04.009Z",
-  "lastResponseAt": "2026-10-28T08:00:31.179Z",
+  "lastResponseAt": "2026-10-28T08:00:53.339Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 208,
+    "inputTokens": 210,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 198479,
-    "cacheReadTokens": 19254126,
-    "outputTokens": 40641,
+    "cacheWrite1hTokens": 199710,
+    "cacheReadTokens": 19512135,
+    "outputTokens": 43291,
     "thinkingTokens": 7623,
-    "responses": 104,
-    "costUsd": 6.2523092
+    "responses": 105,
+    "costUsd": 6.366767
   },
   "subagents": {
     "inputTokens": 0,
@@ -72,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 208,
+      "inputTokens": 210,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 198479,
-      "cacheReadTokens": 19254126,
-      "outputTokens": 40641,
+      "cacheWrite1hTokens": 199710,
+      "cacheReadTokens": 19512135,
+      "outputTokens": 43291,
       "thinkingTokens": 7623,
-      "responses": 104,
-      "costUsd": 6.2523092
+      "responses": 105,
+      "costUsd": 6.366767
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 104,
-    "matched": 104,
-    "matchedTableUsd": 6.2523092,
-    "matchedEventUsd": 6.252309199999999,
+    "events": 105,
+    "matched": 105,
+    "matchedTableUsd": 6.366767,
+    "matchedEventUsd": 6.366766999999999,
     "unseen": {}
   }
 }
