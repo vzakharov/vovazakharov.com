@@ -103,9 +103,8 @@ const policiesFor = (app: string) => {
       },
       allow: { to: { element: sharedLibEntry(apps) } },
     },
-    // An app's scripts enter their own app's and ancestors' scripts, which have
-    // no public API, directly, and every layer, their own app's included,
-    // through one.
+    // Scripts have no public API, so an app's scripts enter its own and its
+    // ancestors' directly; every layer, their own app's included, through one.
     {
       from: { element: { type: 'script', captured: { appName: app } } },
       allow: {
