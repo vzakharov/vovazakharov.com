@@ -23,15 +23,15 @@ checkers enforce what follows, all run by `./scripts/vet.sh`:
   run per app root.
 - **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, and
   slice significance counted across the composition.
-- **`pnpm check:poison`** (`scripts/poison-check.ts`) — the suffixed barrels'
-  runtime axes across whole import chains, which `boundaries` cannot see one
-  import at a time: no `'use client'` file reaches `server-only` or an
-  `index.no-browser.ts`, and no script entry run without the `react-server`
-  condition reaches `server-only`. Its header says which files are roots.
+- **`pnpm check:poison`** (`scripts/poison-check.ts`) — across whole import
+  chains, which `boundaries` judges one import at a time: no `'use client'` file
+  reaches `server-only` or an `index.no-browser.ts`, and no script entry run
+  without the `react-server` condition reaches `server-only`. Its header says
+  which files are roots.
 
-`eslint/masd-graph.ts` is the only loader of `masd.json`; the three go through
-it, and so does the import sort, which groups imports one app at a time in graph
-order.
+`eslint/masd-graph.ts` is the only loader of `masd.json`; the first three go
+through it, and so does the import sort, which groups imports one app at a time
+in graph order.
 
 ## The model
 

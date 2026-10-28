@@ -17,9 +17,8 @@
  *
  * The walk is breadth-first, so each chain reported is a shortest one, and
  * chains are grouped by their last hop before the poison, the import to fix.
- * Type-only imports are erased and never followed. Ported from
- * `playgramai/playgramapp`'s `scripts/poison-check.ts`. Reads everything under
- * the working directory, so a test runs it against a tree of its own. See
+ * Type-only imports are erased and never followed. Reads everything under the
+ * working directory, so a test runs it against a tree of its own. See
  * .claude/rules/masd.md.
  */
 
