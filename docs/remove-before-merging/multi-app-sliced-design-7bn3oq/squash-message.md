@@ -26,7 +26,9 @@ with a single child, because Steiger sees one root's references only.
 Imports sort one group per app in graph order, so a file's imports
 read as its composition, its own app last, and a relative import stays
 inside its slice, segmented layer or app scripts/, the rest going by
-@/ (vova/no-relative-escape) bar the files bare Node runs. Per-site
+@/ (vova/no-relative-escape) bar the files bare Node runs. Two apps'
+slices may share a name, so a name a file imports from two modules
+takes an `as` at every import (vova/alias-namesake-imports). Per-site
 pnpm entries take the site as an argument: pnpm build vova.
 
 The game renders on a root layout of its own, without the theme
