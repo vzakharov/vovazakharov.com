@@ -48,6 +48,7 @@ import {
 } from './eslint/rule-groups/typescript';
 import { unicornRules } from './eslint/rule-groups/unicorn';
 import { vovaRules } from './eslint/rule-groups/vova';
+import aliasNamesakeImports from './eslint/rules/alias-namesake-imports';
 import noDefaultTrue from './eslint/rules/no-default-true';
 import noExportNamesake from './eslint/rules/no-export-namesake';
 import noHardcodedStrings from './eslint/rules/no-hardcoded-strings';
@@ -89,6 +90,7 @@ const eslintConfig = defineConfig([
     plugins: {
       vova: {
         rules: {
+          'alias-namesake-imports': aliasNamesakeImports,
           'no-default-true': noDefaultTrue,
           'no-export-namesake': noExportNamesake,
           'no-hardcoded-strings': noHardcodedStrings,

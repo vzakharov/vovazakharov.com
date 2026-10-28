@@ -33,7 +33,7 @@ import { WHISPER_DRAWING, WHISPER_ROUTE } from '@/maya/shared/config';
 import { messages as mayaMessages } from '@/maya/shared/i18n';
 import { MayaByline, plateNumber } from '@/maya/entities/maya';
 
-import { messages } from '../i18n';
+import { messages as homeMessages } from '../i18n';
 import { Frontispiece } from './frontispiece';
 import { type Plate, Plates } from './plates';
 import { Shelf } from './shelf';
@@ -100,7 +100,7 @@ function toyPlates(locale: Locale): Plate[] {
 }
 
 export function mayaHomeMetadata({ locale }: WithLocale) {
-  const { tagline } = messages(locale);
+  const { tagline } = homeMessages(locale);
   const { title } = mayaMessages(locale);
 
   return constructMetadata({
@@ -115,7 +115,7 @@ export async function MayaHomePage({ locale }: WithLocale) {
   const name = blogMessages(locale).authors.maya;
   const { title } = mayaMessages(locale);
   const { subtitle, tagline, intro, toys, frontispiece, portraitAlbum } =
-    messages(locale);
+    homeMessages(locale);
 
   return (
     <PageShell>

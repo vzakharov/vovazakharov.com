@@ -42,7 +42,7 @@ tree is its ancestors' layers overlaid, plus its own. So:
   and one barrel per app cannot hold the `server-only` / `node-safe` split.
 - **An app may have several parents.** A diamond is harmless — inheriting is
   only the right to import, nothing overrides anything — and two ancestors may
-  hold slices of the same name, the importer renaming one where it needs both.
+  hold slices of the same name, the importer renaming each where it needs both.
 - **An app with no ancestors is plain FSD**, so every FSD project is a one-app
   MASD project.
 
