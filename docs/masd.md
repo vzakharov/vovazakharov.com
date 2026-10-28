@@ -101,7 +101,11 @@ shared block drops to, `shared/lib`, scripts, and the Next.js traps — is in
 ## The checkers
 
 Three checkers hold the model, all run by `./scripts/vet.sh`, and all read the
-graph through one loader, `eslint/masd-graph.ts`.
+graph through one loader, `eslint/masd-graph.ts`. A fourth, `pnpm check:cycles`
+(madge), holds the file-import graph under `src/` acyclic, type-only imports
+included: two files importing each other cannot go to different slices, so a
+slice's files form a DAG, which is what a search for a cluster inside one stands
+on.
 
 | Checker                                                  | Holds                                                                                                     |
 | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
