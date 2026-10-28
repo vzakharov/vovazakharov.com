@@ -28,7 +28,7 @@ import {
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { opened } from '../ui/visit-play';
+import { opened } from './visit-play';
 
 const SEEDS = [1, 42, 99];
 

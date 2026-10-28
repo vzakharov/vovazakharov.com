@@ -35,7 +35,7 @@ import {
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 import { shownOf } from '@/mushrooms/features/insects-fly/index.test-only';
 
-import { opened } from '../ui/visit-play';
+import { opened } from './visit-play';
 
 /** A world 100 units across, the screen showing 30 to 60 of it. */
 const WORLD = 100;

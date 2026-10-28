@@ -16,7 +16,7 @@ import {
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { opened } from '../ui/visit-play';
+import { opened } from './visit-play';
 
 /** How many feet an evenness trial lays out: a meadow's six. */
 const FEET = 6;

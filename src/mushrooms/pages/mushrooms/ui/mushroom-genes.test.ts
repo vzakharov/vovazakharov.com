@@ -28,7 +28,7 @@ import {
   ZOOM_FLOOR,
 } from '@/mushrooms/entities/mushroom/index.test-only';
 
-import { meadowLayout } from '../ui/layout';
+import { meadowLayout } from './layout';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
 const median = (values: readonly number[]) =>

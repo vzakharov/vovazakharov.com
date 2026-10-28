@@ -28,7 +28,7 @@ import {
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { meadowLayout } from '../ui/layout';
+import { meadowLayout } from './layout';
 
 const ORIGIN = { x: 0, y: 0 };
 const angleOf = ({ x, y }: Point) => Math.atan2(y, x);

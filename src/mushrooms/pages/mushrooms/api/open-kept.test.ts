@@ -1,24 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { settled } from '../model/keeping';
-import { type Kept, KEPT_VERSION } from '../shape/kept-record';
-import { opened } from '../ui/visit-play';
+import { KEPT_VERSION } from '../shape/kept-record';
+import { keptRecord as kept } from '../shape/kept-record.test-kit';
 import { fakeStore, later } from './fake-store';
 import { openStore } from './meadow-store';
 import { openKept } from './open-kept';
-
-const stand = opened(3, 1180, 820, false);
-
-function kept(seed: number): Kept {
-  return {
-    version: KEPT_VERSION,
-    seed,
-    eye: { x: 0.5, y: -1, heading: 0.2 },
-    gait: 'flight',
-    meadow: settled(stand.meadow, 0),
-  };
-}
 
 /** A page at `hash`, recording every hash written to it. */
 function page(hash: string) {

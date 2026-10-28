@@ -20,7 +20,7 @@ import {
   stemOutline,
 } from '@/mushrooms/entities/mushroom/index.test-only';
 
-import { meadowLayout } from '../ui/layout';
+import { meadowLayout } from './layout';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 

@@ -24,7 +24,7 @@ import {
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { meadowLayout } from '../ui/layout';
+import { meadowLayout } from './layout';
 
 /** A stay on a cap: flying from 0, landing at 1000, due to leave at 9000. */
 const STAY: Stay = {

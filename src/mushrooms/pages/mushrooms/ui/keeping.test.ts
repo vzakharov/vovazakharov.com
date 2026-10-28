@@ -26,11 +26,11 @@ import {
   sproutMoment,
 } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 
+import { reduce } from '../model/game';
+import { reopened, settled } from '../model/keeping';
 import { type Kept, RESTED_AT } from '../shape/kept-record';
 import type { Meadow } from '../shape/meadow';
-import { ALL_TEN, opened, play } from '../ui/visit-play';
-import { reduce } from './game';
-import { reopened, settled } from './keeping';
+import { ALL_TEN, opened, play } from './visit-play';
 
 /** A meadow and the moment it was played to. */
 type Moment = { meadow: Meadow; now: number };

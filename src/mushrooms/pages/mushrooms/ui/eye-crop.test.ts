@@ -10,7 +10,7 @@ import {
 import { layoutAtRow } from '@/mushrooms/shared/world/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { meadowLayout } from '../ui/layout';
+import { meadowLayout } from './layout';
 
 /** The eyes the inverse is checked from: the opening's, turned both ways, stepped in, and stepped aside and turned. */
 const EYES = [

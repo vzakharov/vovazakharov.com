@@ -24,7 +24,7 @@ import {
 } from '@/mushrooms/entities/landscape/index.test-only';
 import { VIEWPORTS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { meadowLayout } from '../ui/layout';
+import { meadowLayout } from './layout';
 
 describe('the footfalls', () => {
   it('lands none until the walk reaches a step', () => {

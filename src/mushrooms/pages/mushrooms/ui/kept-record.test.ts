@@ -6,11 +6,11 @@ import { z } from 'zod';
 import { OPENING_EYE } from '@/mushrooms/shared/world';
 import { grownOn } from '@/mushrooms/entities/mushroom/index.node-safe';
 
+import { type Action, reduce } from '../model/game';
+import { settled } from '../model/keeping';
 import { type Kept, KEPT_VERSION, KeptSchema, readKept } from '../shape/kept-record';
 import type { Meadow } from '../shape/meadow';
-import { ALL_TEN, opened, play } from '../ui/visit-play';
-import { type Action, reduce } from './game';
-import { settled } from './keeping';
+import { ALL_TEN, opened, play } from './visit-play';
 
 const SEED = 5;
 /** Past the shower tapped at 6 s, so a spore sown then lies on. */
@@ -104,7 +104,7 @@ describe('KeptSchema', () => {
     // `undefined` is the schema's only type JSON Schema cannot express; it reads as `{}`.
     const shape = z.toJSONSchema(KeptSchema, { unrepresentable: 'any' });
     const pinned: unknown = JSON.parse(
-      readFileSync(new URL('kept-record.schema.json', import.meta.url), 'utf8'),
+      readFileSync(new URL('../shape/kept-record.schema.json', import.meta.url), 'utf8'),
     );
     assert.deepEqual(
       shape,

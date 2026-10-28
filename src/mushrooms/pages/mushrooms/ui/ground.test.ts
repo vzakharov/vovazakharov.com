@@ -38,7 +38,7 @@ import {
   WORLD_ACROSS,
 } from '@/mushrooms/entities/mushroom/index.test-only';
 
-import { opened, relaidOn } from '../ui/visit-play';
+import { opened, relaidOn } from './visit-play';
 
 /** `feetOver` as mushrooms stand on them, grown at the opening eye. */
 const footedOver = (frame: Frame): Footed[] => [

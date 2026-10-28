@@ -9,7 +9,7 @@ import {
 import { OPENING_EYE } from '@/mushrooms/shared/world';
 import { VISITS } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { meadowLayout } from '../ui/layout';
+import { meadowLayout } from './layout';
 
 describe('sunLight', () => {
   for (const [name, width, height, side] of [

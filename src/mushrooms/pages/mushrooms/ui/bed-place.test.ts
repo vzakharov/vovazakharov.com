@@ -40,7 +40,7 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { EITHER_WAY } from '@/mushrooms/entities/mushroom/index.test-only';
 
-import { opened } from '../ui/visit-play';
+import { opened } from './visit-play';
 
 /** How near the opening placement stands to the layout's, in CSS px. */
 const SAME_PX = 0.5;
