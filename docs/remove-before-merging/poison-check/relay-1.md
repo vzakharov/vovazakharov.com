@@ -1,4 +1,4 @@
-# Relay 1 — poison check (parked)
+# Relay 1 — poison check
 
 ## Standing constraints
 
@@ -18,31 +18,61 @@ None stated by the operator.
    masd-check's own resolver; Step 3 no: the alternatives land close). Wrote the
    plan, opened draft PR #227, flipped the plan, implemented, ran `/polish`, and
    finished `/go`. The final report put one optional `/five-percent` proposal to
-   the operator (drop the client half, since `pnpm build` already catches it).
-   The agent recommended keeping it. The report also offered the muthur sync
-   (one commit, 03451362) as a new session. (verbatim in Last agent turn)
+   the operator (drop the client half, since `pnpm build` already catches it),
+   and recommended keeping that half. It also offered the muthur sync (one
+   commit, 03451362) as a new session. A keepalive wake then parked the session.
 
-No operator message since.
+2. **Operator**: «не знаю, не знаю. madge мы все равно будем ставить для
+   убирания ациклических графов, думаю, так или иначе»
+
+   **Agent**: keep our resolver for now. Its point is one resolver shared by
+   check:masd and check:poison, not just "no dependency". Decide "whose graph"
+   once, when the cycle check arrives, for all three checks. Swapping the poison
+   check's edge source to madge is about 30 lines. Offered to add an Open
+   directions line about a madge cycle check. No answer yet.
+
+3. **Operator**: «а check:masd перевести на madge -- в общем годная идея? или
+   это про другое?»
+
+   **Agent**: it is the same question. Moving check:masd to madge only makes
+   sense if madge lands anyway. A cycle check is a DFS over the edges
+   `scripts/lib/import-graph.ts` already builds (~20 lines), so madge earns its
+   place only for its `.dot` visualisation. If it comes in, move all three onto
+   it. Two snags: check:masd counts type-only imports as references while
+   check:poison skips them, and the routers live in `sites/*/app/`.
+   Recommended building the cycle check on our graph.
+
+4. **Operator**: «можешь поговорить с
+   https://claude.ai/code/session_01DaohkFjE5k2mZsypSbXfxP об этом?»
+
+   **Agent**: looked the session up: "(1) MASD: когда кластер в слайсе
+   заслуживает своего", branch `claude/masd-slice-clusters-q7r4tm`, task
+   summary "8/18 import cycles cut". Its transcript mentions no madge. Sent it a
+   message (delivered) laying out the question and our position. The message
+   asked how it finds cycles today, whether it plans madge or a vet cycle check,
+   and whether building one on `scripts/lib/import-graph.ts` suits it. It asked
+   for the reply by send_message to this session. Then the context budget paused
+   the session and it relayed. (verbatim in Last agent turn)
 
 ## Intent
 
-A transitive runtime-axis check for the MASD barrels, in vet, rooted at
-`'use client'` files and script entries.
+The poison check itself is done. The live thread is which graph the repo's
+import checks share — our resolver or madge — now that a cycle check is
+expected, coordinated with the session cutting cycles.
 
 ## Decisions
 
 - **The graph comes from `scripts/lib/import-graph.ts`** (masd-check's resolver,
-  lifted out), not from madge. That means no new dependency, and the two checks
-  cannot disagree on where an import lands. Madge would differ only in the edge
-  source, so swapping it in is an amendment.
+  lifted out), shared by check:masd and check:poison. The argument that stands
+  is one resolver, so the checks cannot disagree. "No new dependency" weakens
+  if madge lands for cycles.
 - **Script roots are entries**: script files no other script imports, plus every
   test. Entries that `package.json` runs under `--conditions=react-server` are
   exempt (`{site}` is expanded over `src/*`). Tests of an exempt entry are still
   roots.
 - **Client poison** is `server-only` or any `index.no-browser.ts`. Script
   poison is `server-only` only.
-- No `'use server'` boundary (static export). The check is one file, not a
-  library beside a CLI, which the plan records.
+- No `'use server'` boundary (static export). The check is one file.
 - **Out of scope**: the node-safe axis's CSS/JSX/asset half, and tests outside
   `scripts/`.
 
@@ -53,15 +83,17 @@ manually instead.
 
 ## State
 
-- **Branch** `poison-check`, head b7d0a6adb (pushed).
+- **Branch** `poison-check`, all pushed.
 - **PR** #227, open, draft.
 - **Plan** `docs/plans/poison-check.completed.md`.
 - **Squash proposal** posted, tracked at
   `docs/remove-before-merging/poison-check/squash-message.md`.
 - `./scripts/vet.sh` not run. That is `/finalize`'s job.
-- **Estimate**: 5 h senior developer + 1 h senior architect, whole task done
-  here, nothing handed on.
-- Nothing running.
+- **Estimate**: 5 h senior developer + 1 h senior architect, all done here,
+  nothing handed on.
+- **Waiting**: a reply from session_01DaohkFjE5k2mZsypSbXfxP, addressed to the
+  predecessor (session_01DaohkBdtkS2FCg9TJAopr7). It lands there, not in the
+  successor; see `.claude/skills/relay/after-handoff.md`.
 
 ## Pointers
 
@@ -69,14 +101,18 @@ manually instead.
   `scripts/lib/import-graph.ts`
 - `/five-percent` review:
   https://github.com/vzakharov/vovazakharov.com/pull/227#pullrequestreview-5679974370
+- The cycle-cutting session:
+  https://claude.ai/code/session_01DaohkFjE5k2mZsypSbXfxP
 - Transcript: https://claude.ai/code/session_01DaohkBdtkS2FCg9TJAopr7
 
 ## Next step
 
-Wait for the operator. Two things are pending their answer:
+Wait for the cycle-cutting session's reply, which reaches the predecessor and
+is forwarded. Relay it to Vova with a recommendation on the shared graph
+source. Still open with Vova:
 
 - whether to take the optional `/five-percent` proposal;
-- whether to start the muthur sync. It was offered once; do not offer it again.
+- whether to add the Open directions line about a cycle check.
 
 `/finalize` comes when they ask.
 
@@ -89,17 +125,15 @@ The agent's last turn before the relay, verbatim, appended by
 unneeded but harmless; the reply proper is usually its last paragraphs.
 
 ```text
-Вова, `/go` пройден до конца: `/polish` отработал, план переименован в `completed`, PR #227 остаётся черновиком. Описание PR и предложенный текст squash я пересмотрел, обновлять их не понадобилось: правки polish ничего в них не опровергают.
+Вова, вопрос тот же самый, только с другой стороны. Сейчас один резолвер на две проверки. Переведём на madge обе, и резолвер снова будет один, только чужой. Так что переводить `check:masd` на madge имеет смысл, только если madge в репо всё равно появится.
 
-**Что изменил `/polish`:**
-- **447b617.** Одинаковый список файлов («всё в `src/` плюс роутеры сайтов») собирался и в `masd-check`, и в `poison-check`. Теперь это одна функция `appFiles()` в `scripts/lib/import-graph.ts`, и обе проверки её вызывают. Тесты и обе проверки на реальном дереве проходят (27/27).
-- **559ed79.** В `.claude/rules/masd.md` фраза «все три читают граф» теперь говорит «первые три»: четвёртая, проверка на яд, графа не читает. Из шапки `poison-check.ts` убрана строка «портировано из playgramapp»: откуда пришёл код, записано в плане и PR, а в шапке это ничего не говорит о самом коде.
+А вот нужен ли он для циклов, я не уверен. Циклы ищутся обходом в глубину по тем же рёбрам, которые `scripts/lib/import-graph.ts` уже строит, это строк двадцать. Тогда все три проверки остаются на одном графе и без зависимости.
 
-**Один вопрос твой, и он необязательный** ([ревью](https://github.com/vzakharov/vovazakharov.com/pull/227#pullrequestreview-5679974370)). Предлагают оставить только половину проверки, про скрипты без `react-server`. Обоснование такое: два других случая vet уже ловит. Клиентский файл, дошедший до `server-only`, роняет `pnpm build`, а тест роняет `pnpm test:all`. Я бы оставил всё как есть. Сборка падает поздно и с сообщением Next, а проверка сразу даёт одну строку с импортом, который надо чинить. Клиентская половина стоит около тридцати строк. Но если тебе важнее не дублировать build, её можно вырезать одной правкой.
+У madge есть то, чего нет у нас: картинка графа, `.dot`, как `deps-graph` в playgramapp. Если она нужна, это довод за madge. Тогда я бы перевёл на него все три проверки сразу.
 
-Полный `./scripts/vet.sh` ещё не запускался, он идёт в `/finalize`.
+При переводе `check:masd` надо следить за двумя вещами:
+- **Импорты только типов он считает ссылками на слайс**, и это правильно: слайс, который используют только как тип, всё равно используется. Проверке на яд нужно обратное, такие импорты она пропускает. Значит, madge пришлось бы запускать дважды, с `skipTypeImports` и без, или различать эти импорты самим.
+- **Роутеры лежат в `sites/*/app/`, а не в `src/`**, так что madge нужно запускать по обоим деревьям. Алиас `@/` он берёт из корневого `tsconfig.json`, там он прописан, так что это должно работать.
 
-https://github.com/vzakharov/vovazakharov.com/pull/227
-
-Кстати, в vzakharov/muthur появился один новый коммит после нашей последней синхронизации: про то, как auto-mode одобряет `pr-comment.sh`. Он трогает `squash-message`, `update-muthur` и `scripts/pr-comment.sh`. Перенести его сюда в отдельной сессии?
+Я бы сделал проверку на циклы на нашем графе. За madge стоит браться, только если понадобится картинка.
 ```
