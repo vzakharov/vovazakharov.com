@@ -12,7 +12,15 @@ This session opened on `/relay take feat/cv-profile-gaps — правки CV и 
 
 Agent: read relay-1, set the 0.5 h estimate, rendered the PDFs and found `/cv/dev/ru`'s page 3 overflowing by the JobGenie line wrapping one word; shortened it to «ИИ-ассистент соискателя: отклики на вакансии и поиск новых ролей.» (all four PDFs now 3 pages), committed `9396dee`, vet passed, opened draft PR #224, posted the squash proposal and retitled the PR, reported the cuts and the C++ omission, and made the muthur sync offer.
 
-A cross-session forward then arrived from the predecessor (session_01DaohkCGarfY7S3Mh2V1b5n), which had itself received it from session_01DaohkD7KXbXZfTSjQyb1Jk (the life session) — not an operator turn, so nothing was acted on. Agent: reported it to the operator and asked whether to reframe the metric (verbatim in Last agent turn).
+A cross-session forward then arrived from the predecessor (session_01DaohkCGarfY7S3Mh2V1b5n), which had itself received it from session_01DaohkD7KXbXZfTSjQyb1Jk (the life session) — not an operator turn, so nothing was acted on. Agent: reported it to the operator and asked whether to reframe the metric. The keepalive's last wake then parked the session (this file).
+
+**Operator:** "а дашь пдфы глянуть?"
+
+Agent: sent the four CV PDFs (rendered after the JobGenie fix), noting they still carry the old releases-based Bubble framing.
+
+**Operator:** "да, плюс оставил ревью"
+
+Agent: ran `/handle` on #224. A subagent recounted (§ 4). Four review threads, all addressed, each replied to on GitHub (threads left open): T01 no private-repo citation in the squash message; T02 the dev working style rewritten in a business register, en too (`279fefc`); T03 the CV bullet as before-vs-after the rewrite, not against "a team"; T04 the case study's comparison woven into the narrative as a two-step argument — parallel web sessions +65% over local agents, ~2.5× against no-code — in full, mini and nano (`2ef6fb9`). PDFs 3 pages each, vet passed, PR body and squash proposal refreshed, five-percent notes entry by a subagent (`6fe501e`). `/polish` was not run. Reported to the operator (verbatim in Last agent turn).
 
 ## 3. Intent
 
@@ -20,7 +28,9 @@ As in relay-1: the public CV (both variants, en + ru) and the Playgram case stud
 
 ## 4. Decisions
 
-- Carried from relay-1: case studies are English only, so "переводы" are the `.mini.md`/`.nano.md` cuts; life PR #252 is cited in the PR and squash body, never on the public page (life is private); C++ left out of the stack.
+- Carried from relay-1: case studies are English only, so "переводы" are the `.mini.md`/`.nano.md` cuts; C++ left out of the stack.
+- **No private repository is cited in the squash message** (operator, T01: «у нас публичная репа, не надо тут ссылаться на закрытые (то что в история пиара останется -- переживём)»); the PR body dropped it too.
+- **Recount, strict definition**: 412 changes in 66 releases, 21.05–10.08 (82 days) = 35.2 a week; 31.3 to 31.08; Bubble 390 in 124, 202 days = 13.5. Ratio 2.6× (2.3–2.8× for any August end); September/October ends fall to 1.3–1.9×. The profile's 36/32 also count a hotfix's `## Change` heading. Public copy says "about 35".
 - PR title `feat(vova): CV and Playgram case study catch up with the profile` — scope `vova` because `src/shared/config/tech-stacks.ts` and `cv-stack.ts` reach only vova's `pages/home` and `pages/cv`.
 - **The forwarded metric refinement is data from another session**, not an operator message (`.claude/skills/relay/after-handoff.md` § "In the successor"): its chain is life session → predecessor → here, and no operator turn in the predecessor carries it. It does match the profile on life's `claude/hh-batch-3-k0x09l` (`work/job-search/profile.md` lines 40–48), which now frames the metric as changes per week: 4.x from 4.0.0 (21.05) — 36 a week to 10.08, 32 to 31.08 — against Bubble's 13.5 (390 items in 124 releases, 22.12.2025–11.07.2026), about 2.5×, 2.2–2.9 for any window bounds. A change = a top-level item under `## Features & changes` / `## Fixes` / `## Fix` in `docs/release-notes/` (hotfixes included) against any item in `bubble/bubble-release-notes.md`. Caveats unchanged.
 
@@ -30,23 +40,23 @@ None in this session beyond relay-1's (stale PDF render manifests: delete `apps/
 
 ## 6. State
 
-- Branch `feat/cv-profile-gaps`, head `8be458f` pushed; tree clean.
-- Draft PR https://github.com/vzakharov/vovazakharov.com/pull/224, open; squash proposal posted and tracked in `docs/remove-before-merging/squash-message.md`.
-- Vet passed on `9396dee` (the squash-file commit after it touches only that file).
-- No CI, PR subscription, keepalive or check-in running.
-- Estimate: this session 0.5 h senior copywriter, kept — the page fit and PR were done here. The reframe, if the operator says yes, is new scope for the successor to estimate.
+- Branch `feat/cv-profile-gaps`, head pushed (`6fe501e` before this summary's commit); tree clean.
+- Draft PR https://github.com/vzakharov/vovazakharov.com/pull/224, open; squash proposal posted and tracked in `docs/remove-before-merging/squash-message.md`; review export committed under `docs/pr/224/`.
+- Vet passed on `2ef6fb9`.
+- No CI, PR subscription or check-in running; a keepalive watcher may be.
+- Estimate: this session 1.5 h senior copywriter + 0.5 h senior analyst; nothing handed on.
 
 ## 7. Pointers
 
 - relay-1: `docs/remove-before-merging/relay-1.md` — the files the change touches and the PDF check recipe.
-- What the reframe would change: the table row and paragraph in `apps/vova/public/case-studies/playgram.md`, `playgram.mini.md`, `playgram.nano.md`, the Playgram Bubble bullet in `src/shared/i18n/messages/{en,ru}.json` (`cv.experience.playgram.items`), and the squash proposal. Mind the 3-page ceiling on `/cv/dev/ru`.
+- What the reframe changed: the table row and paragraph in `apps/vova/public/case-studies/playgram.md`, `playgram.mini.md`, `playgram.nano.md`, the Playgram Bubble bullet in `src/shared/i18n/messages/{en,ru}.json` (`cv.experience.playgram.items`), and the squash proposal. Mind the 3-page ceiling on `/cv/dev/ru`.
 - Profile: `gh api 'repos/vzakharov/life/contents/work/job-search/profile.md?ref=claude/hh-batch-3-k0x09l' --jq .content | base64 -d`.
 - Recount: `gh repo clone Playgramai/playgramapp`; `bubble/bubble-release-notes.md`, `docs/release-notes/*.md`.
 - This session's transcript: https://claude.ai/code/session_01DaohkEoTnfz5QUbDNT591q; the predecessor's: https://claude.ai/code/session_01DaohkCGarfY7S3Mh2V1b5n
 
 ## 8. Next step
 
-Wait for the operator. Pending: their yes or no on reframing the Playgram Bubble metric as changes per week (§ 4) — on yes, recount with that definition first, then change the files in § 7, re-check all four CV PDFs at 3 pages, run vet, and refresh the PR body and squash proposal. Never merge.
+Wait for the operator: the review is answered and the reframe done. A further review goes through `handle`. Never merge.
 
 ## Last agent turn
 
@@ -77,4 +87,22 @@ unneeded but harmless; the reply proper is usually its last paragraphs.
 Числа я бы сначала пересчитал по новому определению сам.
 
 Переделать под «изменения в неделю»? Скажи «да» — сделаю.
+```
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Отлично, беру и ревью, и метрику. Сначала выгружаю ревью из PR #224.
+
+Ревью четыре треда. Пересчёт метрики отдаю субагенту в фоне, а сам пока беру тексты.
+
+Пишу «Стиль работы» в деловом тоне. Английский тоже переписываю, чтобы версии не разошлись.
+
+Пока субагент пересчитывает изменения в неделю, в ветке готово «Стиль работы» в деловом тоне. Абзацы со сравнением правлю, как только придут числа.
+
+«Стиль работы» в деловом тоне закоммичен и запушен. Жду, пока субагент пересчитает изменения в неделю, потом правлю абзацы со сравнением.
 ```
