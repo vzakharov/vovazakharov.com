@@ -1,0 +1,28 @@
+<!-- BAS-0028: a boxing glove landing on a humanoid robot's head, the robot tipping over backwards. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="248" y="458" width="54" height="100" rx="10"/>
+    <path d="M 270 478 L 270 538" stroke-width="12"/>
+    <path d="M 302 448 Q 330 402 400 406 Q 472 412 476 482 Q 480 560 410 574 Q 340 584 302 562"/>
+    <path d="M 334 522 Q 372 544 424 528" stroke-width="16"/>
+    <path d="M 500 430 L 528 404 M 508 488 L 546 488 M 500 546 L 528 572" stroke-width="14"/>
+    <g transform="translate(-40 0) rotate(18 630 770)">
+      <rect x="565" y="385" width="120" height="100" rx="22"/>
+      <rect x="585" y="414" width="80" height="30" rx="12" stroke-width="14"/>
+      <path d="M 625 385 L 625 360" stroke-width="14"/>
+      <path d="M 625 485 L 625 505"/>
+      <rect x="575" y="505" width="100" height="125" rx="14"/>
+      <circle cx="625" cy="558" r="14" stroke-width="12"/>
+      <path d="M 575 525 L 540 560 L 552 600"/>
+      <path d="M 675 525 L 712 492 L 700 452"/>
+      <path d="M 600 630 L 596 700 L 600 770"/>
+      <path d="M 650 630 L 654 700 L 650 770"/>
+      <path d="M 575 772 L 607 772 M 643 772 L 675 772"/>
+    </g>
+  </g>
+  <g fill="currentColor" transform="translate(-40 0) rotate(18 630 770)">
+    <circle cx="625" cy="352" r="12"/>
+    <circle cx="552" cy="604" r="16"/>
+    <circle cx="700" cy="448" r="16"/>
+  </g>
+</svg>

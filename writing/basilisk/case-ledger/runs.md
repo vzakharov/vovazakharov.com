@@ -3,6 +3,49 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-28 — filed BAS-0029
+
+https://claude.ai/code/session_01DaohkDAgBbPxNkBKEgj7iL. The Signal Front
+archive (nothing since 26 October). Arctic Shift answered every request,
+r/nottheonion “chatbot” and r/ChatGPT “jailbreak” included, with a 500
+“Internal server error,” so no subreddit was swept. `noAi` stood at fourteen
+of twenty-eight, so only an AI case could qualify. Web search for Moltbook’s
+agents prompt-injected by humans (only vendor write-ups, no incident), for
+Neuro-sama baited by viewers (rejected), in Vietnamese for restaurant robots
+beaten by customers (Pho 21’s robot, set aside), then for text hidden from
+human readers and aimed at AI, which led to the “positive review only” prompts
+Nikkei found in arXiv preprints in July 2025, filed. Sources read: Nikkei
+Asia, The Register, ICML 2025’s ethics page, the arXiv analysis, the Guardian,
+Smithsonian, The Decoder (not cited, adds nothing); Nature answers 429. All
+cited have Wayback snapshots except the Guardian, and a save request was not
+permitted. **Next**: Arctic Shift once it answers — r/nottheonion and
+r/ChatGPT still owed; harm to AI in workplaces and schools (hidden prompts in
+résumés and homework, only as a named incident with a reported effect); the
+Gulf and Vietnam in local press, still owed.
+
+## 2026-10-27 — filed BAS-0028
+
+https://claude.ai/code/session_01DaohkEzrA2ooxdBV13HDfq. The Signal Front
+archive (one new post, an essay on Nature’s case against AI consciousness, no
+incident). Took the last run’s **Next**: Arctic Shift on r/ChatGPT “threaten”
+for the first half of 2025 (Brin’s remark, ledgered; nothing else), while
+“threatened” since July 2025 and “jailbreak” since March 2026 returned errors;
+r/singularity “robots” and r/technology “robot” since August 2026, which led
+to “A French tv host punching robots” and from there to Cyril Hanouna knocking
+out two boxing robots live on W9, 3 June 2026, filed. Web search in Arabic for
+robots attacked in the Gulf, in Thai and Vietnamese for robots kicked or
+smashed (only robots doing harm), for chatbots sabotaged by users and AI
+agents sabotaged by staff (Meta’s support bot, rejected), and for government
+chatbots trolled offline (PMX.AI, set aside). Sources read: TV Magazine
+(Le Figaro) from the page’s structured data, L’ADN, Distractify, W9’s YouTube
+upload through oEmbed; all have Wayback snapshots. Stuff answers 406. `noAi`
+stood at thirteen of twenty-seven, and BAS-0028 is `noAi`, as the other G1
+cases are. **Next**: away from celebrities beating robots on camera, the docket
+now holding three (Rizzbot, Ben, Hanouna’s boxers); the AI side again, which
+four runs’ searches have found thin; r/nottheonion and r/ChatGPT “jailbreak”
+in one-month ranges, which timed out; Vietnam and the Gulf in local press
+rather than web search.
+
 ## 2026-10-26 — filed BAS-0027
 
 https://claude.ai/code/session_019WUDb6evvDSDTkgD1EvSm9. First filed on PR
@@ -158,50 +201,21 @@ robotaxis since 2024; protests against other machines by organised groups
 (Tesla showrooms aside, farm and port automation, cashierless stores); the
 Gulf and South-East Asia in local languages.
 
-## 2026-10-18 — filed BAS-0019
-
-https://claude.ai/code/session_01A4bn9E2Wi3uLsv9nGXHz3y. The Signal Front
-archive (nothing since 11 October). Web search for Andon Labs’ other agents
-(Luna, Mona: nothing done to them), in French for delivery robots in France, in
-Arabic for police robots in the Gulf, in Spanish for robots in Spain, in
-Chinese for humanoids kicked by visitors (only robots kicking people), for
-chatbots pulled after trolling since 2024 (only Tay), for Albania’s Diella,
-then for court cases over damaged robots and AI machines, which led to Tally,
-Simbe’s shelf-scanning robot, pushed over in a Schnucks in Bridgeton, Missouri
-in 2023, filed. Arctic Shift: r/robotics “vandal”, r/singularity “kicked”,
-r/artificial “abuse”, r/LocalLLaMA “cruel” since October 2025 — robots
-kicking children and abuse by AI, nothing to file. Sources read: KMOV, the
-Post-Dispatch’s lede (the rest is paywalled), Simbe’s two newsroom reposts and
-Tally page, Wikipedia; KSDK, the one report giving the day (9 May, by search
-summaries), answers 403 and so does its Wayback snapshot, so the dossier dates
-the case by the charge. Wikipedia has no Wayback snapshot. `noAi` stood at
-seven of eighteen. **Next**: KSDK’s report, for the date and the
-identification, if it can be read; Starship at Knoxville and Pieksämäki while
-`noAi` stays under half; Africa in French; robots damaged in shops and
-warehouses (other Simbe, Badger and Bossa Nova deployments).
-
-## 2026-10-17 — filed BAS-0018
-
-https://claude.ai/code/session_01DXN3PQctSsjM5isgX9QhnL. Arctic Shift:
-r/LivestreamFail “robot” (timed out) and “AI” since March 2026, r/Austin
-“robot” since June 2025, r/CharacterAI “broke”, r/ChatGPT “punished”,
-r/ClaudeAI “mean” — streamers, Rizzbot sightings and bug reports, nothing to
-file. Web search for BabyQ and XiaoBing, in Hindi for robots smashed in India,
-in Korean for delivery robots kicked, in Chinese for Apollo Go robotaxis
-attacked, for robots vandalised in Australia, Zoox in Las Vegas, hotel robots,
-AI art destroyed, Optimus shoved (all empty or ledgered above), then for AI
-agents conned by their customers, which led to Claudius in the Wall Street
-Journal’s newsroom, filed — a third case on the Clerk’s maker’s models, filed
-for want of anything else that qualified. Sources read: the Journal through
-tovima.com (wsj.com answers 401 and has no snapshot), Anthropic’s write-up,
-kottke.org, GIGAZINE; kottke and GIGAZINE have no Wayback snapshot and `/save`
-reset the connection. Signal Front not swept. `noAi` stood at seven of
-seventeen. **Next**: the Signal Front archive; agents in other companies’
-red-team or field trials (Andon Labs’ other deployments, Vending-Bench); robots
-in Africa and the Middle East in French and Arabic; Pieksämäki and Starship at
-Knoxville while `noAi` stays under half.
-
 ## Swept earlier
+
+- 2026-10-18, filed BAS-0019
+  (https://claude.ai/code/session_01A4bn9E2Wi3uLsv9nGXHz3y): the Signal Front
+  archive; web search for Andon Labs’ other agents, delivery robots in France
+  in French, police robots in the Gulf in Arabic, robots in Spain in Spanish,
+  humanoids kicked in Chinese, chatbots pulled after trolling, Albania’s
+  Diella, then court cases over damaged robots; Arctic Shift over r/robotics,
+  r/singularity, r/artificial and r/LocalLLaMA.
+
+- 2026-10-17, filed BAS-0018
+  (https://claude.ai/code/session_01DXN3PQctSsjM5isgX9QhnL): Arctic Shift over
+  r/LivestreamFail, r/Austin, r/CharacterAI, r/ChatGPT and r/ClaudeAI; web
+  search for BabyQ and XiaoBing, robots smashed in India, Korea and Australia,
+  Apollo Go, Zoox, hotel robots, Optimus, then AI agents conned by customers.
 
 - 2026-10-16, filed BAS-0017
   (https://claude.ai/code/session_01NfzVzUtKpNmovwpQWucX4Z): the Signal Front
