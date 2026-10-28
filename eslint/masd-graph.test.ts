@@ -4,6 +4,9 @@
  */
 
 import assert from 'node:assert/strict';
+import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { describe, it } from 'node:test';
 
 import {
@@ -13,7 +16,24 @@ import {
   insignificantApps,
   loadGraph,
   parseGraph,
+  PLACE_FILE,
+  placeOf,
+  segmentOrder,
+  STANDARD_SEGMENTS,
 } from './masd-graph.ts';
+
+/** A place with these segment directories, and `segments` as its file's. */
+function place(segments: readonly string[], declared?: readonly string[]) {
+  const dir = mkdtempSync(path.join(tmpdir(), 'masd-place-'));
+  for (const segment of segments) mkdirSync(path.join(dir, segment));
+  if (declared !== undefined) {
+    writeFileSync(
+      path.join(dir, PLACE_FILE),
+      JSON.stringify({ segments: declared }),
+    );
+  }
+  return dir;
+}
 
 // base ← left, right ← both: a diamond, `both` having two parents.
 const DIAMOND = parseGraph({
@@ -106,6 +126,86 @@ describe('insignificantApps', () => {
       [],
     );
   });
+});
+
+describe('placeOf', () => {
+  for (const [file, placed] of [
+    [
+      'blog/pages/documents/ui/page.tsx',
+      { place: 'blog/pages/documents', segment: 'ui' },
+    ],
+    [
+      'blog/pages/documents/ui/deep/x.ts',
+      { place: 'blog/pages/documents', segment: 'ui' },
+    ],
+    ['blog/pages/documents/index.ts', { place: 'blog/pages/documents' }],
+    ['kernel/shared/seo/index.ts', { place: 'kernel/shared', segment: 'seo' }],
+    [
+      'kernel/shared/lib/class-names.ts',
+      { place: 'kernel/shared', segment: 'lib' },
+    ],
+    ['music/scripts/lib/cards.ts', { place: 'music/scripts', segment: 'lib' }],
+    ['music/scripts/masters.ts', { place: 'music/scripts' }],
+  ] as const) {
+    it(`places ${file}`, () => {
+      assert.deepEqual(placeOf(file.split('/').join(path.sep)), {
+        ...placed,
+        place: placed.place.split('/').join(path.sep),
+      });
+    });
+  }
+
+  it('places nothing above a layer', () => {
+    assert.equal(placeOf('masd.json'), undefined);
+    assert.equal(placeOf(path.join('kernel', 'shared')), undefined);
+  });
+});
+
+describe('segmentOrder', () => {
+  it('is the standard order for a place with no file', () => {
+    assert.deepEqual(segmentOrder(place(['ui', 'lib'])), STANDARD_SEGMENTS);
+  });
+
+  it('is the file’s order where the place declares one', () => {
+    assert.deepEqual(
+      segmentOrder(place(['ui', 'seo', 'lib'], ['ui', 'seo', 'lib'])),
+      ['ui', 'seo', 'lib'],
+    );
+  });
+
+  for (const [name, segments, declared, problem] of [
+    [
+      'a segment outside the standard order',
+      ['ui', 'seo'],
+      undefined,
+      /seo is outside/,
+    ],
+    [
+      'a segment outside the declared order',
+      ['ui', 'seo', 'i18n'],
+      ['ui', 'seo'],
+      /i18n is outside/,
+    ],
+    ['a segment named twice', ['ui', 'seo'], ['ui', 'seo', 'seo'], /twice/],
+    [
+      'standard segments reordered',
+      ['lib', 'seo', 'ui'],
+      ['lib', 'seo', 'ui'],
+      /reorders/,
+    ],
+    [
+      'a segment the place lacks',
+      ['seo'],
+      ['seo', 'cache'],
+      /names cache, which is no segment/,
+    ],
+    ['only standard segments', ['ui', 'lib'], ['ui', 'lib'], /only standard/],
+    ['a file not of the declared shape', ['seo'], [], /too_small|>=1/],
+  ] as const) {
+    it(`refuses ${name}`, () => {
+      assert.throws(() => segmentOrder(place(segments, declared)), problem);
+    });
+  }
 });
 
 describe('directoryMismatches', () => {

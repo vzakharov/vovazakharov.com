@@ -9,6 +9,8 @@
  * - the graph's own checks: `src/masd.json` parses, each parent above its
  *   child, an app per directory under `src/` and a directory per app, and no
  *   app earned no better than an insignificant slice;
+ * - each place's segment order, which `vova/segment-order` loads only for a
+ *   place it lints a file of, and no module under a layer that no linter reads;
  * - Steiger's `insignificant-slice`, with each slice's references counted
  *   across the composition — its own app, every descendant and the routers —
  *   rather than within one app root, its messages kept word for word; a slice
@@ -25,8 +27,10 @@ import ts from 'typescript';
 import {
   directoryMismatches,
   insignificantApps,
+  LAYERS,
   loadGraph,
   type MasdGraph,
+  segmentOrder,
   SLICED_LAYERS,
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
@@ -158,6 +162,43 @@ function sliceProblems(
   });
 }
 
+// `boundaries` and `vova/segment-order` lint `.ts` and `.tsx` alone, so a
+// module of any other kind under a layer would escape both.
+const UNLINTED = /\.(js|jsx|mjs|cjs|mts|cts)$/;
+
+/** Every segment order an app's places declare or default to, as problems. */
+function placeProblems(graph: MasdGraph): string[] {
+  return [...graph.keys()].flatMap((app) =>
+    LAYERS.flatMap((layer) => {
+      const directory = path.join('src', app, layer);
+      if (!existsSync(directory)) return [];
+      const places = SLICED.has(layer)
+        ? subdirectories(directory).map((slice) => path.join(directory, slice))
+        : [directory];
+      const scripts = readdirSync(directory, {
+        recursive: true,
+        encoding: 'utf8',
+      })
+        .filter((file) => UNLINTED.test(file))
+        .map(
+          (file) =>
+            `masd: ${path.join(directory, file)} is no .ts or .tsx, so no linter reads its imports`,
+        );
+      return [
+        ...scripts,
+        ...places.flatMap((place) => {
+          try {
+            segmentOrder(place);
+            return [];
+          } catch (error) {
+            return [error instanceof Error ? error.message : String(error)];
+          }
+        }),
+      ];
+    }),
+  );
+}
+
 function check(): string[] {
   let graph: MasdGraph;
   try {
@@ -221,6 +262,7 @@ function check(): string[] {
 
   return [
     ...graphProblems(graph, mounted),
+    ...placeProblems(graph),
     ...sliceProblems(references, edges),
   ];
 }
