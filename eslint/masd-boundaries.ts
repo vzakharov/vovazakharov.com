@@ -84,7 +84,7 @@ const policiesFor = (app: string) => {
     },
     // An app's scripts enter every layer, their own app's included, through a
     // public API, and their own app's and ancestors' scripts, which have none,
-    // directly.
+    // directly. Their tests take the test-only entry as well.
     {
       from: { element: { type: 'script', captured: { appName: app } } },
       allow: {
@@ -101,6 +101,24 @@ const policiesFor = (app: string) => {
           },
           { element: sharedLibEntry(apps) },
         ],
+      },
+    },
+    {
+      from: {
+        element: {
+          type: 'script',
+          captured: { appName: app },
+          fileInternalPath: TEST_CODE,
+        },
+      },
+      allow: {
+        to: {
+          element: {
+            types: { anyOf: LAYERS },
+            captured: { appName: apps },
+            fileInternalPath: TEST_API,
+          },
+        },
       },
     },
     // Strictly downward, and only through the target's public API: the same

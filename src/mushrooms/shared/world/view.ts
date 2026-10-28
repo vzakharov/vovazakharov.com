@@ -49,8 +49,6 @@ export type Following = { follow: (view: View) => void };
  */
 export const V_NEAR = 0.58 * CLUMP_DISTANCE;
 
-export { D_SEE } from './ground';
-
 /** `camera` seen from `eye`, standing `eyeHeight` above the plane: a walking eye's unless told. */
 export function viewAt(camera: Camera, eye: Eye, eyeHeight = EYE_HEIGHT): View {
   return { ...camera, eye, eyeHeight };

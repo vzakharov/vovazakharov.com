@@ -3,9 +3,10 @@
  * directory's `albums/` and `artists/`, so a name the schema accepts is a file
  * that exists.
  *
- * `scripts/` run this outside any bundler, so it carries no `server-only`. It
- * stays out of `index.node-safe.ts` all the same, which client components enter
- * and which must not reach `node:fs`.
+ * Its test and `scripts/` load it outside any bundler, so it carries no
+ * `server-only`. It stays out of `index.node-safe.ts` all the same, which
+ * client components enter and which must not reach `node:fs`; a script takes
+ * it through `index.server-only.ts`.
  */
 
 import matter from 'gray-matter';

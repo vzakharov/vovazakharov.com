@@ -1,6 +1,6 @@
 /**
- * For `scripts/`, which run with no bundler: every import in the graph behind
- * this barrel spells its extension and reaches no CSS, JSX or `server-only`.
+ * For `scripts/`, which run with no bundler: the graph behind this barrel
+ * reaches no CSS, JSX or `server-only`.
  */
 
 export { caseSealSources, caseSealSvg } from './lib/case-seal.ts';

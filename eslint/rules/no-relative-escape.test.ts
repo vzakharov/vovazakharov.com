@@ -84,7 +84,7 @@ describe('no-relative-escape', () => {
       '@/kernel/scripts/lib/read-collection',
     ],
     [
-      'a script reaching its own app layers with the extension bare Node needs',
+      'a script reaching its own app layers with a spelled extension',
       'src/kernel/scripts/lib/walk.ts',
       "import '../../shared/content/paths.ts';",
       '@/kernel/shared/content/paths',

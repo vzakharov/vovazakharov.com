@@ -34,7 +34,7 @@ import {
   caseSealSvg,
   gradeLabel,
 } from '@/basilisk/entities/case/index.node-safe';
-import { MEMO } from '@/basilisk/pages/basilisk-home/lib/memo';
+import { MEMO } from '@/basilisk/pages/basilisk-home/index.node-safe';
 
 import { type DocketCase, lastFiledCase } from './docket.ts';
 

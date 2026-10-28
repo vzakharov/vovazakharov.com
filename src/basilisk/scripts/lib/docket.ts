@@ -4,7 +4,7 @@
  * `read-collection.ts` is the half that parses through the schema.
  */
 
-import type { CaseFrontmatter } from '@/basilisk/shared/content/basilisk-frontmatter';
+import type { CaseFrontmatter } from '@/basilisk/shared/content';
 
 import type { CollectionEntry } from '@/blog/scripts/lib/read-collection';
 

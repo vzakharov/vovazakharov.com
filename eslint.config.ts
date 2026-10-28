@@ -155,63 +155,6 @@ const eslintConfig = defineConfig([
     ],
     rules: { 'vova/no-hardcoded-strings': 'off' },
   },
-  // Temporary, tracked by #170: app scripts that reach past a public API into
-  // their own app's layers, which `.claude/rules/masd.md` forbids. Each app's
-  // entries leave as #170 restructures it, then the block goes. A new file is
-  // never added here.
-  {
-    files: [
-      // basilisk
-      'src/basilisk/scripts/lib/basilisk-card.ts',
-      'src/basilisk/scripts/lib/docket.ts',
-      // kernel
-      'src/kernel/scripts/lib/og-job.ts',
-      // mushrooms
-      'src/mushrooms/scripts/build-mushroom-artifact.ts',
-      'src/mushrooms/scripts/lib/flier-watch.ts',
-      'src/mushrooms/scripts/lib/mushroom-probe-answers.ts',
-      'src/mushrooms/scripts/lib/mushroom-probe-drive.ts',
-      'src/mushrooms/scripts/lib/mushroom-probe-reads.ts',
-      'src/mushrooms/scripts/lib/painted-cap.ts',
-      'src/mushrooms/scripts/lib/play-approach.ts',
-      'src/mushrooms/scripts/lib/play-band.ts',
-      'src/mushrooms/scripts/lib/play-buzzers.ts',
-      'src/mushrooms/scripts/lib/play-dusk.ts',
-      'src/mushrooms/scripts/lib/play-fliers.ts',
-      'src/mushrooms/scripts/lib/play-house.ts',
-      'src/mushrooms/scripts/lib/play-insects.ts',
-      'src/mushrooms/scripts/lib/play-keep.ts',
-      'src/mushrooms/scripts/lib/play-keys.ts',
-      'src/mushrooms/scripts/lib/play-map.ts',
-      'src/mushrooms/scripts/lib/play-night-run.ts',
-      'src/mushrooms/scripts/lib/play-opening.ts',
-      'src/mushrooms/scripts/lib/play-rain.ts',
-      'src/mushrooms/scripts/lib/play-runs.ts',
-      'src/mushrooms/scripts/lib/play-species.ts',
-      'src/mushrooms/scripts/lib/play-sprouts.ts',
-      'src/mushrooms/scripts/lib/play-veer.ts',
-      'src/mushrooms/scripts/lib/play-walk-checks.ts',
-      'src/mushrooms/scripts/lib/play-walk-flight.ts',
-      'src/mushrooms/scripts/lib/play-walk-swipe.ts',
-      'src/mushrooms/scripts/lib/play-walk.ts',
-      'src/mushrooms/scripts/lib/play-worms.ts',
-      'src/mushrooms/scripts/lib/veer-dash.ts',
-      'src/mushrooms/scripts/lib/veer-report.test.ts',
-      'src/mushrooms/scripts/lib/veer-report.ts',
-      'src/mushrooms/scripts/lib/veer-watch.ts',
-      'src/mushrooms/scripts/sweep-mushrooms.ts',
-      'src/mushrooms/scripts/veer-away.ts',
-      // music
-      'src/music/scripts/list-untold-songs.ts',
-      // shell
-      'src/shell/scripts/generate-styles.ts',
-      // vova
-      'src/vova/scripts/lib/cv-card.ts',
-      'src/vova/scripts/render-og.ts',
-      'src/vova/scripts/render-pdf.ts',
-    ],
-    rules: { 'boundaries/dependencies': 'off' },
-  },
   // The two links built on a bare `Anchor`: `TextLink` itself, and `FileLink`,
   // whose site-root `href` names a file to save rather than a page, so it wants
   // neither `next/link` nor a printed half.

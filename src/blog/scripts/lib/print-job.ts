@@ -25,10 +25,6 @@
  * One run serves one site, because it is entered in that site's directory —
  * which is what `public/`, `out/` and the dev server it spawns all resolve
  * against.
- *
- * Runs under `tsx`: a site's own printables come from `src/` through the `@/`
- * alias, and the `i18n` barrel behind them is a JSON import bare Node cannot
- * take without an attribute.
  */
 
 /* eslint-disable no-console -- stdout is this script's interface: progress,

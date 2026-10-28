@@ -10,8 +10,6 @@
  * imports between apps, and a slice earned only by its descendants' use — is
  * `eslint-plugin-boundaries` and `scripts/masd-check.ts`. See
  * .claude/rules/masd.md.
- *
- * Bare Node runs this file, relying on its type stripping.
  */
 
 import { spawnSync } from 'node:child_process';

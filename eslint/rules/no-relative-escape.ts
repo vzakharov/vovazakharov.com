@@ -7,8 +7,7 @@ import { SLICED_LAYERS } from '../masd-graph';
 // A relative import under `src/` stays inside the importer's home — its slice,
 // its segmented layer (`app` and `shared` overlay as one unit), or its app's
 // `scripts/` — and anything past it is reached by its `@/` path, so an import
-// says which app and layer it enters. Bare Node follows no alias, so a script
-// it runs that needs to reach past home moves to tsx.
+// says which app and layer it enters.
 
 /** The directory, relative to `src/`, a file under it may reach relatively. */
 function relativeHome(fromSrc: string): string | undefined {
@@ -31,7 +30,7 @@ const rule: Rule.RuleModule = {
     schema: [],
     messages: {
       escapes:
-        'This relative import leaves `src/{{home}}`: import it as `{{alias}}`. A script bare Node runs moves its `package.json` entry to `tsx` first, since Node follows no alias.',
+        'This relative import leaves `src/{{home}}`: import it as `{{alias}}`.',
     },
   },
 
