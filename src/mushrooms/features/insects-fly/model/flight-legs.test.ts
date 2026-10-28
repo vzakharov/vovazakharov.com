@@ -13,7 +13,7 @@ import {
   type Perch,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { firstFlight, nextFlight, type Perches } from './flight';
+import { firstFlight, nextFlight } from './flight';
 import {
   BARE,
   CAPS,
@@ -23,6 +23,7 @@ import {
   SEEDS,
   within,
 } from './flight.test-kit';
+import type { Perches } from './offered';
 import type { Held } from './perch-room';
 
 const {

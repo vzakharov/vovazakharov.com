@@ -1,51 +1,21 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { createContext, use, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import {
-  addressLocale,
-  type Locale,
-  type WithLocale,
-} from '@/kernel/shared/i18n';
+import { addressLocale, type Locale } from '@/kernel/shared/i18n';
 import type { WithChildren } from '@/kernel/shared/typings';
 
 import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
-import type { Messages } from '@/music/shared/i18n';
 
-import {
-  type PlayerControls,
-  type QueuedPlayback,
-  useAudioPlayer,
-} from '../model/use-audio-player';
+import { useAudioPlayer } from '../model/use-audio-player';
 import classes from './player.module.scss';
 import { PlayerBar } from './player-bar';
-
-/** The bar's own words, in one language, as the catalogue spells them. */
-type PlayerLabels = Messages['player'];
-
-export type WithPlayerLabels = { labels: PlayerLabels };
-
-export type PlayerContextValue = PlayerControls &
-  QueuedPlayback &
-  WithPlayerLabels &
-  /** The language of the page the bar is currently sitting under. */
-  WithLocale & {
-    /** The radio's page in the page's language, which tuning in opens. */
-    radioRoute: string;
-  };
-
-const PlayerContext = createContext<PlayerContextValue | undefined>(undefined);
-
-export function usePlayer(): PlayerContextValue {
-  const value = use(PlayerContext);
-
-  if (value === undefined) {
-    throw new Error('usePlayer is only available under the music layout');
-  }
-
-  return value;
-}
+import {
+  PlayerContext,
+  type PlayerContextValue,
+  type PlayerLabels,
+} from './player-context';
 
 export type PlayerProviderProps = WithChildren &
   WithTracks & {

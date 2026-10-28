@@ -1,5 +1,6 @@
 export { BEE_RANGES, type BeeGenes, beeGenes } from './model/bee-genes';
 export { beeOutline } from './model/bee-outline';
+export { PICTOGRAM_SEED } from './model/butterfly-genes';
 export { crawl, CRAWL_REACH } from './model/buzz-rest';
 export type { Flier } from './model/flier';
 export {
@@ -9,6 +10,8 @@ export {
   centreOf,
   framedOf,
   panOf,
+  type Place,
+  type Sited,
 } from './model/flight-frame';
 export { FLIGHT_HABITS, type Habits } from './model/flight-habits';
 export {
@@ -25,18 +28,21 @@ export {
   apartIn,
   apartOf,
   type Departing,
+  type Flight,
+  isAloft,
+  isLeaving,
+  type Leg,
   legTo,
   placesSetOff,
 } from './model/flight-timing';
 export {
   type Insect,
   INSECT_KINDS,
-  insectGenes,
   type InsectKind,
   type InsectSeed,
   type Kinded,
-  PICTOGRAM_SEED,
-} from './model/insect-genes';
+} from './model/insect';
+export { insectGenes, wingspan } from './model/insect-genes';
 export { LIGHT_STEP } from './model/insect-light';
 export {
   bodyTurn,
@@ -52,7 +58,7 @@ export {
   type Turns,
   wingBeat,
 } from './model/insect-motion';
-export { buzzTurn, buzzWing, wingspan } from './model/insect-outline';
+export { buzzTurn, buzzWing } from './model/insect-outline';
 export {
   type Carried,
   flightPoint,
@@ -63,23 +69,17 @@ export {
 export { TURN_RATE } from './model/insect-steering';
 export {
   type Destination,
-  type Flight,
-  isAloft,
-  isLeaving,
   isSamePerch,
-  type Leg,
   type Origin,
   type Perch,
   PERCH_KINDS,
   type PerchKind,
   perchName,
-  type Place,
   type Placed,
   type Places,
   type ShelterSeat,
   type Side,
   SIDES,
-  type Sited,
 } from './model/perch';
 export {
   type Carrying,

@@ -101,7 +101,11 @@ shared block drops to, `shared/lib`, scripts, and the Next.js traps — is in
 ## The checkers
 
 Three checkers hold the model, all run by `./scripts/vet.sh`, and all read the
-graph through one loader, `eslint/masd-graph.ts`.
+graph through one loader, `eslint/masd-graph.ts`. A fourth, `pnpm check:cycles`
+(madge), holds the file-import graph under `src/` acyclic, type-only imports
+included: two files importing each other cannot go to different slices, so a
+slice's files form a DAG, which is what a search for a cluster inside one stands
+on.
 
 | Checker                                                  | Holds                                                                                                     |
 | -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -243,7 +247,9 @@ Four things the operator set aside to take up, each in a session of its own.
 - **The converse of significance by modularity** (the operator: «как бы нам
   определять, когда в одном слайсе скопилось что-то (кластер?), что заслуживает
   вынесения в модуль? но отложим»): when a cluster inside one slice earns a
-  slice of its own.
+  slice of its own. `pnpm masd:clusters` is a first cut, a report rather than a
+  gate, whose docstring states what it counts as a candidate; at `ΔQ > 0` it
+  flags over half the slices, so the bar is still open.
 - **A poison check** (the operator: «проверку на яд добавим четвёртым Later на
   после мерджа»): `boundaries` judges one import at a time, so nothing holds the
   barrels' runtime axes transitively — a `'use client'` file reaching

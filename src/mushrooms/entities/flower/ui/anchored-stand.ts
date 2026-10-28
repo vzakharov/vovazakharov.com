@@ -25,7 +25,7 @@ import {
 
 import type { Flower } from '../model/flower-genes';
 import { isBeeSown, type Sown } from '../model/planted-flowers';
-import type { FlowerSightLayout, SeededLayout, Stand } from './flower-sight';
+import type { FlowerSightLayout, SeededLayout, Stand } from './stand';
 
 /**
  * How far from the anchor an anchored stand reads the meadow: a foot the rules

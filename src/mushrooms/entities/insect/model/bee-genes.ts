@@ -13,7 +13,7 @@ import {
 } from '@/mushrooms/shared/lib/random';
 
 import { buzzingBody } from './buzz-genes';
-import type { Buzzing, OfKind } from './insect-genes';
+import type { Buzzing, OfKind } from './insect';
 
 /** The names `palette.ts` keys a bee's yellow bands by, from pale to deep. */
 export const BEE_YELLOWS = ['lemon', 'gold', 'amber', 'honey'] as const;

@@ -11,8 +11,8 @@ import {
   type Places,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Perches } from './flight';
 import { released, startled, type Swarm, ticked } from './insects';
+import type { Perches } from './offered';
 import {
   dashesForCover,
   LINGER_MS,

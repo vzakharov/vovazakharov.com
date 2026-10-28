@@ -1,9 +1,4 @@
-export {
-  firstFlight,
-  nextFlight,
-  type Perches,
-  type Sight,
-} from './model/flight';
+export { firstFlight, nextFlight } from './model/flight';
 export {
   INSECT_LIMITS,
   released,
@@ -11,6 +6,7 @@ export {
   type Swarm,
   ticked,
 } from './model/insects';
+export type { Perches, Sight } from './model/offered';
 export {
   blockedFor,
   flowerFreed,

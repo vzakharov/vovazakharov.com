@@ -1,6 +1,6 @@
 import type { WithCamera } from '@/mushrooms/shared/world';
 
-import type { InsectKind } from '../model/insect-genes';
+import type { InsectKind } from '../model/insect';
 
 /**
  * A butterfly's size, the unit its genes are in, as a share of the clump's,

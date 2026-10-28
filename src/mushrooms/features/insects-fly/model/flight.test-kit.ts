@@ -1,4 +1,4 @@
-import type { Perches } from './flight';
+import type { Perches } from './offered';
 
 export const kind = 'butterfly' as const;
 

@@ -8,7 +8,7 @@ import type { HeadReach, Lifting } from '@/mushrooms/shared/world';
 
 import { FACE_REACH } from '../model/bee-outline';
 import { CRAWL_REACH } from '../model/buzz-rest';
-import type { InsectKind } from '../model/insect-genes';
+import type { InsectKind } from '../model/insect';
 import type { InsectSized } from './insect-size';
 
 /**

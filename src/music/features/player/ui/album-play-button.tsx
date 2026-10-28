@@ -3,7 +3,7 @@
 import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
 
 import { isQueued, placeTracks } from '../model/player-state';
-import { usePlayer } from './player-provider';
+import { usePlayer } from './player-context';
 import { ListenButton } from './song-play-button';
 
 /**

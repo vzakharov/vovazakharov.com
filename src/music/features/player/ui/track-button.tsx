@@ -13,7 +13,7 @@ import {
 } from '@/music/shared/catalogue/index.node-safe';
 
 import classes from './player.module.scss';
-import { usePlayer } from './player-provider';
+import { usePlayer } from './player-context';
 
 /** Whether this track is the one playing, and the toggle that plays or pauses it. */
 export function useTrackPlayback(track: PlayerTrack) {

@@ -3,8 +3,9 @@ import { describe, it } from 'node:test';
 
 import { BEE_BANDS, BEE_RANGES, BEE_YELLOWS, type BeeGenes } from './bee-genes';
 import { FLY_RANGES, FLY_SHEENS, FLY_VEINS, type FlyGenes } from './fly-genes';
-import { INSECT_KINDS, insectGenes } from './insect-genes';
-import { buzzWing, wingspan } from './insect-outline';
+import { INSECT_KINDS } from './insect';
+import { insectGenes, wingspan } from './insect-genes';
+import { buzzWing } from './insect-outline';
 
 const SEEDS = Array.from({ length: 400 }, (_, index) => index * 7919 + 1);
 const flies = SEEDS.map((seed) => insectGenes({ seed, kind: 'fly' }));

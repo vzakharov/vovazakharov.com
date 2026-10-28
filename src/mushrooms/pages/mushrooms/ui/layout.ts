@@ -13,7 +13,6 @@ import type { Box } from '@/mushrooms/shared/lib/geometry';
 import {
   type Camera,
   type ClumpGround,
-  type GroundedScreen,
   OPENING_EYE,
   openingPan,
   pinholeOf,
@@ -38,7 +37,6 @@ import {
   placeSun,
   skyClouds,
   SUN_RAY_REACH,
-  type Sunned,
   type SunWashed,
   washRings,
 } from '@/mushrooms/entities/landscape/index.node-safe';
@@ -52,18 +50,13 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import type { EveryButton } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 
-import { gaitSpot } from './gait-spot';
+import { type ControlledScreen, gaitSpot } from './gait-spot';
 import {
-  type Controls,
-  type Crossed,
   flowerCross,
   placeControls,
   standingControls,
   sunControls,
 } from './sky-layout';
-
-/** The screen with its buttons, the flower picker's cross and the sun on it: what the gait button is placed among (`gaitSpot`). */
-export type ControlledScreen = GroundedScreen & Controls & Crossed & Sunned;
 
 /** Everything the meadow stands on a screen but its flowers and the sun's wash. */
 type Stood = ControlledScreen &

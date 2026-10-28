@@ -1,0 +1,115 @@
+{
+  "total": {
+    "inputTokens": 2024,
+    "cacheWrite5mTokens": 163297,
+    "cacheWrite1hTokens": 311787,
+    "cacheReadTokens": 33858082,
+    "outputTokens": 100345,
+    "thinkingTokens": 25365,
+    "responses": 155,
+    "costUsd": 12.084499999999998
+  },
+  "estimate": {
+    "at": "2026-10-28T10:02:10.277Z",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "each of 18 import cycles needed a judgement on which declaration belongs where, in game and player code with no behaviour change, plus wiring a madge gate into vet"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/shell/shared/ui/chip.ts",
+    "endedAt": "2026-10-28T09:42:33.413Z",
+    "contextTokens": 138771,
+    "spend": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 78278,
+      "cacheReadTokens": 1083354,
+      "outputTokens": 3261,
+      "thinkingTokens": 629,
+      "responses": 10,
+      "costUsd": 0.9081948000000002
+    }
+  },
+  "sessionId": "2bef3310-cf11-50f3-adff-90633553d5f4",
+  "branch": "claude/masd-slice-clusters-q7r4tm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — план одобрен на первый кусок: поставить madge и убрать 18 циклов импортов в src/, потом вернуться к кластерам",
+  "prs": [
+    228
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFjE5k2mZsypSbXfxP",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T09:41:26.531Z",
+  "lastResponseAt": "2026-10-28T11:07:31.122Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 10.655450199999999,
+  "ownTurns": {
+    "inputTokens": 252,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 311787,
+    "cacheReadTokens": 30205786,
+    "outputTokens": 85735,
+    "thinkingTokens": 18879,
+    "responses": 126,
+    "costUsd": 10.2511612
+  },
+  "subagents": {
+    "inputTokens": 56,
+    "cacheWrite5mTokens": 163297,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3652296,
+    "outputTokens": 14292,
+    "thinkingTokens": 6486,
+    "responses": 28,
+    "costUsd": 1.8330081999999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 308,
+      "cacheWrite5mTokens": 163297,
+      "cacheWrite1hTokens": 311787,
+      "cacheReadTokens": 33858082,
+      "outputTokens": 100027,
+      "thinkingTokens": 25365,
+      "responses": 154,
+      "costUsd": 12.084169399999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1716,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 318,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0003306
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 155,
+    "matched": 154,
+    "matchedTableUsd": 12.084169399999999,
+    "matchedEventUsd": 12.084169399999999,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1716,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 318,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0003306
+      }
+    }
+  }
+}
