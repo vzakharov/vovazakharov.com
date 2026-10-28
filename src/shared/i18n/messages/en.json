@@ -110,8 +110,8 @@
         "workingStyle": {
           "title": "Working Style",
           "paragraphs": [
-            "I'm the kind of developer you can generally leave unattended, as long as the overall vector is clear. I have enough life expertise to figure stuff on my own, enough imagination to fill the missing pieces, and a \"treat any job as if it was your own brainchild\" mentality. Even as a developer I never take the job to be just writing code: if an assignment doesn't make sense in the bigger picture, I go back and say so.",
-            "In other words: a surprisingly low-maintenance LLM tinkerer with a soft spot for TypeScript, ready to prototype, debug, or sanity-check your AI-infused ambitions."
+            "I work independently: a clear overall direction is enough, and I work out and finish the details myself. I own the result as if the product were mine, and I look past the code — if a task doesn't fit the product, I say so before building it.",
+            "My focus is TypeScript and applied LLM systems: I prototype them, take them to production, debug them, and stress-test AI initiatives."
           ]
         },
         "handsOnLead": {
