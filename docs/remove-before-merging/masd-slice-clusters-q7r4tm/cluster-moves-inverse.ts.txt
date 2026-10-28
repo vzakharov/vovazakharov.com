@@ -1,0 +1,81 @@
+// For each named cluster: which outside locations use the cluster and which use
+// the rest of the slice, by the names they import from the slice's barrels.
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import ts from 'typescript';
+import { appFiles, resolveImport, sourceFile } from '../../scripts/lib/import-graph.ts';
+
+const WANTED = process.argv.slice(2); // "<slice> :: <root>" prefixes
+const loc = (f: string) => {
+  const p = f.split('/');
+  if (p[0] === 'sites') return 'router';
+  if (['entities', 'features', 'widgets', 'pages'].includes(p[2])) return p.slice(1, 4).join('/');
+  return p.slice(1, 3).join('/');
+};
+const parse = (f: string) => ts.createSourceFile(f, readFileSync(f, 'utf8'), ts.ScriptTarget.Latest);
+const target = (from: string, spec: string) => {
+  const r = resolveImport(from, spec);
+  return r && sourceFile(r);
+};
+
+/** name → the file that declares it, following a barrel's re-exports. */
+function exportsOf(file: string, seen = new Set<string>()): Map<string, string> {
+  const names = new Map<string, string>();
+  if (seen.has(file)) return names;
+  seen.add(file);
+  for (const st of parse(file).statements) {
+    if (!ts.isExportDeclaration(st) || !st.moduleSpecifier) continue;
+    const t = target(file, (st.moduleSpecifier as ts.StringLiteral).text);
+    if (!t) continue;
+    const inner = exportsOf(t, seen);
+    if (!st.exportClause) {
+      for (const [n, f] of inner) names.set(n, f);
+      if (inner.size === 0) names.set(`*${path.basename(t)}`, t);
+    } else if (ts.isNamedExports(st.exportClause)) {
+      for (const el of st.exportClause.elements) {
+        const orig = (el.propertyName ?? el.name).text;
+        names.set(el.name.text, inner.get(orig) ?? t);
+      }
+    }
+  }
+  return names;
+}
+
+const files = appFiles().filter((f) => !/\.test(-kit)?\.tsx?$|test-only/.test(f));
+const report = readFileSync('tmp/cluster-moves/report.txt', 'utf8').split('\n');
+let slice = '';
+const clusters: { key: string; slice: string; files: Set<string> }[] = [];
+for (const l of report) {
+  let m;
+  if ((m = /^src\/(\S+) /.exec(l))) slice = m[1];
+  else if ((m = /^  (\S+): /.exec(l))) clusters.push({ key: `${slice} :: ${m[1]}`, slice, files: new Set() });
+  else if ((m = /^    (\S+)/.exec(l))) clusters.at(-1)!.files.add(`src/${slice}/${m[1]}`);
+}
+for (const c of clusters.filter((x) => WANTED.some((w) => x.key.startsWith(w)))) {
+  const uses = new Map<string, { cluster: Set<string>; rest: Set<string> }>();
+  for (const f of files) {
+    if (loc(f) === c.slice) continue;
+    for (const st of parse(f).statements) {
+      if (!ts.isImportDeclaration(st) && !ts.isExportDeclaration(st)) continue;
+      if (!st.moduleSpecifier) continue;
+      const t = target(f, (st.moduleSpecifier as ts.StringLiteral).text);
+      if (!t || loc(t) !== c.slice) continue;
+      const map = exportsOf(t);
+      const names: string[] = [];
+      const clause = ts.isImportDeclaration(st) ? st.importClause?.namedBindings : st.exportClause;
+      if (clause && (ts.isNamedImports(clause) || ts.isNamedExports(clause))) {
+        for (const el of clause.elements) names.push((el.propertyName ?? el.name).text);
+      } else names.push(...map.keys());
+      const u = uses.get(loc(f)) ?? { cluster: new Set(), rest: new Set() };
+      for (const n of names) {
+        const src = map.get(n) ?? t;
+        (c.files.has(src) ? u.cluster : u.rest).add(n);
+      }
+      uses.set(loc(f), u);
+    }
+  }
+  console.log(`\n${c.key}`);
+  for (const [where, u] of [...uses].sort()) {
+    console.log(`  ${where}: cluster [${[...u.cluster].join(' ')}] rest [${[...u.rest].join(' ')}]`);
+  }
+}
