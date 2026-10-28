@@ -5,7 +5,7 @@ import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
 import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
 
 import { FLIGHT_HABITS } from './flight-habits';
-import { INSECT_KINDS, type InsectKind } from './insect-genes';
+import { INSECT_KINDS, type InsectKind } from './insect';
 import { flyingTurn } from './insect-motion';
 import {
   flightPoint,

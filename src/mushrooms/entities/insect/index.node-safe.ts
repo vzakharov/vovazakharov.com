@@ -1,5 +1,6 @@
 export { BEE_RANGES, type BeeGenes, beeGenes } from './model/bee-genes';
 export { beeOutline } from './model/bee-outline';
+export { PICTOGRAM_SEED } from './model/butterfly-genes';
 export { crawl, CRAWL_REACH } from './model/buzz-rest';
 export type { Flier } from './model/flier';
 export {
@@ -31,12 +32,11 @@ export {
 export {
   type Insect,
   INSECT_KINDS,
-  insectGenes,
   type InsectKind,
   type InsectSeed,
   type Kinded,
-  PICTOGRAM_SEED,
-} from './model/insect-genes';
+} from './model/insect';
+export { insectGenes, wingspan } from './model/insect-genes';
 export { LIGHT_STEP } from './model/insect-light';
 export {
   bodyTurn,
@@ -52,7 +52,7 @@ export {
   type Turns,
   wingBeat,
 } from './model/insect-motion';
-export { buzzTurn, buzzWing, wingspan } from './model/insect-outline';
+export { buzzTurn, buzzWing } from './model/insect-outline';
 export {
   type Carried,
   flightPoint,

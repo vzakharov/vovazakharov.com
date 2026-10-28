@@ -9,7 +9,7 @@ import { roundAt, smooth, wave } from '@/mushrooms/shared/lib/motion';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 
 import type { Span } from './flight-timing';
-import type { InsectKind } from './insect-genes';
+import type { InsectKind } from './insect';
 import {
   type Airborne,
   type Carried,

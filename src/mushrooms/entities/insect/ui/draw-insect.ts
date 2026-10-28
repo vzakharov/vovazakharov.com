@@ -20,7 +20,7 @@ import {
   TAPER,
 } from '@/mushrooms/shared/ui';
 
-import type { ButterflyGenes } from '../model/insect-genes';
+import type { ButterflyGenes } from '../model/butterfly-genes';
 import { litCrest } from '../model/insect-light';
 import {
   ABDOMEN,

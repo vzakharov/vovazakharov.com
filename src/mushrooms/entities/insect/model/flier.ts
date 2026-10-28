@@ -1,4 +1,4 @@
-import type { Insect, InsectKind, OfKind } from './insect-genes';
+import type { Insect, InsectKind, OfKind } from './insect';
 import type { Flight } from './perch';
 import type { Carrying } from './pollen-load';
 

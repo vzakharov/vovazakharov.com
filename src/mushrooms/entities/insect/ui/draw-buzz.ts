@@ -20,7 +20,7 @@ import {
   TAPER,
 } from '@/mushrooms/shared/ui';
 
-import type { Buzzing } from '../model/insect-genes';
+import type { Buzzing } from '../model/insect';
 import {
   BODY_SIDES,
   type BodySide,

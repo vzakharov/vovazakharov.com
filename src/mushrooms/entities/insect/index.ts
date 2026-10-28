@@ -1,15 +1,11 @@
+export { PICTOGRAM_SEED } from './model/butterfly-genes';
 export type { Flier } from './model/flier';
 export { type Aloft, centreOf, framedOf, panOf } from './model/flight-frame';
 export { outOfView } from './model/flight-in';
 export type { Span } from './model/flight-timing';
+export { type Buzzing, INSECT_KINDS, type InsectKind } from './model/insect';
 export { dartAt, dartWay } from './model/insect-dart';
-export {
-  type Buzzing,
-  INSECT_KINDS,
-  insectGenes,
-  type InsectKind,
-  PICTOGRAM_SEED,
-} from './model/insect-genes';
+export { insectGenes, wingspan } from './model/insect-genes';
 export {
   aloft,
   carriedFrom,
@@ -17,12 +13,7 @@ export {
   drinkDip,
   landingBob,
 } from './model/insect-motion';
-export {
-  BODY_SIDES,
-  buzzRoot,
-  buzzTurn,
-  wingspan,
-} from './model/insect-outline';
+export { BODY_SIDES, buzzRoot, buzzTurn } from './model/insect-outline';
 export { startLeg, steer } from './model/insect-steering';
 export { BEE_VEINS, paintBeeBody, paintBeeLegs } from './ui/draw-bee';
 export { paintWing } from './ui/draw-buzz';

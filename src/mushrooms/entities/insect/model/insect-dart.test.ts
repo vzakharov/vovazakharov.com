@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { INSECT_KINDS } from './insect';
 import { dartAt, DARTS, dartWay } from './insect-dart';
-import { INSECT_KINDS } from './insect-genes';
 
 const near = (a: number, b: number) => Math.abs(a - b) < 1e-9;
 
