@@ -171,7 +171,8 @@ and widgets. What it settled holds for any domain.
   its entity, an encounter to a feature declaring its slice.
 - **Nothing goes into `shared` to quiet a checker**: «нужно было его совать
   прямо туда где его используют … а иначе что это за лайфхак такой». `shared`
-  keeps what is about nothing in particular.
+  keeps what no slice owns, and how much of the domain it knows is its place
+  in the segment order (below).
 - **A slice whose one consumer would hold nothing else is that consumer.** The
   meadow passed the modularity bar as a widget, but the page then held only its
   React shell: «какой смысл ему быть в widget-е, который используется только в
@@ -187,6 +188,33 @@ and widgets. What it settled holds for any domain.
   для тестов»). Rejected: letting tests reach internals (the checkers would stop
   saying what a test reads), and widening the public APIs with names nothing in
   production reads.
+
+## Segment order
+
+A facet several entities share — the meadow's occupant was the first — was set
+aside as a candidate for a named kind of slice («подсущности»). It is not one:
+the `shared/world` it sat in held a camera engine, a sky and the game's things
+side by side, and what it lacked was not a layer but an order. `shared` cannot
+be held to "knows no business", because code does not split cleanly into
+business and not; it can be held to a gradient, each segment reaching only the
+ones below it. Split by that, `world` became `meadow`, `sky` and `space`, with
+no import running up between them.
+
+The same order runs inside every slice, `ui → model → api → shape → config →
+lib` as standard. FSD practice has `model` call `api` and `api` import `model`'s
+types back, a cycle between two segments; the plan first moved types into a
+segment of their own and banned `model` for failing FSD's purpose-not-essence
+test («а model охуеть как хелпфул»), then kept it: «преемственность от FSD
+важнее … т.е. просто добавляем слой shape как вариант когда нужен обратный …
+импорт». `types`, `store`, `state` and `logic` were weighed as names and
+dropped, `types` and `store` being on Steiger's bad-name list.
+
+Tests are held to the order rather than exempted: «тестируем штуку, и для этого
+теста мы должны знать что-то, что штука не знает?» The keeper's tests had played
+the whole game to make a record the keeper never reads; they now build it from
+a kit in `shape`. Rejected for that kit: deriving its empty meadow from the zod
+schema's defaults, which would let `readKept` fill a field it must refuse a
+record for missing.
 
 ## DRY notes
 
@@ -225,7 +253,7 @@ and widgets. What it settled holds for any domain.
 
 ## Open directions
 
-Four things the operator set aside to take up, each in a session of its own.
+Three things the operator set aside to take up, each in a session of its own.
 
 - **The plays cut down.** The game's scripted plays were sharded across vet's
   runners (`VET_MEADOW=1`). The first sharded run (40453462582) played 22 of 30
@@ -235,11 +263,6 @@ Four things the operator set aside to take up, each in a session of its own.
   found it fine, and had the plays' jobs commented out in `vet.yml`: «пока
   закомменть это, я думаю мы все равно сильно-сильно все эти прогоны резать
   будем, кажется, необходимость в них отпала после того как игру уже написали».
-- **Sub-entities** (the operator: «очень уж чешется вариант с "подсущностями"
-  (надо только имя получше подобрать: абстракции? зародыши? кирпичики/parts?),
-  но наверное не сейчас уже»): a facet several entities share — the occupant is
-  the first — as a named kind of slice of its own rather than a file in
-  `shared/world`.
 - **The converse of significance by modularity** (the operator: «как бы нам
   определять, когда в одном слайсе скопилось что-то (кластер?), что заслуживает
   вынесения в модуль? но отложим»): when a cluster inside one slice earns a

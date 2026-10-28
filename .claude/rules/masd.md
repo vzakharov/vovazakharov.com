@@ -4,6 +4,7 @@ paths:
   - src/**
   - sites/*/app/**
   - eslint/masd-*.ts
+  - eslint/rules/segment-order.ts
   - scripts/lint-fsd.ts
   - scripts/masd-check.ts
   - steiger.config.mjs
@@ -21,8 +22,10 @@ checkers enforce what follows, all run by `./scripts/vet.sh`:
   the graph) — every import, across apps included.
 - **Steiger** (`pnpm lint:fsd`, `scripts/lint-fsd.ts`) — FSD's own rules, one
   run per app root.
-- **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, and
-  slice significance counted across the composition.
+- **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, every
+  place's segment order, slice significance counted across the composition, and
+  no source file in a layer but `.ts` and `.tsx`, the only ones `boundaries`
+  lints.
 
 `eslint/masd-graph.ts` is the only loader of `masd.json`; the three go through
 it, and so does the import sort, which groups imports one app at a time in graph
@@ -67,7 +70,11 @@ Lowest (most generic) first, each optional per app:
   repo-wide ones (`cache`, `config`, `i18n`, `seo`, `typings`, `lib/*`); an app
   adds its own (`shell/shared/ui`, `blog/shared/content`,
   `music/shared/catalogue`, `basilisk/shared/content`,
-  `blog/shared/article-slots`).
+  `blog/shared/article-slots`). It knows the domain by degree, rising up its
+  segment order (§ "Rules"), not by a yes-or-no call on what counts as business:
+  in `mushrooms/shared`, `meadow` knows the game's things, `space` is a camera
+  knowing none, `lib` knows nothing at all. A facet several entities share — the
+  meadow's occupant — is a segment high in that order, not a layer of its own.
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
   cards, its body and its sources), `basilisk/entities/case` (its brief),
   music's `cover`, `hook` and `song`.
@@ -131,6 +138,37 @@ as `shared/config` is.
   another slice — in its own app or an ancestor — goes through the target's
   `index.ts`; reaching into its internals is an error from both checkers. Within
   a slice, use relative imports.
+- **Every segmented place has a strict segment order** — a slice, and each app's
+  `app` and `shared`. A file reaches only the segments below its own; inside one
+  segment, files reach each other freely. Test code is held to it too: a test
+  knows what the code it tests knows, and one that needs the whole page to set
+  up sits where the page is assembled, in `ui`. `vova/segment-order` holds it,
+  over relative and `@/` imports into the importer's own place alike, since a
+  segmented layer reaches its other segments either way. Across places nothing
+  changes: an ancestor's `shared` and a lower layer are always below.
+- **The standard order, highest first, is
+  `ui → model → api → shape → config → lib`** (`STANDARD_SEGMENTS` in
+  `eslint/masd-graph.ts`):
+  - **`model` above `api`**, as FSD practice has it: a store calls a request
+    function.
+  - **`shape`** — what the data looks like: zod schemas and the types inferred
+    from them, `const` arrays of enum values. It is the one segment MASD adds,
+    and only where `api` needs a type `model` would otherwise hold, the import
+    FSD practice runs upwards: what both need moves down into it.
+    `mushrooms/pages/mushrooms/shape` holds the kept record the keeper writes
+    and the game settles. A slice whose `api` needs nothing of `model` has no
+    `shape`, and its types stay in `model`.
+  - **`config` below `shape`**, because a schema is built from a config's values
+    (`z.enum(GENRES)`); **`lib` lowest**, knowing neither the domain nor the
+    settings.
+- **A place with a segment outside that list declares its order** in a
+  `masd.json` beside its segments — `{ "segments": [...] }`, highest first,
+  every segment the place has, the standard ones in the standard order. A place
+  with only standard segments has none, and root `src/masd.json` stays the app
+  graph. `check:masd` loads every place's, since the rule loads only the places
+  it lints. Where two segments have no import between them, the more generic
+  goes lower. `mushrooms/shared` runs `meadow, sky, space, ui, lib`: `ui` sits
+  under `space`, whose repaint queue takes its haze colour from `ui/haze-tone`.
 - **Three suffixed barrels join `index.ts` as legal entry points**, and the list
   is closed at those four names (`PUBLIC_API` in `eslint/masd-graph.ts`).
   `index.ts` keeps the majority surface, so a consumer needing no suffix never
