@@ -1,0 +1,96 @@
+{
+  "total": {
+    "inputTokens": 218,
+    "cacheWrite5mTokens": 76439,
+    "cacheWrite1hTokens": 242960,
+    "cacheReadTokens": 21089759,
+    "outputTokens": 64081,
+    "thinkingTokens": 21493,
+    "responses": 109,
+    "costUsd": 7.826318800000001
+  },
+  "estimate": {
+    "at": "2026-10-17T08:13:58.850Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "turning a five-issue carve into one elephant with stacked child PRs, and weighing the sitemap alternatives, is design judgement on a model still being settled"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the import sort is a small generated-config change plus a tree-wide autofix to review"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "1e3beb42-555e-595f-8125-6e8b527717b4",
+  "branch": "claude/multi-app-sliced-design-7bn3oq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/multi-app-sliced-design-7bn3oq",
+  "prs": [
+    169
+  ],
+  "url": "https://claude.ai/code/session_01S2jJtYpfBsib4tLTc8eM2u",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-17T08:07:11.935Z",
+  "lastResponseAt": "2026-10-17T08:43:39.225Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 4.535876400000001,
+  "ownTurns": {
+    "inputTokens": 202,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 242960,
+    "cacheReadTokens": 20580388,
+    "outputTokens": 63931,
+    "thinkingTokens": 21493,
+    "responses": 101,
+    "costUsd": 7.339185600000001
+  },
+  "subagents": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 76439,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 509371,
+    "outputTokens": 150,
+    "thinkingTokens": 0,
+    "responses": 8,
+    "costUsd": 0.48713320000000004
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 218,
+      "cacheWrite5mTokens": 76439,
+      "cacheWrite1hTokens": 242960,
+      "cacheReadTokens": 21089759,
+      "outputTokens": 64081,
+      "thinkingTokens": 21493,
+      "responses": 109,
+      "costUsd": 7.826318800000001
+    }
+  },
+  "warnings": [
+    "7 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "eslint/rule-groups/import-sort.ts",
+    "endedAt": "2026-10-17T08:09:31.653Z",
+    "contextTokens": 146151,
+    "spend": {
+      "inputTokens": 42,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 96933,
+      "cacheReadTokens": 2386982,
+      "outputTokens": 9040,
+      "thinkingTokens": 5069,
+      "responses": 21,
+      "costUsd": 1.4338283999999997
+    }
+  },
+  "compactions": [],
+  "telemetry": null
+}
