@@ -17,8 +17,9 @@ elephant's own sections dropped.
 `src/` is ten apps along `src/masd.json` — kernel, shell, blog, music, lsa,
 bible, basilisk, maya, mushrooms, vova — each an FSD tree with its own
 `scripts/`, message catalogue and registries; kernel imports nothing above it,
-and every site's `sites/<site>/app/` is a router only. Three checkers hold the
-model: `boundaries` generated from the graph, Steiger once per app, and
+and every site's `sites/<site>/app/` is a router only. Every script runs under
+`tsx` and enters every layer through a public API, none exempted. Three checkers
+hold the model: `boundaries` generated from the graph, Steiger once per app, and
 `check:masd` (the graph, and significance counted across the composition, a
 one-consumer slice passing when it is a module). Music is cut into its model
 (`shared/catalogue`), the player feature, a page per page and the entities and
@@ -38,6 +39,7 @@ vet's runners on request (`VET_MEADOW=1`).
 - `bite-05c.md` — music's pages, one slice each (#214).
 - `bite-06a.md` — significance by modularity (#216).
 - `bite-06b.md` — the game cut by its nouns (#216).
+- `bite-07.md` — every script under tsx, through public APIs.
 
 ## Rest of the elephant
 
@@ -57,17 +59,6 @@ vet's runners on request (`VET_MEADOW=1`).
 - **Later, the converse of 6a** (the operator: «как бы нам определять, когда в
   одном слайсе скопилось что-то (кластер?), что заслуживает вынесения в модуль?
   но отложим»): when a cluster inside one slice earns a slice of its own.
-- **7. The grandfathered script imports, retired.** basilisk's, kernel's,
-  shell's, vova's and mushrooms' scripts enter their layers through public APIs
-  — a `index.node-safe.ts` where a script runs without a bundler — and the
-  `boundaries/dependencies` block in `eslint.config.ts` goes, with whatever
-  slices 5 and 6 left in it — `list-untold-songs` among them, whose
-  `catalogue-names.ts` reads the filesystem under bare Node. With it every
-  script runs under `tsx` (the operator's «давай» on #169): each
-  `node <file>.ts` entry in `package.json` becomes `tsx <file>.ts`, its files
-  take the `@/` alias, and `eslint/bare-node.ts`, its `vova/no-relative-escape`
-  exemption and `masd.md`'s bare-Node import rule go. `personas/tools/` stays as
-  it is, being Майя's.
 
 ## How this elephant is eaten
 
@@ -125,6 +116,9 @@ it holds up.
   `MapLayout`, `WithMap` and `DoorSeating` and the page imports them, rather
   than the map importing the page's `MeadowLayout`; the combination it reads of
   the sun is landscape's `SunnedScreen`, not spelled again.
+- **A script reads the barrel the layers do.** Where a script needed a name, the
+  slice's existing `index.node-safe.ts` gained it rather than a scripts-only
+  barrel being added beside it, so a name has one public entry per bundler axis.
 - **Not extracted:** a `masd` package or a Steiger plugin. A plugin's rule sees
   one root, which is the problem; a package earns nothing a script and one data
   file do not already give.
