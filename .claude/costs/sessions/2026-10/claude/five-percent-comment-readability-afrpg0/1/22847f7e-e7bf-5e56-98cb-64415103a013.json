@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 66322,
+    "cacheReadTokens": 660874,
+    "outputTokens": 5566,
+    "thinkingTokens": 4059,
+    "responses": 7,
+    "costUsd": 0.7741268000000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-28T16:52:39.514Z",
+    "contextTokens": 117213,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 60675,
+      "cacheReadTokens": 549310,
+      "outputTokens": 4967,
+      "thinkingTokens": 3816,
+      "responses": 6,
+      "costUsd": 0.6946500000000002
+    }
+  },
+  "sessionId": "22847f7e-e7bf-5e56-98cb-64415103a013",
+  "branch": "claude/five-percent-comment-readability-afrpg0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "надо что-то делать с five-percent -- я просто даже прочесть не могу, что там пишут (пример #228), не то что как-то действовать или решать по этим комментариям",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDT4fvBDNrmuyRw9h3",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T16:51:35.093Z",
+  "lastResponseAt": "2026-10-28T16:52:39.514Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 66322,
+    "cacheReadTokens": 660874,
+    "outputTokens": 5566,
+    "thinkingTokens": 4059,
+    "responses": 7,
+    "costUsd": 0.7741268000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 66322,
+      "cacheReadTokens": 660874,
+      "outputTokens": 5566,
+      "thinkingTokens": 4059,
+      "responses": 7,
+      "costUsd": 0.7741268000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 6,
+    "matched": 6,
+    "matchedTableUsd": 0.6946500000000002,
+    "matchedEventUsd": 0.69465,
+    "unseen": {}
+  }
+}
