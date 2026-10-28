@@ -123,7 +123,30 @@ cleaner name.
 - Done: step 1. With `masd.json` at a slice root and in `shared/`, and a
   `shape/` segment holding an `index.ts`, `pnpm lint:fsd` reported no problem in
   any app root; the probe files were removed uncommitted.
-- Left: steps 2–10.
+- Done: steps 2–8 (`c908af8`, `79e2a19`, `61c5246`, `d4bf7ec`, `76cf54c`).
+  Typecheck, `check:masd`, `lint:fsd` and ESLint over every touched place are
+  clean; the 305 moved page tests and the 124 `mushrooms/shared` tests pass.
+  Where it departs from the steps above:
+  - **`vova/segment-order` also reads `@/` imports into the importer's own
+    place**, a segment barrel named by its directory included — `shared` layers
+    reach sibling segments by alias as often as relatively (`music/shared/ui` →
+    `catalogue`). Both rules visit specifiers through
+    `eslint/rules/import-sources.ts`.
+  - **`check:masd` also runs `segmentOrder` over every place**, since the rule
+    loads only the places it lints.
+  - **`mushrooms/shared/masd.json` is `meadow, sky, space, ui, lib`**, not
+    ui-first: `space/repaint-queue.ts` takes its haze colour from
+    `ui/haze-tone`, and `ui` imports nothing of the others.
+  - **`FLOWER_SIZE` moved to `meadow/flower-size.ts`** rather than becoming a
+    parameter: `ground.ts` declared it and never read it.
+  - **No model kit moved** in step 6: none of the 15 tests used one.
+  - **`lib/cruise.test.ts`'s "a heading's crop" block** tested `pan` and reached
+    up into it; it is `space/pan-heading.test.ts`.
+  - **The mushrooms page's `masd.json`** lists `reference/` (the drawing, no
+    module) last.
+- Left: step 9 (the prose must also state the `@/` coverage and the `shape`
+  example's real order), step 10, then `/go` Steps 3–4 — `/polish`, and PR
+  #225's body refreshed by `/pr`.
 
 ## Scope
 
