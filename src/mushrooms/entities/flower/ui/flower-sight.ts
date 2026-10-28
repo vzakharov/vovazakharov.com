@@ -11,7 +11,6 @@
 
 import { keptIn } from '@/kernel/shared/cache';
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithHeight } from '@/kernel/shared/typings';
 
 import {
   boxAround,
@@ -29,34 +28,22 @@ import {
   middleOf,
   type MushroomGround,
   type Occupant,
-  type Occupied,
-  type Occupying,
   pinholeOf,
   type Sitter,
   standingOn,
   type Stood,
-  type WithLayout,
 } from '@/mushrooms/shared/world';
 
-import {
-  type Flower,
-  FLOWER_RANGES,
-  flowerGenes,
-  flowerHead,
-  type WithPulled,
-} from '../model/flower-genes';
-import type { WithPlanted } from '../model/planted-flowers';
+import { FLOWER_RANGES, flowerGenes, flowerHead } from '../model/flower-genes';
 import { FLOWER_SWAY } from './flower-layout';
 import {
-  type FlowerPlotsLayout,
   flowersOf,
   groundFor,
   occupantsOf,
   type Placed,
   type StandingFlower,
 } from './flower-plots';
-
-export type FlowerSightLayout = WithHeight & FlowerPlotsLayout;
+import type { FlowerSightLayout, Stand } from './stand';
 
 /**
  * How far off a cap's crown toward its rims, or off a flower's centre toward
@@ -71,41 +58,6 @@ export const PERCH_SPREAD = 0.3;
  */
 const HEAD_SHOWN = 0.5;
 const HEAD_RING = 8;
-
-/** The layout and the visit's seeded flowers on it. */
-export type SeededLayout<L = FlowerSightLayout> = WithLayout<L> & {
-  flowers: readonly Flower[];
-};
-
-/**
- * The meadow as the scene stands it: the layout, the visit's seeded flowers,
- * the planted ones and the ones the child pulled up, and the things standing
- * among them, with how they occupy the ground (`Occupying`); generic in the
- * layout, which the scene reads more of than the sight does, and in the
- * things, which the flowers know only as occupants.
- */
-export type Stand<
-  L = FlowerSightLayout,
-  Thing extends Stood = Stood,
-> = SeededLayout<L> &
-  WithPlanted &
-  WithPulled &
-  Occupied<Thing> & { occupying: Occupying<Thing> };
-
-/** `meadow` as it stands on `layout` among the visit's seeded `flowers`, its things occupying the ground as `occupying` says. */
-export function standOf<L extends FlowerSightLayout, Thing extends Stood>(
-  layout: L,
-  flowers: readonly Flower[],
-  meadow: WithPlanted & WithPulled & Occupied<Thing>,
-  occupying: Occupying<Thing>,
-): Stand<L, Thing> {
-  return {
-    layout,
-    flowers,
-    ...pick(meadow, 'mushrooms', 'planted', 'pulled'),
-    occupying,
-  };
-}
 
 /**
  * A flower as the sight reads it: its place, its head on screen, and how far
