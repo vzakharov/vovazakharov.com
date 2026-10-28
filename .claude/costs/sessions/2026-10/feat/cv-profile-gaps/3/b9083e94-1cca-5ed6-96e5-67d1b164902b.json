@@ -1,0 +1,115 @@
+{
+  "total": {
+    "inputTokens": 1229,
+    "cacheWrite5mTokens": 97805,
+    "cacheWrite1hTokens": 82567,
+    "cacheReadTokens": 2826273,
+    "outputTokens": 7555,
+    "thinkingTokens": 1877,
+    "responses": 28,
+    "costUsd": 1.8659371
+  },
+  "estimate": {
+    "at": "2026-10-28T09:19:31.176Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "land prep on a content PR: vet, base merge with a conflict to resolve, squash record and attestation; routine for a mid-level dev who knows the repo's loop"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-28T09:13:06.464Z",
+    "contextTokens": 113297,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53349,
+      "cacheReadTokens": 890959,
+      "outputTokens": 1962,
+      "thinkingTokens": 408,
+      "responses": 9,
+      "costUsd": 0.6442958000000001
+    }
+  },
+  "sessionId": "b9083e94-1cca-5ed6-96e5-67d1b164902b",
+  "branch": "feat/cv-profile-gaps",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take feat/cv-profile-gaps — ревью PR #224 отработано, в CV теперь только 4,5–5× на разработчика; ждём Вову",
+  "prs": [
+    224
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCVy2t11nVht7hWmQf",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T09:12:28.425Z",
+  "lastResponseAt": "2026-10-28T09:24:02.560Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 42,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 82567,
+    "cacheReadTokens": 2409292,
+    "outputTokens": 5104,
+    "thinkingTokens": 1207,
+    "responses": 21,
+    "costUsd": 1.2446424
+  },
+  "subagents": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 97805,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 416981,
+    "outputTokens": 2435,
+    "thinkingTokens": 670,
+    "responses": 6,
+    "costUsd": 0.6211692000000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 97805,
+      "cacheWrite1hTokens": 82567,
+      "cacheReadTokens": 2826273,
+      "outputTokens": 7539,
+      "thinkingTokens": 1877,
+      "responses": 27,
+      "costUsd": 1.8658116
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1175,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 16,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00012550000000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 28,
+    "matched": 27,
+    "matchedTableUsd": 1.8658116,
+    "matchedEventUsd": 1.8658116000000005,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1175,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 16,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00012550000000000001
+      }
+    }
+  }
+}
