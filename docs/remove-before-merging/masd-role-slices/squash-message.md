@@ -14,9 +14,12 @@ and config: where api needs a type from model, what both need moves
 down to shape. A place with its own segments declares the order in a
 masd.json beside them; root src/masd.json stays the app graph.
 
-vova/segment-order enforces the order; check:masd bans any
-non-.ts/.tsx source in a layer. mushrooms/shared/world becomes space,
-sky and meadow, and the meadow page's kept record moves to shape.
+vova/segment-order enforces it over relative and @/ imports into the
+importer's own place; check:masd validates every place's order and
+bans any non-.ts/.tsx source in a layer. mushrooms/shared/world
+becomes meadow, sky and space, the meadow page's kept record moves to
+shape, and its keeper tests build records from a shape kit rather
+than playing the game to make one.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
