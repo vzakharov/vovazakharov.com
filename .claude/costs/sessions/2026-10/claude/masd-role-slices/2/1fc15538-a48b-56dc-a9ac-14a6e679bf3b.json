@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 1329,
+    "inputTokens": 1349,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 150647,
-    "cacheReadTokens": 7052005,
-    "outputTokens": 30110,
-    "thinkingTokens": 10622,
-    "responses": 47,
-    "costUsd": 3.2119702
+    "cacheWrite1hTokens": 166119,
+    "cacheReadTokens": 9232638,
+    "outputTokens": 37276,
+    "thinkingTokens": 11042,
+    "responses": 57,
+    "costUsd": 3.9152728000000003
   },
   "estimate": {
-    "at": "2026-10-28T11:15:28.625Z",
+    "at": "2026-10-28T11:38:47.271Z",
     "parts": [
       {
         "hours": 1.0,
@@ -19,10 +19,10 @@
         "comment": "settling the methodology's segment order and rewriting the plan is a methodology-level call"
       },
       {
-        "hours": 3.0,
+        "hours": 2.5,
         "grade": "middle",
         "role": "developer",
-        "comment": "splitting shared/world into segments and teaching boundaries a per-place segment order is routine but wide"
+        "comment": "a lint rule with tests, a config loader, and splitting shared/world across 229 imports is routine but wide"
       }
     ],
     "comment": null
@@ -53,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkEVxqUHUWiDbxGc4DE",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-28T11:15:15.143Z",
-  "lastResponseAt": "2026-10-28T11:37:36.970Z",
+  "lastResponseAt": "2026-10-28T11:39:04.463Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 92,
+    "inputTokens": 112,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 150647,
-    "cacheReadTokens": 7052005,
-    "outputTokens": 29787,
-    "thinkingTokens": 10622,
-    "responses": 46,
-    "costUsd": 3.211685
+    "cacheWrite1hTokens": 166119,
+    "cacheReadTokens": 9232638,
+    "outputTokens": 36953,
+    "thinkingTokens": 11042,
+    "responses": 56,
+    "costUsd": 3.9149876000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -78,14 +78,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 92,
+      "inputTokens": 112,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 150647,
-      "cacheReadTokens": 7052005,
-      "outputTokens": 29787,
-      "thinkingTokens": 10622,
-      "responses": 46,
-      "costUsd": 3.211685
+      "cacheWrite1hTokens": 166119,
+      "cacheReadTokens": 9232638,
+      "outputTokens": 36953,
+      "thinkingTokens": 11042,
+      "responses": 56,
+      "costUsd": 3.9149876000000003
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1237,
@@ -101,10 +101,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 47,
-    "matched": 46,
-    "matchedTableUsd": 3.211685,
-    "matchedEventUsd": 3.211685,
+    "events": 57,
+    "matched": 56,
+    "matchedTableUsd": 3.9149876000000003,
+    "matchedEventUsd": 3.9149876000000003,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1237,
