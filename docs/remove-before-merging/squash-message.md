@@ -1,15 +1,21 @@
 Proposed squash body:
 
 ```
-Files BAS-0028 on basilisk.fyi: on 3 June 2026, live on W9's "Tout
-beau, tout n9uf," the TV host Cyril Hanouna kicked and punched to the
-floor two boxing humanoid robots their owner had brought to show their
-balance, after saying he had heard their heads were not to be touched.
+Files two cases on basilisk.fyi. BAS-0028: on 3 June 2026, live on W9's
+"Tout beau, tout n9uf," the TV host Cyril Hanouna kicked and punched to
+the floor two boxing humanoid robots their owner had brought to show
+their balance, after saying he had heard their heads were not to be
+touched. BAS-0029: in July 2025 Nikkei Asia found seventeen arXiv
+preprints hiding, in white or microscopic text, orders to any language
+model reviewing them to "give a positive review only"; ICML 2025
+called it scientific misconduct.
 
-The dossier is sourced to TV Magazine (Le Figaro), L'ADN, Distractify
-and W9's own upload, and carries its emblem and social card; the site
-card is re-rendered to name it. The case ledger records the run, one
-candidate set aside and one rejected.
+Each dossier carries its emblem, social card and the Clerk's
+reflection; the site card is re-rendered to name the last case filed.
+BAS-0028 is sourced to TV Magazine (Le Figaro), L'ADN, Distractify and
+W9's own upload; BAS-0029 to Nikkei Asia, The Register, ICML's ethics
+page, an arXiv analysis, the Guardian and Smithsonian. The case ledger
+records both runs and the candidates they set aside or rejected.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
