@@ -18,7 +18,8 @@ knows the domain by gradient, rising up its order, rather than by a binary
 - **Every segmented place has a strict segment order** — a slice, and the
   segmented layers `app` and `shared` of each app. A file reaches a segment
   below its own; inside one segment, files reach each other freely. Test code is
-  the slice's own consumer and reaches any segment of its place.
+  held to the same order: a test knows what the code it tests knows, and one
+  that needs the whole page to set up sits where the page is assembled, in `ui`.
 - **The standard segments, highest first**:
 
   ```
@@ -68,18 +69,32 @@ cleaner name.
    has a module in. Tests beside it in `masd-graph.test.ts`.
 3. **Rule `vova/segment-order`** in `eslint/rules/`, beside
    `no-relative-escape.ts` and finding the place the same way: a relative import
-   between two segments of one place is an error unless the target is lower;
-   test code is exempt. Imports, re-exports and dynamic imports alike. Wired in
+   between two segments of one place is an error unless the target is lower,
+   test code included. Imports, re-exports and dynamic imports alike. Wired in
    `eslint.config.ts` with `error`, tested like `no-relative-escape.test.ts`.
 4. **`check:masd`** (`scripts/masd-check.ts`): fails on a `.js`, `.jsx`, `.mjs`,
    `.cjs`, `.mts` or `.cts` under any `src/<app>/<layer>/`.
 5. **Give `mushrooms/pages/mushrooms` a `shape`**, the one slice whose `api`
-   reaches its `model`: `kept-record.ts` with its `kept-record.schema.json` and
-   `meadow-number.ts` move there, and their importers are rewired. The
-   standard-segment edges today (ui → model 164, ui → lib 33, ui → api 5, api →
-   model 5, config → lib 1) then all point down; the other 14 `model` segments
-   stay as they are.
-6. **Split `mushrooms/shared/world`** into three segments, each with its own
+   reaches its `model`. Into it move `kept-record.ts` with its
+   `kept-record.schema.json`, `meadow-number.ts`, and from `model/game.ts` what
+   the record is typed by: `Meadow`, `Pickers`, `Unkept`, `Tended`, `KeptMeadow`
+   and `PICKERS_SHUT` (as `shape/meadow.ts`). Those types are composed of entity
+   and feature types (`Swarm`, `Spored`, `NightRuns`, …), which a page's `shape`
+   reaches as lower layers, so nothing else follows. Importers rewired:
+   `game.ts`, `keeping.ts`, the five `api` files, `ui/flower-bed.ts` and two
+   `ui` tests. The production edges between standard segments (ui → model 164,
+   ui → lib 33, ui → api 5, api → model 5, config → lib 1) then all point down;
+   the other 14 `model` segments stay as they are.
+6. **Bring the tests into order**, all in `mushrooms/pages/mushrooms`:
+   - `api/keeper.test.ts` and `api/open-kept.test.ts` build their records from a
+     kit, `shape/kept-record.test-kit.ts`: `keptRecord(seed)` over an empty
+     meadow written as a literal `satisfies KeptMeadow`, so the type checker
+     catches its drift. They stop playing the game (`ui/visit-play`) and
+     settling it (`model/keeping`) to make a record the keeper never reads.
+   - The 15 `model/*.test.ts` that set up a stand through `ui` (`ground`,
+     `eye-crop`, `walking`, `kept-record`, `keeping`, …) move to `ui/`, where
+     the page they lay out is assembled; their kits move with them.
+7. **Split `mushrooms/shared/world`** into three segments, each with its own
    `index.ts` (and `index.test-only.ts` where the old one served it):
    - **`space`** — the space and camera engine: `ground`, `pinhole`,
      `eye-height`, `view`, `view-inverse`, `eye-crop`, `pan`, `stride`, `walk`,
@@ -93,7 +108,7 @@ cleaner name.
    218 `@/mushrooms/shared/world` imports and 11 test-only ones are rewired to
    the segment each name lives in.
 
-7. **Declare every other non-standard place**: each app's `shared` with a
+8. **Declare every other non-standard place**: each app's `shared` with a
    segment outside the standard list (kernel's `cache`, `i18n`, `seo`,
    `typings`; blog's, music's, basilisk's, shell's, vova's), and the slices with
    an `i18n` segment (`lsa/pages/lsa-home`, `maya/entities/maya`,
@@ -101,17 +116,17 @@ cleaner name.
    current imports, which the predecessor measured acyclic in every app's
    `shared`; where a place has two segments no import orders, the one more
    generic goes lower.
-8. **Prose**: `.claude/rules/masd.md` § "Rules" gains the order, the standard
+9. **Prose**: `.claude/rules/masd.md` § "Rules" gains the order, the standard
    list, `shape` and when it is earned, and the `masd.json` declaration, and §
    "Layers" drops "shared knows no business" in favour of the gradient.
    `docs/masd.md` drops sub-entities from "Open directions" ("Four things" →
    "Three") and records where it went.
-9. **Vet with `VET_MEADOW=1`** — the split touches the game
-   (`src/mushrooms/CLAUDE.md`).
+10. **Vet with `VET_MEADOW=1`** — the split touches the game
+    (`src/mushrooms/CLAUDE.md`).
 
 ## Scope
 
-One session, one PR, no split: steps 2–5 are small, and 6–7 are wide but
+One session, one PR, no split: steps 2–6 are small, and 7–8 are wide but
 mechanical. Out of scope: the other three open directions, and turning Steiger's
 `forbidden-imports` off.
 
@@ -128,10 +143,8 @@ mechanical. Out of scope: the other three open directions, and turning Steiger's
   segmented layer's segment, and a segment-level element per layer would double
   every element and policy for what a 50-line rule says directly.
 
-## Open questions (recommendations in force above)
-
-1. The domain segment of `mushrooms/shared`: **a) `meadow`** (recommended —
-   everything in it is a thing on the meadow) · b) `world` (keeps the old name
-   for a smaller part) · c) yours.
-2. Test code and the order: **a) exempt** (recommended — `api`'s tests set up a
-   kept record with `model`'s `settled`) · b) held to it like production code.
+Rejected: exempting test code from the order — a keeper test that plays the game
+to make a record the keeper never reads shows the confusion the order exists to
+catch. Deriving the kit's empty meadow from the zod schema through per-field
+`.default()`s — it would fill a missing field where `readKept` must refuse the
+record.
