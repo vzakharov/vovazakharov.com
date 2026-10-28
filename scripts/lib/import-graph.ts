@@ -1,0 +1,46 @@
+/**
+ * The file walk and import resolution `check:masd` and `check:poison` share, so
+ * the two cannot disagree on where an import lands. Every path is relative to
+ * the working directory, which is the repository root or a test's tree.
+ */
+
+import { existsSync, readdirSync } from 'node:fs';
+import path from 'node:path';
+
+const SOURCE = /\.tsx?$/;
+
+/** Every `.ts`/`.tsx` file under `directory`, at any depth. */
+export const walk = (directory: string): string[] =>
+  readdirSync(directory, { withFileTypes: true, recursive: true })
+    .filter((entry) => entry.isFile() && SOURCE.test(entry.name))
+    .map((entry) =>
+      path.relative(process.cwd(), path.join(entry.parentPath, entry.name)),
+    );
+
+export const subdirectories = (directory: string): string[] =>
+  readdirSync(directory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
+
+/**
+ * The path a specifier names, before an extension or `index.ts` is tried; a
+ * package specifier names none.
+ */
+export function resolveImport(
+  from: string,
+  specifier: string,
+): string | undefined {
+  if (specifier.startsWith('@/')) return path.join('src', specifier.slice(2));
+  if (specifier.startsWith('.')) {
+    return path.join(path.dirname(from), specifier);
+  }
+  return undefined;
+}
+
+/** The source file a resolved path loads, if it exists. */
+export function sourceFile(base: string): string | undefined {
+  const stem = base.replace(SOURCE, '');
+  return [base, `${stem}.ts`, `${stem}.tsx`, path.join(stem, 'index.ts')].find(
+    (candidate) => SOURCE.test(candidate) && existsSync(candidate),
+  );
+}

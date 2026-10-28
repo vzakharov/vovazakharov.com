@@ -18,7 +18,7 @@
  * it against a tree of its own. See .claude/rules/masd.md.
  */
 
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
@@ -30,6 +30,12 @@ import {
   SLICED_LAYERS,
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
+import {
+  resolveImport,
+  sourceFile,
+  subdirectories,
+  walk,
+} from './lib/import-graph.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
 // The sliced layers Steiger checks; a page has nothing above it to be
@@ -37,22 +43,9 @@ const SLICED = new Set(SLICED_LAYERS);
 const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
-const SOURCE = /\.tsx?$/;
 
 /** An importing file and the file it imports, both in one app. */
 type Edge = readonly [string, string];
-
-const walk = (directory: string): string[] =>
-  readdirSync(directory, { withFileTypes: true, recursive: true })
-    .filter((entry) => entry.isFile() && SOURCE.test(entry.name))
-    .map((entry) =>
-      path.relative(ROOT, path.join(entry.parentPath, entry.name)),
-    );
-
-const subdirectories = (directory: string): string[] =>
-  readdirSync(directory, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name);
 
 /**
  * Where a file sits: `<app>/<layer>/<slice>` in a sliced layer,
@@ -72,21 +65,6 @@ function locate(file: string): string | undefined {
 // Every location under `src/` opens with its app.
 const appOfLocation = (location: string): string =>
   location.slice(0, location.indexOf('/'));
-
-function resolveImport(from: string, specifier: string): string | undefined {
-  if (specifier.startsWith('@/')) return path.join('src', specifier.slice(2));
-  if (specifier.startsWith('.')) {
-    return path.join(path.dirname(from), specifier);
-  }
-  return undefined;
-}
-
-function sourceFile(base: string): string | undefined {
-  const stem = base.replace(SOURCE, '');
-  return [base, `${stem}.ts`, `${stem}.tsx`, path.join(stem, 'index.ts')].find(
-    (candidate) => SOURCE.test(candidate) && existsSync(candidate),
-  );
-}
 
 /** The app a shipped file under `src/` is part of. */
 function appOf(file: string): string | undefined {
