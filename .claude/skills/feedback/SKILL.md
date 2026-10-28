@@ -76,10 +76,11 @@ reading arrives together. Three calls, in this order:
 `COMMENT`, always. A reading is not an approval and not a change request, and
 the PR's approval state is not this skill's to move.
 
-**The rest of the mechanics are `CLAUDE.md` § "GitHub comments"** — the
-attribution footer on every comment, a body posted as text and not as a path,
-and **never resolving a thread**, which is the one an eight-block review puts
-most temptation in front of.
+**The rest of the mechanics are `CLAUDE.md` § "GitHub comments"** — a body
+posted as text and not as a path, and **never resolving a thread**, which is the
+one an eight-block review puts most temptation in front of. **A comment carries
+no attribution of its own**: the server appends its footer to each one, and the
+harness's "Generated with" line and session link are a PR body's.
 
 ## The reading is posted, not pursued
 

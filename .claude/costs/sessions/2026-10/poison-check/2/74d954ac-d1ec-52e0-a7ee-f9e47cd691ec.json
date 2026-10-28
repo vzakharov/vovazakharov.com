@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 1261,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 112087,
+    "cacheReadTokens": 5375641,
+    "outputTokens": 21639,
+    "thinkingTokens": 4799,
+    "responses": 41,
+    "costUsd": 2.4047107999999993
+  },
+  "estimate": {
+    "at": "2026-10-28T09:59:11.995Z",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "relaying a cross-session decision on which import graph the checks share needs someone who owns the repo's check architecture"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-28T09:59:23.934Z",
+    "contextTokens": 118576,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 58648,
+      "cacheReadTokens": 1147698,
+      "outputTokens": 2519,
+      "thinkingTokens": 479,
+      "responses": 11,
+      "costUsd": 0.7491916
+    }
+  },
+  "sessionId": "74d954ac-d1ec-52e0-a7ee-f9e47cd691ec",
+  "branch": "poison-check",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take poison-check — проверка на яд готова, PR #227 черновик; ждём ответа сессии, которая режет циклы, о том, чей граф импортов общий — наш резолвер или m…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBt5mkoNauAvaC41M1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T09:58:41.414Z",
+  "lastResponseAt": "2026-10-28T10:25:13.396Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 80,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 112087,
+    "cacheReadTokens": 5375641,
+    "outputTokens": 21622,
+    "thinkingTokens": 4799,
+    "responses": 40,
+    "costUsd": 2.404584199999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 80,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 112087,
+      "cacheReadTokens": 5375641,
+      "outputTokens": 21622,
+      "thinkingTokens": 4799,
+      "responses": 40,
+      "costUsd": 2.404584199999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1181,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 17,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001266
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 40,
+    "matched": 39,
+    "matchedTableUsd": 2.327464199999999,
+    "matchedEventUsd": 2.327464199999999,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1181,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 17,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001266
+      }
+    }
+  }
+}
