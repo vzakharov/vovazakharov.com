@@ -5,13 +5,17 @@
 
 import type { z } from 'zod';
 
-import { CLUMP_DISTANCE } from '@/mushrooms/shared/world/ground';
-import { bendAt, type Pinhole } from '@/mushrooms/shared/world/pinhole';
-import { D_SEE, V_NEAR } from '@/mushrooms/shared/world/view';
+import {
+  bendAt,
+  CLUMP_DISTANCE,
+  D_SEE,
+  type Pinhole,
+  V_NEAR,
+} from '@/mushrooms/shared/world';
 import {
   INSECT_KINDS,
   type InsectKind,
-} from '@/mushrooms/entities/insect/model/insect-genes';
+} from '@/mushrooms/entities/insect/index.node-safe';
 
 import type { Point } from './mushroom-probe-answers.ts';
 import { type Expect, FPS } from './mushroom-probe-drive.ts';

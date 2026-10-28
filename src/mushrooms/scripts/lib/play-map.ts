@@ -16,9 +16,11 @@
 
 import { z } from 'zod';
 
-import { GAITS } from '@/mushrooms/shared/world/stride';
-import { FURNISHINGS } from '@/mushrooms/entities/mushroom/model/house';
-import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/model/mushroom-genes';
+import { GAITS } from '@/mushrooms/shared/world';
+import {
+  FURNISHINGS,
+  MUSHROOM_SPECIES,
+} from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import {
   type Controls,

@@ -26,12 +26,19 @@ export {
   capOnCanvas,
   capUnder,
   headOutlines,
+  inkWidth,
   MUSHROOM_INK,
   TAP_PARTS,
   tapArea,
   toCanvas,
 } from './model/mushroom-outline';
-export { capSeat, type Splayed, splayed, stemAt } from './model/mushroom-pose';
+export {
+  capFrame,
+  capSeat,
+  type Splayed,
+  splayed,
+  stemAt,
+} from './model/mushroom-pose';
 export { capBase, capSurface, stemHalfWidth } from './model/mushroom-profile';
 export {
   apartOnScreen,
@@ -79,6 +86,7 @@ export {
   laidOf,
   placeIn,
   type Placement,
+  placeOf,
   placeOnGround,
 } from './ui/clump-layout';
 export { clumpShade, type Opener } from './ui/clump-shade';

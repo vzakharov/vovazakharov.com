@@ -10,9 +10,11 @@
 
 import { z } from 'zod';
 
-import { darkAt } from '@/mushrooms/shared/world/weather';
-import { SPROUT_WINDOW_MS } from '@/mushrooms/features/grow-mushroom/model/sprouting';
-import { SPORE_REACH } from '@/mushrooms/features/grow-mushroom/ui/mushroom-room';
+import { darkAt } from '@/mushrooms/shared/world';
+import {
+  SPORE_REACH,
+  SPROUT_WINDOW_MS,
+} from '@/mushrooms/features/grow-mushroom/index.node-safe';
 
 import {
   type Controls,

@@ -21,16 +21,18 @@
 import { z } from 'zod';
 
 import { GLIDE_TAU } from '@/mushrooms/shared/lib/glide';
-import { walking } from '@/mushrooms/shared/world/eye-height';
-import { SLOP, TURN_CRUISE } from '@/mushrooms/shared/world/pan';
-import { pinholeOf, planeSeen } from '@/mushrooms/shared/world/pinhole';
 import {
+  BOB_SHARE,
+  browRow,
+  pinholeOf,
+  planeSeen,
   sidewaysOf,
+  SLOP,
   STRIDE_FLING_FASTEST,
-} from '@/mushrooms/shared/world/stride';
-import { browRow } from '@/mushrooms/shared/world/view';
-import { BOB_SHARE } from '@/mushrooms/shared/world/walking';
-import { cloudAt } from '@/mushrooms/entities/landscape/ui/rain-sky';
+  TURN_CRUISE,
+  walking,
+} from '@/mushrooms/shared/world';
+import { cloudAt } from '@/mushrooms/entities/landscape/index.node-safe';
 
 import {
   Camera,

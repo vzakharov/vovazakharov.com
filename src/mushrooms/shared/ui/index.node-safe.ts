@@ -11,6 +11,7 @@ export {
   awayAngle,
   castShadow,
   facingArc,
+  INK_REACH,
   inkFor,
   lineInk,
   litSide,

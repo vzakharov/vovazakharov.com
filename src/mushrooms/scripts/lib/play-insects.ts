@@ -5,11 +5,15 @@ import { z } from 'zod';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
-import { LANDING } from '@/mushrooms/entities/insect/model/insect-motion';
-import { isSamePerch } from '@/mushrooms/entities/insect/model/perch';
-import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/model/insects';
-import { PERCH_REACH } from '@/mushrooms/features/insects-fly/ui/perch-sight';
-import { perchAnchorOf } from '@/mushrooms/features/insects-fly/ui/perches';
+import {
+  isSamePerch,
+  LANDING,
+} from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  INSECT_LIMITS,
+  PERCH_REACH,
+  perchAnchorOf,
+} from '@/mushrooms/features/insects-fly/index.node-safe';
 
 import {
   type Controls,

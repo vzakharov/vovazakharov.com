@@ -7,15 +7,16 @@
 import { z } from 'zod';
 
 import { wrap } from '@/mushrooms/shared/lib/geometry';
-import { KEY_EASE, TURN_CRUISE } from '@/mushrooms/shared/world/pan';
 import {
   forwardOf,
+  KEY_EASE,
+  SHOWN_LEAST,
   sidewaysOf,
   STEP_LENGTH,
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
-} from '@/mushrooms/shared/world/stride';
-import { SHOWN_LEAST } from '@/mushrooms/shared/world/view';
+  TURN_CRUISE,
+} from '@/mushrooms/shared/world';
 
 import { Eye, type Point } from './mushroom-probe-answers.ts';
 import {

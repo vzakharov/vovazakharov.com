@@ -1,5 +1,6 @@
 export {
   type Burrows,
+  NIGHT_GAP,
   nightRan,
   type NightRuns,
   NO_NIGHT_RUNS,

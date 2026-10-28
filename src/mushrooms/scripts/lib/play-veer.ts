@@ -18,10 +18,11 @@
 import { z } from 'zod';
 
 import { wrap } from '@/mushrooms/shared/lib/geometry';
-import { TURN_CRUISE } from '@/mushrooms/shared/world/pan';
-import { pinholeOf } from '@/mushrooms/shared/world/pinhole';
-import { azimuthOf } from '@/mushrooms/entities/insect/model/flight-frame';
-import type { InsectKind } from '@/mushrooms/entities/insect/model/insect-genes';
+import { pinholeOf, TURN_CRUISE } from '@/mushrooms/shared/world';
+import {
+  azimuthOf,
+  type InsectKind,
+} from '@/mushrooms/entities/insect/index.node-safe';
 
 import {
   Camera,

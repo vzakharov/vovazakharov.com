@@ -1,4 +1,4 @@
-import { PUFF_REACH } from '@/mushrooms/entities/landscape/ui/cloud-puffs';
+import { PUFF_REACH } from '@/mushrooms/entities/landscape/index.node-safe';
 
 /**
  * The second half of `PROBE`'s page-side source: the members of

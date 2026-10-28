@@ -11,9 +11,9 @@
 
 import type { z } from 'zod';
 
-import { FURNISHINGS } from '@/mushrooms/entities/mushroom/model/house';
-import { WORM_GIRTH_LEAST } from '@/mushrooms/entities/worm/model/worm';
-import { WINDOW_SWING } from '@/mushrooms/features/worm-peeks/model/worm-way';
+import { FURNISHINGS } from '@/mushrooms/entities/mushroom/index.node-safe';
+import { WORM_GIRTH_LEAST } from '@/mushrooms/entities/worm/index.node-safe';
+import { WINDOW_SWING } from '@/mushrooms/features/worm-peeks/index.node-safe';
 
 import {
   Box,

@@ -5,6 +5,7 @@ export {
   SPORE_SEATS,
   type Spored,
   type SporeTap,
+  SPROUT_WINDOW_MS,
   sproutedInRain,
   sproutMoment,
   unsown,
@@ -20,3 +21,4 @@ export {
 } from './ui/mushroom-room';
 export type { Popping } from './ui/spore-bed';
 export { sporeOnTap } from './ui/spore-seats';
+export { dotInSight } from './ui/spore-sight';

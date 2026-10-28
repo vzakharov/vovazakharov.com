@@ -9,9 +9,8 @@
 
 import { z } from 'zod';
 
-import { INK_REACH } from '@/mushrooms/shared/ui/ink';
-import { PALETTE } from '@/mushrooms/shared/ui/palette';
-import { inkWidth } from '@/mushrooms/entities/mushroom/model/mushroom-outline';
+import { INK_REACH, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
+import { inkWidth } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import type { Page } from './mushroom-probe-drive.ts';
 

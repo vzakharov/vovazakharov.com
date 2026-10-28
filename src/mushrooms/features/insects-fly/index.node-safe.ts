@@ -24,6 +24,7 @@ export type { Glinting } from './ui/firefly-view';
 export { foldedHead } from './ui/flower-seat';
 export { restingOn } from './ui/perch-hosts';
 export {
+  footRows,
   MOST_OVERLAP,
   onscreenOf,
   PERCH_REACH,
@@ -31,4 +32,4 @@ export {
   perchSpot,
   seatAt,
 } from './ui/perch-sight';
-export { ScenePerches, type TappedThrough } from './ui/perches';
+export { perchAnchorOf, ScenePerches, type TappedThrough } from './ui/perches';

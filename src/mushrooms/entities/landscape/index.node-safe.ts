@@ -1,5 +1,6 @@
 export { groundAt, RANGES } from './ui/backdrop-tones';
 export type { Blade } from './ui/brow';
+export { PUFF_REACH } from './ui/cloud-puffs';
 export {
   cloudOverMoon,
   moonAt,
@@ -49,6 +50,7 @@ export {
   SOFT_EDGE,
 } from './ui/mottles';
 export { azimuthAt, type Clouded, crestAcross, skyClouds } from './ui/panorama';
+export { cloudAt } from './ui/rain-sky';
 export type { RainSound, RainTapped } from './ui/rain-view';
 export { RainVoice, whoosh } from './ui/rain-voice';
 export { SEAM_REACH, SEAM_STEPS, seamCrest, seamTop } from './ui/skyline';
