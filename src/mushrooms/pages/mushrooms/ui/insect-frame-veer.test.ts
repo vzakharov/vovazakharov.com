@@ -8,7 +8,7 @@ import {
   type Eye,
   pinholeOf,
   V_NEAR,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import type { Aloft } from '@/mushrooms/entities/insect/index.node-safe';
 import {
   SEAT_FADE,

@@ -3,17 +3,16 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import { anchoredGround, bedPlace } from '@/mushrooms/shared/meadow';
 import {
   anchored as anchoredPoint,
-  anchoredGround,
-  bedPlace,
   type Eye,
   FRAME_DEPTH,
   groundOfPlane,
   OPENING_EYE,
   scaleAt,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   grownOn,
   laidOf,

@@ -16,12 +16,8 @@
 
 import { z } from 'zod';
 
-import {
-  RAIN_MS,
-  rainbow,
-  TURN_CRUISE,
-  wetness,
-} from '@/mushrooms/shared/world';
+import { RAIN_MS, rainbow, wetness } from '@/mushrooms/shared/sky';
+import { TURN_CRUISE } from '@/mushrooms/shared/space';
 import { INSECT_KINDS } from '@/mushrooms/entities/insect/index.node-safe';
 import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { closingStep } from '@/mushrooms/features/flowers-close';

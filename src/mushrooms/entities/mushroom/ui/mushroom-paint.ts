@@ -13,6 +13,7 @@ import {
   ROUND_STEPS,
   type Scaled,
 } from '@/mushrooms/shared/lib/geometry';
+import type { Hazed } from '@/mushrooms/shared/space';
 import {
   type Brush,
   fillShape,
@@ -24,7 +25,6 @@ import {
   PALETTE,
   type WithGraphics,
 } from '@/mushrooms/shared/ui';
-import type { Hazed } from '@/mushrooms/shared/world';
 
 import type { MushroomGenes } from '../model/mushroom-genes';
 import {

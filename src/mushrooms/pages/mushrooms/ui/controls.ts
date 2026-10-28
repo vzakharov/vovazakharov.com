@@ -1,8 +1,9 @@
 import type * as Phaser from 'phaser';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
+import { isFull } from '@/mushrooms/shared/meadow';
+import { standingOn, type Walk } from '@/mushrooms/shared/space';
 import { drawDisc } from '@/mushrooms/shared/ui';
-import { isFull, standingOn, type Walk } from '@/mushrooms/shared/world';
 import {
   FLOWER_SHAPES,
   type FlowerColour,
@@ -30,7 +31,8 @@ import {
 import { drawGaitButton } from '@/mushrooms/features/walk-meadow';
 import { unfolded } from '@/mushrooms/widgets/map';
 
-import { isEmpty, type Meadow } from '../model/game';
+import { isEmpty } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import {
   type Button,
   buttonMaker,

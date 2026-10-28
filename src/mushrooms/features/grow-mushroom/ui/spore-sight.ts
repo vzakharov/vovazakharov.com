@@ -10,10 +10,9 @@ import type { Point } from '@/mushrooms/shared/lib/geometry';
 import {
   bedPlace,
   inSightPast,
-  onScreen,
   type ShownCover,
-  type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/meadow';
+import { onScreen, type View } from '@/mushrooms/shared/space';
 
 /**
  * Where on `view`'s screen the dot of a spore lying on `foot`, on the plane,

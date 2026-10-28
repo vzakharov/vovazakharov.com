@@ -8,21 +8,23 @@
 
 import type { Box, Point } from '@/mushrooms/shared/lib/geometry';
 import {
+  groundIn,
+  type LaidAhead,
+  type MushroomGround,
+} from '@/mushrooms/shared/meadow';
+import {
   type Camera,
   CLUMP_DISTANCE,
   type Footing,
   type Frame,
   gathered,
   type Ground,
-  groundIn,
   groundOfPlane,
   type Hazed,
-  type LaidAhead,
-  type MushroomGround,
   OPENING_EYE,
   project,
   scaleAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { OPENING_SPECIES } from '../model/mushroom-genes';
 import { speciesHeight, speciesReach } from '../model/mushroom-pose';

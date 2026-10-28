@@ -7,7 +7,7 @@ import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
 import type { Box, Circle } from '@/mushrooms/shared/lib/geometry';
 import { BUTTON_INSET, tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import type { Footing, Grounded, WithCamera } from '@/mushrooms/shared/world';
+import type { Footing, Grounded, WithCamera } from '@/mushrooms/shared/space';
 
 import type { Clouded } from './panorama';
 

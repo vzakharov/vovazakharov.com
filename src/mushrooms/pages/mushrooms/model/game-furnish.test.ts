@@ -9,7 +9,8 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { canFurnish } from '@/mushrooms/features/furnish-house';
 
-import { type Action, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, reduce } from './game';
 import { grow, opening, run } from './game.test-kit';
 
 const furnish = (piece: Furnishing): Action => ({ kind: 'furnish', piece });

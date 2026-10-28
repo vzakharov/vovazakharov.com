@@ -11,6 +11,7 @@ import type { Sized } from '@/kernel/shared/typings';
 import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
 import { phaseOf } from '@/mushrooms/shared/lib/motion';
 import type { Seeded } from '@/mushrooms/shared/lib/random';
+import type { Spanned } from '@/mushrooms/shared/meadow';
 import {
   aloftAt,
   alongSight,
@@ -19,10 +20,9 @@ import {
   D_SEE,
   onScreen,
   pinholeOf,
-  type Spanned,
   type View,
   type Zooming,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { type Aloft, azimuthOf } from '../model/flight-frame';
 import type { WayOut } from '../model/flight-in';

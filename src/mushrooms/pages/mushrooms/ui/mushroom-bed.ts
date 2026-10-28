@@ -10,20 +10,18 @@ import {
   phaseOf,
   SINK_DURATION,
 } from '@/mushrooms/shared/lib/motion';
-import type { Lighting } from '@/mushrooms/shared/ui';
+import { onHost, standAt, viewedOrLaid } from '@/mushrooms/shared/meadow';
 import {
   type Detailing,
   type Dusking,
   type Following,
   hazeAhead,
   type Hazing,
-  onHost,
   OPENING_EYE,
   repaintsDue,
-  standAt,
   type View,
-  viewedOrLaid,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
+import type { Lighting } from '@/mushrooms/shared/ui';
 import type { Seat } from '@/mushrooms/entities/insect';
 import {
   containsMushroom,
@@ -60,7 +58,7 @@ import {
 import { MouseRuns } from '@/mushrooms/features/mice-run';
 import type { DoorSeating } from '@/mushrooms/widgets/map';
 
-import type { Meadow } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import { HouseView } from './house-view';
 import type { MeadowLayout } from './layout';
 import type { MeadowSound } from './sound';

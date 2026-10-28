@@ -5,7 +5,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
-import { FLOWER_SIZE, OPENING_EYE } from '@/mushrooms/shared/world';
+import { FLOWER_SIZE } from '@/mushrooms/shared/meadow';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import {
   flowerGenes,
   flowerHead,

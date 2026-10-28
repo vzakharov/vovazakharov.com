@@ -1,8 +1,9 @@
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { OPENING_EYE } from '@/mushrooms/shared/world';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import { grownOn } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { type Action, firstMeadow, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, firstMeadow, reduce } from './game';
 
 export const opening = () => firstMeadow(mulberry32(1));
 /** Where the scene picked the foot of the mushroom grown from `seed`, as these tests have it. */

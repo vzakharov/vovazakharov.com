@@ -6,8 +6,8 @@ import {
   type Point,
   type Scaled,
 } from '@/mushrooms/shared/lib/geometry';
+import type { Standing } from '@/mushrooms/shared/meadow';
 import { PALETTE } from '@/mushrooms/shared/ui';
-import type { Standing } from '@/mushrooms/shared/world';
 import { type Puffing, toCanvas } from '@/mushrooms/entities/mushroom';
 
 /** Dots in the outer ring; the inner ring has half as many, between them. */

@@ -3,7 +3,7 @@
  * by its number. The database never deletes a store in an upgrade.
  */
 
-import type { Kept } from '../model/kept-record';
+import type { Kept } from '../shape/kept-record';
 
 /**
  * How the store's connection stands: `lost` once the browser closed it under

@@ -103,13 +103,14 @@ describe('masd-check', () => {
     // Two edges elsewhere in blog, so the card is not the whole graph.
     const REST_OF_BLOG: Tree = {
       'src/blog/pages/documents/index.ts': "export * from './ui';",
-      'src/blog/pages/documents/ui.ts': "import { x } from '@/blog/shared/x';",
-      'src/blog/shared/x/index.ts': 'export const x = 1;',
+      'src/blog/pages/documents/ui.ts':
+        "import { x } from '@/blog/shared/config';",
+      'src/blog/shared/config/index.ts': 'export const x = 1;',
     };
     const shared = (names: string[]): Tree =>
       Object.fromEntries(
         names.map((name) => [
-          `src/blog/shared/${name}/index.ts`,
+          `src/blog/shared/lib/${name}.ts`,
           `export const ${name} = 1;`,
         ]),
       );
@@ -129,14 +130,14 @@ describe('masd-check', () => {
           ...shared(['p', 'q', 'r', 's', 't']),
           [ENTITY]: "export * from './a';\nexport * from './b';",
           'src/blog/entities/card/a.ts': [
-            "import { p } from '@/blog/shared/p';",
-            "import { q } from '@/blog/shared/q';",
-            "import { r } from '@/blog/shared/r';",
+            "import { p } from '@/blog/shared/lib/p';",
+            "import { q } from '@/blog/shared/lib/q';",
+            "import { r } from '@/blog/shared/lib/r';",
             'export const a = p + q + r;',
           ].join('\n'),
           'src/blog/entities/card/b.ts': [
-            "import { s } from '@/blog/shared/s';",
-            "import { t } from '@/blog/shared/t';",
+            "import { s } from '@/blog/shared/lib/s';",
+            "import { t } from '@/blog/shared/lib/t';",
             'export const b = s + t;',
           ].join('\n'),
         }).stderr,
@@ -149,7 +150,8 @@ describe('masd-check', () => {
         run({
           ...CONSUMER,
           ...REST_OF_BLOG,
-          [ENTITY]: "import { x } from '@/blog/shared/x';\nexport const a = x;",
+          [ENTITY]:
+            "import { x } from '@/blog/shared/config';\nexport const a = x;",
         }).stderr,
         MERGE_INTO_HOME,
       );
@@ -223,7 +225,8 @@ describe('masd-check', () => {
     assert.equal(
       run({
         [ENTITY]: 'export const card = 1;',
-        'src/blog/shared/x/index.ts': "export * from '../../entities/card';",
+        'src/blog/shared/config/index.ts':
+          "export * from '../../entities/card';",
       }).stderr,
       'src/blog/entities/card: This slice has only one reference on layer "shared". Consider moving this code to "shared".\n',
     );
@@ -252,6 +255,30 @@ describe('masd-check', () => {
     assert.equal(
       run({ 'src/stray/pages/x/index.ts': 'export {};' }).stderr,
       'masd: src/stray is not in the graph\n',
+    );
+  });
+
+  it('names a segment outside its place’s order, and passes it declared', () => {
+    const seo = { 'src/kernel/shared/seo/index.ts': 'export const seo = 1;' };
+    assert.match(
+      run(seo).stderr,
+      /src\/kernel\/shared: segment seo is outside the order/,
+    );
+    assert.deepEqual(
+      run({
+        ...seo,
+        'src/kernel/shared/masd.json': JSON.stringify({
+          segments: ['ui', 'seo'],
+        }),
+      }),
+      { status: 0, stderr: '' },
+    );
+  });
+
+  it('names a module under a layer that no linter reads', () => {
+    assert.equal(
+      run({ 'src/kernel/shared/ui/legacy.mjs': 'export const x = 1;' }).stderr,
+      'masd: src/kernel/shared/ui/legacy.mjs is no .ts or .tsx, so no linter reads its imports\n',
     );
   });
 

@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 import type { Circle } from '@/mushrooms/shared/lib/geometry';
-import { DEPTHS } from '@/mushrooms/shared/world';
+import { DEPTHS } from '@/mushrooms/shared/space';
 
 import { starTexels } from './dusk-stars';
 import { paintStar } from './paint-sky';

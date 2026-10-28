@@ -11,7 +11,7 @@ import {
   type WithCircleHit,
 } from '@/mushrooms/shared/ui';
 
-import type { Meadow } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 
 /** How deep a pressed button sinks in, against a mushroom's squash. */
 const PRESS_DEPTH = 0.6;

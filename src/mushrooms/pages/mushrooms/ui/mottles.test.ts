@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
-import { browRow, D_SEE, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { browRow, D_SEE, OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import {
   cellOf,
   cellTufts,

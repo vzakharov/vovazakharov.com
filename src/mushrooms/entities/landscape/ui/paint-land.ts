@@ -3,8 +3,8 @@ import type * as Phaser from 'phaser';
 import { mix } from '@/mushrooms/shared/lib/colour';
 import { type Light, sunLight } from '@/mushrooms/shared/lib/light';
 import type { Random } from '@/mushrooms/shared/lib/random';
+import { GROUND_BOB, type View } from '@/mushrooms/shared/space';
 import { fillShape } from '@/mushrooms/shared/ui';
-import { GROUND_BOB, type View } from '@/mushrooms/shared/world';
 
 import {
   GROUND_BANDS,

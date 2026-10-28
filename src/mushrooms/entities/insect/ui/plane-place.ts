@@ -12,7 +12,7 @@ import {
   spread,
   V_NEAR,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { type Aloft, framedOf, placeOf } from '../model/flight-frame';
 import type { Place } from '../model/perch';

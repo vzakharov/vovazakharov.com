@@ -9,15 +9,15 @@ import {
   nextSeed,
   type Random,
 } from '@/mushrooms/shared/lib/random';
+import { MUSHROOM_SLOTS } from '@/mushrooms/shared/meadow';
 import {
   type Camera,
   type Footing,
   groundFootOf,
-  MUSHROOM_SLOTS,
   OPENING_EYE,
   standingOn,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   flowerGenes,
   flowerHead,

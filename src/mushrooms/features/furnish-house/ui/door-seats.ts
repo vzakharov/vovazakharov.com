@@ -1,8 +1,5 @@
-import {
-  anchoredGround,
-  type Eye,
-  type MushroomGround,
-} from '@/mushrooms/shared/world';
+import { anchoredGround, type MushroomGround } from '@/mushrooms/shared/meadow';
+import type { Eye } from '@/mushrooms/shared/space';
 import {
   doorInSight,
   type DoorPlace,

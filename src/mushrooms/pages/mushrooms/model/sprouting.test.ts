@@ -4,13 +4,9 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { mulberry32, type Seeded } from '@/mushrooms/shared/lib/random';
-import {
-  darkAt,
-  FIELD_MUSHROOMS,
-  MUSHROOM_SLOTS,
-  OPENING_EYE,
-  RAIN_MS,
-} from '@/mushrooms/shared/world';
+import { FIELD_MUSHROOMS, MUSHROOM_SLOTS } from '@/mushrooms/shared/meadow';
+import { darkAt, RAIN_MS } from '@/mushrooms/shared/sky';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import {
   type Footed,
   grownOn,
@@ -31,7 +27,8 @@ import {
   SPROUT_WINDOW_MS,
 } from '@/mushrooms/features/grow-mushroom/index.test-only';
 
-import { type Action, firstMeadow, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, firstMeadow, reduce } from './game';
 
 const SIGHT = { flowers: [], air: [], crowded: [], room: [] };
 

@@ -7,8 +7,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Seeded } from '@/mushrooms/shared/lib/random';
 
-import { type Kept, readKept } from '../model/kept-record';
-import { meadowHash, meadowNumber } from '../model/meadow-number';
+import { type Kept, readKept } from '../shape/kept-record';
+import { meadowHash, meadowNumber } from '../shape/meadow-number';
 import { type Keeper, keeper } from './keeper';
 import { openStore, type Store } from './meadow-store';
 

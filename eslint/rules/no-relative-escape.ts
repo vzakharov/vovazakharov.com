@@ -1,24 +1,13 @@
 import type { Rule } from 'eslint';
-import type * as ESTree from 'estree';
 import path from 'node:path';
 
-import { SLICED_LAYERS } from '../masd-graph';
+import { placeOf } from '../masd-graph';
+import { onImports } from './import-sources';
 
-// A relative import under `src/` stays inside the importer's home — its slice,
+// A relative import under `src/` stays inside the importer's place — its slice,
 // its segmented layer (`app` and `shared` overlay as one unit), or its app's
 // `scripts/` — and anything past it is reached by its `@/` path, so an import
 // says which app and layer it enters.
-
-/** The directory, relative to `src/`, a file under it may reach relatively. */
-function relativeHome(fromSrc: string): string | undefined {
-  const [app, layer, unit, ...rest] = fromSrc.split(path.sep);
-  if (app === undefined || layer === undefined || unit === undefined) {
-    return undefined;
-  }
-  return SLICED_LAYERS.includes(layer) && rest.length > 0
-    ? path.join(app, layer, unit)
-    : path.join(app, layer);
-}
 
 const rule: Rule.RuleModule = {
   meta: {
@@ -37,21 +26,12 @@ const rule: Rule.RuleModule = {
   create(context) {
     const src = path.join(context.cwd, 'src');
     const fromSrc = path.relative(src, context.filename);
-    const home = fromSrc.startsWith('..') ? undefined : relativeHome(fromSrc);
+    const home = fromSrc.startsWith('..') ? undefined : placeOf(fromSrc)?.place;
     if (home === undefined) return {};
 
-    function check(source: ESTree.Node | null | undefined): void {
-      if (
-        source?.type !== 'Literal' ||
-        typeof source.value !== 'string' ||
-        !source.value.startsWith('.')
-      ) {
-        return;
-      }
-      const target = path.relative(
-        src,
-        path.resolve(path.dirname(context.filename), source.value),
-      );
+    return onImports(context, (source, specifier, resolved) => {
+      if (!specifier.startsWith('.') || resolved === undefined) return;
+      const target = path.relative(src, resolved);
       if (target === home || target.startsWith(home + path.sep)) return;
 
       const alias = `@/${target.split(path.sep).join('/')}`
@@ -62,22 +42,7 @@ const rule: Rule.RuleModule = {
         messageId: 'escapes',
         data: { home, alias },
       });
-    }
-
-    return {
-      ImportDeclaration(node) {
-        check(node.source);
-      },
-      ExportNamedDeclaration(node) {
-        check(node.source);
-      },
-      ExportAllDeclaration(node) {
-        check(node.source);
-      },
-      ImportExpression(node) {
-        check(node.source);
-      },
-    };
+    });
   },
 };
 

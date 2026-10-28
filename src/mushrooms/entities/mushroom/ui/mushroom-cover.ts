@@ -18,10 +18,9 @@ import {
   type MushroomGround,
   type Occupant,
   type Occupying,
-  planeFootAt,
   type ShownCover,
-  type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/meadow';
+import { planeFootAt, type View } from '@/mushrooms/shared/space';
 
 import type { Planted } from '../model/planted';
 import { placeIn } from './clump-layout';

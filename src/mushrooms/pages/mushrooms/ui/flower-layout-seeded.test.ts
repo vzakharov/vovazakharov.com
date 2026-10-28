@@ -17,7 +17,7 @@ import {
   groundOf,
   planeFootOf,
   standingOn,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   type Bed,
   FLOWER_SWAY,

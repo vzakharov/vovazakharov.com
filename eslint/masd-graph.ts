@@ -8,7 +8,7 @@
  * path alias.
  */
 
-import { readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
 
@@ -17,6 +17,23 @@ export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 
 /** FSD's layers, highest first. */
 export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
+
+/**
+ * The segments every place orders the same way, highest first: a segment
+ * reaches only those below it. `shape` is MASD's own, for what `api` needs of
+ * `model`.
+ */
+export const STANDARD_SEGMENTS = [
+  'ui',
+  'model',
+  'api',
+  'shape',
+  'config',
+  'lib',
+];
+
+/** Where a place declares an order of its own, beside its segments. */
+export const PLACE_FILE = 'masd.json';
 
 /**
  * A slice's or a segment's entry points. A closed list, so any other
@@ -120,6 +137,92 @@ export function insignificantApps(
       [...graph.values()].filter((parents) => parents.includes(app)).length ===
         1,
   );
+}
+
+/**
+ * Where a file under `src/` sits: its place — `<app>/<layer>/<slice>` in a
+ * sliced layer, `<app>/<layer>` otherwise, an app's `scripts/` included — and
+ * the segment of it, absent for a file at the place's root.
+ */
+export type Placed = {
+  place: string;
+  segment?: string;
+};
+
+/** Places a path relative to `src/`; `undefined` above any layer. */
+export function placeOf(fromSrc: string): Placed | undefined {
+  const [app, layer, unit, ...rest] = fromSrc.split(path.sep);
+  if (app === undefined || layer === undefined || unit === undefined) {
+    return undefined;
+  }
+  if (SLICED_LAYERS.includes(layer) && rest.length > 0) {
+    const [segment, ...inside] = rest;
+    return {
+      place: path.join(app, layer, unit),
+      ...(inside.length > 0 && { segment }),
+    };
+  }
+  return {
+    place: path.join(app, layer),
+    ...(rest.length > 0 && { segment: unit }),
+  };
+}
+
+const placeFileSchema = z.strictObject({
+  segments: z.array(z.string().min(1)).min(1),
+});
+
+/**
+ * A place's segment order, highest first: its `masd.json`'s, or the standard
+ * one. Fails on a file that names a segment twice, reorders the standard ones,
+ * names a segment the place lacks or only standard ones, and on a place with a
+ * segment its order leaves out.
+ */
+export function segmentOrder(placeDir: string): readonly string[] {
+  const present = readdirSync(placeDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
+  const file = path.join(placeDir, PLACE_FILE);
+  const order = existsSync(file)
+    ? placeFileSchema.parse(JSON.parse(readFileSync(file, 'utf8'))).segments
+    : STANDARD_SEGMENTS;
+  const fail = (problem: string): never => {
+    throw new Error(`masd: ${placeDir}: ${problem}`);
+  };
+
+  if (order !== STANDARD_SEGMENTS) {
+    if (new Set(order).size !== order.length) {
+      fail(`${PLACE_FILE} names a segment twice`);
+    }
+    const standard = order.filter((segment) =>
+      STANDARD_SEGMENTS.includes(segment),
+    );
+    if (standard.length === order.length) {
+      fail(`${PLACE_FILE} names only standard segments; delete it`);
+    }
+    if (
+      standard.some(
+        (segment, i) =>
+          i > 0 &&
+          STANDARD_SEGMENTS.indexOf(segment) <
+            STANDARD_SEGMENTS.indexOf(standard[i - 1] ?? ''),
+      )
+    ) {
+      fail(
+        `${PLACE_FILE} reorders the standard segments, ${STANDARD_SEGMENTS.join(' → ')}`,
+      );
+    }
+    const ghost = order.find((segment) => !present.includes(segment));
+    if (ghost !== undefined)
+      fail(`${PLACE_FILE} names ${ghost}, which is no segment here`);
+  }
+  const missing = present.find((segment) => !order.includes(segment));
+  if (missing !== undefined) {
+    fail(
+      `segment ${missing} is outside the order ${order.join(' → ')}; declare the place's order in ${PLACE_FILE}`,
+    );
+  }
+  return order;
 }
 
 /** The apps the graph and `src/`'s directories disagree on, as messages. */

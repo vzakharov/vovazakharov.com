@@ -3,20 +3,21 @@ import { describe, it } from 'node:test';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import {
-  D_SEE,
   FIELD_MUSHROOMS,
   FLOWER_SLOTS,
   flowersCrowdAt,
   isCrowdedAt,
   isFull,
   MUSHROOM_SLOTS,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/meadow';
+import { D_SEE } from '@/mushrooms/shared/space';
 import {
   EMPTY_HOUSE,
   OPENING_FEET,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { type Action, isEmpty, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, isEmpty, reduce } from './game';
 import { footedOf, grow, opening, run } from './game.test-kit';
 
 const footOf = (seed: number) => footedOf(seed).foot;

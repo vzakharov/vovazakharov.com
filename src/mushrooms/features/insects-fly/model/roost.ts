@@ -8,7 +8,7 @@
 
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import { between, saltedStream } from '@/mushrooms/shared/lib/random';
-import { type Dusk, DUSK_MS, dusky } from '@/mushrooms/shared/world';
+import { type Dusk, DUSK_MS, dusky } from '@/mushrooms/shared/sky';
 import {
   FLIGHT_HABITS,
   type InsectSeed,

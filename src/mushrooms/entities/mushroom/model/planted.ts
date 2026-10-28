@@ -6,7 +6,7 @@
 
 import type { Stamped } from '@/mushrooms/shared/lib/motion';
 import type { Parented } from '@/mushrooms/shared/lib/random';
-import type { Occupied } from '@/mushrooms/shared/world';
+import type { Occupied } from '@/mushrooms/shared/meadow';
 
 import type { Housed } from './house';
 import type { Mushroom } from './mushroom-genes';

@@ -25,8 +25,8 @@ import {
   type View,
   viewAt,
   viewOf,
-} from '@/mushrooms/shared/world';
-import { SHOWN_LEAST, walking } from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space';
+import { SHOWN_LEAST, walking } from '@/mushrooms/shared/space/index.test-only';
 import {
   type Footed,
   MEADOW_FRAME,

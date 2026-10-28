@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/world';
+import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/sky';
 import {
   type Burrows,
   nightRan,
@@ -14,7 +14,8 @@ import {
   type RunDoor,
 } from '@/mushrooms/features/mice-run/index.test-only';
 
-import { firstMeadow, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { firstMeadow, reduce } from './game';
 
 const door = (id: string, x: number, hidden = false): RunDoor => ({
   id,

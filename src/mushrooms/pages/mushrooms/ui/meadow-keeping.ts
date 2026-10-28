@@ -7,17 +7,14 @@
  */
 
 import type { Seeded } from '@/mushrooms/shared/lib/random';
-import {
-  type MeadowSeen,
-  sameAnchor,
-  type WalkStart,
-} from '@/mushrooms/shared/world';
+import type { MeadowSeen } from '@/mushrooms/shared/meadow';
+import { sameAnchor, type WalkStart } from '@/mushrooms/shared/space';
 import type { EyeHeld } from '@/mushrooms/features/walk-meadow/index.node-safe';
 
 import type { KeptBy, Reopened } from '../api/open-kept';
-import type { Meadow } from '../model/game';
 import { settled } from '../model/keeping';
-import { type Kept, KEPT_VERSION } from '../model/kept-record';
+import { type Kept, KEPT_VERSION } from '../shape/kept-record';
+import type { Meadow } from '../shape/meadow';
 import type { Meadowed } from './visit-play';
 
 /** The record of `meadow` at rest as of `now` (ms on the scene's clock), seen from `start`. */

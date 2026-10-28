@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
-import { type Eye, viewAt } from '@/mushrooms/shared/world';
+import { type Eye, viewAt } from '@/mushrooms/shared/space';
 import type { Stand } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   type Flier,
@@ -16,7 +16,8 @@ import {
   type Sight,
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 
-import { type Meadow, reduce } from '../model/game';
+import { reduce } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import type { MeadowLayout } from './layout';
 import { opened } from './visit-play';
 

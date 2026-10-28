@@ -1,7 +1,7 @@
 import type * as Phaser from 'phaser';
 
+import { standAt, type Standing } from '@/mushrooms/shared/meadow';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import { standAt, type Standing } from '@/mushrooms/shared/world';
 
 /**
  * The ring's half-width and its stroke, in the held flower's head radius, and

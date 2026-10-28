@@ -10,7 +10,7 @@ import {
   rounded,
   sample,
 } from '@/mushrooms/shared/lib/geometry';
-import type { ShelterSide } from '@/mushrooms/shared/world';
+import type { ShelterSide } from '@/mushrooms/shared/meadow';
 
 import { trumpetOutlines } from './chanterelle-outline';
 import {

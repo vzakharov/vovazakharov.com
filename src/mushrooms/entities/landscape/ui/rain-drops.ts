@@ -8,13 +8,13 @@ import {
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
 import { between } from '@/mushrooms/shared/lib/random';
-import { type Graphic, PALETTE } from '@/mushrooms/shared/ui';
 import {
   browRow,
   ofGround,
   planeSeen,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
+import { type Graphic, PALETTE } from '@/mushrooms/shared/ui';
 
 import {
   dropColumn,

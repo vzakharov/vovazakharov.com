@@ -4,17 +4,19 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
-import { hazeTone, PALETTE } from '@/mushrooms/shared/ui';
 import {
-  hazeAhead,
-  type Hazed,
   standAt,
   type Standing,
   UNPLACED,
-  type View,
   viewedOrLaid,
+} from '@/mushrooms/shared/meadow';
+import {
+  hazeAhead,
+  type Hazed,
+  type View,
   type WithCamera,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
+import { hazeTone, PALETTE } from '@/mushrooms/shared/ui';
 import {
   type Laid,
   laidOf,

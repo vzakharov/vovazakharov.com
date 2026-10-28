@@ -4,7 +4,7 @@
  */
 
 import type { Parented } from '@/mushrooms/shared/lib/random';
-import type { Rooted } from '@/mushrooms/shared/world';
+import type { Rooted } from '@/mushrooms/shared/space';
 
 import type { Flower } from './flower-genes';
 

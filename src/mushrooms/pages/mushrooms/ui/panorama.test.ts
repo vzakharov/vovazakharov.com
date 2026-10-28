@@ -6,7 +6,7 @@ import {
   pinholeOf,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { azimuthAt } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   type Cloud,

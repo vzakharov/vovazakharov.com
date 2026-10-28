@@ -11,7 +11,7 @@ import {
   V_NEAR,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import type { Stand } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   type Aloft,

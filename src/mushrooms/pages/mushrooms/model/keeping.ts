@@ -7,13 +7,13 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/world';
+import { FULL_DAY, FULL_DUSK } from '@/mushrooms/shared/sky';
 import { sproutedInRain } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 import { NO_NIGHT_RUNS } from '@/mushrooms/features/mice-run/index.node-safe';
 
+import { RESTED_AT, UNKEPT } from '../shape/kept-record';
+import type { KeptMeadow, Meadow } from '../shape/meadow';
 import { restedFliers } from './flier-rest';
-import type { KeptMeadow, Meadow } from './game';
-import { RESTED_AT, UNKEPT } from './kept-record';
 
 /**
  * `meadow` at rest as of `now`, to be kept: every spore a shower under way

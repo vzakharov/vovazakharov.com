@@ -7,8 +7,9 @@ import {
 import type { Opener } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import type { Reopened } from '../api/open-kept';
-import { firstMeadow, type Meadow } from '../model/game';
+import { firstMeadow } from '../model/game';
 import { reopened } from '../model/keeping';
+import type { Meadow } from '../shape/meadow';
 
 /**
  * What the scene opens on: the kept meadow reopened, or a fresh one in full

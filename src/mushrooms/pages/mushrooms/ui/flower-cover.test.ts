@@ -5,10 +5,9 @@ import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
 import {
   bedPlace,
   inSightPast,
-  OPENING_EYE,
   type ShownCover,
-  viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/meadow';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import {
   coversShown,
   VIEWPORTS,

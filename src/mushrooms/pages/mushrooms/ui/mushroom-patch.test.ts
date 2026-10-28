@@ -6,7 +6,7 @@ import {
   type Eye,
   OPENING_EYE,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { anchoredStand } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   drawnHolds,

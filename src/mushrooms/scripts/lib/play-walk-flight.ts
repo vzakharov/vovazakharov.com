@@ -14,7 +14,7 @@ import {
   RISE_EASE,
   SLOP,
   viewOf,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import {
   type Camera,

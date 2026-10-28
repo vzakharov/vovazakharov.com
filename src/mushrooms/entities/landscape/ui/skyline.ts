@@ -12,7 +12,7 @@ import {
   type GroundBand,
   type Grounded,
   pinholeOf,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { azimuthAt, type Crest, ringWave, type WithCrest } from './panorama';
 import {

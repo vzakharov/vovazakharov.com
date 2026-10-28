@@ -7,7 +7,7 @@ import {
   FULL_DAY,
   FULL_DUSK,
   turned,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/sky';
 
 import { LIT_DELAY_MOST, windowsLit } from './windows-lit';
 

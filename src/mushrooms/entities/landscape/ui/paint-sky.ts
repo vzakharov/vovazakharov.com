@@ -7,6 +7,7 @@ import {
   mulberry32,
   type Random,
 } from '@/mushrooms/shared/lib/random';
+import { pinholeOf } from '@/mushrooms/shared/space';
 import {
   DUSK,
   fillShape,
@@ -14,7 +15,6 @@ import {
   petal,
   type Span,
 } from '@/mushrooms/shared/ui';
-import { pinholeOf } from '@/mushrooms/shared/world';
 
 import {
   haloReach,

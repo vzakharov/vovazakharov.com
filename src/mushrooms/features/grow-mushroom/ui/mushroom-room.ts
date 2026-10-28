@@ -30,6 +30,11 @@ import type { Seeded } from '@/mushrooms/shared/lib/random';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import {
   aboutFoot,
+  groundIn,
+  isCrowdedAt,
+  type ShownCover,
+} from '@/mushrooms/shared/meadow';
+import {
   anchored,
   anchorOf,
   behindHills,
@@ -37,14 +42,11 @@ import {
   type Eye,
   type Ground,
   groundFootOf,
-  groundIn,
-  isCrowdedAt,
   layoutShown,
   ofLayout,
   OPENING_EYE,
-  type ShownCover,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   anchoredStand,
   type Flower,

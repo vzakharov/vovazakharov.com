@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
+import { CLUMP_DISTANCE } from '@/mushrooms/shared/space';
 import {
   apartOf,
   FLIGHT_HABITS,

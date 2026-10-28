@@ -10,7 +10,7 @@
 
 import { z } from 'zod';
 
-import { DUSK_MS } from '@/mushrooms/shared/world';
+import { DUSK_MS } from '@/mushrooms/shared/sky';
 import { NIGHT_GAP } from '@/mushrooms/features/mice-run/index.node-safe';
 
 import { type Controls, Runs, State } from './mushroom-probe-answers.ts';

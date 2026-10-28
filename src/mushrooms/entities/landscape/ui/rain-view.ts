@@ -4,13 +4,13 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
 import { widthFor, wobble } from '@/mushrooms/shared/lib/motion';
-import { PALETTE } from '@/mushrooms/shared/ui';
 import {
   downpour,
   type Rain,
   raining,
   type StartRain,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/sky';
+import { PALETTE } from '@/mushrooms/shared/ui';
 
 import { sunUp } from './dusk-sky';
 import type { Backdrop } from './paint-backdrop';

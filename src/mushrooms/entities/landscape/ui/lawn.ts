@@ -13,10 +13,10 @@ import {
   type Random,
   type Seeded,
 } from '@/mushrooms/shared/lib/random';
+import { FLOWER_SIZE } from '@/mushrooms/shared/meadow';
 import {
   D_SEE_MOST,
   type Eye,
-  FLOWER_SIZE,
   type Footing,
   type GroundBand,
   PALE_SPAN,
@@ -24,7 +24,7 @@ import {
   standingOn,
   type WithCamera,
   type WithLayout,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { tuftOn, type WithTuft } from './grass';
 import { type Mottle, mottleIn, MOTTLES_PER_CELL } from './mottles';

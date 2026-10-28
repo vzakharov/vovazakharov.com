@@ -9,7 +9,7 @@ import {
   OPENING_EYE,
   pinholeOf,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   azimuthAt,
   crestAcross,

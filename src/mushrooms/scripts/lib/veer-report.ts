@@ -11,7 +11,7 @@ import {
   D_SEE,
   type Pinhole,
   V_NEAR,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   INSECT_KINDS,
   type InsectKind,

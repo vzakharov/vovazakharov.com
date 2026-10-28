@@ -1,6 +1,6 @@
 import type { Point, Scaled } from '@/mushrooms/shared/lib/geometry';
 import { type Light, lightAt } from '@/mushrooms/shared/lib/light';
-import { OPENING_EYE } from '@/mushrooms/shared/world';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 
 import { type FlowerGenes, flowerHead } from '../model/flower-genes';
 

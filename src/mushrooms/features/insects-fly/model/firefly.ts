@@ -13,7 +13,8 @@ import {
   type Random,
   saltedStream,
 } from '@/mushrooms/shared/lib/random';
-import { DUSK_MS, type Eye } from '@/mushrooms/shared/world';
+import { DUSK_MS } from '@/mushrooms/shared/sky';
+import type { Eye } from '@/mushrooms/shared/space';
 
 /** How many fireflies the meadow holds. */
 const FIREFLY_MOST = 12;

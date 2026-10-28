@@ -19,5 +19,6 @@ export const vovaRules = {
     'vova/no-split-jsx-spreads', // multiple {...{ prop }} spreads on one element belong in one — merged when no attribute between them invokes anything
     'vova/no-uncaused-rethrow', // `throw new X(…)` in a catch block must carry the caught error as `{ cause }` (type-aware: a non-Error cause carries no stack)
     'vova/prefer-shorthand-spread', // enforce {...{ prop }} over prop={prop}
+    'vova/segment-order', // a segment imports only the segments below it in its place's order — the standard one, or its masd.json's
   ]),
 } satisfies Linter.RulesRecord;

@@ -1,25 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { settled } from '../model/keeping';
-import { type Kept, KEPT_VERSION } from '../model/kept-record';
-import { opened } from '../ui/visit-play';
+import type { Kept } from '../shape/kept-record';
+import { keptRecord as record } from '../shape/kept-record.test-kit';
 import { fakeStore, later as landed } from './fake-store';
 import { keeper, POLL_MS } from './keeper';
 import type { Store } from './meadow-store';
-
-const stand = opened(3, 1180, 820, false);
-
-/** A kept record told apart from the others by its seed. */
-function record(seed: number): Kept {
-  return {
-    version: KEPT_VERSION,
-    seed,
-    eye: { x: 0, y: 0, heading: 0 },
-    gait: 'steps',
-    meadow: settled(stand.meadow, 0),
-  };
-}
 
 const unreported = (error: unknown) => {
   assert.fail(`a write was refused: ${String(error)}`);

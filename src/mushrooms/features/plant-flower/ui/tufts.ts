@@ -15,16 +15,19 @@ import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import type { Random } from '@/mushrooms/shared/lib/random';
 import {
+  depthOf,
+  FLOWER_SIZE,
+  inSightPast,
+  UNPLACED,
+} from '@/mushrooms/shared/meadow';
+import {
   behindHills,
   browDistance,
   CLUMP_DISTANCE,
   cull,
   D_SEE,
-  depthOf,
   type Eye,
-  FLOWER_SIZE,
   type Footing,
-  inSightPast,
   ofGround,
   onScreen,
   OPENING_EYE,
@@ -33,10 +36,9 @@ import {
   sameFoot,
   sunk,
   sunkAway,
-  UNPLACED,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   pulledFeet,
   type Stand,

@@ -11,6 +11,8 @@ import {
 } from '@/mushrooms/shared/lib/motion';
 import type { Seeded } from '@/mushrooms/shared/lib/random';
 import { BUTTON_INSET } from '@/mushrooms/shared/lib/tap-reach';
+import { duskyAt } from '@/mushrooms/shared/sky';
+import { type Eyed, OPENING_EYE } from '@/mushrooms/shared/space';
 import {
   type AtRatio,
   DUSK,
@@ -19,7 +21,6 @@ import {
   type Lighting,
   PALETTE,
 } from '@/mushrooms/shared/ui';
-import { duskyAt, type Eyed, OPENING_EYE } from '@/mushrooms/shared/world';
 import {
   flowerGenes,
   flowerHead,

@@ -1,7 +1,6 @@
 import * as Phaser from 'phaser';
 
 import type { Random } from '@/mushrooms/shared/lib/random';
-import { onPixels, type Span, SUPERSAMPLE } from '@/mushrooms/shared/ui';
 import {
   DEPTHS,
   type Following,
@@ -9,7 +8,8 @@ import {
   OPENING_EYE,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
+import { onPixels, type Span, SUPERSAMPLE } from '@/mushrooms/shared/ui';
 
 import { DUSK_TONES, tonesAt } from './backdrop-tones';
 import {

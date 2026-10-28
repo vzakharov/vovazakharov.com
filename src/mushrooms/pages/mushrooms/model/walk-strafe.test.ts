@@ -19,7 +19,7 @@ import {
   viewAt,
   viewOf,
   type Walk,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   headingAt,
   KEY_EASE,
@@ -29,7 +29,7 @@ import {
   SLOP,
   STRIDE_CRUISE,
   TURN_CRUISE,
-} from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space/index.test-only';
 
 import {
   apart,

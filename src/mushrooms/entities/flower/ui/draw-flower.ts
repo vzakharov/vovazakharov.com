@@ -4,6 +4,7 @@ import { mix } from '@/mushrooms/shared/lib/colour';
 import { crescent } from '@/mushrooms/shared/lib/crescent';
 import { type Point, sample } from '@/mushrooms/shared/lib/geometry';
 import { headedLight } from '@/mushrooms/shared/lib/light';
+import type { PaintedSide } from '@/mushrooms/shared/space';
 import {
   facingArc,
   fillShape,
@@ -18,7 +19,6 @@ import {
   strokeTapered,
   TAPER,
 } from '@/mushrooms/shared/ui';
-import type { PaintedSide } from '@/mushrooms/shared/world';
 
 import { type FlowerGenes, flowerHead } from '../model/flower-genes';
 import { type Folding, OPEN, petalPose } from './flower-fold';

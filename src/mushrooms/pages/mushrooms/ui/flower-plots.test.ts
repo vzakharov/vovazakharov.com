@@ -5,17 +5,17 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import { between, mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
+import { FLOWER_SIZE } from '@/mushrooms/shared/meadow';
 import {
   anchored,
   anchorOf,
   CLUMP_DISTANCE,
   downOf,
-  FLOWER_SIZE,
   type Footing,
   groundFootOf,
   OPENING_EYE,
   unanchored,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   anchoredStand,
   FAR_BAND,

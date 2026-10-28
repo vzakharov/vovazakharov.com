@@ -8,7 +8,7 @@
 
 import { z } from 'zod';
 
-import { D_SEE } from '@/mushrooms/shared/world';
+import { D_SEE } from '@/mushrooms/shared/space';
 import {
   INSECT_KINDS,
   LANDING,

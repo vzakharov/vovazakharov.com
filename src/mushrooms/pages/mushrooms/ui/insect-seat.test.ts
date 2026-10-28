@@ -2,21 +2,19 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
+import { bedPlace, type Host, onHost } from '@/mushrooms/shared/meadow';
 import {
   aloftAt,
-  bedPlace,
   CLUMP_DISTANCE,
   gathered,
   groundOfPlane,
-  type Host,
-  onHost,
   OPENING_EYE,
   planeOf,
   project,
   unanchored,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   type Aloft,
   aloftOfLayout,

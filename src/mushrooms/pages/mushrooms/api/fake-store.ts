@@ -1,4 +1,4 @@
-import type { Kept } from '../model/kept-record';
+import type { Kept } from '../shape/kept-record';
 import type { Connection, Store } from './meadow-store';
 
 /**

@@ -10,7 +10,7 @@
 
 import { z } from 'zod';
 
-import { darkAt } from '@/mushrooms/shared/world';
+import { darkAt } from '@/mushrooms/shared/sky';
 import {
   SPORE_REACH,
   SPROUT_WINDOW_MS,

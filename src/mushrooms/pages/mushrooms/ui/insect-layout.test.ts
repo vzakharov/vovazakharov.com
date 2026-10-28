@@ -9,7 +9,7 @@ import {
   placedAt,
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
-import type { HeadReach } from '@/mushrooms/shared/world';
+import type { HeadReach } from '@/mushrooms/shared/meadow';
 import {
   FLOWER_RANGES,
   FLOWER_SWAY,

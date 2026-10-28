@@ -14,7 +14,7 @@ import {
   TAP_RADIUS,
   tapReach,
 } from '@/mushrooms/shared/lib/tap-reach';
-import type { Grounded, GroundedScreen } from '@/mushrooms/shared/world';
+import type { Grounded, GroundedScreen } from '@/mushrooms/shared/space';
 import {
   FLOWER_SHAPES,
   PICKED_COLOURS,

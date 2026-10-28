@@ -9,12 +9,8 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import {
-  aboutFoot,
-  ofLayout,
-  OPENING_EYE,
-  viewAt,
-} from '@/mushrooms/shared/world';
+import { aboutFoot } from '@/mushrooms/shared/meadow';
+import { ofLayout, OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import { SUN_RAY_REACH } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   amongAt,

@@ -10,14 +10,9 @@ import type { WithWidth } from '@/kernel/shared/typings';
 import { type Circle, type Point, wrap } from '@/mushrooms/shared/lib/geometry';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
+import { type Rain, rainbow, wetness } from '@/mushrooms/shared/sky';
+import { pinholeOf, type WithCamera } from '@/mushrooms/shared/space';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import {
-  pinholeOf,
-  type Rain,
-  rainbow,
-  wetness,
-  type WithCamera,
-} from '@/mushrooms/shared/world';
 
 import { PUFF_REACH } from './cloud-puffs';
 import type { NearHilled, Sunned } from './sun-layout';

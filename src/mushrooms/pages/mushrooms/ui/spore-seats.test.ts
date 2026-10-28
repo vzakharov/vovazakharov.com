@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { groundIn, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { groundIn } from '@/mushrooms/shared/meadow';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import { apartOnScreen } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
   growingStandOf,
@@ -10,7 +11,8 @@ import {
   sporeOnTap,
 } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 
-import { type Meadow, reduce } from '../model/game';
+import { reduce } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import { opened } from './visit-play';
 
 describe('the spore a tap on a mushroom settles', () => {

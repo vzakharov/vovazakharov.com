@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Eye, FULL_DUSK, type WalkStart } from '@/mushrooms/shared/world';
+import { FULL_DUSK } from '@/mushrooms/shared/sky';
+import type { Eye, WalkStart } from '@/mushrooms/shared/space';
 
 import { later } from '../api/fake-store';
 import type { Keeper } from '../api/keeper';
-import type { Meadow } from '../model/game';
 import { settled } from '../model/keeping';
-import { type Kept, KEPT_VERSION } from '../model/kept-record';
+import { type Kept, KEPT_VERSION } from '../shape/kept-record';
+import type { Meadow } from '../shape/meadow';
 import { type KeptPage, keptRecord, meadowKeeping } from './meadow-keeping';
 import { opened } from './visit-play';
 

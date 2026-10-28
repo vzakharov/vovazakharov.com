@@ -9,7 +9,7 @@ import {
   sunk,
   sunkAway,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   FAR_FLOWERS,
   flowersOf,

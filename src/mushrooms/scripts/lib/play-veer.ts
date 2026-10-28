@@ -18,7 +18,7 @@
 import { z } from 'zod';
 
 import { wrap } from '@/mushrooms/shared/lib/geometry';
-import { pinholeOf, TURN_CRUISE } from '@/mushrooms/shared/world';
+import { pinholeOf, TURN_CRUISE } from '@/mushrooms/shared/space';
 import {
   azimuthOf,
   type InsectKind,

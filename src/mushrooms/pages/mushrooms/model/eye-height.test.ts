@@ -15,14 +15,14 @@ import {
   pinholeOf,
   planeSeen,
   withGait,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   heightAt,
   OPENING_RISE,
   RISE_EASE,
   riseFrom,
   walking,
-} from '@/mushrooms/shared/world/index.test-only';
+} from '@/mushrooms/shared/space/index.test-only';
 import {
   meadowCamera,
   VIEWPORTS,

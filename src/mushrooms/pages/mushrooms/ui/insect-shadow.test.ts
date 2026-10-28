@@ -10,7 +10,7 @@ import {
   placedAt,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { shadowOf } from '@/mushrooms/entities/insect/index.test-only';
 import {
   meadowCamera,

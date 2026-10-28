@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { placedAt, type Point } from '@/mushrooms/shared/lib/geometry';
 import { sunLight } from '@/mushrooms/shared/lib/light';
-import { OPENING_EYE } from '@/mushrooms/shared/world';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import {
   flowerGenes,
   flowerHead,

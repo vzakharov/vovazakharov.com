@@ -6,7 +6,7 @@
 import type { WithId } from '@/kernel/shared/typings';
 
 import type { Seeds } from '@/mushrooms/shared/lib/random';
-import type { Rooted } from '@/mushrooms/shared/world';
+import type { Rooted } from '@/mushrooms/shared/space';
 
 import type { Coloured } from './flower-genes';
 import { FLOWER_SHAPES, type FlowerShape } from './flower-sounds';

@@ -19,16 +19,15 @@ import {
   type Point,
   type WithMiddle,
 } from '@/mushrooms/shared/lib/geometry';
+import { groundIn, type MushroomGround } from '@/mushrooms/shared/meadow';
 import {
   type Camera,
   type Ground,
-  groundIn,
   type Layered,
   type LayeredPoint,
-  type MushroomGround,
   scaleAt,
   type WithCamera,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   flowerGenes,
   flowerHead,

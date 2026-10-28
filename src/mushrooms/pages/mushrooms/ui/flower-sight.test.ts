@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
-import { anchorOf, OPENING_EYE } from '@/mushrooms/shared/world';
+import { anchorOf, OPENING_EYE } from '@/mushrooms/shared/space';
 import {
   anchoredStand,
   flowersOf,

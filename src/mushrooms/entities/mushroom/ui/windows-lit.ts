@@ -1,9 +1,6 @@
 import { smooth } from '@/mushrooms/shared/lib/motion';
-import {
-  type DuskFrom,
-  duskness,
-  type Layered,
-} from '@/mushrooms/shared/world';
+import { type DuskFrom, duskness } from '@/mushrooms/shared/sky';
+import type { Layered } from '@/mushrooms/shared/space';
 
 /**
  * The meadow's dusk as the houses' windows light by it, the turn `before` it

@@ -3,17 +3,13 @@ import type * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { phaseOf, type Sprouted } from '@/mushrooms/shared/lib/motion';
+import { type HeadReach, UNPLACED } from '@/mushrooms/shared/meadow';
+import { CLUMP_DISTANCE, type Rooted } from '@/mushrooms/shared/space';
 import type {
   CircleFigure,
   Lighting,
   TappedFigure,
 } from '@/mushrooms/shared/ui';
-import {
-  CLUMP_DISTANCE,
-  type HeadReach,
-  type Rooted,
-  UNPLACED,
-} from '@/mushrooms/shared/world';
 import {
   drawFlower,
   type Flower,

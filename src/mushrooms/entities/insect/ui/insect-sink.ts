@@ -10,17 +10,16 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
-import type { Translucent } from '@/mushrooms/shared/ui/index.node-safe';
+import { depthOf, UNPLACED } from '@/mushrooms/shared/meadow';
 import {
   behindHills,
   browPale,
-  depthOf,
   type Distant,
   type Layered,
   sunkAway,
-  UNPLACED,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
+import type { Translucent } from '@/mushrooms/shared/ui/index.node-safe';
 
 /**
  * How many screen rows nearer than the ground it is over an insect sorts

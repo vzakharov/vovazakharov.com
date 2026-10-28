@@ -3,8 +3,8 @@ import type * as Phaser from 'phaser';
 import { mix } from '@/mushrooms/shared/lib/colour';
 import { type Phased, shake, sway } from '@/mushrooms/shared/lib/motion';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
+import type { Footing, GroundBand } from '@/mushrooms/shared/space';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import type { Footing, GroundBand } from '@/mushrooms/shared/world';
 
 import { coloursAt, groundAt, type Tones, tonesAt } from './backdrop-tones';
 

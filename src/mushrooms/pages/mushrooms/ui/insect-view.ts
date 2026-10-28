@@ -5,8 +5,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { smooth, wobble } from '@/mushrooms/shared/lib/motion';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
+import { aloftAt, CLUMP_DISTANCE, type View } from '@/mushrooms/shared/space';
 import { containsCircle, type Lighting } from '@/mushrooms/shared/ui';
-import { aloftAt, CLUMP_DISTANCE, type View } from '@/mushrooms/shared/world';
 import {
   type Aloft,
   aloft,

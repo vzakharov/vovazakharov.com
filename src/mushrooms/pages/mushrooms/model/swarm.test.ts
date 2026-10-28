@@ -17,7 +17,8 @@ import {
   type Sight,
 } from '@/mushrooms/features/insects-fly/index.node-safe';
 
-import { type Action, firstMeadow, type Meadow, reduce } from './game';
+import type { Meadow } from '../shape/meadow';
+import { type Action, firstMeadow, reduce } from './game';
 
 const SEEDED = ['flower-1', 'flower-2', 'flower-3', 'flower-4'];
 const AIR = ['air-1', 'air-2', 'air-3', 'air-4', 'air-5', 'air-6'];

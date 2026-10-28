@@ -6,7 +6,8 @@
  * closing crosses one.
  */
 
-import type { Ahead, Drawn } from '@/mushrooms/shared/world';
+import type { Drawn } from '@/mushrooms/shared/meadow';
+import type { Ahead } from '@/mushrooms/shared/space';
 import type { Shut } from '@/mushrooms/entities/flower/index.node-safe';
 
 /** How many steps a flower closes in, each one repaint of its head. */

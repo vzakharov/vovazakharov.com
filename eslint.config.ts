@@ -61,6 +61,7 @@ import noRelativeEscape from './eslint/rules/no-relative-escape';
 import noSplitJsxSpreads from './eslint/rules/no-split-jsx-spreads';
 import noUncausedRethrow from './eslint/rules/no-uncaused-rethrow';
 import preferShorthandSpread from './eslint/rules/prefer-shorthand-spread';
+import segmentOrder from './eslint/rules/segment-order';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -103,6 +104,7 @@ const eslintConfig = defineConfig([
           'no-split-jsx-spreads': noSplitJsxSpreads,
           'no-uncaused-rethrow': noUncausedRethrow,
           'prefer-shorthand-spread': preferShorthandSpread,
+          'segment-order': segmentOrder,
         },
       },
     },

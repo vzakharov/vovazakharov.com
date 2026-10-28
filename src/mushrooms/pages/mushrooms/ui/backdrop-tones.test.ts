@@ -9,8 +9,8 @@ import {
   toHsv,
 } from '@/mushrooms/shared/lib/colour';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import { DUSK, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import { OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
 import {
   azimuthAt,
   groundAt,

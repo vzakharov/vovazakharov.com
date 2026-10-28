@@ -3,8 +3,8 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import { bedPlace, SHELTER_SEATS } from '@/mushrooms/shared/meadow';
 import {
-  bedPlace,
   CLUMP_DISTANCE,
   D_SEE,
   middleOf,
@@ -12,10 +12,9 @@ import {
   OPENING_EYE,
   pinholeOf,
   rowAt,
-  SHELTER_SEATS,
   V_NEAR,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   flowersOf,
   NEAR_FLOWERS,

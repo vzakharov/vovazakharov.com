@@ -5,13 +5,13 @@ import {
   lerpPoint,
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
+import type { Walk } from '@/mushrooms/shared/space';
 import {
   drawDisc,
   fillShape,
   PALETTE,
   strokeShape,
 } from '@/mushrooms/shared/ui';
-import type { Walk } from '@/mushrooms/shared/world';
 
 /**
  * The two bare footprints, one a step ahead of the other, each turned a

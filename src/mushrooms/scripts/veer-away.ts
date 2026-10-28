@@ -17,7 +17,7 @@ import {
   OPENING_EYE,
   type View,
   viewAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import {
   type Aloft,
   aloftOfLayout,

@@ -16,7 +16,7 @@ import {
   planeOf,
   viewAt,
   zAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 import { FLOWER_DOWN } from '@/mushrooms/entities/flower/index.node-safe';
 import {
   LiveLawn,

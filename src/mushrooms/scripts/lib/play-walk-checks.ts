@@ -16,7 +16,7 @@ import {
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
   TURN_CRUISE,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { Eye, type Point } from './mushroom-probe-answers.ts';
 import {

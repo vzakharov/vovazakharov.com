@@ -9,7 +9,7 @@
 import { z } from 'zod';
 
 import { wrap } from '@/mushrooms/shared/lib/geometry';
-import { TURN_CRUISE } from '@/mushrooms/shared/world';
+import { TURN_CRUISE } from '@/mushrooms/shared/space';
 import {
   INSECT_KINDS,
   LANDING,

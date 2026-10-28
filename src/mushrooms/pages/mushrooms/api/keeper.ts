@@ -4,7 +4,7 @@
  * waiting, so a closed tab loses at most the write in flight.
  */
 
-import type { Kept } from '../model/kept-record';
+import type { Kept } from '../shape/kept-record';
 import { openStore, type Store } from './meadow-store';
 
 /** The tick's own changes and the walking eye are kept at most this often. */

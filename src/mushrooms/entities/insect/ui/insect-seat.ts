@@ -5,16 +5,15 @@
  */
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Host, Standing } from '@/mushrooms/shared/meadow';
 import {
   aloftAt,
   bendAt,
   CLUMP_DISTANCE,
-  type Host,
   pinholeOf,
   SPREAD,
-  type Standing,
   type View,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import { type Aloft, azimuthOf } from '../model/flight-frame';
 import type { Zoomed } from './insect-away';

@@ -13,6 +13,7 @@ import {
   type Scaled,
 } from '@/mushrooms/shared/lib/geometry';
 import { type Light, lightAt, turnedLight } from '@/mushrooms/shared/lib/light';
+import { OPENING_EYE } from '@/mushrooms/shared/space';
 import {
   awayAngle,
   castShadow,
@@ -20,7 +21,6 @@ import {
   PALETTE,
   type ShadowLayer,
 } from '@/mushrooms/shared/ui/index.node-safe';
-import { OPENING_EYE } from '@/mushrooms/shared/world';
 
 import { mouthEdges } from '../model/chanterelle-outline';
 import {

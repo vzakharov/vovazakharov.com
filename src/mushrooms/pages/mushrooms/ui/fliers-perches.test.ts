@@ -5,7 +5,8 @@ import { isDeepStrictEqual } from 'node:util';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
-import { raining, viewAt } from '@/mushrooms/shared/world';
+import { raining } from '@/mushrooms/shared/sky';
+import { viewAt } from '@/mushrooms/shared/space';
 import {
   drawnAloft,
   type Flier,

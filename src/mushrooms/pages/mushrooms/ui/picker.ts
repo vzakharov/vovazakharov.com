@@ -12,7 +12,7 @@ import {
   SINK_DURATION,
 } from '@/mushrooms/shared/lib/motion';
 
-import type { Meadow } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import {
   type Able,
   type Button,

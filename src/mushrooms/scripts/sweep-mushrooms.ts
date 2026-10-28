@@ -27,7 +27,8 @@
 
 import { z } from 'zod';
 
-import { MUSHROOM_SLOTS, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
+import { MUSHROOM_SLOTS } from '@/mushrooms/shared/meadow';
+import { OPENING_EYE, viewAt } from '@/mushrooms/shared/space';
 import {
   coversShown,
   hiddenOf,

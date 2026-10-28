@@ -22,14 +22,16 @@ import {
   type Random,
 } from '@/mushrooms/shared/lib/random';
 import {
-  type Camera,
   type ClumpShade,
   FLOWER_SIZE,
+  mostShaded,
+} from '@/mushrooms/shared/meadow';
+import {
+  type Camera,
   type Footing,
   type Framed,
   type GroundFoot,
   groundOf,
-  mostShaded,
   planeFootOf,
   scaleAt,
   standingOn,
@@ -37,7 +39,7 @@ import {
   UP_PER_Z,
   type WorldScreen,
   zAt,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import {
   FLOWER_RANGES,

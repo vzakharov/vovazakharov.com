@@ -2,13 +2,12 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Stamped } from '@/mushrooms/shared/lib/motion';
 import { mulberry32, type Random } from '@/mushrooms/shared/lib/random';
-import {
-  type Dispatching,
-  type Eye,
-  type MeadowSeen,
-  sameFoot,
-  type StandSeen,
-} from '@/mushrooms/shared/world';
+import type {
+  Dispatching,
+  MeadowSeen,
+  StandSeen,
+} from '@/mushrooms/shared/meadow';
+import { type Eye, sameFoot } from '@/mushrooms/shared/space';
 import {
   type FlowerColour,
   type FlowerShape,
@@ -32,7 +31,8 @@ import {
   sowingTuft,
 } from '@/mushrooms/features/play-flowers/index.node-safe';
 
-import type { Action, Meadow } from '../model/game';
+import type { Action } from '../model/game';
+import type { Meadow } from '../shape/meadow';
 import type { MeadowLayout } from './layout';
 import type { PlanterVoice } from './sound';
 

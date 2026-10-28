@@ -7,9 +7,9 @@
  */
 
 import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
+import { anchoredGround } from '@/mushrooms/shared/meadow';
 import {
   anchored,
-  anchoredGround,
   D_SEE,
   D_SEE_MOST,
   type Eye,
@@ -21,7 +21,7 @@ import {
   sameAnchor,
   standingOn,
   type Stood,
-} from '@/mushrooms/shared/world';
+} from '@/mushrooms/shared/space';
 
 import type { Flower } from '../model/flower-genes';
 import { isBeeSown, type Sown } from '../model/planted-flowers';

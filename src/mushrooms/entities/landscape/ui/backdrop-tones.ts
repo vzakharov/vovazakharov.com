@@ -10,8 +10,8 @@ import type { Sized } from '@/kernel/shared/typings';
 
 import { channels, mix, packed } from '@/mushrooms/shared/lib/colour';
 import type { Ramped } from '@/mushrooms/shared/lib/motion';
+import type { GroundBand } from '@/mushrooms/shared/space';
 import { DUSK, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
-import type { GroundBand } from '@/mushrooms/shared/world';
 
 import { SEAM_REACH, seamTop } from './skyline';
 import { type HillsSunned, SUN_GLOW_REACH, type Sunned } from './sun-layout';

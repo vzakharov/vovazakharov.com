@@ -7,7 +7,7 @@
 import type { WithId } from '@/kernel/shared/typings';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
-import type { ShelterSide } from '@/mushrooms/shared/world';
+import type { ShelterSide } from '@/mushrooms/shared/meadow';
 
 import type { Pose } from './flight-frame';
 import type { Span } from './flight-timing';

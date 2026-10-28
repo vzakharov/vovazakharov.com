@@ -2,11 +2,11 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { type Bobbed, phaseOf } from '@/mushrooms/shared/lib/motion';
+import type { Spanned } from '@/mushrooms/shared/meadow';
 import type {
   CircleFigure,
   TappedFigure,
 } from '@/mushrooms/shared/ui/index.node-safe';
-import type { Spanned } from '@/mushrooms/shared/world';
 
 import type { Aloft, Framed } from '../model/flight-frame';
 import type { Departing } from '../model/flight-timing';
