@@ -42,10 +42,10 @@ paths:
   elsewhere is vendored into the tree (`eslint/from-entries.ts`) rather than
   imported from `src/`. Shared _base types_ are the exception — the type-overlap
   gate allows a member exactly one declaration repo-wide, so a base the catalog
-  already homes is re-exported from `src/shared/typings` through a relative path
-  (`eslint/rules/estree-mixins.ts`) instead of being redeclared here. A base the
-  catalog does _not_ home is declared in `estree-mixins.ts` itself, where its
-  only declarers are.
+  already homes is re-exported from `src/kernel/shared/typings` through a
+  relative path (`eslint/rules/estree-mixins.ts`) instead of being redeclared
+  here. A base the catalog does _not_ home is declared in `estree-mixins.ts`
+  itself, where its only declarers are.
 
 - **Some rules turn `off` because `tsconfig.json` already covers them.**
   `no-unused-vars` delegates to `noUnusedLocals`/`noUnusedParameters`,

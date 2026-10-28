@@ -10,6 +10,11 @@ and follow it to attach to `<target>`, then run the finalize steps below. If the
 argument has no target token, skip this and finalize the current branch as
 usual.
 
+**A bite does not finalize.** On a PR whose base is an elephant's branch rather
+than the repo's default, this skill — `and merge` and an operator's ask to merge
+included — runs `@.claude/skills/plan/elephant.md` § "Landing a bite" instead,
+and nothing below.
+
 **`no vet` is the docs-only mode.** Pass it when the diff has nothing to verify
 — markdown, top-level docs, read-only reference data. It skips the vet run
 (there is nothing for it to check) and skips any bucket dispatch. It does
@@ -188,7 +193,7 @@ Steps (stop on first unresolved failure):
      the gate it states. Absent the flag the operator controls the final
      title/body and merge.
 
-   **Then, once the merge check is done, sweep `docs/remove-before-merging/`** —
+   **Then, once the merge check is done, sweep `docs/remove-before-merging/`**,
    after `scripts/staged.sh check --empty` passes, since a copy still under
    `.claude/staged/` carries a change that would otherwise land as a stray
    duplicate of the file it stands for; a failure means run the swap above,

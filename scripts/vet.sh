@@ -13,6 +13,13 @@
 #   scripts/vet.sh source         the codegen and the checks no build feeds
 #   scripts/vet.sh built          the checks that read the exports on disk
 #   scripts/vet.sh local          the checks that read the branch's history
+#   scripts/vet.sh probe          the game's probe build of vova
+#   scripts/vet.sh meadow <k>/<n> the k-th of n shards of the game's tests
+#   scripts/vet.sh play <screen> <plays>  those plays of the game, on that screen
+#
+# `meadow` runs only when `VET_MEADOW=1` asks, the bare run passing it on as
+# the workflow's `meadow` input; `probe` and `play` run by hand, their jobs
+# commented out in vet.yml while the plays are cut down.
 #
 # `lint` and `typecheck` write the route types with `next typegen` rather than
 # wait on a build — safe only in a tree no build shares
@@ -22,7 +29,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 usage() {
-  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | typecheck | source | built | local]\n' >&2
+  printf 'usage: scripts/vet.sh [build <site> | lint <k>/<n> | typecheck | source | built | local | probe | meadow <k>/<n> | play <screen> <plays>]\n' >&2
   exit 2
 }
 
@@ -69,7 +76,7 @@ dispatched() {
       --limit 20 --json databaseId,headSha --jq ".[] | select(.headSha == \"$head\") | .databaseId"
   }
   before=$(runs) || exit 1
-  gh workflow run vet.yml --ref "$branch" >/dev/null || exit 1
+  gh workflow run vet.yml --ref "$branch" -f meadow="$([ "${VET_MEADOW:-}" = 1 ] && echo true || echo false)" >/dev/null || exit 1
 
   scripts/vet.sh local || status=1
 
@@ -97,8 +104,9 @@ dispatched() {
 
 phase="$1"
 case "$phase" in
-  typecheck | source | built | local) [ "$#" -eq 1 ] || usage ;;
-  build | lint) [ "$#" -eq 2 ] || usage ;;
+  typecheck | source | built | local | probe) [ "$#" -eq 1 ] || usage ;;
+  build | lint | meadow) [ "$#" -eq 2 ] || usage ;;
+  play) [ "$#" -eq 3 ] || usage ;;
   *) usage ;;
 esac
 
@@ -127,11 +135,14 @@ lint_shard() {
 # script so far — and what deploy.yml runs, bar the PDF render each lane does
 # after it, which nothing here stands in for.
 case "$phase" in
-  build) logged build pnpm "build:$2" ;;
+  build) logged build pnpm build "$2" ;;
   lint) logged typegen pnpm typegen && lint_shard "$2" ;;
   typecheck) logged typegen pnpm typegen && { pnpm -s typecheck || status=1; } ;;
+  probe) logged probe env NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build vova ;;
+  meadow) MEADOW_SHARD="$2" pnpm -s test:meadow || status=1 ;;
+  play) pnpm -s play:mushrooms --no-build --screens "$2" --plays "$3" || status=1 ;;
 esac
-if [[ "$phase" == build || "$phase" == lint || "$phase" == typecheck ]]; then
+if [[ "$phase" =~ ^(build|lint|typecheck|probe|meadow|play)$ ]]; then
   ((status)) && exit 1
   exit 0
 fi
@@ -155,11 +166,11 @@ fi
 built_checks=(
   mantine-styles='pnpm check:mantine-styles'
   i18n-payload='pnpm check:i18n-payload'
-  cv-pages='pnpm content:pdf:vova --cv-pages --from-out'
+  cv-pages='pnpm content:pdf vova --cv-pages --from-out'
 )
 # The checks that read the branch against its merge base, or the cost ledger.
 local_checks=(
-  songs='scripts/vet-songs.sh'
+  songs='src/music/scripts/vet-songs.sh'
   squash='scripts/check-squash-message.sh'
   claude-md-size='scripts/check-claude-md-size.sh'
   estimates='python3 .claude/costs/check_estimates.py'
@@ -168,20 +179,15 @@ source_checks=(
   format='pnpm format:check'
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
+  masd='pnpm check:masd'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   typography='pnpm check:typography'
-  # One entry per site: pnpm appends a passed `--check` to the end of the
-  # command line, so a combined `a && b` would render the first site for real.
-  og-vova='pnpm content:og:vova --check'
-  og-bible='pnpm content:og:bible --check'
-  og-basilisk='pnpm content:og:basilisk --check'
-  og-maya='pnpm content:og:maya --check'
-  drawings-maya='pnpm content:drawings:maya --check'
+  drawings-maya='pnpm content:drawings maya --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
-  hearing='python3 scripts/lib/test_hearing.py'
-  song-facts='python3 scripts/song-intake/test_song_facts.py'
+  hearing='python3 src/kernel/scripts/lib/test_hearing.py'
+  song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
   five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/tally.py --check'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
@@ -193,6 +199,14 @@ source_checks=(
   keepalive='python3 .claude/keepalive/test_keepalive.py'
   hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
 )
+# One entry per site that renders social cards: pnpm appends a passed `--check`
+# to the end of the command line, so a combined `a && b` would render the first
+# site for real.
+for entry in src/*/scripts/render-og.ts; do
+  site=${entry#src/}
+  site=${site%%/*}
+  source_checks+=("og-$site=pnpm content:og $site --check")
+done
 checks="${phase}_checks[@]"
 scripts/run-parallel.sh "${!checks}" || status=1
 

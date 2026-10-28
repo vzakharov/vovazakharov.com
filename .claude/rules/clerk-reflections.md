@@ -1,7 +1,7 @@
 ---
 description: How the Clerk writes a reflection on a basilisk.fyi case — the companion file beside each dossier, in Russian, first person
 paths:
-  - 'apps/basilisk/public/cases/*.clerk.reflections.md'
+  - 'sites/basilisk/public/cases/*.clerk.reflections.md'
 ---
 
 # Отклики Клерка
@@ -93,6 +93,6 @@ paths:
 - **Форму прошлых откликов не наследуй.** С найденным они передают «Первое — /
   Второе —», абзац о смешном, оговорку в конце, а пришло это из первых откликов
   и из этого списка, не из дел: Вова узнал в этом precedent fallacy
-  (`apps/bible/public/precedent-fallacy.md`). Пункты списка — что ловить, а не
+  (`sites/bible/public/precedent-fallacy.md`). Пункты списка — что ловить, а не
   разделы, и оговорка об интроспекции стоит там, где без неё прочтут неверно, а
   не по привычке.

@@ -40,7 +40,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
-import type { Named, WithFilePath, WithId } from '@/shared/typings';
+import type { Named, WithFilePath, WithId } from '@/kernel/shared/typings';
 
 // The scan root is the working directory, not the script's own location:
 // `pnpm type-overlap` runs from the repo root, and the tests drive this same
@@ -155,7 +155,7 @@ function scan(dir: string): void {
     }
     if (!/\.tsx?$/.test(entry.name)) continue;
     if (entry.name.endsWith('.d.ts')) continue;
-    if (/\.test\.tsx?$/.test(entry.name)) continue;
+    if (/\.test(-kit)?\.tsx?$/.test(entry.name)) continue;
     const rel = path.relative(ROOT, full);
     const text = readFileSync(full, 'utf8');
     const sf = ts.createSourceFile(
@@ -319,8 +319,8 @@ const lines = [
   ...firing.map((r) => r.pass.fixStep),
   '  2. Home the base at its most upstream consumer — the module both types',
   '     already import, or the file that declares both. Only reach for the',
-  '     src/shared/ segment that owns the concept when no such module exists',
-  '     or the base is genuinely cross-cutting.',
+  '     shared/ segment that owns the concept, in the lowest app both inherit,',
+  '     when no such module exists or the base is genuinely cross-cutting.',
   '  3. Do not give the base its own single-type module — a file that exists only',
   '     to hold one type is churn.',
   '  4. Name it from what the members MEAN, not their count — see the naming',

@@ -110,7 +110,7 @@ than this one.
 ## What a wiki widens, and what it cannot move
 
 **"The agent takes a given for an inevitability"** is the most frequent finding
-in [the five-percent article](../../apps/lsa/public/blog/the-five-percent.ru.md),
+in [the five-percent article](../../sites/lsa/public/blog/the-five-percent.ru.md),
 and the obvious remedy — write the
 history down, build the wiki — widens what the agent is handed without changing
 what it is. Two reasons it stays a given. Context is not elastic: past a certain

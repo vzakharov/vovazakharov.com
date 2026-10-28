@@ -1,0 +1,16 @@
+{
+  "by": "Пишет",
+  "readingTime": "{minutes} мин чтения",
+  "part": "Часть {part}",
+  "read": "Читать",
+  "version": "версия {variant}",
+  "cuts": {
+    "full": "Полная",
+    "mini": "Мини",
+    "nano": "Нано"
+  },
+  "sources": "Источники",
+  "authors": {
+    "maya": "Майя"
+  }
+}

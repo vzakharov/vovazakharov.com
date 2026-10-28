@@ -123,8 +123,8 @@
   after every step that passes, keep a hand-over note current, and "the
   container can restart without warning".
 - **A brief's paths are checked with `ls` before it goes out.** Bite 8's named a
-  drawing that had moved to `src/pages/mushrooms/reference/`, and every agent
-  spent a search on it. The template fills paths from the tree.
+  drawing that had moved to `src/mushrooms/pages/mushrooms/reference/`, and
+  every agent spent a search on it. The template fills paths from the tree.
 - **A brief's numbers carry their unit, checked against the code.** A dash cap
   written as "≈6 world units" met a model that reads places in butterfly sizes;
   the agent caught it and reported that the cap should be per screen. A number

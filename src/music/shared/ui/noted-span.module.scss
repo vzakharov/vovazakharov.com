@@ -1,0 +1,23 @@
+@use '../../../../styles/mantine' as mantine;
+
+// Words with a note: marked the way a footnoted phrase is.
+.notedSpan {
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-align: start;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+
+  @include mantine.hover {
+    text-decoration-style: solid;
+  }
+}
+
+.note {
+  font-size: var(--mantine-font-size-sm);
+  line-height: 1.5;
+  color: var(--color-foreground);
+  white-space: normal;
+}

@@ -4,14 +4,14 @@ paths:
   - .github/workflows/**
   - .github/actions/**
   - scripts/publish-site.sh
-  - apps/*/public/CNAME
+  - sites/*/public/CNAME
 ---
 
 # Deployment
 
 **The sites leave by two different doors, because a repository gets one Pages
 site.** `vovazakharov.com` holds this repository's own, deployed from
-`apps/vova/out` by `actions/deploy-pages`. Every other site is built here and
+`sites/vova/out` by `actions/deploy-pages`. Every other site is built here and
 force-pushed by `scripts/publish-site.sh <site>` to the `gh-pages` branch of a
 receiving repository — `vzakharov/latestageagentic.com`,
 `vzakharov/agentic.bible`, `vzakharov/basilisk.fyi`, `vzakharov/mayawonders.com`

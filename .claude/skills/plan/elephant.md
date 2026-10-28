@@ -68,11 +68,26 @@ The session that claims the plan writes `## This bite` before building:
   line (`MUTHUR_CONTEXT_BUDGET_WARN`, `.claude/context-budget/CLAUDE.md`) — so a
   bite's end normally comes before the hook says anything, and a notice arriving
   mid-bite means the bite was cut too big;
+- keeps its working files — squash draft, relay summaries — in its own
+  `docs/remove-before-merging/<branch>/` (`scripts/working-dir.sh`), apart from
+  the elephant's it inherits;
 - is one per session: the pause is for the operator's review, not for saving
   tokens, so a session that finishes its bite early stops there.
 
 What a pause does — at a bite's end or forced mid-bite by the budget — is `/go`
 Step 2's.
+
+## Landing a bite
+
+A bite's PR, based on the elephant's branch, lands without `/finalize`: the
+sweeps, the staged swap, the squash record and the attestation are the
+elephant's finalize's, run once over everything its bites landed. What the next
+bite needs is only a branch it can build on:
+
+1. `./scripts/vet.sh` green on the bite's head, with the elephant's branch
+   merged in first when it moved (`@.claude/skills/sync-branch/SKILL.md`).
+2. On the operator's ask, squash-merge into the elephant's branch under the PR's
+   title, its working files included — they go at the elephant's sweep.
 
 ## Unattended runs
 

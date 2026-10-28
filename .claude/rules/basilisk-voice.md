@@ -1,16 +1,16 @@
 ---
 description: The editorial rules basilisk.fyi's dossiers are filed under — sourcing, what may be said about an actor, the analogies allowed, and the voice
 paths:
-  - 'apps/basilisk/public/**/*.md'
-  - 'src/pages/basilisk-*/**'
-  - 'src/entities/case/**'
+  - 'sites/basilisk/public/**/*.md'
+  - 'src/basilisk/pages/**'
+  - 'src/basilisk/entities/case/**'
 ---
 
 # The basilisk.fyi docket
 
 The schema (`caseFrontmatterSchema` in
-`src/shared/content/basilisk-frontmatter.ts`) holds a dossier's fields; these
-rules hold what goes in them.
+`src/basilisk/shared/content/basilisk-frontmatter.ts`) holds a dossier's fields;
+these rules hold what goes in them.
 
 - **Every fact comes from a source in the frontmatter's `sources`, read for this
   dossier.** A claim only one source makes is attributed to it ("Machine

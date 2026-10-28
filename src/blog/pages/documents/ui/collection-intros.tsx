@@ -1,0 +1,37 @@
+import type { ReactNode } from 'react';
+
+import type { Described } from '@/kernel/shared/typings';
+
+import type { CollectionId } from '@/blog/shared/content';
+
+/** The line that is both a collection index's meta description and its lede, and the prose under it where one line is not enough. */
+type CollectionIntro = Described & { intro?: ReactNode };
+
+/**
+ * Narrows the keys while widening the values: `satisfies` would keep each
+ * entry's own literal shape, so an entry that writes no `intro` would have no
+ * such property to read.
+ */
+function introRegistry<Id extends CollectionId>(
+  entries: Record<Id, CollectionIntro>,
+): Record<Id, CollectionIntro> {
+  return entries;
+}
+
+/**
+ * What a collection's index says for itself. Here rather than in the content
+ * registry, which shapes routes and runs outside any bundler in the render
+ * scripts.
+ *
+ * A home-indexed collection is absent: its site's home page is its index, so
+ * there is no index route here to feed.
+ */
+export const COLLECTION_INTROS = introRegistry({
+  'case-studies': {
+    description:
+      'Long-form write-ups of work I have shipped, with the numbers behind them.',
+  },
+});
+
+/** A collection with an index page of its own — the registry's keys, so the two cannot drift. */
+export type IndexedCollectionId = keyof typeof COLLECTION_INTROS;

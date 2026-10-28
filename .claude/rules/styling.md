@@ -1,11 +1,11 @@
 ---
 description: How styling is layered here — where a rule has to live to win, and which Mantine props are unreachable from a stylesheet
 paths:
-  - src/app/styles/**
-  - src/app/ui/theme-provider.tsx
+  - src/shell/app/styles/**
+  - src/shell/app/ui/theme-provider.tsx
   - styles/**
-  - src/shared/ui/css-color.ts
-  - src/entities/*/ui/site.scss
+  - src/shell/shared/ui/css-color.ts
+  - src/*/app/styles/site.scss
   - '**/*.module.scss'
 ---
 
@@ -53,33 +53,33 @@ attributes (`underline`), never for sizes or colours.
 ## Colours
 
 Never write a colour literal in a component. The tokens are declared in
-`src/app/styles/globals.scss` as `--color-*` — a site's own palette in its
-entity's `ui/site.scss`, under `[data-site]` — and reached from TSX through
+`src/shell/app/styles/globals.scss` as `--color-*` — a site's own palette in its
+app's `app/styles/site.scss`, under `[data-site]` — and reached from TSX through
 `cssColor()`. Which tokens exist is settled by the `CSS_COLORS` array in
-`src/shared/ui/css-color.ts` — it types `cssColor()` and generates the mixin
-that declares them, so adding one is a single edit there. They are colour-scheme
-aware, so nothing branches on the scheme itself.
+`src/shell/shared/ui/css-color.ts` — it types `cssColor()` and generates the
+mixin that declares them, so adding one is a single edit there. They are
+colour-scheme aware, so nothing branches on the scheme itself.
 
-One exception is the `palette*.ts` modules in `src/pages/mushrooms/ui/scene/`,
-the game's colour table: a canvas is out of the tokens' reach, so every colour
-it paints is a literal there and nowhere else. The other is `.tileArtless` in
-`src/pages/music/ui/music.module.scss`, whose gradient takes a hue per release
-that no fixed token can carry, so its lightness and chroma are literals beside
-it.
+One exception is the `palette*.ts` modules in `src/mushrooms/shared/ui/`, the
+game's colour table: a canvas is out of the tokens' reach, so every colour it
+paints is a literal there and nowhere else. The other is `.tileArtless` in
+`src/music/widgets/catalogue-grid/ui/catalogue-grid.module.scss`, whose gradient
+takes a hue per release that no fixed token can carry, so its lightness and
+chroma are literals beside it.
 
 Mantine's own variables are bound to those tokens by the `cssVariablesResolver`
-in `src/app/ui/theme-provider.tsx`, not by a `:root` block. Mantine renders its
-variable block as a `<style data-mantine-styles>` at the top of `<body>` — after
-every stylesheet in `<head>`, on the same `:root` selector — so a `--mantine-*`
-override written in a stylesheet loses on document order at equal specificity.
-The `--color-*` tokens are safe there because Mantine never declares those
-names.
+in `src/shell/app/ui/theme-provider.tsx`, not by a `:root` block. Mantine
+renders its variable block as a `<style data-mantine-styles>` at the top of
+`<body>` — after every stylesheet in `<head>`, on the same `:root` selector — so
+a `--mantine-*` override written in a stylesheet loses on document order at
+equal specificity. The `--color-*` tokens are safe there because Mantine never
+declares those names.
 
 ## Print
 
-`src/app/styles/print.scss` carries page-level rules: `@page`, the forced light
-scheme, and the element defaults (`h1`–`h4`, `p`, `ul`, `li`). Everything a
-single component owns goes in that component's `.module.scss`, in an
+`src/shell/app/styles/print.scss` carries page-level rules: `@page`, the forced
+light scheme, and the element defaults (`h1`–`h4`, `p`, `ul`, `li`). Everything
+a single component owns goes in that component's `.module.scss`, in an
 `@media print` block beside the screen rule it overrides — a class outranks the
 sheet's element rules, so splitting the two apart silently breaks one of them.
 
@@ -100,12 +100,12 @@ something is invisible in exactly one scheme.
 
 ## Rendered markdown
 
-`src/app/styles/prose.scss` owns the whole rhythm of the content pipeline's HTML
-— sizes, leading, vertical spacing, rules and the pipeline's own emissions
-(Shiki token colours, the Mermaid light/dark pair, scrollable tables, heading
-anchors) — scoped under `.prose-content`, which sits on the element holding the
-markup so that `> h1` still keys the part dividers. The markup is wrapped in
-nothing.
+`src/shell/app/styles/prose.scss` owns the whole rhythm of the content
+pipeline's HTML — sizes, leading, vertical spacing, rules and the pipeline's own
+emissions (Shiki token colours, the Mermaid light/dark pair, scrollable tables,
+heading anchors) — scoped under `.prose-content`, which sits on the element
+holding the markup so that `> h1` still keys the part dividers. The markup is
+wrapped in nothing.
 
 **Long-form copy is not on the site's UI scale, and Mantine's `Typography` is
 not a substitute for this sheet.** `--mantine-line-height` and
@@ -142,11 +142,11 @@ Both of the shared scales are written once in TypeScript, and their Sass halves
 are **generated** by `pnpm styles:codegen` — TypeScript is the source because it
 is the side a type can constrain, and Sass cannot import it:
 
-- **`src/app/styles/breakpoints.ts`** generates `styles/_breakpoints.scss`: a
-  media-query condition cannot read a custom property, so the numbers have to be
-  literals.
-- **`src/shared/ui/css-color.ts`** generates `styles/_tokens.scss`: Sass is what
-  declares the `--color-*` properties; TypeScript only types the names
+- **`src/shell/app/styles/breakpoints.ts`** generates
+  `styles/_breakpoints.scss`: a media-query condition cannot read a custom
+  property, so the numbers have to be literals.
+- **`src/shell/shared/ui/css-color.ts`** generates `styles/_tokens.scss`: Sass
+  is what declares the `--color-*` properties; TypeScript only types the names
   `cssColor()` reads.
 
 `_mantine.scss` forwards the breakpoint partial, so a call site still reaches
