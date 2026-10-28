@@ -93,7 +93,15 @@ describe('insignificantApps', () => {
     assert.deepEqual(
       insignificantApps(
         loadGraph(),
-        new Set(['vova', 'music', 'mushrooms', 'bible', 'basilisk', 'maya']),
+        new Set([
+          'shell',
+          'vova',
+          'music',
+          'mushrooms',
+          'bible',
+          'basilisk',
+          'maya',
+        ]),
       ),
       [],
     );
