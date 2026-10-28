@@ -5,6 +5,8 @@
 None stated by the operator. The routine's own: it never merges (merge is
 deploy), and asks nothing.
 
+The muthur sync offer was made; do not make it again.
+
 ## The conversation
 
 1. Scheduled routine fired `/file-basilisk-case (unattended routine)` — no live
