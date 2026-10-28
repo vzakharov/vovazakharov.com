@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 236,
+    "cacheWrite5mTokens": 155796,
+    "cacheWrite1hTokens": 248977,
+    "cacheReadTokens": 23264549,
+    "outputTokens": 73155,
+    "thinkingTokens": 16961,
+    "responses": 118,
+    "costUsd": 8.8877498
+  },
+  "estimate": {
+    "at": "2026-10-28T09:41:45.772Z",
+    "parts": [
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "breaking 18 import cycles in game and player code without changing behaviour takes judgement per cycle, plus wiring a madge gate into vet and building the dominator-tree report"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/shell/shared/ui/chip.ts",
+    "endedAt": "2026-10-28T09:42:33.413Z",
+    "contextTokens": 138771,
+    "spend": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 78278,
+      "cacheReadTokens": 1083354,
+      "outputTokens": 3261,
+      "thinkingTokens": 629,
+      "responses": 10,
+      "costUsd": 0.9081948000000002
+    }
+  },
+  "sessionId": "2bef3310-cf11-50f3-adff-90633553d5f4",
+  "branch": "claude/masd-slice-clusters-q7r4tm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — план одобрен на первый кусок: поставить madge и убрать 18 циклов импортов в src/, потом вернуться к кластерам",
+  "prs": [
+    228
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFjE5k2mZsypSbXfxP",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T09:41:26.531Z",
+  "lastResponseAt": "2026-10-28T10:01:06.717Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 198,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 248977,
+    "cacheReadTokens": 21056579,
+    "outputTokens": 63314,
+    "thinkingTokens": 12195,
+    "responses": 99,
+    "costUsd": 7.470203799999999
+  },
+  "subagents": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 155796,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2207970,
+    "outputTokens": 9841,
+    "thinkingTokens": 4766,
+    "responses": 19,
+    "costUsd": 1.417546
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 236,
+      "cacheWrite5mTokens": 155796,
+      "cacheWrite1hTokens": 248977,
+      "cacheReadTokens": 23264549,
+      "outputTokens": 73155,
+      "thinkingTokens": 16961,
+      "responses": 118,
+      "costUsd": 8.8877498
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 118,
+    "matched": 118,
+    "matchedTableUsd": 8.8877498,
+    "matchedEventUsd": 8.8877498,
+    "unseen": {}
+  }
+}
