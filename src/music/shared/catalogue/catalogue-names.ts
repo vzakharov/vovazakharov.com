@@ -6,7 +6,7 @@
  * Its test and `scripts/` load it outside any bundler, so it carries no
  * `server-only`. It stays out of `index.node-safe.ts` all the same, which
  * client components enter and which must not reach `node:fs`; a script takes
- * it through `index.server-only.ts`.
+ * it through `index.no-browser.ts`.
  */
 
 import matter from 'gray-matter';

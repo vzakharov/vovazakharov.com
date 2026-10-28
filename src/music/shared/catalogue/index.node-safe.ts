@@ -1,7 +1,7 @@
 /**
  * For `scripts/`, the tests and client components: the runtime graph behind it
  * reaches no `server-only`, filesystem or zod. A script reads the names
- * themselves through `index.server-only.ts`.
+ * themselves through `index.no-browser.ts`.
  */
 
 export { songPlacements } from './album-tracks.ts';

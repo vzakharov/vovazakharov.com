@@ -26,6 +26,7 @@ export const PUBLIC_API = [
   'index.ts',
   'index.server-only.ts',
   'index.node-safe.ts',
+  'index.no-browser.ts',
 ];
 
 /** The entry point only test code may take, beside the public API. */
