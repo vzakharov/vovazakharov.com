@@ -1,7 +1,7 @@
 /**
- * What reads the catalogue's directory, which no browser may hold. Its module
- * carries no `server-only`, since a script reaches it with no site resolved and
- * no `react-server` condition, where `index.ts` needs both.
+ * What reads the catalogue's directory, which no browser may hold. A script
+ * takes it here because `index.ts` resolves the site on import, and a script
+ * may run with none.
  */
 
 export { readCatalogueNames } from './catalogue-names';
