@@ -191,24 +191,12 @@ Nineteen things about that list are deliberate:
   Three Python suites sit beside it: `scripts/lib/test_hearing.py`, for
   `scripts/transcribe.py`'s pure half, which reads only its fixtures;
   `scripts/song-intake/test_song_facts.py`, for the spectrogram's measurements
-<<<<<<< HEAD
   on synthetic signals, which needs numpy on the system Python; and
   `scripts/five-percent-verdicts/test_tally.py`, whose entry also runs
   `tally.py --check` over the committed verdicts, since a malformed row would
   otherwise surface only when the next article is written from them.
-- **The last ten read the agent infrastructure itself and write nothing another
-  check reads, which is why they overlap the rest safely.**
-=======
-  on synthetic signals, which needs numpy on the system Python.
-- **`scripts/check-notes-length.sh` holds each `writing/notes/` file to the line
-  ceiling its own "How this file is kept" states.** Unlike the codegen above, it
-  reports rather than repairs: which squeeze applies is a judgement, so nothing
-  trims. It exists because the ceiling was prose in the file it governs, and
-  nothing reads a paragraph on its way to appending a section. POSIX `sh` and
-  `wc`, reading only `writing/notes/`, which nothing else here touches.
 - **The last eleven read the agent infrastructure itself and write nothing
   another check reads, which is why they overlap the rest safely.**
->>>>>>> origin/main
   `scripts/check-skill-catalog.sh` asserts that every `@`-reference into
   `.claude/` resolves — the skill pointers and CLAUDE.md's own imports alike —
   and that every section citation into CLAUDE.md names a heading that exists;

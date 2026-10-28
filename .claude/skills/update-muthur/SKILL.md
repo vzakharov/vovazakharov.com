@@ -356,23 +356,13 @@ Provenance needs no prose. `watermark.json`'s `lastSyncedSha`, committed in Step
 vendor from moved" is still the honest _why_, so it earns one clause of the
 body's opening sentence and nothing more.
 
-<<<<<<< HEAD
 **The polish passes see only what you wrote — never the text you took.** Their
 scope is what the session added, which on a sync diff is mostly the source's,
 and tightening a `take` is what turns every future sync of that file into a
 `translate`. So scope every pass to the translations and to whatever the port
 added on top, and leave a verbatim adoption verbatim. A vendored file worth
-restyling is a case for `declined` or a `{path: note}` rewrite, decided at Step
-4 — not a quality pass quietly diverging it.
-=======
-**Those two passes see only what you wrote — never the text you took.** Their
-scope is "prose added in this session", which on a sync diff is mostly the
-source's, and tightening a `take` is what turns every future sync of that file
-into a `translate`. So scope both passes to the translations and to whatever the
-port added on top, and leave a verbatim adoption verbatim. A vendored file worth
 restyling is a case for the record — a decline or a re-expression, decided at
 Step 4 — not a quality pass quietly diverging it.
->>>>>>> origin/main
 
 ## Offered at session start
 
