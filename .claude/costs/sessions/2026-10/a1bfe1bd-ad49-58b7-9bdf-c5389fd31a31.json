@@ -1,0 +1,127 @@
+{
+  "total": {
+    "inputTokens": 109939,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 212388,
+    "cacheReadTokens": 13638546,
+    "outputTokens": 55453,
+    "thinkingTokens": 12864,
+    "responses": 91,
+    "costUsd": 5.474069000000001
+  },
+  "estimate": {
+    "at": "2026-10-28T05:17:48.232Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "finding an unfiled, well-sourced incident means sweeping several archives and judging each candidate against the docket's bar"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "the dossier and reflection are written in the Clerk's voice, which takes editorial judgement"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "an emblem drawn to the docket's idiom"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "a1bfe1bd-ad49-58b7-9bdf-c5389fd31a31",
+  "branch": "claude/cases-ngq42r",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/file-basilisk-case (unattended routine)",
+  "prs": [
+    218
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDAgBbPxNkBKEgj7iL",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T05:17:05.192Z",
+  "lastResponseAt": "2026-10-28T06:25:49.130Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 166,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 212388,
+    "cacheReadTokens": 13638546,
+    "outputTokens": 47584,
+    "thinkingTokens": 12864,
+    "responses": 83,
+    "costUsd": 5.379157200000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 166,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 212388,
+      "cacheReadTokens": 13638546,
+      "outputTokens": 47584,
+      "thinkingTokens": 12864,
+      "responses": 83,
+      "costUsd": 5.379157200000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 109773,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 7869,
+      "thinkingTokens": 0,
+      "responses": 8,
+      "costUsd": 0.0949118
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/basilisk/public/cases/hidden-prompts-ai-peer-review.md",
+    "endedAt": "2026-10-28T05:24:38.704Z",
+    "contextTokens": 166578,
+    "spend": {
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 132046,
+      "cacheReadTokens": 4741066,
+      "outputTokens": 20759,
+      "thinkingTokens": 9539,
+      "responses": 39,
+      "costUsd": 2.4200732000000005
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 91,
+    "matched": 83,
+    "matchedTableUsd": 5.379157200000001,
+    "matchedEventUsd": 5.379157200000001,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 109773,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 7869,
+        "thinkingTokens": 0,
+        "responses": 8,
+        "costUsd": 0.0949118
+      }
+    }
+  }
+}
