@@ -13,8 +13,8 @@ export const TECH_STACK: Record<StackGroupKey, string> = {
   frontend:
     'Next.js (App Router), React, Mantine, TanStack Query, Zustand, Tiptap; Vue / Nuxt',
   backend:
-    'Next.js server actions / BFF, NestJS, Django, FastAPI; PostgreSQL (Supabase), Drizzle ORM, Weaviate',
-  ai: 'Vercel AI SDK, OpenAI / Anthropic / Gemini APIs, LiteLLM, Deepgram, Replicate; Gradio, Google Colab',
+    'Next.js server actions / BFF, NestJS, Django, FastAPI, aiogram; Postgres + pgvector, Drizzle, SQLAlchemy, Weaviate, Redis, Django Q2',
+  ai: 'Vercel AI SDK, PydanticAI, OpenAI / Azure OpenAI / Anthropic / Gemini APIs, LiteLLM, Deepgram, Replicate; Gradio, Google Colab',
   infrastructure:
     'Railway, Docker, Cloudflare Workers, GitHub Actions, GitHub Pages, Bunny CDN, Stripe, PostHog',
   quality:
