@@ -128,7 +128,7 @@ sideways ban, never asked whether it was theirs. Asked why straight to shared
 when pages read entities too, they joined the byline that renders them in
 `entities/maya`.
 
-## An account that explains the code stands in for running it (×29)
+## An account that explains the code stands in for running it (×30)
 
 The worse half of "It checks the render against its intent" below: here the
 agent never looked, because the reasoning closed, and nothing inside an account
@@ -150,10 +150,15 @@ as often as after.
 footnote pointed at «Река» by its title, linking the first part; the second,
 never opened, carries the wings.
 
-**26 October — a shared partial priced, never tried.** Splitting PR #207's
+**26 to 28 October — a shared piece priced, never tried.** Splitting PR #207's
 580-line stylesheet, the agent restated a `fill` mixin in both halves, a shared
 partial priced above the repeat: _давай общий файл, в src/music/shared,
-получается?_ The whole cost was one `index.scss`.
+получается?_ The whole cost was one `index.scss`. PR #223 wrote out two
+near-identical boundaries policies, public API for a layer's files and test-only
+entry for its tests, and overruled its own polish pass: "only two sites, the
+helper might cost more than it saves." _кажется, WET._ They were two grants of
+one rule, who enters by which barrel, so drift between them is a policy bug; a
+three-line `throughApi` replaced both, and the file got shorter.
 
 ## It edits the copy in front of it, not the fact behind it (×21)
 
