@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-chore: a poison check — the barrels' runtime axes held transitively (#227)
-```
+Proposed squash body:
 
 ```
 boundaries judges one import at a time, so a chain of individually
@@ -20,9 +16,14 @@ Type-only imports are erased and never followed.
 
 The walk is ported from playgramapp's poison-check, but the graph comes
 from the import resolver check:masd already had, now shared from
-scripts/lib/import-graph.ts, rather than from madge, so the two checks
-cannot disagree on where an import lands. vet runs it beside
-check:masd.
+scripts/lib/import-graph.ts, so the two checks cannot disagree on where
+an import lands. vet runs it beside check:masd.
+
+A /five-percent proposal here came out too dense for the operator to
+read, and signed twice. Its template now splits into three short parts
+in the operator's nouns, and /feedback states the one rule for comment
+attribution — the footer alone — which attest.md and /five-percent
+point at.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
