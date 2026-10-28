@@ -212,9 +212,9 @@ unconverted directive would otherwise reach the page as its own `:::` text.
 ## Dashes
 
 **Every page the site serves writes a dash as a dash** — `—`, never `--`, in
-every language, its documents and the copy in `src/` alike. Two hyphens, like a
-straight quote, belong to text pasted into a channel — a social post, an email —
-where typed punctuation reads as a person's: `writing/CLAUDE.md` § "Voice".
+every language, its documents and the copy in `src/` alike. Two hyphens and
+straight quotes are for text pasted into a channel, `writing/CLAUDE.md` §
+"Voice".
 
 ## Punctuation around quotes
 
