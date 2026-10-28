@@ -1,26 +1,22 @@
-Proposed squash title/body:
+Proposed squash body:
 
 ```
-refactor: roles, a MASD layer for facets several entities share (#225)
-```
+Some domain-aware code is no entity's: the meadow's occupant, the seat
+an insect takes. It sat in shared/world, against "shared knows no
+business" — a line the code showed is not binary. MASD keeps it in
+shared and orders it instead: shared knows the domain by gradient.
 
-```
-Some of what the meadow's entities share is neither one entity's nor
-noun-free: the mushroom and the flower both stand as occupants, the
-flower's head is a seat an insect sits on. Sideways imports keep such a
-facet out of either entity, so it sank to shared/world, which it is not.
+Every segmented place now has a strict import order, a segment
+reaching only those below it. The standard one is ui, logic, api,
+shape, config, lib. model is banned: it named four purposes at once,
+against FSD's own purpose-not-essence rule, and caused the model/api
+cycle; stores and domain functions go to logic, schemas and their
+types to shape. A place with its own segments declares the order in a
+masd.json beside them; root src/masd.json stays the app graph.
 
-MASD gains roles, a sliced layer between entities and shared. A role
-is a thing as the things beside it meet it, earned by two entities
-implementing it; it reaches shared only, and two roles never reach
-each other. mushrooms/roles/occupant and mushrooms/roles/seat hold the
-two facets that were in shared/world.
-
-The layer is one entry in eslint/masd-graph.ts's layer list, which
-boundaries, check:masd and the import sort all read; Steiger, which
-does not know the layer, takes no exemption. .claude/rules/masd.md
-names the departure from FSD, and docs/masd.md's open directions lose
-the item.
+vova/segment-order enforces the order; check:masd bans model and any
+non-.ts/.tsx source in a layer. The model segments are split, and
+mushrooms/shared/world becomes space, sky and meadow.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
