@@ -28,34 +28,19 @@ Nothing built yet. In discussion, the search changed:
   `shell/shared/ui` (`chip-nav` ↔ `language-return`). The operator: «давай
   первым делом тогда установим мадж, уберём ацикличности, и оттуда уже будем
   смотреть».
-
-## This bite: madge, and no import cycles in `src/`
-
-1. **Add madge as a devDependency** and run it as `pnpm check:cycles`, which is
-   `madge --circular --extensions ts,tsx --ts-config tsconfig.json src`. Wire it
-   into `scripts/vet.sh` beside `check:masd`.
-   - It is a package, not a new tool, so `pnpm install` brings it everywhere.
-     Check `.claude/hooks/install-deps.sh` and `.github/actions/setup-toolchain`
-     anyway, per CLAUDE.md § "Vetting".
-   - `tmp/cluster-spike/madgerc.json` shows the option for skipping type-only
-     imports. **Type-only imports count**: the dominator tree reads structure,
-     not runtime, and a cycle that runs through types is still two files that
-     cannot go to different slices. If breaking one of these turns out
-     contorted, raise it with the operator rather than quietly dropping types.
-2. **Break each cycle by what it is, not by shuffling files.** Typically:
-   - a shared type or constant moves down into a file of its own that both sides
-     import;
-   - two genuinely co-dependent files merge into one;
-   - an inverted dependency becomes a parameter.
-
-   The insect genes (`insect-genes` ↔ `fly-genes`/`bee-genes`/`buzz-genes`/
-   `insect-outline`) and the player (`player-provider` ↔ `player-bar` and the
-   rest) hold most of the cycles. Behaviour does not change. The game's tests
-   and `pnpm build` are the check: the game's plays are commented out of vet, so
-   run the touched slices' tests by name.
-
-3. **`docs/masd.md`** gains one line under § "The checkers": a fourth checker,
-   and acyclicity as what the cluster report stands on.
+- **Bite 1 — `src/` is acyclic, and stays so.** `pnpm check:cycles` (madge,
+  type-only imports counted) runs in vet beside `check:masd`, and `docs/masd.md`
+  names it as the fourth checker. madge is a package, so `pnpm install` brings
+  it to every runner; no toolchain site changed. Every one of the 18 cycles was
+  a type or a hook declared in the wrong file, and each went down to a file of
+  its own or to its one reader: `Chip` (`chip.ts`), the flower stand
+  (`stand.ts`), the insect's base types and the butterfly's genes (`insect.ts`,
+  `butterfly-genes.ts`, the outline reading a butterfly as
+  `Bodied & FourWinged`), places to `flight-frame.ts` and legs to
+  `flight-timing.ts`, the flier's offer (`offered.ts`), `Alofted`,
+  `ControlledScreen`, the player's controls (`player-controls.ts`) and its
+  context (`player-context.ts`). No merge and no parameter inversion was needed,
+  and no break dropped a type.
 
 ## Rest of the elephant
 
@@ -68,9 +53,12 @@ Nothing built yet. In discussion, the search changed:
   - splitting it off raises the app's modularity (`ΔQ` against the rest of the
     slice, the null model `check:masd` uses).
 
-  Open with the operator: whether clusters with two doors matter; report or gate
-  (the lean is a report `/five-percent` reads); acting on findings in a later
-  task.
+  Open with the operator: whether clusters with two doors matter — the operator
+  asked whether those are already modules by their barrels; inside a slice they
+  are siblings under its one barrel, which no single subtree covers; report or
+  gate (the lean is a report `/five-percent` reads); acting on findings in a
+  later task. The `e − a² > 0` test is dropped as a filter: a dominator subtree
+  is connected by construction, so it nearly always passes.
 
 - **Poison check** (`docs/masd.md` § "Open directions", fourth item) builds on
   the same madge graph, so it gets cheaper once this bite lands. It is not part
