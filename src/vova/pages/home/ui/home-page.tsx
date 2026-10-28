@@ -1,12 +1,6 @@
 import { Box, Stack, Text, Title } from '@mantine/core';
 
-<<<<<<< HEAD:src/vova/pages/home/ui/home-page.tsx
-import { PAGE_ROUTES, SITE_CONFIG } from '@/kernel/shared/config';
-=======
-import { SITE_CONFIG } from '@/shared/config';
-import { MUSIC_ROUTE } from '@/shared/music-catalogue';
-import { PageShell, SiteAvatar, TextLink } from '@/shared/ui';
->>>>>>> origin/main:src/pages/home/ui/home-page.tsx
+import { SITE_CONFIG } from '@/kernel/shared/config';
 
 import { PageShell, SiteAvatar, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';

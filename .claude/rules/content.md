@@ -1,10 +1,11 @@
 ---
 description: How long-form markdown under sites/<site>/public/<collection>/ becomes a page — the build-time pipeline, the file-is-route-plus-extension rule, the frontmatter contract, and the traps that fail the build
 paths:
-<<<<<<< HEAD
   - sites/*/public/case-studies/**
   - sites/bible/public/**
   - sites/basilisk/public/**
+  - sites/lsa/public/**
+  - sites/maya/public/**
   - sites/*/public/music/**
   - src/music/pages/**
   - src/music/widgets/**
@@ -23,28 +24,6 @@ paths:
   - src/*/scripts/lib/*-card*.ts
   - src/*/scripts/lib/{og-job,og-render,print-job,content-tree,render-manifest,music-collage}.ts
   - sites/*/public/cv/**
-=======
-  - apps/*/public/case-studies/**
-  - apps/bible/public/**
-  - apps/basilisk/public/**
-  - apps/lsa/public/**
-  - apps/maya/public/**
-  - apps/*/public/music/**
-  - src/pages/music/**
-  - apps/*/app/music/**
-  - apps/*/public/generated/**
-  - src/shared/content/**
-  - src/pages/documents/**
-  - src/pages/cv/**
-  - apps/*/app/case-studies/**
-  - apps/bible/app/**
-  - apps/basilisk/app/**
-  - scripts/render-mermaid.ts
-  - scripts/render-og.ts
-  - scripts/render-pdf.ts
-  - scripts/lib/**
-  - apps/*/public/cv/**
->>>>>>> origin/main
 ---
 
 # Content

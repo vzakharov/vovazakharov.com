@@ -42,7 +42,7 @@ tree is its ancestors' layers overlaid, plus its own. So:
   "shell": ["kernel"],
   "blog": ["shell"],
   "music": ["blog"],
-  "lsa": ["shell"],
+  "lsa": ["blog"],
   "bible": ["blog"],
   "basilisk": ["blog"],
   "maya": ["blog"],

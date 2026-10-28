@@ -13,7 +13,7 @@ exist at all?** A list it picked from, the callers it copied, a rule's letter, a
 checker's green, its own earlier call, the page or file it was asked to touch.
 Seven weeks of reviews broke that one frame more than every other mistake put
 together, and it cannot be seen from inside the change: the change's reasoning
-is sound within it. `apps/bible/public/precedent-fallacy.md` is the long
+is sound within it. `sites/bible/public/precedent-fallacy.md` is the long
 account.
 
 **The alternative changes the frame rather than reasoning inside it**: the value

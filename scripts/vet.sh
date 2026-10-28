@@ -182,29 +182,13 @@ source_checks=(
   masd='pnpm check:masd'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
-<<<<<<< HEAD
-  prose-quotes='pnpm check:prose-quotes'
+  typography='pnpm check:typography'
   drawings-maya='pnpm content:drawings maya --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
   hearing='python3 src/kernel/scripts/lib/test_hearing.py'
   song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
-  notes='scripts/check-notes-length.sh'
-=======
-  typography='pnpm check:typography'
-  # One entry per site: pnpm appends a passed `--check` to the end of the
-  # command line, so a combined `a && b` would render the first site for real.
-  og-vova='pnpm content:og:vova --check'
-  og-bible='pnpm content:og:bible --check'
-  og-basilisk='pnpm content:og:basilisk --check'
-  og-maya='pnpm content:og:maya --check'
-  drawings-maya='pnpm content:drawings:maya --check'
-  music-masters='pnpm music:masters check'
-  test='scripts/vet-test.sh'
-  hearing='python3 scripts/lib/test_hearing.py'
-  song-facts='python3 scripts/song-intake/test_song_facts.py'
   five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/tally.py --check'
->>>>>>> origin/main
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
   staged='scripts/staged.sh check'

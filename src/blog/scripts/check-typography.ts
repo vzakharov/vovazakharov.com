@@ -1,11 +1,11 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Fails on punctuation typed for the wrong medium, both ways round:
  *
  *   pnpm check:typography
  *
- * - **Served prose** — every Markdown file under `apps/*\/public/` — is typeset:
+ * - **Served prose** — every Markdown file under `sites/*\/public/` — is typeset:
  *   a straight quote or apostrophe, or `--`, fails it. Prose is what the
  *   Markdown parser reads as text, so frontmatter, code spans, fences and raw
  *   HTML are left alone — a quote there is syntax, not punctuation.

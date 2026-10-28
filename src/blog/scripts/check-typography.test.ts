@@ -11,13 +11,9 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, it } from 'node:test';
 
-<<<<<<<< HEAD:src/blog/scripts/check-prose-quotes.test.ts
 import { runTsxScript } from '@/kernel/scripts/lib/tsx-script';
 
-const SCRIPT = path.resolve(import.meta.dirname, 'check-prose-quotes.ts');
-========
 const SCRIPT = path.resolve(import.meta.dirname, 'check-typography.ts');
->>>>>>>> origin/main:scripts/check-typography.test.ts
 
 /** Markdown files, keyed by path relative to the scan root. */
 type Tree = Record<string, string>;
@@ -86,11 +82,11 @@ describe('check-typography', () => {
 
   it('fails two hyphens in prose, and passes them in code', () => {
     const { status, stdout } = run({
-      'apps/a/public/doc.md': 'Run `pnpm x --check` -- then wait.\n',
+      'sites/a/public/doc.md': 'Run `pnpm x --check` -- then wait.\n',
     });
     assert.equal(status, 1);
     assert.match(stdout, /two hyphens/);
-    assert.match(stdout, /^apps\/a\/public\/doc\.md:1: /m);
+    assert.match(stdout, /^sites\/a\/public\/doc\.md:1: /m);
   });
 
   it('fails typeset punctuation in a keyboard channel’s post, not around it', () => {

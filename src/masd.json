@@ -3,7 +3,7 @@
   "shell": ["kernel"],
   "blog": ["shell"],
   "music": ["blog"],
-  "lsa": ["shell"],
+  "lsa": ["blog"],
   "bible": ["blog"],
   "basilisk": ["blog"],
   "maya": ["blog"],

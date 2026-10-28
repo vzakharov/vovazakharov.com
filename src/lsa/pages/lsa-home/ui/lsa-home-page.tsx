@@ -1,21 +1,9 @@
 import { SimpleGrid, Stack, Text, Title } from '@mantine/core';
 
-<<<<<<< HEAD:src/lsa/pages/lsa-home/ui/lsa-home-page.tsx
-import { SITE_CONFIG } from '@/kernel/shared/config';
-=======
-import { SITE_CONFIG, SITE_ID } from '@/shared/config';
-import {
-  ARTICLE_COLLECTIONS,
-  COLLECTIONS,
-  findFeed,
-  localizedRoute,
-  renderPrimaryDocuments,
-} from '@/shared/content';
-import { inLocale, loadMessages, type WithLocale } from '@/shared/i18n';
-import {
-  constructMetadata,
-  localizedAddresses,
-} from '@/shared/seo/index.server-only';
+import { SITE_CONFIG, SITE_ID } from '@/kernel/shared/config';
+import { inLocale, type WithLocale } from '@/kernel/shared/i18n';
+import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
+
 import {
   ChipNav,
   localeChips,
@@ -23,13 +11,20 @@ import {
   Section,
   SiteAvatar,
   SummaryCard,
-} from '@/shared/ui';
-
-import { DocumentCards } from '@/entities/document';
->>>>>>> origin/main:src/pages/lsa-home/ui/lsa-home-page.tsx
-
-import { PageShell, Section, SiteAvatar, SummaryCard } from '@/shell/shared/ui';
+} from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
+
+import {
+  articleCollection,
+  COLLECTIONS,
+  findFeed,
+  localizedRoute,
+  renderPrimaryDocuments,
+} from '@/blog/shared/content';
+import { constructMetadata } from '@/blog/shared/seo';
+import { DocumentCards } from '@/blog/entities/document';
+
+import { messages } from '../i18n';
 
 const COLLECTION = 'lsa-blog';
 
@@ -47,20 +42,19 @@ const WORK = [
 const homePath = (locale?: string) => localizedRoute('/', locale);
 
 export function lsaHomeMetadata({ locale }: WithLocale) {
-  const { name, tagline } = loadMessages(locale).lsa;
-
   return constructMetadata({
-    title: name,
-    description: tagline,
+    title: SITE_CONFIG.name,
+    description: messages(locale).tagline,
     locale,
     ...localizedAddresses(homePath, locale),
   });
 }
 
 export async function LsaHomePage({ locale }: WithLocale) {
-  const { name, tagline, about, work } = loadMessages(locale).lsa;
+  const { name } = SITE_CONFIG;
+  const { tagline, about, work } = messages(locale);
   const cards = await renderPrimaryDocuments(
-    ARTICLE_COLLECTIONS[COLLECTION],
+    articleCollection(COLLECTION),
     locale,
   );
 

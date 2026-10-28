@@ -98,7 +98,7 @@ decided, so a later session doesn't rediscover the objection from scratch.
 - **18 — the 5%.** That a knowledgeable human still catches something is the
   claim; naming _what_ needs specimens rather than argument. Seven weeks of them
   are counted in
-  [the five-percent article](../../apps/lsa/public/blog/the-five-percent.ru.md)
+  [the five-percent article](../../sites/lsa/public/blog/the-five-percent.ru.md)
   on latestageagentic.com — 214 reviews, nine in ten on one mistake — so the
   post is a cut of that article, its number up front, linking to it.
 

@@ -199,11 +199,7 @@ weak case filed to have filed one is the failure this step exists to prevent.
 4. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
    missing, then `pnpm content:og basilisk` to render the new case's own card
    and re-render the site card (it shows the last case filed),
-<<<<<<< HEAD
-   `pnpm check:prose-quotes`, and `pnpm build basilisk`, which fails on a schema
-=======
-   `pnpm check:typography`, and `pnpm build:basilisk`, which fails on a schema
->>>>>>> origin/main
+   `pnpm check:typography`, and `pnpm build basilisk`, which fails on a schema
    error, a duplicate case number or a case with no card or emblem.
 5. **Commit** the dossier, its emblem, the cases whose `filed:` moved, every
    card the render touched with its `og-renders.json`, and the run's ledger
