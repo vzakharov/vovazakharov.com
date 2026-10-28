@@ -28,6 +28,7 @@
     "lint:fsd": "tsx scripts/lint-fsd.ts",
     "check:masd": "tsx scripts/masd-check.ts",
     "check:cycles": "madge --circular --no-spinner --extensions ts,tsx --ts-config tsconfig.json src",
+    "masd:clusters": "tsx scripts/masd-clusters.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "content:mermaid": "scripts/in-site.sh vova tsx src/blog/scripts/render-mermaid.ts",

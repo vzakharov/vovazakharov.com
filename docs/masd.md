@@ -247,7 +247,11 @@ Four things the operator set aside to take up, each in a session of its own.
 - **The converse of significance by modularity** (the operator: «как бы нам
   определять, когда в одном слайсе скопилось что-то (кластер?), что заслуживает
   вынесения в модуль? но отложим»): when a cluster inside one slice earns a
-  slice of its own.
+  slice of its own. `pnpm masd:clusters` is a first cut, a report rather than a
+  gate: a file's downward closure inside its slice, rooted at no door and not
+  whole segments, scored by `ΔQ` on the slice's own graph — the app's, by
+  modularity's resolution limit, lets nothing inside a large app's slice pass.
+  At `ΔQ > 0` it flags over half the slices, so the bar is still open.
 - **A poison check** (the operator: «проверку на яд добавим четвёртым Later на
   после мерджа»): `boundaries` judges one import at a time, so nothing holds the
   barrels' runtime axes transitively — a `'use client'` file reaching
