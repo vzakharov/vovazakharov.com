@@ -1,0 +1,131 @@
+{
+  "total": {
+    "inputTokens": 2013,
+    "cacheWrite5mTokens": 248641,
+    "cacheWrite1hTokens": 185267,
+    "cacheReadTokens": 26782445,
+    "outputTokens": 76143,
+    "thinkingTokens": 20202,
+    "responses": 180,
+    "costUsd": 9.607804600000001
+  },
+  "estimate": {
+    "at": "2026-10-28T10:25:41.874Z",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "relaying a cross-session decision on which import graph the checks share needs someone who owns the repo's check architecture"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "fixing how a review skill writes for its reader is prompt design across two skills that share a posting contract"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-28T09:59:23.934Z",
+    "contextTokens": 118576,
+    "spend": {
+      "inputTokens": 22,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 58648,
+      "cacheReadTokens": 1147698,
+      "outputTokens": 2519,
+      "thinkingTokens": 479,
+      "responses": 11,
+      "costUsd": 0.7491916
+    }
+  },
+  "sessionId": "74d954ac-d1ec-52e0-a7ee-f9e47cd691ec",
+  "branch": "poison-check",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take poison-check — проверка на яд готова, PR #227 черновик; ждём ответа сессии, которая режет циклы, о том, чей граф импортов общий — наш резолвер или m…",
+  "prs": [
+    227
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBt5mkoNauAvaC41M1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-28T09:58:41.414Z",
+  "lastResponseAt": "2026-10-28T12:52:07.442Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 220,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 185267,
+    "cacheReadTokens": 20203353,
+    "outputTokens": 48714,
+    "thinkingTokens": 10106,
+    "responses": 110,
+    "costUsd": 6.497966599999998
+  },
+  "subagents": {
+    "inputTokens": 136,
+    "cacheWrite5mTokens": 248161,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 6402762,
+    "outputTokens": 26877,
+    "thinkingTokens": 10096,
+    "responses": 68,
+    "costUsd": 3.0594414000000008
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 832,
+      "cacheWrite5mTokens": 248641,
+      "cacheWrite1hTokens": 185267,
+      "cacheReadTokens": 26782445,
+      "outputTokens": 76126,
+      "thinkingTokens": 20202,
+      "responses": 179,
+      "costUsd": 9.607678000000002
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1181,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 17,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001266
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 180,
+    "matched": 178,
+    "matchedTableUsd": 9.557408000000002,
+    "matchedEventUsd": 9.557408000000002,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1181,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 17,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001266
+      },
+      "side_question": {
+        "inputTokens": 476,
+        "cacheWrite5mTokens": 480,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 176330,
+        "outputTokens": 535,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.050269999999999995
+      }
+    }
+  }
+}
