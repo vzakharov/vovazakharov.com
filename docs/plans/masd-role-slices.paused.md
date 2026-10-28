@@ -118,6 +118,13 @@ cleaner name.
 10. **Vet with `VET_MEADOW=1`** — the split touches the game
     (`src/mushrooms/CLAUDE.md`).
 
+## Progress
+
+- Done: step 1. With `masd.json` at a slice root and in `shared/`, and a
+  `shape/` segment holding an `index.ts`, `pnpm lint:fsd` reported no problem in
+  any app root; the probe files were removed uncommitted.
+- Left: steps 2–10.
+
 ## Scope
 
 One session, one PR, no split: steps 2–6 are small, and 7–8 are wide but
