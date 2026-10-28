@@ -74,18 +74,17 @@ it, not a rewrite.
   `masd-check.ts`, plus `importEdges(file)` returning each resolved specifier
   with whether it is type-only. `masd-check.ts` switches to it, its behaviour
   unchanged (its `masd-check.test.ts` holds that).
-- `scripts/lib/poison-graph.ts` — the pure walk: `findPoisonChain`,
-  `collectViolations`, `dedupeByBlame`, ported from the model with the
-  server-action branch removed and root kinds `client` / `script`.
-- `scripts/lib/poison-graph.test.ts` — the walk on hand-built graphs: shortest
-  chain wins, type-only edge not followed, blame collapse and its count, a
-  client root and a script root sharing a culprit kept apart.
-- `scripts/poison-check.ts` — the CLI: scan markers, assemble roots, read the
-  `react-server` exemptions off `package.json`, walk, report in the model's
-  shape, exit 1 on any violation.
+- `scripts/poison-check.ts` — the walk, the marker scan, the roots and the
+  `react-server` exemptions off `package.json`, one line per culprit on stderr
+  in `check:masd`'s manner, exit 1 on any. _Built as one file rather than a
+  `poison-graph.ts` library beside a CLI: at ~220 lines the split bought only a
+  second test file restating what the CLI's tests already pin._
 - `scripts/poison-check.test.ts` — runs the CLI against a materialized tree, as
-  `scripts/type-overlap-check.test.ts` does (`.claude/rules/testing.md`): one
-  clean tree, one per root kind poisoned, one exempt entry.
+  `scripts/masd-check.test.ts` does (`.claude/rules/testing.md`): shortest
+  chain, the no-browser barrel, dynamic import and export-from followed,
+  type-only dropped, the prologue-only directive, grouping by culprit, a script
+  entry through its library, the exempt entry, its test still flagged, root
+  `scripts/`.
 - `package.json` — `"check:poison": "tsx scripts/poison-check.ts"`.
 - `scripts/vet.sh` — `poison='pnpm check:poison'` in `source_checks`; it reads
   source only, so it overlaps the fan-out like `check:masd`.
