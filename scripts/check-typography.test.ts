@@ -45,6 +45,17 @@ const SYNTAX_ONLY = [
   '',
 ].join('\n');
 
+/** A draft whose notes around the fence carry every mark, so only the post text can trip. */
+const draft = (post: string) =>
+  [
+    '# Notes -- about the “post” — any marks',
+    '',
+    '```text',
+    post,
+    '```',
+    '',
+  ].join('\n');
+
 describe('check-typography', () => {
   it('passes quotes that are syntax: frontmatter, code and raw HTML', () => {
     const { status, stdout } = run({ 'apps/a/public/doc.md': SYNTAX_ONLY });
@@ -80,24 +91,28 @@ describe('check-typography', () => {
     assert.match(stdout, /^apps\/a\/public\/doc\.md:1: /m);
   });
 
-  it('fails a typeset dash in a channel post’s text, not around it', () => {
-    const draft = [
-      '# Notes — about the post',
-      '',
-      '```text',
-      'Typed as a keyboard types -- fine.',
-      'Typeset — not fine.',
-      '```',
-      '',
-    ].join('\n');
-    const { status, stdout } = run({ 'writing/feed/drafts/post.md': draft });
+  it('fails typeset punctuation in a keyboard channel’s post, not around it', () => {
+    const { status, stdout } = run({
+      'writing/linkedin/drafts/post.md': draft('Typeset — not “fine”.'),
+    });
     assert.equal(status, 1);
-    assert.match(stdout, /typeset dash/);
+    assert.match(stdout, /keyboard channel/);
     assert.match(
       stdout,
-      /^writing\/feed\/drafts\/post\.md:5: Typeset — not fine\.$/m,
+      /^writing\/linkedin\/drafts\/post\.md:4: Typeset — not “fine”\.$/m,
     );
     assert.doesNotMatch(stdout, /post\.md:1:/);
+  });
+
+  it('fails keyboard punctuation in any other channel’s post', () => {
+    const { status, stdout } = run({
+      'writing/linkedin/drafts/ok.md': draft('Typed -- as "typed".'),
+      'writing/channel/drafts/post.md': draft('Typed -- not fine.'),
+    });
+    assert.equal(status, 1);
+    assert.match(stdout, /typeset channel/);
+    assert.match(stdout, /^writing\/channel\/drafts\/post\.md:4: /m);
+    assert.doesNotMatch(stdout, /ok\.md/);
   });
 
   it('skips the pipeline’s generated output', () => {

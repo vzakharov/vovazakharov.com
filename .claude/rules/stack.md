@@ -134,11 +134,11 @@ Nineteen things about that list are deliberate:
   document under `apps/*/public/` with the content pipeline's own remark plugins
   and flags a `"`, `'` or `--` only in a text node, so one in frontmatter, code
   or raw HTML — syntax, not punctuation — never trips it. A regex over the file
-  could not tell the two apart. It holds a channel post the other way round,
-  flagging a `—` inside a draft's `text` fence. It reads only Markdown, which is
-  why it overlaps the rest safely; `.claude/rules/content.md` § "Dashes" and §
-  "Punctuation around quotes" and `writing/CLAUDE.md` § "Voice" are the rules it
-  holds.
+  could not tell the two apart. A draft's `text` fence it holds to its channel:
+  typeset like a page, or, on LinkedIn, typed as a keyboard types. It reads only
+  Markdown, which is why it overlaps the rest safely; `.claude/rules/content.md`
+  § "Dashes" and § "Punctuation around quotes" and `writing/CLAUDE.md` § "Voice"
+  are the rules it holds.
 - **The song checks run only when the branch changes a song or the checks
   themselves**, a song's verdict being its own file's. `scripts/vet-songs.sh`
   gates `pnpm check:masked-words` — the same text nodes, through the same

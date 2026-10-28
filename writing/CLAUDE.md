@@ -110,15 +110,15 @@ invented for it.
 
 ## Voice
 
-- **`--`, never `—`, and straight quotes `"`.** Typed as a keyboard types them,
-  on purpose. Enough readers now treat an em dash or a curly quote as a
-  machine's fingerprint that the correct punctuation has become the wrong signal
-  in a feed or an inbox. This holds inside the post text itself, in every
-  language a draft is written in — Russian included, where the dash is ordinary
-  and the fingerprint reads fainter. A page the site serves is typeset instead
-  (`.claude/rules/content.md` § "Dashes"). The prose around the text in a draft
-  file is ordinary Markdown and uses whatever punctuation reads best.
-  `pnpm check:typography` fails on a `—` inside a draft's `text` fence.
+- **On LinkedIn, `--`, never `—`, and straight quotes `"`.** Typed as a keyboard
+  types them, on purpose. Enough readers now treat an em dash or a curly quote
+  as a machine's fingerprint that the correct punctuation has become the wrong
+  signal in that feed. This holds inside the post text itself, in every language
+  a draft is written in. **A Telegram channel reads as a blog**, so its posts
+  are typeset like a page the site serves (`.claude/rules/content.md` §
+  "Dashes"). The prose around the text in a draft file is ordinary Markdown and
+  uses whatever punctuation reads best. `pnpm check:typography` holds each
+  channel's `text` fences to its side.
 - **Commas and periods go inside closing quotes**, American style —
   `.claude/rules/content.md` § "Punctuation around quotes" is the rule.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in

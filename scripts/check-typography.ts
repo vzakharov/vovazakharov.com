@@ -10,7 +10,8 @@
  *   Markdown parser reads as text, so frontmatter, code spans, fences and raw
  *   HTML are left alone — a quote there is syntax, not punctuation.
  * - **A channel post** — the `text` fence of a draft under `writing/*\/drafts/`,
- *   which is pasted as typed — keeps a keyboard's punctuation: a `—` fails it.
+ *   pasted as written — follows its channel: a keyboard channel's fails on a
+ *   `—` or a curly quote, any other channel's on what served prose fails on.
  *   The draft's prose around the fence is ordinary Markdown and is not read.
  *
  * The rules are `.claude/rules/content.md` § "Dashes" and § "Punctuation around
@@ -36,12 +37,20 @@ import {
   type Span,
 } from './lib/public-markdown.ts';
 
-/** Every draft under `writing/<channel>/drafts/`, as a path relative to the root. */
-function draftFiles(): string[] {
+/**
+ * The channels whose posts are typed as a keyboard types them —
+ * `writing/CLAUDE.md` § "Voice" says which and why. Every other channel is
+ * typeset.
+ */
+const KEYBOARD_CHANNELS = new Set(['linkedin']);
+
+/** Every draft under `writing/<channel>/drafts/` for the channels `keyboard` selects, relative to the root. */
+function draftFiles(keyboard: boolean): string[] {
   const writingDir = path.join(process.cwd(), 'writing');
   if (!fs.existsSync(writingDir)) return [];
   return fs
     .readdirSync(writingDir)
+    .filter((channel) => KEYBOARD_CHANNELS.has(channel) === keyboard)
     .map((channel) => path.join('writing', channel, 'drafts'))
     .filter((dir) => fs.existsSync(dir))
     .flatMap((dir) =>
@@ -89,10 +98,16 @@ const RULES: Rule[] = [
     pattern: /--/g,
   },
   {
-    hint: 'a typeset dash in a channel post’s text — type --',
-    files: draftFiles,
+    hint: 'keyboard punctuation in a typeset channel’s post — use —, “…” (or «…» in Russian) and ’',
+    files: () => draftFiles(false),
     spans: postTextSpans,
-    pattern: /—/g,
+    pattern: /--|["']/g,
+  },
+  {
+    hint: 'typeset punctuation in a keyboard channel’s post — type --, " and \'',
+    files: () => draftFiles(true),
+    spans: postTextSpans,
+    pattern: /[«»—‘’“”]/g,
   },
 ];
 

@@ -20,6 +20,11 @@
       "comment": 4396639106,
       "about": "Have the prose-quotes check fail on -- in served prose too",
       "verdict": 1
+    },
+    {
+      "comment": 4396720833,
+      "about": "Fail curly quotes in channel posts too, or narrow the Voice rule",
+      "verdict": 0.3
     }
   ]
 }
