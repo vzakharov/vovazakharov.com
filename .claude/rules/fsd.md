@@ -42,7 +42,7 @@ tree is its ancestors' layers overlaid, plus its own. So:
   and one barrel per app cannot hold the `server-only` / `node-safe` split.
 - **An app may have several parents.** A diamond is harmless — inheriting is
   only the right to import, nothing overrides anything — and two ancestors may
-  hold slices of the same name, the importer renaming one where it needs both.
+  hold slices of the same name, the importer renaming each where it needs both.
 - **An app with no ancestors is plain FSD**, so every FSD project is a one-app
   MASD project.
 
@@ -64,9 +64,10 @@ so: a `game` between `kernel` and `mushrooms` waits for a second game.
 Lowest (most generic) first, each optional per app:
 
 - **`shared/`** — segments carrying no page composition. `kernel` holds the
-  repo-wide ones (`config`, `i18n`, `seo`, `typings`, `lib/*`); an app adds its
-  own (`shell/shared/ui`, `blog/shared/content`, `music/shared/catalogue`,
-  `basilisk/shared/content`, `blog/shared/article-slots`).
+  repo-wide ones (`cache`, `config`, `i18n`, `seo`, `typings`, `lib/*`); an app
+  adds its own (`shell/shared/ui`, `blog/shared/content`,
+  `music/shared/catalogue`, `basilisk/shared/content`,
+  `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
   cards, its body and its sources), `basilisk/entities/case` (its brief),
   music's `cover`, `hook` and `song`.
@@ -142,29 +143,32 @@ as `shared/config` is.
     and puts `constructMetadata` behind the other, because `vova/pages/cv`'s URL
     module reads the suffix and a client component reads that; `shared/config`
     puts `BUILD_YEAR` behind it, which is evaluated once per deploy and would
-    otherwise re-evaluate at hydration. A fence wants a reason of that kind: a
-    dependency's weight is not one, since removing the dependency removes the
-    fence and whatever was built on it.
+    otherwise re-evaluate at hydration. `music/shared/catalogue` puts
+    `readCatalogueNames` behind it, the one module there without the import: it
+    reads `node:fs`, and its test and a script load it bare. A fence wants a
+    reason of that kind: a dependency's weight is not one, since removing the
+    dependency removes the fence and whatever was built on it.
   - **`index.node-safe.ts`** is the bundler axis: what resolves under an app's
-    `scripts/` and its tests, which run with none — so the graph behind it
-    spells its extensions, holds no CSS, JSX or asset import, and carries no
-    `server-only`, which throws outside a React server bundle. `shared/config`
-    has one, over `resolveSiteId`, blog's `shared/content` one over the
-    collection registry and the mermaid paths, and `entities/case` one over the
-    grade stamp's text, which the case's social card prints. A script reaching
-    past a public API into a leaf is the smell that this barrel is missing.
-    Carrying no `server-only`, it is also the client components' entry into a
-    segment whose `index.ts` is server-only: `music/shared/catalogue`'s, where
-    the player and the hook line take what they read.
-- **`index.test-only.ts` is a test's entry, and no one else's** (`TEST_API` in
-  `eslint/masd-graph.ts`): what a test reads of a lower slice that nothing in
+    `scripts/` and its tests, which run with none — so the graph behind it holds
+    no CSS, JSX or asset import, and carries no `server-only`, which throws
+    outside a React server bundle. `shared/config` has one, over
+    `resolveSiteId`, blog's `shared/content` one over the collection registry
+    and the mermaid paths, and `entities/case` one over the grade stamp's text,
+    which the case's social card prints. A script reaching past a public API
+    into a leaf is the smell that this barrel is missing. Carrying no
+    `server-only`, it is also the client components' entry into a segment whose
+    `index.ts` is server-only: `music/shared/catalogue`'s, where the player and
+    the hook line take what they read.
+- **`index.test-only.ts` is test code's entry, and no one else's** (`TEST_API`
+  in `eslint/masd-graph.ts`): what a test reads of a lower slice that nothing in
   production does — a constant it pins, a helper it calls on its own. A test
   checking a lower module on the screens a page lays out sits in that page, and
   enters the module's slice by this barrel beside its public API — the
   `index.node-safe.ts` one where the slice's `index.ts` loads a module that
-  needs a browser, as the game's Phaser does. `boundaries` lets only a
-  `*.test.ts` take it, so the public API stays what production reads; Steiger
-  reads any `index.*` as an entry.
+  needs a browser, as the game's Phaser does. `boundaries` lets only test code
+  (`TEST_CODE`: a `*.test.ts`, or a kit `@.claude/rules/testing.md` describes)
+  take it, so the public API stays what production reads; Steiger reads any
+  `index.*` as an entry.
 - **`shared/lib` has no root barrel.** It is addressed one sub-library at a time
   (`@/kernel/shared/lib/class-names`), each **a single file** and its own public
   API — nothing sits beside it to hide, so `boundaries` lets the layers above
@@ -202,10 +206,11 @@ as `shared/config` is.
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
   directly, since scripts have no public API, but every layer — its own app's
-  included — only through one; it never reaches root `scripts/`, which holds the
-  repo's and the agent's tooling. A script several sites run splits like the
-  sitemap: a core in the lowest app that owns the work, and an entry per site in
-  its leaf app — `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
+  included — only through one, its tests through `index.test-only.ts` as well;
+  it never reaches root `scripts/`, which holds the repo's and the agent's
+  tooling. A script several sites run splits like the sitemap: a core in the
+  lowest app that owns the work, and an entry per site in its leaf app —
+  `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported
   identifiers keep their PascalCase (`card.tsx` exports `Card`).
 - **The checkers run with the stock recommended ruleset and two overrides**,
@@ -269,13 +274,10 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   markdown it serves, root `styles/` and the Sass partial it holds — is reached
   by URL or relative path, not by alias. Inside `src/`, a relative import stays
   in its slice, its segmented layer or its app's `scripts/`, and anything past
-  that is reached by alias — `vova/no-relative-escape` holds it. An app's
-  `scripts/` run outside any bundler: they spell the alias out under `tsx`, and
-  a relative path with its extension when they run under bare Node, which
-  follows no alias — the rule's one exemption, derived from the `node <file>`
-  entries in `package.json` and what they import.
-- **`eslint/masd-graph.ts` imports relatively and spells its extensions**, since
-  ESLint loads it under jiti and the scripts under bare Node.
+  that is reached by alias — `vova/no-relative-escape` holds it. Every script
+  runs outside any bundler, under `tsx`, which follows the alias.
+- **`eslint/masd-graph.ts` imports relatively**, since ESLint loads it under
+  jiti, which does not follow the alias.
 - **next-intl's request config is found by path, not by import.** Each site's
   `next.config.ts` names `../../src/kernel/shared/i18n/request.ts` explicitly;
   moving that file means editing both. The path is relative to the site
