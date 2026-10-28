@@ -122,6 +122,7 @@ export const COLLECTIONS = {
     homeIndexed: true,
     generatedCards: false,
     feed: true,
+    bylined: true,
   },
 } as const satisfies Record<
   CollectionId,
