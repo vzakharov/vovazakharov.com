@@ -1,30 +1,22 @@
-Proposed squash title/body:
+Proposed squash body:
 
 ```
-chore: report clusters inside a slice that earn a slice of their own (#228)
-```
+Finding a cluster inside a slice that earns a slice of its own runs on
+the dominator tree of the slice's import graph, and that tree exists
+only for a DAG. madge found 18 import cycles in src/, so the graph is
+made acyclic first and held so.
 
-```
-check:masd tests whether a slice holds up as a module. It could not say
-when a slice has grown two, which was the third open direction in
-docs/masd.md.
+pnpm check:cycles runs madge over src/, type-only imports counted,
+since two files importing each other through types still cannot go to
+different slices. vet runs it beside check:masd, and docs/masd.md
+names it as the fourth checker.
 
-pnpm masd:clusters bisects each slice of an app's file-import graph. A
-split earns its keep when its halves share fewer edges than a
-degree-preserving rewiring would put between them, that is when
-2·a_S·a_T − e_ST > 0. This is the same null model check:masd uses, so
-nothing is tuned. Both halves must also be modules by check:masd's own
-test, which keeps any single file from counting as a cluster. Barrels
-are contracted out, since a slice's door takes no side. The report
-names the edges crossing the cut in each direction, because a slice
-extracted from another may not import back up.
-
-The script nominates cuts and does not gate. Nouns draw a cut and
-modularity tests it, so /five-percent runs the report on the slices a
-diff touches and offers a split as an optional alternative. On landing,
-it nominates the CV sheet inside vova/pages/cv, the case's seal, the
-collection index page beside the article page, and a document's
-listing beside its body. docs/masd.md records these.
+Every cycle was a type or a hook declared in the wrong file, and each
+moved down to a file of its own or to its one reader rather than being
+copied to both sides: the chip row's Chip, the flower stand, the
+insect's base types and the butterfly's genes, places and legs in the
+flight model, the flier's offer, the player's controls and its
+context. No behaviour changes.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
