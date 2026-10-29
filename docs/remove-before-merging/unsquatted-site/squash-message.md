@@ -8,20 +8,25 @@ visitor's browser asks each registry's RDAP itself, with DNS-over-HTTPS
 as a hint where a registry's RDAP refuses browsers.
 
 The checker looks a name up as it is typed, with a Check button and a
-dice that rolls a faker word pair. A typed zone or a domain hack
-(fuckapp -> fuck.app) leads the grid of twelve zones, three rows of them
-shown. The query rides in the URL hash, one history step per name. Free
-rows show Porkbun's price, read at build, so a pricing failure fails the
-build. A taken name says when it is up for grabs only in RDAP's pending
-delete, since before that the owner can still renew. The listed names
-are re-checked on load and grow through pages/home/model/picks.json.
+dice that rolls a word pair. Any zone Porkbun sells can lead the grid
+of twelve common ones: typed, or as a domain hack (agenticbible ->
+agentic.bible), a leading zone splitting off only where both halves are
+dictionary words (lovepage -> page.love). Prices are Porkbun's,
+read at build, so a pricing failure fails the build. A taken name shows
+its expiry date on hover, and says when it is up for grabs only in
+RDAP's pending delete, since before that the owner can still renew.
+The query rides in the URL hash, one history step per name.
+
+The listed names are files under public/picks/, re-checked on load; a
+pick past its shownUntil date leaves the list and its file stays.
 
 Shell gains three hooks that are no-ops for the other sites: an accent
 colour token, a --radius-default property and a fontVariables slot on
-the root layout. Tooltip and Loader join the styles check's interaction
-list, because a static export never renders them. The site is wired as
-a receiver (vzakharov/unsquatted.com) in deploy, vet, preview and
-publish-site.sh, with its Umami site and Open Graph card.
+the root layout. Music's genius-style NotedSpan moves to shell for both
+sites, and kernel gains fetchOk, which makes a fetcher name the error
+class it throws. The site is wired as a receiver
+(vzakharov/unsquatted.com) in deploy, vet, preview and publish-site.sh,
+with its Umami site and Open Graph card.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
