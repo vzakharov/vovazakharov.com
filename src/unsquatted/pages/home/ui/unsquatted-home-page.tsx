@@ -34,8 +34,8 @@ export async function UnsquattedHomePage() {
         <header>
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
           <div className={classes['lede']}>
-            {LEDE}{' '}
-            <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>.
+            {LEDE} <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>
+            .
           </div>
           <div className={classes['lede']}>
             {COPY.pledge} {COPY.coffeePrompt}{' '}
