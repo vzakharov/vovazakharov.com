@@ -6,7 +6,16 @@ import {
   type InsectKind,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { caughtAloft, evicted, firstFlight, flightAway, isShying, released, startled, type Swarm, ticked } from '../index.test-only';
+import { firstFlight, flightAway } from './flight';
+import {
+  caughtAloft,
+  evicted,
+  isShying,
+  released,
+  startled,
+  type Swarm,
+  ticked,
+} from './insects';
 
 const PERCHES = {
   caps: ['mushroom-1', 'mushroom-2'],

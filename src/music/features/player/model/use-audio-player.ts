@@ -17,25 +17,9 @@ import {
   type WithTracks,
 } from '@/music/shared/catalogue/index.node-safe';
 
-import { createDecks, type Decks } from './decks';
+import { createDecks, currentTrack, type Decks, initialRadioPlayerState, isQueued, placeTracks, type PlayerControls, radioPlayerReducer, type RadioPlayerState, seguePositions, shouldRestart, upcomingTrack, useMediaSession, useStation,type WithControls } from '../station';
 import { createFetchingDeck, isIOS } from './fetching-deck';
-import type { PlayerControls, WithControls } from './player-controls';
-import {
-  currentTrack,
-  isQueued,
-  placeTracks,
-  seguePositions,
-  shouldRestart,
-  upcomingTrack,
-} from './player-state';
-import {
-  initialRadioPlayerState,
-  radioPlayerReducer,
-  type RadioPlayerState,
-} from './radio-state';
-import { useMediaSession } from './use-media-session';
 import { usePlayerKeys } from './use-player-keys';
-import { useStation } from './use-station';
 import { useStoredSetting } from './use-stored-setting';
 
 /**

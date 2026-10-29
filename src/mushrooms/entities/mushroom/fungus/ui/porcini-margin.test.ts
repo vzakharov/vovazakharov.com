@@ -4,7 +4,10 @@ import { describe, it } from 'node:test';
 import { crescent } from '@/mushrooms/shared/lib/crescent';
 import { type Point, segmentCrossing } from '@/mushrooms/shared/lib/geometry';
 
-import { capOnCanvas, CURVE_STEPS, curveSteps, marginBand,mushroomGenes, type PorciniGenes } from '../index.test-only';
+import { mushroomGenes, type PorciniGenes } from '../model/mushroom-genes';
+import { capOnCanvas } from '../model/mushroom-outline';
+import { CURVE_STEPS, curveSteps } from '../model/mushroom-profile';
+import { marginBand } from './porcini-margin';
 
 /** The pairs of non-adjacent edges of the closed `outline` that cross. */
 function crossings(outline: readonly Point[]): Array<[number, number]> {

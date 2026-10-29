@@ -1,4 +1,4 @@
-export { stationOffset } from './model/station';
+export { stationOffset } from './station';
 export { AlbumPlayButton } from './ui/album-play-button';
 export { LaunchButtons } from './ui/launch-buttons';
 export { usePlayer } from './ui/player-context';

@@ -9,7 +9,8 @@ import {
   wingBeat,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { released, roostedPerches, sitsOut, startled, type Swarm, ticked, WAKE_MS, wingsShut } from '../index.test-only';
+import { released, startled, type Swarm, ticked } from './insects';
+import { roostedPerches, sitsOut, WAKE_MS, wingsShut } from './roost';
 
 const SIGHT = {
   caps: ['mushroom-1', 'mushroom-2', 'mushroom-3', 'mushroom-4'],

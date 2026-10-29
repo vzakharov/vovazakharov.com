@@ -11,7 +11,17 @@ import {
   type Places,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { dashesForCover, LINGER_MS, lingerOf, nearestShelter, type Perches, released, shelteredPerches, type Showered, startled, stayingDry,type Swarm, ticked } from '../index.test-only';
+import { released, startled, type Swarm, ticked } from './insects';
+import type { Perches } from './offered';
+import {
+  dashesForCover,
+  LINGER_MS,
+  lingerOf,
+  nearestShelter,
+  shelteredPerches,
+  type Showered,
+  stayingDry,
+} from './shelter';
 
 /** Where a perch stands, `x` butterfly sizes along one line at the clump's depth. */
 const at = (x: number) => ({ x, y: 0, fromEye: CLUMP_DISTANCE });

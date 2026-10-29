@@ -3,7 +3,9 @@ import { describe, it } from 'node:test';
 
 import { distanceToEdge, type Point } from '@/mushrooms/shared/lib/geometry';
 
-import { CURVE_STEPS, curveSteps, detailed,headOutlines, MUSHROOM_SPECIES, mushroomGenes, stemOutline } from '../index.test-only';
+import { MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
+import { headOutlines, stemOutline } from './mushroom-outline';
+import { CURVE_STEPS, curveSteps, detailed } from './mushroom-profile';
 
 /** Drawn sizes from a far, tiny mushroom to a near one, in px to its unit. */
 const DRAWN = Array.from({ length: 60 }, (_, index) => 4 + index * 4);
