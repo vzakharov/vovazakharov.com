@@ -76,18 +76,20 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 
 ## Left
 
-1. **Price in `grab →` on the card** (operator: «в grab посмотреть влезет ли
-   цена или слишком уже шумно будет») — mocked, not built: `$11/yr grab →` wraps
-   on long names; `grab · $11 →` fits. Waiting on the operator's pick. Built,
-   the card would print Porkbun's live price, so a reprice re-flags the card and
-   `content:og --check` in vet goes red until re-rendered.
-2. **Card's four** — built as the top-scored four (the card takes the list's
-   head); asked the operator whether to keep that or show the newest.
-3. Ask the operator whether `may be available →` (DNS-only "maybe") should also
-   read `grab →`; it was left as is because it promises less.
-4. Squash proposal: mention the generated card and the lede if `/squash-message`
+1. **/five-percent's two optional proposals** (pullrequestreview-5696304712):
+   the card reading only picks without `shownUntil`, so a date passing cannot
+   turn `content:og --check` red; the tagline derived from the lede by
+   `generateMetadata`. Asked the operator.
+2. Squash proposal: mention the generated card and the lede if `/squash-message`
    judges them record-worthy.
-5. `/polish`, then `/pr`.
+3. `/pr`.
+
+Settled by the operator: the card shows the four top-scored picks («4 лучших»),
+its heading 24px above the list («24 кажется норм»); no price on the card («не
+надо»); `maybe` reads `grab-ish →` («grab-ish»); `share-card.mock.svg` stays for
+a later "share" button that draws the card in the browser («пока сохранить для
+будущего пользования … тут этого не делаем»). `/polish` ran (4dd0130, c7a7fc3),
+`/five-percent` posted.
 
 The squash proposal is re-synced (7617eb6). The title keeps `feat(unsquatted):`:
 the shell, kernel and music changes leave the other sites looking as they did

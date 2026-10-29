@@ -20,7 +20,7 @@
   "verdict": {
     "pending": "checking…",
     "free": "grab →",
-    "maybe": "may be available →",
+    "maybe": "grab-ish →",
     "taken": "taken",
     "takenSince": "taken {year}",
     "expires": "Registered until {date}",
