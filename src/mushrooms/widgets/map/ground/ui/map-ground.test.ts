@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { fromMap, type MapFrame } from '../model/map-frame';
+import { fromMap, type MapFrame } from '../../frame';
 import { mapGround } from './map-ground';
 
 const box = { left: 20, right: 1160, top: 20, bottom: 800, corner: 9 };

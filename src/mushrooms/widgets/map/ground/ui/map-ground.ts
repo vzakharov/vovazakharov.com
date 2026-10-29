@@ -24,7 +24,7 @@ import {
   SOFT_EDGE,
 } from '@/mushrooms/entities/landscape/index.node-safe';
 
-import { fromMap, type MapFrame, onMap } from '../model/map-frame';
+import { fromMap, type MapFrame, onMap } from '../../frame';
 
 /** About how far apart tufts stand on the map, in CSS px: a cell's side, whatever the zoom. */
 const TUFT_SPACING = 30;

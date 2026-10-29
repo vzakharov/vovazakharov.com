@@ -47,8 +47,8 @@ import {
   mapFrame,
   onMap,
   thingScale,
-} from '../model/map-frame';
-import { drawMapGround } from './draw-map-ground';
+} from '../../frame';
+import { drawMapGround } from '../../ground';
 import { drawChild, drawView } from './map-child';
 import { drawCompass } from './map-compass';
 

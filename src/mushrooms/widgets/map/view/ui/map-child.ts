@@ -5,7 +5,7 @@ import { fillShape, PALETTE, strokeShape } from '@/mushrooms/shared/ui';
 import { type Camera, D_SEE, type Eye } from '@/mushrooms/shared/world';
 import { azimuthAt } from '@/mushrooms/entities/landscape';
 
-import { headingOnMap, type MapFrame, onMap } from '../model/map-frame';
+import { headingOnMap, type MapFrame, onMap } from '../../frame';
 
 const CHILD_RADIUS = 5;
 const ARROW = 16;

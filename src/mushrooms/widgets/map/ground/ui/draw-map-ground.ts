@@ -4,7 +4,7 @@ import { mix } from '@/mushrooms/shared/lib/colour';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 import { fillMottles } from '@/mushrooms/entities/landscape/index.node-safe';
 
-import type { MapFrame } from '../model/map-frame';
+import type { MapFrame } from '../../frame';
 import { type GroundBox, mapGround } from './map-ground';
 
 /** How far the map's wash goes from the meadow's ground toward its sunlit ground: a lighter green, so the things and the child's marker stand out on it. */
