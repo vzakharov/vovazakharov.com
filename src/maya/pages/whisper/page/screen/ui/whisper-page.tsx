@@ -9,9 +9,9 @@ import { documentRoute, localizedRoute } from '@/blog/shared/content';
 
 import { MayaByline, messages as mayaMessages } from '@/maya/entities/maya';
 
-import { typewriterMessages, WhisperTypewriter } from '../../typewriter';
+import { typewriterMessages, WhisperTypewriter } from '../../../typewriter';
+import { whisperPath } from '../../metadata';
 import { messages as whisperMessages } from '../config/i18n';
-import { whisperPath } from '../lib/whisper-metadata';
 import { LEXICON } from '../model/lexicon';
 
 const { commit, words } = LEXICON;

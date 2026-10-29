@@ -1,1 +1,1 @@
-export { whisperRoute } from './ui/whisper-route';
+export { whisperRoute } from './route';
