@@ -93,9 +93,27 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
   (`LASTING_PICKS` for the card), f8b4675 (page metadata from the lede); replies
   posted on both threads.
 
+## Third round (export at 6e07f87, eight threads, all replied)
+
+- **T03** — cc06528d: `vova/error-class-name`, `errorClass`'s argument equals
+  its constant, autofixed.
+- **T04** — e5072f1b: `asError` + `NonErrorThrown` in kernel's `error-class.ts`,
+  six catch sites in kernel, blog, mushrooms, unsquatted. Touches
+  `kernel/shared`, so vet at `/finalize` runs with `VET_MEADOW=1`.
+- **T05** — 30c812aa: byline lower case; meta description capitalizes it.
+- **T06** — 7780ea52: `ZONES` drops `si`, `de` for `sh`, `gg`. Asked which of
+  `.to .tv .cc .page .fyi .link` to add.
+- **T07** — 8033ec76: `price.ts` (type + `priceParts`) apart from `prices.ts`;
+  `lookup.ts` on `zod/mini`; page scripts 313 → 242 KB gz. Asked whether the
+  poison-check extension (no classic zod / build-time packages from client
+  roots) goes here, on its own branch, or to an issue.
+- **T08** — issue #235. **T09, T10** — answered, no change.
+
 ## Left
 
-1. `/finalize`.
+1. `/polish`, `/pr` for the third round.
+2. The two answers above, if they come.
+3. `/finalize`.
 
 Settled by the operator: the card shows the four top-scored picks («4 лучших»),
 its heading 24px above the list («24 кажется норм»); no price on the card («не
