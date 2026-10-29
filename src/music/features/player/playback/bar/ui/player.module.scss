@@ -1,5 +1,5 @@
-@use '../../../../../styles/mantine' as mantine;
-@use '../../../shared/styles/index' as styles;
+@use '../../../../../../../styles/mantine' as mantine;
+@use '../../../../../shared/styles/index' as styles;
 
 // Pinned rather than in flow: the bar is the one control that has to stay
 // reachable while the reader is anywhere in a song's prose.
@@ -185,23 +185,4 @@
   &[aria-pressed='true'] {
     border-color: var(--color-foreground);
   }
-}
-
-// The bar is out of flow, so it would otherwise cover whatever a page ends
-// with. Clearance is the bar's own concern, which is why the provider renders
-// this rather than every page under `/music` knowing the bar's height.
-.playerClearance {
-  height: 144px;
-
-  @include mantine.larger-than(mantine.$breakpoint-sm) {
-    height: 96px;
-  }
-}
-
-// Mantine emits a variant's colours as inline `--ai-*` vars, which no class can
-// reach — so an engaged control states the two properties itself. Unlayered, so
-// it outranks `@layer mantine` without needing specificity.
-.controlOn {
-  color: var(--color-background);
-  background: var(--color-foreground);
 }

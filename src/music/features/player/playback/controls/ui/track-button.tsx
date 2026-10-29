@@ -12,8 +12,7 @@ import {
   type WithTrack,
 } from '@/music/shared/catalogue/index.node-safe';
 
-import classes from './player.module.scss';
-import { usePlayer } from './player-context';
+import { CONTROL_ON, usePlayer } from '../../context';
 
 /** Whether this track is the one playing, and the toggle that plays or pauses it. */
 export function useTrackPlayback(track: PlayerTrack) {
@@ -42,7 +41,7 @@ export function TrackButton({ track }: WithTrack) {
       size="lg"
       radius="xl"
       onClick={toggle}
-      className={cx(playing && classes['controlOn'])}
+      className={cx(playing && CONTROL_ON)}
       aria-label={`${playing ? labels.pause : labels.play} ${title}`}
     >
       {playing ? <Pause size={16} /> : <Play size={16} />}

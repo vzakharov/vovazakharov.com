@@ -21,9 +21,9 @@ import { cx } from '@/kernel/shared/lib/class-names';
 
 import { hasLossless } from '@/music/shared/catalogue/index.node-safe';
 
-import { useStoredSetting, type WithVolume } from '../model/use-stored-setting';
+import { CONTROL_ON, usePlayer } from '../../context';
+import { useStoredSetting, type WithVolume } from '../../setting';
 import classes from './player.module.scss';
-import { usePlayer } from './player-context';
 
 let volumeSettable = true;
 let probed = false;
@@ -120,7 +120,7 @@ function LosslessToggle() {
 
   return (
     <UnstyledButton
-      className={cx(classes['losslessChip'], lossless && classes['controlOn'])}
+      className={cx(classes['losslessChip'], lossless && CONTROL_ON)}
       onClick={() => {
         setLossless(!lossless);
       }}

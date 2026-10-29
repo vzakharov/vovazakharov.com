@@ -5,9 +5,12 @@ import { Radio } from 'lucide-react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
 
-import classes from './player.module.scss';
-import { usePlayer } from './player-context';
-import { useOnRadioPage, useOpenRadio } from './use-open-radio';
+import {
+  CONTROL_ON,
+  useOnRadioPage,
+  useOpenRadio,
+  usePlayer,
+} from '../../context';
 
 /**
  * The bar's way to the radio, pressed while tuned in. It never tunes out:
@@ -26,7 +29,7 @@ export function RadioToggle() {
       variant="default"
       size="lg"
       radius="xl"
-      className={cx(state.radio && classes['controlOn'])}
+      className={cx(state.radio && CONTROL_ON)}
       onClick={openRadio}
       aria-label={labels.radio}
       aria-pressed={state.radio}

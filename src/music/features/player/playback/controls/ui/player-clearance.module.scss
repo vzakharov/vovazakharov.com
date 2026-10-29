@@ -1,0 +1,12 @@
+@use '../../../../../../../styles/mantine' as mantine;
+
+// The bar is out of flow, so it would otherwise cover whatever a page ends
+// with. Clearance is the bar's own concern, which is why the provider renders
+// this rather than every page under `/music` knowing the bar's height.
+.playerClearance {
+  height: 144px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    height: 96px;
+  }
+}

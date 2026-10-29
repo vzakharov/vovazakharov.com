@@ -5,8 +5,8 @@ import { Pause, Play } from 'lucide-react';
 
 import type { WithTrack } from '@/music/shared/catalogue/index.node-safe';
 
-import type { Playing } from '../../station';
-import type { WithPlayerLabels } from './player-context';
+import type { Playing } from '../../../station';
+import type { WithPlayerLabels } from '../../context';
 import { useTrackPlayback } from './track-button';
 
 export type ListenButtonProps = WithPlayerLabels &

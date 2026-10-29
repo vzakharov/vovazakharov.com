@@ -1,3 +1,6 @@
+// A client module, for the reason `use-station.ts` gives.
+'use client';
+
 import { useEffect } from 'react';
 
 import type { WithLocale } from '@/kernel/shared/i18n';

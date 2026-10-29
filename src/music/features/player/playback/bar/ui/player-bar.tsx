@@ -12,10 +12,10 @@ import { NameLink } from '@/shell/shared/ui';
 import { formatDuration } from '@/music/shared/lib/duration';
 import { BillingLinks, Spelling } from '@/music/shared/ui';
 
-import { useStoredSetting } from '../model/use-stored-setting';
+import { CONTROL_ON, usePlayer } from '../../context';
+import { useStoredSetting } from '../../setting';
 import { Marquee } from './marquee';
 import classes from './player.module.scss';
-import { usePlayer } from './player-context';
 import { RadioToggle } from './radio-toggle';
 import { VolumeControl } from './volume-control';
 
@@ -105,7 +105,7 @@ export function PlayerBar() {
           variant="default"
           size="lg"
           radius="xl"
-          className={classes['controlOn']}
+          className={CONTROL_ON}
           onClick={toggle}
           aria-label={state.playing ? labels.pause : labels.play}
         >
@@ -126,7 +126,7 @@ export function PlayerBar() {
           variant="default"
           size="lg"
           radius="xl"
-          className={cx(state.shuffled && classes['controlOn'])}
+          className={cx(state.shuffled && CONTROL_ON)}
           onClick={shuffle}
           aria-label={labels.shuffle}
           aria-pressed={state.shuffled}

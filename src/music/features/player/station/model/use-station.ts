@@ -1,3 +1,7 @@
+// A client module: the feature's barrel reaches it through `station`'s from
+// server pages, which take `stationOffset` and never call the hook.
+'use client';
+
 import { type ActionDispatch, useEffect, useMemo, useRef } from 'react';
 
 import type {

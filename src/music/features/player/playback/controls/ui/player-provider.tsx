@@ -8,14 +8,14 @@ import type { WithChildren } from '@/kernel/shared/typings';
 
 import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
 
-import { useAudioPlayer } from '../model/use-audio-player';
-import classes from './player.module.scss';
-import { PlayerBar } from './player-bar';
+import { useAudioPlayer } from '../../audio';
+import { PlayerBar } from '../../bar';
 import {
   PlayerContext,
   type PlayerContextValue,
   type PlayerLabels,
-} from './player-context';
+} from '../../context';
+import classes from './player-clearance.module.scss';
 
 export type PlayerProviderProps = WithChildren &
   WithTracks & {

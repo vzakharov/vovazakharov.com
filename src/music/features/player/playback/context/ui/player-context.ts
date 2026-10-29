@@ -6,8 +6,8 @@ import type { WithLocale } from '@/kernel/shared/i18n';
 
 import type { Messages } from '@/music/shared/i18n';
 
-import type { PlayerControls } from '../../station';
-import type { QueuedPlayback } from '../model/use-audio-player';
+import type { PlayerControls } from '../../../station';
+import type { QueuedPlayback } from '../../audio';
 
 /** The bar's own words, in one language, as the catalogue spells them. */
 export type PlayerLabels = Messages['player'];

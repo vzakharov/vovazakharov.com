@@ -33,10 +33,10 @@ import {
   useMediaSession,
   useStation,
   type WithControls,
-} from '../../station';
+} from '../../../station';
+import { useStoredSetting } from '../../setting';
 import { createFetchingDeck, isIOS } from './fetching-deck';
 import { usePlayerKeys } from './use-player-keys';
-import { useStoredSetting } from './use-stored-setting';
 
 /**
  * The seed is the action's, not the reducer's: a permutation has to be

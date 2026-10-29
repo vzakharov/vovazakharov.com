@@ -2,8 +2,8 @@
 
 import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
 
-import { isQueued, placeTracks } from '../../station';
-import { usePlayer } from './player-context';
+import { isQueued, placeTracks } from '../../../station';
+import { usePlayer } from '../../context';
 import { ListenButton } from './song-play-button';
 
 /**

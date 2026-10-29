@@ -7,7 +7,7 @@ import {
   dueNext,
   listen,
   refusal,
-} from '../../station';
+} from '../../../station';
 
 /** A file the deck holds or fetches, and the in-memory copy it plays once there is one. */
 type Copied = Sourced & Partial<WithUrl>;
