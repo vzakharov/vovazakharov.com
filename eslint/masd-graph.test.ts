@@ -135,6 +135,6 @@ describe('subSlicePath', () => {
 
   it('reads a folder inside a segment as part of that segment', () => {
     assert.deepEqual(subSlicePath(['ui', 'backdrop']), []);
-    assert.deepEqual(subSlicePath(['i18n', 'messages']), []);
+    assert.deepEqual(subSlicePath(['config', 'i18n', 'messages']), []);
   });
 });

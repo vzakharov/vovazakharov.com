@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 16,
+    "inputTokens": 40,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 65590,
-    "cacheReadTokens": 798807,
-    "outputTokens": 1466,
-    "thinkingTokens": 172,
-    "responses": 8,
-    "costUsd": 0.7138654000000001
+    "cacheWrite1hTokens": 106439,
+    "cacheReadTokens": 2504735,
+    "outputTokens": 6685,
+    "thinkingTokens": 1595,
+    "responses": 20,
+    "costUsd": 1.486319
   },
   "estimate": {
     "at": "2026-10-29T04:49:47.049Z",
@@ -28,41 +28,43 @@
     "comment": null
   },
   "orientation": {
-    "endedBy": null,
-    "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedBy": "Edit",
+    "endedOn": "eslint/masd-graph.ts",
+    "endedAt": "2026-10-29T04:50:32.887Z",
+    "contextTokens": 152968,
     "spend": {
-      "inputTokens": 16,
+      "inputTokens": 30,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 65590,
-      "cacheReadTokens": 798807,
-      "outputTokens": 1466,
-      "thinkingTokens": 172,
-      "responses": 8,
-      "costUsd": 0.7138654000000001
+      "cacheWrite1hTokens": 100974,
+      "cacheReadTokens": 1732395,
+      "outputTokens": 4658,
+      "thinkingTokens": 1486,
+      "responses": 15,
+      "costUsd": 1.247551
     }
   },
   "sessionId": "02ea5b6c-4087-51ac-b93f-f7055da5f40a",
   "branch": "claude/masd-slice-clusters-q7r4tm",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — проверки подслайсов MARS готовы, дальше go: нарезать кластеры в подслайсы и описать их в обоих masd.md",
-  "prs": [],
+  "prs": [
+    228
+  ],
   "url": "https://claude.ai/code/session_01DaohkDnoakgX1SC8nKZLvV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T04:49:27.405Z",
-  "lastResponseAt": "2026-10-29T04:49:48.376Z",
+  "lastResponseAt": "2026-10-29T04:52:00.891Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 16,
+    "inputTokens": 40,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 65590,
-    "cacheReadTokens": 798807,
-    "outputTokens": 1466,
-    "thinkingTokens": 172,
-    "responses": 8,
-    "costUsd": 0.7138654000000001
+    "cacheWrite1hTokens": 106439,
+    "cacheReadTokens": 2504735,
+    "outputTokens": 6685,
+    "thinkingTokens": 1595,
+    "responses": 20,
+    "costUsd": 1.486319
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 16,
+      "inputTokens": 40,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 65590,
-      "cacheReadTokens": 798807,
-      "outputTokens": 1466,
-      "thinkingTokens": 172,
-      "responses": 8,
-      "costUsd": 0.7138654000000001
+      "cacheWrite1hTokens": 106439,
+      "cacheReadTokens": 2504735,
+      "outputTokens": 6685,
+      "thinkingTokens": 1595,
+      "responses": 20,
+      "costUsd": 1.486319
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 8,
-    "matched": 8,
-    "matchedTableUsd": 0.7138654000000001,
-    "matchedEventUsd": 0.7138654000000001,
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 1.486319,
+    "matchedEventUsd": 1.4863190000000002,
     "unseen": {}
   }
 }

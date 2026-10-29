@@ -19,11 +19,11 @@ export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
 
 /**
- * The segments a slice is cut into: FSD's standard ones, and `i18n`, whose
- * one-file folders would otherwise each read as a sub-slice too small to earn
- * its cut. Any other folder directly in a slice or a sub-slice is a sub-slice.
+ * The segments a slice is cut into: FSD's standard ones, a slice's catalogue
+ * being `config/i18n`. Any other folder directly in a slice or a sub-slice is a
+ * sub-slice.
  */
-export const SEGMENTS = ['ui', 'model', 'lib', 'api', 'config', 'i18n'];
+export const SEGMENTS = ['ui', 'model', 'lib', 'api', 'config'];
 
 /**
  * The sub-slices a file below a slice root sits in, outermost first, as their

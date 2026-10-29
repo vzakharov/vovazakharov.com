@@ -9,7 +9,7 @@ import { documentRoute, localizedRoute } from '@/blog/shared/content';
 
 import { MayaByline, messages as mayaMessages } from '@/maya/entities/maya';
 
-import { messages as whisperMessages } from '../i18n';
+import { messages as whisperMessages } from '../config/i18n';
 import { whisperPath } from '../lib/whisper-metadata';
 import { LEXICON } from '../model/lexicon';
 import { WhisperTypewriter } from './whisper-typewriter';

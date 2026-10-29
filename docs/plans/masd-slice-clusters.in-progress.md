@@ -94,8 +94,9 @@ Nothing built yet. In discussion, the search changed:
 ## Rest of the elephant
 
 - **Promotion's destination** stays a call per case; nothing proposes one.
-- **Renaming MASD to MARS** across files and scripts (`masd.json`, `check:masd`,
-  …) — asked of the operator, not done in this bite.
+- **Later (in or outside this PR — tbd): renaming MASD to MARS** across files
+  and scripts (`masd.json`, `check:masd`, …). The operator: «посмотрим ближе к
+  концу».
 - **Tune the cluster report against what it prints**: a bar above `ΔQ > 0`,
   clusters with two doors (siblings under the slice's one barrel, which no
   single closure covers), whether `/five-percent` reads it, acting on findings
