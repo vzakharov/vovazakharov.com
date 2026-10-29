@@ -17,8 +17,9 @@ opened, the rest on open, hover or focus. Prices are Porkbun's, read at
 build, so a pricing failure fails the build; the browser checks
 registry answers with type guards of its own, since zod would ship with
 them. A taken name shows its expiry date on hover, and says when it is
-up for grabs only in RDAP's pending delete, since before that the owner can still renew. The query
-rides in the URL hash, one history step per name.
+up for grabs only in RDAP's pending delete, since before that the
+owner can still renew. The query rides in the URL hash, one history
+step per name.
 
 The listed names are files under public/picks/, re-checked on load and
 ordered by a float score in their frontmatter, so a new name slots in
