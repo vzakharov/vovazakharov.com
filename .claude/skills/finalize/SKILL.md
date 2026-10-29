@@ -108,6 +108,15 @@ Steps (stop on first unresolved failure):
    run goes on. `/sync-branch`'s own vet run counts as the re-run's
    `./scripts/vet.sh`. `no vet` skips the re-run as it skips this step.
 
+   **Before the vet run,
+   `python3 scripts/five-percent-verdicts/answered.py <PR>`** — a check vet
+   cannot hold, since it reads the PR's threads. It stops the run on each
+   `/five-percent` proposal the operator answered that has no row in the
+   branch's verdict ledger, naming its comment. The fix is the missing rows,
+   recorded per `@.claude/skills/five-percent/verdicts.md` and committed, so the
+   vet run that follows covers them. `no vet` does not skip it: a docs-only
+   branch can carry a proposal too.
+
 2. **Merge the base branch**: load `@.claude/skills/sync-branch/SKILL.md` and
    follow it, passing `no vet` in `no vet` mode. It owns the merge — the
    conflicts committed as git left them, the resolution in a commit of its own,
