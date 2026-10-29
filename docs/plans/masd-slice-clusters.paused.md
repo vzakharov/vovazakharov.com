@@ -148,27 +148,21 @@ Nothing built yet. In discussion, the search changed:
 ## Rest of the bite
 
 - **Done since:** the CV's edition promoted to `vova/entities/cv` on «ага»
-  (6f6719b) — `check:masd` names a promotion but never its destination, which is
-  the operator's call — and the page cut into `sheet/` + `route/`.
+  (6f6719b) and the page cut into `sheet/` + `route/`. Steiger's
+  `fsd/forbidden-imports` and `fsd/no-segmentless-slices` off in exactly the
+  slices holding sub-slices (`slicesWithSubSlices`, imported by
+  `steiger.config.mjs`; 569cb6e), on «да, steiger отключать где мы покрыли» —
+  `lint:fsd` green. A promotion to a slice lists the layers it may land on, or
+  says none is (569cb6e holds the code, ffe6448 the tests). The operator's
+  review on the staged rule (bloat, meadow-game archaeology) answered by
+  trimming it to what every edit under `src/` needs (54d08b4), both threads
+  replied to.
 - **The gate's last hit is inside `cv/sheet`**: `cv-sheet` (6 files) and
   `cv-profile-sheet` + `cv-offer-block`, both taking `case-study-link`,
   `cv-bullets` and `cv-section` from the rest, `cv-page` and `cv-files` above.
   `cv.module.scss` serves all of them, so it splits by class per sub-slice first
   (as `player.module.scss` did into `CONTROL_ON` and the clearance sheet).
-- **Steiger is red on every unit holding sub-slices**, since the predecessor's
-  first restructures: it reads `home/work` as a slice of a group `home`, so a
-  sibling import is `fsd/forbidden-imports` and the parent
-  `fsd/no-segmentless-slices`. Both are covered here — boundaries holds the
-  imports, `check:masd` the unit's shape — so the fix is turning the two off for
-  exactly the units holding sub-slices, which `scripts/lint-fsd.ts` can compute.
-  That is a suppression: asked of the operator, not built. **Approved**: «да,
-  steiger отключать где мы покрыли».
-- **`check:masd`'s promotion message lists the legal destinations**: the layers
-  below the lowest consumer and above everything the promoted piece imports, the
-  noun and layer staying the operator's call. Approved: «второе тоже по твоему
-  предложению».
-- **A PR review the operator just submitted** (from an earlier session, posted
-  now) is unread: export and handle it.
+- **Then the bite's end**: `/polish`, then `/pr`.
 
 - **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
   `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
@@ -180,7 +174,8 @@ Nothing built yet. In discussion, the search changed:
 
 ## Rest of the elephant
 
-- **Promotion's destination** stays a call per case; nothing proposes one.
+- **Promotion's destination** stays a call per case; `check:masd` narrows it to
+  the legal layers and picks none.
 - **Later (in or outside this PR — tbd): renaming MASD to MARS** across files
   and scripts (`masd.json`, `check:masd`, …). The operator: «посмотрим ближе к
   концу».
