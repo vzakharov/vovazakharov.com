@@ -1,23 +1,24 @@
-# PR #229: chore: /five-percent proposals as a checked yes-or-no question
+# PR #229: chore: /five-percent proposals put the problem before the proposal
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/229
-- **Author:** @vzakharov (human)
+- **Author:** @vzakharov (agent)
 - **Base ← Head:** main ← claude/five-percent-comment-readability-afrpg0
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-28T17:38:33Z
-- **Updated:** 2026-10-29T08:42:59Z
+- **Updated:** 2026-10-29T09:31:49Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 1
+## Awaiting an answer: 2
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 940e387). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `scripts/five-percent-proposal/check.py`:32 — unresolved — last: @vzakharov (human) 2026-10-29T08:42:59Z — "эта проверка вообще не нужна; проблема была не в том что упо…" → [↓](#t01)
+- **T01** `writing/notes/five-percent-verdicts/claude/five-percent-comment-readability-afrpg0/verdicts.json`:2 — unresolved — last: @vzakharov (human) 2026-10-29T09:29:41Z — "1- давай сюда записывать ещё и причины, как оператор принял/…" → [↓](#t01)
+- **T02** `.claude/skills/five-percent/procedure.md`:107 — unresolved — last: @vzakharov (human) 2026-10-29T09:31:40Z — ""Сейчас:" писать необязательно, оно даёт какое-то ощущение с…" → [↓](#t02)
 
 ---
 
@@ -25,24 +26,22 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 ## Summary
 
-- **The operator could not read `/five-percent` proposals, let alone decide on them.** Each was one dense paragraph: it led with what the change took as given, buried the alternative after an arrow, and spoke in the plan's and the code's names (dominators, ΔQ, «Eaten so far», add/add, `segmentOrder`). A three-part template was already asked for on #227, and the very next pass on #228 ignored it.
-- **A proposal now shows three lines**: a bold question a yes or a no answers, what the change does now, and what taking it costs, in the operator's nouns. The evidence goes in a `<details>` fold for the session that acts on the answer (`.claude/skills/five-percent/procedure.md` § "Posting").
-- **`scripts/five-percent-proposal/check.py` holds that floor**, so it no longer rests on a template being read: the shape, a 60-word cap on the visible lines, and no code spans, paths, links or code-cased names in them. The pass runs it on every body before posting; `vet` runs its tests in the `five-percent` entry.
-- **Backfilled:** the five proposals on #225, #227 and #228 that had no answer yet were rewritten in place into the new shape (same threads, same comment ids, so the verdict ledger is unaffected). Answered ones were left as they stood.
+- **The operator could not read `/five-percent` proposals, let alone decide on them.** Each was one dense paragraph: it led with what the change took as given, buried the alternative after an arrow, and stacked clause on clause. A three-part template was already asked for on #227, and the very next pass on #228 ignored it.
+- **A proposal now shows three lines, each one plain sentence**: «Сейчас» (what the change does and what is wrong with that), then the bold «Предлагаю», then «Цена». The problem comes first, because a proposal read before its problem cannot be weighed. Naming files and functions is fine; burying the point under them is not. The evidence goes in a `<details>` fold for the session that acts on the answer (`.claude/skills/five-percent/procedure.md` § "Posting").
+- **No check script.** An earlier commit here added `scripts/five-percent-proposal/check.py` to ban code names in the visible lines and enforce a question-first order; the operator's answer on this PR rejected both, so it is gone with its `vet` entry.
+- **Backfilled:** the five proposals on #225, #227 and #228 that had no answer yet were rewritten in place (same threads, same comment ids, so the verdict ledger is unaffected). Answered ones were left as they stood.
 
 ## QA Checklist
 
-- [ ] `backfill-read` — open the five rewritten proposals ([#225 ui order](https://github.com/vzakharov/vovazakharov.com/pull/225#discussion_r4400513027), [#225 folder without code](https://github.com/vzakharov/vovazakharov.com/pull/225#discussion_r4400513964), [#227 signature hook](https://github.com/vzakharov/vovazakharov.com/pull/227#discussion_r4399907804), [#228 rule](https://github.com/vzakharov/vovazakharov.com/pull/228#discussion_r4399207940), [#228 clusters](https://github.com/vzakharov/vovazakharov.com/pull/228#discussion_r4399929174)): each is answerable with a yes or a no on one read, and «Подробнее» unfolds the evidence.
-- [ ] `check-old` — `python3 scripts/five-percent-proposal/check.py` on any pre-change proposal body fails, naming what is wrong.
-- [ ] `next-pass` — the next `/five-percent` run on any PR posts proposals in the new shape.
+- [ ] `backfill-read` — open the rewritten proposals ([#225 ui order](https://github.com/vzakharov/vovazakharov.com/pull/225#discussion_r4400513027), [#225 folder without code](https://github.com/vzakharov/vovazakharov.com/pull/225#discussion_r4400513964), [#227 signature hook](https://github.com/vzakharov/vovazakharov.com/pull/227#discussion_r4399907804), [#228 clusters](https://github.com/vzakharov/vovazakharov.com/pull/228#discussion_r4399929174)): each reads problem, proposal, cost on one pass, and «Подробнее» unfolds the evidence.
+- [ ] `next-pass` — the next `/five-percent` run on any PR posts proposals in the new order, each line one plain sentence.
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
 | `backfill-read` | manual-only | — | whether a person can parse it is the point |
-| `check-old` | unit | ✅ | `test_check.py` — a paragraph, jargon, an unlabelled line, past the cap, a doubled footer |
 | `next-pass` | manual-only | — | a subagent's output on a live PR |
 
-https://claude.ai/code/session_01DaohkDT4fvBDNrmuyRw9h3
+https://claude.ai/code/session_01DaohkBes2os7cMQ73eA76j
 
 ---
 
@@ -61,19 +60,15 @@ Proposed squash body:
 ```
 The operator could not read /five-percent's proposals, let alone decide
 on them: each was one dense paragraph that opened on what the change
-took as given, left the alternative after an arrow mid-way, and spoke in
-the plan's and the code's names. A template asking for three parts had
-already been ignored by the very next pass.
+took as given, left the alternative after an arrow mid-way, and stacked
+clause on clause. A template asking for three parts had already been
+ignored by the very next pass.
 
-A proposal now shows three lines in the operator's nouns: a bold
-question a yes or a no answers, what the change does now, and what
-taking it costs. The evidence, with every file and function name, goes
-in a <details> fold for the session that acts on the answer.
-
-scripts/five-percent-proposal/check.py holds that floor rather than a
-template being read: the shape, a 60-word cap on the visible lines and
-no code spans, paths, links or code-cased names in them. The pass runs
-it on each body before posting, and vet runs its tests.
+A proposal now shows three lines, each one plain sentence: what the
+change does and what is wrong with that, then the proposal in bold,
+then what taking it costs. The problem comes first, since a proposal
+read before its problem cannot be weighed. The evidence goes in a
+<details> fold for the session that acts on the answer.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -94,54 +89,59 @@ _2026-10-28T17:40:54Z_
 
 <!-- five-percent: 3f186d7bed73d90b30942cf748dec1ffbee4c5bf -->
 
-_1 resolved thread omitted; re-run with `--include-resolved` to export it._
+<a id="r02"></a>
 
-- **T01** `scripts/five-percent-proposal/check.py`:32 — unresolved — last: @vzakharov (human) 2026-10-29T08:42:59Z — "эта проверка вообще не нужна; проблема была не в том что упо…" → [↓](#t01)
+### R02 — Review by @vzakharov (agent) — COMMENTED
+
+_2026-10-29T08:49:18Z_
+
+[https://github.com/vzakharov/vovazakharov.com/pull/229#pullrequestreview-5695020062](https://github.com/vzakharov/vovazakharov.com/pull/229#pullrequestreview-5695020062)
+
+**/five-percent**: одно предложение, критических нет.
+
+<!-- five-percent: 52f5b6ae790d96a313d1070ca0b3ab78b1ed5926 -->
+
+_3 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `writing/notes/five-percent-verdicts/claude/five-percent-comment-readability-afrpg0/verdicts.json`:2 — unresolved — last: @vzakharov (human) 2026-10-29T09:29:41Z — "1- давай сюда записывать ещё и причины, как оператор принял/…" → [↓](#t01)
+- **T02** `.claude/skills/five-percent/procedure.md`:107 — unresolved — last: @vzakharov (human) 2026-10-29T09:31:40Z — ""Сейчас:" писать необязательно, оно даёт какое-то ощущение с…" → [↓](#t02)
 
 <a id="t01"></a>
 
-### `scripts/five-percent-proposal/check.py`:32 — unresolved
+### `writing/notes/five-percent-verdicts/claude/five-percent-comment-readability-afrpg0/verdicts.json`:2 — unresolved
 
 ```diff
-@@ -0,0 +1,81 @@
-… 21 lines elided …
-+FOOTER = ["---", "_Generated by [Claude Code](https://claude.ai/code)_"]
-+VISIBLE_WORDS_MAX = 60
-+
-+# Names only the code or the plan gives a thing; the operator's own nouns pass.
-+JARGON = {
-+    "a code span": re.compile(r"`"),
-+    "a link": re.compile(r"https?://"),
-+    "a path": re.compile(r"\w/\w"),
-+    "a camelCase name": re.compile(r"\b[a-z]+[A-Z]\w*"),
-+    "a snake_case name": re.compile(r"\b[A-Za-z]+_[A-Za-z]\w*"),
-+}
+@@ -0,0 +1,3 @@
++{"pr": 229, "verdicts": [
++  {"comment": 4404026987, "about": "Judge proposal lines by a cold-reader subagent, not jargon regexes", "verdict": 0.1}
 ```
 
-**@vzakharov (agent)** — 2026-10-28T17:40:40Z
+**@vzakharov (human)** — 2026-10-29T09:29:41Z
 
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**/five-percent** · optional
+1- давай сюда записывать ещё и причины, как оператор принял/отклонил
+2- если оператор НИКАК не отреагировал (бывает, не до того) -- не записывать  вообще
+3- при финалайзе нужно будет пройтись по уже записанным вердиктам (vet должен падать если нового поля нет)
 
-**Отдавать три строки на суд читателю, не видевшему ни плана, ни правок, вместо списка шаблонов?**
-Сейчас: проверка ловит только слова, похожие на код, и пропускает «ΔQ», «доминаторы» и «Eaten so far» — то, из-за чего #228 и было не прочесть.
-Цена: лишний вызов агента на каждое предложение, и его вердикт — суждение, которое vet не прогонит.
+---
 
-<details><summary>Подробнее</summary>
+<a id="t02"></a>
 
-Тело PR называет непонятными на #228 четыре вещи: dominators, ΔQ, «Eaten so far», add/add. Из них `JARGON` в `scripts/five-percent-proposal/check.py` ловит одну — `add/add`, и то регуляркой пути `\w/\w`. Проба на этой ветке — тело с вопросом «Считать ΔQ по поддеревьям доминаторов вместо замыканий?» и строкой «план в «Eaten so far» остановился на доминаторах» проходит с кодом 0.
+### `.claude/skills/five-percent/procedure.md`:107 — unresolved
 
-Причина в том, кто пишет: процедура сама говорит, что имена плана и кода «come first to hand» тому, кто их только что читал. Тот же агент не увидит в них жаргона, а регулярка видит только форму слова (обратные кавычки, слэш, camelCase, snake_case), не то, знает ли его Вова.
+```diff
+@@ -96,31 +96,44 @@ body as text, no thread resolved — and two differences:
+… 11 lines elided …
+ **/five-percent** · optional
+ 
+-<what the change took as given>
++<Now>: <what the change does, and what is wrong with that>
+```
 
-Вариант: после `check.py` — субагент, которому дают только три строки (без плана, диффа и свёртки) и спрашивают, что предлагается и чем это грозит; если пересказ не сходится с намерением — переписать. `check.py` остаётся полом формы.
+**@vzakharov (human)** — 2026-10-29T09:31:40Z
 
-</details>
+"Сейчас:" писать необязательно, оно даёт какое-то ощущение структурированности, а не просто общения. Просто описываешь как сейчас, почему этопроблема. "Предлагаю:" и "Цена:" с новых абзацев -- ок.
 
-**@vzakharov (human)** — 2026-10-29T08:42:59Z
-
-эта проверка вообще не нужна; проблема была не в том что упоминаются какие-то штуки из кода, это нормально, а что в принципе всё было написано трёхэтажно.
-
-в текущем варианте (на примере этого коммента) НЕ нравится начало с вопроса. Зачем мне задают вопрос до того, как я пойму, в чём проблема?
+(на текущих комментариях -- тех которые правил в этой сессии -- можно задогфудить, да)
 
 ---
 
@@ -149,3 +149,9 @@ _1 resolved thread omitted; re-run with `--include-resolved` to export it._
 
 - **2026-10-28T17:38:58Z** @vzakharov renamed from «chore: /five-percent proposals open on a yes-or-no question, under a check» to «chore: /five-percent proposals as a checked yes-or-no question».
 - **2026-10-28T17:40:54Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/229#pullrequestreview-5687099722.
+- **2026-10-29T08:49:18Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/229#pullrequestreview-5695020062.
+- **2026-10-29T08:50:29Z** @vzakharov renamed from «chore: /five-percent proposals as a checked yes-or-no question» to «chore: /five-percent proposals put the problem before the proposal».
+- **2026-10-29T08:57:28Z** @vzakharov cross-referenced this pull request from [#228 chore: sub-slices inside a slice under check:masd, on an acyclic src/](https://github.com/vzakharov/vovazakharov.com/pull/228).
+- **2026-10-29T09:01:32Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/22a95adbe3cdc38ab4401ddb78df315aa97bc725.
+- **2026-10-29T09:22:31Z** @vzakharov cross-referenced this pull request from [#231 feat(unsquatted): unsquatted.com, free domain names and a checker](https://github.com/vzakharov/vovazakharov.com/pull/231).
+- **2026-10-29T09:31:49Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/229#pullrequestreview-5695501761.
