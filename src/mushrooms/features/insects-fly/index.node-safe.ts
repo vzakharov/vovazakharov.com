@@ -1,14 +1,35 @@
-export { airAlofts, blockedFor, EVERY_ONE,firstFlight, flowerFreed, givesWay, type Held, INSECT_LIMITS, isSeat, LINGER_MS, lingerOf, nextFlight, type Perches, released, type Sight, startled, type Swarm, ticked } from './flight/index.node-safe';
-export type { Glinting } from './ui/firefly-view';
-export { foldedHead } from './ui/flower-seat';
-export { restingOn } from './ui/perch-hosts';
 export {
+  airAlofts,
+  blockedFor,
+  EVERY_ONE,
+  firstFlight,
+  flowerFreed,
+  givesWay,
+  type Held,
+  INSECT_LIMITS,
+  isSeat,
+  LINGER_MS,
+  lingerOf,
+  nextFlight,
+  type Perches,
+  released,
+  type Sight,
+  startled,
+  type Swarm,
+  ticked,
+} from './flight/index.node-safe';
+export {
+  foldedHead,
   footRows,
+  type Glinting,
   MOST_OVERLAP,
   onscreenOf,
   PERCH_REACH,
+  perchAnchorOf,
   perchSight,
   perchSpot,
+  restingOn,
+  ScenePerches,
   seatAt,
-} from './ui/perch-sight';
-export { perchAnchorOf, ScenePerches, type TappedThrough } from './ui/perches';
+  type TappedThrough,
+} from './perch/index.node-safe';

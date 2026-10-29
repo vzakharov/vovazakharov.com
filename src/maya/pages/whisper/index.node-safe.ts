@@ -3,5 +3,4 @@
  * behind this barrel spells its extension and reaches no CSS, JSX or
  * `server-only`.
  */
-
 export { fold } from './typewriter/index.node-safe.ts';

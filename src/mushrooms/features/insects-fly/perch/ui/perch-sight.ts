@@ -77,7 +77,15 @@ import {
   toCanvas,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import { airOf, airSpots, clumpRow, crowdings, seatsWith, type Sight, type Track } from '../flight';
+import {
+  airOf,
+  airSpots,
+  clumpRow,
+  crowdings,
+  seatsWith,
+  type Sight,
+  type Track,
+} from '../../flight';
 import { roomFor } from './bee-room';
 import { discCovered } from './shelter-cover';
 

@@ -17,7 +17,7 @@ import {
   type MushroomGenes,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import type { Alofted } from '../flight';
+import type { Alofted } from '../../flight';
 import { dropped, perchSpot, shelterDrop } from './perch-sight';
 
 /** Where an insect sits on a perch: a seat on a host, or a spot in the open air as a fixed point in the world. */
