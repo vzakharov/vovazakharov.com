@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 138854,
+    "cacheWrite1hTokens": 190367,
+    "cacheReadTokens": 15885619,
+    "outputTokens": 48708,
+    "thinkingTokens": 15795,
+    "responses": 96,
+    "costUsd": 6.3692578000000015
+  },
+  "estimate": {
+    "at": "2026-10-29T12:09:31.836Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "two small ESLint/poison-style rules, an error helper across three apps and a client/server split need judgement about the import graph"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "choosing which Porkbun zones every name is checked in needs market reading, not code"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T12:07:39.786Z",
+    "contextTokens": 104675,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56033,
+      "cacheReadTokens": 443393,
+      "outputTokens": 1126,
+      "thinkingTokens": 99,
+      "responses": 5,
+      "costUsd": 0.5595026
+    }
+  },
+  "sessionId": "46736027-0614-5da5-884c-2e99e4fa4eb9",
+  "branch": "claude/unsquatted-site",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/unsquatted-site",
+  "prs": [
+    231
+  ],
+  "url": "https://claude.ai/code/session_01RAikuvYhx5R1FDdLyYvrA5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T12:07:17.717Z",
+  "lastResponseAt": "2026-10-29T12:22:12.983Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 156,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 190367,
+    "cacheReadTokens": 14048755,
+    "outputTokens": 43049,
+    "thinkingTokens": 13125,
+    "responses": 78,
+    "costUsd": 5.194291000000001
+  },
+  "subagents": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 138854,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1836864,
+    "outputTokens": 5659,
+    "thinkingTokens": 2670,
+    "responses": 18,
+    "costUsd": 1.1749667999999998
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 192,
+      "cacheWrite5mTokens": 138854,
+      "cacheWrite1hTokens": 190367,
+      "cacheReadTokens": 15885619,
+      "outputTokens": 48708,
+      "thinkingTokens": 15795,
+      "responses": 96,
+      "costUsd": 6.3692578000000015
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 96,
+    "matched": 96,
+    "matchedTableUsd": 6.3692578000000015,
+    "matchedEventUsd": 6.3692578000000015,
+    "unseen": {}
+  }
+}
