@@ -115,8 +115,27 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 
 1. `/five-percent` over c7a7fc34..HEAD: the polish run's pass ran out of
    budget and posted nothing.
-2. The two answers above, if they come.
-3. `/finalize`.
+2. Fourth round, from the export at 23354298 (`## Awaiting an answer: 3`),
+   plus the operator's chat answer «2-да» — work these, reply on each thread:
+   - **T01** (`lookup.ts`:44): «.si это super intelligence … верни»; take the
+     proposed `.to .tv .cc .page .fyi .link`; check whether Porkbun sells
+     `.site`, `.website`, `.blog` (`.site` 1.96/28.84, `.blog` 2.57/21.11 seen
+     earlier; `.website` unchecked) and add them.
+   - **T03** (`CLAUDE.md`:1): the operator did not run `/finalize`; the
+     earlier reply (that the swap was finalize's first step) is wrong. Read
+     the screenshot in `docs/pr/231/attachments/`, find why 22c71f3d swapped
+     the staged files, and answer honestly.
+   - **T04** (`read-collection.ts`:86): «давай сделаем `withCause(error) = {
+     cause: asError(error) }`» — add it beside `asError` and use it at every
+     `{ cause: asError(error) }` site.
+   - **Chat, `/dry`'s call, «да»**: extract the dimmed-by-colour rule (a
+     `color-mix(in srgb, <colour> <pct>, transparent)` that keeps a
+     `NotedSpan` note from being trapped under the content below) into a
+     mixin in root `styles/`, used by `site-footer.module.scss` `.note`,
+     `unsquatted-home.module.scss` `.byline`, `radio.module.scss:34`,
+     `lyrics.module.scss:1`; the reason stated once.
+3. `/polish`, `/pr`.
+4. `/finalize` (with `VET_MEADOW=1`).
 
 Settled by the operator: the card shows the four top-scored picks («4 лучших»),
 its heading 24px above the list («24 кажется норм»); no price on the card («не
