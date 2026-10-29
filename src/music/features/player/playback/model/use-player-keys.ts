@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import type { PlayerControls } from '../station';
+import type { PlayerControls } from '../../station';
 
 /** How far a seek key moves, in seconds. */
 const SEEK_STEP = 5;
