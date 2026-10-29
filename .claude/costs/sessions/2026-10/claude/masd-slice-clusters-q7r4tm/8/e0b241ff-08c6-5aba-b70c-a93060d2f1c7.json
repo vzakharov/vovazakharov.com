@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 1299,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 83409,
+    "cacheReadTokens": 1749950,
+    "outputTokens": 7283,
+    "thinkingTokens": 3033,
+    "responses": 17,
+    "costUsd": 1.1585942
+  },
+  "estimate": {
+    "at": "2026-10-29T09:11:48.522Z",
+    "parts": [
+      {
+        "hours": 0.1,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "picking up a relayed branch means checking its state against the summary before anything else is decided on it"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-10-29T09:11:56.445Z",
+    "contextTokens": 111467,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59181,
+      "cacheReadTokens": 787795,
+      "outputTokens": 1727,
+      "thinkingTokens": 136,
+      "responses": 8,
+      "costUsd": 0.6656110000000001
+    }
+  },
+  "sessionId": "e0b241ff-08c6-5aba-b70c-a93060d2f1c7",
+  "branch": "claude/masd-slice-clusters-q7r4tm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — на все 11 тредов ревью #228 ответ дан, ждём решения оператора по четырём вопросам, потом handle",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD9Xj5M8KCBVXJQrsr",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T09:11:19.027Z",
+  "lastResponseAt": "2026-10-29T09:25:18.825Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 32,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 83409,
+    "cacheReadTokens": 1749950,
+    "outputTokens": 7048,
+    "thinkingTokens": 3033,
+    "responses": 16,
+    "costUsd": 1.15835
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 83409,
+      "cacheReadTokens": 1749950,
+      "outputTokens": 7048,
+      "thinkingTokens": 3033,
+      "responses": 16,
+      "costUsd": 1.15835
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1267,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 235,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00024419999999999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 16,
+    "matched": 15,
+    "matchedTableUsd": 1.0549169999999999,
+    "matchedEventUsd": 1.0549169999999999,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1267,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 235,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00024419999999999997
+      }
+    }
+  }
+}
