@@ -53,25 +53,27 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
   точной датой истечения») — b117b6f: the verdict keeps RDAP's `expiration`, and
   "taken" opens a `NotedSpan` with the date in UTC.
 
+- **Hacks second** — 1909bd1: `rowsFor` puts a split name right after `.com`.
+- **Card wordmark in Fraunces** (operator: «на карточке шрифт по-прежнему не тот
+  что в заголовке сайта») — 78c8673: staged from `@fontsource-variable/fraunces`
+  (opsz file), as basilisk stages its mono.
+- **T04's reply** posted (discussion_r4411061406).
+- **Lede** (operator: «давай Curated, blazing-fast, at regular prices.», since
+  the card read like a reseller such as brandbucket) — 767719a: new catalogue
+  key `ledeEnd`; page, card and tagline carry it.
+
 ## Left
 
-1. **Hacks second** (operator, in chat: «по "разрезаемым" именам (fuckapp →
-   fuck.app), давай таки совать их вторым номером после .com») — in the
-   checker's rows, a domain hack comes right after `.com`, ahead of the other
-   common zones. `rowsFor` in `lib/lookup.ts` orders them; pin it in
-   `lookup.test.ts`.
-2. **T04's reply** (comment 4410434793), in Russian: B chosen; the card is
-   generated from `public/picks/` and the catalogue (06648be), `grab →`
-   everywhere, the name field and `+ X more & counting`; D kept as
-   `src/unsquatted/scripts/lib/share-card.mock.svg`. The wordmark was always
-   DejaVu Serif Bold (Chromium's stand-in for Georgia; the site's own is
-   Fraunces) — the operator missed its n leaning on the s, which was the old
-   card's 120px; the card now sets it at 72px with -2px tracking.
-3. Ask the operator whether `may be available →` (DNS-only "maybe") should also
+1. **Price in `grab →` on the card** (operator: «в grab посмотреть влезет ли
+   цена или слишком уже шумно будет») — mocked, not built: `$11/yr grab →` wraps
+   on long names; `grab · $11 →` fits. Waiting on the operator's pick. Built,
+   the card would print Porkbun's live price, so a reprice re-flags the card and
+   `content:og --check` in vet goes red until re-rendered.
+2. Ask the operator whether `may be available →` (DNS-only "maybe") should also
    read `grab →`; it was left as is because it promises less.
-4. Squash proposal: mention the generated card if `/squash-message` judges it
-   record-worthy.
-5. `/polish`, then `/pr`.
+3. Squash proposal: mention the generated card and the lede if `/squash-message`
+   judges them record-worthy.
+4. `/polish`, then `/pr`.
 
 The squash proposal is re-synced (7617eb6). The title keeps `feat(unsquatted):`:
 the shell, kernel and music changes leave the other sites looking as they did
