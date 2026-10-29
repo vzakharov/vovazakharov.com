@@ -103,6 +103,19 @@ function verdictText(copy: Copy, text: string, verdict: Verdict | undefined) {
   );
 }
 
+/** A link to register the name; a maybe's says on hover why it is one. */
+function registerLink(copy: Copy, domain: string, state: State, text: string) {
+  const link = <TextLink href={registerUrl(domain)}>{text}</TextLink>;
+
+  if (state !== 'maybe') return link;
+
+  return (
+    <NotedSpan words={link} hoverOnly>
+      {copy.verdict.maybeWhy}
+    </NotedSpan>
+  );
+}
+
 /** One zone's answer, a link to register it where it is free or may be. */
 export function VerdictLabel({
   domain,
@@ -120,11 +133,9 @@ export function VerdictLabel({
   return (
     <>
       <span className={classes['verdict']} data-state={state}>
-        {registrable ? (
-          <TextLink href={registerUrl(domain)}>{text}</TextLink>
-        ) : (
-          verdictText(copy, text, verdict)
-        )}
+        {registrable
+          ? registerLink(copy, domain, state, text)
+          : verdictText(copy, text, verdict)}
       </span>
       {registrable && price !== undefined && <PriceHint {...{ price, copy }} />}
       {aside !== undefined && <span className={classes['aside']}>{aside}</span>}

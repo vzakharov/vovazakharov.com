@@ -21,6 +21,7 @@
     "pending": "checking…",
     "free": "grab →",
     "maybe": "grab-ish →",
+    "maybeWhy": "We can’t know for sure: this registry won’t talk to a browser. But the name has no DNS records, which usually means nobody owns it.",
     "taken": "taken",
     "takenSince": "taken {year}",
     "expires": "Registered until {date}",

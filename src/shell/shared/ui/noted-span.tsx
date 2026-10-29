@@ -8,7 +8,14 @@ import type { WithChildren } from '@/kernel/shared/typings';
 import classes from './noted-span.module.scss';
 
 /** The words the note hangs off, as set; the note itself is the children. */
-export type NotedSpanProps = WithChildren & { words: ReactNode };
+export type NotedSpanProps = WithChildren & {
+  words: ReactNode;
+  /**
+   * The words keep their own press — a link, say — so the note opens on a
+   * hover alone, and a pointer that cannot hover never sees it.
+   */
+  hoverOnly?: boolean;
+};
 
 /**
  * Who has the note open. A hover lets go when the pointer leaves; a press —
@@ -35,7 +42,11 @@ const HOVER_GRACE_MS = 150;
  * The note is a `<div>`, so the words never sit in a `<p>`: React rejects the
  * nesting at hydration.
  */
-export function NotedSpan({ words, children }: NotedSpanProps) {
+export function NotedSpan({
+  words,
+  children,
+  hoverOnly = false,
+}: NotedSpanProps) {
   const [opener, setOpener] = useState<Opener>();
   const closingRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -68,15 +79,21 @@ export function NotedSpan({ words, children }: NotedSpanProps) {
       floatingStrategy="fixed"
     >
       <Popover.Target>
-        <UnstyledButton
-          className={classes['notedSpan']}
-          onClick={() => {
-            setOpener((current) => (current === 'press' ? undefined : 'press'));
-          }}
-          {...hover}
-        >
-          {words}
-        </UnstyledButton>
+        {hoverOnly ? (
+          <span {...hover}>{words}</span>
+        ) : (
+          <UnstyledButton
+            className={classes['notedSpan']}
+            onClick={() => {
+              setOpener((current) =>
+                current === 'press' ? undefined : 'press',
+              );
+            }}
+            {...hover}
+          >
+            {words}
+          </UnstyledButton>
+        )}
       </Popover.Target>
       <Popover.Dropdown className={classes['note']} {...hover}>
         {children}

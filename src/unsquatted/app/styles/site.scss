@@ -4,7 +4,7 @@
 // over a plain sans, the names in the monospace, a green for what is free.
 // `--unsquatted-taken` and `--unsquatted-maybe` are the site's own, for the two
 // answers a lookup can give besides free, and so is `--unsquatted-muted`, the
-// small print's grey.
+// small print's grey. A note sits a shade off the paper.
 :root[data-site='unsquatted'] {
   --font-body: var(--font-public-sans), sans-serif;
   --font-display: var(--font-fraunces), serif;
@@ -13,6 +13,7 @@
   --unsquatted-muted: #5d6b63;
   --unsquatted-taken: #9a3b2e;
   --unsquatted-maybe: #8a6d1d;
+  --noted-span-background: #e6eae1;
 }
 
 @media screen {
@@ -32,6 +33,7 @@
     --unsquatted-muted: #9aa79f;
     --unsquatted-taken: #e08b7c;
     --unsquatted-maybe: #d8b860;
+    --noted-span-background: #232a25;
 
     @include tokens.colors(
       #131815,
