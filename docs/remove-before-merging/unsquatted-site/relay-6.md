@@ -40,8 +40,12 @@ The muthur sync offer was made; do not make it again.
 7. **Operator (mid-turn):** «24 кажется норм»
    - Agent: `maybe` reads "grab-ish →", mock's comment and tagline updated
      (bd9cd64); `/pr` refreshed the body and the squash proposal; asked
-     whether to take /five-percent's two proposals (verbatim in Last agent
-     turn).
+     whether to take /five-percent's two proposals; then parked on the
+     keepalive's wake.
+8. **Operator:** «превью можешь обновить? или уже?»
+   - Agent: published unsquatted to https://preview.vovazakharov.com from
+     8e80079 (run 40859323867, success); the five-percent question still open
+     (verbatim in Last agent turn).
 
 ## Intent
 
@@ -119,4 +123,16 @@ unneeded but harmless; the reply proper is usually its last paragraphs.
 Контекст сессии дошёл до предупреждения (~233k). Хендофф сейчас стоил бы ~$1.13 и почти ничего не сэкономил бы на следующих 100k: всё, что осталось, — это ответы на вопросы и `/pr`, так что дотяну здесь.
 
 Keepalive включён.
+```
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Ещё нет: последний раз превью выкладывали с 4dde509, а с тех пор много чего поменялось. Выкладываю сейчас.
+
+Keepalive снова включён, превью обновлено.
 ```
