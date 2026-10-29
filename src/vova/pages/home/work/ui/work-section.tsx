@@ -16,8 +16,8 @@ import { Card, Section, Subheading, TextLink } from '@/shell/shared/ui';
 
 import { FEATURED_CASE_STUDY_ROUTE } from '@/blog/shared/content';
 
-import { ReadCvButton } from './read-cv-button';
 import { ProjectCard } from './project-card';
+import { ReadCvButton } from './read-cv-button';
 import { TechLine } from './tech-line';
 
 /** Projects the grid names rather than cards, each a thing a big player later shipped as a standard. */
