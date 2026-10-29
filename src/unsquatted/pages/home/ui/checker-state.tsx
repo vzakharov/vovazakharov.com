@@ -32,7 +32,9 @@ type CheckerState = {
   settling: boolean;
   /** Looks up what is typed at once, without waiting for typing to pause. */
   checkTyped: () => void;
-  /** Puts `name` in the field and looks it up at once, the field in view. */
+  /** Puts `name` in the field and looks it up at once, where the field is. */
+  checkHere: (name: string) => void;
+  /** As `checkHere`, from below the field: scrolls back to the page's top. */
   checkNow: (name: string) => void;
   fieldRef: RefObject<HTMLInputElement | null>;
 };
@@ -65,10 +67,14 @@ export function CheckerProvider({ children }: WithChildren) {
     };
   }, [typed]);
 
-  const checkNow = (name: string) => {
+  const checkHere = (name: string) => {
     setTyped(name);
     ask(name);
-    fieldRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const checkNow = (name: string) => {
+    checkHere(name);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     fieldRef.current?.focus({ preventScroll: true });
   };
 
@@ -84,6 +90,7 @@ export function CheckerProvider({ children }: WithChildren) {
         checkTyped: () => {
           ask(typed);
         },
+        checkHere,
         checkNow,
         fieldRef,
       }}

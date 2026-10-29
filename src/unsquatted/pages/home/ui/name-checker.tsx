@@ -52,7 +52,7 @@ export function NameChecker({ copy }: WithCopy) {
     round,
     settling,
     checkTyped,
-    checkNow,
+    checkHere,
     fieldRef,
   } = useChecker();
   const [open, setOpen] = useState(false);
@@ -95,12 +95,17 @@ export function NameChecker({ copy }: WithCopy) {
           aria-label={copy.dice}
           title={copy.dice}
           onClick={() => {
-            rollName().then(checkNow, reportError);
+            rollName().then(checkHere, reportError);
           }}
         >
           <DiceIcon />
         </ActionIcon>
-        <Button type="submit" size="md" loading={busy}>
+        <Button
+          type="submit"
+          size="md"
+          loading={busy}
+          className={classes['check']}
+        >
           {copy.checkButton}
         </Button>
       </form>
