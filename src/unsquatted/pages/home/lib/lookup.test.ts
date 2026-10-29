@@ -44,7 +44,7 @@ describe('typedZone', () => {
 });
 
 /** `ZONES` and a few of the zones Porkbun sells besides. */
-const SOLD = [...ZONES, 'de', 'bible', 'design', 'tips', 'page', 'fo', 'desi'];
+const SOLD = [...ZONES, 'de', 'bible', 'design', 'tips', 'fo', 'desi'];
 
 /** A dictionary just big enough for the names below. */
 const WORDS = new Set([
