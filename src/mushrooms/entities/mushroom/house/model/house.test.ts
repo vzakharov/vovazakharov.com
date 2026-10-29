@@ -10,7 +10,19 @@ import {
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
 
-import { capBase,capOutlines, hasTrumpet, headOutlines, MUSHROOM_INK, MUSHROOM_SPECIES, type MushroomGenes, mushroomGenes, type Species, splayed, stemOutline } from '../fungus/index.test-only';
+import {
+  capBase,
+  capOutlines,
+  hasTrumpet,
+  headOutlines,
+  MUSHROOM_INK,
+  MUSHROOM_SPECIES,
+  type MushroomGenes,
+  mushroomGenes,
+  type Species,
+  splayed,
+  stemOutline,
+} from '../../fungus/index.test-only';
 import {
   DOOR_ASPECT,
   type DoorPlace,

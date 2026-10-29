@@ -3,7 +3,11 @@ import { describe, it } from 'node:test';
 
 import { containsPoint, type Point } from '@/mushrooms/shared/lib/geometry';
 
-import { capOnCanvas,MUSHROOM_SPECIES, mushroomGenes } from '../fungus/index.test-only';
+import {
+  capOnCanvas,
+  MUSHROOM_SPECIES,
+  mushroomGenes,
+} from '../../fungus/index.test-only';
 import { PANE, windowSlots } from '../model/house';
 import {
   tappedPart,

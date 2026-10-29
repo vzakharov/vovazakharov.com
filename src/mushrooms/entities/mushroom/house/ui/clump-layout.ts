@@ -24,7 +24,11 @@ import {
   scaleAt,
 } from '@/mushrooms/shared/world';
 
-import { OPENING_SPECIES, speciesHeight, speciesReach } from '../fungus/index.node-safe';
+import {
+  OPENING_SPECIES,
+  speciesHeight,
+  speciesReach,
+} from '../../fungus/index.node-safe';
 import {
   type Footed,
   grownOn,

@@ -4,7 +4,13 @@ import { describe, it } from 'node:test';
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 
-import { capBase, capSurface,inkWidth, MOUTH_LINE, mouthEdges } from '../fungus/index.test-only';
+import {
+  capBase,
+  capSurface,
+  inkWidth,
+  MOUTH_LINE,
+  mouthEdges,
+} from '../../fungus/index.test-only';
 import { iconGenes, iconSize, SPECIES_ICON_HEIGHT } from './icon-genes';
 
 /** The height of the middle point of a mouth's `edge`. */

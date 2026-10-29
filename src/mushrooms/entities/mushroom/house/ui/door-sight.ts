@@ -16,7 +16,16 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import type { Layered } from '@/mushrooms/shared/world';
 
-import { capOutlines, type MushroomGenes, mushroomGenes, type MushroomSeed, type Splayed, splayed,stemOutline, toCanvas } from '../fungus/index.node-safe';
+import {
+  capOutlines,
+  type MushroomGenes,
+  mushroomGenes,
+  type MushroomSeed,
+  type Splayed,
+  splayed,
+  stemOutline,
+  toCanvas,
+} from '../../fungus/index.node-safe';
 import {
   DOOR_ASPECT,
   type DoorPlace,

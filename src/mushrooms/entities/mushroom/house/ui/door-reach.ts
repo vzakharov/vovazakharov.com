@@ -10,7 +10,7 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 
-import { toCanvas } from '../fungus/index.node-safe';
+import { toCanvas } from '../../fungus/index.node-safe';
 import { type DoorPlace, onStem, paintedDoor } from '../model/house';
 
 /**

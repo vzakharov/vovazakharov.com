@@ -4,7 +4,13 @@ import {
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
 
-import { type MushroomGenes, TAP_PARTS, type TapArea, tapArea, toCanvas } from '../fungus/index.node-safe';
+import {
+  type MushroomGenes,
+  TAP_PARTS,
+  type TapArea,
+  tapArea,
+  toCanvas,
+} from '../../fungus/index.node-safe';
 
 /** Whether the parts of a mushroom as they are filled hold `at`, in `area`'s frame. */
 export function drawnHolds(area: TapArea, at: Point): boolean {

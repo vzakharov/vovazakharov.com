@@ -14,7 +14,11 @@ import {
   type Silhouette,
 } from '@/mushrooms/shared/world';
 
-import { type MushroomGenes, mushroomGenes, type MushroomSeed } from '../fungus/index.node-safe';
+import {
+  type MushroomGenes,
+  mushroomGenes,
+  type MushroomSeed,
+} from '../../fungus/index.node-safe';
 import type { Footed } from '../model/placement';
 import { placeIn, type Placement } from './clump-layout';
 import { standingWith } from './door-sight';

@@ -23,7 +23,20 @@ import {
   UNPLACED,
 } from '@/mushrooms/shared/world';
 
-import { type AreaHit, type Chorded, CURVE_STEPS, curveSteps, drawMushroom, drawMushroomShadow, type HazedGraphics, mushroomGenes, type MushroomLights, type Puffing, type Selected,type Spotted } from '../fungus';
+import {
+  type AreaHit,
+  type Chorded,
+  CURVE_STEPS,
+  curveSteps,
+  drawMushroom,
+  drawMushroomShadow,
+  type HazedGraphics,
+  mushroomGenes,
+  type MushroomLights,
+  type Puffing,
+  type Selected,
+  type Spotted,
+} from '../../fungus';
 import type { DoorPlace, Housed } from '../model/house';
 import type { Footed } from '../model/placement';
 import type { Planted, Sprouting } from '../model/planted';

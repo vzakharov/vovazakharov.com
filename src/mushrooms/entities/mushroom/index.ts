@@ -1,55 +1,74 @@
-export { capFrame, capOnCanvas, capSeat, capSurface, drawMushroom, MUSHROOM_SPECIES, type MushroomGenes, mushroomGenes, mushroomLights, MushroomSelection, type Puffing,type Species, splayed, stemHalfWidth, TAP_PARTS, type TapArea, tapArea, toCanvas } from './fungus';
 export {
+  capFrame,
+  capOnCanvas,
+  capSeat,
+  capSurface,
+  drawMushroom,
+  MUSHROOM_SPECIES,
+  type MushroomGenes,
+  mushroomGenes,
+  mushroomLights,
+  MushroomSelection,
+  type Puffing,
+  type Species,
+  splayed,
+  stemHalfWidth,
+  TAP_PARTS,
+  type TapArea,
+  tapArea,
+  toCanvas,
+} from './fungus';
+export {
+  type Body,
+  containsMushroom,
+  coveredAt,
+  coversShown,
   DOOR_ASPECT,
+  doorHitArea,
   type DoorPlace,
   doorStations,
+  drawnMushrooms,
+  drawnUnder,
+  flowerTakes,
   type Furnishing,
   FURNISHINGS,
   type House,
+  type HousePart,
+  iconGenes,
+  iconSize,
+  type Laid,
+  laidOf,
+  type Lights,
+  moveMushroom,
+  occupantsOn,
   onStem,
-  paintedSpots,
-  windowSlots,
-} from './model/house';
-export { OPENING_FEET } from './model/placement';
-export {
-  type Planted,
-  type Spore,
-  SPROUT_START,
-  type WithMushrooms,
-} from './model/planted';
-export { type Laid, laidOf, placeIn, sizeOn } from './ui/clump-layout';
-export type { Opener } from './ui/clump-shade';
-export { doorHitArea } from './ui/door-reach';
-export { tappedDoor } from './ui/door-tap';
-export {
+  type Opener,
+  OPENING_FEET,
   paintDoor,
+  paintedSpots,
   paintHouse,
+  paintLit,
   paintWindow,
+  placeIn,
+  type Planted,
+  type Shown,
+  shownMushrooms,
   type ShownWindow,
   SHUT_WINDOW,
-  type WindowSwing,
-} from './ui/draw-house';
-export { iconGenes, iconSize, SPECIES_ICON_HEIGHT } from './ui/icon-genes';
-export { coversShown, occupantsOn } from './ui/mushroom-cover';
-export { moveMushroom } from './ui/mushroom-frame';
-export {
-  containsMushroom,
-  drawnMushrooms,
-  shownMushrooms,
-} from './ui/mushroom-hits';
-export {
-  type Body,
-  paintLit,
-  type Shown,
+  sizeOn,
+  SPECIES_ICON_HEIGHT,
+  type Spore,
+  SPROUT_START,
   stepsHere,
-  unplacedShown,
-} from './ui/mushroom-shown';
-export { drawnUnder, flowerTakes } from './ui/mushroom-tap';
-export { coveredAt, WindowGlow, windowMiddles } from './ui/window-glow';
-export {
-  type HousePart,
+  tappedDoor,
   tappedPart,
+  unplacedShown,
   windowFace,
+  WindowGlow,
+  windowMiddles,
   windowReaches,
-} from './ui/window-reach';
-export { type Lights, windowsLit } from './ui/windows-lit';
+  windowsLit,
+  windowSlots,
+  type WindowSwing,
+  type WithMushrooms,
+} from './house';

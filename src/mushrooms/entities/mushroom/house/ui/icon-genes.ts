@@ -5,7 +5,15 @@
 
 import { sample } from '@/mushrooms/shared/lib/geometry';
 
-import { capSurface, CURVE_STEPS,GENE_RANGES, type MushroomGenes, mushroomGenes, type RussulaTone, type Species } from '../fungus/index.node-safe';
+import {
+  capSurface,
+  CURVE_STEPS,
+  GENE_RANGES,
+  type MushroomGenes,
+  mushroomGenes,
+  type RussulaTone,
+  type Species,
+} from '../../fungus/index.node-safe';
 
 /** How tall a picker button draws its mushroom, in the button's radius. */
 export const SPECIES_ICON_HEIGHT = 1.4;

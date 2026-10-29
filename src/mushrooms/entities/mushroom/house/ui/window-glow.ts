@@ -8,7 +8,10 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { type Brush, DUSK_WASH_DEEPEST, PALETTE } from '@/mushrooms/shared/ui';
 
-import { type MushroomGenes, mushroomTints } from '../fungus/index.node-safe';
+import {
+  type MushroomGenes,
+  mushroomTints,
+} from '../../fungus/index.node-safe';
 import { windowSlots } from '../model/house';
 import { paintWindows, type ShownWindow, windowPlace } from './draw-house';
 import type { DrawnMushroom } from './mushroom-hits';

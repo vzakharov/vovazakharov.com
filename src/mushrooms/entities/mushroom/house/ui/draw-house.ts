@@ -18,7 +18,13 @@ import {
   type Place,
 } from '@/mushrooms/shared/ui';
 
-import { capOnCanvas, haloFor, type MushroomGenes, mushroomTints,toCanvas } from '../fungus/index.node-safe';
+import {
+  capOnCanvas,
+  haloFor,
+  type MushroomGenes,
+  mushroomTints,
+  toCanvas,
+} from '../../fungus/index.node-safe';
 import {
   type DoorPlace,
   doorway,
