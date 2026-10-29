@@ -35,9 +35,9 @@ it is rooted instead**, its base empty and its directory that site's whole
 `public/`: the Bible is `sites/bible/public/`, and an article is
 `agentic.bible/<slug>` rather than repeating the collection's name after a
 domain that already says it. The pipeline stops at the hast tree and hands it to
-React through `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`)
-is where that happens. The paths below are written from the site directory,
-which is where every build and every render script is entered.
+React through `hast-util-to-jsx-runtime`; `ProseContent` (blog's `shared/ui`) is
+where that happens. The paths below are written from the site directory, which
+is where every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because
 `public/` is per site: every walk over the registry goes through
@@ -381,7 +381,7 @@ collections' documents; the rest is held by reading.
   this site is user-submitted; if that ever changes, this is the line that has
   to change with it.
 - **A tag in `CONTENT_COMPONENTS` is that component everywhere in every
-  document.** `prose-content.tsx` (`entities/document/ui/`) maps `video` to
+  document.** `prose-content.tsx` (blog's `shared/ui`) maps `video` to
   `ContentVideo`, so the print note above reaches a player the pipeline built
   and one an author typed as raw HTML alike — the map keys off the tag, not off
   who emitted it. That reach is the point of the map and the whole of its

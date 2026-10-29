@@ -69,8 +69,8 @@ Lowest (most generic) first, each optional per app:
   `music/shared/catalogue`, `basilisk/shared/content`,
   `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
-  cards, its body and its sources), `basilisk/entities/case` (its brief),
-  music's `cover`, `hook` and `song`.
+  cards and its sources), `basilisk/entities/case` (its brief), music's `cover`,
+  `hook` and `song`.
 - **`features/`** — user-facing capabilities: `shell/features/switch-theme`.
 - **`widgets/`** — composite blocks two page slices share:
   `shell/widgets/site-footer`, `music/widgets/catalogue-header`.

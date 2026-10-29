@@ -32,7 +32,8 @@ import {
   VARIANTS,
 } from '@/blog/shared/content';
 import { constructArticleMetadata } from '@/blog/shared/seo';
-import { ProseContent, SourceList } from '@/blog/entities/document';
+import { ProseContent } from '@/blog/shared/ui';
+import { SourceList } from '@/blog/entities/document';
 
 import { ArticleHeader } from './article-header';
 import classes from './documents.module.scss';

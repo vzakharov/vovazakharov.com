@@ -101,6 +101,7 @@ const DOCUMENT_SOURCES = [
   'src/shell/app/styles/prose.scss',
   'src/blog/entities/document',
   'src/blog/pages/documents/ui',
+  'src/blog/shared/ui',
   'src/blog/shared/content',
 ];
 
