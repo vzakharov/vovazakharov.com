@@ -4,4 +4,4 @@
  * `server-only`.
  */
 
-export { fold } from './model/hush.ts';
+export { fold } from './typewriter/index.node-safe.ts';
