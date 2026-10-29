@@ -20,7 +20,7 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
 })}`;
 
 /**
- * The lede's `*` and `ledeNote` are the social card's: here the pledge under
+ * The lede's `*` and `ledeNote` are the social card's: here the byline under
  * the lede says what the note would.
  */
 const LEDE = COPY.lede.replace('*', '');
@@ -47,8 +47,7 @@ export async function UnsquattedHomePage() {
             <NotedSpan words={<em>{COPY.blazing}</em>}>
               {COPY.blazingWhy}
             </NotedSpan>
-            {AFTER_BLAZING} {COPY.pledge} {COPY.coffeePrompt}{' '}
-            <NotedSpan words={COPY.coffeeLink}>{COPY.coffeeSoon}</NotedSpan>.
+            {AFTER_BLAZING}
           </div>
         </header>
 
@@ -79,6 +78,8 @@ export async function UnsquattedHomePage() {
 
         <SiteFooter onHomePage>
           {COPY.shoutOutPrompt}{' '}
+          <NotedSpan words={COPY.coffeeLink}>{COPY.coffeeSoon}</NotedSpan>{' '}
+          {COPY.shoutOutOr}{' '}
           <TextLink href={SHOUT_OUT}>{COPY.shoutOutLink}</TextLink>.
         </SiteFooter>
       </Stack>

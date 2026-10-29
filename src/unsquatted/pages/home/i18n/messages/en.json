@@ -1,11 +1,9 @@
 {
   "lede": "Good domain names nobody has grabbed* yet.",
   "ledeNote": "* No, not even us.",
-  "byline": "Curated list + {blazing} search.",
+  "byline": "Curated list · {blazing} search · no reselling · no affiliate links",
   "cardByline": "Curated, {blazing}.",
-  "pledge": "No reselling, no affiliate links.",
-  "coffeePrompt": "If it warms the cockles of your heart,",
-  "coffeeLink": "buy us a coffee",
+  "coffeeLink": "Buy us a coffee",
   "coffeeSoon": "Still looking for the coffee shop — stay tuned",
   "checkHeading": "Check a name",
   "blazing": "blazing-fast",
@@ -46,6 +44,7 @@
   },
   "price": { "then": ", then ", "perYear": "/yr" },
   "shoutOutPrompt": "Got hooked on rolling the dice?",
-  "shoutOutLink": "Give us a shout-out",
+  "shoutOutOr": "or",
+  "shoutOutLink": "give a shout-out",
   "shoutOutPost": "Check out {url}: [insert why you love it, or keep the placeholder for the lulz]"
 }

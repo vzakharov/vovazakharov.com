@@ -21,7 +21,13 @@ import { fileURLToPath } from 'node:url';
 import { siteConfig, withoutScheme } from '@/kernel/shared/config';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 
-import { COPY, LASTING_PICKS } from '@/unsquatted/pages/home/index.server-only';
+import {
+  COPY,
+  DICE_FACE,
+  DICE_FACES,
+  DICE_VIEW_BOX,
+  LASTING_PICKS,
+} from '@/unsquatted/pages/home/index.server-only';
 
 import { escapeHtml, type StagedPage } from '@/kernel/scripts/lib/og-render';
 
@@ -55,6 +61,22 @@ const MARK = `<svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"
         <rect width="64" height="64" rx="14" fill="${GREEN}" />
         <path d="M20 18v17a12 12 0 0 0 24 0V18" fill="none" stroke="${PAPER}" stroke-width="7" stroke-linecap="round" />
       </svg>`;
+
+/** Each die's face and pips, in the colours the page's light theme gives them. */
+const DICE_COLOURS = {
+  back: { face: PAPER, pips: INK },
+  front: { face: '#fff', pips: GREEN },
+};
+
+/** The page's dice button. */
+const DICE = `<svg viewBox="${DICE_VIEW_BOX}" width="34" height="34" fill="none" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
+${DICE_FACES.map(
+  ({ side, rotate, at: [x, y], pips }) => `          <g transform="${rotate}">
+            <rect x="${x}" y="${y}" width="${DICE_FACE.size}" height="${DICE_FACE.size}" rx="${DICE_FACE.radius}" fill="${DICE_COLOURS[side].face}" />
+            <g fill="${DICE_COLOURS[side].pips}" stroke="none">${pips.map(([cx, cy]) => `<circle cx="${cx}" cy="${cy}" r="${DICE_FACE.pipRadius}" />`).join('')}</g>
+          </g>`,
+).join('\n')}
+        </svg>`;
 
 /** The lede the headline, the card's own shorter byline under it. */
 function lede(): readonly [string, string] {
@@ -141,11 +163,16 @@ export function unsquattedCard(): StagedPage {
       .domain { font-family: ${MONO}; font-size: 27px; }
       .grab { font-size: 22px; color: ${GREEN}; }
       /* The room the list leaves splits evenly above and below the field. */
-      .field {
-        margin: auto 0;
-        padding: 10px 16px;
+      .checker { display: flex; gap: 12px; margin: auto 0; }
+      .field,
+      .dice {
         border: 2px solid ${RULE};
         border-radius: 10px;
+      }
+      .dice { display: flex; align-items: center; padding: 0 10px; background: ${PAPER}; }
+      .field {
+        flex: 1;
+        padding: 10px 16px;
         font-family: ${MONO};
         font-size: 25px;
         color: ${INK_FAINT};
@@ -169,7 +196,10 @@ export function unsquattedCard(): StagedPage {
       <ul>
 ${rows}
       </ul>
-      <div class="field">Your name…</div>
+      <div class="checker">
+        <div class="field">Your name…</div>
+        <div class="dice">${DICE}</div>
+      </div>
       <p class="more">${more(LASTING_PICKS.length - SHOWN)}</p>
     </aside>
   </body>

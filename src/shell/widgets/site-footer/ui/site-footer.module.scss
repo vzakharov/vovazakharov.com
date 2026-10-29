@@ -1,0 +1,10 @@
+// The note is dimmed by its colour rather than its opacity, so a `NotedSpan`'s
+// note inside it stays opaque; a link, which states a colour of its own, is
+// dimmed by its opacity instead.
+.note {
+  color: color-mix(in srgb, var(--color-foreground) 60%, transparent);
+
+  & a {
+    opacity: 0.6;
+  }
+}
