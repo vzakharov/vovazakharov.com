@@ -91,10 +91,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 43,
-    "matched": 43,
-    "matchedTableUsd": 3.1718528000000004,
-    "matchedEventUsd": 3.1718528000000004,
+    "events": 44,
+    "matched": 44,
+    "matchedTableUsd": 3.2447584000000003,
+    "matchedEventUsd": 3.2447584000000003,
     "unseen": {}
   }
 }

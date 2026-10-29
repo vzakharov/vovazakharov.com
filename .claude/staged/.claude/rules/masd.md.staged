@@ -129,27 +129,19 @@ as `shared/config` is.
 
 ## Cutting a domain into slices
 
-The meadow game, one large page cut into entities, features and widgets, settled
-these for any domain:
-
 - **Nouns draw a cut; modularity tests whether it holds.** A cut drawn from the
-  import graph reproduces how the code was stitched: one passed every checker
-  and made the mushroom, its house, the mice and the worm one module, because
-  `draw-house` painted the mice and the worm.
+  import graph alone reproduces how the code happens to be stitched, and can
+  pass every checker.
 - **Base entities never import one another; where two meet is a feature named
-  for what happens** («цветок вырастает, когда нажимаем на травку» = фича). Two
-  features that would import each other are one.
-- **A part belongs to the noun it is part of** — the house to the mushroom — and
-  a part's types live with the part that reads them: the map declares
-  `MapLayout` and `WithMap` and the page imports them, not the other way round.
-- **The whole is built from its parts, above them.** A part declares the slice
-  of state it reads as a structural `With…` type over entity types and is
-  generic in the rest (`sown<M extends WithMushrooms & Spored>(meadow: M): M`),
-  so nothing below the page imports `Meadow`.
-- **Nothing goes into `shared` to quiet a checker**; `shared` keeps what is
-  about nothing in particular.
-- **A slice whose one consumer would hold nothing else is that consumer** — a
-  widget used by one page that then held only its React shell is the page's.
+  for what happens.** Two features that would import each other are one.
+- **A part belongs to the noun it is part of**, and its types live with the part
+  that reads them: the map declares `MapLayout` and the page imports it.
+- **The whole is built from its parts, above them.** A part declares the state
+  it reads as a structural `With…` type and is generic in the rest
+  (`sown<M extends WithMushrooms & Spored>(meadow: M): M`), so nothing below the
+  page imports the whole.
+- **Nothing goes into `shared` to quiet a checker.**
+- **A slice whose one consumer would hold nothing else is that consumer.**
 - **A block that reads a feature is a widget**; reading none, it is a feature.
 
 ## Rules
@@ -251,58 +243,26 @@ these for any domain:
   `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported
   identifiers keep their PascalCase (`card.tsx` exports `Card`).
-- **The checkers run with the stock recommended ruleset and three overrides**,
-  all in `steiger.config.mjs`: `insignificant-slice` off for the reason above,
-  `no-reserved-folder-names` off in the sliced layers, where it would read a
-  sub-slice's segments as misnamed folders, and the `no-ui-in-app` exemption
+- **Steiger runs the stock recommended ruleset with the overrides in
+  `steiger.config.mjs`**, each beside its reason: `insignificant-slice` for the
+  one above, three for sub-slices, which it cannot read, and `no-ui-in-app`
   below. A new rule violation is a signal that the code is in the wrong place —
   move the code rather than exempting the path.
 
 ## Sub-slices
 
-A cluster inside a slice — files importing one another far more than the rest of
-it — becomes a **sub-slice**, and a sub-slice can hold its own (MARS, the
-operator's name for the design once it nests).
-
 - **A folder in a slice or a sub-slice not named for a segment is a sub-slice**
-  — FSD's five segment names (`SEGMENTS` in `eslint/masd-graph.ts`), a slice's
-  catalogue being `config/i18n.ts` with its JSON in `config/messages/` — with
-  segments and barrels of its own. What sits outside it enters by those barrels,
-  `index.test-only.ts` for test code (`vova/sub-slice-entry`); inside it,
-  relative imports reach anything. Steiger reads a sub-slice as a misnamed
-  segment, so `check:masd` keeps that rule's one useful case: a segment's name
-  inside a segment.
-- **A unit holding a sub-slice holds only sub-slices**, with its barrels and
-  tests at its root: the rest of it is a sub-slice too, named for its noun.
-  Siblings import one another by barrel and never in a cycle. `check:masd` holds
-  both.
-- **A sub-slice is earned by modularity or by two consumers**: cut off its
-  parent — the slice, or the sub-slice it sits in — it raises the modularity of
-  the parent's own import graph, shipped files only; or two of its siblings
-  import it. `check:masd` fails one earned neither way, so a shared sub-slice
-  folds back once one of its two consumers lets go of it.
-- **A cluster the graph shows is cut**: `masd:clusters` fails while a slice or
-  sub-slice holds a piece entered by one file that would pass the modularity
-  bar, the rest passing it too. The cut is its root's sub-slice, the root
-  becoming its barrel; what the piece takes from the rest goes into a third
-  sub-slice below both, which the two consumers earn, since the rest importing
-  the root and the piece importing the rest would be a cycle. The gate prints
-  that third part. A cluster drawn from the graph can still be the wrong noun (§
-  "Cutting a domain into slices"), so where it should stay, ask the operator,
-  and on their yes put `// masd-disable cluster -- <why it stays>` in its root.
-- **A consumer taking only one sub-slice's exports is a promotion**, an error at
-  any depth: a slice whose consumer takes only one of its sub-slices has a slice
-  of its own inside it, and a sub-slice whose sibling takes only one of its
-  sub-slices has that one in the wrong place — it moves up beside its parent,
-  both entering it from outside. A sub-slice importing every sibling, directly
-  or not, is its unit's head, and a consumer taking only the head takes the
-  whole unit. Where it goes is a call per case; where nothing but `shared` could
-  take it, ask the operator, and on their yes put
-  `// masd-disable promotion -- <why it cannot move>` in its `index.ts`.
-- **A page slice whose sites route different pages splits** into page slices,
-  not sub-slices: four sites route only blog's article page, so
-  `blog/pages/article` and `blog/pages/collection-index` are slices of their
-  own, and a sub-slice there would be a promotion.
+  (`SEGMENTS` in `eslint/masd-graph.ts`; a slice's catalogue is
+  `config/i18n.ts`, its JSON in `config/messages/`), with segments and barrels
+  of its own. What sits outside it enters by those barrels, `index.test-only.ts`
+  for test code (`vova/sub-slice-entry`); inside it, relative imports reach
+  anything.
+- **A unit holding a sub-slice holds only sub-slices**, its barrels and tests at
+  its root: the rest of it is a sub-slice too, named for its noun.
+- **`check:masd` and `masd:clusters` decide when a sub-slice is earned, cut or
+  promoted**, and each failure says what to do, including when to ask the
+  operator for a `masd-disable` marker. A cluster drawn from the graph can still
+  be the wrong noun (§ "Cutting a domain into slices").
 
 ## Routers and app layers
 

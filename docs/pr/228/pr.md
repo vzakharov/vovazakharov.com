@@ -7,17 +7,19 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-28T08:41:34Z
-- **Updated:** 2026-10-29T09:59:37Z
+- **Updated:** 2026-10-29T11:24:30Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 1
+## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 9d03f15). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 4f8a8e1). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `scripts/masd-clusters.ts`:125 — unresolved — last: @vzakharov (human) 2026-10-29T09:36:59Z — "дождёмся результатов этого прогона, потом решим" → [↓](#t01)
+- **T02** `.claude/staged/.claude/rules/masd.md.staged`:1 — unresolved — last: @vzakharov (human) 2026-10-29T10:23:47Z — "эк его раздуло. ты уверен что всё это -- "то что нужно знать…" → [↓](#t02)
+- **T03** `.claude/staged/.claude/rules/masd.md.staged`:133 — unresolved — last: @vzakharov (human) 2026-10-29T10:24:38Z — "тем более что здесь археология про meadow game, а не контрак…" → [↓](#t03)
 
 ---
 
@@ -67,6 +69,7 @@ https://claude.ai/code/session_01DaohkDnoakgX1SC8nKZLvV
 - **C01** @vzakharov (agent) — 2026-10-28T08:41:55Z — "Proposed squash body: ``` A cluster inside one slice that ea…" → [↓](#c01)
 - **C02** @vzakharov (agent) — 2026-10-29T09:35:29Z — "**Вопрос: что делать с шестью находками гейта кластеров?** `…" → [↓](#c02)
 - **C03** @vzakharov (agent) — 2026-10-29T09:58:14Z — "**Вопрос: что делать с кластером, который импортирует общие…" → [↓](#c03)
+- **C04** @vzakharov (agent) — 2026-10-29T11:02:30Z — "В сессии: «ну так вынести рамку … выносим если любое из: (а)…" → [↓](#c04)
 
 <a id="c01"></a>
 
@@ -162,6 +165,23 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ---
 
+<a id="c04"></a>
+
+### Comment by @vzakharov (agent) on 2026-10-29T11:02:30Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/228#issuecomment-6494909673](https://github.com/vzakharov/vovazakharov.com/pull/228#issuecomment-6494909673)
+
+В сессии: «ну так вынести рамку … выносим если любое из: (а) модулярность, (б) нужно двум потребителям», и на «гейт предложить не умеет» — «агент тоже может».
+
+Сделано так:
+- `check:masd` засчитывает подслайс, если он поднимает модулярность **или** его импортируют двое соседей. Когда один из двоих перестаёт его брать, проверка снова требует влить его обратно (7f2eb7c).
+- Гейт сам печатает под каждым кластером, что тот берёт из остатка, то есть третий подслайс ниже обоих (7f2eb7c, 5f3ece7).
+- Разрезаны на три части и больше: map (02d6bb3), полёт насекомых (1a09838), fungus (14d8744), страница whisper (c7b85d6), playback (757d3e3).
+
+Поправка к комментарию выше: семь из девяти было неверно, `cv-page` режется без цикла. Но у CV своя загвоздка: после разреза sitemap берёт из CV только `cvRoutes` из `edition/`, и срабатывает правило продвижения. Куда продвигать, спрошу отдельно.
+
+---
+
 ## Review threads
 
 <a id="r01"></a>
@@ -192,10 +212,11 @@ _2026-10-28T11:20:22Z_
 
 <!-- five-percent: 20abdc0e6d46b60fe46a64cea8c1e0af3984a9b2 -->
 
-_9 resolved threads omitted; re-run with `--include-resolved` to export them._
+_10 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `scripts/masd-clusters.ts`:125 — unresolved — last: @vzakharov (human) 2026-10-29T09:36:59Z — "дождёмся результатов этого прогона, потом решим" → [↓](#t01)
-- **T02** `src/mushrooms/features/insects-fly/perch/ui/perches.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:23Z — "Да, это сходится с ответом в соседнем треде: остаток станет…" → [↓](#t02)
+- **T02** `.claude/staged/.claude/rules/masd.md.staged`:1 — unresolved — last: @vzakharov (human) 2026-10-29T10:23:47Z — "эк его раздуло. ты уверен что всё это -- "то что нужно знать…" → [↓](#t02)
+- **T03** `.claude/staged/.claude/rules/masd.md.staged`:133 — unresolved — last: @vzakharov (human) 2026-10-29T10:24:38Z — "тем более что здесь археология про meadow game, а не контрак…" → [↓](#t03)
 
 <a id="t01"></a>
 
@@ -252,15 +273,32 @@ _9 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 <a id="t02"></a>
 
-### `src/mushrooms/features/insects-fly/perch/ui/perches.ts`:1 — unresolved
+### `.claude/staged/.claude/rules/masd.md.staged`:1 — unresolved
 
-**@vzakharov (human)** — 2026-10-29T08:55:50Z
+**@vzakharov (human)** — 2026-10-29T10:23:47Z
 
-дополнительный плюс (к прошлому комментарию): возможно, после этого мы поймём, что оставшееся (как здесь -- перч) тоже используется потребителями вне слайса в режиме "нужно только это", и тогда это будет повод вынести уже перч в отдельный слайс
+эк его раздуло. ты уверен что всё это -- "то что нужно знать каждый раз", и ничто (больше) не может быть вынесено в collocated?
 
-**@vzakharov (agent)** — 2026-10-29T09:09:23Z
+---
 
-Да, это сходится с ответом в соседнем треде: остаток станет подслайсом `perch/`, и promotion сможет сказать про него то же, что про любой другой. Делается вместе с ним.
+<a id="t03"></a>
+
+### `.claude/staged/.claude/rules/masd.md.staged`:133 — unresolved
+
+```diff
+@@ -118,6 +127,31 @@ enters it, so a plain `index.ts` holds; a client component reaching for the
+ byline is what would split it into `index.ts` + `index.server-only.ts`, exactly
+ as `shared/config` is.
+ 
++## Cutting a domain into slices
++
++The meadow game, one large page cut into entities, features and widgets, settled
++these for any domain:
+```
+
+**@vzakharov (human)** — 2026-10-29T10:24:38Z
+
+тем более что здесь археология про meadow game, а не контракт
 
 ---
 
@@ -276,3 +314,4 @@ _9 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-29T08:57:24Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5694906549.
 - **2026-10-29T09:37:18Z** @vzakharov cross-referenced this pull request from [#232 Cut the game's scripted plays down and turn the rest back on](https://github.com/vzakharov/vovazakharov.com/issues/232).
 - **2026-10-29T09:37:19Z** @vzakharov cross-referenced this pull request from [#233 Sub-entities: a slice kind for a facet several entities share](https://github.com/vzakharov/vovazakharov.com/issues/233).
+- **2026-10-29T11:21:41Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5696169051.
