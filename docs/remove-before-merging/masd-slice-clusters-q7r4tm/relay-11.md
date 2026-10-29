@@ -14,7 +14,8 @@ The muthur sync offer was made; do not make it again.
      did steps 1–3 of relay-10's Next step: Steiger's scoped override, the
      promotion's layer listing, the rule trimmed and both threads answered.
      Paused before the `cv/sheet` cut at the context-budget warning and relayed
-     (this file). (verbatim in Last agent turn)
+     (this file), all in one turn — so `scripts/relay-last-reply.py` found no
+     earlier turn to append, and § "Last agent turn" is empty.
 
 ## Intent
 
