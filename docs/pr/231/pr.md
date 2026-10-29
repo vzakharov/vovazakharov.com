@@ -7,24 +7,19 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-29T08:36:23Z
-- **Updated:** 2026-10-29T12:05:36Z
+- **Updated:** 2026-10-29T12:51:26Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 8
+## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at e56457d). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at c5788e8). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T03** `src/kernel/shared/lib/use-provided.ts`:5 — unresolved — last: @vzakharov (human) 2026-10-29T11:54:20Z — "нужен линт убеждающийся что название константы совпадает с н…" → [↓](#t03)
-- **T04** `src/kernel/shared/lib/fetch-ok.ts`:22 — unresolved — last: @vzakharov (human) 2026-10-29T11:55:51Z — "тут тоже кастомный класс для Error ("ошибка вызванная не-оши…" → [↓](#t04)
-- **T05** `src/unsquatted/pages/home/i18n/messages/en.json`:4 — unresolved — last: @vzakharov (human) 2026-10-29T11:57:57Z — "кажется, лучше тут с lowercase начать" → [↓](#t05)
-- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:42 — unresolved — last: @vzakharov (human) 2026-10-29T11:59:57Z — "посмотри какие ещё хорошие есть среди поркбановских, какие с…" → [↓](#t06)
-- **T07** `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:01:01Z — "а это не server-only случайно? помнится, мы как-то очень сил…" → [↓](#t07)
-- **T08** `src/unsquatted/scripts/lib/unsquatted-card.ts`:108 — unresolved — last: @vzakharov (human) 2026-10-29T12:03:40Z — "не здесь, но завести issue -- кажется, у нас в разных картах…" → [↓](#t08)
-- **T09** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:04:11Z — "не оч понятно почему удалили staged и начали править это на…" → [↓](#t09)
-- **T10** `package.json`:74 — unresolved — last: @vzakharov (human) 2026-10-29T12:05:23Z — "а почему не faker-ом пользуемся для этого? или там другое? и…" → [↓](#t10)
+- **T01** `src/unsquatted/pages/home/lib/lookup.ts`:44 — unresolved — last: @vzakharov (human) 2026-10-29T12:39:21Z — ".si это super intelligence (спасибо дедушке Трампу:), верни…" → [↓](#t01)
+- **T03** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:44:31Z — "эм, я не запускал finalize. В той сессии (она с другого акка…" → [↓](#t03)
+- **T04** `src/blog/scripts/lib/read-collection.ts`:86 — unresolved — last: @vzakharov (human) 2026-10-29T12:46:48Z — "давай сделаем `withCause(error) = { cause: asError(error) }`" → [↓](#t04)
 
 ---
 
@@ -36,10 +31,11 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **The list** is one file per name, `sites/unsquatted/public/picks/<domain>.md`, its category, blurb, `added` and a float `score` in frontmatter; it is sorted by score, best first, so a new name slots in between two others. A name the routine finds taken gets `shownUntil` and leaves the list after it, its file kept. Each row is re-checked on load and shows its zone's Porkbun price beside "grab →".
 - **The checker:**
   - Lookups run as you type, with a debounce, a Check button with a loader, and dice rolling an adjective + noun.
-  - Every root zone Porkbun sells (539) is checkable. A typed zone leads, then `.com`, then split names (`fuckapp` → `fuck.app`; a leading zone splits only where the rest runs dictionary words together), then the rest — three rows, more behind "more tlds ↓".
+  - Every root zone Porkbun sells (539) is checkable. A typed zone leads, then `.com`, then split names (`fuckapp` → `fuck.app`; a leading zone splits only where the rest runs dictionary words together), then the rest (`com net org io ai co app dev me xyz sh gg`) — three rows, more behind "more tlds ↓".
+  - The browser checks registry answers with type guards of its own, and Porkbun's list is read at build only, so no zod reaches the page.
   - The query lives in the URL hash, each change a history step.
   - Verdicts read "grab →", "grab-ish →" (DNS only), or "taken", whose note gives the registration's expiry date; "up for grabs in N" shows only in RDAP `pending delete`. Typing `unsquatted.com` answers "seriously?".
-- **Shared code it brought up:** `NotedSpan` moved to `shell/shared/ui` (unsquatted's asides use it, Tooltip is gone); kernel gains `fetchOk`, `errorClass` and `useProvided` (music's fetcher and player use them too) and a `shared/feed` segment for `rss` and `feed-html`. Shell grows an `accent` token, `--radius-default` and a `fontVariables` slot, each a no-op for the other sites.
+- **Shared code it brought up:** `NotedSpan` moved to `shell/shared/ui` (unsquatted's asides use it, Tooltip is gone); kernel gains `fetchOk`, `errorClass`, `asError` and `useProvided` (music's fetcher and player use them too; `asError` replaces six hand-written non-Error wraps in blog, mushrooms and unsquatted), held by a new lint, `vova/error-class-name`, and a `shared/feed` segment for `rss` and `feed-html`. Shell grows an `accent` token, `--radius-default` and a `fontVariables` slot, each a no-op for the other sites.
 - **Wiring:** a receiver repo (vzakharov/unsquatted.com) in deploy, vet, preview and `publish-site.sh`, an Umami site, and an OG card generated by `src/unsquatted/scripts/lib/unsquatted-card.ts` from the lede and the four best picks, its wordmark in Fraunces as on the site.
 
 ## QA Checklist
@@ -102,7 +98,9 @@ dice that rolls a word pair. Any zone Porkbun sells can lead the grid
 of twelve common ones: typed, or as a domain hack (agenticbible ->
 agentic.bible), a leading zone splitting off only where both halves are
 dictionary words (lovepage -> page.love). Prices are Porkbun's,
-read at build, so a pricing failure fails the build. A taken name shows
+read at build, so a pricing failure fails the build; the browser checks
+registry answers with type guards of its own, since zod would ship with
+them. A taken name shows
 its expiry date on hover, and says when it is up for grabs only in
 RDAP's pending delete, since before that the owner can still renew.
 The query rides in the URL hash, one history step per name.
@@ -116,8 +114,10 @@ the four best picks, so it cannot say what the page has stopped saying.
 Shell gains three hooks that are no-ops for the other sites: an accent
 colour token, a --radius-default property and a fontVariables slot on
 the root layout. Music's genius-style NotedSpan moves to shell for both
-sites, and kernel gains fetchOk, which makes a fetcher name the error
-class it throws. The site is wired as a receiver
+sites. Kernel gains fetchOk, which makes a fetcher name the error class
+it throws, errorClass, whose name a new lint holds to its constant, and
+asError, which every catch that wrapped a thrown non-Error by hand now
+uses. The site is wired as a receiver
 (vzakharov/unsquatted.com) in deploy, vet, preview and publish-site.sh,
 with its Umami site.
 
@@ -152,151 +152,20 @@ _2026-10-29T10:35:10Z_
 
 <!-- five-percent: c7a7fc34a792fc949da37ca21b7d7f909f35db4b -->
 
-_11 resolved threads omitted; re-run with `--include-resolved` to export them._
+_18 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `src/unsquatted/pages/home/lib/dice.ts`:18 — unresolved — last: @vzakharov (agent) 2026-10-29T09:56:00Z — "Сделано в 104d75a: `['adjective', 'noun'].map(…)` вместо дву…" → [↓](#t01)
-- **T02** `src/unsquatted/scripts/lib/unsquatted-card.ts`:172 — unresolved — last: @vzakharov (agent) 2026-10-29T11:09:09Z — "В сессии: «пятипроцентные — да, бери». Взято в 757c8d5: карт…" → [↓](#t02)
-- **T03** `src/kernel/shared/lib/use-provided.ts`:5 — unresolved — last: @vzakharov (human) 2026-10-29T11:54:20Z — "нужен линт убеждающийся что название константы совпадает с н…" → [↓](#t03)
-- **T04** `src/kernel/shared/lib/fetch-ok.ts`:22 — unresolved — last: @vzakharov (human) 2026-10-29T11:55:51Z — "тут тоже кастомный класс для Error ("ошибка вызванная не-оши…" → [↓](#t04)
-- **T05** `src/unsquatted/pages/home/i18n/messages/en.json`:4 — unresolved — last: @vzakharov (human) 2026-10-29T11:57:57Z — "кажется, лучше тут с lowercase начать" → [↓](#t05)
-- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:42 — unresolved — last: @vzakharov (human) 2026-10-29T11:59:57Z — "посмотри какие ещё хорошие есть среди поркбановских, какие с…" → [↓](#t06)
-- **T07** `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:01:01Z — "а это не server-only случайно? помнится, мы как-то очень сил…" → [↓](#t07)
-- **T08** `src/unsquatted/scripts/lib/unsquatted-card.ts`:108 — unresolved — last: @vzakharov (human) 2026-10-29T12:03:40Z — "не здесь, но завести issue -- кажется, у нас в разных картах…" → [↓](#t08)
-- **T09** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:04:11Z — "не оч понятно почему удалили staged и начали править это на…" → [↓](#t09)
-- **T10** `package.json`:74 — unresolved — last: @vzakharov (human) 2026-10-29T12:05:23Z — "а почему не faker-ом пользуемся для этого? или там другое? и…" → [↓](#t10)
+- **T01** `src/unsquatted/pages/home/lib/lookup.ts`:44 — unresolved — last: @vzakharov (human) 2026-10-29T12:39:21Z — ".si это super intelligence (спасибо дедушке Трампу:), верни…" → [↓](#t01)
+- **T02** `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T12:45:56Z — "В сессии: «ок, давай issue» — про правило в `check:poison`.…" → [↓](#t02)
+- **T03** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:44:31Z — "эм, я не запускал finalize. В той сессии (она с другого акка…" → [↓](#t03)
+- **T04** `src/blog/scripts/lib/read-collection.ts`:86 — unresolved — last: @vzakharov (human) 2026-10-29T12:46:48Z — "давай сделаем `withCause(error) = { cause: asError(error) }`" → [↓](#t04)
 
 <a id="t01"></a>
 
-### `src/unsquatted/pages/home/lib/dice.ts`:18 — unresolved
-
-```diff
-@@ -0,0 +1,20 @@
-… 14 lines elided …
-+  const { faker } = await import('@faker-js/faker');
-+
-+  return cleanLabel(
-+    `${letters(faker.word.adjective({ length: LENGTH }))}${letters(faker.word.noun({ length: LENGTH }))}`,
-```
-
-**@vzakharov (human)** — 2026-10-29T09:07:58Z
-
-WET
-
-**@vzakharov (agent)** — 2026-10-29T09:56:00Z
-
-Сделано в 104d75a: `['adjective', 'noun'].map(…)` вместо двух одинаковых вызовов.
-
----
-
-<a id="t02"></a>
-
-### `src/unsquatted/scripts/lib/unsquatted-card.ts`:172 — unresolved
-
-```diff
-@@ -0,0 +1,179 @@
-… 168 lines elided …
-+${rows}
-+      </ul>
-+      <div class="field">Your name…</div>
-+      <p class="more">${more(PICKS.length - SHOWN)}</p>
-```
-
-**@vzakharov (agent)** — 2026-10-29T10:34:59Z
-
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**/five-percent** · optional
-
-Сейчас: карточка берёт имена из `PICKS`, а этот список зависит от сегодняшней даты, поэтому vet покраснеет сам, без единого коммита, в тот день, когда истечёт чей-нибудь `shownUntil`.
-**Предложение: карточка читает только имена без `shownUntil` — и в четырёх строках, и в «+ N more».**
-Цена: на время «подержать» карточка покажет на одно имя меньше, чем страница.
-
-<details><summary>Подробнее</summary>
-
-- `generatedCard` (`src/kernel/scripts/lib/og-job.ts`) хэширует саму сгенерированную страницу, а `content:og unsquatted --check` стоит в `scripts/vet.sh`.
-- `PICKS` (`src/unsquatted/pages/home/model/picks.ts:69`) отбрасывает имя, чей `shownUntil` раньше `new Date()`. Как только такой день наступает, меняется `PICKS.length - SHOWN`, а с ним хэш страницы — и `og-unsquatted` в vet красный на любой ветке, пока кто-то не перерендерит карточку.
-- План сам заметил эту ловушку для цены в `grab →` («a reprice re-flags the card and `content:og --check` in vet goes red»); у даты то же свойство, только срабатывает по календарю.
-- Правило «держать до…» (T02) не трогается: страница продолжает фильтровать по дате. Меняется лишь то, что читает карточка — имя уходит с неё в том коммите, где рутина ставит `shownUntil`, а этот коммит и так перерендерит карточку.
-
-</details>
-
-**@vzakharov (human)** — 2026-10-29T11:03:44Z
-
-ага
-
-**@vzakharov (agent)** — 2026-10-29T11:09:09Z
-
-В сессии: «пятипроцентные — да, бери».
-
-Взято в 757c8d5: карточка читает `LASTING_PICKS` — имена без `shownUntil`, и в четырёх строках, и в «+ N more»; страница по-прежнему фильтрует по дате.
-
----
-
-<a id="t03"></a>
-
-### `src/kernel/shared/lib/use-provided.ts`:5 — unresolved
-
-```diff
-@@ -0,0 +1,25 @@
-… 1 line elided …
-+
-+import { errorClass } from './error-class';
-+
-+const MissingProviderError = errorClass('MissingProviderError');
-```
-
-**@vzakharov (human)** — 2026-10-29T11:54:20Z
-
-нужен линт убеждающийся что название константы совпадает с названием класса
-
----
-
-<a id="t04"></a>
-
-### `src/kernel/shared/lib/fetch-ok.ts`:22 — unresolved
-
-```diff
-@@ -0,0 +1,31 @@
-… 18 lines elided …
-+    response = await fetch(url, init);
-+  } catch (error) {
-+    throw new Failure(`${url} did not answer`, {
-+      cause: error instanceof Error ? error : new Error(String(error)),
-```
-
-**@vzakharov (human)** — 2026-10-29T11:55:51Z
-
-тут тоже кастомный класс для Error ("ошибка вызванная не-ошибкой" или типа того)
-
----
-
-<a id="t05"></a>
-
-### `src/unsquatted/pages/home/i18n/messages/en.json`:4 — unresolved
-
-```diff
-@@ -1,11 +1,12 @@
-… 4 lines elided …
--  "coffeeLink": "buy us a coffee",
-+  "lede": "Good domain names nobody has grabbed* yet.",
-+  "ledeNote": "* No, not even us.",
-+  "byline": "Curated list · {blazing} search · no reselling · no affiliate links",
-```
-
-**@vzakharov (human)** — 2026-10-29T11:57:57Z
-
-кажется, лучше тут с lowercase начать
-
----
-
-<a id="t06"></a>
-
-### `src/unsquatted/pages/home/lib/lookup.ts`:42 — unresolved
+### `src/unsquatted/pages/home/lib/lookup.ts`:44 — unresolved
 
 ```diff
 @@ -16,14 +27,19 @@ export type Verdict =
-… 11 lines elided …
- export type WithDomain = { domain: string };
- 
+… 13 lines elided …
 -/** The zones every name is checked in, in the order they are shown. */
 +/**
 + * The zones every name is checked in, in the order they are shown. Any other
@@ -310,9 +179,21 @@ WET
 
 к слову, непонятно наличие de тут -- их кто-то использует как generic?
 
+**@vzakharov (agent)** — 2026-10-29T12:19:07Z
+
+Про `.de`: нет, как generic его никто не читает — это просто Германия (дешёвая, 2.90). То же с `.si`. Обе выкинул в 7780ea52, взамен `.sh` (тулзы и их install-скрипты, `bun.sh`; 31.20/46.65) и `.gg` (комьюнити, игры; 51.80). Имя, которое само пишет `de`/`si`, всё равно получит их как domain hack.
+
+Из остальных поркбановских кандидаты на «всегда»: `.to` (51.80), `.tv` (26.26), `.cc` (3.40/8.55), `.page` (10.81), `.fyi` (5.66), `.link` (7.72). `.so`, `.is`, `.ly`, `.it` Porkbun не продаёт. Сетка показывает первые три ряда, так что добавлять можно без вреда раскладке — скажи, какие из этих взять.
+
+**@vzakharov (human)** — 2026-10-29T12:39:21Z
+
+.si это super intelligence (спасибо дедушке Трампу:), верни
+
+по твоим предложениям -- ок, ещё посмотри .site, .website, .blog доступны ли
+
 ---
 
-<a id="t07"></a>
+<a id="t02"></a>
 
 ### `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved
 
@@ -320,35 +201,31 @@ WET
 
 а это не server-only случайно? помнится, мы как-то очень сильно следили, чтобы zod у нас не уплывал в клиент; может стоит сделать линтерное правило, что если импортируется (перечислены тяжёлые пакеты), то должно быть server-only?
 
----
+**@vzakharov (agent)** — 2026-10-29T12:19:09Z
 
-<a id="t08"></a>
+Да, утекал: `pick-row` (`'use client'`) → `verdict-label` → `priceParts` из `prices.ts` тащил в браузер и фетчер, и схему. Но главный zod в клиенте был не тут: `lookup.ts` разбирает ответы RDAP и DoH прямо в браузере классическим zod.
 
-### `src/unsquatted/scripts/lib/unsquatted-card.ts`:108 — unresolved
+В 8033ec76: тип цены и округление переехали в `price.ts`, `prices.ts` (фетч + схема) остался только серверной странице, а `lookup.ts` перешёл на `zod/mini`. Чанк чекера упал с 94 до 23 КБ gzip, все скрипты страницы — с 313 до 242 КБ.
 
-```diff
-@@ -0,0 +1,210 @@
-… 97 lines elided …
-+    .join('\n');
-+
-+  return {
-+    page: `<!doctype html>
-+<html>
-+  <head>
-+    <meta charset="utf-8" />
-+    <style>
-+      @font-face { font-family: "Wordmark"; src: url("${FONT}") format("woff2"); font-weight: 100 900; }
-+      html { zoom: ${SCALE}; }
-+      html, body { margin: 0; padding: 0; }
-```
+Про правило: «импортирует zod ⇒ обязан быть server-only» здесь не подходит — `lookup.ts` законно валидирует в браузере (validate at boundaries), только мини-сборкой. Точнее было бы расширить `pnpm check:poison`: от клиентских корней не должно быть пути до классического `zod` и тяжёлых билдовых пакетов (`gray-matter`, `unified`/`remark`/`rehype`, `shiki`), а `zod/mini` разрешён. Делать его здесь, отдельной веткой (как прошлое правило) или завести issue?
 
-**@vzakharov (human)** — 2026-10-29T12:03:40Z
+**@vzakharov (agent)** — 2026-10-29T12:38:18Z
 
-не здесь, но завести issue -- кажется, у нас в разных картах много разного всего повторяется; посмотреть как это можно DRY-нуть (начиная строковыми хелперами и заканчивая специальными библиотеками)
+В сессии: «ну вот именно для этого мы его и удаляли» — zod в браузере не нужен вовсе, даже mini.
+
+Сделано в 6b868cdf: `lookup.ts` проверяет три ответа (bootstrap-файл RDAP, запись RDAP, ответ DoH) собственными type guards и на любую другую форму бросает `MalformedAnswerError`. На странице zod теперь нет совсем; скрипты 242 → 228 КБ gzip (а до раунда было 313).
+
+Других клиентских цепочек до zod я сейчас не нахожу, так что правило в `check:poison` «от клиентских корней — ни пути до `zod`» легло бы без единого исключения. Вопрос, где его делать, остаётся: здесь, отдельной веткой или issue.
+
+**@vzakharov (agent)** — 2026-10-29T12:45:56Z
+
+В сессии: «ок, давай issue» — про правило в `check:poison`.
+
+Завёл #236: клиентским цепочкам нельзя доходить до `zod` (включая `zod/mini`); в кандидаты на тот же список — `gray-matter`, `unified`/`remark`/`rehype`, `shiki`.
 
 ---
 
-<a id="t09"></a>
+<a id="t03"></a>
 
 ### `CLAUDE.md`:1 — unresolved
 
@@ -356,23 +233,39 @@ WET
 
 не оч понятно почему удалили staged и начали править это на живое
 
+**@vzakharov (agent)** — 2026-10-29T12:19:13Z
+
+Это первый шаг `/finalize`: по `.claude/rules/staging.md` он делает `staged.sh swap` до quality passes. Сессия запустила finalize в 22c71f3d, ты вернулся с правками по превью, и дальше swap finalize не пошёл. После свапа ни `CLAUDE.md`, ни правила вживую никто не правил (`git log 22c71f3d..HEAD` по ним пуст); следующая правка снова пойдёт через staged-копию.
+
+**@vzakharov (human)** — 2026-10-29T12:44:31Z
+
+эм, я не запускал finalize. В той сессии (она с другого акка так что ты не увидишь) было начало такое:
+
+<img width="560" height="546" alt="Screenshot 2026-10-29 at 15 42 27" src="./attachments/b1ab72ae-c4be-40e4-afe5-c877417faf6a.png" />
+
+то есть предыдущий релей передал "дальше finalize", и новая сессия приняла это за руководство
+
+давай заведём issue в muthur пофиксить скилл релея, чтобы передающая сессия давала контекст в [...], а принимающая трактовала всё в [...] как краткое обозначение статуса (и в первую очередь для оператора, который зашёл в сессию после перерыва, а не для принимающего агента -- у которого есть для этого relay-X.md)
+
 ---
 
-<a id="t10"></a>
+<a id="t04"></a>
 
-### `package.json`:74 — unresolved
+### `src/blog/scripts/lib/read-collection.ts`:86 — unresolved
 
 ```diff
-@@ -71,11 +71,13 @@
-     "shiki": "^4.4.3",
-     "unified": "^11.0.5",
-     "unist-util-visit": "^5.1.0",
-+    "wordlist-english": "1.2.1",
+@@ -81,7 +82,7 @@ function parseFrontmatter<F extends BaseFrontmatter>(
+     return schema.parse(data);
+   } catch (error) {
+     throw new Error(`Invalid frontmatter in ${file}`, {
+-      cause: error instanceof Error ? error : new Error(String(error)),
++      cause: asError(error),
+     });
 ```
 
-**@vzakharov (human)** — 2026-10-29T12:05:23Z
+**@vzakharov (human)** — 2026-10-29T12:46:48Z
 
-а почему не faker-ом пользуемся для этого? или там другое? и если уже загрузили это, нужен ли нам по-прежнему faker? (хотя там забавные сочетания в принципе получаются, может лучше и не трогать)
+давай сделаем `withCause(error) = { cause: asError(error) }`
 
 ---
 
@@ -386,3 +279,6 @@ WET
 - **2026-10-29T10:02:41Z** @vzakharov renamed from «feat: unsquatted.com, free domain names and a checker» to «feat(unsquatted): unsquatted.com, free domain names and a checker».
 - **2026-10-29T10:35:10Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5696304712.
 - **2026-10-29T12:05:35Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5697237166.
+- **2026-10-29T12:18:34Z** @vzakharov cross-referenced this pull request from [#235 DRY the social-card generators' shared scaffolding](https://github.com/vzakharov/vovazakharov.com/issues/235).
+- **2026-10-29T12:45:47Z** @vzakharov cross-referenced this pull request from [#236 check:poison: no client chain reaches zod or the build-time pipeline](https://github.com/vzakharov/vovazakharov.com/issues/236).
+- **2026-10-29T12:51:26Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5697903008.
