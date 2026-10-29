@@ -2,16 +2,14 @@
 
 import { TextLink } from '@/shell/shared/ui';
 
-import type { WithCopy } from '../i18n';
-import type { Price } from '../lib/price';
 import { registerUrl } from '../lib/register';
 import { useVerdict } from '../lib/use-verdict';
 import type { ShownName } from '../model/picks';
 import { useChecker } from './checker-state';
 import classes from './unsquatted-home.module.scss';
-import { PriceHint } from './verdict-label';
+import { type CopiedPrice, PriceHint } from './verdict-label';
 
-type PickRowProps = ShownName & WithCopy & { price: Price | undefined };
+type PickRowProps = ShownName & CopiedPrice;
 
 /**
  * A listed name, looked up again on every visit: one taken since it was

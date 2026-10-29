@@ -6,10 +6,20 @@ import { type Price, priceParts } from '../lib/price';
 import { registerUrl } from '../lib/register';
 import classes from './unsquatted-home.module.scss';
 
-type VerdictLabelProps = WithCopy &
+/** `verdict` is `undefined` while the lookup runs. */
+type WithVerdict = { verdict: Verdict | undefined };
+
+/** What registering costs, once known. */
+type WithPrice = { price: Price | undefined };
+
+/** A row's wording and what the lookup said, for the label that shows it. */
+export type CopiedVerdict = WithCopy & WithVerdict;
+
+/** A row's wording and what registering costs. */
+export type CopiedPrice = WithCopy & WithPrice;
+
+type VerdictLabelProps = CopiedVerdict &
   WithDomain & {
-    /** `undefined` while the lookup runs. */
-    verdict: Verdict | undefined;
     /** Shown beside the site's own domain, so teased about what it says. */
     ownNeighbour?: boolean;
     /** What registering costs, shown where it is free or may be. */

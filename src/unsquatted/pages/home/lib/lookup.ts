@@ -10,7 +10,7 @@ const MalformedAnswerError = errorClass('MalformedAnswerError');
 
 const TIME_UNITS = ['day', 'hour', 'minute'] as const;
 
-export type TimeUnit = (typeof TIME_UNITS)[number];
+type TimeUnit = (typeof TIME_UNITS)[number];
 
 /**
  * When a name in pending delete is released: a count of the largest whole

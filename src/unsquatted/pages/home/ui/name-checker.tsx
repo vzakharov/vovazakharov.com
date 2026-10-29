@@ -5,21 +5,23 @@ import { useState } from 'react';
 
 import type { WithCopy } from '../i18n';
 import { rollName } from '../lib/dice';
-import { type Row, rowsFor, type Verdict, zoneOf } from '../lib/lookup';
-import type { Price, Prices } from '../lib/price';
+import { type Row, rowsFor, zoneOf } from '../lib/lookup';
+import type { Prices } from '../lib/price';
 import { useVerdicts } from '../lib/use-verdict';
 import { useWords } from '../lib/use-words';
 import { useChecker } from './checker-state';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
-import { OWN_DOMAIN, VerdictLabel } from './verdict-label';
+import {
+  type CopiedPrice,
+  type CopiedVerdict,
+  OWN_DOMAIN,
+  VerdictLabel,
+} from './verdict-label';
 
-type ZoneRowProps = WithCopy &
-  Row & {
-    verdict: Verdict | undefined;
-    ownNeighbour: boolean;
-    price: Price | undefined;
-  };
+type ZoneRowProps = CopiedVerdict &
+  CopiedPrice &
+  Row & { ownNeighbour: boolean };
 
 function ZoneRow({
   domain,
@@ -65,7 +67,7 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     type,
     label,
     zone,
-    round,
+    asks,
     settling,
     checkTyped,
     checkHere,
@@ -80,8 +82,8 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
   const shownDomains = checkableDomains(rows.slice(0, CLOSED_ROWS));
   const hiddenDomains =
     open || wanted ? checkableDomains(rows.slice(CLOSED_ROWS)) : [];
-  const shownVerdicts = useVerdicts(shownDomains, round);
-  const hiddenVerdicts = useVerdicts(hiddenDomains, round);
+  const shownVerdicts = useVerdicts(shownDomains, asks);
+  const hiddenVerdicts = useVerdicts(hiddenDomains, asks);
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
   const busy =
     (settling && typed.trim() !== '') ||

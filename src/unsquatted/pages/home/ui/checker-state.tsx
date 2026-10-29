@@ -9,40 +9,46 @@ import {
 } from 'react';
 
 import { useProvided } from '@/kernel/shared/lib/use-provided';
-import type { WithChildren } from '@/kernel/shared/typings';
+import type {
+  Labeled,
+  Typed,
+  WithChildren,
+  WithText,
+} from '@/kernel/shared/typings';
 
 import { cleanLabel, typedZone } from '../lib/lookup';
 
 /** How long typing has to pause before the name is looked up. */
 const SETTLE_MS = 350;
 
-/** What is being looked up, and which round of asking for it this is. */
-type Query = { text: string; round: number };
+/** Counts the lookups asked for, so asking again looks up again. */
+type Asked = { asks: number };
 
-/** `text` asked for as a new round, so it is looked up even if unchanged. */
+/** What is being looked up, and how many times it has been asked for. */
+type Query = WithText & Asked;
+
+/** `text` asked for once more, so it is looked up even if unchanged. */
 const askedAgain =
   (text: string) =>
-  ({ round }: Query): Query => ({ text, round: round + 1 });
+  ({ asks }: Query): Query => ({ text, asks: asks + 1 });
 
-type CheckerState = {
-  typed: string;
-  type: (text: string) => void;
-  /** The label being looked up — what was typed once typing paused. */
-  label: string;
-  /** The zone typed after the label, looked up first. */
-  zone: string | undefined;
-  /** Counts the lookups asked for, so asking again looks up again. */
-  round: number;
-  /** Typing has not paused yet: what is shown is not what is typed. */
-  settling: boolean;
-  /** Looks up what is typed at once, without waiting for typing to pause. */
-  checkTyped: () => void;
-  /** Puts `name` in the field and looks it up at once, where the field is. */
-  checkHere: (name: string) => void;
-  /** As `checkHere`, from below the field: scrolls back to the page's top. */
-  checkNow: (name: string) => void;
-  fieldRef: RefObject<HTMLInputElement | null>;
-};
+/** `label` is the name being looked up — what was typed once typing paused. */
+type CheckerState = Typed &
+  Asked &
+  Labeled & {
+    type: (text: string) => void;
+    /** The zone typed after the label, looked up first. */
+    zone: string | undefined;
+    /** Typing has not paused yet: what is shown is not what is typed. */
+    settling: boolean;
+    /** Looks up what is typed at once, without waiting for typing to pause. */
+    checkTyped: () => void;
+    /** Puts `name` in the field and looks it up at once, where the field is. */
+    checkHere: (name: string) => void;
+    /** As `checkHere`, from below the field: scrolls back to the page's top. */
+    checkNow: (name: string) => void;
+    fieldRef: RefObject<HTMLInputElement | null>;
+  };
 
 const CheckerContext = createContext<CheckerState | undefined>(undefined);
 
@@ -52,10 +58,10 @@ const CheckerContext = createContext<CheckerState | undefined>(undefined);
  */
 export function CheckerProvider({ children }: WithChildren) {
   const [typed, setTyped] = useState('');
-  const [query, setQuery] = useState<Query>({ text: '', round: 0 });
+  const [query, setQuery] = useState<Query>({ text: '', asks: 0 });
   const fieldRef = useRef<HTMLInputElement>(null);
   const linkReadRef = useRef(false);
-  const { text, round } = query;
+  const { text, asks } = query;
 
   const ask = (asked: string) => {
     setQuery(askedAgain(asked));
@@ -135,7 +141,7 @@ export function CheckerProvider({ children }: WithChildren) {
         type: setTyped,
         label,
         zone,
-        round,
+        asks,
         settling: typed !== text,
         checkTyped: () => {
           ask(typed);

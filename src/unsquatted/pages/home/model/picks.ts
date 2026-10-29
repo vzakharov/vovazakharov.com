@@ -8,6 +8,8 @@ import { z } from 'zod';
 import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { errorClass, withCause } from '@/kernel/shared/lib/error-class';
 
+import type { WithDomain } from '../lib/lookup';
+
 const PickFileError = errorClass('PickFileError');
 
 /** One file a name, `public/picks/<domain>.md`, at the route its article will take. */
@@ -35,7 +37,7 @@ const pickSchema = shownSchema.extend({
   shownUntil: z.coerce.date().optional(),
 });
 
-export type ShownName = z.infer<typeof shownSchema> & { domain: string };
+export type ShownName = z.infer<typeof shownSchema> & WithDomain;
 
 function readPick(fileName: string) {
   const domain = fileName.replace(/\.md$/, '');

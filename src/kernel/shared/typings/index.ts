@@ -78,6 +78,9 @@ export type Routed = { route: string };
 /** Rendered or authored text, as opposed to a title or a label. */
 export type WithText = { text: string };
 
+/** What was typed, as typed — before anything is made of it. */
+export type Typed = { typed: string };
+
 /** The one line under a name — what is on offer, said once. */
 type WithTagline = { tagline: string };
 
