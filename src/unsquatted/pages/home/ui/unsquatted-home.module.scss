@@ -20,11 +20,13 @@
   max-width: 60ch;
   margin: 12px 0 0;
   color: var(--unsquatted-muted);
+  line-height: 1.65;
   text-wrap: pretty;
 }
 
+// The lede and the pledge read as one paragraph, every line a step apart.
 .lede + .lede {
-  margin-top: 8px;
+  margin-top: 0;
 }
 // A button that reads as the text around it.
 %text-button {
