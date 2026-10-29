@@ -74,7 +74,7 @@ jobs:
             case "$1" in
               all | vova | lsa | bible | basilisk | maya | unsquatted) select_site "$1" ;;
               *)
-                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`, \`basilisk\`, \`maya\`." >&2
+                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`, \`basilisk\`, \`maya\`, \`unsquatted\`." >&2
                 exit 1
                 ;;
             esac

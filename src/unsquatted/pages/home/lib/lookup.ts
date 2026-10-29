@@ -179,15 +179,14 @@ export function freesIn(
 
   const left = Date.parse(release) - now;
 
-  if (left <= 0) return 'up for grabs any minute';
-  if (left >= DAY) {
-    return `up for grabs in ${count(Math.ceil(left / DAY), 'day')}`;
-  }
-  if (left >= HOUR) {
-    return `up for grabs in ${count(Math.ceil(left / HOUR), 'hour')}`;
-  }
+  const inUnits = (size: number, unit: string) =>
+    `up for grabs in ${count(Math.ceil(left / size), unit)}`;
 
-  return `up for grabs in ${count(Math.ceil(left / MINUTE), 'minute')}`;
+  if (left <= 0) return 'up for grabs any minute';
+  if (left >= DAY) return inUnits(DAY, 'day');
+  if (left >= HOUR) return inUnits(HOUR, 'hour');
+
+  return inUnits(MINUTE, 'minute');
 }
 
 /**

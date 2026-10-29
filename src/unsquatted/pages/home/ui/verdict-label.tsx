@@ -27,11 +27,13 @@ function takenText(domain: string, verdict: Verdict | undefined): string {
   return frees === undefined ? taken : `${taken}, ${frees}`;
 }
 
+type State = Verdict['state'] | 'pending';
+
+const isRegistrable = (state: State) => state === 'free' || state === 'maybe';
+
 /** The aside under the site's own name in its neighbouring zone. */
-function neighbourAside(state: string): string | undefined {
-  if (state === 'free' || state === 'maybe') {
-    return '(but that wouldn’t be very nice)';
-  }
+function neighbourAside(state: State): string | undefined {
+  if (isRegistrable(state)) return '(but that wouldn’t be very nice)';
   if (state === 'taken') return '(can you imagine someone did that to us?)';
 
   return undefined;
@@ -67,7 +69,7 @@ export function VerdictLabel({
   ownNeighbour = false,
   price,
 }: VerdictLabelProps) {
-  const state = verdict?.state ?? 'pending';
+  const state: State = verdict?.state ?? 'pending';
   const text = {
     pending: 'checking…',
     free: 'available →',
@@ -76,7 +78,7 @@ export function VerdictLabel({
     unknown: 'no answer',
   }[state];
   const aside = ownNeighbour ? neighbourAside(state) : undefined;
-  const registrable = state === 'free' || state === 'maybe';
+  const registrable = isRegistrable(state);
 
   return (
     <>

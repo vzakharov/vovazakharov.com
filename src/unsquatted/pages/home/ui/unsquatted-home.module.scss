@@ -27,12 +27,18 @@
   margin-top: 8px;
 }
 
-// A button only so the tooltip has something to focus: it reads as words.
-.hint {
+// A button that reads as the text around it.
+%text-button {
   padding: 0;
   border: 0;
   background: none;
   color: inherit;
+}
+
+// A button only so the tooltip has something to focus.
+.hint {
+  @extend %text-button;
+
   font: inherit;
   text-decoration: underline dotted;
   text-underline-offset: 3px;
@@ -272,11 +278,9 @@
 
   // A button that reads as the heading it is, until hovered.
   & .domain {
+    @extend %text-button;
+
     justify-self: start;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: inherit;
     font-size: 1.15rem;
     font-weight: 600;
     text-align: start;

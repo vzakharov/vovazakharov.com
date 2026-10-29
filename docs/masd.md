@@ -2,7 +2,7 @@
 
 Multi-App Sliced Design extends [Feature-Sliced Design](https://feature-sliced.design/)
 from one tree to many. `src/` is a set of apps, each an FSD tree of its own
-(`src/<app>/<layer>/<slice>/`), composed along a graph declared as data. Five
+(`src/<app>/<layer>/<slice>/`), composed along a graph declared as data. Six
 sites build from that one `src/`, and each site's `sites/<site>/app/` is a
 Next.js router that only says which app is shown at which URL.
 
@@ -47,6 +47,7 @@ tree is its ancestors' layers overlaid, plus its own. So:
   "basilisk": ["blog"],
   "maya": ["blog"],
   "mushrooms": ["kernel"],
+  "unsquatted": ["shell"],
   "vova": ["blog", "music", "mushrooms"]
 }
 ```
@@ -59,6 +60,7 @@ tree is its ancestors' layers overlaid, plus its own. So:
 | `music`                            | The music catalogue, its player and its pages                                                          |
 | `lsa`, `bible`, `basilisk`, `maya` | One site each                                                                                          |
 | `mushrooms`                        | The meadow game, on kernel alone                                                                       |
+| `unsquatted`                       | unsquatted.com, a one-page name checker on shell alone                                                 |
 | `vova`                             | vovazakharov.com, which _is_ a blog, the music catalogue and the game                                  |
 
 **A parent is declared above its child, and that is the acyclicity check.** A

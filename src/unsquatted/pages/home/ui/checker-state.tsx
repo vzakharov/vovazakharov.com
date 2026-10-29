@@ -19,6 +19,11 @@ const SETTLE_MS = 350;
 /** What is being looked up, and which round of asking for it this is. */
 type Query = { text: string; round: number };
 
+/** `text` asked for as a new round, so it is looked up even if unchanged. */
+const askedAgain =
+  (text: string) =>
+  ({ round }: Query): Query => ({ text, round: round + 1 });
+
 type CheckerState = {
   typed: string;
   type: (text: string) => void;
@@ -53,7 +58,7 @@ export function CheckerProvider({ children }: WithChildren) {
   const { text, round } = query;
 
   const ask = (asked: string) => {
-    setQuery((before) => ({ text: asked, round: before.round + 1 }));
+    setQuery(askedAgain(asked));
   };
 
   useEffect(() => {
@@ -76,7 +81,7 @@ export function CheckerProvider({ children }: WithChildren) {
       const name = decodeURIComponent(hash.slice(1));
 
       setTyped(name);
-      setQuery((before) => ({ text: name, round: before.round + 1 }));
+      setQuery(askedAgain(name));
     };
     const fromHash = () => {
       lookUp(globalThis.location.hash);
