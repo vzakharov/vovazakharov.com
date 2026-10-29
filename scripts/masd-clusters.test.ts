@@ -56,6 +56,12 @@ const FEED: Tree = {
   [`${SLICE}/lib/z.ts`]: 'export const z = 1;',
 };
 
+// The same slice with `other` reaching `top`'s model too.
+const SHARED_Y: Tree = {
+  ...FEED,
+  [`${SLICE}/ui/other.ts`]: importing('../lib/z', '../model/y'),
+};
+
 describe('masd:clusters', () => {
   it('prints the best subtree and each next one it does not overlap, and fails', () => {
     const { status, stdout } = run(FEED);
@@ -79,10 +85,7 @@ describe('masd:clusters', () => {
   });
 
   it('prints what a subtree takes from the rest, as the sub-slice below both', () => {
-    const { stdout } = run({
-      ...FEED,
-      [`${SLICE}/ui/other.ts`]: importing('../lib/z', '../model/y'),
-    });
+    const { stdout } = run(SHARED_Y);
     assert.match(
       stdout,
       /^ {4}ui\/x\.ts\n {4}it takes from the rest, a sub-slice below both:\n {6}model\/y\.ts$/m,
@@ -108,29 +111,26 @@ describe('masd:clusters', () => {
   });
 
   it('leaves out of a subtree a file the rest of the slice reaches too', () => {
-    const { stdout } = run({
-      ...FEED,
-      [`${SLICE}/ui/other.ts`]: importing('../lib/z', '../model/y'),
-    });
+    const { stdout } = run(SHARED_Y);
     assert.match(stdout, /^ {2}ui\/top\.ts: 2 files,/m);
     assert.doesNotMatch(stdout, /^ {4}model\/y\.ts$/m);
   });
 
   it('drops a cut whose rest is no unit: one file, or files apart', () => {
-    const thin = run({
-      [`${SLICE}/index.ts`]: importing('ui/page'),
+    const page: Tree = {
       [`${SLICE}/ui/page.ts`]: importing('player'),
       [`${SLICE}/ui/player.ts`]: importing('../model/a', '../model/b'),
       [`${SLICE}/model/a.ts`]: importing('b'),
       [`${SLICE}/model/b.ts`]: 'export const b = 1;',
+    };
+    const thin = run({
+      ...page,
+      [`${SLICE}/index.ts`]: importing('ui/page'),
     });
     assert.equal(thin.status, 0, thin.stdout);
     const apart = run({
+      ...page,
       [`${SLICE}/index.ts`]: importing('ui/page', 'lib/meta'),
-      [`${SLICE}/ui/page.ts`]: importing('player'),
-      [`${SLICE}/ui/player.ts`]: importing('../model/a', '../model/b'),
-      [`${SLICE}/model/a.ts`]: importing('b'),
-      [`${SLICE}/model/b.ts`]: 'export const b = 1;',
       [`${SLICE}/lib/meta.ts`]: 'export const meta = 1;',
     });
     assert.equal(apart.status, 0, apart.stdout);

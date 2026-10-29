@@ -284,6 +284,19 @@ const CARDS: Tree = {
 
 const PROMOTE_FACE = `src/site/pages/home takes from ${CARD} only its sub-slice "face"`;
 
+// The card with a third sub-slice, `bits`, that only `back` imports; both
+// pages take the whole card, so no consumer is flagged.
+const BITS: Tree = {
+  ...CARDS,
+  'src/site/pages/home/ui.ts':
+    "import { back, face } from '@/blog/entities/card';\nexport const home = [back, face];",
+  [`${CARD}/back/ui/back.ts`]:
+    "import { bit } from '../../bits';\nexport { edge as back } from './edge';\nexport const b = bit;",
+  [`${CARD}/back/ui/edge.ts`]:
+    "import { bit } from '../../bits';\nexport const edge = bit;",
+  [`${CARD}/bits/index.ts`]: 'export const bit = 1;',
+};
+
 describe('masd-check on sub-slices', () => {
   it('flags a segment named inside a segment', () => {
     const { status, stderr } = run({
@@ -378,16 +391,7 @@ describe('masd-check on sub-slices', () => {
   });
 
   it('flags a sub-slice one sibling leans on throughout', () => {
-    const { stderr } = run({
-      ...CARDS,
-      'src/site/pages/home/ui.ts':
-        "import { back, face } from '@/blog/entities/card';\nexport const home = [back, face];",
-      [`${CARD}/back/ui/back.ts`]:
-        "import { bit } from '../../bits';\nexport { edge as back } from './edge';\nexport const b = bit;",
-      [`${CARD}/back/ui/edge.ts`]:
-        "import { bit } from '../../bits';\nexport const edge = bit;",
-      [`${CARD}/bits/index.ts`]: 'export const bit = 1;',
-    });
+    const { stderr } = run(BITS);
     assert.equal(
       stderr,
       `${CARD}/bits: This sub-slice neither raises the modularity of its parent's imports nor is imported by two of its siblings. Consider folding it into "${CARD}".\n`,
@@ -396,16 +400,9 @@ describe('masd-check on sub-slices', () => {
 
   it('spares a sub-slice two siblings share, modular or not', () => {
     const { status, stderr } = run({
-      ...CARDS,
-      'src/site/pages/home/ui.ts':
-        "import { back, face } from '@/blog/entities/card';\nexport const home = [back, face];",
-      [`${CARD}/back/ui/back.ts`]:
-        "import { bit } from '../../bits';\nexport { edge as back } from './edge';\nexport const b = bit;",
-      [`${CARD}/back/ui/edge.ts`]:
-        "import { bit } from '../../bits';\nexport const edge = bit;",
+      ...BITS,
       [`${CARD}/face/ui/lens.ts`]:
         "import { bit } from '../../bits';\nexport const lens = bit;",
-      [`${CARD}/bits/index.ts`]: 'export const bit = 1;',
     });
     assert.deepEqual({ status, stderr }, { status: 0, stderr: '' });
   });
