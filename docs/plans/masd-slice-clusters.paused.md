@@ -175,9 +175,8 @@ Nothing built yet. In discussion, the search changed:
   in later tasks. The `e − a² > 0` test is dropped as a filter: a closure is
   connected by construction, so it nearly always passes.
 
-- **Poison check** (`docs/masd.md` § "Open directions", fourth item) builds on
-  the same madge graph, so it gets cheaper once this bite lands. It is not part
-  of this plan.
+- **Poison check** builds on the same madge graph, so it gets cheaper once this
+  bite lands. It is not part of this plan.
 
 ## DRY notes
 
