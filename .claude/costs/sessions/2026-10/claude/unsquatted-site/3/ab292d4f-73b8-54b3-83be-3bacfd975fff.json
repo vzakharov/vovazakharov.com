@@ -1,0 +1,106 @@
+{
+  "total": {
+    "inputTokens": 108,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 148241,
+    "cacheReadTokens": 8492822,
+    "outputTokens": 28732,
+    "thinkingTokens": 5352,
+    "responses": 54,
+    "costUsd": 3.4595643999999997
+  },
+  "estimate": {
+    "at": "2026-10-29T09:53:17.494Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a kernel lib regrouped into a purpose-named segment under Steiger's limit, and a lint rule's rollout framed as a decision"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "the social card re-composed and then explored as four distinct layouts"
+      },
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "copywriter",
+        "comment": "the card and meta description brought to the hero's wording"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T09:46:47.011Z",
+    "contextTokens": 110888,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47144,
+      "cacheReadTokens": 582934,
+      "outputTokens": 1096,
+      "thinkingTokens": 59,
+      "responses": 6,
+      "costUsd": 0.5157068
+    }
+  },
+  "sessionId": "ab292d4f-73b8-54b3-83be-3bacfd975fff",
+  "branch": "claude/unsquatted-site",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-site — словарное правило и NotedSpan готовы, второй раунд ревью #231 на паузе: дальше Steiger по kernel/shared/lib, OG-карточка, в…",
+  "prs": [
+    231
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEkTUTi5cT95s15DRo",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T09:46:27.959Z",
+  "lastResponseAt": "2026-10-29T09:54:05.512Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 108,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 148241,
+    "cacheReadTokens": 8492822,
+    "outputTokens": 28732,
+    "thinkingTokens": 5352,
+    "responses": 54,
+    "costUsd": 3.4595643999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 108,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 148241,
+      "cacheReadTokens": 8492822,
+      "outputTokens": 28732,
+      "thinkingTokens": 5352,
+      "responses": 54,
+      "costUsd": 3.4595643999999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 54,
+    "matched": 54,
+    "matchedTableUsd": 3.4595643999999997,
+    "matchedEventUsd": 3.4595643999999997,
+    "unseen": {}
+  }
+}
