@@ -28,8 +28,9 @@ The muthur sync offer was made; do not make it again.
      said it would cut all six after the restructures unless told otherwise.
      Then restructured the five units, found that seven of nine current
      candidates import shared files from their unit's rest (a sibling cycle
-     once cut), asked that on the PR, and paused on the context budget (verbatim
-     in Last agent turn).
+     once cut), asked that on the PR, and paused on the context budget. All of
+     it was one turn, so `scripts/relay-last-reply.py` found no earlier reply
+     and this file has no Last agent turn section.
 
 ## Intent
 
