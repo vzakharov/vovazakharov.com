@@ -100,7 +100,7 @@ export const PRINT_SOURCES = [
 const DOCUMENT_SOURCES = [
   'src/shell/app/styles/prose.scss',
   'src/blog/entities/document',
-  'src/blog/pages/article/ui',
+  'src/blog/pages/article',
   'src/blog/shared/ui',
   'src/blog/shared/content',
 ];

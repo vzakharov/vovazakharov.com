@@ -35,9 +35,9 @@ import { constructArticleMetadata } from '@/blog/shared/seo';
 import { ProseContent } from '@/blog/shared/ui';
 import { SourceList } from '@/blog/entities/document';
 
+import { PrintSheet } from '../../print';
 import classes from './article.module.scss';
 import { ArticleHeader } from './article-header';
-import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';
 
 /**

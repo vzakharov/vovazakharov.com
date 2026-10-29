@@ -1,1 +1,1 @@
-export { articleRoute } from './ui/article-page';
+export { articleRoute } from './page';
