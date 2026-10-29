@@ -111,7 +111,8 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 
 ## Left
 
-1. `/polish`, `/pr` for the third round.
+1. `/five-percent` over c7a7fc34..HEAD: the polish run's pass ran out of
+   budget and posted nothing.
 2. The two answers above, if they come.
 3. `/finalize`.
 

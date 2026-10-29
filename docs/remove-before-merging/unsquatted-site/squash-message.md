@@ -12,7 +12,9 @@ dice that rolls a word pair. Any zone Porkbun sells can lead the grid
 of twelve common ones: typed, or as a domain hack (agenticbible ->
 agentic.bible), a leading zone splitting off only where both halves are
 dictionary words (lovepage -> page.love). Prices are Porkbun's,
-read at build, so a pricing failure fails the build. A taken name shows
+read at build, so a pricing failure fails the build; the browser parses
+registry answers with zod's mini build, the classic one costing some
+70 KB gzipped on the page. A taken name shows
 its expiry date on hover, and says when it is up for grabs only in
 RDAP's pending delete, since before that the owner can still renew.
 The query rides in the URL hash, one history step per name.
@@ -26,8 +28,10 @@ the four best picks, so it cannot say what the page has stopped saying.
 Shell gains three hooks that are no-ops for the other sites: an accent
 colour token, a --radius-default property and a fontVariables slot on
 the root layout. Music's genius-style NotedSpan moves to shell for both
-sites, and kernel gains fetchOk, which makes a fetcher name the error
-class it throws. The site is wired as a receiver
+sites. Kernel gains fetchOk, which makes a fetcher name the error class
+it throws, errorClass, whose name a new lint holds to its constant, and
+asError, which every catch that wrapped a thrown non-Error by hand now
+uses. The site is wired as a receiver
 (vzakharov/unsquatted.com) in deploy, vet, preview and publish-site.sh,
 with its Umami site.
 
