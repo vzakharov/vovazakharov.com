@@ -45,26 +45,25 @@ function run(tree: Tree): { status: number; stdout: string } {
   return { status: status ?? -1, stdout };
 }
 
-// The slice's door reaches two closures: `top` with the files under it, and
-// `other` with its helper.
+// The slice's door enters two subtrees: `top` with the files only it reaches,
+// and `other` with its helper.
 const FEED: Tree = {
   [`${SLICE}/index.ts`]: importing('ui/top', 'ui/other'),
   [`${SLICE}/ui/top.ts`]: importing('x', '../model/y'),
   [`${SLICE}/ui/x.ts`]: importing('../model/y'),
   [`${SLICE}/model/y.ts`]: 'export const y = 1;',
-  [`${SLICE}/model/w.ts`]: 'export const w = 1;',
   [`${SLICE}/ui/other.ts`]: importing('../lib/z'),
   [`${SLICE}/lib/z.ts`]: 'export const z = 1;',
 };
 
 describe('masd:clusters', () => {
-  it('prints the best closure and each next one it does not overlap', () => {
+  it('prints the best subtree and each next one it does not overlap, and fails', () => {
     const { status, stdout } = run(FEED);
-    assert.equal(status, 0);
+    assert.equal(status, 1);
     assert.equal(
       stdout,
       [
-        `${SLICE} (7 files)`,
+        `${SLICE} (6 files)`,
         '  ui/top.ts: 3 files, ΔQ 0.32',
         '    model/y.ts',
         '    ui/top.ts',
@@ -73,6 +72,7 @@ describe('masd:clusters', () => {
         '    lib/z.ts',
         '    ui/other.ts',
         '1 of 1 slices and sub-slices hold a cluster.',
+        'Cut each into a sub-slice entered by its root. Where one should stay, ask the operator, and on their yes put "// masd-disable cluster -- <why it stays>" in its root.',
         '',
       ].join('\n'),
     );
@@ -96,12 +96,50 @@ describe('masd:clusters', () => {
     assert.match(stdout, /^1 of 2 slices and sub-slices hold a cluster\.$/m);
   });
 
+  it('leaves out of a subtree a file the rest of the slice reaches too', () => {
+    const { stdout } = run({
+      ...FEED,
+      [`${SLICE}/ui/other.ts`]: importing('../lib/z', '../model/y'),
+    });
+    assert.match(stdout, /^ {2}ui\/top\.ts: 2 files,/m);
+    assert.doesNotMatch(stdout, /^ {4}model\/y\.ts$/m);
+  });
+
+  it('drops a cut whose rest is no unit: one file, or files apart', () => {
+    const thin = run({
+      [`${SLICE}/index.ts`]: importing('ui/page'),
+      [`${SLICE}/ui/page.ts`]: importing('player'),
+      [`${SLICE}/ui/player.ts`]: importing('../model/a', '../model/b'),
+      [`${SLICE}/model/a.ts`]: importing('b'),
+      [`${SLICE}/model/b.ts`]: 'export const b = 1;',
+    });
+    assert.equal(thin.status, 0, thin.stdout);
+    const apart = run({
+      [`${SLICE}/index.ts`]: importing('ui/page', 'lib/meta'),
+      [`${SLICE}/ui/page.ts`]: importing('player'),
+      [`${SLICE}/ui/player.ts`]: importing('../model/a', '../model/b'),
+      [`${SLICE}/model/a.ts`]: importing('b'),
+      [`${SLICE}/model/b.ts`]: 'export const b = 1;',
+      [`${SLICE}/lib/meta.ts`]: 'export const meta = 1;',
+    });
+    assert.equal(apart.status, 0, apart.stdout);
+  });
+
+  it('lets a cluster stay whose root carries the marker', () => {
+    const { status, stdout } = run({
+      ...FEED,
+      [`${SLICE}/ui/top.ts`]: `// masd-disable cluster -- the operator keeps it whole\n${importing('x', '../model/y')}`,
+      [`${SLICE}/ui/other.ts`]: `// masd-disable cluster -- likewise\n${importing('../lib/z')}`,
+    });
+    assert.equal(status, 0, stdout);
+  });
+
   it('drops a closure made of whole segments', () => {
     const { stdout } = run({
       [`${SLICE}/index.ts`]: importing('ui/top', 'ui/other', 'lib/z'),
       [`${SLICE}/ui/top.ts`]: importing('x'),
       [`${SLICE}/ui/x.ts`]: 'export const x = 1;',
-      [`${SLICE}/ui/other.ts`]: 'export const other = 1;',
+      [`${SLICE}/ui/other.ts`]: importing('../lib/z'),
       [`${SLICE}/lib/z.ts`]: importing('q'),
       [`${SLICE}/lib/q.ts`]: 'export const q = 1;',
     });

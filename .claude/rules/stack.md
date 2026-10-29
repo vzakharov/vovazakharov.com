@@ -20,6 +20,7 @@ pnpm format:check               # prettier --check ., md wrap too │
 pnpm lint:css                   # stylelint, check-only         │
 pnpm lint:fsd                   # steiger per app root          │
 pnpm check:masd                 # the app graph, slices across apps │
+pnpm masd:clusters              # no slice hiding a sub-slice   │
 pnpm check:cycles               # madge: no import cycle in src/ │
 pnpm type-overlap               # scripts/type-overlap-check.ts │
 pnpm knip                       # unused files, exports, deps   │

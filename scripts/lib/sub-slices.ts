@@ -25,7 +25,7 @@ import {
 } from './slice-graph.ts';
 
 /** The comment a sub-slice's `index.ts` carries to stay put, by the operator's leave. */
-export const STAYS = /\/\/ masd-disable promotion -- \S/;
+const STAYS =/\/\/ masd-disable promotion -- \S/;
 
 const within = (file: string, directory: string): boolean =>
   file.startsWith(directory + path.sep);

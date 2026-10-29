@@ -6,18 +6,23 @@
  *
  *   pnpm masd:clusters
  *
- * A report, never a gate: it exits 0 whatever it prints. A candidate is a
- * file's downward closure — the file and everything it reaches inside its
- * slice or sub-slice — so the sub-slice it becomes never imports back into
- * what stays. Kept when:
+ * A gate: it exits 1 while it prints a cluster. A candidate is a file's
+ * dominator subtree — the file and everything inside its unit reached only
+ * through it — so the sub-slice it becomes has one door, the root, and that
+ * door becomes its barrel. Kept when:
  *
- * - its root is no door: a closure rooted at a file the unit is entered by is
- *   the unit itself;
+ * - its root is no door and no barrel: a subtree rooted at a file the unit is
+ *   entered by reaches no further in than the unit's own entry does;
  * - its root sits in the unit itself, not in one of its sub-slices, which are
  *   reported as units of their own;
- * - it holds at least two files and at most 80% of the unit;
+ * - it holds at least two files, and what stays holds at least two that are no
+ *   barrel and import each other into one piece: the cut's gain is the same
+ *   for both sides, so a leftover too thin to be a unit means the cut went
+ *   around the unit rather than through it;
  * - it is not just whole segments or sub-slices, where the tree has already
  *   cut;
+ * - its root carries no `// masd-disable cluster -- <why>`, which the operator
+ *   approves for a cluster that should stay where it is;
  * - splitting it off raises the modularity of the unit's own graph. The app's
  *   graph is the wrong one here: past a few hundred edges, modularity's
  *   resolution limit lets no split inside a slice pay for its one door.
@@ -26,8 +31,10 @@
  * already printed. Reads `src/` and `sites/*\/app/` under the working directory.
  */
 
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
+import { PUBLIC_API } from '../eslint/masd-graph.ts';
 import { appFiles } from './lib/import-graph.ts';
 import {
   cutGain,
@@ -37,7 +44,9 @@ import {
   unitsOf,
 } from './lib/slice-graph.ts';
 
-const LARGEST_SHARE = 0.8;
+const STAYS = /\/\/ masd-disable cluster -- \S/;
+
+const BARRELS = new Set(PUBLIC_API);
 
 type Cluster = { root: string; members: readonly string[]; gain: number };
 
@@ -46,6 +55,84 @@ const partOf = (file: string, unit: string): string => {
   const [first = '', ...rest] = path.relative(unit, file).split(path.sep);
   return rest.length > 0 ? path.join(unit, first) : file;
 };
+
+/**
+ * Each file's immediate dominator, entered from `entries`: Cooper, Harvey and
+ * Kennedy's iteration over reverse postorder. An entry's is `undefined`.
+ */
+function dominators(
+  entries: readonly string[],
+  below: (file: string) => readonly string[],
+): Map<string, string | undefined> {
+  const postorder: string[] = [];
+  const visited = new Set<string>();
+  const visit = (file: string): void => {
+    if (visited.has(file)) return;
+    visited.add(file);
+    for (const target of below(file)) visit(target);
+    postorder.push(file);
+  };
+  for (const entry of entries) visit(entry);
+  const order = new Map(postorder.map((file, index) => [file, index]));
+  const above = new Map<string, string[]>();
+  for (const file of postorder) {
+    for (const target of below(file)) {
+      above.set(target, [...(above.get(target) ?? []), file]);
+    }
+  }
+
+  // `null` is the virtual root standing above every entry.
+  const idom = new Map<string, string | null>(
+    entries.map((entry) => [entry, null]),
+  );
+  const rank = (file: string | null) =>
+    file === null ? Infinity : (order.get(file) ?? -1);
+  const intersect = (a: string | null, b: string | null): string | null => {
+    while (a !== b) {
+      while (rank(a) < rank(b)) a = a === null ? a : (idom.get(a) ?? null);
+      while (rank(b) < rank(a)) b = b === null ? b : (idom.get(b) ?? null);
+    }
+    return a;
+  };
+  const entrySet = new Set(entries);
+  for (let changed = true; changed; ) {
+    changed = false;
+    for (const file of postorder.toReversed()) {
+      if (entrySet.has(file)) continue;
+      const known = (above.get(file) ?? []).filter((pred) => idom.has(pred));
+      const [first, ...rest] = known;
+      if (first === undefined) continue;
+      let next: string | null = first;
+      for (const pred of rest) next = intersect(next, pred);
+      if (idom.get(file) !== next) {
+        idom.set(file, next);
+        changed = true;
+      }
+    }
+  }
+  return new Map([...idom].map(([file, dom]) => [file, dom ?? undefined]));
+}
+
+/** Whether `files` import each other into one piece, either direction counting. */
+function connected(
+  files: readonly string[],
+  imports: ReadonlyMap<string, ReadonlySet<string>>,
+): boolean {
+  const [start] = files;
+  if (start === undefined) return false;
+  const edges = edgesWithin(files, imports);
+  const reached = new Set([start]);
+  for (let grew = true; grew; ) {
+    grew = false;
+    for (const [from, to] of edges) {
+      if (reached.has(from) !== reached.has(to)) {
+        reached.add(from).add(to);
+        grew = true;
+      }
+    }
+  }
+  return reached.size === files.length;
+}
 
 function unitClusters(
   unit: string,
@@ -58,41 +145,63 @@ function unitClusters(
     [...(imports.get(file) ?? [])].filter((target) => inUnit.has(target));
   const edges = edgesWithin(members, imports);
   if (edges.length === 0) return [];
+  const importedInside = new Set(edges.map(([, to]) => to));
   const doors = new Set(
     [...imports]
       .filter(([from]) => !inUnit.has(from))
       .flatMap(([, targets]) => [...targets])
       .filter((target) => inUnit.has(target)),
   );
-
-  const parts = Map.groupBy(members, (file) => partOf(file, unit));
-  const seen = new Set<string>();
-  const candidates: Cluster[] = [];
-  for (const root of roots) {
-    if (doors.has(root)) continue;
-    const closure = new Set<string>();
+  const entries = members.filter(
+    (file) => doors.has(file) || !importedInside.has(file),
+  );
+  const idom = dominators(entries, below);
+  const children = Map.groupBy(
+    [...idom].filter(([, dom]) => dom !== undefined),
+    ([, dom]) => dom ?? '',
+  );
+  const subtree = (root: string): Set<string> => {
+    const found = new Set<string>();
     const stack = [root];
     for (let file = stack.pop(); file !== undefined; file = stack.pop()) {
-      if (closure.has(file)) continue;
-      closure.add(file);
-      stack.push(...below(file));
+      found.add(file);
+      stack.push(...(children.get(file) ?? []).map(([child]) => child));
     }
-    const sorted = [...closure].toSorted();
-    const key = sorted.join('\n');
+    return found;
+  };
+
+  const parts = Map.groupBy(members, (file) => partOf(file, unit));
+  const candidates: Cluster[] = [];
+  for (const root of roots) {
     if (
-      closure.size < 2 ||
-      closure.size > LARGEST_SHARE * members.length ||
-      seen.has(key) ||
-      [...closure].every((file) =>
-        (parts.get(partOf(file, unit)) ?? []).every((peer) =>
-          closure.has(peer),
-        ),
-      )
+      doors.has(root) ||
+      BARRELS.has(path.basename(root)) ||
+      !idom.has(root)
     ) {
       continue;
     }
-    seen.add(key);
-    candidates.push({ root, members: sorted, gain: cutGain(closure, edges) });
+    const cluster = subtree(root);
+    const stays = members.filter(
+      (file) => !cluster.has(file) && !BARRELS.has(path.basename(file)),
+    );
+    if (
+      cluster.size < 2 ||
+      stays.length < 2 ||
+      !connected(stays, imports) ||
+      [...cluster].every((file) =>
+        (parts.get(partOf(file, unit)) ?? []).every((peer) =>
+          cluster.has(peer),
+        ),
+      ) ||
+      STAYS.test(readFileSync(root, 'utf8'))
+    ) {
+      continue;
+    }
+    candidates.push({
+      root,
+      members: [...cluster].toSorted(),
+      gain: cutGain(cluster, edges),
+    });
   }
 
   const taken = new Set<string>();
@@ -119,7 +228,7 @@ function units(files: readonly string[]): Map<string, string[]> {
   return found;
 }
 
-function report(): string {
+function report(): { text: string; flagged: number } {
   const files = appFiles();
   const imports = importsOf(files);
   const all = units(files);
@@ -144,7 +253,14 @@ function report(): string {
     }
   }
   lines.push(`${flagged} of ${all.size} slices and sub-slices hold a cluster.`);
-  return `${lines.join('\n')}\n`;
+  if (flagged > 0) {
+    lines.push(
+      'Cut each into a sub-slice entered by its root. Where one should stay, ask the operator, and on their yes put "// masd-disable cluster -- <why it stays>" in its root.',
+    );
+  }
+  return { text: `${lines.join('\n')}\n`, flagged };
 }
 
-process.stdout.write(report());
+const { text, flagged } = report();
+process.stdout.write(text);
+process.exitCode = flagged > 0 ? 1 : 0;
