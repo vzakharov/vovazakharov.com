@@ -14,10 +14,14 @@ type VerdictLabelProps = WithDomain & {
 /** The site's own domain, which a visitor checking it is teased about. */
 export const OWN_DOMAIN = 'unsquatted.com';
 
-function takenText(domain: string, since: string | undefined): string {
+function takenText(domain: string, verdict: Verdict | undefined): string {
   if (domain === OWN_DOMAIN) return 'seriously?';
+  if (verdict?.state !== 'taken') return 'taken';
 
-  return since === undefined ? 'taken' : `taken ${since}`;
+  const { since, expiring } = verdict;
+  const taken = since === undefined ? 'taken' : `taken ${since}`;
+
+  return expiring === undefined ? taken : `${taken}, ${expiring}`;
 }
 
 /** The aside under the site's own name in its neighbouring zone. */
@@ -41,10 +45,7 @@ export function VerdictLabel({
     pending: 'checking…',
     free: 'available →',
     maybe: 'may be available →',
-    taken: takenText(
-      domain,
-      verdict?.state === 'taken' ? verdict.since : undefined,
-    ),
+    taken: takenText(domain, verdict),
     unknown: 'no answer',
   }[state];
   const aside = ownNeighbour ? neighbourAside(state) : undefined;

@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   cleanLabel,
   dohVerdict,
+  expiringIn,
   parseBootstrap,
   rdapVerdict,
   rowsFor,
@@ -78,20 +79,61 @@ describe('parseBootstrap', () => {
   });
 });
 
+describe('expiringIn', () => {
+  const expires = '2027-07-29T00:00:00Z';
+  const before = (ms: number) => Date.parse(expires) - ms;
+
+  it('counts in the largest whole unit, rounding up', () => {
+    assert.equal(
+      expiringIn(expires, before(36 * 3_600_000)),
+      'expires in 2 days',
+    );
+    assert.equal(
+      expiringIn(expires, before(3_600_000)),
+      'expires in 1 hour',
+    );
+    assert.equal(
+      expiringIn(expires, before(90_000)),
+      'expires in 2 minutes',
+    );
+  });
+
+  it('stays quiet over a week out', () => {
+    assert.equal(
+      expiringIn(expires, before(8 * 86_400_000)),
+      undefined,
+    );
+  });
+
+  it('says a lapsed one has expired', () => {
+    assert.equal(
+      expiringIn(expires, before(-60_000)),
+      'expired',
+    );
+  });
+});
+
 describe('rdapVerdict', () => {
   it('reads 404 as free', () => {
     assert.deepEqual(rdapVerdict(404, undefined), { state: 'free' });
   });
 
+  const events = [
+    { eventAction: 'expiration', eventDate: '2027-07-29T00:00:00Z' },
+    { eventAction: 'registration', eventDate: '2026-07-29T00:00:00Z' },
+  ];
+
   it('reads a record as taken since its registration year', () => {
     assert.deepEqual(
-      rdapVerdict(200, {
-        events: [
-          { eventAction: 'expiration', eventDate: '2027-07-29T00:00:00Z' },
-          { eventAction: 'registration', eventDate: '2026-07-29T00:00:00Z' },
-        ],
-      }),
+      rdapVerdict(200, { events }, Date.parse('2026-10-29T00:00:00Z')),
       { state: 'taken', since: '2026' },
+    );
+  });
+
+  it('says when a first-year registration is about to lapse', () => {
+    assert.deepEqual(
+      rdapVerdict(200, { events }, Date.parse('2027-07-26T00:00:00Z')),
+      { state: 'taken', since: '2026', expiring: 'expires in 3 days' },
     );
   });
 

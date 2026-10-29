@@ -13,7 +13,12 @@ import { z } from 'zod';
 export type Verdict =
   | { state: 'free' }
   | { state: 'maybe' }
-  | { state: 'taken'; since: string | undefined }
+  | {
+      state: 'taken';
+      since: string | undefined;
+      /** Set only for a registration lapsing within a week. */
+      expiring?: string;
+    }
   | { state: 'unknown' };
 
 export type WithDomain = { domain: string };
@@ -117,20 +122,61 @@ const rdapDomainSchema = z.object({
     .optional(),
 });
 
+const MINUTE = 60_000;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+const WEEK = 7 * DAY;
+
+function count(amount: number, unit: string): string {
+  return `${amount} ${unit}${amount === 1 ? '' : 's'}`;
+}
+
+/**
+ * How soon a registration lapses, said in the largest whole unit, once it is
+ * within a week; `undefined` further out or with no date to go by.
+ */
+export function expiringIn(
+  expires: string | undefined,
+  now: number,
+): string | undefined {
+  if (expires === undefined) return undefined;
+
+  const left = Date.parse(expires) - now;
+
+  if (!(left < WEEK)) return undefined;
+  if (left <= 0) return 'expired';
+  if (left >= DAY) return `expires in ${count(Math.ceil(left / DAY), 'day')}`;
+  if (left >= HOUR) {
+    return `expires in ${count(Math.ceil(left / HOUR), 'hour')}`;
+  }
+
+  return `expires in ${count(Math.ceil(left / MINUTE), 'minute')}`;
+}
+
 /**
  * A registry's answer: 404 is free, a record is taken since the year it was
  * registered, and anything else is no answer — a rate limit or an outage
  * says nothing about the name.
  */
-export function rdapVerdict(status: number, body: unknown): Verdict {
+export function rdapVerdict(
+  status: number,
+  body: unknown,
+  now = Date.now(),
+): Verdict {
   if (status === 404) return { state: 'free' };
   if (status < 200 || status >= 300) return { state: 'unknown' };
 
-  const registration = rdapDomainSchema
-    .parse(body)
-    .events?.find(({ eventAction }) => eventAction === 'registration');
+  const { events = [] } = rdapDomainSchema.parse(body);
+  const dated = (action: string) =>
+    events.find(({ eventAction }) => eventAction === action)?.eventDate;
+  const registered = dated('registration');
+  const expiring = expiringIn(dated('expiration'), now);
 
-  return { state: 'taken', since: registration?.eventDate.slice(0, 4) };
+  return {
+    state: 'taken',
+    since: registered?.slice(0, 4),
+    ...(expiring === undefined ? {} : { expiring }),
+  };
 }
 
 const dohSchema = z.object({ Status: z.number() });
