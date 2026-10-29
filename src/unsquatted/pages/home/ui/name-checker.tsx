@@ -91,6 +91,7 @@ export function NameChecker({ copy }: WithCopy) {
         <ActionIcon
           type="button"
           variant="default"
+          className={classes['diceButton']}
           size={42}
           aria-label={copy.dice}
           title={copy.dice}

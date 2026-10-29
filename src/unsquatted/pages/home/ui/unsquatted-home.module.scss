@@ -70,6 +70,17 @@
   cursor: progress;
 }
 
+// The default variant's hover fills the button with the foreground, which
+// drowns the dice's outline in its own faces; the border takes the hover.
+.diceButton {
+  color: var(--color-foreground);
+
+  &:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+}
+
 .diceBack {
   fill: var(--color-background);
 }

@@ -67,6 +67,50 @@ export function CheckerProvider({ children }: WithChildren) {
     };
   }, [typed]);
 
+  // A link carrying a name, or a name pasted into the address bar, is looked
+  // up at once — the link's own on the tick after hydration, which renders
+  // the empty field the static page was built with.
+  useEffect(() => {
+    const lookUp = (hash: string) => {
+      const name = decodeURIComponent(hash.slice(1));
+
+      if (name === '') return;
+      setTyped(name);
+      setQuery((before) => ({ text: name, round: before.round + 1 }));
+    };
+    const fromHash = () => {
+      lookUp(globalThis.location.hash);
+    };
+
+    // Read now, before the effect below writes the still-empty field over it.
+    const linked = globalThis.location.hash;
+    const first = setTimeout(() => {
+      lookUp(linked);
+    }, 0);
+    globalThis.addEventListener('hashchange', fromHash);
+
+    return () => {
+      clearTimeout(first);
+      globalThis.removeEventListener('hashchange', fromHash);
+    };
+  }, []);
+
+  const label = cleanLabel(text);
+  const zone = typedZone(text);
+
+  // What is looked up stays in the address, so a reload keeps it and a link
+  // shares it. Replaced rather than pushed: each name is not a page to go
+  // back through.
+  useEffect(() => {
+    const hash =
+      label === '' ? '' : `#${label}${zone === undefined ? '' : `.${zone}`}`;
+
+    if (globalThis.location.hash === hash) return;
+    const { pathname, search } = globalThis.location;
+
+    globalThis.history.replaceState(null, '', `${pathname}${search}${hash}`);
+  }, [label, zone]);
+
   const checkHere = (name: string) => {
     setTyped(name);
     ask(name);
@@ -83,8 +127,8 @@ export function CheckerProvider({ children }: WithChildren) {
       value={{
         typed,
         type: setTyped,
-        label: cleanLabel(text),
-        zone: typedZone(text),
+        label,
+        zone,
         round,
         settling: typed !== text,
         checkTyped: () => {
