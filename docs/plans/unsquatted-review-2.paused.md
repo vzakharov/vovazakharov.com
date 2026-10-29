@@ -82,16 +82,20 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 - **"maybe →"** («замени grab-ish на maybe») — c3c3e98.
 - **Coffee line on its own line** («If после разрыва строки») — 83b14ee.
 - Preview republished from the head (b8efb02).
+- **Dice** («кубик не работает … надо бы ему тоже лоадер») — 8e3f0c1: faker's
+  English entry alone (the root bundles every locale), a loader on the button.
+- **Shout-out** — f25cbd5, 8556fd8, 2bf6bf9: post text «Check out {url}: [insert
+  why you love it, or keep the placeholder for the lulz]», prompt «Got hooked on
+  rolling the dice?».
+- **Header spacing** («все строки с одинаковым пропуском») — 2bf6bf9: no gap
+  between lede and pledge, line height 1.65 (picked over 1.55/1.75/1.85).
+- **/five-percent's two proposals** taken («пятипроцентные — да, бери»): 757c8d5
+  (`LASTING_PICKS` for the card), f8b4675 (page metadata from the lede); replies
+  posted on both threads.
 
 ## Left
 
-1. **/five-percent's two optional proposals** (pullrequestreview-5696304712):
-   the card reading only picks without `shownUntil`, so a date passing cannot
-   turn `content:og --check` red; the tagline derived from the lede by
-   `generateMetadata`. Asked the operator.
-2. Squash proposal: mention the generated card and the lede if `/squash-message`
-   judges them record-worthy.
-3. `/pr`.
+1. `/finalize`.
 
 Settled by the operator: the card shows the four top-scored picks («4 лучших»),
 its heading 24px above the list («24 кажется норм»); no price on the card («не
