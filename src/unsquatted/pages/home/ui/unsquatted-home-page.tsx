@@ -28,7 +28,7 @@ const LEDE = COPY.lede.replace('*', '');
 const [BEFORE_BLAZING, AFTER_BLAZING] = COPY.byline.split('{blazing}');
 
 /** The byline is a caption, in lower case; after the lede it opens a sentence. */
-const BYLINE = COPY.byline.replace('{blazing}', COPY.blazing);
+const BYLINE = [BEFORE_BLAZING, COPY.blazing, AFTER_BLAZING].join('');
 
 export const unsquattedHomeMetadata = constructMetadata({
   title: SITE_CONFIG.name,
