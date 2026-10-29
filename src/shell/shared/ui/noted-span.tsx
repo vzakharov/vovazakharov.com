@@ -21,17 +21,17 @@ type Opener = 'hover' | 'press';
 const HOVER_GRACE_MS = 150;
 
 /**
- * Words of verse carrying a note, as genius.com marks them: the note opens on
- * a hover where the pointer can hover, and on a press everywhere — a phone has
- * no hover, and a note can carry a link the reader has to reach. The pointer's
+ * Words carrying a note, as genius.com marks them: the note opens on a hover
+ * where the pointer can hover, and on a press everywhere — a phone has no
+ * hover, and a note can carry a link the reader has to reach. The pointer's
  * own type decides rather than a media query, so a laptop with a touchscreen
  * gets both.
  *
  * Mounted while closed and kept out of a portal, so the note is in the static
  * HTML beside its words — which is also what carries the popover's classes into
  * the export `check:mantine-styles` compares against. Out of a portal it sits
- * inside the lyrics' scrolling box, which is why it is positioned `fixed`: that
- * box would clip a note dropping below the last stanza.
+ * inside whatever box holds its words, which is why it is positioned `fixed`:
+ * a scrolling one, as the lyrics are, would clip a note dropping below it.
  */
 export function NotedSpan({ words, children }: NotedSpanProps) {
   const [opener, setOpener] = useState<Opener>();

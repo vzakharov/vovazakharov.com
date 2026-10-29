@@ -2,7 +2,7 @@ import { Stack } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
 
-import { PageShell, TextLink } from '@/shell/shared/ui';
+import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { COPY } from '../i18n';
@@ -10,7 +10,6 @@ import { zoneOf } from '../lib/lookup';
 import { fetchPrices } from '../lib/prices';
 import { PICKS } from '../model/picks';
 import { CheckerProvider } from './checker-state';
-import { Hint } from './hint';
 import { NameChecker } from './name-checker';
 import { PickRow } from './pick-row';
 import classes from './unsquatted-home.module.scss';
@@ -29,11 +28,12 @@ export async function UnsquattedHomePage() {
         <header>
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
           <p className={classes['lede']}>
-            {COPY.lede} <Hint label={COPY.blazingWhy}>{COPY.blazing}</Hint>.
+            {COPY.lede}{' '}
+            <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>.
           </p>
           <p className={classes['lede']}>
             {COPY.pledge} {COPY.coffeePrompt}{' '}
-            <Hint label={COPY.coffeeSoon}>{COPY.coffeeLink}</Hint>.
+            <NotedSpan words={COPY.coffeeLink}>{COPY.coffeeSoon}</NotedSpan>.
           </p>
         </header>
 

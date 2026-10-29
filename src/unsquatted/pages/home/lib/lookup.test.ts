@@ -81,9 +81,7 @@ describe('domainHacks', () => {
   });
 
   it('splits a name that starts with a word-zone and runs on in words', () => {
-    assert.deepEqual(domainHacks('biblelovers', SOLD, WORDS), [
-      'lovers.bible',
-    ]);
+    assert.deepEqual(domainHacks('biblelovers', SOLD, WORDS), ['lovers.bible']);
     assert.deepEqual(domainHacks('designtips', SOLD, WORDS), [
       'tips.design',
       'design.tips',

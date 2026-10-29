@@ -35,20 +35,6 @@
   color: inherit;
 }
 
-// A button only so the tooltip has something to focus.
-.hint {
-  @extend %text-button;
-
-  font: inherit;
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-  cursor: help;
-}
-
-.hintAside {
-  max-width: 280px;
-}
-
 .sectionHeading {
   margin: 0 0 12px;
   color: var(--unsquatted-muted);

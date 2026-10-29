@@ -59,8 +59,8 @@ const CORE_SHEETS = new Set(['baseline', 'default-css-variables', 'global']);
  * Sheets of components that render only after an interaction, so no static
  * page carries their classes and the unused half below would report them —
  * the song page's video dialog (`pages/song/ui/song-video-button.tsx`) and
- * the overlay and close button it composes, and unsquatted's hover asides
- * (`pages/home/ui/hint.tsx`) and its Check button's loader. Whether they are
+ * the overlay and close button it composes, and unsquatted's Check button's
+ * loader. Whether they are
  * styled is confirmed by eye, with each one open; drop an entry with its last
  * user.
  */
@@ -69,7 +69,6 @@ const INTERACTION_SHEETS = new Set([
   'ModalBase',
   'Overlay',
   'CloseButton',
-  'Tooltip',
   'Loader',
 ]);
 
