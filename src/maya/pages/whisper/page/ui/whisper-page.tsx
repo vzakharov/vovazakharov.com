@@ -9,10 +9,10 @@ import { documentRoute, localizedRoute } from '@/blog/shared/content';
 
 import { MayaByline, messages as mayaMessages } from '@/maya/entities/maya';
 
+import { typewriterMessages, WhisperTypewriter } from '../../typewriter';
 import { messages as whisperMessages } from '../config/i18n';
 import { whisperPath } from '../lib/whisper-metadata';
 import { LEXICON } from '../model/lexicon';
-import { WhisperTypewriter } from '../typewriter';
 
 const { commit, words } = LEXICON;
 
@@ -58,7 +58,7 @@ export function WhisperPage({ locale }: WithLocale) {
           </Text>
         </Stack>
 
-        <WhisperTypewriter {...{ words, copy }} />
+        <WhisperTypewriter {...{ words }} copy={typewriterMessages(locale)} />
 
         <SiteFooter
           {...{ locale }}
