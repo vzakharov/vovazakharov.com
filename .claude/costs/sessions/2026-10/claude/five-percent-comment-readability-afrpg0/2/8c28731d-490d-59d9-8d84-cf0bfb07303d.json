@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55852,
+    "cacheReadTokens": 564402,
+    "outputTokens": 1356,
+    "thinkingTokens": 225,
+    "responses": 6,
+    "costUsd": 0.5868644000000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T08:44:57.274Z",
+    "contextTokens": 107268,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55582,
+      "cacheReadTokens": 457406,
+      "outputTokens": 1029,
+      "thinkingTokens": 144,
+      "responses": 5,
+      "costUsd": 0.5567572000000001
+    }
+  },
+  "sessionId": "8c28731d-490d-59d9-8d84-cf0bfb07303d",
+  "branch": "claude/five-percent-comment-readability-afrpg0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/five-percent-comment-readability-afrpg0",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBes2os7cMQ73eA76j",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T08:44:39.128Z",
+  "lastResponseAt": "2026-10-29T08:44:57.274Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55852,
+    "cacheReadTokens": 564402,
+    "outputTokens": 1356,
+    "thinkingTokens": 225,
+    "responses": 6,
+    "costUsd": 0.5868644000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55852,
+      "cacheReadTokens": 564402,
+      "outputTokens": 1356,
+      "thinkingTokens": 225,
+      "responses": 6,
+      "costUsd": 0.5868644000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 5,
+    "matched": 5,
+    "matchedTableUsd": 0.5567572000000001,
+    "matchedEventUsd": 0.5567572000000001,
+    "unseen": {}
+  }
+}
