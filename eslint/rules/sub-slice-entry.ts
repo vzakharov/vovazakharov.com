@@ -49,7 +49,9 @@ const rule: Rule.RuleModule = {
     if (from === undefined) return {};
     const [root, fromParts] = from;
     const own = new Set(subSlicePath(fromParts.slice(0, -1)));
-    const entries = TEST_FILE.test(context.filename)
+    const entries =
+      TEST_FILE.test(context.filename) ||
+      path.basename(context.filename) === TEST_API
       ? [...PUBLIC_API, TEST_API]
       : PUBLIC_API;
 

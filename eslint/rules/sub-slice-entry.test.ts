@@ -51,6 +51,11 @@ describe('sub-slice-entry', () => {
       "import { x } from '../prose/index.test-only';",
     ],
     [
+      'the slice’s test-only barrel entering the sub-slice’s',
+      `${DOCUMENT}/index.test-only.ts`,
+      "export { x } from './prose/index.test-only';",
+    ],
+    [
       'a sub-slice’s files reaching each other',
       `${DOCUMENT}/prose/ui/content-link.tsx`,
       "import { x } from '../model/link';",
