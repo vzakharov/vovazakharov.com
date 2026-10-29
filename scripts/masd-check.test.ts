@@ -312,6 +312,33 @@ describe('masd-check on sub-slices', () => {
     assert.deepEqual({ status, stderr }, { status: 0, stderr: '' });
   });
 
+  it('flags a sibling sub-slice taking only one sub-slice of another', () => {
+    // `face` holds `glint`; the card's sibling `shine` takes only `glint`
+    // through `face`'s barrel, so `glint` belongs beside `face`.
+    const { stderr } = run({
+      ...CARDS,
+      'src/site/pages/home/ui.ts':
+        "import { back, face, shine } from '@/blog/entities/card';\nexport const home = [back, face, shine];",
+      [`${CARD}/index.ts`]:
+        "export { face } from './face';\nexport { shine } from './shine';\nexport { back } from './ui/back';",
+      [`${CARD}/face/index.ts`]:
+        "export { glint } from './glint';\nexport { face } from './ui/face';",
+      [`${CARD}/face/glint/index.ts`]: "export { glint } from './ui/glint';",
+      [`${CARD}/face/glint/ui/glint.ts`]:
+        "import { spark } from './spark';\nexport const glint = spark;",
+      [`${CARD}/face/glint/ui/spark.ts`]: 'export const spark = 1;',
+      [`${CARD}/shine/index.ts`]: "export { shine } from './ui/shine';",
+      [`${CARD}/shine/ui/shine.ts`]:
+        "import { glint } from '../../face';\nimport { ray } from './ray';\nexport const shine = [glint, ray];",
+      [`${CARD}/shine/ui/ray.ts`]: 'export const ray = 1;',
+    });
+    const moveUp = `${CARD}/shine takes from ${CARD}/face only its sub-slice "glint": move it up into ${CARD}, beside "face", so both import it from there.`;
+    assert.ok(
+      stderr.split('\n').some((line) => line.startsWith(moveUp)),
+      stderr,
+    );
+  });
+
   it('flags a sub-slice the rest of its parent leans on throughout', () => {
     const { stderr } = run({
       ...CARDS,

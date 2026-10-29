@@ -146,56 +146,89 @@ function consumerOf(file: string): string | undefined {
 }
 
 /**
- * Consumers that take from a slice only what one of its sub-slices exports: that
- * sub-slice is a slice of its own, held in the wrong place.
+ * Where `file` takes the barrel `loaded` from, when that barrel is a slice's or
+ * a sub-slice's entered from outside it: for a slice, `consumerOf`; for a
+ * sub-slice, the place in its parent the file sits in — a sibling sub-slice, or
+ * the parent's own segments. `target` is the slice or sub-slice and `parent`
+ * the one that holds it, `undefined` for a slice.
+ */
+function enteredFrom(
+  file: string,
+  loaded: string,
+): { consumer: string; target: string; parent?: string } | undefined {
+  const slice = sliceOf(loaded);
+  const target = path.dirname(loaded);
+  if (slice === undefined || !PUBLIC_API.includes(path.basename(loaded))) {
+    return undefined;
+  }
+  if (target === slice) {
+    const consumer = consumerOf(file);
+    return consumer === undefined || consumer === slice
+      ? undefined
+      : { consumer, target };
+  }
+  const chain = [slice, ...subSlicesOf(loaded, slice)];
+  if (chain.at(-1) !== target || sliceOf(file) !== slice) return undefined;
+  if (within(file, target)) return undefined;
+  const parent = chain.at(-2) ?? slice;
+  const consumer =
+    subSlicesOf(file, slice).find((sub) => path.dirname(sub) === parent) ??
+    parent;
+  return { consumer, target, parent };
+}
+
+/**
+ * Consumers that take from a slice or a sub-slice only what one of its
+ * sub-slices exports: that sub-slice belongs one level out, where both can
+ * import it — a slice of its own, or a sub-slice beside the one it sits in.
  */
 function promotions(files: readonly string[]): string[] {
-  // A slice barrel's every export name, as the sub-slice it comes from.
+  // A barrel's every export name, as the sub-slice of `target` it comes from.
   const origins = new Map<string, Map<string, string | undefined>>();
-  const originsOf = (barrel: string, slice: string) => {
+  const originsOf = (barrel: string, target: string) => {
     const known = origins.get(barrel);
     if (known !== undefined) return known;
     const named = new Map<string, string | undefined>();
     for (const [loaded, names] of takes(barrel)) {
-      const [sub] = subSlicesOf(loaded, slice);
+      const [sub] = subSlicesOf(loaded, target);
       for (const name of names) named.set(name, sub);
     }
     origins.set(barrel, named);
     return named;
   };
 
-  const taken = new Map<string, Set<string | undefined>>();
+  const taken = new Map<
+    string,
+    { subs: Set<string | undefined>; parent?: string }
+  >();
   for (const file of files) {
-    const consumer = consumerOf(file);
-    if (consumer === undefined) continue;
+    if (isTest(file)) continue;
     for (const [loaded, names] of takes(file)) {
-      const slice = sliceOf(loaded);
-      if (
-        slice === undefined ||
-        slice === consumer ||
-        path.dirname(loaded) !== slice ||
-        !PUBLIC_API.includes(path.basename(loaded))
-      ) {
-        continue;
-      }
-      const named = originsOf(loaded, slice);
-      const key = `${consumer}\n${slice}`;
-      const subs = taken.get(key) ?? new Set();
-      for (const name of names) subs.add(named.get(name));
-      taken.set(key, subs);
+      const entry = enteredFrom(file, loaded);
+      if (entry === undefined) continue;
+      const { consumer, target, parent } = entry;
+      const named = originsOf(loaded, target);
+      const key = `${consumer}\n${target}`;
+      const record = taken.get(key) ?? { subs: new Set(), parent };
+      for (const name of names) record.subs.add(named.get(name));
+      taken.set(key, record);
     }
   }
 
-  return [...taken].flatMap(([key, subs]) => {
-    const [consumer = '', slice = ''] = key.split('\n');
+  return [...taken].flatMap(([key, { subs, parent }]) => {
+    const [consumer = '', target = ''] = key.split('\n');
     const [sub, ...others] = subs;
     if (sub === undefined || others.length > 0) return [];
     const barrel = path.join(sub, 'index.ts');
     if (existsSync(barrel) && STAYS.test(readFileSync(barrel, 'utf8'))) {
       return [];
     }
+    const remedy =
+      parent === undefined
+        ? 'promote it to a slice of its own that both can import'
+        : `move it up into ${parent}, beside "${path.basename(target)}", so both import it from there`;
     return [
-      `${consumer} takes from ${slice} only its sub-slice "${path.basename(sub)}": promote it to a slice of its own that both can import. Where the import rules leave it nowhere to go, ask the operator, and on their yes put "// masd-disable promotion -- <why it cannot move>" in ${barrel}.`,
+      `${consumer} takes from ${target} only its sub-slice "${path.basename(sub)}": ${remedy}. Where the import rules leave it nowhere to go, ask the operator, and on their yes put "// masd-disable promotion -- <why it cannot move>" in ${barrel}.`,
     ];
   });
 }
