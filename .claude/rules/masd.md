@@ -69,8 +69,8 @@ so: a `game` between `kernel` and `mushrooms` waits for a second game.
 Lowest (most generic) first, each optional per app:
 
 - **`shared/`** — segments carrying no page composition. `kernel` holds the
-  repo-wide ones (`cache`, `config`, `i18n`, `seo`, `typings`, `lib/*`); an app
-  adds its own (`shell/shared/ui`, `blog/shared/content`,
+  repo-wide ones (`cache`, `config`, `feed`, `i18n`, `seo`, `typings`, `lib/*`);
+  an app adds its own (`shell/shared/ui`, `blog/shared/content`,
   `music/shared/catalogue`, `basilisk/shared/content`,
   `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
@@ -106,8 +106,8 @@ the block _is_, not on the fact that it is shared:
   `SiteFooter` is the site's foot, not a document's; music's `CatalogueHeader`
   sets a cover, a title's gloss and facts together.
 - **`shared/ui`** — the block knows no business noun: a primitive any page could
-  set, whatever it shows. `SummaryCard` is a heading and a blurb; music's
-  `NotedSpan` is a popover on words, `FactLine` a row of facts. It is the barrel
+  set, whatever it shows. `SummaryCard` is a heading and a blurb, `NotedSpan` a
+  popover on words; music's `FactLine` is a row of facts. It is the barrel
   client components import, so a component there takes what it needs as props.
 
 **Blocks that import each other go in one slice or on different layers.** A

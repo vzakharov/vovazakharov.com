@@ -5,9 +5,9 @@
 Vova Zakharov's personal site and CV —
 [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project
 built as a **static export** (`output: 'export'`) and deployed to GitHub Pages:
-React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves five
+React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves six
 sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com`,
-`agentic.bible`, `basilisk.fyi` and `mayawonders.com`.
+`agentic.bible`, `basilisk.fyi`, `mayawonders.com` and `unsquatted.com`.
 
 Static export is the constraint that shapes everything else — there is no server
 at runtime, so no API routes, no server actions, no request-time rendering.
@@ -39,10 +39,10 @@ language — runs `scripts/staged.sh swap` on the spot and commits.
   Feature-Sliced Design tree, composed along the graph in `src/masd.json`.
   `@.claude/rules/masd.md` carries the conventions the checkers enforce.
 - **`sites/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`,
-  `maya/`), named by the site's id, each holding its `app/` (**routing only** —
-  the FSD app layers are under `src/`), `public/`, `next.config.ts` and
-  `tsconfig.json`. All five build from the one `src/`, and a build is entered in
-  its site directory rather than pointed at from the root.
+  `maya/`, `unsquatted/`), named by the site's id, each holding its `app/`
+  (**routing only** — the FSD app layers are under `src/`), `public/`,
+  `next.config.ts` and `tsconfig.json`. All six build from the one `src/`, and a
+  build is entered in its site directory rather than pointed at from the root.
 - **`sites/*/public/`** — Static assets served at that site's root: `.nojekyll`
   (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each
   site with a domain of its own (which a force-push would otherwise drop), and
