@@ -10,6 +10,7 @@ import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { asError } from '@/kernel/shared/lib/error-class';
 import type { Titled } from '@/kernel/shared/typings';
 
 import {
@@ -81,7 +82,7 @@ function parseFrontmatter<F extends BaseFrontmatter>(
     return schema.parse(data);
   } catch (error) {
     throw new Error(`Invalid frontmatter in ${file}`, {
-      cause: error instanceof Error ? error : new Error(String(error)),
+      cause: asError(error),
     });
   }
 }

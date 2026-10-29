@@ -10,3 +10,12 @@ export function errorClass(name: string) {
     }
   };
 }
+
+const NonErrorThrown = errorClass('NonErrorThrown');
+
+/** What a `catch` caught, as an `Error`: a thrown non-`Error` is wrapped, kept as the cause. */
+export function asError(caught: unknown): Error {
+  return caught instanceof Error
+    ? caught
+    : new NonErrorThrown(String(caught), { cause: caught });
+}

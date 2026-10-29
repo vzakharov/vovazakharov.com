@@ -6,7 +6,7 @@ import path from 'node:path';
 import { z } from 'zod';
 
 import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
-import { errorClass } from '@/kernel/shared/lib/error-class';
+import { asError, errorClass } from '@/kernel/shared/lib/error-class';
 
 const PickFileError = errorClass('PickFileError');
 
@@ -52,7 +52,7 @@ function readPick(fileName: string) {
     return { domain, ...pickSchema.parse(data) };
   } catch (error) {
     throw new PickFileError(`picks/${fileName} does not parse`, {
-      cause: error instanceof Error ? error : new Error(String(error)),
+      cause: asError(error),
     });
   }
 }

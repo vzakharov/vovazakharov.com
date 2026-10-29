@@ -1,3 +1,5 @@
+import { asError } from './error-class';
+
 /** The error a fetch fails with, its class naming what was being fetched. */
 export type FetchFailure = new (
   message: string,
@@ -18,9 +20,7 @@ export async function fetchOk(
   try {
     response = await fetch(url, init);
   } catch (error) {
-    throw new Failure(`${url} did not answer`, {
-      cause: error instanceof Error ? error : new Error(String(error)),
-    });
+    throw new Failure(`${url} did not answer`, { cause: asError(error) });
   }
 
   if (!response.ok) {
