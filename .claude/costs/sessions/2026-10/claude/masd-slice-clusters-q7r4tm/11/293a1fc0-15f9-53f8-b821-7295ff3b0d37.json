@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 18,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 60610,
+    "cacheReadTokens": 913997,
+    "outputTokens": 2256,
+    "thinkingTokens": 450,
+    "responses": 9,
+    "costUsd": 0.7128714
+  },
+  "estimate": {
+    "at": "2026-10-29T11:37:28.187Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "splitting cv.module.scss by consumer and cutting the CV sheet as the gate prints it, then the polish passes and the PR refresh"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T11:37:26.522Z",
+    "contextTokens": 111985,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48009,
+      "cacheReadTokens": 692321,
+      "outputTokens": 1658,
+      "thinkingTokens": 409,
+      "responses": 7,
+      "costUsd": 0.5557522
+    }
+  },
+  "sessionId": "293a1fc0-15f9-53f8-b821-7295ff3b0d37",
+  "branch": "claude/masd-slice-clusters-q7r4tm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — Steiger отключён там, где покрыто, продвижение печатает допустимые слои, ревью на правило отработано; дальше реж…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEEZdDsfAqNgtnGpHh",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T11:37:01.311Z",
+  "lastResponseAt": "2026-10-29T11:37:29.116Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 18,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 60610,
+    "cacheReadTokens": 913997,
+    "outputTokens": 2256,
+    "thinkingTokens": 450,
+    "responses": 9,
+    "costUsd": 0.7128714
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 60610,
+      "cacheReadTokens": 913997,
+      "outputTokens": 2256,
+      "thinkingTokens": 450,
+      "responses": 9,
+      "costUsd": 0.7128714
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.6020188000000001,
+    "matchedEventUsd": 0.6020188000000001,
+    "unseen": {}
+  }
+}
