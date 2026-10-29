@@ -7,9 +7,9 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { MUSIC_ROUTE } from '@/blog/shared/content';
 
+import { WorkSection } from '../work';
 import { ContactSection } from './contact-section';
 import { OfferSection } from './offer-section';
-import { WorkSection } from './work-section';
 
 /** The nouns the hero claims that live on pages of their own. */
 const SEE_ALSO = [MUSIC_ROUTE];

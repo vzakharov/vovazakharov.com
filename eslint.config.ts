@@ -150,8 +150,8 @@ const eslintConfig = defineConfig([
   // everywhere else, including every component the CV renders.
   {
     files: [
-      'src/vova/pages/{home,writing}/ui/**/*.tsx',
-      'src/music/pages/{music,artist,album,song,radio}/ui/**/*.tsx',
+      'src/vova/pages/{home,writing}/**/*.tsx',
+      'src/music/pages/{music,artist,album,song,radio}/**/*.tsx',
       'src/music/{widgets,entities}/*/ui/**/*.tsx',
       'src/music/shared/ui/*.tsx',
     ],
