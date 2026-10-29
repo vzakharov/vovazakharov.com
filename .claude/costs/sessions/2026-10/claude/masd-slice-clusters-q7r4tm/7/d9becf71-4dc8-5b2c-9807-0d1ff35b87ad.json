@@ -72,10 +72,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 26,
-    "matched": 26,
-    "matchedTableUsd": 1.9636023999999999,
-    "matchedEventUsd": 1.9636023999999999,
+    "events": 27,
+    "matched": 27,
+    "matchedTableUsd": 2.0093807999999997,
+    "matchedEventUsd": 2.0093807999999997,
     "unseen": {}
   }
 }
