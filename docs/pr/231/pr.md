@@ -7,27 +7,24 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-29T08:36:23Z
-- **Updated:** 2026-10-29T09:50:45Z
+- **Updated:** 2026-10-29T12:05:36Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 11
+## Awaiting an answer: 8
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 4436be5). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at e56457d). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `src/unsquatted/pages/home/i18n/messages/en.json`:18 — unresolved — last: @vzakharov (human) 2026-10-29T09:06:31Z — "ага 👍" → [↓](#t01)
-- **T02** `src/unsquatted/pages/home/ui/pick-row.tsx`:28 — unresolved — last: @vzakharov (human) 2026-10-29T09:20:26Z — "верно; нужно держать какое-то время -- смотреть, когда имя п…" → [↓](#t02)
-- **T03** `docs/remove-before-merging/unsquatted-site/squash-message.md`:19 — unresolved — last: @vzakharov (human) 2026-10-29T09:01:16Z — "а у Майи тоже no-op? Она там тоже кастомизировала как-то" → [↓](#t03)
-- **T04** `sites/unsquatted/public/card.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:03:38Z — "как-то странно выглядит лого сверху; + копию надо править ко…" → [↓](#t04)
-- **T05** `src/unsquatted/pages/home/lib/dice.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-29T09:07:58Z — "WET" → [↓](#t05)
-- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:41 — unresolved — last: @vzakharov (human) 2026-10-29T09:09:14Z — "мы можем подгрузить весь список зон поддерживаемых поркбаном…" → [↓](#t06)
-- **T07** `src/unsquatted/pages/home/lib/prices.ts`:71 — unresolved — last: @vzakharov (human) 2026-10-29T09:10:47Z — "фетчеры давай оборачивать чтобы сами рейзили (ошибка -- обяз…" → [↓](#t07)
-- **T08** `src/unsquatted/pages/home/model/picks.json`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:13:07Z — "давай держать их в public/picks/<...>.md, с фронтматтером ка…" → [↓](#t08)
-- **T09** `src/unsquatted/pages/home/ui/checker-state.tsx`:155 — unresolved — last: @vzakharov (human) 2026-10-29T09:14:44Z — "это можно обернуть ы `someWrapper(CheckerContext, new SomeEr…" → [↓](#t09)
-- **T10** `src/unsquatted/pages/home/ui/hint.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:17:14Z — "у нас это больше нигде не применяется? в том же music, на ge…" → [↓](#t10)
-- **T11** `src/unsquatted/pages/home/ui/verdict-label.tsx`:79 — unresolved — last: @vzakharov (human) 2026-10-29T09:21:43Z — "а как же COPY?" → [↓](#t11)
+- **T03** `src/kernel/shared/lib/use-provided.ts`:5 — unresolved — last: @vzakharov (human) 2026-10-29T11:54:20Z — "нужен линт убеждающийся что название константы совпадает с н…" → [↓](#t03)
+- **T04** `src/kernel/shared/lib/fetch-ok.ts`:22 — unresolved — last: @vzakharov (human) 2026-10-29T11:55:51Z — "тут тоже кастомный класс для Error ("ошибка вызванная не-оши…" → [↓](#t04)
+- **T05** `src/unsquatted/pages/home/i18n/messages/en.json`:4 — unresolved — last: @vzakharov (human) 2026-10-29T11:57:57Z — "кажется, лучше тут с lowercase начать" → [↓](#t05)
+- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:42 — unresolved — last: @vzakharov (human) 2026-10-29T11:59:57Z — "посмотри какие ещё хорошие есть среди поркбановских, какие с…" → [↓](#t06)
+- **T07** `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:01:01Z — "а это не server-only случайно? помнится, мы как-то очень сил…" → [↓](#t07)
+- **T08** `src/unsquatted/scripts/lib/unsquatted-card.ts`:108 — unresolved — last: @vzakharov (human) 2026-10-29T12:03:40Z — "не здесь, но завести issue -- кажется, у нас в разных картах…" → [↓](#t08)
+- **T09** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:04:11Z — "не оч понятно почему удалили staged и начали править это на…" → [↓](#t09)
+- **T10** `package.json`:74 — unresolved — last: @vzakharov (human) 2026-10-29T12:05:23Z — "а почему не faker-ом пользуемся для этого? или там другое? и…" → [↓](#t10)
 
 ---
 
@@ -35,49 +32,49 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 ## Summary
 
-- **A sixth site, `unsquatted` (unsquatted.com), on shell.** It has one page with two parts. The first is a curated list of good domain names that are still free. A naming routine grows the list through `pages/home/model/picks.json`, and each listed name is looked up again on load. The second is a domainr-like checker that asks each registry's RDAP straight from the visitor's browser, with DNS-over-HTTPS as a hint where RDAP refuses browsers. There is no server, which is where "Curated and blazing fast" comes from.
-- **The checker's behaviour:**
-  - Lookups run as you type, with a debounce. There is also a Check button with a loader, and dice that roll a faker adjective+noun (faker loads on the first roll).
-  - A typed zone is listed first, and so is a domain hack (`fuckapp` → `fuck.app`).
-  - Twelve zones are shown, three rows of them with the rest behind "more tlds ↓".
-  - The query lives in the URL hash, and each change is a history step.
-  - Free rows show Porkbun's price, which is read at build time; a pricing failure fails the build.
-  - A taken name shows "up for grabs in N" only when it is in RDAP `pending delete`.
-  - Easter eggs: typing `unsquatted.com` answers "seriously?", and the card right after it gets an aside.
-- **Shell grows three hooks, each a no-op for the other sites:** an `accent` colour token, a `--radius-default` custom property, and a `fontVariables` slot on the root layout. `Tooltip` and `Loader` sheets are imported and added to the styles check's interaction list, because a static export never renders them.
-- **Wiring:** a receiver repo (vzakharov/unsquatted.com) in deploy, vet, preview and `publish-site.sh`, plus an Umami site and an OG card. The README and `docs/masd.md` site lists include the new site. The site is already live: it was deployed by dispatching `deploy.yml` from this branch.
+- **A sixth site, `unsquatted` (unsquatted.com), on shell.** One page with two halves: a curated list of good domain names still free, and a domainr-like checker that asks each registry's RDAP straight from the visitor's browser, with DNS-over-HTTPS as a hint where RDAP refuses browsers. No server, which is where "blazing-fast" comes from; the lede's asterisk after "grabbed" answers "* No, not even us."
+- **The list** is one file per name, `sites/unsquatted/public/picks/<domain>.md`, its category, blurb, `added` and a float `score` in frontmatter; it is sorted by score, best first, so a new name slots in between two others. A name the routine finds taken gets `shownUntil` and leaves the list after it, its file kept. Each row is re-checked on load and shows its zone's Porkbun price beside "grab →".
+- **The checker:**
+  - Lookups run as you type, with a debounce, a Check button with a loader, and dice rolling an adjective + noun.
+  - Every root zone Porkbun sells (539) is checkable. A typed zone leads, then `.com`, then split names (`fuckapp` → `fuck.app`; a leading zone splits only where the rest runs dictionary words together), then the rest — three rows, more behind "more tlds ↓".
+  - The query lives in the URL hash, each change a history step.
+  - Verdicts read "grab →", "grab-ish →" (DNS only), or "taken", whose note gives the registration's expiry date; "up for grabs in N" shows only in RDAP `pending delete`. Typing `unsquatted.com` answers "seriously?".
+- **Shared code it brought up:** `NotedSpan` moved to `shell/shared/ui` (unsquatted's asides use it, Tooltip is gone); kernel gains `fetchOk`, `errorClass` and `useProvided` (music's fetcher and player use them too) and a `shared/feed` segment for `rss` and `feed-html`. Shell grows an `accent` token, `--radius-default` and a `fontVariables` slot, each a no-op for the other sites.
+- **Wiring:** a receiver repo (vzakharov/unsquatted.com) in deploy, vet, preview and `publish-site.sh`, an Umami site, and an OG card generated by `src/unsquatted/scripts/lib/unsquatted-card.ts` from the lede and the four best picks, its wordmark in Fraunces as on the site.
 
 ## QA Checklist
 
-- [ ] `list` — Open https://unsquatted.com: the curated names render, each re-checked on load, and a taken one loses its Register link
-- [ ] `type` — Type a word: the zone grid fills with available / could be free / taken verdicts once typing pauses, and Check spins (dimmed) while lookups run
-- [ ] `typed-zone` — Type `foo.dev` and `fuckapp`: the typed domain, and the `fuck.app` hack, lead the grid
+- [ ] `list` — Open https://unsquatted.com: the names render best first, each re-checked on load, with "grab →" and a price under it
+- [ ] `type` — Type a word: the zone grid fills with grab / grab-ish / taken verdicts once typing pauses, and Check spins (dimmed) while lookups run
+- [ ] `typed-zone` — Type `foo.dev` and `fuckapp`: the typed domain leads; `fuck.app` comes right after `.com`
 - [ ] `more-tlds` — Only three rows show; "more tlds ↓" reveals the rest
-- [ ] `price` — Available rows show a quiet "$N, then $M/yr" or "$N/yr" under them
+- [ ] `taken-note` — Hover or tap "taken": the note gives the expiry date in UTC
 - [ ] `hash` — The address gains `#name`; reload keeps it, a shared link looks it up, and back/forward walk through earlier names
-- [ ] `dice` — The dice fills the field with a hyphen-free word pair without scrolling the page
+- [ ] `dice` — The dice fills the field with a word pair without scrolling the page
 - [ ] `pick-click` — Clicking a listed name puts it in the field, looks it up and scrolls to the top
 - [ ] `egg` — `unsquatted` answers "seriously?" on .com, with the neighbouring card's aside
-- [ ] `tooltips` — The "blazing fast" and "buy us a coffee" hints show their tooltips on hover
+- [ ] `notes` — "blazing-fast" and "buy us a coffee" open their notes on hover and on tap; the console shows no hydration error
+- [ ] `card` — Share the URL somewhere with previews: the card shows the lede with its footnote and four names
 - [ ] `narrow` — At phone width the dice and Check wrap to their own row and the cards fall to fewer columns
-- [ ] `other-sites` — Another site's preview (e.g. vovazakharov) looks unchanged: accent, radius and fonts fall back to its own
+- [ ] `other-sites` — Another site's preview (e.g. vovazakharov) looks unchanged, music's notes and radio included
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
-| `list` | manual-only | — | Live RDAP answers from third-party registries |
-| `type` | manual-only | — | Verdict logic is covered by `lookup.test.ts` (`rdapVerdict`, `dohVerdict`); the live debounce and loader need a browser against live registries |
+| `list` | manual-only | — | Live RDAP answers; the order is `picks.ts`'s sort, parsed at build |
+| `type` | manual-only | — | Verdict logic is covered by `lookup.test.ts`; the live debounce and loader need a browser against live registries |
 | `typed-zone` | unit | ✅ | `lookup.test.ts` — `typedZone`, `domainHacks`, `rowsFor` |
 | `more-tlds` | manual-only | — | Layout of the grid and the toggle |
-| `price` | unit | ✅ | `prices.test.ts` — `parsePricing`, `priceParts`; the live Porkbun fetch runs at build |
+| `taken-note` | manual-only | — | Live RDAP `expiration` |
 | `hash` | e2e | ❌ | Drive the built page: type, reload, assert the field and the hash; go back, assert the previous name |
 | `dice` | manual-only | — | Random output, and the absence of scroll is visual |
 | `pick-click` | e2e | ❌ | Click a listed name, assert the field value and `scrollY === 0` |
-| `egg` | unit | ❌ | The choice lives in `verdict-label.tsx`, a component; extracting it to a pure function would put it in the suite |
-| `tooltips` | manual-only | — | Interaction-only rendering; the styles check guards the sheet import |
+| `egg` | unit | ❌ | The choice lives in `verdict-label.tsx`, a component |
+| `notes` | e2e | ❌ | A console listener on the dev page catches the hydration error |
+| `card` | unit | ✅ | `content:og unsquatted --check` in vet holds the committed PNG to its source |
 | `narrow` | manual-only | — | Visual layout at narrow widths |
 | `other-sites` | manual-only | — | Visual regression across sites |
 
-https://claude.ai/code/session_01DaohkCuXcusv7weZ4aSLQq
+https://claude.ai/code/session_01DaohkDfJdWXC3PesAbjdfq
 
 ---
 
@@ -101,20 +98,28 @@ visitor's browser asks each registry's RDAP itself, with DNS-over-HTTPS
 as a hint where a registry's RDAP refuses browsers.
 
 The checker looks a name up as it is typed, with a Check button and a
-dice that rolls a faker word pair. A typed zone or a domain hack
-(fuckapp -> fuck.app) leads the grid of twelve zones, three rows of them
-shown. The query rides in the URL hash, one history step per name. Free
-rows show Porkbun's price, read at build, so a pricing failure fails the
-build. A taken name says when it is up for grabs only in RDAP's pending
-delete, since before that the owner can still renew. The listed names
-are re-checked on load and grow through pages/home/model/picks.json.
+dice that rolls a word pair. Any zone Porkbun sells can lead the grid
+of twelve common ones: typed, or as a domain hack (agenticbible ->
+agentic.bible), a leading zone splitting off only where both halves are
+dictionary words (lovepage -> page.love). Prices are Porkbun's,
+read at build, so a pricing failure fails the build. A taken name shows
+its expiry date on hover, and says when it is up for grabs only in
+RDAP's pending delete, since before that the owner can still renew.
+The query rides in the URL hash, one history step per name.
+
+The listed names are files under public/picks/, re-checked on load and
+ordered by a float score in their frontmatter, so a new name slots in
+between two others; a pick past its shownUntil date leaves the list
+and its file stays. The Open Graph card is generated from the lede and
+the four best picks, so it cannot say what the page has stopped saying.
 
 Shell gains three hooks that are no-ops for the other sites: an accent
 colour token, a --radius-default property and a fontVariables slot on
-the root layout. Tooltip and Loader join the styles check's interaction
-list, because a static export never renders them. The site is wired as
-a receiver (vzakharov/unsquatted.com) in deploy, vet, preview and
-publish-site.sh, with its Umami site and Open Graph card.
+the root layout. Music's genius-style NotedSpan moves to shell for both
+sites, and kernel gains fetchOk, which makes a fetcher name the error
+class it throws. The site is wired as a receiver
+(vzakharov/unsquatted.com) in deploy, vet, preview and publish-site.sh,
+with its Umami site.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -135,110 +140,32 @@ _2026-10-29T08:38:41Z_
 
 <!-- five-percent: 41f8f91faf70dfc281d0346b51c72a45a2e31379 -->
 
-- **T01** `src/unsquatted/pages/home/i18n/messages/en.json`:18 — unresolved — last: @vzakharov (human) 2026-10-29T09:06:31Z — "ага 👍" → [↓](#t01)
-- **T02** `src/unsquatted/pages/home/ui/pick-row.tsx`:28 — unresolved — last: @vzakharov (human) 2026-10-29T09:20:26Z — "верно; нужно держать какое-то время -- смотреть, когда имя п…" → [↓](#t02)
-- **T03** `docs/remove-before-merging/unsquatted-site/squash-message.md`:19 — unresolved — last: @vzakharov (human) 2026-10-29T09:01:16Z — "а у Майи тоже no-op? Она там тоже кастомизировала как-то" → [↓](#t03)
-- **T04** `sites/unsquatted/public/card.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:03:38Z — "как-то странно выглядит лого сверху; + копию надо править ко…" → [↓](#t04)
-- **T05** `src/unsquatted/pages/home/lib/dice.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-29T09:07:58Z — "WET" → [↓](#t05)
-- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:41 — unresolved — last: @vzakharov (human) 2026-10-29T09:09:14Z — "мы можем подгрузить весь список зон поддерживаемых поркбаном…" → [↓](#t06)
-- **T07** `src/unsquatted/pages/home/lib/prices.ts`:71 — unresolved — last: @vzakharov (human) 2026-10-29T09:10:47Z — "фетчеры давай оборачивать чтобы сами рейзили (ошибка -- обяз…" → [↓](#t07)
-- **T08** `src/unsquatted/pages/home/model/picks.json`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:13:07Z — "давай держать их в public/picks/<...>.md, с фронтматтером ка…" → [↓](#t08)
-- **T09** `src/unsquatted/pages/home/ui/checker-state.tsx`:155 — unresolved — last: @vzakharov (human) 2026-10-29T09:14:44Z — "это можно обернуть ы `someWrapper(CheckerContext, new SomeEr…" → [↓](#t09)
-- **T10** `src/unsquatted/pages/home/ui/hint.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:17:14Z — "у нас это больше нигде не применяется? в том же music, на ge…" → [↓](#t10)
-- **T11** `src/unsquatted/pages/home/ui/verdict-label.tsx`:79 — unresolved — last: @vzakharov (human) 2026-10-29T09:21:43Z — "а как же COPY?" → [↓](#t11)
+<a id="r02"></a>
+
+### R02 — Review by @vzakharov (agent) — COMMENTED
+
+_2026-10-29T10:35:10Z_
+
+[https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5696304712](https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5696304712)
+
+**/five-percent**: два предложения, критичных нет.
+
+<!-- five-percent: c7a7fc34a792fc949da37ca21b7d7f909f35db4b -->
+
+_11 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `src/unsquatted/pages/home/lib/dice.ts`:18 — unresolved — last: @vzakharov (agent) 2026-10-29T09:56:00Z — "Сделано в 104d75a: `['adjective', 'noun'].map(…)` вместо дву…" → [↓](#t01)
+- **T02** `src/unsquatted/scripts/lib/unsquatted-card.ts`:172 — unresolved — last: @vzakharov (agent) 2026-10-29T11:09:09Z — "В сессии: «пятипроцентные — да, бери». Взято в 757c8d5: карт…" → [↓](#t02)
+- **T03** `src/kernel/shared/lib/use-provided.ts`:5 — unresolved — last: @vzakharov (human) 2026-10-29T11:54:20Z — "нужен линт убеждающийся что название константы совпадает с н…" → [↓](#t03)
+- **T04** `src/kernel/shared/lib/fetch-ok.ts`:22 — unresolved — last: @vzakharov (human) 2026-10-29T11:55:51Z — "тут тоже кастомный класс для Error ("ошибка вызванная не-оши…" → [↓](#t04)
+- **T05** `src/unsquatted/pages/home/i18n/messages/en.json`:4 — unresolved — last: @vzakharov (human) 2026-10-29T11:57:57Z — "кажется, лучше тут с lowercase начать" → [↓](#t05)
+- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:42 — unresolved — last: @vzakharov (human) 2026-10-29T11:59:57Z — "посмотри какие ещё хорошие есть среди поркбановских, какие с…" → [↓](#t06)
+- **T07** `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:01:01Z — "а это не server-only случайно? помнится, мы как-то очень сил…" → [↓](#t07)
+- **T08** `src/unsquatted/scripts/lib/unsquatted-card.ts`:108 — unresolved — last: @vzakharov (human) 2026-10-29T12:03:40Z — "не здесь, но завести issue -- кажется, у нас в разных картах…" → [↓](#t08)
+- **T09** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:04:11Z — "не оч понятно почему удалили staged и начали править это на…" → [↓](#t09)
+- **T10** `package.json`:74 — unresolved — last: @vzakharov (human) 2026-10-29T12:05:23Z — "а почему не faker-ом пользуемся для этого? или там другое? и…" → [↓](#t10)
 
 <a id="t01"></a>
-
-### `src/unsquatted/pages/home/i18n/messages/en.json`:18 — unresolved
-
-```diff
-@@ -0,0 +1,23 @@
-… 14 lines elided …
-+  "moreZones": "more tlds ↓",
-+  "fewerZones": "fewer tlds ↑",
-+  "listHeading": "Up for grabs",
-+  "register": "Register ~$11 →",
-```
-
-**@vzakharov (agent)** — 2026-10-29T08:38:30Z
-
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**/five-percent** · critical
-
-The site states a .com's price three times, and they don't agree. The checker shows Porkbun's real price, read at build ($11/yr for .com today). A listed name's link says "Register ~$11" because it's typed into the copy here. And the description that search results and link previews show says "Register one for about $10" (`tagline` in `src/kernel/shared/config/site-config.ts`).
-
-Use the one price the build already fetches everywhere. A listed name's link would read its own zone's price from that list, the way the checker's rows do, and the description would drop the number ("Register one before someone else does").
-
-It costs passing the price list down to the list as well as to the checker. A guessed number also stops being one now that the naming routine can add names outside .com: as things stand, a .ai pick would say "~$11" when Porkbun charges $83.
-
-**@vzakharov (human)** — 2026-10-29T09:06:31Z
-
-ага 👍
-
----
-
-<a id="t02"></a>
-
-### `src/unsquatted/pages/home/ui/pick-row.tsx`:28 — unresolved
-
-```diff
-@@ -0,0 +1,46 @@
-… 16 lines elided …
-+ * to a registrar to find out.
-+ */
-+export function PickRow({ domain, category, blurb, copy }: PickRowProps) {
-+  const taken = useVerdict(domain)?.state === 'taken';
-```
-
-**@vzakharov (agent)** — 2026-10-29T08:38:35Z
-
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**/five-percent** · optional
-
-The change assumes a listed name that someone registers stays on the list, dimmed and labelled "taken". Nothing ever removes it, because the naming routine only adds names. So, over time, the "Up for grabs" list fills up with names that are no longer up for grabs, and they're likely the best ones, since those get registered first.
-
-Drop the taken names before anyone sees them. The build already goes out for prices, so it could look each listed name up too and leave out the ones that are registered. The check on page load stays, to catch a name registered since the last deploy, and it could hide that row instead of dimming it.
-
-The cost is a second network dependency at build time (the registries' lookup service, on top of Porkbun). A name taken between deploys would still flash on screen until the check on load hides it. And the site stops showing that its picks do get registered, which the dimmed rows could be read as showing on purpose.
-
-**@vzakharov (human)** — 2026-10-29T09:20:26Z
-
-верно; нужно держать какое-то время -- смотреть, когда имя последний раз было свободно и держать после этого пару недель. при каждом запуске рутины (до этого мы ещё не дошли) на именах, которые больше не доступны, ставить дату "держать до...". Так как мы переходим на .md, архивные (не показываемые) пункты НЕ удаляются из репы, просто не показываются.
-
-also: черипикни обновления пятипроцентника из #229 , плюс обозначь что комментарий должен идти на том языке, на котором шло общение в сессии
-
----
-
-<a id="t03"></a>
-
-### `docs/remove-before-merging/unsquatted-site/squash-message.md`:19 — unresolved
-
-```diff
-@@ -0,0 +1,31 @@
-… 15 lines elided …
-+delete, since before that the owner can still renew. The listed names
-+are re-checked on load and grow through pages/home/model/picks.json.
-+
-+Shell gains three hooks that are no-ops for the other sites: an accent
-```
-
-**@vzakharov (human)** — 2026-10-29T09:01:16Z
-
-а у Майи тоже no-op? Она там тоже кастомизировала как-то
-
----
-
-<a id="t04"></a>
-
-### `sites/unsquatted/public/card.og.png`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-29T09:03:38Z
-
-как-то странно выглядит лого сверху; + копию надо править когда правим хиро (например про $10 мы уже там не говорим)
-
----
-
-<a id="t05"></a>
 
 ### `src/unsquatted/pages/home/lib/dice.ts`:18 — unresolved
 
@@ -255,118 +182,197 @@ also: черипикни обновления пятипроцентника и�
 
 WET
 
+**@vzakharov (agent)** — 2026-10-29T09:56:00Z
+
+Сделано в 104d75a: `['adjective', 'noun'].map(…)` вместо двух одинаковых вызовов.
+
+---
+
+<a id="t02"></a>
+
+### `src/unsquatted/scripts/lib/unsquatted-card.ts`:172 — unresolved
+
+```diff
+@@ -0,0 +1,179 @@
+… 168 lines elided …
++${rows}
++      </ul>
++      <div class="field">Your name…</div>
++      <p class="more">${more(PICKS.length - SHOWN)}</p>
+```
+
+**@vzakharov (agent)** — 2026-10-29T10:34:59Z
+
+<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
+**/five-percent** · optional
+
+Сейчас: карточка берёт имена из `PICKS`, а этот список зависит от сегодняшней даты, поэтому vet покраснеет сам, без единого коммита, в тот день, когда истечёт чей-нибудь `shownUntil`.
+**Предложение: карточка читает только имена без `shownUntil` — и в четырёх строках, и в «+ N more».**
+Цена: на время «подержать» карточка покажет на одно имя меньше, чем страница.
+
+<details><summary>Подробнее</summary>
+
+- `generatedCard` (`src/kernel/scripts/lib/og-job.ts`) хэширует саму сгенерированную страницу, а `content:og unsquatted --check` стоит в `scripts/vet.sh`.
+- `PICKS` (`src/unsquatted/pages/home/model/picks.ts:69`) отбрасывает имя, чей `shownUntil` раньше `new Date()`. Как только такой день наступает, меняется `PICKS.length - SHOWN`, а с ним хэш страницы — и `og-unsquatted` в vet красный на любой ветке, пока кто-то не перерендерит карточку.
+- План сам заметил эту ловушку для цены в `grab →` («a reprice re-flags the card and `content:og --check` in vet goes red»); у даты то же свойство, только срабатывает по календарю.
+- Правило «держать до…» (T02) не трогается: страница продолжает фильтровать по дате. Меняется лишь то, что читает карточка — имя уходит с неё в том коммите, где рутина ставит `shownUntil`, а этот коммит и так перерендерит карточку.
+
+</details>
+
+**@vzakharov (human)** — 2026-10-29T11:03:44Z
+
+ага
+
+**@vzakharov (agent)** — 2026-10-29T11:09:09Z
+
+В сессии: «пятипроцентные — да, бери».
+
+Взято в 757c8d5: карточка читает `LASTING_PICKS` — имена без `shownUntil`, и в четырёх строках, и в «+ N more»; страница по-прежнему фильтрует по дате.
+
+---
+
+<a id="t03"></a>
+
+### `src/kernel/shared/lib/use-provided.ts`:5 — unresolved
+
+```diff
+@@ -0,0 +1,25 @@
+… 1 line elided …
++
++import { errorClass } from './error-class';
++
++const MissingProviderError = errorClass('MissingProviderError');
+```
+
+**@vzakharov (human)** — 2026-10-29T11:54:20Z
+
+нужен линт убеждающийся что название константы совпадает с названием класса
+
+---
+
+<a id="t04"></a>
+
+### `src/kernel/shared/lib/fetch-ok.ts`:22 — unresolved
+
+```diff
+@@ -0,0 +1,31 @@
+… 18 lines elided …
++    response = await fetch(url, init);
++  } catch (error) {
++    throw new Failure(`${url} did not answer`, {
++      cause: error instanceof Error ? error : new Error(String(error)),
+```
+
+**@vzakharov (human)** — 2026-10-29T11:55:51Z
+
+тут тоже кастомный класс для Error ("ошибка вызванная не-ошибкой" или типа того)
+
+---
+
+<a id="t05"></a>
+
+### `src/unsquatted/pages/home/i18n/messages/en.json`:4 — unresolved
+
+```diff
+@@ -1,11 +1,12 @@
+… 4 lines elided …
+-  "coffeeLink": "buy us a coffee",
++  "lede": "Good domain names nobody has grabbed* yet.",
++  "ledeNote": "* No, not even us.",
++  "byline": "Curated list · {blazing} search · no reselling · no affiliate links",
+```
+
+**@vzakharov (human)** — 2026-10-29T11:57:57Z
+
+кажется, лучше тут с lowercase начать
+
 ---
 
 <a id="t06"></a>
 
-### `src/unsquatted/pages/home/lib/lookup.ts`:41 — unresolved
+### `src/unsquatted/pages/home/lib/lookup.ts`:42 — unresolved
 
 ```diff
-@@ -0,0 +1,229 @@
-… 23 lines elided …
-+export type WithDomain = { domain: string };
-+
-+/** The zones every name is checked in, in the order they are shown. */
-+export const ZONES = [
+@@ -16,14 +27,19 @@ export type Verdict =
+… 11 lines elided …
+ export type WithDomain = { domain: string };
+ 
+-/** The zones every name is checked in, in the order they are shown. */
++/**
++ * The zones every name is checked in, in the order they are shown. Any other
++ * zone Porkbun sells is shown only where the name spells it (`domainHacks`).
++ */
 ```
 
-**@vzakharov (human)** — 2026-10-29T09:09:14Z
+**@vzakharov (human)** — 2026-10-29T11:59:57Z
 
-мы можем подгрузить весь список зон поддерживаемых поркбаном? но некоторые из них, всякие gTLD, "использовать" только если промпт юзера их включает в конце или в начале (например, agenticbible → agentic.bible, designtips → tips.design)?
+посмотри какие ещё хорошие есть среди поркбановских, какие стоит чекать всегда.
+
+к слову, непонятно наличие de тут -- их кто-то использует как generic?
 
 ---
 
 <a id="t07"></a>
 
-### `src/unsquatted/pages/home/lib/prices.ts`:71 — unresolved
+### `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved
 
-```diff
-@@ -0,0 +1,72 @@
-… 61 lines elided …
-+
-+/** Fetched at build; a failure fails the build rather than drop the prices. */
-+export async function fetchPrices(): Promise<Prices> {
-+  const response = await fetch(PRICING_URL, { method: 'POST' });
-+
-+  if (!response.ok) {
-+    throw new Error(`Porkbun pricing answered ${response.status}`);
-+  }
-+
-+  return parsePricing(await response.json());
-```
+**@vzakharov (human)** — 2026-10-29T12:01:01Z
 
-**@vzakharov (human)** — 2026-10-29T09:10:47Z
-
-фетчеры давай оборачивать чтобы сами рейзили (ошибка -- обязательный второй параметр)
-
-+давай линтерное правило, запрещающее голый Error (разве у нас такого не было?)
+а это не server-only случайно? помнится, мы как-то очень сильно следили, чтобы zod у нас не уплывал в клиент; может стоит сделать линтерное правило, что если импортируется (перечислены тяжёлые пакеты), то должно быть server-only?
 
 ---
 
 <a id="t08"></a>
 
-### `src/unsquatted/pages/home/model/picks.json`:1 — unresolved
+### `src/unsquatted/scripts/lib/unsquatted-card.ts`:108 — unresolved
 
-**@vzakharov (human)** — 2026-10-29T09:13:07Z
+```diff
+@@ -0,0 +1,210 @@
+… 97 lines elided …
++    .join('\n');
++
++  return {
++    page: `<!doctype html>
++<html>
++  <head>
++    <meta charset="utf-8" />
++    <style>
++      @font-face { font-family: "Wordmark"; src: url("${FONT}") format("woff2"); font-weight: 100 900; }
++      html { zoom: ${SCALE}; }
++      html, body { margin: 0; padding: 0; }
+```
 
-давай держать их в public/picks/<...>.md, с фронтматтером как сейчас. Если есть body, они считаются статьёй, и она рендерится на /picks/..., как остальные статьи в блоге. В статьях (в перспективе) будет типа идеи что можно сделать, мокап, кнопка "закажите у нас, нарисуем за 2 бакса" и так далее (пока статей нет, так что функционал статей можно пока не писать)
+**@vzakharov (human)** — 2026-10-29T12:03:40Z
+
+не здесь, но завести issue -- кажется, у нас в разных картах много разного всего повторяется; посмотреть как это можно DRY-нуть (начиная строковыми хелперами и заканчивая специальными библиотеками)
 
 ---
 
 <a id="t09"></a>
 
-### `src/unsquatted/pages/home/ui/checker-state.tsx`:155 — unresolved
+### `CLAUDE.md`:1 — unresolved
 
-```diff
-@@ -0,0 +1,161 @@
-… 149 lines elided …
-+  );
-+}
-+
-+export function useChecker(): CheckerState {
-+  const state = use(CheckerContext);
-+
-… 6 lines elided …
-```
+**@vzakharov (human)** — 2026-10-29T12:04:11Z
 
-**@vzakharov (human)** — 2026-10-29T09:14:44Z
-
-это можно обернуть ы `someWrapper(CheckerContext, new SomeError(CheckerProvider))`? Или тут реактовые штуки начинают мешать?
+не оч понятно почему удалили staged и начали править это на живое
 
 ---
 
 <a id="t10"></a>
 
-### `src/unsquatted/pages/home/ui/hint.tsx`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-29T09:17:14Z
-
-у нас это больше нигде не применяется? в том же music, на genius-подсказках?
-
----
-
-<a id="t11"></a>
-
-### `src/unsquatted/pages/home/ui/verdict-label.tsx`:79 — unresolved
+### `package.json`:74 — unresolved
 
 ```diff
-@@ -0,0 +1,96 @@
-… 69 lines elided …
-+  price,
-+}: VerdictLabelProps) {
-+  const state: State = verdict?.state ?? 'pending';
-+  const text = {
-+    pending: 'checking…',
-+    free: 'available →',
-+    maybe: 'may be available →',
-+    taken: takenText(domain, verdict),
-+    unknown: 'no answer',
-+  }[state];
+@@ -71,11 +71,13 @@
+     "shiki": "^4.4.3",
+     "unified": "^11.0.5",
+     "unist-util-visit": "^5.1.0",
++    "wordlist-english": "1.2.1",
 ```
 
-**@vzakharov (human)** — 2026-10-29T09:21:43Z
+**@vzakharov (human)** — 2026-10-29T12:05:23Z
 
-а как же COPY?
+а почему не faker-ом пользуемся для этого? или там другое? и если уже загрузили это, нужен ли нам по-прежнему faker? (хотя там забавные сочетания в принципе получаются, может лучше и не трогать)
 
 ---
 
@@ -375,3 +381,8 @@ WET
 - **2026-10-29T08:36:53Z** @vzakharov renamed from «feat(unsquatted): unsquatted.com — free domain names and an in-browser checker» to «feat(unsquatted): unsquatted.com, free domain names and a checker».
 - **2026-10-29T08:38:41Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5694901035.
 - **2026-10-29T09:22:28Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5695156817.
+- **2026-10-29T09:51:03Z** @vzakharov cross-referenced this pull request from [#234 chore: ban bare new Error in favour of named error classes](https://github.com/vzakharov/vovazakharov.com/pull/234).
+- **2026-10-29T10:00:00Z** @vzakharov renamed from «feat(unsquatted): unsquatted.com, free domain names and a checker» to «feat: unsquatted.com, free domain names and a checker».
+- **2026-10-29T10:02:41Z** @vzakharov renamed from «feat: unsquatted.com, free domain names and a checker» to «feat(unsquatted): unsquatted.com, free domain names and a checker».
+- **2026-10-29T10:35:10Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5696304712.
+- **2026-10-29T12:05:35Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5697237166.
