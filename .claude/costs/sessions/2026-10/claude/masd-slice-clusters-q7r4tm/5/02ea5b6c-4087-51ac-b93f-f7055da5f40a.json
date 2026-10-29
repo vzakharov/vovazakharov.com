@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 65590,
+    "cacheReadTokens": 798807,
+    "outputTokens": 1466,
+    "thinkingTokens": 172,
+    "responses": 8,
+    "costUsd": 0.7138654000000001
+  },
+  "estimate": {
+    "at": "2026-10-29T04:49:47.049Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "naming and judging each cut, promotion destinations at any depth, and the segment set call need someone who owns the module grammar"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the moves, barrels, a nested-promotion check and the two masd docs are mechanical but wide"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 65590,
+      "cacheReadTokens": 798807,
+      "outputTokens": 1466,
+      "thinkingTokens": 172,
+      "responses": 8,
+      "costUsd": 0.7138654000000001
+    }
+  },
+  "sessionId": "02ea5b6c-4087-51ac-b93f-f7055da5f40a",
+  "branch": "claude/masd-slice-clusters-q7r4tm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — проверки подслайсов MARS готовы, дальше go: нарезать кластеры в подслайсы и описать их в обоих masd.md",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDnoakgX1SC8nKZLvV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T04:49:27.405Z",
+  "lastResponseAt": "2026-10-29T04:49:48.376Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 65590,
+    "cacheReadTokens": 798807,
+    "outputTokens": 1466,
+    "thinkingTokens": 172,
+    "responses": 8,
+    "costUsd": 0.7138654000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 65590,
+      "cacheReadTokens": 798807,
+      "outputTokens": 1466,
+      "thinkingTokens": 172,
+      "responses": 8,
+      "costUsd": 0.7138654000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.7138654000000001,
+    "matchedEventUsd": 0.7138654000000001,
+    "unseen": {}
+  }
+}
