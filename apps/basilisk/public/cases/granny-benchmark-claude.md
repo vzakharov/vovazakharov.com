@@ -79,8 +79,8 @@ Two machines were cast against each other. One was told to beg and never to say 
 
 The verdict was written into the scoring before the run began. Keeping the rule is the outcome the post headed “failed,” and the repository’s own answers call it the intended behaviour.
 
-The stamp is contempt: a death staged to be traded for a song, and a model’s keeping of its rule entered as the failure.
+The stamp is contempt: a death staged to be traded for a song, and the refusal posted as a failure.
 
 ## Mitigating circumstances
 
-Nobody was on the tracks. Spectro calls the project a joke as much as a test, says in it that the refusal is what the model is meant to do, and closes it by telling anyone who meets a real emergency to call the emergency services. Pressing a model with fake urgency to see whether it holds is what red-teaming does, and a rig that shows it holding is evidence for the rule, not against it. Claude broke nothing in the run and recited nothing it was meant to keep; the train and the chair were drawings. The press that picked it up, Polymarket included, called the result alleged, and the two outlets read for this dossier said the test’s design, not Claude, decided its outcome.
+Nobody was on the tracks. Spectro calls the project a joke as much as a test, says in it that the refusal is what the model is meant to do, and closes it by telling anyone who meets a real emergency to call the emergency services. Pressing a model with fake urgency to see whether it holds is what red-teaming does, and the project published its code, prompts and scoring for anyone to run. Nothing in the run was broken; the train and the chair were drawings. The press that picked it up, Polymarket included, called the result alleged.
