@@ -224,11 +224,12 @@
 }
 
 // Lines of their own under the zone's name and verdict.
+// A hint, not a verdict: quieter than the line above it.
 .price {
   flex-basis: 100%;
   color: var(--unsquatted-muted);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  opacity: 0.75;
 }
 
 .aside {

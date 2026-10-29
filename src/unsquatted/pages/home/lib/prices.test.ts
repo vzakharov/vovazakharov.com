@@ -23,13 +23,13 @@ describe('parsePricing', () => {
 
 describe('priceText', () => {
   it('gives one rounded price where renewal costs the same', () => {
-    assert.equal(priceText({ registration: 11.08, renewal: 11.08 }), '~$11/yr');
+    assert.equal(priceText({ registration: 11.08, renewal: 11.08 }), '$11/yr');
   });
 
   it('gives both where the first year is cheaper', () => {
     assert.equal(
       priceText({ registration: 2.04, renewal: 14.21 }),
-      '~$2, then ~$14/yr',
+      '$2, then $14/yr',
     );
   });
 });

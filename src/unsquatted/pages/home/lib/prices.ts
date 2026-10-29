@@ -51,7 +51,7 @@ export function priceText({ registration, renewal }: Price): string {
   const first = Math.round(registration);
   const then = Math.round(renewal);
 
-  return first === then ? `~$${first}/yr` : `~$${first}, then ~$${then}/yr`;
+  return first === then ? `$${first}/yr` : `$${first}, then $${then}/yr`;
 }
 
 /** Fetched at build; a failure fails the build rather than drop the prices. */
