@@ -4,7 +4,9 @@
  * hints. Pure: `check-domain.ts` does the fetching and hands the bodies here.
  */
 
-import { z } from 'zod';
+// The mini build, since this runs in the browser: classic `zod` keeps its whole
+// API on every schema, some 70 KB gzipped on the page.
+import * as z from 'zod/mini';
 
 const TIME_UNITS = ['day', 'hour', 'minute'] as const;
 
@@ -208,10 +210,10 @@ export function parseBootstrap(body: unknown): ReadonlyMap<string, string> {
 }
 
 const rdapDomainSchema = z.object({
-  status: z.array(z.string()).optional(),
-  events: z
-    .array(z.object({ eventAction: z.string(), eventDate: z.string() }))
-    .optional(),
+  status: z.optional(z.array(z.string())),
+  events: z.optional(
+    z.array(z.object({ eventAction: z.string(), eventDate: z.string() })),
+  ),
 });
 
 const MINUTE = 60_000;

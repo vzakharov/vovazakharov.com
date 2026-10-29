@@ -10,6 +10,8 @@ import { z } from 'zod';
 import { errorClass } from '@/kernel/shared/lib/error-class';
 import { fetchOk } from '@/kernel/shared/lib/fetch-ok';
 
+import type { Prices } from './price';
+
 const PRICING_URL = 'https://api.porkbun.com/api/json/v3/pricing/get';
 
 const ROOT_ZONES_URL = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt';
@@ -24,11 +26,6 @@ const pricingSchema = z.object({
     z.object({ registration: z.string(), renewal: z.string() }),
   ),
 });
-
-export type Price = { registration: number; renewal: number };
-
-/** Dollars per zone Porkbun sells. */
-export type Prices = Partial<Record<string, Price>>;
 
 /** IANA's list of the root zone's TLDs: upper-case, one a line, under a `#` header. */
 export function parseRootZones(text: string): ReadonlySet<string> {
@@ -56,20 +53,6 @@ export function parsePricing(body: unknown, root: ReadonlySet<string>): Prices {
         { registration: Number(registration), renewal: Number(renewal) },
       ]),
   );
-}
-
-/**
- * The yearly price rounded to the dollar — the cents would only clutter a
- * hint — with the renewal only where it differs from the first year's.
- */
-export function priceParts({ registration, renewal }: Price): {
-  first: number;
-  after: number | undefined;
-} {
-  const first = Math.round(registration);
-  const after = Math.round(renewal);
-
-  return { first, after: first === after ? undefined : after };
 }
 
 /** Fetched at build; a failure fails the build rather than drop the prices. */

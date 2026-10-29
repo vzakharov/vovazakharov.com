@@ -3,7 +3,7 @@
 import { TextLink } from '@/shell/shared/ui';
 
 import type { WithCopy } from '../i18n';
-import type { Price } from '../lib/prices';
+import type { Price } from '../lib/price';
 import { registerUrl } from '../lib/register';
 import { useVerdict } from '../lib/use-verdict';
 import type { ShownName } from '../model/picks';

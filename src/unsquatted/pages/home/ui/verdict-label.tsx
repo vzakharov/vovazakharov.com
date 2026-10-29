@@ -2,7 +2,7 @@ import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
 import type { WithCopy } from '../i18n';
 import type { Release, Verdict, WithDomain } from '../lib/lookup';
-import { type Price, priceParts } from '../lib/prices';
+import { type Price, priceParts } from '../lib/price';
 import { registerUrl } from '../lib/register';
 import classes from './unsquatted-home.module.scss';
 

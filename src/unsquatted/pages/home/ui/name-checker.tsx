@@ -6,7 +6,7 @@ import { useState } from 'react';
 import type { WithCopy } from '../i18n';
 import { rollName } from '../lib/dice';
 import { type Row, rowsFor, type Verdict, zoneOf } from '../lib/lookup';
-import type { Price, Prices } from '../lib/prices';
+import type { Price, Prices } from '../lib/price';
 import { useVerdicts } from '../lib/use-verdict';
 import { useWords } from '../lib/use-words';
 import { useChecker } from './checker-state';
