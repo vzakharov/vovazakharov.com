@@ -20,12 +20,11 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
 })}`;
 
 /**
- * The lede's `*` and `ledeNote` are the social card's: the pledge under the
- * lede already says it here.
+ * The lede's `*` and `ledeNote` are the social card's: here the pledge under
+ * the lede says what the note would.
  */
 const LEDE = COPY.lede.replace('*', '');
 
-/** The description search and link previews show is the lede the page opens on. */
 export const unsquattedHomeMetadata = constructMetadata({
   title: SITE_CONFIG.name,
   description: `${LEDE} ${COPY.blazing}.`,
