@@ -56,13 +56,13 @@ Nothing built yet. In discussion, the search changed:
   component (mushrooms `control-actions` ×14, maya home), and pairs at ΔQ near
   zero.
 
-- **Bite 3, half built — MARS sub-slices.** The operator: «Steiger отключаем,
-  делаем здесь — без этого какой вообще смысл этого пиара?» A sub-slice is any
-  folder in a slice or sub-slice not named for a segment (`SEGMENTS` and
-  `subSlicePath` in `eslint/masd-graph.ts`; `i18n` joined the set, relay-4's
-  recommendation, the operator not having answered). Built:
-  `vova/sub-slice-entry` (entry by the sub-slice's barrel, from inside the
-  slice); Steiger's `fsd/no-reserved-folder-names` off in the sliced layers
+- **Bite 3 — MARS sub-slices.** The operator: «Steiger отключаем, делаем здесь —
+  без этого какой вообще смысл этого пиара?» A sub-slice is any folder in a
+  slice or sub-slice not named for one of FSD's five segments (`SEGMENTS` and
+  `subSlicePath` in `eslint/masd-graph.ts`); a slice's catalogue moved to
+  `config/i18n` on «i18n это же по сути config?». Built: `vova/sub-slice-entry`
+  (entry by the sub-slice's barrel, from inside the slice); Steiger's
+  `fsd/no-reserved-folder-names` off in the sliced layers
   (`steiger.config.mjs`), `check:masd` flagging a segment's name inside a
   segment instead; `check:masd` failing an insignificant sub-slice (cut ΔQ on
   its parent's graph ≤ 0) and a **promotion** — a consumer taking from a slice
@@ -74,22 +74,26 @@ Nothing built yet. In discussion, the search changed:
   hit) and `scripts/lib/sub-slices.ts`; `masd:clusters` recurses into
   sub-slices. The first cut, `prose/` in `blog/entities/document`, tripped the
   promotion check at once (music's story took only `ProseContent`), so
-  `ProseContent` went to blog's `shared/ui` instead.
+  `ProseContent` went to blog's `shared/ui` instead. Promotion reaches any
+  depth, on «подподслайс нужно вынести в подслайс и импортировать обеими
+  "снаружи"»: a sibling sub-slice taking only one sub-slice of another is told
+  to move it up beside its parent. Cuts: blog's documents page split into
+  `pages/article` and `pages/collection-index` (four sites route only the
+  article, so a sub-slice would have tripped promotion); vova home `work/`; maya
+  whisper `typewriter/`; mushroom `fungus/` (the drawn fungus, the house staying
+  at the root; Phaser-free files enter it by its node-safe barrel); insects-fly
+  `flight/`; player `station/`; blind-test `quiz/`. Docs: both `masd.md`
+  describe sub-slices (the rule's copy staged).
 
-## Rest of the bite
+## Open question
 
-- **Cut the hits that read right into sub-slices**, one commit each, running
-  `check:masd`, `lint:fsd`, ESLint and `tsc` after each: a promotion error there
-  is a destination call, made per case or asked. Candidates
-  (`pnpm masd:clusters`): blog `pages/documents` article-page, vova `pages/home`
-  work-section, maya `pages/whisper` typewriter, mushrooms `entities/landscape`
-  paint-backdrop, `entities/mushroom` drawing (mushroom-selection),
-  `features/insects-fly` air-spots, music `features/player` media session,
-  `pages/blind-test`. A page slice's router takes one component, so a page whose
-  component sits in its sub-slice trips promotion — expect that and judge it.
-- **Docs**: `docs/masd.md` and `.claude/rules/masd.md` describe sub-slices, the
-  barrel rule, significance, promotion and its escape, and the Steiger override
-  (the rule's "two overrides" line is now three).
+- **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
+  `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
+  promotion fires, yet as a slice of its own it would sit beside `landscape` on
+  `entities`, which still imports it — sideways. Options: `shared` (a
+  `mushrooms/shared/backdrop` segment), the escape marker, or no cut.
+  Recommendation: no cut — the backdrop is the landscape noun, and what lies
+  outside it (moon, rain, grass) is the smaller part.
 
 ## Rest of the elephant
 

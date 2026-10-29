@@ -60,7 +60,7 @@ only.
 │   │   │   ├── (shell)/        # every page on shell's root layout, with the theme toggle
 │   │   │   │   ├── page.tsx    # → src/vova/pages/home
 │   │   │   │   ├── cv/         # → src/vova/pages/cv
-│   │   │   │   ├── case-studies/ # → src/blog/pages/documents
+│   │   │   │   ├── case-studies/ # → src/blog/pages/collection-index, article
 │   │   │   │   └── music/, writing/
 │   │   │   ├── (game)/mushrooms/ # → src/mushrooms/pages/mushrooms, on kernel's root layout
 │   │   │   └── sitemap.ts
@@ -71,12 +71,12 @@ only.
 │   │   └── app/page.tsx        # → src/lsa/pages/lsa-home — the project's index, no collection under it
 │   ├── bible/                  # agentic.bible — the Bible, rooted at the site root
 │   │   ├── app/page.tsx        # → src/bible/pages/bible-home
-│   │   ├── app/[...slug]/      # → src/blog/pages/documents, bound to the Bible
+│   │   ├── app/[...slug]/      # → src/blog/pages/article, bound to the Bible
 │   │   └── public/             # the articles themselves, plus the seal and public/CNAME
 │   └── basilisk/               # basilisk.fyi — the docket, plus public/CNAME
 │       ├── app/page.tsx        # → src/basilisk/pages/basilisk-home, which lists both collections
-│       ├── app/cases/[...slug]/ # → src/blog/pages/documents, bound to the cases
-│       ├── app/faq/[...slug]/  # → src/blog/pages/documents, bound to the FAQ
+│       ├── app/cases/[...slug]/ # → src/blog/pages/article, bound to the cases
+│       ├── app/faq/[...slug]/  # → src/blog/pages/article, bound to the FAQ
 │       └── public/             # cases/ and faq/, plus the stamp
 ├── src/
 │   ├── masd.json               # The app graph — each app and the apps it extends

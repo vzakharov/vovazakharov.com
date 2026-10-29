@@ -107,11 +107,11 @@ included: two files importing each other cannot go to different slices, so a
 slice's files form a DAG, which is what a search for a cluster inside one stands
 on.
 
-| Checker                                                  | Holds                                                                                                     |
-| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `eslint-plugin-boundaries` (`eslint/masd-boundaries.ts`) | Every import, across apps included; its config is generated from the graph                                |
-| Steiger (`pnpm lint:fsd`, `scripts/lint-fsd.ts`)         | FSD's own rules, one run per app root, `insignificant-slice` off                                          |
-| `pnpm check:masd` (`scripts/masd-check.ts`)              | The graph (order, apps vs. directories, insignificant apps) and slice significance across the composition |
+| Checker                                                  | Holds                                                                                                                  |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `eslint-plugin-boundaries` (`eslint/masd-boundaries.ts`) | Every import, across apps included; its config is generated from the graph                                             |
+| Steiger (`pnpm lint:fsd`, `scripts/lint-fsd.ts`)         | FSD's own rules, one run per app root, `insignificant-slice` off                                                       |
+| `pnpm check:masd` (`scripts/masd-check.ts`)              | The graph (order, apps vs. directories, insignificant apps), slice significance across the composition, and sub-slices |
 
 ### Why significance needed a checker of its own
 
@@ -192,6 +192,44 @@ and widgets. What it settled holds for any domain.
   saying what a test reads), and widening the public APIs with names nothing in
   production reads.
 
+## Sub-slices
+
+A cluster inside a slice — files importing one another far more than the rest
+of the slice — becomes a **sub-slice**: a folder in the slice, or in a sub-slice,
+not named for a segment, with segments and barrels of its own (MARS, the
+operator's name for it). `pnpm masd:clusters` lists the candidates; each cut is
+a judgement, since a cluster drawn from the graph can still be the wrong noun
+(§ "Cutting a domain into slices").
+
+- **The segment names are FSD's five** (`SEGMENTS` in `eslint/masd-graph.ts`),
+  so any other folder there is a sub-slice. A slice's message catalogue is
+  `config/i18n` rather than a sixth segment (the operator: «i18n это же по сути
+  config? то есть названий сегментов можно не плодить»).
+- **Outside a sub-slice, it is entered by its barrels**, the slice's
+  `PUBLIC_API` names and `index.test-only.ts` for test code
+  (`vova/sub-slice-entry`); from outside the slice, `boundaries` already allows
+  only the slice's own barrels. Steiger reads a sub-slice as a misnamed segment,
+  so `fsd/no-reserved-folder-names` is off in the sliced layers and
+  `check:masd` keeps its one useful case: a segment's name inside a segment.
+- **A sub-slice is earned by modularity**: cutting it off its parent — the slice,
+  or the sub-slice it sits in — must raise the modularity of the parent's own
+  import graph, shipped files only. The gain's numerator is an integer, so a cut
+  that gains nothing reads exactly zero rather than as rounding noise.
+- **A consumer taking only one sub-slice's exports is a promotion**, an error at
+  any depth: a slice whose consumer takes only one of its sub-slices has a slice
+  of its own inside it, and a sub-slice whose sibling takes only one of its
+  sub-slices has that one in the wrong place (the operator: «подподслайс нужно
+  вынести в подслайс и импортировать обеими "снаружи"»). Where it goes is a call
+  per case, and where the import rules leave it nowhere but `shared`, the
+  operator decides; on their yes, `// masd-disable promotion -- <why>` in the
+  sub-slice's `index.ts` keeps it («с советом агенту (с разрешением оператора)
+  игнорить то, что просто не выносится»). The trace follows the barrels'
+  `export { … } from` lines, so `export *` and dynamic imports count as
+  untraced, and an untraced name never fires it.
+- **A page slice whose sites route different pages splits.** Four sites take
+  only the article page from blog's documents, so the article and the
+  collection index are page slices of their own rather than sub-slices of one.
+
 ## DRY notes
 
 - **One graph, four readers.** `eslint/masd-graph.ts` is the only loader of
@@ -246,10 +284,10 @@ Four things the operator set aside to take up, each in a session of its own.
   `shared/world`.
 - **The converse of significance by modularity** (the operator: «как бы нам
   определять, когда в одном слайсе скопилось что-то (кластер?), что заслуживает
-  вынесения в модуль? но отложим»): when a cluster inside one slice earns a
-  slice of its own. `pnpm masd:clusters` is a first cut, a report rather than a
-  gate, whose docstring states what it counts as a candidate; at `ΔQ > 0` it
-  flags over half the slices, so the bar is still open.
+  вынесения в модуль? но отложим»): a cluster becomes a sub-slice (§
+  "Sub-slices"), and `pnpm masd:clusters` lists the candidates, a report rather
+  than a gate. At `ΔQ > 0` it flags about half the slices and sub-slices, so the
+  bar it would need to become a gate is still open.
 - **A poison check** (the operator: «проверку на яд добавим четвёртым Later на
   после мерджа»): `boundaries` judges one import at a time, so nothing holds the
   barrels' runtime axes transitively — a `'use client'` file reaching

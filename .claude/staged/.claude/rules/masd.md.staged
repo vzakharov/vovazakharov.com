@@ -198,7 +198,7 @@ as `shared/config` is.
   left out — with Steiger's `insignificant-slice` messages word for word;
   Steiger's own rule is off, because one root's reference map is exactly what it
   cannot see past. This is why the CV locale picker lives in `vova/pages/cv/ui/`
-  and the home page's project and article cards in `vova/pages/home/ui/`, rather
+  and the home page's project and article cards in `vova/pages/home/`, rather
   than each becoming a feature. **One consumer is enough for a slice that is a
   module** — more of its own app's file-import edges falling inside it than a
   rewiring keeping every file's degree would put there, its term of Newman's
@@ -206,6 +206,18 @@ as `shared/config` is.
   alone would keep a one-page app a single slice. The graph is the slice's own
   app alone: descendants are who uses an app, which says nothing of how it is
   cut, and their unrelated edges would lower the bar for everyone.
+- **A folder in a slice or a sub-slice not named for a segment is a sub-slice**
+  — FSD's five segment names (`SEGMENTS`), a slice's catalogue being
+  `config/i18n` — with segments and barrels of its own: what sits outside it
+  enters by those barrels (`vova/sub-slice-entry`), and inside it relative
+  imports reach anything. `check:masd` holds two things of it. It must raise its
+  parent's modularity when cut off it, the slice-level bar one level down. And a
+  consumer taking only one sub-slice's exports — from a slice, or a sibling from
+  a sub-slice — is a promotion error: that sub-slice belongs one level out.
+  Where nothing but `shared` could take it, ask the operator; on their yes,
+  `// masd-disable promotion -- <why it cannot move>` in its `index.ts`.
+  `pnpm masd:clusters` lists the clusters worth cutting; `docs/masd.md` §
+  "Sub-slices" has the reasoning.
 - **An app's tooling is its `scripts/`, beside its layers rather than one of
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
@@ -217,10 +229,12 @@ as `shared/config` is.
   `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported
   identifiers keep their PascalCase (`card.tsx` exports `Card`).
-- **The checkers run with the stock recommended ruleset and two overrides**,
-  both in `steiger.config.mjs`: `insignificant-slice` off for the reason above,
-  and the `no-ui-in-app` exemption below. A new rule violation is a signal that
-  the code is in the wrong place — move the code rather than exempting the path.
+- **The checkers run with the stock recommended ruleset and three overrides**,
+  all in `steiger.config.mjs`: `insignificant-slice` off for the reason above,
+  `no-reserved-folder-names` off in the sliced layers, where it would read a
+  sub-slice's segments as misnamed folders, and the `no-ui-in-app` exemption
+  below. A new rule violation is a signal that the code is in the wrong place —
+  move the code rather than exempting the path.
 
 ## Routers and app layers
 
@@ -293,10 +307,10 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   `@.claude/rules/content.md` owns its contract. It holds every collection's
   address and the base and article schemas; any other collection's schema is its
   owner's (the song schema in `music/shared/catalogue`, the case frontmatter in
-  `basilisk/shared/content`). Its page composition is one `blog/pages/documents`
-  slice serving every collection on every site: a slice per collection would
-  make siblings of pages that share one composition, and sibling slices cannot
-  reach each other.
+  `basilisk/shared/content`). Its pages are `blog/pages/article` and
+  `blog/pages/collection-index`, each serving every collection on every site: a
+  slice per collection would make siblings of pages that share one composition,
+  and sibling slices cannot reach each other.
 - **`music/shared/catalogue` is not `music/shared/music`**: within one app root,
   Steiger's `ambiguous-slice-names` rejects a segment named like the
   `pages/music` slice.
