@@ -134,14 +134,15 @@ export function unsquattedCard(): StagedPage {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-        padding: 22px 0;
+        padding: 12px 0;
         border-bottom: 2px solid ${RULE};
       }
       li:last-child { border-bottom: none; }
       .domain { font-family: ${MONO}; font-size: 27px; }
       .grab { font-size: 22px; color: ${GREEN}; }
+      /* The room the list leaves splits evenly above and below the field. */
       .field {
-        margin-top: 12px;
+        margin: auto 0;
         padding: 10px 16px;
         border: 2px solid ${RULE};
         border-radius: 10px;
@@ -149,7 +150,7 @@ export function unsquattedCard(): StagedPage {
         font-size: 25px;
         color: ${INK_FAINT};
       }
-      .more { margin: auto 0 0; padding-top: 16px; font-size: 22px; color: ${INK_DIM}; }
+      .more { margin: 0; font-size: 22px; color: ${INK_DIM}; }
     </style>
   </head>
   <body>
