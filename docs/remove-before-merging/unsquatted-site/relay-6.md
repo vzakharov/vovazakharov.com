@@ -44,8 +44,36 @@ The muthur sync offer was made; do not make it again.
      keepalive's wake.
 8. **Operator:** «превью можешь обновить? или уже?»
    - Agent: published unsquatted to https://preview.vovazakharov.com from
-     8e80079 (run 40859323867, success); the five-percent question still open
-     (verbatim in Last agent turn).
+     8e80079; the five-percent question still open.
+9. **Operator:** «на grab-ish давай хинт: "Мы точно не знаем но блаблабла"»
+10. **Operator (mid-turn):** «как будто изменился цвет подсказок (был чёрный
+    фон). если это намеренно то okay-ish, если глюк то нужно поправить»
+    (screenshot of the coffee note, light card)
+11. **Operator (mid-turn), quoting the agent's «подсказку вешать прямо на
+    ссылку нельзя: клик и открывал бы её,»:** «не по клику, по ховеру, только
+    где ховер есть»
+12. **Operator (mid-turn):** «registered until... показывается только там где
+    год taken известен -- намеренно, техническое ограничение?»
+13. **Operator (mid-turn), quoting «вернуть тёмные можно по запросу»:** «давай
+    не прямо чёрные, но темноватее чем основной paper (или как это
+    называется)»
+    - Agent: the light notes come from T10 (Tooltip → music's NotedSpan);
+      year and expiry both come from the RDAP record, so a DNS-only "taken"
+      has neither (`lookup.ts:279–300`). Built 0f4b8e1: `maybeWhy` copy,
+      `NotedSpan` gains `hoverOnly` (words keep their own link, note on mouse
+      hover only), `--noted-span-background` (unsquatted: #e6eae1 /
+      #232a25), note text regular weight. Checked by hover screenshot;
+      republished preview from 0f4b8e1.
+14. **Operator (mid-turn):** «тут сноска не нужна, она только для OG, тут это и
+    так сразу видно» (screenshot of the page's lede)
+    - Agent: the page strips the `*` and drops `ledeNote` (f9a8ff4); the
+      card keeps both.
+15. **Operator (mid-turn):** «замени grab-ish на maybe»
+    - Agent: `maybe` reads "maybe →" (c3c3e98).
+16. **Operator (mid-turn):** «If that warms the cockles... If после разрыва
+    строки, а то куце»
+    - Agent: `<br />` before `coffeePrompt` (83b14ee); paused for the context
+      budget and relayed (verbatim in Last agent turn).
 
 ## Intent
 
@@ -59,9 +87,13 @@ while work continues.
   domain.
 - **Card**: the list's first four (top-scored), heading 24px above the list,
   the freed height split above and below the name field; no price.
-- **Lede**: "Good domain names nobody has grabbed\* yet. Curated,
-  blazing-fast." plus `ledeNote` "\* No, not even us."; site tagline drops the
-  price clause.
+- **Lede**: `lede` carries the `*`; the card prints it as a superscript with
+  `ledeNote` "\* No, not even us." under the subline; the page strips it, its
+  pledge saying the same. Site tagline drops the price clause.
+- **Maybe verdict**: "maybe →", still a register link; mouse hover alone opens
+  `maybeWhy`. Notes sit on `--noted-span-background`, a shade off the paper
+  (operator ruled out black).
+- **Coffee line** starts after a `<br />` in the pledge paragraph.
 - **`share-card.mock.svg`** stays, for a future in-browser "share" button.
 - `/dry`'s two ambiguous calls (one lede helper for JSX and HTML; a `toError`
   across six sites, four off-branch) left as they are.
@@ -75,7 +107,8 @@ while work continues.
 
 - Branch `claude/unsquatted-site`, PR #231 draft, base `main`, title
   `feat(unsquatted): unsquatted.com, free domain names and a checker`.
-- Head 351d0c6 (plan pause), plus this file's commit.
+- Head 83b14ee, plus this file's commit. The preview runs 0f4b8e1, two
+  commits behind (footnote off the page, "maybe", the coffee break).
 - Plan `docs/plans/unsquatted-review-2.paused.md` — its Left list is current.
 - `/polish` ran (4dd0130, c7a7fc3); `/five-percent` posted
   pullrequestreview-5696304712. Squash proposal edited (issuecomment-6491948832).
@@ -94,9 +127,12 @@ while work continues.
 
 ## Next step
 
-Wait for the operator's answer on /five-percent's two proposals (the card
-reading only picks without `shownUntil`; the tagline derived from the lede via
-`generateMetadata`) — the agent recommended taking both. Then `/finalize`.
+Republish the preview from the head (`/preview live unsquatted`) so the
+operator sees the last three changes, and record this session's copy edits in
+the plan's Done list. Then wait for the operator's answer on /five-percent's
+two proposals (the card reading only picks without `shownUntil`; the tagline
+derived from the lede via `generateMetadata`) — the agent recommended taking
+both. Then `/finalize`.
 
 ## Last agent turn
 
