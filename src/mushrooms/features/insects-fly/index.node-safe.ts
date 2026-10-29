@@ -1,21 +1,4 @@
-export { firstFlight, nextFlight } from './model/flight';
-export {
-  INSECT_LIMITS,
-  released,
-  startled,
-  type Swarm,
-  ticked,
-} from './model/insects';
-export type { Perches, Sight } from './model/offered';
-export {
-  blockedFor,
-  flowerFreed,
-  givesWay,
-  type Held,
-  isSeat,
-} from './model/perch-room';
-export { LINGER_MS, lingerOf } from './model/shelter';
-export { airAlofts, EVERY_ONE } from './ui/air-spots';
+export { airAlofts, blockedFor, EVERY_ONE,firstFlight, flowerFreed, givesWay, type Held, INSECT_LIMITS, isSeat, LINGER_MS, lingerOf, nextFlight, type Perches, released, type Sight, startled, type Swarm, ticked } from './flight/index.node-safe';
 export type { Glinting } from './ui/firefly-view';
 export { foldedHead } from './ui/flower-seat';
 export { restingOn } from './ui/perch-hosts';

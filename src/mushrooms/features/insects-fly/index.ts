@@ -1,7 +1,4 @@
-export { caughtAloft, isShying } from './model/insects';
-export type { Sight } from './model/offered';
-export { isSeat } from './model/perch-room';
-export { wingsShut } from './model/roost';
+export { caughtAloft, isSeat, isShying, type Sight, wingsShut } from './flight';
 export {
   type FireflyGround,
   FireflyView,

@@ -14,7 +14,7 @@ import {
   specksAt,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { sown } from './pollen';
+import { sown } from '../index.test-only';
 
 const flower = (id: string): Perch => ({ kind: 'flower', id });
 const AIR: Perch = { kind: 'air', id: 'air-1' };

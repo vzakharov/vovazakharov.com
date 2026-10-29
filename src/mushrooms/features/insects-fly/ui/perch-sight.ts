@@ -77,10 +77,8 @@ import {
   toCanvas,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
-import type { Sight } from '../model/offered';
-import { airOf, airSpots, clumpRow } from './air-spots';
+import { airOf, airSpots, clumpRow, crowdings, seatsWith, type Sight, type Track } from '../flight';
 import { roomFor } from './bee-room';
-import { crowdings, seatsWith, type Track } from './perch-crowding';
 import { discCovered } from './shelter-cover';
 
 /** The flower beds as the camera shows them, with the insects' units on it. */
