@@ -1,26 +1,32 @@
 Proposed squash body:
 
 ```
-A cluster inside one slice that earns a slice of its own is the
-converse of check:masd's significance by modularity. Finding one reads
-the slice's import graph as a DAG, and madge found 18 cycles in src/,
-so the graph is made acyclic first and held so.
+A cluster inside one slice that earns a module of its own is the
+converse of check:masd's significance by modularity. This lands its
+answer: such a cluster becomes a sub-slice, a slice nested in a slice,
+and the checkers hold sub-slices as they hold slices.
 
-pnpm check:cycles runs madge over src/, type-only imports counted,
-since two files importing each other through types still cannot go to
-different slices; vet runs it beside check:masd. Every cycle was a
-type or a hook declared in the wrong file, and each moved to a file of
-its own or to its one reader rather than being copied to both sides:
-the chip row's Chip, the flower stand, the insect's base types and the
-butterfly's genes, the flight model's places and legs, the flier's
-offer, the player's controls and context. No behaviour changes.
+A sub-slice is any folder in a slice or sub-slice not named for one
+of FSD's five segments (a slice's catalogue is now config/i18n).
+Outside it, code enters by its barrels (vova/sub-slice-entry). Cutting
+it off its parent must raise the parent's modularity, and a consumer
+taking only one sub-slice's exports, at any depth, is a promotion
+error: that sub-slice belongs one level out, unless the operator
+approves a "masd-disable promotion" marker where nothing but shared
+could hold it. Steiger's no-reserved-folder-names is off in the sliced
+layers, check:masd keeping its one useful case.
 
-pnpm masd:clusters is a first cut at the search, a report that never
-fails: per slice, the downward closures inside it, rooted at no door,
-not just whole segments, scored by the modularity gain of cutting them
-off on the slice's own graph. At a gain above zero it flags 27 of 46
-slices, so the bar is still open. It resolves imports through
-scripts/lib/import-graph.ts, which check:masd now shares.
+The clusters found are cut: blog's documents page splits into the
+article and collection-index pages, since four sites route only the
+article; vova home's work section, whisper's typewriter, the mushroom's
+fungus, insects-fly's flight, the player's station and blind-test's
+quiz become sub-slices. pnpm masd:clusters reports candidates, a report
+rather than a gate, recursing into sub-slices.
+
+The search reads a slice's import graph as a DAG, so pnpm check:cycles
+holds src/ acyclic under madge, type-only imports counted; each of the
+18 cycles it found was a type or hook declared in the wrong file, moved
+to a file of its own or its one reader. No behaviour changes.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
