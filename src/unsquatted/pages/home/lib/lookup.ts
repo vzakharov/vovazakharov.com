@@ -213,19 +213,22 @@ type DohAnswer = { Status: number };
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null;
 
-const isStrings = (value: unknown): value is string[] =>
-  Array.isArray(value) && value.every((each) => typeof each === 'string');
+const isArrayOf =
+  <T>(holds: (each: unknown) => each is T) =>
+  (value: unknown): value is T[] =>
+    Array.isArray(value) && value.every((each: unknown) => holds(each));
+
+const isStrings = isArrayOf((each): each is string => typeof each === 'string');
 
 const isBootstrap = (value: unknown): value is Bootstrap =>
   isRecord(value) &&
-  Array.isArray(value['services']) &&
-  value['services'].every(
-    (service: unknown) =>
+  isArrayOf(
+    (service): service is [string[], string[]] =>
       Array.isArray(service) &&
       service.length === 2 &&
       isStrings(service[0]) &&
       isStrings(service[1]),
-  );
+  )(value['services']);
 
 const isRdapEvent = (value: unknown): value is RdapEvent =>
   isRecord(value) &&
@@ -235,9 +238,7 @@ const isRdapEvent = (value: unknown): value is RdapEvent =>
 const isRdapDomain = (value: unknown): value is RdapDomain =>
   isRecord(value) &&
   (value['status'] === undefined || isStrings(value['status'])) &&
-  (value['events'] === undefined ||
-    (Array.isArray(value['events']) &&
-      value['events'].every((event: unknown) => isRdapEvent(event))));
+  (value['events'] === undefined || isArrayOf(isRdapEvent)(value['events']));
 
 const isDohAnswer = (value: unknown): value is DohAnswer =>
   isRecord(value) && typeof value['Status'] === 'number';
