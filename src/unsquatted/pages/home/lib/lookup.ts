@@ -95,7 +95,7 @@ export function zoneOf(domain: string): string {
 
 export type Row = WithDomain & { checkable: boolean };
 
-/** As many splits as lead the grid, so `.com` stays in its first rows. */
+/** As many splits as follow `.com`, so the common zones stay in the first rows. */
 const HACKS_SHOWN = 3;
 
 /** Whether `text` reads as dictionary words run together. */
@@ -150,7 +150,7 @@ export function domainHacks(
 /**
  * The domains a lookup shows for `label`: every zone of `ZONES`, led by the
  * zone typed with it — shown even where Porkbun does not sell it, and so
- * cannot be checked — and then by the name split on a zone it spells.
+ * cannot be checked — then `.com`, then the name split on a zone it spells.
  * `sold` is every zone Porkbun sells, `ZONES` among them; `words` is
  * `domainHacks`'s.
  */
@@ -168,13 +168,18 @@ export function rowsFor(
     domain,
     checkable: true,
   }));
-  const rest = ZONES.map((each) => ({
+  const inZone = (each: string): Row => ({
     domain: `${label}.${each}`,
     checkable: true,
-  }));
+  });
   const shown = new Set<string>();
 
-  return [...typed, ...hacks, ...rest].filter(({ domain }) => {
+  return [
+    ...typed,
+    inZone(ZONES[0]),
+    ...hacks,
+    ...ZONES.map((each) => inZone(each)),
+  ].filter(({ domain }) => {
     if (shown.has(domain)) return false;
     shown.add(domain);
 

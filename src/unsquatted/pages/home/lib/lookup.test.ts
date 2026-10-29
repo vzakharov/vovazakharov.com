@@ -118,13 +118,23 @@ describe('domainHacks', () => {
 });
 
 describe('rowsFor', () => {
-  it('puts a split name before the zones, after a typed one', () => {
+  it('puts a split name right after .com, behind a typed zone', () => {
     const rows = rowsFor('fuckapp', 'de', SOLD, WORDS);
 
     assert.deepEqual(
-      rows.slice(0, 3).map(({ domain }) => domain),
-      ['fuckapp.de', 'fuck.app', 'fuckapp.com'],
+      rows.slice(0, 4).map(({ domain }) => domain),
+      ['fuckapp.de', 'fuckapp.com', 'fuck.app', 'fuckapp.net'],
     );
+  });
+
+  it('shows .com once where it was typed', () => {
+    const rows = rowsFor('fuckapp', 'com', SOLD, WORDS);
+
+    assert.deepEqual(
+      rows.slice(0, 3).map(({ domain }) => domain),
+      ['fuckapp.com', 'fuck.app', 'fuckapp.net'],
+    );
+    assert.equal(rows.length, ZONES.length + 1);
   });
 
   it('shows every zone when none was typed', () => {
