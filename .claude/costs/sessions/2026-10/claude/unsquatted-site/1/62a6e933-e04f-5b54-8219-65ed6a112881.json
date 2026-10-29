@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 56401,
+    "cacheReadTokens": 461506,
+    "outputTokens": 941,
+    "thinkingTokens": 27,
+    "responses": 5,
+    "costUsd": 0.5623692
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56401,
+      "cacheReadTokens": 461506,
+      "outputTokens": 941,
+      "thinkingTokens": 27,
+      "responses": 5,
+      "costUsd": 0.5623692
+    }
+  },
+  "sessionId": "62a6e933-e04f-5b54-8219-65ed6a112881",
+  "branch": "claude/unsquatted-site",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/unsquatted-site",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFVFSZRJpaQ8xVP57q",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T09:23:12.216Z",
+  "lastResponseAt": "2026-10-29T09:23:24.665Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 56401,
+    "cacheReadTokens": 461506,
+    "outputTokens": 941,
+    "thinkingTokens": 27,
+    "responses": 5,
+    "costUsd": 0.5623692
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56401,
+      "cacheReadTokens": 461506,
+      "outputTokens": 941,
+      "thinkingTokens": 27,
+      "responses": 5,
+      "costUsd": 0.5623692
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 5,
+    "matched": 5,
+    "matchedTableUsd": 0.5623692,
+    "matchedEventUsd": 0.5623692,
+    "unseen": {}
+  }
+}
