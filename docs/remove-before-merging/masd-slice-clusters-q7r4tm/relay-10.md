@@ -35,6 +35,7 @@ The muthur sync offer was made; do not make it again.
      page into `sheet/` + `route/` (6f6719b). Found Steiger red on every unit
      holding sub-slices since the predecessor's first restructures, and the
      gate recursing into `cv/sheet`; asked about a scoped Steiger override.
+     (verbatim in Last agent turn)
 7. **Operator**: «выглядит хорошо, можно идти дальше -- да, steiger отключать где мы покрыли, второе тоже по твоему предложению. я ещё понял что не засабмитил там в одну из предыдущих сессий ревью, сейчас сделал»
    - Agent: recorded both answers in the plan and relayed (this file).
 
