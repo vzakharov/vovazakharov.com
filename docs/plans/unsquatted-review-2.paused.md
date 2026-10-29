@@ -69,11 +69,18 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
    on long names; `grab · $11 →` fits. Waiting on the operator's pick. Built,
    the card would print Porkbun's live price, so a reprice re-flags the card and
    `content:og --check` in vet goes red until re-rendered.
-2. Ask the operator whether `may be available →` (DNS-only "maybe") should also
+2. **Sort picks by how good they are** (operator: «список стал сортироваться по
+   алфавиту, нужно по "крутости" (добавит фронтматтером, можно не рангом а
+   просто по какой-то шкале)») — a score field in each
+   `sites/unsquatted/public/picks/<domain>.md` frontmatter (a scale, not a rank;
+   a float — «наверное float чтобы всегда можно было "между" засунуть»), the
+   list sorted by it, highest first; seed a score for every existing pick. The
+   card's "newest five" then needs a call: keep newest, or take the top-scored.
+3. Ask the operator whether `may be available →` (DNS-only "maybe") should also
    read `grab →`; it was left as is because it promises less.
-3. Squash proposal: mention the generated card and the lede if `/squash-message`
+4. Squash proposal: mention the generated card and the lede if `/squash-message`
    judges them record-worthy.
-4. `/polish`, then `/pr`.
+5. `/polish`, then `/pr`.
 
 The squash proposal is re-synced (7617eb6). The title keeps `feat(unsquatted):`:
 the shell, kernel and music changes leave the other sites looking as they did
