@@ -8,10 +8,10 @@ A session running on Sonnet or Haiku now has an Opus subagent review
 its work at each loop cutoff: after /plan publishes, at the end of
 /go's quality passes, and in /finalize before the vet run. A hook
 reads the serving model off the transcript and denies the step that
-closes the cutoff until the review's verdict is recorded; /relay
-starts the successor on Opus. Haiku's delegation entry records that
-it applies named corrections exactly and misreads a spec it must
-restate.
+closes the cutoff until the review's verdict is recorded; a relay the
+review calls for starts its successor on Opus. Haiku's delegation
+entry records that it applies named corrections exactly and misreads
+a spec it must restate.
 
 The context budget's warning and pause lines sit where a relay saves
 a set number of dollars, not a share of the spend, so they stop
