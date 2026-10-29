@@ -32,6 +32,8 @@ const HOVER_GRACE_MS = 150;
  * the export `check:mantine-styles` compares against. Out of a portal it sits
  * inside whatever box holds its words, which is why it is positioned `fixed`:
  * a scrolling one, as the lyrics are, would clip a note dropping below it.
+ * The note is a `<div>`, so the words never sit in a `<p>`: React rejects the
+ * nesting at hydration.
  */
 export function NotedSpan({ words, children }: NotedSpanProps) {
   const [opener, setOpener] = useState<Opener>();
