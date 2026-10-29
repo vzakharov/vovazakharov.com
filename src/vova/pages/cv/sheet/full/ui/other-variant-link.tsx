@@ -5,7 +5,7 @@ import { TextLink } from '@/shell/shared/ui';
 import type { Messages } from '@/vova/shared/i18n';
 import { type CvEdition, cvPath, type CvVariant } from '@/vova/entities/cv';
 
-import classes from './cv.module.scss';
+import { CV_CLASSES } from '../../frame';
 
 /** Which framing each one invites the reader to; total, so a third variant has to say where it sends people. */
 const OTHER_VARIANT = {
@@ -32,7 +32,7 @@ export function OtherVariantLink({
   const other = OTHER_VARIANT[variant];
 
   return (
-    <Text size="sm" className={classes['dim60']}>
+    <Text size="sm" className={CV_CLASSES['dim60']}>
       <TextLink href={cvPath(other, locale)}>{labels[other]}</TextLink>
     </Text>
   );

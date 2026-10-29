@@ -1,1 +1,1 @@
-export { CvPage } from './ui/cv-page';
+export { CvPage } from './page';

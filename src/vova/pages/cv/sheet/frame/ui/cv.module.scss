@@ -1,4 +1,4 @@
-@use '../../../../../../styles/mantine' as mantine;
+@use '../../../../../../../styles/mantine' as mantine;
 
 // The CV is the only page that gets printed, so its screen values and their
 // print counterparts are declared together here rather than split between a
@@ -76,71 +76,6 @@
   }
 }
 
-.subsections {
-  gap: 12px;
-
-  @media print {
-    gap: 8px;
-  }
-}
-
-// The intro card's two halves, side by side wherever the measure allows — paper
-// included, which the viewport query cannot be trusted to reach.
-.intro {
-  display: grid;
-  gap: 24px;
-
-  @include mantine.larger-than(mantine.$breakpoint-sm) {
-    grid-template-columns: 3fr 2fr;
-    gap: 32px;
-  }
-
-  @media print {
-    grid-template-columns: 3fr 2fr;
-    gap: 0.6cm;
-  }
-
-  > :last-child {
-    margin-bottom: 0;
-  }
-}
-
-.introLinks {
-  @extend %aside;
-
-  margin-top: 16px;
-
-  @media print {
-    margin-top: 0.2cm;
-  }
-}
-
-// One group of the stack per row: its name in a column of its own, the items
-// running beside it.
-.stack {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 8px 24px;
-
-  @include mantine.smaller-than(mantine.$breakpoint-sm) {
-    grid-template-columns: 1fr;
-    gap: 2px;
-
-    > :nth-child(even) {
-      margin-bottom: 8px;
-    }
-  }
-
-  @media print {
-    grid-template-columns: max-content 1fr;
-    gap: 0.1cm 0.5cm;
-  }
-}
-
-.stackGroup {
-  font-weight: 600;
-}
-
 .header {
   padding-bottom: 32px;
 
@@ -159,41 +94,14 @@
   }
 }
 
-// Inline padding is the Card's 24px, so the chips line up with the copy in the
-// sheets below.
-.toolbar {
-  padding: 12px 24px;
-  background: var(--color-surface);
-}
-
 .screenFooter {
   padding-top: 32px;
   border-top: 1px solid var(--color-border-hairline);
 }
 
-.printFooter {
-  padding-top: 32px;
-
-  @media print {
-    padding-top: 0.3cm;
-  }
-}
-
 // A subsection heading, one step down from an experience entry's title.
 .subheading {
   font-size: 18px;
-  line-height: 28px;
-  margin-bottom: 8px;
-
-  @media print {
-    font-size: 16px;
-    line-height: 24px;
-    margin-bottom: 0.2cm;
-  }
-}
-
-.subheadingLarge {
-  font-size: 20px;
   line-height: 28px;
   margin-bottom: 8px;
 
@@ -211,14 +119,6 @@
   @media print {
     font-size: 16px;
     line-height: 24px;
-  }
-}
-
-// Body copy that prints a step down from the rest — the email, the degree.
-.printSmall {
-  @media print {
-    font-size: 14px;
-    line-height: 20px;
   }
 }
 
@@ -251,19 +151,6 @@
   @extend %aside;
 }
 
-.contactLine {
-  a {
-    @include mantine.hover {
-      opacity: 0.7;
-    }
-  }
-
-  @media print {
-    font-size: 12px;
-    line-height: 16px;
-  }
-}
-
 %tight-spacing {
   margin-bottom: 12px;
 
@@ -281,14 +168,6 @@
 
   @media print {
     margin-bottom: 0.2cm;
-  }
-}
-
-.period {
-  margin-bottom: 12px;
-
-  @media print {
-    margin-bottom: 0.15cm;
   }
 }
 

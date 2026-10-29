@@ -4,8 +4,7 @@ import { cx } from '@/kernel/shared/lib/class-names';
 
 import type { OfferBlock } from '@/vova/entities/cv';
 
-import classes from './cv.module.scss';
-import { CvBullets } from './cv-bullets';
+import { CV_CLASSES, CvBullets } from '../../frame';
 
 type CvOfferBlockProps = { block: OfferBlock };
 
@@ -22,7 +21,9 @@ export function CvOfferBlock({ block }: CvOfferBlockProps) {
     <Text
       key={index}
       lh={1.625}
-      className={cx(index < paragraphs.length - 1 && classes['tightHeading'])}
+      className={cx(
+        index < paragraphs.length - 1 && CV_CLASSES['tightHeading'],
+      )}
     >
       {paragraph}
     </Text>

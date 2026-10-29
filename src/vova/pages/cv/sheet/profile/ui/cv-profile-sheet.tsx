@@ -14,10 +14,15 @@ import {
   OFFER_BLOCKS,
 } from '@/vova/entities/cv';
 
-import { CaseStudyLink } from './case-study-link';
-import classes from './cv.module.scss';
+import {
+  CaseStudyLink,
+  CV_CLASSES,
+  CvFrame,
+  CvHeader,
+  CvSection,
+  CvSubsection,
+} from '../../frame';
 import { CvOfferBlock } from './cv-offer-block';
-import { CvFrame, CvHeader, CvSection, CvSubsection } from './cv-section';
 
 const PROFILE_PARAGRAPHS = ['paragraph1', 'paragraph2'] as const;
 
@@ -34,14 +39,14 @@ export function CvProfileSheet({
     <CvFrame>
       <CvHeader>
         <Title order={1}>{cv.profilePage.title}</Title>
-        <Text className={cx(classes['tagline'], classes['dim80'])}>
+        <Text className={cx(CV_CLASSES['tagline'], CV_CLASSES['dim80'])}>
           {cv.header.name} · {cv.header.tagline}
         </Text>
       </CvHeader>
 
       <CvSection {...pick(cv.profile, 'title')}>
         <Card>
-          <Stack className={classes['section']}>
+          <Stack className={CV_CLASSES['section']}>
             {PROFILE_PARAGRAPHS.map((key) => (
               <Text key={key} lh={1.625}>
                 <Markdown {...MESSAGE_MARKDOWN}>{cv.profile[key]}</Markdown>
@@ -53,7 +58,7 @@ export function CvProfileSheet({
 
       <CvSection {...pick(cv.whatIOffer, 'title')}>
         <Card>
-          <Stack className={classes['section']}>
+          <Stack className={CV_CLASSES['section']}>
             {OFFER_BLOCKS[variant].map((key) => {
               const block = cv.whatIOffer.blocks[key];
               const { title } = block;
@@ -71,9 +76,9 @@ export function CvProfileSheet({
 
       <Box
         component="footer"
-        className={cx('print-hidden', classes['screenFooter'])}
+        className={cx('print-hidden', CV_CLASSES['screenFooter'])}
       >
-        <Text size="sm" className={classes['dim60']}>
+        <Text size="sm" className={CV_CLASSES['dim60']}>
           <TextLink href={cvPath(variant, locale)}>
             {cv.profilePage.back}
           </TextLink>

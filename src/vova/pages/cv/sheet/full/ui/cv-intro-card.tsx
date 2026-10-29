@@ -2,6 +2,7 @@ import { Box, Group, List, ListItem, Text, Title } from '@mantine/core';
 import Markdown from 'react-markdown';
 
 import { MESSAGE_MARKDOWN } from '@/kernel/shared/i18n';
+import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { LabeledLink } from '@/kernel/shared/typings';
 
@@ -9,7 +10,8 @@ import { Card, TextLink } from '@/shell/shared/ui';
 
 import type { OfferHeadline, WithCaseStudy } from '@/vova/entities/cv';
 
-import classes from './cv.module.scss';
+import { CV_CLASSES } from '../../frame';
+import classes from './cv-sheet.module.scss';
 
 type CvIntroCardProps = OfferHeadline &
   Partial<WithCaseStudy> & {
@@ -36,17 +38,20 @@ export function CvIntroCard({
           <Markdown {...MESSAGE_MARKDOWN}>{summary}</Markdown>
         </Text>
         <Box>
-          <Title order={3} className={classes['subheading']}>
+          <Title order={3} className={CV_CLASSES['subheading']}>
             {offerTitle}
           </Title>
-          <List className={classes['bullets']}>
+          <List className={CV_CLASSES['bullets']}>
             {offer.map((item) => (
               <ListItem key={item}>{item}</ListItem>
             ))}
           </List>
         </Box>
       </Box>
-      <Group gap={24} className={classes['introLinks']}>
+      <Group
+        gap={24}
+        className={cx(CV_CLASSES['small'], classes['introLinks'])}
+      >
         <TextLink {...pick(more, 'href')} withAddress>
           {more.label}
         </TextLink>

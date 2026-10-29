@@ -8,9 +8,13 @@ import { Card } from '@/shell/shared/ui';
 import type { Messages } from '@/vova/shared/i18n';
 import type { WithCaseStudy } from '@/vova/entities/cv';
 
-import { CaseStudyLink } from './case-study-link';
-import classes from './cv.module.scss';
-import { type BulletItem, CvBullets } from './cv-bullets';
+import {
+  type BulletItem,
+  CaseStudyLink,
+  CV_CLASSES,
+  CvBullets,
+} from '../../frame';
+import classes from './cv-sheet.module.scss';
 
 /**
  * Order is a presentation decision, so it lives in code rather than in the
@@ -51,38 +55,41 @@ export function ExperienceCard({
 
   return (
     <Card>
-      <Title order={3} className={classes['tightHeading']}>
+      <Title order={3} className={CV_CLASSES['tightHeading']}>
         {entry.title}
       </Title>
       <Title
         order={4}
-        className={cx(classes['period'], classes['dim90'])}
+        className={cx(classes['period'], CV_CLASSES['dim90'])}
         fw={700}
       >
         {entry.period}
       </Title>
       {caseStudy !== undefined && <CaseStudyLink {...caseStudy} />}
       {'description' in entry && (
-        <Text className={classes['tight']}>{entry.description}</Text>
+        <Text className={CV_CLASSES['tight']}>{entry.description}</Text>
       )}
       {'intro' in entry && (
-        <Text className={classes['tight']}>{entry.intro}</Text>
+        <Text className={CV_CLASSES['tight']}>{entry.intro}</Text>
       )}
       <CvBullets {...{ items }} last={tech === undefined && !hasNote} />
       {tech !== undefined && (
         <Text
           ff="monospace"
           className={cx(
-            classes['small'],
-            classes['dim60'],
-            hasNote && classes['tightHeading'],
+            CV_CLASSES['small'],
+            CV_CLASSES['dim60'],
+            hasNote && CV_CLASSES['tightHeading'],
           )}
         >
           {tech}
         </Text>
       )}
       {hasNote && (
-        <Text fs="italic" className={cx(classes['small'], classes['dim70'])}>
+        <Text
+          fs="italic"
+          className={cx(CV_CLASSES['small'], CV_CLASSES['dim70'])}
+        >
           {entry.demo}
         </Text>
       )}

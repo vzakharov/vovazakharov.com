@@ -2,10 +2,10 @@ import { FEATURED_CASE_STUDY_ROUTE } from '@/blog/shared/content';
 
 import { type CvEdition, cvMessages, type CvSubpage } from '@/vova/entities/cv';
 
+import { CASE_STUDY_KEY } from '../../frame';
+import { CvSheet } from '../../full';
+import { CvProfileSheet } from '../../profile';
 import { cvPdfFile } from '../lib/cv-files';
-import { CASE_STUDY_KEY } from './case-study-link';
-import { CvProfileSheet } from './cv-profile-sheet';
-import { CvSheet } from './cv-sheet';
 
 /**
  * The seam where an address becomes copy: the sheet below renders on the server

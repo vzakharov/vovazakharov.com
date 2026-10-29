@@ -15,11 +15,16 @@ import {
   offerHeadline,
 } from '@/vova/entities/cv';
 
+import {
+  CASE_STUDY_KEY,
+  CV_CLASSES,
+  CvFrame,
+  CvHeader,
+  CvSection,
+} from '../../frame';
 import { TECH_STACK } from '../lib/cv-stack';
-import { CASE_STUDY_KEY } from './case-study-link';
-import classes from './cv.module.scss';
 import { CvIntroCard } from './cv-intro-card';
-import { CvFrame, CvHeader, CvSection } from './cv-section';
+import classes from './cv-sheet.module.scss';
 import { EXPERIENCE_KEYS, ExperienceCard } from './experience-card';
 import { LocalePicker } from './locale-picker';
 import { OtherVariantLink } from './other-variant-link';
@@ -80,10 +85,10 @@ export function CvSheet({
             {cv.header.name}
           </TextLink>
         </Title>
-        <Text className={cx(classes['tagline'], classes['dim80'])}>
+        <Text className={cx(CV_CLASSES['tagline'], CV_CLASSES['dim80'])}>
           {cv.header.tagline}
         </Text>
-        <Text className={cx(classes['printSmall'], classes['dim70'])}>
+        <Text className={cx(classes['printSmall'], CV_CLASSES['dim70'])}>
           <EmailLink {...pick(cv.header, 'email')} />
           {' · '}
           <WebsiteLink />
@@ -114,7 +119,7 @@ export function CvSheet({
       </CvSection>
 
       <CvSection {...pick(cv.experience, 'title')} wide>
-        <Stack className={classes['sectionWide']}>
+        <Stack className={CV_CLASSES['sectionWide']}>
           {EXPERIENCE_KEYS.map((entryKey) => (
             <ExperienceCard
               key={entryKey}
@@ -146,7 +151,7 @@ export function CvSheet({
           <Title order={3} className={classes['subheadingLarge']}>
             {cv.education.school}
           </Title>
-          <Text className={cx(classes['printSmall'], classes['dim80'])}>
+          <Text className={cx(classes['printSmall'], CV_CLASSES['dim80'])}>
             {cv.education.degree}
           </Text>
         </Card>
@@ -173,9 +178,9 @@ export function CvSheet({
       <Group
         component="footer"
         justify="space-between"
-        className={cx('print-hidden', classes['screenFooter'])}
+        className={cx('print-hidden', CV_CLASSES['screenFooter'])}
       >
-        <Text size="sm" className={classes['dim60']}>
+        <Text size="sm" className={CV_CLASSES['dim60']}>
           <TextLink href="/">{cv.footer.backLink}</TextLink>
         </Text>
         <OtherVariantLink {...{ variant, locale }} labels={cvVariants} />
@@ -186,7 +191,7 @@ export function CvSheet({
         ta="center"
         className={cx('print-only', classes['printFooter'])}
       >
-        <Text className={classes['small']}>
+        <Text className={CV_CLASSES['small']}>
           {cv.footer.printFooter}&nbsp;
           <WebsiteLink />
         </Text>
