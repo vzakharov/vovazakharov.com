@@ -3,12 +3,12 @@
 import {
   createContext,
   type RefObject,
-  use,
   useEffect,
   useRef,
   useState,
 } from 'react';
 
+import { useProvided } from '@/kernel/shared/lib/use-provided';
 import type { WithChildren } from '@/kernel/shared/typings';
 
 import { cleanLabel, typedZone } from '../lib/lookup';
@@ -151,11 +151,5 @@ export function CheckerProvider({ children }: WithChildren) {
 }
 
 export function useChecker(): CheckerState {
-  const state = use(CheckerContext);
-
-  if (state === undefined) {
-    throw new Error('useChecker is called outside a CheckerProvider');
-  }
-
-  return state;
+  return useProvided(CheckerContext, CheckerProvider);
 }

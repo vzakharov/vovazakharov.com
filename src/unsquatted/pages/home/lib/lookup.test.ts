@@ -42,25 +42,46 @@ describe('typedZone', () => {
   });
 });
 
+/** `ZONES` and a few of the zones Porkbun sells besides. */
+const SOLD = [...ZONES, 'bible', 'design', 'tips', 'page', 'fo', 'desi'];
+
 describe('domainHacks', () => {
   it('splits a name that ends in a zone, longest zone first', () => {
-    assert.deepEqual(domainHacks('fuckapp'), ['fuck.app']);
-    assert.deepEqual(domainHacks('nordeco'), ['norde.co']);
+    assert.deepEqual(domainHacks('fuckapp', SOLD), ['fuck.app']);
+    assert.deepEqual(domainHacks('nordeco', SOLD), ['norde.co']);
+    assert.deepEqual(domainHacks('agenticbible', SOLD), ['agentic.bible']);
   });
 
-  it('leaves a name that is only the zone, or ends in none', () => {
-    assert.deepEqual(domainHacks('app'), []);
-    assert.deepEqual(domainHacks('foxedpage'), []);
+  it('splits a name that starts with a zone of three letters or more', () => {
+    assert.deepEqual(domainHacks('designtips', SOLD), [
+      'tips.design',
+      'design.tips',
+      'gntips.desi',
+    ]);
+    assert.deepEqual(domainHacks('foxedpage', SOLD), ['foxed.page']);
+  });
+
+  it('leaves a name that is only the zone, or spells none', () => {
+    assert.deepEqual(domainHacks('app', SOLD), []);
+    assert.deepEqual(domainHacks('timberfare', SOLD), []);
   });
 
   it('skips a split that would leave a hyphen at the dot', () => {
-    assert.deepEqual(domainHacks('fox-io'), []);
+    assert.deepEqual(domainHacks('fox-io', SOLD), []);
+  });
+
+  it('keeps three at most', () => {
+    assert.equal(
+      domainHacks('appdevxyz', ['app', 'dev', 'xyz', 'devxyz', 'appdev'])
+        .length,
+      3,
+    );
   });
 });
 
 describe('rowsFor', () => {
   it('puts a split name before the zones, after a typed one', () => {
-    const rows = rowsFor('fuckapp', 'de');
+    const rows = rowsFor('fuckapp', 'de', SOLD);
 
     assert.deepEqual(
       rows.slice(0, 3).map(({ domain }) => domain),
@@ -69,18 +90,25 @@ describe('rowsFor', () => {
   });
 
   it('shows every zone when none was typed', () => {
-    assert.equal(rowsFor('fox', undefined).length, ZONES.length);
+    assert.equal(rowsFor('fox', undefined, SOLD).length, ZONES.length);
   });
 
   it('leads with a typed zone it checks, without repeating it', () => {
-    const rows = rowsFor('fox', 'dev');
+    const rows = rowsFor('fox', 'dev', SOLD);
 
     assert.deepEqual(rows[0], { domain: 'fox.dev', checkable: true });
     assert.equal(rows.length, ZONES.length);
   });
 
+  it('checks a typed zone Porkbun sells outside the shown ones', () => {
+    assert.deepEqual(rowsFor('fox', 'design', SOLD)[0], {
+      domain: 'fox.design',
+      checkable: true,
+    });
+  });
+
   it('leads with a typed zone it cannot check, marked so', () => {
-    const rows = rowsFor('fox', 'ru');
+    const rows = rowsFor('fox', 'ru', SOLD);
 
     assert.deepEqual(rows[0], { domain: 'fox.ru', checkable: false });
     assert.equal(rows.length, ZONES.length + 1);
@@ -119,22 +147,19 @@ describe('freesIn', () => {
   it('counts down five days from entering pending delete', () => {
     const dated = dates({ 'last changed': changed });
 
-    assert.equal(
-      freesIn(pending, dated, before(36 * 3_600_000)),
-      'up for grabs in 2 days',
-    );
-    assert.equal(
-      freesIn(pending, dated, before(3_600_000)),
-      'up for grabs in 1 hour',
-    );
-    assert.equal(
-      freesIn(pending, dated, before(90_000)),
-      'up for grabs in 2 minutes',
-    );
-    assert.equal(
-      freesIn(pending, dated, before(-60_000)),
-      'up for grabs any minute',
-    );
+    assert.deepEqual(freesIn(pending, dated, before(36 * 3_600_000)), {
+      left: 2,
+      unit: 'day',
+    });
+    assert.deepEqual(freesIn(pending, dated, before(3_600_000)), {
+      left: 1,
+      unit: 'hour',
+    });
+    assert.deepEqual(freesIn(pending, dated, before(90_000)), {
+      left: 2,
+      unit: 'minute',
+    });
+    assert.equal(freesIn(pending, dated, before(-60_000)), 'now');
   });
 
   it('takes the registry’s own deletion date over the count', () => {
@@ -143,10 +168,14 @@ describe('freesIn', () => {
       deletion: new Date(release + 86_400_000).toISOString(),
     });
 
-    assert.equal(
-      freesIn(pending, dated, before(0)),
-      'up for grabs in 1 day',
-    );
+    assert.deepEqual(freesIn(pending, dated, before(0)), {
+      left: 1,
+      unit: 'day',
+    });
+  });
+
+  it('has nothing to count from without a date', () => {
+    assert.equal(freesIn(pending, dates({}), before(0)), 'soon');
   });
 
   it('promises nothing for a name its owner can still renew', () => {
@@ -191,7 +220,7 @@ describe('rdapVerdict', () => {
         },
         Date.parse('2027-09-03T00:00:00Z'),
       ),
-      { state: 'taken', since: '2026', frees: 'up for grabs in 3 days' },
+      { state: 'taken', since: '2026', frees: { left: 3, unit: 'day' } },
     );
   });
 

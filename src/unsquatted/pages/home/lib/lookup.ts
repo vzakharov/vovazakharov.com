@@ -6,6 +6,17 @@
 
 import { z } from 'zod';
 
+const TIME_UNITS = ['day', 'hour', 'minute'] as const;
+
+export type TimeUnit = (typeof TIME_UNITS)[number];
+
+/**
+ * When a name in pending delete is released: a count of the largest whole
+ * unit left, `soon` where the registry gives nothing to count from, `now`
+ * where the count has run out.
+ */
+export type Release = { left: number; unit: TimeUnit } | 'soon' | 'now';
+
 /**
  * What a lookup can say. `maybe` is DNS's "no such name", which a registered
  * domain without nameservers also answers; `unknown` is no answer at all.
@@ -17,13 +28,16 @@ export type Verdict =
       state: 'taken';
       since: string | undefined;
       /** Set only for a name the registry is about to release. */
-      frees?: string;
+      frees?: Release;
     }
   | { state: 'unknown' };
 
 export type WithDomain = { domain: string };
 
-/** The zones every name is checked in, in the order they are shown. */
+/**
+ * The zones every name is checked in, in the order they are shown. Any other
+ * zone Porkbun sells is shown only where the name spells it (`domainHacks`).
+ */
 export const ZONES = [
   'com',
   'net',
@@ -72,46 +86,75 @@ export function typedZone(input: string): string | undefined {
   return zone === undefined || zone === '' ? undefined : zone;
 }
 
+/** Everything after the name: `co.uk` of `foxedpage.co.uk`. */
+export function zoneOf(domain: string): string {
+  return domain.slice(domain.indexOf('.') + 1);
+}
+
 export type Row = WithDomain & { checkable: boolean };
 
 /**
- * The name split where it ends in a zone of `ZONES` — `fuckapp` as
- * `fuck.app` — longest zone first.
+ * The shortest zone a name may start with to be split on it: a two-letter one
+ * matches the start of a word too often to mean it — `foxedpage` as
+ * `xedpage.fo`.
  */
-export function domainHacks(label: string): string[] {
-  return ZONES.filter(
-    (each) => label.length > each.length && label.endsWith(each),
-  )
+const MIN_LEADING_ZONE = 3;
+
+/** As many splits as lead the grid, so `.com` stays in its first rows. */
+const HACKS_SHOWN = 3;
+
+/**
+ * The name split where it ends in one of `zones` — `fuckapp` as `fuck.app` —
+ * or starts with one — `designtips` as `tips.design` — longest zone first.
+ */
+export function domainHacks(label: string, zones: readonly string[]): string[] {
+  const splits = zones
+    .filter((zone) => label.length > zone.length)
     .toSorted((a, b) => b.length - a.length)
-    .map((each) => `${label.slice(0, -each.length)}.${each}`)
+    .flatMap((zone) => [
+      ...(label.endsWith(zone)
+        ? [`${label.slice(0, -zone.length)}.${zone}`]
+        : []),
+      ...(label.startsWith(zone) && zone.length >= MIN_LEADING_ZONE
+        ? [`${label.slice(zone.length)}.${zone}`]
+        : []),
+    ])
     .filter((domain) => !domain.startsWith('-') && !domain.includes('-.'));
+
+  return [...new Set(splits)].slice(0, HACKS_SHOWN);
 }
 
 /**
  * The domains a lookup shows for `label`: every zone of `ZONES`, led by the
- * zone typed with it — shown even where it cannot be checked — and then by
- * the name split where it already ends in a zone.
+ * zone typed with it — shown even where Porkbun does not sell it, and so
+ * cannot be checked — and then by the name split on a zone it spells.
+ * `sold` is every zone Porkbun sells, `ZONES` among them.
  */
-export function rowsFor(label: string, zone: string | undefined): Row[] {
+export function rowsFor(
+  label: string,
+  zone: string | undefined,
+  sold: readonly string[],
+): Row[] {
   const typed =
     zone === undefined
       ? []
-      : [
-          {
-            domain: `${label}.${zone}`,
-            checkable: (ZONES as readonly string[]).includes(zone),
-          },
-        ];
-  const hacks = domainHacks(label).map((domain) => ({
+      : [{ domain: `${label}.${zone}`, checkable: sold.includes(zone) }];
+  const hacks = domainHacks(label, sold).map((domain) => ({
     domain,
     checkable: true,
   }));
-  const rest = ZONES.filter((each) => each !== zone).map((each) => ({
+  const rest = ZONES.map((each) => ({
     domain: `${label}.${each}`,
     checkable: true,
   }));
+  const shown = new Set<string>();
 
-  return [...typed, ...hacks, ...rest];
+  return [...typed, ...hacks, ...rest].filter(({ domain }) => {
+    if (shown.has(domain)) return false;
+    shown.add(domain);
+
+    return true;
+  });
 }
 
 const bootstrapSchema = z.object({
@@ -148,22 +191,24 @@ const DAY = 24 * HOUR;
 /** How long a gTLD name sits in "pending delete" before it is released. */
 const PENDING_DELETE = 5 * DAY;
 
-function count(amount: number, unit: string): string {
-  return `${amount} ${unit}${amount === 1 ? '' : 's'}`;
-}
+const UNIT_MS: Record<TimeUnit, number> = {
+  day: DAY,
+  hour: HOUR,
+  minute: MINUTE,
+};
 
 /**
- * When a taken name becomes registrable again, in the largest whole unit.
- * Only a name in "pending delete" has a date: nobody can renew or restore it,
- * and the registry releases it five days after it entered the status (its
- * "deletion" event where given, else its last change). Before that the owner
- * can still renew it for a month or more, so there is no date to promise.
+ * When a taken name becomes registrable again. Only a name in "pending delete"
+ * has a date: nobody can renew or restore it, and the registry releases it
+ * five days after it entered the status (its "deletion" event where given,
+ * else its last change). Before that the owner can still renew it for a month
+ * or more, so there is no date to promise.
  */
 export function freesIn(
   status: readonly string[],
   dated: (action: string) => string | undefined,
   now: number,
-): string | undefined {
+): Release | undefined {
   if (!status.includes('pending delete')) return undefined;
 
   const changed = dated('last changed');
@@ -173,18 +218,15 @@ export function freesIn(
       ? undefined
       : new Date(Date.parse(changed) + PENDING_DELETE).toISOString());
 
-  if (release === undefined) return 'up for grabs within days';
+  if (release === undefined) return 'soon';
 
   const left = Date.parse(release) - now;
 
-  const inUnits = (size: number, unit: string) =>
-    `up for grabs in ${count(Math.ceil(left / size), unit)}`;
+  if (left <= 0) return 'now';
 
-  if (left <= 0) return 'up for grabs any minute';
-  if (left >= DAY) return inUnits(DAY, 'day');
-  if (left >= HOUR) return inUnits(HOUR, 'hour');
+  const unit = TIME_UNITS.find((each) => left >= UNIT_MS[each]) ?? 'minute';
 
-  return inUnits(MINUTE, 'minute');
+  return { left: Math.ceil(left / UNIT_MS[unit]), unit };
 }
 
 /**

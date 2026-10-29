@@ -1,30 +1,51 @@
 import { TextLink } from '@/shell/shared/ui';
 
-import type { Verdict, WithDomain } from '../lib/lookup';
+import type { WithCopy } from '../i18n';
+import type { Release, Verdict, WithDomain } from '../lib/lookup';
 import { type Price, priceParts } from '../lib/prices';
 import { registerUrl } from '../lib/register';
 import classes from './unsquatted-home.module.scss';
 
-type VerdictLabelProps = WithDomain & {
-  /** `undefined` while the lookup runs. */
-  verdict: Verdict | undefined;
-  /** Shown beside the site's own domain, so teased about what it says. */
-  ownNeighbour?: boolean;
-  /** What registering costs, shown where it is free or may be. */
-  price?: Price | undefined;
-};
+type VerdictLabelProps = WithCopy &
+  WithDomain & {
+    /** `undefined` while the lookup runs. */
+    verdict: Verdict | undefined;
+    /** Shown beside the site's own domain, so teased about what it says. */
+    ownNeighbour?: boolean;
+    /** What registering costs, shown where it is free or may be. */
+    price?: Price | undefined;
+  };
 
 /** The site's own domain, which a visitor checking it is teased about. */
 export const OWN_DOMAIN = 'unsquatted.com';
 
-function takenText(domain: string, verdict: Verdict | undefined): string {
-  if (domain === OWN_DOMAIN) return 'seriously?';
-  if (verdict?.state !== 'taken') return 'taken';
+type Copy = WithCopy['copy'];
+
+function releaseText({ release, units }: Copy, frees: Release): string {
+  if (frees === 'soon' || frees === 'now') return release[frees];
+
+  const { left, unit } = frees;
+
+  return release.in
+    .replace('{left}', String(left))
+    .replace('{unit}', units[unit][left === 1 ? 'one' : 'other']);
+}
+
+function takenText(
+  copy: Copy,
+  domain: string,
+  verdict: Verdict | undefined,
+): string {
+  if (domain === OWN_DOMAIN) return copy.verdict.own;
+  if (verdict?.state !== 'taken') return copy.verdict.taken;
 
   const { since, frees } = verdict;
-  const taken = since === undefined ? 'taken' : `taken ${since}`;
+  const taken =
+    since === undefined
+      ? copy.verdict.taken
+      : copy.verdict.takenSince.replace('{year}', since);
 
-  return frees === undefined ? taken : `${taken}, ${frees}`;
+  return frees === undefined ? taken : `${taken}, ${releaseText(copy, frees)}`;
 }
 
 type State = Verdict['state'] | 'pending';
@@ -32,17 +53,17 @@ type State = Verdict['state'] | 'pending';
 const isRegistrable = (state: State) => state === 'free' || state === 'maybe';
 
 /** The aside under the site's own name in its neighbouring zone. */
-function neighbourAside(state: State): string | undefined {
-  if (isRegistrable(state)) return '(but that wouldn’t be very nice)';
-  if (state === 'taken') return '(can you imagine someone did that to us?)';
+function neighbourAside({ neighbour }: Copy, state: State): string | undefined {
+  if (isRegistrable(state)) return neighbour.registrable;
+  if (state === 'taken') return neighbour.taken;
 
   return undefined;
 }
 
-type PriceHintProps = { price: Price };
+type PriceHintProps = WithCopy & { price: Price };
 
 /** The amounts at the hint's weight, the words between them quieter still. */
-function PriceHint({ price }: PriceHintProps) {
+export function PriceHint({ price, copy }: PriceHintProps) {
   const { first, after } = priceParts(price);
   const filler = (words: string) => (
     <span className={classes['priceFiller']}>{words}</span>
@@ -53,11 +74,11 @@ function PriceHint({ price }: PriceHintProps) {
       {`$${first}`}
       {after !== undefined && (
         <>
-          {filler(', then ')}
+          {filler(copy.price.then)}
           {`$${after}`}
         </>
       )}
-      {filler('/yr')}
+      {filler(copy.price.perYear)}
     </span>
   );
 }
@@ -68,16 +89,12 @@ export function VerdictLabel({
   verdict,
   ownNeighbour = false,
   price,
+  copy,
 }: VerdictLabelProps) {
   const state: State = verdict?.state ?? 'pending';
-  const text = {
-    pending: 'checking…',
-    free: 'available →',
-    maybe: 'may be available →',
-    taken: takenText(domain, verdict),
-    unknown: 'no answer',
-  }[state];
-  const aside = ownNeighbour ? neighbourAside(state) : undefined;
+  const text =
+    state === 'taken' ? takenText(copy, domain, verdict) : copy.verdict[state];
+  const aside = ownNeighbour ? neighbourAside(copy, state) : undefined;
   const registrable = isRegistrable(state);
 
   return (
@@ -89,7 +106,7 @@ export function VerdictLabel({
           text
         )}
       </span>
-      {registrable && price !== undefined && <PriceHint {...{ price }} />}
+      {registrable && price !== undefined && <PriceHint {...{ price, copy }} />}
       {aside !== undefined && <span className={classes['aside']}>{aside}</span>}
     </>
   );

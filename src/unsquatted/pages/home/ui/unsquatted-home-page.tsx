@@ -6,6 +6,7 @@ import { PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { COPY } from '../i18n';
+import { zoneOf } from '../lib/lookup';
 import { fetchPrices } from '../lib/prices';
 import { PICKS } from '../model/picks';
 import { CheckerProvider } from './checker-state';
@@ -53,6 +54,7 @@ export async function UnsquattedHomePage() {
                 <PickRow
                   key={domain}
                   {...{ domain, category, blurb }}
+                  price={prices[zoneOf(domain)]}
                   copy={COPY}
                 />
               ))}

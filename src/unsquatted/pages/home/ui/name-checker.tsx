@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import type { WithCopy } from '../i18n';
 import { rollName } from '../lib/dice';
-import { type Row, rowsFor, type Verdict } from '../lib/lookup';
+import { type Row, rowsFor, type Verdict, zoneOf } from '../lib/lookup';
 import type { Price, Prices } from '../lib/prices';
 import { useVerdicts } from '../lib/use-verdict';
 import { useChecker } from './checker-state';
@@ -32,7 +32,7 @@ function ZoneRow({
     <li className={classes['zone']}>
       <span className={classes['domain']}>{domain}</span>
       {checkable ? (
-        <VerdictLabel {...{ domain, verdict, ownNeighbour, price }} />
+        <VerdictLabel {...{ domain, verdict, ownNeighbour, price, copy }} />
       ) : (
         <span className={classes['verdict']} data-state="unknown">
           {copy.cantCheck}
@@ -63,15 +63,13 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     fieldRef,
   } = useChecker();
   const [open, setOpen] = useState(false);
-  const rows = label === '' ? [] : rowsFor(label, zone);
+  const rows = label === '' ? [] : rowsFor(label, zone, Object.keys(prices));
   const checked = rows.filter(({ checkable }) => checkable);
   const verdicts = useVerdicts(
     checked.map(({ domain }) => domain),
     round,
   );
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
-  const priceOf = (domain: string) =>
-    prices[domain.slice(domain.indexOf('.') + 1)];
   const busy =
     (settling && typed.trim() !== '') || verdicts.size < checked.length;
 
@@ -120,17 +118,13 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
         </Button>
       </form>
       {rows.length > 0 && (
-        <ul
-          className={classes['zones']}
-          data-open={open}
-          aria-live="polite"
-        >
+        <ul className={classes['zones']} data-open={open} aria-live="polite">
           {rows.map((row, index) => (
             <ZoneRow
               key={row.domain}
               {...row}
               ownNeighbour={ownIndex !== -1 && index === ownIndex + 1}
-              price={priceOf(row.domain)}
+              price={prices[zoneOf(row.domain)]}
               verdict={verdicts.get(row.domain)}
               {...{ copy }}
             />

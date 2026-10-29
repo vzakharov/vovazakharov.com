@@ -15,6 +15,8 @@ export async function rollName(): Promise<string> {
   const { faker } = await import('@faker-js/faker');
 
   return cleanLabel(
-    `${letters(faker.word.adjective({ length: LENGTH }))}${letters(faker.word.noun({ length: LENGTH }))}`,
+    (['adjective', 'noun'] as const)
+      .map((part) => letters(faker.word[part]({ length: LENGTH })))
+      .join(''),
   );
 }

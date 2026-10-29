@@ -15,8 +15,31 @@
   "moreZones": "more tlds ↓",
   "fewerZones": "fewer tlds ↑",
   "listHeading": "Up for grabs",
-  "register": "Register ~$11 →",
-  "taken": "taken",
+  "register": "Register →",
+  "verdict": {
+    "pending": "checking…",
+    "free": "available →",
+    "maybe": "may be available →",
+    "taken": "taken",
+    "takenSince": "taken {year}",
+    "own": "seriously?",
+    "unknown": "no answer"
+  },
+  "release": {
+    "soon": "up for grabs within days",
+    "now": "up for grabs any minute",
+    "in": "up for grabs in {left} {unit}"
+  },
+  "units": {
+    "day": { "one": "day", "other": "days" },
+    "hour": { "one": "hour", "other": "hours" },
+    "minute": { "one": "minute", "other": "minutes" }
+  },
+  "neighbour": {
+    "registrable": "(but that wouldn’t be very nice)",
+    "taken": "(can you imagine someone did that to us?)"
+  },
+  "price": { "then": ", then ", "perYear": "/yr" },
   "shoutOutPrompt": "Took a name from here?",
   "shoutOutLink": "Give us a shout-out",
   "shoutOutPost": "Found my domain name on {url} — good names nobody has grabbed yet."

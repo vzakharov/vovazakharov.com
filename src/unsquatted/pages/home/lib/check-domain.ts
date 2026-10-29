@@ -1,3 +1,6 @@
+import { errorClass } from '@/kernel/shared/lib/error-class';
+import { fetchOk } from '@/kernel/shared/lib/fetch-ok';
+
 import {
   dohVerdict,
   parseBootstrap,
@@ -9,8 +12,12 @@ const BOOTSTRAP_URL = 'https://data.iana.org/rdap/dns.json';
 
 const DOH_URL = 'https://dns.google/resolve';
 
+const RdapBootstrapError = errorClass('RdapBootstrapError');
+
+const DohError = errorClass('DohError');
+
 async function loadServers() {
-  const response = await fetch(BOOTSTRAP_URL);
+  const response = await fetchOk(BOOTSTRAP_URL, RdapBootstrapError);
 
   return parseBootstrap(await response.json());
 }
@@ -59,7 +66,7 @@ export async function checkDomain(domain: string): Promise<Verdict> {
   if (registry !== undefined) return registry;
 
   const url = `${DOH_URL}?${new URLSearchParams({ name: domain, type: 'NS' })}`;
-  const response = await fetch(url);
+  const response = await fetchOk(url, DohError);
 
   return dohVerdict(await response.json());
 }

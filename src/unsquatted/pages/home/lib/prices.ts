@@ -7,9 +7,16 @@
 
 import { z } from 'zod';
 
-import { ZONES } from './lookup';
+import { errorClass } from '@/kernel/shared/lib/error-class';
+import { fetchOk } from '@/kernel/shared/lib/fetch-ok';
 
 const PRICING_URL = 'https://api.porkbun.com/api/json/v3/pricing/get';
+
+const ROOT_ZONES_URL = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt';
+
+const PricingError = errorClass('PricingError');
+
+const RootZonesError = errorClass('RootZonesError');
 
 const pricingSchema = z.object({
   pricing: z.record(
@@ -20,29 +27,34 @@ const pricingSchema = z.object({
 
 export type Price = { registration: number; renewal: number };
 
-/** Dollars per zone of `ZONES` that Porkbun sells. */
+/** Dollars per zone Porkbun sells. */
 export type Prices = Partial<Record<string, Price>>;
 
-/** The price list, cut down to the zones the checker shows. */
-export function parsePricing(body: unknown): Prices {
+/** IANA's list of the root zone's TLDs: upper-case, one a line, under a `#` header. */
+export function parseRootZones(text: string): ReadonlySet<string> {
+  return new Set(
+    text
+      .split('\n')
+      .filter((line) => line !== '' && !line.startsWith('#'))
+      .map((line) => line.trim().toLowerCase()),
+  );
+}
+
+/**
+ * The price list, cut down to the zones a typed name can end in: in the DNS
+ * root — Porkbun also sells Handshake names, which no ordinary resolver
+ * answers — and spelled in letters, since a typed name holds no `xn--`.
+ */
+export function parsePricing(body: unknown, root: ReadonlySet<string>): Prices {
   const { pricing } = pricingSchema.parse(body);
 
   return Object.fromEntries(
-    ZONES.flatMap((zone) => {
-      const price = pricing[zone];
-
-      return price === undefined
-        ? []
-        : [
-            [
-              zone,
-              {
-                registration: Number(price.registration),
-                renewal: Number(price.renewal),
-              },
-            ],
-          ];
-    }),
+    Object.entries(pricing)
+      .filter(([zone]) => /^[a-z]+$/.test(zone) && root.has(zone))
+      .map(([zone, { registration, renewal }]) => [
+        zone,
+        { registration: Number(registration), renewal: Number(renewal) },
+      ]),
   );
 }
 
@@ -62,11 +74,10 @@ export function priceParts({ registration, renewal }: Price): {
 
 /** Fetched at build; a failure fails the build rather than drop the prices. */
 export async function fetchPrices(): Promise<Prices> {
-  const response = await fetch(PRICING_URL, { method: 'POST' });
+  const [pricing, root] = await Promise.all([
+    fetchOk(PRICING_URL, PricingError, { method: 'POST' }),
+    fetchOk(ROOT_ZONES_URL, RootZonesError),
+  ]);
 
-  if (!response.ok) {
-    throw new Error(`Porkbun pricing answered ${response.status}`);
-  }
-
-  return parsePricing(await response.json());
+  return parsePricing(await pricing.json(), parseRootZones(await root.text()));
 }
