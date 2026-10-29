@@ -49,6 +49,7 @@ import {
 import { unicornRules } from './eslint/rule-groups/unicorn';
 import { vovaRules } from './eslint/rule-groups/vova';
 import aliasNamesakeImports from './eslint/rules/alias-namesake-imports';
+import errorClassName from './eslint/rules/error-class-name';
 import noDefaultTrue from './eslint/rules/no-default-true';
 import noExportNamesake from './eslint/rules/no-export-namesake';
 import noHardcodedStrings from './eslint/rules/no-hardcoded-strings';
@@ -91,6 +92,7 @@ const eslintConfig = defineConfig([
       vova: {
         rules: {
           'alias-namesake-imports': aliasNamesakeImports,
+          'error-class-name': errorClassName,
           'no-default-true': noDefaultTrue,
           'no-export-namesake': noExportNamesake,
           'no-hardcoded-strings': noHardcodedStrings,
