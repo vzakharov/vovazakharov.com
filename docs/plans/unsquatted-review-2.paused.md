@@ -74,6 +74,15 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 - **Hydration** — ccf776d/caed8f1: the lede is divs, since a `NotedSpan`'s note
   is a `<div>`.
 
+- **Maybe hint** (operator: «на grab-ish давай хинт: "Мы точно не знаем но
+  блаблабла"», on hover only; notes «темноватее чем основной paper») — 0f4b8e1:
+  `maybeWhy`, `NotedSpan`'s `hoverOnly`, `--noted-span-background`.
+- **Footnote on the card only** («тут сноска не нужна, она только для OG») —
+  f9a8ff4: the page strips the `*` and drops `ledeNote`.
+- **"maybe →"** («замени grab-ish на maybe») — c3c3e98.
+- **Coffee line on its own line** («If после разрыва строки») — 83b14ee.
+- Preview republished from the head (b8efb02).
+
 ## Left
 
 1. **/five-percent's two optional proposals** (pullrequestreview-5696304712):
