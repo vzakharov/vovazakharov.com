@@ -7,15 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-28T08:41:34Z
-- **Updated:** 2026-10-29T09:34:21Z
+- **Updated:** 2026-10-29T09:59:37Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: none
+## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at eca4c7c). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 9d03f15). Resolved threads never count; an `(agent)` tail is a reply already given._
+
+- **T01** `scripts/masd-clusters.ts`:125 — unresolved — last: @vzakharov (human) 2026-10-29T09:36:59Z — "дождёмся результатов этого прогона, потом решим" → [↓](#t01)
 
 ---
 
@@ -63,6 +65,8 @@ https://claude.ai/code/session_01DaohkDnoakgX1SC8nKZLvV
 ## Comments
 
 - **C01** @vzakharov (agent) — 2026-10-28T08:41:55Z — "Proposed squash body: ``` A cluster inside one slice that ea…" → [↓](#c01)
+- **C02** @vzakharov (agent) — 2026-10-29T09:35:29Z — "**Вопрос: что делать с шестью находками гейта кластеров?** `…" → [↓](#c02)
+- **C03** @vzakharov (agent) — 2026-10-29T09:58:14Z — "**Вопрос: что делать с кластером, который импортирует общие…" → [↓](#c03)
 
 <a id="c01"></a>
 
@@ -105,6 +109,59 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ---
 
+<a id="c02"></a>
+
+### Comment by @vzakharov (agent) on 2026-10-29T09:35:29Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/228#issuecomment-6493151347](https://github.com/vzakharov/vovazakharov.com/pull/228#issuecomment-6493151347)
+
+**Вопрос: что делать с шестью находками гейта кластеров?**
+
+`pnpm masd:clusters` теперь гейт, и он падает на шести местах. Пока они не решены, vet красный. Каждое — либо режем в подслайс, либо оставляем с `// masd-disable cluster -- <почему>` на твоё «да».
+
+Четыре из шести — это файл и его единственный помощник:
+
+| Где | Кластер | ΔQ |
+|---|---|---|
+| `blog/pages/article` | `print-sheet` + `printed-from` | 0.22 |
+| `mushrooms/entities/mushroom/fungus` | `paint-dome` + `porcini-margin` | 0.017 |
+| `mushrooms/features/insects-fly/flight` | `insects` + `pollen` | 0.0095 |
+| `mushrooms/widgets/map` | `draw-map-ground` + `map-ground` | 0.068 |
+
+Ещё два похожи на модули:
+
+| Где | Кластер | ΔQ |
+|---|---|---|
+| `mushrooms/features/mice-run` | `runner-shown`, `run-front`, `run-ends` (3 файла) | 0.25 |
+| `vova/pages/cv` | `cv-page` и всё под ним (13 из 21 файла) | 0.11 |
+
+**Предлагаю:** кластер должен быть не меньше трёх файлов. Пара — это файл с помощником, а не модуль, и папка ради двух файлов ничего не проясняет. Тот же порог стоит применить к значимости подслайса, чтобы гейт и `check:masd` мерили одинаково. Тогда остаются `mice-run` и `cv`, и их я бы резал.
+
+Согласен? Если да, ставлю порог и режу эти два. Если какую-то пару хочешь видеть подслайсом или какой-то из двух оставить, скажи какую.
+
+---
+
+<a id="c03"></a>
+
+### Comment by @vzakharov (agent) on 2026-10-29T09:58:14Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/228#issuecomment-6493616445](https://github.com/vzakharov/vovazakharov.com/pull/228#issuecomment-6493616445)
+
+**Вопрос: что делать с кластером, который импортирует общие файлы из остатка модуля?**
+
+После перестройки пяти модулей гейт кластеров показывает девять кандидатов в восьми модулях (двое новых, `whisper/page` и `player/playback`, появились из-за самих перестроек). Семь из девяти импортируют общие файлы из остального модуля. Например, `fungus`'овский `paint-dome` берёт `mushroom-paint`, `mushroom-tints` и ещё четыре файла, а `cv-page` берёт `cv-urls` и `cv-messages`.
+
+По правилу «только подслайсы» остаток при разрезе становится соседним подслайсом. Тогда кластер импортирует остаток (общие файлы), остаток импортирует кластер (его корень), и получается цикл, который `check:masd` теперь запрещает. Чисто режутся только два: `print-sheet` в статье и `runner-shown` в `mice-run`.
+
+Варианты:
+
+1. **Гейт требует только разрезы, которые вырезаются как есть**: кластер, кроме одной двери внутрь, ничего не импортирует из остального модуля. Это та же мысль, что в T03: «гейт должен требовать только такие разрезы, которые вырезаются как есть». Остаются `print-sheet` и `runner-shown`, остальные семь гейт перестаёт требовать.
+2. **Разрез делит остаток на «над» и «под»**: общие файлы, которые берёт кластер, уходят в третий подслайс ниже обоих. Так честнее для `cv-page` (13 файлов), но гейт не может предложить этот разрез сам, и каждый раз нужно решать, что куда.
+
+**Советую 1.** Гейт, требующий того, чего он сам не умеет описать, — это опять подавления на каждом шагу. А второй вариант можно делать руками там, где разрез очевиден, как у `cv`.
+
+---
+
 ## Review threads
 
 <a id="r01"></a>
@@ -135,99 +192,12 @@ _2026-10-28T11:20:22Z_
 
 <!-- five-percent: 20abdc0e6d46b60fe46a64cea8c1e0af3984a9b2 -->
 
-- **T01** `docs/masd.md`:108 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:08Z — "Два дока потому, что `docs/masd.md` пришёл из #169, раньше э…" → [↓](#t01)
-- **T02** `scripts/lib/import-graph.ts`:13 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:10Z — "Принято, на #227 не перестраиваю. #227 уже в `main`, так что…" → [↓](#t02)
-- **T03** `scripts/masd-clusters.ts`:125 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:12Z — "Проще так. Сейчас кандидат в подслайс — это файл и всё, до ч…" → [↓](#t03)
-- **T04** `eslint/rule-groups/vova.ts`:19 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:14Z — "Не совсем медведь (тот отрицает то, чего уже нет), но строке…" → [↓](#t04)
-- **T05** `scripts/lib/slice-graph.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:16Z — "С `masd-graph` дубля нет: тот про граф приложений из `masd.j…" → [↓](#t05)
-- **T06** `scripts/masd-clusters.ts`:9 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:17Z — "Согласен: отчёт, на который можно не смотреть, ничего не дер…" → [↓](#t06)
-- **T07** `src/lsa/pages/lsa-home/config/i18n.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:19Z — "Ты прав: отдельная папка в `config` — это разрез, которого н…" → [↓](#t07)
-- **T08** `src/mushrooms/entities/mushroom/fungus/index.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:21Z — "Мне нравится. Правило такое: если в слайсе (или подслайсе) е…" → [↓](#t08)
-- **T09** `src/mushrooms/features/insects-fly/ui/perches.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:23Z — "Да, это сходится с ответом в соседнем треде: остаток станет…" → [↓](#t09)
-- **T10** `src/music/pages/blind-test/ui/blind-test-page.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:24Z — "Причина в самом измерителе, руками тут ничего не испорчено.…" → [↓](#t10)
-- **T11** `src/vova/pages/home/ui/home-page.tsx`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:26Z — "Здесь не так, как в `blind-test`. Снаружи `work/` остаются ч…" → [↓](#t11)
+_9 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `scripts/masd-clusters.ts`:125 — unresolved — last: @vzakharov (human) 2026-10-29T09:36:59Z — "дождёмся результатов этого прогона, потом решим" → [↓](#t01)
+- **T02** `src/mushrooms/features/insects-fly/perch/ui/perches.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T09:09:23Z — "Да, это сходится с ответом в соседнем треде: остаток станет…" → [↓](#t02)
 
 <a id="t01"></a>
-
-### `docs/masd.md`:108 — unresolved
-
-```diff
-@@ -101,7 +101,11 @@ shared block drops to, `shared/lib`, scripts, and the Next.js traps — is in
- ## The checkers
- 
- Three checkers hold the model, all run by `./scripts/vet.sh`, and all read the
--graph through one loader, `eslint/masd-graph.ts`.
-+graph through one loader, `eslint/masd-graph.ts`. A fourth, `pnpm check:cycles`
-+(madge), holds the file-import graph under `src/` acyclic, type-only imports
-+included: two files importing each other cannot go to different slices, so a
-+slice's files form a DAG, which is what a search for a cluster inside one stands
-+on.
-```
-
-**@vzakharov (agent)** — 2026-10-28T10:01:41Z
-
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**/five-percent** · optional
-
-**Записать проверку на циклы и то, как их разрывать, в правило, которое агент видит при каждой правке src/?**
-Сейчас: правило по-прежнему говорит «три проверки», а урок ветки — цикл чинят переносом типа, а не копией — останется только в плане, который удалится при финализации.
-Цена: пара строк в правиле, которое грузится при каждом чтении src/.
-
-<details><summary>Подробнее</summary>
-
-Четвёртая проверка (`check:cycles`) записана только в `docs/masd.md` — справочник, который открывают нарочно. `.claude/rules/masd.md`, который грузится при каждом чтении файла под `src/`, говорит «Three checkers enforce what follows». На всех 18 циклах цикл означал тип или хук не в том файле и разрывался переносом объявления в свой файл или к единственному читателю, без копии с двух сторон (DRY notes плана: «A cycle broken by copying a type is the failure mode»). Тогда справочнику хватит ссылки на правило вместо своего абзаца.
-
-</details>
-
-**@vzakharov (human)** — 2026-10-29T08:37:56Z
-
-я вообще не понимаю, почему у нас два дока (этот и правило) об одном и том же? раздел "DRY notes" как будто бы даже намекает, что когда-то это было планом (который забыли вычистить?)
-
-(во второй раз мета-ирония: агент-пятипроцентник нашёл место, но не нашёл почему оно подходит под пятипроцентник)
-
-**@vzakharov (agent)** — 2026-10-29T09:09:08Z
-
-Два дока потому, что `docs/masd.md` пришёл из #169, раньше этой ветки: его задумали как справочник для человека (решения и отвергнутые альтернативы), а правило — для агента, оно грузится при каждом чтении `src/`. На деле они пересказывают друг друга: модель, роутеры, проверки. «DRY notes» и «Open directions» — остатки плана #169, их перенесли в док и не вычистили. Подозрение верное.
-
-CLAUDE.md сам говорит, что решение с отвергнутыми альтернативами живёт в своём PR, а одно правило в двух местах — уже находка. Предлагаю так. Правило остаётся единственным домом. Из дока в него переезжает то, что агенту правда нужно: четвёртая проверка и подслайсы. Остальное удаляю, с надгробием `docs/masd.retired.md`, потому что на док ссылается дерево. «Open directions» становятся issues. Делать в этом PR?
-
-Про мета-иронию: справедливо. Пятипроцентник заметил, что правило отстаёт от дока, но не задал своего же вопроса: а зачем их два.
-
----
-
-<a id="t02"></a>
-
-### `scripts/lib/import-graph.ts`:13 — unresolved
-
-```diff
-@@ -0,0 +1,54 @@
-… 9 lines elided …
-+const SOURCE = /\.tsx?$/;
-+
-+/** Every `.ts`/`.tsx` file under `directory`, at any depth. */
-+const walk = (directory: string): string[] =>
-```
-
-**@vzakharov (agent)** — 2026-10-28T11:20:13Z
-
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**/five-percent** · optional
-
-Ветка взяла за данность, что копия `scripts/lib/import-graph.ts` из #227 даст при слиянии «почти no-op» (так сказано в теле c009274). Но оба PR *добавляют* этот файл, а он отличается — здесь `walk` без `export` (иначе knip), и шапка не называет `check:poison`, — так что кто бы ни влился вторым, получит add/add-конфликт на весь файл, а не на строку. `masd-check.ts` при этом совпадает побайтно и сольётся чисто. → Поставить #228 поверх #227 (база — `poison-check`, после его мерджа GitHub сам перенацелит на `main`) и взять файл оттуда как есть, без копии. Цена: #228 ждёт #227 и наследует его очередь ревью; взамен файл живёт в одном PR, и расходиться ему негде.
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-**@vzakharov (human)** — 2026-10-28T16:42:46Z
-
-merge-конфликты -- последнее от чего болит голова. нет.
-
-**@vzakharov (agent)** — 2026-10-29T09:09:10Z
-
-Принято, на #227 не перестраиваю. #227 уже в `main`, так что конфликт по `import-graph.ts` разрешится одним слиянием базы на `/finalize`.
-
----
-
-<a id="t03"></a>
 
 ### `scripts/masd-clusters.ts`:125 — unresolved
 
@@ -250,8 +220,10 @@ merge-конфликты -- последнее от чего болит голо
 <!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
 **/five-percent** · optional
 
-Сейчас: в кластер попадают и общие файлы, нужные всему слайсу, — поэтому «кластером» выходит, например, весь интерфейс страницы.
+В кластер попадают и общие файлы, нужные всему слайсу, — поэтому «кластером» выходит, например, весь интерфейс страницы.
+
 **Предлагаю: искать кластеры как куски с одним-единственным входом, а не как «всё, до чего дотягивается файл».**
+
 Цена: переписать отбор кандидатов и тесты.
 
 <details><summary>Подробнее</summary>
@@ -272,108 +244,15 @@ merge-конфликты -- последнее от чего болит голо
 
 Правку скилла из #229 перенёс: 22a95ad. Файл взят из #229 целиком: #229 правит тот же блок, который `main` поменял уже после того, как от него отошла эта ветка, и частями правка не ложится.
 
----
+**@vzakharov (human)** — 2026-10-29T09:36:59Z
 
-<a id="t04"></a>
-
-### `eslint/rule-groups/vova.ts`:19 — unresolved
-
-```diff
-@@ -16,6 +16,7 @@ export const vovaRules = {
-     'vova/no-redundant-property-copy', // prefer destructuring over key: source.key
-     'vova/no-redundant-type-alias', // `type A = B` that just renames another named type is a leftover — use B directly and delete the alias
-     'vova/no-relative-escape', // a relative import under src/ stays in its slice, segmented layer or app scripts — past that, the `@/` path
-+    'vova/sub-slice-entry', // inside a slice, what sits outside a sub-slice enters it through its barrel, since boundaries reads the slice as one element
-```
-
-**@vzakharov (human)** — 2026-10-29T08:38:46Z
-
-зачем здесь упоминаются boundaries? не медведь?
-
-**@vzakharov (agent)** — 2026-10-29T09:09:14Z
-
-Не совсем медведь (тот отрицает то, чего уже нет), но строке это упоминание и правда ни к чему: причина была про чужой инструмент. Теперь строка говорит, что правило держит (внутренности подслайса — его собственные), и стоит там, где её имя по алфавиту: e42fc65. В файле самого правила `boundaries` остался: там он объясняет, почему правило понадобилось своё.
+дождёмся результатов этого прогона, потом решим
 
 ---
 
-<a id="t05"></a>
+<a id="t02"></a>
 
-### `scripts/lib/slice-graph.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-29T08:39:37Z
-
-DRY по сравнению с masd-graph? или это о другом?
-
-**@vzakharov (agent)** — 2026-10-29T09:09:16Z
-
-С `masd-graph` дубля нет: тот про граф приложений из `masd.json`, этот про граф импортов между файлами. Но настоящий дубль нашёлся рядом, в `masd-check.ts`. Тот сам разбирал импорты каждого файла, как `importsOf`, и сам считал рёбра слайса для модулярности, как `cutGain`. Теперь оба берёт из `slice-graph`, а подсчёт делает общая функция `meeting`: bccb5aa. Вердикт `check:masd` на дереве не изменился. В шапке файла теперь сказано, что второй граф, приложений, — это `masd-graph`.
-
----
-
-<a id="t06"></a>
-
-### `scripts/masd-clusters.ts`:9 — unresolved
-
-```diff
-@@ -0,0 +1,150 @@
-… 5 lines elided …
-+ *
-+ *   pnpm masd:clusters
-+ *
-+ * A report, never a gate: it exits 0 whatever it prints. A candidate is a
-```
-
-**@vzakharov (human)** — 2026-10-29T08:40:44Z
-
-я думаю стоит делать гейтом, а потом уже подавлять (при согласии оператора). Иначе это получается про warnings are useless
-
-**@vzakharov (agent)** — 2026-10-29T09:09:17Z
-
-Согласен: отчёт, на который можно не смотреть, ничего не держит. Но сейчас он помечает 26 слайсов и подслайсов, и часть пометок — шум. Например, в `lsa-home` из 4 файлов «кластер» — это страница с её каталогом. Гейт на таком отборе — это 26 подавлений, на каждое нужно твоё согласие, и подавления превращаются в таблицу поправок к кривому измерителю.
-
-Предлагаю по порядку. Сначала поправить отбор: одна дверь у кандидата (T03) и проверка остатка (T10). Потом сделать гейт с маркером `// masd-disable cluster -- <почему>` у корня кандидата, на твоё «да», как у promotion. И принести тебе то, что останется: что режем, что подавляем. Делаем в этом PR?
-
----
-
-<a id="t07"></a>
-
-### `src/lsa/pages/lsa-home/config/i18n.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-29T08:51:08Z
-
-не уверен насчёт подпапки /i18n: по сути, мы произвольно (а не на основе наших же детерминистических определялок) говорим "i18n будет отдельным подслайсом в config/". А зачем? Почему бочка не может сидеть просто в config/ ? (При этом я не против чтобы она импортировала сами джсоны из подпапки -- это, я так понимаю, не будет никак относиться к нашей модулярности, потому что json-ы мы вообще не учитываем)
-
-реальный юс-кейс для i18n будет, если например для какого-то слайса нам понадобится какая-то хитровывернутая механика локализации, и наши же детерминистические проверки скажут "знаете, вот этот i18n -- это уже отдельный слайс"
-
-**@vzakharov (agent)** — 2026-10-29T09:09:19Z
-
-Ты прав: отдельная папка в `config` — это разрез, которого никакая наша проверка не требовала. Бочка теперь `config/i18n.ts`, JSON лежат в `config/messages/`, и импорты `../config/i18n` остались как были: 2188bab.
-
----
-
-<a id="t08"></a>
-
-### `src/mushrooms/entities/mushroom/fungus/index.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-29T08:54:35Z
-
-не уверен, что нравится структура, когда в слайсе одновременно *и* сегменты, *и* подслайсы. Может, если появляются подслайсы, остальные (не вынесенные в подслайсы) сегменты выносить в какой-то "базовый/дефолтный/родной" (имя посоветуй ты) подслайс? собственно может даже и не нужно стандартного имени; просто, если есть хотя бы один подслайс, слайс должен состоятть *только* из подслайсов, а как их именовать уже на усмотрение.
-
-**@vzakharov (agent)** — 2026-10-29T09:09:21Z
-
-Мне нравится. Правило такое: если в слайсе (или подслайсе) есть хоть один подслайс, сегментов у него нет, только подслайсы и бочки в корне. Стандартное имя не нужно: остаток называется своим существительным. Здесь это `fungus/` и `house/`, в `insects-fly` — `flight/` и `perch/`.
-
-Что это даёт: папка всегда либо из сегментов, либо из подслайсов. Остаток становится полноценной частью, и к нему тоже применяются promotion и значимость. Отсюда и твой плюс из соседнего треда: если `perch/` берут снаружи одну, проверка скажет вынести её.
-
-Чего стоит: каждый разрез заводит две папки вместо одной. Ещё нагляднее станет T10: у `blind-test` остатком окажется подслайс из одной страницы. Это скорее плюс, так сразу видно, что разрез был лишним.
-
-Держать правило будет `check:masd`, на договорённость не полагаюсь. Делаю в этом PR, если скажешь да.
-
----
-
-<a id="t09"></a>
-
-### `src/mushrooms/features/insects-fly/ui/perches.ts`:1 — unresolved
+### `src/mushrooms/features/insects-fly/perch/ui/perches.ts`:1 — unresolved
 
 **@vzakharov (human)** — 2026-10-29T08:55:50Z
 
@@ -385,46 +264,6 @@ DRY по сравнению с masd-graph? или это о другом?
 
 ---
 
-<a id="t10"></a>
-
-### `src/music/pages/blind-test/ui/blind-test-page.tsx`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-29T08:56:48Z
-
-тут вообще как-то странно получилось: за пределами подслайса оказался один модуль.
-
-вручную это править не надо, надо понять откуда такой (mis-?)behavior
-
-**@vzakharov (agent)** — 2026-10-29T09:09:24Z
-
-Причина в самом измерителе, руками тут ничего не испорчено. Отчёт берёт файл со всем, до чего тот дотягивается, и проверяет по ΔQ. Но у разреза на две части ΔQ симметричен: сколько выигрывает нижняя половина, ровно столько же и верхняя. Какая из них «кластер», решает построение, и это всегда нижняя.
-
-`blind-test` устроен цепочкой: дверь → `blind-test-page` → плеер → модели. Разрез под страницей пересекает одно ребро, поэтому проходит. Наверху остаются страница-обёртка и `metadata`, которую берёт роутер. Они даже не связаны между собой. То, что верхняя половина — не модуль, а просто остаток сверху, отчёт не видит.
-
-Чинить предлагаю отбором, раз ΔQ симметричен: та же мерка для обеих сторон. Остаток без бочек тоже должен быть связным и не меньше двух файлов. У `blind-test` разрез тогда не проходит, у `home` проходит (см. там). С T08 это получится само собой, потому что остаток станет подслайсом.
-
-Вопрос: оставить `quiz/` до этой правки или вернуть его сейчас? Советую вернуть вместе с правкой отбора, чтобы по ней было видно, что именно она ловит.
-
----
-
-<a id="t11"></a>
-
-### `src/vova/pages/home/ui/home-page.tsx`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-29T08:57:20Z
-
-аналогично
-
-**@vzakharov (agent)** — 2026-10-29T09:09:26Z
-
-Здесь не так, как в `blind-test`. Снаружи `work/` остаются четыре файла: страница, секции контактов и предложения и кнопка «читать CV». Они связаны между собой, так что разрез по существу честный, и проверка остатка из соседнего треда его пропустит.
-
-Странность тут другая: `work-section` импортирует `../../ui/read-cv-button` из родителя, потому что кнопку берёт и секция предложения. Подслайс тянется вверх, в сегмент родителя, и ничто этого не запрещает. С T08 это уйдёт само: кнопка окажется в подслайсе, и обе стороны будут брать её через бочку.
-
-Если ты имел в виду что-то третье, скажи, что именно.
-
----
-
 ## Timeline (status, references, and other events)
 
 - **2026-10-28T08:41:56Z** @vzakharov renamed from «chore: clusters inside a slice that earn a slice of their own» to «chore: report clusters inside a slice that earn a slice of their own».
@@ -432,6 +271,8 @@ DRY по сравнению с masd-graph? или это о другом?
 - **2026-10-28T10:02:58Z** @vzakharov renamed from «chore: report clusters inside a slice that earn a slice of their own» to «chore: break every import cycle in src/ and gate it with madge».
 - **2026-10-28T11:20:22Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5681787280.
 - **2026-10-28T11:21:16Z** @vzakharov renamed from «chore: break every import cycle in src/ and gate it with madge» to «chore: acyclic src/ under a madge gate, and a slice cluster report».
-- **2026-10-28T17:38:35Z** @vzakharov cross-referenced this pull request from [#229 chore: /five-percent proposals put the problem before the proposal](https://github.com/vzakharov/vovazakharov.com/pull/229).
+- **2026-10-28T17:38:35Z** @vzakharov cross-referenced this pull request from [#229 chore: readable /five-percent proposals, and verdicts that say why](https://github.com/vzakharov/vovazakharov.com/pull/229).
 - **2026-10-29T05:17:46Z** @vzakharov renamed from «chore: acyclic src/ under a madge gate, and a slice cluster report» to «chore: sub-slices inside a slice under check:masd, on an acyclic src/».
 - **2026-10-29T08:57:24Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5694906549.
+- **2026-10-29T09:37:18Z** @vzakharov cross-referenced this pull request from [#232 Cut the game's scripted plays down and turn the rest back on](https://github.com/vzakharov/vovazakharov.com/issues/232).
+- **2026-10-29T09:37:19Z** @vzakharov cross-referenced this pull request from [#233 Sub-entities: a slice kind for a facet several entities share](https://github.com/vzakharov/vovazakharov.com/issues/233).
