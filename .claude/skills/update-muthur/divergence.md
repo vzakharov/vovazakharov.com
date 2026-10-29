@@ -51,9 +51,11 @@ record" holds the three rules this file keeps.
 - **`.claude/skills/CLAUDE.md`** — states that the closure check's catalog
   assertions skip here by design.
 - **`.claude/context-budget/hooks/post-tool-context-budget.sh`, with
-  `.claude/context-budget/test_context_budget.py` and
+  `.claude/context-budget/test_context_budget.py`,
+  `.claude/context-budget/budget_harness.py` and
   `.claude/context-budget/CLAUDE.md`** — carry `MUTHUR_CONTEXT_BUDGET_SUBAGENT`:
-  a subagent gets its own notice, read off its own transcript.
+  a subagent gets its own notice, read off its own transcript, and the harness
+  builds that transcript for the tests.
 - **`.claude/costs/sessions/`** — the rows are this repo's own, on its
   `cost-ledger` branch, and never synced.
 - **`.claude/hooks/lib.sh`** — its header also names `maya-preview.sh` among the

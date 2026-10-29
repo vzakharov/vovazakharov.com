@@ -22,8 +22,10 @@ the lessons that hold for every model first.
   back clean with nothing to repair. Driving a short review-lane run of the loop
   itself: a review thread answered with a fix checked against the code, the
   `/go` checkpoint review run where no hook forced it, a reviewer brief of facts
-  only.
-- **Misses:** —
+  only. A multi-commit vendor sync: verbatim takes byte-exact, conflicts with
+  local additions resolved keeping both, the decline list extended.
+- **Misses:** a record that lists the files carrying a local difference, when
+  the port moves that difference into a file the record does not name yet.
 - **Brief:** naming the style reference and the run-until-green command was
   enough; ask for "anything that surprised you" — it reports useful edges.
 - **Cost, by eye:** that suite, a few hundred lines, cost about twice as much
