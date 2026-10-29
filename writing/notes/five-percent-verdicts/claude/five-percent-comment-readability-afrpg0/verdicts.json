@@ -1,3 +1,4 @@
 {"pr": 229, "verdicts": [
-  {"comment": 4404026987, "about": "Judge proposal lines by a cold-reader subagent, not jargon regexes", "verdict": 0.1}
+  {"comment": 4404026987, "about": "Judge proposal lines by a cold-reader subagent, not jargon regexes", "verdict": 0.1,
+   "why": "Rejected with its frame: code names in a proposal were never the problem, the convoluted writing was. The operator also turned down opening on a question before the problem is clear."}
 ]}

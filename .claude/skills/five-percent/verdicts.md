@@ -22,6 +22,11 @@ does not exist yet starts with the PR's number and an empty list.
   they took and whether its frame was the right one. A proposal taken but
   faulted for stopping short of the real question scores low, since that is the
   frame this pass is for.
+- **`why`** — what in the answer set the verdict, at most 280 characters, in
+  English: what the operator took or turned down, and the reason they gave.
+
+**A proposal the operator never answered gets no row**, a 0 included: silence is
+often no time to look, and scoring it would read as a rejection.
 
 The operator coming back on the thread rewrites the row rather than adding one.
 **The row rides in a commit the session makes anyway** — the one carrying the

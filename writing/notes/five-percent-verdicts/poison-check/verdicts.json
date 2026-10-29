@@ -4,7 +4,8 @@
     {
       "comment": 4398558756,
       "about": "Drop the client half of the poison check, since pnpm build already fails it",
-      "verdict": 0.1
+      "verdict": 0.1,
+      "why": "No answer on the substance: the operator could not parse the proposal at all, its prose being far too heavy, and asked that the Generated-with line be left out."
     }
   ]
 }

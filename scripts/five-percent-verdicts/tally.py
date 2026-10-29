@@ -5,7 +5,8 @@ Each branch keeps its own file, `writing/notes/five-percent-verdicts/<branch>/ve
 so two branches never edit one file and every one merges clean:
 
     {"pr": 212, "verdicts": [
-      {"comment": 4378724025, "about": "<at most 80 characters>", "verdict": 0.4}
+      {"comment": 4378724025, "about": "<at most 80 characters>", "verdict": 0.4,
+       "why": "<at most 280 characters>"}
     ]}
 
 `.claude/skills/five-percent/verdicts.md` says what each field holds.
@@ -25,7 +26,8 @@ from typing import Any
 VERDICTS_DIR = Path(__file__).resolve().parents[2] / "writing/notes/five-percent-verdicts"
 LEAF = "verdicts.json"
 ABOUT_MAX = 80
-ROW_KEYS = {"comment", "about", "verdict"}
+WHY_MAX = 280
+ROW_KEYS = {"comment", "about", "verdict", "why"}
 
 
 class Malformed(ValueError):
@@ -55,9 +57,10 @@ def parse_leaf(path: Path, branch: str) -> list[dict[str, Any]]:
             raise Malformed(f"{where}: expected exactly the keys {sorted(ROW_KEYS)}")
         if not _positive_int(row["comment"]):
             raise Malformed(f"{where}: comment must be a review-comment id")
-        about = row["about"]
-        if not isinstance(about, str) or not about.strip() or len(about) > ABOUT_MAX:
-            raise Malformed(f"{where}: about must be 1–{ABOUT_MAX} characters")
+        for key, limit in (("about", ABOUT_MAX), ("why", WHY_MAX)):
+            text = row[key]
+            if not isinstance(text, str) or not text.strip() or len(text) > limit:
+                raise Malformed(f"{where}: {key} must be 1–{limit} characters")
         verdict = row["verdict"]
         if isinstance(verdict, bool) or not isinstance(verdict, (int, float)) or not 0 <= verdict <= 1:
             raise Malformed(f"{where}: verdict must be a number from 0 to 1")
