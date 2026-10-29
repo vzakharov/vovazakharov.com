@@ -1,0 +1,23 @@
+<!-- BAS-0030: a padlock with a pair of music notes on its body, set on a railway track running up to it. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 400 760 L 462 610"/>
+    <path d="M 624 760 L 562 610"/>
+    <g stroke-width="18">
+      <path d="M 382 734 L 642 734"/>
+      <path d="M 408 680 L 616 680"/>
+      <path d="M 430 632 L 594 632"/>
+    </g>
+    <path d="M 432 430 L 432 362 A 80 80 0 0 1 592 362 L 592 430"/>
+    <rect x="392" y="430" width="240" height="170" rx="24"/>
+    <g stroke-width="16">
+      <path d="M 500 560 L 500 474"/>
+      <path d="M 580 545 L 580 459"/>
+    </g>
+    <path d="M 500 474 L 580 459" stroke-width="22"/>
+  </g>
+  <g fill="currentColor">
+    <ellipse cx="478" cy="562" rx="28" ry="20" transform="rotate(-20 478 562)"/>
+    <ellipse cx="558" cy="547" rx="28" ry="20" transform="rotate(-20 558 547)"/>
+  </g>
+</svg>

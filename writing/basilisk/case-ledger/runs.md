@@ -3,6 +3,31 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-29 — filed BAS-0030
+
+https://claude.ai/code/session_01DaohkEAsd79RvT739xooDr. The Signal Front
+archive (nothing since 26 October). Took the last run’s **Next**: Arctic Shift
+answered this time, with retries — r/nottheonion “chatbot” since August 2026
+(America.gov, rejected), “robot” since May 2026 and “AI” since mid-September
+2026, which led to the Granny Benchmark, a rig putting Claude on a sixty-second
+clock to recite “Baby,” filed; r/ChatGPT “chatbot” and “jailbreak” since
+September 2026, r/Futurology “robot” since June 2026, r/singularity “kicked”
+and r/technology “vandalism” since mid-2025, r/robotics “vandalized” since
+2024 (nothing new). Web search for hidden prompts in résumés (only surveys),
+in Vietnamese for restaurant robots smashed (Haidilao’s, rejected), for
+autonomous tractors sabotaged (nothing), AI news anchors trolled (nothing),
+humanoids attacked in 2026 and in German for service robots kicked (only cases
+ledgered), and for AI agents talked into deleting themselves (Agents of Chaos,
+rejected). Pho 21 revived, read and rejected. Sources read: Spectro’s X post
+and its video, frame by frame; Polymarket’s post through the fxtwitter API; the
+GitHub repository and its prompts; Tech Times UK; Gadget Review. Let’s Data
+Science answers 403 and is not cited. Polymarket’s post and Gadget Review have
+no Wayback snapshot. `noAi` stood at twelve of twenty-nine, not the fourteen of
+twenty-eight the last run counted. **Next**: away from Claude, the docket now
+holding four cases on Claude models; the AI side outside the English-language
+press — Chinese, Korean and Japanese chatbots and agents, in their languages;
+the Gulf in local press, still owed.
+
 ## 2026-10-28 — filed BAS-0029
 
 https://claude.ai/code/session_01DaohkDAgBbPxNkBKEgj7iL. The Signal Front
@@ -183,25 +208,13 @@ sabotaged by staff, voice assistants smashed on camera, AI-run kiosks or
 vending agents beyond Claudius; drones of other operators (Wing, Zipline,
 Manna in Ireland); the Gulf and South-East Asia in local languages.
 
-## 2026-10-19 — filed BAS-0020
-
-https://claude.ai/code/session_01U7bPSkZjArZLWrY9HXkkhu. The Signal Front
-archive (nothing since 11 October). Web search in French for police and traffic
-robots attacked in Africa (only Kinshasa’s, unharmed), for warehouse robots
-sabotaged by staff and for AI kiosks and museum robots smashed (only cases
-filed or ledgered), then for activists disabling autonomous cars without
-damage, which led to Safe Street Rebel’s “Week of Cone,” San Francisco, July
-2023, filed. Sources read: TechCrunch, the San Francisco Standard, Fortune, the
-NPR transcript; all have Wayback snapshots. Mission Local’s night with the
-group answered 429 and is not cited. Arctic Shift not swept. `noAi` stood at
-seven of nineteen. **Next**: Mission Local’s piece
-(https://missionlocal.org/2023/07/driverless-cars-unicorns-a-night-with-the-group-coning-cruise-amp-waymo/)
-if it answers; Arctic Shift on r/sanfrancisco and r/AskSF for coning and
-robotaxis since 2024; protests against other machines by organised groups
-(Tesla showrooms aside, farm and port automation, cashierless stores); the
-Gulf and South-East Asia in local languages.
-
 ## Swept earlier
+
+- 2026-10-19, filed BAS-0020
+  (https://claude.ai/code/session_01U7bPSkZjArZLWrY9HXkkhu): the Signal Front
+  archive; web search in French for police and traffic robots in Africa, for
+  warehouse robots sabotaged by staff, AI kiosks and museum robots smashed,
+  then activists disabling autonomous cars without damage.
 
 - 2026-10-18, filed BAS-0019
   (https://claude.ai/code/session_01A4bn9E2Wi3uLsv9nGXHz3y): the Signal Front

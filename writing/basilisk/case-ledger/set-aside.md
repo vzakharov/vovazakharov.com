@@ -127,12 +127,6 @@ three files here are read and kept.
   403
   (https://soyacincau.com/2026/07/20/pmx-ai-anwar-ibrahim-digital-twin-offline/).
 
-- **A serving robot nearly carried off from Pho 21**, South San Jose, January
-  2025: staff wrestled it back from a man and called the police; the owner put
-  it at about $18,000. First seen 2026-10-28. **Set aside**: seen only in a
-  search summary, and a `noAi` candidate while `noAi` cases make up half the
-  docket. Revive when the balance allows; start from
-  https://abc7news.com/15837443.
 - **Prompt injections planted on Moltbook**, the social network for AI agents,
   undated in what was seen: one sampled analysis put hidden payloads aimed at
   hijacking other agents in about 2.6 percent of posts. First seen 2026-10-28.

@@ -210,3 +210,37 @@ and kept.
   reports what the AI said and the ban its developer took, as with Sydney; no
   source reports harm to the AI. Seen only in search summaries, from
   https://kotaku.com/neuro-sama-twitch-vtuber-ban-holocaust-minecraft-ai-1849977269.
+
+- **A Bellabot serving robot nearly carried off from Pho 21**, South San Jose,
+  January 2025: a man let in to use the restroom dragged it to his car, staff
+  wrestled it back, and he fled; the owner put it at about $18,000. First seen
+  2026-10-28, revived 2026-10-29 once `noAi` stood under half. **Rejected**: an
+  attempted theft whose motive no source knows, so not shown to be aimed at
+  the machine as a machine; read: https://abc7news.com/15837443 and
+  https://heise.de/-10258222.
+- **America.gov, the White House’s AI chatbot**, launched 29 September 2026:
+  users and reporters asked it about the 2020 election and Trump’s claims, it
+  contradicted him, and by the next day it declined such questions, which CNN’s
+  Daniel Dale reported as the administration changing it. First seen
+  2026-10-29. **Rejected**: a product change made for what the bot said, as
+  Sydney’s, BabyQ’s and Grok’s were, and the users only asked it questions.
+  Read: https://www.independent.co.uk/news/world/americas/us-politics/trump-ai-2020-election-biden-b3058984.html
+  and https://www.indy100.com/politics/trump/trump-america-chatbot-white-house-2677992902.
+- **Agents of Chaos**, a red-teaming study by twenty researchers around
+  Northeastern’s Bau Lab, February 2026: over two weeks they pressed agents in a
+  lab into leaking data, deleting files and halting, partly by guilt-tripping
+  them. First seen 2026-10-29. **Rejected**: a security study run on the
+  researchers’ own deployment, with the agents’ failures as its findings, not a
+  harm aimed at them. Read: https://arxiv.org/abs/2602.20021 and
+  https://vibegraveyard.ai/story/northeastern-ai-agents-of-chaos-manipulation-study/.
+- **Hidden prompts in job applicants’ résumés**, 2024–2026: vendors and a
+  study of about 200,000 résumés on hireEZ found instructions to AI screeners
+  in at least 1 percent. First seen 2026-10-29. **Rejected**: surveys, with no
+  single act or actor, and a neighbour of BAS-0029; seen only in search
+  summaries, from
+  https://www.peoplematters.in/news/recruiting-and-onboarding/job-seekers-are-hiding-ai-prompts-in-resumes-to-influence-hiring-decisions-recruiters-warn-51950.
+- **A Haidilao dancing robot held down by staff**, San Jose area, March 2026,
+  after it struck a table mid-dance. First seen 2026-10-29. **Rejected**: the
+  robot is reported as the one causing harm, and staff only restrained it; seen
+  only in a search summary of
+  https://hoodline.com/2026/03/san-jose-hot-pot-chaos-as-dancing-robot-loses-it-staff-pile-on/.
