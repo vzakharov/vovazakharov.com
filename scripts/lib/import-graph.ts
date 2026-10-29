@@ -7,7 +7,7 @@
 import { existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 
-const SOURCE = /\.tsx?$/;
+export const SOURCE = /\.tsx?$/;
 
 /** Every `.ts`/`.tsx` file under `directory`, at any depth. */
 const walk = (directory: string): string[] =>

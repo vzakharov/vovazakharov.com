@@ -14,7 +14,12 @@ import {
   SEGMENTS,
   SLICED_LAYERS,
 } from '../../eslint/masd-graph.ts';
-import { resolveImport, sourceFile, subdirectories } from './import-graph.ts';
+import {
+  resolveImport,
+  SOURCE,
+  sourceFile,
+  subdirectories,
+} from './import-graph.ts';
 import {
   cutGain,
   edgesWithin,
@@ -25,7 +30,7 @@ import {
 } from './slice-graph.ts';
 
 /** The comment a sub-slice's `index.ts` carries to stay put, by the operator's leave. */
-const STAYS =/\/\/ masd-disable promotion -- \S/;
+const STAYS = /\/\/ masd-disable promotion -- \S/;
 
 const within = (file: string, directory: string): boolean =>
   file.startsWith(directory + path.sep);
@@ -62,6 +67,116 @@ function nestedSegments(apps: readonly string[]): string[] {
       );
     }),
   );
+}
+
+/**
+ * What sits at the root of a slice or sub-slice holding a sub-slice, other than
+ * its sub-slices, its barrels and its tests: such a unit is cut all the way, so
+ * the rest of it is a sub-slice of its own, named for its noun.
+ */
+function mixed(apps: readonly string[]): string[] {
+  const inUnit = (unit: string): string[] => {
+    const entries = readdirSync(unit, { withFileTypes: true });
+    // A folder holding no source, such as one of images, is no sub-slice.
+    const subs = entries.filter(
+      (entry) =>
+        entry.isDirectory() &&
+        !SEGMENTS.includes(entry.name) &&
+        readdirSync(path.join(unit, entry.name), { recursive: true }).some(
+          (file) => SOURCE.test(String(file)),
+        ),
+    );
+    const below = subs.flatMap((sub) => inUnit(path.join(unit, sub.name)));
+    if (subs.length === 0) return below;
+    const loose = entries
+      .filter((entry) =>
+        entry.isDirectory()
+          ? SEGMENTS.includes(entry.name)
+          : !PUBLIC_API.includes(entry.name) &&
+            !isTest(path.join(unit, entry.name)),
+      )
+      .map((entry) => `"${entry.name}"`);
+    return loose.length === 0
+      ? below
+      : [
+          `${unit}: ${loose.join(', ')} beside its sub-slices; a unit holding a sub-slice holds only sub-slices and barrels, so move the rest into a sub-slice named for its noun`,
+          ...below,
+        ];
+  };
+  return apps.flatMap((app) =>
+    SLICED_LAYERS.flatMap((layer) => {
+      const directory = path.join('src', app, layer);
+      return existsSync(directory)
+        ? subdirectories(directory).flatMap((slice) =>
+            inUnit(path.join(directory, slice)),
+          )
+        : [];
+    }),
+  );
+}
+
+/**
+ * Sibling sub-slices importing one another in a cycle. Each enters the other by
+ * its barrel, which madge sees as a file like any other, so files can form a
+ * DAG while the sub-slices holding them go round.
+ */
+function siblingCycles(
+  slices: ReadonlyMap<string, readonly string[]>,
+  imports: ReadonlyMap<string, ReadonlySet<string>>,
+): string[] {
+  return [...slices].flatMap(([slice, members]) => {
+    // Per parent unit, each child sub-slice and the siblings it imports.
+    const arrows = new Map<string, Map<string, Set<string>>>();
+    for (const from of members) {
+      const chain = unitsOf(from, slice);
+      for (const to of imports.get(from) ?? []) {
+        if (sliceOf(to) !== slice) continue;
+        const other = unitsOf(to, slice);
+        const fork = chain.findIndex((unit, index) => other[index] !== unit);
+        const [child, sibling, parent] = [
+          chain[fork],
+          other[fork],
+          chain[fork - 1],
+        ];
+        if (child === undefined || sibling === undefined) continue;
+        if (parent === undefined) continue;
+        const children = arrows.get(parent) ?? new Map<string, Set<string>>();
+        children.set(child, (children.get(child) ?? new Set()).add(sibling));
+        arrows.set(parent, children);
+      }
+    }
+    return [...arrows].flatMap(([parent, children]) =>
+      cycles(children).map(
+        (cycle) =>
+          `${parent}: its sub-slices ${cycle.map((sub) => `"${path.basename(sub)}"`).join(', ')} import one another in a cycle; siblings import in one direction only, so move what they share into a sub-slice of its own or merge them`,
+      ),
+    );
+  });
+}
+
+/** The strongly connected components of more than one node, each sorted. */
+function cycles(arrows: ReadonlyMap<string, ReadonlySet<string>>): string[][] {
+  const reaches = (from: string): Set<string> => {
+    const seen = new Set<string>();
+    const stack = [...(arrows.get(from) ?? [])];
+    for (let node = stack.pop(); node !== undefined; node = stack.pop()) {
+      if (seen.has(node)) continue;
+      seen.add(node);
+      stack.push(...(arrows.get(node) ?? []));
+    }
+    return seen;
+  };
+  const reach = new Map(
+    [...arrows.keys()].map((node) => [node, reaches(node)]),
+  );
+  const found = new Map<string, string[]>();
+  for (const [node, reached] of reach) {
+    const component = [...reached]
+      .filter((other) => reach.get(other)?.has(node) === true)
+      .sort();
+    if (component.length > 1) found.set(component.join('\n'), component);
+  }
+  return [...found.values()];
 }
 
 /** Sub-slices whose cut does not raise the modularity of their parent's graph. */
@@ -246,6 +361,8 @@ export function subSliceProblems(
   );
   return [
     ...nestedSegments(apps),
+    ...mixed(apps),
+    ...siblingCycles(slices, imports),
     ...insignificant(slices, imports),
     ...promotions(files),
   ];

@@ -264,14 +264,15 @@ describe('masd-check', () => {
   });
 });
 
-// A card entity with a `face` sub-slice, which both pages take; documents
-// takes the card's own `back` as well.
+// A card entity cut into `face` and `back`; both pages take `face`, documents
+// `back` as well.
 const CARD = 'src/blog/entities/card';
 const CARDS: Tree = {
   [`${CARD}/index.ts`]:
-    "export { face } from './face';\nexport { back } from './ui/back';",
-  [`${CARD}/ui/back.ts`]: "export { edge as back } from './edge';",
-  [`${CARD}/ui/edge.ts`]: 'export const edge = 1;',
+    "export { face } from './face';\nexport { back } from './back';",
+  [`${CARD}/back/index.ts`]: "export { back } from './ui/back';",
+  [`${CARD}/back/ui/back.ts`]: "export { edge as back } from './edge';",
+  [`${CARD}/back/ui/edge.ts`]: 'export const edge = 1;',
   [`${CARD}/face/index.ts`]: "export { face } from './ui/face';",
   [`${CARD}/face/ui/face.ts`]: "export { lens as face } from './lens';",
   [`${CARD}/face/ui/lens.ts`]: 'export const lens = 1;',
@@ -320,7 +321,7 @@ describe('masd-check on sub-slices', () => {
       'src/site/pages/home/ui.ts':
         "import { back, face, shine } from '@/blog/entities/card';\nexport const home = [back, face, shine];",
       [`${CARD}/index.ts`]:
-        "export { face } from './face';\nexport { shine } from './shine';\nexport { back } from './ui/back';",
+        "export { face } from './face';\nexport { shine } from './shine';\nexport { back } from './back';",
       [`${CARD}/face/index.ts`]:
         "export { glint } from './glint';\nexport { face } from './ui/face';",
       [`${CARD}/face/glint/index.ts`]: "export { glint } from './ui/glint';",
@@ -344,15 +345,49 @@ describe('masd-check on sub-slices', () => {
       ...CARDS,
       'src/site/pages/home/ui.ts':
         "import { back, face } from '@/blog/entities/card';\nexport const home = [back, face];",
-      [`${CARD}/ui/back.ts`]:
-        "import { bit } from '../bits/ui/bit';\nexport { edge as back } from './edge';\nexport const b = bit;",
-      [`${CARD}/ui/edge.ts`]:
-        "import { bit } from '../bits/ui/bit';\nexport const edge = bit;",
-      [`${CARD}/bits/ui/bit.ts`]: 'export const bit = 1;',
+      [`${CARD}/back/ui/back.ts`]:
+        "import { bit } from '../../bits';\nexport { edge as back } from './edge';\nexport const b = bit;",
+      [`${CARD}/back/ui/edge.ts`]:
+        "import { bit } from '../../bits';\nexport const edge = bit;",
+      [`${CARD}/face/ui/lens.ts`]:
+        "import { bit } from '../../bits';\nexport const lens = bit;",
+      [`${CARD}/bits/index.ts`]: 'export const bit = 1;',
     });
     assert.equal(
       stderr,
       `${CARD}/bits: This sub-slice does not raise the modularity of its parent's imports. Consider folding it into "${CARD}".\n`,
+    );
+  });
+
+  it('flags a segment or a module beside a sub-slice', () => {
+    const { status, stderr } = run({
+      ...CARDS,
+      [`${CARD}/ui/rim.ts`]: 'export const rim = 1;',
+      [`${CARD}/lib.ts`]: 'export const lib = 1;',
+    });
+    assert.equal(status, 1);
+    assert.ok(
+      stderr.startsWith(
+        `${CARD}: "lib.ts", "ui" beside its sub-slices; a unit holding a sub-slice holds only sub-slices and barrels, so move the rest into a sub-slice named for its noun\n`,
+      ),
+      stderr,
+    );
+  });
+
+  it('flags sibling sub-slices importing one another in a cycle', () => {
+    const { status, stderr } = run({
+      ...CARDS,
+      [`${CARD}/back/ui/edge.ts`]:
+        "import { lens } from '../../face/ui/lens';\nexport const edge = lens;",
+      [`${CARD}/face/ui/face.ts`]:
+        "import { back } from '../../back';\nexport { lens as face } from './lens';\nexport const f = back;",
+    });
+    assert.equal(status, 1);
+    assert.ok(
+      stderr.startsWith(
+        `${CARD}: its sub-slices "back", "face" import one another in a cycle; siblings import in one direction only, so move what they share into a sub-slice of its own or merge them\n`,
+      ),
+      stderr,
     );
   });
 });
