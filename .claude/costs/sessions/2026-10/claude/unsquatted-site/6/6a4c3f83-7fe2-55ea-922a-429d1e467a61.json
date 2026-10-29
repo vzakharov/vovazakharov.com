@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 186,
+    "cacheWrite5mTokens": 168576,
+    "cacheWrite1hTokens": 155831,
+    "cacheReadTokens": 14643991,
+    "outputTokens": 36304,
+    "thinkingTokens": 10706,
+    "responses": 93,
+    "costUsd": 5.7451502
+  },
+  "estimate": {
+    "at": "2026-10-29T10:15:25.090Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a scored sort over frontmatter-backed picks with tests, plus review replies and the quality passes on a wide branch"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/unsquatted/pages/home/model/picks.ts",
+    "endedAt": "2026-10-29T10:15:54.654Z",
+    "contextTokens": 136611,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 74618,
+      "cacheReadTokens": 1328691,
+      "outputTokens": 2983,
+      "thinkingTokens": 439,
+      "responses": 12,
+      "costUsd": 0.9224381999999999
+    }
+  },
+  "sessionId": "6a4c3f83-7fe2-55ea-922a-429d1e467a61",
+  "branch": "claude/unsquatted-site",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-site — разрезанные имена, шрифт карточки и новый лид готовы; дальше сортировка по float-оценке, выбор цены в grab, вопрос про «may…",
+  "prs": [
+    231
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDfJdWXC3PesAbjdfq",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T10:15:01.142Z",
+  "lastResponseAt": "2026-10-29T10:30:11.071Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 138,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 155831,
+    "cacheReadTokens": 11660861,
+    "outputTokens": 25710,
+    "thinkingTokens": 5659,
+    "responses": 69,
+    "costUsd": 4.0935722000000005
+  },
+  "subagents": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 168576,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2983130,
+    "outputTokens": 10594,
+    "thinkingTokens": 5047,
+    "responses": 24,
+    "costUsd": 1.651578
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 186,
+      "cacheWrite5mTokens": 168576,
+      "cacheWrite1hTokens": 155831,
+      "cacheReadTokens": 14643991,
+      "outputTokens": 36304,
+      "thinkingTokens": 10706,
+      "responses": 93,
+      "costUsd": 5.7451502
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 93,
+    "matched": 93,
+    "matchedTableUsd": 5.7451502,
+    "matchedEventUsd": 5.745150199999999,
+    "unseen": {}
+  }
+}
