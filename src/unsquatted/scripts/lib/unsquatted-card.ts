@@ -16,11 +16,14 @@
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
+import { siteConfig, withoutScheme } from '@/kernel/shared/config';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 
 import { COPY, PICKS } from '@/unsquatted/pages/home/index.server-only';
 
 import { escapeHtml, type StagedPage } from '@/kernel/scripts/lib/og-render';
+
+const { name, url } = siteConfig('unsquatted');
 
 /** Staged beside the page under this name, which is the `src` it uses. */
 const FONT = 'wordmark.woff2';
@@ -153,12 +156,12 @@ export function unsquattedCard(): StagedPage {
     <main>
       <header>
       ${MARK}
-        <span class="wordmark">Unsquatted</span>
+        <span class="wordmark">${escapeHtml(name)}</span>
       </header>
       <p class="headline">${escapeHtml(headline).replace('*', '<sup>*</sup>')}</p>
       <p class="subline">${escapeHtml(subline)}</p>
       <p class="note">${escapeHtml(COPY.ledeNote)}</p>
-      <span class="url">unsquatted.com</span>
+      <span class="url">${escapeHtml(withoutScheme(url))}</span>
     </main>
     <aside>
       <h2>${escapeHtml(COPY.listHeading)}</h2>
