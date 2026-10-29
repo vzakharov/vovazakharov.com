@@ -56,11 +56,9 @@ const MARK = `<svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"
         <path d="M20 18v17a12 12 0 0 0 24 0V18" fill="none" stroke="${PAPER}" stroke-width="7" stroke-linecap="round" />
       </svg>`;
 
-/** The lede, its first sentence the headline and the rest under it. */
+/** The lede the headline, the byline under it. */
 function lede(): readonly [string, string] {
-  const [head = '', ...rest] = `${COPY.lede} ${COPY.blazing}.`.split('. ');
-
-  return [`${head}.`, rest.join('. ')];
+  return [COPY.lede, COPY.byline.replace('{blazing}', COPY.blazing)];
 }
 
 const more = (count: number) =>
@@ -109,7 +107,7 @@ export function unsquattedCard(): StagedPage {
         line-height: 1;
       }
       .headline { margin: auto 0 0; font-size: 42px; line-height: 1.33; }
-      .subline { margin: 20px 0 0; font-size: 32px; color: ${INK_DIM}; }
+      .subline { margin: 20px 0 0; font-size: 32px; color: ${INK_DIM}; text-wrap: balance; }
       .headline sup { font-size: 0.6em; line-height: 0; }
       .note { margin: 16px 0 auto; font-size: 24px; color: ${INK_FAINT}; }
       .url { font-family: ${MONO}; font-size: 28px; font-weight: 700; color: ${GREEN}; }

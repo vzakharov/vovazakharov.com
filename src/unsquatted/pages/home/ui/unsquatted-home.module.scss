@@ -16,17 +16,25 @@
   }
 }
 
-.lede {
-  max-width: 60ch;
+.lede,
+.byline {
   margin: 12px 0 0;
   color: var(--unsquatted-muted);
-  line-height: 1.65;
   text-wrap: pretty;
 }
 
-// The lede and the pledge read as one paragraph, every line a step apart.
-.lede + .lede {
-  margin-top: 0;
+.lede {
+  max-width: 60ch;
+  line-height: 1.65;
+}
+
+// A caption under the lede: smaller and quieter, on one run of text.
+.byline {
+  max-width: 64ch;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  opacity: 0.8;
 }
 // A button that reads as the text around it.
 %text-button {

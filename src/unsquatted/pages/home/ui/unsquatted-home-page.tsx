@@ -25,9 +25,11 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
  */
 const LEDE = COPY.lede.replace('*', '');
 
+const [BEFORE_BLAZING, AFTER_BLAZING] = COPY.byline.split('{blazing}');
+
 export const unsquattedHomeMetadata = constructMetadata({
   title: SITE_CONFIG.name,
-  description: `${LEDE} ${COPY.blazing}.`,
+  description: `${LEDE} ${COPY.byline.replace('{blazing}', COPY.blazing)}`,
 });
 
 /** The site is one page: the checker, then the list the routine grows. */
@@ -39,14 +41,13 @@ export async function UnsquattedHomePage() {
       <Stack component="main" gap={48}>
         <header>
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
-          <div className={classes['lede']}>
-            {LEDE} <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>
-            .
-          </div>
-          <div className={classes['lede']}>
-            {COPY.pledge}
-            <br />
-            {COPY.coffeePrompt}{' '}
+          <p className={classes['lede']}>{LEDE}</p>
+          <div className={classes['byline']}>
+            {BEFORE_BLAZING}
+            <NotedSpan words={<em>{COPY.blazing}</em>}>
+              {COPY.blazingWhy}
+            </NotedSpan>
+            {AFTER_BLAZING} {COPY.pledge} {COPY.coffeePrompt}{' '}
             <NotedSpan words={COPY.coffeeLink}>{COPY.coffeeSoon}</NotedSpan>.
           </div>
         </header>
