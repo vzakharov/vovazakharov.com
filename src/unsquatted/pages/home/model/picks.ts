@@ -1,34 +1,73 @@
+import 'server-only';
+
+import matter from 'gray-matter';
+import fs from 'node:fs';
+import path from 'node:path';
 import { z } from 'zod';
 
-import json from './picks.json';
+import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
+import { errorClass } from '@/kernel/shared/lib/error-class';
 
-/**
- * One name on the list. `picks.json` is appended to by the naming routine, so
- * it is parsed rather than trusted: a malformed or repeated entry fails the
- * build, not the page.
- */
+const PickFileError = errorClass('PickFileError');
+
+/** One file a name, `public/picks/<domain>.md`, at the route its article will take. */
+const PICKS_DIR = path.join(PUBLIC_DIR, 'picks');
+
+const DOMAIN = /^[\da-z-]+\.[a-z]+$/;
+
+/** What a row shows of a name. */
 const shownSchema = z.object({
-  domain: z.string().regex(/^[\da-z-]+\.[a-z]+$/),
   category: z.string().min(1),
   blurb: z.string().min(1),
 });
 
-/** What a row shows of a name. */
-export type ShownName = z.infer<typeof shownSchema>;
+/**
+ * The naming routine writes these, so they are parsed rather than trusted: a
+ * malformed one fails the build, not the page. `added` orders the list;
+ * `shownUntil` is set by the routine once the name is taken, and past it the
+ * file stays in the repository but leaves the list. YAML reads an unquoted
+ * date as a `Date`.
+ */
+const pickSchema = shownSchema.extend({
+  added: z.coerce.date(),
+  shownUntil: z.coerce.date().optional(),
+});
 
-/** `added` orders the list and is shown nowhere. */
-const pickSchema = shownSchema.extend({ added: z.iso.date() });
+export type ShownName = z.infer<typeof shownSchema> & { domain: string };
 
-type PickedName = z.infer<typeof pickSchema>;
+function readPick(fileName: string) {
+  const domain = fileName.replace(/\.md$/, '');
 
-const picksSchema = z
-  .array(pickSchema)
-  .refine(
-    (picks) => new Set(picks.map(({ domain }) => domain)).size === picks.length,
-    'a domain is listed twice',
-  );
+  if (!DOMAIN.test(domain)) {
+    throw new PickFileError(`picks/${fileName} is not named <domain>.md`);
+  }
 
-/** Newest first; a day's names keep the order they were added in. */
-export const PICKS: readonly PickedName[] = picksSchema
-  .parse(json)
-  .toSorted((a, b) => b.added.localeCompare(a.added));
+  try {
+    const { data } = matter(
+      fs.readFileSync(path.join(PICKS_DIR, fileName), 'utf8'),
+    );
+
+    return { domain, ...pickSchema.parse(data) };
+  } catch (error) {
+    throw new PickFileError(`picks/${fileName} does not parse`, {
+      cause: error instanceof Error ? error : new Error(String(error)),
+    });
+  }
+}
+
+const day = (date: Date) => date.toISOString().slice(0, 10);
+
+/** The names still shown at build: newest first, a day's names by domain. */
+export const PICKS: readonly ShownName[] = fs
+  .readdirSync(PICKS_DIR)
+  .filter((fileName) => fileName.endsWith('.md'))
+  .map((fileName) => readPick(fileName))
+  .filter(
+    ({ shownUntil }) =>
+      shownUntil === undefined || day(shownUntil) >= day(new Date()),
+  )
+  .toSorted(
+    (a, b) =>
+      b.added.getTime() - a.added.getTime() || a.domain.localeCompare(b.domain),
+  )
+  .map(({ domain, category, blurb }) => ({ domain, category, blurb }));
