@@ -161,7 +161,14 @@ Nothing built yet. In discussion, the search changed:
   `fsd/no-segmentless-slices`. Both are covered here — boundaries holds the
   imports, `check:masd` the unit's shape — so the fix is turning the two off for
   exactly the units holding sub-slices, which `scripts/lint-fsd.ts` can compute.
-  That is a suppression: asked of the operator, not built.
+  That is a suppression: asked of the operator, not built. **Approved**: «да,
+  steiger отключать где мы покрыли».
+- **`check:masd`'s promotion message lists the legal destinations**: the layers
+  below the lowest consumer and above everything the promoted piece imports, the
+  noun and layer staying the operator's call. Approved: «второе тоже по твоему
+  предложению».
+- **A PR review the operator just submitted** (from an earlier session, posted
+  now) is unread: export and handle it.
 
 - **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
   `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
