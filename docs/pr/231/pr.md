@@ -7,19 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-29T08:36:23Z
-- **Updated:** 2026-10-29T12:54:53Z
+- **Updated:** 2026-10-29T14:53:46Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 3
+## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ce4d80b). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at f2e7501). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `src/unsquatted/pages/home/lib/lookup.ts`:44 — unresolved — last: @vzakharov (human) 2026-10-29T12:39:21Z — ".si это super intelligence (спасибо дедушке Трампу:), верни…" → [↓](#t01)
-- **T03** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:44:31Z — "эм, я не запускал finalize. В той сессии (она с другого акка…" → [↓](#t03)
-- **T04** `src/blog/scripts/lib/read-collection.ts`:86 — unresolved — last: @vzakharov (human) 2026-10-29T12:46:48Z — "давай сделаем `withCause(error) = { cause: asError(error) }`" → [↓](#t04)
+- **T01** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T14:53:45Z — "так дай мне волшебный код блок" → [↓](#t01)
 
 ---
 
@@ -27,32 +25,33 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 ## Summary
 
-- **A sixth site, `unsquatted` (unsquatted.com), on shell.** One page with two halves: a curated list of good domain names still free, and a domainr-like checker that asks each registry's RDAP straight from the visitor's browser, with DNS-over-HTTPS as a hint where RDAP refuses browsers. No server, which is where "blazing-fast" comes from; the lede's asterisk after "grabbed" answers "* No, not even us."
+- **A sixth site, `unsquatted` (unsquatted.com), on shell.** One page with two halves: a curated list of good domain names still free, and a domainr-like checker that asks each registry's RDAP straight from the visitor's browser, with DNS-over-HTTPS as a hint where RDAP refuses browsers. No server, which is where "blazing-fast" comes from. Under the lede a lower-case byline reads "curated list · blazing-fast search · no reselling · no affiliate links"; the footer asks "Got hooked on rolling the dice?" and offers a coffee or a shout-out.
 - **The list** is one file per name, `sites/unsquatted/public/picks/<domain>.md`, its category, blurb, `added` and a float `score` in frontmatter; it is sorted by score, best first, so a new name slots in between two others. A name the routine finds taken gets `shownUntil` and leaves the list after it, its file kept. Each row is re-checked on load and shows its zone's Porkbun price beside "grab →".
 - **The checker:**
-  - Lookups run as you type, with a debounce, a Check button with a loader, and dice rolling an adjective + noun.
-  - Every root zone Porkbun sells (539) is checkable. A typed zone leads, then `.com`, then split names (`fuckapp` → `fuck.app`; a leading zone splits only where the rest runs dictionary words together), then the rest (`com net org io ai co app dev me xyz sh gg`) — three rows, more behind "more tlds ↓".
+  - Lookups run as you type, with a debounce, a Check button with a loader, and dice rolling an adjective + noun (faker's English locale alone, loaded on the first roll, the dice spinning meanwhile).
+  - Every root zone Porkbun sells (539) is checkable. A typed zone leads, then `.com`, then split names (`fuckapp` → `fuck.app`; a leading zone splits only where the rest runs dictionary words together), then the rest — 22 zones in all (`com net org io ai si co app dev me xyz sh gg to tv cc page fyi link site website blog`), three rows shown, more behind "more tlds ↓".
   - The browser checks registry answers with type guards of its own, and Porkbun's list is read at build only, so no zod reaches the page.
   - The query lives in the URL hash, each change a history step.
-  - Verdicts read "grab →", "grab-ish →" (DNS only), or "taken", whose note gives the registration's expiry date; "up for grabs in N" shows only in RDAP `pending delete`. Typing `unsquatted.com` answers "seriously?".
-- **Shared code it brought up:** `NotedSpan` moved to `shell/shared/ui` (unsquatted's asides use it, Tooltip is gone); kernel gains `fetchOk`, `errorClass`, `asError` and `useProvided` (music's fetcher and player use them too; `asError` replaces six hand-written non-Error wraps in blog, mushrooms and unsquatted), held by a new lint, `vova/error-class-name`, and a `shared/feed` segment for `rss` and `feed-html`. Shell grows an `accent` token, `--radius-default` and a `fontVariables` slot, each a no-op for the other sites.
-- **Wiring:** a receiver repo (vzakharov/unsquatted.com) in deploy, vet, preview and `publish-site.sh`, an Umami site, and an OG card generated by `src/unsquatted/scripts/lib/unsquatted-card.ts` from the lede and the four best picks, its wordmark in Fraunces as on the site.
+  - Verdicts read "grab →", "maybe →" (DNS only; a hover note says why it is only a maybe), or "taken", whose note gives the registration's expiry date; "up for grabs in N" shows only in RDAP `pending delete`. Typing `unsquatted.com` answers "seriously?".
+- **Shared code it brought up:** `NotedSpan` moved to `shell/shared/ui` (unsquatted's asides use it, Tooltip is gone), with a `hoverOnly` mode for words that are a link and a `--noted-span-background` a site may set; the site footer's note takes one. Kernel gains `fetchOk`, `errorClass`, `asError`, `withCause` and `useProvided` (music's fetcher and player use them too; `asError` and `withCause` replace six hand-written non-Error wraps in blog, mushrooms and unsquatted), `errorClass` held by a new lint, `vova/error-class-name`, and a `shared/feed` segment for `rss` and `feed-html`. A root Sass partial, `styles/_dimmed.scss`, dims text by its colour rather than its opacity, so a note opening inside stays opaque; music's radio and lyrics, the footer and unsquatted's byline use it. Shell grows an `accent` token, `--radius-default` and a `fontVariables` slot, each a no-op for the other sites.
+- **Wiring:** a receiver repo (vzakharov/unsquatted.com) in deploy, vet, preview and `publish-site.sh`, an Umami site, and an OG card generated by `src/unsquatted/scripts/lib/unsquatted-card.ts` from the lede (its asterisk answered by "* No, not even us."), "Curated, blazing fast." and the four best picks with no `shownUntil`, beside the field and the page's dice; its wordmark is in Fraunces as on the site. The page's metadata description is its lede and byline.
 
 ## QA Checklist
 
 - [ ] `list` — Open https://unsquatted.com: the names render best first, each re-checked on load, with "grab →" and a price under it
-- [ ] `type` — Type a word: the zone grid fills with grab / grab-ish / taken verdicts once typing pauses, and Check spins (dimmed) while lookups run
+- [ ] `type` — Type a word: the zone grid fills with grab / maybe / taken verdicts once typing pauses, and Check spins (dimmed) while lookups run
 - [ ] `typed-zone` — Type `foo.dev` and `fuckapp`: the typed domain leads; `fuck.app` comes right after `.com`
 - [ ] `more-tlds` — Only three rows show; "more tlds ↓" reveals the rest
 - [ ] `taken-note` — Hover or tap "taken": the note gives the expiry date in UTC
 - [ ] `hash` — The address gains `#name`; reload keeps it, a shared link looks it up, and back/forward walk through earlier names
-- [ ] `dice` — The dice fills the field with a word pair without scrolling the page
+- [ ] `maybe-note` — Find a row reading "maybe →" (a zone whose registry refuses browsers) and hover it: the note says why it is only a maybe, on a background a shade off the page
+- [ ] `dice` — The dice spins on its first roll, then fills the field with a word pair without scrolling the page
 - [ ] `pick-click` — Clicking a listed name puts it in the field, looks it up and scrolls to the top
 - [ ] `egg` — `unsquatted` answers "seriously?" on .com, with the neighbouring card's aside
-- [ ] `notes` — "blazing-fast" and "buy us a coffee" open their notes on hover and on tap; the console shows no hydration error
-- [ ] `card` — Share the URL somewhere with previews: the card shows the lede with its footnote and four names
+- [ ] `notes` — "blazing-fast" in the byline and "Buy us a coffee" in the footer open their notes on hover and on tap, opaque over the dimmed text; the console shows no hydration error
+- [ ] `card` — Share the URL somewhere with previews: the card shows the lede with its footnote, "Curated, blazing fast.", four names and the field with the dice beside it
 - [ ] `narrow` — At phone width the dice and Check wrap to their own row and the cards fall to fewer columns
-- [ ] `other-sites` — Another site's preview (e.g. vovazakharov) looks unchanged, music's notes and radio included
+- [ ] `other-sites` — Another site's preview (e.g. vovazakharov) looks unchanged, music's notes, radio and lyrics and the site footer included
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
@@ -62,6 +61,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 | `more-tlds` | manual-only | — | Layout of the grid and the toggle |
 | `taken-note` | manual-only | — | Live RDAP `expiration` |
 | `hash` | e2e | ❌ | Drive the built page: type, reload, assert the field and the hash; go back, assert the previous name |
+| `maybe-note` | manual-only | — | Hover-only note over live DoH answers; `dohVerdict` itself is in `lookup.test.ts` |
 | `dice` | manual-only | — | Random output, and the absence of scroll is visual |
 | `pick-click` | e2e | ❌ | Click a listed name, assert the field value and `scrollY === 0` |
 | `egg` | unit | ❌ | The choice lives in `verdict-label.tsx`, a component |
@@ -70,7 +70,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 | `narrow` | manual-only | — | Visual layout at narrow widths |
 | `other-sites` | manual-only | — | Visual regression across sites |
 
-https://claude.ai/code/session_01DaohkDfJdWXC3PesAbjdfq
+https://claude.ai/code/session_01RAikuuKkJGj7UvMjaYKeJi
 
 ---
 
@@ -94,16 +94,16 @@ visitor's browser asks each registry's RDAP itself, with DNS-over-HTTPS
 as a hint where a registry's RDAP refuses browsers.
 
 The checker looks a name up as it is typed, with a Check button and a
-dice that rolls a word pair. Any zone Porkbun sells can lead the grid
-of twelve common ones: typed, or as a domain hack (agenticbible ->
-agentic.bible), a leading zone splitting off only where both halves are
-dictionary words (lovepage -> page.love). Prices are Porkbun's,
-read at build, so a pricing failure fails the build; the browser checks
-registry answers with type guards of its own, since zod would ship with
-them. A taken name shows
-its expiry date on hover, and says when it is up for grabs only in
-RDAP's pending delete, since before that the owner can still renew.
-The query rides in the URL hash, one history step per name.
+dice that rolls a word pair, in a grid of 22 zones from .com to .blog,
+.si among them. Any other zone Porkbun sells can lead the grid: typed,
+or as a domain hack (agenticbible -> agentic.bible), a leading zone
+splitting off only where both halves are dictionary words (lovepage ->
+page.love). Prices are Porkbun's, read at build, so a pricing failure
+fails the build; the browser checks registry answers with type guards
+of its own, since zod would ship with them. A taken name shows its
+expiry date on hover, and says when it is up for grabs only in RDAP's
+pending delete, since before that the owner can still renew. The query
+rides in the URL hash, one history step per name.
 
 The listed names are files under public/picks/, re-checked on load and
 ordered by a float score in their frontmatter, so a new name slots in
@@ -115,11 +115,11 @@ Shell gains three hooks that are no-ops for the other sites: an accent
 colour token, a --radius-default property and a fontVariables slot on
 the root layout. Music's genius-style NotedSpan moves to shell for both
 sites. Kernel gains fetchOk, which makes a fetcher name the error class
-it throws, errorClass, whose name a new lint holds to its constant, and
-asError, which every catch that wrapped a thrown non-Error by hand now
-uses. The site is wired as a receiver
-(vzakharov/unsquatted.com) in deploy, vet, preview and publish-site.sh,
-with its Umami site.
+it throws; errorClass, whose name a new lint holds to its constant; and
+asError and withCause, which every catch that wrapped a thrown non-Error
+by hand or rethrew with a cause now uses. The site is wired as a
+receiver (vzakharov/unsquatted.com) in deploy, vet, preview and
+publish-site.sh, with its Umami site.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -152,80 +152,24 @@ _2026-10-29T10:35:10Z_
 
 <!-- five-percent: c7a7fc34a792fc949da37ca21b7d7f909f35db4b -->
 
-_18 resolved threads omitted; re-run with `--include-resolved` to export them._
+<a id="r03"></a>
 
-- **T01** `src/unsquatted/pages/home/lib/lookup.ts`:44 — unresolved — last: @vzakharov (human) 2026-10-29T12:39:21Z — ".si это super intelligence (спасибо дедушке Трампу:), верни…" → [↓](#t01)
-- **T02** `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T12:45:56Z — "В сессии: «ок, давай issue» — про правило в `check:poison`.…" → [↓](#t02)
-- **T03** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:44:31Z — "эм, я не запускал finalize. В той сессии (она с другого акка…" → [↓](#t03)
-- **T04** `src/blog/scripts/lib/read-collection.ts`:86 — unresolved — last: @vzakharov (human) 2026-10-29T12:46:48Z — "давай сделаем `withCause(error) = { cause: asError(error) }`" → [↓](#t04)
+### R03 — Review by @vzakharov (agent) — COMMENTED
+
+_2026-10-29T13:07:13Z_
+
+[https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5698159090](https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5698159090)
+
+**/five-percent**: два предложения, критичных нет.
+<!-- five-percent: c37b8f93d7fdd270f7e493b3e50611e97c39f51a -->
+
+_21 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T14:53:45Z — "так дай мне волшебный код блок" → [↓](#t01)
+- **T02** `src/unsquatted/pages/home/ui/name-checker.tsx`:53 — unresolved — last: @vzakharov (agent) 2026-10-29T13:07:03Z — "<!-- five-percent proposal · an answer here is scored by .cl…" → [↓](#t02)
+- **T03** `src/unsquatted/scripts/lib/unsquatted-card.ts`:10 — unresolved — last: @vzakharov (agent) 2026-10-29T13:07:09Z — "<!-- five-percent proposal · an answer here is scored by .cl…" → [↓](#t03)
 
 <a id="t01"></a>
-
-### `src/unsquatted/pages/home/lib/lookup.ts`:44 — unresolved
-
-```diff
-@@ -16,14 +27,19 @@ export type Verdict =
-… 13 lines elided …
--/** The zones every name is checked in, in the order they are shown. */
-+/**
-+ * The zones every name is checked in, in the order they are shown. Any other
-+ * zone Porkbun sells is shown only where the name spells it (`domainHacks`).
-+ */
-```
-
-**@vzakharov (human)** — 2026-10-29T11:59:57Z
-
-посмотри какие ещё хорошие есть среди поркбановских, какие стоит чекать всегда.
-
-к слову, непонятно наличие de тут -- их кто-то использует как generic?
-
-**@vzakharov (agent)** — 2026-10-29T12:19:07Z
-
-Про `.de`: нет, как generic его никто не читает — это просто Германия (дешёвая, 2.90). То же с `.si`. Обе выкинул в 7780ea52, взамен `.sh` (тулзы и их install-скрипты, `bun.sh`; 31.20/46.65) и `.gg` (комьюнити, игры; 51.80). Имя, которое само пишет `de`/`si`, всё равно получит их как domain hack.
-
-Из остальных поркбановских кандидаты на «всегда»: `.to` (51.80), `.tv` (26.26), `.cc` (3.40/8.55), `.page` (10.81), `.fyi` (5.66), `.link` (7.72). `.so`, `.is`, `.ly`, `.it` Porkbun не продаёт. Сетка показывает первые три ряда, так что добавлять можно без вреда раскладке — скажи, какие из этих взять.
-
-**@vzakharov (human)** — 2026-10-29T12:39:21Z
-
-.si это super intelligence (спасибо дедушке Трампу:), верни
-
-по твоим предложениям -- ок, ещё посмотри .site, .website, .blog доступны ли
-
----
-
-<a id="t02"></a>
-
-### `src/unsquatted/pages/home/lib/prices.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-10-29T12:01:01Z
-
-а это не server-only случайно? помнится, мы как-то очень сильно следили, чтобы zod у нас не уплывал в клиент; может стоит сделать линтерное правило, что если импортируется (перечислены тяжёлые пакеты), то должно быть server-only?
-
-**@vzakharov (agent)** — 2026-10-29T12:19:09Z
-
-Да, утекал: `pick-row` (`'use client'`) → `verdict-label` → `priceParts` из `prices.ts` тащил в браузер и фетчер, и схему. Но главный zod в клиенте был не тут: `lookup.ts` разбирает ответы RDAP и DoH прямо в браузере классическим zod.
-
-В 8033ec76: тип цены и округление переехали в `price.ts`, `prices.ts` (фетч + схема) остался только серверной странице, а `lookup.ts` перешёл на `zod/mini`. Чанк чекера упал с 94 до 23 КБ gzip, все скрипты страницы — с 313 до 242 КБ.
-
-Про правило: «импортирует zod ⇒ обязан быть server-only» здесь не подходит — `lookup.ts` законно валидирует в браузере (validate at boundaries), только мини-сборкой. Точнее было бы расширить `pnpm check:poison`: от клиентских корней не должно быть пути до классического `zod` и тяжёлых билдовых пакетов (`gray-matter`, `unified`/`remark`/`rehype`, `shiki`), а `zod/mini` разрешён. Делать его здесь, отдельной веткой (как прошлое правило) или завести issue?
-
-**@vzakharov (agent)** — 2026-10-29T12:38:18Z
-
-В сессии: «ну вот именно для этого мы его и удаляли» — zod в браузере не нужен вовсе, даже mini.
-
-Сделано в 6b868cdf: `lookup.ts` проверяет три ответа (bootstrap-файл RDAP, запись RDAP, ответ DoH) собственными type guards и на любую другую форму бросает `MalformedAnswerError`. На странице zod теперь нет совсем; скрипты 242 → 228 КБ gzip (а до раунда было 313).
-
-Других клиентских цепочек до zod я сейчас не нахожу, так что правило в `check:poison` «от клиентских корней — ни пути до `zod`» легло бы без единого исключения. Вопрос, где его делать, остаётся: здесь, отдельной веткой или issue.
-
-**@vzakharov (agent)** — 2026-10-29T12:45:56Z
-
-В сессии: «ок, давай issue» — про правило в `check:poison`.
-
-Завёл #236: клиентским цепочкам нельзя доходить до `zod` (включая `zod/mini`); в кандидаты на тот же список — `gray-matter`, `unified`/`remark`/`rehype`, `shiki`.
-
----
-
-<a id="t03"></a>
 
 ### `CLAUDE.md`:1 — unresolved
 
@@ -247,25 +191,88 @@ _18 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 давай заведём issue в muthur пофиксить скилл релея, чтобы передающая сессия давала контекст в [...], а принимающая трактовала всё в [...] как краткое обозначение статуса (и в первую очередь для оператора, который зашёл в сессию после перерыва, а не для принимающего агента -- у которого есть для этого relay-X.md)
 
+**@vzakharov (agent)** — 2026-10-29T13:01:13Z
+
+Мой прошлый ответ был неверным: finalize ты не запускал. Его выдумали сами агенты, по цепочке релеев:
+
+1. relay-6 записал в Next step твою просьбу и приписал от себя «Then `/finalize`». Его строка `/relay take` заканчивалась на «…и finalize».
+2. Автор relay-7 принял эту строку (первое сообщение в его сессии) за твои слова и написал: «`finalize` — the operator's relay prompt asked for it».
+3. Сессия на твоём скриншоте взяла relay-7, пошла по его Next step и начала `/finalize` со `staged.sh swap`, это 22c71f3d.
+
+Issue в muthur завести не вышло: auto mode заблокировал запись в другой репозиторий. Текст готов: твоё предложение со статусом в `[...]`, плюс два мелких пункта. Первый: строка take не считается сообщением оператора. Второй: у каждого пункта Next step указан источник. Заведу, как только разрешишь в сессии.
+
+**@vzakharov (human)** — 2026-10-29T14:53:45Z
+
+так дай мне волшебный код блок
+
 ---
 
-<a id="t04"></a>
+<a id="t02"></a>
 
-### `src/blog/scripts/lib/read-collection.ts`:86 — unresolved
+### `src/unsquatted/pages/home/ui/name-checker.tsx`:53 — unresolved
 
 ```diff
-@@ -81,7 +82,7 @@ function parseFrontmatter<F extends BaseFrontmatter>(
-     return schema.parse(data);
-   } catch (error) {
-     throw new Error(`Invalid frontmatter in ${file}`, {
--      cause: error instanceof Error ? error : new Error(String(error)),
-+      cause: asError(error),
-     });
+@@ -0,0 +1,156 @@
+… 44 lines elided …
++
++type NameCheckerProps = WithCopy & { prices: Prices };
++
++/**
++ * A name checked in every zone once typing pauses — so the words on the way
++ * to the one meant cost no lookups — or at once on Check. The rows past the
++ * first three wait behind a toggle, looked up all the same so that opening it
++ * shows answers.
++ */
 ```
 
-**@vzakharov (human)** — 2026-10-29T12:46:48Z
+**@vzakharov (agent)** — 2026-10-29T13:07:03Z
 
-давай сделаем `withCause(error) = { cause: asError(error) }`
+<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
+**/five-percent** · optional
+
+Сейчас: каждое имя проверяется сразу во всех 22 зонах, хотя 19 из них спрятаны за «more tlds ↓», который открывает мало кто.
+**Предложение: проверять спрятанные зоны только когда переключатель открывают (или когда на него наводят).**
+Цена: открывший его секунду-другую видит «checking…» вместо готовых ответов.
+
+<details><summary>Подробнее</summary>
+
+Докстринг `NameChecker` держит это решение явно: «looked up all the same so that opening it shows answers». Оно принималось, когда зон было около дюжины; 516bfe3d довёл их до 22, и теперь одно имя стоит 22 запроса RDAP/DoH, из них 19 — ради строк, которых большинство не увидит. Это и нагрузка на чужие RDAP-серверы, и лишний шанс упереться в 429, который `rdapVerdict` читает как `unknown`. Если запускать проверку по наведению на «more tlds ↓», на десктопе ожидание почти не заметно.
+
+</details>
+
+---
+
+<a id="t03"></a>
+
+### `src/unsquatted/scripts/lib/unsquatted-card.ts`:10 — unresolved
+
+```diff
+@@ -0,0 +1,209 @@
+… 2 lines elided …
++ * mark and the wordmark over the hero's lede, beside a panel of the first
++ * listed names, an empty name field closing it and a count of the rest.
++ *
++ * It reads what the site renders — the listed names through the module the
++ * home page reads, the words from its catalogue — so adding a name re-flags
++ * the card, and the card cannot say what the page has stopped saying. Of the
++ * names it takes only those with no `shownUntil`, so a date passing never
++ * changes the card on a day nobody committed.
+```
+
+**@vzakharov (agent)** — 2026-10-29T13:07:09Z
+
+<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
+**/five-percent** · optional
+
+Сейчас: докстринг обещает, что карточка «не может сказать того, что страница перестала говорить», но карточка читает два ключа, которых страница не показывает: `cardByline` и `ledeNote`.
+**Предложение: вынести карточные строки в свой подобъект `card` в `en.json` и сузить обещание до остальных ключей.**
+Цена: три обращения к `COPY` и одна фраза докстринга; каталог становится на уровень глубже.
+
+<details><summary>Подробнее</summary>
+
+`cardByline` появился в 3631b616 («the social card keeps "Curated, blazing-fast."»), `ledeNote` страница перестала показывать в f9a8ff4c («сноска только для OG»). Обе строки — твоё решение, и спорить с ними незачем; дело в том, что каталог не отличает их от строк страницы. Сейчас правка `cardByline` выглядит как правка страницы, а гарантия в докстринге больше не держится. С подобъектом `card` видно, какие строки живут только на карточке, а для всех остальных гарантия снова правдива.
+
+</details>
 
 ---
 
@@ -282,3 +289,4 @@ _18 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-29T12:18:34Z** @vzakharov cross-referenced this pull request from [#235 DRY the social-card generators' shared scaffolding](https://github.com/vzakharov/vovazakharov.com/issues/235).
 - **2026-10-29T12:45:47Z** @vzakharov cross-referenced this pull request from [#236 check:poison: no client chain reaches zod or the build-time pipeline](https://github.com/vzakharov/vovazakharov.com/issues/236).
 - **2026-10-29T12:51:26Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5697903008.
+- **2026-10-29T13:07:13Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5698159090.

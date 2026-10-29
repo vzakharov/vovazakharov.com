@@ -1,0 +1,85 @@
+{
+  "total": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 54741,
+    "cacheReadTokens": 564690,
+    "outputTokens": 1786,
+    "thinkingTokens": 341,
+    "responses": 6,
+    "costUsd": 0.349786
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54741,
+      "cacheReadTokens": 564690,
+      "outputTokens": 1786,
+      "thinkingTokens": 341,
+      "responses": 6,
+      "costUsd": 0.349786
+    }
+  },
+  "sessionId": "91f701b4-8cae-5120-88cf-e32c81acc141",
+  "branch": "claude/unsquatted-site",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/unsquatted-site",
+  "prs": [
+    231
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFnmtmv7XJ8EQXy32R",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T15:58:30.061Z",
+  "lastResponseAt": "2026-10-29T15:58:57.085Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 54741,
+    "cacheReadTokens": 564690,
+    "outputTokens": 1786,
+    "thinkingTokens": 341,
+    "responses": 6,
+    "costUsd": 0.349786
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54741,
+      "cacheReadTokens": 564690,
+      "outputTokens": 1786,
+      "thinkingTokens": 341,
+      "responses": 6,
+      "costUsd": 0.349786
+    }
+  },
+  "warnings": [
+    "prices.json priced the 6 responses the events also priced at $0.3498, against the events' $0.2933: a rate in the table is likely out of date"
+  ],
+  "compactions": [],
+  "telemetry": {
+    "events": 6,
+    "matched": 6,
+    "matchedTableUsd": 0.349786,
+    "matchedEventUsd": 0.29331700000000005,
+    "unseen": {}
+  }
+}
