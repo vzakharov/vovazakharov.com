@@ -51,9 +51,10 @@ language — runs `scripts/staged.sh swap` on the spot and commits.
   rooted at its site's root has no directory: `sites/bible/public/` is both the
   site's assets and the Bible's articles.
 - **`styles/`** — Sass partials shared across `src/`: `_mantine.scss`
-  (counterparts to the mixins Mantine documents as a PostCSS preset) and the two
-  `pnpm styles:codegen` writes, `_tokens.scss` and `_breakpoints.scss`. Not FSD
-  modules (no import graph for the layer checkers), so outside `src/`.
+  (counterparts to the mixins Mantine documents as a PostCSS preset),
+  `_dimmed.scss`, and the two `pnpm styles:codegen` writes, `_tokens.scss` and
+  `_breakpoints.scss`. Not FSD modules (no import graph for the layer checkers),
+  so outside `src/`.
 - **`eslint/`** — The ruleset `eslint.config.ts` orchestrates; see
   `.claude/rules/eslint.md`.
 - **`writing/`** — Drafts for channels the site does not publish, today

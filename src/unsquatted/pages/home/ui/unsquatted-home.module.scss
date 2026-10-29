@@ -1,3 +1,4 @@
+@use '../../../../../styles/dimmed';
 @use '../../../../../styles/mantine' as mantine;
 
 .masthead {
@@ -28,12 +29,11 @@
   line-height: 1.65;
 }
 
-// Quieter by its colour: an opacity would make it a stacking context, trapping
-// its note beneath the field below and showing through it.
 .byline {
+  @include dimmed.text(65%, var(--unsquatted-muted));
+
   max-width: 64ch;
   margin-top: 6px;
-  color: color-mix(in srgb, var(--unsquatted-muted) 65%, transparent);
   font-size: 0.85rem;
   line-height: 1.55;
 }
