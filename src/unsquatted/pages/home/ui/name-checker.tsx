@@ -1,17 +1,13 @@
 'use client';
 
 import { TextInput } from '@mantine/core';
-import { useDebouncedValue } from '@mantine/hooks';
-import { useState } from 'react';
 
 import type { WithCopy } from '../i18n';
-import { cleanLabel, type WithDomain, ZONES } from '../lib/lookup';
+import { type WithDomain, ZONES } from '../lib/lookup';
 import { useVerdict } from '../lib/use-verdict';
+import { useChecker } from './checker-state';
 import classes from './unsquatted-home.module.scss';
 import { VerdictLabel } from './verdict-label';
-
-/** How long typing has to pause before the name is looked up. */
-const SETTLE_MS = 350;
 
 function ZoneRow({ domain }: WithDomain) {
   return (
@@ -27,13 +23,12 @@ function ZoneRow({ domain }: WithDomain) {
  * so each word on the way to the one meant is not a round of lookups.
  */
 export function NameChecker({ copy }: WithCopy) {
-  const [typed, setTyped] = useState('');
-  const [settled] = useDebouncedValue(typed, SETTLE_MS);
-  const label = cleanLabel(settled);
+  const { typed, type, label, fieldRef } = useChecker();
 
   return (
     <>
       <TextInput
+        ref={fieldRef}
         aria-label={copy.fieldLabel}
         placeholder={copy.fieldPlaceholder}
         autoComplete="off"
@@ -41,7 +36,7 @@ export function NameChecker({ copy }: WithCopy) {
         size="md"
         value={typed}
         onChange={(event) => {
-          setTyped(event.currentTarget.value);
+          type(event.currentTarget.value);
         }}
         classNames={{ input: classes['input'] }}
       />

@@ -7,6 +7,8 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { COPY } from '../i18n';
 import { PICKS } from '../model/picks';
+import { CheckerProvider } from './checker-state';
+import { CoffeeSoon } from './coffee-soon';
 import { NameChecker } from './name-checker';
 import { PickRow } from './pick-row';
 import classes from './unsquatted-home.module.scss';
@@ -23,29 +25,35 @@ export function UnsquattedHomePage() {
         <header>
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
           <p className={classes['lede']}>{COPY.lede}</p>
+          <p className={classes['lede']}>
+            {COPY.pledge} {COPY.coffeePrompt}{' '}
+            <CoffeeSoon label={COPY.coffeeSoon}>{COPY.coffeeLink}</CoffeeSoon>.
+          </p>
         </header>
 
-        <section aria-labelledby="check">
-          <h2 id="check" className={classes['sectionHeading']}>
-            {COPY.checkHeading}
-          </h2>
-          <NameChecker copy={COPY} />
-        </section>
+        <CheckerProvider>
+          <section aria-labelledby="check">
+            <h2 id="check" className={classes['sectionHeading']}>
+              {COPY.checkHeading}
+            </h2>
+            <NameChecker copy={COPY} />
+          </section>
 
-        <section aria-labelledby="names">
-          <h2 id="names" className={classes['sectionHeading']}>
-            {COPY.listHeading}
-          </h2>
-          <ul className={classes['picks']}>
-            {PICKS.map(({ domain, category, blurb }) => (
-              <PickRow
-                key={domain}
-                {...{ domain, category, blurb }}
-                copy={COPY}
-              />
-            ))}
-          </ul>
-        </section>
+          <section aria-labelledby="names">
+            <h2 id="names" className={classes['sectionHeading']}>
+              {COPY.listHeading}
+            </h2>
+            <ul className={classes['picks']}>
+              {PICKS.map(({ domain, category, blurb }) => (
+                <PickRow
+                  key={domain}
+                  {...{ domain, category, blurb }}
+                  copy={COPY}
+                />
+              ))}
+            </ul>
+          </section>
+        </CheckerProvider>
 
         <SiteFooter onHomePage>
           {COPY.shoutOutPrompt}{' '}

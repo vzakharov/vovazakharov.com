@@ -23,6 +23,22 @@
   text-wrap: pretty;
 }
 
+.lede + .lede {
+  margin-top: 8px;
+}
+
+// A button only so the tooltip has something to focus: it reads as words.
+.soon {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
 .sectionHeading {
   margin: 0 0 12px;
   color: var(--unsquatted-muted);
@@ -122,9 +138,24 @@
     opacity: 0.55;
   }
 
+  // A button that reads as the heading it is, until hovered.
   & .domain {
+    justify-self: start;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
     font-size: 1.15rem;
     font-weight: 600;
+    text-align: start;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
   }
 }
 
