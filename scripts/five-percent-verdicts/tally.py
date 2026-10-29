@@ -34,7 +34,7 @@ class Malformed(ValueError):
     pass
 
 
-def _positive_int(value: Any) -> bool:
+def positive_int(value: Any) -> bool:
     return isinstance(value, int) and not isinstance(value, bool) and value > 0
 
 
@@ -46,7 +46,7 @@ def parse_leaf(path: Path, branch: str) -> list[dict[str, Any]]:
         raise Malformed(f"{path}: not JSON — {error}") from error
     if not isinstance(data, dict) or set(data) != {"pr", "verdicts"}:
         raise Malformed(f'{path}: expected exactly the keys "pr" and "verdicts"')
-    if not _positive_int(data["pr"]):
+    if not positive_int(data["pr"]):
         raise Malformed(f"{path}: pr must be a positive integer")
     if not isinstance(data["verdicts"], list):
         raise Malformed(f"{path}: verdicts must be a list")
@@ -55,7 +55,7 @@ def parse_leaf(path: Path, branch: str) -> list[dict[str, Any]]:
         where = f"{path}: verdicts[{i}]"
         if not isinstance(row, dict) or set(row) != ROW_KEYS:
             raise Malformed(f"{where}: expected exactly the keys {sorted(ROW_KEYS)}")
-        if not _positive_int(row["comment"]):
+        if not positive_int(row["comment"]):
             raise Malformed(f"{where}: comment must be a review-comment id")
         for key, limit in (("about", ABOUT_MAX), ("why", WHY_MAX)):
             text = row[key]

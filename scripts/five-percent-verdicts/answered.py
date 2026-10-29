@@ -28,7 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from gh_export.api import api_get, api_paginated
 from gh_export.authorship import split_agent_footer
 from lib.github import AllRoutesFailed, detect_origin_repo, die, format_route_statuses, gh_token
-from tally import LEAF, VERDICTS_DIR, Malformed, parse_leaf
+from tally import LEAF, VERDICTS_DIR, Malformed, parse_leaf, positive_int
 
 PROPOSAL_MARKER = "<!-- five-percent proposal"
 # An answer the operator gave in the session chat reaches the thread in an agent-signed post
@@ -48,10 +48,6 @@ class ReviewComment:
     html_url: str
 
 
-def _id(value: Any) -> bool:
-    return isinstance(value, int) and not isinstance(value, bool) and value > 0
-
-
 def parse_review_comments(payload: Any) -> list[ReviewComment]:
     """GitHub's `pulls/<n>/comments` list, held to the four fields read here."""
     if not isinstance(payload, list):
@@ -62,7 +58,7 @@ def parse_review_comments(payload: Any) -> list[ReviewComment]:
         if not isinstance(raw, dict):
             raise BadPayload(f"{where}: expected an object")
         reply_to = raw.get("in_reply_to_id")
-        if not _id(raw.get("id")) or not (reply_to is None or _id(reply_to)):
+        if not positive_int(raw.get("id")) or not (reply_to is None or positive_int(reply_to)):
             raise BadPayload(f"{where}: id and in_reply_to_id must be comment ids")
         if not isinstance(raw.get("body"), str) or not isinstance(raw.get("html_url"), str):
             raise BadPayload(f"{where}: body and html_url must be strings")
