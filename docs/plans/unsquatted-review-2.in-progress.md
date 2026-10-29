@@ -65,7 +65,14 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 - **Picks by score** (operator: «нужно по "крутости" … float чтобы всегда можно
   было "между" засунуть») — a required float `score` in each pick's frontmatter,
   highest first, then newest, then by domain; seeded 9.0 down to 4.5 in the
-  original hand-made order. Pick files now prettier-clean.
+  original hand-made order. Pick files now prettier-clean (896aa56).
+- **Footnote instead of the price clause** (operator: «at regular prices вышло
+  на новую строчку … звёздочку сверху после grabbed, и куда-то сноску "\* no,
+  not even us"»; then «4 домена вместо 5 для воздуха», the note under the
+  subline and lighter) — caed8f1: `ledeEnd` gone, `ledeNote` added; tagline
+  drops the clause.
+- **Hydration** — ccf776d/caed8f1: the lede is divs, since a `NotedSpan`'s note
+  is a `<div>`.
 
 ## Left
 
@@ -74,7 +81,7 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
    on long names; `grab · $11 →` fits. Waiting on the operator's pick. Built,
    the card would print Porkbun's live price, so a reprice re-flags the card and
    `content:og --check` in vet goes red until re-rendered.
-2. **Card's five** — built as the top-scored five (the card takes the list's
+2. **Card's four** — built as the top-scored four (the card takes the list's
    head); asked the operator whether to keep that or show the newest.
 3. Ask the operator whether `may be available →` (DNS-only "maybe") should also
    read `grab →`; it was left as is because it promises less.
