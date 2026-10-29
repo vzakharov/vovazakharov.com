@@ -23,7 +23,7 @@ import path from 'node:path';
 import { z } from 'zod';
 
 import { type Locale, LOCALES } from '@/kernel/shared/i18n/index.node-safe';
-import { asError } from '@/kernel/shared/lib/error-class';
+import { withCause } from '@/kernel/shared/lib/error-class';
 
 import {
   collectionDir,
@@ -120,9 +120,7 @@ for (const id of collectionsForSite(RENDERED_SITE)) {
           DOMAIN,
         );
       } catch (error) {
-        throw new Error(`${relative(post)}, ${drawing}`, {
-          cause: asError(error),
-        });
+        throw new Error(`${relative(post)}, ${drawing}`, withCause(error));
       }
 
       const output = template.replace(/\.svg$/, `.${locale}.svg`);

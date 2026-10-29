@@ -19,3 +19,8 @@ export function asError(caught: unknown): Error {
     ? caught
     : new NonErrorThrown(String(caught), { cause: caught });
 }
+
+/** The options of an error rethrowing what a `catch` caught, as its cause. */
+export function withCause(caught: unknown): ErrorOptions {
+  return { cause: asError(caught) };
+}

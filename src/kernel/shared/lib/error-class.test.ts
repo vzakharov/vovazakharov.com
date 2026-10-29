@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { asError, errorClass } from './error-class';
+import { asError, errorClass, withCause } from './error-class';
 
 describe('errorClass', () => {
   it('names its instances', () => {
@@ -24,5 +24,17 @@ describe('asError', () => {
     assert.equal(wrapped.name, 'NonErrorThrown');
     assert.equal(wrapped.message, 'a string');
     assert.equal(wrapped.cause, 'a string');
+  });
+});
+
+describe('withCause', () => {
+  it('makes what was caught the cause, as an Error', () => {
+    const error = new TypeError('bad');
+
+    assert.equal(withCause(error).cause, error);
+    const { cause } = withCause(7);
+
+    assert.ok(cause instanceof Error);
+    assert.equal(cause.name, 'NonErrorThrown');
   });
 });
