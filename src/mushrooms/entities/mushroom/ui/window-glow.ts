@@ -8,12 +8,11 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { type Brush, DUSK_WASH_DEEPEST, PALETTE } from '@/mushrooms/shared/ui';
 
+import { type MushroomGenes, mushroomTints } from '../fungus/index.node-safe';
 import { windowSlots } from '../model/house';
-import type { MushroomGenes } from '../model/mushroom-genes';
 import { paintWindows, type ShownWindow, windowPlace } from './draw-house';
 import type { DrawnMushroom } from './mushroom-hits';
 import { drawnHolds } from './mushroom-tap';
-import { mushroomTints } from './mushroom-tints';
 
 /** The halo round a lit window: how far it reaches past the window's middle, in the window's side; its rings, each laid at `HALO_ALPHA` over the ones outside it. */
 const HALO_REACH = 1.3;

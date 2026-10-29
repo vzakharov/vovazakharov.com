@@ -17,22 +17,7 @@ import {
   sample,
 } from '@/mushrooms/shared/lib/geometry';
 
-import {
-  hasTrumpet,
-  HEAD_KIND,
-  type HeadKind,
-  type MushroomGenes,
-} from './mushroom-genes';
-import { capOutlines, MUSHROOM_INK } from './mushroom-outline';
-import { stemAt, type StemStation } from './mushroom-pose';
-import {
-  capBase,
-  capSurface,
-  frontSag,
-  funnelHeight,
-  rimWave,
-  stemHalfWidth,
-} from './mushroom-profile';
+import { capBase, capOutlines, capSurface, frontSag, funnelHeight, hasTrumpet, HEAD_KIND, type HeadKind, MUSHROOM_INK, type MushroomGenes, rimWave, stemAt, stemHalfWidth,type StemStation } from '../fungus/index.node-safe';
 
 /** The four windows of Syama's drawing, in the order he drew them. */
 export const WINDOW_KINDS = ['cross', 'round', 'square', 'tall'] as const;

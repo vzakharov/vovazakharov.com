@@ -18,6 +18,7 @@ import {
   type Place,
 } from '@/mushrooms/shared/ui';
 
+import { capOnCanvas, haloFor, type MushroomGenes, mushroomTints,toCanvas } from '../fungus/index.node-safe';
 import {
   type DoorPlace,
   doorway,
@@ -27,9 +28,6 @@ import {
   type WindowKind,
   windowSlots,
 } from '../model/house';
-import type { MushroomGenes } from '../model/mushroom-genes';
-import { capOnCanvas, toCanvas } from '../model/mushroom-outline';
-import { haloFor, mushroomTints } from './mushroom-tints';
 
 /**
  * How a house piece is painted: a mushroom's brush, and the pale line round

@@ -10,9 +10,8 @@ import {
 } from '@/mushrooms/shared/lib/geometry';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 
+import { capOnCanvas, capOutlines, hasTrumpet, type MushroomGenes, toCanvas } from '../fungus/index.node-safe';
 import { PANE, windowSlots } from '../model/house';
-import { hasTrumpet, type MushroomGenes } from '../model/mushroom-genes';
-import { capOnCanvas, capOutlines, toCanvas } from '../model/mushroom-outline';
 import { type DoorTarget, tappedDoor } from './door-tap';
 
 /**

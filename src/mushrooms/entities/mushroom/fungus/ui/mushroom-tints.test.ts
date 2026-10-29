@@ -4,20 +4,7 @@ import { describe, it } from 'node:test';
 import { contrast, luminance, mix, toHsv } from '@/mushrooms/shared/lib/colour';
 import { inkFor, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 
-import {
-  MUSHROOM_SPECIES,
-  type MushroomGenes,
-  mushroomGenes,
-  RUSSULA_TONES,
-  type Species,
-} from '../model/mushroom-genes';
-import {
-  haloFor,
-  heldHaze,
-  mushroomTints,
-  porciniMargin,
-  russulaCentre,
-} from './mushroom-tints';
+import { haloFor, heldHaze, MUSHROOM_SPECIES, type MushroomGenes, mushroomGenes, mushroomTints, porciniMargin, RUSSULA_TONES, russulaCentre,type Species } from '../index.test-only';
 
 /** Every haze a mushroom stands in, from none to the farthest place's. */
 const HAZES = [0, 0.1, 0.2, 0.3, 0.4];

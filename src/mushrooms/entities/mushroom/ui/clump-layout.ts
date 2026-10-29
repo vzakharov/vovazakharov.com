@@ -24,8 +24,7 @@ import {
   scaleAt,
 } from '@/mushrooms/shared/world';
 
-import { OPENING_SPECIES } from '../model/mushroom-genes';
-import { speciesHeight, speciesReach } from '../model/mushroom-pose';
+import { OPENING_SPECIES, speciesHeight, speciesReach } from '../fungus/index.node-safe';
 import {
   type Footed,
   grownOn,

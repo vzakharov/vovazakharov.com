@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { boxesMeet } from '@/mushrooms/shared/lib/geometry';
 
-import { mushroomGenes } from '../model/mushroom-genes';
+import { mushroomGenes } from '../fungus/index.test-only';
 import {
   capBox,
   hiddenOf,

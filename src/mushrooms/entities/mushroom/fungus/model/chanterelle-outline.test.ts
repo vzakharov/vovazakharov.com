@@ -7,15 +7,7 @@ import {
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
 
-import { mouthEdges, ridgeLines, trumpetOutlines } from './chanterelle-outline';
-import {
-  type ChanterelleGenes,
-  mushroomGenes,
-  type Species,
-} from './mushroom-genes';
-import { capOutlines, MUSHROOM_INK, stemOutline } from './mushroom-outline';
-import { stemAt } from './mushroom-pose';
-import { capBase, capSurface } from './mushroom-profile';
+import { capBase, capOutlines, capSurface,type ChanterelleGenes, mouthEdges, MUSHROOM_INK, mushroomGenes, ridgeLines, type Species, stemAt, stemOutline, trumpetOutlines } from '../index.test-only';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 

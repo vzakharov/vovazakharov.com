@@ -23,19 +23,10 @@ import {
   UNPLACED,
 } from '@/mushrooms/shared/world';
 
+import { type AreaHit, type Chorded, CURVE_STEPS, curveSteps, drawMushroom, drawMushroomShadow, type HazedGraphics, mushroomGenes, type MushroomLights, type Puffing, type Selected,type Spotted } from '../fungus';
 import type { DoorPlace, Housed } from '../model/house';
-import { mushroomGenes, type Spotted } from '../model/mushroom-genes';
-import {
-  type Chorded,
-  CURVE_STEPS,
-  curveSteps,
-} from '../model/mushroom-profile';
 import type { Footed } from '../model/placement';
 import type { Planted, Sprouting } from '../model/planted';
-import { drawMushroom, drawMushroomShadow } from './draw-mushroom';
-import type { MushroomLights } from './mushroom-light';
-import type { HazedGraphics } from './mushroom-paint';
-import type { AreaHit, Puffing, Selected } from './mushroom-selection';
 
 /** What a shown mushroom keeps of its mushroom as planted. */
 const SHOWN_OF = ['foot', 'lean', 'sprout'] as const satisfies ReadonlyArray<

@@ -10,6 +10,7 @@ import {
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
 
+import { capBase,capOutlines, hasTrumpet, headOutlines, MUSHROOM_INK, MUSHROOM_SPECIES, type MushroomGenes, mushroomGenes, type Species, splayed, stemOutline } from '../fungus/index.test-only';
 import {
   DOOR_ASPECT,
   type DoorPlace,
@@ -23,21 +24,6 @@ import {
   PANE,
   windowSlots,
 } from './house';
-import {
-  hasTrumpet,
-  MUSHROOM_SPECIES,
-  type MushroomGenes,
-  mushroomGenes,
-  type Species,
-} from './mushroom-genes';
-import {
-  capOutlines,
-  headOutlines,
-  MUSHROOM_INK,
-  stemOutline,
-} from './mushroom-outline';
-import { splayed } from './mushroom-pose';
-import { capBase } from './mushroom-profile';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 2_654_435_761);
 const everyMushroom = MUSHROOM_SPECIES.flatMap((species) =>

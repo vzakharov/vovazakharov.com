@@ -8,8 +8,8 @@ import type { Stamped } from '@/mushrooms/shared/lib/motion';
 import type { Parented } from '@/mushrooms/shared/lib/random';
 import type { Occupied } from '@/mushrooms/shared/world';
 
+import type { Mushroom } from '../fungus/index.node-safe';
 import type { Housed } from './house';
-import type { Mushroom } from './mushroom-genes';
 import type { Footed } from './placement';
 
 /** How big a sprout comes up, of its full size. */

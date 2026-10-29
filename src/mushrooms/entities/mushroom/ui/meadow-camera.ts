@@ -13,8 +13,7 @@ import {
   type Lens,
 } from '@/mushrooms/shared/world';
 
-import { GENE_RANGES, OPENING_SPECIES } from '../model/mushroom-genes';
-import { maxReach } from '../model/mushroom-pose';
+import { GENE_RANGES, maxReach,OPENING_SPECIES } from '../fungus/index.node-safe';
 import { OPENING_FEET } from '../model/placement';
 import { extremes, placeOf } from './clump-layout';
 

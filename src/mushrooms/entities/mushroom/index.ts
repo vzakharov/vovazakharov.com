@@ -1,3 +1,4 @@
+export { capFrame, capOnCanvas, capSeat, capSurface, drawMushroom, MUSHROOM_SPECIES, type MushroomGenes, mushroomGenes, mushroomLights, MushroomSelection, type Puffing,type Species, splayed, stemHalfWidth, TAP_PARTS, type TapArea, tapArea, toCanvas } from './fungus';
 export {
   DOOR_ASPECT,
   type DoorPlace,
@@ -9,21 +10,6 @@ export {
   paintedSpots,
   windowSlots,
 } from './model/house';
-export {
-  MUSHROOM_SPECIES,
-  type MushroomGenes,
-  mushroomGenes,
-  type Species,
-} from './model/mushroom-genes';
-export {
-  capOnCanvas,
-  TAP_PARTS,
-  type TapArea,
-  tapArea,
-  toCanvas,
-} from './model/mushroom-outline';
-export { capFrame, capSeat, splayed } from './model/mushroom-pose';
-export { capSurface, stemHalfWidth } from './model/mushroom-profile';
 export { OPENING_FEET } from './model/placement';
 export {
   type Planted,
@@ -43,7 +29,6 @@ export {
   SHUT_WINDOW,
   type WindowSwing,
 } from './ui/draw-house';
-export { drawMushroom } from './ui/draw-mushroom';
 export { iconGenes, iconSize, SPECIES_ICON_HEIGHT } from './ui/icon-genes';
 export { coversShown, occupantsOn } from './ui/mushroom-cover';
 export { moveMushroom } from './ui/mushroom-frame';
@@ -52,8 +37,6 @@ export {
   drawnMushrooms,
   shownMushrooms,
 } from './ui/mushroom-hits';
-export { mushroomLights } from './ui/mushroom-light';
-export { MushroomSelection, type Puffing } from './ui/mushroom-selection';
 export {
   type Body,
   paintLit,

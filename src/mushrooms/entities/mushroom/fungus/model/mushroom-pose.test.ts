@@ -3,20 +3,7 @@ import { describe, it } from 'node:test';
 
 import { containsPoint } from '@/mushrooms/shared/lib/geometry';
 
-import {
-  GENE_RANGES,
-  MUSHROOM_SPECIES,
-  mushroomGenes,
-  type Species,
-} from './mushroom-genes';
-import { capOutlines, capReach, stemOutline } from './mushroom-outline';
-import {
-  capSeat,
-  maxReach,
-  speciesReach,
-  splayed,
-  stemAt,
-} from './mushroom-pose';
+import { capOutlines, capReach, capSeat, GENE_RANGES, maxReach, MUSHROOM_SPECIES, mushroomGenes, type Species, speciesReach, splayed, stemAt,stemOutline } from '../index.test-only';
 
 const SEEDS = Array.from({ length: 2000 }, (_, index) => index * 7919 + 3);
 const genesOf = (seed: number, species: Species = 'fly-agaric') =>

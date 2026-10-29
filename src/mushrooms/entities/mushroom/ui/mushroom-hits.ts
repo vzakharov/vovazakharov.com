@@ -3,7 +3,7 @@ import * as Phaser from 'phaser';
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 import type { Graphic } from '@/mushrooms/shared/ui';
 
-import { TAP_PARTS, type TapArea } from '../model/mushroom-outline';
+import { TAP_PARTS, type TapArea } from '../fungus/index.node-safe';
 import {
   drawnHolds,
   type MushroomTarget,
