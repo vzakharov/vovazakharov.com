@@ -18,8 +18,11 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
   text: COPY.shoutOutPost.replace('{url}', SITE_CONFIG.url),
 })}`;
 
-/** The lede's `*` is the mark `ledeNote` answers. */
-const [beforeMark, afterMark] = COPY.lede.split('*');
+/**
+ * The lede's `*` and `ledeNote` are the social card's: the pledge under the
+ * lede already says it here.
+ */
+const LEDE = COPY.lede.replace('*', '');
 
 /** The site is one page: the checker, then the list the routine grows. */
 export async function UnsquattedHomePage() {
@@ -31,16 +34,13 @@ export async function UnsquattedHomePage() {
         <header>
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
           <div className={classes['lede']}>
-            {beforeMark}
-            <sup>*</sup>
-            {afterMark}{' '}
+            {LEDE}{' '}
             <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>.
           </div>
           <div className={classes['lede']}>
             {COPY.pledge} {COPY.coffeePrompt}{' '}
             <NotedSpan words={COPY.coffeeLink}>{COPY.coffeeSoon}</NotedSpan>.
           </div>
-          <p className={classes['ledeNote']}>{COPY.ledeNote}</p>
         </header>
 
         <CheckerProvider>
