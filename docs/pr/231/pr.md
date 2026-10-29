@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-29T08:36:23Z
-- **Updated:** 2026-10-29T12:51:26Z
+- **Updated:** 2026-10-29T12:54:53Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,7 +15,7 @@
 
 ## Awaiting an answer: 3
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at c5788e8). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at ce4d80b). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `src/unsquatted/pages/home/lib/lookup.ts`:44 — unresolved — last: @vzakharov (human) 2026-10-29T12:39:21Z — ".si это super intelligence (спасибо дедушке Трампу:), верни…" → [↓](#t01)
 - **T03** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T12:44:31Z — "эм, я не запускал finalize. В той сессии (она с другого акка…" → [↓](#t03)

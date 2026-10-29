@@ -104,34 +104,47 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 - **T06** — 7780ea52: `ZONES` drops `si`, `de` for `sh`, `gg`. Asked which of
   `.to .tv .cc .page .fyi .link` to add.
 - **T07** — 8033ec76: `price.ts` (type + `priceParts`) apart from `prices.ts`;
-  `lookup.ts` checks answers with its own type guards, no zod in the
-  browser (6b868cdf, the operator: «именно для этого мы его и удаляли»);
-  page scripts 313 → 228 KB gz. Asked whether the
-  poison-check extension (no zod / build-time packages from client
-  roots) goes here — the operator: «давай issue», filed as #236.
+  `lookup.ts` checks answers with its own type guards, no zod in the browser
+  (6b868cdf, the operator: «именно для этого мы его и удаляли»); page scripts
+  313 → 228 KB gz. Asked whether the poison-check extension (no zod / build-time
+  packages from client roots) goes here — the operator: «давай issue», filed as
+  #236.
 - **T08** — issue #235. **T09, T10** — answered, no change.
+
+## Fourth round (export at 23354298, three threads plus «2-да», all replied)
+
+- **T01** — 516bfe3d: `.si` back;
+  `.to .tv .cc .page .fyi .link .site .website .blog` added (22 zones).
+- **T04** — 1c52a23b: `withCause` beside `asError`, five rethrows use it.
+- **Dimmed mixin** — aa4da8af: `styles/_dimmed.scss`, four users; CLAUDE.md
+  staged (58d18699) for its `styles/` line, styling.md edited in place.
+- **T03** — answered honestly: relay-6 added finalize on its own, relay-7 quoted
+  relay-6's take line as the operator's. The muthur issue's text is in `tmp/` of
+  that session, its body re-derivable from the T03 reply; filing it was denied
+  by auto mode and waits on the operator's go-ahead.
 
 ## Left
 
-1. `/five-percent` over c7a7fc34..HEAD: the polish run's pass ran out of
-   budget and posted nothing.
-2. Fourth round, from the export at 23354298 (`## Awaiting an answer: 3`),
-   plus the operator's chat answer «2-да» — work these, reply on each thread:
+1. `/five-percent` over c7a7fc34..HEAD: the polish run's pass ran out of budget
+   and posted nothing.
+2. (done above) Fourth round, from the export at 23354298
+   (`## Awaiting an answer: 3`), plus the operator's chat answer «2-да» — work
+   these, reply on each thread:
    - **T01** (`lookup.ts`:44): «.si это super intelligence … верни»; take the
      proposed `.to .tv .cc .page .fyi .link`; check whether Porkbun sells
      `.site`, `.website`, `.blog` (`.site` 1.96/28.84, `.blog` 2.57/21.11 seen
      earlier; `.website` unchecked) and add them.
-   - **T03** (`CLAUDE.md`:1): the operator did not run `/finalize`; the
-     earlier reply (that the swap was finalize's first step) is wrong. Read
-     the screenshot in `docs/pr/231/attachments/`, find why 22c71f3d swapped
-     the staged files, and answer honestly.
-   - **T04** (`read-collection.ts`:86): «давай сделаем `withCause(error) = {
-     cause: asError(error) }`» — add it beside `asError` and use it at every
-     `{ cause: asError(error) }` site.
+   - **T03** (`CLAUDE.md`:1): the operator did not run `/finalize`; the earlier
+     reply (that the swap was finalize's first step) is wrong. Read the
+     screenshot in `docs/pr/231/attachments/`, find why 22c71f3d swapped the
+     staged files, and answer honestly.
+   - **T04** (`read-collection.ts`:86): «давай сделаем
+     `withCause(error) = { cause: asError(error) }`» — add it beside `asError`
+     and use it at every `{ cause: asError(error) }` site.
    - **Chat, `/dry`'s call, «да»**: extract the dimmed-by-colour rule (a
-     `color-mix(in srgb, <colour> <pct>, transparent)` that keeps a
-     `NotedSpan` note from being trapped under the content below) into a
-     mixin in root `styles/`, used by `site-footer.module.scss` `.note`,
+     `color-mix(in srgb, <colour> <pct>, transparent)` that keeps a `NotedSpan`
+     note from being trapped under the content below) into a mixin in root
+     `styles/`, used by `site-footer.module.scss` `.note`,
      `unsquatted-home.module.scss` `.byline`, `radio.module.scss:34`,
      `lyrics.module.scss:1`; the reason stated once.
 3. `/polish`, `/pr`.
