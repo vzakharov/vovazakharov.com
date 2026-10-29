@@ -16,7 +16,7 @@ import { Card, Section, Subheading, TextLink } from '@/shell/shared/ui';
 
 import { FEATURED_CASE_STUDY_ROUTE } from '@/blog/shared/content';
 
-import { ReadCvButton } from '../../ui/read-cv-button';
+import { ReadCvButton } from './read-cv-button';
 import { ProjectCard } from './project-card';
 import { TechLine } from './tech-line';
 

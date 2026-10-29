@@ -8,7 +8,7 @@ import { FEATURED_CASE_STUDY_ROUTE } from '@/blog/shared/content';
 
 import { messages } from '@/vova/shared/i18n';
 
-import { ReadCvButton } from './read-cv-button';
+import { ReadCvButton } from '../../work';
 
 /**
  * The engagement names are the CV's own list, read off the catalogue rather

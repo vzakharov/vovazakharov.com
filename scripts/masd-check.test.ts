@@ -314,16 +314,24 @@ describe('masd-check on sub-slices', () => {
   });
 
   it('flags a sibling sub-slice taking only one sub-slice of another', () => {
-    // `face` holds `glint`; the card's sibling `shine` takes only `glint`
-    // through `face`'s barrel, so `glint` belongs beside `face`.
+    // `face` is cut into `look` and `glint`; the card's sibling `shine` takes
+    // only `glint` through `face`'s barrel, so `glint` belongs beside `face`.
     const { stderr } = run({
-      ...CARDS,
+      ...Object.fromEntries(
+        Object.entries(CARDS).filter(
+          ([file]) => !file.startsWith(`${CARD}/face/`),
+        ),
+      ),
       'src/site/pages/home/ui.ts':
         "import { back, face, shine } from '@/blog/entities/card';\nexport const home = [back, face, shine];",
       [`${CARD}/index.ts`]:
         "export { face } from './face';\nexport { shine } from './shine';\nexport { back } from './back';",
       [`${CARD}/face/index.ts`]:
-        "export { glint } from './glint';\nexport { face } from './ui/face';",
+        "export { glint } from './glint';\nexport { face } from './look';",
+      [`${CARD}/face/look/index.ts`]: "export { face } from './ui/face';",
+      [`${CARD}/face/look/ui/face.ts`]:
+        "export { lens as face } from './lens';",
+      [`${CARD}/face/look/ui/lens.ts`]: 'export const lens = 1;',
       [`${CARD}/face/glint/index.ts`]: "export { glint } from './ui/glint';",
       [`${CARD}/face/glint/ui/glint.ts`]:
         "import { spark } from './spark';\nexport const glint = spark;",
@@ -357,6 +365,16 @@ describe('masd-check on sub-slices', () => {
       stderr,
       `${CARD}/bits: This sub-slice does not raise the modularity of its parent's imports. Consider folding it into "${CARD}".\n`,
     );
+  });
+
+  it('spares a consumer taking only the sub-slice that imports every sibling', () => {
+    // `face` imports `back`, so whoever takes `face` needs the whole card.
+    const { status, stderr } = run({
+      ...CARDS,
+      [`${CARD}/face/ui/lens.ts`]:
+        "import { back } from '../../back';\nexport const lens = back;",
+    });
+    assert.deepEqual({ status, stderr }, { status: 0, stderr: '' });
   });
 
   it('flags a segment or a module beside a sub-slice', () => {

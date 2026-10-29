@@ -115,20 +115,29 @@ function mixed(apps: readonly string[]): string[] {
   );
 }
 
-/**
- * Sibling sub-slices importing one another in a cycle. Each enters the other by
- * its barrel, which madge sees as a file like any other, so files can form a
- * DAG while the sub-slices holding them go round.
- */
-function siblingCycles(
+/** Each child sub-slice of a unit, and the siblings it imports. */
+type Siblings = Map<string, Set<string>>;
+
+/** Per unit holding sub-slices, its children and their imports of one another. */
+function siblingGraphs(
   slices: ReadonlyMap<string, readonly string[]>,
   imports: ReadonlyMap<string, ReadonlySet<string>>,
-): string[] {
-  return [...slices].flatMap(([slice, members]) => {
-    // Per parent unit, each child sub-slice and the siblings it imports.
-    const arrows = new Map<string, Map<string, Set<string>>>();
+): Map<string, Siblings> {
+  const graphs = new Map<string, Siblings>();
+  const graphOf = (parent: string): Siblings => {
+    const graph = graphs.get(parent) ?? new Map<string, Set<string>>();
+    graphs.set(parent, graph);
+    return graph;
+  };
+  for (const [slice, members] of slices) {
     for (const from of members) {
       const chain = unitsOf(from, slice);
+      for (const [index, child] of chain.entries()) {
+        const parent = chain[index - 1];
+        if (parent !== undefined && !graphOf(parent).has(child)) {
+          graphOf(parent).set(child, new Set());
+        }
+      }
       for (const to of imports.get(from) ?? []) {
         if (sliceOf(to) !== slice) continue;
         const other = unitsOf(to, slice);
@@ -140,40 +149,48 @@ function siblingCycles(
         ];
         if (child === undefined || sibling === undefined) continue;
         if (parent === undefined) continue;
-        const children = arrows.get(parent) ?? new Map<string, Set<string>>();
-        children.set(child, (children.get(child) ?? new Set()).add(sibling));
-        arrows.set(parent, children);
+        graphOf(parent).get(child)?.add(sibling);
       }
     }
-    return [...arrows].flatMap(([parent, children]) =>
-      cycles(children).map(
-        (cycle) =>
-          `${parent}: its sub-slices ${cycle.map((sub) => `"${path.basename(sub)}"`).join(', ')} import one another in a cycle; siblings import in one direction only, so move what they share into a sub-slice of its own or merge them`,
-      ),
-    );
-  });
+  }
+  return graphs;
 }
 
+/** Every sibling `from` reaches by importing, itself only through a cycle. */
+function reaches(graph: Siblings, from: string): Set<string> {
+  const seen = new Set<string>();
+  const stack = [...(graph.get(from) ?? [])];
+  for (let node = stack.pop(); node !== undefined; node = stack.pop()) {
+    if (seen.has(node)) continue;
+    seen.add(node);
+    stack.push(...(graph.get(node) ?? []));
+  }
+  return seen;
+}
+
+/**
+ * Sibling sub-slices importing one another in a cycle. Each enters the other by
+ * its barrel, which madge sees as a file like any other, so files can form a
+ * DAG while the sub-slices holding them go round.
+ */
+const siblingCycles = (graphs: ReadonlyMap<string, Siblings>): string[] =>
+  [...graphs].flatMap(([parent, graph]) =>
+    cycles(graph).map(
+      (cycle) =>
+        `${parent}: its sub-slices ${cycle.map((sub) => `"${path.basename(sub)}"`).join(', ')} import one another in a cycle; siblings import in one direction only, so move what they share into a sub-slice of its own or merge them`,
+    ),
+  );
+
 /** The strongly connected components of more than one node, each sorted. */
-function cycles(arrows: ReadonlyMap<string, ReadonlySet<string>>): string[][] {
-  const reaches = (from: string): Set<string> => {
-    const seen = new Set<string>();
-    const stack = [...(arrows.get(from) ?? [])];
-    for (let node = stack.pop(); node !== undefined; node = stack.pop()) {
-      if (seen.has(node)) continue;
-      seen.add(node);
-      stack.push(...(arrows.get(node) ?? []));
-    }
-    return seen;
-  };
+function cycles(graph: Siblings): string[][] {
   const reach = new Map(
-    [...arrows.keys()].map((node) => [node, reaches(node)]),
+    [...graph.keys()].map((node) => [node, reaches(graph, node)]),
   );
   const found = new Map<string, string[]>();
   for (const [node, reached] of reach) {
     const component = [...reached]
       .filter((other) => reach.get(other)?.has(node) === true)
-      .sort();
+      .toSorted();
     if (component.length > 1) found.set(component.join('\n'), component);
   }
   return [...found.values()];
@@ -297,8 +314,22 @@ function enteredFrom(
  * Consumers that take from a slice or a sub-slice only what one of its
  * sub-slices exports: that sub-slice belongs one level out, where both can
  * import it — a slice of its own, or a sub-slice beside the one it sits in.
+ * One that imports every sibling, directly or not, is the unit's head, and a
+ * consumer of the head needs the whole unit.
  */
-function promotions(files: readonly string[]): string[] {
+function promotions(
+  files: readonly string[],
+  graphs: ReadonlyMap<string, Siblings>,
+): string[] {
+  const isHead = (sub: string, unit: string): boolean => {
+    const graph = graphs.get(unit);
+    if (graph === undefined) return false;
+    const reached = reaches(graph, sub);
+    return [...graph.keys()].every(
+      (sibling) => sibling === sub || reached.has(sibling),
+    );
+  };
+
   // A barrel's every export name, as the sub-slice of `target` it comes from.
   const origins = new Map<string, Map<string, string | undefined>>();
   const originsOf = (barrel: string, target: string) => {
@@ -334,7 +365,9 @@ function promotions(files: readonly string[]): string[] {
   return [...taken].flatMap(([key, { subs, parent }]) => {
     const [consumer = '', target = ''] = key.split('\n');
     const [sub, ...others] = subs;
-    if (sub === undefined || others.length > 0) return [];
+    if (sub === undefined || others.length > 0 || isHead(sub, target)) {
+      return [];
+    }
     const barrel = path.join(sub, 'index.ts');
     if (existsSync(barrel) && STAYS.test(readFileSync(barrel, 'utf8'))) {
       return [];
@@ -359,11 +392,12 @@ export function subSliceProblems(
     files.filter((file) => sliceOf(file) !== undefined),
     (file) => sliceOf(file) ?? '',
   );
+  const graphs = siblingGraphs(slices, imports);
   return [
     ...nestedSegments(apps),
     ...mixed(apps),
-    ...siblingCycles(slices, imports),
+    ...siblingCycles(graphs),
     ...insignificant(slices, imports),
-    ...promotions(files),
+    ...promotions(files, graphs),
   ];
 }

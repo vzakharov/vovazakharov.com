@@ -272,6 +272,10 @@ operator's name for the design once it nests).
   relative imports reach anything. Steiger reads a sub-slice as a misnamed
   segment, so `check:masd` keeps that rule's one useful case: a segment's name
   inside a segment.
+- **A unit holding a sub-slice holds only sub-slices**, with its barrels and
+  tests at its root: the rest of it is a sub-slice too, named for its noun.
+  Siblings import one another by barrel and never in a cycle. `check:masd` holds
+  both.
 - **A sub-slice is earned by modularity**: cut off its parent — the slice, or
   the sub-slice it sits in — it must raise the modularity of the parent's own
   import graph, shipped files only. `check:masd` fails one that does not.
@@ -285,8 +289,10 @@ operator's name for the design once it nests).
   any depth: a slice whose consumer takes only one of its sub-slices has a slice
   of its own inside it, and a sub-slice whose sibling takes only one of its
   sub-slices has that one in the wrong place — it moves up beside its parent,
-  both entering it from outside. Where it goes is a call per case; where nothing
-  but `shared` could take it, ask the operator, and on their yes put
+  both entering it from outside. A sub-slice importing every sibling, directly
+  or not, is its unit's head, and a consumer taking only the head takes the
+  whole unit. Where it goes is a call per case; where nothing but `shared` could
+  take it, ask the operator, and on their yes put
   `// masd-disable promotion -- <why it cannot move>` in its `index.ts`.
 - **A page slice whose sites route different pages splits** into page slices,
   not sub-slices: four sites route only blog's article page, so
