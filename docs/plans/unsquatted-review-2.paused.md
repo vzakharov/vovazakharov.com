@@ -107,8 +107,8 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
   `lookup.ts` checks answers with its own type guards, no zod in the
   browser (6b868cdf, the operator: «именно для этого мы его и удаляли»);
   page scripts 313 → 228 KB gz. Asked whether the
-  poison-check extension (no classic zod / build-time packages from client
-  roots) goes here, on its own branch, or to an issue.
+  poison-check extension (no zod / build-time packages from client
+  roots) goes here — the operator: «давай issue», filed as #236.
 - **T08** — issue #235. **T09, T10** — answered, no change.
 
 ## Left
