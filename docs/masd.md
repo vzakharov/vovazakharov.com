@@ -196,8 +196,9 @@ and widgets. What it settled holds for any domain.
 
 A cluster inside a slice — files importing one another far more than the rest
 of the slice — becomes a **sub-slice**: a folder in the slice, or in a sub-slice,
-not named for a segment, with segments and barrels of its own (MARS, the
-operator's name for it). `pnpm masd:clusters` lists the candidates; each cut is
+not named for a segment, with segments and barrels of its own — MARS, the
+operator's name for this design once it nests. `pnpm masd:clusters` lists the
+candidates; each cut is
 a judgement, since a cluster drawn from the graph can still be the wrong noun
 (§ "Cutting a domain into slices").
 
@@ -222,9 +223,10 @@ a judgement, since a cluster drawn from the graph can still be the wrong noun
   per case, and where the import rules leave it nowhere but `shared`, the
   operator decides; on their yes, `// masd-disable promotion -- <why>` in the
   sub-slice's `index.ts` keeps it («с советом агенту (с разрешением оператора)
-  игнорить то, что просто не выносится»). The trace follows the barrels'
-  `export { … } from` lines, so `export *` and dynamic imports count as
-  untraced, and an untraced name never fires it.
+  игнорить то, что просто не выносится»). The trace reads static imports and
+  the barrels' `export { … } from` lines: a name behind `export *` is untraced
+  and never fires it, while an `import()` is not seen at all, so a consumer
+  taking the rest of a slice dynamically would be flagged — none does today.
 - **A page slice whose sites route different pages splits.** Four sites route
   only blog's article page, so the article and the collection index are page
   slices of their own rather than sub-slices of one.
