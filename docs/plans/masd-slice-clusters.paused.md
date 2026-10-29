@@ -56,40 +56,44 @@ Nothing built yet. In discussion, the search changed:
   component (mushrooms `control-actions` ×14, maya home), and pairs at ΔQ near
   zero.
 
-## This bite — MARS: clusters become sub-slices
+- **Bite 3, half built — MARS sub-slices.** The operator: «Steiger отключаем,
+  делаем здесь — без этого какой вообще смысл этого пиара?» A sub-slice is any
+  folder in a slice or sub-slice not named for a segment (`SEGMENTS` and
+  `subSlicePath` in `eslint/masd-graph.ts`; `i18n` joined the set, relay-4's
+  recommendation, the operator not having answered). Built:
+  `vova/sub-slice-entry` (entry by the sub-slice's barrel, from inside the
+  slice); Steiger's `fsd/no-reserved-folder-names` off in the sliced layers
+  (`steiger.config.mjs`), `check:masd` flagging a segment's name inside a
+  segment instead; `check:masd` failing an insignificant sub-slice (cut ΔQ on
+  its parent's graph ≤ 0) and a **promotion** — a consumer taking from a slice
+  only one sub-slice's exports — an error, not a warning, on the operator's «ну
+  тогда ок, error, и с советом агенту (с разрешением оператора) игнорить то, что
+  просто не выносится»: the escape is `// masd-disable promotion -- <why>` in
+  the sub-slice's `index.ts`, on the operator's yes. Shared code in
+  `scripts/lib/slice-graph.ts` (integer cut gain, which killed the `5.6e-17`
+  hit) and `scripts/lib/sub-slices.ts`; `masd:clusters` recurses into
+  sub-slices. The first cut, `prose/` in `blog/entities/document`, tripped the
+  promotion check at once (music's story took only `ProseContent`), so
+  `ProseContent` went to blog's `shared/ui` instead.
 
-The operator, after relay-4's analysis: «Steiger отключаем, делаем здесь — без
-этого какой вообще смысл этого пиара?» A cluster the report finds stays in its
-slice as a **sub-slice**: a folder shaped like a slice, with its own segments
-and barrels, recursively — MARS, «multi-app recursive slices».
+## Rest of the bite
 
-- **A sub-slice is any folder in a slice or sub-slice not named for a standard
-  segment** (`ui`, `model`, `lib`, `api`, `config`, `i18n` — one constant in
-  `eslint/masd-graph.ts`). `i18n` joins the set, so the four existing `i18n/`
-  folders stay segments and a one-file one is not judged insignificant (the
-  recommendation from relay-4, taken while the operator has not answered).
-- **Steiger's `fsd/no-reserved-folder-names` goes off** in the sliced layers: it
-  forbids exactly a sub-slice's own segments. `check:masd` takes over what it
-  still guards — a standard segment's name below a standard segment.
-- **Entry into a sub-slice is through its barrel**, for everything outside it in
-  the same slice: a rule of our own in `eslint/rules/`, since `boundaries` reads
-  a slice as one element. Outside the slice nothing changes — the slice's barrel
-  is still the only door.
-- **A sub-slice is earned**: `check:masd` fails one whose cut does not raise the
-  modularity of its parent's graph (ΔQ ≤ 0), in integer arithmetic shared with
-  the report, which fixes the `5.6e-17` float hit.
-- **The report recurses** into sub-slices, and **warns of a promotion**: a
-  consumer that takes from a slice only what one of its sub-slices exports (the
-  operator: «пока что в виде ворнинга, потому что _куда_ его вывести — задача
-  нетривиальная»). A warning, so it lives in the report, never a gate.
-- **The hits that read right are cut** into sub-slices, one commit each,
-  starting with `blog/entities/document` → `prose/`.
-- `docs/masd.md` and `.claude/rules/masd.md` describe sub-slices.
+- **Cut the hits that read right into sub-slices**, one commit each, running
+  `check:masd`, `lint:fsd`, ESLint and `tsc` after each: a promotion error there
+  is a destination call, made per case or asked. Candidates
+  (`pnpm masd:clusters`): blog `pages/documents` article-page, vova `pages/home`
+  work-section, maya `pages/whisper` typewriter, mushrooms `entities/landscape`
+  paint-backdrop, `entities/mushroom` drawing (mushroom-selection),
+  `features/insects-fly` air-spots, music `features/player` media session,
+  `pages/blind-test`. A page slice's router takes one component, so a page whose
+  component sits in its sub-slice trips promotion — expect that and judge it.
+- **Docs**: `docs/masd.md` and `.claude/rules/masd.md` describe sub-slices, the
+  barrel rule, significance, promotion and its escape, and the Steiger override
+  (the rule's "two overrides" line is now three).
 
 ## Rest of the elephant
 
-- **Where a promoted sub-slice goes** — the report only says which; a lower
-  layer or `shared` is a call per case under the import rules.
+- **Promotion's destination** stays a call per case; nothing proposes one.
 - **Renaming MASD to MARS** across files and scripts (`masd.json`, `check:masd`,
   …) — asked of the operator, not done in this bite.
 - **Tune the cluster report against what it prints**: a bar above `ΔQ > 0`,
