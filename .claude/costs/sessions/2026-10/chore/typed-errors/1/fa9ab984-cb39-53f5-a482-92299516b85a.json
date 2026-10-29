@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 80249,
+    "cacheReadTokens": 2705807,
+    "outputTokens": 14356,
+    "thinkingTokens": 3803,
+    "responses": 23,
+    "costUsd": 1.4704573999999997
+  },
+  "estimate": {
+    "at": "2026-10-29T09:49:59.525Z",
+    "parts": [
+      {
+        "hours": 8.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "197 throw sites in 103 files each need a class named for what failed — mechanical in bulk, but naming is per-site judgement a junior would get inconsistent"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the rule's shape, the asError helper and the eslint/ self-containment call touch repo-wide conventions"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T09:48:49.778Z",
+    "contextTokens": 97860,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 34765,
+      "cacheReadTokens": 61684,
+      "outputTokens": 483,
+      "thinkingTokens": 225,
+      "responses": 1,
+      "costUsd": 0.30012479999999997
+    }
+  },
+  "sessionId": "fa9ab984-cb39-53f5-a482-92299516b85a",
+  "branch": "chore/typed-errors",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task Ввести ESLint-правило, запрещающее голый `new Error(…)`, и перевести на него весь репозиторий — сегодня это около 185 мест в 97 файлах. Каждое место броса…",
+  "prs": [
+    234
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEqmhWKawGUCbW9brg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T09:48:44.844Z",
+  "lastResponseAt": "2026-10-29T09:51:36.659Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 80249,
+    "cacheReadTokens": 2705807,
+    "outputTokens": 14356,
+    "thinkingTokens": 3803,
+    "responses": 23,
+    "costUsd": 1.4704573999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 80249,
+      "cacheReadTokens": 2705807,
+      "outputTokens": 14356,
+      "thinkingTokens": 3803,
+      "responses": 23,
+      "costUsd": 1.4704573999999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 23,
+    "matched": 23,
+    "matchedTableUsd": 1.4704573999999997,
+    "matchedEventUsd": 1.4704574,
+    "unseen": {}
+  }
+}
