@@ -1,0 +1,15 @@
+{
+  "pr": 231,
+  "verdicts": [
+    {
+      "comment": 4412671259,
+      "about": "Look up the hidden zones only once the more-tlds toggle is opened",
+      "verdict": 0.9
+    },
+    {
+      "comment": 4412672222,
+      "about": "Move the card-only copy keys into a `card` sub-object of en.json",
+      "verdict": 0.2
+    }
+  ]
+}

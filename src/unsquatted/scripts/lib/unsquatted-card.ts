@@ -3,11 +3,11 @@
  * mark and the wordmark over the hero's lede, beside a panel of the first
  * listed names, an empty name field closing it and a count of the rest.
  *
- * It reads what the site renders — the listed names through the module the
- * home page reads, the words from its catalogue — so adding a name re-flags
- * the card, and the card cannot say what the page has stopped saying. Of the
- * names it takes only those with no `shownUntil`, so a date passing never
- * changes the card on a day nobody committed.
+ * It reads the listed names through the module the home page reads, and its
+ * words from the page's catalogue, so adding a name re-flags the card and the
+ * card cannot show a name the page has stopped listing. Of the names it takes
+ * only those with no `shownUntil`, so a date passing never changes the card on
+ * a day nobody committed.
  *
  * The wordmark is set in Fraunces as on the page, the font staged beside the
  * card from `@fontsource-variable/fraunces` — a `file://` page has no route to
