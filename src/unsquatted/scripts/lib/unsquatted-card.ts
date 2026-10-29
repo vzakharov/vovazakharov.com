@@ -1,0 +1,157 @@
+/**
+ * unsquatted.com's social card, as a page for `og-render.ts` to screenshot: the
+ * mark and the wordmark over the hero's lede, beside a panel of the newest
+ * listed names, an empty name field closing it and a count of the rest.
+ *
+ * It reads what the site renders — the listed names through the module the
+ * home page reads, the words from its catalogue — so adding a name re-flags
+ * the card, and the card cannot say what the page has stopped saying.
+ *
+ * The faces are the ones a `file://` page finds on the machine rendering it
+ * (DejaVu, under Georgia and Arial's names), never the site's web fonts; the
+ * wordmark's tight tracking is set for DejaVu Serif Bold.
+ */
+
+import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+
+import { COPY, PICKS } from '@/unsquatted/pages/home/index.server-only';
+
+import { escapeHtml, type StagedPage } from '@/kernel/scripts/lib/og-render';
+
+/** How many listed names the panel has room for above the name field. */
+const SHOWN = 5;
+
+const PAPER = '#f6f7f2';
+const INK = '#1d2420';
+const INK_DIM = '#5d6b63';
+const GREEN = '#2f6b4f';
+const RULE = '#e3e7df';
+
+const SERIF = `Georgia, 'DejaVu Serif', serif`;
+const SANS = `'DejaVu Sans', Arial, sans-serif`;
+const MONO = `'DejaVu Sans Mono', monospace`;
+
+const MARK = `<svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="${GREEN}" />
+        <path d="M20 18v17a12 12 0 0 0 24 0V18" fill="none" stroke="${PAPER}" stroke-width="7" stroke-linecap="round" />
+      </svg>`;
+
+/** The lede, its first sentence the headline and the rest under it. */
+function lede(): readonly [string, string] {
+  const [head = '', ...rest] = `${COPY.lede} ${COPY.blazing}.`.split('. ');
+
+  return [`${head}.`, rest.join('. ')];
+}
+
+const more = (count: number) =>
+  count > 0 ? `+ ${count} more &amp; counting` : '&amp; counting';
+
+export function unsquattedCard(): StagedPage {
+  const [headline, subline] = lede();
+  const rows = PICKS.slice(0, SHOWN)
+    .map(
+      ({ domain }) => `          <li>
+            <span class="domain">${escapeHtml(domain)}</span>
+            <span class="grab">${escapeHtml(COPY.verdict.free)}</span>
+          </li>`,
+    )
+    .join('\n');
+
+  return {
+    page: `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html { zoom: ${SCALE}; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        box-sizing: border-box;
+        width: ${CANVAS.width}px;
+        height: ${CANVAS.height}px;
+        padding: 56px 80px;
+        display: flex;
+        gap: 48px;
+        overflow: hidden;
+        background: ${PAPER};
+        color: ${INK};
+        font-family: ${SANS};
+      }
+      header svg { flex: none; }
+      main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+      header { display: flex; align-items: center; gap: 18px; }
+      .wordmark {
+        font-family: ${SERIF};
+        font-size: 72px;
+        font-weight: 700;
+        letter-spacing: -2px;
+        line-height: 1;
+      }
+      .headline { margin: auto 0 0; font-size: 42px; line-height: 1.33; }
+      .subline { margin: 20px 0 auto; font-size: 32px; color: ${INK_DIM}; }
+      .url { font-family: ${MONO}; font-size: 28px; font-weight: 700; color: ${GREEN}; }
+      aside {
+        flex: none;
+        box-sizing: border-box;
+        width: 448px;
+        padding: 36px 32px 28px;
+        border: 2px solid ${RULE};
+        border-radius: 20px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 22px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: ${INK_DIM};
+      }
+      ul { margin: 0; padding: 0; list-style: none; }
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 12px 0;
+        border-bottom: 2px solid ${RULE};
+      }
+      li:last-child { border-bottom: none; }
+      .domain { font-family: ${MONO}; font-size: 27px; }
+      .grab { font-size: 22px; color: ${GREEN}; }
+      .field {
+        margin-top: 12px;
+        padding: 10px 16px;
+        border: 2px solid ${RULE};
+        border-radius: 10px;
+        font-family: ${MONO};
+        font-size: 25px;
+        color: #a3aea7;
+      }
+      .more { margin: auto 0 0; padding-top: 16px; font-size: 22px; color: ${INK_DIM}; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+      ${MARK}
+        <span class="wordmark">Unsquatted</span>
+      </header>
+      <p class="headline">${escapeHtml(headline)}</p>
+      <p class="subline">${escapeHtml(subline)}</p>
+      <span class="url">unsquatted.com</span>
+    </main>
+    <aside>
+      <h2>${escapeHtml(COPY.listHeading)}</h2>
+      <ul>
+${rows}
+      </ul>
+      <div class="field">Your name…</div>
+      <p class="more">${more(PICKS.length - SHOWN)}</p>
+    </aside>
+  </body>
+</html>
+`,
+    files: {},
+  };
+}

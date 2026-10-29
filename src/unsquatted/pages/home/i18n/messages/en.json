@@ -15,10 +15,10 @@
   "moreZones": "more tlds ↓",
   "fewerZones": "fewer tlds ↑",
   "listHeading": "Up for grabs",
-  "register": "Register →",
+  "register": "grab →",
   "verdict": {
     "pending": "checking…",
-    "free": "available →",
+    "free": "grab →",
     "maybe": "may be available →",
     "taken": "taken",
     "takenSince": "taken {year}",
