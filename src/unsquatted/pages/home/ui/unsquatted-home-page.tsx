@@ -44,9 +44,7 @@ export async function UnsquattedHomePage() {
           <p className={classes['lede']}>{LEDE}</p>
           <div className={classes['byline']}>
             {BEFORE_BLAZING}
-            <NotedSpan words={<em>{COPY.blazing}</em>}>
-              {COPY.blazingWhy}
-            </NotedSpan>
+            <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>
             {AFTER_BLAZING}
           </div>
         </header>

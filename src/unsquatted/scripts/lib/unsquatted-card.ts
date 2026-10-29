@@ -80,7 +80,7 @@ ${DICE_FACES.map(
 
 /** The lede the headline, the card's own shorter byline under it. */
 function lede(): readonly [string, string] {
-  return [COPY.lede, COPY.cardByline.replace('{blazing}', COPY.blazing)];
+  return [COPY.lede, COPY.cardByline];
 }
 
 const more = (count: number) =>
