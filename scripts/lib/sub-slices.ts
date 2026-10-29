@@ -196,11 +196,20 @@ function cycles(graph: Siblings): string[][] {
   return [...found.values()];
 }
 
-/** Sub-slices whose cut does not raise the modularity of their parent's graph. */
+/**
+ * Sub-slices earned neither way: their cut does not raise the modularity of
+ * their parent's graph, and fewer than two siblings import them. The second is
+ * what keeps a piece two siblings share below both of them, and only while both
+ * still do.
+ */
 function insignificant(
   slices: ReadonlyMap<string, readonly string[]>,
   imports: ReadonlyMap<string, ReadonlySet<string>>,
+  graphs: ReadonlyMap<string, Siblings>,
 ): string[] {
+  const shared = (sub: string, parent: string): boolean =>
+    [...(graphs.get(parent) ?? [])].filter(([, targets]) => targets.has(sub))
+      .length >= 2;
   return [...slices].flatMap(([slice, members]) => {
     const parents = new Map<string, string>();
     for (const file of members) {
@@ -212,10 +221,11 @@ function insignificant(
     return [...parents].flatMap(([sub, parent]) => {
       const family = members.filter((file) => within(file, parent));
       const part = new Set(family.filter((file) => within(file, sub)));
-      return cutGain(part, edgesWithin(family, imports)) > 0
+      return cutGain(part, edgesWithin(family, imports)) > 0 ||
+        shared(sub, parent)
         ? []
         : [
-            `${sub}: This sub-slice does not raise the modularity of its parent's imports. Consider folding it into "${parent}".`,
+            `${sub}: This sub-slice neither raises the modularity of its parent's imports nor is imported by two of its siblings. Consider folding it into "${parent}".`,
           ];
     });
   });
@@ -397,7 +407,7 @@ export function subSliceProblems(
     ...nestedSegments(apps),
     ...mixed(apps),
     ...siblingCycles(graphs),
-    ...insignificant(slices, imports),
+    ...insignificant(slices, imports, graphs),
     ...promotions(files, graphs),
   ];
 }

@@ -276,15 +276,20 @@ operator's name for the design once it nests).
   tests at its root: the rest of it is a sub-slice too, named for its noun.
   Siblings import one another by barrel and never in a cycle. `check:masd` holds
   both.
-- **A sub-slice is earned by modularity**: cut off its parent — the slice, or
-  the sub-slice it sits in — it must raise the modularity of the parent's own
-  import graph, shipped files only. `check:masd` fails one that does not.
+- **A sub-slice is earned by modularity or by two consumers**: cut off its
+  parent — the slice, or the sub-slice it sits in — it raises the modularity of
+  the parent's own import graph, shipped files only; or two of its siblings
+  import it. `check:masd` fails one earned neither way, so a shared sub-slice
+  folds back once one of its two consumers lets go of it.
 - **A cluster the graph shows is cut**: `masd:clusters` fails while a slice or
-  sub-slice holds a piece entered by one file that would pass that bar, the rest
-  passing it too. The cut is its root's sub-slice, the root becoming its barrel;
-  a cluster drawn from the graph can still be the wrong noun (§ "Cutting a
-  domain into slices"), so where it should stay, ask the operator, and on their
-  yes put `// masd-disable cluster -- <why it stays>` in its root.
+  sub-slice holds a piece entered by one file that would pass the modularity
+  bar, the rest passing it too. The cut is its root's sub-slice, the root
+  becoming its barrel; what the piece takes from the rest goes into a third
+  sub-slice below both, which the two consumers earn, since the rest importing
+  the root and the piece importing the rest would be a cycle. The gate prints
+  that third part. A cluster drawn from the graph can still be the wrong noun (§
+  "Cutting a domain into slices"), so where it should stay, ask the operator,
+  and on their yes put `// masd-disable cluster -- <why it stays>` in its root.
 - **A consumer taking only one sub-slice's exports is a promotion**, an error at
   any depth: a slice whose consumer takes only one of its sub-slices has a slice
   of its own inside it, and a sub-slice whose sibling takes only one of its

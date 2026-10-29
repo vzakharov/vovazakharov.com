@@ -46,7 +46,10 @@ A sub-slice and a cluster are held one level down by the same bar, on their
 parent unit's own graph, the cut's gain computed as an integer
 (`scripts/lib/slice-graph.ts`) so that no float residue reads as a gain. The
 app's graph is the wrong one there: past a few hundred edges, modularity's
-resolution limit lets no split inside a slice pay for its one door.
+resolution limit lets no split inside a slice pay for its one door. A sub-slice
+two siblings import passes without it: a dominator subtree takes things from the
+rest of its unit, and cut off, those files have to sit below both the subtree
+and what imports its root, a piece the graph rarely calls a module of its own.
 
 ## A cluster is a dominator subtree
 

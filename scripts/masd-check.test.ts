@@ -348,8 +348,25 @@ describe('masd-check on sub-slices', () => {
     );
   });
 
-  it('flags a sub-slice the rest of its parent leans on throughout', () => {
+  it('flags a sub-slice one sibling leans on throughout', () => {
     const { stderr } = run({
+      ...CARDS,
+      'src/site/pages/home/ui.ts':
+        "import { back, face } from '@/blog/entities/card';\nexport const home = [back, face];",
+      [`${CARD}/back/ui/back.ts`]:
+        "import { bit } from '../../bits';\nexport { edge as back } from './edge';\nexport const b = bit;",
+      [`${CARD}/back/ui/edge.ts`]:
+        "import { bit } from '../../bits';\nexport const edge = bit;",
+      [`${CARD}/bits/index.ts`]: 'export const bit = 1;',
+    });
+    assert.equal(
+      stderr,
+      `${CARD}/bits: This sub-slice neither raises the modularity of its parent's imports nor is imported by two of its siblings. Consider folding it into "${CARD}".\n`,
+    );
+  });
+
+  it('spares a sub-slice two siblings share, modular or not', () => {
+    const { status, stderr } = run({
       ...CARDS,
       'src/site/pages/home/ui.ts':
         "import { back, face } from '@/blog/entities/card';\nexport const home = [back, face];",
@@ -361,10 +378,7 @@ describe('masd-check on sub-slices', () => {
         "import { bit } from '../../bits';\nexport const lens = bit;",
       [`${CARD}/bits/index.ts`]: 'export const bit = 1;',
     });
-    assert.equal(
-      stderr,
-      `${CARD}/bits: This sub-slice does not raise the modularity of its parent's imports. Consider folding it into "${CARD}".\n`,
-    );
+    assert.deepEqual({ status, stderr }, { status: 0, stderr: '' });
   });
 
   it('spares a consumer taking only the sub-slice that imports every sibling', () => {

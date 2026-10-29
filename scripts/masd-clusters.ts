@@ -48,7 +48,13 @@ const STAYS = /\/\/ masd-disable cluster -- \S/;
 
 const BARRELS = new Set(PUBLIC_API);
 
-type Cluster = { root: string; members: readonly string[]; gain: number };
+/** `shared`: what the cluster takes from the rest, the sub-slice below both. */
+type Cluster = {
+  root: string;
+  members: readonly string[];
+  shared: readonly string[];
+  gain: number;
+};
 
 /** The folder right below `unit` a file sits in, or the file itself at its root. */
 const partOf = (file: string, unit: string): string => {
@@ -134,6 +140,26 @@ function connected(
   return reached.size === files.length;
 }
 
+/**
+ * Every file outside `cluster` it reaches. Cut off as the rest's sub-slice, the
+ * rest still importing the root, these would close a cycle between the two, so
+ * they go into a third below both. None imports the cluster back: the files
+ * form no cycle, so nothing the cluster reaches reaches it.
+ */
+function takenFromRest(
+  cluster: ReadonlySet<string>,
+  below: (file: string) => readonly string[],
+): Set<string> {
+  const found = new Set<string>();
+  const stack = [...cluster].flatMap((file) => below(file));
+  for (let file = stack.pop(); file !== undefined; file = stack.pop()) {
+    if (cluster.has(file) || found.has(file)) continue;
+    found.add(file);
+    stack.push(...below(file));
+  }
+  return found;
+}
+
 function unitClusters(
   unit: string,
   members: readonly string[],
@@ -200,6 +226,7 @@ function unitClusters(
     candidates.push({
       root,
       members: [...cluster].toSorted(),
+      shared: [...takenFromRest(cluster, below)].toSorted(),
       gain: cutGain(cluster, edges),
     });
   }
@@ -245,17 +272,23 @@ function report(): { text: string; flagged: number } {
     if (clusters.length === 0) continue;
     flagged++;
     lines.push(`${unit} (${members.length} files)`);
-    for (const { root, members: cluster, gain } of clusters) {
+    for (const { root, members: cluster, shared, gain } of clusters) {
       lines.push(
         `  ${path.relative(unit, root)}: ${cluster.length} files, ΔQ ${gain.toPrecision(2)}`,
         ...cluster.map((file) => `    ${path.relative(unit, file)}`),
       );
+      if (shared.length > 0) {
+        lines.push(
+          '    it takes from the rest, a sub-slice below both:',
+          ...shared.map((file) => `      ${path.relative(unit, file)}`),
+        );
+      }
     }
   }
   lines.push(`${flagged} of ${all.size} slices and sub-slices hold a cluster.`);
   if (flagged > 0) {
     lines.push(
-      'Cut each into a sub-slice entered by its root. Where one should stay, ask the operator, and on their yes put "// masd-disable cluster -- <why it stays>" in its root.',
+      'Cut each into a sub-slice entered by its root, and what it takes from the rest into a sub-slice of its own unless the rest is nothing more. Where one should stay, ask the operator, and on their yes put "// masd-disable cluster -- <why it stays>" in its root.',
     );
   }
   return { text: `${lines.join('\n')}\n`, flagged };
