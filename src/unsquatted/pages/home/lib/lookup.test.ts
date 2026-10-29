@@ -238,10 +238,12 @@ describe('rdapVerdict', () => {
     { eventAction: 'registration', eventDate: '2026-07-29T00:00:00Z' },
   ];
 
-  it('reads a record as taken since its registration year', () => {
+  const expires = '2027-07-29T00:00:00Z';
+
+  it('reads a record as taken since its registration year, until its expiry', () => {
     assert.deepEqual(
       rdapVerdict(200, { events }, Date.parse('2026-10-29T00:00:00Z')),
-      { state: 'taken', since: '2026' },
+      { state: 'taken', since: '2026', expires },
     );
   });
 
@@ -258,7 +260,12 @@ describe('rdapVerdict', () => {
         },
         Date.parse('2027-09-03T00:00:00Z'),
       ),
-      { state: 'taken', since: '2026', frees: { left: 3, unit: 'day' } },
+      {
+        state: 'taken',
+        since: '2026',
+        expires,
+        frees: { left: 3, unit: 'day' },
+      },
     );
   });
 

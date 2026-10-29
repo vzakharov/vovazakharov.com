@@ -22,6 +22,7 @@
     "maybe": "may be available →",
     "taken": "taken",
     "takenSince": "taken {year}",
+    "expires": "Registered until {date}",
     "own": "seriously?",
     "unknown": "no answer"
   },

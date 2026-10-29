@@ -27,6 +27,8 @@ export type Verdict =
   | {
       state: 'taken';
       since: string | undefined;
+      /** The registration's expiry, as the registry dates it. */
+      expires?: string;
       /** Set only for a name the registry is about to release. */
       frees?: Release;
     }
@@ -269,10 +271,12 @@ export function rdapVerdict(
   const dated = (action: string) =>
     events.find(({ eventAction }) => eventAction === action)?.eventDate;
   const frees = freesIn(statuses, dated, now);
+  const expires = dated('expiration');
 
   return {
     state: 'taken',
     since: dated('registration')?.slice(0, 4),
+    ...(expires === undefined ? {} : { expires }),
     ...(frees === undefined ? {} : { frees }),
   };
 }

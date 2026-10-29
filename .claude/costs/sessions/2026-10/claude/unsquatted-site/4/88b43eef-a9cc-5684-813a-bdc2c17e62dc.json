@@ -1,22 +1,22 @@
 {
   "total": {
-    "inputTokens": 12,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 48730,
-    "cacheReadTokens": 582436,
-    "outputTokens": 1341,
-    "thinkingTokens": 109,
-    "responses": 6,
-    "costUsd": 0.5331952
+    "inputTokens": 1264,
+    "cacheWrite5mTokens": 74692,
+    "cacheWrite1hTokens": 112911,
+    "cacheReadTokens": 5109341,
+    "outputTokens": 13978,
+    "thinkingTokens": 2513,
+    "responses": 40,
+    "costUsd": 2.3821822999999998
   },
   "estimate": {
-    "at": "2026-10-29T09:54:43.116Z",
+    "at": "2026-10-29T09:57:00.480Z",
     "parts": [
       {
-        "hours": 2.5,
+        "hours": 2.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "a repo-wide lint rule rolled out per the operator's call, and eleven review replies grounded in the commits"
+        "comment": "a hover hint wired from the lookup's raw expiry through the verdict, plus review replies grounded in the commits"
       },
       {
         "hours": 0.5,
@@ -47,52 +47,85 @@
   "branch": "claude/unsquatted-site",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-site — Steiger зелёный, четыре варианта OG-карточки и вопрос про lint-правило ждут выбора; дальше mantine-styles, ответы в тредах …",
-  "prs": [],
+  "prs": [
+    231
+  ],
   "url": "https://claude.ai/code/session_01DaohkDBQquUWNCXfpqUvPU",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T09:54:25.118Z",
-  "lastResponseAt": "2026-10-29T09:54:40.762Z",
+  "lastResponseAt": "2026-10-29T09:58:19.589Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 12,
+    "inputTokens": 70,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 48730,
-    "cacheReadTokens": 582436,
-    "outputTokens": 1341,
-    "thinkingTokens": 109,
-    "responses": 6,
-    "costUsd": 0.5331952
+    "cacheWrite1hTokens": 112911,
+    "cacheReadTokens": 4896606,
+    "outputTokens": 13032,
+    "thinkingTokens": 2513,
+    "responses": 35,
+    "costUsd": 2.1435292
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 74692,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
+    "cacheReadTokens": 212735,
+    "outputTokens": 923,
     "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "responses": 4,
+    "costUsd": 0.23852299999999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 12,
+      "inputTokens": 70,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 48730,
-      "cacheReadTokens": 582436,
-      "outputTokens": 1341,
-      "thinkingTokens": 109,
-      "responses": 6,
-      "costUsd": 0.5331952
+      "cacheWrite1hTokens": 112911,
+      "cacheReadTokens": 4896606,
+      "outputTokens": 13032,
+      "thinkingTokens": 2513,
+      "responses": 35,
+      "costUsd": 2.1435292
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 74692,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 212735,
+      "outputTokens": 923,
+      "thinkingTokens": 0,
+      "responses": 4,
+      "costUsd": 0.23852299999999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1186,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 23,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00013010000000000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 6,
-    "matched": 6,
-    "matchedTableUsd": 0.5331952,
-    "matchedEventUsd": 0.5331952,
-    "unseen": {}
+    "events": 40,
+    "matched": 39,
+    "matchedTableUsd": 2.3820522,
+    "matchedEventUsd": 2.3607787000000005,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1186,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 23,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00013010000000000002
+      }
+    }
   }
 }

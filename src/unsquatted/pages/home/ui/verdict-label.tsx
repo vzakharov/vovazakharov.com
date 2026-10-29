@@ -1,4 +1,4 @@
-import { TextLink } from '@/shell/shared/ui';
+import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
 import type { WithCopy } from '../i18n';
 import type { Release, Verdict, WithDomain } from '../lib/lookup';
@@ -83,6 +83,26 @@ export function PriceHint({ price, copy }: PriceHintProps) {
   );
 }
 
+// The registry's date as it gives it, so a reader east or west of UTC sees
+// the same day the record does.
+const EXPIRY_DATE = new Intl.DateTimeFormat('en-GB', {
+  dateStyle: 'long',
+  timeZone: 'UTC',
+});
+
+/** The verdict's words, carrying the registration's expiry where it is known. */
+function verdictText(copy: Copy, text: string, verdict: Verdict | undefined) {
+  if (verdict?.state !== 'taken' || verdict.expires === undefined) return text;
+
+  const date = EXPIRY_DATE.format(Date.parse(verdict.expires));
+
+  return (
+    <NotedSpan words={text}>
+      {copy.verdict.expires.replace('{date}', date)}
+    </NotedSpan>
+  );
+}
+
 /** One zone's answer, a link to register it where it is free or may be. */
 export function VerdictLabel({
   domain,
@@ -103,7 +123,7 @@ export function VerdictLabel({
         {registrable ? (
           <TextLink href={registerUrl(domain)}>{text}</TextLink>
         ) : (
-          text
+          verdictText(copy, text, verdict)
         )}
       </span>
       {registrable && price !== undefined && <PriceHint {...{ price, copy }} />}
