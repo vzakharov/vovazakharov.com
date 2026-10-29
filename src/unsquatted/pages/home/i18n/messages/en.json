@@ -12,6 +12,8 @@
   "checkButton": "Check",
   "dice": "Roll a random name",
   "cantCheck": "can’t check that domain yet",
+  "moreZones": "more tlds ↓",
+  "fewerZones": "fewer tlds ↑",
   "listHeading": "Up for grabs",
   "register": "Register ~$11 →",
   "taken": "taken",

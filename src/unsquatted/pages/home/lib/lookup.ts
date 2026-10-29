@@ -28,6 +28,9 @@ export const ZONES = [
   'co',
   'app',
   'dev',
+  'me',
+  'xyz',
+  'ly',
   'si',
   'de',
 ] as const;

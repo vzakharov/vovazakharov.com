@@ -64,6 +64,27 @@
   min-width: 0;
 }
 
+.diceBack {
+  fill: var(--color-background);
+}
+
+.diceFront {
+  fill: var(--color-surface);
+}
+
+.dicePipsBack,
+.dicePipsFront {
+  stroke: none;
+}
+
+.dicePipsBack {
+  fill: currentcolor;
+}
+
+.dicePipsFront {
+  fill: var(--color-accent);
+}
+
 .input {
   border-color: var(--color-border-hairline);
   background: var(--color-surface);
@@ -82,11 +103,36 @@
   list-style: none;
 }
 
+// Three rows at most until opened: three columns of them, two on a phone.
 .zones {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-top: 12px;
+
+  &[data-open='false'] > :nth-child(n + 10) {
+    display: none;
+  }
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    &[data-open='false'] > :nth-child(n + 7) {
+      display: none;
+    }
+  }
+}
+
+.moreZones {
+  margin-top: 10px;
+  color: var(--unsquatted-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+  }
 }
 
 .zone {
@@ -123,6 +169,13 @@
   &[data-state='taken'] {
     color: var(--unsquatted-taken);
   }
+}
+
+// A line of its own under the zone's name and verdict.
+.aside {
+  flex-basis: 100%;
+  color: var(--unsquatted-muted);
+  font-size: 0.8rem;
 }
 
 // A register link takes its label's colour, not the anchors' foreground.

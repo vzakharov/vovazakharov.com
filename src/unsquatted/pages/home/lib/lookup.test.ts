@@ -53,9 +53,9 @@ describe('rowsFor', () => {
   });
 
   it('leads with a typed zone it cannot check, marked so', () => {
-    const rows = rowsFor('fox', 'xyz');
+    const rows = rowsFor('fox', 'ru');
 
-    assert.deepEqual(rows[0], { domain: 'fox.xyz', checkable: false });
+    assert.deepEqual(rows[0], { domain: 'fox.ru', checkable: false });
     assert.equal(rows.length, ZONES.length + 1);
   });
 });
