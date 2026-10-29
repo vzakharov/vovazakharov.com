@@ -17,7 +17,9 @@ Each verdict in the ledger now records why: what the operator took or
 turned down, and the reason, so later proposals can learn from more
 than a score. tally.py --check, and so vet, fails a row without it. A
 proposal the operator never answered gets no row, since silence is
-often no time to look.
+often no time to look; one they did answer, in its thread or in a
+session that relays the answer there, stops /finalize until it has
+one, which answered.py checks against the PR's threads.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
