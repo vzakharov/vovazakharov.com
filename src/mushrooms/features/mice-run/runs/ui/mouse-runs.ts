@@ -43,6 +43,12 @@ import {
 import type { Shown } from '@/mushrooms/entities/mushroom';
 
 import {
+  doorEnd,
+  drawRunner,
+  type PaintedEnd,
+  type ShownRunner,
+} from '../../runner';
+import {
   answerTap,
   entered,
   FLEE_EVERY,
@@ -62,12 +68,6 @@ import {
   doorShownAt,
   type MouseDoor,
 } from './mouse-door';
-import {
-  doorEnd,
-  drawRunner,
-  type PaintedEnd,
-  type ShownRunner,
-} from './runner-shown';
 
 /** What a run reads of a shown mushroom's house: whether a door is in, and the mouse behind it. */
 type MouseHouse = { doored: boolean; mouse: Tapped };
