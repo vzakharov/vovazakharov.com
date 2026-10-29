@@ -28,13 +28,15 @@
   line-height: 1.65;
 }
 
-// A caption under the lede: smaller and quieter, on one run of text.
+// A caption under the lede: smaller and quieter, on one run of text. Quieter
+// by its colour, since an opacity would make it a stacking context, trapping
+// its note beneath the field below and showing through it.
 .byline {
   max-width: 64ch;
   margin-top: 6px;
+  color: color-mix(in srgb, var(--unsquatted-muted) 65%, transparent);
   font-size: 0.85rem;
   line-height: 1.55;
-  opacity: 0.8;
 }
 
 // A button that reads as the text around it.
