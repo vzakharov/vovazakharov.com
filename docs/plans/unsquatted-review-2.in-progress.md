@@ -43,6 +43,16 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
   `tagline` read "Good domain names nobody has grabbed yet. Curated and blazing
   fast." The operator found it still "куце" and asked for variants.
 
+- **mantine-styles** — re-checked after building `vova` and `unsquatted`: 35
+  classes across 2 sites, all styled.
+- **T07 lint rule** — the operator moved it to its own session
+  (session_01DaohkEqmhWKawGUCbW9brg), on a branch stacked on this one; #231
+  carries no rule.
+- **Replies** on T01–T03 and T05–T11 posted; T04's waits on the card choice.
+- **Expiry hint** (operator, in chat: «при наведении на taken показывать hint с
+  точной датой истечения») — b117b6f: the verdict keeps RDAP's `expiration`, and
+  "taken" opens a `NotedSpan` with the date in UTC.
+
 ## Left
 
 1. **T04 choice** — four variants in
@@ -51,20 +61,7 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
    on their pick. Copy the chosen SVG over `sites/unsquatted/public/card.svg`,
    `pnpm content:og unsquatted`, look at the PNG, commit; delete the variants
    directory in the same commit.
-2. Re-check `pnpm check:mantine-styles` after a build of `vova` and `unsquatted`
-   (Tooltip sheet dropped; Popover now renders on unsquatted). Not finished in
-   the pausing session.
-3. **T07 lint rule** — asked the operator: no rule against bare `new Error(`
-   exists (only `no-uncaused-rethrow`); 184 uses in 95 files. (a, recommended)
-   rule on repo-wide, old files under one scoped `off` naming a tracking issue;
-   (b) migrate all in this PR. Waiting on the answer; build nothing for it yet.
-4. **T03** — reply only: Maya passes her foreground as `accent`, which is what
-   primary was before (monochrome foreground); radius falls back to shell's 0;
-   she passes no fonts — a no-op. Her `site.scss` changed only because the token
-   mixin gained a required argument.
-5. **Replies on GitHub** to all 11 threads (CLAUDE.md § "GitHub comments", in
-   Russian, bare SHAs), none resolved.
-6. **Squash proposal**: `docs/remove-before-merging/unsquatted-site/` says
+2. **Squash proposal**: `docs/remove-before-merging/unsquatted-site/` says
    `pages/home/model/picks.json` — now `public/picks/`; `/squash-message`
    re-syncs it.
-7. `/polish`, then `/pr`.
+3. `/polish`, then `/pr`.
