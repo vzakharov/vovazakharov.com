@@ -2,8 +2,7 @@ import { Container, Title } from '@mantine/core';
 
 import { messages } from '@/music/shared/i18n';
 
-import { NOSTALGIA } from '../model/blind-test';
-import { BlindTestPlayer } from './blind-test-player';
+import { BlindTestPlayer,NOSTALGIA } from '../quiz';
 
 export function BlindTestPage() {
   return (
