@@ -105,33 +105,6 @@ The agent's last turn before the relay, verbatim, appended by
 unneeded but harmless; the reply proper is usually its last paragraphs.
 
 ```text
-Делаю три варианта отступа между «Up for grabs» и списком (12 / 24 / 36 px) и пришлю их рядом.
-
-Под «Up for grabs» запушил 24 px (b92f70f). Рядом отправил все три варианта: 12 (как было), 24 и 36. 12 выглядит тесно, а на 36 заголовок отрывается от списка и выглядит отдельной надписью. Если хочешь другой — назови число.
-
-`/five-percent` выложил на PR два необязательных предложения: https://github.com/vzakharov/vovazakharov.com/pull/231#pullrequestreview-5696304712
-- **Карточка ломает vet сама по себе.** В день, когда у удерживаемого имени наступает `shownUntil`, меняется счётчик «+ N more», и `content:og --check` краснеет на любой ветке без единого коммита. Это та же проблема, из-за которой я не советовал живую цену. Его вариант: карточка показывает только имена без `shownUntil`. Мне он кажется дельным.
-- **Description сайта — ручная копия лида.** Его каждый раз правили вслед за лидом (последний раз в caed8f1). Предлагается собирать её из лида через `generateMetadata`, как уже сделано у lsa и Майи.
-
-Открытые вопросы:
-1. Четыре лучших или четыре новых имени на карточке?
-2. Цена в `grab`? Я бы не ставил.
-3. Переименовать `may be available →`? Я бы оставил как есть.
-4. `share-card.mock.svg`: оставить как задел и обновить или убрать в issue?
-5. Брать ли два предложения `/five-percent`?
-
-Контекст сессии дошёл до предупреждения (~233k). Хендофф сейчас стоил бы ~$1.13 и почти ничего не сэкономил бы на следующих 100k: всё, что осталось, — это ответы на вопросы и `/pr`, так что дотяну здесь.
-
-Keepalive включён.
-```
-
-## Last agent turn
-
-The agent's last turn before the relay, verbatim, appended by
-`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
-unneeded but harmless; the reply proper is usually its last paragraphs.
-
-```text
 Ещё нет: последний раз превью выкладывали с 4dde509, а с тех пор много чего поменялось. Выкладываю сейчас.
 
 Keepalive снова включён, превью обновлено.
