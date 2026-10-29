@@ -6,6 +6,7 @@ paths:
   - eslint/masd-*.ts
   - scripts/lint-fsd.ts
   - scripts/masd-check.ts
+  - scripts/masd-clusters.ts
   - steiger.config.mjs
 ---
 
@@ -14,19 +15,27 @@ paths:
 `src/` is a set of apps, each a
 [Feature-Sliced Design](https://feature-sliced.design/) tree of its own
 (`src/<app>/<layer>/<slice>/`), composed along the graph in `src/masd.json`.
-Each site's `sites/<site>/app/` is a Next.js App Router and nothing else. Three
+Each site's `sites/<site>/app/` is a Next.js App Router and nothing else. These
 checkers enforce what follows, all run by `./scripts/vet.sh`:
 
 - **`eslint-plugin-boundaries`** (`eslint/masd-boundaries.ts`, generated from
   the graph) — every import, across apps included.
 - **Steiger** (`pnpm lint:fsd`, `scripts/lint-fsd.ts`) — FSD's own rules, one
   run per app root.
-- **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, and
-  slice significance counted across the composition.
+- **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, slice
+  significance counted across the composition, and sub-slices.
+- **`pnpm check:cycles`** (madge) — no import cycle under `src/`, type-only
+  imports included, so every slice's files form a DAG. A cycle is a declaration
+  in the wrong file: it moves to a file of its own or to its one reader, never
+  copied to both sides.
+- **`pnpm masd:clusters`** (`scripts/masd-clusters.ts`) — no cluster inside a
+  slice or sub-slice that would make a sub-slice of its own (§ "Sub-slices").
 
-`eslint/masd-graph.ts` is the only loader of `masd.json`; the three go through
-it, and so does the import sort, which groups imports one app at a time in graph
-order.
+`eslint/masd-graph.ts` is the only loader of `masd.json`; every checker reading
+the graph goes through it, and so does the import sort, which groups imports one
+app at a time in graph order. **Before changing what `check:masd` or
+`masd:clusters` decides, or disputing a verdict, read
+`scripts/masd-check.README.md`** — the alternatives each one beat.
 
 ## The model
 
@@ -118,6 +127,31 @@ enters it, so a plain `index.ts` holds; a client component reaching for the
 byline is what would split it into `index.ts` + `index.server-only.ts`, exactly
 as `shared/config` is.
 
+## Cutting a domain into slices
+
+The meadow game, one large page cut into entities, features and widgets, settled
+these for any domain:
+
+- **Nouns draw a cut; modularity tests whether it holds.** A cut drawn from the
+  import graph reproduces how the code was stitched: one passed every checker
+  and made the mushroom, its house, the mice and the worm one module, because
+  `draw-house` painted the mice and the worm.
+- **Base entities never import one another; where two meet is a feature named
+  for what happens** («цветок вырастает, когда нажимаем на травку» = фича). Two
+  features that would import each other are one.
+- **A part belongs to the noun it is part of** — the house to the mushroom — and
+  a part's types live with the part that reads them: the map declares
+  `MapLayout` and `WithMap` and the page imports them, not the other way round.
+- **The whole is built from its parts, above them.** A part declares the slice
+  of state it reads as a structural `With…` type over entity types and is
+  generic in the rest (`sown<M extends WithMushrooms & Spored>(meadow: M): M`),
+  so nothing below the page imports `Meadow`.
+- **Nothing goes into `shared` to quiet a checker**; `shared` keeps what is
+  about nothing in particular.
+- **A slice whose one consumer would hold nothing else is that consumer** — a
+  widget used by one page that then held only its React shell is the page's.
+- **A block that reads a feature is a widget**; reading none, it is a feature.
+
 ## Rules
 
 - **`app` and `shared` are segmented rather than sliced, so a descendant's
@@ -206,18 +240,6 @@ as `shared/config` is.
   alone would keep a one-page app a single slice. The graph is the slice's own
   app alone: descendants are who uses an app, which says nothing of how it is
   cut, and their unrelated edges would lower the bar for everyone.
-- **A folder in a slice or a sub-slice not named for a segment is a sub-slice**
-  — FSD's five segment names (`SEGMENTS`), a slice's catalogue being
-  `config/i18n.ts` — with segments and barrels of its own: what sits outside it
-  enters by those barrels (`vova/sub-slice-entry`), and inside it relative
-  imports reach anything. `check:masd` holds two things of it. It must raise its
-  parent's modularity when cut off it, the slice-level bar one level down. And a
-  consumer taking only one sub-slice's exports — from a slice, or a sibling from
-  a sub-slice — is a promotion error: that sub-slice belongs one level out.
-  Where nothing but `shared` could take it, ask the operator; on their yes,
-  `// masd-disable promotion -- <why it cannot move>` in its `index.ts`.
-  `pnpm masd:clusters` lists the clusters worth cutting; `docs/masd.md` §
-  "Sub-slices" has the reasoning.
 - **An app's tooling is its `scripts/`, beside its layers rather than one of
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
@@ -235,6 +257,41 @@ as `shared/config` is.
   sub-slice's segments as misnamed folders, and the `no-ui-in-app` exemption
   below. A new rule violation is a signal that the code is in the wrong place —
   move the code rather than exempting the path.
+
+## Sub-slices
+
+A cluster inside a slice — files importing one another far more than the rest of
+it — becomes a **sub-slice**, and a sub-slice can hold its own (MARS, the
+operator's name for the design once it nests).
+
+- **A folder in a slice or a sub-slice not named for a segment is a sub-slice**
+  — FSD's five segment names (`SEGMENTS` in `eslint/masd-graph.ts`), a slice's
+  catalogue being `config/i18n.ts` with its JSON in `config/messages/` — with
+  segments and barrels of its own. What sits outside it enters by those barrels,
+  `index.test-only.ts` for test code (`vova/sub-slice-entry`); inside it,
+  relative imports reach anything. Steiger reads a sub-slice as a misnamed
+  segment, so `check:masd` keeps that rule's one useful case: a segment's name
+  inside a segment.
+- **A sub-slice is earned by modularity**: cut off its parent — the slice, or
+  the sub-slice it sits in — it must raise the modularity of the parent's own
+  import graph, shipped files only. `check:masd` fails one that does not.
+- **A cluster the graph shows is cut**: `masd:clusters` fails while a slice or
+  sub-slice holds a piece entered by one file that would pass that bar, the rest
+  passing it too. The cut is its root's sub-slice, the root becoming its barrel;
+  a cluster drawn from the graph can still be the wrong noun (§ "Cutting a
+  domain into slices"), so where it should stay, ask the operator, and on their
+  yes put `// masd-disable cluster -- <why it stays>` in its root.
+- **A consumer taking only one sub-slice's exports is a promotion**, an error at
+  any depth: a slice whose consumer takes only one of its sub-slices has a slice
+  of its own inside it, and a sub-slice whose sibling takes only one of its
+  sub-slices has that one in the wrong place — it moves up beside its parent,
+  both entering it from outside. Where it goes is a call per case; where nothing
+  but `shared` could take it, ask the operator, and on their yes put
+  `// masd-disable promotion -- <why it cannot move>` in its `index.ts`.
+- **A page slice whose sites route different pages splits** into page slices,
+  not sub-slices: four sites route only blog's article page, so
+  `blog/pages/article` and `blog/pages/collection-index` are slices of their
+  own, and a sub-slice there would be a promotion.
 
 ## Routers and app layers
 
