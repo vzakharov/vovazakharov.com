@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 48,
+    "inputTokens": 54,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 96469,
-    "cacheReadTokens": 2879576,
-    "outputTokens": 12398,
-    "thinkingTokens": 3067,
-    "responses": 24,
-    "costUsd": 1.0858672
+    "cacheWrite1hTokens": 99038,
+    "cacheReadTokens": 3316394,
+    "outputTokens": 14140,
+    "thinkingTokens": 3733,
+    "responses": 27,
+    "costUsd": 1.2009388
   },
   "estimate": null,
   "orientation": {
@@ -34,18 +34,18 @@
   "url": "https://claude.ai/code/session_01RAikuvzTW7A7dVcEoBxQBV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T15:24:12.232Z",
-  "lastResponseAt": "2026-10-29T15:26:57.094Z",
+  "lastResponseAt": "2026-10-29T15:27:19.709Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 48,
+    "inputTokens": 54,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 96469,
-    "cacheReadTokens": 2879576,
-    "outputTokens": 12398,
-    "thinkingTokens": 3067,
-    "responses": 24,
-    "costUsd": 1.0858672
+    "cacheWrite1hTokens": 99038,
+    "cacheReadTokens": 3316394,
+    "outputTokens": 14140,
+    "thinkingTokens": 3733,
+    "responses": 27,
+    "costUsd": 1.2009388
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,25 +59,25 @@
   },
   "byRate": {
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 48,
+      "inputTokens": 54,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 96469,
-      "cacheReadTokens": 2879576,
-      "outputTokens": 12398,
-      "thinkingTokens": 3067,
-      "responses": 24,
-      "costUsd": 1.0858672
+      "cacheWrite1hTokens": 99038,
+      "cacheReadTokens": 3316394,
+      "outputTokens": 14140,
+      "thinkingTokens": 3733,
+      "responses": 27,
+      "costUsd": 1.2009388
     }
   },
   "warnings": [
-    "prices.json priced the 24 responses the events also priced at $1.0859, against the events' $0.7979: a rate in the table is likely out of date"
+    "prices.json priced the 27 responses the events also priced at $1.2009, against the events' $0.8693: a rate in the table is likely out of date"
   ],
   "compactions": [],
   "telemetry": {
-    "events": 24,
-    "matched": 24,
-    "matchedTableUsd": 1.0858672,
-    "matchedEventUsd": 0.7979096,
+    "events": 27,
+    "matched": 27,
+    "matchedTableUsd": 1.2009388,
+    "matchedEventUsd": 0.8692993999999999,
     "unseen": {}
   }
 }
