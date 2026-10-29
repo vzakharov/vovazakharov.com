@@ -4,9 +4,14 @@ import { localizedAddresses } from '@/kernel/shared/seo/index.server-only';
 import { intrinsicDimensions } from '@/blog/shared/content';
 import { constructMetadata } from '@/blog/shared/seo';
 
-import { cvMessages } from './cv-messages';
+import {
+  type CvAddress,
+  cvCardPath,
+  cvMessages,
+  cvPath,
+} from '@/vova/entities/cv';
+
 import { cvAddressDefaults } from './cv-route-params';
-import { type CvAddress, cvCardPath, cvPath } from './cv-urls';
 
 /**
  * The fully-specified address is canonical, so the shorter rungs serving the

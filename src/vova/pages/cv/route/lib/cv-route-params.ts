@@ -3,8 +3,13 @@ import 'server-only';
 import { localeTailAddresses, routing } from '@/kernel/shared/i18n';
 import { oneOfEach } from '@/kernel/shared/lib/collections';
 
-import { CV_ADDRESS_SEGMENTS, CV_SUBPAGES, type CvAddress } from './cv-urls';
-import { CV_VARIANTS, DEFAULT_CV_VARIANT } from './cv-variants';
+import {
+  CV_ADDRESS_SEGMENTS,
+  CV_SUBPAGES,
+  CV_VARIANTS,
+  type CvAddress,
+  DEFAULT_CV_VARIANT,
+} from '@/vova/entities/cv';
 
 /** The catch-all's segments as a route hands them over, before the parse narrows them. */
 export type WithOptionalCvSegments = { variantAndLocale?: string[] };

@@ -7,9 +7,13 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { Card, TextLink } from '@/shell/shared/ui';
 
-import type { CvPageCopy } from '../lib/cv-messages';
-import { leadsWithProof, OFFER_BLOCKS } from '../lib/cv-offer';
-import { cvPath } from '../lib/cv-urls';
+import {
+  type CvPageCopy,
+  cvPath,
+  leadsWithProof,
+  OFFER_BLOCKS,
+} from '@/vova/entities/cv';
+
 import { CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
 import { CvOfferBlock } from './cv-offer-block';

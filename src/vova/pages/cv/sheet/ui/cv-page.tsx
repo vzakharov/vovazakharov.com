@@ -1,9 +1,8 @@
 import { FEATURED_CASE_STUDY_ROUTE } from '@/blog/shared/content';
 
+import { type CvEdition, cvMessages, type CvSubpage } from '@/vova/entities/cv';
+
 import { cvPdfFile } from '../lib/cv-files';
-import { cvMessages } from '../lib/cv-messages';
-import type { CvSubpage } from '../lib/cv-urls';
-import type { CvEdition } from '../lib/cv-variants';
 import { CASE_STUDY_KEY } from './case-study-link';
 import { CvProfileSheet } from './cv-profile-sheet';
 import { CvSheet } from './cv-sheet';

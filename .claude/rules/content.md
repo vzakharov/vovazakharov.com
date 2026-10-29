@@ -119,7 +119,7 @@ whole design exists for. Every module starts with `import 'server-only'` so that
 is enforced rather than hoped for: importing one from a `'use client'` component
 fails the build. When a client component needs something the registry owns — a
 route, say — the **server page resolves it and passes it down**; that is what
-`src/vova/pages/cv/ui/cv-page.tsx` does for the CV's case-study link.
+`src/vova/pages/cv/sheet/ui/cv-page.tsx` does for the CV's case-study link.
 
 The exceptions are the modules a script runs outside any bundler, each saying so
 in its header, and the `index.node-safe.ts` barrel over some of them — hence no

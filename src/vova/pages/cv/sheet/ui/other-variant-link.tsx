@@ -3,9 +3,8 @@ import { Text } from '@mantine/core';
 import { TextLink } from '@/shell/shared/ui';
 
 import type { Messages } from '@/vova/shared/i18n';
+import { type CvEdition, cvPath, type CvVariant } from '@/vova/entities/cv';
 
-import { cvPath } from '../lib/cv-urls';
-import type { CvEdition, CvVariant } from '../lib/cv-variants';
 import classes from './cv.module.scss';
 
 /** Which framing each one invites the reader to; total, so a third variant has to say where it sends people. */

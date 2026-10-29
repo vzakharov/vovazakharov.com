@@ -6,8 +6,8 @@ import { cx } from '@/kernel/shared/lib/class-names';
 import { Card } from '@/shell/shared/ui';
 
 import type { Messages } from '@/vova/shared/i18n';
+import type { WithCaseStudy } from '@/vova/entities/cv';
 
-import type { WithCaseStudy } from '../lib/cv-messages';
 import { CaseStudyLink } from './case-study-link';
 import classes from './cv.module.scss';
 import { type BulletItem, CvBullets } from './cv-bullets';

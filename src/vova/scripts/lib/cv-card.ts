@@ -21,7 +21,7 @@ import {
   type CvVariant,
   type OfferHeadline,
   offerHeadline,
-} from '@/vova/pages/cv/index.node-safe';
+} from '@/vova/entities/cv';
 
 import {
   CANVAS_BACKGROUND,

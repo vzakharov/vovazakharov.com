@@ -2,7 +2,8 @@ import { Text } from '@mantine/core';
 
 import { cx } from '@/kernel/shared/lib/class-names';
 
-import type { OfferBlock } from '../lib/cv-offer';
+import type { OfferBlock } from '@/vova/entities/cv';
+
 import classes from './cv.module.scss';
 import { CvBullets } from './cv-bullets';
 

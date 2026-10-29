@@ -231,7 +231,7 @@ these for any domain:
   composition — the slice's own app, every descendant and the routers, tests
   left out — with Steiger's `insignificant-slice` messages word for word;
   Steiger's own rule is off, because one root's reference map is exactly what it
-  cannot see past. This is why the CV locale picker lives in `vova/pages/cv/ui/`
+  cannot see past. This is why the CV locale picker lives in `vova/pages/cv/`
   and the home page's project and article cards in `vova/pages/home/`, rather
   than each becoming a feature. **One consumer is enough for a slice that is a
   module** — more of its own app's file-import edges falling inside it than a

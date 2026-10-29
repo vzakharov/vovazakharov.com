@@ -7,8 +7,8 @@ import type { LabeledLink } from '@/kernel/shared/typings';
 
 import { Card, TextLink } from '@/shell/shared/ui';
 
-import type { WithCaseStudy } from '../lib/cv-messages';
-import type { OfferHeadline } from '../lib/cv-offer';
+import type { OfferHeadline, WithCaseStudy } from '@/vova/entities/cv';
+
 import classes from './cv.module.scss';
 
 type CvIntroCardProps = OfferHeadline &

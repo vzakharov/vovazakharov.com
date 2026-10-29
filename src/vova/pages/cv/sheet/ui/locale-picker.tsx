@@ -1,7 +1,6 @@
 import { ChipNav, localeChips } from '@/shell/shared/ui';
 
-import { cvPath } from '../lib/cv-urls';
-import type { CvEdition } from '../lib/cv-variants';
+import { type CvEdition, cvPath } from '@/vova/entities/cv';
 
 export function LocalePicker({ variant, locale }: CvEdition) {
   return (

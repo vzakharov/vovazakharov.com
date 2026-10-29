@@ -8,10 +8,14 @@ import type { DocumentFile } from '@/kernel/shared/typings';
 
 import { Card, FileLink, TextLink } from '@/shell/shared/ui';
 
-import type { CvPageCopy } from '../lib/cv-messages';
-import { leadsWithProof, offerHeadline } from '../lib/cv-offer';
+import {
+  type CvPageCopy,
+  cvPath,
+  leadsWithProof,
+  offerHeadline,
+} from '@/vova/entities/cv';
+
 import { TECH_STACK } from '../lib/cv-stack';
-import { cvPath } from '../lib/cv-urls';
 import { CASE_STUDY_KEY } from './case-study-link';
 import classes from './cv.module.scss';
 import { CvIntroCard } from './cv-intro-card';
