@@ -34,7 +34,7 @@ pnpm content:pdf vova --cv-pages --from-out # CV page ceiling  │
 scripts/vet-test.sh             # pnpm test:all, meadow on request │
 python3 src/kernel/scripts/lib/test_hearing.py # transcribe.py's word merge │
 python3 src/music/scripts/song-intake/test_song_facts.py # spectrogram facts │
-python3 scripts/five-percent-verdicts/{test_tally,tally}.py # verdicts │
+python3 scripts/five-percent-verdicts/{test_tally,test_answered,tally}.py # verdicts │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
@@ -195,14 +195,16 @@ Nineteen things about that list are deliberate:
   hours in one container) sit commented out there while they are cut down,
   `vet.sh`'s `probe` and `play` phases running them by hand. `pnpm test` is the
   run by hand, over only the tests the branch reached
-  (`.claude/rules/testing.md`). Three Python suites sit beside it:
+  (`.claude/rules/testing.md`). Four Python suites sit beside it:
   `src/kernel/scripts/lib/test_hearing.py`, for
   `src/kernel/scripts/transcribe.py`'s pure half, which reads only its fixtures;
   `src/music/scripts/song-intake/test_song_facts.py`, for the spectrogram's
   measurements on synthetic signals, which needs numpy on the system Python; and
-  `scripts/five-percent-verdicts/test_tally.py`, whose entry also runs
-  `tally.py --check` over the committed verdicts, since a malformed row would
-  otherwise surface only when the next article is written from them.
+  `scripts/five-percent-verdicts/test_tally.py` and `test_answered.py`, whose
+  entry also runs `tally.py --check` over the committed verdicts, since a
+  malformed row would otherwise surface only when the next article is written
+  from them. `answered.py` itself, which finds a missing row, reads the PR's
+  threads, so `/finalize` runs it rather than vet.
 - **The last eleven read the agent infrastructure itself and write nothing
   another check reads, which is why they overlap the rest safely.**
   `scripts/check-skill-catalog.sh` asserts that every `@`-reference into
