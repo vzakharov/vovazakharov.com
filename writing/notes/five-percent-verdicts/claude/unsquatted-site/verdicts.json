@@ -10,6 +10,11 @@
       "comment": 4412672222,
       "about": "Move the card-only copy keys into a `card` sub-object of en.json",
       "verdict": 0.2
+    },
+    {
+      "comment": 4414812167,
+      "about": "Always look up the first nine rows and drop the grid-columns hook",
+      "verdict": 1
     }
   ]
 }

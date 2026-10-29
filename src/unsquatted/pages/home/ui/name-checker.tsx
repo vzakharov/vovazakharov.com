@@ -7,7 +7,6 @@ import type { WithCopy } from '../i18n';
 import { rollName } from '../lib/dice';
 import { type Row, rowsFor, type Verdict, zoneOf } from '../lib/lookup';
 import type { Price, Prices } from '../lib/price';
-import { useGridColumns } from '../lib/use-grid-columns';
 import { useVerdicts } from '../lib/use-verdict';
 import { useWords } from '../lib/use-words';
 import { useChecker } from './checker-state';
@@ -46,18 +45,19 @@ function ZoneRow({
 
 type NameCheckerProps = WithCopy & { prices: Prices };
 
-/** The rows the closed list shows, in the stylesheet's `.zones`. */
-const CLOSED_ROWS = 3;
+/** The most rows the closed list shows, at its widest in the stylesheet's `.zones`. */
+const CLOSED_ROWS = 9;
 
 const checkableDomains = (rows: readonly Row[]) =>
   rows.filter(({ checkable }) => checkable).map(({ domain }) => domain);
 
 /**
  * A name checked in the zones once typing pauses — so the words on the way to
- * the one meant cost no lookups — or at once on Check. Only the rows the closed
- * list shows are looked up; the rest wait until the toggle is pointed at,
- * focused or opened, so a visitor who never reaches for it costs the registries
- * none of those lookups.
+ * the one meant cost no lookups — or at once on Check. Only the first
+ * `CLOSED_ROWS` rows are looked up; the rest wait until the toggle is pointed
+ * at, focused or opened, so a visitor who never reaches for it costs the
+ * registries none of those lookups. On a narrower screen the closed list shows
+ * fewer than that, and the surplus is looked up all the same.
  */
 export function NameChecker({ copy, prices }: NameCheckerProps) {
   const {
@@ -74,15 +74,12 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
   const [open, setOpen] = useState(false);
   const [wanted, setWanted] = useState(false);
   const [rolling, setRolling] = useState(false);
-  const [grid, setGrid] = useState<HTMLUListElement | null>(null);
-  const columns = useGridColumns(grid);
   const words = useWords(label !== '');
   const rows =
     label === '' ? [] : rowsFor(label, zone, Object.keys(prices), words);
-  const shown = columns === undefined ? 0 : CLOSED_ROWS * columns;
-  const shownDomains = checkableDomains(rows.slice(0, shown));
+  const shownDomains = checkableDomains(rows.slice(0, CLOSED_ROWS));
   const hiddenDomains =
-    open || wanted ? checkableDomains(rows.slice(shown)) : [];
+    open || wanted ? checkableDomains(rows.slice(CLOSED_ROWS)) : [];
   const shownVerdicts = useVerdicts(shownDomains, round);
   const hiddenVerdicts = useVerdicts(hiddenDomains, round);
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
@@ -142,12 +139,7 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
         </Button>
       </form>
       {rows.length > 0 && (
-        <ul
-          ref={setGrid}
-          className={classes['zones']}
-          data-open={open}
-          aria-live="polite"
-        >
+        <ul className={classes['zones']} data-open={open} aria-live="polite">
           {rows.map((row, index) => (
             <ZoneRow
               key={row.domain}
