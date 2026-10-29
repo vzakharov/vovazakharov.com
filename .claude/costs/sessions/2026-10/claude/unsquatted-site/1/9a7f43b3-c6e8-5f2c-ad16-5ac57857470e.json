@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 10,
+    "inputTokens": 58,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 49838,
-    "cacheReadTokens": 479181,
-    "outputTokens": 1139,
-    "thinkingTokens": 77,
-    "responses": 5,
-    "costUsd": 0.5173602
+    "cacheWrite1hTokens": 99219,
+    "cacheReadTokens": 3946074,
+    "outputTokens": 14770,
+    "thinkingTokens": 3287,
+    "responses": 29,
+    "costUsd": 1.8785987999999998
   },
   "estimate": {
     "at": "2026-10-29T09:37:44.036Z",
@@ -34,10 +34,10 @@
     "comment": null
   },
   "orientation": {
-    "endedBy": null,
+    "endedBy": "oriented",
     "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedAt": "2026-10-29T09:37:48.787Z",
+    "contextTokens": 123718,
     "spend": {
       "inputTokens": 10,
       "cacheWrite5mTokens": 0,
@@ -53,22 +53,24 @@
   "branch": "claude/unsquatted-site",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-site — второй раунд ревью #231 на паузе: дальше словарное правило для префиксных хаков, NotedSpan, OG-карточка, ответы в тредах, p…",
-  "prs": [],
+  "prs": [
+    231
+  ],
   "url": "https://claude.ai/code/session_01DaohkCcJ2EjYwihhvos23z",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T09:37:27.311Z",
-  "lastResponseAt": "2026-10-29T09:37:41.563Z",
+  "lastResponseAt": "2026-10-29T09:41:10.832Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 10,
+    "inputTokens": 58,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 49838,
-    "cacheReadTokens": 479181,
-    "outputTokens": 1139,
-    "thinkingTokens": 77,
-    "responses": 5,
-    "costUsd": 0.5173602
+    "cacheWrite1hTokens": 99219,
+    "cacheReadTokens": 3946074,
+    "outputTokens": 14770,
+    "thinkingTokens": 3287,
+    "responses": 29,
+    "costUsd": 1.8785987999999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -82,23 +84,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 10,
+      "inputTokens": 58,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 49838,
-      "cacheReadTokens": 479181,
-      "outputTokens": 1139,
-      "thinkingTokens": 77,
-      "responses": 5,
-      "costUsd": 0.5173602
+      "cacheWrite1hTokens": 99219,
+      "cacheReadTokens": 3946074,
+      "outputTokens": 14770,
+      "thinkingTokens": 3287,
+      "responses": 29,
+      "costUsd": 1.8785987999999998
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 5,
-    "matched": 5,
-    "matchedTableUsd": 0.5173602,
-    "matchedEventUsd": 0.5173602,
+    "events": 29,
+    "matched": 29,
+    "matchedTableUsd": 1.8785987999999998,
+    "matchedEventUsd": 1.8785987999999998,
     "unseen": {}
   }
 }

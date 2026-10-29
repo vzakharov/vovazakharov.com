@@ -93,21 +93,44 @@ export function zoneOf(domain: string): string {
 
 export type Row = WithDomain & { checkable: boolean };
 
-/**
- * The shortest zone a name may start with to be split on it: a two-letter one
- * matches the start of a word too often to mean it — `foxedpage` as
- * `xedpage.fo`.
- */
-const MIN_LEADING_ZONE = 3;
-
 /** As many splits as lead the grid, so `.com` stays in its first rows. */
 const HACKS_SHOWN = 3;
 
+/** Whether `text` reads as dictionary words run together. */
+export function splitsIntoWords(
+  text: string,
+  words: ReadonlySet<string>,
+): boolean {
+  const reached = [true];
+
+  for (let end = 1; end <= text.length; end++) {
+    reached[end] = reached.some(
+      (start, index) =>
+        index < end && start && words.has(text.slice(index, end)),
+    );
+  }
+
+  return reached[text.length] === true;
+}
+
 /**
  * The name split where it ends in one of `zones` — `fuckapp` as `fuck.app` —
- * or starts with one — `designtips` as `tips.design` — longest zone first.
+ * or starts with one — `designtips` as `tips.design` — longest zone first. A
+ * zone at the start counts only where it is a word of `words` and the rest
+ * runs words together, since the start of a name spells some zone far more
+ * often than it means one — `bibleical` is no `ical.bible`. Until `words` is
+ * at hand, none does.
  */
-export function domainHacks(label: string, zones: readonly string[]): string[] {
+export function domainHacks(
+  label: string,
+  zones: readonly string[],
+  words: ReadonlySet<string> | undefined,
+): string[] {
+  const leads = (zone: string) =>
+    words !== undefined &&
+    label.startsWith(zone) &&
+    words.has(zone) &&
+    splitsIntoWords(label.slice(zone.length), words);
   const splits = zones
     .filter((zone) => label.length > zone.length)
     .toSorted((a, b) => b.length - a.length)
@@ -115,9 +138,7 @@ export function domainHacks(label: string, zones: readonly string[]): string[] {
       ...(label.endsWith(zone)
         ? [`${label.slice(0, -zone.length)}.${zone}`]
         : []),
-      ...(label.startsWith(zone) && zone.length >= MIN_LEADING_ZONE
-        ? [`${label.slice(zone.length)}.${zone}`]
-        : []),
+      ...(leads(zone) ? [`${label.slice(zone.length)}.${zone}`] : []),
     ])
     .filter((domain) => !domain.startsWith('-') && !domain.includes('-.'));
 
@@ -128,18 +149,20 @@ export function domainHacks(label: string, zones: readonly string[]): string[] {
  * The domains a lookup shows for `label`: every zone of `ZONES`, led by the
  * zone typed with it — shown even where Porkbun does not sell it, and so
  * cannot be checked — and then by the name split on a zone it spells.
- * `sold` is every zone Porkbun sells, `ZONES` among them.
+ * `sold` is every zone Porkbun sells, `ZONES` among them; `words` is
+ * `domainHacks`'s.
  */
 export function rowsFor(
   label: string,
   zone: string | undefined,
   sold: readonly string[],
+  words: ReadonlySet<string> | undefined,
 ): Row[] {
   const typed =
     zone === undefined
       ? []
       : [{ domain: `${label}.${zone}`, checkable: sold.includes(zone) }];
-  const hacks = domainHacks(label, sold).map((domain) => ({
+  const hacks = domainHacks(label, sold, words).map((domain) => ({
     domain,
     checkable: true,
   }));

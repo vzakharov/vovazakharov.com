@@ -8,6 +8,7 @@ import { rollName } from '../lib/dice';
 import { type Row, rowsFor, type Verdict, zoneOf } from '../lib/lookup';
 import type { Price, Prices } from '../lib/prices';
 import { useVerdicts } from '../lib/use-verdict';
+import { useWords } from '../lib/use-words';
 import { useChecker } from './checker-state';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
@@ -63,7 +64,9 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     fieldRef,
   } = useChecker();
   const [open, setOpen] = useState(false);
-  const rows = label === '' ? [] : rowsFor(label, zone, Object.keys(prices));
+  const words = useWords(label !== '');
+  const rows =
+    label === '' ? [] : rowsFor(label, zone, Object.keys(prices), words);
   const checked = rows.filter(({ checkable }) => checkable);
   const verdicts = useVerdicts(
     checked.map(({ domain }) => domain),
