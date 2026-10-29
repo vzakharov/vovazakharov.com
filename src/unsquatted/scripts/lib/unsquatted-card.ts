@@ -7,16 +7,30 @@
  * home page reads, the words from its catalogue — so adding a name re-flags
  * the card, and the card cannot say what the page has stopped saying.
  *
- * The faces are the ones a `file://` page finds on the machine rendering it
- * (DejaVu, under Georgia and Arial's names), never the site's web fonts; the
- * wordmark's tight tracking is set for DejaVu Serif Bold.
+ * The wordmark is set in Fraunces as on the page, the font staged beside the
+ * card from `@fontsource-variable/fraunces` — a `file://` page has no route to
+ * the web font the site loads. The rest is in the faces the machine rendering
+ * it has (DejaVu).
  */
+
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 
 import { COPY, PICKS } from '@/unsquatted/pages/home/index.server-only';
 
 import { escapeHtml, type StagedPage } from '@/kernel/scripts/lib/og-render';
+
+/** Staged beside the page under this name, which is the `src` it uses. */
+const FONT = 'wordmark.woff2';
+
+/** Fraunces' weight and optical-size axes, as the site loads it. */
+const fontPath = fileURLToPath(
+  import.meta.resolve(
+    '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2',
+  ),
+);
 
 /** How many listed names the panel has room for above the name field. */
 const SHOWN = 5;
@@ -27,7 +41,7 @@ const INK_DIM = '#5d6b63';
 const GREEN = '#2f6b4f';
 const RULE = '#e3e7df';
 
-const SERIF = `Georgia, 'DejaVu Serif', serif`;
+const SERIF = `Wordmark, serif`;
 const SANS = `'DejaVu Sans', Arial, sans-serif`;
 const MONO = `'DejaVu Sans Mono', monospace`;
 
@@ -63,6 +77,7 @@ export function unsquattedCard(): StagedPage {
   <head>
     <meta charset="utf-8" />
     <style>
+      @font-face { font-family: "Wordmark"; src: url("${FONT}") format("woff2"); font-weight: 100 900; }
       html { zoom: ${SCALE}; }
       html, body { margin: 0; padding: 0; }
       body {
@@ -84,7 +99,7 @@ export function unsquattedCard(): StagedPage {
         font-family: ${SERIF};
         font-size: 72px;
         font-weight: 700;
-        letter-spacing: -2px;
+        letter-spacing: -0.02em;
         line-height: 1;
       }
       .headline { margin: auto 0 0; font-size: 42px; line-height: 1.33; }
@@ -152,6 +167,6 @@ ${rows}
   </body>
 </html>
 `,
-    files: {},
+    files: { [FONT]: fs.readFileSync(fontPath) },
   };
 }
