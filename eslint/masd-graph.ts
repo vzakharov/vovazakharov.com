@@ -20,8 +20,8 @@ export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
 
 /**
  * The segments a slice is cut into: FSD's standard ones, a slice's catalogue
- * being `config/i18n`. Any other folder directly in a slice or a sub-slice is a
- * sub-slice.
+ * being `config/i18n.ts`. Any other folder directly in a slice or a sub-slice
+ * is a sub-slice.
  */
 export const SEGMENTS = ['ui', 'model', 'lib', 'api', 'config'];
 

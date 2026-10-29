@@ -204,8 +204,9 @@ a judgement, since a cluster drawn from the graph can still be the wrong noun
 
 - **The segment names are FSD's five** (`SEGMENTS` in `eslint/masd-graph.ts`),
   so any other folder there is a sub-slice. A slice's message catalogue is
-  `config/i18n` rather than a sixth segment (the operator: «i18n это же по сути
-  config? то есть названий сегментов можно не плодить»).
+  `config/i18n.ts` rather than a sixth segment (the operator: «i18n это же по
+  сути config? то есть названий сегментов можно не плодить»), its JSON in
+  `config/messages/`: a folder of its own would be a cut no check asked for.
 - **Outside a sub-slice, it is entered by its barrels**, the slice's
   `PUBLIC_API` names and `index.test-only.ts` for test code
   (`vova/sub-slice-entry`); from outside the slice, `boundaries` already allows

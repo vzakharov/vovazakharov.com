@@ -208,7 +208,7 @@ as `shared/config` is.
   cut, and their unrelated edges would lower the bar for everyone.
 - **A folder in a slice or a sub-slice not named for a segment is a sub-slice**
   — FSD's five segment names (`SEGMENTS`), a slice's catalogue being
-  `config/i18n` — with segments and barrels of its own: what sits outside it
+  `config/i18n.ts` — with segments and barrels of its own: what sits outside it
   enters by those barrels (`vova/sub-slice-entry`), and inside it relative
   imports reach anything. `check:masd` holds two things of it. It must raise its
   parent's modularity when cut off it, the slice-level bar one level down. And a
