@@ -1,0 +1,131 @@
+{
+  "total": {
+    "inputTokens": 1292,
+    "cacheWrite5mTokens": 74692,
+    "cacheWrite1hTokens": 130546,
+    "cacheReadTokens": 7687836,
+    "outputTokens": 21155,
+    "thinkingTokens": 3966,
+    "responses": 54,
+    "costUsd": 3.1826132999999994
+  },
+  "estimate": {
+    "at": "2026-10-29T09:57:00.480Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a hover hint wired from the lookup's raw expiry through the verdict, plus review replies grounded in the commits"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "the chosen card variant applied, re-rendered and checked"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T09:54:40.762Z",
+    "contextTokens": 110416,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46714,
+      "cacheReadTokens": 474038,
+      "outputTokens": 933,
+      "thinkingTokens": 60,
+      "responses": 5,
+      "costUsd": 0.4872196
+    }
+  },
+  "sessionId": "88b43eef-a9cc-5684-813a-bdc2c17e62dc",
+  "branch": "claude/unsquatted-site",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-site — Steiger зелёный, четыре варианта OG-карточки и вопрос про lint-правило ждут выбора; дальше mantine-styles, ответы в тредах …",
+  "prs": [
+    231
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDBQquUWNCXfpqUvPU",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T09:54:25.118Z",
+  "lastResponseAt": "2026-10-29T10:00:31.544Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 98,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 130546,
+    "cacheReadTokens": 7475101,
+    "outputTokens": 20209,
+    "thinkingTokens": 3966,
+    "responses": 49,
+    "costUsd": 2.9439602
+  },
+  "subagents": {
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 74692,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 212735,
+    "outputTokens": 923,
+    "thinkingTokens": 0,
+    "responses": 4,
+    "costUsd": 0.23852299999999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 98,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 130546,
+      "cacheReadTokens": 7475101,
+      "outputTokens": 20209,
+      "thinkingTokens": 3966,
+      "responses": 49,
+      "costUsd": 2.9439602
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 74692,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 212735,
+      "outputTokens": 923,
+      "thinkingTokens": 0,
+      "responses": 4,
+      "costUsd": 0.23852299999999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1186,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 23,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00013010000000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 54,
+    "matched": 53,
+    "matchedTableUsd": 3.1824831999999996,
+    "matchedEventUsd": 3.1612097,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1186,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 23,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00013010000000000002
+      }
+    }
+  }
+}
