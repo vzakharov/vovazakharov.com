@@ -72,9 +72,20 @@ describe('masd:clusters', () => {
         '    lib/z.ts',
         '    ui/other.ts',
         '1 of 1 slices and sub-slices hold a cluster.',
-        'Cut each into a sub-slice entered by its root. Where one should stay, ask the operator, and on their yes put "// masd-disable cluster -- <why it stays>" in its root.',
+        'Cut each into a sub-slice entered by its root, and what it takes from the rest into a sub-slice of its own unless the rest is nothing more. Where one should stay, ask the operator, and on their yes put "// masd-disable cluster -- <why it stays>" in its root.',
         '',
       ].join('\n'),
+    );
+  });
+
+  it('prints what a subtree takes from the rest, as the sub-slice below both', () => {
+    const { stdout } = run({
+      ...FEED,
+      [`${SLICE}/ui/other.ts`]: importing('../lib/z', '../model/y'),
+    });
+    assert.match(
+      stdout,
+      /^ {4}ui\/x\.ts\n {4}it takes from the rest, a sub-slice below both:\n {6}model\/y\.ts$/m,
     );
   });
 
