@@ -30,7 +30,6 @@ export function UnsquattedHomePage() {
             {COPY.checkHeading}
           </h2>
           <NameChecker copy={COPY} />
-          <p className={classes['note']}>{COPY.note}</p>
         </section>
 
         <section aria-labelledby="names">

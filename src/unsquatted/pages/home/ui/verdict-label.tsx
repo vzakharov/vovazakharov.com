@@ -15,7 +15,7 @@ export function VerdictLabel({ domain, verdict }: VerdictLabelProps) {
   const text = {
     pending: 'checking…',
     free: 'free →',
-    maybe: 'probably free →',
+    maybe: 'could be free →',
     taken:
       verdict?.state === 'taken' && verdict.since !== undefined
         ? `taken ${verdict.since}`

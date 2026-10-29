@@ -4,7 +4,6 @@
   "fieldLabel": "Domain name",
   "fieldPlaceholder": "type a name, e.g. foxedpage",
   "check": "Check",
-  "note": "“Probably free” means the name doesn’t resolve, which is a strong hint rather than the registry’s word. Premium and reserved names can show as free and cost more than $10.",
   "listHeading": "Up for grabs",
   "register": "Register ~$11 →",
   "taken": "taken",
