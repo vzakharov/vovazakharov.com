@@ -56,9 +56,9 @@ const MARK = `<svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"
         <path d="M20 18v17a12 12 0 0 0 24 0V18" fill="none" stroke="${PAPER}" stroke-width="7" stroke-linecap="round" />
       </svg>`;
 
-/** The lede the headline, the byline under it. */
+/** The lede the headline, the card's own shorter byline under it. */
 function lede(): readonly [string, string] {
-  return [COPY.lede, COPY.byline.replace('{blazing}', COPY.blazing)];
+  return [COPY.lede, COPY.cardByline.replace('{blazing}', COPY.blazing)];
 }
 
 const more = (count: number) =>
