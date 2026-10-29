@@ -141,10 +141,10 @@ record" holds the three rules this file keeps.
 - **The unit tests over the source's own scripts** — never: the suite stays
   where that code is edited, and the code itself is taken. A new one is declined
   here by name, as these are: `scripts/test_authorship.py`,
-  `scripts/test_claude_md_size.py`, `scripts/test_export_awaiting.py`,
-  `scripts/test_export_render.py`, `scripts/test_extract_session_images.py`,
-  `scripts/test_file_tools_nudge.py`, `scripts/test_find_repo.py`,
-  `scripts/test_go_delegation.py`, `scripts/test_markdown_tables.py`,
-  `scripts/test_markdown_wrap.py`, `scripts/test_multi_repo_hooks.py`,
-  `scripts/test_muthur_sync.py`, `scripts/test_relay_last_reply.py`,
-  `scripts/test_staged.py`.
+  `scripts/test_checkpoint_review.py`, `scripts/test_claude_md_size.py`,
+  `scripts/test_export_awaiting.py`, `scripts/test_export_render.py`,
+  `scripts/test_extract_session_images.py`, `scripts/test_file_tools_nudge.py`,
+  `scripts/test_find_repo.py`, `scripts/test_go_delegation.py`,
+  `scripts/test_markdown_tables.py`, `scripts/test_markdown_wrap.py`,
+  `scripts/test_multi_repo_hooks.py`, `scripts/test_muthur_sync.py`,
+  `scripts/test_relay_last_reply.py`, `scripts/test_staged.py`.
