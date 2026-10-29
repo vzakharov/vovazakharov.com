@@ -27,6 +27,14 @@
   margin-top: 8px;
 }
 
+// The footnote to the lede's asterisk.
+.ledeNote {
+  margin: 8px 0 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
 // A button that reads as the text around it.
 %text-button {
   padding: 0;

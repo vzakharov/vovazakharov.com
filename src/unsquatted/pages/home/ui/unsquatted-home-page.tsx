@@ -18,6 +18,9 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
   text: COPY.shoutOutPost.replace('{url}', SITE_CONFIG.url),
 })}`;
 
+/** The lede's `*` is the mark `ledeNote` answers. */
+const [beforeMark, afterMark] = COPY.lede.split('*');
+
 /** The site is one page: the checker, then the list the routine grows. */
 export async function UnsquattedHomePage() {
   const prices = await fetchPrices();
@@ -27,15 +30,17 @@ export async function UnsquattedHomePage() {
       <Stack component="main" gap={48}>
         <header>
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
-          <p className={classes['lede']}>
-            {COPY.lede}{' '}
-            <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>
-            {COPY.ledeEnd}.
-          </p>
-          <p className={classes['lede']}>
+          <div className={classes['lede']}>
+            {beforeMark}
+            <sup>*</sup>
+            {afterMark}{' '}
+            <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>.
+          </div>
+          <div className={classes['lede']}>
             {COPY.pledge} {COPY.coffeePrompt}{' '}
             <NotedSpan words={COPY.coffeeLink}>{COPY.coffeeSoon}</NotedSpan>.
-          </p>
+          </div>
+          <p className={classes['ledeNote']}>{COPY.ledeNote}</p>
         </header>
 
         <CheckerProvider>

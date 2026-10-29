@@ -33,11 +33,12 @@ const fontPath = fileURLToPath(
 );
 
 /** How many listed names the panel has room for above the name field. */
-const SHOWN = 5;
+const SHOWN = 4;
 
 const PAPER = '#f6f7f2';
 const INK = '#1d2420';
 const INK_DIM = '#5d6b63';
+const INK_FAINT = '#a3aea7';
 const GREEN = '#2f6b4f';
 const RULE = '#e3e7df';
 
@@ -52,8 +53,7 @@ const MARK = `<svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"
 
 /** The lede, its first sentence the headline and the rest under it. */
 function lede(): readonly [string, string] {
-  const [head = '', ...rest] =
-    `${COPY.lede} ${COPY.blazing}${COPY.ledeEnd}.`.split('. ');
+  const [head = '', ...rest] = `${COPY.lede} ${COPY.blazing}.`.split('. ');
 
   return [`${head}.`, rest.join('. ')];
 }
@@ -104,7 +104,9 @@ export function unsquattedCard(): StagedPage {
         line-height: 1;
       }
       .headline { margin: auto 0 0; font-size: 42px; line-height: 1.33; }
-      .subline { margin: 20px 0 auto; font-size: 32px; color: ${INK_DIM}; }
+      .subline { margin: 20px 0 0; font-size: 32px; color: ${INK_DIM}; }
+      .headline sup { font-size: 0.6em; line-height: 0; }
+      .note { margin: 16px 0 auto; font-size: 24px; color: ${INK_FAINT}; }
       .url { font-family: ${MONO}; font-size: 28px; font-weight: 700; color: ${GREEN}; }
       aside {
         flex: none;
@@ -129,7 +131,7 @@ export function unsquattedCard(): StagedPage {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-        padding: 12px 0;
+        padding: 22px 0;
         border-bottom: 2px solid ${RULE};
       }
       li:last-child { border-bottom: none; }
@@ -142,7 +144,7 @@ export function unsquattedCard(): StagedPage {
         border-radius: 10px;
         font-family: ${MONO};
         font-size: 25px;
-        color: #a3aea7;
+        color: ${INK_FAINT};
       }
       .more { margin: auto 0 0; padding-top: 16px; font-size: 22px; color: ${INK_DIM}; }
     </style>
@@ -153,8 +155,9 @@ export function unsquattedCard(): StagedPage {
       ${MARK}
         <span class="wordmark">Unsquatted</span>
       </header>
-      <p class="headline">${escapeHtml(headline)}</p>
+      <p class="headline">${escapeHtml(headline).replace('*', '<sup>*</sup>')}</p>
       <p class="subline">${escapeHtml(subline)}</p>
+      <p class="note">${escapeHtml(COPY.ledeNote)}</p>
       <span class="url">unsquatted.com</span>
     </main>
     <aside>
