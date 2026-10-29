@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 440,
+    "inputTokens": 458,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 352292,
-    "cacheReadTokens": 54720131,
-    "outputTokens": 134513,
-    "thinkingTokens": 24240,
-    "responses": 215,
-    "costUsd": 16.454382199999994
+    "cacheWrite1hTokens": 361899,
+    "cacheReadTokens": 58494776,
+    "outputTokens": 137542,
+    "thinkingTokens": 24819,
+    "responses": 224,
+    "costUsd": 17.34681919999999
   },
   "estimate": null,
   "orientation": {
@@ -28,24 +28,24 @@
   },
   "sessionId": "12fbd7aa-e763-51d0-9bf5-5eb29a5f8c68",
   "branch": "HEAD",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/life",
   "openingPrompt": "/relay take claude/unsquatted-domains-8crv0t — unsquatted.com живой; дальше: подсказка в поле, кнопка Check с лоадером, имя с зоной первым, потом кубик",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkDPvupTeikBzEThB7t",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T05:33:08.121Z",
-  "lastResponseAt": "2026-10-29T08:23:57.244Z",
+  "lastResponseAt": "2026-10-29T08:25:53.717Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 440,
+    "inputTokens": 458,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 352292,
-    "cacheReadTokens": 54720131,
-    "outputTokens": 134513,
-    "thinkingTokens": 24240,
-    "responses": 215,
-    "costUsd": 16.454382199999994
+    "cacheWrite1hTokens": 361899,
+    "cacheReadTokens": 58494776,
+    "outputTokens": 137542,
+    "thinkingTokens": 24819,
+    "responses": 224,
+    "costUsd": 17.34681919999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +59,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 440,
+      "inputTokens": 458,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 352292,
-      "cacheReadTokens": 54720131,
-      "outputTokens": 134513,
-      "thinkingTokens": 24240,
-      "responses": 215,
-      "costUsd": 16.454382199999994
+      "cacheWrite1hTokens": 361899,
+      "cacheReadTokens": 58494776,
+      "outputTokens": 137542,
+      "thinkingTokens": 24819,
+      "responses": 224,
+      "costUsd": 17.34681919999999
     }
   },
   "warnings": [],
