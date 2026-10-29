@@ -95,6 +95,12 @@ a docs-only diff is squarely what the two editing passes are for: `/tend-prose`
 by construction, and `/dry` because a constraint stated in two places is a
 duplication like any other.
 
+**When `.claude/hooks/checkpoint-review.py` delivered
+`@.claude/skills/go/checkpoint-review.md` this session, the checkpoint review
+runs right after them**, before step 1 for the same reason, and so the vet run
+covers the reviewer's commits; under a harness that runs no hooks, that file's §
+"Who runs it" says whether it runs. `no vet` does not skip it.
+
 Steps (stop on first unresolved failure):
 
 1. **Vet**: push, then `./scripts/vet.sh`, which vets the pushed head. Fix, push
@@ -107,6 +113,15 @@ Steps (stop on first unresolved failure):
    such merge this step runs again, all of it, on the merged head** before the
    run goes on. `/sync-branch`'s own vet run counts as the re-run's
    `./scripts/vet.sh`. `no vet` skips the re-run as it skips this step.
+
+   **Before the vet run,
+   `python3 scripts/five-percent-verdicts/answered.py <PR>`** — a check vet
+   cannot hold, since it reads the PR's threads. It stops the run on each
+   `/five-percent` proposal the operator answered that has no row in the
+   branch's verdict ledger, naming its comment. The fix is the missing rows,
+   recorded per `@.claude/skills/five-percent/verdicts.md` and committed, so the
+   vet run that follows covers them. `no vet` does not skip it: a docs-only
+   branch can carry a proposal too.
 
 2. **Merge the base branch**: load `@.claude/skills/sync-branch/SKILL.md` and
    follow it, passing `no vet` in `no vet` mode. It owns the merge — the

@@ -51,9 +51,11 @@ record" holds the three rules this file keeps.
 - **`.claude/skills/CLAUDE.md`** — states that the closure check's catalog
   assertions skip here by design.
 - **`.claude/context-budget/hooks/post-tool-context-budget.sh`, with
-  `.claude/context-budget/test_context_budget.py` and
+  `.claude/context-budget/test_context_budget.py`,
+  `.claude/context-budget/budget_harness.py` and
   `.claude/context-budget/CLAUDE.md`** — carry `MUTHUR_CONTEXT_BUDGET_SUBAGENT`:
-  a subagent gets its own notice, read off its own transcript.
+  a subagent gets its own notice, read off its own transcript, and the harness
+  builds that transcript for the tests.
 - **`.claude/costs/sessions/`** — the rows are this repo's own, on its
   `cost-ledger` branch, and never synced.
 - **`.claude/hooks/lib.sh`** — its header also names `maya-preview.sh` among the
@@ -141,10 +143,10 @@ record" holds the three rules this file keeps.
 - **The unit tests over the source's own scripts** — never: the suite stays
   where that code is edited, and the code itself is taken. A new one is declined
   here by name, as these are: `scripts/test_authorship.py`,
-  `scripts/test_claude_md_size.py`, `scripts/test_export_awaiting.py`,
-  `scripts/test_export_render.py`, `scripts/test_extract_session_images.py`,
-  `scripts/test_file_tools_nudge.py`, `scripts/test_find_repo.py`,
-  `scripts/test_go_delegation.py`, `scripts/test_markdown_tables.py`,
-  `scripts/test_markdown_wrap.py`, `scripts/test_multi_repo_hooks.py`,
-  `scripts/test_muthur_sync.py`, `scripts/test_relay_last_reply.py`,
-  `scripts/test_staged.py`.
+  `scripts/test_checkpoint_review.py`, `scripts/test_claude_md_size.py`,
+  `scripts/test_export_awaiting.py`, `scripts/test_export_render.py`,
+  `scripts/test_extract_session_images.py`, `scripts/test_file_tools_nudge.py`,
+  `scripts/test_find_repo.py`, `scripts/test_go_delegation.py`,
+  `scripts/test_markdown_tables.py`, `scripts/test_markdown_wrap.py`,
+  `scripts/test_multi_repo_hooks.py`, `scripts/test_muthur_sync.py`,
+  `scripts/test_relay_last_reply.py`, `scripts/test_staged.py`.
