@@ -4,17 +4,20 @@
     {
       "comment": 4412671259,
       "about": "Look up the hidden zones only once the more-tlds toggle is opened",
-      "verdict": 0.9
+      "verdict": 0.9,
+      "why": "The operator answered «да, хорошая тема» and the lazy lookup was built; the nine-row follow-up then refined where the lookups start, so it was not taken exactly as proposed."
     },
     {
       "comment": 4412672222,
       "about": "Move the card-only copy keys into a `card` sub-object of en.json",
-      "verdict": 0.2
+      "verdict": 0.2,
+      "why": "The operator said the docstring's promise is about the listed domain names, not about copy at all, so the proposal's frame was wrong; only the docstring was narrowed."
     },
     {
       "comment": 4414812167,
       "about": "Always look up the first nine rows and drop the grid-columns hook",
-      "verdict": 1
+      "verdict": 1,
+      "why": "The operator agreed («да, точно») and accepted the cost of a few extra lookups on a phone; the hook was dropped for a constant."
     }
   ]
 }
