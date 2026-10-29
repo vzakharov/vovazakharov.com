@@ -75,13 +75,11 @@ def parse_head_ref(payload: Any) -> str:
 
 
 def _operator_answer(comment: ReviewComment) -> bool:
-    """Posted by a human, or relaying what the operator said in the session."""
     by_agent, _ = split_agent_footer(comment.body)
     return not by_agent or bool(SESSION_LEAD_IN.match(comment.body))
 
 
 def answered_proposals(comments: list[ReviewComment]) -> list[ReviewComment]:
-    """Proposals whose thread holds an operator answer."""
     human_replied_to = {
         c.in_reply_to_id
         for c in comments
@@ -99,7 +97,6 @@ def unrecorded(comments: list[ReviewComment], recorded: set[int]) -> list[Review
 
 
 def recorded_ids(root: Path, branch: str) -> set[int]:
-    """Comment ids in the branch's ledger; a branch without one has recorded nothing."""
     path = root / branch / LEAF
     return {row["comment"] for row in parse_leaf(path, branch)} if path.exists() else set()
 

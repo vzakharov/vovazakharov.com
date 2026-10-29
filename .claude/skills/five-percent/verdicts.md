@@ -26,10 +26,10 @@ does not exist yet starts with the PR's number and an empty list.
 - **`why`** — what in the answer set the verdict, at most 280 characters, in
   English: what the operator took or turned down, and the reason they gave.
 
-**An answer given in the session chat rather than the thread is one too**: post
-it to the proposal's thread as a reply opening on CLAUDE.md § "GitHub comments"'
-lead-in, then record the row. That lead-in is what tells `answered.py` the
-agent-signed reply carries the operator's answer.
+**An answer given in the session chat rather than the thread is a verdict too**:
+post it to the proposal's thread as a reply opening on CLAUDE.md § "GitHub
+comments"' lead-in, then record the row. That lead-in is what tells
+`answered.py` the agent-signed reply carries the operator's answer.
 
 **A proposal the operator never answered gets no row**, a 0 included: silence is
 often no time to look, and scoring it would read as a rejection.
