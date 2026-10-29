@@ -147,17 +147,21 @@ Nothing built yet. In discussion, the search changed:
 
 ## Rest of the bite
 
-- **CV, the last gate hit, waits on a promotion call.** Cut as the gate prints
-  it — `sheet/` (the page, 13 files and `cv.module.scss`), `edition/`
-  (`cv-urls`, `cv-variants`, `cv-messages`, `cv-offer`), `route/`
-  (`cv-metadata`, `cv-route-params`) — `check:masd` fires a promotion:
-  `src/vova/app`'s sitemap takes only `cvRoutes`, which lives in `edition/`. The
-  vova scripts (`render-og`, `render-pdf`, `cv-card`) take only `edition/`'s
-  node-safe names too. Recommended: promote `edition/` to `vova/entities/cv`,
-  the CV as a business noun (variants, addresses, copy, offer), which the page,
-  the sitemap and the scripts all import; the page keeps `sheet/` and `route/`.
-  Update `.claude/rules/masd.md`'s locale-picker example path and `content.md`'s
-  `cv-page.tsx` path with it, and `CV_SOURCES`.
+- **Done since:** the CV's edition promoted to `vova/entities/cv` on «ага»
+  (6f6719b) — `check:masd` names a promotion but never its destination, which is
+  the operator's call — and the page cut into `sheet/` + `route/`.
+- **The gate's last hit is inside `cv/sheet`**: `cv-sheet` (6 files) and
+  `cv-profile-sheet` + `cv-offer-block`, both taking `case-study-link`,
+  `cv-bullets` and `cv-section` from the rest, `cv-page` and `cv-files` above.
+  `cv.module.scss` serves all of them, so it splits by class per sub-slice first
+  (as `player.module.scss` did into `CONTROL_ON` and the clearance sheet).
+- **Steiger is red on every unit holding sub-slices**, since the predecessor's
+  first restructures: it reads `home/work` as a slice of a group `home`, so a
+  sibling import is `fsd/forbidden-imports` and the parent
+  `fsd/no-segmentless-slices`. Both are covered here — boundaries holds the
+  imports, `check:masd` the unit's shape — so the fix is turning the two off for
+  exactly the units holding sub-slices, which `scripts/lint-fsd.ts` can compute.
+  That is a suppression: asked of the operator, not built.
 
 - **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
   `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
