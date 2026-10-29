@@ -40,31 +40,16 @@ class AnsweredTest(unittest.TestCase):
     def missing(self, payload, recorded=()):
         return ids(unrecorded(parse_review_comments(payload), set(recorded)))
 
-    def test_a_human_reply_makes_a_proposal_answered(self):
-        self.assertEqual(self.missing([proposal(1), comment(2, "давай", reply_to=1)]), [1])
+    def test_any_reply_makes_a_proposal_answered(self):
+        for body in ("давай", f"Done in abc123.{FOOTER}"):
+            with self.subTest(body):
+                self.assertEqual(self.missing([proposal(1), comment(2, body, reply_to=1)]), [1])
 
     def test_a_row_satisfies_an_answered_proposal(self):
         self.assertEqual(self.missing([proposal(1), comment(2, "давай", reply_to=1)], recorded={1}), [])
 
     def test_an_unanswered_proposal_needs_no_row(self):
         self.assertEqual(self.missing([proposal(1)]), [])
-
-    def test_only_agent_replies_leave_it_unanswered(self):
-        self.assertEqual(self.missing([proposal(1), comment(2, f"Done in abc123.{FOOTER}", reply_to=1)]), [])
-
-    def test_a_human_reply_anywhere_in_the_thread_counts(self):
-        thread = [proposal(1), comment(2, "почему?", reply_to=1), comment(3, f"Because.{FOOTER}", reply_to=1)]
-        self.assertEqual(self.missing(thread), [1])
-
-    def test_a_session_answer_relayed_by_the_agent_counts(self):
-        for lead_in in ("In the session: “go ahead”", "В сессии: «бери, да»", "  «В сессии: бери, да»"):
-            with self.subTest(lead_in):
-                relayed = comment(2, f"{lead_in} — recorded.{FOOTER}", reply_to=1)
-                self.assertEqual(self.missing([proposal(1), relayed]), [1])
-
-    def test_the_lead_in_mid_body_is_no_session_answer(self):
-        quoting = comment(2, f"Done; as noted in the session: fine.{FOOTER}", reply_to=1)
-        self.assertEqual(self.missing([proposal(1), quoting]), [])
 
     def test_a_thread_without_the_marker_is_no_proposal(self):
         self.assertEqual(self.missing([comment(1, f"A review note.{FOOTER}"), comment(2, "ok", reply_to=1)]), [])

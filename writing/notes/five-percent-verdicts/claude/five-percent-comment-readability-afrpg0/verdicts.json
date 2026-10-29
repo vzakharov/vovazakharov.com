@@ -1,8 +1,29 @@
-{"pr": 229, "verdicts": [
-  {"comment": 4404026987, "about": "Judge proposal lines by a cold-reader subagent, not jargon regexes", "verdict": 0.1,
-   "why": "Rejected with its frame: code names in a proposal were never the problem, the convoluted writing was. The operator also turned down opening on a question before the problem is clear."},
-  {"comment": 4410313189, "about": "Rewrite the four backfilled proposals that still open on a question", "verdict": 0.3,
-   "why": "The session had already done it on its own call; the operator found it unnecessary, though harmless."},
-  {"comment": 4410730504, "about": "Have /finalize stop on an answered proposal with no verdict row", "verdict": 1,
-   "why": "Taken whole. The operator first read it as recording unanswered proposals too, as null rows; told it covers only threads they answered, they said «бери, да»."}
-]}
+{
+  "pr": 229,
+  "verdicts": [
+    {
+      "comment": 4404026987,
+      "about": "Judge proposal lines by a cold-reader subagent, not jargon regexes",
+      "verdict": 0.1,
+      "why": "Rejected with its frame: code names in a proposal were never the problem, the convoluted writing was. The operator also turned down opening on a question before the problem is clear."
+    },
+    {
+      "comment": 4410313189,
+      "about": "Rewrite the four backfilled proposals that still open on a question",
+      "verdict": 0.3,
+      "why": "The session had already done it on its own call; the operator found it unnecessary, though harmless."
+    },
+    {
+      "comment": 4410730504,
+      "about": "Have /finalize stop on an answered proposal with no verdict row",
+      "verdict": 1,
+      "why": "Taken whole. The operator first read it as recording unanswered proposals too, as null rows; told it covers only threads they answered, they said «бери, да»."
+    },
+    {
+      "comment": 4410876801,
+      "about": "Count a proposal answered on any reply in its thread, from anyone",
+      "verdict": 1,
+      "why": "Taken as proposed, in the session: «окей, sounds fine». The session lead-in was one phrasing among those CLAUDE.md allows, so matching it missed answers; the stray agent reply it now counts is rare."
+    }
+  ]
+}

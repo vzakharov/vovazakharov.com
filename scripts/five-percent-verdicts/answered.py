@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """Fails when a PR has a `/five-percent` proposal the operator answered and its branch has no row for.
 
-A proposal is a review comment opening on `PROPOSAL_MARKER`; it is answered once a reply in its
-thread carries no agent footer, which is the only thing telling the operator from the agent
-under one login (`scripts/gh_export/authorship.py`), or relays a session answer under
-`SESSION_LEAD_IN`. An unanswered proposal needs no row
+A proposal is a review comment opening on `PROPOSAL_MARKER`; it is answered once its thread has
+any reply, from anyone. An unanswered proposal needs no row
 (`.claude/skills/five-percent/verdicts.md`), so it is never reported.
 
 Usage: `python3 scripts/five-percent-verdicts/answered.py <pr> [--repo OWNER/REPO]`, the
@@ -15,7 +13,6 @@ from __future__ import annotations
 
 import argparse
 import os
-import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -26,14 +23,10 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from gh_export.api import api_get, api_paginated
-from gh_export.authorship import split_agent_footer
 from lib.github import AllRoutesFailed, detect_origin_repo, die, format_route_statuses, gh_token
 from tally import LEAF, VERDICTS_DIR, Malformed, parse_leaf, positive_int
 
 PROPOSAL_MARKER = "<!-- five-percent proposal"
-# An answer the operator gave in the session chat reaches the thread in an agent-signed post
-# that opens on CLAUDE.md § "GitHub comments"' lead-in, so the lead-in marks it as theirs.
-SESSION_LEAD_IN = re.compile(r"""\A[\s«"“„']*(?:In the session|В сессии)\s*:""", re.IGNORECASE)
 
 
 class BadPayload(ValueError):
@@ -74,21 +67,12 @@ def parse_head_ref(payload: Any) -> str:
     return ref
 
 
-def _operator_answer(comment: ReviewComment) -> bool:
-    by_agent, _ = split_agent_footer(comment.body)
-    return not by_agent or bool(SESSION_LEAD_IN.match(comment.body))
-
-
 def answered_proposals(comments: list[ReviewComment]) -> list[ReviewComment]:
-    human_replied_to = {
-        c.in_reply_to_id
-        for c in comments
-        if c.in_reply_to_id is not None and _operator_answer(c)
-    }
+    replied_to = {c.in_reply_to_id for c in comments if c.in_reply_to_id is not None}
     return [
         c
         for c in comments
-        if c.in_reply_to_id is None and c.body.startswith(PROPOSAL_MARKER) and c.id in human_replied_to
+        if c.in_reply_to_id is None and c.body.startswith(PROPOSAL_MARKER) and c.id in replied_to
     ]
 
 

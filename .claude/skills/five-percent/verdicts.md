@@ -28,8 +28,7 @@ does not exist yet starts with the PR's number and an empty list.
 
 **An answer given in the session chat rather than the thread is a verdict too**:
 post it to the proposal's thread as a reply opening on CLAUDE.md § "GitHub
-comments"' lead-in, then record the row. That lead-in is what tells
-`answered.py` the agent-signed reply carries the operator's answer.
+comments"' lead-in, then record the row.
 
 **A proposal the operator never answered gets no row**, a 0 included: silence is
 often no time to look, and scoring it would read as a rejection.
