@@ -104,7 +104,9 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 - **T06** — 7780ea52: `ZONES` drops `si`, `de` for `sh`, `gg`. Asked which of
   `.to .tv .cc .page .fyi .link` to add.
 - **T07** — 8033ec76: `price.ts` (type + `priceParts`) apart from `prices.ts`;
-  `lookup.ts` on `zod/mini`; page scripts 313 → 242 KB gz. Asked whether the
+  `lookup.ts` checks answers with its own type guards, no zod in the
+  browser (6b868cdf, the operator: «именно для этого мы его и удаляли»);
+  page scripts 313 → 228 KB gz. Asked whether the
   poison-check extension (no classic zod / build-time packages from client
   roots) goes here, on its own branch, or to an issue.
 - **T08** — issue #235. **T09, T10** — answered, no change.

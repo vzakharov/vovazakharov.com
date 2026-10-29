@@ -12,9 +12,9 @@ dice that rolls a word pair. Any zone Porkbun sells can lead the grid
 of twelve common ones: typed, or as a domain hack (agenticbible ->
 agentic.bible), a leading zone splitting off only where both halves are
 dictionary words (lovepage -> page.love). Prices are Porkbun's,
-read at build, so a pricing failure fails the build; the browser parses
-registry answers with zod's mini build, the classic one costing some
-70 KB gzipped on the page. A taken name shows
+read at build, so a pricing failure fails the build; the browser checks
+registry answers with type guards of its own, since zod would ship with
+them. A taken name shows
 its expiry date on hover, and says when it is up for grabs only in
 RDAP's pending delete, since before that the owner can still renew.
 The query rides in the URL hash, one history step per name.
