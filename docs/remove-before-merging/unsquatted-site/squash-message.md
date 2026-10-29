@@ -17,8 +17,11 @@ its expiry date on hover, and says when it is up for grabs only in
 RDAP's pending delete, since before that the owner can still renew.
 The query rides in the URL hash, one history step per name.
 
-The listed names are files under public/picks/, re-checked on load; a
-pick past its shownUntil date leaves the list and its file stays.
+The listed names are files under public/picks/, re-checked on load and
+ordered by a float score in their frontmatter, so a new name slots in
+between two others; a pick past its shownUntil date leaves the list
+and its file stays. The Open Graph card is generated from the lede and
+the four best picks, so it cannot say what the page has stopped saying.
 
 Shell gains three hooks that are no-ops for the other sites: an accent
 colour token, a --radius-default property and a fontVariables slot on
@@ -26,7 +29,7 @@ the root layout. Music's genius-style NotedSpan moves to shell for both
 sites, and kernel gains fetchOk, which makes a fetcher name the error
 class it throws. The site is wired as a receiver
 (vzakharov/unsquatted.com) in deploy, vet, preview and publish-site.sh,
-with its Umami site and Open Graph card.
+with its Umami site.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
