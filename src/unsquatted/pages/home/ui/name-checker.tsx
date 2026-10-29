@@ -55,9 +55,9 @@ const checkableDomains = (rows: readonly Row[]) =>
 /**
  * A name checked in the zones once typing pauses — so the words on the way to
  * the one meant cost no lookups — or at once on Check. Only the rows the closed
- * list shows are looked up; the rest wait for the toggle to be opened, pointed
- * at or focused, the first of which asks for them, so a visitor who never opens
- * it costs the registries none of those lookups.
+ * list shows are looked up; the rest wait until the toggle is pointed at,
+ * focused or opened, so a visitor who never reaches for it costs the registries
+ * none of those lookups.
  */
 export function NameChecker({ copy, prices }: NameCheckerProps) {
   const {

@@ -145,8 +145,9 @@
 }
 
 // Three rows at most until opened, as many columns across as the width allows.
-// `CLOSED_ROWS` in `name-checker.tsx` is that count: only the rows shown here
-// are looked up before the toggle is wanted.
+// The `n + …` cut-offs are those rows times the columns at each width, and
+// `CLOSED_ROWS` in `name-checker.tsx` repeats the three: the rows before the
+// cut-off are the ones looked up before the toggle is wanted.
 .zones {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
