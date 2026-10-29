@@ -1,7 +1,13 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Sourced, WithUrl } from '@/kernel/shared/typings';
 
-import { type DeckListeners, type Decks, dueNext, listen, refusal } from '../../station';
+import {
+  type DeckListeners,
+  type Decks,
+  dueNext,
+  listen,
+  refusal,
+} from '../../station';
 
 /** A file the deck holds or fetches, and the in-memory copy it plays once there is one. */
 type Copied = Sourced & Partial<WithUrl>;
