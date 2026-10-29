@@ -10,6 +10,7 @@ import ts from 'typescript';
 
 import {
   isTest,
+  LAYERS,
   PUBLIC_API,
   SEGMENTS,
   SLICED_LAYERS,
@@ -35,37 +36,58 @@ const STAYS = /\/\/ masd-disable promotion -- \S/;
 const within = (file: string, directory: string): boolean =>
   file.startsWith(directory + path.sep);
 
+/** The paths of the slices in `apps`' sliced layers. */
+const slicesIn = (apps: readonly string[]): string[] =>
+  apps.flatMap((app) =>
+    SLICED_LAYERS.flatMap((layer) => {
+      const directory = path.join('src', app, layer);
+      return existsSync(directory)
+        ? subdirectories(directory).map((slice) => path.join(directory, slice))
+        : [];
+    }),
+  );
+
+/** The sub-slices directly in `unit`, as paths. */
+function childSubSlices(unit: string): string[] {
+  return (
+    readdirSync(unit, { withFileTypes: true })
+      // A folder holding no source, such as one of images, is no sub-slice.
+      .filter(
+        (entry) =>
+          entry.isDirectory() &&
+          !SEGMENTS.includes(entry.name) &&
+          readdirSync(path.join(unit, entry.name), { recursive: true }).some(
+            (file) => SOURCE.test(String(file)),
+          ),
+      )
+      .map((entry) => path.join(unit, entry.name))
+  );
+}
+
+/** The slices in `apps` cut into sub-slices. */
+export const slicesWithSubSlices = (apps: readonly string[]): string[] =>
+  slicesIn(apps).filter((slice) => childSubSlices(slice).length > 0);
+
 /**
  * A segment's name below a segment, which Steiger's `no-reserved-folder-names`
  * would catch were it not off in the sliced layers for the sub-slices' sake.
  */
 function nestedSegments(apps: readonly string[]): string[] {
-  return apps.flatMap((app) =>
-    SLICED_LAYERS.flatMap((layer) => {
-      const directory = path.join('src', app, layer);
-      if (!existsSync(directory)) return [];
-      return subdirectories(directory).flatMap((slice) =>
-        readdirSync(path.join(directory, slice), {
-          recursive: true,
-          withFileTypes: true,
-        })
-          .filter((entry) => entry.isDirectory())
-          .flatMap((entry) => {
-            const folder = path.join(entry.parentPath, entry.name);
-            const dirs = path
-              .relative(path.join(directory, slice), folder)
-              .split(path.sep);
-            const segment = dirs.findIndex((dir) => SEGMENTS.includes(dir));
-            return segment !== -1 &&
-              segment < dirs.length - 1 &&
-              SEGMENTS.includes(entry.name)
-              ? [
-                  `${folder}: "${entry.name}" names a segment, inside segment "${dirs[segment]}"; a folder in a segment takes a name of its own`,
-                ]
-              : [];
-          }),
-      );
-    }),
+  return slicesIn(apps).flatMap((slice) =>
+    readdirSync(slice, { recursive: true, withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .flatMap((entry) => {
+        const folder = path.join(entry.parentPath, entry.name);
+        const dirs = path.relative(slice, folder).split(path.sep);
+        const segment = dirs.findIndex((dir) => SEGMENTS.includes(dir));
+        return segment !== -1 &&
+          segment < dirs.length - 1 &&
+          SEGMENTS.includes(entry.name)
+          ? [
+              `${folder}: "${entry.name}" names a segment, inside segment "${dirs[segment]}"; a folder in a segment takes a name of its own`,
+            ]
+          : [];
+      }),
   );
 }
 
@@ -76,19 +98,10 @@ function nestedSegments(apps: readonly string[]): string[] {
  */
 function mixed(apps: readonly string[]): string[] {
   const inUnit = (unit: string): string[] => {
-    const entries = readdirSync(unit, { withFileTypes: true });
-    // A folder holding no source, such as one of images, is no sub-slice.
-    const subs = entries.filter(
-      (entry) =>
-        entry.isDirectory() &&
-        !SEGMENTS.includes(entry.name) &&
-        readdirSync(path.join(unit, entry.name), { recursive: true }).some(
-          (file) => SOURCE.test(String(file)),
-        ),
-    );
-    const below = subs.flatMap((sub) => inUnit(path.join(unit, sub.name)));
+    const subs = childSubSlices(unit);
+    const below = subs.flatMap((sub) => inUnit(sub));
     if (subs.length === 0) return below;
-    const loose = entries
+    const loose = readdirSync(unit, { withFileTypes: true })
       .filter((entry) =>
         entry.isDirectory()
           ? SEGMENTS.includes(entry.name)
@@ -103,16 +116,7 @@ function mixed(apps: readonly string[]): string[] {
           ...below,
         ];
   };
-  return apps.flatMap((app) =>
-    SLICED_LAYERS.flatMap((layer) => {
-      const directory = path.join('src', app, layer);
-      return existsSync(directory)
-        ? subdirectories(directory).flatMap((slice) =>
-            inUnit(path.join(directory, slice)),
-          )
-        : [];
-    }),
-  );
+  return slicesIn(apps).flatMap((slice) => inUnit(slice));
 }
 
 /** Each child sub-slice of a unit, and the siblings it imports. */
@@ -320,15 +324,67 @@ function enteredFrom(
   return { consumer, target, parent };
 }
 
+/** A file's FSD layer, for a file in one; routers, scripts and the like have none. */
+function layerOf(file: string): string | undefined {
+  const [root, , layer = ''] = file.split(path.sep);
+  return root === 'src' && LAYERS.includes(layer) ? layer : undefined;
+}
+
+/** A layer's height, highest first. */
+const rank = (layer: string): number => LAYERS.indexOf(layer);
+
+/** Whether a layer may be imported by `importer`'s, `shared` by `shared` included. */
+const below = (importer: string) => (layer: string) =>
+  rank(layer) > rank(importer) || (layer === 'shared' && importer === 'shared');
+
+/** Whether a layer may import `imported`'s, which `shared` anything may. */
+const above = (imported: string) => (layer: string) =>
+  imported === 'shared' || rank(layer) < rank(imported);
+
+/**
+ * The layers a sub-slice of `slice` promoted to a slice of its own may land
+ * on, in its app: strictly below each layer importing it — `takers` through
+ * the slice's barrels, its siblings directly — and strictly above each sliced
+ * layer it imports, `shared` taking from `shared` as segments do. Which of them
+ * fits is a call on what the piece is, so this only narrows it.
+ */
+function destinations(
+  sub: string,
+  slice: string,
+  takers: ReadonlySet<string>,
+  imports: ReadonlyMap<string, ReadonlySet<string>>,
+): string[] {
+  const bars = [...takers].flatMap((file) => {
+    const layer = layerOf(file);
+    return layer === undefined ? [] : [below(layer)];
+  });
+  const isBarrel = (file: string): boolean =>
+    path.dirname(file) === slice && PUBLIC_API.includes(path.basename(file));
+  for (const [from, targets] of imports) {
+    const inside = within(from, sub);
+    if (!inside && isBarrel(from)) continue;
+    for (const to of targets) {
+      if (within(to, sub) === inside) continue;
+      const other = layerOf(inside ? to : from);
+      if (other !== undefined) bars.push((inside ? above : below)(other));
+    }
+  }
+  return [...SLICED_LAYERS, 'shared'].filter((layer) =>
+    bars.every((fits) => fits(layer)),
+  );
+}
+
 /**
  * Consumers that take from a slice or a sub-slice only what one of its
  * sub-slices exports: that sub-slice belongs one level out, where both can
- * import it — a slice of its own, or a sub-slice beside the one it sits in.
- * One that imports every sibling, directly or not, is the unit's head, and a
- * consumer of the head needs the whole unit.
+ * import it — a slice of its own, on a layer `destinations` lists, or a
+ * sub-slice beside the one it sits in. One that imports every sibling,
+ * directly or not, is the unit's head, and a consumer of the head needs the
+ * whole unit.
  */
 function promotions(
   files: readonly string[],
+  imports: ReadonlyMap<string, ReadonlySet<string>>,
   graphs: ReadonlyMap<string, Siblings>,
 ): string[] {
   const isHead = (sub: string, unit: string): boolean => {
@@ -358,6 +414,8 @@ function promotions(
     string,
     { subs: Set<string | undefined>; parent?: string }
   >();
+  // Each sub-slice, as the files taking its exports through a barrel.
+  const takers = new Map<string, Set<string>>();
   for (const file of files) {
     if (isTest(file)) continue;
     for (const [loaded, names] of takes(file)) {
@@ -367,7 +425,13 @@ function promotions(
       const named = originsOf(loaded, target);
       const key = `${consumer}\n${target}`;
       const record = taken.get(key) ?? { subs: new Set(), parent };
-      for (const name of names) record.subs.add(named.get(name));
+      for (const name of names) {
+        const sub = named.get(name);
+        record.subs.add(sub);
+        if (sub !== undefined) {
+          takers.set(sub, (takers.get(sub) ?? new Set()).add(file));
+        }
+      }
       taken.set(key, record);
     }
   }
@@ -382,9 +446,15 @@ function promotions(
     if (existsSync(barrel) && STAYS.test(readFileSync(barrel, 'utf8'))) {
       return [];
     }
+    const layers =
+      parent === undefined
+        ? destinations(sub, target, takers.get(sub) ?? new Set(), imports)
+        : [];
     const remedy =
       parent === undefined
-        ? 'promote it to a slice of its own that both can import'
+        ? layers.length === 0
+          ? 'promote it to a slice of its own that both can import, though no layer of its app lies below what imports it and above what it imports'
+          : `promote it to a slice of its own that both can import, on ${layers.map((layer) => `"${layer}"`).join(' or ')} — whichever names what it is`
         : `move it up into ${parent}, beside "${path.basename(target)}", so both import it from there`;
     return [
       `${consumer} takes from ${target} only its sub-slice "${path.basename(sub)}": ${remedy}. Where the import rules leave it nowhere to go, ask the operator, and on their yes put "// masd-disable promotion -- <why it cannot move>" in ${barrel}.`,
@@ -408,6 +478,6 @@ export function subSliceProblems(
     ...mixed(apps),
     ...siblingCycles(graphs),
     ...insignificant(slices, imports, graphs),
-    ...promotions(files, graphs),
+    ...promotions(files, imports, graphs),
   ];
 }

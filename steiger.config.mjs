@@ -4,6 +4,12 @@
 import fsd from '@feature-sliced/steiger-plugin';
 import { defineConfig } from 'steiger';
 
+import { loadGraph } from './eslint/masd-graph.ts';
+import { slicesWithSubSlices } from './scripts/lib/sub-slices.ts';
+
+// Loaded from the repository root, where `lint:fsd` runs Steiger.
+const subSliced = slicesWithSubSlices([...loadGraph().keys()]);
+
 export default defineConfig([
   ...fsd.configs.recommended,
   {
@@ -33,4 +39,21 @@ export default defineConfig([
       'fsd/no-reserved-folder-names': 'off',
     },
   },
+  ...(subSliced.length === 0
+    ? []
+    : [
+        {
+          // Steiger reads a sub-slice as a slice of a group named for its
+          // parent, so a sibling import is sideways to it and the parent a
+          // slice with no segments. Both hold here already: `boundaries`
+          // checks every import, and `scripts/masd-check.ts` the sub-sliced
+          // slice's shape. Off only in a slice cut into sub-slices, so every
+          // other slice keeps them.
+          files: subSliced.flatMap((slice) => [`./${slice}`, `./${slice}/**`]),
+          rules: {
+            'fsd/forbidden-imports': 'off',
+            'fsd/no-segmentless-slices': 'off',
+          },
+        },
+      ]),
 ]);
