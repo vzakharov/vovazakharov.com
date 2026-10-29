@@ -53,8 +53,8 @@ export const ZONES = [
   'dev',
   'me',
   'xyz',
-  'si',
-  'de',
+  'sh',
+  'gg',
 ] as const;
 
 /** The longest label DNS allows. */
