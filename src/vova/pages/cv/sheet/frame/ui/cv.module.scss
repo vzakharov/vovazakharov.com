@@ -18,8 +18,9 @@
 
   // Body copy prints a point under the sheet's default, which is what keeps the
   // CV to three pages. `:where()` leaves the specificity at this one class, so
-  // the classes below that size a paragraph of their own (the tagline, the
-  // contact line) still win on order.
+  // a class sizing a paragraph of its own still wins on order: the tagline
+  // below, and the full sheet's contact line, whose stylesheet its component
+  // imports after this one.
   @media print {
     padding: 0;
 

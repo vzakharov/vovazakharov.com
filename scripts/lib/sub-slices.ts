@@ -337,7 +337,7 @@ const rank = (layer: string): number => LAYERS.indexOf(layer);
 const below = (importer: string) => (layer: string) =>
   rank(layer) > rank(importer) || (layer === 'shared' && importer === 'shared');
 
-/** Whether a layer may import `imported`'s, which `shared` anything may. */
+/** Whether a layer may import `imported`'s; every layer may import `shared`. */
 const above = (imported: string) => (layer: string) =>
   imported === 'shared' || rank(layer) < rank(imported);
 

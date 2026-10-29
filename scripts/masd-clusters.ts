@@ -23,9 +23,8 @@
  *   cut;
  * - its root carries no `// masd-disable cluster -- <why>`, which the operator
  *   approves for a cluster that should stay where it is;
- * - splitting it off raises the modularity of the unit's own graph. The app's
- *   graph is the wrong one here: past a few hundred edges, modularity's
- *   resolution limit lets no split inside a slice pay for its one door.
+ * - splitting it off raises the modularity of the unit's own graph, not the
+ *   app's (`scripts/masd-check.README.md` says why).
  *
  * Per unit it prints the best candidate and each next best that overlaps none
  * already printed. Reads `src/` and `sites/*\/app/` under the working directory.

@@ -44,11 +44,11 @@ export default defineConfig([
     : [
         {
           // Steiger reads a sub-slice as a slice of a group named for its
-          // parent, so a sibling import is sideways to it and the parent a
-          // slice with no segments. Both hold here already: `boundaries`
-          // checks every import, and `scripts/masd-check.ts` the sub-sliced
-          // slice's shape. Off only in a slice cut into sub-slices, so every
-          // other slice keeps them.
+          // parent, so it flags a sibling import as sideways and the parent
+          // as a slice with no segments. Both are checked here already —
+          // every import by `boundaries`, the sub-sliced slice's shape by
+          // `scripts/masd-check.ts` — so the two rules go off in such
+          // slices alone.
           files: subSliced.flatMap((slice) => [`./${slice}`, `./${slice}/**`]),
           rules: {
             'fsd/forbidden-imports': 'off',
