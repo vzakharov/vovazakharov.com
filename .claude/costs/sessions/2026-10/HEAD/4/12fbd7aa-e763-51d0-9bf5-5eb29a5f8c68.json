@@ -1,0 +1,75 @@
+{
+  "total": {
+    "inputTokens": 440,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 352292,
+    "cacheReadTokens": 54720131,
+    "outputTokens": 134513,
+    "thinkingTokens": 24240,
+    "responses": 215,
+    "costUsd": 16.454382199999994
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "vovazakharov.com/src/unsquatted/pages/home/lib/lookup.ts",
+    "endedAt": "2026-10-29T05:35:08.142Z",
+    "contextTokens": 133810,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 71608,
+      "cacheReadTokens": 1312043,
+      "outputTokens": 4402,
+      "thinkingTokens": 1952,
+      "responses": 12,
+      "costUsd": 0.9234086
+    }
+  },
+  "sessionId": "12fbd7aa-e763-51d0-9bf5-5eb29a5f8c68",
+  "branch": "HEAD",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-domains-8crv0t — unsquatted.com живой; дальше: подсказка в поле, кнопка Check с лоадером, имя с зоной первым, потом кубик",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDPvupTeikBzEThB7t",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T05:33:08.121Z",
+  "lastResponseAt": "2026-10-29T08:23:57.244Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 440,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 352292,
+    "cacheReadTokens": 54720131,
+    "outputTokens": 134513,
+    "thinkingTokens": 24240,
+    "responses": 215,
+    "costUsd": 16.454382199999994
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 440,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 352292,
+      "cacheReadTokens": 54720131,
+      "outputTokens": 134513,
+      "thinkingTokens": 24240,
+      "responses": 215,
+      "costUsd": 16.454382199999994
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null
+}
