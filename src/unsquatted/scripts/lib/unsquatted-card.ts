@@ -78,7 +78,6 @@ ${DICE_FACES.map(
 ).join('\n')}
         </svg>`;
 
-/** The lede the headline, the card's own shorter byline under it. */
 function lede(): readonly [string, string] {
   return [COPY.lede, COPY.cardByline];
 }

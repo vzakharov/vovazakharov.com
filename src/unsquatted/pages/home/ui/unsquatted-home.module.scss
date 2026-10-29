@@ -28,8 +28,7 @@
   line-height: 1.65;
 }
 
-// A caption under the lede: smaller and quieter, on one run of text. Quieter
-// by its colour, since an opacity would make it a stacking context, trapping
+// Quieter by its colour: an opacity would make it a stacking context, trapping
 // its note beneath the field below and showing through it.
 .byline {
   max-width: 64ch;
