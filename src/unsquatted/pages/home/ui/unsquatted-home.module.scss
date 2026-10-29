@@ -55,6 +55,7 @@
 
 .field {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
 }
@@ -62,12 +63,32 @@
 .fieldInput {
   flex: 1;
   min-width: 0;
+
+  // On the narrowest screens the field takes its own row, the buttons the
+  // next.
+  @media (width < 24em) {
+    flex-basis: 100%;
+  }
 }
 
 // Dimmed while it spins, so it reads as off as well as being off.
-.check[data-loading] {
-  opacity: 0.55;
-  cursor: progress;
+.check {
+  flex-shrink: 0;
+
+  // On a phone the field needs the width more than the button's padding does.
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    padding-inline: 14px;
+  }
+
+  // On its own row beside the dice, it takes the rest of the width.
+  @media (width < 24em) {
+    flex: 1;
+  }
+
+  &[data-loading] {
+    opacity: 0.55;
+    cursor: progress;
+  }
 }
 
 // The default variant's hover fills the button with the foreground, which
@@ -138,6 +159,15 @@
       display: none;
     }
   }
+
+  // Two cards no longer fit a long verdict side by side.
+  @media (width < 22em) {
+    grid-template-columns: minmax(0, 1fr);
+
+    &[data-open='false'] > :nth-child(n + 4) {
+      display: none;
+    }
+  }
 }
 
 .moreZones {
@@ -170,6 +200,11 @@
   font-weight: 600;
   white-space: nowrap;
 
+  // A narrow card wraps a long verdict rather than spilling it.
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    white-space: normal;
+  }
+
   &[data-state='pending'],
   &[data-state='unknown'] {
     color: var(--unsquatted-muted);
@@ -188,7 +223,14 @@
   }
 }
 
-// A line of its own under the zone's name and verdict.
+// Lines of their own under the zone's name and verdict.
+.price {
+  flex-basis: 100%;
+  color: var(--unsquatted-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 .aside {
   flex-basis: 100%;
   color: var(--unsquatted-muted);

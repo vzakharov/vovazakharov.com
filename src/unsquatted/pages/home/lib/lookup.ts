@@ -35,7 +35,6 @@ export const ZONES = [
   'dev',
   'me',
   'xyz',
-  'ly',
   'si',
   'de',
 ] as const;
@@ -76,24 +75,43 @@ export function typedZone(input: string): string | undefined {
 export type Row = WithDomain & { checkable: boolean };
 
 /**
+ * The name split where it ends in a zone of `ZONES` — `fuckapp` as
+ * `fuck.app` — longest zone first.
+ */
+export function domainHacks(label: string): string[] {
+  return ZONES.filter(
+    (each) => label.length > each.length && label.endsWith(each),
+  )
+    .toSorted((a, b) => b.length - a.length)
+    .map((each) => `${label.slice(0, -each.length)}.${each}`)
+    .filter((domain) => !domain.startsWith('-') && !domain.includes('-.'));
+}
+
+/**
  * The domains a lookup shows for `label`: every zone of `ZONES`, led by the
- * zone typed with it, which is shown even where it cannot be checked.
+ * zone typed with it — shown even where it cannot be checked — and then by
+ * the name split where it already ends in a zone.
  */
 export function rowsFor(label: string, zone: string | undefined): Row[] {
+  const typed =
+    zone === undefined
+      ? []
+      : [
+          {
+            domain: `${label}.${zone}`,
+            checkable: (ZONES as readonly string[]).includes(zone),
+          },
+        ];
+  const hacks = domainHacks(label).map((domain) => ({
+    domain,
+    checkable: true,
+  }));
   const rest = ZONES.filter((each) => each !== zone).map((each) => ({
     domain: `${label}.${each}`,
     checkable: true,
   }));
 
-  return zone === undefined
-    ? rest
-    : [
-        {
-          domain: `${label}.${zone}`,
-          checkable: (ZONES as readonly string[]).includes(zone),
-        },
-        ...rest,
-      ];
+  return [...typed, ...hacks, ...rest];
 }
 
 const bootstrapSchema = z.object({

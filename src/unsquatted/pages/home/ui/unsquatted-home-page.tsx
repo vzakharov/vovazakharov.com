@@ -6,6 +6,7 @@ import { PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { COPY } from '../i18n';
+import { fetchPrices } from '../lib/prices';
 import { PICKS } from '../model/picks';
 import { CheckerProvider } from './checker-state';
 import { Hint } from './hint';
@@ -18,7 +19,9 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
 })}`;
 
 /** The site is one page: the checker, then the list the routine grows. */
-export function UnsquattedHomePage() {
+export async function UnsquattedHomePage() {
+  const prices = await fetchPrices();
+
   return (
     <PageShell>
       <Stack component="main" gap={48}>
@@ -38,7 +41,7 @@ export function UnsquattedHomePage() {
             <h2 id="check" className={classes['sectionHeading']}>
               {COPY.checkHeading}
             </h2>
-            <NameChecker copy={COPY} />
+            <NameChecker copy={COPY} {...{ prices }} />
           </section>
 
           <section aria-labelledby="names">

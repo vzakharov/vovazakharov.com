@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   cleanLabel,
   dohVerdict,
+  domainHacks,
   expiringIn,
   parseBootstrap,
   rdapVerdict,
@@ -41,7 +42,32 @@ describe('typedZone', () => {
   });
 });
 
+describe('domainHacks', () => {
+  it('splits a name that ends in a zone, longest zone first', () => {
+    assert.deepEqual(domainHacks('fuckapp'), ['fuck.app']);
+    assert.deepEqual(domainHacks('nordeco'), ['norde.co']);
+  });
+
+  it('leaves a name that is only the zone, or ends in none', () => {
+    assert.deepEqual(domainHacks('app'), []);
+    assert.deepEqual(domainHacks('foxedpage'), []);
+  });
+
+  it('skips a split that would leave a hyphen at the dot', () => {
+    assert.deepEqual(domainHacks('fox-io'), []);
+  });
+});
+
 describe('rowsFor', () => {
+  it('puts a split name before the zones, after a typed one', () => {
+    const rows = rowsFor('fuckapp', 'de');
+
+    assert.deepEqual(
+      rows.slice(0, 3).map(({ domain }) => domain),
+      ['fuckapp.de', 'fuck.app', 'fuckapp.com'],
+    );
+  });
+
   it('shows every zone when none was typed', () => {
     assert.equal(rowsFor('fox', undefined).length, ZONES.length);
   });

@@ -6,6 +6,7 @@ import { useState } from 'react';
 import type { WithCopy } from '../i18n';
 import { rollName } from '../lib/dice';
 import { type Row, rowsFor, type Verdict } from '../lib/lookup';
+import { type Prices, priceText } from '../lib/prices';
 import { useVerdicts } from '../lib/use-verdict';
 import { useChecker } from './checker-state';
 import { DiceIcon } from './dice-icon';
@@ -13,20 +14,25 @@ import classes from './unsquatted-home.module.scss';
 import { OWN_DOMAIN, VerdictLabel } from './verdict-label';
 
 type ZoneRowProps = WithCopy &
-  Row & { verdict: Verdict | undefined; ownNeighbour: boolean };
+  Row & {
+    verdict: Verdict | undefined;
+    ownNeighbour: boolean;
+    price: string | undefined;
+  };
 
 function ZoneRow({
   domain,
   checkable,
   verdict,
   ownNeighbour,
+  price,
   copy,
 }: ZoneRowProps) {
   return (
     <li className={classes['zone']}>
       <span className={classes['domain']}>{domain}</span>
       {checkable ? (
-        <VerdictLabel {...{ domain, verdict, ownNeighbour }} />
+        <VerdictLabel {...{ domain, verdict, ownNeighbour, price }} />
       ) : (
         <span className={classes['verdict']} data-state="unknown">
           {copy.cantCheck}
@@ -43,7 +49,9 @@ function ZoneRow({
  * the first three rows wait behind a toggle — looked up all the same, so
  * opening it shows answers rather than a round of lookups.
  */
-export function NameChecker({ copy }: WithCopy) {
+type NameCheckerProps = WithCopy & { prices: Prices };
+
+export function NameChecker({ copy, prices }: NameCheckerProps) {
   const {
     typed,
     type,
@@ -63,6 +71,11 @@ export function NameChecker({ copy }: WithCopy) {
     round,
   );
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
+  const priceOf = (domain: string) => {
+    const price = prices[domain.slice(domain.indexOf('.') + 1)];
+
+    return price === undefined ? undefined : priceText(price);
+  };
   const busy =
     (settling && typed.trim() !== '') || verdicts.size < checked.length;
 
@@ -121,6 +134,7 @@ export function NameChecker({ copy }: WithCopy) {
               key={row.domain}
               {...row}
               ownNeighbour={ownIndex !== -1 && index === ownIndex + 1}
+              price={priceOf(row.domain)}
               verdict={verdicts.get(row.domain)}
               {...{ copy }}
             />

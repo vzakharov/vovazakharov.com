@@ -9,6 +9,8 @@ type VerdictLabelProps = WithDomain & {
   verdict: Verdict | undefined;
   /** Shown beside the site's own domain, so teased about what it says. */
   ownNeighbour?: boolean;
+  /** What registering costs, shown where it is free or may be. */
+  price?: string | undefined;
 };
 
 /** The site's own domain, which a visitor checking it is teased about. */
@@ -39,6 +41,7 @@ export function VerdictLabel({
   domain,
   verdict,
   ownNeighbour = false,
+  price,
 }: VerdictLabelProps) {
   const state = verdict?.state ?? 'pending';
   const text = {
@@ -49,16 +52,20 @@ export function VerdictLabel({
     unknown: 'no answer',
   }[state];
   const aside = ownNeighbour ? neighbourAside(state) : undefined;
+  const registrable = state === 'free' || state === 'maybe';
 
   return (
     <>
       <span className={classes['verdict']} data-state={state}>
-        {state === 'free' || state === 'maybe' ? (
+        {registrable ? (
           <TextLink href={registerUrl(domain)}>{text}</TextLink>
         ) : (
           text
         )}
       </span>
+      {registrable && price !== undefined && (
+        <span className={classes['price']}>{price}</span>
+      )}
       {aside !== undefined && <span className={classes['aside']}>{aside}</span>}
     </>
   );

@@ -49,6 +49,7 @@ export function CheckerProvider({ children }: WithChildren) {
   const [typed, setTyped] = useState('');
   const [query, setQuery] = useState<Query>({ text: '', round: 0 });
   const fieldRef = useRef<HTMLInputElement>(null);
+  const linkReadRef = useRef(false);
   const { text, round } = query;
 
   const ask = (asked: string) => {
@@ -74,7 +75,6 @@ export function CheckerProvider({ children }: WithChildren) {
     const lookUp = (hash: string) => {
       const name = decodeURIComponent(hash.slice(1));
 
-      if (name === '') return;
       setTyped(name);
       setQuery((before) => ({ text: name, round: before.round + 1 }));
     };
@@ -82,10 +82,9 @@ export function CheckerProvider({ children }: WithChildren) {
       lookUp(globalThis.location.hash);
     };
 
-    // Read now, before the effect below writes the still-empty field over it.
-    const linked = globalThis.location.hash;
     const first = setTimeout(() => {
-      lookUp(linked);
+      linkReadRef.current = true;
+      if (globalThis.location.hash !== '') fromHash();
     }, 0);
     globalThis.addEventListener('hashchange', fromHash);
 
@@ -98,17 +97,19 @@ export function CheckerProvider({ children }: WithChildren) {
   const label = cleanLabel(text);
   const zone = typedZone(text);
 
-  // What is looked up stays in the address, so a reload keeps it and a link
-  // shares it. Replaced rather than pushed: each name is not a page to go
-  // back through.
+  // What is looked up stays in the address once typing pauses, so a reload
+  // keeps it and a link shares it. Each name is a step in the history, so
+  // back and forward walk through them; walking fires `hashchange` above,
+  // which looks the name up again.
   useEffect(() => {
     const hash =
       label === '' ? '' : `#${label}${zone === undefined ? '' : `.${zone}`}`;
 
-    if (globalThis.location.hash === hash) return;
+    // Until the link is read, the empty field would write over it.
+    if (!linkReadRef.current || globalThis.location.hash === hash) return;
     const { pathname, search } = globalThis.location;
 
-    globalThis.history.replaceState(null, '', `${pathname}${search}${hash}`);
+    globalThis.history.pushState(null, '', `${pathname}${search}${hash}`);
   }, [label, zone]);
 
   const checkHere = (name: string) => {
