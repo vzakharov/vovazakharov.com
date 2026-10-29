@@ -3,19 +3,15 @@ Proposed squash body:
 ```
 The operator could not read /five-percent's proposals, let alone decide
 on them: each was one dense paragraph that opened on what the change
-took as given, left the alternative after an arrow mid-way, and spoke in
-the plan's and the code's names. A template asking for three parts had
-already been ignored by the very next pass.
+took as given, left the alternative after an arrow mid-way, and stacked
+clause on clause. A template asking for three parts had already been
+ignored by the very next pass.
 
-A proposal now shows three lines in the operator's nouns: a bold
-question a yes or a no answers, what the change does now, and what
-taking it costs. The evidence, with every file and function name, goes
-in a <details> fold for the session that acts on the answer.
-
-scripts/five-percent-proposal/check.py holds that floor rather than a
-template being read: the shape, a 60-word cap on the visible lines and
-no code spans, paths, links or code-cased names in them. The pass runs
-it on each body before posting, and vet runs its tests.
+A proposal now shows three lines, each one plain sentence: what the
+change does and what is wrong with that, then the proposal in bold,
+then what taking it costs. The problem comes first, since a proposal
+read before its problem cannot be weighed. The evidence goes in a
+<details> fold for the session that acts on the answer.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
