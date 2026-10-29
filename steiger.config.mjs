@@ -23,4 +23,14 @@ export default defineConfig([
       'fsd/insignificant-slice': 'off',
     },
   },
+  {
+    // A folder in a slice not named for a segment is a sub-slice, cut into
+    // segments of its own, so a segment's name below it is exactly what the
+    // rule forbids. `scripts/masd-check.ts` keeps what it still guards: a
+    // segment's name inside a segment.
+    files: ['./src/*/{pages,widgets,features,entities}/**'],
+    rules: {
+      'fsd/no-reserved-folder-names': 'off',
+    },
+  },
 ]);

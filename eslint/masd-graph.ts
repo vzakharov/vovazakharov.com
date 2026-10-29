@@ -19,6 +19,25 @@ export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
 
 /**
+ * The segments a slice is cut into: FSD's standard ones, and `i18n`, whose
+ * one-file folders would otherwise each read as a sub-slice too small to earn
+ * its cut. Any other folder directly in a slice or a sub-slice is a sub-slice.
+ */
+export const SEGMENTS = ['ui', 'model', 'lib', 'api', 'config', 'i18n'];
+
+/**
+ * The sub-slices a file below a slice root sits in, outermost first, as their
+ * paths from that root: the folders leading its path before the first segment.
+ * `dirs` are the folders between the slice root and the file.
+ */
+export function subSlicePath(dirs: readonly string[]): string[] {
+  const segment = dirs.findIndex((dir) => SEGMENTS.includes(dir));
+  return dirs
+    .slice(0, segment === -1 ? dirs.length : segment)
+    .map((_, index) => dirs.slice(0, index + 1).join('/'));
+}
+
+/**
  * A slice's or a segment's entry points. A closed list, so any other
  * `index.*.ts` is still reaching into internals.
  */

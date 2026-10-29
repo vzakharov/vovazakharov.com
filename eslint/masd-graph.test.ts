@@ -13,6 +13,7 @@ import {
   insignificantApps,
   loadGraph,
   parseGraph,
+  subSlicePath,
 } from './masd-graph.ts';
 
 // base ← left, right ← both: a diamond, `both` having two parents.
@@ -117,5 +118,23 @@ describe('directoryMismatches', () => {
         'masd: src/x is not in the graph',
       ],
     );
+  });
+});
+
+describe('subSlicePath', () => {
+  it('reads the folders before the first segment as nested sub-slices', () => {
+    assert.deepEqual(subSlicePath(['prose', 'inner', 'ui']), [
+      'prose',
+      'prose/inner',
+    ]);
+  });
+
+  it('counts a sub-slice’s root files as inside it', () => {
+    assert.deepEqual(subSlicePath(['prose']), ['prose']);
+  });
+
+  it('reads a folder inside a segment as part of that segment', () => {
+    assert.deepEqual(subSlicePath(['ui', 'backdrop']), []);
+    assert.deepEqual(subSlicePath(['i18n', 'messages']), []);
   });
 });

@@ -263,3 +263,69 @@ describe('masd-check', () => {
     assert.match(stderr, /blog is declared above its parent kernel/);
   });
 });
+
+// A card entity with a `face` sub-slice, which both pages take; documents
+// takes the card's own `back` as well.
+const CARD = 'src/blog/entities/card';
+const CARDS: Tree = {
+  [`${CARD}/index.ts`]:
+    "export { face } from './face';\nexport { back } from './ui/back';",
+  [`${CARD}/ui/back.ts`]: "export { edge as back } from './edge';",
+  [`${CARD}/ui/edge.ts`]: 'export const edge = 1;',
+  [`${CARD}/face/index.ts`]: "export { face } from './ui/face';",
+  [`${CARD}/face/ui/face.ts`]: "export { lens as face } from './lens';",
+  [`${CARD}/face/ui/lens.ts`]: 'export const lens = 1;',
+  'src/site/pages/home/ui.ts':
+    "import { face } from '@/blog/entities/card';\nexport const home = face;",
+  'src/blog/pages/documents/ui.ts':
+    "import { back, face } from '@/blog/entities/card';\nexport const documents = [back, face];",
+};
+
+const PROMOTE_FACE = `src/site/pages/home takes from ${CARD} only its sub-slice "face"`;
+
+describe('masd-check on sub-slices', () => {
+  it('flags a segment named inside a segment', () => {
+    const { status, stderr } = run({
+      'src/blog/pages/documents/ui/model/x.ts': 'export {};',
+    });
+    assert.equal(status, 1);
+    assert.equal(
+      stderr,
+      'src/blog/pages/documents/ui/model: "model" names a segment, inside segment "ui"; a folder in a segment takes a name of its own\n',
+    );
+  });
+
+  it('flags a consumer taking only one sub-slice', () => {
+    const { status, stderr } = run(CARDS);
+    assert.equal(status, 1);
+    assert.equal(stderr.split('\n').length, 2);
+    assert.ok(stderr.startsWith(PROMOTE_FACE), stderr);
+    assert.match(stderr, /masd-disable promotion -- <why it cannot move>/);
+  });
+
+  it('spares a sub-slice whose barrel says why it stays', () => {
+    const { status, stderr } = run({
+      ...CARDS,
+      [`${CARD}/face/index.ts`]:
+        "// masd-disable promotion -- nowhere both can import\nexport { face } from './ui/face';",
+    });
+    assert.deepEqual({ status, stderr }, { status: 0, stderr: '' });
+  });
+
+  it('flags a sub-slice the rest of its parent leans on throughout', () => {
+    const { stderr } = run({
+      ...CARDS,
+      'src/site/pages/home/ui.ts':
+        "import { back, face } from '@/blog/entities/card';\nexport const home = [back, face];",
+      [`${CARD}/ui/back.ts`]:
+        "import { bit } from '../bits/ui/bit';\nexport { edge as back } from './edge';\nexport const b = bit;",
+      [`${CARD}/ui/edge.ts`]:
+        "import { bit } from '../bits/ui/bit';\nexport const edge = bit;",
+      [`${CARD}/bits/ui/bit.ts`]: 'export const bit = 1;',
+    });
+    assert.equal(
+      stderr,
+      `${CARD}/bits: This sub-slice does not raise the modularity of its parent's imports. Consider folding it into "${CARD}".\n`,
+    );
+  });
+});

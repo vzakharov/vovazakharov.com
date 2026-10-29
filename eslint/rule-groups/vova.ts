@@ -16,6 +16,7 @@ export const vovaRules = {
     'vova/no-redundant-property-copy', // prefer destructuring over key: source.key
     'vova/no-redundant-type-alias', // `type A = B` that just renames another named type is a leftover — use B directly and delete the alias
     'vova/no-relative-escape', // a relative import under src/ stays in its slice, segmented layer or app scripts — past that, the `@/` path
+    'vova/sub-slice-entry', // inside a slice, what sits outside a sub-slice enters it through its barrel, since boundaries reads the slice as one element
     'vova/no-split-jsx-spreads', // multiple {...{ prop }} spreads on one element belong in one — merged when no attribute between them invokes anything
     'vova/no-uncaused-rethrow', // `throw new X(…)` in a catch block must carry the caught error as `{ cause }` (type-aware: a non-Error cause carries no stack)
     'vova/prefer-shorthand-spread', // enforce {...{ prop }} over prop={prop}

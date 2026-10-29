@@ -72,10 +72,28 @@ describe('masd:clusters', () => {
         '  ui/other.ts: 2 files, ΔQ 0.21',
         '    lib/z.ts',
         '    ui/other.ts',
-        '1 of 1 slices hold a cluster.',
+        '1 of 1 slices and sub-slices hold a cluster.',
         '',
       ].join('\n'),
     );
+  });
+
+  it('reports a sub-slice as a unit of its own, and roots none of its files in the parent', () => {
+    const TOP = `${SLICE}/top`;
+    const { stdout } = run({
+      [`${SLICE}/index.ts`]: importing('top', 'ui/other'),
+      [`${TOP}/index.ts`]: importing('ui/top', 'ui/side'),
+      [`${TOP}/ui/top.ts`]: importing('x', '../model/y'),
+      [`${TOP}/ui/x.ts`]: importing('../model/y'),
+      [`${TOP}/model/y.ts`]: 'export const y = 1;',
+      [`${TOP}/ui/side.ts`]: importing('../lib/q'),
+      [`${TOP}/lib/q.ts`]: 'export const q = 1;',
+      [`${SLICE}/ui/other.ts`]: importing('../lib/z'),
+      [`${SLICE}/lib/z.ts`]: 'export const z = 1;',
+    });
+    assert.ok(stdout.startsWith(`${TOP} (6 files)\n  ui/top.ts:`), stdout);
+    assert.doesNotMatch(stdout, /^ {2}top\//m);
+    assert.match(stdout, /^1 of 2 slices and sub-slices hold a cluster\.$/m);
   });
 
   it('drops a closure made of whole segments', () => {
@@ -107,6 +125,6 @@ describe('masd:clusters', () => {
       [`${SLICE}/ui/b.ts`]: 'export const b = 1;',
     });
     assert.equal(status, 0);
-    assert.equal(stdout, '0 of 1 slices hold a cluster.\n');
+    assert.equal(stdout, '0 of 1 slices and sub-slices hold a cluster.\n');
   });
 });

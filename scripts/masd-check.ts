@@ -12,7 +12,8 @@
  * - Steiger's `insignificant-slice`, with each slice's references counted
  *   across the composition — its own app, every descendant and the routers —
  *   rather than within one app root, its messages kept word for word; a slice
- *   with one reference passes when it is a module by its own app's imports.
+ *   with one reference passes when it is a module by its own app's imports;
+ * - the sub-slices' checks, `scripts/lib/sub-slices.ts`.
  *
  * Reads `src/` and `sites/*\/app/` under the working directory, so a test runs
  * it against a tree of its own. See .claude/rules/masd.md.
@@ -36,6 +37,8 @@ import {
   sourceFile,
   subdirectories,
 } from './lib/import-graph.ts';
+import type { Edge } from './lib/slice-graph.ts';
+import { subSliceProblems } from './lib/sub-slices.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
 // The sliced layers Steiger checks; a page has nothing above it to be
@@ -43,9 +46,6 @@ const SLICED = new Set(SLICED_LAYERS);
 const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
-
-/** An importing file and the file it imports, both in one app. */
-type Edge = readonly [string, string];
 
 /**
  * Where a file sits: `<app>/<layer>/<slice>` in a sliced layer,
@@ -157,7 +157,8 @@ function check(): string[] {
 
   const mounted = new Set<string>();
   const edges = new Map<string, Edge[]>();
-  for (const file of appFiles()) {
+  const files = appFiles();
+  for (const file of files) {
     const source = locate(file);
     if (source === undefined) continue;
     const { importedFiles } = ts.preProcessFile(
@@ -194,6 +195,7 @@ function check(): string[] {
   return [
     ...graphProblems(graph, mounted),
     ...sliceProblems(references, edges),
+    ...subSliceProblems([...graph.keys()], files),
   ];
 }
 
