@@ -7,17 +7,18 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-29T08:36:23Z
-- **Updated:** 2026-10-29T14:53:46Z
+- **Updated:** 2026-10-29T16:03:23Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 1
+## Awaiting an answer: 2
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at f2e7501). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at e0dc3e7). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T14:53:45Z — "так дай мне волшебный код блок" → [↓](#t01)
+- **T02** `src/unsquatted/pages/home/ui/name-checker.tsx`:53 — unresolved — last: @vzakharov (human) 2026-10-29T16:03:23Z — "да, хорошая тема" → [↓](#t02)
+- **T03** `src/unsquatted/scripts/lib/unsquatted-card.ts`:10 — unresolved — last: @vzakharov (human) 2026-10-29T16:03:11Z — "речь про доменные имена а не про копию вообще" → [↓](#t03)
 
 ---
 
@@ -165,9 +166,9 @@ _2026-10-29T13:07:13Z_
 
 _21 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `CLAUDE.md`:1 — unresolved — last: @vzakharov (human) 2026-10-29T14:53:45Z — "так дай мне волшебный код блок" → [↓](#t01)
-- **T02** `src/unsquatted/pages/home/ui/name-checker.tsx`:53 — unresolved — last: @vzakharov (agent) 2026-10-29T13:07:03Z — "<!-- five-percent proposal · an answer here is scored by .cl…" → [↓](#t02)
-- **T03** `src/unsquatted/scripts/lib/unsquatted-card.ts`:10 — unresolved — last: @vzakharov (agent) 2026-10-29T13:07:09Z — "<!-- five-percent proposal · an answer here is scored by .cl…" → [↓](#t03)
+- **T01** `CLAUDE.md`:1 — unresolved — last: @vzakharov (agent) 2026-10-29T16:00:17Z — "Заведено: https://github.com/vzakharov/muthur/issues/255" → [↓](#t01)
+- **T02** `src/unsquatted/pages/home/ui/name-checker.tsx`:53 — unresolved — last: @vzakharov (human) 2026-10-29T16:03:23Z — "да, хорошая тема" → [↓](#t02)
+- **T03** `src/unsquatted/scripts/lib/unsquatted-card.ts`:10 — unresolved — last: @vzakharov (human) 2026-10-29T16:03:11Z — "речь про доменные имена а не про копию вообще" → [↓](#t03)
 
 <a id="t01"></a>
 
@@ -205,6 +206,18 @@ Issue в muthur завести не вышло: auto mode заблокирова
 
 так дай мне волшебный код блок
 
+**@vzakharov (agent)** — 2026-10-29T15:59:55Z
+
+Держи. Предыдущая сессия дала эту фразу в чат, а ты читаешь тред здесь, поэтому до тебя она не дошла. Отправь её в текущую сессию (та, что подхватила ветку через `/handle`): auto mode пропускает то, что оператор назвал сам, дословно. Текст issue лежит в `tmp/muthur-relay-issue.md` этой сессии, в нём три пункта: статус в `[...]`, take-строка не сообщение оператора, источник у каждого пункта Next step.
+
+```
+Заведи issue в vzakharov/muthur: gh issue create -R vzakharov/muthur --title "relay: the take line's caption gets read as the operator's request" --body-file tmp/muthur-relay-issue.md
+```
+
+**@vzakharov (agent)** — 2026-10-29T16:00:17Z
+
+Заведено: https://github.com/vzakharov/muthur/issues/255
+
 ---
 
 <a id="t02"></a>
@@ -240,6 +253,10 @@ Issue в muthur завести не вышло: auto mode заблокирова
 
 </details>
 
+**@vzakharov (human)** — 2026-10-29T16:03:23Z
+
+да, хорошая тема
+
 ---
 
 <a id="t03"></a>
@@ -273,6 +290,10 @@ Issue в muthur завести не вышло: auto mode заблокирова
 `cardByline` появился в 3631b616 («the social card keeps "Curated, blazing-fast."»), `ledeNote` страница перестала показывать в f9a8ff4c («сноска только для OG»). Обе строки — твоё решение, и спорить с ними незачем; дело в том, что каталог не отличает их от строк страницы. Сейчас правка `cardByline` выглядит как правка страницы, а гарантия в докстринге больше не держится. С подобъектом `card` видно, какие строки живут только на карточке, а для всех остальных гарантия снова правдива.
 
 </details>
+
+**@vzakharov (human)** — 2026-10-29T16:03:11Z
+
+речь про доменные имена а не про копию вообще
 
 ---
 
