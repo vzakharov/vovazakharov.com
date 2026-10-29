@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 28,
+    "inputTokens": 40,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 62660,
-    "cacheReadTokens": 1501666,
-    "outputTokens": 9562,
-    "thinkingTokens": 3636,
-    "responses": 14,
-    "costUsd": 0.9929652
+    "cacheWrite1hTokens": 78564,
+    "cacheReadTokens": 2282763,
+    "outputTokens": 12779,
+    "thinkingTokens": 3728,
+    "responses": 20,
+    "costUsd": 1.3408045999999998
   },
   "estimate": {
     "at": "2026-10-29T09:49:59.525Z",
@@ -47,22 +47,24 @@
   "branch": "chore/typed-errors",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/task Ввести ESLint-правило, запрещающее голый `new Error(…)`, и перевести на него весь репозиторий — сегодня это около 185 мест в 97 файлах. Каждое место броса…",
-  "prs": [],
+  "prs": [
+    234
+  ],
   "url": "https://claude.ai/code/session_01DaohkEqmhWKawGUCbW9brg",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T09:48:44.844Z",
-  "lastResponseAt": "2026-10-29T09:50:29.944Z",
+  "lastResponseAt": "2026-10-29T09:51:14.565Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 28,
+    "inputTokens": 40,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 62660,
-    "cacheReadTokens": 1501666,
-    "outputTokens": 9562,
-    "thinkingTokens": 3636,
-    "responses": 14,
-    "costUsd": 0.9929652
+    "cacheWrite1hTokens": 78564,
+    "cacheReadTokens": 2282763,
+    "outputTokens": 12779,
+    "thinkingTokens": 3728,
+    "responses": 20,
+    "costUsd": 1.3408045999999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 28,
+      "inputTokens": 40,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 62660,
-      "cacheReadTokens": 1501666,
-      "outputTokens": 9562,
-      "thinkingTokens": 3636,
-      "responses": 14,
-      "costUsd": 0.9929652
+      "cacheWrite1hTokens": 78564,
+      "cacheReadTokens": 2282763,
+      "outputTokens": 12779,
+      "thinkingTokens": 3728,
+      "responses": 20,
+      "costUsd": 1.3408045999999998
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 13,
-    "matched": 13,
-    "matchedTableUsd": 0.9381444,
-    "matchedEventUsd": 0.9381444000000001,
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 1.3408045999999998,
+    "matchedEventUsd": 1.3408046,
     "unseen": {}
   }
 }
