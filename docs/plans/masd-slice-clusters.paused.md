@@ -131,24 +131,33 @@ Nothing built yet. In discussion, the search changed:
   footer trap pointing at the new sheet. `mice-run` → `runs/` + `runner/`
   (ebf5879), the feature's three barrels re-exporting `runs/`'s. The gate is
   down to six candidates in six units.
+- **The three-way cut**, on the operator's answer in chat: «ну так вынести рамку
+  … выносим если любое из: (а) модулярность, (б) нужно двум потребителям», and
+  «агент тоже может» on who proposes the cut. `check:masd` earns a sub-slice by
+  modularity or by two importing siblings (7f2eb7c); the gate prints what each
+  cluster takes from the rest as the sub-slice below both (7f2eb7c, 5f3ece7).
+  Cut: map → view/ground/frame (02d6bb3), insects' flight → air/swarm/route
+  (1a09838), fungus → figure/dome/body (14d8744), whisper page →
+  route/screen/metadata (c7b85d6), playback → controls/bar/context/audio/setting
+  (757d3e3; `CONTROL_ON` a module of context's, the station's two hook modules
+  `'use client'` so `pnpm build vova` passes — an earlier bite's break). A
+  sibling enters a sub's `index.node-safe.ts` only for what Node loads.
+  `tmp/restructure.ts` and `tmp/merge-imports.ts` did the moves (not committed).
+  The PR comment (issuecomment-6493616445) is answered by this.
 
 ## Rest of the bite
 
-- **The cluster gate** (`pnpm masd:clusters`) is the one red check: six
-  candidates left after the two clean cuts, all importing shared files from
-  their unit's rest. The operator, on the three-file floor: «а почему не
-  порезать все 6? ты видишь, что они идиоматически не должны бы считаться
-  подслайсами?» — answered no idiom forbids any; cutting all was the stated
-  plan. Then found: seven of nine import shared files from their unit's rest, so
-  under sub-slices-only the cut makes a sibling cycle. Asked on the PR
-  (issuecomment-6493616445): 1, the gate demands only cuts that come out as they
-  stand (nothing imported from the rest but through the one door) — recommended;
-  2, the rest splits into above and below. Under 1, the gate narrows to clusters
-  importing nothing from their rest and goes green; under 2, the six are cut
-  with the rest split above/below.
-- **Six-hit floor**: the three-file floor is withdrawn in favour of cutting what
-  passes; `tmp/cluster-outbound.ts` lists what each cluster imports from its
-  rest.
+- **CV, the last gate hit, waits on a promotion call.** Cut as the gate prints
+  it — `sheet/` (the page, 13 files and `cv.module.scss`), `edition/`
+  (`cv-urls`, `cv-variants`, `cv-messages`, `cv-offer`), `route/`
+  (`cv-metadata`, `cv-route-params`) — `check:masd` fires a promotion:
+  `src/vova/app`'s sitemap takes only `cvRoutes`, which lives in `edition/`. The
+  vova scripts (`render-og`, `render-pdf`, `cv-card`) take only `edition/`'s
+  node-safe names too. Recommended: promote `edition/` to `vova/entities/cv`,
+  the CV as a business noun (variants, addresses, copy, offer), which the page,
+  the sitemap and the scripts all import; the page keeps `sheet/` and `route/`.
+  Update `.claude/rules/masd.md`'s locale-picker example path and `content.md`'s
+  `cv-page.tsx` path with it, and `CV_SOURCES`.
 
 - **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
   `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
