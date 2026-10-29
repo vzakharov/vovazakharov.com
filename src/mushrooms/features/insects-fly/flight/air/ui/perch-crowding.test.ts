@@ -10,8 +10,7 @@ import {
   type InsectKind,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Crowding } from '../model/offered';
-import type { OnPerch } from '../model/perch-room';
+import type { Crowding, OnPerch } from '../../route/index.node-safe';
 import { pointCrowdings } from './perch-crowding';
 
 type Apart = (first: InsectKind, second: InsectKind) => number;

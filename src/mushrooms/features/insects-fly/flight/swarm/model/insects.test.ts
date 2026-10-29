@@ -6,7 +6,7 @@ import {
   type InsectKind,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { firstFlight, flightAway } from './flight';
+import { firstFlight, flightAway } from '../../route/index.node-safe';
 import {
   caughtAloft,
   evicted,

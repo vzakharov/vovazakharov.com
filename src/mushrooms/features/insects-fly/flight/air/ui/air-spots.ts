@@ -44,8 +44,8 @@ import {
   type Zoomed,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { INSECT_LIMITS } from '../model/insects';
-import type { Crowding } from '../model/offered';
+import type { Crowding } from '../../route/index.node-safe';
+import { INSECT_LIMITS } from '../../swarm/index.node-safe';
 import { pointCrowdings } from './perch-crowding';
 
 /** How far the open air reaches down over the back of the ground, as a share of the ground's depth. */

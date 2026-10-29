@@ -1,8 +1,8 @@
-export { flightAway, shownOf } from './model/flight';
 export {
   AIR_BELOW,
   airAloftOf,
   airOf,
   airSpots,
   clumpRow,
-} from './ui/air-spots';
+} from './air/index.test-only';
+export { flightAway, shownOf } from './route/index.test-only';

@@ -24,17 +24,24 @@ import {
   pollenAfter,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { firstFlight, flightAway, isOffered, nextFlight } from './flight';
-import type { Perches } from './offered';
-import { flowerFreed, givesWay, type Held } from './perch-room';
-import { sown } from './pollen';
-import { type Dusked, roostedPerches, sitsOut } from './roost';
 import {
   dashesForCover,
+  type Dusked,
+  firstFlight,
+  flightAway,
+  flowerFreed,
+  givesWay,
+  type Held,
+  isOffered,
+  nextFlight,
+  type Perches,
+  roostedPerches,
   shelteredPerches,
   type Showered,
+  sitsOut,
   stayingDry,
-} from './shelter';
+} from '../../route/index.node-safe';
+import { sown } from './pollen';
 
 /**
  * What the insects make of the meadow: the fliers, in the order they were

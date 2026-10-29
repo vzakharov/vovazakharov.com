@@ -9,7 +9,12 @@ import {
   wingBeat,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { released, startled, type Swarm, ticked } from './insects';
+import {
+  released,
+  startled,
+  type Swarm,
+  ticked,
+} from '../../swarm/index.node-safe';
 import { roostedPerches, sitsOut, WAKE_MS, wingsShut } from './roost';
 
 const SIGHT = {

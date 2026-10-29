@@ -11,7 +11,12 @@ import {
   type Places,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import { released, startled, type Swarm, ticked } from './insects';
+import {
+  released,
+  startled,
+  type Swarm,
+  ticked,
+} from '../../swarm/index.node-safe';
 import type { Perches } from './offered';
 import {
   dashesForCover,

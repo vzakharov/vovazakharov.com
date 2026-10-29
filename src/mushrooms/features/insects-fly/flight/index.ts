@@ -1,7 +1,3 @@
-export { caughtAloft, isShying } from './model/insects';
-export { type Sight } from './model/offered';
-export { isSeat } from './model/perch-room';
-export { wingsShut } from './model/roost';
 export {
   airAloftOf,
   airAlofts,
@@ -9,5 +5,9 @@ export {
   airSpots,
   type Alofted,
   clumpRow,
-} from './ui/air-spots';
-export { crowdings, seatsWith, type Track } from './ui/perch-crowding';
+} from './air';
+export { crowdings, seatsWith, type Track } from './air';
+export { type Sight } from './route';
+export { isSeat } from './route';
+export { wingsShut } from './route';
+export { caughtAloft, isShying } from './swarm';

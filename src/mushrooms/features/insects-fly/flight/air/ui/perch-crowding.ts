@@ -19,8 +19,7 @@ import {
   type Perch,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
-import type { Crowding, Pairing } from '../model/offered';
-import type { OnPerch } from '../model/perch-room';
+import type { Crowding, OnPerch, Pairing } from '../../route/index.node-safe';
 
 /** Every two kinds, the first on one perch and the second on another. */
 const PAIRINGS: readonly Pairing[] = INSECT_KINDS.flatMap((first) =>
