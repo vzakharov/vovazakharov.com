@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 172,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 257952,
+    "cacheReadTokens": 19929928,
+    "outputTokens": 66749,
+    "thinkingTokens": 22443,
+    "responses": 86,
+    "costUsd": 7.385269599999999
+  },
+  "estimate": {
+    "at": "2026-10-29T09:35:36.618Z",
+    "parts": [
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a zone model rebuilt on a registrar's live list against the DNS root, verdict copy moved out of pure functions, picks moved to authored markdown with a hold rule, and kernel helpers for fetch and context failures"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T09:23:32.974Z",
+    "contextTokens": 108158,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56401,
+      "cacheReadTokens": 461506,
+      "outputTokens": 941,
+      "thinkingTokens": 27,
+      "responses": 5,
+      "costUsd": 0.5623692
+    }
+  },
+  "sessionId": "62a6e933-e04f-5b54-8219-65ed6a112881",
+  "branch": "claude/unsquatted-site",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle claude/unsquatted-site",
+  "prs": [
+    231
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFVFSZRJpaQ8xVP57q",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T09:23:12.216Z",
+  "lastResponseAt": "2026-10-29T09:37:07.726Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 172,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 257952,
+    "cacheReadTokens": 19929928,
+    "outputTokens": 66749,
+    "thinkingTokens": 22443,
+    "responses": 86,
+    "costUsd": 7.385269599999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 172,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 257952,
+      "cacheReadTokens": 19929928,
+      "outputTokens": 66749,
+      "thinkingTokens": 22443,
+      "responses": 86,
+      "costUsd": 7.385269599999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 86,
+    "matched": 86,
+    "matchedTableUsd": 7.385269599999999,
+    "matchedEventUsd": 7.385269599999999,
+    "unseen": {}
+  }
+}
