@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { asError } from '@/kernel/shared/lib/error-class';
+
 import classes from './mushrooms.module.scss';
 
 /**
@@ -20,7 +22,7 @@ export function MeadowCanvas() {
     let stop: (() => void) | undefined;
     let unmounted = false;
     const fail = (error: unknown) => {
-      setFailure(error instanceof Error ? error : new Error(String(error)));
+      setFailure(asError(error));
     };
     import('./start-game')
       .then(({ startGame }) => {

@@ -23,8 +23,11 @@ const jetbrainsMono = JetBrains_Mono({
 
 export function RootLayout({
   children,
+  fontVariables = [],
 }: Readonly<{
   children: React.ReactNode;
+  /** The `variable` classes of the faces a site loads beside shell's own. */
+  fontVariables?: readonly string[];
 }>) {
   // The font variables have to be on <html>: a custom property resolves in the
   // scope it is declared in, and Mantine declares `--mantine-font-family` —
@@ -32,7 +35,11 @@ export function RootLayout({
   return (
     <KernelRootLayout
       htmlProps={{
-        className: `${merriweather.variable} ${jetbrainsMono.variable}`,
+        className: [
+          merriweather.variable,
+          jetbrainsMono.variable,
+          ...fontVariables,
+        ].join(' '),
         ...mantineHtmlProps,
       }}
       head={

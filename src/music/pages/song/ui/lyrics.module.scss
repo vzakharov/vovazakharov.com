@@ -1,7 +1,7 @@
-// Dimmed by colour rather than opacity: a note's popover sits inside the
-// column, and no descendant can undo an ancestor's opacity.
+@use '../../../../../styles/dimmed';
+
 .mutedColumn {
-  color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
+  @include dimmed.text(70%);
 }
 
 // A line of verse, or several under one note, whose breaks are in its text.

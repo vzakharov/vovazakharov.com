@@ -1,13 +1,14 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { createContext, use, useMemo } from 'react';
+import { createContext, useMemo } from 'react';
 
 import {
   addressLocale,
   type Locale,
   type WithLocale,
 } from '@/kernel/shared/i18n';
+import { useProvided } from '@/kernel/shared/lib/use-provided';
 import type { WithChildren } from '@/kernel/shared/typings';
 
 import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
@@ -38,13 +39,7 @@ export type PlayerContextValue = PlayerControls &
 const PlayerContext = createContext<PlayerContextValue | undefined>(undefined);
 
 export function usePlayer(): PlayerContextValue {
-  const value = use(PlayerContext);
-
-  if (value === undefined) {
-    throw new Error('usePlayer is only available under the music layout');
-  }
-
-  return value;
+  return useProvided(PlayerContext, PlayerProvider);
 }
 
 export type PlayerProviderProps = WithChildren &

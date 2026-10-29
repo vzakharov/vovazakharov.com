@@ -14,6 +14,7 @@ import '@mantine/core/styles/UnstyledButton.layer.css';
 import '@mantine/core/styles/Paper.layer.css';
 import '@mantine/core/styles/Overlay.layer.css';
 import '@mantine/core/styles/Popover.layer.css';
+import '@mantine/core/styles/Loader.layer.css';
 import '@mantine/core/styles/ActionIcon.layer.css';
 import '@mantine/core/styles/CloseButton.layer.css';
 import '@mantine/core/styles/Group.layer.css';

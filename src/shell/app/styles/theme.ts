@@ -10,24 +10,22 @@ import { cssColor } from '@/shell/shared/ui';
 import { breakpoints } from './breakpoints';
 import classes from './theme.module.scss';
 
-const foreground = cssColor('foreground');
-
-// The palette is monochrome, so every shade is the same token. Mantine still
-// wants ten.
-const monochrome: MantineColorsTuple = [
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
+// Every shade is the one accent token. Mantine still wants ten.
+const shade = cssColor('accent');
+const accent: MantineColorsTuple = [
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
 ];
 
-// `variant="default"` is the site's only control skin: a square hairline box
+// `variant="default"` is the site's only control skin: a hairline box
 // that inverts to solid foreground on hover. It has to live here rather than in
 // a CSS module because Mantine emits variant colours as inline `style` vars.
 const variantColorResolver: VariantColorsResolver = (input) =>
@@ -41,8 +39,8 @@ const variantColorResolver: VariantColorsResolver = (input) =>
       }
     : defaultVariantColorsResolver(input);
 
-// The face and the heading weight are custom properties rather than values, so
-// a site can set its own in a sheet keyed on `data-site`.
+// The face, the heading weight and the radius are custom properties rather
+// than values, so a site can set its own in a sheet keyed on `data-site`.
 export const theme = createTheme({
   fontFamily: 'var(--font-body)',
   fontFamilyMonospace: 'var(--font-mono), monospace',
@@ -76,11 +74,11 @@ export const theme = createTheme({
     xl: '1.4',
   },
   breakpoints,
-  defaultRadius: 0,
+  defaultRadius: 'var(--radius-default)',
   white: cssColor('background'),
   black: cssColor('foreground'),
-  primaryColor: 'monochrome',
-  colors: { monochrome },
+  primaryColor: 'accent',
+  colors: { accent },
   variantColorResolver,
   components: {
     // Structure only — a visual value in `defaultProps` renders as an inline

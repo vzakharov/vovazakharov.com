@@ -125,13 +125,14 @@ belongs inside the parentheses is written out in full, however much it repeats.
 ## SCSS
 
 Every stylesheet here is Sass — a co-located `.module.scss` per component, plain
-`.scss` for the global sheets. Two root partials carry what they share:
+`.scss` for the global sheets. Root partials carry what they share:
 `styles/_mantine.scss` for the `light` / `dark` / `hover` / `smaller-than` /
 `larger-than` mixins and the forwarded breakpoint scale, `styles/_tokens.scss`
-for the colour-token mixin each palette calls. Pull either in per file with a
-relative `@use '…/_mantine' as mantine`, which keeps a module's dependencies
-visible in the module; relative because Sass resolves its own imports and knows
-nothing about the `@/` alias.
+for the colour-token mixin each palette calls, `styles/_dimmed.scss` for text
+quietened by its colour where a `NotedSpan` may open inside it. Pull any in per
+file with a relative `@use '…/_mantine' as mantine`, which keeps a module's
+dependencies visible in the module; relative because Sass resolves its own
+imports and knows nothing about the `@/` alias.
 
 **Mantine documents those mixins as a PostCSS preset, and that route cannot work
 here.** Next runs Sass before PostCSS, so `@include smaller-than(…)` reads as an

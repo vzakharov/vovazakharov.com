@@ -6,7 +6,7 @@ import type { WithLocale } from '@/kernel/shared/i18n';
 import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithFileName, WithText } from '@/kernel/shared/typings';
 
-import { Subheading, TextLink } from '@/shell/shared/ui';
+import { NotedSpan, Subheading, TextLink } from '@/shell/shared/ui';
 
 import { resolveAuthoredUrl } from '@/blog/shared/content';
 
@@ -24,7 +24,6 @@ import {
   type WithStanzas,
 } from '@/music/shared/catalogue/index.node-safe';
 import { messages } from '@/music/shared/i18n';
-import { NotedSpan } from '@/music/shared/ui';
 
 import classes from './lyrics.module.scss';
 

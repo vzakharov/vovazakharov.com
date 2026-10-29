@@ -10,6 +10,7 @@ import {
   type Locale,
   type WithOptionalLocale,
 } from '@/kernel/shared/i18n';
+import { withCause } from '@/kernel/shared/lib/error-class';
 import {
   routeCardPath,
   type WithOptionalOgImageSize,
@@ -234,9 +235,7 @@ function readMatter<F>(
 
     return { frontmatter: schema.parse(complete(data)), content };
   } catch (error) {
-    throw new Error(`Invalid frontmatter in ${fileName}`, {
-      cause: error instanceof Error ? error : new Error(String(error)),
-    });
+    throw new Error(`Invalid frontmatter in ${fileName}`, withCause(error));
   }
 }
 

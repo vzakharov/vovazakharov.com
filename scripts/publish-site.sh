@@ -61,6 +61,7 @@ else
     bible) RECEIVER=vzakharov/agentic.bible ;;
     basilisk) RECEIVER=vzakharov/basilisk.fyi ;;
     maya) RECEIVER=vzakharov/mayawonders.com ;;
+    unsquatted) RECEIVER=vzakharov/unsquatted.com ;;
     *)
       printf 'No receiving repository for site %s.\n' "$SITE" >&2
       exit 1

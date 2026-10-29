@@ -1,4 +1,6 @@
 import { pick } from '@/kernel/shared/lib/collections';
+import { errorClass } from '@/kernel/shared/lib/error-class';
+import { fetchOk } from '@/kernel/shared/lib/fetch-ok';
 import type { Sourced, WithUrl } from '@/kernel/shared/typings';
 
 import {
@@ -13,6 +15,8 @@ import {
 type Copied = Sourced & Partial<WithUrl>;
 
 type Fetching = Copied & { controller: AbortController };
+
+const TrackCopyError = errorClass('TrackCopyError');
 
 function release(url: string | undefined) {
   if (url !== undefined) URL.revokeObjectURL(url);
@@ -80,12 +84,11 @@ export function createFetchingDeck(listeners: DeckListeners): Decks {
   }
 
   async function copy(entry: Fetching) {
-    const response = await fetch(entry.src, pick(entry.controller, 'signal'));
-
-    if (!response.ok) {
-      throw new Error(`${String(response.status)} fetching ${entry.src}`);
-    }
-
+    const response = await fetchOk(
+      entry.src,
+      TrackCopyError,
+      pick(entry.controller, 'signal'),
+    );
     const blob = await response.blob();
 
     if (fetching === entry) entry.url = URL.createObjectURL(blob);

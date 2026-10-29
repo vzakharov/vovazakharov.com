@@ -1,0 +1,10 @@
+@use '../../../../../styles/dimmed';
+
+// A link states a colour of its own, so it is dimmed by its opacity instead.
+.note {
+  @include dimmed.text(60%);
+
+  & a {
+    opacity: 0.6;
+  }
+}
