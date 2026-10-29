@@ -8,16 +8,16 @@ visitor's browser asks each registry's RDAP itself, with DNS-over-HTTPS
 as a hint where a registry's RDAP refuses browsers.
 
 The checker looks a name up as it is typed, with a Check button and a
-dice that rolls a word pair. Any zone Porkbun sells can lead the grid
-of twelve common ones: typed, or as a domain hack (agenticbible ->
-agentic.bible), a leading zone splitting off only where both halves are
-dictionary words (lovepage -> page.love). Prices are Porkbun's,
-read at build, so a pricing failure fails the build; the browser checks
-registry answers with type guards of its own, since zod would ship with
-them. A taken name shows
-its expiry date on hover, and says when it is up for grabs only in
-RDAP's pending delete, since before that the owner can still renew.
-The query rides in the URL hash, one history step per name.
+dice that rolls a word pair, in a grid of 22 zones from .com to .blog,
+.si among them. Any other zone Porkbun sells can lead the grid: typed,
+or as a domain hack (agenticbible -> agentic.bible), a leading zone
+splitting off only where both halves are dictionary words (lovepage ->
+page.love). Prices are Porkbun's, read at build, so a pricing failure
+fails the build; the browser checks registry answers with type guards
+of its own, since zod would ship with them. A taken name shows its
+expiry date on hover, and says when it is up for grabs only in RDAP's
+pending delete, since before that the owner can still renew. The query
+rides in the URL hash, one history step per name.
 
 The listed names are files under public/picks/, re-checked on load and
 ordered by a float score in their frontmatter, so a new name slots in
@@ -29,11 +29,11 @@ Shell gains three hooks that are no-ops for the other sites: an accent
 colour token, a --radius-default property and a fontVariables slot on
 the root layout. Music's genius-style NotedSpan moves to shell for both
 sites. Kernel gains fetchOk, which makes a fetcher name the error class
-it throws, errorClass, whose name a new lint holds to its constant, and
-asError, which every catch that wrapped a thrown non-Error by hand now
-uses. The site is wired as a receiver
-(vzakharov/unsquatted.com) in deploy, vet, preview and publish-site.sh,
-with its Umami site.
+it throws; errorClass, whose name a new lint holds to its constant; and
+asError and withCause, which every catch that wrapped a thrown non-Error
+by hand or rethrew with a cause now uses. The site is wired as a
+receiver (vzakharov/unsquatted.com) in deploy, vet, preview and
+publish-site.sh, with its Umami site.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
