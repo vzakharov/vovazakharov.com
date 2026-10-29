@@ -64,6 +64,7 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     fieldRef,
   } = useChecker();
   const [open, setOpen] = useState(false);
+  const [rolling, setRolling] = useState(false);
   const words = useWords(label !== '');
   const rows =
     label === '' ? [] : rowsFor(label, zone, Object.keys(prices), words);
@@ -105,8 +106,14 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
           size={42}
           aria-label={copy.dice}
           title={copy.dice}
+          loading={rolling}
           onClick={() => {
-            rollName().then(checkHere, reportError);
+            setRolling(true);
+            rollName()
+              .then(checkHere, reportError)
+              .finally(() => {
+                setRolling(false);
+              });
           }}
         >
           <DiceIcon />
