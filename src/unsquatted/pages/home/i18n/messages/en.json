@@ -45,5 +45,5 @@
   "price": { "then": ", then ", "perYear": "/yr" },
   "shoutOutPrompt": "Took a name from here?",
   "shoutOutLink": "Give us a shout-out",
-  "shoutOutPost": "Found my domain name on {url} — good names nobody has grabbed yet."
+  "shoutOutPost": "Check out {url}: [insert why you love it, or keep the placeholder for the lulz]"
 }
