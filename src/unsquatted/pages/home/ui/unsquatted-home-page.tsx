@@ -27,9 +27,12 @@ const LEDE = COPY.lede.replace('*', '');
 
 const [BEFORE_BLAZING, AFTER_BLAZING] = COPY.byline.split('{blazing}');
 
+/** The byline is a caption, in lower case; after the lede it opens a sentence. */
+const BYLINE = COPY.byline.replace('{blazing}', COPY.blazing);
+
 export const unsquattedHomeMetadata = constructMetadata({
   title: SITE_CONFIG.name,
-  description: `${LEDE} ${COPY.byline.replace('{blazing}', COPY.blazing)}`,
+  description: `${LEDE} ${BYLINE.charAt(0).toUpperCase()}${BYLINE.slice(1)}`,
 });
 
 /** The site is one page: the checker, then the list the routine grows. */
