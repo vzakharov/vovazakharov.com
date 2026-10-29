@@ -145,10 +145,8 @@ Nothing built yet. In discussion, the search changed:
   `tmp/restructure.ts` and `tmp/merge-imports.ts` did the moves (not committed).
   The PR comment (issuecomment-6493616445) is answered by this.
 
-## Rest of the bite
-
-- **Done since:** the CV's edition promoted to `vova/entities/cv` on «ага»
-  (6f6719b) and the page cut into `sheet/` + `route/`. Steiger's
+- **The CV and the gate's end.** The CV's edition promoted to `vova/entities/cv`
+  on «ага» (6f6719b) and the page cut into `sheet/` + `route/`. Steiger's
   `fsd/forbidden-imports` and `fsd/no-segmentless-slices` off in exactly the
   slices holding sub-slices (`slicesWithSubSlices`, imported by
   `steiger.config.mjs`; 569cb6e), on «да, steiger отключать где мы покрыли» —
@@ -156,21 +154,13 @@ Nothing built yet. In discussion, the search changed:
   says none is (569cb6e holds the code, ffe6448 the tests). The operator's
   review on the staged rule (bloat, meadow-game archaeology) answered by
   trimming it to what every edit under `src/` needs (54d08b4), both threads
-  replied to.
-- **The gate's last hit is inside `cv/sheet`**: `cv-sheet` (6 files) and
-  `cv-profile-sheet` + `cv-offer-block`, both taking `case-study-link`,
-  `cv-bullets` and `cv-section` from the rest, `cv-page` and `cv-files` above.
-  `cv.module.scss` serves all of them, so it splits by class per sub-slice first
-  (as `player.module.scss` did into `CONTROL_ON` and the clearance sheet).
-- **Then the bite's end**: `/polish`, then `/pr`.
+  replied to. The gate's last hit, `cv/sheet`, cut into `page/` (the head),
+  `full/`, `profile/` and `frame/` below both (af2dda5): `cv.module.scss` split
+  by consumer, `frame` exporting the shared classes as `CV_CLASSES`. The gate
+  holds no cluster in 85 units.
 
-- **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
-  `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
-  promotion fires, yet as a slice of its own it would sit beside `landscape` on
-  `entities`, which still imports it — sideways. Options: `shared` (a
-  `mushrooms/shared/backdrop` segment), the escape marker, or no cut.
-  Recommendation: no cut — the backdrop is the landscape noun, and what lies
-  outside it (moon, rain, grass) is the smaller part.
+- **Landscape's backdrop stays uncut**, as recommended: as a slice it would sit
+  beside `landscape` on `entities`, sideways, and the gate no longer prints it.
 
 ## Rest of the elephant
 

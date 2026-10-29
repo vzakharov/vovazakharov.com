@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 82,
+    "inputTokens": 90,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 134499,
-    "cacheReadTokens": 6230907,
-    "outputTokens": 18588,
-    "thinkingTokens": 5887,
-    "responses": 41,
-    "costUsd": 2.6942614
+    "cacheWrite1hTokens": 137760,
+    "cacheReadTokens": 7020159,
+    "outputTokens": 20563,
+    "thinkingTokens": 6210,
+    "responses": 45,
+    "costUsd": 2.9177317999999994
   },
   "estimate": {
     "at": "2026-10-29T11:37:28.187Z",
@@ -39,7 +39,7 @@
   },
   "sessionId": "293a1fc0-15f9-53f8-b821-7295ff3b0d37",
   "branch": "claude/masd-slice-clusters-q7r4tm",
-  "cwd": "/home/user/vovazakharov.com/sites/vova/out",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — Steiger отключён там, где покрыто, продвижение печатает допустимые слои, ревью на правило отработано; дальше реж…",
   "prs": [
     228
@@ -47,18 +47,18 @@
   "url": "https://claude.ai/code/session_01DaohkEEZdDsfAqNgtnGpHh",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T11:37:01.311Z",
-  "lastResponseAt": "2026-10-29T11:44:22.497Z",
+  "lastResponseAt": "2026-10-29T11:44:46.245Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 82,
+    "inputTokens": 90,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 134499,
-    "cacheReadTokens": 6230907,
-    "outputTokens": 18588,
-    "thinkingTokens": 5887,
-    "responses": 41,
-    "costUsd": 2.6942614
+    "cacheWrite1hTokens": 137760,
+    "cacheReadTokens": 7020159,
+    "outputTokens": 20563,
+    "thinkingTokens": 6210,
+    "responses": 45,
+    "costUsd": 2.9177317999999994
   },
   "subagents": {
     "inputTokens": 0,
@@ -72,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 82,
+      "inputTokens": 90,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 134499,
-      "cacheReadTokens": 6230907,
-      "outputTokens": 18588,
-      "thinkingTokens": 5887,
-      "responses": 41,
-      "costUsd": 2.6942614
+      "cacheWrite1hTokens": 137760,
+      "cacheReadTokens": 7020159,
+      "outputTokens": 20563,
+      "thinkingTokens": 6210,
+      "responses": 45,
+      "costUsd": 2.9177317999999994
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 41,
-    "matched": 41,
-    "matchedTableUsd": 2.6942614,
-    "matchedEventUsd": 2.6942614,
+    "events": 45,
+    "matched": 45,
+    "matchedTableUsd": 2.9177317999999994,
+    "matchedEventUsd": 2.9177317999999994,
     "unseen": {}
   }
 }
