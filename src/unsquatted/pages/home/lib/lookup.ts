@@ -35,21 +35,57 @@ export const ZONES = [
 /** The longest label DNS allows. */
 const MAX_LABEL = 63;
 
+/** A host as typed or pasted: no scheme, no `www.`, nothing past it. */
+function host(input: string): string {
+  return input
+    .trim()
+    .toLowerCase()
+    .replace(/^[a-z]+:\/\//, '')
+    .replace(/^www\./, '')
+    .replace(/[#/?].*$/, '');
+}
+
 /**
  * The name a visitor meant, as one DNS label: a pasted URL or a typed domain
  * loses its scheme and everything from the first dot or slash, and whatever no
  * label may hold is dropped.
  */
 export function cleanLabel(input: string): string {
-  return input
-    .trim()
-    .toLowerCase()
-    .replace(/^[a-z]+:\/\//, '')
-    .replace(/^www\./, '')
-    .replace(/[#./?].*$/, '')
+  return host(input)
+    .replace(/\..*$/, '')
     .replaceAll(/[^\da-z-]/g, '')
     .replaceAll(/^-+|-+$/g, '')
     .slice(0, MAX_LABEL);
+}
+
+/** The zone typed after the name — `co.uk` of `foxedpage.co.uk` — if any. */
+export function typedZone(input: string): string | undefined {
+  const zone = /\.(.+)$/.exec(host(input))?.[1]?.replaceAll(/[^\d.a-z-]/g, '');
+
+  return zone === undefined || zone === '' ? undefined : zone;
+}
+
+export type Row = WithDomain & { checkable: boolean };
+
+/**
+ * The domains a lookup shows for `label`: every zone of `ZONES`, led by the
+ * zone typed with it, which is shown even where it cannot be checked.
+ */
+export function rowsFor(label: string, zone: string | undefined): Row[] {
+  const rest = ZONES.filter((each) => each !== zone).map((each) => ({
+    domain: `${label}.${each}`,
+    checkable: true,
+  }));
+
+  return zone === undefined
+    ? rest
+    : [
+        {
+          domain: `${label}.${zone}`,
+          checkable: (ZONES as readonly string[]).includes(zone),
+        },
+        ...rest,
+      ];
 }
 
 const bootstrapSchema = z.object({

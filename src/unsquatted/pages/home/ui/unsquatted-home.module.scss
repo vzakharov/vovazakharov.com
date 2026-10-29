@@ -28,7 +28,7 @@
 }
 
 // A button only so the tooltip has something to focus: it reads as words.
-.soon {
+.hint {
   padding: 0;
   border: 0;
   background: none;
@@ -39,6 +39,10 @@
   cursor: help;
 }
 
+.hintAside {
+  max-width: 280px;
+}
+
 .sectionHeading {
   margin: 0 0 12px;
   color: var(--unsquatted-muted);
@@ -47,6 +51,17 @@
   line-height: 1;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.field {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.fieldInput {
+  flex: 1;
+  min-width: 0;
 }
 
 .input {

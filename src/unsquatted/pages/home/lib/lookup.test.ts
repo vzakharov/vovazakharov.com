@@ -1,7 +1,15 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { cleanLabel, dohVerdict, parseBootstrap, rdapVerdict } from './lookup';
+import {
+  cleanLabel,
+  dohVerdict,
+  parseBootstrap,
+  rdapVerdict,
+  rowsFor,
+  typedZone,
+  ZONES,
+} from './lookup';
 
 describe('cleanLabel', () => {
   it('keeps a plain name', () => {
@@ -18,6 +26,37 @@ describe('cleanLabel', () => {
 
   it('stops at DNS’s 63 characters', () => {
     assert.equal(cleanLabel('a'.repeat(70)).length, 63);
+  });
+});
+
+describe('typedZone', () => {
+  it('reads the zone after the name, however many labels it has', () => {
+    assert.equal(typedZone('https://www.FoxedPage.co.uk/about'), 'co.uk');
+  });
+
+  it('is undefined for a bare name or a trailing dot', () => {
+    assert.equal(typedZone('foxedpage'), undefined);
+    assert.equal(typedZone('foxedpage.'), undefined);
+  });
+});
+
+describe('rowsFor', () => {
+  it('shows every zone when none was typed', () => {
+    assert.equal(rowsFor('fox', undefined).length, ZONES.length);
+  });
+
+  it('leads with a typed zone it checks, without repeating it', () => {
+    const rows = rowsFor('fox', 'dev');
+
+    assert.deepEqual(rows[0], { domain: 'fox.dev', checkable: true });
+    assert.equal(rows.length, ZONES.length);
+  });
+
+  it('leads with a typed zone it cannot check, marked so', () => {
+    const rows = rowsFor('fox', 'xyz');
+
+    assert.deepEqual(rows[0], { domain: 'fox.xyz', checkable: false });
+    assert.equal(rows.length, ZONES.length + 1);
   });
 });
 

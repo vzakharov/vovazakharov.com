@@ -8,7 +8,7 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 import { COPY } from '../i18n';
 import { PICKS } from '../model/picks';
 import { CheckerProvider } from './checker-state';
-import { CoffeeSoon } from './coffee-soon';
+import { Hint } from './hint';
 import { NameChecker } from './name-checker';
 import { PickRow } from './pick-row';
 import classes from './unsquatted-home.module.scss';
@@ -24,10 +24,12 @@ export function UnsquattedHomePage() {
       <Stack component="main" gap={48}>
         <header>
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
-          <p className={classes['lede']}>{COPY.lede}</p>
+          <p className={classes['lede']}>
+            {COPY.lede} <Hint label={COPY.blazingWhy}>{COPY.blazing}</Hint>.
+          </p>
           <p className={classes['lede']}>
             {COPY.pledge} {COPY.coffeePrompt}{' '}
-            <CoffeeSoon label={COPY.coffeeSoon}>{COPY.coffeeLink}</CoffeeSoon>.
+            <Hint label={COPY.coffeeSoon}>{COPY.coffeeLink}</Hint>.
           </p>
         </header>
 
