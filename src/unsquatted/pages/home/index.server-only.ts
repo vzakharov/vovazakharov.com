@@ -1,4 +1,4 @@
 import 'server-only';
 
 export { COPY } from './i18n';
-export { PICKS } from './model/picks';
+export { LASTING_PICKS } from './model/picks';

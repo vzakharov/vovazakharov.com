@@ -5,7 +5,9 @@
  *
  * It reads what the site renders — the listed names through the module the
  * home page reads, the words from its catalogue — so adding a name re-flags
- * the card, and the card cannot say what the page has stopped saying.
+ * the card, and the card cannot say what the page has stopped saying. Of the
+ * names it takes only those with no `shownUntil`, so a date passing never
+ * changes the card on a day nobody committed.
  *
  * The wordmark is set in Fraunces as on the page, the font staged beside the
  * card from `@fontsource-variable/fraunces` — a `file://` page has no route to
@@ -19,7 +21,7 @@ import { fileURLToPath } from 'node:url';
 import { siteConfig, withoutScheme } from '@/kernel/shared/config';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
 
-import { COPY, PICKS } from '@/unsquatted/pages/home/index.server-only';
+import { COPY, LASTING_PICKS } from '@/unsquatted/pages/home/index.server-only';
 
 import { escapeHtml, type StagedPage } from '@/kernel/scripts/lib/og-render';
 
@@ -66,7 +68,7 @@ const more = (count: number) =>
 
 export function unsquattedCard(): StagedPage {
   const [headline, subline] = lede();
-  const rows = PICKS.slice(0, SHOWN)
+  const rows = LASTING_PICKS.slice(0, SHOWN)
     .map(
       ({ domain }) => `          <li>
             <span class="domain">${escapeHtml(domain)}</span>
@@ -170,7 +172,7 @@ export function unsquattedCard(): StagedPage {
 ${rows}
       </ul>
       <div class="field">Your name…</div>
-      <p class="more">${more(PICKS.length - SHOWN)}</p>
+      <p class="more">${more(LASTING_PICKS.length - SHOWN)}</p>
     </aside>
   </body>
 </html>

@@ -59,19 +59,31 @@ function readPick(fileName: string) {
 
 const day = (date: Date) => date.toISOString().slice(0, 10);
 
-/** The names still shown at build: best first, then newest, then by domain. */
-export const PICKS: readonly ShownName[] = fs
+/** Every pick file: best first, then newest, then by domain. */
+const SORTED = fs
   .readdirSync(PICKS_DIR)
   .filter((fileName) => fileName.endsWith('.md'))
   .map((fileName) => readPick(fileName))
-  .filter(
-    ({ shownUntil }) =>
-      shownUntil === undefined || day(shownUntil) >= day(new Date()),
-  )
   .toSorted(
     (a, b) =>
       b.score - a.score ||
       b.added.getTime() - a.added.getTime() ||
       a.domain.localeCompare(b.domain),
-  )
-  .map(({ domain, category, blurb }) => ({ domain, category, blurb }));
+  );
+
+const shown = ({ domain, category, blurb }: ShownName): ShownName => ({
+  domain,
+  category,
+  blurb,
+});
+
+/** The names still shown at build. */
+export const PICKS: readonly ShownName[] = SORTED.filter(
+  ({ shownUntil }) =>
+    shownUntil === undefined || day(shownUntil) >= day(new Date()),
+).map(shown);
+
+/** The names with no `shownUntil`: a list the calendar cannot change. */
+export const LASTING_PICKS: readonly ShownName[] = SORTED.filter(
+  ({ shownUntil }) => shownUntil === undefined,
+).map(shown);
