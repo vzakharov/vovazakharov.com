@@ -125,11 +125,18 @@ Nothing built yet. In discussion, the search changed:
   `check:cycles`, typecheck and prettier green; 29 files earlier bites left
   unformatted are formatted. `tmp/restructure.ts` and `tmp/merge-barrel.py` did
   the moves (not committed).
+- **The two clean cuts**, ahead of the PR answer. Blog article → `page/` +
+  `print/` (0288f17): the print classes in `print-sheet.module.scss`,
+  `DOCUMENT_SOURCES` naming the whole `src/blog/pages/article`, `content.md`'s
+  footer trap pointing at the new sheet. `mice-run` → `runs/` + `runner/`
+  (ebf5879), the feature's three barrels re-exporting `runs/`'s. The gate is
+  down to six candidates in six units.
 
 ## Rest of the bite
 
-- **The cluster gate** (`pnpm masd:clusters`) is the one red check: nine
-  candidates in eight units. The operator, on the three-file floor: «а почему не
+- **The cluster gate** (`pnpm masd:clusters`) is the one red check: six
+  candidates left after the two clean cuts, all importing shared files from
+  their unit's rest. The operator, on the three-file floor: «а почему не
   порезать все 6? ты видишь, что они идиоматически не должны бы считаться
   подслайсами?» — answered no idiom forbids any; cutting all was the stated
   plan. Then found: seven of nine import shared files from their unit's rest, so
