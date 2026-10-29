@@ -8,7 +8,7 @@ on:
       site:
         # Free text rather than a `choice`, which is single-select: the useful
         # runs include subsets, and a `choice` would need one option per subset.
-        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`, `basilisk`, `maya`
+        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`, `basilisk`, `maya`, `unsquatted`
         type: string
         default: all
 
@@ -59,10 +59,10 @@ jobs:
           select_site() {
             case "$1" in
               vova) vova=true ;;
-              lsa | bible | basilisk | maya) receivers="$receivers $1" ;;
+              lsa | bible | basilisk | maya | unsquatted) receivers="$receivers $1" ;;
               *)
                 vova=true
-                receivers="$receivers lsa bible basilisk maya"
+                receivers="$receivers lsa bible basilisk maya unsquatted"
                 ;;
             esac
           }
@@ -72,7 +72,7 @@ jobs:
           # — and falling through to `select_site` would publish everything.
           select_picked() {
             case "$1" in
-              all | vova | lsa | bible | basilisk | maya) select_site "$1" ;;
+              all | vova | lsa | bible | basilisk | maya | unsquatted) select_site "$1" ;;
               *)
                 echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`, \`basilisk\`, \`maya\`." >&2
                 exit 1

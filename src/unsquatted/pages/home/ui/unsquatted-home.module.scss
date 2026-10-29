@@ -1,0 +1,178 @@
+@use '../../../../../styles/mantine' as mantine;
+
+.masthead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+
+  // Below `sm` the column reaches the layout's corner toggle, so the name
+  // wraps short of it rather than running under it: the toggle's 38px and a
+  // gap.
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    padding-inline-end: 50px;
+  }
+}
+
+.lede {
+  max-width: 60ch;
+  margin: 12px 0 0;
+  color: var(--unsquatted-muted);
+  text-wrap: pretty;
+}
+
+.sectionHeading {
+  margin: 0 0 12px;
+  color: var(--unsquatted-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.field {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.input {
+  border-color: var(--color-border-hairline);
+  background: var(--color-surface);
+  font-family: var(--mantine-font-family-monospace);
+}
+
+.domain {
+  font-family: var(--mantine-font-family-monospace);
+  overflow-wrap: anywhere;
+}
+
+.zones,
+.picks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.zones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.zone {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-default);
+  background: var(--color-surface);
+  font-size: 0.95rem;
+}
+
+.verdict {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &[data-state='pending'],
+  &[data-state='unknown'] {
+    color: var(--unsquatted-muted);
+  }
+
+  &[data-state='free'] {
+    color: var(--color-accent);
+  }
+
+  &[data-state='maybe'] {
+    color: var(--unsquatted-maybe);
+  }
+
+  &[data-state='taken'] {
+    color: var(--unsquatted-taken);
+  }
+}
+
+// A register link takes its label's colour, not the anchors' foreground.
+.verdict a,
+.register a {
+  color: inherit;
+}
+
+.note {
+  max-width: 65ch;
+  margin: 10px 0 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.85rem;
+}
+
+.picks {
+  border-top: 1px solid var(--color-border-hairline);
+}
+
+// The name, its category and its blurb down the left; the register link
+// beside the name, dropping under the blurb on a phone.
+.pick {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 16px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--color-border-hairline);
+
+  // The footer's own rule closes the list.
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &[data-taken='true'] {
+    opacity: 0.55;
+  }
+
+  & .domain {
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+}
+
+.category {
+  grid-column: 1;
+  color: var(--color-accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.blurb {
+  grid-column: 1;
+  margin: 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.95rem;
+}
+
+.register {
+  grid-row: 1;
+  grid-column: 2;
+  align-self: baseline;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    grid-row: auto;
+    grid-column: 1;
+    margin-top: 6px;
+  }
+}

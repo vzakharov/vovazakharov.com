@@ -16,6 +16,9 @@ export const CSS_COLORS = [
   'border-hairline-strong',
   'surface',
   'surface-strong',
+  // The colour a filled control and Mantine's primary colour take — the
+  // foreground itself on a monochrome palette.
+  'accent',
 ] as const;
 
 /** A token missing from here is a type error rather than a dead `var()`. */

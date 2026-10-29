@@ -10,21 +10,20 @@ import { cssColor } from '@/shell/shared/ui';
 import { breakpoints } from './breakpoints';
 import classes from './theme.module.scss';
 
-const foreground = cssColor('foreground');
-
-// The palette is monochrome, so every shade is the same token. Mantine still
-// wants ten.
-const monochrome: MantineColorsTuple = [
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
-  foreground,
+// Every shade is the one accent token, which a monochrome palette sets to its
+// foreground. Mantine still wants ten.
+const shade = cssColor('accent');
+const accent: MantineColorsTuple = [
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
+  shade,
 ];
 
 // `variant="default"` is the site's only control skin: a square hairline box
@@ -41,8 +40,8 @@ const variantColorResolver: VariantColorsResolver = (input) =>
       }
     : defaultVariantColorsResolver(input);
 
-// The face and the heading weight are custom properties rather than values, so
-// a site can set its own in a sheet keyed on `data-site`.
+// The face, the heading weight and the radius are custom properties rather
+// than values, so a site can set its own in a sheet keyed on `data-site`.
 export const theme = createTheme({
   fontFamily: 'var(--font-body)',
   fontFamilyMonospace: 'var(--font-mono), monospace',
@@ -76,11 +75,12 @@ export const theme = createTheme({
     xl: '1.4',
   },
   breakpoints,
-  defaultRadius: 0,
+  // A custom property, as the face is, so a site can round its corners.
+  defaultRadius: 'var(--radius-default)',
   white: cssColor('background'),
   black: cssColor('foreground'),
-  primaryColor: 'monochrome',
-  colors: { monochrome },
+  primaryColor: 'accent',
+  colors: { accent },
   variantColorResolver,
   components: {
     // Structure only — a visual value in `defaultProps` renders as an inline

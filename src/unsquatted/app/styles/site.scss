@@ -1,0 +1,46 @@
+@use '../../../../styles/tokens' as tokens;
+
+// unsquatted.com is a field guide rather than a page of prose: a display serif
+// over a plain sans, the names in the monospace, a green for what is free.
+// `--unsquatted-taken` and `--unsquatted-maybe` are the site's own, for the two
+// answers a lookup can give besides free, and so is `--unsquatted-muted`, the
+// small print's grey.
+:root[data-site='unsquatted'] {
+  --font-body: var(--font-public-sans), sans-serif;
+  --font-display: var(--font-fraunces), serif;
+  --font-heading-weight: 700;
+  --radius-default: 6px;
+  --unsquatted-muted: #5d6b63;
+  --unsquatted-taken: #9a3b2e;
+  --unsquatted-maybe: #8a6d1d;
+}
+
+@media screen {
+  :root[data-site='unsquatted'] {
+    @include tokens.colors(
+      #f6f7f2,
+      #1d2420,
+      #d9ded6,
+      #b9c2b8,
+      #fff,
+      #eef1ea,
+      #2f6b4f
+    );
+  }
+
+  :root[data-site='unsquatted'][data-mantine-color-scheme='dark'] {
+    --unsquatted-muted: #9aa79f;
+    --unsquatted-taken: #e08b7c;
+    --unsquatted-maybe: #d8b860;
+
+    @include tokens.colors(
+      #131815,
+      #e6ebe6,
+      #2c352f,
+      #46524a,
+      #1b211d,
+      #232a25,
+      #7cc39f
+    );
+  }
+}

@@ -143,6 +143,8 @@ const AVATAR = {
 /** The card `pnpm content:og <site>` renders for a site whose mark is a seal. */
 const SEAL_CARD = { path: '/ava.og.png', ...PIXELS } as const;
 
+const UNSQUATTED_CARD = { path: '/card.og.png', ...PIXELS } as const;
+
 /** The seal's blank cut, drawn on a square. */
 const SEAL_SIZE = { width: 1024, height: 1024 } as const;
 
@@ -240,6 +242,23 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     listsSources: false,
     locale: 'en',
     analyticsId: 'fa9d95c5-b7fe-46fa-a0cb-6888d514868c',
+    ...PUBLISHER,
+  },
+  unsquatted: {
+    url: 'https://unsquatted.com',
+    downloadPrefix: 'unsquatted',
+    name: 'Unsquatted',
+    tagline:
+      'Good domain names nobody has grabbed yet. Register one for about $10 before someone else does.',
+    // The card is the mark: `pnpm content:og unsquatted` rasterises it from
+    // the vector beside it.
+    avatar: { ...UNSQUATTED_CARD, vector: '/card.svg' },
+    seal: undefined,
+    card: UNSQUATTED_CARD,
+    credit: undefined,
+    listsSources: false,
+    locale: 'en',
+    analyticsId: '896c3b06-b6a7-499c-a01f-3d7077b3b8bd',
     ...PUBLISHER,
   },
 };

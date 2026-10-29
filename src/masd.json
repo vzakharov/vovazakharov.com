@@ -8,5 +8,6 @@
   "basilisk": ["blog"],
   "maya": ["blog"],
   "mushrooms": ["kernel"],
+  "unsquatted": ["shell"],
   "vova": ["blog", "music", "mushrooms"]
 }

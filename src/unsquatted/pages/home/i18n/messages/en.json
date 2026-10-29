@@ -1,0 +1,14 @@
+{
+  "lede": "Good domain names nobody has grabbed yet. We don’t buy them and we don’t resell them. If one fits you, register it for about $10 before someone else does.",
+  "checkHeading": "Check a name",
+  "fieldLabel": "Domain name",
+  "fieldPlaceholder": "type a name, e.g. foxedpage",
+  "check": "Check",
+  "note": "“Probably free” means the name doesn’t resolve, which is a strong hint rather than the registry’s word. Premium and reserved names can show as free and cost more than $10.",
+  "listHeading": "Up for grabs",
+  "register": "Register ~$11 →",
+  "taken": "taken",
+  "shoutOutPrompt": "Took a name from here?",
+  "shoutOutLink": "Give us a shout-out",
+  "shoutOutPost": "Found my domain name on {url} — good names nobody has grabbed yet."
+}
