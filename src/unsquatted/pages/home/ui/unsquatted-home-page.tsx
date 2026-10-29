@@ -38,7 +38,9 @@ export async function UnsquattedHomePage() {
             .
           </div>
           <div className={classes['lede']}>
-            {COPY.pledge} {COPY.coffeePrompt}{' '}
+            {COPY.pledge}
+            <br />
+            {COPY.coffeePrompt}{' '}
             <NotedSpan words={COPY.coffeeLink}>{COPY.coffeeSoon}</NotedSpan>.
           </div>
         </header>
