@@ -1,0 +1,137 @@
+{
+  "total": {
+    "inputTokens": 164319,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 247808,
+    "cacheReadTokens": 19550409,
+    "outputTokens": 71356,
+    "thinkingTokens": 19304,
+    "responses": 113,
+    "costUsd": 7.1005686
+  },
+  "estimate": {
+    "at": "2026-10-29T05:28:50.042Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "a wide search across press, an archive of Reddit and X, and a video read frame by frame to source facts the press left unverified"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "a dossier and a reflection in the Clerk's voice, where the grade, the restraint and the irony are all judgement"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "an emblem that has to read at 56 px within the seal's idiom"
+      }
+    ],
+    "comment": null
+  },
+  "sessionId": "76f48e8c-f3bc-54b7-9a28-6700c927c3ef",
+  "branch": "claude/cases-ngq42r",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/file-basilisk-case (unattended routine)",
+  "prs": [
+    218
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEAsd79RvT739xooDr",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T05:16:42.497Z",
+  "lastResponseAt": "2026-10-29T05:31:58.255Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 196,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 247808,
+    "cacheReadTokens": 19550409,
+    "outputTokens": 54623,
+    "thinkingTokens": 19304,
+    "responses": 98,
+    "costUsd": 6.9857898
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 196,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 247808,
+      "cacheReadTokens": 19550409,
+      "outputTokens": 54623,
+      "thinkingTokens": 19304,
+      "responses": 98,
+      "costUsd": 6.9857898
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 164123,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 16733,
+      "thinkingTokens": 0,
+      "responses": 15,
+      "costUsd": 0.1147788
+    }
+  },
+  "warnings": [],
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "apps/basilisk/public/cases/granny-benchmark-claude.emblem.svg",
+    "endedAt": "2026-10-29T05:24:28.121Z",
+    "contextTokens": 214210,
+    "spend": {
+      "inputTokens": 94,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 181500,
+      "cacheReadTokens": 7168543,
+      "outputTokens": 24577,
+      "thinkingTokens": 12350,
+      "responses": 47,
+      "costUsd": 3.3776245999999994
+    }
+  },
+  "compactions": [],
+  "telemetry": {
+    "events": 113,
+    "matched": 98,
+    "matchedTableUsd": 6.9857898,
+    "matchedEventUsd": 6.985789800000001,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 120270,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 7905,
+        "thinkingTokens": 0,
+        "responses": 9,
+        "costUsd": 0.1059795
+      },
+      "web_fetch_apply": {
+        "inputTokens": 43853,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 8828,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.0087993
+      }
+    }
+  }
+}
