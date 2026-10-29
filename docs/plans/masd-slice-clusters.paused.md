@@ -85,7 +85,36 @@ Nothing built yet. In discussion, the search changed:
   `flight/`; player `station/`; blind-test `quiz/`. Docs: both `masd.md`
   describe sub-slices (the rule's copy staged).
 
-## Open question
+- **Review of bite 3** (PR #228, 11 threads, each answered on GitHub). Done:
+  #229's `/five-percent` procedure taken whole (22a95ad); `sub-slice-entry`'s
+  rule-group line (e42fc65); a slice's catalogue is `config/i18n.ts`, its JSON
+  in `config/messages/` (2188bab); `check:masd` reads imports and tallies edges
+  through `slice-graph` (`importsOf`, `meeting`; bccb5aa). The operator declined
+  restacking on #227 (merged since).
+- **Found in review — ΔQ of a two-way cut is symmetric**, so which side is "the
+  cluster" is the closure's construction, always the lower one. On a
+  chain-shaped slice (door → thin page → the rest) the cut under the page passes
+  and leaves a wrapper above it: `blind-test`'s `quiz/`. vova home's `work/`
+  leaves four connected files and is a fair cut, but `work-section` imports the
+  parent's `ui/read-cv-button`.
+
+## Open questions
+
+Put to the operator on PR #228's threads, each with a recommendation:
+
+1. **Retire `docs/masd.md`** (T01) — the rule is the one home; the fourth
+   checker and sub-slices move into it, the rest goes with a
+   `docs/masd.retired.md` tombstone, "Open directions" become issues.
+2. **The cluster report becomes a gate** (T06) — after fixing the selection:
+   one-door candidates (dominator subtrees, T03) and the remainder held to the
+   same bar (connected, at least two files without barrels, T10); marker
+   `// masd-disable cluster -- <why>` at the candidate's root on the operator's
+   yes; the remaining hits brought to the operator as cut-or-suppress.
+3. **A unit holding a sub-slice holds only sub-slices** (T08, T09) — segments go
+   to a remainder sub-slice named for its noun (`house/`, `perch/`), enforced by
+   `check:masd`.
+4. **Revert `quiz/`** (T10) — with the selection fix, so the fix shows what it
+   catches.
 
 - **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
   `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
