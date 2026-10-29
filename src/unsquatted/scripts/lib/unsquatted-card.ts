@@ -1,6 +1,6 @@
 /**
  * unsquatted.com's social card, as a page for `og-render.ts` to screenshot: the
- * mark and the wordmark over the hero's lede, beside a panel of the newest
+ * mark and the wordmark over the hero's lede, beside a panel of the first
  * listed names, an empty name field closing it and a count of the rest.
  *
  * It reads what the site renders — the listed names through the module the

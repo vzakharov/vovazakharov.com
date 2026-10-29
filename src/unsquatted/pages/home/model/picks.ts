@@ -23,12 +23,14 @@ const shownSchema = z.object({
 
 /**
  * The naming routine writes these, so they are parsed rather than trusted: a
- * malformed one fails the build, not the page. `added` orders the list;
- * `shownUntil` is set by the routine once the name is taken, and past it the
- * file stays in the repository but leaves the list. YAML reads an unquoted
- * date as a `Date`.
+ * malformed one fails the build, not the page. `score` orders the list, highest
+ * first: a point on a scale rather than a rank, so a name slots in between two
+ * others without renumbering either. `shownUntil` is set by the routine once
+ * the name is taken, and past it the file stays in the repository but leaves
+ * the list. YAML reads an unquoted date as a `Date`.
  */
 const pickSchema = shownSchema.extend({
+  score: z.number().finite(),
   added: z.coerce.date(),
   shownUntil: z.coerce.date().optional(),
 });
@@ -57,7 +59,7 @@ function readPick(fileName: string) {
 
 const day = (date: Date) => date.toISOString().slice(0, 10);
 
-/** The names still shown at build: newest first, a day's names by domain. */
+/** The names still shown at build: best first, then newest, then by domain. */
 export const PICKS: readonly ShownName[] = fs
   .readdirSync(PICKS_DIR)
   .filter((fileName) => fileName.endsWith('.md'))
@@ -68,6 +70,8 @@ export const PICKS: readonly ShownName[] = fs
   )
   .toSorted(
     (a, b) =>
-      b.added.getTime() - a.added.getTime() || a.domain.localeCompare(b.domain),
+      b.score - a.score ||
+      b.added.getTime() - a.added.getTime() ||
+      a.domain.localeCompare(b.domain),
   )
   .map(({ domain, category, blurb }) => ({ domain, category, blurb }));

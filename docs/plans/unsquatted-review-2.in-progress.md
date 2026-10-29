@@ -62,6 +62,11 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
   the card read like a reseller such as brandbucket) — 767719a: new catalogue
   key `ledeEnd`; page, card and tagline carry it.
 
+- **Picks by score** (operator: «нужно по "крутости" … float чтобы всегда можно
+  было "между" засунуть») — a required float `score` in each pick's frontmatter,
+  highest first, then newest, then by domain; seeded 9.0 down to 4.5 in the
+  original hand-made order. Pick files now prettier-clean.
+
 ## Left
 
 1. **Price in `grab →` on the card** (operator: «в grab посмотреть влезет ли
@@ -69,13 +74,8 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
    on long names; `grab · $11 →` fits. Waiting on the operator's pick. Built,
    the card would print Porkbun's live price, so a reprice re-flags the card and
    `content:og --check` in vet goes red until re-rendered.
-2. **Sort picks by how good they are** (operator: «список стал сортироваться по
-   алфавиту, нужно по "крутости" (добавит фронтматтером, можно не рангом а
-   просто по какой-то шкале)») — a score field in each
-   `sites/unsquatted/public/picks/<domain>.md` frontmatter (a scale, not a rank;
-   a float — «наверное float чтобы всегда можно было "между" засунуть»), the
-   list sorted by it, highest first; seed a score for every existing pick. The
-   card's "newest five" then needs a call: keep newest, or take the top-scored.
+2. **Card's five** — built as the top-scored five (the card takes the list's
+   head); asked the operator whether to keep that or show the newest.
 3. Ask the operator whether `may be available →` (DNS-only "maybe") should also
    read `grab →`; it was left as is because it promises less.
 4. Squash proposal: mention the generated card and the lede if `/squash-message`
