@@ -13,7 +13,8 @@ paths:
   - sites/*/app/**/music/**
   - sites/*/public/generated/**
   - src/blog/shared/content/**
-  - src/blog/pages/documents/**
+  - src/blog/pages/article/**
+  - src/blog/pages/collection-index/**
   - src/vova/pages/cv/**
   - sites/*/app/**/case-studies/**
   - sites/bible/app/**
@@ -277,8 +278,8 @@ collections' documents; the rest is held by reading.
   site's copyright — is `position: fixed`, which repeats it and pins it to the
   page box; left in the `<tfoot>`'s flow it lands under the last page's prose,
   which on a page that ends early is the middle of it. Being out of flow it
-  reserves nothing, so the band's height is stated in `documents.module.scss`
-  and a change to the footer's type size moves it. The table is
+  reserves nothing, so the band's height is stated in `article.module.scss` and
+  a change to the footer's type size moves it. The table is
   `table-layout: fixed` in print because an auto table widens to its widest
   child and everything past the paper's edge is silently cut off, the footer's
   right half included. On screen the whole thing lays out as the blocks it

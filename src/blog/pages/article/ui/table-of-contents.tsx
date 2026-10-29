@@ -2,7 +2,7 @@ import { Box } from '@mantine/core';
 
 import type { WithHeadings } from '@/blog/shared/content';
 
-import classes from './documents.module.scss';
+import classes from './article.module.scss';
 
 /**
  * The document's outline as plain anchors — no JavaScript, so it works without

@@ -1,5 +1,5 @@
 import { articleCollection } from '@/blog/shared/content';
-import { articleRoute } from '@/blog/pages/documents';
+import { articleRoute } from '@/blog/pages/article';
 
 import { mayaSlots } from '@/maya/entities/maya';
 

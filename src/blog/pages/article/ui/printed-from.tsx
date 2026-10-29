@@ -7,7 +7,7 @@ import type { Routed } from '@/kernel/shared/typings';
 
 import { TextLink } from '@/shell/shared/ui';
 
-import classes from './documents.module.scss';
+import classes from './article.module.scss';
 
 /**
  * The line at the foot of every printed page: where the document lives, and

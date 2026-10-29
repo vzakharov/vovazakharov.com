@@ -1,4 +1,4 @@
-import { articleRoute } from '@/blog/pages/documents';
+import { articleRoute } from '@/blog/pages/article';
 
 import { CASES } from '@/basilisk/shared/content';
 import { caseSlots } from '@/basilisk/entities/case';

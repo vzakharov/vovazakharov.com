@@ -19,7 +19,7 @@ import {
 import { messages } from '@/blog/shared/i18n';
 import { DocumentMeta } from '@/blog/entities/document';
 
-import classes from './documents.module.scss';
+import classes from './article.module.scss';
 
 type CutSwitcherProps = DocumentRef &
   WithLocale & {

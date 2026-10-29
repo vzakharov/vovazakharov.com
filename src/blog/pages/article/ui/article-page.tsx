@@ -36,7 +36,7 @@ import { ProseContent } from '@/blog/shared/ui';
 import { SourceList } from '@/blog/entities/document';
 
 import { ArticleHeader } from './article-header';
-import classes from './documents.module.scss';
+import classes from './article.module.scss';
 import { PrintSheet } from './print-sheet';
 import { TableOfContents } from './table-of-contents';
 

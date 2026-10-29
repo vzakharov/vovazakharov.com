@@ -1,6 +1,6 @@
 import type { Routed, WithChildren } from '@/kernel/shared/typings';
 
-import classes from './documents.module.scss';
+import classes from './article.module.scss';
 import { PrintedFrom } from './printed-from';
 
 /**
