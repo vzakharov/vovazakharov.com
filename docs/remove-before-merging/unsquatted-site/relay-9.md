@@ -84,8 +84,6 @@ Wait for the operator. Open with them: whether to file the muthur relay issue
 
 ## Last agent turn
 
-## Last agent turn
-
 The agent's last turn before the relay, verbatim, appended by
 `scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
 unneeded but harmless; the reply proper is usually its last paragraphs.
