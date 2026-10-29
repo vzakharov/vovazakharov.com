@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 130,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 155445,
+    "cacheReadTokens": 10982031,
+    "outputTokens": 31543,
+    "thinkingTokens": 5192,
+    "responses": 65,
+    "costUsd": 4.071346199999999
+  },
+  "estimate": {
+    "at": "2026-10-29T09:45:09.395Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a word-break rule over a lazily fetched dictionary, picked against the alternatives, and a shared popover lifted across two apps with its style-sheet bookkeeping"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T09:37:48.787Z",
+    "contextTokens": 123718,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49838,
+      "cacheReadTokens": 479181,
+      "outputTokens": 1139,
+      "thinkingTokens": 77,
+      "responses": 5,
+      "costUsd": 0.5173602
+    }
+  },
+  "sessionId": "9a7f43b3-c6e8-5f2c-ad16-5ac57857470e",
+  "branch": "claude/unsquatted-site",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-site — второй раунд ревью #231 на паузе: дальше словарное правило для префиксных хаков, NotedSpan, OG-карточка, ответы в тредах, p…",
+  "prs": [
+    231
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCcJ2EjYwihhvos23z",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T09:37:27.311Z",
+  "lastResponseAt": "2026-10-29T09:46:19.302Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 130,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 155445,
+    "cacheReadTokens": 10982031,
+    "outputTokens": 31543,
+    "thinkingTokens": 5192,
+    "responses": 65,
+    "costUsd": 4.071346199999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 130,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 155445,
+      "cacheReadTokens": 10982031,
+      "outputTokens": 31543,
+      "thinkingTokens": 5192,
+      "responses": 65,
+      "costUsd": 4.071346199999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 65,
+    "matched": 65,
+    "matchedTableUsd": 4.071346199999999,
+    "matchedEventUsd": 4.071346199999999,
+    "unseen": {}
+  }
+}
