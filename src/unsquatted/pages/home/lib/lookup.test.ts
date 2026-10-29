@@ -289,6 +289,11 @@ describe('rdapVerdict', () => {
   it('reads a rate limit as no answer', () => {
     assert.deepEqual(rdapVerdict(429, undefined), { state: 'unknown' });
   });
+
+  it('refuses a record of another shape', () => {
+    assert.throws(() => rdapVerdict(200, { status: 'active' }));
+    assert.throws(() => rdapVerdict(200, { events: [{ eventAction: 1 }] }));
+  });
 });
 
 describe('dohVerdict', () => {
@@ -305,5 +310,9 @@ describe('dohVerdict', () => {
 
   it('reads SERVFAIL as no answer', () => {
     assert.deepEqual(dohVerdict({ Status: 2 }), { state: 'unknown' });
+  });
+
+  it('refuses an answer without a status', () => {
+    assert.throws(() => dohVerdict({}));
   });
 });

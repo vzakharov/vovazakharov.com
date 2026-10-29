@@ -4,9 +4,9 @@
  * hints. Pure: `check-domain.ts` does the fetching and hands the bodies here.
  */
 
-// The mini build, since this runs in the browser: classic `zod` keeps its whole
-// API on every schema, some 70 KB gzipped on the page.
-import * as z from 'zod/mini';
+import { errorClass } from '@/kernel/shared/lib/error-class';
+
+const MalformedAnswerError = errorClass('MalformedAnswerError');
 
 const TIME_UNITS = ['day', 'hour', 'minute'] as const;
 
@@ -189,16 +189,68 @@ export function rowsFor(
   });
 }
 
-const bootstrapSchema = z.object({
-  services: z.array(z.tuple([z.array(z.string()), z.array(z.string())])),
-});
+// The answers below are checked by hand rather than by a schema library:
+// this module runs in the browser, and zod would ship with it.
+
+type Bootstrap = { services: Array<[string[], string[]]> };
+
+type RdapEvent = { eventAction: string; eventDate: string };
+
+type RdapDomain = { status?: string[]; events?: RdapEvent[] };
+
+type DohAnswer = { Status: number };
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const isStrings = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every((each) => typeof each === 'string');
+
+const isBootstrap = (value: unknown): value is Bootstrap =>
+  isRecord(value) &&
+  Array.isArray(value['services']) &&
+  value['services'].every(
+    (service: unknown) =>
+      Array.isArray(service) &&
+      service.length === 2 &&
+      isStrings(service[0]) &&
+      isStrings(service[1]),
+  );
+
+const isRdapEvent = (value: unknown): value is RdapEvent =>
+  isRecord(value) &&
+  typeof value['eventAction'] === 'string' &&
+  typeof value['eventDate'] === 'string';
+
+const isRdapDomain = (value: unknown): value is RdapDomain =>
+  isRecord(value) &&
+  (value['status'] === undefined || isStrings(value['status'])) &&
+  (value['events'] === undefined ||
+    (Array.isArray(value['events']) &&
+      value['events'].every((event: unknown) => isRdapEvent(event))));
+
+const isDohAnswer = (value: unknown): value is DohAnswer =>
+  isRecord(value) && typeof value['Status'] === 'number';
+
+/** `body` as the shape `holds` vouches for; any other shape throws, naming `what`. */
+function shaped<T>(
+  body: unknown,
+  holds: (value: unknown) => value is T,
+  what: string,
+): T {
+  if (!holds(body)) {
+    throw new MalformedAnswerError(`${what} came back in an unknown shape`);
+  }
+
+  return body;
+}
 
 /**
  * IANA's RDAP bootstrap file as a zone → base URL map, each base ending in a
  * slash so a path joins onto it.
  */
 export function parseBootstrap(body: unknown): ReadonlyMap<string, string> {
-  const { services } = bootstrapSchema.parse(body);
+  const { services } = shaped(body, isBootstrap, 'The RDAP bootstrap file');
 
   return new Map(
     services.flatMap(([zones, [base]]) =>
@@ -208,13 +260,6 @@ export function parseBootstrap(body: unknown): ReadonlyMap<string, string> {
     ),
   );
 }
-
-const rdapDomainSchema = z.object({
-  status: z.optional(z.array(z.string())),
-  events: z.optional(
-    z.array(z.object({ eventAction: z.string(), eventDate: z.string() })),
-  ),
-});
 
 const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
@@ -274,7 +319,11 @@ export function rdapVerdict(
   if (status === 404) return { state: 'free' };
   if (status < 200 || status >= 300) return { state: 'unknown' };
 
-  const { status: statuses = [], events = [] } = rdapDomainSchema.parse(body);
+  const { status: statuses = [], events = [] } = shaped(
+    body,
+    isRdapDomain,
+    'An RDAP record',
+  );
   const dated = (action: string) =>
     events.find(({ eventAction }) => eventAction === action)?.eventDate;
   const frees = freesIn(statuses, dated, now);
@@ -288,15 +337,13 @@ export function rdapVerdict(
   };
 }
 
-const dohSchema = z.object({ Status: z.number() });
-
 /** DNS response codes a DoH resolver reports in `Status`. */
 const NOERROR = 0;
 const NXDOMAIN = 3;
 
 /** A DNS-over-HTTPS answer: a name that resolves is taken, one that does not may be free. */
 export function dohVerdict(body: unknown): Verdict {
-  const { Status } = dohSchema.parse(body);
+  const { Status } = shaped(body, isDohAnswer, 'A DoH answer');
 
   if (Status === NXDOMAIN) return { state: 'maybe' };
   if (Status === NOERROR) return { state: 'taken', since: undefined };
