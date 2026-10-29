@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-29T08:36:23Z
-- **Updated:** 2026-10-29T09:22:29Z
+- **Updated:** 2026-10-29T09:50:45Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,17 +15,17 @@
 
 ## Awaiting an answer: 11
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 4436be5). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `src/unsquatted/pages/home/i18n/messages/en.json`:18 — unresolved — last: @vzakharov (human) 2026-10-29T09:06:31Z — "ага 👍" → [↓](#t01)
-- **T02** `src/unsquatted/pages/home/ui/pick-row.tsx`:20 — unresolved — last: @vzakharov (human) 2026-10-29T09:20:26Z — "верно; нужно держать какое-то время -- смотреть, когда имя п…" → [↓](#t02)
+- **T02** `src/unsquatted/pages/home/ui/pick-row.tsx`:28 — unresolved — last: @vzakharov (human) 2026-10-29T09:20:26Z — "верно; нужно держать какое-то время -- смотреть, когда имя п…" → [↓](#t02)
 - **T03** `docs/remove-before-merging/unsquatted-site/squash-message.md`:19 — unresolved — last: @vzakharov (human) 2026-10-29T09:01:16Z — "а у Майи тоже no-op? Она там тоже кастомизировала как-то" → [↓](#t03)
 - **T04** `sites/unsquatted/public/card.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:03:38Z — "как-то странно выглядит лого сверху; + копию надо править ко…" → [↓](#t04)
 - **T05** `src/unsquatted/pages/home/lib/dice.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-29T09:07:58Z — "WET" → [↓](#t05)
-- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:27 — unresolved — last: @vzakharov (human) 2026-10-29T09:09:14Z — "мы можем подгрузить весь список зон поддерживаемых поркбаном…" → [↓](#t06)
+- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:41 — unresolved — last: @vzakharov (human) 2026-10-29T09:09:14Z — "мы можем подгрузить весь список зон поддерживаемых поркбаном…" → [↓](#t06)
 - **T07** `src/unsquatted/pages/home/lib/prices.ts`:71 — unresolved — last: @vzakharov (human) 2026-10-29T09:10:47Z — "фетчеры давай оборачивать чтобы сами рейзили (ошибка -- обяз…" → [↓](#t07)
 - **T08** `src/unsquatted/pages/home/model/picks.json`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:13:07Z — "давай держать их в public/picks/<...>.md, с фронтматтером ка…" → [↓](#t08)
-- **T09** `src/unsquatted/pages/home/ui/checker-state.tsx`:161 — unresolved — last: @vzakharov (human) 2026-10-29T09:14:44Z — "это можно обернуть ы `someWrapper(CheckerContext, new SomeEr…" → [↓](#t09)
+- **T09** `src/unsquatted/pages/home/ui/checker-state.tsx`:155 — unresolved — last: @vzakharov (human) 2026-10-29T09:14:44Z — "это можно обернуть ы `someWrapper(CheckerContext, new SomeEr…" → [↓](#t09)
 - **T10** `src/unsquatted/pages/home/ui/hint.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:17:14Z — "у нас это больше нигде не применяется? в том же music, на ge…" → [↓](#t10)
 - **T11** `src/unsquatted/pages/home/ui/verdict-label.tsx`:79 — unresolved — last: @vzakharov (human) 2026-10-29T09:21:43Z — "а как же COPY?" → [↓](#t11)
 
@@ -136,14 +136,14 @@ _2026-10-29T08:38:41Z_
 <!-- five-percent: 41f8f91faf70dfc281d0346b51c72a45a2e31379 -->
 
 - **T01** `src/unsquatted/pages/home/i18n/messages/en.json`:18 — unresolved — last: @vzakharov (human) 2026-10-29T09:06:31Z — "ага 👍" → [↓](#t01)
-- **T02** `src/unsquatted/pages/home/ui/pick-row.tsx`:20 — unresolved — last: @vzakharov (human) 2026-10-29T09:20:26Z — "верно; нужно держать какое-то время -- смотреть, когда имя п…" → [↓](#t02)
+- **T02** `src/unsquatted/pages/home/ui/pick-row.tsx`:28 — unresolved — last: @vzakharov (human) 2026-10-29T09:20:26Z — "верно; нужно держать какое-то время -- смотреть, когда имя п…" → [↓](#t02)
 - **T03** `docs/remove-before-merging/unsquatted-site/squash-message.md`:19 — unresolved — last: @vzakharov (human) 2026-10-29T09:01:16Z — "а у Майи тоже no-op? Она там тоже кастомизировала как-то" → [↓](#t03)
 - **T04** `sites/unsquatted/public/card.og.png`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:03:38Z — "как-то странно выглядит лого сверху; + копию надо править ко…" → [↓](#t04)
 - **T05** `src/unsquatted/pages/home/lib/dice.ts`:18 — unresolved — last: @vzakharov (human) 2026-10-29T09:07:58Z — "WET" → [↓](#t05)
-- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:27 — unresolved — last: @vzakharov (human) 2026-10-29T09:09:14Z — "мы можем подгрузить весь список зон поддерживаемых поркбаном…" → [↓](#t06)
+- **T06** `src/unsquatted/pages/home/lib/lookup.ts`:41 — unresolved — last: @vzakharov (human) 2026-10-29T09:09:14Z — "мы можем подгрузить весь список зон поддерживаемых поркбаном…" → [↓](#t06)
 - **T07** `src/unsquatted/pages/home/lib/prices.ts`:71 — unresolved — last: @vzakharov (human) 2026-10-29T09:10:47Z — "фетчеры давай оборачивать чтобы сами рейзили (ошибка -- обяз…" → [↓](#t07)
 - **T08** `src/unsquatted/pages/home/model/picks.json`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:13:07Z — "давай держать их в public/picks/<...>.md, с фронтматтером ка…" → [↓](#t08)
-- **T09** `src/unsquatted/pages/home/ui/checker-state.tsx`:161 — unresolved — last: @vzakharov (human) 2026-10-29T09:14:44Z — "это можно обернуть ы `someWrapper(CheckerContext, new SomeEr…" → [↓](#t09)
+- **T09** `src/unsquatted/pages/home/ui/checker-state.tsx`:155 — unresolved — last: @vzakharov (human) 2026-10-29T09:14:44Z — "это можно обернуть ы `someWrapper(CheckerContext, new SomeEr…" → [↓](#t09)
 - **T10** `src/unsquatted/pages/home/ui/hint.tsx`:1 — unresolved — last: @vzakharov (human) 2026-10-29T09:17:14Z — "у нас это больше нигде не применяется? в том же music, на ge…" → [↓](#t10)
 - **T11** `src/unsquatted/pages/home/ui/verdict-label.tsx`:79 — unresolved — last: @vzakharov (human) 2026-10-29T09:21:43Z — "а как же COPY?" → [↓](#t11)
 
@@ -179,7 +179,7 @@ It costs passing the price list down to the list as well as to the checker. A gu
 
 <a id="t02"></a>
 
-### `src/unsquatted/pages/home/ui/pick-row.tsx`:20 — unresolved
+### `src/unsquatted/pages/home/ui/pick-row.tsx`:28 — unresolved
 
 ```diff
 @@ -0,0 +1,46 @@
@@ -259,7 +259,7 @@ WET
 
 <a id="t06"></a>
 
-### `src/unsquatted/pages/home/lib/lookup.ts`:27 — unresolved
+### `src/unsquatted/pages/home/lib/lookup.ts`:41 — unresolved
 
 ```diff
 @@ -0,0 +1,229 @@
@@ -315,7 +315,7 @@ WET
 
 <a id="t09"></a>
 
-### `src/unsquatted/pages/home/ui/checker-state.tsx`:161 — unresolved
+### `src/unsquatted/pages/home/ui/checker-state.tsx`:155 — unresolved
 
 ```diff
 @@ -0,0 +1,161 @@
@@ -326,12 +326,7 @@ WET
 +export function useChecker(): CheckerState {
 +  const state = use(CheckerContext);
 +
-+  if (state === undefined) {
-+    throw new Error('useChecker is called outside a CheckerProvider');
-+  }
-+
-+  return state;
-+}
+… 6 lines elided …
 ```
 
 **@vzakharov (human)** — 2026-10-29T09:14:44Z

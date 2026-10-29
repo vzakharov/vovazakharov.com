@@ -36,32 +36,35 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
 - **T10** — d5f9494: `NotedSpan` lifted to `src/shell/shared/ui/`, unsquatted's
   asides use it, `hint.tsx` and Tooltip gone; staged masd.md updated.
 
+- **Steiger** — 18a83fd: `rss` + `feed-html` (and tests) are kernel's
+  `shared/feed` segment with an `index.ts`; `shared/lib` is at 14. Staged
+  masd.md lists `feed`.
+- **T04, first cut** — 4436be5: mark beside the wordmark at cap height; card and
+  `tagline` read "Good domain names nobody has grabbed yet. Curated and blazing
+  fast." The operator found it still "куце" and asked for variants.
+
 ## Left
 
-1. **Steiger fails on kernel** (pre-existing on this branch, from 104d75a):
-   `src/kernel/shared/lib` has 18 modules, over the 15 of
-   `fsd/shared-lib-grouping`. This branch added `error-class.ts`, `fetch-ok.ts`,
-   `use-provided.ts`. Recommended: move `error-class.ts` + `fetch-ok.ts` into a
-   purpose-named segment of their own and regroup until lib ≤ 15 — check
-   `pnpm lint:fsd`.
+1. **T04 choice** — four variants in
+   `docs/remove-before-merging/unsquatted-site/og-variants/` (A centred, B with
+   a picks panel, C dark green, D the checker), shown to the operator; waiting
+   on their pick. Copy the chosen SVG over `sites/unsquatted/public/card.svg`,
+   `pnpm content:og unsquatted`, look at the PNG, commit; delete the variants
+   directory in the same commit.
 2. Re-check `pnpm check:mantine-styles` after a build of `vova` and `unsquatted`
-   (Tooltip sheet dropped; Popover now renders on unsquatted).
-3. **T04** — `sites/unsquatted/public/card.svg`: the mark sits alone above the
-   wordmark and looks off; set it beside the wordmark at cap height. Copy
-   follows the hero: "Good domain names nobody has grabbed yet." / "Curated and
-   blazing fast." Same for `tagline` in
-   `src/kernel/shared/config/site-config.ts` (drop "$10"). Re-render with
-   `pnpm content:og unsquatted`, look at the PNG.
-4. **T07 lint rule** — a rule banning bare `new Error(`: 185 in 97 files today.
-   Ask the operator: grandfather with a scoped `off` + tracking issue
-   (recommended), or migrate everything in this PR.
-5. **T03** — reply only: Maya passes her foreground as `accent`, which is what
+   (Tooltip sheet dropped; Popover now renders on unsquatted). Not finished in
+   the pausing session.
+3. **T07 lint rule** — asked the operator: no rule against bare `new Error(`
+   exists (only `no-uncaused-rethrow`); 184 uses in 95 files. (a, recommended)
+   rule on repo-wide, old files under one scoped `off` naming a tracking issue;
+   (b) migrate all in this PR. Waiting on the answer; build nothing for it yet.
+4. **T03** — reply only: Maya passes her foreground as `accent`, which is what
    primary was before (monochrome foreground); radius falls back to shell's 0;
    she passes no fonts — a no-op. Her `site.scss` changed only because the token
    mixin gained a required argument.
-6. **Replies on GitHub** to all 11 threads (CLAUDE.md § "GitHub comments", in
+5. **Replies on GitHub** to all 11 threads (CLAUDE.md § "GitHub comments", in
    Russian, bare SHAs), none resolved.
-7. **Squash proposal**: `docs/remove-before-merging/unsquatted-site/` says
+6. **Squash proposal**: `docs/remove-before-merging/unsquatted-site/` says
    `pages/home/model/picks.json` — now `public/picks/`; `/squash-message`
    re-syncs it.
-8. `/polish`, then `/pr`.
+7. `/polish`, then `/pr`.
