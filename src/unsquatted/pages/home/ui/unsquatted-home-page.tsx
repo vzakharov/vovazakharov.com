@@ -29,7 +29,8 @@ export async function UnsquattedHomePage() {
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
           <p className={classes['lede']}>
             {COPY.lede}{' '}
-            <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>.
+            <NotedSpan words={COPY.blazing}>{COPY.blazingWhy}</NotedSpan>
+            {COPY.ledeEnd}.
           </p>
           <p className={classes['lede']}>
             {COPY.pledge} {COPY.coffeePrompt}{' '}

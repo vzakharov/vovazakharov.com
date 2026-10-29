@@ -52,7 +52,8 @@ const MARK = `<svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"
 
 /** The lede, its first sentence the headline and the rest under it. */
 function lede(): readonly [string, string] {
-  const [head = '', ...rest] = `${COPY.lede} ${COPY.blazing}.`.split('. ');
+  const [head = '', ...rest] =
+    `${COPY.lede} ${COPY.blazing}${COPY.ledeEnd}.`.split('. ');
 
   return [`${head}.`, rest.join('. ')];
 }
