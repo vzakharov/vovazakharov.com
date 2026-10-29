@@ -1,4 +1,4 @@
-export { MOUTH_LINE, mouthEdges } from './model/chanterelle-outline';
+export { MOUTH_LINE, mouthEdges } from './body/index.test-only';
 export {
   domeHeight,
   GENE_RANGES,
@@ -14,7 +14,7 @@ export {
   type Species,
   SPOT_MARGIN,
   TRUMPET_RANGES,
-} from './model/mushroom-genes';
+} from './body/index.test-only';
 export {
   capOnCanvas,
   capOutlines,
@@ -23,9 +23,9 @@ export {
   inkWidth,
   MUSHROOM_INK,
   stemOutline,
-} from './model/mushroom-outline';
-export { maxReach, speciesHeight, splayed } from './model/mushroom-pose';
-export { capBase, capSurface, CURVE_STEPS } from './model/mushroom-profile';
+} from './body/index.test-only';
+export { maxReach, speciesHeight, splayed } from './body/index.test-only';
+export { capBase, capSurface, CURVE_STEPS } from './body/index.test-only';
 export {
   type CapLight,
   capLight,
@@ -37,5 +37,5 @@ export {
   STEM_LIGHT,
   type StemLayer,
   stemLight,
-} from './ui/mushroom-light';
-export { heldHaze, mushroomTints } from './ui/mushroom-tints';
+} from './body/index.test-only';
+export { heldHaze, mushroomTints } from './body/index.test-only';

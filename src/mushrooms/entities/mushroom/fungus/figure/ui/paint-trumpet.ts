@@ -16,14 +16,6 @@ import {
 } from '@/mushrooms/shared/ui';
 
 import {
-  MOUTH_LINE,
-  mouthEdges,
-  ridgeLines,
-} from '../model/chanterelle-outline';
-import type { ChanterelleGenes } from '../model/mushroom-genes';
-import { headOutlines } from '../model/mushroom-outline';
-import { type CapLight, capLight, sideways } from './mushroom-light';
-import {
   bySun,
   inkStem,
   lightWith,
@@ -31,7 +23,17 @@ import {
   paintCapLight,
   paintStem,
   shadeWith,
-} from './mushroom-paint';
+} from '../../body';
+import {
+  type CapLight,
+  capLight,
+  type ChanterelleGenes,
+  headOutlines,
+  MOUTH_LINE,
+  mouthEdges,
+  ridgeLines,
+  sideways,
+} from '../../body/index.node-safe';
 
 /** Kept light on a chanterelle, so its cool shade deepens its orange rather than browning it. */
 const SHADE_ALPHA = 0.22;

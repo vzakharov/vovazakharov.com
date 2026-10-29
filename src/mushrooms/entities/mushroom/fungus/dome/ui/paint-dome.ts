@@ -13,16 +13,18 @@ import {
   strokeTapered,
 } from '@/mushrooms/shared/ui';
 
-import type {
-  DomeGenes,
-  PorciniGenes,
-  RussulaGenes,
-} from '../model/mushroom-genes';
-import { gillLines, headOutlines } from '../model/mushroom-outline';
-import { capSurface } from '../model/mushroom-profile';
-import { capLight } from './mushroom-light';
-import { type MushroomBrush, paintCapLight, shadeWith } from './mushroom-paint';
-import { porciniMargin, russulaCentre } from './mushroom-tints';
+import { type MushroomBrush, paintCapLight, shadeWith } from '../../body';
+import {
+  capLight,
+  capSurface,
+  type DomeGenes,
+  gillLines,
+  headOutlines,
+  type PorciniGenes,
+  porciniMargin,
+  russulaCentre,
+  type RussulaGenes,
+} from '../../body/index.node-safe';
 import { marginBand } from './porcini-margin';
 
 const SHADE_ALPHA = 0.26;

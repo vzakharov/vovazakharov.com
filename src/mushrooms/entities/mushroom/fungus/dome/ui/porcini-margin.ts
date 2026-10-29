@@ -1,8 +1,7 @@
 import { crescent } from '@/mushrooms/shared/lib/crescent';
 import { type Point, sample } from '@/mushrooms/shared/lib/geometry';
 
-import type { PorciniGenes } from '../model/mushroom-genes';
-import { domeArc } from '../model/mushroom-outline';
+import { domeArc, type PorciniGenes } from '../../body/index.node-safe';
 
 /** A porcini's pale margin: how far round the rim it climbs, in radians from it, and how deep it reaches in, in the cap's height. */
 const MARGIN_CLIMB = 0.55;

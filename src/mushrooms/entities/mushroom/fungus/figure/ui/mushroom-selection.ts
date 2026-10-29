@@ -4,8 +4,7 @@ import type { Scaled } from '@/mushrooms/shared/lib/geometry';
 import type { WithGraphics } from '@/mushrooms/shared/ui';
 import { standAt, type Standing } from '@/mushrooms/shared/world';
 
-import type { TapArea } from '../model/mushroom-outline';
-import type { Splayed } from '../model/mushroom-pose';
+import type { Splayed, TapArea } from '../../body/index.node-safe';
 import {
   drawSelection,
   drawSelectionRing,

@@ -13,7 +13,7 @@ export {
   OPENING_SPECIES,
   type RussulaTone,
   type Species,
-} from './model/mushroom-genes';
+} from './body/index.node-safe';
 export {
   capOnCanvas,
   capOutlines,
@@ -26,7 +26,7 @@ export {
   type TapArea,
   tapArea,
   toCanvas,
-} from './model/mushroom-outline';
+} from './body/index.node-safe';
 export {
   capFrame,
   capSeat,
@@ -37,7 +37,7 @@ export {
   splayed,
   stemAt,
   type StemStation,
-} from './model/mushroom-pose';
+} from './body/index.node-safe';
 export {
   capBase,
   capSurface,
@@ -46,6 +46,6 @@ export {
   funnelHeight,
   rimWave,
   stemHalfWidth,
-} from './model/mushroom-profile';
-export { mushroomLights } from './ui/mushroom-light';
-export { haloFor, mushroomTints } from './ui/mushroom-tints';
+} from './body/index.node-safe';
+export { mushroomLights } from './body/index.node-safe';
+export { haloFor, mushroomTints } from './body/index.node-safe';

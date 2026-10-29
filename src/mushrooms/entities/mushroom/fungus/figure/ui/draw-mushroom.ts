@@ -16,21 +16,23 @@ import {
 } from '@/mushrooms/shared/ui';
 
 import {
-  hasTrumpet,
-  type MushroomGenes,
-  type PorciniGenes,
-} from '../model/mushroom-genes';
-import { footWidth, type TapArea } from '../model/mushroom-outline';
-import { stemAt } from '../model/mushroom-pose';
-import { CURVE_STEPS, stemHalfWidth } from '../model/mushroom-profile';
-import { mushroomShadow } from './mushroom-light';
-import {
   type MushroomBrush,
   mushroomBrush,
   paintStem,
   stemPoints,
-} from './mushroom-paint';
-import { paintDome } from './paint-dome';
+} from '../../body';
+import {
+  CURVE_STEPS,
+  footWidth,
+  hasTrumpet,
+  type MushroomGenes,
+  mushroomShadow,
+  type PorciniGenes,
+  stemAt,
+  stemHalfWidth,
+  type TapArea,
+} from '../../body/index.node-safe';
+import { paintDome } from '../../dome';
 import { paintTrumpet } from './paint-trumpet';
 
 /**
