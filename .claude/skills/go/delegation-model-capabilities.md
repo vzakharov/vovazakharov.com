@@ -19,7 +19,10 @@ the lessons that hold for every model first.
   named reference's style — needed one rename the brief could not have known;
   went past the brief with sound extra cases. Reworking an existing suite
   against two changed hooks, with its fixture split into a shared module, came
-  back clean with nothing to repair.
+  back clean with nothing to repair. Driving a short review-lane run of the loop
+  itself: a review thread answered with a fix checked against the code, the
+  `/go` checkpoint review run where no hook forced it, a reviewer brief of facts
+  only.
 - **Misses:** —
 - **Brief:** naming the style reference and the run-until-green command was
   enough; ask for "anything that surprised you" — it reports useful edges.
@@ -28,6 +31,13 @@ the lessons that hold for every model first.
 
 ## haiku
 
-- **Handles:** — (untried)
-- **Misses:** —
-- **Brief:** —
+Seen so far driving a session under an Opus reviewer, not yet as a subagent.
+
+- **Handles:** a list of named corrections sent back to it, each applied as
+  given, in one round.
+- **Misses:** an instruction that needs interpreting: restating a nuanced spec
+  in its own words, it lost who acts.
+- **Brief:** quote the spec it works from — the operator's words, where the task
+  is theirs — rather than paraphrasing it, and leave nothing to interpret; for a
+  correction, the defect and its fix named exactly — it fixes what is named and
+  does not look for the same defect elsewhere.
