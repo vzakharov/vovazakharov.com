@@ -6,7 +6,7 @@ import { useState } from 'react';
 import type { WithCopy } from '../i18n';
 import { rollName } from '../lib/dice';
 import { type Row, rowsFor, type Verdict } from '../lib/lookup';
-import { type Prices, priceText } from '../lib/prices';
+import type { Price, Prices } from '../lib/prices';
 import { useVerdicts } from '../lib/use-verdict';
 import { useChecker } from './checker-state';
 import { DiceIcon } from './dice-icon';
@@ -17,7 +17,7 @@ type ZoneRowProps = WithCopy &
   Row & {
     verdict: Verdict | undefined;
     ownNeighbour: boolean;
-    price: string | undefined;
+    price: Price | undefined;
   };
 
 function ZoneRow({
@@ -71,11 +71,8 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     round,
   );
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
-  const priceOf = (domain: string) => {
-    const price = prices[domain.slice(domain.indexOf('.') + 1)];
-
-    return price === undefined ? undefined : priceText(price);
-  };
+  const priceOf = (domain: string) =>
+    prices[domain.slice(domain.indexOf('.') + 1)];
   const busy =
     (settling && typed.trim() !== '') || verdicts.size < checked.length;
 

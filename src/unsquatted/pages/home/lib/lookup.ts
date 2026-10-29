@@ -16,8 +16,8 @@ export type Verdict =
   | {
       state: 'taken';
       since: string | undefined;
-      /** Set only for a registration lapsing within a week. */
-      expiring?: string;
+      /** Set only for a name the registry is about to release. */
+      frees?: string;
     }
   | { state: 'unknown' };
 
@@ -135,6 +135,7 @@ export function parseBootstrap(body: unknown): ReadonlyMap<string, string> {
 }
 
 const rdapDomainSchema = z.object({
+  status: z.array(z.string()).optional(),
   events: z
     .array(z.object({ eventAction: z.string(), eventDate: z.string() }))
     .optional(),
@@ -143,32 +144,50 @@ const rdapDomainSchema = z.object({
 const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
-const WEEK = 7 * DAY;
+
+/** How long a gTLD name sits in "pending delete" before it is released. */
+const PENDING_DELETE = 5 * DAY;
 
 function count(amount: number, unit: string): string {
   return `${amount} ${unit}${amount === 1 ? '' : 's'}`;
 }
 
 /**
- * How soon a registration lapses, said in the largest whole unit, once it is
- * within a week; `undefined` further out or with no date to go by.
+ * When a taken name becomes registrable again, said in the largest whole
+ * unit. Only a name in "pending delete" has a date to give: no one can renew
+ * or restore it any more, and the registry releases it five days after it
+ * entered the status — the "deletion" event where the registry gives one,
+ * otherwise the last change, which is the status change. Earlier, past its
+ * expiry, the owner can still renew or restore it for a month or more, so
+ * there is no date to promise; `undefined` then.
  */
-export function expiringIn(
-  expires: string | undefined,
+export function freesIn(
+  status: readonly string[],
+  dated: (action: string) => string | undefined,
   now: number,
 ): string | undefined {
-  if (expires === undefined) return undefined;
+  if (!status.includes('pending delete')) return undefined;
 
-  const left = Date.parse(expires) - now;
+  const changed = dated('last changed');
+  const release =
+    dated('deletion') ??
+    (changed === undefined
+      ? undefined
+      : new Date(Date.parse(changed) + PENDING_DELETE).toISOString());
 
-  if (!(left < WEEK)) return undefined;
-  if (left <= 0) return 'expired';
-  if (left >= DAY) return `expires in ${count(Math.ceil(left / DAY), 'day')}`;
+  if (release === undefined) return 'up for grabs within days';
+
+  const left = Date.parse(release) - now;
+
+  if (left <= 0) return 'up for grabs any minute';
+  if (left >= DAY) {
+    return `up for grabs in ${count(Math.ceil(left / DAY), 'day')}`;
+  }
   if (left >= HOUR) {
-    return `expires in ${count(Math.ceil(left / HOUR), 'hour')}`;
+    return `up for grabs in ${count(Math.ceil(left / HOUR), 'hour')}`;
   }
 
-  return `expires in ${count(Math.ceil(left / MINUTE), 'minute')}`;
+  return `up for grabs in ${count(Math.ceil(left / MINUTE), 'minute')}`;
 }
 
 /**
@@ -184,16 +203,15 @@ export function rdapVerdict(
   if (status === 404) return { state: 'free' };
   if (status < 200 || status >= 300) return { state: 'unknown' };
 
-  const { events = [] } = rdapDomainSchema.parse(body);
+  const { status: statuses = [], events = [] } = rdapDomainSchema.parse(body);
   const dated = (action: string) =>
     events.find(({ eventAction }) => eventAction === action)?.eventDate;
-  const registered = dated('registration');
-  const expiring = expiringIn(dated('expiration'), now);
+  const frees = freesIn(statuses, dated, now);
 
   return {
     state: 'taken',
-    since: registered?.slice(0, 4),
-    ...(expiring === undefined ? {} : { expiring }),
+    since: dated('registration')?.slice(0, 4),
+    ...(frees === undefined ? {} : { frees }),
   };
 }
 

@@ -5,7 +5,7 @@ import {
   cleanLabel,
   dohVerdict,
   domainHacks,
-  expiringIn,
+  freesIn,
   parseBootstrap,
   rdapVerdict,
   rowsFor,
@@ -105,36 +105,58 @@ describe('parseBootstrap', () => {
   });
 });
 
-describe('expiringIn', () => {
-  const expires = '2027-07-29T00:00:00Z';
-  const before = (ms: number) => Date.parse(expires) - ms;
+const dates =
+  (events: Record<string, string>) =>
+  (action: string): string | undefined =>
+    events[action];
 
-  it('counts in the largest whole unit, rounding up', () => {
+describe('freesIn', () => {
+  const changed = '2027-09-01T00:00:00Z';
+  const release = Date.parse(changed) + 5 * 86_400_000;
+  const before = (ms: number) => release - ms;
+  const pending = ['pending delete'];
+
+  it('counts down five days from entering pending delete', () => {
+    const dated = dates({ 'last changed': changed });
+
     assert.equal(
-      expiringIn(expires, before(36 * 3_600_000)),
-      'expires in 2 days',
+      freesIn(pending, dated, before(36 * 3_600_000)),
+      'up for grabs in 2 days',
     );
     assert.equal(
-      expiringIn(expires, before(3_600_000)),
-      'expires in 1 hour',
+      freesIn(pending, dated, before(3_600_000)),
+      'up for grabs in 1 hour',
     );
     assert.equal(
-      expiringIn(expires, before(90_000)),
-      'expires in 2 minutes',
+      freesIn(pending, dated, before(90_000)),
+      'up for grabs in 2 minutes',
+    );
+    assert.equal(
+      freesIn(pending, dated, before(-60_000)),
+      'up for grabs any minute',
     );
   });
 
-  it('stays quiet over a week out', () => {
+  it('takes the registry’s own deletion date over the count', () => {
+    const dated = dates({
+      'last changed': changed,
+      deletion: new Date(release + 86_400_000).toISOString(),
+    });
+
     assert.equal(
-      expiringIn(expires, before(8 * 86_400_000)),
+      freesIn(pending, dated, before(0)),
+      'up for grabs in 1 day',
+    );
+  });
+
+  it('promises nothing for a name its owner can still renew', () => {
+    assert.equal(
+      freesIn(
+        ['redemption period'],
+        dates({ 'last changed': changed }),
+        before(0),
+      ),
       undefined,
-    );
-  });
-
-  it('says a lapsed one has expired', () => {
-    assert.equal(
-      expiringIn(expires, before(-60_000)),
-      'expired',
     );
   });
 });
@@ -156,10 +178,20 @@ describe('rdapVerdict', () => {
     );
   });
 
-  it('says when a first-year registration is about to lapse', () => {
+  it('says when a name in pending delete is released', () => {
     assert.deepEqual(
-      rdapVerdict(200, { events }, Date.parse('2027-07-26T00:00:00Z')),
-      { state: 'taken', since: '2026', expiring: 'expires in 3 days' },
+      rdapVerdict(
+        200,
+        {
+          status: ['pending delete'],
+          events: [
+            ...events,
+            { eventAction: 'last changed', eventDate: '2027-09-01T00:00:00Z' },
+          ],
+        },
+        Date.parse('2027-09-03T00:00:00Z'),
+      ),
+      { state: 'taken', since: '2026', frees: 'up for grabs in 3 days' },
     );
   });
 

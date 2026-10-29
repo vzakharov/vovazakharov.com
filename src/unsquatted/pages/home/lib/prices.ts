@@ -46,12 +46,18 @@ export function parsePricing(body: unknown): Prices {
   );
 }
 
-/** Rounded to the dollar: the cents would only clutter a hint. */
-export function priceText({ registration, renewal }: Price): string {
+/**
+ * The yearly price rounded to the dollar — the cents would only clutter a
+ * hint — with the renewal only where it differs from the first year's.
+ */
+export function priceParts({ registration, renewal }: Price): {
+  first: number;
+  after: number | undefined;
+} {
   const first = Math.round(registration);
-  const then = Math.round(renewal);
+  const after = Math.round(renewal);
 
-  return first === then ? `$${first}/yr` : `$${first}, then $${then}/yr`;
+  return { first, after: first === after ? undefined : after };
 }
 
 /** Fetched at build; a failure fails the build rather than drop the prices. */
