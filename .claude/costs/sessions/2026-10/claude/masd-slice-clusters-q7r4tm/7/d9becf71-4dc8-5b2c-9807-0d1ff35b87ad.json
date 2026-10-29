@@ -1,15 +1,32 @@
 {
   "total": {
-    "inputTokens": 116,
+    "inputTokens": 126,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 171341,
-    "cacheReadTokens": 9776196,
-    "outputTokens": 40042,
-    "thinkingTokens": 19816,
-    "responses": 58,
-    "costUsd": 4.1272712
+    "cacheWrite1hTokens": 182598,
+    "cacheReadTokens": 10914583,
+    "outputTokens": 45044,
+    "thinkingTokens": 20910,
+    "responses": 63,
+    "costUsd": 4.5450846
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-10-29T09:09:51.220Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "eleven review threads, most of them design calls on the MARS model — reading the cut criterion's symmetry and weighing a slice-of-only-sub-slices rule needs someone who owns the design"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the DRY fold of check:masd onto slice-graph is a gate's internals, verified against an unchanged verdict"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "eslint/rule-groups/vova.ts",
@@ -36,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkFGVkJJTTNWEwRcsyQ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T08:58:11.800Z",
-  "lastResponseAt": "2026-10-29T09:09:03.733Z",
+  "lastResponseAt": "2026-10-29T09:10:08.505Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 116,
+    "inputTokens": 126,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 171341,
-    "cacheReadTokens": 9776196,
-    "outputTokens": 40042,
-    "thinkingTokens": 19816,
-    "responses": 58,
-    "costUsd": 4.1272712
+    "cacheWrite1hTokens": 182598,
+    "cacheReadTokens": 10914583,
+    "outputTokens": 45044,
+    "thinkingTokens": 20910,
+    "responses": 63,
+    "costUsd": 4.5450846
   },
   "subagents": {
     "inputTokens": 0,
@@ -61,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 116,
+      "inputTokens": 126,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 171341,
-      "cacheReadTokens": 9776196,
-      "outputTokens": 40042,
-      "thinkingTokens": 19816,
-      "responses": 58,
-      "costUsd": 4.1272712
+      "cacheWrite1hTokens": 182598,
+      "cacheReadTokens": 10914583,
+      "outputTokens": 45044,
+      "thinkingTokens": 20910,
+      "responses": 63,
+      "costUsd": 4.5450846
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 58,
-    "matched": 58,
-    "matchedTableUsd": 4.1272712,
-    "matchedEventUsd": 4.1272712,
+    "events": 63,
+    "matched": 63,
+    "matchedTableUsd": 4.5450846,
+    "matchedEventUsd": 4.5450846,
     "unseen": {}
   }
 }
