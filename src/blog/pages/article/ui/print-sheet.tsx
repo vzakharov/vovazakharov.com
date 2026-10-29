@@ -7,7 +7,7 @@ import { PrintedFrom } from './printed-from';
  * Wraps the article in the presentational table whose `<tfoot>` reserves the
  * footer's band on every printed page. Only a real `<tfoot>` does: a plain
  * element set to `display: table-footer-group` prints once, at the end. The
- * footer is painted into that band out of flow, by `documents.module.scss`.
+ * footer is painted into that band out of flow, by `article.module.scss`.
  */
 export function PrintSheet({ route, children }: Routed & WithChildren) {
   return (

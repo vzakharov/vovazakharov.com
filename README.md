@@ -82,7 +82,7 @@ only.
 │   ├── masd.json               # The app graph — each app and the apps it extends
 │   ├── kernel/                 # shared/ (config, content, i18n, seo, typings, lib/*) and the base root layout
 │   ├── shell/                  # shared/ui, the theme toggle, the site footer, the root layout with the toggle
-│   ├── blog/                   # The document entity and the documents pages every collection is served by
+│   ├── blog/                   # The document entity and the article and index pages every collection is served by
 │   ├── vova/, lsa/, bible/, basilisk/ # Each site's own pages
 │   ├── music/                  # The song catalogue and its pages
 │   └── mushrooms/              # The game

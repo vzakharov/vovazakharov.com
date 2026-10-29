@@ -213,8 +213,7 @@ a judgement, since a cluster drawn from the graph can still be the wrong noun
   `check:masd` keeps its one useful case: a segment's name inside a segment.
 - **A sub-slice is earned by modularity**: cutting it off its parent — the slice,
   or the sub-slice it sits in — must raise the modularity of the parent's own
-  import graph, shipped files only. The gain's numerator is an integer, so a cut
-  that gains nothing reads exactly zero rather than as rounding noise.
+  import graph, shipped files only.
 - **A consumer taking only one sub-slice's exports is a promotion**, an error at
   any depth: a slice whose consumer takes only one of its sub-slices has a slice
   of its own inside it, and a sub-slice whose sibling takes only one of its
@@ -226,9 +225,9 @@ a judgement, since a cluster drawn from the graph can still be the wrong noun
   игнорить то, что просто не выносится»). The trace follows the barrels'
   `export { … } from` lines, so `export *` and dynamic imports count as
   untraced, and an untraced name never fires it.
-- **A page slice whose sites route different pages splits.** Four sites take
-  only the article page from blog's documents, so the article and the
-  collection index are page slices of their own rather than sub-slices of one.
+- **A page slice whose sites route different pages splits.** Four sites route
+  only blog's article page, so the article and the collection index are page
+  slices of their own rather than sub-slices of one.
 
 ## DRY notes
 

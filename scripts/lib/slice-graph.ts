@@ -1,7 +1,6 @@
 /**
- * A slice's own import graph, which `check:masd` and `masd:clusters` both
- * judge a cut on: shipped files only, so a test reaching across a sub-slice's
- * wall never counts as the code's shape.
+ * A slice's own import graph, which a cut is judged on: shipped files only, so
+ * a test reaching across a sub-slice's wall never counts as the code's shape.
  */
 
 import { readFileSync } from 'node:fs';
