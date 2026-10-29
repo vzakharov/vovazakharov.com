@@ -107,54 +107,43 @@ Nothing built yet. In discussion, the search changed:
   Flagged units fell from 26 to 6. `STAYS` in `sub-slices.ts` lost a dead
   `export` knip found.
 
+- **Bite 4, second half.** The operator's chat answers are on T01, T06, T08 and
+  T10. `docs/masd.md` retired (ecb8bbe): what every edit under `src/` needs went
+  to the staged rule (checkers listed without a count, `check:cycles`,
+  `masd:clusters`, "Cutting a domain into slices", a `## Sub-slices` section),
+  the why of the two checkers to `scripts/masd-check.README.md`, the open
+  directions to #232 and #233; nothing else cited it, so no tombstone.
+  `check:masd` fails a unit with a segment or module beside a sub-slice, and
+  sibling sub-slices in a cycle (fff6245); a folder with no source is no
+  sub-slice. **A head** — a sub-slice importing every sibling, directly or not —
+  is no promotion when a consumer takes only it (e34b935): with sub-slices
+  alone, a router taking a page's component took one sub-slice. Restructured:
+  vova home → `page/` + `work/`, the Read CV button in `work/` to break a cycle;
+  maya whisper → `page/` + `typewriter/`, the typewriter's strings in a
+  catalogue of its own; player → `playback/` + `station/`; insects-fly →
+  `flight/` + `perch/`; mushroom → `fungus/` + `house/`. `check:masd`,
+  `check:cycles`, typecheck and prettier green; 29 files earlier bites left
+  unformatted are formatted. `tmp/restructure.ts` and `tmp/merge-barrel.py` did
+  the moves (not committed).
+
 ## Rest of the bite
 
-The operator's answers to the four questions put on PR #228, in chat; none is
-yet recorded on its thread (T01, T06, T08, T10 — reply with «В сессии: …»):
-
-1. **Retire `docs/masd.md`** — «да, только не потерять при этом важное. При этом
-   нужно смотреть какого рода оно "важное". Если "нужно при любом трогании
-   файлов", то в само правило, если нет, то collocate и описать когда нужно
-   читать.» The sort, worked out but not applied:
-   - **To the rule** (staged copy): the checkers listed without a count (main
-     adds `check:poison`, so a number drifts on the base merge), with
-     `check:cycles` — a cycle is a declaration in the wrong file, moved to a
-     file of its own or its one reader, never copied to both sides — and
-     `masd:clusters`; "Cutting a domain into slices", condensed, plus "a part's
-     types live with the part that reads them" from DRY notes; "a page slice
-     whose sites route different pages splits"; the staged rule's pointer to
-     `docs/masd.md` § "Sub-slices" replaced.
-   - **Colocated**, `scripts/masd-check.README.md` (precedent:
-     `type-overlap-check.README.md`), the rule saying to read it before changing
-     what `check:masd` or `masd:clusters` decides or disputing a verdict: why
-     significance has a checker of its own, modularity as the bar (null model,
-     own app's graph, the rejected boundary-vs-internal measure), the promotion
-     trace's limits (`export *` untraced, `import()` unseen), not extracting a
-     package or Steiger plugin.
-   - **Cut** as already in the rule or recoverable: the app table, the
-     `masd.json` excerpt, routers and app layers, the other DRY notes.
-   - **Issues** for the two open directions still open: the plays cut down, and
-     sub-entities. The converse is this PR; the poison check is #227, merged.
-   - Tombstone `docs/masd.retired.md` only if something still cites the file
-     after the edits (today only the staged rule does).
-   - **Base merge**: main edits `docs/masd.md` (the `check:poison` row, the
-     poison direction dropped); the delete wins, `check:poison` already being in
-     main's rule.
-2. **The six hits the gate prints** go to the operator as cut-or-suppress. Four
-   are a file and its one helper (`print-sheet`, `paint-dome`, `insects`,
-   `draw-map-ground`, ΔQ 0.0095–0.22); proposed: a cluster needs at least three
-   files, since a pair is a file and its helper rather than a module, the same
-   floor applied to a sub-slice's significance. That leaves `mice-run`'s
-   `runner-shown` (3 files, ΔQ 0.25) and `vova/pages/cv`'s `cv-page` (13 files,
-   ΔQ 0.11). Vet is red on the gate until they are settled.
-3. **A unit holding a sub-slice holds only sub-slices** — approved: «Соседи
-   импортируют друг друга только через бочку и только в одном направлении. #225
-   везёт детерминированное обозначение что за чем (но он не знает про
-   подслайсы), поэтому пока просто "без циклических импортов". правильно ведь?»
-   and «2 - ок» (no standard name for the rest; each named for its noun). Build:
-   `check:masd` fails a unit with a sub-slice and a segment beside it at its
-   root (barrels only there), and a cycle among sibling sub-slices; then
-   restructure vova home, maya whisper, mushroom, insects-fly and player.
+- **The cluster gate** (`pnpm masd:clusters`) is the one red check: nine
+  candidates in eight units. The operator, on the three-file floor: «а почему не
+  порезать все 6? ты видишь, что они идиоматически не должны бы считаться
+  подслайсами?» — answered no idiom forbids any; cutting all was the stated
+  plan. Then found: seven of nine import shared files from their unit's rest, so
+  under sub-slices-only the cut makes a sibling cycle. Asked on the PR
+  (issuecomment-6493616445): 1, the gate demands only cuts that come out as they
+  stand (nothing imported from the rest but through the one door) — recommended;
+  2, the rest splits into above and below. Only `print-sheet` (blog article,
+  `print/` + page; its classes `printSheet`/`printedFrom` move from
+  `article.module.scss` to a sheet of its own, and `PRINT_SOURCES` in
+  `src/blog/scripts/lib/print-job.ts` names `src/blog/pages/article/ui`, which
+  must follow) and `runner-shown` (`mice-run`) cut cleanly either way.
+- **Six-hit floor**: the three-file floor is withdrawn in favour of cutting what
+  passes; `tmp/cluster-outbound.ts` lists what each cluster imports from its
+  rest.
 
 - **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
   `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
