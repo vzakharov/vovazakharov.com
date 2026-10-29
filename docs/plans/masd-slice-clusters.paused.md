@@ -143,11 +143,9 @@ Nothing built yet. In discussion, the search changed:
   under sub-slices-only the cut makes a sibling cycle. Asked on the PR
   (issuecomment-6493616445): 1, the gate demands only cuts that come out as they
   stand (nothing imported from the rest but through the one door) — recommended;
-  2, the rest splits into above and below. Only `print-sheet` (blog article,
-  `print/` + page; its classes `printSheet`/`printedFrom` move from
-  `article.module.scss` to a sheet of its own, and `PRINT_SOURCES` in
-  `src/blog/scripts/lib/print-job.ts` names `src/blog/pages/article/ui`, which
-  must follow) and `runner-shown` (`mice-run`) cut cleanly either way.
+  2, the rest splits into above and below. Under 1, the gate narrows to clusters
+  importing nothing from their rest and goes green; under 2, the six are cut
+  with the rest split above/below.
 - **Six-hit floor**: the three-file floor is withdrawn in favour of cutting what
   passes; `tmp/cluster-outbound.ts` lists what each cluster imports from its
   rest.
