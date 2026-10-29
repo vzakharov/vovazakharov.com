@@ -248,8 +248,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     url: 'https://unsquatted.com',
     downloadPrefix: 'unsquatted',
     name: 'Unsquatted',
-    tagline:
-      'Good domain names nobody has grabbed yet. Register one for about $10 before someone else does.',
+    tagline: 'Good domain names nobody has grabbed yet. Curated and blazing fast.',
     // The card is the mark: `pnpm content:og unsquatted` rasterises it from
     // the vector beside it.
     avatar: { ...UNSQUATTED_CARD, vector: '/card.svg' },
