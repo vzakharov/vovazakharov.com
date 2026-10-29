@@ -123,7 +123,7 @@ export function unsquattedCard(): StagedPage {
         flex-direction: column;
       }
       h2 {
-        margin: 0 0 12px;
+        margin: 0 0 24px;
         font-size: 22px;
         letter-spacing: 2px;
         text-transform: uppercase;
