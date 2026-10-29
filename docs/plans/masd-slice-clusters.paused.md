@@ -98,28 +98,63 @@ Nothing built yet. In discussion, the search changed:
   leaves four connected files and is a fair cut, but `work-section` imports the
   parent's `ui/read-cv-button`.
 
-## This bite
+- **Bite 4, first half — `masd:clusters` is a gate** (5d8bc13), on «ок»: a
+  candidate is a dominator subtree of its unit's import DAG (one door, its
+  root), no door or barrel as root, and the rest held to the same bar — at least
+  two non-barrel files importing into one piece. Exit 1 while it prints; vet
+  runs it (`clusters`); `// masd-disable cluster -- <why>` in the root on the
+  operator's yes. `quiz/` reverted on «4- да»: the gate no longer proposes it.
+  Flagged units fell from 26 to 6. `STAYS` in `sub-slices.ts` lost a dead
+  `export` knip found.
 
-The operator's answers to the four questions put on PR #228:
+## Rest of the bite
+
+The operator's answers to the four questions put on PR #228, in chat; none is
+yet recorded on its thread (T01, T06, T08, T10 — reply with «В сессии: …»):
 
 1. **Retire `docs/masd.md`** — «да, только не потерять при этом важное. При этом
    нужно смотреть какого рода оно "важное". Если "нужно при любом трогании
    файлов", то в само правило, если нет, то collocate и описать когда нужно
-   читать.» Each passage of `docs/masd.md` is sorted: needed on any edit under
-   `src/` → `.claude/rules/masd.md` (staged); needed only while a given checker
-   or script is in play → colocated beside it, with the rule saying when to read
-   it; already in the rule or recoverable from code → cut. A
-   `docs/masd.retired.md` tombstone; "Open directions" become issues.
-2. **The cluster report becomes a gate** — «ок». Candidates are one-door
-   (dominator subtrees); the remainder is held to the same bar (connected, at
-   least two files without barrels); `// masd-disable cluster -- <why>` at the
-   candidate's root on the operator's yes; the hits left are brought to the
-   operator as cut-or-suppress before the gate turns on.
-3. **A unit holding a sub-slice holds only sub-slices** — the operator asked for
-   the agent's view («что думаешь, и какие идеи если да?»); answered in chat
-   (yes, plus sibling sub-slices acyclic and entered by barrel). Not built in
-   this bite.
-4. **Revert `quiz/`** — «да», together with the selection fix.
+   читать.» The sort, worked out but not applied:
+   - **To the rule** (staged copy): the checkers listed without a count (main
+     adds `check:poison`, so a number drifts on the base merge), with
+     `check:cycles` — a cycle is a declaration in the wrong file, moved to a
+     file of its own or its one reader, never copied to both sides — and
+     `masd:clusters`; "Cutting a domain into slices", condensed, plus "a part's
+     types live with the part that reads them" from DRY notes; "a page slice
+     whose sites route different pages splits"; the staged rule's pointer to
+     `docs/masd.md` § "Sub-slices" replaced.
+   - **Colocated**, `scripts/masd-check.README.md` (precedent:
+     `type-overlap-check.README.md`), the rule saying to read it before changing
+     what `check:masd` or `masd:clusters` decides or disputing a verdict: why
+     significance has a checker of its own, modularity as the bar (null model,
+     own app's graph, the rejected boundary-vs-internal measure), the promotion
+     trace's limits (`export *` untraced, `import()` unseen), not extracting a
+     package or Steiger plugin.
+   - **Cut** as already in the rule or recoverable: the app table, the
+     `masd.json` excerpt, routers and app layers, the other DRY notes.
+   - **Issues** for the two open directions still open: the plays cut down, and
+     sub-entities. The converse is this PR; the poison check is #227, merged.
+   - Tombstone `docs/masd.retired.md` only if something still cites the file
+     after the edits (today only the staged rule does).
+   - **Base merge**: main edits `docs/masd.md` (the `check:poison` row, the
+     poison direction dropped); the delete wins, `check:poison` already being in
+     main's rule.
+2. **The six hits the gate prints** go to the operator as cut-or-suppress. Four
+   are a file and its one helper (`print-sheet`, `paint-dome`, `insects`,
+   `draw-map-ground`, ΔQ 0.0095–0.22); proposed: a cluster needs at least three
+   files, since a pair is a file and its helper rather than a module, the same
+   floor applied to a sub-slice's significance. That leaves `mice-run`'s
+   `runner-shown` (3 files, ΔQ 0.25) and `vova/pages/cv`'s `cv-page` (13 files,
+   ΔQ 0.11). Vet is red on the gate until they are settled.
+3. **A unit holding a sub-slice holds only sub-slices** — approved: «Соседи
+   импортируют друг друга только через бочку и только в одном направлении. #225
+   везёт детерминированное обозначение что за чем (но он не знает про
+   подслайсы), поэтому пока просто "без циклических импортов". правильно ведь?»
+   and «2 - ок» (no standard name for the rest; each named for its noun). Build:
+   `check:masd` fails a unit with a sub-slice and a segment beside it at its
+   root (barrels only there), and a cycle among sibling sub-slices; then
+   restructure vova home, maya whisper, mushroom, insects-fly and player.
 
 - **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
   `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
