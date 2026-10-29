@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 32,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108758,
+    "cacheReadTokens": 1920426,
+    "outputTokens": 11855,
+    "thinkingTokens": 8616,
+    "responses": 16,
+    "costUsd": 1.4913772
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T04:36:33.379Z",
+    "contextTokens": 114185,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56817,
+      "cacheReadTokens": 469235,
+      "outputTokens": 1005,
+      "thinkingTokens": 38,
+      "responses": 5,
+      "costUsd": 0.568523
+    }
+  },
+  "sessionId": "8d26c884-c1eb-5fdd-8b01-42a9950b6641",
+  "branch": "claude/masd-slice-clusters-q7r4tm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — MARS разобран, ждём решения по правилу Steiger и по тому, где его делать",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDP54itUJefK924SN8",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T04:36:09.940Z",
+  "lastResponseAt": "2026-10-29T04:38:35.532Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 32,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108758,
+    "cacheReadTokens": 1920426,
+    "outputTokens": 11855,
+    "thinkingTokens": 8616,
+    "responses": 16,
+    "costUsd": 1.4913772
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 108758,
+      "cacheReadTokens": 1920426,
+      "outputTokens": 11855,
+      "thinkingTokens": 8616,
+      "responses": 16,
+      "costUsd": 1.4913772
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 16,
+    "matched": 16,
+    "matchedTableUsd": 1.4913772,
+    "matchedEventUsd": 1.4913772,
+    "unseen": {}
+  }
+}
