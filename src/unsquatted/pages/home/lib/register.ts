@@ -1,7 +1,4 @@
-/**
- * Where a free name is registered. One registrar for every link, so changing
- * it — or adding a referral code once one exists — is this one function.
- */
+/** The one registrar every register link on the site goes to. */
 export function registerUrl(domain: string): string {
   return `https://porkbun.com/checkout/search?${new URLSearchParams({ q: domain })}`;
 }

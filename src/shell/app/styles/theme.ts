@@ -10,8 +10,7 @@ import { cssColor } from '@/shell/shared/ui';
 import { breakpoints } from './breakpoints';
 import classes from './theme.module.scss';
 
-// Every shade is the one accent token, which a monochrome palette sets to its
-// foreground. Mantine still wants ten.
+// Every shade is the one accent token. Mantine still wants ten.
 const shade = cssColor('accent');
 const accent: MantineColorsTuple = [
   shade,
@@ -26,7 +25,7 @@ const accent: MantineColorsTuple = [
   shade,
 ];
 
-// `variant="default"` is the site's only control skin: a square hairline box
+// `variant="default"` is the site's only control skin: a hairline box
 // that inverts to solid foreground on hover. It has to live here rather than in
 // a CSS module because Mantine emits variant colours as inline `style` vars.
 const variantColorResolver: VariantColorsResolver = (input) =>
@@ -75,7 +74,6 @@ export const theme = createTheme({
     xl: '1.4',
   },
   breakpoints,
-  // A custom property, as the face is, so a site can round its corners.
   defaultRadius: 'var(--radius-default)',
   white: cssColor('background'),
   black: cssColor('foreground'),

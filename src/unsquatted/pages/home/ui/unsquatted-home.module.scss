@@ -77,7 +77,6 @@
   }
 }
 
-// Dimmed while it spins, so it reads as off as well as being off.
 .check {
   flex-shrink: 0;
 
@@ -91,6 +90,7 @@
     flex: 1;
   }
 
+  // Dimmed while it spins, so it reads as off as well as being off.
   &[data-loading] {
     opacity: 0.55;
     cursor: progress;
@@ -166,7 +166,7 @@
     }
   }
 
-  // Two cards no longer fit a long verdict side by side.
+  // Narrower, two cards side by side cannot fit a long verdict.
   @media (width < 22em) {
     grid-template-columns: minmax(0, 1fr);
 
@@ -230,10 +230,14 @@
 }
 
 // Lines of their own under the zone's name and verdict.
-// A hint, not a verdict: quieter than the line above it.
-.price {
+.price,
+.aside {
   flex-basis: 100%;
   color: var(--unsquatted-muted);
+}
+
+// A hint, not a verdict: quieter than the line above it.
+.price {
   font-size: 0.75rem;
   opacity: 0.75;
 }
@@ -243,8 +247,6 @@
 }
 
 .aside {
-  flex-basis: 100%;
-  color: var(--unsquatted-muted);
   font-size: 0.8rem;
 }
 

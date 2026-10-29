@@ -153,13 +153,11 @@ function count(amount: number, unit: string): string {
 }
 
 /**
- * When a taken name becomes registrable again, said in the largest whole
- * unit. Only a name in "pending delete" has a date to give: no one can renew
- * or restore it any more, and the registry releases it five days after it
- * entered the status — the "deletion" event where the registry gives one,
- * otherwise the last change, which is the status change. Earlier, past its
- * expiry, the owner can still renew or restore it for a month or more, so
- * there is no date to promise; `undefined` then.
+ * When a taken name becomes registrable again, in the largest whole unit.
+ * Only a name in "pending delete" has a date: nobody can renew or restore it,
+ * and the registry releases it five days after it entered the status (its
+ * "deletion" event where given, else its last change). Before that the owner
+ * can still renew it for a month or more, so there is no date to promise.
  */
 export function freesIn(
   status: readonly string[],

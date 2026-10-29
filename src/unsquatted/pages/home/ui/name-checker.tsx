@@ -42,15 +42,14 @@ function ZoneRow({
   );
 }
 
-/**
- * A name checked in every zone of `ZONES` as it is typed, once typing pauses —
- * so each word on the way to the one meant is not a round of lookups — or at
- * once on Check. A zone typed with the name leads the list, and the zones past
- * the first three rows wait behind a toggle — looked up all the same, so
- * opening it shows answers rather than a round of lookups.
- */
 type NameCheckerProps = WithCopy & { prices: Prices };
 
+/**
+ * A name checked in every zone once typing pauses — so the words on the way
+ * to the one meant cost no lookups — or at once on Check. The rows past the
+ * first three wait behind a toggle, looked up all the same so that opening it
+ * shows answers.
+ */
 export function NameChecker({ copy, prices }: NameCheckerProps) {
   const {
     typed,
