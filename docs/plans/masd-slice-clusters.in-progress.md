@@ -98,23 +98,28 @@ Nothing built yet. In discussion, the search changed:
   leaves four connected files and is a fair cut, but `work-section` imports the
   parent's `ui/read-cv-button`.
 
-## Open questions
+## This bite
 
-Put to the operator on PR #228's threads, each with a recommendation:
+The operator's answers to the four questions put on PR #228:
 
-1. **Retire `docs/masd.md`** (T01) — the rule is the one home; the fourth
-   checker and sub-slices move into it, the rest goes with a
-   `docs/masd.retired.md` tombstone, "Open directions" become issues.
-2. **The cluster report becomes a gate** (T06) — after fixing the selection:
-   one-door candidates (dominator subtrees, T03) and the remainder held to the
-   same bar (connected, at least two files without barrels, T10); marker
-   `// masd-disable cluster -- <why>` at the candidate's root on the operator's
-   yes; the remaining hits brought to the operator as cut-or-suppress.
-3. **A unit holding a sub-slice holds only sub-slices** (T08, T09) — segments go
-   to a remainder sub-slice named for its noun (`house/`, `perch/`), enforced by
-   `check:masd`.
-4. **Revert `quiz/`** (T10) — with the selection fix, so the fix shows what it
-   catches.
+1. **Retire `docs/masd.md`** — «да, только не потерять при этом важное. При этом
+   нужно смотреть какого рода оно "важное". Если "нужно при любом трогании
+   файлов", то в само правило, если нет, то collocate и описать когда нужно
+   читать.» Each passage of `docs/masd.md` is sorted: needed on any edit under
+   `src/` → `.claude/rules/masd.md` (staged); needed only while a given checker
+   or script is in play → colocated beside it, with the rule saying when to read
+   it; already in the rule or recoverable from code → cut. A
+   `docs/masd.retired.md` tombstone; "Open directions" become issues.
+2. **The cluster report becomes a gate** — «ок». Candidates are one-door
+   (dominator subtrees); the remainder is held to the same bar (connected, at
+   least two files without barrels); `// masd-disable cluster -- <why>` at the
+   candidate's root on the operator's yes; the hits left are brought to the
+   operator as cut-or-suppress before the gate turns on.
+3. **A unit holding a sub-slice holds only sub-slices** — the operator asked for
+   the agent's view («что думаешь, и какие идеи если да?»); answered in chat
+   (yes, plus sibling sub-slices acyclic and entered by barrel). Not built in
+   this bite.
+4. **Revert `quiz/`** — «да», together with the selection fix.
 
 - **Landscape's backdrop** (16 files, `ΔQ 0.18`) cannot be a sub-slice:
   `grow-mushroom` and `insects-fly` take from `landscape` only the backdrop, so
