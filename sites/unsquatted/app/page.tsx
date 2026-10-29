@@ -1,1 +1,4 @@
-export { UnsquattedHomePage as default } from '@/unsquatted/pages/home';
+export {
+  UnsquattedHomePage as default,
+  unsquattedHomeMetadata as metadata,
+} from '@/unsquatted/pages/home';

@@ -81,9 +81,9 @@ const shown = ({ domain, category, blurb }: ShownName): ShownName => ({
 export const PICKS: readonly ShownName[] = SORTED.filter(
   ({ shownUntil }) =>
     shownUntil === undefined || day(shownUntil) >= day(new Date()),
-).map(shown);
+).map((pick) => shown(pick));
 
 /** The names with no `shownUntil`: a list the calendar cannot change. */
 export const LASTING_PICKS: readonly ShownName[] = SORTED.filter(
   ({ shownUntil }) => shownUntil === undefined,
-).map(shown);
+).map((pick) => shown(pick));

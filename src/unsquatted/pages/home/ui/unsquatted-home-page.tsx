@@ -1,6 +1,7 @@
 import { Stack } from '@mantine/core';
 
 import { SITE_CONFIG } from '@/kernel/shared/config';
+import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
@@ -23,6 +24,12 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
  * lede already says it here.
  */
 const LEDE = COPY.lede.replace('*', '');
+
+/** The description search and link previews show is the lede the page opens on. */
+export const unsquattedHomeMetadata = constructMetadata({
+  title: SITE_CONFIG.name,
+  description: `${LEDE} ${COPY.blazing}.`,
+});
 
 /** The site is one page: the checker, then the list the routine grows. */
 export async function UnsquattedHomePage() {
