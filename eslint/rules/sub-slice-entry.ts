@@ -3,11 +3,11 @@ import type * as ESTree from 'estree';
 import path from 'node:path';
 
 import {
+  isTest,
   PUBLIC_API,
   SLICED_LAYERS,
   subSlicePath,
   TEST_API,
-  TEST_FILE,
 } from '../masd-graph';
 
 // `boundaries` reads a slice as one element, so it lets a slice's files reach
@@ -49,9 +49,7 @@ const rule: Rule.RuleModule = {
     if (from === undefined) return {};
     const [root, fromParts] = from;
     const own = new Set(subSlicePath(fromParts.slice(0, -1)));
-    const entries =
-      TEST_FILE.test(context.filename) ||
-      path.basename(context.filename) === TEST_API
+    const entries = isTest(context.filename)
       ? [...PUBLIC_API, TEST_API]
       : PUBLIC_API;
 

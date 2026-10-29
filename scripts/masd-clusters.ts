@@ -34,7 +34,7 @@ import {
   edgesWithin,
   importsOf,
   sliceOf,
-  subSlicesOf,
+  unitsOf,
 } from './lib/slice-graph.ts';
 
 const LARGEST_SHARE = 0.8;
@@ -112,7 +112,7 @@ function units(files: readonly string[]): Map<string, string[]> {
   for (const file of files) {
     const slice = sliceOf(file);
     if (slice === undefined) continue;
-    for (const unit of [slice, ...subSlicesOf(file, slice)]) {
+    for (const unit of unitsOf(file, slice)) {
       found.set(unit, [...(found.get(unit) ?? []), file]);
     }
   }
@@ -130,7 +130,7 @@ function report(): string {
   )) {
     const roots = members.filter((file) => {
       const slice = sliceOf(file) ?? '';
-      return ([slice, ...subSlicesOf(file, slice)].at(-1) ?? '') === unit;
+      return unitsOf(file, slice).at(-1) === unit;
     });
     const clusters = unitClusters(unit, members, imports, roots);
     if (clusters.length === 0) continue;

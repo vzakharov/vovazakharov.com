@@ -60,6 +60,10 @@ export const TEST_CODE = ['**/*.test.ts', TEST_KIT];
 /** `TEST_CODE`'s files, for a reader matching a path rather than a glob. */
 export const TEST_FILE = /\.test(-kit)?\.tsx?$/;
 
+/** Test code, its own entry into a slice included. */
+export const isTest = (file: string): boolean =>
+  TEST_FILE.test(file) || path.basename(file) === TEST_API;
+
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
 // Kebab-case also keeps every key non-numeric, which is what makes JS hand the

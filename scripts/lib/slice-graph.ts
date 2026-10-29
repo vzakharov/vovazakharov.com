@@ -9,10 +9,9 @@ import path from 'node:path';
 import ts from 'typescript';
 
 import {
+  isTest,
   SLICED_LAYERS,
   subSlicePath,
-  TEST_API,
-  TEST_FILE,
 } from '../../eslint/masd-graph.ts';
 import { resolveImport, sourceFile } from './import-graph.ts';
 
@@ -20,10 +19,6 @@ const SLICED = new Set<string>(SLICED_LAYERS);
 
 /** An importing file and the file it imports. */
 export type Edge = readonly [string, string];
-
-// Test code, its own entry into a slice included, is no part of a slice's shape.
-export const isTest = (file: string): boolean =>
-  TEST_FILE.test(file) || path.basename(file) === TEST_API;
 
 /** `src/<app>/<layer>/<slice>` of a shipped file in a sliced layer. */
 export function sliceOf(file: string): string | undefined {
@@ -43,6 +38,12 @@ export const subSlicesOf = (file: string, slice: string): string[] => {
     ? []
     : subSlicePath(below.split(path.sep)).map((sub) => path.join(slice, sub));
 };
+
+/** `slice` and the sub-slices a file in it sits in, outermost first. */
+export const unitsOf = (file: string, slice: string): string[] => [
+  slice,
+  ...subSlicesOf(file, slice),
+];
 
 /** Every file each shipped file imports, tests left out on both ends. */
 export function importsOf(files: readonly string[]): Map<string, Set<string>> {

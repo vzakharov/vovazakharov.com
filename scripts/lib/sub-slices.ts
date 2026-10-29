@@ -9,6 +9,7 @@ import path from 'node:path';
 import ts from 'typescript';
 
 import {
+  isTest,
   PUBLIC_API,
   SEGMENTS,
   SLICED_LAYERS,
@@ -18,9 +19,9 @@ import {
   cutGain,
   edgesWithin,
   importsOf,
-  isTest,
   sliceOf,
   subSlicesOf,
+  unitsOf,
 } from './slice-graph.ts';
 
 /** The comment a sub-slice's `index.ts` carries to stay put, by the operator's leave. */
@@ -71,7 +72,7 @@ function insignificant(
   return [...slices].flatMap(([slice, members]) => {
     const parents = new Map<string, string>();
     for (const file of members) {
-      const chain = [slice, ...subSlicesOf(file, slice)];
+      const chain = unitsOf(file, slice);
       for (const [index, sub] of chain.entries()) {
         if (index > 0) parents.set(sub, chain[index - 1] ?? slice);
       }
@@ -167,7 +168,7 @@ function enteredFrom(
       ? undefined
       : { consumer, target };
   }
-  const chain = [slice, ...subSlicesOf(loaded, slice)];
+  const chain = unitsOf(loaded, slice);
   if (chain.at(-1) !== target || sliceOf(file) !== slice) return undefined;
   if (within(file, target)) return undefined;
   const parent = chain.at(-2) ?? slice;
