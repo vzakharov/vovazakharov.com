@@ -61,7 +61,9 @@ each, then `/polish` and `/pr`. No thread is resolved by us.
    on their pick. Copy the chosen SVG over `sites/unsquatted/public/card.svg`,
    `pnpm content:og unsquatted`, look at the PNG, commit; delete the variants
    directory in the same commit.
-2. **Squash proposal**: `docs/remove-before-merging/unsquatted-site/` says
-   `pages/home/model/picks.json` — now `public/picks/`; `/squash-message`
-   re-syncs it.
+2. T04's reply, naming the chosen variant's commit.
 3. `/polish`, then `/pr`.
+
+The squash proposal is re-synced (7617eb6) and the PR retitled `feat:` with no
+scope: NotedSpan's move changes what vovazakharov.com's music pages render, so
+the merge publishes every site.
