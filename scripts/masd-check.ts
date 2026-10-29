@@ -19,9 +19,8 @@
  * it against a tree of its own. See .claude/rules/masd.md.
  */
 
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
-import ts from 'typescript';
 
 import {
   directoryMismatches,
@@ -31,13 +30,8 @@ import {
   SLICED_LAYERS,
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
-import {
-  appFiles,
-  resolveImport,
-  sourceFile,
-  subdirectories,
-} from './lib/import-graph.ts';
-import type { Edge } from './lib/slice-graph.ts';
+import { appFiles, subdirectories } from './lib/import-graph.ts';
+import { type Edge, importsOf, meeting } from './lib/slice-graph.ts';
 import { subSliceProblems } from './lib/sub-slices.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
@@ -83,15 +77,10 @@ function appOf(file: string): string | undefined {
  */
 function modular(slice: string, edges: readonly Edge[]): boolean {
   const prefix = path.join('src', slice) + path.sep;
-  let inside = 0;
-  let ends = 0;
-  for (const [from, to] of edges) {
-    const both = [from, to].filter((file) => file.startsWith(prefix)).length;
-    if (both === 2) inside++;
-    ends += both;
-  }
-  // `inside / m > (ends / 2m)²`, multiplied through by `m`.
-  return inside > ends ** 2 / (4 * edges.length);
+  const { crossing, ends } = meeting((file) => file.startsWith(prefix), edges);
+  // `inside / m > (ends / 2m)²` with `inside = (ends − crossing) / 2`,
+  // multiplied through by `4m`.
+  return 2 * edges.length * (ends - crossing) > ends ** 2;
 }
 
 function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
@@ -156,39 +145,22 @@ function check(): string[] {
   }
 
   const mounted = new Set<string>();
-  const edges = new Map<string, Edge[]>();
+  const edges = new Map(
+    [...graph.keys()].map((app): [string, Edge[]] => [app, []]),
+  );
   const files = appFiles();
-  for (const file of files) {
+  for (const [file, imported] of importsOf(files)) {
     const source = locate(file);
     if (source === undefined) continue;
-    const { importedFiles } = ts.preProcessFile(
-      readFileSync(file, 'utf8'),
-      true,
-      true,
-    );
     const app = appOf(file);
-    const linked = new Set<string>();
-    for (const { fileName } of importedFiles) {
-      const resolved = resolveImport(file, fileName);
-      if (resolved === undefined) continue;
-      const imported = sourceFile(resolved);
-      if (
-        app !== undefined &&
-        imported !== undefined &&
-        imported !== file &&
-        appOf(imported) === app
-      ) {
-        linked.add(imported);
+    for (const target of imported) {
+      if (app !== undefined && appOf(target) === app) {
+        edges.get(app)?.push([file, target]);
       }
-      const target = locate(resolved);
-      if (target === undefined || target === source) continue;
-      if (source === 'router') mounted.add(appOfLocation(target));
-      references.get(target)?.add(source);
-    }
-    if (app !== undefined) {
-      const own = edges.get(app) ?? [];
-      own.push(...[...linked].map((imported): Edge => [file, imported]));
-      edges.set(app, own);
+      const location = locate(target);
+      if (location === undefined || location === source) continue;
+      if (source === 'router') mounted.add(appOfLocation(location));
+      references.get(location)?.add(source);
     }
   }
 

@@ -1,6 +1,7 @@
 /**
- * A slice's own import graph, which a cut is judged on: shipped files only, so
- * a test reaching across a sub-slice's wall never counts as the code's shape.
+ * The file-import graph modularity is judged on, an app's or a slice's: shipped
+ * files only, so a test reaching across a wall never counts as the code's
+ * shape. `eslint/masd-graph.ts` is the other graph, of apps.
  */
 
 import { readFileSync } from 'node:fs';
@@ -81,6 +82,21 @@ export const edgesWithin = (
   );
 };
 
+/** The edges with one end in a part, and the edge ends on it, counted once. */
+export function meeting(
+  inPart: (file: string) => boolean,
+  edges: readonly Edge[],
+): { crossing: number; ends: number } {
+  let crossing = 0;
+  let ends = 0;
+  for (const [from, to] of edges) {
+    const inside = Number(inPart(from)) + Number(inPart(to));
+    if (inside === 1) crossing++;
+    ends += inside;
+  }
+  return { crossing, ends };
+}
+
 /**
  * `ΔQ` of cutting `part` off the rest of a graph: the edges the cut crosses are
  * lost, and the product of the two sides' degree shares is what a
@@ -94,13 +110,7 @@ export function cutGain(
 ): number {
   const m = edges.length;
   if (m === 0) return 0;
-  let crossing = 0;
-  let ends = 0;
-  for (const [from, to] of edges) {
-    const inside = Number(part.has(from)) + Number(part.has(to));
-    if (inside === 1) crossing++;
-    ends += inside;
-  }
+  const { crossing, ends } = meeting((file) => part.has(file), edges);
   // `−crossing/m + 2s(1 − s)` with `s = ends/2m`, over the common `2m²`.
   return (ends * (2 * m - ends) - 2 * m * crossing) / (2 * m * m);
 }
