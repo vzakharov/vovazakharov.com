@@ -301,7 +301,36 @@ describe('masd-check on sub-slices', () => {
     assert.equal(status, 1);
     assert.equal(stderr.split('\n').length, 2);
     assert.ok(stderr.startsWith(PROMOTE_FACE), stderr);
+    assert.match(
+      stderr,
+      /on "widgets" or "features" or "entities" or "shared" — whichever names what it is/,
+    );
     assert.match(stderr, /masd-disable promotion -- <why it cannot move>/);
+  });
+
+  it('lists only the layers below what imports the sub-slice', () => {
+    // `back` imports `face` too, so `face` has to sit below the card's layer.
+    const { stderr } = run({
+      ...CARDS,
+      [`${CARD}/back/ui/back.ts`]:
+        "import { face } from '../../face';\nexport { edge as back } from './edge';\nexport const faced = face;",
+    });
+    assert.match(
+      stderr,
+      new RegExp(String.raw`${PROMOTE_FACE}: [^\n]* on "shared" —`),
+    );
+  });
+
+  it('says when no layer lies between what imports and what is imported', () => {
+    // `face` takes a widget while pages take it: nothing sits strictly between.
+    const { stderr } = run({
+      ...CARDS,
+      [`${CARD}/face/ui/lens.ts`]:
+        "import { panel } from '@/blog/widgets/panel';\nexport const lens = panel;",
+      'src/blog/widgets/panel/index.ts': "export { panel } from './ui/panel';",
+      'src/blog/widgets/panel/ui/panel.ts': 'export const panel = 1;',
+    });
+    assert.match(stderr, /no layer of its app lies below what imports it/);
   });
 
   it('spares a sub-slice whose barrel says why it stays', () => {
