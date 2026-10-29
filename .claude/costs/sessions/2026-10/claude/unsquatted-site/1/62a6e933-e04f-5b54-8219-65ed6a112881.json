@@ -1,20 +1,43 @@
 {
   "total": {
-    "inputTokens": 10,
+    "inputTokens": 66,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 56401,
-    "cacheReadTokens": 461506,
-    "outputTokens": 941,
-    "thinkingTokens": 27,
-    "responses": 5,
-    "costUsd": 0.5623692
+    "cacheWrite1hTokens": 175728,
+    "cacheReadTokens": 5387152,
+    "outputTokens": 21766,
+    "thinkingTokens": 13303,
+    "responses": 33,
+    "costUsd": 2.9188384000000003
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-10-29T09:26:28.810Z",
+    "parts": [
+      {
+        "hours": 12.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "eleven review threads on a new site: a zone model reworked around a registrar's live list, picks moved to authored markdown with a hold rule, a fetch wrapper and a repo-wide lint rule, shared UI lifted across apps"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "the social card's mark needs re-composing against the wordmark and re-rendered"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "copywriter",
+        "comment": "the hero, meta description and card have to say the same thing without a guessed price"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
-    "endedBy": null,
+    "endedBy": "oriented",
     "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedAt": "2026-10-29T09:23:32.974Z",
+    "contextTokens": 108158,
     "spend": {
       "inputTokens": 10,
       "cacheWrite5mTokens": 0,
@@ -34,18 +57,18 @@
   "url": "https://claude.ai/code/session_01DaohkFVFSZRJpaQ8xVP57q",
   "operator": "vzakharov",
   "firstResponseAt": "2026-10-29T09:23:12.216Z",
-  "lastResponseAt": "2026-10-29T09:23:24.665Z",
+  "lastResponseAt": "2026-10-29T09:27:40.981Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 10,
+    "inputTokens": 66,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 56401,
-    "cacheReadTokens": 461506,
-    "outputTokens": 941,
-    "thinkingTokens": 27,
-    "responses": 5,
-    "costUsd": 0.5623692
+    "cacheWrite1hTokens": 175728,
+    "cacheReadTokens": 5387152,
+    "outputTokens": 21766,
+    "thinkingTokens": 13303,
+    "responses": 33,
+    "costUsd": 2.9188384000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +82,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 10,
+      "inputTokens": 66,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 56401,
-      "cacheReadTokens": 461506,
-      "outputTokens": 941,
-      "thinkingTokens": 27,
-      "responses": 5,
-      "costUsd": 0.5623692
+      "cacheWrite1hTokens": 175728,
+      "cacheReadTokens": 5387152,
+      "outputTokens": 21766,
+      "thinkingTokens": 13303,
+      "responses": 33,
+      "costUsd": 2.9188384000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 5,
-    "matched": 5,
-    "matchedTableUsd": 0.5623692,
-    "matchedEventUsd": 0.5623692,
+    "events": 33,
+    "matched": 33,
+    "matchedTableUsd": 2.9188384000000003,
+    "matchedEventUsd": 2.9188384000000003,
     "unseen": {}
   }
 }
