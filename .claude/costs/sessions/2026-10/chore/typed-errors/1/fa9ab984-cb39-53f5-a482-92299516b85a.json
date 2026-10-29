@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 91341,
+    "cacheReadTokens": 3291068,
+    "outputTokens": 17451,
+    "thinkingTokens": 4092,
+    "responses": 27,
+    "costUsd": 1.7381775999999998
+  },
+  "estimate": {
+    "at": "2026-10-29T10:46:47.195Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the plan settles repo-wide conventions — rule shape, asError's home, eslint/'s import boundary — which needs someone who owns the lint and module conventions"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-10-29T09:48:49.778Z",
+    "contextTokens": 97860,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 34765,
+      "cacheReadTokens": 61684,
+      "outputTokens": 483,
+      "thinkingTokens": 225,
+      "responses": 1,
+      "costUsd": 0.30012479999999997
+    }
+  },
+  "sessionId": "fa9ab984-cb39-53f5-a482-92299516b85a",
+  "branch": "chore/typed-errors",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task Ввести ESLint-правило, запрещающее голый `new Error(…)`, и перевести на него весь репозиторий — сегодня это около 185 мест в 97 файлах. Каждое место броса…",
+  "prs": [
+    234
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEqmhWKawGUCbW9brg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-29T09:48:44.844Z",
+  "lastResponseAt": "2026-10-29T10:47:13.155Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 91341,
+    "cacheReadTokens": 3291068,
+    "outputTokens": 17451,
+    "thinkingTokens": 4092,
+    "responses": 27,
+    "costUsd": 1.7381775999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 91341,
+      "cacheReadTokens": 3291068,
+      "outputTokens": 17451,
+      "thinkingTokens": 4092,
+      "responses": 27,
+      "costUsd": 1.7381775999999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 27,
+    "matched": 27,
+    "matchedTableUsd": 1.7381775999999998,
+    "matchedEventUsd": 1.7381776,
+    "unseen": {}
+  }
+}
