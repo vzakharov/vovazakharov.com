@@ -4,22 +4,23 @@ paths:
   - .github/workflows/**
   - .github/actions/**
   - scripts/publish-site.sh
-  - apps/*/public/CNAME
+  - sites/*/public/CNAME
 ---
 
 # Deployment
 
 **The sites leave by two different doors, because a repository gets one Pages
 site.** `vovazakharov.com` holds this repository's own, deployed from
-`apps/vova/out` by `actions/deploy-pages`. Every other site is built here and
+`sites/vova/out` by `actions/deploy-pages`. Every other site is built here and
 force-pushed by `scripts/publish-site.sh <site>` to the `gh-pages` branch of a
 receiving repository — `vzakharov/latestageagentic.com`,
-`vzakharov/agentic.bible`, `vzakharov/basilisk.fyi` — which holds no source and
-runs no workflow: its Pages is set to deploy from a branch, so the push _is_ the
-deploy. That push needs a credential `GITHUB_TOKEN` cannot give — a deploy key
-per receiver, whose contract the script's own header carries. The workflow maps
-each receiver's secret into the one fixed variable the script reads, so a new
-site is a `case` arm and a matrix entry, never a change to how the key is
+`vzakharov/agentic.bible`, `vzakharov/basilisk.fyi`,
+`vzakharov/mayawonders.com`, `vzakharov/unsquatted.com` — which holds no source
+and runs no workflow: its Pages is set to deploy from a branch, so the push _is_
+the deploy. That push needs a credential `GITHUB_TOKEN` cannot give — a deploy
+key per receiver, whose contract the script's own header carries. The workflow
+maps each receiver's secret into the one fixed variable the script reads, so a
+new site is a `case` arm and a matrix entry, never a change to how the key is
 handled.
 
 **The workflow's `gate` job enforces the subject rule CLAUDE.md § "Deployment"
@@ -52,7 +53,10 @@ Dispatched by hand for one site from any ref, it publishes through
 `vzakharov/preview.vovazakharov.com`, one slot that serves whichever site came
 last, in a concurrency group apart from `pages`.
 `.claude/skills/preview/SKILL.md` § "Published, for someone else to look at"
-carries how it is used.
+carries how it is used. Майя has a slot of her own,
+`vzakharov/preview.mayawonders.com`, which `.github/workflows/maya-preview.yml`
+republishes from a `claude/maya-*` branch when `.claude/hooks/maya-preview.sh`
+dispatches it, at the end of a turn that pushed a change the site serves.
 
 **On an unmerged branch, an operator's "deploy" — «задеплой», «давай задеплоим»
 — means this door.** A branch dispatch of `deploy.yml` reaches production, so it

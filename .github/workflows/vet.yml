@@ -6,6 +6,11 @@ name: Vet
 # them.
 on:
   workflow_dispatch:
+    inputs:
+      meadow:
+        description: The game's tests and plays too (VET_MEADOW=1)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -21,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        site: [vova, lsa, bible, basilisk]
+        site: [vova, lsa, bible, basilisk, maya, unsquatted]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: out-${{ matrix.site }}
-          path: apps/${{ matrix.site }}/out
+          path: sites/${{ matrix.site }}/out
           retention-days: 1
 
   # The lint shards and the type check need no build: the route types they read
@@ -112,6 +117,89 @@ jobs:
           path: tmp/run-parallel/
           retention-days: 14
 
+  # The game's tests, sharded by file: whole, they take over half an hour.
+  meadow:
+    if: inputs.meadow
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ['1/6', '2/6', '3/6', '4/6', '5/6', '6/6']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up the toolchain
+        uses: ./.github/actions/setup-toolchain
+
+      - name: The game's tests, shard ${{ matrix.shard }}
+        run: ./scripts/vet.sh meadow ${{ matrix.shard }}
+
+  # The plays are off while they are cut down: they were written to build the
+  # game, and 22 of their 30 groups fail on checks the game has outgrown.
+  # `scripts/vet.sh probe` and `play` run them by hand.
+  # # The probe export the plays drive, named outside `out-*` so `built` does
+  # # not wait on it.
+  # probe:
+  #   if: inputs.meadow
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     - name: Set up the toolchain
+  #       uses: ./.github/actions/setup-toolchain
+
+  #     - name: Probe build
+  #       run: ./scripts/vet.sh probe
+
+  #     - name: Upload the export
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: probe-vova
+  #         path: sites/vova/out
+  #         retention-days: 1
+
+  # # Each screen's plays in groups, every group on a fresh export of its own.
+  # play:
+  #   if: inputs.meadow
+  #   needs: probe
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       screen: [tabL, tabP, phoneP, phoneL, phoneS]
+  #       plays:
+  #         - opening,meadow,runs,walk
+  #         - approach,planting
+  #         - species,tufts
+  #         - hold,keys,veer,rain
+  #         - sprouts,map,dusk
+  #         - night-run,dark,keep
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     - name: Set up the toolchain
+  #       uses: ./.github/actions/setup-toolchain
+
+  #     - name: Download the export
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: probe-vova
+  #         path: sites/vova/out
+
+  #     - name: Play ${{ matrix.plays }} on ${{ matrix.screen }}
+  #       run: ./scripts/vet.sh play ${{ matrix.screen }} ${{ matrix.plays }}
+
+  #     - name: Upload the frames
+  #       if: always()
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: play-${{ matrix.screen }}-${{ strategy.job-index }}
+  #         path: tmp/play/
+  #         retention-days: 14
+
   source:
     runs-on: ubuntu-latest
     steps:
@@ -123,9 +211,10 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       # The runner's system Python refuses a pip install (PEP 668), and
-      # scripts/song-intake/test_song_facts.py needs numpy. Ungated, unlike the
-      # song checks: install and test take ~5 s, and a gate on song-intake
-      # changes needs the merge base this one-commit checkout lacks.
+      # src/music/scripts/song-intake/test_song_facts.py needs numpy.
+      # Ungated, unlike the song checks: install and test take ~5 s, and a
+      # gate on song-intake changes needs the merge base this one-commit
+      # checkout lacks.
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

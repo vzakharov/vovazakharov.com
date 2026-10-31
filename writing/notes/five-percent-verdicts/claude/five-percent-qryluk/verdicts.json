@@ -1,0 +1,35 @@
+{
+  "pr": 212,
+  "verdicts": [
+    {
+      "comment": 4378724025,
+      "about": "Take the /writing card's text verbatim from the article's description",
+      "verdict": 0.3,
+      "why": "Noticed the right file but stepped back too little: the operator would have dropped the old articles outright, as off-topic for a fractional-CTO site, which the proposal took as given."
+    },
+    {
+      "comment": 4384716726,
+      "about": "Keep tally.py alone, dropping its tests and its vet job",
+      "verdict": 0,
+      "why": "Turned down flat: the tests and the vet job stay."
+    },
+    {
+      "comment": 4385457208,
+      "about": "Recount the article's figures against the notes file on main",
+      "verdict": 1,
+      "why": "Taken in full: recount against the latest main, and again at finalize if main moves on."
+    },
+    {
+      "comment": 4396639106,
+      "about": "Have the prose-quotes check fail on -- in served prose too",
+      "verdict": 1,
+      "why": "Taken: fail on -- in articles and on an em dash in social posts. The operator also asked for /five-percent comments to be labelled visibly, having not known where this one came from."
+    },
+    {
+      "comment": 4396720833,
+      "about": "Fail curly quotes in channel posts too, or narrow the Voice rule",
+      "verdict": 0.3,
+      "why": "The operator took only the narrowing: blogs are meant to carry curly quotes, so the check is not widened to them."
+    }
+  ]
+}

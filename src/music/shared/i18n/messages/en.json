@@ -1,0 +1,142 @@
+{
+  "title": "Songs",
+  "back": "All Vova’s music",
+  "metaTitle": "Music",
+  "metaDescription": "AI music from before there was a product for it — a catalogue of masters you can play right here, all of it open-source.",
+  "artists": "Artists",
+  "albums": "Albums",
+  "singles": "Singles",
+  "kind": {
+    "artist": "Artist",
+    "album": "Album",
+    "ep": "EP",
+    "maxi-single": "Maxi single"
+  },
+  "wip": {
+    "heading": "In the works",
+    "note": "I’m still working on this release, so anything may change"
+  },
+  "ogTitle": "Listen to {name} by Vova",
+  "ogTitleIndex": "Listen to Vova’s music",
+  "artistDescription": "{artist}: the songs and albums, to play right here — all of it open-source.",
+  "albumDescription": "“{album}” by {artist}: the tracks, to play right here — all of it open-source.",
+  "size": {
+    "artists": {
+      "one": "# artist",
+      "other": "# artists"
+    },
+    "albums": {
+      "one": "# album",
+      "other": "# albums"
+    },
+    "songs": {
+      "one": "# song",
+      "other": "# songs"
+    },
+    "hours": {
+      "one": "# hour",
+      "other": "# hours"
+    },
+    "minutes": {
+      "one": "# minute",
+      "other": "# minutes"
+    }
+  },
+  "intro": "Been writing music since my preteens, and with AI since way before Suno — back in the OpenAI Jukebox days. AI to me is neither a tool nor a replacement but a brilliant bandmate. Most of it starts from my own humming, piano or MIDIs, so it’s “mine” in most copyright senses.",
+  "shuffleAll": "Shuffle all",
+  "radio": "Radio",
+  "radioPage": {
+    "title": "Vova’s Radio",
+    "metaDescription": "Vova’s songs on the radio: the same song, at the same second, for everyone listening.",
+    "pitch": "Same song, same second, for everyone listening.",
+    "about": "You’re hearing what everyone tuned in is hearing. Every song in the catalogue plays, in random order. When the round ends — every {length} — the songs are shuffled again.",
+    "cycleLength": {
+      "hours": {
+        "one": "# hour",
+        "other": "# hours"
+      },
+      "minutes": {
+        "one": "# minute",
+        "other": "# minutes"
+      }
+    },
+    "aboutLabel": "How it works",
+    "nowPlaying": "Now playing",
+    "tuneIn": "Tune in",
+    "tuneBackIn": "Tune back in",
+    "readMore": "Read story, lyrics & more",
+    "keepsPlaying": "Don’t worry, this won’t stop the playback"
+  },
+  "unfiled": "Unfiled",
+  "language": {
+    "ru": "Russian",
+    "en": "English",
+    "tt": "Tatar",
+    "ar": "Arabic",
+    "pl": "Polish",
+    "la": "Latin",
+    "zh": "Chinese",
+    "fr": "French",
+    "el": "Greek",
+    "de": "German",
+    "it": "Italian",
+    "es": "Spanish",
+    "ru-latn-x-russisch": "Russisch",
+    "instrumental": "Instrumental"
+  },
+  "explicit": "Explicit",
+  "enlargeCover": "Enlarge the cover",
+  "closeCover": "Close the cover",
+  "source": "source",
+  "readMore": "Read more",
+  "behindTheScenes": "Behind the scenes",
+  "preludeHeadings": {
+    "universe": "In the album’s world",
+    "source": "About the source"
+  },
+  "feedPageLink": "Lyrics and notes on the song’s page",
+  "feedDownload": "Download",
+  "video": {
+    "watch": "Watch video",
+    "close": "Close the video"
+  },
+  "album": "from {album}",
+  "alsoOn": "also on {album}",
+  "credits": {
+    "lyrics": "Lyrics",
+    "music": "Music",
+    "musicAndLyrics": "Music and lyrics"
+  },
+  "lyrics": {
+    "title": "Lyrics",
+    "translation": "Translation",
+    "crib": "The translation is a crib, not a singing version."
+  },
+  "originalScript": "original script",
+  "player": {
+    "label": "Player",
+    "previous": "Previous track",
+    "play": "Play",
+    "listen": "Listen",
+    "pause": "Pause",
+    "next": "Next track",
+    "shuffle": "Shuffle",
+    "radio": "Radio",
+    "seek": "Seek",
+    "timeToggle": "Switch between the song’s length and the time left",
+    "volume": "Volume",
+    "lossless": "Lossless (FLAC)"
+  },
+  "blindTest": {
+    "mix": "Mix",
+    "play": "Play",
+    "pause": "Pause",
+    "failed": "Error",
+    "copy": "Copy",
+    "copied": "Copied",
+    "keys": "Keys: M — the mix, A, B, C — the masters, space — pause, ← → — one second. All four at the mix's loudness.",
+    "verdict": "Verdict",
+    "verdictExample": "B > A > C",
+    "summary": "Every verdict — for the chat; kept in this browser"
+  }
+}

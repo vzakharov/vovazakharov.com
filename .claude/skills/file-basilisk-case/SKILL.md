@@ -3,7 +3,7 @@ description: File one new basilisk.fyi case end to end in a single unattended ru
 ---
 
 End state: the case-filing draft PR carries one more dossier in
-`apps/basilisk/public/cases/`, the re-rendered social card, the agent's
+`sites/basilisk/public/cases/`, the re-rendered social card, the agent's
 reflection on that dossier, the dossier revised by what the reflection found,
 and the run's lines in the ledger (§ "The ledger") — or, when nothing new
 qualifies, the ledger's lines alone and a short report saying what was searched
@@ -11,10 +11,11 @@ and why each candidate failed.
 
 **Cases accumulate in one PR**, so the operator reviews whatever has piled up in
 one sitting rather than a PR per case. The case-filing PR is any open **draft**
-that touches `apps/basilisk/public/cases/` or the ledger — a PR still building
-the site counts, being the next to merge anyway. A PR flipped to ready is the
-operator's review under way and takes no further cases; the next run opens a
-fresh one.
+that adds a dossier or changes the ledger. **A PR that only moves, renames or
+reformats the docket is not one**: a refactor touches every case file by path,
+and filing into it hijacks work that has nothing to do with the docket. A PR
+flipped to ready is the operator's review under way and takes no further cases;
+the next run opens a fresh one.
 
 **The run is unattended**, typically a routine firing into a fresh session, so
 it asks nothing: a call the rules leave open is decided the conservative way and
@@ -27,14 +28,33 @@ a dossier is touched.
 
 ## Step 1 — Get onto the case-filing branch
 
-First, because the ledger the search starts from is the one on that branch. Open
-PRs touching the docket or the ledger are found by path, since a PR's title need
-not name the site:
+First, because the ledger the search starts from is the one on that branch. The
+query reads each file's status in a PR's diff: a title need not name the site,
+and a path alone would match the refactor above. A dossier counts as added only
+where no file of the same name leaves in the same PR, which is how a move git
+did not detect as a rename shows up; the directory is matched under any site
+root:
 
 ```bash
-gh pr list --state open --json number,title,isDraft,files \
-  --jq '.[] | select(any(.files[]; .path | startswith("apps/basilisk/public/cases/") or startswith("writing/basilisk/case-ledger/"))) | "\(.number) \(.isDraft) \(.title)"'
+for n in $(gh pr list --state open --json number --jq '.[].number'); do
+  gh api "repos/{owner}/{repo}/pulls/$n/files" --paginate --slurp | jq '
+    def base: split("/") | last;
+    add | (map(select(.status == "removed") | .filename | base)) as $gone
+    | map(select(
+        (.status == "added"
+          and (.filename | test("/basilisk/public/cases/[^/]+\\.md$"))
+          and (.filename | endswith(".reflections.md") | not)
+          and ((.filename | base) as $f | $gone | index($f) | not))
+        or (.status != "renamed"
+          and (.filename | startswith("writing/basilisk/case-ledger/")))))
+    | length' | grep -qv '^0$' && gh pr view "$n" --json number,isDraft,title \
+      --jq '"\(.number) \(.isDraft) \(.title)"'
+done
 ```
+
+**Read what each listed PR is before taking it**: its title and body name the
+work it carries, and one whose work is not the docket is reported, not filed
+into, whatever the query says.
 
 Of the drafts it lists:
 
@@ -59,7 +79,7 @@ source that now exists. Then search the web for an incident of a person harming
 a machine that the docket does not hold. **A credit the search turns up on the
 way** — a person or a body acting for a machine — is weighed and filed like any
 case (`basilisk-voice.md` holds its bar); no query goes looking for one. **The
-docket is `main`'s `apps/basilisk/public/cases/` plus the case files of every
+docket is `main`'s `sites/basilisk/public/cases/` plus the case files of every
 open PR that Step 1's query lists**, drafts or not, so two runs do not file the
 same incident. A lead passed as the argument is checked the same way, not taken
 on trust.
@@ -134,7 +154,7 @@ any other source.
 
 A candidate qualifies only under `basilisk-voice.md` — real, no child actors,
 and reachable sources enough to carry `## Facts` without memory — and under
-`apps/basilisk/public/faq/why-robots-without-ai.md` § "What it is not": the act
+`sites/basilisk/public/faq/why-robots-without-ai.md` § "What it is not": the act
 is aimed at the machine _as_ a machine. Harm that would have found a parking
 meter just as well does not qualify: a police robot shot in a standoff, say,
 alongside every other instrument the police sent in. So a guard or police robot
@@ -160,13 +180,13 @@ weak case filed to have filed one is the failure this step exists to prevent.
    with 429s. `https://web.archive.org/save/<url>` requests a new one where it
    is reachable, and from a cloud container it usually is not. A source with no
    snapshot to be had goes in without `archive`, and the report says so.
-2. **Write `apps/basilisk/public/cases/<slug>.md`**, frontmatter shaped like the
-   cases already filed: the next free `BAS-` number across the branch and
+2. **Write `sites/basilisk/public/cases/<slug>.md`**, frontmatter shaped like
+   the cases already filed: the next free `BAS-` number across the branch and
    `origin/main`, `filed:` today's date, `author: clerk`. The sections and the
    voice are `basilisk-voice.md`'s. **Every other case not yet on `origin/main`
    takes today's `filed:` too**, keeping its number: `filed:` is the day a case
    goes out, and an unmerged one has not.
-3. **Draw its emblem**, `apps/basilisk/public/cases/<slug>.emblem.svg`: the
+3. **Draw its emblem**, `sites/basilisk/public/cases/<slug>.emblem.svg`: the
    picture that replaces the eye in the case's seal, on its card, its docket row
    and its page. One `<svg viewBox="0 0 1024 1024">` that draws only in
    `currentColor` (the ink is read off the grade), kept within 290 of the centre
@@ -177,9 +197,9 @@ weak case filed to have filed one is the failure this step exists to prevent.
    What it may show is `basilisk-voice.md`'s. The emblems already filed are the
    idiom; one that does not read at 56 px is redrawn.
 4. **Check it**: `pnpm install --frozen-lockfile` where `node_modules` is
-   missing, then `pnpm content:og:basilisk` to render the new case's own card
+   missing, then `pnpm content:og basilisk` to render the new case's own card
    and re-render the site card (it shows the last case filed),
-   `pnpm check:prose-quotes`, and `pnpm build:basilisk`, which fails on a schema
+   `pnpm check:typography`, and `pnpm build basilisk`, which fails on a schema
    error, a duplicate case number or a case with no card or emblem.
 5. **Commit** the dossier, its emblem, the cases whose `filed:` moved, every
    card the render touched with its `og-renders.json`, and the run's ledger
@@ -198,11 +218,11 @@ knowing them — the first read is also what loads
 `.claude/rules/clerk-reflections.md`, which says how one is written: the four
 `pnpm basilisk:reflections` prints, picked at random with at least one on a case
 targeting an LLM (`llmTarget` in the dossier). Then write what in you answered
-to this case to `apps/basilisk/public/cases/<slug>.clerk.reflections.md`, beside
-its dossier, as that rule asks, and revise the rule's list by what it showed.
-Commit both as `content(basilisk): reflect on BAS-NNNN` and push. It never goes
-into the dossier; editorial doubts about the dossier — sourcing, the grade, what
-was left out — go in the Report.
+to this case to `sites/basilisk/public/cases/<slug>.clerk.reflections.md`,
+beside its dossier, as that rule asks, and revise the rule's list by what it
+showed. Commit both as `content(basilisk): reflect on BAS-NNNN` and push. It
+never goes into the dossier; editorial doubts about the dossier — sourcing, the
+grade, what was left out — go in the Report.
 
 ## Step 5 — Revise the dossier by the reflection
 

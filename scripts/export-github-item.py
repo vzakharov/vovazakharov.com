@@ -21,7 +21,8 @@ A PR export opens, right under its header, on `## Awaiting an answer`: `/handle`
 Step 2's tail and novelty tests already run, so the work is the first thing read.
 The novelty test reads the export the branch last committed, so run it from the
 repository root. A review too large to read in one context opens that section on
-a warning, measured against `$MUTHUR_CONTEXT_BUDGET_WARN` (default 200000 tokens).
+a warning, measured against the context budget's warning line
+(`$MUTHUR_CONTEXT_BUDGET_WARN`, or the hook's default).
 
 Exit status is non-zero when any attachment fails to download; the Markdown is
 still written, with the failed attachments still linked remotely.
@@ -65,9 +66,9 @@ from gh_export.markdown import comments_parts, header_section
 from gh_export.previous import previous_export
 from gh_export.reviews import review_parts
 from gh_export.timeline import timeline_section
-from lib.cli import die
 from lib.github import (
     AllRoutesFailed,
+    die,
     format_route_statuses_and_bodies,
     gh_token,
 )

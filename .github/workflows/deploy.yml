@@ -8,7 +8,7 @@ on:
       site:
         # Free text rather than a `choice`, which is single-select: the useful
         # runs include subsets, and a `choice` would need one option per subset.
-        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`, `basilisk`
+        description: Which sites this run publishes — `all`, or a list of `vova`, `lsa`, `bible`, `basilisk`, `maya`, `unsquatted`
         type: string
         default: all
 
@@ -53,16 +53,16 @@ jobs:
 
           # A site name selects that site; anything else — an unscoped subject,
           # a scope naming none of them, the picker's own `all` — selects all of
-          # them. `vova` is tracked
-          # apart from the rest because it leaves by a different door: it is this
-          # repository's own Pages site, and the others are force-pushed.
+          # them. `vova` is tracked apart from the rest because it leaves by a
+          # different door: it is this repository's own Pages site, and the
+          # others are force-pushed.
           select_site() {
             case "$1" in
               vova) vova=true ;;
-              lsa | bible | basilisk) receivers="$receivers $1" ;;
+              lsa | bible | basilisk | maya | unsquatted) receivers="$receivers $1" ;;
               *)
                 vova=true
-                receivers="$receivers lsa bible basilisk"
+                receivers="$receivers lsa bible basilisk maya unsquatted"
                 ;;
             esac
           }
@@ -72,9 +72,9 @@ jobs:
           # — and falling through to `select_site` would publish everything.
           select_picked() {
             case "$1" in
-              all | vova | lsa | bible | basilisk) select_site "$1" ;;
+              all | vova | lsa | bible | basilisk | maya | unsquatted) select_site "$1" ;;
               *)
-                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`, \`basilisk\`." >&2
+                echo "Unknown site '$1' — expected \`all\`, or a list of \`vova\`, \`lsa\`, \`bible\`, \`basilisk\`, \`maya\`, \`unsquatted\`." >&2
                 exit 1
                 ;;
             esac
@@ -149,7 +149,7 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       - name: Build
-        run: pnpm build:vova
+        run: pnpm build vova
 
       - name: Render page PDFs
         uses: ./.github/actions/render-pdfs
@@ -159,7 +159,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./apps/vova/out
+          path: ./sites/vova/out
 
   deploy-vova:
     environment:
@@ -198,7 +198,7 @@ jobs:
         uses: ./.github/actions/setup-toolchain
 
       - name: Build
-        run: pnpm build:${{ matrix.site }}
+        run: pnpm build ${{ matrix.site }}
 
       - name: Render page PDFs
         uses: ./.github/actions/render-pdfs

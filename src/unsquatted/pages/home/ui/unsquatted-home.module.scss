@@ -1,0 +1,341 @@
+@use '../../../../../styles/dimmed';
+@use '../../../../../styles/mantine' as mantine;
+
+.masthead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+
+  // Below `sm` the column reaches the layout's corner toggle, so the name
+  // wraps short of it rather than running under it: the toggle's 38px and a
+  // gap.
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    padding-inline-end: 50px;
+  }
+}
+
+.lede,
+.byline {
+  margin: 12px 0 0;
+  color: var(--unsquatted-muted);
+  text-wrap: pretty;
+}
+
+.lede {
+  max-width: 60ch;
+  line-height: 1.65;
+}
+
+.byline {
+  @include dimmed.text(65%, var(--unsquatted-muted));
+
+  max-width: 64ch;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+// A button that reads as the text around it.
+%text-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+}
+
+.sectionHeading {
+  margin: 0 0 12px;
+  color: var(--unsquatted-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.fieldInput {
+  flex: 1;
+  min-width: 0;
+
+  // On the narrowest screens the field takes its own row, the buttons the
+  // next.
+  @media (width < 24em) {
+    flex-basis: 100%;
+  }
+}
+
+.check {
+  flex-shrink: 0;
+
+  // On a phone the field needs the width more than the button's padding does.
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    padding-inline: 14px;
+  }
+
+  // On its own row beside the dice, it takes the rest of the width.
+  @media (width < 24em) {
+    flex: 1;
+  }
+
+  // Dimmed while it spins, so it reads as off as well as being off.
+  &[data-loading] {
+    opacity: 0.55;
+    cursor: progress;
+  }
+}
+
+// The default variant's hover fills the button with the foreground, which
+// drowns the dice's outline in its own faces; the border takes the hover.
+.diceButton {
+  color: var(--color-foreground);
+
+  &:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+}
+
+.diceBack {
+  fill: var(--color-background);
+}
+
+.diceFront {
+  fill: var(--color-surface);
+}
+
+.dicePipsBack,
+.dicePipsFront {
+  stroke: none;
+}
+
+.dicePipsBack {
+  fill: currentcolor;
+}
+
+.dicePipsFront {
+  fill: var(--color-accent);
+}
+
+.input {
+  border-color: var(--color-border-hairline);
+  background: var(--color-surface);
+  font-family: var(--mantine-font-family-monospace);
+}
+
+.domain {
+  font-family: var(--mantine-font-family-monospace);
+  overflow-wrap: anywhere;
+}
+
+.zones,
+.picks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Three rows at most until opened, as many columns across as the width allows.
+// The `n + …` cut-offs are those rows times the columns at each width, and the
+// widest, nine, is `CLOSED_ROWS` in `name-checker.tsx`: the rows before it are
+// the ones looked up before the toggle is wanted.
+.zones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+
+  &[data-open='false'] > :nth-child(n + 10) {
+    display: none;
+  }
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    &[data-open='false'] > :nth-child(n + 7) {
+      display: none;
+    }
+  }
+
+  // Narrower, two cards side by side cannot fit a long verdict.
+  @media (width < 22em) {
+    grid-template-columns: minmax(0, 1fr);
+
+    &[data-open='false'] > :nth-child(n + 4) {
+      display: none;
+    }
+  }
+}
+
+.moreZones {
+  margin-top: 10px;
+  color: var(--unsquatted-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+  }
+}
+
+.zone {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-default);
+  background: var(--color-surface);
+  font-size: 0.95rem;
+}
+
+.verdict {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  // A narrow card wraps a long verdict rather than spilling it.
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    white-space: normal;
+  }
+
+  &[data-state='pending'],
+  &[data-state='unknown'] {
+    color: var(--unsquatted-muted);
+  }
+
+  &[data-state='free'] {
+    color: var(--color-accent);
+  }
+
+  &[data-state='maybe'] {
+    color: var(--unsquatted-maybe);
+  }
+
+  &[data-state='taken'] {
+    color: var(--unsquatted-taken);
+  }
+}
+
+// Lines of their own under the zone's name and verdict.
+.price,
+.aside {
+  flex-basis: 100%;
+  color: var(--unsquatted-muted);
+}
+
+// A hint, not a verdict: quieter than the line above it.
+.price {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.priceFiller {
+  opacity: 0.6;
+}
+
+.aside {
+  font-size: 0.8rem;
+}
+
+// A register link takes its label's colour, not the anchors' foreground.
+.verdict a,
+.register a {
+  color: inherit;
+}
+
+.picks {
+  border-top: 1px solid var(--color-border-hairline);
+}
+
+// The name, its category and its blurb down the left; the register link
+// beside the name, dropping under the blurb on a phone.
+.pick {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 16px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--color-border-hairline);
+
+  // The footer's own rule closes the list.
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &[data-taken='true'] {
+    opacity: 0.55;
+  }
+
+  // A button that reads as the heading it is, until hovered.
+  & .domain {
+    @extend %text-button;
+
+    justify-self: start;
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-align: start;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+}
+
+.category {
+  grid-column: 1;
+  color: var(--color-accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.blurb {
+  grid-column: 1;
+  margin: 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.95rem;
+}
+
+// The link, and its price under it.
+.register {
+  display: flex;
+  flex-direction: column;
+  grid-row: 1 / span 3;
+  grid-column: 2;
+  align-items: flex-end;
+  align-self: baseline;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    grid-row: auto;
+    grid-column: 1;
+    align-items: flex-start;
+    margin-top: 6px;
+  }
+
+  // In a column, a basis is a height: the zone card's full-width line has
+  // nothing to fill here.
+  & .price {
+    flex-basis: auto;
+    font-weight: 400;
+  }
+}

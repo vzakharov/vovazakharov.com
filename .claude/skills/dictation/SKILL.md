@@ -1,5 +1,5 @@
 ---
-description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>] [auto|verbatim|retake|prose]`, the mode defaulting to `auto`, which reads it off the transcript. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
+description: Turn a dictation — a video shot on camera or audio talked into a phone — into a transcript file under writing/<project>/dictations/. Runs src/kernel/scripts/transcribe.py for the deterministic half, then does the half that needs judgement: cleaning the recognizer's output into readable Russian without rewriting it. Invoke as `/dictation <media file> [<slug>] [auto|verbatim|retake|prose]`, the mode defaulting to `auto`, which reads it off the transcript. Use when the operator drops a recording into the repo, says "расшифруй", "transcribe this", or commits a video and asks what it says.
 ---
 
 End state of this skill: `writing/<project>/dictations/<slug>.md` holds the
@@ -10,17 +10,29 @@ them to correct.
 
 ## The split
 
+<<<<<<< HEAD
 `scripts/transcribe.py` does everything a re-run would do identically: hear the
 recording with local models, save the hearings, render a timecoded transcript.
 This skill does the rest, which is one judgement repeated a few hundred times —
 **which words in the recognizer's output are the speaker's, and which are its
 mistakes.**
+=======
+`src/kernel/scripts/transcribe.py` does everything a re-run would do
+identically: extract audio from video, call Deepgram, save the response, render
+a timecoded transcript. This skill does the rest, which is one judgement
+repeated a few hundred times — **which words in the recognizer's output are the
+speaker's, and which are its mistakes.**
+>>>>>>> origin/main
 
 The script's header carries its flags. The short form:
 
 ```bash
+<<<<<<< HEAD
 tmp/hearing-venv/bin/python scripts/transcribe.py <media> --slug <slug> \
   --language ru --second-opinion \
+=======
+python3 src/kernel/scripts/transcribe.py <media> --slug <slug> --second-opinion \
+>>>>>>> origin/main
   --audio-out docs/remove-before-merging/<slug>.m4a \
   --video-out docs/remove-before-merging/<slug>.mp4   # video only
 ```

@@ -9,7 +9,7 @@
 
 @use 'sass:math';
 
-// The breakpoint scale, generated from src/app/styles/breakpoints.ts. Forwarded
+// The breakpoint scale, generated from src/shell/app/styles/breakpoints.ts. Forwarded
 // rather than used, so `@use '…/_mantine' as mantine` reaches
 // `mantine.$breakpoint-sm` alongside the mixins below.
 @forward 'breakpoints';

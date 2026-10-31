@@ -1,0 +1,26 @@
+@use './leaf';
+
+// Leaves in a row stretch to one height, so captions of different lengths
+// still read as one set.
+.plate {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  @include leaf.edge;
+}
+
+.drawing {
+  @include leaf.head-drawing;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 20px 20px;
+}
+
+.title {
+  font-style: italic;
+}

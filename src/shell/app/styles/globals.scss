@@ -1,0 +1,37 @@
+@use '../../../../styles/tokens' as tokens;
+@use './prose';
+
+:root {
+  --font-body: var(--font-merriweather), serif;
+  --font-heading-weight: 700;
+  --radius-default: 0;
+
+  @include tokens.colors(
+    #fff,
+    #000,
+    rgb(0 0 0 / 20%),
+    rgb(0 0 0 / 40%),
+    rgb(0 0 0 / 4%),
+    rgb(0 0 0 / 10%),
+    #000
+  );
+}
+
+// A name in a script the reader may not read is in the HTML in both
+// spellings, and the head script's `data-script` picks one before paint.
+:root:not([data-script='original']) [data-spelling='original'],
+:root[data-script='original'] [data-spelling='latin'] {
+  display: none;
+}
+
+[data-mantine-color-scheme='dark'] {
+  @include tokens.colors(
+    #090909,
+    #fff,
+    rgb(255 255 255 / 20%),
+    rgb(255 255 255 / 40%),
+    rgb(255 255 255 / 6%),
+    rgb(255 255 255 / 14%),
+    #fff
+  );
+}

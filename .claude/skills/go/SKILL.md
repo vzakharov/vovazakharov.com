@@ -206,7 +206,14 @@ plan file `/finalize` sweeps.
 
 Work through the plan on the current branch. Follow the plan as approved; if
 reality forces a material deviation, note it to the operator rather than
-silently reshaping scope.
+silently reshaping scope. The plan file is the exception to durable prose, being
+transient: keep it current as the work deviates, with checklist items in
+forward-looking voice.
+
+**When `.claude/hooks/go-delegation.py` delivered
+`@.claude/skills/go/delegation.md` this session, the work follows it too.**
+Under a harness that runs no hooks, `Read` it yourself unless
+`MUTHUR_DELEGATION` is `off`.
 
 Commit/push discipline is already governed by CLAUDE.md — don't reinvent it
 here:
@@ -278,6 +285,13 @@ Implementation is where they earn the most: a plan is written before the code
 exists, so the duplication it didn't foresee and the prose that narrates the
 work rather than the result both surface only now.
 
+**When `.claude/hooks/checkpoint-review.py` delivered
+`@.claude/skills/go/checkpoint-review.md` this session, the checkpoint review
+runs next**, before the flip below and Step 4, so the plan is marked done and
+the PR body written only over a reviewed diff. Under a harness that runs no
+hooks, that file's § "Who runs it" says whether it runs. A `relay` verdict
+leaves the plan to § "Stopping partway releases the plan" instead of the flip.
+
 Then **`git mv` the plan to `docs/plans/<slug>.completed.md`** and commit —
 implementation and its quality passes are done. An elephant with any of it left
 goes to `*.paused.md` instead: this step runs at each of its bites' ends, and
@@ -296,17 +310,20 @@ operator's go-ahead being the request.
 The **only** exception is an explicit "no PR" from the operator (e.g.
 `/go, no PR`) — then stop after Step 3 and report.
 
+**A PR this step created gets the pass Step 3 deferred**: run
+`@.claude/skills/five-percent/SKILL.md` once `/pr` returns, so planless work
+does not reach review unread. A branch that already had a PR got it in Step 3.
+
 ## Do NOT
 
 - Re-open a plan cycle or re-edit the plan file per code change — it's a
   transient artifact `/finalize` sweeps (see `@.claude/skills/plan/SKILL.md`).
   It changes when what it states stops being true (CLAUDE.md § "Writing things
-  down"), when an elephant's bite is taken, and at a pause, where it is what a
+  down") when an elephant's bite is taken, and at a pause, where it is what a
   fresh session picks the work up from.
 - Run the vet suite, merge the base branch, mark the PR ready, dispatch a
   CI-only bucket, or attest — those are `/finalize`. A PR that reads
   `CONFLICTING`, or a red check, is reported to the operator here rather than
   fixed; CLAUDE.md § "Key principles" carries why that outranks the host
   harness's instruction to treat either as work now.
-- Skip Step 3 because the diff "looks clean." It is mandatory, both passes of
-  it.
+- Skip Step 3 because the diff "looks clean." It is mandatory, every pass of it.

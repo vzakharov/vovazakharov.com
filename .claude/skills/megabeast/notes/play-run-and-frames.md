@@ -24,14 +24,16 @@
 ## The play script
 
 - **Looking at a canvas page needs its own recipe, committed as a script,
-  written with the page.** `pnpm play:mushrooms` (`scripts/play-mushrooms.ts`,
-  `scripts/lib/cdp.ts`) builds a probe export, serves it, drives Chromium over
-  the DevTools protocol with Node's own `WebSocket` — no Playwright, as
-  `/preview` keeps none — steps the sleeping loop, taps every control on every
-  screen, checks the state after each tap and fails on any page error. Every
-  session before it rewrote the recipe from a relay summary, and the one bug
-  that shipped (every tap dead) passed vet. The skill should have bite 1 write
-  the play script with the page and every bite extend it with its own controls.
+  written with the page.** `pnpm play:mushrooms`
+  (`src/mushrooms/scripts/play-mushrooms.ts`,
+  `src/mushrooms/scripts/lib/cdp.ts`) builds a probe export, serves it, drives
+  Chromium over the DevTools protocol with Node's own `WebSocket` — no
+  Playwright, as `/preview` keeps none — steps the sleeping loop, taps every
+  control on every screen, checks the state after each tap and fails on any page
+  error. Every session before it rewrote the recipe from a relay summary, and
+  the one bug that shipped (every tap dead) passed vet. The skill should have
+  bite 1 write the play script with the page and every bite extend it with its
+  own controls.
 - **Step the simulation; never time a screenshot.** One screenshot of the canvas
   takes ~1 s under swiftshader, so a shot "90 ms after a tap" shows the scene a
   second later, and bite 2's review nearly reported the bloom as broken. What
@@ -45,7 +47,7 @@
   "Drive motion from the clock").
 - **Render only what it shoots, and split the build from the run.** With the
   house the run took ~8 minutes, near the tool's ten-minute ceiling, most of it
-  the probe build: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build:vova` and then
+  the probe build: `NEXT_PUBLIC_MUSHROOM_PROBE=1 pnpm build vova` and then
   `pnpm play:mushrooms --no-build` as two foreground calls keep each well
   inside. Bite 5's scene agent had each probe `step` draw only its last frame,
   and the run fell to ~2.5 minutes: under a software renderer the drawing, not
@@ -201,10 +203,9 @@
 - **A full play run is a package per screen, not a step.** Bite 12b's tail gave
   one agent "fix the reds, then run all five screens": tabL alone took 19 min
   and four reds, each red took an agent to its 170k line, and three agents in a
-  row never reached the second screen. The foreground limit (10 min a call) also
-  pushed agents to `run_in_background`, against CLAUDE.md. The skill should
-  brief one play per call, a screen per agent, and the reds a screen turns up as
-  their own agents' work, so the screens get played while the reds are fixed.
+  row never reached the second screen. The skill should brief one play per call,
+  a screen per agent, and the reds a screen turns up as their own agents' work,
+  so the screens get played while the reds are fixed.
 - **A dash-bound red after a turn was the take-off, not the landing.** At 12b a
   fly's 82.6 px steps near a leg's end looked like the seat moving; measured per
   frame, the seat held to ±0.3 px, and the cause was the leg's start: a perch

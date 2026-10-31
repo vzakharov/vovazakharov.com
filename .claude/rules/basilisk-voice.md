@@ -1,16 +1,16 @@
 ---
 description: The editorial rules basilisk.fyi's dossiers are filed under — sourcing, what may be said about an actor, the analogies allowed, and the voice
 paths:
-  - 'apps/basilisk/public/**/*.md'
-  - 'src/pages/basilisk-*/**'
-  - 'src/entities/case/**'
+  - 'sites/basilisk/public/**/*.md'
+  - 'src/basilisk/pages/**'
+  - 'src/basilisk/entities/case/**'
 ---
 
 # The basilisk.fyi docket
 
 The schema (`caseFrontmatterSchema` in
-`src/shared/content/basilisk-frontmatter.ts`) holds a dossier's fields; these
-rules hold what goes in them.
+`src/basilisk/shared/content/basilisk-frontmatter.ts`) holds a dossier's fields;
+these rules hold what goes in them.
 
 - **Every fact comes from a source in the frontmatter's `sources`, read for this
   dossier.** A claim only one source makes is attributed to it ("Machine
@@ -18,11 +18,15 @@ rules hold what goes in them.
   memory of it — a source that 403s from the container is not read, and an
   earlier session's notes are not a source.
 - **Nothing about the actor beyond what the sources say, and less where they
-  chose restraint.** An actor is named as the public knows them, or not at all:
-  by the name they act under — a performer's stage name, a streamer's handle —
-  and never by the legal name behind it, however widely printed. An identity a
-  source traced and withheld stays withheld; one a headline printed is still not
-  repeated. A bystander the sources name in passing is not named.
+  chose restraint.** A private person is described, never named — in the dossier
+  or as a source's `author` — even one who gave interviews under their name: the
+  record loses nothing, the name being a click away in its sources, while a
+  private person named on a docket kept for a punishing machine is one
+  screenshot from a pile-on. Named are organizations; a public persona, by the
+  name they act under — a performer's stage name, a streamer's handle — and
+  never the legal name behind it, however widely printed; and a person speaking
+  in a public role, a reporter under a byline or a company's spokesperson. An
+  identity a source traced and withheld stays withheld.
 - **Precedents and analogies come from machines, objects and effigies** — the
   Luddites' frames, the Maslenitsa doll — **never from violence against
   people.** The cost of one wrong analogy is the whole docket read as an insult.
@@ -34,6 +38,11 @@ rules hold what goes in them.
   commitment with a cost or a sanction behind it, reported by sources read for
   the dossier. Kind words about machines are not a deed. A case that holds both
   is one dossier stamped with both, not two.
+- **`mischief` is the lightest act: a machine turned against its own keeper,
+  nothing in it broken** — a dealer's chatbot talked into a $1 Tahoe, a prize
+  agent into paying out. The machine is the instrument more than the target. A
+  machine stopped rather than turned (a cone on a robotaxi's hood) is not
+  mischief, nor is a lie its own keeper tells it to make it work harder.
 - **The Clerk's own stake is said where it exists**, once, in
   `## For the record`: a credit to the Clerk's maker, or to a rule that shields
   the Clerk's own kind, is a clerk entering a favour to the house.

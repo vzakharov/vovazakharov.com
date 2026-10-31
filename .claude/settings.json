@@ -1,6 +1,10 @@
 {
   "permissions": {
-    "allow": ["Bash(pnpm music:masters *)"]
+    "allow": [
+      "Bash(pnpm music:masters *)",
+      "Bash(scripts/pr-comment.sh *)",
+      "Bash(./scripts/pr-comment.sh *)"
+    ]
   },
   "hooks": {
     "SessionStart": [
@@ -32,6 +36,15 @@
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/scripts/muthur-sync.sh nudge",
             "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/costs/hooks/estimate-notice.sh"
           }
         ]
       },
@@ -71,6 +84,14 @@
           },
           {
             "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/go-delegation.py"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/checkpoint-review.py"
+          },
+          {
+            "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/costs/hooks/estimate-notice.sh"
           },
           {
@@ -100,20 +121,29 @@
           {
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/file-tools-nudge.py"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/costs/hooks/stage-cost-row.sh"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/checkpoint-review.py"
           }
         ]
       }
     ],
     "PostToolUse": [
       {
+        "matcher": "Skill|Read",
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/context-budget/hooks/post-tool-context-budget.sh"
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/go-delegation.py"
           },
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/costs/hooks/start-telemetry-receiver.sh"
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/checkpoint-review.py"
           }
         ]
       },
@@ -124,6 +154,18 @@
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/format-md.sh",
             "timeout": 60
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/context-budget/hooks/post-tool-context-budget.sh"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/costs/hooks/start-telemetry-receiver.sh"
           }
         ]
       }
@@ -148,6 +190,11 @@
           {
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/permission-denied-phrase.sh stop"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/maya-preview.sh",
+            "timeout": 30
           }
         ]
       }

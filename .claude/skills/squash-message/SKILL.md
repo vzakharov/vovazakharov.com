@@ -98,16 +98,17 @@ already equals the drafted title: the squash box prefills the commit's subject
 there, so the comment opens with a block holding `<title> (#<n>)` to paste over
 it. The count is the PR's as this run sees it, and every reconcile recounts.
 
-**Which file: presence decides.** If
-`docs/remove-before-merging/squash-message.md` is on the branch, that is the
-working file, and it is a **live doc, not a blank sheet**: what's already in it
-— earlier wording, the operator's edits, whatever a previous run settled on — is
-the starting point, and this run edits it in light of what has changed since.
-Step 5 commits and pushes it. The path is a tripwire: the tree's name states its
-whole contract, and `/finalize` sweeps it once CI is green, so the proposal's
-own source never rides the squash onto the base branch. The sweep is the last
-thing that happens to it, after that run's own reconcile — so even the final
-edit, the one that becomes the permanent record, is made with the doc in hand.
+**Which file: presence decides.** The tracked path is
+`$(scripts/working-dir.sh)/squash-message.md`, in the branch's own working
+directory. If it is on the branch, that is the working file, and it is a **live
+doc, not a blank sheet**: what's already in it — earlier wording, the operator's
+edits, whatever a previous run settled on — is the starting point, and this run
+edits it in light of what has changed since. Step 5 commits and pushes it. The
+path is a tripwire: the tree's name states its whole contract, and `/finalize`
+sweeps it once CI is green, so the proposal's own source never rides the squash
+onto the base branch. The sweep is the last thing that happens to it, after that
+run's own reconcile — so even the final edit, the one that becomes the permanent
+record, is made with the doc in hand.
 
 **Absent → load `@.claude/skills/squash-message/working-file.md`**, which picks
 the file and says whether there is prior text to start from. Absence has two
@@ -156,18 +157,18 @@ Format rules:
   the project's `CLAUDE.md` lists under "Git conventions" — read them there
   rather than assuming the conventional-commit set, since a project may carry
   its own. **The scope is the deploy switch** (CLAUDE.md § "Deployment"): a
-  branch whose shipped change is one site's names that site (`feat(basilisk):`),
-  so the merge publishes it alone; one that ships to several sites takes none. A
-  change to the shared `src/` counts by what each site then serves: checked to
-  alter one site's output alone, it is that site's; unchecked, it takes none.
-  Agent-infrastructure files riding along ship to no site and do not count, and
-  neither does a companion file a site serves beside a document but links from
-  nowhere — a persona's `*.reflections.md`: the site as a product is what its
-  pages reach. No other words before the colon. Include `#<issue>` only when the
-  PR addresses a GitHub issue (the primary one if several); omit it otherwise.
-  **At most 72 chars**, leaving room for the suffix GitHub appends inside an
-  80-char subject; the deploy gate reads only the prefix, so that suffix never
-  moves the switch.
+  branch whose shipped change is one site's names that site by its short name
+  (`feat(basilisk):`), so the merge publishes it alone; one that ships to
+  several sites takes none. A change to the shared `src/` counts by what each
+  site then serves: checked to alter one site's output alone, it is that site's;
+  unchecked, it takes none. Agent-infrastructure files riding along ship to no
+  site and do not count, and neither does a companion file a site serves beside
+  a document but links from nowhere — a persona's `*.reflections.md`: the site
+  as a product is what its pages reach. No other words before the colon. Include
+  `#<issue>` only when the PR addresses a GitHub issue (the primary one if
+  several); omit it otherwise. **At most 72 chars**, leaving room for the suffix
+  GitHub appends inside an 80-char subject; the deploy gate reads only the
+  prefix, so that suffix never moves the switch.
   - **`[attn adopters]`** goes right after the colon —
     `feat: [attn adopters] #<issue> <essence>` — when the change asks whoever
     syncs from this repo for something their port does not do by itself: a
@@ -178,8 +179,9 @@ Format rules:
     paragraph of its own, opening `Adopters:` and addressed to their agent: what
     to do, whether it waits on their operator's yes — anything reaching outside
     their tree does — and a URL into this repo for anything their tree may not
-    carry yet. `@.claude/skills/update-muthur/SKILL.md` Step 4 is the reading
-    side.
+    carry yet. An ask to check for something their operator may already have
+    done names it by what it does, never by this repo's title for it.
+    `@.claude/skills/update-muthur/SKILL.md` Step 4 is the reading side.
 - **Body** — the why, then what changed, at the altitude Step 3 sets. When the
   PR or diff references an issue, end the prose with a `Closes #N` (for
   `feat`/`refactor`/…) or `Fixes #N` (for `fix`) trailer. **Never carry `#<tbd>`
@@ -301,40 +303,34 @@ yourself.
 
 ## Step 4 — Emit (comment first, then transcript)
 
-1. **Find any existing proposal.** Resolve the PR number
-   (`gh pr view --json number --jq .number`), list comments
-   (`gh api repos/<owner>/<repo>/issues/<n>/comments --paginate`) and pick the
-   one whose body leads with `Proposed squash` and whose `user.login` is yours
-   (`gh api    user --jq .login`). If several match — an earlier run stacked
-   duplicates — keep the newest and `-X DELETE` the rest.
-2. **Post or update.**
-   - Found → PATCH that same comment:
-     `gh api repos/<owner>/<repo>/issues/comments/<id> -X PATCH -F body=@<working file>`.
-     Edit in place; don't delete-and-repost (the anchor next to the merge button
-     stays stable) and never stack a second comment. If it already matches the
-     file, leave it untouched. Do **not** reach for `gh pr comment --edit-last`
-     as a shortcut past the lookup above: it targets your most recent comment on
-     the PR regardless of marker, so it silently overwrites whichever sticky
-     comment you posted last — the `/finalize` attestation, most likely.
-   - Not found → `gh pr comment <n> --body-file <working file>`. **In
-     `update-only` mode, stop here instead**: report the absence, create
-     nothing. The one exception is a branch that carries the tracked file — that
-     file is itself proof the proposal exists and its comment was lost, so post
-     it rather than reporting an absence that isn't real.
+1. **Post or update the comment** with one command, run from the repository root
+   and spelled exactly so, with no `cd … &&` in front:
 
-   The `--body-file` / `-F body=@` forms are what make the fenced backticks
-   survive shell quoting.
+   ```bash
+   scripts/pr-comment.sh squash [--update-only] <n> <working file>
+   ```
 
-   Resolve `<owner>/<repo>` from the git remote
-   (`gh repo view --json nameWithOwner --jq .nameWithOwner`) rather than
-   hardcoding it.
+   `<n>` is the PR number (`gh pr view --json number --jq .number`). The script
+   edits the PR's proposal in place, whoever posted it, or posts one when there
+   is none, so the anchor next to the merge button stays stable. **Never do this
+   step with inline `gh api` or `gh pr comment`**: only this spelling is
+   approved for auto mode, and the script's header says by what, along with its
+   outputs, exit codes and what a denial means.
 
-3. **Set the PR title** to the one Step 2 drafted, when it differs:
-   `gh api repos/<owner>/<repo>/pulls/<n> -X PATCH -f title='<title>'`. This is
-   what keeps the title GitHub prefills equal to the record's; `gh pr edit` is
-   not the route, for the reason `@.claude/skills/pr/SKILL.md` Step 5 gives.
+   **In `update-only` mode pass `--update-only`**, which creates nothing and
+   exits `3` on absence — report it and stop. The one exception is a branch that
+   carries the tracked file — that file is itself proof the proposal exists and
+   its comment was lost, so run it without the flag rather than reporting an
+   absence that isn't real.
 
-4. **Print the title and the fenced body in the transcript.** The comment keeps
+2. **Set the PR title** to the one Step 2 drafted, when it differs:
+   `gh api repos/<owner>/<repo>/pulls/<n> -X PATCH -f title='<title>'`, with
+   `<owner>/<repo>` from `gh repo view --json nameWithOwner --jq .nameWithOwner`
+   rather than hardcoded. This is what keeps the title GitHub prefills equal to
+   the record's; `gh pr edit` is not the route, for the reason
+   `@.claude/skills/pr/SKILL.md` Step 5 gives.
+
+3. **Print the title and the fenced body in the transcript.** The comment keeps
    the copy-ready body beside the merge button; the transcript copy serves the
    operator reading the session. Print the body from the file so the two can't
    diverge.
@@ -343,7 +339,7 @@ yourself.
 
 Split by which working file Step 2 selected:
 
-- **Tracked file** → `git add docs/remove-before-merging/squash-message.md`,
+- **Tracked file** → `git add "$(scripts/working-dir.sh)/squash-message.md"`,
   commit with a `docs:` subject (e.g. `docs: refresh squash proposal for pr #N`)
   and push. Commit nothing when the edit left the content unchanged. **Never
   amend or force-push**: the operator follows this file's history to see how the

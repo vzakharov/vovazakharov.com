@@ -15,8 +15,8 @@ end.
 reach the registrar.** Step 2 splits on that, and either way the site is dark
 until they land, whatever CI reports.
 
-The code half — the app directory, its `next.config.ts`, the site's entry in the
-shared config — is ordinary work on the branch and is not this skill's;
+The code half — the site directory, its `next.config.ts`, the site's entry in
+the shared config — is ordinary work on the branch and is not this skill's;
 CLAUDE.md § "Repository layout" and `.claude/rules/deployment.md` own it. This
 skill starts where the build already produces the site and ends where the domain
 serves it.
@@ -238,6 +238,15 @@ is the thing under test, so reading the tree only confirms the input.
 - **A 404 on the new domain is `CNAME` not reaching the branch**, or DNS that
   has not propagated. The publish script asserts on `CNAME` and `.nojekyll`
   before pushing, so propagation is the likelier of the two.
+- **A publish that lands before its DNS leaves no certificate requested**:
+  `https_certificate` stays absent however long you wait, and re-saving the same
+  `cname` does nothing. Clear it and set it again —
+  `gh api -X PUT repos/<owner>/<domain>/pages -F cname=null`, then
+  `-f cname=<domain>` — and it is approved within a minute.
+- **A subdomain of a domain already served** takes one `CNAME` on its host at
+  `<owner>.github.io` in Step 2, not the apex table, and the zone's wildcard
+  stays. Publish before writing it: a `CNAME` at `<owner>.github.io` that no
+  Pages repository claims is one anyone's repository can take over.
 - **The new domain serving an existing site** means the apex records point
   somewhere else entirely — that is DNS, not the build.
 - **GitHub's run-workflow form reads its input list off the default branch.** A

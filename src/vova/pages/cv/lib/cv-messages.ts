@@ -1,0 +1,42 @@
+import type { Locale } from '@/kernel/shared/i18n';
+import type { LabeledLink } from '@/kernel/shared/typings';
+
+import { type Messages, messages } from '@/vova/shared/i18n';
+
+import type { CvEdition, CvVariant } from './cv-variants';
+
+export type WithCaseStudy = {
+  /** Resolved by the page: the registry that owns URL shapes is build-time-only. */
+  caseStudy: LabeledLink;
+};
+
+/** What every CV page renders from, as `CvPage` resolves it. */
+export type CvPageCopy = CvEdition &
+  WithCaseStudy & {
+    /** This framing in this language, the variant's overrides already merged in. */
+    messages: Messages;
+  };
+
+/**
+ * The CV's messages in one framing. `dev` is the base catalogue and every other
+ * variant an override subtree merged over it a section at a time, so a key the
+ * variant does not restate cannot drift from the base.
+ */
+export function cvMessages(locale: Locale, variant: CvVariant): Messages {
+  const copy = messages(locale);
+
+  if (variant === 'dev') return copy;
+
+  const { cv } = copy;
+  const { metadata, header, profile } = cv.variants[variant];
+
+  return {
+    ...copy,
+    cv: {
+      ...cv,
+      metadata: { ...cv.metadata, ...metadata },
+      header: { ...cv.header, ...header },
+      profile: { ...cv.profile, ...profile },
+    },
+  };
+}

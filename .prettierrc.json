@@ -9,7 +9,7 @@
   "endOfLine": "lf",
   "overrides": [
     {
-      "files": "apps/vova/public/music/*/*.maya.reflections.md",
+      "files": "sites/vova/public/music/*/*.maya.reflections.md",
       "options": { "proseWrap": "always" }
     },
     {

@@ -1,7 +1,7 @@
 ---
-description: The normalization an organisation mark under apps/<site>/public/logos/ must carry before it is committed, since the cards render every mark at one size
+description: The normalization an organisation mark under sites/<site>/public/logos/ must carry before it is committed, since the cards render every mark at one size
 paths:
-  - apps/*/public/logos/**
+  - sites/*/public/logos/**
 ---
 
 # Organisation marks

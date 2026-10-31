@@ -14,13 +14,14 @@ Stdlib only — Python 3.9+.
 
 from __future__ import annotations
 
+import fcntl
 import json
 import os
 import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import IO, Any, Dict, Optional
 
 # The ledger's lib is reached by path, as its own scripts reach it.
 ROOT = Path(__file__).resolve().parents[3]
@@ -46,7 +47,8 @@ HOOK = Path(__file__).resolve()
 @dataclass(frozen=True)
 class State:
     """`tmp/keepalive/` under the project: the wakes spent this idle spell,
-    the running watcher's pid, and whether it exited as a wake."""
+    whether the last watcher exited as a wake, and the lock a live watcher
+    holds."""
 
     dir: Path
     session: str
@@ -54,6 +56,10 @@ class State:
     @property
     def file(self) -> Path:
         return self.dir / f"{self.session}.json"
+
+    @property
+    def lock(self) -> Path:
+        return self.dir / f"{self.session}.lock"
 
     @property
     def period_knob(self) -> Path:
@@ -70,14 +76,28 @@ class State:
         self.file.write_text(json.dumps(data))
 
 
-def running(pid: Any) -> bool:
-    """A live watcher of this hook — a pid alone may have been reused since a
-    container restart."""
+def lock(path: Path) -> Optional[IO[str]]:
+    """The exclusive lock on `path`, held while the returned file stays open,
+    or None while another process holds it. The kernel drops a lock with its
+    holder however that process dies, a container restart included."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    held = path.open("a")
     try:
-        cmdline = Path(f"/proc/{int(pid)}/cmdline").read_bytes()
-    except (OSError, TypeError, ValueError):
-        return False
-    return str(HOOK).encode() in cmdline and b"watch" in cmdline
+        fcntl.flock(held, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        held.close()
+        return None
+    return held
+
+
+def running(state: State) -> bool:
+    # A watcher starting while the probe holds the lock would exit at once;
+    # none can, since the hook runs before the turn that starts one.
+    probe = lock(state.lock)
+    if probe is None:
+        return True
+    probe.close()
+    return False
 
 
 # --- The watcher --------------------------------------------------------------
@@ -96,8 +116,16 @@ def deadline(transcript: Path, lead: int) -> Optional[float]:
 
 
 def watch(state: State, transcript: Path, lead: int) -> int:
+    held = lock(state.lock)
+    if held is None:  # the session's watcher is already running
+        return 0
+    with held:
+        return watch_locked(state, transcript, lead)
+
+
+def watch_locked(state: State, transcript: Path, lead: int) -> int:
     start = time.time()
-    state.write({**state.read(), "pid": os.getpid(), "fired": False})
+    state.write({**state.read(), "fired": False})
     try:
         period: Optional[float] = float(state.period_knob.read_text())
     except (OSError, ValueError):
@@ -115,10 +143,9 @@ def watch(state: State, transcript: Path, lead: int) -> int:
         # pay the re-cache it exists to avoid: wait for the next response.
         if due is not None and due <= now < due + lead:
             data = state.read()
-            state.write({**data, "wakes": int(data.get("wakes", 0)) + 1, "pid": None, "fired": True})
+            state.write({**data, "wakes": int(data.get("wakes", 0)) + 1, "fired": True})
             return 0
         time.sleep(POLL if due is None or due <= now else max(1.0, min(POLL, due - now)))
-    state.write({**state.read(), "pid": None})
     return 0
 
 
@@ -133,14 +160,6 @@ def start_line(session: str, transcript: str) -> str:
     )
 
 
-SUFFICIENT = (
-    "the branch alone lets a fresh session continue: everything committed and pushed, the work"
-    " at a loop boundary (a draft plan published awaiting `/go`, a paused plan, `/go` done"
-    " awaiting `/finalize`, a relay summary written), and nothing said since that the repo"
-    " does not hold"
-)
-
-
 STOP = "the operator's message asks to stop the keepalive (\"стоп\", \"stop\", in any words)"
 PARK = (
     "If the operator's message asks to park the session (\"запаркуй\", \"park it\", in any words),"
@@ -148,17 +167,17 @@ PARK = (
 )
 
 
-def context(data: Dict[str, Any], renewals: int, session: str, transcript: str) -> Optional[str]:
-    if running(data.get("pid")):
+def context(data: Dict[str, Any], alive: bool, renewals: int, session: str, transcript: str) -> Optional[str]:
+    if alive:
         return (
-            f"A {MARK.lower()} watcher is running. {PARK} If {STOP}, or if, as this turn ends, {SUFFICIENT},"
+            f"A {MARK.lower()} watcher is running. {PARK} If {STOP},"
             " stop it with TaskStop (its id is in the Bash result that started it)."
         )
     spent = int(data.get("wakes", 0))
     if not data.get("fired"):
         return (
             f"As this turn's last action, {start_line(session, transcript)}"
-            f" Skip it when {STOP}, or when, at that point, {SUFFICIENT}."
+            f" Skip it when {STOP}."
         )
     if spent > renewals:
         return (
@@ -182,7 +201,7 @@ def on_prompt(state: State, prompt: str, renewals: int, session: str, transcript
     data = state.read()
     if MARK not in prompt:
         data["wakes"] = 0
-    out = context(data, renewals, session, transcript)
+    out = context(data, running(state), renewals, session, transcript)
     data["fired"] = False
     state.write(data)
     return out

@@ -8,8 +8,9 @@
 #   scripts/publish-site.sh <site>
 #   scripts/publish-site.sh <site> --preview
 #
-# `--preview` sends any site, `vova` included, to the one preview receiver,
-# which serves whichever site was published there last.
+# `--preview` sends any site, `vova` included, to a preview receiver, which
+# serves whichever site was published there last: preview.vovazakharov.com, or
+# the slot PREVIEW_HOST names, its receiver being vzakharov/$PREVIEW_HOST.
 #
 # Reads PAGES_DEPLOY_KEY: the private half of an ed25519 deploy key whose
 # public half is installed on the target receiving repository with write
@@ -37,7 +38,7 @@ usage='usage: publish-site.sh <site> [--preview]'
 SITE=${1:?$usage}
 TARGET=${2:-production}
 BRANCH=gh-pages
-PREVIEW_HOST=preview.vovazakharov.com
+PREVIEW_HOST=${PREVIEW_HOST:-preview.vovazakharov.com}
 
 case "$TARGET" in
   production) ;;
@@ -59,6 +60,8 @@ else
     lsa) RECEIVER=vzakharov/latestageagentic.com ;;
     bible) RECEIVER=vzakharov/agentic.bible ;;
     basilisk) RECEIVER=vzakharov/basilisk.fyi ;;
+    maya) RECEIVER=vzakharov/mayawonders.com ;;
+    unsquatted) RECEIVER=vzakharov/unsquatted.com ;;
     *)
       printf 'No receiving repository for site %s.\n' "$SITE" >&2
       exit 1
@@ -68,10 +71,10 @@ fi
 
 cd "$(dirname "$0")/.."
 
-OUT="apps/$SITE/out"
+OUT="sites/$SITE/out"
 
 [ -d "$OUT" ] || {
-  printf 'No %s — run `pnpm build:%s` first.\n' "$OUT" "$SITE" >&2
+  printf 'No %s — run `pnpm build %s` first.\n' "$OUT" "$SITE" >&2
   exit 1
 }
 
@@ -87,7 +90,7 @@ fi
 # Both of these fail silently at the far end: without CNAME, Pages serves the
 # built site at its github.io address and the custom domain is dropped from the
 # repository's settings; without .nojekyll, Jekyll strips the _next/ directory
-# and every page loads blank. They ride in apps/<site>/public/, so a miss here
+# and every page loads blank. They ride in sites/<site>/public/, so a miss here
 # means the build lost them rather than that someone forgot a publish step.
 for required in CNAME .nojekyll; do
   [ -e "$OUT/$required" ] || {

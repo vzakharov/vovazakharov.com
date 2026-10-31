@@ -5,9 +5,9 @@
 Vova Zakharov's personal site and CV —
 [vovazakharov.com](https://vovazakharov.com). A Next.js 16 App Router project
 built as a **static export** (`output: 'export'`) and deployed to GitHub Pages:
-React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves four
+React 19, Mantine 9 for styling, next-intl for `en`/`ru`, pnpm. It serves six
 sites out of one `src/` — `vovazakharov.com`, `latestageagentic.com`,
-`agentic.bible` and `basilisk.fyi`.
+`agentic.bible`, `basilisk.fyi`, `mayawonders.com` and `unsquatted.com`.
 
 Static export is the constraint that shapes everything else — there is no server
 at runtime, so no API routes, no server actions, no request-time rendering.
@@ -28,46 +28,46 @@ warning about, the command worth documenting.
 
 **On a branch, this file — and anything else that loads on every turn — is
 edited only through a staged copy**, because an edit in place invalidates the
-prompt cache of every session on the branch: `scripts/staged.sh stage <path>`
-and commit, edit the copy it makes, and `/finalize` swaps it in. **An operator's
-ask to swap it in now** — "swap it in", "unstage", in any words or language —
-runs `scripts/staged.sh swap` on the spot and commits, trading the cache for a
-branch that runs on the new text. `@.claude/rules/staging.md` defines the set
-and the rest of the convention.
+prompt cache of every session on the branch; `/finalize` swaps it in. **An
+operator's ask to swap it in now** — "swap it in", "unstage", in any words or
+language — runs `scripts/staged.sh swap` on the spot and commits.
+`@.claude/rules/staging.md` defines the set and the mechanics.
 
 ## Repository layout
 
-- **`src/`** — All application code, in Feature-Sliced Design layers (`shared/`,
-  `features/`, `pages/`, `app/`). `@.claude/rules/fsd.md` carries the
-  conventions both checkers enforce.
-- **`apps/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`),
-  each holding its `app/` (**routing only** — the FSD app layer is `src/app`),
-  `public/`, `next.config.ts` and `tsconfig.json`. All four build from the one
-  `src/`, and a build is entered in its app directory rather than pointed at
-  from the root.
-- **`apps/*/public/`** — Static assets served at that site's root: `.nojekyll`
+- **`src/`** — All application code, as apps (`src/<app>/`), each a
+  Feature-Sliced Design tree, composed along the graph in `src/masd.json`.
+  `@.claude/rules/masd.md` carries the conventions the checkers enforce.
+- **`sites/`** — One directory per site (`vova/`, `lsa/`, `bible/`, `basilisk/`,
+  `maya/`, `unsquatted/`), named by the site's id, each holding its `app/`
+  (**routing only** — the FSD app layers are under `src/`), `public/`,
+  `next.config.ts` and `tsconfig.json`. All six build from the one `src/`, and a
+  build is entered in its site directory rather than pointed at from the root.
+- **`sites/*/public/`** — Static assets served at that site's root: `.nojekyll`
   (required — GitHub Pages otherwise strips Next's `_next/`), a `CNAME` on each
   site with a domain of its own (which a force-push would otherwise drop), and
   one directory per content collection, holding the authored markdown at the
-  path its page is routed to (`apps/vova/public/case-studies/`). A collection
-  rooted at its site's root has no directory: `apps/bible/public/` is both the
+  path its page is routed to (`sites/vova/public/case-studies/`). A collection
+  rooted at its site's root has no directory: `sites/bible/public/` is both the
   site's assets and the Bible's articles.
 - **`styles/`** — Sass partials shared across `src/`: `_mantine.scss`
-  (counterparts to the mixins Mantine documents as a PostCSS preset) and the two
-  `pnpm styles:codegen` writes, `_tokens.scss` and `_breakpoints.scss`. A
-  partial is not an FSD module — it has no import graph for the layer checkers
-  to reason about — so it lives outside `src/`.
+  (counterparts to the mixins Mantine documents as a PostCSS preset),
+  `_dimmed.scss`, and the two `pnpm styles:codegen` writes, `_tokens.scss` and
+  `_breakpoints.scss`. Not FSD modules (no import graph for the layer checkers),
+  so outside `src/`.
 - **`eslint/`** — The ruleset `eslint.config.ts` orchestrates; see
   `.claude/rules/eslint.md`.
 - **`writing/`** — Drafts for channels the site does not publish, today
-  `linkedin/`. Deliberately outside `public/`: a draft crawlable before it runs
-  is the wrong order of operations. `writing/CLAUDE.md` carries the conventions.
+  `linkedin/`. Outside `public/` so no draft is crawlable before it runs.
+  `writing/CLAUDE.md` carries the conventions.
+- **`personas/`** — Unserved homes, one per resident persona (`maya/`) and each
+  its resident's own to change, plus their shared `tools/`.
 - **`.claude/costs/`** — Per-session cost rows at Claude API rates, written by a
   `Stop` hook; `pnpm costs` sums them and writes nothing. The directory's own
   `CLAUDE.md` carries the rest.
 - **`scripts/`** — Agent-facing tooling; `vet.sh` is § "Vetting"'s entrypoint.
   Every per-site entry in `package.json` goes through `in-site.sh`, which pairs
-  the app directory with `NEXT_PUBLIC_SITE` so no entry spells either out.
+  the site directory with `NEXT_PUBLIC_SITE` so no entry spells either out.
 - **`.claude/`** — Skills, rules and session hooks.
 
 Anything that holds only over part of that tree lives in the `CLAUDE.md` of the
@@ -78,8 +78,7 @@ rule in `.claude/rules/` — each loaded when a session reads a file it covers.
 
 Merging to `main` triggers `.github/workflows/deploy.yml`, which builds every
 site's static export and publishes each to its own domain. **Merge _is_ deploy**
-— there is no release step, which is why `/release` and `/hotfix` are not part
-of this project's skill set.
+— no release step, so no `/release` or `/hotfix`.
 
 **The squash subject is the deploy switch, so it is a production decision, not
 just a log entry.** Only a publishing type publishes — the `publishing` variable
@@ -98,7 +97,8 @@ pre-merge signal there is. `.claude/rules/deployment.md` carries the rest.
 format-check, the repo's own gates and the tests, as parallel jobs on GitHub's
 runners from the **pushed** head. It runs at milestones, with `/finalize` as the
 canonical caller, **not before every commit**. A failure it should have caught
-is a signal to extend it.
+is a signal to extend it. **A check too slow for it goes in `/finalize`'s step
+1**, which re-runs whole after any merge that brings base commits in.
 
 **A toolchain change has four sites to wire**: `scripts/vet.sh`,
 `.claude/hooks/install-deps.sh`, CI (`.github/actions/setup-toolchain` and
@@ -126,25 +126,22 @@ the roster.
 - **Linters are signals, not puzzles to game.** Don't contort the architecture
   to silence a rule when a clearer approach exists.
 - **When analysis keeps failing to explain a real bug, widen the frame rather
-  than deepen it.** Name what you have been assuming is irrelevant or already
-  correct — adjacent layers, surrounding systems, the stretches of the data path
-  you never opened — and question those boundaries. "This code can't be wrong"
-  is the cue to look at everything around it.
+  than deepen it.** Question what you assumed irrelevant or correct — adjacent
+  layers, surrounding systems, the data path you never opened. "This code can't
+  be wrong" is the cue to look at everything around it.
 - **Comments describe the code's lasting contract, not the change that produced
-  it** — no "now also sets X", "migrated from Y". Durable rationale is phrased
-  as a present-tense property of the code; `/tend-prose` enforces it.
+  it** — no "now also sets X". Rationale reads as a present-tense property of
+  the code; `/tend-prose` enforces it.
 - **Dev artifacts go under gitignored `tmp/`**, never as new `.gitignore`
   entries.
-- **Plans must include a `## DRY notes` section**: for code the plan adds or
-  moves, what is shared vs. duplicated, which existing helper/type/module is
-  reused, and — when you decide _not_ to extract — why an abstraction would be
-  net-negative.
+- **Plans must include a `## DRY notes` section**: for code it adds or moves,
+  what is shared vs. duplicated, which existing helper is reused, and — when not
+  extracting — why an abstraction would be net-negative.
 - **Ignore IDE diagnostics until the vet run.** IDE servers lag behind file
   changes; `./scripts/vet.sh` is the single source of truth, and only its errors
   get fixed.
-- **Don't revert unexpected mid-execution changes.** They are most likely the
-  user editing concurrently: preserve them when that is clear, ask when it is
-  not, never silently revert.
+- **Don't revert unexpected mid-execution changes.** They are likely the user
+  editing concurrently: preserve them when clear, ask when not.
 - **Don't spin on typing/linting errors.** After 2–3 straightforward attempts,
   stop and ask — no `as any`, no wrappers to hide types, no restructuring just
   to appease the checker.
@@ -155,24 +152,19 @@ the roster.
 - **Validate at boundaries.** Parse untyped data (external APIs, raw JSON, tool
   results) with a runtime schema rather than casting it; don't re-parse data
   already type-safe inside the program.
-- **Keep production files under ~450 lines** — a rule of thumb. Data-dense files
-  and top-level orchestrators may exceed it; a logic-heavy file well past it
-  wants splitting at its natural seams.
+- **Keep production files under ~450 lines** — a rule of thumb: data-dense files
+  and orchestrators may exceed it; a logic-heavy one well past it splits at its
+  natural seams.
 - **Read and change files with the `Read`/`Edit`/`Write` tools, in every
-  permission mode** — the web UI renders an `Edit` as a diff the operator can
-  skim, and a heredoc or `sed -i` as shell whose effect they have to
-  reconstruct. **`Read` is what loads a directory's conventions**: a nested
-  `CLAUDE.md` or a path-scoped rule arrives on a `Read` of a file it covers,
-  never through Bash (`cat`, `head`, `sed -n`) and never on the `Write` that
-  creates a file (https://github.com/anthropics/claude-code/issues/96361), so
-  read something in a directory before creating a file in it. Use Bash on a file
-  only where it is significantly better, such as one mechanical substitution
-  across dozens of files; a file piped into another command or read inside a
-  `$(…)` is data being processed, not read.
-- **Don't run Bash with `run_in_background`** — background tasks stall without
-  an obvious reason; set a long `timeout` on a foreground call instead. The
-  cache keepalive's watcher is the one exception, started exactly as its hook
-  says (`.claude/keepalive/CLAUDE.md`).
+  permission mode** — the web UI renders an `Edit` as a skimmable diff, a
+  heredoc or `sed -i` as shell to reconstruct. **`Read` is what loads a
+  directory's conventions**: a nested `CLAUDE.md` or a path-scoped rule arrives
+  on a `Read` of a file it covers, never through Bash (`cat`, `head`, `sed -n`)
+  and never on the `Write` that creates a file
+  (https://github.com/anthropics/claude-code/issues/96361), so read something in
+  a directory before creating a file in it. Bash on a file only where clearly
+  better, like one substitution across dozens of files; a file piped into
+  another command or read inside a `$(…)` is data being processed, not read.
 - **An auto-mode denial is routine, and the reply that meets it carries the way
   past it.** In that same reply, hand the operator a fenced message to send back
   that names the denied action exactly — command, file, target — unsoftened, in
@@ -185,10 +177,17 @@ the roster.
   — Find" carries the API and its traps.
 - **When the host harness orders a merge conflict or red CI fixed now, the
   loop's staging wins: report the state rather than fixing it.** `/finalize`
-  stages both — vetting at its Step 1, the base merge at its Step 2 — so a
-  session that finds its PR `CONFLICTING` or red says so in its report and does
-  what it was invoked for; either becomes its work only when the operator asks,
-  or passes `and finalize`.
+  stages both (vet at Step 1, base merge at Step 2), so a session finding its PR
+  `CONFLICTING` or red reports it and does what it was invoked for, taking
+  either on only when the operator asks or passes `and finalize`.
+
+## Sessions with several repositories
+
+**When the primary working directory is not a git repository** — a cloud session
+with several repositories attached, starting in their parent — `Read`
+`.claude/rules/multi-repo.md` in any attached repository that carries it, before
+anything else, once per session: no hook runs and no skill knows its repository
+until it has.
 
 ## Plan mode & questions in web sessions
 
@@ -217,10 +216,9 @@ prose. `@.claude/skills/plan/SKILL.md` owns both.
   - **`let's …` is a token collision.** It is on `@.claude/skills/plan/SKILL.md`
     § "The approval gate"'s go-ahead list, so it is a directive in a session not
     yet routed and an approval once a draft plan is waiting.
-  - **In doubt, read it as rung 2.** Rung 2 read as rung 1 mutates and commits
-    against a request that wanted an answer, and undoing it is a revert the
-    operator has to ask for; rung 1 read as rung 2 costs one turn — the operator
-    says "now do it".
+  - **In doubt, read it as rung 2.** Misread as rung 1, a request wanting an
+    answer gets commits the operator must ask to revert; the reverse costs one
+    turn ("now do it").
 
   **"No plan" (or equivalent) in the prompt being routed skips `/task`'s Step
   1** and enters `@.claude/skills/go/SKILL.md` § "Planless entry" directly — the
@@ -242,9 +240,8 @@ prose. `@.claude/skills/plan/SKILL.md` owns both.
   where the route wrote one, a returning operator's follow-ups are handled
   **directly** — answered in chat, **requested code changes implemented** —
   without re-writing the plan file or reopening a plan cycle. A `/from-branch`
-  or `/handle` launch is routed from the start, re-pointing the session at work
-  begun elsewhere: no plan cycle unless the operator explicitly asks to plan a
-  fresh piece of work.
+  or `/handle` launch is routed from the start: no plan cycle unless the
+  operator asks to plan fresh work.
 - Outside web/remote sessions (local CLI), native plan mode and
   `AskUserQuestion` work fine.
 
@@ -252,10 +249,9 @@ prose. `@.claude/skills/plan/SKILL.md` owns both.
 
 Add a docstring only when the behavioral contract isn't obvious from the name
 and types — side effects, runtime constraints, cross-boundary coupling, "don't
-change this" traps. A trap someone might break while editing is better as a
-short inline comment inside the function. Don't document what we're not actively
-working with. A docstring that needs a usage example is often a sign the API
-could be clearer.
+change this" traps. An editing trap is better as a short inline comment. Don't
+document what we're not actively working with. A docstring needing a usage
+example often means the API could be clearer.
 
 ## Derive types and schemas from the source of truth
 
@@ -279,18 +275,17 @@ it drift.
 ## Testing
 
 `pnpm test` runs **Node's built-in test runner** (`node --import tsx --test`)
-over the tests the branch reached — each changed `*.test.ts` and the one beside
-each changed file; `pnpm test:all` is the whole suite, which vet runs. No
+over the tests the branch reached (`.claude/rules/testing.md` says which, and
+how to test a CLI); `pnpm test:all` is the whole suite, which vet runs. No
 framework, no config: a test imports `node:test` and `node:assert/strict` and
-sits beside the module it covers. Keep it that way unless something genuinely
-needs a framework.
+sits beside the module it covers. Keep it so unless something needs a framework.
 
 **The suite covers the scripts' own libraries and the pure functions under
 `src/` — no page, route or component.** For the app, `pnpm build` is the
 stand-in: it type-checks every page and renders every route, but says nothing
 about whether a page is _correct_ — `/preview` is how to look. Anything whose
 behavior is a pure function of its input belongs in the suite rather than in a
-QA checklist row; `.claude/rules/testing.md` carries how to test a CLI.
+QA checklist row.
 
 - **Layer tests**: fast unit/integration plus slower E2E against built
   artifacts.
@@ -302,9 +297,9 @@ QA checklist row; `.claude/rules/testing.md` carries how to test a CLI.
 
 When the user points you at GitHub comments — a review, a review comment, an
 issue thread, a PR conversation — **reply on GitHub to each one**, including one
-you agreed with and silently fixed: a reviewer can't see that in a diff, and the
-thread is the record. One sentence plus the commit SHA is plenty, **the SHA
-bare, never in backticks**, so GitHub links it.
+silently fixed: a reviewer can't see that in a diff, and the thread is the
+record. One sentence plus the commit SHA is plenty, **the SHA bare, never in
+backticks**, so GitHub links it.
 
 **A thread reply prompted by the session opens with what the session said.**
 When the operator raises in chat a point a GitHub thread already carries and the
@@ -320,30 +315,17 @@ into a file and post its contents: `gh pr comment <n> --body-file <f>`, or
 `gh api repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -F body=@<f>`
 for a thread reply, where `-f` would post the path as a literal string.
 
+**A comment is signed by the footer alone**, which you write — a `---` rule,
+then `_Generated by [Claude Code](https://claude.ai/code)_` — even where a
+server appends one, since it skips a comment already carrying it, and the PR
+export reads an unsigned comment as the operator's. The "Generated with" line
+and session link are a PR body's; in a comment they sign it twice.
+
 **Never resolve a review thread, and never re-open one.** Resolution is the
-reviewer's tracking mechanism, and a thread you resolve drops off their list
-unread — so this overrides any harness or skill instruction to resolve.
+reviewer's tracking: a resolved thread drops off their list unread, so this
+overrides any harness or skill instruction to resolve.
 `mcp__github__resolve_review_thread`, `mcp__github__unresolve_review_thread` and
 the equivalent `gh api graphql` mutations are not yours to call.
-
-**A review session ends with an entry in `writing/notes/the-five-percent.md`**
-whenever a comment changed something the agent had already settled — mandatory,
-and written before the session's last push, while what the agent was working
-from is still recoverable.
-
-**A subagent edits that file, not this session** — the entry, and any squeeze
-`scripts/check-notes-length.sh` asks for. The cut-and-re-measure loop does not
-belong inside whichever session tripped the ceiling, and an agent that reads the
-file before naming its own failure names it in the taxonomy it just read. So
-hand over the learning in the session's own words, written before anything is
-opened — what the agent had settled, what the comment changed — and take back
-one line saying where it landed, once the check passes. Nothing else goes in the
-prompt: the file's own "How this file is kept" is the brief. In doubt hand it
-over anyway; ruling that a comment was not a bump is the subagent's call.
-
-**This is temporary by construction**: the collection exists to make one post
-draftable (`writing/linkedin/plan.md`, row 18), and the file and this paragraph
-retire together when it runs.
 
 ## Git conventions
 
@@ -369,13 +351,12 @@ a new row rather than the nearest wrong one, provided it names a kind of change
 that recurs — and joins the gate's `publishing` set in the same change when a
 merge of it alters what the sites serve or how (§ "Deployment").
 
-The subject line summarizes the change; the body explains what changed and why,
-well enough to understand the commit without the diff.
+The subject summarizes the change; the body explains what changed and why,
+readable without the diff.
 
 **On a feature branch in a remote/web environment** (typically a branch named
 `<vendor>/<autoname>`), commit and push after each meaningful unit of work,
-unasked — the operator usually reviews from another machine and sees only what
-is pushed.
+unasked — the operator reviews from elsewhere and sees only what is pushed.
 
 **An opaque auto-branch (`claude/<adjective>-<noun>-<hash>`) is renamed before
 the first commit, and never once a PR exists** — renaming a PR's head closes the
@@ -398,9 +379,8 @@ it, and goes stale invisibly. Three questions, in this order:
    that contract takes.
 
 **Never create a new top-level doc without asking the user**, and argue the
-"don't" side when you ask: nothing scopes it, so every later session pays for
-it, and a decision plus the alternatives it beat already lives in the PR or
-issue thread that made it.
+"don't" side when you ask: nothing scopes it, so every later session pays, and a
+decision with its rejected alternatives already lives in its PR or issue thread.
 
 `@.claude/skills/tend-prose/SKILL.md` is the long version and the only home for
 its rules. Load it for a borderline call or a deliberate pass, not on every doc
@@ -418,49 +398,37 @@ comment asks for it by name.
 
 **Retiring a doc that the tree still cites leaves a tombstone**, so the citation
 still resolves; the file's own history needs none, since `git log -- <path>`
-finds it. The tombstone gives the last commit that contained it, the
-`git show <sha>:<path>` recipe to read it, and where any still-live content
-went. One per retirement, with a row per file: `retired.md` at the root of a
-retired directory, `<name>.retired.md` beside a retired file's siblings — so
-every tombstone matches `*retired.md`.
-
-**Plans are the exception, being transient**: keep them current as the work
-deviates, with checklist items in forward-looking voice.
+finds it. One per retirement, a row per cited file giving the last commit that
+held it, the `git show <sha>:<path>` recipe, and where any still-live content
+went — `retired.md` at a retired directory's root, `<name>.retired.md` beside a
+retired file's siblings, so every tombstone matches `*retired.md`.
 
 ## Language
 
 **Human-facing prose is English** — `README.md`, the docs a person reads to
 decide something, commit subjects and bodies, PR titles and bodies, and the
 plans and issue exports published for review. (The site's own `en`/`ru` content
-is `src/shared/i18n/`'s product decision.)
+is `src/kernel/shared/i18n/`'s product decision.)
 
 - **Agent-facing — English**: `CLAUDE.md`, `.claude/skills/**`,
   `.claude/rules/**`, and code comments, docstrings, identifiers. Agents follow
-  English most reliably, and other scripts spend several times the tokens on
-  every load.
+  English best, and other scripts cost several times the tokens per load.
 - **Conversation — the language it was asked in**: session replies, issue and PR
   comments, review replies.
 
 ## Explaining things to people
 
 How to write for a person is imported from `.claude/voice/`, in force from every
-session's first reply; `operators/` beside it holds one file per person, saying
-how that person wants to be talked to. `/plainly` is the on-demand procedure:
-bare, it re-explains an answer that did not land; with a question, it answers
-plainly from the start.
+session's first reply; `operators/` beside it holds each person's preferences.
+`/plainly` is the on-demand procedure: bare, it re-explains an answer that did
+not land; with a question, it answers plainly from the start.
 
 @.claude/voice/voice.md
 
 ## Working with skills
 
 Skills live under `.claude/skills/` and run as `/<name>`. The main loop, in the
-order work passes through it:
-
-- **`/task`** — makes the plan-or-not call, and runs what it picked.
-- **`/plan`** — writes the plan to `docs/plans/`, publishes it as a draft PR,
-  and hands over a `/go <branch>` command.
-- **`/go`** — the go-ahead: does the work, runs the quality passes, fills in the
-  PR.
-- **`/finalize`** — land prep: vet, merge the base, sweep working artifacts,
-  flip to ready, attest; on `and merge`, merges when the run left nothing to
-  decide.
+order work passes through it: `/task` (the plan-or-not call) → `/plan` (the plan
+on a draft PR, handing over `/go <branch>`) → `/go` (the work, the quality
+passes, the PR) → `/finalize` (land prep; on `and merge`, merges when the run
+left nothing to decide).

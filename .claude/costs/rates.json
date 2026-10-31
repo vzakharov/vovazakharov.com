@@ -7,18 +7,12 @@
     "prompter": 0.9,
     "analyst": 0.93,
     "developer": 1,
-    "architect": 1.2,
-    "musician": 1,
-    "persona": 1
+    "architect": 1.2
   },
   "grades": {
     "junior": 0.4,
     "middle": 0.64,
     "senior": 1,
     "staff": 1.4
-  },
-  "fixedGrades": {
-    "musician": "senior",
-    "persona": "senior"
   }
 }

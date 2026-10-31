@@ -4,7 +4,7 @@
 #   staged.sh stage <path>...   copy each file, unchanged, to .claude/staged/<path>.staged
 #   staged.sh swap              put every staged copy back over its real file
 #   staged.sh check [--empty]   every staged copy stands for a tracked real file
-#   staged.sh resolve <path>    print the staged copy's path if <path> is staged
+#   staged.sh resolve <path>... per path, its staged copy's path if staged, else itself
 #   staged.sh list              print "<real path>\t<staged copy>" per staged file
 #
 # Why: a file rendered into the prefix of every request (`.claude/rules/staging.md`
@@ -159,15 +159,18 @@ cmd_check() {
 # Compared with `-ef`, so `./CLAUDE.md` or a `../../CLAUDE.md` link target
 # resolves like `CLAUDE.md`.
 cmd_resolve() {
-  [ $# -eq 1 ] || usage
-  local path
-  while IFS= read -r path; do
-    if [ "$1" -ef "$path" ]; then
-      copy_of "$path"
-      return
-    fi
-  done < <(staged_paths)
-  printf '%s\n' "$1"
+  [ $# -ge 1 ] || usage
+  local arg path staged
+  mapfile -t staged < <(staged_paths)
+  for arg in "$@"; do
+    for path in "${staged[@]}"; do
+      if [ "$arg" -ef "$path" ]; then
+        copy_of "$path"
+        continue 2
+      fi
+    done
+    printf '%s\n' "$arg"
+  done
 }
 
 cmd_list() {

@@ -9,21 +9,24 @@
 read_payload
 need_command jq "no context-budget reading this tool call."
 
-warn="${MUTHUR_CONTEXT_BUDGET_WARN:-200000}"
-pause="${MUTHUR_CONTEXT_BUDGET_PAUSE:-300000}"
-pause_saving="${MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING:-20}"
+warn="${MUTHUR_CONTEXT_BUDGET_WARN:-300000}"
+pause="${MUTHUR_CONTEXT_BUDGET_PAUSE:-400000}"
+warn_saving="${MUTHUR_CONTEXT_BUDGET_WARN_SAVING_USD:-0.20}"
+pause_saving="${MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING_USD:-0.80}"
 lines="${MUTHUR_CONTEXT_BUDGET_LINES:-priced}"
 subagent_line="${MUTHUR_CONTEXT_BUDGET_SUBAGENT:-170000}"
-[[ "$warn" =~ ^[0-9]+$ && "$pause" =~ ^[0-9]+$ && "$subagent_line" =~ ^[0-9]+$ && "$pause_saving" =~ ^[0-9]+$ && "$pause_saving" -lt 100 ]] || {
-  say "MUTHUR_CONTEXT_BUDGET_WARN / MUTHUR_CONTEXT_BUDGET_PAUSE / MUTHUR_CONTEXT_BUDGET_SUBAGENT must be whole counts, MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING a percentage under 100; no reading taken."
+dollars='^[0-9]+(\.[0-9]+)?$'
+[[ "$warn" =~ ^[0-9]+$ && "$pause" =~ ^[0-9]+$ && "$subagent_line" =~ ^[0-9]+$ && "$warn_saving" =~ $dollars && "$pause_saving" =~ $dollars ]] \
+  && awk -v warn="$warn_saving" -v pause="$pause_saving" 'BEGIN { exit !(warn < pause) }' || {
+  say "MUTHUR_CONTEXT_BUDGET_WARN / MUTHUR_CONTEXT_BUDGET_PAUSE / MUTHUR_CONTEXT_BUDGET_SUBAGENT must be whole counts, MUTHUR_CONTEXT_BUDGET_WARN_SAVING_USD and MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING_USD dollar amounts with the warning's under the pause's; no reading taken."
   exit 0
 }
+[ -z "${MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING:-}" ] ||
+  say "MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING is no longer read; use MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING_USD, in dollars."
 [[ "$lines" == priced || "$lines" == fixed ]] || {
   say "MUTHUR_CONTEXT_BUDGET_LINES must be \`priced\` or \`fixed\`; no reading taken."
   exit 0
 }
-# The slice of work a relay's saving is priced over.
-finish=100000
 
 root="$(project_root)"
 transcript="$(field transcript_path)"
@@ -90,22 +93,32 @@ reading="$(read_context)"
 # a hand-set line stays fixed. Cached as `<warn> <pause> <reading>`.
 hooks="$(dirname "${BASH_SOURCE[0]}")"
 priced=
+cap='its fixed cap, there for context quality and the hard window rather than for cost'
+warn_why="$cap" pause_why="$cap"
+[ -z "${MUTHUR_CONTEXT_BUDGET_WARN:-}" ] || warn_why='set by MUTHUR_CONTEXT_BUDGET_WARN'
+[ -z "${MUTHUR_CONTEXT_BUDGET_PAUSE:-}" ] || pause_why='set by MUTHUR_CONTEXT_BUDGET_PAUSE'
 if [ "$lines" = priced ] && [ -z "${MUTHUR_CONTEXT_BUDGET_WARN:-}" -o -z "${MUTHUR_CONTEXT_BUDGET_PAUSE:-}" ] \
   && [ -f "$hooks/../../costs/lib/restart.py" ] && command -v python3 >/dev/null; then
   line_file="$state_dir/$session.line"
   priced_warn= priced_pause= at=
   [ ! -f "$line_file" ] || read -r priced_warn priced_pause at <"$line_file"
   if ! [[ "$at" =~ ^[0-9]+$ && "$reading" -ge "$at" && "$reading" -lt $((at + 10000)) ]]; then
-    read -r priced_warn priced_pause < <(python3 "$hooks/priced_line.py" lines "$transcript" "$finish" "$pause_saving")
+    read -r priced_warn priced_pause < <(python3 "$hooks/priced_line.py" lines "$transcript" "$warn_saving" "$pause_saving")
     mkdir -p "$state_dir" && printf '%s %s %s\n' "${priced_warn:--}" "${priced_pause:--}" "$reading" >"$line_file"
   fi
   if [ -z "${MUTHUR_CONTEXT_BUDGET_WARN:-}" ] && [[ "$priced_warn" =~ ^[0-9]+$ ]]; then
     priced=1
-    [ "$priced_warn" -ge "$warn" ] || warn="$priced_warn"
+    [ "$priced_warn" -ge "$warn" ] || {
+      warn="$priced_warn"
+      warn_why="where relaying saves \$${warn_saving}"
+    }
   fi
   if [ -z "${MUTHUR_CONTEXT_BUDGET_PAUSE:-}" ] && [[ "$priced_pause" =~ ^[0-9]+$ ]]; then
     priced=1
-    [ "$priced_pause" -ge "$pause" ] || pause="$priced_pause"
+    [ "$priced_pause" -ge "$pause" ] || {
+      pause="$priced_pause"
+      pause_why="where relaying saves \$${pause_saving}"
+    }
   fi
 fi
 
@@ -157,7 +170,7 @@ else
   fi
 fi
 
-past() { echo "Context budget: this session is carrying ~$(k "$reading") tokens of context, past the $(k "$1") $2 line."; }
+past() { echo "Context budget: this session is carrying ~$(k "$reading") tokens of context, past the $(k "$1") $2 line — $3."; }
 stopping='`@.claude/skills/go/SKILL.md` § "Stopping partway releases the plan" — which also covers work that has no plan yet'
 relay='`/relay` (`@.claude/skills/relay/SKILL.md`), which hands the branch to a fresh session starting from a summary of this one — the summary `/compact` would make, written to a file instead'
 # The warning's room: what the work may still spend, either finishing or
@@ -175,12 +188,12 @@ ends="then, without asking and with no argument, run ${relay}. Its report tells 
 paused="follow ${stopping}. Push, ${ends}; the new session resumes the paused plan."
 
 saving=
-[ -z "$priced" ] || saving="$(python3 "$hooks/priced_line.py" notice "$transcript" "$reading" "$finish")"
-priced_past() { echo "$(past "$@")${saving:+ $saving Give the operator those figures when you offer the choice.}"; }
+[ -z "$priced" ] || saving="$(python3 "$hooks/priced_line.py" notice "$transcript" "$reading")"
+priced_past() { echo "$(past "$@")${saving:+ $saving Give the operator those figures, and why the line sits where it does, when you offer the choice.}"; }
 
 case "$level" in
   warn)
-    notice="$(priced_past "$warn" warning)
+    notice="$(priced_past "$warn" warning "$warn_why")
 
 Judge whether the work fits — the open bite, when the plan has a \`## This bite\` section: by your own estimate, under ~$(k "$room") more tokens of context to finish, roughly less than half of what this session has already carried. If it fits, carry on and finish it, and say in your report that the warning came and why you did not pause.
 
@@ -189,7 +202,7 @@ If it does not fit, steer to a pause within that same ~$(k "$room"): pick the be
 At $(k "$pause") this notice returns as the pause itself, which stops wherever the work stands."
     ;;
   pause)
-    notice="$(priced_past "$pause" pause)
+    notice="$(priced_past "$pause" pause "$pause_why")
 
 Pause now, without asking, wherever the work stands: there is no room left to steer to a better stopping point. The one exception is work literally a step from done — under ~$(k "$last_step") more tokens of context — which you finish first, saying in your report why. Otherwise commit what is in hand, leave the branch just resumable rather than tidy, and ${paused}"
     ;;

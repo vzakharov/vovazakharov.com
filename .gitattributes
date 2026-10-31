@@ -10,4 +10,4 @@
 # once.
 *.og.png                              linguist-generated=true
 *-renders.json                        linguist-generated=true
-apps/*/public/generated/mermaid/*.svg linguist-generated=true
+sites/*/public/generated/mermaid/*.svg linguist-generated=true

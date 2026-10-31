@@ -1,0 +1,19 @@
+<!-- BAS-0025: a sidewalk delivery robot halted nose to toe with a standing shoe and trouser leg. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 300 692 L 735 692"/>
+    <rect x="290" y="420" width="250" height="190" rx="40"/>
+    <path d="M 290 468 L 540 468"/>
+    <circle cx="335" cy="640" r="24"/>
+    <circle cx="415" cy="640" r="24"/>
+    <circle cx="495" cy="640" r="24"/>
+    <path d="M 318 420 L 318 302"/>
+    <path d="M 730 692 L 600 692 Q 575 692 580 670 Q 588 645 635 638 L 668 626 L 672 570 L 728 570 Z"/>
+    <path d="M 672 570 L 664 330 M 728 570 L 736 330"/>
+  </g>
+  <g fill="currentColor">
+    <path d="M 324 302 L 396 322 L 324 344 Z"/>
+    <ellipse cx="510" cy="530" rx="14" ry="22"/>
+  </g>
+  <path d="M 566 492 L 566 568 M 590 492 L 590 568" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
+</svg>

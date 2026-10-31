@@ -1,8 +1,8 @@
 # `and merge`
 
 Loaded by `@.claude/skills/finalize/SKILL.md` when the run carries `and merge`,
-typed or read from an operator's ask to merge. Step numbers below are that
-file's.
+and by `@.claude/skills/merge/SKILL.md` on a finalized branch, which walks the
+gate over its own shorter run. Step numbers below are `/finalize`'s.
 
 ## The flag
 
@@ -19,17 +19,10 @@ forward it, and `@.claude/skills/handle/SKILL.md` § "Argument shape" holds the
 merge back rather than passing it on. Any future caller answers the same
 question: was the flag written after the operator could have looked?
 
-**An operator's ask to merge a branch not yet finalized is
-`/finalize and merge`**, whatever words carry it — "merge", "мерджи", "land it".
-Finalized means the PR is ready for review and its
-`<!-- finalize-attestation -->` comment names the current head, give or take
-what step 7's last rule lets ride past it; anything short of that is a diff no
-run has verified, so merging it as asked would skip every gate this skill exists
-for. **Open the reply by saying you read the ask that way** — the operator asked
-for a click and is getting land prep, which can stand the merge down at step 8 —
-then run the skill with the flag. The paragraph above holds here too: an ask
-that also requests changes was written before the diff it would merge, so land
-prep runs and the merge is held.
+**`@.claude/skills/merge/SKILL.md` is the caller that forwards it**, on a branch
+not yet finalized, and passes that test: an ask to merge names a diff that
+already exists. A run carrying the flag is past that routing and never goes back
+through `/merge`.
 
 ## Step 8 — the gate
 
@@ -52,6 +45,11 @@ like any other change you authored.
 
 - **The staged swap** — it stopped on a conflict. Resolving one is deciding what
   the file says.
+- **The quality passes** — `/five-percent` posted a `critical` proposal in this
+  run: it leaves the branch untouched, so the predicate above never sees it, and
+  a `critical` one says the merge would ship something wrong. An `optional` one
+  merges past, and so does one an earlier run posted, which was in front of the
+  operator when they asked to merge.
 - **Pre-check** — `HEAD` was detached, or there was no PR and you created one. A
   PR opened and merged inside one turn was never a reviewable object. (A PR you
   flipped back to draft is fine — that is the ordinary re-finalize.)
@@ -62,10 +60,9 @@ like any other change you authored.
   decide what to change.
 - **Step 2** — any conflict, however trivially resolved; or you applied a
   dedup/simplification the base merge opened, or surfaced one as ambiguous. A
-  clean merge that **brought commits in** is survivable when `/sync-branch`'s
-  vet run over the merged tree went green first try; stand down on any
-  interaction of the kind that step already has you reading the incoming diff
-  for.
+  clean merge that **brought commits in** is survivable when step 1's re-run
+  over the merged tree went green first try; stand down on any interaction of
+  the kind that step already has you reading the incoming diff for.
 - **Step 4** — a red CI run. Same autofix exception as step 1, plus one case it
   does not cover: a red run that cleared itself on a re-run with no change at
   all. "It was a flake" is a judgment, and an unexplained red is the most
@@ -112,6 +109,9 @@ the source, so read both back rather than reconstructing them:
 gh pr view <n> --json title --jq '.title + " (#<n>)"' > tmp/squash-title.txt
 gh api repos/<owner>/<repo>/issues/comments/<id> --jq .body > tmp/proposal.md
 ```
+
+`<id>` is the `#issuecomment-<id>` fragment of the URL `scripts/pr-comment.sh`
+printed when step 5 posted the proposal.
 
 Extract the comment's last fenced block — the body, after the title block a
 one-commit PR carries — into `tmp/squash-body.txt`, then **print both files and

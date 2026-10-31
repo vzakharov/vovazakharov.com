@@ -1,0 +1,14 @@
+@use '../../../shared/styles/index' as styles;
+
+.trackText {
+  @include styles.fill;
+}
+
+// Wide enough for two digits, so the play buttons of a long album stay in one
+// column.
+.trackNumber {
+  flex-shrink: 0;
+  min-width: 2ch;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}

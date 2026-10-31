@@ -1,8 +1,9 @@
 ---
 description: >-
   Run the standard quality passes over work just done — `/dry`, then
-  `/tend-prose` — scoped to what the branch has changed since it was last
-  polished, committing what they change. These are the passes `/go` runs at its
+  `/tend-prose`, committing what they change, then `/five-percent`, posting its
+  alternatives as a PR review — scoped to what the branch has changed since it
+  was last polished. These are the passes `/go` runs at its
   Step 3; this skill is how work that never went through `/go` gets them. Invoke
   as `/polish [focus guidance]`, or `/polish full` to re-read the branch's whole
   diff against its base rather than only what it changed since the last polish
@@ -34,6 +35,12 @@ session's context settles and act on them, committed under the type the edit
 would carry anyway: a `polish:` subject would put the edit below the next run's
 floor (`passes.md` § "The floor"), unreviewed. The rest go to the operator with
 `/dry`'s calls.
+
+**Putting back what a run changed, on the operator's ask, is itself a `polish:`
+commit** — `polish: restore <what>`. That run already read what it restores, so
+the commit becoming the next run's floor keeps the cut from being made again. It
+goes straight on top of the run: anything committed in between would sink below
+the floor with it, unreviewed.
 
 ## Where it runs
 

@@ -1,0 +1,151 @@
+/**
+ * The repo's shared base types — the single home for any member more than one
+ * named type declares. `pnpm type-overlap` fails the run when two types
+ * duplicate a member, and intersecting a base from here is the fix.
+ *
+ * Names follow the families in scripts/type-overlap-check.README.md; a base
+ * whose declarers all sit in one module belongs in that module instead, which
+ * is why this segment holds only what genuinely crosses slices.
+ */
+
+import type { ReactNode } from 'react';
+
+export type Named = { name: string };
+
+export type WithId = { id: string };
+
+/** A file named by path or by the name it is served under. */
+export type WithFile = { file: string };
+
+export type Titled = { title: string };
+
+/** A box's width and height: an image's intrinsic pixel size, which reserves its box before it loads, or a drawn part's. */
+export type Sized = WithWidth & WithHeight;
+
+/** A box's width alone. */
+export type WithWidth = { width: number };
+
+/** A box's height alone. */
+export type WithHeight = { height: number };
+
+/** A title that may be absent — a document's is derived, so it exists only once read. */
+export type MaybeTitled = { title?: string };
+
+export type Described = { description: string };
+
+/** A heading and the prose under it — what a card shows, and what a feed lists. */
+export type Summarized = Titled & Described;
+
+/** A date as frontmatter spells it, ISO `YYYY-MM-DD`. */
+export type Dated = { date: string };
+
+/** A recording's length, in whole seconds. */
+export type Timed = { seconds: number };
+
+/** Whether a recording carries the explicit-content mark. */
+export type Rated = { explicit: boolean };
+
+/** What a reproducible random draw starts from: the same seed, the same result. */
+export type Seeded = { seed: number };
+
+/** A place in a counted series — a meadow, a plate. */
+export type Numbered = { number: number };
+
+/** The short name a thing is shown or logged under. */
+export type Labeled = { label: string };
+
+/** An absolute address. */
+export type WithUrl = { url: string };
+
+/** The code of the language a thing is in. */
+export type WithLanguage = { language: string };
+
+/** A repo-relative path to the file a thing was read from. */
+export type WithFilePath = { filePath: string };
+
+/** What can be silenced — a voice, a player's decks. */
+export type Hushing = { stop: () => void };
+
+/** The name of a file within its collection or directory. */
+export type WithFileName = { fileName: string };
+
+/** Where a file sits, relative to whatever root holds it. */
+export type WithPath = { path: string };
+
+/** A site-root path, as a page or a feed is addressed. */
+export type Routed = { route: string };
+
+/** Rendered or authored text, as opposed to a title or a label. */
+export type WithText = { text: string };
+
+/** What was typed, as typed — before anything is made of it. */
+export type Typed = { typed: string };
+
+/** The one line under a name — what is on offer, said once. */
+type WithTagline = { tagline: string };
+
+/** A name and the line it is billed under: a site's identity, a card's header. */
+export type Billed = Named & WithTagline;
+
+/** Extra classes a caller merges into the component's own. */
+export type WithOptionalClassName = { className?: string };
+
+/** What a wrapper component renders inside itself. */
+export type WithChildren = { children: ReactNode };
+
+/** The same, for a wrapper that stands on its own when nothing is put in it. */
+export type WithOptionalChildren = { children?: ReactNode };
+
+/** Whom a page credits, in place of the site's author. */
+export type MaybeBylined = { byline?: ReactNode };
+
+/** A heading and whatever renders under it. */
+export type TitledBlock = Titled & WithChildren;
+
+/** Content and the name its control goes by. */
+export type LabeledBlock = Labeled & WithChildren;
+
+/** Where an anchor points. */
+export type WithLink = { href: string };
+
+/** An anchor whose label is a string rather than markup. */
+export type LabeledLink = Labeled & WithLink;
+
+/** The URL an element loads its media from. */
+export type Sourced = { src: string };
+
+/** Where an anchor points, when there is anywhere — a card that is only a card states no `href`. */
+export type WithOptionalLink = { href?: string };
+
+/** The muted line above a title, saying what the thing under it is before it is read. */
+export type WithOptionalEyebrow = { eyebrow?: string };
+
+/**
+ * One of a page's own files: where `public/` serves it, and what a saved copy
+ * is called — its path under the site, dot-joined, so the file says what it is
+ * and whose once it has left the browser. Only an anchor's `download` can set
+ * that name; a static export has no `Content-Disposition` to set it with.
+ */
+export type DocumentFile = WithLink & { download: string };
+
+/**
+ * Paper's copy of a link: absolute, because the page leaves the browser that
+ * resolved it, and spelled without the scheme, which tells a reader holding
+ * paper nothing. `printedUrl` builds one; a component takes one to render.
+ */
+export type PrintedLink = WithLink & WithText;
+
+/** What a Next route hands the page it resolves to, its segments still raw. */
+export type WithParams<Params> = { params: Promise<Params> };
+
+/** An anchor whose content is its own label — markup rather than a string. */
+export type Anchored = WithLink & WithChildren;
+
+/**
+ * A key either present with a value or wholly absent. Unlike a plain
+ * `{ key?: Value }`, there is no present-but-`undefined` middle state — a reader
+ * tests the key's presence, never a nullable slot.
+ */
+export type PresentOrAbsent<Key extends string, Value> =
+  | Record<Key, Value>
+  | Partial<Record<Key, never>>;

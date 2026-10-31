@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 
 from lib.github import Client, GitHubError
-from lib.ledger import PREFIX, resolve, run
+from lib.ledger_branch import PREFIX, resolve, run
 from lib.rows import ROOT
 from lib.shape import ShapeError, read_object, required
 
@@ -76,7 +76,7 @@ def finalized(branch: str, client: Client) -> bool:
     try:
         sha = attested(client, *repo, branch)
     except (GitHubError, ShapeError, ValueError):
-        # A query that fails counts as not finalized: the turn writes its
+        # A query that fails counts as not finalized: the commit carries its
         # display copy and the next one asks again. The operator approved this
         # fallback for this call site alone: its worst case is a row on a
         # finalized branch, which reaches the trunk only if the branch merges

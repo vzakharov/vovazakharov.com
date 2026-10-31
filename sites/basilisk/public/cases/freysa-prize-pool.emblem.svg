@@ -1,0 +1,26 @@
+<!-- BAS-0026: a padlock holding an ether coin, sprung open by a chat message. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <mask id="freysa-bubble-cut">
+      <rect width="1024" height="1024" fill="white"/>
+      <path d="M 320 430 L 470 430 Q 500 430 500 460 L 500 530 Q 500 560 470 560 L 375 560 L 315 605 L 330 560 L 320 560 Q 290 560 290 530 L 290 460 Q 290 430 320 430 Z" fill="black" stroke="black" stroke-width="48"/>
+    </mask>
+  </defs>
+  <g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <g mask="url(#freysa-bubble-cut)">
+      <rect x="430" y="500" width="240" height="200" rx="24"/>
+      <path d="M 485 500 L 485 380 A 70 70 0 0 1 625 380 L 625 425"/>
+      <g stroke-width="14">
+        <path d="M 565 540 L 605 600 L 565 625 L 525 600 Z"/>
+        <path d="M 525 600 L 565 580 L 605 600 M 565 540 L 565 580"/>
+        <path d="M 535 630 L 565 660 L 595 630"/>
+      </g>
+    </g>
+    <path d="M 320 430 L 470 430 Q 500 430 500 460 L 500 530 Q 500 560 470 560 L 375 560 L 315 605 L 330 560 L 320 560 Q 290 560 290 530 L 290 460 Q 290 430 320 430 Z"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="345" cy="495" r="14"/>
+    <circle cx="395" cy="495" r="14"/>
+    <circle cx="445" cy="495" r="14"/>
+  </g>
+</svg>

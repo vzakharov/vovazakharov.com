@@ -21,9 +21,11 @@ directory whose own conventions live in a scoped rule file rather than in its
 Two carry the agent loop's own conventions — `stack.md` (what `scripts/vet.sh`
 runs, and what a toolchain change wires) and `staging.md` (editing a file that
 loads on every turn), each spanning paths no one directory holds — plus
-`markdown.md` (no tables), the source's opt-in, taken here, and
-`markdown-wrap.md` (hard-wrapped Markdown). The rest are this repo's, each
-scoped to the area it governs.
+`markdown.md` (no tables), the source's opt-in, taken here; `markdown-wrap.md`
+(hard-wrapped Markdown); and `multi-repo.md` (a session with several
+repositories attached), whose `paths:` name only its own scripts so that
+`CLAUDE.md`'s pointer is what loads it. The rest are this repo's, each scoped to
+the area it governs.
 
 ## Format
 
@@ -65,7 +67,7 @@ CLAUDE.md § "Key principles" on the `Edit`/`Write` tools says what that costs.
 What may stay in the root `CLAUDE.md` at all is its § "About this file"'s test.
 
 **A directory whose files are served is the exception**: a `CLAUDE.md` under
-`apps/*/public/` would be published with the site, so conventions for a served
+`sites/*/public/` would be published with the site, so conventions for a served
 directory stay a rule file here (`logos.md`).
 
 ## Good candidates

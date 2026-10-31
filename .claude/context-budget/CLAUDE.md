@@ -18,13 +18,28 @@ where it stands, a last step aside. What the agent does on each notice is
   `output_tokens` is left out — the next request carries it, and the next
   reading counts it then.
 - **Both lines are priced by what `/relay` saves over the next 100k tokens of
-  work** (`finish`): the warning where that saving reaches $0, the pause where
-  it reaches `MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING` percent (default 20) of what
-  carrying on costs. The model is `.claude/costs/lib/restart.py`, via
-  `hooks/priced_line.py`, and the notice carries the dollars.
-  - **Each is capped at its fixed line, 200k and 300k**, so pricing only ever
+  work** (the model's `SLICE`, shared with the cold-cache stop): the warning
+  where that saving reaches `MUTHUR_CONTEXT_BUDGET_WARN_SAVING_USD` dollars
+  (default 0.20), the pause where it reaches
+  `MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING_USD` (default 0.80). The model is
+  `.claude/costs/lib/restart.py`, via `hooks/priced_line.py`, and the notice
+  carries the dollars.
+  - **The thresholds are dollars, not shares of what carrying on costs.** A
+    handoff costs the same friction whatever the model charges — the summary's
+    loss of detail, the operator's reading of one more — so what repays it is an
+    absolute saving. A share would shrink with the model's price: on Haiku,
+    whose cache reads cost a twentieth of Opus's, a handoff would pass for worth
+    it at a fraction of a cent. The pricing says what a relay saves; whether it
+    is worth a handoff is the threshold's call, which no measurement settles.
+  - **The defaults are set on Opus and Sonnet.** Over the ledger's `/relay take`
+    sessions a relay costs $0.4–1.8 up front and a slice $2–4. On a median
+    session $0.20 puts the warning ~20k tokens past break-even, leaving ~75k of
+    room before the pause at $0.80 — enough to finish a step and reach a
+    stopping point.
+  - **Each is capped at its fixed line, 300k and 400k**, so pricing only ever
     moves a line earlier: context quality and the hard window are not cost
-    questions.
+    questions. The notice says which set the line it reports, since dollars
+    beside a cap read as a case for relaying where carrying on is cheaper.
   - **The requests a slice takes** are this session's own since its last
     boundary, per token of growth; the `REQUESTS_PER_TOKEN` estimate stands in
     until it has grown `MIN_GROWTH`.
@@ -35,8 +50,8 @@ where it stands, a last step aside. What the agent does on each notice is
     recomputed per 10k of growth, since a Python start-up per tool call is what
     this bash hook avoids.
   - **Without the ledger's lib, or under `MUTHUR_CONTEXT_BUDGET_LINES=fixed`**,
-    the hook runs no Python; those and an unpriced model leave the lines at 200k
-    and 300k.
+    the hook runs no Python; those and an unpriced model leave the lines at
+    those caps.
 - **The main chain only**, for the session's reading: `isSidechain` records are
   skipped, as is the `<synthetic>` placeholder Claude Code writes for a turn no
   model served — whose zeroed usage would read as a compact and re-arm the
@@ -62,10 +77,11 @@ where it stands, a last step aside. What the agent does on each notice is
 
 `MUTHUR_CONTEXT_BUDGET_WARN`, `MUTHUR_CONTEXT_BUDGET_PAUSE` and
 `MUTHUR_CONTEXT_BUDGET_SUBAGENT` each fix their line, in tokens,
-`MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING` moves the priced pause, and
-`MUTHUR_CONTEXT_BUDGET_LINES=fixed` turns the pricing off — set them in
-`.claude/settings.local.json`'s `env`, or on the web among the cloud
-environment's variables, to tune without editing a tracked file.
+`MUTHUR_CONTEXT_BUDGET_WARN_SAVING_USD` and
+`MUTHUR_CONTEXT_BUDGET_PAUSE_SAVING_USD` move the priced ones (the warning's
+under the pause's), and `MUTHUR_CONTEXT_BUDGET_LINES=fixed` turns the pricing
+off — set them in `.claude/settings.local.json`'s `env`, or on the web among the
+cloud environment's variables, to tune without editing a tracked file.
 
 ## Manual relay
 

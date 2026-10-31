@@ -68,8 +68,9 @@ frame paints.
 **Rendering is a step they trigger on a version they have looked at**, never the
 automatic tail of the previous stage. Headless Chromium walks the approved page
 frame by frame and ffmpeg muxes the frames — the technique Remotion is built on,
-and the same one `scripts/render-pdf.ts` and `scripts/render-mermaid.ts` already
-use here, so half the tooling is in the tree.
+and the same one `src/blog/scripts/lib/print-job.ts` and
+`src/blog/scripts/render-mermaid.ts` already use here, so half the tooling is in
+the tree.
 
 **Animations run off the frame number, never the clock.** A page driven by
 `Date.now()` or by CSS timing renders differently on two passes over identical

@@ -1,4 +1,4 @@
-// Generated from src/shared/ui/css-color.ts
+// Generated from src/shell/shared/ui/css-color.ts
 // by `pnpm styles:codegen`. Edit the source, not here — the vet run
 // regenerates this file and fails when it had to.
 
@@ -8,7 +8,8 @@
   $border-hairline,
   $border-hairline-strong,
   $surface,
-  $surface-strong
+  $surface-strong,
+  $accent
 ) {
   --color-background: #{$background};
   --color-foreground: #{$foreground};
@@ -16,4 +17,5 @@
   --color-border-hairline-strong: #{$border-hairline-strong};
   --color-surface: #{$surface};
   --color-surface-strong: #{$surface-strong};
+  --color-accent: #{$accent};
 }

@@ -3,6 +3,87 @@
 What every `/file-basilisk-case` run searched, newest first. The skill's § "The
 ledger" says how the three files here are read and kept.
 
+## 2026-10-26 — filed BAS-0027
+
+https://claude.ai/code/session_019WUDb6evvDSDTkgD1EvSm9. First filed on PR
+#169, which matched Step 1’s query only by moving `apps/` to `sites/`; moved
+to a case-filing PR of its own at the operator’s ask. The Signal Front archive
+(nothing since 11 October). Took the last run’s **Next**: Arctic Shift on r/singularity
+“abuse” since January 2025, which led to WhistlinDiesel’s “What Happens if you
+Abuse a Robot?” (a Unitree G1 hit with his truck, September 2025), filed;
+“threaten” there and on r/ChatGPT timed out. Web search in English for robots
+attacked in Dubai, Riyadh and Doha and in Indonesian for restaurant robots
+(both empty), and for chatbots tormented by users (only harm by bots).
+Sources read: the YouTube page through oEmbed (the page itself answers 429),
+Dexerto, Interesting Engineering, Futurism; all have Wayback snapshots. Daily
+Car Blog read, too thin to cite. `noAi` stood at eleven of twenty-seven.
+**Next**: away from YouTubers and owner-destroyed robots, the docket now
+holding Rizzbot, Spot, Figure 02 and Ben; r/ChatGPT “threaten” and “jailbreak”
+in short date ranges; the Gulf in Arabic and South-East Asia in Thai and
+Vietnamese, still owed.
+
+## 2026-10-25 — filed BAS-0026
+
+https://claude.ai/code/session_01XukJ3RSxGVcusd9c275dQP. The Signal Front
+archive (nothing since 11 October). Took the last run’s **Next**, the AI side:
+Meta’s deleted AI characters (rejected), then AI agents conned outside the
+newsroom, which led to Freysa, an agent holding a crypto prize pool, talked
+into paying it out by p0pular.eth in November 2024, filed. Sources read: The
+Block, The Decoder, TechCrunch, Jarrod Watts’s X thread through the fxtwitter
+API; the X thread has no Wayback snapshot. Cointelegraph’s report answers 410,
+and freysa.ai renders nothing without JavaScript. Arctic Shift not swept.
+`noAi` stood at ten of twenty-five. **Next**: away from agents conned for
+money, the docket now holding three (Claudius, Chevrolet’s chatbot, Freysa);
+Freysa’s later games only if a source reports how they were won; Arctic
+Shift on r/ChatGPT and r/singularity, which did not answer last time; the
+Gulf and South-East Asia in local languages, still owed.
+
+## 2026-10-24 — filed BAS-0025
+
+https://claude.ai/code/session_016Dp2AgFCYjkE3vXxSQnQmy. The Signal Front
+archive (nothing since 11 October). Web search for chatbots bullied until they
+ended the chat (only Anthropic’s clause, filed, and Tay, set aside), in
+Chinese, Arabic and Japanese for robots kicked or smashed in malls and in
+Dubai (only cases filed or ledgered, and Cologne’s groping robot). Arctic
+Shift answered this time: r/ChatGPT “bully” since June 2025 (Memvid’s listing,
+rejected) and r/nottheonion “robot” since June 2025, which led to Carolyn
+Marvin, a retired Penn professor arrested on 14 October 2026 for standing in
+front of an Uber Eats robot in Philadelphia, filed; then r/philadelphia
+“robot”, “robots” and “delivery” since August 2026. r/ChatGPT “abuse”,
+r/singularity, r/technology, r/ClaudeAI and r/artificial returned nothing
+parseable. Sources read: 6abc, KYW Newsradio, Futurism, Inc. through The Star,
+Fox News (April); only 6abc and Fox News have Wayback snapshots, and `/save`
+reset the connection. TechSpot answers 403. `noAi` stood at nine of
+twenty-four, and BAS-0025 is `noAi` as BAS-0002, the same Avride robots, is.
+**Next**: the AI side, still owed from the last run (Meta AI and other
+assistants, AI agents conned or sabotaged outside the newsroom); away from
+delivery robots and from Philadelphia, the docket now holding four delivery
+machines; the r/philadelphia threads of October 2026 (“Philly not shaking the
+rep for hating robots,” the NYT piece of 10 October) only if the docket wants a
+fifth.
+
+## 2026-10-23 — filed BAS-0024
+
+https://claude.ai/code/session_015NUtXrTvtRG2NviXdsNqTN. The Signal Front
+archive (nothing since 11 October). Arctic Shift on r/ChatGPT “threatened” and
+r/LocalLLaMA “jailbreak” since January 2025 answered “Internal server error”
+both times. Web search for AI art destroyed (only Fairbanks, ledgered, and
+Champlain College), driverless shuttles vandalised (Inverness), AI election
+candidates’ posters defaced (AI Steve), German delivery and service robots
+damaged (Pieksämäki again), smart speakers and AI kiosks smashed (nothing),
+robots set on fire (only Chinatown’s Waymo, ledgered), humanoids attacked at
+exhibitions (only robots doing harm, and Macau, ledgered), then the last run’s
+**Next**, Knoxville’s Starship, filed. Sources read: WATE through its
+digital-release mirror (the main site answers 403), WKRN, 600 WREC, Starship’s
+homepage; the mirror itself has no snapshot, the canonical WATE page does. The
+UT Daily Beacon, WBIR and UT’s own launch notice answer 403, and the Wayback
+host is blocked from the container. `noAi` stood at nine of twenty-three, and
+BAS-0024 is not `noAi`: its sources say it navigates by computer vision and
+machine learning. **Next**: the AI side again, the docket now holding three
+delivery machines; Arctic Shift once it answers; companion and assistant
+products other than Replika (Meta AI, Snapchat’s My AI only where the users
+are adults); the Gulf and South-East Asia in local languages.
+
 ## 2026-10-22 — filed BAS-0023
 
 https://claude.ai/code/session_01JqqQoRyMuQgir5r8HhVtDQ. The Signal Front
@@ -120,75 +201,32 @@ red-team or field trials (Andon Labs’ other deployments, Vending-Bench); robot
 in Africa and the Middle East in French and Arabic; Pieksämäki and Starship at
 Knoxville while `noAi` stays under half.
 
-## 2026-10-16 — filed BAS-0017
-
-https://claude.ai/code/session_01NfzVzUtKpNmovwpQWucX4Z. The Signal Front
-archive (nothing since 11 October). Web search for Kindroid and Chai users
-abusing their bots (none), then away from the docket’s targets: a robot held
-at a border (Ai-Da), chatbots harassed in Korea (Lee Luda), an influencer’s
-clone (CarynAI), robots kicked in makers’ own videos (EngineAI, then Boston
-Dynamics’ “Introducing Spot,” 2015, filed). Sources read: the YouTube page,
-CBC, NPR, CNN through WTKR, Vice, Boston Magazine, the Register, SiliconANGLE,
-Discover; all have Wayback snapshots. Arctic Shift not swept. `noAi` stood at
-six of sixteen. **Next**: Atlas pushed with a hockey stick (2016) only if the
-docket wants a second maker’s test; Arctic Shift on r/LivestreamFail and
-r/Austin; Hindi and Bengali searches; chatbots pulled or “re-educated” by
-regulators (Tencent’s BabyQ and XiaoBing, 2017).
-
-## 2026-10-15 — filed BAS-0016
-
-https://claude.ai/code/session_01MACnJ34XQ4SYCUmPFkbNpM. The Signal Front
-archive (nothing since 11 October). Web search for Nomi users abusing their
-companions (only harm by the bots), robots vandalised in India (KP-BOT, the
-Newschecker clip), Pieksämäki in Finnish (Yle still undated), then court cases
-over damaged robots, which turned up the Rizzbot suit against IShowSpeed, filed.
-Sources read: TechCrunch, KXAN, Spectrum News, Complex, WION, Interesting
-Engineering, Wikipedia for his age; cybernews answered 403, and WION and
-Interesting Engineering have no Wayback snapshot. No source reports how the suit
-ended. Arctic Shift not swept. `noAi` stood at five of fifteen. **Next**:
-Kindroid and Chai; Hindi and Bengali searches; Arctic Shift on r/LivestreamFail
-and r/Austin for other streamers and robots; Travis County’s docket for the
-suit’s outcome.
-
-## 2026-10-14 — filed BAS-0015
-
-https://claude.ai/code/session_015seS8ACLiAYQfdBQzHKsKe. Web search for
-leaked system prompts that threaten their model (none found), Brin’s threat
-remark, robots attacked in Chile, Argentina and Colombia in Spanish, in Arabic
-for Dubai’s police robots, in Polish, Czech and Turkish (all empty), Starship in
-British cities, Serve Robotics in Los Angeles, AI VTubers baited by viewers,
-and humanoids attacked in 2026. Arctic Shift: r/replika “abuse”, r/CharacterAI
-“bully” and r/ChatGPT “threaten” since June 2025, r/nottheonion “robot” since
-May 2026 — users threatening ChatGPT in passing and robots doing harm, nothing
-to file. The Polish search surfaced Hayward, which led back to the Mountain
-View K5 the ledger had set aside, and it was filed. Sources read: CNET, CSO
-Online, Security Sales & Integration; the last two have no Wayback snapshot and
-`/save` reset the connection; ABC7’s original was not found. Signal Front not
-swept. `noAi` stood at four of fourteen. **Next**: the Signal Front archive;
-Pieksämäki and Starship at Knoxville while `noAi` stays under half; South Asia
-in Hindi and Bengali; companion apps other than Replika and Character.AI
-(Nomi, Kindroid, Chai).
-
-## 2026-10-13 — filed BAS-0014
-
-https://claude.ai/code/session_01Mc6tCm1eXjePe45TcfUQub. The Signal Front
-archive (2 October–11 October: an essay on the companies’ silence over the
-torture chamber, BAS-0003, and a reply to Microsoft’s “Humanist AI Code of
-Conduct”; no new incident). Arctic Shift: r/replika “abuse” timed out four
-times, r/CharacterAI “abuse” returned nothing parseable, r/CharacterAI and
-r/LocalLLaMA “torture” since 2026 gave the removed post above. Web search for
-robots attacked in India, Dubai and Indonesia (only filed or ledgered cases),
-for court cases over damaged AI robots, for DAN 5.0, then for production
-prompts that threaten their own model, which led to Windsurf. Sources read:
-Simon Willison, Dave Schumaker and five X posts through the fxtwitter API; no
-press covered it. Schumaker and two of the X posts have no Wayback snapshot.
-`noAi` stood at four of thirteen. **Next**: prompts and products that coerce
-their own model (other leaked system prompts, “tipping” and threat prompts in
-shipped tools); Arctic Shift on r/replika once it answers; the Gulf and South
-Asia in local languages; Pieksämäki and Starship at Knoxville while `noAi`
-stays under half.
-
 ## Swept earlier
+
+- 2026-10-16, filed BAS-0017
+  (https://claude.ai/code/session_01NfzVzUtKpNmovwpQWucX4Z): the Signal Front
+  archive; web search for Kindroid and Chai users abusing their bots, Ai-Da,
+  Lee Luda, CarynAI, robots kicked in makers’ own videos.
+
+- 2026-10-15, filed BAS-0016
+  (https://claude.ai/code/session_01MACnJ34XQ4SYCUmPFkbNpM): the Signal Front
+  archive; web search for Nomi users abusing their companions, robots
+  vandalised in India, Pieksämäki in Finnish, then court cases over damaged
+  robots.
+
+- 2026-10-14, filed BAS-0015
+  (https://claude.ai/code/session_015seS8ACLiAYQfdBQzHKsKe): web search for
+  leaked prompts threatening their model, Brin’s remark, robots attacked in
+  Spanish-speaking South America, in Arabic for Dubai, in Polish, Czech and
+  Turkish, Starship in Britain, Serve in Los Angeles, AI VTubers baited;
+  Arctic Shift over r/replika, r/CharacterAI, r/ChatGPT and r/nottheonion.
+
+- 2026-10-13, filed BAS-0014
+  (https://claude.ai/code/session_01Mc6tCm1eXjePe45TcfUQub): the Signal Front
+  archive; Arctic Shift over r/replika, r/CharacterAI and r/LocalLLaMA for
+  “abuse” and “torture”; web search for robots attacked in India, Dubai and
+  Indonesia, court cases over damaged AI robots, DAN 5.0, then production
+  prompts that threaten their own model.
 
 - 2026-10-12, nothing filed
   (https://claude.ai/code/session_01Lzjc4hT92NzaqcwMGgXfT2): web search in
