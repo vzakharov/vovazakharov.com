@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 115,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 145618,
+    "cacheReadTokens": 8234641,
+    "outputTokens": 24049,
+    "thinkingTokens": 4400,
+    "responses": 56,
+    "costUsd": 3.293312199999999
+  },
+  "estimate": {
+    "at": "2026-10-31T10:04:07.918Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a base merge that crosses a repo-wide directory move needs someone who reads both sides and repoints files git could not, not a mechanical conflict pick"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".claude/rules/stack.md",
+    "endedAt": "2026-10-31T10:01:07.495Z",
+    "contextTokens": 130302,
+    "spend": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 70413,
+      "cacheReadTokens": 1874887,
+      "outputTokens": 4421,
+      "thinkingTokens": 1188,
+      "responses": 18,
+      "costUsd": 1.0268534
+    }
+  },
+  "sessionId": "a2c9a746-f042-5e4f-a2b6-ce1a6d298b5a",
+  "branch": "claude/local-asr-elow1h",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/sync-branch claude/local-asr-elow1h",
+  "prs": [
+    200
+  ],
+  "url": "https://claude.ai/code/session_01DaohkE4sU55HSrmj71ApQj",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-10-31T09:59:42.581Z",
+  "lastResponseAt": "2026-10-31T10:08:58.944Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 115,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 145618,
+    "cacheReadTokens": 8234641,
+    "outputTokens": 24049,
+    "thinkingTokens": 4400,
+    "responses": 56,
+    "costUsd": 3.293312199999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 115,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 145618,
+      "cacheReadTokens": 8234641,
+      "outputTokens": 24049,
+      "thinkingTokens": 4400,
+      "responses": 56,
+      "costUsd": 3.293312199999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 56,
+    "matched": 56,
+    "matchedTableUsd": 3.293312199999999,
+    "matchedEventUsd": 3.2933122,
+    "unseen": {}
+  }
+}
