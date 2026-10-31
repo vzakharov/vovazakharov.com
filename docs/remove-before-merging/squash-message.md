@@ -18,8 +18,8 @@ other's second opinion, each with a doubt floor on its own confidence
 scale; it absorbs song-intake's lyrics.py, and on Russian re-places
 Whisper's words with a numpy CTC aligner over GigaAM-v3's frames, which
 caption tracks are timed from. Both models run from one torch-free
-venv, scripts/requirements-hearing.txt. Responses keep their shape, so
-the hearings already committed read as before.
+venv, src/kernel/scripts/requirements-hearing.txt. Responses keep their
+shape, so the hearings already committed read as before.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
