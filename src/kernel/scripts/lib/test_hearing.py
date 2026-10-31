@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Runs `lib/hearing.py` over hand-built Deepgram responses.
+"""Runs `lib/hearing.py` over hand-built responses.
 
 Run by path (`python3 scripts/lib/test_hearing.py`), as `scripts/vet.sh` does.
 """
 
 from __future__ import annotations
 
+import math
 import sys
 import unittest
 from pathlib import Path
@@ -13,7 +14,15 @@ from typing import Any, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from lib.hearing import doubts, from_segments, mark, marked, merged, paragraphs
+from lib.hearing import (
+    doubts,
+    from_segments,
+    mark,
+    marked,
+    merged,
+    paragraphs,
+    words_from_tokens,
+)
 
 # One word as (punctuated text, start second[, confidence]); its end is a
 # fraction later, and its bare form is the text lowercased and unpunctuated.
@@ -167,8 +176,8 @@ class Merged(unittest.TestCase):
 
 
 def segment(start: float, *words: Spoken) -> dict[str, Any]:
-    """A faster-whisper segment as lyrics.py keeps it: words carry their leading
-    space and a probability."""
+    """A faster-whisper segment: words carry their leading space and a
+    probability."""
     return {
         "start": start,
         "end": words[-1][1] + 0.4 if words else start,
@@ -196,6 +205,17 @@ class FromSegments(unittest.TestCase):
     def test_nothing_heard_is_no_speech(self) -> None:
         self.assertEqual(paragraphs(from_segments([], 9.0, "w")), [])
 
+    def test_a_long_segment_is_cut_into_its_sentences(self) -> None:
+        r = from_segments(
+            [segment(0.0, ("Так.", 1.0), ("Вчера", 2.0), ("болела?", 2.5), ("Да", 4.0))],
+            9.0,
+            "w",
+        )
+        self.assertEqual(
+            [(s["start"], s["text"]) for s in paragraphs(r)[0]],
+            [(1.0, "Так."), (2.0, "Вчера болела?"), (4.0, "Да")],
+        )
+
     def test_it_merges_with_a_deepgram_response(self) -> None:
         first = response([[("Где", 58.0), ("же", 58.3), ("ты,", 58.6), ("двойник?", 59.0)]])
         second = from_segments(
@@ -204,6 +224,31 @@ class FromSegments(unittest.TestCase):
             "w",
         )
         self.assertEqual(merged(first, second), [(58.0, "Где же ты, двойник?")])
+
+
+class WordsFromTokens(unittest.TestCase):
+    def test_a_word_opens_on_a_space_and_ends_where_the_next_starts(self) -> None:
+        found = words_from_tokens([" при", "вет", ",", " мир"], [1.0, 1.2, 1.4, 2.0], None, 2.5)
+        self.assertEqual(
+            [(w["word"], w["start"], w["end"]) for w in found],
+            [("привет,", 1.0, 2.0), ("мир", 2.0, 2.5)],
+        )
+
+    def test_sentencepiece_marks_open_a_word_too(self) -> None:
+        found = words_from_tokens(["▁Hal", "lo", "▁Welt"], [0.0, 0.1, 0.5], None, 1.0)
+        self.assertEqual([w["word"] for w in found], ["Hallo", "Welt"])
+
+    def test_a_word_is_as_sure_as_its_least_sure_token(self) -> None:
+        found = words_from_tokens(
+            [" при", "вет"], [0.0, 0.2], [math.log(0.9), math.log(0.3)], 1.0
+        )
+        self.assertAlmostEqual(found[0]["probability"], 0.3)
+
+    def test_no_logprobs_leaves_the_line_unmarked(self) -> None:
+        r = from_segments(
+            [{"text": "", "words": words_from_tokens([" да"], [0.0], None, 1.0)}], 1.0, "g"
+        )
+        self.assertEqual(marked(paragraphs(r)[0][0], 0.95), "да")
 
 
 if __name__ == "__main__":

@@ -188,6 +188,7 @@ source_checks=(
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
   hearing='python3 src/kernel/scripts/lib/test_hearing.py'
+  ctc='python3 src/kernel/scripts/lib/test_ctc.py'
   song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
   five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/test_answered.py && python3 scripts/five-percent-verdicts/tally.py --check'
   skills='scripts/check-skill-catalog.sh'

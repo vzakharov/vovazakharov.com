@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Time a song's printed words to its video, one WebVTT track per lyrics column.
 
-Usage: captions.py <song.md> <deepgram.json.gz> <out-prefix> [--at LINE=SECONDS]...
+Usage: captions.py <song.md> <hearing.json.gz> <out-prefix> [--at LINE=SECONDS]...
 
-The timings come from `src/kernel/scripts/transcribe.py` run on the video itself, never on
-the master: a video is cut on its own, so its words sit seconds away from the
-mp3's. The text comes from the song's markdown, never from the recogniser,
-which mishears sung words; Deepgram only says when each printed line starts.
+The timings come from `src/kernel/scripts/transcribe.py` run on the video itself
+(`--model whisper-large-v3 --vad 0.1`), never on the master: a video is cut on
+its own, so its words sit seconds away from the mp3's. The text comes from the
+song's markdown, never from the recogniser, which mishears sung words; the
+hearing only says when each printed line starts.
 Writes `<out-prefix>.<lang>.vtt` for every `<!-- lyrics:<lang> -->` column, the
 crib timed line for line off the sung one, and prints each cue with how many of
 its words were heard, since an unheard line is placed by interpolation and is
@@ -141,7 +142,7 @@ def stamp(t: float) -> str:
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("song")
-    p.add_argument("deepgram")
+    p.add_argument("hearing")
     p.add_argument("out_prefix")
     p.add_argument("--at", action="append", default=[], metavar="LINE=SECONDS",
                    help="start the sung column's LINE (1-based) at SECONDS, placed by ear or spectrogram")
@@ -153,7 +154,7 @@ def main() -> None:
     cols = columns(front)
     if not sung or sung[1] not in cols:
         sys.exit("the song states no `language` with a lyrics column of its own")
-    heard = alternative(read_response(Path(args.deepgram)))["words"]
+    heard = alternative(read_response(Path(args.hearing)))["words"]
     placed = align(cols[sung[1]], heard)
     for at in args.at:
         line, seconds = at.split("=")

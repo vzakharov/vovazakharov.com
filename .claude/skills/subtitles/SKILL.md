@@ -20,12 +20,13 @@ Two inputs, both already in the branch:
   output puts the mis-hearings back on screen, in the speaker's voice, burned
   in. Verbatim mode only — a retake file is the script for a recording that has
   not been made yet, so there is nothing to lay it over.
-- **The per-word timings**, which are in the Deepgram response and nowhere else.
-  That response is on the branch as
-  `docs/remove-before-merging/deepgram/<slug>.deepgram.json.gz` — read it with
-  `gzip -dc`, and never re-run the recognizer to get one: the corrections this
-  skill joins on were made against the response the branch carries, and a fresh
-  transcription is a different set of words.
+- **The per-word timings**, which are in the first model's hearing and nowhere
+  else. It is on the branch as
+  `docs/remove-before-merging/transcripts/<slug>.<model>.json.gz` (an older
+  dictation's as `deepgram/<slug>.deepgram.json.gz`) — read it with `gzip -dc`,
+  and never re-run the recognizer to get one: the corrections this skill joins
+  on were made against the hearing the branch carries, and a fresh transcription
+  is a different set of words.
 
 So the first piece of work is a **join**: each corrected word onto the time its
 mis-heard counterpart occupied.
@@ -80,7 +81,7 @@ video.
 
 ## Do NOT
 
-- Build a track from the Deepgram response directly. The corrected text is the
-  source; the response is only the clock.
-- Re-call the API for timings. The saved response is why it was saved.
+- Build a track from the hearing directly. The corrected text is the source; the
+  hearing is only the clock.
+- Re-run the recognizer for timings. The saved hearing is why it was saved.
 - Render without the operator having seen the page.

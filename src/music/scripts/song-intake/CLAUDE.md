@@ -43,27 +43,23 @@ at once buys nothing on one machine.
 
 ## Lyrics
 
-`lyrics.py` on the vocals stem is the primary hearing: Whisper large-v3 hears
-sung Russian far better than Deepgram's nova-3 (`персонажи Мураками`, where
-nova-3 heard `персонажи-муратами`). `src/kernel/scripts/transcribe.py` on the
-same stem is the second opinion, since the lines the two disagree on are the
-ones the operator has to listen to — so `transcribe.py` merges Whisper's hearing
-into its transcript:
+`src/kernel/scripts/transcribe.py` on the vocals stem, Whisper large-v3 first —
+it hears sung Russian best of everything measured — and GigaAM-v3 as the second
+opinion, since the lines the two disagree on are the ones the operator has to
+listen to:
 
 ```sh
-tmp/song-intake-venv/bin/python src/music/scripts/song-intake/lyrics.py <slug>.mp3 \
-  --json-dir docs/music/transcripts > docs/music/transcripts/<slug>.whisper.md
-python3 src/kernel/scripts/transcribe.py <slug>.mp3 --language ru \
-  --out-dir docs/music/transcripts --json-dir docs/music/transcripts \
-  --second-opinion-from docs/music/transcripts/<slug>.whisper.json.gz
+tmp/song-intake-venv/bin/python src/kernel/scripts/transcribe.py <slug>.mp3 --language ru \
+  --model whisper-large-v3 --vad 0.1 --second-opinion \
+  --out-dir docs/music/transcripts --json-dir docs/music/transcripts
 ```
 
-Its `## Second opinion` merges the two word by word on nova-3's lines, whose
-timecodes place a line where Whisper's first can jump across an instrumental.
+The older transcripts there merge nova-3 with Whisper (`.deepgram.json.gz`,
+`.whisper.md`); `--second-opinion-from` merges a new hearing with one of them.
 
 **A song Whisper returns a line or two for, or fills with `Субтитры …` and
 `КОНЕЦ`, is heard in pieces.** Its voice filter can drop sung vocals whole
-(`--no-vad` turns it off), and over a long stretch it cannot make out it invents
+(`--vad 0` turns it off), and over a long stretch it cannot make out it invents
 subtitle credits instead. Cut the stem at its silences and hear each sung
 stretch on its own — that recovered Птицы where both whole-file runs failed. A
 credit line in any transcript is invented and never reaches the words.
@@ -106,7 +102,7 @@ song, until the scaffolded song file takes them.
 
 A song's video carries its printed words as timed tracks: `transcribe.py` on the
 video itself, then
-`captions.py <song.md> <deepgram.json.gz> sites/vova/public/music/assets/<slug>`,
+`captions.py <song.md> <hearing.json.gz> sites/vova/public/music/assets/<slug>`,
 a `.vtt` per lyrics column. Its docstring says why the video and not the master,
 and where to find the start of a line it reports `unheard`, which `--at` pins.
 The pins are in the commit that writes the track.
