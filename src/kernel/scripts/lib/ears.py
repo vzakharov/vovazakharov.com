@@ -2,13 +2,13 @@
 answering in `lib.hearing`'s response shape.
 
 Imported as `from lib.ears import …` by scripts run under
-`tmp/hearing-venv` (`scripts/requirements-hearing.txt`). Models download from
+`tmp/hearing-venv` (`src/kernel/scripts/requirements-hearing.txt`). Models download from
 Hugging Face on first use; onnx-asr's go under `tmp/models/` as plain
 directories, because onnxruntime refuses external weights behind the Hugging
 Face cache's symlinks ("External data path escapes model directory").
 
 What the models were picked for, measured on a sung vocal and a voice note, is
-in `scripts/transcribe.py`'s docstring.
+in `src/kernel/scripts/transcribe.py`'s docstring.
 """
 
 from __future__ import annotations

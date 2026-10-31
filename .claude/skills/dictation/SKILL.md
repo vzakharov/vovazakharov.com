@@ -10,29 +10,17 @@ them to correct.
 
 ## The split
 
-<<<<<<< HEAD
-`scripts/transcribe.py` does everything a re-run would do identically: hear the
-recording with local models, save the hearings, render a timecoded transcript.
-This skill does the rest, which is one judgement repeated a few hundred times —
-**which words in the recognizer's output are the speaker's, and which are its
-mistakes.**
-=======
 `src/kernel/scripts/transcribe.py` does everything a re-run would do
-identically: extract audio from video, call Deepgram, save the response, render
-a timecoded transcript. This skill does the rest, which is one judgement
-repeated a few hundred times — **which words in the recognizer's output are the
+identically: hear the recording with local models, save the hearings, render a
+timecoded transcript. This skill does the rest, which is one judgement repeated
+a few hundred times — **which words in the recognizer's output are the
 speaker's, and which are its mistakes.**
->>>>>>> origin/main
 
 The script's header carries its flags. The short form:
 
 ```bash
-<<<<<<< HEAD
-tmp/hearing-venv/bin/python scripts/transcribe.py <media> --slug <slug> \
+tmp/hearing-venv/bin/python src/kernel/scripts/transcribe.py <media> --slug <slug> \
   --language ru --second-opinion \
-=======
-python3 src/kernel/scripts/transcribe.py <media> --slug <slug> --second-opinion \
->>>>>>> origin/main
   --audio-out docs/remove-before-merging/<slug>.m4a \
   --video-out docs/remove-before-merging/<slug>.mp4   # video only
 ```

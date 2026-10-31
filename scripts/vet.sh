@@ -187,16 +187,10 @@ source_checks=(
   drawings-maya='pnpm content:drawings maya --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
-<<<<<<< HEAD
-  hearing='python3 scripts/lib/test_hearing.py'
-  ctc='python3 scripts/lib/test_ctc.py'
-  song-facts='python3 scripts/song-intake/test_song_facts.py'
-  notes='scripts/check-notes-length.sh'
-=======
   hearing='python3 src/kernel/scripts/lib/test_hearing.py'
+  ctc='python3 src/kernel/scripts/lib/test_ctc.py'
   song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
   five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/test_answered.py && python3 scripts/five-percent-verdicts/tally.py --check'
->>>>>>> origin/main
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
   staged='scripts/staged.sh check'

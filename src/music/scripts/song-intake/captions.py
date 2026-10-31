@@ -3,18 +3,11 @@
 
 Usage: captions.py <song.md> <hearing.json.gz> <out-prefix> [--at LINE=SECONDS]...
 
-<<<<<<< HEAD:scripts/song-intake/captions.py
-The timings come from `scripts/transcribe.py` run on the video itself
+The timings come from `src/kernel/scripts/transcribe.py` run on the video itself
 (`--model whisper-large-v3 --vad 0.1`), never on the master: a video is cut on
 its own, so its words sit seconds away from the mp3's. The text comes from the
 song's markdown, never from the recogniser, which mishears sung words; the
 hearing only says when each printed line starts.
-=======
-The timings come from `src/kernel/scripts/transcribe.py` run on the video itself, never on
-the master: a video is cut on its own, so its words sit seconds away from the
-mp3's. The text comes from the song's markdown, never from the recogniser,
-which mishears sung words; Deepgram only says when each printed line starts.
->>>>>>> origin/main:src/music/scripts/song-intake/captions.py
 Writes `<out-prefix>.<lang>.vtt` for every `<!-- lyrics:<lang> -->` column, the
 crib timed line for line off the sung one, and prints each cue with how many of
 its words were heard, since an unheard line is placed by interpolation and is

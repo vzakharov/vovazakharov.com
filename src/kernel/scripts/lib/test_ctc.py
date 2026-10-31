@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Runs `lib/ctc.py` over hand-built frames.
 
-Run by path (`python3 scripts/lib/test_ctc.py`), as `scripts/vet.sh` does;
+Run by path (`python3 src/kernel/scripts/lib/test_ctc.py`), as `scripts/vet.sh` does;
 needs numpy on the system Python.
 """
 
