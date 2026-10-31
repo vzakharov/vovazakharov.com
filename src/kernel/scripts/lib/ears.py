@@ -28,7 +28,7 @@ WHISPER = "whisper-large-v3"
 MODELS = (GIGAAM, WHISPER)
 
 SAMPLE_RATE = 16000
-MODEL_DIR = Path(__file__).resolve().parents[2] / "tmp" / "models"
+MODEL_DIR = Path(__file__).resolve().parents[4] / "tmp" / "models"
 
 # GigaAM's CTC head emits a frame every 40 ms. A whole song fits in one pass,
 # but an hour-long dictation does not fit in memory, so the frames are computed
