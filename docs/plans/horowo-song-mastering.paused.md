@@ -128,6 +128,26 @@ likely does not play inline. The song's own `.mp3` link from its page (the
 download link) does play inline there. The PR says so plainly rather than
 promising a Telegram player.
 
+## Progress
+
+- **Done:** § 3's unfurl tags, in 6ca102d. Kernel's `constructMetadata` takes an
+  optional `song` input (`audio`, `seconds`, `albums`, `musicians`), and
+  `generateSongMetadata` passes it. These passed `tsc`, eslint and prettier on
+  the two files. Nothing was built, because a song with `album: null` has no
+  album path yet.
+- **Learned:** raw.githubusercontent serves the FLAC and the MP4 rewrap as
+  `application/octet-stream` with `nosniff`, and only the MP3 as `audio/mpeg`.
+  So `og:audio` is the MP3, and a FLAC cannot stand in for it, because GitHub's
+  headers are not ours to set.
+- **Left, in order:**
+  - § 1, starting from the mix and master downloaded with `music:masters get`.
+    The venv and the downloads lived in this container's `tmp/` and have to be
+    re-made.
+  - § 2 in full.
+  - Майя's reflection.
+  - The QA unfurl check: build vova and grep `og:audio` in
+    `out/music/songs/<slug>.html`.
+
 ## DRY notes
 
 - **Unfurl tags.** These are built once, in blog's `constructMetadata` behind an
