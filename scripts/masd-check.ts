@@ -19,11 +19,7 @@
  * it against a tree of its own. See .claude/rules/masd.md.
  */
 
-<<<<<<< HEAD
 import { existsSync } from 'node:fs';
-=======
-import { existsSync, readFileSync } from 'node:fs';
->>>>>>> origin/main
 import path from 'node:path';
 
 import {
@@ -34,18 +30,9 @@ import {
   SLICED_LAYERS,
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
-<<<<<<< HEAD
 import { appFiles, subdirectories } from './lib/import-graph.ts';
 import { type Edge, importsOf, meeting } from './lib/slice-graph.ts';
 import { subSliceProblems } from './lib/sub-slices.ts';
-=======
-import {
-  appFiles,
-  resolveImport,
-  sourceFile,
-  subdirectories,
-} from './lib/import-graph.ts';
->>>>>>> origin/main
 
 const SLICED = new Set(SLICED_LAYERS);
 // The sliced layers Steiger checks; a page has nothing above it to be
@@ -54,12 +41,6 @@ const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
 
-<<<<<<< HEAD
-=======
-/** An importing file and the file it imports, both in one app. */
-type Edge = readonly [string, string];
-
->>>>>>> origin/main
 /**
  * Where a file sits: `<app>/<layer>/<slice>` in a sliced layer,
  * `<app>/<layer>` in a segmented one, `router` under a site's `app/`.
@@ -164,16 +145,11 @@ function check(): string[] {
   }
 
   const mounted = new Set<string>();
-<<<<<<< HEAD
   const edges = new Map(
     [...graph.keys()].map((app): [string, Edge[]] => [app, []]),
   );
   const files = appFiles();
   for (const [file, imported] of importsOf(files)) {
-=======
-  const edges = new Map<string, Edge[]>();
-  for (const file of appFiles()) {
->>>>>>> origin/main
     const source = locate(file);
     if (source === undefined) continue;
     const app = appOf(file);

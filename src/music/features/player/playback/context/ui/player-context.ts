@@ -1,8 +1,9 @@
 'use client';
 
-import { createContext, use } from 'react';
+import { createContext } from 'react';
 
 import type { WithLocale } from '@/kernel/shared/i18n';
+import { useProvided } from '@/kernel/shared/lib/use-provided';
 
 import type { Messages } from '@/music/shared/i18n';
 
@@ -27,12 +28,12 @@ export const PlayerContext = createContext<PlayerContextValue | undefined>(
   undefined,
 );
 
+/**
+ * Named rather than imported: `PlayerProvider` sits in `controls`, which
+ * imports this sub-slice, so importing it back would close a cycle.
+ */
+const PROVIDER = { name: 'PlayerProvider' };
+
 export function usePlayer(): PlayerContextValue {
-  const value = use(PlayerContext);
-
-  if (value === undefined) {
-    throw new Error('usePlayer is only available under the music layout');
-  }
-
-  return value;
+  return useProvided(PlayerContext, PROVIDER);
 }

@@ -180,12 +180,9 @@ source_checks=(
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
   masd='pnpm check:masd'
-<<<<<<< HEAD
   clusters='pnpm masd:clusters'
   cycles='pnpm check:cycles'
-=======
   poison='pnpm check:poison'
->>>>>>> origin/main
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   typography='pnpm check:typography'

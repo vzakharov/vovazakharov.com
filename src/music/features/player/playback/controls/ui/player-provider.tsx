@@ -1,20 +1,9 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-<<<<<<< HEAD:src/music/features/player/playback/controls/ui/player-provider.tsx
 import { useMemo } from 'react';
 
 import { addressLocale, type Locale } from '@/kernel/shared/i18n';
-=======
-import { createContext, useMemo } from 'react';
-
-import {
-  addressLocale,
-  type Locale,
-  type WithLocale,
-} from '@/kernel/shared/i18n';
-import { useProvided } from '@/kernel/shared/lib/use-provided';
->>>>>>> origin/main:src/music/features/player/ui/player-provider.tsx
 import type { WithChildren } from '@/kernel/shared/typings';
 
 import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
@@ -22,40 +11,11 @@ import type { WithTracks } from '@/music/shared/catalogue/index.node-safe';
 import { useAudioPlayer } from '../../audio';
 import { PlayerBar } from '../../bar';
 import {
-<<<<<<< HEAD:src/music/features/player/playback/controls/ui/player-provider.tsx
   PlayerContext,
   type PlayerContextValue,
   type PlayerLabels,
 } from '../../context';
 import classes from './player-clearance.module.scss';
-=======
-  type PlayerControls,
-  type QueuedPlayback,
-  useAudioPlayer,
-} from '../model/use-audio-player';
-import classes from './player.module.scss';
-import { PlayerBar } from './player-bar';
-
-/** The bar's own words, in one language, as the catalogue spells them. */
-type PlayerLabels = Messages['player'];
-
-export type WithPlayerLabels = { labels: PlayerLabels };
-
-export type PlayerContextValue = PlayerControls &
-  QueuedPlayback &
-  WithPlayerLabels &
-  /** The language of the page the bar is currently sitting under. */
-  WithLocale & {
-    /** The radio's page in the page's language, which tuning in opens. */
-    radioRoute: string;
-  };
-
-const PlayerContext = createContext<PlayerContextValue | undefined>(undefined);
-
-export function usePlayer(): PlayerContextValue {
-  return useProvided(PlayerContext, PlayerProvider);
-}
->>>>>>> origin/main:src/music/features/player/ui/player-provider.tsx
 
 export type PlayerProviderProps = WithChildren &
   WithTracks & {
