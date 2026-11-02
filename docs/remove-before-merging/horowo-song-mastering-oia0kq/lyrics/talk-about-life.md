@@ -45,8 +45,6 @@
 Поговорим за жизнь
 Поговорим до дна
 
-<!-- ask 2 -->
-
 Поговорим за жизнь
 Сквозь многоточия
 Я знаю, гложет сплин
@@ -55,19 +53,20 @@
 Что под откос летит
 И всё закончить бы
 Но дождь ещё стучит
-А значит, может быть
+Так, может быть
 
 Поговорить за жизнь
 Пусть ночь ещё темна
 Ты только, брат, держись
 Держись хоть до утра
 
-<!-- ask 3 -->
-
 Пускай слова — ножи
 Страшнее тишина
 Поговорим за жизнь
+Поговорим до дна
+
 Поговорим за жизнь
+Поговорим
 
 [^pushkin-ru]: Пушкин погиб на дуэли в 37 лет.
 
@@ -126,7 +125,7 @@ And the loneliness
 That everything’s going off the rails
 And you’d like to end it all
 But the rain still drums
-And that means maybe
+So maybe
 
 To talk about life
 Though the night is still dark
@@ -136,7 +135,10 @@ Hang in at least till morning
 Let words be knives
 Silence is scarier
 Let’s talk about life
+Let’s talk to the bottom
+
 Let’s talk about life
+Let’s talk
 
 [^pushkin-en]: Pushkin died in a duel at thirty-seven.
 

@@ -5,12 +5,10 @@
 Так почему в груди так нестерпимо жжёт
 И руки тянутся к рукам, как будто что-то знают?
 
-<!-- ask 2 -->
-
 Где, скажи, мы выбрали неверный поворот?
 Где забыли: мир — всего лишь наш орнамент?
 Мы уходим в горизонт, и тянется за нами
-Новая ночь и тлеющий восход
+Новой ночи тлеющий восход
 
 Поздно помнить, поздно бежать
 Режет воздух кромка ножа
@@ -50,7 +48,7 @@ And hands reach for hands, as if they knew something?
 Where, tell me, did we take the wrong turn?
 Where did we forget that the world is just our ornament?
 We walk off into the horizon, and trailing behind us
-A new night and a smouldering dawn
+The smouldering dawn of a new night
 
 Too late to remember, too late to run
 The knife’s edge cuts the air

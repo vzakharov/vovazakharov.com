@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1881,
-    "cacheWrite5mTokens": 808,
-    "cacheWrite1hTokens": 90120,
-    "cacheReadTokens": 3358785,
-    "outputTokens": 9994,
-    "thinkingTokens": 2256,
-    "responses": 29,
-    "costUsd": 1.5975760000000003
+    "inputTokens": 2398,
+    "cacheWrite5mTokens": 1731,
+    "cacheWrite1hTokens": 95729,
+    "cacheReadTokens": 4408216,
+    "outputTokens": 13820,
+    "thinkingTokens": 2779,
+    "responses": 36,
+    "costUsd": 1.9383062000000004
   },
   "estimate": {
     "at": "2026-11-02T06:58:11.885Z",
@@ -45,7 +45,7 @@
   },
   "sessionId": "a9a24c27-6406-5977-a197-4aeb482a553e",
   "branch": "claude/horowo-song-mastering-oia0kq",
-  "cwd": "/home/user/vovazakharov.com/docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — черновики слов всех пяти песен на ветке, дальше вопросы по «Поздно», ответы Вовы и вердикты блайнд-теста, зате…",
   "prs": [
     240
@@ -53,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkDtqTtbmYzdUBWcrqy",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-02T06:57:37.736Z",
-  "lastResponseAt": "2026-11-02T07:09:12.068Z",
+  "lastResponseAt": "2026-11-02T07:11:45.041Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 55,
+    "inputTokens": 66,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 90120,
-    "cacheReadTokens": 3222113,
-    "outputTokens": 9779,
-    "thinkingTokens": 2256,
-    "responses": 27,
-    "costUsd": 1.5611826000000002
+    "cacheWrite1hTokens": 95729,
+    "cacheReadTokens": 4122624,
+    "outputTokens": 13573,
+    "thinkingTokens": 2779,
+    "responses": 33,
+    "costUsd": 1.8620808000000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -78,14 +78,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 561,
-      "cacheWrite5mTokens": 808,
-      "cacheWrite1hTokens": 90120,
-      "cacheReadTokens": 3358785,
-      "outputTokens": 9796,
-      "thinkingTokens": 2256,
-      "responses": 28,
-      "costUsd": 1.5973450000000002
+      "inputTokens": 1078,
+      "cacheWrite5mTokens": 1731,
+      "cacheWrite1hTokens": 95729,
+      "cacheReadTokens": 4408216,
+      "outputTokens": 13622,
+      "thinkingTokens": 2779,
+      "responses": 35,
+      "costUsd": 1.9380752000000003
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1320,
@@ -101,20 +101,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 29,
-    "matched": 27,
-    "matchedTableUsd": 1.5611826000000002,
-    "matchedEventUsd": 1.5611826,
+    "events": 36,
+    "matched": 33,
+    "matchedTableUsd": 1.8620808000000002,
+    "matchedEventUsd": 1.8620808,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 808,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 1731,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 136672,
-        "outputTokens": 17,
+        "cacheReadTokens": 285592,
+        "outputTokens": 49,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.0361624
+        "responses": 2,
+        "costUsd": 0.0759944
       },
       "generate_session_title": {
         "inputTokens": 1320,
