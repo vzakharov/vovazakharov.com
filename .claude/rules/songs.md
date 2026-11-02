@@ -229,6 +229,8 @@ changes how a draft of one is written and what a review of it means.
   the recording itself carries — a word bleeped on the track, as the author's
   choice — which stays masked and is named in the frontmatter's `masked`, the
   word as written keyed to the reason (`our-punk-rock`'s `про**ли`).
+- **A spoken monologue is set as prose**, one paragraph to a line, never broken
+  into lines at the recording's pauses — `horizons` is the pattern.
 - **Russian is written with ё** wherever the word has it — `её`, `ещё`, `нём`,
   `идёт` — including in a published translation that printed `е`. Where the
   letter changes the word (`все`/`всё`, `небо`/`нёбо`), the sense decides, never
