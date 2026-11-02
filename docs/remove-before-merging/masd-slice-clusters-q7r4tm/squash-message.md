@@ -16,13 +16,14 @@ to, with an operator-approved "masd-disable promotion" escape. Steiger
 rules check:masd covers are off where sub-slices live.
 
 pnpm masd:clusters is a vet gate: a dominator subtree of a unit's
-import DAG, two non-barrel files or more, is a cluster to cut, what it
-takes from the rest becoming a sub-slice below both. Every cluster is
-cut, the CV's edition promoted to vova/entities/cv and stylesheets
-split by consumer; no behaviour changes. pnpm check:cycles holds src/
-acyclic under madge, each of the 18 cycles found a type or hook
-declared in the wrong file. docs/masd.md is retired into the MASD rule
-and scripts/masd-check.README.md.
+import DAG, two non-barrel files or more whose cut raises the unit's
+modularity, is a cluster to cut, what it takes from the rest becoming
+a sub-slice below both. Every cluster is cut, the CV's edition
+promoted to vova/entities/cv and stylesheets split by consumer; no
+behaviour changes. pnpm check:cycles holds src/ acyclic under madge,
+each of the 18 cycles found a type or hook declared in the wrong file.
+docs/masd.md is retired into the MASD rule and
+scripts/masd-check.README.md.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
