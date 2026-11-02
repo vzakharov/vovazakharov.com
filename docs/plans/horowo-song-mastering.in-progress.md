@@ -213,16 +213,17 @@ The operator's running order, «давай пока попробуем так»,
   comments applied (footnotes, «Как, сука, хорошо»). «Сколько» keeps its title,
   feat. за/обложкой, re-tagged. GigaAM heard nothing on any of these vocals;
   «Поздно»'s opening verse came from a Whisper run on a cut of 0:46–1:20.
+- **Done in relay 4:** every ask answered and folded into the drafts; «Хорошо»'s
+  crib line is «Fuck, it’s so fucking good».
 - **Left, in order:**
-  - The operator's answers to the open asks (`<!-- ask N -->` in talk-about-life
-    1–3, last-snow 1, unnoticed-things 1–2, too-late 1–3) and his pick for
-    «Хорошо»'s crib line «Fuck, it’s good».
   - The operator's blind verdicts, then `reveal` per song and the winner `put`
     into its repository; for unnoticed-things the winner becomes
     `unnoticed_master.flac`.
   - Each repository's files per § 1 (`.master.mp3`, `mastering/`, README naming
     the master and its reference), then `music:scaffold`, the page's frontmatter
-    (§ 4–5 billing, album, track), `music:masters tag`.
+    (§ 4–5 billing, album, track), `music:masters tag`. too-late's `hook` is the
+    author's pick, «Новой ночи тлеющий восход», and in `en` «The smouldering
+    dawn of a new night».
   - The QA unfurl check: build vova and grep `og:audio` in
     `out/music/songs/<slug>.html`.
 
@@ -245,4 +246,5 @@ The operator's running order, «давай пока попробуем так»,
 1. Title: answered — «Хорошо!», with the mark, from his running order.
 2. Billing: Грёбаный бал and the author for all; «Незаметные штуки»'s words are
    Роман Попов's. «Сколько» stays «Сколько», feat. за/обложкой.
-3. Stories: none yet; pages publish without one.
+3. Stories: none yet; pages publish without one. «Поздно»'s hook is the
+   author's: «Новой ночи тлеющий восход».
