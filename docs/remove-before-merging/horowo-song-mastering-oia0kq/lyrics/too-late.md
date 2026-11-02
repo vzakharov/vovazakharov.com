@@ -1,7 +1,5 @@
 <!-- lyrics:ru -->
 
-<!-- ask 1 -->
-
 Послушай, мы же оба знали: этот день придёт
 И время пожинать плоды когда-нибудь настанет
 Так почему в груди так нестерпимо жжёт
@@ -10,7 +8,7 @@
 <!-- ask 2 -->
 
 Где, скажи, мы выбрали неверный поворот?
-Где забыли мир, всего лишь наш орнамент?
+Где забыли: мир — всего лишь наш орнамент?
 Мы уходим в горизонт, и тянется за нами
 Новая ночь и тлеющий восход
 
@@ -19,11 +17,9 @@
 Жизнь сквозь кожу не удержать
 Поздно, поздно дышать
 
-<!-- ask 3 -->
-
 С заботой материнской нас встречает эшафот
 Уже толпу заводят лицедеи и паяцы
-Мы смотрим друг на друга: может, в этот раз пронесёт
+Мы смотрим друг на друга: может, в этот пронесёт
 Рука в руке, и перед смертью надышаться
 
 Поздно помнить, поздно бежать
@@ -52,7 +48,7 @@ So why does it burn so unbearably in the chest
 And hands reach for hands, as if they knew something?
 
 Where, tell me, did we take the wrong turn?
-Where did we forget the world, just our ornament?
+Where did we forget that the world is just our ornament?
 We walk off into the horizon, and trailing behind us
 A new night and a smouldering dawn
 
