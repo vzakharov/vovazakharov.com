@@ -6,7 +6,7 @@ import {
   parseBootstrap,
   rdapVerdict,
   type Verdict,
-} from '../../lookup';
+} from './verdict';
 
 const BOOTSTRAP_URL = 'https://data.iana.org/rdap/dns.json';
 

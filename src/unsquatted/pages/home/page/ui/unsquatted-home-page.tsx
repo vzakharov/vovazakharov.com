@@ -6,9 +6,9 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { zoneOf } from '../../lookup';
 import { COPY } from '../config/i18n';
 import { fetchPrices } from '../lib/prices';
+import { zoneOf } from '../lib/rows';
 import { PICKS } from '../model/picks';
 import { CheckerProvider } from './checker-state';
 import { NameChecker } from './name-checker';

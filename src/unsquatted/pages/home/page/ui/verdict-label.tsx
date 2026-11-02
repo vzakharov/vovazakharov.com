@@ -1,9 +1,10 @@
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
-import type { Release, Verdict, WithDomain } from '../../lookup';
+import type { Release, Verdict } from '../../verdict';
 import type { WithCopy } from '../config/i18n';
 import { type Price, priceParts } from '../lib/price';
 import { registerUrl } from '../lib/register';
+import type { WithDomain } from '../lib/rows';
 import classes from './unsquatted-home.module.scss';
 
 /** `verdict` is `undefined` while the lookup runs. */

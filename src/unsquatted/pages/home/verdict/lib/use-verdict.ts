@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import type { Verdict } from '../../lookup';
 import { checkDomain } from './check-domain';
+import type { Verdict } from './verdict';
 
 type Answers = { ask: string; verdicts: ReadonlyMap<string, Verdict> };
 
