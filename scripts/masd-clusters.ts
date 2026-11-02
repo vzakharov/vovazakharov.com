@@ -33,7 +33,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { PUBLIC_API } from '../eslint/masd-graph.ts';
+import { isPublicApi } from '../eslint/masd-graph.ts';
 import { appFiles } from './lib/import-graph.ts';
 import {
   cutGain,
@@ -44,8 +44,6 @@ import {
 } from './lib/slice-graph.ts';
 
 const STAYS = /\/\/ masd-disable cluster -- \S/;
-
-const BARRELS = new Set(PUBLIC_API);
 
 /** `shared`: what the cluster takes from the rest, the sub-slice below both. */
 type Cluster = {
@@ -198,16 +196,12 @@ function unitClusters(
   const parts = Map.groupBy(members, (file) => partOf(file, unit));
   const candidates: Cluster[] = [];
   for (const root of roots) {
-    if (
-      doors.has(root) ||
-      BARRELS.has(path.basename(root)) ||
-      !idom.has(root)
-    ) {
+    if (doors.has(root) || isPublicApi(root) || !idom.has(root)) {
       continue;
     }
     const cluster = subtree(root);
     const stays = members.filter(
-      (file) => !cluster.has(file) && !BARRELS.has(path.basename(file)),
+      (file) => !cluster.has(file) && !isPublicApi(file),
     );
     if (
       cluster.size < 2 ||

@@ -8,9 +8,9 @@ import path from 'node:path';
 import ts from 'typescript';
 
 import {
+  isPublicApi,
   isTest,
   LAYERS,
-  PUBLIC_API,
   SLICED_LAYERS,
 } from '../../../eslint/masd-graph.ts';
 import { resolveImport, sourceFile } from '../import-graph.ts';
@@ -90,7 +90,7 @@ function enteredFrom(
 ): { consumer: string; target: string; parent?: string } | undefined {
   const slice = sliceOf(loaded);
   const target = path.dirname(loaded);
-  if (slice === undefined || !PUBLIC_API.includes(path.basename(loaded))) {
+  if (slice === undefined || !isPublicApi(loaded)) {
     return undefined;
   }
   if (target === slice) {
@@ -144,7 +144,7 @@ function destinations(
     return layer === undefined ? [] : [below(layer)];
   });
   const isBarrel = (file: string): boolean =>
-    path.dirname(file) === slice && PUBLIC_API.includes(path.basename(file));
+    path.dirname(file) === slice && isPublicApi(file);
   for (const [from, targets] of imports) {
     const inside = within(from, sub);
     if (!inside && isBarrel(from)) continue;

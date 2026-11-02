@@ -48,6 +48,10 @@ export const PUBLIC_API = [
   'index.no-browser.ts',
 ];
 
+/** Whether `file` is named as one of `PUBLIC_API`'s entry points. */
+export const isPublicApi = (file: string): boolean =>
+  PUBLIC_API.includes(path.basename(file));
+
 /** The entry point only test code may take, beside the public API. */
 export const TEST_API = 'index.test-only.ts';
 

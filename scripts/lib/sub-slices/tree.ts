@@ -7,8 +7,8 @@ import { existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 
 import {
+  isPublicApi,
   isTest,
-  PUBLIC_API,
   SEGMENTS,
   SLICED_LAYERS,
 } from '../../../eslint/masd-graph.ts';
@@ -83,8 +83,7 @@ export function mixed(apps: readonly string[]): string[] {
       .filter((entry) =>
         entry.isDirectory()
           ? SEGMENTS.includes(entry.name)
-          : !PUBLIC_API.includes(entry.name) &&
-            !isTest(path.join(unit, entry.name)),
+          : !isPublicApi(entry.name) && !isTest(path.join(unit, entry.name)),
       )
       .map((entry) => `"${entry.name}"`);
     return loose.length === 0
