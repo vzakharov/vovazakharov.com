@@ -209,10 +209,14 @@ The operator's running order, «давай пока попробуем так»,
   «Хорошо»'s words drafted and answered:
   `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`.
   `vovas-music/unnoticed` created, holding `unnoticed_mix.flac`.
+- **Done in relay 3:** drafts for all five in `lyrics/<slug>.md`, «Хорошо»'s PR
+  comments applied (footnotes, «Как, сука, хорошо»). «Сколько» keeps its title,
+  feat. за/обложкой, re-tagged. GigaAM heard nothing on any of these vocals;
+  «Поздно»'s opening verse came from a Whisper run on a cut of 0:46–1:20.
 - **Left, in order:**
-  - Words for talk-about-life, last-snow, unnoticed-things (from the transcripts
-    and `lyrics-prompts/`), and too-late (no prompt; Demucs and `transcribe.py`
-    on `Поздно.flac` first), each a draft with numbered asks.
+  - The operator's answers to the open asks (`<!-- ask N -->` in talk-about-life
+    1–3, last-snow 1, unnoticed-things 1–2, too-late 1–3) and his pick for
+    «Хорошо»'s crib line «Fuck, it’s good».
   - The operator's blind verdicts, then `reveal` per song and the winner `put`
     into its repository; for unnoticed-things the winner becomes
     `unnoticed_master.flac`.
