@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 35178,
+    "inputTokens": 35194,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 125845,
-    "cacheReadTokens": 3945476,
-    "outputTokens": 17727,
-    "thinkingTokens": 6693,
-    "responses": 32,
-    "costUsd": 2.1301476
+    "cacheWrite1hTokens": 142592,
+    "cacheReadTokens": 5437551,
+    "outputTokens": 20704,
+    "thinkingTokens": 6903,
+    "responses": 40,
+    "costUsd": 2.6221425999999997
   },
   "estimate": {
     "at": "2026-11-02T05:32:56.895Z",
@@ -59,22 +59,24 @@
   "branch": "claude/horowo-song-mastering-oia0kq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "давай 1- выложим новую песню, см. vovas-music/horowo (слаг должен быть такой же, не переводя на английский), текст приложил (нужно распознать и поменять где нас…",
-  "prs": [],
+  "prs": [
+    240
+  ],
   "url": "https://claude.ai/code/session_01DaohkDUQoG7KkbRYXnjTKr",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-02T05:30:37.988Z",
-  "lastResponseAt": "2026-11-02T05:33:33.595Z",
+  "lastResponseAt": "2026-11-02T05:34:09.617Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 59,
+    "inputTokens": 75,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 125845,
-    "cacheReadTokens": 3945476,
-    "outputTokens": 14958,
-    "thinkingTokens": 6693,
-    "responses": 29,
-    "costUsd": 2.0952512
+    "cacheWrite1hTokens": 142592,
+    "cacheReadTokens": 5437551,
+    "outputTokens": 17935,
+    "thinkingTokens": 6903,
+    "responses": 37,
+    "costUsd": 2.5872461999999996
   },
   "subagents": {
     "inputTokens": 0,
@@ -88,14 +90,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 59,
+      "inputTokens": 75,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 125845,
-      "cacheReadTokens": 3945476,
-      "outputTokens": 14958,
-      "thinkingTokens": 6693,
-      "responses": 29,
-      "costUsd": 2.0952512
+      "cacheWrite1hTokens": 142592,
+      "cacheReadTokens": 5437551,
+      "outputTokens": 17935,
+      "thinkingTokens": 6903,
+      "responses": 37,
+      "costUsd": 2.5872461999999996
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 35119,
@@ -111,10 +113,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 31,
-    "matched": 28,
-    "matchedTableUsd": 2.0308802,
-    "matchedEventUsd": 2.0308802,
+    "events": 39,
+    "matched": 36,
+    "matchedTableUsd": 2.541031,
+    "matchedEventUsd": 2.541031,
     "unseen": {
       "web_search_tool": {
         "inputTokens": 35119,
