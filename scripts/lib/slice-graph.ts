@@ -87,7 +87,7 @@ export const edgesWithin = (
 };
 
 /** The edges with one end in a part, and the edge ends on it, counted once. */
-export function meeting(
+function meeting(
   inPart: (file: string) => boolean,
   edges: readonly Edge[],
 ): { crossing: number; ends: number } {
