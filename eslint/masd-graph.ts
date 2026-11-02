@@ -48,7 +48,7 @@ export const PUBLIC_API = [
   'index.no-browser.ts',
 ];
 
-/** Whether `file` is named as one of `PUBLIC_API`'s entry points. */
+/** Whether `file`'s name is one of `PUBLIC_API`'s, whatever folder holds it. */
 export const isPublicApi = (file: string): boolean =>
   PUBLIC_API.includes(path.basename(file));
 
