@@ -46,7 +46,7 @@
 
 [^kittens-ru]: Почти цитата из «Котят» Зинаиды Александровой: «И солнечный зайчик с обоев / Погнаться готов за тобою».
 
-[^village-ru]: Отсылка к «Сектору Газа»: «Хорошо в деревне летом».
+[^village-ru]: Отсылка к «Сектору Газа»: «Хорошо в деревне летом, / Пристаёт говно к штиблетам».
 
 [^spoon-ru]: Строка из «Большой ложки» Зинаиды Александровой.
 
@@ -104,7 +104,7 @@ Good!
 
 [^kittens-en]: Nearly a quote from Zinaida Alexandrova’s children’s poem “Kittens,” where it is a _sunny_ bunny — a patch of reflected sunlight — that leaps off the wallpaper to chase you.
 
-[^village-en]: A nod to the punk band Sektor Gaza’s “it’s good in the village in summer.”
+[^village-en]: A nod to the punk band Sektor Gaza: “It’s good in the village in summer, / Shit sticks to your shoes.”
 
 [^spoon-en]: A line from Zinaida Alexandrova’s children’s poem “The Big Spoon.”
 
