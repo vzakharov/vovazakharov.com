@@ -11,8 +11,6 @@
 Ногтём-карандашом
 Как сука хорошо
 
-<!-- ask 1 -->
-
 (Хорошо!) Когда просыпаешься ночью
 (Хорошо!) В поту прохладном и сочном
 (Хорошо!) И призрачный зайчик с обоев
@@ -22,11 +20,7 @@
 (Хорошо!) Ложка новая с секретом
 (Хорошо!) И все отступают напасти
 
-<!-- ask 2 -->
-
-Так хорошо-шо-шо
-
-Не сдохнуть бы от счастья
+Так хорошо-шо-шо не сдохнуть бы от счастья
 В серотонинопаде
 Здесь есть одно ненастье
 И то лишь рифмы ради
@@ -36,18 +30,19 @@
 Я выскребу три слова
 Ногтём-карандашом
 Как сука хорошо
-
-<!-- ask 3 -->
-
-Хорошо (хорошо)!
-Хорошо (хорошо)!
-Хорошо (хорошо)!
-Не сдохнуть бы
-Хорошо (хорошо)!
-Хорошо (хорошо)!
-Хорошо (хорошо)!
-Хорошо (хорошо)!
 Хорошо
+Хорошо
+Хорошо
+
+Хорошо
+Не сдохнуть бы как хорошо
+Хорошо
+Хорошо
+
+Хорошо
+Хорошо
+
+Хорошо!
 
 [^village-ru]: Отсылка к присказке «Хорошо в деревне летом».
 
@@ -72,9 +67,8 @@ How fucking good
 (It’s good!) Even not in the village in summer[^village-en]
 (It’s good!) A new spoon with a secret
 (It’s good!) And all misfortunes retreat
-So good-ood-ood
 
-If only I don’t drop dead from happiness
+So good-ood-ood[^sho-en] if only I don’t drop dead from happiness
 In a serotonin-fall
 There is one spell of foul weather here
 And that just for the rhyme
@@ -84,17 +78,22 @@ Whatever anyone might think
 I’ll scratch out three words
 With a fingernail for a pencil
 How fucking good
-
-Good (good)!
-Good (good)!
-Good (good)!
-If only I don’t drop dead
-Good (good)!
-Good (good)!
-Good (good)!
-Good (good)!
 Good
+Good
+Good
+
+Good
+If only I don’t drop dead, how good
+Good
+Good
+
+Good
+Good
+
+Good!
 
 [^serotonin-en]: A coinage on the model of _listopad_, “leaf-fall,” and _zvezdopad_, “star-fall.”
 
 [^village-en]: A nod to the Russian saying “it’s good in the village in summer.”
+
+[^sho-en]: The echo plays on _sho_, the colloquial “what” the chorus rhymes on.
