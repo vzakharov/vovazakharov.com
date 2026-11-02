@@ -37,13 +37,14 @@ export const variantUrls = (
  * the branch lands, so the next test takes this one's place.
  */
 export const LOST_SONGS: BlindTest = {
-  title: '«Хорошо», «За жизнь», «Последний снег», «Незаметные штуки»',
+  title: 'Потерянные песни Грёбаного бала',
   base: 'https://raw.githubusercontent.com/vzakharov/vovazakharov.com/claude/horowo-song-mastering-oia0kq/docs/remove-before-merging/horowo-song-mastering-oia0kq/blind',
   pieces: [
     { id: 'horowo', title: 'Хорошо', masters: 4 },
     { id: 'talk-about-life', title: 'За жизнь', masters: 4 },
     { id: 'last-snow', title: 'Последний снег', masters: 4 },
     { id: 'unnoticed-things', title: 'Незаметные штуки', masters: 3 },
+    { id: 'too-late', title: 'Поздно', masters: 3 },
   ],
 };
 
