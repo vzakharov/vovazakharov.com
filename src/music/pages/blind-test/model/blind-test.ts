@@ -41,9 +41,9 @@ export const LOST_SONGS: BlindTest = {
   base: 'https://raw.githubusercontent.com/vzakharov/vovazakharov.com/claude/horowo-song-mastering-oia0kq/docs/remove-before-merging/horowo-song-mastering-oia0kq/blind',
   pieces: [
     { id: 'horowo', title: 'Хорошо', masters: 4 },
-    { id: 'talk', title: 'За жизнь', masters: 4 },
-    { id: 'lastsnow', title: 'Последний снег', masters: 4 },
-    { id: 'unnoticed', title: 'Незаметные штуки', masters: 3 },
+    { id: 'talk-about-life', title: 'За жизнь', masters: 4 },
+    { id: 'last-snow', title: 'Последний снег', masters: 4 },
+    { id: 'unnoticed-things', title: 'Незаметные штуки', masters: 3 },
   ],
 };
 

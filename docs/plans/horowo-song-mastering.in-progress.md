@@ -141,12 +141,16 @@ vovas-music/talk и /lastsnow соответственно, с ними тоже
 - **«За жизнь»** (`vovas-music/talk`) and **«Последний снег»**
   (`vovas-music/lastsnow`) each go through § 1 and § 2 exactly as «Хорошо»: the
   operator's master (`<Russian title>.flac`) against three Matchering masters of
-  `<Russian title>_mix.flac`, slug = the repository's name as for `horowo`.
+  `<Russian title>_mix.flac`. Their slugs follow `songs.md`'s rule, the `horowo`
+  override being that song's alone — «last-snow через дефис как заведено (имя
+  репы не имеет решающей роли для слага)»: `last-snow`, and `talk-about-life`
+  after the idiom «поговорить за жизнь».
 - **«Незаметные штуки»** has only a mix, a 48 kHz WAV the operator pushed to the
-  branch's working directory. It gets a new repository, `unnoticed`, and a plain
-  A/B/C of three Matchering masters (`masters: 3`, no fourth). The WAV is
-  converted to a 44.1 kHz FLAC for Matchering and stored in the repository as
-  `unnoticed_mix.flac`; the winner becomes `unnoticed_master.flac`.
+  branch's working directory. It gets a new repository, `unnoticed`, the slug
+  `unnoticed-things`, and a plain A/B/C of three Matchering masters
+  (`masters: 3`, no fourth). The WAV is converted to a 44.1 kHz FLAC for
+  Matchering and stored in the repository as `unnoticed_mix.flac`; the winner
+  becomes `unnoticed_master.flac`.
 - **One blind test, four pieces.** `HOROWO` becomes one test whose pieces each
   state their own master count, since three songs have four masters and one has
   three — `masters` moves from the test onto the piece.
