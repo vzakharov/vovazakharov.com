@@ -6,7 +6,7 @@ project: ['Грёбаный бал']
 repo: 'utro'
 album: null
 seconds: 228
-mp3Bytes: 9113813
+mp3Bytes: 9113716
 explicit: false
 credits:
   lyrics: ['Славик, друг Андрея Мокрушина']
