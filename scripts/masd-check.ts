@@ -31,7 +31,7 @@ import {
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
 import { appFiles, subdirectories } from './lib/import-graph.ts';
-import { type Edge, importsOf, meeting } from './lib/slice-graph.ts';
+import { type Edge, importsOf, meeting, within } from './lib/slice-graph.ts';
 import { subSliceProblems } from './lib/sub-slices/index.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
@@ -76,8 +76,8 @@ function appOf(file: string): string | undefined {
  * slice's own app's alone, as masd.md states.
  */
 function modular(slice: string, edges: readonly Edge[]): boolean {
-  const prefix = path.join('src', slice) + path.sep;
-  const { crossing, ends } = meeting((file) => file.startsWith(prefix), edges);
+  const directory = path.join('src', slice);
+  const { crossing, ends } = meeting((file) => within(file, directory), edges);
   // `inside / m > (ends / 2m)²` with `inside = (ends − crossing) / 2`,
   // multiplied through by `4m`.
   return 2 * edges.length * (ends - crossing) > ends ** 2;
