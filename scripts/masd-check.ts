@@ -31,7 +31,7 @@ import {
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
 import { appFiles, subdirectories } from './lib/import-graph.ts';
-import { type Edge, importsOf, meeting, within } from './lib/slice-graph.ts';
+import { cutGain, type Edge, importsOf, within } from './lib/slice-graph.ts';
 import { subSliceProblems } from './lib/sub-slices/index.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
@@ -72,15 +72,14 @@ function appOf(file: string): string | undefined {
  * Whether a slice holds more of its app's import edges than chance would: its
  * term of Newman's modularity, `e − a²`, is positive — `e` the share of edges
  * with both ends in it, `a` the share of edge ends on it, so `a²` is what a
- * rewiring keeping every file's degree would put inside. `edges` are the
+ * rewiring keeping every file's degree would put inside. That is the sign of
+ * `cutGain`, whose two-way cut gains twice the part's term. `edges` are the
  * slice's own app's alone, as masd.md states.
  */
 function modular(slice: string, edges: readonly Edge[]): boolean {
   const directory = path.join('src', slice);
-  const { crossing, ends } = meeting((file) => within(file, directory), edges);
-  // `inside / m > (ends / 2m)²` with `inside = (ends − crossing) / 2`,
-  // multiplied through by `4m`.
-  return 2 * edges.length * (ends - crossing) > ends ** 2;
+  const part = new Set(edges.flat().filter((file) => within(file, directory)));
+  return cutGain(part, edges) > 0;
 }
 
 function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
