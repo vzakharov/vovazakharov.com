@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 230,
+    "cacheWrite5mTokens": 141058,
+    "cacheWrite1hTokens": 198580,
+    "cacheReadTokens": 18327751,
+    "outputTokens": 52342,
+    "thinkingTokens": 15666,
+    "responses": 115,
+    "costUsd": 7.007240199999997
+  },
+  "estimate": {
+    "at": "2026-11-02T02:38:46.951Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "An eight-file base merge into a 100-commit branch needs someone who knows both the MASD checkers and main's poison check to resolve semantically, then a checker split and a slice cut held to gates only a senior reads fluently"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-02T02:27:54.386Z",
+    "contextTokens": 101595,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44693,
+      "cacheReadTokens": 330232,
+      "outputTokens": 408,
+      "thinkingTokens": 35,
+      "responses": 4,
+      "costUsd": 0.43178239999999996
+    }
+  },
+  "sessionId": "4071d8f6-5eaa-5416-9023-806e185d6a03",
+  "branch": "claude/masd-slice-clusters-q7r4tm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/sync-branch claude/masd-slice-clusters-q7r4tm потом /handle",
+  "prs": [
+    228
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCUvXJ8rkaQWM2Coye",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-02T02:27:44.744Z",
+  "lastResponseAt": "2026-11-02T02:41:09.542Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 182,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 198580,
+    "cacheReadTokens": 15594684,
+    "outputTokens": 43219,
+    "thinkingTokens": 11492,
+    "responses": 91,
+    "costUsd": 5.572684799999998
+  },
+  "subagents": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 141058,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2733067,
+    "outputTokens": 9123,
+    "thinkingTokens": 4174,
+    "responses": 24,
+    "costUsd": 1.4345554000000003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 230,
+      "cacheWrite5mTokens": 141058,
+      "cacheWrite1hTokens": 198580,
+      "cacheReadTokens": 18327751,
+      "outputTokens": 52342,
+      "thinkingTokens": 15666,
+      "responses": 115,
+      "costUsd": 7.007240199999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 115,
+    "matched": 115,
+    "matchedTableUsd": 7.007240199999997,
+    "matchedEventUsd": 7.007240199999997,
+    "unseen": {}
+  }
+}
