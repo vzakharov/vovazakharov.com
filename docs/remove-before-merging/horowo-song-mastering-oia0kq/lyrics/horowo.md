@@ -63,7 +63,7 @@ And on the madhouse wall
 Whatever anyone might think
 I’ll scratch out three words
 With a fingernail for a pencil
-Fuck, it’s good
+Fuck, it’s so fucking good
 
 (It’s good!) When you wake up at night
 (It’s good!) In a cool and juicy sweat
@@ -83,7 +83,7 @@ And on the madhouse wall
 Whatever anyone might think
 I’ll scratch out three words
 With a fingernail for a pencil
-Fuck, it’s good
+Fuck, it’s so fucking good
 Good
 Good
 Good
