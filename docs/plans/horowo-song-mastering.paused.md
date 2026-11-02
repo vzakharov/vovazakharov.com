@@ -197,11 +197,29 @@ The operator's running order, «давай пока попробуем так»,
   `application/octet-stream` with `nosniff`, and only the MP3 as `audio/mpeg`.
   So `og:audio` is the MP3, and a FLAC cannot stand in for it, because GitHub's
   headers are not ours to set.
+- **Done since:** the N-way blind test (masters per piece) and its five sealed
+  sets on the preview, live at
+  https://preview.vovazakharov.com/music/mastering-blind-test — horowo,
+  talk-about-life, last-snow and too-late with four masters each (the operator's
+  own among them), unnoticed-things with three; seals in the commits that added
+  each set, keys base64 beside the sets, candidates in the `music-sources`
+  release (`lost-songs-candidate-masters.tar`,
+  `too-late-candidate-masters.tar`). § 5's albums, all masters re-tagged
+  (`music:masters check` clean). Whisper/GigaAM transcripts for horowo, talk,
+  lastsnow, unnoticed in `docs/music/transcripts/` (named by stem, not slug).
+  «Хорошо»'s words drafted and answered:
+  `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`.
+  `vovas-music/unnoticed` created, holding `unnoticed_mix.flac`.
 - **Left, in order:**
-  - § 1, starting from the mix and master downloaded with `music:masters get`.
-    The venv and the downloads lived in this container's `tmp/` and have to be
-    re-made.
-  - § 2 in full.
+  - Words for talk-about-life, last-snow, unnoticed-things (from the transcripts
+    and `lyrics-prompts/`), and too-late (no prompt; Demucs and `transcribe.py`
+    on `Поздно.flac` first), each a draft with numbered asks.
+  - The operator's blind verdicts, then `reveal` per song and the winner `put`
+    into its repository; for unnoticed-things the winner becomes
+    `unnoticed_master.flac`.
+  - Each repository's files per § 1 (`.master.mp3`, `mastering/`, README naming
+    the master and its reference), then `music:scaffold`, the page's frontmatter
+    (§ 4–5 billing, album, track), `music:masters tag`.
   - The QA unfurl check: build vova and grep `og:audio` in
     `out/music/songs/<slug>.html`.
 
@@ -219,11 +237,10 @@ The operator's running order, «давай пока попробуем так»,
   `transcribe.py`, `spectrogram.py`, `music:masters`, `music:scaffold`). No new
   script is written.
 
-## Questions (each has a default the plan already uses)
+## Questions
 
-1. The title: **a) «Хорошо» (default)**, b) «Хорошо!», or c) _Horowo_ as the
-   stylised name, with «Хорошо» as the Russian name.
-2. The billing and credits: **a) Грёбаный бал alone, words and music yours
-   (default)**, or b) someone featured or credited — name them.
-3. A story for the page, as a dictation or as text: **a) publish without one and
-   add it later (default)**, or b) you send one now.
+1. Title: answered — «Хорошо!», with the mark, from his running order.
+2. Billing: Грёбаный бал and the author for all; «Незаметные штуки»'s words are
+   Роман Попов's. «Сколько нужно сделать feat. за/обложкой» was applied as
+   written though the words sing «Сколько можно» — asked, unanswered.
+3. Stories: none yet; pages publish without one.
