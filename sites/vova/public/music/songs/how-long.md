@@ -1,5 +1,5 @@
 ---
-title: 'Сколько нужно сделать'
+title: 'Сколько'
 date: 2025-09-18
 language: ru
 project: ['Грёбаный бал', 'за/обложкой']
@@ -7,11 +7,11 @@ repo: 'skolko'
 album: for-none-and-for-all
 track: 5
 seconds: 240
-mp3Bytes: 9623609
+mp3Bytes: 9623579
 explicit: false
 en:
   title:
-    translation: 'How Much Must Be Done'
+    translation: 'How Long'
 ---
 
 <!-- Scaffolded from https://github.com/vovas-music/skolko — Сколько.flac,

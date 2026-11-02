@@ -174,9 +174,8 @@ The operator's running order, «давай пока попробуем так»,
 - **Singles:** good-morning, unnoticed-things, beyond-the-horizon.
   ghostly-blues, which his list leaves out, becomes a single too until he says
   otherwise.
-- **how-long** is retitled «Сколько нужно сделать», billed
-  `[Грёбаный бал, за/обложкой]` per «Сколько нужно сделать feat. за/обложкой»;
-  the slug stays.
+- **how-long** keeps its title «Сколько», billed `[Грёбаный бал, за/обложкой]` —
+  «я говорил, нужно сделать `feat. за/обложкой` :) название не меняется».
 - **«Хорошо!»**, with the exclamation mark, is `horowo`'s title, as he wrote it
   in the running order.
 - «На пальцы» already plays the `(EDM)` master: the tagged FLAC decodes
@@ -241,6 +240,5 @@ The operator's running order, «давай пока попробуем так»,
 
 1. Title: answered — «Хорошо!», with the mark, from his running order.
 2. Billing: Грёбаный бал and the author for all; «Незаметные штуки»'s words are
-   Роман Попов's. «Сколько нужно сделать feat. за/обложкой» was applied as
-   written though the words sing «Сколько можно» — asked, unanswered.
+   Роман Попов's. «Сколько» stays «Сколько», feat. за/обложкой.
 3. Stories: none yet; pages publish without one.
