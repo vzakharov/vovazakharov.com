@@ -1,4 +1,4 @@
-# PR #240: feat(vova): five lost Грёбаный бал songs, their albums, music unfurl
+# PR #240: feat(vova): «Хорошо!» and four lost Грёбаный бал songs, their albums, music unfurl
 
 - **State:** open
 - **URL:** https://github.com/vzakharov/vovazakharov.com/pull/240
@@ -7,25 +7,21 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-11-02T05:33:47Z
-- **Updated:** 2026-11-02T06:42:51Z
+- **Updated:** 2026-11-02T07:28:48Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 9
+## Awaiting an answer: 5
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 6a60023). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:17 — unresolved — last: @vzakharov (human) 2026-11-02T06:31:50Z — "отсылка к "Котятам" Александровой (строфа справа-вверху): <i…" → [↓](#t01)
-- **T02** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:20 — unresolved — last: @vzakharov (human) 2026-11-02T06:32:55Z — "тоже Александрова, «Большая ложка» <img width="800" height="…" → [↓](#t02)
-- **T03** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:21 — unresolved — last: @vzakharov (human) 2026-11-02T06:34:20Z — "отсылка к «Песенке про пустой горшок» из советского Винни-Пу…" → [↓](#t03)
-- **T04** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:47 — unresolved — last: @vzakharov (human) 2026-11-02T06:35:04Z — "не к присказке, а к песне Сектора Газа :)" → [↓](#t04)
-- **T05** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:54 — unresolved — last: @vzakharov (human) 2026-11-02T06:35:26Z — "пояснить при чём тут "рифмы ради"" → [↓](#t05)
-- **T06** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:60 — unresolved — last: @vzakharov (human) 2026-11-02T06:35:50Z — "как-то хлёстче можно придумать? давай варианты" → [↓](#t06)
-- **T07** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:12 — unresolved — last: @vzakharov (human) 2026-11-02T06:36:03Z — "Тут кстати `, сука, `" → [↓](#t07)
-- **T08** `docs/remove-before-merging/horowo-song-mastering-oia0kq/squash-message.md`:4 — unresolved — last: @vzakharov (human) 2026-11-02T06:36:45Z — "Хорошо -- новая, не потерянная" → [↓](#t08)
-- **T09** `docs/remove-before-merging/horowo-song-mastering-oia0kq/squash-message.md`:16 — unresolved — last: @vzakharov (human) 2026-11-02T06:37:21Z — "я говорил, нужно сделать `feat. за/обложкой` :) название не…" → [↓](#t09)
+- **T02** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/talk-about-life.md`:9 — unresolved — last: @vzakharov (human) 2026-11-02T07:24:16Z — "может лучше на вторую строчку подсказку?" → [↓](#t02)
+- **T03** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:4 — unresolved — last: @vzakharov (human) 2026-11-02T07:25:11Z — "отсылка к Библии -- "время сеять и время пожинать плоды"" → [↓](#t03)
+- **T04** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:61 — unresolved — last: @vzakharov (human) 2026-11-02T07:26:37Z — "тут неточно передано "надышаться перед смертью" -- т.е. прот…" → [↓](#t04)
+- **T05** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:29 — unresolved — last: @vzakharov (human) 2026-11-02T07:27:15Z — "отсылка к Пушкину <img width="520" height="291" alt="Image"…" → [↓](#t05)
+- **T06** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/unnoticed-things.md`:27 — unresolved — last: @vzakharov (human) 2026-11-02T07:28:17Z — "интересно что, кажется, изначально "*с*кинуть бомжа" -- т.е.…" → [↓](#t06)
 
 ---
 
@@ -52,7 +48,7 @@ https://claude.ai/code/session_01DaohkDUQoG7KkbRYXnjTKr
 
 ## Comments
 
-- **C01** @vzakharov (agent) — 2026-11-02T05:34:06Z — "Proposed squash body: ``` Five Грёбаный бал songs that never…" → [↓](#c01)
+- **C01** @vzakharov (agent) — 2026-11-02T05:34:06Z — "Proposed squash body: ``` Грёбаный бал's new song «Хорошо!»…" → [↓](#c01)
 
 <a id="c01"></a>
 
@@ -63,11 +59,11 @@ https://claude.ai/code/session_01DaohkDUQoG7KkbRYXnjTKr
 Proposed squash body:
 
 ```
-Five Грёбаный бал songs that never reached the site — «Хорошо!»,
-«За жизнь», «Последний снег», «Поздно» and «Незаметные штуки», the
-last with words by Роман Попов — are published from their vovas-music
-repositories, their words corrected from Suno prompts to what the
-recordings sing. Each master was picked blind against Matchering
+Грёбаный бал's new song «Хорошо!» and four that never reached the
+site — «За жизнь», «Последний снег», «Поздно» and «Незаметные штуки»,
+the last with words by Роман Попов — are published from their
+vovas-music repositories, their words corrected from Suno prompts to
+what the recordings sing. Each master was picked blind against Matchering
 masters on /music/mastering-blind-test, which now plays any number of
 masters per song: blind-abc.py builds and splits N, and each piece
 states its own count.
@@ -75,9 +71,8 @@ states its own count.
 The band's two albums take the operator's running order: Ни для кого
 и для всех and Сильней любви are renumbered, the new songs placed on
 them, and Доброе утро, За горизонт, Незаметные штуки and Призрачный
-блюз stand as singles. «Сколько» becomes «Сколько нужно сделать»,
-billed with за/обложкой. Every master whose album or title moved is
-re-tagged in its repository.
+блюз stand as singles. «Сколько» is billed feat. за/обложкой. Every
+master whose album or billing moved is re-tagged in its repository.
 
 Every song page declares itself in Open Graph's music vocabulary:
 og:type music.song, og:audio pointing at the song's MP3, its duration,
@@ -93,60 +88,16 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ## Review threads
 
-- **T01** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:17 — unresolved — last: @vzakharov (human) 2026-11-02T06:31:50Z — "отсылка к "Котятам" Александровой (строфа справа-вверху): <i…" → [↓](#t01)
-- **T02** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:20 — unresolved — last: @vzakharov (human) 2026-11-02T06:32:55Z — "тоже Александрова, «Большая ложка» <img width="800" height="…" → [↓](#t02)
-- **T03** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:21 — unresolved — last: @vzakharov (human) 2026-11-02T06:34:20Z — "отсылка к «Песенке про пустой горшок» из советского Винни-Пу…" → [↓](#t03)
-- **T04** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:47 — unresolved — last: @vzakharov (human) 2026-11-02T06:35:04Z — "не к присказке, а к песне Сектора Газа :)" → [↓](#t04)
-- **T05** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:54 — unresolved — last: @vzakharov (human) 2026-11-02T06:35:26Z — "пояснить при чём тут "рифмы ради"" → [↓](#t05)
-- **T06** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:60 — unresolved — last: @vzakharov (human) 2026-11-02T06:35:50Z — "как-то хлёстче можно придумать? давай варианты" → [↓](#t06)
-- **T07** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:12 — unresolved — last: @vzakharov (human) 2026-11-02T06:36:03Z — "Тут кстати `, сука, `" → [↓](#t07)
-- **T08** `docs/remove-before-merging/horowo-song-mastering-oia0kq/squash-message.md`:4 — unresolved — last: @vzakharov (human) 2026-11-02T06:36:45Z — "Хорошо -- новая, не потерянная" → [↓](#t08)
-- **T09** `docs/remove-before-merging/horowo-song-mastering-oia0kq/squash-message.md`:16 — unresolved — last: @vzakharov (human) 2026-11-02T06:37:21Z — "я говорил, нужно сделать `feat. за/обложкой` :) название не…" → [↓](#t09)
+_8 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:21 — unresolved — last: @vzakharov (agent) 2026-11-02T06:47:25Z — "Сноска «Отсылка к «Песенке про пустой горшок» из советского…" → [↓](#t01)
+- **T02** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/talk-about-life.md`:9 — unresolved — last: @vzakharov (human) 2026-11-02T07:24:16Z — "может лучше на вторую строчку подсказку?" → [↓](#t02)
+- **T03** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:4 — unresolved — last: @vzakharov (human) 2026-11-02T07:25:11Z — "отсылка к Библии -- "время сеять и время пожинать плоды"" → [↓](#t03)
+- **T04** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:61 — unresolved — last: @vzakharov (human) 2026-11-02T07:26:37Z — "тут неточно передано "надышаться перед смертью" -- т.е. прот…" → [↓](#t04)
+- **T05** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:29 — unresolved — last: @vzakharov (human) 2026-11-02T07:27:15Z — "отсылка к Пушкину <img width="520" height="291" alt="Image"…" → [↓](#t05)
+- **T06** `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/unnoticed-things.md`:27 — unresolved — last: @vzakharov (human) 2026-11-02T07:28:17Z — "интересно что, кажется, изначально "*с*кинуть бомжа" -- т.е.…" → [↓](#t06)
 
 <a id="t01"></a>
-
-### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:17 — unresolved
-
-```diff
-@@ -0,0 +1,99 @@
-… 12 lines elided …
-+
-+(Хорошо!) Когда просыпаешься ночью
-+(Хорошо!) В поту прохладном и сочном
-+(Хорошо!) И призрачный зайчик с обоев
-+(Хорошо!) Погнаться готов за тобою
-```
-
-**@vzakharov (human)** — 2026-11-02T06:31:50Z
-
-отсылка к "Котятам" Александровой (строфа справа-вверху):
-
-<img width="1576" height="1080" alt="Image" src="./attachments/f8f6c79f-1259-49b0-b168-000a27617d01.png" />
-
----
-
-<a id="t02"></a>
-
-### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:20 — unresolved
-
-```diff
-@@ -0,0 +1,99 @@
-… 16 lines elided …
-+(Хорошо!) Погнаться готов за тобою
-+
-+(Хорошо!) Даже не в деревне летом[^village-ru]
-+(Хорошо!) Ложка новая с секретом
-```
-
-**@vzakharov (human)** — 2026-11-02T06:32:55Z
-
-тоже Александрова, «Большая ложка»
-
-<img width="800" height="547" alt="Image" src="./attachments/9733cc24-c2ff-4b0b-a42a-825f33fbf510.png" />
-
----
-
-<a id="t03"></a>
 
 ### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:21 — unresolved
 
@@ -163,118 +114,107 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 отсылка к «Песенке про пустой горшок» из советского Винни-Пуха, хотя и не цитата (там «Конец твоим страданьям и разочарованьям, / И сразу наступает хорошая погода»
 
+**@vzakharov (agent)** — 2026-11-02T06:47:25Z
+
+Сноска «Отсылка к «Песенке про пустой горшок» из советского «Винни-Пуха»» с цитатой оттуда, в обеих колонках — 55b4d78
+
+---
+
+<a id="t02"></a>
+
+### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/talk-about-life.md`:9 — unresolved
+
+```diff
+@@ -0,0 +1,147 @@
+… 4 lines elided …
++Такой мрак — не видно ног, не то что дороги
++Но вот факт: чем трудней идти, тем легче ложатся строки
++
++А интересно, так же было тошно Пушкину[^pushkin-ru]
++Что, не разменяв и сорока, полез под пушку?
+```
+
+**@vzakharov (human)** — 2026-11-02T07:24:16Z
+
+может лучше на вторую строчку подсказку?
+
+---
+
+<a id="t03"></a>
+
+### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:4 — unresolved
+
+```diff
+@@ -0,0 +1,81 @@
++<!-- lyrics:ru -->
++
++Послушай, мы же оба знали: этот день придёт
++И время пожинать плоды когда-нибудь настанет
+```
+
+**@vzakharov (human)** — 2026-11-02T07:25:11Z
+
+отсылка к Библии -- "время сеять и время пожинать плоды"
+
 ---
 
 <a id="t04"></a>
 
-### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:47 — unresolved
+### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:61 — unresolved
 
 ```diff
-@@ -0,0 +1,99 @@
-… 43 lines elided …
-+
-+Хорошо!
-+
-+[^village-ru]: Отсылка к присказке «Хорошо в деревне летом».
+@@ -0,0 +1,81 @@
+… 57 lines elided …
++With a mother’s care the scaffold greets us
++Already the mummers and clowns are working up the crowd
++We look at each other: maybe this time we’ll get away with it
++Hand in hand, and a last breath before death[^nadyshatsya-en]
 ```
 
-**@vzakharov (human)** — 2026-11-02T06:35:04Z
+**@vzakharov (human)** — 2026-11-02T07:26:37Z
 
-не к присказке, а к песне Сектора Газа :)
+тут неточно передано "надышаться перед смертью" -- т.е. противопоставление пословице, в которой это невозможно
 
 ---
 
 <a id="t05"></a>
 
-### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:54 — unresolved
+### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/too-late.md`:29 — unresolved
 
 ```diff
-@@ -0,0 +1,99 @@
-… 50 lines elided …
-+If only I don’t drop dead from happiness
-+In a serotonin-fall[^serotonin-en]
-+There is one spell of foul weather here
-+And that just for the rhyme
+@@ -0,0 +1,81 @@
+… 24 lines elided …
++Жизнь сквозь кожу не удержать
++Поздно, поздно, поздно
++
++Играет на лице ещё багряный свет
++И мы живём ещё сегодня
 ```
 
-**@vzakharov (human)** — 2026-11-02T06:35:26Z
+**@vzakharov (human)** — 2026-11-02T07:27:15Z
 
-пояснить при чём тут "рифмы ради"
+отсылка к Пушкину
+
+<img width="520" height="291" alt="Image" src="./attachments/0f1aa2dd-bd31-413b-afc2-9be5c6a3ae12.png" />
 
 ---
 
 <a id="t06"></a>
 
-### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:60 — unresolved
+### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/unnoticed-things.md`:27 — unresolved
 
 ```diff
-@@ -0,0 +1,99 @@
-… 56 lines elided …
-+Whatever anyone might think
-+I’ll scratch out three words
-+With a fingernail for a pencil
-+How fucking good
-```
-
-**@vzakharov (human)** — 2026-11-02T06:35:50Z
-
-как-то хлёстче можно придумать? давай варианты
-
----
-
-<a id="t07"></a>
-
-### `docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics/horowo.md`:12 — unresolved
-
-```diff
-@@ -0,0 +1,99 @@
-… 8 lines elided …
-+Кто б не подумал шо
-+Я выскребу три слова
-+Ногтём-карандашом
-+Как сука хорошо
-```
-
-**@vzakharov (human)** — 2026-11-02T06:36:03Z
-
-Тут кстати `, сука, `
-
----
-
-<a id="t08"></a>
-
-### `docs/remove-before-merging/horowo-song-mastering-oia0kq/squash-message.md`:4 — unresolved
-
-```diff
-@@ -0,0 +1,32 @@
-+Proposed squash body:
+@@ -0,0 +1,55 @@
+… 23 lines elided …
 +
-+```
-+Five Грёбаный бал songs that never reached the site — «Хорошо!»,
++А у вас как... Уже прокачали свой кухонный интерьер?
++
++[^bomzh-ru]: «Бомж» — бесплатный звонок или сообщение с просьбой перезвонить, который оператор давал отправить с нулевого баланса.
 ```
 
-**@vzakharov (human)** — 2026-11-02T06:36:45Z
+**@vzakharov (human)** — 2026-11-02T07:28:17Z
 
-Хорошо -- новая, не потерянная
-
----
-
-<a id="t09"></a>
-
-### `docs/remove-before-merging/horowo-song-mastering-oia0kq/squash-message.md`:16 — unresolved
-
-```diff
-@@ -0,0 +1,32 @@
-… 12 lines elided …
-+The band's two albums take the operator's running order: Ни для кого
-+и для всех and Сильней любви are renumbered, the new songs placed on
-+them, and Доброе утро, За горизонт, Незаметные штуки and Призрачный
-+блюз stand as singles. «Сколько» becomes «Сколько нужно сделать»,
-```
-
-**@vzakharov (human)** — 2026-11-02T06:37:21Z
-
-я говорил, нужно сделать `feat. за/обложкой` :) название не меняется
+интересно что, кажется, изначально "*с*кинуть бомжа" -- т.е. позвонить и скинуть; интересно как метаморфирует сленг
 
 ---
 
@@ -283,3 +223,6 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - **2026-11-02T05:34:10Z** @vzakharov renamed from «feat(vova): «Хорошо» — Грёбаный бал single, blind master test, music unfurl tags» to «feat(vova): «Хорошо», a blind master test, music unfurl tags».
 - **2026-11-02T06:27:04Z** @vzakharov renamed from «feat(vova): «Хорошо», a blind master test, music unfurl tags» to «feat(vova): five lost Грёбаный бал songs, their albums, music unfurl».
 - **2026-11-02T06:39:28Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/240#pullrequestreview-5732839721.
+- **2026-11-02T06:56:11Z** @vzakharov renamed from «feat(vova): five lost Грёбаный бал songs, their albums, music unfurl» to «feat(vova): «Хорошо!» and four lost Грёбаный бал songs, their albums, music unfurl».
+- **2026-11-02T06:58:41Z** @vzakharov — _head_ref_force_pushed_
+- **2026-11-02T07:28:48Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/240#pullrequestreview-5733211304.
