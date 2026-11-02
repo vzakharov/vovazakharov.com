@@ -146,11 +146,13 @@ vovas-music/talk и /lastsnow соответственно, с ними тоже
   репы не имеет решающей роли для слага)»: `last-snow`, and `talk-about-life`
   after the idiom «поговорить за жизнь».
 - **«Незаметные штуки»** has only a mix, a 48 kHz WAV the operator pushed to the
-  branch's working directory. It gets a new repository, `unnoticed`, the slug
-  `unnoticed-things`, and a plain A/B/C of three Matchering masters
-  (`masters: 3`, no fourth). The WAV is converted to a 44.1 kHz FLAC for
-  Matchering and stored in the repository as `unnoticed_mix.flac`; the winner
-  becomes `unnoticed_master.flac`.
+  branch's working directory. Its words are Роман Попов's («слова в "Незаметных
+  штуках" — Роман Попов»), so `credits.lyrics: [Роман Попов]`, the music the
+  author's. It gets a new repository, `unnoticed`, the slug `unnoticed-things`,
+  and a plain A/B/C of three Matchering masters (`masters: 3`, no fourth). The
+  WAV is converted to a 44.1 kHz FLAC for Matchering and stored in the
+  repository as `unnoticed_mix.flac`; the winner becomes
+  `unnoticed_master.flac`.
 - **One blind test, four pieces.** `HOROWO` becomes one test whose pieces each
   state their own master count, since three songs have four masters and one has
   three — `masters` moves from the test onto the piece.
