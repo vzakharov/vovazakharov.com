@@ -1,7 +1,7 @@
 <!-- lyrics:ru -->
 
 Послушай, мы же оба знали: этот день придёт
-И время пожинать плоды когда-нибудь настанет
+И время пожинать плоды когда-нибудь настанет[^ecclesiastes-ru]
 Так почему в груди так нестерпимо жжёт
 И руки тянутся к рукам, как будто что-то знают?
 
@@ -25,8 +25,8 @@
 Жизнь сквозь кожу не удержать
 Поздно, поздно, поздно
 
-Играет на лице ещё багряный свет
-И мы живём ещё сегодня
+Играет на лице ещё багряный свет[^osen-ru]
+И мы живём ещё сегодня[^osen-ru]
 
 Поздно помнить, поздно бежать
 Режет воздух кромка ножа
@@ -38,10 +38,14 @@
 Жизнь сквозь кожу не удержать
 Поздно, поздно дышать
 
+[^ecclesiastes-ru]: Отсылка к Екклесиасту: «время насаждать, и время вырывать посаженное» (Еккл. 3:2).
+
+[^osen-ru]: Отсылка к «Осени» Пушкина: «Играет на лице ещё багровый цвет. / Она жива ещё сегодня, завтра нет».
+
 <!-- lyrics:en -->
 
 Listen, we both knew this day would come
-And the time to reap the fruit would come someday
+And the time to reap the fruit would come someday[^ecclesiastes-en]
 So why does it burn so unbearably in the chest
 And hands reach for hands, as if they knew something?
 
@@ -58,15 +62,15 @@ Too late, too late to breathe
 With a mother’s care the scaffold greets us
 Already the mummers and clowns are working up the crowd
 We look at each other: maybe this time we’ll get away with it
-Hand in hand, and a last breath before death[^nadyshatsya-en]
+Hand in hand, to breathe our fill before death[^nadyshatsya-en]
 
 Too late to remember, too late to run
 The knife’s edge cuts the air
 Life can’t be held in through the skin
 Too late, too late, too late
 
-Crimson light still plays on the face
-And we are still alive today
+Crimson light still plays on the face[^osen-en]
+And we are still alive today[^osen-en]
 
 Too late to remember, too late to run
 The knife’s edge cuts the air
@@ -78,4 +82,8 @@ The knife’s edge cuts the air
 Life can’t be held in through the skin
 Too late, too late to breathe
 
-[^nadyshatsya-en]: From the saying _pered smert’yu ne nadyshish’sya_, “you can’t breathe your fill before death.”
+[^ecclesiastes-en]: After Ecclesiastes 3:2, “a time to plant, and a time to pluck up that which is planted.”
+
+[^nadyshatsya-en]: Against the saying _pered smert’yu ne nadyshish’sya_, “you can’t breathe your fill before death”: the line sets out to do what the saying calls impossible.
+
+[^osen-en]: After Pushkin’s “Autumn” (1833): “The crimson colour still plays on her face. / She is alive today, tomorrow not.”

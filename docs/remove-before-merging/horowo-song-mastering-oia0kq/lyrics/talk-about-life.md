@@ -5,8 +5,8 @@
 Такой мрак — не видно ног, не то что дороги
 Но вот факт: чем трудней идти, тем легче ложатся строки
 
-А интересно, так же было тошно Пушкину[^pushkin-ru]
-Что, не разменяв и сорока, полез под пушку?
+А интересно, так же было тошно Пушкину
+Что, не разменяв и сорока, полез под пушку?[^pushkin-ru]
 И не отрави Моцарта Сальери
 Не переобулся бы тот сам из гениев в злодеи?
 
@@ -77,8 +77,8 @@ Yeah, I’m glad, just a little worn out
 Such darkness you can’t see your feet, let alone the road
 But here’s the thing: the harder the going, the easier the lines come
 
-I wonder, did Pushkin feel just as sick[^pushkin-en]
-That he went before the gun before he’d even turned forty?
+I wonder, did Pushkin feel just as sick
+That he went before the gun before he’d even turned forty?[^pushkin-en]
 And had Salieri not poisoned Mozart
 Would he not have switched from genius to villain himself?
 
