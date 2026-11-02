@@ -176,7 +176,9 @@ which is why it is not a syntax of the site's own; labels are unique across the
 file for the same reason, so the two languages' notes are suffixed `-ru` and
 `-en`. A note is in the language of the text it hangs off, and the page shows
 only the notes of the column in its own language — the crib's on a page whose
-language is not the one sung, the words' own on a page in it. A marker with no
+language is not the one sung, the words' own on a page in it. A note citing the
+Bible gives book, chapter and verse («Еккл. 3:2», “Ecclesiastes 3:2”) and quotes
+the Synodal or King James text, never a paraphrase of it. A marker with no
 definition, a definition nothing carries, and a whole-line note sharing its line
 with another each fail the build.
 
