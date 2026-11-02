@@ -1,28 +1,28 @@
 {
   "total": {
-    "inputTokens": 1848,
+    "inputTokens": 1861,
     "cacheWrite5mTokens": 242,
-    "cacheWrite1hTokens": 183747,
-    "cacheReadTokens": 11074645,
-    "outputTokens": 38135,
-    "thinkingTokens": 10133,
-    "responses": 59,
-    "costUsd": 4.443454600000002
+    "cacheWrite1hTokens": 190005,
+    "cacheReadTokens": 12782847,
+    "outputTokens": 43085,
+    "thinkingTokens": 10295,
+    "responses": 66,
+    "costUsd": 4.934211000000001
   },
   "estimate": {
-    "at": "2026-11-02T06:42:39.539Z",
+    "at": "2026-11-02T06:55:56.574Z",
     "parts": [
       {
-        "hours": 2.0,
-        "grade": "senior",
-        "role": "audio-engineer",
-        "comment": "revealing five verdicts, putting the winners and each repository's files, and re-tagging take a mastering ear"
-      },
-      {
-        "hours": 6.0,
+        "hours": 4.0,
         "grade": "senior",
         "role": "editor",
-        "comment": "four sets of sung Russian words reconciled from two recognisers against Suno prompts, a spoken monologue and a song with no prompt among them, each with a faithful English crib"
+        "comment": "five sets of sung and spoken Russian reconciled from one recogniser against prompts, a song with no prompt heard in pieces, review comments applied, each with an English crib that carries the references"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "a vocal stem cut and re-heard in pieces where the whole-file hearing dropped a verse"
       }
     ],
     "comment": null
@@ -53,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkCkJEqDPqpD2fSpdB3",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-02T06:42:23.306Z",
-  "lastResponseAt": "2026-11-02T06:55:43.933Z",
+  "lastResponseAt": "2026-11-02T06:56:45.602Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 111,
+    "inputTokens": 124,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 183747,
-    "cacheReadTokens": 10851310,
-    "outputTokens": 37661,
-    "thinkingTokens": 10133,
-    "responses": 57,
-    "costUsd": 4.3939020000000015
+    "cacheWrite1hTokens": 190005,
+    "cacheReadTokens": 12559512,
+    "outputTokens": 42611,
+    "thinkingTokens": 10295,
+    "responses": 64,
+    "costUsd": 4.884658400000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -78,14 +78,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 617,
+      "inputTokens": 630,
       "cacheWrite5mTokens": 242,
-      "cacheWrite1hTokens": 183747,
-      "cacheReadTokens": 11074645,
-      "outputTokens": 37690,
-      "thinkingTokens": 10133,
-      "responses": 58,
-      "costUsd": 4.4431090000000015
+      "cacheWrite1hTokens": 190005,
+      "cacheReadTokens": 12782847,
+      "outputTokens": 42640,
+      "thinkingTokens": 10295,
+      "responses": 65,
+      "costUsd": 4.933865400000001
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1231,
@@ -101,10 +101,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 59,
-    "matched": 57,
-    "matchedTableUsd": 4.3939020000000015,
-    "matchedEventUsd": 4.393902000000002,
+    "events": 66,
+    "matched": 64,
+    "matchedTableUsd": 4.884658400000001,
+    "matchedEventUsd": 4.884658400000003,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 506,
