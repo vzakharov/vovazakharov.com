@@ -7,7 +7,7 @@ repo: 'lebed'
 album: stronger-than-love
 track: 5
 seconds: 292
-mp3Bytes: 11692283
+mp3Bytes: 11692261
 explicit: false
 credits:
   lyrics: ['Михаил Танич']
