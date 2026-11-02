@@ -66,8 +66,6 @@ const clock = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 
 export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
-  const list = useMemo(() => variants(test), [test]);
-  const keys = useMemo(() => keysFor(list), [list]);
   const playerRef = useRef<BlindPlayer>(null);
   // The variant carries over to the next song, which the load effect applies without re-running on each switch.
   const chosenRef = useRef<Variant>('mix');
@@ -85,6 +83,11 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
   );
   const [copied, setCopied] = useState(false);
   const piece = test.pieces[pieceIndex];
+  const list = useMemo(
+    () => (piece === undefined ? [] : variants(piece)),
+    [piece],
+  );
+  const keys = useMemo(() => keysFor(list), [list]);
 
   const report = (error_: unknown) => {
     setError(String(error_));
@@ -108,7 +111,13 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
     const current = playerRef.current;
     if (current === null || piece === undefined) return;
     const wasPlaying = current.playing;
-    current.load(variantUrls(test, piece));
+    const urls = variantUrls(test, piece);
+    // A song with fewer masters than the one before has no position to carry over to.
+    if (!urls.has(chosenRef.current)) {
+      chosenRef.current = 'mix';
+      setVariant('mix');
+    }
+    current.load(urls);
     current.select(chosenRef.current);
     if (wasPlaying) current.play().catch(report);
   }, [test, piece]);

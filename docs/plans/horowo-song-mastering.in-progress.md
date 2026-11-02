@@ -128,6 +128,33 @@ likely does not play inline. The song's own `.mp3` link from its page (the
 download link) does play inline there. The PR says so plainly rather than
 promising a Telegram player.
 
+## 4. Three more songs, added mid-work
+
+The operator, after relay 1: «вылезли ещё три "потерянные песни". Две —
+vovas-music/talk и /lastsnow соответственно, с ними тоже нужно провернуть такую
+же штуку с мастерингом (миксы там называются \_mix после русского названия песни
+— без \_mix значит мастер). третья — ещё репа не создавалась, нужно будет
+создать — саму кинул на ветку — и отмастерить с 3 A/B/C (так как это только
+микс)». His Suno-prompt lyrics for all three came as attachments, copied into
+`docs/remove-before-merging/horowo-song-mastering-oia0kq/lyrics-prompts/`.
+
+- **«За жизнь»** (`vovas-music/talk`) and **«Последний снег»**
+  (`vovas-music/lastsnow`) each go through § 1 and § 2 exactly as «Хорошо»: the
+  operator's master (`<Russian title>.flac`) against three Matchering masters of
+  `<Russian title>_mix.flac`, slug = the repository's name as for `horowo`.
+- **«Незаметные штуки»** has only a mix, a 48 kHz WAV the operator pushed to the
+  branch's working directory. It gets a new repository, `unnoticed`, and a plain
+  A/B/C of three Matchering masters (`masters: 3`, no fourth). The WAV is
+  converted to a 44.1 kHz FLAC for Matchering and stored in the repository as
+  `unnoticed_mix.flac`; the winner becomes `unnoticed_master.flac`.
+- **One blind test, four pieces.** `HOROWO` becomes one test whose pieces each
+  state their own master count, since three songs have four masters and one has
+  three — `masters` moves from the test onto the piece.
+- **References**, nearest by `nearest.py`-style ranking (balance RMS against the
+  mix over 40 Hz–16 kHz, then loudness and crest): «Хорошо» — poko, birdie,
+  studentka; «За жизнь» and «Последний снег» — poko, birdie, slime; «Незаметные
+  штуки» — fingers, poko, burmakin. All Грёбаный бал masters.
+
 ## Progress
 
 - **Done:** § 3's unfurl tags, in 6ca102d. Kernel's `constructMetadata` takes an
