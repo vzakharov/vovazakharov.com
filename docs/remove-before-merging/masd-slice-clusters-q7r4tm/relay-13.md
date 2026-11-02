@@ -37,7 +37,18 @@ The muthur sync offer was made; do not make it again.
 6. **Operator** (mid-turn): `как бы нам такое тоже замечать? какой здесь вообще механический критерий может быть? или механического быть не может?`
    - Agent: answered both in one reply, then paused for the context budget
      and relayed: the cut is the successor's; the criterion is a proposal
-     awaiting the operator's call. (verbatim in Last agent turn)
+     awaiting the operator's call. The criterion: build the gate's graph from
+     top-level declarations (edge = one references the other) instead of
+     files; a file whose declarations fall into two or more groups with no
+     edge between them, each with at least two declarations and importers of
+     its own, is two modules (or: splitting it raises ΔQ on that graph).
+     Noise: types, constants and helper-bag files, hence the threshold and a
+     `masd-disable` escape; misses: one small shared helper glues two nouns
+     into one component — the reference graph only approximates meaning, so
+     the human keeps the last word. Cost: references need the TypeScript
+     compiler API, seconds over `src/`. (The relay ran inside this turn, so
+     the Last agent turn below is turn 3's reply; this turn's text is in the
+     transcript.)
 
 ## Intent
 
@@ -117,51 +128,6 @@ or more groups that never reference each other is two modules), as a
 
 Still open, unasked again: one shared `isBarrel` for the three barrel checks.
 Then `/finalize` when the operator asks.
-
-## Last agent turn
-
-The agent's last turn before the relay, verbatim, appended by
-`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
-unneeded but harmless; the reply proper is usually its last paragraphs.
-
-```text
-Вова, `main` смерджен в ветку, и всё, что ждало ответа в #228, разобрано. Vet на последнем коммите зелёный, PR теперь `MERGEABLE`. Сессия подключена к `claude/masd-slice-clusters-q7r4tm`, все коммиты пушились туда.
-
-https://github.com/vzakharov/vovazakharov.com/pull/228
-
-**Синхронизация** (`13d7915e..e909d97a`, 7 коммитов из `main`). Восемь конфликтов я оставил в мердж-коммите как есть, а решил их отдельным коммитом **120f313e**: открой его на вкладке Commits, там видны только сами решения.
-
-| Файл | Решение |
-|---|---|
-| `package.json`, `scripts/vet.sh`, `.claude/rules/stack.md` | Оставлены обе стороны: `check:cycles` и `masd:clusters` из ветки, `check:poison` из main |
-| `scripts/lib/import-graph.ts` | Обе стороны вынесли один и тот же модуль. Взял версию ветки и экспортировал и `SOURCE`, и `walk` |
-| `scripts/masd-check.ts` | Версия ветки: она уже ходит через общий модуль |
-| `five-percent/procedure.md` | Версия main: в ветке лежал более ранний черновик того же #229 |
-| `docs/masd.md` | Остаётся удалённым. Правки main к нему перенёс в staged-правило MASD (9315b98) |
-| `player-provider.tsx` | Версия ветки. `useProvided` из main переехал туда, где ветка теперь держит `usePlayer`: `context/ui/player-context.ts`. Провайдер там назван строкой, потому что импорт обратно из `controls` замкнул бы цикл |
-
-**Что main принёс сверх конфликтов.** Новый сайт unsquatted пришёл по старой схеме и на правилах этой ветки не проходил её проверки:
-- каталог `i18n/` переехал в `config/i18n` (c07bdd7);
-- гейт нашёл в `pages/home` кластер. Я разрезал страницу на `page/` + `verdict/` + `lookup/` (c3a737a). Теперь гейт пишет «0 of 89».
-
-Первый прогон vet упал на сборке unsquatted. После разреза SCSS-модуль лежит на уровень глубже, и путь к `styles/` указывал мимо. Исправлено в e909d97, повторный vet зелёный.
-
-**Ответы на ревью:**
-- **T04 «надо сплиттить»**: `scripts/lib/sub-slices.ts` (483 строки) теперь каталог `sub-slices/`. В нём файлы `tree.ts`, `siblings.ts`, `promotion.ts` и собирающий их `index.ts` (cce2515).
-- **T01**: ответил, что предложение уже сделано в 5d8bc13: кандидат в кластер теперь поддерево с одним входом.
-- **T02, T03** («переживём»): ответил «принято».
-- Файла вердиктов /five-percent на ветке не было вовсе, а без него `/finalize` остановится. Записал все пять отвеченных предложений.
-
-**Полировка** нашла одно повторение и убрала его (4646211). Новых предложений /five-percent нет. Тело PR обновлено, предложение squash-сообщения осталось прежним: этих правок будущий читатель `git log` не заметит.
-
-Решать тебе:
-1. **Одна и та же проверка модульности написана дважды.** `modular()` в `masd-check.ts` и `cutGain() > 0` в `slice-graph.ts` дают одно и то же условие на разных графах. Можно свести к одной, но придётся менять сигнатуру `cutGain` или собирать `Set` на каждом вызове. Мне это кажется уместным перед `/finalize`, но не горит.
-2. **Три проверки «это баррель?»**: вопрос из прошлой сессии, по-прежнему без ответа.
-
-Если отменить всю синхронизацию, ветка вернётся на коммит до мерджа, `13d7915e`. Для этого нужен `git push --force-with-lease`, и только по твоему слову. Замечания к самим решениям поправлю отдельными коммитами поверх.
-
-На ~247k токенов пришло предупреждение о бюджете контекста. Я не паузил сессию: оставались только ожидание vet и обновление PR.
-```
 
 ## Last agent turn
 
