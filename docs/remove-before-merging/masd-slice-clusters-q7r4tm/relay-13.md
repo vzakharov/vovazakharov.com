@@ -15,7 +15,29 @@ The muthur sync offer was made; do not make it again.
      branch's sub-slice rules; ran `/handle`'s review lane (split
      `scripts/lib/sub-slices.ts`, replied to T01–T04, recorded five verdicts);
      `/polish`; refreshed the PR body; vet green. Put two optional calls to the
-     operator. (verbatim in Last agent turn)
+     operator. Then the keepalive parked the session.
+2. **Operator**: `а каким образом она нашла в lookup кластер? потому что там был коллокированный .test?`
+   - Agent: no — tests are dropped from the graph. The cluster was
+     {use-verdict, check-domain} (check-domain reached only through
+     use-verdict, ΔQ 0.041); lookup.ts was "what it takes from the rest",
+     put below both. Noted lookup.ts holds two nouns the gate cannot see.
+3. **Operator**: `а по смыслу они belong together (внутри одного lookup)?`
+   - Agent: no. Half 1, name → domains (`cleanLabel`, `typedZone`, `zoneOf`,
+     `ZONES`, `splitsIntoWords`, `domainHacks`, `rowsFor`, `Row`,
+     `WithDomain`), read only by page. Half 2, registry answer → verdict
+     (`Verdict`, `Release`, `parseBootstrap`, `freesIn`, `rdapVerdict`,
+     `dohVerdict`, shape guards), read by check-domain/use-verdict and, as
+     types, by `verdict-label`. No code links the halves; the file header
+     describes only half 2; the test splits the same way. Proposed
+     `page/` + `verdict/`, no `lookup/`.
+4. **Operator**: `> Решать тебе` / `я тут уже не до конца понимаю, ну давай подсушим`
+   - Agent: read as the answer to call 1; folded `modular()` into
+     `cutGain(...) > 0` (9a1ce8f), tests and check:masd green.
+5. **Operator** (mid-turn): `> Нет, это два разных существительных в одном файле` / `тогда режем`
+6. **Operator** (mid-turn): `как бы нам такое тоже замечать? какой здесь вообще механический критерий может быть? или механического быть не может?`
+   - Agent: answered both in one reply, then paused for the context budget
+     and relayed: the cut is the successor's; the criterion is a proposal
+     awaiting the operator's call. (verbatim in Last agent turn)
 
 ## Intent
 
@@ -59,8 +81,8 @@ asked for.
 
 - Branch `claude/masd-slice-clusters-q7r4tm`, draft PR
   https://github.com/vzakharov/vovazakharov.com/pull/228, `MERGEABLE CLEAN`,
-  head e909d97 plus this relay commit. Pre-merge tip 13d7915e.
-- Vet green on e909d97.
+  head 9a1ce8f plus this relay commit. Pre-merge tip 13d7915e.
+- Vet green on e909d97; 9a1ce8f (modular → cutGain) checked locally only.
 - Plan `docs/plans/masd-slice-clusters.paused.md`, no bite open.
 - PR threads T01–T04 replied to; nothing awaiting except the calls below.
 - Nothing running: no CI, subscription or check-in; keepalive parked it.
@@ -77,13 +99,23 @@ asked for.
 
 ## Next step
 
-Wait for the operator's answers to the two optional calls:
+The operator: «тогда режем». Cut `src/unsquatted/pages/home/lookup/lib/lookup.ts`
+and `lookup.test.ts` in two by noun (turn 3 above lists each half's names):
+the verdict half (with its tests) into `verdict/lib/`, exported from
+`verdict/index.ts` as the types `verdict-label` needs; the name→domains half
+(with its tests) into `page/lib/`; delete `lookup/`. Repoint imports, then
+`pnpm masd:clusters`, `pnpm check:masd`, `pnpm check:cycles`, eslint on
+`src/unsquatted`, tsc on `sites/unsquatted/tsconfig.json`, the unsquatted
+tests and `pnpm build unsquatted`; commit, push, reply nowhere (asked in
+chat). Then `/polish` and `/pr` refresh (PR body names `page/` + `verdict/` +
+`lookup/`).
 
-1. Fold `modular()` in `scripts/masd-check.ts` into `cutGain(...) > 0` from
-   `scripts/lib/slice-graph.ts` — the same condition on different graphs
-   (needs a `Set` per call or a predicate-taking `cutGain`).
-2. One shared `isBarrel` for the three barrel checks (open since relay 12).
+Awaiting the operator: whether to build the declaration-level criterion
+proposed in the last turn (a file whose top-level declarations fall into two
+or more groups that never reference each other is two modules), as a
+`masd:clusters` mode or a check of its own, and in this PR or an issue.
 
+Still open, unasked again: one shared `isBarrel` for the three barrel checks.
 Then `/finalize` when the operator asks.
 
 ## Last agent turn
@@ -129,4 +161,29 @@ https://github.com/vzakharov/vovazakharov.com/pull/228
 Если отменить всю синхронизацию, ветка вернётся на коммит до мерджа, `13d7915e`. Для этого нужен `git push --force-with-lease`, и только по твоему слову. Замечания к самим решениям поправлю отдельными коммитами поверх.
 
 На ~247k токенов пришло предупреждение о бюджете контекста. Я не паузил сессию: оставались только ожидание vet и обновление PR.
+```
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Нет, это два разных существительных в одном файле. Код их тоже не связывает: ни одна функция одной половины не вызывает функцию другой.
+
+**Половина 1: имя → домены.** `cleanLabel`, `typedZone`, `zoneOf`, `ZONES`, `splitsIntoWords`, `domainHacks`, `rowsFor`, `Row`, `WithDomain`. Это про то, какие домены показать по тому, что ввёл посетитель. Читает её только страница: `checker-state`, `dice`, `name-checker`, `picks`, сама страница.
+
+**Половина 2: ответ реестра → вердикт.** `Verdict`, `Release`, `parseBootstrap`, `freesIn`, `rdapVerdict`, `dohVerdict` и самописные проверки формы ответов. Это про то, занят ли домен. Её читают `check-domain` и `use-verdict`, а со стороны страницы только `verdict-label`, и только типы.
+
+Что это два модуля, видно по самому файлу. Его шапка («Whether a domain is registered, read off the registry's own RDAP service… Pure: `check-domain.ts` does the fetching and hands the bodies here») описывает только вторую половину: первая, похоже, приросла позже. Тесты в `lookup.test.ts` тоже идут двумя блоками, от `cleanLabel` до `rowsFor` и от `parseBootstrap` дальше. А `check-domain` достаёт зону из домена сам (`domain.slice(domain.lastIndexOf('.') + 1)`) и `zoneOf` не трогает.
+
+Если резать по смыслу, получается два куска, а не три:
+- **`verdict/`** получает разбор ответов вместе с `check-domain` и `use-verdict`: запрос, разбор и хук — это один вердикт;
+- **половина 1 уезжает в `page/lib`**: её читает только страница, отдельный под-слайс ей не нужен;
+- **под-слайса `lookup/` больше нет**. Страница импортирует из `verdict` только `Verdict` и `Release` для `verdict-label`, в одну сторону.
+
+Нынешний трёхчастный разрез появился из-за того, что гейт видит файлы, а не то, что в них. Он честно сказал «общий файл — вниз, под обоих», потому что не мог знать, что двум соседям нужны разные половины этого файла.
+
+Переделать на `page/` + `verdict/`? Это одна правка: разделить `lookup.ts` и его тест надвое и разложить половины. Потом прогоню гейт и сборку unsquatted.
 ```
