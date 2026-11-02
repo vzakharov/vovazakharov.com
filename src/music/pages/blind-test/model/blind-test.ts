@@ -44,7 +44,7 @@ export const LOST_SONGS: BlindTest = {
     { id: 'talk-about-life', title: 'За жизнь', masters: 4 },
     { id: 'last-snow', title: 'Последний снег', masters: 4 },
     { id: 'unnoticed-things', title: 'Незаметные штуки', masters: 3 },
-    { id: 'too-late', title: 'Поздно', masters: 3 },
+    { id: 'too-late', title: 'Поздно', masters: 4 },
   ],
 };
 
