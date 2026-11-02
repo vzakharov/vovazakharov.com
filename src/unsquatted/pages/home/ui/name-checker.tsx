@@ -3,7 +3,7 @@
 import { ActionIcon, Button, TextInput, UnstyledButton } from '@mantine/core';
 import { useState } from 'react';
 
-import type { WithCopy } from '../i18n';
+import type { WithCopy } from '../config/i18n';
 import { rollName } from '../lib/dice';
 import { type Row, rowsFor, zoneOf } from '../lib/lookup';
 import type { Prices } from '../lib/price';

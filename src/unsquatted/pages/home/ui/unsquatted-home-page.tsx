@@ -6,7 +6,7 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { COPY } from '../i18n';
+import { COPY } from '../config/i18n';
 import { zoneOf } from '../lib/lookup';
 import { fetchPrices } from '../lib/prices';
 import { PICKS } from '../model/picks';
