@@ -24,7 +24,7 @@ import {
 import { constructMetadata } from '@/blog/shared/seo';
 import { DocumentCards } from '@/blog/entities/document';
 
-import { messages } from '../i18n';
+import { messages } from '../config/i18n';
 
 const COLLECTION = 'lsa-blog';
 

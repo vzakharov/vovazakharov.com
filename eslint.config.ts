@@ -62,6 +62,7 @@ import noRelativeEscape from './eslint/rules/no-relative-escape';
 import noSplitJsxSpreads from './eslint/rules/no-split-jsx-spreads';
 import noUncausedRethrow from './eslint/rules/no-uncaused-rethrow';
 import preferShorthandSpread from './eslint/rules/prefer-shorthand-spread';
+import subSliceEntry from './eslint/rules/sub-slice-entry';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -105,6 +106,7 @@ const eslintConfig = defineConfig([
           'no-split-jsx-spreads': noSplitJsxSpreads,
           'no-uncaused-rethrow': noUncausedRethrow,
           'prefer-shorthand-spread': preferShorthandSpread,
+          'sub-slice-entry': subSliceEntry,
         },
       },
     },
@@ -150,8 +152,8 @@ const eslintConfig = defineConfig([
   // everywhere else, including every component the CV renders.
   {
     files: [
-      'src/vova/pages/{home,writing}/ui/**/*.tsx',
-      'src/music/pages/{music,artist,album,song,radio}/ui/**/*.tsx',
+      'src/vova/pages/{home,writing}/**/*.tsx',
+      'src/music/pages/{music,artist,album,song,radio}/**/*.tsx',
       'src/music/{widgets,entities}/*/ui/**/*.tsx',
       'src/music/shared/ui/*.tsx',
     ],

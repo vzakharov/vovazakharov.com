@@ -27,11 +27,7 @@ import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { routing } from '@/kernel/shared/i18n';
 import { contentHash } from '@/kernel/shared/lib/content-hash';
 
-import {
-  CV_PAGE_CEILING,
-  CV_VARIANTS,
-  cvPath,
-} from '@/vova/pages/cv/index.node-safe';
+import { CV_PAGE_CEILING, CV_VARIANTS, cvPath } from '@/vova/entities/cv';
 
 import { pdfPageCount } from './lib/pdf-pages.ts';
 
@@ -47,7 +43,7 @@ import { given } from '@/kernel/scripts/lib/argv';
 import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
-const CV_SOURCES = ['src/vova/pages/cv'];
+const CV_SOURCES = ['src/vova/pages/cv', 'src/vova/entities/cv'];
 
 /**
  * The CV's PDF per framing and language. Only the printable's own catalogue is

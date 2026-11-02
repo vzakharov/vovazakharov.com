@@ -12,7 +12,7 @@ import {
 } from '@/mushrooms/shared/lib/random';
 
 import { buzzingBody } from './buzz-genes';
-import type { Buzzing, OfKind } from './insect-genes';
+import type { Buzzing, OfKind } from './insect';
 
 /**
  * The names `palette.ts` keys a fly's sheen by, from bottle green round to a

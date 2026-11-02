@@ -3,7 +3,7 @@
  * `flight.ts` reads it.
  */
 
-import type { InsectKind } from './insect-genes';
+import type { InsectKind } from './insect';
 
 /**
  * How a flight that darts gets there: it dashes `way` of the way in the first

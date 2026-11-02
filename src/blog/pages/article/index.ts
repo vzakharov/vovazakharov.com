@@ -1,0 +1,1 @@
+export { articleRoute } from './page';

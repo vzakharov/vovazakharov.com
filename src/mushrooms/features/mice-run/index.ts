@@ -1,2 +1,1 @@
-export type { DoorShown, MouseDoor } from './ui/mouse-door';
-export { MouseRuns } from './ui/mouse-runs';
+export { type DoorShown, type MouseDoor, MouseRuns } from './runs';

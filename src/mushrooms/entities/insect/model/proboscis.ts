@@ -7,7 +7,7 @@
 
 import type { Point } from '@/mushrooms/shared/lib/geometry';
 
-import type { Bodied } from './insect-genes';
+import type { Bodied } from './insect';
 import { SIP_DEPTH } from './insect-motion';
 import { type BodySide, headOf } from './insect-outline';
 

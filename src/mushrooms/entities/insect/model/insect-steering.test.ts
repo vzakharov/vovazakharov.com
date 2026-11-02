@@ -15,7 +15,7 @@ import {
 import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
 
 import { FLIGHT_HABITS } from './flight-habits';
-import { INSECT_KINDS, type InsectKind } from './insect-genes';
+import { INSECT_KINDS, type InsectKind } from './insect';
 import { carriedFrom } from './insect-motion';
 import { type Carried, type Fluttering, PATH_SHAPES } from './insect-paths';
 import { firstSteering, startLeg, steer } from './insect-steering';

@@ -15,16 +15,14 @@ import {
   type Point,
 } from '@/mushrooms/shared/lib/geometry';
 
-import { apartOf, type Scheduled } from './flight-timing';
+import type { Place } from './flight-frame';
 import {
+  apartOf,
   type Leg,
   type OutFirst,
-  type Perch,
-  perchName,
-  type Place,
-  type Places,
-  type Side,
-} from './perch';
+  type Scheduled,
+} from './flight-timing';
+import { type Perch, perchName, type Places, type Side } from './perch';
 
 /**
  * A release's way out of view as the screen draws it, in the units of

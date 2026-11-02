@@ -13,7 +13,8 @@ paths:
   - sites/*/app/**/music/**
   - sites/*/public/generated/**
   - src/blog/shared/content/**
-  - src/blog/pages/documents/**
+  - src/blog/pages/article/**
+  - src/blog/pages/collection-index/**
   - src/vova/pages/cv/**
   - sites/*/app/**/case-studies/**
   - sites/bible/app/**
@@ -35,9 +36,9 @@ it is rooted instead**, its base empty and its directory that site's whole
 `public/`: the Bible is `sites/bible/public/`, and an article is
 `agentic.bible/<slug>` rather than repeating the collection's name after a
 domain that already says it. The pipeline stops at the hast tree and hands it to
-React through `hast-util-to-jsx-runtime`; `ProseContent` (`entities/document/`)
-is where that happens. The paths below are written from the site directory,
-which is where every build and every render script is entered.
+React through `hast-util-to-jsx-runtime`; `ProseContent` (blog's `shared/ui`) is
+where that happens. The paths below are written from the site directory, which
+is where every build and every render script is entered.
 
 **A collection belongs to one site**, named in its registry entry, because
 `public/` is per site: every walk over the registry goes through
@@ -118,7 +119,7 @@ whole design exists for. Every module starts with `import 'server-only'` so that
 is enforced rather than hoped for: importing one from a `'use client'` component
 fails the build. When a client component needs something the registry owns — a
 route, say — the **server page resolves it and passes it down**; that is what
-`src/vova/pages/cv/ui/cv-page.tsx` does for the CV's case-study link.
+`src/vova/pages/cv/sheet/page/ui/cv-page.tsx` does for the CV's case-study link.
 
 The exceptions are the modules a script runs outside any bundler, each saying so
 in its header, and the `index.node-safe.ts` barrel over some of them — hence no
@@ -277,7 +278,7 @@ collections' documents; the rest is held by reading.
   site's copyright — is `position: fixed`, which repeats it and pins it to the
   page box; left in the `<tfoot>`'s flow it lands under the last page's prose,
   which on a page that ends early is the middle of it. Being out of flow it
-  reserves nothing, so the band's height is stated in `documents.module.scss`
+  reserves nothing, so the band's height is stated in `print-sheet.module.scss`
   and a change to the footer's type size moves it. The table is
   `table-layout: fixed` in print because an auto table widens to its widest
   child and everything past the paper's edge is silently cut off, the footer's
@@ -381,7 +382,7 @@ collections' documents; the rest is held by reading.
   this site is user-submitted; if that ever changes, this is the line that has
   to change with it.
 - **A tag in `CONTENT_COMPONENTS` is that component everywhere in every
-  document.** `prose-content.tsx` (`entities/document/ui/`) maps `video` to
+  document.** `prose-content.tsx` (blog's `shared/ui`) maps `video` to
   `ContentVideo`, so the print note above reaches a player the pipeline built
   and one an author typed as raw HTML alike — the map keys off the tag, not off
   who emitted it. That reach is the point of the map and the whole of its

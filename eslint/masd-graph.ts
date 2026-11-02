@@ -19,6 +19,25 @@ export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
 
 /**
+ * The segments a slice is cut into: FSD's standard ones, a slice's catalogue
+ * being `config/i18n.ts`. Any other folder directly in a slice or a sub-slice
+ * is a sub-slice.
+ */
+export const SEGMENTS = ['ui', 'model', 'lib', 'api', 'config'];
+
+/**
+ * The sub-slices a file below a slice root sits in, outermost first, as their
+ * paths from that root: the folders leading its path before the first segment.
+ * `dirs` are the folders between the slice root and the file.
+ */
+export function subSlicePath(dirs: readonly string[]): string[] {
+  const segment = dirs.findIndex((dir) => SEGMENTS.includes(dir));
+  return dirs
+    .slice(0, segment === -1 ? dirs.length : segment)
+    .map((_, index) => dirs.slice(0, index + 1).join('/'));
+}
+
+/**
  * A slice's or a segment's entry points. A closed list, so any other
  * `index.*.ts` is still reaching into internals.
  */
@@ -28,6 +47,10 @@ export const PUBLIC_API = [
   'index.node-safe.ts',
   'index.no-browser.ts',
 ];
+
+/** Whether `file`'s name is one of `PUBLIC_API`'s, whatever folder holds it. */
+export const isPublicApi = (file: string): boolean =>
+  PUBLIC_API.includes(path.basename(file));
 
 /** The entry point only test code may take, beside the public API. */
 export const TEST_API = 'index.test-only.ts';
@@ -40,6 +63,10 @@ export const TEST_CODE = ['**/*.test.ts', TEST_KIT];
 
 /** `TEST_CODE`'s files, for a reader matching a path rather than a glob. */
 export const TEST_FILE = /\.test(-kit)?\.tsx?$/;
+
+/** Test code, its own entry into a slice included. */
+export const isTest = (file: string): boolean =>
+  TEST_FILE.test(file) || path.basename(file) === TEST_API;
 
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 

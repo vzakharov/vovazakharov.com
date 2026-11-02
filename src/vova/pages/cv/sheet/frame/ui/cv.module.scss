@@ -1,0 +1,212 @@
+@use '../../../../../../../styles/mantine' as mantine;
+
+// The CV is the only page that gets printed, so its screen values and their
+// print counterparts are declared together here rather than split between a
+// style prop and a global sheet — an inline style prop is unreachable from
+// `src/shell/app/styles/print.scss`, and a class here outranks that sheet's element
+// rules. Page-level print concerns (`@page`, the forced light scheme, the
+// element defaults these classes are exceptions to) stay in that sheet.
+
+.page {
+  min-height: 100vh;
+  padding: 32px;
+  padding-bottom: 80px;
+
+  @include mantine.larger-than(mantine.$breakpoint-sm) {
+    padding: 80px;
+  }
+
+  // Body copy prints a point under the sheet's default, which is what keeps the
+  // CV to three pages. `:where()` leaves the specificity at this one class, so
+  // a class sizing a paragraph of its own still wins on order: the tagline
+  // below, and the full sheet's contact line, whose stylesheet its component
+  // imports after this one.
+  @media print {
+    padding: 0;
+
+    :where(p, ul, ol, li) {
+      font-size: 9pt;
+      line-height: 1.35;
+    }
+  }
+}
+
+// Print has the page margin to itself; the reading measure is the paper's.
+.container {
+  @media print {
+    max-width: 100%;
+  }
+}
+
+.pageSections {
+  gap: 32px;
+
+  @media print {
+    gap: 0.8cm;
+  }
+}
+
+.section {
+  gap: 16px;
+
+  @media print {
+    gap: 0.3cm;
+
+    > p:not(:last-child) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Experience entries sit further apart than the contents of a section.
+.sectionWide {
+  gap: 24px;
+
+  @media print {
+    gap: 0.4cm;
+  }
+}
+
+// A Stack's gap does not collapse with its items' margins, so a trailing margin
+// inside an item would add to the gap rather than fold into it.
+.subsection {
+  @media print {
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.header {
+  padding-bottom: 32px;
+
+  // The one title centred across the full column, so below `sm` its ink runs
+  // under the layout's corner toggle without this clearance.
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    padding-top: 48px;
+  }
+
+  // The toolbar below separates on screen and is gone on paper, so the rule
+  // here is print's alone.
+  @media print {
+    padding-top: 0;
+    padding-bottom: 0.4cm;
+    border-bottom: 1px solid var(--color-border-hairline);
+  }
+}
+
+.screenFooter {
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border-hairline);
+}
+
+// A subsection heading, one step down from an experience entry's title.
+.subheading {
+  font-size: 18px;
+  line-height: 28px;
+  margin-bottom: 8px;
+
+  @media print {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 0.2cm;
+  }
+}
+
+.tagline {
+  font-size: 20px;
+  line-height: 28px;
+
+  @media print {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+// The case-study cross-link — one of the card's asides rather than prose, so it
+// carries the aside size and margin. Its dimming is its own rather than
+// `.dim60`'s, because it is the one aside that keeps it on paper: the line is
+// half address, and at full contrast that reads as the entry's subject.
+.caseStudyLine {
+  @extend %aside;
+  @extend %tight-spacing;
+
+  opacity: 0.6;
+
+  @media print {
+    opacity: 0.65;
+  }
+}
+
+// Tech-stack lines and asides.
+%aside {
+  font-size: 14px;
+  line-height: 1.4286;
+
+  @media print {
+    font-size: 9pt;
+  }
+}
+
+.small {
+  @extend %aside;
+}
+
+%tight-spacing {
+  margin-bottom: 12px;
+
+  @media print {
+    margin-bottom: 0.2cm;
+  }
+}
+
+.tight {
+  @extend %tight-spacing;
+}
+
+.tightHeading {
+  margin-bottom: 8px;
+
+  @media print {
+    margin-bottom: 0.2cm;
+  }
+}
+
+.bullets {
+  --list-spacing: 4px;
+
+  margin-left: 16px;
+
+  @media print {
+    --list-spacing: 0;
+
+    margin-left: 0;
+  }
+}
+
+.dim60 {
+  opacity: 0.6;
+}
+
+.dim70 {
+  opacity: 0.7;
+}
+
+.dim80 {
+  opacity: 0.8;
+}
+
+.dim90 {
+  opacity: 0.9;
+}
+
+// Print flattens the dimming: on paper the contrast is the legibility budget.
+// Declared after the values it overrides, which share its specificity.
+.dim60,
+.dim70,
+.dim80,
+.dim90 {
+  @media print {
+    opacity: 1;
+  }
+}

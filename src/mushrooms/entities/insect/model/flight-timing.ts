@@ -1,23 +1,46 @@
 /**
- * How long a leg takes: its flight, timed by its kind's habits and how far
- * apart its perches stand, and the stay after it.
+ * An insect's legs, and how long each takes: its flight, timed by its kind's
+ * habits and how far apart its perches stand, and the stay after it.
  */
 
 import type { Timed } from '@/mushrooms/shared/lib/motion';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
 import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
 
-import { levelWith, pairFramed } from './flight-frame';
+import { levelWith, pairFramed, type Place } from './flight-frame';
 import type { Dash, Habits, Hops, Pace } from './flight-habits';
 import {
-  type Leg,
   type Perch,
   perchName,
-  type Place,
   type Placed,
   type Places,
   type Route,
 } from './perch';
+
+/**
+ * One flight and the stay after it: from `from` to `to` over `departs` to
+ * `arrives`, then sitting there until `leaves`, when the next leg is due. A
+ * leg to the air hovers there a while (`hovering`); an `away` leg leaves as
+ * it arrives, and the insect is gone.
+ */
+export type Leg = Span & Route & Leaving & OutFirst;
+
+/** When a leg's stay ends and the next leg is due, in ms. */
+export type Leaving = { leaves: number };
+
+/** On a first leg flown out of view first (`outFirst`), how long that stretch takes, in ms. */
+export type OutFirst = { out?: number };
+
+/** An insect's current leg, and how many legs it has flown, that one included. */
+export type Flight = { leg: Leg; legs: number };
+
+export function isLeaving({ leg }: Flight): boolean {
+  return leg.to.kind === 'away';
+}
+
+export function isAloft({ leg }: Flight, now: number): boolean {
+  return now >= leg.departs && now < leg.arrives;
+}
 
 /** When a leg's flight takes off, in ms on the scene's clock. */
 export type Departing = { departs: number };

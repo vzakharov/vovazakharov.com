@@ -1,6 +1,6 @@
 import { type Locale, LOCALES } from '@/kernel/shared/i18n';
 
-import type { Chip } from './chip-nav';
+import type { Chip } from './chip';
 
 /**
  * A page's language switch, as `ChipNav` rows it: one chip per locale, each

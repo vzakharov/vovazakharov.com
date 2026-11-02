@@ -26,12 +26,8 @@ import {
 
 import { type Aloft, azimuthOf } from '../model/flight-frame';
 import type { WayOut } from '../model/flight-in';
-import {
-  type InsectGenes,
-  insectGenes,
-  type Kinded,
-} from '../model/insect-genes';
-import { wingspan } from '../model/insect-outline';
+import type { Kinded } from '../model/insect';
+import { type InsectGenes, insectGenes, wingspan } from '../model/insect-genes';
 import {
   type Perch,
   perchName,

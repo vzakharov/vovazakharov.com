@@ -1,6 +1,6 @@
 /** What a fly's genes and a bee's are drawn alike by: the body, wings and legs they share. */
 
-import type { Bodied, Winged } from './insect-genes';
+import type { Bodied, Winged } from './insect';
 
 /** The genes every buzzing insect's ranges name for its body, wings and legs. */
 type BuzzingGene =

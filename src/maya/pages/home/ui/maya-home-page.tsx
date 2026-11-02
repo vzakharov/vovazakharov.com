@@ -37,7 +37,7 @@ import {
   WHISPER_ROUTE,
 } from '@/maya/entities/maya';
 
-import { messages as homeMessages } from '../i18n';
+import { messages as homeMessages } from '../config/i18n';
 import { Frontispiece } from './frontispiece';
 import { type Plate, Plates } from './plates';
 import { Shelf } from './shelf';

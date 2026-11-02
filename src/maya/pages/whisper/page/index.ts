@@ -1,0 +1,1 @@
+export { whisperRoute } from './route';
