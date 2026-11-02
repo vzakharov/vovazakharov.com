@@ -4,8 +4,7 @@ date: 2026-02-11
 language: ru
 project: ['Грёбаный бал']
 repo: 'utro'
-album: stronger-than-love
-track: 4
+album: null
 seconds: 228
 mp3Bytes: 9113813
 explicit: false

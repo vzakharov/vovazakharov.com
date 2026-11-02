@@ -161,6 +161,32 @@ vovas-music/talk и /lastsnow соответственно, с ними тоже
   studentka; «За жизнь» and «Последний снег» — poko, birdie, slime; «Незаметные
   штуки» — fingers, poko, burmakin. All Грёбаный бал masters.
 
+## 5. Грёбаный бал's albums, reshuffled
+
+The operator's running order, «давай пока попробуем так», replaces § 4's «Новую
+песню пока синглом»:
+
+- **Ни для кого и для всех** (`for-none-and-for-all`): 1 just-tired, 2 there, 3
+  go-away, 4 onto-fingers, 5 how-long, 6 call-me-by-name, 7 talk-about-life, 8
+  dead-man, 9 windows.
+- **Сильней любви** (`stronger-than-love`): 1 birdie, 2 poison, 3 student-girl,
+  4 «Поздно» (no page yet, the slot left empty), 5 buy-you-a-house, 6 slime, 7
+  cancer, 8 horowo, 9 last-snow.
+- **Singles:** good-morning, unnoticed-things, beyond-the-horizon.
+  ghostly-blues, which his list leaves out, becomes a single too until he says
+  otherwise.
+- **how-long** is retitled «Сколько нужно сделать», billed
+  `[Грёбаный бал, за/обложкой]` per «Сколько нужно сделать feat. за/обложкой»;
+  the slug stays.
+- **«Хорошо!»**, with the exclamation mark, is `horowo`'s title, as he wrote it
+  in the running order.
+- «На пальцы» already plays the `(EDM)` master: the tagged FLAC decodes
+  identical to `На пальцы (EDM).flac`.
+- `vovas-music/pozdno` holds only a vocal render, `pozdno_voc.mp3`, so «Поздно»
+  waits for a mix.
+- Every song whose album or track moved is re-run with `pnpm music:masters tag`,
+  since the album is in its tags.
+
 ## Progress
 
 - **Done:** § 3's unfurl tags, in 6ca102d. Kernel's `constructMetadata` takes an

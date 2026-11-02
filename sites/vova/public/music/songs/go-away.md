@@ -5,7 +5,7 @@ language: ru
 project: ['Грёбаный бал']
 repo: 'ukhodi'
 album: for-none-and-for-all
-track: 8
+track: 3
 seconds: 234
 mp3Bytes: 9374419
 explicit: false
