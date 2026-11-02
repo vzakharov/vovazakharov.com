@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 12,
+    "inputTokens": 35,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 51684,
-    "cacheReadTokens": 455995,
-    "outputTokens": 1417,
-    "thinkingTokens": 87,
-    "responses": 5,
-    "costUsd": 0.5330590000000001
+    "cacheWrite1hTokens": 115500,
+    "cacheReadTokens": 2135435,
+    "outputTokens": 10553,
+    "thinkingTokens": 1351,
+    "responses": 16,
+    "costUsd": 1.562287
   },
   "estimate": {
     "at": "2026-11-02T05:51:08.360Z",
@@ -40,41 +40,43 @@
     "comment": null
   },
   "orientation": {
-    "endedBy": null,
-    "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedBy": "Write",
+    "endedOn": "src/music/pages/blind-test/model/blind-test.ts",
+    "endedAt": "2026-11-02T05:51:49.198Z",
+    "contextTokens": 165315,
     "spend": {
-      "inputTokens": 12,
+      "inputTokens": 26,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 51684,
-      "cacheReadTokens": 455995,
-      "outputTokens": 1417,
-      "thinkingTokens": 87,
-      "responses": 5,
-      "costUsd": 0.5330590000000001
+      "cacheWrite1hTokens": 106988,
+      "cacheReadTokens": 1297948,
+      "outputTokens": 3671,
+      "thinkingTokens": 664,
+      "responses": 11,
+      "costUsd": 1.1890176
     }
   },
   "sessionId": "ea86d5aa-3b25-5c56-92f7-37729b0de2b2",
   "branch": "claude/horowo-song-mastering-oia0kq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — метатеги превью готовы, дальше текст и страница «Хорошо», затем слепой тест четырёх мастеров",
-  "prs": [],
+  "prs": [
+    240
+  ],
   "url": "https://claude.ai/code/session_01DaohkBz7uYbjYzDBUcPooS",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-02T05:50:54.293Z",
-  "lastResponseAt": "2026-11-02T05:51:03.836Z",
+  "lastResponseAt": "2026-11-02T05:52:30.619Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 12,
+    "inputTokens": 35,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 51684,
-    "cacheReadTokens": 455995,
-    "outputTokens": 1417,
-    "thinkingTokens": 87,
-    "responses": 5,
-    "costUsd": 0.5330590000000001
+    "cacheWrite1hTokens": 115500,
+    "cacheReadTokens": 2135435,
+    "outputTokens": 10553,
+    "thinkingTokens": 1351,
+    "responses": 16,
+    "costUsd": 1.562287
   },
   "subagents": {
     "inputTokens": 0,
@@ -88,23 +90,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 12,
+      "inputTokens": 35,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 51684,
-      "cacheReadTokens": 455995,
-      "outputTokens": 1417,
-      "thinkingTokens": 87,
-      "responses": 5,
-      "costUsd": 0.5330590000000001
+      "cacheWrite1hTokens": 115500,
+      "cacheReadTokens": 2135435,
+      "outputTokens": 10553,
+      "thinkingTokens": 1351,
+      "responses": 16,
+      "costUsd": 1.562287
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 5,
-    "matched": 5,
-    "matchedTableUsd": 0.5330590000000001,
-    "matchedEventUsd": 0.533059,
+    "events": 16,
+    "matched": 16,
+    "matchedTableUsd": 1.562287,
+    "matchedEventUsd": 1.5622869999999998,
     "unseen": {}
   }
 }

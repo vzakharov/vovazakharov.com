@@ -23,27 +23,41 @@ import { BlindPlayer } from '../model/blind-player';
 import {
   type BlindTest,
   type Variant,
-  VARIANTS,
+  variants,
   variantUrls,
 } from '../model/blind-test';
 import { verdictStore } from '../model/verdicts';
 
 type BlindTestPlayerProps = { test: BlindTest; copy: Messages['blindTest'] };
 
-// Letters, so a master is never read as a song's number; the files keep 1–3.
-const MASTER_LABELS = { 1: 'A', 2: 'B', 3: 'C' } as const;
+// Letters, so a master is never read as a song's number; the files keep 1, 2…
+const LETTERS = 'ABCDEFGH';
+// The key each letter sits on in the Russian layout, so a switch works in either.
+const RUSSIAN_KEYS = 'фисвуапр';
 
-// Each letter also on the Russian layout's key in its place.
-const KEYS: Record<string, Variant> = {
-  m: 'mix',
-  ь: 'mix',
-  a: '1',
-  ф: '1',
-  b: '2',
-  и: '2',
-  c: '3',
-  с: '3',
-};
+const label = (variant: Variant, mix: string) =>
+  variant === 'mix' ? mix : (LETTERS[Number(variant) - 1] ?? variant);
+
+const keysFor = (list: readonly Variant[]) =>
+  new Map<string, Variant>(
+    list.flatMap((variant): Array<[string, Variant]> => {
+      if (variant === 'mix') {
+        return [
+          ['m', variant],
+          ['ь', variant],
+        ];
+      }
+      const index = Number(variant) - 1;
+      const latin = LETTERS[index]?.toLowerCase();
+      const russian = RUSSIAN_KEYS[index];
+      return latin === undefined || russian === undefined
+        ? []
+        : [
+            [latin, variant],
+            [russian, variant],
+          ];
+    }),
+  );
 const TICK_MS = 200;
 const COPIED_MS = 2000;
 const SKIP_S = 1;
@@ -51,9 +65,9 @@ const SKIP_S = 1;
 const clock = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 
-const asVariant = (value: string) => VARIANTS.find((each) => each === value);
-
 export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
+  const list = useMemo(() => variants(test), [test]);
+  const keys = useMemo(() => keysFor(list), [list]);
   const playerRef = useRef<BlindPlayer>(null);
   // The variant carries over to the next song, which the load effect applies without re-running on each switch.
   const chosenRef = useRef<Variant>('mix');
@@ -119,7 +133,7 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLTextAreaElement) return;
-      const picked = KEYS[event.key];
+      const picked = keys.get(event.key);
       if (picked === undefined) {
         switch (event.key) {
           case ' ': {
@@ -196,12 +210,12 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
         size="lg"
         value={variant}
         onChange={(value) => {
-          const picked = asVariant(value);
+          const picked = list.find((each) => each === value);
           if (picked !== undefined) choose(picked);
         }}
-        data={VARIANTS.map((each) => ({
+        data={list.map((each) => ({
           value: each,
-          label: each === 'mix' ? copy.mix : MASTER_LABELS[each],
+          label: label(each, copy.mix),
         }))}
       />
       <Group gap="sm" wrap="nowrap">
