@@ -1,7 +1,7 @@
 <!-- lyrics:ru -->
 
 Послушай, мы же оба знали: этот день придёт
-И время пожинать плоды когда-нибудь настанет[^ecclesiastes-ru]
+И время пожинать плоды когда-нибудь настанет[^galatians-ru]
 Так почему в груди так нестерпимо жжёт
 И руки тянутся к рукам, как будто что-то знают?
 
@@ -38,14 +38,14 @@
 Жизнь сквозь кожу не удержать
 Поздно, поздно дышать
 
-[^ecclesiastes-ru]: Отсылка к Екклесиасту: «время насаждать, и время вырывать посаженное» (Еккл. 3:2).
+[^galatians-ru]: Отсылка к Библии: «Что посеет человек, то и пожнёт» (Гал. 6:7).
 
 [^osen-ru]: Отсылка к «Осени» Пушкина: «Играет на лице ещё багровый цвет. / Она жива ещё сегодня, завтра нет».
 
 <!-- lyrics:en -->
 
 Listen, we both knew this day would come
-And the time to reap the fruit would come someday[^ecclesiastes-en]
+And the time to reap the fruit would come someday[^galatians-en]
 So why does it burn so unbearably in the chest
 And hands reach for hands, as if they knew something?
 
@@ -82,7 +82,7 @@ The knife’s edge cuts the air
 Life can’t be held in through the skin
 Too late, too late to breathe
 
-[^ecclesiastes-en]: After Ecclesiastes 3:2, “a time to plant, and a time to pluck up that which is planted.”
+[^galatians-en]: After Galatians 6:7, “whatsoever a man soweth, that shall he also reap.”
 
 [^nadyshatsya-en]: Against the saying _pered smert’yu ne nadyshish’sya_, “you can’t breathe your fill before death”: the line sets out to do what the saying calls impossible.
 
