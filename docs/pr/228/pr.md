@@ -7,19 +7,21 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-10-28T08:41:34Z
-- **Updated:** 2026-10-29T11:24:30Z
+- **Updated:** 2026-11-02T02:32:28Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 3
+## Awaiting an answer: 5
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 4f8a8e1). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at c07bdd7). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `scripts/masd-clusters.ts`:125 — unresolved — last: @vzakharov (human) 2026-10-29T09:36:59Z — "дождёмся результатов этого прогона, потом решим" → [↓](#t01)
-- **T02** `.claude/staged/.claude/rules/masd.md.staged`:1 — unresolved — last: @vzakharov (human) 2026-10-29T10:23:47Z — "эк его раздуло. ты уверен что всё это -- "то что нужно знать…" → [↓](#t02)
-- **T03** `.claude/staged/.claude/rules/masd.md.staged`:133 — unresolved — last: @vzakharov (human) 2026-10-29T10:24:38Z — "тем более что здесь археология про meadow game, а не контрак…" → [↓](#t03)
+- **T02** `src/vova/pages/cv/sheet/frame/ui/cv.module.scss`:23 — unresolved — last: @vzakharov (human) 2026-10-29T15:08:33Z — "переживём пока" → [↓](#t02)
+- **T03** `src/vova/pages/cv/sheet/frame/index.ts`:2 — unresolved — last: @vzakharov (human) 2026-10-29T15:08:55Z — "тоже переживём" → [↓](#t03)
+- **T04** `scripts/lib/sub-slices.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-29T15:18:32Z — "надо сплиттить" → [↓](#t04)
+- **R03** review by @vzakharov (human) — 2026-10-29T11:52:38Z → [↓](#r03)
 
 ---
 
@@ -27,40 +29,46 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 
 ## Summary
 
-- **A slice can hold sub-slices (MARS), and `check:masd` guards them.** A sub-slice is any folder in a slice or a sub-slice not named for one of FSD's five segments; outside it, code enters by its barrels (`vova/sub-slice-entry`). It must raise its parent's modularity when cut off, and a consumer taking only one sub-slice's exports — from a slice, or a sibling from a sub-slice, at any depth — is a promotion error, with `// masd-disable promotion -- <why>` as the operator-approved escape. Steiger's `no-reserved-folder-names` is off in the sliced layers, `check:masd` keeping its one useful case. A slice's catalogue moved to `config/i18n`, so no sixth segment.
-- **The clusters the report found are cut.** blog's documents page split into `pages/article` and `pages/collection-index` (four sites route only the article); sub-slices `work/` (vova home), `typewriter/` (maya whisper), `fungus/` (the mushroom entity, its house staying at the root), `flight/` (insects-fly), `station/` (the player), `quiz/` (blind-test); `ProseContent` moved to blog's `shared/ui`. Moves only, no behaviour change. The landscape's backdrop is not cut: it is an open question in the plan.
+- **A slice can hold sub-slices (MARS), and `check:masd` guards them.** A sub-slice is any folder in a slice or a sub-slice not named for one of FSD's five segments; outside it, code enters by its barrels (`vova/sub-slice-entry`). A sub-slice is earned by raising its parent's modularity or by two siblings importing it, and never sits beside a segment or module. A consumer taking only one sub-slice's exports is a promotion error (a head importing every sibling excepted), whose message lists the layers the sub-slice may move to; `// masd-disable promotion -- <why>` is the operator-approved escape. Steiger's `no-reserved-folder-names` is off in the sliced layers, and `forbidden-imports` and `no-segmentless-slices` off in exactly the slices holding sub-slices, which `check:masd` covers instead. A slice's catalogue moved to `config/i18n`.
+- **`pnpm masd:clusters` is a gate, and vet runs it.** A candidate is a dominator subtree of a unit's import DAG — one door, its root — of at least two non-barrel files; the gate prints what each takes from the rest as a sub-slice below both, and exits 1 while it prints. `// masd-disable cluster -- <why>` keeps one, on the operator's yes. It now holds no cluster in 85 units.
+- **The clusters are cut.** blog's documents page into `pages/article` (`page/` + `print/`) and `pages/collection-index`; vova home into `page/` + `work/`; the CV's edition promoted to `vova/entities/cv`, and the CV page into `route/` + `sheet/`, the sheet into `page/`, `full/`, `profile/` and the `frame/` both take; maya whisper into route/screen/metadata + `typewriter/`; the player into `playback/` (controls/bar/context/audio/setting) + `station/`; insects-fly into `flight/` (air/swarm/route) + `perch/`; the mushroom into `fungus/` (figure/dome/body) + `house/`; the map into view/ground/frame; `mice-run` into `runs/` + `runner/`. Moves only, no behaviour change; stylesheets split by consumer.
 - **`src/` has no import cycles, and vet keeps it so.** `pnpm check:cycles` runs madge over `src/`, type-only imports counted. The 18 cycles it found were each a type or hook declared in the wrong file, moved to a file of its own or to its one reader.
-- **`pnpm masd:clusters` reports cluster candidates**, recursing into sub-slices: downward closures kept when cutting them off raises modularity. A report, exit 0. `docs/masd.md` § "Sub-slices" and the staged `.claude/rules/masd.md` describe all of it; the plan is `docs/plans/masd-slice-clusters.paused.md`.
+- **`docs/masd.md` is retired**: the staged `.claude/rules/masd.md` carries what every edit under `src/` needs, `scripts/masd-check.README.md` the checkers' reasons, #232 and #233 the open directions. The plan is `docs/plans/masd-slice-clusters.paused.md`.
 
 ## QA Checklist
 
 - [ ] `cycles-gate` — `pnpm check:cycles` prints "No circular dependency found!" and exits 0.
 - [ ] `masd-check` — `pnpm check:masd` exits 0.
-- [ ] `promotion` — `node --import tsx --test scripts/masd-check.test.ts`: the sub-slice cases pass, the nested one (a sibling taking only a sub-slice's sub-slice) included.
-- [ ] `sub-slice-entry` — import `../work/ui/tech-line` from `src/vova/pages/home/ui/home-page.tsx`; ESLint reports `vova/sub-slice-entry`. Revert.
+- [ ] `clusters` — `pnpm masd:clusters` prints "0 of 85 slices and sub-slices hold a cluster." and exits 0.
+- [ ] `lint-fsd` — `pnpm lint:fsd` passes on every app root.
+- [ ] `promotion` — `node --import tsx --test scripts/masd-check.test.ts`: the sub-slice cases pass, the nested one and the layer listing included.
+- [ ] `sub-slice-entry` — import `../../work/ui/work-section` from `src/vova/pages/home/page/ui/home-page.tsx`; ESLint reports `vova/sub-slice-entry`. Revert.
+- [ ] `cv` — open `/cv`, `/cv/cto` and the profile subpage in both locales: each renders as before, print preview included (the contact line and the email print at their own size, not the body's 9pt).
 - [ ] `pages` — open a case study, a Bible article, a basilisk case and the case-studies index: each renders as before, print preview included.
 - [ ] `home` — `/` on vovazakharov.com: the work section with its project cards renders as before.
 - [ ] `whisper` — the whisper page on mayawonders.com types as before.
 - [ ] `meadow` — open `/mushrooms`: mushrooms draw and select, insects fly, perch and shelter in rain.
 - [ ] `player` — on `/music`, play a song: play/pause, seek, the radio toggle and the media keys work; the blind test plays.
-- [ ] `clusters` — `pnpm masd:clusters` exits 0 and lists the sub-slices it now recurses into.
 
 | Item | Automatable | Covered? | Notes |
 |------|-------------|----------|-------|
 | `cycles-gate` | yes | yes | vet runs it |
 | `masd-check` | yes | yes | vet runs it and `masd-check.test.ts` |
-| `promotion` | yes | yes | `masd-check.test.ts`, nested case included |
+| `clusters` | yes | yes | vet runs it; `masd-clusters.test.ts` pins the shape |
+| `lint-fsd` | yes | yes | vet runs it |
+| `promotion` | yes | yes | `masd-check.test.ts` |
 | `sub-slice-entry` | yes | yes | `sub-slice-entry.test.ts` |
+| `cv` | partly | partly | build renders every route; the look and print are manual |
 | `pages` | partly | partly | build renders every route; the look is manual |
 | `home` | no | no | moves only |
 | `whisper` | partly | partly | `listening-post.test.ts` moved with the typewriter |
 | `meadow` | partly | partly | the game's tests (`VET_MEADOW=1`) cover the model |
 | `player` | partly | partly | the station's reducer tests moved with it |
-| `clusters` | yes | partly | `masd-clusters.test.ts` pins the shape on fixtures |
 
 https://claude.ai/code/session_01DaohkFjE5k2mZsypSbXfxP
 https://claude.ai/code/session_01DaohkDptLrsH2R2jWY9JZJ
 https://claude.ai/code/session_01DaohkDnoakgX1SC8nKZLvV
+https://claude.ai/code/session_01DaohkEEZdDsfAqNgtnGpHh
 
 ---
 
@@ -86,26 +94,22 @@ answer: such a cluster becomes a sub-slice, a slice nested in a slice,
 and the checkers hold sub-slices as they hold slices.
 
 A sub-slice is any folder in a slice or sub-slice not named for one
-of FSD's five segments (a slice's catalogue is now config/i18n).
-Outside it, code enters by its barrels (vova/sub-slice-entry). Cutting
-it off its parent must raise the parent's modularity, and a consumer
-taking only one sub-slice's exports, at any depth, is a promotion
-error: that sub-slice belongs one level out, unless the operator
-approves a "masd-disable promotion" marker where nothing but shared
-could hold it. Steiger's no-reserved-folder-names is off in the sliced
-layers, check:masd keeping its one useful case.
+of FSD's five segments (a slice's catalogue is now config/i18n), and
+code outside it enters by its barrels (vova/sub-slice-entry). It is
+earned by raising its parent's modularity or by two siblings importing
+it, and never sits beside a segment. A consumer taking only one
+sub-slice's exports is a promotion error naming the layers it may move
+to, with an operator-approved "masd-disable promotion" escape. Steiger
+rules check:masd covers are off where sub-slices live.
 
-The clusters found are cut: blog's documents page splits into the
-article and collection-index pages, since four sites route only the
-article; vova home's work section, whisper's typewriter, the mushroom's
-fungus, insects-fly's flight, the player's station and blind-test's
-quiz become sub-slices. pnpm masd:clusters reports candidates, a report
-rather than a gate, recursing into sub-slices.
-
-The search reads a slice's import graph as a DAG, so pnpm check:cycles
-holds src/ acyclic under madge, type-only imports counted; each of the
-18 cycles it found was a type or hook declared in the wrong file, moved
-to a file of its own or its one reader. No behaviour changes.
+pnpm masd:clusters is a vet gate: a dominator subtree of a unit's
+import DAG, two non-barrel files or more, is a cluster to cut, what it
+takes from the rest becoming a sub-slice below both. Every cluster is
+cut, the CV's edition promoted to vova/entities/cv and stylesheets
+split by consumer; no behaviour changes. pnpm check:cycles holds src/
+acyclic under madge, each of the 18 cycles found a type or hook
+declared in the wrong file. docs/masd.md is retired into the MASD rule
+and scripts/masd-check.README.md.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
@@ -212,11 +216,24 @@ _2026-10-28T11:20:22Z_
 
 <!-- five-percent: 20abdc0e6d46b60fe46a64cea8c1e0af3984a9b2 -->
 
-_10 resolved threads omitted; re-run with `--include-resolved` to export them._
+<a id="r03"></a>
+
+### R03 — Review by @vzakharov (human) — COMMENTED
+
+_2026-10-29T11:52:38Z_
+
+[https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5697218979](https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5697218979)
+
+**/five-percent**: 2 предложения, критичных нет.
+
+<!-- five-percent: ee969159c3a246b700f15a794cd698ad7805c988 -->
+
+_12 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 - **T01** `scripts/masd-clusters.ts`:125 — unresolved — last: @vzakharov (human) 2026-10-29T09:36:59Z — "дождёмся результатов этого прогона, потом решим" → [↓](#t01)
-- **T02** `.claude/staged/.claude/rules/masd.md.staged`:1 — unresolved — last: @vzakharov (human) 2026-10-29T10:23:47Z — "эк его раздуло. ты уверен что всё это -- "то что нужно знать…" → [↓](#t02)
-- **T03** `.claude/staged/.claude/rules/masd.md.staged`:133 — unresolved — last: @vzakharov (human) 2026-10-29T10:24:38Z — "тем более что здесь археология про meadow game, а не контрак…" → [↓](#t03)
+- **T02** `src/vova/pages/cv/sheet/frame/ui/cv.module.scss`:23 — unresolved — last: @vzakharov (human) 2026-10-29T15:08:33Z — "переживём пока" → [↓](#t02)
+- **T03** `src/vova/pages/cv/sheet/frame/index.ts`:2 — unresolved — last: @vzakharov (human) 2026-10-29T15:08:55Z — "тоже переживём" → [↓](#t03)
+- **T04** `scripts/lib/sub-slices.ts`:1 — unresolved — last: @vzakharov (human) 2026-10-29T15:18:32Z — "надо сплиттить" → [↓](#t04)
 
 <a id="t01"></a>
 
@@ -273,32 +290,79 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 <a id="t02"></a>
 
-### `.claude/staged/.claude/rules/masd.md.staged`:1 — unresolved
+### `src/vova/pages/cv/sheet/frame/ui/cv.module.scss`:23 — unresolved
 
-**@vzakharov (human)** — 2026-10-29T10:23:47Z
+```diff
+@@ -18,8 +18,9 @@
+ 
+   // Body copy prints a point under the sheet's default, which is what keeps the
+   // CV to three pages. `:where()` leaves the specificity at this one class, so
+-  // the classes below that size a paragraph of their own (the tagline, the
+-  // contact line) still win on order.
++  // a class sizing a paragraph of its own still wins on order: the tagline
++  // below, and the full sheet's contact line, whose stylesheet its component
++  // imports after this one.
+```
 
-эк его раздуло. ты уверен что всё это -- "то что нужно знать каждый раз", и ничто (больше) не может быть вынесено в collocated?
+**@vzakharov (agent)** — 2026-10-29T11:52:38Z
+
+<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
+**/five-percent** · optional
+
+Сейчас: печатный размер почты, диплома и строки контактов перебивает 9pt рамки только потому, что `cv-sheet.module.scss` подключается после `cv.module.scss`.
+**Предлагаю: держать классы, которые спорят с этим 9pt, в одном файле с ним — в `frame`, — чтобы победа решалась порядком внутри файла.**
+Цена: в `frame` лягут два класса (`printSmall`, `contactLine`), которые читает только `full`.
+
+<details><summary>Подробнее</summary>
+
+До af2dda5 `.page :where(p, ul, ol, li)` и `.printSmall` / `.contactLine` стояли в одном `cv.module.scss`, и порядок был порядком строк. После разреза у них одинаковая специфичность (один класс), а порядок задаёт очерёдность импортов в `cv-sheet.tsx` (`../../frame` раньше `./cv-sheet.module.scss`) — то есть то, как Next склеит CSS-чанки в продакшене. Сбой не виден ни в сборке, ни в vet: PDF просто напечатается мельче (14px → 9pt у `printSmall`). Комментарий в `cv.module.scss` теперь называет эту зависимость, но не убирает её.
+
+</details>
+
+**@vzakharov (human)** — 2026-10-29T15:08:33Z
+
+переживём пока
 
 ---
 
 <a id="t03"></a>
 
-### `.claude/staged/.claude/rules/masd.md.staged`:133 — unresolved
+### `src/vova/pages/cv/sheet/frame/index.ts`:2 — unresolved
 
 ```diff
-@@ -118,6 +127,31 @@ enters it, so a plain `index.ts` holds; a client component reaching for the
- byline is what would split it into `index.ts` + `index.server-only.ts`, exactly
- as `shared/config` is.
- 
-+## Cutting a domain into slices
-+
-+The meadow game, one large page cut into entities, features and widgets, settled
-+these for any domain:
+@@ -0,0 +1,4 @@
++export { CASE_STUDY_KEY, CaseStudyLink } from './ui/case-study-link';
++export { default as CV_CLASSES } from './ui/cv.module.scss';
 ```
 
-**@vzakharov (human)** — 2026-10-29T10:24:38Z
+**@vzakharov (agent)** — 2026-10-29T11:52:38Z
 
-тем более что здесь археология про meadow game, а не контракт
+<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
+**/five-percent** · optional
+
+Сейчас: публичный API `frame` — сам объект CSS-модуля `CV_CLASSES`, и `full` с `profile` берут из него 13 классов по строковым ключам.
+**Предлагаю: `frame` экспортирует компоненты (`CvTagline`, `CvAside`, приглушённый `Text`…), а стили остаются его внутренностью.**
+Цена: несколько тонких обёрток над `Text` в `frame/ui` и правка их вызовов в `full` и `profile`.
+
+<details><summary>Подробнее</summary>
+
+Ключи — `dim60`…`dim90`, `small`, `tight`, `tightHeading`, `tagline`, `section`, `sectionWide`, `subheading`, `screenFooter`, `bullets`. Опечатка в ключе типизатор не ловит (`CV_CLASSES['tagine']` — просто `undefined`), а переименование класса в `cv.module.scss` ломает соседний под-слайс молча. Компонент в баррели делает границу под-слайса той же, что у остальных: имена, которые проверяет TypeScript.
+
+</details>
+
+**@vzakharov (human)** — 2026-10-29T15:08:55Z
+
+тоже переживём
+
+---
+
+<a id="t04"></a>
+
+### `scripts/lib/sub-slices.ts`:1 — unresolved
+
+**@vzakharov (human)** — 2026-10-29T15:18:32Z
+
+надо сплиттить
 
 ---
 
@@ -315,3 +379,5 @@ _10 resolved threads omitted; re-run with `--include-resolved` to export them._
 - **2026-10-29T09:37:18Z** @vzakharov cross-referenced this pull request from [#232 Cut the game's scripted plays down and turn the rest back on](https://github.com/vzakharov/vovazakharov.com/issues/232).
 - **2026-10-29T09:37:19Z** @vzakharov cross-referenced this pull request from [#233 Sub-entities: a slice kind for a facet several entities share](https://github.com/vzakharov/vovazakharov.com/issues/233).
 - **2026-10-29T11:21:41Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5696169051.
+- **2026-10-29T11:52:38Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5697218979.
+- **2026-10-29T15:21:18Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/228#pullrequestreview-5700213818.
