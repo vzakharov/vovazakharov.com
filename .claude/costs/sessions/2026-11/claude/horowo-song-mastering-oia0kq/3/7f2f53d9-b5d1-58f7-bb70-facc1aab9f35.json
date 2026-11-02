@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 62,
+    "inputTokens": 72,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 148478,
-    "cacheReadTokens": 5087134,
-    "outputTokens": 16992,
-    "thinkingTokens": 5219,
-    "responses": 31,
-    "costUsd": 2.5453388000000006
+    "cacheWrite1hTokens": 152863,
+    "cacheReadTokens": 6119709,
+    "outputTokens": 19885,
+    "thinkingTokens": 5833,
+    "responses": 36,
+    "costUsd": 2.844833800000001
   },
   "estimate": {
     "at": "2026-11-02T06:42:39.539Z",
@@ -45,7 +45,7 @@
   },
   "sessionId": "7f2f53d9-b5d1-58f7-bb70-facc1aab9f35",
   "branch": "claude/horowo-song-mastering-oia0kq",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/tmp/replies",
   "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — блайнд-тест пяти песен на превью, дальше тексты «За жизнь», «Последнего снега», «Незаметных штук» и «Поздно», …",
   "prs": [
     240
@@ -53,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkCkJEqDPqpD2fSpdB3",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-02T06:42:23.306Z",
-  "lastResponseAt": "2026-11-02T06:46:47.987Z",
+  "lastResponseAt": "2026-11-02T06:47:49.200Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 62,
+    "inputTokens": 72,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 148478,
-    "cacheReadTokens": 5087134,
-    "outputTokens": 16992,
-    "thinkingTokens": 5219,
-    "responses": 31,
-    "costUsd": 2.5453388000000006
+    "cacheWrite1hTokens": 152863,
+    "cacheReadTokens": 6119709,
+    "outputTokens": 19885,
+    "thinkingTokens": 5833,
+    "responses": 36,
+    "costUsd": 2.844833800000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -78,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 62,
+      "inputTokens": 72,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 148478,
-      "cacheReadTokens": 5087134,
-      "outputTokens": 16992,
-      "thinkingTokens": 5219,
-      "responses": 31,
-      "costUsd": 2.5453388000000006
+      "cacheWrite1hTokens": 152863,
+      "cacheReadTokens": 6119709,
+      "outputTokens": 19885,
+      "thinkingTokens": 5833,
+      "responses": 36,
+      "costUsd": 2.844833800000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 30,
-    "matched": 30,
-    "matchedTableUsd": 2.4895226000000004,
-    "matchedEventUsd": 2.489522600000001,
+    "events": 36,
+    "matched": 36,
+    "matchedTableUsd": 2.844833800000001,
+    "matchedEventUsd": 2.8448338000000013,
     "unseen": {}
   }
 }

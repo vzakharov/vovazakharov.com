@@ -59,16 +59,16 @@
 Но дождь ещё стучит
 А значит, может быть
 
-Поговорить за жизнь (Поговорить за жизнь)
-Пусть ночь ещё темна (Ночь ещё темна)
-Ты только, брат, держись (Только, брат, держись)
-Держись хоть до утра (Держись хоть до утра)
+Поговорить за жизнь
+Пусть ночь ещё темна
+Ты только, брат, держись
+Держись хоть до утра
 
 <!-- ask 3 -->
 
 Пускай слова — ножи
-Страшнее тишина (Тишина)
-Поговорим за жизнь (Поговорим за жизнь)
+Страшнее тишина
+Поговорим за жизнь
 Поговорим за жизнь
 
 [^pushkin-ru]: Пушкин погиб на дуэли в 37 лет.
@@ -130,14 +130,14 @@ And you’d like to end it all
 But the rain still drums
 And that means maybe
 
-To talk about life (To talk about life)
-Though the night is still dark (The night is still dark)
-Just hang in there, brother (Just hang in there, brother)
-Hang in at least till morning (Hang in at least till morning)
+To talk about life
+Though the night is still dark
+Just hang in there, brother
+Hang in at least till morning
 
 Let words be knives
-Silence is scarier (Silence)
-Let’s talk about life (Let’s talk about life)
+Silence is scarier
+Let’s talk about life
 Let’s talk about life
 
 [^pushkin-en]: Pushkin died in a duel at thirty-seven.

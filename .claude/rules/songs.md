@@ -219,8 +219,10 @@ changes how a draft of one is written and what a review of it means.
   control markers (`[Chorus]`, vocal directions), its stress marks, phonetic
   respellings, drawn-out syllables (`Insi-ide`, `(а-аа)`) and pause ellipses are
   instructions to a singer, not part of the song, and do not travel — the words
-  are set as a person would write them. An ellipsis a published poem prints is
-  the poem's and stays.
+  are set as a person would write them. So does a backing voice echoing the line
+  just sung, `(Поговорим за жизнь)` after «Поговорим за жизнь»; a backing line
+  of its own, like «Хорошо»'s `(Хорошо!)`, stays. An ellipsis a published poem
+  prints is the poem's and stays.
 - **A word is written out, in both columns and the frontmatter.** An expletive
   is not masked (`f*ck`, `х*й`), whatever the source did;
   `pnpm check:masked-words` fails on the common forms. The exception is a mask
