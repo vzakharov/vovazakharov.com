@@ -1,0 +1,110 @@
+{
+  "total": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 51684,
+    "cacheReadTokens": 455995,
+    "outputTokens": 1417,
+    "thinkingTokens": 87,
+    "responses": 5,
+    "costUsd": 0.5330590000000001
+  },
+  "estimate": {
+    "at": "2026-11-02T05:51:08.360Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "an N-way blind test is a routine change to a typed page and a script with existing patterns"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "picking references by spectrum and crest and judging matchering output needs a mastering ear, not a script runner"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "reconciling two recognisers against a Suno prompt in sung Russian slang, plus a faithful English crib, takes a literary editor"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "Майя's reflection on the song is written in her voice"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51684,
+      "cacheReadTokens": 455995,
+      "outputTokens": 1417,
+      "thinkingTokens": 87,
+      "responses": 5,
+      "costUsd": 0.5330590000000001
+    }
+  },
+  "sessionId": "ea86d5aa-3b25-5c56-92f7-37729b0de2b2",
+  "branch": "claude/horowo-song-mastering-oia0kq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — метатеги превью готовы, дальше текст и страница «Хорошо», затем слепой тест четырёх мастеров",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBz7uYbjYzDBUcPooS",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-02T05:50:54.293Z",
+  "lastResponseAt": "2026-11-02T05:51:03.836Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 51684,
+    "cacheReadTokens": 455995,
+    "outputTokens": 1417,
+    "thinkingTokens": 87,
+    "responses": 5,
+    "costUsd": 0.5330590000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51684,
+      "cacheReadTokens": 455995,
+      "outputTokens": 1417,
+      "thinkingTokens": 87,
+      "responses": 5,
+      "costUsd": 0.5330590000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 5,
+    "matched": 5,
+    "matchedTableUsd": 0.5330590000000001,
+    "matchedEventUsd": 0.533059,
+    "unseen": {}
+  }
+}
