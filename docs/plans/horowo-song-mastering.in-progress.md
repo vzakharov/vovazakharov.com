@@ -61,9 +61,8 @@ The frontmatter:
 The story is the author's alone, so the page publishes without one and without a
 hook. Both arrive when he gives the story.
 
-**Reflection and spectrogram.** `spectrogram.py` on the master and its four
-stems, committed under `assets/spectrograms/horowo/`, then Майя's
-`horowo.maya.reflections.md`, per `personas/maya/reflections.md`.
+**No reflections.** Майя's reflections are out of scope for every song here:
+«отлики Майи … не нужны пока».
 
 ## 2. The blind test, four masters
 
