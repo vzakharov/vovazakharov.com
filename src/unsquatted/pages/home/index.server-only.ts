@@ -1,5 +1,9 @@
 import 'server-only';
 
-export { COPY } from './config/i18n';
-export { LASTING_PICKS } from './model/picks';
-export { DICE_FACE, DICE_FACES, DICE_VIEW_BOX } from './ui/dice-shape';
+export {
+  COPY,
+  DICE_FACE,
+  DICE_FACES,
+  DICE_VIEW_BOX,
+  LASTING_PICKS,
+} from './page/index.server-only';

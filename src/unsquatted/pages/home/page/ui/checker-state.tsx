@@ -16,7 +16,7 @@ import type {
   WithText,
 } from '@/kernel/shared/typings';
 
-import { cleanLabel, typedZone } from '../lib/lookup';
+import { cleanLabel, typedZone } from '../../lookup';
 
 /** How long typing has to pause before the name is looked up. */
 const SETTLE_MS = 350;

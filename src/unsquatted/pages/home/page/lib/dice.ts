@@ -1,4 +1,4 @@
-import { cleanLabel } from './lookup';
+import { cleanLabel } from '../../lookup';
 
 /** Word lengths that run together into a name still short enough to type. */
 const LENGTH = { min: 3, max: 7 };

@@ -2,8 +2,8 @@
 
 import { TextLink } from '@/shell/shared/ui';
 
+import { useVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
-import { useVerdict } from '../lib/use-verdict';
 import type { ShownName } from '../model/picks';
 import { useChecker } from './checker-state';
 import classes from './unsquatted-home.module.scss';

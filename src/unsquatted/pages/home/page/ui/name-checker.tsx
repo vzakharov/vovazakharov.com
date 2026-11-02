@@ -3,11 +3,11 @@
 import { ActionIcon, Button, TextInput, UnstyledButton } from '@mantine/core';
 import { useState } from 'react';
 
+import { type Row, rowsFor, zoneOf } from '../../lookup';
+import { useVerdicts } from '../../verdict';
 import type { WithCopy } from '../config/i18n';
 import { rollName } from '../lib/dice';
-import { type Row, rowsFor, zoneOf } from '../lib/lookup';
 import type { Prices } from '../lib/price';
-import { useVerdicts } from '../lib/use-verdict';
 import { useWords } from '../lib/use-words';
 import { useChecker } from './checker-state';
 import { DiceIcon } from './dice-icon';
