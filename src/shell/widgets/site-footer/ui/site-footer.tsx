@@ -11,6 +11,8 @@ import type {
 import { messages } from '@/shell/shared/i18n';
 import { cssColor, TextLink } from '@/shell/shared/ui';
 
+import classes from './site-footer.module.scss';
+
 type SiteFooterProps = WithOptionalChildren &
   WithOptionalLocale &
   MaybeBylined & {
@@ -42,7 +44,15 @@ export function SiteFooter({
     <Box component="footer" className="print-hidden">
       <Divider mb={32} color={cssColor('border-hairline')} />
       <Group justify="space-between" align="flex-start" gap={32}>
-        <Text size="sm" opacity={0.6} flex={1} miw="min(360px, 100%)">
+        {/* A `div`, so a page's note may carry a `NotedSpan`, whose note is
+            one. */}
+        <Text
+          component="div"
+          className={classes['note']}
+          size="sm"
+          flex={1}
+          miw="min(360px, 100%)"
+        >
           {children ??
             (!onHomePage && (
               <TextLink href={home}>{messages(locale).backToHome}</TextLink>

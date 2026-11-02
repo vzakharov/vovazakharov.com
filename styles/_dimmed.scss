@@ -1,0 +1,9 @@
+// Quieter text, dimmed by its colour rather than its opacity. An opacity makes
+// the element a translucent stacking context that no descendant can undo, so a
+// `NotedSpan` note opening inside it would show the page through and stack
+// beneath whatever follows.
+
+// Takes the share of `$colour` kept, e.g. `@include dimmed.text(60%)`.
+@mixin text($share, $colour: var(--color-foreground)) {
+  color: color-mix(in srgb, #{$colour} #{$share}, transparent);
+}

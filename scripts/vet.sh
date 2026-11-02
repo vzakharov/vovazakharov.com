@@ -180,8 +180,12 @@ source_checks=(
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
   masd='pnpm check:masd'
+<<<<<<< HEAD
   clusters='pnpm masd:clusters'
   cycles='pnpm check:cycles'
+=======
+  poison='pnpm check:poison'
+>>>>>>> origin/main
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   typography='pnpm check:typography'
@@ -189,8 +193,9 @@ source_checks=(
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
   hearing='python3 src/kernel/scripts/lib/test_hearing.py'
+  ctc='python3 src/kernel/scripts/lib/test_ctc.py'
   song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
-  five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/tally.py --check'
+  five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/test_answered.py && python3 scripts/five-percent-verdicts/tally.py --check'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
   staged='scripts/staged.sh check'

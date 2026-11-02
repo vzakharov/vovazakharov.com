@@ -15,8 +15,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from tally import Malformed, load, tally
 
 
-def row(comment, verdict=1, about="a proposal"):
-    return {"comment": comment, "about": about, "verdict": verdict}
+def row(comment, verdict=1, about="a proposal", why="taken as proposed"):
+    return {"comment": comment, "about": about, "verdict": verdict, "why": why}
 
 
 class LedgerTest(unittest.TestCase):
@@ -53,6 +53,9 @@ class LedgerTest(unittest.TestCase):
             "verdict above 1": {"pr": 1, "verdicts": [row(1, verdict=1.5)]},
             "verdict as a bool": {"pr": 1, "verdicts": [row(1, verdict=True)]},
             "about past 80": {"pr": 1, "verdicts": [row(1, about="x" * 81)]},
+            "why past 280": {"pr": 1, "verdicts": [row(1, why="x" * 281)]},
+            "why blank": {"pr": 1, "verdicts": [row(1, why=" ")]},
+            "missing why": {"pr": 1, "verdicts": [{k: v for k, v in row(1).items() if k != "why"}]},
             "extra key": {"pr": 1, "verdicts": [{**row(1), "lens": "echo"}]},
             "missing pr": {"verdicts": [row(1)]},
             "not JSON": "{",

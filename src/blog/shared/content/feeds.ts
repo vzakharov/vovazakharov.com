@@ -5,10 +5,13 @@ import {
   siteConfig,
   type SiteId,
 } from '@/kernel/shared/config';
+import {
+  feedHtml,
+  type RssPodcast,
+  type UnlinkedRssItem,
+} from '@/kernel/shared/feed';
 import { inLocale, type Locale, LOCALES } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
-import { feedHtml } from '@/kernel/shared/lib/feed-html';
-import type { RssPodcast, UnlinkedRssItem } from '@/kernel/shared/lib/rss';
 import type { Routed, Titled } from '@/kernel/shared/typings';
 
 import {

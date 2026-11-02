@@ -1,16 +1,29 @@
 /**
+<<<<<<< HEAD
  * The file walk and import resolution the import-graph scripts share, so no two
  * of them disagree on where an import lands. Every path is relative to the
  * working directory, which is the repository root or a test's tree.
+=======
+ * The file walk and import resolution `check:masd` and `check:poison` share, so
+ * the two cannot disagree on where an import lands. Every path is relative to
+ * the working directory, which is the repository root or a test's tree.
+>>>>>>> origin/main
  */
 
 import { existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 
+<<<<<<< HEAD
 export const SOURCE = /\.tsx?$/;
 
 /** Every `.ts`/`.tsx` file under `directory`, at any depth. */
 const walk = (directory: string): string[] =>
+=======
+const SOURCE = /\.tsx?$/;
+
+/** Every `.ts`/`.tsx` file under `directory`, at any depth. */
+export const walk = (directory: string): string[] =>
+>>>>>>> origin/main
   readdirSync(directory, { withFileTypes: true, recursive: true })
     .filter((entry) => entry.isFile() && SOURCE.test(entry.name))
     .map((entry) =>

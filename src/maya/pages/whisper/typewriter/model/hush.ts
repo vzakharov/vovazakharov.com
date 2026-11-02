@@ -1,3 +1,5 @@
+import type { Typed } from '@/kernel/shared/typings';
+
 /**
  * What the bug hears of a keystroke: one of sixteen sounds. The real GUNMAN
  * encoding was never published; this one keeps its shape — four bits a key,
@@ -33,8 +35,6 @@ export function hush(word: string): string {
     return sound;
   }).join('');
 }
-
-type Typed = { typed: string };
 
 export type Stretch = Typed &
   ({ word: true; sounds: string } | { word: false });

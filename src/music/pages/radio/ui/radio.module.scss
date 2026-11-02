@@ -1,3 +1,4 @@
+@use '../../../../../styles/dimmed';
 @use '../../../../../styles/mantine';
 
 $set-width: 552px;
@@ -31,9 +32,7 @@ $set-width: 552px;
   margin: 0 auto 22px;
   font-size: 15px;
 
-  // Dimmed by colour, not `opacity`: the [i] note opens inside this block, and
-  // an opacity would show the page through it and stack it under the dial.
-  color: color-mix(in srgb, var(--color-foreground) 80%, transparent);
+  @include dimmed.text(80%);
 }
 
 // An inline SVG sits on the baseline, which leaves it riding above the words.

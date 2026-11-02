@@ -15,8 +15,12 @@
   }
 }
 
+// A site sets `--noted-span-background` to set its notes off the page; the
+// fallback is the dropdown's own.
 .note {
+  background-color: var(--noted-span-background, var(--mantine-color-white));
   font-size: var(--mantine-font-size-sm);
+  font-weight: 400;
   line-height: 1.5;
   color: var(--color-foreground);
   white-space: normal;

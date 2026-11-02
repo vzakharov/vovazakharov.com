@@ -8,7 +8,8 @@
   $border-hairline,
   $border-hairline-strong,
   $surface,
-  $surface-strong
+  $surface-strong,
+  $accent
 ) {
   --color-background: #{$background};
   --color-foreground: #{$foreground};
@@ -16,4 +17,5 @@
   --color-border-hairline-strong: #{$border-hairline-strong};
   --color-surface: #{$surface};
   --color-surface-strong: #{$surface-strong};
+  --color-accent: #{$accent};
 }

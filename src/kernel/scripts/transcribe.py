@@ -1,76 +1,86 @@
 #!/usr/bin/env python3
-"""Turn one recording into a Deepgram response and a timecoded transcript.
+"""Turn one recording into a local model's hearing and a timecoded transcript.
 
 Usage:
-  python3 src/kernel/scripts/transcribe.py <media> [--slug SLUG] [--out-dir DIR]
-                                       [--json-dir DIR]
-                                       [--audio-out PATH] [--video-out PATH]
-                                       [--model MODEL] [--language LANG]
-                                       [--second-opinion | --second-opinion-from JSON]
-                                       [--keyterm TERM]...
-                                       [--floor FLOOR] [--force]
+  tmp/hearing-venv/bin/python src/kernel/scripts/transcribe.py <media> [--slug SLUG]
+      [--out-dir DIR] [--json-dir DIR] [--audio-out PATH] [--video-out PATH]
+      [--model MODEL] [--language LANG] [--vad THRESHOLD]
+      [--second-opinion | --second-opinion-from JSON]
+      [--keyterm TERM]... [--floor FLOOR] [--force]
 
-`<media>` is audio or video in anything ffmpeg reads. A file carrying a video
-stream is first reduced to mono 64 kbit/s AAC — speech recognition hears no
-difference and the upload shrinks by roughly 25x — and the extracted audio is
-thrown away unless `--audio-out` names somewhere to keep it. `--video-out` keeps
-a re-encoded copy of the video itself, for a recording being archived rather
-than uploaded.
+Runs under the hearing venv —
+`python3 -m venv tmp/hearing-venv && tmp/hearing-venv/bin/pip install -r src/kernel/scripts/requirements-hearing.txt`
+— on the CPU, offline past each model's first download.
+`<media>` is audio or video in anything ffmpeg reads. `--audio-out` keeps the
+video's sound as mono 64 kbit/s AAC, `--video-out` a re-encoded copy of the
+video itself, for a recording being archived.
 
 Two files come back (three with `--second-opinion`), named for the slug — the
 input's stem unless `--slug` says otherwise — all under
-`docs/remove-before-merging/deepgram/` and all committed — that directory is
+`docs/remove-before-merging/transcripts/` and all committed — that directory is
 swept before the merge, so none reaches main:
 
   <slug>.transcript.md    under `--out-dir` — one line per sentence with its
                           timecode, every word scored under `--floor` marked
                           `[word?]` where it was said. This is the file a
                           person or an agent reads.
-  <slug>.deepgram.json.gz under `--json-dir` — the whole response, with the
-                          per-word timings a subtitle track would need. Kept
+  <slug>.<model>.json.gz  under `--json-dir` — the whole hearing, shaped as a
+                          Deepgram response (`lib/hearing.py` says why), with
+                          the per-word timings a subtitle track needs. Kept
                           because a re-run is a different transcription, which
-                          corrections made against this one no longer fit;
-                          gzipped because 300 KB of JSON otherwise opens as
-                          text in every preview that walks the branch.
+                          corrections made against this one no longer fit.
+
+**Which model hears first** (`--model`, measured 23.10.2026 on a sung vocal
+scored against its published captions and a voice note against its corrected
+transcript):
+
+- `gigaam-v3` — GigaAM-v3 RNNT, the default for `--language ru`. On speech it
+  made half the errors of anything else (word error rate 0.10 against
+  Whisper's 0.23), punctuated, eight times faster than Whisper. Russian only,
+  and no keyterms.
+- `whisper-large-v3` — the default otherwise, and the only one that detects a
+  language. On a sung vocal it heard 90% of the words where GigaAM heard 65%.
+  Never `large-v3-turbo`: on a mumbled voice note it dropped sixteen seconds
+  and closed on an invented «Спасибо. Спасибо.»
+
+**On Russian, Whisper's words are re-timed** by GigaAM-v3's CTC head
+(`lib/ears.place`): Whisper's own word timings land a second or more off, the
+forced alignment within 0.06 s median — closer than Deepgram's nova-3 put them.
+
+**`--vad` is the voice filter's threshold, and on a song it is 0.1.** At the
+default 0.5 Whisper dropped half of a sung vocal; with no filter (`--vad 0`) it
+heard every line and invented `Субтитры сделал DimaTorzok` over the
+instrumental. GigaAM cannot run without the filter.
 
 **A mark is where to listen again, never a verdict.** A rare word heard right
 scores low, and a word that was never said leaves no mark at all, only confident
-neighbours. The floor is 0.95 because on a recording run both ways, every word a
-second opinion disagreed on was already under it, where a 0.6 floor caught three
-of the seven corrections the first dictations needed. Confidence is read off the
-first model only: Whisper fills the field on a scale of its own, ordinary correct
-words at the bottom.
+neighbours. Confidence is on each model's own scale, so the floor is per model
+(`FLOORS` says where each came from). A word is as sure as its least sure
+piece: one garbled syllable is what makes it doubtful.
 
-**`--second-opinion` hears the recording again with `whisper-large`** and adds a
-third file, `<slug>.whisper-large.deepgram.json.gz`, and a section merging the
-two word by word: what both heard is written once, what only the first heard as
-`[-…-]`, what only Whisper heard as `{+…+}`. Where they agree the word is
-settled; where they part, the recognizer is the suspect. It catches what a mark
-cannot — a stretch the first model dropped whole comes back as Whisper's words
-on a line of their own. For speech, Whisper is Deepgram's hosted model rather
-than a local faster-whisper: on a mumbled voice note a local `large-v3-turbo`
-dropped sixteen seconds the hosted model still turned into words, and closed on
-an invented «Спасибо. Спасибо.»
+**`--second-opinion` hears the recording again with the other model** and adds a
+third file, `<slug>.<other>.json.gz`, and a section merging the two word by
+word: what both heard is written once, what only the first heard as `[-…-]`,
+what only the second heard as `{+…+}`. Where they agree the word is settled;
+where they part, the recognizer is the suspect. It catches what a mark cannot —
+a stretch the first model dropped whole comes back as the other's words on a
+line of their own. The two complement each other on a mumbled note: GigaAM got
+«разбаливаться», «троечку»; Whisper got «выпил 3 пива», «5-30». Russian only,
+since GigaAM hears nothing else.
 
-**`--second-opinion-from <whisper.json.gz>` merges a hearing already on disk
-instead** — the one `src/music/scripts/song-intake/lyrics.py --json-dir` writes. Sung
-vocals are the other way round from speech: the local large-v3 hears them better
-than either hosted model, so a song's transcript merges nova-3 with that.
+**`--second-opinion-from <json.gz>` merges a hearing already on disk instead**
+— a committed `.deepgram.json.gz` among them.
 
-`--keyterm` (repeatable, nova-3 only) names a word the recording uses that the
+`--keyterm` (repeatable, Whisper only) names a word the recording uses that the
 model would mishear unprompted — a name, a drug, a coinage.
 
 This script makes no decision a re-run could make differently; the judgement is
-`@.claude/skills/dictation/SKILL.md`'s.
-
-Requires `DEEPGRAM_API_KEY` in the environment. `ffmpeg` and `ffprobe` are
-installed if they are missing, through whichever package manager is on the box.
+`@.claude/skills/dictation/SKILL.md`'s. `ffmpeg` and `ffprobe` are installed if
+they are missing, through whichever package manager is on the box.
 
 Exit codes:
   0  - every file written.
-  1  - bad arguments, a missing tool or key, or the API refused.
-
-Stdlib only — no third-party deps. Python 3.9+.
+  1  - bad arguments or a missing tool.
 """
 
 from __future__ import annotations
@@ -81,33 +91,22 @@ import os
 import shutil
 import subprocess
 import sys
-import tempfile
-import urllib.error
-import urllib.parse
-import urllib.request
 from pathlib import Path
 from typing import Any, Optional
 
+from lib.ears import GIGAAM, MODELS, WHISPER, decode, hear
 from lib.hearing import alternative, doubts, marked, merged, paragraphs, read_response, write_response
 
-DEEPGRAM_URL = "https://api.deepgram.com/v1/listen"
-
-# Fixed because the responses are kept and read against each other: a parameter
-# that drifts between runs makes two transcripts incomparable, silently.
-DEEPGRAM_PARAMS = {
-    "smart_format": "true",
-    "punctuate": "true",
-    "paragraphs": "true",
-    "diarize": "true",
-}
-
-DEFAULT_OUT_DIR = Path("docs") / "remove-before-merging" / "deepgram"
+DEFAULT_OUT_DIR = Path("docs") / "remove-before-merging" / "transcripts"
 DEFAULT_JSON_DIR = DEFAULT_OUT_DIR
-DEFAULT_MODEL = "nova-3"
-SECOND_OPINION_MODEL = "whisper-large"
-DEFAULT_FLOOR = 0.95
+DEFAULT_VAD = 0.5
 
-# Below 64k mono, quiet consonants start to drop; above it, only the upload
+# From a 3:23 spoken album story heard by both: under GigaAM's 0.6 sat every
+# word it plainly misheard but one («сингвельная», 0.88), marking 17% of the
+# words the two agreed on; 0.7 marks Whisper's words at about half that share.
+FLOORS = {GIGAAM: 0.6, WHISPER: 0.7}
+
+# Below 64k mono, quiet consonants start to drop; above it, only the file
 # grows.
 AUDIO_ARGS = ["-vn", "-ac", "1", "-c:a", "aac", "-b:a", "64k"]
 
@@ -206,43 +205,6 @@ def convert(media: Path, dest: Path, args: list[str], label: str) -> None:
     )
 
 
-def transcribe(
-    audio: Path, model: str, language: Optional[str], keyterms: list[str]
-) -> dict[str, Any]:
-    params = [*DEEPGRAM_PARAMS.items(), ("model", model)]
-    # Asking for a language and asking Deepgram to find one are the same slot;
-    # sending both makes the detection a no-op that the header would still
-    # report as having run.
-    if language:
-        params.append(("language", language))
-    else:
-        params.append(("detect_language", "true"))
-    params += [("keyterm", term) for term in keyterms]
-
-    key = os.environ.get("DEEPGRAM_API_KEY", "").strip()
-    if not key:
-        sys.exit("DEEPGRAM_API_KEY is not set.")
-
-    print(f"Transcribing with {model}…", file=sys.stderr)
-    request = urllib.request.Request(
-        f"{DEEPGRAM_URL}?{urllib.parse.urlencode(params)}",
-        data=audio.read_bytes(),
-        method="POST",
-        headers={
-            "Authorization": f"Token {key}",
-            "Content-Type": "application/octet-stream",
-        },
-    )
-    try:
-        with urllib.request.urlopen(request) as resp:
-            return json.loads(resp.read())
-    except urllib.error.HTTPError as exc:
-        body = exc.read().decode(errors="replace").strip()
-        sys.exit(f"Deepgram refused the request: {exc.code} {exc.reason}\n{body}")
-    except urllib.error.URLError as exc:
-        sys.exit(f"Could not reach Deepgram: {exc}")
-
-
 def render_transcript(
     response: dict[str, Any],
     source: Path,
@@ -278,14 +240,13 @@ def render_transcript(
         lines.append(f"| Second opinion | `{second[0]}` |")
     lines += [
         f"| Words | {len(alt.get('words') or [])} |",
-        f"| Mean confidence | {alt.get('confidence', 0):.3f} |",
         f"| Under {floor:g} | {low} of {scored}{share} |",
         "",
         "One line per sentence, timecoded at its start, every word scored under",
         f"{floor:g} marked `[word?]` where it was said — a place to listen again,",
-        "not a verdict. Generated by `src/kernel/scripts/transcribe.py`; the whole response,",
+        "not a verdict. Generated by `src/kernel/scripts/transcribe.py`; the whole hearing,",
         "per-word timings included, sits beside this file as",
-        "`<slug>.deepgram.json.gz`.",
+        f"`<slug>.{model}.json.gz`.",
         "",
         "## Sentences",
         "",
@@ -293,7 +254,7 @@ def render_transcript(
 
     found = paragraphs(response)
     if not found:
-        lines += ["No speech recognised — check `--language` before anything else.", ""]
+        lines += ["No speech recognised — check `--language` and `--vad` before anything else.", ""]
     for paragraph in found:
         for sentence in paragraph:
             lines.append(f"- `{timecode(sentence['start'])}` {marked(sentence, floor)}")
@@ -319,7 +280,7 @@ def render_transcript(
 
 def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Transcribe one recording with Deepgram.",
+        description="Transcribe one recording with a local model.",
     )
     parser.add_argument("media", type=Path, help="audio or video file")
     parser.add_argument("--slug", help="output basename (default: the input's stem)")
@@ -328,42 +289,54 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     parser.add_argument(
         "--audio-out",
         type=Path,
-        help="keep the extracted audio here instead of discarding it",
+        help="keep the video's sound here as mono AAC",
     )
     parser.add_argument(
         "--video-out",
         type=Path,
         help="also write a re-encoded copy of the video, about a third the size",
     )
-    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument(
+        "--model",
+        choices=MODELS,
+        help=f"default: {GIGAAM} for --language ru, {WHISPER} otherwise",
+    )
     parser.add_argument(
         "--language",
-        help="force a language code; omitted, Deepgram detects one",
+        help=f"force a language code; omitted, {WHISPER} detects one",
+    )
+    parser.add_argument(
+        "--vad",
+        type=float,
+        default=DEFAULT_VAD,
+        metavar="THRESHOLD",
+        help=f"voice filter threshold; 0.1 for a song, 0 for none ({WHISPER} only); default {DEFAULT_VAD}",
     )
     opinion = parser.add_mutually_exclusive_group()
     opinion.add_argument(
         "--second-opinion",
         action="store_true",
-        help=f"also hear it with {SECOND_OPINION_MODEL} and merge the two word by word",
+        help="also hear it with the other model and merge the two word by word; --language ru only",
     )
     opinion.add_argument(
         "--second-opinion-from",
         type=Path,
         metavar="JSON",
-        help="merge with this hearing instead, as lyrics.py --json-dir writes it",
+        help="merge with this kept hearing instead",
     )
     parser.add_argument(
         "--keyterm",
         action="append",
         default=[],
         metavar="TERM",
-        help="a word the model would mishear unprompted; repeatable; nova-3 only",
+        help=f"a word the model would mishear unprompted; repeatable; {WHISPER} only",
     )
     parser.add_argument(
         "--floor",
         type=float,
-        default=DEFAULT_FLOOR,
-        help=f"mark words scored under this as [word?] (default {DEFAULT_FLOOR})",
+        help="mark words scored under this as [word?] (default: "
+        + ", ".join(f"{m} {f:g}" for m, f in FLOORS.items())
+        + ")",
     )
     parser.add_argument(
         "--force",
@@ -375,29 +348,34 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
 
 def main(argv: Optional[list[str]] = None) -> int:
     args = parse_args(argv)
+    model = args.model or (GIGAAM if args.language == "ru" else WHISPER)
+    other = WHISPER if model == GIGAAM else GIGAAM
+    floor = FLOORS[model] if args.floor is None else args.floor
 
     if not args.media.is_file():
         sys.exit(f"No such file: {args.media}")
+    if model == GIGAAM and args.language != "ru":
+        sys.exit(f"{GIGAAM} hears Russian alone; pass --language ru, or --model {WHISPER}.")
+    if args.second_opinion and args.language != "ru":
+        sys.exit(f"--second-opinion needs --language ru: {GIGAAM}, one side of it, hears nothing else.")
+    if args.keyterm and model != WHISPER:
+        sys.exit(f"--keyterm is {WHISPER}'s alone; {model} has no way to take it.")
+    if args.vad <= 0 and GIGAAM in (model, other if args.second_opinion else None):
+        sys.exit(f"{GIGAAM} cannot run without its voice filter; --vad must be above 0.")
     second = None
     if args.second_opinion_from:
         if not args.second_opinion_from.is_file():
             sys.exit(f"No such file: {args.second_opinion_from}")
         heard = read_response(args.second_opinion_from)
         second = (heard["metadata"].get("model", args.second_opinion_from.name), heard)
-    if args.keyterm and not args.model.startswith("nova-3"):
-        sys.exit(f"--keyterm is nova-3's alone; {args.model} would ignore it.")
     ensure_ffmpeg()
 
     slug = args.slug or args.media.stem
-    json_path = args.json_dir / f"{slug}.deepgram.json.gz"
-    second_path = (
-        args.json_dir / f"{slug}.{SECOND_OPINION_MODEL}.deepgram.json.gz"
-        if args.second_opinion
-        else None
-    )
+    json_path = args.json_dir / f"{slug}.{model}.json.gz"
+    second_path = args.json_dir / f"{slug}.{other}.json.gz" if args.second_opinion else None
     transcript_path = args.out_dir / f"{slug}.transcript.md"
-    # Checked before the upload, not after: the call costs money and the file it
-    # would clobber is usually one someone has since corrected by hand.
+    # Checked before hearing, not after: a hearing takes minutes, and the file
+    # it would clobber is usually one someone has since corrected by hand.
     outputs = (json_path, second_path, transcript_path, args.audio_out, args.video_out)
     existing = [p for p in outputs if p is not None and p.exists()]
     if existing and not args.force:
@@ -409,35 +387,22 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     probed = probe(args.media)
     has_video = any(s["codec_type"] == "video" for s in probed.get("streams", []))
-    if args.video_out and not has_video:
-        sys.exit(f"--video-out was given, but {args.media} carries no video stream.")
+    if (args.video_out or args.audio_out) and not has_video:
+        sys.exit(f"--audio-out and --video-out are for a video; {args.media} carries no video stream.")
+    if args.audio_out:
+        convert(args.media, args.audio_out, AUDIO_ARGS, "Audio")
+    if args.video_out:
+        convert(args.media, args.video_out, VIDEO_ARGS, "Video")
 
-    with tempfile.TemporaryDirectory() as tmp:
-        if has_video:
-            audio = args.audio_out or Path(tmp) / f"{slug}.m4a"
-            convert(args.media, audio, AUDIO_ARGS, "Audio")
-            # Before the paid call rather than after it, so a failed re-encode
-            # costs time and nothing else.
-            if args.video_out:
-                convert(args.media, args.video_out, VIDEO_ARGS, "Video")
-        else:
-            audio = args.media
-
-        response = transcribe(audio, args.model, args.language, args.keyterm)
-        if args.second_opinion:
-            second = (
-                SECOND_OPINION_MODEL,
-                transcribe(audio, SECOND_OPINION_MODEL, args.language, []),
-            )
-        transcript = render_transcript(
-            response,
-            args.media,
-            args.audio_out if has_video else None,
-            args.model,
-            args.floor,
-            args.keyterm,
-            second,
-        )
+    pcm = decode(args.media)
+    print(f"Hearing with {model}…", file=sys.stderr)
+    response = hear(pcm, model, args.language, args.keyterm, args.vad)
+    if args.second_opinion:
+        print(f"Hearing with {other}…", file=sys.stderr)
+        second = (other, hear(pcm, other, args.language, [], args.vad))
+    transcript = render_transcript(
+        response, args.media, args.audio_out, model, floor, args.keyterm, second
+    )
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     args.json_dir.mkdir(parents=True, exist_ok=True)

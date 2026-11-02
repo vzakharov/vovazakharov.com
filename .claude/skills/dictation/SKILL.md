@@ -11,29 +11,30 @@ them to correct.
 ## The split
 
 `src/kernel/scripts/transcribe.py` does everything a re-run would do
-identically: extract audio from video, call Deepgram, save the response, render
-a timecoded transcript. This skill does the rest, which is one judgement
-repeated a few hundred times — **which words in the recognizer's output are the
+identically: hear the recording with local models, save the hearings, render a
+timecoded transcript. This skill does the rest, which is one judgement repeated
+a few hundred times — **which words in the recognizer's output are the
 speaker's, and which are its mistakes.**
 
 The script's header carries its flags. The short form:
 
 ```bash
-python3 src/kernel/scripts/transcribe.py <media> --slug <slug> --second-opinion \
+tmp/hearing-venv/bin/python src/kernel/scripts/transcribe.py <media> --slug <slug> \
+  --language ru --second-opinion \
   --audio-out docs/remove-before-merging/<slug>.m4a \
   --video-out docs/remove-before-merging/<slug>.mp4   # video only
 ```
 
-**Always `--second-opinion`**: a second model costs seconds, and a place where
-two models part is the strongest pointer to a mis-hearing there is. Add a
-`--keyterm <word>` for each name or coinage the operator's message or the
-project's files say the recording uses.
+**Always `--second-opinion`**: a place where two models part is the strongest
+pointer to a mis-hearing there is, and it costs about a minute and a half of CPU
+per minute of speech. GigaAM-v3 hears first and takes no keyterms; a name or
+coinage the operator's message or the project's files say the recording uses is
+a word to check in the merge, where Whisper's spelling of it shows.
 
-It writes `<slug>.transcript.md` and the gzipped whole responses,
-`<slug>.deepgram.json.gz` and `<slug>.whisper-large.deepgram.json.gz`, side by
-side under `docs/remove-before-merging/deepgram/`. All are committed and all are
-swept before the merge — the script's header says why the responses are kept and
-why gzipped.
+It writes `<slug>.transcript.md` and the gzipped whole hearings,
+`<slug>.gigaam-v3.json.gz` and `<slug>.whisper-large-v3.json.gz`, side by side
+under `docs/remove-before-merging/transcripts/`. All are committed and all are
+swept before the merge — the script's header says why the hearings are kept.
 
 ## The three modes
 
@@ -152,9 +153,9 @@ same tool that is already extracting the audio.
 ## Step 2 — Run the script, then read the transcript
 
 `<slug>.transcript.md` is what you work from, not the raw JSON. It carries one
-line per sentence with a timecode, every word nova-3 scored under 0.95 marked
-`[word?]` in place, and under `## Second opinion` the same sentences merged with
-Whisper's hearing: `[-nova-3 only-]{+Whisper only+}`.
+line per sentence with a timecode, every word GigaAM scored under its floor
+marked `[word?]` in place, and under `## Second opinion` the same sentences
+merged with Whisper's hearing: `[-GigaAM only-]{+Whisper only+}`.
 
 **Work from the merged lines, and read the marks as where to look.**
 

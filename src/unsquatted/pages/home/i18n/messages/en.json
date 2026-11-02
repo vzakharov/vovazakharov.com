@@ -1,0 +1,50 @@
+{
+  "lede": "Good domain names nobody has grabbed* yet.",
+  "ledeNote": "* No, not even us.",
+  "byline": "curated list · {blazing} search · no reselling · no affiliate links",
+  "cardByline": "Curated, blazing fast.",
+  "coffeeLink": "Buy us a coffee",
+  "coffeeSoon": "Still looking for the coffee shop — stay tuned",
+  "checkHeading": "Check a name",
+  "blazing": "blazing-fast",
+  "blazingWhy": "Because your browser asks the registries itself. And because we’ve always dreamed of getting to say that one day.",
+  "fieldLabel": "Domain name",
+  "fieldPlaceholder": "type a name, or click on a title below",
+  "checkButton": "Check",
+  "dice": "Roll a random name",
+  "cantCheck": "can’t check that domain yet",
+  "moreZones": "more tlds ↓",
+  "fewerZones": "fewer tlds ↑",
+  "listHeading": "Up for grabs",
+  "register": "grab →",
+  "verdict": {
+    "pending": "checking…",
+    "free": "grab →",
+    "maybe": "maybe →",
+    "maybeWhy": "We can’t know for sure: this registry won’t talk to a browser. But the name has no DNS records, which usually means nobody owns it.",
+    "taken": "taken",
+    "takenSince": "taken {year}",
+    "expires": "Registered until {date}",
+    "own": "seriously?",
+    "unknown": "no answer"
+  },
+  "release": {
+    "soon": "up for grabs within days",
+    "now": "up for grabs any minute",
+    "in": "up for grabs in {left} {unit}"
+  },
+  "units": {
+    "day": { "one": "day", "other": "days" },
+    "hour": { "one": "hour", "other": "hours" },
+    "minute": { "one": "minute", "other": "minutes" }
+  },
+  "neighbour": {
+    "registrable": "(but that wouldn’t be very nice)",
+    "taken": "(can you imagine someone did that to us?)"
+  },
+  "price": { "then": ", then ", "perYear": "/yr" },
+  "shoutOutPrompt": "Got hooked on rolling the dice?",
+  "shoutOutOr": "or",
+  "shoutOutLink": "give a shout-out",
+  "shoutOutPost": "Check out {url}: [insert why you love it, or keep the placeholder for the lulz]"
+}

@@ -1,8 +1,13 @@
-"""Where a Deepgram transcript is unsure: doubtful words marked in place, and
-two models' hearings of one recording merged word by word.
+"""Where a transcript is unsure: doubtful words marked in place, and two
+models' hearings of one recording merged word by word.
+
+A response is shaped as Deepgram's `/v1/listen` answers, because the kept
+hearings include that API's, read alongside the local ones:
+`results.channels[0].alternatives[0]` holding `words` and `paragraphs`,
+`metadata` holding `duration` and the `model` that heard it.
 
 Imported as `from lib.hearing import …`; pure functions over parsed responses,
-so `test_hearing.py` beside it runs them on fixtures without a network. The
+so `test_hearing.py` beside it runs them on fixtures with no model. The
 exceptions are `write_response` and `read_response`, the format every kept
 response shares.
 
@@ -14,8 +19,9 @@ from __future__ import annotations
 import bisect
 import gzip
 import json
+import math
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 Response = dict[str, Any]
 Line = dict[str, Any]
@@ -25,10 +31,14 @@ Line = dict[str, Any]
 # 0:37 and calls the gap between them settled.
 SAME_WORD_SECONDS = 3.0
 
-# Punctuation `smart_format` glues onto a word, kept outside a doubt's marker:
+# Punctuation a recognizer glues onto a word, kept outside a doubt's marker:
 # `[Keko?],` reads, `[Keko,?]` reads as a doubt about the comma.
 TRAILING = ".,;:!?…»)\"'"
 LEADING = "«(\"'"
+
+# A word ending in one of these ends its sentence, so a long stretch the voice
+# filter kept whole still reads as one timecoded line per sentence.
+SENTENCE_END = ".!?…"
 
 # A word's start can sit a float's rounding before the sentence that holds it.
 _EPSILON = 1e-6
@@ -49,14 +59,16 @@ def _bare(text: str) -> str:
 
 
 def from_segments(segments: list[dict[str, Any]], duration: float, model: str) -> Response:
-    """A local Whisper hearing in the shape of a Deepgram response, so `merged`
-    reads it as it reads the API's.
+    """A local hearing in the response shape, so `merged` reads it as it reads
+    a kept Deepgram one.
 
-    `segments` are faster-whisper's run with `word_timestamps`, as dicts; each
-    becomes a sentence starting at its first word, since a segment's own start
-    can sit across the instrumental before it. Whisper's word probability fills
-    `confidence`, on Whisper's scale rather than nova-3's. `metadata.model`
-    names the hearing — a key the API itself never sets.
+    `segments` are stretches of speech, each a dict whose `words` carry `word`,
+    `start`, `end` and `probability` — faster-whisper's segments run with
+    `word_timestamps`, or `words_from_tokens`' output for a token model. Each
+    becomes one sentence per sentence-ending word in it, starting at its first
+    word, since a segment's own start can sit across the instrumental before
+    it. The probability fills `confidence`, on the model's own scale.
+    `metadata.model` names the hearing — a key the API itself never sets.
     """
     words: list[dict[str, Any]] = []
     sentences = []
@@ -76,16 +88,20 @@ def from_segments(segments: list[dict[str, Any]], duration: float, model: str) -
                     "confidence": word["probability"],
                 }
             )
-        if not spoken:
-            continue
         words += spoken
-        sentences.append(
-            {
-                "text": segment["text"].strip(),
-                "start": spoken[0]["start"],
-                "end": spoken[-1]["end"],
-            }
-        )
+        while spoken:
+            cut = next(
+                (k + 1 for k, w in enumerate(spoken) if w["punctuated_word"][-1] in SENTENCE_END),
+                len(spoken),
+            )
+            said, spoken = spoken[:cut], spoken[cut:]
+            sentences.append(
+                {
+                    "text": " ".join(w["punctuated_word"] for w in said),
+                    "start": said[0]["start"],
+                    "end": said[-1]["end"],
+                }
+            )
     alt = {
         "transcript": " ".join(s["text"] for s in sentences),
         "words": words,
@@ -95,6 +111,38 @@ def from_segments(segments: list[dict[str, Any]], duration: float, model: str) -
         "metadata": {"duration": duration, "model": model},
         "results": {"channels": [{"alternatives": [alt]}]},
     }
+
+
+def words_from_tokens(
+    tokens: list[str],
+    times: list[float],
+    logprobs: Optional[list[float]],
+    end: float,
+) -> list[dict[str, Any]]:
+    """A token model's output as words in `from_segments`' shape.
+
+    `tokens` are as onnx-asr decodes them, a word's first one opening with a
+    space (or SentencePiece's `▁`); `times` their absolute starts. A word ends
+    where the next one starts, the last at `end`. Its probability is its least
+    sure token's: one garbled syllable is what makes a word doubtful, and an
+    average over the rest would hide it. No logprobs, no probability — and
+    `marked` then leaves the line plain.
+    """
+    words: list[dict[str, Any]] = []
+    for k, token in enumerate(tokens):
+        piece = token.replace("▁", " ")
+        sure = math.exp(logprobs[k]) if logprobs is not None else None
+        if piece.startswith(" ") or not words:
+            words.append({"word": piece.strip(), "start": times[k], "probability": sure})
+        else:
+            words[-1]["word"] += piece
+            if sure is not None and words[-1]["probability"] is not None:
+                words[-1]["probability"] = min(words[-1]["probability"], sure)
+    for word, after in zip(words, words[1:]):
+        word["end"] = after["start"]
+    if words:
+        words[-1]["end"] = max(end, words[-1]["start"])
+    return [w for w in words if w["word"]]
 
 
 def write_response(path: Path, response: Response) -> None:
@@ -109,8 +157,8 @@ def read_response(path: Path) -> Response:
 
 
 def paragraphs(response: Response) -> list[list[Line]]:
-    """The response's sentences, grouped as Deepgram paragraphed them, each
-    carrying the words said within it.
+    """The response's sentences, grouped in its paragraphs, each carrying the
+    words said within it.
 
     A word belongs to the last sentence starting at or before it, which on
     every response kept so far rebuilds each sentence's text exactly. A
@@ -241,8 +289,8 @@ def merged(first: Response, second: Response) -> list[tuple[float, str]]:
     the other didn't is no disagreement. A word both heard counts as agreement
     only within `SAME_WORD_SECONDS` of each other. The second model's words join
     the first model's sentence whose span they fall within; a stretch only the
-    second heard keeps its own timecode, on a line of its own — nova-3 drops
-    whole mumbled seconds that Whisper still turns into words.
+    second heard keeps its own timecode, on a line of its own — on a mumbled
+    tape one model drops whole seconds that the other still turns into words.
     """
     a, b = _heard(first), _heard(second)
     runs: list[tuple[list, list, bool]] = []  # first's words, second's, agree

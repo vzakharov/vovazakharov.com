@@ -1,0 +1,1 @@
+export { sitemap } from './sitemap';

@@ -7,12 +7,12 @@ import { useEffect, useEffectEvent, useState } from 'react';
 import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { InternalButton, NameLink } from '@/shell/shared/ui';
+import { InternalButton, NameLink, NotedSpan } from '@/shell/shared/ui';
 
 import type { HookRun } from '@/music/shared/catalogue';
 import type { SpelledLink } from '@/music/shared/catalogue/index.node-safe';
 import type { Messages } from '@/music/shared/i18n';
-import { BillingLinks, NotedSpan, Spelling } from '@/music/shared/ui';
+import { BillingLinks, Spelling } from '@/music/shared/ui';
 import { CoverZoom, type CoverZoomLabels } from '@/music/entities/cover';
 import { HookRuns } from '@/music/entities/hook';
 import { stationOffset, usePlayer } from '@/music/features/player';

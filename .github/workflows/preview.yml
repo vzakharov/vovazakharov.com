@@ -11,7 +11,7 @@ on:
         description: Which site to publish to the preview slot
         required: true
         type: choice
-        options: [vova, lsa, bible, basilisk, maya]
+        options: [vova, lsa, bible, basilisk, maya, unsquatted]
 
 permissions:
   contents: read

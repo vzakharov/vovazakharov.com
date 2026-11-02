@@ -14,5 +14,5 @@ export const TECH_STACKS = {
   englishForKids: 'Next.js, OpenAI API, custom game engine',
   orcool:
     'Next.js/NestJS, Cloudflare Workers, Firebase, custom LLM orchestration framework',
-  randddb: 'Django + PostgreSQL, Vue + TypeScript',
+  randddb: 'Django + DRF, PostgreSQL + pgvector, Redis, Vue + TypeScript',
 } as const;

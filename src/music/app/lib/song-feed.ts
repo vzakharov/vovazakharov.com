@@ -7,10 +7,9 @@ import {
   getAbsoluteUrl,
   SITE_CONFIG,
 } from '@/kernel/shared/config';
+import { feedHtml, type RssPodcast } from '@/kernel/shared/feed';
 import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
-import { feedHtml } from '@/kernel/shared/lib/feed-html';
-import type { RssPodcast } from '@/kernel/shared/lib/rss';
 
 import {
   type FeedEntry,

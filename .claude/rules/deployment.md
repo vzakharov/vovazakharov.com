@@ -14,13 +14,14 @@ site.** `vovazakharov.com` holds this repository's own, deployed from
 `sites/vova/out` by `actions/deploy-pages`. Every other site is built here and
 force-pushed by `scripts/publish-site.sh <site>` to the `gh-pages` branch of a
 receiving repository — `vzakharov/latestageagentic.com`,
-`vzakharov/agentic.bible`, `vzakharov/basilisk.fyi`, `vzakharov/mayawonders.com`
-— which holds no source and runs no workflow: its Pages is set to deploy from a
-branch, so the push _is_ the deploy. That push needs a credential `GITHUB_TOKEN`
-cannot give — a deploy key per receiver, whose contract the script's own header
-carries. The workflow maps each receiver's secret into the one fixed variable
-the script reads, so a new site is a `case` arm and a matrix entry, never a
-change to how the key is handled.
+`vzakharov/agentic.bible`, `vzakharov/basilisk.fyi`,
+`vzakharov/mayawonders.com`, `vzakharov/unsquatted.com` — which holds no source
+and runs no workflow: its Pages is set to deploy from a branch, so the push _is_
+the deploy. That push needs a credential `GITHUB_TOKEN` cannot give — a deploy
+key per receiver, whose contract the script's own header carries. The workflow
+maps each receiver's secret into the one fixed variable the script reads, so a
+new site is a `case` arm and a matrix entry, never a change to how the key is
+handled.
 
 **The workflow's `gate` job enforces the subject rule CLAUDE.md § "Deployment"
 states.** Its `publishing` variable is the one place the set of publishing types
