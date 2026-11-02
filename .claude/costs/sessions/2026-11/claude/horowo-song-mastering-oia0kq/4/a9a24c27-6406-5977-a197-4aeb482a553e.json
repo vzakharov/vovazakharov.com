@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 79810,
+    "cacheReadTokens": 2656695,
+    "outputTokens": 6866,
+    "thinkingTokens": 1239,
+    "responses": 23,
+    "costUsd": 1.3073310000000002
+  },
+  "estimate": {
+    "at": "2026-11-02T06:58:11.885Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "revealing five verdicts, putting the winners and each repository's files, and re-tagging take a mastering ear"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "folding the author's answers into five sets of words and cribs, and the pages' frontmatter and billing"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-02T06:58:09.599Z",
+    "contextTokens": 116870,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54396,
+      "cacheReadTokens": 782717,
+      "outputTokens": 1613,
+      "thinkingTokens": 383,
+      "responses": 8,
+      "costUsd": 0.6240434000000001
+    }
+  },
+  "sessionId": "a9a24c27-6406-5977-a197-4aeb482a553e",
+  "branch": "claude/horowo-song-mastering-oia0kq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — черновики слов всех пяти песен на ветке, дальше вопросы по «Поздно», ответы Вовы и вердикты блайнд-теста, зате…",
+  "prs": [
+    240
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDtqTtbmYzdUBWcrqy",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-02T06:57:37.736Z",
+  "lastResponseAt": "2026-11-02T06:59:35.403Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 79810,
+    "cacheReadTokens": 2656695,
+    "outputTokens": 6866,
+    "thinkingTokens": 1239,
+    "responses": 23,
+    "costUsd": 1.3073310000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 48,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 79810,
+      "cacheReadTokens": 2656695,
+      "outputTokens": 6866,
+      "thinkingTokens": 1239,
+      "responses": 23,
+      "costUsd": 1.3073310000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 23,
+    "matched": 23,
+    "matchedTableUsd": 1.3073310000000002,
+    "matchedEventUsd": 1.307331,
+    "unseen": {}
+  }
+}
