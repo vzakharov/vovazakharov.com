@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 94,
+    "cacheWrite5mTokens": 143052,
+    "cacheWrite1hTokens": 91420,
+    "cacheReadTokens": 5252918,
+    "outputTokens": 17089,
+    "thinkingTokens": 6538,
+    "responses": 48,
+    "costUsd": 2.8393596000000008
+  },
+  "estimate": {
+    "at": "2026-11-02T07:45:42.493Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "landing a large tooling PR needs a senior to judge the last polish findings and any vet failure across six site builds before merge"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".claude/rules/masd.md",
+    "endedAt": "2026-11-02T07:46:02.366Z",
+    "contextTokens": 131410,
+    "spend": {
+      "inputTokens": 21,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 68693,
+      "cacheReadTokens": 1124630,
+      "outputTokens": 2232,
+      "thinkingTokens": 481,
+      "responses": 11,
+      "costUsd": 0.8191940000000001
+    }
+  },
+  "sessionId": "1cf7d05e-2220-5766-920f-d0a7135d7f7d",
+  "branch": "claude/masd-slice-clusters-q7r4tm",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/masd-slice-clusters-q7r4tm — по PR открытых вопросов нет, дальше finalize по команде",
+  "prs": [
+    228
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCZRduqtHgMLnuvnmX",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-02T07:45:17.597Z",
+  "lastResponseAt": "2026-11-02T07:49:02.134Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 41,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 91420,
+    "cacheReadTokens": 2483600,
+    "outputTokens": 7851,
+    "thinkingTokens": 1571,
+    "responses": 21,
+    "costUsd": 1.3852640000000005
+  },
+  "subagents": {
+    "inputTokens": 53,
+    "cacheWrite5mTokens": 143052,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2769318,
+    "outputTokens": 9238,
+    "thinkingTokens": 4967,
+    "responses": 27,
+    "costUsd": 1.4540956
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 94,
+      "cacheWrite5mTokens": 143052,
+      "cacheWrite1hTokens": 91420,
+      "cacheReadTokens": 5252918,
+      "outputTokens": 17089,
+      "thinkingTokens": 6538,
+      "responses": 48,
+      "costUsd": 2.8393596000000008
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 48,
+    "matched": 48,
+    "matchedTableUsd": 2.8393596000000008,
+    "matchedEventUsd": 2.8393596000000016,
+    "unseen": {}
+  }
+}
