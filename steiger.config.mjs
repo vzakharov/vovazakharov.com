@@ -5,7 +5,7 @@ import fsd from '@feature-sliced/steiger-plugin';
 import { defineConfig } from 'steiger';
 
 import { loadGraph } from './eslint/masd-graph.ts';
-import { slicesWithSubSlices } from './scripts/lib/sub-slices.ts';
+import { slicesWithSubSlices } from './scripts/lib/sub-slices/index.ts';
 
 // Loaded from the repository root, where `lint:fsd` runs Steiger.
 const subSliced = slicesWithSubSlices([...loadGraph().keys()]);

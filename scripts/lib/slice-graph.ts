@@ -20,6 +20,10 @@ const SLICED = new Set<string>(SLICED_LAYERS);
 /** An importing file and the file it imports. */
 export type Edge = readonly [string, string];
 
+/** Whether `file` sits anywhere under `directory`. */
+export const within = (file: string, directory: string): boolean =>
+  file.startsWith(directory + path.sep);
+
 /** `src/<app>/<layer>/<slice>` of a shipped file in a sliced layer. */
 export function sliceOf(file: string): string | undefined {
   const parts = file.split(path.sep);

@@ -1,10 +1,9 @@
 /**
- * `check:masd`'s checks on sub-slices — folders in a slice not named for a
- * segment (`subSlicePath` in `eslint/masd-graph.ts`). Every path is relative to
- * the working directory.
+ * The promotion check: a consumer taking from a slice or sub-slice only what
+ * one of its sub-slices exports, and the layers that sub-slice may move to.
  */
 
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
@@ -12,228 +11,14 @@ import {
   isTest,
   LAYERS,
   PUBLIC_API,
-  SEGMENTS,
   SLICED_LAYERS,
-} from '../../eslint/masd-graph.ts';
-import {
-  resolveImport,
-  SOURCE,
-  sourceFile,
-  subdirectories,
-} from './import-graph.ts';
-import {
-  cutGain,
-  edgesWithin,
-  importsOf,
-  sliceOf,
-  subSlicesOf,
-  unitsOf,
-} from './slice-graph.ts';
+} from '../../../eslint/masd-graph.ts';
+import { resolveImport, sourceFile } from '../import-graph.ts';
+import { sliceOf, subSlicesOf, unitsOf, within } from '../slice-graph.ts';
+import { reaches, type Siblings } from './siblings.ts';
 
 /** The comment a sub-slice's `index.ts` carries to stay put, by the operator's leave. */
 const STAYS = /\/\/ masd-disable promotion -- \S/;
-
-const within = (file: string, directory: string): boolean =>
-  file.startsWith(directory + path.sep);
-
-/** The paths of the slices in `apps`' sliced layers. */
-const slicesIn = (apps: readonly string[]): string[] =>
-  apps.flatMap((app) =>
-    SLICED_LAYERS.flatMap((layer) => {
-      const directory = path.join('src', app, layer);
-      return existsSync(directory)
-        ? subdirectories(directory).map((slice) => path.join(directory, slice))
-        : [];
-    }),
-  );
-
-/** The sub-slices directly in `unit`, as paths. */
-function childSubSlices(unit: string): string[] {
-  return (
-    readdirSync(unit, { withFileTypes: true })
-      // A folder holding no source, such as one of images, is no sub-slice.
-      .filter(
-        (entry) =>
-          entry.isDirectory() &&
-          !SEGMENTS.includes(entry.name) &&
-          readdirSync(path.join(unit, entry.name), { recursive: true }).some(
-            (file) => SOURCE.test(String(file)),
-          ),
-      )
-      .map((entry) => path.join(unit, entry.name))
-  );
-}
-
-/** The slices in `apps` cut into sub-slices. */
-export const slicesWithSubSlices = (apps: readonly string[]): string[] =>
-  slicesIn(apps).filter((slice) => childSubSlices(slice).length > 0);
-
-/**
- * A segment's name below a segment, which Steiger's `no-reserved-folder-names`
- * would catch were it not off in the sliced layers for the sub-slices' sake.
- */
-function nestedSegments(apps: readonly string[]): string[] {
-  return slicesIn(apps).flatMap((slice) =>
-    readdirSync(slice, { recursive: true, withFileTypes: true })
-      .filter((entry) => entry.isDirectory())
-      .flatMap((entry) => {
-        const folder = path.join(entry.parentPath, entry.name);
-        const dirs = path.relative(slice, folder).split(path.sep);
-        const segment = dirs.findIndex((dir) => SEGMENTS.includes(dir));
-        return segment !== -1 &&
-          segment < dirs.length - 1 &&
-          SEGMENTS.includes(entry.name)
-          ? [
-              `${folder}: "${entry.name}" names a segment, inside segment "${dirs[segment]}"; a folder in a segment takes a name of its own`,
-            ]
-          : [];
-      }),
-  );
-}
-
-/**
- * What sits at the root of a slice or sub-slice holding a sub-slice, other than
- * its sub-slices, its barrels and its tests: such a unit is cut all the way, so
- * the rest of it is a sub-slice of its own, named for its noun.
- */
-function mixed(apps: readonly string[]): string[] {
-  const inUnit = (unit: string): string[] => {
-    const subs = childSubSlices(unit);
-    const below = subs.flatMap((sub) => inUnit(sub));
-    if (subs.length === 0) return below;
-    const loose = readdirSync(unit, { withFileTypes: true })
-      .filter((entry) =>
-        entry.isDirectory()
-          ? SEGMENTS.includes(entry.name)
-          : !PUBLIC_API.includes(entry.name) &&
-            !isTest(path.join(unit, entry.name)),
-      )
-      .map((entry) => `"${entry.name}"`);
-    return loose.length === 0
-      ? below
-      : [
-          `${unit}: ${loose.join(', ')} beside its sub-slices; a unit holding a sub-slice holds only sub-slices and barrels, so move the rest into a sub-slice named for its noun`,
-          ...below,
-        ];
-  };
-  return slicesIn(apps).flatMap((slice) => inUnit(slice));
-}
-
-/** Each child sub-slice of a unit, and the siblings it imports. */
-type Siblings = Map<string, Set<string>>;
-
-/** Per unit holding sub-slices, its children and their imports of one another. */
-function siblingGraphs(
-  slices: ReadonlyMap<string, readonly string[]>,
-  imports: ReadonlyMap<string, ReadonlySet<string>>,
-): Map<string, Siblings> {
-  const graphs = new Map<string, Siblings>();
-  const graphOf = (parent: string): Siblings => {
-    const graph = graphs.get(parent) ?? new Map<string, Set<string>>();
-    graphs.set(parent, graph);
-    return graph;
-  };
-  for (const [slice, members] of slices) {
-    for (const from of members) {
-      const chain = unitsOf(from, slice);
-      for (const [index, child] of chain.entries()) {
-        const parent = chain[index - 1];
-        if (parent !== undefined && !graphOf(parent).has(child)) {
-          graphOf(parent).set(child, new Set());
-        }
-      }
-      for (const to of imports.get(from) ?? []) {
-        if (sliceOf(to) !== slice) continue;
-        const other = unitsOf(to, slice);
-        const fork = chain.findIndex((unit, index) => other[index] !== unit);
-        const [child, sibling, parent] = [
-          chain[fork],
-          other[fork],
-          chain[fork - 1],
-        ];
-        if (child === undefined || sibling === undefined) continue;
-        if (parent === undefined) continue;
-        graphOf(parent).get(child)?.add(sibling);
-      }
-    }
-  }
-  return graphs;
-}
-
-/** Every sibling `from` reaches by importing, itself only through a cycle. */
-function reaches(graph: Siblings, from: string): Set<string> {
-  const seen = new Set<string>();
-  const stack = [...(graph.get(from) ?? [])];
-  for (let node = stack.pop(); node !== undefined; node = stack.pop()) {
-    if (seen.has(node)) continue;
-    seen.add(node);
-    stack.push(...(graph.get(node) ?? []));
-  }
-  return seen;
-}
-
-/**
- * Sibling sub-slices importing one another in a cycle. Each enters the other by
- * its barrel, which madge sees as a file like any other, so files can form a
- * DAG while the sub-slices holding them go round.
- */
-const siblingCycles = (graphs: ReadonlyMap<string, Siblings>): string[] =>
-  [...graphs].flatMap(([parent, graph]) =>
-    cycles(graph).map(
-      (cycle) =>
-        `${parent}: its sub-slices ${cycle.map((sub) => `"${path.basename(sub)}"`).join(', ')} import one another in a cycle; siblings import in one direction only, so move what they share into a sub-slice of its own or merge them`,
-    ),
-  );
-
-/** The strongly connected components of more than one node, each sorted. */
-function cycles(graph: Siblings): string[][] {
-  const reach = new Map(
-    [...graph.keys()].map((node) => [node, reaches(graph, node)]),
-  );
-  const found = new Map<string, string[]>();
-  for (const [node, reached] of reach) {
-    const component = [...reached]
-      .filter((other) => reach.get(other)?.has(node) === true)
-      .toSorted();
-    if (component.length > 1) found.set(component.join('\n'), component);
-  }
-  return [...found.values()];
-}
-
-/**
- * Sub-slices earned neither way: their cut does not raise the modularity of
- * their parent's graph, and fewer than two siblings import them. The second is
- * what keeps a piece two siblings share below both of them, and only while both
- * still do.
- */
-function insignificant(
-  slices: ReadonlyMap<string, readonly string[]>,
-  imports: ReadonlyMap<string, ReadonlySet<string>>,
-  graphs: ReadonlyMap<string, Siblings>,
-): string[] {
-  const shared = (sub: string, parent: string): boolean =>
-    [...(graphs.get(parent) ?? [])].filter(([, targets]) => targets.has(sub))
-      .length >= 2;
-  return [...slices].flatMap(([slice, members]) => {
-    const parents = new Map<string, string>();
-    for (const file of members) {
-      const chain = unitsOf(file, slice);
-      for (const [index, sub] of chain.entries()) {
-        if (index > 0) parents.set(sub, chain[index - 1] ?? slice);
-      }
-    }
-    return [...parents].flatMap(([sub, parent]) => {
-      const family = members.filter((file) => within(file, parent));
-      const part = new Set(family.filter((file) => within(file, sub)));
-      return cutGain(part, edgesWithin(family, imports)) > 0 ||
-        shared(sub, parent)
-        ? []
-        : [
-            `${sub}: This sub-slice neither raises the modularity of its parent's imports nor is imported by two of its siblings. Consider folding it into "${parent}".`,
-          ];
-    });
-  });
-}
 
 /** The names a statement takes from its module, `*` standing for all of them. */
 function namesTaken(statement: ts.Statement): string[] {
@@ -382,7 +167,7 @@ function destinations(
  * directly or not, is the unit's head, and a consumer of the head needs the
  * whole unit.
  */
-function promotions(
+export function promotions(
   files: readonly string[],
   imports: ReadonlyMap<string, ReadonlySet<string>>,
   graphs: ReadonlyMap<string, Siblings>,
@@ -460,24 +245,4 @@ function promotions(
       `${consumer} takes from ${target} only its sub-slice "${path.basename(sub)}": ${remedy}. Where the import rules leave it nowhere to go, ask the operator, and on their yes put "// masd-disable promotion -- <why it cannot move>" in ${barrel}.`,
     ];
   });
-}
-
-/** Every problem with the sub-slices of `files`, the apps' source files. */
-export function subSliceProblems(
-  apps: readonly string[],
-  files: readonly string[],
-): string[] {
-  const imports = importsOf(files);
-  const slices = Map.groupBy(
-    files.filter((file) => sliceOf(file) !== undefined),
-    (file) => sliceOf(file) ?? '',
-  );
-  const graphs = siblingGraphs(slices, imports);
-  return [
-    ...nestedSegments(apps),
-    ...mixed(apps),
-    ...siblingCycles(graphs),
-    ...insignificant(slices, imports, graphs),
-    ...promotions(files, imports, graphs),
-  ];
 }

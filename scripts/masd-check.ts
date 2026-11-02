@@ -13,7 +13,7 @@
  *   across the composition — its own app, every descendant and the routers —
  *   rather than within one app root, its messages kept word for word; a slice
  *   with one reference passes when it is a module by its own app's imports;
- * - the sub-slices' checks, `scripts/lib/sub-slices.ts`.
+ * - the sub-slices' checks, `scripts/lib/sub-slices/`.
  *
  * Reads `src/` and `sites/*\/app/` under the working directory, so a test runs
  * it against a tree of its own. See .claude/rules/masd.md.
@@ -32,7 +32,7 @@ import {
 } from '../eslint/masd-graph.ts';
 import { appFiles, subdirectories } from './lib/import-graph.ts';
 import { type Edge, importsOf, meeting } from './lib/slice-graph.ts';
-import { subSliceProblems } from './lib/sub-slices.ts';
+import { subSliceProblems } from './lib/sub-slices/index.ts';
 
 const SLICED = new Set(SLICED_LAYERS);
 // The sliced layers Steiger checks; a page has nothing above it to be
