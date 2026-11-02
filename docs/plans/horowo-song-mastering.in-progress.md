@@ -202,7 +202,6 @@ The operator's running order, «давай пока попробуем так»,
     The venv and the downloads lived in this container's `tmp/` and have to be
     re-made.
   - § 2 in full.
-  - Майя's reflection.
   - The QA unfurl check: build vova and grep `og:audio` in
     `out/music/songs/<slug>.html`.
 
