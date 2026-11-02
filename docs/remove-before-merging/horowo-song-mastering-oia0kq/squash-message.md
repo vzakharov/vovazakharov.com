@@ -1,25 +1,28 @@
-Proposed squash title/body:
+Proposed squash body:
 
 ```
-feat(vova): «Хорошо», a blind master test, music unfurl tags (#240)
-```
+Five Грёбаный бал songs that never reached the site — «Хорошо!»,
+«За жизнь», «Последний снег», «Поздно» and «Незаметные штуки», the
+last with words by Роман Попов — are published from their vovas-music
+repositories, their words corrected from Suno prompts to what the
+recordings sing. Each master was picked blind against Matchering
+masters on /music/mastering-blind-test, which now plays any number of
+masters per song: blind-abc.py builds and splits N, and each piece
+states its own count.
 
-```
-«Хорошо» is a new Грёбаный бал single, published from
-vovas-music/horowo under the slug its repository has. Its words start
-from the Suno prompt and follow what the recording actually sings.
-
-The blind master test takes any number of masters, not exactly three:
-blind-abc.py builds and splits N, and /music/mastering-blind-test
-plays as many as the test names. The operator's own master and three
-Matchering masters are compared on it.
+The band's two albums take the operator's running order: Ни для кого
+и для всех and Сильней любви are renumbered, the new songs placed on
+them, and Доброе утро, За горизонт, Незаметные штуки and Призрачный
+блюз stand as singles. «Сколько» becomes «Сколько нужно сделать»,
+billed with за/обложкой. Every master whose album or title moved is
+re-tagged in its repository.
 
 Every song page declares itself in Open Graph's music vocabulary:
 og:type music.song, og:audio pointing at the song's MP3, its duration,
 album and musicians. A pasted link then plays where the messenger
 honours og:audio (iMessage) and is typed as audio elsewhere. Telegram
 embeds players only for allowlisted domains, so a page link does not
-play inline there. The song's direct MP3 link does.
+play inline there; the song's direct MP3 link does.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
