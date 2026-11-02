@@ -214,7 +214,8 @@ The operator's running order, «давай пока попробуем так»,
   feat. за/обложкой, re-tagged. GigaAM heard nothing on any of these vocals;
   «Поздно»'s opening verse came from a Whisper run on a cut of 0:46–1:20.
 - **Done in relay 4:** every ask answered and folded into the drafts; «Хорошо»'s
-  crib line is «Fuck, it’s so fucking good».
+  crib line is «Fuck, it’s so fucking good». The second round of PR comments
+  applied (footnotes on «Поздно» and «За жизнь»), every thread answered.
 - **Left, in order:**
   - The operator's blind verdicts, then `reveal` per song and the winner `put`
     into its repository; for unnoticed-things the winner becomes
