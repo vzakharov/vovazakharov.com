@@ -7,7 +7,7 @@ repo: 'ghostly-blues'
 album: null
 lossy: true
 seconds: 177
-mp3Bytes: 3946771
+mp3Bytes: 3946652
 explicit: false
 credits:
   music: ['Андрей Мокрушин']
