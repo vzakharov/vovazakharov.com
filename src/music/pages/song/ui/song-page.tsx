@@ -14,7 +14,10 @@ import type { Slugged } from '@/blog/shared/content';
 import { constructMetadata } from '@/blog/shared/seo';
 
 import {
+  albumPath,
+  artistPath,
   listSongPages,
+  mp3Url,
   musicPath,
   pictureCard,
   scriptSample,
@@ -96,9 +99,21 @@ function SongFileLink({ route, file }: SongFileLinkProps) {
 
 /** The alias defers to the addressed language, which is the canonical page. */
 export function generateSongMetadata({ slug, locale }: SongPageProps) {
-  const { title, localized, picture } = songInfo(resolve(slug), locale);
-  const { hook, hidden } = localized.frontmatter;
+  const page = resolve(slug);
+  const { title, localized, picture } = songInfo(page, locale);
+  const {
+    hook,
+    hidden,
+    seconds,
+    project,
+    album,
+    alsoOn = [],
+  } = localized.frontmatter;
   const name = spelledText(title);
+  const albums = [
+    ...(album === null ? [] : [album]),
+    ...alsoOn.map((placement) => placement.album),
+  ];
 
   return constructMetadata({
     title: `${name} - ${SITE_CONFIG.name}`,
@@ -106,7 +121,12 @@ export function generateSongMetadata({ slug, locale }: SongPageProps) {
     description: hook === undefined ? undefined : textHook(hook),
     path: songPath(slug, locale),
     ...localizedAddresses((alternate) => songPath(slug, alternate), locale),
-    ogType: 'article',
+    song: {
+      audio: mp3Url(page.document),
+      seconds,
+      albums: albums.map((release) => albumPath(release, locale)),
+      musicians: project.map((artist) => artistPath(artist, locale)),
+    },
     ...pictureCard(picture),
     hidden,
   });
