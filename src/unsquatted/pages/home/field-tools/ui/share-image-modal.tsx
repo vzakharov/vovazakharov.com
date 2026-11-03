@@ -13,7 +13,7 @@ import {
   downloadFile,
   shareFile,
 } from '../lib/share-card';
-import classes from './corner-tools.module.scss';
+import classes from './field-tools.module.scss';
 
 type ShareImageModalProps = WithCopy & {
   /** The card to show; none keeps the modal closed. */

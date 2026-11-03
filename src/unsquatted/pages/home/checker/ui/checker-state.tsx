@@ -32,13 +32,14 @@ const askedAgain =
   (text: string) =>
   ({ asks }: Query): Query => ({ text, asks: asks + 1 });
 
+/** A name as the field reads it: its label, and the zone typed after it if any. */
+export type TypedName = Labeled & { zone: string | undefined };
+
 /** `label` is the name being looked up — what was typed once typing paused. */
 type CheckerState = Typed &
   Asked &
-  Labeled & {
+  TypedName & {
     type: (text: string) => void;
-    /** The zone typed after the label, looked up first. */
-    zone: string | undefined;
     /** Typing has not paused yet: what is shown is not what is typed. */
     settling: boolean;
     /** Looks up what is typed at once, without waiting for typing to pause. */

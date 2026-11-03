@@ -7,13 +7,10 @@ import {
   TextInput,
   UnstyledButton,
 } from '@mantine/core';
-import { type ReactNode, useState } from 'react';
-
-import { cx } from '@/kernel/shared/lib/class-names';
-import { pick } from '@/kernel/shared/lib/collections';
+import { useState } from 'react';
 
 import { type Row, rowsFor, useChecker, zoneOf } from '../../checker';
-import { CornerTools, toolHolder } from '../../corner-tools';
+import { FieldTools } from '../../field-tools';
 import { useVerdicts } from '../../verdict';
 import { rollName } from '../lib/dice';
 import { useWords } from '../lib/use-words';
@@ -29,7 +26,7 @@ import {
 
 type ZoneRowProps = CopiedVerdict &
   CopiedPrice &
-  Row & { ownNeighbour: boolean; tools: ReactNode };
+  Row & { ownNeighbour: boolean };
 
 function ZoneRow({
   domain,
@@ -37,16 +34,13 @@ function ZoneRow({
   verdict,
   ownNeighbour,
   price,
-  tools,
   copy,
 }: ZoneRowProps) {
   return (
-    <li className={cx(classes['zone'], toolHolder)}>
+    <li className={classes['zone']}>
       <span className={classes['domain']}>{domain}</span>
       {checkable ? (
-        <VerdictLabel
-          {...{ domain, verdict, ownNeighbour, price, tools, copy }}
-        />
+        <VerdictLabel {...{ domain, verdict, ownNeighbour, price, copy }} />
       ) : (
         <span className={classes['verdict']} data-state="unknown">
           {copy.cantCheck}
@@ -137,6 +131,13 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           }
           classNames={{ root: classes['fieldInput'], input: classes['input'] }}
         />
+        {label !== '' && (
+          <span className={classes['fieldTools']}>
+            <FieldTools
+              {...{ label, zone, siblings, verdicts, prices, copy }}
+            />
+          </span>
+        )}
         <ActionIcon
           type="button"
           variant="default"
@@ -174,13 +175,6 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
               ownNeighbour={ownIndex !== -1 && index === ownIndex + 1}
               price={prices[zoneOf(row.domain)]}
               verdict={verdicts.get(row.domain)}
-              tools={
-                <CornerTools
-                  {...pick(row, 'domain')}
-                  name={label}
-                  {...{ siblings, verdicts, prices, copy }}
-                />
-              }
               {...{ copy }}
             />
           ))}

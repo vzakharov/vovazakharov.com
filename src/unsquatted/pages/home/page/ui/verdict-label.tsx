@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
 import {
@@ -10,12 +8,9 @@ import {
   type WithPrice,
   type WithPrices,
 } from '../../checker';
-import type { Release, Verdict } from '../../verdict';
+import type { Release, Verdict, WithVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
 import classes from './unsquatted-home.module.scss';
-
-/** `verdict` is `undefined` while the lookup runs. */
-type WithVerdict = { verdict: Verdict | undefined };
 
 /** A row's wording and what the lookup said, for the label that shows it. */
 export type CopiedVerdict = WithCopy & WithVerdict;
@@ -32,8 +27,6 @@ type VerdictLabelProps = CopiedVerdict &
     ownNeighbour?: boolean;
     /** What registering costs, shown where it is free or may be. */
     price?: Price | undefined;
-    /** Set at the far end of the price's line. */
-    tools?: ReactNode;
   };
 
 /** The site's own domain, which a visitor checking it is teased about. */
@@ -142,7 +135,6 @@ export function VerdictLabel({
   verdict,
   ownNeighbour = false,
   price,
-  tools,
   copy,
 }: VerdictLabelProps) {
   const state: State = verdict?.state ?? 'pending';
@@ -162,7 +154,6 @@ export function VerdictLabel({
         {registrable && price !== undefined && (
           <PriceHint {...{ price, copy }} />
         )}
-        {tools}
       </span>
       {aside !== undefined && <span className={classes['aside']}>{aside}</span>}
     </>

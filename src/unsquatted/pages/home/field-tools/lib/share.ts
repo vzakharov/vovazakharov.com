@@ -20,9 +20,9 @@ export type CardSiblings = Lookups & {
 /** The rows an image card has room for. */
 const CARD_ROWS = 3;
 
-/** The page at `here`, opening on `domain` with its zone first. */
-export const domainLink = (domain: string, here: URL) =>
-  `${here.origin}${here.pathname}#${domain}`;
+/** The page at `here`, opening on `typed` as the field would hold it. */
+export const domainLink = (typed: string, here: URL) =>
+  `${here.origin}${here.pathname}#${typed}`;
 
 /** What a lookup said of a domain a visitor can register. */
 type Available = 'free' | 'maybe';

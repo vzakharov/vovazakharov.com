@@ -1,17 +1,16 @@
 'use client';
 
-import { Button, Textarea, UnstyledButton } from '@mantine/core';
-import { Copy as CopyIcon } from 'lucide-react';
+import { ActionIcon, Button, Textarea, UnstyledButton } from '@mantine/core';
+import { Copy as CopyIcon, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
-import { cx } from '@/kernel/shared/lib/class-names';
+import { useCopied } from '@/shell/shared/ui';
 
 import { useChecker, type WithCopy } from '../../checker';
-import { CornerTools, type Lookups, toolHolder } from '../../corner-tools';
-import { type Group, grouped, parseLiked, useLikes } from '../../likes';
+import { nameOf, parseLiked, preferredOf, useLikes } from '../../likes';
 import { useVerdicts } from '../../verdict';
 import classes from './unsquatted-home.module.scss';
-import type { CopiedPrices } from './verdict-label';
+import type { CopiedVerdict } from './verdict-label';
 
 /**
  * The most chips the folded list shows, and the fewer it shows below `sm` —
@@ -25,40 +24,42 @@ type Copy = WithCopy['copy'];
 const counted = (template: string, count: number) =>
   template.replace('{count}', String(count));
 
-type ChipProps = WithCopy & Group & Lookups;
+type ChipProps = CopiedVerdict & {
+  /** The like as stored: a name, or the domain of it preferred. */
+  like: string;
+};
 
-function Chip({ name, shown, domains, verdicts, prices, copy }: ChipProps) {
+/**
+ * One liked name, which a press puts in the checker as it was liked. A
+ * preferred domain taken since, or pasted in taken, is struck through.
+ */
+function Chip({ like, verdict, copy }: ChipProps) {
   const { checkNow } = useChecker();
-  const siblings = domains.length - 1;
-  const { siblings: plural } = copy.shortlist;
+  const { unlike } = useLikes();
 
   return (
-    <li
-      className={cx(classes['chip'], toolHolder)}
-      data-taken={verdicts.get(shown)?.state === 'taken'}
-    >
+    <li className={classes['chip']} data-taken={verdict?.state === 'taken'}>
       <button
         type="button"
         className={classes['chipName']}
-        title={domains.join(', ')}
         onClick={() => {
-          checkNow(name);
+          checkNow(like);
         }}
       >
-        <span className={classes['domain']}>{shown}</span>
-        {siblings > 0 && (
-          <span className={classes['siblings']}>
-            {counted(siblings === 1 ? plural.one : plural.other, siblings)}
-          </span>
-        )}
+        <span className={classes['domain']}>{like}</span>
       </button>
-      <CornerTools
-        domain={shown}
-        unlikes={domains}
-        siblings={domains}
-        heartOnHover
-        {...{ name, verdicts, prices, copy }}
-      />
+      <ActionIcon
+        variant="subtle"
+        size="sm"
+        className={classes['remove']}
+        aria-label={copy.unlike}
+        title={copy.unlike}
+        onClick={() => {
+          unlike(nameOf(like));
+        }}
+      >
+        <Trash2 size={14} />
+      </ActionIcon>
     </li>
   );
 }
@@ -69,6 +70,7 @@ function Editor({ close, copy }: EditorProps) {
   const { liked, replace } = useLikes();
   const [text, setText] = useState(liked.join('\n'));
   const [invalid, setInvalid] = useState<string[]>([]);
+  const { copied, copy: copyText } = useCopied();
   const words = copy.shortlist;
 
   return (
@@ -85,6 +87,8 @@ function Editor({ close, copy }: EditorProps) {
     >
       <Textarea
         aria-label={words.editLabel}
+        description={words.hint}
+        inputWrapperOrder={['input', 'description', 'error']}
         autosize
         minRows={4}
         maxRows={12}
@@ -104,10 +108,10 @@ function Editor({ close, copy }: EditorProps) {
           variant="default"
           leftSection={<CopyIcon size={14} />}
           onClick={() => {
-            navigator.clipboard.writeText(text).catch(reportError);
+            copyText(text);
           }}
         >
-          {words.copy}
+          {copied ? copy.copied : words.copy}
         </Button>
         <Button variant="default" onClick={close}>
           {words.cancel}
@@ -117,6 +121,10 @@ function Editor({ close, copy }: EditorProps) {
     </form>
   );
 }
+
+/** The domains `likes` prefer, which are all a chip looks up. */
+const preferredAmong = (likes: readonly string[]) =>
+  likes.flatMap((like) => preferredOf(like) ?? []);
 
 function heading(copy: Copy, count: number, kept: boolean) {
   return (
@@ -131,23 +139,19 @@ function heading(copy: Copy, count: number, kept: boolean) {
 }
 
 /**
- * The liked domains, one chip per name. Past `SHOWN_CHIPS` the rest fold
- * behind a toggle, and are looked up only once it is pointed at, focused or
- * opened, as the checker's own surplus zones are.
+ * The liked names, one chip each. A chip's preferred domain is looked up, so
+ * one taken shows as taken; past `SHOWN_CHIPS` the rest fold behind a toggle,
+ * and are looked up only once it is pointed at, focused or opened, as the
+ * checker's own surplus zones are.
  */
-export function Shortlist({ copy, prices }: CopiedPrices) {
+export function Shortlist({ copy }: WithCopy) {
   const { liked, kept } = useLikes();
   const [editing, setEditing] = useState(false);
   const [open, setOpen] = useState(false);
   const [wanted, setWanted] = useState(false);
-  const groups = grouped(liked);
-  const shownDomains = groups
-    .slice(0, SHOWN_CHIPS)
-    .flatMap(({ domains }) => domains);
+  const shownDomains = preferredAmong(liked.slice(0, SHOWN_CHIPS));
   const hiddenDomains =
-    open || wanted
-      ? groups.slice(SHOWN_CHIPS).flatMap(({ domains }) => domains)
-      : [];
+    open || wanted ? preferredAmong(liked.slice(SHOWN_CHIPS)) : [];
   const shownVerdicts = useVerdicts(shownDomains);
   const hiddenVerdicts = useVerdicts(hiddenDomains);
   const verdicts = new Map([...shownVerdicts, ...hiddenVerdicts]);
@@ -182,18 +186,18 @@ export function Shortlist({ copy, prices }: CopiedPrices) {
       ) : (
         <>
           <ul className={classes['chips']} data-open={open}>
-            {groups.map((group) => (
+            {liked.map((like) => (
               <Chip
-                key={group.name}
-                {...group}
-                {...{ verdicts, prices, copy }}
+                key={like}
+                verdict={verdicts.get(like)}
+                {...{ like, copy }}
               />
             ))}
           </ul>
-          {groups.length > SHOWN_CHIPS_NARROW && (
+          {liked.length > SHOWN_CHIPS_NARROW && (
             <UnstyledButton
               className={classes['moreChips']}
-              data-wide={groups.length > SHOWN_CHIPS}
+              data-wide={liked.length > SHOWN_CHIPS}
               onPointerEnter={() => {
                 setWanted(true);
               }}
@@ -209,10 +213,10 @@ export function Shortlist({ copy, prices }: CopiedPrices) {
               ) : (
                 <>
                   <span className={classes['wideCount']}>
-                    {counted(words.more, groups.length - SHOWN_CHIPS)}
+                    {counted(words.more, liked.length - SHOWN_CHIPS)}
                   </span>
                   <span className={classes['narrowCount']}>
-                    {counted(words.more, groups.length - SHOWN_CHIPS_NARROW)}
+                    {counted(words.more, liked.length - SHOWN_CHIPS_NARROW)}
                   </span>
                 </>
               )}

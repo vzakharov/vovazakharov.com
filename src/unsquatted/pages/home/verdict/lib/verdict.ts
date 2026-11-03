@@ -36,6 +36,9 @@ export type Verdict =
     }
   | { state: 'unknown' };
 
+/** `verdict` is `undefined` while the lookup runs. */
+export type WithVerdict = { verdict: Verdict | undefined };
+
 /** The lookups in hand, by domain. */
 export type WithVerdicts = { verdicts: ReadonlyMap<string, Verdict> };
 

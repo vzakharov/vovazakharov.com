@@ -1,80 +1,67 @@
-/** The visitor's liked domains: how they group into chips, and their text form. */
-
-import type { Named } from '@/kernel/shared/typings';
-
-import { host, labelOf, zoneOf } from '../../checker';
-
 /**
- * One chip: a name and its liked domains, the one it shows first. `name` is
- * what a press on the chip puts in the checker.
+ * The visitor's liked names. A like is the name as the field would hold it:
+ * `foxedpage` alone, or `foxedpage.com` where a zone was typed with it, that
+ * zone being the one the visitor prefers. One per name.
  */
-export type Group = Named & {
-  /** The domain the chip shows: the first liked one spelling `name` itself. */
-  shown: string;
-  /** Every liked domain in the group, `shown` among them, in liked order. */
-  domains: string[];
-};
 
-/** The names `domain` is a split of: `foxed.page` of `foxedpage`, `tips.design` of `designtips`. */
-function joined(domain: string): string[] {
-  const label = labelOf(domain);
-  const zone = zoneOf(domain);
+import { cleanLabel, host, typedZone } from '../../checker';
 
-  return zone.includes('.') ? [] : [`${label}${zone}`, `${zone}${label}`];
+/** The like for `name`, carrying `zone` where one was typed. */
+export const likeOf = (name: string, zone: string | undefined) =>
+  zone === undefined ? name : `${name}.${zone}`;
+
+/** The name a like is for: `foxedpage` of `foxedpage.com`. */
+export const nameOf = (like: string) => cleanLabel(like);
+
+/** The domain a like prefers, if it names a zone. */
+export const preferredOf = (like: string) =>
+  typedZone(like) === undefined ? undefined : like;
+
+/** `likes` with one like per name, the first of each kept in its place. */
+export function deduped(likes: readonly string[]): string[] {
+  const seen = new Set<string>();
+
+  return likes.filter((like) => {
+    const name = nameOf(like);
+
+    if (seen.has(name)) return false;
+    seen.add(name);
+
+    return true;
+  });
 }
 
-/**
- * The liked domains as chips, in the order each chip's first domain was
- * liked. A domain joins the chip of a name it splits, where a domain of that
- * name is liked too, and otherwise the chip of its own label — so
- * `foxedpage.com`, `foxedpage.org` and `foxed.page` are one chip.
- */
-export function grouped(liked: readonly string[]): Group[] {
-  const labels = new Set(liked.map((domain) => labelOf(domain)));
-  const groups = new Map<string, Group>();
+/** `likes` with `like` in place of its name's, or after the rest. */
+export function withLike(likes: readonly string[], like: string): string[] {
+  const name = nameOf(like);
+  const index = likes.findIndex((each) => nameOf(each) === name);
 
-  for (const domain of liked) {
-    const name =
-      joined(domain).find((each) => labels.has(each)) ?? labelOf(domain);
-    const group = groups.get(name) ?? { name, shown: domain, domains: [] };
-
-    group.domains.push(domain);
-    if (labelOf(group.shown) !== name && labelOf(domain) === name) {
-      group.shown = domain;
-    }
-    groups.set(name, group);
-  }
-
-  return [...groups.values()];
+  return index === -1 ? [...likes, like] : likes.with(index, like);
 }
 
-const DOMAIN = /^(?:[\da-z](?:[\da-z-]*[\da-z])?\.)+[a-z][\da-z-]*[\da-z]$/;
+const LIKE = /^[\da-z](?:[\da-z-]*[\da-z])?(?:\.[a-z][\d.a-z-]*[\da-z])?$/;
 
-/** What a pasted list holds, and the lines in it that are no domain. */
+/** What a pasted list holds, and the lines in it that are no name or domain. */
 export type ParsedLikes = { liked: string[]; invalid: string[] };
 
 /**
- * A liked list from text, one domain per line, each cleaned as the field
- * cleans what is typed. Blank lines and repeats go; a line that is no domain
- * is named in `invalid`, not dropped.
+ * A liked list from text, one name or domain per line, each cleaned as the
+ * field cleans what is typed. Blank lines go, and a name's later lines; a
+ * line that is neither is named in `invalid`, not dropped.
  */
 export function parseLiked(text: string): ParsedLikes {
   const lines = text
     .split('\n')
     .map((line) => line.trim())
     .filter((line) => line !== '');
-  const cleaned = lines.map((line) => ({ line, domain: host(line) }));
+  const cleaned = lines.map((line) => ({ line, like: host(line) }));
 
   return {
-    liked: [
-      ...new Set(
-        cleaned
-          .filter(({ domain }) => DOMAIN.test(domain))
-          .map(({ domain }) => domain),
-      ),
-    ],
+    liked: deduped(
+      cleaned.filter(({ like }) => LIKE.test(like)).map(({ like }) => like),
+    ),
     invalid: cleaned
-      .filter(({ domain }) => !DOMAIN.test(domain))
+      .filter(({ like }) => !LIKE.test(like))
       .map(({ line }) => line),
   };
 }

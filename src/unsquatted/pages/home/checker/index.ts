@@ -12,7 +12,12 @@ export {
   labelOf,
   type Row,
   rowsFor,
+  typedZone,
   type WithDomain,
   zoneOf,
 } from './lib/rows';
-export { CheckerProvider, useChecker } from './ui/checker-state';
+export {
+  CheckerProvider,
+  type TypedName,
+  useChecker,
+} from './ui/checker-state';

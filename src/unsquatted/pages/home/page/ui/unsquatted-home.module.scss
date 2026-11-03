@@ -76,6 +76,7 @@
 
 .check {
   flex-shrink: 0;
+  order: 2;
 
   // On a phone the field needs the width more than the button's padding does.
   @include mantine.smaller-than(mantine.$breakpoint-xs) {
@@ -91,6 +92,18 @@
   &[data-loading] {
     opacity: 0.55;
     cursor: progress;
+  }
+}
+
+// The name's share and heart, there once a name is: before the dice, so the
+// field gives them its width; after it once the field has a row of its own
+// and the dice leads the next, so arriving they move nothing but Check.
+.fieldTools {
+  display: flex;
+  gap: 8px;
+
+  @media (width < 24em) {
+    order: 1;
   }
 }
 
@@ -355,18 +368,6 @@
   }
 }
 
-// The register link, the corner tools before it; after it once the line is
-// flush left, so tools still waiting for a hover leave no gap before the link.
-.registerLine {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
-
-  @include mantine.smaller-than(mantine.$breakpoint-xs) {
-    flex-direction: row-reverse;
-  }
-}
-
 .shortlistHead {
   display: flex;
   justify-content: space-between;
@@ -422,7 +423,7 @@
   border-radius: 999px;
   background: var(--color-surface);
 
-  // A liked name taken since: struck through, dimmed, its heart left to
+  // A preferred domain taken: struck through, dimmed, its bin left to
   // remove it.
   &[data-taken='true'] {
     opacity: 0.55;
@@ -450,10 +451,27 @@
   }
 }
 
-.siblings {
+// A recolour alone on hover: `subtle`'s own hover fill would ring the bin.
+.remove {
   color: var(--unsquatted-muted);
-  font-size: 0.75rem;
-  white-space: nowrap;
+
+  &:hover {
+    background-color: transparent;
+    color: var(--color-accent);
+  }
+}
+
+// Where the pointer can hover, a chip's bin waits for the chip to be hovered
+// or focused; a touch screen shows it throughout.
+@media (hover: hover) {
+  .remove {
+    opacity: 0;
+    transition: opacity 120ms;
+  }
+
+  .chip:is(:hover, :focus-within) .remove {
+    opacity: 1;
+  }
 }
 
 // Shown wherever a chip is folded away: past five below `sm`, past eight

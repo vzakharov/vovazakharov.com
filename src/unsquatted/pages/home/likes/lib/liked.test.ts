@@ -1,53 +1,43 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { grouped, parseLiked } from './liked';
+import { deduped, likeOf, parseLiked, preferredOf, withLike } from './liked';
 
-describe('grouped', () => {
-  it('folds a name’s other zones into the chip of its first', () => {
+describe('likeOf', () => {
+  it('carries the zone typed with the name', () => {
+    assert.equal(likeOf('foxedpage', 'com'), 'foxedpage.com');
+    assert.equal(likeOf('foxedpage', undefined), 'foxedpage');
+  });
+});
+
+describe('preferredOf', () => {
+  it('is the like itself where it names a zone', () => {
+    assert.equal(preferredOf('foxed.co.uk'), 'foxed.co.uk');
+    assert.equal(preferredOf('foxedpage'), undefined);
+  });
+});
+
+describe('withLike', () => {
+  it('replaces the like of the same name in its place', () => {
+    assert.deepEqual(withLike(['foxedpage', 'thawdate.com'], 'foxedpage.org'), [
+      'foxedpage.org',
+      'thawdate.com',
+    ]);
+  });
+
+  it('adds a new name after the rest', () => {
+    assert.deepEqual(withLike(['thawdate.com'], 'foxedpage'), [
+      'thawdate.com',
+      'foxedpage',
+    ]);
+  });
+});
+
+describe('deduped', () => {
+  it('keeps each name’s first like', () => {
     assert.deepEqual(
-      grouped(['foxedpage.com', 'thawdate.com', 'foxedpage.org']),
-      [
-        {
-          name: 'foxedpage',
-          shown: 'foxedpage.com',
-          domains: ['foxedpage.com', 'foxedpage.org'],
-        },
-        { name: 'thawdate', shown: 'thawdate.com', domains: ['thawdate.com'] },
-      ],
-    );
-  });
-
-  it('folds a split at the end into the name it spells', () => {
-    assert.deepEqual(grouped(['foxed.page', 'foxedpage.com']), [
-      {
-        name: 'foxedpage',
-        shown: 'foxedpage.com',
-        domains: ['foxed.page', 'foxedpage.com'],
-      },
-    ]);
-  });
-
-  it('folds a split at the start into the name it spells', () => {
-    assert.deepEqual(grouped(['designtips.com', 'tips.design']), [
-      {
-        name: 'designtips',
-        shown: 'designtips.com',
-        domains: ['designtips.com', 'tips.design'],
-      },
-    ]);
-  });
-
-  it('leaves a split alone where nothing of the name it spells is liked', () => {
-    assert.deepEqual(grouped(['foxed.page']), [
-      { name: 'foxed', shown: 'foxed.page', domains: ['foxed.page'] },
-    ]);
-  });
-
-  it('joins no split across a zone of several labels', () => {
-    assert.deepEqual(
-      grouped(['foxed.co.uk', 'foxedco.com']).map(({ name }) => name),
-      ['foxed', 'foxedco'],
+      deduped(['foxedpage.com', 'thawdate', 'foxedpage.org', 'foxedpage']),
+      ['foxedpage.com', 'thawdate'],
     );
   });
 });
@@ -55,22 +45,22 @@ describe('grouped', () => {
 describe('parseLiked', () => {
   it('cleans each line as the field does, keeping the order', () => {
     assert.deepEqual(
-      parseLiked(' https://www.FoxedPage.com/about \nfoxed.page'),
-      { liked: ['foxedpage.com', 'foxed.page'], invalid: [] },
+      parseLiked(' https://www.FoxedPage.com/about \nfoxed.page\nthawdate'),
+      { liked: ['foxedpage.com', 'foxed.page', 'thawdate'], invalid: [] },
     );
   });
 
-  it('drops blank lines and repeats', () => {
-    assert.deepEqual(parseLiked('a.com\n\n  \nA.com\nb.io\n'), {
-      liked: ['a.com', 'b.io'],
+  it('drops blank lines and a name’s later lines', () => {
+    assert.deepEqual(parseLiked('a.com\n\n  \nA.io\nb\n'), {
+      liked: ['a.com', 'b'],
       invalid: [],
     });
   });
 
-  it('names every line that is no domain', () => {
-    assert.deepEqual(parseLiked('a.com\nfoxedpage\n-bad-.com\nb.c0m!'), {
+  it('names every line that is no name or domain', () => {
+    assert.deepEqual(parseLiked('a.com\n-bad-.com\nb.c0m!\nfoxed page'), {
       liked: ['a.com'],
-      invalid: ['foxedpage', '-bad-.com', 'b.c0m!'],
+      invalid: ['-bad-.com', 'b.c0m!', 'foxed page'],
     });
   });
 });
