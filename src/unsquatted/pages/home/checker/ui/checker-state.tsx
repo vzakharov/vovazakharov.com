@@ -66,6 +66,7 @@ export function CheckerProvider({ children }: WithChildren) {
   const [typed, setTyped] = useState('');
   const [query, setQuery] = useState<Query>({ text: '', asks: 0 });
   const fieldRef = useRef<HTMLInputElement>(null);
+  const linkReadRef = useRef(false);
   const { text, asks } = query;
 
   const ask = (asked: string) => {
@@ -84,24 +85,21 @@ export function CheckerProvider({ children }: WithChildren) {
     };
   }, [typed]);
 
-  // The address is input only: a name in it — a link's, or one pasted into
-  // the address bar — is looked up and dropped, so Back leaves the site
-  // rather than walking every name tried; Share is what makes a link. The
-  // link's own is read on the tick after hydration, which renders the empty
-  // field the static page was built with.
+  // A link carrying a name, or a name pasted into the address bar, is looked
+  // up at once — the link's own on the tick after hydration, which renders
+  // the empty field the static page was built with.
   useEffect(() => {
     const fromHash = () => {
-      const { hash, pathname, search } = globalThis.location;
-
-      if (hash === '') return;
-      const name = decodeURIComponent(hash.slice(1));
+      const name = decodeURIComponent(globalThis.location.hash.slice(1));
 
       setTyped(name);
       setQuery(askedAgain(name));
-      globalThis.history.replaceState(null, '', `${pathname}${search}`);
     };
 
-    const first = setTimeout(fromHash, 0);
+    const first = setTimeout(() => {
+      linkReadRef.current = true;
+      if (globalThis.location.hash !== '') fromHash();
+    }, 0);
     globalThis.addEventListener('hashchange', fromHash);
 
     return () => {
@@ -120,6 +118,22 @@ export function CheckerProvider({ children }: WithChildren) {
 
   const label = cleanLabel(text);
   const zone = typedZone(text);
+
+  // What is looked up stays in the address once typing pauses, so a reload
+  // keeps it and a link shares it. Each name is a step in the history, so
+  // back and forward walk through them; walking fires `hashchange` above,
+  // which looks the name up again. The stats never see it: the root layout's
+  // analytics script excludes the hash.
+  useEffect(() => {
+    const hash =
+      label === '' ? '' : `#${label}${zone === undefined ? '' : `.${zone}`}`;
+
+    // Until the link is read, the empty field would write over it.
+    if (!linkReadRef.current || globalThis.location.hash === hash) return;
+    const { pathname, search } = globalThis.location;
+
+    globalThis.history.pushState(null, '', `${pathname}${search}${hash}`);
+  }, [label, zone]);
 
   const checkHere = (name: string) => {
     setTyped(name);

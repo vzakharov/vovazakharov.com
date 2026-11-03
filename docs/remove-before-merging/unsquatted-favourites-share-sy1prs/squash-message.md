@@ -1,12 +1,10 @@
 Proposed squash body:
 
 ```
-unsquatted.com's checker gains a shortlist and sharing, and the
-address stops being how a name travels: a link is read on arrival,
-looked up and removed, and typing writes nothing there, so Back
-leaves the site and a link to a name is made on purpose, by Share.
-The field takes the focus on arrival, except on a touch screen, and
-a × clears the field and the lookup at once.
+unsquatted.com's checker gains a shortlist and sharing. The field
+takes the focus on arrival, except on a touch screen, a × clears the
+field and the lookup at once, and Check is off while the field is
+empty.
 
 A like is a name, since a visitor almost always means the whole name
 rather than one zone; typed with a zone, the name is liked with that
@@ -28,8 +26,8 @@ the clipboard, the card flashing over the menu and swept aside.
 
 The lede and a one-line byline share a line, the byline calling the
 search private, with a note linking the source. Every site's
-analytics drop the address's hash, where the checker's names used to
-be counted as pages.
+analytics drop the address's hash, so the names the checker keeps
+there, for Back and Forward to walk, are no longer counted as pages.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
