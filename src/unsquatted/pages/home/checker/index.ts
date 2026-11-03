@@ -8,6 +8,7 @@ export {
   type WithPrices,
 } from './lib/price';
 export {
+  asTyped,
   cleanLabel,
   host,
   labelOf,

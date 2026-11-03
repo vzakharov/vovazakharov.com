@@ -16,7 +16,7 @@ import type {
   WithText,
 } from '@/kernel/shared/typings';
 
-import { cleanLabel, typedZone } from '../lib/rows';
+import { asTyped, cleanLabel, typedZone } from '../lib/rows';
 
 /** How long typing has to pause before the name is looked up. */
 const SETTLE_MS = 350;
@@ -125,8 +125,7 @@ export function CheckerProvider({ children }: WithChildren) {
   // which looks the name up again. The stats never see it: the root layout's
   // analytics script excludes the hash.
   useEffect(() => {
-    const hash =
-      label === '' ? '' : `#${label}${zone === undefined ? '' : `.${zone}`}`;
+    const hash = label === '' ? '' : `#${asTyped(label, zone)}`;
 
     // Until the link is read, the empty field would write over it.
     if (!linkReadRef.current || globalThis.location.hash === hash) return;

@@ -64,6 +64,10 @@ export function typedZone(input: string): string | undefined {
   return zone === undefined || zone === '' ? undefined : zone;
 }
 
+/** `label` as the field would hold it, `zone` after it where one was typed. */
+export const asTyped = (label: string, zone: string | undefined) =>
+  zone === undefined ? label : `${label}.${zone}`;
+
 /** The name before its zone: `foxedpage` of `foxedpage.co.uk`. */
 export function labelOf(domain: string): string {
   return domain.slice(0, domain.indexOf('.'));
