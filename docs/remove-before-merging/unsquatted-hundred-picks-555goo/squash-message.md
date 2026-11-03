@@ -6,8 +6,8 @@ lists a hundred, and the way they were found is a runbook an agent
 follows on request, so the list keeps growing without anyone
 rediscovering the method.
 
-The runbook goes wide rather than deep: every name ever checked sits in
-a ledger with its verdict, each run takes axes no earlier run used, and
+The runbook goes wide rather than deep: every name rejected sits in a
+ledger with its verdict, each run takes axes no earlier run used, and
 random word pairs break a run that converges, since the names a model
 reaches for first are already registered, often by other models. Every
 run re-checks the listed names too, and one taken since stays two weeks
@@ -17,7 +17,9 @@ mechanical half with the page's own RDAP lookup.
 The list shows ten names drawn at random, best first within the draw,
 and a dice beside its heading draws ten others; nothing pages. The draw
 happens in the browser after hydration, so the static page carries no
-list to swap out, and only the ten drawn names are looked up.
+list to swap out, and only the ten drawn names are looked up. A redraw
+flies the old rows out to the left and runs the new ones in from the
+right; under reduced motion the list just swaps.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
