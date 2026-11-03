@@ -31,12 +31,12 @@ export function deduped(likes: readonly string[]): string[] {
   });
 }
 
-/** `likes` with `like` in place of its name's, or after the rest. */
+/** `likes` with `like` in place of its name's, or ahead of the rest. */
 export function withLike(likes: readonly string[], like: string): string[] {
   const name = nameOf(like);
   const index = likes.findIndex((each) => nameOf(each) === name);
 
-  return index === -1 ? [...likes, like] : likes.with(index, like);
+  return index === -1 ? [like, ...likes] : likes.with(index, like);
 }
 
 const LIKE = /^[\da-z](?:[\da-z-]*[\da-z])?(?:\.[a-z][\d.a-z-]*[\da-z])?$/;

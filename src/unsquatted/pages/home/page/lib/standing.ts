@@ -3,22 +3,37 @@
  * what their answers make of the chip.
  */
 
-import { ZONES } from '../../checker';
+import { rowsFor } from '../../checker';
 import { registrable, type Verdict } from '../../verdict';
 
-/** The zones a bare name is looked up in first: the checker's leading ones. */
-export const MAIN_ZONES = ZONES.slice(0, 4);
+/**
+ * The most rows the checker's closed list shows — its first three lines, at
+ * its widest in the stylesheet's `.zones`.
+ */
+export const CLOSED_ROWS = 9;
 
-/** The zones looked up only once every main one is taken. */
-const OTHER_ZONES = ZONES.slice(MAIN_ZONES.length);
+/**
+ * A name's domains as the checker lists them: `main`, the closed list's —
+ * `.com`, the name's splits on a zone, the leading zones — looked up first;
+ * `others`, the rest, looked up only once every main one is taken. `sold`
+ * and `words` are `rowsFor`'s.
+ */
+export type NameDomains = { main: string[]; others: string[] };
 
-/** `name` in each of `zones`. */
-const inZones = (name: string, zones: readonly string[]) =>
-  zones.map((zone) => `${name}.${zone}`);
+export function domainsOf(
+  name: string,
+  sold: readonly string[],
+  words: ReadonlySet<string> | undefined,
+): NameDomains {
+  const domains = rowsFor(name, undefined, sold, words).map(
+    ({ domain }) => domain,
+  );
 
-export const mainDomains = (name: string) => inZones(name, MAIN_ZONES);
-
-export const otherDomains = (name: string) => inZones(name, OTHER_ZONES);
+  return {
+    main: domains.slice(0, CLOSED_ROWS),
+    others: domains.slice(CLOSED_ROWS),
+  };
+}
 
 /**
  * `pending` while an answer it turns on is out; `free` naming the first main
@@ -38,20 +53,19 @@ const answered = (
   verdicts: ReadonlyMap<string, Verdict>,
 ) => domains.every((domain) => verdicts.has(domain));
 
-/** Whether `name`'s main domains are all answered and none registrable. */
-export const mainTaken = (
-  name: string,
+/** Whether `main` is all answered and none of it registrable. */
+export const allTaken = (
+  main: readonly string[],
   verdicts: ReadonlyMap<string, Verdict>,
 ) =>
-  answered(mainDomains(name), verdicts) &&
-  !mainDomains(name).some((domain) => registrable(verdicts.get(domain)));
+  answered(main, verdicts) &&
+  !main.some((domain) => registrable(verdicts.get(domain)));
 
-/** How `name` stands on the answers in `verdicts`. */
+/** How a name with `domains` stands on the answers in `verdicts`. */
 export function standingOf(
-  name: string,
+  { main, others }: NameDomains,
   verdicts: ReadonlyMap<string, Verdict>,
 ): Standing {
-  const main = mainDomains(name);
   const firstFree = main.find((domain) => registrable(verdicts.get(domain)));
 
   // The first registrable main domain is the one shown only once every main
@@ -63,11 +77,9 @@ export function standingOf(
       ? { state: 'free', domain: firstFree }
       : { state: 'pending' };
   }
-  if (!mainTaken(name, verdicts)) return { state: 'pending' };
-
-  const others = otherDomains(name);
-
-  if (!answered(others, verdicts)) return { state: 'pending' };
+  if (!allTaken(main, verdicts) || !answered(others, verdicts)) {
+    return { state: 'pending' };
+  }
 
   const free = others.filter((domain) => registrable(verdicts.get(domain)));
 

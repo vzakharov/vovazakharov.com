@@ -89,7 +89,7 @@ export async function UnsquattedHomePage() {
               <NameChecker copy={COPY} {...{ prices }} />
             </section>
 
-            <Shortlist copy={COPY} />
+            <Shortlist copy={COPY} {...{ prices }} />
 
             <section aria-labelledby="names">
               <h2 id="names" className={classes['sectionHeading']}>

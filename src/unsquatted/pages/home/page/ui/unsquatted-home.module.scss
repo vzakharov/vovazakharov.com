@@ -96,17 +96,6 @@ $field-own-row: 30em;
   }
 }
 
-// The default variant's hover fills the button with the foreground, which
-// drowns the dice's outline in its own faces; the border takes the hover.
-.diceButton {
-  color: var(--color-foreground);
-
-  &:hover {
-    border-color: var(--color-accent);
-    background-color: var(--color-surface);
-  }
-}
-
 .diceBack {
   fill: var(--color-background);
 }
@@ -148,7 +137,7 @@ $field-own-row: 30em;
 
 // Three rows at most until opened, as many columns across as the width allows.
 // The `n + …` cut-offs are those rows times the columns at each width, and the
-// widest, nine, is `CLOSED_ROWS` in `name-checker.tsx`: the rows before it are
+// widest, nine, is `CLOSED_ROWS` in `lib/standing.ts`: the rows before it are
 // the ones looked up before the toggle is wanted.
 .zones {
   display: grid;
@@ -406,6 +395,28 @@ $field-own-row: 30em;
   border-radius: 999px;
   background: var(--color-surface);
 
+  // A name being looked up: its border shimmers until the answers are in.
+  &[data-state='pending'] {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      linear-gradient(
+          90deg,
+          var(--color-border-hairline) 25%,
+          var(--color-accent) 50%,
+          var(--color-border-hairline) 75%
+        )
+        border-box;
+    background-size:
+      100% 100%,
+      300% 100%;
+    animation: chip-shimmer 1.4s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
   // A bare name taken in its main zones but free in others: outlined in the
   // "maybe" colour, its hint naming those others.
   &[data-state='others'] {
@@ -426,6 +437,26 @@ $field-own-row: 30em;
       text-decoration: line-through;
     }
   }
+}
+
+@keyframes chip-shimmer {
+  from {
+    background-position:
+      0 0,
+      100% 0;
+  }
+
+  to {
+    background-position:
+      0 0,
+      -50% 0;
+  }
+}
+
+// A chip's hint in the notes' colours: ink for paper.
+.hint {
+  background-color: var(--noted-span-background);
+  color: var(--noted-span-color);
 }
 
 .chipName {

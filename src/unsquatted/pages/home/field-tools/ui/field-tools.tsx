@@ -23,6 +23,9 @@ import { canCopyImage, type CardText, shareCard } from '../lib/share-card';
 import { CopiedToast } from './copied-toast';
 import classes from './field-tools.module.scss';
 
+/** The class of a square button beside the field, the dice's included. */
+export const TOOL_BUTTON = classes['tool'];
+
 /** `label` and `zone` are the name the field holds, as the checker read it. */
 type FieldToolsProps = WithCopy & TypedName & CardSiblings;
 

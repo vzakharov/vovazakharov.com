@@ -1,7 +1,7 @@
 @use '../../../../../../styles/mantine' as mantine;
 
-// The default variant's hover fills the button with the foreground; the
-// border takes the hover instead, as on the dice beside them.
+// The default variant's hover fills the button with the foreground, which
+// would drown the dice's outline in its own faces; the border takes the hover.
 .tool {
   color: var(--color-foreground);
 

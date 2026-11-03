@@ -25,10 +25,10 @@ describe('withLike', () => {
     ]);
   });
 
-  it('adds a new name after the rest', () => {
+  it('adds a new name ahead of the rest', () => {
     assert.deepEqual(withLike(['thawdate.com'], 'foxedpage'), [
-      'thawdate.com',
       'foxedpage',
+      'thawdate.com',
     ]);
   });
 });

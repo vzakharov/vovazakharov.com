@@ -10,9 +10,10 @@ import {
 import { useState } from 'react';
 
 import { type Row, rowsFor, useChecker, zoneOf } from '../../checker';
-import { FieldTools } from '../../field-tools';
+import { FieldTools, TOOL_BUTTON } from '../../field-tools';
 import { useVerdicts } from '../../verdict';
 import { rollName } from '../lib/dice';
+import { CLOSED_ROWS } from '../lib/standing';
 import { useWords } from '../lib/use-words';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
@@ -49,9 +50,6 @@ function ZoneRow({
     </li>
   );
 }
-
-/** The most rows the closed list shows, at its widest in the stylesheet's `.zones`. */
-const CLOSED_ROWS = 9;
 
 const checkableDomains = (rows: readonly Row[]) =>
   rows.filter(({ checkable }) => checkable).map(({ domain }) => domain);
@@ -141,7 +139,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
         <ActionIcon
           type="button"
           variant="default"
-          className={classes['diceButton']}
+          className={TOOL_BUTTON}
           size={42}
           aria-label={copy.dice}
           title={copy.dice}

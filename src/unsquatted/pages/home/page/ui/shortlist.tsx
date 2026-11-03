@@ -16,12 +16,14 @@ import { useChecker, type WithCopy, zoneOf } from '../../checker';
 import { nameOf, parseLiked, preferredOf, useLikes } from '../../likes';
 import { useVerdicts, type Verdict, type WithVerdicts } from '../../verdict';
 import {
-  mainDomains,
-  mainTaken,
-  otherDomains,
+  allTaken,
+  domainsOf,
+  type NameDomains,
   standingOf,
 } from '../lib/standing';
+import { useWords } from '../lib/use-words';
 import classes from './unsquatted-home.module.scss';
+import type { CopiedPrices } from './verdict-label';
 
 /**
  * The most chips the folded list shows, and the fewer it shows below `sm` —
@@ -44,6 +46,9 @@ const zonesListed = (domains: readonly string[], and: string) => {
     : `${zones.slice(0, -1).join(', ')} ${and} ${zones.at(-1) ?? ''}`;
 };
 
+/** A bare like's domains, as the checker would list them. */
+type DomainsFor = { domainsFor: (name: string) => NameDomains };
+
 /**
  * What a chip shows for `like` on the answers in `verdicts`: the text, the
  * state its stylesheet keys on, and the hint naming why, if any. A preferred
@@ -53,6 +58,7 @@ const zonesListed = (domains: readonly string[], and: string) => {
 function shown(
   like: string,
   verdicts: ReadonlyMap<string, Verdict>,
+  { domainsFor }: DomainsFor,
   copy: Copy,
 ): { text: string; state: string; hint?: string } {
   const words = copy.shortlist;
@@ -61,7 +67,8 @@ function shown(
     return { text: like, state: verdicts.get(like)?.state ?? 'pending' };
   }
 
-  const standing = standingOf(like, verdicts);
+  const domains = domainsFor(like);
+  const standing = standingOf(domains, verdicts);
 
   if (standing.state === 'free') {
     return { text: standing.domain, state: 'free' };
@@ -71,7 +78,7 @@ function shown(
       text: like,
       state: 'others',
       hint: words.othersFree
-        .replace('{main}', zonesListed(mainDomains(like), words.and))
+        .replace('{count}', String(domains.main.length))
         .replace('{free}', zonesListed(standing.free, words.and)),
     };
   }
@@ -82,7 +89,8 @@ function shown(
 }
 
 type ChipProps = WithCopy &
-  WithVerdicts & {
+  WithVerdicts &
+  DomainsFor & {
     /** The like as stored: a name, or the domain of it preferred. */
     like: string;
   };
@@ -91,14 +99,20 @@ type ChipProps = WithCopy &
  * One liked name, which a press puts in the checker as it was liked, shown as
  * `shown` reads it.
  */
-function Chip({ like, verdicts, copy }: ChipProps) {
+function Chip({ like, verdicts, domainsFor, copy }: ChipProps) {
   const { checkNow } = useChecker();
   const { unlike } = useLikes();
-  const { text, state, hint } = shown(like, verdicts, copy);
+  const { text, state, hint } = shown(like, verdicts, { domainsFor }, copy);
 
   return (
     <li className={classes['chip']} data-state={state}>
-      <Tooltip label={hint} disabled={hint === undefined} multiline w={260}>
+      <Tooltip
+        label={hint}
+        disabled={hint === undefined}
+        multiline
+        w={260}
+        classNames={{ tooltip: classes['hint'] }}
+      >
         <button
           type="button"
           className={classes['chipName']}
@@ -184,30 +198,25 @@ function Editor({ close, copy }: EditorProps) {
   );
 }
 
-/** What a like is looked up in first: its preferred domain, or its main ones. */
-const firstAsked = (like: string) => {
-  const preferred = preferredOf(like);
-
-  return preferred === undefined ? mainDomains(like) : [preferred];
-};
-
 /**
- * The answers on `likes`: each looked up as `firstAsked` says, then — once
- * every first answer is in, so the second list is asked once — the bare names
- * whose main domains are all taken looked up in the other zones.
+ * The answers on `likes`: each looked up in its preferred domain, or its main
+ * ones, then — once every first answer is in, so the second list is asked
+ * once — the bare names whose main domains are all taken looked up in the
+ * others.
  */
-function useStandings(likes: readonly string[]) {
-  const first = likes.flatMap((like) => firstAsked(like));
+function useStandings(likes: readonly string[], { domainsFor }: DomainsFor) {
+  const bare = likes.filter((like) => preferredOf(like) === undefined);
+  const first = likes.flatMap(
+    (like) => preferredOf(like) ?? domainsFor(like).main,
+  );
   const firstVerdicts = useVerdicts(first);
   const second =
     firstVerdicts.size < new Set(first).size
       ? []
-      : likes
-          .filter(
-            (like) =>
-              preferredOf(like) === undefined && mainTaken(like, firstVerdicts),
-          )
-          .flatMap((like) => otherDomains(like));
+      : bare
+          .map((like) => domainsFor(like))
+          .filter(({ main }) => allTaken(main, firstVerdicts))
+          .flatMap(({ others }) => others);
   const secondVerdicts = useVerdicts(second);
 
   return new Map([...firstVerdicts, ...secondVerdicts]);
@@ -230,14 +239,20 @@ function heading(copy: Copy, count: number, kept: boolean) {
  * `SHOWN_CHIPS` the rest fold behind a toggle, and are looked up only once it
  * is pointed at, focused or opened, as the checker's own surplus zones are.
  */
-export function Shortlist({ copy }: WithCopy) {
+export function Shortlist({ copy, prices }: CopiedPrices) {
   const { liked, kept } = useLikes();
   const [editing, setEditing] = useState(false);
   const [open, setOpen] = useState(false);
   const [wanted, setWanted] = useState(false);
-  const shownVerdicts = useStandings(liked.slice(0, SHOWN_CHIPS));
+  const dictionary = useWords(liked.length > 0);
+  const sold = Object.keys(prices);
+  const domainsFor = (name: string) => domainsOf(name, sold, dictionary);
+  const shownVerdicts = useStandings(liked.slice(0, SHOWN_CHIPS), {
+    domainsFor,
+  });
   const hiddenVerdicts = useStandings(
     open || wanted ? liked.slice(SHOWN_CHIPS) : [],
+    { domainsFor },
   );
   const verdicts = new Map([...shownVerdicts, ...hiddenVerdicts]);
   const words = copy.shortlist;
@@ -272,7 +287,7 @@ export function Shortlist({ copy }: WithCopy) {
         <>
           <ul className={classes['chips']} data-open={open}>
             {liked.map((like) => (
-              <Chip key={like} {...{ like, verdicts, copy }} />
+              <Chip key={like} {...{ like, verdicts, domainsFor, copy }} />
             ))}
           </ul>
           {liked.length > SHOWN_CHIPS_NARROW && (

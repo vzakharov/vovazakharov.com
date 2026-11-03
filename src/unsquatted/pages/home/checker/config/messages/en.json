@@ -31,7 +31,7 @@
     "save": "Save",
     "hint": "Paste in a list of your own if you like: one name or domain per line.",
     "invalid": "Neither a name nor a domain: {lines}",
-    "othersFree": "Taken in {main}, but free in {free}.",
+    "othersFree": "All {count} domains up top are taken, but it’s free in {free}.",
     "allTaken": "Taken in every zone we check.",
     "and": "and",
     "more": "+{count} more ↓",

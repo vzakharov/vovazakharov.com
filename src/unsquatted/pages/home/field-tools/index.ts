@@ -1,1 +1,1 @@
-export { FieldTools } from './ui/field-tools';
+export { FieldTools, TOOL_BUTTON } from './ui/field-tools';
