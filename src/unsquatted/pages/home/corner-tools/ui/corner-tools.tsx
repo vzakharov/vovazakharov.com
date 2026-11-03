@@ -113,9 +113,7 @@ const cardText = (copy: Copy): CardText => ({
 /**
  * A domain's heart and share icon, in the corner of whatever shows it. Only a
  * domain that is free or may be gets either, except that a liked one keeps
- * its heart so it can be unliked; the filled heart always shows, and the rest
- * only while their holder is hovered or focused, wherever the pointer can
- * hover.
+ * its heart so it can be unliked.
  */
 export function CornerTools({
   domain,

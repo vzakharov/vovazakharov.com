@@ -80,12 +80,11 @@ export function CheckerProvider({ children }: WithChildren) {
     };
   }, [typed]);
 
-  // The address is input only. A link carrying a name, or a name pasted into
-  // the address bar, is looked up at once and then dropped from the address,
-  // so typing never writes there and Back leaves the site rather than
-  // walking through every name tried; a link to a name is made by sharing
-  // it. The link's own is read on the tick after hydration, which renders
-  // the empty field the static page was built with.
+  // The address is input only: a name in it — a link's, or one pasted into
+  // the address bar — is looked up and dropped, so Back leaves the site
+  // rather than walking every name tried; Share is what makes a link. The
+  // link's own is read on the tick after hydration, which renders the empty
+  // field the static page was built with.
   useEffect(() => {
     const fromHash = () => {
       const { hash, pathname, search } = globalThis.location;

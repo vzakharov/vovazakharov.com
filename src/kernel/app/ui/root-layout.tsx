@@ -51,9 +51,8 @@ export function RootLayout({
         {/*
           `data-domains` keeps a dev server or a preview from counting as the
           site. `data-exclude-hash` keeps what follows a `#` out of the stats:
-          on a static page it is an anchor or the page's own state —
-          unsquatted.com's checker reads a name there, which is the visitor's
-          business, not a page.
+          on a static page it is page state, not a page — unsquatted.com's
+          checker reads a typed name there.
         */}
         <script
           defer
