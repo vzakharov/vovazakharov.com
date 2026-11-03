@@ -1,11 +1,14 @@
 /** The visitor's liked domains: how they group into chips, and their text form. */
 
-import { host } from './rows';
+import type { Named } from '@/kernel/shared/typings';
 
-/** One chip: a name and its liked domains, the one it shows first. */
-export type Group = {
-  /** What a press on the chip puts in the checker. */
-  name: string;
+import { host } from '../../checker';
+
+/**
+ * One chip: a name and its liked domains, the one it shows first. `name` is
+ * what a press on the chip puts in the checker.
+ */
+export type Group = Named & {
   /** The domain the chip shows: the first liked one spelling `name` itself. */
   shown: string;
   /** Every liked domain in the group, `shown` among them, in liked order. */

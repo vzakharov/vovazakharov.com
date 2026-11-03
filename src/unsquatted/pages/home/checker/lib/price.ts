@@ -9,6 +9,11 @@ export type Price = { registration: number; renewal: number };
 /** Dollars per zone Porkbun sells. */
 export type Prices = Partial<Record<string, Price>>;
 
+/** What registering costs, once known. */
+export type WithPrice = { price: Price | undefined };
+
+export type WithPrices = { prices: Prices };
+
 /**
  * The yearly price rounded to the dollar — the cents would only clutter a
  * hint — with the renewal only where it differs from the first year's.

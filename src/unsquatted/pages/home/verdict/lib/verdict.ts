@@ -36,6 +36,9 @@ export type Verdict =
     }
   | { state: 'unknown' };
 
+/** The lookups in hand, by domain. */
+export type WithVerdicts = { verdicts: ReadonlyMap<string, Verdict> };
+
 // The answers below are checked by hand rather than by a schema library:
 // this module runs in the browser, and zod would ship with it.
 

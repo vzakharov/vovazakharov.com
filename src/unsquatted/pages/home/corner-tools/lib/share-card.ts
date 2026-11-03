@@ -5,8 +5,7 @@
  * `data-unsquatted-palette`, and its faces are the ones the page has loaded.
  */
 
-import type { WithCopy } from '../config/i18n';
-import { priceParts } from './price';
+import { priceParts, type WithCopy } from '../../checker';
 import type { CardRow } from './share';
 
 const WIDTH = 1200;
@@ -37,9 +36,9 @@ type Look = {
   hairline: string;
   maybe: string;
   heart: string;
-  display: string;
-  body: string;
-  mono: string;
+  displayFace: string;
+  bodyFace: string;
+  monoFace: string;
 };
 
 /** The light palette and the page's faces, as the page has them. */
@@ -60,9 +59,9 @@ function look(): Look {
     hairline: read('--color-border-hairline'),
     maybe: read('--unsquatted-maybe'),
     heart: read('--unsquatted-taken'),
-    display: read('--font-display'),
-    body: read('--font-body'),
-    mono: read('--mantine-font-family-monospace'),
+    displayFace: read('--font-display'),
+    bodyFace: read('--font-body'),
+    monoFace: read('--mantine-font-family-monospace'),
   };
 
   probe.remove();
@@ -98,12 +97,12 @@ function drawHead(context: CanvasRenderingContext2D, l: Look, t: CardText) {
   context.restore();
 
   context.fillStyle = l.ink;
-  context.font = `700 64px ${l.display}`;
+  context.font = `700 64px ${l.displayFace}`;
   context.textAlign = 'left';
   context.fillText(t.site, 178, 117);
 
   context.fillStyle = l.accent;
-  context.font = `700 26px ${l.mono}`;
+  context.font = `700 26px ${l.monoFace}`;
   context.textAlign = 'right';
   context.fillText(t.host, 1104, 112);
 }
@@ -122,7 +121,7 @@ function drawField(context: CanvasRenderingContext2D, l: Look, name: string) {
   context.font = fitted(
     context,
     name,
-    (size) => `${size}px ${l.mono}`,
+    (size) => `${size}px ${l.monoFace}`,
     44,
     944,
   );
@@ -150,12 +149,12 @@ function drawRow(
     const price = `$${first}${after === undefined ? '' : `${t.price.then}$${after}`}${t.price.perYear}`;
 
     context.fillStyle = l.muted;
-    context.font = `${weight}22px ${l.body}`;
+    context.font = `${weight}22px ${l.bodyFace}`;
     context.fillText(price, right, y);
     right -= context.measureText(price).width + 12;
   }
   context.fillStyle = row.state === 'free' ? l.accent : l.maybe;
-  context.font = `${weight}26px ${l.body}`;
+  context.font = `${weight}26px ${l.bodyFace}`;
   const verdict = t.verdict[row.state];
 
   context.fillText(verdict, right, y);
@@ -166,7 +165,7 @@ function drawRow(
   context.font = fitted(
     context,
     row.domain,
-    (each) => `${weight}${each}px ${l.mono}`,
+    (each) => `${weight}${each}px ${l.monoFace}`,
     32,
     verdictLeft - 128,
   );
@@ -216,7 +215,7 @@ export function shareCard(
   context.font = fitted(
     context,
     text.footer,
-    (size) => `${size}px ${l.body}`,
+    (size) => `${size}px ${l.bodyFace}`,
     27,
     1008,
   );

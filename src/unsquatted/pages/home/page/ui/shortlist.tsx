@@ -4,14 +4,14 @@ import { Button, Textarea, UnstyledButton } from '@mantine/core';
 import { Copy as CopyIcon } from 'lucide-react';
 import { useState } from 'react';
 
-import { useVerdicts, type Verdict } from '../../verdict';
-import type { WithCopy } from '../config/i18n';
-import { type Group, grouped, parseLiked } from '../lib/liked';
-import type { Prices } from '../lib/price';
-import { useChecker } from './checker-state';
-import { CornerTools } from './corner-tools';
-import { useLikes } from './likes-state';
+import { cx } from '@/kernel/shared/lib/class-names';
+
+import { useChecker, type WithCopy } from '../../checker';
+import { CornerTools, type Lookups, toolHolder } from '../../corner-tools';
+import { type Group, grouped, parseLiked, useLikes } from '../../likes';
+import { useVerdicts } from '../../verdict';
 import classes from './unsquatted-home.module.scss';
+import type { CopiedPrices } from './verdict-label';
 
 /**
  * The most chips the folded list shows, and the fewer it shows below `sm` —
@@ -22,16 +22,10 @@ const SHOWN_CHIPS_NARROW = 5;
 
 type Copy = WithCopy['copy'];
 
-type ShortlistProps = WithCopy & { prices: Prices };
-
 const counted = (template: string, count: number) =>
   template.replace('{count}', String(count));
 
-type ChipProps = WithCopy &
-  Group & {
-    verdicts: ReadonlyMap<string, Verdict>;
-    prices: Prices;
-  };
+type ChipProps = WithCopy & Group & Lookups;
 
 function Chip({ name, shown, domains, verdicts, prices, copy }: ChipProps) {
   const { checkNow } = useChecker();
@@ -40,7 +34,7 @@ function Chip({ name, shown, domains, verdicts, prices, copy }: ChipProps) {
 
   return (
     <li
-      className={classes['chip']}
+      className={cx(classes['chip'], toolHolder)}
       data-taken={verdicts.get(shown)?.state === 'taken'}
     >
       <button
@@ -141,7 +135,7 @@ function heading(copy: Copy, count: number, kept: boolean) {
  * behind a toggle, and are looked up only once it is pointed at, focused or
  * opened, as the checker's own surplus zones are.
  */
-export function Shortlist({ copy, prices }: ShortlistProps) {
+export function Shortlist({ copy, prices }: CopiedPrices) {
   const { liked, kept } = useLikes();
   const [editing, setEditing] = useState(false);
   const [open, setOpen] = useState(false);

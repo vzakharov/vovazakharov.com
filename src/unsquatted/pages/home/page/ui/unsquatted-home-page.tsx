@@ -7,12 +7,10 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { COPY } from '../config/i18n';
+import { CheckerProvider, COPY, zoneOf } from '../../checker';
+import { LikesProvider } from '../../likes';
 import { fetchPrices } from '../lib/prices';
-import { zoneOf } from '../lib/rows';
 import { PICKS } from '../model/picks';
-import { CheckerProvider } from './checker-state';
-import { LikesProvider } from './likes-state';
 import { NameChecker } from './name-checker';
 import { PickRow } from './pick-row';
 import { Shortlist } from './shortlist';

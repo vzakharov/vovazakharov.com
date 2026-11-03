@@ -1,13 +1,14 @@
 'use client';
 
+import { cx } from '@/kernel/shared/lib/class-names';
+
 import { TextLink } from '@/shell/shared/ui';
 
+import { useChecker, zoneOf } from '../../checker';
+import { CornerTools, toolHolder } from '../../corner-tools';
 import { useVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
-import { zoneOf } from '../lib/rows';
 import type { ShownName } from '../model/picks';
-import { useChecker } from './checker-state';
-import { CornerTools } from './corner-tools';
 import classes from './unsquatted-home.module.scss';
 import { type CopiedPrice, PriceHint } from './verdict-label';
 
@@ -34,7 +35,7 @@ export function PickRow({
   const verdicts = new Map(verdict === undefined ? [] : [[domain, verdict]]);
 
   return (
-    <li className={classes['pick']} data-taken={taken}>
+    <li className={cx(classes['pick'], toolHolder)} data-taken={taken}>
       {/* The name alone, without its zone, so the checker tries it in all. */}
       <button
         type="button"

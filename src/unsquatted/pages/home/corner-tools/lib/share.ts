@@ -1,8 +1,21 @@
 /** What a shared domain hands on: its link, and the rows its image card lists. */
 
-import type { Verdict } from '../../verdict';
-import type { Price, Prices } from './price';
-import { type WithDomain, zoneOf } from './rows';
+import {
+  type WithDomain,
+  type WithPrice,
+  type WithPrices,
+  zoneOf,
+} from '../../checker';
+import type { Verdict, WithVerdicts } from '../../verdict';
+
+/** The lookups and prices in hand for a name's domains. */
+export type Lookups = WithVerdicts & WithPrices;
+
+/** What a card shared from a domain may list besides it. */
+export type CardSiblings = Lookups & {
+  /** The rest of the name's domains, in the order the checker shows them. */
+  siblings: readonly string[];
+};
 
 /** The rows an image card has room for. */
 const CARD_ROWS = 3;
@@ -14,20 +27,16 @@ export const domainLink = (domain: string, here: URL) =>
 /** What a lookup said of a domain a visitor can register. */
 type Available = 'free' | 'maybe';
 
-export type CardRow = WithDomain & {
-  state: Available;
-  liked: boolean;
-  price: Price | undefined;
-};
+export type CardRow = WithDomain &
+  WithPrice & {
+    state: Available;
+    liked: boolean;
+  };
 
-type CardSource = {
+type CardSource = CardSiblings & {
   /** The domain being shared, the card's first row. */
   shared: string;
-  /** The rest of the name's domains, in the order the checker shows them. */
-  siblings: readonly string[];
   liked: ReadonlySet<string>;
-  verdicts: ReadonlyMap<string, Verdict>;
-  prices: Prices;
 };
 
 /** `verdict`'s state where it says the domain can be registered. */

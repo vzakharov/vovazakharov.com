@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { errorClass, withCause } from '@/kernel/shared/lib/error-class';
 
-import type { WithDomain } from '../lib/rows';
+import type { WithDomain } from '../../checker';
 
 const PickFileError = errorClass('PickFileError');
 

@@ -9,20 +9,19 @@ import {
 } from '@mantine/core';
 import { type ReactNode, useState } from 'react';
 
+import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
 
+import { type Row, rowsFor, useChecker, zoneOf } from '../../checker';
+import { CornerTools, toolHolder } from '../../corner-tools';
 import { useVerdicts } from '../../verdict';
-import type { WithCopy } from '../config/i18n';
 import { rollName } from '../lib/dice';
-import type { Prices } from '../lib/price';
-import { type Row, rowsFor, zoneOf } from '../lib/rows';
 import { useWords } from '../lib/use-words';
-import { useChecker } from './checker-state';
-import { CornerTools } from './corner-tools';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
 import {
   type CopiedPrice,
+  type CopiedPrices,
   type CopiedVerdict,
   OWN_DOMAIN,
   VerdictLabel,
@@ -42,7 +41,7 @@ function ZoneRow({
   copy,
 }: ZoneRowProps) {
   return (
-    <li className={classes['zone']}>
+    <li className={cx(classes['zone'], toolHolder)}>
       <span className={classes['domain']}>{domain}</span>
       {checkable ? (
         <VerdictLabel
@@ -56,8 +55,6 @@ function ZoneRow({
     </li>
   );
 }
-
-type NameCheckerProps = WithCopy & { prices: Prices };
 
 /** The most rows the closed list shows, at its widest in the stylesheet's `.zones`. */
 const CLOSED_ROWS = 9;
@@ -73,7 +70,7 @@ const checkableDomains = (rows: readonly Row[]) =>
  * registries none of those lookups. On a narrower screen the closed list shows
  * fewer than that, and the surplus is looked up all the same.
  */
-export function NameChecker({ copy, prices }: NameCheckerProps) {
+export function NameChecker({ copy, prices }: CopiedPrices) {
   const {
     typed,
     type,

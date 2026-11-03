@@ -7,28 +7,33 @@ import { useEffect, useState } from 'react';
 import { SITE_CONFIG, withoutScheme } from '@/kernel/shared/config';
 import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
+import type { Named } from '@/kernel/shared/typings';
 
-import type { Verdict } from '../../verdict';
-import type { WithCopy } from '../config/i18n';
-import type { Prices } from '../lib/price';
-import type { WithDomain } from '../lib/rows';
-import { availability, cardRows, domainLink } from '../lib/share';
+import type { WithCopy, WithDomain } from '../../checker';
+import { useLikes } from '../../likes';
+import {
+  availability,
+  cardRows,
+  type CardSiblings,
+  domainLink,
+} from '../lib/share';
 import { type CardText, shareCard, shareFile } from '../lib/share-card';
-import { useLikes } from './likes-state';
-import classes from './unsquatted-home.module.scss';
+import classes from './corner-tools.module.scss';
+
+/**
+ * The class of whatever holds a `CornerTools`: hovering or focusing it is what
+ * shows the tools that wait for a hover.
+ */
+export const toolHolder = classes['holder'];
 
 /** How long “copied ✓” stands in for the menu item before the menu closes. */
 const COPIED_MS = 2000;
 
+/** `name` is what the shared card's field holds. */
 type CornerToolsProps = WithCopy &
-  WithDomain & {
-    /** The name the shared card's field holds. */
-    name: string;
-    /** The domains the shared card may list besides this one, in order. */
-    siblings: readonly string[];
-    /** The lookups in hand, this domain's and its siblings'. */
-    verdicts: ReadonlyMap<string, Verdict>;
-    prices: Prices;
+  WithDomain &
+  Named &
+  CardSiblings & {
     /** What the filled heart unlikes: this domain, unless a chip's whole group. */
     unlikes?: readonly string[];
     /** The filled heart waits for a hover too: on a chip, every name is liked. */

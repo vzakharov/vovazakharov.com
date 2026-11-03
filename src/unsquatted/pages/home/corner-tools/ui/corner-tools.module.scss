@@ -1,0 +1,35 @@
+// At the end of whatever line holds them.
+.tools {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+  margin-inline-start: auto;
+}
+
+.tool {
+  color: var(--unsquatted-muted);
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.liked,
+.liked:hover {
+  color: var(--unsquatted-taken);
+}
+
+// Where the pointer can hover, the tools of a name not liked wait for its
+// holder to be hovered or focused; a touch screen shows them throughout,
+// having no hover to reveal them. An open share menu keeps its icon up.
+@media (hover: hover) {
+  .hoverTool {
+    opacity: 0;
+    transition: opacity 120ms;
+  }
+
+  .holder:is(:hover, :focus-within) .hoverTool,
+  .hoverTool[aria-expanded='true'] {
+    opacity: 1;
+  }
+}

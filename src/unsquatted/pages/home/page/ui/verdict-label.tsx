@@ -2,24 +2,29 @@ import type { ReactNode } from 'react';
 
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
+import {
+  type Price,
+  priceParts,
+  type WithCopy,
+  type WithDomain,
+  type WithPrice,
+  type WithPrices,
+} from '../../checker';
 import type { Release, Verdict } from '../../verdict';
-import type { WithCopy } from '../config/i18n';
-import { type Price, priceParts } from '../lib/price';
 import { registerUrl } from '../lib/register';
-import type { WithDomain } from '../lib/rows';
 import classes from './unsquatted-home.module.scss';
 
 /** `verdict` is `undefined` while the lookup runs. */
 type WithVerdict = { verdict: Verdict | undefined };
-
-/** What registering costs, once known. */
-type WithPrice = { price: Price | undefined };
 
 /** A row's wording and what the lookup said, for the label that shows it. */
 export type CopiedVerdict = WithCopy & WithVerdict;
 
 /** A row's wording and what registering costs. */
 export type CopiedPrice = WithCopy & WithPrice;
+
+/** The page's wording and every zone's price. */
+export type CopiedPrices = WithCopy & WithPrices;
 
 type VerdictLabelProps = CopiedVerdict &
   WithDomain & {
