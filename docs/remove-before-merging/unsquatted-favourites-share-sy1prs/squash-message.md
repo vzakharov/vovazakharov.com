@@ -6,22 +6,22 @@ address stops being how a name travels: a link is read on arrival,
 looked up and removed, and typing writes nothing there, so Back
 leaves the site and a link to a name is made on purpose, by Share.
 The field takes the focus on arrival, except on a touch screen, and
-a × at its right end clears the field and the lookup at once.
+a × clears the field and the lookup at once.
 
-Any free or maybe name, in the results or the curated list, takes a
-heart and a share icon at the end of its price line, shown only on
-hover where the device has hover; a liked name since taken keeps its
-heart, to be unliked. Liked domains live in local storage and gather
-in a shortlist above the curated list, one chip per name with its
-liked siblings folded in ("+1 sibling"), folding past eight chips. A
-chip opens its name in the checker, and the whole list edits as
-plain text, one domain a line, to copy out or paste back.
+A like is a name, since a visitor almost always means the whole name
+rather than one zone; typed with a zone, the name is liked with that
+zone preferred. A heart and a share menu sit between the field and
+the dice, which they never move. Likes live in local storage and
+gather in a shortlist, one chip per name: a bare name is looked up
+in .com, .net, .org and .io and shows the first one free, and where
+all four are taken it is looked up in the checker's other zones and
+outlined, a tooltip naming those free, or struck through if none is.
+The list edits as plain text, to copy out or paste back.
 
-One available domain at a time is shared, as a copied link or as an
-image drawn on a canvas in the page's fonts and colours: the name,
-the shared domain, then the sharer's liked siblings and the rest that
-are free, never a pending or taken one. The image goes to the system
-share sheet where the browser has one, and downloads elsewhere.
+Sharing copies a link, or an image drawn on a canvas in the page's
+fonts and colours — the name, the shared domain, the liked one and
+the rest that are free, never a pending or taken one — straight to
+the clipboard, the menu showing it and reading "Copied ✓".
 
 The byline now calls the search private, with a note linking the
 source. Every site's analytics drop the address's hash, where the
