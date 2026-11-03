@@ -12,19 +12,21 @@ A like is a name, since a visitor almost always means the whole name
 rather than one zone; typed with a zone, the name is liked with that
 zone preferred. A heart and a share menu sit between the field and
 the dice, which they never move. Likes live in local storage and
-gather in a shortlist, one chip per name: a bare name is looked up
-in .com, .net, .org and .io and shows the first one free, and where
-all four are taken it is looked up in the checker's other zones and
-outlined, a tooltip naming those free, or struck through if none is.
-The list edits as plain text, to copy out or paste back.
+gather in a shortlist, newest first, one chip per name: a bare name
+is looked up in the domains the checker shows before its fold and
+shows the first one free, and where all of those are taken it is
+looked up in the checker's other zones and outlined, a tooltip naming
+those free, or struck through if none is. The list edits as plain
+text, to copy out or paste back, and shows even empty, saying how to
+fill it.
 
 Sharing copies a link, or an image drawn on a canvas in the page's
 fonts and colours — the name, the shared domain, the liked one and
 the rest that are free, never a pending or taken one — straight to
 the clipboard, the card popping up alone in the bottom-right corner.
 
-The byline now calls the search private, with a note linking the
-source. Every site's analytics drop the address's hash, where the
+The lede and a one-line byline share a line, the byline calling the
+search private, with a note linking the source. Every site's analytics drop the address's hash, where the
 checker's names used to be counted as pages.
 
 Co-authored-by: Claude <noreply@anthropic.com>
