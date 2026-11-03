@@ -11,7 +11,8 @@ a × clears the field and the lookup at once.
 A like is a name, since a visitor almost always means the whole name
 rather than one zone; typed with a zone, the name is liked with that
 zone preferred. A heart and a share menu sit between the field and
-the dice, which they never move. Likes live in local storage and
+the dice, which they never move, and a heart beside each listed
+pick likes it in its zone. Likes live in local storage and
 gather in a shortlist, newest first, one chip per name: a bare name
 is looked up in its top ten domains as the checker orders them and
 shows the first one free, and where all of those are taken it is
