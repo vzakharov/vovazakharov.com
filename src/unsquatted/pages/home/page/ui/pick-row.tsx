@@ -1,12 +1,9 @@
 'use client';
 
-import { ActionIcon } from '@mantine/core';
-import { Heart } from 'lucide-react';
-
 import { TextLink } from '@/shell/shared/ui';
 
 import { labelOf, useChecker, zoneOf } from '../../checker';
-import { useLikes } from '../../likes';
+import { LikeButton } from '../../likes';
 import { useVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
 import type { ShownName } from '../model/picks';
@@ -31,8 +28,6 @@ export function PickRow({
   const taken = verdict?.state === 'taken';
   const { checkNow } = useChecker();
   const name = labelOf(domain);
-  const { likeFor, like, unlike } = useLikes();
-  const isOn = likeFor(name) !== undefined;
 
   return (
     <li className={classes['pick']} data-taken={taken}>
@@ -47,21 +42,14 @@ export function PickRow({
         >
           {domain}
         </button>
-        <ActionIcon
+        <LikeButton
           variant="subtle"
           size="sm"
           className={classes['pickLike']}
-          data-on={isOn}
-          aria-label={isOn ? copy.unlike : copy.like}
-          aria-pressed={isOn}
-          title={isOn ? copy.unlike : copy.like}
-          onClick={() => {
-            if (isOn) unlike(name);
-            else like(name, zoneOf(domain));
-          }}
-        >
-          <Heart size={16} fill={isOn ? 'currentColor' : 'none'} />
-        </ActionIcon>
+          zone={zoneOf(domain)}
+          iconSize={16}
+          {...{ name, copy }}
+        />
       </span>
       <span className={classes['category']}>{category}</span>
       <p className={classes['blurb']}>{blurb}</p>

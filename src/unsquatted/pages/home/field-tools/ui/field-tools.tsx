@@ -1,18 +1,17 @@
 'use client';
 
 import { ActionIcon, Menu } from '@mantine/core';
-import { Heart, ImageIcon, LinkIcon, Share2 } from 'lucide-react';
+import { ImageIcon, LinkIcon, Share2 } from 'lucide-react';
 import { useState } from 'react';
 
 import { SITE_CONFIG, withoutScheme } from '@/kernel/shared/config';
-import { cx } from '@/kernel/shared/lib/class-names';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Typed } from '@/kernel/shared/typings';
 
 import { useCopied } from '@/shell/shared/ui';
 
 import { plainByline, type TypedName, type WithCopy } from '../../checker';
-import { likeOf, preferredOf, useLikes } from '../../likes';
+import { LikeButton, likeOf, preferredOf, useLikes } from '../../likes';
 import {
   availability,
   cardRows,
@@ -153,7 +152,7 @@ export function FieldTools({
   prices,
   copy,
 }: FieldToolsProps) {
-  const { likeFor, like, unlike } = useLikes();
+  const { likeFor } = useLikes();
   const own = likeFor(label);
   const isOn = own !== undefined;
   const typedDomain = zone === undefined ? undefined : `${label}.${zone}`;
@@ -186,20 +185,14 @@ export function FieldTools({
         }
         {...{ copy }}
       />
-      <ActionIcon
+      <LikeButton
         variant="default"
         size={42}
-        className={cx(classes['tool'], isOn && classes['liked'])}
-        aria-label={isOn ? copy.unlike : copy.like}
-        aria-pressed={isOn}
-        title={isOn ? copy.unlike : copy.like}
-        onClick={() => {
-          if (isOn) unlike(label);
-          else like(label, zone);
-        }}
-      >
-        <Heart size={18} fill={isOn ? 'currentColor' : 'none'} />
-      </ActionIcon>
+        className={classes['tool']}
+        name={label}
+        iconSize={18}
+        {...{ zone, copy }}
+      />
     </>
   );
 }

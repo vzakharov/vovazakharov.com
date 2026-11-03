@@ -23,8 +23,8 @@
   }
 }
 
-.liked,
-.liked:hover {
+.tool[data-on='true'],
+.tool[data-on='true']:hover {
   color: var(--unsquatted-taken);
 }
 

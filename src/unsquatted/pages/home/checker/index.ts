@@ -22,4 +22,5 @@ export {
   CheckerProvider,
   type TypedName,
   useChecker,
+  type Zoned,
 } from './ui/checker-state';

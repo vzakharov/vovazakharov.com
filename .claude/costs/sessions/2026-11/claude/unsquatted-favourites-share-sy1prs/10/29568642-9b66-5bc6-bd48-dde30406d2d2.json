@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 69,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 113110,
-    "cacheReadTokens": 4702290,
-    "outputTokens": 15186,
-    "thinkingTokens": 4147,
-    "responses": 34,
-    "costUsd": 2.1493340000000005
+    "inputTokens": 2337,
+    "cacheWrite5mTokens": 994,
+    "cacheWrite1hTokens": 150856,
+    "cacheReadTokens": 9084775,
+    "outputTokens": 26534,
+    "thinkingTokens": 6765,
+    "responses": 58,
+    "costUsd": 3.5610736000000016
   },
   "estimate": {
     "at": "2026-11-03T12:38:53.971Z",
@@ -41,22 +41,24 @@
   "branch": "claude/unsquatted-favourites-share-sy1prs",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-favourites-share-sy1prs — Check починен, три гейта vet зелёные, дальше вынести шортлист в подслайс ради masd:clusters и довести fi…",
-  "prs": [],
+  "prs": [
+    241
+  ],
   "url": "https://claude.ai/code/session_01DaohkC41ZdoZPQTiAtVHxA",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T12:38:35.225Z",
-  "lastResponseAt": "2026-11-03T12:44:45.608Z",
+  "lastResponseAt": "2026-11-03T12:53:30.148Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 69,
+    "inputTokens": 109,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 113110,
-    "cacheReadTokens": 4702290,
-    "outputTokens": 15186,
-    "thinkingTokens": 4147,
-    "responses": 34,
-    "costUsd": 2.1493340000000005
+    "cacheWrite1hTokens": 150856,
+    "cacheReadTokens": 8718702,
+    "outputTokens": 26209,
+    "thinkingTokens": 6765,
+    "responses": 55,
+    "costUsd": 3.4752044000000013
   },
   "subagents": {
     "inputTokens": 0,
@@ -70,23 +72,54 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 69,
+      "inputTokens": 1121,
+      "cacheWrite5mTokens": 994,
+      "cacheWrite1hTokens": 150856,
+      "cacheReadTokens": 9084775,
+      "outputTokens": 26228,
+      "thinkingTokens": 6765,
+      "responses": 57,
+      "costUsd": 3.5607990000000016
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1216,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 113110,
-      "cacheReadTokens": 4702290,
-      "outputTokens": 15186,
-      "thinkingTokens": 4147,
-      "responses": 34,
-      "costUsd": 2.1493340000000005
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 306,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002746
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 33,
-    "matched": 33,
-    "matchedTableUsd": 2.0946308000000005,
-    "matchedEventUsd": 2.0946308000000005,
-    "unseen": {}
+    "events": 57,
+    "matched": 54,
+    "matchedTableUsd": 3.4128770000000013,
+    "matchedEventUsd": 3.4128770000000013,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 994,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 366073,
+        "outputTokens": 19,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.08559459999999999
+      },
+      "generate_session_title": {
+        "inputTokens": 1216,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 306,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002746
+      }
+    }
   }
 }
