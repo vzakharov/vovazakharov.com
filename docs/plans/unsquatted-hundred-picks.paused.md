@@ -76,3 +76,22 @@ Every pick checked free at commit time.
 - **Not shared:** the ledger and the pick files stay two stores on purpose — a
   pick is a page row with copy, a rejection is a line; folding picks into the
   ledger would duplicate what the files hold.
+
+## State
+
+Done, pushed:
+
+- 16158e18 — the runbook, `pnpm names`, the seeded ledger.
+- 9b45fb52 — the ninety picks (two runs, 382 candidates), the OG card
+  re-rendered.
+- a6f1b29b — the drawn ten (`PickDeck`, `draw()` with tests), the dice beside
+  the heading; checked in a dev server: ten names best first, a redraw shows ten
+  others with no overlap.
+
+Deviations: the ledger stores a taken name's registration year (`since`), as
+the page's verdict gives it, not a date; `pnpm names` runs lookups in turn
+through a recursive helper, since the lint rules forbid both an `await` in a
+loop and `reduce`.
+
+Left: `/go` Step 3 (`/polish`), flip this plan to `*.completed.md`, Step 4
+(`/pr` refresh of PR #242's body and the squash proposal).
