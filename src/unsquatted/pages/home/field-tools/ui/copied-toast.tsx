@@ -4,15 +4,16 @@ import { Portal } from '@mantine/core';
 import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 
+import type { WhetherCopied } from '@/shell/shared/ui';
+
 import { CARD_HEIGHT, CARD_WIDTH } from '../lib/share-card';
 import classes from './field-tools.module.scss';
 
-type CopiedToastProps = {
+type CopiedToastProps = WhetherCopied & {
   /** The card last put on the clipboard. */
   card: File | undefined;
   /** Where the menu that copied it sat when pressed. */
   from: DOMRect | undefined;
-  shown: boolean;
 };
 
 const TOAST_WIDTH = 200;
@@ -22,7 +23,7 @@ const TOAST_WIDTH = 200;
  * item pressed, and swept off to the side at once — a receipt, not a thing to
  * act on.
  */
-export function CopiedToast({ card, from, shown }: CopiedToastProps) {
+export function CopiedToast({ card, from, copied }: CopiedToastProps) {
   const url = useMemo(
     () => (card === undefined ? undefined : URL.createObjectURL(card)),
     [card],
@@ -35,7 +36,7 @@ export function CopiedToast({ card, from, shown }: CopiedToastProps) {
     [url],
   );
 
-  if (!shown || card === undefined || url === undefined || from === undefined)
+  if (!copied || card === undefined || url === undefined || from === undefined)
     return null;
 
   return (

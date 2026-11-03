@@ -9,7 +9,7 @@ import {
 import { registrable, type Verdict, type WithVerdicts } from '../../verdict';
 
 /** The lookups and prices in hand for a name's domains. */
-export type Lookups = WithVerdicts & WithPrices;
+type Lookups = WithVerdicts & WithPrices;
 
 /** What a card shared from a domain may list besides it. */
 export type CardSiblings = Lookups & {

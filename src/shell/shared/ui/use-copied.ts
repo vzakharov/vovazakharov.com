@@ -5,9 +5,10 @@ import { useEffect, useEffectEvent, useState } from 'react';
 /** How long a control says it copied before it reads as itself again. */
 const COPIED_MS = 2000;
 
-type Copied = {
-  /** Whether the last copy landed within the past `COPIED_MS`. */
-  copied: boolean;
+/** Whether the last copy landed within the past `COPIED_MS`. */
+export type WhetherCopied = { copied: boolean };
+
+type Copied = WhetherCopied & {
   /**
    * Puts `content` on the clipboard, a blob as its own type; a refusal is
    * reported, never shown as copied.
