@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 81,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 124994,
+    "cacheReadTokens": 5765238,
+    "outputTokens": 17885,
+    "thinkingTokens": 4998,
+    "responses": 40,
+    "costUsd": 2.5110236000000006
+  },
+  "estimate": {
+    "at": "2026-11-03T12:38:53.971Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "an FSD sub-slice cut across shared styles and barrels, plus land prep on a multi-session PR, needs someone fluent in the masd graph gates"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-03T12:38:52.215Z",
+    "contextTokens": 110861,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50280,
+      "cacheReadTokens": 571258,
+      "outputTokens": 1035,
+      "thinkingTokens": 65,
+      "responses": 6,
+      "costUsd": 0.5372475999999999
+    }
+  },
+  "sessionId": "29568642-9b66-5bc6-bd48-dde30406d2d2",
+  "branch": "claude/unsquatted-favourites-share-sy1prs",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-favourites-share-sy1prs — Check починен, три гейта vet зелёные, дальше вынести шортлист в подслайс ради masd:clusters и довести fi…",
+  "prs": [
+    241
+  ],
+  "url": "https://claude.ai/code/session_01DaohkC41ZdoZPQTiAtVHxA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-03T12:38:35.225Z",
+  "lastResponseAt": "2026-11-03T12:45:27.282Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 81,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 124994,
+    "cacheReadTokens": 5765238,
+    "outputTokens": 17885,
+    "thinkingTokens": 4998,
+    "responses": 40,
+    "costUsd": 2.5110236000000006
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 81,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 124994,
+      "cacheReadTokens": 5765238,
+      "outputTokens": 17885,
+      "thinkingTokens": 4998,
+      "responses": 40,
+      "costUsd": 2.5110236000000006
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 40,
+    "matched": 40,
+    "matchedTableUsd": 2.5110236000000006,
+    "matchedEventUsd": 2.5110236000000006,
+    "unseen": {}
+  }
+}
