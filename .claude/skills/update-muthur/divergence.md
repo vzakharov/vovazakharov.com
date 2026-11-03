@@ -137,6 +137,8 @@ record" holds the three rules this file keeps.
   taking the template on, which this one did once. A repo adopting from here
   would need its own.
 - **`README.md`** — never: each repo's describes that repo.
+- **`LICENSE`** — never: the source's terms for its own code; whether this site
+  carries a license, and which, is its owner's call.
 - **`scripts/check-muthur.sh` and `scripts/check-repo-identity.sh`** — never:
   both key on the catalog and exit 0 downstream, which is the source stating
   that an adopter runs none of it.
@@ -146,7 +148,9 @@ record" holds the three rules this file keeps.
   `scripts/test_checkpoint_review.py`, `scripts/test_claude_md_size.py`,
   `scripts/test_export_awaiting.py`, `scripts/test_export_render.py`,
   `scripts/test_extract_session_images.py`, `scripts/test_file_tools_nudge.py`,
-  `scripts/test_find_repo.py`, `scripts/test_go_delegation.py`,
+  `scripts/test_finalize_bash_gate.py`, `scripts/test_find_repo.py`,
+  `scripts/test_floor.py`, `scripts/test_go_delegation.py`,
   `scripts/test_markdown_tables.py`, `scripts/test_markdown_wrap.py`,
   `scripts/test_multi_repo_hooks.py`, `scripts/test_muthur_sync.py`,
-  `scripts/test_relay_last_reply.py`, `scripts/test_staged.py`.
+  `scripts/test_relay_last_reply.py`, `scripts/test_session_qa.py`,
+  `scripts/test_staged.py`.
