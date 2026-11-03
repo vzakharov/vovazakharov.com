@@ -63,6 +63,7 @@ function Label({ children, shown }: LabelProps) {
 function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<File>();
+  const [from, setFrom] = useState<DOMRect>();
   const close = () => {
     setOpened(false);
   };
@@ -105,11 +106,12 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
               closeMenuOnClick={false}
               leftSection={<ImageIcon size={14} />}
               disabled={drawCard === undefined}
-              onClick={() => {
+              onClick={(event) => {
                 if (drawCard === undefined) return;
                 const drawn = drawCard();
 
                 setCard(drawn);
+                setFrom(event.currentTarget.getBoundingClientRect());
                 image.copy(drawn);
               }}
             >
@@ -120,7 +122,7 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
           )}
         </Menu.Dropdown>
       </Menu>
-      <CopiedToast shown={image.copied} {...{ card }} />
+      <CopiedToast shown={image.copied} {...{ card, from }} />
     </>
   );
 }

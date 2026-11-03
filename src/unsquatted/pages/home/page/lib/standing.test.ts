@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Verdict } from '../../verdict';
-import { CLOSED_ROWS, domainsOf, standingOf } from './standing';
+import { domainsOf, standingOf, TOP_DOMAINS } from './standing';
 
 const TAKEN: Verdict = { state: 'taken', since: undefined };
 const FREE: Verdict = { state: 'free' };
@@ -17,14 +17,14 @@ const all = (domains: readonly string[], verdict: Verdict) =>
   domains.map((domain) => [domain, verdict] as const);
 
 describe('domainsOf', () => {
-  it('takes the checker’s closed list as main, its splits included', () => {
+  it('takes the checker’s first ten domains as main, its splits included', () => {
     const { main, others } = domainsOf(
       'fuckapp',
       ['com', 'app', 'net'],
       undefined,
     );
 
-    assert.equal(main.length, CLOSED_ROWS);
+    assert.equal(main.length, TOP_DOMAINS);
     assert.deepEqual(main.slice(0, 2), ['fuckapp.com', 'fuck.app']);
     assert.ok(!others.some((domain) => main.includes(domain)));
   });

@@ -1,6 +1,6 @@
 'use client';
 
-import { Paper, Portal, Transition } from '@mantine/core';
+import { Portal } from '@mantine/core';
 import Image from 'next/image';
 import { useEffect, useMemo } from 'react';
 
@@ -10,14 +10,19 @@ import classes from './field-tools.module.scss';
 type CopiedToastProps = {
   /** The card last put on the clipboard. */
   card: File | undefined;
+  /** Where the menu item that copied it sat when pressed. */
+  from: DOMRect | undefined;
   shown: boolean;
 };
 
+const TOAST_WIDTH = 200;
+const TOAST_HEIGHT = (TOAST_WIDTH * CARD_HEIGHT) / CARD_WIDTH;
+
 /**
- * The card just copied, alone in the corner for a moment, so the visitor sees
- * what they will paste.
+ * The card just copied, flashed over the item that copied it and swept off to
+ * the side at once — a receipt, not a thing to act on.
  */
-export function CopiedToast({ card, shown }: CopiedToastProps) {
+export function CopiedToast({ card, from, shown }: CopiedToastProps) {
   const url = useMemo(
     () => (card === undefined ? undefined : URL.createObjectURL(card)),
     [card],
@@ -30,29 +35,29 @@ export function CopiedToast({ card, shown }: CopiedToastProps) {
     [url],
   );
 
+  if (!shown || card === undefined || url === undefined || from === undefined)
+    return null;
+
   return (
     <Portal>
-      <Transition mounted={shown && url !== undefined} transition="slide-up">
-        {(style) => (
-          <Paper
-            component="output"
-            shadow="md"
-            className={classes['toast']}
-            {...{ style }}
-          >
-            {card !== undefined && url !== undefined && (
-              <Image
-                src={url}
-                alt={card.name}
-                width={CARD_WIDTH}
-                height={CARD_HEIGHT}
-                unoptimized
-                className={classes['card']}
-              />
-            )}
-          </Paper>
-        )}
-      </Transition>
+      <div
+        aria-hidden
+        className={classes['toast']}
+        style={{
+          top: from.top + (from.height - TOAST_HEIGHT) / 2,
+          right: document.documentElement.clientWidth - from.right,
+          width: TOAST_WIDTH,
+        }}
+      >
+        <Image
+          src={url}
+          alt=""
+          width={CARD_WIDTH}
+          height={CARD_HEIGHT}
+          unoptimized
+          className={classes['card']}
+        />
+      </div>
     </Portal>
   );
 }
