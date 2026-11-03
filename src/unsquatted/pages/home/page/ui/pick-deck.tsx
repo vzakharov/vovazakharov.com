@@ -1,13 +1,12 @@
 'use client';
 
 import { ActionIcon } from '@mantine/core';
+import { RefreshCw } from 'lucide-react';
 import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 
 import { type CopiedPrices, zoneOf } from '../../checker';
-import { TOOL_BUTTON } from '../../field-tools';
 import { draw } from '../lib/draw';
 import type { ShownName } from '../model/picks';
-import { DiceIcon } from './dice-icon';
 import { PickRow } from './pick-row';
 import {
   arrive,
@@ -45,7 +44,7 @@ function subscribe(listener: () => void) {
 }
 
 /**
- * Ten listed names drawn at random, best first, and a dice drawing ten others.
+ * Ten listed names drawn at random, best first, and a button drawing ten others.
  * The draw is the browser's: the static page holds no list, which would swap
  * out on hydration, and only the ten drawn names are looked up.
  */
@@ -56,30 +55,26 @@ export function PickDeck({ picks, prices, copy }: PickDeckProps) {
     () => UNDRAWN,
   );
   const listRef = useRef<HTMLUListElement>(null);
-  /** The rows' places before a redraw, while one is landing. */
-  const beforeRef = useRef<RowTops | undefined>(undefined);
-  const rollingRef = useRef(false);
+  /**
+   * The rows' places before a draw lands; none at first, so the first ten
+   * arrive the way a redraw's do instead of popping in after hydration.
+   */
+  const beforeRef = useRef<RowTops | undefined>(new Map());
 
   useLayoutEffect(() => {
-    if (listRef.current && beforeRef.current)
+    if (shown.length === 0) return;
+    if (listRef.current && beforeRef.current && !prefersStillness())
       arrive(listRef.current, beforeRef.current);
     beforeRef.current = undefined;
   }, [shown]);
 
   function redraw() {
-    if (rollingRef.current) return;
     const next = draw(picks, SHOWN, Math.random, drawn);
-    if (!listRef.current || prefersStillness()) {
-      show(next);
-      return;
+    if (listRef.current && !prefersStillness()) {
+      beforeRef.current = rowTops(listRef.current);
+      leave(listRef.current, new Set(next.map(({ domain }) => domain)));
     }
-    rollingRef.current = true;
-    const ul = listRef.current;
-    leave(ul, new Set(next.map(({ domain }) => domain)), () => {
-      beforeRef.current = rowTops(ul);
-      rollingRef.current = false;
-      show(next);
-    });
+    show(next);
   }
 
   return (
@@ -89,14 +84,14 @@ export function PickDeck({ picks, prices, copy }: PickDeckProps) {
           {copy.listHeading}
         </h2>
         <ActionIcon
-          variant="default"
-          className={TOOL_BUTTON}
+          variant="subtle"
           size={32}
+          className={classes['redraw']}
           aria-label={copy.redraw}
           title={copy.redraw}
           onClick={redraw}
         >
-          <DiceIcon />
+          <RefreshCw size={18} />
         </ActionIcon>
       </div>
       <ul ref={listRef} className={classes['picks']} aria-live="polite">

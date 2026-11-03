@@ -128,7 +128,7 @@ $field-own-row: 30em;
   overflow-wrap: anywhere;
 }
 
-// The list's heading with the dice that redraws it, side by side.
+// The list's heading with the button that redraws it, side by side.
 .listHead {
   display: flex;
   align-items: center;
@@ -140,6 +140,22 @@ $field-own-row: 30em;
   }
 }
 
+// A bare glyph: hover changes its colour, never puts a plate behind it.
+.redraw,
+.pickLike {
+  @include mantine.hover {
+    background: transparent;
+  }
+}
+
+.redraw {
+  color: var(--color-foreground);
+  opacity: 0.55;
+
+  @include mantine.hover {
+    opacity: 1;
+  }
+}
 .zones,
 .picks {
   margin: 0;
@@ -300,11 +316,16 @@ $field-own-row: 30em;
 
   // The heart shows on the row's hover or focus, always where nothing hovers,
   // and always once the name is liked.
+  // Hovered, the heart takes the colour it will have once liked.
   & .pickLike {
     color: var(--color-foreground);
     opacity: 0;
 
     &[data-on='true'] {
+      color: var(--unsquatted-taken);
+    }
+
+    @include mantine.hover {
       color: var(--unsquatted-taken);
     }
   }

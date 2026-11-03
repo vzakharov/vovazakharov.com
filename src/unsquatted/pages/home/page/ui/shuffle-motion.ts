@@ -26,15 +26,35 @@ export function prefersStillness() {
 }
 
 /**
- * Calls `gone` once the last row has flown: timed rather than awaited, so a
- * flight cut short never holds the redraw back.
+ * Flies the rows not in `staying` off from a copy of the list laid over it, so
+ * the list itself can change at once and its new rows arrive while the old
+ * ones are still leaving. The copy sits on `<body>`, out of React's tree, and
+ * is removed on a timer once the last row has flown.
  */
-export function leave(
-  list: HTMLElement,
-  staying: ReadonlySet<string>,
-  gone: () => void,
-) {
-  const going = rows(list).filter(({ domain }) => !staying.has(domain));
+export function leave(list: HTMLElement, staying: ReadonlySet<string>) {
+  const { left, top, width } = list.getBoundingClientRect();
+  const ghost = list.cloneNode(true);
+  if (!(ghost instanceof HTMLElement))
+    throw new TypeError('a list clones as an element');
+
+  ghost.removeAttribute('aria-live');
+  ghost.setAttribute('aria-hidden', 'true');
+  Object.assign(ghost.style, {
+    position: 'absolute',
+    left: `${left + globalThis.scrollX}px`,
+    top: `${top + globalThis.scrollY}px`,
+    width: `${width}px`,
+    margin: '0',
+    borderTopColor: 'transparent',
+    pointerEvents: 'none',
+  });
+  document.body.append(ghost);
+
+  const all = rows(ghost);
+  for (const { row, domain } of all) {
+    if (staying.has(domain)) row.style.visibility = 'hidden';
+  }
+  const going = all.filter(({ domain }) => !staying.has(domain));
 
   for (const [index, { row }] of going.entries()) {
     row.animate(
@@ -51,7 +71,12 @@ export function leave(
     );
   }
 
-  setTimeout(gone, LEAVE_MS + Math.max(0, going.length - 1) * STAGGER_MS);
+  setTimeout(
+    () => {
+      ghost.remove();
+    },
+    LEAVE_MS + Math.max(0, going.length - 1) * STAGGER_MS,
+  );
 }
 
 /** Each row's top on screen, read before the list changes. */
