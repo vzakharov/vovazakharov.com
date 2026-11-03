@@ -191,4 +191,43 @@ All inside `src/unsquatted/pages/home/page/`, as sub-slices where
 - The rest by `/preview`: focus, the ×, hover and touch hearts, the shortlist's
   fold, the editor, copy and image in both themes and at phone width.
 
-Squash subject: `feat(unsquatted): …`, publishing unsquatted.com alone.
+Squash subject: `feat(unsquatted): …`, publishing unsquatted.com alone — but the
+branch also touches kernel's root layout (below), so the next build of any other
+site picks that up.
+
+## Progress
+
+Done (through `f3cd03c` and the card render after it):
+
+- §§ 1–5 implemented as above; `pnpm typecheck` and eslint clean, the new tests
+  green (`lib/liked.test.ts`, `lib/share.test.ts`). The three open questions
+  took their recommendations: "siblings"; chip heart and share on hover only
+  (`heartOnHover`); a pasted taken domain kept, struck through.
+- Deviation: a liked domain that is taken or pending keeps its filled heart on a
+  result card too, so it can be unliked there; the plan had none.
+- Added at the operator's ask mid-session: the byline reads "curated list ·
+  private, blazing-fast search · …", "private" carrying a note that ends in an
+  "open source" link to `src/unsquatted`; `cardByline` and the site tagline say
+  "Curated, private, blazing fast"; the social card is re-rendered for it.
+- Added: `data-exclude-hash` on the Umami tag in kernel's root layout, for every
+  site — the operator showed the stats listing every `/#name` typed. Asked
+  whether to scope it to unsquatted alone; no answer yet.
+- The image card reads the light palette off an element marked
+  `data-unsquatted-palette` (`site.scss` declares the palette there too).
+- Published to preview.vovazakharov.com from `f3cd03c`.
+
+Left:
+
+- `pnpm masd:clusters` fails: `ui/shortlist.tsx` + `lib/liked.ts` form a cluster
+  to cut into a sub-slice, with what they take from the rest (`config/i18n.ts`,
+  `lib/price.ts`, `lib/rows.ts`, `lib/share*.ts`, `ui/checker-state.tsx`,
+  `ui/corner-tools.tsx`, `ui/likes-state.tsx`) as a sub-slice below both —
+  `page/` then holds only sub-slices. Do the cut, or ask the operator for a
+  `masd-disable cluster` marker.
+- `pnpm check:mantine-styles`: `Menu` and `Textarea` are new to the site, so
+  `theme-provider.tsx` likely needs `Menu.layer.css` in Mantine's order.
+- Confirm the RSC payload carries `prices` once, not once per client component
+  taking it (`NameChecker`, `Shortlist`).
+- `/preview` both themes at desktop and phone width; check the image card.
+- Then `/go` Step 3 (`/polish`) and Step 4 (`/pr` refresh: title, body, QA
+  checklist rows for `private` and the hash).
