@@ -38,6 +38,28 @@ type ShareMenuProps = WithCopy &
     drawCard: (() => File) | undefined;
   };
 
+type LabelProps = { children: readonly string[]; shown: number };
+
+/**
+ * One of `children`, laid over the others, which keep their room, so the menu
+ * holds its width when an item's text changes.
+ */
+function Label({ children, shown }: LabelProps) {
+  return (
+    <span className={classes['label']}>
+      {children.map((text, index) => (
+        <span
+          key={text}
+          aria-hidden={index !== shown}
+          data-shown={index === shown}
+        >
+          {text}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<File>();
@@ -74,7 +96,9 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
               link.copy(domainLink(typed, new URL(globalThis.location.href)));
             }}
           >
-            {link.copied ? copy.copied : copy.copyLink}
+            <Label shown={link.copied ? 1 : 0}>
+              {[copy.copyLink, copy.copied]}
+            </Label>
           </Menu.Item>
           {canCopyImage() && (
             <Menu.Item
@@ -89,7 +113,9 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
                 image.copy(drawn);
               }}
             >
-              {image.copied ? copy.copied : copy.copyAsImage}
+              <Label shown={image.copied ? 1 : 0}>
+                {[copy.copyAsImage, copy.copied]}
+              </Label>
             </Menu.Item>
           )}
         </Menu.Dropdown>

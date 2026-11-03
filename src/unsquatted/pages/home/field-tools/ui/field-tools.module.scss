@@ -12,6 +12,19 @@
   }
 }
 
+// Every text a menu item may show, in one cell, only one of them visible.
+.label {
+  display: grid;
+
+  & > * {
+    grid-area: 1 / 1;
+  }
+
+  & > [data-shown='false'] {
+    visibility: hidden;
+  }
+}
+
 .liked,
 .liked:hover {
   color: var(--unsquatted-taken);
