@@ -4,7 +4,7 @@ import { cx } from '@/kernel/shared/lib/class-names';
 
 import { TextLink } from '@/shell/shared/ui';
 
-import { useChecker, zoneOf } from '../../checker';
+import { labelOf, useChecker, zoneOf } from '../../checker';
 import { CornerTools, toolHolder } from '../../corner-tools';
 import { useVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
@@ -31,7 +31,7 @@ export function PickRow({
   const verdict = useVerdict(domain);
   const taken = verdict?.state === 'taken';
   const { checkNow } = useChecker();
-  const name = domain.slice(0, domain.indexOf('.'));
+  const name = labelOf(domain);
   const verdicts = new Map(verdict === undefined ? [] : [[domain, verdict]]);
 
   return (

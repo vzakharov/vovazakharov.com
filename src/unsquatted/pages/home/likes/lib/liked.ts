@@ -2,7 +2,7 @@
 
 import type { Named } from '@/kernel/shared/typings';
 
-import { host } from '../../checker';
+import { host, labelOf, zoneOf } from '../../checker';
 
 /**
  * One chip: a name and its liked domains, the one it shows first. `name` is
@@ -15,12 +15,10 @@ export type Group = Named & {
   domains: string[];
 };
 
-const labelOf = (domain: string) => domain.slice(0, domain.indexOf('.'));
-
 /** The names `domain` is a split of: `foxed.page` of `foxedpage`, `tips.design` of `designtips`. */
 function joined(domain: string): string[] {
   const label = labelOf(domain);
-  const zone = domain.slice(label.length + 1);
+  const zone = zoneOf(domain);
 
   return zone.includes('.') ? [] : [`${label}${zone}`, `${zone}${label}`];
 }

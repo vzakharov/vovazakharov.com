@@ -9,6 +9,7 @@ export {
 export {
   cleanLabel,
   host,
+  labelOf,
   type Row,
   rowsFor,
   type WithDomain,

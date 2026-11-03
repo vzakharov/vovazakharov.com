@@ -64,6 +64,11 @@ export function typedZone(input: string): string | undefined {
   return zone === undefined || zone === '' ? undefined : zone;
 }
 
+/** The name before its zone: `foxedpage` of `foxedpage.co.uk`. */
+export function labelOf(domain: string): string {
+  return domain.slice(0, domain.indexOf('.'));
+}
+
 /** Everything after the name: `co.uk` of `foxedpage.co.uk`. */
 export function zoneOf(domain: string): string {
   return domain.slice(domain.indexOf('.') + 1);
