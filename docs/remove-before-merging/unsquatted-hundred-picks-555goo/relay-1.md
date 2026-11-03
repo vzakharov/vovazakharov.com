@@ -11,7 +11,7 @@ None stated in this session beyond the repo's own. Carried from the first unsqua
 2. **Operator (mid-turn):** «рутины нет, это я и так скажу»
    - Agent: stopped looking for a routine.
 3. **Operator (mid-turn):** «можно её вот сейчас и создать (не рутину а ранбук, рутину я буду запускать через "запусти ранбук")»
-   - Agent: folded a runbook into the task. Routed rung 1 → `/task`: plan, then go (Step 3 judged no gate needed); renamed the branch, wrote and published the plan (PR #242), flipped it, built the runbook + `pnpm names`, ran two naming runs (90 picks), built the drawn-ten list, checked it in a dev server, then paused the plan at the context-budget warning and relayed (this file). (verbatim in Last agent turn)
+   - Agent: folded a runbook into the task. Routed rung 1 → `/task`: plan, then go (Step 3 judged no gate needed); renamed the branch, wrote and published the plan (PR #242), flipped it, built the runbook + `pnpm names`, ran two naming runs (90 picks), built the drawn-ten list, checked it in a dev server, then paused the plan at the context-budget warning and relayed (this file). The whole session was one turn, so `relay-last-reply.py` found no earlier reply to append.
 
 ## Intent
 
