@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 135848,
+    "cacheWrite1hTokens": 61845,
+    "cacheReadTokens": 4042049,
+    "outputTokens": 13276,
+    "thinkingTokens": 3958,
+    "responses": 38,
+    "costUsd": 2.248241799999999
+  },
+  "estimate": {
+    "at": "2026-11-03T16:39:30.001Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "land prep on a multi-part diff: vet, base merge, squash record reconciled against late UI changes"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/unsquatted/pages/home/page/ui/unsquatted-home.module.scss",
+    "endedAt": "2026-11-03T16:40:22.535Z",
+    "contextTokens": 121057,
+    "spend": {
+      "inputTokens": 42,
+      "cacheWrite5mTokens": 109440,
+      "cacheWrite1hTokens": 60515,
+      "cacheReadTokens": 1900626,
+      "outputTokens": 5470,
+      "thinkingTokens": 1726,
+      "responses": 21,
+      "costUsd": 1.5210132
+    }
+  },
+  "sessionId": "e7ba98cf-9686-54ed-942a-5eb1c61a3373",
+  "branch": "claude/unsquatted-hundred-picks-555goo",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-hundred-picks-555goo — анимации, кнопка и ответы в ревью готовы и запушены; дальше finalize.",
+  "prs": [
+    242
+  ],
+  "url": "https://claude.ai/code/session_01DaohkD81hiWgEB5wNqVeHa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-03T16:39:11.655Z",
+  "lastResponseAt": "2026-11-03T16:41:49.255Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 25,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 61845,
+    "cacheReadTokens": 1262366,
+    "outputTokens": 2738,
+    "thinkingTokens": 516,
+    "responses": 12,
+    "costUsd": 0.8020932
+  },
+  "subagents": {
+    "inputTokens": 53,
+    "cacheWrite5mTokens": 135848,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2779683,
+    "outputTokens": 10538,
+    "thinkingTokens": 3442,
+    "responses": 26,
+    "costUsd": 1.4461486000000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 135848,
+      "cacheWrite1hTokens": 61845,
+      "cacheReadTokens": 4042049,
+      "outputTokens": 13276,
+      "thinkingTokens": 3958,
+      "responses": 38,
+      "costUsd": 2.248241799999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 38,
+    "matched": 38,
+    "matchedTableUsd": 2.248241799999999,
+    "matchedEventUsd": 2.2482417999999993,
+    "unseen": {}
+  }
+}
