@@ -58,6 +58,10 @@ Every pick checked free at commit time.
   (not 100).
 - A dice beside the "Up for grabs" heading draws another ten, from names not on
   screen while at least ten remain. No pagination.
+- A redraw animates (operator, after the pause: «старые улетают в одну сторону,
+  новые прибегают с другой»): leaving rows fly left in turn, arriving ones run
+  in from the right, a row both draws hold slides to its new place; reduced
+  motion swaps at once.
 - `draw(picks, count, random)` is a pure function with a test.
 - The OG card is unchanged in shape (four best lasting picks, "+ N more &
   counting"), re-rendered for the new count.
@@ -88,10 +92,13 @@ Done, pushed:
   the heading; checked in a dev server: ten names best first, a redraw shows ten
   others with no overlap.
 
-Deviations: the ledger stores a taken name's registration year (`since`), as
-the page's verdict gives it, not a date; `pnpm names` runs lookups in turn
-through a recursive helper, since the lint rules forbid both an `await` in a
-loop and `reduce`.
+- f8480cc — the redraw's flight (`ui/shuffle-motion.ts`), checked in a dev
+  server.
+
+Deviations: the ledger stores a taken name's registration year (`since`), as the
+page's verdict gives it, not a date; `pnpm names` runs lookups in turn through a
+recursive helper, since the lint rules forbid both an `await` in a loop and
+`reduce`.
 
 Left: `/go` Step 3 (`/polish`), flip this plan to `*.completed.md`, Step 4
 (`/pr` refresh of PR #242's body and the squash proposal).
