@@ -9,19 +9,23 @@ The field takes the focus on arrival, except on a touch screen, and
 a × at its right end clears the field and the lookup at once.
 
 Any free or maybe name, in the results or the curated list, takes a
-heart; an empty one shows only on hover where the device has hover.
-Liked domains live in local storage and gather in a shortlist above
-the curated list, one chip per name with its liked siblings folded
-in ("+2 siblings", `foxed.page` beside `foxedpage.com`), folding past
-eight chips as the results fold past nine. A chip opens its name in
-the checker. The whole list edits as plain text, one domain a line,
-to copy out or paste back.
+heart and a share icon at the end of its price line, shown only on
+hover where the device has hover; a liked name since taken keeps its
+heart, to be unliked. Liked domains live in local storage and gather
+in a shortlist above the curated list, one chip per name with its
+liked siblings folded in ("+1 sibling"), folding past eight chips. A
+chip opens its name in the checker, and the whole list edits as
+plain text, one domain a line, to copy out or paste back.
 
 One available domain at a time is shared, as a copied link or as an
 image drawn on a canvas in the page's fonts and colours: the name,
 the shared domain, then the sharer's liked siblings and the rest that
 are free, never a pending or taken one. The image goes to the system
 share sheet where the browser has one, and downloads elsewhere.
+
+The byline now calls the search private, with a note linking the
+source. Every site's analytics drop the address's hash, where the
+checker's names used to be counted as pages.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
