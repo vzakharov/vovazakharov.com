@@ -216,18 +216,26 @@ Done (through `f3cd03c` and the card render after it):
   `data-unsquatted-palette` (`site.scss` declares the palette there too).
 - Published to preview.vovazakharov.com from `f3cd03c`.
 
+Done in the second session (`da4b981`):
+
+- The cut: `pages/home/` holds the sub-slices `verdict`, `checker` (copy,
+  prices, rows, the checker's state), `likes` (the likes context, `grouped`,
+  `parseLiked`), `corner-tools` (heart, share menu, `share.ts`, `share-card.ts`,
+  its own stylesheet) and `page`. The shortlist stays in `page`. Cards carry
+  `toolHolder` for the hover reveal. `masd:clusters`, `check:masd`, cycles,
+  poison, Steiger, eslint, stylelint, tests and `type-overlap` (red on the
+  branch before, now clean) all pass.
+- `Menu.layer.css` added to `theme-provider.tsx` between List and Modal;
+  `check:mantine-styles` cannot see it, the dropdown not being in the HTML.
+  `Textarea` needs only `Input`'s sheet, already there.
+- Payload: each zone's price appears once in `index.html`.
+
 Left:
 
-- `pnpm masd:clusters` fails: `ui/shortlist.tsx` + `lib/liked.ts` form a cluster
-  to cut into a sub-slice, with what they take from the rest (`config/i18n.ts`,
-  `lib/price.ts`, `lib/rows.ts`, `lib/share*.ts`, `ui/checker-state.tsx`,
-  `ui/corner-tools.tsx`, `ui/likes-state.tsx`) as a sub-slice below both —
-  `page/` then holds only sub-slices. Do the cut, or ask the operator for a
-  `masd-disable cluster` marker.
-- `pnpm check:mantine-styles`: `Menu` and `Textarea` are new to the site, so
-  `theme-provider.tsx` likely needs `Menu.layer.css` in Mantine's order.
-- Confirm the RSC payload carries `prices` once, not once per client component
-  taking it (`NameChecker`, `Shortlist`).
-- `/preview` both themes at desktop and phone width; check the image card.
+- `/preview` both themes at desktop and phone width: the hover reveal through
+  `toolHolder`, the tools at the end of a card's price line (their
+  `margin-inline-start: auto` replaced a `.priceLine .tools` rule), the share
+  menu's styling, the editor, the image card. Then republish to
+  preview.vovazakharov.com.
 - Then `/go` Step 3 (`/polish`) and Step 4 (`/pr` refresh: title, body, QA
   checklist rows for `private` and the hash).
