@@ -1,15 +1,44 @@
 {
   "total": {
-    "inputTokens": 132,
+    "inputTokens": 137,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 187507,
-    "cacheReadTokens": 11312019,
-    "outputTokens": 27778,
-    "thinkingTokens": 9065,
-    "responses": 67,
-    "costUsd": 4.3185478
+    "cacheWrite1hTokens": 199372,
+    "cacheReadTokens": 12041858,
+    "outputTokens": 28774,
+    "thinkingTokens": 9289,
+    "responses": 70,
+    "costUsd": 4.5793756000000005
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-03T15:03:47.493Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "ninety names that read as brands, each with a one-line pitch and a place on a taste scale, is naming judgement, not lookup"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "breadth across axes against a ledger, with registry checks and re-checks, needs a disciplined search"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a client draw outside the static HTML, a store, a dice and a script reusing the page's lookup"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "a runbook another agent follows unattended must hold its method without the session"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -36,18 +65,18 @@
   "url": "https://claude.ai/code/session_01DaohkB3kf6vg5HXMRJRhw4",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T14:57:15.122Z",
-  "lastResponseAt": "2026-11-03T15:03:43.278Z",
+  "lastResponseAt": "2026-11-03T15:03:59.576Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 132,
+    "inputTokens": 137,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 187507,
-    "cacheReadTokens": 11312019,
-    "outputTokens": 27778,
-    "thinkingTokens": 9065,
-    "responses": 67,
-    "costUsd": 4.3185478
+    "cacheWrite1hTokens": 199372,
+    "cacheReadTokens": 12041858,
+    "outputTokens": 28774,
+    "thinkingTokens": 9289,
+    "responses": 70,
+    "costUsd": 4.5793756000000005
   },
   "subagents": {
     "inputTokens": 0,
@@ -61,23 +90,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 132,
+      "inputTokens": 137,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 187507,
-      "cacheReadTokens": 11312019,
-      "outputTokens": 27778,
-      "thinkingTokens": 9065,
-      "responses": 67,
-      "costUsd": 4.3185478
+      "cacheWrite1hTokens": 199372,
+      "cacheReadTokens": 12041858,
+      "outputTokens": 28774,
+      "thinkingTokens": 9289,
+      "responses": 70,
+      "costUsd": 4.5793756000000005
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 66,
-    "matched": 66,
-    "matchedTableUsd": 4.2549416,
-    "matchedEventUsd": 4.2549416,
+    "events": 70,
+    "matched": 70,
+    "matchedTableUsd": 4.5793756000000005,
+    "matchedEventUsd": 4.5793756000000005,
     "unseen": {}
   }
 }
