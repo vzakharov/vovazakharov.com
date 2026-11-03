@@ -8,8 +8,8 @@
 import { priceParts, type WithCopy } from '../../checker';
 import type { CardRow } from './share';
 
-const WIDTH = 1200;
-const HEIGHT = 630;
+export const CARD_WIDTH = 1200;
+export const CARD_HEIGHT = 630;
 
 /** The mark's U, drawn on a 64-unit square as the site's avatar is. */
 const MARK_U = 'M20 18v17a12 12 0 0 0 24 0V18';
@@ -196,15 +196,15 @@ export function shareCard(
 ): File {
   const canvas = document.createElement('canvas');
 
-  canvas.width = WIDTH;
-  canvas.height = HEIGHT;
+  canvas.width = CARD_WIDTH;
+  canvas.height = CARD_HEIGHT;
   const context = canvas.getContext('2d');
 
   if (context === null) throw new Error('This browser draws no canvas');
   const l = look();
 
   context.fillStyle = l.paper;
-  context.fillRect(0, 0, WIDTH, HEIGHT);
+  context.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
   drawHead(context, l, text);
   drawField(context, l, name);
   for (const [index, row] of rows.entries())
@@ -221,8 +221,8 @@ export function shareCard(
   );
   context.fillText(text.footer, 96, 574);
 
-  // Drawn and encoded without awaiting anything, so the share sheet opens
-  // inside the click that asked for it, as Safari requires.
+  // Encoded without awaiting anything, so the click that asks for the card
+  // opens its preview with the card already in it.
   const data = atob(canvas.toDataURL('image/png').split(',')[1] ?? '');
   const bytes = Uint8Array.from(data, (char) => char.codePointAt(0) ?? 0);
 
@@ -231,28 +231,29 @@ export function shareCard(
   });
 }
 
+/** Whether the browser has a system share sheet that takes `file`. */
+export const canShareFile = (file: File) =>
+  // Firefox on the desktop has no `canShare` at all.
+  'canShare' in navigator && navigator.canShare({ files: [file] });
+
 /**
- * `file` to the system share sheet where the browser offers one for files,
- * else saved as a download. A visitor closing the sheet is no error.
+ * `file` to the system share sheet, which must be called from a click for
+ * Safari to open it. A visitor closing the sheet is no error.
  */
 export async function shareFile(file: File): Promise<void> {
-  // Firefox on the desktop has no `canShare` at all.
-  if ('canShare' in navigator && navigator.canShare({ files: [file] })) {
-    try {
-      await navigator.share({ files: [file] });
-    } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') return;
-      throw error;
-    }
-
-    return;
+  try {
+    await navigator.share({ files: [file] });
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') return;
+    throw error;
   }
+}
 
-  const url = URL.createObjectURL(file);
+/** `file` saved under its own name from `url`, an object URL of it. */
+export function downloadFile(file: File, url: string): void {
   const link = document.createElement('a');
 
   link.href = url;
   link.download = file.name;
   link.click();
-  URL.revokeObjectURL(url);
 }

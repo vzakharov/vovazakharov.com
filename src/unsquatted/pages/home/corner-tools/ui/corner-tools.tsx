@@ -17,8 +17,9 @@ import {
   type CardSiblings,
   domainLink,
 } from '../lib/share';
-import { type CardText, shareCard, shareFile } from '../lib/share-card';
+import { type CardText, shareCard } from '../lib/share-card';
 import classes from './corner-tools.module.scss';
+import { ShareImageModal } from './share-image-modal';
 
 /**
  * The class of whatever holds a `CornerTools`: hovering or focusing it is what
@@ -26,7 +27,7 @@ import classes from './corner-tools.module.scss';
  */
 export const toolHolder = classes['holder'];
 
-/** How long “copied ✓” stands in for the menu item before the menu closes. */
+/** How long “Copied ✓” stands in for the menu item before the menu closes. */
 const COPIED_MS = 2000;
 
 /** `name` is what the shared card's field holds. */
@@ -126,6 +127,7 @@ export function CornerTools({
   copy,
 }: CornerToolsProps) {
   const { liked, isLiked, toggle, drop } = useLikes();
+  const [card, setCard] = useState<File>();
   const available = availability(verdicts.get(domain)) !== undefined;
   const isOn = isLiked(domain);
 
@@ -145,10 +147,16 @@ export function CornerTools({
               prices,
             });
 
-            shareFile(shareCard(name, rows, cardText(copy))).catch(reportError);
+            setCard(shareCard(name, rows, cardText(copy)));
           }}
         />
       )}
+      <ShareImageModal
+        {...{ card, copy }}
+        onClose={() => {
+          setCard(undefined);
+        }}
+      />
       <ActionIcon
         variant="subtle"
         size="sm"

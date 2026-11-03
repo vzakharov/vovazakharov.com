@@ -22,6 +22,9 @@
   "copyLink": "Copy link",
   "copied": "Copied ✓",
   "shareImage": "Share as image",
+  "shareSheet": "Share…",
+  "download": "Download",
+  "close": "Close",
   "shortlist": {
     "heading": "Your shortlist",
     "notKept": "this browser keeps nothing, so it lasts until you close the tab",

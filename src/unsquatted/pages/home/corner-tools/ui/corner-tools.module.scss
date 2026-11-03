@@ -18,6 +18,22 @@
   }
 }
 
+// The card at the modal's width, its own aspect kept.
+.card {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--mantine-radius-md);
+}
+
+.cardButtons {
+  display: flex;
+  gap: var(--mantine-spacing-xs);
+  justify-content: flex-end;
+  margin-top: var(--mantine-spacing-md);
+}
+
 .liked,
 .liked:hover {
   color: var(--unsquatted-taken);
