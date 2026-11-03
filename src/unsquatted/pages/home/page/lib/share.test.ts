@@ -24,7 +24,12 @@ describe('cardRows', () => {
   it('leads with the shared domain, then the liked siblings, then the rest', () => {
     const rows = cardRows({
       shared: 'foxedpage.net',
-      siblings: ['foxedpage.com', 'foxed.page', 'foxedpage.net', 'foxedpage.org'],
+      siblings: [
+        'foxedpage.com',
+        'foxed.page',
+        'foxedpage.net',
+        'foxedpage.org',
+      ],
       liked: new Set(['foxed.page']),
       verdicts: verdicts({
         'foxedpage.com': 'free',
@@ -42,6 +47,7 @@ describe('cardRows', () => {
     ]);
     assert.deepEqual(rows[0], {
       domain: 'foxedpage.net',
+      state: 'free',
       liked: false,
       price: PRICES.net,
     });
@@ -51,7 +57,12 @@ describe('cardRows', () => {
   it('skips a sibling taken, unanswered or still being looked up', () => {
     const rows = cardRows({
       shared: 'foxedpage.com',
-      siblings: ['foxedpage.com', 'foxedpage.net', 'foxedpage.io', 'foxedpage.ai'],
+      siblings: [
+        'foxedpage.com',
+        'foxedpage.net',
+        'foxedpage.io',
+        'foxedpage.ai',
+      ],
       liked: new Set(['foxedpage.net']),
       verdicts: verdicts({
         'foxedpage.com': 'free',
@@ -62,6 +73,18 @@ describe('cardRows', () => {
     });
 
     assert.deepEqual(domains(rows), ['foxedpage.com']);
+  });
+
+  it('lists nothing until the shared domain’s own lookup is in', () => {
+    const rows = cardRows({
+      shared: 'foxedpage.com',
+      siblings: ['foxedpage.com', 'foxedpage.net'],
+      liked: new Set(),
+      verdicts: verdicts({ 'foxedpage.net': 'free' }),
+      prices: PRICES,
+    });
+
+    assert.deepEqual(rows, []);
   });
 });
 

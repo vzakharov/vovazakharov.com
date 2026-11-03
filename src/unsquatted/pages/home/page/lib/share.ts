@@ -11,7 +11,11 @@ const CARD_ROWS = 3;
 export const domainLink = (domain: string, here: URL) =>
   `${here.origin}${here.pathname}#${domain}`;
 
+/** What a lookup said of a domain a visitor can register. */
+type Available = 'free' | 'maybe';
+
 export type CardRow = WithDomain & {
+  state: Available;
   liked: boolean;
   price: Price | undefined;
 };
@@ -26,13 +30,20 @@ type CardSource = {
   prices: Prices;
 };
 
-const isAvailable = (verdict: Verdict | undefined) =>
-  verdict?.state === 'free' || verdict?.state === 'maybe';
+/** `verdict`'s state where it says the domain can be registered. */
+export function availability(
+  verdict: Verdict | undefined,
+): Available | undefined {
+  return verdict?.state === 'free' || verdict?.state === 'maybe'
+    ? verdict.state
+    : undefined;
+}
 
 /**
  * The card's rows: the shared domain, then the sharer's liked siblings, then
  * the others — each only once its lookup said it is free or may be, so the
- * card never says "checking…" and never lists a taken name.
+ * card never says “checking…” and never lists a taken name. None at all
+ * until the shared domain's own lookup says so.
  */
 export function cardRows({
   shared,
@@ -41,8 +52,10 @@ export function cardRows({
   verdicts,
   prices,
 }: CardSource): CardRow[] {
+  if (availability(verdicts.get(shared)) === undefined) return [];
   const available = siblings.filter(
-    (domain) => domain !== shared && isAvailable(verdicts.get(domain)),
+    (domain) =>
+      domain !== shared && availability(verdicts.get(domain)) !== undefined,
   );
   const ordered = [
     shared,
@@ -50,9 +63,18 @@ export function cardRows({
     ...available.filter((domain) => !liked.has(domain)),
   ];
 
-  return ordered.slice(0, CARD_ROWS).map((domain) => ({
-    domain,
-    liked: liked.has(domain),
-    price: prices[zoneOf(domain)],
-  }));
+  return ordered.slice(0, CARD_ROWS).flatMap((domain) => {
+    const state = availability(verdicts.get(domain));
+
+    return state === undefined
+      ? []
+      : [
+          {
+            domain,
+            state,
+            liked: liked.has(domain),
+            price: prices[zoneOf(domain)],
+          },
+        ];
+  });
 }

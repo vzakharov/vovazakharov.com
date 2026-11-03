@@ -47,6 +47,8 @@ type CheckerState = Typed &
     checkHere: (name: string) => void;
     /** As `checkHere`, from below the field: scrolls back to the page's top. */
     checkNow: (name: string) => void;
+    /** Empties the field and the lookup at once, leaving the caret there. */
+    clear: () => void;
     fieldRef: RefObject<HTMLInputElement | null>;
   };
 
@@ -60,7 +62,6 @@ export function CheckerProvider({ children }: WithChildren) {
   const [typed, setTyped] = useState('');
   const [query, setQuery] = useState<Query>({ text: '', asks: 0 });
   const fieldRef = useRef<HTMLInputElement>(null);
-  const linkReadRef = useRef(false);
   const { text, asks } = query;
 
   const ask = (asked: string) => {
@@ -79,24 +80,25 @@ export function CheckerProvider({ children }: WithChildren) {
     };
   }, [typed]);
 
-  // A link carrying a name, or a name pasted into the address bar, is looked
-  // up at once — the link's own on the tick after hydration, which renders
+  // The address is input only. A link carrying a name, or a name pasted into
+  // the address bar, is looked up at once and then dropped from the address,
+  // so typing never writes there and Back leaves the site rather than
+  // walking through every name tried; a link to a name is made by sharing
+  // it. The link's own is read on the tick after hydration, which renders
   // the empty field the static page was built with.
   useEffect(() => {
-    const lookUp = (hash: string) => {
+    const fromHash = () => {
+      const { hash, pathname, search } = globalThis.location;
+
+      if (hash === '') return;
       const name = decodeURIComponent(hash.slice(1));
 
       setTyped(name);
       setQuery(askedAgain(name));
-    };
-    const fromHash = () => {
-      lookUp(globalThis.location.hash);
+      globalThis.history.replaceState(null, '', `${pathname}${search}`);
     };
 
-    const first = setTimeout(() => {
-      linkReadRef.current = true;
-      if (globalThis.location.hash !== '') fromHash();
-    }, 0);
+    const first = setTimeout(fromHash, 0);
     globalThis.addEventListener('hashchange', fromHash);
 
     return () => {
@@ -105,23 +107,16 @@ export function CheckerProvider({ children }: WithChildren) {
     };
   }, []);
 
+  // The field takes the caret on arrival, except on a touch screen, where
+  // focusing it raises the keyboard over a page not yet seen.
+  useEffect(() => {
+    if (!globalThis.matchMedia('(pointer: coarse)').matches) {
+      fieldRef.current?.focus();
+    }
+  }, []);
+
   const label = cleanLabel(text);
   const zone = typedZone(text);
-
-  // What is looked up stays in the address once typing pauses, so a reload
-  // keeps it and a link shares it. Each name is a step in the history, so
-  // back and forward walk through them; walking fires `hashchange` above,
-  // which looks the name up again.
-  useEffect(() => {
-    const hash =
-      label === '' ? '' : `#${label}${zone === undefined ? '' : `.${zone}`}`;
-
-    // Until the link is read, the empty field would write over it.
-    if (!linkReadRef.current || globalThis.location.hash === hash) return;
-    const { pathname, search } = globalThis.location;
-
-    globalThis.history.pushState(null, '', `${pathname}${search}${hash}`);
-  }, [label, zone]);
 
   const checkHere = (name: string) => {
     setTyped(name);
@@ -148,6 +143,11 @@ export function CheckerProvider({ children }: WithChildren) {
         },
         checkHere,
         checkNow,
+        clear: () => {
+          setTyped('');
+          setQuery((current) => ({ ...current, text: '' }));
+          fieldRef.current?.focus();
+        },
         fieldRef,
       }}
     >

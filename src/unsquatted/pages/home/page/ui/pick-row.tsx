@@ -4,8 +4,10 @@ import { TextLink } from '@/shell/shared/ui';
 
 import { useVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
+import { zoneOf } from '../lib/rows';
 import type { ShownName } from '../model/picks';
 import { useChecker } from './checker-state';
+import { CornerTools } from './corner-tools';
 import classes from './unsquatted-home.module.scss';
 import { type CopiedPrice, PriceHint } from './verdict-label';
 
@@ -23,8 +25,13 @@ export function PickRow({
   price,
   copy,
 }: PickRowProps) {
-  const taken = useVerdict(domain)?.state === 'taken';
+  // A listed name's card lists it alone, so its own price is all it needs.
+  const prices = { [zoneOf(domain)]: price };
+  const verdict = useVerdict(domain);
+  const taken = verdict?.state === 'taken';
   const { checkNow } = useChecker();
+  const name = domain.slice(0, domain.indexOf('.'));
+  const verdicts = new Map(verdict === undefined ? [] : [[domain, verdict]]);
 
   return (
     <li className={classes['pick']} data-taken={taken}>
@@ -33,7 +40,7 @@ export function PickRow({
         type="button"
         className={classes['domain']}
         onClick={() => {
-          checkNow(domain.slice(0, domain.indexOf('.')));
+          checkNow(name);
         }}
       >
         {domain}
@@ -45,7 +52,13 @@ export function PickRow({
           copy.verdict.taken
         ) : (
           <>
-            <TextLink href={registerUrl(domain)}>{copy.register}</TextLink>
+            <span className={classes['registerLine']}>
+              <CornerTools
+                siblings={[]}
+                {...{ domain, name, verdicts, prices, copy }}
+              />
+              <TextLink href={registerUrl(domain)}>{copy.register}</TextLink>
+            </span>
             {price !== undefined && <PriceHint {...{ price, copy }} />}
           </>
         )}

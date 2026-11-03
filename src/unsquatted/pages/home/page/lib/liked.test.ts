@@ -5,14 +5,17 @@ import { grouped, parseLiked } from './liked';
 
 describe('grouped', () => {
   it('folds a name’s other zones into the chip of its first', () => {
-    assert.deepEqual(grouped(['foxedpage.com', 'thawdate.com', 'foxedpage.org']), [
-      {
-        name: 'foxedpage',
-        shown: 'foxedpage.com',
-        domains: ['foxedpage.com', 'foxedpage.org'],
-      },
-      { name: 'thawdate', shown: 'thawdate.com', domains: ['thawdate.com'] },
-    ]);
+    assert.deepEqual(
+      grouped(['foxedpage.com', 'thawdate.com', 'foxedpage.org']),
+      [
+        {
+          name: 'foxedpage',
+          shown: 'foxedpage.com',
+          domains: ['foxedpage.com', 'foxedpage.org'],
+        },
+        { name: 'thawdate', shown: 'thawdate.com', domains: ['thawdate.com'] },
+      ],
+    );
   });
 
   it('folds a split at the end into the name it spells', () => {

@@ -1,7 +1,15 @@
 'use client';
 
-import { ActionIcon, Button, TextInput, UnstyledButton } from '@mantine/core';
-import { useState } from 'react';
+import {
+  ActionIcon,
+  Button,
+  CloseButton,
+  TextInput,
+  UnstyledButton,
+} from '@mantine/core';
+import { type ReactNode, useState } from 'react';
+
+import { pick } from '@/kernel/shared/lib/collections';
 
 import { useVerdicts } from '../../verdict';
 import type { WithCopy } from '../config/i18n';
@@ -10,6 +18,7 @@ import type { Prices } from '../lib/price';
 import { type Row, rowsFor, zoneOf } from '../lib/rows';
 import { useWords } from '../lib/use-words';
 import { useChecker } from './checker-state';
+import { CornerTools } from './corner-tools';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
 import {
@@ -21,7 +30,7 @@ import {
 
 type ZoneRowProps = CopiedVerdict &
   CopiedPrice &
-  Row & { ownNeighbour: boolean };
+  Row & { ownNeighbour: boolean; tools: ReactNode };
 
 function ZoneRow({
   domain,
@@ -29,13 +38,16 @@ function ZoneRow({
   verdict,
   ownNeighbour,
   price,
+  tools,
   copy,
 }: ZoneRowProps) {
   return (
     <li className={classes['zone']}>
       <span className={classes['domain']}>{domain}</span>
       {checkable ? (
-        <VerdictLabel {...{ domain, verdict, ownNeighbour, price, copy }} />
+        <VerdictLabel
+          {...{ domain, verdict, ownNeighbour, price, tools, copy }}
+        />
       ) : (
         <span className={classes['verdict']} data-state="unknown">
           {copy.cantCheck}
@@ -71,6 +83,7 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     settling,
     checkTyped,
     checkHere,
+    clear,
     fieldRef,
   } = useChecker();
   const [open, setOpen] = useState(false);
@@ -84,6 +97,8 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     open || wanted ? checkableDomains(rows.slice(CLOSED_ROWS)) : [];
   const shownVerdicts = useVerdicts(shownDomains, asks);
   const hiddenVerdicts = useVerdicts(hiddenDomains, asks);
+  const verdicts = new Map([...shownVerdicts, ...hiddenVerdicts]);
+  const siblings = rows.map(({ domain }) => domain);
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
   const busy =
     (settling && typed.trim() !== '') ||
@@ -110,6 +125,19 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
           onChange={(event) => {
             type(event.currentTarget.value);
           }}
+          rightSection={
+            typed === '' ? undefined : (
+              <CloseButton
+                aria-label={copy.clear}
+                title={copy.clear}
+                // Pressed, it would take the caret from the field it clears.
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                }}
+                onClick={clear}
+              />
+            )
+          }
           classNames={{ root: classes['fieldInput'], input: classes['input'] }}
         />
         <ActionIcon
@@ -148,8 +176,13 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
               {...row}
               ownNeighbour={ownIndex !== -1 && index === ownIndex + 1}
               price={prices[zoneOf(row.domain)]}
-              verdict={
-                shownVerdicts.get(row.domain) ?? hiddenVerdicts.get(row.domain)
+              verdict={verdicts.get(row.domain)}
+              tools={
+                <CornerTools
+                  {...pick(row, 'domain')}
+                  name={label}
+                  {...{ siblings, verdicts, prices, copy }}
+                />
               }
               {...{ copy }}
             />

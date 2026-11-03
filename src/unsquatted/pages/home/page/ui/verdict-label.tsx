@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
 import type { Release, Verdict } from '../../verdict';
@@ -25,6 +27,8 @@ type VerdictLabelProps = CopiedVerdict &
     ownNeighbour?: boolean;
     /** What registering costs, shown where it is free or may be. */
     price?: Price | undefined;
+    /** Set at the far end of the price's line. */
+    tools?: ReactNode;
   };
 
 /** The site's own domain, which a visitor checking it is teased about. */
@@ -133,6 +137,7 @@ export function VerdictLabel({
   verdict,
   ownNeighbour = false,
   price,
+  tools,
   copy,
 }: VerdictLabelProps) {
   const state: State = verdict?.state ?? 'pending';
@@ -148,7 +153,12 @@ export function VerdictLabel({
           ? registerLink(copy, domain, state, text)
           : verdictText(copy, text, verdict)}
       </span>
-      {registrable && price !== undefined && <PriceHint {...{ price, copy }} />}
+      <span className={classes['priceLine']}>
+        {registrable && price !== undefined && (
+          <PriceHint {...{ price, copy }} />
+        )}
+        {tools}
+      </span>
       {aside !== undefined && <span className={classes['aside']}>{aside}</span>}
     </>
   );

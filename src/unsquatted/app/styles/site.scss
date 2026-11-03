@@ -4,8 +4,11 @@
 // over a plain sans, the names in the monospace, a green for what is free.
 // `--unsquatted-taken` and `--unsquatted-maybe` are the site's own, for the two
 // answers a lookup can give besides free, and so is `--unsquatted-muted`, the
-// small print's grey. A note sits a shade off the paper.
-:root[data-site='unsquatted'] {
+// small print's grey. A note sits a shade off the paper. An element marked
+// `data-unsquatted-palette` keeps the light palette in either scheme: the share
+// card reads it there, since a canvas is drawn in it whatever the page shows.
+:root[data-site='unsquatted'],
+[data-unsquatted-palette] {
   --font-body: var(--font-public-sans), sans-serif;
   --font-display: var(--font-fraunces), serif;
   --font-heading-weight: 700;
@@ -17,7 +20,8 @@
 }
 
 @media screen {
-  :root[data-site='unsquatted'] {
+  :root[data-site='unsquatted'],
+  [data-unsquatted-palette] {
     @include tokens.colors(
       #f6f7f2,
       #1d2420,
