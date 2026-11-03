@@ -8,3 +8,9 @@ export type WithCopy = { copy: typeof en };
  * `catalogue`.
  */
 export { default as COPY } from './messages/en.json';
+
+/** The byline as plain words, where no note can open on them. */
+export const plainByline = ({ copy }: WithCopy) =>
+  copy.byline
+    .replace('{private}', copy.private)
+    .replace('{blazing}', copy.blazing);

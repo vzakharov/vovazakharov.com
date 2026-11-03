@@ -7,7 +7,7 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { CheckerProvider, COPY, zoneOf } from '../../checker';
+import { CheckerProvider, COPY, plainByline, zoneOf } from '../../checker';
 import { LikesProvider } from '../../likes';
 import { fetchPrices } from '../lib/prices';
 import { PICKS } from '../model/picks';
@@ -21,7 +21,7 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
 })}`;
 
 /**
- * The lede's `*` and `ledeNote` are the social card's: here the byline under
+ * The lede's `*` and `ledeNote` are the social card's: here the byline after
  * the lede says what the note would.
  */
 const LEDE = COPY.lede.replace('*', '');
@@ -34,11 +34,6 @@ const NOTED = pick(COPY, 'private', 'blazing');
 
 /** The byline's words, each `{…}` split out as the key of the word noted there. */
 const BYLINE_PARTS = COPY.byline.split(/{(private|blazing)}/);
-
-/** The byline is a caption, in lower case; after the lede it opens a sentence. */
-const BYLINE = COPY.byline
-  .replace('{private}', NOTED.private)
-  .replace('{blazing}', NOTED.blazing);
 
 const [BEFORE_SOURCE, AFTER_SOURCE] = COPY.privateWhy.split('{openSource}');
 
@@ -58,7 +53,7 @@ const isNoted = (part: string): part is keyof typeof NOTED =>
 
 export const unsquattedHomeMetadata = constructMetadata({
   title: SITE_CONFIG.name,
-  description: `${LEDE} ${BYLINE.charAt(0).toUpperCase()}${BYLINE.slice(1)}`,
+  description: `${LEDE} ${plainByline({ copy: COPY })}`,
 });
 
 /** The site is one page: the checker, then the list the routine grows. */
@@ -70,8 +65,9 @@ export async function UnsquattedHomePage() {
       <Stack component="main" gap={48}>
         <header>
           <h1 className={classes['masthead']}>{SITE_CONFIG.name}</h1>
-          <p className={classes['lede']}>{LEDE}</p>
-          <div className={classes['byline']}>
+          {/* A div, since a note's dropdown is one and cannot sit in a `p`. */}
+          <div className={classes['lede']}>
+            {LEDE}{' '}
             {BYLINE_PARTS.map((part) =>
               isNoted(part) ? (
                 <NotedSpan key={part} words={NOTED[part]}>

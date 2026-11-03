@@ -1,6 +1,6 @@
 import 'server-only';
 
-export { COPY } from './checker';
+export { COPY, plainByline } from './checker/index.node-safe';
 export {
   DICE_FACE,
   DICE_FACES,

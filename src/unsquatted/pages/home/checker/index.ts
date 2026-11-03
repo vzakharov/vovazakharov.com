@@ -1,4 +1,4 @@
-export { COPY, type WithCopy } from './config/i18n';
+export { COPY, plainByline, type WithCopy } from './config/i18n';
 export {
   type Price,
   priceParts,

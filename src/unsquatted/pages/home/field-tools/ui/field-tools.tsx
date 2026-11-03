@@ -11,7 +11,7 @@ import type { Typed } from '@/kernel/shared/typings';
 
 import { useCopied } from '@/shell/shared/ui';
 
-import type { TypedName, WithCopy } from '../../checker';
+import { plainByline, type TypedName, type WithCopy } from '../../checker';
 import { likeOf, preferredOf, useLikes } from '../../likes';
 import {
   availability,
@@ -99,7 +99,7 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
 const cardText = (copy: Copy): CardText => ({
   site: SITE_CONFIG.name,
   host: withoutScheme(SITE_CONFIG.url),
-  footer: `${copy.lede.replace('*', '')} ${copy.cardByline}`,
+  footer: `${copy.lede.replace('*', '')} ${plainByline({ copy })}`,
   ...pick(copy, 'verdict', 'price'),
 });
 
