@@ -32,7 +32,6 @@ const askedAgain =
   (text: string) =>
   ({ asks }: Query): Query => ({ text, asks: asks + 1 });
 
-/** A name's zone, where one is given. */
 export type Zoned = { zone: string | undefined };
 
 /** A name as the field reads it: its label, and the zone typed after it if any. */
