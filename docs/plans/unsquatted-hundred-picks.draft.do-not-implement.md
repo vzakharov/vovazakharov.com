@@ -41,8 +41,9 @@ taken — by other models.
   lines, skips anything already in the ledger or the picks, looks each up in
   `.com` with the page's own `checkDomain`, appends taken names to the ledger
   and prints the free ones; `reject` appends taste rejections; `recheck` prints
-  listed picks no longer free. Exits non-zero on any failed lookup, so a partial
-  run is never mistaken for a complete one.
+  listed picks no longer free; `roll <n>` prints n word pairs from the page's
+  dice. Exits non-zero on any failed lookup, so a partial run is never mistaken
+  for a complete one.
 - **`src/unsquatted/scripts/ledger.jsonl`** — seeded with the life trial's 111
   rejected names (93 taken, 18 taste). Picked names are not in it: the pick
   files are their record.
