@@ -128,7 +128,6 @@ $field-own-row: 30em;
   overflow-wrap: anywhere;
 }
 
-.zones,
 // The list's heading with the dice that redraws it, side by side.
 .listHead {
   display: flex;
@@ -141,10 +140,14 @@ $field-own-row: 30em;
   }
 }
 
+.zones,
 .picks {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.picks {
   // A redraw flies rows out past the column's edge (`shuffle-motion.ts`).
   overflow-x: clip;
 }
