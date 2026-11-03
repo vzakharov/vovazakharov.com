@@ -47,15 +47,40 @@ Vova's follow-ups on preview, in order:
   - Checkers clean: eslint, tsc, tests (54), type-overlap, steiger, masd,
     cycles, `pnpm build unsquatted`. Nothing looked at in a browser yet.
 
+- Vova on the modal: «а вот тут она (картинка) сразу в буфер обмена не
+  копируется, нет такого API случайно?» · «я думаю лучше так: "Copy as image",
+  при нажатии всплывает тост со скопированным изображением и надписью "copied to
+  clipboard". Я не думаю что кому-то реально качать это надо» · «а может тост
+  всплывать рядом с кнопкой а не внизу?» · «а механика галочки такая же как Copy
+  link должна быть: `✔️ Copied `, а снизу только изображение (без текста)».
+  Landed as:
+  - `5c09a25` — the modal, Share… and Download gone; `useCopied` takes a blob
+    (`ClipboardItem`); `canCopyImage` in `lib/share-card.ts` hides the item
+    where the clipboard takes no image. The field takes its own row below
+    `$field-own-row` (30em, was 24em): at 390px it showed four letters.
+  - `9bcc1e4` — "Copy as image" stays open reading "Copied ✓", the card
+    (`ui/card-image.tsx`) beneath the items until the menu closes.
+  - Previewed in headless Chromium, both themes, 1280/390/360: clipboard holds
+    `image/png`, the dice never moves, editor's Copy → "Copied ✓". Published
+    `5c09a25` (the toast version) to preview.vovazakharov.com; `9bcc1e4` is not
+    published yet.
+
 ## Left
 
-- `/preview` the home page in both themes at 1280 and 390: field with a name
-  typed (tools appearing, dice not moving at both widths, and at < 24em), share
-  menu, the modal (Share… shows only where the browser shares files — headless
-  Chromium likely shows Download only), shortlist chips with the bin, a taken
-  preferred domain, the editor with its hint and Copied.
-- Republish to preview.vovazakharov.com (`/preview live unsquatted`).
-- `/polish`, then refresh PR #241's body (QA rows for share-image, the field
+- **Vova's newest ask, shortlist states** (with a screenshot: a bare `example`
+  chip beside `foxedpage.com`, while `example.com/.io/.co` read taken): «в
+  шортлисте давай так: если заняты "основные", подсвечивается с подсказкой,
+  какие свободны. если какие-то из основных свободны, отображается с первым из
+  свободных. если все заняты, подствечивается чуть по-другому». Reading to
+  confirm with him: a bare-name like gets its "main" zones looked up (which set
+  is "main" is to settle — the first `CLOSED_ROWS` of `rowsFor`, or a fixed few
+  like .com/.net/.org/.io); some free → the chip shows the first free domain
+  (`example.net`); the main ones all taken but others free → highlighted, a
+  tooltip naming the free ones; everything taken → highlighted differently.
+  Today a bare name is never looked up (`shortlist.tsx`, § Decisions in
+  relay-5), so this reverses that.
+- Republish to preview (`/preview live unsquatted`) after that.
+- `/polish`, then refresh PR #241's body (QA rows for copy-as-image, the field
   tools, the shortlist) and the squash proposal.
 
 ## Open with Vova (blocking nothing; defaults taken)
@@ -66,5 +91,7 @@ Vova's follow-ups on preview, in order:
   re-prefers on press — is one line in `FieldTools`.
 - The picks list ("Up for grabs") lost its heart and share too, by the same
   rationale; a pick's name drops into the field, where both are.
+- At 360px the zone grid breaks long domains mid-word (`quillmoss.co` / `m`);
+  the grid predates this plan. Asked whether to fix it here.
 - From relay-4, still open: `data-exclude-hash` on every site or unsquatted
   only; `privateWhy`'s "never leave your browser"; two small duplications.
