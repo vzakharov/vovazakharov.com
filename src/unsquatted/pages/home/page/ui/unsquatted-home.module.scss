@@ -137,7 +137,7 @@ $field-own-row: 30em;
 
 // Three rows at most until opened, as many columns across as the width allows.
 // The `n + …` cut-offs are those rows times the columns at each width, and the
-// widest, nine, is `CLOSED_ROWS` in `lib/standing.ts`: the rows before it are
+// widest, nine, is `CLOSED_ROWS` in `name-checker.tsx`: the rows before it are
 // the ones looked up before the toggle is wanted.
 .zones {
   display: grid;

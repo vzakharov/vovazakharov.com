@@ -6,21 +6,14 @@
 import { rowsFor } from '../../checker';
 import { registrable, type Verdict } from '../../verdict';
 
-/**
- * The most rows the checker's closed list shows — its first three lines, at
- * its widest in the stylesheet's `.zones`.
- */
-export const CLOSED_ROWS = 9;
-
 /** How many of a name's first domains the shortlist calls its top ones. */
 export const TOP_DOMAINS = 10;
 
 /**
- * A name's domains as the checker lists them: `main`, its first
- * `TOP_DOMAINS` — `.com`, the name's splits on a zone, the leading zones —
- * looked up first;
- * `others`, the rest, looked up only once every main one is taken. `sold`
- * and `words` are `rowsFor`'s.
+ * A name's domains as the checker lists them: `main`, its first `TOP_DOMAINS`
+ * — `.com`, the name's splits on a zone, the leading zones — looked up first;
+ * `others`, the rest, looked up only once every main one is taken. `sold` and
+ * `words` are `rowsFor`'s.
  */
 export type NameDomains = { main: string[]; others: string[] };
 

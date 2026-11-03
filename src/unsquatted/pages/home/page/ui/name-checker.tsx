@@ -13,7 +13,6 @@ import { type Row, rowsFor, useChecker, zoneOf } from '../../checker';
 import { FieldTools, TOOL_BUTTON } from '../../field-tools';
 import { useVerdicts } from '../../verdict';
 import { rollName } from '../lib/dice';
-import { CLOSED_ROWS } from '../lib/standing';
 import { useWords } from '../lib/use-words';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
@@ -50,6 +49,12 @@ function ZoneRow({
     </li>
   );
 }
+
+/**
+ * The most rows the closed list shows — its first three lines, at its widest
+ * in the stylesheet's `.zones`.
+ */
+const CLOSED_ROWS = 9;
 
 const checkableDomains = (rows: readonly Row[]) =>
   rows.filter(({ checkable }) => checkable).map(({ domain }) => domain);

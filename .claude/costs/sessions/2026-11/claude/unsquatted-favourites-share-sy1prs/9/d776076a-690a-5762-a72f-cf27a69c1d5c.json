@@ -1,0 +1,123 @@
+{
+  "total": {
+    "inputTokens": 1768,
+    "cacheWrite5mTokens": 156538,
+    "cacheWrite1hTokens": 85967,
+    "cacheReadTokens": 4116308,
+    "outputTokens": 12415,
+    "thinkingTokens": 4809,
+    "responses": 36,
+    "costUsd": 2.5439703999999996
+  },
+  "estimate": {
+    "at": "2026-11-03T12:24:50.772Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "Landing a finished multi-session UI branch needs someone who can judge the polish passes' findings and a vet failure on sight, then own the production deploy the merge triggers"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-03T12:24:48.637Z",
+    "contextTokens": 110896,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50135,
+      "cacheReadTokens": 572000,
+      "outputTokens": 1080,
+      "thinkingTokens": 171,
+      "responses": 6,
+      "costUsd": 0.537136
+    }
+  },
+  "sessionId": "d776076a-690a-5762-a72f-cf27a69c1d5c",
+  "branch": "claude/unsquatted-favourites-share-sy1prs",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-favourites-share-sy1prs — правки готовы и на превью, дальше merge, а потом новая таска в отдельной сессии: ещё 90 доменов для unsq…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFJGQY5FKJTRRwdCpJ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-03T12:24:31.086Z",
+  "lastResponseAt": "2026-11-03T12:28:59.926Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 33,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 85967,
+    "cacheReadTokens": 1675695,
+    "outputTokens": 3414,
+    "thinkingTokens": 949,
+    "responses": 15,
+    "costUsd": 1.091287
+  },
+  "subagents": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 156495,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2297332,
+    "outputTokens": 8963,
+    "thinkingTokens": 3860,
+    "responses": 19,
+    "costUsd": 1.4213454
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 575,
+      "cacheWrite5mTokens": 156538,
+      "cacheWrite1hTokens": 85967,
+      "cacheReadTokens": 4116308,
+      "outputTokens": 12386,
+      "thinkingTokens": 4809,
+      "responses": 35,
+      "costUsd": 2.5438365999999997
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1193,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 29,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001338
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 35,
+    "matched": 33,
+    "matchedTableUsd": 2.4657486,
+    "matchedEventUsd": 2.4657486,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1193,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 29,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001338
+      },
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 43,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 143281,
+        "outputTokens": 9,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0312042
+      }
+    }
+  }
+}
