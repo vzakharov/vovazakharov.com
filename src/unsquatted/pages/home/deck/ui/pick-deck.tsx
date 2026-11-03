@@ -2,12 +2,9 @@
 
 import { ActionIcon } from '@mantine/core';
 import { RefreshCw } from 'lucide-react';
-import {
-  type ReactNode,
-  useLayoutEffect,
-  useRef,
-  useSyncExternalStore,
-} from 'react';
+import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
+
+import type { Headed } from '@/kernel/shared/typings';
 
 import { type CopiedPrices, zoneOf } from '../../checker';
 import { draw } from '../lib/draw';
@@ -25,11 +22,11 @@ import {
 /** How many names the list shows at once. */
 const SHOWN = 10;
 
-type PickDeckProps = CopiedPrices & {
-  /** The list's heading, set beside the redraw button. */
-  heading: ReactNode;
-  picks: readonly ShownName[];
-};
+/** `heading` is the list's, set beside the redraw button. */
+type PickDeckProps = CopiedPrices &
+  Headed & {
+    picks: readonly ShownName[];
+  };
 
 const listeners = new Set<() => void>();
 

@@ -96,6 +96,9 @@ export type WithChildren = { children: ReactNode };
 /** The same, for a wrapper that stands on its own when nothing is put in it. */
 export type WithOptionalChildren = { children?: ReactNode };
 
+/** A heading handed in rendered, for a component to set where its layout puts it. */
+export type Headed = { heading: ReactNode };
+
 /** Whom a page credits, in place of the site's author. */
 export type MaybeBylined = { byline?: ReactNode };
 

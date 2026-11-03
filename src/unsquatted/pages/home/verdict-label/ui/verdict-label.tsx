@@ -1,3 +1,5 @@
+import type { WithText } from '@/kernel/shared/typings';
+
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
 import {
@@ -125,10 +127,8 @@ function registerLink(copy: Copy, domain: string, state: State, text: string) {
   );
 }
 
-type UncheckedLabelProps = { text: string };
-
 /** A zone's label where it cannot be looked up, worded by the caller. */
-export function UncheckedLabel({ text }: UncheckedLabelProps) {
+export function UncheckedLabel({ text }: WithText) {
   return (
     <span className={classes['verdict']} data-state="unknown">
       {text}
