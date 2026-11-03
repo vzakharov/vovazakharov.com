@@ -259,11 +259,6 @@ $field-own-row: 30em;
 }
 
 .priceLine {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 22px;
-
   &:empty {
     display: none;
   }
