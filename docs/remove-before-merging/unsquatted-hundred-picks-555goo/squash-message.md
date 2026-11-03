@@ -15,11 +15,12 @@ before its shownUntil takes it off the list. pnpm names does the
 mechanical half with the page's own RDAP lookup.
 
 The list shows ten names drawn at random, best first within the draw,
-and a dice beside its heading draws ten others; nothing pages. The draw
-happens in the browser after hydration, so the static page carries no
-list to swap out, and only the ten drawn names are looked up. A redraw
-flies the old rows out to the left and runs the new ones in from the
-right; under reduced motion the list just swaps.
+and a refresh button beside its heading draws ten others; nothing
+pages. The draw happens in the browser after hydration, so the static
+page carries no list to swap out, and only the ten drawn names are
+looked up. The first ten run in from the right as the page loads, and
+a redraw flies the old rows out to the left while the new ones run in;
+under reduced motion the list just swaps.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
