@@ -10,17 +10,17 @@ import classes from './field-tools.module.scss';
 type CopiedToastProps = {
   /** The card last put on the clipboard. */
   card: File | undefined;
-  /** Where the menu item that copied it sat when pressed. */
+  /** Where the menu that copied it sat when pressed. */
   from: DOMRect | undefined;
   shown: boolean;
 };
 
 const TOAST_WIDTH = 200;
-const TOAST_HEIGHT = (TOAST_WIDTH * CARD_HEIGHT) / CARD_WIDTH;
 
 /**
- * The card just copied, flashed over the item that copied it and swept off to
- * the side at once — a receipt, not a thing to act on.
+ * The card just copied, flashed under the menu that copied it, clear of the
+ * item pressed, and swept off to the side at once — a receipt, not a thing to
+ * act on.
  */
 export function CopiedToast({ card, from, shown }: CopiedToastProps) {
   const url = useMemo(
@@ -44,7 +44,7 @@ export function CopiedToast({ card, from, shown }: CopiedToastProps) {
         aria-hidden
         className={classes['toast']}
         style={{
-          top: from.top + (from.height - TOAST_HEIGHT) / 2,
+          top: from.bottom + 8,
           right: document.documentElement.clientWidth - from.right,
           width: TOAST_WIDTH,
         }}

@@ -111,7 +111,12 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
                 const drawn = drawCard();
 
                 setCard(drawn);
-                setFrom(event.currentTarget.getBoundingClientRect());
+                setFrom(
+                  (
+                    event.currentTarget.closest('[role="menu"]') ??
+                    event.currentTarget
+                  ).getBoundingClientRect(),
+                );
                 image.copy(drawn);
               }}
             >
