@@ -30,7 +30,7 @@ export function PickRow({
   const name = labelOf(domain);
 
   return (
-    <li className={classes['pick']} data-taken={taken}>
+    <li className={classes['pick']} data-taken={taken} data-domain={domain}>
       <span className={classes['pickName']}>
         {/* The name alone, without its zone, so the checker tries it in all. */}
         <button

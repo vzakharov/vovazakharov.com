@@ -145,6 +145,8 @@ $field-own-row: 30em;
   margin: 0;
   padding: 0;
   list-style: none;
+  // A redraw flies rows out past the column's edge (`shuffle-motion.ts`).
+  overflow-x: clip;
 }
 
 // Three rows at most until opened, as many columns across as the width allows.

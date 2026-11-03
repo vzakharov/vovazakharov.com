@@ -1,7 +1,7 @@
 'use client';
 
 import { ActionIcon } from '@mantine/core';
-import { useSyncExternalStore } from 'react';
+import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 
 import { type CopiedPrices, zoneOf } from '../../checker';
 import { TOOL_BUTTON } from '../../field-tools';
@@ -9,6 +9,13 @@ import { draw } from '../lib/draw';
 import type { ShownName } from '../model/picks';
 import { DiceIcon } from './dice-icon';
 import { PickRow } from './pick-row';
+import {
+  arrive,
+  leave,
+  prefersStillness,
+  type RowTops,
+  rowTops,
+} from './shuffle-motion';
 import classes from './unsquatted-home.module.scss';
 
 /** How many names the list shows at once. */
@@ -24,6 +31,11 @@ let drawn: readonly ShownName[] | undefined;
 /** What the static page lists: nothing, until the browser draws. */
 const UNDRAWN: readonly ShownName[] = [];
 
+function show(names: readonly ShownName[]) {
+  drawn = names;
+  for (const listener of listeners) listener();
+}
+
 function subscribe(listener: () => void) {
   listeners.add(listener);
 
@@ -35,7 +47,8 @@ function subscribe(listener: () => void) {
 /**
  * Ten listed names drawn at random, best first, and a dice drawing ten others.
  * The draw is the browser's: the static page holds no list, which would swap
- * out on hydration, and only the ten drawn names are looked up.
+ * out on hydration, and only the ten drawn names are looked up. A redraw
+ * flies the old rows out before the new ones run in.
  */
 export function PickDeck({ picks, prices, copy }: PickDeckProps) {
   const shown = useSyncExternalStore(
@@ -43,6 +56,32 @@ export function PickDeck({ picks, prices, copy }: PickDeckProps) {
     () => (drawn ??= draw(picks, SHOWN, Math.random)),
     () => UNDRAWN,
   );
+  const listRef = useRef<HTMLUListElement>(null);
+  /** The rows' places before a redraw, while one is landing. */
+  const beforeRef = useRef<RowTops | undefined>(undefined);
+  const rollingRef = useRef(false);
+
+  useLayoutEffect(() => {
+    if (listRef.current && beforeRef.current)
+      arrive(listRef.current, beforeRef.current);
+    beforeRef.current = undefined;
+  }, [shown]);
+
+  function redraw() {
+    if (rollingRef.current) return;
+    const next = draw(picks, SHOWN, Math.random, drawn);
+    if (!listRef.current || prefersStillness()) {
+      show(next);
+      return;
+    }
+    rollingRef.current = true;
+    const ul = listRef.current;
+    leave(ul, new Set(next.map(({ domain }) => domain)), () => {
+      beforeRef.current = rowTops(ul);
+      rollingRef.current = false;
+      show(next);
+    });
+  }
 
   return (
     <section aria-labelledby="names">
@@ -56,15 +95,12 @@ export function PickDeck({ picks, prices, copy }: PickDeckProps) {
           size={32}
           aria-label={copy.redraw}
           title={copy.redraw}
-          onClick={() => {
-            drawn = draw(picks, SHOWN, Math.random, drawn);
-            for (const listener of listeners) listener();
-          }}
+          onClick={redraw}
         >
           <DiceIcon />
         </ActionIcon>
       </div>
-      <ul className={classes['picks']} aria-live="polite">
+      <ul ref={listRef} className={classes['picks']} aria-live="polite">
         {shown.map(({ domain, category, blurb, score }) => (
           <PickRow
             key={domain}
