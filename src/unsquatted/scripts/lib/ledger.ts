@@ -10,7 +10,7 @@ import { z } from 'zod';
 
 import { errorClass, withCause } from '@/kernel/shared/lib/error-class';
 
-export const LEDGER_PATH = path.join(import.meta.dirname, '..', 'ledger.jsonl');
+const LEDGER_PATH = path.join(import.meta.dirname, '..', 'ledger.jsonl');
 
 const LedgerError = errorClass('LedgerError');
 
