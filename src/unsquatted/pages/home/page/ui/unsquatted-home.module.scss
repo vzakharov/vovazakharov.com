@@ -316,7 +316,6 @@ $field-own-row: 30em;
 
   // The heart shows on the row's hover or focus, always where nothing hovers,
   // and always once the name is liked.
-  // Hovered, the heart takes the colour it will have once liked.
   & .pickLike {
     color: var(--color-foreground);
     opacity: 0;
@@ -325,6 +324,7 @@ $field-own-row: 30em;
       color: var(--unsquatted-taken);
     }
 
+    // Hovered, the heart takes the colour it will have once liked.
     @include mantine.hover {
       color: var(--unsquatted-taken);
     }

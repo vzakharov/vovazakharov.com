@@ -56,8 +56,8 @@ export function PickDeck({ picks, prices, copy }: PickDeckProps) {
   );
   const listRef = useRef<HTMLUListElement>(null);
   /**
-   * The rows' places before a draw lands; none at first, so the first ten
-   * arrive the way a redraw's do instead of popping in after hydration.
+   * The rows' places before a draw lands; an empty map at first, so the first
+   * ten arrive the way a redraw's do instead of popping in after hydration.
    */
   const beforeRef = useRef<RowTops | undefined>(new Map());
 
