@@ -355,11 +355,16 @@
   }
 }
 
-// The register link, the corner tools before it.
+// The register link, the corner tools before it; after it once the line is
+// flush left, so tools still waiting for a hover leave no gap before the link.
 .registerLine {
   display: inline-flex;
   gap: 6px;
   align-items: center;
+
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    flex-direction: row-reverse;
+  }
 }
 
 .shortlistHead {
