@@ -281,11 +281,33 @@ $field-own-row: 30em;
     opacity: 0.55;
   }
 
+  // The heart shows on the row's hover or focus, always where nothing hovers,
+  // and always once the name is liked.
+  & .pickLike {
+    color: var(--color-foreground);
+    opacity: 0;
+
+    &[data-on='true'] {
+      color: var(--unsquatted-taken);
+    }
+  }
+
+  &:hover .pickLike,
+  &:focus-within .pickLike,
+  & .pickLike[data-on='true'] {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    & .pickLike {
+      opacity: 1;
+    }
+  }
+
   // A button that reads as the heading it is, until hovered.
   & .domain {
     @extend %text-button;
 
-    justify-self: start;
     font-size: 1.15rem;
     font-weight: 600;
     text-align: start;
@@ -298,6 +320,13 @@ $field-own-row: 30em;
       text-underline-offset: 3px;
     }
   }
+}
+
+.pickName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
 }
 
 .category {
