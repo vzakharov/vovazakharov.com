@@ -10,19 +10,19 @@
     "costUsd": 5.842303900000001
   },
   "estimate": {
-    "at": "2026-11-03T08:42:47.101Z",
+    "at": "2026-11-03T09:23:06.806Z",
     "parts": [
       {
-        "hours": 1.5,
+        "hours": 1.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "fixing what the preview shows across the cut tree, the polish passes and a PR refresh need judgement of the FSD layout and the site's privacy contract"
+        "comment": "the phone gap and hover-fill fixes needed reading Mantine's layered variant rules against the site's own sheets, and the PR refresh needed the privacy contract's judgement"
       },
       {
-        "hours": 1.0,
+        "hours": 0.75,
         "grade": "middle",
         "role": "qa",
-        "comment": "hover and touch states, the fold, the editor, the share menu and the image card at two widths in both themes"
+        "comment": "hover, touch, fold, editor and share menu at two widths in both themes"
       }
     ],
     "comment": null
@@ -101,10 +101,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 90,
-    "matched": 87,
-    "matchedTableUsd": 5.6874460000000004,
-    "matchedEventUsd": 5.6874460000000004,
+    "events": 91,
+    "matched": 88,
+    "matchedTableUsd": 5.751672000000001,
+    "matchedEventUsd": 5.751672000000001,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 1012,
