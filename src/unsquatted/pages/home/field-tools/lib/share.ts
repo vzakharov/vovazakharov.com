@@ -36,7 +36,8 @@ export type CardRow = WithDomain &
 type CardSource = CardSiblings & {
   /** The domain being shared, the card's first row. */
   shared: string;
-  liked: ReadonlySet<string>;
+  /** The domain the sharer's like of the name points at, if they like it. */
+  liked: string | undefined;
 };
 
 /** `verdict`'s state where it says the domain can be registered. */
@@ -47,10 +48,10 @@ export function availability(
 }
 
 /**
- * The card's rows: the shared domain, then the sharer's liked siblings, then
- * the others — each only once its lookup said it is free or may be, so the
- * card never says “checking…” and never lists a taken name. None at all
- * until the shared domain's own lookup says so.
+ * The card's rows: the shared domain, then the liked one, then the others —
+ * each only once its lookup said it is free or may be, so the card never says
+ * “checking…” and never lists a taken name. None at all until the shared
+ * domain's own lookup says so.
  */
 export function cardRows({
   shared,
@@ -66,8 +67,8 @@ export function cardRows({
   );
   const ordered = [
     shared,
-    ...available.filter((domain) => liked.has(domain)),
-    ...available.filter((domain) => !liked.has(domain)),
+    ...available.filter((domain) => domain === liked),
+    ...available.filter((domain) => domain !== liked),
   ];
 
   return ordered.slice(0, CARD_ROWS).flatMap((domain) => {
@@ -79,7 +80,7 @@ export function cardRows({
           {
             domain,
             state,
-            liked: liked.has(domain),
+            liked: domain === liked,
             price: prices[zoneOf(domain)],
           },
         ];

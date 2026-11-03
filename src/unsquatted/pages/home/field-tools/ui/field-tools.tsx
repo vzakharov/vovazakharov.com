@@ -115,7 +115,7 @@ export function FieldTools({
   prices,
   copy,
 }: FieldToolsProps) {
-  const { liked, likeFor, like, unlike } = useLikes();
+  const { likeFor, like, unlike } = useLikes();
   const own = likeFor(label);
   const isOn = own !== undefined;
   const typedDomain = zone === undefined ? undefined : `${label}.${zone}`;
@@ -138,7 +138,8 @@ export function FieldTools({
                   cardRows({
                     shared,
                     siblings,
-                    liked: new Set(liked),
+                    // A name liked with no zone is liked in the card's lead.
+                    liked: isOn ? (preferred ?? shared) : undefined,
                     verdicts,
                     prices,
                   }),

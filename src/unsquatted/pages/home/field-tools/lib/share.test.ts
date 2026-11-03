@@ -21,7 +21,7 @@ const domains = (rows: ReturnType<typeof cardRows>) =>
   rows.map(({ domain }) => domain);
 
 describe('cardRows', () => {
-  it('leads with the shared domain, then the liked siblings, then the rest', () => {
+  it('leads with the shared domain, then the liked one, then the rest', () => {
     const rows = cardRows({
       shared: 'foxedpage.net',
       siblings: [
@@ -30,7 +30,7 @@ describe('cardRows', () => {
         'foxedpage.net',
         'foxedpage.org',
       ],
-      liked: new Set(['foxed.page']),
+      liked: 'foxed.page',
       verdicts: verdicts({
         'foxedpage.com': 'free',
         'foxed.page': 'maybe',
@@ -63,7 +63,7 @@ describe('cardRows', () => {
         'foxedpage.io',
         'foxedpage.ai',
       ],
-      liked: new Set(['foxedpage.net']),
+      liked: 'foxedpage.net',
       verdicts: verdicts({
         'foxedpage.com': 'free',
         'foxedpage.net': 'taken',
@@ -79,12 +79,27 @@ describe('cardRows', () => {
     const rows = cardRows({
       shared: 'foxedpage.com',
       siblings: ['foxedpage.com', 'foxedpage.net'],
-      liked: new Set(),
+      liked: undefined,
       verdicts: verdicts({ 'foxedpage.net': 'free' }),
       prices: PRICES,
     });
 
     assert.deepEqual(rows, []);
+  });
+
+  it('marks the shared domain liked where it is the liked one', () => {
+    const rows = cardRows({
+      shared: 'foxedpage.com',
+      siblings: ['foxedpage.com', 'foxedpage.net'],
+      liked: 'foxedpage.com',
+      verdicts: verdicts({ 'foxedpage.com': 'free', 'foxedpage.net': 'free' }),
+      prices: PRICES,
+    });
+
+    assert.deepEqual(
+      rows.map(({ liked }) => liked),
+      [true, false],
+    );
   });
 });
 
