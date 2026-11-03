@@ -363,6 +363,11 @@ $field-own-row: 30em;
   text-transform: none;
 }
 
+.empty {
+  margin: 0;
+  opacity: 0.7;
+}
+
 // The first eight chips until opened, five below `sm`: `SHOWN_CHIPS` and
 // `SHOWN_CHIPS_NARROW` in `shortlist.tsx`, the first being the ones looked up
 // before the toggle is wanted.

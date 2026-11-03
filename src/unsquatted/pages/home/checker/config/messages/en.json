@@ -23,6 +23,7 @@
   "copyAsImage": "Copy as image",
   "shortlist": {
     "heading": "Your shortlist",
+    "empty": "Nothing here yet: press ♡ by a name you like, or ✎ edit to type some in.",
     "notKept": "this browser keeps nothing, so it lasts until you close the tab",
     "edit": "✎ edit",
     "editLabel": "Your shortlist, one name or domain per line",

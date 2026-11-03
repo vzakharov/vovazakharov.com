@@ -257,8 +257,6 @@ export function Shortlist({ copy, prices }: CopiedPrices) {
   const verdicts = new Map([...shownVerdicts, ...hiddenVerdicts]);
   const words = copy.shortlist;
 
-  if (liked.length === 0 && !editing) return null;
-
   return (
     <section aria-labelledby="shortlist">
       <div className={classes['shortlistHead']}>
@@ -283,6 +281,8 @@ export function Shortlist({ copy, prices }: CopiedPrices) {
           }}
           {...{ copy }}
         />
+      ) : liked.length === 0 ? (
+        <p className={classes['empty']}>{words.empty}</p>
       ) : (
         <>
           <ul className={classes['chips']} data-open={open}>
