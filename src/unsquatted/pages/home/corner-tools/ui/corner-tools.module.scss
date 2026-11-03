@@ -6,10 +6,14 @@
   margin-inline-start: auto;
 }
 
+// A hover recolours the icon alone: `subtle`'s own hover fill is the accent,
+// which would swallow an accent icon.
 .tool {
   color: var(--unsquatted-muted);
 
-  &:hover {
+  &:hover,
+  &[aria-expanded='true'] {
+    background-color: transparent;
     color: var(--color-accent);
   }
 }
