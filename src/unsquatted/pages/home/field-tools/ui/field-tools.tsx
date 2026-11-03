@@ -31,10 +31,7 @@ type Copy = WithCopy['copy'];
 /** `typed` is what the copied link opens on: the name as the field holds it. */
 type ShareMenuProps = WithCopy &
   Typed & {
-    /**
-     * Draws the card; none while no domain of the name is known to be free.
-     * The menu offers it only where the clipboard takes an image.
-     */
+    /** Draws the card; none while no domain of the name is known to be free. */
     drawCard: (() => File) | undefined;
   };
 
@@ -44,8 +41,6 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
   const close = () => {
     setOpened(false);
   };
-  // “Copied ✓” stands in for each menu item until the menu closes, and the
-  // card copied shows beneath them.
   const link = useCopied(close);
   const image = useCopied(close);
 

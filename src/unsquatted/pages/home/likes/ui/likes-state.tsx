@@ -78,9 +78,9 @@ const assumed = () => true;
 
 /**
  * The visitor's liked names, which the checker's field and the shortlist read
- * and change. They are kept in the browser and follow
- * across its open tabs; where it keeps nothing they last the visit, and
- * `kept` says so for the page to tell the visitor.
+ * and change. They are kept in the browser and follow across its open tabs;
+ * where it keeps nothing they last the visit, and `kept` says so for the page
+ * to tell the visitor.
  */
 export function LikesProvider({ children }: WithChildren) {
   const [liked, setLiked] = useLocalStorage<string[]>({
