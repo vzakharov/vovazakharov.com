@@ -19,7 +19,8 @@ const TAKEN: LedgerEntry = {
 
 describe('ledger', () => {
   it('reads back what it writes', () => {
-    const text = formatEntry(TAKEN) + formatEntry({ ...TAKEN, domain: 'b.com' });
+    const text =
+      formatEntry(TAKEN) + formatEntry({ ...TAKEN, domain: 'b.com' });
 
     assert.deepEqual(parseLedger(text), [TAKEN, { ...TAKEN, domain: 'b.com' }]);
   });
@@ -31,16 +32,18 @@ describe('ledger', () => {
   });
 
   it('refuses a verdict it does not know', () => {
-    assert.throws(() =>
-      formatEntry({ ...TAKEN, verdict: 'maybe' as LedgerEntry['verdict'] }),
-    );
+    const line = JSON.stringify({ ...TAKEN, verdict: 'maybe' });
+
+    assert.throws(() => parseLedger(line), /ledger\.jsonl:1/);
   });
 });
 
 describe('parseCandidates', () => {
   it('reads axis and name, with or without the zone', () => {
     assert.deepEqual(
-      parseCandidates('# run 3\nsailing\tLeewardLog\n\nkitchen\tcrumbtray.com\n'),
+      parseCandidates(
+        '# run 3\nsailing\tLeewardLog\n\nkitchen\tcrumbtray.com\n',
+      ),
       [
         { axis: 'sailing', domain: 'leewardlog.com' },
         { axis: 'kitchen', domain: 'crumbtray.com' },

@@ -23,19 +23,25 @@ const DAY = /^\d{4}-\d{2}-\d{2}$/;
 
 const LABEL = /^[\da-z]+(?:-[\da-z]+)*$/;
 
-const entrySchema = z.object({
+/** A name a run is about to check, with the direction it was found in. */
+const candidateSchema = z.object({
   domain: z.string().min(1),
   axis: z.string().min(1),
+});
+
+const entrySchema = candidateSchema.extend({
   verdict: z.enum(VERDICTS),
   checked: z.string().regex(DAY),
   /** The year a taken name was registered, where its registry says. */
-  since: z.string().regex(/^\d{4}$/).optional(),
+  since: z
+    .string()
+    .regex(/^\d{4}$/)
+    .optional(),
 });
 
-export type LedgerEntry = z.infer<typeof entrySchema>;
+export type Candidate = z.infer<typeof candidateSchema>;
 
-/** A name a run is about to check, with the direction it was found in. */
-export type Candidate = Pick<LedgerEntry, 'axis' | 'domain'>;
+export type LedgerEntry = z.infer<typeof entrySchema>;
 
 export function parseLedger(text: string): LedgerEntry[] {
   return text
@@ -78,7 +84,13 @@ export function parseCandidates(text: string): Candidate[] {
       const [axis, name, ...rest] = line.split('\t').map((cell) => cell.trim());
       const label = name?.toLowerCase().replace(/\.com$/, '');
 
-      if (!axis || label === undefined || !LABEL.test(label) || rest.length) {
+      if (
+        axis === undefined ||
+        axis === '' ||
+        label === undefined ||
+        !LABEL.test(label) ||
+        rest.length > 0
+      ) {
         throw new CandidateError(`not an "axis<TAB>name" line: ${line}`);
       }
 

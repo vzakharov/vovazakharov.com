@@ -129,6 +129,18 @@ $field-own-row: 30em;
 }
 
 .zones,
+// The list's heading with the dice that redraws it, side by side.
+.listHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+
+  .sectionHeading {
+    margin: 0;
+  }
+}
+
 .picks {
   margin: 0;
   padding: 0;
