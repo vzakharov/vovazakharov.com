@@ -21,7 +21,7 @@ The list edits as plain text, to copy out or paste back.
 Sharing copies a link, or an image drawn on a canvas in the page's
 fonts and colours — the name, the shared domain, the liked one and
 the rest that are free, never a pending or taken one — straight to
-the clipboard, the menu showing it and reading "Copied ✓".
+the clipboard, the card popping up alone in the bottom-right corner.
 
 The byline now calls the search private, with a note linking the
 source. Every site's analytics drop the address's hash, where the
