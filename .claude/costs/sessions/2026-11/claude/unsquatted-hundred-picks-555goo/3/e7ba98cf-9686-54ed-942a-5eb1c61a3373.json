@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1910,
-    "cacheWrite5mTokens": 136780,
-    "cacheWrite1hTokens": 199189,
-    "cacheReadTokens": 18560489,
-    "outputTokens": 51391,
-    "thinkingTokens": 15594,
-    "responses": 114,
-    "costUsd": 7.022914200000001
+    "inputTokens": 2418,
+    "cacheWrite5mTokens": 137985,
+    "cacheWrite1hTokens": 200305,
+    "cacheReadTokens": 19076564,
+    "outputTokens": 52036,
+    "thinkingTokens": 15848,
+    "responses": 116,
+    "costUsd": 7.1596292
   },
   "estimate": {
     "at": "2026-11-03T17:05:03.929Z",
@@ -53,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkD81hiWgEB5wNqVeHa",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T16:39:11.655Z",
-  "lastResponseAt": "2026-11-03T17:38:00.760Z",
+  "lastResponseAt": "2026-11-03T18:33:09.420Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 167,
+    "inputTokens": 169,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 199189,
-    "cacheReadTokens": 15616785,
-    "outputTokens": 40835,
-    "thinkingTokens": 12152,
-    "responses": 86,
-    "costUsd": 5.534236999999998
+    "cacheWrite1hTokens": 200305,
+    "cacheReadTokens": 15875425,
+    "outputTokens": 41464,
+    "thinkingTokens": 12406,
+    "responses": 87,
+    "costUsd": 5.607480999999998
   },
   "subagents": {
     "inputTokens": 53,
@@ -78,14 +78,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 726,
-      "cacheWrite5mTokens": 136780,
-      "cacheWrite1hTokens": 199189,
-      "cacheReadTokens": 18560489,
-      "outputTokens": 51379,
-      "thinkingTokens": 15594,
-      "responses": 113,
-      "costUsd": 7.022789800000001
+      "inputTokens": 1234,
+      "cacheWrite5mTokens": 137985,
+      "cacheWrite1hTokens": 200305,
+      "cacheReadTokens": 19076564,
+      "outputTokens": 52024,
+      "thinkingTokens": 15848,
+      "responses": 115,
+      "costUsd": 7.159504800000001
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1184,
@@ -101,20 +101,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 114,
-    "matched": 112,
-    "matchedTableUsd": 6.980385600000001,
-    "matchedEventUsd": 6.980385600000001,
+    "events": 116,
+    "matched": 113,
+    "matchedTableUsd": 7.053629600000001,
+    "matchedEventUsd": 7.053629600000001,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 932,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 2137,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 164021,
-        "outputTokens": 6,
+        "cacheReadTokens": 421456,
+        "outputTokens": 22,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.042404199999999996
+        "responses": 2,
+        "costUsd": 0.1058752
       },
       "generate_session_title": {
         "inputTokens": 1184,
