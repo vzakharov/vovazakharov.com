@@ -1,15 +1,25 @@
 'use client';
 
-import { ActionIcon, Button, TextInput, UnstyledButton } from '@mantine/core';
+import {
+  ActionIcon,
+  Button,
+  CloseButton,
+  TextInput,
+  UnstyledButton,
+} from '@mantine/core';
 import { useState } from 'react';
 
+import {
+  type CopiedPrices,
+  type Row,
+  rowsFor,
+  useChecker,
+  useWords,
+  zoneOf,
+} from '../../checker';
+import { FieldTools, TOOL_BUTTON } from '../../field-tools';
 import { useVerdicts } from '../../verdict';
-import type { WithCopy } from '../config/i18n';
 import { rollName } from '../lib/dice';
-import type { Prices } from '../lib/price';
-import { type Row, rowsFor, zoneOf } from '../lib/rows';
-import { useWords } from '../lib/use-words';
-import { useChecker } from './checker-state';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
 import {
@@ -45,9 +55,10 @@ function ZoneRow({
   );
 }
 
-type NameCheckerProps = WithCopy & { prices: Prices };
-
-/** The most rows the closed list shows, at its widest in the stylesheet's `.zones`. */
+/**
+ * The most rows the closed list shows — its first three lines, at its widest
+ * in the stylesheet's `.zones`.
+ */
 const CLOSED_ROWS = 9;
 
 const checkableDomains = (rows: readonly Row[]) =>
@@ -61,7 +72,7 @@ const checkableDomains = (rows: readonly Row[]) =>
  * registries none of those lookups. On a narrower screen the closed list shows
  * fewer than that, and the surplus is looked up all the same.
  */
-export function NameChecker({ copy, prices }: NameCheckerProps) {
+export function NameChecker({ copy, prices }: CopiedPrices) {
   const {
     typed,
     type,
@@ -71,6 +82,7 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     settling,
     checkTyped,
     checkHere,
+    clear,
     fieldRef,
   } = useChecker();
   const [open, setOpen] = useState(false);
@@ -84,6 +96,8 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
     open || wanted ? checkableDomains(rows.slice(CLOSED_ROWS)) : [];
   const shownVerdicts = useVerdicts(shownDomains, asks);
   const hiddenVerdicts = useVerdicts(hiddenDomains, asks);
+  const verdicts = new Map([...shownVerdicts, ...hiddenVerdicts]);
+  const siblings = rows.map(({ domain }) => domain);
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
   const busy =
     (settling && typed.trim() !== '') ||
@@ -110,12 +124,32 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
           onChange={(event) => {
             type(event.currentTarget.value);
           }}
+          rightSection={
+            typed === '' ? undefined : (
+              <CloseButton
+                aria-label={copy.clear}
+                title={copy.clear}
+                // Pressed, it would take the caret from the field it clears.
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                }}
+                onClick={clear}
+              />
+            )
+          }
           classNames={{ root: classes['fieldInput'], input: classes['input'] }}
         />
+        {label !== '' && (
+          <span className={classes['fieldTools']}>
+            <FieldTools
+              {...{ label, zone, siblings, verdicts, prices, copy }}
+            />
+          </span>
+        )}
         <ActionIcon
           type="button"
           variant="default"
-          className={classes['diceButton']}
+          className={TOOL_BUTTON}
           size={42}
           aria-label={copy.dice}
           title={copy.dice}
@@ -134,6 +168,7 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
         <Button
           type="submit"
           size="md"
+          disabled={typed.trim() === ''}
           loading={busy}
           className={classes['check']}
         >
@@ -148,9 +183,7 @@ export function NameChecker({ copy, prices }: NameCheckerProps) {
               {...row}
               ownNeighbour={ownIndex !== -1 && index === ownIndex + 1}
               price={prices[zoneOf(row.domain)]}
-              verdict={
-                shownVerdicts.get(row.domain) ?? hiddenVerdicts.get(row.domain)
-              }
+              verdict={verdicts.get(row.domain)}
               {...{ copy }}
             />
           ))}

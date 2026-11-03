@@ -2,10 +2,11 @@
 
 import { TextLink } from '@/shell/shared/ui';
 
+import { labelOf, useChecker, zoneOf } from '../../checker';
+import { LikeButton } from '../../likes';
 import { useVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
 import type { ShownName } from '../model/picks';
-import { useChecker } from './checker-state';
 import classes from './unsquatted-home.module.scss';
 import { type CopiedPrice, PriceHint } from './verdict-label';
 
@@ -23,21 +24,33 @@ export function PickRow({
   price,
   copy,
 }: PickRowProps) {
-  const taken = useVerdict(domain)?.state === 'taken';
+  const verdict = useVerdict(domain);
+  const taken = verdict?.state === 'taken';
   const { checkNow } = useChecker();
+  const name = labelOf(domain);
 
   return (
     <li className={classes['pick']} data-taken={taken}>
-      {/* The name alone, without its zone, so the checker tries it in all. */}
-      <button
-        type="button"
-        className={classes['domain']}
-        onClick={() => {
-          checkNow(domain.slice(0, domain.indexOf('.')));
-        }}
-      >
-        {domain}
-      </button>
+      <span className={classes['pickName']}>
+        {/* The name alone, without its zone, so the checker tries it in all. */}
+        <button
+          type="button"
+          className={classes['domain']}
+          onClick={() => {
+            checkNow(name);
+          }}
+        >
+          {domain}
+        </button>
+        <LikeButton
+          variant="subtle"
+          size="sm"
+          className={classes['pickLike']}
+          zone={zoneOf(domain)}
+          iconSize={16}
+          {...{ name, copy }}
+        />
+      </span>
       <span className={classes['category']}>{category}</span>
       <p className={classes['blurb']}>{blurb}</p>
       <span className={classes['register']}>

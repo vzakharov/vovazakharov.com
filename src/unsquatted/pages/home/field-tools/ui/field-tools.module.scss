@@ -1,0 +1,81 @@
+// The default variant's hover fills the button with the foreground, which
+// would drown the dice's outline in its own faces; the border takes the hover.
+.tool {
+  color: var(--color-foreground);
+
+  &:hover,
+  &[aria-expanded='true'] {
+    border-color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+}
+
+// Every text a menu item may show, in one cell, only one of them visible.
+.label {
+  display: grid;
+
+  & > * {
+    grid-area: 1 / 1;
+  }
+
+  & > [data-shown='false'] {
+    visibility: hidden;
+  }
+}
+
+.tool[data-on='true'],
+.tool[data-on='true']:hover {
+  color: var(--unsquatted-taken);
+}
+
+// Reduced motion only fades it; its place and size are set where it is drawn.
+.toast {
+  position: fixed;
+  z-index: 300;
+  overflow: hidden;
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--mantine-radius-sm);
+  box-shadow: var(--mantine-shadow-md);
+  pointer-events: none;
+  animation: swept 900ms ease-in forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-name: faded;
+  }
+}
+
+@keyframes swept {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  10%,
+  45% {
+    opacity: 1;
+    transform: none;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(60vw) scale(0.6);
+  }
+}
+
+@keyframes faded {
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+// The card at the toast's width, its own aspect kept.
+.card {
+  display: block;
+  width: 100%;
+  height: auto;
+}

@@ -35,7 +35,7 @@ export const ZONES = [
 const MAX_LABEL = 63;
 
 /** A host as typed or pasted: no scheme, no `www.`, nothing past it. */
-function host(input: string): string {
+export function host(input: string): string {
   return input
     .trim()
     .toLowerCase()
@@ -62,6 +62,15 @@ export function typedZone(input: string): string | undefined {
   const zone = /\.(.+)$/.exec(host(input))?.[1]?.replaceAll(/[^\d.a-z-]/g, '');
 
   return zone === undefined || zone === '' ? undefined : zone;
+}
+
+/** `label` as the field would hold it, `zone` after it where one was typed. */
+export const asTyped = (label: string, zone: string | undefined) =>
+  zone === undefined ? label : `${label}.${zone}`;
+
+/** The name before its zone: `foxedpage` of `foxedpage.co.uk`. */
+export function labelOf(domain: string): string {
+  return domain.slice(0, domain.indexOf('.'));
 }
 
 /** Everything after the name: `co.uk` of `foxedpage.co.uk`. */

@@ -4,8 +4,12 @@
 // over a plain sans, the names in the monospace, a green for what is free.
 // `--unsquatted-taken` and `--unsquatted-maybe` are the site's own, for the two
 // answers a lookup can give besides free, and so is `--unsquatted-muted`, the
-// small print's grey. A note sits a shade off the paper.
-:root[data-site='unsquatted'] {
+// small print's grey. A note, and a chip's hint, reads inverted, ink for paper,
+// as Mantine's tooltip does. An element marked
+// `data-unsquatted-palette` keeps the light palette in either scheme: the share
+// card reads it there, since a canvas is drawn in it whatever the page shows.
+:root[data-site='unsquatted'],
+[data-unsquatted-palette] {
   --font-body: var(--font-public-sans), sans-serif;
   --font-display: var(--font-fraunces), serif;
   --font-heading-weight: 700;
@@ -13,11 +17,13 @@
   --unsquatted-muted: #5d6b63;
   --unsquatted-taken: #9a3b2e;
   --unsquatted-maybe: #8a6d1d;
-  --noted-span-background: #e6eae1;
+  --noted-span-background: var(--color-foreground);
+  --noted-span-color: var(--color-background);
 }
 
 @media screen {
-  :root[data-site='unsquatted'] {
+  :root[data-site='unsquatted'],
+  [data-unsquatted-palette] {
     @include tokens.colors(
       #f6f7f2,
       #1d2420,
@@ -33,7 +39,6 @@
     --unsquatted-muted: #9aa79f;
     --unsquatted-taken: #e08b7c;
     --unsquatted-maybe: #d8b860;
-    --noted-span-background: #232a25;
 
     @include tokens.colors(
       #131815,

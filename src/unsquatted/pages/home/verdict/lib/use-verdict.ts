@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 
 import { checkDomain } from './check-domain';
-import type { Verdict } from './verdict';
+import type { Verdict, WithVerdicts } from './verdict';
 
-type Answers = { ask: string; verdicts: ReadonlyMap<string, Verdict> };
+type Answers = WithVerdicts & { ask: string };
 
 const NONE: ReadonlyMap<string, Verdict> = new Map();
 

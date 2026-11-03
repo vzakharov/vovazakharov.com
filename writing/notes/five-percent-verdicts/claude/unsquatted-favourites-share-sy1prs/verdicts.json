@@ -1,0 +1,11 @@
+{
+  "pr": 241,
+  "verdicts": [
+    {
+      "comment": 4453640054,
+      "about": "Share card decides 'liked' per name, not per domain, once likes are names",
+      "verdict": 1,
+      "why": "The card showed no heart for a name liked without a zone; the fix was taken in full (9ac46242). Vova left the score to the agent: «реши сам»."
+    }
+  ]
+}

@@ -16,7 +16,7 @@ import type {
   WithText,
 } from '@/kernel/shared/typings';
 
-import { cleanLabel, typedZone } from '../lib/rows';
+import { asTyped, cleanLabel, typedZone } from '../lib/rows';
 
 /** How long typing has to pause before the name is looked up. */
 const SETTLE_MS = 350;
@@ -32,13 +32,16 @@ const askedAgain =
   (text: string) =>
   ({ asks }: Query): Query => ({ text, asks: asks + 1 });
 
+export type Zoned = { zone: string | undefined };
+
+/** A name as the field reads it: its label, and the zone typed after it if any. */
+export type TypedName = Labeled & Zoned;
+
 /** `label` is the name being looked up — what was typed once typing paused. */
 type CheckerState = Typed &
   Asked &
-  Labeled & {
+  TypedName & {
     type: (text: string) => void;
-    /** The zone typed after the label, looked up first. */
-    zone: string | undefined;
     /** Typing has not paused yet: what is shown is not what is typed. */
     settling: boolean;
     /** Looks up what is typed at once, without waiting for typing to pause. */
@@ -47,6 +50,8 @@ type CheckerState = Typed &
     checkHere: (name: string) => void;
     /** As `checkHere`, from below the field: scrolls back to the page's top. */
     checkNow: (name: string) => void;
+    /** Empties the field and the lookup at once, leaving the caret there. */
+    clear: () => void;
     fieldRef: RefObject<HTMLInputElement | null>;
   };
 
@@ -83,14 +88,11 @@ export function CheckerProvider({ children }: WithChildren) {
   // up at once — the link's own on the tick after hydration, which renders
   // the empty field the static page was built with.
   useEffect(() => {
-    const lookUp = (hash: string) => {
-      const name = decodeURIComponent(hash.slice(1));
+    const fromHash = () => {
+      const name = decodeURIComponent(globalThis.location.hash.slice(1));
 
       setTyped(name);
       setQuery(askedAgain(name));
-    };
-    const fromHash = () => {
-      lookUp(globalThis.location.hash);
     };
 
     const first = setTimeout(() => {
@@ -105,16 +107,24 @@ export function CheckerProvider({ children }: WithChildren) {
     };
   }, []);
 
+  // The field takes the caret on arrival, except on a touch screen, where
+  // focusing it raises the keyboard over a page not yet seen.
+  useEffect(() => {
+    if (!globalThis.matchMedia('(pointer: coarse)').matches) {
+      fieldRef.current?.focus();
+    }
+  }, []);
+
   const label = cleanLabel(text);
   const zone = typedZone(text);
 
   // What is looked up stays in the address once typing pauses, so a reload
   // keeps it and a link shares it. Each name is a step in the history, so
   // back and forward walk through them; walking fires `hashchange` above,
-  // which looks the name up again.
+  // which looks the name up again. The stats never see it: the root layout's
+  // analytics script excludes the hash.
   useEffect(() => {
-    const hash =
-      label === '' ? '' : `#${label}${zone === undefined ? '' : `.${zone}`}`;
+    const hash = label === '' ? '' : `#${asTyped(label, zone)}`;
 
     // Until the link is read, the empty field would write over it.
     if (!linkReadRef.current || globalThis.location.hash === hash) return;
@@ -148,6 +158,11 @@ export function CheckerProvider({ children }: WithChildren) {
         },
         checkHere,
         checkNow,
+        clear: () => {
+          setTyped('');
+          setQuery((current) => ({ ...current, text: '' }));
+          fieldRef.current?.focus();
+        },
         fieldRef,
       }}
     >

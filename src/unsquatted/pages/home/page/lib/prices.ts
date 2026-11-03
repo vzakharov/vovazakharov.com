@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { errorClass } from '@/kernel/shared/lib/error-class';
 import { fetchOk } from '@/kernel/shared/lib/fetch-ok';
 
-import type { Prices } from './price';
+import type { Prices } from '../../checker';
 
 const PRICING_URL = 'https://api.porkbun.com/api/json/v3/pricing/get';
 

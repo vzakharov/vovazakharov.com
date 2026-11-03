@@ -36,6 +36,18 @@ export type Verdict =
     }
   | { state: 'unknown' };
 
+/** Whether `verdict` says the domain can be registered, a "maybe" included. */
+export const registrable = (
+  verdict: Verdict | undefined,
+): verdict is Extract<Verdict, { state: 'free' | 'maybe' }> =>
+  verdict?.state === 'free' || verdict?.state === 'maybe';
+
+/** `verdict` is `undefined` while the lookup runs. */
+export type WithVerdict = { verdict: Verdict | undefined };
+
+/** The lookups in hand, by domain. */
+export type WithVerdicts = { verdicts: ReadonlyMap<string, Verdict> };
+
 // The answers below are checked by hand rather than by a schema library:
 // this module runs in the browser, and zod would ship with it.
 

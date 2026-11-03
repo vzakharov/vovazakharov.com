@@ -27,6 +27,7 @@ import {
   DICE_FACES,
   DICE_VIEW_BOX,
   LASTING_PICKS,
+  plainByline,
 } from '@/unsquatted/pages/home/index.server-only';
 
 import { escapeHtml, type StagedPage } from '@/kernel/scripts/lib/og-render';
@@ -79,7 +80,7 @@ ${DICE_FACES.map(
         </svg>`;
 
 function lede(): readonly [string, string] {
-  return [COPY.lede, COPY.cardByline];
+  return [COPY.lede, plainByline({ copy: COPY })];
 }
 
 const more = (count: number) =>

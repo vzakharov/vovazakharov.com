@@ -1,17 +1,15 @@
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
-import type { Release, Verdict } from '../../verdict';
-import type { WithCopy } from '../config/i18n';
-import { type Price, priceParts } from '../lib/price';
+import {
+  type Price,
+  priceParts,
+  type WithCopy,
+  type WithDomain,
+  type WithPrice,
+} from '../../checker';
+import type { Release, Verdict, WithVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
-import type { WithDomain } from '../lib/rows';
 import classes from './unsquatted-home.module.scss';
-
-/** `verdict` is `undefined` while the lookup runs. */
-type WithVerdict = { verdict: Verdict | undefined };
-
-/** What registering costs, once known. */
-type WithPrice = { price: Price | undefined };
 
 /** A row's wording and what the lookup said, for the label that shows it. */
 export type CopiedVerdict = WithCopy & WithVerdict;
@@ -148,7 +146,11 @@ export function VerdictLabel({
           ? registerLink(copy, domain, state, text)
           : verdictText(copy, text, verdict)}
       </span>
-      {registrable && price !== undefined && <PriceHint {...{ price, copy }} />}
+      <span className={classes['priceLine']}>
+        {registrable && price !== undefined && (
+          <PriceHint {...{ price, copy }} />
+        )}
+      </span>
       {aside !== undefined && <span className={classes['aside']}>{aside}</span>}
     </>
   );

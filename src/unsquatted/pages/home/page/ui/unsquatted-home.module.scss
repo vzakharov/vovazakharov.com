@@ -1,4 +1,3 @@
-@use '../../../../../../styles/dimmed';
 @use '../../../../../../styles/mantine' as mantine;
 
 .masthead {
@@ -17,25 +16,11 @@
   }
 }
 
-.lede,
-.byline {
+.lede {
   margin: 12px 0 0;
   color: var(--unsquatted-muted);
-  text-wrap: pretty;
-}
-
-.lede {
-  max-width: 60ch;
   line-height: 1.65;
-}
-
-.byline {
-  @include dimmed.text(65%, var(--unsquatted-muted));
-
-  max-width: 64ch;
-  margin-top: 6px;
-  font-size: 0.85rem;
-  line-height: 1.55;
+  text-wrap: pretty;
 }
 
 // A button that reads as the text around it.
@@ -56,6 +41,10 @@
   text-transform: uppercase;
 }
 
+// Below this the field takes a row of its own: beside the dice, the share and
+// the heart, it would show only a few letters of the name.
+$field-own-row: 30em;
+
 .field {
   display: flex;
   flex-wrap: wrap;
@@ -69,13 +58,14 @@
 
   // On the narrowest screens the field takes its own row, the buttons the
   // next.
-  @media (width < 24em) {
+  @media (width < $field-own-row) {
     flex-basis: 100%;
   }
 }
 
 .check {
   flex-shrink: 0;
+  order: 2;
 
   // On a phone the field needs the width more than the button's padding does.
   @include mantine.smaller-than(mantine.$breakpoint-xs) {
@@ -83,7 +73,7 @@
   }
 
   // On its own row beside the dice, it takes the rest of the width.
-  @media (width < 24em) {
+  @media (width < $field-own-row) {
     flex: 1;
   }
 
@@ -94,14 +84,15 @@
   }
 }
 
-// The default variant's hover fills the button with the foreground, which
-// drowns the dice's outline in its own faces; the border takes the hover.
-.diceButton {
-  color: var(--color-foreground);
+// The name's share and heart, there once a name is: before the dice, so the
+// field gives them its width; after it once the field has a row of its own
+// and the dice leads the next, so arriving they move nothing but Check.
+.fieldTools {
+  display: flex;
+  gap: 8px;
 
-  &:hover {
-    border-color: var(--color-accent);
-    background-color: var(--color-surface);
+  @media (width < $field-own-row) {
+    order: 1;
   }
 }
 
@@ -176,7 +167,8 @@
   }
 }
 
-.moreZones {
+// A toggle under a list, opening what it folds away.
+%fold-toggle {
   margin-top: 10px;
   color: var(--unsquatted-muted);
   font-size: 0.85rem;
@@ -186,6 +178,10 @@
   &:focus-visible {
     color: var(--color-accent);
   }
+}
+
+.moreZones {
+  @extend %fold-toggle;
 }
 
 .zone {
@@ -230,14 +226,21 @@
 }
 
 // Lines of their own under the zone's name and verdict.
-.price,
+.priceLine,
 .aside {
   flex-basis: 100%;
   color: var(--unsquatted-muted);
 }
 
+.priceLine {
+  &:empty {
+    display: none;
+  }
+}
+
 // A hint, not a verdict: quieter than the line above it.
 .price {
+  color: var(--unsquatted-muted);
   font-size: 0.75rem;
   opacity: 0.75;
 }
@@ -278,11 +281,33 @@
     opacity: 0.55;
   }
 
+  // The heart shows on the row's hover or focus, always where nothing hovers,
+  // and always once the name is liked.
+  & .pickLike {
+    color: var(--color-foreground);
+    opacity: 0;
+
+    &[data-on='true'] {
+      color: var(--unsquatted-taken);
+    }
+  }
+
+  &:hover .pickLike,
+  &:focus-within .pickLike,
+  & .pickLike[data-on='true'] {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    & .pickLike {
+      opacity: 1;
+    }
+  }
+
   // A button that reads as the heading it is, until hovered.
   & .domain {
     @extend %text-button;
 
-    justify-self: start;
     font-size: 1.15rem;
     font-weight: 600;
     text-align: start;
@@ -295,6 +320,13 @@
       text-underline-offset: 3px;
     }
   }
+}
+
+.pickName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
 }
 
 .category {
@@ -332,10 +364,7 @@
     margin-top: 6px;
   }
 
-  // In a column, a basis is a height: the zone card's full-width line has
-  // nothing to fill here.
   & .price {
-    flex-basis: auto;
     font-weight: 400;
   }
 }
