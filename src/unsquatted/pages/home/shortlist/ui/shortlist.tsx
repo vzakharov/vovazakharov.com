@@ -12,7 +12,13 @@ import { useState } from 'react';
 
 import { useCopied } from '@/shell/shared/ui';
 
-import { useChecker, type WithCopy, zoneOf } from '../../checker';
+import {
+  type CopiedPrices,
+  useChecker,
+  useWords,
+  type WithCopy,
+  zoneOf,
+} from '../../checker';
 import { nameOf, parseLiked, preferredOf, useLikes } from '../../likes';
 import { useVerdicts, type Verdict, type WithVerdicts } from '../../verdict';
 import {
@@ -21,9 +27,7 @@ import {
   type NameDomains,
   standingOf,
 } from '../lib/standing';
-import { useWords } from '../lib/use-words';
-import classes from './unsquatted-home.module.scss';
-import type { CopiedPrices } from './verdict-label';
+import classes from './shortlist.module.scss';
 
 /**
  * The most chips the folded list shows, and the fewer it shows below `sm` —

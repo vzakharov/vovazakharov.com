@@ -127,7 +127,7 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
           )}
         </Menu.Dropdown>
       </Menu>
-      <CopiedToast copied={image.copied} {...{ card, from }} />
+      <CopiedToast {...pick(image, 'copied')} {...{ card, from }} />
     </>
   );
 }

@@ -36,7 +36,7 @@ describe('standingOf', () => {
   });
 
   it('shows the first main domain free once those before it are in', () => {
-    const verdicts = new Map([
+    const verdicts = new Map<string, Verdict>([
       ['fox.com', TAKEN],
       ['fox.net', FREE],
       ['fox.org', FREE],

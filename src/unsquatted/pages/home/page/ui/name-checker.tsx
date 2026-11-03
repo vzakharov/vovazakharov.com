@@ -9,16 +9,21 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 
-import { type Row, rowsFor, useChecker, zoneOf } from '../../checker';
+import {
+  type CopiedPrices,
+  type Row,
+  rowsFor,
+  useChecker,
+  useWords,
+  zoneOf,
+} from '../../checker';
 import { FieldTools, TOOL_BUTTON } from '../../field-tools';
 import { useVerdicts } from '../../verdict';
 import { rollName } from '../lib/dice';
-import { useWords } from '../lib/use-words';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
 import {
   type CopiedPrice,
-  type CopiedPrices,
   type CopiedVerdict,
   OWN_DOMAIN,
   VerdictLabel,

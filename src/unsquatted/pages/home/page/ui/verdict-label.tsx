@@ -6,7 +6,6 @@ import {
   type WithCopy,
   type WithDomain,
   type WithPrice,
-  type WithPrices,
 } from '../../checker';
 import type { Release, Verdict, WithVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
@@ -17,9 +16,6 @@ export type CopiedVerdict = WithCopy & WithVerdict;
 
 /** A row's wording and what registering costs. */
 export type CopiedPrice = WithCopy & WithPrice;
-
-/** The page's wording and every zone's price. */
-export type CopiedPrices = WithCopy & WithPrices;
 
 type VerdictLabelProps = CopiedVerdict &
   WithDomain & {

@@ -53,6 +53,7 @@ export function CopiedToast({ card, from, copied }: CopiedToastProps) {
         <Image
           src={url}
           alt=""
+          aria-hidden
           width={CARD_WIDTH}
           height={CARD_HEIGHT}
           unoptimized

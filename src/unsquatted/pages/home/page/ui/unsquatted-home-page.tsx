@@ -9,11 +9,11 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { CheckerProvider, COPY, plainByline, zoneOf } from '../../checker';
 import { LikesProvider } from '../../likes';
+import { Shortlist } from '../../shortlist';
 import { fetchPrices } from '../lib/prices';
 import { PICKS } from '../model/picks';
 import { NameChecker } from './name-checker';
 import { PickRow } from './pick-row';
-import { Shortlist } from './shortlist';
 import classes from './unsquatted-home.module.scss';
 
 const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({

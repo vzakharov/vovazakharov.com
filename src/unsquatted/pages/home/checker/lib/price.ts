@@ -4,6 +4,8 @@
  * or the rounding pulls in neither.
  */
 
+import type { WithCopy } from '../config/i18n';
+
 export type Price = { registration: number; renewal: number };
 
 /** Dollars per zone Porkbun sells. */
@@ -13,6 +15,9 @@ export type Prices = Partial<Record<string, Price>>;
 export type WithPrice = { price: Price | undefined };
 
 export type WithPrices = { prices: Prices };
+
+/** The page's wording and every zone's price. */
+export type CopiedPrices = WithCopy & WithPrices;
 
 /**
  * The yearly price rounded to the dollar — the cents would only clutter a

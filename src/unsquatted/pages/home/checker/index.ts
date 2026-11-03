@@ -1,5 +1,6 @@
 export { COPY, plainByline, type WithCopy } from './config/i18n';
 export {
+  type CopiedPrices,
   type Price,
   priceParts,
   type Prices,
@@ -16,6 +17,7 @@ export {
   type WithDomain,
   zoneOf,
 } from './lib/rows';
+export { useWords } from './lib/use-words';
 export {
   CheckerProvider,
   type TypedName,
