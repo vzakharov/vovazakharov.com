@@ -163,6 +163,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
         <Button
           type="submit"
           size="md"
+          disabled={typed.trim() === ''}
           loading={busy}
           className={classes['check']}
         >
