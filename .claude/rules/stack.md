@@ -49,6 +49,7 @@ python3 .claude/costs/check_estimates.py # every session estimated │
 python3 .claude/context-budget/test_context_budget.py         # │
 python3 .claude/cold-cache/test_cold_cache.py                 # │
 python3 .claude/keepalive/test_keepalive.py                   # │
+python3 .claude/merge-gate/test_merge_gate.py                 # │
 python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 ```
 
@@ -224,13 +225,13 @@ Nineteen things about that list are deliberate:
   rewritten every session cannot drift into a log,
   `scripts/check-claude-md-size.sh` caps what `CLAUDE.md` and its imports cost
   every turn, measured as the branch will land them, the cost ledger's, context
-  budget's, cold-cache guard's and keepalive's tests run the code under
-  `.claude/costs/`, `.claude/context-budget/`, `.claude/cold-cache/` and
-  `.claude/keepalive/` against temporary transcripts and repositories of their
-  own, and `.claude/hooks/`'s feed its hooks payloads on stdin.
-  `check_estimates.py` fails a branch carrying a session with no human-hour
-  estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying why the
-  gate sits here.
+  budget's, cold-cache guard's, keepalive's and merge gate's tests run the code
+  under `.claude/costs/`, `.claude/context-budget/`, `.claude/cold-cache/`,
+  `.claude/keepalive/` and `.claude/merge-gate/` against temporary transcripts
+  and repositories of their own, and `.claude/hooks/`'s feed its hooks payloads
+  on stdin. `check_estimates.py` fails a branch carrying a session with no
+  human-hour estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying
+  why the gate sits here.
 - **What makes a check a member is that it measures this repo's own code**,
   which is the test for the whole list — `scripts/gh_export/` is vendored byte
   for byte and edited only at the source, so its suite runs there.

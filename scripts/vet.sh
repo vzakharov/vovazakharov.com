@@ -201,6 +201,7 @@ source_checks=(
   context-budget='python3 .claude/context-budget/test_context_budget.py'
   cold-cache='python3 .claude/cold-cache/test_cold_cache.py'
   keepalive='python3 .claude/keepalive/test_keepalive.py'
+  merge-gate='python3 .claude/merge-gate/test_merge_gate.py'
   hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
 )
 # One entry per site that renders social cards: pnpm appends a passed `--check`
