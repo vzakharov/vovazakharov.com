@@ -56,6 +56,10 @@
   text-transform: uppercase;
 }
 
+// Below this the field takes a row of its own: beside the dice, the share and
+// the heart, it would show only a few letters of the name.
+$field-own-row: 30em;
+
 .field {
   display: flex;
   flex-wrap: wrap;
@@ -69,7 +73,7 @@
 
   // On the narrowest screens the field takes its own row, the buttons the
   // next.
-  @media (width < 24em) {
+  @media (width < $field-own-row) {
     flex-basis: 100%;
   }
 }
@@ -84,7 +88,7 @@
   }
 
   // On its own row beside the dice, it takes the rest of the width.
-  @media (width < 24em) {
+  @media (width < $field-own-row) {
     flex: 1;
   }
 
@@ -102,7 +106,7 @@
   display: flex;
   gap: 8px;
 
-  @media (width < 24em) {
+  @media (width < $field-own-row) {
     order: 1;
   }
 }

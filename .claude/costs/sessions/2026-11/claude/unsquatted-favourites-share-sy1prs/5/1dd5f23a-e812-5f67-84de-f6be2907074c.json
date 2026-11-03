@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 17,
+    "inputTokens": 97,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 66709,
-    "cacheReadTokens": 791997,
-    "outputTokens": 1707,
-    "thinkingTokens": 153,
-    "responses": 8,
-    "costUsd": 0.7262793999999999
+    "cacheWrite1hTokens": 147027,
+    "cacheReadTokens": 7940750,
+    "outputTokens": 23901,
+    "thinkingTokens": 5345,
+    "responses": 50,
+    "costUsd": 3.2427740000000016
   },
   "estimate": {
     "at": "2026-11-03T09:39:26.246Z",
@@ -45,24 +45,26 @@
   },
   "sessionId": "1dd5f23a-e812-5f67-84de-f6be2907074c",
   "branch": "claude/unsquatted-favourites-share-sy1prs",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/tmp/preview",
   "openingPrompt": "/relay take claude/unsquatted-favourites-share-sy1prs — модалка с картинкой, лайки по имени и кнопки у поля готовы, дальше превью в обеих темах, polish и обновл…",
-  "prs": [],
+  "prs": [
+    241
+  ],
   "url": "https://claude.ai/code/session_01DaohkF264YgbUfZtWGEyrw",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T09:39:08.378Z",
-  "lastResponseAt": "2026-11-03T09:39:27.447Z",
+  "lastResponseAt": "2026-11-03T10:00:00.096Z",
   "pricesAsOf": "2026-10-06",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 1.5234778000000002,
   "ownTurns": {
-    "inputTokens": 17,
+    "inputTokens": 97,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 66709,
-    "cacheReadTokens": 791997,
-    "outputTokens": 1707,
-    "thinkingTokens": 153,
-    "responses": 8,
-    "costUsd": 0.7262793999999999
+    "cacheWrite1hTokens": 147027,
+    "cacheReadTokens": 7940750,
+    "outputTokens": 23901,
+    "thinkingTokens": 5345,
+    "responses": 50,
+    "costUsd": 3.2427740000000016
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 17,
+      "inputTokens": 97,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 66709,
-      "cacheReadTokens": 791997,
-      "outputTokens": 1707,
-      "thinkingTokens": 153,
-      "responses": 8,
-      "costUsd": 0.7262793999999999
+      "cacheWrite1hTokens": 147027,
+      "cacheReadTokens": 7940750,
+      "outputTokens": 23901,
+      "thinkingTokens": 5345,
+      "responses": 50,
+      "costUsd": 3.2427740000000016
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 7,
-    "matched": 7,
-    "matchedTableUsd": 0.5952959999999999,
-    "matchedEventUsd": 0.595296,
+    "events": 49,
+    "matched": 49,
+    "matchedTableUsd": 3.1704280000000016,
+    "matchedEventUsd": 3.1704280000000016,
     "unseen": {}
   }
 }

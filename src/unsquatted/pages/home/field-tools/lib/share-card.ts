@@ -221,8 +221,8 @@ export function shareCard(
   );
   context.fillText(text.footer, 96, 574);
 
-  // Encoded without awaiting anything, so the click that asks for the card
-  // opens its preview with the card already in it.
+  // Encoded without awaiting anything: Safari takes a clipboard write only
+  // from inside the click that asked for it.
   const data = atob(canvas.toDataURL('image/png').split(',')[1] ?? '');
   const bytes = Uint8Array.from(data, (char) => char.codePointAt(0) ?? 0);
 
@@ -231,29 +231,6 @@ export function shareCard(
   });
 }
 
-/** Whether the browser has a system share sheet that takes `file`. */
-export const canShareFile = (file: File) =>
-  // Firefox on the desktop has no `canShare` at all.
-  'canShare' in navigator && navigator.canShare({ files: [file] });
-
-/**
- * `file` to the system share sheet, which must be called from a click for
- * Safari to open it. A visitor closing the sheet is no error.
- */
-export async function shareFile(file: File): Promise<void> {
-  try {
-    await navigator.share({ files: [file] });
-  } catch (error) {
-    if (error instanceof DOMException && error.name === 'AbortError') return;
-    throw error;
-  }
-}
-
-/** `file` saved under its own name from `url`, an object URL of it. */
-export function downloadFile(file: File, url: string): void {
-  const link = document.createElement('a');
-
-  link.href = url;
-  link.download = file.name;
-  link.click();
-}
+/** Whether the clipboard takes an image; Firefox before 127 has no `ClipboardItem`. */
+export const canCopyImage = () =>
+  typeof ClipboardItem !== 'undefined' && 'write' in navigator.clipboard;

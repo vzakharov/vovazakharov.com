@@ -8,9 +8,19 @@ const COPIED_MS = 2000;
 type Copied = {
   /** Whether the last copy landed within the past `COPIED_MS`. */
   copied: boolean;
-  /** Puts `text` on the clipboard; a refusal is reported, never shown as copied. */
-  copy: (text: string) => void;
+  /**
+   * Puts `content` on the clipboard, a blob as its own type; a refusal is
+   * reported, never shown as copied.
+   */
+  copy: (content: string | Blob) => void;
 };
+
+const written = async (content: string | Blob) =>
+  typeof content === 'string'
+    ? navigator.clipboard.writeText(content)
+    : navigator.clipboard.write([
+        new ClipboardItem({ [content.type]: content }),
+      ]);
 
 /**
  * A clipboard write whose control says so for a moment. `onDone` runs when
@@ -34,8 +44,8 @@ export function useCopied(onDone?: () => void): Copied {
 
   return {
     copied,
-    copy: (text) => {
-      navigator.clipboard.writeText(text).then(() => {
+    copy: (content) => {
+      written(content).then(() => {
         setCopied(true);
       }, reportError);
     },

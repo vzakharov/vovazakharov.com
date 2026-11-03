@@ -19,9 +19,9 @@ import {
   type CardSiblings,
   domainLink,
 } from '../lib/share';
-import { type CardText, shareCard } from '../lib/share-card';
+import { canCopyImage, type CardText, shareCard } from '../lib/share-card';
+import { CopiedToast } from './copied-toast';
 import classes from './field-tools.module.scss';
-import { ShareImageModal } from './share-image-modal';
 
 /** `label` and `zone` are the name the field holds, as the checker read it. */
 type FieldToolsProps = WithCopy & TypedName & CardSiblings;
@@ -31,11 +31,14 @@ type Copy = WithCopy['copy'];
 /** `typed` is what the copied link opens on: the name as the field holds it. */
 type ShareMenuProps = WithCopy &
   Typed & {
-    /** Draws the card; none while no domain of the name is known to be free. */
-    share: (() => void) | undefined;
+    /**
+     * Copies the card; none while no domain of the name is known to be free.
+     * The menu offers it only where the clipboard takes an image.
+     */
+    copyCard: (() => void) | undefined;
   };
 
-function ShareMenu({ typed, share, copy }: ShareMenuProps) {
+function ShareMenu({ typed, copyCard, copy }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   // “Copied ✓” stands in for the menu item until the menu closes.
   const { copied, copy: copyText } = useCopied(() => {
@@ -70,13 +73,15 @@ function ShareMenu({ typed, share, copy }: ShareMenuProps) {
         >
           {copied ? copy.copied : copy.copyLink}
         </Menu.Item>
-        <Menu.Item
-          leftSection={<ImageIcon size={14} />}
-          disabled={share === undefined}
-          onClick={share}
-        >
-          {copy.shareImage}
-        </Menu.Item>
+        {canCopyImage() && (
+          <Menu.Item
+            leftSection={<ImageIcon size={14} />}
+            disabled={copyCard === undefined}
+            onClick={copyCard}
+          >
+            {copy.copyAsImage}
+          </Menu.Item>
+        )}
       </Menu.Dropdown>
     </Menu>
   );
@@ -105,6 +110,7 @@ export function FieldTools({
 }: FieldToolsProps) {
   const { liked, likeFor, like, unlike } = useLikes();
   const [card, setCard] = useState<File>();
+  const { copied, copy: copyFile } = useCopied();
   const own = likeFor(label);
   const isOn = own !== undefined;
   const typedDomain = zone === undefined ? undefined : `${label}.${zone}`;
@@ -118,7 +124,7 @@ export function FieldTools({
     <>
       <ShareMenu
         typed={typedDomain ?? label}
-        share={
+        copyCard={
           shared === undefined
             ? undefined
             : () => {
@@ -129,8 +135,10 @@ export function FieldTools({
                   verdicts,
                   prices,
                 });
+                const drawn = shareCard(label, rows, cardText(copy));
 
-                setCard(shareCard(label, rows, cardText(copy)));
+                setCard(drawn);
+                copyFile(drawn);
               }
         }
         {...{ copy }}
@@ -149,12 +157,7 @@ export function FieldTools({
       >
         <Heart size={18} fill={isOn ? 'currentColor' : 'none'} />
       </ActionIcon>
-      <ShareImageModal
-        {...{ card, copy }}
-        onClose={() => {
-          setCard(undefined);
-        }}
-      />
+      <CopiedToast shown={copied} {...{ card, copy }} />
     </>
   );
 }
