@@ -43,7 +43,6 @@ const PAUSE_MS = 300;
 
 const say = (line: string) => process.stdout.write(`${line}\n`);
 
-/** `each` over `items` one at a time, with a pause after each. */
 async function inTurn<T>(
   items: readonly T[],
   each: (item: T) => Promise<void>,

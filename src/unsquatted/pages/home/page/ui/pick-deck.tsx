@@ -47,8 +47,7 @@ function subscribe(listener: () => void) {
 /**
  * Ten listed names drawn at random, best first, and a dice drawing ten others.
  * The draw is the browser's: the static page holds no list, which would swap
- * out on hydration, and only the ten drawn names are looked up. A redraw
- * flies the old rows out before the new ones run in.
+ * out on hydration, and only the ten drawn names are looked up.
  */
 export function PickDeck({ picks, prices, copy }: PickDeckProps) {
   const shown = useSyncExternalStore(

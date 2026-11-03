@@ -26,8 +26,7 @@ export function prefersStillness() {
 }
 
 /**
- * Flies the rows not in `staying` off to the left, one after another, and
- * calls `gone` once the last has landed. Timed rather than awaited, so a
+ * Calls `gone` once the last row has flown: timed rather than awaited, so a
  * flight cut short never holds the redraw back.
  */
 export function leave(
@@ -65,10 +64,7 @@ export function rowTops(list: HTMLElement): RowTops {
   );
 }
 
-/**
- * After the list changed: a row `before` places slides from there to here,
- * and the others run in from the right, in turn down the list.
- */
+/** Runs once the list has changed, against the places `rowTops` read before. */
 export function arrive(list: HTMLElement, before: RowTops) {
   let coming = 0;
 
