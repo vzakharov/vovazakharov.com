@@ -12,7 +12,7 @@ import type { Typed } from '@/kernel/shared/typings';
 import { useCopied } from '@/shell/shared/ui';
 
 import type { TypedName, WithCopy } from '../../checker';
-import { preferredOf, useLikes } from '../../likes';
+import { likeOf, preferredOf, useLikes } from '../../likes';
 import {
   availability,
   cardRows,
@@ -133,7 +133,7 @@ export function FieldTools({
   return (
     <>
       <ShareMenu
-        typed={typedDomain ?? label}
+        typed={likeOf(label, zone)}
         drawCard={
           shared === undefined
             ? undefined

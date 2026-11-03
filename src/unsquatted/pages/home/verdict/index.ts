@@ -1,7 +1,8 @@
 export { useVerdict, useVerdicts } from './lib/use-verdict';
-export type {
-  Release,
-  Verdict,
-  WithVerdict,
-  WithVerdicts,
+export {
+  registrable,
+  type Release,
+  type Verdict,
+  type WithVerdict,
+  type WithVerdicts,
 } from './lib/verdict';

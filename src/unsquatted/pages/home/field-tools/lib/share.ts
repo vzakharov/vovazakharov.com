@@ -6,7 +6,7 @@ import {
   type WithPrices,
   zoneOf,
 } from '../../checker';
-import type { Verdict, WithVerdicts } from '../../verdict';
+import { registrable, type Verdict, type WithVerdicts } from '../../verdict';
 
 /** The lookups and prices in hand for a name's domains. */
 export type Lookups = WithVerdicts & WithPrices;
@@ -43,9 +43,7 @@ type CardSource = CardSiblings & {
 export function availability(
   verdict: Verdict | undefined,
 ): Available | undefined {
-  return verdict?.state === 'free' || verdict?.state === 'maybe'
-    ? verdict.state
-    : undefined;
+  return registrable(verdict) ? verdict.state : undefined;
 }
 
 /**

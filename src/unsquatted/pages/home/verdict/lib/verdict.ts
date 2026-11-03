@@ -36,6 +36,12 @@ export type Verdict =
     }
   | { state: 'unknown' };
 
+/** Whether `verdict` says the domain can be registered, a "maybe" included. */
+export const registrable = (
+  verdict: Verdict | undefined,
+): verdict is Extract<Verdict, { state: 'free' | 'maybe' }> =>
+  verdict?.state === 'free' || verdict?.state === 'maybe';
+
 /** `verdict` is `undefined` while the lookup runs. */
 export type WithVerdict = { verdict: Verdict | undefined };
 

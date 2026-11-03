@@ -4,7 +4,7 @@
  */
 
 import { ZONES } from '../../checker';
-import type { Verdict } from '../../verdict';
+import { registrable, type Verdict } from '../../verdict';
 
 /** The zones a bare name is looked up in first: the checker's leading ones. */
 export const MAIN_ZONES = ZONES.slice(0, 4);
@@ -31,9 +31,6 @@ export type Standing =
   | { state: 'free'; domain: string }
   | { state: 'others'; free: string[] }
   | { state: 'taken' };
-
-const registrable = (verdict: Verdict | undefined) =>
-  verdict?.state === 'free' || verdict?.state === 'maybe';
 
 /** Whether every one of `domains` has been answered. */
 const answered = (
