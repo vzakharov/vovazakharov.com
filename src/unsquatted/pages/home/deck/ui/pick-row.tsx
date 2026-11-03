@@ -5,10 +5,9 @@ import { TextLink } from '@/shell/shared/ui';
 import { labelOf, useChecker, zoneOf } from '../../checker';
 import { LikeButton } from '../../likes';
 import { useVerdict } from '../../verdict';
-import { registerUrl } from '../lib/register';
+import { type CopiedPrice, PriceHint, registerUrl } from '../../verdict-label';
 import type { ShownName } from '../model/picks';
-import classes from './unsquatted-home.module.scss';
-import { type CopiedPrice, PriceHint } from './verdict-label';
+import classes from './deck.module.scss';
 
 type PickRowProps = ShownName & CopiedPrice;
 

@@ -2,11 +2,17 @@
 
 import { ActionIcon } from '@mantine/core';
 import { RefreshCw } from 'lucide-react';
-import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
+import {
+  type ReactNode,
+  useLayoutEffect,
+  useRef,
+  useSyncExternalStore,
+} from 'react';
 
 import { type CopiedPrices, zoneOf } from '../../checker';
 import { draw } from '../lib/draw';
 import type { ShownName } from '../model/picks';
+import classes from './deck.module.scss';
 import { PickRow } from './pick-row';
 import {
   arrive,
@@ -15,12 +21,15 @@ import {
   type RowTops,
   rowTops,
 } from './shuffle-motion';
-import classes from './unsquatted-home.module.scss';
 
 /** How many names the list shows at once. */
 const SHOWN = 10;
 
-type PickDeckProps = CopiedPrices & { picks: readonly ShownName[] };
+type PickDeckProps = CopiedPrices & {
+  /** The list's heading, set beside the redraw button. */
+  heading: ReactNode;
+  picks: readonly ShownName[];
+};
 
 const listeners = new Set<() => void>();
 
@@ -48,7 +57,7 @@ function subscribe(listener: () => void) {
  * The draw is the browser's: the static page holds no list, which would swap
  * out on hydration, and only the ten drawn names are looked up.
  */
-export function PickDeck({ picks, prices, copy }: PickDeckProps) {
+export function PickDeck({ heading, picks, prices, copy }: PickDeckProps) {
   const shown = useSyncExternalStore(
     subscribe,
     () => (drawn ??= draw(picks, SHOWN, Math.random)),
@@ -78,11 +87,9 @@ export function PickDeck({ picks, prices, copy }: PickDeckProps) {
   }
 
   return (
-    <section aria-labelledby="names">
+    <>
       <div className={classes['listHead']}>
-        <h2 id="names" className={classes['sectionHeading']}>
-          {copy.listHeading}
-        </h2>
+        {heading}
         <ActionIcon
           variant="subtle"
           size={32}
@@ -103,6 +110,6 @@ export function PickDeck({ picks, prices, copy }: PickDeckProps) {
           />
         ))}
       </ul>
-    </section>
+    </>
   );
 }

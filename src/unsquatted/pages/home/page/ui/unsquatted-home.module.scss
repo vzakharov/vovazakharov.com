@@ -23,22 +23,26 @@
   text-wrap: pretty;
 }
 
-// A button that reads as the text around it.
-%text-button {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-}
-
-.sectionHeading {
-  margin: 0 0 12px;
+%section-heading {
   color: var(--unsquatted-muted);
   font-size: 0.8rem;
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.sectionHeading {
+  @extend %section-heading;
+
+  margin: 0 0 12px;
+}
+
+// The list's heading, set beside its redraw button rather than above it.
+.listHeading {
+  @extend %section-heading;
+
+  margin: 0;
 }
 
 // Below this the field takes a row of its own: beside the dice, the share and
@@ -128,53 +132,15 @@ $field-own-row: 30em;
   overflow-wrap: anywhere;
 }
 
-// The list's heading with the button that redraws it, side by side.
-.listHead {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-
-  .sectionHeading {
-    margin: 0;
-  }
-}
-
-// A bare glyph: hover changes its colour, never puts a plate behind it.
-.redraw,
-.pickLike {
-  @include mantine.hover {
-    background: transparent;
-  }
-}
-
-.redraw {
-  color: var(--color-foreground);
-  opacity: 0.55;
-
-  @include mantine.hover {
-    opacity: 1;
-  }
-}
-
-.zones,
-.picks {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.picks {
-  // A redraw flies rows out past the column's edge (`shuffle-motion.ts`).
-  overflow-x: clip;
-}
-
 // Three rows at most until opened, as many columns across as the width allows.
 // The `n + …` cut-offs are those rows times the columns at each width, and the
 // widest, nine, is `CLOSED_ROWS` in `name-checker.tsx`: the rows before it are
 // the ones looked up before the toggle is wanted.
 .zones {
   display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-top: 12px;
@@ -229,181 +195,4 @@ $field-own-row: 30em;
   border-radius: var(--radius-default);
   background: var(--color-surface);
   font-size: 0.95rem;
-}
-
-.verdict {
-  font-size: 0.8rem;
-  font-weight: 600;
-  white-space: nowrap;
-
-  // A narrow card wraps a long verdict rather than spilling it.
-  @include mantine.smaller-than(mantine.$breakpoint-xs) {
-    white-space: normal;
-  }
-
-  &[data-state='pending'],
-  &[data-state='unknown'] {
-    color: var(--unsquatted-muted);
-  }
-
-  &[data-state='free'] {
-    color: var(--color-accent);
-  }
-
-  &[data-state='maybe'] {
-    color: var(--unsquatted-maybe);
-  }
-
-  &[data-state='taken'] {
-    color: var(--unsquatted-taken);
-  }
-}
-
-// Lines of their own under the zone's name and verdict.
-.priceLine,
-.aside {
-  flex-basis: 100%;
-  color: var(--unsquatted-muted);
-}
-
-.priceLine {
-  &:empty {
-    display: none;
-  }
-}
-
-// A hint, not a verdict: quieter than the line above it.
-.price {
-  color: var(--unsquatted-muted);
-  font-size: 0.75rem;
-  opacity: 0.75;
-}
-
-.priceFiller {
-  opacity: 0.6;
-}
-
-.aside {
-  font-size: 0.8rem;
-}
-
-// A register link takes its label's colour, not the anchors' foreground.
-.verdict a,
-.register a {
-  color: inherit;
-}
-
-.picks {
-  border-top: 1px solid var(--color-border-hairline);
-}
-
-// The name, its category and its blurb down the left; the register link
-// beside the name, dropping under the blurb on a phone.
-.pick {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 2px 16px;
-  padding-block: 16px;
-  border-bottom: 1px solid var(--color-border-hairline);
-
-  // The footer's own rule closes the list.
-  &:last-child {
-    border-bottom: 0;
-  }
-
-  &[data-taken='true'] {
-    opacity: 0.55;
-  }
-
-  // The heart shows on the row's hover or focus, always where nothing hovers,
-  // and always once the name is liked.
-  & .pickLike {
-    color: var(--color-foreground);
-    opacity: 0;
-
-    &[data-on='true'] {
-      color: var(--unsquatted-taken);
-    }
-
-    // Hovered, the heart takes the colour it will have once liked.
-    @include mantine.hover {
-      color: var(--unsquatted-taken);
-    }
-  }
-
-  &:hover .pickLike,
-  &:focus-within .pickLike,
-  & .pickLike[data-on='true'] {
-    opacity: 1;
-  }
-
-  @media (hover: none) {
-    & .pickLike {
-      opacity: 1;
-    }
-  }
-
-  // A button that reads as the heading it is, until hovered.
-  & .domain {
-    @extend %text-button;
-
-    font-size: 1.15rem;
-    font-weight: 600;
-    text-align: start;
-    cursor: pointer;
-
-    &:hover,
-    &:focus-visible {
-      color: var(--color-accent);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-  }
-}
-
-.pickName {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  justify-self: start;
-}
-
-.category {
-  grid-column: 1;
-  color: var(--color-accent);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.blurb {
-  grid-column: 1;
-  margin: 0;
-  color: var(--unsquatted-muted);
-  font-size: 0.95rem;
-}
-
-// The link, and its price under it.
-.register {
-  display: flex;
-  flex-direction: column;
-  grid-row: 1 / span 3;
-  grid-column: 2;
-  align-items: flex-end;
-  align-self: baseline;
-  color: var(--color-accent);
-  font-size: 0.85rem;
-  font-weight: 600;
-
-  @include mantine.smaller-than(mantine.$breakpoint-xs) {
-    grid-row: auto;
-    grid-column: 1;
-    align-items: flex-start;
-    margin-top: 6px;
-  }
-
-  & .price {
-    font-weight: 400;
-  }
 }

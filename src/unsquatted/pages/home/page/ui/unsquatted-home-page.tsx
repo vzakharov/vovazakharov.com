@@ -8,12 +8,12 @@ import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { CheckerProvider, COPY, plainByline } from '../../checker';
+import { PickDeck } from '../../deck';
+import { PICKS } from '../../deck/index.server-only';
 import { LikesProvider } from '../../likes';
 import { Shortlist } from '../../shortlist';
 import { fetchPrices } from '../lib/prices';
-import { PICKS } from '../model/picks';
 import { NameChecker } from './name-checker';
-import { PickDeck } from './pick-deck';
 import classes from './unsquatted-home.module.scss';
 
 const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
@@ -91,7 +91,18 @@ export async function UnsquattedHomePage() {
 
             <Shortlist copy={COPY} {...{ prices }} />
 
-            <PickDeck picks={PICKS} copy={COPY} {...{ prices }} />
+            <section aria-labelledby="names">
+              <PickDeck
+                heading={
+                  <h2 id="names" className={classes['listHeading']}>
+                    {COPY.listHeading}
+                  </h2>
+                }
+                picks={PICKS}
+                copy={COPY}
+                {...{ prices }}
+              />
+            </section>
           </CheckerProvider>
         </LikesProvider>
 

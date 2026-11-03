@@ -1,5 +1,5 @@
 /**
- * The dice's motion over the list's rows, each found by its `data-domain`: the
+ * A redraw's motion over the list's rows, each found by its `data-domain`: the
  * rows going fly off to the left, the rows coming run in from the right, and a
  * row both draws hold slides from its old place to its new one.
  */
