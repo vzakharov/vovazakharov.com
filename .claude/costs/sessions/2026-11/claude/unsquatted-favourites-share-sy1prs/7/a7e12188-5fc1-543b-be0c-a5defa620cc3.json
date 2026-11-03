@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 18,
+    "inputTokens": 84,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60006,
-    "cacheReadTokens": 778713,
-    "outputTokens": 1651,
-    "thinkingTokens": 263,
-    "responses": 8,
-    "costUsd": 0.6688826000000001
+    "cacheWrite1hTokens": 141488,
+    "cacheReadTokens": 6470196,
+    "outputTokens": 22647,
+    "thinkingTokens": 5696,
+    "responses": 42,
+    "costUsd": 2.8792191999999988
   },
   "estimate": {
     "at": "2026-11-03T10:33:37.850Z",
@@ -28,41 +28,43 @@
     "comment": null
   },
   "orientation": {
-    "endedBy": null,
-    "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedBy": "Write",
+    "endedOn": "src/unsquatted/pages/home/page/lib/standing.ts",
+    "endedAt": "2026-11-03T10:34:33.395Z",
+    "contextTokens": 162613,
     "spend": {
-      "inputTokens": 18,
+      "inputTokens": 34,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60006,
-      "cacheReadTokens": 778713,
-      "outputTokens": 1651,
-      "thinkingTokens": 263,
-      "responses": 8,
-      "costUsd": 0.6688826000000001
+      "cacheWrite1hTokens": 107439,
+      "cacheReadTokens": 1860794,
+      "outputTokens": 6335,
+      "thinkingTokens": 2666,
+      "responses": 16,
+      "costUsd": 1.3585068
     }
   },
   "sessionId": "a7e12188-5fc1-543b-be0c-a5defa620cc3",
   "branch": "claude/unsquatted-favourites-share-sy1prs",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-favourites-share-sy1prs — «Copy as image» готово, дальше подсветка свободных доменов в шортлисте, превью, polish и обновление PR",
-  "prs": [],
+  "prs": [
+    241
+  ],
   "url": "https://claude.ai/code/session_01DaohkEmC7jyeMdscos4nHE",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T10:33:14.524Z",
-  "lastResponseAt": "2026-11-03T10:33:35.542Z",
+  "lastResponseAt": "2026-11-03T10:40:23.982Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 18,
+    "inputTokens": 84,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60006,
-    "cacheReadTokens": 778713,
-    "outputTokens": 1651,
-    "thinkingTokens": 263,
-    "responses": 8,
-    "costUsd": 0.6688826000000001
+    "cacheWrite1hTokens": 141488,
+    "cacheReadTokens": 6470196,
+    "outputTokens": 22647,
+    "thinkingTokens": 5696,
+    "responses": 42,
+    "costUsd": 2.8792191999999988
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 18,
+      "inputTokens": 84,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60006,
-      "cacheReadTokens": 778713,
-      "outputTokens": 1651,
-      "thinkingTokens": 263,
-      "responses": 8,
-      "costUsd": 0.6688826000000001
+      "cacheWrite1hTokens": 141488,
+      "cacheReadTokens": 6470196,
+      "outputTokens": 22647,
+      "thinkingTokens": 5696,
+      "responses": 42,
+      "costUsd": 2.8792191999999988
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 8,
-    "matched": 8,
-    "matchedTableUsd": 0.6688826000000001,
-    "matchedEventUsd": 0.6688826,
+    "events": 42,
+    "matched": 42,
+    "matchedTableUsd": 2.8792191999999988,
+    "matchedEventUsd": 2.879219199999999,
     "unseen": {}
   }
 }

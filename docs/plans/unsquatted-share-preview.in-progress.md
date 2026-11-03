@@ -65,20 +65,20 @@ Vova's follow-ups on preview, in order:
     `5c09a25` (the toast version) to preview.vovazakharov.com; `9bcc1e4` is not
     published yet.
 
+- Vova on the shortlist: «в шортлисте давай так: если заняты "основные",
+  подсвечивается с подсказкой, какие свободны. если какие-то из основных
+  свободны, отображается с первым из свободных. если все заняты, подствечивается
+  чуть по-другому». Landed as: "main" is `MAIN_ZONES` (.com, .net, .org, .io —
+  `ZONES`' first four) in `page/lib/standing.ts`; a bare like is looked up in
+  them, and only once all are taken, in the rest of `ZONES`. Some main free →
+  the chip shows the first free domain; all main taken, some other free →
+  outlined in `--unsquatted-maybe`, a Mantine `Tooltip` naming the free zones;
+  nothing free → outlined in `--unsquatted-taken` and struck through, as a taken
+  preferred domain now is. "Maybe" counts as free. Previewed both themes at
+  1280/390; hints match the checker's own rows.
+
 ## Left
 
-- **Vova's newest ask, shortlist states** (with a screenshot: a bare `example`
-  chip beside `foxedpage.com`, while `example.com/.io/.co` read taken): «в
-  шортлисте давай так: если заняты "основные", подсвечивается с подсказкой,
-  какие свободны. если какие-то из основных свободны, отображается с первым из
-  свободных. если все заняты, подствечивается чуть по-другому». Reading to
-  confirm with him: a bare-name like gets its "main" zones looked up (which set
-  is "main" is to settle — the first `CLOSED_ROWS` of `rowsFor`, or a fixed few
-  like .com/.net/.org/.io); some free → the chip shows the first free domain
-  (`example.net`); the main ones all taken but others free → highlighted, a
-  tooltip naming the free ones; everything taken → highlighted differently.
-  Today a bare name is never looked up (`shortlist.tsx`, § Decisions in
-  relay-5), so this reverses that.
 - Republish to preview (`/preview live unsquatted`) after that.
 - `/polish`, then refresh PR #241's body (QA rows for copy-as-image, the field
   tools, the shortlist) and the squash proposal.

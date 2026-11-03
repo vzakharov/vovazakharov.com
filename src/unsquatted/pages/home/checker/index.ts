@@ -15,6 +15,7 @@ export {
   typedZone,
   type WithDomain,
   zoneOf,
+  ZONES,
 } from './lib/rows';
 export {
   CheckerProvider,

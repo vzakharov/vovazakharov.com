@@ -1,16 +1,27 @@
 'use client';
 
-import { ActionIcon, Button, Textarea, UnstyledButton } from '@mantine/core';
+import {
+  ActionIcon,
+  Button,
+  Textarea,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core';
 import { Copy as CopyIcon, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import { useCopied } from '@/shell/shared/ui';
 
-import { useChecker, type WithCopy } from '../../checker';
+import { useChecker, type WithCopy, zoneOf } from '../../checker';
 import { nameOf, parseLiked, preferredOf, useLikes } from '../../likes';
-import { useVerdicts } from '../../verdict';
+import { useVerdicts, type Verdict, type WithVerdicts } from '../../verdict';
+import {
+  mainDomains,
+  mainTaken,
+  otherDomains,
+  standingOf,
+} from '../lib/standing';
 import classes from './unsquatted-home.module.scss';
-import type { CopiedVerdict } from './verdict-label';
 
 /**
  * The most chips the folded list shows, and the fewer it shows below `sm` —
@@ -24,30 +35,81 @@ type Copy = WithCopy['copy'];
 const counted = (template: string, count: number) =>
   template.replace('{count}', String(count));
 
-type ChipProps = CopiedVerdict & {
-  /** The like as stored: a name, or the domain of it preferred. */
-  like: string;
+/** `.com, .net and .io` of those domains. */
+const zonesListed = (domains: readonly string[], and: string) => {
+  const zones = domains.map((domain) => `.${zoneOf(domain)}`);
+
+  return zones.length < 2
+    ? zones.join('')
+    : `${zones.slice(0, -1).join(', ')} ${and} ${zones.at(-1) ?? ''}`;
 };
 
 /**
- * One liked name, which a press puts in the checker as it was liked. A
- * preferred domain taken since, or pasted in taken, is struck through.
+ * What a chip shows for `like` on the answers in `verdicts`: the text, the
+ * state its stylesheet keys on, and the hint naming why, if any. A preferred
+ * domain stands alone; a bare name shows its first free main domain, or
+ * stands out where every main one is taken.
  */
-function Chip({ like, verdict, copy }: ChipProps) {
+function shown(
+  like: string,
+  verdicts: ReadonlyMap<string, Verdict>,
+  copy: Copy,
+): { text: string; state: string; hint?: string } {
+  const words = copy.shortlist;
+
+  if (preferredOf(like) !== undefined) {
+    return { text: like, state: verdicts.get(like)?.state ?? 'pending' };
+  }
+
+  const standing = standingOf(like, verdicts);
+
+  if (standing.state === 'free') {
+    return { text: standing.domain, state: 'free' };
+  }
+  if (standing.state === 'others') {
+    return {
+      text: like,
+      state: 'others',
+      hint: words.othersFree
+        .replace('{main}', zonesListed(mainDomains(like), words.and))
+        .replace('{free}', zonesListed(standing.free, words.and)),
+    };
+  }
+
+  return standing.state === 'taken'
+    ? { text: like, state: 'taken', hint: words.allTaken }
+    : { text: like, state: 'pending' };
+}
+
+type ChipProps = WithCopy &
+  WithVerdicts & {
+    /** The like as stored: a name, or the domain of it preferred. */
+    like: string;
+  };
+
+/**
+ * One liked name, which a press puts in the checker as it was liked, shown as
+ * `shown` reads it.
+ */
+function Chip({ like, verdicts, copy }: ChipProps) {
   const { checkNow } = useChecker();
   const { unlike } = useLikes();
+  const { text, state, hint } = shown(like, verdicts, copy);
 
   return (
-    <li className={classes['chip']} data-taken={verdict?.state === 'taken'}>
-      <button
-        type="button"
-        className={classes['chipName']}
-        onClick={() => {
-          checkNow(like);
-        }}
-      >
-        <span className={classes['domain']}>{like}</span>
-      </button>
+    <li className={classes['chip']} data-state={state}>
+      <Tooltip label={hint} disabled={hint === undefined} multiline w={260}>
+        <button
+          type="button"
+          className={classes['chipName']}
+          aria-label={hint === undefined ? undefined : `${text}. ${hint}`}
+          onClick={() => {
+            checkNow(like);
+          }}
+        >
+          <span className={classes['domain']}>{text}</span>
+        </button>
+      </Tooltip>
       <ActionIcon
         variant="subtle"
         size="sm"
@@ -122,9 +184,35 @@ function Editor({ close, copy }: EditorProps) {
   );
 }
 
-/** The domains `likes` prefer, which are all a chip looks up. */
-const preferredAmong = (likes: readonly string[]) =>
-  likes.flatMap((like) => preferredOf(like) ?? []);
+/** What a like is looked up in first: its preferred domain, or its main ones. */
+const firstAsked = (like: string) => {
+  const preferred = preferredOf(like);
+
+  return preferred === undefined ? mainDomains(like) : [preferred];
+};
+
+/**
+ * The answers on `likes`: each looked up as `firstAsked` says, then — once
+ * every first answer is in, so the second list is asked once — the bare names
+ * whose main domains are all taken looked up in the other zones.
+ */
+function useStandings(likes: readonly string[]) {
+  const first = likes.flatMap((like) => firstAsked(like));
+  const firstVerdicts = useVerdicts(first);
+  const second =
+    firstVerdicts.size < new Set(first).size
+      ? []
+      : likes
+          .filter(
+            (like) =>
+              preferredOf(like) === undefined &&
+              mainTaken(like, firstVerdicts),
+          )
+          .flatMap((like) => otherDomains(like));
+  const secondVerdicts = useVerdicts(second);
+
+  return new Map([...firstVerdicts, ...secondVerdicts]);
+}
 
 function heading(copy: Copy, count: number, kept: boolean) {
   return (
@@ -139,21 +227,19 @@ function heading(copy: Copy, count: number, kept: boolean) {
 }
 
 /**
- * The liked names, one chip each. A chip's preferred domain is looked up, so
- * one taken shows as taken; past `SHOWN_CHIPS` the rest fold behind a toggle,
- * and are looked up only once it is pointed at, focused or opened, as the
- * checker's own surplus zones are.
+ * The liked names, one chip each, looked up as `useStandings` says. Past
+ * `SHOWN_CHIPS` the rest fold behind a toggle, and are looked up only once it
+ * is pointed at, focused or opened, as the checker's own surplus zones are.
  */
 export function Shortlist({ copy }: WithCopy) {
   const { liked, kept } = useLikes();
   const [editing, setEditing] = useState(false);
   const [open, setOpen] = useState(false);
   const [wanted, setWanted] = useState(false);
-  const shownDomains = preferredAmong(liked.slice(0, SHOWN_CHIPS));
-  const hiddenDomains =
-    open || wanted ? preferredAmong(liked.slice(SHOWN_CHIPS)) : [];
-  const shownVerdicts = useVerdicts(shownDomains);
-  const hiddenVerdicts = useVerdicts(hiddenDomains);
+  const shownVerdicts = useStandings(liked.slice(0, SHOWN_CHIPS));
+  const hiddenVerdicts = useStandings(
+    open || wanted ? liked.slice(SHOWN_CHIPS) : [],
+  );
   const verdicts = new Map([...shownVerdicts, ...hiddenVerdicts]);
   const words = copy.shortlist;
 
@@ -187,11 +273,7 @@ export function Shortlist({ copy }: WithCopy) {
         <>
           <ul className={classes['chips']} data-open={open}>
             {liked.map((like) => (
-              <Chip
-                key={like}
-                verdict={verdicts.get(like)}
-                {...{ like, copy }}
-              />
+              <Chip key={like} {...{ like, verdicts, copy }} />
             ))}
           </ul>
           {liked.length > SHOWN_CHIPS_NARROW && (

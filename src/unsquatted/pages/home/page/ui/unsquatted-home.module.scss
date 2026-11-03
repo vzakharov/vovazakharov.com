@@ -427,12 +427,23 @@ $field-own-row: 30em;
   border-radius: 999px;
   background: var(--color-surface);
 
-  // A preferred domain taken: struck through, dimmed, its bin left to
-  // remove it.
-  &[data-taken='true'] {
-    opacity: 0.55;
+  // A bare name taken in its main zones but free in others: outlined in the
+  // "maybe" colour, its hint naming those others.
+  &[data-state='others'] {
+    border-color: var(--unsquatted-maybe);
 
     & .domain {
+      color: var(--unsquatted-maybe);
+    }
+  }
+
+  // A preferred domain taken, or a bare name taken everywhere: outlined in
+  // the "taken" colour and struck through, its bin left to remove it.
+  &[data-state='taken'] {
+    border-color: var(--unsquatted-taken);
+
+    & .domain {
+      color: var(--unsquatted-taken);
       text-decoration: line-through;
     }
   }
