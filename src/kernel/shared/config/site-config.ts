@@ -249,7 +249,7 @@ const SITE_CONFIGS: Record<SiteId, SiteConfig> = {
     downloadPrefix: 'unsquatted',
     name: 'Unsquatted',
     tagline:
-      'Good domain names nobody has grabbed yet. Curated, private, blazing-fast.',
+      'Good domain names nobody has grabbed yet. Curated, private, blazing fast.',
     // The card is generated from the listed names by `pnpm content:og
     // unsquatted`, so no vector pairs it.
     avatar: UNSQUATTED_CARD,
