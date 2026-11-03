@@ -42,7 +42,7 @@ scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
 scripts/staged.sh check         # staged always-loaded copies   │
-wc -l delegation-model-capabilities.md # /go's notes, ≤100 lines │
+wc -l .claude/model-capabilities.md # model notes, ≤100 lines │
 scripts/check-claude-md-size.sh # CLAUDE.md + imports size cap  │
 python3 .claude/costs/test_*.py # cost ledger, one run per file │
 python3 .claude/costs/check_estimates.py # every session estimated │
@@ -219,8 +219,8 @@ Nineteen things about that list are deliberate:
   `scripts/check-markdown-tables.sh` holds agent-facing Markdown to
   `.claude/rules/markdown.md`, and runs only while that rule exists.
   `scripts/staged.sh check` holds `.claude/staged/` to
-  `.claude/rules/staging.md`, the delegation notes check holds `/go`'s
-  `delegation-model-capabilities.md` to its keeping rule's cap, so a summary
+  `.claude/rules/staging.md`, the model notes check holds
+  `.claude/model-capabilities.md` to its keeping rule's cap, so a summary
   rewritten every session cannot drift into a log,
   `scripts/check-claude-md-size.sh` caps what `CLAUDE.md` and its imports cost
   every turn, measured as the branch will land them, the cost ledger's, context
