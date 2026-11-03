@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 112,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 168806,
+    "cacheReadTokens": 8815098,
+    "outputTokens": 23808,
+    "thinkingTokens": 8984,
+    "responses": 56,
+    "costUsd": 3.5900756
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-03T15:00:17.483Z",
+    "contextTokens": 178517,
+    "spend": {
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 120147,
+      "cacheReadTokens": 5416089,
+      "outputTokens": 11721,
+      "thinkingTokens": 2106,
+      "responses": 39,
+      "costUsd": 2.2791258
+    }
+  },
+  "sessionId": "0da0b03a-e389-53dd-9cc7-24ee0bb9d7fc",
+  "branch": "claude/unsquatted-hundred-picks-555goo",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай найдём ещё 90 интересных имён для unsquatted, чтобы было 100. вопрос: ты помнишь, как в прошлый раз собирал, или никаких следов не осталось? там были всяк…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkB3kf6vg5HXMRJRhw4",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-03T14:57:15.122Z",
+  "lastResponseAt": "2026-11-03T15:02:41.871Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 112,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 168806,
+    "cacheReadTokens": 8815098,
+    "outputTokens": 23808,
+    "thinkingTokens": 8984,
+    "responses": 56,
+    "costUsd": 3.5900756
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 112,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 168806,
+      "cacheReadTokens": 8815098,
+      "outputTokens": 23808,
+      "thinkingTokens": 8984,
+      "responses": 56,
+      "costUsd": 3.5900756
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 56,
+    "matched": 56,
+    "matchedTableUsd": 3.5900756,
+    "matchedEventUsd": 3.5900756,
+    "unseen": {}
+  }
+}
