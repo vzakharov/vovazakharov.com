@@ -35,7 +35,7 @@ export const ZONES = [
 const MAX_LABEL = 63;
 
 /** A host as typed or pasted: no scheme, no `www.`, nothing past it. */
-function host(input: string): string {
+export function host(input: string): string {
   return input
     .trim()
     .toLowerCase()
