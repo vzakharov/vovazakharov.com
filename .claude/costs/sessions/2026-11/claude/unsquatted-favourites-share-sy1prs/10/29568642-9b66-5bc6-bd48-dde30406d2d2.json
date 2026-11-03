@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 3919,
+    "inputTokens": 3927,
     "cacheWrite5mTokens": 2917,
-    "cacheWrite1hTokens": 177137,
-    "cacheReadTokens": 17445505,
-    "outputTokens": 39211,
-    "thinkingTokens": 8824,
-    "responses": 95,
-    "costUsd": 5.718719599999999
+    "cacheWrite1hTokens": 182740,
+    "cacheReadTokens": 18162817,
+    "outputTokens": 40724,
+    "thinkingTokens": 8899,
+    "responses": 98,
+    "costUsd": 5.937297999999998
   },
   "estimate": {
     "at": "2026-11-03T13:02:38.978Z",
@@ -47,18 +47,18 @@
   "url": "https://claude.ai/code/session_01DaohkC41ZdoZPQTiAtVHxA",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T12:38:35.225Z",
-  "lastResponseAt": "2026-11-03T13:57:34.763Z",
+  "lastResponseAt": "2026-11-03T13:58:00.234Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 173,
+    "inputTokens": 181,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 177137,
-    "cacheReadTokens": 16389863,
-    "outputTokens": 38848,
-    "thinkingTokens": 8824,
-    "responses": 89,
-    "costUsd": 5.4727206
+    "cacheWrite1hTokens": 182740,
+    "cacheReadTokens": 17107175,
+    "outputTokens": 40361,
+    "thinkingTokens": 8899,
+    "responses": 92,
+    "costUsd": 5.691298999999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -72,14 +72,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2703,
+      "inputTokens": 2711,
       "cacheWrite5mTokens": 2917,
-      "cacheWrite1hTokens": 177137,
-      "cacheReadTokens": 17445505,
-      "outputTokens": 38905,
-      "thinkingTokens": 8824,
-      "responses": 94,
-      "costUsd": 5.718444999999999
+      "cacheWrite1hTokens": 182740,
+      "cacheReadTokens": 18162817,
+      "outputTokens": 40418,
+      "thinkingTokens": 8899,
+      "responses": 97,
+      "costUsd": 5.937023399999998
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1216,
@@ -95,10 +95,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 95,
-    "matched": 89,
-    "matchedTableUsd": 5.4727206,
-    "matchedEventUsd": 5.4727206,
+    "events": 97,
+    "matched": 91,
+    "matchedTableUsd": 5.628625799999999,
+    "matchedEventUsd": 5.628625799999999,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 2530,
