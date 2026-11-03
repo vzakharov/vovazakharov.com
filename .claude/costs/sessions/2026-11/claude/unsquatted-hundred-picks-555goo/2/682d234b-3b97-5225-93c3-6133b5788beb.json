@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 663,
-    "cacheWrite5mTokens": 149959,
-    "cacheWrite1hTokens": 148236,
-    "cacheReadTokens": 10432847,
-    "outputTokens": 37339,
-    "thinkingTokens": 10499,
-    "responses": 73,
-    "costUsd": 4.771819400000002
+    "inputTokens": 2600,
+    "cacheWrite5mTokens": 150959,
+    "cacheWrite1hTokens": 188964,
+    "cacheReadTokens": 15416232,
+    "outputTokens": 52513,
+    "thinkingTokens": 13756,
+    "responses": 96,
+    "costUsd": 6.403123700000004
   },
   "estimate": {
-    "at": "2026-11-03T15:24:03.084Z",
+    "at": "2026-11-03T16:23:48.892Z",
     "parts": [
       {
         "hours": 1.0,
@@ -23,6 +23,18 @@
         "grade": "middle",
         "role": "developer",
         "comment": "a FLIP-style row transition on redraw needs keyed layout measurement and reduced-motion handling"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a shared test helper moved to the lowest common app, with the FSD gates to satisfy"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "a three-way icon mockup to judge visual noise needs ten glyphs drawn to one grid"
       }
     ],
     "comment": null
@@ -53,18 +65,18 @@
   "url": "https://claude.ai/code/session_01DaohkBYQqWV2gRBJTkvBLD",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T15:23:46.674Z",
-  "lastResponseAt": "2026-11-03T15:31:47.824Z",
+  "lastResponseAt": "2026-11-03T16:24:01.487Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 101,
+    "inputTokens": 144,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 148236,
-    "cacheReadTokens": 6867927,
-    "outputTokens": 22172,
-    "thinkingTokens": 4924,
-    "responses": 45,
-    "costUsd": 3.0033174000000016
+    "cacheWrite1hTokens": 188964,
+    "cacheReadTokens": 11645717,
+    "outputTokens": 37066,
+    "thinkingTokens": 8181,
+    "responses": 66,
+    "costUsd": 4.582751400000003
   },
   "subagents": {
     "inputTokens": 56,
@@ -78,33 +90,53 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 663,
-      "cacheWrite5mTokens": 149959,
-      "cacheWrite1hTokens": 148236,
-      "cacheReadTokens": 10432847,
-      "outputTokens": 37339,
-      "thinkingTokens": 10499,
-      "responses": 73,
-      "costUsd": 4.771819400000002
+      "inputTokens": 1212,
+      "cacheWrite5mTokens": 150959,
+      "cacheWrite1hTokens": 188964,
+      "cacheReadTokens": 15416232,
+      "outputTokens": 52256,
+      "thinkingTokens": 13756,
+      "responses": 95,
+      "costUsd": 6.402856400000004
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1388,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 257,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002673
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 73,
-    "matched": 72,
-    "matchedTableUsd": 4.7326830000000015,
-    "matchedEventUsd": 4.7326830000000015,
+    "events": 96,
+    "matched": 93,
+    "matchedTableUsd": 6.312117000000003,
+    "matchedEventUsd": 6.312117000000003,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 45,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 1045,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 182162,
-        "outputTokens": 16,
+        "cacheReadTokens": 387757,
+        "outputTokens": 39,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0907394
+      },
+      "generate_session_title": {
+        "inputTokens": 1388,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 257,
         "thinkingTokens": 0,
         "responses": 1,
-        "costUsd": 0.039136399999999995
+        "costUsd": 0.0002673
       }
     }
   }
