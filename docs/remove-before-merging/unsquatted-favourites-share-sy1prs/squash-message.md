@@ -13,7 +13,7 @@ rather than one zone; typed with a zone, the name is liked with that
 zone preferred. A heart and a share menu sit between the field and
 the dice, which they never move. Likes live in local storage and
 gather in a shortlist, newest first, one chip per name: a bare name
-is looked up in the domains the checker shows before its fold and
+is looked up in its top ten domains as the checker orders them and
 shows the first one free, and where all of those are taken it is
 looked up in the checker's other zones and outlined, a tooltip naming
 those free, or struck through if none is. The list edits as plain
@@ -23,7 +23,7 @@ fill it.
 Sharing copies a link, or an image drawn on a canvas in the page's
 fonts and colours — the name, the shared domain, the liked one and
 the rest that are free, never a pending or taken one — straight to
-the clipboard, the card popping up alone in the bottom-right corner.
+the clipboard, the card flashing over the menu and swept aside.
 
 The lede and a one-line byline share a line, the byline calling the
 search private, with a note linking the source. Every site's
