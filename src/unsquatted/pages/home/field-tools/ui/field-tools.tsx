@@ -20,7 +20,7 @@ import {
   domainLink,
 } from '../lib/share';
 import { canCopyImage, type CardText, shareCard } from '../lib/share-card';
-import { CopiedToast } from './copied-toast';
+import { CardImage } from './card-image';
 import classes from './field-tools.module.scss';
 
 /** `label` and `zone` are the name the field holds, as the checker read it. */
@@ -32,18 +32,22 @@ type Copy = WithCopy['copy'];
 type ShareMenuProps = WithCopy &
   Typed & {
     /**
-     * Copies the card; none while no domain of the name is known to be free.
+     * Draws the card; none while no domain of the name is known to be free.
      * The menu offers it only where the clipboard takes an image.
      */
-    copyCard: (() => void) | undefined;
+    drawCard: (() => File) | undefined;
   };
 
-function ShareMenu({ typed, copyCard, copy }: ShareMenuProps) {
+function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
-  // “Copied ✓” stands in for the menu item until the menu closes.
-  const { copied, copy: copyText } = useCopied(() => {
+  const [card, setCard] = useState<File>();
+  const close = () => {
     setOpened(false);
-  });
+  };
+  // “Copied ✓” stands in for each menu item until the menu closes, and the
+  // card copied shows beneath them.
+  const link = useCopied(close);
+  const image = useCopied(close);
 
   return (
     <Menu
@@ -68,20 +72,28 @@ function ShareMenu({ typed, copyCard, copy }: ShareMenuProps) {
           closeMenuOnClick={false}
           leftSection={<LinkIcon size={14} />}
           onClick={() => {
-            copyText(domainLink(typed, new URL(globalThis.location.href)));
+            link.copy(domainLink(typed, new URL(globalThis.location.href)));
           }}
         >
-          {copied ? copy.copied : copy.copyLink}
+          {link.copied ? copy.copied : copy.copyLink}
         </Menu.Item>
         {canCopyImage() && (
           <Menu.Item
+            closeMenuOnClick={false}
             leftSection={<ImageIcon size={14} />}
-            disabled={copyCard === undefined}
-            onClick={copyCard}
+            disabled={drawCard === undefined}
+            onClick={() => {
+              if (drawCard === undefined) return;
+              const drawn = drawCard();
+
+              setCard(drawn);
+              image.copy(drawn);
+            }}
           >
-            {copy.copyAsImage}
+            {image.copied ? copy.copied : copy.copyAsImage}
           </Menu.Item>
         )}
+        {image.copied && card !== undefined && <CardImage {...{ card }} />}
       </Menu.Dropdown>
     </Menu>
   );
@@ -109,8 +121,6 @@ export function FieldTools({
   copy,
 }: FieldToolsProps) {
   const { liked, likeFor, like, unlike } = useLikes();
-  const [card, setCard] = useState<File>();
-  const { copied, copy: copyFile } = useCopied();
   const own = likeFor(label);
   const isOn = own !== undefined;
   const typedDomain = zone === undefined ? undefined : `${label}.${zone}`;
@@ -124,22 +134,21 @@ export function FieldTools({
     <>
       <ShareMenu
         typed={typedDomain ?? label}
-        copyCard={
+        drawCard={
           shared === undefined
             ? undefined
-            : () => {
-                const rows = cardRows({
-                  shared,
-                  siblings,
-                  liked: new Set(liked),
-                  verdicts,
-                  prices,
-                });
-                const drawn = shareCard(label, rows, cardText(copy));
-
-                setCard(drawn);
-                copyFile(drawn);
-              }
+            : () =>
+                shareCard(
+                  label,
+                  cardRows({
+                    shared,
+                    siblings,
+                    liked: new Set(liked),
+                    verdicts,
+                    prices,
+                  }),
+                  cardText(copy),
+                )
         }
         {...{ copy }}
       />
@@ -157,7 +166,6 @@ export function FieldTools({
       >
         <Heart size={18} fill={isOn ? 'currentColor' : 'none'} />
       </ActionIcon>
-      <CopiedToast shown={copied} {...{ card, copy }} />
     </>
   );
 }
