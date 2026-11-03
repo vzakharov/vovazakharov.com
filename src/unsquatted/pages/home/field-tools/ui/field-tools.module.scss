@@ -1,3 +1,5 @@
+@use '../../../../../../styles/mantine' as mantine;
+
 // The default variant's hover fills the button with the foreground; the
 // border takes the hover instead, as on the dice beside them.
 .tool {
@@ -15,11 +17,28 @@
   color: var(--unsquatted-taken);
 }
 
-// The card copied, under the menu's items, its own aspect kept.
+// The bottom-right corner, clear of the field and its menu; a phone has no
+// corner to spare, so there it spans the width.
+.toast {
+  position: fixed;
+  right: var(--mantine-spacing-lg);
+  bottom: var(--mantine-spacing-lg);
+  z-index: 300;
+  width: 320px;
+  overflow: hidden;
+  border: 1px solid var(--color-border-hairline);
+
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    width: auto;
+  }
+}
+
+// The card at the toast's width, its own aspect kept.
 .card {
   display: block;
-  width: min(300px, calc(100vw - 48px));
+  width: 100%;
   height: auto;
-  margin: 4px;
-  border-radius: var(--mantine-radius-sm);
 }

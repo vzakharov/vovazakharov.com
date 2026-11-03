@@ -20,7 +20,7 @@ import {
   domainLink,
 } from '../lib/share';
 import { canCopyImage, type CardText, shareCard } from '../lib/share-card';
-import { CardImage } from './card-image';
+import { CopiedToast } from './copied-toast';
 import classes from './field-tools.module.scss';
 
 /** `label` and `zone` are the name the field holds, as the checker read it. */
@@ -45,52 +45,54 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
   const image = useCopied(close);
 
   return (
-    <Menu
-      {...{ opened }}
-      onChange={setOpened}
-      position="bottom-end"
-      shadow="md"
-    >
-      <Menu.Target>
-        <ActionIcon
-          variant="default"
-          size={42}
-          className={classes['tool']}
-          aria-label={copy.share}
-          title={copy.share}
-        >
-          <Share2 size={18} />
-        </ActionIcon>
-      </Menu.Target>
-      <Menu.Dropdown>
-        <Menu.Item
-          closeMenuOnClick={false}
-          leftSection={<LinkIcon size={14} />}
-          onClick={() => {
-            link.copy(domainLink(typed, new URL(globalThis.location.href)));
-          }}
-        >
-          {link.copied ? copy.copied : copy.copyLink}
-        </Menu.Item>
-        {canCopyImage() && (
+    <>
+      <Menu
+        {...{ opened }}
+        onChange={setOpened}
+        position="bottom-end"
+        shadow="md"
+      >
+        <Menu.Target>
+          <ActionIcon
+            variant="default"
+            size={42}
+            className={classes['tool']}
+            aria-label={copy.share}
+            title={copy.share}
+          >
+            <Share2 size={18} />
+          </ActionIcon>
+        </Menu.Target>
+        <Menu.Dropdown>
           <Menu.Item
             closeMenuOnClick={false}
-            leftSection={<ImageIcon size={14} />}
-            disabled={drawCard === undefined}
+            leftSection={<LinkIcon size={14} />}
             onClick={() => {
-              if (drawCard === undefined) return;
-              const drawn = drawCard();
-
-              setCard(drawn);
-              image.copy(drawn);
+              link.copy(domainLink(typed, new URL(globalThis.location.href)));
             }}
           >
-            {image.copied ? copy.copied : copy.copyAsImage}
+            {link.copied ? copy.copied : copy.copyLink}
           </Menu.Item>
-        )}
-        {image.copied && card !== undefined && <CardImage {...{ card }} />}
-      </Menu.Dropdown>
-    </Menu>
+          {canCopyImage() && (
+            <Menu.Item
+              closeMenuOnClick={false}
+              leftSection={<ImageIcon size={14} />}
+              disabled={drawCard === undefined}
+              onClick={() => {
+                if (drawCard === undefined) return;
+                const drawn = drawCard();
+
+                setCard(drawn);
+                image.copy(drawn);
+              }}
+            >
+              {image.copied ? copy.copied : copy.copyAsImage}
+            </Menu.Item>
+          )}
+        </Menu.Dropdown>
+      </Menu>
+      <CopiedToast shown={image.copied} {...{ card }} />
+    </>
   );
 }
 
