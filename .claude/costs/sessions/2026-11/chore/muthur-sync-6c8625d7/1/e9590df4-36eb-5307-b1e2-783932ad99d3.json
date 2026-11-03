@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 134,
+    "inputTokens": 155,
     "cacheWrite5mTokens": 74474,
-    "cacheWrite1hTokens": 114241,
-    "cacheReadTokens": 8269803,
-    "outputTokens": 27680,
-    "thinkingTokens": 7768,
-    "responses": 65,
-    "costUsd": 3.4943945999999992
+    "cacheWrite1hTokens": 130349,
+    "cacheReadTokens": 9872984,
+    "outputTokens": 31101,
+    "thinkingTokens": 8168,
+    "responses": 74,
+    "costUsd": 4.012398800000001
   },
   "estimate": {
     "at": "2026-11-03T15:26:37.911Z",
@@ -41,22 +41,24 @@
   "branch": "chore/muthur-sync-6c8625d7",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/update-muthur claimed",
-  "prs": [],
+  "prs": [
+    243
+  ],
   "url": "https://claude.ai/code/session_01DaohkB6MBqmakaxYvXQkNu",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T15:23:56.287Z",
-  "lastResponseAt": "2026-11-03T15:32:16.102Z",
+  "lastResponseAt": "2026-11-03T15:33:00.017Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 99,
+    "inputTokens": 120,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 114241,
-    "cacheReadTokens": 6670167,
-    "outputTokens": 21256,
-    "thinkingTokens": 5229,
-    "responses": 48,
-    "costUsd": 2.6734773999999994
+    "cacheWrite1hTokens": 130349,
+    "cacheReadTokens": 8273348,
+    "outputTokens": 24677,
+    "thinkingTokens": 5629,
+    "responses": 57,
+    "costUsd": 3.1914816
   },
   "subagents": {
     "inputTokens": 35,
@@ -70,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 134,
+      "inputTokens": 155,
       "cacheWrite5mTokens": 74474,
-      "cacheWrite1hTokens": 114241,
-      "cacheReadTokens": 8269803,
-      "outputTokens": 27680,
-      "thinkingTokens": 7768,
-      "responses": 65,
-      "costUsd": 3.4943945999999992
+      "cacheWrite1hTokens": 130349,
+      "cacheReadTokens": 9872984,
+      "outputTokens": 31101,
+      "thinkingTokens": 8168,
+      "responses": 74,
+      "costUsd": 4.012398800000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 65,
-    "matched": 65,
-    "matchedTableUsd": 3.4943945999999992,
-    "matchedEventUsd": 3.4943945999999997,
+    "events": 74,
+    "matched": 74,
+    "matchedTableUsd": 4.012398800000001,
+    "matchedEventUsd": 4.0123988,
     "unseen": {}
   }
 }
