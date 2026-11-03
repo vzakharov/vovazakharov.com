@@ -26,8 +26,9 @@ the rest that are free, never a pending or taken one — straight to
 the clipboard, the card popping up alone in the bottom-right corner.
 
 The lede and a one-line byline share a line, the byline calling the
-search private, with a note linking the source. Every site's analytics drop the address's hash, where the
-checker's names used to be counted as pages.
+search private, with a note linking the source. Every site's
+analytics drop the address's hash, where the checker's names used to
+be counted as pages.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
