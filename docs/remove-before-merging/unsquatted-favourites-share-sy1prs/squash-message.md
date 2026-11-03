@@ -1,24 +1,27 @@
 Proposed squash body:
 
 ```
-unsquatted.com's checker gains likes and sharing, and the address
-stops being how a name travels. A link names a name as `#q=<name>`
-(the bare `#<name>` still reads), leaving room for `#liked` beside
-it; once read and looked up it is removed from the address, and
-typing writes nothing there, so Back leaves the site and a link to a
-name is made on purpose, by Share.
+unsquatted.com's checker gains a shortlist and sharing, and the
+address stops being how a name travels: a link is read on arrival,
+looked up and removed, and typing writes nothing there, so Back
+leaves the site and a link to a name is made on purpose, by Share.
+The field takes the focus on arrival, except on a touch screen, and
+a × at its right end clears the field and the lookup at once.
 
-The field takes the focus on arrival, except on a touch screen, where
-that would raise the keyboard over a page not yet seen, and a × at
-its right end clears the field and the lookup at once.
+Any free or maybe name, in the results or the curated list, takes a
+heart; an empty one shows only on hover where the device has hover.
+Liked domains live in local storage and gather in a shortlist above
+the curated list, one chip per name with its liked siblings folded
+in ("+2 siblings", `foxed.page` beside `foxedpage.com`), folding past
+eight chips as the results fold past nine. A chip opens its name in
+the checker. The whole list edits as plain text, one domain a line,
+to copy out or paste back.
 
-A heart on every result card and listed pick keeps the domain in
-local storage; a counter beside the dice, or `#liked`, swaps the
-results for the liked names with live verdicts. A line under the
-results copies a link to the name, or to the liked list as
-`#liked=a,b`, and shares an image of the search drawn on a canvas in
-the page's own fonts and colours: to the system share sheet where the
-browser has one, as a download elsewhere.
+One available domain at a time is shared, as a copied link or as an
+image drawn on a canvas in the page's fonts and colours: the name,
+the shared domain, then the sharer's liked siblings and the rest that
+are free, never a pending or taken one. The image goes to the system
+share sheet where the browser has one, and downloads elsewhere.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

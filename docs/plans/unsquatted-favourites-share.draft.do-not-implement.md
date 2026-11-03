@@ -4,145 +4,150 @@
 > and delete this banner (quoting the go-ahead in the commit) _before_ touching
 > code.
 
-# unsquatted: `#q=`, a clean address, focus, clear, likes and sharing
+# unsquatted: a clean address, focus, clear, a shortlist and sharing
 
-Six changes to unsquatted.com's checker, asked for in one message:
+Changes to unsquatted.com's checker:
 
-1. the name in the address becomes `#q=<name>`, so other parameters fit beside
-   it;
-2. the address stops carrying the name;
-3. the field is focused on arrival;
-4. a × at the field's right end clears it;
-5. a heart on any name, and a view of the liked ones at a hash parameter;
-6. sharing a name as a link (copied to the clipboard) and as an image.
+1. the address stops carrying the name once a link is read;
+2. the field is focused on arrival;
+3. a × at the field's right end clears it;
+4. a heart on any available name, and a shortlist of the liked ones, edited as
+   plain text;
+5. sharing one available name as a link (copied to the clipboard) or as an
+   image.
 
-The operator picks the design for 5 and 6 from the mockups below. Every fork
-carries a recommendation, and the plan is written with the recommendations in
-force.
+## The address (1)
 
-## The address (1, 2)
-
-The hash becomes a query string, read with `URLSearchParams`: `#q=foxedpage` for
-a name and `#liked` for the liked view (`#liked=a.com,b.io` for a shared list, §
-5). A bare `#foxedpage`, the form links in the wild carry today, is still read
-as `q`.
+The hash keeps its form: `#foxedpage`, or `#foxedpage.net` for one domain, whose
+zone the checker shows first.
 
 **The address is input only: a link is read on arrival, looked up, and then
 removed** with `history.replaceState`. Typing no longer writes the name into the
 address or pushes a history entry, so the address bar stays `unsquatted.com` and
 Back leaves the site rather than walking through every name tried. A link to a
-name is made on purpose, by Share (§ 6). The cost: a reload forgets the name.
+name is made on purpose, by Share (§ 5). The cost: a reload forgets the name.
 
-`hashchange` stays wired, so a `#q=` pasted into the address bar of an open tab
+`hashchange` stays wired, so a hash pasted into the address bar of an open tab
 is looked up, then removed the same way.
 
-## Focus on arrival (3)
+Rejected at review: a `#q=` / `#liked` scheme, which only a separate liked view
+needed, and that view itself; a drawer for likes; share controls in the field or
+under the results; sharing the whole shortlist; a one-domain hero card.
+
+## Focus on arrival (2)
 
 `fieldRef.current?.focus()` once on mount. On a touch screen (`pointer: coarse`)
 it is skipped: focusing there raises the keyboard over the page the visitor has
 not yet seen (iOS ignores a programmatic focus anyway, Android does not).
 
-## Clear (4)
+## Clear (3)
 
 A `CloseButton` in the `TextInput`'s `rightSection`, shown while the field holds
 text. It empties the field and the lookup at once (no settle delay), and leaves
 the focus in the field.
 
-## Likes (5)
+## Likes and the shortlist (4)
 
-Liked domains are full domains (`foxedpage.com`, not `foxedpage`), kept in
+![shortlist](unsquatted-favourites-share/shortlist.png)
+
+### Hearts
+
+A heart sits in the bottom-right corner of each result card, on the price line,
+which has the room the name line lacks, and beside the register link of each
+listed pick. **Only a name that is free or maybe gets one**: a taken name, or
+one still being looked up, has neither heart nor share.
+
+- **Liked**: the filled heart always shows.
+- **Not liked, on a device with hover** (`@media (hover: hover)`): the empty
+  heart, with the share icon, appears only while the card is hovered or holds
+  the focus.
+- **Not liked, on a touch screen**: the empty heart and the share icon always
+  show, since there is no hover to reveal them.
+
+![phone](unsquatted-favourites-share/phone.png)
+
+Liked domains are an ordered list of full domains (`foxedpage.com`), kept in
 `localStorage` under one key through Mantine's `useLocalStorage`, which also
-syncs across open tabs. A likes context sits beside `CheckerProvider`, since the
-checker's cards, the picks and the liked view all read and toggle the same set.
+syncs open tabs. A likes context sits beside `CheckerProvider`, since result
+cards, picks and the shortlist all read and toggle one set. When `localStorage`
+throws (Safari private mode, blocked site data), likes live in memory for the
+visit and the shortlist heading says they will not be kept: a degradation the
+visitor is told about, not a silent fallback.
 
-When `localStorage` throws (Safari private mode, blocked site data), likes live
-in memory for the visit, and the counter's tooltip says they will not be kept.
-This is a degradation the visitor is told about, not a silent fallback.
+### The shortlist section
 
-### Variants
+"Your shortlist (13)" appears between the checker and "Up for grabs" once
+anything is liked, the count being liked domains. Each chip is one name with its
+siblings folded in: liked `foxedpage.com`, `foxed.page` and `foxedpage.org` make
+one chip, `foxedpage.com +2 siblings`.
 
-**A — counter beside the dice, liked view in place of the results**
-(recommended). A heart before each name in the result cards and the picks. A
-heart-and-count button joins the field row; pressing it, or arriving on
-`#liked`, swaps the results grid for the liked names, as the same cards with
-live verdicts and prices, and the heading reads "Check a name · liked (4)".
-Typing returns to the results. It reuses the result grid and its lookups whole,
-and puts no new block on the page.
+- **Grouping** is a pure function of the liked list, so it survives the editor
+  below: a domain `a.z` joins the group of a liked domain named `az` or `za` (a
+  split of that name, the way the checker splits `foxedpage` into `foxed.page`),
+  and otherwise heads the group of its own name `a`. The chip shows the group's
+  first-liked domain named for the group, `foxedpage.com` over `foxed.page`.
+- **Pressing a chip** puts its name into the checker and scrolls up to it, as a
+  listed pick does today. That is how "+2 siblings" opens: the checker shows
+  every zone of the name, its liked ones with filled hearts. Hovering the chip
+  names the siblings in its title.
+- **On a chip, the heart (to unlike) and the share icon show on hover**, or
+  always on a touch screen, the same rule as the cards: every chip is liked, so
+  a heart on each would only repeat the heading.
+- **A liked name taken since** stays, struck through and dimmed, with the heart
+  to remove it and no share.
 
-![5A: counter](unsquatted-favourites-share/5a-counter.png)
-![5A: liked view](unsquatted-favourites-share/5a-liked-view.png)
+**More than fits.** The chips wrap, and past eight groups (five below the `sm`
+breakpoint) the rest fold behind "+N more ↓" / "fewer ↑", the toggle "more tlds
+↓" already is, cut by `nth-child` exactly as the result grid is. Only the shown
+chips are looked up; the folded ones are looked up when the toggle is hovered,
+focused or opened, again as the result grid does, so a long shortlist costs the
+registries nothing until someone opens it.
 
-**B — a shortlist section.** The heart sits at the card's right edge. Once
-anything is liked, a "Your shortlist (4)" section appears between the checker
-and "Up for grabs", the names as chips; `#liked` scrolls to it. Always visible,
-but it pushes the curated list down for every returning visitor, and the chips
-show no verdicts.
+### Editing as text
 
-![5B](unsquatted-favourites-share/5b-section.png)
+"✎ edit" at the heading's right turns the chips into a textarea holding every
+liked domain, one per line, with Copy, Cancel and Save under it.
 
-**C — a drawer.** A heart counter in the page's corner beside the theme toggle
-opens a side drawer of liked names; `#liked` opens it. Keeps the page as is, but
-the counter sits in the layout's corner, which `shell` owns for every site, and
-Mantine's `Drawer` adds a component sheet.
+![edit](unsquatted-favourites-share/edit.png)
 
-![5C](unsquatted-favourites-share/5c-drawer.png)
+- **Copy** puts the textarea's text on the clipboard.
+- **Save** replaces the liked list with the lines: each trimmed and cleaned as
+  the field cleans what is typed (scheme and `www.` dropped), blanks and repeats
+  dropped, order kept. A line that is not a domain blocks the save and is named
+  under the textarea; nothing is dropped silently.
+- A pasted domain that turns out taken is kept, and shows struck through like
+  any liked name taken since.
 
-## Share (6)
+## Share (5)
 
-**A link** is `https://unsquatted.com/#q=<name>` (the zone kept when one was
-typed), written with `navigator.clipboard.writeText`. The control's own label
-turns into "copied ✓" for two seconds; the site has no toast system, and adding
-`@mantine/notifications` for one message is not worth it. In the liked view the
-link carries the list: `#liked=foxedpage.com,foxed.page`. Opening that shows the
-shared list, headed "shared list", its hearts showing the reader's own likes, so
-liking one adds it to theirs.
+Only one available domain is shared, never the shortlist. The share icon on a
+card or a chip opens a two-item menu.
 
-**An image** is drawn in the browser on a 1200×630 `<canvas>` with the fonts the
-page has already loaded, its colours read from the page's `--color-*` tokens, so
-it follows the light palette with no colour literal in the component. Where
-`navigator.canShare({ files })` holds (phones, Safari, Chrome on Windows and
-Android) the PNG goes to the system share sheet; elsewhere it downloads as
-`unsquatted.<name>.png`.
+![share menu](unsquatted-favourites-share/share-menu.png)
 
-### Where the controls sit
+**Copy link** writes `https://unsquatted.com/#foxedpage.net` with
+`navigator.clipboard.writeText`; the item reads "copied ✓" for two seconds
+before the menu closes. The link opens the checker on that name, that domain
+first.
 
-**A — inside the field.** A share icon beside the ×, opening a two-item menu.
-Compact, but sharing is hidden behind an unlabelled icon and a menu.
+**Share as image** draws a 1200×630 card on a `<canvas>` in the fonts the page
+has already loaded, colours read from the page's `--color-*` tokens in the light
+palette. Where `navigator.canShare({ files })` holds (phones, Safari, Chrome on
+Windows and Android) the PNG goes to the system share sheet; elsewhere it
+downloads as `unsquatted.<domain>.png`.
 
-![6A](unsquatted-favourites-share/6a-in-field.png)
+![card](unsquatted-favourites-share/card.png)
 
-**B — a line under the results** (recommended). "share foxedpage: copy link ·
-image" on the "more tlds ↓" line, in the same muted text-button style. Always
-visible once there is something to share, and costs no menu. The liked view
-carries the same line for the list (see 5A's second screenshot).
+The card is the existing mock's layout: the name in a field and three rows under
+it, every row available, with its verdict and price.
 
-![6B](unsquatted-favourites-share/6b-under-results.png)
+1. The shared domain, set bold.
+2. Then the sharer's liked available siblings, each with a heart.
+3. Then the name's other available domains, in the checker's order.
 
-**C — per card.** A share icon on each result card, sharing that one domain. The
-most precise, but a card already holds a name, a verdict, a price and a heart,
-and the fifth item crowds it (see the first card).
-
-![6C](unsquatted-favourites-share/6c-per-card.png)
-
-### What the image shows
-
-**1 — the search** (recommended with 6B). The existing mock in
-`src/unsquatted/scripts/lib/share-card.mock.svg`: the name in a field, its first
-three zones with their verdicts as they stand when shared. It is what 6B shares:
-a query and what it found.
-
-![card 1](unsquatted-favourites-share/card-1-search.png)
-
-**2 — one domain.** The domain large, "Nobody has grabbed it yet", its price.
-The strongest card on its own, but it needs one domain, which fits 6C, not a
-query.
-
-![card 2](unsquatted-favourites-share/card-2-hero.png)
-
-**3 — the liked list.** Up to five liked domains with their verdicts, "+ N more"
-past that. Used for the list whichever of 1 or 2 is picked for a name.
-
-![card 3](unsquatted-favourites-share/card-3-list.png)
+Only verdicts already in hand count, so the card never says "checking…"; the
+item is disabled until the shared domain's own verdict is in. A name with fewer
+than three available domains gets fewer rows.
 
 ## Files
 
@@ -150,41 +155,46 @@ All inside `src/unsquatted/pages/home/page/`, as sub-slices where
 `pnpm check:masd` and `pnpm masd:clusters` earn them (likely `likes/` and
 `share/`):
 
-- `lib/address.ts` + test: parsing `#q=` / `#liked[=…]` / the bare legacy form,
-  and building share links.
-- `ui/checker-state.tsx`: reads the address through `address.ts`, removes it,
-  stops writing it; `clear()`.
-- `ui/name-checker.tsx`: focus on mount, the × in `rightSection`, the counter,
-  the liked view, the share line.
-- likes: the context and storage hook, `HeartButton`.
-- share: `copyLink`, the canvas renderer (`drawShareCard`) and `shareImage`.
-- `ui/pick-row.tsx`: the heart.
+- `ui/checker-state.tsx`: reads the hash, removes it, stops writing it;
+  `clear()`.
+- `ui/name-checker.tsx`: focus on mount, the × in `rightSection`, the card's
+  corner tools.
+- likes: the context and storage hook, `grouped()` + test, the text parse +
+  test, `CornerTools` (heart and share), the shortlist section and its editor.
+- share: `domainLink()`, `cardRows()` + test, `drawShareCard()` and
+  `shareImage()`.
+- `ui/pick-row.tsx`: the corner tools beside the register link.
+- `ui/unsquatted-home-page.tsx`: the shortlist section between the two.
 - `config/messages/en.json`: the new copy.
 - `share-card.mock.svg` is deleted once the real card exists, since its own
   comment says it is a mock rendered nowhere.
 
 ## DRY notes
 
-- **One parser for the address.** Arrival, `hashchange` and the share links all
-  go through `address.ts`, so `#q=` is spelled in one place.
-- **The liked view reuses `ZoneRow` and `useVerdicts`** rather than a list of
-  its own, so a liked name shows exactly what a looked-up one does.
-- **One `HeartButton`** for result cards, picks and the liked view.
+- **One `CornerTools`** (heart + share, the hover rule, the available-only rule)
+  for result cards, picks and chips.
+- **The shortlist's overflow reuses the result grid's pattern**: a count cut in
+  CSS and lookups deferred until the toggle is wanted. It is not extracted into
+  a shared component: the two lists differ in markup (grid of cards against
+  wrapping chips), and what they share is three lines of state.
+- **Domain cleaning** for pasted lines reuses `host()` from `rows.ts`, exported
+  for it, rather than a second scheme-stripper.
+- **The card's rows reuse `rowsFor`** for the checker's order, and verdicts come
+  from the same `useVerdicts` cache, so the card says what the page says.
 - **The image card does not share code with the social card**
   (`unsquatted-card.ts`). That one is HTML rendered by Playwright at build time,
-  this one is a canvas drawn at runtime: a common layout abstraction would need
-  two renderers behind it to save a few coordinates. They share the colours
-  through the tokens on the live page and the script's own constants, as today.
-- **Verdict wording comes from `COPY.verdict`**, the copy the cards use.
+  this one a canvas drawn at runtime: a common layout would need two renderers
+  behind it to save a few coordinates.
 
 ## Tests
 
-- `address.test.ts`: `#q=`, legacy `#name`, `#liked`, `#liked=a,b`, encoding of
-  a typed zone, round trip of a share link.
-- The liked set's serialisation (dedupe, order kept).
-- The card's text layout (which rows fit, "+ N more") as a pure function beside
-  the drawing.
-- The rest by `/preview`: focus, the ×, hearts, the liked view, copy and image
-  in both themes and at phone width.
+- `grouped()`: zone siblings, end and start splits (`foxed.page`,
+  `tips.design`), the chip's representative, a domain alone.
+- The text parse: schemes, `www.`, blanks, repeats, invalid lines named.
+- `cardRows()`: the shared domain first, liked before the rest, taken and
+  pending skipped, fewer than three.
+- The hash read, legacy and with a zone.
+- The rest by `/preview`: focus, the ×, hover and touch hearts, the shortlist's
+  fold, the editor, copy and image in both themes and at phone width.
 
 Squash subject: `feat(unsquatted): …`, publishing unsquatted.com alone.
