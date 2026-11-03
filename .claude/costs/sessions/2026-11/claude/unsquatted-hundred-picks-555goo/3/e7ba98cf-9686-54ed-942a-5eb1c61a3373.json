@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 46,
-    "cacheWrite5mTokens": 121053,
-    "cacheWrite1hTokens": 60515,
-    "cacheReadTokens": 2010066,
-    "outputTokens": 5844,
-    "thinkingTokens": 1749,
-    "responses": 22,
-    "costUsd": 1.6084622
+    "inputTokens": 89,
+    "cacheWrite5mTokens": 135848,
+    "cacheWrite1hTokens": 69426,
+    "cacheReadTokens": 4782351,
+    "outputTokens": 14357,
+    "thinkingTokens": 4138,
+    "responses": 44,
+    "costUsd": 2.4786141999999995
   },
   "estimate": {
     "at": "2026-11-03T16:39:30.001Z",
@@ -41,52 +41,54 @@
   "branch": "claude/unsquatted-hundred-picks-555goo",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-hundred-picks-555goo — анимации, кнопка и ответы в ревью готовы и запушены; дальше finalize.",
-  "prs": [],
+  "prs": [
+    242
+  ],
   "url": "https://claude.ai/code/session_01DaohkD81hiWgEB5wNqVeHa",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-03T16:39:11.655Z",
-  "lastResponseAt": "2026-11-03T16:40:22.535Z",
+  "lastResponseAt": "2026-11-03T16:42:16.241Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 21,
+    "inputTokens": 36,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60515,
-    "cacheReadTokens": 1025997,
-    "outputTokens": 1918,
-    "thinkingTokens": 246,
-    "responses": 10,
-    "costUsd": 0.7277634000000001
+    "cacheWrite1hTokens": 69426,
+    "cacheReadTokens": 2002668,
+    "outputTokens": 3819,
+    "thinkingTokens": 696,
+    "responses": 18,
+    "costUsd": 1.0324655999999999
   },
   "subagents": {
-    "inputTokens": 25,
-    "cacheWrite5mTokens": 121053,
+    "inputTokens": 53,
+    "cacheWrite5mTokens": 135848,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 984069,
-    "outputTokens": 3926,
-    "thinkingTokens": 1503,
-    "responses": 12,
-    "costUsd": 0.8806988
+    "cacheReadTokens": 2779683,
+    "outputTokens": 10538,
+    "thinkingTokens": 3442,
+    "responses": 26,
+    "costUsd": 1.4461486000000001
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 46,
-      "cacheWrite5mTokens": 121053,
-      "cacheWrite1hTokens": 60515,
-      "cacheReadTokens": 2010066,
-      "outputTokens": 5844,
-      "thinkingTokens": 1749,
-      "responses": 22,
-      "costUsd": 1.6084622
+      "inputTokens": 89,
+      "cacheWrite5mTokens": 135848,
+      "cacheWrite1hTokens": 69426,
+      "cacheReadTokens": 4782351,
+      "outputTokens": 14357,
+      "thinkingTokens": 4138,
+      "responses": 44,
+      "costUsd": 2.4786141999999995
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 22,
-    "matched": 22,
-    "matchedTableUsd": 1.6084622,
-    "matchedEventUsd": 1.6084622,
+    "events": 44,
+    "matched": 44,
+    "matchedTableUsd": 2.4786141999999995,
+    "matchedEventUsd": 2.4786142,
     "unseen": {}
   }
 }
