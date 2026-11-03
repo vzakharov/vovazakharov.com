@@ -205,8 +205,7 @@ function useStandings(likes: readonly string[]) {
       : likes
           .filter(
             (like) =>
-              preferredOf(like) === undefined &&
-              mainTaken(like, firstVerdicts),
+              preferredOf(like) === undefined && mainTaken(like, firstVerdicts),
           )
           .flatMap((like) => otherDomains(like));
   const secondVerdicts = useVerdicts(second);
