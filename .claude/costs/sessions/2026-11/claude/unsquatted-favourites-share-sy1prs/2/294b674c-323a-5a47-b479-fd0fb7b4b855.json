@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 160,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 246643,
+    "cacheReadTokens": 18721549,
+    "outputTokens": 83064,
+    "thinkingTokens": 23018,
+    "responses": 86,
+    "costUsd": 7.379373800000001
+  },
+  "estimate": {
+    "at": "2026-11-03T08:30:45.799Z",
+    "parts": [
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the likes context, grouping, editor, canvas card, share sheet and address rewrite took judgement on fallbacks, hover/touch rules and analytics privacy"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/plans/unsquatted-favourites-share.in-progress.md",
+    "endedAt": "2026-11-03T08:14:46.508Z",
+    "contextTokens": 122936,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 65632,
+      "cacheReadTokens": 694832,
+      "outputTokens": 1690,
+      "thinkingTokens": 264,
+      "responses": 7,
+      "costUsd": 0.6978863999999999
+    }
+  },
+  "sessionId": "294b674c-323a-5a47-b479-fd0fb7b4b855",
+  "branch": "claude/unsquatted-favourites-share-sy1prs",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go claude/unsquatted-favourites-share-sy1prs",
+  "prs": [
+    241
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFggY6cdZ2hk8nBZ3B",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-03T08:14:14.632Z",
+  "lastResponseAt": "2026-11-03T08:31:58.258Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 160,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 246643,
+    "cacheReadTokens": 18721549,
+    "outputTokens": 83064,
+    "thinkingTokens": 23018,
+    "responses": 86,
+    "costUsd": 7.379373800000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 160,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 246643,
+      "cacheReadTokens": 18721549,
+      "outputTokens": 83064,
+      "thinkingTokens": 23018,
+      "responses": 86,
+      "costUsd": 7.379373800000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 86,
+    "matched": 86,
+    "matchedTableUsd": 7.379373800000001,
+    "matchedEventUsd": 7.379373800000001,
+    "unseen": {}
+  }
+}
