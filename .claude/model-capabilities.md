@@ -62,7 +62,8 @@ model come first.
   the plan against the analysis it carries out; on dropping or renaming a part,
   to grep every place that describes the change for it; on a refactor, to test
   each path it moved; on a polish cut, to check it against the review threads
-  open on those lines.
+  open on those lines; on a vendor port, to name in the record every file a
+  local difference now lives in.
 - **Brief:** naming the style reference and the run-until-green command was
   enough; ask for "anything that surprised you" — it reports useful edges.
 - **Cost, by eye:** that suite, a few hundred lines, cost about twice as much
