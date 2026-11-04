@@ -15,23 +15,19 @@ operator's call «только qwen, чтобы не поддерживать д
   rewritten, stall watch and `@types/dom-chromium-ai` removed, `@webgpu/types`
   added. `tsc` and ESLint clean, `pnpm build unsquatted` green.
 
+- cd9cf44c — the model on the page's thread: Turbopack emits the worker file
+  unbundled on 16.4.5 too, so `model.worker.ts` became `engine.ts`, which
+  `local-model.ts` imports dynamically (a lazy 532 KB chunk), with the queue and
+  the stop beside it; `protocol.ts` is gone. ONNX Runtime loads the wasm the
+  bundler emits instead of jsDelivr's. In headless Chromium on SwiftShader's
+  WebGPU the opt-in downloads ≈ 670 MB (decoder 485 MB, embeddings 163 MB; the
+  vision encoder only redirects, never downloads) and loads in under a minute.
+
 ## Left
 
-1. **The worker does not run.** Next 16.0.3's Turbopack emits
-   `new Worker(new URL('./model.worker.ts', import.meta.url), …)` as a static
-   asset (`out/_next/static/media/model.worker.<hash>.ts`, unbundled), with or
-   without `{ type: 'module' }`. Next 16.4.5 is the latest 16.x; check whether
-   its Turbopack bundles workers before anything else. If not: run the model on
-   the main thread through a dynamic `import('@huggingface/transformers')`
-   (WebGPU does the heavy work; the worker's queue/stop logic moves to
-   `local-model.ts`), and say so to the operator. ESLint's
-   `unicorn/relative-url-style` rejects the `./` prefix that Turbopack's worker
-   detection would need — a suppression needs the operator's approval.
-2. Check the transformers.js chunk loads only on opt-in (dynamic), and that ORT
-   fetches its wasm from the bundle, not jsdelivr.
-3. A real-browser walk: preview with `/preview live unsquatted`; the operator
-   tests on Chrome and Arc (Arc's WebGPU should now work).
-4. `/polish`, then `/pr` refresh: title (still "from Chrome's built-in model"),
+1. A real-browser walk on preview: the operator tests on Chrome and Arc.
+2. Retune the prompt if real WebGPU output calls for it.
+3. `/polish`, then `/pr` refresh: title (still "from Chrome's built-in model"),
    body and squash proposal describe the Chrome flow.
 
 ## Decisions
