@@ -23,6 +23,7 @@
   "linkLabel": "Link to this name",
   "copyAsImage": "Copy as image",
   "cardAlt": "The share card for {name}",
+  "takenAside": "okay, maybe not these ones",
   "drawingImage": "Drawing the image…",
   "noImage": "No registry answered, so there’s nothing to draw",
   "imageFailed": "The image didn’t draw",

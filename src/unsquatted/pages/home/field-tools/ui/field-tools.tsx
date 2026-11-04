@@ -242,12 +242,18 @@ function LinkField({ href, link, copy }: LinkFieldProps) {
   );
 }
 
-const cardText = (copy: Copy): CardText => ({
-  site: SITE_CONFIG.name,
-  host: withoutScheme(SITE_CONFIG.url),
-  footer: `${copy.lede.replace('*', '')} ${plainByline({ copy })}`,
-  ...pick(copy, 'verdict', 'price'),
-});
+function cardText(copy: Copy): CardText {
+  const lede = copy.lede.replace('*', '');
+
+  return {
+    site: SITE_CONFIG.name,
+    host: withoutScheme(SITE_CONFIG.url),
+    footer: `${lede} ${plainByline({ copy })}`,
+    lede,
+    aside: copy.takenAside,
+    ...pick(copy, 'verdict', 'price'),
+  };
+}
 
 /**
  * The name in the field's share and heart buttons. Both are about the name as
