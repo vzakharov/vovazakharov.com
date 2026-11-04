@@ -135,19 +135,36 @@ Bite 1, in part:
   `listWrittenDocuments`.
 - **The dice nudge** after the third roll, and **`preview.yml`'s `as-of`
   input**, passed as `CONTENT_AS_OF` (6f3d53e5).
+- **Post 1**, `sites/unsquatted/public/blog/singles-day.md` ("Four Bare Sticks",
+  dated 2026-11-09), facts checked; its reflection beside it.
+- **Post cards**: `render-og.ts` draws one per written post with `postCard` (the
+  site card's template, split in two), reading the post's widgets through
+  `postWidgets` over blog's new `compileBody`, since a `ContentDocument`
+  resolves the very card being drawn. The widget parsers moved from
+  `pages/post/lib` to `shared/content` so the script reaches them.
+- **`CONTENT_AS_OF=2026-11-11 pnpm build unsquatted` passes**: index, post,
+  feed, sitemap; looked at on the dev server (light theme).
 
 ## Rest of the bite
 
-Left: post cards (`generatedCards`: `src/unsquatted/scripts/render-og.ts` and
-`lib/unsquatted-card.ts` draw each post's `<route>.og.png`, the post's word in
-the field and its first `domains` list in the rows — the build fails without
-it); § 4's reflection; § 5's fact check, the post itself
-(`sites/unsquatted/public/blog/singles-day.md`,
-`occasion: { name: Singles’ Day, date: 2026-11-11 }`, a `date` a day or two
-before, using the two planned `domains` lists and `name` widgets for `single`
-and `solo`), then `pnpm build unsquatted`, a look with `/preview`, and the
-preview with `-f as-of=<post date>`. The headings below are the original
-contract; where `## Eaten so far` says otherwise, it wins.
+Left:
+
+- **Open question for the operator: a build before 9.11 fails.** With post 1
+  embargoed, `blog/[...slug]` has no params, and Next's static export refuses an
+  empty `generateStaticParams` ("missing generateStaticParams"). So every build
+  of unsquatted dated before the post — vet, a merge, the daily deploy — fails
+  until 9.11. Options: (a) blog's `articleRoute` returns one reserved param when
+  a collection has nothing out, its page a `notFound()`; durable for any
+  collection's first post, at the cost of one stray 404 page; (b) merge and vet
+  only on or after 9.11; (c) date post 1 earlier, publishing it on merge.
+  Recommended: (a).
+- The dark theme on the dev server, not yet looked at.
+- Step 3's `/polish`, then `/pr` (refresh the body and squash proposal: the
+  slots deviation, the card seam, `compileBody`).
+- The live preview `-f as-of=2026-11-11`, republished after any visible change.
+
+The headings below are the original contract; where `## Eaten so far` says
+otherwise, it wins.
 
 ### 1. unsquatted becomes a blog
 
