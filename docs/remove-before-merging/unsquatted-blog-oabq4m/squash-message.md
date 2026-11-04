@@ -7,9 +7,10 @@ feat(unsquatted): a blog run by the Unnamed, with live domain widgets (#249)
 ```
 unsquatted.com gains a blog of holiday posts, half explainer and half
 joke, each built around domain names for its occasion: Singles' Day,
-World Hello Day, Black Friday and Cyber Monday. They are written by the
-site's resident persona, the Unnamed, who reflects on each post beside
-it, as the Clerk and Maya do on their sites.
+International Men's Day, Black Friday and Cyber Monday. They are written
+by the site's resident persona, the Unnamed, who reflects on each post
+beside it, as the Clerk and Maya do on their sites. The home page points
+a visitor who keeps rolling the dice to them.
 
 Posts carry widgets: markdown directives that blog's content pipeline
 compiles into placeholders, rendered by components the collection's
@@ -20,10 +21,10 @@ links to the full checker. The checker's row, lookups and shortlist
 move below the home page so both pages draw them.
 
 A catalogue pick may name the post it was picked for, which its row
-links to, and the build holds each post and the catalogue to the same
-set of names. A document dated after the build day is left out of every
-site, and a daily scheduled deploy of unsquatted releases each post on
-its date.
+links to by the occasion's date stamp, and the build holds each post
+and the catalogue to the same set of names. A document dated after the
+build day is left out of every site, and a daily scheduled deploy of
+unsquatted releases each post on its date.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
