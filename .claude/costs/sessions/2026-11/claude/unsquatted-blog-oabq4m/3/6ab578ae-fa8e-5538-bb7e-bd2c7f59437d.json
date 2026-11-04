@@ -1,0 +1,110 @@
+{
+  "total": {
+    "inputTokens": 25,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70075,
+    "cacheReadTokens": 1239457,
+    "outputTokens": 2799,
+    "thinkingTokens": 617,
+    "responses": 12,
+    "costUsd": 0.8645714000000001
+  },
+  "estimate": {
+    "at": "2026-11-04T15:33:38.138Z",
+    "parts": [
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "Routers, an index page, two client widgets over the domain entity, a two-way build check and a preview env pass-through are cross-slice FSD work under static export; a senior keeps the seam clean."
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "Tuning the real widgets against the approved mockups is routine visual work."
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "Four posts and their reflections in the Unnamed's voice need judgement of tone and humour."
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "Three naming runs through the runbook and fact checks for each occasion are methodical research."
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T15:33:41.577Z",
+    "contextTokens": 128127,
+    "spend": {
+      "inputTokens": 23,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 61028,
+      "cacheReadTokens": 1120379,
+      "outputTokens": 2330,
+      "thinkingTokens": 529,
+      "responses": 11,
+      "costUsd": 0.7589918000000001
+    }
+  },
+  "sessionId": "6ab578ae-fa8e-5538-bb7e-bd2c7f59437d",
+  "branch": "claude/unsquatted-blog-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — Первый заход сделан наполовину: шов виджетов, эмбарго, персона и имена в ветке; роутеры, виджеты и пост ещё впереди",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBhN78jPH9ka7NgKrX",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T15:32:54.781Z",
+  "lastResponseAt": "2026-11-04T15:33:41.577Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 25,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70075,
+    "cacheReadTokens": 1239457,
+    "outputTokens": 2799,
+    "thinkingTokens": 617,
+    "responses": 12,
+    "costUsd": 0.8645714000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 25,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 70075,
+      "cacheReadTokens": 1239457,
+      "outputTokens": 2799,
+      "thinkingTokens": 617,
+      "responses": 12,
+      "costUsd": 0.8645714000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 11,
+    "matched": 11,
+    "matchedTableUsd": 0.7589918000000001,
+    "matchedEventUsd": 0.7589918000000001,
+    "unseen": {}
+  }
+}
