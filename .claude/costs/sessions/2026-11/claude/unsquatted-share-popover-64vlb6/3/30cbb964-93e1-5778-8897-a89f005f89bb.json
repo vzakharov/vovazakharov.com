@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 38,
+    "inputTokens": 43,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 79936,
-    "cacheReadTokens": 2248286,
-    "outputTokens": 8931,
-    "thinkingTokens": 1263,
-    "responses": 19,
-    "costUsd": 1.2679171999999999
+    "cacheWrite1hTokens": 84109,
+    "cacheReadTokens": 2527039,
+    "outputTokens": 10135,
+    "thinkingTokens": 1301,
+    "responses": 21,
+    "costUsd": 1.3811517999999998
   },
   "estimate": {
     "at": "2026-11-04T14:42:46.585Z",
@@ -41,22 +41,24 @@
   "branch": "claude/unsquatted-share-popover-64vlb6",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-share-popover-64vlb6 — PR открыт, шеринг на телефоне выложен на превью, кнопки поповера пока копируют, а не делятся",
-  "prs": [],
+  "prs": [
+    248
+  ],
   "url": "https://claude.ai/code/session_01DaohkBDmfSpMoRCMduyvuN",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-04T14:42:22.629Z",
-  "lastResponseAt": "2026-11-04T14:45:31.871Z",
+  "lastResponseAt": "2026-11-04T14:45:45.632Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 38,
+    "inputTokens": 43,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 79936,
-    "cacheReadTokens": 2248286,
-    "outputTokens": 8931,
-    "thinkingTokens": 1263,
-    "responses": 19,
-    "costUsd": 1.2679171999999999
+    "cacheWrite1hTokens": 84109,
+    "cacheReadTokens": 2527039,
+    "outputTokens": 10135,
+    "thinkingTokens": 1301,
+    "responses": 21,
+    "costUsd": 1.3811517999999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -70,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 38,
+      "inputTokens": 43,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 79936,
-      "cacheReadTokens": 2248286,
-      "outputTokens": 8931,
-      "thinkingTokens": 1263,
-      "responses": 19,
-      "costUsd": 1.2679171999999999
+      "cacheWrite1hTokens": 84109,
+      "cacheReadTokens": 2527039,
+      "outputTokens": 10135,
+      "thinkingTokens": 1301,
+      "responses": 21,
+      "costUsd": 1.3811517999999998
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 19,
-    "matched": 19,
-    "matchedTableUsd": 1.2679171999999999,
-    "matchedEventUsd": 1.2679172,
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 1.3294183999999998,
+    "matchedEventUsd": 1.3294184,
     "unseen": {}
   }
 }

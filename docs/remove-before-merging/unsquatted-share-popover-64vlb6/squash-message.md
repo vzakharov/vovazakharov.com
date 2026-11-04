@@ -12,11 +12,10 @@ as a real image, so the browser's own copy and save reach it where the
 clipboard API does not. Each copy reads "Copied ✓" and closes the
 popover; the toast is gone.
 
-On a phone whose browser shares files, the button skips the popover
-and opens the system's share sheet with the card and the link. The
-card is drawn ahead while the name is on screen, since a share started
-after waiting for the drawing may no longer count as the tap's; the
-popover stands in while it is not drawn yet, or if the sheet fails.
+On a phone whose browser shares files, the two buttons read Share link
+and Share as image and open the system's share sheet with that one
+item, since iOS previews neither of a link and an image shared
+together.
 
 A name with no domain free among the rows on screen gets a card
 listing its top three taken domains with the years they were
