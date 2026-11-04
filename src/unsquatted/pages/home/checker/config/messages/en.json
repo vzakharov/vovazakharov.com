@@ -21,6 +21,8 @@
   "copyLink": "Copy link",
   "copied": "Copied ✓",
   "copyAsImage": "Copy as image",
+  "imageCopied": "Image copied to clipboard",
+  "dismiss": "Dismiss",
   "shortlist": {
     "heading": "Your shortlist",
     "empty": "Nothing here yet: press ♡ by a name you like, or ✎ edit to type some in.",

@@ -167,7 +167,8 @@ function ShareMenu({
       </Menu>
       <CopiedToast
         {...pick(image, 'copied')}
-        label={copy.copied}
+        said={copy.imageCopied}
+        {...pick(copy, 'dismiss')}
         {...{ card }}
       />
     </>

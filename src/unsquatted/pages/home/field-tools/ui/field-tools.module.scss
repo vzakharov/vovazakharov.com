@@ -28,61 +28,90 @@
   color: var(--unsquatted-taken);
 }
 
-// The animation spans `TOAST_MS`, the moment `useCopied` keeps it mounted.
-// Reduced motion only fades it.
+// `shown` spans `TOAST_MS`, the moment `useCopied` keeps it mounted: it rises
+// from below the screen's edge, waits, and sinks back. Closed early, it sinks
+// at once. Reduced motion only fades it.
 .toast {
+  --toast-gap: var(--mantine-spacing-md);
+
   position: fixed;
   z-index: 300;
-  bottom: var(--mantine-spacing-md);
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--mantine-spacing-xs);
-  width: min(300px, calc(100vw - 2 * var(--mantine-spacing-md)));
-  padding: var(--mantine-spacing-xs);
-  border: 1px solid var(--color-border-hairline);
+  right: var(--toast-gap);
+  bottom: var(--toast-gap);
+  overflow: hidden;
+  width: min(300px, calc(100vw - 2 * var(--toast-gap)));
   border-radius: var(--mantine-radius-md);
   background-color: var(--color-surface);
-  box-shadow: var(--mantine-shadow-md);
-  pointer-events: none;
-  translate: -50% 0;
-  animation: risen 3000ms ease-out forwards;
+  box-shadow: var(--mantine-shadow-lg);
+  animation: shown 3000ms ease-in-out forwards;
+
+  &[data-leaving='true'] {
+    animation: sunk 250ms ease-in forwards;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     animation-name: faded;
+
+    &[data-leaving='true'] {
+      animation-name: faded-out;
+    }
   }
 }
 
-@keyframes risen {
+@keyframes shown {
   0% {
-    opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(calc(100% + var(--toast-gap)));
   }
 
-  7%,
+  10%,
   90% {
-    opacity: 1;
     transform: none;
   }
 
   100% {
-    opacity: 0;
+    transform: translateY(calc(100% + var(--toast-gap)));
+  }
+}
+
+@keyframes sunk {
+  to {
+    transform: translateY(calc(100% + var(--toast-gap)));
   }
 }
 
 @keyframes faded {
-  0% {
-    opacity: 0;
-  }
-
-  7%,
-  90% {
-    opacity: 1;
-  }
-
+  0%,
   100% {
     opacity: 0;
   }
+
+  10%,
+  90% {
+    opacity: 1;
+  }
+}
+
+@keyframes faded-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.toastHead {
+  display: flex;
+  gap: var(--mantine-spacing-xs);
+  align-items: center;
+  padding: 6px 6px 6px var(--mantine-spacing-sm);
+  font-size: var(--mantine-font-size-sm);
+}
+
+.toastCheck {
+  flex: none;
+  color: var(--color-accent);
+}
+
+.toastSaid {
+  flex: 1;
 }
 
 // The card at the toast's width, its own aspect kept.
@@ -90,10 +119,4 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--mantine-radius-sm);
-}
-
-.toastLabel {
-  font-size: var(--mantine-font-size-sm);
-  text-align: center;
 }
