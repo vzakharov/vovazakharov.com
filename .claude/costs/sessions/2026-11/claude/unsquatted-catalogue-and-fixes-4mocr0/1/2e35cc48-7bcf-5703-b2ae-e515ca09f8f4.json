@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 51,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 119269,
+    "cacheReadTokens": 2815911,
+    "outputTokens": 12396,
+    "thinkingTokens": 4886,
+    "responses": 22,
+    "costUsd": 1.7654582
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/unsquatted-catalogue-and-fixes.draft.do-not-implement.md",
+    "endedAt": "2026-11-04T02:17:24.847Z",
+    "contextTokens": 168887,
+    "spend": {
+      "inputTokens": 47,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 114226,
+      "cacheReadTokens": 2480829,
+      "outputTokens": 9807,
+      "thinkingTokens": 4663,
+      "responses": 20,
+      "costUsd": 1.6063018
+    }
+  },
+  "sessionId": "2e35cc48-7bcf-5703-b2ae-e515ca09f8f4",
+  "branch": "claude/unsquatted-catalogue-and-fixes-4mocr0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "несколько правок к unsquatted: 1- копируемую картинку сделать чуть больше и держать чуть подольше 2- при edit на шортлисте фокусироваться на textarea 3- кажется…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBDyKxW7VwXH6Xjtda",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T02:15:35.702Z",
+  "lastResponseAt": "2026-11-04T02:17:48.946Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 51,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 119269,
+    "cacheReadTokens": 2815911,
+    "outputTokens": 12396,
+    "thinkingTokens": 4886,
+    "responses": 22,
+    "costUsd": 1.7654582
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 51,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 119269,
+      "cacheReadTokens": 2815911,
+      "outputTokens": 12396,
+      "thinkingTokens": 4886,
+      "responses": 22,
+      "costUsd": 1.7654582
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 21,
+    "matched": 21,
+    "matchedTableUsd": 1.7040332,
+    "matchedEventUsd": 1.7040332,
+    "unseen": {}
+  }
+}
