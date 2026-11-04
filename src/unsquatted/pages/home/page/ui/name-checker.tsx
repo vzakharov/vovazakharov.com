@@ -18,6 +18,7 @@ import {
   zoneOf,
 } from '../../checker';
 import { FieldTools, TOOL_BUTTON } from '../../field-tools';
+import { IdeasLine } from '../../ideas';
 import { useVerdicts } from '../../verdict';
 import {
   type CopiedPrice,
@@ -181,6 +182,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           {copy.checkButton}
         </Button>
       </form>
+      <IdeasLine onPick={checkHere} {...{ label, copy }} />
       {rows.length > 0 && (
         <ul className={classes['zones']} data-open={open} aria-live="polite">
           {rows.map((row, index) => (

@@ -1,0 +1,36 @@
+// The line under the field, as quiet as the lede until pointed at.
+.line,
+.offer {
+  display: block;
+  margin: 8px 0 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.85rem;
+}
+
+.offer,
+.name {
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+  }
+}
+
+.offer {
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+.name {
+  color: var(--color-foreground);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: inherit;
+}
+
+.explainer p {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.progress {
+  color: var(--unsquatted-muted);
+}

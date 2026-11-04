@@ -111,6 +111,9 @@ importers:
       '@steiger/toolkit':
         specifier: 0.2.3
         version: 0.2.3
+      '@types/dom-chromium-ai':
+        specifier: 0.0.18
+        version: 0.0.18
       '@types/estree':
         specifier: ^1.0.9
         version: 1.0.9
@@ -1513,6 +1516,9 @@ packages:
 
   '@types/debug@4.1.13':
     resolution: {integrity: sha512-KSVgmQmzMwPlmtljOomayoR89W4FynCAi3E8PPs7vmDVPe84hT+vGPKkJfThkmXs0x0jAaa9U8uW8bbfyS2fWw==}
+
+  '@types/dom-chromium-ai@0.0.18':
+    resolution: {integrity: sha512-/ZITAMdViQlLmEs56d/ET9qJ42EfnrBrLw5gRB4p0raDoavGDacqP9VITK8wNM0f9bPmnddHZeJ+FWIkWi6JlQ==}
 
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
@@ -5573,6 +5579,8 @@ snapshots:
   '@types/debug@4.1.13':
     dependencies:
       '@types/ms': 2.1.0
+
+  '@types/dom-chromium-ai@0.0.18': {}
 
   '@types/estree-jsx@1.0.5':
     dependencies:
