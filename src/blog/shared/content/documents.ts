@@ -38,6 +38,7 @@ import {
   VARIANTS,
   type WithCollectionId,
 } from './collections';
+import { isReleased, publishingDay } from './embargo';
 import { firstImage } from './first-image';
 import {
   type BaseFrontmatter,
@@ -288,8 +289,23 @@ function byReadingOrder(a: ContentDocument, b: ContentDocument): number {
 }
 
 /**
- * Every document in a collection, variants and every language's reading
- * included, in reading order.
+ * Read once per process: a build is one day's publication, so every page of it
+ * agrees on what is out.
+ */
+const PUBLISHING_DAY = publishingDay();
+
+/**
+ * Whether a document is out yet. One dated after the day a build runs is not
+ * built at all — no page, card, sitemap or feed entry — and a later build
+ * publishes it on its date, which is what lets a post merge ahead of its day.
+ */
+function isPublished({ frontmatter }: WithFrontmatter): boolean {
+  return isReleased(frontmatter.date, PUBLISHING_DAY);
+}
+
+/**
+ * Every published document in a collection, variants and every language's
+ * reading included, in reading order.
  */
 export function listDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
@@ -302,6 +318,7 @@ export function listDocuments<F extends BaseFrontmatter>(
 
   return fileNames
     .map((fileName) => readDocument(collection, fileName))
+    .filter((document) => isPublished(document))
     .toSorted(byReadingOrder);
 }
 
@@ -345,9 +362,11 @@ export function loadDocument<F extends BaseFrontmatter>(
     documentName(slug, variant),
     locale,
   );
-  return fs.existsSync(collectionFile(collection.id, fileName))
-    ? readDocument(collection, fileName)
-    : undefined;
+  if (!fs.existsSync(collectionFile(collection.id, fileName))) return undefined;
+
+  const document = readDocument(collection, fileName);
+
+  return isPublished(document) ? document : undefined;
 }
 
 /**

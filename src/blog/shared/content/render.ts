@@ -24,7 +24,7 @@ import type {
   WithText,
 } from '@/kernel/shared/typings';
 
-import type { Variant } from './collections';
+import { collectionWidgets, type Variant } from './collections';
 import {
   type ContentDocument,
   isListed,
@@ -161,7 +161,10 @@ async function compile(
     // Before the conversion, so the directive nodes are still themselves when
     // the count decides to skip them.
     .use(extractTitleAndCount(collected))
-    .use(remarkContentDirectives, fileName)
+    .use(remarkContentDirectives, {
+      fileName,
+      widgets: collectionWidgets(collection),
+    })
     .use(remarkRehype, { allowDangerousHtml: true })
     // First-party content, authored in this repo and reviewed alongside the
     // code, so raw HTML passes through unsanitized — nothing here is

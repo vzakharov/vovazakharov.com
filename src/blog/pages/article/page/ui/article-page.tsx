@@ -127,7 +127,8 @@ export function articleRoute<F extends ArticleFrontmatter>(
     const { route, slug, frontmatter } = document;
     const { title, readingMinutes, headings, tree } = rendered;
     const locale = document.locale ?? SITE_CONFIG.locale;
-    const { eyebrow, mark, brief, afterLead, byline } = slots(document);
+    const { eyebrow, mark, brief, afterLead, widgets, byline } =
+      slots(document);
 
     return (
       <Box className={classes['articlePage']}>
@@ -164,7 +165,7 @@ export function articleRoute<F extends ArticleFrontmatter>(
                 </Box>
 
                 <Box className={classes['articleBody']}>
-                  <ProseContent {...{ tree, afterLead }} />
+                  <ProseContent {...{ tree, afterLead, widgets }} />
                   {SITE_CONFIG.listsSources && (
                     <SourceList {...pick(frontmatter, 'sources')} />
                   )}

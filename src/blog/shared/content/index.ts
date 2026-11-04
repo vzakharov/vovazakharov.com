@@ -67,3 +67,4 @@ export {
   type WithReadingMinutes,
 } from './render';
 export { translatedData } from './translations';
+export { type WidgetPlaceholder, widgetPlaceholder } from './widget-element';
