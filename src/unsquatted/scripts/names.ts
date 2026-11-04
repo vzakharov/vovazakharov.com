@@ -66,7 +66,7 @@ async function priced({ axis, domain }: Candidate): Promise<string> {
 
   if (offer.state === 'regular') return `free\t${axis}\t${domain}`;
 
-  const verdict = offer.state === 'premium' ? 'premium' : 'reserved';
+  const verdict = offer.state;
 
   appendToLedger({ domain, axis, verdict, checked: today() });
 
@@ -135,7 +135,7 @@ async function recheck() {
       const offer = await registrarOffer(domain);
 
       if (offer.state === 'premium') say(`premium ${offer.price}\t${domain}`);
-      if (offer.state === 'unavailable') say(`reserved\t${domain}`);
+      if (offer.state === 'reserved') say(`reserved\t${domain}`);
     }
   });
 }

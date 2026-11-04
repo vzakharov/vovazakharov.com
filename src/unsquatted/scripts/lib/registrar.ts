@@ -31,7 +31,7 @@ const responseSchema = z.object({
 export type Offer =
   | { state: 'regular' }
   | { state: 'premium'; price: string }
-  | { state: 'unavailable' };
+  | { state: 'reserved' };
 
 function keys() {
   const apikey = process.env['PORKBUN_API_KEY'];
@@ -59,7 +59,7 @@ export async function registrarOffer(domain: string): Promise<Offer> {
   try {
     const { avail, premium, price } = responseSchema.parse(body).response;
 
-    if (avail === 'no') return { state: 'unavailable' };
+    if (avail === 'no') return { state: 'reserved' };
 
     return premium === 'yes'
       ? { state: 'premium', price }
