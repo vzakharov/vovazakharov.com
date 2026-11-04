@@ -1,8 +1,9 @@
 /**
- * unsquatted.com's social card, as a page for `og-render.ts` to screenshot: the
- * mark and the wordmark over the hero's lede, beside a panel of the best
- * listed names, no two on one pattern, an empty name field closing it and a
- * count of the rest.
+ * unsquatted.com's social cards, as pages for `og-render.ts` to screenshot: the
+ * mark and the wordmark over some words, beside a panel of names and a name
+ * field closing it. The site card's words are the hero's lede, its names the
+ * best listed ones, no two on one pattern, its field empty; a post's are its
+ * own, from its widgets.
  *
  * It reads the listed names through the module the home page reads, and its
  * words from the page's catalogue, so adding a name re-flags the card and the
@@ -88,11 +89,73 @@ function lede(): readonly [string, string] {
 const more = (count: number) =>
   count > 0 ? `+ ${count} more &amp; counting` : '&amp; counting';
 
+/** What the template sets: the left column's words and the panel's rows. */
+type CardContent = {
+  headline: string;
+  subline: string;
+  note: string;
+  listHeading: string;
+  domains: readonly string[];
+  /** The field under the rows: a word typed in it, or its placeholder. */
+  field: { typed: boolean; text: string };
+  more: string;
+};
+
+/** The site card: the hero's lede beside the best listed names. */
 export function unsquattedCard(): StagedPage {
   const [headline, subline] = lede();
-  const rows = variedPicks(SHOWN)
+
+  return card({
+    headline: escapeHtml(headline).replace('*', '<sup>*</sup>'),
+    subline: escapeHtml(subline),
+    note: escapeHtml(COPY.ledeNote),
+    listHeading: escapeHtml(COPY.listHeading),
+    domains: variedPicks(SHOWN).map(({ domain }) => domain),
+    field: { typed: false, text: 'Your name…' },
+    more: more(LASTING_PICKS.length - SHOWN),
+  });
+}
+
+/**
+ * A post's card: its title and blurb under the occasion, beside the first list
+ * its widgets set, and the word its first `name` widget sets in the field.
+ */
+export function postCard({
+  title,
+  description,
+  eyebrow,
+  list,
+  word,
+}: {
+  title: string;
+  description: string;
+  eyebrow: string;
+  list: { label: string; domains: readonly string[] };
+  word: string;
+}): StagedPage {
+  return card({
+    headline: escapeHtml(title),
+    subline: escapeHtml(description),
+    note: escapeHtml(eyebrow),
+    listHeading: escapeHtml(list.label),
+    domains: list.domains.slice(0, SHOWN),
+    field: { typed: true, text: escapeHtml(word) },
+    more: 'and more in the post',
+  });
+}
+
+function card({
+  headline,
+  subline,
+  note,
+  listHeading,
+  domains,
+  field,
+  more: moreLine,
+}: CardContent): StagedPage {
+  const rows = domains
     .map(
-      ({ domain }) => `          <li>
+      (domain) => `          <li>
             <span class="domain">${escapeHtml(domain)}</span>
             <span class="grab">${escapeHtml(COPY.verdict.free)}</span>
           </li>`,
@@ -179,6 +242,7 @@ export function unsquattedCard(): StagedPage {
         font-size: 25px;
         color: ${INK_FAINT};
       }
+      .field.typed { color: ${INK}; }
       .more { margin: 0; font-size: 22px; color: ${INK_DIM}; }
     </style>
   </head>
@@ -188,21 +252,21 @@ export function unsquattedCard(): StagedPage {
       ${MARK}
         <span class="wordmark">${escapeHtml(name)}</span>
       </header>
-      <p class="headline">${escapeHtml(headline).replace('*', '<sup>*</sup>')}</p>
-      <p class="subline">${escapeHtml(subline)}</p>
-      <p class="note">${escapeHtml(COPY.ledeNote)}</p>
+      <p class="headline">${headline}</p>
+      <p class="subline">${subline}</p>
+      <p class="note">${note}</p>
       <span class="url">${escapeHtml(withoutScheme(url))}</span>
     </main>
     <aside>
-      <h2>${escapeHtml(COPY.listHeading)}</h2>
+      <h2>${listHeading}</h2>
       <ul>
 ${rows}
       </ul>
       <div class="checker">
-        <div class="field">Your name…</div>
+        <div class="field${field.typed ? ' typed' : ''}">${field.text}</div>
         <div class="dice">${DICE}</div>
       </div>
-      <p class="more">${more(LASTING_PICKS.length - SHOWN)}</p>
+      <p class="more">${moreLine}</p>
     </aside>
   </body>
 </html>

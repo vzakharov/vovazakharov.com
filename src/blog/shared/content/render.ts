@@ -228,6 +228,15 @@ async function render(document: ContentDocument): Promise<RenderedDocument> {
 }
 
 /**
+ * A body's compiled tree, for a script reading what the body sets rather than
+ * for a page: `renderDocument` takes a `ContentDocument`, which resolves the
+ * document's card, so a script drawing that card cannot reach one.
+ */
+export async function compileBody(source: ProseSource): Promise<HastRoot> {
+  return compile(source, emptyCollected());
+}
+
+/**
  * Prose set under a heading its page writes itself. A `# ` heading in it would
  * be lifted out as a title nothing shows, so one fails the build instead.
  */

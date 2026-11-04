@@ -58,6 +58,7 @@ export {
 export { intrinsicDimensions } from './image-dimensions';
 export { MUSIC_ROUTE } from './music-route';
 export {
+  compileBody,
   type DocumentCard,
   type Headlined,
   renderDocument,

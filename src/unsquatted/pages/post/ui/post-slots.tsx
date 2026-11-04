@@ -6,7 +6,11 @@ import type {
 } from '@/blog/shared/article-slots';
 import type { WidgetPlaceholder } from '@/blog/shared/content';
 
-import type { PostFrontmatter } from '@/unsquatted/shared/content';
+import {
+  domainsList,
+  nameAcross,
+  type PostFrontmatter,
+} from '@/unsquatted/shared/content';
 import { COPY } from '@/unsquatted/shared/i18n';
 import {
   fetchPrices,
@@ -14,7 +18,6 @@ import {
 } from '@/unsquatted/entities/domain/index.node-safe';
 import { OccasionEyebrow } from '@/unsquatted/entities/post';
 
-import { domainsList, nameAcross } from '../lib/widget-attributes';
 import { FieldHead, LabelHead, WidgetCard } from './widget-card';
 
 let pricesFetched: Promise<Prices> | undefined;
