@@ -32,15 +32,14 @@ export function PickRow({
     <li className={classes['pick']} data-taken={taken} data-domain={domain}>
       <span className={classes['pickName']}>
         {/*
-          A `.com` name goes in alone, so the checker tries it in every zone;
-          any other keeps its zone, which is part of the name — a hack's ends
-          the word.
+          The name as it reads, its dot dropped — `firk.in` as `firkin` — so
+          the checker sets the word's `.com` beside the hack it splits into.
         */}
         <button
           type="button"
           className={classes['domain']}
           onClick={() => {
-            checkNow(zoneOf(domain) === 'com' ? name : domain);
+            checkNow(domain.replace(/\.com$/, '').replace('.', ''));
           }}
         >
           {domain}

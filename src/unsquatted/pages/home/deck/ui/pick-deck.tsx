@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Button } from '@mantine/core';
 import { RefreshCw } from 'lucide-react';
 import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 
@@ -60,6 +60,7 @@ export function PickDeck({ heading, picks, prices, copy }: PickDeckProps) {
     () => (drawn ??= draw(picks, SHOWN, Math.random)),
     () => UNDRAWN,
   );
+  const headRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   /**
    * The rows' places before a draw lands; an empty map at first, so the first
@@ -85,7 +86,7 @@ export function PickDeck({ heading, picks, prices, copy }: PickDeckProps) {
 
   return (
     <>
-      <div className={classes['listHead']}>
+      <div ref={headRef} className={classes['listHead']}>
         {heading}
         <ActionIcon
           variant="subtle"
@@ -107,6 +108,23 @@ export function PickDeck({ heading, picks, prices, copy }: PickDeckProps) {
           />
         ))}
       </ul>
+      {/* Pressed from the bottom, the new ten are read from their top. */}
+      {shown.length > 0 && (
+        <Button
+          variant="subtle"
+          className={classes['redrawFoot']}
+          leftSection={<RefreshCw size={16} />}
+          onClick={() => {
+            redraw();
+            headRef.current?.scrollIntoView({
+              behavior: prefersStillness() ? 'instant' : 'smooth',
+              block: 'start',
+            });
+          }}
+        >
+          {copy.redraw}
+        </Button>
+      )}
     </>
   );
 }
