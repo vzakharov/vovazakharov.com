@@ -101,7 +101,6 @@ export function cardLead(
   );
 }
 
-/** Whether every row of a card is taken: the card has nothing to offer. */
 export const offersNothing = (rows: readonly CardRow[]) =>
   rows.every(({ state }) => state === 'taken');
 
