@@ -3,7 +3,7 @@
   "ledeNote": "* No, not even us.",
   "byline": "Curated, {private}, {blazing}.",
   "private": "private",
-  "privateWhy": "Your browser checks each name itself, with the registries and Google’s public DNS, so your queries never reach us and we can’t steal them. Oh, and we’re {openSource}.",
+  "privateWhy": "Your browser checks names directly, so we never see them and can’t steal them. Oh, and we’re {openSource}.",
   "openSource": "open-source",
   "coffeeLink": "Buy us a coffee",
   "coffeeSoon": "Still looking for the coffee shop — stay tuned",
