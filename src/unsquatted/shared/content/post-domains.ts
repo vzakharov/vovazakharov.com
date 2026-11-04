@@ -1,19 +1,15 @@
 import 'server-only';
 
 import type { Element, Root, RootContent } from 'hast';
-import { z } from 'zod';
 
 import {
   compileBody,
   type ContentDocument,
+  elementWidget,
   type ProseSource,
   renderDocument,
-  WIDGET_PROPERTIES,
   type WidgetPlaceholder,
 } from '@/blog/shared/content';
-
-const itemsSchema = z.array(z.string());
-const attributesSchema = z.record(z.string(), z.string());
 
 function* elements(nodes: readonly RootContent[]): Generator<Element> {
   for (const node of nodes) {
@@ -29,22 +25,9 @@ function* elements(nodes: readonly RootContent[]): Generator<Element> {
  */
 function widgetsIn({ children }: Root): WidgetPlaceholder[] {
   return [...elements(children)].flatMap(({ properties }) => {
-    const name = properties[WIDGET_PROPERTIES.name];
+    const widget = elementWidget(properties);
 
-    return typeof name === 'string'
-      ? [
-          {
-            name,
-            attributes: attributesSchema.parse(
-              JSON.parse(String(properties[WIDGET_PROPERTIES.attributes])),
-            ),
-            items: itemsSchema.parse(
-              JSON.parse(String(properties[WIDGET_PROPERTIES.items])),
-            ),
-            source: String(properties[WIDGET_PROPERTIES.source]),
-          },
-        ]
-      : [];
+    return widget === undefined ? [] : [widget];
   });
 }
 

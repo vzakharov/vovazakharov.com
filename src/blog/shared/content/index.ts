@@ -70,7 +70,7 @@ export {
 } from './render';
 export { translatedData } from './translations';
 export {
-  WIDGET_PROPERTIES,
+  elementWidget,
   type WidgetPlaceholder,
   widgetPlaceholder,
 } from './widget-element';

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { occasionStamp } from './occasion.ts';
+import { occasionLine, occasionStamp } from './occasion.ts';
 
 describe('occasionStamp', () => {
   it('prints the day before the month', () => {
@@ -10,5 +10,14 @@ describe('occasionStamp', () => {
 
   it('pads a single-digit day', () => {
     assert.equal(occasionStamp(new Date('2026-12-01')), '01.12');
+  });
+});
+
+describe('occasionLine', () => {
+  it('sets the stamp before the name', () => {
+    assert.equal(
+      occasionLine({ name: 'Singles’ Day', date: new Date('2026-11-11') }),
+      '11.11 · Singles’ Day',
+    );
   });
 });

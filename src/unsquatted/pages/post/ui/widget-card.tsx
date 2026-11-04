@@ -21,6 +21,7 @@ import {
   ShareMenu,
 } from '@/unsquatted/widgets/field-tools';
 
+import { checkerHref } from '../lib/checker-href';
 import classes from './widget-card.module.scss';
 
 type WidgetCardProps = CopiedPrices & {
@@ -71,7 +72,7 @@ function Card({
               iconSize={16}
               {...{ copy }}
             />
-            <Link href={`/#${domain}`} className={classes['domain']}>
+            <Link href={checkerHref(domain)} className={classes['domain']}>
               {domain}
             </Link>
             <VerdictLabel
@@ -134,7 +135,7 @@ type FieldHeadProps = { word: string };
 /** The word as the checker's field would hold it. */
 export function FieldHead({ word }: FieldHeadProps) {
   return (
-    <Link href={`/#${word}`} className={classes['field']}>
+    <Link href={checkerHref(word)} className={classes['field']}>
       {word}
     </Link>
   );

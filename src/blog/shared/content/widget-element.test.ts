@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { widgetPlaceholder } from './widget-element.ts';
+import { elementWidget, widgetPlaceholder } from './widget-element.ts';
 
 describe('widgetPlaceholder', () => {
   it('reads a widget off its figure’s props', () => {
@@ -28,5 +28,29 @@ describe('widgetPlaceholder', () => {
 
   it('throws on a placeholder missing a part', () => {
     assert.throws(() => widgetPlaceholder({ 'data-widget': 'name' }));
+  });
+});
+
+describe('elementWidget', () => {
+  it('reads a widget off its compiled element’s properties', () => {
+    assert.deepEqual(
+      elementWidget({
+        dataWidget: 'name',
+        dataWidgetAttributes: '{"word":"solo"}',
+        dataWidgetItems: '[]',
+        dataWidgetSource: 'singles-day.md',
+        className: ['content-widget'],
+      }),
+      {
+        name: 'name',
+        attributes: { word: 'solo' },
+        items: [],
+        source: 'singles-day.md',
+      },
+    );
+  });
+
+  it('leaves any other element alone', () => {
+    assert.equal(elementWidget({ className: ['diagram'] }), undefined);
   });
 });

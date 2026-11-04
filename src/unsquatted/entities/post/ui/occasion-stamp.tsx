@@ -4,6 +4,7 @@ import Link from 'next/link';
 // ordinary one reads the posts at build.
 import {
   type Occasion,
+  occasionLine,
   occasionStamp,
 } from '@/unsquatted/shared/content/index.node-safe';
 
@@ -26,11 +27,6 @@ export function OccasionStamp({ occasion, href }: OccasionStampProps) {
 
 type OccasionEyebrowProps = { occasion: Occasion };
 
-/** `11.11 · Singles’ Day`, over a post's title. */
 export function OccasionEyebrow({ occasion }: OccasionEyebrowProps) {
-  return (
-    <p className={classes['eyebrow']}>
-      {occasionStamp(occasion.date)} · {occasion.name}
-    </p>
-  );
+  return <p className={classes['eyebrow']}>{occasionLine(occasion)}</p>;
 }

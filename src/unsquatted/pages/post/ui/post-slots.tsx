@@ -18,6 +18,7 @@ import {
 } from '@/unsquatted/entities/domain/index.node-safe';
 import { OccasionEyebrow } from '@/unsquatted/entities/post';
 
+import { checkerHref } from '../lib/checker-href';
 import { FieldHead, LabelHead, WidgetCard } from './widget-card';
 
 let pricesFetched: Promise<Prices> | undefined;
@@ -51,7 +52,7 @@ async function NameWidget(placeholder: WidgetPlaceholder) {
     <WidgetCard
       head={<FieldHead {...{ word }} />}
       cardName={word}
-      more={{ href: `/#${word}`, text: COPY.widget.tryAnother }}
+      more={{ href: checkerHref(word), text: COPY.widget.tryAnother }}
       copy={COPY}
       prices={zonePrices}
       {...{ anchor, domains, note }}

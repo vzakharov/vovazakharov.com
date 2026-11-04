@@ -27,13 +27,6 @@ const WIDGET_PROPS = {
   source: 'data-widget-source',
 } as const;
 
-const placeholderSchema = z.object({
-  [WIDGET_PROPS.name]: z.string(),
-  [WIDGET_PROPS.attributes]: z.string(),
-  [WIDGET_PROPS.items]: z.string(),
-  [WIDGET_PROPS.source]: z.string(),
-});
-
 /** What a widget's component is handed: everything the author wrote for it. */
 export type WidgetPlaceholder = {
   name: string;
@@ -44,8 +37,33 @@ export type WidgetPlaceholder = {
   source: string;
 };
 
+/** The placeholder as the pipeline writes it: two of its parts as JSON. */
+const encodedSchema = z.object({
+  name: z.string(),
+  attributes: z.string(),
+  items: z.string(),
+  source: z.string(),
+});
+
 const stringsSchema = z.array(z.string());
 const attributesSchema = z.record(z.string(), z.string());
+
+function decoded(
+  read: (part: keyof typeof WIDGET_PROPS) => unknown,
+): WidgetPlaceholder {
+  const encoded = encodedSchema.parse({
+    name: read('name'),
+    attributes: read('attributes'),
+    items: read('items'),
+    source: read('source'),
+  });
+
+  return {
+    ...encoded,
+    attributes: attributesSchema.parse(JSON.parse(encoded.attributes)),
+    items: stringsSchema.parse(JSON.parse(encoded.items)),
+  };
+}
 
 /**
  * The widget a `figure`'s props carry, or `undefined` for any other figure.
@@ -57,14 +75,16 @@ export function widgetPlaceholder(
 ): WidgetPlaceholder | undefined {
   if (!(WIDGET_PROPS.name in props)) return undefined;
 
-  const parsed = placeholderSchema.parse(props);
+  const bag = new Map(Object.entries(props));
 
-  return {
-    name: parsed[WIDGET_PROPS.name],
-    attributes: attributesSchema.parse(
-      JSON.parse(parsed[WIDGET_PROPS.attributes]),
-    ),
-    items: stringsSchema.parse(JSON.parse(parsed[WIDGET_PROPS.items])),
-    source: parsed[WIDGET_PROPS.source],
-  };
+  return decoded((part) => bag.get(WIDGET_PROPS[part]));
+}
+
+/** The widget a compiled element's properties carry, or `undefined`. */
+export function elementWidget(
+  properties: Readonly<Record<string, unknown>>,
+): WidgetPlaceholder | undefined {
+  if (properties[WIDGET_PROPERTIES.name] === undefined) return undefined;
+
+  return decoded((part) => properties[WIDGET_PROPERTIES[part]]);
 }

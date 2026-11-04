@@ -1,1 +1,1 @@
-export { type Occasion, occasionStamp } from './occasion.ts';
+export { type Occasion, occasionLine, occasionStamp } from './occasion.ts';

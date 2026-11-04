@@ -8,12 +8,14 @@
  * `src/blog/scripts/lib/og-job.ts` carries the contract.
  */
 
+import { pick } from '@/kernel/shared/lib/collections';
+
 import { loadProse } from '@/blog/shared/content';
 
 import {
   domainsList,
   nameAcross,
-  occasionStamp,
+  occasionLine,
   POSTS,
   postWidgets,
 } from '@/unsquatted/shared/content';
@@ -46,9 +48,9 @@ const posts = await Promise.all(
       page: postCard({
         title,
         description,
-        eyebrow: `${occasionStamp(occasion.date)} · ${occasion.name}`,
+        eyebrow: occasionLine(occasion),
         list: domainsList(list),
-        word: nameAcross(word).word,
+        ...pick(nameAcross(word), 'word'),
       }),
     };
   }),

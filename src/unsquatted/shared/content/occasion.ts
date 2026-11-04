@@ -25,3 +25,8 @@ export function occasionStamp(date: Date): string {
 
   return `${day}.${month}`;
 }
+
+/** `11.11 · Singles’ Day`, over a post's title on its page and its card. */
+export function occasionLine({ name, date }: Occasion): string {
+  return `${occasionStamp(date)} · ${name}`;
+}
