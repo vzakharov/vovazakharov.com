@@ -108,18 +108,46 @@ Bite 1, in part:
   `entities/domain`, `features/like` and `widgets/field-tools` (DRY notes
   below), in bf85037b. `ZoneRow` is `entities/domain/ui/zone-row`; the domain's
   pure logic, `fetchPrices` included, is behind its `index.node-safe.ts`.
-- **The feed route** `sites/unsquatted/app/blog/feed.xml/route.ts`. Until
+- **The routers** (`sites/unsquatted/app/blog/page.tsx`,
+  `blog/[...slug]/page.tsx`, the feed route), the layout on blog's
+  `rootMetadata` and the sitemap through blog's `sitemap()` (78af84d3). Until
   `sites/unsquatted/public/blog/` exists — post 1 creates it —
-  `pnpm build unsquatted` fails reading it.
+  `pnpm build unsquatted` fails reading it, so no build has run yet.
+- **The index**, `pages/blog`: eyebrow, title, the subtitle carrying the
+  sentence on, the intro line (a draft in his voice, `COPY.blog`), and cards
+  stamped with the occasion, each listing the first two names its widgets pick.
+- **The post page**, `pages/post`: `postSlots` gives the `11.11 · Singles’ Day`
+  eyebrow and the two widgets. `:::domains{label=… id=…}` lists domains;
+  `::name{word=… zones=com,shop note=… id=…}` sets one word in the given zones
+  (`com,net,org` by default). Attributes are parsed in
+  `lib/widget-attributes.ts` (tested). The card is `ui/widget-card.tsx`: hearts,
+  a domain opening `/#<it>`, the live `VerdictLabel` and price, a note, the foot
+  link and the field's own `ShareMenu` (now exported from `widgets/field-tools`,
+  copying a link to the widget's anchor or the share card). The rows do not
+  reuse `ZoneRow`, which has no heart and a pill's layout; they reuse
+  `VerdictLabel` inside it.
+- **The stamp and the two-way check**: `entities/post` holds `OccasionStamp` and
+  `OccasionEyebrow`. `linkedPicks` (`pages/home/picks/model/post-links.ts`)
+  stamps a name picked for a post, leaves it off the list until its post is out,
+  and fails the build where `postPickProblems` (tested) finds the posts' widgets
+  (`postDomains`, read off the compiled tree) and `picks.yaml` disagreeing —
+  over every written post, embargoed ones included, through blog's new
+  `listWrittenDocuments`.
+- **The dice nudge** after the third roll, and **`preview.yml`'s `as-of`
+  input**, passed as `CONTENT_AS_OF` (6f3d53e5).
 
 ## Rest of the bite
 
-Left of what follows: § 1's routers, index page, layout metadata, sitemap, feed
-and dice nudge; § 2's components (`domains`, `name`, the share menu) as
-`ArticleSlots['widgets']` in a `pages/post` slice; § 3's stamp and the two-way
-check; § 4's reflection; § 5's fact check, the post itself and its card; the
-preview with `CONTENT_AS_OF`; the tests still unwritten (the two-way check, the
-`post` field). § 6 is done.
+Left: post cards (`generatedCards`: `src/unsquatted/scripts/render-og.ts` and
+`lib/unsquatted-card.ts` draw each post's `<route>.og.png`, the post's word in
+the field and its first `domains` list in the rows — the build fails without
+it); § 4's reflection; § 5's fact check, the post itself
+(`sites/unsquatted/public/blog/singles-day.md`,
+`occasion: { name: Singles’ Day, date: 2026-11-11 }`, a `date` a day or two
+before, using the two planned `domains` lists and `name` widgets for `single`
+and `solo`), then `pnpm build unsquatted`, a look with `/preview`, and the
+preview with `-f as-of=<post date>`. The headings below are the original
+contract; where `## Eaten so far` says otherwise, it wins.
 
 ### 1. unsquatted becomes a blog
 
