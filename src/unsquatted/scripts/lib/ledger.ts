@@ -21,7 +21,8 @@ const VERDICTS = ['taken', 'taste'] as const;
 
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 
-const LABEL = /^[\da-z]+(?:-[\da-z]+)*$/;
+/** A label, then the zone it is checked in where that is not `.com`. */
+const NAME = /^(?<label>[\da-z]+(?:-[\da-z]+)*)(?:\.(?<zone>[a-z]{2,}))?$/;
 
 /** A name a run is about to check, with the direction it was found in. */
 const candidateSchema = z.object({
@@ -71,9 +72,10 @@ export function appendToLedger(entry: LedgerEntry) {
 }
 
 /**
- * Candidates as `axis<TAB>name` lines, a name with or without its `.com`;
- * blank lines and `#` comments skipped. A malformed line throws rather than
- * being dropped, so a typo never passes for a name already checked.
+ * Candidates as `axis<TAB>name` lines, a bare name meaning its `.com` and a
+ * name with a zone (a domain hack's) meaning that domain; blank lines and `#`
+ * comments skipped. A malformed line throws rather than being dropped, so a
+ * typo never passes for a name already checked.
  */
 export function parseCandidates(text: string): Candidate[] {
   return text
@@ -82,19 +84,18 @@ export function parseCandidates(text: string): Candidate[] {
     .filter((line) => line !== '' && !line.startsWith('#'))
     .map((line) => {
       const [axis, name, ...rest] = line.split('\t').map((cell) => cell.trim());
-      const label = name?.toLowerCase().replace(/\.com$/, '');
+      const parts = name?.toLowerCase().match(NAME)?.groups;
 
       if (
         axis === undefined ||
         axis === '' ||
-        label === undefined ||
-        !LABEL.test(label) ||
+        parts?.['label'] === undefined ||
         rest.length > 0
       ) {
         throw new CandidateError(`not an "axis<TAB>name" line: ${line}`);
       }
 
-      return { axis, domain: `${label}.com` };
+      return { axis, domain: `${parts['label']}.${parts['zone'] ?? 'com'}` };
     });
 }
 

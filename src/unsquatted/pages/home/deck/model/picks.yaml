@@ -2,598 +2,698 @@ foxedpage.com:
   category: book trade
   blurb: Foxing is the brown spotting on old paper. A used-book shop or a reading app.
   score: 9
+  form: compound
   added: 2026-10-29
 
 thawdate.com:
   category: weather
-  blurb: The last-frost date every gardener asks about. A planting calendar.
+  blurb: The last-frost date every gardener asks about. A planting calendar or a seed shop.
   score: 8.5
+  form: compound
   added: 2026-10-29
 
 murmurmill.com:
   category: alliteration
-  blurb: Sounds like a podcast studio. Short and soft.
+  blurb: Short and soft, a sound worth listening to. A podcast studio or an audiobook label.
   score: 8
+  form: compound
   added: 2026-10-29
 
 mendthings.com:
   category: plain verb
-  blurb: A repair café, a fix-it marketplace, a newsletter about keeping stuff.
+  blurb: Fixing what you already own. A repair café or a fix-it marketplace.
   score: 7.5
+  form: phrase
   added: 2026-10-29
 
 proofingdrawer.com:
   category: kitchen
   blurb: Where dough rises. A baking school or a slow-food blog.
   score: 7
+  form: compound
   added: 2026-10-29
 
 tidesetter.com:
   category: sailing
   blurb: Sets the pace without shouting. A scheduling tool or a coaching practice.
   score: 6.5
+  form: compound
   added: 2026-10-29
 
 awlwork.com:
   category: trade tools
-  blurb: Seven letters, one tool. Leathercraft, bookbinding, any handwork brand.
+  blurb: The leatherworker's piercing tool, in seven letters. A leathercraft studio or a bookbinder.
   score: 6
+  form: compound
   added: 2026-10-29
 
 ashbyfold.com:
   category: invented place
-  blurb: Reads like a village that should exist. A holiday let, a cider, a novel.
+  blurb: Reads like a village that should exist. A holiday let or a cider.
   score: 5.5
+  form: compound
   added: 2026-10-29
 
 nightglowlab.com:
   category: astronomy
   blurb: The faint light of the night sky. A dark-sky tour or a sleep product.
   score: 5
+  form: compound
   added: 2026-10-29
 
 timberfare.com:
   category: random pair
-  blurb: Timber and fare. A forest café, a cabin-trip company.
+  blurb: Timber and fare. A forest café or a cabin-trip company.
   score: 4.5
+  form: compound
   added: 2026-10-29
 
 airmailblue.com:
   category: post
   blurb: The blue of a letter from far away. A stationery brand or a long-distance newsletter.
   score: 8
+  form: compound
   added: 2026-11-03
 
 inkedmargin.com:
   category: cartography
-  blurb: Where the mapmaker wrote the notes. An annotation app, an editor, a reading club.
+  blurb: Where the mapmaker wrote the notes. An annotation app or a reading club.
   score: 8
+  form: compound
   added: 2026-11-03
 
 brineandcrock.com:
   category: fermentation
   blurb: Everything kimchi needs. A fermentation class or a pickle shop.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 chalkandshears.com:
   category: tailoring
   blurb: A tailor's two tools. A bespoke tailor or an alterations shop.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 edgepiecesfirst.com:
   category: puzzles
   blurb: How every jigsaw starts. A puzzle shop or a newsletter on starting projects.
   score: 7.5
+  form: phrase
   added: 2026-11-03
 
 firstcuckoo.com:
   category: birding
-  blurb: The first sign that spring is real. A journal of first things, or a launch-day studio.
+  blurb: The first sign that spring is real. A journal of first things or a launch-day studio.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 gessoandgold.com:
   category: gilding
   blurb: Chalk ground, then gold. A frame maker or a restoration studio.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 hairspringlab.com:
   category: watchmaking
   blurb: The coil that keeps a watch honest. A repair bench or a precision-tools startup.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 kilnopening.com:
   category: pottery
   blurb: The moment every potter waits for. A ceramics studio or a weekly reveal.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 lastcarhome.com:
   category: tram
   blurb: The last tram of the night. A late-night radio show or a short-story site.
   score: 7.5
+  form: phrase
   added: 2026-11-03
 
 polarnightclub.com:
   category: arctic
   blurb: The night that lasts all winter, and a club open through it. An Arctic tour or a festival.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 postcardrack.com:
   category: travel
   blurb: The spinning stand outside every seaside shop. A postcard shop or a travel newsletter.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 prussianink.com:
   category: pigment
-  blurb: The first modern blue. An ink maker, a print studio, a design shop.
+  blurb: The first modern blue. An ink maker or a print studio.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 tempereddark.com:
   category: chocolate
   blurb: Dark chocolate with a clean snap. A chocolate maker or a chocolate shop.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 weftfloat.com:
   category: weaving
   blurb: A thread that skips over the weave. A textile studio or a design newsletter.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 windfallfruit.com:
   category: orchard
-  blurb: What the wind gives away. A gleaning project, a fruit share, a lucky-finds blog.
+  blurb: What the wind gives away. A gleaning project or a fruit share.
   score: 7.5
+  form: compound
   added: 2026-11-03
 
 castonday.com:
   category: knitting
   blurb: The first row of every project. A knitting class or a yarn shop.
   score: 7
+  form: compound
   added: 2026-11-03
 
 coldsmokehouse.com:
   category: smoking
   blurb: Smoke without heat, for salmon and cheese. A smokery or a deli.
   score: 7
+  form: compound
   added: 2026-11-03
 
 conkersseason.com:
   category: childhood
   blurb: Horse chestnuts on strings, every autumn. A toy shop or a seasonal newsletter.
   score: 7
+  form: compound
   added: 2026-11-03
 
 coppicecycle.com:
   category: forestry
   blurb: Cut a tree to the stump and it grows back. A woodland co-op or a regenerative-farming blog.
   score: 7
+  form: compound
   added: 2026-11-03
 
 echochamberlab.com:
   category: acoustics
   blurb: A room built to repeat things. A media-literacy project or a sound studio.
   score: 7
+  form: compound
   added: 2026-11-03
 
 forcedcard.com:
   category: magic
   blurb: The card the magician meant you to pick. A magic shop or a newsletter on dark patterns.
   score: 7
+  form: compound
   added: 2026-11-03
 
 forkedknight.com:
   category: chess
   blurb: One move, two threats. A chess club or a strategy consultancy.
   score: 7
+  form: compound
   added: 2026-11-03
 
 goldleafsign.com:
   category: signwriting
   blurb: Letters in gold on a shop window. A sign painter or a lettering studio.
   score: 7
+  form: compound
   added: 2026-11-03
 
 guttershot.com:
   category: comics
   blurb: The white space between panels. A comics newsletter or a small press.
   score: 7
+  form: compound
   added: 2026-11-03
 
 hedgerowlab.com:
   category: botany
   blurb: A whole ecosystem along a field's edge. A foraging course or a rewilding project.
   score: 7
+  form: compound
   added: 2026-11-03
 
 honeyflowdate.com:
   category: beekeeping
   blurb: When the nectar runs and the hives fill. A beekeeper's calendar or a honey subscription.
   score: 7
+  form: compound
   added: 2026-11-03
 
 lasttrick.com:
   category: card games
   blurb: The one that decides the hand. A card-game shop or a closing-deals newsletter.
   score: 7
+  form: compound
   added: 2026-11-03
 
 layoverlog.com:
   category: travel
   blurb: Notes from between flights. A travel blog or an airport guide.
   score: 7
+  form: compound
   added: 2026-11-03
 
 matineeseat.com:
   category: cinema
   blurb: The afternoon show, half empty. A film club or a movie newsletter.
   score: 7
+  form: compound
   added: 2026-11-03
 
 ochreandumber.com:
   category: pigment
   blurb: Two earth colours every painter keeps. An art-supply shop or a paint brand.
   score: 7
+  form: compound
   added: 2026-11-03
 
 onionskinlab.com:
   category: animation
   blurb: The thin paper animators flip through. An animation studio or a layered-drawing app.
   score: 7
+  form: compound
   added: 2026-11-03
 
 paddleoutclub.com:
   category: surfing
   blurb: The long swim before the wave. A surf school or a morning swim group.
   score: 7
+  form: compound
   added: 2026-11-03
 
 prompterbook.com:
   category: theatre
   blurb: The stage manager's copy, every cue in it. A teleprompter app or a writing tool.
   score: 7
+  form: compound
   added: 2026-11-03
 
 restmeasure.com:
   category: music theory
   blurb: A bar of silence that still counts. A wellbeing app or a quiet-hours newsletter.
   score: 7
+  form: compound
   added: 2026-11-03
 
 riposteclub.com:
   category: fencing
   blurb: The answer that comes straight back. A fencing club or a debate society.
   score: 7
+  form: compound
   added: 2026-11-03
 
 ropewalkyard.com:
   category: ropemaking
   blurb: The long shed where rope was spun. A co-working space or a climbing-gear maker.
   score: 7
+  form: compound
   added: 2026-11-03
 
 selvedgeline.com:
   category: weaving
   blurb: The finished edge of a bolt of cloth. A denim brand or a tailoring shop.
   score: 7
+  form: compound
   added: 2026-11-03
 
 shortwavehour.com:
   category: radio
   blurb: Faint voices from far away. A podcast, a radio show, a listening club.
   score: 7
+  form: compound
   added: 2026-11-03
 
 sidedoorshop.com:
   category: alley
   blurb: The way in for people who know. A small shop or a members' store.
   score: 7
+  form: compound
   added: 2026-11-03
 
 stairwellpress.com:
   category: architecture
   blurb: A small press, between floors. A zine publisher or a building's newsletter.
   score: 7
+  form: compound
   added: 2026-11-03
 
 thimblefull.com:
   category: sewing
   blurb: A thimbleful, small and exact. A mending service or a tiny-portions café.
   score: 7
+  form: respelling
   added: 2026-11-03
 
 tidepoolpost.com:
   category: coast
   blurb: Everything left behind at low tide. A coastal newsletter or a marine-life guide.
   score: 7
+  form: compound
   added: 2026-11-03
 
 wrenhour.com:
   category: birding
   blurb: Small, loud and early. A morning newsletter or a birdsong app.
   score: 7
+  form: compound
   added: 2026-11-03
 
 bisqueday.com:
   category: pottery
   blurb: The first firing, before the glaze. A pottery class or a prototype shop.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 bivvyclub.com:
   category: camping
   blurb: A night under a tarp on a hill. A wild-camping club or a gear rental.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 blankcorner.com:
   category: cartography
   blurb: The unmapped corner of an old chart. A studio for ideas nobody has drawn yet.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 bracedtop.com:
   category: lutherie
   blurb: The soundboard of a guitar, braced to sing. A luthier or a guitar repair shop.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 brinecure.com:
   category: salt
   blurb: Salt water and patience. A pickle shop or a charcuterie.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 catchandfinish.com:
   category: rowing
   blurb: The two ends of every stroke. A rowing coach or a project tool.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 cathedralpane.com:
   category: stained glass
   blurb: Coloured light over stone. A stained-glass studio or a window maker.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 curingrack.com:
   category: soap
   blurb: Where soap waits six weeks. A soap maker or a slow-goods shop.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 doubleentrydesk.com:
   category: bookkeeping
   blurb: Every sum written twice. A bookkeeping firm or an accounting app.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 dryflybox.com:
   category: angling
   blurb: Every fly a fisher trusts, in one tin. A fly shop or a gear-list newsletter.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 fairyringlab.com:
   category: mycology
   blurb: Mushrooms in a circle, overnight. A mushroom grower or a mycology podcast.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 glidepathlab.com:
   category: aviation
   blurb: The slope down to the runway. A flight school or a career-coaching practice.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 hammerend.com:
   category: curling
-  blurb: Holding the last stone. A curling club, or a fund that likes to go last.
+  blurb: Holding the last stone. A curling club or a fund that likes to go last.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 hatblockhouse.com:
   category: millinery
   blurb: The wooden form a hat is shaped on. A milliner or a hat shop.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 hayloftmail.com:
   category: farm
   blurb: News from upstairs in the barn. A farm newsletter or a CSA box.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 hoodandglove.com:
   category: falconry
   blurb: A falconer's two tools. A falconry centre or a leather-goods brand.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 hopscotchgrid.com:
   category: childhood
   blurb: Chalk squares on a pavement. A play school or a kids' games app.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 hotlatherco.com:
   category: barbershop
   blurb: The towel before the razor. A barbershop or a shaving brand.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 keycuttery.com:
   category: locksmith
   blurb: A key cut while you wait. A hardware shop or a password tool.
   score: 6.5
+  form: coinage
   added: 2026-11-03
 
 lampcabin.com:
   category: mining
   blurb: Where the miners' lamps were charged. A hardware shop or a lighting studio.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 lastandawl.com:
   category: shoemaking
   blurb: The cobbler's form and needle. A shoe repairer or a bespoke shoemaker.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 marverstone.com:
   category: glassblowing
   blurb: The flat stone hot glass is rolled on. A glass studio or a gallery.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 mortisework.com:
   category: joinery
   blurb: The hole that holds the tenon. A furniture maker or a joinery school.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 potholersclub.com:
   category: caving
   blurb: People who climb down holes for fun. A caving club or an adventure outfitter.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 prismandslit.com:
   category: optics
   blurb: All the light, taken apart. A science-toy shop or a newsletter about light.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 reedbedlab.com:
   category: wetlands
   blurb: Reeds that clean water. A water-treatment startup or a wetland project.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 rindwash.com:
   category: cheese
   blurb: The brine that gives a cheese its crust. A cheesemonger or a cheese club.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 sawdustring.com:
   category: circus
   blurb: The ring under the big top. A circus school or a workshop space.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 sleightandpalm.com:
   category: magic
   blurb: Two words for a hidden hand. A magic school or a close-up performer.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 slideandstain.com:
   category: microscopy
   blurb: What goes under the lens. A lab-supply shop or a science-teaching channel.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 strikeanddip.com:
   category: geology
   blurb: How a geologist pins a rock layer down. A field-geology school or a mapping tool.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 tailwindpost.com:
   category: aviation
   blurb: A push from behind. A pilots' newsletter or a startup digest.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 thatchandreed.com:
   category: thatching
-  blurb: A roof the old way. A thatcher, a country cottage, a craft revival.
+  blurb: A roof the old way. A thatcher or a country cottage.
   score: 6.5
+  form: compound
   added: 2026-11-03
 
 ashfallpost.com:
   category: volcano
   blurb: News from downwind of the eruption. A volcano newsletter or a geology podcast.
   score: 6
+  form: compound
   added: 2026-11-03
 
 atriumlight.com:
   category: architecture
   blurb: Daylight down the middle of a building. An architecture studio or a skylight maker.
   score: 6
+  form: compound
   added: 2026-11-03
 
 bastingstitch.com:
   category: sewing
   blurb: The loose stitch that holds until it is final. A sewing school or a prototyping studio.
   score: 6
+  form: compound
   added: 2026-11-03
 
 belaystand.com:
   category: climbing
   blurb: Where the climber anchors and pays out rope. A climbing gym or a mentoring practice.
   score: 6
+  form: compound
   added: 2026-11-03
 
 cavehour.com:
   category: cheese
   blurb: Time spent ageing in the dark. An affinage room or a slow-reading newsletter.
   score: 6
+  form: compound
   added: 2026-11-03
 
 deepwaterlog.com:
   category: ocean
   blurb: Notes from beyond the shelf. A diving club or a marine-research blog.
   score: 6
+  form: compound
   added: 2026-11-03
 
 dragonflyhour.com:
   category: insects
   blurb: A hot afternoon over still water. A summer camp or a nature podcast.
   score: 6
+  form: compound
   added: 2026-11-03
 
 fixerbath.com:
   category: darkroom
   blurb: The last tray before the print is safe. A photo lab or a film-photography shop.
   score: 6
+  form: compound
   added: 2026-11-03
 
 icefloelog.com:
   category: arctic
   blurb: Notes from drifting ice. An expedition blog or a climate newsletter.
   score: 6
+  form: compound
   added: 2026-11-03
 
 lyeandoil.com:
   category: soap
   blurb: The whole recipe for soap. A soap-making class or a skincare brand.
   score: 6
+  form: compound
   added: 2026-11-03
 
 mainspringwork.com:
   category: watchmaking
   blurb: What winds everything else. A watch restorer or a habits app.
   score: 6
+  form: compound
   added: 2026-11-03
 
 smaltiroom.com:
   category: mosaic
   blurb: A room of coloured glass tiles. A mosaic studio or a tile shop.
   score: 6
+  form: compound
   added: 2026-11-03
 
 typebarhouse.com:
   category: typewriter
   blurb: The arms that strike the letters. A typewriter repairer or a writing studio.
   score: 6
+  form: compound
   added: 2026-11-03

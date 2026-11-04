@@ -51,6 +51,12 @@ describe('parseCandidates', () => {
     );
   });
 
+  it('keeps a zone other than .com, for a domain hack', () => {
+    assert.deepEqual(parseCandidates('hack\tSlow.Ly\n'), [
+      { axis: 'hack', domain: 'slow.ly' },
+    ]);
+  });
+
   it('throws on a line that is not axis and name', () => {
     assert.throws(() => parseCandidates('leewardlog'), /axis<TAB>name/);
     assert.throws(() => parseCandidates('sailing\tleeward log'), /leeward log/);

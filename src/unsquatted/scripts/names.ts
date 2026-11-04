@@ -6,9 +6,9 @@
  *   pnpm names recheck                  # listed names no longer free
  *   pnpm names roll [count]             # word pairs, as the page's dice
  *
- * `check` looks each new candidate up in `.com` exactly as the page does,
- * records a taken one in the ledger and prints a free one as
- * `free<TAB>axis<TAB>domain`. A lookup with no answer fails the run once the
+ * `check` looks each new candidate up exactly as the page does — in `.com`, or
+ * in the zone a domain hack names — records a taken one in the ledger and
+ * prints the rest as `free|maybe<TAB>axis<TAB>domain`. A lookup with no answer fails the run once the
  * rest are done, so a partial run never passes for a complete one.
  */
 
@@ -83,7 +83,8 @@ async function check() {
     } else if (verdict.state === 'unknown') {
       unanswered.push(domain);
     } else {
-      say(`free\t${axis}\t${domain}`);
+      // `maybe` is DNS's hint in a zone whose registry has no RDAP: no pick.
+      say(`${verdict.state}\t${axis}\t${domain}`);
     }
   });
 

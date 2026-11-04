@@ -26,6 +26,20 @@ const CATALOGUE_PATH = path.join(
 const DOMAIN = /^[\da-z-]+\.[a-z]+$/;
 
 /**
+ * The shape a name takes, which a run spreads its picks across as it does
+ * axes: two words joined, a phrase that is not, a real word, a word respelt or
+ * short of a letter, a word made up, and a name whose zone finishes it.
+ */
+const FORMS = [
+  'compound',
+  'phrase',
+  'word',
+  'respelling',
+  'coinage',
+  'hack',
+] as const;
+
+/**
  * What a row shows of a name, and `score`, which orders the rows, highest
  * first: a point on a scale rather than a rank, so a name slots in between two
  * others without renumbering either.
@@ -45,6 +59,7 @@ const shownSchema = z.object({
  */
 const pickSchema = z.strictObject({
   ...shownSchema.shape,
+  form: z.enum(FORMS),
   added: z.coerce.date(),
   shownUntil: z.coerce.date().optional(),
 });
