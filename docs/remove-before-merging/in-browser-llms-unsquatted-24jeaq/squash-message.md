@@ -1,25 +1,25 @@
 Proposed squash title/body:
 
 ```
-feat(unsquatted): name ideas from an in-browser LLM (#247)
+feat(unsquatted): name variations from Chrome's built-in model (#247)
 ```
 
 ```
-A visitor with a keyword and no free name had only the dice, which
-know nothing of the keyword. The ideas button beside it asks a model
-for alternatives on the visitor's own device, so the site stays
-serverless and the keyword never leaves the browser.
+A visitor whose name is taken had only the dice, which know nothing of
+the name. Chrome's built-in model (Prompt API, Gemini Nano) now offers
+variations of it, on the visitor's own machine, so the site stays
+serverless and the search never leaves the browser.
 
-Chrome's built-in Prompt API (Gemini Nano) answers where present;
-elsewhere transformers.js runs a small Qwen on WebGPU in a Web Worker,
-after asking before its one-time download. Where neither runs, the
-button is not shown: GitHub Pages cannot send the headers threaded
-WASM needs, and single-threaded WASM is too slow for a model.
+After a search, a grey line under the field offers to brainstorm; a
+modal explains in plain words what runs where and that Chrome
+downloads the model once. Once agreed, every search shows three
+variations in that line, each a click from its own check. Desktop
+Chrome only; other browsers see nothing new.
 
-Both engines share one prompt, built from the naming runbook's taste,
-and one parser that cleans, dedupes and validates the model's JSON.
-Each idea's .com goes through the checker's own lookups, and only the
-free ones appear, each a click from the full zone check.
+The prompt carries the naming runbook's taste, steering away from the
+first, already-registered ideas, and the model's JSON is validated and
+cleaned like any typed name. unsquattedForget() in the console resets
+the opt-in for testing; Chrome's model itself is Chrome's to remove.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
