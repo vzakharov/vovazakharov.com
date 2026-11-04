@@ -1,0 +1,135 @@
+@use '../../../../../styles/mantine' as mantine;
+
+// A block set into the text rather than a second column: narrower than the
+// prose and centred in it on a wide screen, the column's own width on a phone.
+.card {
+  max-width: 36rem;
+  margin: 2em auto;
+  padding: 16px 20px 12px;
+  border: 1px solid var(--color-border-hairline);
+  border-radius: 16px;
+  background: var(--color-surface);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.label {
+  margin: 0 0 4px;
+  color: var(--unsquatted-muted);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+// The checker's field, holding the word, and opening it there.
+.field {
+  display: block;
+  margin-bottom: 6px;
+  padding: 10px 16px;
+  border: 2px solid var(--color-accent);
+  border-radius: 12px;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 1.6rem;
+  text-decoration: none;
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// The heart, the domain, its verdict and its price; on a phone the price drops
+// under the verdict, as it does in the catalogue's rows.
+.row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto 9rem;
+  align-items: baseline;
+  column-gap: 12px;
+  margin: 0;
+  padding: 9px 0;
+  border-top: 1px solid var(--color-border-hairline);
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  > :nth-child(3) {
+    grid-column: 3;
+  }
+
+  > :nth-child(4) {
+    grid-column: 4;
+    text-align: right;
+  }
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    column-gap: 10px;
+    row-gap: 2px;
+
+    > :nth-child(-n + 2) {
+      grid-row: span 2;
+      align-self: center;
+    }
+
+    > :nth-child(4) {
+      grid-column: 3;
+    }
+  }
+}
+
+.like {
+  align-self: center;
+  color: var(--unsquatted-muted);
+
+  &[data-on='true'] {
+    color: var(--unsquatted-taken);
+  }
+}
+
+// One line, as the checker's rows: a break could split the zone off.
+.domain {
+  overflow: hidden;
+  color: var(--color-foreground);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 1.25rem;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    font-size: 1.05rem;
+  }
+}
+
+.note {
+  margin: 6px 0 2px;
+  color: var(--unsquatted-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border-hairline);
+  font-size: 0.875rem;
+}
+
+.more {
+  color: var(--color-accent);
+}
+
+.share {
+  color: var(--unsquatted-muted);
+}

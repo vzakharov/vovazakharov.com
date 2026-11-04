@@ -95,7 +95,11 @@ const pickSchema = z
 const catalogueSchema = z.record(z.string().regex(DOMAIN), pickSchema);
 
 export type ShownName = z.infer<typeof shownSchema> &
-  WithDomain & { blurb: string };
+  WithDomain & {
+    blurb: string;
+    /** The slug of the post that picked it, if one did. */
+    post?: string;
+  };
 
 function readCatalogue() {
   const picks = (() => {
@@ -137,17 +141,25 @@ const shown = ({
   tagline,
   uses,
   score,
+  post,
 }: Pick): ShownName => ({
   domain,
   category,
   blurb: `${tagline} ${usesSentence(uses)}`,
   score,
+  ...(post === undefined ? {} : { post }),
 });
 
 /** Every name ever picked, shown or not: what a naming run never re-checks. */
 export const PICKED_DOMAINS: readonly string[] = SORTED.map(
   ({ domain }) => domain,
 );
+
+/** Every pick a post made, shown or not, for the check against the posts. */
+export const POSTED_PICKS: ReadonlyArray<WithDomain & { post: string }> =
+  SORTED.flatMap(({ domain, post }) =>
+    post === undefined ? [] : [{ domain, post }],
+  );
 
 /** The names still shown at build. */
 export const PICKS: readonly ShownName[] = SORTED.filter(

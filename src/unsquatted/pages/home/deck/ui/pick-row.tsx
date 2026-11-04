@@ -10,13 +10,14 @@ import {
   useVerdict,
   zoneOf,
 } from '@/unsquatted/entities/domain';
+import { OccasionStamp } from '@/unsquatted/entities/post';
 import { LikeButton } from '@/unsquatted/features/like';
 
 import { useChecker } from '../../checker';
-import type { ShownName } from '../../picks';
+import type { LinkedName } from '../../picks';
 import classes from './deck.module.scss';
 
-type PickRowProps = ShownName & CopiedPrice;
+type PickRowProps = LinkedName & CopiedPrice;
 
 /**
  * A listed name, looked up again on every visit: one taken since it was
@@ -27,6 +28,7 @@ export function PickRow({
   domain,
   category,
   blurb,
+  postLink,
   price,
   copy,
 }: PickRowProps) {
@@ -38,6 +40,7 @@ export function PickRow({
   return (
     <li className={classes['pick']} data-taken={taken} data-domain={domain}>
       <span className={classes['pickName']}>
+        {postLink !== undefined && <OccasionStamp {...postLink} />}
         {/*
           The name as it reads, its dot dropped — `firk.in` as `firkin` — so
           the checker sets the word's `.com` beside the hack it splits into.

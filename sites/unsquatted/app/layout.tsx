@@ -1,2 +1,2 @@
-export { rootMetadata as metadata } from '@/kernel/app/ui';
+export { rootMetadata as metadata } from '@/blog/app/lib';
 export { RootLayout as default } from '@/unsquatted/app/ui';

@@ -53,8 +53,12 @@ type Copy = WithCopy['copy'];
 /** Draws the card; none while no domain of the name is known to be free. */
 type DrawCard = (() => Promise<File>) | undefined;
 
-/** `typed` is what the copied link opens on: the name as the field holds it. */
-type ShareMenuProps = Sharing & Typed & { drawCard: DrawCard };
+/**
+ * `typed` is the copied link's fragment: the name as the field holds it, or a
+ * widget's anchor in a post. `size` is the button's, the field's by default.
+ */
+type ShareMenuProps = Sharing &
+  Typed & { drawCard: DrawCard; size?: number; className?: string };
 
 type LabelProps = { children: readonly string[]; showing: number };
 
@@ -104,12 +108,15 @@ function useDrawWhenLooked(looking: boolean, drawCard: DrawCard) {
   };
 }
 
-function ShareMenu({
+/** Copies a link to `typed` on this page, or the image card `drawCard` draws. */
+export function ShareMenu({
   typed,
   drawCard,
   onReached,
   looking,
   copy,
+  size = 42,
+  className = classes['tool'],
 }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<File>();
@@ -132,8 +139,7 @@ function ShareMenu({
         <Menu.Target>
           <ActionIcon
             variant="default"
-            size={42}
-            className={classes['tool']}
+            {...{ size, className }}
             aria-label={copy.share}
             title={copy.share}
             onPointerEnter={onReached}
@@ -198,7 +204,8 @@ function ShareMenu({
   );
 }
 
-const cardText = (copy: Copy): CardText => ({
+/** The card's fixed words: the site, its host, and the lede as its foot. */
+export const cardText = (copy: Copy): CardText => ({
   site: SITE_CONFIG.name,
   host: withoutScheme(SITE_CONFIG.url),
   footer: `${copy.lede.replace('*', '')} ${plainByline({ copy })}`,

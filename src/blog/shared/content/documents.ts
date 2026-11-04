@@ -304,10 +304,10 @@ function isPublished({ frontmatter }: WithFrontmatter): boolean {
 }
 
 /**
- * Every published document in a collection, variants and every language's
- * reading included, in reading order.
+ * Every document in a collection, embargoed ones included, in reading order:
+ * for a check that has to hold before a document is out, never for a page.
  */
-export function listDocuments<F extends BaseFrontmatter>(
+export function listWrittenDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
 ): Array<ContentDocument<F>> {
   const fileNames = fs
@@ -318,8 +318,19 @@ export function listDocuments<F extends BaseFrontmatter>(
 
   return fileNames
     .map((fileName) => readDocument(collection, fileName))
-    .filter((document) => isPublished(document))
     .toSorted(byReadingOrder);
+}
+
+/**
+ * Every published document in a collection, variants and every language's
+ * reading included, in reading order.
+ */
+export function listDocuments<F extends BaseFrontmatter>(
+  collection: Collection<F>,
+): Array<ContentDocument<F>> {
+  return listWrittenDocuments(collection).filter((document) =>
+    isPublished(document),
+  );
 }
 
 /**

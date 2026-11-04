@@ -29,6 +29,7 @@ export {
   listAllDocuments,
   listDocuments,
   listPrimaryDocuments,
+  listWrittenDocuments,
   loadDocument,
   loadProse,
   type ProseSource,
@@ -67,4 +68,8 @@ export {
   type WithReadingMinutes,
 } from './render';
 export { translatedData } from './translations';
-export { type WidgetPlaceholder, widgetPlaceholder } from './widget-element';
+export {
+  WIDGET_PROPERTIES,
+  type WidgetPlaceholder,
+  widgetPlaceholder,
+} from './widget-element';

@@ -73,6 +73,20 @@
     "taken": "(can you imagine someone did that to us?)"
   },
   "price": { "then": ", then ", "perYear": "/yr" },
+  "diceNudge": "Tired of dicing?",
+  "diceNudgeLink": "Read some",
+  "widget": {
+    "checkOwn": "Check your own in the full checker →",
+    "tryAnother": "Try another word in the checker →"
+  },
+  "blog": {
+    "eyebrow": "The blog",
+    "title": "The Unnamed of Unsquatted",
+    "subtitle": ", on unsquatted (and some squatted) names",
+    "description": "Holidays, and the domain names nobody has grabbed for them yet, by the Unnamed.",
+    "intro": "Every holiday is a naming opportunity if you squint. I squint professionally.",
+    "signature": "the Unnamed"
+  },
   "shoutOutPrompt": "Got hooked on rolling the dice?",
   "shoutOutOr": "or",
   "shoutOutLink": "give a shout-out",
