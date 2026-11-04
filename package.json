@@ -37,6 +37,7 @@
     "translation:stamp": "tsx src/blog/scripts/stamp-translation.ts",
     "content:og": "scripts/site-task.sh 'tsx --conditions=react-server src/{site}/scripts/render-og.ts'",
     "basilisk:reflections": "scripts/in-site.sh basilisk tsx --conditions=react-server src/basilisk/scripts/pick-reflections.ts",
+    "names": "scripts/in-site.sh unsquatted tsx --conditions=react-server src/unsquatted/scripts/names.ts",
     "content:pdf": "scripts/site-task.sh 'tsx src/{site}/scripts/render-pdf.ts'",
     "music:scaffold": "scripts/in-site.sh vova tsx --conditions=react-server src/music/scripts/scaffold-song.ts",
     "music:masters": "scripts/in-site.sh vova tsx --conditions=react-server src/music/scripts/masters.ts",

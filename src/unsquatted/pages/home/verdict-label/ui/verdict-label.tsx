@@ -1,3 +1,5 @@
+import type { WithText } from '@/kernel/shared/typings';
+
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
 import {
@@ -9,7 +11,7 @@ import {
 } from '../../checker';
 import type { Release, Verdict, WithVerdict } from '../../verdict';
 import { registerUrl } from '../lib/register';
-import classes from './unsquatted-home.module.scss';
+import classes from './verdict-label.module.scss';
 
 /** A row's wording and what the lookup said, for the label that shows it. */
 export type CopiedVerdict = WithCopy & WithVerdict;
@@ -122,6 +124,15 @@ function registerLink(copy: Copy, domain: string, state: State, text: string) {
     <NotedSpan words={link} hoverOnly>
       {copy.verdict.maybeWhy}
     </NotedSpan>
+  );
+}
+
+/** A zone's label where it cannot be looked up, worded by the caller. */
+export function UncheckedLabel({ text }: WithText) {
+  return (
+    <span className={classes['verdict']} data-state="unknown">
+      {text}
+    </span>
   );
 }
 

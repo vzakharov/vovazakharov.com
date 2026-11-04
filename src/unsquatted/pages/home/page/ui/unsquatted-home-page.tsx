@@ -7,13 +7,13 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { CheckerProvider, COPY, plainByline, zoneOf } from '../../checker';
+import { CheckerProvider, COPY, plainByline } from '../../checker';
+import { PickDeck } from '../../deck';
+import { PICKS } from '../../deck/index.server-only';
 import { LikesProvider } from '../../likes';
 import { Shortlist } from '../../shortlist';
 import { fetchPrices } from '../lib/prices';
-import { PICKS } from '../model/picks';
 import { NameChecker } from './name-checker';
-import { PickRow } from './pick-row';
 import classes from './unsquatted-home.module.scss';
 
 const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
@@ -92,19 +92,16 @@ export async function UnsquattedHomePage() {
             <Shortlist copy={COPY} {...{ prices }} />
 
             <section aria-labelledby="names">
-              <h2 id="names" className={classes['sectionHeading']}>
-                {COPY.listHeading}
-              </h2>
-              <ul className={classes['picks']}>
-                {PICKS.map(({ domain, category, blurb }) => (
-                  <PickRow
-                    key={domain}
-                    {...{ domain, category, blurb }}
-                    price={prices[zoneOf(domain)]}
-                    copy={COPY}
-                  />
-                ))}
-              </ul>
+              <PickDeck
+                heading={
+                  <h2 id="names" className={classes['listHeading']}>
+                    {COPY.listHeading}
+                  </h2>
+                }
+                picks={PICKS}
+                copy={COPY}
+                {...{ prices }}
+              />
             </section>
           </CheckerProvider>
         </LikesProvider>

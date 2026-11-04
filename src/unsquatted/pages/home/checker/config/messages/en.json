@@ -42,6 +42,7 @@
   "moreZones": "more tlds ↓",
   "fewerZones": "fewer tlds ↑",
   "listHeading": "Up for grabs",
+  "redraw": "Draw ten other names",
   "register": "grab →",
   "verdict": {
     "pending": "checking…",

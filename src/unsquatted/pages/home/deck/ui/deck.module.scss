@@ -1,0 +1,152 @@
+@use '../../../../../../styles/mantine' as mantine;
+
+// The list's heading with the button that redraws it, side by side.
+.listHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+// A bare glyph: hover changes its colour, never puts a plate behind it.
+.redraw,
+.pickLike {
+  @include mantine.hover {
+    background: transparent;
+  }
+}
+
+.redraw {
+  color: var(--color-foreground);
+  opacity: 0.55;
+
+  @include mantine.hover {
+    opacity: 1;
+  }
+}
+
+.picks {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-border-hairline);
+  list-style: none;
+
+  // A redraw flies rows out past the column's edge (`shuffle-motion.ts`).
+  overflow-x: clip;
+}
+
+// The name, its category and its blurb down the left; the register link
+// beside the name, dropping under the blurb on a phone.
+.pick {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 16px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--color-border-hairline);
+
+  // The footer's own rule closes the list.
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &[data-taken='true'] {
+    opacity: 0.55;
+  }
+
+  // The heart shows on the row's hover or focus, always where nothing hovers,
+  // and always once the name is liked.
+  & .pickLike {
+    color: var(--color-foreground);
+    opacity: 0;
+
+    &[data-on='true'] {
+      color: var(--unsquatted-taken);
+    }
+
+    // Hovered, the heart takes the colour it will have once liked.
+    @include mantine.hover {
+      color: var(--unsquatted-taken);
+    }
+  }
+
+  &:hover .pickLike,
+  &:focus-within .pickLike,
+  & .pickLike[data-on='true'] {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    & .pickLike {
+      opacity: 1;
+    }
+  }
+}
+
+// A button that reads as the heading it is, until hovered.
+.domain {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-align: start;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.pickName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+}
+
+.category {
+  grid-column: 1;
+  color: var(--color-accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.blurb {
+  grid-column: 1;
+  margin: 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.95rem;
+}
+
+// The link, and its price under it.
+.register {
+  display: flex;
+  flex-direction: column;
+  grid-row: 1 / span 3;
+  grid-column: 2;
+  align-items: flex-end;
+  align-self: baseline;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    grid-row: auto;
+    grid-column: 1;
+    align-items: flex-start;
+    margin-top: 6px;
+  }
+
+  // A register link takes its label's colour, not the anchors' foreground.
+  & a {
+    color: inherit;
+  }
+}

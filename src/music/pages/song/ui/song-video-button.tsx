@@ -1,7 +1,9 @@
 'use client';
 
 import { Button, Modal } from '@mantine/core';
-import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+
+import type { Headed } from '@/kernel/shared/typings';
 
 import type { Slugged } from '@/blog/shared/content';
 
@@ -11,10 +13,10 @@ import { usePlayer } from '@/music/features/player';
 import type { SongVideo } from '../lib/song-video';
 import classes from './song-video.module.scss';
 
+/** `heading` is the dialog's — the song's name, as the page shows it. */
 export type SongVideoButtonProps = SongVideo &
-  Slugged & {
-    /** The dialog's heading — the song's name, as the page shows it. */
-    heading: ReactNode;
+  Slugged &
+  Headed & {
     labels: Messages['video'];
   };
 

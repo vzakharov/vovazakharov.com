@@ -17,22 +17,25 @@ const PICKS_DIR = path.join(PUBLIC_DIR, 'picks');
 
 const DOMAIN = /^[\da-z-]+\.[a-z]+$/;
 
-/** What a row shows of a name. */
+/**
+ * What a row shows of a name, and `score`, which orders the rows, highest
+ * first: a point on a scale rather than a rank, so a name slots in between two
+ * others without renumbering either.
+ */
 const shownSchema = z.object({
   category: z.string().min(1),
   blurb: z.string().min(1),
+  score: z.number().finite(),
 });
 
 /**
- * The naming routine writes these, so they are parsed rather than trusted: a
- * malformed one fails the build, not the page. `score` orders the list, highest
- * first: a point on a scale rather than a rank, so a name slots in between two
- * others without renumbering either. `shownUntil` is set by the routine once
- * the name is taken, and past it the file stays in the repository but leaves
- * the list. YAML reads an unquoted date as a `Date`.
+ * The naming runbook (`src/unsquatted/scripts/RUNBOOK.md`) writes these, so
+ * they are parsed rather than trusted: a malformed one fails the build, not the
+ * page. `shownUntil` is set by the runbook once the name is taken, and past it
+ * the file stays in the repository but leaves the list. YAML reads an unquoted
+ * date as a `Date`.
  */
 const pickSchema = shownSchema.extend({
-  score: z.number().finite(),
   added: z.coerce.date(),
   shownUntil: z.coerce.date().optional(),
 });
@@ -74,11 +77,17 @@ const SORTED = fs
       a.domain.localeCompare(b.domain),
   );
 
-const shown = ({ domain, category, blurb }: ShownName): ShownName => ({
+const shown = ({ domain, category, blurb, score }: ShownName): ShownName => ({
   domain,
   category,
   blurb,
+  score,
 });
+
+/** Every name ever picked, shown or not: what a naming run never re-checks. */
+export const PICKED_DOMAINS: readonly string[] = SORTED.map(
+  ({ domain }) => domain,
+);
 
 /** The names still shown at build. */
 export const PICKS: readonly ShownName[] = SORTED.filter(

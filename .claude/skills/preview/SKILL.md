@@ -194,7 +194,9 @@ preview" — and, on an unmerged branch, a plain «задеплой» or "deploy
 site named, publish the one the branch changes, and ask only when it changes
 several. Offer it, without publishing, when the change is one that setup cannot
 show: a phone layout, a browser or machine they do not develop on, or behaviour
-that only a real host has.
+that only a real host has. **Once a session has published a branch, it
+republishes after each visible change it pushes, unasked** — the operator
+looking at the preview is looking at that branch.
 
 ```bash
 gh workflow run preview.yml --ref <branch> -f site=<site>   # vova, lsa, bible or basilisk
