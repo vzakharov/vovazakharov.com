@@ -299,11 +299,10 @@ function cardText(copy: Copy): CardText {
  * The name in the field's share and heart buttons. Both are about the name as
  * a whole: the heart likes it, with the zone typed after it as the one
  * preferred, and the card's field holds that domain with its verdict, whatever
- * the lookup said; its rows lead with that zone, else the liked one, else the
+ * the lookup said, and its rows the others, led by the liked one, else the
  * first the lookups say is free or may be — or, where none is, the first of
- * them taken — and leave the typed domain to the field. Reaching
- * for the share button asks for the domains not yet looked up, and the card
- * waits for those answers that could still change it.
+ * them taken. Reaching for the share button asks for the domains not yet
+ * looked up, and the card waits for those answers that could still change it.
  */
 export function FieldTools({
   label,

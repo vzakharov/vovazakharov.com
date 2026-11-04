@@ -134,10 +134,8 @@ function verdictText({ verdict }: CardText, row: CardRow): string {
 const LEFT = 128;
 const RIGHT = 1072;
 
-/** The room between a domain and the verdict beside it. */
 const VERDICT_MARGIN = 24;
 
-/** What every part of the card is drawn with. */
 type Drawing = { l: Look; t: CardText };
 
 /**
@@ -357,10 +355,6 @@ function drawCorrected(
 /** The type of the file `shareCard` makes, known before the file is. */
 const CARD_TYPE = 'image/png';
 
-/**
- * Which aside the hand writes: `all` on a card with nothing to offer, `field`
- * on one whose field alone is taken; none where the card has no taken field.
- */
 function asideOf(
   field: CardRow | undefined,
   rows: readonly CardRow[],
