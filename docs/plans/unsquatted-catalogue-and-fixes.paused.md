@@ -29,6 +29,19 @@ to spread across them.
   what the site calls a free name; left out until they say.
 - About 80 `.ing` candidates went unanswered (Google's RDAP throttling); they
   are in no ledger, so a later run can try them.
+- **Blocking before merge — premium and reserved names.** The operator found
+  `anem.one` is a registry premium ($1092/yr) and that a registry's reserved
+  word (`fuck.app`) shows as free: RDAP answers 404 for both, so
+  `pnpm names check` cannot tell. New gTLDs price dictionary-like names as
+  premium, so most of the 62 hacks are suspect; `.com` has no registry premium
+  tier. The fix is a keyed availability check (Porkbun's `/domain/checkDomain`,
+  which returns `premium` and the real price) in `pnpm names check` and
+  `recheck`, with every non-`.com` pick re-checked and premium or unavailable
+  ones dropped to the ledger. The operator was asked to add `PORKBUN_API_KEY`
+  and `PORKBUN_SECRET_API_KEY` as environment secrets (a new session picks them
+  up). Without the keys, drop the hacks from this PR rather than ship them
+  unchecked. The page's own checker cannot see premiums either (no keyed call
+  from a browser); the operator accepts that for now.
 
 ## The ask, item by item
 
