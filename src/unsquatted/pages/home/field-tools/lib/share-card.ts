@@ -5,6 +5,8 @@
  * `data-unsquatted-palette`, and its faces are the ones the page has loaded.
  */
 
+import { pick } from '@/kernel/shared/lib/collections';
+
 import { priceParts, type WithCopy } from '../../checker';
 import type { CardRow } from './share';
 
@@ -35,7 +37,8 @@ type Look = {
   surface: string;
   hairline: string;
   maybe: string;
-  heart: string;
+  /** A taken domain's verdict and a liked one's heart, which share a colour. */
+  taken: string;
   displayFace: string;
   bodyFace: string;
   monoFace: string;
@@ -58,7 +61,7 @@ function look(): Look {
     surface: read('--color-surface'),
     hairline: read('--color-border-hairline'),
     maybe: read('--unsquatted-maybe'),
-    heart: read('--unsquatted-taken'),
+    taken: read('--unsquatted-taken'),
     displayFace: read('--font-display'),
     bodyFace: read('--font-body'),
     monoFace: read('--mantine-font-family-monospace'),
@@ -128,6 +131,15 @@ function drawField(context: CanvasRenderingContext2D, l: Look, name: string) {
   context.fillText(name, 128, 240);
 }
 
+/** A row's verdict as the checker words it, a taken one with its year. */
+function verdictText({ verdict }: CardText, row: CardRow): string {
+  if (row.state !== 'taken') return verdict[row.state];
+
+  return row.since === undefined
+    ? verdict.taken
+    : verdict.takenSince.replace('{year}', row.since);
+}
+
 const ROW_TOP = 316;
 const ROW_STEP = 68;
 const RIGHT = 1072;
@@ -153,9 +165,11 @@ function drawRow(
     context.fillText(price, right, y);
     right -= context.measureText(price).width + 12;
   }
-  context.fillStyle = row.state === 'free' ? l.accent : l.maybe;
+  context.fillStyle = { free: l.accent, ...pick(l, 'maybe', 'taken') }[
+    row.state
+  ];
   context.font = `${weight}26px ${l.bodyFace}`;
-  const verdict = t.verdict[row.state];
+  const verdict = verdictText(t, row);
 
   context.fillText(verdict, right, y);
   const verdictLeft = right - context.measureText(verdict).width - 24;
@@ -174,7 +188,7 @@ function drawRow(
   if (row.liked) {
     context.save();
     context.translate(84, y - 22);
-    context.fillStyle = l.heart;
+    context.fillStyle = l.taken;
     context.fill(new Path2D(HEART));
     context.restore();
   }

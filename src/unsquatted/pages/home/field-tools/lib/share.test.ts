@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Verdict } from '../../verdict';
-import { cardRows, domainLink } from './share';
+import { cardLead, cardRows, domainLink } from './share';
 
 const PRICES = {
   com: { registration: 12, renewal: 12 },
@@ -48,6 +48,7 @@ describe('cardRows', () => {
     assert.deepEqual(rows[0], {
       domain: 'foxedpage.net',
       state: 'free',
+      since: undefined,
       liked: false,
       price: PRICES.net,
     });
@@ -99,6 +100,88 @@ describe('cardRows', () => {
     assert.deepEqual(
       rows.map(({ liked }) => liked),
       [true, false],
+    );
+  });
+
+  it('lists taken domains with their years where the shared one is taken', () => {
+    const rows = cardRows({
+      shared: 'foxedpage.net',
+      siblings: [
+        'foxedpage.com',
+        'foxedpage.net',
+        'foxedpage.io',
+        'foxedpage.ai',
+        'foxedpage.org',
+      ],
+      liked: undefined,
+      verdicts: new Map<string, Verdict>([
+        ['foxedpage.com', { state: 'taken', since: '2009' }],
+        ['foxedpage.net', { state: 'taken', since: '2014' }],
+        ['foxedpage.io', { state: 'unknown' }],
+        ['foxedpage.ai', { state: 'taken', since: undefined }],
+        ['foxedpage.org', { state: 'taken', since: '2001' }],
+      ]),
+      prices: PRICES,
+    });
+
+    assert.deepEqual(rows, [
+      {
+        domain: 'foxedpage.net',
+        state: 'taken',
+        since: '2014',
+        liked: false,
+        price: undefined,
+      },
+      {
+        domain: 'foxedpage.com',
+        state: 'taken',
+        since: '2009',
+        liked: false,
+        price: undefined,
+      },
+      {
+        domain: 'foxedpage.ai',
+        state: 'taken',
+        since: undefined,
+        liked: false,
+        price: undefined,
+      },
+    ]);
+  });
+});
+
+describe('cardLead', () => {
+  it('takes the first lead free or may be over an earlier taken one', () => {
+    assert.equal(
+      cardLead(['foxedpage.com', undefined, 'foxed.page', 'foxedpage.net'], {
+        verdicts: verdicts({
+          'foxedpage.com': 'taken',
+          'foxed.page': 'maybe',
+          'foxedpage.net': 'free',
+        }),
+      }),
+      'foxed.page',
+    );
+  });
+
+  it('falls back to the first taken lead where none is registrable', () => {
+    assert.equal(
+      cardLead([undefined, 'foxedpage.com', 'foxedpage.net'], {
+        verdicts: verdicts({
+          'foxedpage.com': 'unknown',
+          'foxedpage.net': 'taken',
+        }),
+      }),
+      'foxedpage.net',
+    );
+  });
+
+  it('has none while no lead has a verdict', () => {
+    assert.equal(
+      cardLead(['foxedpage.com'], {
+        verdicts: verdicts({ 'foxedpage.com': 'unknown' }),
+      }),
+      undefined,
     );
   });
 });

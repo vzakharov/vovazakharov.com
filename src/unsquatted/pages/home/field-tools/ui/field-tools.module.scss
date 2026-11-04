@@ -10,7 +10,7 @@
   }
 }
 
-// Every text a menu item may show, in one cell, only one of them visible.
+// Every text a button may show, in one cell, only one of them visible.
 .label {
   display: grid;
 
@@ -28,94 +28,66 @@
   color: var(--unsquatted-taken);
 }
 
-// Below the screen's edge, where the toast rises from and sinks back to.
-$toast-below: translateY(calc(100% + var(--toast-gap)));
-
-// `--toast-ms` is `TOAST_MS`, the moment `useCopied` keeps the toast mounted.
-// Closed early, it sinks at once. Reduced motion only fades it.
-.toast {
-  --toast-gap: var(--mantine-spacing-md);
-
-  position: fixed;
-  z-index: 300;
-  right: var(--toast-gap);
-  bottom: var(--toast-gap);
-  overflow: hidden;
-  width: min(300px, calc(100vw - 2 * var(--toast-gap)));
-  border-radius: var(--mantine-radius-md);
-  background-color: var(--color-surface);
-  box-shadow: var(--mantine-shadow-lg);
-  animation: shown var(--toast-ms) ease-in-out forwards;
-
-  &[data-leaving='true'] {
-    animation: sunk 250ms ease-in forwards;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    animation-name: faded;
-
-    &[data-leaving='true'] {
-      animation-name: faded-out;
-    }
-  }
-}
-
-@keyframes shown {
-  0%,
-  100% {
-    transform: $toast-below;
-  }
-
-  10%,
-  90% {
-    transform: none;
-  }
-}
-
-@keyframes sunk {
-  to {
-    transform: $toast-below;
-  }
-}
-
-@keyframes faded {
-  0%,
-  100% {
-    opacity: 0;
-  }
-
-  10%,
-  90% {
-    opacity: 1;
-  }
-}
-
-@keyframes faded-out {
-  to {
-    opacity: 0;
-  }
-}
-
-.toastHead {
-  display: flex;
+// The share popover: the link, the image's button, then the card under both,
+// so the buttons hold still while the card is drawn.
+.share {
+  display: grid;
   gap: var(--mantine-spacing-xs);
-  align-items: center;
-  padding: 6px 6px 6px var(--mantine-spacing-sm);
-  font-size: var(--mantine-font-size-sm);
+  padding: var(--mantine-spacing-xs);
 }
 
-.toastCheck {
-  flex: none;
-  color: var(--color-accent);
+.linkBox {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--color-border-hairline-strong);
+  border-radius: var(--mantine-radius-default);
 }
 
-.toastSaid {
+.linkField {
   flex: 1;
+  min-width: 0;
+  padding: 0 var(--mantine-spacing-xs);
+  border: 0;
+  background-color: var(--color-surface-strong);
+  color: var(--unsquatted-muted);
+  font: inherit;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--mantine-font-size-xs);
+  text-overflow: ellipsis;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+  }
 }
 
-// The card at the toast's width, its own aspect kept.
-.card {
+// Joined to the field, the box's border standing for its own.
+.linkCopy {
+  flex: none;
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+}
+
+// The card's place, at the card's aspect whether it holds the card or not.
+.card,
+.cardSlot {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 1200 / 630;
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--mantine-radius-default);
+}
+
+.cardSlot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-xs);
+  align-items: center;
+  justify-content: center;
+  padding: var(--mantine-spacing-sm);
+  border-style: dashed;
+  color: var(--unsquatted-muted);
+  font-size: var(--mantine-font-size-sm);
+  text-align: center;
 }
