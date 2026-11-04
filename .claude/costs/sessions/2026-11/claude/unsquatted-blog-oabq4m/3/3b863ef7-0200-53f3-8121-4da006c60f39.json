@@ -1,0 +1,110 @@
+{
+  "total": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 61243,
+    "cacheReadTokens": 895767,
+    "outputTokens": 1925,
+    "thinkingTokens": 246,
+    "responses": 9,
+    "costUsd": 0.7076774
+  },
+  "estimate": {
+    "at": "2026-11-04T15:47:27.887Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the post OG card follows the basilisk per-case precedent, but the first build of untested page code needs someone who can debug a static export"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "tuning live widgets against existing mockups is routine visual work"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "four holiday posts and their reflections in the Unnamed's voice need judgement of a persona's tone"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "three naming runs and fact checks are methodical, with set tools"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T15:47:25.130Z",
+    "contextTokens": 110267,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49325,
+      "cacheReadTokens": 678127,
+      "outputTokens": 1169,
+      "thinkingTokens": 148,
+      "responses": 7,
+      "costUsd": 0.5536694
+    }
+  },
+  "sessionId": "3b863ef7-0200-53f3-8121-4da006c60f39",
+  "branch": "claude/unsquatted-blog-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — Код первого захода в ветке: роутеры, индекс, виджеты, штамп в каталоге и сверка; осталось написать первый пост, его …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEYm1qr1UeGqXdeoHK",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T15:47:06.374Z",
+  "lastResponseAt": "2026-11-04T15:47:29.354Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 61243,
+    "cacheReadTokens": 895767,
+    "outputTokens": 1925,
+    "thinkingTokens": 246,
+    "responses": 9,
+    "costUsd": 0.7076774
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 61243,
+      "cacheReadTokens": 895767,
+      "outputTokens": 1925,
+      "thinkingTokens": 246,
+      "responses": 9,
+      "costUsd": 0.7076774
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.6074324,
+    "matchedEventUsd": 0.6074324,
+    "unseen": {}
+  }
+}
