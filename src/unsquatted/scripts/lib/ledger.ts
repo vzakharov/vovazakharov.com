@@ -25,7 +25,7 @@ const VERDICTS = ['taken', 'premium', 'reserved', 'taste'] as const;
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 
 /** A label, then the zone it is checked in where that is not `.com`. */
-const NAME = /^(?<label>[\da-z]+(?:-[\da-z]+)*)(?:\.(?<zone>[a-z]{2,}))?$/;
+const NAME = /^([\da-z]+(?:-[\da-z]+)*)(?:\.([a-z]{2,}))?$/;
 
 /** A name a run is about to check, with the direction it was found in. */
 const candidateSchema = z.object({
@@ -87,18 +87,18 @@ export function parseCandidates(text: string): Candidate[] {
     .filter((line) => line !== '' && !line.startsWith('#'))
     .map((line) => {
       const [axis, name, ...rest] = line.split('\t').map((cell) => cell.trim());
-      const parts = name?.toLowerCase().match(NAME)?.groups;
+      const [, label, zone] = name?.toLowerCase().match(NAME) ?? [];
 
       if (
         axis === undefined ||
         axis === '' ||
-        parts?.['label'] === undefined ||
+        label === undefined ||
         rest.length > 0
       ) {
         throw new CandidateError(`not an "axis<TAB>name" line: ${line}`);
       }
 
-      return { axis, domain: `${parts['label']}.${parts['zone'] ?? 'com'}` };
+      return { axis, domain: `${label}.${zone ?? 'com'}` };
     });
 }
 
