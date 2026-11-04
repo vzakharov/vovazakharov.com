@@ -22,8 +22,9 @@ to spread across them.
   and lack `form`/`tagline`/`uses`; the squash should give the true form counts
   of the 137: 62 hacks, 20 phrases, 28 coinages/invented places, 17 words, 10
   respellings (commit `276fb8fd`'s body miscounts them).
-- `/preview` the three UI fixes (toast size/timing, editor focus, card rows for
-  `reconquista`) — not yet looked at in a browser.
+- **`/preview` of the three UI fixes — done.** The toast is 300 px and still on
+  screen at 1.5 s; Edit puts the caret in the textarea; `reconquista`'s card
+  lists `.dev`, `.xyz` and `.sh`, all from under the fold.
 - Open question to the operator, unanswered: add a sixth form, "a word in a
   meaningful zone" (`murmur.studio`)? Not a hack and not `.com`, so it changes
   what the site calls a free name; left out until they say.
@@ -35,11 +36,9 @@ to spread across them.
   `pattern` (`*st.one`, `*.red`), and the social card shows one name per
   pattern. The page's own checker still cannot see premiums (no keyed call from
   a browser); the operator accepts that.
-- **The catalogue must hold at least 200 names** (the operator: "нужно total
-  > = 200"); it holds 197 (100 earlier + 97 from this run), and ten of the 22
-  > hacks share `*.red`, which the runbook's one-or-two-per-pattern rule says is
-  > too many — the operator has not yet said whether to trim them. A naming run
-  > fills the gap, more if `*.red` is trimmed.
+- **At least 200 names — done** (`18d1604`): 210, thirteen added from new axes.
+  Ten of the 22 hacks share `*.red`; trimming them to three still leaves 203,
+  and the operator has not yet said whether to.
 
 ## The ask, item by item
 
