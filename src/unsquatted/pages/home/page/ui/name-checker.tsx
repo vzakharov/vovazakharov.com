@@ -145,6 +145,13 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           classNames={{ root: classes['fieldInput'], input: classes['input'] }}
         />
         {label !== '' && (
+          <IdeasLine
+            className={classes['ideas']}
+            onPick={checkHere}
+            {...{ ideas, copy }}
+          />
+        )}
+        {label !== '' && (
           <span className={classes['fieldTools']}>
             <FieldTools
               onReached={() => {
@@ -186,7 +193,6 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           {copy.checkButton}
         </Button>
       </form>
-      {label !== '' && <IdeasLine onPick={checkHere} {...{ ideas, copy }} />}
       {rows.length > 0 && (
         <ul className={classes['zones']} data-open={open} aria-live="polite">
           {rows.map((row, index) => (
