@@ -196,11 +196,12 @@ source_checks=(
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
   staged='scripts/staged.sh check'
-  delegation-notes='f=.claude/skills/go/delegation-model-capabilities.md; [ ! -f "$f" ] || [ "$(wc -l < "$f")" -le 100 ] || { echo "$f runs past 100 lines; fold it back into a summary (.claude/skills/go/delegation.md)" >&2; exit 1; }'
+  model-notes='f=.claude/model-capabilities.md; [ ! -f "$f" ] || [ "$(wc -l < "$f")" -le 100 ] || { echo "$f runs past 100 lines; fold it back into a summary (.claude/skills/go/delegation.md)" >&2; exit 1; }'
   costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done'
   context-budget='python3 .claude/context-budget/test_context_budget.py'
   cold-cache='python3 .claude/cold-cache/test_cold_cache.py'
   keepalive='python3 .claude/keepalive/test_keepalive.py'
+  merge-gate='python3 .claude/merge-gate/test_merge_gate.py'
   hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
 )
 # One entry per site that renders social cards: pnpm appends a passed `--check`
