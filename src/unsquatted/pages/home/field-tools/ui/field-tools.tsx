@@ -21,6 +21,7 @@ import {
 import { canCopyImage, type CardText, shareCard } from '../lib/share-card';
 import { CardPreview, type CardState, useObjectUrl } from './card-preview';
 import classes from './field-tools.module.scss';
+import { useDrawnAhead, useShareSheet } from './share-sheet';
 
 /** The class of a square button beside the field, the dice's included. */
 export const TOOL_BUTTON = classes['tool'];
@@ -50,7 +51,13 @@ type DrawCard = (() => Promise<File>) | undefined;
  * `typed` is what the copied link opens on: the name as the field holds it;
  * `label` is the name the card is drawn for.
  */
-type SharePopoverProps = Sharing & Typed & Labeled & { drawCard: DrawCard };
+type SharePopoverProps = Sharing &
+  Typed &
+  Labeled & {
+    drawCard: DrawCard;
+    /** Names what `drawCard` draws, so a card drawn ahead is known stale. */
+    cardKey: string | undefined;
+  };
 
 type LabelProps = { children: readonly string[]; showing: number };
 
@@ -109,16 +116,24 @@ const SHARE_WIDTH = 'min(400px, calc(100vw - var(--mantine-spacing-xl)))';
 /**
  * The card is drawn afresh each time the popover opens, for the name and
  * likes as they are then; a drawing an earlier opening started and a later
- * one overtook is dropped.
+ * one overtook is dropped. Where the system has a share sheet, a tap hands it
+ * the card drawn ahead and the link instead, and asks for no lookup: the card
+ * is what is on screen. The popover stands in while that card is not drawn
+ * yet, or when the sheet fails.
  */
 function SharePopover({
   typed,
   label,
   drawCard,
+  cardKey,
   onReached,
   looking,
   copy,
 }: SharePopoverProps) {
+  const sheet = useShareSheet();
+  const ahead = useDrawnAhead(cardKey, drawCard, sheet);
+  // Read on use: the page is rendered at build time too, with no location.
+  const href = () => domainLink(typed, new URL(globalThis.location.href));
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<CardState>('drawing');
   const openingRef = useRef(0);
@@ -148,6 +163,15 @@ function SharePopover({
       },
     );
   };
+  const share = (file: File) => {
+    navigator.share({ files: [file], url: href() }).catch((error: unknown) => {
+      // Dismissing the sheet rejects the share too, and that is no failure.
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+      reportError(error);
+      open();
+    });
+  };
+  const reached = sheet ? undefined : onReached;
 
   return (
     <Popover
@@ -165,18 +189,23 @@ function SharePopover({
           aria-label={copy.share}
           title={copy.share}
           aria-expanded={opened}
-          onPointerEnter={onReached}
-          onFocus={onReached}
-          onClick={opened ? close : open}
+          onPointerEnter={reached}
+          onFocus={reached}
+          onClick={() => {
+            if (opened) close();
+            else if (
+              ahead !== undefined &&
+              navigator.canShare({ files: [ahead] })
+            )
+              share(ahead);
+            else open();
+          }}
         >
           <Share2 size={18} />
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown className={classes['share']}>
-        <LinkField
-          href={domainLink(typed, new URL(globalThis.location.href))}
-          {...{ link, copy }}
-        />
+        <LinkField href={href()} {...{ link, copy }} />
         {canCopyImage() && (
           <Button
             fullWidth
@@ -282,28 +311,28 @@ export function FieldTools({
   const shared = cardLead([typedDomain, preferred, ...siblings], shown, {
     verdicts,
   });
+  const rows =
+    shared === undefined
+      ? undefined
+      : cardRows({
+          shared,
+          siblings,
+          // A name liked with no zone is liked in the card's lead.
+          liked: isOn ? (preferred ?? shared) : undefined,
+          verdicts,
+          prices,
+        });
 
   return (
     <>
       <SharePopover
         typed={likeOf(label, zone)}
         drawCard={
-          shared === undefined
+          rows === undefined
             ? undefined
-            : async () =>
-                shareCard(
-                  label,
-                  cardRows({
-                    shared,
-                    siblings,
-                    // A name liked with no zone is liked in the card's lead.
-                    liked: isOn ? (preferred ?? shared) : undefined,
-                    verdicts,
-                    prices,
-                  }),
-                  cardText(copy),
-                )
+            : async () => shareCard(label, rows, cardText(copy))
         }
+        cardKey={rows === undefined ? undefined : JSON.stringify([label, rows])}
         {...{ label, onReached, looking, copy }}
       />
       <LikeButton
