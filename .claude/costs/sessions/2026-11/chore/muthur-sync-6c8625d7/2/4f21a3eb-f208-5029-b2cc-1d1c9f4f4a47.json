@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 133255,
+    "cacheWrite1hTokens": 67154,
+    "cacheReadTokens": 3457545,
+    "outputTokens": 14803,
+    "thinkingTokens": 7590,
+    "responses": 34,
+    "costUsd": 2.191348
+  },
+  "estimate": {
+    "at": "2026-11-04T02:17:53.969Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "landing an agent-infra sync means re-reading a cross-cutting diff of hooks and skills against the merge gate's predicate, where a wrong call ships a deploy path"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T02:17:45.426Z",
+    "contextTokens": 109198,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50264,
+      "cacheReadTokens": 532011,
+      "outputTokens": 1698,
+      "thinkingTokens": 324,
+      "responses": 6,
+      "costUsd": 0.5425302000000001
+    }
+  },
+  "sessionId": "4f21a3eb-f208-5029-b2cc-1d1c9f4f4a47",
+  "branch": "chore/muthur-sync-6c8625d7",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/merge chore/muthur-sync-6c8625d7",
+  "prs": [
+    243
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEBPtGUB3zMm17jTsd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T02:17:15.160Z",
+  "lastResponseAt": "2026-11-04T02:20:11.137Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 25,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 67154,
+    "cacheReadTokens": 1213170,
+    "outputTokens": 3699,
+    "thinkingTokens": 584,
+    "responses": 12,
+    "costUsd": 0.853946
+  },
+  "subagents": {
+    "inputTokens": 43,
+    "cacheWrite5mTokens": 133255,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2244375,
+    "outputTokens": 11104,
+    "thinkingTokens": 7006,
+    "responses": 22,
+    "costUsd": 1.3374019999999998
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 68,
+      "cacheWrite5mTokens": 133255,
+      "cacheWrite1hTokens": 67154,
+      "cacheReadTokens": 3457545,
+      "outputTokens": 14803,
+      "thinkingTokens": 7590,
+      "responses": 34,
+      "costUsd": 2.191348
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 34,
+    "matched": 34,
+    "matchedTableUsd": 2.191348,
+    "matchedEventUsd": 2.191348,
+    "unseen": {}
+  }
+}
