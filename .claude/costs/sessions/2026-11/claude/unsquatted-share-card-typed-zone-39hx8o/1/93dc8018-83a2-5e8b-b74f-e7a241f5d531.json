@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 179,
+    "cacheWrite5mTokens": 150726,
+    "cacheWrite1hTokens": 132112,
+    "cacheReadTokens": 10380421,
+    "outputTokens": 39337,
+    "thinkingTokens": 15371,
+    "responses": 83,
+    "costUsd": 4.6740661999999995
+  },
+  "estimate": {
+    "at": "2026-11-04T16:30:35.180Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "card-row selection with lookup-timing edge cases and its tests; the settle logic needs care so the card neither waits forever nor draws early"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "eyeballing the drawn card for a taken typed domain beside free alternatives"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T16:27:16.906Z",
+    "contextTokens": 92618,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 37421,
+      "cacheReadTokens": 52539,
+      "outputTokens": 227,
+      "thinkingTokens": 31,
+      "responses": 1,
+      "costUsd": 0.31442380000000003
+    }
+  },
+  "sessionId": "93dc8018-83a2-5e8b-b74f-e7a241f5d531",
+  "branch": "claude/unsquatted-share-card-typed-zone-39hx8o",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "в unsquatted: если шарится запрос с конкретным tld, то на изображении он тоже должен быть, даже если занят",
+  "prs": [
+    250
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCfAg43JZXFv6oMe5C",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T16:27:12.590Z",
+  "lastResponseAt": "2026-11-04T16:37:10.973Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 108,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 132112,
+    "cacheReadTokens": 7035260,
+    "outputTokens": 20870,
+    "thinkingTokens": 4946,
+    "responses": 49,
+    "costUsd": 2.8817799999999996
+  },
+  "subagents": {
+    "inputTokens": 71,
+    "cacheWrite5mTokens": 150726,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3345161,
+    "outputTokens": 18467,
+    "thinkingTokens": 10425,
+    "responses": 34,
+    "costUsd": 1.7922862
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 179,
+      "cacheWrite5mTokens": 150726,
+      "cacheWrite1hTokens": 132112,
+      "cacheReadTokens": 10380421,
+      "outputTokens": 39337,
+      "thinkingTokens": 15371,
+      "responses": 83,
+      "costUsd": 4.6740661999999995
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 83,
+    "matched": 83,
+    "matchedTableUsd": 4.6740661999999995,
+    "matchedEventUsd": 4.6740662,
+    "unseen": {}
+  }
+}
