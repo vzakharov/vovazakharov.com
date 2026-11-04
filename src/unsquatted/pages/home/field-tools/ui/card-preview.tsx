@@ -42,6 +42,9 @@ export function useObjectUrl(file: File | undefined): string | undefined {
   return url;
 }
 
+/** The card's own aspect, held by its place whether it holds the card or not. */
+const CARD_ASPECT = { aspectRatio: `${CARD_WIDTH} / ${CARD_HEIGHT}` };
+
 /**
  * The card at the popover's width, its own aspect kept; a real image, so the
  * browser's own "copy image" and "save image" reach it where ours cannot.
@@ -56,12 +59,13 @@ export function CardPreview({ card, url, alt, said }: CardPreviewProps) {
         height={CARD_HEIGHT}
         unoptimized
         className={classes['card']}
+        style={CARD_ASPECT}
       />
     );
   const unshown = card instanceof File ? 'drawing' : card;
 
   return (
-    <output className={classes['cardSlot']}>
+    <output className={classes['cardSlot']} style={CARD_ASPECT}>
       {unshown === 'drawing' && <Loader size="sm" />}
       {said[unshown]}
     </output>
