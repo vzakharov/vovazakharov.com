@@ -100,6 +100,29 @@ export function cardLead(
 }
 
 /**
+ * Whether lookups still out could change the card for `rows`: none can once
+ * the card is full and every domain ahead of its last row in `order` — the
+ * leads, then the siblings, as `cardLead` and `cardRows` walk them — has an
+ * answer. A taken card waits for every domain on screen too, since any of
+ * them free would lead instead.
+ */
+export function cardSettled(
+  rows: readonly CardRow[],
+  order: ReadonlyArray<string | undefined>,
+  shown: readonly string[],
+  { verdicts }: WithVerdicts,
+): boolean {
+  const last = rows.at(-1)?.domain;
+
+  if (rows.length < CARD_ROWS || last === undefined) return false;
+  const known = order.filter((domain) => domain !== undefined);
+  const ahead = known.slice(0, known.indexOf(last) + 1);
+  const waited = rows[0]?.state === 'taken' ? [...ahead, ...shown] : ahead;
+
+  return waited.every((domain) => verdicts.has(domain));
+}
+
+/**
  * The card's rows: the shared domain, then the liked one, then the others —
  * each only once its lookup said it is of the shared domain's kind, so the
  * card never says “checking…” and never mixes a taken name in with free ones.

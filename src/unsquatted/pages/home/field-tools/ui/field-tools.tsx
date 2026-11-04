@@ -15,6 +15,7 @@ import { LikeButton, likeOf, preferredOf, useLikes } from '../../likes';
 import {
   cardLead,
   cardRows,
+  cardSettled,
   type CardSiblings,
   domainLink,
 } from '../lib/share';
@@ -290,7 +291,7 @@ function cardText(copy: Copy): CardText {
  * preferred, and the card leads with that zone, else the liked one, else the
  * first the lookups say is free or may be — or, where none is, the first of
  * them taken. Reaching for the share button asks for the domains not yet
- * looked up, and the card waits for their answers.
+ * looked up, and the card waits for those answers that could still change it.
  */
 export function FieldTools({
   label,
@@ -308,9 +309,8 @@ export function FieldTools({
   const isOn = own !== undefined;
   const typedDomain = zone === undefined ? undefined : `${label}.${zone}`;
   const preferred = own === undefined ? undefined : preferredOf(own);
-  const shared = cardLead([typedDomain, preferred, ...siblings], shown, {
-    verdicts,
-  });
+  const order = [typedDomain, preferred, ...siblings];
+  const shared = cardLead(order, shown, { verdicts });
   const rows =
     shared === undefined
       ? undefined
@@ -333,7 +333,11 @@ export function FieldTools({
             : async () => shareCard(label, rows, cardText(copy))
         }
         cardKey={rows === undefined ? undefined : JSON.stringify([label, rows])}
-        {...{ label, onReached, looking, copy }}
+        looking={
+          looking &&
+          !(rows !== undefined && cardSettled(rows, order, shown, { verdicts }))
+        }
+        {...{ label, onReached, copy }}
       />
       <LikeButton
         variant="default"

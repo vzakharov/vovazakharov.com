@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Verdict } from '../../verdict';
-import { cardLead, cardRows, domainLink } from './share';
+import { cardLead, cardRows, cardSettled, domainLink } from './share';
 
 const PRICES = {
   com: { registration: 12, renewal: 12 },
@@ -200,6 +200,51 @@ describe('cardLead', () => {
         verdicts: verdicts({ 'foxedpage.com': 'unknown' }),
       }),
       undefined,
+    );
+  });
+});
+
+describe('cardSettled', () => {
+  const SIBLINGS = ['a.com', 'a.net', 'a.org', 'a.io'];
+  const ORDER = [undefined, undefined, ...SIBLINGS];
+  const card = (states: Record<string, Verdict['state']>) => {
+    const known = verdicts(states);
+    const shared = cardLead(ORDER, ['a.com', 'a.net'], { verdicts: known });
+
+    assert.ok(shared !== undefined);
+    const rows = cardRows({
+      shared,
+      siblings: SIBLINGS,
+      liked: undefined,
+      verdicts: known,
+      prices: PRICES,
+    });
+
+    return cardSettled(rows, ORDER, ['a.com', 'a.net'], { verdicts: known });
+  };
+
+  it('holds once three free rows lead, the rest unanswered', () => {
+    assert.equal(
+      card({ 'a.com': 'free', 'a.net': 'free', 'a.org': 'free' }),
+      true,
+    );
+  });
+
+  it('waits while a domain ahead of the last row is unanswered', () => {
+    assert.equal(
+      card({ 'a.com': 'free', 'a.org': 'free', 'a.io': 'free' }),
+      false,
+    );
+  });
+
+  it('waits while the card is not full', () => {
+    assert.equal(card({ 'a.com': 'free', 'a.net': 'free' }), false);
+  });
+
+  it('holds a taken card only once every domain on screen answered', () => {
+    assert.equal(
+      card({ 'a.com': 'taken', 'a.net': 'taken', 'a.org': 'taken' }),
+      true,
     );
   });
 });
