@@ -3,8 +3,7 @@
 /**
  * unsquatted.com's Open Graph cards: the site card, generated from the listed
  * names and the home page's copy, and a card per post drawn from what its
- * widgets set, embargoed ones included, so a post's card is committed before
- * its day.
+ * widgets set.
  * `src/blog/scripts/lib/og-job.ts` carries the contract.
  */
 

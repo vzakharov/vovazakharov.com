@@ -38,7 +38,6 @@ import {
   VARIANTS,
   type WithCollectionId,
 } from './collections';
-import { isReleased, publishingDay } from './embargo';
 import { firstImage } from './first-image';
 import {
   type BaseFrontmatter,
@@ -289,25 +288,10 @@ function byReadingOrder(a: ContentDocument, b: ContentDocument): number {
 }
 
 /**
- * Read once per process: a build is one day's publication, so every page of it
- * agrees on what is out.
+ * Every document in a collection, variants and every language's reading
+ * included, in reading order.
  */
-const PUBLISHING_DAY = publishingDay();
-
-/**
- * Whether a document is out yet. One dated after the day a build runs is not
- * built at all — no page, card, sitemap or feed entry — and a later build
- * publishes it on its date, which is what lets a post merge ahead of its day.
- */
-function isPublished({ frontmatter }: WithFrontmatter): boolean {
-  return isReleased(frontmatter.date, PUBLISHING_DAY);
-}
-
-/**
- * Every document in a collection, embargoed ones included, in reading order:
- * for a check that has to hold before a document is out, never for a page.
- */
-export function listWrittenDocuments<F extends BaseFrontmatter>(
+export function listDocuments<F extends BaseFrontmatter>(
   collection: Collection<F>,
 ): Array<ContentDocument<F>> {
   const fileNames = fs
@@ -319,18 +303,6 @@ export function listWrittenDocuments<F extends BaseFrontmatter>(
   return fileNames
     .map((fileName) => readDocument(collection, fileName))
     .toSorted(byReadingOrder);
-}
-
-/**
- * Every published document in a collection, variants and every language's
- * reading included, in reading order.
- */
-export function listDocuments<F extends BaseFrontmatter>(
-  collection: Collection<F>,
-): Array<ContentDocument<F>> {
-  return listWrittenDocuments(collection).filter((document) =>
-    isPublished(document),
-  );
 }
 
 /**
@@ -373,11 +345,9 @@ export function loadDocument<F extends BaseFrontmatter>(
     documentName(slug, variant),
     locale,
   );
-  if (!fs.existsSync(collectionFile(collection.id, fileName))) return undefined;
-
-  const document = readDocument(collection, fileName);
-
-  return isPublished(document) ? document : undefined;
+  return fs.existsSync(collectionFile(collection.id, fileName))
+    ? readDocument(collection, fileName)
+    : undefined;
 }
 
 /**

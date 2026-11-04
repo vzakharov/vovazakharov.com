@@ -3,10 +3,7 @@ import 'server-only';
 import { pick } from '@/kernel/shared/lib/collections';
 import { errorClass } from '@/kernel/shared/lib/error-class';
 
-import {
-  listPrimaryDocuments,
-  listWrittenDocuments,
-} from '@/blog/shared/content';
+import { listPrimaryDocuments } from '@/blog/shared/content';
 
 import {
   type Occasion,
@@ -22,19 +19,17 @@ const PostPicksError = errorClass('PostPicksError');
 /** Where a name picked for a post links, and the occasion its stamp prints. */
 export type PostLink = { href: string; occasion: Occasion };
 
-/** A shown name, with its post's link once that post is out. */
+/** A shown name, with its post's link where a post picked it. */
 export type LinkedName = ShownName & { postLink?: PostLink };
 
 /**
  * Fails the build where a post and the catalogue disagree about which names
- * the post picked — embargoed posts included, so a post's day never brings a
- * failure nobody is there to see.
+ * the post picked.
  */
 async function assertPostsAgree(): Promise<void> {
-  const written = listWrittenDocuments(POSTS).filter(({ variant }) => !variant);
   const listed = new Map(
     await Promise.all(
-      written.map(
+      listPrimaryDocuments(POSTS).map(
         async (document) =>
           [document.slug, await postDomains(document)] as const,
       ),
@@ -49,10 +44,7 @@ async function assertPostsAgree(): Promise<void> {
   }
 }
 
-/**
- * `picks` with each name a post picked linked to that post; a name whose post
- * is not out yet is left off, as the post itself is.
- */
+/** `picks` with each name a post picked linked to that post. */
 export async function linkedPicks(
   picks: readonly ShownName[],
 ): Promise<LinkedName[]> {
@@ -64,10 +56,9 @@ export async function linkedPicks(
     ),
   );
 
-  return picks.flatMap((name) => {
-    if (name.post === undefined) return [name];
-    const postLink = links.get(name.post);
+  return picks.map((name) => {
+    const postLink = name.post === undefined ? undefined : links.get(name.post);
 
-    return postLink === undefined ? [] : [{ ...name, postLink }];
+    return postLink === undefined ? name : { ...name, postLink };
   });
 }

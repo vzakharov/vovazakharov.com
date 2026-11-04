@@ -17,10 +17,8 @@ Four posts, one PR, written one after another:
 - **30.11 — Cyber Monday.**
 
 **The PR merges by 10.11**, so that the first post is live before its day.
-Merging is deploying, so every post is in the tree by then, and each one is
-**embargoed until its own date**: a build leaves out any document dated after
-the day it runs, and a daily scheduled deploy of unsquatted publishes each post
-on its day (§ "Release by date").
+Merging is deploying, and **every post is visible from the merge on** (the
+operator: «все посты должны быть видны сразу»); there is no release by date.
 
 **Shape: an elephant, two bites.** Bite 1 builds everything the first post needs
 and the post itself, then pauses for the operator to tune its tone and look on
@@ -68,9 +66,7 @@ ties a catalogue name visually to the blog.
 **Bite 2 — the other three posts.** International Men’s Day, Black Friday and
 Cyber Monday, each with its names run through the naming runbook into the
 catalogue, its widgets, its card and the Unnamed's reflection, written to the
-tone bite 1 settled. Each post's `date` is a day or two before its occasion, so
-the embargo releases it while the occasion is still ahead. Then `/finalize`, and
-a merge by 10.11.
+tone bite 1 settled. Then `/finalize`, and a merge by 10.11.
 
 ## Eaten so far
 
@@ -87,12 +83,9 @@ Bite 1, in part:
   `ArticleSlots`'s new `widgets`, and `ProseContent` maps `figure` to them,
   throwing on a placeholder with no component. Attribute validation is the owner
   component's, naming `placeholder.source` in its throw.
-- **The embargo**: `embargo.ts` (`isReleased`, `publishingDay`), applied in
-  `listDocuments` and `loadDocument`. `CONTENT_AS_OF=YYYY-MM-DD` overrides the
-  day, which a preview of post 1 before its date needs (`preview.yml` does not
-  pass it yet).
-- **The daily deploy**: `deploy.yml` `schedule` at 00:17 UTC, the gate selecting
-  unsquatted alone.
+- **The embargo, the daily deploy and `preview.yml`'s `as-of` were built and
+  then removed** on the operator's word that every post is visible at once (§ 6
+  is void); `documents.ts`, `deploy.yml` and `preview.yml` are as on `main`.
 - **unsquatted extends blog** (`masd.json`); the `unsquatted-blog` collection is
   registered; `src/unsquatted/shared/content/` holds `POSTS` (article +
   `occasion: { name, date }`) and `occasionStamp` (`11.11`). `AUTHOR_IDS` has
@@ -128,13 +121,10 @@ Bite 1, in part:
   `VerdictLabel` inside it.
 - **The stamp and the two-way check**: `entities/post` holds `OccasionStamp` and
   `OccasionEyebrow`. `linkedPicks` (`pages/home/picks/model/post-links.ts`)
-  stamps a name picked for a post, leaves it off the list until its post is out,
-  and fails the build where `postPickProblems` (tested) finds the posts' widgets
-  (`postDomains`, read off the compiled tree) and `picks.yaml` disagreeing —
-  over every written post, embargoed ones included, through blog's new
-  `listWrittenDocuments`.
-- **The dice nudge** after the third roll, and **`preview.yml`'s `as-of`
-  input**, passed as `CONTENT_AS_OF` (6f3d53e5).
+  stamps a name picked for a post and fails the build where `postPickProblems`
+  (tested) finds the posts' widgets (`postDomains`, read off the compiled tree)
+  and `picks.yaml` disagreeing.
+- **The dice nudge** after the third roll (6f3d53e5).
 - **Post 1**, `sites/unsquatted/public/blog/singles-day.md` ("Four Bare Sticks",
   dated 2026-11-09), facts checked; its reflection beside it.
 - **Post cards**: `render-og.ts` draws one per written post with `postCard` (the
@@ -142,8 +132,8 @@ Bite 1, in part:
   `postWidgets` over blog's new `compileBody`, since a `ContentDocument`
   resolves the very card being drawn. The widget parsers moved from
   `pages/post/lib` to `shared/content` so the script reaches them.
-- **`CONTENT_AS_OF=2026-11-11 pnpm build unsquatted` passes**: index, post,
-  feed, sitemap; looked at on the dev server in both themes.
+- **`pnpm build unsquatted` passes**: index, post, feed, sitemap; looked at on
+  the dev server in both themes.
 - **The blog is "Names and Dates"** (operator's rename), subtitled ", by the
   Unnamed of Unsquatted"; the collection's label follows (d2621568).
 - **The layout follows the mockups** (46afe3a9), after the operator found it off
@@ -159,15 +149,6 @@ Bite 1, in part:
 
 Left:
 
-- **Open question for the operator: a build before 9.11 fails.** With post 1
-  embargoed, `blog/[...slug]` has no params, and Next's static export refuses an
-  empty `generateStaticParams` ("missing generateStaticParams"). So every build
-  of unsquatted dated before the post — vet, a merge, the daily deploy — fails
-  until 9.11. Options: (a) blog's `articleRoute` returns one reserved param when
-  a collection has nothing out, its page a `notFound()`; durable for any
-  collection's first post, at the cost of one stray 404 page; (b) merge and vet
-  only on or after 9.11; (c) date post 1 earlier, publishing it on merge.
-  Recommended: (a).
 - **A livelier lede for post 1**, by the Unnamed (`/persona unnamed`): the
   operator called the current one sloppy against the mockup's ("Four ones in a
   row started as a joke among Nanjing students and became the biggest shopping
@@ -290,7 +271,7 @@ to the post and titled with the occasion's name. Picks keep their usual `form`,
 - **On preview** (`/preview live unsquatted`) for the operator to tune its tone
   and look. That is this bite's end.
 
-### 6. Release by date
+### 6. Release by date (void: every post is visible at once)
 
 - **A document dated after the build day is not built**: no page, no index card,
   no sitemap or feed entry. The rule is blog-wide, so it lives in one place, the

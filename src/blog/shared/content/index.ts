@@ -30,7 +30,6 @@ export {
   listAllDocuments,
   listDocuments,
   listPrimaryDocuments,
-  listWrittenDocuments,
   loadDocument,
   loadProse,
   type ProseSource,
