@@ -143,7 +143,7 @@ Bite 1, in part:
   resolves the very card being drawn. The widget parsers moved from
   `pages/post/lib` to `shared/content` so the script reaches them.
 - **`CONTENT_AS_OF=2026-11-11 pnpm build unsquatted` passes**: index, post,
-  feed, sitemap; looked at on the dev server (light theme).
+  feed, sitemap; looked at on the dev server in both themes.
 
 ## Rest of the bite
 
@@ -158,7 +158,6 @@ Left:
   collection's first post, at the cost of one stray 404 page; (b) merge and vet
   only on or after 9.11; (c) date post 1 earlier, publishing it on merge.
   Recommended: (a).
-- The dark theme on the dev server, not yet looked at.
 - Step 3's `/polish`, then `/pr` (refresh the body and squash proposal: the
   slots deviation, the card seam, `compileBody`).
 - The live preview `-f as-of=2026-11-11`, republished after any visible change.
