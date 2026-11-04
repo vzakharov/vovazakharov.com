@@ -1,8 +1,4 @@
-Proposed squash title/body:
-
-```
-feat(unsquatted): name variations from Chrome's built-in model (#247)
-```
+Proposed squash body:
 
 ```
 A visitor whose name is taken had only the dice, which know nothing of
