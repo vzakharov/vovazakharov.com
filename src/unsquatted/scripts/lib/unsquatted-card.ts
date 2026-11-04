@@ -1,7 +1,7 @@
 /**
  * unsquatted.com's social card, as a page for `og-render.ts` to screenshot: the
  * mark and the wordmark over the hero's lede, beside a panel of the first
- * best listed names, no two on one construction, an empty name field closing it
+ * best listed names, no two on one pattern, an empty name field closing it
  * and a count of the rest.
  *
  * It reads the listed names through the module the home page reads, and its

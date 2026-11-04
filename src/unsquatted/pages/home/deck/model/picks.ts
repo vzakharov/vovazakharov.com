@@ -71,21 +71,21 @@ const pickSchema = z
     uses: z.array(useSchema).min(1).max(3),
     form: z.enum(FORMS),
     /**
-     * The trick a name is built on, which two names share when one is the
-     * other's pattern: for a hack, the domain's tail its zone spells the word's
-     * end with (`st.one` for `touchst.one` and `lodest.one` alike, `.red` for
-     * every `…red`). Every hack states one.
+     * The trick a name is built on, as a mask over the domain, so names on one
+     * trick share it: for a hack, `*` and the tail its zone spells the word's
+     * end with (`*st.one` for `touchst.one` and `lodest.one` alike, `*.red`
+     * for every `…red`). Every hack states one.
      */
-    construction: z
+    pattern: z
       .string()
-      .regex(/^[a-z]*\.[a-z]+$/)
+      .regex(/^\*[\da-z-]*\.[a-z]+$/)
       .optional(),
     added: z.coerce.date(),
     shownUntil: z.coerce.date().optional(),
   })
   .refine(
-    ({ form, construction }) => form !== 'hack' || construction !== undefined,
-    'a hack states its construction',
+    ({ form, pattern }) => form !== 'hack' || pattern !== undefined,
+    'a hack states its pattern',
   );
 
 /** `yaml` rejects a key given twice, so a domain is listed once. */
@@ -105,14 +105,12 @@ function readCatalogue() {
     }
   })();
   const astray = picks.find(
-    ({ domain, construction }) =>
-      construction !== undefined && !domain.endsWith(construction),
+    ({ domain, pattern }) =>
+      pattern !== undefined && !domain.endsWith(pattern.slice(1)),
   );
 
   if (astray !== undefined) {
-    throw new CatalogueError(
-      `${astray.domain}: its construction is not its tail`,
-    );
+    throw new CatalogueError(`${astray.domain}: its pattern does not match it`);
   }
 
   return picks;
@@ -162,15 +160,14 @@ export const LASTING_PICKS: readonly ShownName[] = LASTING.map((pick) =>
 );
 
 /**
- * The best `count` of `LASTING_PICKS`, no two on one construction, for a
- * showcase too short to carry the same trick twice.
+ * The best `count` of `LASTING_PICKS`, no two on one pattern, for a showcase
+ * too short to carry the same trick twice.
  */
 export const variedPicks = (count: number): readonly ShownName[] =>
   LASTING.filter(
-    ({ construction }, index) =>
-      construction === undefined ||
-      LASTING.findIndex((other) => other.construction === construction) ===
-        index,
+    ({ pattern }, index) =>
+      pattern === undefined ||
+      LASTING.findIndex((other) => other.pattern === pattern) === index,
   )
     .slice(0, count)
     .map((pick) => shown(pick));

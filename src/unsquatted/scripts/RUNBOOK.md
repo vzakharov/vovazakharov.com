@@ -17,10 +17,10 @@ the rest is taste.
   ask for a local presence (`.ca`, `.au`, `.id`). New zones price their
   dictionary-like names as premium, so most hacks that read well are: of 62
   checked once, 40 were (`touchst.one` at $1,092 a year).
-- **One construction is one idea.** A hack states its `construction`, the tail
-  its zone spells the word's end with — `st.one` for `touchst.one` and
-  `lodest.one` alike. Several on one construction read as one name repeated:
-  hold a run to one or two, and the social card shows one per construction.
+- **One pattern is one idea.** A hack states its `pattern`, a mask over the tail
+  its zone spells the word's end with — `*st.one` for `touchst.one` and
+  `lodest.one` alike. Several on one pattern read as one name repeated: hold a
+  run to one or two, and the social card shows one per pattern.
 - **Spread across forms**, the `form` field: `compound`, `phrase` (anything not
   two nouns joined), `word` (a real one, however rare), `respelling` (a dropped
   or swapped letter), `coinage` (a made-up word), `hack`. The common real words,
@@ -105,7 +105,7 @@ free, so it needs `PORKBUN_API_KEY` and `PORKBUN_SECRET_API_KEY` set.
    "or", so every blurb reads "Tagline. A x or a y." `score` places the name on
    the list's scale (read the existing picks' scores first; 9 and up is the
    list's best, below 5 its weakest); a float, so a name slots between two
-   others. A hack adds `construction` (§ "What a pick is").
+   others. A hack adds `pattern` (§ "What a pick is").
 
 5. **Record the free names not picked**: `pnpm names reject <axis> <domain>…`,
    so no later run checks them again.
