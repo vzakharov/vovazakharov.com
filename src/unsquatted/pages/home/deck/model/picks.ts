@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { errorClass, withCause } from '@/kernel/shared/lib/error-class';
 
 import type { WithDomain } from '../../checker';
+import { usesSentence } from '../lib/uses';
 
 const CatalogueError = errorClass('CatalogueError');
 
@@ -40,25 +41,33 @@ const FORMS = [
 ] as const;
 
 /**
- * What a row shows of a name, and `score`, which orders the rows, highest
- * first: a point on a scale rather than a rank, so a name slots in between two
- * others without renumbering either.
+ * What a row shows of a name besides its blurb, and `score`, which orders the
+ * rows, highest first: a point on a scale rather than a rank, so a name slots
+ * in between two others without renumbering either.
  */
 const shownSchema = z.object({
   category: z.string().min(1),
-  blurb: z.string().min(1),
   score: z.number().finite(),
 });
+
+/** A use as its article would follow it: no article, no full stop. */
+const useSchema = z
+  .string()
+  .min(1)
+  .regex(/^(?!(?:a|an|the) )[^.]+$/i, 'a use is written bare: "ink maker"');
 
 /**
  * The naming runbook (`src/unsquatted/scripts/RUNBOOK.md`) writes these, so
  * they are parsed rather than trusted: a malformed one fails the build, not the
  * page, and strictly, so a misspelt `shownUntil` is an error rather than a name
  * that never leaves. `shownUntil` is set by the runbook once the name is taken,
- * and past it the entry stays in the catalogue but leaves the list.
+ * and past it the entry stays in the catalogue but leaves the list. The blurb
+ * is `tagline` and then `uses` as one sentence, so every blurb keeps one shape.
  */
 const pickSchema = z.strictObject({
   ...shownSchema.shape,
+  tagline: z.string().regex(/^\S.*[!.?]$/, 'a tagline is a full sentence'),
+  uses: z.array(useSchema).min(1).max(3),
   form: z.enum(FORMS),
   added: z.coerce.date(),
   shownUntil: z.coerce.date().optional(),
@@ -67,7 +76,8 @@ const pickSchema = z.strictObject({
 /** `yaml` rejects a key given twice, so a domain is listed once. */
 const catalogueSchema = z.record(z.string().regex(DOMAIN), pickSchema);
 
-export type ShownName = z.infer<typeof shownSchema> & WithDomain;
+export type ShownName = z.infer<typeof shownSchema> &
+  WithDomain & { blurb: string };
 
 function readCatalogue() {
   try {
@@ -89,10 +99,18 @@ const SORTED = readCatalogue().toSorted(
     a.domain.localeCompare(b.domain),
 );
 
-const shown = ({ domain, category, blurb, score }: ShownName): ShownName => ({
+type Pick = (typeof SORTED)[number];
+
+const shown = ({
   domain,
   category,
-  blurb,
+  tagline,
+  uses,
+  score,
+}: Pick): ShownName => ({
+  domain,
+  category,
+  blurb: `${tagline} ${usesSentence(uses)}`,
   score,
 });
 
