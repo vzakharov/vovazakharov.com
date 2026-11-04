@@ -15,7 +15,9 @@ popover; the toast is gone.
 A name with no domain free among the rows on screen gets a card
 listing its top three taken domains with the years they were
 registered: being taken everywhere may be exactly why someone shares
-it, and a free domain in a zone nobody opened would not say so.
+it, and a free domain in a zone nobody opened would not say so. Its
+footer, "Good domain names nobody has grabbed yet.", is struck through
+in red, with "okay, maybe not these ones" written over it by hand.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
