@@ -22,7 +22,4 @@ export {
   mermaidFileName,
 } from './mermaid-renders.ts';
 export { stampFrontmatter } from './translation-stamp.ts';
-export {
-  WIDGET_PROPERTIES,
-  type WidgetPlaceholder,
-} from './widget-element.ts';
+export { WIDGET_PROPERTIES, type WidgetPlaceholder } from './widget-element.ts';
