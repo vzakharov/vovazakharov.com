@@ -1,0 +1,131 @@
+{
+  "total": {
+    "inputTokens": 27604,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 99096,
+    "cacheReadTokens": 1656416,
+    "outputTokens": 12787,
+    "thinkingTokens": 6178,
+    "responses": 16,
+    "costUsd": 1.3727633999999997
+  },
+  "estimate": {
+    "at": "2026-11-04T14:29:37.279Z",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "turning a non-blog site into a blog app and inventing a widget seam the shared pipeline exposes without naming any site is architecture-touching work"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "the in-post card must read as the share card yet sit in prose, in both themes"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "an informative-but-funny holiday post needs voice judgement and fact-checking"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "generating and availability-checking themed names follows the existing runbook"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T14:27:58.079Z",
+    "contextTokens": 119774,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41956,
+      "cacheReadTokens": 322411,
+      "outputTokens": 1138,
+      "thinkingTokens": 438,
+      "responses": 4,
+      "costUsd": 0.4229222
+    }
+  },
+  "sessionId": "2ac5f7b9-d8a8-5e94-bccd-f902309e8367",
+  "branch": "claude/magical-ptolemy-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай заведём блог на unsquatted и напишем пост на какой-нибудь знаменательный праздник или день который будет в пределах недели от сегодня. относительно информ…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEGHokggMHnD6egoGN",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T14:27:42.191Z",
+  "lastResponseAt": "2026-11-04T14:29:49.507Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 32,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 99096,
+    "cacheReadTokens": 1656416,
+    "outputTokens": 11253,
+    "thinkingTokens": 6178,
+    "responses": 14,
+    "costUsd": 1.3492391999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 99096,
+      "cacheReadTokens": 1656416,
+      "outputTokens": 11253,
+      "thinkingTokens": 6178,
+      "responses": 14,
+      "costUsd": 1.3492391999999997
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 27572,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 1534,
+      "thinkingTokens": 0,
+      "responses": 2,
+      "costUsd": 0.023524200000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 16,
+    "matched": 14,
+    "matchedTableUsd": 1.3492391999999997,
+    "matchedEventUsd": 1.3492392,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 27572,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 1534,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.023524200000000002
+      }
+    }
+  }
+}
