@@ -23,7 +23,7 @@ const STYLE = `
   .m-prose h2 { font: 700 28px var(--font-display); margin: 36px 0 12px; }
   .m-aside { font-family: 'Caveat', cursive; color: var(--unsquatted-taken); font-size: 24px; transform: rotate(-3deg); display: inline-block; }
   /* Widget: a curated list, in the share card's rows. */
-  .w { border: 1px solid var(--color-border-hairline); background: var(--color-surface); border-radius: 16px; padding: 18px 22px 14px; margin: 28px 0; }
+  .w { border: 1px solid var(--color-border-hairline); background: var(--color-surface); border-radius: 16px; padding: 18px 22px 14px; margin: 28px auto; max-width: 580px; }
   .w-label { font: 600 12px var(--m-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--unsquatted-muted); margin-bottom: 6px; }
   .w-row { display: flex; align-items: baseline; gap: 12px; padding: 11px 0; border-top: 1px solid var(--color-border-hairline); }
   .w-row:first-of-type { border-top: 0; }
@@ -107,11 +107,12 @@ const POST = `
 const INDEX = `
   <div class="m-wrap">${TOP(false)}
     <div class="m-eyebrow">The blog</div>
-    <h1 class="m-title">Unnamed, on names</h1>
+    <h1 class="m-title" style="margin-bottom:4px">The Unnamed of Unsquatted</h1>
+    <p style="font: italic 400 26px/1.3 var(--font-display); color: var(--unsquatted-muted); margin: 0 0 22px">, on unsquatted (and some squatted) names</p>
     <p class="i-intro">Every holiday is a naming opportunity if you squint. I squint professionally. — <i>the Unnamed</i></p>
     <div class="i-card"><span class="i-date">30.11</span><div><a class="i-title" href="#">Cyber Monday, but make it a TLD</a><p class="i-desc">The internet’s own shopping day, and the zones nobody thought to sell on it.</p><div class="i-names">clickandcart.shop · cyberdeal.day · +8</div></div></div>
     <div class="i-card"><span class="i-date">27.11</span><div><a class="i-title" href="#">Black Friday, in the red</a><p class="i-desc">Why the day is called black, and twelve names that are still in the black.</p><div class="i-names">doorbuster.shop · blackink.day · +10</div></div></div>
-    <div class="i-card"><span class="i-date">21.11</span><div><a class="i-title" href="#">Hello, world, hello, .world</a><p class="i-desc">World Hello Day, and the greetings still unregistered.</p><div class="i-names">hiyall.com · wavehello.day · +9</div></div></div>
+    <div class="i-card"><span class="i-date">19.11</span><div><a class="i-title" href="#">A man, a plan, a domain</a><p class="i-desc">International Men’s Day, and the names men keep not registering.</p><div class="i-names">mancave.shop · dadjoke.day · +9</div></div></div>
     <div class="i-card"><span class="i-date">11.11</span><div><a class="i-title" href="#">A domain for one</a><p class="i-desc">Four ones in a row started as a joke among Nanjing students and became the biggest shopping day on Earth.</p><div class="i-names">tableforone.com · soloheart.shop · +12</div></div></div>
   </div>`;
 

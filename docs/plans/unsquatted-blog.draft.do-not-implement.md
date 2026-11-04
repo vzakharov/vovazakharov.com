@@ -15,8 +15,10 @@ and Майя on mayawonders.com.
 Four posts, one PR, written one after another:
 
 - **11.11 — Singles’ Day.** The one that sets the tone, look and widgets.
-- **21.11 — World Hello Day.** Fills the gap between 11.11 and the end of the
-  month.
+- **19.11 — International Men’s Day.** Fills the gap between 11.11 and the end
+  of the month. The jokes land on the names and the Unnamed, never on anyone the
+  day is for or against. (19.11 is also World Toilet Day, which he may not be
+  able to resist.)
 - **27.11 — Black Friday.**
 - **30.11 — Cyber Monday.**
 
@@ -39,7 +41,9 @@ are the site's own (`mockups/pages.cjs`, `mockups/shoot.cjs`). The names and
 verdicts in them are placeholders, and so is the text; nothing was checked.
 
 **A post**, with both widgets: a curated list (`domains`) and one word across
-zones (`name`):
+zones (`name`). On a wide screen a widget is narrower than the text column
+(about 580px against 720) and centred in it, so it reads as a block set into the
+text rather than as a second column:
 
 ![post, light](../remove-before-merging/unsquatted-blog-oabq4m/mockups/post-light.png)
 
@@ -56,30 +60,23 @@ rows:
 
 ![index, dark](../remove-before-merging/unsquatted-blog-oabq4m/mockups/index-dark.png)
 
-**A catalogue name picked for a post**, four ways to link to the post (the
-second row in each):
+**A catalogue name picked for a post** carries the occasion's date stamp before
+the name, the same stamp as on the index, linking to the post (second row):
 
-- **A — the category is the occasion, and the link** _(recommended: a holiday
-  name's category would be the occasion anyway, so the slot already says it, and
-  the row's layout doesn't move)_
-  ![variant A](../remove-before-merging/unsquatted-blog-oabq4m/mockups/variant-a-light.png)
-- **B — a line under the blurb**
-  ![variant B](../remove-before-merging/unsquatted-blog-oabq4m/mockups/variant-b-light.png)
-- **C — a book icon beside the heart**
-  ![variant C](../remove-before-merging/unsquatted-blog-oabq4m/mockups/variant-c-light.png)
-- **D — the occasion's date stamp before the name**, echoing the index
-  ![variant D](../remove-before-merging/unsquatted-blog-oabq4m/mockups/variant-d-light.png)
+![catalogue link](../remove-before-merging/unsquatted-blog-oabq4m/mockups/variant-d-light.png)
 
-The plan below is written with **A**.
+Three other ways were considered and dropped: the category as the link, a line
+under the blurb, and a book icon beside the heart. The stamp is the one that
+ties a catalogue name visually to the blog.
 
 ## Rest of the elephant
 
-**Bite 2 — the other three posts.** World Hello Day, Black Friday and Cyber
-Monday, each with its names run through the naming runbook into the catalogue,
-its widgets, its card and the Unnamed's reflection, written to the tone bite 1
-settled. Each post's `date` is a day or two before its occasion, so the embargo
-releases it while the occasion is still ahead. Then `/finalize`, and a merge by
-10.11.
+**Bite 2 — the other three posts.** International Men’s Day, Black Friday and
+Cyber Monday, each with its names run through the naming runbook into the
+catalogue, its widgets, its card and the Unnamed's reflection, written to the
+tone bite 1 settled. Each post's `date` is a day or two before its occasion, so
+the embargo releases it while the occasion is still ahead. Then `/finalize`, and
+a merge by 10.11.
 
 ## This bite
 
@@ -95,10 +92,15 @@ releases it while the occasion is still ahead. Then `/finalize`, and a merge by
   `blog/[...slug]/page.tsx` (a post), the feed route, as lsa's and bible's
   routers do; `layout.tsx` takes blog's root metadata, which advertises the
   feed. The sitemap goes through blog's `sitemap()`.
-- **The index's copy is the Unnamed's**: title "Unnamed, on names", an intro
-  line in his voice, cards stamped with the occasion's date (index mockup).
-- **The home page links to the blog** with a line under the lede naming the
-  newest post: "New on the blog: _A domain for one_ →".
+- **The index's copy is the Unnamed's**: the title "The Unnamed of Unsquatted"
+  with ", on unsquatted (and some squatted) names" under it as a subtitle that
+  carries on the same sentence, then an intro line in his voice, then cards
+  stamped with the occasion's date (index mockup). Wherever the title travels as
+  one string (`<title>`, the feed, the card), it is the whole sentence.
+- **The home page sends the dice-roller to the blog**: after the third roll in a
+  visit, a line appears under the checker's field: "Tired of dicing?
+  [Read some](/blog)". The count belongs to the page view and isn't stored, so
+  every visit starts at zero.
 - **An occasion in frontmatter**: `occasion: { name, date }`, in a schema that
   unsquatted owns, as basilisk owns the case frontmatter. The index's date stamp
   and the post's eyebrow (`11.11 · Singles’ Day`) both read from it.
@@ -144,9 +146,9 @@ instead.** blog knows widgets in general; unsquatted knows which ones exist.
 ### 3. The catalogue links its picks to their post
 
 `picks.yaml` gains an optional `post`, which must name a post that exists. A
-pick with one shows its category, the occasion's name, as a link to the post
-(variant A). Picks keep their usual `form`, `uses` and `score`; the runbook's
-gates hold for them as for any other pick.
+pick with one shows the post's occasion date as a stamp before the name, linking
+to the post and titled with the occasion's name. Picks keep their usual `form`,
+`uses` and `score`; the runbook's gates hold for them as for any other pick.
 
 ### 4. The Unnamed
 
