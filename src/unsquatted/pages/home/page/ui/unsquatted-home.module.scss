@@ -127,9 +127,14 @@ $field-own-row: 30em;
   font-family: var(--mantine-font-family-monospace);
 }
 
+// One line, whatever the length: what the card cannot fit gives way to an
+// ellipsis, and the full domain is in the title.
 .domain {
+  min-width: 0;
+  overflow: hidden;
   font-family: var(--mantine-font-family-monospace);
-  overflow-wrap: anywhere;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 // Three rows at most until opened, as many columns across as the width allows.
@@ -195,25 +200,4 @@ $field-own-row: 30em;
   border-radius: var(--radius-default);
   background: var(--color-surface);
   font-size: 0.95rem;
-}
-
-// A card's domain never breaks inside the label or the zone: the zone wraps
-// whole onto a line of its own first, and only a label wider than the card on
-// its own gives way to an ellipsis.
-.zoneDomain {
-  display: flex;
-  flex-wrap: wrap;
-  min-width: 0;
-  max-width: 100%;
-}
-
-.zoneLabel {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.zoneTail {
-  white-space: nowrap;
 }

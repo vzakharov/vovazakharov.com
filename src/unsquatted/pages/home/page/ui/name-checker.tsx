@@ -11,7 +11,6 @@ import { useState } from 'react';
 
 import {
   type CopiedPrices,
-  labelOf,
   type Row,
   rowsFor,
   useChecker,
@@ -45,12 +44,8 @@ function ZoneRow({
 }: ZoneRowProps) {
   return (
     <li className={classes['zone']}>
-      <span
-        className={`${classes['domain']} ${classes['zoneDomain']}`}
-        title={domain}
-      >
-        <span className={classes['zoneLabel']}>{labelOf(domain)}</span>
-        <span className={classes['zoneTail']}>.{zoneOf(domain)}</span>
+      <span className={classes['domain']} title={domain}>
+        {domain}
       </span>
       {checkable ? (
         <VerdictLabel {...{ domain, verdict, ownNeighbour, price, copy }} />
