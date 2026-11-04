@@ -1,7 +1,7 @@
 /**
  * The naming runbook's memory of every name it checked and did not pick, one
- * JSON object per line in `../ledger.jsonl`. A picked name is a file under
- * `public/picks/` instead, so the two together are everything a run skips.
+ * JSON object per line in `../ledger.jsonl`. A picked name is in the deck's
+ * `picks.yaml` instead, so the two together are everything a run skips.
  */
 
 import fs from 'node:fs';

@@ -28,15 +28,16 @@ and goes elsewhere on purpose — the Clerk's method
 (`.claude/skills/file-basilisk-case/SKILL.md` § "Search wide, not deep"):
 
 - **Every name ever checked is ruled out**: the ledger (`ledger.jsonl`, taken
-  and taste rejections) and every file under `sites/unsquatted/public/picks/`,
-  shown or not. `pnpm names check` skips them itself.
+  and taste rejections) and every entry in the catalogue,
+  `src/unsquatted/pages/home/deck/model/picks.yaml`, shown or not.
+  `pnpm names check` skips them itself.
 - **Axes are chosen away from the used ones.** An axis is a direction a name
   comes from: a trade's vernacular, a sport, a kitchen, weather, a sound
   pattern. List the used ones first, then pick new ones from far corners — other
   trades, other centuries, other senses:
 
   ```bash
-  { jq -r .axis src/unsquatted/scripts/ledger.jsonl; grep -h '^category:' sites/unsquatted/public/picks/*.md | cut -d' ' -f2-; } | sort | uniq -c | sort -rn
+  { jq -r .axis src/unsquatted/scripts/ledger.jsonl; grep -h '^  category:' src/unsquatted/pages/home/deck/model/picks.yaml | cut -d' ' -f4-; } | sort | uniq -c | sort -rn
   ```
 
 - **Roll the dice when a run converges** — when the candidates start sounding
@@ -48,10 +49,9 @@ and goes elsewhere on purpose — the Clerk's method
 ## Steps
 
 1. **Retire what was taken.** `pnpm names recheck` prints each listed name no
-   longer free. Give each one `shownUntil: <today + 14 days>` in its frontmatter
-   — it stays listed two weeks, marked taken, then leaves the list; its file
-   stays. An `unknown` line is a lookup with no answer: re-run before reading
-   anything into it.
+   longer free. Give each one `shownUntil: <today + 14 days>` — it stays listed
+   two weeks, marked taken, then leaves the list; its entry stays. An `unknown`
+   line is a lookup with no answer: re-run before reading anything into it.
 2. **Brainstorm** several times the names wanted — about four candidates per
    pick, since most compounds that sound good are taken — as `axis<TAB>name`
    lines in a file under `tmp/`, several new axes per run.
@@ -59,16 +59,15 @@ and goes elsewhere on purpose — the Clerk's method
    ledger by themselves; the free ones print as `free<TAB>axis<TAB>domain`.
    Brainstorm again from new axes until the free ones outnumber the picks
    wanted.
-4. **Pick by taste**, under the spread above. Each pick is a file
-   `sites/unsquatted/public/picks/<domain>.md`:
+4. **Pick by taste**, under the spread above. Each pick is an entry in
+   `picks.yaml`, appended under the run's date:
 
    ```yaml
-   ---
-   category: book trade
-   blurb: 'Foxing is the brown spotting on old paper. A used-book shop or a reading app.'
-   score: 9
-   added: 2026-10-29
-   ---
+   foxedpage.com:
+     category: book trade
+     blurb: Foxing is the brown spotting on old paper. A used-book shop or a reading app.
+     score: 9
+     added: 2026-10-29
    ```
 
    `category` is the axis in two or three words. The blurb is one or two short

@@ -1,19 +1,27 @@
 import 'server-only';
 
-import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
+import { parse } from 'yaml';
 import { z } from 'zod';
 
-import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 import { errorClass, withCause } from '@/kernel/shared/lib/error-class';
 
 import type { WithDomain } from '../../checker';
 
-const PickFileError = errorClass('PickFileError');
+const CatalogueError = errorClass('CatalogueError');
 
-/** One file a name, `public/picks/<domain>.md`, at the route its article will take. */
-const PICKS_DIR = path.join(PUBLIC_DIR, 'picks');
+/**
+ * Every name ever picked, keyed by domain, beside this file. Read off the
+ * working directory, which is the site's for a build and for the naming script
+ * alike.
+ */
+const CATALOGUE_PATH = path.join(
+  process.cwd(),
+  '..',
+  '..',
+  'src/unsquatted/pages/home/deck/model/picks.yaml',
+);
 
 const DOMAIN = /^[\da-z-]+\.[a-z]+$/;
 
@@ -31,51 +39,40 @@ const shownSchema = z.object({
 /**
  * The naming runbook (`src/unsquatted/scripts/RUNBOOK.md`) writes these, so
  * they are parsed rather than trusted: a malformed one fails the build, not the
- * page. `shownUntil` is set by the runbook once the name is taken, and past it
- * the file stays in the repository but leaves the list. YAML reads an unquoted
- * date as a `Date`.
+ * page, and strictly, so a misspelt `shownUntil` is an error rather than a name
+ * that never leaves. `shownUntil` is set by the runbook once the name is taken,
+ * and past it the entry stays in the catalogue but leaves the list.
  */
-const pickSchema = shownSchema.extend({
+const pickSchema = z.strictObject({
+  ...shownSchema.shape,
   added: z.coerce.date(),
   shownUntil: z.coerce.date().optional(),
 });
 
+/** `yaml` rejects a key given twice, so a domain is listed once. */
+const catalogueSchema = z.record(z.string().regex(DOMAIN), pickSchema);
+
 export type ShownName = z.infer<typeof shownSchema> & WithDomain;
 
-function readPick(fileName: string) {
-  const domain = fileName.replace(/\.md$/, '');
-
-  if (!DOMAIN.test(domain)) {
-    throw new PickFileError(`picks/${fileName} is not named <domain>.md`);
-  }
-
+function readCatalogue() {
   try {
-    const { data } = matter(
-      fs.readFileSync(path.join(PICKS_DIR, fileName), 'utf8'),
-    );
-
-    return { domain, ...pickSchema.parse(data) };
+    return Object.entries(
+      catalogueSchema.parse(parse(fs.readFileSync(CATALOGUE_PATH, 'utf8'))),
+    ).map(([domain, pick]) => ({ domain, ...pick }));
   } catch (error) {
-    throw new PickFileError(
-      `picks/${fileName} does not parse`,
-      withCause(error),
-    );
+    throw new CatalogueError('picks.yaml does not parse', withCause(error));
   }
 }
 
 const day = (date: Date) => date.toISOString().slice(0, 10);
 
-/** Every pick file: best first, then newest, then by domain. */
-const SORTED = fs
-  .readdirSync(PICKS_DIR)
-  .filter((fileName) => fileName.endsWith('.md'))
-  .map((fileName) => readPick(fileName))
-  .toSorted(
-    (a, b) =>
-      b.score - a.score ||
-      b.added.getTime() - a.added.getTime() ||
-      a.domain.localeCompare(b.domain),
-  );
+/** Every pick: best first, then newest, then by domain. */
+const SORTED = readCatalogue().toSorted(
+  (a, b) =>
+    b.score - a.score ||
+    b.added.getTime() - a.added.getTime() ||
+    a.domain.localeCompare(b.domain),
+);
 
 const shown = ({ domain, category, blurb, score }: ShownName): ShownName => ({
   domain,
