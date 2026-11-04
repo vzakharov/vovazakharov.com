@@ -28,6 +28,14 @@ record" holds the three rules this file keeps.
   which states the unproxied path's risk and its tell itself, and
   `.claude/rules/multi-repo.md` and `scripts/pr-comment.sh` say where the
   source's `web-remote.md` lives.
+- **A branch's working files live in a directory of its own**,
+  `docs/remove-before-merging/<branch>/` as `scripts/working-dir.sh` prints it,
+  where the source writes them flat into `docs/remove-before-merging/`:
+  `.claude/skills/relay/SKILL.md`, `.claude/skills/squash-message/SKILL.md`,
+  `.claude/skills/squash-message/working-file.md`,
+  `.claude/skills/branch-rename/SKILL.md`, `.claude/skills/plan/elephant.md`,
+  `.claude/skills/tend-prose/SKILL.md` and `scripts/check-squash-message.sh`. A
+  source edit to that path is ported with the script's spelling.
 - **No skill here ships to adopters**, so `.claude/skills/task/SKILL.md` gives
   its bare mentions the routing as their reason, and
   `.claude/skills/tend-prose/SKILL.md` sends a procedure to a skill rather than
