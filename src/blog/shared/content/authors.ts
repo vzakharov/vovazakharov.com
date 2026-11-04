@@ -6,10 +6,10 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { Named, WithLink } from '@/kernel/shared/typings';
 
 import { messages } from '../i18n';
-import { documentRoute } from './collections';
+import { collectionRoute, documentRoute } from './collections';
 
 /** Whom an article's byline may name. Frontmatter states the id, so each name and link has one home. */
-export const AUTHOR_IDS = ['vova', 'clerk', 'maya'] as const;
+export const AUTHOR_IDS = ['vova', 'clerk', 'maya', 'unnamed'] as const;
 
 export type AuthorId = (typeof AUTHOR_IDS)[number];
 
@@ -22,6 +22,8 @@ export function author(id: AuthorId, locale: Locale): Named & WithLink {
       href: documentRoute('basilisk-faq', 'who-writes-this'),
     },
     maya: { name: messages(locale).authors.maya, href: siteConfig('maya').url },
+    // The blog's index is where he introduces himself.
+    unnamed: { name: 'the Unnamed', href: collectionRoute('unsquatted-blog') },
   };
 
   return authors[id];
