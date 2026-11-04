@@ -208,6 +208,9 @@ function drawRow(
   }
 }
 
+/** The aside's weight and size, which the font load awaits and the draw sets. */
+const HAND = '700 46px';
+
 /** A taken card's footer: the lede struck through, the hand's aside over it. */
 function drawCorrected(
   context: CanvasRenderingContext2D,
@@ -232,7 +235,7 @@ function drawCorrected(
   context.translate(200, 522);
   context.rotate(-0.05);
   context.fillStyle = l.taken;
-  context.font = `700 46px ${l.handFace}`;
+  context.font = `${HAND} ${l.handFace}`;
   context.fillText(t.aside, 0, 0);
   context.restore();
 }
@@ -268,7 +271,7 @@ export async function shareCard(
     // is `local("Arial")`, which rejects the whole load where Arial is absent.
     const [hand] = l.handFace.split(',');
 
-    await document.fonts.load(`700 46px ${hand}`);
+    await document.fonts.load(`${HAND} ${hand}`);
     drawCorrected(context, l, text);
   } else {
     context.fillStyle = l.muted;
