@@ -3,6 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # unsquatted alone, daily, just past the UTC midnight its posts are dated
+  # by: a post merged ahead of its day is published by the first build on it,
+  # and a catalogue name's `shownUntil` takes effect on its day.
+  schedule:
+    - cron: '17 0 * * *'
   workflow_dispatch:
     inputs:
       site:
@@ -80,7 +85,12 @@ jobs:
             esac
           }
 
-          if [ "$GITHUB_EVENT_NAME" != 'push' ]; then
+          if [ "$GITHUB_EVENT_NAME" = 'schedule' ]; then
+            # The schedule has neither a subject nor a picker; the site it
+            # exists for is stated above it.
+            select_site unsquatted
+            verdict="Scheduled run — receivers:$receivers."
+          elif [ "$GITHUB_EVENT_NAME" != 'push' ]; then
             # No subject to read a scope off, so the picker stands in for one.
             # Unquoted on purpose: the field is a list, split on either
             # separator a person writing one reaches for.
