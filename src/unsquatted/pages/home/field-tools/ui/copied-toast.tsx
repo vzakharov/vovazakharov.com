@@ -1,6 +1,6 @@
 'use client';
 
-import { CloseButton, Portal } from '@mantine/core';
+import { Box, CloseButton, Portal } from '@mantine/core';
 import { Check } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
@@ -10,7 +10,7 @@ import type { WhetherCopied } from '@/shell/shared/ui';
 import { CARD_HEIGHT, CARD_WIDTH } from '../lib/share-card';
 import classes from './field-tools.module.scss';
 
-/** How long the toast stays; the stylesheet's `.toast` animation spans it. */
+/** How long the toast stays, its `shown` animation's span. */
 export const TOAST_MS = 3000;
 
 /** What the toast says: its line, and its close button's name. */
@@ -32,8 +32,10 @@ function Toast({ url, said, dismiss }: ToastProps) {
 
   return (
     <Portal>
-      <output
+      <Box
+        component="output"
         className={classes['toast']}
+        style={{ '--toast-ms': `${TOAST_MS}ms` }}
         data-leaving={state === 'leaving'}
         onAnimationEnd={(event) => {
           if (event.target === event.currentTarget) setState('gone');
@@ -60,7 +62,7 @@ function Toast({ url, said, dismiss }: ToastProps) {
           unoptimized
           className={classes['card']}
         />
-      </output>
+      </Box>
     </Portal>
   );
 }

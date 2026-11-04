@@ -28,9 +28,11 @@
   color: var(--unsquatted-taken);
 }
 
-// `shown` spans `TOAST_MS`, the moment `useCopied` keeps it mounted: it rises
-// from below the screen's edge, waits, and sinks back. Closed early, it sinks
-// at once. Reduced motion only fades it.
+// Below the screen's edge, where the toast rises from and sinks back to.
+$toast-below: translateY(calc(100% + var(--toast-gap)));
+
+// `--toast-ms` is `TOAST_MS`, the moment `useCopied` keeps the toast mounted.
+// Closed early, it sinks at once. Reduced motion only fades it.
 .toast {
   --toast-gap: var(--mantine-spacing-md);
 
@@ -43,7 +45,7 @@
   border-radius: var(--mantine-radius-md);
   background-color: var(--color-surface);
   box-shadow: var(--mantine-shadow-lg);
-  animation: shown 3000ms ease-in-out forwards;
+  animation: shown var(--toast-ms) ease-in-out forwards;
 
   &[data-leaving='true'] {
     animation: sunk 250ms ease-in forwards;
@@ -59,23 +61,20 @@
 }
 
 @keyframes shown {
-  0% {
-    transform: translateY(calc(100% + var(--toast-gap)));
+  0%,
+  100% {
+    transform: $toast-below;
   }
 
   10%,
   90% {
     transform: none;
   }
-
-  100% {
-    transform: translateY(calc(100% + var(--toast-gap)));
-  }
 }
 
 @keyframes sunk {
   to {
-    transform: translateY(calc(100% + var(--toast-gap)));
+    transform: $toast-below;
   }
 }
 
