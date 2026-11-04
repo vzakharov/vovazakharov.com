@@ -14,7 +14,9 @@ warning at ~278k stopped it.
 **Agent** (the only turn): it claimed the plan, built the routers, the index,
 the post page with both widgets, the catalogue stamp with the two-way check, the
 dice nudge and the preview's `as-of` input, then paused the plan for the context
-budget and relayed (verbatim in Last agent turn).
+budget and relayed in the same turn. There is no Last agent turn section:
+`scripts/relay-last-reply.py` found no earlier turn, this one being the
+session's only, and its interim messages are in the transcript below.
 
 ## 3. Intent
 
