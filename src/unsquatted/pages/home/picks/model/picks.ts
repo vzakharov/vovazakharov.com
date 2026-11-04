@@ -82,6 +82,8 @@ const pickSchema = z
       .optional(),
     added: z.coerce.date(),
     shownUntil: z.coerce.date().optional(),
+    /** The slug of the blog post that picked it, whose widget lists it. */
+    post: z.string().min(1).optional(),
   })
   .refine(
     ({ form, pattern }) => form !== 'hack' || pattern !== undefined,

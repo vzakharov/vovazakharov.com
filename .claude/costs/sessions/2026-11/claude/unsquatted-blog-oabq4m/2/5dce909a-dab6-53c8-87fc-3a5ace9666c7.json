@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 132,
-    "cacheWrite5mTokens": 137986,
-    "cacheWrite1hTokens": 190322,
-    "cacheReadTokens": 9988760,
-    "outputTokens": 43854,
-    "thinkingTokens": 14346,
-    "responses": 61,
-    "costUsd": 4.669315
+    "inputTokens": 186,
+    "cacheWrite5mTokens": 165916,
+    "cacheWrite1hTokens": 205302,
+    "cacheReadTokens": 15436458,
+    "outputTokens": 68689,
+    "thinkingTokens": 20123,
+    "responses": 89,
+    "costUsd": 6.272431600000002
   },
   "estimate": {
     "at": "2026-11-04T15:13:14.967Z",
@@ -56,7 +56,7 @@
     }
   },
   "sessionId": "5dce909a-dab6-53c8-87fc-3a5ace9666c7",
-  "branch": "worktree-agent-a8666f53f3e64e020",
+  "branch": "claude/unsquatted-blog-oabq4m",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — План одобрен и на паузе, первый заход ещё не начат",
   "prs": [
@@ -65,60 +65,60 @@
   "url": "https://claude.ai/code/session_01DaohkFVQ8is9WA4hHjtj6A",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-04T15:12:59.651Z",
-  "lastResponseAt": "2026-11-04T15:19:33.438Z",
+  "lastResponseAt": "2026-11-04T15:21:50.033Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 94,
+    "inputTokens": 116,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 190322,
-    "cacheReadTokens": 8468693,
-    "outputTokens": 36503,
-    "thinkingTokens": 12514,
-    "responses": 45,
-    "costUsd": 3.9467506000000006
+    "cacheWrite1hTokens": 205302,
+    "cacheReadTokens": 11529807,
+    "outputTokens": 44044,
+    "thinkingTokens": 15734,
+    "responses": 57,
+    "costUsd": 4.829721400000001
   },
   "subagents": {
-    "inputTokens": 38,
-    "cacheWrite5mTokens": 137986,
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 165916,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 1520067,
-    "outputTokens": 7351,
-    "thinkingTokens": 1832,
-    "responses": 16,
-    "costUsd": 0.7225644000000001
+    "cacheReadTokens": 3906651,
+    "outputTokens": 24645,
+    "thinkingTokens": 4389,
+    "responses": 32,
+    "costUsd": 1.4427102
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 94,
+      "inputTokens": 116,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 190322,
-      "cacheReadTokens": 8468693,
-      "outputTokens": 36503,
-      "thinkingTokens": 12514,
-      "responses": 45,
-      "costUsd": 3.9467506000000006
+      "cacheWrite1hTokens": 205302,
+      "cacheReadTokens": 11529807,
+      "outputTokens": 44044,
+      "thinkingTokens": 15734,
+      "responses": 57,
+      "costUsd": 4.829721400000001
     },
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 38,
-      "cacheWrite5mTokens": 137986,
+      "inputTokens": 70,
+      "cacheWrite5mTokens": 165916,
       "cacheWrite1hTokens": 0,
-      "cacheReadTokens": 1520067,
-      "outputTokens": 7351,
-      "thinkingTokens": 1832,
-      "responses": 16,
-      "costUsd": 0.7225644000000001
+      "cacheReadTokens": 3906651,
+      "outputTokens": 24645,
+      "thinkingTokens": 4389,
+      "responses": 32,
+      "costUsd": 1.4427102
     }
   },
   "warnings": [
-    "prices.json priced the 61 responses the events also priced at $4.6693, against the events' $4.5173: a rate in the table is likely out of date"
+    "prices.json priced the 88 responses the events also priced at $6.2020, against the events' $5.8114: a rate in the table is likely out of date"
   ],
   "compactions": [],
   "telemetry": {
-    "events": 61,
-    "matched": 61,
-    "matchedTableUsd": 4.669315,
-    "matchedEventUsd": 4.517308300000001,
+    "events": 88,
+    "matched": 88,
+    "matchedTableUsd": 6.202042000000001,
+    "matchedEventUsd": 5.811376900000001,
     "unseen": {}
   }
 }

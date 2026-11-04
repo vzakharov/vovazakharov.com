@@ -2119,3 +2119,71 @@ thistra.com:
   score: 6
   form: coinage
   added: 2026-11-04
+
+letmeal.one:
+  category: Singles’ Day
+  tagline: “Let me alone,” as people said it before “leave” took over.
+  uses:
+    - solo-travel guide
+    - quiet-hours café
+  score: 7.5
+  form: hack
+  pattern: '*al.one'
+  added: 2026-11-04
+  post: singles-day
+
+monachal.com:
+  category: Singles’ Day
+  tagline: Of monks, from the Greek word for alone.
+  uses:
+    - retreat house
+    - meditation app
+  score: 7
+  form: word
+  added: 2026-11-04
+  post: singles-day
+
+baresticks.com:
+  category: Singles’ Day
+  tagline: The four bare branches of 11.11, Chinese slang for a bachelor.
+  uses:
+    - furniture workshop
+    - dating newsletter
+  score: 7
+  form: compound
+  added: 2026-11-04
+  post: singles-day
+
+onlyones.day:
+  category: Singles’ Day
+  tagline: A day of nothing but ones.
+  uses:
+    - countdown site
+    - self-care box
+  score: 7
+  form: hack
+  pattern: '*.day'
+  added: 2026-11-04
+  post: singles-day
+
+cartforone.com:
+  category: Singles’ Day
+  tagline: A shopping cart, and nobody to share it with.
+  uses:
+    - grocery-delivery service
+    - single-portion meal kit
+  score: 6.5
+  form: phrase
+  added: 2026-11-04
+  post: singles-day
+
+boughtmyself.com:
+  category: Singles’ Day
+  tagline: The gift you got, from the only person who knew what you wanted.
+  uses:
+    - gift shop
+    - self-gifting blog
+  score: 6.5
+  form: phrase
+  added: 2026-11-04
+  post: singles-day
