@@ -294,14 +294,14 @@ source's, so `git merge-file <local> <base> <new>` — the base and new being th
 commit's parent and own version of the file, read out with `git show` — lands
 the change, and a conflict marks a local edit the record should have named.
 
-**`.claude/skills/go/delegation-model-capabilities.md` is merged by lesson,
-never ported or skipped.** Each repo's copy holds what its own delegations
-taught, so it differs from the source's by design and the record never mentions
-it. Read the source's file whole — not the diff, since an entry the source
-folded away may still be news here — and fold in each lesson this file lacks
-that holds for the models and setup this repo runs, in its own words, keeping
-every lesson of its own. The result stays under its 100-line cap; where the two
-disagree, this repo's own runs win over the source's.
+**`.claude/model-capabilities.md` is merged by lesson, never ported or
+skipped.** Each repo's copy holds what its own delegations and reviews taught,
+so it differs from the source's by design and the record never mentions it. Read
+the source's file whole — not the diff, since an entry the source folded away
+may still be news here — and fold in each lesson this file lacks that holds for
+the models and setup this repo runs, in its own words, keeping every lesson of
+its own. The result stays under its 100-line cap; where the two disagree, this
+repo's own runs win over the source's.
 
 **A port into an always-loaded file merges into its staged copy** — `CLAUDE.md`,
 or a `SKILL.md` whose `description:` it changes: stage the file first, per

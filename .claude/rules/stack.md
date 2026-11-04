@@ -42,13 +42,14 @@ scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
 scripts/staged.sh check         # staged always-loaded copies   │
-wc -l delegation-model-capabilities.md # /go's notes, ≤100 lines │
+wc -l .claude/model-capabilities.md # model notes, ≤100 lines │
 scripts/check-claude-md-size.sh # CLAUDE.md + imports size cap  │
 python3 .claude/costs/test_*.py # cost ledger, one run per file │
 python3 .claude/costs/check_estimates.py # every session estimated │
 python3 .claude/context-budget/test_context_budget.py         # │
 python3 .claude/cold-cache/test_cold_cache.py                 # │
 python3 .claude/keepalive/test_keepalive.py                   # │
+python3 .claude/merge-gate/test_merge_gate.py                 # │
 python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 ```
 
@@ -219,18 +220,18 @@ Nineteen things about that list are deliberate:
   `scripts/check-markdown-tables.sh` holds agent-facing Markdown to
   `.claude/rules/markdown.md`, and runs only while that rule exists.
   `scripts/staged.sh check` holds `.claude/staged/` to
-  `.claude/rules/staging.md`, the delegation notes check holds `/go`'s
-  `delegation-model-capabilities.md` to its keeping rule's cap, so a summary
+  `.claude/rules/staging.md`, the model notes check holds
+  `.claude/model-capabilities.md` to its keeping rule's cap, so a summary
   rewritten every session cannot drift into a log,
   `scripts/check-claude-md-size.sh` caps what `CLAUDE.md` and its imports cost
   every turn, measured as the branch will land them, the cost ledger's, context
-  budget's, cold-cache guard's and keepalive's tests run the code under
-  `.claude/costs/`, `.claude/context-budget/`, `.claude/cold-cache/` and
-  `.claude/keepalive/` against temporary transcripts and repositories of their
-  own, and `.claude/hooks/`'s feed its hooks payloads on stdin.
-  `check_estimates.py` fails a branch carrying a session with no human-hour
-  estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying why the
-  gate sits here.
+  budget's, cold-cache guard's, keepalive's and merge gate's tests run the code
+  under `.claude/costs/`, `.claude/context-budget/`, `.claude/cold-cache/`,
+  `.claude/keepalive/` and `.claude/merge-gate/` against temporary transcripts
+  and repositories of their own, and `.claude/hooks/`'s feed its hooks payloads
+  on stdin. `check_estimates.py` fails a branch carrying a session with no
+  human-hour estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying
+  why the gate sits here.
 - **What makes a check a member is that it measures this repo's own code**,
   which is the test for the whole list — `scripts/gh_export/` is vendored byte
   for byte and edited only at the source, so its suite runs there.
