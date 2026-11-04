@@ -1,16 +1,16 @@
 Proposed squash body:
 
 ```
-A name shared with its zone typed (pisem.net) drew a card led by its
-free siblings and dropped the typed domain whenever it was taken, so
-the image left out the very domain the link was about.
+A name shared with its zone typed (pisem.net) drew a card whose field
+said only "pisem", led by its free siblings, and dropped the typed
+domain whenever it was taken, so the image left out the very domain
+the link was about.
 
-The card's first row is now the typed domain whatever its lookup said,
-followed by the alternatives the card offers. The struck-through lede
-and its handwritten aside stay for a card whose every row is taken; a
-card with free rows under a taken one keeps the plain footer, and only
-a card offering nothing waits for every lookup on screen before it is
-drawn. A name shared without a zone draws as before.
+The card's field now holds the typed domain with its verdict and price
+set inside it, whatever its lookup said, and the rows under it are the
+alternatives alone. Where only the typed domain is taken, its lede is
+struck through as on an all-taken card, the hand writing "okay, maybe
+not this one" over it. A name shared without a zone draws as before.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
