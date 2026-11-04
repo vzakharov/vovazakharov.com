@@ -27,14 +27,17 @@ export type CardText = {
   site: string;
   host: string;
   footer: string;
-  /** A taken card's footer, struck through. */
+  /** An all-taken card's footer, struck through. */
   lede: string;
   /**
-   * What the hand writes over a taken card's struck lede: `all` where every
-   * domain on it is taken, `field` where only the typed one is.
+   * What the hand writes: `all` over the struck lede where every domain on the
+   * card is taken, `field` in the field, pointing at its verdict, where only
+   * the typed one is.
    */
-  aside: { all: string; field: string };
+  aside: Record<Aside, string>;
 };
+
+type Aside = 'all' | 'field';
 
 type Look = {
   paper: string;
@@ -168,13 +171,23 @@ function drawVerdict(
 
 type DrawFieldParams = { l: Look; t: CardText };
 
-/** The field holding `name`, and the verdict on it where it is a domain. */
+/** The field's white stretch: from where its name ends to where its verdict starts. */
+type FieldGap = { left: number; right: number };
+
+const FIELD_BASELINE = 240;
+
+/**
+ * The field holding `name`, and the verdict on it where it is a domain;
+ * returns the gap between the two, which the name, shrinking, leaves at least
+ * `reserve` wide.
+ */
 function drawField(
   context: CanvasRenderingContext2D,
   { l, t }: DrawFieldParams,
   name: string,
   row: CardRow | undefined,
-) {
+  reserve: number,
+): FieldGap {
   context.fillStyle = l.surface;
   context.strokeStyle = l.accent;
   context.lineWidth = 3;
@@ -193,9 +206,11 @@ function drawField(
     name,
     (size) => `${size}px ${l.monoFace}`,
     44,
-    nameRight - 128,
+    nameRight - 128 - reserve,
   );
-  context.fillText(name, 128, 240);
+  context.fillText(name, 128, FIELD_BASELINE);
+
+  return { left: 128 + context.measureText(name).width, right: nameRight + 24 };
 }
 
 const ROW_TOP = 316;
@@ -243,7 +258,62 @@ function drawRow(
 /** The aside's weight and size, which the font load awaits and the draw sets. */
 const HAND = '700 46px';
 
-/** A taken card's footer: the lede struck through, `aside` over it by hand. */
+/** The least the arrow from the field's note to its verdict spans. */
+const ARROW_SPAN = 64;
+
+/** The field's white stretch a long name leaves the note and its arrow. */
+const NOTE_ROOM = 340;
+
+/**
+ * `aside` by hand in the field's white stretch, `gap`, and an arrow from it to
+ * the verdict at the stretch's right end.
+ */
+function drawPointed(
+  context: CanvasRenderingContext2D,
+  l: Look,
+  aside: string,
+  gap: FieldGap,
+) {
+  const left = gap.left + 28;
+  const font = fitted(
+    context,
+    aside,
+    (size) => `700 ${size}px ${l.handFace}`,
+    40,
+    gap.right - left - ARROW_SPAN,
+  );
+
+  context.save();
+  context.translate(left, FIELD_BASELINE - 6);
+  context.rotate(-0.04);
+  context.fillStyle = l.taken;
+  context.font = font;
+  context.fillText(aside, 0, 0);
+  const end = context.measureText(aside).width + 10;
+  const tip = { x: gap.right - left - 8, y: 2 };
+
+  context.strokeStyle = l.taken;
+  context.lineWidth = 3;
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  context.beginPath();
+  context.moveTo(end, -14);
+  context.bezierCurveTo(
+    end + (tip.x - end) * 0.5,
+    -34,
+    tip.x - 10,
+    -18,
+    tip.x,
+    tip.y,
+  );
+  context.moveTo(tip.x - 14, tip.y - 8);
+  context.lineTo(tip.x, tip.y);
+  context.lineTo(tip.x + 2, tip.y - 15);
+  context.stroke();
+  context.restore();
+}
+
+/** An all-taken card's footer: the lede struck through, `aside` over it by hand. */
 function drawCorrected(
   context: CanvasRenderingContext2D,
   l: Look,
@@ -277,19 +347,18 @@ function drawCorrected(
 const CARD_TYPE = 'image/png';
 
 /**
- * What the hand writes over the struck lede: on a card with nothing to offer,
- * or on one whose field alone is taken; none where the card has no taken field.
+ * Which aside the hand writes: `all` on a card with nothing to offer, `field`
+ * on one whose field alone is taken; none where the card has no taken field.
  */
 function asideOf(
-  { aside }: CardText,
   field: CardRow | undefined,
   rows: readonly CardRow[],
-): string | undefined {
+): Aside | undefined {
   const all = field === undefined ? rows : [field, ...rows];
 
-  if (all.length > 0 && offersNothing(all)) return aside.all;
+  if (all.length > 0 && offersNothing(all)) return 'all';
 
-  return field?.state === 'taken' ? aside.field : undefined;
+  return field?.state === 'taken' ? 'field' : undefined;
 }
 
 /**
@@ -314,13 +383,28 @@ export async function shareCard(
   context.fillStyle = l.paper;
   context.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
   drawHead(context, l, text);
-  drawField(context, { l, t: text }, name, field);
+  const aside = asideOf(field, rows);
+  const gap = drawField(
+    context,
+    { l, t: text },
+    name,
+    field,
+    aside === 'field' ? NOTE_ROOM : 0,
+  );
+
   for (const [index, row] of rows.entries())
     drawRow(context, l, text, row, index);
+  if (aside !== undefined) {
+    // Unpreloaded, the hand arrives only when a card first asks for it. Only
+    // the stack's first face is awaited: next/font's metric fallback after it
+    // is `local("Arial")`, which rejects the whole load where Arial is absent.
+    const [hand] = l.handFace.split(',');
 
-  const aside = asideOf(text, field, rows);
-
-  if (aside === undefined) {
+    await document.fonts.load(`${HAND} ${hand}`);
+  }
+  if (aside === 'all') drawCorrected(context, l, text, text.aside.all);
+  else {
+    if (aside === 'field') drawPointed(context, l, text.aside.field, gap);
     context.fillStyle = l.muted;
     context.textAlign = 'left';
     context.font = fitted(
@@ -331,14 +415,6 @@ export async function shareCard(
       1008,
     );
     context.fillText(text.footer, 96, 574);
-  } else {
-    // Unpreloaded, the hand arrives only when a card first asks for it. Only
-    // the stack's first face is awaited: next/font's metric fallback after it
-    // is `local("Arial")`, which rejects the whole load where Arial is absent.
-    const [hand] = l.handFace.split(',');
-
-    await document.fonts.load(`${HAND} ${hand}`);
-    drawCorrected(context, l, text, aside);
   }
 
   const blob = await new Promise<Blob>((resolve, reject) => {
