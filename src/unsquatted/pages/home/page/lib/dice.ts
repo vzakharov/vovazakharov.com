@@ -1,4 +1,4 @@
-import { cleanLabel } from '../../checker';
+import { cleanLabel } from '../../checker/index.node-safe';
 
 /** Word lengths that run together into a name still short enough to type. */
 const LENGTH = { min: 3, max: 7 };

@@ -1,4 +1,4 @@
 import 'server-only';
 
-export { LASTING_PICKS } from './model/picks';
+export { rollName } from './lib/dice';
 export { DICE_FACE, DICE_FACES, DICE_VIEW_BOX } from './ui/dice-shape';

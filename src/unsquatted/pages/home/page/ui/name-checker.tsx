@@ -19,15 +19,16 @@ import {
 } from '../../checker';
 import { FieldTools, TOOL_BUTTON } from '../../field-tools';
 import { useVerdicts } from '../../verdict';
-import { rollName } from '../lib/dice';
-import { DiceIcon } from './dice-icon';
-import classes from './unsquatted-home.module.scss';
 import {
   type CopiedPrice,
   type CopiedVerdict,
   OWN_DOMAIN,
+  UncheckedLabel,
   VerdictLabel,
-} from './verdict-label';
+} from '../../verdict-label';
+import { rollName } from '../lib/dice';
+import { DiceIcon } from './dice-icon';
+import classes from './unsquatted-home.module.scss';
 
 type ZoneRowProps = CopiedVerdict &
   CopiedPrice &
@@ -47,9 +48,7 @@ function ZoneRow({
       {checkable ? (
         <VerdictLabel {...{ domain, verdict, ownNeighbour, price, copy }} />
       ) : (
-        <span className={classes['verdict']} data-state="unknown">
-          {copy.cantCheck}
-        </span>
+        <UncheckedLabel text={copy.cantCheck} />
       )}
     </li>
   );

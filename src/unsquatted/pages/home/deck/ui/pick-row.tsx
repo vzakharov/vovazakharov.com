@@ -5,10 +5,9 @@ import { TextLink } from '@/shell/shared/ui';
 import { labelOf, useChecker, zoneOf } from '../../checker';
 import { LikeButton } from '../../likes';
 import { useVerdict } from '../../verdict';
-import { registerUrl } from '../lib/register';
+import { type CopiedPrice, PriceHint, registerUrl } from '../../verdict-label';
 import type { ShownName } from '../model/picks';
-import classes from './unsquatted-home.module.scss';
-import { type CopiedPrice, PriceHint } from './verdict-label';
+import classes from './deck.module.scss';
 
 type PickRowProps = ShownName & CopiedPrice;
 
@@ -30,7 +29,7 @@ export function PickRow({
   const name = labelOf(domain);
 
   return (
-    <li className={classes['pick']} data-taken={taken}>
+    <li className={classes['pick']} data-taken={taken} data-domain={domain}>
       <span className={classes['pickName']}>
         {/* The name alone, without its zone, so the checker tries it in all. */}
         <button
