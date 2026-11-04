@@ -127,8 +127,8 @@ $field-own-row: 30em;
   font-family: var(--mantine-font-family-monospace);
 }
 
-// One line, whatever the length: what the card cannot fit gives way to an
-// ellipsis, and the full domain is in the title.
+// One line, since a break can split the zone (`.co` / `m`); the span's `title`
+// carries whatever the ellipsis hides.
 .domain {
   min-width: 0;
   overflow: hidden;
