@@ -1989,3 +1989,133 @@ buttri.com:
   score: 6
   form: respelling
   added: 2026-11-04
+
+uhtsong.com:
+  category: old english
+  tagline: The Old English name for the service sung before dawn.
+  uses:
+    - early-riser newsletter
+    - choral group
+  score: 8
+  form: word
+  added: 2026-11-04
+
+beforethethaw.com:
+  category: late winter
+  tagline: The last still weeks before the ice goes.
+  uses:
+    - winter-sports shop
+    - seasonal journal
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+lefttosteep.com:
+  category: infusions
+  tagline: What tea, cold brew and good ideas all need.
+  uses:
+    - tea shop
+    - slow-thinking blog
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+oneforthedrawer.com:
+  category: keepsakes
+  tagline: The thing kept because it might be wanted one day.
+  uses:
+    - stationery shop
+    - ideas notebook
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+woadhouse.com:
+  category: dyeing
+  tagline: Woad is the plant the old blue dye came from.
+  uses:
+    - natural-dye studio
+    - indigo clothing label
+  score: 7.5
+  form: compound
+  added: 2026-11-04
+
+maddervat.com:
+  category: dyeing
+  tagline: Madder root gives the old red dye, steeped in a vat.
+  uses:
+    - textile studio
+    - craft-supply shop
+  score: 7
+  form: compound
+  added: 2026-11-04
+
+gulesandor.com:
+  category: heraldry
+  tagline: Red and gold, in the words a herald uses.
+  uses:
+    - design studio
+    - family-history service
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+treblebob.com:
+  category: bell ringing
+  tagline: Treble Bob is one of the old methods for ringing changes on bells.
+  uses:
+    - podcast
+    - puzzle app
+  score: 7
+  form: compound
+  added: 2026-11-04
+
+bellrynger.com:
+  category: bell ringing
+  tagline: Bellringer, spelt the old way.
+  uses:
+    - notification service
+    - campanology club
+  score: 6
+  form: respelling
+  added: 2026-11-04
+
+hedgelaid.com:
+  category: hedgelaying
+  tagline: A hedge cut and woven back so it grows thick.
+  uses:
+    - landscaping firm
+    - rural-crafts course
+  score: 6.5
+  form: compound
+  added: 2026-11-04
+
+wheelwryt.com:
+  category: wheelwrighting
+  tagline: Wheelwright, spelt short.
+  uses:
+    - bike-repair shop
+    - woodworking studio
+  score: 6.5
+  form: respelling
+  added: 2026-11-04
+
+kitemakr.com:
+  category: kite flying
+  tagline: Kitemaker, short of an e.
+  uses:
+    - kite shop
+    - drone-hobby forum
+  score: 6
+  form: respelling
+  added: 2026-11-04
+
+thistra.com:
+  category: wildflowers
+  tagline: Thistle, worn down into a name.
+  uses:
+    - skincare brand
+    - garden shop
+  score: 6
+  form: coinage
+  added: 2026-11-04
