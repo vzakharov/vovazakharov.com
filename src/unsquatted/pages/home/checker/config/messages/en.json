@@ -3,7 +3,7 @@
   "ledeNote": "* No, not even us.",
   "byline": "Curated, {private}, {blazing}.",
   "private": "private",
-  "privateWhy": "Your queries never leave your browser, so we can’t steal them. Oh, and we’re {openSource}.",
+  "privateWhy": "Your browser asks the registries itself, so your queries never reach us and we can’t steal them. Oh, and we’re {openSource}.",
   "openSource": "open-source",
   "coffeeLink": "Buy us a coffee",
   "coffeeSoon": "Still looking for the coffee shop — stay tuned",
