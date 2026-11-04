@@ -38,6 +38,7 @@ export function IdeasOffer({
     stop,
     thinking,
     ring,
+    asked,
     downloading,
     failed,
   },
@@ -62,9 +63,6 @@ export function IdeasOffer({
         size={42}
         aria-label={label}
         title={label}
-        // The download's own press reopens the dialog, so only a press that
-        // brainstorms waits out its answer.
-        disabled={optedIn && thinking}
         onClick={() => {
           if (optedIn) brainstorm();
           else setOpened(true);
@@ -72,7 +70,7 @@ export function IdeasOffer({
         {...{ className }}
       >
         <Lightbulb size={20} />
-        {ring && <Ring target={ring} />}
+        {ring && <Ring key={asked} target={ring} />}
       </ActionIcon>
       <IdeasModal
         onClose={() => {

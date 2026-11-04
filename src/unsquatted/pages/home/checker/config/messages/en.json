@@ -19,7 +19,7 @@
     "brainstorm": "Brainstorm variations",
     "thinking": "Brainstorming variations",
     "lead": "Variations to try",
-    "none": "sorry, the ideating overlord is out of ideas ¯\\_(ツ)_/¯",
+    "none": "Sorry, the ideating overlord is out of ideas ¯\\_(ツ)_/¯",
     "title": "Brainstorm with a model in your browser",
     "what": "A small AI model can suggest variations on a name whenever you press the lightbulb. It runs right here in your browser, so what you type stays on your computer — same as with the checks.",
     "download": "The first time, your browser downloads the model from Hugging Face: about 650 MB, once. It keeps it in this site’s storage, and clearing the site’s data removes it.",

@@ -47,15 +47,19 @@ export type Ideas = Stage & {
   stop: () => void;
   /** The ring round the button, while it loads or thinks. */
   ring: RingTarget | undefined;
+  /** The label the variations on their way are for, which restarts the ring. */
+  asked: string | undefined;
   /** The last press's variations, whatever the label is now. */
   names: readonly string[] | undefined;
 };
 
 /**
  * The variations of `label`, generated when the visitor presses the button
- * and never on a new label alone. A new label abandons the generation in
- * flight, but the last variations stay until the next press brings new ones,
- * so the visitor can try them one after another. The first
+ * and never on a new label alone. A generation in flight runs on through a
+ * new label and answers for the one it was asked for; a press for another
+ * label replaces it, and one for the same label leaves it running. The last
+ * variations stay until the next press brings new ones, so the visitor can
+ * try them one after another. The first
  * generation is timed and the time kept, to pace the ring of every later one.
  * An opt-in whose weights the browser has since evicted is undone, so the
  * offer asks again before downloading anything. `unsquattedForget()` in the
@@ -79,15 +83,9 @@ export function useIdeas(label: string): Ideas {
   const [failed, setFailed] = useState(false);
   /** The label the button was pressed for, until its variations are in. */
   const [asked, setAsked] = useState<string>();
-  const [seenLabel, setSeenLabel] = useState(label);
   // The server render's snapshots are the same: nothing loads there.
   const progress = useSyncExternalStore(watchLoad, loadProgress, loadProgress);
   const ready = useSyncExternalStore(watchLoad, modelReady, modelReady);
-
-  if (label !== seenLabel) {
-    setSeenLabel(label);
-    setAsked(undefined);
-  }
 
   useEffect(() => {
     modelDtype().then((dtype) => {
@@ -182,6 +180,7 @@ export function useIdeas(label: string): Ideas {
     stop: stopModel,
     thinking,
     ring: ringOf({ loading: progress, asked: thinking, ready, timed }),
+    asked,
     downloading: agreed ? undefined : progress,
     failed,
     names,
