@@ -105,8 +105,12 @@ Bite 1, in part:
   sale — `onlyones.day`, `cartforone.com`, `boughtmyself.com`. `name` widgets
   for `single` and `solo`.
 - **The FSD move** of the home page's domain blocks to `shared/i18n`,
-  `entities/domain`, `features/like` and `widgets/field-tools` (DRY notes below)
-  — see the relay summary's State for whether it landed.
+  `entities/domain`, `features/like` and `widgets/field-tools` (DRY notes
+  below), in bf85037b. `ZoneRow` is `entities/domain/ui/zone-row`; the domain's
+  pure logic, `fetchPrices` included, is behind its `index.node-safe.ts`.
+- **The feed route** `sites/unsquatted/app/blog/feed.xml/route.ts`. Until
+  `sites/unsquatted/public/blog/` exists — post 1 creates it —
+  `pnpm build unsquatted` fails reading it.
 
 ## Rest of the bite
 
