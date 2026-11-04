@@ -13,7 +13,7 @@ export type WhetherCopied = { copied: boolean };
  * inside the click, it may settle later: Safari takes a write only from inside
  * the click that asked for it, and a promise is how a slow blob stays inside.
  */
-export type BlobToBe = { type: string; made: Promise<Blob> };
+type BlobToBe = Pick<Blob, 'type'> & { made: Promise<Blob> };
 
 type Copyable = string | Blob | BlobToBe;
 

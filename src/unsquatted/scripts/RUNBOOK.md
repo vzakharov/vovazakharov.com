@@ -44,7 +44,7 @@ and goes elsewhere on purpose — the Clerk's method
 
 - **Every name ever checked is ruled out**: the ledger (`ledger.jsonl`, taken
   and taste rejections) and every entry in the catalogue,
-  `src/unsquatted/pages/home/deck/model/picks.yaml`, shown or not.
+  `src/unsquatted/pages/home/picks/model/picks.yaml`, shown or not.
   `pnpm names check` skips them itself.
 - **Axes are chosen away from the used ones.** An axis is a direction a name
   comes from: a trade's vernacular, a sport, a kitchen, weather, a sound
@@ -52,7 +52,7 @@ and goes elsewhere on purpose — the Clerk's method
   trades, other centuries, other senses:
 
   ```bash
-  { jq -r .axis src/unsquatted/scripts/ledger.jsonl; grep -h '^  category:' src/unsquatted/pages/home/deck/model/picks.yaml | cut -d' ' -f4-; } | sort | uniq -c | sort -rn
+  { jq -r .axis src/unsquatted/scripts/ledger.jsonl; grep -h '^  category:' src/unsquatted/pages/home/picks/model/picks.yaml | cut -d' ' -f4-; } | sort | uniq -c | sort -rn
   ```
 
 - **Roll the dice when a run converges** — when the candidates start sounding
@@ -61,7 +61,7 @@ and goes elsewhere on purpose — the Clerk's method
 - **A run spreads its picks**: at most two from one axis, and a category the
   list already holds several of waits for another run; across forms, it leans
   toward whichever the list holds least of
-  (`grep -h '^  form:' src/unsquatted/pages/home/deck/model/picks.yaml | sort | uniq -c`).
+  (`grep -h '^  form:' src/unsquatted/pages/home/picks/model/picks.yaml | sort | uniq -c`).
 
 **`picks.yaml` is read by command or by line range, never whole**: at over a
 thousand lines it fills a session's context and anchors the brainstorm on what

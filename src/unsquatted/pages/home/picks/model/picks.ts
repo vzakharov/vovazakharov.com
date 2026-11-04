@@ -21,7 +21,7 @@ const CATALOGUE_PATH = path.join(
   process.cwd(),
   '..',
   '..',
-  'src/unsquatted/pages/home/deck/model/picks.yaml',
+  'src/unsquatted/pages/home/picks/model/picks.yaml',
 );
 
 const DOMAIN = /^[\da-z-]+\.[a-z]+$/;

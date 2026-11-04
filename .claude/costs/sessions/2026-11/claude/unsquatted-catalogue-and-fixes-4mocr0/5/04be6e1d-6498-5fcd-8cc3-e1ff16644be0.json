@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 582,
-    "cacheWrite5mTokens": 147227,
-    "cacheWrite1hTokens": 63893,
-    "cacheReadTokens": 4232831,
-    "outputTokens": 12764,
-    "thinkingTokens": 3497,
-    "responses": 38,
-    "costUsd": 2.351705200000001
+    "inputTokens": 662,
+    "cacheWrite5mTokens": 166258,
+    "cacheWrite1hTokens": 107826,
+    "cacheReadTokens": 10528427,
+    "outputTokens": 31598,
+    "thinkingTokens": 9071,
+    "responses": 80,
+    "costUsd": 4.4344434
   },
   "estimate": {
     "at": "2026-11-04T06:14:42.437Z",
@@ -41,52 +41,54 @@
   "branch": "claude/unsquatted-catalogue-and-fixes-4mocr0",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-catalogue-and-fixes-4mocr0 — тост, лоадер и промис карточки готовы, Вова попросил финализировать: дальше finalize, без мерджа",
-  "prs": [],
+  "prs": [
+    244
+  ],
   "url": "https://claude.ai/code/session_01DaohkEsJym7p6LBvSUGjMT",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-04T06:14:11.022Z",
-  "lastResponseAt": "2026-11-04T06:17:43.372Z",
+  "lastResponseAt": "2026-11-04T06:28:22.560Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 35,
+    "inputTokens": 79,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 63893,
-    "cacheReadTokens": 1714416,
-    "outputTokens": 3563,
-    "thinkingTokens": 441,
-    "responses": 16,
-    "costUsd": 0.9254272
+    "cacheWrite1hTokens": 107826,
+    "cacheReadTokens": 5176085,
+    "outputTokens": 15739,
+    "thinkingTokens": 3816,
+    "responses": 40,
+    "costUsd": 2.212921
   },
   "subagents": {
-    "inputTokens": 41,
-    "cacheWrite5mTokens": 147143,
+    "inputTokens": 77,
+    "cacheWrite5mTokens": 166174,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 2397040,
-    "outputTokens": 9194,
-    "thinkingTokens": 3056,
-    "responses": 21,
-    "costUsd": 1.399167
+    "cacheReadTokens": 5230967,
+    "outputTokens": 15852,
+    "thinkingTokens": 5255,
+    "responses": 39,
+    "costUsd": 2.1944114000000003
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 582,
-      "cacheWrite5mTokens": 147227,
-      "cacheWrite1hTokens": 63893,
-      "cacheReadTokens": 4232831,
-      "outputTokens": 12764,
-      "thinkingTokens": 3497,
-      "responses": 38,
-      "costUsd": 2.351705200000001
+      "inputTokens": 662,
+      "cacheWrite5mTokens": 166258,
+      "cacheWrite1hTokens": 107826,
+      "cacheReadTokens": 10528427,
+      "outputTokens": 31598,
+      "thinkingTokens": 9071,
+      "responses": 80,
+      "costUsd": 4.4344434
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 37,
-    "matched": 36,
-    "matchedTableUsd": 2.271542400000001,
-    "matchedEventUsd": 2.271542400000001,
+    "events": 79,
+    "matched": 78,
+    "matchedTableUsd": 4.349013200000001,
+    "matchedEventUsd": 4.349013200000001,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 506,

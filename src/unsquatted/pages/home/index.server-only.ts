@@ -5,7 +5,7 @@ export {
   LASTING_PICKS,
   PICKED_DOMAINS,
   variedPicks,
-} from './deck/index.server-only';
+} from './picks/index.server-only';
 export {
   DICE_FACE,
   DICE_FACES,

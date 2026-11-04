@@ -6,7 +6,7 @@ import { labelOf, useChecker, zoneOf } from '../../checker';
 import { LikeButton } from '../../likes';
 import { useVerdict } from '../../verdict';
 import { type CopiedPrice, PriceHint, registerUrl } from '../../verdict-label';
-import type { ShownName } from '../model/picks';
+import type { ShownName } from '../../picks';
 import classes from './deck.module.scss';
 
 type PickRowProps = ShownName & CopiedPrice;

@@ -5,6 +5,8 @@ import { Check } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 
+import type { WithUrl } from '@/kernel/shared/typings';
+
 import type { WhetherCopied } from '@/shell/shared/ui';
 
 import { CARD_HEIGHT, CARD_WIDTH } from '../lib/share-card';
@@ -16,7 +18,7 @@ export const TOAST_MS = 3000;
 /** What the toast says: its line, and its close button's name. */
 type ToastText = { said: string; dismiss: string };
 
-type ToastProps = ToastText & { url: string };
+type ToastProps = ToastText & WithUrl;
 
 type CopiedToastProps = WhetherCopied &
   ToastText & {

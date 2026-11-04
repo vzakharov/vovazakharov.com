@@ -1006,7 +1006,7 @@ mudlark.ing:
     - found-objects shop
   score: 8.5
   form: hack
-  pattern: "*.ing"
+  pattern: '*.ing'
   added: 2026-11-04
 
 beachcomb.ing:
@@ -1017,7 +1017,7 @@ beachcomb.ing:
     - sea-glass jeweller
   score: 7.5
   form: hack
-  pattern: "*.ing"
+  pattern: '*.ing'
   added: 2026-11-04
 
 whittl.ing:
@@ -1028,7 +1028,7 @@ whittl.ing:
     - knife maker
   score: 7.5
   form: hack
-  pattern: "*.ing"
+  pattern: '*.ing'
   added: 2026-11-04
 
 letterpress.ing:
@@ -1039,7 +1039,7 @@ letterpress.ing:
     - wedding-stationery shop
   score: 6.5
   form: hack
-  pattern: "*.ing"
+  pattern: '*.ing'
   added: 2026-11-04
 
 saunter.ing:
@@ -1050,7 +1050,7 @@ saunter.ing:
     - slow-travel blog
   score: 7
   form: hack
-  pattern: "*.ing"
+  pattern: '*.ing'
   added: 2026-11-04
 
 stippl.ing:
@@ -1061,7 +1061,7 @@ stippl.ing:
     - tattoo parlour
   score: 6.5
   form: hack
-  pattern: "*.ing"
+  pattern: '*.ing'
   added: 2026-11-04
 
 firk.in:
@@ -1072,7 +1072,7 @@ firk.in:
     - ale club
   score: 7
   form: hack
-  pattern: "*k.in"
+  pattern: '*k.in'
   added: 2026-11-04
 
 mandol.in:
@@ -1083,7 +1083,7 @@ mandol.in:
     - folk-music school
   score: 6.5
   form: hack
-  pattern: "*.in"
+  pattern: '*.in'
   added: 2026-11-04
 
 lammas.day:
@@ -1094,7 +1094,7 @@ lammas.day:
     - harvest festival
   score: 7
   form: hack
-  pattern: "*.day"
+  pattern: '*.day'
   added: 2026-11-04
 
 leathe.red:
@@ -1105,7 +1105,7 @@ leathe.red:
     - bookbinder
   score: 7
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 tatte.red:
@@ -1116,7 +1116,7 @@ tatte.red:
     - mending service
   score: 7
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 colou.red:
@@ -1127,7 +1127,7 @@ colou.red:
     - design studio
   score: 7.5
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 potte.red:
@@ -1138,7 +1138,7 @@ potte.red:
     - garden shop
   score: 7
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 harbou.red:
@@ -1149,7 +1149,7 @@ harbou.red:
     - refuge charity
   score: 7
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 seasone.red:
@@ -1160,7 +1160,7 @@ seasone.red:
     - timber merchant
   score: 6.5
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 pewte.red:
@@ -1171,7 +1171,7 @@ pewte.red:
     - antiques dealer
   score: 6
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 coppe.red:
@@ -1182,7 +1182,7 @@ coppe.red:
     - hair salon
   score: 6.5
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 timbe.red:
@@ -1193,7 +1193,7 @@ timbe.red:
     - cabin rental
   score: 7
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 ladde.red:
@@ -1204,7 +1204,7 @@ ladde.red:
     - mending service
   score: 6
   form: hack
-  pattern: "*.red"
+  pattern: '*.red'
   added: 2026-11-04
 
 parchm.in:
@@ -1215,7 +1215,7 @@ parchm.in:
     - archive service
   score: 7
   form: hack
-  pattern: "*.in"
+  pattern: '*.in'
   added: 2026-11-04
 
 kilderk.in:
@@ -1226,7 +1226,7 @@ kilderk.in:
     - beer festival
   score: 6.5
   form: hack
-  pattern: "*k.in"
+  pattern: '*k.in'
   added: 2026-11-04
 
 mead.land:
@@ -1237,7 +1237,7 @@ mead.land:
     - honey farm
   score: 6.5
   form: hack
-  pattern: "*.land"
+  pattern: '*.land'
   added: 2026-11-04
 
 letitproof.com:

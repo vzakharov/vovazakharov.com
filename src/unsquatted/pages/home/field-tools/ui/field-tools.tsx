@@ -36,8 +36,11 @@ export const TOOL_BUTTON = classes['tool'];
  */
 type Reached = { onReached: () => void; looking: boolean };
 
+/** What the share button takes from the field: its copy, and its reach. */
+type Sharing = WithCopy & Reached;
+
 /** `label` and `zone` are the name the field holds, as the checker read it. */
-type FieldToolsProps = WithCopy & TypedName & CardSiblings & Reached;
+type FieldToolsProps = Sharing & TypedName & CardSiblings;
 
 type Copy = WithCopy['copy'];
 
@@ -45,7 +48,7 @@ type Copy = WithCopy['copy'];
 type DrawCard = (() => Promise<File>) | undefined;
 
 /** `typed` is what the copied link opens on: the name as the field holds it. */
-type ShareMenuProps = WithCopy & Typed & Reached & { drawCard: DrawCard };
+type ShareMenuProps = Sharing & Typed & { drawCard: DrawCard };
 
 type LabelProps = { children: readonly string[]; showing: number };
 
