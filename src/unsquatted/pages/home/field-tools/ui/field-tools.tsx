@@ -36,7 +36,6 @@ export const TOOL_BUTTON = classes['tool'];
  */
 type Reached = { onReached: () => void; looking: boolean };
 
-/** What the share button takes from the field: its copy, and its reach. */
 type Sharing = WithCopy & Reached;
 
 /** `label` and `zone` are the name the field holds, as the checker read it. */
