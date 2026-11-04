@@ -74,10 +74,48 @@ a merge by 10.11.
 
 ## Eaten so far
 
-Nothing is built yet. The plan was approved and claimed, then released before
-any source edit, because the planning session's context could not hold bite 1.
+Bite 1, in part:
+
+- **The widget seam, as built** (deviates from § 2 below, which planned the
+  components on the `Collection` handle). The registry entry lists the widget
+  names (`widgets: ['domains', 'name']`, read by `collectionWidgets`), so the
+  feed, the index and the scripts, which hold an `articleCollection` handle,
+  compile them too. `remarkContentDirectives` turns a widget directive into a
+  `figure.content-widget` placeholder carrying its attributes, the text of each
+  item its body lists, and its source file (`widget-element.ts`); the body stays
+  inside as the fallback a feed reader gets. The components come through
+  `ArticleSlots`'s new `widgets`, and `ProseContent` maps `figure` to them,
+  throwing on a placeholder with no component. Attribute validation is the owner
+  component's, naming `placeholder.source` in its throw.
+- **The embargo**: `embargo.ts` (`isReleased`, `publishingDay`), applied in
+  `listDocuments` and `loadDocument`. `CONTENT_AS_OF=YYYY-MM-DD` overrides the
+  day, which a preview of post 1 before its date needs (`preview.yml` does not
+  pass it yet).
+- **The daily deploy**: `deploy.yml` `schedule` at 00:17 UTC, the gate selecting
+  unsquatted alone.
+- **unsquatted extends blog** (`masd.json`); the `unsquatted-blog` collection is
+  registered; `src/unsquatted/shared/content/` holds `POSTS` (article +
+  `occasion: { name, date }`) and `occasionStamp` (`11.11`). `AUTHOR_IDS` has
+  `unnamed`, linking to `/blog`.
+- **The Unnamed**: `personas/unnamed/unnamed.md` and `.claude/rules/unnamed.md`.
+- **Post 1's names**: six picks with `post: singles-day` in `picks.yaml`
+  (`letmeal.one`, `monachal.com`, `baresticks.com`, `onlyones.day`,
+  `cartforone.com`, `boughtmyself.com`); `picks.ts` parses `post`. Planned
+  lists: "a party of one" — `letmeal.one`, `monachal.com`, `baresticks.com`; the
+  sale — `onlyones.day`, `cartforone.com`, `boughtmyself.com`. `name` widgets
+  for `single` and `solo`.
+- **The FSD move** of the home page's domain blocks to `shared/i18n`,
+  `entities/domain`, `features/like` and `widgets/field-tools` (DRY notes below)
+  — see the relay summary's State for whether it landed.
 
 ## Rest of the bite
+
+Left of what follows: § 1's routers, index page, layout metadata, sitemap, feed
+and dice nudge; § 2's components (`domains`, `name`, the share menu) as
+`ArticleSlots['widgets']` in a `pages/post` slice; § 3's stamp and the two-way
+check; § 4's reflection; § 5's fact check, the post itself and its card; the
+preview with `CONTENT_AS_OF`; the tests still unwritten (the two-way check, the
+`post` field). § 6 is done.
 
 ### 1. unsquatted becomes a blog
 
