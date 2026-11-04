@@ -131,9 +131,14 @@ function verdictText({ verdict }: CardText, row: CardRow): string {
     : verdict.takenSince.replace('{year}', row.since);
 }
 
+const LEFT = 128;
 const RIGHT = 1072;
 
-type DrawVerdictParams = { l: Look; t: CardText };
+/** The room between a domain and the verdict beside it. */
+const VERDICT_MARGIN = 24;
+
+/** What every part of the card is drawn with. */
+type Drawing = { l: Look; t: CardText };
 
 /**
  * `row`'s verdict and price, set right-aligned to `RIGHT` on baseline `y`;
@@ -141,7 +146,7 @@ type DrawVerdictParams = { l: Look; t: CardText };
  */
 function drawVerdict(
   context: CanvasRenderingContext2D,
-  { l, t }: DrawVerdictParams,
+  { l, t }: Drawing,
   row: CardRow,
   y: number,
   weight: string,
@@ -166,10 +171,8 @@ function drawVerdict(
 
   context.fillText(verdict, right, y);
 
-  return right - context.measureText(verdict).width - 24;
+  return right - context.measureText(verdict).width - VERDICT_MARGIN;
 }
-
-type DrawFieldParams = { l: Look; t: CardText };
 
 /** The field's white stretch: from where its name ends to where its verdict starts. */
 type FieldGap = { left: number; right: number };
@@ -183,7 +186,7 @@ const FIELD_BASELINE = 240;
  */
 function drawField(
   context: CanvasRenderingContext2D,
-  { l, t }: DrawFieldParams,
+  { l, t }: Drawing,
   name: string,
   row: CardRow | undefined,
   reserve: number,
@@ -197,7 +200,9 @@ function drawField(
   context.stroke();
 
   const nameRight =
-    row === undefined ? 1072 : drawVerdict(context, { l, t }, row, 236, '700 ');
+    row === undefined
+      ? RIGHT
+      : drawVerdict(context, { l, t }, row, 236, '700 ');
 
   context.fillStyle = l.ink;
   context.textAlign = 'left';
@@ -206,11 +211,14 @@ function drawField(
     name,
     (size) => `${size}px ${l.monoFace}`,
     44,
-    nameRight - 128 - reserve,
+    nameRight - LEFT - reserve,
   );
-  context.fillText(name, 128, FIELD_BASELINE);
+  context.fillText(name, LEFT, FIELD_BASELINE);
 
-  return { left: 128 + context.measureText(name).width, right: nameRight + 24 };
+  return {
+    left: LEFT + context.measureText(name).width,
+    right: nameRight + VERDICT_MARGIN,
+  };
 }
 
 const ROW_TOP = 316;
@@ -234,9 +242,9 @@ function drawRow(
     row.domain,
     (each) => `${weight}${each}px ${l.monoFace}`,
     32,
-    verdictLeft - 128,
+    verdictLeft - LEFT,
   );
-  context.fillText(row.domain, 128, y);
+  context.fillText(row.domain, LEFT, y);
 
   if (row.liked) {
     context.save();
@@ -249,14 +257,17 @@ function drawRow(
     context.strokeStyle = l.hairline;
     context.lineWidth = 2;
     context.beginPath();
-    context.moveTo(128, y - ROW_STEP / 2);
+    context.moveTo(LEFT, y - ROW_STEP / 2);
     context.lineTo(RIGHT, y - ROW_STEP / 2);
     context.stroke();
   }
 }
 
-/** The aside's weight and size, which the font load awaits and the draw sets. */
-const HAND = '700 46px';
+/** The weight every aside is set in, which the font load awaits. */
+const HAND_WEIGHT = '700';
+
+/** The all-taken aside's weight and size. */
+const HAND = `${HAND_WEIGHT} 46px`;
 
 /** The least the arrow from the field's note to its verdict spans. */
 const ARROW_SPAN = 64;
@@ -278,7 +289,7 @@ function drawPointed(
   const font = fitted(
     context,
     aside,
-    (size) => `700 ${size}px ${l.handFace}`,
+    (size) => `${HAND_WEIGHT} ${size}px ${l.handFace}`,
     40,
     gap.right - left - ARROW_SPAN,
   );
