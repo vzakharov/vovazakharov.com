@@ -9,28 +9,38 @@ export const IDEA_LENGTH = { min: 3, max: 15 };
 
 /**
  * The naming runbook's taste (`src/unsquatted/scripts/RUNBOOK.md` § "What a
- * pick is"), cut to what a small model can act on. Its first ideas are the
- * ones every other model has, and those are registered.
+ * pick is"), cut to what a model under a billion parameters acts on: worded
+ * rules alone get the name back six times, so the examples carry the taste.
  */
-export const SYSTEM_PROMPT = `You suggest alternative domain names, without the zone, for a name someone wants but may find taken.
+const SYSTEM_PROMPT = `You invent alternative domain names for a name that is already taken.
 
-Good alternatives:
-- keep the name's meaning or feel, but are not just the name with a word stuck on (no "get", "my", "app", "hq", "online");
-- are one word or two run together, 4 to 12 letters, easy to say and spell;
-- vary in form: a respelling, a compound, a coined word, a rare real word, a short phrase;
-- are not the first thing that comes to mind, since those are already registered.
+Each alternative keeps the feel of the name but changes its form: a respelling, a blend, a coined word, a related rare word, or two short words run together. Never repeat the name itself, never just add "get", "my", "app" or "hq".
 
-Answer with lowercase letters only, no dots, no explanations.`;
+Answer with ${IDEAS_ASKED} names, one per line, lowercase letters only.`;
 
-export const promptFor = (label: string) =>
-  `The name: ${label}\nSuggest ${IDEAS_ASKED} alternatives.`;
+const EXAMPLES: ReadonlyArray<readonly [string, readonly string[]]> = [
+  [
+    'bookworm',
+    ['bookwyrm', 'pagemoth', 'readling', 'inkmite', 'folionook', 'tomegrub'],
+  ],
+  [
+    'sunrise',
+    ['dawnly', 'sunrize', 'firstlight', 'aurorae', 'morningward', 'solup'],
+  ],
+  [
+    'fastship',
+    ['swiftkeel', 'quickhull', 'fastsail', 'zipferry', 'brisksea', 'dashport'],
+  ],
+];
 
-export const RESPONSE_SCHEMA = {
-  type: 'array',
-  items: {
-    type: 'string',
-    pattern: `^[a-z]{${IDEA_LENGTH.min},${IDEA_LENGTH.max}}$`,
-  },
-  minItems: IDEAS_ASKED,
-  maxItems: IDEAS_ASKED,
-};
+const ask = (label: string) => `The name: ${label}`;
+
+/** The chat that asks for variations of `label`, the examples as past turns. */
+export const chatFor = (label: string) => [
+  { role: 'system', content: SYSTEM_PROMPT },
+  ...EXAMPLES.flatMap(([name, ideas]) => [
+    { role: 'user', content: ask(name) },
+    { role: 'assistant', content: ideas.join('\n') },
+  ]),
+  { role: 'user', content: ask(label) },
+];

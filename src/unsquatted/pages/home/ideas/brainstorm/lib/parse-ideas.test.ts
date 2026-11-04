@@ -4,39 +4,41 @@ import { describe, it } from 'node:test';
 import { parseIdeas } from './parse-ideas';
 
 describe('parseIdeas', () => {
-  it('keeps the first three of a bare array', () => {
+  it('keeps the first three lines', () => {
     assert.deepEqual(
-      parseIdeas('["trendle","datavane","statsy","qwerty"]', 'datatrend'),
+      parseIdeas('trendle\ndatavane\nstatsy\nqwerty', 'datatrend'),
       ['trendle', 'datavane', 'statsy'],
     );
   });
 
-  it('finds the array inside prose or a fence', () => {
+  it('strips list marks, numbers and an empty thought', () => {
     assert.deepEqual(
-      parseIdeas('Sure!\n```json\n["trendle", "datavane"]\n```', 'datatrend'),
-      ['trendle', 'datavane'],
+      parseIdeas(
+        '<think>\n\n</think>\n\n- trendle\n2. datavane\n"statsy"',
+        'x',
+      ),
+      ['trendle', 'datavane', 'statsy'],
     );
   });
 
   it('cleans each name as the field would', () => {
-    assert.deepEqual(parseIdeas('["Trendle.com", "data vane"]', 'x'), [
+    assert.deepEqual(parseIdeas('Trendle.com\ndata vane', 'x'), [
       'trendle',
       'datavane',
     ]);
   });
 
-  it('drops the name itself, duplicates and odd lengths', () => {
+  it('drops the name itself, duplicates, odd lengths and blank lines', () => {
     assert.deepEqual(
       parseIdeas(
-        '["datatrend", "ab", "trendle", "trendle", "averyveryverylongname"]',
+        'datatrend\n\nab\nTrendle\ntrendle\naveryveryverylongname',
         'datatrend',
       ),
       ['trendle'],
     );
   });
 
-  it('throws on an answer with no array of names', () => {
-    assert.throws(() => parseIdeas('no ideas, sorry', 'datatrend'));
-    assert.throws(() => parseIdeas('[1, 2]', 'datatrend'));
+  it('answers with nothing when no line is a name', () => {
+    assert.deepEqual(parseIdeas('Sorry, I cannot help with that!', 'x'), []);
   });
 });

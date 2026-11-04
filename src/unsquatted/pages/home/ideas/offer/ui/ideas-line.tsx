@@ -20,8 +20,8 @@ type IdeasLineProps = WithCopy &
 
 /**
  * The line under the field: the offer to brainstorm until the visitor opts in,
- * then the variations of every name looked up. Nothing where Chrome's model
- * cannot run.
+ * then the variations of every name looked up. Nothing where the model cannot
+ * run.
  */
 export function IdeasLine({ label, onPick, copy }: IdeasLineProps) {
   const { available, optedIn, optIn, names } = useIdeas(label);

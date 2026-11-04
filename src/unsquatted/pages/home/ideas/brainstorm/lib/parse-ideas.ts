@@ -1,21 +1,18 @@
-import { z } from 'zod';
-
 import { cleanLabel } from '../../../checker/index.node-safe';
 import { IDEA_LENGTH, IDEAS_SHOWN } from './prompt';
 
-const Answer = z.array(z.string());
-
 /**
- * The model's answer as at most `IDEAS_SHOWN` names: the JSON array in it,
- * each entry cleaned as a typed name is, held to `IDEA_LENGTH`, deduped, and
- * never `label` itself. An answer holding no such array throws, since the
- * response constraint promised one.
+ * The model's answer as at most `IDEAS_SHOWN` names: one per line, list marks
+ * and quotes stripped, each cleaned as a typed name is, held to `IDEA_LENGTH`,
+ * deduped, and never `label` itself. A small model strays from the format, so
+ * a line that cleans to nothing usable is dropped rather than failing the
+ * answer.
  */
 export function parseIdeas(answer: string, label: string): string[] {
-  const json = /\[[\S\s]*]/.exec(answer)?.[0];
-  const names = Answer.parse(JSON.parse(json ?? answer)).map((name) =>
-    cleanLabel(name),
-  );
+  const names = answer
+    .replace(/<think>[\S\s]*?<\/think>/, '')
+    .split('\n')
+    .map((line) => cleanLabel(line.replace(/^\W*\d*[).]?\s*/, '')));
 
   return [
     ...new Set(

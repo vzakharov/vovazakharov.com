@@ -1,6 +1,7 @@
 export {
-  endModel,
-  modelAvailability,
+  forgetModel,
+  modelCached,
+  modelDtype,
   startModel,
   suggest,
-} from './lib/built-in-model';
+} from './lib/local-model';
