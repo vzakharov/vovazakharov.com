@@ -127,9 +127,14 @@ $field-own-row: 30em;
   font-family: var(--mantine-font-family-monospace);
 }
 
+// One line, since a break can split the zone (`.co` / `m`); the span's `title`
+// carries whatever the ellipsis hides.
 .domain {
+  min-width: 0;
+  overflow: hidden;
   font-family: var(--mantine-font-family-monospace);
-  overflow-wrap: anywhere;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 // Three rows at most until opened, as many columns across as the width allows.
