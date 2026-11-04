@@ -1,5 +1,24 @@
 # unsquatted: name variations from Chrome's built-in model
 
+## Status
+
+**Done** (commit "feat(unsquatted): name variations from Chrome's built-in
+model"): the whole flow below, in `src/unsquatted/pages/home/ideas/`. One
+deviation from § "Slice layout": `masd:clusters` asked for the model core to be
+a sub-slice, so the slice is `ideas/brainstorm/` (prompt, parser + test,
+session) and `ideas/offer/` (`use-ideas`, the line, the modal), with
+`ideas/index.ts` re-exporting `IdeasLine`. The console reset returns its text
+rather than logging it (`no-console`; the console prints a call's result).
+Type-check, eslint, `check:masd`, `masd:clusters`, `check:cycles`,
+`check:poison`, `lint:fsd`, `type-overlap`, prettier and `pnpm build unsquatted`
+pass; the `parse-ideas` tests pass.
+
+**Left:**
+
+1. `/preview live unsquatted`, so the operator tests the flow and tunes the
+   prompt in desktop Chrome — nothing of it is visible in headless Chromium.
+2. `/go` Step 3 (`/polish`), the `*.completed.md` flip, Step 4 (`/pr` refresh).
+
 ## Goal
 
 A visitor searching a name is offered, once, to brainstorm variations; on
