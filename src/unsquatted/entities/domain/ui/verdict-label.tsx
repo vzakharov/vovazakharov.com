@@ -2,15 +2,12 @@ import type { WithText } from '@/kernel/shared/typings';
 
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
-import {
-  type Price,
-  priceParts,
-  type WithCopy,
-  type WithDomain,
-  type WithPrice,
-} from '../../checker';
-import type { Release, Verdict, WithVerdict } from '../../verdict';
+import type { WithCopy } from '@/unsquatted/shared/i18n';
+
+import { type Price, priceParts, type WithPrice } from '../lib/price';
 import { registerUrl } from '../lib/register';
+import type { WithDomain } from '../lib/rows';
+import type { Release, Verdict, WithVerdict } from '../lib/verdict';
 import classes from './verdict-label.module.scss';
 
 /** A row's wording and what the lookup said, for the label that shows it. */

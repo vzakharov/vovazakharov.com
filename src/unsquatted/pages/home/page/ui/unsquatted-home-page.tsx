@@ -7,12 +7,14 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { CheckerProvider, COPY, plainByline } from '../../checker';
+import { COPY, plainByline } from '@/unsquatted/shared/i18n';
+import { fetchPrices } from '@/unsquatted/entities/domain/index.node-safe';
+import { LikesProvider } from '@/unsquatted/features/like';
+
+import { CheckerProvider } from '../../checker';
 import { PickDeck } from '../../deck';
-import { LikesProvider } from '../../likes';
 import { PICKS } from '../../picks/index.server-only';
 import { Shortlist } from '../../shortlist';
-import { fetchPrices } from '../lib/prices';
 import { NameChecker } from './name-checker';
 import classes from './unsquatted-home.module.scss';
 

@@ -4,10 +4,14 @@
  * zone being the one the visitor prefers. One per name.
  */
 
-import { cleanLabel, host, typedZone } from '../../checker';
+import {
+  cleanLabel,
+  host,
+  typedZone,
+} from '@/unsquatted/entities/domain/index.node-safe';
 
 /** The like for a name, carrying its zone where one was typed. */
-export { asTyped as likeOf } from '../../checker';
+export { asTyped as likeOf } from '@/unsquatted/entities/domain/index.node-safe';
 
 /** The name a like is for: `foxedpage` of `foxedpage.com`. */
 export const nameOf = (like: string) => cleanLabel(like);

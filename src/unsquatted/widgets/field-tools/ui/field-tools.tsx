@@ -10,8 +10,15 @@ import type { Typed } from '@/kernel/shared/typings';
 
 import { useCopied } from '@/shell/shared/ui';
 
-import { plainByline, type TypedName, type WithCopy } from '../../checker';
-import { LikeButton, likeOf, preferredOf, useLikes } from '../../likes';
+import { plainByline, type WithCopy } from '@/unsquatted/shared/i18n';
+import type { TypedName } from '@/unsquatted/entities/domain';
+import {
+  LikeButton,
+  likeOf,
+  preferredOf,
+  useLikes,
+} from '@/unsquatted/features/like';
+
 import {
   availability,
   cardRows,

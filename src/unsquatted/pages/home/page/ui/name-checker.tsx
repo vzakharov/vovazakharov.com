@@ -11,50 +11,20 @@ import { useState } from 'react';
 
 import {
   type CopiedPrices,
+  OWN_DOMAIN,
   type Row,
   rowsFor,
-  useChecker,
+  useVerdicts,
   useWords,
   zoneOf,
-} from '../../checker';
-import { FieldTools, TOOL_BUTTON } from '../../field-tools';
-import { useVerdicts } from '../../verdict';
-import {
-  type CopiedPrice,
-  type CopiedVerdict,
-  OWN_DOMAIN,
-  UncheckedLabel,
-  VerdictLabel,
-} from '../../verdict-label';
+  ZoneRow,
+} from '@/unsquatted/entities/domain';
+import { FieldTools, TOOL_BUTTON } from '@/unsquatted/widgets/field-tools';
+
+import { useChecker } from '../../checker';
 import { rollName } from '../lib/dice';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
-
-type ZoneRowProps = CopiedVerdict &
-  CopiedPrice &
-  Row & { ownNeighbour: boolean };
-
-function ZoneRow({
-  domain,
-  checkable,
-  verdict,
-  ownNeighbour,
-  price,
-  copy,
-}: ZoneRowProps) {
-  return (
-    <li className={classes['zone']}>
-      <span className={classes['domain']} title={domain}>
-        {domain}
-      </span>
-      {checkable ? (
-        <VerdictLabel {...{ domain, verdict, ownNeighbour, price, copy }} />
-      ) : (
-        <UncheckedLabel text={copy.cantCheck} />
-      )}
-    </li>
-  );
-}
 
 /**
  * The most rows the closed list shows — its first three lines, at its widest

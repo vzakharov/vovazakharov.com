@@ -6,7 +6,8 @@ import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 
 import type { Headed } from '@/kernel/shared/typings';
 
-import { type CopiedPrices, zoneOf } from '../../checker';
+import { type CopiedPrices, zoneOf } from '@/unsquatted/entities/domain';
+
 import type { ShownName } from '../../picks';
 import { draw } from '../lib/draw';
 import classes from './deck.module.scss';

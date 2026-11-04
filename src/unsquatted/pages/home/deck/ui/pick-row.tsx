@@ -2,11 +2,18 @@
 
 import { TextLink } from '@/shell/shared/ui';
 
-import { labelOf, useChecker, zoneOf } from '../../checker';
-import { LikeButton } from '../../likes';
+import {
+  type CopiedPrice,
+  labelOf,
+  PriceHint,
+  registerUrl,
+  useVerdict,
+  zoneOf,
+} from '@/unsquatted/entities/domain';
+import { LikeButton } from '@/unsquatted/features/like';
+
+import { useChecker } from '../../checker';
 import type { ShownName } from '../../picks';
-import { useVerdict } from '../../verdict';
-import { type CopiedPrice, PriceHint, registerUrl } from '../../verdict-label';
 import classes from './deck.module.scss';
 
 type PickRowProps = ShownName & CopiedPrice;

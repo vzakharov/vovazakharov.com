@@ -8,7 +8,7 @@ import type {
   WithAfterLead,
   WithWidgets,
 } from '@/blog/shared/article-slots';
-import { type WithContentTree, widgetPlaceholder } from '@/blog/shared/content';
+import { widgetPlaceholder, type WithContentTree } from '@/blog/shared/content';
 
 import { ContentLink } from './content-link';
 import { ContentVideo } from './content-video';

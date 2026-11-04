@@ -5,7 +5,9 @@
  * `data-unsquatted-palette`, and its faces are the ones the page has loaded.
  */
 
-import { priceParts, type WithCopy } from '../../checker';
+import type { WithCopy } from '@/unsquatted/shared/i18n';
+import { priceParts } from '@/unsquatted/entities/domain';
+
 import type { CardRow } from './share';
 
 export const CARD_WIDTH = 1200;

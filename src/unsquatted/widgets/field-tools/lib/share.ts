@@ -1,12 +1,14 @@
 /** What a shared domain hands on: its link, and the rows its image card lists. */
 
 import {
+  registrable,
+  type Verdict,
   type WithDomain,
   type WithPrice,
   type WithPrices,
+  type WithVerdicts,
   zoneOf,
-} from '../../checker';
-import { registrable, type Verdict, type WithVerdicts } from '../../verdict';
+} from '@/unsquatted/entities/domain/index.node-safe';
 
 /** The lookups and prices in hand for a name's domains. */
 type Lookups = WithVerdicts & WithPrices;

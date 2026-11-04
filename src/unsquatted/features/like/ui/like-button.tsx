@@ -5,7 +5,9 @@ import { Heart } from 'lucide-react';
 
 import type { Named } from '@/kernel/shared/typings';
 
-import type { WithCopy, Zoned } from '../../checker';
+import type { WithCopy } from '@/unsquatted/shared/i18n';
+import type { Zoned } from '@/unsquatted/entities/domain';
+
 import { useLikes } from './likes-state';
 
 type LikeButtonProps = WithCopy &

@@ -1,6 +1,13 @@
 /** The domains shown for what a visitor typed: its name, in which zones. */
 
+import type { Labeled } from '@/kernel/shared/typings';
+
 export type WithDomain = { domain: string };
+
+export type Zoned = { zone: string | undefined };
+
+/** A name as the field reads it: its label, and the zone typed after it if any. */
+export type TypedName = Labeled & Zoned;
 
 /**
  * The zones every name is checked in, in the order they are shown. Any other

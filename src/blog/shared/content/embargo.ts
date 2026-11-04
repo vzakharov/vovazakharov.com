@@ -10,7 +10,9 @@ const DAY = /^\d{4}-\d{2}-\d{2}$/;
  * The day a build publishes as of: `CONTENT_AS_OF` where set, so a preview can
  * show a post before its date, and the build machine's UTC day otherwise.
  */
-export function publishingDay(env: NodeJS.ProcessEnv = process.env): string {
+export function publishingDay(
+  env: Partial<Record<string, string>> = process.env,
+): string {
   const asOf = env['CONTENT_AS_OF'];
 
   if (asOf === undefined || asOf === '') {

@@ -4,7 +4,7 @@
  * or the rounding pulls in neither.
  */
 
-import type { WithCopy } from '../config/i18n';
+import type { WithCopy } from '@/unsquatted/shared/i18n';
 
 export type Price = { registration: number; renewal: number };
 

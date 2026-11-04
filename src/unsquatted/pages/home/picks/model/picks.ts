@@ -7,7 +7,8 @@ import { z } from 'zod';
 
 import { errorClass, withCause } from '@/kernel/shared/lib/error-class';
 
-import type { WithDomain } from '../../checker';
+import type { WithDomain } from '@/unsquatted/entities/domain/index.node-safe';
+
 import { usesSentence } from '../lib/uses';
 
 const CatalogueError = errorClass('CatalogueError');
