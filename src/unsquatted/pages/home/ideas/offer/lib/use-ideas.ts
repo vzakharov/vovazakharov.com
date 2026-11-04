@@ -47,14 +47,15 @@ export type Ideas = Stage & {
   stop: () => void;
   /** The ring round the button, while it loads or thinks. */
   ring: RingTarget | undefined;
-  /** The variations of the label, once asked for. */
+  /** The last press's variations, whatever the label is now. */
   names: readonly string[] | undefined;
 };
 
 /**
  * The variations of `label`, generated when the visitor presses the button
  * and never on a new label alone. A new label abandons the generation in
- * flight; answers are kept per label for the page's life. The first
+ * flight, but the last variations stay until the next press brings new ones,
+ * so the visitor can try them one after another. The first
  * generation is timed and the time kept, to pace the ring of every later one.
  * An opt-in whose weights the browser has since evicted is undone, so the
  * offer asks again before downloading anything. `unsquattedForget()` in the
@@ -73,9 +74,8 @@ export function useIdeas(label: string): Ideas {
   const [available, setAvailable] = useState(false);
   /** The weights were found cached, or just downloaded. */
   const [present, setPresent] = useState(false);
-  const [answers, setAnswers] = useState<ReadonlyMap<string, string[]>>(
-    () => new Map(),
-  );
+  /** The last press's variations, kept through every pick among them. */
+  const [names, setNames] = useState<readonly string[]>();
   const [failed, setFailed] = useState(false);
   /** The label the button was pressed for, until its variations are in. */
   const [asked, setAsked] = useState<string>();
@@ -111,7 +111,7 @@ export function useIdeas(label: string): Ideas {
         setAgreed(false);
         forgetTimed();
         setPresent(false);
-        setAnswers(new Map());
+        setNames(undefined);
         await forgetModel();
 
         // The console prints what the call resolves to.
@@ -126,8 +126,8 @@ export function useIdeas(label: string): Ideas {
     const controller = new AbortController();
     const { signal } = controller;
 
-    const answer = (names: string[]) => {
-      setAnswers((current) => new Map(current).set(asked, names));
+    const answer = (found: string[]) => {
+      setNames(found);
       setAsked(undefined);
     };
 
@@ -135,11 +135,11 @@ export function useIdeas(label: string): Ideas {
       // Loads the model first on a page that has not yet.
       await startModel();
       const begun = performance.now();
-      const names = await suggest(asked, signal);
+      const found = await suggest(asked, signal);
 
       setTimed((known) => known ?? (performance.now() - begun) / 1000);
 
-      return names;
+      return found;
     };
 
     // A failed generation is reported and answers with nothing, so the ring
@@ -184,6 +184,6 @@ export function useIdeas(label: string): Ideas {
     ring: ringOf({ loading: progress, asked: thinking, ready, timed }),
     downloading: agreed ? undefined : progress,
     failed,
-    names: answers.get(label),
+    names,
   };
 }
