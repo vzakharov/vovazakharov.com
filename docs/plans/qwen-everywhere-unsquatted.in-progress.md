@@ -23,11 +23,23 @@ operator's call «только qwen, чтобы не поддерживать д
   WebGPU the opt-in downloads ≈ 670 MB (decoder 485 MB, embeddings 163 MB; the
   vision encoder only redirects, never downloads) and loads in under a minute.
 
+- 79f2361b — on the operator's «когда качалось модалку можно было закрыть (и она
+  об этом говорила), вместо неё на месте где будет брейнсторминг был
+  прогресс-бар (замокапь 3 варианта)»: the download lives in the hook, the modal
+  says it can be closed and offers Close, and the line under the field shows
+  progress in one of three mock-ups (`bar`, `bulb`, `underline`, behind
+  `LOADING_VARIANT` in `ideas-line.tsx`), shot in
+  `docs/remove-before-merging/in-browser-llms-unsquatted-24jeaq/loading-*.png`.
+  SwiftShader's WebGPU loads the model but had not finished one generation in 17
+  minutes, so generation is checked on a real GPU only.
+
 ## Left
 
-1. A real-browser walk on preview: the operator tests on Chrome and Arc.
-2. Retune the prompt if real WebGPU output calls for it.
-3. `/polish`, then `/pr` refresh: title (still "from Chrome's built-in model"),
+1. The operator picks a progress variant; the other two and the `LoadingVariant`
+   switch go.
+2. A real-browser walk on preview: the operator tests on Chrome and Arc.
+3. Retune the prompt if real WebGPU output calls for it.
+4. `/polish`, then `/pr` refresh: title (still "from Chrome's built-in model"),
    body and squash proposal describe the Chrome flow.
 
 ## Decisions
