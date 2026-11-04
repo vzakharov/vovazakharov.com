@@ -62,6 +62,9 @@ export function IdeasOffer({
         size={42}
         aria-label={label}
         title={label}
+        // The download's own press reopens the dialog, so only a press that
+        // brainstorms waits out its answer.
+        disabled={optedIn && thinking}
         onClick={() => {
           if (optedIn) brainstorm();
           else setOpened(true);
