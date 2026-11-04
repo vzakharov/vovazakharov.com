@@ -45,9 +45,9 @@
   margin: 0;
 }
 
-// Below this the field takes a row of its own: beside the dice, the share and
-// the heart, it would show only a few letters of the name.
-$field-own-row: 30em;
+// Below this the field takes a row of its own: beside the lightbulb, the dice,
+// the share and the heart, it would show only a few letters of the name.
+$field-own-row: mantine.$breakpoint-sm;
 
 .field {
   display: flex;
