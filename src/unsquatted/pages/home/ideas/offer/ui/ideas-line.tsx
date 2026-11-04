@@ -1,6 +1,7 @@
 'use client';
 
 import { UnstyledButton } from '@mantine/core';
+import { Lightbulb } from 'lucide-react';
 import { useState } from 'react';
 
 import type { Labeled } from '@/kernel/shared/typings';
@@ -53,13 +54,19 @@ export function IdeasLine({ label, onPick, copy }: IdeasLineProps) {
     );
 
   if (names === undefined)
-    return <p className={classes['line']}>{copy.ideas.thinking}</p>;
+    return (
+      <p className={classes['line']}>
+        <Lightbulb className={classes['bulb']} data-thinking aria-hidden />
+        <span className={classes['unseen']}>{copy.ideas.thinking}</span>
+      </p>
+    );
 
   if (names.length === 0) return;
 
   return (
     <p className={classes['line']} aria-live="polite">
-      {copy.ideas.lead}{' '}
+      <Lightbulb className={classes['bulb']} aria-hidden />
+      <span className={classes['unseen']}>{copy.ideas.lead}</span>
       {names.map((name, index) => (
         <span key={name}>
           {index > 0 && ' · '}

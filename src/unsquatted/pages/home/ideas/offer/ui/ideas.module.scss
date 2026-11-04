@@ -7,6 +7,47 @@
   font-size: 0.85rem;
 }
 
+// Lit in the "maybe" gold once variations are in; dim and breathing while
+// the model thinks.
+.bulb {
+  width: 1em;
+  height: 1em;
+  margin-right: 6px;
+  vertical-align: -0.15em;
+  color: var(--unsquatted-maybe);
+
+  &[data-thinking] {
+    color: var(--unsquatted-muted);
+    animation: breathe 1.6s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      opacity: 0.5;
+    }
+  }
+}
+
+// What the bulb means, for a screen reader alone.
+.unseen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
 .offer,
 .name {
   &:hover,

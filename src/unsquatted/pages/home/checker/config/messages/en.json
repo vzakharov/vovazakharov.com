@@ -16,8 +16,8 @@
   "dice": "Roll a random name",
   "ideas": {
     "offer": "Want to brainstorm variations?",
-    "thinking": "brainstorming variations…",
-    "lead": "or try",
+    "thinking": "Brainstorming variations",
+    "lead": "Variations to try",
     "title": "Brainstorm with a model in your browser",
     "what": "Chrome has a small AI model built in, and it can suggest variations on every name you search. It runs right here on your computer, so what you type stays here — same as with the checks.",
     "download": "The first time, Chrome downloads the model: a few gigabytes, once. Chrome keeps it for any site that uses it, and you can remove it in Chrome’s settings.",
