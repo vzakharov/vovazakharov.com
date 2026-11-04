@@ -7,7 +7,7 @@ None stated by the operator.
 ## The conversation
 
 0. **Launch** (relay 2's take): `/relay take claude/in-browser-llms-unsquatted-24jeaq — вариации работают в Chrome, лампочка готова, решено перейти на Qwen для всех браузеров`
-   - **Agent**: attached; set the remainder estimate; benched Qwen3-0.6B and Qwen3.5-0.8B in Node on CPU (transformers.js 4.3.2); picked Qwen3.5-0.8B; wrote the worker engine, the page side, prompt, parser, hook, modal and copy (b100cf57); found that Next 16.0.3's Turbopack does not bundle the worker; hit the context-budget warning and paused the work and relayed it (8a91aaf8). No operator message came during this session. (verbatim in Last agent turn)
+   - **Agent**: attached; set the remainder estimate; benched Qwen3-0.6B and Qwen3.5-0.8B in Node on CPU (transformers.js 4.3.2); picked Qwen3.5-0.8B; wrote the worker engine, the page side, prompt, parser, hook, modal and copy (b100cf57); found that Next 16.0.3's Turbopack does not bundle the worker; hit the context-budget warning and paused the work and relayed it (8a91aaf8). No operator message came during this session. Because the whole session was that one turn, `scripts/relay-last-reply.py` found no earlier reply to append, and this file has no Last agent turn section.
 
 ## Intent
 
