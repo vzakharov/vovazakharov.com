@@ -35,6 +35,14 @@ operator's call «только qwen, чтобы не поддерживать д
 
 ## Left
 
+0. **Push protection blocks the build.** GitHub reads transformers.js's class
+   name `Mistral3ForConditionalGeneration` (32 characters beside "mistral") as a
+   Mistral API key. The operator allowed it on `preview.vovazakharov.com`;
+   preview run 41849940086 re-publishes after that. `vzakharov/unsquatted.com`
+   (push protection enabled) will block the merge deploy the same way: its
+   unblock URL exists only after a blocked push, so either push protection goes
+   off there or the operator opens the URL from the failed deploy's log and
+   re-runs the job.
 1. The operator picks a progress variant; the other two and the `LoadingVariant`
    switch go.
 2. A real-browser walk on preview: the operator tests on Chrome and Arc.
