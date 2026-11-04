@@ -263,8 +263,12 @@ export async function shareCard(
     drawRow(context, l, text, row, index);
 
   if (rows[0]?.state === 'taken') {
-    // Unpreloaded, the hand arrives only when a card first asks for it.
-    await document.fonts.load(`700 46px ${l.handFace}`);
+    // Unpreloaded, the hand arrives only when a card first asks for it. Only
+    // the stack's first face is awaited: next/font's metric fallback after it
+    // is `local("Arial")`, which rejects the whole load where Arial is absent.
+    const [hand] = l.handFace.split(',');
+
+    await document.fonts.load(`700 46px ${hand}`);
     drawCorrected(context, l, text);
   } else {
     context.fillStyle = l.muted;
