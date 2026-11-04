@@ -48,3 +48,44 @@ export function ringOf({
     seconds: timed === undefined ? FIRST_GUESS_SECONDS : timed + MARGIN_SECONDS,
   };
 }
+
+/** The ring moving linearly from one fill to another over its seconds. */
+export type RingMove = { from: number } & RingTarget;
+
+/** Where a move has the ring after `elapsed` seconds. */
+export function fillAt({ from, to, seconds }: RingMove, elapsed: number) {
+  if (seconds <= 0 || elapsed >= seconds) return to;
+
+  return from + ((to - from) * Math.max(elapsed, 0)) / seconds;
+}
+
+/**
+ * One half of the ring's share of a move: its own fill, 0 to 1, going from
+ * `from` to `to` after `delay` seconds and over `seconds`.
+ */
+export type HalfSweep = RingMove & { delay: number };
+
+/**
+ * A move split between the ring's two halves, which turn one after the other:
+ * the first fills the ring to its half, the second from there on.
+ */
+export function halvesOf(move: RingMove): [HalfSweep, HalfSweep] {
+  return [halfOf(move, 0), halfOf(move, 0.5)];
+}
+
+function halfOf({ from, to, seconds }: RingMove, start: number): HalfSweep {
+  const clamp = (fill: number) => Math.min(Math.max(fill, start), start + 0.5);
+  const enter = clamp(from);
+  const leave = clamp(to);
+  const local = (fill: number) => (fill - start) / 0.5;
+  // Seconds per unit of fill; a jump, or a half the move never enters, none.
+  const pace =
+    to === from || enter === leave ? 0 : seconds / Math.abs(to - from);
+
+  return {
+    from: local(enter),
+    to: local(leave),
+    delay: Math.abs(enter - from) * pace,
+    seconds: Math.abs(leave - enter) * pace,
+  };
+}

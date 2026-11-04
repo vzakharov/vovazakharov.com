@@ -2,10 +2,16 @@
 
 import { ActionIcon } from '@mantine/core';
 import { Lightbulb } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type { WithCopy } from '../../../checker';
-import type { RingTarget } from '../lib/ring';
+import {
+  fillAt,
+  type HalfSweep,
+  halvesOf,
+  type RingMove,
+  type RingTarget,
+} from '../lib/ring';
 import type { Ideas, Stage } from '../lib/use-ideas';
 import classes from './ideas.module.scss';
 import { IdeasModal } from './ideas-modal';
@@ -92,41 +98,60 @@ function buttonLabel(
   return thinking ? copy.thinking : copy.brainstorm;
 }
 
-/** The ring's radius in the 36-unit box it is drawn in. */
-const RADIUS = 16;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-
-/**
- * Drawn empty, then sent to each target a frame later, so the stroke's
- * transition runs from where the ring stands to the target over its seconds.
- */
 type RingProps = { target: RingTarget };
 
+/**
+ * Two half-arcs, each turned into view by a `transform` animation: the
+ * compositor runs those off the main thread, which the model's generation
+ * keeps busy, where a stroke's animation would stall with it. Each new target
+ * starts from where the running move has the ring.
+ */
 function Ring({ target: { to, seconds } }: RingProps) {
-  const [shown, setShown] = useState<RingTarget>({ to: 0, seconds: 0 });
+  const firstRef = useRef<HTMLSpanElement>(null);
+  const secondRef = useRef<HTMLSpanElement>(null);
+  const movingRef = useRef<{ move: RingMove; since: number }>({
+    move: { from: 0, to: 0, seconds: 0 },
+    since: 0,
+  });
 
   useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      setShown({ to, seconds });
-    });
+    const now = performance.now();
+    const { move, since } = movingRef.current;
+    const next = { from: fillAt(move, (now - since) / 1000), to, seconds };
+    movingRef.current = { move: next, since: now };
 
-    return () => {
-      cancelAnimationFrame(frame);
-    };
+    const [firstHalf, secondHalf] = halvesOf(next);
+    sweep(firstRef.current, firstHalf);
+    sweep(secondRef.current, secondHalf);
   }, [to, seconds]);
 
   return (
-    <svg className={classes['ring']} viewBox="0 0 36 36" aria-hidden>
-      <circle className={classes['ringTrack']} cx={18} cy={18} r={RADIUS} />
-      <circle
-        className={classes['ringFill']}
-        cx={18}
-        cy={18}
-        r={RADIUS}
-        strokeDasharray={CIRCUMFERENCE}
-        strokeDashoffset={CIRCUMFERENCE * (1 - shown.to)}
-        style={{ transitionDuration: `${String(shown.seconds)}s` }}
-      />
-    </svg>
+    <span className={classes['ring']} aria-hidden>
+      <span className={classes['ringTrack']} />
+      <span className={classes['ringHalf']} data-half="first">
+        <span ref={firstRef} className={classes['ringArc']} />
+      </span>
+      <span className={classes['ringHalf']} data-half="second">
+        <span ref={secondRef} className={classes['ringArc']} />
+      </span>
+    </span>
   );
+}
+
+/** Replaces whatever the arc was doing with the half's sweep. */
+function sweep(arc: HTMLElement | null, half: HalfSweep) {
+  if (!arc) return;
+
+  for (const running of arc.getAnimations()) running.cancel();
+  arc.animate([{ transform: turn(half.from) }, { transform: turn(half.to) }], {
+    delay: half.delay * 1000,
+    duration: half.seconds * 1000,
+    easing: 'linear',
+    fill: 'both',
+  });
+}
+
+/** An arc's turn for its half's fill; the stylesheet says where 0 stands. */
+function turn(fill: number) {
+  return `rotate(${String(45 + fill * 180)}deg)`;
 }

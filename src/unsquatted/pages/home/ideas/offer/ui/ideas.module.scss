@@ -40,29 +40,63 @@
 // top in the "maybe" gold; its pace is the component's.
 .ring {
   position: absolute;
-
-  // An SVG keeps its own size between opposite offsets, so it is stated.
-  top: 2px;
-  left: 2px;
-  width: calc(100% - 4px);
-  height: calc(100% - 4px);
-  transform: rotate(-90deg);
+  inset: 3px;
   pointer-events: none;
+}
 
-  circle {
-    fill: none;
-    stroke-width: 2.5;
-  }
+.ringTrack,
+.ringArc {
+  position: absolute;
+  top: 0;
+  box-sizing: border-box;
+  height: 100%;
+  border: 2.5px solid transparent;
+  border-radius: 50%;
 }
 
 .ringTrack {
-  stroke: color-mix(in srgb, var(--unsquatted-muted) 25%, transparent);
+  left: 0;
+  width: 100%;
+  border-color: color-mix(in srgb, var(--unsquatted-muted) 25%, transparent);
 }
 
-.ringFill {
-  stroke: var(--unsquatted-maybe);
-  stroke-linecap: round;
-  transition: stroke-dashoffset linear;
+// Each half of the ring shows only what turns into it: the first the right
+// half, from the top down, the second the left, from the bottom up.
+.ringHalf {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+
+  &[data-half='first'] {
+    left: 50%;
+  }
+
+  &[data-half='second'] {
+    left: 0;
+  }
+}
+
+// A half-circle of gold the size of the whole ring, centred on it. At its
+// component's turn of 45deg, the first half's arc lies wholly in the left
+// half and the second's in the right, each hidden by its own half, so a
+// further turn of 180deg brings it fully into view.
+.ringArc {
+  width: 200%;
+  will-change: transform;
+
+  [data-half='first'] > & {
+    left: -100%;
+    border-bottom-color: var(--unsquatted-maybe);
+    border-left-color: var(--unsquatted-maybe);
+  }
+
+  [data-half='second'] > & {
+    left: 0;
+    border-top-color: var(--unsquatted-maybe);
+    border-right-color: var(--unsquatted-maybe);
+  }
 }
 
 .explainer p {

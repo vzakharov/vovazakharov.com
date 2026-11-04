@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 16,
+    "inputTokens": 51,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 53901,
-    "cacheReadTokens": 680893,
-    "outputTokens": 1835,
-    "thinkingTokens": 330,
-    "responses": 7,
-    "costUsd": 0.6041506000000001
+    "cacheWrite1hTokens": 99897,
+    "cacheReadTokens": 3301444,
+    "outputTokens": 18737,
+    "thinkingTokens": 5066,
+    "responses": 25,
+    "costUsd": 1.8344087999999994
   },
   "estimate": {
     "at": "2026-11-04T16:33:12.473Z",
@@ -53,22 +53,24 @@
   "branch": "claude/in-browser-llms-unsquatted-24jeaq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/in-browser-llms-unsquatted-24jeaq — генерация по кнопке и раскладка готовы, кольцо дёргается, пока модель думает",
-  "prs": [],
+  "prs": [
+    247
+  ],
   "url": "https://claude.ai/code/session_01DaohkFrRuoQzcYJnfCCfeo",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-04T16:32:46.868Z",
-  "lastResponseAt": "2026-11-04T16:33:10.106Z",
+  "lastResponseAt": "2026-11-04T16:37:02.658Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 16,
+    "inputTokens": 51,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 53901,
-    "cacheReadTokens": 680893,
-    "outputTokens": 1835,
-    "thinkingTokens": 330,
-    "responses": 7,
-    "costUsd": 0.6041506000000001
+    "cacheWrite1hTokens": 99897,
+    "cacheReadTokens": 3301444,
+    "outputTokens": 18737,
+    "thinkingTokens": 5066,
+    "responses": 25,
+    "costUsd": 1.8344087999999994
   },
   "subagents": {
     "inputTokens": 0,
@@ -82,23 +84,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 16,
+      "inputTokens": 51,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 53901,
-      "cacheReadTokens": 680893,
-      "outputTokens": 1835,
-      "thinkingTokens": 330,
-      "responses": 7,
-      "costUsd": 0.6041506000000001
+      "cacheWrite1hTokens": 99897,
+      "cacheReadTokens": 3301444,
+      "outputTokens": 18737,
+      "thinkingTokens": 5066,
+      "responses": 25,
+      "costUsd": 1.8344087999999994
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 7,
-    "matched": 7,
-    "matchedTableUsd": 0.6041506000000001,
-    "matchedEventUsd": 0.6041506,
+    "events": 25,
+    "matched": 25,
+    "matchedTableUsd": 1.8344087999999994,
+    "matchedEventUsd": 1.8344087999999998,
     "unseen": {}
   }
 }
