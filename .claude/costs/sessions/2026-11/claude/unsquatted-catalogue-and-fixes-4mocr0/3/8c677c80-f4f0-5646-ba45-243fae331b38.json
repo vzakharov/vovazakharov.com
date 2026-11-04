@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 25,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 65334,
-    "cacheReadTokens": 1151688,
-    "outputTokens": 2785,
-    "thinkingTokens": 539,
-    "responses": 11,
-    "costUsd": 0.8088095999999999
+    "inputTokens": 630,
+    "cacheWrite5mTokens": 153692,
+    "cacheWrite1hTokens": 87618,
+    "cacheReadTokens": 7669928,
+    "outputTokens": 19997,
+    "thinkingTokens": 5534,
+    "responses": 62,
+    "costUsd": 3.4075416
   },
   "estimate": {
     "at": "2026-11-04T03:53:22.940Z",
@@ -47,52 +47,65 @@
   "branch": "claude/unsquatted-catalogue-and-fixes-4mocr0",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-catalogue-and-fixes-4mocr0 — 210 имён, sticky-заголовок на превью; дальше — переписать фразу «Your queries never leave your browse…",
-  "prs": [],
+  "prs": [
+    244
+  ],
   "url": "https://claude.ai/code/session_01DaohkF5yiTVEPDEzVT7g7Y",
   "operator": null,
   "firstResponseAt": "2026-11-04T03:53:04.993Z",
-  "lastResponseAt": "2026-11-04T03:53:36.920Z",
+  "lastResponseAt": "2026-11-04T03:58:21.267Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 25,
+    "inputTokens": 54,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 65334,
-    "cacheReadTokens": 1151688,
-    "outputTokens": 2785,
-    "thinkingTokens": 539,
-    "responses": 11,
-    "costUsd": 0.8088095999999999
+    "cacheWrite1hTokens": 87618,
+    "cacheReadTokens": 3024165,
+    "outputTokens": 7377,
+    "thinkingTokens": 1162,
+    "responses": 25,
+    "costUsd": 1.4535329999999997
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 153128,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
-    "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "cacheReadTokens": 4502476,
+    "outputTokens": 12608,
+    "thinkingTokens": 4372,
+    "responses": 36,
+    "costUsd": 1.9185751999999996
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 25,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 65334,
-      "cacheReadTokens": 1151688,
-      "outputTokens": 2785,
-      "thinkingTokens": 539,
-      "responses": 11,
-      "costUsd": 0.8088095999999999
+      "inputTokens": 630,
+      "cacheWrite5mTokens": 153692,
+      "cacheWrite1hTokens": 87618,
+      "cacheReadTokens": 7669928,
+      "outputTokens": 19997,
+      "thinkingTokens": 5534,
+      "responses": 62,
+      "costUsd": 3.4075416
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 10,
-    "matched": 10,
-    "matchedTableUsd": 0.7721328,
-    "matchedEventUsd": 0.7721327999999998,
-    "unseen": {}
+    "events": 62,
+    "matched": 61,
+    "matchedTableUsd": 3.3721082,
+    "matchedEventUsd": 3.3721082,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 564,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 143287,
+        "outputTokens": 12,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.035433400000000004
+      }
+    }
   }
 }
