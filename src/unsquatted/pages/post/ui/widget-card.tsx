@@ -90,7 +90,7 @@ function Card({
         </Link>
         <ShareMenu
           typed={anchor}
-          size={30}
+          labelled
           className={classes['share']}
           drawCard={
             shared === undefined

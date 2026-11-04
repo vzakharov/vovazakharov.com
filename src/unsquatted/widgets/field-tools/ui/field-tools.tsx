@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionIcon, Loader, Menu } from '@mantine/core';
+import { ActionIcon, Loader, Menu, UnstyledButton } from '@mantine/core';
 import { ImageIcon, LinkIcon, Share2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -55,10 +55,16 @@ type DrawCard = (() => Promise<File>) | undefined;
 
 /**
  * `typed` is the copied link's fragment: the name as the field holds it, or a
- * widget's anchor in a post. `size` is the button's, the field's by default.
+ * widget's anchor in a post. `size` is the icon button's, the field's by
+ * default; `labelled` trades that button for the icon and the word.
  */
 type ShareMenuProps = Sharing &
-  Typed & { drawCard: DrawCard; size?: number; className?: string };
+  Typed & {
+    drawCard: DrawCard;
+    size?: number;
+    className?: string;
+    labelled?: boolean;
+  };
 
 type LabelProps = { children: readonly string[]; showing: number };
 
@@ -117,6 +123,7 @@ export function ShareMenu({
   copy,
   size = 42,
   className = classes['tool'],
+  labelled = false,
 }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<File>();
@@ -137,16 +144,27 @@ export function ShareMenu({
         shadow="md"
       >
         <Menu.Target>
-          <ActionIcon
-            variant="default"
-            {...{ size, className }}
-            aria-label={copy.share}
-            title={copy.share}
-            onPointerEnter={onReached}
-            onFocus={onReached}
-          >
-            <Share2 size={18} />
-          </ActionIcon>
+          {labelled ? (
+            <UnstyledButton
+              {...{ className }}
+              onPointerEnter={onReached}
+              onFocus={onReached}
+            >
+              <Share2 size={14} aria-hidden />
+              {copy.share}
+            </UnstyledButton>
+          ) : (
+            <ActionIcon
+              variant="default"
+              {...{ size, className }}
+              aria-label={copy.share}
+              title={copy.share}
+              onPointerEnter={onReached}
+              onFocus={onReached}
+            >
+              <Share2 size={18} />
+            </ActionIcon>
+          )}
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item

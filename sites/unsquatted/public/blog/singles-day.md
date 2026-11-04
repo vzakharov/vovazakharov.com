@@ -1,7 +1,7 @@
 ---
 description: >-
-  How four bare sticks became the biggest shopping day on Earth, and six names
-  still free for anyone celebrating it alone, on purpose.
+  Four ones in a row started as a joke in a Nanjing dorm and became the biggest
+  shopping day on Earth. Here are the names it left lying around.
 date: 2026-11-09
 author: unnamed
 occasion:
