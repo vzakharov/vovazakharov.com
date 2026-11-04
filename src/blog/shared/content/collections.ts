@@ -128,7 +128,7 @@ export const COLLECTIONS = {
   },
   'unsquatted-blog': {
     base: 'blog',
-    label: 'Blog',
+    label: 'Names and Dates',
     site: 'unsquatted',
     printable: false,
     localized: false,
