@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 61,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 93546,
+    "cacheReadTokens": 4104895,
+    "outputTokens": 15968,
+    "thinkingTokens": 3916,
+    "responses": 32,
+    "costUsd": 1.888951
+  },
+  "estimate": {
+    "at": "2026-11-04T04:25:26.390Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "clipboard promise plumbing through a shared hook needs care with Safari's user-activation rules, but it is a contained component change"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T04:25:26.078Z",
+    "contextTokens": 109977,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49172,
+      "cacheReadTokens": 463520,
+      "outputTokens": 926,
+      "thinkingTokens": 106,
+      "responses": 5,
+      "costUsd": 0.504648
+    }
+  },
+  "sessionId": "071e1a56-3760-5bbc-bc3c-15d257b687b3",
+  "branch": "claude/unsquatted-catalogue-and-fixes-4mocr0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-catalogue-and-fixes-4mocr0 — фраза, шафл, firk.in, ранбук и карточка по формам готовы; остался комментарий про карточку через пром…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBQ5Hd2UroASzG66oG",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T04:25:12.647Z",
+  "lastResponseAt": "2026-11-04T04:31:34.577Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 61,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 93546,
+    "cacheReadTokens": 4104895,
+    "outputTokens": 15968,
+    "thinkingTokens": 3916,
+    "responses": 32,
+    "costUsd": 1.888951
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 61,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 93546,
+      "cacheReadTokens": 4104895,
+      "outputTokens": 15968,
+      "thinkingTokens": 3916,
+      "responses": 32,
+      "costUsd": 1.888951
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 31,
+    "matched": 31,
+    "matchedTableUsd": 1.8471576,
+    "matchedEventUsd": 1.8471576,
+    "unseen": {}
+  }
+}

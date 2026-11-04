@@ -2,7 +2,7 @@
 
 import { ActionIcon, Menu } from '@mantine/core';
 import { ImageIcon, LinkIcon, Share2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { SITE_CONFIG, withoutScheme } from '@/kernel/shared/config';
 import { pick } from '@/kernel/shared/lib/collections';
@@ -18,28 +18,34 @@ import {
   type CardSiblings,
   domainLink,
 } from '../lib/share';
-import { canCopyImage, type CardText, shareCard } from '../lib/share-card';
+import {
+  canCopyImage,
+  CARD_TYPE,
+  type CardText,
+  shareCard,
+} from '../lib/share-card';
 import { CopiedToast } from './copied-toast';
 import classes from './field-tools.module.scss';
 
 /** The class of a square button beside the field, the dice's included. */
 export const TOOL_BUTTON = classes['tool'];
 
-/** Called once the share menu is reached for, so the card's lookups can start. */
-type Reached = { onReached: () => void };
+/**
+ * `onReached` is called once the share menu is reached for, so the card's
+ * lookups can start; `looking` holds while any lookup is unanswered.
+ */
+type Reached = { onReached: () => void; looking: boolean };
 
 /** `label` and `zone` are the name the field holds, as the checker read it. */
 type FieldToolsProps = WithCopy & TypedName & CardSiblings & Reached;
 
 type Copy = WithCopy['copy'];
 
+/** Draws the card; none while no domain of the name is known to be free. */
+type DrawCard = (() => Promise<File>) | undefined;
+
 /** `typed` is what the copied link opens on: the name as the field holds it. */
-type ShareMenuProps = WithCopy &
-  Typed &
-  Reached & {
-    /** Draws the card; none while no domain of the name is known to be free. */
-    drawCard: (() => File) | undefined;
-  };
+type ShareMenuProps = WithCopy & Typed & Reached & { drawCard: DrawCard };
 
 type LabelProps = { children: readonly string[]; showing: number };
 
@@ -63,7 +69,39 @@ function Label({ children, showing }: LabelProps) {
   );
 }
 
-function ShareMenu({ typed, drawCard, onReached, copy }: ShareMenuProps) {
+/**
+ * The card's drawing once no lookup is unanswered, taken from the render that
+ * has their answers, so a tap that beats the lookups still lists them.
+ */
+function useDrawWhenLooked(looking: boolean, drawCard: DrawCard) {
+  const waitingRef = useRef<Array<(draw: DrawCard) => void>>([]);
+
+  // Every render: the one to answer the waiters is any whose lookups are done.
+  useEffect(() => {
+    if (looking) return;
+    for (const answer of waitingRef.current.splice(0)) answer(drawCard);
+  });
+
+  return async () => {
+    const draw = looking
+      ? await new Promise<DrawCard>((answer) => {
+          waitingRef.current.push(answer);
+        })
+      : drawCard;
+
+    if (draw === undefined) throw new Error('No domain of the name is free');
+
+    return draw();
+  };
+}
+
+function ShareMenu({
+  typed,
+  drawCard,
+  onReached,
+  looking,
+  copy,
+}: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<File>();
   const [from, setFrom] = useState<DOMRect>();
@@ -72,6 +110,7 @@ function ShareMenu({ typed, drawCard, onReached, copy }: ShareMenuProps) {
   };
   const link = useCopied(close);
   const image = useCopied(close);
+  const drawLooked = useDrawWhenLooked(looking, drawCard);
 
   return (
     <>
@@ -113,16 +152,20 @@ function ShareMenu({ typed, drawCard, onReached, copy }: ShareMenuProps) {
               disabled={drawCard === undefined}
               onClick={(event) => {
                 if (drawCard === undefined) return;
-                const drawn = drawCard();
-
-                setCard(drawn);
                 setFrom(
                   (
                     event.currentTarget.closest('[role="menu"]') ??
                     event.currentTarget
                   ).getBoundingClientRect(),
                 );
-                image.copy(drawn);
+                image.copy({
+                  type: CARD_TYPE,
+                  made: drawLooked().then((drawn) => {
+                    setCard(drawn);
+
+                    return drawn;
+                  }),
+                });
               }}
             >
               <Label showing={image.copied ? 1 : 0}>
@@ -148,8 +191,8 @@ const cardText = (copy: Copy): CardText => ({
  * The name in the field's share and heart buttons. Both are about the name as
  * a whole: the heart likes it, with the zone typed after it as the one
  * preferred, and the card leads with that zone, else the liked one, else the
- * first the lookups say is free or may be. The card lists only domains already
- * looked up, so reaching for the share button asks for the rest.
+ * first the lookups say is free or may be. Reaching for the share button asks
+ * for the domains not yet looked up, and the card waits for their answers.
  */
 export function FieldTools({
   label,
@@ -158,6 +201,7 @@ export function FieldTools({
   verdicts,
   prices,
   onReached,
+  looking,
   copy,
 }: FieldToolsProps) {
   const { likeFor } = useLikes();
@@ -177,7 +221,7 @@ export function FieldTools({
         drawCard={
           shared === undefined
             ? undefined
-            : () =>
+            : async () =>
                 shareCard(
                   label,
                   cardRows({
@@ -191,7 +235,7 @@ export function FieldTools({
                   cardText(copy),
                 )
         }
-        {...{ onReached, copy }}
+        {...{ onReached, looking, copy }}
       />
       <LikeButton
         variant="default"

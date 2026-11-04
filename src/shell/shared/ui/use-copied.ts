@@ -8,19 +8,30 @@ const COPIED_MS = 2000;
 /** Whether the last copy landed within the past `COPIED_MS`. */
 export type WhetherCopied = { copied: boolean };
 
+/**
+ * A blob still being made, of a type known already. Handed to the clipboard
+ * inside the click, it may settle later: Safari takes a write only from inside
+ * the click that asked for it, and a promise is how a slow blob stays inside.
+ */
+export type BlobToBe = { type: string; made: Promise<Blob> };
+
+type Copyable = string | Blob | BlobToBe;
+
 type Copied = WhetherCopied & {
   /**
-   * Puts `content` on the clipboard, a blob as its own type; a refusal is
-   * reported, never shown as copied.
+   * Puts `content` on the clipboard, a blob as its own type; a refusal, or a
+   * blob that fails to be made, is reported, never shown as copied.
    */
-  copy: (content: string | Blob) => void;
+  copy: (content: Copyable) => void;
 };
 
-const written = async (content: string | Blob) =>
+const written = async (content: Copyable) =>
   typeof content === 'string'
     ? navigator.clipboard.writeText(content)
     : navigator.clipboard.write([
-        new ClipboardItem({ [content.type]: content }),
+        new ClipboardItem({
+          [content.type]: content instanceof Blob ? content : content.made,
+        }),
       ]);
 
 /**

@@ -99,10 +99,10 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
   const verdicts = new Map([...shownVerdicts, ...hiddenVerdicts]);
   const siblings = rows.map(({ domain }) => domain);
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
-  const busy =
-    (settling && typed.trim() !== '') ||
+  const looking =
     shownVerdicts.size < shownDomains.length ||
     hiddenVerdicts.size < hiddenDomains.length;
+  const busy = (settling && typed.trim() !== '') || looking;
 
   return (
     <>
@@ -145,7 +145,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
               onReached={() => {
                 setWanted(true);
               }}
-              {...{ label, zone, siblings, verdicts, prices, copy }}
+              {...{ label, zone, siblings, verdicts, prices, looking, copy }}
             />
           </span>
         )}
