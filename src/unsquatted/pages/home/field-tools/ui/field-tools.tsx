@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionIcon, Menu } from '@mantine/core';
+import { ActionIcon, Loader, Menu } from '@mantine/core';
 import { ImageIcon, LinkIcon, Share2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -107,6 +107,7 @@ function ShareMenu({
 }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<File>();
+  const [copying, setCopying] = useState(false);
   const close = () => {
     setOpened(false);
   };
@@ -148,22 +149,35 @@ function ShareMenu({
             </Label>
           </Menu.Item>
           {canCopyImage() && (
+            // The menu stays open while the card waits for its lookups, so
+            // the wait shows where it was asked for; the toast follows it.
             <Menu.Item
-              leftSection={<ImageIcon size={14} />}
+              closeMenuOnClick={false}
+              leftSection={
+                copying ? <Loader size={14} /> : <ImageIcon size={14} />
+              }
               disabled={drawCard === undefined}
               onClick={() => {
-                if (drawCard === undefined) return;
+                if (drawCard === undefined || copying) return;
+                setCopying(true);
                 image.copy({
                   type: CARD_TYPE,
-                  made: drawLooked().then((drawn) => {
-                    setCard(drawn);
+                  made: drawLooked()
+                    .then((drawn) => {
+                      setCard(drawn);
+                      close();
 
-                    return drawn;
-                  }),
+                      return drawn;
+                    })
+                    .finally(() => {
+                      setCopying(false);
+                    }),
                 });
               }}
             >
-              {copy.copyAsImage}
+              <Label showing={copying ? 1 : 0}>
+                {[copy.copyAsImage, copy.copyingImage]}
+              </Label>
             </Menu.Item>
           )}
         </Menu.Dropdown>
