@@ -1,5 +1,35 @@
 # unsquatted: one catalogue file, varied blurbs, a hundred names of other forms, three UI fixes
 
+## Status — paused for the context budget
+
+**Done, all pushed:** 3 (`5fd589d8`), 1/2/6 (`b991b6bb`), 5 (`3e0f501f` forms +
+hack support, `276fb8fd` 137 names, ledger, OG card), the runbook.
+
+**Item 4 changed on the operator's word.** Recasting blurbs read as ad copy, so
+it was reverted (`97876cc6`) and the opposite done: one template for every
+blurb. Then, at the operator's suggestion, an entry holds `tagline` + `uses`
+(1–3, bare) and `deck/lib/uses.ts` composes "Tagline. A x, a y or an z." with
+a/an by sound (`da858d61`). The § "4 — Blurbs" below is superseded.
+
+**Added beyond the plan:** a `form` field (compound | phrase | word | respelling
+| coinage | hack) on every entry, so a run can count forms; the runbook says how
+to spread across them.
+
+**Left:**
+
+- `/go` Step 3 (`/polish`), then Step 4 (`/pr` refresh). The PR body and the
+  squash proposal still describe the plan's version of item 4 (recast blurbs)
+  and lack `form`/`tagline`/`uses`; the squash should give the true form counts
+  of the 137: 62 hacks, 20 phrases, 28 coinages/invented places, 17 words, 10
+  respellings (commit `276fb8fd`'s body miscounts them).
+- `/preview` the three UI fixes (toast size/timing, editor focus, card rows for
+  `reconquista`) — not yet looked at in a browser.
+- Open question to the operator, unanswered: add a sixth form, "a word in a
+  meaningful zone" (`murmur.studio`)? Not a hack and not `.com`, so it changes
+  what the site calls a free name; left out until they say.
+- About 80 `.ing` candidates went unanswered (Google's RDAP throttling); they
+  are in no ledger, so a later run can try them.
+
 ## The ask, item by item
 
 1. **The copied-image toast** — bigger and on screen longer.
