@@ -100,6 +100,13 @@ $field-own-row: 30em;
   }
 }
 
+// The field's right edge when the offer sits in it beside the clear button.
+.fieldSection {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
 .diceBack {
   fill: var(--color-background);
 }
@@ -187,6 +194,15 @@ $field-own-row: 30em;
 
 .moreZones {
   @extend %fold-toggle;
+}
+
+// The fold toggle, and the offer across from it where it sits below the list.
+.belowZones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 .zone {

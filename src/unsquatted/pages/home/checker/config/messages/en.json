@@ -24,6 +24,7 @@
     "pace": "It works on your graphics card and takes a few seconds per search.",
     "turnOn": "Turn it on",
     "notNow": "Not now",
+    "dontShow": "Don’t show again",
     "close": "Close",
     "stop": "Stop download",
     "downloading": "Downloading the model: {percent}%. You can close this window: the download carries on, its progress shows under the search field, and variations start once it’s ready. Or stop it, and the files already downloaded wait for next time.",

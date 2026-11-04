@@ -16,6 +16,8 @@ type IdeasModalProps = WithCopy &
     onTurnOn: () => void;
     /** Stops the download. */
     onStop: () => void;
+    /** Hides the offer for good. */
+    onDismiss: () => void;
   };
 
 /**
@@ -28,6 +30,7 @@ export function IdeasModal({
   onClose,
   onTurnOn,
   onStop,
+  onDismiss,
   downloading,
   failed,
   copy: { ideas: copy },
@@ -54,23 +57,26 @@ export function IdeasModal({
           </p>
         )}
       </div>
-      <Group justify="flex-end" mt="md">
-        {busy ? (
-          <>
-            <Button variant="default" onClick={onStop}>
-              {copy.stop}
-            </Button>
-            <Button onClick={onClose}>{copy.close}</Button>
-          </>
-        ) : (
-          <>
+      {busy ? (
+        <Group justify="flex-end" mt="md">
+          <Button variant="default" onClick={onStop}>
+            {copy.stop}
+          </Button>
+          <Button onClick={onClose}>{copy.close}</Button>
+        </Group>
+      ) : (
+        <Group justify="space-between" mt="md">
+          <Button variant="subtle" color="gray" onClick={onDismiss}>
+            {copy.dontShow}
+          </Button>
+          <Group ml="auto">
             <Button variant="default" onClick={onClose}>
               {copy.notNow}
             </Button>
             <Button onClick={onTurnOn}>{copy.turnOn}</Button>
-          </>
-        )}
-      </Group>
+          </Group>
+        </Group>
+      )}
     </Modal>
   );
 }

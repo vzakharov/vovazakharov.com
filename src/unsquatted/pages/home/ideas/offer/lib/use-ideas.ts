@@ -16,6 +16,7 @@ import {
 } from '../../brainstorm';
 
 const KEY = 'unsquatted.ideas';
+const DISMISSED_KEY = 'unsquatted.ideasDismissed';
 
 /** Where the opt-in's download stands. */
 export type Loading = {
@@ -25,9 +26,11 @@ export type Loading = {
   failed: boolean;
 };
 
-type Ideas = Loading & {
-  /** The model can run here: the offer may show. */
+export type Ideas = Loading & {
+  /** The model can run here and the visitor has not waved it off. */
   available: boolean;
+  /** Hides the offer for good. */
+  dismiss: () => void;
   /** The visitor agreed, so every search gets variations. */
   optedIn: boolean;
   /** Downloads the model, opting in once it is ready. */
@@ -42,13 +45,18 @@ type Ideas = Loading & {
  * The variations of `label`, once the visitor has opted in. An opt-in whose
  * weights the browser has since evicted is undone, so the offer asks again
  * before downloading anything. A new label aborts the generation in flight;
- * answers are kept per label for the page's life. `unsquattedForget()` in the
- * console undoes the opt-in and deletes the weights, for testing the offer
- * and the download again.
+ * answers are kept per label for the page's life. A visitor who waves the
+ * offer off never sees it again. `unsquattedForget()` in the console undoes
+ * the opt-in and the waving off and deletes the weights, for testing the
+ * offer and the download again.
  */
 export function useIdeas(label: string): Ideas {
   const [agreed, setAgreed] = useLocalStorage({
     key: KEY,
+    defaultValue: false,
+  });
+  const [dismissed, setDismissed] = useLocalStorage({
+    key: DISMISSED_KEY,
     defaultValue: false,
   });
   const [available, setAvailable] = useState(false);
@@ -81,6 +89,7 @@ export function useIdeas(label: string): Ideas {
       configurable: true,
       value: async () => {
         setAgreed(false);
+        setDismissed(false);
         setPresent(false);
         setAnswers(new Map());
         await forgetModel();
@@ -89,7 +98,7 @@ export function useIdeas(label: string): Ideas {
         return 'Forgot the opt-in and deleted the model from this site’s storage.';
       },
     });
-  }, [setAgreed]);
+  }, [setAgreed, setDismissed]);
 
   const wanted = agreed && present && label !== '' && !answers.has(label);
 
@@ -116,7 +125,10 @@ export function useIdeas(label: string): Ideas {
   }, [wanted, label]);
 
   return {
-    available,
+    available: available && (agreed || !dismissed),
+    dismiss: () => {
+      setDismissed(true);
+    },
     optedIn: agreed,
     turnOn: () => {
       setFailed(false);

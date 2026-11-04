@@ -63,6 +63,12 @@
   text-underline-offset: 3px;
 }
 
+// Across from the fold toggle, on its line.
+.offer[data-variant='below'] {
+  margin-top: 10px;
+  text-decoration: none;
+}
+
 // Inline after the download's text, in its size and colour.
 .stop {
   color: inherit;

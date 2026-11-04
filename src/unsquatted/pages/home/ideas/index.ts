@@ -1,1 +1,1 @@
-export { IdeasLine } from './offer';
+export { IdeasLine, IdeasOffer, type OfferVariant, useIdeas } from './offer';
