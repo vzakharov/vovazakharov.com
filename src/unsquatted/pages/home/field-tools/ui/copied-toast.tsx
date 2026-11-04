@@ -9,21 +9,18 @@ import type { WhetherCopied } from '@/shell/shared/ui';
 import { CARD_HEIGHT, CARD_WIDTH } from '../lib/share-card';
 import classes from './field-tools.module.scss';
 
+/** How long the toast stays; the stylesheet's `.toast` animation spans it. */
+export const TOAST_MS = 3000;
+
 type CopiedToastProps = WhetherCopied & {
   /** The card last put on the clipboard. */
   card: File | undefined;
-  /** Where the menu that copied it sat when pressed. */
-  from: DOMRect | undefined;
+  /** What the toast says under the card. */
+  label: string;
 };
 
-const TOAST_WIDTH = 300;
-
-/**
- * The card just copied, flashed under the menu that copied it, clear of the
- * item pressed, and swept off to the side at once — a receipt, not a thing to
- * act on.
- */
-export function CopiedToast({ card, from, copied }: CopiedToastProps) {
+/** The card just copied, in a toast at the foot of the screen. */
+export function CopiedToast({ card, label, copied }: CopiedToastProps) {
   const url = useMemo(
     () => (card === undefined ? undefined : URL.createObjectURL(card)),
     [card],
@@ -36,20 +33,11 @@ export function CopiedToast({ card, from, copied }: CopiedToastProps) {
     [url],
   );
 
-  if (!copied || card === undefined || url === undefined || from === undefined)
-    return null;
+  if (!copied || url === undefined) return null;
 
   return (
     <Portal>
-      <div
-        aria-hidden
-        className={classes['toast']}
-        style={{
-          top: from.bottom + 8,
-          right: document.documentElement.clientWidth - from.right,
-          width: TOAST_WIDTH,
-        }}
-      >
+      <output className={classes['toast']}>
         <Image
           src={url}
           alt=""
@@ -59,7 +47,8 @@ export function CopiedToast({ card, from, copied }: CopiedToastProps) {
           unoptimized
           className={classes['card']}
         />
-      </div>
+        <span className={classes['toastLabel']}>{label}</span>
+      </output>
     </Portal>
   );
 }

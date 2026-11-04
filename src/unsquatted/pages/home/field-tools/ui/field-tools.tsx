@@ -24,7 +24,7 @@ import {
   type CardText,
   shareCard,
 } from '../lib/share-card';
-import { CopiedToast } from './copied-toast';
+import { CopiedToast, TOAST_MS } from './copied-toast';
 import classes from './field-tools.module.scss';
 
 /** The class of a square button beside the field, the dice's included. */
@@ -104,12 +104,11 @@ function ShareMenu({
 }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<File>();
-  const [from, setFrom] = useState<DOMRect>();
   const close = () => {
     setOpened(false);
   };
   const link = useCopied(close);
-  const image = useCopied(close);
+  const image = useCopied(undefined, TOAST_MS);
   const drawLooked = useDrawWhenLooked(looking, drawCard);
 
   return (
@@ -147,17 +146,10 @@ function ShareMenu({
           </Menu.Item>
           {canCopyImage() && (
             <Menu.Item
-              closeMenuOnClick={false}
               leftSection={<ImageIcon size={14} />}
               disabled={drawCard === undefined}
-              onClick={(event) => {
+              onClick={() => {
                 if (drawCard === undefined) return;
-                setFrom(
-                  (
-                    event.currentTarget.closest('[role="menu"]') ??
-                    event.currentTarget
-                  ).getBoundingClientRect(),
-                );
                 image.copy({
                   type: CARD_TYPE,
                   made: drawLooked().then((drawn) => {
@@ -168,14 +160,16 @@ function ShareMenu({
                 });
               }}
             >
-              <Label showing={image.copied ? 1 : 0}>
-                {[copy.copyAsImage, copy.copied]}
-              </Label>
+              {copy.copyAsImage}
             </Menu.Item>
           )}
         </Menu.Dropdown>
       </Menu>
-      <CopiedToast {...pick(image, 'copied')} {...{ card, from }} />
+      <CopiedToast
+        {...pick(image, 'copied')}
+        label={copy.copied}
+        {...{ card }}
+      />
     </>
   );
 }

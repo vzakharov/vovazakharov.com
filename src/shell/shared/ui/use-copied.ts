@@ -5,7 +5,7 @@ import { useEffect, useEffectEvent, useState } from 'react';
 /** How long a control says it copied before it reads as itself again. */
 const COPIED_MS = 2000;
 
-/** Whether the last copy landed within the past `COPIED_MS`. */
+/** Whether the last copy landed within the past moment. */
 export type WhetherCopied = { copied: boolean };
 
 /**
@@ -35,10 +35,10 @@ const written = async (content: Copyable) =>
       ]);
 
 /**
- * A clipboard write whose control says so for a moment. `onDone` runs when
- * the moment ends, for a control that goes away with it.
+ * A clipboard write whose control says so for a moment, `ms` long. `onDone`
+ * runs when the moment ends, for a control that goes away with it.
  */
-export function useCopied(onDone?: () => void): Copied {
+export function useCopied(onDone?: () => void, ms = COPIED_MS): Copied {
   const [copied, setCopied] = useState(false);
   const done = useEffectEvent(() => {
     setCopied(false);
@@ -47,12 +47,12 @@ export function useCopied(onDone?: () => void): Copied {
 
   useEffect(() => {
     if (!copied) return;
-    const timer = setTimeout(done, COPIED_MS);
+    const timer = setTimeout(done, ms);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [copied]);
+  }, [copied, ms]);
 
   return {
     copied,
