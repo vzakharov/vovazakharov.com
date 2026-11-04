@@ -26,7 +26,6 @@ const CARD_ROWS = 3;
 export const domainLink = (typed: string, here: URL) =>
   `${here.origin}${here.pathname}#${typed}`;
 
-/** A lookup's answer a card lists: “unknown” never makes it onto one. */
 type Listed = Extract<Verdict, { state: 'free' | 'maybe' | 'taken' }>;
 
 /**

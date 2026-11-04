@@ -46,8 +46,8 @@ export function useObjectUrl(file: File | undefined): string | undefined {
 const CARD_ASPECT = { aspectRatio: `${CARD_WIDTH} / ${CARD_HEIGHT}` };
 
 /**
- * The card at the popover's width, its own aspect kept; a real image, so the
- * browser's own "copy image" and "save image" reach it where ours cannot.
+ * The card at the popover's width; a real image, so the browser's own "copy
+ * image" and "save image" reach it where ours cannot.
  */
 export function CardPreview({ card, url, alt, said }: CardPreviewProps) {
   if (card instanceof File && url !== undefined)
