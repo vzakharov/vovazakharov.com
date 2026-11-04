@@ -29,8 +29,11 @@ export type CardText = {
   footer: string;
   /** A taken card's footer, struck through. */
   lede: string;
-  /** What the hand writes over a taken card's struck lede. */
-  aside: string;
+  /**
+   * What the hand writes over a taken card's struck lede: `all` where every
+   * domain on it is taken, `field` where only the typed one is.
+   */
+  aside: { all: string; field: string };
 };
 
 type Look = {
@@ -116,27 +119,6 @@ function drawHead(context: CanvasRenderingContext2D, l: Look, t: CardText) {
   context.fillText(t.host, 1104, 112);
 }
 
-function drawField(context: CanvasRenderingContext2D, l: Look, name: string) {
-  context.fillStyle = l.surface;
-  context.strokeStyle = l.accent;
-  context.lineWidth = 3;
-  context.beginPath();
-  context.roundRect(96, 176, 1008, 96, 16);
-  context.fill();
-  context.stroke();
-
-  context.fillStyle = l.ink;
-  context.textAlign = 'left';
-  context.font = fitted(
-    context,
-    name,
-    (size) => `${size}px ${l.monoFace}`,
-    44,
-    944,
-  );
-  context.fillText(name, 128, 240);
-}
-
 /** A row's verdict as the checker words it, a taken one with its year. */
 function verdictText({ verdict }: CardText, row: CardRow): string {
   if (row.state !== 'taken') return verdict[row.state];
@@ -146,19 +128,21 @@ function verdictText({ verdict }: CardText, row: CardRow): string {
     : verdict.takenSince.replace('{year}', row.since);
 }
 
-const ROW_TOP = 316;
-const ROW_STEP = 68;
 const RIGHT = 1072;
 
-function drawRow(
+type DrawVerdictParams = { l: Look; t: CardText };
+
+/**
+ * `row`'s verdict and price, set right-aligned to `RIGHT` on baseline `y`;
+ * returns where the domain beside them has to end.
+ */
+function drawVerdict(
   context: CanvasRenderingContext2D,
-  l: Look,
-  t: CardText,
+  { l, t }: DrawVerdictParams,
   row: CardRow,
-  index: number,
-) {
-  const y = ROW_TOP + index * ROW_STEP;
-  const weight = index === 0 ? '700 ' : '';
+  y: number,
+  weight: string,
+): number {
   let right = RIGHT;
 
   context.textAlign = 'right';
@@ -178,7 +162,55 @@ function drawRow(
   const verdict = verdictText(t, row);
 
   context.fillText(verdict, right, y);
-  const verdictLeft = right - context.measureText(verdict).width - 24;
+
+  return right - context.measureText(verdict).width - 24;
+}
+
+type DrawFieldParams = { l: Look; t: CardText };
+
+/** The field holding `name`, and the verdict on it where it is a domain. */
+function drawField(
+  context: CanvasRenderingContext2D,
+  { l, t }: DrawFieldParams,
+  name: string,
+  row: CardRow | undefined,
+) {
+  context.fillStyle = l.surface;
+  context.strokeStyle = l.accent;
+  context.lineWidth = 3;
+  context.beginPath();
+  context.roundRect(96, 176, 1008, 96, 16);
+  context.fill();
+  context.stroke();
+
+  const nameRight =
+    row === undefined ? 1072 : drawVerdict(context, { l, t }, row, 236, '700 ');
+
+  context.fillStyle = l.ink;
+  context.textAlign = 'left';
+  context.font = fitted(
+    context,
+    name,
+    (size) => `${size}px ${l.monoFace}`,
+    44,
+    nameRight - 128,
+  );
+  context.fillText(name, 128, 240);
+}
+
+const ROW_TOP = 316;
+const ROW_STEP = 68;
+
+function drawRow(
+  context: CanvasRenderingContext2D,
+  l: Look,
+  t: CardText,
+  row: CardRow,
+  index: number,
+) {
+  const y = ROW_TOP + index * ROW_STEP;
+  const weight = index === 0 ? '700 ' : '';
+  const verdictLeft = drawVerdict(context, { l, t }, row, y, weight);
 
   context.fillStyle = l.ink;
   context.textAlign = 'left';
@@ -211,11 +243,12 @@ function drawRow(
 /** The aside's weight and size, which the font load awaits and the draw sets. */
 const HAND = '700 46px';
 
-/** A taken card's footer: the lede struck through, the hand's aside over it. */
+/** A taken card's footer: the lede struck through, `aside` over it by hand. */
 function drawCorrected(
   context: CanvasRenderingContext2D,
   l: Look,
   t: CardText,
+  aside: string,
 ) {
   context.fillStyle = l.muted;
   context.textAlign = 'left';
@@ -236,16 +269,36 @@ function drawCorrected(
   context.rotate(-0.05);
   context.fillStyle = l.taken;
   context.font = `${HAND} ${l.handFace}`;
-  context.fillText(t.aside, 0, 0);
+  context.fillText(aside, 0, 0);
   context.restore();
 }
 
 /** The type of the file `shareCard` makes, known before the file is. */
 const CARD_TYPE = 'image/png';
 
-/** The card for `name`'s `rows`, as a PNG named for the first. */
+/**
+ * What the hand writes over the struck lede: on a card with nothing to offer,
+ * or on one whose field alone is taken; none where the card has no taken field.
+ */
+function asideOf(
+  { aside }: CardText,
+  field: CardRow | undefined,
+  rows: readonly CardRow[],
+): string | undefined {
+  const all = field === undefined ? rows : [field, ...rows];
+
+  if (all.length > 0 && offersNothing(all)) return aside.all;
+
+  return field?.state === 'taken' ? aside.field : undefined;
+}
+
+/**
+ * The card for `name` — its verdict in the field where `field` gives one —
+ * and the `rows` under it, as a PNG named for the first domain it shows.
+ */
 export async function shareCard(
   name: string,
+  field: CardRow | undefined,
   rows: readonly CardRow[],
   text: CardText,
 ): Promise<File> {
@@ -261,19 +314,13 @@ export async function shareCard(
   context.fillStyle = l.paper;
   context.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
   drawHead(context, l, text);
-  drawField(context, l, name);
+  drawField(context, { l, t: text }, name, field);
   for (const [index, row] of rows.entries())
     drawRow(context, l, text, row, index);
 
-  if (offersNothing(rows)) {
-    // Unpreloaded, the hand arrives only when a card first asks for it. Only
-    // the stack's first face is awaited: next/font's metric fallback after it
-    // is `local("Arial")`, which rejects the whole load where Arial is absent.
-    const [hand] = l.handFace.split(',');
+  const aside = asideOf(text, field, rows);
 
-    await document.fonts.load(`${HAND} ${hand}`);
-    drawCorrected(context, l, text);
-  } else {
+  if (aside === undefined) {
     context.fillStyle = l.muted;
     context.textAlign = 'left';
     context.font = fitted(
@@ -284,6 +331,14 @@ export async function shareCard(
       1008,
     );
     context.fillText(text.footer, 96, 574);
+  } else {
+    // Unpreloaded, the hand arrives only when a card first asks for it. Only
+    // the stack's first face is awaited: next/font's metric fallback after it
+    // is `local("Arial")`, which rejects the whole load where Arial is absent.
+    const [hand] = l.handFace.split(',');
+
+    await document.fonts.load(`${HAND} ${hand}`);
+    drawCorrected(context, l, text, aside);
   }
 
   const blob = await new Promise<Blob>((resolve, reject) => {
@@ -293,9 +348,13 @@ export async function shareCard(
     }, CARD_TYPE);
   });
 
-  return new File([blob], `unsquatted.${rows[0]?.domain ?? name}.png`, {
-    type: CARD_TYPE,
-  });
+  return new File(
+    [blob],
+    `unsquatted.${(field ?? rows[0])?.domain ?? name}.png`,
+    {
+      type: CARD_TYPE,
+    },
+  );
 }
 
 /** Whether the clipboard takes an image; Firefox before 127 has no `ClipboardItem`. */

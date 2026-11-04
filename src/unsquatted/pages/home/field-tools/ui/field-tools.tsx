@@ -18,6 +18,7 @@ import {
   cardSettled,
   type CardSiblings,
   domainLink,
+  fieldRow,
 } from '../lib/share';
 import { canCopyImage, type CardText, shareCard } from '../lib/share-card';
 import { CardPreview, type CardState, useObjectUrl } from './card-preview';
@@ -289,7 +290,7 @@ function cardText(copy: Copy): CardText {
     host: withoutScheme(SITE_CONFIG.url),
     footer: `${lede} ${plainByline({ copy })}`,
     lede,
-    aside: copy.takenAside,
+    aside: { all: copy.takenAside, field: copy.typedTakenAside },
     ...pick(copy, 'verdict', 'price'),
   };
 }
@@ -297,9 +298,10 @@ function cardText(copy: Copy): CardText {
 /**
  * The name in the field's share and heart buttons. Both are about the name as
  * a whole: the heart likes it, with the zone typed after it as the one
- * preferred, and the card lists that zone first whatever its lookup said and
- * leads its offer with it, else with the liked one, else the first the lookups
- * say is free or may be — or, where none is, the first of them taken. Reaching
+ * preferred, and the card's field holds that domain with its verdict, whatever
+ * the lookup said; its rows lead with that zone, else the liked one, else the
+ * first the lookups say is free or may be — or, where none is, the first of
+ * them taken — and leave the typed domain to the field. Reaching
  * for the share button asks for the domains not yet looked up, and the card
  * waits for those answers that could still change it.
  */
@@ -321,6 +323,9 @@ export function FieldTools({
   const preferred = own === undefined ? undefined : preferredOf(own);
   const order = [typedDomain, preferred, ...siblings];
   const shared = cardLead(order, shown, { verdicts });
+  // A name liked with no zone is liked in the card's lead.
+  const liked = isOn ? (preferred ?? shared) : undefined;
+  const field = fieldRow(typedDomain, liked, { verdicts, prices });
   const rows =
     shared === undefined
       ? undefined
@@ -328,8 +333,7 @@ export function FieldTools({
           typed: typedDomain,
           shared,
           siblings,
-          // A name liked with no zone is liked in the card's lead.
-          liked: isOn ? (preferred ?? shared) : undefined,
+          liked,
           verdicts,
           prices,
         });
@@ -341,7 +345,8 @@ export function FieldTools({
         drawCard={
           rows === undefined
             ? undefined
-            : async () => shareCard(label, rows, cardText(copy))
+            : async () =>
+                shareCard(typedDomain ?? label, field, rows, cardText(copy))
         }
         looking={
           looking &&

@@ -43,9 +43,9 @@ export type CardRow = WithDomain &
   };
 
 type CardSource = CardSiblings & {
-  /** The domain the field holds with its zone, if it does. */
+  /** The domain the field holds with its zone, if it does: the card's field. */
   typed: string | undefined;
-  /** The domain being shared, the card's first row after the typed one. */
+  /** The domain being shared, the card's first row unless it is the typed one. */
   shared: string;
   /** The domain the sharer's like of the name points at, if they like it. */
   liked: string | undefined;
@@ -128,11 +128,26 @@ export function cardSettled(
 }
 
 /**
- * The card's rows: the typed domain, whatever its lookup said, then the shared
- * one, the liked one and the others — each of those only once its lookup said
- * it is of the shared domain's kind, so the card never says “checking…” and
- * mixes a taken name in with free ones only where it is the one asked about.
- * None at all until the shared domain's own lookup is in.
+ * The typed domain as the card's field holds it, its verdict beside it
+ * whatever the lookup said; none until that lookup is in.
+ */
+export function fieldRow(
+  typed: string | undefined,
+  liked: string | undefined,
+  { verdicts, prices }: Lookups,
+): CardRow | undefined {
+  if (typed === undefined) return undefined;
+  const verdict = verdicts.get(typed);
+
+  return isListed(verdict) ? row(typed, verdict, liked, { prices }) : undefined;
+}
+
+/**
+ * The card's rows under the field: the shared domain, then the liked one, then
+ * the others — the typed one left to the field, and each only once its lookup
+ * said it is of the shared domain's kind, so the card never says “checking…”
+ * and never mixes a taken name in with free ones. None at all until the shared
+ * domain's own lookup is in.
  */
 export function cardRows({
   typed,
@@ -145,22 +160,14 @@ export function cardRows({
   const kind = kindOf(verdicts.get(shared));
 
   if (kind === undefined) return [];
-  const pinned =
-    typed !== undefined && typed !== shared && isListed(verdicts.get(typed))
-      ? [typed]
-      : [];
   const alike = siblings.filter(
-    (domain) =>
-      domain !== shared &&
-      domain !== typed &&
-      kindOf(verdicts.get(domain)) === kind,
+    (domain) => domain !== shared && kindOf(verdicts.get(domain)) === kind,
   );
   const ordered = [
-    ...pinned,
     shared,
     ...alike.filter((domain) => domain === liked),
     ...alike.filter((domain) => domain !== liked),
-  ];
+  ].filter((domain) => domain !== typed);
 
   return ordered.slice(0, CARD_ROWS).flatMap((domain) => {
     const verdict = verdicts.get(domain);

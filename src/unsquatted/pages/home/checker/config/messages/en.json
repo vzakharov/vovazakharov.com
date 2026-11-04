@@ -26,6 +26,7 @@
   "shareAsImage": "Share as image",
   "cardAlt": "The share card for {name}",
   "takenAside": "okay, maybe not these ones",
+  "typedTakenAside": "okay, maybe not this one",
   "drawingImage": "Drawing the image…",
   "noImage": "No registry answered, so there’s nothing to draw",
   "imageFailed": "The image didn’t draw",
