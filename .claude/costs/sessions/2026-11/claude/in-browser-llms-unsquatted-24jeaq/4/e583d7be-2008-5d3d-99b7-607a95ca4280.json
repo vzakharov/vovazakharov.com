@@ -1,40 +1,28 @@
 {
   "total": {
-    "inputTokens": 1712,
-    "cacheWrite5mTokens": 1155,
-    "cacheWrite1hTokens": 195539,
-    "cacheReadTokens": 19325022,
-    "outputTokens": 50825,
-    "thinkingTokens": 12446,
-    "responses": 103,
-    "costUsd": 6.4619044
+    "inputTokens": 3477,
+    "cacheWrite5mTokens": 2231,
+    "cacheWrite1hTokens": 207458,
+    "cacheReadTokens": 22709659,
+    "outputTokens": 58152,
+    "thinkingTokens": 13883,
+    "responses": 117,
+    "costUsd": 7.386867999999999
   },
   "estimate": {
-    "at": "2026-11-04T14:35:17.882Z",
+    "at": "2026-11-04T14:40:56.374Z",
     "parts": [
       {
-        "hours": 2.0,
+        "hours": 1.5,
         "grade": "senior",
         "role": "developer",
-        "comment": "moving the model off a worker Turbopack cannot bundle, and lifting the download out of the dialog, take judgement against the real build output"
-      },
-      {
-        "hours": 0.5,
-        "grade": "senior",
-        "role": "prompter",
-        "comment": "the prompt needs a retune once real WebGPU output is seen in a browser"
+        "comment": "moving the model off a worker Turbopack cannot bundle, and lifting the download out of the dialog, took judgement against the real build output"
       },
       {
         "hours": 0.5,
         "grade": "middle",
         "role": "designer",
         "comment": "three in-place progress mock-ups to choose between, shot in both themes"
-      },
-      {
-        "hours": 1.5,
-        "grade": "middle",
-        "role": "qa",
-        "comment": "each desktop browser, with and without WebGPU, walked by hand"
       }
     ],
     "comment": null
@@ -65,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkCU6ANBX3V1rGK8sxP",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-04T13:43:04.240Z",
-  "lastResponseAt": "2026-11-04T14:36:54.587Z",
+  "lastResponseAt": "2026-11-04T14:41:49.989Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 194,
+    "inputTokens": 216,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 195539,
-    "cacheReadTokens": 18775869,
-    "outputTokens": 50780,
-    "thinkingTokens": 12446,
-    "responses": 100,
-    "costUsd": 6.3358618
+    "cacheWrite1hTokens": 207458,
+    "cacheReadTokens": 21905762,
+    "outputTokens": 57852,
+    "thinkingTokens": 13883,
+    "responses": 112,
+    "costUsd": 7.198720399999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -90,33 +78,53 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1712,
-      "cacheWrite5mTokens": 1155,
-      "cacheWrite1hTokens": 195539,
-      "cacheReadTokens": 19325022,
-      "outputTokens": 50825,
-      "thinkingTokens": 12446,
-      "responses": 103,
-      "costUsd": 6.4619044
+      "inputTokens": 2240,
+      "cacheWrite5mTokens": 2231,
+      "cacheWrite1hTokens": 207458,
+      "cacheReadTokens": 22709659,
+      "outputTokens": 57911,
+      "thinkingTokens": 13883,
+      "responses": 116,
+      "costUsd": 7.386623799999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1237,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 241,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00024419999999999997
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 103,
-    "matched": 100,
-    "matchedTableUsd": 6.3358618,
-    "matchedEventUsd": 6.3358618,
+    "events": 117,
+    "matched": 112,
+    "matchedTableUsd": 7.198720399999999,
+    "matchedEventUsd": 7.198720399999999,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 1518,
-        "cacheWrite5mTokens": 1155,
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 2231,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 549153,
-        "outputTokens": 45,
+        "cacheReadTokens": 803897,
+        "outputTokens": 59,
         "thinkingTokens": 0,
-        "responses": 3,
-        "costUsd": 0.1260426
+        "responses": 4,
+        "costUsd": 0.1879034
+      },
+      "generate_session_title": {
+        "inputTokens": 1237,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 241,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00024419999999999997
       }
     }
   }
