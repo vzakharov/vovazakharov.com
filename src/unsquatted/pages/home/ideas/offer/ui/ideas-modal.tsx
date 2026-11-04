@@ -16,8 +16,14 @@ type IdeasModalProps = WithCopy & {
   onReady: () => void;
 };
 
-/** The download's progress, or that it failed. */
-type Starting = { fraction: number } | 'failed' | undefined;
+/**
+ * The download's progress, that it failed, or that it never began: a browser
+ * built on Chromium can offer the model and have nothing to fetch it with.
+ */
+type Starting = { fraction: number } | 'failed' | 'stalled' | undefined;
+
+/** How long a click waits for Chrome's first progress event before stalling. */
+const FIRST_PROGRESS_MS = 30_000;
 
 /**
  * What a visitor agrees to, in plain words, and the opt-in itself. Turn it on
@@ -50,9 +56,9 @@ export function IdeasModal({
                 )}
           </p>
         )}
-        {starting === 'failed' && (
+        {(starting === 'failed' || starting === 'stalled') && (
           <p className={classes['progress']} role="alert">
-            {copy.failed}
+            {copy[starting]}
           </p>
         )}
       </div>
@@ -64,14 +70,25 @@ export function IdeasModal({
           loading={busy}
           onClick={() => {
             setStarting({ fraction: 0 });
+            // Chrome reports 0 as a download begins; silence means none will.
+            // The creation stays pending, so a late start still opts in.
+            const stall = setTimeout(() => {
+              setStarting('stalled');
+            }, FIRST_PROGRESS_MS);
+            const settle = () => {
+              clearTimeout(stall);
+            };
             startModel((fraction) => {
+              settle();
               setStarting({ fraction });
             }).then(
               () => {
+                settle();
                 setStarting(undefined);
                 onReady();
               },
               (error: unknown) => {
+                settle();
                 reportError(error);
                 setStarting('failed');
               },
