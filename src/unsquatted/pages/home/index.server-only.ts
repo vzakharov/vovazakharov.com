@@ -1,7 +1,11 @@
 import 'server-only';
 
 export { COPY, plainByline } from './checker/index.node-safe';
-export { LASTING_PICKS, PICKED_DOMAINS } from './deck/index.server-only';
+export {
+  LASTING_PICKS,
+  PICKED_DOMAINS,
+  variedPicks,
+} from './deck/index.server-only';
 export {
   DICE_FACE,
   DICE_FACES,

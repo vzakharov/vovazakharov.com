@@ -16,8 +16,11 @@ const LedgerError = errorClass('LedgerError');
 
 const CandidateError = errorClass('CandidateError');
 
-/** `taken` is the registry's word; `taste` is the run's, on a free name. */
-const VERDICTS = ['taken', 'taste'] as const;
+/**
+ * `taken` is the registry's word; `premium` and `reserved` the registrar's, on
+ * a name the registry calls unregistered; `taste` is the run's, on a free name.
+ */
+const VERDICTS = ['taken', 'premium', 'reserved', 'taste'] as const;
 
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 

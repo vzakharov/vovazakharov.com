@@ -1612,3 +1612,43 @@
 {"domain":"cycl.one","axis":"weather","verdict":"taste","checked":"2026-11-04"}
 {"domain":"oz.one","axis":"weather","verdict":"taste","checked":"2026-11-04"}
 {"domain":"lumbe.red","axis":"weathered","verdict":"taste","checked":"2026-11-04"}
+{"domain":"potter.ing","axis":"idling","verdict":"premium","checked":"2026-11-04"}
+{"domain":"knead.ing","axis":"bread","verdict":"premium","checked":"2026-11-04"}
+{"domain":"touchst.one","axis":"assaying","verdict":"premium","checked":"2026-11-04"}
+{"domain":"lodest.one","axis":"navigation","verdict":"premium","checked":"2026-11-04"}
+{"domain":"whetst.one","axis":"knives","verdict":"premium","checked":"2026-11-04"}
+{"domain":"cornerst.one","axis":"masonry","verdict":"premium","checked":"2026-11-04"}
+{"domain":"cobblest.one","axis":"streets","verdict":"premium","checked":"2026-11-04"}
+{"domain":"grindst.one","axis":"milling","verdict":"premium","checked":"2026-11-04"}
+{"domain":"moonst.one","axis":"gems","verdict":"premium","checked":"2026-11-04"}
+{"domain":"capst.one","axis":"masonry","verdict":"premium","checked":"2026-11-04"}
+{"domain":"anem.one","axis":"flowers","verdict":"premium","checked":"2026-11-04"}
+{"domain":"barit.one","axis":"voices","verdict":"premium","checked":"2026-11-04"}
+{"domain":"buckwh.eat","axis":"grain","verdict":"premium","checked":"2026-11-04"}
+{"domain":"sweetm.eat","axis":"confectionery","verdict":"premium","checked":"2026-11-04"}
+{"domain":"mincem.eat","axis":"christmas","verdict":"premium","checked":"2026-11-04"}
+{"domain":"offb.eat","axis":"rhythm","verdict":"premium","checked":"2026-11-04"}
+{"domain":"heartb.eat","axis":"medicine","verdict":"premium","checked":"2026-11-04"}
+{"domain":"retr.eat","axis":"rest","verdict":"premium","checked":"2026-11-04"}
+{"domain":"may.fly","axis":"insects","verdict":"premium","checked":"2026-11-04"}
+{"domain":"caddis.fly","axis":"angling","verdict":"premium","checked":"2026-11-04"}
+{"domain":"damsel.fly","axis":"insects","verdict":"premium","checked":"2026-11-04"}
+{"domain":"fire.fly","axis":"summer night","verdict":"premium","checked":"2026-11-04"}
+{"domain":"worka.day","axis":"plain days","verdict":"premium","checked":"2026-11-04"}
+{"domain":"market.day","axis":"town life","verdict":"premium","checked":"2026-11-04"}
+{"domain":"quarter.day","axis":"old calendar","verdict":"premium","checked":"2026-11-04"}
+{"domain":"title.page","axis":"books","verdict":"premium","checked":"2026-11-04"}
+{"domain":"for.bid","axis":"auctions","verdict":"reserved","checked":"2026-11-04"}
+{"domain":"hearthst.one","axis":"home","verdict":"premium","checked":"2026-11-04"}
+{"domain":"millst.one","axis":"milling","verdict":"premium","checked":"2026-11-04"}
+{"domain":"gramoph.one","axis":"records","verdict":"premium","checked":"2026-11-04"}
+{"domain":"xyloph.one","axis":"music","verdict":"premium","checked":"2026-11-04"}
+{"domain":"wishb.one","axis":"luck","verdict":"premium","checked":"2026-11-04"}
+{"domain":"pinec.one","axis":"woodland","verdict":"premium","checked":"2026-11-04"}
+{"domain":"nutm.eat","axis":"spice","verdict":"premium","checked":"2026-11-04"}
+{"domain":"stone.fly","axis":"angling","verdict":"premium","checked":"2026-11-04"}
+{"domain":"hover.fly","axis":"insects","verdict":"premium","checked":"2026-11-04"}
+{"domain":"sweeth.art","axis":"love","verdict":"premium","checked":"2026-11-04"}
+{"domain":"handc.art","axis":"markets","verdict":"premium","checked":"2026-11-04"}
+{"domain":"baking.day","axis":"bread","verdict":"premium","checked":"2026-11-04"}
+{"domain":"slumber.land","axis":"sleep","verdict":"reserved","checked":"2026-11-04"}

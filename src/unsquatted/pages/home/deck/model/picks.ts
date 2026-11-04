@@ -64,14 +64,29 @@ const useSchema = z
  * and past it the entry stays in the catalogue but leaves the list. The blurb
  * is `tagline` and then `uses` as one sentence, so every blurb keeps one shape.
  */
-const pickSchema = z.strictObject({
-  ...shownSchema.shape,
-  tagline: z.string().regex(/^\S.*[!.?]$/, 'a tagline is a full sentence'),
-  uses: z.array(useSchema).min(1).max(3),
-  form: z.enum(FORMS),
-  added: z.coerce.date(),
-  shownUntil: z.coerce.date().optional(),
-});
+const pickSchema = z
+  .strictObject({
+    ...shownSchema.shape,
+    tagline: z.string().regex(/^\S.*[!.?]$/, 'a tagline is a full sentence'),
+    uses: z.array(useSchema).min(1).max(3),
+    form: z.enum(FORMS),
+    /**
+     * The trick a name is built on, which two names share when one is the
+     * other's pattern: for a hack, the domain's tail its zone spells the word's
+     * end with (`st.one` for `touchst.one` and `lodest.one` alike, `.red` for
+     * every `…red`). Every hack states one.
+     */
+    construction: z
+      .string()
+      .regex(/^[a-z]*\.[a-z]+$/)
+      .optional(),
+    added: z.coerce.date(),
+    shownUntil: z.coerce.date().optional(),
+  })
+  .refine(
+    ({ form, construction }) => form !== 'hack' || construction !== undefined,
+    'a hack states its construction',
+  );
 
 /** `yaml` rejects a key given twice, so a domain is listed once. */
 const catalogueSchema = z.record(z.string().regex(DOMAIN), pickSchema);
@@ -80,13 +95,27 @@ export type ShownName = z.infer<typeof shownSchema> &
   WithDomain & { blurb: string };
 
 function readCatalogue() {
-  try {
-    return Object.entries(
-      catalogueSchema.parse(parse(fs.readFileSync(CATALOGUE_PATH, 'utf8'))),
-    ).map(([domain, pick]) => ({ domain, ...pick }));
-  } catch (error) {
-    throw new CatalogueError('picks.yaml does not parse', withCause(error));
+  const picks = (() => {
+    try {
+      return Object.entries(
+        catalogueSchema.parse(parse(fs.readFileSync(CATALOGUE_PATH, 'utf8'))),
+      ).map(([domain, pick]) => ({ domain, ...pick }));
+    } catch (error) {
+      throw new CatalogueError('picks.yaml does not parse', withCause(error));
+    }
+  })();
+  const astray = picks.find(
+    ({ domain, construction }) =>
+      construction !== undefined && !domain.endsWith(construction),
+  );
+
+  if (astray !== undefined) {
+    throw new CatalogueError(
+      `${astray.domain}: its construction is not its tail`,
+    );
   }
+
+  return picks;
 }
 
 const day = (date: Date) => date.toISOString().slice(0, 10);
@@ -125,7 +154,23 @@ export const PICKS: readonly ShownName[] = SORTED.filter(
     shownUntil === undefined || day(shownUntil) >= day(new Date()),
 ).map((pick) => shown(pick));
 
+const LASTING = SORTED.filter(({ shownUntil }) => shownUntil === undefined);
+
 /** The names with no `shownUntil`: a list the calendar cannot change. */
-export const LASTING_PICKS: readonly ShownName[] = SORTED.filter(
-  ({ shownUntil }) => shownUntil === undefined,
-).map((pick) => shown(pick));
+export const LASTING_PICKS: readonly ShownName[] = LASTING.map((pick) =>
+  shown(pick),
+);
+
+/**
+ * The best `count` of `LASTING_PICKS`, no two on one construction, for a
+ * showcase too short to carry the same trick twice.
+ */
+export const variedPicks = (count: number): readonly ShownName[] =>
+  LASTING.filter(
+    ({ construction }, index) =>
+      construction === undefined ||
+      LASTING.findIndex((other) => other.construction === construction) ===
+        index,
+  )
+    .slice(0, count)
+    .map((pick) => shown(pick));

@@ -7,13 +7,20 @@ the rest is taste.
 
 ## What a pick is
 
-- **Free**, registrable today by anyone for the registry's price — never a name
-  the run, the site or the operator registers. Nothing here serves domain
-  investors.
+- **Free**, registrable today by anyone at the zone's ordinary price — never a
+  name the run, the site or the operator registers, and never a registry premium
+  or reserved word, which RDAP reports as unregistered. Nothing here serves
+  domain investors.
 - **In `.com`, unless the zone finishes the name** — a domain hack,
-  `touchst.one`. A hack's zone answers RDAP, so `check` prints it `free` rather
+  `mudlark.ing`. A hack's zone answers RDAP, so `check` prints it `free` rather
   than `maybe`, and is open to anyone, which rules out the country zones that
-  ask for a local presence (`.ca`, `.au`, `.id`).
+  ask for a local presence (`.ca`, `.au`, `.id`). New zones price their
+  dictionary-like names as premium, so most hacks that read well are: of 62
+  checked once, 40 were (`touchst.one` at $1,092 a year).
+- **One construction is one idea.** A hack states its `construction`, the tail
+  its zone spells the word's end with — `st.one` for `touchst.one` and
+  `lodest.one` alike. Several on one construction read as one name repeated:
+  hold a run to one or two, and the social card shows one per construction.
 - **Spread across forms**, the `form` field: `compound`, `phrase` (anything not
   two nouns joined), `word` (a real one, however rare), `respelling` (a dropped
   or swapped letter), `coinage` (a made-up word), `hack`. The common real words,
@@ -58,20 +65,25 @@ and goes elsewhere on purpose — the Clerk's method
 
 ## Steps
 
+`pnpm names` asks Porkbun's keyed `checkDomain` about every name RDAP calls
+free, so it needs `PORKBUN_API_KEY` and `PORKBUN_SECRET_API_KEY` set.
+
 1. **Retire what was taken.** `pnpm names recheck` prints each listed name no
    longer free. Give each one `shownUntil: <today + 14 days>` — it stays listed
    two weeks, marked taken, then leaves the list; its entry stays. An `unknown`
-   line is a lookup with no answer: re-run before reading anything into it.
+   line is a lookup with no answer: re-run before reading anything into it. A
+   `premium` or `reserved` line was never free at the ordinary price: its entry
+   moves to the ledger under that verdict.
 2. **Brainstorm** several times the names wanted — about four candidates per
    pick, since most compounds that sound good are taken — as `axis<TAB>name`
    lines in a file under `tmp/`, several new axes per run. A bare name is
    checked in `.com`; a hack is written as its domain, `touchst.one`.
 3. **Check them**: `pnpm names check < tmp/<file>.tsv`. Taken names go into the
-   ledger by themselves; the rest print as `free<TAB>axis<TAB>domain`, or
-   `maybe` where the zone has no RDAP. Brainstorm again from new axes until the
-   free ones outnumber the picks wanted. A registry that throttles answers
-   nothing for a stretch, and the run ends listing those names: re-check them
-   later rather than in the same minute.
+   ledger by themselves, and so do premium and reserved ones; the rest print as
+   `free<TAB>axis<TAB>domain`, or `maybe` where the zone has no RDAP. Brainstorm
+   again from new axes until the free ones outnumber the picks wanted. A
+   registry that throttles answers nothing for a stretch, and the run ends
+   listing those names: re-check them later rather than in the same minute.
 4. **Pick by taste**, under the spread above. Each pick is an entry in
    `picks.yaml`, appended under the run's date:
 
@@ -93,7 +105,7 @@ and goes elsewhere on purpose — the Clerk's method
    "or", so every blurb reads "Tagline. A x or a y." `score` places the name on
    the list's scale (read the existing picks' scores first; 9 and up is the
    list's best, below 5 its weakest); a float, so a name slots between two
-   others.
+   others. A hack adds `construction` (§ "What a pick is").
 
 5. **Record the free names not picked**: `pnpm names reject <axis> <domain>…`,
    so no later run checks them again.

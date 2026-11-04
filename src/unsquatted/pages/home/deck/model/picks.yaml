@@ -998,16 +998,6 @@ typebarhouse.com:
   form: compound
   added: 2026-11-03
 
-potter.ing:
-  category: idling
-  tagline: Doing small things slowly, and liking it.
-  uses:
-    - craft shop
-    - pottery class
-  score: 8.5
-  form: hack
-  added: 2026-11-04
-
 mudlark.ing:
   category: river finds
   tagline: Searching a river's foreshore at low tide for what the city dropped.
@@ -1016,6 +1006,7 @@ mudlark.ing:
     - found-objects shop
   score: 8.5
   form: hack
+  construction: .ing
   added: 2026-11-04
 
 beachcomb.ing:
@@ -1026,16 +1017,7 @@ beachcomb.ing:
     - sea-glass jeweller
   score: 7.5
   form: hack
-  added: 2026-11-04
-
-knead.ing:
-  category: bread
-  tagline: The ten minutes that turn flour and water into dough.
-  uses:
-    - baking school
-    - massage studio
-  score: 7.5
-  form: hack
+  construction: .ing
   added: 2026-11-04
 
 whittl.ing:
@@ -1046,6 +1028,7 @@ whittl.ing:
     - knife maker
   score: 7.5
   form: hack
+  construction: .ing
   added: 2026-11-04
 
 letterpress.ing:
@@ -1056,6 +1039,7 @@ letterpress.ing:
     - wedding-stationery shop
   score: 6.5
   form: hack
+  construction: .ing
   added: 2026-11-04
 
 saunter.ing:
@@ -1066,6 +1050,7 @@ saunter.ing:
     - slow-travel blog
   score: 7
   form: hack
+  construction: .ing
   added: 2026-11-04
 
 stippl.ing:
@@ -1076,166 +1061,7 @@ stippl.ing:
     - tattoo parlour
   score: 6.5
   form: hack
-  added: 2026-11-04
-
-touchst.one:
-  category: assaying
-  tagline: The black stone gold was rubbed on to test it.
-  uses:
-    - appraisal service
-    - review site
-  score: 9
-  form: hack
-  added: 2026-11-04
-
-lodest.one:
-  category: navigation
-  tagline: The magnetic rock that first pointed north.
-  uses:
-    - compass maker
-    - career-coaching practice
-  score: 8.5
-  form: hack
-  added: 2026-11-04
-
-whetst.one:
-  category: knives
-  tagline: The stone a blade is honed on.
-  uses:
-    - knife-sharpening service
-    - editing studio
-  score: 8
-  form: hack
-  added: 2026-11-04
-
-cornerst.one:
-  category: masonry
-  tagline: The first stone laid, the one the building is squared from.
-  uses:
-    - building firm
-    - community foundation
-  score: 7.5
-  form: hack
-  added: 2026-11-04
-
-cobblest.one:
-  category: streets
-  tagline: The rounded stone of an old town's streets.
-  uses:
-    - walking-tour company
-    - shoe repairer
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-grindst.one:
-  category: milling
-  tagline: The wheel a miller turns, and a worker keeps a nose to.
-  uses:
-    - productivity app
-    - flour mill
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-moonst.one:
-  category: gems
-  tagline: A pale stone with light that moves inside it.
-  uses:
-    - jeweller
-    - sleep app
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-capst.one:
-  category: masonry
-  tagline: The flat stone that finishes a wall, and the project that finishes a degree.
-  uses:
-    - capstone-project platform
-    - dry-stone waller
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-anem.one:
-  category: flowers
-  tagline: The windflower, which opens in early spring.
-  uses:
-    - florist
-    - wind-energy co-op
-  score: 7.5
-  form: hack
-  added: 2026-11-04
-
-barit.one:
-  category: voices
-  tagline: The voice between tenor and bass.
-  uses:
-    - voice coach
-    - male choir
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-buckwh.eat:
-  category: grain
-  tagline: Not wheat at all, and free of gluten.
-  uses:
-    - crêpe stand
-    - gluten-free bakery
-  score: 8
-  form: hack
-  added: 2026-11-04
-
-sweetm.eat:
-  category: confectionery
-  tagline: The old word for a sweet, candied and kept.
-  uses:
-    - sweet shop
-    - confectioner
-  score: 7.5
-  form: hack
-  added: 2026-11-04
-
-mincem.eat:
-  category: christmas
-  tagline: Fruit, suet and spice, and no meat in it.
-  uses:
-    - pie shop
-    - Christmas market
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-offb.eat:
-  category: rhythm
-  tagline: The beat between the beats.
-  uses:
-    - record shop
-    - culture newsletter
-  score: 8
-  form: hack
-  added: 2026-11-04
-
-heartb.eat:
-  category: medicine
-  tagline: The first thing a doctor listens for.
-  uses:
-    - health app
-    - cardiology clinic
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-retr.eat:
-  category: rest
-  tagline: Time away, on purpose.
-  uses:
-    - retreat centre
-    - meditation app
-  score: 7
-  form: hack
+  construction: .ing
   added: 2026-11-04
 
 firk.in:
@@ -1246,6 +1072,7 @@ firk.in:
     - ale club
   score: 8
   form: hack
+  construction: k.in
   added: 2026-11-04
 
 mandol.in:
@@ -1256,56 +1083,7 @@ mandol.in:
     - folk-music school
   score: 6.5
   form: hack
-  added: 2026-11-04
-
-may.fly:
-  category: insects
-  tagline: An insect that lives a single day once it has wings.
-  uses:
-    - pop-up shop
-    - one-day festival
-  score: 8
-  form: hack
-  added: 2026-11-04
-
-caddis.fly:
-  category: angling
-  tagline: The insect a fly fisher imitates more than any other.
-  uses:
-    - fly shop
-    - angling guide
-  score: 7.5
-  form: hack
-  added: 2026-11-04
-
-damsel.fly:
-  category: insects
-  tagline: The slim, bright cousin of the dragonfly.
-  uses:
-    - jewellery brand
-    - children's boutique
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-fire.fly:
-  category: summer night
-  tagline: Light that blinks on over a summer field.
-  uses:
-    - lighting studio
-    - kids' camp
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-worka.day:
-  category: plain days
-  tagline: Ordinary, everyday, made for work.
-  uses:
-    - workwear brand
-    - task app
-  score: 7.5
-  form: hack
+  construction: .in
   added: 2026-11-04
 
 lammas.day:
@@ -1316,36 +1094,7 @@ lammas.day:
     - harvest festival
   score: 7
   form: hack
-  added: 2026-11-04
-
-market.day:
-  category: town life
-  tagline: The day the square fills up.
-  uses:
-    - farmers' market
-    - local-food app
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-quarter.day:
-  category: old calendar
-  tagline: One of the four days a year rent fell due.
-  uses:
-    - rent-tracking app
-    - accounting firm
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-title.page:
-  category: books
-  tagline: The page that names the book and who made it.
-  uses:
-    - small press
-    - book-design studio
-  score: 7
-  form: hack
+  construction: .day
   added: 2026-11-04
 
 leathe.red:
@@ -1356,6 +1105,7 @@ leathe.red:
     - bookbinder
   score: 7
   form: hack
+  construction: .red
   added: 2026-11-04
 
 tatte.red:
@@ -1366,86 +1116,7 @@ tatte.red:
     - mending service
   score: 7
   form: hack
-  added: 2026-11-04
-
-for.bid:
-  category: auctions
-  tagline: Up for bid, and nearly forbidden.
-  uses:
-    - auction house
-    - bidding app
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-hearthst.one:
-  category: home
-  tagline: The flat stone in front of the fire.
-  uses:
-    - home-goods shop
-    - family newsletter
-  score: 7.5
-  form: hack
-  added: 2026-11-04
-
-millst.one:
-  category: milling
-  tagline: The stone that grinds the grain, and the weight round a neck.
-  uses:
-    - flour mill
-    - debt-advice service
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-gramoph.one:
-  category: records
-  tagline: The horn that played the first records.
-  uses:
-    - record shop
-    - audio-restoration studio
-  score: 7.5
-  form: hack
-  added: 2026-11-04
-
-xyloph.one:
-  category: music
-  tagline: Wooden bars and two small hammers.
-  uses:
-    - children's music class
-    - toy maker
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-wishb.one:
-  category: luck
-  tagline: The bone two people pull for a wish.
-  uses:
-    - gift registry
-    - wish-list app
-  score: 7.5
-  form: hack
-  added: 2026-11-04
-
-pinec.one:
-  category: woodland
-  tagline: A seed case that opens when it is dry.
-  uses:
-    - forest school
-    - kindling seller
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-nutm.eat:
-  category: spice
-  tagline: The seed grated over custard and eggnog.
-  uses:
-    - spice merchant
-    - baking blog
-  score: 7
-  form: hack
+  construction: .red
   added: 2026-11-04
 
 colou.red:
@@ -1456,6 +1127,7 @@ colou.red:
     - design studio
   score: 7.5
   form: hack
+  construction: .red
   added: 2026-11-04
 
 potte.red:
@@ -1466,6 +1138,7 @@ potte.red:
     - garden shop
   score: 7
   form: hack
+  construction: .red
   added: 2026-11-04
 
 harbou.red:
@@ -1476,6 +1149,7 @@ harbou.red:
     - refuge charity
   score: 7
   form: hack
+  construction: .red
   added: 2026-11-04
 
 seasone.red:
@@ -1486,6 +1160,7 @@ seasone.red:
     - timber merchant
   score: 6.5
   form: hack
+  construction: .red
   added: 2026-11-04
 
 pewte.red:
@@ -1496,6 +1171,7 @@ pewte.red:
     - antiques dealer
   score: 6
   form: hack
+  construction: .red
   added: 2026-11-04
 
 coppe.red:
@@ -1506,6 +1182,7 @@ coppe.red:
     - hair salon
   score: 6.5
   form: hack
+  construction: .red
   added: 2026-11-04
 
 timbe.red:
@@ -1516,6 +1193,7 @@ timbe.red:
     - cabin rental
   score: 7
   form: hack
+  construction: .red
   added: 2026-11-04
 
 ladde.red:
@@ -1526,6 +1204,7 @@ ladde.red:
     - mending service
   score: 6
   form: hack
+  construction: .red
   added: 2026-11-04
 
 parchm.in:
@@ -1536,6 +1215,7 @@ parchm.in:
     - archive service
   score: 7
   form: hack
+  construction: .in
   added: 2026-11-04
 
 kilderk.in:
@@ -1546,56 +1226,7 @@ kilderk.in:
     - beer festival
   score: 6.5
   form: hack
-  added: 2026-11-04
-
-stone.fly:
-  category: angling
-  tagline: The insect that crawls out of a cold river in spring.
-  uses:
-    - fly shop
-    - river-conservation group
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-hover.fly:
-  category: insects
-  tagline: The striped fly that hangs in the air like a drone.
-  uses:
-    - drone maker
-    - pollinator-garden project
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-sweeth.art:
-  category: love
-  tagline: A term of endearment, written in art.
-  uses:
-    - valentine-card shop
-    - portrait painter
-  score: 7
-  form: hack
-  added: 2026-11-04
-
-handc.art:
-  category: markets
-  tagline: Pushed by hand to the market.
-  uses:
-    - street-food stall
-    - mobile coffee bar
-  score: 6.5
-  form: hack
-  added: 2026-11-04
-
-baking.day:
-  category: bread
-  tagline: The one day a week the oven was lit.
-  uses:
-    - baking club
-    - bread subscription
-  score: 7
-  form: hack
+  construction: k.in
   added: 2026-11-04
 
 mead.land:
@@ -1606,16 +1237,7 @@ mead.land:
     - honey farm
   score: 6.5
   form: hack
-  added: 2026-11-04
-
-slumber.land:
-  category: sleep
-  tagline: Where children are sent at eight.
-  uses:
-    - mattress shop
-    - lullaby app
-  score: 6.5
-  form: hack
+  construction: .land
   added: 2026-11-04
 
 letitproof.com:

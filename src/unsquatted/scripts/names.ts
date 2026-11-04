@@ -7,8 +7,11 @@
  *   pnpm names roll [count]             # word pairs, as the page's dice
  *
  * `check` looks each new candidate up exactly as the page does — in `.com`, or
- * in the zone a domain hack names — records a taken one in the ledger and
- * prints the rest as `free|maybe<TAB>axis<TAB>domain`. A lookup with no answer fails the run once the
+ * in the zone a domain hack names — then asks the registrar (`lib/registrar.ts`)
+ * about a name RDAP calls free, records a taken, premium or reserved one in the
+ * ledger and prints every verdict as `<verdict><TAB>axis<TAB>domain`, only
+ * `free` being pickable. `recheck` prints the listed names that are taken,
+ * unanswered, premium or reserved. A lookup with no answer fails the run once the
  * rest are done, so a partial run never passes for a complete one.
  */
 
@@ -26,11 +29,13 @@ import {
 
 import {
   appendToLedger,
+  type Candidate,
   parseCandidates,
   readLedger,
   today,
   unchecked,
 } from './lib/ledger.ts';
+import { registrarOffer } from './lib/registrar.ts';
 
 const UsageError = errorClass('UsageError');
 
@@ -53,6 +58,19 @@ async function inTurn<T>(
   await each(first);
   await sleep(PAUSE_MS);
   await inTurn(rest, each);
+}
+
+/** A name RDAP calls free, as the registrar prices it, ledgered unless sold. */
+async function priced({ axis, domain }: Candidate): Promise<string> {
+  const offer = await registrarOffer(domain);
+
+  if (offer.state === 'regular') return `free\t${axis}\t${domain}`;
+
+  const verdict = offer.state === 'premium' ? 'premium' : 'reserved';
+
+  appendToLedger({ domain, axis, verdict, checked: today() });
+
+  return `${verdict}\t${axis}\t${domain}`;
 }
 
 async function check() {
@@ -84,7 +102,11 @@ async function check() {
       unanswered.push(domain);
     } else {
       // `maybe` is DNS's hint in a zone whose registry has no RDAP: no pick.
-      say(`${verdict.state}\t${axis}\t${domain}`);
+      say(
+        verdict.state === 'free'
+          ? await priced({ axis, domain })
+          : `maybe\t${axis}\t${domain}`,
+      );
     }
   });
 
@@ -107,7 +129,14 @@ async function recheck() {
   await inTurn(LASTING_PICKS, async ({ domain }) => {
     const { state } = await checkDomain(domain);
 
-    if (state === 'taken' || state === 'unknown') say(`${state}\t${domain}`);
+    if (state === 'taken' || state === 'unknown') {
+      say(`${state}\t${domain}`);
+    } else if (state === 'free') {
+      const offer = await registrarOffer(domain);
+
+      if (offer.state === 'premium') say(`premium ${offer.price}\t${domain}`);
+      if (offer.state === 'unavailable') say(`reserved\t${domain}`);
+    }
   });
 }
 
