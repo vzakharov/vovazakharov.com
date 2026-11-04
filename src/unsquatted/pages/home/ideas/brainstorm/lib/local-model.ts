@@ -1,71 +1,24 @@
 /// <reference types="@webgpu/types" />
-import type { Dtype, Reply, Request, Settlement } from './protocol';
+import type * as EngineModule from './engine';
+import type { Dtype } from './engine';
 
-/** A request without its `id`, which `ask` assigns. */
-type Asked = Request extends infer R
-  ? R extends Request
-    ? Omit<R, 'id'>
-    : never
-  : never;
+type Engine = typeof EngineModule;
 
-type Listening = { onProgress?: (fraction: number) => void };
-
-type Pending = Listening & { settle: (settlement: Settlement) => void };
-
-let worker: Worker | undefined;
-let lastId = 0;
-const pending = new Map<number, Pending>();
+let engine: Promise<Engine> | undefined;
 
 /**
- * The worker, started on first use, so a visitor who never opts in never
- * loads the model's code.
+ * The engine, imported on first use, so a visitor who never opts in never
+ * loads the model's code. It runs on the page's thread: the bundler emits a
+ * `new Worker(new URL(…))` file unbundled, and WebGPU does the heavy work
+ * off the thread anyway.
  */
-function started(): Worker {
-  if (worker) return worker;
-
-  worker = new Worker(new URL('./model.worker.ts', import.meta.url), {
-    type: 'module',
-  });
-  worker.addEventListener('message', ({ data: reply }: MessageEvent<Reply>) => {
-    const waiting = pending.get(reply.id);
-
-    if (reply.kind === 'progress') {
-      waiting?.onProgress?.(reply.fraction);
-      return;
-    }
-    pending.delete(reply.id);
-    waiting?.settle(reply);
+async function started(): Promise<Engine> {
+  engine ??= import('./engine').catch((error: unknown) => {
+    engine = undefined;
+    throw error;
   });
 
-  return worker;
-}
-
-/** Sends `request` and waits for its settlement; `failed` rejects. */
-async function ask(
-  request: Asked,
-  { signal, onProgress }: Listening & { signal?: AbortSignal } = {},
-): Promise<Settlement> {
-  const id = ++lastId;
-  const target = started();
-  const send = (message: Request) => {
-    target.postMessage(message, { transfer: [] });
-  };
-
-  return new Promise((resolve, reject) => {
-    signal?.addEventListener('abort', () => {
-      pending.delete(id);
-      send({ id, kind: 'stop' });
-      reject(new Error('Aborted.', { cause: signal.reason }));
-    });
-    pending.set(id, {
-      settle: (settlement) => {
-        if (settlement.kind === 'failed') reject(new Error(settlement.message));
-        else resolve(settlement);
-      },
-      onProgress,
-    });
-    send({ ...request, id });
-  });
+  return engine;
 }
 
 let dtype: Promise<Dtype | undefined> | undefined;
@@ -100,12 +53,9 @@ async function knownDtype(): Promise<Dtype> {
  * and loading them again is a download the visitor has to agree to.
  */
 export async function modelCached(): Promise<boolean> {
-  const settlement = await ask({ kind: 'cached', dtype: await knownDtype() });
+  const { weightsCached } = await started();
 
-  if (settlement.kind !== 'cached')
-    throw new Error(`Expected cached, got ${settlement.kind}.`);
-
-  return settlement.cached;
+  return weightsCached(await knownDtype());
 }
 
 let loading: Promise<void> | undefined;
@@ -119,7 +69,9 @@ export async function startModel(
   onProgress?: (fraction: number) => void,
 ): Promise<void> {
   loading ??= (async () => {
-    await ask({ kind: 'load', dtype: await knownDtype() }, { onProgress });
+    const { load } = await started();
+
+    await load(await knownDtype(), onProgress);
   })().catch((error: unknown) => {
     loading = undefined;
     throw error;
@@ -128,25 +80,42 @@ export async function startModel(
   return loading;
 }
 
-/** Variations of `label`; aborting stops the generation. */
+/** Generations run one at a time, in the order asked. */
+let queue: Promise<unknown> = Promise.resolve();
+
+/**
+ * Variations of `label`. Aborting while it waits its turn drops it; aborting
+ * while it generates stops the generation.
+ */
 export async function suggest(
   label: string,
   signal: AbortSignal,
 ): Promise<string[]> {
   await startModel();
-  const settlement = await ask({ kind: 'suggest', label }, { signal });
+  const { generate, stop } = await started();
+  const turn = queue.then(async () => {
+    signal.throwIfAborted();
+    signal.addEventListener('abort', stop, { once: true });
+    try {
+      const names = await generate(label);
 
-  if (settlement.kind !== 'ideas')
-    throw new Error(`Expected ideas, got ${settlement.kind}.`);
+      signal.throwIfAborted();
 
-  return settlement.names;
+      return names;
+    } finally {
+      signal.removeEventListener('abort', stop);
+    }
+  });
+
+  queue = Promise.allSettled([turn]);
+
+  return turn;
 }
 
-/** Deletes the weights from the browser's cache and stops the worker. */
+/** Deletes the weights from the browser's cache and drops the model. */
 export async function forgetModel(): Promise<void> {
-  await ask({ kind: 'clear', dtype: await knownDtype() });
-  worker?.terminate();
-  worker = undefined;
+  const { clear } = await started();
+
   loading = undefined;
-  pending.clear();
+  await clear(await knownDtype());
 }
