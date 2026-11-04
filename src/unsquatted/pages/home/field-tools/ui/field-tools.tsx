@@ -34,7 +34,12 @@ type Reached = { onReached: () => void; looking: boolean };
 type Sharing = WithCopy & Reached;
 
 /** `label` and `zone` are the name the field holds, as the checker read it. */
-type FieldToolsProps = Sharing & TypedName & CardSiblings;
+type FieldToolsProps = Sharing &
+  TypedName &
+  CardSiblings & {
+    /** The domains the checker has on screen, the only ones a free card may lead with. */
+    shown: readonly string[];
+  };
 
 type Copy = WithCopy['copy'];
 
@@ -256,6 +261,7 @@ export function FieldTools({
   label,
   zone,
   siblings,
+  shown,
   verdicts,
   prices,
   onReached,
@@ -267,7 +273,9 @@ export function FieldTools({
   const isOn = own !== undefined;
   const typedDomain = zone === undefined ? undefined : `${label}.${zone}`;
   const preferred = own === undefined ? undefined : preferredOf(own);
-  const shared = cardLead([typedDomain, preferred, ...siblings], { verdicts });
+  const shared = cardLead([typedDomain, preferred, ...siblings], shown, {
+    verdicts,
+  });
 
   return (
     <>

@@ -12,10 +12,10 @@ as a real image, so the browser's own copy and save reach it where the
 clipboard API does not. Each copy reads "Copied ✓" and closes the
 popover; the toast is gone.
 
-A name with no domain free still gets a card, listing its top three
-taken domains with the years they were registered: being taken
-everywhere may be exactly why someone shares it. Free domains still
-lead whenever the name has any.
+A name with no domain free among the rows on screen gets a card
+listing its top three taken domains with the years they were
+registered: being taken everywhere may be exactly why someone shares
+it, and a free domain in a zone nobody opened would not say so.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

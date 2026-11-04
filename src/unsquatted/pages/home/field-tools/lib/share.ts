@@ -77,19 +77,26 @@ function row(
 }
 
 /**
- * The domain a card leads with: the first of `leads` free or may be, else the
- * first taken — so a name taken everywhere still has a card. None while no
+ * The domain a card leads with: the first of `leads` on screen (`shown`) free
+ * or may be, else the first taken — so a name taken everywhere the visitor
+ * looked still has a card, whatever an unopened row would say. None while no
  * lookup of them has said either.
  */
 export function cardLead(
   leads: ReadonlyArray<string | undefined>,
+  shown: readonly string[],
   { verdicts }: WithVerdicts,
 ): string | undefined {
   const known = leads.filter((domain) => domain !== undefined);
-  const first = (kind: Kind) =>
-    known.find((domain) => kindOf(verdicts.get(domain)) === kind);
+  const first = (kind: Kind, among: readonly string[]) =>
+    among.find((domain) => kindOf(verdicts.get(domain)) === kind);
 
-  return first('registrable') ?? first('taken');
+  return (
+    first(
+      'registrable',
+      known.filter((domain) => shown.includes(domain)),
+    ) ?? first('taken', known)
+  );
 }
 
 /**

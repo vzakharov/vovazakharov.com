@@ -151,22 +151,28 @@ describe('cardRows', () => {
 });
 
 describe('cardLead', () => {
+  const ALL = ['foxedpage.com', 'foxed.page', 'foxedpage.net'];
+
   it('takes the first lead free or may be over an earlier taken one', () => {
     assert.equal(
-      cardLead(['foxedpage.com', undefined, 'foxed.page', 'foxedpage.net'], {
-        verdicts: verdicts({
-          'foxedpage.com': 'taken',
-          'foxed.page': 'maybe',
-          'foxedpage.net': 'free',
-        }),
-      }),
+      cardLead(
+        ['foxedpage.com', undefined, 'foxed.page', 'foxedpage.net'],
+        ALL,
+        {
+          verdicts: verdicts({
+            'foxedpage.com': 'taken',
+            'foxed.page': 'maybe',
+            'foxedpage.net': 'free',
+          }),
+        },
+      ),
       'foxed.page',
     );
   });
 
   it('falls back to the first taken lead where none is registrable', () => {
     assert.equal(
-      cardLead([undefined, 'foxedpage.com', 'foxedpage.net'], {
+      cardLead([undefined, 'foxedpage.com', 'foxedpage.net'], ALL, {
         verdicts: verdicts({
           'foxedpage.com': 'unknown',
           'foxedpage.net': 'taken',
@@ -176,9 +182,21 @@ describe('cardLead', () => {
     );
   });
 
+  it('leads with a taken domain where the only free one is off screen', () => {
+    assert.equal(
+      cardLead(['foxedpage.com', 'foxedpage.fyi'], ['foxedpage.com'], {
+        verdicts: verdicts({
+          'foxedpage.com': 'taken',
+          'foxedpage.fyi': 'maybe',
+        }),
+      }),
+      'foxedpage.com',
+    );
+  });
+
   it('has none while no lead has a verdict', () => {
     assert.equal(
-      cardLead(['foxedpage.com'], {
+      cardLead(['foxedpage.com'], ALL, {
         verdicts: verdicts({ 'foxedpage.com': 'unknown' }),
       }),
       undefined,

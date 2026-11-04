@@ -148,6 +148,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
               onReached={() => {
                 setWanted(true);
               }}
+              shown={siblings.slice(0, open ? undefined : CLOSED_ROWS)}
               {...{ label, zone, siblings, verdicts, prices, looking, copy }}
             />
           </span>
