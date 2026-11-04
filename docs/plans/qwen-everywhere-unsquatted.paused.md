@@ -43,9 +43,16 @@ operator's call «только qwen, чтобы не поддерживать д
    unblock URL exists only after a blocked push, so either push protection goes
    off there or the operator opens the URL from the failed deploy's log and
    re-runs the job.
-1. The operator picks a progress variant; the other two and the `LoadingVariant`
-   switch go.
-2. A real-browser walk on preview: the operator tests on Chrome and Arc.
+1. Settled by relays 5–7: the lightbulb's ring is the progress (no
+   `LoadingVariant` left to pick); it turns on the compositor (7844da54); a
+   generation outlives a label change and a press for another label replaces it
+   (f8d6bd76); an empty answer shows the shrug line (66355fa6).
+2. A real-browser walk on preview: the operator tests on Chrome and Arc. The
+   ring is confirmed smooth there; f8d6bd76's behaviour is published, unchecked.
+   2a. `pnpm type-overlap` fails on five groups the branch introduced (two props
+   types in `ideas-line.tsx`/`ideas-offer.tsx`, and `RingTarget`/`RingMove`/
+   `Ideas` members against `Timed`, `Hushing`, `Ramped`, `HaloLayer`); vet will
+   stop on them.
 3. Retune the prompt if real WebGPU output calls for it.
 4. `/polish`, then `/pr` refresh: title (still "from Chrome's built-in model"),
    body and squash proposal describe the Chrome flow.
