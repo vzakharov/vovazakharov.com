@@ -72,7 +72,12 @@ tone bite 1 settled. Each post's `date` is a day or two before its occasion, so
 the embargo releases it while the occasion is still ahead. Then `/finalize`, and
 a merge by 10.11.
 
-## This bite
+## Eaten so far
+
+Nothing is built yet. The plan was approved and claimed, then released before
+any source edit, because the planning session's context could not hold bite 1.
+
+## Rest of the bite
 
 ### 1. unsquatted becomes a blog
 
