@@ -2,21 +2,24 @@ Proposed squash body:
 
 ```
 unsquatted.com's list of free names had grown to a hundred files of
-frontmatter, its last ninety blurbs all in one shape ("X y. A z or a
-w.") and nearly every name a two-word compound.
+frontmatter, nearly every name a two-word compound, and some names it
+called free were registry premiums at hundreds of dollars a year.
 
-The list is now one YAML catalogue keyed by domain, beside the loader
-that parses it, so a duplicate is a parse error. Blurbs that read
-better in another shape are recast, and a hundred names in other forms
-join it: rare words, dropped letters, coinages and domain hacks, which
-the naming script now checks in any zone the page can verify. The
-runbook spreads a run across forms and blurb shapes as it already
-spreads across axes.
+The list is now one YAML catalogue keyed by domain, 210 names strong.
+Each entry states its form (compound, phrase, word, respelling,
+coinage or domain hack), and its blurb is composed from a tagline and
+a short list of uses, so every one reads "Tagline. A x or a y." The
+runbook spreads a run across forms as it already does across axes.
 
-On the page, Copy as image lists free domains under the fold too, since
-opening the share menu looks them up as pointing at "more zones" does;
-its receipt is larger and stays longer; and Shortlist → Edit puts the
-caret in the textarea.
+The naming script checks a hack in any zone the page can verify, and
+asks the registrar's keyed price check about every name RDAP calls
+free, sending premium and reserved ones to the ledger. Each hack names
+its pattern (`*st.one`), and the social card shows one per pattern.
+
+On the page, Copy as image lists free domains under the fold too,
+since reaching for the share button looks them up; its receipt is
+larger and stays longer; and Shortlist → Edit puts the caret in the
+textarea.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
