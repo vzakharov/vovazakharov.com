@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 63,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 112550,
+    "cacheReadTokens": 4330304,
+    "outputTokens": 13536,
+    "thinkingTokens": 2484,
+    "responses": 32,
+    "costUsd": 2.0374328
+  },
+  "estimate": {
+    "at": "2026-11-04T13:05:58.582Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "render-check the taken card's handwritten footer and settle the optional phone Share… button"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T13:05:56.033Z",
+    "contextTokens": 112581,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50080,
+      "cacheReadTokens": 469906,
+      "outputTokens": 769,
+      "thinkingTokens": 34,
+      "responses": 5,
+      "costUsd": 0.5100492000000001
+    }
+  },
+  "sessionId": "e6912432-556d-5fe5-84e3-d94578301972",
+  "branch": "claude/unsquatted-share-popover-64vlb6",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-share-popover-64vlb6 — PR открыт, подвал от руки на занятой карточке запушен, но вживую ещё не проверен",
+  "prs": [
+    248
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDLDRgbyc3cZFB9iJW",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T13:05:42.691Z",
+  "lastResponseAt": "2026-11-04T13:18:41.017Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 63,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 112550,
+    "cacheReadTokens": 4330304,
+    "outputTokens": 13536,
+    "thinkingTokens": 2484,
+    "responses": 32,
+    "costUsd": 2.0374328
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 63,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 112550,
+      "cacheReadTokens": 4330304,
+      "outputTokens": 13536,
+      "thinkingTokens": 2484,
+      "responses": 32,
+      "costUsd": 2.0374328
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 32,
+    "matched": 32,
+    "matchedTableUsd": 2.0374328,
+    "matchedEventUsd": 2.0374328,
+    "unseen": {}
+  }
+}
