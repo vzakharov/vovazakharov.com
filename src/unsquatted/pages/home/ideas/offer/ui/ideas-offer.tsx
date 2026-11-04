@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionIcon, UnstyledButton } from '@mantine/core';
+import { ActionIcon } from '@mantine/core';
 import { Lightbulb } from 'lucide-react';
 import { useState } from 'react';
 
@@ -9,65 +9,71 @@ import type { Ideas } from '../lib/use-ideas';
 import classes from './ideas.module.scss';
 import { IdeasModal } from './ideas-modal';
 
-/**
- * The line as it stands and three placements less crowded on a phone, which
- * the operator picks from; the rest go once one is.
- */
-export type OfferVariant = 'line' | 'below' | 'icon' | 'field';
-
 type IdeasOfferProps = WithCopy & {
   ideas: Ideas;
-  variant: OfferVariant;
-  /** The tool buttons' class, for the `icon` variant. */
-  toolClassName?: string;
+  /** The tool buttons' class, which the button takes to sit among them. */
+  className: string | undefined;
 };
 
+/** The ring's radius in the 36-unit box it is drawn in. */
+const RADIUS = 16;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
 /**
- * The offer to brainstorm and its dialog, until the visitor opts in or waves
- * it off. The trigger hides while the download runs; the dialog stays, since
- * it shows the download's progress.
+ * The offer to brainstorm, a lightbulb among the field's tool buttons, and its
+ * dialog, until the visitor opts in or waves it off. While the download runs,
+ * a ring round the bulb fills with it, and the button reopens the dialog,
+ * which shows the percentage and offers to stop.
  */
 export function IdeasOffer({
   ideas: { available, optedIn, turnOn, stop, dismiss, downloading, failed },
-  variant,
-  toolClassName,
+  className,
   copy,
 }: IdeasOfferProps) {
   const [opened, setOpened] = useState(false);
 
   if (!available || optedIn) return;
 
-  const open = () => {
-    setOpened(true);
-  };
+  const label =
+    downloading === undefined
+      ? copy.ideas.offer
+      : copy.ideas.loading.replace(
+          '{percent}',
+          String(Math.round(downloading * 100)),
+        );
 
   return (
     <>
-      {downloading === undefined &&
-        (variant === 'line' || variant === 'below' ? (
-          <UnstyledButton
-            className={classes['offer']}
-            data-variant={variant}
-            onClick={open}
-          >
-            {variant === 'below' && (
-              <Lightbulb className={classes['bulb']} aria-hidden />
-            )}
-            {copy.ideas.offer}
-          </UnstyledButton>
-        ) : (
-          <ActionIcon
-            variant={variant === 'icon' ? 'default' : 'subtle'}
-            color="gray"
-            className={variant === 'icon' ? toolClassName : undefined}
-            size={variant === 'icon' ? 42 : 28}
-            aria-label={copy.ideas.offer}
-            title={copy.ideas.offer}
-            onClick={open}
-          >
-            <Lightbulb size={variant === 'icon' ? 20 : 18} />
-          </ActionIcon>
-        ))}
+      <ActionIcon
+        variant="default"
+        size={42}
+        aria-label={label}
+        title={label}
+        onClick={() => {
+          setOpened(true);
+        }}
+        {...{ className }}
+      >
+        <Lightbulb size={20} />
+        {downloading !== undefined && (
+          <svg className={classes['ring']} viewBox="0 0 36 36" aria-hidden>
+            <circle
+              className={classes['ringTrack']}
+              cx={18}
+              cy={18}
+              r={RADIUS}
+            />
+            <circle
+              className={classes['ringFill']}
+              cx={18}
+              cy={18}
+              r={RADIUS}
+              strokeDasharray={CIRCUMFERENCE}
+              strokeDashoffset={CIRCUMFERENCE * (1 - downloading)}
+            />
+          </svg>
+        )}
+      </ActionIcon>
       <IdeasModal
         onClose={() => {
           setOpened(false);

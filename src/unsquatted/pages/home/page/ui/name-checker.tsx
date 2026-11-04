@@ -18,12 +18,7 @@ import {
   zoneOf,
 } from '../../checker';
 import { FieldTools, TOOL_BUTTON } from '../../field-tools';
-import {
-  IdeasLine,
-  IdeasOffer,
-  type OfferVariant,
-  useIdeas,
-} from '../../ideas';
+import { IdeasLine, IdeasOffer, useIdeas } from '../../ideas';
 import { useVerdicts } from '../../verdict';
 import {
   type CopiedPrice,
@@ -67,8 +62,6 @@ function ZoneRow({
  * in the stylesheet's `.zones`.
  */
 const CLOSED_ROWS = 9;
-
-const OFFER_VARIANT: OfferVariant = 'below';
 
 const checkableDomains = (rows: readonly Row[]) =>
   rows.filter(({ checkable }) => checkable).map(({ domain }) => domain);
@@ -115,24 +108,6 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
   // for the opened list or the share card, which Check did not ask for.
   const busy = (settling && typed.trim() !== '') || showing;
   const ideas = useIdeas(label);
-  const offer = (variant: OfferVariant) =>
-    label !== '' &&
-    OFFER_VARIANT === variant && (
-      <IdeasOffer toolClassName={TOOL_BUTTON} {...{ ideas, variant, copy }} />
-    );
-  const clearButton =
-    typed === '' ? undefined : (
-      <CloseButton
-        aria-label={copy.clear}
-        title={copy.clear}
-        // Pressed, it would take the caret from the field it clears.
-        onMouseDown={(event) => {
-          event.preventDefault();
-        }}
-        onClick={clear}
-      />
-    );
-  const inField = label !== '' && OFFER_VARIANT === 'field';
 
   return (
     <>
@@ -155,16 +130,18 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
             type(event.currentTarget.value);
           }}
           rightSection={
-            inField ? (
-              <span className={classes['fieldSection']}>
-                {offer('field')}
-                {clearButton}
-              </span>
-            ) : (
-              clearButton
+            typed === '' ? undefined : (
+              <CloseButton
+                aria-label={copy.clear}
+                title={copy.clear}
+                // Pressed, it would take the caret from the field it clears.
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                }}
+                onClick={clear}
+              />
             )
           }
-          rightSectionWidth={inField ? 72 : undefined}
           classNames={{ root: classes['fieldInput'], input: classes['input'] }}
         />
         {label !== '' && (
@@ -177,7 +154,9 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
             />
           </span>
         )}
-        {offer('icon')}
+        {label !== '' && (
+          <IdeasOffer className={TOOL_BUTTON} {...{ ideas, copy }} />
+        )}
         <ActionIcon
           type="button"
           variant="default"
@@ -207,7 +186,6 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           {copy.checkButton}
         </Button>
       </form>
-      {offer('line')}
       {label !== '' && <IdeasLine onPick={checkHere} {...{ ideas, copy }} />}
       {rows.length > 0 && (
         <ul className={classes['zones']} data-open={open} aria-live="polite">
@@ -224,23 +202,20 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
         </ul>
       )}
       {rows.length > 0 && (
-        <div className={classes['belowZones']}>
-          <UnstyledButton
-            className={classes['moreZones']}
-            onPointerEnter={() => {
-              setWanted(true);
-            }}
-            onFocus={() => {
-              setWanted(true);
-            }}
-            onClick={() => {
-              setOpen(!open);
-            }}
-          >
-            {open ? copy.fewerZones : copy.moreZones}
-          </UnstyledButton>
-          {offer('below')}
-        </div>
+        <UnstyledButton
+          className={classes['moreZones']}
+          onPointerEnter={() => {
+            setWanted(true);
+          }}
+          onFocus={() => {
+            setWanted(true);
+          }}
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          {open ? copy.fewerZones : copy.moreZones}
+        </UnstyledButton>
       )}
     </>
   );

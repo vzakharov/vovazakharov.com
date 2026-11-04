@@ -6,9 +6,6 @@ import { Lightbulb } from 'lucide-react';
 import type { WithCopy } from '../../../checker';
 import type { Ideas } from '../lib/use-ideas';
 import classes from './ideas.module.scss';
-import { LoadingLine, type LoadingVariant } from './loading-line';
-
-const LOADING_VARIANT: LoadingVariant = 'bar';
 
 type IdeasLineProps = WithCopy & {
   ideas: Ideas;
@@ -17,28 +14,15 @@ type IdeasLineProps = WithCopy & {
 };
 
 /**
- * The line under the field: the download's progress once the visitor turns
- * the model on, then the variations of every name looked up. Nothing before
- * that, the offer being `IdeasOffer`'s.
+ * The line under the field once the visitor has opted in: the variations of
+ * every name looked up. Nothing before that, the offer being `IdeasOffer`'s.
  */
 export function IdeasLine({
-  ideas: { available, optedIn, stop, downloading, names },
+  ideas: { available, optedIn, names },
   onPick,
   copy,
 }: IdeasLineProps) {
-  if (!available) return;
-
-  if (!optedIn)
-    return (
-      downloading !== undefined && (
-        <LoadingLine
-          fraction={downloading}
-          variant={LOADING_VARIANT}
-          onStop={stop}
-          {...{ copy }}
-        />
-      )
-    );
+  if (!available || !optedIn) return;
 
   if (names === undefined)
     return (

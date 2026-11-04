@@ -27,7 +27,7 @@
     "dontShow": "Don’t show again",
     "close": "Close",
     "stop": "Stop download",
-    "downloading": "Downloading the model: {percent}%. You can close this window: the download carries on, its progress shows under the search field, and variations start once it’s ready. Or stop it, and the files already downloaded wait for next time.",
+    "downloading": "Downloading the model: {percent}%. You can close this window: the download carries on, its progress fills the ring round the lightbulb by the search field, and variations start once it’s ready. Or stop it, and the files already downloaded wait for next time.",
     "loading": "Downloading the model for variations: {percent}%",
     "failed": "The model couldn’t start. Try again later?"
   },
