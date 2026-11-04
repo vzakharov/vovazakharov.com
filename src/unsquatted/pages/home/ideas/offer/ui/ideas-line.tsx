@@ -19,7 +19,8 @@ type IdeasLineProps = WithCopy & {
 
 /**
  * The line by the field: the variations the lightbulb last brainstormed,
- * kept while the visitor picks among them. While it thinks, its ring says so.
+ * kept while the visitor picks among them, or a shrug when it found none.
+ * While it thinks, its ring says so.
  */
 export function IdeasLine({
   ideas: { available, optedIn, names },
@@ -27,13 +28,15 @@ export function IdeasLine({
   className,
   copy,
 }: IdeasLineProps) {
-  if (!available || !optedIn || names === undefined || names.length === 0)
-    return;
+  if (!available || !optedIn || names === undefined) return;
 
   return (
     <p className={cx(classes['line'], className)} aria-live="polite">
       <Lightbulb className={classes['bulb']} aria-hidden />
-      <span className={classes['unseen']}>{copy.ideas.lead}</span>
+      {names.length === 0 && copy.ideas.none}
+      {names.length > 0 && (
+        <span className={classes['unseen']}>{copy.ideas.lead}</span>
+      )}
       {names.map((name, index) => (
         <span key={name}>
           {index > 0 && ' · '}
