@@ -60,7 +60,6 @@ export function PickDeck({ heading, picks, prices, copy }: PickDeckProps) {
     () => (drawn ??= draw(picks, SHOWN, Math.random)),
     () => UNDRAWN,
   );
-  const headRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   /**
    * The rows' places before a draw lands; an empty map at first, so the first
@@ -82,24 +81,11 @@ export function PickDeck({ heading, picks, prices, copy }: PickDeckProps) {
       leave(listRef.current, new Set(next.map(({ domain }) => domain)));
     }
     show(next);
-    backToTop();
-  }
-
-  /** From a stuck heading, the new ten are read from their first row. */
-  function backToTop() {
-    const head = headRef.current?.getBoundingClientRect();
-    const list = listRef.current?.getBoundingClientRect();
-    if (head === undefined || list === undefined || list.top >= head.bottom)
-      return;
-    scrollBy({
-      top: list.top - head.bottom,
-      behavior: prefersStillness() ? 'instant' : 'smooth',
-    });
   }
 
   return (
     <>
-      <div ref={headRef} className={classes['listHead']}>
+      <div className={classes['listHead']}>
         {heading}
         <ActionIcon
           variant="subtle"
