@@ -52,7 +52,8 @@ the five-percent review); PR still draft.
 > формулировка подсказки мне кстати все равно не нравится -- тяжеловесная
 
 **Agent:** shortened to "Your browser checks names directly, so we never see
-them and can't steal them." (`92ff167`), republished.
+them and can't steal them." (`92ff167`), republished. (verbatim in Last agent
+turn)
 
 **Operator:** «покомментил»
 
@@ -61,7 +62,13 @@ has no `.in` beside `mudlark.ing`) → score 8→7, card re-rendered, now
 `letitproof.com`; T04 (runbook: read `picks.yaml` by command or line range,
 never whole) → paragraph in `RUNBOOK.md`; both `8924856`, replied. Recorded
 the five-percent verdict (0.2) and replied on its thread. T01 not done — the
-context budget. (verbatim in Last agent turn)
+context budget.
+
+**Operator (mid-turn):** «а давай знаешь что, чтобы на карточке были домены
+разных подходов»
+
+**Agent (this relay's turn):** `variedPicks` now takes one name per `form`;
+card re-rendered (`b949d83`), preview republished; then relayed.
 
 ## 3. Intent
 
@@ -75,6 +82,8 @@ come. No finalize until asked.
   can't steal them." — no list of who the browser asks.
 - A redraw from the stuck heading does not scroll.
 - `firk.in` at score 7.
+- The social card (`variedPicks`) shows one name per `form`, not per hack
+  pattern: foxedpage.com, mudlark.ing, letitproof.com, physickgarden.com.
 
 ## 5. Errors and dead ends
 
@@ -85,17 +94,18 @@ come. No finalize until asked.
 ## 6. State
 
 - Branch `claude/unsquatted-catalogue-and-fixes-4mocr0`, draft PR
-  https://github.com/vzakharov/vovazakharov.com/pull/244, head `8924856`
+  https://github.com/vzakharov/vovazakharov.com/pull/244, head `b949d83`
   (this file follows it). Mergeable/CLEAN at session start; `main` not merged.
 - Plan: `docs/plans/unsquatted-catalogue-and-fixes.completed.md`.
-- Preview: a publish of `8924856` was dispatched (run 41772881892); confirm
+- Preview: a publish of `b949d83` was dispatched (run 41772987691); confirm
   with
   `gh api "repos/vzakharov/preview.vovazakharov.com/commits?sha=gh-pages&per_page=1" --jq '.[0].commit.message'`
   and `gh api repos/vzakharov/preview.vovazakharov.com/pages/builds/latest --jq .status`.
   Republish after each visible change.
 - `docs/pr/244/pr.md` export committed this session; vet never ran to the end.
 - PR body is current up to `92ff167`; it does not yet mention the `firk.in`
-  score or the runbook paragraph.
+  score, the runbook paragraph or the card's one-per-form rule (its
+  `og-card` QA row still says "no two sharing a pattern").
 - Estimate: this session 1 h middle developer + 0.5 h senior copywriter. Rest
   handed on: ~1.5 h middle developer for T01.
 
@@ -120,4 +130,18 @@ the clipboard a `Promise<Blob>` (`ClipboardItem` accepts one; `useCopied`
 gains a branch for it) that draws the card once the hidden-zone lookups
 started by reaching the share button have settled, so a fast tap still lists
 them. Preview it, republish, reply on the thread with the SHA, refresh the PR
-body (add `firk.in`/runbook too). Then wait for the operator — no finalize.
+body (add `firk.in`, the runbook and the card's one-per-form rule too). Then wait for the operator — no finalize.
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Ты прав: про DNS в подсказке писать незачем, к нам всё равно ничего не попадает. Новая строка короче и называет только это:
+
+> Your browser checks names directly, so we never see them and can't steal them. Oh, and we're open-source.
+
+Слово «directly» подходит и для реестров, и для dns.google, поэтому перечислять их не нужно. Коммит `92ff167` лежит на https://preview.vovazakharov.com, сборка `built`. Описание PR обновил.
+```
