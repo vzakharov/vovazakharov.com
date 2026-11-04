@@ -63,10 +63,10 @@ and goes elsewhere on purpose — the Clerk's method
   toward whichever the list holds least of
   (`grep -h '^  form:' src/unsquatted/pages/home/deck/model/picks.yaml | sort | uniq -c`).
 
-**`picks.yaml` is read by command or by line range, never whole**: at two
-hundred entries and over a thousand lines it fills a session's context and
-anchors the brainstorm on what is already there. `grep` the field wanted, as
-above, or `Read` an entry's lines once `grep -n '^<domain>:'` has found it.
+**`picks.yaml` is read by command or by line range, never whole**: at over a
+thousand lines it fills a session's context and anchors the brainstorm on what
+is already there. `grep` the field wanted, as above, or `Read` an entry's lines
+once `grep -n '^<domain>:'` has found it.
 
 ## Steps
 

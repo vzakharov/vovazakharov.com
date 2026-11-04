@@ -101,7 +101,8 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
   const showing = shownVerdicts.size < shownDomains.length;
   const looking = showing || hiddenVerdicts.size < hiddenDomains.length;
-  // The hidden rows' lookups are the visitor's reach, not their Check.
+  // Check spins for the rows on screen alone: the hidden ones are looked up
+  // for the opened list or the share card, which Check did not ask for.
   const busy = (settling && typed.trim() !== '') || showing;
 
   return (
