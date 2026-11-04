@@ -106,6 +106,9 @@ $field-own-row: 30em;
   flex-basis: 100%;
   order: 3;
 
+  // Air on top of the row's gap, so the line reads apart from the controls.
+  padding-block: 4px;
+
   @media (width < $field-own-row) {
     order: 0;
   }
