@@ -25,14 +25,18 @@ import classes from './field-tools.module.scss';
 /** The class of a square button beside the field, the dice's included. */
 export const TOOL_BUTTON = classes['tool'];
 
+/** Called once the share menu is reached for, so the card's lookups can start. */
+type Reached = { onReached: () => void };
+
 /** `label` and `zone` are the name the field holds, as the checker read it. */
-type FieldToolsProps = WithCopy & TypedName & CardSiblings;
+type FieldToolsProps = WithCopy & TypedName & CardSiblings & Reached;
 
 type Copy = WithCopy['copy'];
 
 /** `typed` is what the copied link opens on: the name as the field holds it. */
 type ShareMenuProps = WithCopy &
-  Typed & {
+  Typed &
+  Reached & {
     /** Draws the card; none while no domain of the name is known to be free. */
     drawCard: (() => File) | undefined;
   };
@@ -59,7 +63,7 @@ function Label({ children, showing }: LabelProps) {
   );
 }
 
-function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
+function ShareMenu({ typed, drawCard, onReached, copy }: ShareMenuProps) {
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<File>();
   const [from, setFrom] = useState<DOMRect>();
@@ -84,6 +88,8 @@ function ShareMenu({ typed, drawCard, copy }: ShareMenuProps) {
             className={classes['tool']}
             aria-label={copy.share}
             title={copy.share}
+            onPointerEnter={onReached}
+            onFocus={onReached}
           >
             <Share2 size={18} />
           </ActionIcon>
@@ -142,7 +148,8 @@ const cardText = (copy: Copy): CardText => ({
  * The name in the field's share and heart buttons. Both are about the name as
  * a whole: the heart likes it, with the zone typed after it as the one
  * preferred, and the card leads with that zone, else the liked one, else the
- * first the lookups say is free or may be.
+ * first the lookups say is free or may be. The card lists only domains already
+ * looked up, so reaching for the share button asks for the rest.
  */
 export function FieldTools({
   label,
@@ -150,6 +157,7 @@ export function FieldTools({
   siblings,
   verdicts,
   prices,
+  onReached,
   copy,
 }: FieldToolsProps) {
   const { likeFor } = useLikes();
@@ -183,7 +191,7 @@ export function FieldTools({
                   cardText(copy),
                 )
         }
-        {...{ copy }}
+        {...{ onReached, copy }}
       />
       <LikeButton
         variant="default"

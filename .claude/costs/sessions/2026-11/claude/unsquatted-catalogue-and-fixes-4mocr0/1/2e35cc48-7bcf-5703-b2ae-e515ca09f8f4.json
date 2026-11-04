@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 109,
+    "inputTokens": 121,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 152577,
-    "cacheReadTokens": 8325700,
-    "outputTokens": 25859,
-    "thinkingTokens": 7630,
-    "responses": 51,
-    "costUsd": 3.403372
+    "cacheWrite1hTokens": 160565,
+    "cacheReadTokens": 9776946,
+    "outputTokens": 31632,
+    "thinkingTokens": 8177,
+    "responses": 58,
+    "costUsd": 3.8730332
   },
   "estimate": {
     "at": "2026-11-04T02:17:49.815Z",
@@ -51,7 +51,7 @@
   },
   "sessionId": "2e35cc48-7bcf-5703-b2ae-e515ca09f8f4",
   "branch": "claude/unsquatted-catalogue-and-fixes-4mocr0",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/sites/unsquatted",
   "openingPrompt": "несколько правок к unsquatted: 1- копируемую картинку сделать чуть больше и держать чуть подольше 2- при edit на шортлисте фокусироваться на textarea 3- кажется…",
   "prs": [
     244
@@ -59,18 +59,18 @@
   "url": "https://claude.ai/code/session_01DaohkBDyKxW7VwXH6Xjtda",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-04T02:15:35.702Z",
-  "lastResponseAt": "2026-11-04T02:20:32.198Z",
+  "lastResponseAt": "2026-11-04T02:22:12.087Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 109,
+    "inputTokens": 121,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 152577,
-    "cacheReadTokens": 8325700,
-    "outputTokens": 25859,
-    "thinkingTokens": 7630,
-    "responses": 51,
-    "costUsd": 3.403372
+    "cacheWrite1hTokens": 160565,
+    "cacheReadTokens": 9776946,
+    "outputTokens": 31632,
+    "thinkingTokens": 8177,
+    "responses": 58,
+    "costUsd": 3.8730332
   },
   "subagents": {
     "inputTokens": 0,
@@ -84,23 +84,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 109,
+      "inputTokens": 121,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 152577,
-      "cacheReadTokens": 8325700,
-      "outputTokens": 25859,
-      "thinkingTokens": 7630,
-      "responses": 51,
-      "costUsd": 3.403372
+      "cacheWrite1hTokens": 160565,
+      "cacheReadTokens": 9776946,
+      "outputTokens": 31632,
+      "thinkingTokens": 8177,
+      "responses": 58,
+      "costUsd": 3.8730332
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 51,
-    "matched": 51,
-    "matchedTableUsd": 3.403372,
-    "matchedEventUsd": 3.403372,
+    "events": 57,
+    "matched": 57,
+    "matchedTableUsd": 3.8155788,
+    "matchedEventUsd": 3.8155788,
     "unseen": {}
   }
 }

@@ -66,9 +66,9 @@ const checkableDomains = (rows: readonly Row[]) =>
 /**
  * A name checked in the zones once typing pauses — so the words on the way to
  * the one meant cost no lookups — or at once on Check. Only the first
- * `CLOSED_ROWS` rows are looked up; the rest wait until the toggle is pointed
- * at, focused or opened, so a visitor who never reaches for it costs the
- * registries none of those lookups. On a narrower screen the closed list shows
+ * `CLOSED_ROWS` rows are looked up; the rest wait until the toggle or the
+ * share button is pointed at or focused, or the toggle opened, so a visitor who
+ * reaches for neither costs the registries none of those lookups. On a narrower screen the closed list shows
  * fewer than that, and the surplus is looked up all the same.
  */
 export function NameChecker({ copy, prices }: CopiedPrices) {
@@ -141,6 +141,9 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
         {label !== '' && (
           <span className={classes['fieldTools']}>
             <FieldTools
+              onReached={() => {
+                setWanted(true);
+              }}
               {...{ label, zone, siblings, verdicts, prices, copy }}
             />
           </span>

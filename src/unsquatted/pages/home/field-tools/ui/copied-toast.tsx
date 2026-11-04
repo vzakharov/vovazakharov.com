@@ -16,7 +16,7 @@ type CopiedToastProps = WhetherCopied & {
   from: DOMRect | undefined;
 };
 
-const TOAST_WIDTH = 200;
+const TOAST_WIDTH = 300;
 
 /**
  * The card just copied, flashed under the menu that copied it, clear of the
