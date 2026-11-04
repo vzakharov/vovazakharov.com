@@ -88,7 +88,7 @@ the only person who knew exactly what you wanted.
 You may be wondering why I didn’t just suggest `single.com`. I did look. I look
 at everything; it’s the job.
 
-::name{word=single note="The first word anyone thinks of, and so the first one anyone registered."}
+::name{word=single note="The first word anyone thinks of, which is exactly the problem."}
 
 ::name{word=solo note="Shorter, and no less spoken for."}
 
