@@ -5,7 +5,7 @@ language: ru
 project: ['Грёбаный бал']
 repo: 'yad'
 album: stronger-than-love
-track: 3
+track: 2
 seconds: 235
 mp3Bytes: 9413061
 explicit: false

@@ -5,7 +5,7 @@ language: ru
 project: [Грёбаный бал]
 repo: birdie
 album: stronger-than-love
-track: 7
+track: 1
 seconds: 207
 mp3Bytes: 8276392
 explicit: true

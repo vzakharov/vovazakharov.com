@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
-"""A blind three-way listening file: three masters of one song, taking turns.
+"""A blind N-way listening file: several masters of one song, taking turns.
 
 Usage:
-  blind-abc.py build <a> <b> <c> <out.mp3> <key.json> [--mix <mix>] [--window 5]
+  blind-abc.py build <out.mp3> <key.json> <master>... [--mix <mix>] [--window 5]
   blind-abc.py split <key.json> <out-dir> [--mix <mix>]
   blind-abc.py reveal <key.json> <sha256>
 
-`build` loudness-matches the three (each brought down to the quietest, so none
-clips), cuts them into consecutive --window-second stretches over the whole
+`build` loudness-matches the masters (each brought down to the quietest, so
+none clips), cuts them into consecutive --window-second stretches over the whole
 song, and plays them in one random order, repeating: the listener hears
-"first, second, third" without knowing which master each is. `--mix` puts the
-unmastered mix ahead of the three in every round, matched like them, so each
+"first, second, third…" without knowing which master each is. `--mix` puts the
+unmastered mix ahead of them in every round, matched like them, so each
 master is heard against where it started rather than only against the others,
 and loudness is no clue to which is the mix. It prints the
 order's sha256, which is what gets committed; the key file holds the order and
 its nonce and stays out of the commit until the verdict.
 
 `split` writes the same loudness-matched set as whole files, in the order a
-`build` key holds — `1.mp3`, `2.mp3`, `3.mp3`, and `mix.mp3` with --mix — for a
+`build` key holds — `1.mp3`, `2.mp3`…, and `mix.mp3` with --mix — for a
 player that switches between them as they play, the names saying no more than
 the positions do.
 
@@ -76,8 +76,7 @@ def played(args, order):
 
 
 def build(args):
-    masters = [args.a, args.b, args.c]
-    order = masters[:]
+    order = args.masters[:]
     secrets.SystemRandom().shuffle(order)
     nonce = secrets.token_hex(16)
 
@@ -126,8 +125,9 @@ def main():
     p = argparse.ArgumentParser()
     sub = p.add_subparsers(dest="command", required=True)
     b = sub.add_parser("build")
-    for name in ("a", "b", "c", "out", "key"):
-        b.add_argument(name)
+    b.add_argument("out")
+    b.add_argument("key")
+    b.add_argument("masters", nargs="+")
     b.add_argument("--mix")
     b.add_argument("--window", type=float, default=5.0)
     s = sub.add_parser("split")
