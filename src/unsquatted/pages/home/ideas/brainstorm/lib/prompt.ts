@@ -1,6 +1,12 @@
 /** How many variations a search shows. */
 export const IDEAS_SHOWN = 3;
 
+/** Twice the shown, so enough survive the parser's cuts. */
+const IDEAS_ASKED = 2 * IDEAS_SHOWN;
+
+/** Short enough to type, long enough to be a name. */
+export const IDEA_LENGTH = { min: 3, max: 15 };
+
 /**
  * The naming runbook's taste (`src/unsquatted/scripts/RUNBOOK.md` § "What a
  * pick is"), cut to what a small model can act on. Its first ideas are the
@@ -17,12 +23,14 @@ Good alternatives:
 Answer with lowercase letters only, no dots, no explanations.`;
 
 export const promptFor = (label: string) =>
-  `The name: ${label}\nSuggest six alternatives.`;
+  `The name: ${label}\nSuggest ${IDEAS_ASKED} alternatives.`;
 
-/** Six asked for, so the three shown survive the parser's cuts. */
 export const RESPONSE_SCHEMA = {
   type: 'array',
-  items: { type: 'string', pattern: '^[a-z]{3,15}$' },
-  minItems: 6,
-  maxItems: 6,
+  items: {
+    type: 'string',
+    pattern: `^[a-z]{${IDEA_LENGTH.min},${IDEA_LENGTH.max}}$`,
+  },
+  minItems: IDEAS_ASKED,
+  maxItems: IDEAS_ASKED,
 };
