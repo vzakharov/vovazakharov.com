@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 94,
+    "cacheWrite5mTokens": 160353,
+    "cacheWrite1hTokens": 122807,
+    "cacheReadTokens": 6230101,
+    "outputTokens": 25947,
+    "thinkingTokens": 8143,
+    "responses": 48,
+    "costUsd": 3.549557199999999
+  },
+  "estimate": {
+    "at": "2026-11-04T03:16:27.228Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "a naming run to reach 200+ needs judgement of which coinages read as brands and which tricks are worn out, across forms the list holds least of"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "previewing three routine UI fixes, running the quality passes and rewriting the PR record are routine but careful work"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T03:16:24.697Z",
+    "contextTokens": 111663,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55702,
+      "cacheReadTokens": 458231,
+      "outputTokens": 911,
+      "thinkingTokens": 31,
+      "responses": 5,
+      "costUsd": 0.5555301999999999
+    }
+  },
+  "sessionId": "395e7c8d-09fc-5091-9404-5b72999df10b",
+  "branch": "claude/unsquatted-catalogue-and-fixes-4mocr0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-catalogue-and-fixes-4mocr0 — премиумы отсеяны (197 имён), дальше — добор до 200+, затем preview, polish и обновление PR",
+  "prs": [
+    244
+  ],
+  "url": "https://claude.ai/code/session_01DaohkC3gUYw8Lg6Yop1AKH",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T03:16:08.773Z",
+  "lastResponseAt": "2026-11-04T03:24:09.562Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 59,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 122807,
+    "cacheReadTokens": 4063267,
+    "outputTokens": 16290,
+    "thinkingTokens": 4648,
+    "responses": 30,
+    "costUsd": 2.121145399999999
+  },
+  "subagents": {
+    "inputTokens": 35,
+    "cacheWrite5mTokens": 160353,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2166834,
+    "outputTokens": 9657,
+    "thinkingTokens": 3495,
+    "responses": 18,
+    "costUsd": 1.4284118
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 94,
+      "cacheWrite5mTokens": 160353,
+      "cacheWrite1hTokens": 122807,
+      "cacheReadTokens": 6230101,
+      "outputTokens": 25947,
+      "thinkingTokens": 8143,
+      "responses": 48,
+      "costUsd": 3.549557199999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 48,
+    "matched": 48,
+    "matchedTableUsd": 3.549557199999999,
+    "matchedEventUsd": 3.5495571999999993,
+    "unseen": {}
+  }
+}
