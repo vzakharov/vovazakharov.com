@@ -31,12 +31,16 @@ export function PickRow({
   return (
     <li className={classes['pick']} data-taken={taken} data-domain={domain}>
       <span className={classes['pickName']}>
-        {/* The name alone, without its zone, so the checker tries it in all. */}
+        {/*
+          A `.com` name goes in alone, so the checker tries it in every zone;
+          any other keeps its zone, which is part of the name — a hack's ends
+          the word.
+        */}
         <button
           type="button"
           className={classes['domain']}
           onClick={() => {
-            checkNow(name);
+            checkNow(zoneOf(domain) === 'com' ? name : domain);
           }}
         >
           {domain}
