@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { SITE_CONFIG, withoutScheme } from '@/kernel/shared/config';
 import { pick } from '@/kernel/shared/lib/collections';
-import type { Labeled, Typed } from '@/kernel/shared/typings';
+import type { Labeled, Typed, WithLink } from '@/kernel/shared/typings';
 
 import { useCopied } from '@/shell/shared/ui';
 
@@ -241,12 +241,12 @@ function SharePopover({
   );
 }
 
-type LinkFieldProps = WithCopy & {
-  href: string;
-  link: ReturnType<typeof useCopied>;
-  /** Given, the button shares the link rather than copying it. */
-  share: (() => void) | undefined;
-};
+type LinkFieldProps = WithCopy &
+  WithLink & {
+    link: ReturnType<typeof useCopied>;
+    /** Given, the button shares the link rather than copying it. */
+    share: (() => void) | undefined;
+  };
 
 /**
  * The link as a field, its scheme left off, beside the button that copies or

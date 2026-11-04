@@ -241,7 +241,7 @@ function drawCorrected(
 }
 
 /** The type of the file `shareCard` makes, known before the file is. */
-export const CARD_TYPE = 'image/png';
+const CARD_TYPE = 'image/png';
 
 /** The card for `name`'s `rows`, as a PNG named for the first. */
 export async function shareCard(
