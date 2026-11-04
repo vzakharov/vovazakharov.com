@@ -25,7 +25,8 @@
     "turnOn": "Turn it on",
     "notNow": "Not now",
     "close": "Close",
-    "downloading": "Downloading the model: {percent}%. You can close this window: the download carries on, its progress shows under the search field, and variations start once it’s ready.",
+    "stop": "Stop download",
+    "downloading": "Downloading the model: {percent}%. You can close this window: the download carries on, its progress shows under the search field, and variations start once it’s ready. Or stop it, and the files already downloaded wait for next time.",
     "loading": "Downloading the model for variations: {percent}%",
     "failed": "The model couldn’t start. Try again later?"
   },

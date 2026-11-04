@@ -49,6 +49,7 @@
 }
 
 .offer,
+.stop,
 .name {
   &:hover,
   &:focus-visible {
@@ -56,9 +57,16 @@
   }
 }
 
-.offer {
+.offer,
+.stop {
   text-decoration: underline dotted;
   text-underline-offset: 3px;
+}
+
+// Inline after the download's text, in its size and colour.
+.stop {
+  color: inherit;
+  font-size: inherit;
 }
 
 .name {

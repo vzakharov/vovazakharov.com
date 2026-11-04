@@ -59,6 +59,7 @@ export async function modelCached(): Promise<boolean> {
 }
 
 let loading: Promise<void> | undefined;
+let loadStopper: AbortController | undefined;
 /** The fraction loaded while a load runs, `undefined` otherwise. */
 let progress: number | undefined;
 const watchers = new Set<() => void>();
@@ -84,25 +85,46 @@ export function watchLoad(watcher: () => void): () => void {
 
 /**
  * Loads the model, downloading it the first time, while `loadProgress`
- * reports the fraction done. A failed load is forgotten, so the next call
- * tries again.
+ * reports the fraction done. A failed or stopped load is forgotten, so the
+ * next call tries again.
  */
 export async function startModel(): Promise<void> {
   loading ??= (async () => {
+    const stopper = new AbortController();
+
+    loadStopper = stopper;
     progressed(0);
     const { load } = await started();
 
-    await load(await knownDtype(), progressed);
+    try {
+      stopper.signal.throwIfAborted();
+      await load(await knownDtype(), stopper.signal, progressed);
+    } catch (error) {
+      // The library may wrap the aborted fetch's error in one of its own.
+      stopper.signal.throwIfAborted();
+      throw error;
+    }
   })()
     .catch((error: unknown) => {
       loading = undefined;
       throw error;
     })
     .finally(() => {
+      loadStopper = undefined;
       progressed(undefined);
     });
 
   return loading;
+}
+
+/** Stops the running load, whose promise then rejects as `isStopped` tells. */
+export function stopModel(): void {
+  loadStopper?.abort();
+}
+
+/** Whether `error` is the one a stopped load rejects with. */
+export function isStopped(error: unknown): boolean {
+  return error instanceof DOMException && error.name === 'AbortError';
 }
 
 /** Generations run one at a time, in the order asked. */

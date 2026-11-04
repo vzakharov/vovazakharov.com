@@ -37,20 +37,33 @@ const MAX_NEW_TOKENS = 60;
 // built with.
 if (env.backends.onnx.wasm) delete env.backends.onnx.wasm.wasmPaths;
 
+/** The running load's signal, carried by every request the library makes. */
+let downloads: AbortSignal | null = null;
+
+// The library's loaders take no signal, and every file goes through here.
+env.fetch = async (input: string | URL, init?: RequestInit) =>
+  fetch(input, { ...init, signal: downloads });
+
 type Loaded = { tokenizer: PreTrainedTokenizer; model: PreTrainedModel };
 
 let loaded: Promise<Loaded> | undefined;
 const stopping = new InterruptableStoppingCriteria();
 
-/** The model, `onProgress` hearing the fraction done while it downloads. */
+/**
+ * The model, `onProgress` hearing the fraction done while it downloads.
+ * Aborting `signal` cuts the downloads short and rejects; the files already
+ * complete stay cached, so the next load fetches only the rest.
+ */
 export async function load(
   dtype: Dtype,
+  signal: AbortSignal,
   onProgress?: (fraction: number) => void,
 ): Promise<void> {
   const progress_callback = (info: ProgressInfo) => {
     if (info.status === 'progress_total') onProgress?.(info.progress / 100);
   };
 
+  downloads = signal;
   loaded ??= Promise.all([
     AutoTokenizer.from_pretrained(MODEL),
     AutoModelForCausalLM.from_pretrained(MODEL, {
@@ -67,6 +80,9 @@ export async function load(
   );
 
   await loaded;
+  // Aborted once every file was in, the load finishes anyway; it still
+  // answers as stopped, and the next one finds the model already up.
+  signal.throwIfAborted();
 }
 
 /**

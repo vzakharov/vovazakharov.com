@@ -1,6 +1,6 @@
 'use client';
 
-import { Box } from '@mantine/core';
+import { Box, UnstyledButton } from '@mantine/core';
 import { Lightbulb } from 'lucide-react';
 
 import type { WithCopy } from '../../../checker';
@@ -13,12 +13,15 @@ type LoadingLineProps = WithCopy & {
   /** The fraction downloaded. */
   fraction: number;
   variant: LoadingVariant;
+  /** Stops the download. */
+  onStop: () => void;
 };
 
 /** The line under the field while the opt-in's download runs. */
 export function LoadingLine({
   fraction,
   variant,
+  onStop,
   copy: { ideas: copy },
 }: LoadingLineProps) {
   const percent = Math.round(fraction * 100);
@@ -40,6 +43,10 @@ export function LoadingLine({
         <Lightbulb className={classes['bulb']} data-thinking aria-hidden />
       )}
       <span className={classes['loadingText']}>{text}</span>
+      {' · '}
+      <UnstyledButton className={classes['stop']} onClick={onStop}>
+        {copy.stop}
+      </UnstyledButton>
       <progress
         className={classes[variant === 'bar' ? 'track' : 'unseen']}
         value={percent}

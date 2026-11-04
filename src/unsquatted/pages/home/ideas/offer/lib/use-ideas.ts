@@ -5,10 +5,12 @@ import { useEffect, useState, useSyncExternalStore } from 'react';
 
 import {
   forgetModel,
+  isStopped,
   loadProgress,
   modelCached,
   modelDtype,
   startModel,
+  stopModel,
   suggest,
   watchLoad,
 } from '../../brainstorm';
@@ -30,6 +32,8 @@ type Ideas = Loading & {
   optedIn: boolean;
   /** Downloads the model, opting in once it is ready. */
   turnOn: () => void;
+  /** Stops the download, leaving the visitor not opted in. */
+  stop: () => void;
   /** The variations of the label, `undefined` while the model thinks. */
   names: readonly string[] | undefined;
 };
@@ -122,11 +126,13 @@ export function useIdeas(label: string): Ideas {
           setAgreed(true);
         },
         (error: unknown) => {
+          if (isStopped(error)) return;
           reportError(error);
           setFailed(true);
         },
       );
     },
+    stop: stopModel,
     downloading: agreed ? undefined : progress,
     failed,
     names: answers.get(label),

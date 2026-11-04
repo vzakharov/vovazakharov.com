@@ -27,7 +27,7 @@ type IdeasLineProps = WithCopy &
  * run.
  */
 export function IdeasLine({ label, onPick, copy }: IdeasLineProps) {
-  const { available, optedIn, turnOn, downloading, failed, names } =
+  const { available, optedIn, turnOn, stop, downloading, failed, names } =
     useIdeas(label);
   const [opened, setOpened] = useState(false);
 
@@ -49,6 +49,7 @@ export function IdeasLine({ label, onPick, copy }: IdeasLineProps) {
           <LoadingLine
             fraction={downloading}
             variant={LOADING_VARIANT}
+            onStop={stop}
             {...{ copy }}
           />
         )}
@@ -57,6 +58,7 @@ export function IdeasLine({ label, onPick, copy }: IdeasLineProps) {
             setOpened(false);
           }}
           onTurnOn={turnOn}
+          onStop={stop}
           {...{ opened, downloading, failed, copy }}
         />
       </>
