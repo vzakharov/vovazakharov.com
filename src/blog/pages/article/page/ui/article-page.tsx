@@ -48,6 +48,9 @@ type WithSlugSegments = { slug: string[] };
 
 type Props = WithParams<WithSlugSegments>;
 
+/** The page's width with no outline beside the prose: one reading column. */
+const PROSE_MEASURE = 720;
+
 /**
  * Splits the `<slug>[.<variant>]` segment. A trailing suffix that is not a
  * known variant stays part of the slug — the same rule `parseFileName` applies
@@ -127,22 +130,33 @@ export function articleRoute<F extends ArticleFrontmatter>(
     const { route, slug, frontmatter } = document;
     const { title, readingMinutes, headings, tree } = rendered;
     const locale = document.locale ?? SITE_CONFIG.locale;
-    const { eyebrow, mark, brief, afterLead, widgets, byline } =
-      slots(document);
+    const {
+      eyebrow,
+      mark,
+      brief,
+      afterLead,
+      widgets,
+      byline,
+      masthead,
+      header,
+      outlineless = false,
+    } = slots(document);
 
     return (
       <Box className={classes['articlePage']}>
-        <Container size={1152} px={0}>
+        <Container size={outlineless ? PROSE_MEASURE : 1152} px={0}>
           <Stack gap={32}>
-            <Group component="nav" className="print-hidden">
-              <TextLink
-                href={collectionListingRoute(collection, document.locale)}
-                size="sm"
-                className={hoverDim}
-              >
-                ← {inLocale(COLLECTIONS[collection].label, locale)}
-              </TextLink>
-            </Group>
+            {masthead ?? (
+              <Group component="nav" className="print-hidden">
+                <TextLink
+                  href={collectionListingRoute(collection, document.locale)}
+                  size="sm"
+                  className={hoverDim}
+                >
+                  ← {inLocale(COLLECTIONS[collection].label, locale)}
+                </TextLink>
+              </Group>
+            )}
 
             <PrintSheet {...{ route }}>
               {/*
@@ -151,18 +165,27 @@ export function articleRoute<F extends ArticleFrontmatter>(
                 title, then the outline, then the prose; on a wide viewport the
                 outline moves into its own column beside both.
               */}
-              <Box component="article" className={classes['articleLayout']}>
+              <Box
+                component="article"
+                className={outlineless ? undefined : classes['articleLayout']}
+              >
                 <Box className={classes['articleIntro']}>
-                  <ArticleHeader
-                    {...{ document, title, readingMinutes, eyebrow, mark }}
-                    availableVariants={siblingVariants(collection, slug)}
-                  />
+                  {header ? (
+                    header({ title, readingMinutes })
+                  ) : (
+                    <ArticleHeader
+                      {...{ document, title, readingMinutes, eyebrow, mark }}
+                      availableVariants={siblingVariants(collection, slug)}
+                    />
+                  )}
                   {brief}
                 </Box>
 
-                <Box component="aside" className={classes['articleAside']}>
-                  <TableOfContents {...{ headings }} />
-                </Box>
+                {!outlineless && (
+                  <Box component="aside" className={classes['articleAside']}>
+                    <TableOfContents {...{ headings }} />
+                  </Box>
+                )}
 
                 <Box className={classes['articleBody']}>
                   <ProseContent {...{ tree, afterLead, widgets }} />

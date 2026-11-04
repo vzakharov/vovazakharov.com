@@ -1,3 +1,9 @@
+// The post's reading column, so the two pages hold the masthead alike.
+.column {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
 .eyebrow {
   margin: 0;
   color: var(--color-accent);

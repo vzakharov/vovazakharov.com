@@ -21,6 +21,17 @@
   --noted-span-color: var(--color-background);
 }
 
+// A post reads a size up from the site's UI, its sections headed in the
+// display serif as the pages' own titles are.
+:root[data-site='unsquatted'] .prose-content {
+  font-size: 1.125rem;
+  line-height: 1.65;
+
+  :where(h2, h3) {
+    font-family: var(--font-display);
+  }
+}
+
 @media screen {
   :root[data-site='unsquatted'],
   [data-unsquatted-palette] {

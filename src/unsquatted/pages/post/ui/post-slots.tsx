@@ -1,5 +1,3 @@
-import { pick } from '@/kernel/shared/lib/collections';
-
 import type {
   ArticleSlots,
   WidgetComponents,
@@ -16,9 +14,10 @@ import {
   fetchPrices,
   type Prices,
 } from '@/unsquatted/entities/domain/index.node-safe';
-import { OccasionEyebrow } from '@/unsquatted/entities/post';
+import { Masthead } from '@/unsquatted/widgets/masthead';
 
 import { checkerHref } from '../lib/checker-href';
+import { PostHeader } from './post-header';
 import { FieldHead, LabelHead, WidgetCard } from './widget-card';
 
 let pricesFetched: Promise<Prices> | undefined;
@@ -66,8 +65,13 @@ const WIDGETS: WidgetComponents = {
   name: NameWidget,
 };
 
-/** A post's additions to the article page: its occasion, and its widgets. */
-export const postSlots: ArticleSlots<PostFrontmatter> = ({ frontmatter }) => ({
-  eyebrow: <OccasionEyebrow {...pick(frontmatter, 'occasion')} />,
+/**
+ * A post on the article page: the site's masthead over it, its own header, its
+ * widgets, and no outline beside it.
+ */
+export const postSlots: ArticleSlots<PostFrontmatter> = (document) => ({
+  masthead: <Masthead inBlog />,
+  header: (headline) => <PostHeader {...headline} {...{ document }} />,
   widgets: WIDGETS,
+  outlineless: true,
 });

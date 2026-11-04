@@ -5,6 +5,7 @@ import type { MaybeBylined } from '@/kernel/shared/typings';
 import type {
   BaseFrontmatter,
   ContentDocument,
+  Headlined,
   WidgetPlaceholder,
 } from '@/blog/shared/content';
 
@@ -45,4 +46,13 @@ export type ArticleSlots<F extends BaseFrontmatter> = (
   MaybeBylined & {
     /** Under the header. */
     brief?: ReactNode;
+    /** Over the article, in place of the link back to the collection. */
+    masthead?: ReactNode;
+    /** In place of the shared header, the header slots then unread. */
+    header?: (headline: Headlined) => ReactNode;
+    /**
+     * Drops the outline beside the article, which then reads in one column at
+     * the prose's measure.
+     */
+    outlineless?: boolean;
   };

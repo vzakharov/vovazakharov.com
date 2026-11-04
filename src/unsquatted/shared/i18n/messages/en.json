@@ -79,6 +79,11 @@
     "checkOwn": "Check your own in the full checker →",
     "tryAnother": "Try another word in the checker →"
   },
+  "masthead": {
+    "checker": "checker",
+    "blog": "blog",
+    "rss": "rss"
+  },
   "blog": {
     "eyebrow": "The blog",
     "title": "Names and Dates",

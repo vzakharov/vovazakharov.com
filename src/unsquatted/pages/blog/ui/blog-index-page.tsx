@@ -13,6 +13,7 @@ import { constructMetadata } from '@/blog/shared/seo';
 import { postDomains, POSTS } from '@/unsquatted/shared/content';
 import { COPY } from '@/unsquatted/shared/i18n';
 import { OccasionStamp } from '@/unsquatted/entities/post';
+import { Masthead } from '@/unsquatted/widgets/masthead';
 
 import classes from './blog-index.module.scss';
 
@@ -53,7 +54,8 @@ export async function BlogIndexPage() {
 
   return (
     <PageShell>
-      <Stack component="main" gap={40}>
+      <Stack component="main" gap={40} className={classes['column']}>
+        <Masthead />
         <header>
           <p className={classes['eyebrow']}>{COPY.blog.eyebrow}</p>
           <h1 className={classes['title']}>{COPY.blog.title}</h1>

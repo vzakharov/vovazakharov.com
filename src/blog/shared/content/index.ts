@@ -9,6 +9,7 @@ export {
   type DocumentRef,
   documentRoute,
   FEATURED_CASE_STUDY_ROUTE,
+  feedRoutes,
   isTranslated,
   localizedRoute,
   resolveAuthoredUrl,
