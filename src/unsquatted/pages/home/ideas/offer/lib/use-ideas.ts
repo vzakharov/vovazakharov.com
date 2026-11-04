@@ -1,23 +1,35 @@
 'use client';
 
 import { useLocalStorage } from '@mantine/hooks';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 
 import {
   forgetModel,
+  loadProgress,
   modelCached,
   modelDtype,
+  startModel,
   suggest,
+  watchLoad,
 } from '../../brainstorm';
 
 const KEY = 'unsquatted.ideas';
 
-type Ideas = {
+/** Where the opt-in's download stands. */
+export type Loading = {
+  /** The fraction downloaded while the download runs. */
+  downloading: number | undefined;
+  /** The last download failed. */
+  failed: boolean;
+};
+
+type Ideas = Loading & {
   /** The model can run here: the offer may show. */
   available: boolean;
   /** The visitor agreed, so every search gets variations. */
   optedIn: boolean;
-  optIn: () => void;
+  /** Downloads the model, opting in once it is ready. */
+  turnOn: () => void;
   /** The variations of the label, `undefined` while the model thinks. */
   names: readonly string[] | undefined;
 };
@@ -41,6 +53,9 @@ export function useIdeas(label: string): Ideas {
   const [answers, setAnswers] = useState<ReadonlyMap<string, string[]>>(
     () => new Map(),
   );
+  const [failed, setFailed] = useState(false);
+  // The server render's snapshot is the same: nothing loads there.
+  const progress = useSyncExternalStore(watchLoad, loadProgress, loadProgress);
 
   useEffect(() => {
     modelDtype().then((dtype) => {
@@ -99,10 +114,21 @@ export function useIdeas(label: string): Ideas {
   return {
     available,
     optedIn: agreed,
-    optIn: () => {
-      setPresent(true);
-      setAgreed(true);
+    turnOn: () => {
+      setFailed(false);
+      startModel().then(
+        () => {
+          setPresent(true);
+          setAgreed(true);
+        },
+        (error: unknown) => {
+          reportError(error);
+          setFailed(true);
+        },
+      );
     },
+    downloading: agreed ? undefined : progress,
+    failed,
     names: answers.get(label),
   };
 }

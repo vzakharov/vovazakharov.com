@@ -10,6 +10,9 @@ import type { WithCopy } from '../../../checker';
 import { useIdeas } from '../lib/use-ideas';
 import classes from './ideas.module.scss';
 import { IdeasModal } from './ideas-modal';
+import { LoadingLine, type LoadingVariant } from './loading-line';
+
+const LOADING_VARIANT: LoadingVariant = 'bar';
 
 /** `label` is the name being looked up, `''` before any. */
 type IdeasLineProps = WithCopy &
@@ -24,7 +27,8 @@ type IdeasLineProps = WithCopy &
  * run.
  */
 export function IdeasLine({ label, onPick, copy }: IdeasLineProps) {
-  const { available, optedIn, optIn, names } = useIdeas(label);
+  const { available, optedIn, turnOn, downloading, failed, names } =
+    useIdeas(label);
   const [opened, setOpened] = useState(false);
 
   if (!available || label === '') return;
@@ -32,23 +36,28 @@ export function IdeasLine({ label, onPick, copy }: IdeasLineProps) {
   if (!optedIn)
     return (
       <>
-        <UnstyledButton
-          className={classes['offer']}
-          onClick={() => {
-            setOpened(true);
-          }}
-        >
-          {copy.ideas.offer}
-        </UnstyledButton>
+        {downloading === undefined ? (
+          <UnstyledButton
+            className={classes['offer']}
+            onClick={() => {
+              setOpened(true);
+            }}
+          >
+            {copy.ideas.offer}
+          </UnstyledButton>
+        ) : (
+          <LoadingLine
+            fraction={downloading}
+            variant={LOADING_VARIANT}
+            {...{ copy }}
+          />
+        )}
         <IdeasModal
           onClose={() => {
             setOpened(false);
           }}
-          onReady={() => {
-            setOpened(false);
-            optIn();
-          }}
-          {...{ opened, copy }}
+          onTurnOn={turnOn}
+          {...{ opened, downloading, failed, copy }}
         />
       </>
     );

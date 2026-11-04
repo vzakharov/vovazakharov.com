@@ -59,23 +59,48 @@ export async function modelCached(): Promise<boolean> {
 }
 
 let loading: Promise<void> | undefined;
+/** The fraction loaded while a load runs, `undefined` otherwise. */
+let progress: number | undefined;
+const watchers = new Set<() => void>();
+
+const progressed = (fraction: number | undefined) => {
+  progress = fraction;
+  for (const watcher of watchers) watcher();
+};
+
+/** The fraction of the model loaded so far, while a load runs. */
+export function loadProgress(): number | undefined {
+  return progress;
+}
+
+/** Calls `watcher` whenever `loadProgress` changes; returns the unwatch. */
+export function watchLoad(watcher: () => void): () => void {
+  watchers.add(watcher);
+
+  return () => {
+    watchers.delete(watcher);
+  };
+}
 
 /**
- * Loads the model, downloading it the first time, while `onProgress` hears
- * the fraction done. A failed load is forgotten, so the next call tries
- * again.
+ * Loads the model, downloading it the first time, while `loadProgress`
+ * reports the fraction done. A failed load is forgotten, so the next call
+ * tries again.
  */
-export async function startModel(
-  onProgress?: (fraction: number) => void,
-): Promise<void> {
+export async function startModel(): Promise<void> {
   loading ??= (async () => {
+    progressed(0);
     const { load } = await started();
 
-    await load(await knownDtype(), onProgress);
-  })().catch((error: unknown) => {
-    loading = undefined;
-    throw error;
-  });
+    await load(await knownDtype(), progressed);
+  })()
+    .catch((error: unknown) => {
+      loading = undefined;
+      throw error;
+    })
+    .finally(() => {
+      progressed(undefined);
+    });
 
   return loading;
 }

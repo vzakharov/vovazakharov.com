@@ -67,6 +67,70 @@
   font-size: inherit;
 }
 
+// The download's line; `--loaded` is the percentage done.
+.loading {
+  position: relative;
+  margin: 8px 0 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.85rem;
+
+  // A hairline under the text, filling in the "maybe" gold.
+  &[data-variant='bar'] {
+    padding-bottom: 6px;
+  }
+
+  // The text itself underlined as far as the download has got.
+  &[data-variant='underline'] .loadingText {
+    background: linear-gradient(
+        var(--unsquatted-maybe),
+        var(--unsquatted-maybe)
+      )
+      no-repeat 0 100% / var(--loaded) 1px;
+    padding-bottom: 2px;
+    transition: background-size 0.3s ease-out;
+  }
+}
+
+.track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: min(100%, 320px);
+  height: 2px;
+  border: 0;
+  border-radius: 1px;
+  appearance: none;
+  background: color-mix(in srgb, var(--unsquatted-muted) 25%, transparent);
+  overflow: hidden;
+
+  &::-webkit-progress-bar {
+    background: transparent;
+  }
+
+  &::-webkit-progress-value {
+    background: var(--unsquatted-maybe);
+    transition: width 0.3s ease-out;
+  }
+
+  &::-moz-progress-bar {
+    background: var(--unsquatted-maybe);
+  }
+}
+
+// The bulb lighting up from its base as the download fills it.
+.filling {
+  position: relative;
+  display: inline-block;
+
+  .bulb[data-lit] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: inset(calc(100% - var(--loaded)) 0 0 0);
+    transition: clip-path 0.3s ease-out;
+  }
+}
+
 .explainer p {
   margin: 0 0 12px;
   line-height: 1.6;

@@ -37,7 +37,7 @@ const MAX_NEW_TOKENS = 60;
 // built with.
 if (env.backends.onnx.wasm) delete env.backends.onnx.wasm.wasmPaths;
 
-type Loaded ={ tokenizer: PreTrainedTokenizer; model: PreTrainedModel };
+type Loaded = { tokenizer: PreTrainedTokenizer; model: PreTrainedModel };
 
 let loaded: Promise<Loaded> | undefined;
 const stopping = new InterruptableStoppingCriteria();

@@ -24,7 +24,9 @@
     "pace": "It works on your graphics card and takes a few seconds per search.",
     "turnOn": "Turn it on",
     "notNow": "Not now",
-    "downloading": "Downloading the model: {percent}%. You can close this — variations start once it’s ready.",
+    "close": "Close",
+    "downloading": "Downloading the model: {percent}%. You can close this window: the download carries on, its progress shows under the search field, and variations start once it’s ready.",
+    "loading": "Downloading the model for variations: {percent}%",
     "failed": "The model couldn’t start. Try again later?"
   },
   "clear": "Clear",

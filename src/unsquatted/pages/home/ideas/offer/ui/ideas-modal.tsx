@@ -1,38 +1,35 @@
 'use client';
 
 import { Button, Group, Modal } from '@mantine/core';
-import { useState } from 'react';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { WithCopy } from '../../../checker';
-import { startModel } from '../../brainstorm';
+import type { Loading } from '../lib/use-ideas';
 import classes from './ideas.module.scss';
 
-type IdeasModalProps = WithCopy & {
-  opened: boolean;
-  onClose: () => void;
-  /** The model is ready: the visitor opted in. */
-  onReady: () => void;
-};
-
-/** The download's progress, or that it failed. */
-type Starting = { fraction: number } | 'failed' | undefined;
+type IdeasModalProps = WithCopy &
+  Loading & {
+    opened: boolean;
+    onClose: () => void;
+    /** Starts the download. */
+    onTurnOn: () => void;
+  };
 
 /**
  * What a visitor agrees to, in plain words, and the opt-in itself. Turn it on
- * downloads the model and shows its progress until the model is ready.
- * Closing it mid-download keeps the download going, and the opt-in lands when
- * it ends.
+ * starts the download, which carries on with the dialog closed, its progress
+ * then shown under the field.
  */
 export function IdeasModal({
   opened,
   onClose,
-  onReady,
+  onTurnOn,
+  downloading,
+  failed,
   copy: { ideas: copy },
 }: IdeasModalProps) {
-  const [starting, setStarting] = useState<Starting>();
-  const busy = typeof starting === 'object';
+  const busy = downloading !== undefined;
 
   return (
     <Modal centered {...{ opened, onClose }} {...pick(copy, 'title')}>
@@ -44,11 +41,11 @@ export function IdeasModal({
           <p className={classes['progress']} aria-live="polite">
             {copy.downloading.replace(
               '{percent}',
-              String(Math.round(starting.fraction * 100)),
+              String(Math.round(downloading * 100)),
             )}
           </p>
         )}
-        {starting === 'failed' && (
+        {failed && (
           <p className={classes['progress']} role="alert">
             {copy.failed}
           </p>
@@ -56,26 +53,9 @@ export function IdeasModal({
       </div>
       <Group justify="flex-end" mt="md">
         <Button variant="default" onClick={onClose}>
-          {copy.notNow}
+          {busy ? copy.close : copy.notNow}
         </Button>
-        <Button
-          loading={busy}
-          onClick={() => {
-            setStarting({ fraction: 0 });
-            startModel((fraction) => {
-              setStarting({ fraction });
-            }).then(
-              () => {
-                setStarting(undefined);
-                onReady();
-              },
-              (error: unknown) => {
-                reportError(error);
-                setStarting('failed');
-              },
-            );
-          }}
-        >
+        <Button loading={busy} onClick={onTurnOn}>
           {copy.turnOn}
         </Button>
       </Group>
