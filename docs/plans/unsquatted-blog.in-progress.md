@@ -142,6 +142,9 @@ Bite 1, in part:
   (`pages/post`) sets title, lede and byline with `.md` on one line; prose is
   18px with display-serif headings (`site.scss`); both pages read in a 720px
   column. Looked at in light only.
+- **The lede follows the mockup's**, and the widgets' share is the icon and the
+  word (`ShareMenu`'s `labelled`) (11d561d6); post looked at in light, dark and
+  at phone width.
 - **`/polish`'s `/dry` pass ran** (7019c3bd); `/tend-prose` and `/five-percent`
   did not, so the next run is `/polish full`.
 
@@ -149,14 +152,6 @@ Bite 1, in part:
 
 Left:
 
-- **A livelier lede for post 1**, by the Unnamed (`/persona unnamed`): the
-  operator called the current one sloppy against the mockup's ("Four ones in a
-  row started as a joke among Nanjing students and became the biggest shopping
-  day on Earth. Here are the names it left lying around.").
-- **The rest of the mockup look**: the widgets' share button as "⤴ share" (a
-  labelled `ShareMenu` trigger, `widgets/field-tools`) rather than a bare icon;
-  check the widgets, the masthead and the header against the mockups in dark and
-  at phone width.
 - `/polish full`, then `/pr` (refresh the body and squash proposal: the slots
   deviation, the new article slots, the card seam, `compileBody`).
 - **No live preview**: the operator said another branch is using it. Look on the
