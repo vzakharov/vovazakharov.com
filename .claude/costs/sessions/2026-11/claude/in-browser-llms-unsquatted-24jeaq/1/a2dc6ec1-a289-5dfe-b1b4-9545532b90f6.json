@@ -1,0 +1,131 @@
+{
+  "total": {
+    "inputTokens": 39887,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 89874,
+    "cacheReadTokens": 1734204,
+    "outputTokens": 13139,
+    "thinkingTokens": 4610,
+    "responses": 18,
+    "costUsd": 1.3043004000000005
+  },
+  "estimate": {
+    "at": "2026-11-04T11:15:13.789Z",
+    "parts": [
+      {
+        "hours": 12.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "two inference engines behind one interface, a Web Worker, and bundling transformers.js under Turbopack in a static export are unfamiliar ground with sharp edges"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "small on-device models drift toward the first, already-taken names; getting the second idea out of a 0.6B model takes iteration"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "a new control beside the dice and a chip row with progress and download states must fit the existing field"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "WebGPU and Gemini Nano exist only on real hardware, so each engine is checked by hand across browsers"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T11:13:53.085Z",
+    "contextTokens": 104812,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41885,
+      "cacheReadTokens": 237731,
+      "outputTokens": 741,
+      "thinkingTokens": 108,
+      "responses": 3,
+      "costUsd": 0.3974782
+    }
+  },
+  "sessionId": "a2dc6ec1-a289-5dfe-b1b4-9545532b90f6",
+  "branch": "claude/in-browser-llms-unsquatted-24jeaq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай попробуем поиграться с in-browser ллмками в unsquatted",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEbjr7qEZ5daaRBm6A",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T11:13:43.990Z",
+  "lastResponseAt": "2026-11-04T11:15:38.598Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 89874,
+    "cacheReadTokens": 1734204,
+    "outputTokens": 10142,
+    "thinkingTokens": 4610,
+    "responses": 15,
+    "costUsd": 1.2688168000000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 89874,
+      "cacheReadTokens": 1734204,
+      "outputTokens": 10142,
+      "thinkingTokens": 4610,
+      "responses": 15,
+      "costUsd": 1.2688168000000004
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 39851,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 2997,
+      "thinkingTokens": 0,
+      "responses": 3,
+      "costUsd": 0.035483600000000004
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 17,
+    "matched": 14,
+    "matchedTableUsd": 1.2138614000000003,
+    "matchedEventUsd": 1.2138614000000003,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 39851,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 2997,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.035483600000000004
+      }
+    }
+  }
+}
