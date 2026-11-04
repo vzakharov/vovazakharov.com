@@ -24,7 +24,8 @@
     "where": "For now, this works only in Chrome on a computer.",
     "turnOn": "Turn it on",
     "notNow": "Not now",
-    "downloading": "Chrome is downloading the model: {percent}%",
+    "waiting": "Chrome is downloading the model. Gigabytes take a while, and Chrome reports progress in big steps, so this may sit still for minutes. You can close this — variations start once the model is ready.",
+    "downloading": "Chrome is downloading the model: {percent}%. You can close this — variations start once it’s ready.",
     "failed": "Chrome couldn’t start the model. Try again later?"
   },
   "clear": "Clear",

@@ -22,7 +22,8 @@ type Starting = { fraction: number } | 'failed' | undefined;
 /**
  * What a visitor agrees to, in plain words, and the opt-in itself. Turn it on
  * starts the model from the click, which Chrome asks of a first download, and
- * stays open on its progress until the model is ready.
+ * shows its progress until the model is ready. Closing it mid-download keeps
+ * the download going, and the opt-in lands when it ends.
  */
 export function IdeasModal({
   opened,
@@ -41,10 +42,12 @@ export function IdeasModal({
         <p>{copy.where}</p>
         {busy && (
           <p className={classes['progress']} aria-live="polite">
-            {copy.downloading.replace(
-              '{percent}',
-              String(Math.round(starting.fraction * 100)),
-            )}
+            {starting.fraction === 0
+              ? copy.waiting
+              : copy.downloading.replace(
+                  '{percent}',
+                  String(Math.round(starting.fraction * 100)),
+                )}
           </p>
         )}
         {starting === 'failed' && (
