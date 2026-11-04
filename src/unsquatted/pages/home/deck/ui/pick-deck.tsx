@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionIcon, Button } from '@mantine/core';
+import { ActionIcon } from '@mantine/core';
 import { RefreshCw } from 'lucide-react';
 import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 
@@ -82,6 +82,19 @@ export function PickDeck({ heading, picks, prices, copy }: PickDeckProps) {
       leave(listRef.current, new Set(next.map(({ domain }) => domain)));
     }
     show(next);
+    backToTop();
+  }
+
+  /** From a stuck heading, the new ten are read from their first row. */
+  function backToTop() {
+    const head = headRef.current?.getBoundingClientRect();
+    const list = listRef.current?.getBoundingClientRect();
+    if (head === undefined || list === undefined || list.top >= head.bottom)
+      return;
+    scrollBy({
+      top: list.top - head.bottom,
+      behavior: prefersStillness() ? 'instant' : 'smooth',
+    });
   }
 
   return (
@@ -108,23 +121,6 @@ export function PickDeck({ heading, picks, prices, copy }: PickDeckProps) {
           />
         ))}
       </ul>
-      {/* Pressed from the bottom, the new ten are read from their top. */}
-      {shown.length > 0 && (
-        <Button
-          variant="subtle"
-          className={classes['redrawFoot']}
-          leftSection={<RefreshCw size={16} />}
-          onClick={() => {
-            redraw();
-            headRef.current?.scrollIntoView({
-              behavior: prefersStillness() ? 'instant' : 'smooth',
-              block: 'start',
-            });
-          }}
-        >
-          {copy.redraw}
-        </Button>
-      )}
     </>
   );
 }
