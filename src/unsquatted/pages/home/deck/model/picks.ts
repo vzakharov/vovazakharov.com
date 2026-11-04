@@ -160,14 +160,13 @@ export const LASTING_PICKS: readonly ShownName[] = LASTING.map((pick) =>
 );
 
 /**
- * The best `count` of `LASTING_PICKS`, no two on one pattern, for a showcase
- * too short to carry the same trick twice.
+ * The best `count` of `LASTING_PICKS`, no two of one form, for a showcase too
+ * short to carry the same approach twice.
  */
 export const variedPicks = (count: number): readonly ShownName[] =>
   LASTING.filter(
-    ({ pattern }, index) =>
-      pattern === undefined ||
-      LASTING.findIndex((other) => other.pattern === pattern) === index,
+    ({ form }, index) =>
+      LASTING.findIndex((other) => other.form === form) === index,
   )
     .slice(0, count)
     .map((pick) => shown(pick));
