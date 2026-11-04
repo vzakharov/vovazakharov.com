@@ -13,7 +13,7 @@ status, whoever typed it, and dispatches on the summary's Next step
 alone; an operator who wants more asks in their next message.
 
 The divergence record now names this repo's spelling of a branch's
-working directory, scripts/working-dir.sh, and the six vendored files
+working directory, scripts/working-dir.sh, and the seven vendored files
 that carry it, so a source edit to that path is ported rather than
 merged over it.
 
