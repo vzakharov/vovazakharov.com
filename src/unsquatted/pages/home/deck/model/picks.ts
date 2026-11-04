@@ -74,7 +74,7 @@ const pickSchema = z
      * The trick a name is built on, as a mask over the domain, so names on one
      * trick share it: for a hack, `*` and the tail its zone spells the word's
      * end with (`*st.one` for `touchst.one` and `lodest.one` alike, `*.red`
-     * for every `…red`). Every hack states one.
+     * for every `…red`).
      */
     pattern: z
       .string()

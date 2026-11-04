@@ -68,8 +68,9 @@ const checkableDomains = (rows: readonly Row[]) =>
  * the one meant cost no lookups — or at once on Check. Only the first
  * `CLOSED_ROWS` rows are looked up; the rest wait until the toggle or the
  * share button is pointed at or focused, or the toggle opened, so a visitor who
- * reaches for neither costs the registries none of those lookups. On a narrower screen the closed list shows
- * fewer than that, and the surplus is looked up all the same.
+ * reaches for neither costs the registries none of those lookups. On a
+ * narrower screen the closed list shows fewer than that, and the surplus is
+ * looked up all the same.
  */
 export function NameChecker({ copy, prices }: CopiedPrices) {
   const {

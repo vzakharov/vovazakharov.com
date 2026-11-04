@@ -7,12 +7,13 @@
  *   pnpm names roll [count]             # word pairs, as the page's dice
  *
  * `check` looks each new candidate up exactly as the page does — in `.com`, or
- * in the zone a domain hack names — then asks the registrar (`lib/registrar.ts`)
- * about a name RDAP calls free, records a taken, premium or reserved one in the
- * ledger and prints every verdict as `<verdict><TAB>axis<TAB>domain`, only
- * `free` being pickable. `recheck` prints the listed names that are taken,
- * unanswered, premium or reserved. A lookup with no answer fails the run once the
- * rest are done, so a partial run never passes for a complete one.
+ * in the zone a domain hack names — then asks the registrar
+ * (`lib/registrar.ts`) about a name RDAP calls free, records a taken, premium
+ * or reserved one in the ledger and prints every verdict as
+ * `<verdict><TAB>axis<TAB>domain`, only `free` being pickable. `recheck` prints
+ * the listed names that are taken, unanswered, premium or reserved. A lookup
+ * with no answer fails the run once the rest are done, so a partial run never
+ * passes for a complete one.
  */
 
 import { text } from 'node:stream/consumers';
@@ -60,7 +61,7 @@ async function inTurn<T>(
   await inTurn(rest, each);
 }
 
-/** A name RDAP calls free, as the registrar prices it, ledgered unless sold. */
+/** A name RDAP calls free, as the registrar prices it; ledgered unless regular. */
 async function priced({ axis, domain }: Candidate): Promise<string> {
   const offer = await registrarOffer(domain);
 

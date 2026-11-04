@@ -1,11 +1,11 @@
 /**
- * Vowel letters that start a consonant sound — "a used-book shop", "a
- * European fair", "a one-room studio" — and consonant letters that start a
- * vowel sound, "an hour".
+ * Vowel letters that start a consonant sound: "a used-book shop", "a European
+ * fair", "a one-room studio".
  */
 const SOUNDS_CONSONANT =
   /^(?:u(?:[b-dfgj-np-tvz][aeiou]|ni|ra)|eu|ewe|one|once)/;
 
+/** Consonant letters that start a vowel sound: "an hour". */
 const SOUNDS_VOWEL = /^(?:hour|honest|honou?r|heir)/;
 
 /** `use` after its indefinite article, chosen by how the word sounds. */
