@@ -14,25 +14,16 @@ type IdeasLineProps = WithCopy & {
 };
 
 /**
- * The line under the field once the visitor has opted in: the variations of
- * every name looked up. Nothing before that, the offer being `IdeasOffer`'s.
+ * The line under the field: the variations of the name in it, once the
+ * lightbulb has brainstormed them. While it thinks, its ring says so.
  */
 export function IdeasLine({
   ideas: { available, optedIn, names },
   onPick,
   copy,
 }: IdeasLineProps) {
-  if (!available || !optedIn) return;
-
-  if (names === undefined)
-    return (
-      <p className={classes['line']}>
-        <Lightbulb className={classes['bulb']} data-thinking aria-hidden />
-        <span className={classes['unseen']}>{copy.ideas.thinking}</span>
-      </p>
-    );
-
-  if (names.length === 0) return;
+  if (!available || !optedIn || names === undefined || names.length === 0)
+    return;
 
   return (
     <p className={classes['line']} aria-live="polite">

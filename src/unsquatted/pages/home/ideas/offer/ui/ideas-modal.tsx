@@ -16,21 +16,19 @@ type IdeasModalProps = WithCopy &
     onTurnOn: () => void;
     /** Stops the download. */
     onStop: () => void;
-    /** Hides the offer for good. */
-    onDismiss: () => void;
   };
 
 /**
  * What a visitor agrees to, in plain words, and the opt-in itself. Turn it on
  * starts the download, which carries on with the dialog closed, its progress
- * then shown under the field; while it runs, the dialog offers to stop it.
+ * then shown by the lightbulb's ring; while it runs, the dialog offers to stop
+ * it.
  */
 export function IdeasModal({
   opened,
   onClose,
   onTurnOn,
   onStop,
-  onDismiss,
   downloading,
   failed,
   copy: { ideas: copy },
@@ -65,16 +63,11 @@ export function IdeasModal({
           <Button onClick={onClose}>{copy.close}</Button>
         </Group>
       ) : (
-        <Group justify="space-between" mt="md">
-          <Button variant="subtle" color="gray" onClick={onDismiss}>
-            {copy.dontShow}
+        <Group justify="flex-end" mt="md">
+          <Button variant="default" onClick={onClose}>
+            {copy.notNow}
           </Button>
-          <Group ml="auto">
-            <Button variant="default" onClick={onClose}>
-              {copy.notNow}
-            </Button>
-            <Button onClick={onTurnOn}>{copy.turnOn}</Button>
-          </Group>
+          <Button onClick={onTurnOn}>{copy.turnOn}</Button>
         </Group>
       )}
     </Modal>

@@ -4,6 +4,7 @@ export {
   loadProgress,
   modelCached,
   modelDtype,
+  modelReady,
   startModel,
   stopModel,
   suggest,

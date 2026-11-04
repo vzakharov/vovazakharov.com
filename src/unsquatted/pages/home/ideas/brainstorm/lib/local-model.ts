@@ -25,10 +25,14 @@ let dtype: Promise<Dtype | undefined> | undefined;
 
 /**
  * The weights this GPU runs, or `undefined` where no WebGPU adapter is: a
- * model this size on the CPU takes too long to be worth offering.
+ * model this size on the CPU takes too long to be worth offering. A device
+ * with no mouse is taken for a phone or tablet and gets `undefined` too: iOS
+ * Safari has WebGPU, but kills the tab once the loaded model outgrows its
+ * memory allowance.
  */
 export async function modelDtype(): Promise<Dtype | undefined> {
   dtype ??= (async () => {
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     if (!('gpu' in navigator)) return;
     const adapter = await navigator.gpu.requestAdapter();
 
@@ -69,12 +73,23 @@ const progressed = (fraction: number | undefined) => {
   for (const watcher of watchers) watcher();
 };
 
+/** The model is loaded on this page and generates without waiting. */
+let ready = false;
+
 /** The fraction of the model loaded so far, while a load runs. */
 export function loadProgress(): number | undefined {
   return progress;
 }
 
-/** Calls `watcher` whenever `loadProgress` changes; returns the unwatch. */
+/** Whether the model is loaded on this page. */
+export function modelReady(): boolean {
+  return ready;
+}
+
+/**
+ * Calls `watcher` whenever `loadProgress` or `modelReady` changes; returns
+ * the unwatch.
+ */
 export function watchLoad(watcher: () => void): () => void {
   watchers.add(watcher);
 
@@ -99,6 +114,8 @@ export async function startModel(): Promise<void> {
     try {
       stopper.signal.throwIfAborted();
       await load(await knownDtype(), stopper.signal, progressed);
+      // Set before the `finally` below, whose report then carries it.
+      ready = true;
     } catch (error) {
       // The library may wrap the aborted fetch's error in one of its own.
       stopper.signal.throwIfAborted();
@@ -164,5 +181,7 @@ export async function forgetModel(): Promise<void> {
   const { clear } = await started();
 
   loading = undefined;
+  ready = false;
+  progressed(undefined);
   await clear(await knownDtype());
 }

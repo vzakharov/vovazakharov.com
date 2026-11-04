@@ -1,0 +1,104 @@
+{
+  "total": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133638,
+    "cacheReadTokens": 5897676,
+    "outputTokens": 34884,
+    "thinkingTokens": 13357,
+    "responses": 39,
+    "costUsd": 2.9466312000000006
+  },
+  "estimate": {
+    "at": "2026-11-04T15:19:23.973Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "on-demand generation with a ring timed from a measured first run touches hook state, storage and an animation contract"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "the prompt needs retuning once real WebGPU output is seen"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "each desktop browser has to be walked by hand on a real GPU"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T15:19:15.872Z",
+    "contextTokens": 106733,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48069,
+      "cacheReadTokens": 260909,
+      "outputTokens": 688,
+      "thinkingTokens": 182,
+      "responses": 3,
+      "costUsd": 0.4505258
+    }
+  },
+  "sessionId": "31d292ca-d6de-57f5-87ba-6458d44d6986",
+  "branch": "claude/in-browser-llms-unsquatted-24jeaq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/in-browser-llms-unsquatted-24jeaq — лампочка-кнопка с кольцом загрузки и остановкой готова, генерация по кнопке с замером времени ещё не нача…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEhtwFB9LfJhip55ja",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T15:19:03.825Z",
+  "lastResponseAt": "2026-11-04T15:37:08.013Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133638,
+    "cacheReadTokens": 5897676,
+    "outputTokens": 34884,
+    "thinkingTokens": 13357,
+    "responses": 39,
+    "costUsd": 2.9466312000000006
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 133638,
+      "cacheReadTokens": 5897676,
+      "outputTokens": 34884,
+      "thinkingTokens": 13357,
+      "responses": 39,
+      "costUsd": 2.9466312000000006
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 39,
+    "matched": 39,
+    "matchedTableUsd": 2.9466312000000006,
+    "matchedEventUsd": 2.946631200000001,
+    "unseen": {}
+  }
+}
