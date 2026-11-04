@@ -4,9 +4,9 @@ import { TextLink } from '@/shell/shared/ui';
 
 import { labelOf, useChecker, zoneOf } from '../../checker';
 import { LikeButton } from '../../likes';
+import type { ShownName } from '../../picks';
 import { useVerdict } from '../../verdict';
 import { type CopiedPrice, PriceHint, registerUrl } from '../../verdict-label';
-import type { ShownName } from '../model/picks';
 import classes from './deck.module.scss';
 
 type PickRowProps = ShownName & CopiedPrice;
@@ -31,12 +31,15 @@ export function PickRow({
   return (
     <li className={classes['pick']} data-taken={taken} data-domain={domain}>
       <span className={classes['pickName']}>
-        {/* The name alone, without its zone, so the checker tries it in all. */}
+        {/*
+          The name as it reads, its dot dropped — `firk.in` as `firkin` — so
+          the checker sets the word's `.com` beside the hack it splits into.
+        */}
         <button
           type="button"
           className={classes['domain']}
           onClick={() => {
-            checkNow(name);
+            checkNow(domain.replace(/\.com$/, '').replace('.', ''));
           }}
         >
           {domain}

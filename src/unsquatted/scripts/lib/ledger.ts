@@ -1,7 +1,7 @@
 /**
  * The naming runbook's memory of every name it checked and did not pick, one
- * JSON object per line in `../ledger.jsonl`. A picked name is a file under
- * `public/picks/` instead, so the two together are everything a run skips.
+ * JSON object per line in `../ledger.jsonl`. A picked name is in the deck's
+ * `picks.yaml` instead, so the two together are everything a run skips.
  */
 
 import fs from 'node:fs';
@@ -16,12 +16,16 @@ const LedgerError = errorClass('LedgerError');
 
 const CandidateError = errorClass('CandidateError');
 
-/** `taken` is the registry's word; `taste` is the run's, on a free name. */
-const VERDICTS = ['taken', 'taste'] as const;
+/**
+ * `taken` is the registry's word; `premium` and `reserved` the registrar's, on
+ * a name the registry calls unregistered; `taste` is the run's, on a free name.
+ */
+const VERDICTS = ['taken', 'premium', 'reserved', 'taste'] as const;
 
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 
-const LABEL = /^[\da-z]+(?:-[\da-z]+)*$/;
+/** A label, then the zone it is checked in where that is not `.com`. */
+const NAME = /^([\da-z]+(?:-[\da-z]+)*)(?:\.([a-z]{2,}))?$/;
 
 /** A name a run is about to check, with the direction it was found in. */
 const candidateSchema = z.object({
@@ -71,9 +75,10 @@ export function appendToLedger(entry: LedgerEntry) {
 }
 
 /**
- * Candidates as `axis<TAB>name` lines, a name with or without its `.com`;
- * blank lines and `#` comments skipped. A malformed line throws rather than
- * being dropped, so a typo never passes for a name already checked.
+ * Candidates as `axis<TAB>name` lines, a bare name meaning its `.com` and a
+ * name with a zone (a domain hack's) meaning that domain; blank lines and `#`
+ * comments skipped. A malformed line throws rather than being dropped, so a
+ * typo never passes for a name already checked.
  */
 export function parseCandidates(text: string): Candidate[] {
   return text
@@ -82,19 +87,18 @@ export function parseCandidates(text: string): Candidate[] {
     .filter((line) => line !== '' && !line.startsWith('#'))
     .map((line) => {
       const [axis, name, ...rest] = line.split('\t').map((cell) => cell.trim());
-      const label = name?.toLowerCase().replace(/\.com$/, '');
+      const [, label, zone] = name?.toLowerCase().match(NAME) ?? [];
 
       if (
         axis === undefined ||
         axis === '' ||
         label === undefined ||
-        !LABEL.test(label) ||
         rest.length > 0
       ) {
         throw new CandidateError(`not an "axis<TAB>name" line: ${line}`);
       }
 
-      return { axis, domain: `${label}.com` };
+      return { axis, domain: `${label}.${zone ?? 'com'}` };
     });
 }
 

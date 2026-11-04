@@ -9,8 +9,8 @@ import { SiteFooter } from '@/shell/widgets/site-footer';
 
 import { CheckerProvider, COPY, plainByline } from '../../checker';
 import { PickDeck } from '../../deck';
-import { PICKS } from '../../deck/index.server-only';
 import { LikesProvider } from '../../likes';
+import { PICKS } from '../../picks/index.server-only';
 import { Shortlist } from '../../shortlist';
 import { fetchPrices } from '../lib/prices';
 import { NameChecker } from './name-checker';

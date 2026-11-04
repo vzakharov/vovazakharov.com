@@ -66,10 +66,11 @@ const checkableDomains = (rows: readonly Row[]) =>
 /**
  * A name checked in the zones once typing pauses — so the words on the way to
  * the one meant cost no lookups — or at once on Check. Only the first
- * `CLOSED_ROWS` rows are looked up; the rest wait until the toggle is pointed
- * at, focused or opened, so a visitor who never reaches for it costs the
- * registries none of those lookups. On a narrower screen the closed list shows
- * fewer than that, and the surplus is looked up all the same.
+ * `CLOSED_ROWS` rows are looked up; the rest wait until the toggle or the
+ * share button is pointed at or focused, or the toggle opened, so a visitor who
+ * reaches for neither costs the registries none of those lookups. On a
+ * narrower screen the closed list shows fewer than that, and the surplus is
+ * looked up all the same.
  */
 export function NameChecker({ copy, prices }: CopiedPrices) {
   const {
@@ -98,10 +99,11 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
   const verdicts = new Map([...shownVerdicts, ...hiddenVerdicts]);
   const siblings = rows.map(({ domain }) => domain);
   const ownIndex = rows.findIndex(({ domain }) => domain === OWN_DOMAIN);
-  const busy =
-    (settling && typed.trim() !== '') ||
-    shownVerdicts.size < shownDomains.length ||
-    hiddenVerdicts.size < hiddenDomains.length;
+  const showing = shownVerdicts.size < shownDomains.length;
+  const looking = showing || hiddenVerdicts.size < hiddenDomains.length;
+  // Check spins for the rows on screen alone: the hidden ones are looked up
+  // for the opened list or the share card, which Check did not ask for.
+  const busy = (settling && typed.trim() !== '') || showing;
 
   return (
     <>
@@ -141,7 +143,10 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
         {label !== '' && (
           <span className={classes['fieldTools']}>
             <FieldTools
-              {...{ label, zone, siblings, verdicts, prices, copy }}
+              onReached={() => {
+                setWanted(true);
+              }}
+              {...{ label, zone, siblings, verdicts, prices, looking, copy }}
             />
           </span>
         )}

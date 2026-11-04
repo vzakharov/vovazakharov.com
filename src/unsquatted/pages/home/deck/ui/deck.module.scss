@@ -1,11 +1,17 @@
 @use '../../../../../../styles/mantine' as mantine;
 
-// The list's heading with the button that redraws it, side by side.
+// The list's heading with the button that redraws it, side by side, held at
+// the top of the screen while the list scrolls under it.
 .listHead {
+  position: sticky;
+  z-index: 1;
+  top: 0;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 12px;
+  padding-block: 8px;
+  margin-bottom: 4px;
+  background: var(--color-background);
 }
 
 // A bare glyph: hover changes its colour, never puts a plate behind it.

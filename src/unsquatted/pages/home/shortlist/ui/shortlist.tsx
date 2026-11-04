@@ -8,7 +8,7 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { Copy as CopyIcon, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useCopied } from '@/shell/shared/ui';
 
@@ -146,12 +146,22 @@ function Chip({ like, verdicts, domainsFor, copy }: ChipProps) {
 
 type EditorProps = WithCopy & { close: () => void };
 
+/** Opens with the caret at the end of the list, ready for the next name. */
 function Editor({ close, copy }: EditorProps) {
   const { liked, replace } = useLikes();
   const [text, setText] = useState(liked.join('\n'));
   const [invalid, setInvalid] = useState<string[]>([]);
   const { copied, copy: copyText } = useCopied();
+  const fieldRef = useRef<HTMLTextAreaElement>(null);
   const words = copy.shortlist;
+
+  useEffect(() => {
+    const { current } = fieldRef;
+
+    if (current === null) return;
+    current.focus();
+    current.setSelectionRange(current.value.length, current.value.length);
+  }, []);
 
   return (
     <form
@@ -166,6 +176,7 @@ function Editor({ close, copy }: EditorProps) {
       }}
     >
       <Textarea
+        ref={fieldRef}
         aria-label={words.editLabel}
         description={words.hint}
         inputWrapperOrder={['input', 'description', 'error']}

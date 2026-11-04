@@ -188,12 +188,15 @@ function drawRow(
   }
 }
 
+/** The type of the file `shareCard` makes, known before the file is. */
+export const CARD_TYPE = 'image/png';
+
 /** The card for `name`'s `rows`, as a PNG named for the first. */
-export function shareCard(
+export async function shareCard(
   name: string,
   rows: readonly CardRow[],
   text: CardText,
-): File {
+): Promise<File> {
   const canvas = document.createElement('canvas');
 
   canvas.width = CARD_WIDTH;
@@ -221,13 +224,15 @@ export function shareCard(
   );
   context.fillText(text.footer, 96, 574);
 
-  // Encoded without awaiting anything: Safari takes a clipboard write only
-  // from inside the click that asked for it.
-  const data = atob(canvas.toDataURL('image/png').split(',')[1] ?? '');
-  const bytes = Uint8Array.from(data, (char) => char.codePointAt(0) ?? 0);
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((made) => {
+      if (made === null) reject(new Error('The card did not encode'));
+      else resolve(made);
+    }, CARD_TYPE);
+  });
 
-  return new File([bytes], `unsquatted.${rows[0]?.domain ?? name}.png`, {
-    type: 'image/png',
+  return new File([blob], `unsquatted.${rows[0]?.domain ?? name}.png`, {
+    type: CARD_TYPE,
   });
 }
 

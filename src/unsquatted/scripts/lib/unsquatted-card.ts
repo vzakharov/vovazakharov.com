@@ -1,7 +1,8 @@
 /**
  * unsquatted.com's social card, as a page for `og-render.ts` to screenshot: the
- * mark and the wordmark over the hero's lede, beside a panel of the first
- * listed names, an empty name field closing it and a count of the rest.
+ * mark and the wordmark over the hero's lede, beside a panel of the best
+ * listed names, no two on one pattern, an empty name field closing it and a
+ * count of the rest.
  *
  * It reads the listed names through the module the home page reads, and its
  * words from the page's catalogue, so adding a name re-flags the card and the
@@ -28,6 +29,7 @@ import {
   DICE_VIEW_BOX,
   LASTING_PICKS,
   plainByline,
+  variedPicks,
 } from '@/unsquatted/pages/home/index.server-only';
 
 import { escapeHtml, type StagedPage } from '@/kernel/scripts/lib/og-render';
@@ -88,7 +90,7 @@ const more = (count: number) =>
 
 export function unsquattedCard(): StagedPage {
   const [headline, subline] = lede();
-  const rows = LASTING_PICKS.slice(0, SHOWN)
+  const rows = variedPicks(SHOWN)
     .map(
       ({ domain }) => `          <li>
             <span class="domain">${escapeHtml(domain)}</span>

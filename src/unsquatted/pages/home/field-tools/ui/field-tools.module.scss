@@ -28,49 +28,89 @@
   color: var(--unsquatted-taken);
 }
 
-// Reduced motion only fades it; its place and size are set where it is drawn.
+// Below the screen's edge, where the toast rises from and sinks back to.
+$toast-below: translateY(calc(100% + var(--toast-gap)));
+
+// `--toast-ms` is `TOAST_MS`, the moment `useCopied` keeps the toast mounted.
+// Closed early, it sinks at once. Reduced motion only fades it.
 .toast {
+  --toast-gap: var(--mantine-spacing-md);
+
   position: fixed;
   z-index: 300;
+  right: var(--toast-gap);
+  bottom: var(--toast-gap);
   overflow: hidden;
-  border: 1px solid var(--color-border-hairline);
-  border-radius: var(--mantine-radius-sm);
-  box-shadow: var(--mantine-shadow-md);
-  pointer-events: none;
-  animation: swept 900ms ease-in forwards;
+  width: min(300px, calc(100vw - 2 * var(--toast-gap)));
+  border-radius: var(--mantine-radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--mantine-shadow-lg);
+  animation: shown var(--toast-ms) ease-in-out forwards;
+
+  &[data-leaving='true'] {
+    animation: sunk 250ms ease-in forwards;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     animation-name: faded;
+
+    &[data-leaving='true'] {
+      animation-name: faded-out;
+    }
   }
 }
 
-@keyframes swept {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
+@keyframes shown {
+  0%,
+  100% {
+    transform: $toast-below;
   }
 
   10%,
-  45% {
-    opacity: 1;
+  90% {
     transform: none;
   }
+}
 
-  100% {
-    opacity: 0;
-    transform: translateX(60vw) scale(0.6);
+@keyframes sunk {
+  to {
+    transform: $toast-below;
   }
 }
 
 @keyframes faded {
   0%,
-  45% {
-    opacity: 1;
-  }
-
   100% {
     opacity: 0;
   }
+
+  10%,
+  90% {
+    opacity: 1;
+  }
+}
+
+@keyframes faded-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.toastHead {
+  display: flex;
+  gap: var(--mantine-spacing-xs);
+  align-items: center;
+  padding: 6px 6px 6px var(--mantine-spacing-sm);
+  font-size: var(--mantine-font-size-sm);
+}
+
+.toastCheck {
+  flex: none;
+  color: var(--color-accent);
+}
+
+.toastSaid {
+  flex: 1;
 }
 
 // The card at the toast's width, its own aspect kept.
