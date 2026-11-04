@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 78633,
+    "cacheReadTokens": 3767562,
+    "outputTokens": 10434,
+    "thinkingTokens": 1384,
+    "responses": 32,
+    "costUsd": 1.5915123999999998
+  },
+  "estimate": {
+    "at": "2026-11-04T07:12:00.446Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "triaging one upstream commit, resolving its conflict with a local path convention, and recording that convention needs someone who knows the agent tooling"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T07:10:49.951Z",
+    "contextTokens": 108114,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48979,
+      "cacheReadTokens": 256962,
+      "outputTokens": 798,
+      "thinkingTokens": 54,
+      "responses": 3,
+      "costUsd": 0.4592164
+    }
+  },
+  "sessionId": "e0c802cd-5802-5a98-bb9c-894588cc0e76",
+  "branch": "chore/relay-take-status",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/update-muthur claimed",
+  "prs": [
+    245
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBzHLN1QNVi3rx4oCk",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T07:10:36.515Z",
+  "lastResponseAt": "2026-11-04T07:13:16.510Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 78633,
+    "cacheReadTokens": 3767562,
+    "outputTokens": 10434,
+    "thinkingTokens": 1384,
+    "responses": 32,
+    "costUsd": 1.5915123999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 64,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 78633,
+      "cacheReadTokens": 3767562,
+      "outputTokens": 10434,
+      "thinkingTokens": 1384,
+      "responses": 32,
+      "costUsd": 1.5915123999999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 32,
+    "matched": 32,
+    "matchedTableUsd": 1.5915123999999998,
+    "matchedEventUsd": 1.5915123999999998,
+    "unseen": {}
+  }
+}
