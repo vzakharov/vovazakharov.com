@@ -43,7 +43,9 @@ export type CardRow = WithDomain &
   };
 
 type CardSource = CardSiblings & {
-  /** The domain being shared, the card's first row. */
+  /** The domain the field holds with its zone, if it does. */
+  typed: string | undefined;
+  /** The domain being shared, the card's first row after the typed one. */
   shared: string;
   /** The domain the sharer's like of the name points at, if they like it. */
   liked: string | undefined;
@@ -99,12 +101,16 @@ export function cardLead(
   );
 }
 
+/** Whether every row of a card is taken: the card has nothing to offer. */
+export const offersNothing = (rows: readonly CardRow[]) =>
+  rows.every(({ state }) => state === 'taken');
+
 /**
  * Whether lookups still out could change the card for `rows`: none can once
  * the card is full and every domain ahead of its last row in `order` — the
  * leads, then the siblings, as `cardLead` and `cardRows` walk them — has an
- * answer. A taken card waits for every domain on screen too, since any of
- * them free would lead instead.
+ * answer. A card offering nothing waits for every domain on screen too, since
+ * any of them free would lead instead.
  */
 export function cardSettled(
   rows: readonly CardRow[],
@@ -117,18 +123,20 @@ export function cardSettled(
   if (rows.length < CARD_ROWS || last === undefined) return false;
   const known = order.filter((domain) => domain !== undefined);
   const ahead = known.slice(0, known.indexOf(last) + 1);
-  const waited = rows[0]?.state === 'taken' ? [...ahead, ...shown] : ahead;
+  const waited = offersNothing(rows) ? [...ahead, ...shown] : ahead;
 
   return waited.every((domain) => verdicts.has(domain));
 }
 
 /**
- * The card's rows: the shared domain, then the liked one, then the others —
- * each only once its lookup said it is of the shared domain's kind, so the
- * card never says “checking…” and never mixes a taken name in with free ones.
+ * The card's rows: the typed domain, whatever its lookup said, then the shared
+ * one, the liked one and the others — each of those only once its lookup said
+ * it is of the shared domain's kind, so the card never says “checking…” and
+ * mixes a taken name in with free ones only where it is the one asked about.
  * None at all until the shared domain's own lookup is in.
  */
 export function cardRows({
+  typed,
   shared,
   siblings,
   liked,
@@ -138,10 +146,18 @@ export function cardRows({
   const kind = kindOf(verdicts.get(shared));
 
   if (kind === undefined) return [];
+  const pinned =
+    typed !== undefined && typed !== shared && isListed(verdicts.get(typed))
+      ? [typed]
+      : [];
   const alike = siblings.filter(
-    (domain) => domain !== shared && kindOf(verdicts.get(domain)) === kind,
+    (domain) =>
+      domain !== shared &&
+      domain !== typed &&
+      kindOf(verdicts.get(domain)) === kind,
   );
   const ordered = [
+    ...pinned,
     shared,
     ...alike.filter((domain) => domain === liked),
     ...alike.filter((domain) => domain !== liked),

@@ -2,7 +2,13 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Verdict } from '../../verdict';
-import { cardLead, cardRows, cardSettled, domainLink } from './share';
+import {
+  cardLead,
+  cardRows,
+  cardSettled,
+  domainLink,
+  offersNothing,
+} from './share';
 
 const PRICES = {
   com: { registration: 12, renewal: 12 },
@@ -23,6 +29,7 @@ const domains = (rows: ReturnType<typeof cardRows>) =>
 describe('cardRows', () => {
   it('leads with the shared domain, then the liked one, then the rest', () => {
     const rows = cardRows({
+      typed: undefined,
       shared: 'foxedpage.net',
       siblings: [
         'foxedpage.com',
@@ -57,6 +64,7 @@ describe('cardRows', () => {
 
   it('skips a sibling taken, unanswered or still being looked up', () => {
     const rows = cardRows({
+      typed: undefined,
       shared: 'foxedpage.com',
       siblings: [
         'foxedpage.com',
@@ -78,6 +86,7 @@ describe('cardRows', () => {
 
   it('lists nothing until the shared domain’s own lookup is in', () => {
     const rows = cardRows({
+      typed: undefined,
       shared: 'foxedpage.com',
       siblings: ['foxedpage.com', 'foxedpage.net'],
       liked: undefined,
@@ -90,6 +99,7 @@ describe('cardRows', () => {
 
   it('marks the shared domain liked where it is the liked one', () => {
     const rows = cardRows({
+      typed: undefined,
       shared: 'foxedpage.com',
       siblings: ['foxedpage.com', 'foxedpage.net'],
       liked: 'foxedpage.com',
@@ -103,8 +113,54 @@ describe('cardRows', () => {
     );
   });
 
+  it('lists the typed domain first, taken, ahead of the free ones', () => {
+    const rows = cardRows({
+      typed: 'pisem.net',
+      shared: 'pisem.org',
+      siblings: ['pisem.com', 'pisem.org', 'pisem.net', 'pisem.io', 'pisem.ai'],
+      liked: undefined,
+      verdicts: new Map<string, Verdict>([
+        ['pisem.com', { state: 'taken', since: '2003' }],
+        ['pisem.org', { state: 'free' }],
+        ['pisem.net', { state: 'taken', since: '2024' }],
+        ['pisem.io', { state: 'maybe' }],
+        ['pisem.ai', { state: 'free' }],
+      ]),
+      prices: PRICES,
+    });
+
+    assert.deepEqual(domains(rows), ['pisem.net', 'pisem.org', 'pisem.io']);
+    assert.deepEqual(
+      rows.map(({ state, since }) => [state, since]),
+      [
+        ['taken', '2024'],
+        ['free', undefined],
+        ['maybe', undefined],
+      ],
+    );
+    assert.equal(offersNothing(rows), false);
+  });
+
+  it('leaves the typed domain out until its own lookup is in', () => {
+    const rows = cardRows({
+      typed: 'pisem.net',
+      shared: 'pisem.org',
+      siblings: ['pisem.org', 'pisem.net', 'pisem.io'],
+      liked: undefined,
+      verdicts: verdicts({
+        'pisem.org': 'free',
+        'pisem.net': 'unknown',
+        'pisem.io': 'free',
+      }),
+      prices: PRICES,
+    });
+
+    assert.deepEqual(domains(rows), ['pisem.org', 'pisem.io']);
+  });
+
   it('lists taken domains with their years where the shared one is taken', () => {
     const rows = cardRows({
+      typed: undefined,
       shared: 'foxedpage.net',
       siblings: [
         'foxedpage.com',
@@ -213,6 +269,7 @@ describe('cardSettled', () => {
 
     assert.ok(shared !== undefined);
     const rows = cardRows({
+      typed: undefined,
       shared,
       siblings: SIBLINGS,
       liked: undefined,
@@ -239,6 +296,27 @@ describe('cardSettled', () => {
 
   it('waits while the card is not full', () => {
     assert.equal(card({ 'a.com': 'free', 'a.net': 'free' }), false);
+  });
+
+  it('holds a free card led by a taken typed domain without the rest of the screen', () => {
+    const known = verdicts({
+      'a.com': 'taken',
+      'a.net': 'free',
+      'a.org': 'free',
+    });
+    const order = ['a.com', undefined, ...SIBLINGS];
+    const shown = [...SIBLINGS];
+    const rows = cardRows({
+      typed: 'a.com',
+      shared: 'a.net',
+      siblings: SIBLINGS,
+      liked: undefined,
+      verdicts: known,
+      prices: PRICES,
+    });
+
+    assert.deepEqual(domains(rows), ['a.com', 'a.net', 'a.org']);
+    assert.equal(cardSettled(rows, order, shown, { verdicts: known }), true);
   });
 
   it('holds a taken card only once every domain on screen answered', () => {

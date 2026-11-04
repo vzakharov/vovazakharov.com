@@ -8,7 +8,7 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { priceParts, type WithCopy } from '../../checker';
-import type { CardRow } from './share';
+import { type CardRow, offersNothing } from './share';
 
 export const CARD_WIDTH = 1200;
 export const CARD_HEIGHT = 630;
@@ -265,7 +265,7 @@ export async function shareCard(
   for (const [index, row] of rows.entries())
     drawRow(context, l, text, row, index);
 
-  if (rows[0]?.state === 'taken') {
+  if (offersNothing(rows)) {
     // Unpreloaded, the hand arrives only when a card first asks for it. Only
     // the stack's first face is awaited: next/font's metric fallback after it
     // is `local("Arial")`, which rejects the whole load where Arial is absent.

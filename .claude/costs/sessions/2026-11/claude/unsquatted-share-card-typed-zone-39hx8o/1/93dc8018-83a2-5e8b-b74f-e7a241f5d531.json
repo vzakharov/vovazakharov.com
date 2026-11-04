@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 45,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 86210,
+    "cacheReadTokens": 2473511,
+    "outputTokens": 11847,
+    "thinkingTokens": 3859,
+    "responses": 21,
+    "costUsd": 1.4215022000000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-04T16:27:16.906Z",
+    "contextTokens": 92618,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 37421,
+      "cacheReadTokens": 52539,
+      "outputTokens": 227,
+      "thinkingTokens": 31,
+      "responses": 1,
+      "costUsd": 0.31442380000000003
+    }
+  },
+  "sessionId": "93dc8018-83a2-5e8b-b74f-e7a241f5d531",
+  "branch": "claude/unsquatted-share-card-typed-zone-39hx8o",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "в unsquatted: если шарится запрос с конкретным tld, то на изображении он тоже должен быть, даже если занят",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCfAg43JZXFv6oMe5C",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-04T16:27:12.590Z",
+  "lastResponseAt": "2026-11-04T16:30:29.474Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 45,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 86210,
+    "cacheReadTokens": 2473511,
+    "outputTokens": 11847,
+    "thinkingTokens": 3859,
+    "responses": 21,
+    "costUsd": 1.4215022000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 45,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 86210,
+      "cacheReadTokens": 2473511,
+      "outputTokens": 11847,
+      "thinkingTokens": 3859,
+      "responses": 21,
+      "costUsd": 1.4215022000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 1.3797928000000002,
+    "matchedEventUsd": 1.3797928000000002,
+    "unseen": {}
+  }
+}
