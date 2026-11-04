@@ -144,6 +144,16 @@ Bite 1, in part:
   `pages/post/lib` to `shared/content` so the script reaches them.
 - **`CONTENT_AS_OF=2026-11-11 pnpm build unsquatted` passes**: index, post,
   feed, sitemap; looked at on the dev server in both themes.
+- **The blog is "Names and Dates"** (operator's rename), subtitled ", by the
+  Unnamed of Unsquatted"; the collection's label follows (d2621568).
+- **The layout follows the mockups** (46afe3a9), after the operator found it off
+  them: blog's `ArticleSlots` gained `masthead`, `header` and `outlineless`;
+  unsquatted's `widgets/masthead` tops the post and the index; `PostHeader`
+  (`pages/post`) sets title, lede and byline with `.md` on one line; prose is
+  18px with display-serif headings (`site.scss`); both pages read in a 720px
+  column. Looked at in light only.
+- **`/polish`'s `/dry` pass ran** (7019c3bd); `/tend-prose` and `/five-percent`
+  did not, so the next run is `/polish full`.
 
 ## Rest of the bite
 
@@ -158,9 +168,18 @@ Left:
   collection's first post, at the cost of one stray 404 page; (b) merge and vet
   only on or after 9.11; (c) date post 1 earlier, publishing it on merge.
   Recommended: (a).
-- Step 3's `/polish`, then `/pr` (refresh the body and squash proposal: the
-  slots deviation, the card seam, `compileBody`).
-- The live preview `-f as-of=2026-11-11`, republished after any visible change.
+- **A livelier lede for post 1**, by the Unnamed (`/persona unnamed`): the
+  operator called the current one sloppy against the mockup's ("Four ones in a
+  row started as a joke among Nanjing students and became the biggest shopping
+  day on Earth. Here are the names it left lying around.").
+- **The rest of the mockup look**: the widgets' share button as "⤴ share" (a
+  labelled `ShareMenu` trigger, `widgets/field-tools`) rather than a bare icon;
+  check the widgets, the masthead and the header against the mockups in dark and
+  at phone width.
+- `/polish full`, then `/pr` (refresh the body and squash proposal: the slots
+  deviation, the new article slots, the card seam, `compileBody`).
+- **No live preview**: the operator said another branch is using it. Look on the
+  dev server only.
 
 The headings below are the original contract; where `## Eaten so far` says
 otherwise, it wins.
