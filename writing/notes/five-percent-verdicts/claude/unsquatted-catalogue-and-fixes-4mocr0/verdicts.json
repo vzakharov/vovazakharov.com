@@ -1,0 +1,11 @@
+{
+  "pr": 244,
+  "verdicts": [
+    {
+      "comment": 4463408513,
+      "about": "Name Google's public DNS in the privacy line, since .io/.co/.me go to dns.google",
+      "verdict": 0.2,
+      "why": "Answered in the session: \"so what -- nothing reaches our server anyway\", and the line naming Google read as heavy. The proposal's fallback, keep only \"we never see them\", is roughly what shipped; its main fix was turned down."
+    }
+  ]
+}
