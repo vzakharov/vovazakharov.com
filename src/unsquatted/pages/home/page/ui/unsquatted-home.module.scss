@@ -178,3 +178,10 @@ $field-own-row: 30em;
 .moreZones {
   @extend %fold-toggle;
 }
+
+// Under the field, once the dice have been rolled a few times in a visit.
+.diceNudge {
+  margin: 8px 0 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.875rem;
+}

@@ -32,8 +32,10 @@ export const blogIndexMetadata = constructMetadata({
 function namesLine(domains: readonly string[]): string {
   const rest = domains.length - NAMES_SHOWN;
 
-  return [...domains.slice(0, NAMES_SHOWN), ...(rest > 0 ? [`+${rest}`] : [])]
-    .join(' · ');
+  return [
+    ...domains.slice(0, NAMES_SHOWN),
+    ...(rest > 0 ? [`+${rest}`] : []),
+  ].join(' · ');
 }
 
 /**

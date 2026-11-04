@@ -98,10 +98,12 @@ export function domainsList(placeholder: WidgetPlaceholder): DomainsList {
 
 /** `::name{word=… zones=… note=…}`: one word across a few zones. */
 export function nameAcross(placeholder: WidgetPlaceholder): NameAcross {
-  const { word, zones = DEFAULT_ZONES, note, id } = parsed(
-    nameSchema,
-    placeholder,
-  );
+  const {
+    word,
+    zones = DEFAULT_ZONES,
+    note,
+    id,
+  } = parsed(nameSchema, placeholder);
 
   return {
     word,

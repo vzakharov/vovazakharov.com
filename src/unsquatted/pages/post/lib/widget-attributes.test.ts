@@ -57,11 +57,10 @@ describe('nameAcross', () => {
   });
 
   it('falls back to the common zones', () => {
-    assert.deepEqual(nameAcross(placeholder('name', { word: 'solo' })).domains, [
-      'solo.com',
-      'solo.net',
-      'solo.org',
-    ]);
+    assert.deepEqual(
+      nameAcross(placeholder('name', { word: 'solo' })).domains,
+      ['solo.com', 'solo.net', 'solo.org'],
+    );
   });
 
   it('throws on a word no label may be', () => {

@@ -9,6 +9,10 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 
+import { TextLink } from '@/shell/shared/ui';
+
+import { collectionRoute } from '@/blog/shared/content/index.node-safe';
+
 import {
   type CopiedPrices,
   OWN_DOMAIN,
@@ -31,6 +35,9 @@ import classes from './unsquatted-home.module.scss';
  * in the stylesheet's `.zones`.
  */
 const CLOSED_ROWS = 9;
+
+/** The roll after which the field offers the blog instead. */
+const NUDGE_ROLLS = 3;
 
 const checkableDomains = (rows: readonly Row[]) =>
   rows.filter(({ checkable }) => checkable).map(({ domain }) => domain);
@@ -60,6 +67,8 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
   const [open, setOpen] = useState(false);
   const [wanted, setWanted] = useState(false);
   const [rolling, setRolling] = useState(false);
+  // The page view's own count: every visit starts at zero.
+  const [rolls, setRolls] = useState(0);
   const words = useWords(label !== '');
   const rows =
     label === '' ? [] : rowsFor(label, zone, Object.keys(prices), words);
@@ -132,6 +141,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           loading={rolling}
           onClick={() => {
             setRolling(true);
+            setRolls(rolls + 1);
             rollName()
               .then(checkHere, reportError)
               .finally(() => {
@@ -151,6 +161,14 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           {copy.checkButton}
         </Button>
       </form>
+      {rolls >= NUDGE_ROLLS && (
+        <p className={classes['diceNudge']}>
+          {copy.diceNudge}{' '}
+          <TextLink href={collectionRoute('unsquatted-blog')}>
+            {copy.diceNudgeLink}
+          </TextLink>
+        </p>
+      )}
       {rows.length > 0 && (
         <ul className={classes['zones']} data-open={open} aria-live="polite">
           {rows.map((row, index) => (

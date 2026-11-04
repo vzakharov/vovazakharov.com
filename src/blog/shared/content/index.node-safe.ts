@@ -6,6 +6,7 @@
 export {
   collectionDir,
   type CollectionId,
+  collectionRoute,
   COLLECTIONS,
   collectionsForSite,
   documentRoute,

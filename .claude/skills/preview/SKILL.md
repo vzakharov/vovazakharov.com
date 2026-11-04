@@ -200,6 +200,7 @@ looking at the preview is looking at that branch.
 
 ```bash
 gh workflow run preview.yml --ref <branch> -f site=<site>   # vova, lsa, bible or basilisk
+# -f as-of=YYYY-MM-DD publishes as of that day, so a post dated later shows
 gh run watch "$(gh run list --workflow=preview.yml --branch=<branch> \
   --limit 1 --json databaseId --jq '.[0].databaseId')"
 ```

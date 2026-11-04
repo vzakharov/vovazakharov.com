@@ -12,6 +12,10 @@ on:
         required: true
         type: choice
         options: [vova, lsa, bible, basilisk, maya, unsquatted]
+      as-of:
+        description: The day to publish as of, YYYY-MM-DD, so a post shows before its date; today if empty
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -27,6 +31,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SITE: ${{ inputs.site }}
+      # Read by blog's embargo, which takes an empty value as today.
+      CONTENT_AS_OF: ${{ inputs.as-of }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

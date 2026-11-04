@@ -27,7 +27,9 @@ const isDomainsWidget = (element: Element) =>
  * them, read off the tree the pipeline compiles, so no second reader of the
  * directive can disagree with the page.
  */
-export async function postDomains(document: ContentDocument): Promise<string[]> {
+export async function postDomains(
+  document: ContentDocument,
+): Promise<string[]> {
   const { tree }: { tree: Root } = await renderDocument(document);
 
   return [...elements(tree.children)]
