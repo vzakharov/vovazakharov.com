@@ -22,7 +22,7 @@ import {
 import { canCopyImage, type CardText, shareCard } from '../lib/share-card';
 import { CardPreview, type CardState, useObjectUrl } from './card-preview';
 import classes from './field-tools.module.scss';
-import { useDrawnAhead, useShareSheet } from './share-sheet';
+import { useShareSheet } from './share-sheet';
 
 /** The class of a square button beside the field, the dice's included. */
 export const TOOL_BUTTON = classes['tool'];
@@ -56,8 +56,6 @@ type SharePopoverProps = Sharing &
   Typed &
   Labeled & {
     drawCard: DrawCard;
-    /** Names what `drawCard` draws, so a card drawn ahead is known stale. */
-    cardKey: string | undefined;
   };
 
 type LabelProps = { children: readonly string[]; showing: number };
@@ -117,22 +115,19 @@ const SHARE_WIDTH = 'min(400px, calc(100vw - var(--mantine-spacing-xl)))';
 /**
  * The card is drawn afresh each time the popover opens, for the name and
  * likes as they are then; a drawing an earlier opening started and a later
- * one overtook is dropped. Where the system has a share sheet, a tap hands it
- * the card drawn ahead and the link instead, and asks for no lookup: the card
- * is what is on screen. The popover stands in while that card is not drawn
- * yet, or when the sheet fails.
+ * one overtook is dropped. Where the system has a share sheet, the buttons
+ * hand it the link or the card rather than copying them — one item a share,
+ * since iOS previews neither of two.
  */
 function SharePopover({
   typed,
   label,
   drawCard,
-  cardKey,
   onReached,
   looking,
   copy,
 }: SharePopoverProps) {
   const sheet = useShareSheet();
-  const ahead = useDrawnAhead(cardKey, drawCard, sheet);
   // Read on use: the page is rendered at build time too, with no location.
   const href = () => domainLink(typed, new URL(globalThis.location.href));
   const [opened, setOpened] = useState(false);
@@ -164,15 +159,19 @@ function SharePopover({
       },
     );
   };
-  const share = (file: File) => {
-    navigator.share({ files: [file], url: href() }).catch((error: unknown) => {
+  const share = (data: ShareData) => {
+    navigator.share(data).then(close, (error: unknown) => {
       // Dismissing the sheet rejects the share too, and that is no failure.
       if (error instanceof DOMException && error.name === 'AbortError') return;
       reportError(error);
-      open();
     });
   };
-  const reached = sheet ? undefined : onReached;
+  const shareImage = (file: File) => {
+    const data = { files: [file] };
+
+    if (navigator.canShare(data)) share(data);
+    else image.copy(file);
+  };
 
   return (
     <Popover
@@ -190,15 +189,10 @@ function SharePopover({
           aria-label={copy.share}
           title={copy.share}
           aria-expanded={opened}
-          onPointerEnter={reached}
-          onFocus={reached}
+          onPointerEnter={onReached}
+          onFocus={onReached}
           onClick={() => {
             if (opened) close();
-            else if (
-              ahead !== undefined &&
-              navigator.canShare({ files: [ahead] })
-            )
-              share(ahead);
             else open();
           }}
         >
@@ -206,18 +200,30 @@ function SharePopover({
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown className={classes['share']}>
-        <LinkField href={href()} {...{ link, copy }} />
-        {canCopyImage() && (
+        <LinkField
+          href={href()}
+          share={
+            sheet
+              ? () => {
+                  share({ url: href() });
+                }
+              : undefined
+          }
+          {...{ link, copy }}
+        />
+        {(sheet || canCopyImage()) && (
           <Button
             fullWidth
             leftSection={<ImageIcon size={14} />}
             disabled={!(card instanceof File)}
             onClick={() => {
-              if (card instanceof File) image.copy(card);
+              if (!(card instanceof File)) return;
+              if (sheet) shareImage(card);
+              else image.copy(card);
             }}
           >
             <Label showing={image.copied ? 1 : 0}>
-              {[copy.copyAsImage, copy.copied]}
+              {[sheet ? copy.shareAsImage : copy.copyAsImage, copy.copied]}
             </Label>
           </Button>
         )}
@@ -238,13 +244,15 @@ function SharePopover({
 type LinkFieldProps = WithCopy & {
   href: string;
   link: ReturnType<typeof useCopied>;
+  /** Given, the button shares the link rather than copying it. */
+  share: (() => void) | undefined;
 };
 
 /**
- * The link as a field, its scheme left off, beside the button that copies it
- * whole; selectable by hand where the clipboard refuses the button.
+ * The link as a field, its scheme left off, beside the button that copies or
+ * shares it whole; selectable by hand where the clipboard refuses the button.
  */
-function LinkField({ href, link, copy }: LinkFieldProps) {
+function LinkField({ href, link, share, copy }: LinkFieldProps) {
   return (
     <div className={classes['linkBox']}>
       <input
@@ -261,11 +269,12 @@ function LinkField({ href, link, copy }: LinkFieldProps) {
         leftSection={<LinkIcon size={14} />}
         className={classes['linkCopy']}
         onClick={() => {
-          link.copy(href);
+          if (share) share();
+          else link.copy(href);
         }}
       >
         <Label showing={link.copied ? 1 : 0}>
-          {[copy.copyLink, copy.copied]}
+          {[share ? copy.shareLink : copy.copyLink, copy.copied]}
         </Label>
       </Button>
     </div>
@@ -332,7 +341,6 @@ export function FieldTools({
             ? undefined
             : async () => shareCard(label, rows, cardText(copy))
         }
-        cardKey={rows === undefined ? undefined : JSON.stringify([label, rows])}
         looking={
           looking &&
           !(rows !== undefined && cardSettled(rows, order, shown, { verdicts }))
