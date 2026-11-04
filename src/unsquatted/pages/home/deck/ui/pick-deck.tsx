@@ -7,8 +7,8 @@ import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 import type { Headed } from '@/kernel/shared/typings';
 
 import { type CopiedPrices, zoneOf } from '../../checker';
-import { draw } from '../lib/draw';
 import type { ShownName } from '../../picks';
+import { draw } from '../lib/draw';
 import classes from './deck.module.scss';
 import { PickRow } from './pick-row';
 import {
