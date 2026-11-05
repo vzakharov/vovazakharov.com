@@ -1,9 +1,8 @@
 /**
  * Basilisk, a working title: a serpent from one square, in simple and reverse
  * folds, then shaped. The axis is the diagonal (0,0)–(1,1), the tail at (0,0)
- * and the head at (1,1); a diamond narrowed from both corners leaves the body
- * widest mid-sheet. After the fold in half the strip lies at h ≥ 0, the spine
- * (the belly) at h = 0.
+ * and the head at (1,1). After the fold in half the strip lies at h ≥ 0, the
+ * spine (the belly) at h = 0.
  */
 import {
   type FoldDirection,
@@ -26,7 +25,7 @@ const ray = (deg: number, from: Vec = [0, 0]): Step['line'] => ({
 });
 
 /** A corner's two edges valley-folded to the diagonal: the ray at `deg` from
- * `from` moving the flap at `moving`, then its mirror across the diagonal. */
+ * `from`, then its mirror across the diagonal. */
 const edgesToDiagonal = (
   deg: number,
   [x, y]: Vec,

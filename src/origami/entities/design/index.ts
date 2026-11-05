@@ -1,3 +1,3 @@
-// masd-disable insignificant -- only the fold CLI reads the designs today, and scripts count as no reference; the site's step-by-step player is the consumer that earns the slice, and the marker goes when it lands.
+// masd-disable insignificant -- the site's step-by-step player earns it; until that lands, only the fold CLI reads the designs.
 export { type Design } from './model/design.ts';
 export { DESIGN_IDS, type DesignId, DESIGNS } from './model/designs.ts';

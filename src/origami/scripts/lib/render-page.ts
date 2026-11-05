@@ -4,9 +4,8 @@
  * every piece, so stacked layers read as layers. Bundled by esbuild into one
  * inline script; runs in the browser only.
  *
- * It sets `show(frames, columns)` on the global, which draws one or more views of a
- * model synchronously — several as a labelled grid on one image — and `ready`
- * once that exists.
+ * It sets `show(frames, columns)` on the global, which draws synchronously,
+ * and `ready` once that exists.
  */
 import {
   ACESFilmicToneMapping,

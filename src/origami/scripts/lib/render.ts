@@ -20,7 +20,7 @@ import { launch, openTab } from '@/scene/scripts/lib/cdp';
 
 export type { View } from './render-page.ts';
 
-/** One frame's size; a shot of several lays them out two to a row. */
+/** One frame's size, not the page's. */
 const WIDTH = 900;
 const HEIGHT = 700;
 const COLUMNS = 2;

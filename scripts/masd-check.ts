@@ -41,11 +41,8 @@ const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
 
-/**
- * The comment a slice's `index.ts` carries to be spared the significance
- * check, by the operator's leave; the reason after `--` says what would earn
- * the slice, so the marker goes once that arrives.
- */
+/** The comment a slice's `index.ts` carries to be spared the significance
+ * check, by the operator's leave. */
 const STAYS = /\/\/ masd-disable insignificant -- \S/;
 
 function stays(slice: string): boolean {

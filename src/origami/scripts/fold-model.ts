@@ -1,9 +1,10 @@
 /**
  * Folds a design and writes what an agent needs to judge it to
  * `tmp/origami/<design>/`: `views.png`, every view on one labelled sheet,
- * `model.json`, the crease pattern, and a per-step physics report. Exits non-zero when the report has
- * an error-level finding — after writing everything, so the renders of an
- * unfoldable model can still be looked at, but never mistaken for a pass.
+ * `model.json`, the crease pattern, and a per-step physics report. Exits
+ * non-zero when the report has an error-level finding — after writing
+ * everything, so the renders of an unfoldable model can still be looked at,
+ * but never mistaken for a pass.
  *
  * Usage: pnpm origami <design> [--paper <preset>]
  *        [--views "name=az,el[,zoom];…"] [--seq] [--no-render]
