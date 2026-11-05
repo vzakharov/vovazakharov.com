@@ -161,6 +161,20 @@ export function useIdeas(label: string): Ideas {
 
   const thinking = asked !== undefined;
   const evicted = agreed && present === false;
+  // Loading weights already cached is no download.
+  const downloading = agreed && !evicted ? undefined : progress;
+  const fetching = downloading !== undefined;
+
+  // Closing the tab mid-download asks first: the browser keeps only the files
+  // downloaded whole, and the bulk of the weights is one file.
+  useEffect(() => {
+    if (!fetching) return;
+    globalThis.addEventListener('beforeunload', holdPage);
+
+    return () => {
+      globalThis.removeEventListener('beforeunload', holdPage);
+    };
+  }, [fetching]);
 
   const turnOn = () => {
     setFailed(false);
@@ -192,8 +206,13 @@ export function useIdeas(label: string): Ideas {
     thinking,
     ring: ringOf({ loading: progress, asked: thinking, ready, timed }),
     asked,
-    downloading: agreed && !evicted ? undefined : progress,
+    downloading,
     failed,
     names,
   };
+}
+
+/** Has the browser ask before the page goes, in words of its own. */
+function holdPage(event: BeforeUnloadEvent) {
+  event.preventDefault();
 }
