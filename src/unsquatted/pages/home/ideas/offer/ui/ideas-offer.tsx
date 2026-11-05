@@ -23,14 +23,17 @@ type IdeasOfferProps = WithCopy & {
 };
 
 /**
- * The lightbulb among the field's tool buttons: before the opt-in it opens the
- * offer, after it brainstorms the name in the field. A ring round the bulb
- * fills with the download and then with the generation, the way an app's icon
- * fills as it installs.
+ * The lightbulb among the field's tool buttons, shown once unlocked: before
+ * the opt-in it opens the offer, after it brainstorms the name in the field. A
+ * ring round the bulb fills with the download and then with the generation,
+ * the way an app's icon fills as it installs.
  */
 export function IdeasOffer({
   ideas: {
     available,
+    unlocked,
+    pointing,
+    noticed,
     optedIn,
     evicted,
     turnOn,
@@ -51,7 +54,7 @@ export function IdeasOffer({
    */
   const [opened, setOpened] = useState<'offer' | 'evicted'>();
 
-  if (!available) return;
+  if (!available || !unlocked) return;
 
   const label = buttonLabel(copy.ideas, {
     optedIn,
@@ -62,13 +65,15 @@ export function IdeasOffer({
   });
 
   return (
-    <>
+    <span className={classes['spot']} data-pointing={pointing}>
       <ActionIcon
         variant="default"
         size={42}
         aria-label={label}
         title={label}
         onClick={() => {
+          noticed();
+
           if (!optedIn) {
             setOpened('offer');
 
@@ -83,6 +88,15 @@ export function IdeasOffer({
         <Lightbulb size={20} />
         {ring && <Ring key={asked} target={ring} />}
       </ActionIcon>
+      {pointing && (
+        <span className={classes['note']} aria-hidden>
+          {copy.ideas.thereYouGo}
+          <svg className={classes['arrow']} viewBox="0 0 40 44">
+            <path d="M3 5 C 24 2, 34 14, 30 38" />
+            <path d="M23 31 L 30 39 L 36 30" />
+          </svg>
+        </span>
+      )}
       <IdeasModal
         opened={opened !== undefined}
         evicted={opened === 'evicted'}
@@ -93,7 +107,7 @@ export function IdeasOffer({
         onStop={stop}
         {...{ optedIn, downloading, failed, copy }}
       />
-    </>
+    </span>
   );
 }
 

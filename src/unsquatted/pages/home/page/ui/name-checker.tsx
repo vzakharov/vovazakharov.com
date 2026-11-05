@@ -128,6 +128,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           value={typed}
           onChange={(event) => {
             type(event.currentTarget.value);
+            ideas.listen(event.currentTarget.value);
           }}
           rightSection={
             typed === '' ? undefined : (

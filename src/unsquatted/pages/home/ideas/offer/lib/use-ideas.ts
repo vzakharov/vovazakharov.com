@@ -16,9 +16,11 @@ import {
   watchLoad,
 } from '../../brainstorm';
 import { ringOf, type RingTarget } from './ring';
+import { unlocks } from './unlock';
 
 const KEY = 'unsquatted.ideas';
 const TIMED_KEY = 'unsquatted.ideasSeconds';
+const UNLOCKED_KEY = 'unsquatted.ideasUnlocked';
 
 /** Where the opt-in and its download stand. */
 export type Loading = {
@@ -44,6 +46,20 @@ export type Stage = Loading & {
 export type Ideas = Stage & {
   /** The model can run here. */
   available: boolean;
+  /**
+   * The visitor once typed "give me ai", or opted in before the bulb hid
+   * behind it, so the bulb shows.
+   */
+  unlocked: boolean;
+  /**
+   * Unlocked just now: the bulb pops in with a note pointing at it, which
+   * stays until the bulb is pressed.
+   */
+  pointing: boolean;
+  /** Unlocks the bulb when `typed`, the field's text, is the phrase. */
+  listen: (typed: string) => void;
+  /** The bulb was pressed, so the note goes. */
+  noticed: () => void;
   /** Downloads the model, opting in once it is ready, then brainstorms. */
   turnOn: () => void;
   /**
@@ -69,8 +85,8 @@ export type Ideas = Stage & {
  * variations stay until the next press brings new ones, so the visitor can
  * try them one after another. The first generation is timed and the time
  * kept, to pace the ring of every later one. `unsquattedForget()` in the
- * console undoes the opt-in and the timing and deletes the weights, for
- * testing the offer and the download again.
+ * console undoes the unlock, the opt-in and the timing and deletes the
+ * weights, for testing the phrase, the offer and the download again.
  */
 export function useIdeas(label: string): Ideas {
   const [agreed, setAgreed] = useLocalStorage({
@@ -81,6 +97,11 @@ export function useIdeas(label: string): Ideas {
     key: TIMED_KEY,
     defaultValue: undefined,
   });
+  const [unlocked, setUnlocked, forgetUnlocked] = useLocalStorage({
+    key: UNLOCKED_KEY,
+    defaultValue: false,
+  });
+  const [pointing, setPointing] = useState(false);
   const [available, setAvailable] = useState(false);
   /**
    * The weights were found cached or just downloaded (`true`), or found
@@ -112,6 +133,8 @@ export function useIdeas(label: string): Ideas {
     Object.defineProperty(globalThis, 'unsquattedForget', {
       configurable: true,
       value: async () => {
+        forgetUnlocked();
+        setPointing(false);
         setAgreed(false);
         forgetTimed();
         setPresent(undefined);
@@ -119,10 +142,10 @@ export function useIdeas(label: string): Ideas {
         await forgetModel();
 
         // The console prints what the call resolves to.
-        return 'Forgot the opt-in and the timing, and deleted the model from this site’s storage.';
+        return 'Forgot the unlock, the opt-in and the timing, and deleted the model from this site’s storage.';
       },
     });
-  }, [setAgreed, forgetTimed]);
+  }, [forgetUnlocked, setAgreed, forgetTimed]);
 
   useEffect(() => {
     if (asked === undefined || !agreed || present !== true) return;
@@ -193,8 +216,20 @@ export function useIdeas(label: string): Ideas {
     );
   };
 
+  const open = unlocked || agreed;
+
   return {
     available,
+    unlocked: open,
+    pointing,
+    listen: (typed) => {
+      if (open || !unlocks(typed)) return;
+      setUnlocked(true);
+      setPointing(true);
+    },
+    noticed: () => {
+      setPointing(false);
+    },
     optedIn: agreed,
     evicted,
     turnOn,

@@ -110,6 +110,68 @@
   }
 }
 
+// The bulb's place among the tool buttons, which the note hangs from.
+.spot {
+  position: relative;
+  display: inline-flex;
+}
+
+// Unlocked just now, the bulb pops in, and the note arrives once it has.
+@media (prefers-reduced-motion: no-preference) {
+  .spot[data-pointing='true'] > :first-child {
+    animation: pop-in 480ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+
+  .note {
+    animation: fade-in 300ms ease-out 380ms both;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+// "There you go" in the hand of the share card's aside, above and to the
+// left of the bulb, its arrow curling down onto the bulb's top.
+.note {
+  position: absolute;
+  z-index: 1;
+  right: 8px;
+  bottom: calc(100% - 4px);
+  display: flex;
+  align-items: flex-start;
+  color: var(--color-accent);
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.arrow {
+  width: 30px;
+  height: 34px;
+  margin-top: 10px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
 .explainer p {
   margin: 0 0 12px;
   line-height: 1.6;
