@@ -3,7 +3,7 @@
  * out of the table plane, and its rotation composes into the piece's `Mat4`
  * on top of the flat placement.
  */
-import { type Line,normalize } from './geometry.ts';
+import { type Line, normalize } from './geometry.ts';
 
 export type Vec3 = readonly [number, number, number];
 /** A 4×4 affine matrix, column-major as three.js stores it. */
@@ -23,7 +23,8 @@ export function multiply(outer: Mat4, inner: Mat4): Mat4 {
     const row = index % 4;
     const column = Math.floor(index / 4);
     let sum = 0;
-    for (let k = 0; k < 4; k++) sum += cell(outer, row, k) * cell(inner, k, column);
+    for (let k = 0; k < 4; k++)
+      sum += cell(outer, row, k) * cell(inner, k, column);
     return sum;
   });
 }
@@ -35,7 +36,22 @@ export const transform = (m: Mat4, [x, y, z]: Vec3): Vec3 => [
 ];
 
 const translation = ([x, y]: readonly [number, number]): Mat4 => [
-  1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, x, y, 0, 1,
+  1,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  x,
+  y,
+  0,
+  1,
 ];
 
 /** Rotation by `theta` radians about `line`, lying in the table plane. */
@@ -45,10 +61,22 @@ export function rotationAbout(line: Line, theta: number): Mat4 {
   const s = Math.sin(theta);
   const t = 1 - c;
   const rotation: Mat4 = [
-    t * x * x + c, t * x * y, -s * y, 0,
-    t * x * y, t * y * y + c, s * x, 0,
-    s * y, -s * x, c, 0,
-    0, 0, 0, 1,
+    t * x * x + c,
+    t * x * y,
+    -s * y,
+    0,
+    t * x * y,
+    t * y * y + c,
+    s * x,
+    0,
+    s * y,
+    -s * x,
+    c,
+    0,
+    0,
+    0,
+    0,
+    1,
   ];
   return multiply(
     translation(line.p),

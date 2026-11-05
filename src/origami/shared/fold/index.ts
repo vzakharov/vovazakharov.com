@@ -14,6 +14,20 @@ export {
   type PaperId,
   PAPERS,
 } from './paper.ts';
+export {
+  CREEP_ERROR,
+  CREEP_WARN,
+  type Finding,
+  type Level,
+  LEVELS,
+  measure,
+  physics,
+  REVERSE_LAYERS_ERROR,
+  SIMPLE_LAYERS_ERROR,
+  SIMPLE_LAYERS_WARN,
+  type StepReport,
+  TIP_WARN_DEGREES,
+} from './physics.ts';
 export { type PieceSnapshot, type Snapshot, snapshot } from './snapshot.ts';
 export { type Vec3 } from './space.ts';
 export {

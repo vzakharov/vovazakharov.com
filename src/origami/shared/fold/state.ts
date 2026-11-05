@@ -17,13 +17,18 @@ import {
 } from './geometry.ts';
 import { IDENTITY4, type Mat4 } from './space.ts';
 
-export type Piece = {
+/** A piece of the sheet as the paper knows it: which one, and its outline in
+ * paper coordinates. */
+export type PaperPiece = {
   readonly id: number;
   readonly paper: Polygon;
+};
+
+export type Piece = PaperPiece & {
   /** Paper → flat folded state. */
   placement: Affine;
   /** Stacking key in the flat state: higher lies above. Only order matters. */
-  z: number;
+  order: number;
   /** Shaping folds, applied on top of the flat placement. */
   shaping: Mat4;
   readonly tags: Set<string>;
@@ -54,6 +59,11 @@ export type FoldRecord = {
   readonly lowerTag: string | undefined;
 };
 
+/** Whether `piece` is in the upper half of a reverse fold: the half not
+ * carrying `lowerTag`, or, with none given, the half tagged `R`. */
+export const isUpper = (piece: Piece, lowerTag: string | undefined): boolean =>
+  lowerTag === undefined ? piece.tags.has('R') : !piece.tags.has(lowerTag);
+
 export type FoldState = {
   pieces: Piece[];
   readonly log: FoldRecord[];
@@ -72,7 +82,7 @@ export function square(): FoldState {
           [0, 1],
         ],
         placement: IDENTITY,
-        z: 0,
+        order: 0,
         shaping: IDENTITY4,
         tags: new Set(),
       },
@@ -113,7 +123,7 @@ export function adjacency(p: Piece, q: Piece): Segment | undefined {
  * beneath it. Pieces apart from each other both sit on layer 0. */
 export function layers(state: FoldState): Map<number, number> {
   const stack = [...state.pieces]
-    .toSorted((a, b) => a.z - b.z)
+    .toSorted((a, b) => a.order - b.order)
     .map((piece) => ({ ...piece, polygon: flatPolygon(piece), layer: 0 }));
   for (const [i, entry] of stack.entries()) {
     for (const below of stack.slice(0, i)) {

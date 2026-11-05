@@ -18,7 +18,10 @@ describe('fold', () => {
     assert.equal(state.pieces.length, 2);
     const total = state.pieces.reduce((sum, p) => sum + area(p.paper), 0);
     assert.ok(Math.abs(total - 1) < 1e-9);
-    assert.deepEqual([...layers(state).values()].toSorted((a, b) => a - b), [0, 1]);
+    assert.deepEqual(
+      [...layers(state).values()].toSorted((a, b) => a - b),
+      [0, 1],
+    );
   });
 
   it('turns the moved half face down', () => {
@@ -41,8 +44,6 @@ describe('fold', () => {
   });
 
   it('refuses a moving point on the line', () => {
-    assert.throws(() =>
-      fold(square(), { ...bookFold, moving: [0.5, 0.3] }),
-    );
+    assert.throws(() => fold(square(), { ...bookFold, moving: [0.5, 0.3] }));
   });
 });

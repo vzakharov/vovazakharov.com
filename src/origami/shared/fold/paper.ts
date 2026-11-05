@@ -1,6 +1,10 @@
 /** The sheets a design can be judged against: side and thickness in mm. */
 
-export const PAPER_IDS = ['kami-15', 'copy-a4-square', 'tissue-foil-35'] as const;
+export const PAPER_IDS = [
+  'kami-15',
+  'copy-a4-square',
+  'tissue-foil-35',
+] as const;
 export type PaperId = (typeof PAPER_IDS)[number];
 
 export type Paper = { readonly side: number; readonly thickness: number };

@@ -27,6 +27,7 @@ import {
   flatPolygon,
   type FoldDirection,
   type FoldState,
+  isUpper,
   type Piece,
   square,
 } from './state.ts';
@@ -64,7 +65,7 @@ export type StepSpec = Step | ((state: FoldState) => Step);
 function piecesAt(state: FoldState, at: Vec): Piece[] {
   const here = state.pieces
     .filter((p) => contains(flatPolygon(p), at))
-    .toSorted((a, b) => a.z - b.z);
+    .toSorted((a, b) => a.order - b.order);
   if (here.length === 0) throw new Error(`fold: nothing at ${at.join(',')}`);
   return here;
 }
@@ -96,12 +97,19 @@ function seeds(
 
 /** The moving set: seeds split by the line, closed over paper adjacency
  * across every shared edge that is not on the fold line. */
-function flap(state: FoldState, seedPieces: Piece[], line: Line, movingSign: number): Set<number> {
+function flap(
+  state: FoldState,
+  seedPieces: Piece[],
+  line: Line,
+  movingSign: number,
+): Set<number> {
   const moving = new Set<number>();
   const processed = new Set<number>();
   const queue = seedPieces.map((p) => p.id);
   const onLine = (piece: Piece, points: readonly Vec[]) =>
-    points.every((pt) => Math.abs(side(apply(piece.placement, pt), line)) < NEAR);
+    points.every(
+      (pt) => Math.abs(side(apply(piece.placement, pt), line)) < NEAR,
+    );
 
   for (let id = queue.shift(); id !== undefined; id = queue.shift()) {
     if (processed.has(id)) continue;
@@ -127,14 +135,20 @@ function flap(state: FoldState, seedPieces: Piece[], line: Line, movingSign: num
     if (stationaryPart) {
       mover = cut(state, piece, movingPart);
       const rest = cut(state, piece, stationaryPart);
-      state.pieces = [...state.pieces
-        .filter((p) => p.id !== piece.id), mover, rest];
+      state.pieces = [
+        ...state.pieces.filter((p) => p.id !== piece.id),
+        mover,
+        rest,
+      ];
       processed.add(mover.id);
       processed.add(rest.id);
     }
     moving.add(mover.id);
     for (const other of state.pieces) {
-      if (other.id === mover.id || (processed.has(other.id) && moving.has(other.id))) {
+      if (
+        other.id === mover.id ||
+        (processed.has(other.id) && moving.has(other.id))
+      ) {
         continue;
       }
       const shared = adjacency(mover, other);
@@ -149,19 +163,27 @@ function flap(state: FoldState, seedPieces: Piece[], line: Line, movingSign: num
 /** Re-keys `group` former-top-first: a flap turned over reverses its order. */
 function restack(group: Piece[], key: (i: number, n: number) => number): void {
   for (const [i, piece] of [...group]
-    .toSorted((a, b) => b.z - a.z).entries()) {
-      piece.z = key(i, group.length);
-    }
+    .toSorted((a, b) => b.order - a.order)
+    .entries()) {
+    piece.order = key(i, group.length);
+  }
 }
 
 function extreme(zs: number[], pick: typeof Math.max): number {
   if (zs.length === 0) {
-    throw new Error('fold: a reverse fold needs a stationary part in each half');
+    throw new Error(
+      'fold: a reverse fold needs a stationary part in each half',
+    );
   }
   return pick(...zs);
 }
 
-function flatFold(state: FoldState, moved: Piece[], line: Line, step: Step): void {
+function flatFold(
+  state: FoldState,
+  moved: Piece[],
+  line: Line,
+  step: Step,
+): void {
   const direction = step.direction ?? 'valley';
   const mirror = reflection(line);
   for (const piece of moved) piece.placement = compose(mirror, piece.placement);
@@ -169,17 +191,16 @@ function flatFold(state: FoldState, moved: Piece[], line: Line, step: Step): voi
   const stationary = state.pieces.filter((p) => !movedIds.has(p.id));
 
   if (direction === 'valley' || direction === 'mountain') {
-    const zs = stationary.map((p) => p.z);
+    const zs = stationary.map((p) => p.order);
     const base =
       direction === 'valley'
         ? Math.max(0, ...zs) + 1
         : Math.min(0, ...zs) - moved.length - 1;
     restack(moved, (i) => base + i);
   } else {
-    const upper = (p: Piece) =>
-      step.lower === undefined ? p.tags.has('R') : !p.tags.has(step.lower);
-    const lowZ = stationary.filter((p) => !upper(p)).map((p) => p.z);
-    const upZ = stationary.filter((p) => upper(p)).map((p) => p.z);
+    const upper = (p: Piece) => isUpper(p, step.lower);
+    const lowZ = stationary.filter((p) => !upper(p)).map((p) => p.order);
+    const upZ = stationary.filter((p) => upper(p)).map((p) => p.order);
     const above = (anchor: number) => (i: number, n: number) =>
       anchor + (i + 1) / (n + 1);
     const below = (anchor: number) => (i: number, n: number) =>
@@ -195,9 +216,10 @@ function flatFold(state: FoldState, moved: Piece[], line: Line, step: Step): voi
     }
   }
   for (const [i, piece] of [...state.pieces]
-    .toSorted((a, b) => a.z - b.z).entries()) {
-      piece.z = i;
-    }
+    .toSorted((a, b) => a.order - b.order)
+    .entries()) {
+    piece.order = i;
+  }
 }
 
 /** Folds `state` in place by one step and records it in `state.log`. */
@@ -225,8 +247,12 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
   if (flat) flatFold(state, moved, line, step);
   else {
     const sign = direction === 'valley' ? 1 : -1;
-    const rotation = rotationAbout(line, ((angle * Math.PI) / 180) * sign * movingSign);
-    for (const piece of moved) piece.shaping = multiply(rotation, piece.shaping);
+    const rotation = rotationAbout(
+      line,
+      ((angle * Math.PI) / 180) * sign * movingSign,
+    );
+    for (const piece of moved)
+      piece.shaping = multiply(rotation, piece.shaping);
   }
 
   state.log.push({
@@ -240,7 +266,10 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
 }
 
 /** A fresh square folded by the first `upTo` steps. */
-export function run(steps: readonly StepSpec[], upTo = steps.length): FoldState {
+export function run(
+  steps: readonly StepSpec[],
+  upTo = steps.length,
+): FoldState {
   const state = square();
   for (const step of steps.slice(0, upTo)) fold(state, step);
   return state;

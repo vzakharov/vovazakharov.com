@@ -8,7 +8,10 @@ import { adjacency, type FoldState } from './state.ts';
 export const ASSIGNMENTS = ['M', 'V', 'F'] as const;
 export type Assignment = (typeof ASSIGNMENTS)[number];
 
-export type Crease = { readonly segment: Segment; readonly assignment: Assignment };
+export type Crease = {
+  readonly segment: Segment;
+  readonly assignment: Assignment;
+};
 
 export function creasePattern(state: FoldState): Crease[] {
   const creases: Crease[] = [];
@@ -21,7 +24,11 @@ export function creasePattern(state: FoldState): Crease[] {
       // Folded, the two faces turn opposite ways; seen from a's front side, a
       // valley brings b up over it.
       const assignment: Assignment =
-        aFrontUp === bFrontUp ? 'F' : aFrontUp === b.z > a.z ? 'V' : 'M';
+        aFrontUp === bFrontUp
+          ? 'F'
+          : aFrontUp === b.order > a.order
+            ? 'V'
+            : 'M';
       creases.push({ segment, assignment });
     }
   }
@@ -35,7 +42,10 @@ const STROKE: Record<Assignment, { color: string; dash: string }> = {
 };
 
 /** The pattern drawn on the unit square, valleys blue, mountains red. */
-export function creasePatternSvg(creases: readonly Crease[], side = 400): string {
+export function creasePatternSvg(
+  creases: readonly Crease[],
+  side = 400,
+): string {
   const pad = 10;
   const x = (u: number) => (pad + u * side).toFixed(2);
   const y = (v: number) => (pad + (1 - v) * side).toFixed(2);

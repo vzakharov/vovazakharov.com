@@ -162,5 +162,7 @@ export function sharedSegment(
   const td = dot(sub(d, a), u);
   const lo = Math.max(0, Math.min(tc, td));
   const hi = Math.min(len, Math.max(tc, td));
-  return hi - lo > NEAR ? [add(a, scale(u, lo)), add(a, scale(u, hi))] : undefined;
+  return hi - lo > NEAR
+    ? [add(a, scale(u, lo)), add(a, scale(u, hi))]
+    : undefined;
 }

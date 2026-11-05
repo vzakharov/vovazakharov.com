@@ -2,15 +2,13 @@
  * The folded state as a renderer reads it: every piece's corners in 3D, its
  * face, and its layer, each layer lifted by the paper's real thickness.
  */
-import { type Crease,creasePattern } from './crease-pattern.ts';
-import { apply, determinant, type Polygon } from './geometry.ts';
+import { type Crease, creasePattern } from './crease-pattern.ts';
+import { apply, determinant } from './geometry.ts';
 import type { Paper } from './paper.ts';
 import { transform, type Vec3 } from './space.ts';
-import { type FoldState, layers } from './state.ts';
+import { type FoldState, layers, type PaperPiece } from './state.ts';
 
-export type PieceSnapshot = {
-  readonly id: number;
-  readonly paper: Polygon;
+export type PieceSnapshot = PaperPiece & {
   readonly world: readonly Vec3[];
   /** Whether the paper's front faces up. */
   readonly front: boolean;
