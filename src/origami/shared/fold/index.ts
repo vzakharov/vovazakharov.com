@@ -1,6 +1,6 @@
 export { creasePatternSvg } from './crease-pattern.ts';
 export { run, type Step, type StepSpec } from './fold.ts';
-export { type Vec } from './geometry.ts';
+export { add, normalize, rotate, side, sub, type Vec } from './geometry.ts';
 export { DEFAULT_PAPER, PAPER_IDS, PAPERS } from './paper.ts';
 export { physics, REVERSE_LAYERS_ERROR, type StepReport } from './physics.ts';
 export { type Snapshot, snapshot } from './snapshot.ts';

@@ -5,10 +5,15 @@
  * spine (the belly) at h = 0.
  */
 import {
+  add,
   type FoldDirection,
   type FoldState,
+  normalize,
+  rotate,
+  side,
   type Step,
   type StepSpec,
+  sub,
   type Vec,
   where,
 } from '@/origami/shared/fold';
@@ -62,23 +67,15 @@ function spineFold(
   angle?: number,
 ): Step {
   const origin = where(state, spine(t));
-  const ahead = where(state, spine(t + 0.01));
-  const along = [ahead[0] - origin[0], ahead[1] - origin[1]] as const;
-  const norm = Math.hypot(...along);
-  const [dx, dy] = [along[0] / norm, along[1] / norm];
+  const along = normalize(sub(where(state, spine(t + 0.01)), origin));
   // The open side: where a point just off the spine, on the strip, lands.
   const off = where(state, [t * R + 0.003, t * R - 0.003]);
-  const openSide =
-    Math.sign(dx * (off[1] - origin[1]) - dy * (off[0] - origin[0])) || 1;
-  const a = deg * DEGREE * openSide;
+  const openSide = Math.sign(side(off, { p: origin, d: along })) || 1;
   const moving = where(state, spine(tMove));
   return {
     line: {
       p: origin,
-      q: [
-        origin[0] + Math.cos(a) * dx - Math.sin(a) * dy,
-        origin[1] + Math.sin(a) * dx + Math.cos(a) * dy,
-      ],
+      q: add(origin, rotate(along, deg * DEGREE * openSide)),
     },
     moving,
     select: { at: moving, all: true },

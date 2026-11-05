@@ -26,6 +26,11 @@ export const length = (a: Vec): number => Math.hypot(a[0], a[1]);
 export const normalize = (a: Vec): Vec => scale(a, 1 / length(a));
 /** `a` turned a quarter counter-clockwise. */
 export const perpendicular = (a: Vec): Vec => [-a[1], a[0]];
+/** `a` turned `radians` counter-clockwise. */
+export const rotate = ([x, y]: Vec, radians: number): Vec => [
+  Math.cos(radians) * x - Math.sin(radians) * y,
+  Math.sin(radians) * x + Math.cos(radians) * y,
+];
 
 /** The element at `i`, wrapping around both ends. */
 function cyclic<T>(xs: readonly T[], i: number): T {
