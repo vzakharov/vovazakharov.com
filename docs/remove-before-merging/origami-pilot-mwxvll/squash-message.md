@@ -1,18 +1,21 @@
 Proposed squash body:
 
 ```
-The pilot folding engine modelled zero-thickness, perfectly accurate
-paper, so it accepted designs no hand can fold, and its basilisk lay
-flat with its neck reverse-folded through 16 layers.
+An agent designing origami needs to see a model folded and to know
+whether real paper would fold it: a fold sequence that works on
+ideal, zero-thickness paper can still ask a hand to reverse-fold
+sixteen layers.
 
-A new src/origami app carries the engine as typed TypeScript in
-shared/fold, with shaping folds at any angle composing bend after
-bend, and the models in shared/designs. The basilisk is a serpent
-standing on its belly: a diamond narrowed from both corners, the neck
-raised and the head turned by reverse folds, the tail shaped into
-sideways bends along the ground. One command, `pnpm origami <model>`,
-writes a labelled sheet of four views through a three.js page in
-headless Chromium, the crease pattern and a per-step report. The
+A new src/origami app holds a folding engine in shared/fold — layered
+flat folds, reverse folds, and shaping folds at any angle composing
+bend after bend — and the models in shared/designs. The basilisk is a
+serpent standing on its belly: a diamond narrowed from both corners,
+the neck raised and the head turned by reverse folds, the tail shaped
+into sideways bends along the ground.
+
+One command, `pnpm origami <model>`, writes a labelled sheet of four
+views through a three.js page in headless Chromium, the crease pattern
+and a per-step report. The
 report measures layers bent, stack thickness, creep against flap width
 and tip sharpness for a paper preset (15 cm kami by default) and fails
 the run on a step ordinary paper cannot fold; its thresholds are
