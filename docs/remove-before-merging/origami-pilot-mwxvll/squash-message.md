@@ -1,11 +1,13 @@
 Proposed squash body:
 
 ```
-Origami tooling for the repo: an origami model is written in code as
-a list of folds, and one command folds it, draws it, and says whether
-real paper could be folded that way. Paper has thickness, so a
-sequence that works on ideal paper can still ask a hand to
-reverse-fold sixteen layers at once.
+We want to invent original origami models here and publish them on
+the site as interactive 3D explainers, each step animated. So this
+change builds the tooling first: a model is written in code as a list
+of folds, and one command folds it, draws it, and says whether real
+paper could be folded that way — paper has thickness, so a sequence
+that works on ideal paper can still ask a hand to reverse-fold
+sixteen layers at once.
 
 A new src/origami app holds a folding engine in shared/fold — layered
 flat folds, reverse folds, and shaping folds at any angle composing
