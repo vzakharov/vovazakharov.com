@@ -78,7 +78,7 @@ export function IdeasModal({
       </div>
       <Group justify="flex-end" mt="md">
         {evicted || done ? (
-          <Button onClick={onClose}>{copy.ok}</Button>
+          <Button onClick={onClose}>{done ? copy.go : copy.ok}</Button>
         ) : busy ? (
           <>
             <Button variant="default" onClick={onStop}>

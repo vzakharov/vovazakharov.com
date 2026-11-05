@@ -29,9 +29,10 @@
     "notNow": "Not now",
     "close": "Close",
     "ok": "OK",
+    "go": "Let’s go!",
     "evicted": "Oops, the model has gone missing: your browser must have cleared it to free up space. Downloading it again, which may take a while; the variations follow once it’s back.",
     "stop": "Stop download",
-    "downloading": "Downloading the model: {percent}%. You can close this dialog, though not the tab: the download carries on, its progress fills the ring round the lightbulb by the search field, and the first variations come once it’s ready. Or stop it, and the files already downloaded wait for next time.",
+    "downloading": "Downloading the model: {percent}%. You can close this dialog (but not the tab): the variations will come in good time.",
     "loading": "Downloading the model for variations: {percent}%",
     "ready": "All set: the model is ready.",
     "failed": "The model couldn’t start. Try again later?"

@@ -46,7 +46,15 @@ env.fetch = async (input: string | URL, init?: RequestInit) =>
 
 type Loaded = { tokenizer: PreTrainedTokenizer; model: PreTrainedModel };
 
-let loaded: Promise<Loaded> | undefined;
+/**
+ * The model, held on `globalThis` rather than in a module variable: a hot
+ * reload runs this module again, and a fresh variable would forget a model
+ * whose GPU memory no garbage collector frees, so the next load would hold
+ * two. Held here, the rerun module finds the one already loaded.
+ */
+const held = globalThis as typeof globalThis & {
+  unsquattedModel?: Promise<Loaded>;
+};
 const stopping = new InterruptableStoppingCriteria();
 
 /**
@@ -64,7 +72,7 @@ export async function load(
   };
 
   downloads = signal;
-  loaded ??= Promise.all([
+  held.unsquattedModel ??= Promise.all([
     AutoTokenizer.from_pretrained(MODEL),
     AutoModelForCausalLM.from_pretrained(MODEL, {
       dtype,
@@ -74,12 +82,12 @@ export async function load(
   ]).then(
     ([tokenizer, model]) => ({ tokenizer, model }),
     (error: unknown) => {
-      loaded = undefined;
+      delete held.unsquattedModel;
       throw error;
     },
   );
 
-  await loaded;
+  await held.unsquattedModel;
   // Aborted once every file was in, the load finishes anyway; it still
   // answers as stopped, and the next one finds the model already up.
   signal.throwIfAborted();
@@ -104,9 +112,9 @@ export async function weightsCached(dtype: Dtype): Promise<boolean> {
  * and `stop` cuts the running one short.
  */
 export async function generate(label: string): Promise<string[]> {
-  if (!loaded) throw new Error('The model is not loaded.');
+  if (!held.unsquattedModel) throw new Error('The model is not loaded.');
 
-  const { tokenizer, model } = await loaded;
+  const { tokenizer, model } = await held.unsquattedModel;
   // `enable_thinking` goes to the chat template, which the options' type
   // does not list: held in a variable, the object passes as a wider one.
   const options = {
@@ -145,9 +153,9 @@ export function stop(): void {
 
 /** Deletes the weights from the cache and drops the loaded model. */
 export async function clear(dtype: Dtype): Promise<void> {
-  const held = loaded;
+  const loaded = held.unsquattedModel;
 
-  loaded = undefined;
-  await (await held)?.model.dispose();
+  delete held.unsquattedModel;
+  await (await loaded)?.model.dispose();
   await ModelRegistry.clear_cache(MODEL, { dtype });
 }
