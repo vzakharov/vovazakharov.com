@@ -6,10 +6,9 @@
  * `DUSK`, or a blend of the two part way to dusk (`tonesAt`).
  */
 
-import type { Sized } from '@/kernel/shared/typings';
+import type { Aimed, Ramped, Sized } from '@/kernel/shared/typings';
 
 import { channels, mix, packed } from '@/mushrooms/shared/lib/colour';
-import type { Ramped } from '@/mushrooms/shared/lib/motion';
 import { DUSK, PALETTE } from '@/mushrooms/shared/ui/index.node-safe';
 import type { GroundBand } from '@/mushrooms/shared/world';
 
@@ -153,12 +152,12 @@ export function skyAt(down: number, tones: Tones = DAY): number {
  * `from` the sun's middle, and how far it reaches, `to`, thinning between the two —
  * in sun radii, or as shares of the screen's short side.
  */
-type HaloLayer = Ramped & {
-  colour: number;
-  opacity: number;
-  to: number;
-  per: 'sun' | 'screen';
-};
+type HaloLayer = Ramped &
+  Aimed & {
+    colour: number;
+    opacity: number;
+    per: 'sun' | 'screen';
+  };
 
 /**
  * The sun's light over the sky, in the order it is laid on: a white halo,

@@ -3,6 +3,9 @@
 import { useLocalStorage } from '@mantine/hooks';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
+import type { Hushing } from '@/kernel/shared/typings';
+
+import type { WithCopy } from '../../../../checker';
 import {
   forgetModel,
   isStopped,
@@ -43,35 +46,42 @@ export type Stage = Loading & {
   thinking: boolean;
 };
 
-export type Ideas = Stage & {
-  /** The model can run here. */
-  available: boolean;
-  /** The visitor once typed "give me ai" or has opted in, so the bulb shows. */
-  unlocked: boolean;
-  /**
-   * Unlocked just now: the bulb pops in with a note pointing at it, which
-   * stays until the bulb is pressed.
-   */
-  pointing: boolean;
-  /** Unlocks the bulb when `typed`, the field's text, is the phrase. */
-  listen: (typed: string) => void;
-  /** The bulb was pressed, so the note goes. */
-  noticed: () => void;
-  /** Downloads the model, opting in once it is ready, then brainstorms. */
-  turnOn: () => void;
-  /**
-   * Brainstorms the label shown, once opted in, downloading the weights again
-   * first where the browser deleted them.
-   */
-  brainstorm: () => void;
+export type Ideas = Stage &
   /** Stops the download, leaving the visitor not opted in. */
-  stop: () => void;
-  /** The ring round the button, while it loads or thinks. */
-  ring: RingTarget | undefined;
-  /** The label the variations on their way are for, which restarts the ring. */
-  asked: string | undefined;
-  /** The last press's variations, whatever the label is now. */
-  names: readonly string[] | undefined;
+  Hushing & {
+    /** The model can run here. */
+    available: boolean;
+    /** The visitor once typed "give me ai" or has opted in, so the bulb shows. */
+    unlocked: boolean;
+    /**
+     * Unlocked just now: the bulb pops in with a note pointing at it, which
+     * stays until the bulb is pressed.
+     */
+    pointing: boolean;
+    /** Unlocks the bulb when `typed`, the field's text, is the phrase. */
+    listen: (typed: string) => void;
+    /** The bulb was pressed, so the note goes. */
+    noticed: () => void;
+    /** Downloads the model, opting in once it is ready, then brainstorms. */
+    turnOn: () => void;
+    /**
+     * Brainstorms the label shown, once opted in, downloading the weights again
+     * first where the browser deleted them.
+     */
+    brainstorm: () => void;
+    /** The ring round the button, while it loads or thinks. */
+    ring: RingTarget | undefined;
+    /** The label the variations on their way are for, which restarts the ring. */
+    asked: string | undefined;
+    /** The last press's variations, whatever the label is now. */
+    names: readonly string[] | undefined;
+  };
+
+/** What a block showing the ideas takes, beside its own props. */
+export type IdeasBlock = WithCopy & {
+  ideas: Ideas;
+  /** Places the block among the field's controls. */
+  className: string | undefined;
 };
 
 /**

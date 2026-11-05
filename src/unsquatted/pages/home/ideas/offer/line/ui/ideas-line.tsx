@@ -5,16 +5,12 @@ import { Lightbulb } from 'lucide-react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
 
-import type { WithCopy } from '../../../../checker';
-import type { Ideas } from '../../opt-in';
+import type { IdeasBlock } from '../../opt-in';
 import classes from './ideas-line.module.scss';
 
-type IdeasLineProps = WithCopy & {
-  ideas: Ideas;
+type IdeasLineProps = IdeasBlock & {
   /** Looks a variation up in the field. */
   onPick: (name: string) => void;
-  /** Places the line among the field's row, whose gap spaces it. */
-  className: string | undefined;
 };
 
 /**

@@ -4,24 +4,17 @@ import { ActionIcon } from '@mantine/core';
 import { Lightbulb } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import type { WithCopy } from '../../../../checker';
 import {
   fillAt,
   type HalfSweep,
   halvesOf,
-  type Ideas,
+  type IdeasBlock,
   type RingMove,
   type RingTarget,
   type Stage,
 } from '../../opt-in';
 import { IdeasModal, withPercent } from './ideas-modal';
 import classes from './ideas-offer.module.scss';
-
-type IdeasOfferProps = WithCopy & {
-  ideas: Ideas;
-  /** The tool buttons' class, which the button takes to sit among them. */
-  className: string | undefined;
-};
 
 /**
  * The lightbulb among the field's tool buttons, shown once unlocked: before
@@ -46,9 +39,10 @@ export function IdeasOffer({
     downloading,
     failed,
   },
+  /** The tool buttons' class, which the button takes to sit among them. */
   className,
   copy,
-}: IdeasOfferProps) {
+}: IdeasBlock) {
   /**
    * Which dialog is open: the offer, or the notice that the weights download
    * again — kept until closed, though the download it reports may finish.
@@ -113,7 +107,7 @@ export function IdeasOffer({
 }
 
 function buttonLabel(
-  copy: IdeasOfferProps['copy']['ideas'],
+  copy: IdeasBlock['copy']['ideas'],
   { optedIn, thinking, downloading }: Stage,
 ): string {
   if (downloading !== undefined) return withPercent(copy.loading, downloading);

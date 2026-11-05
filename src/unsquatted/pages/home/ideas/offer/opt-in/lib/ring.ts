@@ -1,3 +1,5 @@
+import type { Aimed, Ramped, Timed } from '@/kernel/shared/typings';
+
 /** The share of the ring the model's load fills; the generation fills the rest. */
 export const LOAD_SHARE = 0.75;
 /** How long the first generation is guessed to take, before any is timed. */
@@ -11,7 +13,7 @@ export const MARGIN_SECONDS = 2;
 const STEP_SECONDS = 0.3;
 
 /** Where the ring heads, and how long it takes, linearly, to get there. */
-export type RingTarget = { to: number; seconds: number };
+export type RingTarget = Aimed & Timed;
 
 type RingState = {
   /** The fraction loaded while a load runs. */
@@ -50,7 +52,7 @@ export function ringOf({
 }
 
 /** The ring moving linearly from one fill to another over its seconds. */
-export type RingMove = { from: number } & RingTarget;
+export type RingMove = Ramped & RingTarget;
 
 /** Where a move has the ring after `elapsed` seconds. */
 export function fillAt({ from, to, seconds }: RingMove, elapsed: number) {
