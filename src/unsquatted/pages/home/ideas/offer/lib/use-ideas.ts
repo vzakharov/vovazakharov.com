@@ -46,10 +46,7 @@ export type Stage = Loading & {
 export type Ideas = Stage & {
   /** The model can run here. */
   available: boolean;
-  /**
-   * The visitor once typed "give me ai", or opted in before the bulb hid
-   * behind it, so the bulb shows.
-   */
+  /** The visitor once typed "give me ai" or has opted in, so the bulb shows. */
   unlocked: boolean;
   /**
    * Unlocked just now: the bulb pops in with a note pointing at it, which
