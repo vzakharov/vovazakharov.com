@@ -1,0 +1,118 @@
+{
+  "total": {
+    "inputTokens": 125,
+    "cacheWrite5mTokens": 124837,
+    "cacheWrite1hTokens": 144469,
+    "cacheReadTokens": 9019243,
+    "outputTokens": 29807,
+    "thinkingTokens": 7386,
+    "responses": 63,
+    "costUsd": 4.1804255999999995
+  },
+  "estimate": {
+    "at": "2026-11-05T09:47:01.799Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the gate, pop-in, arrow and the base merge are routine component and state work"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "the arrow and caption need placement and motion judged by eye"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "prompter",
+        "comment": "the prompt retune needs judgement of real model output"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "a desktop WebGPU walk headless Chromium cannot do"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "five type-overlap groups are mechanical base extractions"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T09:46:58.843Z",
+    "contextTokens": 110298,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48997,
+      "cacheReadTokens": 359423,
+      "outputTokens": 794,
+      "thinkingTokens": 88,
+      "responses": 4,
+      "costUsd": 0.4797806
+    }
+  },
+  "sessionId": "19df2d5c-ab1b-5dc3-86fa-b7ef9cc1c1a3",
+  "branch": "claude/in-browser-llms-unsquatted-24jeaq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/in-browser-llms-unsquatted-24jeaq — ревью отработано, пасхалка «give me ai» запланирована, но ещё не начата",
+  "prs": [
+    247
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCiSsMf41f4sR2PQTd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T09:46:46.933Z",
+  "lastResponseAt": "2026-11-05T09:56:13.594Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 98,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 144469,
+    "cacheReadTokens": 7655282,
+    "outputTokens": 23232,
+    "thinkingTokens": 4716,
+    "responses": 49,
+    "costUsd": 3.1518404
+  },
+  "subagents": {
+    "inputTokens": 27,
+    "cacheWrite5mTokens": 124837,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1363961,
+    "outputTokens": 6575,
+    "thinkingTokens": 2670,
+    "responses": 14,
+    "costUsd": 1.0285852
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 125,
+      "cacheWrite5mTokens": 124837,
+      "cacheWrite1hTokens": 144469,
+      "cacheReadTokens": 9019243,
+      "outputTokens": 29807,
+      "thinkingTokens": 7386,
+      "responses": 63,
+      "costUsd": 4.1804255999999995
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 63,
+    "matched": 63,
+    "matchedTableUsd": 4.1804255999999995,
+    "matchedEventUsd": 4.1804255999999995,
+    "unseen": {}
+  }
+}
