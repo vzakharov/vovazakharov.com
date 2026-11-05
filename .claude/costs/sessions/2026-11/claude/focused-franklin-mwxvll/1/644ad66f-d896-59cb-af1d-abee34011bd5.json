@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 23397,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 41925,
+    "cacheReadTokens": 324229,
+    "outputTokens": 4749,
+    "thinkingTokens": 1151,
+    "responses": 6,
+    "costUsd": 0.486775
+  },
+  "estimate": {
+    "at": "2026-11-05T08:53:58.394Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "a survey of a niche computational-origami tool landscape needs someone who can tell maintained libraries from abandoned thesis code"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T08:53:56.055Z",
+    "contextTokens": 88912,
+    "spend": {
+      "inputTokens": 0,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 0,
+      "thinkingTokens": 0,
+      "responses": 0,
+      "costUsd": 0.0
+    }
+  },
+  "sessionId": "644ad66f-d896-59cb-af1d-abee34011bd5",
+  "branch": "claude/focused-franklin-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "а есть какие-то питон-пакеты которые позволяют придумывать и моделировать оригами? типа \"вот если сложим тут, завернём на столько-то, а потом вот так, а потом в…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDn9dzDmyDgMr7F1BY",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T08:53:56.055Z",
+  "lastResponseAt": "2026-11-05T08:54:28.190Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 41925,
+    "cacheReadTokens": 324229,
+    "outputTokens": 3168,
+    "thinkingTokens": 1151,
+    "responses": 4,
+    "costUsd": 0.46364580000000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41925,
+      "cacheReadTokens": 324229,
+      "outputTokens": 3168,
+      "thinkingTokens": 1151,
+      "responses": 4,
+      "costUsd": 0.46364580000000005
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 23387,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 1581,
+      "thinkingTokens": 0,
+      "responses": 2,
+      "costUsd": 0.023129200000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 6,
+    "matched": 4,
+    "matchedTableUsd": 0.46364580000000005,
+    "matchedEventUsd": 0.46364580000000005,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 23387,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 1581,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.023129200000000003
+      }
+    }
+  }
+}
