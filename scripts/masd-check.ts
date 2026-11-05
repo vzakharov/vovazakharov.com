@@ -19,7 +19,7 @@
  * it against a tree of its own. See .claude/rules/masd.md.
  */
 
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import {
@@ -40,6 +40,18 @@ const SLICED = new Set(SLICED_LAYERS);
 const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
+
+/**
+ * The comment a slice's `index.ts` carries to be spared the significance
+ * check, by the operator's leave; the reason after `--` says what would earn
+ * the slice, so the marker goes once that arrives.
+ */
+const STAYS = /\/\/ masd-disable insignificant -- \S/;
+
+function stays(slice: string): boolean {
+  const barrel = path.join('src', slice, 'index.ts');
+  return existsSync(barrel) && STAYS.test(readFileSync(barrel, 'utf8'));
+}
 
 /**
  * Where a file sits: `<app>/<layer>/<slice>` in a sliced layer,
@@ -97,6 +109,7 @@ function sliceProblems(
   edges: ReadonlyMap<string, readonly Edge[]>,
 ) {
   return [...references].flatMap(([slice, sources]) => {
+    if (stays(slice)) return [];
     const [reference, ...others] = sources;
     if (reference === undefined) {
       return [

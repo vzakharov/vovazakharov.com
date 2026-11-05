@@ -14,7 +14,6 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { z } from 'zod';
 
-import { DESIGN_IDS, DESIGNS } from '@/origami/shared/designs';
 import {
   creasePatternSvg,
   DEFAULT_PAPER,
@@ -25,6 +24,7 @@ import {
   snapshot,
   type StepReport,
 } from '@/origami/shared/fold';
+import { DESIGN_IDS, DESIGNS } from '@/origami/entities/design';
 
 import { render, type Shot, type View } from './lib/render.ts';
 

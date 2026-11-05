@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 51,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 76835,
+    "cacheReadTokens": 2744137,
+    "outputTokens": 7744,
+    "thinkingTokens": 1343,
+    "responses": 24,
+    "costUsd": 1.3185914
+  },
+  "estimate": {
+    "at": "2026-11-05T10:53:24.128Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "moving a slice across layers with its imports, barrels and checkers, plus restating a repo rule in every place it lives"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "thresholds still need calibrating against real folds"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T10:53:21.175Z",
+    "contextTokens": 107102,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43918,
+      "cacheReadTokens": 546116,
+      "outputTokens": 995,
+      "thinkingTokens": 127,
+      "responses": 6,
+      "costUsd": 0.48052320000000004
+    }
+  },
+  "sessionId": "e67aaacd-db28-576f-b377-fafac902f330",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-pilot-mwxvll — василиск переделан и стоит на брюхе, описание PR обновлено; осталось перенести designs в entity и поправить правило в …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEp7EcUA3inF7MSpyf",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T10:53:05.071Z",
+  "lastResponseAt": "2026-11-05T10:57:25.495Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 51,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 76835,
+    "cacheReadTokens": 2744137,
+    "outputTokens": 7744,
+    "thinkingTokens": 1343,
+    "responses": 24,
+    "costUsd": 1.3185914
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 51,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 76835,
+      "cacheReadTokens": 2744137,
+      "outputTokens": 7744,
+      "thinkingTokens": 1343,
+      "responses": 24,
+      "costUsd": 1.3185914
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 23,
+    "matched": 23,
+    "matchedTableUsd": 1.2746462,
+    "matchedEventUsd": 1.2746462,
+    "unseen": {}
+  }
+}

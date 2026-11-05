@@ -1,8 +1,6 @@
 import { basilisk } from './basilisk.ts';
 import type { Design } from './design.ts';
 
-export { type Design } from './design.ts';
-
 export const DESIGN_IDS = ['basilisk', 'basilisk-needle'] as const;
 export type DesignId = (typeof DESIGN_IDS)[number];
 

@@ -186,6 +186,25 @@ describe('masd-check', () => {
     );
   });
 
+  it('spares a slice whose barrel says why it stays', () => {
+    assert.equal(
+      run({
+        [ENTITY]:
+          '// masd-disable insignificant -- its page is coming\nexport const card = 1;',
+      }).stderr,
+      '',
+    );
+  });
+
+  it('flags a slice whose marker gives no reason', () => {
+    assert.equal(
+      run({
+        [ENTITY]: '// masd-disable insignificant -- \nexport const card = 1;',
+      }).stderr,
+      UNREFERENCED,
+    );
+  });
+
   it('does not count an app script as a reference', () => {
     assert.equal(
       run({

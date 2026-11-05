@@ -37,8 +37,8 @@ import {
 } from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
-import type { Design } from '@/origami/shared/designs';
 import type { Snapshot, Vec3 } from '@/origami/shared/fold';
+import type { Design } from '@/origami/entities/design';
 
 /** Where the camera stands: azimuth and elevation in degrees, and a distance
  * as a multiple of what just fits the model; `name` labels it on the image. */
