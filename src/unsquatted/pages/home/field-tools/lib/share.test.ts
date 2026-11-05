@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Verdict } from '../../verdict';
-import { cardRows, domainLink } from './share';
+import { cardLead, cardRows, cardSettled, domainLink } from './share';
 
 const PRICES = {
   com: { registration: 12, renewal: 12 },
@@ -48,6 +48,7 @@ describe('cardRows', () => {
     assert.deepEqual(rows[0], {
       domain: 'foxedpage.net',
       state: 'free',
+      since: undefined,
       liked: false,
       price: PRICES.net,
     });
@@ -99,6 +100,151 @@ describe('cardRows', () => {
     assert.deepEqual(
       rows.map(({ liked }) => liked),
       [true, false],
+    );
+  });
+
+  it('lists taken domains with their years where the shared one is taken', () => {
+    const rows = cardRows({
+      shared: 'foxedpage.net',
+      siblings: [
+        'foxedpage.com',
+        'foxedpage.net',
+        'foxedpage.io',
+        'foxedpage.ai',
+        'foxedpage.org',
+      ],
+      liked: undefined,
+      verdicts: new Map<string, Verdict>([
+        ['foxedpage.com', { state: 'taken', since: '2009' }],
+        ['foxedpage.net', { state: 'taken', since: '2014' }],
+        ['foxedpage.io', { state: 'unknown' }],
+        ['foxedpage.ai', { state: 'taken', since: undefined }],
+        ['foxedpage.org', { state: 'taken', since: '2001' }],
+      ]),
+      prices: PRICES,
+    });
+
+    assert.deepEqual(rows, [
+      {
+        domain: 'foxedpage.net',
+        state: 'taken',
+        since: '2014',
+        liked: false,
+        price: undefined,
+      },
+      {
+        domain: 'foxedpage.com',
+        state: 'taken',
+        since: '2009',
+        liked: false,
+        price: undefined,
+      },
+      {
+        domain: 'foxedpage.ai',
+        state: 'taken',
+        since: undefined,
+        liked: false,
+        price: undefined,
+      },
+    ]);
+  });
+});
+
+describe('cardLead', () => {
+  const ALL = ['foxedpage.com', 'foxed.page', 'foxedpage.net'];
+
+  it('takes the first lead free or may be over an earlier taken one', () => {
+    assert.equal(
+      cardLead(
+        ['foxedpage.com', undefined, 'foxed.page', 'foxedpage.net'],
+        ALL,
+        {
+          verdicts: verdicts({
+            'foxedpage.com': 'taken',
+            'foxed.page': 'maybe',
+            'foxedpage.net': 'free',
+          }),
+        },
+      ),
+      'foxed.page',
+    );
+  });
+
+  it('falls back to the first taken lead where none is registrable', () => {
+    assert.equal(
+      cardLead([undefined, 'foxedpage.com', 'foxedpage.net'], ALL, {
+        verdicts: verdicts({
+          'foxedpage.com': 'unknown',
+          'foxedpage.net': 'taken',
+        }),
+      }),
+      'foxedpage.net',
+    );
+  });
+
+  it('leads with a taken domain where the only free one is off screen', () => {
+    assert.equal(
+      cardLead(['foxedpage.com', 'foxedpage.fyi'], ['foxedpage.com'], {
+        verdicts: verdicts({
+          'foxedpage.com': 'taken',
+          'foxedpage.fyi': 'maybe',
+        }),
+      }),
+      'foxedpage.com',
+    );
+  });
+
+  it('has none while no lead has a verdict', () => {
+    assert.equal(
+      cardLead(['foxedpage.com'], ALL, {
+        verdicts: verdicts({ 'foxedpage.com': 'unknown' }),
+      }),
+      undefined,
+    );
+  });
+});
+
+describe('cardSettled', () => {
+  const SIBLINGS = ['a.com', 'a.net', 'a.org', 'a.io'];
+  const ORDER = [undefined, undefined, ...SIBLINGS];
+  const card = (states: Record<string, Verdict['state']>) => {
+    const known = verdicts(states);
+    const shared = cardLead(ORDER, ['a.com', 'a.net'], { verdicts: known });
+
+    assert.ok(shared !== undefined);
+    const rows = cardRows({
+      shared,
+      siblings: SIBLINGS,
+      liked: undefined,
+      verdicts: known,
+      prices: PRICES,
+    });
+
+    return cardSettled(rows, ORDER, ['a.com', 'a.net'], { verdicts: known });
+  };
+
+  it('holds once three free rows lead, the rest unanswered', () => {
+    assert.equal(
+      card({ 'a.com': 'free', 'a.net': 'free', 'a.org': 'free' }),
+      true,
+    );
+  });
+
+  it('waits while a domain ahead of the last row is unanswered', () => {
+    assert.equal(
+      card({ 'a.com': 'free', 'a.org': 'free', 'a.io': 'free' }),
+      false,
+    );
+  });
+
+  it('waits while the card is not full', () => {
+    assert.equal(card({ 'a.com': 'free', 'a.net': 'free' }), false);
+  });
+
+  it('holds a taken card only once every domain on screen answered', () => {
+    assert.equal(
+      card({ 'a.com': 'taken', 'a.net': 'taken', 'a.org': 'taken' }),
+      true,
     );
   });
 });

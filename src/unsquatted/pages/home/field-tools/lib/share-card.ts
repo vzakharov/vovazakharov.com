@@ -5,6 +5,8 @@
  * `data-unsquatted-palette`, and its faces are the ones the page has loaded.
  */
 
+import { pick } from '@/kernel/shared/lib/collections';
+
 import { priceParts, type WithCopy } from '../../checker';
 import type { CardRow } from './share';
 
@@ -25,6 +27,10 @@ export type CardText = {
   site: string;
   host: string;
   footer: string;
+  /** A taken card's footer, struck through. */
+  lede: string;
+  /** What the hand writes over a taken card's struck lede. */
+  aside: string;
 };
 
 type Look = {
@@ -35,8 +41,10 @@ type Look = {
   surface: string;
   hairline: string;
   maybe: string;
-  heart: string;
+  /** A taken domain's verdict and a liked one's heart, which share a colour. */
+  taken: string;
   displayFace: string;
+  handFace: string;
   bodyFace: string;
   monoFace: string;
 };
@@ -58,8 +66,9 @@ function look(): Look {
     surface: read('--color-surface'),
     hairline: read('--color-border-hairline'),
     maybe: read('--unsquatted-maybe'),
-    heart: read('--unsquatted-taken'),
+    taken: read('--unsquatted-taken'),
     displayFace: read('--font-display'),
+    handFace: read('--font-hand'),
     bodyFace: read('--font-body'),
     monoFace: read('--mantine-font-family-monospace'),
   };
@@ -128,6 +137,15 @@ function drawField(context: CanvasRenderingContext2D, l: Look, name: string) {
   context.fillText(name, 128, 240);
 }
 
+/** A row's verdict as the checker words it, a taken one with its year. */
+function verdictText({ verdict }: CardText, row: CardRow): string {
+  if (row.state !== 'taken') return verdict[row.state];
+
+  return row.since === undefined
+    ? verdict.taken
+    : verdict.takenSince.replace('{year}', row.since);
+}
+
 const ROW_TOP = 316;
 const ROW_STEP = 68;
 const RIGHT = 1072;
@@ -153,9 +171,11 @@ function drawRow(
     context.fillText(price, right, y);
     right -= context.measureText(price).width + 12;
   }
-  context.fillStyle = row.state === 'free' ? l.accent : l.maybe;
+  context.fillStyle = { free: l.accent, ...pick(l, 'maybe', 'taken') }[
+    row.state
+  ];
   context.font = `${weight}26px ${l.bodyFace}`;
-  const verdict = t.verdict[row.state];
+  const verdict = verdictText(t, row);
 
   context.fillText(verdict, right, y);
   const verdictLeft = right - context.measureText(verdict).width - 24;
@@ -174,7 +194,7 @@ function drawRow(
   if (row.liked) {
     context.save();
     context.translate(84, y - 22);
-    context.fillStyle = l.heart;
+    context.fillStyle = l.taken;
     context.fill(new Path2D(HEART));
     context.restore();
   }
@@ -188,8 +208,40 @@ function drawRow(
   }
 }
 
+/** The aside's weight and size, which the font load awaits and the draw sets. */
+const HAND = '700 46px';
+
+/** A taken card's footer: the lede struck through, the hand's aside over it. */
+function drawCorrected(
+  context: CanvasRenderingContext2D,
+  l: Look,
+  t: CardText,
+) {
+  context.fillStyle = l.muted;
+  context.textAlign = 'left';
+  context.font = `27px ${l.bodyFace}`;
+  context.fillText(t.lede, 96, 574);
+  const right = 96 + context.measureText(t.lede).width;
+
+  context.strokeStyle = l.taken;
+  context.lineWidth = 4;
+  context.lineCap = 'round';
+  context.beginPath();
+  context.moveTo(90, 566);
+  context.bezierCurveTo(right * 0.35, 561, right * 0.7, 570, right + 6, 563);
+  context.stroke();
+
+  context.save();
+  context.translate(200, 522);
+  context.rotate(-0.05);
+  context.fillStyle = l.taken;
+  context.font = `${HAND} ${l.handFace}`;
+  context.fillText(t.aside, 0, 0);
+  context.restore();
+}
+
 /** The type of the file `shareCard` makes, known before the file is. */
-export const CARD_TYPE = 'image/png';
+const CARD_TYPE = 'image/png';
 
 /** The card for `name`'s `rows`, as a PNG named for the first. */
 export async function shareCard(
@@ -213,16 +265,26 @@ export async function shareCard(
   for (const [index, row] of rows.entries())
     drawRow(context, l, text, row, index);
 
-  context.fillStyle = l.muted;
-  context.textAlign = 'left';
-  context.font = fitted(
-    context,
-    text.footer,
-    (size) => `${size}px ${l.bodyFace}`,
-    27,
-    1008,
-  );
-  context.fillText(text.footer, 96, 574);
+  if (rows[0]?.state === 'taken') {
+    // Unpreloaded, the hand arrives only when a card first asks for it. Only
+    // the stack's first face is awaited: next/font's metric fallback after it
+    // is `local("Arial")`, which rejects the whole load where Arial is absent.
+    const [hand] = l.handFace.split(',');
+
+    await document.fonts.load(`${HAND} ${hand}`);
+    drawCorrected(context, l, text);
+  } else {
+    context.fillStyle = l.muted;
+    context.textAlign = 'left';
+    context.font = fitted(
+      context,
+      text.footer,
+      (size) => `${size}px ${l.bodyFace}`,
+      27,
+      1008,
+    );
+    context.fillText(text.footer, 96, 574);
+  }
 
   const blob = await new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((made) => {
