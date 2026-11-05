@@ -15,6 +15,13 @@
   color: var(--unsquatted-maybe);
 }
 
+// The button's own bulb, named in the offer's words.
+.pressed {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+}
+
 // What the bulb means, for a screen reader alone.
 .unseen {
   position: absolute;

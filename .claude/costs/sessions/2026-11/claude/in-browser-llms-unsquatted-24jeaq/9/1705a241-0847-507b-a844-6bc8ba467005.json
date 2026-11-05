@@ -1,0 +1,83 @@
+{
+  "total": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 86062,
+    "cacheReadTokens": 1566399,
+    "outputTokens": 7712,
+    "thinkingTokens": 3169,
+    "responses": 14,
+    "costUsd": 1.1561278000000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T07:30:32.074Z",
+    "contextTokens": 109968,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53267,
+      "cacheReadTokens": 452755,
+      "outputTokens": 1169,
+      "thinkingTokens": 99,
+      "responses": 5,
+      "costUsd": 0.540115
+    }
+  },
+  "sessionId": "1705a241-0847-507b-a844-6bc8ba467005",
+  "branch": "claude/in-browser-llms-unsquatted-24jeaq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/in-browser-llms-unsquatted-24jeaq — ревью от 5 ноября отработано, ждут ответа два вопроса, PR конфликтует с main",
+  "prs": [
+    247
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDnHaAN7NRxxranHWk",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T07:30:03.484Z",
+  "lastResponseAt": "2026-11-05T07:32:14.161Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 86062,
+    "cacheReadTokens": 1566399,
+    "outputTokens": 7712,
+    "thinkingTokens": 3169,
+    "responses": 14,
+    "costUsd": 1.1561278000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 86062,
+      "cacheReadTokens": 1566399,
+      "outputTokens": 7712,
+      "thinkingTokens": 3169,
+      "responses": 14,
+      "costUsd": 1.1561278000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 13,
+    "matched": 13,
+    "matchedTableUsd": 1.1114538,
+    "matchedEventUsd": 1.1114538,
+    "unseen": {}
+  }
+}

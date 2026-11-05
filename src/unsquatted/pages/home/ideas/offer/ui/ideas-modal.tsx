@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Group, Modal } from '@mantine/core';
+import { Lightbulb } from 'lucide-react';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
@@ -34,6 +35,7 @@ export function IdeasModal({
   copy: { ideas: copy },
 }: IdeasModalProps) {
   const busy = downloading !== undefined;
+  const [beforeBulb, afterBulb] = copy.what.split('{bulb}');
 
   return (
     <Modal centered {...{ opened, onClose }} {...pick(copy, 'title')}>
@@ -42,7 +44,12 @@ export function IdeasModal({
           <p>{copy.evicted}</p>
         ) : (
           <>
-            <p>{copy.what}</p>
+            <p>
+              {beforeBulb}
+              <Lightbulb className={classes['pressed']} aria-hidden />
+              <span className={classes['unseen']}>{copy.bulb}</span>
+              {afterBulb}
+            </p>
             <p>{copy.download}</p>
             <p>{copy.pace}</p>
           </>
