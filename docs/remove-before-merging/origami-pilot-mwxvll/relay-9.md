@@ -13,7 +13,9 @@ No operator message reached this session; it ran from relay-8's Next step.
   - **Agent:** did relay-8's three items, replied on the critical review
     thread, started `/finalize` (staged swap a no-op, `/polish` in a subagent,
     the plan swept), hit the verdict gate on one proposal it cannot score, and
-    relayed for the context budget. (verbatim in Last agent turn)
+    relayed for the context budget. The session was one turn, so
+    `relay-last-reply.py` found no earlier reply to append and there is no
+    Last agent turn section; the chat text was interim progress lines only.
 
 ## 3. Intent
 
