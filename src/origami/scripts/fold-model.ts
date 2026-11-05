@@ -74,6 +74,7 @@ function row(report: StepReport): string {
     halves,
     stack,
     depth,
+    stackAtCrease,
     creep,
     width,
     tip,
@@ -87,7 +88,7 @@ function row(report: StepReport): string {
   const said = findings
     .map(({ level, message }) => `**${level}**: ${message}`)
     .join('<br>');
-  return `| ${step} | ${kind}${record.flat ? '' : ' (shaping)'} | ${bentCell} | ${stack} / ${mm(depth)} | ${mm(creep)} / ${mm(width)} | ${tipCell} | ${said || '—'} |`;
+  return `| ${step} | ${kind}${record.flat ? '' : ' (shaping)'} | ${bentCell} | ${stack} / ${mm(depth)} / ${stackAtCrease} | ${mm(creep)} / ${mm(width)} | ${tipCell} | ${said || '—'} |`;
 }
 
 const errors = reports.flatMap((report) =>
@@ -104,8 +105,8 @@ const reportMarkdown = [
   '',
   'The thresholds are starting calibrations from folding practice, not measurements; they are expected to move once real models are folded by hand.',
   '',
-  '| Step | Fold | Layers bent | Stack / depth | Creep / flap width | Sharpest tip | Findings |',
-  '| ---- | ---- | ----------- | ------------- | ------------------ | ------------ | -------- |',
+  '| Step | Fold | Layers bent | Stack / depth / at crease | Creep / flap width | Sharpest tip | Findings |',
+  '| ---- | ---- | ----------- | ------------------------- | ------------------ | ------------ | -------- |',
   ...reports.map((step) => row(step)),
   '',
 ].join('\n');
