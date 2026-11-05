@@ -1,21 +1,28 @@
 Proposed squash body:
 
 ```
-A visitor whose name is taken had only the dice, which know nothing of
-the name. Chrome's built-in model (Prompt API, Gemini Nano) now offers
-variations of it, on the visitor's own machine, so the site stays
-serverless and the search never leaves the browser.
+A lightbulb among the field's buttons brainstorms variations on the
+name typed: Qwen3.5-0.8B, run in the visitor's own browser over
+WebGPU through transformers.js, so the site stays serverless and the
+name never leaves the machine. Desktop browsers with a WebGPU adapter
+see it; elsewhere the button is absent. Below 40em the field takes a
+row of its own, leaving the buttons room.
 
-After a search, a grey line under the field offers to brainstorm; a
-modal explains in plain words what runs where and that Chrome
-downloads the model once. Once agreed, every search shows three
-variations in that line, each a click from its own check. Desktop
-Chrome only; other browsers see nothing new.
+The first press opens a dialog saying in plain words what runs where
+and that the browser downloads about 650 MB once, into the site's
+storage. Agreed, the download carries on with the dialog closed and
+can be stopped; a ring round the bulb fills with it, then with each
+generation, paced by the first one's measured time and turned on the
+compositor so the busy main thread cannot stall it. Weights the
+browser later evicts download again on the next press, which says so.
 
-The prompt carries the naming runbook's taste, steering away from the
-first, already-registered ideas, and the model's JSON is validated and
-cleaned like any typed name. unsquattedForget() in the console resets
-the opt-in for testing; Chrome's model itself is Chrome's to remove.
+Each press asks for three variations, kept until the next press so
+they can be checked one after another; a generation runs on through a
+change of name and answers for the one it was asked for. The prompt
+carries the naming runbook's taste through worked examples, and the
+answer is cleaned like any typed name; an empty one gets a shrug.
+unsquattedForget() in the console undoes the opt-in and deletes the
+weights, for testing.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
