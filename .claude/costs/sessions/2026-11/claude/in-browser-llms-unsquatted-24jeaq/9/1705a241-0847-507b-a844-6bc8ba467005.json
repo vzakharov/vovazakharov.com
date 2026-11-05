@@ -1,15 +1,32 @@
 {
   "total": {
-    "inputTokens": 28,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 86062,
-    "cacheReadTokens": 1566399,
-    "outputTokens": 7712,
-    "thinkingTokens": 3169,
-    "responses": 14,
-    "costUsd": 1.1561278000000001
+    "inputTokens": 1061,
+    "cacheWrite5mTokens": 419,
+    "cacheWrite1hTokens": 95183,
+    "cacheReadTokens": 3433836,
+    "outputTokens": 12584,
+    "thinkingTokens": 5204,
+    "responses": 27,
+    "costUsd": 1.7075072000000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-05T07:33:46.365Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "an inline icon in a translated sentence needs a split template, a screen-reader name and its own sizing"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "telling a stale preview and cleared site data apart from a real eviction bug means reading the opt-in's storage across two versions"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -36,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkDnHaAN7NRxxranHWk",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T07:30:03.484Z",
-  "lastResponseAt": "2026-11-05T07:32:14.161Z",
+  "lastResponseAt": "2026-11-05T07:37:07.092Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 28,
+    "inputTokens": 49,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 86062,
-    "cacheReadTokens": 1566399,
-    "outputTokens": 7712,
-    "thinkingTokens": 3169,
-    "responses": 14,
-    "costUsd": 1.1561278000000001
+    "cacheWrite1hTokens": 95183,
+    "cacheReadTokens": 3140669,
+    "outputTokens": 12560,
+    "thinkingTokens": 5204,
+    "responses": 25,
+    "costUsd": 1.6409938000000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -61,23 +78,34 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 28,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 86062,
-      "cacheReadTokens": 1566399,
-      "outputTokens": 7712,
-      "thinkingTokens": 3169,
-      "responses": 14,
-      "costUsd": 1.1561278000000001
+      "inputTokens": 1061,
+      "cacheWrite5mTokens": 419,
+      "cacheWrite1hTokens": 95183,
+      "cacheReadTokens": 3433836,
+      "outputTokens": 12584,
+      "thinkingTokens": 5204,
+      "responses": 27,
+      "costUsd": 1.7075072000000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 13,
-    "matched": 13,
-    "matchedTableUsd": 1.1114538,
-    "matchedEventUsd": 1.1114538,
-    "unseen": {}
+    "events": 27,
+    "matched": 25,
+    "matchedTableUsd": 1.6409938000000002,
+    "matchedEventUsd": 1.6409938000000002,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 419,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 293167,
+        "outputTokens": 24,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0665134
+      }
+    }
   }
 }
