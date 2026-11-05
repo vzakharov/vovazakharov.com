@@ -57,17 +57,14 @@ export function IdeasModal({
             <p>{copy.pace}</p>
           </>
         )}
-        {busy && (
+        {(busy || done) && (
           <p className={classes['progress']} aria-live="polite">
-            {withPercent(
-              evicted ? copy.loading : copy.downloading,
-              downloading,
-            )}
-          </p>
-        )}
-        {done && (
-          <p className={classes['progress']} aria-live="polite">
-            {copy.ready}
+            {busy
+              ? withPercent(
+                  evicted ? copy.loading : copy.downloading,
+                  downloading,
+                )
+              : copy.ready}
           </p>
         )}
         {failed && (

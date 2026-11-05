@@ -6,20 +6,24 @@
   font-size: 0.85rem;
 }
 
-// Lit in the "maybe" gold.
-.bulb {
+// A bulb set in a line of text, at the text's size.
+%inline-bulb {
   width: 1em;
   height: 1em;
-  margin-right: 6px;
   vertical-align: -0.15em;
+}
+
+// Lit in the "maybe" gold.
+.bulb {
+  @extend %inline-bulb;
+
+  margin-right: 6px;
   color: var(--unsquatted-maybe);
 }
 
 // The button's own bulb, named in the offer's words.
 .pressed {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
+  @extend %inline-bulb;
 }
 
 // What the bulb means, for a screen reader alone.
