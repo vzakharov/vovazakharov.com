@@ -186,7 +186,8 @@ const sameArc = (x: Interval, y: Interval): boolean =>
   Math.abs(sweepOf(x) - sweepOf(y)) < NEAR &&
   Math.abs((((x[0] - y[0]) % TAU) + TAU) % TAU) < NEAR;
 
-/** Every convex corner of a piece at `apex`, as a wedge of directions. */
+/** The polygon's corner at vertex `i`, as a wedge of directions no wider
+ * than a half-turn. */
 function wedgeAt(
   polygon: readonly Vec[],
   i: number,

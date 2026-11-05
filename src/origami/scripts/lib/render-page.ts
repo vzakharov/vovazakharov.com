@@ -149,7 +149,7 @@ function fibre(): CanvasTexture {
 }
 
 const texture = fibre();
-/** Fibres per sheet width. */
+/** Texture tiles per sheet width. */
 const TEXTURE_REPEAT = 3;
 
 /** The model's z is up; three's y is. A proper rotation, so a piece's
