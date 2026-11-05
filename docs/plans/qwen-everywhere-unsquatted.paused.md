@@ -46,7 +46,9 @@ operator's call «только qwen, чтобы не поддерживать д
 1. Settled by relays 5–7: the lightbulb's ring is the progress (no
    `LoadingVariant` left to pick); it turns on the compositor (7844da54); a
    generation outlives a label change and a press for another label replaces it
-   (f8d6bd76); an empty answer shows the shrug line (66355fa6).
+   (f8d6bd76); an empty answer shows the shrug line (66355fa6). Review of
+   2026-11-05: three variations asked as well as shown (e286ce7a); evicted
+   weights download again on the press, with a notice (0165f637).
 2. A real-browser walk on preview: the operator tests on Chrome and Arc. The
    ring is confirmed smooth there; f8d6bd76's behaviour is published, unchecked.
    2a. `pnpm type-overlap` fails on five groups the branch introduced (two props
@@ -54,8 +56,8 @@ operator's call «только qwen, чтобы не поддерживать д
    `Ideas` members against `Timed`, `Hushing`, `Ramped`, `HaloLayer`); vet will
    stop on them.
 3. Retune the prompt if real WebGPU output calls for it.
-4. `/polish`, then `/pr` refresh: title (still "from Chrome's built-in model"),
-   body and squash proposal describe the Chrome flow.
+4. `/pr` refresh of the body, which still describes the Chrome flow; the title
+   and squash proposal are refreshed (a98c18ed).
 
 ## Decisions
 
@@ -65,6 +67,6 @@ operator's call «только qwen, чтобы не поддерживать д
   luminous) where 0.6B copied the prompt's examples.
 - **Few-shot, one name per line, T 0.8, top_p 0.95, repetition penalty 1.1**:
   rules alone made both models repeat the name six times.
-- **Stale opt-in** (five-percent review 5768094962) answered by undoing the
-  opt-in when the weights are evicted, so the offer and its consent come back
-  before a re-download.
+- **Stale opt-in** (five-percent review 5768094962): the opt-in stands when the
+  weights are evicted; the next press downloads them at once and a dialog says
+  so, with a single OK (operator, 2026-11-05).

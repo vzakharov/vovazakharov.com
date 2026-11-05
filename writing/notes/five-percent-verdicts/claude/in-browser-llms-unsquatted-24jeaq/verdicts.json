@@ -1,0 +1,11 @@
+{
+  "pr": 247,
+  "verdicts": [
+    {
+      "comment": 4467333792,
+      "about": "Treat the opt-in as live only while the model is cached; re-offer when evicted",
+      "verdict": 0.6,
+      "why": "Took the case: eviction must lead to a fresh download. Turned down the re-shown grey offer line: the opt-in stands, so the press downloads at once and a modal just says the model went missing and is coming back, with a lone OK."
+    }
+  ]
+}

@@ -26,21 +26,20 @@ export type Loading = {
   downloading: number | undefined;
   /** The last download failed. */
   failed: boolean;
-};
-
-export type Evicted = {
-  /** Opted in, but the browser has since deleted the weights. */
+  /**
+   * Opted in, but the browser has since deleted the weights, which the next
+   * press downloads again.
+   */
   evicted: boolean;
 };
 
 /** What the button is doing, which its label says. */
-export type Stage = Loading &
-  Evicted & {
-    /** The visitor agreed, so the button brainstorms. */
-    optedIn: boolean;
-    /** The visitor pressed the button and the variations are on their way. */
-    thinking: boolean;
-  };
+export type Stage = Loading & {
+  /** The visitor agreed, so the button brainstorms. */
+  optedIn: boolean;
+  /** The visitor pressed the button and the variations are on their way. */
+  thinking: boolean;
+};
 
 export type Ideas = Stage & {
   /** The model can run here. */

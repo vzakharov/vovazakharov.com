@@ -1,15 +1,32 @@
 {
   "total": {
-    "inputTokens": 55,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 121686,
-    "cacheReadTokens": 3829390,
-    "outputTokens": 20767,
-    "thinkingTokens": 7080,
-    "responses": 28,
-    "costUsd": 2.1549259999999997
+    "cacheWrite1hTokens": 141432,
+    "cacheReadTokens": 6931173,
+    "outputTokens": 29508,
+    "thinkingTokens": 8735,
+    "responses": 45,
+    "costUsd": 3.1081945999999996
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-05T03:17:06.512Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "re-download on eviction threads a third state through a hook, its button and its dialog without breaking the in-flight generation semantics"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "the squash record has to be re-cut from twenty commits to a feature's three paragraphs at log altitude"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -36,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkC7xCgLHrKbBUPMB5E",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T03:11:04.042Z",
-  "lastResponseAt": "2026-11-05T03:15:40.412Z",
+  "lastResponseAt": "2026-11-05T03:17:35.593Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 55,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 121686,
-    "cacheReadTokens": 3829390,
-    "outputTokens": 20767,
-    "thinkingTokens": 7080,
-    "responses": 28,
-    "costUsd": 2.1549259999999997
+    "cacheWrite1hTokens": 141432,
+    "cacheReadTokens": 6931173,
+    "outputTokens": 29508,
+    "thinkingTokens": 8735,
+    "responses": 45,
+    "costUsd": 3.1081945999999996
   },
   "subagents": {
     "inputTokens": 0,
@@ -61,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 55,
+      "inputTokens": 86,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 121686,
-      "cacheReadTokens": 3829390,
-      "outputTokens": 20767,
-      "thinkingTokens": 7080,
-      "responses": 28,
-      "costUsd": 2.1549259999999997
+      "cacheWrite1hTokens": 141432,
+      "cacheReadTokens": 6931173,
+      "outputTokens": 29508,
+      "thinkingTokens": 8735,
+      "responses": 45,
+      "costUsd": 3.1081945999999996
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 28,
-    "matched": 28,
-    "matchedTableUsd": 2.1549259999999997,
-    "matchedEventUsd": 2.154926,
+    "events": 45,
+    "matched": 45,
+    "matchedTableUsd": 3.1081945999999996,
+    "matchedEventUsd": 3.1081945999999996,
     "unseen": {}
   }
 }

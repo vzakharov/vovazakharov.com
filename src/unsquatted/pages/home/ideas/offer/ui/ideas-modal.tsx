@@ -5,12 +5,11 @@ import { Button, Group, Modal } from '@mantine/core';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { WithCopy } from '../../../checker';
-import type { Evicted, Loading } from '../lib/use-ideas';
+import type { Loading } from '../lib/use-ideas';
 import classes from './ideas.module.scss';
 
 type IdeasModalProps = WithCopy &
-  Loading &
-  Evicted & {
+  Loading & {
     opened: boolean;
     onClose: () => void;
     /** Starts the download. */
