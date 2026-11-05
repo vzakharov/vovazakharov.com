@@ -1,0 +1,83 @@
+{
+  "total": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 80673,
+    "cacheReadTokens": 3120894,
+    "outputTokens": 8537,
+    "thinkingTokens": 1249,
+    "responses": 27,
+    "costUsd": 1.4405108000000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-05T07:38:37.138Z",
+    "contextTokens": 133214,
+    "spend": {
+      "inputTokens": 50,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 79576,
+      "cacheReadTokens": 2988779,
+      "outputTokens": 7968,
+      "thinkingTokens": 1249,
+      "responses": 26,
+      "costUsd": 1.3939238000000003
+    }
+  },
+  "sessionId": "ee64aa9b-d9d8-54c8-b78c-01a557e971e9",
+  "branch": "claude/optimistic-ritchie-58afp6",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/migraine-diary-november-2n74qi — 04.11 закрыт, 05.11 начат с тяжёлой головой, PR обновлён, ждём новостей",
+  "prs": [
+    267
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEB5mkanE9Xo6qaYDZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T07:35:24.924Z",
+  "lastResponseAt": "2026-11-05T07:38:37.138Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 80673,
+    "cacheReadTokens": 3120894,
+    "outputTokens": 8537,
+    "thinkingTokens": 1249,
+    "responses": 27,
+    "costUsd": 1.4405108000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 80673,
+      "cacheReadTokens": 3120894,
+      "outputTokens": 8537,
+      "thinkingTokens": 1249,
+      "responses": 27,
+      "costUsd": 1.4405108000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 27,
+    "matched": 27,
+    "matchedTableUsd": 1.4405108000000002,
+    "matchedEventUsd": 1.4405108000000002,
+    "unseen": {}
+  }
+}
