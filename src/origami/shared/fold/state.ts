@@ -1,0 +1,126 @@
+/**
+ * The folded sheet: convex pieces, each with its polygon in paper
+ * coordinates, a flat placement, a stacking key and a 3D shaping matrix.
+ */
+import {
+  type Affine,
+  apply,
+  contains,
+  edges,
+  IDENTITY,
+  type Line,
+  overlaps,
+  type Polygon,
+  type Segment,
+  sharedSegment,
+  type Vec,
+} from './geometry.ts';
+import { IDENTITY4, type Mat4 } from './space.ts';
+
+export type Piece = {
+  readonly id: number;
+  readonly paper: Polygon;
+  /** Paper → flat folded state. */
+  placement: Affine;
+  /** Stacking key in the flat state: higher lies above. Only order matters. */
+  z: number;
+  /** Shaping folds, applied on top of the flat placement. */
+  shaping: Mat4;
+  readonly tags: Set<string>;
+};
+
+export const FOLD_DIRECTIONS = [
+  'valley',
+  'mountain',
+  'inside',
+  'outside',
+] as const;
+/**
+ * `valley` swings the flap up and lands it on top, `mountain` down and below.
+ * `inside` and `outside` are reverse folds on a model folded in half: each
+ * half's moving part lands on its own stationary part, between the halves or
+ * around them.
+ */
+export type FoldDirection = (typeof FOLD_DIRECTIONS)[number];
+
+/** What one fold did, kept for the physics that reads the state after it. */
+export type FoldRecord = {
+  readonly line: Line;
+  readonly direction: FoldDirection;
+  readonly flat: boolean;
+  /** Ids of the pieces that moved, as they exist after the fold. */
+  readonly moved: ReadonlySet<number>;
+  /** Tag telling the two halves of a reverse fold apart; see `fold`. */
+  readonly lowerTag: string | undefined;
+};
+
+export type FoldState = {
+  pieces: Piece[];
+  readonly log: FoldRecord[];
+  nextId: number;
+};
+
+export function square(): FoldState {
+  return {
+    pieces: [
+      {
+        id: 0,
+        paper: [
+          [0, 0],
+          [1, 0],
+          [1, 1],
+          [0, 1],
+        ],
+        placement: IDENTITY,
+        z: 0,
+        shaping: IDENTITY4,
+        tags: new Set(),
+      },
+    ],
+    log: [],
+    nextId: 1,
+  };
+}
+
+/** A new piece cut from `from`, keeping its placement, stacking and tags. */
+export function cut(state: FoldState, from: Piece, paper: Polygon): Piece {
+  return { ...from, id: state.nextId++, paper, tags: new Set(from.tags) };
+}
+
+export const flatPolygon = (piece: Piece): Polygon =>
+  piece.paper.map((pt) => apply(piece.placement, pt));
+
+/** Where a point of the paper lies in the flat folded state. */
+export function where(state: FoldState, pt: Vec): Vec {
+  const piece = state.pieces.find((p) => contains(p.paper, pt));
+  if (!piece) throw new Error(`paper point ${pt.join(',')} is on no piece`);
+  return apply(piece.placement, pt);
+}
+
+/** The paper edge two pieces share, when they share one — a crease or a cut
+ * the engine made, never the sheet's own outline. */
+export function adjacency(p: Piece, q: Piece): Segment | undefined {
+  for (const a of edges(p.paper)) {
+    for (const b of edges(q.paper)) {
+      const shared = sharedSegment(a, b);
+      if (shared) return shared;
+    }
+  }
+  return undefined;
+}
+
+/** Each piece's local layer index: the longest chain of overlapping pieces
+ * beneath it. Pieces apart from each other both sit on layer 0. */
+export function layers(state: FoldState): Map<number, number> {
+  const stack = [...state.pieces]
+    .toSorted((a, b) => a.z - b.z)
+    .map((piece) => ({ ...piece, polygon: flatPolygon(piece), layer: 0 }));
+  for (const [i, entry] of stack.entries()) {
+    for (const below of stack.slice(0, i)) {
+      if (overlaps(entry.polygon, below.polygon)) {
+        entry.layer = Math.max(entry.layer, below.layer + 1);
+      }
+    }
+  }
+  return new Map(stack.map(({ id, layer }) => [id, layer]));
+}
