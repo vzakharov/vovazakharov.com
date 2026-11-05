@@ -91,7 +91,7 @@ export function IdeasOffer({
         }}
         onTurnOn={turnOn}
         onStop={stop}
-        {...{ downloading, failed, copy }}
+        {...{ optedIn, downloading, failed, copy }}
       />
     </>
   );

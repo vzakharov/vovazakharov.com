@@ -20,8 +20,10 @@ import { ringOf, type RingTarget } from './ring';
 const KEY = 'unsquatted.ideas';
 const TIMED_KEY = 'unsquatted.ideasSeconds';
 
-/** Where the opt-in's download stands. */
+/** Where the opt-in and its download stand. */
 export type Loading = {
+  /** The visitor agreed, so the button brainstorms. */
+  optedIn: boolean;
   /** The fraction downloaded while the download runs. */
   downloading: number | undefined;
   /** The last download failed. */
@@ -35,8 +37,6 @@ export type Loading = {
 
 /** What the button is doing, which its label says. */
 export type Stage = Loading & {
-  /** The visitor agreed, so the button brainstorms. */
-  optedIn: boolean;
   /** The visitor pressed the button and the variations are on their way. */
   thinking: boolean;
 };

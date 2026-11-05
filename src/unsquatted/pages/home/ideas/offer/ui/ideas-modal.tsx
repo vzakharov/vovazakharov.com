@@ -22,19 +22,22 @@ type IdeasModalProps = WithCopy &
 /**
  * What a visitor agrees to, in plain words, and the opt-in itself, whose
  * download carries on with the dialog closed. Opened for weights the browser
- * has deleted, it only reports the download the press already began.
+ * has deleted, it only reports the download the press already began. Left
+ * open, it says when the download is done.
  */
 export function IdeasModal({
   opened,
   onClose,
   onTurnOn,
   onStop,
+  optedIn,
   evicted,
   downloading,
   failed,
   copy: { ideas: copy },
 }: IdeasModalProps) {
   const busy = downloading !== undefined;
+  const done = !busy && !failed && (evicted || optedIn);
   const [beforeBulb, afterBulb] = copy.what.split('{bulb}');
 
   return (
@@ -62,6 +65,11 @@ export function IdeasModal({
             )}
           </p>
         )}
+        {done && (
+          <p className={classes['progress']} aria-live="polite">
+            {copy.ready}
+          </p>
+        )}
         {failed && (
           <p className={classes['progress']} role="alert">
             {copy.failed}
@@ -69,7 +77,7 @@ export function IdeasModal({
         )}
       </div>
       <Group justify="flex-end" mt="md">
-        {evicted ? (
+        {evicted || done ? (
           <Button onClick={onClose}>{copy.ok}</Button>
         ) : busy ? (
           <>

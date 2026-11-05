@@ -98,13 +98,16 @@ export function watchLoad(watcher: () => void): () => void {
 /**
  * Loads the model, downloading it the first time, while `loadProgress`
  * reports the fraction done. A failed or stopped load is forgotten, so the
- * next call tries again.
+ * next call tries again. While it runs, closing the tab asks first: the
+ * browser keeps only the files downloaded whole, and the bulk of the weights
+ * is one file.
  */
 export async function startModel(): Promise<void> {
   loading ??= (async () => {
     const stopper = new AbortController();
 
     loadStopper = stopper;
+    addEventListener('beforeunload', holdPage);
     progressed(0);
     const { load } = await started();
 
@@ -125,10 +128,16 @@ export async function startModel(): Promise<void> {
     })
     .finally(() => {
       loadStopper = undefined;
+      removeEventListener('beforeunload', holdPage);
       progressed(undefined);
     });
 
   return loading;
+}
+
+/** Has the browser ask before the page goes, in words of its own. */
+function holdPage(event: BeforeUnloadEvent) {
+  event.preventDefault();
 }
 
 /** Stops the running load, whose promise then rejects as `isStopped` tells. */
