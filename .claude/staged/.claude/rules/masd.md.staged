@@ -92,11 +92,13 @@ Lowest (most generic) first, each optional per app:
 - **`app/`** — root layouts, Mantine provider, global stylesheets and theme,
   sitemap and feed: `ui`, `styles` and `lib` segments.
 
-An entity is earned once a block is a business noun's own UI: `document` holds
-the byline, the collection's cards and the rendered body, all about a document
-and nothing else. A layer is still optional and **inventing one costs more than
-leaving it out** (see "insignificant slices" below), so an entity waits for that
-— a noun with UI worth naming, not the mere idea of one.
+An entity is a business noun the project works with — FSD's "concepts from the
+real world" — holding whichever segments the noun has: `document` is ui-only,
+origami's `design` a model alone. `shared/` carries no business logic, so code
+about one noun belongs in its entity unless something keeps it lower, as
+`document`'s model is kept below. A layer is still optional and **inventing one
+costs more than leaving it out** (see "insignificant slices" below), so an
+entity waits for code about the noun, not the mere idea of one.
 
 **A block two page slices share cannot sit in either of them** — slices may not
 reach each other sideways — so it drops to a lower layer, in the lowest app both
@@ -236,7 +238,10 @@ as `shared/config` is.
   modularity being positive — since a module is one whoever uses it, and a count
   alone would keep a one-page app a single slice. The graph is the slice's own
   app alone: descendants are who uses an app, which says nothing of how it is
-  cut, and their unrelated edges would lower the bar for everyone.
+  cut, and their unrelated edges would lower the bar for everyone. A slice whose
+  consumer has not landed yet, with only its app's scripts reaching it, carries
+  `// masd-disable insignificant -- <what earns it>` in its `index.ts` on the
+  operator's yes, and loses it when that consumer arrives.
 - **An app's tooling is its `scripts/`, beside its layers rather than one of
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
