@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 14,
+    "inputTokens": 25,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 62314,
-    "cacheReadTokens": 576766,
-    "outputTokens": 1857,
-    "thinkingTokens": 298,
-    "responses": 6,
-    "costUsd": 0.6510612
+    "cacheWrite1hTokens": 79369,
+    "cacheReadTokens": 1326126,
+    "outputTokens": 3423,
+    "thinkingTokens": 447,
+    "responses": 12,
+    "costUsd": 0.9687372000000001
   },
   "estimate": {
     "at": "2026-11-05T09:47:01.799Z",
@@ -65,22 +65,24 @@
   "branch": "claude/in-browser-llms-unsquatted-24jeaq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/in-browser-llms-unsquatted-24jeaq — ревью отработано, пасхалка «give me ai» запланирована, но ещё не начата",
-  "prs": [],
+  "prs": [
+    247
+  ],
   "url": "https://claude.ai/code/session_01DaohkCiSsMf41f4sR2PQTd",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T09:46:46.933Z",
-  "lastResponseAt": "2026-11-05T09:47:04.984Z",
+  "lastResponseAt": "2026-11-05T09:48:57.871Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 14,
+    "inputTokens": 25,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 62314,
-    "cacheReadTokens": 576766,
-    "outputTokens": 1857,
-    "thinkingTokens": 298,
-    "responses": 6,
-    "costUsd": 0.6510612
+    "cacheWrite1hTokens": 79369,
+    "cacheReadTokens": 1326126,
+    "outputTokens": 3423,
+    "thinkingTokens": 447,
+    "responses": 12,
+    "costUsd": 0.9687372000000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -94,23 +96,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 14,
+      "inputTokens": 25,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 62314,
-      "cacheReadTokens": 576766,
-      "outputTokens": 1857,
-      "thinkingTokens": 298,
-      "responses": 6,
-      "costUsd": 0.6510612
+      "cacheWrite1hTokens": 79369,
+      "cacheReadTokens": 1326126,
+      "outputTokens": 3423,
+      "thinkingTokens": 447,
+      "responses": 12,
+      "costUsd": 0.9687372000000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 5,
-    "matched": 5,
-    "matchedTableUsd": 0.53697,
-    "matchedEventUsd": 0.53697,
+    "events": 12,
+    "matched": 12,
+    "matchedTableUsd": 0.9687372000000001,
+    "matchedEventUsd": 0.9687372000000001,
     "unseen": {}
   }
 }
