@@ -36,7 +36,6 @@ export function IdeasModal({
   copy: { ideas: copy },
 }: IdeasModalProps) {
   const busy = downloading !== undefined;
-  const percent = busy ? String(Math.round(downloading * 100)) : '';
 
   return (
     <Modal centered {...{ opened, onClose }} {...pick(copy, 'title')}>
@@ -52,9 +51,9 @@ export function IdeasModal({
         )}
         {busy && (
           <p className={classes['progress']} aria-live="polite">
-            {(evicted ? copy.loading : copy.downloading).replace(
-              '{percent}',
-              percent,
+            {withPercent(
+              evicted ? copy.loading : copy.downloading,
+              downloading,
             )}
           </p>
         )}
@@ -64,25 +63,30 @@ export function IdeasModal({
           </p>
         )}
       </div>
-      {evicted ? (
-        <Group justify="flex-end" mt="md">
+      <Group justify="flex-end" mt="md">
+        {evicted ? (
           <Button onClick={onClose}>{copy.ok}</Button>
-        </Group>
-      ) : busy ? (
-        <Group justify="flex-end" mt="md">
-          <Button variant="default" onClick={onStop}>
-            {copy.stop}
-          </Button>
-          <Button onClick={onClose}>{copy.close}</Button>
-        </Group>
-      ) : (
-        <Group justify="flex-end" mt="md">
-          <Button variant="default" onClick={onClose}>
-            {copy.notNow}
-          </Button>
-          <Button onClick={onTurnOn}>{copy.turnOn}</Button>
-        </Group>
-      )}
+        ) : busy ? (
+          <>
+            <Button variant="default" onClick={onStop}>
+              {copy.stop}
+            </Button>
+            <Button onClick={onClose}>{copy.close}</Button>
+          </>
+        ) : (
+          <>
+            <Button variant="default" onClick={onClose}>
+              {copy.notNow}
+            </Button>
+            <Button onClick={onTurnOn}>{copy.turnOn}</Button>
+          </>
+        )}
+      </Group>
     </Modal>
   );
+}
+
+/** `template` with its `{percent}` filled from the fraction downloaded. */
+export function withPercent(template: string, fraction: number): string {
+  return template.replace('{percent}', String(Math.round(fraction * 100)));
 }

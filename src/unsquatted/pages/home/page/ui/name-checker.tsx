@@ -145,24 +145,22 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           classNames={{ root: classes['fieldInput'], input: classes['input'] }}
         />
         {label !== '' && (
-          <IdeasLine
-            className={classes['ideas']}
-            onPick={checkHere}
-            {...{ ideas, copy }}
-          />
-        )}
-        {label !== '' && (
-          <span className={classes['fieldTools']}>
-            <FieldTools
-              onReached={() => {
-                setWanted(true);
-              }}
-              {...{ label, zone, siblings, verdicts, prices, looking, copy }}
+          <>
+            <IdeasLine
+              className={classes['ideas']}
+              onPick={checkHere}
+              {...{ ideas, copy }}
             />
-          </span>
-        )}
-        {label !== '' && (
-          <IdeasOffer className={TOOL_BUTTON} {...{ ideas, copy }} />
+            <span className={classes['fieldTools']}>
+              <FieldTools
+                onReached={() => {
+                  setWanted(true);
+                }}
+                {...{ label, zone, siblings, verdicts, prices, looking, copy }}
+              />
+            </span>
+            <IdeasOffer className={TOOL_BUTTON} {...{ ideas, copy }} />
+          </>
         )}
         <ActionIcon
           type="button"

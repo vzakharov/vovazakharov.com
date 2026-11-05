@@ -14,7 +14,7 @@ import {
 } from '../lib/ring';
 import type { Ideas, Stage } from '../lib/use-ideas';
 import classes from './ideas.module.scss';
-import { IdeasModal } from './ideas-modal';
+import { IdeasModal, withPercent } from './ideas-modal';
 
 type IdeasOfferProps = WithCopy & {
   ideas: Ideas;
@@ -102,11 +102,7 @@ function buttonLabel(
   copy: IdeasOfferProps['copy']['ideas'],
   { optedIn, thinking, downloading }: Stage,
 ): string {
-  if (downloading !== undefined)
-    return copy.loading.replace(
-      '{percent}',
-      String(Math.round(downloading * 100)),
-    );
+  if (downloading !== undefined) return withPercent(copy.loading, downloading);
 
   if (!optedIn) return copy.offer;
 
