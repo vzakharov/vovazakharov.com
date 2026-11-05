@@ -12,9 +12,10 @@ import {
   type PreTrainedTokenizer,
   type ProgressInfo,
   Tensor,
+  TextStreamer,
 } from '@huggingface/transformers';
 
-import { parseIdeas } from './parse-ideas';
+import { parseIdeas, typedIdeas } from './parse-ideas';
 import { chatFor } from './prompt';
 
 /**
@@ -100,10 +101,14 @@ export async function weightsCached(dtype: Dtype): Promise<boolean> {
 }
 
 /**
- * Variations of `label`. One generation at a time: the caller queues them,
- * and `stop` cuts the running one short.
+ * Variations of `label`, `onTyped` hearing the names so far as the model
+ * writes them. One generation at a time: the caller queues them, and `stop`
+ * cuts the running one short.
  */
-export async function generate(label: string): Promise<string[]> {
+export async function generate(
+  label: string,
+  onTyped: (names: string[]) => void,
+): Promise<string[]> {
   if (!loaded) throw new Error('The model is not loaded.');
 
   const { tokenizer, model } = await loaded;
@@ -116,9 +121,22 @@ export async function generate(label: string): Promise<string[]> {
   } as const;
   const inputs = tokenizer.apply_chat_template(chatFor(label), options);
 
+  let written = '';
+  const streamer = new TextStreamer(tokenizer, {
+    skip_prompt: true,
+    skip_special_tokens: true,
+    callback_function: (text) => {
+      written += text;
+      const names = typedIdeas(written, label);
+
+      if (names.length > 0) onTyped(names);
+    },
+  });
+
   stopping.reset();
   const output = await model.generate({
     ...inputs,
+    streamer,
     max_new_tokens: MAX_NEW_TOKENS,
     do_sample: true,
     temperature: 0.8,

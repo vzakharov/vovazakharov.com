@@ -20,33 +20,46 @@ type IdeasLineProps = WithCopy & {
 /**
  * The line by the field: the variations the lightbulb last brainstormed,
  * kept while the visitor picks among them, or a shrug when it found none.
+ * While the model writes the next ones, they show letter by letter, to be
+ * picked once they are in; a screen reader hears them then too.
  */
 export function IdeasLine({
-  ideas: { available, optedIn, names },
+  ideas: { available, optedIn, names, typing },
   onPick,
   className,
   copy,
 }: IdeasLineProps) {
-  if (!available || !optedIn || names === undefined) return;
+  const shown = typing ?? names;
+
+  if (!available || !optedIn || shown === undefined) return;
 
   return (
-    <p className={cx(classes['line'], className)} aria-live="polite">
+    <p
+      className={cx(classes['line'], className)}
+      aria-live="polite"
+      aria-busy={typing !== undefined}
+    >
       <Lightbulb className={classes['bulb']} aria-hidden />
-      {names.length === 0 && copy.ideas.none}
-      {names.length > 0 && (
+      {shown.length === 0 && copy.ideas.none}
+      {shown.length > 0 && (
         <span className={classes['unseen']}>{copy.ideas.lead}</span>
       )}
-      {names.map((name, index) => (
-        <span key={name}>
+      {shown.map((name, index) => (
+        // Keyed by place: a name being written changes with every letter.
+        <span key={index}>
           {index > 0 && ' · '}
-          <UnstyledButton
-            className={classes['name']}
-            onClick={() => {
-              onPick(name);
-            }}
-          >
-            {name}
-          </UnstyledButton>
+          {typing ? (
+            <span className={classes['typed']}>{name}</span>
+          ) : (
+            <UnstyledButton
+              className={classes['name']}
+              onClick={() => {
+                onPick(name);
+              }}
+            >
+              {name}
+            </UnstyledButton>
+          )}
         </span>
       ))}
     </p>
