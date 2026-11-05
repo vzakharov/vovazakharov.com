@@ -1,5 +1,52 @@
 # Origami infrastructure: the folding engine as a tool, with paper physics
 
+## Progress
+
+Paused for the first session's context budget.
+
+**Done** (aa6ff03b, 72b8cb84):
+
+- `scene` app in `src/masd.json`; `cdp.ts` moved to
+  `src/scene/scripts/lib/cdp.ts`, `play-mushrooms.ts` re-pointed.
+- `src/origami/shared/fold/`: `geometry.ts`, `space.ts` (the 4×4 half),
+  `state.ts` (pieces, `FoldRecord`, `FOLD_DIRECTIONS`, `square`, `cut`, `where`,
+  `layers`), `fold.ts` (`fold`, `run`, step and selection types),
+  `crease-pattern.ts` (+ SVG), `paper.ts`, `snapshot.ts`, `index.ts`, and
+  `fold.test.ts` (4 passing). Lint and `tsc` clean on these files.
+- `fold()` records each step in `state.log` as a `FoldRecord` — line, direction,
+  flat or not, moved ids after the fold, the reverse fold's lower tag — which is
+  what `physics.ts` reads.
+
+**Left**, in order:
+
+1. `shared/designs/basilisk.ts` — port `pilot/models/basilisk.mjs` (env vars
+   become typed options; `spineFold` uses `where`); a `DESIGNS` registry with
+   `basilisk` and `basilisk-two-narrowings` as the CLI's names. A design is
+   `{ steps, colors, display }`; `display` maps engine coordinates to the
+   renderer's.
+2. `shared/fold/physics.ts` + `shared/designs/basilisk.test.ts` — see the
+   corrections below before writing thresholds.
+3. `scripts/lib/render-page.ts` (port `pilot/render.html`; three as a pinned dev
+   dependency, bundled by esbuild) and `scripts/lib/render.ts` over
+   `@/scene/scripts/lib/cdp`. `play-mushrooms.ts` `open()` shows the
+   target/attach/`Runtime.exceptionThrown` sequence; a page-opening helper in
+   `cdp.ts` both could use is a `/dry` call.
+4. `scripts/fold-model.ts` + `"origami"` in `package.json`; writes
+   `tmp/origami/<design>/`.
+5. `pnpm check:masd`, `lint:fsd`, `check:cycles`, `masd:clusters`, then Step 3
+   of `/go`.
+
+**Corrections to the sections below**, found while porting:
+
+- **The reverse-fold budget is on the total, not per half.** The neck's 16
+  layers are 8 per half, so "more than 8 per half" would pass it. Error above 8
+  layers bent in total; the two-narrowing basilisk bends 8 there.
+- **Sharpness**: θ is the tip's full angle and the amplification `1/tan(θ/2)`;
+  the third narrowing makes an 11.25° tip, about 10×, not 20×. Warn under 15°.
+- **A selected layer drags along every layer joined to it off the line** — the
+  engine is right that a book-folded sheet cannot fold its top half alone; a
+  test pins it.
+
 ## Goal
 
 Turn the pilot in `docs/remove-before-merging/origami-pilot-mwxvll/pilot/` into
