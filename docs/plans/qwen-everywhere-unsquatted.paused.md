@@ -56,10 +56,8 @@ operator's call «только qwen, чтобы не поддерживать д
    `Ideas` members against `Timed`, `Hushing`, `Ramped`, `HaloLayer`); vet will
    stop on them.
 3. Retune the prompt if real WebGPU output calls for it.
-4. Two optional `/five-percent` proposals (review 5782780413) await the
-   operator: free the model on `module.hot.dispose` rather than hold it on
-   `globalThis`, which keeps a stale model across edits to `engine.ts`; and
-   guard the tab only while `downloading`, not over a cached load.
+4. Settled (review 5782780413): the model stays on `globalThis`, nothing more
+   for local testing; the tab guard follows `downloading` (7be78f31).
 
 ## Decisions
 
