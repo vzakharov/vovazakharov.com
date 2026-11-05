@@ -6,6 +6,18 @@
       "about": "Treat the opt-in as live only while the model is cached; re-offer when evicted",
       "verdict": 0.6,
       "why": "Took the case: eviction must lead to a fresh download. Turned down the re-shown grey offer line: the opt-in stands, so the press downloads at once and a modal just says the model went missing and is coming back, with a lone OK."
+    },
+    {
+      "comment": 4478831473,
+      "about": "Release the held model on hot reload so an engine edit takes effect",
+      "verdict": 0.1,
+      "why": "Turned down: nothing extra for local testing, only no leaked GPU memory, which globalThis already gives; a changed model needs a page reload, accepted."
+    },
+    {
+      "comment": 4478831485,
+      "about": "Hold the tab only while the weights download, not while loading from cache",
+      "verdict": 1,
+      "why": "Taken as proposed with a bare yes."
     }
   ]
 }
