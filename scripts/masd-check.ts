@@ -19,7 +19,7 @@
  * it against a tree of its own. See .claude/rules/masd.md.
  */
 
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 import {
@@ -31,6 +31,7 @@ import {
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
 import { appFiles, subdirectories } from './lib/import-graph.ts';
+import { carriesMarker } from './lib/masd-marker.ts';
 import { cutGain, type Edge, importsOf, within } from './lib/slice-graph.ts';
 import { subSliceProblems } from './lib/sub-slices/index.ts';
 
@@ -41,14 +42,8 @@ const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
 
-/** The comment a slice's `index.ts` carries to be spared the significance
- * check, by the operator's leave. */
-const STAYS = /\/\/ masd-disable insignificant -- \S/;
-
-function stays(slice: string): boolean {
-  const barrel = path.join('src', slice, 'index.ts');
-  return existsSync(barrel) && STAYS.test(readFileSync(barrel, 'utf8'));
-}
+const stays = (slice: string): boolean =>
+  carriesMarker(path.join('src', slice, 'index.ts'), 'insignificant');
 
 /**
  * Where a file sits: `<app>/<layer>/<slice>` in a sliced layer,
