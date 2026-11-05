@@ -28,7 +28,6 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
 import { budgetReport } from './lib/frame-budget.ts';
 import { PROBE, seededRandom, STEPPED_TWEENS } from './lib/mushroom-probe.ts';
@@ -62,6 +61,7 @@ import { playWalk } from './lib/play-walk.ts';
 import { flag, given } from '@/kernel/scripts/lib/argv';
 import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, launch } from '@/scene/scripts/lib/cdp';
 
 const OUT = path.join(REPO_ROOT, 'sites/vova/out');
 const FRAMES = path.join(REPO_ROOT, 'tmp/play');
