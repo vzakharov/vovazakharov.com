@@ -272,10 +272,9 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
       line,
       ((angle * Math.PI) / 180) * sign * movingSign,
     );
-    // The line is drawn in the flat state, and the crease is in space where
-    // the side that stays has already been shaped: conjugating by that
-    // shaping turns the flap about the crease there, whatever shaping each
-    // moved piece carries of its own.
+    // The line is drawn flat, but the crease lies where the still side's
+    // shaping put it: conjugating by that shaping turns the flap about it
+    // there, whatever shaping each moved piece carries of its own.
     const hinge = hingeShaping(state, line, movedIds);
     const turn = multiply(hinge, multiply(rotation, invertRigid(hinge)));
     for (const piece of moved) piece.shaping = multiply(turn, piece.shaping);
