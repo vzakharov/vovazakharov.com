@@ -26,13 +26,14 @@ type IdeasOfferProps = WithCopy & {
  * The lightbulb among the field's tool buttons. Before the visitor opts in it
  * opens the dialog that offers the model, and reopens it while the download
  * runs, to show the percentage and offer to stop; after, it brainstorms the
- * name in the field. A ring round the bulb fills with the download and then
+ * name in the field, first saying so where the weights download again. A ring round the bulb fills with the download and then
  * with the generation, the way an app's icon fills as it installs.
  */
 export function IdeasOffer({
   ideas: {
     available,
     optedIn,
+    evicted,
     turnOn,
     brainstorm,
     stop,
@@ -45,12 +46,17 @@ export function IdeasOffer({
   className,
   copy,
 }: IdeasOfferProps) {
-  const [opened, setOpened] = useState(false);
+  /**
+   * Which dialog is open: the offer, or the notice that the weights download
+   * again — kept until closed, though the download it reports may finish.
+   */
+  const [opened, setOpened] = useState<'offer' | 'evicted'>();
 
   if (!available) return;
 
   const label = buttonLabel(copy.ideas, {
     optedIn,
+    evicted,
     thinking,
     downloading,
     failed,
@@ -64,8 +70,14 @@ export function IdeasOffer({
         aria-label={label}
         title={label}
         onClick={() => {
-          if (optedIn) brainstorm();
-          else setOpened(true);
+          if (!optedIn) {
+            setOpened('offer');
+
+            return;
+          }
+
+          if (evicted) setOpened('evicted');
+          brainstorm();
         }}
         {...{ className }}
       >
@@ -73,12 +85,14 @@ export function IdeasOffer({
         {ring && <Ring key={asked} target={ring} />}
       </ActionIcon>
       <IdeasModal
+        opened={opened !== undefined}
+        evicted={opened === 'evicted'}
         onClose={() => {
-          setOpened(false);
+          setOpened(undefined);
         }}
         onTurnOn={turnOn}
         onStop={stop}
-        {...{ opened, downloading, failed, copy }}
+        {...{ downloading, failed, copy }}
       />
     </>
   );

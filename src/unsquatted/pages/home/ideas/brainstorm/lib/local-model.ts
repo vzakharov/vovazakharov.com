@@ -54,7 +54,7 @@ async function knownDtype(): Promise<Dtype> {
 
 /**
  * Whether the browser still holds the weights: it may evict a site's cache,
- * and loading them again is a download the visitor has to agree to.
+ * and loading them again is a download the visitor is told of.
  */
 export async function modelCached(): Promise<boolean> {
   const { weightsCached } = await started();
