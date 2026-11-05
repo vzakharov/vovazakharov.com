@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 161,
+    "cacheWrite5mTokens": 80970,
+    "cacheWrite1hTokens": 127099,
+    "cacheReadTokens": 10822028,
+    "outputTokens": 34946,
+    "thinkingTokens": 8566,
+    "responses": 80,
+    "costUsd": 4.285611600000002
+  },
+  "estimate": {
+    "at": "2026-11-05T14:26:52.949Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "two refactors whose behaviour must hold to rounding, one across three checker scripts, plus scoring a proposal against the record and polishing what changed"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T14:17:43.618Z",
+    "contextTokens": 107892,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44809,
+      "cacheReadTokens": 448502,
+      "outputTokens": 941,
+      "thinkingTokens": 71,
+      "responses": 5,
+      "costUsd": 0.4670404
+    }
+  },
+  "sessionId": "970f9c8d-f1b3-54fd-b6ef-80b03a7a7ba8",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-pilot-mwxvll — ошибка порядка сгибов исправлена, осталось три правки и подготовка к мерджу",
+  "prs": [
+    251
+  ],
+  "url": "https://claude.ai/code/session_01DaohkB64pK1HCz3Km9g1GP",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T14:17:25.631Z",
+  "lastResponseAt": "2026-11-05T14:27:57.393Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 127099,
+    "cacheReadTokens": 9072150,
+    "outputTokens": 26297,
+    "thinkingTokens": 3800,
+    "responses": 63,
+    "costUsd": 3.3576660000000005
+  },
+  "subagents": {
+    "inputTokens": 35,
+    "cacheWrite5mTokens": 80970,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1749878,
+    "outputTokens": 8649,
+    "thinkingTokens": 4766,
+    "responses": 17,
+    "costUsd": 0.9279456000000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 161,
+      "cacheWrite5mTokens": 80970,
+      "cacheWrite1hTokens": 127099,
+      "cacheReadTokens": 10822028,
+      "outputTokens": 34946,
+      "thinkingTokens": 8566,
+      "responses": 80,
+      "costUsd": 4.285611600000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 80,
+    "matched": 80,
+    "matchedTableUsd": 4.285611600000002,
+    "matchedEventUsd": 4.285611600000002,
+    "unseen": {}
+  }
+}
