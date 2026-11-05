@@ -26,6 +26,8 @@ None stated by the operator.
     - **Agent**: 3cd77325 — `TextStreamer` in `engine.generate` feeds `typedIdeas` (finished lines judged as `parseIdeas` does, the line being written cleaned but not judged); `suggest` passes it on until aborted; `useIdeas` exposes `typing`; `IdeasLine` shows `typing ?? names`, plain text while typing, links once in, `aria-busy` while typing. Ring unchanged. Republished to preview; summary rewritten.
 11. **Operator**: «оказывается она начинает печатать буквально в последние доли секунды, до этого просто думает, так что откатываем 🙈»
     - **Agent**: reverted (63a52434; `src/` identical to before 3cd77325), republished. The wait is before the first token (most likely the prompt's prefill), so a shorter prompt is what would shorten it.
+12. **Operator**: «я оставил там ревью, давай его обработаем»
+    - **Agent**: relayed with `handle` as the successor's first message, the context being past its budget line for a full review pass.
 
 ## Intent
 
@@ -62,7 +64,9 @@ Variations on unsquatted from Qwen3.5-0.8B in the visitor's browser (WebGPU), de
 
 ## Next step
 
-Wait for the operator. Pending: their walk on preview of «All set» and the tab-close prompt; the question whether to extract the self-clearing cached promise in `local-model.ts`/`engine.ts` (recommended: keep). Still open after that: `/five-percent` over the review changes, the DIRTY merge and the type-overlap groups (both `/finalize`'s).
+`handle`
+
+That is: the operator left a new review on PR #247 («я оставил там ревью, давай его обработаем») — export it and work it. Also pending: their walk on preview of «All set» and the tab-close prompt; the question whether to extract the self-clearing cached promise in `local-model.ts`/`engine.ts` (recommended: keep). Still open after that: `/five-percent` over the review changes, the DIRTY merge and the type-overlap groups (both `/finalize`'s).
 
 ## Last agent turn
 
