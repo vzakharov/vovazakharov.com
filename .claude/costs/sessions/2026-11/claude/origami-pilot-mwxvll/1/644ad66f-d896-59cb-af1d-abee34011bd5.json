@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 53708,
-    "cacheWrite5mTokens": 1173,
-    "cacheWrite1hTokens": 61183,
-    "cacheReadTokens": 2438894,
-    "outputTokens": 16762,
-    "thinkingTokens": 3567,
-    "responses": 28,
-    "costUsd": 1.2975367999999998
+    "inputTokens": 54247,
+    "cacheWrite5mTokens": 2298,
+    "cacheWrite1hTokens": 87229,
+    "cacheReadTokens": 4547956,
+    "outputTokens": 27387,
+    "thinkingTokens": 8130,
+    "responses": 44,
+    "costUsd": 2.1513732
   },
   "estimate": {
     "at": "2026-11-05T08:57:02.357Z",
@@ -44,25 +44,25 @@
     }
   },
   "sessionId": "644ad66f-d896-59cb-af1d-abee34011bd5",
-  "branch": "claude/focused-franklin-mwxvll",
+  "branch": "claude/origami-pilot-mwxvll",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "а есть какие-то питон-пакеты которые позволяют придумывать и моделировать оригами? типа \"вот если сложим тут, завернём на столько-то, а потом вот так, а потом в…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkDn9dzDmyDgMr7F1BY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T08:53:56.055Z",
-  "lastResponseAt": "2026-11-05T08:57:12.593Z",
+  "lastResponseAt": "2026-11-05T09:01:52.825Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 47,
+    "inputTokens": 80,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 61183,
-    "cacheReadTokens": 2339971,
-    "outputTokens": 13059,
-    "thinkingTokens": 3567,
-    "responses": 23,
-    "costUsd": 1.2188262
+    "cacheWrite1hTokens": 87229,
+    "cacheReadTokens": 4334138,
+    "outputTokens": 23665,
+    "thinkingTokens": 8130,
+    "responses": 38,
+    "costUsd": 2.0382796
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,14 +76,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 553,
-      "cacheWrite5mTokens": 1173,
-      "cacheWrite1hTokens": 61183,
-      "cacheReadTokens": 2438894,
-      "outputTokens": 13077,
-      "thinkingTokens": 3567,
-      "responses": 24,
-      "costUsd": 1.2503788
+      "inputTokens": 1092,
+      "cacheWrite5mTokens": 2298,
+      "cacheWrite1hTokens": 87229,
+      "cacheReadTokens": 4547956,
+      "outputTokens": 23702,
+      "thinkingTokens": 8130,
+      "responses": 40,
+      "costUsd": 2.1042152
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 53155,
@@ -99,10 +99,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 28,
-    "matched": 23,
-    "matchedTableUsd": 1.2188262,
-    "matchedEventUsd": 1.2188262,
+    "events": 44,
+    "matched": 38,
+    "matchedTableUsd": 2.0382796,
+    "matchedEventUsd": 2.0382796,
     "unseen": {
       "web_search_tool": {
         "inputTokens": 53155,
@@ -115,14 +115,14 @@
         "costUsd": 0.047158000000000005
       },
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 1173,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 2298,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 98923,
-        "outputTokens": 18,
+        "cacheReadTokens": 213818,
+        "outputTokens": 37,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.0315526
+        "responses": 2,
+        "costUsd": 0.0659356
       }
     }
   }
