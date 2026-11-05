@@ -18,6 +18,12 @@
       "about": "Hold the tab only while the weights download, not while loading from cache",
       "verdict": 1,
       "why": "Taken as proposed with a bare yes."
+    },
+    {
+      "comment": 4479202832,
+      "about": "Clear the field on unlock so no verdict table appears beside the bulb",
+      "verdict": 0,
+      "why": "Turned down: the phrase left in the field and checked as a name is part of the easter egg."
     }
   ]
 }
