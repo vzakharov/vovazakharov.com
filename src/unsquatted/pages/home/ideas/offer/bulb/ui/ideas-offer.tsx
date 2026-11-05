@@ -12,7 +12,7 @@ import {
   type RingMove,
   type RingTarget,
   type Stage,
-} from '../../opt-in';
+} from '../../brain';
 import { IdeasModal, withPercent } from './ideas-modal';
 import classes from './ideas-offer.module.scss';
 

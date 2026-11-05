@@ -6,7 +6,7 @@ import { Lightbulb } from 'lucide-react';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { WithCopy } from '../../../../checker';
-import type { Loading } from '../../opt-in';
+import type { Loading } from '../../brain';
 import classes from './ideas-offer.module.scss';
 
 type IdeasModalProps = WithCopy &
