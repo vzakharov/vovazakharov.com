@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55532,
+    "cacheReadTokens": 862996,
+    "outputTokens": 1842,
+    "thinkingTokens": 138,
+    "responses": 9,
+    "costUsd": 0.6537752
+  },
+  "estimate": {
+    "at": "2026-11-05T10:00:46.229Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "polish passes and the PR refresh over a finished diff"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "thresholds still need calibrating against real folds"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T10:00:48.439Z",
+    "contextTokens": 113584,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49893,
+      "cacheReadTokens": 755053,
+      "outputTokens": 1459,
+      "thinkingTokens": 138,
+      "responses": 8,
+      "costUsd": 0.5794066
+    }
+  },
+  "sessionId": "e604839a-e593-544e-a966-db017a5bf261",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-pilot-mwxvll — рендер и CLI готовы, гейты зелёные, план на паузе: остались polish и PR",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkECMfYaHrYzREj9GnV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T10:00:27.908Z",
+  "lastResponseAt": "2026-11-05T10:00:48.439Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55532,
+    "cacheReadTokens": 862996,
+    "outputTokens": 1842,
+    "thinkingTokens": 138,
+    "responses": 9,
+    "costUsd": 0.6537752
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55532,
+      "cacheReadTokens": 862996,
+      "outputTokens": 1842,
+      "thinkingTokens": 138,
+      "responses": 9,
+      "costUsd": 0.6537752
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.5794066,
+    "matchedEventUsd": 0.5794066,
+    "unseen": {}
+  }
+}
