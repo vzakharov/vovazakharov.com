@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 33,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 62088,
+    "cacheReadTokens": 1689532,
+    "outputTokens": 4612,
+    "thinkingTokens": 1836,
+    "responses": 16,
+    "costUsd": 0.9269824000000001
+  },
+  "estimate": {
+    "at": "2026-11-05T14:28:36.783Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "land prep through vet, the base merge and a squash record that names a slice since moved"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T14:28:27.504Z",
+    "contextTokens": 103168,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44624,
+      "cacheReadTokens": 456448,
+      "outputTokens": 1088,
+      "thinkingTokens": 403,
+      "responses": 5,
+      "costUsd": 0.4700896
+    }
+  },
+  "sessionId": "105aa720-7686-57eb-9e40-9f4b8c3af015",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-pilot-mwxvll — три правки сделаны, подготовка к мерджу продолжается с прогона vet",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFYioUhwHqYFYEVNi5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T14:28:08.704Z",
+  "lastResponseAt": "2026-11-05T14:30:47.466Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 33,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 62088,
+    "cacheReadTokens": 1689532,
+    "outputTokens": 4612,
+    "thinkingTokens": 1836,
+    "responses": 16,
+    "costUsd": 0.9269824000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 33,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 62088,
+      "cacheReadTokens": 1689532,
+      "outputTokens": 4612,
+      "thinkingTokens": 1836,
+      "responses": 16,
+      "costUsd": 0.9269824000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 16,
+    "matched": 16,
+    "matchedTableUsd": 0.9269824000000001,
+    "matchedEventUsd": 0.9269824000000001,
+    "unseen": {}
+  }
+}
