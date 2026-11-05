@@ -15,6 +15,18 @@ No operator message reached this session; it ran from relay-9's Next step.
     `answered.py` gate and put relay-9's two questions to the operator
     (verbatim in Last agent turn).
 - **Keepalive last wake** — parked this session (this file).
+- **Operator (after the park):** «вопросы оставлю без ответа, некогда // не
+  уверен насчёт chore:. понятно что пока ничего не делается на уровне аппов, но
+  chore понимается как что-то вспомогательное ввообще, а здесь это типа
+  недоделанная фича. как обычно с такими поступают (погугли, не хендвейвь)»
+  - **Agent:** searched. The common practice: the type follows what the
+    commit changes for the product's users — groundwork nobody can reach yet
+    is `chore`, and `feat` goes on the commit that makes it reachable. Here
+    an unscoped `feat:` would also redeploy all six sites with nothing
+    changed. Proposed: keep `chore:`, or add a local non-publishing row for
+    code the sites do not serve yet, mirroring `content:`; the `feat` lands
+    with #252. Asked which; said the unanswered 4479064358 keeps
+    `answered.py`, and so the attestation, blocked.
 
 ## 3. Intent
 
@@ -84,14 +96,15 @@ theirs (`/merge` once they have read the squash body).
 
 ## 8. Next step
 
-Wait for the operator. Pending, put to them in the last agent turn:
+Wait for the operator. Pending: the PR title's type — keep `chore:`, or a
+new local non-publishing row (as `content:` is for prose) for code no site
+serves yet; never an unscoped `feat:`, which redeploys every site. The
+operator declined both earlier questions («вопросы оставлю без ответа»): the
+marker template stays as is, and 4479064358 gets no row, so `answered.py`
+keeps failing until it learns to skip a proposal only an agent replied to —
+offer that change, do not fabricate a verdict.
 
-1. 4479064358 (stack at the crease, optional): what score, or none (then
-   `answered.py` must learn to ignore an agent-only reply)?
-2. `/dry`'s shared `marker(kind, why)` template — take it or leave it (the
-   agent recommended leaving it).
-
-Once 1 is settled: record the row, commit, then finalize steps 4, 6 and 7 —
+Once that gate passes: record the row, commit, then finalize steps 4, 6 and 7 —
 `gh pr ready`, `/check-merge` (re-vet if `main` moved), sweep
 `docs/remove-before-merging/` with the cost-ledger rows, attest. No merge:
 `/merge` is the operator's.
