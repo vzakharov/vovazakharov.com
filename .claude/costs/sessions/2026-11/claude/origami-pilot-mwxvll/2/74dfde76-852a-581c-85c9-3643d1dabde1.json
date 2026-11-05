@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 108709,
-    "cacheWrite5mTokens": 80244,
-    "cacheWrite1hTokens": 182319,
-    "cacheReadTokens": 11547204,
-    "outputTokens": 78840,
-    "thinkingTokens": 35284,
-    "responses": 82,
-    "costUsd": 5.653825100000003
+    "inputTokens": 110407,
+    "cacheWrite5mTokens": 82049,
+    "cacheWrite1hTokens": 183812,
+    "cacheReadTokens": 12256238,
+    "outputTokens": 80665,
+    "thinkingTokens": 35826,
+    "responses": 86,
+    "costUsd": 5.856794200000003
   },
   "estimate": {
     "at": "2026-11-05T09:03:00.086Z",
@@ -45,24 +45,24 @@
   },
   "sessionId": "74dfde76-852a-581c-85c9-3643d1dabde1",
   "branch": "claude/origami-pilot-mwxvll",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/tmp/origami",
   "openingPrompt": "/relay take claude/origami-pilot-mwxvll — инструменты выбраны, Rabbit Ear проверен, пилотная модель ещё не начата",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBFEUGePGjut8uJ9Lc",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T09:02:46.985Z",
-  "lastResponseAt": "2026-11-05T09:16:28.265Z",
+  "lastResponseAt": "2026-11-05T09:18:15.213Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 122,
+    "inputTokens": 126,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 182319,
-    "cacheReadTokens": 11107810,
-    "outputTokens": 66526,
-    "thinkingTokens": 34874,
-    "responses": 63,
-    "costUsd": 5.011122000000002
+    "cacheWrite1hTokens": 183812,
+    "cacheReadTokens": 11581929,
+    "outputTokens": 68134,
+    "thinkingTokens": 35416,
+    "responses": 65,
+    "costUsd": 5.150065800000002
   },
   "subagents": {
     "inputTokens": 14,
@@ -76,33 +76,33 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 136,
-      "cacheWrite5mTokens": 80244,
-      "cacheWrite1hTokens": 182319,
-      "cacheReadTokens": 11547204,
-      "outputTokens": 69938,
-      "thinkingTokens": 35284,
-      "responses": 70,
-      "costUsd": 5.568516800000002
+      "inputTokens": 646,
+      "cacheWrite5mTokens": 82049,
+      "cacheWrite1hTokens": 183812,
+      "cacheReadTokens": 12256238,
+      "outputTokens": 71564,
+      "thinkingTokens": 35826,
+      "responses": 73,
+      "costUsd": 5.771267600000002
     },
     "claude-haiku-5-5/standard": {
-      "inputTokens": 108573,
+      "inputTokens": 109761,
       "cacheWrite5mTokens": 0,
       "cacheWrite1hTokens": 0,
       "cacheReadTokens": 0,
-      "outputTokens": 8902,
+      "outputTokens": 9101,
       "thinkingTokens": 0,
-      "responses": 12,
-      "costUsd": 0.0853083
+      "responses": 13,
+      "costUsd": 0.08552660000000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 82,
-    "matched": 70,
-    "matchedTableUsd": 5.568516800000002,
-    "matchedEventUsd": 5.568516800000003,
+    "events": 86,
+    "matched": 72,
+    "matchedTableUsd": 5.707460600000002,
+    "matchedEventUsd": 5.707460600000003,
     "unseen": {
       "web_search_tool": {
         "inputTokens": 89857,
@@ -123,6 +123,26 @@
         "thinkingTokens": 0,
         "responses": 5,
         "costUsd": 0.0035936
+      },
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 1805,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 234915,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.063807
+      },
+      "generate_session_title": {
+        "inputTokens": 1188,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 199,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00021830000000000002
       }
     }
   }
