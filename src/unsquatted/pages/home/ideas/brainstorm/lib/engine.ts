@@ -47,10 +47,9 @@ env.fetch = async (input: string | URL, init?: RequestInit) =>
 type Loaded = { tokenizer: PreTrainedTokenizer; model: PreTrainedModel };
 
 /**
- * The model, held on `globalThis` rather than in a module variable: a hot
- * reload runs this module again, and a fresh variable would forget a model
- * whose GPU memory no garbage collector frees, so the next load would hold
- * two. Held here, the rerun module finds the one already loaded.
+ * On `globalThis`, not in a module variable: a hot reload reruns this module,
+ * and a fresh variable would forget a model whose GPU memory no garbage
+ * collector frees, so the next load would hold two.
  */
 const held = globalThis as typeof globalThis & {
   unsquattedModel?: Promise<Loaded>;
