@@ -154,14 +154,12 @@ export function isStopped(error: unknown): boolean {
 let queue: Promise<unknown> = Promise.resolve();
 
 /**
- * Variations of `label`, `onTyped` hearing the names so far as the model
- * writes them. Aborting while it waits its turn drops it; aborting while it
- * generates stops the generation, and `onTyped` hears no more.
+ * Variations of `label`. Aborting while it waits its turn drops it; aborting
+ * while it generates stops the generation.
  */
 export async function suggest(
   label: string,
   signal: AbortSignal,
-  onTyped: (names: string[]) => void,
 ): Promise<string[]> {
   await startModel();
   const { generate, stop } = await started();
@@ -169,9 +167,7 @@ export async function suggest(
     signal.throwIfAborted();
     signal.addEventListener('abort', stop, { once: true });
     try {
-      const names = await generate(label, (typed) => {
-        if (!signal.aborted) onTyped(typed);
-      });
+      const names = await generate(label);
 
       signal.throwIfAborted();
 

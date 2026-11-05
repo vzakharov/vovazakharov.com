@@ -59,8 +59,6 @@ export type Ideas = Stage & {
   asked: string | undefined;
   /** The last press's variations, whatever the label is now. */
   names: readonly string[] | undefined;
-  /** The variations on their way, as far as the model has written them. */
-  typing: readonly string[] | undefined;
 };
 
 /**
@@ -68,9 +66,8 @@ export type Ideas = Stage & {
  * and never on a new label alone. A generation in flight runs on through a
  * new label and answers for the one it was asked for; a press for another
  * label replaces it, and one for the same label leaves it running. The last
- * variations stay until the model starts writing the next press's, which show
- * as they come, so the visitor can try them one after another and waits on
- * letters rather than on nothing. The first generation is timed and the time
+ * variations stay until the next press brings new ones, so the visitor can
+ * try them one after another. The first generation is timed and the time
  * kept, to pace the ring of every later one. `unsquattedForget()` in the
  * console undoes the opt-in and the timing and deletes the weights, for
  * testing the offer and the download again.
@@ -95,11 +92,6 @@ export function useIdeas(label: string): Ideas {
   const [failed, setFailed] = useState(false);
   /** The label the button was pressed for, until its variations are in. */
   const [asked, setAsked] = useState<string>();
-  /** What the model has written so far, and for which label. */
-  const [typed, setTyped] = useState<{
-    label: string;
-    names: readonly string[];
-  }>();
   // The server render's snapshots are the same: nothing loads there.
   const progress = useSyncExternalStore(watchLoad, loadProgress, loadProgress);
   const ready = useSyncExternalStore(watchLoad, modelReady, modelReady);
@@ -140,7 +132,6 @@ export function useIdeas(label: string): Ideas {
 
     const answer = (found: string[]) => {
       setNames(found);
-      setTyped(undefined);
       setAsked(undefined);
     };
 
@@ -148,9 +139,7 @@ export function useIdeas(label: string): Ideas {
       // Loaded before the clock starts, so the time is the generation's alone.
       await startModel();
       const begun = performance.now();
-      const found = await suggest(asked, signal, (written) => {
-        setTyped({ label: asked, names: written });
-      });
+      const found = await suggest(asked, signal);
 
       setTimed((known) => known ?? (performance.now() - begun) / 1000);
 
@@ -167,7 +156,6 @@ export function useIdeas(label: string): Ideas {
 
     return () => {
       controller.abort();
-      setTyped(undefined);
     };
   }, [asked, agreed, present, setTimed]);
 
@@ -207,7 +195,5 @@ export function useIdeas(label: string): Ideas {
     downloading: agreed && !evicted ? undefined : progress,
     failed,
     names,
-    // A press for another label replaces what the last one was writing.
-    typing: typed?.label === asked ? typed?.names : undefined,
   };
 }

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { parseIdeas, typedIdeas } from './parse-ideas';
+import { parseIdeas } from './parse-ideas';
 
 describe('parseIdeas', () => {
   it('keeps the first three lines', () => {
@@ -40,30 +40,5 @@ describe('parseIdeas', () => {
 
   it('answers with nothing when no line is a name', () => {
     assert.deepEqual(parseIdeas('Sorry, I cannot help with that!', 'x'), []);
-  });
-});
-
-describe('typedIdeas', () => {
-  it('shows the line being written before it is long enough to judge', () => {
-    assert.deepEqual(typedIdeas('trendle\n2. da', 'x'), ['trendle', 'da']);
-  });
-
-  it('judges the finished lines as parseIdeas does', () => {
-    assert.deepEqual(typedIdeas('datatrend\nab\nTrendle\nsta', 'datatrend'), [
-      'trendle',
-      'sta',
-    ]);
-  });
-
-  it('shows nothing of a thought still open', () => {
-    assert.deepEqual(typedIdeas('<think>\nhmm', 'x'), []);
-  });
-
-  it('stops at as many names as are shown', () => {
-    assert.deepEqual(typedIdeas('trendle\ndatavane\nstatsy\nqwe', 'x'), [
-      'trendle',
-      'datavane',
-      'statsy',
-    ]);
   });
 });
