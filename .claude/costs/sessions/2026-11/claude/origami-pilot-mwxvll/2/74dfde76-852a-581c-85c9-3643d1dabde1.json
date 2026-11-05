@@ -1,0 +1,129 @@
+{
+  "total": {
+    "inputTokens": 108703,
+    "cacheWrite5mTokens": 80244,
+    "cacheWrite1hTokens": 181031,
+    "cacheReadTokens": 10844863,
+    "outputTokens": 76578,
+    "thinkingTokens": 35073,
+    "responses": 79,
+    "costUsd": 5.457788900000003
+  },
+  "estimate": {
+    "at": "2026-11-05T09:03:00.086Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a lit, layer-aware WebGL renderer for folded paper driven headless is specialist graphics work"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "inventing a new origami model takes iterative design judgement, fold by fold, against renders"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T09:02:57.446Z",
+    "contextTokens": 112113,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55234,
+      "cacheReadTokens": 356945,
+      "outputTokens": 645,
+      "thinkingTokens": 34,
+      "responses": 4,
+      "costUsd": 0.526201
+    }
+  },
+  "sessionId": "74dfde76-852a-581c-85c9-3643d1dabde1",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-pilot-mwxvll — инструменты выбраны, Rabbit Ear проверен, пилотная модель ещё не начата",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBFEUGePGjut8uJ9Lc",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T09:02:46.985Z",
+  "lastResponseAt": "2026-11-05T09:16:04.334Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 116,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 181031,
+    "cacheReadTokens": 10405469,
+    "outputTokens": 64264,
+    "thinkingTokens": 34663,
+    "responses": 60,
+    "costUsd": 4.815085800000002
+  },
+  "subagents": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 80244,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 439394,
+    "outputTokens": 3412,
+    "thinkingTokens": 410,
+    "responses": 7,
+    "costUsd": 0.5573948
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 130,
+      "cacheWrite5mTokens": 80244,
+      "cacheWrite1hTokens": 181031,
+      "cacheReadTokens": 10844863,
+      "outputTokens": 67676,
+      "thinkingTokens": 35073,
+      "responses": 67,
+      "costUsd": 5.372480600000002
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 108573,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 8902,
+      "thinkingTokens": 0,
+      "responses": 12,
+      "costUsd": 0.0853083
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 78,
+    "matched": 66,
+    "matchedTableUsd": 5.304689800000002,
+    "matchedEventUsd": 5.304689800000003,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 89857,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 5458,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.08171470000000002
+      },
+      "web_fetch_apply": {
+        "inputTokens": 18716,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 3444,
+        "thinkingTokens": 0,
+        "responses": 5,
+        "costUsd": 0.0035936
+      }
+    }
+  }
+}
