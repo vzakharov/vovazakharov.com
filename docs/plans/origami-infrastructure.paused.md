@@ -2,9 +2,55 @@
 
 ## Progress
 
-Paused for the first session's context budget.
+Paused for the second session's context budget.
 
-**Done** (aa6ff03b, 72b8cb84):
+**Done in the second session** (be25e698 and the commit after it):
+
+- `shared/designs/`: `design.ts` (`Design`), `basilisk.ts` (typed options,
+  `BASILISK_DEFAULTS`), `index.ts` (`DESIGNS`, `DESIGN_IDS`: `basilisk`,
+  `basilisk-two-narrowings`). Folds identically to the pilot (64 and 32 pieces,
+  max layer 31 and 15).
+- `shared/fold/physics.ts` (`measure`, `physics`, the threshold constants) +
+  `physics.test.ts` + `designs/basilisk.test.ts`; 10 tests pass.
+- `cdp.ts` gained `openTab` (context, target, attach, exceptions to a callback,
+  `Runtime`/`Page` enabled, `evaluate`) and the `Evaluating` base;
+  `play-mushrooms.ts` now opens its page through it. Smoke-tested live.
+- Gates clean: `typecheck`, eslint, `type-overlap`, `check:masd`, `lint:fsd`,
+  `check:cycles`, `masd:clusters`, prettier.
+
+**What the measurements found** (kami-15), which the tests pin:
+
+- A fold bends only the layers joined across its line: the fold in half bends 1,
+  since the kite flaps meet edge to edge on the axis.
+- The neck bends **14** (7/7), not 16 — still an error over the budget of 8. The
+  default's tail folds bend 16 each, and the last tail fold's creep is 45% of a
+  7.8 mm flap (error). Two narrowings: neck 6, tails 8 — no error.
+- Sharpness counts only tips on the step's own crease (a tip off it just
+  travels), and a fold along a tip's bisector counts the tip double: the third
+  narrowing and the fold in half both read 11.25°, ~10×.
+- `Piece.z` is now `order`; `Piece` and `PieceSnapshot` share `PaperPiece`;
+  `StepReport` = `Measured` & findings, its stack depth in mm is `depth` — all
+  per the type-overlap gate.
+
+**Left**, in order:
+
+1. `scripts/lib/render-page.ts` (port `pilot/render.html` as a module importing
+   `three` and `three/examples/jsm/environments/RoomEnvironment.js`;
+   `window.show({ model, view, colors })`, `window.ready`) and
+   `scripts/lib/render.ts`: esbuild-bundle the page (iife, as
+   `build-mushroom-artifact.ts` does), write the HTML under the output dir,
+   `launch()` + `openTab()`, `Page.navigate` to its `file://` URL, poll
+   `window.ready`, `show` per view with the design's `display` applied,
+   `Page.captureScreenshot`; any `openTab` error fails the run. Viewport 900×700
+   via `Emulation.setDeviceMetricsOverride`. `three`/`@types/three` 0.187.0 as
+   pinned dev dependencies.
+2. `scripts/fold-model.ts` + `"origami"` in `package.json`; writes
+   `tmp/origami/<design>/`: PNGs, `model.json`, `crease-pattern.svg`,
+   `report.md` (header says the thresholds are calibrations); exit non-zero on
+   an error finding (after writing everything).
+3. Rerun the gates, then Step 3 of `/go` (`/polish`), Step 4 (`/pr` refresh).
+
+**Done in the first session** (aa6ff03b, 72b8cb84):
 
 - `scene` app in `src/masd.json`; `cdp.ts` moved to
   `src/scene/scripts/lib/cdp.ts`, `play-mushrooms.ts` re-pointed.
@@ -17,7 +63,7 @@ Paused for the first session's context budget.
   flat or not, moved ids after the fold, the reverse fold's lower tag — which is
   what `physics.ts` reads.
 
-**Left**, in order:
+**Left after the first session** (1–2 done since), in order:
 
 1. `shared/designs/basilisk.ts` — port `pilot/models/basilisk.mjs` (env vars
    become typed options; `spineFold` uses `where`); a `DESIGNS` registry with
