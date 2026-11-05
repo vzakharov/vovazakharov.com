@@ -14,7 +14,9 @@ and tip sharpness for a paper preset (15 cm kami by default) and fails
 the run on a step ordinary paper cannot fold; its thresholds are
 starting calibrations, meant to be tuned against hand-folded models.
 
-The CDP driver moves from the mushroom meadow's scripts to kernel's,
+Both origami and the mushroom meadow now descend from a new abstract
+app, scene, kernel's child, which holds what canvas apps share and the
+text sites do not: the CDP driver, moved out of the meadow's scripts
 now that two apps drive a page through it.
 
 Co-authored-by: Claude <noreply@anthropic.com>

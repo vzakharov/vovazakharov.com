@@ -21,10 +21,21 @@ its third narrowing.
 
 ## Where it lives
 
-A new app, `src/origami/`, with `kernel` as its only parent in `src/masd.json` —
-the way `mushrooms` sits beside the blog family rather than in it. Nothing
-mounts it yet, which `check:masd` allows: its "insignificant app" check fires on
-an app with one child, and `origami` has none.
+A new app, `src/origami/`, beside the blog family rather than in it. Its parent
+is a new abstract app, `scene`, which also becomes `mushrooms`' parent in place
+of `kernel`:
+
+```json
+"scene": ["kernel"],
+"mushrooms": ["scene"],
+"origami": ["scene"],
+```
+
+`scene` is what the two share and the text sites do not: a canvas page an agent
+drives in headless Chromium to look at it. It holds only `scripts/lib/cdp.ts`
+for now (see "DRY notes"). Two children earn it under `check:masd`, whose
+"insignificant app" check fires on an app with one; nothing mounts `origami`
+yet, which that check allows.
 
 - **`src/origami/shared/fold/`** — the engine and the physics, pure TypeScript,
   no DOM, no Node APIs. A segment rather than an entity because nothing here is
@@ -139,11 +150,12 @@ relay summaries beside it point into it.
 ## DRY notes
 
 - **`cdp.ts` moves from `src/mushrooms/scripts/lib/` to
-  `src/kernel/scripts/lib/`**, its one consumer (`play-mushrooms.ts`)
-  re-pointed. Two apps driving a page over CDP is the second consumer that earns
-  a kernel home; `origami` cannot import from `mushrooms` (neither is the
-  other's ancestor), and a copy would be a second WebSocket client to keep in
-  step. No meadow test imports it, so the move does not touch the game's tests.
+  `src/scene/scripts/lib/`**, its one consumer (`play-mushrooms.ts`) re-pointed.
+  `origami` cannot import from `mushrooms` (neither is the other's ancestor),
+  and a copy would be a second WebSocket client to keep in step. Not `kernel`:
+  every site inherits kernel, and none of the text sites drives a page — the
+  operator's call on the PR. No meadow test imports it, so the move does not
+  touch the game's tests.
 - **`findChromium`** (`kernel/scripts/lib/chromium.ts`) is reused as is.
 - **The esbuild bundling** follows `build-mushroom-artifact.ts` but is not
   extracted from it: that script inlines Phaser assets into one artifact file,
