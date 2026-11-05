@@ -48,6 +48,7 @@ function spineFold(
   tMove: number,
   deg: number,
   direction: FoldDirection,
+  angle?: number,
 ): Step {
   const origin = where(state, spine(t));
   const ahead = where(state, spine(t + 0.01));
@@ -72,6 +73,7 @@ function spineFold(
     select: { at: moving, all: true },
     direction,
     lower: 'L',
+    ...(angle === undefined ? {} : { angle }),
   };
 }
 
@@ -86,6 +88,9 @@ export type BasiliskOptions = {
   readonly tail: readonly [number, number];
   /** Whether the kite is narrowed a third time — the needle-thin version. */
   readonly third: boolean;
+  /** Degrees the neck and the tail bend out of the plane, so the model
+   * stands in 3D rather than lying flat. */
+  readonly bend: number;
 };
 
 const BASILISK_DEFAULTS: BasiliskOptions = {
@@ -95,10 +100,11 @@ const BASILISK_DEFAULTS: BasiliskOptions = {
   headDirection: 'outside',
   tail: [0.55, 0.3],
   third: true,
+  bend: 35,
 };
 
 export function basilisk(options: Partial<BasiliskOptions> = {}): Design {
-  const { neck, head, headAngle, headDirection, tail, third } = {
+  const { neck, head, headAngle, headDirection, tail, third, bend } = {
     ...BASILISK_DEFAULTS,
     ...options,
   };
@@ -136,6 +142,9 @@ export function basilisk(options: Partial<BasiliskOptions> = {}): Design {
       lower: 'L',
     },
     (state) => spineFold(state, tail[1], 0.02, 40, 'inside'),
+    // shaping: neck and tail bend out of the plane, opposite ways
+    (state) => spineFold(state, 1, 1.3, 90, 'valley', bend),
+    (state) => spineFold(state, 0.45, 0.02, 90, 'mountain', bend),
   ];
   return {
     steps,
