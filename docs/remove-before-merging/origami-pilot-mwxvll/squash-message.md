@@ -1,10 +1,11 @@
 Proposed squash body:
 
 ```
-An agent designing origami needs to see a model folded and to know
-whether real paper would fold it: a fold sequence that works on
-ideal, zero-thickness paper can still ask a hand to reverse-fold
-sixteen layers.
+Origami tooling for the repo: an origami model is written in code as
+a list of folds, and one command folds it, draws it, and says whether
+real paper could be folded that way. Paper has thickness, so a
+sequence that works on ideal paper can still ask a hand to
+reverse-fold sixteen layers at once.
 
 A new src/origami app holds a folding engine in shared/fold — layered
 flat folds, reverse folds, and shaping folds at any angle composing
