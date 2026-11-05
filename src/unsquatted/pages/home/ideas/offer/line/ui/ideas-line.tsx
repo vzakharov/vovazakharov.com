@@ -5,7 +5,7 @@ import { Lightbulb } from 'lucide-react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
 
-import type { IdeasBlock } from '../../brain';
+import type { IdeasBlock } from '../../assistant';
 import classes from './ideas-line.module.scss';
 
 type IdeasLineProps = IdeasBlock & {
