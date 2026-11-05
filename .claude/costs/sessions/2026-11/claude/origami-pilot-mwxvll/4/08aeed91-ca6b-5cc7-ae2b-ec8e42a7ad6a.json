@@ -1,28 +1,22 @@
 {
   "total": {
-    "inputTokens": 93,
+    "inputTokens": 99,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 158531,
-    "cacheReadTokens": 8142476,
-    "outputTokens": 29941,
-    "thinkingTokens": 5992,
-    "responses": 49,
-    "costUsd": 3.495935199999999
+    "cacheWrite1hTokens": 161715,
+    "cacheReadTokens": 8794931,
+    "outputTokens": 33580,
+    "thinkingTokens": 6143,
+    "responses": 52,
+    "costUsd": 3.7247021999999994
   },
   "estimate": {
-    "at": "2026-11-05T09:51:23.155Z",
+    "at": "2026-11-05T09:59:17.377Z",
     "parts": [
       {
-        "hours": 2.0,
+        "hours": 1.5,
         "grade": "senior",
         "role": "developer",
-        "comment": "the WebGL renderer over CDP and a CLI that fails on errors need tooling judgement"
-      },
-      {
-        "hours": 1.0,
-        "grade": "senior",
-        "role": "analyst",
-        "comment": "thresholds still need calibrating against real folds"
+        "comment": "a WebGL renderer driven over CDP that fails loudly, and a CLI with honest exit codes, need tooling judgement"
       }
     ],
     "comment": null
@@ -53,18 +47,18 @@
   "url": "https://claude.ai/code/session_01DaohkEG4g3TJpP4rBAfthr",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T09:50:58.818Z",
-  "lastResponseAt": "2026-11-05T09:58:53.698Z",
+  "lastResponseAt": "2026-11-05T09:59:37.080Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 93,
+    "inputTokens": 99,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 158531,
-    "cacheReadTokens": 8142476,
-    "outputTokens": 29941,
-    "thinkingTokens": 5992,
-    "responses": 49,
-    "costUsd": 3.495935199999999
+    "cacheWrite1hTokens": 161715,
+    "cacheReadTokens": 8794931,
+    "outputTokens": 33580,
+    "thinkingTokens": 6143,
+    "responses": 52,
+    "costUsd": 3.7247021999999994
   },
   "subagents": {
     "inputTokens": 0,
@@ -78,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 93,
+      "inputTokens": 99,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 158531,
-      "cacheReadTokens": 8142476,
-      "outputTokens": 29941,
-      "thinkingTokens": 5992,
-      "responses": 49,
-      "costUsd": 3.495935199999999
+      "cacheWrite1hTokens": 161715,
+      "cacheReadTokens": 8794931,
+      "outputTokens": 33580,
+      "thinkingTokens": 6143,
+      "responses": 52,
+      "costUsd": 3.7247021999999994
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 49,
-    "matched": 49,
-    "matchedTableUsd": 3.495935199999999,
-    "matchedEventUsd": 3.495935199999999,
+    "events": 52,
+    "matched": 52,
+    "matchedTableUsd": 3.7247021999999994,
+    "matchedEventUsd": 3.7247021999999994,
     "unseen": {}
   }
 }
