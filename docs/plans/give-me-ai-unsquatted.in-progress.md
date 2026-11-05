@@ -12,31 +12,19 @@
 
 ## Done
 
-Nothing yet: the session that took the ask paused on its context budget before
-editing.
+- main merged in (54507d5d, resolution c209147f) for Caveat.
+- ad446294: the gate (`offer/lib/unlock.ts`, tested), the unlock in `useIdeas`
+  via `listen(typed)` from the field's `onChange`, the CSS pop-in under
+  `prefers-reduced-motion: no-preference`, the hand note with an SVG arrow.
+  Looked at in both themes with `available` forced locally.
 
 ## Left
 
-1. **The gate.** `IdeasOffer` (`src/unsquatted/pages/home/ideas/offer/ui/`)
-   returns nothing unless `available`; add an unlock: the field's value being
-   exactly "give me ai" (case and surrounding spaces to decide; "дословно" reads
-   as the phrase, not its casing). `useIdeas(label)` already gets the field's
-   label in `page/ui/name-checker.tsx`.
-2. **The pop-in.** The bulb appears with a small animation (a scale/overshoot
-   pop), honouring `prefers-reduced-motion` as `deck/ui/shuffle-motion.ts` does.
-3. **The arrow and "there you go"**, in the hand face: Caveat, which main
-   carries as `--font-hand` (`src/unsquatted/app/ui/root-layout.tsx`, #248's
-   41a1673b) and this branch does not yet — main has to be merged in first (the
-   PR is `CONFLICTING`), or the face added here and reconciled at the merge. The
-   copy goes in `checker/config/messages/en.json`.
-4. Open questions for the operator (ask, and build what they do not block):
-   - Does the unlock persist (localStorage), and does an opted-in visitor see
-     the bulb without typing the phrase again? Default: yes to both.
-   - What happens to "give me ai" in the field once it has unlocked — left to be
-     checked as a name, or cleared? Default: left; it is a funny name to check.
-   - When does the arrow go away — on press, on a timeout, on the next
-     keystroke?
-5. `/polish`, `/pr` refresh, republish the preview.
+1. Open questions, built on these defaults until the operator says otherwise:
+   - The unlock persists in localStorage; an opted-in visitor keeps the bulb.
+   - "give me ai" stays in the field and is checked as a name.
+   - The note goes when the bulb is pressed, and not before.
+2. `/polish`, `/pr` refresh, republish the preview.
 
 ## Decisions
 
