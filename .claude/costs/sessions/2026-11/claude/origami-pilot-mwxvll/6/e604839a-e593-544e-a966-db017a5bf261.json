@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 4021,
-    "cacheWrite5mTokens": 170364,
-    "cacheWrite1hTokens": 197321,
-    "cacheReadTokens": 20810857,
-    "outputTokens": 70516,
-    "thinkingTokens": 24522,
-    "responses": 124,
-    "costUsd": 8.018693100000002
+    "inputTokens": 12641,
+    "cacheWrite5mTokens": 174348,
+    "cacheWrite1hTokens": 204612,
+    "cacheReadTokens": 24484245,
+    "outputTokens": 78410,
+    "thinkingTokens": 27227,
+    "responses": 139,
+    "costUsd": 8.982461699999998
   },
   "estimate": {
-    "at": "2026-11-05T10:17:51.168Z",
+    "at": "2026-11-05T10:51:55.908Z",
     "parts": [
       {
         "hours": 2.0,
@@ -23,12 +23,6 @@
         "grade": "senior",
         "role": "designer",
         "comment": "reworking the base and silhouette of an origami model is design craft, judged on renders against how paper behaves"
-      },
-      {
-        "hours": 1.0,
-        "grade": "senior",
-        "role": "analyst",
-        "comment": "thresholds still need calibrating against real folds"
       }
     ],
     "comment": null
@@ -59,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkECMfYaHrYzREj9GnV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T10:00:27.908Z",
-  "lastResponseAt": "2026-11-05T10:23:45.476Z",
+  "lastResponseAt": "2026-11-05T10:51:52.857Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 162,
+    "inputTokens": 183,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 197321,
-    "cacheReadTokens": 15280329,
-    "outputTokens": 55663,
-    "thinkingTokens": 18721,
-    "responses": 84,
-    "costUsd": 5.748541799999999
+    "cacheWrite1hTokens": 204612,
+    "cacheReadTokens": 17903793,
+    "outputTokens": 62087,
+    "thinkingTokens": 21426,
+    "responses": 94,
+    "costUsd": 6.460126599999998
   },
   "subagents": {
     "inputTokens": 67,
@@ -84,43 +78,43 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2759,
-      "cacheWrite5mTokens": 170364,
-      "cacheWrite1hTokens": 197321,
-      "cacheReadTokens": 20810857,
-      "outputTokens": 70361,
-      "thinkingTokens": 24522,
-      "responses": 123,
-      "costUsd": 8.018489400000002
+      "inputTokens": 4804,
+      "cacheWrite5mTokens": 174348,
+      "cacheWrite1hTokens": 204612,
+      "cacheReadTokens": 24484245,
+      "outputTokens": 76828,
+      "thinkingTokens": 27227,
+      "responses": 137,
+      "costUsd": 8.980886999999997
     },
     "claude-haiku-5-5/standard": {
-      "inputTokens": 1262,
+      "inputTokens": 7837,
       "cacheWrite5mTokens": 0,
       "cacheWrite1hTokens": 0,
       "cacheReadTokens": 0,
-      "outputTokens": 155,
+      "outputTokens": 1582,
       "thinkingTokens": 0,
-      "responses": 1,
-      "costUsd": 0.00020370000000000002
+      "responses": 2,
+      "costUsd": 0.0015747000000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 124,
-    "matched": 118,
-    "matchedTableUsd": 7.797082800000001,
-    "matchedEventUsd": 7.797082800000002,
+    "events": 139,
+    "matched": 128,
+    "matchedTableUsd": 8.508667599999999,
+    "matchedEventUsd": 8.5086676,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 2530,
-        "cacheWrite5mTokens": 2558,
+        "inputTokens": 4554,
+        "cacheWrite5mTokens": 6542,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 946913,
-        "outputTokens": 72,
+        "cacheReadTokens": 1996837,
+        "outputTokens": 115,
         "thinkingTokens": 0,
-        "responses": 5,
-        "costUsd": 0.2214066
+        "responses": 9,
+        "costUsd": 0.4722194
       },
       "generate_session_title": {
         "inputTokens": 1262,
@@ -131,6 +125,16 @@
         "thinkingTokens": 0,
         "responses": 1,
         "costUsd": 0.00020370000000000002
+      },
+      "web_fetch_apply": {
+        "inputTokens": 6575,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 1427,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0013710000000000003
       }
     }
   }
