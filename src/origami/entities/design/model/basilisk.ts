@@ -25,6 +25,17 @@ const ray = (deg: number, from: Vec = [0, 0]): Step['line'] => ({
   q: [from[0] + Math.cos(deg * DEGREE), from[1] + Math.sin(deg * DEGREE)],
 });
 
+/** A corner's two edges valley-folded to the diagonal: the ray at `deg` from
+ * `from` moving the flap at `moving`, then its mirror across the diagonal. */
+const edgesToDiagonal = (
+  deg: number,
+  [x, y]: Vec,
+  from: Vec = [0, 0],
+): readonly StepSpec[] => [
+  { line: ray(deg, from), moving: [x, y], direction: 'valley' },
+  { line: ray((450 - deg) % 360, from), moving: [y, x], direction: 'valley' },
+];
+
 /** Axis coordinates → paper: `t` along the diagonal, `h` across it. */
 const axis = (t: number, h: number): Vec => [(t + h) * R, (t - h) * R];
 
@@ -117,21 +128,12 @@ export function basilisk(options: Partial<BasiliskOptions> = {}): Design {
     };
   const steps: StepSpec[] = [
     // a diamond: both corners' edges to the diagonal…
-    { line: ray(22.5), moving: [0.9, 0.05], direction: 'valley' },
-    { line: ray(67.5), moving: [0.05, 0.9], direction: 'valley' },
-    { line: ray(247.5, HEAD), moving: [0.98, 0.6], direction: 'valley' },
-    { line: ray(202.5, HEAD), moving: [0.6, 0.98], direction: 'valley' },
+    ...edgesToDiagonal(22.5, [0.9, 0.05]),
+    ...edgesToDiagonal(247.5, [0.98, 0.6], HEAD),
     // …and again, so the body is widest mid-sheet and tapers both ways
-    { line: ray(33.75), moving: [0.9, 0.3], direction: 'valley' },
-    { line: ray(56.25), moving: [0.3, 0.9], direction: 'valley' },
-    { line: ray(236.25, HEAD), moving: [0.95, 0.7], direction: 'valley' },
-    { line: ray(213.75, HEAD), moving: [0.7, 0.95], direction: 'valley' },
-    ...(third
-      ? ([
-          { line: ray(39.375), moving: [0.9, 0.5], direction: 'valley' },
-          { line: ray(50.625), moving: [0.5, 0.9], direction: 'valley' },
-        ] as const)
-      : []),
+    ...edgesToDiagonal(33.75, [0.9, 0.3]),
+    ...edgesToDiagonal(236.25, [0.95, 0.7], HEAD),
+    ...(third ? edgesToDiagonal(39.375, [0.9, 0.5]) : []),
     // fold in half, flaps outside; the upper-left half goes under
     { line: ray(45), moving: [0.2, 0.8], direction: 'mountain', tag: 'L' },
     // neck up: inside reverse fold
