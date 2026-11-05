@@ -5,9 +5,9 @@ import { Lightbulb } from 'lucide-react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
 
-import type { WithCopy } from '../../../checker';
-import type { Ideas } from '../lib/use-ideas';
-import classes from './ideas.module.scss';
+import type { WithCopy } from '../../../../checker';
+import type { Ideas } from '../../opt-in';
+import classes from './ideas-line.module.scss';
 
 type IdeasLineProps = WithCopy & {
   ideas: Ideas;

@@ -1,29 +1,8 @@
-// The line by the field, as quiet as the lede.
-.line {
-  display: block;
-  margin: 0;
-  color: var(--unsquatted-muted);
-  font-size: 0.85rem;
-}
-
-// A bulb set in a line of text, at the text's size.
-%inline-bulb {
+// The button's own bulb, named in the offer's words at the text's size.
+.pressed {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
-}
-
-// Lit in the "maybe" gold.
-.bulb {
-  @extend %inline-bulb;
-
-  margin-right: 6px;
-  color: var(--unsquatted-maybe);
-}
-
-// The button's own bulb, named in the offer's words.
-.pressed {
-  @extend %inline-bulb;
 }
 
 // What the bulb means, for a screen reader alone.
@@ -34,17 +13,6 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
-}
-
-.name {
-  color: var(--color-foreground);
-  font-family: var(--mantine-font-family-monospace);
-  font-size: inherit;
-
-  &:hover,
-  &:focus-visible {
-    color: var(--color-accent);
-  }
 }
 
 // Round the bulb while the model loads or thinks, filling clockwise from the

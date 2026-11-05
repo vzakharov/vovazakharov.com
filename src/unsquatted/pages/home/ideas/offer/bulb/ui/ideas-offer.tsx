@@ -4,17 +4,18 @@ import { ActionIcon } from '@mantine/core';
 import { Lightbulb } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import type { WithCopy } from '../../../checker';
+import type { WithCopy } from '../../../../checker';
 import {
   fillAt,
   type HalfSweep,
   halvesOf,
+  type Ideas,
   type RingMove,
   type RingTarget,
-} from '../lib/ring';
-import type { Ideas, Stage } from '../lib/use-ideas';
-import classes from './ideas.module.scss';
+  type Stage,
+} from '../../opt-in';
 import { IdeasModal, withPercent } from './ideas-modal';
+import classes from './ideas-offer.module.scss';
 
 type IdeasOfferProps = WithCopy & {
   ideas: Ideas;

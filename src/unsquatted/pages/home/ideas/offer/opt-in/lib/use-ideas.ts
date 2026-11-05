@@ -14,7 +14,7 @@ import {
   stopModel,
   suggest,
   watchLoad,
-} from '../../brainstorm';
+} from '../../../brainstorm';
 import { ringOf, type RingTarget } from './ring';
 import { unlocks } from './unlock';
 

@@ -1,0 +1,37 @@
+// The line by the field, as quiet as the lede.
+.line {
+  display: block;
+  margin: 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.85rem;
+}
+
+// A bulb set in the line, at the text's size, lit in the "maybe" gold.
+.bulb {
+  width: 1em;
+  height: 1em;
+  margin-right: 6px;
+  color: var(--unsquatted-maybe);
+  vertical-align: -0.15em;
+}
+
+// What the bulb means, for a screen reader alone.
+.unseen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.name {
+  color: var(--color-foreground);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: inherit;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+  }
+}
