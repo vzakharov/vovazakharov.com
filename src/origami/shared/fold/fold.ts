@@ -251,8 +251,11 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
       line,
       ((angle * Math.PI) / 180) * sign * movingSign,
     );
+    // The line is drawn in the flat state, so the rotation acts before the
+    // shaping the pieces already carry: a bend after a bend turns about the
+    // line where the first one left it.
     for (const piece of moved)
-      piece.shaping = multiply(rotation, piece.shaping);
+      piece.shaping = multiply(piece.shaping, rotation);
   }
 
   state.log.push({

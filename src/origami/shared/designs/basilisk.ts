@@ -1,8 +1,9 @@
 /**
- * Basilisk, a working title: a crowned serpent from one square, in simple and
- * reverse folds only. The axis is the diagonal (0,0)–(1,1), the tail at
- * (0,0); after the fold in half the strip lies at h ≥ 0, the spine (the belly)
- * at h = 0.
+ * Basilisk, a working title: a serpent from one square, in simple and reverse
+ * folds, then shaped. The axis is the diagonal (0,0)–(1,1), the tail at (0,0)
+ * and the head at (1,1); a diamond narrowed from both corners leaves the body
+ * widest mid-sheet. After the fold in half the strip lies at h ≥ 0, the spine
+ * (the belly) at h = 0.
  */
 import {
   type FoldDirection,
@@ -18,10 +19,10 @@ import type { Design } from './design.ts';
 const DEGREE = Math.PI / 180;
 const R = Math.SQRT1_2;
 
-/** A ray from the tail corner at `deg` from the sheet's lower edge. */
-const ray = (deg: number): Step['line'] => ({
-  p: [0, 0],
-  q: [Math.cos(deg * DEGREE), Math.sin(deg * DEGREE)],
+/** A ray from `from` at `deg` from the sheet's lower edge. */
+const ray = (deg: number, from: Vec = [0, 0]): Step['line'] => ({
+  p: from,
+  q: [from[0] + Math.cos(deg * DEGREE), from[1] + Math.sin(deg * DEGREE)],
 });
 
 /** Axis coordinates → paper: `t` along the diagonal, `h` across it. */
@@ -78,43 +79,53 @@ function spineFold(
 }
 
 export type BasiliskOptions = {
-  /** Axis distance of the neck's reverse fold. */
+  /** Axis distance of the neck's reverse fold, and its line's angle from the
+   * spine; the neck rises at twice that. */
   readonly neck: number;
+  readonly neckAngle: number;
   /** Axis distance of the head's fold. */
   readonly head: number;
   readonly headAngle: number;
   readonly headDirection: FoldDirection;
-  /** Axis distances of the tail's two reverse folds, which make an S. */
-  readonly tail: readonly [number, number];
-  /** Whether the kite is narrowed a third time — the needle-thin version. */
-  readonly third: boolean;
-  /** Degrees the neck and the tail bend out of the plane, so the model
-   * stands in 3D rather than lying flat. */
+  /** Axis distances where the tail bends sideways, head end first. */
+  readonly tail: readonly number[];
+  /** Degrees of each of the tail's sideways bends. */
   readonly bend: number;
+  /** Whether the tail is narrowed a third time — the needle-thin version. */
+  readonly third: boolean;
 };
 
 const BASILISK_DEFAULTS: BasiliskOptions = {
-  neck: 0.9,
-  head: 1.2,
-  headAngle: 52,
+  neck: 0.95,
+  neckAngle: 38,
+  head: 1.22,
+  headAngle: 50,
   headDirection: 'outside',
-  tail: [0.55, 0.3],
-  third: true,
-  bend: 35,
+  tail: [0.6, 0.42, 0.25],
+  bend: 30,
+  third: false,
 };
 
+/** The head's corner of the sheet; the tail's is the origin. */
+const HEAD: Vec = [1, 1];
+
 export function basilisk(options: Partial<BasiliskOptions> = {}): Design {
-  const { neck, head, headAngle, headDirection, tail, third, bend } = {
-    ...BASILISK_DEFAULTS,
-    ...options,
-  };
+  const { neck, neckAngle, head, headAngle, headDirection, tail, bend, third } =
+    {
+      ...BASILISK_DEFAULTS,
+      ...options,
+    };
   const steps: StepSpec[] = [
-    // kite
+    // a diamond: both corners' edges to the diagonal…
     { line: ray(22.5), moving: [0.9, 0.05], direction: 'valley' },
     { line: ray(67.5), moving: [0.05, 0.9], direction: 'valley' },
-    // narrow the kite again
+    { line: ray(247.5, HEAD), moving: [0.98, 0.6], direction: 'valley' },
+    { line: ray(202.5, HEAD), moving: [0.6, 0.98], direction: 'valley' },
+    // …and again, so the body is widest mid-sheet and tapers both ways
     { line: ray(33.75), moving: [0.9, 0.3], direction: 'valley' },
     { line: ray(56.25), moving: [0.3, 0.9], direction: 'valley' },
+    { line: ray(236.25, HEAD), moving: [0.95, 0.7], direction: 'valley' },
+    { line: ray(213.75, HEAD), moving: [0.7, 0.95], direction: 'valley' },
     ...(third
       ? ([
           { line: ray(39.375), moving: [0.9, 0.5], direction: 'valley' },
@@ -125,26 +136,20 @@ export function basilisk(options: Partial<BasiliskOptions> = {}): Design {
     { line: ray(45), moving: [0.2, 0.8], direction: 'mountain', tag: 'L' },
     // neck up: inside reverse fold
     {
-      line: axisLine(neck, 0, 43),
-      moving: axis(1.2, 0.05),
+      line: axisLine(neck, 0, neckAngle),
+      moving: axis(1.35, 0.005),
       select: 'flap',
       direction: 'inside',
       lower: 'L',
     },
-    // head tips forward
-    (state) => spineFold(state, head, 1.3, headAngle, headDirection),
-    // tail: two reverse folds make an S
-    {
-      line: axisLine(tail[0], 0, 145),
-      moving: axis(0.05, 0.002),
-      select: 'flap',
-      direction: 'inside',
-      lower: 'L',
-    },
-    (state) => spineFold(state, tail[1], 0.02, 40, 'inside'),
-    // shaping: neck and tail bend out of the plane, opposite ways
-    (state) => spineFold(state, 1, 1.3, 90, 'valley', bend),
-    (state) => spineFold(state, 0.45, 0.02, 90, 'mountain', bend),
+    // head forward
+    (state) => spineFold(state, head, 1.38, headAngle, headDirection),
+    // shaping: the tail sweeps sideways along the ground, alternating
+    ...tail.map(
+      (t, i): StepSpec =>
+        (state) =>
+          spineFold(state, t, 0.01, 90, i % 2 ? 'mountain' : 'valley', bend),
+    ),
   ];
   return {
     steps,
