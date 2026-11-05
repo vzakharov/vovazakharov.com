@@ -2,7 +2,19 @@
 
 ## Progress
 
-Paused for the second session's context budget.
+Paused for the third session's context budget, with all building done.
+
+**Done in the third session** (51eeeddc): `three`/`@types/three` 0.187.0 pinned;
+`scripts/lib/render-page.ts` and `render.ts` (one `render(design, dir, shots)`;
+page exceptions and `console.error` fail it, via a new tab-scoped `Tab.on` in
+`cdp.ts`); `scripts/fold-model.ts` + `pnpm origami`. `basilisk` exits 1 (neck
+14, tails 16, creep 45%), `basilisk-two-narrowings` exits 0; renders looked at.
+knip forced trimming both engine barrels to what is read. Gates clean:
+typecheck, eslint, prettier, tests (10), type-overlap, knip (bar the pilot copy
+`/finalize` sweeps), check:masd, lint:fsd, cycles, clusters, poison.
+
+**Left**: `/go` Step 3 (`/polish`), then Step 4 (`/pr` refresh, squash proposal
+still the plan's forecast).
 
 **Done in the second session** (be25e698 and the commit after it):
 
