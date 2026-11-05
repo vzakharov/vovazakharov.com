@@ -4,8 +4,9 @@
  * every piece, so stacked layers read as layers. Bundled by esbuild into one
  * inline script; runs in the browser only.
  *
- * It sets `show(input)` on the global, which draws one model from one view
- * synchronously, and `ready` once that exists.
+ * It sets `show(frames, columns)` on the global, which draws one or more views of a
+ * model synchronously — several as a labelled grid on one image — and `ready`
+ * once that exists.
  */
 import {
   ACESFilmicToneMapping,
@@ -40,8 +41,9 @@ import type { Design } from '@/origami/shared/designs';
 import type { Snapshot, Vec3 } from '@/origami/shared/fold';
 
 /** Where the camera stands: azimuth and elevation in degrees, and a distance
- * as a multiple of what just fits the model. */
+ * as a multiple of what just fits the model; `name` labels it on the image. */
 export type View = {
+  readonly name: string;
   readonly az: number;
   readonly el: number;
   readonly zoom: number;
@@ -65,11 +67,12 @@ const renderer = new WebGLRenderer({
   preserveDrawingBuffer: true,
 });
 renderer.setPixelRatio(1);
-renderer.setSize(innerWidth, innerHeight);
+renderer.setScissorTest(true);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;
 renderer.toneMapping = ACESFilmicToneMapping;
-document.body.append(renderer.domElement);
+const labels = document.createElement('div');
+document.body.append(renderer.domElement, labels);
 
 const scene = new Scene();
 scene.background = new Color(BACKDROP);
@@ -108,7 +111,7 @@ ground.rotation.x = -Math.PI / 2;
 ground.receiveShadow = true;
 scene.add(ground);
 
-const camera = new PerspectiveCamera(30, innerWidth / innerHeight, 0.01, 50);
+const camera = new PerspectiveCamera(30, 1, 0.01, 50);
 
 /** A seeded noise of fibres, so every render of a model looks the same. */
 function fibre(): CanvasTexture {
@@ -213,7 +216,7 @@ function place(view: View): void {
   ground.position.y = box.min.y - 0.0015;
 }
 
-function show({ model: snapshot, view, colors }: RenderInput): true {
+function draw({ model: snapshot, colors }: RenderInput): void {
   model.clear();
   const front = new MeshStandardMaterial({
     color: colors.front,
@@ -235,8 +238,43 @@ function show({ model: snapshot, view, colors }: RenderInput): true {
   for (const piece of snapshot.pieces) {
     model.add(paperMesh(piece, front, back, edge));
   }
-  place(view);
-  renderer.render(scene, camera);
+}
+
+function label(text: string, left: number, top: number): HTMLDivElement {
+  const tag = document.createElement('div');
+  tag.textContent = text;
+  Object.assign(tag.style, {
+    position: 'absolute',
+    left: `${left + 12}px`,
+    top: `${top + 8}px`,
+    font: '600 15px system-ui, sans-serif',
+    color: '#5a5246',
+  });
+  return tag;
+}
+
+/** Draws each frame into its cell of a grid `columns` wide filling the page,
+ * with the view's name in the cell's corner. */
+function show(frames: readonly RenderInput[], columns: number): true {
+  renderer.setSize(innerWidth, innerHeight);
+  const rows = Math.ceil(frames.length / columns);
+  const width = innerWidth / columns;
+  const height = innerHeight / rows;
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+  labels.replaceChildren(
+    ...frames.map((frame, i) => {
+      const left = (i % columns) * width;
+      const top = Math.floor(i / columns) * height;
+      const bottom = innerHeight - top - height;
+      draw(frame);
+      place(frame.view);
+      renderer.setViewport(left, bottom, width, height);
+      renderer.setScissor(left, bottom, width, height);
+      renderer.render(scene, camera);
+      return label(frame.view.name, left, top);
+    }),
+  );
   return true;
 }
 

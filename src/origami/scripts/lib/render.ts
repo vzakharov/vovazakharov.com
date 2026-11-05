@@ -20,13 +20,19 @@ import { launch, openTab } from '@/scene/scripts/lib/cdp';
 
 export type { View } from './render-page.ts';
 
+/** One frame's size; a shot of several lays them out two to a row. */
 const WIDTH = 900;
 const HEIGHT = 700;
+const COLUMNS = 2;
 const READY_TIMEOUT_MS = 30_000;
 const POLL_MS = 50;
 
-/** A PNG to write at `file`: `model`, in engine coordinates, from `view`. */
-export type Shot = Framing & { readonly file: string };
+/** A PNG to write at `file`: each frame a model, in engine coordinates, from
+ * a view. */
+export type Shot = {
+  readonly file: string;
+  readonly frames: readonly Framing[];
+};
 
 const ConsoleCall = z.object({
   type: z.string(),
@@ -102,12 +108,6 @@ export async function render(
       }
     };
 
-    await tab.send('Emulation.setDeviceMetricsOverride', {
-      width: WIDTH,
-      height: HEIGHT,
-      deviceScaleFactor: 1,
-      mobile: false,
-    });
     await tab.send('Page.navigate', { url: pathToFileURL(html).href });
     const ready = async (deadline: number): Promise<void> => {
       healthy();
@@ -121,8 +121,8 @@ export async function render(
     const { colors, display } = design;
     const shoot = async ([shot, ...rest]: readonly Shot[]): Promise<void> => {
       if (!shot) return;
-      const { model, view, file } = shot;
-      const input: RenderInput = {
+      const { frames, file } = shot;
+      const input: RenderInput[] = frames.map(({ model, view }) => ({
         model: {
           ...model,
           pieces: model.pieces.map((piece) => ({
@@ -132,9 +132,16 @@ export async function render(
         },
         view,
         colors,
-      };
+      }));
+      const columns = Math.min(frames.length, COLUMNS);
+      await tab.send('Emulation.setDeviceMetricsOverride', {
+        width: WIDTH * columns,
+        height: HEIGHT * Math.ceil(frames.length / columns),
+        deviceScaleFactor: 1,
+        mobile: false,
+      });
       await tab.evaluate(
-        `globalThis.show(${JSON.stringify(input)})`,
+        `globalThis.show(${JSON.stringify(input)}, ${columns})`,
         z.literal(true),
       );
       healthy();

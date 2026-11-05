@@ -149,7 +149,8 @@ export function basilisk(options: Partial<BasiliskOptions> = {}): Design {
   return {
     steps,
     colors: { front: 0xd9_a4_41, back: 0x1f_5e_4c },
-    // Axis coordinates: t right, h up — a proper rotation, seen from the L side.
-    display: ([x, y, z]) => [(x + y) * R, (x - y) * R, -z],
+    // Stands on its belly: t along the ground, h up, the paper's own z across
+    // — a proper rotation.
+    display: ([x, y, z]) => [(x + y) * R, z, (x - y) * R],
   };
 }

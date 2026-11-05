@@ -1,12 +1,12 @@
 /**
  * Folds a design and writes what an agent needs to judge it to
- * `tmp/origami/<design>/`: renders from each view, `model.json`, the crease
- * pattern, and a per-step physics report. Exits non-zero when the report has
+ * `tmp/origami/<design>/`: `views.png`, every view on one labelled sheet,
+ * `model.json`, the crease pattern, and a per-step physics report. Exits non-zero when the report has
  * an error-level finding — after writing everything, so the renders of an
  * unfoldable model can still be looked at, but never mistaken for a pass.
  *
- * Usage: pnpm origami <design> [--paper <preset>] [--views "az,el[,zoom];…"]
- *        [--seq] [--no-render]
+ * Usage: pnpm origami <design> [--paper <preset>]
+ *        [--views "name=az,el[,zoom];…"] [--seq] [--no-render]
  *   --seq   also renders every step from the first view (step-NN.png)
  */
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -30,7 +30,7 @@ import { render, type Shot, type View } from './lib/render.ts';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
-const DEFAULT_VIEWS = '-35,35;20,60;180,25;0,90';
+const DEFAULT_VIEWS = 'three-quarter=-35,30;side=0,8;head-on=90,12;top=0,90';
 const DEFAULT_ZOOM = 1.05;
 
 const { values, positionals } = parseArgs({
@@ -49,14 +49,22 @@ const paper = PAPERS[paperId];
 const design = DESIGNS[designId]();
 
 const ViewSpec = z
-  .tuple([z.number(), z.number()])
-  .rest(z.number())
+  .tuple([
+    z.string().min(1),
+    z.tuple([z.number(), z.number()]).rest(z.number()),
+  ])
   .transform(
-    ([az, el, zoom]): View => ({ az, el, zoom: zoom ?? DEFAULT_ZOOM }),
+    ([name, [az, el, zoom]]): View => ({
+      name,
+      az,
+      el,
+      zoom: zoom ?? DEFAULT_ZOOM,
+    }),
   );
-const views = values.views
-  .split(';')
-  .map((spec) => ViewSpec.parse(spec.split(',').map(Number)));
+const views = values.views.split(';').map((spec) => {
+  const [name = '', angles = ''] = spec.split('=');
+  return ViewSpec.parse([name, angles.split(',').map(Number)]);
+});
 
 const out = path.resolve(REPO_ROOT, 'tmp/origami', designId);
 await mkdir(out, { recursive: true });
@@ -122,18 +130,18 @@ const [first] = views;
 const steps: Shot[] =
   values.seq && first
     ? design.steps.map((_, i) => ({
-        model: snapshot(run(design.steps, i + 1), paper),
-        view: first,
+        frames: [
+          { model: snapshot(run(design.steps, i + 1), paper), view: first },
+        ],
         file: path.join(out, `step-${String(i + 1).padStart(2, '0')}.png`),
       }))
     : [];
 if (!values['no-render']) {
   await render(design, out, [
-    ...views.map((view, i) => ({
-      model: final,
-      view,
-      file: path.join(out, `view-${i}.png`),
-    })),
+    {
+      frames: views.map((view) => ({ model: final, view })),
+      file: path.join(out, 'views.png'),
+    },
     ...steps,
   ]);
 }
