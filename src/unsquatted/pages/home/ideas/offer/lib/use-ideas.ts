@@ -67,10 +67,8 @@ export type Ideas = Stage & {
  * new label and answers for the one it was asked for; a press for another
  * label replaces it, and one for the same label leaves it running. The last
  * variations stay until the next press brings new ones, so the visitor can
- * try them one after another. The first
- * generation is timed and the time kept, to pace the ring of every later one.
- * An opt-in whose weights the browser has since evicted stands, so the next
- * press downloads them again without asking. `unsquattedForget()` in the
+ * try them one after another. The first generation is timed and the time
+ * kept, to pace the ring of every later one. `unsquattedForget()` in the
  * console undoes the opt-in and the timing and deletes the weights, for
  * testing the offer and the download again.
  */
@@ -138,7 +136,7 @@ export function useIdeas(label: string): Ideas {
     };
 
     const generate = async () => {
-      // Loads the model first on a page that has not yet.
+      // Loaded before the clock starts, so the time is the generation's alone.
       await startModel();
       const begun = performance.now();
       const found = await suggest(asked, signal);

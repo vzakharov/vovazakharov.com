@@ -24,12 +24,12 @@ import { chatFor } from './prompt';
 export type Dtype = 'q4f16' | 'q4';
 
 /**
- * Qwen3.5's 0.8B: its text half alone loads under this class, the vision
- * encoder left on the Hub.
+ * Qwen3.5's 0.8B: its text half alone loads under `AutoModelForCausalLM`, the
+ * vision encoder left on the Hub.
  */
 const MODEL = 'onnx-community/Qwen3.5-0.8B-ONNX';
 
-/** Ample for three short names, one per line. */
+/** Ample for `IDEAS_SHOWN` short names, one per line. */
 const MAX_NEW_TOKENS = 30;
 
 // transformers.js points ONNX Runtime at its wasm on jsDelivr; unset, the

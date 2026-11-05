@@ -7,10 +7,9 @@ type Engine = typeof EngineModule;
 let engine: Promise<Engine> | undefined;
 
 /**
- * The engine, imported on first use, so a visitor who never opts in never
- * loads the model's code. It runs on the page's thread: the bundler emits a
- * `new Worker(new URL(…))` file unbundled, and WebGPU does the heavy work
- * off the thread anyway.
+ * The engine, on the page's thread: the bundler emits a
+ * `new Worker(new URL(…))` file unbundled, and WebGPU does the heavy work off
+ * the thread anyway.
  */
 async function started(): Promise<Engine> {
   engine ??= import('./engine').catch((error: unknown) => {
@@ -64,7 +63,6 @@ export async function modelCached(): Promise<boolean> {
 
 let loading: Promise<void> | undefined;
 let loadStopper: AbortController | undefined;
-/** The fraction loaded while a load runs, `undefined` otherwise. */
 let progress: number | undefined;
 const watchers = new Set<() => void>();
 
@@ -73,7 +71,6 @@ const progressed = (fraction: number | undefined) => {
   for (const watcher of watchers) watcher();
 };
 
-/** The model is loaded on this page and generates without waiting. */
 let ready = false;
 
 /** The fraction of the model loaded so far, while a load runs. */

@@ -23,11 +23,10 @@ type IdeasOfferProps = WithCopy & {
 };
 
 /**
- * The lightbulb among the field's tool buttons. Before the visitor opts in it
- * opens the dialog that offers the model, and reopens it while the download
- * runs, to show the percentage and offer to stop; after, it brainstorms the
- * name in the field, first saying so where the weights download again. A ring round the bulb fills with the download and then
- * with the generation, the way an app's icon fills as it installs.
+ * The lightbulb among the field's tool buttons: before the opt-in it opens the
+ * offer, after it brainstorms the name in the field. A ring round the bulb
+ * fills with the download and then with the generation, the way an app's icon
+ * fills as it installs.
  */
 export function IdeasOffer({
   ideas: {

@@ -20,7 +20,6 @@ type IdeasLineProps = WithCopy & {
 /**
  * The line by the field: the variations the lightbulb last brainstormed,
  * kept while the visitor picks among them, or a shrug when it found none.
- * While it thinks, its ring says so.
  */
 export function IdeasLine({
   ideas: { available, optedIn, names },

@@ -2,11 +2,9 @@ import { cleanLabel } from '../../../checker/index.node-safe';
 import { IDEA_LENGTH, IDEAS_SHOWN } from './prompt';
 
 /**
- * The model's answer as at most `IDEAS_SHOWN` names: one per line, list marks
- * and quotes stripped, each cleaned as a typed name is, held to `IDEA_LENGTH`,
- * deduped, and never `label` itself. A small model strays from the format, so
- * a line that cleans to nothing usable is dropped rather than failing the
- * answer.
+ * The model's answer as at most `IDEAS_SHOWN` names, each cleaned as a typed
+ * name is. A small model strays from the format, so a line that cleans to
+ * nothing usable is dropped rather than failing the answer.
  */
 export function parseIdeas(answer: string, label: string): string[] {
   const names = answer

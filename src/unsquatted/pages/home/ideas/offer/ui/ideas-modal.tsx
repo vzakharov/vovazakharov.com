@@ -19,11 +19,9 @@ type IdeasModalProps = WithCopy &
   };
 
 /**
- * What a visitor agrees to, in plain words, and the opt-in itself. Turn it on
- * starts the download, which carries on with the dialog closed, its progress
- * then shown by the lightbulb's ring; while it runs, the dialog offers to stop
- * it. Where the browser has deleted the weights since, it only says they are
- * downloading again, which the press that opened it has already begun.
+ * What a visitor agrees to, in plain words, and the opt-in itself, whose
+ * download carries on with the dialog closed. Opened for weights the browser
+ * has deleted, it only reports the download the press already began.
  */
 export function IdeasModal({
   opened,
