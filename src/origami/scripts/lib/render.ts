@@ -7,6 +7,7 @@
 import { build } from 'esbuild';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
 import { z } from 'zod';
 
@@ -61,11 +62,6 @@ async function page(): Promise<string> {
 </html>
 `;
 }
-
-const sleep = async (ms: number) =>
-  new Promise<void>((resolve) => {
-    setTimeout(resolve, ms);
-  });
 
 /**
  * Draws every shot in turn, in one fresh Chromium whose page is written into

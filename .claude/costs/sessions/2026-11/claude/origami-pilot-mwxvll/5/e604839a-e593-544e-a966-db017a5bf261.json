@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 20,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 55532,
-    "cacheReadTokens": 862996,
-    "outputTokens": 1842,
-    "thinkingTokens": 138,
-    "responses": 9,
-    "costUsd": 0.6537752
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 143363,
+    "cacheWrite1hTokens": 57215,
+    "cacheReadTokens": 2230487,
+    "outputTokens": 7324,
+    "thinkingTokens": 1904,
+    "responses": 23,
+    "costUsd": 1.7672963999999995
   },
   "estimate": {
     "at": "2026-11-05T10:00:46.229Z",
@@ -47,52 +47,54 @@
   "branch": "claude/origami-pilot-mwxvll",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/origami-pilot-mwxvll — рендер и CLI готовы, гейты зелёные, план на паузе: остались polish и PR",
-  "prs": [],
+  "prs": [
+    251
+  ],
   "url": "https://claude.ai/code/session_01DaohkECMfYaHrYzREj9GnV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T10:00:27.908Z",
-  "lastResponseAt": "2026-11-05T10:00:48.439Z",
+  "lastResponseAt": "2026-11-05T10:01:48.771Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 20,
+    "inputTokens": 21,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 55532,
-    "cacheReadTokens": 862996,
-    "outputTokens": 1842,
+    "cacheWrite1hTokens": 57215,
+    "cacheReadTokens": 976578,
+    "outputTokens": 2279,
     "thinkingTokens": 138,
-    "responses": 9,
-    "costUsd": 0.6537752
+    "responses": 10,
+    "costUsd": 0.6986996
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 25,
+    "cacheWrite5mTokens": 143363,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
-    "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "cacheReadTokens": 1253909,
+    "outputTokens": 5045,
+    "thinkingTokens": 1766,
+    "responses": 13,
+    "costUsd": 1.0685968
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 20,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 55532,
-      "cacheReadTokens": 862996,
-      "outputTokens": 1842,
-      "thinkingTokens": 138,
-      "responses": 9,
-      "costUsd": 0.6537752
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 143363,
+      "cacheWrite1hTokens": 57215,
+      "cacheReadTokens": 2230487,
+      "outputTokens": 7324,
+      "thinkingTokens": 1904,
+      "responses": 23,
+      "costUsd": 1.7672963999999995
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 8,
-    "matched": 8,
-    "matchedTableUsd": 0.5794066,
-    "matchedEventUsd": 0.5794066,
+    "events": 22,
+    "matched": 22,
+    "matchedTableUsd": 1.7081085999999996,
+    "matchedEventUsd": 1.7081085999999996,
     "unseen": {}
   }
 }
