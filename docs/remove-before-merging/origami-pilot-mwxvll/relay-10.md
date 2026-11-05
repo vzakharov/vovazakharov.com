@@ -100,11 +100,12 @@ Wait for the operator. Pending: the PR title's type — keep `chore:`, or a
 new local non-publishing row (as `content:` is for prose) for code no site
 serves yet; never an unscoped `feat:`, which redeploys every site. The
 operator declined both earlier questions («вопросы оставлю без ответа»): the
-marker template stays as is, and 4479064358 gets no row, so `answered.py`
-keeps failing until it learns to skip a proposal only an agent replied to —
-offer that change, do not fabricate a verdict.
+marker template stays as is, and 4479064358 gets no row. On «я не думаю, что
+где-то есть правило, что я должен ответить на все пятипроцентники»,
+`answered.py` now counts only replies without the agent footer (e5ddb9aa6),
+and passes on #251. Vet must re-run over it.
 
-Once that gate passes: record the row, commit, then finalize steps 4, 6 and 7 —
+Next, after the title is settled: re-vet, then record the row, commit, then finalize steps 4, 6 and 7 —
 `gh pr ready`, `/check-merge` (re-vet if `main` moved), sweep
 `docs/remove-before-merging/` with the cost-ledger rows, attest. No merge:
 `/merge` is the operator's.
