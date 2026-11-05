@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "10.6.0",
+    "@huggingface/transformers": "4.3.2",
     "@mantine/core": "^9.6.0",
     "@mantine/hooks": "^9.6.0",
     "@shikijs/rehype": "^4.4.3",
@@ -96,6 +97,7 @@
     "@types/three": "0.187.0",
     "@types/unist": "^3.0.3",
     "@typescript-eslint/parser": "^8.69.0",
+    "@webgpu/types": "^0.1.74",
     "esbuild": "0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",

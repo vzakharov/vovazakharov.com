@@ -45,9 +45,9 @@
   margin: 0;
 }
 
-// Below this the field takes a row of its own: beside the dice, the share and
-// the heart, it would show only a few letters of the name.
-$field-own-row: 30em;
+// Below this the field takes a row of its own: beside the lightbulb, the dice,
+// the share and the heart, it would show only a few letters of the name.
+$field-own-row: mantine.$breakpoint-sm;
 
 .field {
   display: flex;
@@ -97,6 +97,20 @@ $field-own-row: 30em;
 
   @media (width < $field-own-row) {
     order: 1;
+  }
+}
+
+// The variations, a row of their own: under the buttons, or between the field
+// and the buttons once the field has a row of its own.
+.ideas {
+  flex-basis: 100%;
+  order: 3;
+
+  // Air on top of the row's gap, so the line reads apart from the controls.
+  padding-block: 4px;
+
+  @media (width < $field-own-row) {
+    order: 0;
   }
 }
 

@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 556,
+    "inputTokens": 563,
     "cacheWrite5mTokens": 486,
-    "cacheWrite1hTokens": 70950,
-    "cacheReadTokens": 2931939,
-    "outputTokens": 6958,
-    "thinkingTokens": 2632,
-    "responses": 26,
-    "costUsd": 1.2992598000000002
+    "cacheWrite1hTokens": 80939,
+    "cacheReadTokens": 3338385,
+    "outputTokens": 8150,
+    "thinkingTokens": 3059,
+    "responses": 29,
+    "costUsd": 1.4843290000000002
   },
   "estimate": {
     "at": "2026-11-05T14:28:36.783Z",
@@ -41,22 +41,24 @@
   "branch": "claude/origami-pilot-mwxvll",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/origami-pilot-mwxvll — три правки сделаны, подготовка к мерджу продолжается с прогона vet",
-  "prs": [],
+  "prs": [
+    251
+  ],
   "url": "https://claude.ai/code/session_01DaohkFYioUhwHqYFYEVNi5",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-05T14:28:08.704Z",
-  "lastResponseAt": "2026-11-05T14:33:28.035Z",
+  "lastResponseAt": "2026-11-05T14:33:47.699Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 50,
+    "inputTokens": 57,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 70950,
-    "cacheReadTokens": 2811801,
-    "outputTokens": 6938,
-    "thinkingTokens": 2632,
-    "responses": 25,
-    "costUsd": 1.2689202000000002
+    "cacheWrite1hTokens": 80939,
+    "cacheReadTokens": 3218247,
+    "outputTokens": 8130,
+    "thinkingTokens": 3059,
+    "responses": 28,
+    "costUsd": 1.4539894000000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -70,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 556,
+      "inputTokens": 563,
       "cacheWrite5mTokens": 486,
-      "cacheWrite1hTokens": 70950,
-      "cacheReadTokens": 2931939,
-      "outputTokens": 6958,
-      "thinkingTokens": 2632,
-      "responses": 26,
-      "costUsd": 1.2992598000000002
+      "cacheWrite1hTokens": 80939,
+      "cacheReadTokens": 3338385,
+      "outputTokens": 8150,
+      "thinkingTokens": 3059,
+      "responses": 29,
+      "costUsd": 1.4843290000000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 26,
-    "matched": 25,
-    "matchedTableUsd": 1.2689202000000002,
-    "matchedEventUsd": 1.2689202000000002,
+    "events": 29,
+    "matched": 28,
+    "matchedTableUsd": 1.4539894000000002,
+    "matchedEventUsd": 1.4539894000000002,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 506,
