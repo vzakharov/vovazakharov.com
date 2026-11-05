@@ -4,9 +4,11 @@ Proposed squash body:
 A lightbulb among the field's buttons brainstorms variations on the
 name typed: Qwen3.5-0.8B, run in the visitor's own browser over
 WebGPU through transformers.js, so the site stays serverless and the
-name never leaves the machine. Desktop browsers with a WebGPU adapter
-see it; elsewhere the button is absent. Below 40em the field takes a
-row of its own, leaving the buttons room.
+name never leaves the machine. It is slow beside the checks, so the
+bulb stays hidden until the field holds "give me ai", and then pops
+in under a hand-written "there you go"; the unlock is remembered.
+Only desktop browsers with a WebGPU adapter can unlock it. Below 40em
+the field takes a row of its own, leaving the buttons room.
 
 The first press opens a dialog saying in plain words what runs where
 and that the browser downloads about 650 MB once, into the site's
@@ -21,8 +23,8 @@ they can be checked one after another; a generation runs on through a
 change of name and answers for the one it was asked for. The prompt
 carries the naming runbook's taste through worked examples, and the
 answer is cleaned like any typed name; an empty one gets a shrug.
-unsquattedForget() in the console undoes the opt-in and deletes the
-weights, for testing.
+unsquattedForget() in the console undoes the unlock and the opt-in
+and deletes the weights, for testing.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
