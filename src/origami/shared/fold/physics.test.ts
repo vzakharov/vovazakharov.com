@@ -12,6 +12,15 @@ const bookFold = {
   direction: 'valley',
 } as const;
 
+/** A 30° shaping fold across the sheet at `x`, the left side moving. */
+const bend = (x: number) =>
+  ({
+    line: { p: [x, 0], q: [x, 1] },
+    moving: [0.05, 0.5],
+    direction: 'valley',
+    angle: 30,
+  }) as const;
+
 describe('physics', () => {
   it('measures a book fold as one layer bent across the whole sheet', () => {
     const report = physics([bookFold], kami).at(0);
@@ -59,5 +68,23 @@ describe('physics', () => {
     const kite = reports.at(1);
     assert.ok(kite);
     assert.ok(Math.abs((kite.tip?.degrees ?? 0) - 45) < 1e-6);
+  });
+
+  describe('two bends of one flap stay joined in either order', () => {
+    for (const [name, xs] of [
+      ['the far bend first', [0.6, 0.3]],
+      ['the near bend first', [0.3, 0.6]],
+    ] as const) {
+      it(name, () => {
+        const reports = physics(
+          xs.map((x) => bend(x)),
+          kami,
+        );
+        for (const report of reports) {
+          assert.ok(report.tear < 1e-9, `tears ${report.tear} mm`);
+          assert.deepEqual(report.findings, []);
+        }
+      });
+    }
   });
 });

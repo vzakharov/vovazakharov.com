@@ -9,6 +9,7 @@ import {
   edges,
   IDENTITY,
   type Line,
+  onLine,
   overlaps,
   type Polygon,
   type Segment,
@@ -112,6 +113,37 @@ export function adjacency(p: Piece, q: Piece): Segment | undefined {
     }
   }
   return undefined;
+}
+
+/** A crease a fold bends: a moved piece, a piece that stayed, and the ends of
+ * the paper edge they share, in the flat state. */
+export type Hinge = {
+  readonly moved: Piece;
+  readonly still: Piece;
+  readonly ends: readonly [Vec, Vec];
+};
+
+/** Every stretch of `line` where a piece in `moved` is joined to one that is
+ * not. */
+export function hinges(
+  state: FoldState,
+  line: Line,
+  moved: ReadonlySet<number>,
+): Hinge[] {
+  const still = state.pieces.filter((p) => !moved.has(p.id));
+  return state.pieces
+    .filter((p) => moved.has(p.id))
+    .flatMap((piece) =>
+      still.flatMap((other): Hinge[] => {
+        const shared = adjacency(piece, other);
+        if (!shared) return [];
+        const a = apply(piece.placement, shared[0]);
+        const b = apply(piece.placement, shared[1]);
+        return onLine(a, line) && onLine(b, line)
+          ? [{ moved: piece, still: other, ends: [a, b] }]
+          : [];
+      }),
+    );
 }
 
 /** Each piece's local layer index: the longest chain of overlapping pieces

@@ -20,13 +20,14 @@ import {
   splitConvex,
   type Vec,
 } from './geometry.ts';
-import { multiply, rotationAbout } from './space.ts';
+import { invertRigid, type Mat4, multiply, rotationAbout } from './space.ts';
 import {
   adjacency,
   cut,
   flatPolygon,
   type FoldDirection,
   type FoldState,
+  hinges,
   isUpper,
   type Piece,
   square,
@@ -220,6 +221,28 @@ function flatFold(
   }
 }
 
+/** How far two shapings may differ, entry by entry, and still be one. */
+const SAME_SHAPING = 1e-6;
+const differ = (a: Mat4, b: Mat4): boolean =>
+  a.length !== b.length ||
+  a.some((x, i) => Math.abs(x - (b[i] ?? x)) > SAME_SHAPING);
+
+/** The shaping of the paper the flap stays joined to: where the crease is in
+ * space. Throws when the pieces along the crease disagree, since then there is
+ * no one crease to turn about. */
+function hingeShaping(
+  state: FoldState,
+  line: Line,
+  moved: ReadonlySet<number>,
+): Mat4 {
+  const [first, ...rest] = hinges(state, line, moved).map((h) => h.still);
+  if (!first) throw new Error('fold: a shaping fold with no crease to turn on');
+  if (rest.some((other) => differ(other.shaping, first.shaping))) {
+    throw new Error('fold: the crease runs through differently shaped paper');
+  }
+  return first.shaping;
+}
+
 /** Folds `state` in place by one step and records it in `state.log`. */
 export function fold(state: FoldState, spec: StepSpec): FoldState {
   const step = typeof spec === 'function' ? spec(state) : spec;
@@ -249,11 +272,13 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
       line,
       ((angle * Math.PI) / 180) * sign * movingSign,
     );
-    // The line is drawn in the flat state, so the rotation acts before the
-    // shaping the pieces already carry: a bend after a bend turns about the
-    // line where the first one left it.
-    for (const piece of moved)
-      piece.shaping = multiply(piece.shaping, rotation);
+    // The line is drawn in the flat state, and the crease is in space where
+    // the side that stays has already been shaped: conjugating by that
+    // shaping turns the flap about the crease there, whatever shaping each
+    // moved piece carries of its own.
+    const hinge = hingeShaping(state, line, movedIds);
+    const turn = multiply(hinge, multiply(rotation, invertRigid(hinge)));
+    for (const piece of moved) piece.shaping = multiply(turn, piece.shaping);
   }
 
   state.log.push({

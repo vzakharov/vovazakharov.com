@@ -24,13 +24,16 @@ import {
   type Vec,
 } from './geometry.ts';
 import type { Paper } from './paper.ts';
+import { transform } from './space.ts';
 import {
   adjacency,
   flatPolygon,
   type FoldRecord,
   type FoldState,
+  hinges,
   isUpper,
   layers,
+  type Piece,
   square,
 } from './state.ts';
 
@@ -48,6 +51,9 @@ const CREEP_ERROR = 0.3;
 /** A tip narrower than this turns a millimetre's error at its base into
  * about 7.6 mm at its point (`1 / tan(θ/2)`), where hands stop being exact. */
 const TIP_WARN_DEGREES = 15;
+/** Paper joined in the sheet and apart in space is a model the engine tore:
+ * a hundredth of a millimetre is far past rounding and far below any hand. */
+const TEAR_ERROR_MM = 0.01;
 
 const LEVELS = ['warn', 'error'] as const;
 type Level = (typeof LEVELS)[number];
@@ -77,6 +83,9 @@ type Measured = {
   readonly tip:
     | { readonly degrees: number; readonly amplification: number }
     | undefined;
+  /** The widest gap, in mm, where two pieces joined in the paper lie apart in
+   * space. */
+  readonly tear: number;
 };
 
 export type StepReport = Measured & { readonly findings: readonly Finding[] };
@@ -86,33 +95,21 @@ const TAU = 2 * Math.PI;
 
 type Interval = readonly [number, number];
 const sweepOf = ([a, b]: Interval): number => b - a;
-type Hinge = { readonly span: Interval; readonly upper: boolean };
+type Bend = { readonly span: Interval; readonly upper: boolean };
 
 /** Distance along the line's unit direction from its anchor. */
 const along = (line: Line, pt: Vec): number =>
   dot(sub(pt, line.p), normalize(line.d));
 
-/** Each stretch of crease where a moved piece is joined to a still one. */
-function hinges(state: FoldState, record: FoldRecord): Hinge[] {
-  const moved = state.pieces.filter((p) => record.moved.has(p.id));
-  const still = state.pieces.filter((p) => !record.moved.has(p.id));
-  return moved.flatMap((piece) =>
-    still.flatMap((other) => {
-      const shared = adjacency(piece, other);
-      if (!shared) return [];
-      const [a, b] = shared.map((pt) => apply(piece.placement, pt));
-      if (!a || !b || !onLine(a, record.line) || !onLine(b, record.line))
-        return [];
-      const [s, t] = [along(record.line, a), along(record.line, b)];
-      return [
-        {
-          span: [Math.min(s, t), Math.max(s, t)],
-          upper: isUpper(piece, record.lowerTag),
-        },
-      ];
-    }),
-  );
-}
+/** Each stretch of the crease, as distances along it, and its half. */
+const bends = (state: FoldState, record: FoldRecord): Bend[] =>
+  hinges(state, record.line, record.moved).map(({ moved, ends: [a, b] }) => {
+    const [s, t] = [along(record.line, a), along(record.line, b)];
+    return {
+      span: [Math.min(s, t), Math.max(s, t)],
+      upper: isUpper(moved, record.lowerTag),
+    };
+  });
 
 /** The midpoints of the stretches between consecutive hinge ends. */
 function samples(spans: readonly Interval[]): number[] {
@@ -251,7 +248,46 @@ function sharpestTip(state: FoldState, record: FoldRecord): number | undefined {
 const isReverse = (record: FoldRecord): boolean =>
   record.direction === 'inside' || record.direction === 'outside';
 
-function findings({ record, bent, creep, width, tip }: Measured): Finding[] {
+/** Where a paper point of `piece` lies in space, on no layer: layers stacked
+ * apart are not a tear. */
+const unlifted = (piece: Piece, pt: Vec) =>
+  transform(piece.shaping, [...apply(piece.placement, pt), 0]);
+
+/** In sheet units. */
+function widestTear(state: FoldState): number {
+  let widest = 0;
+  for (const [i, piece] of state.pieces.entries()) {
+    for (const other of state.pieces.slice(i + 1)) {
+      for (const pt of adjacency(piece, other) ?? []) {
+        const [x, y, z] = unlifted(piece, pt);
+        const [u, v, w] = unlifted(other, pt);
+        widest = Math.max(widest, Math.hypot(x - u, y - v, z - w));
+      }
+    }
+  }
+  return widest;
+}
+
+function findings(measured: Measured): Finding[] {
+  const tear: Finding[] =
+    measured.tear > TEAR_ERROR_MM
+      ? [
+          {
+            level: 'error',
+            message: `the model tears ${measured.tear.toFixed(2)} mm apart at a crease`,
+          },
+        ]
+      : [];
+  return [...tear, ...paperFindings(measured)];
+}
+
+function paperFindings({
+  record,
+  bent,
+  creep,
+  width,
+  tip,
+}: Measured): Finding[] {
   if (!record.flat) return [];
   const out: Finding[] = [];
   if (isReverse(record)) {
@@ -289,7 +325,7 @@ function findings({ record, bent, creep, width, tip }: Measured): Finding[] {
 function measure(state: FoldState, paper: Paper): StepReport {
   const record = state.log.at(-1);
   if (!record) throw new Error('physics: nothing folded yet');
-  const all = hinges(state, record);
+  const all = bends(state, record);
   const spans = all.map((h) => h.span);
   const at = samples(spans);
   const bent = deepest(spans, at);
@@ -322,6 +358,7 @@ function measure(state: FoldState, paper: Paper): StepReport {
       degrees === undefined
         ? undefined
         : { degrees, amplification: 1 / Math.tan(degrees / DEGREES / 2) },
+    tear: widestTear(state) * paper.side,
   };
   return { ...measured, findings: findings(measured) };
 }

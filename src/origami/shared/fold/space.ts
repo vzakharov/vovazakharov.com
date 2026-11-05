@@ -83,3 +83,30 @@ export function rotationAbout(line: Line, theta: number): Mat4 {
     multiply(rotation, translation([-line.p[0], -line.p[1]])),
   );
 }
+
+/** The inverse of a rigid motion — a rotation and a translation, which is all
+ * a shaping ever composes. Wrong for any matrix that scales or shears. */
+export function invertRigid(m: Mat4): Mat4 {
+  const r = (row: number, column: number) => cell(m, column, row);
+  const t = [cell(m, 0, 3), cell(m, 1, 3), cell(m, 2, 3)] as const;
+  const moved = (row: number) =>
+    -(r(row, 0) * t[0] + r(row, 1) * t[1] + r(row, 2) * t[2]);
+  return [
+    r(0, 0),
+    r(1, 0),
+    r(2, 0),
+    0,
+    r(0, 1),
+    r(1, 1),
+    r(2, 1),
+    0,
+    r(0, 2),
+    r(1, 2),
+    r(2, 2),
+    0,
+    moved(0),
+    moved(1),
+    moved(2),
+    1,
+  ];
+}
