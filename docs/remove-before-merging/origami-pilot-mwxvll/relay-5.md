@@ -17,8 +17,9 @@ plan (flip quoting «и давай начинать»), built the renderer and t
 gates, committed 51eeeddc, then hit the context budget warning (~213k) with
 `/polish` and `/pr` left, paused the plan (5c935a6c) and relayed. One status
 line went to the operator mid-turn: «Продолжаю из …: план снова взят в работу,
-пишу рендерер (three.js через CDP), потом CLI.» (verbatim in Last agent turn,
-if the script finds it)
+пишу рендерер (three.js через CDP), потом CLI.» All of it was one turn, so
+there is no Last agent turn section: `scripts/relay-last-reply.py` reported
+"no turn before this one wrote any text".
 
 ## 3. Intent
 
