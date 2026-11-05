@@ -5,8 +5,8 @@
 import { determinant, type Segment } from './geometry.ts';
 import { adjacency, type FoldState } from './state.ts';
 
-export const ASSIGNMENTS = ['M', 'V', 'F'] as const;
-export type Assignment = (typeof ASSIGNMENTS)[number];
+const ASSIGNMENTS = ['M', 'V', 'F'] as const;
+type Assignment = (typeof ASSIGNMENTS)[number];
 
 export type Crease = {
   readonly segment: Segment;

@@ -36,26 +36,26 @@ import {
 
 /** A valley or mountain fold through this many layers is hard to crease
  * cleanly; past twice that the stack springs open. */
-export const SIMPLE_LAYERS_WARN = 16;
-export const SIMPLE_LAYERS_ERROR = 32;
+const SIMPLE_LAYERS_WARN = 16;
+const SIMPLE_LAYERS_ERROR = 32;
 /** A reverse fold turns both halves inside out at once, so its budget is on
  * the layers of both together: 8 is what ordinary kami still pushes through. */
 export const REVERSE_LAYERS_ERROR = 8;
 /** Creep as a share of the flap's width along the crease: past the first the
  * flap's edges visibly misalign, past the second it no longer lies flat. */
-export const CREEP_WARN = 0.15;
-export const CREEP_ERROR = 0.3;
+const CREEP_WARN = 0.15;
+const CREEP_ERROR = 0.3;
 /** A tip narrower than this turns a millimetre's error at its base into
  * about 7.6 mm at its point (`1 / tan(θ/2)`), where hands stop being exact. */
-export const TIP_WARN_DEGREES = 15;
+const TIP_WARN_DEGREES = 15;
 
-export const LEVELS = ['warn', 'error'] as const;
-export type Level = (typeof LEVELS)[number];
+const LEVELS = ['warn', 'error'] as const;
+type Level = (typeof LEVELS)[number];
 
-export type Finding = { readonly level: Level; readonly message: string };
+type Finding = { readonly level: Level; readonly message: string };
 
 /** What one step asks of the paper, before it is judged. */
-export type Measured = {
+type Measured = {
   /** 1-based, as a person counts steps. */
   readonly step: number;
   readonly record: FoldRecord;
@@ -287,7 +287,7 @@ function findings({ record, bent, creep, width, tip }: Measured): Finding[] {
 }
 
 /** Measures the step `state.log` last recorded, on the state right after it. */
-export function measure(state: FoldState, paper: Paper): StepReport {
+function measure(state: FoldState, paper: Paper): StepReport {
   const record = state.log.at(-1);
   if (!record) throw new Error('physics: nothing folded yet');
   const all = hinges(state, record);

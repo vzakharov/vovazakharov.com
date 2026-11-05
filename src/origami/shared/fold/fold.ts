@@ -34,7 +34,7 @@ import {
 
 /** Which pieces seed the moving flap; the flap is then closed over paper
  * connectivity, so a seed drags along everything joined to it off the line. */
-export type Selection =
+type Selection =
   | 'all'
   | 'flap'
   | { readonly tag: string }

@@ -34,12 +34,7 @@ export type Piece = PaperPiece & {
   readonly tags: Set<string>;
 };
 
-export const FOLD_DIRECTIONS = [
-  'valley',
-  'mountain',
-  'inside',
-  'outside',
-] as const;
+const FOLD_DIRECTIONS = ['valley', 'mountain', 'inside', 'outside'] as const;
 /**
  * `valley` swings the flap up and lands it on top, `mountain` down and below.
  * `inside` and `outside` are reverse folds on a model folded in half: each

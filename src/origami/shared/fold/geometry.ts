@@ -21,14 +21,14 @@ export const sub = (a: Vec, b: Vec): Vec => [a[0] - b[0], a[1] - b[1]];
 export const add = (a: Vec, b: Vec): Vec => [a[0] + b[0], a[1] + b[1]];
 export const scale = (a: Vec, s: number): Vec => [a[0] * s, a[1] * s];
 export const dot = (a: Vec, b: Vec): number => a[0] * b[0] + a[1] * b[1];
-export const cross = (a: Vec, b: Vec): number => a[0] * b[1] - a[1] * b[0];
+const cross = (a: Vec, b: Vec): number => a[0] * b[1] - a[1] * b[0];
 export const length = (a: Vec): number => Math.hypot(a[0], a[1]);
 export const normalize = (a: Vec): Vec => scale(a, 1 / length(a));
 /** `a` turned a quarter counter-clockwise. */
 export const perpendicular = (a: Vec): Vec => [-a[1], a[0]];
 
 /** The element at `i`, wrapping around both ends. */
-export function cyclic<T>(xs: readonly T[], i: number): T {
+function cyclic<T>(xs: readonly T[], i: number): T {
   const x = xs[((i % xs.length) + xs.length) % xs.length];
   if (x === undefined) throw new Error('cyclic: empty list');
   return x;

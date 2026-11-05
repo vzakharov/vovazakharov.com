@@ -88,7 +88,7 @@ export type BasiliskOptions = {
   readonly third: boolean;
 };
 
-export const BASILISK_DEFAULTS: BasiliskOptions = {
+const BASILISK_DEFAULTS: BasiliskOptions = {
   neck: 0.9,
   head: 1.2,
   headAngle: 52,

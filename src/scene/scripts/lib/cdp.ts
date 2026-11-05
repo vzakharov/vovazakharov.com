@@ -69,6 +69,8 @@ export type Tab = Evaluating & {
   readonly contextId: string;
   /** Sends a command to this page. */
   send: (method: string, params?: object) => Promise<unknown>;
+  /** Listens for an event from this page alone. */
+  on: (event: string, listener: (params: unknown) => void) => void;
 };
 
 /**
@@ -96,8 +98,12 @@ export async function openTab(
     );
   const send = async (method: string, params: object = {}) =>
     browser.send(method, params, sessionId);
-  browser.on('Runtime.exceptionThrown', (params, from) => {
-    if (from !== sessionId) return;
+  const on: Tab['on'] = (event, listener) => {
+    browser.on(event, (params, from) => {
+      if (from === sessionId) listener(params);
+    });
+  };
+  on('Runtime.exceptionThrown', (params) => {
     const { exceptionDetails } = Thrown.parse(params);
     const said =
       exceptionDetails.exception?.description ?? exceptionDetails.text;
@@ -108,6 +114,7 @@ export async function openTab(
   return {
     contextId,
     send,
+    on,
     evaluate: async (expression, schema) => {
       const reply = Evaluated.parse(
         await send('Runtime.evaluate', { expression, returnByValue: true }),

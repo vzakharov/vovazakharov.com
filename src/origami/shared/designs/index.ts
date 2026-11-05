@@ -1,11 +1,6 @@
 import { basilisk } from './basilisk.ts';
 import type { Design } from './design.ts';
 
-export {
-  basilisk,
-  BASILISK_DEFAULTS,
-  type BasiliskOptions,
-} from './basilisk.ts';
 export { type Design } from './design.ts';
 
 export const DESIGN_IDS = ['basilisk', 'basilisk-two-narrowings'] as const;

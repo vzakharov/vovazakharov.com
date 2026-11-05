@@ -8,7 +8,7 @@ import type { Paper } from './paper.ts';
 import { transform, type Vec3 } from './space.ts';
 import { type FoldState, layers, type PaperPiece } from './state.ts';
 
-export type PieceSnapshot = PaperPiece & {
+type PieceSnapshot = PaperPiece & {
   readonly world: readonly Vec3[];
   /** Whether the paper's front faces up. */
   readonly front: boolean;
