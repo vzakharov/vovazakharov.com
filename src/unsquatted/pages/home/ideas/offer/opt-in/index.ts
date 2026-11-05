@@ -6,7 +6,6 @@ export {
   type RingTarget,
 } from './lib/ring';
 export {
-  type Ideas,
   type IdeasBlock,
   type Loading,
   type Stage,
