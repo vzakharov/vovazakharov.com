@@ -12,7 +12,7 @@ import {
   invert,
   type Line,
   lineThrough,
-  NEAR,
+  onLine,
   perpendicular,
   reflection,
   scale,
@@ -106,10 +106,8 @@ function flap(
   const moving = new Set<number>();
   const processed = new Set<number>();
   const queue = seedPieces.map((p) => p.id);
-  const onLine = (piece: Piece, points: readonly Vec[]) =>
-    points.every(
-      (pt) => Math.abs(side(apply(piece.placement, pt), line)) < NEAR,
-    );
+  const alongLine = (piece: Piece, points: readonly Vec[]) =>
+    points.every((pt) => onLine(apply(piece.placement, pt), line));
 
   for (let id = queue.shift(); id !== undefined; id = queue.shift()) {
     if (processed.has(id)) continue;
@@ -152,7 +150,7 @@ function flap(
         continue;
       }
       const shared = adjacency(mover, other);
-      if (!shared || onLine(mover, shared)) continue;
+      if (!shared || alongLine(mover, shared)) continue;
       processed.delete(other.id);
       if (!moving.has(other.id)) queue.push(other.id);
     }

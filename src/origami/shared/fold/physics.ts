@@ -17,9 +17,9 @@ import {
   type Line,
   NEAR,
   normalize,
+  onLine,
   perpendicular,
   scale,
-  side,
   sub,
   type Vec,
 } from './geometry.ts';
@@ -91,8 +91,6 @@ type Hinge = { readonly span: Interval; readonly upper: boolean };
 /** Distance along the line's unit direction from its anchor. */
 const along = (line: Line, pt: Vec): number =>
   dot(sub(pt, line.p), normalize(line.d));
-const onLine = (line: Line, pt: Vec): boolean =>
-  Math.abs(side(pt, line)) / length(line.d) < NEAR;
 
 /** Each stretch of crease where a moved piece is joined to a still one. */
 function hinges(state: FoldState, record: FoldRecord): Hinge[] {
@@ -103,7 +101,7 @@ function hinges(state: FoldState, record: FoldRecord): Hinge[] {
       const shared = adjacency(piece, other);
       if (!shared) return [];
       const [a, b] = shared.map((pt) => apply(piece.placement, pt));
-      if (!a || !b || !onLine(record.line, a) || !onLine(record.line, b))
+      if (!a || !b || !onLine(a, record.line) || !onLine(b, record.line))
         return [];
       const [s, t] = [along(record.line, a), along(record.line, b)];
       return [
@@ -224,7 +222,7 @@ function sharpestTip(state: FoldState, record: FoldRecord): number | undefined {
   const apexes = new Map<string, Vec>();
   for (const { polygon, moved } of polygons) {
     if (!moved) continue;
-    for (const v of polygon) if (onLine(record.line, v)) apexes.set(key(v), v);
+    for (const v of polygon) if (onLine(v, record.line)) apexes.set(key(v), v);
   }
   const angles = [...apexes.values()].flatMap((apex) => {
     const wedges: Wedge[] = [];

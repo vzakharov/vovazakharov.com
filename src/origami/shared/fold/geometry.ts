@@ -77,6 +77,10 @@ export function reflection(line: Line): Affine {
 export const side = (pt: Vec, line: Line): number =>
   cross(line.d, sub(pt, line.p));
 
+/** Within `NEAR` of `line`, measured as a distance whatever `d`'s length. */
+export const onLine = (pt: Vec, line: Line): boolean =>
+  Math.abs(side(pt, line)) / length(line.d) < NEAR;
+
 export const lineThrough = (p: Vec, q: Vec): Line => ({ p, d: sub(q, p) });
 
 export function area(poly: Polygon): number {
