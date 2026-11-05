@@ -3,7 +3,7 @@
  * one of its sub-slices exports, and the layers that sub-slice may move to.
  */
 
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
@@ -14,11 +14,9 @@ import {
   SLICED_LAYERS,
 } from '../../../eslint/masd-graph.ts';
 import { resolveImport, sourceFile } from '../import-graph.ts';
+import { carriesMarker } from '../masd-marker.ts';
 import { sliceOf, subSlicesOf, unitsOf, within } from '../slice-graph.ts';
 import { reaches, type Siblings } from './siblings.ts';
-
-/** The comment a sub-slice's `index.ts` carries to stay put, by the operator's leave. */
-const STAYS = /\/\/ masd-disable promotion -- \S/;
 
 /** The names a statement takes from its module, `*` standing for all of them. */
 function namesTaken(statement: ts.Statement): string[] {
@@ -228,7 +226,7 @@ export function promotions(
       return [];
     }
     const barrel = path.join(sub, 'index.ts');
-    if (existsSync(barrel) && STAYS.test(readFileSync(barrel, 'utf8'))) {
+    if (carriesMarker(barrel, 'promotion')) {
       return [];
     }
     const layers =

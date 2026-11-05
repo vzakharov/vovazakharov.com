@@ -1,0 +1,125 @@
+{
+  "total": {
+    "inputTokens": 26621,
+    "cacheWrite5mTokens": 3998,
+    "cacheWrite1hTokens": 135617,
+    "cacheReadTokens": 10637795,
+    "outputTokens": 30310,
+    "thinkingTokens": 8588,
+    "responses": 75,
+    "costUsd": 3.8476908000000014
+  },
+  "estimate": {
+    "at": "2026-11-05T15:36:10.541Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "vet failures on a prototype and a dead export to read and fix, a base merge whose lockfile overlap needs checking, and a squash record and PR body re-aimed at a moved slice"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T14:28:27.504Z",
+    "contextTokens": 103168,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44624,
+      "cacheReadTokens": 456448,
+      "outputTokens": 1088,
+      "thinkingTokens": 403,
+      "responses": 5,
+      "costUsd": 0.4700896
+    }
+  },
+  "sessionId": "105aa720-7686-57eb-9e40-9f4b8c3af015",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-pilot-mwxvll — три правки сделаны, подготовка к мерджу продолжается с прогона vet",
+  "prs": [
+    251
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFYioUhwHqYFYEVNi5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T14:28:08.704Z",
+  "lastResponseAt": "2026-11-05T16:35:44.324Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 2.714013600000001,
+  "ownTurns": {
+    "inputTokens": 132,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 135617,
+    "cacheReadTokens": 9691518,
+    "outputTokens": 28284,
+    "thinkingTokens": 8588,
+    "responses": 67,
+    "costUsd": 3.589447600000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2683,
+      "cacheWrite5mTokens": 3998,
+      "cacheWrite1hTokens": 135617,
+      "cacheReadTokens": 10637795,
+      "outputTokens": 28458,
+      "thinkingTokens": 8588,
+      "responses": 73,
+      "costUsd": 3.824371000000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 23938,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 1852,
+      "thinkingTokens": 0,
+      "responses": 2,
+      "costUsd": 0.0233198
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 75,
+    "matched": 67,
+    "matchedTableUsd": 3.589447600000001,
+    "matchedEventUsd": 3.589447600000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 2551,
+        "cacheWrite5mTokens": 3998,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 946277,
+        "outputTokens": 174,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.23492339999999998
+      },
+      "web_search_tool": {
+        "inputTokens": 23938,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 1852,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0233198
+      }
+    }
+  }
+}

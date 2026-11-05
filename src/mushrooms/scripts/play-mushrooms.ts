@@ -28,7 +28,6 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import { type Browser, launch } from './lib/cdp.ts';
 import { WATCH } from './lib/flier-watch.ts';
 import { budgetReport } from './lib/frame-budget.ts';
 import { PROBE, seededRandom, STEPPED_TWEENS } from './lib/mushroom-probe.ts';
@@ -62,6 +61,7 @@ import { playWalk } from './lib/play-walk.ts';
 import { flag, given } from '@/kernel/scripts/lib/argv';
 import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, launch, openTab } from '@/scene/scripts/lib/cdp';
 
 const OUT = path.join(REPO_ROOT, 'sites/vova/out');
 const FRAMES = path.join(REPO_ROOT, 'tmp/play');
@@ -103,19 +103,6 @@ const PLAYS = [
 /** The play that opens its page with the system's scheme dark, which the meadow ignores. */
 const DARK = 'dark';
 
-const Thrown = z.object({
-  exceptionDetails: z.object({
-    text: z.string(),
-    exception: z.object({ description: z.string() }).optional(),
-  }),
-});
-const Evaluated = z.object({
-  result: z.object({ value: z.unknown().optional() }),
-  exceptionDetails: z
-    .object({ exception: z.object({ description: z.string() }).optional() })
-    .optional(),
-});
-
 async function open(
   browser: Browser,
   origin: string,
@@ -124,31 +111,9 @@ async function open(
   dark: boolean,
 ): Promise<Page> {
   // A context of its own, its storage in memory, so no play opens another's meadow.
-  const context = z
-    .object({ browserContextId: z.string() })
-    .parse(await browser.send('Target.createBrowserContext'));
-  const target = z.object({ targetId: z.string() }).parse(
-    await browser.send('Target.createTarget', {
-      url: 'about:blank',
-      ...context,
-    }),
-  );
-  const { sessionId } = z
-    .object({ sessionId: z.string() })
-    .parse(
-      await browser.send('Target.attachToTarget', { ...target, flatten: true }),
-    );
-  const send = async (method: string, params: object = {}) =>
-    browser.send(method, params, sessionId);
-  browser.on('Runtime.exceptionThrown', (params, from) => {
-    if (from !== sessionId) return;
-    const { exceptionDetails } = Thrown.parse(params);
-    const said =
-      exceptionDetails.exception?.description ?? exceptionDetails.text;
-    errors.push(`${screen.name}: ${said.split('\n')[0] ?? said}`);
+  const { contextId, send, evaluate } = await openTab(browser, (message) => {
+    errors.push(`${screen.name}: ${message}`);
   });
-  await send('Runtime.enable');
-  await send('Page.enable');
   const { width, height, ratio } = screen;
   await send('Emulation.setDeviceMetricsOverride', {
     width,
@@ -169,18 +134,6 @@ async function open(
     });
   }
   await send('Page.navigate', { url: `${origin}/mushrooms` });
-
-  const evaluate: Page['evaluate'] = async (expression, schema) => {
-    const reply = Evaluated.parse(
-      await send('Runtime.evaluate', { expression, returnByValue: true }),
-    );
-    if (reply.exceptionDetails) {
-      throw new Error(
-        `${expression}: ${reply.exceptionDetails.exception?.description ?? 'threw'}`,
-      );
-    }
-    return schema.parse(reply.result.value);
-  };
 
   let timeOrigin = 0;
   // `__left` marks a page told to go, so a game still up is not taken for the next one's.
@@ -270,7 +223,10 @@ async function open(
       }
       await ready();
     },
-    close: async () => browser.send('Target.disposeBrowserContext', context),
+    close: async () =>
+      browser.send('Target.disposeBrowserContext', {
+        browserContextId: contextId,
+      }),
     rendered,
     step,
     trace,

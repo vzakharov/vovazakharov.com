@@ -46,7 +46,8 @@
     "whisper-lexicon": "node personas/tools/whisper-lexicon.ts",
     "styles:codegen": "tsx src/shell/scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
-    "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts"
+    "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts",
+    "origami": "tsx src/origami/scripts/fold-model.ts"
   },
   "dependencies": {
     "@faker-js/faker": "10.6.0",
@@ -93,6 +94,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "0.187.0",
     "@types/unist": "^3.0.3",
     "@typescript-eslint/parser": "^8.69.0",
     "@webgpu/types": "^0.1.74",
@@ -114,6 +116,7 @@
     "steiger": "^0.6.0",
     "stylelint": "^17.14.1",
     "stylelint-config-standard-scss": "^17.0.0",
+    "three": "0.187.0",
     "tsx": "^4.21.0",
     "typescript": "^5"
   }

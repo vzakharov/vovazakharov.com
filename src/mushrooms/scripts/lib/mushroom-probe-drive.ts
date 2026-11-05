@@ -13,6 +13,8 @@ import {
   SunAt,
 } from './mushroom-probe-answers.ts';
 
+import type { Evaluating } from '@/scene/scripts/lib/cdp';
+
 /** The arrow keys, by their DOM `key`, and the key code each goes down with. */
 const ARROWS = {
   ArrowLeft: 37,
@@ -59,11 +61,7 @@ export const FPS = 60;
 export const FRAME_MS = 1000 / FPS;
 
 /** The page `play-mushrooms.ts` drives, a frame and a tap at a time. */
-export type Page = {
-  evaluate: <Parsed>(
-    expression: string,
-    schema: z.ZodType<Parsed>,
-  ) => Promise<Parsed>;
+export type Page = Evaluating & {
   /**
    * The page loaded again, in the same browser context and so with its
    * storage — reloaded, or opened at `/mushrooms` plus `hash` (`#new`) — and
