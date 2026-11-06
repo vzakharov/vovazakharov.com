@@ -254,6 +254,12 @@ tardigrade waits, and the work is a generator.
   тебе покажется "хмм, это на что-то похоже", а дальше уже будет проще». So:
   fold by hand, one step at a time, render after each, follow what looks
   interesting rather than a target.
+- Second run (200, `SYM=1`): 72 clean, none worth keeping either — nearly all
+  the folded-in-half triangle with its spine half open and one or two folds on
+  top (6–8 pieces). Random lines through landmarks mostly land on edges the
+  shape already has, so the folds add no detail: random search does not make
+  shapes complex enough to look like anything. **Next: the operator's fallback
+  below.**
 - The operator sees the images the agent `Read`s in the session's feed, but a
   24-up sheet (1800×8400) shrinks there to an unreadable strip: keep a sheet to
   8 frames (`sheet.ts` limit 8, `OFF` to page).
