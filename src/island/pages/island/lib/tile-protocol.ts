@@ -2,6 +2,7 @@ import {
   type CoastField,
   tileBuffers,
   type TileKey,
+  type TileKeyed,
   type TileMesh,
 } from '@/island/entities/terrain';
 
@@ -16,8 +17,7 @@ export type Land = TileMesh & { readonly colours: Float32Array<ArrayBuffer> };
  * the same lattice. A tile wholly under the sea has no land, since the sea
  * hides it; one wholly above it has no sea.
  */
-export type FilledTile = {
-  readonly key: TileKey;
+export type FilledTile = TileKeyed & {
   readonly land: Land | null;
   readonly sea: TileMesh | null;
   /** The worker's time filling it, ms. */

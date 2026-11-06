@@ -11,6 +11,8 @@ import {
   WebGPURenderer,
 } from 'three/webgpu';
 
+import type { CanDispose } from '@/kernel/shared/typings';
+
 import { CENTRE, EAST, NORTH, R, type Vec3 } from '@/island/shared/globe';
 import {
   type CoastField,
@@ -38,7 +40,7 @@ import { SEED } from '../lib/tile-protocol';
 import { coverOf } from '../model/tile-cover';
 import { tileMeshes } from './tile-meshes';
 
-export type IslandScene = {
+export type IslandScene = CanDispose & {
   /** Resolves once the first frame is drawn. */
   readonly ready: Promise<void>;
   /** Steps the eye `dt` seconds by the player's input (none under play) and draws. */
@@ -47,7 +49,6 @@ export type IslandScene = {
   readonly setHeight: (m: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
   readonly backend: () => string;
-  readonly dispose: () => void;
 };
 
 /** Closest the camera sees: the eye is never under two metres up. */

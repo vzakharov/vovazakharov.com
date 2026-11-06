@@ -3,7 +3,8 @@
  * for the scene, then puts the eye at each of five heights — orbit, 1,000 km,
  * 10 km, 100 m, 2 m — steps a few frames on the page's seeded clock and shoots
  * `<screen>-<height>.png`. It fails on any page error or console error, and
- * prints per screen the median frame time beside the machine's load average,
+ * prints per screen the renderer's backend and the median frame time beside
+ * the machine's load average,
  * which is what a slow median has to be read against.
  *
  *   pnpm play:island                       # build the vova export, then play it
@@ -194,7 +195,9 @@ async function open(
   return tab;
 }
 
-async function play(tab: Tab, screen: Screen): Promise<number[]> {
+type Played = { readonly frames: number[]; readonly backend: string };
+
+async function play(tab: Tab, screen: Screen): Promise<Played> {
   await until(
     tab,
     `typeof ${hook}?.ready === 'function'`,
@@ -227,7 +230,10 @@ async function play(tab: Tab, screen: Screen): Promise<number[]> {
     await shootAt(rest);
   };
   await shootAt(HEIGHTS);
-  return tab.evaluate(call('frameMs'), z.array(z.number()));
+  return {
+    frames: await tab.evaluate(call('frameMs'), z.array(z.number())),
+    backend: await tab.evaluate(call('backend'), z.string()),
+  };
 }
 
 async function main(): Promise<void> {
@@ -250,13 +256,13 @@ async function main(): Promise<void> {
     if (screen === undefined) return;
     const tab = await open(browser, origin, screen, errors);
     try {
-      const frames = await play(tab, screen);
+      const { frames, backend } = await play(tab, screen);
       const load = os
         .loadavg()
         .map((average) => average.toFixed(2))
         .join(' / ');
       process.stdout.write(
-        `${screen.name}: frame median ${median(frames).toFixed(1)} ms over ${String(frames.length)} frames, load average ${load} on ${String(os.cpus().length)} cores\n`,
+        `${screen.name}: ${backend}, frame median ${median(frames).toFixed(1)} ms over ${String(frames.length)} frames, load average ${load} on ${String(os.cpus().length)} cores\n`,
       );
       if (frames.length === 0)
         failures.push(`${screen.name}: frameMs() timed no frame`);
