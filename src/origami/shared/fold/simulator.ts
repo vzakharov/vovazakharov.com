@@ -125,8 +125,8 @@ export function simulator(
 
   // The stiffest any vertex is held bounds the step: Gershgorin over the bars,
   // the hinges and a contact on each side. Each vertex weighs what holds it, so
-  // every one rings at the same top frequency and the step no longer waits on
-  // the stiffest corner.
+  // every one rings at the same top frequency, rather than the stiffest corner
+  // setting one small step for all.
   const mass = new Float64Array(n).fill(
     (CONTACT_LOAD * CONTACT * contactMass) / edge,
   );

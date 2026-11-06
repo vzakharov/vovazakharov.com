@@ -15,7 +15,7 @@ contact and friction settle. What the code alone does not tell:
   valley's to the top; only a tuck (`direction: 'tuck'`, `into`) lands between
   layers. A valley or mountain whose flap would pass layers covering its crease
   is impossible paper, and `relaxSequence` jams on it — fold it as a tuck. Only
-  `tuck()` checks for those layers today.
+  `tuck()` checks for those layers.
 - **A coarser mesh breaks a tuck**: at every edge ≥ 0.05 the flap passes its
   lid, so the ring tests run at the default 1/25 (~30 s, split across two files
   to run in parallel).

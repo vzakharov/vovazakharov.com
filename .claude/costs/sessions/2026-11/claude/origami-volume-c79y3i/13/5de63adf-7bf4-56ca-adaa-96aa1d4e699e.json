@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 73,
+    "cacheWrite5mTokens": 122566,
+    "cacheWrite1hTokens": 67683,
+    "cacheReadTokens": 3617924,
+    "outputTokens": 12263,
+    "thinkingTokens": 4847,
+    "responses": 35,
+    "costUsd": 2.1234308000000004
+  },
+  "estimate": {
+    "at": "2026-11-06T21:41:55.064Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "finishing the prose and five-percent passes over a 3,000-line engine diff, vetting it and composing its squash record is a senior's review of numerical code"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T21:41:53.203Z",
+    "contextTokens": 112347,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48689,
+      "cacheReadTokens": 670081,
+      "outputTokens": 1784,
+      "thinkingTokens": 596,
+      "responses": 7,
+      "costUsd": 0.5592722000000001
+    }
+  },
+  "sessionId": "5de63adf-7bf4-56ca-adaa-96aa1d4e699e",
+  "branch": "claude/origami-volume-c79y3i",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-volume-c79y3i — рендерер, issue #257 и удаление тихоходки сделаны, линтер и типы чистые; финализация остановилась на полировке",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkE7XTKqJYLkeeA9BnS",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T21:41:27.407Z",
+  "lastResponseAt": "2026-11-06T21:45:48.704Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 27,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 67683,
+    "cacheReadTokens": 1377396,
+    "outputTokens": 4797,
+    "thinkingTokens": 1713,
+    "responses": 13,
+    "costUsd": 0.9129912000000001
+  },
+  "subagents": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 122566,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2240528,
+    "outputTokens": 7466,
+    "thinkingTokens": 3134,
+    "responses": 22,
+    "costUsd": 1.2104396
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 73,
+      "cacheWrite5mTokens": 122566,
+      "cacheWrite1hTokens": 67683,
+      "cacheReadTokens": 3617924,
+      "outputTokens": 12263,
+      "thinkingTokens": 4847,
+      "responses": 35,
+      "costUsd": 2.1234308000000004
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 34,
+    "matched": 34,
+    "matchedTableUsd": 2.0891392000000004,
+    "matchedEventUsd": 2.0891392000000004,
+    "unseen": {}
+  }
+}
