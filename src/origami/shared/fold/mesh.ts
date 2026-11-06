@@ -49,7 +49,7 @@ const INSIDE = 1e-5;
  * edge rests at, valley positive as seen from the paper's front; `pressed` is
  * its angle in the pressed state.
  */
-export type MeshHinge = Wings & {
+type MeshHinge = Wings & {
   readonly crease: boolean;
   readonly angle: number;
   readonly pressed: number;
@@ -59,7 +59,7 @@ export type MeshHinge = Wings & {
 
 /** Where a piece lies in the flat stack: its order, and its plane — the
  * pieces sharing one shaping, the only ones the order ranks against it. */
-export type Stacked = { readonly order: number; readonly plane: number };
+type Stacked = { readonly order: number; readonly plane: number };
 
 /** Where each vertex lies in paper, and the hinges between its triangles. */
 export type Creased = {

@@ -10,9 +10,8 @@ import { handGuide } from './hand.ts';
 import { type FlatStack, type Mesh, mesh as meshOf } from './mesh.ts';
 import type { Paper } from './paper.ts';
 import { poseOf } from './pose.ts';
-import type { Relaxation } from './relax.ts';
-import { type Phase, simulator } from './simulator.ts';
-import { vertexAt } from './space.ts';
+import { type Iterated, type Phase, simulator } from './simulator.ts';
+import { type Vec3, vertexAt } from './space.ts';
 import { isReverse, type Piece } from './state.ts';
 
 /** Friction between layers once the steps are folded; each step and tuck
@@ -47,7 +46,14 @@ const NESTED = 4;
  * open`, `step 3 seat`, `let go`. */
 type NamedPhase = Phase & { readonly stage: string };
 
-export type SequenceRelaxation = Relaxation & {
+export type SequenceRelaxation = Iterated & {
+  /** Every mesh vertex in space, settled. */
+  readonly positions: readonly Vec3[];
+  /** The most any edge stretched or shrank, as a share of its paper length. */
+  readonly strain: number;
+  /** Mesh edges left passing through paper they are not joined to, by more
+   * than half its thickness. */
+  readonly crossings: number;
   /** The finished model's mesh, whose vertices `positions` places. */
   readonly mesh: Mesh;
   readonly phases: readonly NamedPhase[];

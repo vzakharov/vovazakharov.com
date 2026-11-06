@@ -19,9 +19,6 @@ contact and friction settle. What the code alone does not tell:
 - **A coarser mesh breaks a tuck**: at every edge ≥ 0.05 the flap passes its
   lid, so the ring tests run at the default 1/25 (~30 s, split across two files
   to run in parallel).
-- **`relax()` is one phase of `simulator.ts`, and its output is pinned
-  byte-for-byte**: `Math.sqrt` of a sum of squares stays (not `Math.hypot`,
-  which rounds differently).
 - **Crossings ignore edges within 4 gaps of a triangle on the same crease line**
   — nested creases a one-edge wedge cannot resolve. The tucked ring's one
   crossing and ~5% worst strain sit at such a nested corner.

@@ -46,7 +46,6 @@ Unchanged from relay-4: an original origami tardigrade from a classic base, «о
 
 Resume the paused plan (`/go` Step 1's `*.paused.md` case), in line with «дерзай, выбор схемы за тобой … объёмное, замкнутое, с ножками, в идеале и с намёком на морду тихоходки»: `## Left` item 1 first — make the base settle near-isometric from the blintz pose — then legs and snout, showing the operator renders as the stages land.
 
-
 ## Last agent turn
 
 The agent's last turn before the relay, verbatim, appended by
