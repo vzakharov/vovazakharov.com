@@ -21,9 +21,6 @@ export type CoastField = CoastGrid & {
   distance: Float32Array;
 };
 
-/** Node spacing when the caller names none. */
-export const DEFAULT_CELL_METRES = 2000;
-
 const MARGIN_METRES = 100_000;
 
 /** An index past the end reads as NaN, which poisons the result visibly. */
@@ -204,11 +201,12 @@ function nearestDistances(s: Float64Array, grid: CoastGrid): Float32Array {
 /**
  * The coast's signed-distance field, built once per coast. The grid covers
  * every ring's bounding box plus 100 km of sea on each side; beyond it
- * `sampleCoastField` extrapolates.
+ * `sampleCoastField` extrapolates. Its cell defaults to half a pixel of the
+ * drawing the coast was traced from, which holds all the detail there is.
  */
 export function buildCoastField(
   coast: Coast,
-  cellMetres = DEFAULT_CELL_METRES,
+  cellMetres = coast.kmPerPixel * 500,
 ): CoastField {
   const s = segmentsOf(coast);
   if (s.length < 12) throw new Error('buildCoastField: the coast has no ring');
