@@ -186,6 +186,10 @@ the ridge's ends — one of those is the natural snout, the other the rear. So t
 count is already 4 + 2 legs and a snout and tail; what is left is proportion:
 corners too wide and flat to read as legs.
 
+**ψ = 75° reads better and settles cleaner** (`prototype/tips-psi75.png`):
+taller body, the corners hang lower, 0 crossings, strain 0.99% — `## Left` item
+1's bar met. Use it as the default until the legs are shaped.
+
 **Dead end: kite-narrowing the corners in the pose.** A fold line through a
 blintz-square corner crosses the whole square, so the triangle it moves reaches
 the next corner and swallows it (the second corner's fold then finds no paper:
