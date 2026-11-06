@@ -15,7 +15,8 @@ const DAY_FROM = 100_000;
  */
 export function skyColour(height: number): number {
   const share =
-    Math.log(SPACE_FROM / Math.max(1, height)) / Math.log(SPACE_FROM / DAY_FROM);
+    Math.log(SPACE_FROM / Math.max(1, height)) /
+    Math.log(SPACE_FROM / DAY_FROM);
   const t = Math.min(1, Math.max(0, share));
   let colour = 0;
   for (const shift of [16, 8, 0]) {

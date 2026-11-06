@@ -91,7 +91,10 @@ const ROOTS: TileKey[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
   y: Math.floor(i / 2 ** MIN_LEVEL),
 }));
 
-type MountIslandSceneParams = { play: boolean; onError: (error: Error) => void };
+type MountIslandSceneParams = {
+  play: boolean;
+  onError: (error: Error) => void;
+};
 
 /**
  * The island's scene on `canvas`: three's WebGPU renderer, which falls back
@@ -127,6 +130,8 @@ export function mountIslandScene(
 
   let eye: Eye | null = null;
   let groundAt = SEA_LEVEL;
+  /** The coast the selection refines along, once the field arrives. */
+  let coast: CoastField | undefined;
   let selection: { at: Vec3; scale: number; keys: TileKey[] } | null = null;
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
     [];
@@ -163,7 +168,7 @@ export function mountIslandScene(
     ) {
       return selection.keys;
     }
-    const keys = selectTiles(at);
+    const keys = selectTiles(at, { coast });
     selection = { at, scale: eye.height, keys };
     // The selection repeats roots when it reaches up to them.
     const wanted = new Map(
@@ -226,6 +231,7 @@ export function mountIslandScene(
     const [{ field }] = await Promise.all([pool.field, renderer.init()]);
     if (!live()) return;
     groundAt = groundOf(field);
+    coast = field;
     eye = eyeAt({ x: 0, y: 0, height: MAX_HEIGHT }, groundAt);
     resize();
     render();

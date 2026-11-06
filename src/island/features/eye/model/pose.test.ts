@@ -23,7 +23,10 @@ const OFFSHORE = { x: 1_200_000, y: -800_000 };
 const PLACES = [{ x: 0, y: 0 }, OFFSHORE, { x: -3_000_000, y: 2_500_000 }];
 
 const atHeight = (height: number, place = OFFSHORE, heading = 0.7) =>
-  poseOf(eyeAt({ ...place, height, heading }, () => 250), LANDSCAPE);
+  poseOf(
+    eyeAt({ ...place, height, heading }, () => 250),
+    LANDSCAPE,
+  );
 
 describe('poseOf', () => {
   it('stands at the plane point, its height over its floor', () => {

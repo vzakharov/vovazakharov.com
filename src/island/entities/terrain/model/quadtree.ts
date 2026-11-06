@@ -5,6 +5,7 @@ import {
   worldToPlane,
 } from '@/island/shared/globe';
 
+import { type CoastField, sampleCoastField } from './coast-field';
 import { MAX_LEVEL, tileId, type TileKey, tileRect, tileSide } from './tile';
 
 export type SelectOptions = {
@@ -17,6 +18,13 @@ export type SelectOptions = {
    * eye, so it keeps roughly the same angular size at every height.
    */
   readonly splitRatio?: number;
+  /**
+   * The coast, when the selection should follow it: a tile whose centre is
+   * nearer the coast than its side splits `COAST_FINER` levels finer than elsewhere,
+   * since the sea's flat surface meets the land there along the land grid's
+   * cells and shows their size as steps.
+   */
+  readonly coast?: CoastField;
   /** Bounds on the terrain's height, metres, for distance and horizon. */
   readonly lowest?: number;
   readonly highest?: number;
@@ -25,6 +33,8 @@ export type SelectOptions = {
 /** 64 tiles at most, 64 km cells, so the coast reads from orbit. */
 export const MIN_LEVEL = 3;
 export const SPLIT_RATIO = 1;
+/** Levels finer than elsewhere a tile astride the coast splits to. */
+const COAST_FINER = 2;
 const LOWEST = -8000;
 const HIGHEST = 7000;
 
@@ -90,9 +100,27 @@ export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
     return Math.hypot(eye[0] - p[0], eye[1] - p[1], eye[2] - p[2]);
   };
 
-  const splits = (key: TileKey) =>
-    key.level < minLevel ||
-    (key.level < maxLevel && tileSide(key.level) > splitRatio * distance(key));
+  const { coast } = options;
+  const astride = (key: TileKey) => {
+    if (coast === undefined) return false;
+    const { west, south, east, north } = tileRect(key);
+    const reach = sampleCoastField(
+      coast,
+      (west + east) / 2,
+      (south + north) / 2,
+    );
+    return Math.abs(reach) < tileSide(key.level);
+  };
+
+  const splits = (key: TileKey) => {
+    if (key.level < minLevel) return true;
+    if (key.level >= maxLevel) return false;
+    const ratio = tileSide(key.level) / distance(key);
+    return (
+      ratio > splitRatio ||
+      (ratio > splitRatio / 2 ** COAST_FINER && astride(key))
+    );
+  };
 
   const leaves = new Map<string, TileKey>();
   const descend = (key: TileKey) => {

@@ -1,10 +1,23 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { planeToWorld } from '@/island/shared/globe';
+import { type Coast, planeToWorld } from '@/island/shared/globe';
 
+import { buildCoastField } from './coast-field';
 import { selectTiles } from './quadtree';
 import { MAX_LEVEL, tileId, type TileKey, tileRect } from './tile';
+
+/** A disc of radius 1 000 km around the centre, in plane metres. */
+const DISC_RADIUS = 1_000_000;
+const DISC: Coast = {
+  kmPerPixel: 4,
+  rings: [
+    Array.from({ length: 720 }, (_, k): [number, number] => {
+      const angle = (2 * Math.PI * k) / 720;
+      return [1000 * Math.cos(angle), 1000 * Math.sin(angle)];
+    }),
+  ],
+};
 
 /** Each tile and every same-level edge neighbour's covering tile. */
 function assertBalanced(tiles: TileKey[]) {
@@ -110,6 +123,42 @@ describe('selectTiles', () => {
       const a = tiles[i - 1];
       if (a) assert.ok((a.level - b.level || a.y - b.y || a.x - b.x) < 0);
     }
+  });
+
+  it('splits finer astride a coast, and not inland', () => {
+    const coast = buildCoastField(DISC);
+    const eye = planeToWorld(0, 0, 1_000_000);
+    const plain = selectTiles(eye);
+    const tiles = selectTiles(eye, { coast });
+    assert.ok(tiles.length <= 500, `${tiles.length}`);
+    assertBalanced(tiles);
+    assertDisjoint(tiles);
+    const shore = (key: TileKey) => {
+      const { west, south, east, north } = tileRect(key);
+      const corners = [
+        [west, south],
+        [east, south],
+        [west, north],
+        [east, north],
+      ] as const;
+      const radii = corners.map(([x, y]) => Math.hypot(x, y));
+      return (
+        Math.min(...radii) < DISC_RADIUS && Math.max(...radii) > DISC_RADIUS
+      );
+    };
+    const levels = (keys: TileKey[]) =>
+      keys.filter((key) => shore(key)).map((key) => key.level);
+    assert.ok(Math.min(...levels(tiles)) > Math.min(...levels(plain)));
+    assert.ok(Math.max(...levels(tiles)) > Math.max(...levels(plain)));
+    const inland = (keys: TileKey[]) =>
+      keys.filter((key) => {
+        const { west, east, south, north } = tileRect(key);
+        return (
+          Math.max(Math.abs(west), Math.abs(east)) < DISC_RADIUS / 3 &&
+          Math.max(Math.abs(south), Math.abs(north)) < DISC_RADIUS / 3
+        );
+      });
+    assert.deepEqual(inland(tiles), inland(plain));
   });
 
   it('draws nothing from the far side of the planet', () => {
