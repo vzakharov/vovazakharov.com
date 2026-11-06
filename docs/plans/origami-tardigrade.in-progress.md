@@ -435,6 +435,18 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
 - Friction makes the relax path-dependent: the result depends on the order of
   folding, tucking and letting go, so a model is relaxed step by step along its
   sequence rather than once from a final pose.
+- **Edge contact clears the edge crossings** (`lock-contact.ts`,
+  `EDGE_POINTS=3 EDGE_SET=outline`): quarter points on outline edges, pushed off
+  triangles like vertices, their force shared to the edge's ends. Real crossings
+  30 → 1 (a 4.2-gap nested graze just past the cut), 21 nested-crease contacts
+  counted apart (`NESTED=4` gaps, same paper line); still closed (0.196), the
+  plain control still open (0.888). Edge points on creases too reach 0 real but
+  double the nested ones and never settle. Strain 4.84% (3.52% at `FACET` 0.35)
+  sits on the pocket's free end where its crease pins it while the tucked flap
+  wedges the pocket open. Porting: ~85 lines of edge contact and ~50 of nested
+  check, a module of its own beside `contact.ts`; tests listed in the
+  prototype's report (edge-point weights, a segment passing between a triangle's
+  vertices, collinear crease keys, 3 vs 5 gaps).
 
 ## Left
 
@@ -446,6 +458,9 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
    branch's first ask — with its look left to the folds: frill, jaws, mandibles,
    whatever reads. The engine work (per-crease holds, items 3–4) waits until a
    head is found, since what it needs depends on which folds the head uses.
+   Since the operator's locks remark, the head is folded with the lock prototype
+   (`tmp/tg/lock/`), and tuck + friction + edge contact join that engine work
+   once a head shows which of them it needs.
 
 1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0
    crossings; but see relay 7, ψ = 45° is the volume.
