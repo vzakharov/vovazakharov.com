@@ -254,8 +254,9 @@ tardigrade waits, and the work is a generator.
   тебе покажется "хмм, это на что-то похоже", а дальше уже будет проще». So:
   fold by hand, one step at a time, render after each, follow what looks
   interesting rather than a target.
-- The operator sees only what is sent with `SendUserFile`: an image the agent
-  `Read`s never reaches the session's feed.
+- The operator usually sees the images the agent `Read`s in the session's feed,
+  but not the 24-up sheet (1800×8400): keep a sheet to 8 frames (`sheet.ts`
+  limit 8, `OFF` to page), and send it with `SendUserFile` too.
 - An idea kept for the tardigrade: a waterbomb tessellation strip curls into a
   segmented barrel with points along its edges — segments and legs from one
   pattern. Needs a mesh built from a crease pattern rather than from fold steps.
