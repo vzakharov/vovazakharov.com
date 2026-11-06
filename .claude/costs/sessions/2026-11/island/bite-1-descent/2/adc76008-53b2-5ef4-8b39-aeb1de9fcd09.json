@@ -1,0 +1,131 @@
+{
+  "total": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 203919,
+    "cacheWrite1hTokens": 92246,
+    "cacheReadTokens": 5722388,
+    "outputTokens": 27279,
+    "thinkingTokens": 7315,
+    "responses": 59,
+    "costUsd": 3.4481246000000016
+  },
+  "estimate": {
+    "at": "2026-11-06T20:18:01.091Z",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "slope light, the tile-level seams and view culling are rendering work"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "inland ground kept above sea level is a terrain-shape call"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "moving the play script's shared helpers into scene's lib is routine"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "briefing the last round and the tail"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "the final ten frames against the drawing"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-06T20:20:21.346Z",
+    "contextTokens": 149046,
+    "spend": {
+      "inputTokens": 106,
+      "cacheWrite5mTokens": 196524,
+      "cacheWrite1hTokens": 90454,
+      "cacheReadTokens": 4538434,
+      "outputTokens": 22567,
+      "thinkingTokens": 6582,
+      "responses": 50,
+      "costUsd": 3.0657028000000013
+    }
+  },
+  "sessionId": "adc76008-53b2-5ef4-8b39-aeb1de9fcd09",
+  "branch": "island/bite-1-descent",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/bite-1-descent — остров рисуется от орбиты до двух метров, осталось освещение склонов, мелкие дефекты кадров и хвост с PR",
+  "prs": [
+    256
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDjdL2UcHBHn3eyXfZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T20:17:24.258Z",
+  "lastResponseAt": "2026-11-06T20:20:48.561Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 92246,
+    "cacheReadTokens": 2895285,
+    "outputTokens": 11571,
+    "thinkingTokens": 2604,
+    "responses": 23,
+    "costUsd": 1.5486370000000005
+  },
+  "subagents": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 203919,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2827103,
+    "outputTokens": 15708,
+    "thinkingTokens": 4711,
+    "responses": 36,
+    "costUsd": 1.8994876
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 126,
+      "cacheWrite5mTokens": 203919,
+      "cacheWrite1hTokens": 92246,
+      "cacheReadTokens": 5722388,
+      "outputTokens": 27279,
+      "thinkingTokens": 7315,
+      "responses": 59,
+      "costUsd": 3.4481246000000016
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 59,
+    "matched": 59,
+    "matchedTableUsd": 3.4481246000000016,
+    "matchedEventUsd": 3.4481246000000008,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 1903,
+    ".py": 894,
+    ".webp": 0,
+    ".json": 1424,
+    ".png": 0,
+    ".ts": 6716,
+    ".css": 412,
+    ".sh": 1,
+    ".tsx": 50,
+    ".scss": 18
+  }
+}
