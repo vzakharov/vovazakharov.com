@@ -77,6 +77,23 @@ is in git
   contract `docs/plans/world-game-zoltan-syama/bite-1.md`, built by its member
   on `island/bite-1-descent` (PR #256, based on this branch).
 
+## Waiting on the operator
+
+Bite 0 is done and polished (floor 89eefbc2); the pause is for the operator's
+review. Open:
+
+- `/five-percent`'s two alternatives on #255
+  (https://github.com/vzakharov/vovazakharov.com/pull/255#pullrequestreview-5805174087):
+  the board and the map live under `docs/plans/`, which `/finalize` sweeps
+  (optional); the case study's three misstatements about what is counted
+  (critical).
+- The branch's line count is written twice, `scripts/contribution/lines.ts` and
+  `.claude/costs/lib/branch_lines.py`; the lead recommends the TS calling the
+  Python.
+- Merge 686f51740 brought bite 1's own files early (a polling fetch's
+  `FETCH_HEAD`, fixed in 17337b17); left in place, since they arrive at the
+  bite's merge anyway.
+
 ## Open bites
 
 - **Bite 1** — member session
