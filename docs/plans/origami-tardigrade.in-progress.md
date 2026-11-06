@@ -141,11 +141,34 @@ steps on 803 vertices.
   paper bends instead of creasing; or the holds landed on the wrong family
   (check which record `holdAt` picks for the `y = x` halves).
 
+## The base settles: start it folded, not flat (relay 6)
+
+Why relaxing from the flat pose failed: from flat, the degree-6 vertex sits on a
+bifurcation, and the solver took the **trivial branch** on one half — the small
+45° sectors stay in the big faces' planes, only the midline folds, the diagonals
+stay at 0 (measured: `x = 0.5` above centre and `y = 0.5` right of it ended at
+~0° against a −119° target, the opposite half at ~−107°). A stiffer `FACET` (30)
+only made it settle there faster (strain 10%). `angles.ts` also had a bug: it
+put the midline ray in the plane `y = 0` instead of the mirror plane between the
+big faces, so its "consistent" angles were not.
+
+What works (`fromVertex` / `waterbombVertex` in `prototype/dome.ts.txt`, env
+`PSI=<deg> TENT=±1`): fold the vertex **rigidly in closed form** — big faces
+tilted by ψ about the midline, each tucked sector carried by the rigid map
+taking its two rays to theirs, the midline ray at `s = −2·atan(sin ψ)` in the
+mirror plane — place every pose point (flaps with their layer offset along the
+sector's normal), and make each base crease rest at the angle it starts at. At ψ
+= 60°, `FACET = 30`: 0 crossings (201 at start, from the flaps' offsets, all
+resolved), strain 1.2%, every crease within ~1° of its target (midline 120°,
+diagonals 135°). `TENT=1` is the classic waterbomb tent, faces flat
+(`prototype/vertex-psi60.png`); `TENT=-1` the same vertex turned inside out.
+Neither shows the blintz flaps (green) from outside yet — check which side they
+land on before building legs on them.
+
 ## Left
 
-1. Make the base settle near-isometric from the blintz pose: try a stiffer
-   `FACET` (Origami Simulator's ratio keeps facets well above creases) and
-   verify the hold families; done when strain is under ~1% and crossings 0.
+1. ~~Make the base settle near-isometric~~ — done above, bar strain 1.2% vs the
+   ~1% aim (likely the flaps' layer offsets at the creases).
 2. Then the tardigrade on it: eight legs (the open question above) and a snout,
    by reverse folds before inflating; render each stage.
 3. Move `fromPose` and the per-triangle render into `src/` (a `--relax` path in
