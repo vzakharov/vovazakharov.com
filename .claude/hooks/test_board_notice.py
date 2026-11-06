@@ -76,14 +76,24 @@ class BoardNotice(unittest.TestCase):
         lines = [use("ArtifactComments", action="watch", url=URL), use("Artifact", url=URL, file_path="x.html")]
         self.assertEqual(self.run_hook(lines), "")
 
-    def test_a_stopped_watch_is_owed_again(self) -> None:
+    def test_silent_after_handing_the_board_on(self) -> None:
         self.plan(f"**The plan is the board**: {URL}\n")
         lines = [
             use("ArtifactComments", action="watch", url=URL),
             use("Artifact", action="open", url=URL),
             use("ArtifactComments", action="watch", url=URL, on=False),
         ]
-        self.assertIn("`watch`", self.run_hook(lines))
+        self.assertEqual(self.run_hook(lines), "")
+
+    def test_a_rewatch_after_a_stop_counts(self) -> None:
+        self.plan(f"**The plan is the board**: {URL}\n")
+        lines = [
+            use("ArtifactComments", action="watch", url=URL, on=False),
+            use("ArtifactComments", action="watch", url=URL),
+        ]
+        text = json.loads(self.run_hook(lines))["hookSpecificOutput"]["additionalContext"]
+        self.assertNotIn("`watch`", text)
+        self.assertIn("`open`", text)
 
 
 if __name__ == "__main__":

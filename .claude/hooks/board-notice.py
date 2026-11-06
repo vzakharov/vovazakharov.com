@@ -64,10 +64,13 @@ def tool_uses(lines: Iterable[str]) -> Iterable[dict]:
                     yield block
 
 
-def done(lines: Iterable[str]) -> tuple[Set[str], Set[str]]:
+def done(lines: Iterable[str]) -> tuple[Set[str], Set[str], Set[str]]:
     """The artifact ids this transcript watches, as of its last watch call for
-    each, and the ids it has opened or published to."""
+    each; the ids whose last watch call stopped it — the session handed the
+    plan on, so it owes that board nothing more; and the ids it has opened or
+    published to."""
     watched: Set[str] = set()
+    released: Set[str] = set()
     opened: Set[str] = set()
     for use in tool_uses(lines):
         given = use.get("input") or {}
@@ -76,16 +79,20 @@ def done(lines: Iterable[str]) -> tuple[Set[str], Set[str]]:
             continue
         action = given.get("action", "publish")
         if use.get("name") == "ArtifactComments" and action == "watch":
-            (watched.discard if given.get("on") is False else watched.add)(ident)
+            stopped = given.get("on") is False
+            (released.add if stopped else released.discard)(ident)
+            (watched.discard if stopped else watched.add)(ident)
         elif use.get("name") == "Artifact" and action in ("open", "publish"):
             opened.add(ident)
-    return watched, opened
+    return watched, released, opened
 
 
-def notice(urls: List[str], watched: Set[str], opened: Set[str]) -> str:
+def notice(urls: List[str], watched: Set[str], released: Set[str], opened: Set[str]) -> str:
     owed = []
     for url in urls:
         ident = artifact_id(url)
+        if ident in released:
+            continue
         calls = []
         if ident not in watched:
             calls.append(f"`ArtifactComments` `watch` with url {url}")
@@ -122,11 +129,11 @@ def main() -> int:
         return 0
     try:
         with open(payload.get("transcript_path") or "", encoding="utf-8") as transcript:
-            watched, opened = done(transcript)
+            watched, released, opened = done(transcript)
     except OSError as error:
         say(f"cannot read the transcript ({error}); no board notice.")
         return 0
-    text = notice(urls, watched, opened)
+    text = notice(urls, watched, released, opened)
     if text:
         json.dump(
             {"hookSpecificOutput": {"hookEventName": payload["hook_event_name"], "additionalContext": text}},
