@@ -50,21 +50,28 @@ render before claiming anything.**
   renders a tent with a real triangular cross-section and a wide shadow —
   volume, nothing else yet.
 
+- `src/origami/entities/design/model/tardigrade.ts`, registered, with
+  `tardigrade.test.ts` (no physics error; as tall as a third of its width; legs
+  reach below the belly). The rule sharpened on the way: a flat crease may cross
+  the open spine only **perpendicular** to it — a tilted one moves the spine's
+  piece off the line the halves turn on. So every flat fold is parallel or
+  perpendicular to the spine, or stays inside one half.
+  - Belly: both long edges hemmed under (0.22).
+  - Head: each half's lower front corner folded under — a snout.
+  - Segments: three perpendicular pleats, depth 0.12, folded before opening.
+  - Body: the halves turned down 25° at the spine, then barrel creases at
+    0.07/0.14/0.19 (30°, 35°, 70°): the last curls the belly under.
+  - Legs: no mid-edge flap exists in a rigid fold, so each leg is a pleat's
+    folded corner (its tuck and the paper over it, at the belly edge), plus the
+    tail's corners. Turned **outward**, which on the curled belly is down. A leg
+    is at most half a pleat's depth wide. Turned inward, or on an uncurled
+    vertical side, a corner only rises — both tried and rendered.
+
 ## Left
 
-1. **Barrel body**: 3–4 parallel creases along the spine, each partly folded,
-   instead of one 90° ridge — parallel, so they never cross.
-2. **Segments**: flat pleats across the back (pairs of flat folds through all
-   layers), before the opening shaping folds.
-3. **Eight stubby legs**: flaps at the halves' lower edges, each folded within
-   its own half.
-4. **Head**: a flat flap at one end.
-5. Render after each of these and show the operator; tune by eye.
-6. Then the design as `src/origami/entities/design/model/tardigrade.ts` beside
-   the basilisk, registered in `designs.ts`, with a test like `basilisk.test.ts`
-   (physics report clean); `pnpm origami tardigrade` views; `/polish`, `/pr`
-   (#253's title and body still describe the basilisk and the solver — rewrite
-   them).
+1. Show the operator the render; tune by their eye (proportions, head).
+2. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
+   solver — rewrite them).
 
 ## DRY notes
 

@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 17,
+    "inputTokens": 80,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60989,
-    "cacheReadTokens": 774327,
-    "outputTokens": 1948,
-    "thinkingTokens": 299,
-    "responses": 8,
-    "costUsd": 0.6818053999999999
+    "cacheWrite1hTokens": 182911,
+    "cacheReadTokens": 7348197,
+    "outputTokens": 65612,
+    "thinkingTokens": 49121,
+    "responses": 41,
+    "costUsd": 4.245487400000001
   },
   "estimate": {
     "at": "2026-11-06T10:56:01.472Z",
@@ -28,41 +28,43 @@
     "comment": null
   },
   "orientation": {
-    "endedBy": null,
-    "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedBy": "Write",
+    "endedOn": "src/origami/entities/design/model/tardigrade.ts",
+    "endedAt": "2026-11-06T11:03:35.731Z",
+    "contextTokens": 182500,
     "spend": {
-      "inputTokens": 17,
+      "inputTokens": 27,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60989,
-      "cacheReadTokens": 774327,
-      "outputTokens": 1948,
-      "thinkingTokens": 299,
-      "responses": 8,
-      "costUsd": 0.6818053999999999
+      "cacheWrite1hTokens": 85584,
+      "cacheReadTokens": 1290201,
+      "outputTokens": 40819,
+      "thinkingTokens": 38275,
+      "responses": 12,
+      "costUsd": 1.7592001999999998
     }
   },
   "sessionId": "cd3bb4dd-1661-5298-be5f-e05d6ff2684b",
   "branch": "claude/origami-volume-c79y3i",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/origami-volume-c79y3i — Василиск отложен, выбран тихоход, есть пробная палатка с настоящим объёмом",
-  "prs": [],
+  "prs": [
+    253
+  ],
   "url": "https://claude.ai/code/session_01DaohkEdWFm6YVgbkA4fk2X",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T10:55:38.946Z",
-  "lastResponseAt": "2026-11-06T10:56:03.929Z",
+  "lastResponseAt": "2026-11-06T11:10:20.912Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 17,
+    "inputTokens": 80,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60989,
-    "cacheReadTokens": 774327,
-    "outputTokens": 1948,
-    "thinkingTokens": 299,
-    "responses": 8,
-    "costUsd": 0.6818053999999999
+    "cacheWrite1hTokens": 182911,
+    "cacheReadTokens": 7348197,
+    "outputTokens": 65612,
+    "thinkingTokens": 49121,
+    "responses": 41,
+    "costUsd": 4.245487400000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 17,
+      "inputTokens": 80,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60989,
-      "cacheReadTokens": 774327,
-      "outputTokens": 1948,
-      "thinkingTokens": 299,
-      "responses": 8,
-      "costUsd": 0.6818053999999999
+      "cacheWrite1hTokens": 182911,
+      "cacheReadTokens": 7348197,
+      "outputTokens": 65612,
+      "thinkingTokens": 49121,
+      "responses": 41,
+      "costUsd": 4.245487400000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 7,
-    "matched": 7,
-    "matchedTableUsd": 0.5659413999999999,
-    "matchedEventUsd": 0.5659413999999999,
+    "events": 40,
+    "matched": 40,
+    "matchedTableUsd": 4.160076200000001,
+    "matchedEventUsd": 4.160076200000001,
     "unseen": {}
   }
 }
