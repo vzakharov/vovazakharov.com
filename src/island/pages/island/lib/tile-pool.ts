@@ -1,3 +1,5 @@
+import type { CanDispose } from '@/kernel/shared/typings';
+
 import {
   type CoastField,
   tileId,
@@ -16,7 +18,7 @@ export const POOL_SIZE = 2;
 /** Fills a worker holds at once: enough to keep it busy, few enough that a newer, nearer tile is not stuck behind a backlog. */
 const IN_FLIGHT = 2;
 
-export type TilePool = {
+export type TilePool = CanDispose & {
   /** The field the first worker built, copied out, and its build time. */
   readonly field: Promise<Built>;
   /**
@@ -27,7 +29,6 @@ export type TilePool = {
   readonly want: (keys: readonly TileKey[], x: number, y: number) => void;
   /** Whether `id` is asked of a worker and not yet back. */
   readonly pending: (id: string) => boolean;
-  readonly dispose: () => void;
 };
 
 type Slot = { readonly worker: Worker; busy: number };

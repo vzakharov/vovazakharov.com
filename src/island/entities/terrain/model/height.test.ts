@@ -76,6 +76,39 @@ const SEED = 7;
 const atRadius = (r: number, angle: number) =>
   heightAt(discField, SEED, r * Math.cos(angle), r * Math.sin(angle));
 
+/** The standard deviation of height over a `span`-metre square at `(x, y)`. */
+function spread(x: number, y: number, span: number): number {
+  const heights: number[] = [];
+  for (let i = 0; i < 32; i += 1) {
+    for (let j = 0; j < 32; j += 1) {
+      heights.push(
+        heightAt(
+          discField,
+          SEED,
+          x + (i / 31 - 0.5) * span,
+          y + (j / 31 - 0.5) * span,
+        ),
+      );
+    }
+  }
+  const mean = heights.reduce((sum, h) => sum + h, 0) / heights.length;
+  const variance =
+    heights.reduce((sum, h) => sum + (h - mean) ** 2, 0) / heights.length;
+  return Math.sqrt(variance);
+}
+
+/** Window centres on the disc, all over 300 km inland. */
+const INLAND = [
+  [0, 0],
+  [250_000, -120_000],
+  [-300_000, 500_000],
+  [600_000, 300_000],
+] as const;
+
+/** How many `INLAND` windows `span` metres wide vary by over `metres`. */
+const hilly = (span: number, metres: number) =>
+  INLAND.filter(([x, y]) => spread(x, y, span) > metres).length;
+
 describe('heightAt', () => {
   it('is land inland and sea offshore', () => {
     for (let k = 0; k < 64; k += 1) {
@@ -134,9 +167,16 @@ describe('heightAt', () => {
       }
       span = Math.max(span, high - low);
     }
-    // The steepest octave slopes at well under 1 m per metre.
-    assert.ok(largest < 0.5, `largest step ${largest}`);
+    // Each fine octave slopes at ~0.1–0.3; their sum stays under one in one.
+    assert.ok(largest < 1, `largest step ${largest}`);
     assert.ok(span > 0.5, `relief over 2 km: ${span}`);
+  });
+
+  it('has hills at every scale inland: across 10 km, 200 m and 4 m', () => {
+    // A window can fall on a quiet patch; three of four may not.
+    assert.ok(hilly(10_000, 30) >= 3, '10 km windows under 30 m');
+    assert.ok(hilly(200, 3) >= 3, '200 m windows under 3 m');
+    assert.ok(hilly(4, 0.02) >= 3, '4 m windows under 2 cm');
   });
 
   it('stays in a plausible range: beaches low, interior up to ~2 km', () => {

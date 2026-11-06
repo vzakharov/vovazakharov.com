@@ -6,23 +6,30 @@ import {
   Mesh,
 } from 'three/webgpu';
 
+import type { CanDispose } from '@/kernel/shared/typings';
+
 import type { Vec3 } from '@/island/shared/globe';
-import { MIN_LEVEL, tileId, type TileKey, type TileMesh } from '@/island/entities/terrain';
+import {
+  MIN_LEVEL,
+  tileId,
+  type TileKey,
+  type TileKeyed,
+  type TileMesh,
+} from '@/island/entities/terrain';
 
 import type { FilledTile } from '../lib/tile-protocol';
 
 /** Tiles held before the least recently drawn are let go. */
 const CAPACITY = 900;
 
-type Held = {
-  readonly key: TileKey;
+type Held = TileKeyed & {
   readonly meshes: readonly Mesh[];
   /** World position of the tile's centre, float64. */
   readonly centre: Vec3;
   lastDrawn: number;
 };
 
-export type TileMeshes = {
+export type TileMeshes = CanDispose & {
   readonly has: (id: string) => boolean;
   readonly add: (tile: FilledTile) => void;
   /**
@@ -34,7 +41,6 @@ export type TileMeshes = {
   /** Lets the least recently drawn go past `CAPACITY`, never one in `keep` nor a root tile. */
   readonly evict: (keep: ReadonlySet<string>) => void;
   readonly size: () => number;
-  readonly dispose: () => void;
 };
 
 function geometryOf(

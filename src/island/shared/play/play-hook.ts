@@ -13,6 +13,8 @@ export type IslandPlayHook = {
   step: (ms: number) => void;
   /** The JS time of each frame `step` drew, in ms, oldest first. */
   frameMs: () => number[];
+  /** The renderer's backend, `'webgpu'` or `'webgl2'`, once `ready` resolves. */
+  backend: () => string;
 };
 
 /** The `window` property the hook sits on. */

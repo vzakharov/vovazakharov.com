@@ -17,6 +17,7 @@ export function installPlayHook(scene: IslandScene): () => void {
       times.push(performance.now() - start);
     },
     frameMs: () => [...times],
+    backend: () => scene.backend(),
   };
   Object.assign(globalThis, { [PLAY_HOOK]: hook });
   return () => {
