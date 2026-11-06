@@ -36,12 +36,16 @@ const PAGE_DIR = path.join(import.meta.dirname, 'page');
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@500;700&family=Shantell+Sans:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap';
 
-async function jsonFiles(dir: string): Promise<string[]> {
-  const names = await readdir(dir).catch((error: unknown) => {
+/** A directory's entries, none where it does not exist. */
+const entries = async (dir: string): Promise<string[]> =>
+  readdir(dir).catch((error: unknown) => {
     if (z.object({ code: z.literal('ENOENT') }).safeParse(error).success)
       return [];
     throw error;
   });
+
+async function jsonFiles(dir: string): Promise<string[]> {
+  const names = await entries(dir);
   return names.filter((name) => name.endsWith('.json')).toSorted();
 }
 
@@ -138,13 +142,7 @@ async function buildBoard(board: string, out: string): Promise<void> {
   await mkdir(path.join(out, 'images'), { recursive: true });
   await writeFile(path.join(out, 'index.html'), html);
   await writeFile(path.join(out, 'local.html'), wrapped(html));
-  const images = await readdir(path.join(board, 'images')).catch(
-    (error: unknown) => {
-      if (z.object({ code: z.literal('ENOENT') }).safeParse(error).success)
-        return [];
-      throw error;
-    },
-  );
+  const images = await entries(path.join(board, 'images'));
   await Promise.all(
     images.map(async (name) =>
       copyFile(
