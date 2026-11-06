@@ -21,25 +21,12 @@ import {
   useVerdicts,
   useWords,
   zoneOf,
-<<<<<<< HEAD
   ZoneRow,
 } from '@/unsquatted/entities/domain';
 import { FieldTools, TOOL_BUTTON } from '@/unsquatted/widgets/field-tools';
 
 import { useChecker } from '../../checker';
-=======
-} from '../../checker';
-import { FieldTools, TOOL_BUTTON } from '../../field-tools';
 import { IdeasLine, IdeasOffer, useIdeas } from '../../ideas';
-import { useVerdicts } from '../../verdict';
-import {
-  type CopiedPrice,
-  type CopiedVerdict,
-  OWN_DOMAIN,
-  UncheckedLabel,
-  VerdictLabel,
-} from '../../verdict-label';
->>>>>>> origin/main
 import { rollName } from '../lib/dice';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';

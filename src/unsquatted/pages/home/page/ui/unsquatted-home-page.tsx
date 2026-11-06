@@ -7,15 +7,11 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-<<<<<<< HEAD
-import { COPY, plainByline } from '@/unsquatted/shared/i18n';
+import { COPY, ledeParts, plainByline } from '@/unsquatted/shared/i18n';
 import { fetchPrices } from '@/unsquatted/entities/domain/index.node-safe';
 import { LikesProvider } from '@/unsquatted/features/like';
 
 import { CheckerProvider } from '../../checker';
-=======
-import { CheckerProvider, COPY, ledeParts, plainByline } from '../../checker';
->>>>>>> origin/main
 import { PickDeck } from '../../deck';
 import { linkedPicks, PICKS } from '../../picks/index.server-only';
 import { Shortlist } from '../../shortlist';

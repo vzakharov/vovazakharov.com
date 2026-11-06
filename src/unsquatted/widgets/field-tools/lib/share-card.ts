@@ -5,17 +5,12 @@
  * `data-unsquatted-palette`, and its faces are the ones the page has loaded.
  */
 
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/lib/share-card.ts
+import { pick } from '@/kernel/shared/lib/collections';
+
 import type { WithCopy } from '@/unsquatted/shared/i18n';
 import { priceParts } from '@/unsquatted/entities/domain';
 
-import type { CardRow } from './share';
-=======
-import { pick } from '@/kernel/shared/lib/collections';
-
-import { priceParts, type WithCopy } from '../../checker';
 import { type CardRow, offersNothing } from './share';
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/lib/share-card.ts
 
 export const CARD_WIDTH = 1200;
 export const CARD_HEIGHT = 630;

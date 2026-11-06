@@ -1,12 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/lib/share.test.ts
 import type { Verdict } from '@/unsquatted/entities/domain/index.node-safe';
 
-import { cardRows, domainLink } from './share';
-=======
-import type { Verdict } from '../../verdict';
 import {
   cardLead,
   cardRows,
@@ -15,7 +11,6 @@ import {
   fieldRow,
   offersNothing,
 } from './share';
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/lib/share.test.ts
 
 const PRICES = {
   com: { registration: 12, renewal: 12 },

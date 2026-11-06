@@ -1,1 +1,1 @@
-export { COPY, plainByline, type WithCopy } from './i18n';
+export { COPY, ledeParts, plainByline, type WithCopy } from './i18n';

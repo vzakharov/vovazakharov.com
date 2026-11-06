@@ -8,17 +8,17 @@ import { pick } from '@/kernel/shared/lib/collections';
 import {
   type CopiedPrices,
   labelOf,
-  registrable,
   useVerdicts,
   VerdictLabel,
   zoneOf,
 } from '@/unsquatted/entities/domain';
 import { LikeButton, LikesProvider } from '@/unsquatted/features/like';
 import {
+  cardLead,
   cardRows,
   cardText,
   shareCard,
-  ShareMenu,
+  SharePopover,
 } from '@/unsquatted/widgets/field-tools';
 
 import { checkerHref } from '../lib/checker-href';
@@ -55,7 +55,7 @@ function Card({
 }: WidgetCardProps) {
   const verdicts = useVerdicts(domains);
   const looking = verdicts.size < domains.length;
-  const shared = domains.find((domain) => registrable(verdicts.get(domain)));
+  const shared = cardLead(domains, domains, { verdicts });
 
   return (
     <figure id={anchor} className={classes['card']}>
@@ -88,8 +88,9 @@ function Card({
         <Link {...pick(more, 'href')} className={classes['more']}>
           {more.text}
         </Link>
-        <ShareMenu
+        <SharePopover
           typed={anchor}
+          label={cardName}
           labelled
           className={classes['share']}
           drawCard={
@@ -98,7 +99,9 @@ function Card({
               : async () =>
                   shareCard(
                     cardName,
+                    undefined,
                     cardRows({
+                      typed: undefined,
                       shared,
                       siblings: domains,
                       liked: undefined,

@@ -1,10 +1,6 @@
 'use client';
 
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/ui/field-tools.tsx
-import { ActionIcon, Loader, Menu, UnstyledButton } from '@mantine/core';
-=======
-import { ActionIcon, Button, Popover } from '@mantine/core';
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/ui/field-tools.tsx
+import { ActionIcon, Button, Popover, UnstyledButton } from '@mantine/core';
 import { ImageIcon, LinkIcon, Share2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -14,8 +10,11 @@ import type { Labeled, Typed, WithLink } from '@/kernel/shared/typings';
 
 import { useCopied } from '@/shell/shared/ui';
 
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/ui/field-tools.tsx
-import { plainByline, type WithCopy } from '@/unsquatted/shared/i18n';
+import {
+  ledeParts,
+  plainByline,
+  type WithCopy,
+} from '@/unsquatted/shared/i18n';
 import type { TypedName } from '@/unsquatted/entities/domain';
 import {
   LikeButton,
@@ -24,15 +23,6 @@ import {
   useLikes,
 } from '@/unsquatted/features/like';
 
-=======
-import {
-  ledeParts,
-  plainByline,
-  type TypedName,
-  type WithCopy,
-} from '../../checker';
-import { LikeButton, likeOf, preferredOf, useLikes } from '../../likes';
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/ui/field-tools.tsx
 import {
   cardLead,
   cardRows,
@@ -71,26 +61,18 @@ type Copy = WithCopy['copy'];
 type DrawCard = (() => Promise<File>) | undefined;
 
 /**
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/ui/field-tools.tsx
  * `typed` is the copied link's fragment: the name as the field holds it, or a
- * widget's anchor in a post. `size` is the icon button's, the field's by
- * default; `labelled` trades that button for the icon and the word.
- */
-type ShareMenuProps = Sharing &
-  Typed & {
-    drawCard: DrawCard;
-    size?: number;
-    className?: string;
-    labelled?: boolean;
-=======
- * `typed` is what the copied link opens on: the name as the field holds it;
- * `label` is the name the card is drawn for.
+ * widget's anchor in a post; `label` is the name the card is drawn for.
+ * `size` is the icon button's, the field's by default; `labelled` trades that
+ * button for the icon and the word.
  */
 type SharePopoverProps = Sharing &
   Typed &
   Labeled & {
     drawCard: DrawCard;
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/ui/field-tools.tsx
+    size?: number;
+    className?: string;
+    labelled?: boolean;
   };
 
 type LabelProps = { children: readonly string[]; showing: number };
@@ -140,10 +122,6 @@ function useDrawWhenLooked(looking: boolean, drawCard: DrawCard) {
   };
 }
 
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/ui/field-tools.tsx
-/** Copies a link to `typed` on this page, or the image card `drawCard` draws. */
-export function ShareMenu({
-=======
 /**
  * The popover's width, as wide as a phone leaves room for. A prop rather than
  * a class, since Mantine writes the dropdown's width inline — reading every
@@ -158,25 +136,20 @@ const SHARE_WIDTH = 'min(400px, calc(100vw - var(--mantine-spacing-xl)))';
  * hand it the link or the card rather than copying them — one item a share,
  * since iOS previews neither of two.
  */
-function SharePopover({
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/ui/field-tools.tsx
+export function SharePopover({
   typed,
   label,
   drawCard,
   onReached,
   looking,
   copy,
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/ui/field-tools.tsx
   size = 42,
   className = classes['tool'],
   labelled = false,
-}: ShareMenuProps) {
-=======
 }: SharePopoverProps) {
   const sheet = useShareSheet();
   // Read on use: the page is rendered at build time too, with no location.
   const href = () => domainLink(typed, new URL(globalThis.location.href));
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/ui/field-tools.tsx
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<CardState>('drawing');
   const openingRef = useRef(0);
@@ -206,6 +179,10 @@ function SharePopover({
       },
     );
   };
+  const toggle = () => {
+    if (opened) close();
+    else open();
+  };
   const share = (data: ShareData) => {
     navigator.share(data).then(close, (error: unknown) => {
       // Dismissing the sheet rejects the share too, and that is no failure.
@@ -221,42 +198,6 @@ function SharePopover({
   };
 
   return (
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/ui/field-tools.tsx
-    <>
-      <Menu
-        {...{ opened }}
-        onChange={setOpened}
-        position="bottom-end"
-        shadow="md"
-      >
-        <Menu.Target>
-          {labelled ? (
-            <UnstyledButton
-              {...{ className }}
-              onPointerEnter={onReached}
-              onFocus={onReached}
-            >
-              <Share2 size={14} aria-hidden />
-              {copy.share}
-            </UnstyledButton>
-          ) : (
-            <ActionIcon
-              variant="default"
-              {...{ size, className }}
-              aria-label={copy.share}
-              title={copy.share}
-              onPointerEnter={onReached}
-              onFocus={onReached}
-            >
-              <Share2 size={18} />
-            </ActionIcon>
-          )}
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Item
-            closeMenuOnClick={false}
-            leftSection={<LinkIcon size={14} />}
-=======
     <Popover
       {...{ opened }}
       onDismiss={close}
@@ -265,22 +206,31 @@ function SharePopover({
       width={SHARE_WIDTH}
     >
       <Popover.Target>
-        <ActionIcon
-          variant="default"
-          size={42}
-          className={classes['tool']}
-          aria-label={copy.share}
-          title={copy.share}
-          aria-expanded={opened}
-          onPointerEnter={onReached}
-          onFocus={onReached}
-          onClick={() => {
-            if (opened) close();
-            else open();
-          }}
-        >
-          <Share2 size={18} />
-        </ActionIcon>
+        {labelled ? (
+          <UnstyledButton
+            {...{ className }}
+            aria-expanded={opened}
+            onPointerEnter={onReached}
+            onFocus={onReached}
+            onClick={toggle}
+          >
+            <Share2 size={14} aria-hidden />
+            {copy.share}
+          </UnstyledButton>
+        ) : (
+          <ActionIcon
+            variant="default"
+            {...{ size, className }}
+            aria-label={copy.share}
+            title={copy.share}
+            aria-expanded={opened}
+            onPointerEnter={onReached}
+            onFocus={onReached}
+            onClick={toggle}
+          >
+            <Share2 size={18} />
+          </ActionIcon>
+        )}
       </Popover.Target>
       <Popover.Dropdown className={classes['share']}>
         <LinkField
@@ -299,7 +249,6 @@ function SharePopover({
             fullWidth
             leftSection={<ImageIcon size={14} />}
             disabled={!(card instanceof File)}
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/ui/field-tools.tsx
             onClick={() => {
               if (!(card instanceof File)) return;
               if (sheet) shareImage(card);
@@ -325,15 +274,6 @@ function SharePopover({
   );
 }
 
-<<<<<<< HEAD:src/unsquatted/widgets/field-tools/ui/field-tools.tsx
-/** The card's fixed words: the site, its host, and the lede as its foot. */
-export const cardText = (copy: Copy): CardText => ({
-  site: SITE_CONFIG.name,
-  host: withoutScheme(SITE_CONFIG.url),
-  footer: `${copy.lede.replace('*', '')} ${plainByline({ copy })}`,
-  ...pick(copy, 'verdict', 'price'),
-});
-=======
 type LinkFieldProps = WithCopy &
   WithLink & {
     link: ReturnType<typeof useCopied>;
@@ -374,7 +314,8 @@ function LinkField({ href, link, share, copy }: LinkFieldProps) {
   );
 }
 
-function cardText(copy: Copy): CardText {
+/** The card's fixed words: the site, its host, and the lede as its foot. */
+export function cardText(copy: Copy): CardText {
   const { plain: lede, marked } = ledeParts({ copy });
 
   return {
@@ -387,7 +328,6 @@ function cardText(copy: Copy): CardText {
     ...pick(copy, 'verdict', 'price'),
   };
 }
->>>>>>> origin/main:src/unsquatted/pages/home/field-tools/ui/field-tools.tsx
 
 /**
  * The name in the field's share and heart buttons. Both are about the name as
