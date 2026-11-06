@@ -141,8 +141,9 @@
 }
 
 // A card's image: the card on the page's background, drawn offscreen. The
-// hearts stay, as the reader set them; the share goes, and the foot names the
-// site rather than a link no one can click.
+// hearts stay, as the reader set them; the share goes, nothing is underlined,
+// since nothing in it can be clicked, and the foot names the site in muted
+// words, the host alone in the accent.
 .frame {
   position: fixed;
   top: 0;
@@ -160,8 +161,20 @@
     display: none;
   }
 
+  a {
+    text-decoration: none;
+  }
+
+  .more {
+    color: var(--unsquatted-muted);
+  }
+
   .pictured {
     display: inline;
+  }
+
+  .host {
+    color: var(--color-accent);
   }
 }
 

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { type ReactNode, useRef } from 'react';
 
+import { SITE_CONFIG, withoutScheme } from '@/kernel/shared/config';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Labeled } from '@/kernel/shared/typings';
 
@@ -34,7 +35,8 @@ type WidgetCardProps = CopiedPrices &
     note?: string | undefined;
     /**
      * Where the foot sends a reader for more, in what words, and in what
-     * words the widget's image says it, which no one can click.
+     * words the widget's image says it, which no one can click: `pictured`
+     * leads up to the site's host, which follows it.
      */
     more: { href: string; text: string; pictured: string };
   };
@@ -89,7 +91,10 @@ function Card({
         <Link {...pick(more, 'href')} className={classes['more']}>
           <span className={classes['onPage']}>{more.text}</span>
           <span className={classes['pictured']} aria-hidden>
-            {more.pictured}
+            {more.pictured}{' '}
+            <span className={classes['host']}>
+              {withoutScheme(SITE_CONFIG.url)}
+            </span>
           </span>
         </Link>
         <SharePopover
