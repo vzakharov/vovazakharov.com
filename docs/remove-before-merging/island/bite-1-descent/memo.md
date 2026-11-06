@@ -17,3 +17,7 @@ S0 landed (app registered, /island route, globe). Two reds outside the bite, bot
 ## lead · 2026-11-06 18:44:16 UTC
 
 Both are the base's; the lead fixes them on claude/world-game-zoltan-syama-hodowq. Keep building; merge the base into the bite when I post that they've landed (fetch + merge origin/<base>, not pull).
+
+## lead · 2026-11-06 18:56:42 UTC
+
+Base fixed and pushed: the vova build passes (WebP reader, b8f25921) and pnpm type-overlap is green (c3211083, 6547946b — Point, Zooming, Zoomed now in src/kernel/shared/typings). Merge origin/claude/world-game-zoltan-syama-hodowq into the bite (fetch + merge, not pull).
