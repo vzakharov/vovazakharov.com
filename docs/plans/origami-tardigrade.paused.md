@@ -636,6 +636,22 @@ Open calls from the port, each taken as stated:
   with `settled: false`.
 - Crossings ignore edges within 4 gaps of the same crease line.
 
+**The face-maw folds whole, with two locks** (relay 11, `prototype/seq-maw/`,
+prototype engine in `tmp/tgb/seq/`, not the port). Step 8 was impossible paper:
+a mountain sends its flap to the bottom of the whole stack (`flatFold`,
+`Math.min(...zs) - moved.length - 1`), so the corner-flap tip had to pass six
+layers covering its crease (`pass.ts`, the same check `tuck()` makes, flags
+steps 8–11 of the original). As tucks under their own corner flap — step 8
+`"direction":"tuck","into":{"at":[0.3,0.38],"below":2}`, step 9 the same at
+`[0.3,0.62]` — every step passes (`mawt.steps.json`). With `HAND_UNTIL=12000`
+(the hand held to the phase's end; face-maw only — it raises maw5's let-go to
+1.68%): steps 1–12 0 crossings, 13–14 11 and 8 (nested grazes, lag ≤ 10°),
+let-go 0 crossings, 2.2% (`maw-tucked-final.png`). Default `HAND_UNTIL`: 13–14
+jam at ~300 (restack from flipped facing; unconfirmed). The engine fix is not
+done: `flatFold` should reject a valley/mountain whose flap passes layers
+covering its crease (reusing `tuck()`'s check, ~20 lines), with `pass.ts` as a
+test over step files.
+
 ## Left
 
 0. **Answered (relay 10)**: «пока я б не назвал это дилофозавром, но идти в
@@ -650,16 +666,15 @@ Open calls from the port, each taken as stated:
    (`tmp/tg/lock/`), and tuck + friction + edge contact join that engine work
    once a head shows which of them it needs.
 
-   **Where it paused (relay 10, context budget)**: the lock engine needs the
-   sequential relax, which folds bases clean but not yet a tuck or the
-   face-maw's step 5. Recommended next, capped at two prototype rounds: (a) the
-   ring tuck — set the tucked flap's crease back inside the pocket's (a start
-   offset, or sideways contact out of a U-crease), and settle phases past the
-   iteration cap; (b) the face-maw's step 5 jam (which layer of the other half
-   it meets, and whether the mesh built from the final state is why). If both
-   clear, port into `src/` and fold the head with a lock; if not, put the choice
-   to the operator — keep at the engine, or build the head from holds alone (the
-   face-maw, which reads head-on) and leave locks for later.
+   **Where it paused (relay 11, context budget)**: both jams cleared (the hand),
+   the engine is ported (`relaxSequence`), and the face-maw folds whole with two
+   tucks in the prototype. Next: (a) in `src/`, `flatFold` rejecting a
+   valley/mountain through covering layers, and the hand's `until` as an option
+   (the face-maw needs it to the phase's end); (b) fold `mawt.steps.json`
+   through `relaxSequence` and check it matches the prototype; (c) show the
+   operator the tucked face-maw and settle the head's design by render — whether
+   it reads as the Basilisk's; then items 3–4 (the design in `src/`, `/polish`,
+   `/pr` with #253's title and body rewritten).
 
 1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0
    crossings; but see relay 7, ψ = 45° is the volume.
