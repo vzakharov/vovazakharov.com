@@ -30,11 +30,11 @@
  * already printed. Reads `src/` and `sites/*\/app/` under the working directory.
  */
 
-import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { isPublicApi } from '../eslint/masd-graph.ts';
 import { appFiles } from './lib/import-graph.ts';
+import { carriesMarker } from './lib/masd-marker.ts';
 import {
   cutGain,
   edgesWithin,
@@ -42,8 +42,6 @@ import {
   sliceOf,
   unitsOf,
 } from './lib/slice-graph.ts';
-
-const STAYS = /\/\/ masd-disable cluster -- \S/;
 
 /** `shared`: what the cluster takes from the rest, the sub-slice below both. */
 type Cluster = {
@@ -212,7 +210,7 @@ function unitClusters(
           cluster.has(peer),
         ),
       ) ||
-      STAYS.test(readFileSync(root, 'utf8'))
+      carriesMarker(root, 'cluster')
     ) {
       continue;
     }

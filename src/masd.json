@@ -7,7 +7,14 @@
   "bible": ["blog"],
   "basilisk": ["blog"],
   "maya": ["blog"],
+<<<<<<< HEAD
   "mushrooms": ["kernel"],
   "unsquatted": ["blog"],
+=======
+  "scene": ["kernel"],
+  "mushrooms": ["scene"],
+  "origami": ["scene"],
+  "unsquatted": ["shell"],
+>>>>>>> origin/main
   "vova": ["blog", "music", "mushrooms"]
 }

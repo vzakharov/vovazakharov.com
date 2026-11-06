@@ -39,8 +39,14 @@ export type Summarized = Titled & Described;
 /** A date as frontmatter spells it, ISO `YYYY-MM-DD`. */
 export type Dated = { date: string };
 
-/** A recording's length, in whole seconds. */
+/** How long a thing lasts, in seconds — a recording's, in whole ones. */
 export type Timed = { seconds: number };
+
+/** Where a ramp between two values starts: a turn of the light's duskness, a halo's full-opacity reach, a ring's fill. */
+export type Ramped = { from: number };
+
+/** Where a ramp between two values ends: a halo's farthest reach, a ring's fill. */
+export type Aimed = { to: number };
 
 /** Whether a recording carries the explicit-content mark. */
 export type Rated = { explicit: boolean };
@@ -63,7 +69,7 @@ export type WithLanguage = { language: string };
 /** A repo-relative path to the file a thing was read from. */
 export type WithFilePath = { filePath: string };
 
-/** What can be silenced — a voice, a player's decks. */
+/** What can be stopped — a voice, a player's decks, a download. */
 export type Hushing = { stop: () => void };
 
 /** The name of a file within its collection or directory. */

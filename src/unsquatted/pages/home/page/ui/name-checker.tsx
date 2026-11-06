@@ -21,11 +21,25 @@ import {
   useVerdicts,
   useWords,
   zoneOf,
+<<<<<<< HEAD
   ZoneRow,
 } from '@/unsquatted/entities/domain';
 import { FieldTools, TOOL_BUTTON } from '@/unsquatted/widgets/field-tools';
 
 import { useChecker } from '../../checker';
+=======
+} from '../../checker';
+import { FieldTools, TOOL_BUTTON } from '../../field-tools';
+import { IdeasLine, IdeasOffer, useIdeas } from '../../ideas';
+import { useVerdicts } from '../../verdict';
+import {
+  type CopiedPrice,
+  type CopiedVerdict,
+  OWN_DOMAIN,
+  UncheckedLabel,
+  VerdictLabel,
+} from '../../verdict-label';
+>>>>>>> origin/main
 import { rollName } from '../lib/dice';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
@@ -85,6 +99,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
   // Check spins for the rows on screen alone: the hidden ones are looked up
   // for the opened list or the share card, which Check did not ask for.
   const busy = (settling && typed.trim() !== '') || showing;
+  const ideas = useIdeas(label);
 
   return (
     <>
@@ -105,6 +120,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           value={typed}
           onChange={(event) => {
             type(event.currentTarget.value);
+            ideas.listen(event.currentTarget.value);
           }}
           rightSection={
             typed === '' ? undefined : (
@@ -122,14 +138,23 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           classNames={{ root: classes['fieldInput'], input: classes['input'] }}
         />
         {label !== '' && (
-          <span className={classes['fieldTools']}>
-            <FieldTools
-              onReached={() => {
-                setWanted(true);
-              }}
-              {...{ label, zone, siblings, verdicts, prices, looking, copy }}
+          <>
+            <IdeasLine
+              className={classes['ideas']}
+              onPick={checkHere}
+              {...{ ideas, copy }}
             />
-          </span>
+            <span className={classes['fieldTools']}>
+              <FieldTools
+                onReached={() => {
+                  setWanted(true);
+                }}
+                shown={siblings.slice(0, open ? undefined : CLOSED_ROWS)}
+                {...{ label, zone, siblings, verdicts, prices, looking, copy }}
+              />
+            </span>
+            <IdeasOffer className={TOOL_BUTTON} {...{ ideas, copy }} />
+          </>
         )}
         <ActionIcon
           type="button"

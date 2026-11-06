@@ -129,7 +129,9 @@ Every stylesheet here is Sass — a co-located `.module.scss` per component, pla
 `styles/_mantine.scss` for the `light` / `dark` / `hover` / `smaller-than` /
 `larger-than` mixins and the forwarded breakpoint scale, `styles/_tokens.scss`
 for the colour-token mixin each palette calls, `styles/_dimmed.scss` for text
-quietened by its colour where a `NotedSpan` may open inside it. Pull any in per
+quietened by its colour where a `NotedSpan` may open inside it,
+`styles/_unseen.scss` for a screen-reader-only label and
+`styles/_inline-icon.scss` for an icon at its line's text size. Pull any in per
 file with a relative `@use '…/_mantine' as mantine`, which keeps a module's
 dependencies visible in the module; relative because Sass resolves its own
 imports and knows nothing about the `@/` alias.

@@ -42,6 +42,93 @@ export type Browser = {
   close: () => Promise<void>;
 };
 
+const Thrown = z.object({
+  exceptionDetails: z.object({
+    text: z.string(),
+    exception: z.object({ description: z.string() }).optional(),
+  }),
+});
+const Evaluated = z.object({
+  result: z.object({ value: z.unknown().optional() }),
+  exceptionDetails: z
+    .object({ exception: z.object({ description: z.string() }).optional() })
+    .optional(),
+});
+
+/** A page a script can read values out of. */
+export type Evaluating = {
+  /** The expression's value, parsed; a throw in the page rejects. */
+  evaluate: <Parsed>(
+    expression: string,
+    schema: z.ZodType<Parsed>,
+  ) => Promise<Parsed>;
+};
+
+/** One page, in a browser context of its own so its storage is its own. */
+export type Tab = Evaluating & {
+  readonly contextId: string;
+  /** Sends a command to this page. */
+  send: (method: string, params?: object) => Promise<unknown>;
+  /** Listens for an event from this page alone. */
+  on: (event: string, listener: (params: unknown) => void) => void;
+};
+
+/**
+ * Opens a blank page with `Runtime` and `Page` enabled, handing the first line
+ * of every uncaught exception in it to `onError` — a page's own errors never
+ * reach the script otherwise.
+ */
+export async function openTab(
+  browser: Browser,
+  onError: (message: string) => void,
+): Promise<Tab> {
+  const { browserContextId: contextId } = z
+    .object({ browserContextId: z.string() })
+    .parse(await browser.send('Target.createBrowserContext'));
+  const target = z.object({ targetId: z.string() }).parse(
+    await browser.send('Target.createTarget', {
+      url: 'about:blank',
+      browserContextId: contextId,
+    }),
+  );
+  const { sessionId } = z
+    .object({ sessionId: z.string() })
+    .parse(
+      await browser.send('Target.attachToTarget', { ...target, flatten: true }),
+    );
+  const send = async (method: string, params: object = {}) =>
+    browser.send(method, params, sessionId);
+  const on: Tab['on'] = (event, listener) => {
+    browser.on(event, (params, from) => {
+      if (from === sessionId) listener(params);
+    });
+  };
+  on('Runtime.exceptionThrown', (params) => {
+    const { exceptionDetails } = Thrown.parse(params);
+    const said =
+      exceptionDetails.exception?.description ?? exceptionDetails.text;
+    onError(said.split('\n')[0] ?? said);
+  });
+  await send('Runtime.enable');
+  await send('Page.enable');
+  return {
+    contextId,
+    send,
+    on,
+    evaluate: async (expression, schema) => {
+      const reply = Evaluated.parse(
+        await send('Runtime.evaluate', { expression, returnByValue: true }),
+      );
+      if (reply.exceptionDetails) {
+        throw new Error(
+          `${expression}: ${reply.exceptionDetails.exception?.description ?? 'threw'}`,
+        );
+      }
+      return schema.parse(reply.result.value);
+    },
+  };
+}
+
 /** The DevTools endpoint Chromium prints to stderr once it listens. */
 async function endpoint(chrome: ChildProcess): Promise<string> {
   return new Promise((resolve, reject) => {

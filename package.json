@@ -46,10 +46,12 @@
     "whisper-lexicon": "node personas/tools/whisper-lexicon.ts",
     "styles:codegen": "tsx src/shell/scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
-    "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts"
+    "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts",
+    "origami": "tsx src/origami/scripts/fold-model.ts"
   },
   "dependencies": {
     "@faker-js/faker": "10.6.0",
+    "@huggingface/transformers": "4.3.2",
     "@mantine/core": "^9.6.0",
     "@mantine/hooks": "^9.6.0",
     "@shikijs/rehype": "^4.4.3",
@@ -57,7 +59,7 @@
     "hast-util-to-html": "9.0.5",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "lucide-react": "^0.554.0",
-    "next": "16.0.3",
+    "next": "16.4.5",
     "next-intl": "^4.5.4",
     "phaser": "^4.2.1",
     "react": "19.2.0",
@@ -92,11 +94,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "0.187.0",
     "@types/unist": "^3.0.3",
     "@typescript-eslint/parser": "^8.69.0",
+    "@webgpu/types": "^0.1.74",
     "esbuild": "0.28.2",
     "eslint": "^9",
-    "eslint-config-next": "16.0.3",
+    "eslint-config-next": "16.4.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-boundaries": "^7.2.0",
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
@@ -112,6 +116,7 @@
     "steiger": "^0.6.0",
     "stylelint": "^17.14.1",
     "stylelint-config-standard-scss": "^17.0.0",
+    "three": "0.187.0",
     "tsx": "^4.21.0",
     "typescript": "^5"
   }

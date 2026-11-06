@@ -5,10 +5,17 @@
  * `data-unsquatted-palette`, and its faces are the ones the page has loaded.
  */
 
+<<<<<<< HEAD:src/unsquatted/widgets/field-tools/lib/share-card.ts
 import type { WithCopy } from '@/unsquatted/shared/i18n';
 import { priceParts } from '@/unsquatted/entities/domain';
 
 import type { CardRow } from './share';
+=======
+import { pick } from '@/kernel/shared/lib/collections';
+
+import { priceParts, type WithCopy } from '../../checker';
+import { type CardRow, offersNothing } from './share';
+>>>>>>> origin/main:src/unsquatted/pages/home/field-tools/lib/share-card.ts
 
 export const CARD_WIDTH = 1200;
 export const CARD_HEIGHT = 630;
@@ -27,18 +34,36 @@ export type CardText = {
   site: string;
   host: string;
   footer: string;
+  /** The footer up to the end of the word the field's arrow rises from. */
+  marked: string;
+  /** An all-taken card's footer, struck through. */
+  lede: string;
+  /**
+   * What the hand writes: `all` over the struck lede where every domain on the
+   * card is taken, `field` in the field, an arrow from the footer pointing at
+   * it, where only the typed one is.
+   */
+  aside: Record<Aside, string>;
 };
 
-type Look = {
+type Aside = 'all' | 'field';
+
+/** What a hand-drawn arrow is inked in, and haloed in where it crosses text. */
+type ArrowInks = {
   paper: string;
+  /** A taken domain's verdict and a liked one's heart, which share a colour. */
+  taken: string;
+};
+
+type Look = ArrowInks & {
   ink: string;
   muted: string;
   accent: string;
   surface: string;
   hairline: string;
   maybe: string;
-  heart: string;
   displayFace: string;
+  handFace: string;
   bodyFace: string;
   monoFace: string;
 };
@@ -60,8 +85,9 @@ function look(): Look {
     surface: read('--color-surface'),
     hairline: read('--color-border-hairline'),
     maybe: read('--unsquatted-maybe'),
-    heart: read('--unsquatted-taken'),
+    taken: read('--unsquatted-taken'),
     displayFace: read('--font-display'),
+    handFace: read('--font-hand'),
     bodyFace: read('--font-body'),
     monoFace: read('--mantine-font-family-monospace'),
   };
@@ -109,40 +135,33 @@ function drawHead(context: CanvasRenderingContext2D, l: Look, t: CardText) {
   context.fillText(t.host, 1104, 112);
 }
 
-function drawField(context: CanvasRenderingContext2D, l: Look, name: string) {
-  context.fillStyle = l.surface;
-  context.strokeStyle = l.accent;
-  context.lineWidth = 3;
-  context.beginPath();
-  context.roundRect(96, 176, 1008, 96, 16);
-  context.fill();
-  context.stroke();
+/** A row's verdict as the checker words it, a taken one with its year. */
+function verdictText({ verdict }: CardText, row: CardRow): string {
+  if (row.state !== 'taken') return verdict[row.state];
 
-  context.fillStyle = l.ink;
-  context.textAlign = 'left';
-  context.font = fitted(
-    context,
-    name,
-    (size) => `${size}px ${l.monoFace}`,
-    44,
-    944,
-  );
-  context.fillText(name, 128, 240);
+  return row.since === undefined
+    ? verdict.taken
+    : verdict.takenSince.replace('{year}', row.since);
 }
 
-const ROW_TOP = 316;
-const ROW_STEP = 68;
+const LEFT = 128;
 const RIGHT = 1072;
 
-function drawRow(
+const VERDICT_MARGIN = 24;
+
+type Drawing = { l: Look; t: CardText };
+
+/**
+ * `row`'s verdict and price, set right-aligned to `RIGHT` on baseline `y`;
+ * returns where the domain beside them has to end.
+ */
+function drawVerdict(
   context: CanvasRenderingContext2D,
-  l: Look,
-  t: CardText,
+  { l, t }: Drawing,
   row: CardRow,
-  index: number,
-) {
-  const y = ROW_TOP + index * ROW_STEP;
-  const weight = index === 0 ? '700 ' : '';
+  y: number,
+  weight: string,
+): number {
   let right = RIGHT;
 
   context.textAlign = 'right';
@@ -155,12 +174,74 @@ function drawRow(
     context.fillText(price, right, y);
     right -= context.measureText(price).width + 12;
   }
-  context.fillStyle = row.state === 'free' ? l.accent : l.maybe;
+  context.fillStyle = { free: l.accent, ...pick(l, 'maybe', 'taken') }[
+    row.state
+  ];
   context.font = `${weight}26px ${l.bodyFace}`;
-  const verdict = t.verdict[row.state];
+  const verdict = verdictText(t, row);
 
   context.fillText(verdict, right, y);
-  const verdictLeft = right - context.measureText(verdict).width - 24;
+
+  return right - context.measureText(verdict).width - VERDICT_MARGIN;
+}
+
+/** The field's white stretch: from where its name ends to where its verdict starts. */
+type FieldGap = readonly [start: number, end: number];
+
+const FIELD_BASELINE = 240;
+
+/**
+ * The field holding `name`, and the verdict on it where it is a domain;
+ * returns the gap between the two, which the name, shrinking, leaves at least
+ * `reserve` wide.
+ */
+function drawField(
+  context: CanvasRenderingContext2D,
+  { l, t }: Drawing,
+  name: string,
+  row: CardRow | undefined,
+  reserve: number,
+): FieldGap {
+  context.fillStyle = l.surface;
+  context.strokeStyle = l.accent;
+  context.lineWidth = 3;
+  context.beginPath();
+  context.roundRect(96, 176, 1008, 96, 16);
+  context.fill();
+  context.stroke();
+
+  const nameRight =
+    row === undefined
+      ? RIGHT
+      : drawVerdict(context, { l, t }, row, 236, '700 ');
+
+  context.fillStyle = l.ink;
+  context.textAlign = 'left';
+  context.font = fitted(
+    context,
+    name,
+    (size) => `${size}px ${l.monoFace}`,
+    44,
+    nameRight - LEFT - reserve,
+  );
+  context.fillText(name, LEFT, FIELD_BASELINE);
+
+  return [LEFT + context.measureText(name).width, nameRight + VERDICT_MARGIN];
+}
+
+const ROW_TOP = 316;
+const ROW_STEP = 68;
+
+function drawRow(
+  context: CanvasRenderingContext2D,
+  l: Look,
+  t: CardText,
+  row: CardRow,
+  index: number,
+) {
+  const y = ROW_TOP + index * ROW_STEP;
+  const weight = index === 0 ? '700 ' : '';
+  const verdictLeft = drawVerdict(context, { l, t }, row, y, weight);
 
   context.fillStyle = l.ink;
   context.textAlign = 'left';
@@ -169,14 +250,14 @@ function drawRow(
     row.domain,
     (each) => `${weight}${each}px ${l.monoFace}`,
     32,
-    verdictLeft - 128,
+    verdictLeft - LEFT,
   );
-  context.fillText(row.domain, 128, y);
+  context.fillText(row.domain, LEFT, y);
 
   if (row.liked) {
     context.save();
     context.translate(84, y - 22);
-    context.fillStyle = l.heart;
+    context.fillStyle = l.taken;
     context.fill(new Path2D(HEART));
     context.restore();
   }
@@ -184,18 +265,167 @@ function drawRow(
     context.strokeStyle = l.hairline;
     context.lineWidth = 2;
     context.beginPath();
-    context.moveTo(128, y - ROW_STEP / 2);
+    context.moveTo(LEFT, y - ROW_STEP / 2);
     context.lineTo(RIGHT, y - ROW_STEP / 2);
     context.stroke();
   }
 }
 
-/** The type of the file `shareCard` makes, known before the file is. */
-export const CARD_TYPE = 'image/png';
+/** The weight every aside is set in, which the font load awaits. */
+const HAND_WEIGHT = '700';
 
-/** The card for `name`'s `rows`, as a PNG named for the first. */
+/** The all-taken aside's weight and size. */
+const HAND = `${HAND_WEIGHT} 46px`;
+
+/** The field's white stretch a long name leaves the note. */
+const NOTE_ROOM = 300;
+
+/** What the note keeps clear on either side within the field's white stretch. */
+const NOTE_MARGIN = 24;
+
+const FOOTER_LEFT = 96;
+const FOOTER_BASELINE = 574;
+
+type Point = readonly [x: number, y: number];
+
+/** Writes in whatever font the caller has set. */
+function writeByHand(
+  context: CanvasRenderingContext2D,
+  ink: string,
+  aside: string,
+  at: Point,
+  tilt: number,
+) {
+  context.save();
+  context.translate(...at);
+  context.rotate(tilt);
+  context.fillStyle = ink;
+  context.fillText(aside, 0, 0);
+  context.restore();
+}
+
+/**
+ * A hand-drawn arrow along the cubic `from`–`to`, its head along the curve's
+ * last tangent, haloed in `paper` so it reads where it crosses a row's text.
+ */
+function drawArrow(
+  context: CanvasRenderingContext2D,
+  { taken, paper }: ArrowInks,
+  [from, bend, bendAgain, to]: readonly [Point, Point, Point, Point],
+) {
+  const [toX, toY] = to;
+  const back = Math.atan2(bendAgain[1] - toY, bendAgain[0] - toX);
+
+  context.save();
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  context.beginPath();
+  context.moveTo(...from);
+  context.bezierCurveTo(...bend, ...bendAgain, ...to);
+  for (const turn of [-0.5, 0.5]) {
+    context.moveTo(
+      toX + 16 * Math.cos(back + turn),
+      toY + 16 * Math.sin(back + turn),
+    );
+    context.lineTo(...to);
+  }
+  context.strokeStyle = paper;
+  context.lineWidth = 9;
+  context.stroke();
+  context.strokeStyle = taken;
+  context.lineWidth = 3;
+  context.stroke();
+  context.restore();
+}
+
+/**
+ * `aside` by hand in the middle of the field's white stretch, `gap`, and an
+ * arrow arcing up to it from the footer's word centred on `fromX`.
+ */
+function drawPointed(
+  context: CanvasRenderingContext2D,
+  l: Look,
+  aside: string,
+  [start, end]: FieldGap,
+  fromX: number,
+) {
+  const tilt = -0.04;
+
+  context.font = fitted(
+    context,
+    aside,
+    (size) => `${HAND_WEIGHT} ${size}px ${l.handFace}`,
+    40,
+    end - start - 2 * NOTE_MARGIN,
+  );
+  const width = context.measureText(aside).width;
+  const left = (start + end - width) / 2;
+  const baseline = FIELD_BASELINE - 6;
+
+  writeByHand(context, l.taken, aside, [left, baseline], tilt);
+
+  const middle = left + width / 2;
+  const toY = baseline + (width / 2) * Math.sin(tilt) + 26;
+  const fromY = FOOTER_BASELINE - 34;
+  const across = middle - fromX;
+  const rise = fromY - toY;
+
+  // Both control points sit on the chord's lower side, so the curve is one
+  // arc, meeting the note from straight below.
+  drawArrow(context, l, [
+    [fromX, fromY],
+    [fromX + across * 0.5, fromY - rise * 0.2],
+    [middle, toY + rise * 0.5],
+    [middle, toY],
+  ]);
+}
+
+/** An all-taken card's footer: the lede struck through, `aside` over it by hand. */
+function drawCorrected(
+  context: CanvasRenderingContext2D,
+  l: Look,
+  t: CardText,
+  aside: string,
+) {
+  context.fillStyle = l.muted;
+  context.textAlign = 'left';
+  context.font = `27px ${l.bodyFace}`;
+  context.fillText(t.lede, FOOTER_LEFT, FOOTER_BASELINE);
+  const right = FOOTER_LEFT + context.measureText(t.lede).width;
+
+  context.strokeStyle = l.taken;
+  context.lineWidth = 4;
+  context.lineCap = 'round';
+  context.beginPath();
+  context.moveTo(90, 566);
+  context.bezierCurveTo(right * 0.35, 561, right * 0.7, 570, right + 6, 563);
+  context.stroke();
+
+  context.font = `${HAND} ${l.handFace}`;
+  writeByHand(context, l.taken, aside, [200, 522], -0.05);
+}
+
+/** The type of the file `shareCard` makes, known before the file is. */
+const CARD_TYPE = 'image/png';
+
+function asideOf(
+  field: CardRow | undefined,
+  rows: readonly CardRow[],
+): Aside | undefined {
+  const all = field === undefined ? rows : [field, ...rows];
+
+  if (all.length > 0 && offersNothing(all)) return 'all';
+
+  return field?.state === 'taken' ? 'field' : undefined;
+}
+
+/**
+ * The card for `name` — its verdict in the field where `field` gives one —
+ * and the `rows` under it, as a PNG named for the first domain it shows.
+ */
 export async function shareCard(
   name: string,
+  field: CardRow | undefined,
   rows: readonly CardRow[],
   text: CardText,
 ): Promise<File> {
@@ -211,20 +441,54 @@ export async function shareCard(
   context.fillStyle = l.paper;
   context.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
   drawHead(context, l, text);
-  drawField(context, l, name);
+  const aside = asideOf(field, rows);
+  const gap = drawField(
+    context,
+    { l, t: text },
+    name,
+    field,
+    aside === 'field' ? NOTE_ROOM : 0,
+  );
+
   for (const [index, row] of rows.entries())
     drawRow(context, l, text, row, index);
+  if (aside !== undefined) {
+    // Unpreloaded, the hand arrives only when a card first asks for it. Only
+    // the stack's first face is awaited: next/font's metric fallback after it
+    // is `local("Arial")`, which rejects the whole load where Arial is absent.
+    const [hand] = l.handFace.split(',');
 
-  context.fillStyle = l.muted;
-  context.textAlign = 'left';
-  context.font = fitted(
-    context,
-    text.footer,
-    (size) => `${size}px ${l.bodyFace}`,
-    27,
-    1008,
-  );
-  context.fillText(text.footer, 96, 574);
+    await document.fonts.load(`${HAND} ${hand}`);
+  }
+  if (aside === 'all') drawCorrected(context, l, text, text.aside.all);
+  else {
+    context.fillStyle = l.muted;
+    context.textAlign = 'left';
+    context.font = fitted(
+      context,
+      text.footer,
+      (size) => `${size}px ${l.bodyFace}`,
+      27,
+      1008,
+    );
+    context.fillText(text.footer, FOOTER_LEFT, FOOTER_BASELINE);
+
+    if (aside === 'field') {
+      const { marked } = text;
+      const wordLeft = context.measureText(
+        marked.slice(0, marked.lastIndexOf(' ') + 1),
+      ).width;
+      const wordRight = context.measureText(marked).width;
+
+      drawPointed(
+        context,
+        l,
+        text.aside.field,
+        gap,
+        FOOTER_LEFT + (wordLeft + wordRight) / 2,
+      );
+    }
+  }
 
   const blob = await new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((made) => {
@@ -233,9 +497,13 @@ export async function shareCard(
     }, CARD_TYPE);
   });
 
-  return new File([blob], `unsquatted.${rows[0]?.domain ?? name}.png`, {
-    type: CARD_TYPE,
-  });
+  return new File(
+    [blob],
+    `unsquatted.${(field ?? rows[0])?.domain ?? name}.png`,
+    {
+      type: CARD_TYPE,
+    },
+  );
 }
 
 /** Whether the clipboard takes an image; Firefox before 127 has no `ClipboardItem`. */

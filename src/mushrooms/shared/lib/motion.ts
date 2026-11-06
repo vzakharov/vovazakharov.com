@@ -3,6 +3,8 @@
  * set every frame from the clock and a resize never interrupts a movement.
  */
 
+import type { Ramped } from '@/kernel/shared/typings';
+
 import type { Seeded } from './random';
 
 /** A thing's own offset into an idle loop, so no two move in step. */
@@ -19,8 +21,6 @@ export type Sprouted = { plantedAt: number };
 export type Stamped = { at: number };
 /** When a span that plays out on the clock began: a shower, a turn of the light. */
 export type Started = { startedAt: number };
-/** Where a ramp between two values starts: a turn of the light's duskness, a halo's full-opacity reach. */
-export type Ramped = { from: number };
 /** A ramp that eases on from where it started, and when: a turn of the light, the eye's rise. */
 export type Ramp = Started & Ramped;
 /** How far a bob sinks a thing, in its module's units. */

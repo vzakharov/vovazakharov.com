@@ -7,11 +7,15 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
+<<<<<<< HEAD
 import { COPY, plainByline } from '@/unsquatted/shared/i18n';
 import { fetchPrices } from '@/unsquatted/entities/domain/index.node-safe';
 import { LikesProvider } from '@/unsquatted/features/like';
 
 import { CheckerProvider } from '../../checker';
+=======
+import { CheckerProvider, COPY, ledeParts, plainByline } from '../../checker';
+>>>>>>> origin/main
 import { PickDeck } from '../../deck';
 import { linkedPicks, PICKS } from '../../picks/index.server-only';
 import { Shortlist } from '../../shortlist';
@@ -26,7 +30,7 @@ const SHOUT_OUT = `https://x.com/intent/post?${new URLSearchParams({
  * The lede's `*` and `ledeNote` are the social card's: here the byline after
  * the lede says what the note would.
  */
-const LEDE = COPY.lede.replace('*', '');
+const LEDE = ledeParts({ copy: COPY }).plain;
 
 /** The checker's own code, which the note on “private” points a sceptic at. */
 const SOURCE_URL =
