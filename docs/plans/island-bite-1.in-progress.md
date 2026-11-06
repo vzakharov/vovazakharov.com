@@ -79,7 +79,7 @@ the plan's; an agent may move a file inside its own slice and says so.
       the depth buffer it chooses, the sea sphere, the worker entry filling
       tiles from their keys and the pool running it, the eye wired, the play
       hook.
-- [ ] **F** — the play run: frames at five heights on a phone and a desktop,
+- [x] **F** — the play run: frames at five heights on a phone and a desktop,
       committed to the working directory; the orchestrator looks at them beside
       the drawing, then a fix round.
 - [ ] **Fix round** — `pnpm type-overlap` names `CoastGrid`, `TileKey`,
@@ -110,6 +110,18 @@ the plan's; an agent may move a file inside its own slice and says so.
   500 m covers the planet outside the tile square, and log depth
   (`logarithmicDepthBuffer`) carries orbit to 2 m on both backends, where the
   reversed buffer needs an extension headless WebGL lacks.
+- **The first frames read as one island** at orbit (the drawn outline, its arms
+  and islets) and the descent is continuous with no holes; three things fail
+  "plain-looking at every height", fixed in a second round: the sky is black at
+  every height (it turns from space-black at orbit to a pale day blue by ~100
+  km, by log height, the limb's glow left to a later bite); a portrait phone
+  crops the globe at orbit (the camera's vertical fov widens so the horizontal
+  one is never under 50°, and drag reads the same fov, so the ground still
+  follows the finger); the coast steps at 1 000 km (tiles split finer where they
+  straddle the coast, or the split ratio drops to 0.5 if the count holds under
+  ~500 — the agent measures both). Underwater ground fades from sand to the
+  sea's colour by −20 m, so a skirt that wins a depth tie between tiles draws as
+  sea rather than as a sand speck.
 - **`Coast` stays outer rings only**: the lake by Цитадель falls into the land
   until the lakes bite (call 5), rather than widening the type now.
 
