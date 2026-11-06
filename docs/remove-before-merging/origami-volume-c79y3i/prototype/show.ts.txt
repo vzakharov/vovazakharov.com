@@ -23,11 +23,19 @@ const ccw = (t: [number, number, number]): [number, number, number] => {
   return turn > 0 ? t : [t[0], t[2], t[1]];
 };
 data.triangles = data.triangles.map(ccw);
+// The body's long axis runs along world (1, 1); ROT turns it about the centre
+// so the side view looks across it (default −45°).
+const rot = (Number(process.env.ROT ?? -45) * Math.PI) / 180;
+const turn = ([x, y]: readonly [number, number]): [number, number] => {
+  const [u, v] = [x - 0.5, y - 0.5];
+  return [0.5 + u * Math.cos(rot) - v * Math.sin(rot), 0.5 + u * Math.sin(rot) + v * Math.cos(rot)];
+};
 const pieces = data.triangles.map((t, i) => ({
   id: i,
   paper: t.map((v) => data.paper[v]!),
   world: t.map((v) => {
-    const [x, y, z] = data.positions[v]!;
+    const [x0, y0, z] = data.positions[v]!;
+    const [x, y] = turn([x0, y0]);
     return [x, flip * y, flip * z - lo] as Vec3;
   }),
   front: (data.faces[i]?.facing ?? 1) > 0,

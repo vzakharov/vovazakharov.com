@@ -203,15 +203,37 @@ the next corner and swallows it (the second corner's fold then finds no paper:
 — after the base, on the flap itself, or a sink — not a line across the flat
 sheet.
 
+## ψ = 75° is a flat wedge; ψ = 45° is the volume (relay 7)
+
+The earlier renders looked across the body's long axis at a slant: the axis runs
+along world `(1, 1)`. `show.ts` now turns the model by `ROT` (default −45°) so
+the side view looks across it, and `where.py` prints the paper's landmarks in
+that body frame (x along, y across, z up). Seen that way, ψ = 75° is a thin
+wedge, 0.13 wide for 0.66 long, nearly the pressed base standing on edge
+(`prototype/tips-psi75-along.png`): low strain, but no volume to speak of.
+
+- **ψ = 45°** (`tips-psi45.png`): a real tent, 0.71 long, 0.67 wide, 0.43 tall;
+  strain 1.2%, 5 crossings. The cream corners are horizontal wings at the bottom
+  edges.
+- **ψ = 45°, `BLUNT=0.2`** (`blunt20-psi45.png`): the wings fold away and the
+  whole outside goes green. From the side it is a squat body on legs: the gable
+  ends' tucked sectors run down to the tucked tips, the lowest points (x =
+  ±0.13). Strain 1.3%, 3 crossings at 60k steps. This reads closest to an animal
+  so far.
+- **Dead end: corners bent down 90° (`BHOLD=0.5`)**: from the pressed pose the
+  corner swings through the layers; 38–78 crossings, strain 7–14%.
+- **Dead end: a shorter front tip as the snout (`TIPF`)**: changes only that
+  end's leg length; nothing reads as a head.
+
 ## Left
 
 1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0
-   crossings.
-2. Shape the legs and snout. Done: four tip-legs, eight points in all (above).
-   Left: the four base corners read as wide flat wings, not legs — narrow them
-   with a fold that stays local (above); make one ridge-end tip read as a snout
-   (shorter, blunter, or a pleat behind it). Render each stage and show the
-   operator.
+   crossings; but see relay 7, ψ = 45° is the volume.
+2. Shape the legs and snout. Done: ψ = 45° with `BLUNT=0.2` stands on legs
+   (above). Left: get its 3 crossings to 0; a snout. The front gable's hanging
+   diamond is the closest thing to a head (head-on view); a snout has to come
+   from a fold that pokes it forward rather than down. Render each stage and
+   show the operator.
 3. Move `fromVertex` (with `waterbombVertex` and `fromPose`) and the
    per-triangle render into `src/` (a `--relax` path in `fold-model.ts`), with
    tests — the closed-form vertex is a pure function, so it gets unit tests on

@@ -30,10 +30,12 @@ const upTo = Number(process.env.UPTO ?? 99);
  * the base is folded. `t` places the line: the tip lands at 2t from the
  * centre's diagonal, so it pokes 0.5 − 2t past the edge. */
 const t = Number(process.env.TIP ?? 0.18);
+/** The front tucked flap's tip, the snout: its own `t`. */
+const tf = Number(process.env.TIPF ?? t);
 const tips: StepSpec[] = process.env.TIPS
   ? [
       { line: { p: [0.5 + t, 0], q: [0, 0.5 + t] }, moving: [0.42, 0.42], select: { at: [0.42, 0.42], top: 1 } },
-      { line: { p: [1.5 - t, 0], q: [0, 1.5 - t] }, moving: [0.58, 0.58], select: { at: [0.58, 0.58], top: 1 } },
+      { line: { p: [1.5 - tf, 0], q: [0, 1.5 - tf] }, moving: [0.58, 0.58], select: { at: [0.58, 0.58], top: 1 } },
       { line: { p: [0.5 - t, 0], q: [1, 0.5 + t] }, moving: [0.58, 0.42], select: { at: [0.58, 0.42], top: 1 } },
       { line: { p: [0, 0.5 - t], q: [1, 1.5 - t] }, moving: [0.42, 0.58], select: { at: [0.42, 0.58], top: 1 } },
     ]
@@ -44,10 +46,10 @@ const tips: StepSpec[] = process.env.TIPS
 const r = Number(process.env.BLUNT ?? 0);
 const blunts: StepSpec[] = r
   ? [
-      { line: { p: [0, r], q: [1, r] }, moving: [0.5, r / 3], select: 'all', direction: 'mountain' },
-      { line: { p: [1 - r, 0], q: [1 - r, 1] }, moving: [1 - r / 3, 0.5], select: 'all', direction: 'mountain' },
-      { line: { p: [0, 1 - r], q: [1, 1 - r] }, moving: [0.5, 1 - r / 3], select: 'all', direction: 'mountain' },
-      { line: { p: [r, 0], q: [r, 1] }, moving: [r / 3, 0.5], select: 'all', direction: 'mountain' },
+      { line: { p: [0, r], q: [1, r] }, moving: [0.5, r / 3], select: 'all', direction: 'mountain', hold: Number(process.env.BHOLD ?? 1) },
+      { line: { p: [1 - r, 0], q: [1 - r, 1] }, moving: [1 - r / 3, 0.5], select: 'all', direction: 'mountain', hold: Number(process.env.BHOLD ?? 1) },
+      { line: { p: [0, 1 - r], q: [1, 1 - r] }, moving: [0.5, 1 - r / 3], select: 'all', direction: 'mountain', hold: Number(process.env.BHOLD ?? 1) },
+      { line: { p: [r, 0], q: [r, 1] }, moving: [r / 3, 0.5], select: 'all', direction: 'mountain', hold: Number(process.env.BHOLD ?? 1) },
     ]
   : [];
 /** Steps folded flat before the base: the pose the base inflates from. */
@@ -334,7 +336,7 @@ if (process.argv[1]?.endsWith('dome.ts')) {
       console.log(k, 'n', g.n, 'mean', (g.got / g.n).toFixed(1), 'worst dev', ((g.worst * 180) / Math.PI).toFixed(1), g.at);
   }
   writeFileSync(
-    'tmp/tg/relaxed.json',
+    process.env.OUT ?? 'tmp/tg/relaxed.json',
     JSON.stringify({ triangles: m.triangles, paper: m.paper, positions: r.positions, faces: m.faces }),
   );
 }
