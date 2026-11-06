@@ -1,15 +1,32 @@
 {
   "total": {
-    "inputTokens": 53,
+    "inputTokens": 72,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 130555,
-    "cacheReadTokens": 3216957,
-    "outputTokens": 22022,
-    "thinkingTokens": 10668,
-    "responses": 24,
-    "costUsd": 2.1284834
+    "cacheWrite1hTokens": 146553,
+    "cacheReadTokens": 4743586,
+    "outputTokens": 24515,
+    "thinkingTokens": 10947,
+    "responses": 32,
+    "costUsd": 2.6117292
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-06T17:15:24.718Z",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "a multi-wave 3D game and a parallel-session method need their load-bearing calls made before anyone builds"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "porting another repo's branch-channel tooling means reading it for its traps"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -30,22 +47,24 @@
   "branch": "claude/world-game-zoltan-syama-hodowq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "Ну что ж, спустя месяц-ish после \"Грибов\", пора браться за что-то новое и грандиозное? помнишь карту, которую Сяма с Золтаном рисовали в vzakharov/life? Хочу по…",
-  "prs": [],
+  "prs": [
+    255
+  ],
   "url": "https://claude.ai/code/session_01DaohkDHg8CCY4MnYQWDxdJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T17:10:04.194Z",
-  "lastResponseAt": "2026-11-06T17:15:23.850Z",
+  "lastResponseAt": "2026-11-06T17:16:04.504Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 53,
+    "inputTokens": 72,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 130555,
-    "cacheReadTokens": 3216957,
-    "outputTokens": 22022,
-    "thinkingTokens": 10668,
-    "responses": 24,
-    "costUsd": 2.1284834
+    "cacheWrite1hTokens": 146553,
+    "cacheReadTokens": 4743586,
+    "outputTokens": 24515,
+    "thinkingTokens": 10947,
+    "responses": 32,
+    "costUsd": 2.6117292
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 53,
+      "inputTokens": 72,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 130555,
-      "cacheReadTokens": 3216957,
-      "outputTokens": 22022,
-      "thinkingTokens": 10668,
-      "responses": 24,
-      "costUsd": 2.1284834
+      "cacheWrite1hTokens": 146553,
+      "cacheReadTokens": 4743586,
+      "outputTokens": 24515,
+      "thinkingTokens": 10947,
+      "responses": 32,
+      "costUsd": 2.6117292
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 23,
-    "matched": 23,
-    "matchedTableUsd": 2.0622005999999997,
-    "matchedEventUsd": 2.0622006,
+    "events": 32,
+    "matched": 32,
+    "matchedTableUsd": 2.6117292,
+    "matchedEventUsd": 2.6117292000000005,
     "unseen": {}
   }
 }
