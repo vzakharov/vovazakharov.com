@@ -45,7 +45,6 @@ export function fitTo(bounds: Rect, viewport: Rect, margin = 48): Camera {
   };
 }
 
-/** The smallest rectangle holding every one of `rects`; `undefined` for none. */
 export function union(rects: readonly Rect[]): Rect | undefined {
   if (rects.length === 0) return undefined;
   const left = Math.min(...rects.map((r) => r.x));
