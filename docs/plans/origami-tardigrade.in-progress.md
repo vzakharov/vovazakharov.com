@@ -341,6 +341,15 @@ steps in `prototype/feel-{lotus,tulip,fish-gill,frog}.*`, the run helper
   the folded state, not on the sheet; all-layer cross folds on this fan strain
   6–8%. The operator read the frog head-on as a dilophosaurus with its frill
   spread — handed to the frog's next round as a lead.
+- **Frog → head, and a dilophosaurus** (head-on, `POSE=3`, `ROT=0` — `ROT` seems
+  to act before the relax: at 90 the same steps cross), `feel-dilo.*` and
+  `feel-frog-head.*`: one vertical fold across all layers at x = 0.35 (hold
+  0.5–0.7; ≤ 0.33 cuts the flaps, 11–41 crossings) flips the base's apex up into
+  a head between the raised flaps. With the front-flap tips folded mountain
+  (0.75) the flaps notch into a W and read as a spread frill around a pointed
+  head (1.3%); with legs at 0.45 and the head's tip blunted (`top: 1`), a squat
+  frog with a muzzle (1.8%). Ragged frill nicks drag joined layers (~20
+  crossings); opening the spine below 0.9 crosses 23–29.
 - **Engine limits met**: a fold seeded on some layers still drags every layer
   joined to them along the pleats (no forked tail); a single-layer fold works
   only on the outermost layer (`bottom: 1`).
