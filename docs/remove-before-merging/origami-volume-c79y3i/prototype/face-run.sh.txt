@@ -1,0 +1,6 @@
+#!/bin/bash
+# run.sh <name> <base.json> <mutation> ; env POSE (default 3), ROT (default 0)
+set -e
+cd /home/user/vovazakharov.com/tmp/tg/face
+python3 mut.py "$2" "$1.steps.json" "$3"
+POSE=${POSE:-3} ROT=${ROT:-0} ../go.sh "$1" "tmp/tg/face/$1.steps.json" 2>&1 | tail -2

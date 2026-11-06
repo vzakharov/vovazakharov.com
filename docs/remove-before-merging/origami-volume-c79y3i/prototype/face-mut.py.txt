@@ -1,0 +1,11 @@
+# mut.py <base.json> <out.json> <python statements on list s>
+import json, sys
+s = json.load(open(sys.argv[1]))
+def step(p, q, moving, direction='valley', hold=0.5, select=None, **kw):
+    d = {"line": {"p": list(p), "q": list(q)}, "moving": list(moving), "direction": direction, "hold": hold}
+    if select is not None: d["select"] = select
+    d.update(kw); return d
+def top(at, n=1): return {"at": list(at), "top": n}
+def bot(at, n=1): return {"at": list(at), "bottom": n}
+exec(sys.argv[3])
+json.dump(s, open(sys.argv[2], 'w'))
