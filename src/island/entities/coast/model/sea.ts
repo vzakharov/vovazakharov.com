@@ -115,7 +115,11 @@ function paperByCell(
   for (let cj = 0; cj < cellRows; cj++) {
     for (let ci = 0; ci < cellColumns; ci++) {
       const around: Rgb[] = [];
-      for (let j = Math.max(0, cj - w); j <= Math.min(cellRows - 1, cj + w); j++) {
+      for (
+        let j = Math.max(0, cj - w);
+        j <= Math.min(cellRows - 1, cj + w);
+        j++
+      ) {
         for (
           let i = Math.max(0, ci - w);
           i <= Math.min(cellColumns - 1, ci + w);
@@ -186,7 +190,10 @@ function classify(
   const { paper, cellColumns } = paperByCell(raster, options);
   const channel = (c: number) =>
     boxMean(
-      Float32Array.from({ length: width * height }, (_, i) => data[i * 4 + c] ?? 0),
+      Float32Array.from(
+        { length: width * height },
+        (_, i) => data[i * 4 + c] ?? 0,
+      ),
       width,
       height,
       options.colourBlur,
@@ -212,7 +219,8 @@ function classify(
         blurred[2]?.[i] ?? 0,
       ];
       if (chromaDistance(smooth, local) > options.minChroma) coloured[i] = 1;
-      if (brightness(smooth) < options.maxShade * brightness(local)) shaded[i] = 1;
+      if (brightness(smooth) < options.maxShade * brightness(local))
+        shaded[i] = 1;
     }
   }
   return { ink, coloured, shaded };
@@ -225,12 +233,12 @@ function flood(
   width: number,
   height: number,
 ): Uint8Array {
-  const sea = seeds.slice();
+  const sea = Uint8Array.from(seeds);
   const queue = new Int32Array(width * height);
   let tail = 0;
-  for (let i = 0; i < width * height; i++) if (sea[i]) queue[tail++] = i;
+  for (let i = 0; i < width * height; i++) if (sea[i] === 1) queue[tail++] = i;
   const visit = (i: number) => {
-    if (barrier[i] || sea[i]) return;
+    if (barrier[i] === 1 || sea[i] === 1) return;
     sea[i] = 1;
     queue[tail++] = i;
   };
@@ -252,7 +260,7 @@ function frame(barrier: Uint8Array, width: number, height: number): Uint8Array {
     const x = i % width;
     const onEdge =
       x === 0 || x === width - 1 || i < width || i >= (height - 1) * width;
-    if (onEdge && !barrier[i]) edge[i] = 1;
+    if (onEdge && barrier[i] !== 1) edge[i] = 1;
   }
   return edge;
 }
@@ -272,7 +280,7 @@ function keptPieces(
   const seen = new Uint8Array(width * height);
   const queue = new Int32Array(width * height);
   for (let start = 0; start < width * height; start++) {
-    if (sea[start] || seen[start]) continue;
+    if (sea[start] === 1 || seen[start] === 1) continue;
     seen[start] = 1;
     queue[0] = start;
     let tail = 1;
@@ -292,7 +300,7 @@ function keptPieces(
           const ny = y + dy;
           if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
           const n = ny * width + nx;
-          if (sea[n] || seen[n]) continue;
+          if (sea[n] === 1 || seen[n] === 1) continue;
           seen[n] = 1;
           queue[tail++] = n;
         }
@@ -330,8 +338,8 @@ export function landMask(raster: Raster, options: MaskOptions): Uint8Array {
   );
   const sea = flood(tinted, open, width, height);
   const nearInk = dilate(ink, width, height, options.inkClearance);
-  const painted = coloured.map((set, i) =>
-    (set | (shaded[i] ?? 0)) & ((nearInk[i] ?? 0) ^ 1),
+  const painted = coloured.map(
+    (set, i) => (set | (shaded[i] ?? 0)) & ((nearInk[i] ?? 0) ^ 1),
   );
   const reach = dilate(painted, width, height, options.coastReach);
   const land = keptPieces(sea, painted, raster, options);
@@ -347,7 +355,7 @@ function peel(
   { width, height }: Raster,
   depth: number,
 ): Uint8Array {
-  const peeled = land.slice();
+  const peeled = Uint8Array.from(land);
   const distance = new Int32Array(width * height).fill(-1);
   const queue = new Int32Array(width * height);
   let tail = 0;
@@ -361,8 +369,8 @@ function peel(
     ];
   };
   for (let i = 0; i < width * height; i++) {
-    if (!bare[i]) continue;
-    if (neighbours(i).some((n) => n < 0 || !land[n])) {
+    if (bare[i] !== 1) continue;
+    if (neighbours(i).some((n) => n < 0 || land[n] !== 1)) {
       distance[i] = 1;
       queue[tail++] = i;
     }
@@ -373,7 +381,7 @@ function peel(
     const d = distance[i] ?? 0;
     if (d >= depth) continue;
     for (const n of neighbours(i)) {
-      if (n < 0 || !bare[n] || distance[n] !== -1) continue;
+      if (n < 0 || bare[n] !== 1 || distance[n] !== -1) continue;
       distance[n] = d + 1;
       queue[tail++] = n;
     }

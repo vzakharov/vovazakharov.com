@@ -36,10 +36,9 @@ function draw(...painters: Painter[]): Raster {
   const data = new Uint8ClampedArray(SIZE * SIZE * 4);
   for (let y = 0; y < SIZE; y++) {
     for (let x = 0; x < SIZE; x++) {
-      const colour = painters.reduce<Rgb>(
-        (under, paint) => paint(x + 0.5, y + 0.5, under) ?? under,
-        PAPER,
-      );
+      let colour = PAPER;
+      for (const paint of painters)
+        colour = paint(x + 0.5, y + 0.5, colour) ?? colour;
       data.set([...colour, 255], (y * SIZE + x) * 4);
     }
   }
@@ -67,6 +66,12 @@ const letterO =
   (cx: number, cy: number, r: number): Painter =>
   (x, y) =>
     Math.abs(Math.hypot(x - cx, y - cy) - r) <= 1 ? INK : undefined;
+
+/** A tint drifting from blue to yellow across the whole sheet. */
+const tint: Painter = (x) => {
+  const t = x / SIZE;
+  return [225 + 20 * t, 232 + 6 * t, 245 - 25 * t];
+};
 
 describe('traceCoast', () => {
   it('traces a disc as one ring of its area, clockwise on screen', () => {
@@ -120,10 +125,6 @@ describe('traceCoast', () => {
   });
 
   it('reads a tinted gradient across the paper as no land', () => {
-    const tint: Painter = (x) => {
-      const t = x / SIZE;
-      return [225 + 20 * t, 232 + 6 * t, 245 - 25 * t];
-    };
     assert.deepEqual(traceCoast(draw(tint), OPTIONS), []);
   });
 });

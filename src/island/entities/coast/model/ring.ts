@@ -76,20 +76,20 @@ export function simplify(ring: Ring, tolerance: number): Ring {
   if (!start) return ring;
   let far = 0;
   let farthest = 0;
-  ring.forEach(([x, y], i) => {
+  for (const [i, [x, y]] of ring.entries()) {
     const distance = Math.hypot(x - start[0], y - start[1]);
     if (distance > farthest) {
       farthest = distance;
       far = i;
     }
-  });
+  }
   const closed: Ring = [...ring, start];
   const kept = closed.map(() => false);
   kept[0] = true;
   kept[far] = true;
   keepAlong(closed, 0, far, tolerance, kept);
   keepAlong(closed, far, closed.length - 1, tolerance, kept);
-  const simplified = ring.filter((_, i) => kept[i]);
+  const simplified = ring.filter((_, i) => kept[i] === true);
   if (simplified.length >= 3) return simplified;
   return simplify(ring, tolerance / 2);
 }

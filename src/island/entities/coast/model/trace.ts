@@ -54,11 +54,15 @@ function contours(field: Float32Array, columns: number, rows: number): Ring[] {
       }
       if (crossings.length === 0) continue;
       const mean =
-        (value(i, j) + value(i + 1, j) + value(i + 1, j + 1) + value(i, j + 1)) /
+        (value(i, j) +
+          value(i + 1, j) +
+          value(i + 1, j + 1) +
+          value(i, j + 1)) /
         4;
       const step = mean >= level ? 1 : crossings.length - 1;
       for (const [k, edge] of crossings.entries()) {
-        if (exits[k]) next[edge] = crossings[(k + step) % crossings.length] ?? -1;
+        if (exits[k] === true)
+          next[edge] = crossings[(k + step) % crossings.length] ?? -1;
       }
     }
   }
@@ -92,7 +96,10 @@ export function traceCoast(raster: Raster, options: TraceOptions): Ring[] {
   const rows = height + 2;
   const padded = new Uint8Array(columns * rows);
   for (let y = 0; y < height; y++) {
-    padded.set(land.subarray(y * width, (y + 1) * width), (y + 1) * columns + 1);
+    padded.set(
+      land.subarray(y * width, (y + 1) * width),
+      (y + 1) * columns + 1,
+    );
   }
   const field = boxMean(padded, columns, rows, options.blurRadius);
   return contours(field, columns, rows)

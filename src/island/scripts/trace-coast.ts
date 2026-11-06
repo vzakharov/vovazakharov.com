@@ -13,8 +13,8 @@ import { parseArgs } from 'node:util';
 import { format } from 'prettier';
 import { z } from 'zod';
 
-import { type Ring, traceCoast, type TraceOptions } from '@/island/entities/coast';
 import type { Coast } from '@/island/shared/globe';
+import { type Ring, traceCoast, type TraceOptions } from '@/island/entities/coast';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
