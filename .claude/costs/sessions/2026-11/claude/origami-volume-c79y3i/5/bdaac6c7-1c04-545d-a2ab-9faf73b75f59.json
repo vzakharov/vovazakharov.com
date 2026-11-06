@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 17,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60134,
-    "cacheReadTokens": 776387,
-    "outputTokens": 1834,
-    "thinkingTokens": 233,
-    "responses": 8,
-    "costUsd": 0.6730974000000001
+    "inputTokens": 2661,
+    "cacheWrite5mTokens": 881,
+    "cacheWrite1hTokens": 178028,
+    "cacheReadTokens": 11356846,
+    "outputTokens": 33753,
+    "thinkingTokens": 16473,
+    "responses": 63,
+    "costUsd": 4.388345200000001
   },
   "estimate": {
     "at": "2026-11-06T12:37:20.875Z",
@@ -47,22 +47,24 @@
   "branch": "claude/origami-volume-c79y3i",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/origami-volume-c79y3i — v1 тихохода отклонён, выбран купол из водяной бомбочки с блинцем, решатель пружинящих складок вернулся в ветку",
-  "prs": [],
+  "prs": [
+    253
+  ],
   "url": "https://claude.ai/code/session_01DaohkBhCvdHPzwHmdrHaoD",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T12:36:56.660Z",
-  "lastResponseAt": "2026-11-06T12:37:24.124Z",
+  "lastResponseAt": "2026-11-06T12:51:12.956Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 17,
+    "inputTokens": 110,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60134,
-    "cacheReadTokens": 776387,
-    "outputTokens": 1834,
-    "thinkingTokens": 233,
-    "responses": 8,
-    "costUsd": 0.6730974000000001
+    "cacheWrite1hTokens": 178028,
+    "cacheReadTokens": 10085535,
+    "outputTokens": 33509,
+    "thinkingTokens": 16473,
+    "responses": 57,
+    "costUsd": 4.111951
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,23 +78,34 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 17,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60134,
-      "cacheReadTokens": 776387,
-      "outputTokens": 1834,
-      "thinkingTokens": 233,
-      "responses": 8,
-      "costUsd": 0.6730974000000001
+      "inputTokens": 2661,
+      "cacheWrite5mTokens": 881,
+      "cacheWrite1hTokens": 178028,
+      "cacheReadTokens": 11356846,
+      "outputTokens": 33753,
+      "thinkingTokens": 16473,
+      "responses": 63,
+      "costUsd": 4.388345200000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 7,
-    "matched": 7,
-    "matchedTableUsd": 0.5735122,
-    "matchedEventUsd": 0.5735121999999999,
-    "unseen": {}
+    "events": 63,
+    "matched": 57,
+    "matchedTableUsd": 4.111951,
+    "matchedEventUsd": 4.111951,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 2551,
+        "cacheWrite5mTokens": 881,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1271311,
+        "outputTokens": 244,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.27639420000000003
+      }
+    }
   }
 }

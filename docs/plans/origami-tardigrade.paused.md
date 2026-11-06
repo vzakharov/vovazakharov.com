@@ -110,13 +110,47 @@ base's four, plus two from the book fold — but the blintz's corners land with
 their tips at the apex, the dome's top, not under the belly. Working them down
 into legs is the first design question.
 
+## Inflating the base: what the solver does (relay 5)
+
+Prototypes in `docs/remove-before-merging/origami-volume-c79y3i/prototype/`
+(`.ts.txt` so no checker reads them; copy to `tmp/tg/` as `.ts` and run with
+`npx tsx`): `dome.ts` folds the blintzed waterbomb base and relaxes it,
+`show.ts` renders a relaxed mesh through the origami renderer one triangle per
+piece, `angles.ts` computes consistent crease angles. Runs take 20–60 s per 40k
+steps on 803 vertices.
+
+- **From the pressed state it does not settle**: the flat base starts with 84
+  crossings, the basilisk's failure again.
+- **From the flat sheet (`fromFlat`) it settles badly**: the blintz flaps, swung
+  180° through space, pass through the paper (strain 13%, 118 crossings).
+- **From the pressed blintz (`fromPose`, the state after step 4) it nearly
+  works**: start positions from the pose, the base's creases starting at 0, the
+  contact stack read off the pose. 0 start crossings; at 40k steps a four-point
+  star dome (`hold` 0.5 on all base creases), 2 crossings, strain 10%, not yet
+  settled. This is the route.
+- **The base's vertex is degree 6, not 8**: four diagonal rays (`x = 0.5`,
+  `y = 0.5`, made by the reverse folds) and the midline `y = x` (the book fold);
+  `x + y = 1` is never creased, so two 90° sectors stay flat — the big faces of
+  a tent. Equal holds on all creases are inconsistent at that vertex, hence the
+  strain. `angles.ts` gives the symmetric 1-DOF motion: big faces tilted 130° →
+  diagonals 118.6°, midline 168.9°; 150° → 78.5° / 158.2°.
+- **Those angles made it worse** (`HOLDM=0.938 HOLDD=0.659`: strain 13%, 23
+  crossings, the big faces visibly bent; render
+  `prototype/pose-consistent- angles.png`). Two suspects, unchecked: the facets
+  are as stiff as the creases (`FACET = CREASE = 0.7` in `relax.ts`), so the
+  paper bends instead of creasing; or the holds landed on the wrong family
+  (check which record `holdAt` picks for the `y = x` halves).
+
 ## Left
 
-1. The dome flat: the blintzed waterbomb base, eight legs out of its flaps by
-   reverse folds (the blintz flaps above), a snout at one end; render each
-   stage.
-2. Inflate it with the solver; judge by the shadow and the head-on view.
-3. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
+1. Make the base settle near-isometric from the blintz pose: try a stiffer
+   `FACET` (Origami Simulator's ratio keeps facets well above creases) and
+   verify the hold families; done when strain is under ~1% and crossings 0.
+2. Then the tardigrade on it: eight legs (the open question above) and a snout,
+   by reverse folds before inflating; render each stage.
+3. Move `fromPose` and the per-triangle render into `src/` (a `--relax` path in
+   `fold-model.ts`), with tests, and replace v1 in `tardigrade.ts`.
+4. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
    solver — rewrite them).
 
 ## DRY notes

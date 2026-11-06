@@ -1,0 +1,169 @@
+// Prototype: blintzed waterbomb base, relaxed either from the pressed state or
+// folded up from the flat sheet (FLAT=1).
+import { writeFileSync } from 'node:fs';
+
+import { run, type StepSpec } from '../../src/origami/shared/fold/fold.ts';
+import { mesh, type Mesh } from '../../src/origami/shared/fold/mesh.ts';
+import { relax } from './relax.ts';
+import { crossings } from '../../src/origami/shared/fold/contact.ts';
+import { PAPERS } from '../../src/origami/shared/fold/paper.ts';
+import {
+  flatPolygon,
+  type FoldState,
+  layers,
+  type Piece,
+} from '../../src/origami/shared/fold/state.ts';
+import {
+  apply,
+  contains,
+  determinant,
+  type Vec,
+} from '../../src/origami/shared/fold/geometry.ts';
+import { transform } from '../../src/origami/shared/fold/space.ts';
+import { dihedral } from '../../src/origami/shared/fold/hinge.ts';
+
+const paper = PAPERS['kami-15'];
+const hold = Number(process.env.HOLD ?? 0.5);
+const upTo = Number(process.env.UPTO ?? 99);
+
+export const steps: StepSpec[] = [
+  { line: { p: [0.5, 0], q: [0, 0.5] }, moving: [0.05, 0.05] },
+  { line: { p: [0.5, 0], q: [1, 0.5] }, moving: [0.95, 0.05] },
+  { line: { p: [1, 0.5], q: [0.5, 1] }, moving: [0.95, 0.95] },
+  { line: { p: [0, 0.5], q: [0.5, 1] }, moving: [0.05, 0.95] },
+  {
+    line: { p: [0, 0], q: [1, 1] },
+    moving: [0.3, 0.7],
+    tag: 'L',
+    direction: 'mountain',
+    hold: Number(process.env.HOLDM ?? hold),
+  },
+  {
+    line: { p: [0.5, 0], q: [0.5, 1] },
+    moving: [0.3, 0.27],
+    select: 'flap',
+    lower: 'L',
+    direction: 'inside',
+    hold: Number(process.env.HOLDD ?? hold),
+  },
+  {
+    line: { p: [0, 0.5], q: [1, 0.5] },
+    moving: [0.73, 0.7],
+    select: 'flap',
+    lower: 'L',
+    direction: 'inside',
+    hold: Number(process.env.HOLDD ?? hold),
+  },
+].slice(0, upTo);
+
+export function fromFlat(m: Mesh): Mesh {
+  return {
+    ...m,
+    start: m.paper.map(([x, y]) => [x, y, 0] as const),
+    sheets: m.sheets.map(() => []),
+  };
+}
+
+/** The mesh of the final state started from an earlier one, `pose`: every
+ * vertex where the pose put it, each crease the pose had not yet folded flat
+ * at 0, the contact stack read off the pose. */
+export function fromPose(m: Mesh, pose: FoldState): Mesh {
+  const lift = paper.thickness / paper.side;
+  const layerOf = layers(pose);
+  const holding = (pt: Vec) =>
+    pose.pieces.filter((p) => contains(p.paper, pt));
+  const start = m.paper.map((pt): [number, number, number] => {
+    const around = holding(pt);
+    const sum = around.reduce(
+      (s, p) => {
+        const at = transform(p.shaping, [
+          ...apply(p.placement, pt),
+          (layerOf.get(p.id) ?? 0) * lift,
+        ]);
+        return [s[0] + at[0], s[1] + at[1], s[2] + at[2]];
+      },
+      [0, 0, 0],
+    );
+    return [sum[0] / around.length, sum[1] / around.length, sum[2] / around.length];
+  });
+  const centroid = (ids: readonly number[]): Vec => {
+    const pts = ids.map((i) => m.paper[i] ?? [0, 0]);
+    return [
+      pts.reduce((s, p) => s + p[0], 0) / pts.length,
+      pts.reduce((s, p) => s + p[1], 0) / pts.length,
+    ];
+  };
+  const pieceAt = (pt: Vec) => {
+    const found = holding(pt)[0];
+    if (!found) throw new Error(`no pose piece at ${pt.join(',')}`);
+    return found;
+  };
+  const x = Float64Array.from(start.flat());
+  const hinges = m.hinges.map((h) => {
+    const one = pieceAt(centroid([h.a, h.b, h.c]));
+    const two = pieceAt(centroid([h.b, h.a, h.d]));
+    const folded = one !== two && Math.abs(one.order - two.order) > 0;
+    const geometric = dihedral(x, h);
+    return { ...h, start: folded ? Math.sign(h.start) * Math.PI : geometric };
+  });
+  const stack = (p: Piece) => ({ order: p.order, plane: 0 });
+  return {
+    ...m,
+    start,
+    hinges,
+    faces: m.triangles.map((t) => {
+      const p = pieceAt(centroid(t));
+      return { ...stack(p), facing: Math.sign(determinant(p.placement)) };
+    }),
+    sheets: m.paper.map((pt) => holding(pt).map(stack)),
+  };
+}
+
+if (process.argv[1]?.endsWith('dome.ts')) {
+  const state = run(steps);
+  console.log('pieces', state.pieces.length);
+  if (process.env.LIST) {
+    for (const p of state.pieces) {
+      console.log(
+        p.id,
+        p.order,
+        [...p.tags].join(''),
+        flatPolygon(p)
+          .map((v) => v.map((n) => n.toFixed(3)).join(','))
+          .join(' '),
+      );
+    }
+  }
+  const pressed = mesh(state, paper);
+  const pose = process.env.POSE;
+  const m = process.env.FLAT
+    ? fromFlat(pressed)
+    : pose
+      ? fromPose(pressed, run(steps, Number(pose)))
+      : pressed;
+  const gap = paper.thickness / paper.side;
+  console.log(
+    'verts',
+    m.paper.length,
+    'hinges',
+    m.hinges.length,
+    'start crossings',
+    crossings(m, Float64Array.from(m.start.flat()), gap / 2),
+  );
+  const t0 = Date.now();
+  const r = relax(m, paper);
+  console.log(
+    'iters',
+    r.iterations,
+    'strain',
+    r.strain,
+    'crossings',
+    r.crossings,
+    'ms',
+    Date.now() - t0,
+  );
+  writeFileSync(
+    'tmp/tg/relaxed.json',
+    JSON.stringify({ triangles: m.triangles, paper: m.paper, positions: r.positions, faces: m.faces }),
+  );
+}
