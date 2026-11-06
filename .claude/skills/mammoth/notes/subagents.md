@@ -271,6 +271,12 @@
   watch landed before the flight fix and turned `pnpm play:mushrooms` red across
   two sessions. Land a watch and its fix in one wave, or say in the pause note
   that red is expected.
+- **A lead's `memo.py wait` polls with `git fetch`, and a fetch writes
+  `FETCH_HEAD`, which a `git pull` in the same checkout merges.** At the
+  island's bite 0, a polish agent's `pull --no-rebase` ran while the lead waited
+  on bite 1 and merged the bite's branch into the lead's (686f51740). Every
+  fetch a background poller runs passes `--no-write-fetch-head`; the skill
+  should keep agents out of the lead's checkout whenever a wait is armed.
 - **A sibling's red goes to its owner while the owner still runs.** Bite 12b's F
   found three reds in the shared `fliers.test.ts` and traced them to B's commit
   while B ran; forwarded with `SendMessage`, B settled them before reporting —
