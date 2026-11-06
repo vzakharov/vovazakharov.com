@@ -3,9 +3,12 @@
  * one CSS transform, with the screen ↔ world conversions every gesture needs.
  */
 
-export type Camera = { x: number; y: number; scale: number };
-export type Point = { x: number; y: number };
-export type Rect = { x: number; y: number; w: number; h: number };
+import type { Point, Sized } from '@/kernel/shared/typings';
+
+export type { Point } from '@/kernel/shared/typings';
+
+export type Camera = Point & { scale: number };
+export type Rect = Point & Sized;
 
 const MIN_SCALE = 0.05;
 const MAX_SCALE = 3;
@@ -33,15 +36,21 @@ export function zoomAt(camera: Camera, anchor: Point, factor: number): Camera {
 export function fitTo(bounds: Rect, viewport: Rect, margin = 48): Camera {
   const scale = clampScale(
     Math.min(
-      (viewport.w - 2 * margin) / Math.max(bounds.w, 1),
-      (viewport.h - 2 * margin) / Math.max(bounds.h, 1),
+      (viewport.width - 2 * margin) / Math.max(bounds.width, 1),
+      (viewport.height - 2 * margin) / Math.max(bounds.height, 1),
       1,
     ),
   );
   return {
     scale,
-    x: viewport.x + (viewport.w - bounds.w * scale) / 2 - bounds.x * scale,
-    y: viewport.y + (viewport.h - bounds.h * scale) / 2 - bounds.y * scale,
+    x:
+      viewport.x +
+      (viewport.width - bounds.width * scale) / 2 -
+      bounds.x * scale,
+    y:
+      viewport.y +
+      (viewport.height - bounds.height * scale) / 2 -
+      bounds.y * scale,
   };
 }
 
@@ -49,14 +58,14 @@ export function union(rects: readonly Rect[]): Rect | undefined {
   if (rects.length === 0) return undefined;
   const left = Math.min(...rects.map((r) => r.x));
   const top = Math.min(...rects.map((r) => r.y));
-  const right = Math.max(...rects.map((r) => r.x + r.w));
-  const bottom = Math.max(...rects.map((r) => r.y + r.h));
-  return { x: left, y: top, w: right - left, h: bottom - top };
+  const right = Math.max(...rects.map((r) => r.x + r.width));
+  const bottom = Math.max(...rects.map((r) => r.y + r.height));
+  return { x: left, y: top, width: right - left, height: bottom - top };
 }
 
 export const centreOf = (rect: Rect): Point => ({
-  x: rect.x + rect.w / 2,
-  y: rect.y + rect.h / 2,
+  x: rect.x + rect.width / 2,
+  y: rect.y + rect.height / 2,
 });
 
 /**
@@ -69,8 +78,8 @@ export function edgePoint(rect: Rect, target: Point): Point {
   const dy = target.y - cy;
   if (dx === 0 && dy === 0) return { x: cx, y: cy };
   const t = Math.min(
-    dx === 0 ? Infinity : rect.w / 2 / Math.abs(dx),
-    dy === 0 ? Infinity : rect.h / 2 / Math.abs(dy),
+    dx === 0 ? Infinity : rect.width / 2 / Math.abs(dx),
+    dy === 0 ? Infinity : rect.height / 2 / Math.abs(dy),
   );
   return { x: cx + dx * t, y: cy + dy * t };
 }

@@ -113,8 +113,8 @@ function rectOf(id: string): Rect | undefined {
   return {
     x: node.offsetLeft,
     y: node.offsetTop,
-    w: node.offsetWidth,
-    h: node.offsetHeight,
+    width: node.offsetWidth,
+    height: node.offsetHeight,
   };
 }
 
@@ -162,11 +162,11 @@ function fit(): void {
       .map((item) => rectOf(item.id))
       .filter((rect) => rect !== undefined),
   );
-  const box = stage.getBoundingClientRect();
+  const { width, height } = stage.getBoundingClientRect();
   camera =
     bounds === undefined
       ? { ...screenCentre(), scale: 1 }
-      : fitTo(bounds, { x: 0, y: 0, w: box.width, h: box.height });
+      : fitTo(bounds, { x: 0, y: 0, width, height });
   applyCamera();
 }
 
