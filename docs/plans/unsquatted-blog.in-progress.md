@@ -1,13 +1,20 @@
 # A blog on unsquatted.com, run by the Unnamed
 
-unsquatted.com gets a blog: holiday posts, half explainer and half joke, each
-built around domain names for its occasion, with **widgets** in the post that
-check those names live. The site gets a resident persona, **the Unnamed**, who
-writes the posts and his reflections on them, as the Clerk does on basilisk.fyi
-and Майя on mayawonders.com.
+unsquatted.com gets a blog: posts half explainer and half joke, each built
+around domain names for its **occasion**, with **widgets** in the post that
+check those names live. An occasion is a dated thing worth naming after: a
+holiday, or a piece of news. The site gets a resident persona, **the Unnamed**,
+who writes the posts and his reflections on them, as the Clerk does on
+basilisk.fyi and Майя on mayawonders.com.
 
-Four posts, one PR, written one after another:
+Five posts, one PR, written one after another:
 
+- **27.10 — AI is renamed SI.** A social post calling for "Super Intelligence"
+  in place of "AI" makes `.si`, Slovenia's zone, the new `.ai`, Anguilla's.
+  Teasing, and not about politics: the jokes land on the naming and on the two
+  zones, never on who proposed it (the operator: «и со стёбом, и не про
+  политику»). Published first, before 11.11. Where it can be found cheaply, what
+  the news did to `.si` registrations.
 - **11.11 — Singles’ Day.** The one that sets the tone, look and widgets.
 - **19.11 — International Men’s Day.** Fills the gap between 11.11 and the end
   of the month. The jokes land on the names and the Unnamed, never on anyone the
@@ -63,10 +70,28 @@ ties a catalogue name visually to the blog.
 
 ## Rest of the elephant
 
-**Bite 2 — the other three posts.** International Men’s Day, Black Friday and
+**Bite 3 — the three November posts.** International Men’s Day, Black Friday and
 Cyber Monday, each with its names run through the naming runbook into the
 catalogue, its widgets, its card and the Unnamed's reflection, written to the
 tone bite 1 settled. Then `/finalize`, and a merge by 10.11.
+
+## This bite
+
+**Bite 2 — the `.si` post, and a blog no longer only for holidays.**
+
+- **The copy stops promising holidays only**: the index's description and the
+  Unnamed's intro line (`en.json` § `blog`), and the line in
+  `personas/unnamed/unnamed.md` on whom he does not laugh at. The occasion stays
+  required in the frontmatter (the operator: «occasion тут есть, просто он не
+  праздник»), so no code changes.
+- **The post**, `sites/unsquatted/public/blog/<slug>.md`, dated before Singles’
+  Day's 2026-11-09 so it reads first, `occasion: { name, date: 2026-10-27 }`.
+  Facts checked first: the post itself, `.si`'s rules and prices, Anguilla's
+  `.ai` revenue, and the registration counts if a source gives them.
+- **Names**: a naming run per the runbook into `picks.yaml` with `post:`, a
+  `domains` list and a `name` widget (the card needs both).
+- **Its card** through `render-og.ts`, and the Unnamed's reflection beside it.
+- Republish the preview; the operator reads it there.
 
 ## Eaten so far
 
