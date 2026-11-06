@@ -34,6 +34,11 @@
       "multiplier": 0.8,
       "grade": "senior",
       "work": "landscape assets and look: trees, rocks, textures, palettes of land, sea and sky"
+    },
+    "producer": {
+      "multiplier": 0.85,
+      "grade": "senior",
+      "work": "running a game team: scoping milestones, briefing members, merging and tracking their work"
     }
   }
 }
