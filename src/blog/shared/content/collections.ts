@@ -21,6 +21,7 @@ const COLLECTION_IDS = [
   'basilisk-faq',
   'maya-blog',
   'lsa-blog',
+  'unsquatted-blog',
 ] as const;
 
 export type CollectionId = (typeof COLLECTION_IDS)[number];
@@ -125,6 +126,19 @@ export const COLLECTIONS = {
     feed: true,
     bylined: true,
   },
+  'unsquatted-blog': {
+    base: 'blog',
+    label: 'Names and Dates',
+    site: 'unsquatted',
+    printable: false,
+    localized: false,
+    homeIndexed: false,
+    /** Drawn by `src/unsquatted/scripts/lib/unsquatted-card.ts`. */
+    generatedCards: true,
+    feed: true,
+    bylined: true,
+    widgets: ['domains', 'name'],
+  },
 } as const satisfies Record<
   CollectionId,
   WithSiteId & {
@@ -162,8 +176,21 @@ export const COLLECTIONS = {
      * repeat the site's.
      */
     bylined: boolean;
+    /**
+     * The directives its documents may author beyond blog's own, each compiled
+     * into a placeholder its owning app's component renders — the names alone,
+     * since the components are the owner's and blog never imports them.
+     */
+    widgets?: readonly string[];
   }
 >;
+
+/** The widget directives a collection's documents may author. */
+export function collectionWidgets(id: CollectionId): readonly string[] {
+  const entry = COLLECTIONS[id];
+
+  return 'widgets' in entry ? entry.widgets : [];
+}
 
 /** The collections one site serves — every registry walk starts here. */
 export function collectionsForSite(site: SiteId): CollectionId[] {

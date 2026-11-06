@@ -34,7 +34,9 @@ model come first.
   — a gate moved from session state to git with throwaway-repo tests, a reviewer
   launched with exactly the one line its skill gives. A batch of review comments
   on skill prose answered in one round, a renamed commit type followed through
-  every hook, test, catalog entry and skill naming it.
+  every hook, test, catalog entry and skill naming it. A layered-architecture
+  move of some fifty files to a given map, every graph checker green, each
+  deviation from the map reported with its cause.
 - **Misses:** a record that lists the files carrying a local difference, when
   the port moves that difference into a file the record does not name yet.
   Planning a reader for an undocumented record format, it drew the shapes from
@@ -68,6 +70,8 @@ model come first.
   enough; ask for "anything that surprised you" — it reports useful edges.
 - **Cost, by eye:** that suite, a few hundred lines, cost about twice as much
   delegated as written in-session; the rework ran to about 137k subagent tokens.
+  The fifty-file move came to about two-thirds of the in-session cost at 25
+  turns, and kept the delegator's context small.
 
 ## haiku
 

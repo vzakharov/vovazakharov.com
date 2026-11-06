@@ -1,0 +1,137 @@
+{
+  "total": {
+    "inputTokens": 3384,
+    "cacheWrite5mTokens": 2044,
+    "cacheWrite1hTokens": 166915,
+    "cacheReadTokens": 15657587,
+    "outputTokens": 39778,
+    "thinkingTokens": 7511,
+    "responses": 92,
+    "costUsd": 5.2823092
+  },
+  "estimate": {
+    "at": "2026-11-06T15:00:01.561Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the vet tail, a sub-slice split and two styling fixes are routine work against a known contract"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "linking each claim in two posts to its source and checking one doubtful fact"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "looking at the widget and its copied image in both themes and at phone width"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-06T14:37:18.453Z",
+    "contextTokens": 122502,
+    "spend": {
+      "inputTokens": 27,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 62954,
+      "cacheReadTokens": 1262751,
+      "outputTokens": 4309,
+      "thinkingTokens": 776,
+      "responses": 12,
+      "costUsd": 0.8424702000000001
+    }
+  },
+  "sessionId": "b6dd3afd-6320-51bd-a8ea-25b9df18795e",
+  "branch": "claude/unsquatted-blog-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — виджет-реакция готов (lolok, slowclap, yeahright, ohnoanyway), сборка и проверки починены, vet на GitHub идёт; ссылк…",
+  "prs": [
+    249
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFENFNzof8ZFq76ETo",
+  "operator": null,
+  "firstResponseAt": "2026-11-06T14:36:11.531Z",
+  "lastResponseAt": "2026-11-06T15:00:23.959Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 177,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 166915,
+    "cacheReadTokens": 14961913,
+    "outputTokens": 39436,
+    "thinkingTokens": 7511,
+    "responses": 87,
+    "costUsd": 5.1171306
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2201,
+      "cacheWrite5mTokens": 2044,
+      "cacheWrite1hTokens": 166915,
+      "cacheReadTokens": 15657587,
+      "outputTokens": 39503,
+      "thinkingTokens": 7511,
+      "responses": 91,
+      "costUsd": 5.282053400000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1183,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 275,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00025580000000000004
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 92,
+    "matched": 87,
+    "matchedTableUsd": 5.1171306,
+    "matchedEventUsd": 5.117130600000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 2044,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 695674,
+        "outputTokens": 67,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.16492280000000004
+      },
+      "generate_session_title": {
+        "inputTokens": 1183,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 275,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00025580000000000004
+      }
+    }
+  }
+}

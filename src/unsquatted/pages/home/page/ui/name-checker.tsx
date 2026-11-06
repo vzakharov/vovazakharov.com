@@ -9,59 +9,36 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 
+import { TextLink } from '@/shell/shared/ui';
+
+import { collectionRoute } from '@/blog/shared/content/index.node-safe';
+
 import {
   type CopiedPrices,
+  OWN_DOMAIN,
   type Row,
   rowsFor,
-  useChecker,
+  useVerdicts,
   useWords,
   zoneOf,
-} from '../../checker';
-import { FieldTools, TOOL_BUTTON } from '../../field-tools';
+  ZoneRow,
+} from '@/unsquatted/entities/domain';
+import { FieldTools, TOOL_BUTTON } from '@/unsquatted/widgets/field-tools';
+
+import { useChecker } from '../../checker';
 import { IdeasLine, IdeasOffer, useIdeas } from '../../ideas';
-import { useVerdicts } from '../../verdict';
-import {
-  type CopiedPrice,
-  type CopiedVerdict,
-  OWN_DOMAIN,
-  UncheckedLabel,
-  VerdictLabel,
-} from '../../verdict-label';
 import { rollName } from '../lib/dice';
 import { DiceIcon } from './dice-icon';
 import classes from './unsquatted-home.module.scss';
-
-type ZoneRowProps = CopiedVerdict &
-  CopiedPrice &
-  Row & { ownNeighbour: boolean };
-
-function ZoneRow({
-  domain,
-  checkable,
-  verdict,
-  ownNeighbour,
-  price,
-  copy,
-}: ZoneRowProps) {
-  return (
-    <li className={classes['zone']}>
-      <span className={classes['domain']} title={domain}>
-        {domain}
-      </span>
-      {checkable ? (
-        <VerdictLabel {...{ domain, verdict, ownNeighbour, price, copy }} />
-      ) : (
-        <UncheckedLabel text={copy.cantCheck} />
-      )}
-    </li>
-  );
-}
 
 /**
  * The most rows the closed list shows — its first three lines, at its widest
  * in the stylesheet's `.zones`.
  */
 const CLOSED_ROWS = 9;
+
+/** The roll after which the field offers the blog instead. */
+const NUDGE_ROLLS = 3;
 
 const checkableDomains = (rows: readonly Row[]) =>
   rows.filter(({ checkable }) => checkable).map(({ domain }) => domain);
@@ -91,6 +68,8 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
   const [open, setOpen] = useState(false);
   const [wanted, setWanted] = useState(false);
   const [rolling, setRolling] = useState(false);
+  // The page view's own count: every visit starts at zero.
+  const [rolls, setRolls] = useState(0);
   const words = useWords(label !== '');
   const rows =
     label === '' ? [] : rowsFor(label, zone, Object.keys(prices), words);
@@ -174,6 +153,7 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           loading={rolling}
           onClick={() => {
             setRolling(true);
+            setRolls(rolls + 1);
             rollName()
               .then(checkHere, reportError)
               .finally(() => {
@@ -193,6 +173,14 @@ export function NameChecker({ copy, prices }: CopiedPrices) {
           {copy.checkButton}
         </Button>
       </form>
+      {rolls >= NUDGE_ROLLS && (
+        <p className={classes['diceNudge']}>
+          {copy.diceNudge}{' '}
+          <TextLink href={collectionRoute('unsquatted-blog')}>
+            {copy.diceNudgeLink}
+          </TextLink>
+        </p>
+      )}
       {rows.length > 0 && (
         <ul className={classes['zones']} data-open={open} aria-live="polite">
           {rows.map((row, index) => (

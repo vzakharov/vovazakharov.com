@@ -1,0 +1,64 @@
+@use '../../../../../styles/mantine' as mantine;
+
+.verdict {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  // A narrow card wraps a long verdict rather than spilling it.
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    white-space: normal;
+  }
+
+  &[data-state='pending'],
+  &[data-state='unknown'] {
+    color: var(--unsquatted-muted);
+  }
+
+  &[data-state='free'] {
+    color: var(--color-accent);
+  }
+
+  &[data-state='maybe'] {
+    color: var(--unsquatted-maybe);
+  }
+
+  &[data-state='taken'] {
+    color: var(--unsquatted-taken);
+  }
+
+  // A register link takes its label's colour, not the anchors' foreground.
+  & a {
+    color: inherit;
+  }
+}
+
+// Lines of their own under the zone's name and verdict.
+.priceLine,
+.aside {
+  flex-basis: 100%;
+  color: var(--unsquatted-muted);
+}
+
+.priceLine {
+  &:empty {
+    display: none;
+  }
+}
+
+// A hint, not a verdict: quieter than the line above it, and at body weight
+// under a bold link.
+.price {
+  color: var(--unsquatted-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.priceFiller {
+  opacity: 0.6;
+}
+
+.aside {
+  font-size: 0.8rem;
+}

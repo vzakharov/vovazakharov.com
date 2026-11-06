@@ -6,8 +6,9 @@ import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 
 import type { Headed } from '@/kernel/shared/typings';
 
-import { type CopiedPrices, zoneOf } from '../../checker';
-import type { ShownName } from '../../picks';
+import { type CopiedPrices, zoneOf } from '@/unsquatted/entities/domain';
+
+import type { LinkedName } from '../../picks';
 import { draw } from '../lib/draw';
 import classes from './deck.module.scss';
 import { PickRow } from './pick-row';
@@ -25,18 +26,18 @@ const SHOWN = 10;
 /** `heading` is the list's, set beside the redraw button. */
 type PickDeckProps = CopiedPrices &
   Headed & {
-    picks: readonly ShownName[];
+    picks: readonly LinkedName[];
   };
 
 const listeners = new Set<() => void>();
 
 /** The names on screen, drawn on the first read in the browser. */
-let drawn: readonly ShownName[] | undefined;
+let drawn: readonly LinkedName[] | undefined;
 
 /** What the static page lists: nothing, until the browser draws. */
-const UNDRAWN: readonly ShownName[] = [];
+const UNDRAWN: readonly LinkedName[] = [];
 
-function show(names: readonly ShownName[]) {
+function show(names: readonly LinkedName[]) {
   drawn = names;
   for (const listener of listeners) listener();
 }

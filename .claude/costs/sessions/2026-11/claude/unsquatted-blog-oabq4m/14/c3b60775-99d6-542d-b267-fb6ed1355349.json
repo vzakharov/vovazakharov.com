@@ -1,0 +1,105 @@
+{
+  "total": {
+    "inputTokens": 603,
+    "cacheWrite5mTokens": 831,
+    "cacheWrite1hTokens": 121950,
+    "cacheReadTokens": 7170245,
+    "outputTokens": 23464,
+    "thinkingTokens": 5300,
+    "responses": 49,
+    "costUsd": 2.8879890000000006
+  },
+  "estimate": {
+    "at": "2026-11-06T19:09:30.215Z",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a frontmatter mark threaded through a schema, a component, the card and the feed is routine work in a known pipeline"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T18:08:48.972Z",
+    "contextTokens": 111968,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48497,
+      "cacheReadTokens": 567790,
+      "outputTokens": 1123,
+      "thinkingTokens": 75,
+      "responses": 6,
+      "costUsd": 0.52405
+    }
+  },
+  "sessionId": "c3b60775-99d6-542d-b267-fb6ed1355349",
+  "branch": "claude/unsquatted-blog-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — картинка виджета доделана (серая подпись, unsquatted.com как на карточках), лид .si кончается на «Hura, najbrž?»; на…",
+  "prs": [
+    249
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFRL45Gi7i71ndUfsq",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T18:08:31.728Z",
+  "lastResponseAt": "2026-11-06T19:09:50.598Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 97,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 121950,
+    "cacheReadTokens": 6993642,
+    "outputTokens": 23444,
+    "thinkingTokens": 5300,
+    "responses": 48,
+    "costUsd": 2.8435964000000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 603,
+      "cacheWrite5mTokens": 831,
+      "cacheWrite1hTokens": 121950,
+      "cacheReadTokens": 7170245,
+      "outputTokens": 23464,
+      "thinkingTokens": 5300,
+      "responses": 49,
+      "costUsd": 2.8879890000000006
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 48,
+    "matched": 47,
+    "matchedTableUsd": 2.7579876000000003,
+    "matchedEventUsd": 2.7579876000000003,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 831,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 176603,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.044392600000000004
+      }
+    }
+  }
+}

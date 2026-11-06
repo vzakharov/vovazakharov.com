@@ -1,0 +1,66 @@
+@use '../../../../../styles/mantine' as mantine;
+
+.masthead {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.site {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--color-foreground);
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.mark {
+  width: 32px;
+  height: 32px;
+
+  rect {
+    fill: var(--color-accent);
+  }
+
+  path {
+    fill: none;
+    stroke: var(--color-background);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+  }
+}
+
+.crumb {
+  color: var(--unsquatted-muted);
+  font-size: 1.125rem;
+
+  a {
+    color: var(--color-accent);
+  }
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    display: none;
+  }
+}
+
+.nav {
+  display: flex;
+  gap: 18px;
+  margin-left: auto;
+  font-size: 0.9375rem;
+
+  a {
+    color: var(--color-accent);
+  }
+
+  // A phone keeps the way to the blog and its feed; the site's name is the
+  // way home.
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    a:first-child {
+      display: none;
+    }
+  }
+}

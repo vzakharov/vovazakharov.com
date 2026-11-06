@@ -6,6 +6,7 @@
 export {
   collectionDir,
   type CollectionId,
+  collectionRoute,
   COLLECTIONS,
   collectionsForSite,
   documentRoute,
@@ -21,3 +22,4 @@ export {
   mermaidFileName,
 } from './mermaid-renders.ts';
 export { stampFrontmatter } from './translation-stamp.ts';
+export type { WidgetPlaceholder } from './widget-element.ts';

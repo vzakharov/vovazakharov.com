@@ -1,4 +1,5 @@
-import { cleanLabel } from '../../../checker/index.node-safe';
+import { cleanLabel } from '@/unsquatted/entities/domain/index.node-safe';
+
 import { IDEA_LENGTH, IDEAS_SHOWN } from './prompt';
 
 /**

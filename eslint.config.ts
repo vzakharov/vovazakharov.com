@@ -191,6 +191,14 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/no-unsafe-type-assertion': 'off',
     },
   },
+  // A `.cjs` file is CommonJS by its extension, so `require` is its only import
+  // syntax. Its use here is a dev script driving the globally installed
+  // Playwright, which resolves only through `NODE_PATH` — and ESM `import`
+  // ignores `NODE_PATH`.
+  {
+    files: ['**/*.cjs'],
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next, re-stated for `sites/*` because each

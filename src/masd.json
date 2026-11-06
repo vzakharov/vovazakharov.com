@@ -10,6 +10,6 @@
   "scene": ["kernel"],
   "mushrooms": ["scene"],
   "origami": ["scene"],
-  "unsquatted": ["shell"],
+  "unsquatted": ["blog"],
   "vova": ["blog", "music", "mushrooms"]
 }

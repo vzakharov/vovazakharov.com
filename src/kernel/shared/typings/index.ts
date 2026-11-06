@@ -63,6 +63,9 @@ export type Labeled = { label: string };
 /** An absolute address. */
 export type WithUrl = { url: string };
 
+/** A domain name, its zone included: `mudlark.ing`. */
+export type WithDomain = { domain: string };
+
 /** The code of the language a thing is in. */
 export type WithLanguage = { language: string };
 
