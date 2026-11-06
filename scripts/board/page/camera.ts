@@ -55,13 +55,17 @@ export function union(rects: readonly Rect[]): Rect | undefined {
   return { x: left, y: top, w: right - left, h: bottom - top };
 }
 
+export const centreOf = (rect: Rect): Point => ({
+  x: rect.x + rect.w / 2,
+  y: rect.y + rect.h / 2,
+});
+
 /**
  * Where the segment from `rect`'s centre towards `target` leaves `rect` — so a
  * line between two items starts and ends at their edges, not under them.
  */
 export function edgePoint(rect: Rect, target: Point): Point {
-  const cx = rect.x + rect.w / 2;
-  const cy = rect.y + rect.h / 2;
+  const { x: cx, y: cy } = centreOf(rect);
   const dx = target.x - cx;
   const dy = target.y - cy;
   if (dx === 0 && dy === 0) return { x: cx, y: cy };

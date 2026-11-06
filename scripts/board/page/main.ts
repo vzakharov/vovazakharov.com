@@ -165,7 +165,7 @@ function fit(): void {
   const box = stage.getBoundingClientRect();
   camera =
     bounds === undefined
-      ? { x: box.width / 2, y: box.height / 2, scale: 1 }
+      ? { ...screenCentre(), scale: 1 }
       : fitTo(bounds, { x: 0, y: 0, w: box.width, h: box.height });
   applyCamera();
 }
@@ -177,10 +177,12 @@ function screenPoint(event: ScreenPointEvent): Point {
   return { x: event.clientX - box.left, y: event.clientY - box.top };
 }
 
-function viewCentre(): Point {
+function screenCentre(): Point {
   const box = stage.getBoundingClientRect();
-  return toWorld(camera, { x: box.width / 2, y: box.height / 2 });
+  return { x: box.width / 2, y: box.height / 2 };
 }
+
+const viewCentre = (): Point => toWorld(camera, screenCentre());
 
 function startEditing(id: string): void {
   const node = nodeOf(id)?.querySelector<HTMLElement>('[data-edit]');
@@ -302,8 +304,7 @@ async function addImage(file: Blob): Promise<void> {
 }
 
 function zoomBy(factor: number): void {
-  const box = stage.getBoundingClientRect();
-  camera = zoomAt(camera, { x: box.width / 2, y: box.height / 2 }, factor);
+  camera = zoomAt(camera, screenCentre(), factor);
   applyCamera();
 }
 
