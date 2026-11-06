@@ -267,6 +267,24 @@ tardigrade waits, and the work is a generator.
   segmented barrel with points along its edges — segments and legs from one
   pattern. Needs a mesh built from a crease pattern rather than from fold steps.
 
+## Folding by feel (relay 8)
+
+The operator: «помни, у тебя нет задачи сделать тихоходку. не думай ни о
+тихоходке, ни о белом медведе)». The tardigrade is no target here, not even a
+distant one: fold, render, follow what looks interesting, and judge a result
+only by whether it looks like _something_.
+
+- `prototype/feel.ts.txt` renders a step list rigidly; `prototype/spring.ts.txt`
+  folds it flat and lets the creases spring to their `hold` (`POSE=<n>` starts
+  from the state after n steps). Steps go inline as JSON; 3–20 s a run.
+- A crease with no `hold` springs to the paper's default, so a strip's
+  lengthwise folds need `hold: 1` or the strip opens up again.
+- So far: an accordion (clean, a zigzag); a four-layer strip bent across — a
+  «П», a table on one foot, and with two oblique bends a deck chair
+  (`feel-strip-chaise.png`). A strip has one path, so nothing branches off it.
+- On the operator's ask, three subagents fold by feel in parallel, each from its
+  own first move (pleats, classic bases, soft curls), in `tmp/tg/<theme>/`.
+
 ## Left
 
 1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0
