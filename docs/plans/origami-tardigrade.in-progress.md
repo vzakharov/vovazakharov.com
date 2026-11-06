@@ -333,6 +333,14 @@ steps in `prototype/feel-{lotus,tulip,fish-gill,frog}.*`, the run helper
   up 0.6 and the back ones at 0.35, all four tips folded (hold 0.8 — 0.9 leaves
   1–2 crossings): arms up, legs splayed, a lens of a mouth. 1.3%. Only head-on;
   from elsewhere a box with a flap.
+- **Tulip → moth** (top view, `ROT=90`, `feel-moth.*`): the fan at 0.85/0.6,
+  then two folds along the stack's length, 0.06 off its axis, folding out only
+  the outermost layer — `top: 1` valley and `bottom: 1` mountain, hold ≤ 0.5
+  (0.7+ crosses): green fore- and hindwings, a slim body. 1.5%. With 7 creases
+  instead of 15 the same pair makes a swept-wing jet. A step's line is placed in
+  the folded state, not on the sheet; all-layer cross folds on this fan strain
+  6–8%. The operator read the frog head-on as a dilophosaurus with its frill
+  spread — handed to the frog's next round as a lead.
 - **Engine limits met**: a fold seeded on some layers still drags every layer
   joined to them along the pleats (no forked tail); a single-layer fold works
   only on the outermost layer (`bottom: 1`).
