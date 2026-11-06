@@ -174,15 +174,19 @@ Bite 1, in part:
 
 Left:
 
-- **Merge `main` in** (`/sync-branch`): the PR is `CONFLICTING`, and `main`
-  rebuilt the share card (#248: a popover showing the card; #250: the typed
-  domain drawn even taken), in files this branch moved to `widgets/field-tools`.
+- **`main` is merged in** (4f9c63dd, resolved in 02335fcc): the post widget now
+  opens `main`'s `SharePopover` (exported, with `labelled`) and leads its card
+  with `cardLead`, so a widget of taken names draws the standard card. Vet on
+  that head was started, not yet read.
 - **A widget's "Copy as image" copies the widget as drawn**, not the standard
   card (the operator: «должен копировать именно то что нарисовано, а не
-  стандартный»). Today it is disabled where no listed domain is free, the
-  `single` widget's case. Proposed: a DOM snapshot of the figure (e.g.
-  `modern-screenshot`), share menu and hearts left out, or the widget drawn on
-  `main`'s canvas card; the operator has not chosen.
+  стандартный»). Asked: a DOM snapshot of the figure (`modern-screenshot`,
+  recommended; it becomes the popover's preview, hearts and share left out) or
+  the widget redrawn on the canvas; not yet answered.
+- **Links in posts**: the operator asked «а чё у нас никаких ссылок в блоге
+  нет?». Both posts carry none, by this plan's § 5 ("The site lists no sources
+  under a post"); whether posts should now link their sources and the things
+  they name is theirs to say.
 - **The index's subtitle** ", by the Unnamed of Unsquatted" reads poorly to the
   operator; options offered, none chosen.
 - `/polish full`, then `/pr` (refresh the body and squash proposal: the slots
