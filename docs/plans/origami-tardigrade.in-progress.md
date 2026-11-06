@@ -422,7 +422,16 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   pocket. Without friction the tucked end slides out. With friction 0.5 the
   plain fold springs open (ends 0.204 → 0.888 apart) and the tucked one stays a
   ring (0.196) — but at 31 crossings and 4.25%, settled early with pairs still
-  slipping. A follow-up is cleaning it.
+  slipping.
+- **Why it is not clean, and not friction's fault** (glue gives 41 crossings): a
+  start lift reaching one mesh edge (`lock-mesh.ts`, `START_REACH=1`) takes the
+  start crossings from 3 to 0; the 30 left are the pocket mouth and the tucked
+  tip passing edge through edge, which contact cannot see (it keeps vertices off
+  triangles only), and the tucked flap's crease nested ~1 gap inside the
+  pocket's on the same line, which the one-edge crease wedge cannot resolve. The
+  strain follows the bend-to-stretch ratio: 4.26% at `FACET` 0.7, 2.44% at 0.2.
+  Next: contact points along edges; nested creases on one line counted as
+  touching, separately.
 - Friction makes the relax path-dependent: the result depends on the order of
   folding, tucking and letting go, so a model is relaxed step by step along its
   sequence rather than once from a final pose.
