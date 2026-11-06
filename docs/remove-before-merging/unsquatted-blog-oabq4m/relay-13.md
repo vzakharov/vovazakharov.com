@@ -135,6 +135,11 @@ widgets — find where "super" comes from), re-render with
 republish the preview. Whether `yourmove.si` also needs to be a pick or a
 widget name is the successor's call from the code; ask if it changes the post.
 
+A second message in the same relay: «Hura, najbrz -- италиком». Set "Hura,
+najbrž?" in the .si post's lede (frontmatter `lede`, line 3) in italics, on the
+page and on the card; check whether the lede takes inline markdown (`*…*`) on
+both, and re-render the card.
+
 Then wait for the operator. Pending with them: their look at these on the
 preview;
 whether `AGENTS.md` should be committed or ignored;
