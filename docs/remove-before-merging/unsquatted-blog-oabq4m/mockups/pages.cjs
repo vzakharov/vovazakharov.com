@@ -137,7 +137,7 @@ const INDEX = `
             document.querySelector('li[data-domain] button'),
           ).fontFamily;
           document.documentElement.style.setProperty('--m-mono', mono);
-          document.documentElement.setAttribute('data-mantine-color-scheme', s);
+          document.documentElement.dataset.mantineColorScheme = s;
           document.body.innerHTML = markup;
         },
         [STYLE + html, scheme],

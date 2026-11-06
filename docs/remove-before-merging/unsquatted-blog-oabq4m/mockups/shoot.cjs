@@ -50,7 +50,7 @@ const VARIANTS = {
       await page.waitForSelector('li[data-domain]');
       const rows = await page.$$('li[data-domain]');
       await page.evaluate(
-        ([fn, row]) => new Function('row', `(${fn})(row)`)(row),
+        ([source, row]) => new Function('row', `(${source})(row)`)(row),
         [apply.toString(), rows[1]],
       );
       const list = await rows[0].evaluateHandle((li) => li.parentElement);
