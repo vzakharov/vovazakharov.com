@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 16,
+    "inputTokens": 57,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60616,
-    "cacheReadTokens": 674756,
-    "outputTokens": 1828,
-    "thinkingTokens": 290,
-    "responses": 7,
-    "costUsd": 0.6565032
+    "cacheWrite1hTokens": 99177,
+    "cacheReadTokens": 3465165,
+    "outputTokens": 9084,
+    "thinkingTokens": 2688,
+    "responses": 27,
+    "costUsd": 1.6683570000000003
   },
   "estimate": {
     "at": "2026-11-06T14:22:29.834Z",
@@ -59,22 +59,24 @@
   "branch": "claude/unsquatted-blog-oabq4m",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — ранний виджет и копирование картинкой сделаны, но имена в виджете не отвечают на «что я об этом думаю», а vet после …",
-  "prs": [],
+  "prs": [
+    249
+  ],
   "url": "https://claude.ai/code/session_01DaohkFTxZnZa8Hj8p1qSsh",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T14:22:11.975Z",
-  "lastResponseAt": "2026-11-06T14:22:31.054Z",
+  "lastResponseAt": "2026-11-06T14:24:55.911Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 16,
+    "inputTokens": 57,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60616,
-    "cacheReadTokens": 674756,
-    "outputTokens": 1828,
-    "thinkingTokens": 290,
-    "responses": 7,
-    "costUsd": 0.6565032
+    "cacheWrite1hTokens": 99177,
+    "cacheReadTokens": 3465165,
+    "outputTokens": 9084,
+    "thinkingTokens": 2688,
+    "responses": 27,
+    "costUsd": 1.6683570000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -88,23 +90,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 16,
+      "inputTokens": 57,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60616,
-      "cacheReadTokens": 674756,
-      "outputTokens": 1828,
-      "thinkingTokens": 290,
-      "responses": 7,
-      "costUsd": 0.6565032
+      "cacheWrite1hTokens": 99177,
+      "cacheReadTokens": 3465165,
+      "outputTokens": 9084,
+      "thinkingTokens": 2688,
+      "responses": 27,
+      "costUsd": 1.6683570000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 6,
-    "matched": 6,
-    "matchedTableUsd": 0.555442,
-    "matchedEventUsd": 0.555442,
+    "events": 26,
+    "matched": 26,
+    "matchedTableUsd": 1.5986552000000003,
+    "matchedEventUsd": 1.5986551999999998,
     "unseen": {}
   }
 }

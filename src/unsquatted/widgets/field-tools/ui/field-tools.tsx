@@ -148,8 +148,8 @@ export function SharePopover({
   labelled = false,
 }: SharePopoverProps) {
   const sheet = useShareSheet();
-  // Read on use: the page is rendered at build time too, with no location.
-  const href = () => domainLink(typed, new URL(globalThis.location.href));
+  // Taken on opening: the closed dropdown is prerendered too, with no location.
+  const [href, setHref] = useState('');
   const [opened, setOpened] = useState(false);
   const [card, setCard] = useState<CardState>('drawing');
   const openingRef = useRef(0);
@@ -162,6 +162,7 @@ export function SharePopover({
   const url = useObjectUrl(card instanceof File ? card : undefined);
   const open = () => {
     onReached();
+    setHref(domainLink(typed, new URL(globalThis.location.href)));
     setOpened(true);
     setCard('drawing');
     const opening = ++openingRef.current;
@@ -234,11 +235,11 @@ export function SharePopover({
       </Popover.Target>
       <Popover.Dropdown className={classes['share']}>
         <LinkField
-          href={href()}
+          {...{ href }}
           share={
             sheet
               ? () => {
-                  share({ url: href() });
+                  share({ url: href });
                 }
               : undefined
           }
