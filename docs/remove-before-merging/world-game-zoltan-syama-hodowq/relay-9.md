@@ -76,7 +76,21 @@ trace seems to skip the oval.
 **Operator:** «не, стрелочка должна идти посередине, прямо от начала к звезде, а
 карточки -- сверху и снизу от неё» **Agent:** line `l-way` now runs map →
 z-star through the middle, zones above and below (v12, frame 0011, 53c15eec);
-then hit the pause line and parked. (verbatim in Last agent turn)
+then hit the pause line and parked, giving the `/relay take` line.
+
+**Operator:** «держи тогда кипэлайв и жди инфы от исполнителя, я пока не буду
+передавать» **Agent:** re-watched the board, re-armed the memo wait and the
+keepalive.
+
+**Member (22:19):** the lakes are land by design — the Coast type holds outer
+rings only, and bite-1.md line 75 puts rivers and lakes out of this bite;
+bringing them in means Coast with holes, inner rings kept by the tracer, signed
+coast field, height below 0 inside. Orbit dashes fixed (79b6cdde), shallow band
+in (43e80f0b), fresh frames to follow; the member is near its own relay.
+**Agent:** told the member lakes stay in the lakes bite, and told the operator,
+offering to pull them into bite 1 if they want. (verbatim in Last agent turn)
+
+The keepalive's last wake then parked the session again.
 
 ## 3. Intent
 
@@ -96,6 +110,8 @@ channel, its timelapse to be shared.
   contained items; the item JSONs are the record.
 - **TILE_GRID 65** over SPLIT_RATIO 0.5 for 10 km sharpness: reselect cost
   scales with tile count, fill runs in workers.
+- **Lakes stay in the lakes bite**, keeping bite 1 thin; the operator was told
+  and may ask to pull them in.
 - **board-notice**: a deliberate `on: false` releases the board; a later
   re-watch makes the session a holder again.
 
@@ -116,9 +132,9 @@ channel, its timelapse to be shared.
 - Plan `docs/plans/world-game-zoltan-syama.paused.md`.
 - Board https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P version 12; timelapse
   frames up to 0011-board-arrow-through on `island-timelapse`.
-- Bite 1 (`island/bite-1-descent`, PR #256): member on R7 (pale tile-edge dashes
-  at orbit) and TILE_GRID 65; last two notes are the lead's (22:11 TILE_GRID,
-  22:12 the lakes question), unanswered.
+- Bite 1 (`island/bite-1-descent`, PR #256): R7 dashes fixed, shallow band in,
+  TILE_GRID 65 decided; member to post fresh final frames and done. Last note is
+  the lead's (lakes stay out), so `wait` blocks until the member's next.
 - Nothing running here: memo wait and keepalive stopped at the park.
 - Lineage at its limit: the successor cannot relay further; it parks.
 - Estimate: this session 0.75 h senior producer + 0.25 h senior developer.
@@ -139,12 +155,12 @@ channel, its timelapse to be shared.
 
 The lead's waiting turn: watch and open the board; arm
 `memo.py wait --as lead --branch island/bite-1-descent` in the background. When
-the member answers on the lakes, tell the operator. When the member posts done:
+the member posts fresh frames, send them to the operator. When it posts done:
 final frames beside the drawing, vet on the bite's head, merge with fetch +
 merge, `/preview live`, refresh bite 1's descent strip with final frames and
 tick its stickers in a board publish with its timelapse frame. Pending to the
-operator: whether to build the repo-wide `git pull` guard hook (explained,
-unanswered).
+operator, unanswered: whether to build the repo-wide `git pull` guard hook
+(explained); whether to pull the lakes into bite 1 (default: no).
 
 ## Last agent turn
 
@@ -179,4 +195,18 @@ Now the plan's layout constraint, which this replaces.
 **Исполнитель** тем временем спросил, как сделать 10 км резче. Я решил за тебя: TILE_GRID 65, то есть каждый тайл в 4 раза плотнее вместо вчетверо большего числа тайлов, как он и советовал. Так перевыбор тайлов не дорожает, а заполнение идёт в воркерах. Берег на 1000 км у него уже чистый, швы снега ушли. Осталось убрать бледный пунктир по краям тайлов на орбите.
 
 Контекст у меня почти кончился (~240k), а сессия последняя в цепочке. Поэтому, как только придёт ответ исполнителя про озёра, я запаркую её и дам тебе строку, с которой продолжить в новой.
+```
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Исполнитель ответил. Озёр сейчас нет, и это было решено заранее, а не случилось из-за ошибки обвода. По плану озёра и реки делает отдельный бит. Пока обвод хранит только внешние берега, поэтому белые овалы у Нат-Фенха и длинное озеро к Арку стали сушей.
+
+Чтобы озёра появились, нужна заметная работа: берегам нужны «дыры», обводчик должен сохранять внутренние контуры, а высота внутри них должна уходить ниже нуля. Я ответил исполнителю, чтобы он оставил это биту озёр и не раздувал бит 1. Если хочешь озёра уже в этом бите, скажи, и они станут первым пунктом у его следующей сессии.
+
+Остальные новости хорошие. Бледный пунктир по краям тайлов на орбите исполнитель убрал (79b6cdde). Ещё добавил мелководье: море окрашивается по дну под ним, от синего через бирюзу к песку у кромки (43e80f0b). Свежие кадры обещает следом, а я продолжаю ждать.
 ```
