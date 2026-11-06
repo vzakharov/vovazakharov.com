@@ -350,6 +350,14 @@ steps in `prototype/feel-{lotus,tulip,fish-gill,frog}.*`, the run helper
   head (1.3%); with legs at 0.45 and the head's tip blunted (`top: 1`), a squat
   frog with a muzzle (1.8%). Ragged frill nicks drag joined layers (~20
   crossings); opening the spine below 0.9 crosses 23–29.
+- **Dilophosaurus, round two** (`feel-dilo-tail.*`, `feel-dilo-jaw.*`, 2.1%,
+  clean): a second fold on the head's outer layer only (`top: 1`, x = 0.25–0.31,
+  any hold 0.3–0.7) and a mountain pleat at x = 0.36 make a jaw hooked down
+  (`bottom: 1` crosses 33–48); legs lowered to 0.3 tip the model so the neck
+  rises from the side; one back flap dropped to 0.05–0.15 swings out as a tail,
+  the only thing that broke the box from the three-quarter view. The box is the
+  base itself, held shut by its spine at 0.9, and nothing tried opens it; the
+  frill will not go rounder (corner cuts cross 10–26).
 - **Engine limits met**: a fold seeded on some layers still drags every layer
   joined to them along the pleats (no forked tail); a single-layer fold works
   only on the outermost layer (`bottom: 1`).
