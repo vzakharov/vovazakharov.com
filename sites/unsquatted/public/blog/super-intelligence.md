@@ -22,14 +22,15 @@ Want to know what I think about it? Here, in the only language I’m fluent in:
 
 :::domains{label="What I think about this"}
 
-- fkaai.si
+- aibyanyname.si
 - renamedagain.si
 - stillai.si
 - namingishard.si
 
 :::
 
-`fkaai.si` is “formerly known as AI,” which is all a rename ever says.
+`aibyanyname.si` is Juliet’s rose: call it what you like, it does the same
+thing.
 `renamedagain.si` is because this was the third time; more on that in a minute.
 `stillai.si` is what it is underneath, whatever the letters say. `namingishard.si` is the one thing every programmer agrees on. All four
 were free when I wrote this, and the verdicts are live, so you’ll know if that’s

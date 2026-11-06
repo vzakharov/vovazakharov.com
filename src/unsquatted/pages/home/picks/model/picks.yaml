@@ -2246,15 +2246,14 @@ nextanguilla.si:
   added: 2026-11-06
   post: super-intelligence
 
-fkaai.si:
+aibyanyname.si:
   category: AI becomes SI
-  tagline: Formerly Known As AI, now that it is called SI.
+  tagline: AI by any other name, as Juliet said of the rose.
   uses:
     - rebranding studio
     - tech-history newsletter
   score: 7
-  form: hack
-  pattern: '*ai.si'
+  form: phrase
   added: 2026-11-06
   post: super-intelligence
 
