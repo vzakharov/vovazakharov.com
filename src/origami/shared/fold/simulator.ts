@@ -14,6 +14,7 @@ import { crossings } from './crossings.ts';
 import { dihedral } from './hinge.ts';
 import type { FlatStack, Mesh } from './mesh.ts';
 import type { Paper } from './paper.ts';
+import { longestEdge } from './proximity.ts';
 
 /** Stiffnesses relative to one another; only their ratios shape the result. */
 const AXIAL = 20;
@@ -92,7 +93,7 @@ export function simulator(
 ) {
   const n = mesh.paper.length;
   const gap = paper.thickness / paper.side;
-  const edge = Math.max(...mesh.bars.map((bar) => bar[2]));
+  const edge = longestEdge(mesh);
   const x = positions
     ? Float64Array.from(positions)
     : Float64Array.from(mesh.start.flat());

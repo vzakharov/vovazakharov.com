@@ -49,10 +49,10 @@ export const FOLD_DIRECTIONS = [
  */
 export type FoldDirection = (typeof FOLD_DIRECTIONS)[number];
 
-/** What one fold did, kept for the physics that reads the state after it. */
 /** The pieces a fold moved, by id, as they exist after it. */
 export type Moved = { readonly moved: ReadonlySet<number> };
 
+/** What one fold did, kept for the physics that reads the state after it. */
 export type FoldRecord = Moved & {
   readonly line: Line;
   readonly direction: FoldDirection;
