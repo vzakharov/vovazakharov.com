@@ -405,9 +405,27 @@ Why the engine cannot make one today:
 
 In real paper the shape is an equilibrium — creases spring open, locks stop them
 — and a lock is also how paper closes a loop, the volume § "Rejected: v1 is not
-origami" says rigid folds cannot close. A prototype in `tmp/tg/lock/` tests
-whether a tucked flap holds a shape the creases alone would not (a strip ring
-closed by tucking one end into the other's pocket, with and without the tuck).
+origami" says rigid folds cannot close.
+
+**A lock holds, with friction** (`prototype/lock-*`, copied to `tmp/tg/lock/`
+without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
+
+- `lock-fold.ts`: `direction: 'tuck', into: { at, below: k }` — a rigid flat
+  fold restacking the flap between two stationary layers at `at`, under the top
+  `k`; logged as `valley` for the mesh. It throws when a layer between the flap
+  and its own paper covers the crease.
+- `lock-contact.ts`: stick-slip Coulomb friction per contact pair — an anchor on
+  first touch, a tangential spring capped at `FRICTION` × the normal force,
+  dragged on slip, released on separation.
+- The test (`lock-ring-{tuck,plain}.*`): a two-layer strip (book fold, hold 1)
+  closed into a loop by two folds at hold 0.2, one end tucked into the other's
+  pocket. Without friction the tucked end slides out. With friction 0.5 the
+  plain fold springs open (ends 0.204 → 0.888 apart) and the tucked one stays a
+  ring (0.196) — but at 31 crossings and 4.25%, settled early with pairs still
+  slipping. A follow-up is cleaning it.
+- Friction makes the relax path-dependent: the result depends on the order of
+  folding, tucking and letting go, so a model is relaxed step by step along its
+  sequence rather than once from a final pose.
 
 ## Left
 
