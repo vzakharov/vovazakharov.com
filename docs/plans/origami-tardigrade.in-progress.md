@@ -225,6 +225,27 @@ wedge, 0.13 wide for 0.66 long, nearly the pressed base standing on edge
 - **Dead end: a shorter front tip as the snout (`TIPF`)**: changes only that
   end's leg length; nothing reads as a head.
 
+## Set aside: a random search instead (relay 7)
+
+The operator on `blunt20-psi45.png`: «нет, конечно, не похоже 🙂 старайся, у
+тебя всё получится, и не надо останавливаться», then: «если отложить тихоходку в
+сторону и создать скрипт, который несколько раз генерит параллельно наугад, а ты
+потом смотришь и пытаешься среди всего этого мусора найти жемчужину? :)». So the
+tardigrade waits, and the work is a generator.
+
+- `prototype/gen.ts.txt` — per seed: 2–5 flat folds along lines through the
+  folded shape's own landmarks (piece corners and edge midpoints), a random
+  selection (`all`, `flap`, top layer) and direction, then 1–3 folds left open
+  (`hold` 0.3–0.8). Relaxed `fromPose` from the state before the open folds;
+  scored by crossings, strain and volume (smallest principal extent over the
+  largest). ~13 s a seed at 15k steps. Illegal folds are retried with another
+  line.
+- `prototype/sheet.ts.txt` — the survivors past given bars, most volumetric
+  first, one three-quarter view each, labelled `#seed v… s…% x…`.
+- An idea kept for the tardigrade: a waterbomb tessellation strip curls into a
+  segmented barrel with points along its edges — segments and legs from one
+  pattern. Needs a mesh built from a crease pattern rather than from fold steps.
+
 ## Left
 
 1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0

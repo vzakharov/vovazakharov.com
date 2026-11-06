@@ -1,0 +1,163 @@
+// Random origami: a few flat folds through the folded shape's own landmarks,
+// then a few folds left open for the springback solver. Each seed is folded,
+// relaxed from the pose before its open folds, scored and saved.
+// Usage: npx tsx tmp/tg/gen.ts <firstSeed> <count> <outDir>
+import { mkdirSync, writeFileSync, appendFileSync } from 'node:fs';
+import path from 'node:path';
+
+import { run, type Step } from '../../src/origami/shared/fold/fold.ts';
+import { mesh } from '../../src/origami/shared/fold/mesh.ts';
+import { crossings } from '../../src/origami/shared/fold/contact.ts';
+import { PAPERS } from '../../src/origami/shared/fold/paper.ts';
+import { flatPolygon, type FoldState } from '../../src/origami/shared/fold/state.ts';
+import { relax } from './relax.ts';
+import { fromPose } from './dome.ts';
+
+type V = readonly [number, number];
+const paper = PAPERS['kami-15'];
+
+function rng(seed: number) {
+  let s = seed * 2654435761 >>> 0 || 1;
+  return () => {
+    s ^= s << 13;
+    s >>>= 0;
+    s ^= s >>> 17;
+    s ^= s << 5;
+    s >>>= 0;
+    return s / 2 ** 32;
+  };
+}
+
+const sideOf = (pt: V, p: V, q: V) => (q[0] - p[0]) * (pt[1] - p[1]) - (q[1] - p[1]) * (pt[0] - p[0]);
+
+/** Corners and edge midpoints of the folded silhouette's pieces. */
+function landmarks(state: FoldState): V[] {
+  const seen = new Map<string, V>();
+  const add = (v: V) => seen.set(`${v[0].toFixed(4)},${v[1].toFixed(4)}`, v);
+  for (const piece of state.pieces) {
+    const poly = flatPolygon(piece);
+    poly.forEach((v, i) => {
+      const w = poly[(i + 1) % poly.length]!;
+      add([v[0], v[1]]);
+      add([(v[0] + w[0]) / 2, (v[1] + w[1]) / 2]);
+    });
+  }
+  return [...seen.values()];
+}
+
+function randomStep(state: FoldState, r: () => number, hold?: number): Step | undefined {
+  const marks = landmarks(state);
+  const pick = <T>(xs: readonly T[]) => xs[Math.floor(r() * xs.length)]!;
+  for (let tries = 0; tries < 30; tries++) {
+    const p = pick(marks);
+    const q = pick(marks);
+    if (Math.hypot(p[0] - q[0], p[1] - q[1]) < 0.15) continue;
+    const piece = pick(state.pieces);
+    const poly = flatPolygon(piece);
+    const c: V = [
+      poly.reduce((s, v) => s + v[0], 0) / poly.length,
+      poly.reduce((s, v) => s + v[1], 0) / poly.length,
+    ];
+    if (Math.abs(sideOf(c, p, q)) < 0.01) continue;
+    const roll = r();
+    const select = roll < 0.55 ? ('all' as const) : roll < 0.8 ? ('flap' as const) : { at: c, top: 1 };
+    return {
+      line: { p, q },
+      moving: c,
+      select,
+      direction: r() < 0.5 ? 'valley' : 'mountain',
+      ...(hold === undefined ? {} : { hold }),
+    };
+  }
+  return undefined;
+}
+
+/** Extents along the principal axes, largest first. */
+function extents(points: readonly (readonly number[])[]): number[] {
+  const n = points.length;
+  const m = [0, 1, 2].map((k) => points.reduce((s, p) => s + p[k]!, 0) / n);
+  const C = [0, 1, 2].map((i) => [0, 1, 2].map((j) => points.reduce((s, p) => s + (p[i]! - m[i]!) * (p[j]! - m[j]!), 0) / n));
+  // power iteration with deflation
+  const axes: number[][] = [];
+  for (let k = 0; k < 3; k++) {
+    let v = [Math.random(), Math.random(), Math.random()];
+    for (let it = 0; it < 100; it++) {
+      let w = [0, 1, 2].map((i) => C[i]!.reduce((s, c, j) => s + c * v[j]!, 0));
+      for (const a of axes) {
+        const d = w.reduce((s, x, i) => s + x * a[i]!, 0);
+        w = w.map((x, i) => x - d * a[i]!);
+      }
+      const l = Math.hypot(...w) || 1;
+      v = w.map((x) => x / l);
+    }
+    axes.push(v);
+  }
+  return axes.map((a) => {
+    const proj = points.map((p) => p.reduce((s, x, i) => s + (x - m[i]!) * a[i]!, 0));
+    return Math.max(...proj) - Math.min(...proj);
+  });
+}
+
+const [first = 1, count = 4, outDir = 'tmp/tg/gen'] = [Number(process.argv[2] ?? 1), Number(process.argv[3] ?? 4), process.argv[4]];
+mkdirSync(outDir, { recursive: true });
+const gap = paper.thickness / paper.side;
+for (let seed = first; seed < first + count; seed++) {
+  const r = rng(seed);
+  const nFlat = 2 + Math.floor(r() * 4);
+  const nOpen = 1 + Math.floor(r() * 3);
+  const steps: Step[] = [];
+  let state = run([]);
+  let failed = '';
+  let illegal = 0;
+  for (let i = 0; i < nFlat + nOpen && !failed; i++) {
+    const open = i >= nFlat;
+    const step = randomStep(state, r, open ? 0.3 + 0.5 * r() : undefined);
+    if (!step) {
+      failed = 'no step';
+      break;
+    }
+    try {
+      state = run([...steps, step]);
+      steps.push(step);
+    } catch (e) {
+      // an illegal fold: try another line
+      i--;
+      if (++illegal > 40) failed = `illegal: ${String(e).slice(0, 60)}`;
+    }
+  }
+  const record = (o: object) => appendFileSync(path.join(outDir, 'results.jsonl'), JSON.stringify({ seed, ...o }) + '\n');
+  if (failed) {
+    record({ fail: failed });
+    continue;
+  }
+  if (state.pieces.length > 48) {
+    record({ fail: `pieces ${state.pieces.length}` });
+    continue;
+  }
+  try {
+    const m = fromPose(mesh(state, paper), run(steps, nFlat));
+    const start = crossings(m, Float64Array.from(m.start.flat()), gap / 2);
+    const t0 = Date.now();
+    const res = relax(m, paper);
+    const e = extents(res.positions);
+    const volume = e[2]! / e[0]!;
+    record({
+      nFlat,
+      nOpen,
+      pieces: state.pieces.length,
+      verts: m.paper.length,
+      start,
+      crossings: res.crossings,
+      strain: res.strain,
+      iters: res.iterations,
+      volume,
+      ms: Date.now() - t0,
+    });
+    writeFileSync(
+      path.join(outDir, `${seed}.json`),
+      JSON.stringify({ steps, triangles: m.triangles, paper: m.paper, positions: res.positions, faces: m.faces }),
+    );
+  } catch (e) {
+    record({ fail: `mesh/relax: ${String(e).slice(0, 80)}` });
+  }
+}
