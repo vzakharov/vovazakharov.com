@@ -621,6 +621,21 @@ Checks per slice: `pnpm test`, `pnpm typecheck`, `pnpm lint:files <files>`,
 page imports relax.ts (only `physics.test.ts`), so `pnpm build` output should
 not change.
 
+**Ported (relay 11)**: slice 1 f01254e5, 57bd9edc; slice 2 331d6ee7, 3e245080
+(relax byte-identical); slice 3 6761b778, c93f72e9 —
+`relaxSequence(steps, paper, { edge? })` in `sequence.ts`, reproducing the
+prototype at full mesh (tuck gap 0.153, 1 crossing, 5.02%; plain 0.855). 37 fold
+tests, ~28.5 s wall, the two ring tests split across files to run in parallel.
+Open calls from the port, each taken as stated:
+
+- A coarse mesh breaks the tuck (the flap passes its lid at every edge ≥ 0.05),
+  so the ring tests run at the default 1/25.
+- mesh.ts is 479 lines and carries lint errors that predate the branch.
+- The hand also turns steps with no direction (as valley).
+- A tuck holds its lid for the whole step, so "step k" ends at its 12000 cap
+  with `settled: false`.
+- Crossings ignore edges within 4 gaps of the same crease line.
+
 ## Left
 
 0. **Answered (relay 10)**: «пока я б не назвал это дилофозавром, но идти в
