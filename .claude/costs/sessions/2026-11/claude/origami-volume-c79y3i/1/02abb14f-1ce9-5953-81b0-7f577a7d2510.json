@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 42,
+    "inputTokens": 66,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 101948,
-    "cacheReadTokens": 2184666,
-    "outputTokens": 15325,
-    "thinkingTokens": 9394,
-    "responses": 19,
-    "costUsd": 1.5591852000000002
+    "cacheWrite1hTokens": 125987,
+    "cacheReadTokens": 4027595,
+    "outputTokens": 19656,
+    "thinkingTokens": 9643,
+    "responses": 30,
+    "costUsd": 2.206799
   },
   "estimate": {
     "at": "2026-11-06T04:55:55.015Z",
@@ -47,22 +47,24 @@
   "branch": "claude/origami-volume-c79y3i",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "давай сделаем оригами Василиска из последнего коммита более объёмным и похожим на настоящие оригами",
-  "prs": [],
+  "prs": [
+    253
+  ],
   "url": "https://claude.ai/code/session_01DaohkD9FcMDw2a9thhM6W7",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T04:52:47.383Z",
-  "lastResponseAt": "2026-11-06T04:56:28.316Z",
+  "lastResponseAt": "2026-11-06T04:57:50.140Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 42,
+    "inputTokens": 66,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 101948,
-    "cacheReadTokens": 2184666,
-    "outputTokens": 15325,
-    "thinkingTokens": 9394,
-    "responses": 19,
-    "costUsd": 1.5591852000000002
+    "cacheWrite1hTokens": 125987,
+    "cacheReadTokens": 4027595,
+    "outputTokens": 19656,
+    "thinkingTokens": 9643,
+    "responses": 30,
+    "costUsd": 2.206799
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 42,
+      "inputTokens": 66,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 101948,
-      "cacheReadTokens": 2184666,
-      "outputTokens": 15325,
-      "thinkingTokens": 9394,
-      "responses": 19,
-      "costUsd": 1.5591852000000002
+      "cacheWrite1hTokens": 125987,
+      "cacheReadTokens": 4027595,
+      "outputTokens": 19656,
+      "thinkingTokens": 9643,
+      "responses": 30,
+      "costUsd": 2.206799
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 19,
-    "matched": 19,
-    "matchedTableUsd": 1.5591852000000002,
-    "matchedEventUsd": 1.5591852,
+    "events": 30,
+    "matched": 30,
+    "matchedTableUsd": 2.206799,
+    "matchedEventUsd": 2.2067989999999993,
     "unseen": {}
   }
 }
