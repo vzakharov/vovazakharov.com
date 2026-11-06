@@ -1,13 +1,7 @@
 import { planeToWorld, type Vec3, worldToPlane } from '@/island/shared/globe';
 
 import { HIGHEST_GROUND, LOWEST_GROUND } from './height';
-import {
-  MAX_LEVEL,
-  MIN_LEVEL,
-  SPLIT_RATIO,
-  TILE_GRID,
-  tileSide,
-} from './tile';
+import { MAX_LEVEL, MIN_LEVEL, SPLIT_RATIO, TILE_GRID, tileSide } from './tile';
 
 /**
  * Metres from `eye` (world metres) to plane point `(x, y)` taken at the eye's
