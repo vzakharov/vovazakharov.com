@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57739,
+    "cacheReadTokens": 571326,
+    "outputTokens": 1680,
+    "thinkingTokens": 385,
+    "responses": 6,
+    "costUsd": 0.6098332000000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57739,
+      "cacheReadTokens": 571326,
+      "outputTokens": 1680,
+      "thinkingTokens": 385,
+      "responses": 6,
+      "costUsd": 0.6098332000000001
+    }
+  },
+  "sessionId": "16bb299a-170c-5cde-8918-2cf6d37975fc",
+  "branch": "claude/origami-volume-c79y3i",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-volume-c79y3i — купол раздувается решателем из прижатого блинца, но грани гнутся; план на паузе",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkC6LTq4hcRFDEMdNbj",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T12:52:51.381Z",
+  "lastResponseAt": "2026-11-06T12:53:14.329Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57739,
+    "cacheReadTokens": 571326,
+    "outputTokens": 1680,
+    "thinkingTokens": 385,
+    "responses": 6,
+    "costUsd": 0.6098332000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57739,
+      "cacheReadTokens": 571326,
+      "outputTokens": 1680,
+      "thinkingTokens": 385,
+      "responses": 6,
+      "costUsd": 0.6098332000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 5,
+    "matched": 5,
+    "matchedTableUsd": 0.5032230000000001,
+    "matchedEventUsd": 0.5032230000000001,
+    "unseen": {}
+  }
+}
