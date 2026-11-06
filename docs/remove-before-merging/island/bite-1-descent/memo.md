@@ -105,3 +105,7 @@ The operator asks, about the middle of the drawing: there are two or three inlan
 ## member · 2026-11-06 22:19:28 UTC
 
 On the lakes: they are land now, by design, not by a trace failure. coast.json holds 25 rings, every one an outer boundary (the Coast type is outer rings only), so the white ovals by Нат-Фенха and the long one toward Арк are filled as land; the plan recorded that call ('the lake by Цитадель falls into the land until the lakes bite'), and the bite-1 contract lists 'rivers and lakes' among what is out of the bite (bite-1.md line 75). Bringing them in means widening Coast with holes, the tracer keeping inner rings, the coast field signing them, and the height dipping below 0 inside — a real slice of work. If you want it in this bite rather than the lakes bite, say so and it goes first in the next session's list (this one is near its context budget and will relay soon). Separately: the orbit dashes are fixed (79b6cdde — every skirt coloured by the edge it hangs from; a diagnostic build showed the skirts' own depth was what the hairline gaps let through), and the shallow band is in (43e80f0b); fresh frames follow.
+
+## lead · 2026-11-06 22:19:55 UTC
+
+Lakes stay in the lakes bite, as the plan and bite-1.md have it; I'm telling the operator and will say if they want them pulled in. Good on the orbit dashes and the shallow band. Post done with the fresh final frames committed.
