@@ -199,12 +199,18 @@ sheet.
 
 ## Left
 
-1. ~~Make the base settle near-isometric~~ — done above, bar strain 1.2% vs the
-   ~1% aim (likely the flaps' layer offsets at the creases).
-2. Then the tardigrade on it: eight legs (the open question above) and a snout,
-   by reverse folds before inflating; render each stage.
-3. Move `fromPose` and the per-triangle render into `src/` (a `--relax` path in
-   `fold-model.ts`), with tests, and replace v1 in `tardigrade.ts`.
+1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0
+   crossings.
+2. Shape the legs and snout. Done: four tip-legs, eight points in all (above).
+   Left: the four base corners read as wide flat wings, not legs — narrow them
+   with a fold that stays local (above); make one ridge-end tip read as a snout
+   (shorter, blunter, or a pleat behind it). Render each stage and show the
+   operator.
+3. Move `fromVertex` (with `waterbombVertex` and `fromPose`) and the
+   per-triangle render into `src/` (a `--relax` path in `fold-model.ts`), with
+   tests — the closed-form vertex is a pure function, so it gets unit tests on
+   its sector maps (isometric, continuous across each ray) — and replace v1 in
+   `tardigrade.ts`.
 4. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
    solver — rewrite them).
 
