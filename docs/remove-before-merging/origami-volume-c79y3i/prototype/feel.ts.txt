@@ -1,0 +1,31 @@
+// Folding by feel: runs a JSON list of steps rigidly and renders the result
+// from four sides, plus a per-step strip when SEQ=1.
+// Usage: npx tsx tmp/tg/feel.ts <steps.json> <outDir>
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
+import { run, snapshot, PAPERS, type Step } from '../../src/origami/shared/fold/index.ts';
+import { render } from '../../src/origami/scripts/lib/render.ts';
+
+const paper = PAPERS['kami-15'];
+// a path to a JSON file, or the JSON itself
+const arg = process.argv[2]!;
+const steps = JSON.parse(arg.trimStart().startsWith('[') ? arg : readFileSync(arg, 'utf8')) as Step[];
+const out = path.resolve(process.argv[3] ?? 'tmp/tg/feel');
+const state = run(steps);
+console.log('pieces', state.pieces.length);
+const model = snapshot(state, paper);
+const views = [
+  { name: 'three-quarter', az: -35, el: 30, zoom: 1.05 },
+  { name: 'side', az: 0, el: 8, zoom: 1.05 },
+  { name: 'head-on', az: 90, el: 12, zoom: 1.05 },
+  { name: 'top', az: 0, el: 90, zoom: 1.05 },
+];
+const shots = [{ frames: views.map((view) => ({ model, view })), file: path.join(out, 'views.png') }];
+if (process.env.SEQ)
+  shots.push({
+    frames: steps.map((_, i) => ({ model: snapshot(run(steps, i + 1), paper), view: views[0]! })),
+    file: path.join(out, 'seq.png'),
+  });
+await render({ steps, colors: { front: 0x8a_9a_5b, back: 0xe8_dc_c0 }, display: (p) => p }, out, shots);
+console.log('wrote', out);

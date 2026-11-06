@@ -1,0 +1,28 @@
+// Folding by feel, with springback: the steps folded flat, then let go — each
+// crease relaxes to its `hold` share. POSE=<n> starts from the state after n
+// steps (the later creases starting open), else from the pressed state.
+// Usage: npx tsx tmp/tg/spring.ts <steps.json | JSON> <out.json>
+import { readFileSync, writeFileSync } from 'node:fs';
+
+import { run, type Step } from '../../src/origami/shared/fold/fold.ts';
+import { mesh } from '../../src/origami/shared/fold/mesh.ts';
+import { crossings } from '../../src/origami/shared/fold/contact.ts';
+import { PAPERS } from '../../src/origami/shared/fold/paper.ts';
+import { relax } from './relax.ts';
+import { fromPose } from './dome.ts';
+
+const paper = PAPERS['kami-15'];
+const arg = process.argv[2]!;
+const steps = JSON.parse(arg.trimStart().startsWith('[') ? arg : readFileSync(arg, 'utf8')) as Step[];
+const state = run(steps);
+const pressed = mesh(state, paper);
+const m = process.env.POSE ? fromPose(pressed, run(steps, Number(process.env.POSE))) : pressed;
+const gap = paper.thickness / paper.side;
+console.log('pieces', state.pieces.length, 'verts', m.paper.length, 'start crossings', crossings(m, Float64Array.from(m.start.flat()), gap / 2));
+const t0 = Date.now();
+const r = relax(m, paper);
+console.log('iters', r.iterations, 'strain', r.strain.toFixed(4), 'crossings', r.crossings, 'ms', Date.now() - t0);
+writeFileSync(
+  process.argv[3] ?? 'tmp/tg/relaxed.json',
+  JSON.stringify({ triangles: m.triangles, paper: m.paper, positions: r.positions, faces: m.faces }),
+);
