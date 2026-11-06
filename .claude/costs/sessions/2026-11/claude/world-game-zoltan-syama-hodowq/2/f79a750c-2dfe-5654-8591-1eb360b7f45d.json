@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 162,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 281174,
+    "cacheReadTokens": 19513662,
+    "outputTokens": 82096,
+    "thinkingTokens": 17797,
+    "responses": 81,
+    "costUsd": 7.794692400000003
+  },
+  "estimate": {
+    "at": "2026-11-06T17:46:40.156Z",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "an infinite board with live multi-writer edits, repo-backed items and a db merge is a small app of its own"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T17:31:59.209Z",
+    "contextTokens": 113748,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47859,
+      "cacheReadTokens": 462392,
+      "outputTokens": 757,
+      "thinkingTokens": 58,
+      "responses": 5,
+      "costUsd": 0.49053840000000004
+    }
+  },
+  "sessionId": "f79a750c-2dfe-5654-8591-1eb360b7f45d",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — план одобрен, доска спроектирована, но ещё не построена",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkB7pyz9vfjpLBTVzEa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T17:31:44.648Z",
+  "lastResponseAt": "2026-11-06T17:48:11.345Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 162,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 281174,
+    "cacheReadTokens": 19513662,
+    "outputTokens": 82096,
+    "thinkingTokens": 17797,
+    "responses": 81,
+    "costUsd": 7.794692400000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 162,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 281174,
+      "cacheReadTokens": 19513662,
+      "outputTokens": 82096,
+      "thinkingTokens": 17797,
+      "responses": 81,
+      "costUsd": 7.794692400000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 81,
+    "matched": 81,
+    "matchedTableUsd": 7.794692400000003,
+    "matchedEventUsd": 7.794692400000002,
+    "unseen": {}
+  }
+}
