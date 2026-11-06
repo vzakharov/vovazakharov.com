@@ -178,6 +178,21 @@ green body (`prototype/tips-psi60.png`): 0 → 5 crossings, strain 1.1%, unsettl
 at 40k. The base's four corners still spread sideways as wide flat points; they
 are the other four legs to narrow and turn down.
 
+**Where the eight points sit** (`tips-psi60.png`, top and side views): the ridge
+is the midline. The four base corners are the tent's bottom corners, two per
+long side, spreading out along the diagonals. The two big-face flaps' tips poke
+down at the middle of each long side; the two tucked flaps' tips poke down at
+the ridge's ends — one of those is the natural snout, the other the rear. So the
+count is already 4 + 2 legs and a snout and tail; what is left is proportion:
+corners too wide and flat to read as legs.
+
+**Dead end: kite-narrowing the corners in the pose.** A fold line through a
+blintz-square corner crosses the whole square, so the triangle it moves reaches
+the next corner and swallows it (the second corner's fold then finds no paper:
+«fold: nothing at 0.95,0.46»). Narrowing a corner needs a fold that stays local
+— after the base, on the flap itself, or a sink — not a line across the flat
+sheet.
+
 ## Left
 
 1. ~~Make the base settle near-isometric~~ — done above, bar strain 1.2% vs the
