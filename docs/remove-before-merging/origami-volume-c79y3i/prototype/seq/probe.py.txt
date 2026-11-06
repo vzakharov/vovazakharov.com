@@ -1,8 +1,0 @@
-# probe.py <m.json> x,y ... : each paper point's position (nearest vertex), z in gaps
-import json, sys, math
-d = json.load(open(sys.argv[1]))
-gap = 0.0  # printed raw; caller compares
-for arg in sys.argv[2:]:
-    p = [float(c) for c in arg.split(',')]
-    i = min(range(len(d['paper'])), key=lambda k: math.dist(d['paper'][k], p))
-    print(arg, ' '.join(f'{c:.4f}' for c in d['positions'][i]))

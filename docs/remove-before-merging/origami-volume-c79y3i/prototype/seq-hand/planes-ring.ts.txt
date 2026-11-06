@@ -1,7 +1,0 @@
-// Which pose pieces share a plane (shaping) in the final state of a step list.
-import { readFileSync } from 'node:fs';
-import { differ } from '../../../src/origami/shared/fold/space.ts';
-import { run, type Step } from './fold.ts';
-const steps = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as Step[];
-const pose = run(steps);
-for (const p of pose.pieces) console.log(`o${p.order}`, pose.pieces.map((q) => (differ(p.shaping, q.shaping) ? 'x' : '.')).join(''), JSON.stringify(p.shaping).slice(0, 80));

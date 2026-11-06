@@ -1,4 +1,0 @@
-#!/bin/bash
-# best.sh <name> <steps> [log]: go.sh at the best settings, extra env passed through.
-export FRICTION=0.5 STEP_FRICTION=0 WAY=1 OPEN=0.5 EDGE_POINTS=3 EDGE_SET=outline HAND=50 RAMP_STEP=6000 STEP_IT=12000 LAGS=1 TAIL=${TAIL:-120}
-exec /home/user/vovazakharov.com/tmp/tgb/seq/go.sh "$1" "$2" > /home/user/vovazakharov.com/tmp/tgb/seq/logs/$1.log 2>&1

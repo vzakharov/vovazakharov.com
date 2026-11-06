@@ -1,9 +1,0 @@
-#!/bin/bash
-# go.sh <name> <steps.json> ; env as seq.ts. Writes tmp/tg/seq/runs/seq-<name>/,
-# renders with RENDER=1. One at a time: parallel renders hang.
-set -e
-cd /home/user/vovazakharov.com
-out=tmp/tg/seq/runs/seq-$1
-mkdir -p $out
-npx tsx tmp/tg/seq/seq.ts "$2" $out/m.json 2>&1 | tail -${TAIL:-20}
-if [ -n "$RENDER" ]; then ROT=${ROT:-0} npx tsx tmp/tg/show.ts $out/m.json $out >/dev/null; fi
