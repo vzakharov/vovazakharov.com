@@ -29,11 +29,14 @@ is in git
   «стартовая точка слева, северная звезда максимально вправо, а всё остальное --
   между ними, типа как бы мы продвигаемся к ней. при этом вещи примерно одного
   уровня продвижения должны примерно на одном расстоянии по длине стрелки
-  располагаться» — the board reads left to right along the arrow at its foot:
-  the start (map, trace, forecast, inspiration), then what is done (calls, bite
-  0, the method), then what is in hand (the open bite and its decisions), then
-  what is next (later bites), the north star rightmost. A zone sits in the
-  column of its progress, and moves right as its work advances.
+  располагаться» — the board reads left to right along one arrow from the map
+  straight to the north star through the middle, zones above and below it, never
+  on it («стрелочка должна идти посередине, прямо от начала к звезде, а карточки
+  -- сверху и снизу от неё»): the start (map, trace, forecast, inspiration),
+  then what is done (calls, bite 0, the method), then what is in hand (the open
+  bite and its decisions), then what is next (later bites), the north star
+  rightmost. A zone sits in the column of its progress, and moves right as its
+  work advances.
 - «надо postmortem и standing constraint чтобы этого избежать» — no `git pull`
   on this branch or a bite's, `--ff-only` included: integrate with
   `git fetch origin <b> && git merge origin/<b>`, naming the ref. A pull merges

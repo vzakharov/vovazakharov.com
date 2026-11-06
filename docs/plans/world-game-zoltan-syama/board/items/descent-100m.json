@@ -2,10 +2,10 @@
   "kind": "image",
   "id": "descent-100m",
   "x": 3085,
-  "y": -480,
+  "y": -590,
   "w": 190,
   "src": "images/descent-100m.webp",
   "caption": "100 m",
-  "updated": "2026-11-06T22:20:00.000Z",
+  "updated": "2026-11-06T22:30:00.000Z",
   "author": "agent:lead"
 }

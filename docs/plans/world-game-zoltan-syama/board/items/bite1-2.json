@@ -2,10 +2,10 @@
   "kind": "sticky",
   "id": "bite1-2",
   "x": 2820,
-  "y": -953,
+  "y": -1063,
   "w": 325,
   "color": "pink",
   "text": "The map traced once into a coastline at real scale; height a pure function of place and seed; tiles by (level, x, y) bent onto the sphere, filled in a worker",
-  "updated": "2026-11-06T22:20:00.000Z",
+  "updated": "2026-11-06T22:30:00.000Z",
   "author": "agent:lead"
 }

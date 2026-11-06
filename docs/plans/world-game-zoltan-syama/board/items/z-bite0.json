@@ -2,11 +2,11 @@
   "kind": "zone",
   "id": "z-bite0",
   "x": 1150,
-  "y": -130,
+  "y": 120,
   "w": 1060,
   "h": 600,
   "title": "Bite 0 — the lead's own",
   "color": "orange",
-  "updated": "2026-11-06T22:20:00.000Z",
+  "updated": "2026-11-06T22:30:00.000Z",
   "author": "agent:lead"
 }

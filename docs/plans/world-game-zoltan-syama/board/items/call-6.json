@@ -2,10 +2,10 @@
   "kind": "sticky",
   "id": "call-6",
   "x": 1847,
-  "y": -682,
+  "y": -572,
   "text": "three.js WebGPURenderer, falling back to WebGL 2 by itself: one code path, tiles filled in workers",
   "color": "blue",
   "w": 244,
-  "updated": "2026-11-06T22:20:00.000Z",
+  "updated": "2026-11-06T22:30:00.000Z",
   "author": "agent:lead"
 }
