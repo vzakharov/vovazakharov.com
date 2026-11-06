@@ -95,10 +95,29 @@ Where this is going, in no order — what gets built when is the bites' to find:
 
 Beyond it: towns at the drawn cities, borders, people, animals.
 
-## This bite — bite 0: the board, then the team's tooling
+## Eaten so far
 
-The lead's own, before any member exists. Nothing of it is built yet; the
-board's design below was settled with the operator and goes first.
+- **The board is built and published**:
+  https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P (capabilities `db`, `user`
+  with `profile`, `assets`). Code in `scripts/board/` — `model.ts` (the schema
+  and the merge, tested), `page/` (the client, esbuild-bundled into one page),
+  `board.ts` (`pnpm board build | sync | snapshot`). Items in
+  `docs/plans/world-game-zoltan-syama/board/items/`, images beside. Light in
+  every theme, at the operator's word («давай в светлой теме всегда»). Checked:
+  a probe row written to `db`, listed with `ArtifactData list` + `out_dir` (a
+  row file is the bare item body), synced into a scratch copy, deleted. Not yet
+  seen: an edit made in the page itself by the operator.
+- To republish: `pnpm board build docs/plans/world-game-zoltan-syama/board`,
+  then publish `tmp/board/world-game-zoltan-syama/index.html` with `files`
+  mapping `images/*` to the built copies and `url` the artifact above. Sync
+  first: `ArtifactData list items` with `out_dir: tmp/board/rows`, then
+  `pnpm board sync docs/plans/world-game-zoltan-syama/board tmp/board/rows`.
+
+## Rest of the bite — bite 0: the board, then the team's tooling
+
+The lead's own, before any member exists. The board below is built (§ "Eaten so
+far"); what is left starts at shrinking this file to a pointer, then the case
+study, then the tooling.
 
 ### The board replaces this plan
 
