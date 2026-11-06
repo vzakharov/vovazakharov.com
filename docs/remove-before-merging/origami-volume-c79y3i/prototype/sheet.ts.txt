@@ -20,7 +20,7 @@ const rows: Row[] = readdirSync(dir)
 const ok = rows
   .filter((r) => !r.fail && r.crossings <= maxX && r.strain <= maxS && r.volume >= minV)
   .toSorted((a, b) => b.volume - a.volume)
-  .slice(0, limit);
+  .slice(Number(process.env.OFF ?? 0), Number(process.env.OFF ?? 0) + limit);
 console.log(`${rows.length} tried, ${rows.filter((r) => !r.fail).length} relaxed, ${ok.length} shown`);
 
 function model(seed: number) {
@@ -67,7 +67,7 @@ await render(
           zoom: 1.05,
         },
       })),
-      file: path.join(out, `sheet-az${az}.png`),
+      file: path.join(out, `sheet-az${az}-${process.env.OFF ?? 0}.png`),
     },
   ],
 );

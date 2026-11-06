@@ -15,6 +15,11 @@ import { fromPose } from './dome.ts';
 
 type V = readonly [number, number];
 const paper = PAPERS['kami-15'];
+/** Bilateral mode: the sheet is first folded in half along y = x, every later
+ * fold goes through both layers or reverses a flap, and the solver lets the
+ * spine open to `hold` of its fold. */
+const SYM = Boolean(process.env.SYM);
+const SPINE: Step = { line: { p: [0, 0], q: [1, 1] }, moving: [0.2, 0.8], select: 'all', direction: 'mountain', tag: 'L' };
 
 function rng(seed: number) {
   let s = seed * 2654435761 >>> 0 || 1;
@@ -59,6 +64,13 @@ function randomStep(state: FoldState, r: () => number, hold?: number): Step | un
       poly.reduce((s, v) => s + v[1], 0) / poly.length,
     ];
     if (Math.abs(sideOf(c, p, q)) < 0.01) continue;
+    if (SYM) {
+      // through every layer of the folded half, or a reverse fold of a flap
+      const reverse = r() < 0.4;
+      return reverse
+        ? { line: { p, q }, moving: c, select: 'flap', lower: 'L', direction: 'inside' }
+        : { line: { p, q }, moving: c, select: 'all', direction: r() < 0.5 ? 'valley' : 'mountain' };
+    }
     const roll = r();
     const select = roll < 0.55 ? ('all' as const) : roll < 0.8 ? ('flap' as const) : { at: c, top: 1 };
     return {
@@ -104,9 +116,10 @@ const gap = paper.thickness / paper.side;
 for (let seed = first; seed < first + count; seed++) {
   const r = rng(seed);
   const nFlat = 2 + Math.floor(r() * 4);
-  const nOpen = 1 + Math.floor(r() * 3);
-  const steps: Step[] = [];
-  let state = run([]);
+  const nOpen = SYM ? 0 : 1 + Math.floor(r() * 3);
+  const spineHold = 0.35 + 0.4 * r();
+  const steps: Step[] = SYM ? [SPINE] : [];
+  let state = run(steps);
   let failed = '';
   let illegal = 0;
   for (let i = 0; i < nFlat + nOpen && !failed; i++) {
@@ -135,11 +148,22 @@ for (let seed = first; seed < first + count; seed++) {
     continue;
   }
   try {
-    const m = fromPose(mesh(state, paper), run(steps, nFlat));
+    const pressed = mesh(state, paper);
+    // SYM: from the pressed state, the spine's creases (on y = x in paper)
+    // let go to a share of their fold.
+    const onSpine = (i: number) => Math.abs(pressed.paper[i]![0] - pressed.paper[i]![1]) < 1e-6;
+    const m = SYM
+      ? {
+          ...pressed,
+          hinges: pressed.hinges.map((h) =>
+            h.crease && onSpine(h.a) && onSpine(h.b) ? { ...h, angle: spineHold * h.start } : h,
+          ),
+        }
+      : fromPose(pressed, run(steps, nFlat));
     const start = crossings(m, Float64Array.from(m.start.flat()), gap / 2);
     const t0 = Date.now();
     const res = relax(m, paper);
-    const e = extents(res.positions);
+    const e = extents(res.positions).toSorted((a, b) => b - a);
     const volume = e[2]! / e[0]!;
     record({
       nFlat,

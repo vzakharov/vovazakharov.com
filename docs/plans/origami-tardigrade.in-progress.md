@@ -242,6 +242,20 @@ tardigrade waits, and the work is a generator.
   line.
 - `prototype/sheet.ts.txt` — the survivors past given bars, most volumetric
   first, one three-quarter view each, labelled `#seed v… s…% x…`.
+- First run (160, asymmetric): 57 clean, none worth keeping — fully unfolded
+  sheets (which a volume bug ranked first, fixed by sorting the extents) or two
+  or three planes at an angle. Hence `SYM=1`: the sheet is first folded in half
+  along `y = x`, every later fold goes through both layers or is an inside
+  reverse of a flap, and the solver lets the spine open to 0.35–0.75 of its fold
+  from the pressed state.
+- **The operator's fallback, if the search finds nothing**: «ты сгибаешь сам, но
+  не идёшь ни к какой цели, просто что-то гнёшь -- опа, что-то интересное,
+  попробуем ещё так. если у тебя пойдёт как у человека, то в какой-то момент
+  тебе покажется "хмм, это на что-то похоже", а дальше уже будет проще». So:
+  fold by hand, one step at a time, render after each, follow what looks
+  interesting rather than a target.
+- The operator sees only what is sent with `SendUserFile`: an image the agent
+  `Read`s never reaches the session's feed.
 - An idea kept for the tardigrade: a waterbomb tessellation strip curls into a
   segmented barrel with points along its edges — segments and legs from one
   pattern. Needs a mesh built from a crease pattern rather than from fold steps.
