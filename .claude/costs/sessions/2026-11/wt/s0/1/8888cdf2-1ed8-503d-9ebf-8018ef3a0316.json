@@ -1,0 +1,135 @@
+{
+  "total": {
+    "inputTokens": 55,
+    "cacheWrite5mTokens": 44507,
+    "cacheWrite1hTokens": 92963,
+    "cacheReadTokens": 3155526,
+    "outputTokens": 18729,
+    "thinkingTokens": 6893,
+    "responses": 27,
+    "costUsd": 1.9721442000000002
+  },
+  "estimate": {
+    "at": "2026-11-06T18:29:59.600Z",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "tracing a hand-drawn map into clean polygons and shaping a plausible plateau-and-noise height field needs an eye for how terrain reads"
+      },
+      {
+        "hours": 40.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a sphere-bent quadtree LOD with worker-filled tiles and a depth range from orbit to 2 m on WebGPU with a WebGL 2 fallback is specialist rendering work"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "height-proportional flight across wheel, pinch, keys and drag needs feel tuning"
+      },
+      {
+        "hours": 12.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the app scaffold, route and a CDP play script on an existing driver are routine"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "briefing and merging four parallel build steps and reporting to the lead"
+      },
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "checking five heights on two screens against the drawing"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T18:29:14.107Z",
+    "contextTokens": 118259,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55399,
+      "cacheReadTokens": 379977,
+      "outputTokens": 1393,
+      "thinkingTokens": 508,
+      "responses": 4,
+      "costUsd": 0.5470874
+    }
+  },
+  "sessionId": "8888cdf2-1ed8-503d-9ebf-8018ef3a0316",
+  "branch": "wt/s0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go island/bite-1-descent",
+  "prs": [
+    256
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDTq595n9RkxwUJ8bc",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T18:28:56.724Z",
+  "lastResponseAt": "2026-11-06T18:32:57.843Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 43,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 92963,
+    "cacheReadTokens": 2840531,
+    "outputTokens": 17505,
+    "thinkingTokens": 6789,
+    "responses": 22,
+    "costUsd": 1.6620822000000002
+  },
+  "subagents": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 44507,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 314995,
+    "outputTokens": 1224,
+    "thinkingTokens": 104,
+    "responses": 5,
+    "costUsd": 0.310062
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 55,
+      "cacheWrite5mTokens": 44507,
+      "cacheWrite1hTokens": 92963,
+      "cacheReadTokens": 3155526,
+      "outputTokens": 18729,
+      "thinkingTokens": 6893,
+      "responses": 27,
+      "costUsd": 1.9721442000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 27,
+    "matched": 27,
+    "matchedTableUsd": 1.9721442000000002,
+    "matchedEventUsd": 1.9721442000000002,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 1380,
+    ".py": 887,
+    ".webp": 0,
+    ".json": 423,
+    ".ts": 1986,
+    ".css": 412,
+    ".sh": 1,
+    ".png": 0
+  }
+}
