@@ -1,0 +1,18 @@
+# mk.py <name> '<python list of steps>' : writes steps/<name>.json and
+# steps/<name>-plain.json (every tuck turned into a plain valley).
+import json, sys, os
+os.makedirs('steps', exist_ok=True)
+name, src = sys.argv[1], sys.argv[2]
+def F(p, q, m, hold=None, d=None, into=None, below=1, sel=None, tag=None, lower=None):
+    s = {"line": {"p": list(p), "q": list(q)}, "moving": list(m)}
+    if sel is not None: s["select"] = sel
+    if d: s["direction"] = d
+    if into is not None: s["direction"] = "tuck"; s["into"] = {"at": list(into), "below": below}
+    if hold is not None: s["hold"] = hold
+    if tag: s["tag"] = tag
+    if lower: s["lower"] = lower
+    return s
+steps = eval(src)
+json.dump(steps, open(f'steps/{name}.json', 'w'), indent=1)
+plain = [{k: v for k, v in s.items() if k != 'into'} | ({"direction": "valley"} if s.get("direction") == "tuck" else {}) for s in steps]
+json.dump(plain, open(f'steps/{name}-plain.json', 'w'), indent=1)

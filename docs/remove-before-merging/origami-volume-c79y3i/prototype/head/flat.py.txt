@@ -1,0 +1,29 @@
+# flat.py <steps.json> <out.png> [n]: left, the flat state (each piece outlined,
+# its order at its centroid, later layers drawn over); right, the sheet with each
+# piece's region labelled by its order.
+import json, subprocess, sys
+from PIL import Image, ImageDraw
+args = ['npx', 'tsx', 'tmp/tg/head/flat.ts', sys.argv[1]] + sys.argv[3:4]
+lines = subprocess.run(args, capture_output=True, text=True, cwd='/home/user/vovazakharov.com').stdout.split('\n')
+ps = [json.loads(l) for l in lines if l.startswith('{')]
+S, M = 420, 40
+img = Image.new('RGB', (2 * S + 3 * M, S + 2 * M), 'white')
+d = ImageDraw.Draw(img, 'RGBA')
+allf = [v for p in ps for v in p['flat']]
+x0, x1 = min(v[0] for v in allf), max(v[0] for v in allf)
+y0, y1 = min(v[1] for v in allf), max(v[1] for v in allf)
+sc = S / max(x1 - x0, y1 - y0, 1e-9)
+fx = lambda v: (M + (v[0] - x0) * sc, M + S - (v[1] - y0) * sc)
+px = lambda v: (2 * M + S + v[0] * S, M + S - v[1] * S)
+n = len(ps)
+for i, p in enumerate(ps):
+    c = (int(255 * i / max(n - 1, 1)), 80, int(255 * (1 - i / max(n - 1, 1))), 50)
+    d.polygon([fx(v) for v in p['flat']], fill=c, outline=(0, 0, 0, 255))
+    d.polygon([px(v) for v in p['paper']], fill=c[:3] + (90,), outline=(0, 0, 0, 255))
+for p in ps:
+    cx = sum(v[0] for v in p['flat']) / len(p['flat']); cy = sum(v[1] for v in p['flat']) / len(p['flat'])
+    d.text(fx((cx, cy)), str(p['o']), fill='black')
+    cx = sum(v[0] for v in p['paper']) / len(p['paper']); cy = sum(v[1] for v in p['paper']) / len(p['paper'])
+    d.text(px((cx, cy)), str(p['o']), fill='black')
+d.text((M, 5), f'flat x {x0:.2f}..{x1:.2f} y {y0:.2f}..{y1:.2f}', fill='black')
+img.save(sys.argv[2])
