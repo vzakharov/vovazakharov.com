@@ -24,6 +24,11 @@
       "multiplier": 0.95,
       "grade": "senior",
       "work": "player movement, controls, camera and game feel in code"
+    },
+    "technical-artist": {
+      "multiplier": 1.0,
+      "grade": "senior",
+      "work": "procedural content and its look: terrain, coasts, biomes, vegetation, sky, the bridge between art and shaders"
     }
   }
 }
