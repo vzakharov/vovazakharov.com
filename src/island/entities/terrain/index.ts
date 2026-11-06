@@ -1,8 +1,4 @@
-export {
-  buildCoastField,
-  type CoastField,
-  DEFAULT_CELL_METRES,
-} from './model/coast-field';
+export { buildCoastField, type CoastField } from './model/coast-field';
 export { heightAt } from './model/height';
 export {
   MIN_LEVEL,
