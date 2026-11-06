@@ -1,34 +1,22 @@
 {
   "total": {
-    "inputTokens": 91,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 118411,
-    "cacheReadTokens": 6456380,
-    "outputTokens": 20435,
-    "thinkingTokens": 5107,
-    "responses": 45,
-    "costUsd": 2.6476280000000005
+    "inputTokens": 604,
+    "cacheWrite5mTokens": 831,
+    "cacheWrite1hTokens": 124953,
+    "cacheReadTokens": 7351218,
+    "outputTokens": 23851,
+    "thinkingTokens": 5300,
+    "responses": 50,
+    "costUsd": 2.9559516000000006
   },
   "estimate": {
-    "at": "2026-11-06T18:08:54.815Z",
+    "at": "2026-11-06T19:09:30.215Z",
     "parts": [
       {
-        "hours": 0.5,
+        "hours": 0.25,
         "grade": "middle",
         "role": "developer",
-        "comment": "dates, the reaction flag, the QA row and the card/lede tweaks are routine edits in an existing pipeline"
-      },
-      {
-        "hours": 5.0,
-        "grade": "senior",
-        "role": "persona",
-        "comment": "three November posts and reflections in the Unnamed's voice need its judgement"
-      },
-      {
-        "hours": 0.75,
-        "grade": "middle",
-        "role": "analyst",
-        "comment": "naming runs and fact checks behind each post"
+        "comment": "a frontmatter mark threaded through a schema, a component, the card and the feed is routine work in a known pipeline"
       }
     ],
     "comment": null
@@ -59,18 +47,18 @@
   "url": "https://claude.ai/code/session_01DaohkFRL45Gi7i71ndUfsq",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T18:08:31.728Z",
-  "lastResponseAt": "2026-11-06T18:14:22.119Z",
+  "lastResponseAt": "2026-11-06T19:10:00.103Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 91,
+    "inputTokens": 98,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 118411,
-    "cacheReadTokens": 6456380,
-    "outputTokens": 20435,
-    "thinkingTokens": 5107,
-    "responses": 45,
-    "costUsd": 2.6476280000000005
+    "cacheWrite1hTokens": 124953,
+    "cacheReadTokens": 7174615,
+    "outputTokens": 23831,
+    "thinkingTokens": 5300,
+    "responses": 49,
+    "costUsd": 2.9115590000000005
   },
   "subagents": {
     "inputTokens": 0,
@@ -84,23 +72,34 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 91,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 118411,
-      "cacheReadTokens": 6456380,
-      "outputTokens": 20435,
-      "thinkingTokens": 5107,
-      "responses": 45,
-      "costUsd": 2.6476280000000005
+      "inputTokens": 604,
+      "cacheWrite5mTokens": 831,
+      "cacheWrite1hTokens": 124953,
+      "cacheReadTokens": 7351218,
+      "outputTokens": 23851,
+      "thinkingTokens": 5300,
+      "responses": 50,
+      "costUsd": 2.9559516000000006
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 45,
-    "matched": 45,
-    "matchedTableUsd": 2.6476280000000005,
-    "matchedEventUsd": 2.6476280000000005,
-    "unseen": {}
+    "events": 50,
+    "matched": 49,
+    "matchedTableUsd": 2.9115590000000005,
+    "matchedEventUsd": 2.9115590000000005,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 831,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 176603,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.044392600000000004
+      }
+    }
   }
 }
