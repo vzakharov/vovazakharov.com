@@ -35,9 +35,9 @@ the plan's; an agent may move a file inside its own slice and says so.
   the first ring the main body (S1). The data reaches `terrain` only as an
   argument, passed by the page.
 - **Height** — `src/island/entities/terrain/` exports
-  `heightAt(coast, seed, x, y): number` (metres above sea level, negative
-  offshore; plane metres in), built over a signed-distance field it computes
-  once per `(coast)` (S2).
+  `heightAt(field, seed, x, y): number` (metres above sea level, negative
+  offshore; plane metres in) over the signed-distance field
+  `buildCoastField(coast)` builds once, in the worker (S2, landed).
 - **Tiles** — the same slice exports `TileKey = { level; x; y }` over the
   island's square (level 0 is the whole square, side `S` metres, a power-of-two
   split), `selectTiles(eye: Vec3, …): TileKey[]` splitting while a tile's extent
