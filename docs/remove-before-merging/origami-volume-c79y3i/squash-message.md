@@ -1,30 +1,29 @@
-Proposed squash title/body:
+Proposed squash body:
 
 ```
-chore: a volumetric basilisk — paper that springs back (#253)
-```
+Origami models needed locks — a tuck that holds a ring shut, a head
+whose layers stay put — and the fold engine could only pose a pressed
+state, with nothing to say whether paper would hold it. This lands the
+engine that answers that, as a waypoint: the head it was built for
+continues in #257.
 
-```
-The basilisk from #251 looked like a cut-out, not folded paper: every
-piece was a rigid planar polygon and the fold in half stayed at 180°,
-so the body's halves touched and nothing between creases could curve.
-Opening the spine rigidly is no way out for this model, since the
-tail's sideways bends cross the spine at right angles, a vertex that
-cannot fold both ways at once; real paper gets there by bending.
+The engine now simulates paper. A folded state is welded into a
+triangle mesh, and a stateful bar-and-hinge simulator settles it in
+phases: stiff bars, crease hinges toward their angles, soft facet
+hinges so paper bends, contact along faces and edge points so layers
+touch rather than pass, friction once folded, and a held lid while a
+tuck seats. `flatFold` gains tucks, which land a flap between layers.
 
-The fold engine now relaxes a folded state as a bar-and-hinge model.
-The state is welded into one triangle mesh by paper coordinate, every
-crease knows the step that made it, and a step's `hold` says how much
-of its angle the paper keeps when let go, with per-kind defaults in
-the paper presets. A damped solver settles the mesh — stiff bars, crease
-hinges toward their held angle, soft facet hinges so paper bends, and
-contact so layers never pass through each other — and fails loudly
-when it does not settle or leaves an interpenetration.
+`relaxSequence` folds a step list the way a hand does: each step ramps
+the hinges toward the next flat state while a hand turns the flap
+rigidly about its crease, so a fold takes no reaction at its root and
+multi-layer steps no longer jam; then the model is let go and springs
+back. It reports strain, edge crossings and every phase's iterations;
+two ring tests hold a tuck lock and a plain flap to their thresholds.
 
-The renderer draws that mesh, smooth across bends and crisp along
-creases; `pnpm origami --rigid` still draws the pressed state. The
-basilisk's fold in half holds 0.8, so its body opens into a V that
-narrows into the closed neck and tail.
+`pnpm origami:steps <file.steps.json>` folds a steps file through it
+and renders views and a report into `tmp/origami/`. The v1 tardigrade
+design is gone.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
