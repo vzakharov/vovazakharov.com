@@ -56,6 +56,15 @@ class SessionCost:
     telemetry: Optional[Telemetry] = None
     # Null until the session sets one.
     estimate: Optional[Estimate] = None
+    # The words the operator typed into the session — its prompts and the
+    # messages sent mid-turn, nothing the harness or another agent injected.
+    # Null on a row written before they were counted.
+    operator_words: Optional[int] = None
+    # The branch's net lines per file extension against its merge base with
+    # the default branch, as of the row's write; the ledger's history of the
+    # row is their curve over time. Null where there was no base to measure
+    # from, and on a row written before they were counted.
+    branch_lines: Optional[Dict[str, int]] = None
 
 
 def _list_of(obj: Mapping[str, Any], key: str, where: str, kind: type) -> List[Any]:
@@ -67,6 +76,26 @@ def _list_of(obj: Mapping[str, Any], key: str, where: str, kind: type) -> List[A
     ):
         raise ShapeError(f"{where}: `{key}` is not a list of {kind.__name__}")
     return value
+
+
+def _read_int(obj: Mapping[str, Any], key: str, where: str) -> Optional[int]:
+    value = obj.get(key)
+    if value is None:
+        return None
+    if not isinstance(value, int) or isinstance(value, bool):
+        raise ShapeError(f"{where}: `{key}` is not an integer")
+    return value
+
+
+def _int_map(obj: Mapping[str, Any], key: str, where: str) -> Optional[Dict[str, int]]:
+    value = obj.get(key)
+    if value is None:
+        return None
+    if not isinstance(value, dict) or not all(
+        isinstance(n, int) and not isinstance(n, bool) for n in value.values()
+    ):
+        raise ShapeError(f"{where}: `{key}` is not a map of integers")
+    return dict(value)
 
 
 def parse_session_cost(text: str, where: str = "row") -> SessionCost:
@@ -84,6 +113,7 @@ def parse_session_cost(text: str, where: str = "row") -> SessionCost:
         prs=_list_of(row, "prs", where, int),
         url=read_string(row, "url", where),
         operator=read_string(row, "operator", where),
+        operator_words=_read_int(row, "operatorWords", where),
         first_response_at=read_string(row, "firstResponseAt", where),
         last_response_at=read_string(row, "lastResponseAt", where),
         prices_as_of=required(read_string, row, "pricesAsOf", where),
@@ -111,6 +141,7 @@ def parse_session_cost(text: str, where: str = "row") -> SessionCost:
             else parse_telemetry(row["telemetry"], f"{where} telemetry")
         ),
         estimate=parse_estimate(row.get("estimate"), f"{where} estimate"),
+        branch_lines=_int_map(row, "branchLines", where),
     )
 
 

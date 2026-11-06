@@ -27,6 +27,7 @@ from pathlib import Path
 from typing import Optional
 
 from lib.billed import events_at
+from lib.branch_lines import branch_lines
 from lib.prices import parse_prices
 from lib.pricing import is_unwritten_tail, summarise_transcript
 from lib.transcript import TranscriptSources, subagents_of
@@ -97,6 +98,7 @@ def main() -> int:
         before.estimate if before is not None else None,
         read_pending_estimate(cost.session_id),
     )
+    cost.branch_lines = branch_lines(ROOT)
     row = row_text(cost)
     if args.out is not None:
         args.out.write_text(row, encoding="utf-8")

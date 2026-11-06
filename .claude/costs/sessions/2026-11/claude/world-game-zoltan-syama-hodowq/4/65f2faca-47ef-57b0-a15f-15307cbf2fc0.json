@@ -1,0 +1,152 @@
+{
+  "total": {
+    "inputTokens": 1908,
+    "cacheWrite5mTokens": 120276,
+    "cacheWrite1hTokens": 198784,
+    "cacheReadTokens": 16476895,
+    "outputTokens": 56326,
+    "thinkingTokens": 12349,
+    "responses": 111,
+    "costUsd": 6.140343099999998
+  },
+  "estimate": {
+    "at": "2026-11-06T17:59:43.283Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "a case study begun mid-work needs its frame and first entry set in the site's voice"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a contribution report over transcripts, PR threads and git numstat, plus memo and rename tooling, is several small scripts with schemas and tests"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "sites/vova/public/case-studies/island.md",
+    "endedAt": "2026-11-06T18:00:46.483Z",
+    "contextTokens": 163749,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 101227,
+      "cacheReadTokens": 2400079,
+      "outputTokens": 5129,
+      "thinkingTokens": 1366,
+      "responses": 19,
+      "costUsd": 1.3925717999999998
+    }
+  },
+  "sessionId": "65f2faca-47ef-57b0-a15f-15307cbf2fc0",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — доска ожила и перевыпущена, план ужат до страницы; кейс-стади ещё не начата",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBEJASpo9pqPuqW5Bo",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T17:59:26.975Z",
+  "lastResponseAt": "2026-11-06T18:12:48.752Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 132,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 198784,
+    "cacheReadTokens": 12645603,
+    "outputTokens": 38383,
+    "thinkingTokens": 10383,
+    "responses": 68,
+    "costUsd": 4.887580599999999
+  },
+  "subagents": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 119544,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3605171,
+    "outputTokens": 17909,
+    "thinkingTokens": 1966,
+    "responses": 41,
+    "costUsd": 1.1991522000000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 638,
+      "cacheWrite5mTokens": 732,
+      "cacheWrite1hTokens": 198784,
+      "cacheReadTokens": 12871724,
+      "outputTokens": 38402,
+      "thinkingTokens": 10383,
+      "responses": 69,
+      "costUsd": 4.941064799999999
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 84,
+      "cacheWrite5mTokens": 119544,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 3605171,
+      "outputTokens": 17909,
+      "thinkingTokens": 1966,
+      "responses": 41,
+      "costUsd": 1.1991522000000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1186,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 15,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001261
+    }
+  },
+  "warnings": [
+    "prices.json priced the 109 responses the events also priced at $6.0867, against the events' $5.7262: a rate in the table is likely out of date"
+  ],
+  "compactions": [],
+  "telemetry": {
+    "events": 111,
+    "matched": 109,
+    "matchedTableUsd": 6.086732799999998,
+    "matchedEventUsd": 5.726215699999998,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1186,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 15,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001261
+      },
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 732,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 226121,
+        "outputTokens": 19,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0534842
+      }
+    }
+  },
+  "operatorWords": 227,
+  "branchLines": {
+    ".md": 768,
+    ".webp": 0,
+    ".json": 423,
+    ".ts": 1986,
+    ".css": 412,
+    ".png": 0
+  }
+}

@@ -14,6 +14,7 @@ from lib.identity import (
     cost_state_of,
     kind_of,
     operator_of,
+    operator_words_of,
     pr_number_of,
     prompt_text_of,
     session_url_in,
@@ -89,6 +90,7 @@ def summarise_transcript(
     opening_prompt: Optional[str] = None
     url: Optional[str] = None
     operator: Optional[str] = None
+    operator_words = 0
     claude_code_total_usd: Optional[float] = None
     trail = Trail()
     # The priced responses by id, which a later record of one adds its calls to.
@@ -104,11 +106,12 @@ def summarise_transcript(
     def scan(jsonl: str, label: str, delegated: bool) -> None:
         nonlocal session_id, branch, cwd, opening_prompt, url, operator
         nonlocal claude_code_total_usd, last_own, matched_event_usd, matched_table_usd
-        nonlocal unfinished
+        nonlocal unfinished, operator_words
         for where, line, record in json_lines(jsonl, label):
             kind = kind_of(record)
             # The session's own identity, which only its own file describes.
             if not delegated:
+                operator_words += operator_words_of(record)
                 if kind == "pr-link":
                     pr = pr_number_of(record)
                     if pr is not None:
@@ -274,6 +277,7 @@ def summarise_transcript(
         prs=sorted(prs),
         url=url,
         operator=operator,
+        operator_words=operator_words,
         first_response_at=in_order[0] if in_order else None,
         last_response_at=in_order[-1] if in_order else None,
         prices_as_of=prices.as_of,

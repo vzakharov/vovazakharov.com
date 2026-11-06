@@ -54,13 +54,19 @@ is in git
 ## Rest of the bite — bite 0, the lead's own
 
 2. **`scripts/memo.py`**, ported with its traps intact; sides `lead`/`member`,
-   one channel per branch, `wait` over several branches.
+   one channel per branch, `wait` over several branches. An operator message
+   reaching a session after it handed off is written into the branch's memo, for
+   the record, and the successor woken by `send_message`, which a memo cannot
+   do.
 3. **`.claude/skills/megabeast/` → `.claude/skills/mammoth/`**, every pointer
    with it.
-4. **The human-contribution report**, over what is already on record: the
-   operator's words across session transcripts (`list_events`) and PR reviews
-   and comments; lines of code per file extension over time from
-   `git log --numstat`, for a cumulative-flow chart.
+4. **The human-contribution report** — partly eaten: `pnpm contribution lines`
+   gives the cumulative-flow CSV, and every cost row now carries `operatorWords`
+   and `branchLines` (the Stop hook writes them each turn, so
+   `git log cost-ledger` on a row is their curve). Left: the report reading
+   them, and back-filling the four sessions before the hook — counted once at
+   1,317 words from the server transcripts, in `tmp/` only. The `.claude/costs/`
+   change goes upstream to `vzakharov/muthur`.
 5. **The first step toward the star** and its member — likely the thinnest
    descent from orbit to the ground; its contract a file beside this one.
 
