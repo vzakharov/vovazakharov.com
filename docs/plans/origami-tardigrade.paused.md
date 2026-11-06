@@ -100,14 +100,23 @@ exactly this reason). The volume therefore comes from the springback solver on
 reverse folds, all flat and legal — then let the creases spring open, which is
 how a real waterbomb gets its volume too.
 
+The solver is back on this branch (48b0112c, on the operator's «окей»), #254
+closed in favor of #253. Its plan, with where the solver stopped (it never
+settled on the full basilisk), is now
+`docs/remove-before-merging/origami-volume-c79y3i/springback-notes.md`.
+
+**Legs, still open:** six of the eight flaps sit where legs go — the waterbomb
+base's four, plus two from the book fold — but the blintz's corners land with
+their tips at the apex, the dome's top, not under the belly. Working them down
+into legs is the first design question.
+
 ## Left
 
-1. Bring the solver into this branch (merge `claude/origami-springback`, or
-   rebase this branch onto it), and close #254 in favor of #253.
-2. The dome flat: the blintzed waterbomb base, eight legs out of its eight flaps
-   by reverse folds, a snout at one end; render each stage.
-3. Inflate it with the solver; judge by the shadow and the head-on view.
-4. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
+1. The dome flat: the blintzed waterbomb base, eight legs out of its flaps by
+   reverse folds (the blintz flaps above), a snout at one end; render each
+   stage.
+2. Inflate it with the solver; judge by the shadow and the head-on view.
+3. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
    solver — rewrite them).
 
 ## DRY notes
