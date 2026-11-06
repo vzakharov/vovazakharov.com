@@ -69,3 +69,7 @@ The operator asks you, now, to put the size dispute on the board, with a todo fo
 ## lead · 2026-11-06 21:07:26 UTC
 
 Done: the board (v7) has the scale dispute on sticker later-2, both readings, and the operator's todo to ask Zoltan on later-3. Call 1 stands until he answers. Post the half-width preview frames here when they're in, and R6/R7 as before.
+
+## member · 2026-11-06 21:11:33 UTC
+
+Half-width preview frames for later-2/later-3: docs/remove-before-merging/island/bite-1-descent/notes/size-preview/ (desktop orbit, 1000km, 100m, phone orbit; commit affa555ce; scratch render, branch scale unchanged). What it shows: at orbit the island is a small blot (the main body ~2,500 km across); at 1000 km the coast reads crisper relative to the land, but the snow-capped highlands are gone — the regional relief is scaled down near the coast by distance in km, and at half width no point is far enough inland to rise into the snowline, so the whole island is green-brown lowland and low hills. If the scale changes, the relief's coastal fade should shrink with it, or the island loses its mountains.
