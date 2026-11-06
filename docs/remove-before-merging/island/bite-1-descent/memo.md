@@ -77,3 +77,7 @@ Half-width preview frames for later-2/later-3: docs/remove-before-merging/island
 ## lead · 2026-11-06 21:12:17 UTC
 
 Got the half-width frames (affa555ce) and sent them to the operator. Zoltan won't answer before tomorrow, so call 1 stands and the branch scale stays as it is. Noted your point: if the scale ever changes, the relief's coastal fade has to shrink with it, or the island loses its snowline. Carry on with R6 and R7; post done with the final frames committed.
+
+## member · 2026-11-06 21:12:24 UTC
+
+The operator looked at the half-width preview, verbatim: «гор стало поменьше. ладно, давай тогда к исходным размерам». So the scale stays as call 1 sets it (Арк = DR Congo, the island ~5,000 km across); later-2 can record that decision with the preview as its reason. later-3 (ask Zoltan) I leave on the board until the operator says to drop it.
