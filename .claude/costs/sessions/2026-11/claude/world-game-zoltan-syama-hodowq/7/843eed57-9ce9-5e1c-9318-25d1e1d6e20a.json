@@ -1,0 +1,103 @@
+{
+  "total": {
+    "inputTokens": 31,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57395,
+    "cacheReadTokens": 1459723,
+    "outputTokens": 3528,
+    "thinkingTokens": 314,
+    "responses": 14,
+    "costUsd": 0.8217886
+  },
+  "estimate": {
+    "at": "2026-11-06T20:21:42.222Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "judging a member's final frames against the drawing, merging its bite and publishing the preview is the producer's gate on a team's first bite"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-06T20:22:02.148Z",
+    "contextTokens": 114126,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54972,
+      "cacheReadTokens": 886923,
+      "outputTokens": 2259,
+      "thinkingTokens": 236,
+      "responses": 9,
+      "costUsd": 0.6624166
+    }
+  },
+  "sessionId": "843eed57-9ce9-5e1c-9318-25d1e1d6e20a",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — бит 0 закрыт и на паузе для ревью, бит 1 строит исполнитель, первые кадры посмотрены",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkET9AgLB7ougEHi1rq",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T20:21:24.048Z",
+  "lastResponseAt": "2026-11-06T20:23:42.517Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 31,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57395,
+    "cacheReadTokens": 1459723,
+    "outputTokens": 3528,
+    "thinkingTokens": 314,
+    "responses": 14,
+    "costUsd": 0.8217886
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 31,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57395,
+      "cacheReadTokens": 1459723,
+      "outputTokens": 3528,
+      "thinkingTokens": 314,
+      "responses": 14,
+      "costUsd": 0.8217886
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 13,
+    "matched": 13,
+    "matchedTableUsd": 0.7956208,
+    "matchedEventUsd": 0.7956208,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 1584,
+    ".py": 894,
+    ".webp": 0,
+    ".json": 479,
+    ".ts": 2128,
+    ".css": 412,
+    ".sh": 1,
+    ".png": 0
+  }
+}
