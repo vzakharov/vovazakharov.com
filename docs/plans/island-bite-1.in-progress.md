@@ -58,11 +58,11 @@ the plan's; an agent may move a file inside its own slice and says so.
 
 ### Steps
 
-- [ ] **S0** — the app: `src/island/` registered in `src/masd.json` with parent
+- [x] **S0** — the app: `src/island/` registered in `src/masd.json` with parent
       `scene`, `vova` gaining it; `globe`; the route
       `sites/vova/app/(game)/island/page.tsx` beside `/mushrooms`, out of the
       sitemap, rendering a client canvas page that says nothing yet.
-- [ ] **Wave 1, in parallel once S0 lands**, disjoint by slice:
+- [x] **Wave 1, in parallel once S0 lands**, disjoint by slice:
   - **S1** — `entities/coast`: the pure tracer (call 1) with tests, the script
     `src/island/scripts/trace-coast.ts` decoding the webp through the tree's
     Chromium (no new image dependency), and the committed `coast.json`; reports
@@ -82,6 +82,11 @@ the plan's; an agent may move a file inside its own slice and says so.
 - [ ] **F** — the play run: frames at five heights on a phone and a desktop,
       committed to the working directory; the orchestrator looks at them beside
       the drawing, then a fix round.
+- [ ] **Fix round** — `pnpm type-overlap` names `CoastGrid`, `TileKey`,
+      `LatticePoint`, `Octave` and `Eye`/`Placed` against each other and the
+      kernel's typings, since the base's new shared types landed after wave 1;
+      and the play script's `median` and error capture move to `scene`'s
+      `scripts/lib`, with an `awaitPromise` option on `cdp.ts`'s `evaluate`.
 - [ ] **Tail** — `/polish`, vet green, PR body saying what each call became,
       frames posted to the lead through memo.
 
