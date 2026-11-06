@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 23,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 76782,
+    "cacheReadTokens": 1260197,
+    "outputTokens": 5774,
+    "thinkingTokens": 2299,
+    "responses": 11,
+    "costUsd": 0.9818674
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T18:29:14.107Z",
+    "contextTokens": 118259,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55399,
+      "cacheReadTokens": 379977,
+      "outputTokens": 1393,
+      "thinkingTokens": 508,
+      "responses": 4,
+      "costUsd": 0.5470874
+    }
+  },
+  "sessionId": "8888cdf2-1ed8-503d-9ebf-8018ef3a0316",
+  "branch": "island/bite-1-descent",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go island/bite-1-descent",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDTq595n9RkxwUJ8bc",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T18:28:56.724Z",
+  "lastResponseAt": "2026-11-06T18:29:53.289Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 23,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 76782,
+    "cacheReadTokens": 1260197,
+    "outputTokens": 5774,
+    "thinkingTokens": 2299,
+    "responses": 11,
+    "costUsd": 0.9818674
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 23,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 76782,
+      "cacheReadTokens": 1260197,
+      "outputTokens": 5774,
+      "thinkingTokens": 2299,
+      "responses": 11,
+      "costUsd": 0.9818674
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 10,
+    "matched": 10,
+    "matchedTableUsd": 0.9353332,
+    "matchedEventUsd": 0.9353332,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 1240,
+    ".py": 887,
+    ".webp": 0,
+    ".json": 423,
+    ".ts": 1986,
+    ".css": 412,
+    ".sh": 1,
+    ".png": 0
+  }
+}

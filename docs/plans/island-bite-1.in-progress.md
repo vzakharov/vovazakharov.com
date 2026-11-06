@@ -1,5 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source while this file is named `*.draft.do-not-implement.md` — prep and spikes go in `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md` and delete this banner (quoting the go-ahead in the commit) *before* touching code.
-
 # Island, bite 1 — the thinnest descent
 
 The contract is `docs/plans/world-game-zoltan-syama/bite-1.md`: what exists when
