@@ -2245,3 +2245,48 @@ nextanguilla.si:
   form: phrase
   added: 2026-11-06
   post: super-intelligence
+
+fkaai.si:
+  category: AI becomes SI
+  tagline: Formerly Known As AI, now that it is called SI.
+  uses:
+    - rebranding studio
+    - tech-history newsletter
+  score: 7
+  form: hack
+  pattern: '*ai.si'
+  added: 2026-11-06
+  post: super-intelligence
+
+renamedagain.si:
+  category: AI becomes SI
+  tagline: AI was renamed SI three times in six weeks.
+  uses:
+    - changelog service
+    - naming agency
+  score: 6
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
+
+stillai.si:
+  category: AI becomes SI
+  tagline: Still AI, whatever the letters say now.
+  uses:
+    - tech-satire newsletter
+    - honest chatbot
+  score: 6.5
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
+
+namingishard.si:
+  category: AI becomes SI
+  tagline: One of the two hard things in computer science, the other being cache invalidation.
+  uses:
+    - naming workshop
+    - developer humor blog
+  score: 6.5
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence

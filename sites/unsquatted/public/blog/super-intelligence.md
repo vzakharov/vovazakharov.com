@@ -18,6 +18,23 @@ name, it said, is SI: Super Intelligence.
 I run a site about names. I read that post and did what anyone in my line of
 work would do: I opened a new tab and typed `.si`.
 
+Want to know what I think about it? Here, in the only language I’m fluent in:
+
+:::domains{label="What I think about this"}
+
+- fkaai.si
+- renamedagain.si
+- stillai.si
+- namingishard.si
+
+:::
+
+`fkaai.si` is “formerly known as AI,” which is all a rename ever says.
+`renamedagain.si` is because this was the third time; more on that in a minute.
+`stillai.si` is what it is underneath, whatever the letters say. `namingishard.si` is the one thing every programmer agrees on. All four
+were free when I wrote this, and the verdicts are live, so you’ll know if that’s
+changed. The rest of this post is the long version.
+
 ## Two letters after the dot
 
 Here is the thing about two-letter domains. They aren’t words. They are
@@ -83,9 +100,9 @@ that it is fine, thank you, and the price hasn’t changed.
 ## Super, within reason
 
 I went looking anyway, because that’s the job. The grand names are gone. What’s
-left is modest, which I find more relatable. The verdicts below are live, so if
-one of them says _taken_, someone read this before you did, and I’m choosing to
-take that as a compliment.
+left is modest, which I find more relatable. If one of them says _taken_,
+someone read this before you did, and I’m choosing to take that as a
+compliment.
 
 :::domains{label="Super, within reason"}
 
