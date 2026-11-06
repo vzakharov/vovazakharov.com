@@ -16,7 +16,10 @@ describe('coverOf', () => {
   const selected = [key(4, 0, 0), key(4, 1, 0), key(4, 0, 1), key(4, 1, 1)];
 
   it('draws a selection fully in hand as it is', () => {
-    assert.deepEqual(ids(coverOf(selected, holding(...selected))), ids(selected));
+    assert.deepEqual(
+      ids(coverOf(selected, holding(...selected))),
+      ids(selected),
+    );
   });
 
   it('covers missing children by their parent, which hides the loaded ones', () => {

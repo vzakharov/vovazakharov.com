@@ -40,8 +40,7 @@ export function coverOf(
       ),
   );
   const own = selected.filter(
-    (key) =>
-      has(tileId(key)) && !outer.some((standIn) => within(key, standIn)),
+    (key) => has(tileId(key)) && !outer.some((standIn) => within(key, standIn)),
   );
   return [...outer, ...own];
 }
