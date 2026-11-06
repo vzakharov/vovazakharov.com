@@ -9,8 +9,9 @@ the link was about.
 The card's field now holds the typed domain with its verdict and price
 set inside it, whatever its lookup said, and the rows under it are the
 alternatives alone. Where only the typed domain is taken, the hand
-writes "okay, maybe not this one" in the field, with an arrow to its
-verdict. A name shared without a zone draws as before.
+writes "okay, maybe not this one" in the field, and an arrow arcs up
+to it from "grabbed" in the tagline. A name shared without a zone
+draws as before.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
