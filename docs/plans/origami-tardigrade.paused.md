@@ -390,9 +390,11 @@ steps in `prototype/feel-{lotus,tulip,fish-gill,frog}.*`, the run helper
 
 ## Left
 
-0. **Now**: keep folding by feel from the three finds — push whichever reads
-   best a few steps further, show the operator renders as they land, without
-   waiting on them. The items below wait until the work returns to a design.
+0. **Open question to the operator, unanswered at the pause**: which way now —
+   (1, recommended) make the dilophosaurus the design: per-crease hold profiles
+   in the engine with tests, then items 3–4 with the dilophosaurus in place of
+   the tardigrade; (2) keep folding by feel (the lotus and the moth were never
+   pushed); (3) something else. No round is to start before the answer.
 
 1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0
    crossings; but see relay 7, ψ = 45° is the volume.
