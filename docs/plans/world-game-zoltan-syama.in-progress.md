@@ -20,6 +20,14 @@ time, steering by a north star rather than a schedule. Nothing past the open
 bite is laid out: each next bite is chosen when the last one lands, from what it
 showed — the step that looked hard turning out easy, and the other way round.
 
+## Standing constraints
+
+- «не забудь взять артефакты и отключаться когда будешь передавать (standing
+  constraint)» — a session that picks this work up watches the board artifact
+  (`ArtifactComments` `watch`), and one that hands it on stops its watch
+  (`on: false`) before the successor starts, so exactly one session is woken by
+  the board at a time.
+
 ## The calls everything else stands on
 
 Only the ones every later bite stands on; everything else is a bite's call.
