@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 40,
+    "inputTokens": 53,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 104181,
-    "cacheReadTokens": 2420342,
-    "outputTokens": 6288,
-    "thinkingTokens": 2284,
-    "responses": 19,
-    "costUsd": 1.4434364
+    "cacheWrite1hTokens": 117596,
+    "cacheReadTokens": 3585475,
+    "outputTokens": 14704,
+    "thinkingTokens": 4770,
+    "responses": 26,
+    "costUsd": 1.9521550000000003
   },
   "estimate": {
     "at": "2026-11-06T17:48:30.928Z",
@@ -51,7 +51,7 @@
   },
   "sessionId": "6a70fa3a-4254-5dd2-9f63-6f9e4c7b1459",
   "branch": "claude/world-game-zoltan-syama-hodowq",
-  "cwd": "/home/user/vovazakharov.com/docs/plans/world-game-zoltan-syama/board/items",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — доска построена и опубликована, но слишком ровная; кейс-стади ещё не начата",
   "prs": [
     255
@@ -59,18 +59,18 @@
   "url": "https://claude.ai/code/session_01DaohkBuNR8gejxyBRxwwzL",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T17:48:12.402Z",
-  "lastResponseAt": "2026-11-06T17:49:44.739Z",
+  "lastResponseAt": "2026-11-06T17:51:19.077Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 40,
+    "inputTokens": 53,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 104181,
-    "cacheReadTokens": 2420342,
-    "outputTokens": 6288,
-    "thinkingTokens": 2284,
-    "responses": 19,
-    "costUsd": 1.4434364
+    "cacheWrite1hTokens": 117596,
+    "cacheReadTokens": 3585475,
+    "outputTokens": 14704,
+    "thinkingTokens": 4770,
+    "responses": 26,
+    "costUsd": 1.9521550000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -84,23 +84,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 40,
+      "inputTokens": 53,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 104181,
-      "cacheReadTokens": 2420342,
-      "outputTokens": 6288,
-      "thinkingTokens": 2284,
-      "responses": 19,
-      "costUsd": 1.4434364
+      "cacheWrite1hTokens": 117596,
+      "cacheReadTokens": 3585475,
+      "outputTokens": 14704,
+      "thinkingTokens": 4770,
+      "responses": 26,
+      "costUsd": 1.9521550000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 19,
-    "matched": 19,
-    "matchedTableUsd": 1.4434364,
-    "matchedEventUsd": 1.4434364,
+    "events": 26,
+    "matched": 26,
+    "matchedTableUsd": 1.9521550000000003,
+    "matchedEventUsd": 1.952155,
     "unseen": {}
   }
 }

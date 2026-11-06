@@ -27,6 +27,13 @@ showed — the step that looked hard turning out easy, and the other way round.
   (`ArtifactComments` `watch`), and one that hands it on stops its watch
   (`on: false`) before the successor starts, so exactly one session is woken by
   the board at a time.
+- «не забывай скриншотить каждый значимый вариант (промежуточные поиски цели
+  можно не учитывать) для будущего таймлапса -- сохраняй их прямо
+  [000N]-[slug-if-needed].png куда-нить; если большие можно в релиз вместо репы»
+  — every significant variant, of the board and later of the game, is captured
+  and uploaded to the `island-timelapse` prerelease
+  (`gh release upload island-timelapse <file>`), numbered on from the highest
+  there (`gh release view island-timelapse --json assets -q '.assets[].name'`).
 
 ## The calls everything else stands on
 
