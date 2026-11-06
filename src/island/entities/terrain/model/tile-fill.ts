@@ -1,6 +1,12 @@
 import { type Elevated, planeToWorld, type Vec3 } from '@/island/shared/globe';
 
-import { latticeCoordinate, TILE_GRID, type TileKey, tileSide } from './tile';
+import {
+  latticeCoordinate,
+  TILE_GRID,
+  type TileKey,
+  type TileKeyed,
+  tileSide,
+} from './tile';
 
 /** Height above sea level, in metres, at plane point `(x, y)`. */
 export type HeightSample = (x: number, y: number) => number;
@@ -19,8 +25,7 @@ export type FillOptions = {
  * walked counter-clockwise from that corner. Triangles wind counter-clockwise
  * seen from outside, the skirt's facing away from the tile.
  */
-export type TileMesh = {
-  readonly key: TileKey;
+export type TileMesh = TileKeyed & {
   readonly grid: number;
   /** World position of the tile's centre on the sphere (sea level), float64. */
   readonly centre: Float64Array<ArrayBuffer>;

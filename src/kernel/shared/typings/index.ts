@@ -42,6 +42,9 @@ export type WithWidth = { width: number };
 /** A box's height alone. */
 export type WithHeight = { height: number };
 
+/** Releases whatever the holder bound or allocated; the holder is spent after. */
+export type CanDispose = { readonly dispose: () => void };
+
 /** A row-major grid's extent: cell `(i, j)` at `j * columns + i`. */
 export type Gridded = { columns: number; rows: number };
 

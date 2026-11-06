@@ -12,6 +12,7 @@ export {
   TILE_SQUARE,
   tileId,
   type TileKey,
+  type TileKeyed,
   tileRect,
 } from './model/tile';
 export {

@@ -1,17 +1,19 @@
+import type { CanDispose } from '@/kernel/shared/typings';
+
 import type { Intent, Vec2 } from '../model/eye';
 import { GROUND_PER_SCREEN } from '../model/pose';
 
 /** What the scene holds while the controls are bound. */
-export type EyeControls = {
-  /**
-   * The intent since the last read: the keys held now, and the wheel, pinch
-   * and drag that arrived meanwhile, which the read then clears. One read a
-   * frame.
-   */
-  readonly read: () => Intent;
-  /** Unbinds every listener and gives the element its touch action back. */
-  readonly dispose: () => void;
-};
+export type EyeControls =
+  // `dispose` unbinds every listener and gives the element its touch action back.
+  CanDispose & {
+    /**
+     * The intent since the last read: the keys held now, and the wheel, pinch
+     * and drag that arrived meanwhile, which the read then clears. One read a
+     * frame.
+     */
+    readonly read: () => Intent;
+  };
 
 /** Doublings of height per CSS pixel the wheel turns: a 100 px notch is half one. */
 export const WHEEL_DOUBLINGS_PER_PIXEL = 1 / 200;

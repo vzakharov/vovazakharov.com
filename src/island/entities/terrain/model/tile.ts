@@ -9,6 +9,9 @@ import type { PlanePoint } from '@/island/shared/globe';
  */
 export type TileKey = PlanePoint & { readonly level: number };
 
+/** Whatever is held or sent per tile, addressed by its key. */
+export type TileKeyed = { readonly key: TileKey };
+
 /**
  * The level-0 square's side: 16 384 km, covering the traced coast's
  * ~8 300 × 5 900 km bounding box, offshore islands and an off-centre main
