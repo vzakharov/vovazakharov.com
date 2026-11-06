@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 273341,
+    "cacheWrite1hTokens": 165054,
+    "cacheReadTokens": 13596330,
+    "outputTokens": 51136,
+    "thinkingTokens": 14673,
+    "responses": 96,
+    "costUsd": 6.429891000000001
+  },
+  "estimate": {
+    "at": "2026-11-06T21:34:09.969Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a CLI that folds a step file through the simulator and renders it, the step schema lifted out of a test kit, and the engine's duplications and type overlaps settled without moving its pinned numerics, is engine code a senior must reason about"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "carrying an unfinished line of work past a merge as an issue a later session can resume from, with the history pinned by SHA, is scoping a milestone"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T21:23:26.426Z",
+    "contextTokens": 110078,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46551,
+      "cacheReadTokens": 558730,
+      "outputTokens": 987,
+      "thinkingTokens": 58,
+      "responses": 6,
+      "costUsd": 0.50395
+    }
+  },
+  "sessionId": "f131189f-7081-5584-bf8b-3f9f00a8d409",
+  "branch": "claude/origami-volume-c79y3i",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-volume-c79y3i — движок перенесён, ловушки движка и шаги «пасти» вынесены из remove-before-merging; осталось дать дом заметкам о голов…",
+  "prs": [
+    253
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCTN1UD3BWwQM6xqz5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T21:23:09.570Z",
+  "lastResponseAt": "2026-11-06T21:34:29.646Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 105,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 165054,
+    "cacheReadTokens": 8667679,
+    "outputTokens": 26900,
+    "thinkingTokens": 5959,
+    "responses": 52,
+    "costUsd": 3.5923878
+  },
+  "subagents": {
+    "inputTokens": 87,
+    "cacheWrite5mTokens": 273341,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 4928651,
+    "outputTokens": 24236,
+    "thinkingTokens": 8714,
+    "responses": 44,
+    "costUsd": 2.8375032000000004
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 192,
+      "cacheWrite5mTokens": 273341,
+      "cacheWrite1hTokens": 165054,
+      "cacheReadTokens": 13596330,
+      "outputTokens": 51136,
+      "thinkingTokens": 14673,
+      "responses": 96,
+      "costUsd": 6.429891000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 96,
+    "matched": 96,
+    "matchedTableUsd": 6.429891000000001,
+    "matchedEventUsd": 6.429891000000001,
+    "unseen": {}
+  }
+}
