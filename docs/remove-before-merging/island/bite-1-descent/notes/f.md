@@ -24,16 +24,20 @@ coplanar, and where adjacent tiles leave a sub-pixel crack the land skirt
 `land-colour.ts` now fades the floor from sand at 0 m to the sea's colour at
 −20 m (`SEA_COLOUR`, shared with the sea material), so a lost tie draws as sea.
 
-Numbers (desktop, scratch instrumentation, not committed): field build 319 /
-364 ms (two workers); fills per height and median fill ms — orbit 128 (1.4),
-1000km 28 (1.2), 10km 100 (0.9), 100m 64 (0.8), 2m 0; frame median 0.8 ms over
-25 frames at load average 4.32 / 3.33 / 3.00 on 4 cores.
+Also fixed: orbit filled 128 tiles for 64 roots, since `selected()` asked for
+`[...ROOTS, ...keys]` and the selection holds the roots too; the ask is now
+de-duplicated by `tileId`.
+
+Numbers (final build, scratch instrumentation, not committed), desktop / phone:
+field build 343–425 / 340–454 ms per worker; tiles uploaded and median fill ms
+per height — orbit 64 (1.5 / 1.6), 1000km 28 (1.3 / 1.4), 10km 100 (1.0 /
+0.9), 100m 64 (0.9 / 0.9), 2m 0; frame median 0.9 / 1.0 ms over 25 frames at
+load average ~3.7 / 3.6 / 3.2 on 4 cores.
+
+Phone frames match desktop; at orbit the globe is wider than the portrait
+screen and is cut at both sides.
 
 Left:
 
-- **Roots filled twice**: orbit's 128 fills are 64 roots × 2, since
-  `selected()` passes `[...ROOTS, ...keys]` and both hold the roots; nothing
-  dedupes by `tileId`. One-line fix in `island-scene.ts`, not yet made.
-- Phone frames not run yet.
 - R1's type-overlap tidy for page types (`FilledTile`, `Held` → `TileKeyed`;
   `TilePool`, `IslandScene`, `TileMeshes` → `CanDispose`), deferred.

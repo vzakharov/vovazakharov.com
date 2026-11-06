@@ -162,8 +162,12 @@ export function mountIslandScene(
     }
     const keys = selectTiles(at);
     selection = { at, scale: eye.height, keys };
-    const missing = [...ROOTS, ...keys].filter(
-      (key) => !held.has(tileId(key)),
+    // The selection repeats roots when it reaches up to them.
+    const wanted = new Map(
+      [...ROOTS, ...keys].map((key) => [tileId(key), key] as const),
+    );
+    const missing = [...wanted].flatMap(([id, key]) =>
+      held.has(id) ? [] : [key],
     );
     pool.want(missing, eye.x, eye.y);
     return keys;
