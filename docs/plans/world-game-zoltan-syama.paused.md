@@ -13,9 +13,21 @@ is in git
 
 - «не забудь взять артефакты и отключаться когда будешь передавать (standing
   constraint)» — a session that picks this work up watches the board artifact
-  (`ArtifactComments` `watch`), and one that hands it on stops its watch
+  (`ArtifactComments` `watch`) and opens it (`Artifact` `open`, the only call
+  that lists it in the session), and one that hands it on stops its watch
   (`on: false`) before the successor starts, so exactly one session is woken by
-  the board at a time.
+  the board at a time. «не дело что раз за разом сессии лида об этом забывают» —
+  `.claude/hooks/board-notice.py` names either call on every prompt until the
+  session has made it.
+- «надо postmortem и standing constraint чтобы этого избежать» — no `git pull`
+  on this branch or a bite's, `--ff-only` included: integrate with
+  `git fetch origin <b> && git merge origin/<b>`, naming the ref. A pull merges
+  whatever `FETCH_HEAD` holds, and any fetch in the checkout can rewrite it —
+  that is how 686f5174 merged bite 1 into this branch and closed #256
+  ([postmortem](world-game-zoltan-syama/postmortem-686f5174.md)). No subagent
+  works in the lead's checkout while a `memo.py wait` is armed; it gets a
+  worktree. A merge commit naming a branch other than the one being integrated
+  is not pushed.
 - «не забывай скриншотить каждый значимый вариант (промежуточные поиски цели
   можно не учитывать) для будущего таймлапса -- сохраняй их прямо
   [000N]-[slug-if-needed].png куда-нить; если большие можно в релиз вместо репы»

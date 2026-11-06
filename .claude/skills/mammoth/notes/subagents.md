@@ -275,8 +275,12 @@
   `FETCH_HEAD`, which a `git pull` in the same checkout merges.** At the
   island's bite 0, a polish agent's `pull --no-rebase` ran while the lead waited
   on bite 1 and merged the bite's branch into the lead's (686f51740). Every
-  fetch a background poller runs passes `--no-write-fetch-head`; the skill
-  should keep agents out of the lead's checkout whenever a wait is armed.
+  fetch a background poller runs passes `--no-write-fetch-head`, but the cost
+  `Stop` hook, `floor.py` and `check-merge.sh` still fetch in the checkout, so
+  the guard that covers them all is the integration step: the skill integrates
+  with `git fetch origin <b> && git merge origin/<b>`, never `pull` (even
+  `--ff-only` fast-forwards onto a stray bite), and keeps agents out of the
+  lead's checkout whenever a wait is armed.
 - **A sibling's red goes to its owner while the owner still runs.** Bite 12b's F
   found three reds in the shared `fliers.test.ts` and traced them to B's commit
   while B ran; forwarded with `SendMessage`, B settled them before reporting —
