@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1796,
+    "inputTokens": 1858,
     "cacheWrite5mTokens": 71,
-    "cacheWrite1hTokens": 117881,
-    "cacheReadTokens": 6298539,
-    "outputTokens": 24388,
-    "thinkingTokens": 6960,
-    "responses": 47,
-    "costUsd": 2.6867589000000005
+    "cacheWrite1hTokens": 164247,
+    "cacheReadTokens": 12590934,
+    "outputTokens": 40596,
+    "thinkingTokens": 13259,
+    "responses": 78,
+    "costUsd": 4.640573900000002
   },
   "estimate": {
     "at": "2026-11-06T20:21:42.222Z",
@@ -41,22 +41,24 @@
   "branch": "claude/world-game-zoltan-syama-hodowq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — бит 0 закрыт и на паузе для ревью, бит 1 строит исполнитель, первые кадры посмотрены",
-  "prs": [],
+  "prs": [
+    255
+  ],
   "url": "https://claude.ai/code/session_01DaohkET9AgLB7ougEHi1rq",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T20:21:24.048Z",
-  "lastResponseAt": "2026-11-06T20:51:04.765Z",
+  "lastResponseAt": "2026-11-06T20:58:59.313Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 89,
+    "inputTokens": 151,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 117881,
-    "cacheReadTokens": 6182952,
-    "outputTokens": 24021,
-    "thinkingTokens": 6960,
-    "responses": 45,
-    "costUsd": 2.6604144
+    "cacheWrite1hTokens": 164247,
+    "cacheReadTokens": 12475347,
+    "outputTokens": 40229,
+    "thinkingTokens": 13259,
+    "responses": 76,
+    "costUsd": 4.614229400000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -70,14 +72,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 595,
+      "inputTokens": 657,
       "cacheWrite5mTokens": 71,
-      "cacheWrite1hTokens": 117881,
-      "cacheReadTokens": 6298539,
-      "outputTokens": 24038,
-      "thinkingTokens": 6960,
-      "responses": 46,
-      "costUsd": 2.6864638000000003
+      "cacheWrite1hTokens": 164247,
+      "cacheReadTokens": 12590934,
+      "outputTokens": 40246,
+      "thinkingTokens": 13259,
+      "responses": 77,
+      "costUsd": 4.640278800000003
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1201,
@@ -93,10 +95,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 46,
-    "matched": 44,
-    "matchedTableUsd": 2.593334,
-    "matchedEventUsd": 2.593334,
+    "events": 77,
+    "matched": 75,
+    "matchedTableUsd": 4.556060600000003,
+    "matchedEventUsd": 4.556060600000003,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 506,
@@ -120,12 +122,12 @@
       }
     }
   },
-  "operatorWords": 41,
+  "operatorWords": 119,
   "branchLines": {
-    ".md": 1584,
-    ".py": 894,
+    ".md": 1656,
+    ".py": 1123,
+    ".json": 483,
     ".webp": 0,
-    ".json": 479,
     ".ts": 2128,
     ".css": 412,
     ".sh": 1,
