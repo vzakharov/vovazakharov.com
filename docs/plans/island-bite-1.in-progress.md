@@ -99,6 +99,11 @@ the plan's; an agent may move a file inside its own slice and says so.
   the _local_ paper's; the sea is flood-filled from the frame through
   non-barrier; land is the rest; a ring is kept only if enough of its interior
   is coloured, which drops words and the legend whatever their size.
+- **Narrow lagoons close** (the bay below Рабу, mouths ~2 px): letting the sea
+  back in through bare ink reopened them but split Апатин and Стамбулица off the
+  main body, so the trace keeps them as land. Words count as land nowhere: a
+  ring needs coloured pixels at least 2 px clear of ink, which every word scores
+  0 on and every island 0.17 or more.
 - **`Coast` stays outer rings only**: the lake by Цитадель falls into the land
   until the lakes bite (call 5), rather than widening the type now.
 
