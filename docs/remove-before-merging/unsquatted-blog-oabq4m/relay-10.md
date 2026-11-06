@@ -66,13 +66,26 @@ reply to the news, in names, without insults; the post links its sources.
 - `widgets/field-tools`' `cardLead`, `cardRows`, `shareCard`, `cardText` lost
   their only outside consumer in 1fc51d12, so knip will flag them; drop them
   from the barrel.
-- A background agent was hunting the posts' source URLs in the earlier
-  sessions' transcripts when this relayed; its result is lost. Its brief: for
-  every fact in both posts, the URL behind it, found by `list_events` over
-  session_01DaohkFBd3LDkjGBNsJjeGw (the .si post) and session_01DaohkFLy8DV22KR2v28PMa,
-  session_01DaohkE55NLPZ6Shpfu2Rvp, session_01DaohkFAogh4KgWtaRvvsd9,
-  session_01DaohkEYm1qr1UeGqXdeoHK (one wrote Singles' Day), paged into
-  `tmp/sources/` and grepped, with a web search where none turns up.
+- **The posts' sources**, recovered by a subagent from the earlier sessions'
+  transcripts and the web (V = fetched and confirmed today, T = transcript
+  only). These are the links the posts get, inline:
+  - .si — the 27 Oct post and its quote: https://www.ibtimes.co.uk/trump-replace-artificial-intelligence-super-intelligence-1828284 (V)
+  - .si — the September poll and the UN speech on the 22nd, Netcraft's 44,000 twins, ~52% of Dynadot's first-four-days sales listed for resale: https://www.netcraft.com/blog/slovenian-si-domain-registrations-rise-trump-super-intelligence (V)
+  - .si — the executive order of 29 Sep (EO 14434): https://www.presidency.ucsb.edu/documents/executive-order-14434-inaugurating-the-era-super-intelligence (V)
+  - .si — Anguilla's ~$85M in 2025: https://anguillafocus.com/ai-domain-surge-brings-ec230m-windfall-to-anguilla-in-2025/ (T, 503 today)
+  - .si — "nearly half" per the tech minister (~47%, a 2025 projection): https://anguillafocus.com/ai-to-generate-nearly-half-of-anguillas-revenue-this-year-tech-minister-tells-bbc/ (V)
+  - .si — .sl taken by Sierra Leone, 1992: https://www.register.si/en/30years/milestones/ (V)
+  - .si — every daily registration figure: https://www.register.si/obvestila/spremljajte-rast-stevila-domen-si/ (T, numbers match)
+  - .si — the host's ~3% (Hostinger): https://techcrunch.com/2026/10/02/slovenias-si-domain-sees-a-surge-in-registrations-after-trumps-super-intelligence-order/ (V)
+  - .si — .ai at $140–200, two-year minimum: https://en.wikipedia.org/wiki/.ai (V)
+  - .si — the flat €10 and the notice denying the millions: https://www.register.si/obvestila/stevilo-domen-pod-si-preseglo-200-000/ (V)
+  - .si — si.si reserved since 2010: https://www.register.si/rezervirane-domene/ (T)
+  - Singles' Day — Nanjing ~1993, 光棍: https://en.wikipedia.org/wiki/Singles%27_Day (V)
+  - Singles' Day — 2009, 27 brands, ~52M yuan: https://www.businessoffashion.com/news/china/how-singles-day-in-china-became-the-biggest-shopping-spree/ (T; SCMP gives 50M, so not SCMP)
+  - Singles' Day — "would later rename itself Tmall": no source found; check the claim itself before linking or keeping it.
+  - Singles' Day — 268.4bn yuan in 2019: https://govt.chinadaily.com.cn/s/201911/12/WS5dcb998c498ebcb19057ba70/singles-day-shopping-spree-in-numbers.html (V)
+  - Singles' Day — eleven days, ~$85bn in 2021: https://fxempire.com/news/article/chinas-alibaba-records-singles-day-gmv-of-84-54-billion-over-11-day-sales-period-805915 (search only, not fetched)
+  - Singles' Day — 2022, stopped publishing, "in line with last year": https://thestar.com.my/tech/tech-news/2022/11/12/alibaba-mum-on-singles-day-sales-tally-says-in-line-with-2021 (V)
 
 ## 6. State
 
