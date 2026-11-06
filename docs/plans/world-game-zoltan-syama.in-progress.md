@@ -95,7 +95,7 @@ Where this is going, in no order — what gets built when is the bites' to find:
 
 Beyond it: towns at the drawn cities, borders, people, animals.
 
-## Rest of the bite — bite 0: the board, then the team's tooling
+## This bite — bite 0: the board, then the team's tooling
 
 The lead's own, before any member exists. Nothing of it is built yet; the
 board's design below was settled with the operator and goes first.
