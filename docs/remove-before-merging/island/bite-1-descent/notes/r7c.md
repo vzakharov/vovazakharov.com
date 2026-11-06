@@ -28,6 +28,29 @@ Measure: `tmp/r7c/measure.ts` in the worktree (eye over (0,0) via `eyeAt` +
 | 100 m | 104 | 86 | 3.9 m | 3.9 m | 3.9 m (L18) |
 | 2 m | 81 | 71 | 3.9 m | 3.9 m | 3.9 m |
 
-## 2. Coast floor at orbit — next
+## 2. Coast floor at orbit — measured, not kept (paused at context budget)
 
-## Play run — not yet
+Tried in `splitRule`, before the ratio test:
+`if (key.level < COAST_LEVEL && near(key, share)) return true`, `near` =
+`|sampleCoastField(centre)| < share·side`. Orbit, real coast (both screens
+alike, frustum culls nothing at orbit):
+
+| COAST_LEVEL | share | orbit tiles | selectTiles |
+|---|---|---|---|
+| none (as pushed) | – | 60 | 2–7 ms |
+| 5 | 1 | 249 | 16–48 ms |
+| 6 | 1 | 636 | 44–54 ms |
+| 6 | √½ (coast crosses the tile) | 528 | 42–43 ms |
+
+1 000 km and below: counts unchanged at every setting. Level 6 is +470–580
+tiles and a ~40 ms reselect on the main thread, past the "few hundred" bar,
+so it is reverted; frame medians not measured. Level 5 (16 km spacing, +190
+tiles) would be within the bar but spits of 10 km still fray at 16 km. The
+reselect cost is `visible` per node (8 `planeToWorld` + angles), not the rule.
+Note: with the floor, the cut at a balance-split tile next to a coarser leaf
+is that leaf's (64 km at orbit over (0,0) vs the L5 tile's 32 km) — by design.
+
+## Play run — not done
+
+Not built or played (context ran out). `$SCRATCH/r7/run.sh` builds from a
+worktree's `src/island` (edit its `WT=` to this worktree).
