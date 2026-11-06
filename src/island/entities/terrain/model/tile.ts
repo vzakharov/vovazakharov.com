@@ -11,11 +11,15 @@ export type TileKey = {
   readonly y: number;
 };
 
-/** The level-0 square's side: 8 192 km, covering the ~5 000 km main body. */
-export const TILE_SQUARE = 8_192_000;
+/**
+ * The level-0 square's side: 16 384 km, covering the traced coast's
+ * ~8 300 × 5 900 km bounding box, offshore islands and an off-centre main
+ * body included, with margin.
+ */
+export const TILE_SQUARE = 16_384_000;
 
-/** The deepest level: 17 puts a 33-vertex grid's spacing at ~1.95 m. */
-export const MAX_LEVEL = 17;
+/** The deepest level: 18 puts a 33-vertex grid's spacing at ~1.95 m. */
+export const MAX_LEVEL = 18;
 
 /** Vertices along a tile's side; `TILE_GRID - 1` cells, a power of two. */
 export const TILE_GRID = 33;
