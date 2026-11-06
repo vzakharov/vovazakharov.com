@@ -1,0 +1,15 @@
+// Prints each pose piece after every step: order, paper centroid, facing, moved.
+import { readFileSync } from 'node:fs';
+import { determinant } from '../../../src/origami/shared/fold/geometry.ts';
+import { run, type Step } from './fold.ts';
+
+const steps = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as Step[];
+for (let k = 1; k <= steps.length; k++) {
+  const pose = run(steps, k);
+  const moved = pose.log[k - 1]!.moved;
+  console.log(`step ${k}`);
+  for (const p of pose.pieces.toSorted((a, b) => a.order - b.order)) {
+    const c = [0, 1].map((a) => (p.paper.reduce((s, q) => s + q[a]!, 0) / p.paper.length).toFixed(2));
+    console.log(`  o${p.order} paper ${c} facing ${Math.sign(determinant(p.placement))}${moved.has(p.id) ? ' moved' : ''}`);
+  }
+}

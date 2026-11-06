@@ -173,7 +173,27 @@ if (process.env.ONESHOT) {
       },
     });
     console.log(`  hand: ${count} flap vertices, ${crease.length} on the crease, turn ${spin > 0 ? '+' : '-'}`);
+    /** Holds the turn at its full share (whatever the next phase's ramp) for
+     * `until` more iterations: the hand keeps the flap down while the lid seats. */
+    return (until: number) => {
+      sim.guide({ mask: flapMask, k: env('HAND', 50), until, target: (i, _share, out) => turn(i, out) });
+    };
+    function turn(i: number, out: number[]) {
+      const r = [start[3 * i]! - c0[0]!, start[3 * i + 1]! - c0[1]!, start[3 * i + 2]! - c0[2]!];
+      const [cs, sn] = [Math.cos(angle), Math.sin(angle)];
+      const kr = cross(d, r);
+      const kd = dot(d, r);
+      for (let a = 0; a < 3; a++) out[a] = c0[a]! + r[a]! * cs + kr[a]! * sn + d[a]! * kd * (1 - cs);
+    }
   };
+  /** The two creases furthest behind `goals`, as goal/now in degrees. */
+  const lagReport = (goals: Float64Array) =>
+    m.hinges
+      .flatMap((hinge, h) => (hinge.crease ? [[h, Math.abs((sim.tracked[h] ?? 0) - (goals[h] ?? 0))] as const] : []))
+      .toSorted((p, q) => q[1] - p[1])
+      .slice(0, 2)
+      .map(([h]) => `${((goals[h]! * 180) / Math.PI).toFixed(0)}/${((sim.tracked[h]! * 180) / Math.PI).toFixed(0)}°`)
+      .join(' ');
   for (let k = 1; k <= steps.length; k++) {
     const pose = run(steps, k);
     const { stack, angles, ofTri, around } = poseOf(pose);
@@ -236,6 +256,7 @@ if (process.env.ONESHOT) {
     // A tuck slides its flap under the layers stacked above it, a hand holding
     // them up: flap and lid do not touch until the flap is down.
     let suspended: { skip: (v: number, t: number) => boolean; until: number } | undefined;
+    let lid: Uint8Array | undefined;
     if (steps[k - 1]!.direction === 'tuck' && process.env.LIFT !== '0') {
       const moved = pose.log[k - 1]!.moved;
       const top = Math.max(...pose.pieces.filter((p) => moved.has(p.id)).map((p) => p.order));
@@ -245,6 +266,7 @@ if (process.env.ONESHOT) {
         const kinds = new Set(ps.map(kind));
         return kinds.size === 1 ? [...kinds][0]! : 0;
       });
+      lid = Uint8Array.from(vert, (c) => (c === 2 ? 1 : 0));
       suspended = {
         skip: (v, t) => (vert[v] === 1 && tri[t] === 2) || (vert[v] === 2 && tri[t] === 1),
         until: env('LIFT_UNTIL', Infinity),
@@ -287,23 +309,38 @@ if (process.env.ONESHOT) {
     const rubbing = steps[k - 1]!.direction === 'tuck' ? env('TUCK_FRICTION', 0) : env('STEP_FRICTION', env('FRICTION', 0));
     // PIN=k: the hand holds the paper the step leaves where it is, each
     // vertex with a stationary piece around it, while the flap folds.
+    // On a tuck it holds what the tuck leaves still — the lid too only with
+    // PIN_LID, since the other hand lifts it.
     const flatStep = step.direction === 'valley' || step.direction === 'mountain';
-    if (process.env.PIN && flatStep) {
+    const tuckStep = step.direction === 'tuck';
+    if (process.env.PIN && (flatStep || tuckStep)) {
       const moved = pose.log[k - 1]!.moved;
-      const mask = Uint8Array.from(around, (ps) => (process.env.PIN_CREASE ? ps.some((p) => !moved.has(p.id)) : ps.every((p) => !moved.has(p.id))) ? 1 : 0);
+      const mask = Uint8Array.from(around, (ps, v) =>
+        (process.env.PIN_CREASE ? ps.some((p) => !moved.has(p.id)) : ps.every((p) => !moved.has(p.id))) && (!tuckStep || process.env.PIN_LID === '1' || !lid?.[v]) ? 1 : 0,
+      );
       sim.pin(mask, env('PIN', 50), env('PIN_UNTIL', Infinity));
       console.log(`  pin: ${mask.reduce((s, c) => s + c, 0)} of ${mask.length} vertices`);
     }
-    if (process.env.HAND && flatStep) hand(pose.log[k - 1]!.moved, ofTri, around, stack.faces, step.direction === 'valley' ? 1 : -1);
+    // A tuck turns its flap like a valley about its crease, into the pocket
+    // under the suspended lid (HAND_SENSE=-1 for the other way).
+    const keep = process.env.HAND && (flatStep || tuckStep)
+      ? hand(pose.log[k - 1]!.moved, ofTri, around, stack.faces, tuckStep ? env('HAND_SENSE', 1) : step.direction === 'valley' ? 1 : -1)
+      : undefined;
     let ph = sim.phase(angles, env('RAMP_STEP', 2000), env('STEP_IT', 8000), env('STEP_TOL', 1e-4), suspended, rubbing);
-    sim.pin(undefined);
+    if (process.env.PIN_SEAT !== '1') sim.pin(undefined);
     sim.guide(undefined);
     if (suspended && process.env.SEAT !== '0') {
       // The hand lowers the lid onto the flap and presses, still sliding free:
-      // the flap and lid meet on the sides the stack gives them.
-      console.log(`  tucked iters ${ph.iterations} crossings ${sim.crossings()}`);
+      // the flap and lid meet on the sides the stack gives them. HAND_SEAT=n
+      // keeps the hand's turn on the flap for n iterations of it.
+      console.log(`  tucked iters ${ph.iterations} crossings ${sim.crossings()}${process.env.LAGS ? ` ${lagReport(angles)}` : ''}`);
+      if (process.env.DIAG) diag(sim.x, ofTri, around);
+      if (process.env.SNAP) writeFileSync(`${out.replace(/\.json$/, '')}-${k}-tucked.json`, JSON.stringify({ triangles: m.triangles, paper: m.paper, positions: m.paper.map((_, i) => [sim.x[3 * i]!, sim.x[3 * i + 1]!, sim.x[3 * i + 2]!]), faces: m.faces }));
       angles.set(full);
-      ph = sim.phase(angles, process.env.LIDOPEN ? env('RAMP_STEP', 2000) : 1, env('SEAT_IT', 8000), env('STEP_TOL', 1e-4), undefined, rubbing);
+      if (keep && env('HAND_SEAT', 0) > 0) keep(env('HAND_SEAT', 0));
+      ph = sim.phase(angles, env('SEAT_RAMP', process.env.LIDOPEN ? env('RAMP_STEP', 2000) : 1), env('SEAT_IT', 8000), env('STEP_TOL', 1e-4), undefined, rubbing);
+      sim.guide(undefined);
+      sim.pin(undefined);
     }
     if (opening) {
       console.log(`  opened iters ${ph.iterations} strain ${sim.strain().toFixed(4)} crossings ${sim.crossings()}`);
@@ -340,6 +377,29 @@ if (process.env.ONESHOT) {
   const t = Date.now();
   const ph = sim.phase(Float64Array.from(m.hinges, (h) => h.angle), env('RAMP', 2000), env('FINAL_IT', 40000), 1e-5);
   console.log(`let go iters ${ph.iterations}${ph.settled ? '' : ' (cap)'} strain ${sim.strain().toFixed(4)} crossings ${sim.crossings()} ms ${Date.now() - t}; total ${Date.now() - t0} ms; rub ${JSON.stringify(sim.stats)}`);
+  if (process.env.WRONG_END) {
+    // After let-go: pairs within WRONG_END gaps on the side opposite the
+    // final stack's — a flap seated through its lid rather than under it.
+    const { ofTri, around } = poseOf(run(steps));
+    const pairs = wrongSides(m, m, sim.x, env('WRONG_END', 10) * gap, true);
+    const groups = new Map<string, [number, number]>();
+    for (const { v, t, depth } of pairs) {
+      const key = `o${around[v]!.map((p) => p.order).join('/')} vs o${ofTri[t]!.order}`;
+      const g = groups.get(key) ?? [0, 0];
+      g[depth < 0 ? 1 : 0]++;
+      groups.set(key, g);
+    }
+    console.log(`pairs at the end (right/wrong): ${[...groups].toSorted((p, q) => q[1][0] + q[1][1] - p[1][0] - p[1][1]).slice(0, 14).map(([g, [r, w]]) => `${g} ${r}/${w}`).join(', ')}`);
+    sim.crossings();
+    diag(sim.x, ofTri, around);
+    // The most strained bars, at their paper midpoints.
+    const X = sim.x;
+    const worst = m.bars
+      .map(([p, q, length]) => [p, q, Math.abs(Math.hypot(X[3 * q]! - X[3 * p]!, X[3 * q + 1]! - X[3 * p + 1]!, X[3 * q + 2]! - X[3 * p + 2]!) - length) / length] as const)
+      .toSorted((a, b) => b[2] - a[2])
+      .slice(0, 4);
+    console.log(`strain at ${worst.map(([p, q, s]) => `(${[0, 1].map((c) => ((m.paper[p]![c]! + m.paper[q]![c]!) / 2).toFixed(2))}) ${(s * 100).toFixed(1)}%`).join(' ')}`);
+  }
   positions = sim.x;
 }
 const pt = (i: number) => [positions[3 * i]!, positions[3 * i + 1]!, positions[3 * i + 2]!];

@@ -144,6 +144,8 @@ const longestEdge = (mesh: Mesh): number =>
 const EDGE_POINTS = Number(process.env.EDGE_POINTS ?? 0);
 /** Which edges carry them: `outline` (the raw edges), `crease`, or `all`. */
 const EDGE_SET = process.env.EDGE_SET ?? 'outline';
+/** An edge point counts suspended when either end is (default: both). */
+const SKIP_ANY = process.env.SKIP_ANY === '1';
 
 /** The edges that carry contact points, as their two end vertices. */
 function contactEdges(mesh: Mesh): (readonly [number, number])[] {
@@ -182,20 +184,22 @@ function stackedEdgeSide(mesh: Stack, a: number, b: number, t: number): number {
 }
 
 /** Diagnostic: the (vertex, triangle) pairs within `reach` whose vertex stands
- * on the side opposite the one `stack` gives, with how far (signed by stack). */
-export function wrongSides(mesh: Mesh, stack: Stack, x: Float64Array, reach: number) {
+ * on the side opposite the one `stack` gives, with how far (signed by stack);
+ * with `all`, every pair the stack gives a side, right ones at positive depth. */
+export function wrongSides(mesh: Mesh, stack: Stack, x: Float64Array, reach: number, all = false) {
   const near = grid(x, mesh.triangles, longestEdge(mesh), reach);
   const seen = new Float64Array(7);
   const out: { v: number; t: number; depth: number }[] = [];
   for (let v = 0; v < mesh.paper.length; v++) {
-    for (const t of near(x[3 * v]!, x[3 * v + 1]!, x[3 * v + 2]!)) {
+    const ts = all ? mesh.triangles.keys() : near(x[3 * v]!, x[3 * v + 1]!, x[3 * v + 2]!);
+    for (const t of ts) {
       const [i, j, k] = mesh.triangles[t]!;
       if (i === v || j === v || k === v) continue;
       if (!project(x, v, i, j, k, seen) || !over(seen, 0)) continue;
       const s = seen[S]!;
       if (Math.abs(s) > reach) continue;
       const side = stackedSide(stack, v, t);
-      if (side && s * side < 0) out.push({ v, t, depth: s * side });
+      if (side && (all || s * side < 0)) out.push({ v, t, depth: s * side });
     }
   }
   return out;
@@ -287,7 +291,10 @@ export function contact(mesh: Mesh, gap: number, stiffness: number): Contact {
               : stackedEdgeSide(stack, ea, eb, t);
           // A pair held apart by the hand meets only once on its own side:
           // the flap passes the lid it is coming in under.
-          if (stacked && s * stacked < 0 && skip && skip(ea, t) && skip(eb, t)) continue;
+          // With SKIP_ANY, an edge point is held apart when either end is: its
+          // side comes from the one end the stack decides (a lid's corner on
+          // the pocket's bend), so that end's suspension is the one to honor.
+          if (stacked && s * stacked < 0 && skip && (SKIP_ANY ? skip(ea, t) || skip(eb, t) : skip(ea, t) && skip(eb, t))) continue;
           sides.set(
             key,
             stacked || (Math.abs(s) > gap / 100 ? Math.sign(s) : 0),

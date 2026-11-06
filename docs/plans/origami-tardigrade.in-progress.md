@@ -550,6 +550,19 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   Pinning the staying paper, or its crease too, does not fix it; a slower ramp
   alone is worse. The same hand is round 2's untried "drive the flap rigidly"
   for the ring tuck.
+- **The lock holds, with the hand** (relay 11, `prototype/seq-hand/`
+  `ring-tuck-hand.png`): `hand()` taking a tuck as a valley turn into the
+  pocket, at `HAND=50 RAMP_STEP=6000 STEP_IT=12000` (default ramp 2000 still
+  cuts the lid, ~99). Tucked ring 0 crossings every step, let-go 1, end gap
+  0.154 (of 0.160 pressed); the plain twin opens to 0.855; at friction 0 it
+  still holds (0.083), so the lock is geometric. Flap layers o3/o4 sit between
+  pocket floor o2 and lid o5, every pair on its side. The one crossing and the
+  5.0% worst bar (next 3.5%, 2%) sit at the nested corner where the flap's y=0.5
+  fold lies inside the pocket's — the x=0.3 wedge note's corner. Not needed:
+  TABLE, PIN, SKIP_ANY, `SEAT_RAMP`; `LIDOPEN` cannot work here (the lid is
+  joined to the floor along y=0.5). base3 and maw5 stay clean under the same
+  settings. Port: the ~60-line hand plus ~5 lines for tucks; the face-maw's
+  steps 8+ are now the open engine problem.
 
 ## Left
 
