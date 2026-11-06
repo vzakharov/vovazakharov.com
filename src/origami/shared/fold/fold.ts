@@ -21,7 +21,13 @@ import {
   splitConvex,
   type Vec,
 } from './geometry.ts';
-import { invertRigid, type Mat4, multiply, rotationAbout } from './space.ts';
+import {
+  differ,
+  invertRigid,
+  type Mat4,
+  multiply,
+  rotationAbout,
+} from './space.ts';
 import {
   adjacency,
   cut,
@@ -224,12 +230,6 @@ function flatFold(
     piece.order = i;
   }
 }
-
-/** How far two shapings may differ, entry by entry, and still be one. */
-const SAME_SHAPING = 1e-6;
-const differ = (a: Mat4, b: Mat4): boolean =>
-  a.length !== b.length ||
-  a.some((x, i) => Math.abs(x - (b[i] ?? x)) > SAME_SHAPING);
 
 /** The shaping of the paper the flap stays joined to: where the crease is in
  * space. Throws when the pieces along the crease disagree, since then there is

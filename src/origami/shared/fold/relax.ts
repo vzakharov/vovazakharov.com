@@ -23,8 +23,10 @@ const CONTACT = 4 * AXIAL;
  * over every triangle around it. */
 const CONTACT_LOAD = 12;
 
-/** Settled once no vertex feels more than this. */
-const TOLERANCE = 1e-6;
+/** Settled once no vertex feels more than this: it moves a bar by ~1e-8 of
+ * the sheet, and contact switching on and off keeps the last digits from
+ * calming further. */
+const TOLERANCE = 1e-5;
 const MAX_ITERATIONS = 200_000;
 /** Steps between rebuilding the contact pairs. */
 const REFRESH = 10;
@@ -37,7 +39,8 @@ export type Relaxation = {
   readonly iterations: number;
   /** The most any edge stretched or shrank, as a share of its paper length. */
   readonly strain: number;
-  /** Mesh edges left passing through paper they are not joined to. */
+  /** Mesh edges left passing through paper they are not joined to, by more
+   * than half its thickness. */
   readonly crossings: number;
 };
 
@@ -156,7 +159,7 @@ export function relax(mesh: Mesh, paper: Paper): Relaxation {
     ramp = Math.min(1, iteration / RAMP);
     if (iteration % REFRESH === 0) touch.refresh(x, 2 * REFRESH * maxStep);
     if (forces() < TOLERANCE && ramp === 1) {
-      return settled(mesh, x, iteration);
+      return settled(mesh, x, iteration, gap);
     }
     for (let i = 0; i < 3 * n; i++) {
       a[i] = (f[i] ?? 0) / (mass[Math.floor(i / 3)] ?? 1);
@@ -203,7 +206,12 @@ export function relax(mesh: Mesh, paper: Paper): Relaxation {
   throw new Error(`relax: the paper did not settle in ${MAX_ITERATIONS} steps`);
 }
 
-function settled(mesh: Mesh, x: Float64Array, iterations: number): Relaxation {
+function settled(
+  mesh: Mesh,
+  x: Float64Array,
+  iterations: number,
+  gap: number,
+): Relaxation {
   let strain = 0;
   for (const [a, b, length] of mesh.bars) {
     const len = Math.hypot(
@@ -220,6 +228,6 @@ function settled(mesh: Mesh, x: Float64Array, iterations: number): Relaxation {
     ),
     iterations,
     strain,
-    crossings: crossings(mesh, x),
+    crossings: crossings(mesh, x, gap / 2),
   };
 }

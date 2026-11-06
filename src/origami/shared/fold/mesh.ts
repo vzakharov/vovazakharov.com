@@ -6,7 +6,9 @@
  */
 import { assign } from './crease-pattern.ts';
 import {
+  add,
   apply,
+  contains,
   determinant,
   dot,
   edges,
@@ -20,8 +22,8 @@ import {
   type Vec,
 } from './geometry.ts';
 import { holdOf, type Paper } from './paper.ts';
-import { cross3, dot3, sub3, transform, type Vec3 } from './space.ts';
-import { type FoldState, layers, type Piece } from './state.ts';
+import { cross3, differ, dot3, sub3, transform, type Vec3 } from './space.ts';
+import { flatPolygon, type FoldState, type Piece } from './state.ts';
 import { type Triangle, triangulateConvex } from './triangulate.ts';
 
 /** The longest mesh edge, in sheet widths: fine enough that the paper between
@@ -30,6 +32,8 @@ const MESH_EDGE = 1 / 25;
 /** Lattice points closer than this share of an edge to a piece's outline would
  * leave slivers against it. */
 const RIM_CLEARANCE = 0.45;
+/** How far inside a piece its depth under a rim point is sampled. */
+const INSIDE = 1e-5;
 
 /**
  * An interior edge `a`–`b` and the two triangles on it, `(a, b, c)` and
@@ -49,6 +53,10 @@ export type MeshHinge = {
   readonly rest: number;
 };
 
+/** Where a piece lies in the flat stack: its order, and its plane — the
+ * pieces sharing one shaping, the only ones the order ranks against it. */
+export type Stacked = { readonly order: number; readonly plane: number };
+
 export type Mesh = {
   /** Each vertex's point of the sheet. */
   readonly paper: readonly Vec[];
@@ -61,6 +69,12 @@ export type Mesh = {
   readonly hinges: readonly MeshHinge[];
   /** Edges on the sheet's own outline. */
   readonly outline: readonly (readonly [number, number])[];
+  /** Each triangle's piece in the stack, and which way its front faces in the
+   * flat state: 1 up, -1 down. The fold engine knows the stacking exactly;
+   * the start positions only approximate it. */
+  readonly faces: readonly (Stacked & { readonly facing: number })[];
+  /** The pieces in the stack each vertex lies on. */
+  readonly sheets: readonly (readonly Stacked[])[];
 };
 
 /** Vertices by paper point, one per point within `NEAR`. */
@@ -223,12 +237,38 @@ function holdAt(state: FoldState, paper: Paper, [p, q]: Segment): number {
   return holdOf(record, paper);
 }
 
-/** Where a vertex starts: the pressed state, each layer lifted by the paper's
- * thickness, and a crease folded flat pushed out past the layers it wraps. */
+/**
+ * How many sheets lie under `piece` at flat point `flat`: the pieces lower in
+ * the stack, in the same plane, covering that point. Counted per point rather
+ * than per piece, since a piece's depth differs across it — a chain of
+ * partial overlaps is not a stack — and welded neighbours must agree on where
+ * the paper between them is.
+ */
+function depthAt(
+  pieces: readonly { readonly piece: Piece; readonly flat: Polygon }[],
+  piece: Piece,
+  flat: Vec,
+): number {
+  let depth = 0;
+  for (const other of pieces) {
+    if (
+      other.piece.order < piece.order &&
+      !differ(other.piece.shaping, piece.shaping) &&
+      contains(other.flat, flat)
+    ) {
+      depth++;
+    }
+  }
+  return depth;
+}
+
+/** Where a vertex starts: the pressed state, each sheet beneath lifting it by
+ * the paper's thickness, and a crease folded flat pushed out past the layers
+ * it wraps. */
 function startOf(
   pt: Vec,
   around: readonly Piece[],
-  layerOf: ReadonlyMap<number, number>,
+  depthOf: (piece: Piece, flat: Vec) => number,
   lift: number,
 ): Vec3 {
   const [first] = around;
@@ -249,7 +289,11 @@ function startOf(
     toward.reduce((sum, u) => [sum[0] + u[0], sum[1] + u[1]], [0, 0]),
     1 / toward.length,
   );
-  const depths = around.map((piece) => layerOf.get(piece.id) ?? 0);
+  // Sampled just inside each piece: on its rim, a neighbour merely touching
+  // the point would count as a sheet beneath it.
+  const depths = around.map((piece, k) =>
+    depthOf(piece, add(flat, scale(toward[k] ?? [0, 0], INSIDE))),
+  );
   const wrapped = (Math.max(...depths) - Math.min(...depths)) / 2;
   const oneSide =
     around.length > 1 &&
@@ -259,11 +303,11 @@ function startOf(
     ? scale(normalize(mean), -wrapped * lift)
     : ([0, 0] as const);
   const sum = around.reduce<Vec3>(
-    (total, piece) => {
+    (total, piece, k) => {
       const at = transform(piece.shaping, [
         flat[0] + out[0],
         flat[1] + out[1],
-        (layerOf.get(piece.id) ?? 0) * lift,
+        (depths[k] ?? 0) * lift,
       ]);
       return [total[0] + at[0], total[1] + at[1], total[2] + at[2]];
     },
@@ -377,15 +421,30 @@ export function mesh(state: FoldState, paper: Paper): Mesh {
       if (piece && list && !list.includes(piece)) list.push(piece);
     }
   }
-  const layerOf = layers(state);
+  const flats = state.pieces.map((piece) => ({
+    piece,
+    flat: flatPolygon(piece),
+  }));
+  const depthOf = (piece: Piece, flat: Vec) => depthAt(flats, piece, flat);
+  const planes: Piece['shaping'][] = [];
+  const stacked = (piece: Piece): Stacked => {
+    let plane = planes.findIndex((shaping) => !differ(shaping, piece.shaping));
+    if (plane < 0) plane = planes.push(piece.shaping) - 1;
+    return { order: piece.order, plane };
+  };
   return {
     paper: weld.points,
     start: weld.points.map((pt, i) =>
-      startOf(pt, around[i] ?? [], layerOf, lift),
+      startOf(pt, around[i] ?? [], depthOf, lift),
     ),
     triangles,
     bars,
     hinges,
     outline,
+    faces: pieceOf.map((piece) => ({
+      ...stacked(piece),
+      facing: Math.sign(determinant(piece.placement)),
+    })),
+    sheets: around.map((pieces) => pieces.map(stacked)),
   };
 }
