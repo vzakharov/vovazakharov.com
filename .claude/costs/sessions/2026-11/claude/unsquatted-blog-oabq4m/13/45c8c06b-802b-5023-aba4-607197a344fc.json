@@ -97,10 +97,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 149,
-    "matched": 142,
-    "matchedTableUsd": 8.988413,
-    "matchedEventUsd": 8.988413,
+    "events": 150,
+    "matched": 143,
+    "matchedTableUsd": 9.0575162,
+    "matchedEventUsd": 9.0575162,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 3057,

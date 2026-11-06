@@ -116,8 +116,18 @@ widget is on screen.
 
 ## 8. Next step
 
-Wait for the operator. Pending with them: their look at the reworked share and
-the label on the preview; whether `AGENTS.md` should be committed or ignored;
+Since the park, the operator asked, and got: no underlines in the widget image,
+its foot muted with only the host in the accent («подчёркивания на шарящейся не
+нужно, а текст кроме самого unsquatted.com серым», f2a31c48); the .si lede's
+last sentence "Nobody asked Slovenia." replaced by «"Ура, наверное?"
+по-словенски» → "Hura, najbrž?", card re-rendered (d0c147f0); preview run 42267561968. Then «Ещё посерее Check your own at -- и шрифт взять такой же какой
+обычно у наших теглайнов на превьюхах»: the lead-in takes a new token
+`--unsquatted-faint` (light #a3aea7 = the cards' `INK_FAINT`, dark #66726b),
+the host is bold mono in the accent as the cards' `.url` (e13585bf); preview
+run 42267753378. The session then relayed for its context budget.
+
+Wait for the operator. Pending with them: their look at these on the preview;
+whether `AGENTS.md` should be committed or ignored;
 the posts' dates (recommend merge day at `/finalize`); the reaction names'
 flag (recommend taking it); the five `/dry` calls (recommend leaving them);
 the index subtitle; "Thank you for your attention to this matter." Bite 3
@@ -125,6 +135,54 @@ follows once they answer. When code moves again, fix the PR's `widget-share`
 QA row.
 
 After this branch: the voice hook's retries, on a branch of their own.
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Вова, берусь: картинка на кнопке шаринга без превью, сердечки на картинке, ссылка внизу превращается в unsquatted.com, плюс новый заголовок виджета. Сначала забираю план обратно.
+
+Пересобираю поповер виджета в простое меню из двух кнопок, без поля с ссылкой и без превью.
+
+Now the image's stylesheet: hearts stay, the share stays out, the foot swaps its words.
+
+Now the widget's heading in the .si post.
+
+The post's card prints the widget's heading, so it needs redrawing.
+
+Card redraws fine on two lines. Checking the popover and the image on the dev server.
+
+Fits well within budget; continuing. Shooting the popover and the copied image.
+
+Both work as asked. Committing, pushing, republishing the preview.
+
+Шаринг у виджета теперь простое меню из двух кнопок, как ты описал. Проверил на dev-сервере, скриншоты выше.
+
+- **Меню.** Остались две кнопки, «Copy link» и «Copy as image». Поля со ссылкой и превью картинки больше нет. Где есть системная шарилка (телефон), подписи будут «Share link» и «Share as image». В шарилке на главной всё как было: там ссылка и картинка на месте.
+- **Картинка.** Сердечки на ней теперь те же, что у читателя на странице, нажатые тоже. Ссылка внизу превращается в «Check your own at unsquatted.com». У виджета с одним словом аналогично: «Try another word at unsquatted.com». Кнопки «share» на картинке нет, как и раньше (e9c0b4f7).
+- **Заголовок виджета.** Сделал «Superintelligence has landed. Grab yours!»: сухое «подвезли, разбирай», а ниже его перебивают lol ok и slowclap (3f08d499). Карточку поста для превью ссылки пришлось перерисовать, потому что на ней этот заголовок. Влезает в две строки. Если хочется ближе к «разбирай», могу сделать «Superintelligence, fresh off the truck. Help yourselves!».
+
+Превью перевыкладывается: https://github.com/vzakharov/vovazakharov.com/actions/runs/42256881287. Pages обычно раскатывает его минут за двадцать. Vet после этих правок ещё не запускал, он будет на `/finalize`.
+
+Ещё появился неотслеживаемый `sites/unsquatted/AGENTS.md`. Похоже, его создал `next dev`. Я его не трогал: скажи, удалить его или закоммитить.
+
+Предупреждение о бюджете контекста пришло, когда в сессии было около 223k токенов. Паузу я не делал, потому что эти правки укладывались в оставшийся запас.
+
+Без ответа по-прежнему висят:
+1. Даты постов. Предлагаю на `/finalize` поставить обоим дату мерджа.
+2. Флаг, чтобы шуточные имена не попадали в каталог на главной.
+3. Подзаголовок индекса.
+4. «Thank you for your attention to this matter».
+
+It's a file `next dev` generated during my preview check, not anything of yours; removing it rather than committing a one-site Next notice.
+
+Я удалил `sites/unsquatted/AGENTS.md`. Это не твой файл: его сгенерировал `next dev`, пока я проверял шаринг. Внутри только стандартное предупреждение от Next для агентов, а в других сайтах такого файла нет. Теперь в рабочем дереве нет незакоммиченных изменений, и всё, что я сделал за сессию, запушено.
+
+При следующем запуске `next dev` файл появится снова. Если хочешь, чтобы он лежал во всех сайтах или чтобы git его игнорировал, скажи, и я так и сделаю.
+```
 
 ## Last agent turn
 
