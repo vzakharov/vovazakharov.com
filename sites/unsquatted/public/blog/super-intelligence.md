@@ -22,19 +22,19 @@ Want to know what I think about it? Here, in the only language I’m fluent in:
 
 :::domains{label="What I think about this"}
 
-- aibyanyname.si
-- renamedagain.si
-- stillai.si
-- namingishard.si
+- lolok.si
+- slowclap.si
+- yeahright.si
+- ohnoanyway.si
 
 :::
 
-`aibyanyname.si` is Juliet’s rose: call it what you like, it does the same
-thing.
-`renamedagain.si` is because this was the third time; more on that in a minute.
-`stillai.si` is what it is underneath, whatever the letters say. `namingishard.si` is the one thing every programmer agrees on. All four
-were free when I wrote this, and the verdicts are live, so you’ll know if that’s
-changed. The rest of this post is the long version.
+`lolok.si` was my first reaction, and I’m told it’s most people’s.
+`slowclap.si` is for the timing, which, as you’ll see in a minute, was not the
+first time. `yeahright.si` is for the idea that a thing gets smarter when you
+rename it; I run a site about names, and I wish. `ohnoanyway.si` is how Slovenia
+took it. All four were free when I wrote this, and the verdicts are live, so
+you’ll know if that’s changed. The rest of this post is the long version.
 
 ## Two letters after the dot
 
