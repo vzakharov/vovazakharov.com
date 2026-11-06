@@ -10,13 +10,19 @@ import { OccasionEyebrow } from '@/unsquatted/entities/post';
 
 import classes from './post-header.module.scss';
 
-type PostHeaderProps = Headlined & { document: ContentDocument<PostFrontmatter> };
+type PostHeaderProps = Headlined & {
+  document: ContentDocument<PostFrontmatter>;
+};
 
 /**
  * The occasion over the title in the display serif, the lede under it, and
  * the byline with the file beside it on one line.
  */
-export function PostHeader({ document, title, readingMinutes }: PostHeaderProps) {
+export function PostHeader({
+  document,
+  title,
+  readingMinutes,
+}: PostHeaderProps) {
   const { frontmatter, collection, markdown } = document;
 
   return (
