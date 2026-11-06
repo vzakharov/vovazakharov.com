@@ -1,0 +1,47 @@
+// The lock experiment's runner: folds a step list flat with the tuck-aware
+// fold copy, lets it spring back with the friction-aware relax copy.
+// POSE=<n> starts from the state after n steps, else from the pressed state.
+// Usage: npx tsx tmp/tg/lock/spring.ts <steps.json | JSON> <out.json>
+import { readFileSync, writeFileSync } from 'node:fs';
+
+import { mesh } from '../../../src/origami/shared/fold/mesh.ts';
+import { PAPERS } from '../../../src/origami/shared/fold/paper.ts';
+import { flatPolygon } from '../../../src/origami/shared/fold/state.ts';
+import { crossings } from './contact.ts';
+import { run, type Step } from './fold.ts';
+import { relax } from './relax.ts';
+import { fromPose } from '../dome.ts';
+
+const paper = PAPERS['kami-15'];
+const arg = process.argv[2]!;
+const steps = JSON.parse(arg.trimStart().startsWith('[') ? arg : readFileSync(arg, 'utf8')) as Step[];
+const state = run(steps);
+if (process.env.LIST) {
+  for (const p of state.pieces.toSorted((a, b) => a.order - b.order)) {
+    console.log(p.id, p.order, flatPolygon(p).map((v) => v.map((n) => n.toFixed(2)).join(',')).join(' '));
+  }
+}
+const pressed = mesh(state, paper);
+const m = process.env.POSE ? fromPose(pressed, run(steps, Number(process.env.POSE))) : pressed;
+const gap = paper.thickness / paper.side;
+console.log('pieces', state.pieces.length, 'verts', m.paper.length, 'start crossings', crossings(m, Float64Array.from(m.start.flat()), gap / 2));
+const t0 = Date.now();
+const r = relax(m, paper);
+console.log('iters', r.iterations, 'strain', r.strain.toFixed(4), 'crossings', r.crossings, 'ms', Date.now() - t0);
+for (const line of r.report ?? []) console.log(line);
+// Landmarks given as paper points `TRACK=x,y;x,y`: where each pair ended up
+// apart, against where the pressed state had them.
+for (const pair of (process.env.TRACK ?? '').split('|').filter(Boolean)) {
+  const [p, q] = pair.split(';').map((s) => s.split(',').map(Number));
+  const near = (pt: number[]) =>
+    m.paper.reduce((best, v, i) => (Math.hypot(v[0] - pt[0]!, v[1] - pt[1]!) < Math.hypot(m.paper[best]![0] - pt[0]!, m.paper[best]![1] - pt[1]!) ? i : best), 0);
+  const [i, j] = [near(p!), near(q!)];
+  const d = (xs: readonly (readonly number[])[]) => Math.hypot(xs[i]![0]! - xs[j]![0]!, xs[i]![1]! - xs[j]![1]!, xs[i]![2]! - xs[j]![2]!);
+  console.log(`${pair}: pressed ${d(m.start).toFixed(3)} → relaxed ${d(r.positions).toFixed(3)}`);
+}
+const zs = r.positions.map((p) => p[2]);
+console.log('height', (Math.max(...zs) - Math.min(...zs)).toFixed(3));
+writeFileSync(
+  process.argv[3] ?? 'tmp/tg/lock/relaxed.json',
+  JSON.stringify({ triangles: m.triangles, paper: m.paper, positions: r.positions, faces: m.faces }),
+);

@@ -1,0 +1,9 @@
+#!/bin/bash
+# go.sh <name> <steps-json-or-file> ; env POSE, MAXIT, ROT, FRICTION, ...
+# Renders to tmp/tg/runs/lock-<name>/. One at a time: parallel renders hang.
+set -e
+cd /home/user/vovazakharov.com
+out=tmp/tg/runs/lock-$1
+mkdir -p $out
+MAXIT=${MAXIT:-40000} npx tsx tmp/tg/lock/spring.ts "$2" $out/m.json | grep -v "^UNSETTLED" | tail -${TAIL:-4}
+ROT=${ROT:-0} npx tsx tmp/tg/show.ts $out/m.json $out >/dev/null
