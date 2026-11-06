@@ -517,7 +517,22 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   a hand's pressure (`PRESS`: 0.0005 clean but the tuck stops 21° short and the
   ring opens, 0.002 crumples), long-reach side sorting in the seat
   (`SEAT_REACH`, 290–440 crossings), holding the pocket's lip up (`LIP`, same
-  jam). Round 2: find what holds the flap upright, then seat with a ramp.
+  jam).
+- **Ring tuck, relay 11 round 2** (`prototype/seq-tuck/`, the round's
+  `seq.ts`/`sim.ts`/`contact.ts` with every knob default-off) — no contact holds
+  the flap up; the solver does. The model floats free, so the flap's swing turns
+  the whole base ~50°, the weak pocket crease lags and flips open, and its tips
+  land square on the flap's underside — a T-strut normal-only contact can put no
+  torque through (`ring-tuck-whip-strut.png`, `prog-baseline.txt`). Held still
+  (`TABLE=k`, a spring pinning what the step leaves still), the flap only crawls
+  (127–152° in up to 30k iterations, dt collapsing): FIRE's global velocity
+  reset against heavy vertex masses. A real bug fixed on the way: edge points
+  with one end on lid and floor never suspended (`SKIP_ANY=1`, tuck-phase
+  crossings 82 → 0), not the jam's cause. Every variant opens the ring (0.854).
+  Untried: per-vertex velocity reset or lighter contact mass during a tuck,
+  driving the flap rigidly to its pose, then a ramped seat; the nested crease
+  wedge at x=0.3 (floor crease vertices ~0.76 gap deep into both neighbours)
+  likely sets step 2's open pocket tip.
 
 ## Left
 
