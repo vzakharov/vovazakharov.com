@@ -18,7 +18,7 @@ import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { HAZE_DRIFT, pinholeOf, TURN_CRUISE } from '@/mushrooms/shared/world';
 import { INSECT_LIMITS } from '@/mushrooms/features/insects-fly/index.node-safe';
 
-import { againstBudget, budgetReport, median } from './frame-budget.ts';
+import { againstBudget, budgetReport } from './frame-budget.ts';
 import {
   Camera,
   type Controls,
@@ -36,6 +36,8 @@ import {
   type Page,
 } from './mushroom-probe-drive.ts';
 import { paintedCap, Painting, painting } from './painted-cap.ts';
+
+import { median } from '@/scene/scripts/lib/median';
 
 /**
  * How many times the size it set off at the walked-up mushroom is drawn at

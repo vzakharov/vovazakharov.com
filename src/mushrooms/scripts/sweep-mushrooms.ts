@@ -51,9 +51,8 @@ import {
   standingIn,
 } from '@/mushrooms/pages/mushrooms/index.node-safe';
 
-import { median } from './lib/frame-budget.ts';
-
 import { flag } from '@/kernel/scripts/lib/argv';
+import { median } from '@/scene/scripts/lib/median';
 
 const visits = z.coerce
   .number()
