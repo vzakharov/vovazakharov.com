@@ -1,3 +1,4 @@
+import type { Vec3 } from '@/island/shared/globe';
 import {
   type CoastField,
   tileBuffers,
@@ -26,7 +27,12 @@ export type FilledTile = TileKeyed & {
 
 export type WorkerRequest =
   | { readonly kind: 'init'; readonly sendField: boolean }
-  | { readonly kind: 'fill'; readonly key: TileKey };
+  | {
+      readonly kind: 'fill';
+      readonly key: TileKey;
+      /** The eye (world metres) whose `detailCut` the tile is filled to. */
+      readonly eye: Vec3;
+    };
 
 export type WorkerReply =
   | {

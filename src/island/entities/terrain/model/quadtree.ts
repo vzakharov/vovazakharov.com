@@ -6,42 +6,46 @@ import {
 } from '@/island/shared/globe';
 
 import { type CoastField, sampleCoastField } from './coast-field';
-import { MAX_LEVEL, tileId, type TileKey, tileRect, tileSide } from './tile';
+import { viewDistance } from './detail';
+import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from './height';
+import {
+  MAX_LEVEL,
+  MIN_LEVEL,
+  SPLIT_RATIO,
+  tileId,
+  type TileKey,
+  tileRect,
+  tileSide,
+} from './tile';
+import { type Frustum, outside } from './view';
 
 export type SelectOptions = {
-  /** Every tile drawn is at least this deep; `MIN_LEVEL` by default. */
-  readonly minLevel?: number;
-  /** The deepest level a tile splits to; `MAX_LEVEL` by default. */
-  readonly maxLevel?: number;
-  /**
-   * A tile splits while its side exceeds this share of its distance from the
-   * eye, so it keeps roughly the same angular size at every height.
-   */
-  readonly splitRatio?: number;
   /**
    * The coast, when the selection should follow it: a tile whose centre is
-   * nearer the coast than its side splits `COAST_FINER` levels finer than elsewhere,
-   * since the sea's flat surface meets the land there along the land grid's
-   * cells and shows their size as steps.
+   * nearer the coast than its side splits `COAST_FINER` levels finer than
+   * elsewhere, since the sea's flat surface meets the land there along the
+   * land grid's cells and shows their size as steps.
    */
   readonly coast?: CoastField;
-  /** Bounds on the terrain's height, metres, for distance and horizon. */
-  readonly lowest?: number;
-  readonly highest?: number;
+  /** The camera's view, when tiles out of it should be dropped. */
+  readonly frustum?: Frustum;
+  /**
+   * The ground's height at a plane point, metres, which bounds each tile's
+   * relief for the horizon and the frustum; the ground's whole range bounds
+   * it without.
+   */
+  readonly ground?: (x: number, y: number) => number;
 };
 
-/** 64 tiles at most, 64 km cells, so the coast reads from orbit. */
-export const MIN_LEVEL = 3;
-export const SPLIT_RATIO = 1;
 /** Levels finer than elsewhere a tile astride the coast splits to. */
 const COAST_FINER = 2;
-const LOWEST = -8000;
-const HIGHEST = 7000;
 
 const length = (v: Vec3) => Math.hypot(v[0], v[1], v[2]);
 const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const angleBetween = (a: Vec3, b: Vec3) =>
   Math.acos(Math.max(-1, Math.min(1, dot(a, b) / (length(a) * length(b)))));
+/** The angle over the sea's horizon from which ground `h` metres up shows. */
+const rise = (h: number) => Math.acos(R / (R + Math.max(0, h)));
 
 const children = ({ level, x, y }: TileKey): TileKey[] => [
   { level: level + 1, x: 2 * x, y: 2 * y },
@@ -52,55 +56,76 @@ const children = ({ level, x, y }: TileKey): TileKey[] => [
 
 /**
  * The leaf tiles to draw from `eye` (world metres), ordered by level, then
- * `y`, then `x`. A tile splits while its side exceeds `splitRatio` times its
- * distance from the eye, from `minLevel` down to `maxLevel`; one wholly past the horizon is
- * dropped. The result is balanced: tiles sharing an edge differ by at most
- * one level, and each tile's skirt hides the step in between.
+ * `y`, then `x`. A tile splits while its side exceeds `SPLIT_RATIO` times its
+ * distance from the eye, from `MIN_LEVEL` down to `MAX_LEVEL`; one wholly past
+ * the horizon, or wholly out of `frustum`, is dropped. The result is balanced:
+ * tiles sharing an edge differ by at most one level, and each tile's skirt
+ * hides the step in between.
  */
 export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
-  const minLevel = options.minLevel ?? MIN_LEVEL;
-  const maxLevel = options.maxLevel ?? MAX_LEVEL;
-  const splitRatio = options.splitRatio ?? SPLIT_RATIO;
-  const lowest = options.lowest ?? LOWEST;
-  const highest = options.highest ?? HIGHEST;
-
+  const { coast, frustum, ground } = options;
   const plane = worldToPlane(eye);
-  const eyeHeight = Math.min(highest, Math.max(lowest, plane.h));
-  // The sea sphere's horizon from the eye plus a peak's own over it.
-  const horizon =
-    Math.acos(Math.min(1, R / length(eye))) + Math.acos(R / (R + highest));
+  const distanceTo = viewDistance(eye);
+  const seaHorizon = Math.acos(Math.min(1, R / length(eye)));
+
+  /** The tile's lowest and highest ground, bounded by the slope around samples. */
+  const relief = (
+    key: TileKey,
+    samples: ReadonlyArray<readonly [number, number]>,
+  ) => {
+    const side = tileSide(key.level);
+    if (ground === undefined || GROUND_SLOPE * side >= HIGHEST_GROUND) {
+      return [LOWEST_GROUND, HIGHEST_GROUND] as const;
+    }
+    // Every point of the tile lies within half a side of one sample.
+    const slack = (GROUND_SLOPE * side) / 2;
+    const heights = samples.map(([x, y]) => ground(x, y));
+    return [
+      Math.max(LOWEST_GROUND, Math.min(...heights) - slack),
+      Math.min(HIGHEST_GROUND, Math.max(...heights) + slack),
+    ] as const;
+  };
 
   const visible = (key: TileKey) => {
     const { west, south, east, north } = tileRect(key);
     const cx = (west + east) / 2;
     const cy = (south + north) / 2;
     const middle = planeToWorld(cx, cy);
+    const border = [
+      [west, south],
+      [east, south],
+      [west, north],
+      [east, north],
+      [cx, south],
+      [cx, north],
+      [west, cy],
+      [east, cy],
+    ] as const;
     const reach = Math.max(
-      ...(
-        [
-          [west, south],
-          [east, south],
-          [west, north],
-          [east, north],
-          [cx, south],
-          [cx, north],
-          [west, cy],
-          [east, cy],
-        ] as const
-      ).map(([x, y]) => angleBetween(middle, planeToWorld(x, y))),
+      ...border.map(([x, y]) => angleBetween(middle, planeToWorld(x, y))),
     );
-    return angleBetween(eye, middle) - reach <= horizon;
+    const [low, high] = relief(key, [...border.slice(0, 4), [cx, cy]]);
+    if (angleBetween(eye, middle) - reach > seaHorizon + rise(high)) {
+      return false;
+    }
+    if (frustum === undefined) return true;
+    // The sphere bulges past the chords between border points by this much.
+    const bulge = (R + high) * (1 - Math.cos(reach));
+    const hull = border.flatMap(([x, y]) => [
+      planeToWorld(x, y, low),
+      planeToWorld(x, y, high),
+    ]);
+    return !outside(frustum, eye, hull, bulge);
   };
 
   const distance = (key: TileKey) => {
     const { west, south, east, north } = tileRect(key);
-    const x = Math.min(east, Math.max(west, plane.x));
-    const y = Math.min(north, Math.max(south, plane.y));
-    const p = planeToWorld(x, y, eyeHeight);
-    return Math.hypot(eye[0] - p[0], eye[1] - p[1], eye[2] - p[2]);
+    return distanceTo(
+      Math.min(east, Math.max(west, plane.x)),
+      Math.min(north, Math.max(south, plane.y)),
+    );
   };
 
-  const { coast } = options;
   const astride = (key: TileKey) => {
     if (coast === undefined) return false;
     const { west, south, east, north } = tileRect(key);
@@ -113,12 +138,12 @@ export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
   };
 
   const splits = (key: TileKey) => {
-    if (key.level < minLevel) return true;
-    if (key.level >= maxLevel) return false;
+    if (key.level < MIN_LEVEL) return true;
+    if (key.level >= MAX_LEVEL) return false;
     const ratio = tileSide(key.level) / distance(key);
     return (
-      ratio > splitRatio ||
-      (ratio > splitRatio / 2 ** COAST_FINER && astride(key))
+      ratio > SPLIT_RATIO ||
+      (ratio > SPLIT_RATIO / 2 ** COAST_FINER && astride(key))
     );
   };
 

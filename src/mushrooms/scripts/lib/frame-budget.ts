@@ -6,6 +6,8 @@
  * a miss is a number to watch, not a red.
  */
 
+import { median } from '@/scene/scripts/lib/median';
+
 /**
  * The bound, in ms: with the backdrop and buttons baked the run's frames
  * measure about 14–20 ms at the median (the top of that range with other
@@ -13,14 +15,6 @@
  * leaves room for a busy machine and still flags that.
  */
 const FRAME_BUDGET_MS = 26;
-
-export function median(values: readonly number[]): number {
-  const sorted = values.toSorted((a, b) => a - b);
-  const middle = Math.floor(sorted.length / 2);
-  const [low, high] = [sorted[middle - 1], sorted[middle]];
-  if (high === undefined) return Number.NaN;
-  return sorted.length % 2 === 0 && low !== undefined ? (low + high) / 2 : high;
-}
 
 /** How `ms` stands against the budget, labelled as a report rather than a verdict. */
 export function againstBudget(ms: number, budget = FRAME_BUDGET_MS): string {
