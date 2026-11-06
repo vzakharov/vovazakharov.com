@@ -130,15 +130,8 @@ export function basilisk(options: Partial<BasiliskOptions> = {}): Design {
     ...edgesToDiagonal(33.75, [0.9, 0.3]),
     ...edgesToDiagonal(236.25, [0.95, 0.7], HEAD),
     ...(third ? edgesToDiagonal(39.375, [0.9, 0.5]) : []),
-    // fold in half, flaps outside; the upper-left half goes under. Let go, the
-    // halves open into a V, so the body has a cross-section.
-    {
-      line: ray(45),
-      moving: [0.2, 0.8],
-      direction: 'mountain',
-      tag: 'L',
-      hold: 0.8,
-    },
+    // fold in half, flaps outside; the upper-left half goes under
+    { line: ray(45), moving: [0.2, 0.8], direction: 'mountain', tag: 'L' },
     // neck up: inside reverse fold
     {
       line: axisLine(neck, 0, neckAngle),
