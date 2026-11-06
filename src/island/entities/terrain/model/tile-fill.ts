@@ -10,8 +10,8 @@ import {
 
 /**
  * Height above sea level, in metres, at plane point `(x, y)`, holding no
- * relief shorter than `finest` metres — twice the tile's vertex spacing, the
- * shortest wave its lattice draws without aliasing.
+ * relief shorter than `finest` metres — at least twice the tile's vertex
+ * spacing, the shortest wave its lattice draws without aliasing.
  */
 export type HeightSample = (x: number, y: number, finest: number) => number;
 
@@ -20,6 +20,12 @@ export type FillOptions = {
   readonly grid?: number;
   /** How far the skirt hangs below the edge, in metres; two cells by default. */
   readonly skirtDepth?: number;
+  /**
+   * The shortest relief to draw at a plane point, metres, when it should not
+   * depend on the tile's own level (`detailCut`): a vertex then cuts at the
+   * larger of it and twice the tile's spacing.
+   */
+  readonly finest?: (x: number, y: number) => number;
 };
 
 /**
@@ -77,6 +83,9 @@ export function fillTile(
   const cells = grid - 1;
   const spacing = tileSide(key.level) / cells;
   const skirtDepth = options.skirtDepth ?? 2 * spacing;
+  const { finest } = options;
+  const cutAt = (x: number, y: number) =>
+    finest === undefined ? 2 * spacing : Math.max(finest(x, y), 2 * spacing);
 
   // The lattice with one extra ring all round, `i` east and `j` north from -1.
   const ring = grid + 2;
@@ -85,7 +94,7 @@ export function fillTile(
     const y = latticeCoordinate(key.level, cells, key.y * cells + b - 1);
     for (let a = 0; a < ring; a++) {
       const x = latticeCoordinate(key.level, cells, key.x * cells + a - 1);
-      const height = sample(x, y, 2 * spacing);
+      const height = sample(x, y, cutAt(x, y));
       lattice.push({ world: planeToWorld(x, y, height), height });
     }
   }
@@ -154,8 +163,11 @@ function surfaceNormal(east: Vec3, north: Vec3): Vec3 {
   return [nx / length, ny / length, nz / length];
 }
 
-/** The grid's border vertices, counter-clockwise from the south-west corner. */
-function borderLoop(grid: number): number[] {
+/**
+ * The grid's border vertices, counter-clockwise from the south-west corner:
+ * the order the skirt hangs in, skirt vertex `grid² + k` under the `k`th.
+ */
+export function borderLoop(grid: number): number[] {
   const last = grid - 1;
   const loop: number[] = [];
   for (let i = 0; i < last; i++) loop.push(i);

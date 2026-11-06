@@ -1,5 +1,6 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
+import { type Vec3, worldToPlane } from '@/island/shared/globe';
 import {
   type CoastField,
   tileId,
@@ -22,11 +23,11 @@ export type TilePool = CanDispose & {
   /** The field the first worker built, copied out, and its build time. */
   readonly field: Promise<Built>;
   /**
-   * The tiles wanted now, replacing what was wanted before: queued ones no
-   * longer wanted are dropped, the rest go out nearest plane point `(x, y)`
-   * first.
+   * The tiles wanted now from `eye` (world metres), replacing what was wanted
+   * before: queued ones no longer wanted are dropped, the rest go out nearest
+   * the eye first, each filled to the eye's `detailCut`.
    */
-  readonly want: (keys: readonly TileKey[], x: number, y: number) => void;
+  readonly want: (keys: readonly TileKey[], eye: Vec3) => void;
   /** Whether `id` is asked of a worker and not yet back. */
   readonly pending: (id: string) => boolean;
 };
@@ -46,6 +47,8 @@ export function startTilePool(
   const slots: Slot[] = [];
   const inFlight = new Set<string>();
   let queue: TileKey[] = [];
+  /** The eye the queue was wanted from. */
+  let from: Vec3 = [0, 0, 0];
 
   const send = (slot: Slot, request: WorkerRequest) => {
     slot.worker.postMessage(request, []);
@@ -58,7 +61,7 @@ export function startTilePool(
         if (key === undefined) return;
         inFlight.add(tileId(key));
         slot.busy += 1;
-        send(slot, { kind: 'fill', key });
+        send(slot, { kind: 'fill', key, eye: from });
       }
     }
   };
@@ -94,7 +97,9 @@ export function startTilePool(
 
   return {
     field: field.promise,
-    want: (keys, x, y) => {
+    want: (keys, eye) => {
+      const { x, y } = worldToPlane(eye);
+      from = eye;
       queue = nearestFirst(
         keys.filter((key) => !inFlight.has(tileId(key))),
         x,

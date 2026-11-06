@@ -1,11 +1,22 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Coast, planeToWorld } from '@/island/shared/globe';
+import { type Coast, planeToWorld, type Vec3 } from '@/island/shared/globe';
 
 import { buildCoastField } from './coast-field';
 import { selectTiles } from './quadtree';
 import { MAX_LEVEL, tileId, type TileKey, tileRect } from './tile';
+import { frustumOf } from './view';
+
+const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const scaled = (v: Vec3, k: number): Vec3 => [v[0] * k, v[1] * k, v[2] * k];
+const sub = (a: Vec3, b: Vec3): Vec3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const unit = (v: Vec3): Vec3 => scaled(v, 1 / Math.hypot(v[0], v[1], v[2]));
+const flat = () => 0;
+const holds = (key: TileKey, x: number, y: number) => {
+  const { west, south, east, north } = tileRect(key);
+  return west <= x && x <= east && south <= y && y <= north;
+};
 
 /** A disc of radius 1 000 km around the centre, in plane metres. */
 const DISC_RADIUS = 1_000_000;
@@ -159,6 +170,35 @@ describe('selectTiles', () => {
         );
       });
     assert.deepEqual(inland(tiles), inland(plain));
+  });
+
+  describe('in a view', () => {
+    const eye = planeToWorld(0, 0, 100);
+    const up = unit(eye);
+    const north = planeToWorld(0, 1000, 100);
+    const ahead = sub(north, eye);
+    const forward = unit(sub(ahead, scaled(up, dot(ahead, up))));
+    const frustum = frustumOf(forward, up, (50 * Math.PI) / 180, 16 / 9);
+    const tiles = selectTiles(eye, { frustum, ground: flat });
+
+    it('drops the tiles behind the eye and keeps those ahead', () => {
+      const all = selectTiles(eye, { ground: flat });
+      assert.ok(tiles.length < all.length, `${tiles.length} of ${all.length}`);
+      assert.ok(all.some((key) => tileRect(key).north < -10_000));
+      for (const key of tiles) {
+        assert.ok(tileRect(key).north > -10_000, tileId(key));
+      }
+      assert.ok(tiles.some((key) => holds(key, 0, 5000)));
+      assert.ok(tiles.some((key) => holds(key, 0, 30_000)));
+      assertBalanced(tiles);
+      assertDisjoint(tiles);
+    });
+
+    it('drops a tile ahead past the horizon', () => {
+      // From 100 m the highest ground shows over the sea's horizon to ~250 km.
+      assert.ok(!tiles.some((key) => holds(key, 0, 1_000_000)));
+      assert.ok(tiles.some((key) => holds(key, 0, 200_000)));
+    });
   });
 
   it('draws nothing from the far side of the planet', () => {

@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { R, type Vec3 } from '@/island/shared/globe';
 
 import { tileId, type TileKey, tileSide } from './tile';
-import { fillTile, tileBuffers, type TileMesh } from './tile-fill';
+import { borderLoop, fillTile, tileBuffers, type TileMesh } from './tile-fill';
 
 const GRID = 33;
 const FLOAT32 = 2 ** -23;
@@ -123,5 +123,11 @@ describe('fillTile', () => {
     const deep = fillTile({ level: 18, x: 131_072, y: 131_072 }, hills);
     const spacing = length(sub(world(deep, 1), world(deep, 0)));
     assert.ok(spacing > 1 && spacing < 2.5, `${spacing}`);
+  });
+});
+
+describe('borderLoop', () => {
+  it('walks every border vertex once, counter-clockwise from the south-west', () => {
+    assert.deepEqual(borderLoop(3), [0, 1, 2, 5, 8, 7, 6, 3]);
   });
 });

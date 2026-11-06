@@ -20,7 +20,9 @@ export function IslandCanvas({ label }: Labeled) {
   useEffect(() => {
     const element = canvasRef.current;
     if (element === null) return;
-    const play = new URLSearchParams(globalThis.location.search).has(PLAY_QUERY);
+    const play = new URLSearchParams(globalThis.location.search).has(
+      PLAY_QUERY,
+    );
     const scene = mountIslandScene(element, { play, onError: setFailure });
     const uninstall = play ? installPlayHook(scene) : null;
     return () => {
