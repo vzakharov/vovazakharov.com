@@ -16,6 +16,7 @@ import type { CanDispose } from '@/kernel/shared/typings';
 import { CENTRE, EAST, NORTH, R, type Vec3 } from '@/island/shared/globe';
 import {
   type CoastField,
+  frustumOf,
   heightAt,
   MIN_LEVEL,
   selectTiles,
@@ -83,6 +84,11 @@ const GLOBE_RADIUS = R - 1500;
 
 /** A move under this share of the height reuses the last tile selection. */
 const RESELECT_SHARE = 0.02;
+/**
+ * Cosine of the turn that reselects: half the frustum's margin, so the view
+ * never turns past the tiles selected for it.
+ */
+const RESELECT_TURN = Math.cos(0.05);
 
 /** Every root tile: always held, so a missing tile always has an ancestor to stand in. */
 const ROOTS: TileKey[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
@@ -132,7 +138,13 @@ export function mountIslandScene(
   let groundAt = SEA_LEVEL;
   /** The coast the selection refines along, once the field arrives. */
   let coast: CoastField | undefined;
-  let selection: { at: Vec3; scale: number; keys: TileKey[] } | null = null;
+  let selection: {
+    at: Vec3;
+    scale: number;
+    forward: Vec3;
+    aspect: number;
+    keys: TileKey[];
+  } | null = null;
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
     [];
   let failure: Error | null = null;
@@ -152,10 +164,14 @@ export function mountIslandScene(
     settle();
   }, fail);
 
-  /** The tiles the eye selects now, reselected once it has moved enough. */
+  /**
+   * The tiles the eye selects now, reselected once it has moved enough or
+   * the view has turned toward the edge of the frustum's margin.
+   */
   function selected(): TileKey[] {
     if (eye === null) return [];
-    const at = poseOf(eye, camera.aspect).position;
+    const { aspect } = camera;
+    const { position: at, forward, up, fov } = poseOf(eye, aspect);
     if (
       selection !== null &&
       Math.hypot(
@@ -164,12 +180,21 @@ export function mountIslandScene(
         at[2] - selection.at[2],
       ) <
         RESELECT_SHARE * eye.height &&
-      Math.abs(Math.log(eye.height / selection.scale)) < RESELECT_SHARE
+      Math.abs(Math.log(eye.height / selection.scale)) < RESELECT_SHARE &&
+      forward[0] * selection.forward[0] +
+        forward[1] * selection.forward[1] +
+        forward[2] * selection.forward[2] >
+        RESELECT_TURN &&
+      aspect === selection.aspect
     ) {
       return selection.keys;
     }
-    const keys = selectTiles(at, { coast });
-    selection = { at, scale: eye.height, keys };
+    const keys = selectTiles(at, {
+      coast,
+      frustum: frustumOf(forward, up, fov, aspect),
+      ground: groundAt,
+    });
+    selection = { at, scale: eye.height, forward, aspect, keys };
     // The selection repeats roots when it reaches up to them.
     const wanted = new Map(
       [...ROOTS, ...keys].map((key) => [tileId(key), key] as const),
@@ -177,7 +202,7 @@ export function mountIslandScene(
     const missing = [...wanted].flatMap(([id, key]) =>
       held.has(id) ? [] : [key],
     );
-    pool.want(missing, eye.x, eye.y);
+    pool.want(missing, at);
     return keys;
   }
 

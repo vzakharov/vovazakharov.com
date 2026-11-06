@@ -3,10 +3,12 @@
  * tile it is sent and posts it back with its buffers transferred. Messages
  * are handled in order, so every fill waits for the field.
  */
+import type { Vec3 } from '@/island/shared/globe';
 import { coast } from '@/island/entities/coast';
 import {
   buildCoastField,
   type CoastField,
+  detailCut,
   fillTile,
   heightAt,
   TILE_GRID,
@@ -39,10 +41,12 @@ function gridRange(heights: Float32Array): readonly [number, number] {
   return [low, high];
 }
 
-function fill(built: CoastField, key: TileKey): FilledTile {
+function fill(built: CoastField, key: TileKey, eye: Vec3): FilledTile {
   const start = performance.now();
-  const ground = fillTile(key, (x, y, finest) =>
-    heightAt(built, SEED, x, y, finest),
+  const ground = fillTile(
+    key,
+    (x, y, finest) => heightAt(built, SEED, x, y, finest),
+    { finest: detailCut(eye) },
   );
   const [low, high] = gridRange(ground.heights);
   return {
@@ -67,6 +71,6 @@ addEventListener('message', (event: MessageEvent<WorkerRequest>) => {
     return;
   }
   if (field === null) throw new Error('tile worker: fill before init');
-  const tile = fill(field, request.key);
+  const tile = fill(field, request.key, request.eye);
   reply({ kind: 'tile', tile }, filledBuffers(tile));
 });
