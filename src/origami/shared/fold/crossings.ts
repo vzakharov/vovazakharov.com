@@ -32,7 +32,7 @@ export function creaseLines(mesh: Creased): Map<number, Set<string>> {
   return lines;
 }
 
-const creaseCache = new WeakMap<PaperMesh,Map<number, Set<string>>>();
+const creaseCache = new WeakMap<PaperMesh, Map<number, Set<string>>>();
 
 /**
  * The edges passing deeper than `within` through a triangle past its plane,

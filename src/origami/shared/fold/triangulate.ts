@@ -45,6 +45,8 @@ function circled(points: readonly Vec[], corners: Triangle): Circled {
  * inside it. Every rim segment comes out as an edge. Throws when the triangles
  * fail to tile the polygon exactly, which only near-degenerate input causes.
  */
+const key = (i: number, j: number) => (i < j ? `${i},${j}` : `${j},${i}`);
+
 export function triangulateConvex(
   points: readonly Vec[],
   rim: number,
@@ -70,7 +72,6 @@ export function triangulateConvex(
       ({ cx, cy, r2 }) => (x - cx) ** 2 + (y - cy) ** 2 < r2 * (1 - 1e-12),
     );
     const count = new Map<string, number>();
-    const key = (i: number, j: number) => (i < j ? `${i},${j}` : `${j},${i}`);
     for (const {
       corners: [a, b, c],
     } of bad) {

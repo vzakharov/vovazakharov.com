@@ -48,7 +48,7 @@ export const PAPERS: Record<PaperId, Paper> = {
 export const DEFAULT_PAPER: PaperId = 'kami-15';
 
 const kind = (record: FoldRecord): FoldKind =>
-  !record.flat ? 'shaping' : isReverse(record) ? 'reverse' : 'flat';
+  record.flat ? (isReverse(record) ? 'reverse' : 'flat') : 'shaping';
 
 /** How much of its angle the fold's crease keeps on this paper. */
 export const holdOf = (record: FoldRecord, paper: Paper): number =>

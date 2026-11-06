@@ -16,8 +16,8 @@ import {
   NEAR,
   normalize,
   type Polygon,
-  type Segment,
   scale,
+  type Segment,
   sub,
   type Vec,
 } from './geometry.ts';
@@ -72,12 +72,12 @@ export type Meshed = {
   /** Counter-clockwise in paper, so their front faces the paper's front. */
   readonly triangles: readonly Triangle[];
   /** Every edge with its length in paper. */
-  readonly bars: readonly (readonly [number, number, number])[];
+  readonly bars: ReadonlyArray<readonly [number, number, number]>;
 };
 
 export type Outlined = {
   /** Edges on the sheet's own outline. */
-  readonly outline: readonly (readonly [number, number])[];
+  readonly outline: ReadonlyArray<readonly [number, number]>;
 };
 
 /** The flat stack a mesh was built from. */
@@ -85,9 +85,9 @@ export type FlatStack = {
   /** Each triangle's piece in the stack, and which way its front faces in the
    * flat state: 1 up, -1 down. The fold engine knows the stacking exactly;
    * the start positions only approximate it. */
-  readonly faces: readonly (Stacked & { readonly facing: number })[];
+  readonly faces: ReadonlyArray<Stacked & { readonly facing: number }>;
   /** The pieces in the stack each vertex lies on. */
-  readonly sheets: readonly (readonly Stacked[])[];
+  readonly sheets: ReadonlyArray<readonly Stacked[]>;
 };
 
 /** The mesh as it lies in paper, before anything places it in space. */
@@ -104,8 +104,6 @@ export type Mesh = PaperMesh &
 function welder() {
   const points: Vec[] = [];
   const cells = new Map<string, number[]>();
-  const cell = (x: number, y: number) =>
-    `${Math.floor(x / (10 * NEAR))},${Math.floor(y / (10 * NEAR))}`;
   const index = (pt: Vec): number => {
     const [cx, cy] = [
       Math.floor(pt[0] / (10 * NEAR)),
@@ -120,7 +118,7 @@ function welder() {
       }
     }
     points.push(pt);
-    const key = cell(pt[0], pt[1]);
+    const key = `${cx},${cy}`;
     cells.set(key, [...(cells.get(key) ?? []), points.length - 1]);
     return points.length - 1;
   };
@@ -141,6 +139,11 @@ const within = (segment: Segment, pt: Vec): boolean => {
   const t = along(segment, pt);
   return t !== undefined && t > -NEAR && t < 1 + NEAR;
 };
+
+const lerp = (p: Vec, q: Vec, t: number): Vec => [
+  p[0] + (q[0] - p[0]) * t,
+  p[1] + (q[1] - p[1]) * t,
+];
 
 /** A piece's outline as welded vertices: its corners, every other piece's
  * corner lying on one of its edges, and each stretch between subdivided. */
@@ -178,11 +181,6 @@ function rim(
     });
   });
 }
-
-const lerp = (p: Vec, q: Vec, t: number): Vec => [
-  p[0] + (q[0] - p[0]) * t,
-  p[1] + (q[1] - p[1]) * t,
-];
 
 /** Points of a triangular lattice clear of the polygon's outline. */
 function interior(polygon: Polygon, edge: number): Vec[] {
@@ -267,7 +265,7 @@ function holdAt(state: FoldState, paper: Paper, [p, q]: Segment): number {
  * the paper between them is.
  */
 function depthAt(
-  pieces: readonly { readonly piece: Piece; readonly flat: Polygon }[],
+  pieces: ReadonlyArray<{ readonly piece: Piece; readonly flat: Polygon }>,
   piece: Piece,
   flat: Vec,
 ): number {
@@ -287,6 +285,12 @@ function depthAt(
 /** Where a vertex starts: the pressed state, each sheet beneath lifting it by
  * the paper's thickness, and a crease folded flat pushed out past the layers
  * it wraps. */
+function sum2(points: readonly Vec[]): Vec {
+  let sum: Vec = [0, 0];
+  for (const point of points) sum = [sum[0] + point[0], sum[1] + point[1]];
+  return sum;
+}
+
 function startOf(
   pt: Vec,
   around: readonly Piece[],
@@ -298,19 +302,10 @@ function startOf(
   const flat = apply(first.placement, pt);
   const toward = around.map((piece) => {
     const corners = piece.paper.map((corner) => apply(piece.placement, corner));
-    const centroid = scale(
-      corners.reduce(
-        (sum, corner) => [sum[0] + corner[0], sum[1] + corner[1]],
-        [0, 0],
-      ),
-      1 / corners.length,
-    );
+    const centroid = scale(sum2(corners), 1 / corners.length);
     return normalize(sub(centroid, flat));
   });
-  const mean = scale(
-    toward.reduce((sum, u) => [sum[0] + u[0], sum[1] + u[1]], [0, 0]),
-    1 / toward.length,
-  );
+  const mean = scale(sum2(toward), 1 / toward.length);
   // Sampled just inside each piece: on its rim, a neighbour merely touching
   // the point would count as a sheet beneath it.
   const depths = around.map((piece, k) =>
@@ -324,18 +319,17 @@ function startOf(
   const out = oneSide
     ? scale(normalize(mean), -wrapped * lift)
     : ([0, 0] as const);
-  const sum = around.reduce<Vec3>(
-    (total, piece, k) =>
-      add3(
-        total,
-        transform(piece.shaping, [
-          flat[0] + out[0],
-          flat[1] + out[1],
-          (depths[k] ?? 0) * lift,
-        ]),
-      ),
-    [0, 0, 0],
-  );
+  let sum: Vec3 = [0, 0, 0];
+  for (const [k, piece] of around.entries()) {
+    sum = add3(
+      sum,
+      transform(piece.shaping, [
+        flat[0] + out[0],
+        flat[1] + out[1],
+        (depths[k] ?? 0) * lift,
+      ]),
+    );
+  }
   return [
     sum[0] / around.length,
     sum[1] / around.length,
@@ -382,6 +376,12 @@ export function flatStack(
   };
 }
 
+function localId(ids: readonly number[], i: number): number {
+  const found = ids[i];
+  if (found === undefined) throw new Error(`mesh: no local point ${i}`);
+  return found;
+}
+
 /** `edge` bounds the longest mesh edge, in sheet widths. */
 export function mesh(state: FoldState, paper: Paper, edge = MESH_EDGE): Mesh {
   const lift = paper.thickness / paper.side;
@@ -399,13 +399,8 @@ export function mesh(state: FoldState, paper: Paper, edge = MESH_EDGE): Mesh {
       outline.length,
     );
     const ids = [...outline, ...inside.map((pt) => weld.index(pt))];
-    const id = (i: number): number => {
-      const found = ids[i];
-      if (found === undefined) throw new Error(`mesh: no local point ${i}`);
-      return found;
-    };
     for (const [a, b, c] of local) {
-      triangles.push([id(a), id(b), id(c)]);
+      triangles.push([localId(ids, a), localId(ids, b), localId(ids, c)]);
       pieceOf.push(piece);
     }
   }
@@ -417,7 +412,7 @@ export function mesh(state: FoldState, paper: Paper, edge = MESH_EDGE): Mesh {
   };
   const sides = new Map<
     string,
-    { a: number; b: number; wing: number; piece: Piece }[]
+    Array<{ a: number; b: number; wing: number; piece: Piece }>
   >();
   for (const [t, [a, b, c]] of triangles.entries()) {
     const piece = pieceOf[t];
@@ -435,9 +430,9 @@ export function mesh(state: FoldState, paper: Paper, edge = MESH_EDGE): Mesh {
     }
   }
 
-  const bars: [number, number, number][] = [];
+  const bars: Array<[number, number, number]> = [];
   const hinges: MeshHinge[] = [];
-  const outline: [number, number][] = [];
+  const outline: Array<[number, number]> = [];
   const angles = new Map<string, number>();
   for (const pair of sides.values()) {
     const [one, two, ...more] = pair;
@@ -464,10 +459,11 @@ export function mesh(state: FoldState, paper: Paper, edge = MESH_EDGE): Mesh {
     const hold = crease
       ? holdAt(state, paper, [point(one.a), point(one.b)])
       : 0;
+    const { a, b, wing: c } = one;
     hinges.push({
-      a: one.a,
-      b: one.b,
-      c: one.wing,
+      a,
+      b,
+      c,
       d: two.wing,
       crease,
       angle: hold * start,
