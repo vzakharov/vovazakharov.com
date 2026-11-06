@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { borderLoop, fillTile } from '@/island/entities/terrain';
 
-import { colourHeights } from './colour-heights';
+import { colourHeights, floorHeights } from './colour-heights';
 
 describe('colourHeights', () => {
   const key = { level: 12, x: 2048, y: 2048 };
@@ -28,5 +28,17 @@ describe('colourHeights', () => {
     const heights = colourHeights(tile.heights, grid);
     assert.deepEqual([...heights], [...tile.heights]);
     assert.equal(heights.at(-1), -95);
+  });
+});
+
+describe('floorHeights', () => {
+  it("gives every sea skirt its border's floor, shallow or deep", () => {
+    const grid = 5;
+    const key = { level: 12, x: 2048, y: 2048 };
+    for (const depth of [-3, -900]) {
+      const floor = fillTile(key, () => depth, { grid, skirtDepth: 100 });
+      const heights = floorHeights(floor.heights, grid);
+      assert.ok(heights.every((height) => height === depth));
+    }
   });
 });

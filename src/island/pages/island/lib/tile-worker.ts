@@ -48,10 +48,16 @@ function fill(built: CoastField, key: TileKey, eye: Vec3): FilledTile {
     { finest: detailCut(eye, built) },
   );
   const [low, high] = gridRange(ground.heights);
+  const land = high < 0 ? null : ground;
+  const sea = low > 0 ? null : fillTile(key, () => 0);
+  // Its own buffer when the land goes too, since a buffer transfers once.
+  const floor =
+    land === null ? ground.heights : new Float32Array(ground.heights);
   return {
     key,
-    land: high < 0 ? null : ground,
-    sea: low > 0 ? null : fillTile(key, () => 0),
+    land,
+    sea,
+    floor: sea === null ? null : floor,
     fillMs: performance.now() - start,
   };
 }

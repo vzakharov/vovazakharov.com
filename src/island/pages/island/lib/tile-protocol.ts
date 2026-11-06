@@ -18,6 +18,8 @@ export const SEED = 1;
 export type FilledTile = TileKeyed & {
   readonly land: TileMesh | null;
   readonly sea: TileMesh | null;
+  /** The ground's heights under the sea's vertices, which the sea is coloured by; null with no sea. */
+  readonly floor: Float32Array<ArrayBuffer> | null;
   /** The worker's time filling it, ms. */
   readonly fillMs: number;
 };
@@ -41,7 +43,12 @@ export type WorkerReply =
   | { readonly kind: 'tile'; readonly tile: FilledTile };
 
 /** The buffers of a filled tile, for `postMessage`'s transfer list. */
-export const filledBuffers = ({ land, sea }: FilledTile): ArrayBuffer[] => [
+export const filledBuffers = ({
+  land,
+  sea,
+  floor,
+}: FilledTile): ArrayBuffer[] => [
   ...(land === null ? [] : tileBuffers(land)),
   ...(sea === null ? [] : tileBuffers(sea)),
+  ...(floor === null ? [] : [floor.buffer]),
 ];

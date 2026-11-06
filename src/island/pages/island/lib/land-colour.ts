@@ -16,12 +16,17 @@ const linear = (c: number) =>
 export const SHORE_TOP = 20;
 
 /**
- * The land's colour by height: the sea's own colour on the floor, shore sand,
- * green lowland, brown upland, pale peaks. Stops are metres above the sea and
- * sRGB.
+ * The ground's colour by height, read by the land and, over the floor beneath
+ * it, by the sea: the deep sea's own colour, lightening up the shelf to a
+ * turquoise shallow and to sand at the waterline, so the sea's colour meets the
+ * land's there and the coastline draws with no seam; then green lowland, brown
+ * upland, pale peaks. Stops are metres above the sea and sRGB.
  */
 const SRGB_STOPS: ReadonlyArray<readonly [number, Rgb]> = [
-  [-20, channels(SEA_COLOUR)],
+  [-1500, channels(SEA_COLOUR)],
+  [-250, channels(0x14_5a_86)],
+  [-40, channels(0x23_86_a0)],
+  [-6, channels(0x5c_b8_b4)],
   [0, [0.86, 0.8, 0.6]],
   [SHORE_TOP, [0.84, 0.78, 0.57]],
   [60, [0.38, 0.57, 0.27]],
@@ -33,13 +38,13 @@ const SRGB_STOPS: ReadonlyArray<readonly [number, Rgb]> = [
 ];
 
 /**
- * The land's colour stops in linear RGB, as the renderer reads colours, which
- * the land's shader blends linearly per fragment. Below the first the colour
- * is the first's, above the last the last's. Shallow ground keeps the shore's
- * sand, so a triangle crossing the coastline reads as beach; deeper, it takes
- * the sea's colour, so a skirt or floor that loses a depth tie against the
- * coplanar sea draws as the sea.
+ * The ground's colour stops in linear RGB, as the renderer reads colours,
+ * which the shaders blend linearly per fragment. Below the first the colour is
+ * the first's, above the last the last's. Ground under the sea takes the
+ * colour the sea shows over it, so a skirt or floor that wins a depth tie
+ * against the coplanar sea draws as the sea.
  */
-export const LAND_STOPS: ReadonlyArray<readonly [number, Rgb]> = SRGB_STOPS.map(
-  ([level, [r, g, b]]) => [level, [linear(r), linear(g), linear(b)]] as const,
-);
+export const GROUND_STOPS: ReadonlyArray<readonly [number, Rgb]> =
+  SRGB_STOPS.map(
+    ([level, [r, g, b]]) => [level, [linear(r), linear(g), linear(b)]] as const,
+  );

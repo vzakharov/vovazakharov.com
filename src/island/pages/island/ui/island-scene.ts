@@ -115,8 +115,8 @@ export function mountIslandScene(
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const lighting = groundLighting();
-  const { land, sea, sky, lights } = lighting;
-  const globe = new Mesh(new SphereGeometry(GLOBE_RADIUS, 256, 128), sea);
+  const { land, sea, ocean, sky, lights } = lighting;
+  const globe = new Mesh(new SphereGeometry(GLOBE_RADIUS, 256, 128), ocean);
   const tiles = new Group();
   scene.add(globe, tiles, ...lights);
 

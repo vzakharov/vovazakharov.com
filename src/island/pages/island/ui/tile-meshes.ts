@@ -17,7 +17,7 @@ import {
   type TileMesh,
 } from '@/island/entities/terrain';
 
-import { colourHeights } from '../lib/colour-heights';
+import { colourHeights, floorHeights } from '../lib/colour-heights';
 import type { FilledTile } from '../lib/tile-protocol';
 import { HEIGHT_ATTRIBUTE } from './ground-lighting';
 
@@ -45,17 +45,12 @@ export type TileMeshes = CanDispose & {
   readonly size: () => number;
 };
 
-/** A tile's geometry; `withHeights` carries the heights the land's material colours by. */
-function geometryOf(mesh: TileMesh, withHeights: boolean): BufferGeometry {
+/** A tile's geometry, carrying `colourBy` as the heights its material colours by. */
+function geometryOf(mesh: TileMesh, colourBy: Float32Array): BufferGeometry {
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(mesh.positions, 3));
   geometry.setAttribute('normal', new BufferAttribute(mesh.normals, 3));
-  if (withHeights) {
-    geometry.setAttribute(
-      HEIGHT_ATTRIBUTE,
-      new BufferAttribute(colourHeights(mesh.heights, mesh.grid), 1),
-    );
-  }
+  geometry.setAttribute(HEIGHT_ATTRIBUTE, new BufferAttribute(colourBy, 1));
   geometry.setIndex(new BufferAttribute(mesh.indices, 1));
   geometry.computeBoundingSphere();
   return geometry;
@@ -81,13 +76,16 @@ export function tileMeshes(
 
   return {
     has: (id) => held.has(id),
-    add: ({ key, land, sea }) => {
+    add: ({ key, land, sea, floor }) => {
       const meshes: Mesh[] = [];
       if (land !== null) {
-        meshes.push(new Mesh(geometryOf(land, true), materials.land));
+        const colourBy = colourHeights(land.heights, land.grid);
+        meshes.push(new Mesh(geometryOf(land, colourBy), materials.land));
       }
       if (sea !== null) {
-        meshes.push(new Mesh(geometryOf(sea, false), materials.sea));
+        if (floor === null) throw new Error(`tile ${tileId(key)}: no floor`);
+        const colourBy = floorHeights(floor, sea.grid);
+        meshes.push(new Mesh(geometryOf(sea, colourBy), materials.sea));
       }
       const source = land ?? sea;
       if (source === null) throw new Error(`tile ${tileId(key)}: no surface`);
