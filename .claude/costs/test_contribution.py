@@ -12,7 +12,9 @@ from __future__ import annotations
 import unittest
 from dataclasses import replace
 
+from contribution import contribution_of, finished_by
 from lib.branch_lines import extension_of, fold_numstat
+from lib.estimate_model import Estimate, Part, Rates
 from lib.identity import operator_words_of
 from lib.rows import SessionCost, parse_session_cost, row_text
 from lib.tally import Tally
@@ -85,6 +87,41 @@ class RowShape(unittest.TestCase):
     def test_a_row_written_before_them_parses_as_null(self) -> None:
         back = parse_session_cost(row_text(self.ROW))
         self.assertEqual((back.operator_words, back.branch_lines), (None, None))
+
+
+class BranchSummary(unittest.TestCase):
+    RATES = Rates(roles={"developer": 1.0, "copywriter": 0.5}, grades={"senior": 1.0})
+
+    def row(self, sid: str, start: str, end: str, usd: float, words=None, lines=None, branch="b", hours=None):
+        estimate = None if hours is None else Estimate(at=end, parts=[Part(hours, "senior", "copywriter")])
+        return replace(
+            RowShape.ROW,
+            session_id=sid,
+            branch=branch,
+            first_response_at=start,
+            last_response_at=end,
+            total=Tally(cost_usd=usd),
+            operator_words=words,
+            branch_lines=lines,
+            estimate=estimate,
+        )
+
+    def test_the_branchs_sessions_sum_in_start_order_and_the_last_lines_stand(self) -> None:
+        rows = [
+            self.row("two", "2026-01-02", "2026-01-02", 2.0, words=5, lines={".ts": 9}),
+            self.row("one", "2026-01-01", "2026-01-01", 1.0, words=3, lines={".ts": 4}, hours=4),
+            self.row("other", "2026-01-01", "2026-01-01", 9.0, words=99, branch="c"),
+        ]
+        got = contribution_of("b", rows, self.RATES)
+        self.assertEqual([s.usd for s in got.sessions], [1.0, 2.0])
+        self.assertEqual((got.usd, got.senior_hours, got.operator_words), (3.0, 2.0, 8))
+        self.assertEqual((got.branch_lines, got.words_are_a_floor), ({".ts": 9}, False))
+
+    def test_a_row_without_words_is_a_floor_unless_a_finished_session_fills_it(self) -> None:
+        then = [self.row("done", "t1", "t2", 1.0), self.row("running", "t3", "t4", 1.0)]
+        later = [self.row("done", "t1", "t2", 1.0, words=7), self.row("running", "t3", "t9", 2.0, words=4)]
+        got = contribution_of("b", then, self.RATES, finished_by(later, "t5"))
+        self.assertEqual((got.operator_words, got.words_are_a_floor), (7, True))
 
 
 if __name__ == "__main__":

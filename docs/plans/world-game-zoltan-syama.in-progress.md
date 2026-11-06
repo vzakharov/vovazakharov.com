@@ -36,10 +36,8 @@ is in git
 - «каждое изменение артефакта снапшотить … Для каждого скриншота запоминать
   количество затраченных "часов", долларов API cost up until now, мб строк кода
   итп, чтобы потом наложить» — every board publish is a timelapse frame, and
-  beside it in the release goes `NNNN-slug.json` with the figures to date: hours
-  and dollars from `pnpm costs`, `pnpm contribution lines`' last row, the
-  operator's words (the ledger rows' `operatorWords`). Frames 0001–0003 have
-  none yet.
+  beside it in the release goes `NNNN-slug.json` with the figures to date,
+  `python3 .claude/costs/contribution.py --at <time> --json`.
 
 ## Eaten so far
 
@@ -60,23 +58,23 @@ is in git
   snapshot, `assets/island-board-<date>.png` (`pnpm board snapshot`, resized to
   2000 px wide). The first, "how it all began", holds the 3,120 h forecast by
   role, unchanged, for the comparison at the end.
-
 - **The channel** — `scripts/memo/memo.py`, `--as lead|member`, `memo.md` in the
   bite branch's working directory; the lead waits on every open bite with one
   `wait --branch A --branch B`. Not built: a forward after a handoff (the
   predecessor's note on the lead's own branch is one only `show` reads, since
   `wait` prints the other side's notes); `send_message` stays the wake.
 - **The notes** — `.claude/skills/mammoth/notes/`, renamed from `megabeast`.
+- **The human-contribution report** — every cost row carries `operatorWords` and
+  `branchLines`, written by the Stop hook each turn (the four sessions before it
+  back-filled on `cost-ledger`);
+  `python3 .claude/costs/contribution.py [--at TIME] [--json]` sums the branch,
+  and `pnpm contribution lines` gives the cumulative-flow CSV. A frame's sidecar
+  is `contribution.py --at <its upload time> --json`; 0001–0003 have theirs,
+  read at upload rather than capture, since all three went up together. The
+  `.claude/costs/` change goes upstream to `vzakharov/muthur`.
 
 ## Rest of the bite — bite 0, the lead's own
 
-4. **The human-contribution report** — partly eaten: `pnpm contribution lines`
-   gives the cumulative-flow CSV, and every cost row now carries `operatorWords`
-   and `branchLines` (the Stop hook writes them each turn, so
-   `git log cost-ledger` on a row is their curve). Left: the report reading
-   them, and back-filling the four sessions before the hook — counted once at
-   1,317 words from the server transcripts, in `tmp/` only. The `.claude/costs/`
-   change goes upstream to `vzakharov/muthur`.
 5. **The first step toward the star** and its member — likely the thinnest
    descent from orbit to the ground; its contract a file beside this one.
 
