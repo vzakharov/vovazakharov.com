@@ -564,6 +564,63 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   settings. Port: the ~60-line hand plus ~5 lines for tucks; the face-maw's
   steps 8+ are now the open engine problem.
 
+## Port design (relay 11)
+
+Into `src/origami/shared/fold/`, each file under 450 lines, in three slices,
+each its own commits with tests.
+
+**Hidden defaults the prototype carries** (all winning runs used them):
+
+- Contact mass factor `1 + SHEAR` = 2 in the sequential simulator (sim.ts sets
+  it whenever `FRICTION` is set at all); the one-shot relax keeps 1.
+- `RELEASE` on in the sequential relax (an out-of-reach pair forgets its side
+  and its friction anchor); off in the one-shot, or its output changes.
+- `NESTED=4`: an edge grazing within 4 gaps of a triangle on the same paper
+  crease line is nested, not a crossing — a `crossings` option defaulting to 0.
+- mesh.ts needs only `export function foldAngle` (`OUT_POW`, `START_REACH` are
+  inert at defaults); fold.ts only the tuck
+  (`direction?: FoldDirection | 'tuck'`, `into`, `tuck()` in `flatFold`, logged
+  as `valley`).
+
+**Sequential defaults**: friction 0.5 after the steps, 0 while a step or tuck
+folds; 3 edge points per outline edge, weight `1 - k/4`, skipping a triangle
+either end is a corner of, suspended when either end is; hand k=50 for 6000
+iterations, angle `step.angle ?? 180`, sense +1 tuck/valley, −1 mountain; ramp
+6000, step cap 12000, tolerance 1e-4; a tuck suspends the lid (vertices wholly
+on stationary pieces above the flap's top, against flap triangles, and back) — a
+pair whose stacked side disagrees with where it is is skipped and keeps no side
+— then seats over 1 iteration, cap 8000; let-go ramp 2000, cap 40000, tolerance
+1e-5 after restacking to the final mesh. Reverse folds (WAY): with the previous
+stack ramp creases to 0.5 × the previous angles, restack and run at 0.5 × the
+new ones, press to full. A phase hitting its cap is reported, not thrown.
+
+**Slices**:
+
+1. Contact: split the 581-line prototype into `contact.ts`
+   (`contact(mesh, gap, stiffness, { edgePoints, friction, release })`, restack,
+   suspend, rubAt), a projection/grid helper, `edge-points.ts`, `friction.ts`,
+   `crossings.ts` (Möller–Trumbore, crease-line keys, nested option); the tuck
+   in fold.ts (a non-flat tuck throws). Unit tests: edge-point weights, a
+   segment between a triangle's vertices, collinear crease keys, 3 vs 5 gaps.
+2. `simulator.ts` (sim.ts without TRACE/pin, ~220 lines; a starting angle set
+   for unwrapping), with `relax.ts` re-expressed as one phase of it —
+   bit-identical positions before and after. The one-shot unwraps toward
+   `h.start`; the sequential start must not (`unwrap(0, π)` jumps 2π).
+3. `pose.ts` (`poseOf`), `hand.ts` (pure: `fitAxis` by power iteration seeded
+   last−first, `turnSense = sign(dot(cross(d, flap), up)) · sense`, Rodrigues,
+   the guide builder), `sequence.ts` (`relaxSequence(steps, paper, options?)` →
+   a relaxation plus per-phase `{ iterations, settled }`; `Iterated` a base both
+   share, for `pnpm type-overlap`); `mesh()` takes an optional edge length so
+   the integration test (ring tuck closed < 0.25, plain open > 0.6, fixtures
+   copied from `lock-ring-{tuck,plain}.steps.json`) runs coarse — full
+   resolution takes 36 s. Prototype reference at full mesh: tuck 0/0/0, let-go 1
+   crossing, 5.01%, end gap 0.153.
+
+Checks per slice: `pnpm test`, `pnpm typecheck`, `pnpm lint:files <files>`,
+`pnpm check:masd`, `pnpm masd:clusters`, `pnpm type-overlap`, `pnpm knip`. No
+page imports relax.ts (only `physics.test.ts`), so `pnpm build` output should
+not change.
+
 ## Left
 
 0. **Answered (relay 10)**: «пока я б не назвал это дилофозавром, но идти в
