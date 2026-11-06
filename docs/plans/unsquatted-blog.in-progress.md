@@ -171,26 +171,23 @@ Bite 1, in part:
   did not, so the next run is `/polish full`.
 - **The `.si` post's first widget is the Unnamed's reaction** (52d6b03f):
   `lolok.si` (the operator's), `slowclap.si`, `yeahright.si`, `ohnoanyway.si`;
-  the four rename names went to the ledger; the card is re-rendered.
+  the four rename names went to the ledger; the card is re-rendered. The
+  operator approved the names («норм, да»).
+- **Vet's findings on 30841c09 are fixed**: `require` in `.cjs` is allowed by
+  glob (2037aa9e, the operator's «разрешить для таких юскейсов по глобу»);
+  `pages/post` is cut into `page`, `widget-card` and `checker-href` sub-slices
+  for `masd:clusters` (bf619e8b).
+- **"Copy as image" looked at on the preview** in light, dark and at phone
+  width: the image is the widget without hearts or share; a drawn card keeps its
+  own aspect in the popover (7def96b1).
+- **Both posts link their sources inline** (7cdf04fc); the Tmall rename checked
+  against Wikipedia.
 
 ## Rest of the bite
 
 Left:
 
-- **Vet**: the build (the share popover read `location` at render, b4da4c15),
-  prettier, stylelint, type-overlap, knip and the `ideas/*` and card lint are
-  fixed (6784b961, 30841c09). Left: `@typescript-eslint/no-require-imports` on
-  `require('playwright')` in `mockups/pages.cjs` and `mockups/shoot.cjs` — the
-  global playwright resolves only through `NODE_PATH`, which ESM `import`
-  ignores, so the fix is a suppression (operator's yes) or retiring the two
-  scripts; asked. Whatever else the vet run on 30841c09 reports.
-- **A widget's "Copy as image" copies the widget as drawn** (1fc51d12:
-  `pages/post/ui/snapshot.ts`, `.frame` in `widget-card.module.scss`); not yet
-  looked at in a browser, and the popover's preview still assumes the standard
-  card's aspect (`card-preview.tsx`'s `CARD_ASPECT`).
-- **Links in posts**: wanted (the operator: «это было видимо про какие-то из
-  блогов до этого»), so § 5's no-sources line is void; both posts link their
-  sources inline.
+- **Vet** on the head, not yet re-run.
 - **The index's subtitle** ", by the Unnamed of Unsquatted" reads poorly to the
   operator; options offered, none chosen.
 - `/polish full`, then `/pr` (refresh the body and squash proposal: the slots
