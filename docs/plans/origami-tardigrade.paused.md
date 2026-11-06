@@ -190,6 +190,12 @@ corners too wide and flat to read as legs.
 taller body, the corners hang lower, 0 crossings, strain 0.99% — `## Left` item
 1's bar met. Use it as the default until the legs are shaped.
 
+**Option: corners blunted under** (`BLUNT=0.12`, `prototype/blunt-psi75.png`):
+each blintz-square corner mountain-folded under along a line square to its
+diagonal, which keeps the fold local. Boxy feet instead of wings; strain 2%, 0
+crossings. Asked the operator which reads better (wings or blunt feet);
+unanswered at the pause.
+
 **Dead end: kite-narrowing the corners in the pose.** A fold line through a
 blintz-square corner crosses the whole square, so the triangle it moves reaches
 the next corner and swallows it (the second corner's fold then finds no paper:
