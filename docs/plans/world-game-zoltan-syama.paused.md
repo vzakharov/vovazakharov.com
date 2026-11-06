@@ -75,7 +75,9 @@ is in git
 
 - **Bite 1 is out** — the thinnest descent from orbit to the ground, its
   contract `docs/plans/world-game-zoltan-syama/bite-1.md`, built by its member
-  on `island/bite-1-descent` (PR #256, based on this branch).
+  on `island/bite-1-descent` (PR #256 closed as merged when 686f5174 put its
+  head into this branch; the member opens a fresh PR onto this branch at the
+  bite's tail).
 
 ## Waiting on the operator
 
