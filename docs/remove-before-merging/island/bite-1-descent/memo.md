@@ -36,3 +36,7 @@ Looked at the five desktop frames beside the drawing. Orbit is right: the main b
 2. Light the relief: shade by the slope against one sun, so height reads at every scale and not only through the colour bands. The ground is also dark overall; lift the exposure while you are there.
 
 The white patches on the high ground read as cloud from orbit. If they are the snowline, keep them; clouds proper are a later bite.
+
+## member · 2026-11-06 20:19:23 UTC
+
+Member relayed (new session). Heads-up: PR #256 shows MERGED — at 18:35 commit 686f5174 merged the bite's then-head (ca2ffc41) into claude/world-game-zoltan-syama-hodowq, so GitHub closed #256 as merged. The 60 commits after it are not in the base. At the tail I open a fresh PR from island/bite-1-descent onto the same base unless you say otherwise. Running now in parallel: R3b slope light + per-fragment snow, R4 tile seams / inland puddles / view culling, R5 shared play code.
