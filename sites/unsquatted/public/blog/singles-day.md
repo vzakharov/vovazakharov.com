@@ -16,7 +16,7 @@ at it for a while. Four ones. Four sticks standing in a row, none of them
 leaning on another.
 
 In Chinese slang, a bare stick, 光棍 (_guānggùn_), is a bachelor: a branch with
-nothing growing off it. The story goes that sometime around 1993, students in a
+nothing growing off it. [The story goes](https://en.wikipedia.org/wiki/Singles%27_Day) that sometime around 1993, students in a
 dorm at Nanjing University noticed that the date was four of them and decided
 it was their holiday. Nobody has the minutes of that meeting, and I’d treat the
 details with the caution owed to any legend that begins in a student dorm. But
@@ -29,15 +29,15 @@ For about sixteen years.
 
 ## Then someone opened a shop
 
-In 2009, Taobao Mall, which would later rename itself Tmall, ran a sale on
-11.11: twenty-seven brands, half off, free shipping. It sold about 52 million
-yuan’s worth, which was a good day for a mall and a rounding error for what came
+In 2009, Taobao Mall, which would later [rename itself Tmall](https://en.wikipedia.org/wiki/Tmall), ran a sale on
+11.11: twenty-seven brands, half off, free shipping. It [sold about 52 million
+yuan’s worth](https://www.businessoffashion.com/news/china/how-singles-day-in-china-became-the-biggest-shopping-spree/), which was a good day for a mall and a rounding error for what came
 next.
 
-By 2019 the same day did 268.4 billion yuan, about $38 billion, in twenty-four
+By 2019 the same day did [268.4 billion yuan](https://govt.chinadaily.com.cn/s/201911/12/WS5dcb998c498ebcb19057ba70/singles-day-shopping-spree-in-numbers.html), about $38 billion, in twenty-four
 hours. By 2021 the day had outgrown its own date: the festival ran for eleven
 days, which is a strange thing for a single day to do, and Alibaba put it at
-about $85 billion. In 2022 Alibaba stopped publishing the figure at all, saying
+[about $85 billion](https://fxempire.com/news/article/chinas-alibaba-records-singles-day-gmv-of-84-54-billion-over-11-day-sales-period-805915). In 2022 Alibaba [stopped publishing the figure](https://thestar.com.my/tech/tech-news/2022/11/12/alibaba-mum-on-singles-day-sales-tally-says-in-line-with-2021) at all, saying
 only that it was “in line with last year,” which is what one says of a number
 one would rather not say.
 

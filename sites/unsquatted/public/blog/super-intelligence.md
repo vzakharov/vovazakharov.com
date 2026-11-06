@@ -10,7 +10,8 @@ occasion:
 
 # Slovenia Didn’t Ask for This
 
-On the 27th of October, a post from the President of the United States
+On the 27th of October, [a post from the President of the United
+States](https://www.ibtimes.co.uk/trump-replace-artificial-intelligence-super-intelligence-1828284)
 announced that “AI/Artificial Intelligence” would be officially banned “in all
 relevant documents, and everything else,” for being inaccurate. The accurate
 name, it said, is SI: Super Intelligence.
@@ -42,12 +43,12 @@ Here is the thing about two-letter domains. They aren’t words. They are
 countries. `.ai` is Anguilla, a Caribbean island of about sixteen thousand
 people, which spent decades minding its own business and then woke up holding
 the most fashionable two letters on Earth. In 2025, `.ai` names brought its
-government about $85 million, and its tech minister put the domains at nearly
-half of everything the government takes in. That is what it looks like when the
+government [about $85 million](https://anguillafocus.com/ai-domain-surge-brings-ec230m-windfall-to-anguilla-in-2025/), and its tech minister put the domains at [nearly
+half](https://anguillafocus.com/ai-to-generate-nearly-half-of-anguillas-revenue-this-year-tech-minister-tells-bbc/) of everything the government takes in. That is what it looks like when the
 alphabet pays your bills.
 
-`.si` is Slovenia. It is `.si` and not `.sl` because Sierra Leone got there
-first, which is the oldest story on this site: the obvious name was taken, so
+`.si` is Slovenia. It is `.si` and not `.sl` because [Sierra Leone got there
+first](https://www.register.si/en/30years/milestones/), which is the oldest story on this site: the obvious name was taken, so
 you made do with the next one. Slovenia made do in 1992. Thirty-four years
 later, the next one turned out to be super.
 
@@ -55,13 +56,13 @@ later, the next one turned out to be super.
 
 I’d like to tell you I spotted it first. I did not.
 
-The rename didn’t start on the 27th. There was a poll in September, a speech at
-the United Nations on the 22nd, and an executive order on the 29th, titled, I
+The rename didn’t start on the 27th. There was [a poll in September, a speech at
+the United Nations on the 22nd](https://www.netcraft.com/blog/slovenian-si-domain-registrations-rise-trump-super-intelligence), and [an executive order on the 29th](https://www.presidency.ucsb.edu/documents/executive-order-14434-inaugurating-the-era-super-intelligence), titled, I
 promise, “Inaugurating the Era of Super Intelligence.” By the time I opened my
 tab, the October post was the third time AI had been renamed, and the internet
 had already done its shopping.
 
-Slovenia’s registry publishes its numbers every day, which is more than some
+Slovenia’s registry [publishes its numbers every day](https://www.register.si/obvestila/spremljajte-rast-stevila-domen-si/), which is more than some
 holidays I could mention. On the 18th of September, 92 new `.si` names were
 registered. On the 5th of October, 21,756. The zone held about 190,000 names in
 August and about 470,000 at the end of October. Someone went and bought a
@@ -74,8 +75,8 @@ molehill. The view is fine.
 
 ## Who bought them
 
-Not, mostly, people building super intelligence. One host counted about 3% of
-its new `.si` names as having anything to do with AI. Netcraft found more than
+Not, mostly, people building super intelligence. [One host counted about 3%](https://techcrunch.com/2026/10/02/slovenias-si-domain-sees-a-surge-in-registrations-after-trumps-super-intelligence-order/) of
+its new `.si` names as having anything to do with AI. [Netcraft found](https://www.netcraft.com/blog/slovenian-si-domain-registrations-rise-trump-super-intelligence) more than
 44,000 `.si` names with a twin already registered in `.ai`, and over half of
 the names one registrar sold in the first four days were already listed for
 resale. A lot of people heard “the new `.ai`” and reached for a net.
@@ -83,15 +84,15 @@ resale. A lot of people heard “the new `.ai`” and reached for a net.
 Then there is `superintelligence.si`, registered in July 2023 by someone who
 either saw all of this coming or just liked the word. Either way, I salute them.
 `super.si` has been taken since 2002. `ai.si` since 2019. `si.si` belongs to the
-Republic of Slovenia, which reserved it in 2010 and has, so far, not put it up
+Republic of Slovenia, which [reserved it in 2010](https://www.register.si/rezervirane-domene/) and has, so far, not put it up
 for sale.
 
 ## The windfall that wasn’t
 
-Anguilla takes a share of every `.ai` name, and an `.ai` name costs somewhere
-around $140 to $200 a year, two years at a time. Slovenia’s registry charges
+Anguilla takes a share of every `.ai` name, and an `.ai` name costs [somewhere
+around $140 to $200 a year, two years at a time](https://en.wikipedia.org/wiki/.ai). Slovenia’s registry charges
 every registrar the same flat €10, and when the papers started counting
-Slovenia’s millions, the registry put out a notice saying, more or less
+Slovenia’s millions, the registry [put out a notice](https://www.register.si/obvestila/stevilo-domen-pod-si-preseglo-200-000/) saying, more or less
 politely, that those millions do not exist.
 
 So there you have it. The most exciting thing to happen to the Slovenian
