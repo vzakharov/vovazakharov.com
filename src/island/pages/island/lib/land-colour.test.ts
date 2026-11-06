@@ -1,13 +1,24 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { landColours } from './land-colour';
+import { landColours, SEA_COLOUR } from './land-colour';
 
 const at = (height: number) => [...landColours(new Float32Array([height]))];
 
+/** An 8-bit sRGB channel above the curve's linear toe, as linear. */
+const linear = (c: number) => (c / 255 / 1.055 + 0.055 / 1.055) ** 2.4;
+
 describe('landColours', () => {
-  it('gives the sea floor the shore sand', () => {
-    assert.deepEqual(at(-500), at(0));
+  it('gives the deep floor the sea colour, linear', () => {
+    const [r = 0, g = 0, b = 0] = at(-500);
+    assert.ok(Math.abs(r - linear((SEA_COLOUR >> 16) & 0xff)) < 1e-6);
+    assert.ok(Math.abs(g - linear((SEA_COLOUR >> 8) & 0xff)) < 1e-6);
+    assert.ok(Math.abs(b - linear(SEA_COLOUR & 0xff)) < 1e-6);
+  });
+
+  it('keeps the shallow floor sandy', () => {
+    const [r = 0, , b = 0] = at(-2);
+    assert.ok(r > b, 'sand stays warmer than the sea');
   });
 
   it('runs sand, green, brown, pale up the heights', () => {

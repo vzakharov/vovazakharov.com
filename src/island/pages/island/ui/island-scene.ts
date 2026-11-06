@@ -32,6 +32,7 @@ import {
   withHeight,
 } from '@/island/features/eye';
 
+import { SEA_COLOUR } from '../lib/land-colour';
 import { startTilePool } from '../lib/tile-pool';
 import { SEED } from '../lib/tile-protocol';
 import { coverOf } from '../model/tile-cover';
@@ -109,7 +110,7 @@ export function mountIslandScene(
   scene.background = new Color(0x05_07_0c);
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
-  const sea = new MeshLambertNodeMaterial({ color: 0x0b_34_62 });
+  const sea = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
   const land = new MeshLambertNodeMaterial({ vertexColors: true });
   const globe = new Mesh(new SphereGeometry(GLOBE_RADIUS, 256, 128), sea);
   const tiles = new Group();
