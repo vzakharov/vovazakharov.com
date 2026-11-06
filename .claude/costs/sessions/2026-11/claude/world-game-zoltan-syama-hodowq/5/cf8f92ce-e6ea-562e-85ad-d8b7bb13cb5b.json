@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 16,
+    "inputTokens": 51,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60661,
-    "cacheReadTokens": 671869,
-    "outputTokens": 1783,
-    "thinkingTokens": 252,
-    "responses": 7,
-    "costUsd": 0.6553858
+    "cacheWrite1hTokens": 102347,
+    "cacheReadTokens": 3040295,
+    "outputTokens": 15952,
+    "thinkingTokens": 2667,
+    "responses": 24,
+    "costUsd": 1.746079
   },
   "estimate": {
     "at": "2026-11-06T18:15:11.150Z",
@@ -47,22 +47,24 @@
   "branch": "claude/world-game-zoltan-syama-hodowq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — кейс-стади начата, слова и строки кода теперь пишутся в строки костов; memo.py ещё не начат",
-  "prs": [],
+  "prs": [
+    255
+  ],
   "url": "https://claude.ai/code/session_01DaohkCQmVLFiWkYfbugMKY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T18:14:50.959Z",
-  "lastResponseAt": "2026-11-06T18:15:13.136Z",
+  "lastResponseAt": "2026-11-06T18:17:43.721Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 16,
+    "inputTokens": 51,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60661,
-    "cacheReadTokens": 671869,
-    "outputTokens": 1783,
-    "thinkingTokens": 252,
-    "responses": 7,
-    "costUsd": 0.6553858
+    "cacheWrite1hTokens": 102347,
+    "cacheReadTokens": 3040295,
+    "outputTokens": 15952,
+    "thinkingTokens": 2667,
+    "responses": 24,
+    "costUsd": 1.746079
   },
   "subagents": {
     "inputTokens": 0,
@@ -76,23 +78,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 16,
+      "inputTokens": 51,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60661,
-      "cacheReadTokens": 671869,
-      "outputTokens": 1783,
-      "thinkingTokens": 252,
-      "responses": 7,
-      "costUsd": 0.6553858
+      "cacheWrite1hTokens": 102347,
+      "cacheReadTokens": 3040295,
+      "outputTokens": 15952,
+      "thinkingTokens": 2667,
+      "responses": 24,
+      "costUsd": 1.746079
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 6,
-    "matched": 6,
-    "matchedTableUsd": 0.5537786,
-    "matchedEventUsd": 0.5537786,
+    "events": 23,
+    "matched": 23,
+    "matchedTableUsd": 1.6976774,
+    "matchedEventUsd": 1.6976774,
     "unseen": {}
   },
   "operatorWords": 0,
