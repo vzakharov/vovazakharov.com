@@ -44,13 +44,15 @@ export type Phase = Iterated & {
 /** Holds for the first `until` iterations of every phase. */
 type Lasting = { readonly until: number };
 
+/** The hand's spring on each vertex it holds, and how long it holds. */
+export type Spring = Lasting & { readonly k: number };
+
 /** A force from outside on the vertices `mask` marks, each sprung with `k`
  * to `target(i, share, out)`, `share` being the ramp's — the hand turning a flap, so no crease takes the
  * reaction. A phase does not settle while it pulls. */
-export type Guide = Lasting & {
+export type Guide = Spring & {
   readonly mask: Uint8Array;
   readonly target: (i: number, share: number, out: number[]) => void;
-  readonly k: number;
 };
 
 /** Contact pairs `skip` names left out; a phase does not settle while they
