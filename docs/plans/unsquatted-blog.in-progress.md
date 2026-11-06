@@ -187,14 +187,17 @@ Bite 1, in part:
 
 Left:
 
-- **Vet is green on 7d59aebf.** The widget heart's hover plate is gone
-  (897bb0e6, the operator's «тут ховер опять тютю»), not yet looked at on the
-  preview; a sub-slice move broke the widget's `@use` path (fixed 7d59aebf).
 - **The index's subtitle** ", by the Unnamed of Unsquatted" reads poorly to the
   operator; options offered, none chosen.
-- `/polish full`, then `/pr` (refresh the body and squash proposal: the slots
-  deviation, the new article slots, the card seam, `compileBody`, the `.si`
-  post, no embargo or daily deploy).
+- **The five-percent review's two proposals**, put to the operator: the posts'
+  `date`s (11-07, 11-09) were picked for the dropped embargo, so a merge before
+  them shows a future date; and the reaction names sit in `picks.yaml` as real
+  picks only because the two-way check demands it.
+
+Done since vet went green on 7d59aebf: the heart's hover looked at on the
+preview in light and dark (no plate, the liked colour); `/polish full`
+(197615b0; `/five-percent` posted as review 5802101392); the PR body and squash
+proposal refreshed.
 
 The headings below are the original contract; where `## Eaten so far` says
 otherwise, it wins.
