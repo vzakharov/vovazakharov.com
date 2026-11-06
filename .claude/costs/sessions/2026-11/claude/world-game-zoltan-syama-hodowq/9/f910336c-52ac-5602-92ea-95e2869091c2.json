@@ -1,0 +1,126 @@
+{
+  "total": {
+    "inputTokens": 1402,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 154571,
+    "cacheReadTokens": 10679718,
+    "outputTokens": 24209,
+    "thinkingTokens": 4459,
+    "responses": 67,
+    "costUsd": 3.8524677
+  },
+  "estimate": {
+    "at": "2026-11-06T21:10:14.524Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "judging a member's final frames against the drawing, merging its bite and publishing the preview is the producer's gate on a team's first bite"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T21:10:12.383Z",
+    "contextTokens": 112384,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49823,
+      "cacheReadTokens": 580005,
+      "outputTokens": 1696,
+      "thinkingTokens": 359,
+      "responses": 6,
+      "costUsd": 0.5485610000000001
+    }
+  },
+  "sessionId": "f910336c-52ac-5602-92ea-95e2869091c2",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — спор о масштабе на доске, зоны вокруг карты (v8), бит 1 доводит берег и рендерит пробу в половинную ширину",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEyEB3Gyn2tasNAzJL",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T21:09:50.481Z",
+  "lastResponseAt": "2026-11-06T21:20:21.094Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 136,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 154571,
+    "cacheReadTokens": 10679718,
+    "outputTokens": 23958,
+    "thinkingTokens": 4459,
+    "responses": 66,
+    "costUsd": 3.8522156
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 136,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 154571,
+      "cacheReadTokens": 10679718,
+      "outputTokens": 23958,
+      "thinkingTokens": 4459,
+      "responses": 66,
+      "costUsd": 3.8522156
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1266,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 251,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002521
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 67,
+    "matched": 66,
+    "matchedTableUsd": 3.8522156,
+    "matchedEventUsd": 3.852215599999999,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1266,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 251,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002521
+      }
+    }
+  },
+  "operatorWords": 66,
+  "branchLines": {
+    ".md": 2027,
+    ".py": 1140,
+    ".json": 648,
+    ".webp": 0,
+    ".ts": 2128,
+    ".css": 412,
+    ".sh": 1,
+    ".png": 0
+  }
+}
