@@ -36,8 +36,7 @@ yours.
 
 ## Checks for your files
 
-`pnpm exec tsc -p sites/vova --noEmit` (or the site's own type-check entry in
-`package.json`), `pnpm exec eslint <your files>`,
+`pnpm typecheck`, `pnpm exec eslint <your files>`,
 `node --import tsx --test <your test files>`, and `pnpm check:masd` when you add
 a slice. A production build (`pnpm` entry for the vova site) fails inside a
 worktree under the repo (Turbopack symlinks); when your step needs one, copy the
