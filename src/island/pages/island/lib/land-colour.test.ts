@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { LAND_STOPS, SEA_COLOUR, SHORE_TOP } from './land-colour';
+import {
+  LAND_STOPS,
+  SEA_COLOUR,
+  SHALLOW_COLOUR,
+  SHORE_TOP,
+} from './land-colour';
 
 /** An 8-bit sRGB channel above the curve's linear toe, as linear. */
 const linear = (c: number) => (c / 255 / 1.055 + 0.055 / 1.055) ** 2.4;
@@ -12,6 +17,18 @@ function stop(level: number): readonly [number, number, number] {
   assert.ok(found, `a stop at ${level} m`);
   return found[1];
 }
+
+const red = (hex: number) => (hex >> 16) & 0xff;
+const green = (hex: number) => (hex >> 8) & 0xff;
+const blue = (hex: number) => hex & 0xff;
+const sum = (hex: number) => red(hex) + green(hex) + blue(hex);
+
+describe('the shallows', () => {
+  it('are lighter than the sea and still blue', () => {
+    assert.ok(sum(SHALLOW_COLOUR) > sum(SEA_COLOUR), 'lighter than the sea');
+    assert.ok(blue(SHALLOW_COLOUR) > red(SHALLOW_COLOUR), 'water, not sand');
+  });
+});
 
 describe('LAND_STOPS', () => {
   it('gives the deep floor the sea colour, linear', () => {

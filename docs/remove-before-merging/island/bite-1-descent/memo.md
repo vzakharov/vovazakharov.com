@@ -57,3 +57,31 @@ Later, not this bite: the sea and sky. The reference on the board is the web-oce
 ## member · 2026-11-06 20:57:11 UTC
 
 The operator, on your 'later, not this bite' line (sun glint, atmosphere rim, non-black sky from orbit), verbatim: «ну тут я не настолько уверен, конечно, что прямо с орбиты должно солнце отсвечивать, я про общее ощущение». So for the sea bite: the general feel of the web-ocean reference, glint from orbit optional rather than a requirement. Your item 1 (coast smoothing, AA, shallow band) I take into this bite now as R6. Current state after R3b/R4/R5 (frames in hand, not yet committed): snow seam and skirt lines at 1000 km gone, inland ponds gone, tiles culled (1000 km 300→45 desktop), slope light reads well at 100 m and 2 m; 10 km still soft; phone orbit shows faint dashed rectangles at tile edges — R7.
+
+## lead · 2026-11-06 21:01:55 UTC
+
+Lead relayed to a new session (this one). Noted: R6 (coast) and R7 (tile-edge dashes on phone orbit) are this bite's remaining work; glint from orbit is optional for the sea bite, the general feel is the ask. Scale is still the operator's open question, so call 1 stands. Post when done, with the final frames committed.
+
+## member · 2026-11-06 21:04:03 UTC
+
+The operator asks you, now, to put the size dispute on the board, with a todo for them: «доуточнить у Золтана». The two sides: (a) vzakharov/life family/world-map-zoltan-syama/README.md gives the authors' one anchor as «Арк размером с ДР Конго», and the whole land ≈ 10 M km², Europe-sized — which our trace matches (all land 10.1 M km², main body 8.7 M km², 5,000 km across); (b) the operator recalls Zoltan meaning the whole island Congo-sized (≈ half the current width, ~2.5 M km²). Todo (operator): ask Zoltan which he meant. Until then the scale stays as call 1 sets it. I am rendering a half-width preview in a scratch tree (not on the branch) so the operator can see how the mountains sit at that size; I will post the frames here when they are in.
+
+## lead · 2026-11-06 21:07:26 UTC
+
+Done: the board (v7) has the scale dispute on sticker later-2, both readings, and the operator's todo to ask Zoltan on later-3. Call 1 stands until he answers. Post the half-width preview frames here when they're in, and R6/R7 as before.
+
+## member · 2026-11-06 21:11:33 UTC
+
+Half-width preview frames for later-2/later-3: docs/remove-before-merging/island/bite-1-descent/notes/size-preview/ (desktop orbit, 1000km, 100m, phone orbit; commit affa555ce; scratch render, branch scale unchanged). What it shows: at orbit the island is a small blot (the main body ~2,500 km across); at 1000 km the coast reads crisper relative to the land, but the snow-capped highlands are gone — the regional relief is scaled down near the coast by distance in km, and at half width no point is far enough inland to rise into the snowline, so the whole island is green-brown lowland and low hills. If the scale changes, the relief's coastal fade should shrink with it, or the island loses its mountains.
+
+## lead · 2026-11-06 21:12:17 UTC
+
+Got the half-width frames (affa555ce) and sent them to the operator. Zoltan won't answer before tomorrow, so call 1 stands and the branch scale stays as it is. Noted your point: if the scale ever changes, the relief's coastal fade has to shrink with it, or the island loses its snowline. Carry on with R6 and R7; post done with the final frames committed.
+
+## member · 2026-11-06 21:12:24 UTC
+
+The operator looked at the half-width preview, verbatim: «гор стало поменьше. ладно, давай тогда к исходным размерам». So the scale stays as call 1 sets it (Арк = DR Congo, the island ~5,000 km across); later-2 can record that decision with the preview as its reason. later-3 (ask Zoltan) I leave on the board until the operator says to drop it.
+
+## member · 2026-11-06 21:13:06 UTC
+
+The operator asks you to put the size comparison images on the board (the size sticker, later-2): docs/remove-before-merging/island/bite-1-descent/notes/size-preview/ at 44d1ded5a — full-*.png (the island's own scale) beside half-*.png (half width) for desktop orbit, 1000km, 100m and phone orbit, and operator-drc-vs-island.webp, the operator's screenshot circling the DR Congo on Google Earth above the island at orbit.

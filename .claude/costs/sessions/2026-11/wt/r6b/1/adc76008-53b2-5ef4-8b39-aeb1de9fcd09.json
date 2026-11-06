@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1598,
-    "cacheWrite5mTokens": 1303390,
-    "cacheWrite1hTokens": 182317,
-    "cacheReadTokens": 37720765,
-    "outputTokens": 200761,
-    "thinkingTokens": 70781,
-    "responses": 285,
-    "costUsd": 19.542453999999996
+    "inputTokens": 3085,
+    "cacheWrite5mTokens": 1607950,
+    "cacheWrite1hTokens": 232117,
+    "cacheReadTokens": 55538007,
+    "outputTokens": 286879,
+    "thinkingTokens": 114969,
+    "responses": 400,
+    "costUsd": 26.747017600000007
   },
   "estimate": {
     "at": "2026-11-06T20:59:11.310Z",
@@ -62,7 +62,7 @@
     }
   },
   "sessionId": "adc76008-53b2-5ef4-8b39-aeb1de9fcd09",
-  "branch": "island/bite-1-descent",
+  "branch": "wt/r6b",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/bite-1-descent — остров рисуется от орбиты до двух метров, осталось освещение склонов, мелкие дефекты кадров и хвост с PR",
   "prs": [
@@ -71,48 +71,58 @@
   "url": "https://claude.ai/code/session_01DaohkDjdL2UcHBHn3eyXfZ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T20:17:24.258Z",
-  "lastResponseAt": "2026-11-06T20:59:46.341Z",
+  "lastResponseAt": "2026-11-06T21:12:28.032Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 118,
+    "inputTokens": 178,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 182317,
-    "cacheReadTokens": 9913946,
-    "outputTokens": 33485,
-    "thinkingTokens": 6083,
-    "responses": 59,
-    "costUsd": 4.1114972000000005
+    "cacheWrite1hTokens": 232117,
+    "cacheReadTokens": 18099933,
+    "outputTokens": 47455,
+    "thinkingTokens": 9002,
+    "responses": 90,
+    "costUsd": 6.426734600000001
   },
   "subagents": {
-    "inputTokens": 468,
-    "cacheWrite5mTokens": 1302989,
+    "inputTokens": 648,
+    "cacheWrite5mTokens": 1607549,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 27496927,
-    "outputTokens": 167256,
-    "thinkingTokens": 64698,
-    "responses": 224,
-    "costUsd": 15.361322400000004
+    "cacheReadTokens": 37128182,
+    "outputTokens": 239223,
+    "thinkingTokens": 105967,
+    "responses": 307,
+    "costUsd": 20.250433399999988
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1598,
-      "cacheWrite5mTokens": 1303390,
-      "cacheWrite1hTokens": 182317,
-      "cacheReadTokens": 37720765,
-      "outputTokens": 200761,
-      "thinkingTokens": 70781,
-      "responses": 285,
-      "costUsd": 19.542453999999996
+      "inputTokens": 1838,
+      "cacheWrite5mTokens": 1607950,
+      "cacheWrite1hTokens": 232117,
+      "cacheReadTokens": 55538007,
+      "outputTokens": 286698,
+      "thinkingTokens": 114969,
+      "responses": 399,
+      "costUsd": 26.746802400000007
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1247,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 181,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00021520000000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 284,
-    "matched": 282,
-    "matchedTableUsd": 19.382804199999995,
-    "matchedEventUsd": 19.382804199999995,
+    "events": 400,
+    "matched": 397,
+    "matchedTableUsd": 26.67716800000001,
+    "matchedEventUsd": 26.677168000000005,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 1012,
@@ -123,17 +133,27 @@
         "thinkingTokens": 0,
         "responses": 2,
         "costUsd": 0.0696344
+      },
+      "generate_session_title": {
+        "inputTokens": 1247,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 181,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00021520000000000003
       }
     }
   },
-  "operatorWords": 40,
+  "operatorWords": 138,
   "branchLines": {
-    ".md": 2039,
+    ".md": 2123,
     ".py": 894,
     ".webp": 0,
-    ".json": 1424,
+    ".json": 1896,
     ".png": 0,
-    ".ts": 7471,
+    ".ts": 7755,
     ".css": 412,
     ".sh": 1,
     ".tsx": 52,

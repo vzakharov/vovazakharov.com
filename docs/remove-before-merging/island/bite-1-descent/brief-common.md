@@ -15,7 +15,9 @@ prompt names the step; this file is the rules every step shares.
 
 Your worktree starts from `main`. First:
 `git fetch origin island/bite-1-descent && git checkout -B wt/<your-step> origin/island/bite-1-descent`.
-Before every push: `git pull --no-rebase origin island/bite-1-descent`, then
+Before every push:
+`git fetch origin island/bite-1-descent && git merge origin/island/bite-1-descent`
+(never `git pull`, which merges whatever `FETCH_HEAD` holds), then
 `git push origin HEAD:island/bite-1-descent`. Never force-push, never rebase,
 never `git stash`, `checkout -- <path>` or `restore` over files that are not
 yours.

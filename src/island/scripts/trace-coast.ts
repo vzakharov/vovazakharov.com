@@ -16,6 +16,9 @@ import { z } from 'zod';
 import type { Coast } from '@/island/shared/globe';
 import {
   type Ring,
+  signedArea,
+  smoothCoast,
+  type SmoothOptions,
   traceCoast,
   type TraceOptions,
 } from '@/island/entities/coast';
@@ -47,6 +50,14 @@ const OPTIONS: TraceOptions = {
   islandFloor: 60,
   blurRadius: 1,
   tolerance: 0.9,
+};
+
+/** In pixels of the drawing. */
+const SMOOTHING: SmoothOptions = {
+  minArea: 60,
+  resampleStep: 1,
+  sigma: 3,
+  tolerance: 0.3,
 };
 
 const Evaluated = z.object({
@@ -190,7 +201,18 @@ async function run(): Promise<void> {
       throw new Error(message);
     });
     const raster = await decode(tab, base64);
-    const rings = traceCoast(raster, OPTIONS);
+    const traced = traceCoast(raster, OPTIONS);
+    for (const ring of traced) {
+      const area = signedArea(ring);
+      if (area < SMOOTHING.minArea) {
+        const { left, top } = bounds(ring);
+        process.stdout.write(
+          `  dropped: ${area.toFixed(0)} px² at x ${left.toFixed(0)}, ` +
+            `y ${top.toFixed(0)}\n`,
+        );
+      }
+    }
+    const rings = smoothCoast(traced, SMOOTHING);
     const coast = toPlane(rings);
     const json = await format(JSON.stringify(coast), { parser: 'json' });
     await writeFile(OUT, json);
@@ -206,7 +228,8 @@ async function run(): Promise<void> {
       process.stdout.write(
         `  #${String(i)} x ${left.toFixed(0)}–${right.toFixed(0)}, ` +
           `y ${top.toFixed(0)}–${bottom.toFixed(0)}, ` +
-          `${String(ring.length)} vertices\n`,
+          `${String(ring.length)} vertices, ` +
+          `${signedArea(ring).toFixed(0)} px²\n`,
       );
     }
 
