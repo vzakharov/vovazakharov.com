@@ -21,8 +21,17 @@ import {
   sub,
   type Vec,
 } from './geometry.ts';
+import type { Wings } from './hinge.ts';
 import { holdOf, type Paper } from './paper.ts';
-import { cross3, differ, dot3, sub3, transform, type Vec3 } from './space.ts';
+import {
+  add3,
+  cross3,
+  differ,
+  dot3,
+  sub3,
+  transform,
+  type Vec3,
+} from './space.ts';
 import { flatPolygon, type FoldState, type Piece } from './state.ts';
 import { type Triangle, triangulateConvex } from './triangulate.ts';
 
@@ -36,19 +45,14 @@ const RIM_CLEARANCE = 0.45;
 const INSIDE = 1e-5;
 
 /**
- * An interior edge `a`–`b` and the two triangles on it, `(a, b, c)` and
- * `(b, a, d)`, both counter-clockwise in paper. `angle` is the fold angle the
- * edge rests at, valley positive as seen from the paper's front; `start` is
+ * An interior edge and the two triangles on it. `angle` is the fold angle the
+ * edge rests at, valley positive as seen from the paper's front; `pressed` is
  * its angle in the pressed state.
  */
-export type MeshHinge = {
-  readonly a: number;
-  readonly b: number;
-  readonly c: number;
-  readonly d: number;
+export type MeshHinge = Wings & {
   readonly crease: boolean;
   readonly angle: number;
-  readonly start: number;
+  readonly pressed: number;
   /** The edge's length in paper. */
   readonly rest: number;
 };
@@ -86,8 +90,10 @@ export type FlatStack = {
   readonly sheets: readonly (readonly Stacked[])[];
 };
 
-export type Mesh = Creased &
-  Meshed &
+/** The mesh as it lies in paper, before anything places it in space. */
+export type PaperMesh = Creased & Meshed;
+
+export type Mesh = PaperMesh &
   Outlined &
   FlatStack & {
     /** Each vertex in space in the pressed state, layers lifted apart. */
@@ -319,14 +325,15 @@ function startOf(
     ? scale(normalize(mean), -wrapped * lift)
     : ([0, 0] as const);
   const sum = around.reduce<Vec3>(
-    (total, piece, k) => {
-      const at = transform(piece.shaping, [
-        flat[0] + out[0],
-        flat[1] + out[1],
-        (depths[k] ?? 0) * lift,
-      ]);
-      return [total[0] + at[0], total[1] + at[1], total[2] + at[2]];
-    },
+    (total, piece, k) =>
+      add3(
+        total,
+        transform(piece.shaping, [
+          flat[0] + out[0],
+          flat[1] + out[1],
+          (depths[k] ?? 0) * lift,
+        ]),
+      ),
     [0, 0, 0],
   );
   return [
@@ -334,6 +341,23 @@ function startOf(
     sum[1] / around.length,
     sum[2] / around.length,
   ];
+}
+
+/** The pieces each of `vertices` vertices lies on, given each triangle's. */
+export function piecesAround(
+  vertices: number,
+  triangles: readonly Triangle[],
+  ofTriangle: readonly Piece[],
+): Piece[][] {
+  const around = Array.from({ length: vertices }, (): Piece[] => []);
+  for (const [t, corners] of triangles.entries()) {
+    const piece = ofTriangle[t];
+    for (const i of corners) {
+      const list = around[i];
+      if (piece && list && !list.includes(piece)) list.push(piece);
+    }
+  }
+  return around;
 }
 
 /** The stack of each triangle's and each vertex's pieces, planes numbered in
@@ -447,19 +471,12 @@ export function mesh(state: FoldState, paper: Paper, edge = MESH_EDGE): Mesh {
       d: two.wing,
       crease,
       angle: hold * start,
-      start,
+      pressed: start,
       rest,
     });
   }
 
-  const around = weld.points.map((): Piece[] => []);
-  for (const [t, corners] of triangles.entries()) {
-    const piece = pieceOf[t];
-    for (const i of corners) {
-      const list = around[i];
-      if (piece && list && !list.includes(piece)) list.push(piece);
-    }
-  }
+  const around = piecesAround(weld.points.length, triangles, pieceOf);
   const flats = state.pieces.map((piece) => ({
     piece,
     flat: flatPolygon(piece),

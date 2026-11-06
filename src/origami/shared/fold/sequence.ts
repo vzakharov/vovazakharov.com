@@ -12,8 +12,8 @@ import type { Paper } from './paper.ts';
 import { poseOf } from './pose.ts';
 import type { Relaxation } from './relax.ts';
 import { type Phase, simulator } from './simulator.ts';
-import type { Vec3 } from './space.ts';
-import type { Piece } from './state.ts';
+import { vertexAt } from './space.ts';
+import { isReverse, type Piece } from './state.ts';
 
 /** Friction between layers once the steps are folded; each step and tuck
  * folds frictionless, as paper slides while a hand works it. */
@@ -57,9 +57,6 @@ export type SequenceOptions = {
   /** The longest mesh edge, in sheet widths; `mesh`'s default when left out. */
   readonly edge?: number;
 };
-
-const reverses = (step: Step) =>
-  step.direction === 'inside' || step.direction === 'outside';
 
 /** Pairs between a tuck's flap and the lid above it, which a hand holds apart
  * while the flap slides under: vertices wholly on stationary pieces above the
@@ -108,7 +105,10 @@ export function relaxSequence(
     const posed = poseOf(mesh, pose);
     const { stack, angles, ofTriangle, around } = posed;
     const full = Float64Array.from(angles);
-    const reverse = reverses(step);
+    const record = pose.log[index];
+    if (!record) throw new Error(`sequence: ${stage} left no record`);
+    const { moved } = record;
+    const reverse = isReverse(record);
     if (reverse) {
       // The model as it was, opened on the sides it had.
       const opened = before.map((a, h) => (crease(h) ? a * OPEN : 0));
@@ -123,8 +123,6 @@ export function relaxSequence(
     }
     sim.restack(stack);
     const direction = step.direction ?? 'valley';
-    const moved = pose.log[index]?.moved;
-    if (!moved) throw new Error(`sequence: ${stage} left no record`);
     const tuck = direction === 'tuck';
     if (tuck || direction === 'valley' || direction === 'mountain') {
       sim.guide(
@@ -176,9 +174,7 @@ export function relaxSequence(
   const { x } = sim;
   return {
     mesh,
-    positions: mesh.paper.map(
-      (_, i): Vec3 => [x[3 * i] ?? 0, x[3 * i + 1] ?? 0, x[3 * i + 2] ?? 0],
-    ),
+    positions: mesh.paper.map((_, i) => vertexAt(x, i)),
     iterations: phases.reduce((sum, p) => sum + p.iterations, 0),
     strain: sim.strain(),
     crossings: sim.crossings(NESTED),

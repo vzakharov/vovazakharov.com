@@ -6,7 +6,7 @@
 import type { Meshed } from './mesh.ts';
 import type { Pose } from './pose.ts';
 import type { Guide, Spring } from './simulator.ts';
-import { cross3, dot3, sub3, type Vec3 } from './space.ts';
+import { add3, cross3, dot3, sub3, type Vec3, vertexAt } from './space.ts';
 import type { Moved, Piece } from './state.ts';
 
 /** Power-iteration rounds for the crease's direction; it converges in a few
@@ -28,16 +28,14 @@ export function fitAxis(points: readonly Vec3[]): Axis {
     throw new Error('hand: an axis needs two points');
   }
   let total: Vec3 = [0, 0, 0];
-  for (const p of points)
-    total = [total[0] + p[0], total[1] + p[1], total[2] + p[2]];
+  for (const p of points) total = add3(total, p);
   const centre = scale3(total, 1 / points.length);
   let direction = sub3(last, first);
   for (let round = 0; round < ROUNDS; round++) {
     let next: Vec3 = [0, 0, 0];
     for (const p of points) {
       const r = sub3(p, centre);
-      const w = dot3(r, direction);
-      next = [next[0] + r[0] * w, next[1] + r[1] * w, next[2] + r[2] * w];
+      next = add3(next, scale3(r, dot3(r, direction)));
     }
     direction = unit(next);
   }
@@ -85,11 +83,7 @@ export function handGuide(
   pose: Pose,
   { moved, sense, degrees, k, until }: Turn,
 ): Guide {
-  const at = (v: number): Vec3 => [
-    x[3 * v] ?? 0,
-    x[3 * v + 1] ?? 0,
-    x[3 * v + 2] ?? 0,
-  ];
+  const at = (v: number): Vec3 => vertexAt(x, v);
   const isMoved = (p: Piece) => moved.has(p.id);
   const crease = pose.around.flatMap((pieces, v) =>
     pieces.some((p) => isMoved(p)) && !pieces.every((p) => isMoved(p))
@@ -113,18 +107,14 @@ export function handGuide(
     if (!p || !q || !r) continue;
     const normal = unit(cross3(sub3(q, p), sub3(r, p)));
     const facing = pose.stack.faces[t]?.facing ?? 0;
-    up = [
-      up[0] + normal[0] * facing,
-      up[1] + normal[1] * facing,
-      up[2] + normal[2] * facing,
-    ];
+    up = add3(up, scale3(normal, facing));
   }
   let flap: Vec3 = [0, 0, 0];
   for (const [v, on] of mask.entries()) {
     if (on === 0) continue;
     const r = sub3(at(v), centre);
     const off = sub3(r, scale3(direction, dot3(r, direction)));
-    flap = [flap[0] + off[0], flap[1] + off[1], flap[2] + off[2]];
+    flap = add3(flap, off);
   }
   const full =
     ((degrees * Math.PI) / 180) * turnSense(direction, flap, up, sense);
@@ -134,11 +124,7 @@ export function handGuide(
     k,
     until,
     target: (i, share, out) => {
-      const r: Vec3 = [
-        (start[3 * i] ?? 0) - centre[0],
-        (start[3 * i + 1] ?? 0) - centre[1],
-        (start[3 * i + 2] ?? 0) - centre[2],
-      ];
+      const r = sub3(vertexAt(start, i), centre);
       const turned = rodrigues(r, direction, full * share);
       out[0] = centre[0] + turned[0];
       out[1] = centre[1] + turned[1];

@@ -5,11 +5,11 @@
  */
 import { contains, type Vec } from './geometry.ts';
 import {
-  type Creased,
   type FlatStack,
   flatStack,
   foldAngle,
-  type Meshed,
+  type PaperMesh,
+  piecesAround,
 } from './mesh.ts';
 import type { FoldState, Piece } from './state.ts';
 
@@ -26,7 +26,7 @@ export type Pose = {
 
 /** The final mesh's pieces are the pose's cut finer, so each triangle lies
  * within one pose piece. */
-export function poseOf(mesh: Creased & Meshed, pose: FoldState): Pose {
+export function poseOf(mesh: PaperMesh, pose: FoldState): Pose {
   const point = (i: number): Vec => {
     const pt = mesh.paper[i];
     if (!pt) throw new Error(`pose: no vertex ${i}`);
@@ -42,14 +42,7 @@ export function poseOf(mesh: Creased & Meshed, pose: FoldState): Pose {
     return found;
   };
   const ofTriangle = mesh.triangles.map((triangle) => pieceAt(triangle));
-  const around = mesh.paper.map((): Piece[] => []);
-  for (const [t, triangle] of mesh.triangles.entries()) {
-    const piece = ofTriangle[t];
-    for (const i of triangle) {
-      const list = around[i];
-      if (piece && list && !list.includes(piece)) list.push(piece);
-    }
-  }
+  const around = piecesAround(mesh.paper.length, mesh.triangles, ofTriangle);
   const angles = Float64Array.from(mesh.hinges, (h) => {
     const left = pieceAt([h.a, h.b, h.c]);
     const right = pieceAt([h.b, h.a, h.d]);

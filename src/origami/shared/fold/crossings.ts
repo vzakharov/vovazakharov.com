@@ -2,11 +2,10 @@
  * Mesh edges passing through a triangle they are not part of: the count a
  * relaxed model is judged by, since paper never passes through paper.
  */
-import type { Creased, Meshed } from './mesh.ts';
+import type { Creased, PaperMesh } from './mesh.ts';
 import { grid, longestEdge } from './proximity.ts';
+import { cross3, dot3, sub3, type Vec3, vertexAt } from './space.ts';
 import type { Triangle } from './triangulate.ts';
-
-type Crossed = Creased & Meshed;
 
 /**
  * Each vertex's crease lines, as keys of the line each crease lies on in
@@ -33,7 +32,7 @@ export function creaseLines(mesh: Creased): Map<number, Set<string>> {
   return lines;
 }
 
-const creaseCache = new WeakMap<Crossed, Map<number, Set<string>>>();
+const creaseCache = new WeakMap<PaperMesh,Map<number, Set<string>>>();
 
 /**
  * The edges passing deeper than `within` through a triangle past its plane,
@@ -46,7 +45,7 @@ const creaseCache = new WeakMap<Crossed, Map<number, Set<string>>>();
  * edge wide, so two nested wedges graze. `nested` 0 counts them all.
  */
 export function crossings(
-  mesh: Crossed,
+  mesh: PaperMesh,
   x: Float64Array,
   { within = 0, nested = 0 } = {},
 ): number {
@@ -84,14 +83,6 @@ export function crossings(
   return found;
 }
 
-const cross = (u: number[], w: number[]) => [
-  (u[1] ?? 0) * (w[2] ?? 0) - (u[2] ?? 0) * (w[1] ?? 0),
-  (u[2] ?? 0) * (w[0] ?? 0) - (u[0] ?? 0) * (w[2] ?? 0),
-  (u[0] ?? 0) * (w[1] ?? 0) - (u[1] ?? 0) * (w[0] ?? 0),
-];
-const dotProduct = (u: number[], w: number[]) =>
-  u.reduce((sum, ui, axis) => sum + ui * (w[axis] ?? 0), 0);
-
 /** How far segment `a`–`b` passes through the triangle's interior
  * (Möller–Trumbore): its shallower end's distance past the plane, 0 when it
  * misses or only touches. */
@@ -102,23 +93,23 @@ export function pierces(
   [t0, t1, t2]: Triangle,
 ): number {
   const eps = 1e-6;
-  const d = (p: number, q: number) =>
-    [0, 1, 2].map((axis) => (x[3 * p + axis] ?? 0) - (x[3 * q + axis] ?? 0));
+  const d = (p: number, q: number): Vec3 =>
+    sub3(vertexAt(x, p), vertexAt(x, q));
   const dir = d(b, a);
   const e1 = d(t1, t0);
   const e2 = d(t2, t0);
-  const h = cross(dir, e2);
-  const det = dotProduct(e1, h);
+  const h = cross3(dir, e2);
+  const det = dot3(e1, h);
   if (Math.abs(det) < 1e-18) return 0;
   const s = d(a, t0);
-  const u = dotProduct(s, h) / det;
-  const q = cross(s, e1);
-  const w = dotProduct(dir, q) / det;
-  const t = dotProduct(e2, q) / det;
+  const u = dot3(s, h) / det;
+  const q = cross3(s, e1);
+  const w = dot3(dir, q) / det;
+  const t = dot3(e2, q) / det;
   if (!(u > eps && w > eps && u + w < 1 - eps && t > eps && t < 1 - eps)) {
     return 0;
   }
-  const normal = cross(e1, e2);
-  const along = Math.abs(dotProduct(dir, normal)) / Math.hypot(...normal);
+  const normal = cross3(e1, e2);
+  const along = Math.abs(dot3(dir, normal)) / Math.hypot(...normal);
   return Math.min(t, 1 - t) * along;
 }

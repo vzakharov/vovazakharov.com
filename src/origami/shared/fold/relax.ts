@@ -7,7 +7,7 @@
 import type { Mesh } from './mesh.ts';
 import type { Paper } from './paper.ts';
 import { type Iterated, simulator } from './simulator.ts';
-import type { Vec3 } from './space.ts';
+import { type Vec3, vertexAt } from './space.ts';
 
 /** Settled once no vertex feels more than this: it moves a bar by ~1e-8 of
  * the sheet, and contact switching on and off keeps the last digits from
@@ -29,9 +29,11 @@ export type Relaxation = Iterated & {
 };
 
 export function relax(mesh: Mesh, paper: Paper): Relaxation {
-  // Unwrapped toward each hinge's start, so a crease folded flat begins on
-  // its own side of ±π.
-  const sim = simulator(mesh, paper, { near: mesh.hinges.map((h) => h.start) });
+  // Unwrapped toward each hinge's pressed angle, so a crease folded flat
+  // begins on its own side of ±π.
+  const sim = simulator(mesh, paper, {
+    near: mesh.hinges.map((h) => h.pressed),
+  });
   const { iterations, settled } = sim.phase(
     mesh.hinges.map((h) => h.angle),
     RAMP,
@@ -45,9 +47,7 @@ export function relax(mesh: Mesh, paper: Paper): Relaxation {
   }
   const { x } = sim;
   return {
-    positions: mesh.paper.map(
-      (_, i): Vec3 => [x[3 * i] ?? 0, x[3 * i + 1] ?? 0, x[3 * i + 2] ?? 0],
-    ),
+    positions: mesh.paper.map((_, i) => vertexAt(x, i)),
     iterations,
     strain: sim.strain(),
     crossings: sim.crossings(),

@@ -9,6 +9,18 @@ export type Vec3 = readonly [number, number, number];
 /** A 4×4 affine matrix, column-major as three.js stores it. */
 export type Mat4 = readonly number[];
 
+/** Vertex `i` of positions packed three to a vertex. */
+export const vertexAt = (x: Float64Array, i: number): Vec3 => [
+  x[3 * i] ?? 0,
+  x[3 * i + 1] ?? 0,
+  x[3 * i + 2] ?? 0,
+];
+
+export const add3 = (a: Vec3, b: Vec3): Vec3 => [
+  a[0] + b[0],
+  a[1] + b[1],
+  a[2] + b[2],
+];
 export const sub3 = (a: Vec3, b: Vec3): Vec3 => [
   a[0] - b[0],
   a[1] - b[1],

@@ -12,7 +12,7 @@ const crease = (a: number, b: number) => ({
   d: 0,
   crease: true,
   angle: 0,
-  start: 0,
+  pressed: 0,
   rest: 1,
 });
 

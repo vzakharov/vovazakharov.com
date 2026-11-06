@@ -29,8 +29,9 @@ describe('poseOf', () => {
           onSpine(m.paper[hinge.a]?.[0] ?? 0) &&
           onSpine(m.paper[hinge.b]?.[0] ?? 0);
         assert.equal(pose.angles[h], spine ? sign * Math.PI : 0);
-        // The mesh's own start is the same angle read from the same state.
-        assert.equal(pose.angles[h], hinge.start);
+        // The mesh's own pressed angle is the same one read from the same
+        // state.
+        assert.equal(pose.angles[h], hinge.pressed);
       }
       const { faces, sheets } = m;
       assert.deepEqual(pose.stack, { faces, sheets });

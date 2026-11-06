@@ -37,7 +37,7 @@ const kite: Mesh = {
     [3, 0],
   ],
   hinges: [
-    { a: 0, b: 1, c: 2, d: 3, crease: true, angle: 0, start: 0, rest: 1 },
+    { a: 0, b: 1, c: 2, d: 3, crease: true, angle: 0, pressed: 0, rest: 1 },
   ],
   faces: [
     { order: 0, plane: 0, facing: 1 },
