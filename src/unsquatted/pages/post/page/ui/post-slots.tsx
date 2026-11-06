@@ -16,9 +16,9 @@ import {
 } from '@/unsquatted/entities/domain/index.node-safe';
 import { Masthead } from '@/unsquatted/widgets/masthead';
 
-import { checkerHref } from '../lib/checker-href';
+import { checkerHref } from '../../checker-href';
+import { FieldHead, LabelHead, WidgetCard } from '../../widget-card';
 import { PostHeader } from './post-header';
-import { FieldHead, LabelHead, WidgetCard } from './widget-card';
 
 let pricesFetched: Promise<Prices> | undefined;
 

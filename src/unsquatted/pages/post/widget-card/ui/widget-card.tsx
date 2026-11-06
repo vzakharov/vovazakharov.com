@@ -20,7 +20,7 @@ import {
 import { LikeButton, LikesProvider } from '@/unsquatted/features/like';
 import { SharePopover } from '@/unsquatted/widgets/field-tools';
 
-import { checkerHref } from '../lib/checker-href';
+import { checkerHref } from '../../checker-href';
 import { snapshot } from './snapshot';
 import classes from './widget-card.module.scss';
 

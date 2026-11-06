@@ -1,1 +1,1 @@
-export { postSlots } from './ui/post-slots';
+export { postSlots } from './page';
