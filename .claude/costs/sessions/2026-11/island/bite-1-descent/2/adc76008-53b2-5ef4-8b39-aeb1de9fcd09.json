@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1622,
-    "cacheWrite5mTokens": 1320831,
-    "cacheWrite1hTokens": 182923,
-    "cacheReadTokens": 38736794,
-    "outputTokens": 204529,
-    "thinkingTokens": 70838,
-    "responses": 297,
-    "costUsd": 19.913168799999998
+    "inputTokens": 2897,
+    "cacheWrite5mTokens": 1367797,
+    "cacheWrite1hTokens": 188209,
+    "cacheReadTokens": 40158220,
+    "outputTokens": 208867,
+    "thinkingTokens": 71424,
+    "responses": 309,
+    "costUsd": 20.558039199999993
   },
   "estimate": {
     "at": "2026-11-06T20:59:11.310Z",
@@ -62,7 +62,7 @@
     }
   },
   "sessionId": "adc76008-53b2-5ef4-8b39-aeb1de9fcd09",
-  "branch": "wt/r7",
+  "branch": "island/bite-1-descent",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/bite-1-descent — остров рисуется от орбиты до двух метров, осталось освещение склонов, мелкие дефекты кадров и хвост с PR",
   "prs": [
@@ -71,48 +71,58 @@
   "url": "https://claude.ai/code/session_01DaohkDjdL2UcHBHn3eyXfZ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T20:17:24.258Z",
-  "lastResponseAt": "2026-11-06T21:00:02.446Z",
+  "lastResponseAt": "2026-11-06T21:00:24.285Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 120,
+    "inputTokens": 126,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 182923,
-    "cacheReadTokens": 10154856,
-    "outputTokens": 34244,
-    "thinkingTokens": 6083,
-    "responses": 60,
-    "costUsd": 4.1797152
+    "cacheWrite1hTokens": 188209,
+    "cacheReadTokens": 10885784,
+    "outputTokens": 35436,
+    "thinkingTokens": 6199,
+    "responses": 63,
+    "costUsd": 4.3920528
   },
   "subagents": {
-    "inputTokens": 490,
-    "cacheWrite5mTokens": 1320430,
+    "inputTokens": 512,
+    "cacheWrite5mTokens": 1367396,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 28272046,
-    "outputTokens": 170265,
-    "thinkingTokens": 64755,
-    "responses": 235,
-    "costUsd": 15.663819200000006
+    "cacheReadTokens": 28962544,
+    "outputTokens": 173230,
+    "thinkingTokens": 65225,
+    "responses": 243,
+    "costUsd": 16.096136800000007
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1622,
-      "cacheWrite5mTokens": 1320831,
-      "cacheWrite1hTokens": 182923,
-      "cacheReadTokens": 38736794,
-      "outputTokens": 204529,
-      "thinkingTokens": 70838,
-      "responses": 297,
-      "costUsd": 19.913168799999998
+      "inputTokens": 1650,
+      "cacheWrite5mTokens": 1367797,
+      "cacheWrite1hTokens": 188209,
+      "cacheReadTokens": 40158220,
+      "outputTokens": 208686,
+      "thinkingTokens": 71424,
+      "responses": 308,
+      "costUsd": 20.557823999999993
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1247,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 181,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00021520000000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 296,
-    "matched": 294,
-    "matchedTableUsd": 19.8131028,
-    "matchedEventUsd": 19.813102799999996,
+    "events": 309,
+    "matched": 306,
+    "matchedTableUsd": 20.488189599999995,
+    "matchedEventUsd": 20.488189599999995,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 1012,
@@ -123,12 +133,22 @@
         "thinkingTokens": 0,
         "responses": 2,
         "costUsd": 0.0696344
+      },
+      "generate_session_title": {
+        "inputTokens": 1247,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 181,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00021520000000000003
       }
     }
   },
   "operatorWords": 40,
   "branchLines": {
-    ".md": 2039,
+    ".md": 2041,
     ".py": 894,
     ".webp": 0,
     ".json": 1424,
