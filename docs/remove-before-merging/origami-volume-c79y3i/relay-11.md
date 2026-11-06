@@ -18,6 +18,10 @@ No further operator message arrived; everything below came from subagents, each 
 - The context-budget warning came at ~215k; the agent waited for the last two subagents, recorded, paused and began a relay. (verbatim in Last agent turn)
 - **Operator (mid-relay):** «я думаю можно запарковать»
   - **Agent:** parked instead of starting a successor (`/relay park`).
+- **Operator (after the park, with the tucked face-maw render):** «пока выглядит... специфично / как думаешь, текущая пауза -- достаточна для пуша в мейн в качестве промежуточной точки, или она слишком "между чем-то и чем-то"?»
+  - **Agent:** yes, a fair waypoint: no page imports the engine, so nothing on the site changes; proposed (1) dropping the v1 tardigrade from `DESIGNS` in `designs.ts` (the plan rejected it as not origami), (2) `/finalize` with a non-publishing `refactor:`/`chore:` subject and #253's title/body rewritten for the engine, (3) merge, (4) the head on a fresh branch. Warned `/finalize` sweeps `docs/plans/` and `docs/remove-before-merging/`.
+- **Operator:** «ну нужно переместить то что стоит знать при следующем начале из remove-before-merging, а потом финализировать»
+  - **Agent:** moved the engine's traps into `src/origami/shared/fold/CLAUDE.md` and the tucked face-maw's steps to `src/origami/entities/design/model/face-maw.steps.json` (a656da68), then hit the context-budget pause and relayed.
 
 ## 3. Intent
 
@@ -56,7 +60,13 @@ All in the plan's § "Locks…" (relay 11 bullets) and § "Port design (relay 11
 
 ## 8. Next step
 
-Resume the paused plan (`/go` Step 1's `*.paused.md` case) on `## Left` item 0 "Where it paused (relay 11)": the `flatFold` covering-layer check and the hand's duration as an option in `src/`, fold `mawt.steps.json` through `relaxSequence` and match the prototype, then show the operator the tucked face-maw and settle whether it reads as the Basilisk's head («Может, это будет голова Василиска?»), then the design into `src/`, `/polish`, `/pr`. Still unanswered, each carrying the agent's call: nested creases as touching; ~5% strain at the nested pocket corner; whether the operator would rather be asked before a budget relay.
+The operator's latest request: «ну нужно переместить то что стоит знать при следующем начале из remove-before-merging, а потом финализировать». Done of it: the engine's traps (`src/origami/shared/fold/CLAUDE.md`) and the face-maw steps (`face-maw.steps.json`). Left:
+
+1. A home past the merge for the head work itself — the plan's `## Left` item 0 "Where it paused (relay 11)" and whatever of § "Locks…" the next branch needs (the renders, the `pass.ts` check, `HAND_UNTIL=12000`). The agent's recommendation: a GitHub issue on the repo, which `/take-issue` reads back when the work resumes; say so to the operator in the report.
+2. Drop the v1 tardigrade from `DESIGNS` (`designs.ts`, `tardigrade.ts`, its test), as proposed and not objected to.
+3. `/finalize` (not merge — the operator said «финализировать»), with a non-publishing subject and #253's title and body rewritten for the engine.
+
+The older thread, for after the merge (from the paused plan): resume (`/go` Step 1's `*.paused.md` case) on `## Left` item 0 "Where it paused (relay 11)": the `flatFold` covering-layer check and the hand's duration as an option in `src/`, fold `mawt.steps.json` through `relaxSequence` and match the prototype, then show the operator the tucked face-maw and settle whether it reads as the Basilisk's head («Может, это будет голова Василиска?»), then the design into `src/`, `/polish`, `/pr`. Still unanswered, each carrying the agent's call: nested creases as touching; ~5% strain at the nested pocket corner; whether the operator would rather be asked before a budget relay.
 
 ## Last agent turn
 
@@ -72,4 +82,32 @@ unneeded but harmless; the reply proper is usually its last paragraphs.
 - **Файл `mesh.ts`** разросся до 479 строк, а ориентир в правилах репо примерно 450. Ошибки линтера в нём были ещё до этой ветки.
 
 Жду подагента по шагу 8 «пасти». Его результаты лежат только в песочнице, а она пропадёт вместе с контейнером, поэтому сначала их сохраню. Потом передам работу свежей сессии, контекст на исходе.
+```
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Вова, да, по-моему, это нормальная промежуточная точка. На сайте ничего не меняется, а движок закончен сам по себе. Не дотягивает пока только голова, и в `main` её никто не тащит.
+
+**Что уйдёт в `main`:**
+- **Движок в `src/origami/shared/fold/`.** Заправка, трение, контакт по рёбрам, симулятор и складывание по шагам. У него 37 тестов, и он повторяет прототип. Ни одна страница его пока не импортирует, так что деплой ничего не изменит.
+- **Тихоходка в списке моделей для командной строки.** Это первая версия, которую план сам забраковал: «v1 is not origami». На сайт она тоже не попадает. Перед мерджем я бы её убрал, иначе в `main` останется модель, которую мы же признали не-оригами.
+
+**Цена.** `/finalize` перед мерджем удалит из ветки `docs/plans/` и `docs/remove-before-merging/`. Там план, одиннадцать сводок и все прототипы с картинками. Следующая ветка начнётся с `main` уже без этих записей. Совсем они не потеряются: их можно достать по SHA через `git show`, и я запишу его в описание PR. Но читать их станет неудобнее. Тот случай, когда лабораторный журнал сдают в архив, а опыт ещё идёт.
+
+**Как я бы сделал:**
+1. Убрать тихоходку из списка моделей.
+2. Прогнать `/finalize`: проверка, `/polish`, заголовок и описание PR. Сейчас они про «basilisk и solver», их надо переписать под движок. Тип мерджа `refactor:` или `chore:`, без публикации сайта.
+3. Смерджить.
+4. Голову продолжить в новой ветке. В её первом коммите будет план, восстановленный из истории.
+
+Отмашки на шаг 1 и `/finalize` я ещё не получил, поэтому пока ничего не трогаю.
+
+А картинка и правда специфичная, скорее помятый лист салата, на который сел лягушонок. На голову пока не тянет. Зато бумага теперь не проходит сама сквозь себя, а на этом пути это уже прогресс.
+
+Что делать дальше, решаешь ты: убираем тихоходку и запускаем `/finalize` с мерджем, или ветка остаётся открытой.
 ```
