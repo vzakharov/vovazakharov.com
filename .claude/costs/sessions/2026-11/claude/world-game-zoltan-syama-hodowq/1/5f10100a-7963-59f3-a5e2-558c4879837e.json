@@ -1,0 +1,81 @@
+{
+  "total": {
+    "inputTokens": 53,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 130555,
+    "cacheReadTokens": 3216957,
+    "outputTokens": 22022,
+    "thinkingTokens": 10668,
+    "responses": 24,
+    "costUsd": 2.1284834
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T17:11:40.951Z",
+    "contextTokens": 133419,
+    "spend": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 71353,
+      "cacheReadTokens": 762130,
+      "outputTokens": 2416,
+      "thinkingTokens": 678,
+      "responses": 8,
+      "costUsd": 0.771638
+    }
+  },
+  "sessionId": "5f10100a-7963-59f3-a5e2-558c4879837e",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Ну что ж, спустя месяц-ish после \"Грибов\", пора браться за что-то новое и грандиозное? помнишь карту, которую Сяма с Золтаном рисовали в vzakharov/life? Хочу по…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDHg8CCY4MnYQWDxdJ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T17:10:04.194Z",
+  "lastResponseAt": "2026-11-06T17:15:23.850Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 53,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 130555,
+    "cacheReadTokens": 3216957,
+    "outputTokens": 22022,
+    "thinkingTokens": 10668,
+    "responses": 24,
+    "costUsd": 2.1284834
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 53,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 130555,
+      "cacheReadTokens": 3216957,
+      "outputTokens": 22022,
+      "thinkingTokens": 10668,
+      "responses": 24,
+      "costUsd": 2.1284834
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 23,
+    "matched": 23,
+    "matchedTableUsd": 2.0622005999999997,
+    "matchedEventUsd": 2.0622006,
+    "unseen": {}
+  }
+}
