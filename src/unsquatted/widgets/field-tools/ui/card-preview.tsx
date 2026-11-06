@@ -42,12 +42,13 @@ export function useObjectUrl(file: File | undefined): string | undefined {
   return url;
 }
 
-/** The card's own aspect, held by its place whether it holds the card or not. */
+/** The share card's aspect, held by the card's place until a card fills it. */
 const CARD_ASPECT = { aspectRatio: `${CARD_WIDTH} / ${CARD_HEIGHT}` };
 
 /**
  * The card at the popover's width; a real image, so the browser's own "copy
- * image" and "save image" reach it where ours cannot.
+ * image" and "save image" reach it where ours cannot. A drawn card keeps its
+ * own aspect, since a widget's snapshot is as tall as the widget.
  */
 export function CardPreview({ card, url, alt, said }: CardPreviewProps) {
   if (card instanceof File && url !== undefined)
@@ -59,7 +60,6 @@ export function CardPreview({ card, url, alt, said }: CardPreviewProps) {
         height={CARD_HEIGHT}
         unoptimized
         className={classes['card']}
-        style={CARD_ASPECT}
       />
     );
   const unshown = card instanceof File ? 'drawing' : card;

@@ -68,7 +68,8 @@
   border-radius: 0;
 }
 
-// The card's place; its aspect is `CARD_ASPECT`, set inline from the canvas's.
+// The card, at its own aspect, and its place, held at `CARD_ASPECT` until the
+// card arrives.
 .card,
 .cardSlot {
   display: block;
