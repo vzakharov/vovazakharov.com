@@ -14,6 +14,11 @@
       "multiplier": 0.9,
       "grade": "senior",
       "work": "a game's mechanics and feel: how the player moves and why, what is fun, the rules of a world"
+    },
+    "graphics-programmer": {
+      "multiplier": 1.25,
+      "grade": "senior",
+      "work": "rendering: level of detail, shaders, atmosphere, water, GPU budgets"
     }
   }
 }
