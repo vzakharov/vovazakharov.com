@@ -82,15 +82,39 @@ describe('fillTile', () => {
     });
   }
 
-  it('hangs its skirt below the border', () => {
-    // The skirt's first vertex sits under the south-west corner.
-    const corner = world(mesh, 0);
-    const skirt = world(mesh, GRID * GRID);
-    const depth = length(corner) - length(skirt);
-    assert.ok(Math.abs(depth - (2 * tileSide(key.level)) / (GRID - 1)) < 0.1);
-    assert.ok(dot(sub(corner, skirt), corner) > 0.999 * depth * length(corner));
-    const sunk = read(mesh.heights, 0) - read(mesh.heights, GRID * GRID);
-    assert.ok(Math.abs(sunk - depth) < 0.1);
+  it('hangs its skirt below the border, flared a cell outside the tile', () => {
+    const cell = tileSide(key.level) / (GRID - 1);
+    const middle = triple((c) => read(mesh.centre, c));
+    /** `d` less its part along `p`'s vertical: the horizontal step there. */
+    const level = (d: Vec3, p: Vec3) => {
+      const up = triple((c) => p[c] / length(p));
+      return sub(
+        d,
+        triple((c) => up[c] * dot(d, up)),
+      );
+    };
+    for (const [n, top] of borderLoop(GRID).entries()) {
+      const border = world(mesh, top);
+      const skirt = world(mesh, GRID * GRID + n);
+      const depth = length(border) - length(skirt);
+      assert.ok(Math.abs(depth - 2 * cell) < 0.1, `skirt ${n}: ${depth} m`);
+      const sunk =
+        read(mesh.heights, top) - read(mesh.heights, GRID * GRID + n);
+      assert.ok(Math.abs(sunk - depth) < 0.1);
+      // Diagonally at a corner, so a cell along each axis, √2 cells across.
+      const corner = n % (GRID - 1) === 0;
+      const step = level(sub(skirt, border), border);
+      const flare = length(step);
+      const expected = corner ? Math.SQRT2 * cell : cell;
+      assert.ok(
+        Math.abs(flare - expected) < 0.02 * cell,
+        `skirt ${n}: ${flare} m`,
+      );
+      assert.ok(
+        dot(step, level(sub(border, middle), border)) > 0,
+        `skirt ${n}`,
+      );
+    }
   });
 
   it('points normals outward on flat ground, and winds every face outward', () => {

@@ -31,8 +31,8 @@ export type FillOptions = {
 /**
  * One tile's mesh, every array its own buffer so a worker can transfer it.
  * The first `grid²` vertices are the grid, row by row from the south-west
- * corner eastward; the skirt's `4·(grid − 1)` follow, hanging under the border
- * walked counter-clockwise from that corner. Triangles wind counter-clockwise
+ * corner eastward; the skirt's `4·(grid − 1)` follow, hanging from the border
+ * walked counter-clockwise from that corner, each one cell outside it. Triangles wind counter-clockwise
  * seen from outside, the skirt's facing away from the tile.
  */
 export type TileMesh = TileKeyed & {
@@ -131,13 +131,19 @@ export function fillTile(
     }
   }
 
+  // The skirt flares one cell outward as it drops — diagonally at a corner —
+  // so seen from overhead it overlaps the neighbour and fills a pinhole along
+  // the shared edge, which a skirt hanging plumb shows edge-on and cannot.
+  const outward = (k: number) => (k === 0 ? -1 : k === cells ? 1 : 0);
   for (const [n, v] of loop.entries()) {
-    const { world, height } = at(v % grid, Math.floor(v / grid));
-    const radius = Math.hypot(...world);
-    const lowered = (radius - skirtDepth) / radius;
+    const i = v % grid;
+    const j = Math.floor(v / grid);
+    const { world, height } = at(i, j);
+    const out = at(i + outward(i), j + outward(j)).world;
+    const lowered = (Math.hypot(...world) - skirtDepth) / Math.hypot(...out);
     put(
       grid * grid + n,
-      [world[0] * lowered, world[1] * lowered, world[2] * lowered],
+      [out[0] * lowered, out[1] * lowered, out[2] * lowered],
       entry(gridNormals, v),
       height - skirtDepth,
     );

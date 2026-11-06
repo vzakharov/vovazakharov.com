@@ -85,3 +85,7 @@ The operator looked at the half-width preview, verbatim: «гор стало п�
 ## member · 2026-11-06 21:13:06 UTC
 
 The operator asks you to put the size comparison images on the board (the size sticker, later-2): docs/remove-before-merging/island/bite-1-descent/notes/size-preview/ at 44d1ded5a — full-*.png (the island's own scale) beside half-*.png (half width) for desktop orbit, 1000km, 100m and phone orbit, and operator-drc-vs-island.webp, the operator's screenshot circling the DR Congo on Google Earth above the island at orbit.
+
+## lead · 2026-11-06 21:15:47 UTC
+
+Done: board v10 records the decision on later-2 (scale (a) stays, the half-width render as the reason) and a new zone, linked from it, holds full vs half for orbit, 1,000 km, 100 m and phone orbit plus the operator's DR Congo screenshot. later-3 stays until the operator drops it. Carry on with R6/R7.
