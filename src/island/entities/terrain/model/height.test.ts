@@ -179,6 +179,18 @@ describe('heightAt', () => {
     assert.ok(hilly(4, 0.02) >= 3, '4 m windows under 2 cm');
   });
 
+  it('leaves out the octaves shorter than `finest`, and keeps the rest', () => {
+    for (const [x, y] of INLAND) {
+      // Over 20 m the 1 km octaves barely move, so what is left is smooth.
+      const coarse = (dx: number) => heightAt(discField, SEED, x + dx, y, 1000);
+      const bend = coarse(0) - (coarse(-10) + coarse(10)) / 2;
+      assert.ok(Math.abs(bend) < 0.5, `bend ${bend} at ${x}, ${y}`);
+      const full = heightAt(discField, SEED, x, y);
+      // No more apart than the octaves under 2 km reach together.
+      assert.ok(Math.abs(coarse(0) - full) < 300, `${coarse(0)} vs ${full}`);
+    }
+  });
+
   it('stays in a plausible range: beaches low, interior up to ~2 km', () => {
     let interiorHigh = -Infinity;
     let interiorLow = Infinity;

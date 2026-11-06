@@ -80,15 +80,19 @@ const ramp = (t: number) => (t >= 1 ? 1 : t * t * (3 - 2 * t));
  *
  * A plateau climbs with distance from the coast, and the sea floor falls
  * away offshore. Value noise rides on both, its octaves from 400 km down to
- * 6 m, the regional ones growing in amplitude inland, each faded out within one of its
- * own wavelengths of the coastline, so the drawn coast stays where it is at
- * every scale but the finest, where the shore wanders by metres.
+ * 6 m, the regional ones growing in amplitude inland, each faded out within
+ * one of its own wavelengths of the coastline, so the drawn coast stays where
+ * it is at every scale but the finest, where the shore wanders by metres.
+ *
+ * Octaves shorter than `finest` metres are left out, and those up to twice
+ * it faded in, so a lattice sampling at half `finest` draws no alias of them.
  */
 export function heightAt(
   field: CoastField,
   seed: number,
   x: number,
   y: number,
+  finest = 0,
 ): number {
   const d = sampleCoastField(field, x, y);
   const base =
@@ -104,7 +108,9 @@ export function heightAt(
   let regional = 0;
   let local = 0;
   for (const octave of OCTAVE_TABLE) {
-    const fade = ramp(away / octave.wavelength);
+    if (octave.wavelength <= finest) break;
+    const resolved = finest === 0 ? 1 : ramp(octave.wavelength / finest - 1);
+    const fade = resolved * ramp(away / octave.wavelength);
     if (fade === 0) continue;
     const u = (x * octave.cos - y * octave.sin) * octave.cyclesPerMetre;
     const v = (x * octave.sin + y * octave.cos) * octave.cyclesPerMetre;

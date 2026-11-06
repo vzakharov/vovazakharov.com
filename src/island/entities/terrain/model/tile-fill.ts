@@ -8,8 +8,12 @@ import {
   tileSide,
 } from './tile';
 
-/** Height above sea level, in metres, at plane point `(x, y)`. */
-export type HeightSample = (x: number, y: number) => number;
+/**
+ * Height above sea level, in metres, at plane point `(x, y)`, holding no
+ * relief shorter than `finest` metres — twice the tile's vertex spacing, the
+ * shortest wave its lattice draws without aliasing.
+ */
+export type HeightSample = (x: number, y: number, finest: number) => number;
 
 export type FillOptions = {
   /** Vertices along a side; defaults to `TILE_GRID`. */
@@ -71,7 +75,8 @@ export function fillTile(
 ): TileMesh {
   const grid = options.grid ?? TILE_GRID;
   const cells = grid - 1;
-  const skirtDepth = options.skirtDepth ?? (2 * tileSide(key.level)) / cells;
+  const spacing = tileSide(key.level) / cells;
+  const skirtDepth = options.skirtDepth ?? 2 * spacing;
 
   // The lattice with one extra ring all round, `i` east and `j` north from -1.
   const ring = grid + 2;
@@ -80,7 +85,7 @@ export function fillTile(
     const y = latticeCoordinate(key.level, cells, key.y * cells + b - 1);
     for (let a = 0; a < ring; a++) {
       const x = latticeCoordinate(key.level, cells, key.x * cells + a - 1);
-      const height = sample(x, y);
+      const height = sample(x, y, 2 * spacing);
       lattice.push({ world: planeToWorld(x, y, height), height });
     }
   }
