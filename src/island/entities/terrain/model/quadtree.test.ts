@@ -61,8 +61,8 @@ const HEIGHTS = [
 describe('selectTiles', () => {
   it('draws a handful of coarse tiles from orbit', () => {
     const tiles = selectTiles(planeToWorld(0, 0, 20_000_000));
-    assert.ok(tiles.length <= 16, `${tiles.length}`);
-    assert.ok(tiles.every((key) => key.level <= 2));
+    assert.ok(tiles.length <= 64, `${tiles.length}`);
+    assert.ok(tiles.every((key) => key.level <= 3));
   });
 
   for (const [name, height] of HEIGHTS) {

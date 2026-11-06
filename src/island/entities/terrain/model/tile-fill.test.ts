@@ -120,7 +120,7 @@ describe('fillTile', () => {
   });
 
   it('fills the deepest level at metre spacing near the island', () => {
-    const deep = fillTile({ level: 17, x: 65_536, y: 65_536 }, hills);
+    const deep = fillTile({ level: 18, x: 131_072, y: 131_072 }, hills);
     const spacing = length(sub(world(deep, 1), world(deep, 0)));
     assert.ok(spacing > 1 && spacing < 2.5, `${spacing}`);
   });

@@ -22,8 +22,8 @@ export type SelectOptions = {
   readonly highest?: number;
 };
 
-/** 16 tiles at most, 64 km cells, so the coast reads from orbit. */
-export const MIN_LEVEL = 2;
+/** 64 tiles at most, 64 km cells, so the coast reads from orbit. */
+export const MIN_LEVEL = 3;
 export const SPLIT_RATIO = 1;
 const LOWEST = -8000;
 const HIGHEST = 7000;
