@@ -1,9 +1,3 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source
-> while this file is named `*.draft.do-not-implement.md` — prep and spikes go in
-> `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md`
-> and delete this banner (quoting the go-ahead in the commit) _before_ touching
-> code.
-
 # Island — exploring the world Zoltan and Syama drew
 
 A descent onto the world Zoltan and Syama drew (`vzakharov/life` →
@@ -75,9 +69,8 @@ sessions, each building one bite on a branch of its own.
   says so; the operator steers from it at any time.
 - **Several bites run at once** where their files do not overlap; how many is
   the lead's call each time, from what is open.
-- **Status is a mind map artifact**, the north star at its centre and the bites
-  around it, rendered from a bite index (`status.json`) and republished whenever
-  a bite changes state.
+- **Status lives on the board** (§ "The board replaces this plan"): each bite a
+  sticker carrying its state, member session, branch and PR.
 - **What works and what doesn't goes into `.claude/skills/mammoth/notes/`** —
   the unfinished skill from the mushroom run, renamed from `megabeast`; this is
   its second data point and the first with parallel members.
@@ -102,20 +95,83 @@ Where this is going, in no order — what gets built when is the bites' to find:
 
 Beyond it: towns at the drawn cities, borders, people, animals.
 
-## This bite — bite 0: the team's tooling
+## Rest of the bite — bite 0: the board, then the team's tooling
 
-The lead's own, before any member exists.
+The lead's own, before any member exists. Nothing of it is built yet; the
+board's design below was settled with the operator and goes first.
+
+### The board replaces this plan
+
+The operator, verbatim: «вместо плана у нас будет артефакт (но хранимый в репе,
+чтобы можно было воспроизвести с любого акка) типа "бесконечной доски" — со
+стикерами, линиями где надо (и без них где не надо), произвольно прикрепляемыми
+картинками для вдохновения и проверки и т.д. — в неё могут рисовать любые
+сессии, я могу тоже что-то добавлять, по нему удобно общаться». It also replaces
+the status mind map. Once it exists, this file shrinks to the gate name, a
+pointer to the board, and `## Rest of the elephant` pointing there too, so `/go`
+still reads it as an elephant; the north star, the calls and the open bites live
+on the board as stickers in zones.
+
+- **Truth is the repo, one file per item**:
+  `docs/plans/world-game-zoltan-syama/board/items/<id>.json`, images beside in
+  `board/images/` (the map drawing, the web-ocean screenshot the operator sent,
+  `tmp/session-images/20261106T170957Z-91664c74.webp`). One file per item is
+  what lets parallel sessions add and move items on their own branches without
+  merge conflicts; the same item edited on two branches is a conflict in one
+  small file, resolved by the later `updated`.
+- **Item kinds** (one zod schema, a discriminated union, every item carrying
+  `id`, `x`, `y`, `updated` ISO, `author`, optional `deleted`): `sticky` (text,
+  colour, width), `zone` (titled rectangle, w × h, sits behind), `image` (src,
+  width, caption), `text` (heading or body), `line` (`from` and `to` item ids,
+  optional label and dashed style, arrowhead; drawn only where the relation
+  needs one). Deletion is a tombstone (`deleted: true`), so an older copy never
+  resurrects an item.
+- **The page** is one self-contained HTML built from the items
+  (`scripts/board/board.ts build <dir>` → `tmp/board/<name>/index.html` plus
+  `images/`, published with `files`). Vanilla JS: pan by dragging the background
+  or a trackpad scroll, zoom at the cursor with ctrl/pinch, fit; double-click to
+  add a sticky, double-click to edit, drag to move, a line tool (click two
+  items), colours, delete, an image from a file or a paste. Authors shown on
+  each item.
+- **The operator's edits go to the artifact's `db`**, one document per item
+  (`items/<id>`), live to every open view, last write per item wins. Images
+  uploaded through `assets`, kept as `/_blob/<id>`. Capabilities: `db`, `user`
+  (`scopes: ["profile"]`, names resolved at render, only ids stored), `assets`.
+  A view with no db (signed out, a local snapshot) renders the baked items
+  read-only.
+- **The page merges baked items with db rows by `updated`** — the same pure
+  function the sync uses.
+- **Only the lead publishes the page**, so no two sessions race on a version.
+  Before each publish the lead syncs: `ArtifactData list items` → JSON →
+  `board.ts sync <dir> <rows.json>`, which writes every row newer than its file,
+  and fetches uploaded assets (`Artifact read` with the asset id) into
+  `board/images/`, rewriting their `src`. Members write item files on their bite
+  branches; they reach the page when the lead merges them. Any account can
+  rebuild and publish a fresh board from the repo alone.
+- **`board.ts snapshot <dir> <png>`** renders the built page in Playwright,
+  fitted to every item, for the case study.
+- Tests: the schema, the merge (newer wins, ties to the overlay, tombstones
+  hold), the db-row parsing.
+
+### The case study, written as it goes
+
+The operator: «кейс-стади по этой игре мы будем писать по ходу, каждый раз со
+слепками-скриншотами из доски на этот момент». So
+`sites/vova/public/case-studies/island.md`, `hidden: true` until the game ships
+(built, on no index), English per the collection; each entry dated, with the
+board's snapshot at that moment in `assets/island-board-<date>.png`. The first
+entry is this one: the map, the descent, the mammoth, the board.
+
+### Then the tooling
 
 1. **`scripts/memo.py`**, ported from sc-hub with its traps intact; sides become
    `lead`/`member`, the channel is per branch, `wait` watches several branches
    and exits on the first with news.
-2. **`status.json`** — the bite index — and **`scripts/mammoth-map.ts`**, which
-   renders it into a one-page mind map, published as an artifact.
-3. **`.claude/skills/megabeast/` → `.claude/skills/mammoth/`**, with every
+2. **`.claude/skills/megabeast/` → `.claude/skills/mammoth/`**, with every
    pointer at it.
-4. **The first step toward the star**, chosen then: its contract, and its member
-   started. The likely one is the thinnest descent from orbit to the ground over
-   the traced island, since everything else hangs off it.
+3. **The first step toward the star**, chosen then: its contract on the board,
+   and its member started. The likely one is the thinnest descent from orbit to
+   the ground over the traced island, since everything else hangs off it.
 
 ## What a studio would put on it
 
@@ -136,8 +192,11 @@ it goes: about 3 100 hours, seven people, the busiest of them for five months.
 - **memo.py is a port, not a share** — sc-hub is another repo with other sides.
   Both adopt `vzakharov/muthur`; if lead/member proves itself, it goes upstream
   there at the mammoth's end.
-- **`status.json` is the only list of bites.** This plan names none; the mind
-  map is rendered from it, never hand-kept.
+- **The board is the only home of the plan's content.** Once it exists, nothing
+  stated on it is restated here or in a status file; the case study quotes the
+  board through its snapshots rather than copying stickers.
+- **One merge function** (newer `updated` wins per item) serves both the page's
+  overlay of db rows and `board.ts sync`.
 - **The notes keep their one home under the new name**: `plan/elephant.md` and
   `update-muthur/divergence.md` point at `mammoth/notes/README.md`, and nothing
   keeps a `megabeast` alias.
