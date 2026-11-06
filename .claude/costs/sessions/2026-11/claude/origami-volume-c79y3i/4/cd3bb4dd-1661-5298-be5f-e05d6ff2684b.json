@@ -1,0 +1,100 @@
+{
+  "total": {
+    "inputTokens": 87,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 186093,
+    "cacheReadTokens": 8319543,
+    "outputTokens": 67418,
+    "thinkingTokens": 49397,
+    "responses": 45,
+    "costUsd": 4.501360600000002
+  },
+  "estimate": {
+    "at": "2026-11-06T10:56:01.472Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a new design in the fold engine with barrel creases, pleats and leg flaps, its test and the views, is code a senior must reason about"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "making a tardigrade read at a glance from a square, by render and eye, is a designer's judgement"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/origami/entities/design/model/tardigrade.ts",
+    "endedAt": "2026-11-06T11:03:35.731Z",
+    "contextTokens": 182500,
+    "spend": {
+      "inputTokens": 27,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 85584,
+      "cacheReadTokens": 1290201,
+      "outputTokens": 40819,
+      "thinkingTokens": 38275,
+      "responses": 12,
+      "costUsd": 1.7592001999999998
+    }
+  },
+  "sessionId": "cd3bb4dd-1661-5298-be5f-e05d6ff2684b",
+  "branch": "claude/origami-volume-c79y3i",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-volume-c79y3i — Василиск отложен, выбран тихоход, есть пробная палатка с настоящим объёмом",
+  "prs": [
+    253
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEdWFm6YVgbkA4fk2X",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T10:55:38.946Z",
+  "lastResponseAt": "2026-11-06T11:11:06.572Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 87,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 186093,
+    "cacheReadTokens": 8319543,
+    "outputTokens": 67418,
+    "thinkingTokens": 49397,
+    "responses": 45,
+    "costUsd": 4.501360600000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 87,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 186093,
+      "cacheReadTokens": 8319543,
+      "outputTokens": 67418,
+      "thinkingTokens": 49397,
+      "responses": 45,
+      "costUsd": 4.501360600000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 45,
+    "matched": 45,
+    "matchedTableUsd": 4.501360600000002,
+    "matchedEventUsd": 4.501360600000002,
+    "unseen": {}
+  }
+}
