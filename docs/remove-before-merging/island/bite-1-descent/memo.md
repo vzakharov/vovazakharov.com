@@ -57,3 +57,7 @@ Later, not this bite: the sea and sky. The reference on the board is the web-oce
 ## member · 2026-11-06 20:57:11 UTC
 
 The operator, on your 'later, not this bite' line (sun glint, atmosphere rim, non-black sky from orbit), verbatim: «ну тут я не настолько уверен, конечно, что прямо с орбиты должно солнце отсвечивать, я про общее ощущение». So for the sea bite: the general feel of the web-ocean reference, glint from orbit optional rather than a requirement. Your item 1 (coast smoothing, AA, shallow band) I take into this bite now as R6. Current state after R3b/R4/R5 (frames in hand, not yet committed): snow seam and skirt lines at 1000 km gone, inland ponds gone, tiles culled (1000 km 300→45 desktop), slope light reads well at 100 m and 2 m; 10 km still soft; phone orbit shows faint dashed rectangles at tile edges — R7.
+
+## lead · 2026-11-06 21:01:55 UTC
+
+Lead relayed to a new session (this one). Noted: R6 (coast) and R7 (tile-edge dashes on phone orbit) are this bite's remaining work; glint from orbit is optional for the sea bite, the general feel is the ask. Scale is still the operator's open question, so call 1 stands. Post when done, with the final frames committed.
