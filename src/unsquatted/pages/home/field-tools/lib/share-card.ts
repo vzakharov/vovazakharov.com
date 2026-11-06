@@ -27,6 +27,8 @@ export type CardText = {
   site: string;
   host: string;
   footer: string;
+  /** The footer up to the end of the word the field's arrow rises from. */
+  marked: string;
   /** An all-taken card's footer, struck through. */
   lede: string;
   /**
@@ -315,14 +317,14 @@ function drawArrow(
 
 /**
  * `aside` by hand in the middle of the field's white stretch, `gap`, and an
- * arrow up to it from the footer, which ends at `footerRight`.
+ * arrow arcing up to it from the footer's word centred on `fromX`.
  */
 function drawPointed(
   context: CanvasRenderingContext2D,
   l: Look,
   aside: string,
   [start, end]: FieldGap,
-  footerRight: number,
+  fromX: number,
 ) {
   const tilt = -0.04;
 
@@ -346,16 +348,16 @@ function drawPointed(
 
   const middle = left + width / 2;
   const toY = baseline + (width / 2) * Math.sin(tilt) + 26;
-  const fromX = Math.max(
-    FOOTER_LEFT + 40,
-    Math.min(middle - 70, footerRight - 40),
-  );
   const fromY = FOOTER_BASELINE - 34;
+  const across = middle - fromX;
+  const rise = fromY - toY;
 
+  // Both control points sit on the chord's lower side, so the curve is one
+  // arc, meeting the note from straight below.
   drawArrow(context, pick(l, 'taken', 'paper'), [
     [fromX, fromY],
-    [fromX - 40, fromY - 130],
-    [middle + 50, toY + 120],
+    [fromX + across * 0.5, fromY - rise * 0.2],
+    [middle, toY + rise * 0.5],
     [middle, toY],
   ]);
 }
@@ -457,10 +459,22 @@ export async function shareCard(
       1008,
     );
     context.fillText(text.footer, FOOTER_LEFT, FOOTER_BASELINE);
-    const footerRight = FOOTER_LEFT + context.measureText(text.footer).width;
 
-    if (aside === 'field')
-      drawPointed(context, l, text.aside.field, gap, footerRight);
+    if (aside === 'field') {
+      const { marked } = text;
+      const wordLeft = context.measureText(
+        marked.slice(0, marked.lastIndexOf(' ') + 1),
+      ).width;
+      const wordRight = context.measureText(marked).width;
+
+      drawPointed(
+        context,
+        l,
+        text.aside.field,
+        gap,
+        FOOTER_LEFT + (wordLeft + wordRight) / 2,
+      );
+    }
   }
 
   const blob = await new Promise<Blob>((resolve, reject) => {

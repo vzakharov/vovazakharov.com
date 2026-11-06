@@ -284,11 +284,14 @@ function LinkField({ href, link, share, copy }: LinkFieldProps) {
 
 function cardText(copy: Copy): CardText {
   const lede = copy.lede.replace('*', '');
+  // The lede's starred word is the claim a taken typed domain undercuts.
+  const [marked = lede] = copy.lede.split('*');
 
   return {
     site: SITE_CONFIG.name,
     host: withoutScheme(SITE_CONFIG.url),
     footer: `${lede} ${plainByline({ copy })}`,
+    marked,
     lede,
     aside: { all: copy.takenAside, field: copy.typedTakenAside },
     ...pick(copy, 'verdict', 'price'),
