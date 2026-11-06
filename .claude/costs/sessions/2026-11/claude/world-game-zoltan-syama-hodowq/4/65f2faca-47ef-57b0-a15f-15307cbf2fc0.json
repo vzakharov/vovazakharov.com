@@ -1,0 +1,112 @@
+{
+  "total": {
+    "inputTokens": 151,
+    "cacheWrite5mTokens": 111311,
+    "cacheWrite1hTokens": 153889,
+    "cacheReadTokens": 9325068,
+    "outputTokens": 35769,
+    "thinkingTokens": 7823,
+    "responses": 75,
+    "costUsd": 3.9535650999999996
+  },
+  "estimate": {
+    "at": "2026-11-06T17:59:43.283Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "a case study begun mid-work needs its frame and first entry set in the site's voice"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a contribution report over transcripts, PR threads and git numstat, plus memo and rename tooling, is several small scripts with schemas and tests"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "sites/vova/public/case-studies/island.md",
+    "endedAt": "2026-11-06T18:00:46.483Z",
+    "contextTokens": 163749,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 101227,
+      "cacheReadTokens": 2400079,
+      "outputTokens": 5129,
+      "thinkingTokens": 1366,
+      "responses": 19,
+      "costUsd": 1.3925717999999998
+    }
+  },
+  "sessionId": "65f2faca-47ef-57b0-a15f-15307cbf2fc0",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — доска ожила и перевыпущена, план ужат до страницы; кейс-стади ещё не начата",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBEJASpo9pqPuqW5Bo",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T17:59:26.975Z",
+  "lastResponseAt": "2026-11-06T18:04:26.022Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 85,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 153889,
+    "cacheReadTokens": 6636404,
+    "outputTokens": 22100,
+    "thinkingTokens": 6141,
+    "responses": 42,
+    "costUsd": 3.0007327999999998
+  },
+  "subagents": {
+    "inputTokens": 66,
+    "cacheWrite5mTokens": 111311,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2688664,
+    "outputTokens": 13669,
+    "thinkingTokens": 1682,
+    "responses": 33,
+    "costUsd": 0.9528323000000002
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 85,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 153889,
+      "cacheReadTokens": 6636404,
+      "outputTokens": 22100,
+      "thinkingTokens": 6141,
+      "responses": 42,
+      "costUsd": 3.0007327999999998
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 66,
+      "cacheWrite5mTokens": 111311,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 2688664,
+      "outputTokens": 13669,
+      "thinkingTokens": 1682,
+      "responses": 33,
+      "costUsd": 0.9528323000000002
+    }
+  },
+  "warnings": [
+    "prices.json priced the 74 responses the events also priced at $3.9254, against the events' $3.6676: a rate in the table is likely out of date"
+  ],
+  "compactions": [],
+  "telemetry": {
+    "events": 74,
+    "matched": 74,
+    "matchedTableUsd": 3.9254408999999995,
+    "matchedEventUsd": 3.6676295999999997,
+    "unseen": {}
+  }
+}
