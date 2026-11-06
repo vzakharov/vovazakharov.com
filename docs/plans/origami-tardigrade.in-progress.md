@@ -464,6 +464,23 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   part-unfolded pose. It is what friction's path-dependence asks for anyway (the
   operator: «получается, нам целую динамику тут нужно просчитывать»), and the
   only route by which a lock reaches the bases that already read as heads.
+- **Sequential relax, first pass** (`prototype/seq/`; `sim.ts` is `relax.ts`
+  keeping its state across phases, `phase(goals, ramp, …)`; `seq.ts` folds from
+  the flat sheet, per step k setting each hinge's goal to its angle in state k
+  via `poseOf` and `foldAngle`, switching contact to state k's stack, ramping
+  and settling, then letting all creases spring to their holds; contact can
+  `restack`, `RELEASE` an out-of-reach pair's side, and `suspend` a flap-to-lid
+  pair): the plain ring steps through at 0 crossings every step and opens to
+  0.888, as the one-shot. **The tuck jams**: with friction 0.5 the flap sticks
+  halfway into the pocket (79 crossings, `seq/ring-tuck-s3-jam.png`); with
+  friction 0 it is clean but stops 32° short and the ring opens. Next, in order:
+  friction per phase — 0 during a tuck step (the hand lifting the lid), on once
+  let go (`contact.ts` lines ~331 and ~414 read `FRICTION` as a constant); then
+  the waterbomb base step by step (`seq/go.sh base3 …` with `DIAG=1 LAGS=1`, its
+  first line prints the one-shot's ~216 to beat; the risk is the inside reverse
+  fold at a vertex the book crease holds flat); then the face-maw with a tuck.
+  Port size so far: ~200 lines of simulator, ~40 of `poseOf`, ~30 of contact
+  changes; ~5–8 s per step on 800 vertices.
 
 ## Left
 
