@@ -31,7 +31,14 @@ is appended; the agent's question message is condensed above.)
 виджет, слишком долго до него листать. что-то вроде "хотите знать что я думаю
 об этом?" (виджет с саркастическими доменами .si [но без оскорблений])»
 
-**Agent**: added it to the Next step and handed over.
+**Agent**: added it to the Next step.
+
+**Operator** (mid-turn, quoting the agent's «Ссылок нет: в исходном плане
+указано, что источники идут в ответе с черновиком, а под постом на сайте их не
+бывает»): «это было видимо про какие-то из блогов до этого»
+
+**Agent**: read it as "that rule is not this blog's: links are wanted", put it
+in the Next step and handed over.
 
 ## 3. Intent
 
@@ -95,15 +102,21 @@ long to reach one — «что-то вроде "хотите знать что �
 с саркастическими доменами .si [но без оскорблений])». In the Unnamed's voice,
 a `domains` widget of sarcastic `.si` names, each a free catalogue pick with
 `post: super-intelligence` per the naming runbook; sarcastic about the naming,
-never insulting and never about the person (§ 1). Republish the preview.
+never insulting and never about the person (§ 1).
+
+Then links: the operator holds the plan's no-sources line («The site lists no
+sources under a post») to have been about an earlier blog — «это было видимо
+про какие-то из блогов до этого». So both posts link their sources and what
+they name inline (the `.si` registry chart, the rename, the Singles' Day
+facts), and the plan drops that line. Read it as inline links in the
+Unnamed's prose; if the operator meant something else, they will say.
+Republish the preview.
 
 Meanwhile the operator's answers are pending on:
 
 - how a widget's "Copy as image" is made — DOM snapshot (recommended) or
   canvas redraw (the operator: «должен копировать именно то что нарисовано, а
   не стандартный»);
-- links in posts — «а чё у нас никаких ссылок в блоге нет?»: if yes, add
-  sources and links to both posts and drop the no-sources line from the plan;
 - the index subtitle and the closing "Thank you for your attention to this
   matter." (from relay 8).
 
