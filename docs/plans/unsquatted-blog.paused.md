@@ -174,19 +174,28 @@ Bite 1, in part:
 
 Left:
 
-- **`main` is merged in** (4f9c63dd, resolved in 02335fcc): the post widget now
-  opens `main`'s `SharePopover` (exported, with `labelled`) and leads its card
-  with `cardLead`, so a widget of taken names draws the standard card. Vet on
-  that head was started, not yet read.
-- **A widget's "Copy as image" copies the widget as drawn**, not the standard
-  card (the operator: «должен копировать именно то что нарисовано, а не
-  стандартный»). Asked: a DOM snapshot of the figure (`modern-screenshot`,
-  recommended; it becomes the popover's preview, hearts and share left out) or
-  the widget redrawn on the canvas; not yet answered.
-- **Links in posts**: the operator asked «а чё у нас никаких ссылок в блоге
-  нет?». Both posts carry none, by this plan's § 5 ("The site lists no sources
-  under a post"); whether posts should now link their sources and the things
-  they name is theirs to say.
+- **Vet is red on the merged head** (run 42231740034): the unsquatted build
+  (prerendering `/blog/super-intelligence`: "Cannot read properties of undefined
+  (reading 'href')"), lint in `mockups/*.cjs`,
+  `ideas/brainstorm/lib/parse-ideas.ts`, `ideas/offer/bulb/ui/ideas-modal.tsx`,
+  `ideas/offer/generation/lib/use-ideas.ts` and
+  `scripts/lib/unsquatted-card.ts`, prettier on `post-header.tsx`, stylelint
+  (`gap` shorthand in `widget-card.module.scss`), `type-overlap` (`href` +
+  `occasion` in `OccasionStampProps` and `PostLink`; `occasion` in four types)
+  and `knip` (unused exports in `entities/domain`, `picks`, `shared/content`;
+  after 1fc51d12 also `cardLead`, `cardRows`, `shareCard`, `cardText` from
+  `widgets/field-tools`).
+- **The early `.si` widget answers the wrong question**: "What I think about
+  this" lists `aibyanyname.si`, `renamedagain.si`, `stillai.si`,
+  `namingishard.si` (b1036e1f, f7b834d6), jokes about the rename; the operator
+  wants names that are his reaction (§ Next step of relay 10).
+- **A widget's "Copy as image" copies the widget as drawn** (1fc51d12:
+  `pages/post/ui/snapshot.ts`, `.frame` in `widget-card.module.scss`); not yet
+  looked at in a browser, and the popover's preview still assumes the standard
+  card's aspect (`card-preview.tsx`'s `CARD_ASPECT`).
+- **Links in posts**: wanted (the operator: «это было видимо про какие-то из
+  блогов до этого»), so § 5's no-sources line is void; both posts link their
+  sources inline.
 - **The index's subtitle** ", by the Unnamed of Unsquatted" reads poorly to the
   operator; options offered, none chosen.
 - `/polish full`, then `/pr` (refresh the body and squash proposal: the slots
