@@ -1,0 +1,65 @@
+// Cross-sections of the ring's overlap: for flat points, where each of the
+// four overlapping layers sits — radius from the ring's axis and position
+// along it, in sheet thicknesses relative to the pocket's inner layer.
+// Usage: npx tsx tmp/tg/lock/diag.ts tmp/tg/runs/lock-<name>/m.json
+import { readFileSync } from 'node:fs';
+
+type V3 = [number, number, number];
+const data = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as { paper: [number, number][]; positions: V3[]; triangles: [number, number, number][] };
+const gap = 0.07 / 150;
+const { paper, positions: X } = data;
+const sub = (a: V3, b: V3): V3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const dot = (a: V3, b: V3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+/** A paper point's place in space, interpolated over the triangle holding it
+ * (the first whose corners all lie on the side `pick` keeps). */
+const placeOf = (px: number, py: number, pick: (q: [number, number]) => boolean): V3 => {
+  for (const t of data.triangles) {
+    if (!t.every((v) => pick(paper[v]!))) continue;
+    const [a, b, cc] = t.map((v) => paper[v]!);
+    const det = (b![0] - a![0]) * (cc![1] - a![1]) - (cc![0] - a![0]) * (b![1] - a![1]);
+    const u = ((px - a![0]) * (cc![1] - a![1]) - (cc![0] - a![0]) * (py - a![1])) / det;
+    const w = ((b![0] - a![0]) * (py - a![1]) - (px - a![0]) * (b![1] - a![1])) / det;
+    if (u < -1e-9 || w < -1e-9 || u + w > 1 + 1e-9) continue;
+    const [A, B, C] = t.map((v) => X[v]!);
+    return [0, 1, 2].map((k) => A![k]! * (1 - u - w) + B![k]! * u + C![k]! * w) as V3;
+  }
+  throw new Error(`no triangle at ${px},${py}`);
+};
+const nearest = (px: number, py: number) =>
+  paper.reduce((best, v, i) => (Math.hypot(v[0] - px, v[1] - py) < Math.hypot(paper[best]![0] - px, paper[best]![1] - py) ? i : best), 0);
+// The axis runs along paper y across the main strip.
+let axis: V3 = [0, 0, 0];
+for (let x = 0.32; x < 0.69; x += 0.04) {
+  const d = sub(X[nearest(x, 0.45)]!, X[nearest(x, 0.05)]!);
+  axis = [axis[0] + d[0], axis[1] + d[1], axis[2] + d[2]];
+}
+const n = Math.hypot(...axis);
+axis = [axis[0] / n, axis[1] / n, axis[2] / n];
+// The centre: the mean of the strip's mid-line, which runs once around.
+const ring = paper.map((p, i) => [p, X[i]!] as const).filter(([p]) => Math.abs(p[1] - 0.25) < 0.02);
+const c = ring.reduce<V3>((s, [, x]) => [s[0] + x[0] / ring.length, s[1] + x[1] / ring.length, s[2] + x[2] / ring.length], [0, 0, 0]);
+const at = (x: V3) => {
+  const d = sub(x, c);
+  const h = dot(d, axis);
+  const r = Math.hypot(...sub(d, [axis[0] * h, axis[1] * h, axis[2] * h]));
+  return { r, h };
+};
+const top = (q: [number, number]) => q[1] >= 0.5 - 1e-9;
+const low = (q: [number, number]) => q[1] <= 0.5 + 1e-9;
+const layers: Record<string, (fx: number, fy: number) => V3> = {
+  o2: (fx, fy) => placeOf(0.6 - fx, 1 - fy, top),
+  o3: (fx, fy) => placeOf(1.4 - fx, 1 - fy, top),
+  o4: (fx, fy) => placeOf(1.4 - fx, fy, low),
+  o5: (fx, fy) => placeOf(0.6 - fx, fy, low),
+};
+console.log('radius of mid-line', (ring.reduce((s, [, x]) => s + at(x).r, 0) / ring.length).toFixed(4));
+for (const fy of (process.env.YS ?? '0.05,0.25,0.42,0.46,0.5').split(',').map(Number)) {
+  for (const fx of (process.env.XS ?? '0.4,0.44,0.5,0.56,0.6').split(',').map(Number)) {
+    const base = at(layers.o2!(fx, fy));
+    const row = Object.entries(layers).map(([name, f]) => {
+      const { r, h } = at(f(fx, fy));
+      return `${name} r${((r - base.r) / gap).toFixed(1).padStart(6)} h${((h - base.h) / gap).toFixed(1).padStart(6)}`;
+    });
+    console.log(`flat ${fx.toFixed(2)},${fy.toFixed(2)}  ${row.join('  ')}`);
+  }
+}

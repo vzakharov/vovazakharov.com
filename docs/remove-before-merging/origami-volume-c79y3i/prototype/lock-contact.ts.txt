@@ -314,7 +314,8 @@ export function contact(mesh: Mesh, gap: number, stiffness: number): Contact {
  * graze one another by a fraction of it; that is touching, not passing
  * through.
  */
-export const crossed: [number, number][] = [];
+/** The edges the last count found, each with how deep it passes through. */
+export const crossed: [number, number, number][] = [];
 export function crossings(mesh: Mesh, x: Float64Array, within = 0): number {
   crossed.length = 0;
   const { triangles } = mesh;
@@ -324,18 +325,15 @@ export function crossings(mesh: Mesh, x: Float64Array, within = 0): number {
   let found = 0;
   for (const [a, b] of mesh.bars) {
     const mid = [0, 1, 2].map((axis) => (at(a, axis) + at(b, axis)) / 2);
-    const hit = near(mid[0] ?? 0, mid[1] ?? 0, mid[2] ?? 0).some((t) => {
+    let deepest = 0;
+    for (const t of near(mid[0] ?? 0, mid[1] ?? 0, mid[2] ?? 0)) {
       const corners = triangles[t];
-      return (
-        corners !== undefined &&
-        !corners.includes(a) &&
-        !corners.includes(b) &&
-        pierces(x, a, b, corners) > within
-      );
-    });
-    if (hit) {
+      if (corners === undefined || corners.includes(a) || corners.includes(b)) continue;
+      deepest = Math.max(deepest, pierces(x, a, b, corners));
+    }
+    if (deepest > within) {
       found++;
-      crossed.push([a, b]);
+      crossed.push([a, b, deepest]);
     }
   }
   return found;

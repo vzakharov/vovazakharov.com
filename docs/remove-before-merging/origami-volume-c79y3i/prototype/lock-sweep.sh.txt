@@ -1,0 +1,10 @@
+#!/bin/bash
+# sweep.sh <name> <steps-json-or-file> ; same env as go.sh, but prints the
+# summary lines only (UNSETTLED included) and renders only with RENDER=1.
+set -e
+cd /home/user/vovazakharov.com
+out=tmp/tg/runs/lock-$1
+mkdir -p $out
+MAXIT=${MAXIT:-40000} TRACK=${TRACK:-0,0.25;1,0.25} npx tsx tmp/tg/lock/spring.ts "$2" $out/m.json \
+  | grep -E "start crossings|^iters|settled|UNSETTLED|pressed|strain 0" | head -${HEAD:-6} | sed "s/^/[$1] /"
+if [ -n "$RENDER" ]; then ROT=${ROT:-0} npx tsx tmp/tg/show.ts $out/m.json $out >/dev/null; fi

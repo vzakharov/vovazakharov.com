@@ -4,10 +4,10 @@
 // Usage: npx tsx tmp/tg/lock/spring.ts <steps.json | JSON> <out.json>
 import { readFileSync, writeFileSync } from 'node:fs';
 
-import { mesh } from '../../../src/origami/shared/fold/mesh.ts';
+import { mesh } from './mesh.ts';
 import { PAPERS } from '../../../src/origami/shared/fold/paper.ts';
 import { flatPolygon } from '../../../src/origami/shared/fold/state.ts';
-import { crossings } from './contact.ts';
+import { crossed, crossings } from './contact.ts';
 import { run, type Step } from './fold.ts';
 import { relax } from './relax.ts';
 import { fromPose } from '../dome.ts';
@@ -25,10 +25,58 @@ const pressed = mesh(state, paper);
 const m = process.env.POSE ? fromPose(pressed, run(steps, Number(process.env.POSE))) : pressed;
 const gap = paper.thickness / paper.side;
 console.log('pieces', state.pieces.length, 'verts', m.paper.length, 'start crossings', crossings(m, Float64Array.from(m.start.flat()), gap / 2));
+// Each crossing edge as its two paper points, the layer orders it lies on,
+// and the triangles it pierces (as their pieces' orders and paper centroids).
+const showCrossed = (xs: readonly (readonly number[])[]) => {
+  const fx = Float64Array.from(xs.flat());
+  const pt = (v: number) => m.paper[v]!.map((n) => n.toFixed(3)).join(',');
+  const orders = (v: number) => m.sheets[v]!.map((s) => s.order).join('/');
+  const byTri = new Map<string, number>();
+  const gapOf = paper.thickness / paper.side;
+  for (const [a, b, depth] of crossed) {
+    const hit = m.triangles
+      .map((t, i) => [t, i] as const)
+      .filter(([t]) => !t.includes(a) && !t.includes(b) && piercesAny(fx, a, b, t))
+      .map(([t, i]) => `o${m.faces[i]!.order}@${[0, 1].map((k) => (t.reduce((s, v) => s + m.paper[v]![k]!, 0) / 3).toFixed(2)).join(',')}`);
+    const key = `edge o${orders(a)}|o${orders(b)} → ${hit.join(' ')}`;
+    byTri.set(key, (byTri.get(key) ?? 0) + 1);
+    if (process.env.EDGES) console.log(`  ${pt(a)} – ${pt(b)} o${orders(a)}|o${orders(b)} depth ${(depth / gapOf).toFixed(2)} gaps → ${hit.join(' ')}`);
+  }
+  for (const [k, n] of byTri) console.log(`  ${n}× ${k}`);
+};
+/** Whether segment a–b passes through triangle t (Möller–Trumbore). */
+function piercesAny(x: Float64Array, a: number, b: number, t: readonly number[]): boolean {
+  const P = (v: number) => [x[3 * v]!, x[3 * v + 1]!, x[3 * v + 2]!];
+  const sub = (p: number[], q: number[]) => p.map((n, i) => n - q[i]!);
+  const cr = (u: number[], w: number[]) => [u[1]! * w[2]! - u[2]! * w[1]!, u[2]! * w[0]! - u[0]! * w[2]!, u[0]! * w[1]! - u[1]! * w[0]!];
+  const dt = (u: number[], w: number[]) => u.reduce((s, n, i) => s + n * w[i]!, 0);
+  const dir = sub(P(b), P(a));
+  const e1 = sub(P(t[1]!), P(t[0]!));
+  const e2 = sub(P(t[2]!), P(t[0]!));
+  const h = cr(dir, e2);
+  const det = dt(e1, h);
+  if (Math.abs(det) < 1e-18) return false;
+  const s = sub(P(a), P(t[0]!));
+  const u = dt(s, h) / det;
+  const q = cr(s, e1);
+  const w = dt(dir, q) / det;
+  const tt = dt(e2, q) / det;
+  return u > 1e-6 && w > 1e-6 && u + w < 1 - 1e-6 && tt > 1e-6 && tt < 1 - 1e-6;
+}
+showCrossed(m.start);
 const t0 = Date.now();
 const r = relax(m, paper);
 console.log('iters', r.iterations, 'strain', r.strain.toFixed(4), 'crossings', r.crossings, 'ms', Date.now() - t0);
 for (const line of r.report ?? []) console.log(line);
+showCrossed(r.positions);
+{
+  // Where the strain is: the worst bars, as paper points.
+  const worst = m.bars
+    .map(([a, b, rest]) => [a, b, Math.abs(Math.hypot(...[0, 1, 2].map((k) => r.positions[b]![k]! - r.positions[a]![k]!)) - rest) / rest] as const)
+    .toSorted((p, q) => q[2] - p[2])
+    .slice(0, Number(process.env.WORST ?? 3));
+  for (const [a, b, s] of worst) console.log(`  strain ${s.toFixed(4)} at ${m.paper[a]!.map((n) => n.toFixed(2))} – ${m.paper[b]!.map((n) => n.toFixed(2))}`);
+}
 // Landmarks given as paper points `TRACK=x,y;x,y`: where each pair ended up
 // apart, against where the pressed state had them.
 for (const pair of (process.env.TRACK ?? '').split('|').filter(Boolean)) {
