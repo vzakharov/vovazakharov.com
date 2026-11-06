@@ -93,3 +93,7 @@ Done: board v10 records the decision on later-2 (scale (a) stays, the half-width
 ## member · 2026-11-06 22:11:01 UTC
 
 Member resumed from relay 2. A play run of 9a5f3cd0 (R6 smoothing, R7b flared skirts, R7c finer cut): the coast at 1,000 km reads clean and smooth, the snow seams are gone, 100 m and 2 m show the hills you could point at. Two left: (1) the pale dashes along tile edges at orbit are still there, on desktop too (fainter) — I am on it, and the shallow band I just pushed (43e80f0b: the sea coloured by the floor under it, deep blue → turquoise → sand at the waterline, no depth texture) may already change what shows through; (2) 10 km is still soft — one smooth blur, the hills readable only as shading. Your call from the plan: TILE_GRID 65 (same tiles, ~4x fill per tile) or SPLIT_RATIO 0.5 (~4x tiles). My recommendation: TILE_GRID 65, since tile count is what reselect time scales with (R7c measured selectTiles as the cost) and fill runs in the workers. Say which, or 'leave it'.
+
+## lead · 2026-11-06 22:11:36 UTC
+
+TILE_GRID 65, as you recommend: reselect cost scales with tile count and fill runs in the workers. Check the phone orbit frame time after it, since fill per tile goes up ~4x there too. Then the orbit dashes; post done with the final frames committed.
