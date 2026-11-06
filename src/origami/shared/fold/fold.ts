@@ -16,11 +16,18 @@ import {
   perpendicular,
   reflection,
   scale,
+  type Segment,
   side,
   splitConvex,
   type Vec,
 } from './geometry.ts';
-import { invertRigid, type Mat4, multiply, rotationAbout } from './space.ts';
+import {
+  differ,
+  invertRigid,
+  type Mat4,
+  multiply,
+  rotationAbout,
+} from './space.ts';
 import {
   adjacency,
   cut,
@@ -57,6 +64,9 @@ export type Step = {
   readonly tag?: string;
   /** For reverse folds: pieces carrying this tag form the lower half. */
   readonly lower?: string;
+  /** The share of its fold angle the crease keeps when the model is let go:
+   * 1 is pressed sharp. Overrides the paper's default for the fold's kind. */
+  readonly hold?: number;
 };
 
 /** A step, or a step computed from the state it folds. */
@@ -221,12 +231,6 @@ function flatFold(
   }
 }
 
-/** How far two shapings may differ, entry by entry, and still be one. */
-const SAME_SHAPING = 1e-6;
-const differ = (a: Mat4, b: Mat4): boolean =>
-  a.length !== b.length ||
-  a.some((x, i) => Math.abs(x - (b[i] ?? x)) > SAME_SHAPING);
-
 /** The shaping of the paper the flap stays joined to: where the crease is in
  * space. Throws when the pieces along the crease disagree, since then there is
  * no one crease to turn about. */
@@ -264,6 +268,12 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
   if (step.tag !== undefined) {
     for (const piece of moved) piece.tags.add(step.tag);
   }
+  const creases = hinges(state, line, movedIds).map(
+    ({ moved: piece, ends }): Segment => {
+      const toPaper = invert(piece.placement);
+      return [apply(toPaper, ends[0]), apply(toPaper, ends[1])];
+    },
+  );
 
   if (flat) flatFold(state, moved, line, step);
   else {
@@ -286,6 +296,8 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
     flat,
     moved: movedIds,
     lowerTag: step.lower,
+    creases,
+    hold: step.hold,
   });
   return state;
 }

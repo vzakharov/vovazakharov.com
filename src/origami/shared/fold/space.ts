@@ -9,7 +9,26 @@ export type Vec3 = readonly [number, number, number];
 /** A 4×4 affine matrix, column-major as three.js stores it. */
 export type Mat4 = readonly number[];
 
+export const sub3 = (a: Vec3, b: Vec3): Vec3 => [
+  a[0] - b[0],
+  a[1] - b[1],
+  a[2] - b[2],
+];
+export const dot3 = (a: Vec3, b: Vec3): number =>
+  a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+export const cross3 = (a: Vec3, b: Vec3): Vec3 => [
+  a[1] * b[2] - a[2] * b[1],
+  a[2] * b[0] - a[0] * b[2],
+  a[0] * b[1] - a[1] * b[0],
+];
+
 export const IDENTITY4: Mat4 = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+
+/** How far two shapings may differ, entry by entry, and still be one. */
+const SAME_SHAPING = 1e-6;
+export const differ = (a: Mat4, b: Mat4): boolean =>
+  a.length !== b.length ||
+  a.some((x, i) => Math.abs(x - (b[i] ?? x)) > SAME_SHAPING);
 
 function cell(m: Mat4, row: number, column: number): number {
   const x = m[column * 4 + row];

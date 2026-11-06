@@ -31,6 +31,7 @@ import {
   type FoldRecord,
   type FoldState,
   hinges,
+  isReverse,
   isUpper,
   layers,
   type Piece,
@@ -244,9 +245,6 @@ function sharpestTip(state: FoldState, record: FoldRecord): number | undefined {
   });
   return angles.length > 0 ? Math.min(...angles) * DEGREES : undefined;
 }
-
-const isReverse = (record: FoldRecord): boolean =>
-  record.direction === 'inside' || record.direction === 'outside';
 
 /** Where a paper point of `piece` lies in space, on no layer: layers stacked
  * apart are not a tear. */
