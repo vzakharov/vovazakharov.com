@@ -281,7 +281,7 @@ const FOOTER_BASELINE = 574;
 
 type Point = readonly [x: number, y: number];
 
-/** `aside` by hand in `ink` and the font already set, at `at` tilted by `tilt`. */
+/** Writes in whatever font the caller has set. */
 function writeByHand(
   context: CanvasRenderingContext2D,
   ink: string,
