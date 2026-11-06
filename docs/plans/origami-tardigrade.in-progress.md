@@ -533,6 +533,23 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   driving the flap rigidly to its pose, then a ramped seat; the nested crease
   wedge at x=0.3 (floor crease vertices ~0.76 gap deep into both neighbours)
   likely sets step 2's open pocket tip.
+- **Face-maw step 5, relay 11 — fixed by a hand** (`prototype/seq-hand/`). Not
+  the step data, the stack sides or the final-state mesh: a fold driven only by
+  its crease torque pushes back on the crease's own root, and step 5's root sits
+  one mesh edge from the book-fold corner, so it shoves o4 into o1 (its own
+  paper edge, reversed) from a 13° bend. Step 4 fails the same way when the base
+  is pressed harder; which one breaks depends on the free-edge gap the `OPEN`
+  share leaves. `HAND=k`: an outside spring pulls each vertex wholly on the flap
+  toward a rigid turn about the crease (axis fitted through its vertices, sense
+  from facing), at the ramp's share — the crease root takes no reaction. maw5 at
+  `HAND=50 OPEN=0.5 RAMP_STEP=6000 STEP_IT=12000`: 0 crossings every step, lag ≤
+  5°, let-go 0.97%; base3 and the plain ring stay clean. The full face-maw is
+  clean through step 7, then 63 crossings at step 8 (a mountain on
+  (0.25,0.45)–(0.45,0.25)), ~100 through 12, 500+ at 13–14 — undiagnosed;
+  suspect the single axis fitted across every flap layer. Port ~60 lines.
+  Pinning the staying paper, or its crease too, does not fix it; a slower ramp
+  alone is worse. The same hand is round 2's untried "drive the flap rigidly"
+  for the ring tuck.
 
 ## Left
 
