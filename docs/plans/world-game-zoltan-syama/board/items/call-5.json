@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "call-5",
-  "x": 2512,
-  "y": 357,
+  "x": 2582,
+  "y": 297,
   "text": "Two tiers: whole-map things (rivers to the sea, climate) computed once; everything finer a pure function of a tile's key",
   "color": "blue",
   "w": 244,
-  "updated": "2026-11-06T17:52:08.249Z",
+  "updated": "2026-11-06T21:20:00.000Z",
   "author": "agent:lead"
 }

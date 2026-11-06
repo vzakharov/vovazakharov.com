@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "star-7",
-  "x": 1053,
-  "y": 572,
+  "x": 1023,
+  "y": 612,
   "text": "Your own map: a drawing loaded in the browser becomes a world the same way",
   "color": "green",
   "w": 289,
-  "updated": "2026-11-06T17:52:08.249Z",
+  "updated": "2026-11-06T21:20:00.000Z",
   "author": "agent:lead"
 }

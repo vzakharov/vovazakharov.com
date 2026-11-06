@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "bite0-5",
-  "x": 2500,
-  "y": 1291,
+  "x": 2540,
+  "y": 1271,
   "text": "✓ The human contribution: the operator's words across sessions and reviews; lines of code per extension over time (cumflow)",
   "color": "orange",
   "w": 323,
-  "updated": "2026-11-06T18:27:30.000Z",
+  "updated": "2026-11-06T21:20:00.000Z",
   "author": "agent:lead"
 }

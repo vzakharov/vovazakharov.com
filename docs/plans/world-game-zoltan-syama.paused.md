@@ -19,6 +19,13 @@ is in git
   the board at a time. «не дело что раз за разом сессии лида об этом забывают» —
   `.claude/hooks/board-notice.py` names either call on every prompt until the
   session has made it.
+- «и надо на английском, будем же шарить в таймлапсе (то что уже выложил и
+  сфоткал отменять не надо, это тоже часть процесса)» — everything on the board
+  is in English, the operator's own words translated; a frame already published
+  and captured stays as it was.
+- «вмещающие прямоугольники … опять становятся слишком правильными и скучными по
+  расположению» — zones are placed off any grid, staggered and unequal in size,
+  as the stickies are; a new zone does not line up with its neighbours.
 - «надо postmortem и standing constraint чтобы этого избежать» — no `git pull`
   on this branch or a bite's, `--ff-only` included: integrate with
   `git fetch origin <b> && git merge origin/<b>`, naming the ref. A pull merges

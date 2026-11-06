@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "bite0-3",
-  "x": 2805,
-  "y": 1047,
+  "x": 2845,
+  "y": 1027,
   "text": "✓ scripts/memo/memo.py: lead/member, one channel per branch",
   "color": "orange",
   "w": 325,
-  "updated": "2026-11-06T18:27:30.000Z",
+  "updated": "2026-11-06T21:20:00.000Z",
   "author": "agent:lead"
 }

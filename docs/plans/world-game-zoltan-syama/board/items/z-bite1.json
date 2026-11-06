@@ -1,12 +1,12 @@
 {
   "kind": "zone",
   "id": "z-bite1",
-  "x": 3240,
-  "y": 960,
+  "x": 3350,
+  "y": 1050,
   "w": 740,
-  "h": 640,
+  "h": 600,
   "title": "Bite 1 — the thinnest descent",
   "color": "pink",
-  "updated": "2026-11-06T18:27:30.000Z",
+  "updated": "2026-11-06T21:20:00.000Z",
   "author": "agent:lead"
 }

@@ -1,0 +1,124 @@
+{
+  "total": {
+    "inputTokens": 1298,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 143874,
+    "cacheReadTokens": 8246764,
+    "outputTokens": 19690,
+    "thinkingTokens": 3619,
+    "responses": 60,
+    "costUsd": 3.194411100000001
+  },
+  "estimate": {
+    "at": "2026-11-06T21:00:55.168Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "judging a member's final frames against the drawing, merging its bite and publishing the preview is the producer's gate on a team's first bite"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T21:00:52.093Z",
+    "contextTokens": 113924,
+    "spend": {
+      "inputTokens": 21,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56344,
+      "cacheReadTokens": 1005667,
+      "outputTokens": 2364,
+      "thinkingTokens": 286,
+      "responses": 10,
+      "costUsd": 0.6992494
+    }
+  },
+  "sessionId": "acf1c686-742b-52f2-8c53-90628ffce0ac",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — постмортем и хук для доски готовы, доска v6 с вопросом про масштаб, бит 1 доводит берег",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEkxyKVWPKjeMtCJei",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T21:00:20.923Z",
+  "lastResponseAt": "2026-11-06T21:07:07.600Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 120,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 143874,
+    "cacheReadTokens": 8246764,
+    "outputTokens": 19673,
+    "thinkingTokens": 3619,
+    "responses": 59,
+    "costUsd": 3.194284800000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 120,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 143874,
+      "cacheReadTokens": 8246764,
+      "outputTokens": 19673,
+      "thinkingTokens": 3619,
+      "responses": 59,
+      "costUsd": 3.194284800000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1178,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 17,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001263
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 60,
+    "matched": 59,
+    "matchedTableUsd": 3.194284800000001,
+    "matchedEventUsd": 3.194284800000001,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1178,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 17,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001263
+      }
+    }
+  },
+  "operatorWords": 44,
+  "branchLines": {
+    ".md": 1839,
+    ".py": 1123,
+    ".json": 517,
+    ".webp": 0,
+    ".ts": 2128,
+    ".css": 412,
+    ".sh": 1,
+    ".png": 0
+  }
+}

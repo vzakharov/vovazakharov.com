@@ -25,11 +25,11 @@ export function jitter(id: string, salt = ''): number {
   return ((hash >>> 0) / 2 ** 32) * 2 - 1;
 }
 
-/** Degrees at most, per kind: paper tilts freely, a zone barely, a heading not at all. */
+/** Degrees at most, per kind: paper tilts freely, a zone less, a heading not at all. */
 const MAX_TILT = {
   sticky: 2.6,
   image: 2,
-  zone: 0.5,
+  zone: 1.2,
   text: 0,
 } as const satisfies Record<PlacedItem['kind'], number>;
 

@@ -24,9 +24,9 @@ describe('jitter', () => {
 });
 
 describe('tiltOf', () => {
-  it('keeps headings straight and zones nearly so', () => {
+  it('keeps headings straight and zones within their tilt', () => {
     assert.equal(tiltOf('title', 'text'), 0);
-    assert.ok(Math.abs(tiltOf('z-star', 'zone')) <= 0.5);
+    assert.ok(Math.abs(tiltOf('z-star', 'zone')) <= 1.2);
     assert.ok(Math.abs(tiltOf('star-1', 'sticky')) <= 2.6);
   });
 });

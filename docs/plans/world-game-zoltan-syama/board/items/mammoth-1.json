@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "mammoth-1",
-  "x": 1052,
-  "y": 1073,
+  "x": 992,
+  "y": 1093,
   "text": "A lead session holds the plan and the PR; members are separate cloud sessions, one bite each",
   "color": "yellow",
   "w": 249,
-  "updated": "2026-11-06T17:52:08.249Z",
+  "updated": "2026-11-06T21:20:00.000Z",
   "author": "agent:lead"
 }
