@@ -22,6 +22,15 @@ export const TILE_SQUARE = 16_384_000;
 /** The deepest level: 18 puts a 33-vertex grid's spacing at ~1.95 m. */
 export const MAX_LEVEL = 18;
 
+/** The shallowest level drawn: 64 tiles, 64 km cells, so the coast reads from orbit. */
+export const MIN_LEVEL = 3;
+
+/**
+ * A tile splits while its side exceeds this share of its distance from the
+ * eye, so it keeps roughly the same angular size at every height.
+ */
+export const SPLIT_RATIO = 1;
+
 /** Vertices along a tile's side; `TILE_GRID - 1` cells, a power of two. */
 export const TILE_GRID = 33;
 
