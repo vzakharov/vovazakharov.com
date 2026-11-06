@@ -81,16 +81,33 @@ its inverse and should too (the first attempt had wrong lines). The bird, frog
 and fish bases need squash, petal and rabbit-ear folds, which the engine does
 not have.
 
-Asked the operator (no answer yet): (1) a blintzed waterbomb base, folded with
-what the engine has — the blintz's four flaps plus the base's four make eight
-legs — recommended; or (2) teach the engine squash and petal folds first, for
-the frog or bird base.
+The agent drew three targets,
+`docs/remove-before-merging/origami-volume-c79y3i/tardigrade-sketches.svg`
+(dome, rings, plush ¾). The operator: «выбор схемы за тобой, если это будет
+выглядеть как любое предложенное тобой (объёмное, замкнутое, с ножками, в идеале
+и с намёком на морду тихоходки, то уже хорошо :)». Chosen: **1, the dome**, from
+a blintzed waterbomb base (blintz, book fold along `y = x`, then inside reverse
+folds along `x = 0.5` and `y = 0.5`) — it folds clean in the engine, 12 pieces,
+a right triangle with the right angle at `(0.5, 0.5)`. Fold it colored side
+down, so the blintz flaps show the front.
+
+**What the engine cannot do: close a volume.** A shaping fold turns one flap
+about one line, the flap being everything joined to it off that line. Any closed
+body has a vertex where several non-flat creases meet, so the paper around it is
+one loop and no single line cuts a flap off it (v1's tent was open-ended for
+exactly this reason). The volume therefore comes from the springback solver on
+`claude/origami-springback` (#254): fold the dome flat — legs and snout as
+reverse folds, all flat and legal — then let the creases spring open, which is
+how a real waterbomb gets its volume too.
 
 ## Left
 
-1. The operator's pick above; build from that base, rendering and showing each
-   stage.
-2. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
+1. Bring the solver into this branch (merge `claude/origami-springback`, or
+   rebase this branch onto it), and close #254 in favor of #253.
+2. The dome flat: the blintzed waterbomb base, eight legs out of its eight flaps
+   by reverse folds, a snout at one end; render each stage.
+3. Inflate it with the solver; judge by the shadow and the head-on view.
+4. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
    solver — rewrite them).
 
 ## DRY notes
