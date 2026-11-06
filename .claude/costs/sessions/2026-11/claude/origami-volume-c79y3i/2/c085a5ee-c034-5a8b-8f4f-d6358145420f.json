@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 119,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 257567,
+    "cacheReadTokens": 14059673,
+    "outputTokens": 116957,
+    "thinkingTokens": 60780,
+    "responses": 64,
+    "costUsd": 7.212086599999999
+  },
+  "estimate": {
+    "at": "2026-11-06T09:37:25.791Z",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "meshing a folded state, the hinge gradient and a FIRE solver with contact, debugged until a fold settles to its angle, is numerical code a senior writes"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/plans/origami-volume.in-progress.md",
+    "endedAt": "2026-11-06T09:05:16.119Z",
+    "contextTokens": 120327,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 67477,
+      "cacheReadTokens": 917169,
+      "outputTokens": 2328,
+      "thinkingTokens": 355,
+      "responses": 9,
+      "costUsd": 0.7698858
+    }
+  },
+  "sessionId": "c085a5ee-c034-5a8b-8f4f-d6358145420f",
+  "branch": "claude/origami-volume-c79y3i",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go claude/origami-volume-c79y3i",
+  "prs": [
+    253
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFaG5aoDYkBPBKDma9",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T09:04:42.119Z",
+  "lastResponseAt": "2026-11-06T09:38:10.726Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 119,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 257567,
+    "cacheReadTokens": 14059673,
+    "outputTokens": 116957,
+    "thinkingTokens": 60780,
+    "responses": 64,
+    "costUsd": 7.212086599999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 119,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 257567,
+      "cacheReadTokens": 14059673,
+      "outputTokens": 116957,
+      "thinkingTokens": 60780,
+      "responses": 64,
+      "costUsd": 7.212086599999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 64,
+    "matched": 64,
+    "matchedTableUsd": 7.212086599999999,
+    "matchedEventUsd": 7.2120866,
+    "unseen": {}
+  }
+}
