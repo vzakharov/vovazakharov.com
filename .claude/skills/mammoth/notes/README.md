@@ -1,8 +1,9 @@
-# megabeast — notes toward a skill
+# mammoth — notes toward a skill
 
-Not a skill yet: no `SKILL.md`, so nothing loads it. The working name is for the
-skill that would run a whole elephant autonomously — plan, then per bite `/go` →
-`/relay` review → `/relay /handle` → … → `/relay /finalize` — the loop
+Not a skill yet: no `SKILL.md`, so nothing loads it. The working name —
+`megabeast` in the operator's words below — is for the skill that would run a
+whole elephant autonomously — plan, then per bite `/go` → `/relay` review →
+`/relay /handle` → … → `/relay /finalize` — the loop
 `docs/plans/mushroom-game-syama.*.md` § "How this elephant is eaten" spelled out
 by hand for PR #57. Every session in that chain adds what it found that would
 make the loop repeatable and better, at its end and before its relay; the
@@ -23,7 +24,7 @@ Each note: what happened, and what the skill should do about it.
 A note goes in the file for its theme. A file nearing ~450 lines is condensed
 first, and split along a seam only when condensing is not enough; a new file
 gets a row here. The single file these replaced is recorded in
-`.claude/skills/megabeast/notes.retired.md`.
+`.claude/skills/mammoth/notes.retired.md`.
 
 - **[contract.md](contract.md)** — the loop's contract: the plan as its home,
   standing rules, the model, operator input mid-run

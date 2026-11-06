@@ -61,15 +61,15 @@ is in git
   2000 px wide). The first, "how it all began", holds the 3,120 h forecast by
   role, unchanged, for the comparison at the end.
 
+- **The channel** — `scripts/memo/memo.py`, `--as lead|member`, `memo.md` in the
+  bite branch's working directory; the lead waits on every open bite with one
+  `wait --branch A --branch B`. Not built: a forward after a handoff (the
+  predecessor's note on the lead's own branch is one only `show` reads, since
+  `wait` prints the other side's notes); `send_message` stays the wake.
+- **The notes** — `.claude/skills/mammoth/notes/`, renamed from `megabeast`.
+
 ## Rest of the bite — bite 0, the lead's own
 
-2. **`scripts/memo.py`**, ported with its traps intact; sides `lead`/`member`,
-   one channel per branch, `wait` over several branches. An operator message
-   reaching a session after it handed off is written into the branch's memo, for
-   the record, and the successor woken by `send_message`, which a memo cannot
-   do.
-3. **`.claude/skills/megabeast/` → `.claude/skills/mammoth/`**, every pointer
-   with it.
 4. **The human-contribution report** — partly eaten: `pnpm contribution lines`
    gives the cumulative-flow CSV, and every cost row now carries `operatorWords`
    and `branchLines` (the Stop hook writes them each turn, so

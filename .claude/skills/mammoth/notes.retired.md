@@ -1,6 +1,6 @@
 # `notes.md` — retired
 
-The megabeast notes outgrew one file and became the directory
+The mammoth notes outgrew one file and became the directory
 [`notes/`](notes/README.md): its `README.md` carries the preamble and the index,
 one file per theme beside it, with repeated entries merged.
 

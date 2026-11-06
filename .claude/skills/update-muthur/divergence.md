@@ -91,7 +91,7 @@ record" holds the three rules this file keeps.
 - **`.claude/skills/plan/SKILL.md`** — the handoff offers both a fresh session
   and a go-ahead in this one, neither as the rule.
 - **`.claude/skills/plan/elephant.md`** — points unattended runs at
-  `.claude/skills/megabeast/notes/README.md`, this repo's own.
+  `.claude/skills/mammoth/notes/README.md`, this repo's own.
 - **`.claude/skills/preview/SKILL.md`** — hydrated for this stack where the
   source ships a stub.
 - **`.claude/skills/take-issue/SKILL.md`** — two accommodations that make a
