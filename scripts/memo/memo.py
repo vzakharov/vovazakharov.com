@@ -63,6 +63,8 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 ROOT = Path(__file__).resolve().parents[2]
+# Beside this file rather than under ROOT, which tests point at a temporary clone.
+WORKING_DIR = Path(__file__).resolve().parents[1] / "working-dir.sh"
 SIDES = ("lead", "member")
 HEADER = re.compile(r"^## (lead|member) · ", re.MULTILINE)
 POLL = 20.0
@@ -103,7 +105,8 @@ def channel(branch: str) -> str:
     >>> channel("claude/island-descent-x1")
     'docs/remove-before-merging/island-descent-x1/memo.md'
     """
-    return f"docs/remove-before-merging/{branch.removeprefix('claude/')}/memo.md"
+    done = subprocess.run([str(WORKING_DIR), branch], capture_output=True, text=True, check=True)
+    return f"{done.stdout.strip()}/memo.md"
 
 
 def attachments(branch: str) -> str:
