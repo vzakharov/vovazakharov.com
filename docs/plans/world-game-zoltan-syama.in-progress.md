@@ -75,8 +75,10 @@ is in git
 
 ## Rest of the bite — bite 0, the lead's own
 
-5. **The first step toward the star** and its member — likely the thinnest
-   descent from orbit to the ground; its contract a file beside this one.
+5. **The first step toward the star** and its member — the thinnest descent from
+   orbit to the ground, its contract
+   `docs/plans/world-game-zoltan-syama/bite-1.md`, built on
+   `island/bite-1-descent`.
 
 ## Rest of the elephant
 

@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 14,
+    "inputTokens": 48,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 49280,
-    "cacheReadTokens": 561153,
-    "outputTokens": 1215,
-    "thinkingTokens": 223,
-    "responses": 6,
-    "costUsd": 0.5308266
+    "cacheWrite1hTokens": 119569,
+    "cacheReadTokens": 3063801,
+    "outputTokens": 10468,
+    "thinkingTokens": 3627,
+    "responses": 23,
+    "costUsd": 1.7788642
   },
   "estimate": {
     "at": "2026-11-06T18:24:36.812Z",
@@ -22,41 +22,43 @@
     "comment": null
   },
   "orientation": {
-    "endedBy": null,
-    "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedBy": "Write",
+    "endedOn": "docs/plans/world-game-zoltan-syama/bite-1.md",
+    "endedAt": "2026-11-06T18:25:53.173Z",
+    "contextTokens": 175089,
     "spend": {
-      "inputTokens": 14,
+      "inputTokens": 42,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 49280,
-      "cacheReadTokens": 561153,
-      "outputTokens": 1215,
-      "thinkingTokens": 223,
-      "responses": 6,
-      "costUsd": 0.5308266
+      "cacheWrite1hTokens": 114682,
+      "cacheReadTokens": 2538580,
+      "outputTokens": 7493,
+      "thinkingTokens": 3327,
+      "responses": 20,
+      "costUsd": 1.5752
     }
   },
   "sessionId": "4cd6d592-d15e-531b-86ef-53d83e323703",
   "branch": "claude/world-game-zoltan-syama-hodowq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — memo, переименование в mammoth и отчёт о вкладе готовы; первый бит с исполнителем ещё не начат",
-  "prs": [],
+  "prs": [
+    255
+  ],
   "url": "https://claude.ai/code/session_01DaohkDnbB6vFsaUrHvR1KB",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T18:24:20.204Z",
-  "lastResponseAt": "2026-11-06T18:24:35.796Z",
+  "lastResponseAt": "2026-11-06T18:26:19.572Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 14,
+    "inputTokens": 48,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 49280,
-    "cacheReadTokens": 561153,
-    "outputTokens": 1215,
-    "thinkingTokens": 223,
-    "responses": 6,
-    "costUsd": 0.5308266
+    "cacheWrite1hTokens": 119569,
+    "cacheReadTokens": 3063801,
+    "outputTokens": 10468,
+    "thinkingTokens": 3627,
+    "responses": 23,
+    "costUsd": 1.7788642
   },
   "subagents": {
     "inputTokens": 0,
@@ -70,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 14,
+      "inputTokens": 48,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 49280,
-      "cacheReadTokens": 561153,
-      "outputTokens": 1215,
-      "thinkingTokens": 223,
-      "responses": 6,
-      "costUsd": 0.5308266
+      "cacheWrite1hTokens": 119569,
+      "cacheReadTokens": 3063801,
+      "outputTokens": 10468,
+      "thinkingTokens": 3627,
+      "responses": 23,
+      "costUsd": 1.7788642
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 6,
-    "matched": 6,
-    "matchedTableUsd": 0.5308266,
-    "matchedEventUsd": 0.5308266,
+    "events": 22,
+    "matched": 22,
+    "matchedTableUsd": 1.7267762,
+    "matchedEventUsd": 1.7267762,
     "unseen": {}
   },
   "operatorWords": 0,
