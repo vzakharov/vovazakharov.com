@@ -111,7 +111,10 @@ export function simulator(mesh: Mesh, paper: Paper, x0: Float64Array) {
     tolerance: number,
     /** Contact pairs left out until iteration `until`. */
     suspended?: { readonly skip: (v: number, t: number) => boolean; readonly until: number },
+    /** Friction for this phase; `FRICTION` when left out. */
+    friction = Number(process.env.FRICTION ?? 0),
   ): Phase => {
+    touch.rubAt(friction);
     from.set(tracked);
     target.set(goals);
     v.fill(0);

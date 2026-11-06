@@ -107,6 +107,8 @@ if (process.env.ONESHOT) {
 } else {
   const sim = simulator(m, paper, Float64Array.from(m.paper.flatMap(([px, py]) => [px, py, 0])));
   const holdStep = process.env.HOLDSTEP === '1';
+  let before = new Float64Array(m.hinges.length);
+  let previous: Parameters<typeof sim.restack>[0] = m;
   for (let k = 1; k <= steps.length; k++) {
     const pose = run(steps, k);
     const { stack, angles, ofTri, around } = poseOf(pose);
@@ -115,8 +117,43 @@ if (process.env.ONESHOT) {
       // alone keeps its earlier goal.
       for (const [h, hinge] of m.hinges.entries()) if (hinge.crease) angles[h] = (angles[h] ?? 0) * Math.abs(hinge.angle / hinge.start);
     }
-    sim.restack(stack);
+    // With OLDSTACK, an opened reverse fold keeps the last state's sides while
+    // open and takes the new ones only as it is pressed.
+    sim.restack(process.env.OLDSTACK && process.env.OPEN !== undefined && (steps[k - 1]!.direction === 'inside' || steps[k - 1]!.direction === 'outside') ? previous : stack);
     const t = Date.now();
+    // A reverse fold cannot turn rigidly while the creases it crosses stay
+    // pressed: with OPEN=f the hand opens each pressed crease this step leaves
+    // alone to f of its angle, reverses, then presses all flat again.
+    const step = steps[k - 1]!;
+    const opening =
+      process.env.OPEN !== undefined &&
+      (step.direction === 'inside' || step.direction === 'outside') &&
+      (process.env.OPEN_STEPS ?? String(k)).split(',').includes(String(k));
+    const full = Float64Array.from(angles);
+    // OPEN_ALL lists the steps that go instead through f of every crease's
+    // angle after the step: the whole vertex half collapsed, then pressed.
+    // WAY=1 takes every reverse fold that way, from f of the state before it.
+    const whole = process.env.WAY === '1' || (process.env.OPEN_ALL ?? '').split(',').includes(String(k));
+    if (opening) {
+      let opened = 0;
+      for (const [h, hinge] of m.hinges.entries()) {
+        const a = angles[h] ?? 0;
+        if (hinge.crease && (whole || (Math.abs(a) > Math.PI / 2 && Math.abs(a - (before[h] ?? 0)) < 1e-6))) {
+          angles[h] = a * (whole ? env('OPEN_ALL_F', env('OPEN', 0.5)) : env('OPEN', 0.5));
+          opened++;
+        }
+      }
+      console.log(`  open: ${opened} pressed hinges to ${env('OPEN', 0.5)}`);
+      if (process.env.WAY === '1') {
+        // The model as it was, unfolded to f, on the sides it had.
+        const f = env('OPEN_ALL_F', env('OPEN', 0.5));
+        const pre = Float64Array.from(m.hinges, (hinge, h) => (hinge.crease ? (before[h] ?? 0) * f : 0));
+        sim.restack(previous);
+        const p0 = sim.phase(pre, env('RAMP_STEP', 2000), env('STEP_IT', 8000), env('STEP_TOL', 1e-4), undefined, env('STEP_FRICTION', env('FRICTION', 0)));
+        console.log(`  unfolded iters ${p0.iterations} strain ${sim.strain().toFixed(4)} crossings ${sim.crossings()}`);
+        sim.restack(stack);
+      }
+    }
     // A tuck slides its flap under the layers stacked above it, a hand holding
     // them up: flap and lid do not touch until the flap is down.
     let suspended: { skip: (v: number, t: number) => boolean; until: number } | undefined;
@@ -134,8 +171,40 @@ if (process.env.ONESHOT) {
         until: env('LIFT_UNTIL', Infinity),
       };
       console.log(`  tuck: flap tris ${tri.filter((c) => c === 1).length}, lid tris ${tri.filter((c) => c === 2).length}`);
+      if (process.env.LIDOPEN) {
+        // The hand lifts the lid: each crease joining it to the layers it
+        // stays with opens to LIDOPEN of its angle until the seat.
+        const at = new Map(m.triangles.map((t, i) => [[...t].toSorted((p, q) => p - q).join(), i]));
+        const of = (...vs: number[]) => tri[at.get(vs.toSorted((p, q) => p - q).join()) ?? -1];
+        let lifted = 0;
+        for (const [h, hinge] of m.hinges.entries()) {
+          const [l, r] = [of(hinge.a, hinge.b, hinge.c), of(hinge.b, hinge.a, hinge.d)];
+          if (hinge.crease && (l === 2) !== (r === 2) && l !== 1 && r !== 1) {
+            angles[h] = (angles[h] ?? 0) * env('LIDOPEN', 0.7);
+            lifted++;
+          }
+        }
+        console.log(`  lid: ${lifted} hinges opened`);
+      }
     }
-    const ph = sim.phase(angles, env('RAMP_STEP', 2000), env('STEP_IT', 8000), env('STEP_TOL', 1e-4), suspended);
+    // A tuck step slides free (the hand lifting the lid): TUCK_FRICTION, 0.
+    const rubbing = steps[k - 1]!.direction === 'tuck' ? env('TUCK_FRICTION', 0) : env('STEP_FRICTION', env('FRICTION', 0));
+    let ph = sim.phase(angles, env('RAMP_STEP', 2000), env('STEP_IT', 8000), env('STEP_TOL', 1e-4), suspended, rubbing);
+    if (suspended && process.env.SEAT !== '0') {
+      // The hand lowers the lid onto the flap and presses, still sliding free:
+      // the flap and lid meet on the sides the stack gives them.
+      console.log(`  tucked iters ${ph.iterations} crossings ${sim.crossings()}`);
+      angles.set(full);
+      ph = sim.phase(angles, process.env.LIDOPEN ? env('RAMP_STEP', 2000) : 1, env('SEAT_IT', 8000), env('STEP_TOL', 1e-4), undefined, rubbing);
+    }
+    if (opening) {
+      console.log(`  opened iters ${ph.iterations} strain ${sim.strain().toFixed(4)} crossings ${sim.crossings()}`);
+      angles.set(full);
+      sim.restack(stack);
+      ph = sim.phase(angles, env('RAMP_STEP', 2000), env('STEP_IT', 8000), env('STEP_TOL', 1e-4), undefined, rubbing);
+    }
+    before = full;
+    previous = stack;
     // How far the creases got: the worst lag behind their goal, in degrees.
     let lag = 0;
     for (const [h, hinge] of m.hinges.entries()) {

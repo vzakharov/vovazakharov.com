@@ -195,6 +195,8 @@ export type Contact = {
   /** Leaves out the pairs `pairs` names (vertex, triangle) until called with
    * nothing: a pocket's lid held up while a flap slides under it. */
   suspend: (pairs: ((v: number, t: number) => boolean) | undefined) => void;
+  /** Sets the friction coefficient for the pushes that follow. */
+  rubAt: (level: number) => void;
 };
 
 export function contact(mesh: Mesh, gap: number, stiffness: number): Contact {
@@ -328,7 +330,7 @@ export function contact(mesh: Mesh, gap: number, stiffness: number): Contact {
     }
     const off = Math.hypot(d[0] ?? 0, d[1] ?? 0, d[2] ?? 0);
     let pull = SHEAR * stiffness;
-    const limit = BOND ? Infinity : FRICTION * Math.abs(normal);
+    const limit = BOND ? Infinity : friction * Math.abs(normal);
     if (pull * off > limit) {
       // Slip: the anchor follows the foot to where the spring holds `limit`.
       const keep = limit / (pull * off);
@@ -411,19 +413,26 @@ export function contact(mesh: Mesh, gap: number, stiffness: number): Contact {
         f[3 * j + axis] = (f[3 * j + axis] ?? 0) - back * w1;
         f[3 * k + axis] = (f[3 * k + axis] ?? 0) - back * w2;
       }
-      if (FRICTION > 0 || BOND) rub(x, f, key, v, [i, j, k], magnitude);
+      if (friction > 0 || BOND) rub(x, f, key, v, [i, j, k], magnitude);
+      else anchors.delete(key);
     }
   };
 
   const restack = (next: Stack) => {
     stack = next;
   };
+  /** The friction coefficient now: a phase sets it (0 while a hand slides a
+   * flap in). Without friction no anchor is kept, so one comes back fresh. */
+  let friction = FRICTION;
+  const rubAt = (level: number) => {
+    friction = level;
+  };
   let skip: ((v: number, t: number) => boolean) | undefined;
   const suspend = (pairs: typeof skip) => {
     skip = pairs;
   };
 
-  return { refresh, push, stats, restack, suspend };
+  return { refresh, push, stats, restack, suspend, rubAt };
 }
 
 /**
