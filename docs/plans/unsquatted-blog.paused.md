@@ -75,25 +75,22 @@ Cyber Monday, each with its names run through the naming runbook into the
 catalogue, its widgets, its card and the Unnamed's reflection, written to the
 tone bite 1 settled. Then `/finalize`, and a merge by 10.11.
 
-## This bite
-
-**Bite 2 — the `.si` post, and a blog no longer only for holidays.**
-
-- **The copy stops promising holidays only**: the index's description and the
-  Unnamed's intro line (`en.json` § `blog`), and the line in
-  `personas/unnamed/unnamed.md` on whom he does not laugh at. The occasion stays
-  required in the frontmatter (the operator: «occasion тут есть, просто он не
-  праздник»), so no code changes.
-- **The post**, `sites/unsquatted/public/blog/<slug>.md`, dated before Singles’
-  Day's 2026-11-09 so it reads first, `occasion: { name, date: 2026-10-27 }`.
-  Facts checked first: the post itself, `.si`'s rules and prices, Anguilla's
-  `.ai` revenue, and the registration counts if a source gives them.
-- **Names**: a naming run per the runbook into `picks.yaml` with `post:`, a
-  `domains` list and a `name` widget (the card needs both).
-- **Its card** through `render-og.ts`, and the Unnamed's reflection beside it.
-- Republish the preview; the operator reads it there.
-
 ## Eaten so far
+
+Bite 2, in part (the `.si` post and a blog not only for holidays):
+
+- **The copy names headlines beside holidays** (`en.json` § `blog`, and the line
+  in `personas/unnamed/unnamed.md` on whom he does not laugh at). The occasion
+  stays required (the operator: «occasion тут есть, просто он не праздник»).
+- **The post**, `sites/unsquatted/public/blog/super-intelligence.md` ("Slovenia
+  Didn’t Ask for This", dated 2026-11-07, occasion `27.10 · AI becomes SI`),
+  facts from the registry's own daily chart and the press, the Unnamed's being
+  six weeks late as its joke; five `.si` picks with `post: super-intelligence`;
+  `name` widgets for `super` and `superintelligence` in `si,ai,com`; its card;
+  the Unnamed's reflection beside it, and his rule file amended by it.
+- **Post cards set the title at 36px, balanced** (`titled` in
+  `unsquatted-card.ts`), so the title holds one line; the operator asked for
+  that over a shorter title.
 
 Bite 1, in part:
 
@@ -177,10 +174,20 @@ Bite 1, in part:
 
 Left:
 
+- **Merge `main` in** (`/sync-branch`): the PR is `CONFLICTING`, and `main`
+  rebuilt the share card (#248: a popover showing the card; #250: the typed
+  domain drawn even taken), in files this branch moved to `widgets/field-tools`.
+- **A widget's "Copy as image" copies the widget as drawn**, not the standard
+  card (the operator: «должен копировать именно то что нарисовано, а не
+  стандартный»). Today it is disabled where no listed domain is free, the
+  `single` widget's case. Proposed: a DOM snapshot of the figure (e.g.
+  `modern-screenshot`), share menu and hearts left out, or the widget drawn on
+  `main`'s canvas card; the operator has not chosen.
+- **The index's subtitle** ", by the Unnamed of Unsquatted" reads poorly to the
+  operator; options offered, none chosen.
 - `/polish full`, then `/pr` (refresh the body and squash proposal: the slots
-  deviation, the new article slots, the card seam, `compileBody`).
-- **No live preview**: the operator said another branch is using it. Look on the
-  dev server only.
+  deviation, the new article slots, the card seam, `compileBody`, the `.si`
+  post, no embargo or daily deploy).
 
 The headings below are the original contract; where `## Eaten so far` says
 otherwise, it wins.
