@@ -67,9 +67,29 @@ render before claiming anything.**
     is at most half a pleat's depth wide. Turned inward, or on an uncurled
     vertical side, a corner only rises — both tried and rendered.
 
+## Rejected: v1 is not origami
+
+The operator on v1: «просто сложить листик бумаги в 5 раз и назвать это
+тихоходкой -- так не покатит … посмотри какие-то "ключи" -- базовые формы, из
+которых в оригами обычно складывается дальше». The design starts over from a
+classic base.
+
+What the engine reaches today, checked by folding (`tmp/tg/bases.ts`, gone with
+the container): the **kite** (two valley folds) and the **waterbomb base** (book
+fold, then both top corners inside-reversed) fold clean; the preliminary base is
+its inverse and should too (the first attempt had wrong lines). The bird, frog
+and fish bases need squash, petal and rabbit-ear folds, which the engine does
+not have.
+
+Asked the operator (no answer yet): (1) a blintzed waterbomb base, folded with
+what the engine has — the blintz's four flaps plus the base's four make eight
+legs — recommended; or (2) teach the engine squash and petal folds first, for
+the frog or bird base.
+
 ## Left
 
-1. Show the operator the render; tune by their eye (proportions, head).
+1. The operator's pick above; build from that base, rendering and showing each
+   stage.
 2. `/polish`, `/pr` (#253's title and body still describe the basilisk and the
    solver — rewrite them).
 
