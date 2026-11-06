@@ -33,6 +33,8 @@ Traps:
   to the new commit, and a `wait` that wakes integrates the same way. A `HEAD`
   that diverged further is left as it is, with a warning, and the note goes on
   `origin`'s tip: integrating that is the session's ordinary `git pull`.
+- **A fetch leaves `FETCH_HEAD` alone**, which a session's `git pull` in the same
+  checkout merges: written by a poll, it would merge the polled branch.
 - **A push that loses a race is rebuilt**, up to `RETRIES` times, on the tip the
   other side just pushed: notes only ever append, so rebuilding cannot
   conflict.
@@ -167,7 +169,10 @@ def fetch(branch: str) -> Optional[str]:
     branch."""
     ref = f"refs/remotes/origin/{branch}"
     done = subprocess.run(
-        ["git", "fetch", "-q", "origin", f"+refs/heads/{branch}:{ref}"], capture_output=True, text=True, cwd=ROOT
+        ["git", "fetch", "-q", "--no-write-fetch-head", "origin", f"+refs/heads/{branch}:{ref}"],
+        capture_output=True,
+        text=True,
+        cwd=ROOT,
     )
     if done.returncode != 0:
         if "couldn't find remote ref" in done.stderr:
