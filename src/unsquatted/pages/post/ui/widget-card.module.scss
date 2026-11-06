@@ -130,6 +130,47 @@
   color: var(--color-accent);
 }
 
+// A card's image: the card on the page's background, drawn offscreen with the
+// heart and the share left out, since an image can press neither. The domain
+// takes the heart's column.
+.frame {
+  position: fixed;
+  top: 0;
+  left: -200vw;
+  box-sizing: content-box;
+  padding: 24px;
+  background: var(--color-background);
+
+  .card {
+    margin: 0;
+  }
+
+  .like,
+  .share {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto 9rem;
+
+    > :nth-child(3) {
+      grid-column: 2;
+    }
+
+    > :nth-child(4) {
+      grid-column: 3;
+    }
+
+    @include mantine.smaller-than(mantine.$breakpoint-sm) {
+      grid-template-columns: minmax(0, 1fr) auto;
+
+      > :nth-child(4) {
+        grid-column: 2;
+      }
+    }
+  }
+}
+
 .share {
   display: inline-flex;
   gap: 6px;

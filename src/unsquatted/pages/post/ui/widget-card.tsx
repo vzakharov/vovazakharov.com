@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { type ReactNode, useRef } from 'react';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
@@ -13,15 +13,10 @@ import {
   zoneOf,
 } from '@/unsquatted/entities/domain';
 import { LikeButton, LikesProvider } from '@/unsquatted/features/like';
-import {
-  cardLead,
-  cardRows,
-  cardText,
-  shareCard,
-  SharePopover,
-} from '@/unsquatted/widgets/field-tools';
+import { SharePopover } from '@/unsquatted/widgets/field-tools';
 
 import { checkerHref } from '../lib/checker-href';
+import { snapshot } from './snapshot';
 import classes from './widget-card.module.scss';
 
 type WidgetCardProps = CopiedPrices & {
@@ -29,7 +24,7 @@ type WidgetCardProps = CopiedPrices & {
   anchor: string;
   /** What the card is headed with: a label, or the word in a field. */
   head: ReactNode;
-  /** The word an image card of the widget is headed with. */
+  /** The word the widget's image is named for. */
   cardName: string;
   domains: readonly string[];
   /** The line under the rows, if any. */
@@ -55,10 +50,10 @@ function Card({
 }: WidgetCardProps) {
   const verdicts = useVerdicts(domains);
   const looking = verdicts.size < domains.length;
-  const shared = cardLead(domains, domains, { verdicts });
+  const figureRef = useRef<HTMLElement>(null);
 
   return (
-    <figure id={anchor} className={classes['card']}>
+    <figure ref={figureRef} id={anchor} className={classes['card']}>
       {head}
       <ul className={classes['rows']}>
         {domains.map((domain) => (
@@ -93,24 +88,13 @@ function Card({
           label={cardName}
           labelled
           className={classes['share']}
-          drawCard={
-            shared === undefined
-              ? undefined
-              : async () =>
-                  shareCard(
-                    cardName,
-                    undefined,
-                    cardRows({
-                      typed: undefined,
-                      shared,
-                      siblings: domains,
-                      liked: undefined,
-                      verdicts,
-                      prices,
-                    }),
-                    cardText(copy),
-                  )
-          }
+          drawCard={async () => {
+            const figure = figureRef.current;
+            if (figure === null)
+              throw new Error(`The widget ${anchor} is not on the page`);
+
+            return snapshot(figure, classes['frame'], cardName);
+          }}
           onReached={() => {
             // Every domain is looked up on render: nothing waits to be asked.
           }}
