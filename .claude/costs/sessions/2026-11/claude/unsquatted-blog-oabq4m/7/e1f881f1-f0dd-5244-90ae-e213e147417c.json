@@ -1,0 +1,103 @@
+{
+  "total": {
+    "inputTokens": 550,
+    "cacheWrite5mTokens": 993,
+    "cacheWrite1hTokens": 69594,
+    "cacheReadTokens": 2517624,
+    "outputTokens": 8467,
+    "thinkingTokens": 1734,
+    "responses": 23,
+    "costUsd": 1.2397608
+  },
+  "estimate": {
+    "at": "2026-11-06T05:51:11.097Z",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "publishing a branch to the preview slot and checking it serves is a routine dispatch-and-verify"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T04:54:00.714Z",
+    "contextTokens": 108692,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 52344,
+      "cacheReadTokens": 552988,
+      "outputTokens": 1227,
+      "thinkingTokens": 81,
+      "responses": 6,
+      "costUsd": 0.5539455999999999
+    }
+  },
+  "sessionId": "e1f881f1-f0dd-5244-90ae-e213e147417c",
+  "branch": "claude/unsquatted-blog-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFLy8DV22KR2v28PMa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T04:53:34.436Z",
+  "lastResponseAt": "2026-11-06T05:51:13.572Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 44,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 69594,
+    "cacheReadTokens": 2398333,
+    "outputTokens": 8449,
+    "thinkingTokens": 1734,
+    "responses": 22,
+    "costUsd": 1.2055746
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 550,
+      "cacheWrite5mTokens": 993,
+      "cacheWrite1hTokens": 69594,
+      "cacheReadTokens": 2517624,
+      "outputTokens": 8467,
+      "thinkingTokens": 1734,
+      "responses": 23,
+      "costUsd": 1.2397608
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 23,
+    "matched": 22,
+    "matchedTableUsd": 1.2055746,
+    "matchedEventUsd": 1.2055745999999998,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 993,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 119291,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0341862
+      }
+    }
+  }
+}
