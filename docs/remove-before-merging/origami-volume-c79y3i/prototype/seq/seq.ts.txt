@@ -1,0 +1,176 @@
+// Sequential relaxation: fold a step list the way a hand does. From the flat
+// sheet, each step ramps every hinge from where it is to its angle in the flat
+// state after that step (earlier creases held pressed), with contact taking the
+// sides of new pairs from that state's stack, and settles; then every crease
+// springs to its hold.
+// Usage: npx tsx tmp/tg/seq/seq.ts <steps.json> <out.json>
+// env: RAMP_STEP, STEP_IT, STEP_TOL, FINAL_IT, HOLDSTEP=1 (ramp to holds each
+// step), ONESHOT=1 (the one-shot pressed relax instead), TRACK, FRICTION, ...
+import { readFileSync, writeFileSync } from 'node:fs';
+
+import { foldAngle, mesh } from './mesh.ts';
+import { PAPERS } from '../../../src/origami/shared/fold/paper.ts';
+import { contains, determinant, type Vec } from '../../../src/origami/shared/fold/geometry.ts';
+import { differ } from '../../../src/origami/shared/fold/space.ts';
+import type { FoldState, Piece } from '../../../src/origami/shared/fold/state.ts';
+import type { Mesh } from '../../../src/origami/shared/fold/mesh.ts';
+import { crossed, crossings } from './contact.ts';
+import { run, type Step } from './fold.ts';
+import { relax } from './relax.ts';
+import { simulator } from './sim.ts';
+
+const paper = PAPERS['kami-15'];
+const steps = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as Step[];
+const out = process.argv[3]!;
+const m = mesh(run(steps), paper);
+const gap = paper.thickness / paper.side;
+const env = (k: string, d: number) => Number(process.env[k] ?? d);
+console.log('verts', m.paper.length, 'tris', m.triangles.length, 'pressed-start crossings', crossings(m, Float64Array.from(m.start.flat()), gap / 2));
+
+/** The flat stack and every hinge's fold angle in `pose`, on the final mesh. */
+function poseOf(pose: FoldState) {
+  const centroid = (ids: readonly number[]): Vec => [
+    ids.reduce((s, i) => s + m.paper[i]![0], 0) / ids.length,
+    ids.reduce((s, i) => s + m.paper[i]![1], 0) / ids.length,
+  ];
+  const pieceAt = (pt: Vec): Piece => {
+    const found = pose.pieces.find((p) => contains(p.paper, pt));
+    if (!found) throw new Error(`no pose piece at ${pt.join(',')}`);
+    return found;
+  };
+  const planes: Piece['shaping'][] = [];
+  const stacked = (p: Piece) => {
+    let plane = planes.findIndex((s) => !differ(s, p.shaping));
+    if (plane < 0) plane = planes.push(p.shaping) - 1;
+    return { order: p.order, plane };
+  };
+  const ofTri = m.triangles.map((t) => pieceAt(centroid(t)));
+  const around = m.paper.map((): Piece[] => []);
+  for (const [t, tri] of m.triangles.entries()) {
+    for (const i of tri) if (!around[i]!.includes(ofTri[t]!)) around[i]!.push(ofTri[t]!);
+  }
+  const angles = Float64Array.from(m.hinges, (h) => {
+    const left = pieceAt(centroid([h.a, h.b, h.c]));
+    const right = pieceAt(centroid([h.b, h.a, h.d]));
+    return left === right ? 0 : foldAngle(left, right, m.paper[h.a]!, m.paper[h.b]!);
+  });
+  return {
+    stack: {
+      faces: ofTri.map((p) => ({ ...stacked(p), facing: Math.sign(determinant(p.placement)) })),
+      sheets: around.map((ps) => ps.map(stacked)),
+    },
+    angles,
+    ofTri,
+    around,
+  };
+}
+
+/** The crossing edges, grouped by the pose pieces (by order) of the edge's
+ * ends and of the triangle it passes through, with a paper point of each. */
+function diag(x: Float64Array, ofTri: readonly Piece[], around: readonly (readonly Piece[])[]) {
+  const P = (v: number) => [x[3 * v]!, x[3 * v + 1]!, x[3 * v + 2]!];
+  const sub = (p: number[], q: number[]) => p.map((n, i) => n - q[i]!);
+  const cr = (u: number[], w: number[]) => [u[1]! * w[2]! - u[2]! * w[1]!, u[2]! * w[0]! - u[0]! * w[2]!, u[0]! * w[1]! - u[1]! * w[0]!];
+  const dt = (u: number[], w: number[]) => u.reduce((s, n, i) => s + n * w[i]!, 0);
+  const pierces = (a: number, b: number, t: readonly number[]) => {
+    const dir = sub(P(b), P(a));
+    const e1 = sub(P(t[1]!), P(t[0]!));
+    const e2 = sub(P(t[2]!), P(t[0]!));
+    const h = cr(dir, e2);
+    const det = dt(e1, h);
+    if (Math.abs(det) < 1e-18) return false;
+    const s = sub(P(a), P(t[0]!));
+    const u = dt(s, h) / det;
+    const q = cr(s, e1);
+    const w = dt(dir, q) / det;
+    const tt = dt(e2, q) / det;
+    return u > 1e-6 && w > 1e-6 && u + w < 1 - 1e-6 && tt > 1e-6 && tt < 1 - 1e-6;
+  };
+  const groups = new Map<string, { n: number; at: string }>();
+  const ord = (v: number) => around[v]!.map((p) => p.order).join('/');
+  for (const [a, b] of crossed) {
+    const hit = m.triangles.findIndex((t) => !t.includes(a) && !t.includes(b) && pierces(a, b, t));
+    const key = `o${ord(a)}|o${ord(b)} → o${hit < 0 ? '?' : ofTri[hit]!.order}`;
+    const g = groups.get(key) ?? { n: 0, at: m.paper[a]!.map((c) => c.toFixed(2)).join(',') };
+    g.n++;
+    groups.set(key, g);
+  }
+  for (const [key, g] of [...groups].toSorted((p, q) => q[1].n - p[1].n).slice(0, 8)) console.log(`  ${g.n}× ${key} at ${g.at}`);
+}
+
+const t0 = Date.now();
+let positions: Float64Array;
+if (process.env.ONESHOT) {
+  const r = relax(m, paper);
+  console.log(`oneshot iters ${r.iterations} strain ${r.strain.toFixed(4)} crossings ${r.crossings} ms ${Date.now() - t0}`, r.report?.[0]?.slice(0, 40));
+  positions = Float64Array.from(r.positions.flat());
+} else {
+  const sim = simulator(m, paper, Float64Array.from(m.paper.flatMap(([px, py]) => [px, py, 0])));
+  const holdStep = process.env.HOLDSTEP === '1';
+  for (let k = 1; k <= steps.length; k++) {
+    const pose = run(steps, k);
+    const { stack, angles, ofTri, around } = poseOf(pose);
+    if (holdStep) {
+      // Each crease at the share its own fold keeps; a crease the step leaves
+      // alone keeps its earlier goal.
+      for (const [h, hinge] of m.hinges.entries()) if (hinge.crease) angles[h] = (angles[h] ?? 0) * Math.abs(hinge.angle / hinge.start);
+    }
+    sim.restack(stack);
+    const t = Date.now();
+    // A tuck slides its flap under the layers stacked above it, a hand holding
+    // them up: flap and lid do not touch until the flap is down.
+    let suspended: { skip: (v: number, t: number) => boolean; until: number } | undefined;
+    if (steps[k - 1]!.direction === 'tuck' && process.env.LIFT !== '0') {
+      const moved = pose.log[k - 1]!.moved;
+      const top = Math.max(...pose.pieces.filter((p) => moved.has(p.id)).map((p) => p.order));
+      const kind = (p: Piece) => (moved.has(p.id) ? 1 : p.order > top ? 2 : 0);
+      const tri = Int8Array.from(ofTri, kind);
+      const vert = Int8Array.from(around, (ps) => {
+        const kinds = new Set(ps.map(kind));
+        return kinds.size === 1 ? [...kinds][0]! : 0;
+      });
+      suspended = {
+        skip: (v, t) => (vert[v] === 1 && tri[t] === 2) || (vert[v] === 2 && tri[t] === 1),
+        until: env('LIFT_UNTIL', Infinity),
+      };
+      console.log(`  tuck: flap tris ${tri.filter((c) => c === 1).length}, lid tris ${tri.filter((c) => c === 2).length}`);
+    }
+    const ph = sim.phase(angles, env('RAMP_STEP', 2000), env('STEP_IT', 8000), env('STEP_TOL', 1e-4), suspended);
+    // How far the creases got: the worst lag behind their goal, in degrees.
+    let lag = 0;
+    for (const [h, hinge] of m.hinges.entries()) {
+      if (hinge.crease) lag = Math.max(lag, Math.abs((sim.tracked[h] ?? 0) - (angles[h] ?? 0)));
+    }
+    if (process.env.LAGS) {
+      const deg = (r: number) => ((r * 180) / Math.PI).toFixed(0);
+      const worst = m.hinges
+        .map((hinge, h) => [h, Math.abs((sim.tracked[h] ?? 0) - (angles[h] ?? 0))] as const)
+        .filter(([h]) => m.hinges[h]!.crease)
+        .toSorted((p, q) => q[1] - p[1])
+        .slice(0, 4);
+      for (const [h] of worst) {
+        const hinge = m.hinges[h]!;
+        const mid = [0, 1].map((c) => ((m.paper[hinge.a]![c]! + m.paper[hinge.b]![c]!) / 2).toFixed(2));
+        console.log(`  lag at ${mid} goal ${deg(angles[h]!)} now ${deg(sim.tracked[h]!)}`);
+      }
+    }
+    console.log(`step ${k} iters ${ph.iterations}${ph.settled ? '' : ' (cap)'} strain ${sim.strain().toFixed(4)} crossings ${sim.crossings()} lag ${((lag * 180) / Math.PI).toFixed(0)}° ms ${Date.now() - t}`);
+    if (process.env.DIAG) diag(sim.x, ofTri, around);
+    if (process.env.SNAP) writeFileSync(`${out.replace(/\.json$/, '')}-${k}.json`, JSON.stringify({ triangles: m.triangles, paper: m.paper, positions: m.paper.map((_, i) => [sim.x[3 * i]!, sim.x[3 * i + 1]!, sim.x[3 * i + 2]!]), faces: m.faces }));
+  }
+  sim.restack(m);
+  const t = Date.now();
+  const ph = sim.phase(Float64Array.from(m.hinges, (h) => h.angle), env('RAMP', 2000), env('FINAL_IT', 40000), 1e-5);
+  console.log(`let go iters ${ph.iterations}${ph.settled ? '' : ' (cap)'} strain ${sim.strain().toFixed(4)} crossings ${sim.crossings()} ms ${Date.now() - t}; total ${Date.now() - t0} ms; rub ${JSON.stringify(sim.stats)}`);
+  positions = sim.x;
+}
+const pt = (i: number) => [positions[3 * i]!, positions[3 * i + 1]!, positions[3 * i + 2]!];
+for (const pair of (process.env.TRACK ?? '').split('|').filter(Boolean)) {
+  const [p, q] = pair.split(';').map((s) => s.split(',').map(Number));
+  const near = (c: number[]) =>
+    m.paper.reduce((best, w, i) => (Math.hypot(w[0] - c[0]!, w[1] - c[1]!) < Math.hypot(m.paper[best]![0] - c[0]!, m.paper[best]![1] - c[1]!) ? i : best), 0);
+  const [i, j] = [near(p!), near(q!)];
+  const d = (xs: number[], ys: number[]) => Math.hypot(xs[0]! - ys[0]!, xs[1]! - ys[1]!, xs[2]! - ys[2]!);
+  console.log(`${pair}: pressed ${d(m.start[i]! as number[], m.start[j]! as number[]).toFixed(3)} → relaxed ${d(pt(i), pt(j)).toFixed(3)}`);
+}
+writeFileSync(out, JSON.stringify({ triangles: m.triangles, paper: m.paper, positions: m.paper.map((_, i) => pt(i)), faces: m.faces }));
