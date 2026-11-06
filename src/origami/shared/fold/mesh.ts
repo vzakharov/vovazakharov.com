@@ -57,18 +57,27 @@ export type MeshHinge = {
  * pieces sharing one shaping, the only ones the order ranks against it. */
 export type Stacked = { readonly order: number; readonly plane: number };
 
-export type Mesh = {
+/** Where each vertex lies in paper, and the hinges between its triangles. */
+export type Creased = {
   /** Each vertex's point of the sheet. */
   readonly paper: readonly Vec[];
-  /** Each vertex in space in the pressed state, layers lifted apart. */
-  readonly start: readonly Vec3[];
+  readonly hinges: readonly MeshHinge[];
+};
+
+export type Meshed = {
   /** Counter-clockwise in paper, so their front faces the paper's front. */
   readonly triangles: readonly Triangle[];
   /** Every edge with its length in paper. */
   readonly bars: readonly (readonly [number, number, number])[];
-  readonly hinges: readonly MeshHinge[];
+};
+
+export type Outlined = {
   /** Edges on the sheet's own outline. */
   readonly outline: readonly (readonly [number, number])[];
+};
+
+/** The flat stack a mesh was built from. */
+export type FlatStack = {
   /** Each triangle's piece in the stack, and which way its front faces in the
    * flat state: 1 up, -1 down. The fold engine knows the stacking exactly;
    * the start positions only approximate it. */
@@ -76,6 +85,14 @@ export type Mesh = {
   /** The pieces in the stack each vertex lies on. */
   readonly sheets: readonly (readonly Stacked[])[];
 };
+
+export type Mesh = Creased &
+  Meshed &
+  Outlined &
+  FlatStack & {
+    /** Each vertex in space in the pressed state, layers lifted apart. */
+    readonly start: readonly Vec3[];
+  };
 
 /** Vertices by paper point, one per point within `NEAR`. */
 function welder() {

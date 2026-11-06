@@ -7,7 +7,8 @@
  * Explicit damped dynamics as in Origami Simulator (Ghassaei et al. 2018),
  * damped by FIRE (Bitzek et al. 2006), on the CPU and deterministic.
  */
-import { contact, crossings } from './contact.ts';
+import { contact } from './contact.ts';
+import { crossings } from './crossings.ts';
 import { dihedral } from './hinge.ts';
 import type { Mesh } from './mesh.ts';
 import type { Paper } from './paper.ts';
@@ -228,6 +229,6 @@ function settled(
     ),
     iterations,
     strain,
-    crossings: crossings(mesh, x, gap / 2),
+    crossings: crossings(mesh, x, { within: gap / 2 }),
   };
 }
