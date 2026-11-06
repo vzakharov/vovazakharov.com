@@ -82,13 +82,39 @@ the plan's; an agent may move a file inside its own slice and says so.
 - [x] **F** — the play run: frames at five heights on a phone and a desktop,
       committed to the working directory; the orchestrator looks at them beside
       the drawing, then a fix round.
-- [ ] **Fix round** — `pnpm type-overlap` names `CoastGrid`, `TileKey`,
-      `LatticePoint`, `Octave` and `Eye`/`Placed` against each other and the
-      kernel's typings, since the base's new shared types landed after wave 1;
-      and the play script's `median` and error capture move to `scene`'s
-      `scripts/lib`, with an `awaitPromise` option on `cdp.ts`'s `evaluate`.
-- [ ] **Tail** — `/polish`, vet green, PR body saying what each call became,
-      frames posted to the lead through memo.
+- [x] **Fix rounds R1, R2a, R2b, R3a** — lint and `pnpm type-overlap` clean
+      (island types composed from `PlanePoint`, `Elevated`, `TileKeyed`, and
+      kernel's new `Gridded` and `CanDispose`, mushrooms' `Silhouette` on
+      `Gridded`); the sky turns from black to day blue by 100 km; a portrait
+      phone sees the whole globe; coast tiles split two levels finer
+      (`selectTiles(at, { coast })`, 301 tiles at 1 000 km, under 175 below);
+      relief from 400 km down to 6 m, each tile taking only the octaves its grid
+      holds (`heightAt(…, finest)`); the play hook reports the backend. Frames
+      for all of it are the ten in the frames directory (c3baa8d13).
+
+## Rest of the bite
+
+The session paused here at its context budget. In order:
+
+1. **R3b, slope light** (the lead's second relief call): shade the ground by
+   slope against one sun and lift the exposure, in the scene's material, so the
+   hills at 10 km read; then look at all ten frames.
+2. **What R2a's and R3a's frames still show**, each checked on the new frames
+   first: snow peaks blocky and faceted at 1 000 km, with a straight seam in the
+   snow where two tile levels meet (x≈720); a rectangle of finer texture at 10
+   km where finer tiles carry octaves their coarser neighbours drop (fade the
+   `finest` cut across a level, or match neighbours' cut); small sea puddles
+   inland, where the relief dips below 0 (0.05 % of inland samples, to −70 m —
+   lift inland ground to stay above 0, or keep the sea out of tiles with no
+   coast); `selectTiles` keeps off-screen coast tiles (no view culling), so 1
+   000 km draws 301.
+3. **Shared play code**: the play script's `median` and its page-error capture
+   move to `scene`'s `scripts/lib`, with an `awaitPromise` option on `cdp.ts`'s
+   `evaluate` replacing the `window.__settled` polling (both play scripts).
+4. **Tail**: `/polish`, `./scripts/vet.sh` green (with `VET_MEADOW=1`, since
+   `Silhouette` changed in `src/mushrooms/`), the PR (#256, base
+   `claude/world-game-zoltan-syama-hodowq`) body saying what each call became
+   with the frames, the frames to the lead through memo.
 
 ## Calls made in the build
 
