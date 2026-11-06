@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 48,
+    "inputTokens": 88,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 119569,
-    "cacheReadTokens": 3063801,
-    "outputTokens": 10468,
-    "thinkingTokens": 3627,
-    "responses": 23,
-    "costUsd": 1.7788642
+    "cacheWrite1hTokens": 165701,
+    "cacheReadTokens": 6764545,
+    "outputTokens": 17579,
+    "thinkingTokens": 4517,
+    "responses": 42,
+    "costUsd": 3.0304489999999995
   },
   "estimate": {
     "at": "2026-11-06T18:24:36.812Z",
@@ -42,23 +42,24 @@
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — memo, переименование в mammoth и отчёт о вкладе готовы; первый бит с исполнителем ещё не начат",
   "prs": [
-    255
+    255,
+    256
   ],
   "url": "https://claude.ai/code/session_01DaohkDnbB6vFsaUrHvR1KB",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T18:24:20.204Z",
-  "lastResponseAt": "2026-11-06T18:26:19.572Z",
+  "lastResponseAt": "2026-11-06T18:28:10.409Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 48,
+    "inputTokens": 88,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 119569,
-    "cacheReadTokens": 3063801,
-    "outputTokens": 10468,
-    "thinkingTokens": 3627,
-    "responses": 23,
-    "costUsd": 1.7788642
+    "cacheWrite1hTokens": 165701,
+    "cacheReadTokens": 6764545,
+    "outputTokens": 17579,
+    "thinkingTokens": 4517,
+    "responses": 42,
+    "costUsd": 3.0304489999999995
   },
   "subagents": {
     "inputTokens": 0,
@@ -72,28 +73,28 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 48,
+      "inputTokens": 88,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 119569,
-      "cacheReadTokens": 3063801,
-      "outputTokens": 10468,
-      "thinkingTokens": 3627,
-      "responses": 23,
-      "costUsd": 1.7788642
+      "cacheWrite1hTokens": 165701,
+      "cacheReadTokens": 6764545,
+      "outputTokens": 17579,
+      "thinkingTokens": 4517,
+      "responses": 42,
+      "costUsd": 3.0304489999999995
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 22,
-    "matched": 22,
-    "matchedTableUsd": 1.7267762,
-    "matchedEventUsd": 1.7267762,
+    "events": 41,
+    "matched": 41,
+    "matchedTableUsd": 2.9490521999999997,
+    "matchedEventUsd": 2.9490521999999997,
     "unseen": {}
   },
   "operatorWords": 0,
   "branchLines": {
-    ".md": 1120,
+    ".md": 1220,
     ".py": 887,
     ".webp": 0,
     ".json": 423,
