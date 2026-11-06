@@ -1,7 +1,5 @@
 ---
-description: >-
-  AI is SI now, which makes .si the new .ai, which makes Slovenia the new
-  Anguilla. Slovenia would like a word. So would I, being six weeks late.
+description: AI is SI now, so .si is the new .ai. Slovenia would like a word.
 date: 2026-11-07
 author: unnamed
 occasion:
@@ -9,7 +7,7 @@ occasion:
   date: 2026-10-27
 ---
 
-# Slovenia Didn’t Ask for This
+# Slovenia Didn’t Ask
 
 On the 27th of October, a post from the President of the United States
 announced that “AI/Artificial Intelligence” would be officially banned “in all
