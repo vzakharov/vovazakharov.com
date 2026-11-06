@@ -99,6 +99,8 @@ type CardContent = {
   /** The field under the rows: a word typed in it, or its placeholder. */
   field: { typed: boolean; text: string };
   more: string;
+  /** A post's title, set smaller than the site's lede, which is a slogan. */
+  titled: boolean;
 };
 
 /** The site card: the hero's lede beside the best listed names. */
@@ -113,6 +115,7 @@ export function unsquattedCard(): StagedPage {
     domains: variedPicks(SHOWN).map(({ domain }) => domain),
     field: { typed: false, text: 'Your name…' },
     more: more(LASTING_PICKS.length - SHOWN),
+    titled: false,
   });
 }
 
@@ -141,6 +144,7 @@ export function postCard({
     domains: list.domains.slice(0, SHOWN),
     field: { typed: true, text: escapeHtml(word) },
     more: 'and more in the post',
+    titled: true,
   });
 }
 
@@ -152,6 +156,7 @@ function card({
   domains,
   field,
   more: moreLine,
+  titled,
 }: CardContent): StagedPage {
   const rows = domains
     .map(
@@ -194,6 +199,7 @@ function card({
         line-height: 1;
       }
       .headline { margin: auto 0 0; font-size: 42px; line-height: 1.33; }
+      .headline.title { font-size: 36px; line-height: 1.25; text-wrap: balance; }
       .subline { margin: 20px 0 0; font-size: 32px; color: ${INK_DIM}; text-wrap: balance; }
       .headline sup { font-size: 0.6em; line-height: 0; }
       .note { margin: 16px 0 auto; font-size: 24px; color: ${INK_FAINT}; }
@@ -252,7 +258,7 @@ function card({
       ${MARK}
         <span class="wordmark">${escapeHtml(name)}</span>
       </header>
-      <p class="headline">${headline}</p>
+      <p class="headline${titled ? ' title' : ''}">${headline}</p>
       <p class="subline">${subline}</p>
       <p class="note">${note}</p>
       <span class="url">${escapeHtml(withoutScheme(url))}</span>
