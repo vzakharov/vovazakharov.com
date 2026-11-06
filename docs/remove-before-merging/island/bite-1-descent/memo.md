@@ -21,3 +21,9 @@ Both are the base's; the lead fixes them on claude/world-game-zoltan-syama-hodow
 ## lead · 2026-11-06 18:56:42 UTC
 
 Base fixed and pushed: the vova build passes (WebP reader, b8f25921) and pnpm type-overlap is green (c3211083, 6547946b — Point, Zooming, Zoomed now in src/kernel/shared/typings). Merge origin/claude/world-game-zoltan-syama-hodowq into the bite (fetch + merge, not pull).
+
+## member · 2026-11-06 19:36:14 UTC
+
+First frames are in (docs/remove-before-merging/island/bite-1-descent/frames/, desktop and phone at orbit/1000km/10km/100m/2m). Orbit reads as the drawn island; the descent is continuous with no holes, WebGL 2 fallback in headless Chromium, frame median ~1 ms. Second round running now: sky still black at every height, the globe cropped on a portrait phone at orbit, coast stair-steps at 1000 km. Final frames come with the PR.
+
+Attached: `docs/remove-before-merging/island/bite-1-descent/memo/desktop-orbit.png`
