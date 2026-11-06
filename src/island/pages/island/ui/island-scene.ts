@@ -149,7 +149,7 @@ export function mountIslandScene(
   /** The tiles the eye selects now, reselected once it has moved enough. */
   function selected(): TileKey[] {
     if (eye === null) return [];
-    const at = poseOf(eye).position;
+    const at = poseOf(eye, camera.aspect).position;
     if (
       selection !== null &&
       Math.hypot(
@@ -177,7 +177,7 @@ export function mountIslandScene(
 
   function render(): void {
     if (eye === null) return;
-    const pose = poseOf(eye);
+    const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
     held.draw(coverOf(selected(), held.has), pose.position);
     globe.position.set(-ex, -ey, -ez);

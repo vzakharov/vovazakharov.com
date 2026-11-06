@@ -1,7 +1,7 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
 import type { Intent, Vec2 } from '../model/eye';
-import { GROUND_PER_SCREEN } from '../model/pose';
+import { groundPerScreen } from '../model/pose';
 
 /** What the scene holds while the controls are bound. */
 export type EyeControls =
@@ -46,7 +46,8 @@ const clampUnit = (value: number) => Math.min(1, Math.max(-1, value));
  * Binds the eye's controls: the wheel, a pinch and one-finger drag on
  * `element`, keys on its window. Spreading two fingers or scrolling up falls;
  * a drag moves the ground with the finger, so the eye moves the other way, as
- * far as the ground under the finger went at the eye's height.
+ * far as the ground under the finger went at the eye's height, through the
+ * field of view `poseOf` gives a screen of the element's shape.
  */
 export function bindEyeControls(element: HTMLElement): EyeControls {
   const view = element.ownerDocument.defaultView ?? globalThis;
@@ -58,7 +59,8 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
 
   /** Screen heights the finger moved, as the eye's own move in heights. */
   const follow = (dx: number, dy: number) => {
-    const span = GROUND_PER_SCREEN / Math.max(1, element.clientHeight);
+    const height = Math.max(1, element.clientHeight);
+    const span = groundPerScreen(element.clientWidth / height) / height;
     shift = [shift[0] - dx * span, shift[1] + dy * span];
   };
 

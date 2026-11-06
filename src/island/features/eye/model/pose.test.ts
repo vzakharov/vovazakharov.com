@@ -4,7 +4,13 @@ import { describe, it } from 'node:test';
 import { NORTH, planeToWorld, type Vec3 } from '@/island/shared/globe';
 
 import { eyeAt, MAX_HEIGHT, MIN_HEIGHT } from './eye';
-import { GROUND_PITCH, poseOf } from './pose';
+import { GROUND_PITCH, groundPerScreen, poseOf } from './pose';
+
+const LANDSCAPE = 1440 / 900;
+const PORTRAIT = 390 / 844;
+const DEGREE = Math.PI / 180;
+const horizontalOf = (fov: number, aspect: number) =>
+  2 * Math.atan(aspect * Math.tan(fov / 2));
 
 const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const length = (v: Vec3) => Math.hypot(v[0], v[1], v[2]);
@@ -17,11 +23,14 @@ const OFFSHORE = { x: 1_200_000, y: -800_000 };
 const PLACES = [{ x: 0, y: 0 }, OFFSHORE, { x: -3_000_000, y: 2_500_000 }];
 
 const atHeight = (height: number, place = OFFSHORE, heading = 0.7) =>
-  poseOf(eyeAt({ ...place, height, heading }, () => 250));
+  poseOf(eyeAt({ ...place, height, heading }, () => 250), LANDSCAPE);
 
 describe('poseOf', () => {
   it('stands at the plane point, its height over its floor', () => {
-    const pose = poseOf(eyeAt({ x: 1000, y: 2000, height: 40 }, () => 60));
+    const pose = poseOf(
+      eyeAt({ x: 1000, y: 2000, height: 40 }, () => 60),
+      LANDSCAPE,
+    );
     const want = planeToWorld(1000, 2000, 100);
     for (const i of [0, 1, 2] as const)
       assert.ok(Math.abs(pose.position[i] - want[i]) < 1e-6);
@@ -45,8 +54,34 @@ describe('poseOf', () => {
   });
 
   it('faces its heading', () => {
-    const pose = poseOf(eyeAt({ x: 0, y: 0, height: MIN_HEIGHT }, () => 0));
+    const pose = poseOf(
+      eyeAt({ x: 0, y: 0, height: MIN_HEIGHT }, () => 0),
+      LANDSCAPE,
+    );
     assert.ok(dot(pose.forward, NORTH) > Math.cos(GROUND_PITCH) - 1e-9);
+  });
+
+  it('sees 50° vertically on a landscape screen', () => {
+    assert.ok(Math.abs(atHeight(MAX_HEIGHT).fov - 50 * DEGREE) < 1e-12);
+  });
+
+  it('widens on a portrait screen so it never sees under 50° across', () => {
+    const eye = eyeAt({ ...OFFSHORE, height: MAX_HEIGHT }, () => 0);
+    for (const aspect of [PORTRAIT, 0.3, 0.75, 1]) {
+      const { fov } = poseOf(eye, aspect);
+      assert.ok(fov >= 50 * DEGREE - 1e-12);
+      assert.ok(Math.abs(horizontalOf(fov, aspect) - 50 * DEGREE) < 1e-9);
+    }
+  });
+
+  it('spans as much ground per screen height as its field of view shows', () => {
+    const eye = eyeAt({ ...OFFSHORE, height: MAX_HEIGHT }, () => 0);
+    for (const aspect of [PORTRAIT, LANDSCAPE]) {
+      const { fov } = poseOf(eye, aspect);
+      assert.ok(
+        Math.abs(groundPerScreen(aspect) - 2 * Math.tan(fov / 2)) < 1e-12,
+      );
+    }
   });
 
   it('keeps forward and up unit and square at every height', () => {
