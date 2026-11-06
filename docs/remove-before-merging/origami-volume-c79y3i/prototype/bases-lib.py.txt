@@ -1,0 +1,49 @@
+import json, math, sys
+def L(p,q,m,**k):
+    d={"line":{"p":list(p),"q":list(q)},"moving":list(m)}; d.update(k); return d
+def prelim(hb=0.6):
+    return [L((0,0),(1,1),(0.3,0.7),tag="L",direction="mountain",hold=hb),
+            L((0.5,0),(0.5,1),(0.3,0.27),select="flap",lower="L",direction="inside",hold=hb),
+            L((0,0.5),(1,0.5),(0.73,0.7),select="flap",lower="L",direction="inside",hold=hb)]
+def kites_front(hk=0.5, r=0.6):
+    a=math.radians(157.5); q1=(1+r*math.cos(a), r*math.sin(a))
+    q2=(1-r*math.sin(a)*0+ -r*math.sin(math.radians(22.5))*0, 0)  # placeholder
+    q2=(1-r*0.383, r*0.924)
+    return [L((1,0),q1,(0.6,0.03),select={"at":[0.6,0.03],"top":1},hold=hk),
+            L((1,0),q2,(0.97,0.4),select={"at":[0.97,0.4],"top":1},hold=hk)]
+def out(steps): print(json.dumps(steps))
+def kites_back(hk=0.5, r=0.6):
+    q1=(1-r*0.924, r*0.383); q2=(1-r*0.383, r*0.924)
+    return [L((1,0),q1,(0.6,0.03),select={"at":[0.6,0.03],"bottom":1},direction="mountain",hold=hk),
+            L((1,0),q2,(0.97,0.4),select={"at":[0.97,0.4],"bottom":1},direction="mountain",hold=hk)]
+def wb(hb=0.6):
+    return [L((0.5,0),(0.5,1),(0.7,0.5),tag="L",direction="mountain",hold=hb),
+            L((0.5,0.5),(0,1),(0.45,0.95),select="flap",lower="L",direction="inside",hold=hb),
+            L((0.5,0.5),(0,0),(0.45,0.05),select="flap",lower="L",direction="inside",hold=hb)]
+def wb_up(h=0.5, side="top", d="valley"):
+    return [L((0,0.5),(0.5,0),(0.02,0.05),select={"at":[0.02,0.05],side:1},direction=d,hold=h),
+            L((0,0.5),(0.5,1),(0.02,0.95),select={"at":[0.02,0.95],side:1},direction=d,hold=h)]
+def wb_up2(h=0.5, side="top", d="valley", g=0.45):
+    return [L((0,g),(g,0),(0.02,0.05),select={"at":[0.02,0.05],side:1},direction=d,hold=h),
+            L((0,1-g),(g,1),(0.02,0.95),select={"at":[0.02,0.95],side:1},direction=d,hold=h)]
+def tips(h=0.9, c=0.3, d="mountain", side="top"):
+    # flap tips at (0.45,0.45) and (0.45,0.55) for g=0.45
+    a=0.45+0.45-c
+    return [L((0.45-c+0.0,0.45),(0.45,0.45-c),(0.43,0.43),select={"at":[0.43,0.43],side:1},direction=d,hold=h),
+            L((0.45-c,0.55),(0.45,0.55+c),(0.43,0.57),select={"at":[0.43,0.57],side:1},direction=d,hold=h)]
+def blintz(h=0.95, d="valley"):
+    return [L((0.5,0),(0,0.5),(0.05,0.05),direction=d,hold=h),L((0.5,0),(1,0.5),(0.95,0.05),direction=d,hold=h),
+            L((1,0.5),(0.5,1),(0.95,0.95),direction=d,hold=h),L((0,0.5),(0.5,1),(0.05,0.95),direction=d,hold=h)]
+def blintz2(h=0.6, d="mountain", r=0.25):
+    return [L((0,r),(1,r),(0.5,r/3),direction=d,hold=h),L((1-r,0),(1-r,1),(1-r/3,0.5),direction=d,hold=h),
+            L((0,1-r),(1,1-r),(0.5,1-r/3),direction=d,hold=h),L((r,0),(r,1),(r/3,0.5),direction=d,hold=h)]
+def kite(h=0.95):
+    return [L((0,0),(1,0.41421),(0.6,0.05),hold=h),L((0,0),(0.41421,1),(0.05,0.6),hold=h)]
+def kite2(h=0.95):
+    return [L((0,0),(1,0.6682),(0.6,0.3),direction="mountain",hold=h),L((0,0),(0.6682,1),(0.3,0.6),direction="mountain",hold=h)]
+def swan(hn=0.5, hh=0.6, hm=0.7, n=0.9, hd=1.6, half=True):
+    s=[L((n/2-0.15,n/2+0.15),(n/2+0.15,n/2-0.15),(0.05,0.05),hold=hn)]
+    a=hd/2
+    s.append(L((a-0.1,a+0.1),(a+0.1,a-0.1),(n-0.02,n-0.02),select={"at":[n-0.02,n-0.02],"top":2},direction="valley",hold=hh))
+    if half: s.append(L((0,0),(1,1),(0.6,0.4),direction="mountain",hold=hm))
+    return s
