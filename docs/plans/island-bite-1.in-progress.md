@@ -75,7 +75,7 @@ the plan's; an agent may move a file inside its own slice and says so.
   - **S4** — `features/eye` (call 7), tests on the model.
   - **P** — `src/island/scripts/play-island.ts` and `pnpm play:island` (call 9),
     against the play hook above, red until S5.
-- [ ] **S5** — the scene (calls 5–6): `WebGPURenderer` falling back to WebGL 2,
+- [x] **S5** — the scene (calls 5–6): `WebGPURenderer` falling back to WebGL 2,
       the depth buffer it chooses, the sea sphere, the worker entry filling
       tiles from their keys and the pool running it, the eye wired, the play
       hook.
@@ -104,6 +104,12 @@ the plan's; an agent may move a file inside its own slice and says so.
   main body, so the trace keeps them as land. Words count as land nowhere: a
   ring needs coloured pixels at least 2 px clear of ink, which every word scores
   0 on and every island 0.17 or more.
+- **The sea is a surface per tile, not one sphere** (a sphere mesh fine enough
+  still sags hundreds of metres between vertices, visible at 2 m): each tile
+  fills a sea grid with height 0 beside its land grid, a coarse globe at R − 1
+  500 m covers the planet outside the tile square, and log depth
+  (`logarithmicDepthBuffer`) carries orbit to 2 m on both backends, where the
+  reversed buffer needs an extension headless WebGL lacks.
 - **`Coast` stays outer rings only**: the lake by Цитадель falls into the land
   until the lakes bite (call 5), rather than widening the type now.
 
