@@ -1,0 +1,16 @@
+verts 798 tris 1488 pressed-start crossings 0
+  hand: 385 flap vertices, 27 on the crease, turn -
+step 1 iters 12000 (cap) strain 0.0021 crossings 0 lag 2° ms 6185
+  open: 130 pressed hinges to 0.5
+  unfolded iters 7814 strain 0.0001 crossings 0
+  opened iters 7731 strain 0.0073 crossings 0
+step 2 iters 10173 strain 0.0000 crossings 0 lag 1° ms 11514
+  open: 130 pressed hinges to 0.5
+  unfolded iters 8125 strain 0.0072 crossings 0
+  opened iters 7536 strain 0.0092 crossings 0
+step 3 iters 12000 (cap) strain 0.0025 crossings 0 lag 3° ms 14322
+  hand: 79 flap vertices, 17 on the crease, turn +
+step 4 iters 12000 (cap) strain 0.0029 crossings 0 lag 5° ms 9499
+  hand: 80 flap vertices, 17 on the crease, turn -
+step 5 iters 7380 strain 0.0036 crossings 0 lag 5° ms 6907
+let go iters 40000 (cap) strain 0.0097 crossings 0 ms 23061; total 71575 ms; rub {"stuck":70,"slipping":79,"bonded":0}

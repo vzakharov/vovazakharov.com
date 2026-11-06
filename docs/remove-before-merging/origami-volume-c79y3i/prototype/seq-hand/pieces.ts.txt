@@ -1,0 +1,19 @@
+// pieces.ts <steps.json> k... : each pose piece after step k: order, facing,
+// paper polygon, flat polygon, and whether step k moved it.
+import { readFileSync } from 'node:fs';
+
+import { apply, determinant } from '../../../src/origami/shared/fold/geometry.ts';
+import { run, type Step } from './fold.ts';
+
+const steps = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as Step[];
+const f = (v: readonly number[]) => v.map((c) => c.toFixed(2)).join(',');
+for (const k of process.argv.slice(3).map(Number)) {
+  const s = run(steps, k);
+  const moved = s.log[k - 1]!.moved;
+  console.log(`== state ${k}`);
+  for (const p of s.pieces.toSorted((a, b) => a.order - b.order)) {
+    console.log(
+      `o${p.order} id${p.id}${moved.has(p.id) ? ' MOVED' : ''} face${Math.sign(determinant(p.placement))} paper[${p.paper.map(f).join(' ')}] flat[${p.paper.map((q) => f(apply(p.placement, q))).join(' ')}]`,
+    );
+  }
+}

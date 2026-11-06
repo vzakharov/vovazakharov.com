@@ -1,0 +1,14 @@
+# edge.py <m.json>... : the free edge at flat x=0, y 0.5..0.75 for the four
+# top layers: each outline vertex's flat y and its position.
+import json, sys
+for f in sys.argv[1:]:
+    d = json.load(open(f)); print('==', f)
+    rows = []
+    for i, (px, py) in enumerate(d['paper']):
+        q = d['positions'][i]
+        if abs(py - 1) < 1e-6 and 0.5 <= px <= 0.75: rows.append((px, 'o1R', px, q))
+        if abs(py - 1) < 1e-6 and 0.25 <= px <= 0.5: rows.append((1 - px, 'o4L', px, q))
+        if abs(px) < 1e-6 and 0.5 <= py <= 0.75: rows.append((py, 'o5F', py, q))
+        if abs(px - 1) < 1e-6 and 0.5 <= py <= 0.75: rows.append((py, 'o0', py, q))
+    for fy, n, c, q in sorted(rows):
+        print(f'flat y {fy:.3f} {n:4s} {q[0]:.4f} {q[1]:.4f} {q[2]:.4f}')
