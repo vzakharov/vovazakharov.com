@@ -1,10 +1,7 @@
 import {
   Color,
-  DirectionalLight,
   Group,
-  HemisphereLight,
   Mesh,
-  MeshLambertNodeMaterial,
   PerspectiveCamera,
   Scene,
   SphereGeometry,
@@ -13,7 +10,7 @@ import {
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { CENTRE, EAST, NORTH, R, type Vec3 } from '@/island/shared/globe';
+import { R, type Vec3 } from '@/island/shared/globe';
 import {
   type CoastField,
   heightAt,
@@ -34,11 +31,11 @@ import {
   withHeight,
 } from '@/island/features/eye';
 
-import { SEA_COLOUR } from '../lib/land-colour';
 import { skyColour } from '../lib/sky-colour';
 import { startTilePool } from '../lib/tile-pool';
 import { SEED } from '../lib/tile-protocol';
 import { coverOf } from '../model/tile-cover';
+import { groundLighting } from './ground-lighting';
 import { tileMeshes } from './tile-meshes';
 
 export type IslandScene = CanDispose & {
@@ -61,11 +58,6 @@ const unit = (v: Vec3): Vec3 => {
   const length = Math.hypot(v[0], v[1], v[2]);
   return [v[0] / length, v[1] / length, v[2] / length];
 };
-
-/** Toward the sun: south-east of the island, some 37° up over it. */
-const sunward = (i: 0 | 1 | 2) =>
-  0.6 * CENTRE[i] + 0.6 * EAST[i] - 0.5 * NORTH[i];
-const SUN = unit([sunward(0), sunward(1), sunward(2)]);
 
 /** Ground before the field arrives; nothing reads it before then. */
 const SEA_LEVEL: GroundAt = () => 0;
@@ -116,14 +108,11 @@ export function mountIslandScene(
   scene.background = background;
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
-  const sea = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
-  const land = new MeshLambertNodeMaterial({ vertexColors: true });
+  const lighting = groundLighting();
+  const { land, sea, sky, lights } = lighting;
   const globe = new Mesh(new SphereGeometry(GLOBE_RADIUS, 256, 128), sea);
   const tiles = new Group();
-  const sun = new DirectionalLight(0xff_f2_dc, 2.6);
-  sun.position.set(...SUN);
-  const sky = new HemisphereLight(0xc4_dc_ff, 0x40_34_2a, 0.9);
-  scene.add(globe, tiles, sun, sky);
+  scene.add(globe, tiles, ...lights);
 
   const held = tileMeshes(tiles, { land, sea });
   const controls = bindEyeControls(canvas);
@@ -268,8 +257,7 @@ export function mountIslandScene(
       pool.dispose();
       held.dispose();
       globe.geometry.dispose();
-      sea.dispose();
-      land.dispose();
+      lighting.dispose();
       renderer.dispose().catch(fail);
     },
   };

@@ -17,7 +17,9 @@ import {
   type TileMesh,
 } from '@/island/entities/terrain';
 
+import { colourHeights } from '../lib/colour-heights';
 import type { FilledTile } from '../lib/tile-protocol';
+import { HEIGHT_ATTRIBUTE } from './ground-lighting';
 
 /** Tiles held before the least recently drawn are let go. */
 const CAPACITY = 900;
@@ -43,15 +45,16 @@ export type TileMeshes = CanDispose & {
   readonly size: () => number;
 };
 
-function geometryOf(
-  mesh: TileMesh,
-  colours?: Float32Array<ArrayBuffer>,
-): BufferGeometry {
+/** A tile's geometry; `withHeights` carries the heights the land's material colours by. */
+function geometryOf(mesh: TileMesh, withHeights: boolean): BufferGeometry {
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(mesh.positions, 3));
   geometry.setAttribute('normal', new BufferAttribute(mesh.normals, 3));
-  if (colours !== undefined) {
-    geometry.setAttribute('color', new BufferAttribute(colours, 3));
+  if (withHeights) {
+    geometry.setAttribute(
+      HEIGHT_ATTRIBUTE,
+      new BufferAttribute(colourHeights(mesh.heights, mesh.grid), 1),
+    );
   }
   geometry.setIndex(new BufferAttribute(mesh.indices, 1));
   geometry.computeBoundingSphere();
@@ -81,9 +84,11 @@ export function tileMeshes(
     add: ({ key, land, sea }) => {
       const meshes: Mesh[] = [];
       if (land !== null) {
-        meshes.push(new Mesh(geometryOf(land, land.colours), materials.land));
+        meshes.push(new Mesh(geometryOf(land, true), materials.land));
       }
-      if (sea !== null) meshes.push(new Mesh(geometryOf(sea), materials.sea));
+      if (sea !== null) {
+        meshes.push(new Mesh(geometryOf(sea, false), materials.sea));
+      }
       const source = land ?? sea;
       if (source === null) throw new Error(`tile ${tileId(key)}: no surface`);
       const [cx = 0, cy = 0, cz = 0] = source.centre;
@@ -91,7 +96,12 @@ export function tileMeshes(
         mesh.visible = false;
         group.add(mesh);
       }
-      held.set(tileId(key), { key, meshes, centre: [cx, cy, cz], lastDrawn: -1 });
+      held.set(tileId(key), {
+        key,
+        meshes,
+        centre: [cx, cy, cz],
+        lastDrawn: -1,
+      });
     },
     draw: (keys, eye) => {
       frame += 1;

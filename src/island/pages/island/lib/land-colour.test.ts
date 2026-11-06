@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { landColours, SEA_COLOUR } from './land-colour';
+import { LAND_STOPS, landColours, SEA_COLOUR } from './land-colour';
 
 const at = (height: number) => [...landColours(new Float32Array([height]))];
 
@@ -31,6 +31,13 @@ describe('landColours', () => {
     assert.ok(gg > gr && gg > gb, 'lowland is green');
     assert.ok(br > bg && bg > bb, 'upland is brown');
     assert.ok(pr > 0.8 && pg > 0.8 && pb > 0.8, 'peaks are pale');
+  });
+
+  it('keeps its stops in rising height', () => {
+    for (const [i, [level]] of LAND_STOPS.entries()) {
+      const [previous] = LAND_STOPS[i - 1] ?? [-Infinity];
+      assert.ok(level > previous);
+    }
   });
 
   it('is continuous across a stop', () => {
