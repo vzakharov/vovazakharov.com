@@ -89,6 +89,13 @@
   &[data-on='true'] {
     color: var(--unsquatted-taken);
   }
+
+  // A bare glyph, as the deck's: hovered, it takes the colour it will have
+  // once liked, with no plate behind it.
+  @include mantine.hover {
+    background: transparent;
+    color: var(--unsquatted-taken);
+  }
 }
 
 // One line, as the checker's rows: a break could split the zone off.
