@@ -68,8 +68,10 @@ type DrawCard = (() => Promise<File>) | undefined;
 /**
  * `typed` is the copied link's fragment: the name as the field holds it, or a
  * widget's anchor in a post; `label` is the name the card is drawn for.
- * `size` is the icon button's, the field's by default; `labelled` trades that
- * button for the icon and the word.
+ * `size` is the icon button's, the field's by default; `compact` trades that
+ * button for the icon and the word, and the dropdown for its two buttons
+ * alone, for a block already on screen, whose link and picture would only
+ * repeat it.
  */
 type SharePopoverProps = Sharing &
   Typed &
@@ -77,7 +79,7 @@ type SharePopoverProps = Sharing &
   WithOptionalClassName & {
     drawCard: DrawCard;
     size?: number;
-    labelled?: boolean;
+    compact?: boolean;
   };
 
 type LabelProps = { children: readonly string[]; showing: number };
@@ -150,7 +152,7 @@ export function SharePopover({
   copy,
   size = 42,
   className = classes['tool'],
-  labelled = false,
+  compact = false,
 }: SharePopoverProps) {
   const sheet = useShareSheet();
   // Taken on opening: the closed dropdown is prerendered too, with no location.
@@ -202,6 +204,27 @@ export function SharePopover({
     if (navigator.canShare(data)) share(data);
     else image.copy(file);
   };
+  const shareLink = sheet
+    ? () => {
+        share({ url: href });
+      }
+    : undefined;
+  const imageButton = (sheet || canCopyImage()) && (
+    <Button
+      fullWidth
+      leftSection={<ImageIcon size={14} />}
+      disabled={!(card instanceof File)}
+      onClick={() => {
+        if (!(card instanceof File)) return;
+        if (sheet) shareImage(card);
+        else image.copy(card);
+      }}
+    >
+      <Label showing={image.copied ? 1 : 0}>
+        {[sheet ? copy.shareAsImage : copy.copyAsImage, copy.copied]}
+      </Label>
+    </Button>
+  );
 
   return (
     <Popover
@@ -209,10 +232,10 @@ export function SharePopover({
       onDismiss={close}
       position="bottom-end"
       shadow="md"
-      width={SHARE_WIDTH}
+      width={compact ? 'max-content' : SHARE_WIDTH}
     >
       <Popover.Target>
-        {labelled ? (
+        {compact ? (
           <UnstyledButton
             {...{ className }}
             aria-expanded={opened}
@@ -239,83 +262,82 @@ export function SharePopover({
         )}
       </Popover.Target>
       <Popover.Dropdown className={classes['share']}>
-        <LinkField
-          {...{ href, link, copy }}
-          share={
-            sheet
-              ? () => {
-                  share({ url: href });
-                }
-              : undefined
-          }
-        />
-        {(sheet || canCopyImage()) && (
-          <Button
-            fullWidth
-            leftSection={<ImageIcon size={14} />}
-            disabled={!(card instanceof File)}
-            onClick={() => {
-              if (!(card instanceof File)) return;
-              if (sheet) shareImage(card);
-              else image.copy(card);
-            }}
-          >
-            <Label showing={image.copied ? 1 : 0}>
-              {[sheet ? copy.shareAsImage : copy.copyAsImage, copy.copied]}
-            </Label>
-          </Button>
+        {compact ? (
+          <>
+            <LinkButton {...{ href, link, copy }} share={shareLink} fullWidth />
+            {imageButton}
+          </>
+        ) : (
+          <>
+            <div className={classes['linkBox']}>
+              <input
+                readOnly
+                value={withoutScheme(href)}
+                aria-label={copy.linkLabel}
+                className={classes['linkField']}
+                onFocus={(event) => {
+                  event.currentTarget.select();
+                }}
+              />
+              <LinkButton
+                {...{ href, link, copy }}
+                share={shareLink}
+                className={classes['linkCopy']}
+              />
+            </div>
+            {imageButton}
+            <CardPreview
+              {...{ card, url }}
+              alt={copy.cardAlt.replace('{name}', label)}
+              said={{
+                drawing: copy.drawingImage,
+                none: copy.noImage,
+                failed: copy.imageFailed,
+              }}
+            />
+          </>
         )}
-        <CardPreview
-          {...{ card, url }}
-          alt={copy.cardAlt.replace('{name}', label)}
-          said={{
-            drawing: copy.drawingImage,
-            none: copy.noImage,
-            failed: copy.imageFailed,
-          }}
-        />
       </Popover.Dropdown>
     </Popover>
   );
 }
 
-type LinkFieldProps = WithCopy &
-  WithLink & {
+type LinkButtonProps = WithCopy &
+  WithLink &
+  WithOptionalClassName & {
     link: ReturnType<typeof useCopied>;
     /** Given, the button shares the link rather than copying it. */
     share: (() => void) | undefined;
+    fullWidth?: boolean;
   };
 
 /**
- * The link as a field, its scheme left off, beside the button that copies or
- * shares it whole; selectable by hand where the clipboard refuses the button.
+ * The button that copies or shares the link whole. Beside it, the full
+ * dropdown sets the link as a field, its scheme left off, selectable by hand
+ * where the clipboard refuses the button.
  */
-function LinkField({ href, link, share, copy }: LinkFieldProps) {
+function LinkButton({
+  href,
+  link,
+  share,
+  copy,
+  className,
+  fullWidth,
+}: LinkButtonProps) {
   return (
-    <div className={classes['linkBox']}>
-      <input
-        readOnly
-        value={withoutScheme(href)}
-        aria-label={copy.linkLabel}
-        className={classes['linkField']}
-        onFocus={(event) => {
-          event.currentTarget.select();
-        }}
-      />
-      <Button
-        variant="default"
-        leftSection={<LinkIcon size={14} />}
-        className={classes['linkCopy']}
-        onClick={() => {
-          if (share) share();
-          else link.copy(href);
-        }}
-      >
-        <Label showing={link.copied ? 1 : 0}>
-          {[share ? copy.shareLink : copy.copyLink, copy.copied]}
-        </Label>
-      </Button>
-    </div>
+    <Button
+      variant="default"
+      leftSection={<LinkIcon size={14} />}
+      {...{ className, fullWidth }}
+      onClick={() => {
+        if (share) share();
+        else link.copy(href);
+      }}
+    >
+      <Label showing={link.copied ? 1 : 0}>
+        {[share ? copy.shareLink : copy.copyLink, copy.copied]}
+      </Label>
+    </Button>
   );
 }
 

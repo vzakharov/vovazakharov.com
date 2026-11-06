@@ -107,7 +107,9 @@
   "diceNudgeLink": "Read some",
   "widget": {
     "checkOwn": "Check your own in the full checker →",
-    "tryAnother": "Try another word in the checker →"
+    "checkOwnPictured": "Check your own at unsquatted.com",
+    "tryAnother": "Try another word in the checker →",
+    "tryAnotherPictured": "Try another word at unsquatted.com"
   },
   "masthead": {
     "checker": "checker",

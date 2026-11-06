@@ -34,7 +34,11 @@ async function DomainsWidget(placeholder: WidgetPlaceholder) {
     <WidgetCard
       head={<LabelHead {...{ label }} />}
       cardName={label}
-      more={{ href: '/', text: COPY.widget.checkOwn }}
+      more={{
+        href: '/',
+        text: COPY.widget.checkOwn,
+        pictured: COPY.widget.checkOwnPictured,
+      }}
       copy={COPY}
       prices={zonePrices}
       {...{ anchor, domains }}
@@ -51,7 +55,11 @@ async function NameWidget(placeholder: WidgetPlaceholder) {
     <WidgetCard
       head={<FieldHead {...{ word }} />}
       cardName={word}
-      more={{ href: checkerHref(word), text: COPY.widget.tryAnother }}
+      more={{
+        href: checkerHref(word),
+        text: COPY.widget.tryAnother,
+        pictured: COPY.widget.tryAnotherPictured,
+      }}
       copy={COPY}
       prices={zonePrices}
       {...{ anchor, domains, note }}

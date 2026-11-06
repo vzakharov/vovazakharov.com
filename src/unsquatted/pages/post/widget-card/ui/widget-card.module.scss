@@ -136,9 +136,13 @@
   color: var(--color-accent);
 }
 
-// A card's image: the card on the page's background, drawn offscreen with the
-// heart and the share left out, since an image can press neither. The domain
-// takes the heart's column.
+.pictured {
+  display: none;
+}
+
+// A card's image: the card on the page's background, drawn offscreen. The
+// hearts stay, as the reader set them; the share goes, and the foot names the
+// site rather than a link no one can click.
 .frame {
   position: fixed;
   top: 0;
@@ -151,29 +155,13 @@
     margin: 0;
   }
 
-  .like,
-  .share {
+  .share,
+  .onPage {
     display: none;
   }
 
-  .row {
-    grid-template-columns: minmax(0, 1fr) auto 9rem;
-
-    > :nth-child(3) {
-      grid-column: 2;
-    }
-
-    > :nth-child(4) {
-      grid-column: 3;
-    }
-
-    @include mantine.smaller-than(mantine.$breakpoint-sm) {
-      grid-template-columns: minmax(0, 1fr) auto;
-
-      > :nth-child(4) {
-        grid-column: 2;
-      }
-    }
+  .pictured {
+    display: inline;
   }
 }
 

@@ -32,8 +32,11 @@ type WidgetCardProps = CopiedPrices &
     cardName: string;
     /** The line under the rows, if any. */
     note?: string | undefined;
-    /** Where the foot sends a reader for more, and in what words. */
-    more: { href: string; text: string };
+    /**
+     * Where the foot sends a reader for more, in what words, and in what
+     * words the widget's image says it, which no one can click.
+     */
+    more: { href: string; text: string; pictured: string };
   };
 
 /**
@@ -84,12 +87,15 @@ function Card({
       {note !== undefined && <p className={classes['note']}>{note}</p>}
       <div className={classes['foot']}>
         <Link {...pick(more, 'href')} className={classes['more']}>
-          {more.text}
+          <span className={classes['onPage']}>{more.text}</span>
+          <span className={classes['pictured']} aria-hidden>
+            {more.pictured}
+          </span>
         </Link>
         <SharePopover
           typed={anchor}
           label={cardName}
-          labelled
+          compact
           className={classes['share']}
           drawCard={async () => {
             const figure = figureRef.current;
