@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 73,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 136141,
+    "cacheReadTokens": 5134019,
+    "outputTokens": 17426,
+    "thinkingTokens": 3968,
+    "responses": 35,
+    "costUsd": 2.4647438
+  },
+  "estimate": {
+    "at": "2026-11-06T21:23:28.841Z",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the flatFold covering-layer check, the hand's duration as an option, and wiring the face-maw design through relaxSequence into the site with tests is numerical code a senior must reason about"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "settling the tucked face-maw into a Basilisk head by render and eye is a designer's judgement"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T21:23:26.426Z",
+    "contextTokens": 110078,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46551,
+      "cacheReadTokens": 558730,
+      "outputTokens": 987,
+      "thinkingTokens": 58,
+      "responses": 6,
+      "costUsd": 0.50395
+    }
+  },
+  "sessionId": "f131189f-7081-5584-bf8b-3f9f00a8d409",
+  "branch": "claude/origami-volume-c79y3i",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-volume-c79y3i — движок перенесён, ловушки движка и шаги «пасти» вынесены из remove-before-merging; осталось дать дом заметкам о голов…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCTN1UD3BWwQM6xqz5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T21:23:09.570Z",
+  "lastResponseAt": "2026-11-06T21:28:29.614Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 73,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 136141,
+    "cacheReadTokens": 5134019,
+    "outputTokens": 17426,
+    "thinkingTokens": 3968,
+    "responses": 35,
+    "costUsd": 2.4647438
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 73,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 136141,
+      "cacheReadTokens": 5134019,
+      "outputTokens": 17426,
+      "thinkingTokens": 3968,
+      "responses": 35,
+      "costUsd": 2.4647438
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 34,
+    "matched": 34,
+    "matchedTableUsd": 2.4060562,
+    "matchedEventUsd": 2.4060562,
+    "unseen": {}
+  }
+}

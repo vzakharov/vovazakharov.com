@@ -47,7 +47,8 @@
     "styles:codegen": "tsx src/shell/scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
     "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts",
-    "origami": "tsx src/origami/scripts/fold-model.ts"
+    "origami": "tsx src/origami/scripts/fold-model.ts",
+    "origami:steps": "tsx src/origami/scripts/fold-steps.ts"
   },
   "dependencies": {
     "@faker-js/faker": "10.6.0",
