@@ -107,10 +107,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 119,
-    "matched": 105,
-    "matchedTableUsd": 5.995112800000005,
-    "matchedEventUsd": 5.995112800000006,
+    "events": 120,
+    "matched": 106,
+    "matchedTableUsd": 6.084888400000004,
+    "matchedEventUsd": 6.084888400000005,
     "unseen": {
       "web_fetch_apply": {
         "inputTokens": 155823,

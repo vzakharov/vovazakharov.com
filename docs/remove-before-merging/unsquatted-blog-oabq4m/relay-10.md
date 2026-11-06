@@ -123,7 +123,10 @@ Redo the early widget as the operator asked last: «а с саркастичны
 reaction (a slow clap, an eye-roll, "sure", "noted"), never insulting and never
 about the person; free `.si` picks with `post: super-intelligence`, ≤15
 characters each; the four rename names leave the post and the catalogue (into
-the ledger), and the lines under the widget follow. Re-render the card.
+the ledger), and the lines under the widget follow. The operator's own
+candidate, sent as a screenshot of the checker after that message: `lolok.si`,
+free ($20, then $18/yr) — the tone to match, and a pick unless it fails the
+runbook. Re-render the card.
 
 Then make vet green (plan's `## Rest of the bite`), look at the snapshot copy
 in a browser in both themes and at phone width, add the posts' links, and
