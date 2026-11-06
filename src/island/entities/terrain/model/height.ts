@@ -30,7 +30,7 @@ const ROUGHNESS_REACH_METRES = 300_000;
 
 type Octave = {
   layer: number;
-  frequency: number;
+  cyclesPerMetre: number;
   amplitude: number;
   cos: number;
   sin: number;
@@ -45,7 +45,7 @@ const OCTAVE_TABLE: readonly Octave[] = Array.from(
     return {
       layer: o,
       wavelength,
-      frequency: 1 / wavelength,
+      cyclesPerMetre: 1 / wavelength,
       amplitude: LONGEST_AMPLITUDE_METRES * GAIN ** o,
       cos: Math.cos(0.618 * (o + 1)),
       sin: Math.sin(0.618 * (o + 1)),
@@ -88,8 +88,8 @@ export function heightAt(
   for (const octave of OCTAVE_TABLE) {
     const fade = ramp(away / octave.wavelength);
     if (fade === 0) continue;
-    const u = (x * octave.cos - y * octave.sin) * octave.frequency;
-    const v = (x * octave.sin + y * octave.cos) * octave.frequency;
+    const u = (x * octave.cos - y * octave.sin) * octave.cyclesPerMetre;
+    const v = (x * octave.sin + y * octave.cos) * octave.cyclesPerMetre;
     const salt = noiseSalt(seed, octave.layer);
     const value = octave.amplitude * fade * valueNoise(salt, u, v);
     if (octave.wavelength >= LANDFORM_METRES) landforms += value;

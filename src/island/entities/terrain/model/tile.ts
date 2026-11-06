@@ -1,3 +1,5 @@
+import type { PlanePoint } from '@/island/shared/globe';
+
 /**
  * A tile of the terrain quadtree over the island's square on the plane. Level 0
  * is the whole square, side `TILE_SQUARE` metres centred on the island's
@@ -5,11 +7,7 @@
  * `0 ≤ x, y < 2^l`, `x` counting east and `y` north from the square's
  * south-west corner.
  */
-export type TileKey = {
-  readonly level: number;
-  readonly x: number;
-  readonly y: number;
-};
+export type TileKey = PlanePoint & { readonly level: number };
 
 /**
  * The level-0 square's side: 16 384 km, covering the traced coast's

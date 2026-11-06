@@ -10,27 +10,24 @@
  * the surface under the eye too, so terrain passing below does not jolt it.
  */
 
-import { R } from '@/island/shared/globe';
+import { type Elevated, type PlanePoint, R } from '@/island/shared/globe';
 
 export type Vec2 = readonly [number, number];
 
-/** Plane metres east and north. */
-type Placed = { readonly x: number; readonly y: number };
-
-export type Eye = Placed & {
-  /** Metres above `floor`. */
-  readonly height: number;
-  /**
-   * The level, in metres above the sea, `height` stands on: the surface
-   * under the eye, eased. Eye and surface are never closer than
-   * `MIN_HEIGHT`.
-   */
-  readonly floor: number;
-  /** Which way screen-up faces on the plane, radians clockwise from north. */
-  readonly heading: number;
-  /** Where the eye is easing to; `height` there is above the floor too. */
-  readonly aim: Placed & { readonly height: number };
-};
+export type Eye = PlanePoint &
+  // Plane metres; `height` is above `floor`.
+  Elevated & {
+    /**
+     * The level, in metres above the sea, `height` stands on: the surface
+     * under the eye, eased. Eye and surface are never closer than
+     * `MIN_HEIGHT`.
+     */
+    readonly floor: number;
+    /** Which way screen-up faces on the plane, radians clockwise from north. */
+    readonly heading: number;
+    /** Where the eye is easing to; `height` there is above the floor too. */
+    readonly aim: PlanePoint & Elevated;
+  };
 
 /**
  * What the player asks of the eye over one frame. `steer` and `climb` are
@@ -95,7 +92,7 @@ const clamp = (value: number, low: number, high: number) =>
 const surfaceAt = (groundAt: GroundAt, x: number, y: number) =>
   Math.max(0, groundAt(x, y));
 
-const withinPlane = <P extends Placed>(point: P): P => {
+const withinPlane = <P extends PlanePoint>(point: P): P => {
   const d = Math.hypot(point.x, point.y);
   if (d <= PLANE_LIMIT) return point;
   const k = PLANE_LIMIT / d;
@@ -104,7 +101,7 @@ const withinPlane = <P extends Placed>(point: P): P => {
 
 /** An eye at rest at `place`, its floor the surface there. */
 export function eyeAt(
-  place: Placed & { height: number; heading?: number },
+  place: PlanePoint & { height: number; heading?: number },
   groundAt: GroundAt,
 ): Eye {
   const { x, y } = withinPlane(place);

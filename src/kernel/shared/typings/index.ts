@@ -42,6 +42,9 @@ export type WithWidth = { width: number };
 /** A box's height alone. */
 export type WithHeight = { height: number };
 
+/** A row-major grid's extent: cell `(i, j)` at `j * columns + i`. */
+export type Gridded = { columns: number; rows: number };
+
 /** A title that may be absent — a document's is derived, so it exists only once read. */
 export type MaybeTitled = { title?: string };
 

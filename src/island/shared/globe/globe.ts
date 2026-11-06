@@ -8,6 +8,12 @@
 
 export type Vec3 = readonly [number, number, number];
 
+/** A place on the island plane, `x` east and `y` north, in its declarer's units. */
+export type PlanePoint = { readonly x: number; readonly y: number };
+
+/** Metres above a level its declarer names. */
+export type Elevated = { readonly height: number };
+
 /** The planet's mean radius. */
 export const R = 6_371_000;
 

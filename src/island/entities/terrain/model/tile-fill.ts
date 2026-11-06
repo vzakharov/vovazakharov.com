@@ -1,4 +1,4 @@
-import { planeToWorld, type Vec3 } from '@/island/shared/globe';
+import { type Elevated, planeToWorld, type Vec3 } from '@/island/shared/globe';
 
 import { latticeCoordinate, TILE_GRID, type TileKey, tileSide } from './tile';
 
@@ -44,7 +44,8 @@ export const tileBuffers = (mesh: TileMesh): ArrayBuffer[] => [
 
 const sub = (a: Vec3, b: Vec3): Vec3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 
-type LatticePoint = { readonly world: Vec3; readonly height: number };
+/** `height` is above the sea. */
+type LatticePoint = Elevated & { readonly world: Vec3 };
 
 function entry<T>(items: readonly T[], index: number): T {
   const item = items[index];

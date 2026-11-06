@@ -1,13 +1,13 @@
+import type { Gridded } from '@/kernel/shared/typings';
+
 import type { Coast } from '@/island/shared/globe';
 
 /** A square-celled node grid on the island plane. */
-type CoastGrid = {
+type CoastGrid = Gridded & {
   /** Plane position of node `(0, 0)`, metres. */
   originX: number;
   originY: number;
   cellMetres: number;
-  columns: number;
-  rows: number;
 };
 
 /**
