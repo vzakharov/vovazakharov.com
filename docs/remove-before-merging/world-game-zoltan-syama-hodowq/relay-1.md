@@ -28,7 +28,7 @@ None stated by the operator beyond the repo's own rules.
 >
 > Это не значит, что нужно брать решения оттуда, просто -- это возможно, и для технологии, и для тебя. В качестве inspired by -- можно. Дерзай! :)
 >
-> Строить будем, разумеется, слоном. При этом давай попробуем взять методологию для общения между ветками из vzakharov/sc-hub (см. соответственно memo.py и методику оркестрации /workday) (это inspired by указывать не нужно, так как это мы и есть). Кажется, что запускать членов команды на конкретные куски, смотреть что они делают, потихоньку вливать и раздавать новое, выкладывая статус в качестве майндмэпа-артефакта -- хорошая идея. По ходу дела будем решать, что из этого работает, что нет.
+> Строить будем, разумеется, слоном. При этом давай попробуем взять методологию для общения между ветками из [приватный репозиторий] (см. соответственно memo.py и методику оркестрации /workday) (это inspired by указывать не нужно, так как это мы и есть). Кажется, что запускать членов команды на конкретные куски, смотреть что они делают, потихоньку вливать и раздавать новое, выкладывая статус в качестве майндмэпа-артефакта -- хорошая идея. По ходу дела будем решать, что из этого работает, что нет.
 
 (Attached: a web-ocean screenshot, sunset over the sea — on disk at `tmp/session-images/20261106T170957Z-91664c74.webp`, which dies with the container; see Pointers.)
 
@@ -36,7 +36,7 @@ None stated by the operator beyond the repo's own rules.
 
 > я бы сказал это не просто слон, а мамонт. Мы как-то начинали писать скил вслед нашего опыта с "грибами", но так и не закончили. Но суть в том, что нужно написать большими мазками и сходу не пытаться предусмотреть всё
 
-**Agent:** Routed to `/task` → plan and hand off (a team-eaten elephant is the operator's shape to pick). Cloned `vzakharov/life` and `vzakharov/sc-hub` to `/home/user/life`, `/home/user/sc-hub` (read-only references). Renamed the branch, wrote a broad-strokes plan, opened draft PR #255, posted the squash proposal. Asked: 1 name (`/world` vs kids naming it), 2 real vs ×10-compressed scale, 3 copy `map.jpg` into the repo vs derived masks only. Offered the muthur sync once (3 commits since 3e94db8f6398) — made; never offer again.
+**Agent:** Routed to `/task` → plan and hand off (a team-eaten elephant is the operator's shape to pick). Cloned `vzakharov/life` and a private repo to `/home/user/life`, `its clone` (read-only references). Renamed the branch, wrote a broad-strokes plan, opened draft PR #255, posted the squash proposal. Asked: 1 name (`/world` vs kids naming it), 2 real vs ×10-compressed scale, 3 copy `map.jpg` into the repo vs derived masks only. Offered the muthur sync once (3 commits since 3e94db8f6398) — made; never offer again.
 
 **Operator (2):**
 
@@ -93,7 +93,7 @@ An exploration game, Island, over the world Zoltan and Syama drew: a descent fro
 ## 4. Decisions
 
 - **Mammoth** = elephant eaten by a team: a **lead** session holds the plan/PR; **members** are separate cloud sessions (`create_session`), each on a bite branch with a PR based on the elephant's branch. Beat: subagents (members outlive restarts, the operator can watch each).
-- **Channel**: `scripts/memo.py` ported from sc-hub, sides `lead`/`member`, a memo file per bite branch, one `wait` over all open branches. Beat: `send_message` by session id (a branch channel survives relays and is reviewable in git).
+- **Channel**: `scripts/memo.py` ported from a private repo, sides `lead`/`member`, a memo file per bite branch, one `wait` over all open branches. Beat: `send_message` by session id (a branch channel survives relays and is reviewable in git).
 - **North star, no waves** (operator, message 3). The plan's `## Rest of the elephant — the north star` lists destinations in no order; each next bite is chosen when the last lands.
 - **Real scale** (Arc = DR Congo, island ~5,000 km, Earth-radius planet); far travel by climbing.
 - **Input = a drawn map**, white water / rest land, traced once to a vector coastline; the tracer one pure TS module (build now, browser later for "your own map"). Coast fractals on approach. Rivers open.
@@ -122,7 +122,7 @@ An exploration game, Island, over the world Zoltan and Syama drew: a descent fro
 
 - `docs/plans/world-game-zoltan-syama.paused.md` — the plan; `## Rest of the bite` holds the board and case-study design in full.
 - The map: `vzakharov/life` → `family/world-map-zoltan-syama/screenshots/map.jpg` (1920×1362) and its `README.md` (countries, areas, scale) and `measure.py` (land/sea flood fill). Re-fetch: `add_repo vzakharov/life`, then `git clone --depth 1 https://github.com/vzakharov/life /home/user/life` (1.9 GB, long timeout).
-- sc-hub originals: `vzakharov/sc-hub` → `scripts/memo.py`, `workday/runbook.md`. Re-fetch the same way (`/home/user/sc-hub`, 130 MB).
+- a private repo originals: a private repo → `scripts/memo.py`, `workday/runbook.md`. Re-fetch the same way (`its clone`, 130 MB).
 - The web-ocean screenshot the operator attached lives only in this container (`tmp/session-images/20261106T170957Z-91664c74.webp`); the successor can take a fresh one from https://github.com/Noniv/web-ocean's README, or ask the operator to re-attach.
 - Artifact capability typings: loaded via the `artifact-capabilities` skill (`db.d.ts`, `user.d.ts`, `assets.d.ts`).
 - `.claude/skills/megabeast/notes/` — the mushroom run's notes (esp. `subagents.md` on orchestrating), to be renamed `mammoth/`.

@@ -28,6 +28,9 @@ is in git
   contract, a member's notes, anything with a home of its own goes in a file
   under `docs/plans/world-game-zoltan-syama/`, and this file points at it.
 
+- «увидел "[имя репозитория]" на скрине, нигде это упоминать не надо» — the private repo
+  the memo tooling is ported from is never named, anywhere.
+
 ## Eaten so far
 
 - **The board** — `scripts/board/`: `model.ts` (schema, merge), `page/` (the
@@ -51,8 +54,8 @@ is in git
    in `assets/island-board-<date>.png`. The first entry, "how it all began": the
    map, the descent, the mammoth, the board, the human-contribution measures,
    and the 3,120 h forecast by role, kept for comparing at the end.
-2. **`scripts/memo.py`**, ported from sc-hub with its traps intact; sides
-   `lead`/`member`, one channel per branch, `wait` over several branches.
+2. **`scripts/memo.py`**, ported with its traps intact; sides `lead`/`member`,
+   one channel per branch, `wait` over several branches.
 3. **`.claude/skills/megabeast/` → `.claude/skills/mammoth/`**, every pointer
    with it.
 4. **The human-contribution report**, over what is already on record: the
@@ -73,7 +76,7 @@ On the board: the north-star zone, and the bites' stickers once they exist.
 - **One merge function** serves the page's overlay of db rows and `board sync`.
 - **The hand-drawn look is one pure module** (`page/hand.ts`), so the page and
   any later renderer of the board draw an item the same way.
-- **memo.py is a port, not a share** — sc-hub is another repo with other sides;
-  if lead/member proves itself, it goes upstream to `vzakharov/muthur`.
+- **memo.py is a port, not a share** — its source is another repo with other
+  sides; if lead/member proves itself, it goes upstream to `vzakharov/muthur`.
 - **The tracer, when it comes, is one TypeScript module** run by the build and
   by the browser alike.
