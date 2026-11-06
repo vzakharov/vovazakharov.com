@@ -13,8 +13,8 @@
  *   pnpm play:island --out tmp/island      # frames there instead
  *
  * The page drives itself through the hook `@/island/shared/play` declares; a
- * hook call that returns a promise is settled by polling, so a call that never
- * resolves fails on a deadline rather than hanging the run.
+ * hook call that returns a promise is awaited against a deadline, so a call
+ * that never resolves fails rather than hanging the run.
  */
 
 import { spawnSync } from 'node:child_process';
@@ -39,6 +39,8 @@ import {
   openTab,
   type Tab,
 } from '@/scene/scripts/lib/cdp';
+import { median } from '@/scene/scripts/lib/median';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
 
 const OUT = path.join(REPO_ROOT, 'sites/vova/out');
 const FRAMES = path.resolve(
@@ -79,37 +81,6 @@ const hook = `window.${PLAY_HOOK}`;
 const call = (method: keyof IslandPlayHook, ...args: number[]): string =>
   `${hook}.${method}(${args.map(String).join(', ')})`;
 
-const Settled = z.object({
-  done: z.boolean().optional(),
-  error: z.string().optional(),
-});
-
-const ConsoleCalled = z.object({
-  type: z.string(),
-  args: z.array(
-    z.object({
-      value: z.unknown().optional(),
-      description: z.string().optional(),
-    }),
-  ),
-});
-
-const LogEntry = z.object({
-  entry: z.object({
-    level: z.string(),
-    text: z.string(),
-    url: z.string().optional(),
-  }),
-});
-
-function median(values: readonly number[]): number {
-  const sorted = values.toSorted((a, b) => a - b);
-  const middle = Math.floor(sorted.length / 2);
-  const [low, high] = [sorted[middle - 1], sorted[middle]];
-  if (high === undefined) return Number.NaN;
-  return sorted.length % 2 === 0 && low !== undefined ? (low + high) / 2 : high;
-}
-
 /** Polls `expression` until it is true, failing with `missing` past the deadline. */
 async function until(
   tab: Tab,
@@ -123,26 +94,29 @@ async function until(
   return until(tab, expression, missing, deadline);
 }
 
-/** Starts the promise `source` returns in the page and waits for it to settle. */
+/** Awaits the promise `source` returns in the page, failing past the deadline. */
 async function settle(tab: Tab, source: string, label: string): Promise<void> {
-  await tab.evaluate(
-    `(() => { const s = (window.__settled = {}); Promise.resolve().then(() => ${source}).then(() => { s.done = true; }, (e) => { s.error = String(e && e.stack ? e.stack : e); }); return true; })()`,
-    z.boolean(),
-  );
-  const deadline = Date.now() + SETTLE_TIMEOUT_MS;
-  const poll = async (): Promise<void> => {
-    const { done, error } = await tab.evaluate('window.__settled', Settled);
-    if (error !== undefined) throw new Error(`${label} rejected: ${error}`);
-    if (done === true) return;
-    if (Date.now() > deadline) {
-      throw new Error(
-        `${label} did not settle in ${String(SETTLE_TIMEOUT_MS / 1000)} s`,
-      );
-    }
-    await sleep(POLL_MS);
-    return poll();
+  const timer = new AbortController();
+  const { signal } = timer;
+  const late = async () => {
+    await sleep(SETTLE_TIMEOUT_MS, undefined, { signal });
+    throw new Error(
+      `${label} did not settle in ${String(SETTLE_TIMEOUT_MS / 1000)} s`,
+    );
   };
-  return poll();
+  const settled = async () => {
+    try {
+      await tab.evaluate(source, z.unknown(), { awaitPromise: true });
+    } catch (error) {
+      if (!(error instanceof Error)) throw error;
+      throw new Error(`${label} rejected: ${error.message}`, { cause: error });
+    }
+  };
+  try {
+    await Promise.race([settled(), late()]);
+  } finally {
+    timer.abort();
+  }
 }
 
 async function open(
@@ -155,23 +129,7 @@ async function open(
     errors.push(`${screen.name}: ${message}`);
   };
   const tab = await openTab(browser, report);
-  tab.on('Runtime.consoleAPICalled', (params) => {
-    const { type, args } = ConsoleCalled.parse(params);
-    if (type !== 'error') return;
-    report(
-      `console.error: ${args.map((arg) => arg.description ?? String(arg.value)).join(' ')}`,
-    );
-  });
-  // Errors the browser logs itself: a failed load, a blocked request.
-  tab.on('Log.entryAdded', (params) => {
-    const { entry } = LogEntry.parse(params);
-    if (entry.level === 'error') {
-      report(
-        `${entry.text}${entry.url === undefined ? '' : ` (${entry.url})`}`,
-      );
-    }
-  });
-  await tab.send('Log.enable');
+  await watchPageErrors(tab, report);
   const { width, height, ratio, mobile } = screen;
   await tab.send('Emulation.setDeviceMetricsOverride', {
     width,
