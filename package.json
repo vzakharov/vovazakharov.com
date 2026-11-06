@@ -47,6 +47,7 @@
     "styles:codegen": "tsx src/shell/scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
     "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts",
+    "board": "tsx scripts/board/board.ts",
     "origami": "tsx src/origami/scripts/fold-model.ts"
   },
   "dependencies": {

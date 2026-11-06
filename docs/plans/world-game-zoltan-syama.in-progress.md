@@ -174,7 +174,12 @@ entry is this one: the map, the descent, the mammoth, the board.
    оценить "человеческий вклад" во всё это». Counted from what is already on
    record — every session's transcript (`list_events`) and the PRs' reviews and
    comments by the operator — so it costs nothing to keep while the work runs,
-   and sits beside the ledger's hours at the end.
+   and sits beside the ledger's hours at the end. Beside it, lines of code by
+   file extension over time, for a cumulative-flow chart: «давай считать по
+   расширениям, чтобы потом можно было типа смотреть cumflow».
+   `git log --numstat` over the mammoth's branches already holds every commit's
+   added and removed lines per file, so this too is a report over the record
+   rather than a counter to keep running.
 4. **The first step toward the star**, chosen then: its contract on the board,
    and its member started. The likely one is the thinnest descent from orbit to
    the ground over the traced island, since everything else hangs off it.
