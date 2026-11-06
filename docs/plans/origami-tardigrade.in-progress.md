@@ -311,6 +311,32 @@ only by whether it looks like _something_.
 - Their tools: `prototype/mk.js.txt` (pleats: `fan`, `X` across a wedge),
   `curls-gen.py.txt` (`fan(cx, cy, angles, holds, dirs)`), `bases-lib.py.txt`.
 
+## Folding by feel, round two (relay 9)
+
+Three subagents each pushed one find further (~30 runs apiece); renders and
+steps in `prototype/feel-{lotus,tulip,fish-gill,frog}.*`, the run helper
+`prototype/go.sh.txt` (`POSE`, `ROT`, `MAXIT`; renders to
+`tmp/tg/runs/<name>/`).
+
+- **Calla → lotus and tulip.** Alternating valley/mountain is what makes form;
+  all-valley fans only give cones and lilies. 15 creases from the centre at
+  0.6/0.4 open into a lotus bowl (2.0%); 15 from the bottom-edge midpoint at
+  0.8/0.55 close into a tulip cup (0.27%), which from above reads as a paper
+  jet; at ~0.3 the same fan is a flat scallop shell. A centre fan held harder
+  jams (0.8/0.6: 55 crossings); 15 creases is the sweet spot; a second fan after
+  the first does nothing visible, its corner having moved.
+- **Fish → slimmer fish** (top view, `ROT=90`): fan hold 0.9 instead of 0.85
+  slims it and keeps cross folds under 3%; tail fold at 0.28 from the apex
+  stands the tail up (0.35: 12 crossings); a mountain at 0.65, hold 0.2, is a
+  gill line. Still only a fish. Uneven holds inside the fan strain 10–15%.
+- **Butterfly → frog** (head-on, `POSE=3`): the same base with the front flaps
+  up 0.6 and the back ones at 0.35, all four tips folded (hold 0.8 — 0.9 leaves
+  1–2 crossings): arms up, legs splayed, a lens of a mouth. 1.3%. Only head-on;
+  from elsewhere a box with a flap.
+- **Engine limits met**: a fold seeded on some layers still drags every layer
+  joined to them along the pleats (no forked tail); a single-layer fold works
+  only on the outermost layer (`bottom: 1`).
+
 ## Left
 
 0. **Now**: keep folding by feel from the three finds — push whichever reads
