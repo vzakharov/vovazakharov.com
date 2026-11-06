@@ -102,6 +102,17 @@ handed it to the successor as the first step: slight tilt per sticky, varied
 sizes and loose placement instead of a grid, a hand-drawn face for stickies,
 hand-drawn arrows, overlaps.
 
+**Operator (11, 12)**, after the successor had started:
+
+> и какого-то шрифта на линиях типа Caveat (он у нас уже используется в
+> unsquatted)
+
+> и линии сами не прямые и не 1 пиксельные
+
+**Agent:** Forwarded both to the successor by `send_message` and recorded here:
+Caveat on line labels (reuse unsquatted's loading), lines curved with a
+hand-drawn wobble and a thick stroke.
+
 ## 3. Intent
 
 Unchanged from relay 1: Island, an exploration game over Zoltan and Syama's
