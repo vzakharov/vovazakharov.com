@@ -1,7 +1,7 @@
 # mammoth — notes toward a skill
 
-Not a skill yet: no `SKILL.md`, so nothing loads it. The working name —
-`megabeast` in the operator's words below — is for the skill that would run a
+Not a skill yet: no `SKILL.md`, so nothing loads it. The working name, which the
+operator's words below give as `megabeast`, is for the skill that would run a
 whole elephant autonomously — plan, then per bite `/go` → `/relay` review →
 `/relay /handle` → … → `/relay /finalize` — the loop
 `docs/plans/mushroom-game-syama.*.md` § "How this elephant is eaten" spelled out

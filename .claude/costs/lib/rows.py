@@ -12,7 +12,7 @@ from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Tuple
 from lib.billed import Telemetry, parse_telemetry
 from lib.estimate_model import Estimate, parse_estimate, split_comment
 from lib.orientation import Compaction, Phase, parse_compaction, parse_phase
-from lib.shape import ShapeError, read_number, read_object, read_string, required, to_json
+from lib.shape import ShapeError, read_count, read_number, read_object, read_string, required, to_json
 from lib.tally import Tally, parse_tally
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -78,15 +78,6 @@ def _list_of(obj: Mapping[str, Any], key: str, where: str, kind: type) -> List[A
     return value
 
 
-def _read_int(obj: Mapping[str, Any], key: str, where: str) -> Optional[int]:
-    value = obj.get(key)
-    if value is None:
-        return None
-    if not isinstance(value, int) or isinstance(value, bool):
-        raise ShapeError(f"{where}: `{key}` is not an integer")
-    return value
-
-
 def _int_map(obj: Mapping[str, Any], key: str, where: str) -> Optional[Dict[str, int]]:
     value = obj.get(key)
     if value is None:
@@ -113,7 +104,7 @@ def parse_session_cost(text: str, where: str = "row") -> SessionCost:
         prs=_list_of(row, "prs", where, int),
         url=read_string(row, "url", where),
         operator=read_string(row, "operator", where),
-        operator_words=_read_int(row, "operatorWords", where),
+        operator_words=read_count(row, "operatorWords", where),
         first_response_at=read_string(row, "firstResponseAt", where),
         last_response_at=read_string(row, "lastResponseAt", where),
         prices_as_of=required(read_string, row, "pricesAsOf", where),

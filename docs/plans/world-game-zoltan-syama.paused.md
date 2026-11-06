@@ -73,12 +73,34 @@ is in git
   read at upload rather than capture, since all three went up together. The
   `.claude/costs/` change goes upstream to `vzakharov/muthur`.
 
-## Rest of the bite — bite 0, the lead's own
+- **Bite 1 is out** — the thinnest descent from orbit to the ground, its
+  contract `docs/plans/world-game-zoltan-syama/bite-1.md`, built by its member
+  on `island/bite-1-descent` (PR #256, based on this branch).
 
-5. **The first step toward the star** and its member — the thinnest descent from
-   orbit to the ground, its contract
-   `docs/plans/world-game-zoltan-syama/bite-1.md`, built on
-   `island/bite-1-descent`.
+## Waiting on the operator
+
+Bite 0 is done and polished (floor 89eefbc2); the pause is for the operator's
+review. Open:
+
+- `/five-percent`'s two alternatives on #255
+  (https://github.com/vzakharov/vovazakharov.com/pull/255#pullrequestreview-5805174087):
+  the board and the map live under `docs/plans/`, which `/finalize` sweeps
+  (optional); the case study's three misstatements about what is counted
+  (critical).
+- The branch's line count is written twice, `scripts/contribution/lines.ts` and
+  `.claude/costs/lib/branch_lines.py`; the lead recommends the TS calling the
+  Python.
+- Merge 686f51740 brought bite 1's own files early (a polling fetch's
+  `FETCH_HEAD`, fixed in 17337b17); left in place, since they arrive at the
+  bite's merge anyway.
+
+## Open bites
+
+- **Bite 1** — member session
+  https://claude.ai/code/session_01DaohkDTq595n9RkxwUJ8bc, on Opus; the lead
+  waits on it with `memo.py wait --as lead --branch island/bite-1-descent`. When
+  it posts done: look at its frames beside the map, run vet on its head, merge
+  it into this branch, `/preview live`, tick its stickers.
 
 ## Rest of the elephant
 

@@ -4,7 +4,7 @@ typed, and the branch's lines per extension. What it protects is the line
 between a person's words and everything else a transcript files as `user`.
 
 Run by path (`python3 .claude/costs/test_contribution.py`), as `scripts/vet.sh`
-does, which puts this directory on `sys.path` for `lib`.
+does, so this directory is on `sys.path` for `lib`.
 """
 
 from __future__ import annotations

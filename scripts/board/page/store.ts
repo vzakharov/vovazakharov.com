@@ -83,7 +83,7 @@ export function createStore(
     const next = previous
       .then(async () => collection.doc(item.id).set({ ...item }))
       .then(() => {
-        // The row the snapshot brings back now carries this write.
+        // The snapshot's row carries this write from here on; the local copy can go.
         if (local.get(item.id) === item) local.delete(item.id);
       })
       .catch((error: unknown) => {

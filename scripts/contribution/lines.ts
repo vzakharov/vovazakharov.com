@@ -5,7 +5,7 @@
  * then one `added<TAB>deleted<TAB>path` line per file it touched.
  */
 
-export type Commit = { sha: string; date: string };
+export type Commit = { sha: string; committedAt: string };
 export type FlowRow = Commit & { lines: Record<string, number> };
 
 /** A binary file is `-` in both counts and carries no lines. */
@@ -41,8 +41,8 @@ export function cumulativeFlow(log: string): FlowRow[] {
   for (const line of log.split('\n')) {
     if (line.startsWith('@')) {
       flush();
-      const [sha = '', date = ''] = line.slice(1).split(' ');
-      current = { sha, date };
+      const [sha = '', committedAt = ''] = line.slice(1).split(' ');
+      current = { sha, committedAt };
       continue;
     }
     const fields = line.split('\t');
@@ -65,7 +65,7 @@ export function toCsv(rows: readonly FlowRow[]): string {
   const header = ['date', 'sha', ...extensions].join(',');
   const body = rows.map((row) =>
     [
-      row.date,
+      row.committedAt,
       row.sha.slice(0, 8),
       ...extensions.map((ext) => row.lines[ext] ?? 0),
     ].join(','),
