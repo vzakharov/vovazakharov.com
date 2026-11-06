@@ -14,6 +14,7 @@ export {
   tileRect,
 } from './model/tile';
 export {
+  borderLoop,
   type FillOptions,
   fillTile,
   type HeightSample,

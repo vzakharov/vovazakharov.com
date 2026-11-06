@@ -1,15 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { fillTile } from '@/island/entities/terrain';
+import { borderLoop, fillTile } from '@/island/entities/terrain';
 
-import { borderWalk, colourHeights } from './colour-heights';
-
-describe('borderWalk', () => {
-  it('walks every border vertex once, counter-clockwise from the south-west', () => {
-    assert.deepEqual(borderWalk(3), [0, 1, 2, 5, 8, 7, 6, 3]);
-  });
-});
+import { colourHeights } from './colour-heights';
 
 describe('colourHeights', () => {
   const key = { level: 12, x: 2048, y: 2048 };
@@ -17,7 +11,7 @@ describe('colourHeights', () => {
 
   it('hangs a skirt under its own border vertex, as the tile does', () => {
     const tile = fillTile(key, (x) => 500 + x, { grid, skirtDepth: 100 });
-    for (const [n, top] of borderWalk(grid).entries()) {
+    for (const [n, top] of borderLoop(grid).entries()) {
       const skirt = tile.heights[grid * grid + n] ?? Number.NaN;
       assert.ok(Math.abs(skirt - ((tile.heights[top] ?? 0) - 100)) < 1e-3);
     }

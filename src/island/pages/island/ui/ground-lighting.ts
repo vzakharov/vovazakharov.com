@@ -30,7 +30,7 @@ const SEA_IRRADIANCE = 1.58;
 /** The tile vertex attribute the land's colour is read from. */
 export const HEIGHT_ATTRIBUTE = 'height';
 
-/** The land's colour per fragment from its interpolated height, as `landColour` gives it per vertex. */
+/** The land's colour per fragment, `LAND_STOPS` blended by its interpolated height. */
 function landColourNode() {
   const height = attribute(HEIGHT_ATTRIBUTE, 'float');
   const [first, ...rest] = LAND_STOPS;

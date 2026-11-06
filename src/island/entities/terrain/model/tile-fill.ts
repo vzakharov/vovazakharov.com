@@ -163,8 +163,11 @@ function surfaceNormal(east: Vec3, north: Vec3): Vec3 {
   return [nx / length, ny / length, nz / length];
 }
 
-/** The grid's border vertices, counter-clockwise from the south-west corner. */
-function borderLoop(grid: number): number[] {
+/**
+ * The grid's border vertices, counter-clockwise from the south-west corner:
+ * the order the skirt hangs in, skirt vertex `grid² + k` under the `k`th.
+ */
+export function borderLoop(grid: number): number[] {
   const last = grid - 1;
   const loop: number[] = [];
   for (let i = 0; i < last; i++) loop.push(i);

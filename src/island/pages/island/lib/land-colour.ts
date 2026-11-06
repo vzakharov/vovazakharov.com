@@ -33,47 +33,13 @@ const SRGB_STOPS: ReadonlyArray<readonly [number, Rgb]> = [
 ];
 
 /**
- * The land's colour stops in linear RGB, as the renderer reads colours,
- * blended linearly between them — here and per fragment in the land's shader.
- * Below the first the colour is the first's, above the last the last's.
+ * The land's colour stops in linear RGB, as the renderer reads colours, which
+ * the land's shader blends linearly per fragment. Below the first the colour
+ * is the first's, above the last the last's. Shallow ground keeps the shore's
+ * sand, so a triangle crossing the coastline reads as beach; deeper, it takes
+ * the sea's colour, so a skirt or floor that loses a depth tie against the
+ * coplanar sea draws as the sea.
  */
 export const LAND_STOPS: ReadonlyArray<readonly [number, Rgb]> = SRGB_STOPS.map(
   ([level, [r, g, b]]) => [level, [linear(r), linear(g), linear(b)]] as const,
 );
-
-/**
- * The colour at `height` into `out` at `offset`. Shallow ground keeps the
- * shore's sand, so a triangle crossing the coastline reads as beach; deeper,
- * it takes the sea's colour, so a skirt or floor that loses a depth tie
- * against the coplanar sea draws as the sea.
- */
-export function landColour(
-  height: number,
-  out: Float32Array,
-  offset: number,
-): void {
-  let index = LAND_STOPS.findIndex(([level]) => level > height);
-  if (index === -1) index = LAND_STOPS.length;
-  const lower = LAND_STOPS[Math.max(0, index - 1)];
-  const upper = LAND_STOPS[Math.min(LAND_STOPS.length - 1, index)];
-  if (lower === undefined || upper === undefined) {
-    throw new RangeError('no colour stops');
-  }
-  const span = upper[0] - lower[0];
-  const t =
-    span === 0 ? 0 : Math.min(1, Math.max(0, (height - lower[0]) / span));
-  for (let i = 0; i < 3; i++) {
-    const a = lower[1][i] ?? 0;
-    const b = upper[1][i] ?? 0;
-    out[offset + i] = a + (b - a) * t;
-  }
-}
-
-/** Linear RGB per height. */
-export function landColours(heights: Float32Array): Float32Array<ArrayBuffer> {
-  const colours = new Float32Array(heights.length * 3);
-  for (const [v, height] of heights.entries()) {
-    landColour(height, colours, v * 3);
-  }
-  return colours;
-}
