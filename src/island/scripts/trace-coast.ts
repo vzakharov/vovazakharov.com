@@ -1,0 +1,219 @@
+/**
+ * Traces the island's coastline out of the board's map into the committed
+ * `entities/coast/model/coast.json`: the webp is decoded by the tree's headless
+ * Chromium (no image library in the dependencies), the pixels traced in Node,
+ * and the rings written in kilometres on the island plane.
+ *
+ * `pnpm trace:island [--overlay <png>]` — the overlay draws every traced ring
+ * over the map, for checking the trace by eye.
+ */
+import { readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { parseArgs } from 'node:util';
+import { format } from 'prettier';
+import { z } from 'zod';
+
+import {
+  type LandPolygon,
+  type Ring,
+  traceCoast,
+  type TraceOptions,
+} from '@/island/entities/coast';
+import type { Coast } from '@/island/shared/globe';
+
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+
+const MAP = path.join(
+  REPO_ROOT,
+  'docs/plans/world-game-zoltan-syama/board/images/map-zoltan-syama.webp',
+);
+const OUT = path.join(REPO_ROOT, 'src/island/entities/coast/model/coast.json');
+
+/** The main body's east–west extent (contract, call 3). */
+const MAIN_BODY_KM = 5000;
+
+const OPTIONS: TraceOptions = {
+  maxPaperSaturation: 0.095,
+  minPaperValue: 0.65,
+  blurRadius: 2,
+  level: 0.3,
+  holeFloor: 1500,
+  islandFloor: 150,
+  tolerance: 0.9,
+};
+
+const Evaluated = z.object({
+  result: z.object({ value: z.unknown().optional() }),
+  exceptionDetails: z
+    .object({ exception: z.object({ description: z.string() }).optional() })
+    .optional(),
+});
+
+/** Evaluates an expression that resolves to a promise, awaiting it. */
+async function settle<Parsed>(
+  tab: Tab,
+  expression: string,
+  schema: z.ZodType<Parsed>,
+): Promise<Parsed> {
+  const reply = Evaluated.parse(
+    await tab.send('Runtime.evaluate', {
+      expression,
+      awaitPromise: true,
+      returnByValue: true,
+    }),
+  );
+  if (reply.exceptionDetails) {
+    throw new Error(reply.exceptionDetails.exception?.description ?? 'threw');
+  }
+  return schema.parse(reply.result.value);
+}
+
+/** Page-side: the image as a bitmap, from a data URL so the canvas stays
+ * readable. */
+const BITMAP = (base64: string) => `
+  const blob = await (await fetch('data:image/webp;base64,${base64}')).blob();
+  const bitmap = await createImageBitmap(blob, {
+    colorSpaceConversion: 'none',
+    premultiplyAlpha: 'none',
+  });
+  const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+  const context = canvas.getContext('2d');
+  context.drawImage(bitmap, 0, 0);`;
+
+const Decoded = z.object({
+  width: z.number(),
+  height: z.number(),
+  rgba: z.string(),
+});
+
+async function decode(tab: Tab, base64: string) {
+  const { width, height, rgba } = await settle(
+    tab,
+    `(async () => {${BITMAP(base64)}
+      const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
+      let binary = '';
+      for (let i = 0; i < data.length; i += 0x8000) {
+        binary += String.fromCharCode(...data.subarray(i, i + 0x8000));
+      }
+      return { width: canvas.width, height: canvas.height, rgba: btoa(binary) };
+    })()`,
+    Decoded,
+  );
+  return { width, height, data: Buffer.from(rgba, 'base64') };
+}
+
+async function overlay(
+  tab: Tab,
+  base64: string,
+  polygons: LandPolygon[],
+): Promise<Buffer> {
+  const png = await settle(
+    tab,
+    `(async () => {${BITMAP(base64)}
+      context.lineWidth = 1.5;
+      const trace = (ring, colour) => {
+        context.strokeStyle = colour;
+        context.beginPath();
+        ring.forEach(([x, y], i) => i ? context.lineTo(x, y) : context.moveTo(x, y));
+        context.closePath();
+        context.stroke();
+        context.fillStyle = colour;
+        for (const [x, y] of ring) context.fillRect(x - 1, y - 1, 2, 2);
+      };
+      ${JSON.stringify(polygons)}.forEach(({ outer, holes }, i) => {
+        trace(outer, i === 0 ? '#e00000' : '#0040ff');
+        holes.forEach((hole) => trace(hole, '#00a000'));
+      });
+      const png = await canvas.convertToBlob({ type: 'image/png' });
+      const bytes = new Uint8Array(await png.arrayBuffer());
+      let binary = '';
+      for (let i = 0; i < bytes.length; i += 0x8000) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+      }
+      return btoa(binary);
+    })()`,
+    z.string(),
+  );
+  return Buffer.from(png, 'base64');
+}
+
+function bounds(ring: Ring) {
+  const xs = ring.map(([x]) => x);
+  const ys = ring.map(([, y]) => y);
+  return {
+    left: Math.min(...xs),
+    right: Math.max(...xs),
+    top: Math.min(...ys),
+    bottom: Math.max(...ys),
+  };
+}
+
+const metres = (km: number) => Math.round(km * 1000) / 1000;
+
+/**
+ * Pixels to the island plane: kilometres from the main body's bounding-box
+ * centre, `y` flipped to north, each ring reversed so that land on screen's
+ * clockwise becomes the plane's counter-clockwise.
+ */
+function toPlane(polygons: LandPolygon[]): Coast {
+  const [main] = polygons;
+  if (!main) throw new Error('the trace found no land');
+  const { left, right, top, bottom } = bounds(main.outer);
+  const kmPerPixel = MAIN_BODY_KM / (right - left);
+  const cx = (left + right) / 2;
+  const cy = (top + bottom) / 2;
+  return {
+    kmPerPixel,
+    rings: polygons.map(({ outer }) =>
+      outer
+        .map(([x, y]): [number, number] => [
+          metres((x - cx) * kmPerPixel),
+          metres((cy - y) * kmPerPixel),
+        ])
+        .reverse(),
+    ),
+  };
+}
+
+async function main(): Promise<void> {
+  const { values } = parseArgs({ options: { overlay: { type: 'string' } } });
+  const base64 = (await readFile(MAP)).toString('base64');
+  const browser = await launch();
+  try {
+    const tab = await openTab(browser, (message) => {
+      throw new Error(message);
+    });
+    const raster = await decode(tab, base64);
+    const polygons = traceCoast(raster, OPTIONS);
+    const coast = toPlane(polygons);
+    const json = await format(JSON.stringify(coast), { parser: 'json' });
+    await writeFile(OUT, json);
+
+    const vertices = coast.rings.reduce((sum, ring) => sum + ring.length, 0);
+    console.log(
+      `${String(raster.width)}×${String(raster.height)} px; ` +
+        `${String(coast.rings.length)} rings, ${String(vertices)} vertices; ` +
+        `${coast.kmPerPixel.toFixed(4)} km/px; ${String(json.length)} bytes`,
+    );
+    polygons.forEach(({ outer, holes }, i) => {
+      const { left, right, top, bottom } = bounds(outer);
+      console.log(
+        `  #${String(i)} x ${left.toFixed(0)}–${right.toFixed(0)}, ` +
+          `y ${top.toFixed(0)}–${bottom.toFixed(0)}, ` +
+          `${String(outer.length)} vertices, ${String(holes.length)} holes kept (not written)`,
+      );
+    });
+
+    if (values.overlay !== undefined) {
+      await writeFile(
+        path.resolve(values.overlay),
+        await overlay(tab, base64, polygons),
+      );
+    }
+  } finally {
+    await browser.close();
+  }
+}
+
+await main();
