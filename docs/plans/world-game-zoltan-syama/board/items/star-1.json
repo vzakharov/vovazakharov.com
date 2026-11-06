@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "star-1",
-  "x": 1040,
-  "y": 90,
+  "x": 1052,
+  "y": 83,
   "text": "The whole island from orbit, real enough to pass for a satellite photo, clouds drifting over it",
   "color": "green",
-  "w": 310,
-  "updated": "2026-11-06T17:50:00.000Z",
+  "w": 288,
+  "updated": "2026-11-06T17:52:08.249Z",
   "author": "agent:lead"
 }

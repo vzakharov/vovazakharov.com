@@ -5,6 +5,7 @@
  */
 import type { Item, PlacedItem } from '../model.ts';
 import { edgePoint, type Rect } from './camera.ts';
+import { handStroke, jitter, tiltOf } from './hand.ts';
 
 export type LineItem = Extract<Item, { kind: 'line' }>;
 
@@ -123,6 +124,8 @@ export function renderItems(
     .map((item) => {
       const node = itemBody(item, options.names);
       node.dataset['id'] = item.id;
+      node.style.setProperty('--tilt', `${tiltOf(item.id, item.kind)}deg`);
+      if (jitter(item.id, 'tape') > 0) node.classList.add('taped');
       node.style.left = `${item.x}px`;
       node.style.top = `${item.y}px`;
       if (options.editable && item.kind !== 'text')
@@ -141,24 +144,32 @@ function svg(tag: string, attributes: Record<string, string>): SVGElement {
   return node;
 }
 
-/** Each line from edge to edge of the items it joins; one whose end is gone is skipped. */
+/** An open, hand-drawn chevron, sized in stroke widths so it follows the line's weight. */
+function arrowMarker(): SVGElement {
+  const marker = svg('marker', {
+    id: 'arrow',
+    viewBox: '0 0 12 12',
+    refX: '10',
+    refY: '6',
+    markerWidth: '4.5',
+    markerHeight: '4.5',
+    orient: 'auto-start-reverse',
+  });
+  marker.append(svg('path', { d: 'M1.5,1 L10.5,6 L2,11', class: 'arrowhead' }));
+  return marker;
+}
+
+/**
+ * Each line from edge to edge of the items it joins, drawn as `handStroke`
+ * curves; one whose end is gone is skipped.
+ */
 export function renderLines(
   layerNode: SVGSVGElement,
   lines: readonly LineItem[],
   rectOf: (id: string) => Rect | undefined,
 ): void {
   const defs = svg('defs', {});
-  const marker = svg('marker', {
-    id: 'arrow',
-    viewBox: '0 0 10 10',
-    refX: '9',
-    refY: '5',
-    markerWidth: '8',
-    markerHeight: '8',
-    orient: 'auto-start-reverse',
-  });
-  marker.append(svg('path', { d: 'M0,0 L10,5 L0,10 z', class: 'arrowhead' }));
-  defs.append(marker);
+  defs.append(arrowMarker());
   const nodes: SVGElement[] = [defs];
   for (const line of lines) {
     const from = rectOf(line.from);
@@ -168,21 +179,28 @@ export function renderLines(
     const fromCentre = { x: from.x + from.w / 2, y: from.y + from.h / 2 };
     const a = edgePoint(from, toCentre);
     const b = edgePoint(to, fromCentre);
-    const d = `M${a.x},${a.y} L${b.x},${b.y}`;
+    const { d, mid } = handStroke(a, b, line.id);
+    const { d: echo } = handStroke(a, b, line.id, 1);
+    const dashed = line.dashed === true ? ' dashed' : '';
     const group = svg('g', { class: 'line', 'data-id': line.id });
     group.append(
       svg('path', { d, class: 'hit' }),
       svg('path', {
+        d: echo,
+        class: `stroke echo${dashed}`,
+      }),
+      svg('path', {
         d,
-        class: `stroke${line.dashed === true ? ' dashed' : ''}`,
+        class: `stroke${dashed}`,
         'marker-end': 'url(#arrow)',
       }),
     );
     if (line.label !== undefined && line.label !== '') {
       const label = svg('text', {
-        x: String((a.x + b.x) / 2),
-        y: String((a.y + b.y) / 2 - 6),
+        x: String(mid.x),
+        y: String(mid.y - 12),
         class: 'label',
+        transform: `rotate(${tiltOf(line.id, 'sticky')} ${mid.x} ${mid.y})`,
       });
       label.textContent = line.label;
       group.append(label);

@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "call-2",
-  "x": 2495,
-  "y": 90,
+  "x": 2483,
+  "y": 112,
   "text": "A drawn map is the input. Traced once into a vector coastline; the game builds from the vector, never the image",
   "color": "blue",
-  "w": 310,
-  "updated": "2026-11-06T17:50:00.000Z",
+  "w": 243,
+  "updated": "2026-11-06T17:52:08.249Z",
   "author": "agent:lead"
 }

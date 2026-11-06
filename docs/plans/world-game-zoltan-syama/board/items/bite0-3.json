@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "bite0-3",
-  "x": 2830,
-  "y": 1050,
+  "x": 2805,
+  "y": 1047,
   "text": "scripts/memo.py, ported from sc-hub: lead/member, one channel per branch",
   "color": "orange",
-  "w": 310,
-  "updated": "2026-11-06T17:50:00.000Z",
+  "w": 325,
+  "updated": "2026-11-06T17:52:08.249Z",
   "author": "agent:lead"
 }

@@ -34,7 +34,7 @@ import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 const PAGE_DIR = path.join(import.meta.dirname, 'page');
 const FONTS =
-  'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600&display=swap';
+  'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@500;700&family=Shantell+Sans:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap';
 
 async function jsonFiles(dir: string): Promise<string[]> {
   const names = await readdir(dir).catch((error: unknown) => {

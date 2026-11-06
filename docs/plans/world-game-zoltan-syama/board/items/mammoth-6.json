@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "mammoth-6",
-  "x": 1710,
-  "y": 1340,
+  "x": 1752,
+  "y": 1319,
   "text": "What works and what doesn't: .claude/skills/mammoth/notes/",
   "color": "yellow",
-  "w": 310,
-  "updated": "2026-11-06T17:50:00.000Z",
+  "w": 251,
+  "updated": "2026-11-06T17:52:08.249Z",
   "author": "agent:lead"
 }

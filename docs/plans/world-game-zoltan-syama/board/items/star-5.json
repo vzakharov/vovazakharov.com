@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "star-5",
-  "x": 1375,
-  "y": 380,
+  "x": 1418,
+  "y": 327,
   "text": "Three bodies, each read from how it moves: spirit (no bob, fast), bird (glides down, flaps to climb), walker. Go far by climbing",
   "color": "green",
-  "w": 310,
-  "updated": "2026-11-06T17:50:00.000Z",
+  "w": 290,
+  "updated": "2026-11-06T17:52:08.249Z",
   "author": "agent:lead"
 }

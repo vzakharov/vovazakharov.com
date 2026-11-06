@@ -21,6 +21,13 @@
   --gray: #e2e6e8;
   --zone-alpha: 38%;
   --font-display: 'Fraunces', georgia, serif;
+  /* Caveat for what a pen adds — zone titles, line labels; the notes in a
+     face just as informal but quiet enough to read in bulk. */
+  --font-hand: 'Caveat', 'Segoe Print', cursive;
+  --font-note: 'Shantell Sans', 'Comic Neue', system-ui, sans-serif;
+  --pencil: #3a4a52;
+  --tape: rgb(236 228 200 / 72%);
+  --lift: 0 1px 1px rgb(29 42 48 / 10%), 4px 10px 14px -6px rgb(29 42 48 / 28%);
   --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
 
   color-scheme: light;
@@ -73,6 +80,37 @@ body {
   box-sizing: border-box;
   margin: 0;
   cursor: default;
+  transform: rotate(var(--tilt, 0deg));
+}
+
+/* A strip of masking tape across the top edge, on the paper the id picks. */
+.sticky.taped::before,
+.image::before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  left: calc(50% - 42px);
+  width: 84px;
+  height: 22px;
+  background: var(--tape);
+  box-shadow: 0 1px 2px rgb(29 42 48 / 10%);
+  transform: rotate(calc(var(--tilt, 0deg) * -2.5));
+}
+
+.image.taped::before {
+  left: -18px;
+  transform: rotate(-38deg);
+}
+
+.image.taped::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -18px;
+  width: 84px;
+  height: 22px;
+  background: var(--tape);
+  transform: rotate(36deg);
 }
 
 .c-yellow {
@@ -105,11 +143,19 @@ body {
 
 .sticky {
   z-index: 2;
-  padding: 14px 16px 22px;
-  background: var(--tint);
-  box-shadow: var(--shadow);
+  padding: 16px 18px 26px;
+  border-radius: 2px 3px 14px 2px / 2px 2px 6px 3px;
+  background: linear-gradient(
+    172deg,
+    color-mix(in srgb, var(--tint) 80%, #fff) 0%,
+    var(--tint) 45%,
+    color-mix(in srgb, var(--tint) 92%, #000) 100%
+  );
+  box-shadow: var(--lift);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  font: 400 16px/1.4 var(--font-note);
+  color: #26323a;
 }
 
 .text {
@@ -127,24 +173,25 @@ body {
   text-wrap: balance;
 }
 
+/* Uneven elliptical corners read as a rectangle drawn freehand. */
 .zone {
   z-index: 0;
-  border: 1.5px dashed var(--edge);
-  border-radius: 6px;
+  border: 2.5px solid color-mix(in srgb, var(--tint) 45%, var(--pencil));
+  border-radius: 28px 9px 34px 12px / 12px 30px 9px 26px;
   background: color-mix(in srgb, var(--tint) var(--zone-alpha), transparent);
 }
 
 .zone > .title {
-  padding: 14px 20px;
-  font: 600 26px/1.2 var(--font-display);
+  padding: 12px 24px;
+  font: 700 42px/1.1 var(--font-hand);
   color: var(--ink);
 }
 
 .image {
   z-index: 2;
-  padding: 8px 8px 22px;
+  padding: 10px 10px 30px;
   background: var(--paper);
-  box-shadow: var(--shadow);
+  box-shadow: var(--lift);
 }
 
 .image img {
@@ -155,9 +202,9 @@ body {
 }
 
 .image > .caption {
-  padding-top: 6px;
-  color: var(--muted);
-  font-size: 13px;
+  padding-top: 8px;
+  color: var(--pencil);
+  font: 400 15px/1.4 var(--font-note);
 }
 
 .image > .caption:empty {
@@ -222,12 +269,19 @@ body {
 
 .line .stroke {
   fill: none;
-  stroke: var(--muted);
-  stroke-width: 2;
+  stroke: var(--pencil);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line .stroke.echo {
+  stroke-width: 1.6;
+  opacity: 0.45;
 }
 
 .line .stroke.dashed {
-  stroke-dasharray: 6 5;
+  stroke-dasharray: 14 12;
 }
 
 .line .hit {
@@ -242,13 +296,29 @@ body {
 }
 
 .line .label {
-  fill: var(--muted);
-  font: 13px var(--font-body);
+  fill: var(--pencil);
+  font: 700 30px var(--font-hand);
   text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--ground);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+}
+
+.line.selected .label {
+  fill: var(--accent);
 }
 
 .arrowhead {
-  fill: var(--muted);
+  fill: none;
+  stroke: var(--pencil);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line.selected .arrowhead {
+  stroke: var(--accent);
 }
 
 #toolbar {
