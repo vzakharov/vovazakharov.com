@@ -31,6 +31,7 @@ import {
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
 import { appFiles, subdirectories } from './lib/import-graph.ts';
+import { carriesMarker } from './lib/masd-marker.ts';
 import { cutGain, type Edge, importsOf, within } from './lib/slice-graph.ts';
 import { subSliceProblems } from './lib/sub-slices/index.ts';
 
@@ -40,6 +41,9 @@ const SLICED = new Set(SLICED_LAYERS);
 const CHECKED_LAYERS = SLICED_LAYERS.filter((layer) => layer !== 'pages');
 
 const ROOT = process.cwd();
+
+const stays = (slice: string): boolean =>
+  carriesMarker(path.join('src', slice, 'index.ts'), 'insignificant');
 
 /**
  * Where a file sits: `<app>/<layer>/<slice>` in a sliced layer,
@@ -97,6 +101,7 @@ function sliceProblems(
   edges: ReadonlyMap<string, readonly Edge[]>,
 ) {
   return [...references].flatMap(([slice, sources]) => {
+    if (stays(slice)) return [];
     const [reference, ...others] = sources;
     if (reference === undefined) {
       return [

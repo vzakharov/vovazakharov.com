@@ -1,0 +1,105 @@
+{
+  "total": {
+    "inputTokens": 1227,
+    "cacheWrite5mTokens": 170422,
+    "cacheWrite1hTokens": 150297,
+    "cacheReadTokens": 15967451,
+    "outputTokens": 66860,
+    "thinkingTokens": 25786,
+    "responses": 112,
+    "costUsd": 6.596663200000002
+  },
+  "estimate": {
+    "at": "2026-11-05T14:16:03.314Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a composition-order bug in a 3D fold engine needs someone who can reason about S·R·S⁻¹ and prove the fix numerically, plus a helper fold whose tolerances differed and land prep's first half through the repo's gates"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T13:21:50.787Z",
+    "contextTokens": 114982,
+    "spend": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 58939,
+      "cacheReadTokens": 739456,
+      "outputTokens": 2253,
+      "thinkingTokens": 589,
+      "responses": 8,
+      "costUsd": 0.6645312
+    }
+  },
+  "sessionId": "b7def184-f3e4-5cdc-873b-02fe49a8b3bc",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/merge claude/origami-pilot-mwxvll",
+  "prs": [
+    251
+  ],
+  "url": "https://claude.ai/code/session_01DaohkB7ryC5hJJpNqBsds5",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T13:20:56.607Z",
+  "lastResponseAt": "2026-11-05T14:16:36.473Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 130,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 150297,
+    "cacheReadTokens": 9795552,
+    "outputTokens": 36521,
+    "thinkingTokens": 10347,
+    "responses": 66,
+    "costUsd": 3.8924264000000015
+  },
+  "subagents": {
+    "inputTokens": 85,
+    "cacheWrite5mTokens": 168229,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 5898032,
+    "outputTokens": 30298,
+    "thinkingTokens": 15439,
+    "responses": 44,
+    "costUsd": 2.627051400000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 1227,
+      "cacheWrite5mTokens": 170422,
+      "cacheWrite1hTokens": 150297,
+      "cacheReadTokens": 15967451,
+      "outputTokens": 66860,
+      "thinkingTokens": 25786,
+      "responses": 112,
+      "costUsd": 6.596663200000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 112,
+    "matched": 110,
+    "matchedTableUsd": 6.519477800000002,
+    "matchedEventUsd": 6.5194778000000015,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 2193,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 273867,
+        "outputTokens": 41,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0771854
+      }
+    }
+  }
+}

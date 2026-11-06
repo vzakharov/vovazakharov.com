@@ -2,8 +2,10 @@
 """Fails when a PR has a `/five-percent` proposal the operator answered and its branch has no row for.
 
 A proposal is a review comment opening on `PROPOSAL_MARKER`; it is answered once its thread has
-any reply, from anyone. An unanswered proposal needs no row
-(`.claude/skills/five-percent/verdicts.md`), so it is never reported.
+a reply without the agent's attribution footer — agent and operator post under one login, so the
+footer is all that tells them apart (`gh_export/authorship.py`). An unanswered proposal needs no
+row (`.claude/skills/five-percent/verdicts.md`), so it is never reported, and neither is one only
+an agent replied to: an agent taking up a proposal is not the operator's verdict on it.
 
 Usage: `python3 scripts/five-percent-verdicts/answered.py <pr> [--repo OWNER/REPO]`, the
 branch read from the PR's head ref. `/finalize` runs it; vet cannot, since it needs the PR.
@@ -23,6 +25,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from gh_export.api import api_get, api_paginated
+from gh_export.authorship import split_agent_footer
 from lib.github import AllRoutesFailed, detect_origin_repo, die, format_route_statuses, gh_token
 from tally import LEAF, VERDICTS_DIR, Malformed, parse_leaf, positive_int
 
@@ -68,7 +71,11 @@ def parse_head_ref(payload: Any) -> str:
 
 
 def answered_proposals(comments: list[ReviewComment]) -> list[ReviewComment]:
-    replied_to = {c.in_reply_to_id for c in comments if c.in_reply_to_id is not None}
+    replied_to = {
+        c.in_reply_to_id
+        for c in comments
+        if c.in_reply_to_id is not None and not split_agent_footer(c.body)[0]
+    }
     return [
         c
         for c in comments

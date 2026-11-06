@@ -7,7 +7,9 @@
   "bible": ["blog"],
   "basilisk": ["blog"],
   "maya": ["blog"],
-  "mushrooms": ["kernel"],
+  "scene": ["kernel"],
+  "mushrooms": ["scene"],
+  "origami": ["scene"],
   "unsquatted": ["shell"],
   "vova": ["blog", "music", "mushrooms"]
 }

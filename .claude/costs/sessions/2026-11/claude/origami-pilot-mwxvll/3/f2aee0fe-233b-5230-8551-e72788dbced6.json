@@ -1,0 +1,125 @@
+{
+  "total": {
+    "inputTokens": 1851,
+    "cacheWrite5mTokens": 921,
+    "cacheWrite1hTokens": 212313,
+    "cacheReadTokens": 13796678,
+    "outputTokens": 59116,
+    "thinkingTokens": 17435,
+    "responses": 72,
+    "costUsd": 5.6451075
+  },
+  "estimate": {
+    "at": "2026-11-05T09:35:56.441Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the typed port of a computational-geometry engine and an app-graph change across two apps need a senior who reads both the geometry and the boundary rules"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T09:22:47.044Z",
+    "contextTokens": 114865,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53817,
+      "cacheReadTokens": 571535,
+      "outputTokens": 1431,
+      "thinkingTokens": 379,
+      "responses": 6,
+      "costUsd": 0.573519
+    }
+  },
+  "sessionId": "f2aee0fe-233b-5230-8551-e72788dbced6",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-pilot-mwxvll — пилот готов, следующая задача — инфраструктура для оригами с физикой бумаги",
+  "prs": [
+    251
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCZTP1Enkk3rNK3vND",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T09:22:26.916Z",
+  "lastResponseAt": "2026-11-05T09:36:20.313Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 141,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 212313,
+    "cacheReadTokens": 13607738,
+    "outputTokens": 58848,
+    "thinkingTokens": 17435,
+    "responses": 70,
+    "costUsd": 5.5975756
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 647,
+      "cacheWrite5mTokens": 921,
+      "cacheWrite1hTokens": 212313,
+      "cacheReadTokens": 13796678,
+      "outputTokens": 58853,
+      "thinkingTokens": 17435,
+      "responses": 71,
+      "costUsd": 5.6448556
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1204,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 263,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002519
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 72,
+    "matched": 70,
+    "matchedTableUsd": 5.5975756,
+    "matchedEventUsd": 5.5975756,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 921,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 188940,
+        "outputTokens": 5,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.04728
+      },
+      "generate_session_title": {
+        "inputTokens": 1204,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 263,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002519
+      }
+    }
+  }
+}

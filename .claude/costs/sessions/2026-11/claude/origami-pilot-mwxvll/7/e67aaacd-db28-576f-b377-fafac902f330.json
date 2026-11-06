@@ -1,0 +1,105 @@
+{
+  "total": {
+    "inputTokens": 576,
+    "cacheWrite5mTokens": 1078,
+    "cacheWrite1hTokens": 87719,
+    "cacheReadTokens": 4283690,
+    "outputTokens": 14854,
+    "thinkingTokens": 2315,
+    "responses": 35,
+    "costUsd": 1.8664980000000002
+  },
+  "estimate": {
+    "at": "2026-11-05T11:53:40.296Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "moving a slice across layers with its imports, barrels and checkers, a new checker marker with tests, plus restating a repo rule in every place it lives"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T10:53:21.175Z",
+    "contextTokens": 107102,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43918,
+      "cacheReadTokens": 546116,
+      "outputTokens": 995,
+      "thinkingTokens": 127,
+      "responses": 6,
+      "costUsd": 0.48052320000000004
+    }
+  },
+  "sessionId": "e67aaacd-db28-576f-b377-fafac902f330",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/origami-pilot-mwxvll — василиск переделан и стоит на брюхе, описание PR обновлено; осталось перенести designs в entity и поправить правило в …",
+  "prs": [
+    251
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEp7EcUA3inF7MSpyf",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T10:53:05.071Z",
+  "lastResponseAt": "2026-11-05T11:54:01.744Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 70,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 87719,
+    "cacheReadTokens": 4141611,
+    "outputTokens": 14826,
+    "thinkingTokens": 2315,
+    "responses": 34,
+    "costUsd": 1.8268742000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 576,
+      "cacheWrite5mTokens": 1078,
+      "cacheWrite1hTokens": 87719,
+      "cacheReadTokens": 4283690,
+      "outputTokens": 14854,
+      "thinkingTokens": 2315,
+      "responses": 35,
+      "costUsd": 1.8664980000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 35,
+    "matched": 34,
+    "matchedTableUsd": 1.8268742000000002,
+    "matchedEventUsd": 1.8268742000000002,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 1078,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 142079,
+        "outputTokens": 28,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0396238
+      }
+    }
+  }
+}

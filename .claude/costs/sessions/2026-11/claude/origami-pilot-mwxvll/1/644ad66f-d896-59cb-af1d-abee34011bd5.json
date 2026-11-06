@@ -1,0 +1,129 @@
+{
+  "total": {
+    "inputTokens": 54231,
+    "cacheWrite5mTokens": 2298,
+    "cacheWrite1hTokens": 82265,
+    "cacheReadTokens": 3571480,
+    "outputTokens": 25331,
+    "thinkingTokens": 7918,
+    "responses": 37,
+    "costUsd": 1.8751819999999997
+  },
+  "estimate": {
+    "at": "2026-11-05T08:57:02.357Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "a survey of a niche computational-origami tool landscape needs someone who can tell maintained libraries from abandoned thesis code"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a feasibility spike on an alpha-stage folding library — driving its API headless and rendering the result — is routine prototyping"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-05T08:53:56.055Z",
+    "contextTokens": 88912,
+    "spend": {
+      "inputTokens": 0,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 0,
+      "thinkingTokens": 0,
+      "responses": 0,
+      "costUsd": 0.0
+    }
+  },
+  "sessionId": "644ad66f-d896-59cb-af1d-abee34011bd5",
+  "branch": "claude/origami-pilot-mwxvll",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "а есть какие-то питон-пакеты которые позволяют придумывать и моделировать оригами? типа \"вот если сложим тут, завернём на столько-то, а потом вот так, а потом в…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDn9dzDmyDgMr7F1BY",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-05T08:53:56.055Z",
+  "lastResponseAt": "2026-11-05T09:01:21.137Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 82265,
+    "cacheReadTokens": 3357662,
+    "outputTokens": 21609,
+    "thinkingTokens": 7918,
+    "responses": 31,
+    "costUsd": 1.7620883999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 1076,
+      "cacheWrite5mTokens": 2298,
+      "cacheWrite1hTokens": 82265,
+      "cacheReadTokens": 3571480,
+      "outputTokens": 21646,
+      "thinkingTokens": 7918,
+      "responses": 33,
+      "costUsd": 1.8280239999999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 53155,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 3685,
+      "thinkingTokens": 0,
+      "responses": 4,
+      "costUsd": 0.047158000000000005
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 37,
+    "matched": 31,
+    "matchedTableUsd": 1.7620883999999999,
+    "matchedEventUsd": 1.7620884,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 53155,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 3685,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.047158000000000005
+      },
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 2298,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 213818,
+        "outputTokens": 37,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0659356
+      }
+    }
+  }
+}
