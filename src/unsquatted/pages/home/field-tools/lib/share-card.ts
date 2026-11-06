@@ -31,24 +31,28 @@ export type CardText = {
   lede: string;
   /**
    * What the hand writes: `all` over the struck lede where every domain on the
-   * card is taken, `field` in the field, pointing at its verdict, where only
-   * the typed one is.
+   * card is taken, `field` in the field, an arrow from the footer pointing at
+   * it, where only the typed one is.
    */
   aside: Record<Aside, string>;
 };
 
 type Aside = 'all' | 'field';
 
-type Look = {
+/** What a hand-drawn arrow is inked in, and haloed in where it crosses text. */
+type ArrowInks = {
   paper: string;
+  /** A taken domain's verdict and a liked one's heart, which share a colour. */
+  taken: string;
+};
+
+type Look = ArrowInks & {
   ink: string;
   muted: string;
   accent: string;
   surface: string;
   hairline: string;
   maybe: string;
-  /** A taken domain's verdict and a liked one's heart, which share a colour. */
-  taken: string;
   displayFace: string;
   handFace: string;
   bodyFace: string;
@@ -173,7 +177,7 @@ function drawVerdict(
 }
 
 /** The field's white stretch: from where its name ends to where its verdict starts. */
-type FieldGap = { left: number; right: number };
+type FieldGap = readonly [start: number, end: number];
 
 const FIELD_BASELINE = 240;
 
@@ -213,10 +217,7 @@ function drawField(
   );
   context.fillText(name, LEFT, FIELD_BASELINE);
 
-  return {
-    left: LEFT + context.measureText(name).width,
-    right: nameRight + VERDICT_MARGIN,
-  };
+  return [LEFT + context.measureText(name).width, nameRight + VERDICT_MARGIN];
 }
 
 const ROW_TOP = 316;
@@ -267,59 +268,96 @@ const HAND_WEIGHT = '700';
 /** The all-taken aside's weight and size. */
 const HAND = `${HAND_WEIGHT} 46px`;
 
-/** The least the arrow from the field's note to its verdict spans. */
-const ARROW_SPAN = 64;
+/** The field's white stretch a long name leaves the note. */
+const NOTE_ROOM = 300;
 
-/** The field's white stretch a long name leaves the note and its arrow. */
-const NOTE_ROOM = 340;
+/** What the note keeps clear on either side within the field's white stretch. */
+const NOTE_MARGIN = 24;
+
+const FOOTER_LEFT = 96;
+const FOOTER_BASELINE = 574;
+
+type Point = readonly [x: number, y: number];
 
 /**
- * `aside` by hand in the field's white stretch, `gap`, and an arrow from it to
- * the verdict at the stretch's right end.
+ * A hand-drawn arrow along the cubic `from`–`to`, its head along the curve's
+ * last tangent, haloed in `paper` so it reads where it crosses a row's text.
+ */
+function drawArrow(
+  context: CanvasRenderingContext2D,
+  { taken, paper }: ArrowInks,
+  [from, bend, bendAgain, to]: readonly [Point, Point, Point, Point],
+) {
+  const [toX, toY] = to;
+  const back = Math.atan2(bendAgain[1] - toY, bendAgain[0] - toX);
+
+  context.save();
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  context.beginPath();
+  context.moveTo(...from);
+  context.bezierCurveTo(...bend, ...bendAgain, ...to);
+  for (const turn of [-0.5, 0.5]) {
+    context.moveTo(
+      toX + 16 * Math.cos(back + turn),
+      toY + 16 * Math.sin(back + turn),
+    );
+    context.lineTo(...to);
+  }
+  context.strokeStyle = paper;
+  context.lineWidth = 9;
+  context.stroke();
+  context.strokeStyle = taken;
+  context.lineWidth = 3;
+  context.stroke();
+  context.restore();
+}
+
+/**
+ * `aside` by hand in the middle of the field's white stretch, `gap`, and an
+ * arrow up to it from the footer, which ends at `footerRight`.
  */
 function drawPointed(
   context: CanvasRenderingContext2D,
   l: Look,
   aside: string,
-  gap: FieldGap,
+  [start, end]: FieldGap,
+  footerRight: number,
 ) {
-  const left = gap.left + 28;
-  const font = fitted(
+  const tilt = -0.04;
+
+  context.font = fitted(
     context,
     aside,
     (size) => `${HAND_WEIGHT} ${size}px ${l.handFace}`,
     40,
-    gap.right - left - ARROW_SPAN,
+    end - start - 2 * NOTE_MARGIN,
   );
+  const width = context.measureText(aside).width;
+  const left = (start + end - width) / 2;
+  const baseline = FIELD_BASELINE - 6;
 
   context.save();
-  context.translate(left, FIELD_BASELINE - 6);
-  context.rotate(-0.04);
+  context.translate(left, baseline);
+  context.rotate(tilt);
   context.fillStyle = l.taken;
-  context.font = font;
   context.fillText(aside, 0, 0);
-  const end = context.measureText(aside).width + 10;
-  const tip = { x: gap.right - left - 8, y: 2 };
-
-  context.strokeStyle = l.taken;
-  context.lineWidth = 3;
-  context.lineCap = 'round';
-  context.lineJoin = 'round';
-  context.beginPath();
-  context.moveTo(end, -14);
-  context.bezierCurveTo(
-    end + (tip.x - end) * 0.5,
-    -34,
-    tip.x - 10,
-    -18,
-    tip.x,
-    tip.y,
-  );
-  context.moveTo(tip.x - 14, tip.y - 8);
-  context.lineTo(tip.x, tip.y);
-  context.lineTo(tip.x + 2, tip.y - 15);
-  context.stroke();
   context.restore();
+
+  const middle = left + width / 2;
+  const toY = baseline + (width / 2) * Math.sin(tilt) + 26;
+  const fromX = Math.max(
+    FOOTER_LEFT + 40,
+    Math.min(middle - 70, footerRight - 40),
+  );
+  const fromY = FOOTER_BASELINE - 34;
+
+  drawArrow(context, pick(l, 'taken', 'paper'), [
+    [fromX, fromY],
+    [fromX - 40, fromY - 130],
+    [middle + 50, toY + 120],
+    [middle, toY],
+  ]);
 }
 
 /** An all-taken card's footer: the lede struck through, `aside` over it by hand. */
@@ -332,8 +370,8 @@ function drawCorrected(
   context.fillStyle = l.muted;
   context.textAlign = 'left';
   context.font = `27px ${l.bodyFace}`;
-  context.fillText(t.lede, 96, 574);
-  const right = 96 + context.measureText(t.lede).width;
+  context.fillText(t.lede, FOOTER_LEFT, FOOTER_BASELINE);
+  const right = FOOTER_LEFT + context.measureText(t.lede).width;
 
   context.strokeStyle = l.taken;
   context.lineWidth = 4;
@@ -409,7 +447,6 @@ export async function shareCard(
   }
   if (aside === 'all') drawCorrected(context, l, text, text.aside.all);
   else {
-    if (aside === 'field') drawPointed(context, l, text.aside.field, gap);
     context.fillStyle = l.muted;
     context.textAlign = 'left';
     context.font = fitted(
@@ -419,7 +456,11 @@ export async function shareCard(
       27,
       1008,
     );
-    context.fillText(text.footer, 96, 574);
+    context.fillText(text.footer, FOOTER_LEFT, FOOTER_BASELINE);
+    const footerRight = FOOTER_LEFT + context.measureText(text.footer).width;
+
+    if (aside === 'field')
+      drawPointed(context, l, text.aside.field, gap, footerRight);
   }
 
   const blob = await new Promise<Blob>((resolve, reject) => {
