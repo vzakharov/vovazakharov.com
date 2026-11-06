@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 3322,
+    "inputTokens": 3348,
     "cacheWrite5mTokens": 283312,
-    "cacheWrite1hTokens": 191739,
-    "cacheReadTokens": 21217939,
-    "outputTokens": 62495,
-    "thinkingTokens": 14130,
-    "responses": 137,
-    "costUsd": 8.468803799999998
+    "cacheWrite1hTokens": 205663,
+    "cacheReadTokens": 24597386,
+    "outputTokens": 67240,
+    "thinkingTokens": 14741,
+    "responses": 150,
+    "costUsd": 9.3510892
   },
   "estimate": {
     "at": "2026-11-06T16:55:49.980Z",
@@ -51,7 +51,7 @@
   },
   "sessionId": "45c8c06b-802b-5023-aba4-607197a344fc",
   "branch": "claude/unsquatted-blog-oabq4m",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/tmp/hover",
   "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — vet зелёный, ссылки в постах, копирование картинкой проверено, ховер сердечка исправлен, но на превью ещё не провере…",
   "prs": [
     249
@@ -59,18 +59,18 @@
   "url": "https://claude.ai/code/session_01DaohkBdhq4aehuKmmeU4Nj",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T15:01:18.004Z",
-  "lastResponseAt": "2026-11-06T18:05:33.523Z",
+  "lastResponseAt": "2026-11-06T18:06:58.290Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": 7.972279200000006,
   "ownTurns": {
-    "inputTokens": 183,
+    "inputTokens": 209,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 191739,
-    "cacheReadTokens": 15883561,
-    "outputTokens": 45299,
-    "thinkingTokens": 7139,
-    "responses": 92,
-    "costUsd": 5.6173362000000004
+    "cacheWrite1hTokens": 205663,
+    "cacheReadTokens": 19263008,
+    "outputTokens": 50044,
+    "thinkingTokens": 7750,
+    "responses": 105,
+    "costUsd": 6.4996216
   },
   "subagents": {
     "inputTokens": 82,
@@ -84,23 +84,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 3322,
+      "inputTokens": 3348,
       "cacheWrite5mTokens": 283312,
-      "cacheWrite1hTokens": 191739,
-      "cacheReadTokens": 21217939,
-      "outputTokens": 62495,
-      "thinkingTokens": 14130,
-      "responses": 137,
-      "costUsd": 8.468803799999998
+      "cacheWrite1hTokens": 205663,
+      "cacheReadTokens": 24597386,
+      "outputTokens": 67240,
+      "thinkingTokens": 14741,
+      "responses": 150,
+      "costUsd": 9.3510892
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 137,
-    "matched": 130,
-    "matchedTableUsd": 8.175230799999998,
-    "matchedEventUsd": 8.175230799999998,
+    "events": 149,
+    "matched": 142,
+    "matchedTableUsd": 8.988413,
+    "matchedEventUsd": 8.988413,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 3057,

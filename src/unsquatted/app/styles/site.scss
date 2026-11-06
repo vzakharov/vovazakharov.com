@@ -3,8 +3,9 @@
 // unsquatted.com is a field guide rather than a page of prose: a display serif
 // over a plain sans, the names in the monospace, a green for what is free.
 // `--unsquatted-taken` and `--unsquatted-maybe` are the site's own, for the two
-// answers a lookup can give besides free, and so is `--unsquatted-muted`, the
-// small print's grey. A note, and a chip's hint, reads inverted, ink for paper,
+// answers a lookup can give besides free, and so are `--unsquatted-muted`, the
+// small print's grey, and `--unsquatted-faint`, a paler one for words that only
+// lead up to something, as the social cards' faint ink does. A note, and a chip's hint, reads inverted, ink for paper,
 // as Mantine's tooltip does. An element marked
 // `data-unsquatted-palette` keeps the light palette in either scheme: the share
 // card reads it there, since a canvas is drawn in it whatever the page shows.
@@ -16,6 +17,7 @@
   --font-heading-weight: 700;
   --radius-default: 6px;
   --unsquatted-muted: #5d6b63;
+  --unsquatted-faint: #a3aea7;
   --unsquatted-taken: #9a3b2e;
   --unsquatted-maybe: #8a6d1d;
   --noted-span-background: var(--color-foreground);
@@ -49,6 +51,7 @@
 
   :root[data-site='unsquatted'][data-mantine-color-scheme='dark'] {
     --unsquatted-muted: #9aa79f;
+    --unsquatted-faint: #66726b;
     --unsquatted-taken: #e08b7c;
     --unsquatted-maybe: #d8b860;
 
