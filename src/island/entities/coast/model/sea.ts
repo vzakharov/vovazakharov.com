@@ -4,11 +4,11 @@
  * or colour clearly off the local paper's.
  */
 
-export type Raster = {
+import type { Sized } from '@/kernel/shared/typings';
+
+export type Raster = Sized & {
   /** Row-major RGBA, four bytes a pixel. */
   data: ArrayLike<number>;
-  width: number;
-  height: number;
 };
 
 export type MaskOptions = {
@@ -25,6 +25,18 @@ export type MaskOptions = {
   /** Chromaticity distance from the local paper above which a pixel is
    * coloured: the largest per-channel difference of `c / (r + g + b)`, ×3. */
   minChroma: number;
+  /** A pixel whose averaged brightness is under this share of the local
+   * paper's is shaded, which counts as colour: pale grey pencil barely tints. */
+  maxShade: number;
+  /** How far from ink a pixel must be to count towards a piece's colour, so
+   * the averaging's smear of ink is not read as fill. */
+  inkClearance: number;
+  /** How far land may reach past its colour before it is bare … */
+  coastReach: number;
+  /** … and how deep from the water bare land is peeled away: a word written
+   * against the coast goes, while the ink coastline, within reach of its
+   * colour, stays, and so does a pale stretch inland of it. */
+  peelDepth: number;
   /** The share of a piece of land's pixels that must be coloured for it to be
    * land rather than lettering. */
   minColouredShare: number;
@@ -169,7 +181,7 @@ function dilate(
 function classify(
   raster: Raster,
   options: MaskOptions,
-): { ink: Uint8Array; coloured: Uint8Array } {
+): { ink: Uint8Array; coloured: Uint8Array; shaded: Uint8Array } {
   const { data, width, height } = raster;
   const { paper, cellColumns } = paperByCell(raster, options);
   const channel = (c: number) =>
@@ -182,6 +194,7 @@ function classify(
   const blurred = [channel(0), channel(1), channel(2)];
   const ink = new Uint8Array(width * height);
   const coloured = new Uint8Array(width * height);
+  const shaded = new Uint8Array(width * height);
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const i = y * width + x;
@@ -199,29 +212,28 @@ function classify(
         blurred[2]?.[i] ?? 0,
       ];
       if (chromaDistance(smooth, local) > options.minChroma) coloured[i] = 1;
+      if (brightness(smooth) < options.maxShade * brightness(local)) shaded[i] = 1;
     }
   }
-  return { ink, coloured };
+  return { ink, coloured, shaded };
 }
 
-/** The pixels the frame reaches through 4-neighbours not in `barrier`. */
-function flood(barrier: Uint8Array, width: number, height: number): Uint8Array {
-  const sea = new Uint8Array(width * height);
+/** `seeds`, and the pixels they reach through 4-neighbours not in `barrier`. */
+function flood(
+  barrier: Uint8Array,
+  seeds: Uint8Array,
+  width: number,
+  height: number,
+): Uint8Array {
+  const sea = seeds.slice();
   const queue = new Int32Array(width * height);
   let tail = 0;
+  for (let i = 0; i < width * height; i++) if (sea[i]) queue[tail++] = i;
   const visit = (i: number) => {
     if (barrier[i] || sea[i]) return;
     sea[i] = 1;
     queue[tail++] = i;
   };
-  for (let x = 0; x < width; x++) {
-    visit(x);
-    visit((height - 1) * width + x);
-  }
-  for (let y = 0; y < height; y++) {
-    visit(y * width);
-    visit(y * width + width - 1);
-  }
   for (let head = 0; head < tail; head++) {
     const i = queue[head] ?? 0;
     const x = i % width;
@@ -233,20 +245,30 @@ function flood(barrier: Uint8Array, width: number, height: number): Uint8Array {
   return sea;
 }
 
-/**
- * Land per pixel (1) — what the sea does not reach — keeping only the pieces
- * (8-connected) clear of the frame, at least `islandFloor` pixels, and
- * coloured enough: lettering on the paper is ink alone, so it goes whatever
- * its size, and a lake the sea cannot reach is land.
- */
-export function landMask(raster: Raster, options: MaskOptions): Uint8Array {
-  const { width, height } = raster;
-  const { ink, coloured } = classify(raster, options);
-  const closed = dilate(ink, width, height, options.inkClosing);
-  const barrier = closed.map((set, i) => set | (coloured[i] ?? 0));
-  const sea = dilate(flood(barrier, width, height), width, height, options.inkClosing);
+/** The image's frame, less `barrier`. */
+function frame(barrier: Uint8Array, width: number, height: number): Uint8Array {
+  const edge = new Uint8Array(width * height);
+  for (let i = 0; i < width * height; i++) {
+    const x = i % width;
+    const onEdge =
+      x === 0 || x === width - 1 || i < width || i >= (height - 1) * width;
+    if (onEdge && !barrier[i]) edge[i] = 1;
+  }
+  return edge;
+}
 
-  const land = new Uint8Array(width * height);
+/**
+ * Keeps, of the pixels the sea does not reach, the pieces (8-connected) clear
+ * of the frame, at least `islandFloor` pixels and painted enough.
+ */
+function keptPieces(
+  sea: Uint8Array,
+  painted: Uint8Array,
+  raster: Raster,
+  options: MaskOptions,
+): Uint8Array {
+  const { width, height } = raster;
+  const kept = new Uint8Array(width * height);
   const seen = new Uint8Array(width * height);
   const queue = new Int32Array(width * height);
   for (let start = 0; start < width * height; start++) {
@@ -254,14 +276,16 @@ export function landMask(raster: Raster, options: MaskOptions): Uint8Array {
     seen[start] = 1;
     queue[0] = start;
     let tail = 1;
-    let painted = 0;
+    let paint = 0;
     let framed = false;
     for (let head = 0; head < tail; head++) {
       const i = queue[head] ?? 0;
       const x = i % width;
       const y = (i - x) / width;
-      if (x === 0 || y === 0 || x === width - 1 || y === height - 1) framed = true;
-      if (coloured[i] && !ink[i]) painted++;
+      if (x === 0 || y === 0 || x === width - 1 || y === height - 1) {
+        framed = true;
+      }
+      paint += painted[i] ?? 0;
       for (let dy = -1; dy <= 1; dy++) {
         for (let dx = -1; dx <= 1; dx++) {
           const nx = x + dx;
@@ -274,12 +298,85 @@ export function landMask(raster: Raster, options: MaskOptions): Uint8Array {
         }
       }
     }
-    const kept =
+    const land =
       !framed &&
       tail >= options.islandFloor &&
-      painted >= options.minColouredShare * tail;
-    if (!kept) continue;
-    for (let k = 0; k < tail; k++) land[queue[k] ?? 0] = 1;
+      paint >= options.minColouredShare * tail;
+    if (land) for (const i of queue.subarray(0, tail)) kept[i] = 1;
   }
-  return land;
+  return kept;
+}
+
+/**
+ * Land per pixel (1): what the sea does not reach, in pieces painted enough —
+ * lettering on the paper is ink alone, so it goes whatever its size, and a
+ * lake the sea cannot reach is land — with bare land peeled off its coast.
+ */
+export function landMask(raster: Raster, options: MaskOptions): Uint8Array {
+  const { width, height } = raster;
+  const { ink, coloured, shaded } = classify(raster, options);
+  const closed = dilate(ink, width, height, options.inkClosing);
+  const barrier = closed.map((set, i) => set | (coloured[i] ?? 0));
+  const open = dilate(
+    flood(barrier, frame(barrier, width, height), width, height),
+    width,
+    height,
+    options.inkClosing,
+  );
+  // The closing seals a bay whose mouth is narrower than it; the sea is let
+  // back in through the bare ink, stopped by any tint as well as colour.
+  const tinted = ink.map(
+    (set, i) => set | (coloured[i] ?? 0) | (shaded[i] ?? 0),
+  );
+  const sea = flood(tinted, open, width, height);
+  const nearInk = dilate(ink, width, height, options.inkClearance);
+  const painted = coloured.map((set, i) =>
+    (set | (shaded[i] ?? 0)) & ((nearInk[i] ?? 0) ^ 1),
+  );
+  const reach = dilate(painted, width, height, options.coastReach);
+  const land = keptPieces(sea, painted, raster, options);
+  const bare = land.map((set, i) => set & ((reach[i] ?? 0) ^ 1));
+  return peel(land, bare, raster, options.peelDepth);
+}
+
+/** Land with its `bare` pixels removed where they lie within `depth` steps
+ * (4-neighbours, through bare land) of the water. */
+function peel(
+  land: Uint8Array,
+  bare: Uint8Array,
+  { width, height }: Raster,
+  depth: number,
+): Uint8Array {
+  const peeled = land.slice();
+  const distance = new Int32Array(width * height).fill(-1);
+  const queue = new Int32Array(width * height);
+  let tail = 0;
+  const neighbours = (i: number) => {
+    const x = i % width;
+    return [
+      x > 0 ? i - 1 : -1,
+      x < width - 1 ? i + 1 : -1,
+      i >= width ? i - width : -1,
+      i < (height - 1) * width ? i + width : -1,
+    ];
+  };
+  for (let i = 0; i < width * height; i++) {
+    if (!bare[i]) continue;
+    if (neighbours(i).some((n) => n < 0 || !land[n])) {
+      distance[i] = 1;
+      queue[tail++] = i;
+    }
+  }
+  for (let head = 0; head < tail; head++) {
+    const i = queue[head] ?? 0;
+    peeled[i] = 0;
+    const d = distance[i] ?? 0;
+    if (d >= depth) continue;
+    for (const n of neighbours(i)) {
+      if (n < 0 || !bare[n] || distance[n] !== -1) continue;
+      distance[n] = d + 1;
+      queue[tail++] = n;
+    }
+  }
+  return peeled;
 }
