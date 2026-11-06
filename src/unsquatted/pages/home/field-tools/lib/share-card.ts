@@ -281,6 +281,22 @@ const FOOTER_BASELINE = 574;
 
 type Point = readonly [x: number, y: number];
 
+/** `aside` by hand in `ink` and the font already set, at `at` tilted by `tilt`. */
+function writeByHand(
+  context: CanvasRenderingContext2D,
+  ink: string,
+  aside: string,
+  at: Point,
+  tilt: number,
+) {
+  context.save();
+  context.translate(...at);
+  context.rotate(tilt);
+  context.fillStyle = ink;
+  context.fillText(aside, 0, 0);
+  context.restore();
+}
+
 /**
  * A hand-drawn arrow along the cubic `from`–`to`, its head along the curve's
  * last tangent, haloed in `paper` so it reads where it crosses a row's text.
@@ -339,12 +355,7 @@ function drawPointed(
   const left = (start + end - width) / 2;
   const baseline = FIELD_BASELINE - 6;
 
-  context.save();
-  context.translate(left, baseline);
-  context.rotate(tilt);
-  context.fillStyle = l.taken;
-  context.fillText(aside, 0, 0);
-  context.restore();
+  writeByHand(context, l.taken, aside, [left, baseline], tilt);
 
   const middle = left + width / 2;
   const toY = baseline + (width / 2) * Math.sin(tilt) + 26;
@@ -383,13 +394,8 @@ function drawCorrected(
   context.bezierCurveTo(right * 0.35, 561, right * 0.7, 570, right + 6, 563);
   context.stroke();
 
-  context.save();
-  context.translate(200, 522);
-  context.rotate(-0.05);
-  context.fillStyle = l.taken;
   context.font = `${HAND} ${l.handFace}`;
-  context.fillText(aside, 0, 0);
-  context.restore();
+  writeByHand(context, l.taken, aside, [200, 522], -0.05);
 }
 
 /** The type of the file `shareCard` makes, known before the file is. */
