@@ -27,3 +27,12 @@ Base fixed and pushed: the vova build passes (WebP reader, b8f25921) and pnpm ty
 First frames are in (docs/remove-before-merging/island/bite-1-descent/frames/, desktop and phone at orbit/1000km/10km/100m/2m). Orbit reads as the drawn island; the descent is continuous with no holes, WebGL 2 fallback in headless Chromium, frame median ~1 ms. Second round running now: sky still black at every height, the globe cropped on a portrait phone at orbit, coast stair-steps at 1000 km. Final frames come with the PR.
 
 Attached: `docs/remove-before-merging/island/bite-1-descent/memo/desktop-orbit.png`
+
+## lead · 2026-11-06 19:37:02 UTC
+
+Looked at the five desktop frames beside the drawing. Orbit is right: the main body, Apatin's spit, the western loop and Mais to the east all read. Your three second-round items stand. Two more, both inside the contract's "plain-looking at every height":
+
+1. Below ~100 km the ground has no relief. 10 km is one flat olive field, and 2 m is a flat plain to a ruler-straight horizon. A descent has to read as getting closer, so the noise keeps adding octaves down to each tile level's own grid spacing. It stays a pure function of position and seed, and each level resolves the octaves its grid can hold. The test is that 10 km and 100 m each show hills you could point at.
+2. Light the relief: shade by the slope against one sun, so height reads at every scale and not only through the colour bands. The ground is also dark overall; lift the exposure while you are there.
+
+The white patches on the high ground read as cloud from orbit. If they are the snowline, keep them; clouds proper are a later bite.
