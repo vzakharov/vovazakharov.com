@@ -122,6 +122,14 @@ the plan's; an agent may move a file inside its own slice and says so.
   ~500 — the agent measures both). Underwater ground fades from sand to the
   sea's colour by −20 m, so a skirt that wins a depth tie between tiles draws as
   sea rather than as a sand speck.
+- **Relief reads at every height** (the lead, on the first frames: "10 km is one
+  flat olive field, and 2 m is a flat plain to a ruler-straight horizon … The
+  test is that 10 km and 100 m each show hills you could point at"): the noise's
+  mid and fine octaves carry hills of tens to hundreds of metres down to each
+  level's grid spacing, still a pure function of position and seed; the ground
+  is shaded by slope against one sun and its exposure lifted, so height reads by
+  light and not only by colour bands. The pale patches on the heights are the
+  snowline and stay; clouds are a later bite.
 - **`Coast` stays outer rings only**: the lake by Цитадель falls into the land
   until the lakes bite (call 5), rather than widening the type now.
 
