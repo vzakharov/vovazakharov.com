@@ -507,6 +507,17 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   - Port estimate now: ~200 simulator, ~40 `poseOf`, ~40 contact, ~30 the
     reverse-fold path, ~40 tuck suspend/seat/lid — plus whatever fixes step 5
     and the ring tuck, which is unknown and decides whether porting pays.
+- **Ring tuck, relay 11 round 1** — the jam is not the book crease on the
+  pocket's line. The flap never folds during the tuck phase: with the lid
+  suspended it stalls near upright, and the seat (ramped in one iteration, every
+  flap–lid pair live) swings it down through the lid — the 82–86 crossings are
+  the flap's tip edges and the lid's free end. Upstream, step 2's pocket tip
+  settles 0.02 open (≈45 gaps, a real equilibrium, not the iteration cap). Tried
+  and dropped: sideways push out of a U (`SIDE`, stretches rather than closes),
+  a hand's pressure (`PRESS`: 0.0005 clean but the tuck stops 21° short and the
+  ring opens, 0.002 crumples), long-reach side sorting in the seat
+  (`SEAT_REACH`, 290–440 crossings), holding the pocket's lip up (`LIP`, same
+  jam). Round 2: find what holds the flap upright, then seat with a ramp.
 
 ## Left
 

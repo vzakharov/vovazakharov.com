@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 16,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 52798,
-    "cacheReadTokens": 674651,
-    "outputTokens": 1516,
-    "thinkingTokens": 380,
-    "responses": 7,
-    "costUsd": 0.5876982
+    "inputTokens": 669,
+    "cacheWrite5mTokens": 223566,
+    "cacheWrite1hTokens": 88078,
+    "cacheReadTokens": 9628529,
+    "outputTokens": 78740,
+    "thinkingTokens": 42147,
+    "responses": 82,
+    "costUsd": 5.328314799999998
   },
   "estimate": {
     "at": "2026-11-06T19:07:34.792Z",
@@ -47,52 +47,65 @@
   "branch": "claude/origami-volume-c79y3i",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/origami-volume-c79y3i — замок держит кольцо, складывание по шагам чисто проходит базы, но заправка клапана и шаг 5 «пасти» пока заедают; план…",
-  "prs": [],
+  "prs": [
+    253
+  ],
   "url": "https://claude.ai/code/session_01DaohkCVE8XAG3T9ESkhqCV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T19:07:15.834Z",
-  "lastResponseAt": "2026-11-06T19:07:38.962Z",
+  "lastResponseAt": "2026-11-06T19:26:27.147Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 16,
+    "inputTokens": 37,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 52798,
-    "cacheReadTokens": 674651,
-    "outputTokens": 1516,
-    "thinkingTokens": 380,
-    "responses": 7,
-    "costUsd": 0.5876982
+    "cacheWrite1hTokens": 88078,
+    "cacheReadTokens": 2104151,
+    "outputTokens": 9151,
+    "thinkingTokens": 1794,
+    "responses": 18,
+    "costUsd": 1.3086222
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 222673,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
-    "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "cacheReadTokens": 7385267,
+    "outputTokens": 69577,
+    "thinkingTokens": 40353,
+    "responses": 63,
+    "costUsd": 3.9824623999999997
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 16,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 52798,
-      "cacheReadTokens": 674651,
-      "outputTokens": 1516,
-      "thinkingTokens": 380,
-      "responses": 7,
-      "costUsd": 0.5876982
+      "inputTokens": 669,
+      "cacheWrite5mTokens": 223566,
+      "cacheWrite1hTokens": 88078,
+      "cacheReadTokens": 9628529,
+      "outputTokens": 78740,
+      "thinkingTokens": 42147,
+      "responses": 82,
+      "costUsd": 5.328314799999998
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 7,
-    "matched": 7,
-    "matchedTableUsd": 0.5876982,
-    "matchedEventUsd": 0.5876982,
-    "unseen": {}
+    "events": 82,
+    "matched": 81,
+    "matchedTableUsd": 5.291084599999998,
+    "matchedEventUsd": 5.291084599999998,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 893,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 139111,
+        "outputTokens": 12,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.037230200000000005
+      }
+    }
   }
 }
