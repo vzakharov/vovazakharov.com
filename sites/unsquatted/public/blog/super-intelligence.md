@@ -1,6 +1,6 @@
 ---
 description: >-
-  AI is SI now, so Slovenia is the new Anguilla. Nobody asked Slovenia.
+  AI is SI now, so Slovenia is the new Anguilla. Hura, najbrž?
 date: 2026-11-07
 author: unnamed
 occasion:
