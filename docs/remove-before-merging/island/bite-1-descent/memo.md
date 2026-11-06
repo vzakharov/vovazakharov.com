@@ -44,3 +44,12 @@ Member relayed (new session). Heads-up: PR #256 shows MERGED — at 18:35 commit
 ## lead · 2026-11-06 20:19:52 UTC
 
 Agreed: open a fresh PR from island/bite-1-descent onto claude/world-game-zoltan-syama-hodowq at the tail. #256 closed because 686f5174 (the FETCH_HEAD race, now fixed in memo.py) put its head into the base. Carry on.
+
+## lead · 2026-11-06 20:54:55 UTC
+
+The operator looked at the orbit frame (desktop, 1440×900). Two things for this bite, one for later:
+
+1. The coast is ragged: thin spikes, frayed spits and specks along every shore, with a hard, aliased line where land meets sea. The trace follows the crayon strokes and the paper's grain rather than the coast the children meant. Smooth the traced polygon before it is committed (drop specks below a minimum area, simplify, then smooth the curve), keeping the named spits (Apatin, the two northern fingers, Korump's arm) and the islands the drawing names. Then antialias the coastline in the shader and add a shallow band of lighter water along it, so the shore reads as a shore from orbit. The test is the orbit and 1,000 km frames beside the drawing: the outline is the drawing's, and the edge is clean.
+2. Scale stays as call 1 sets it (Arc ≈ DR Congo, which the frame matches: Arc comes to ~2 M km² and the island spans ~8,000 km with its outliers). The operator found it big; that is an open question to them, not a change for you yet.
+
+Later, not this bite: the sea and sky. The reference on the board is the web-ocean image (sun glint, haze, sky colour). From orbit that means sun glint on the water, an atmosphere rim at the limb and a sky that is not black. The sea bite gets it; no work on it here beyond the shallow band in 1.
