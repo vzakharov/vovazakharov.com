@@ -5,7 +5,7 @@ import { edgePoint, fitTo, toWorld, union, zoomAt } from './camera.ts';
 
 describe('zoomAt', () => {
   it('keeps the world point under the anchor in place', () => {
-    const camera = { x: 10, y: -20, scale: 0.5 };
+    const camera = { x: 10, y: -20, zoom: 0.5 };
     const anchor = { x: 300, y: 200 };
     const before = toWorld(camera, anchor);
     const after = toWorld(zoomAt(camera, anchor, 1.7), anchor);
@@ -20,7 +20,7 @@ describe('fitTo', () => {
       { x: 100, y: 100, width: 2000, height: 1000 },
       { x: 0, y: 0, width: 1096, height: 1000 },
     );
-    assert.equal(camera.scale, 0.5);
+    assert.equal(camera.zoom, 0.5);
     const centre = toWorld(camera, { x: 548, y: 500 });
     assert.deepEqual(centre, { x: 1100, y: 600 });
   });

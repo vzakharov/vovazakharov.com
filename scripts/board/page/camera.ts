@@ -1,40 +1,39 @@
 /**
- * The board's camera: a pan offset and a scale applied to the world layer as
+ * The board's camera: a pan offset and a zoom applied to the world layer as
  * one CSS transform, with the screen ↔ world conversions every gesture needs.
  */
 
-import type { Point, Sized } from '@/kernel/shared/typings';
+import type { Point, Sized, Zoomed } from '@/kernel/shared/typings';
 
-export type { Point } from '@/kernel/shared/typings';
+export type { Point, Zoomed } from '@/kernel/shared/typings';
 
-export type Camera = Point & { scale: number };
 export type Rect = Point & Sized;
 
-const MIN_SCALE = 0.05;
-const MAX_SCALE = 3;
+const MIN_ZOOM = 0.05;
+const MAX_ZOOM = 3;
 
-const clampScale = (scale: number): number =>
-  Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
+const clampZoom = (zoom: number): number =>
+  Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom));
 
-export const toWorld = (camera: Camera, screen: Point): Point => ({
-  x: (screen.x - camera.x) / camera.scale,
-  y: (screen.y - camera.y) / camera.scale,
+export const toWorld = (camera: Zoomed, screen: Point): Point => ({
+  x: (screen.x - camera.x) / camera.zoom,
+  y: (screen.y - camera.y) / camera.zoom,
 });
 
 /** `camera` zoomed by `factor`, the world point under `anchor` staying put. */
-export function zoomAt(camera: Camera, anchor: Point, factor: number): Camera {
-  const scale = clampScale(camera.scale * factor);
+export function zoomAt(camera: Zoomed, anchor: Point, factor: number): Zoomed {
+  const zoom = clampZoom(camera.zoom * factor);
   const world = toWorld(camera, anchor);
   return {
-    scale,
-    x: anchor.x - world.x * scale,
-    y: anchor.y - world.y * scale,
+    zoom,
+    x: anchor.x - world.x * zoom,
+    y: anchor.y - world.y * zoom,
   };
 }
 
 /** The camera showing all of `bounds` inside a `viewport`, with a margin. */
-export function fitTo(bounds: Rect, viewport: Rect, margin = 48): Camera {
-  const scale = clampScale(
+export function fitTo(bounds: Rect, viewport: Rect, margin = 48): Zoomed {
+  const zoom = clampZoom(
     Math.min(
       (viewport.width - 2 * margin) / Math.max(bounds.width, 1),
       (viewport.height - 2 * margin) / Math.max(bounds.height, 1),
@@ -42,15 +41,13 @@ export function fitTo(bounds: Rect, viewport: Rect, margin = 48): Camera {
     ),
   );
   return {
-    scale,
+    zoom,
     x:
-      viewport.x +
-      (viewport.width - bounds.width * scale) / 2 -
-      bounds.x * scale,
+      viewport.x + (viewport.width - bounds.width * zoom) / 2 - bounds.x * zoom,
     y:
       viewport.y +
-      (viewport.height - bounds.height * scale) / 2 -
-      bounds.y * scale,
+      (viewport.height - bounds.height * zoom) / 2 -
+      bounds.y * zoom,
   };
 }
 
