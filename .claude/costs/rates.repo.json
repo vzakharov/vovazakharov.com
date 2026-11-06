@@ -9,6 +9,11 @@
       "multiplier": 0.9,
       "grade": "senior",
       "work": "any hands-on work on the audio itself — mixing, mastering, stem separation, splitting and editing, restoration, encoding and tagging, spectral and loudness analysis, and preparing listening tests — whatever the tool, so no audio subtask needs a role of its own"
+    },
+    "game-designer": {
+      "multiplier": 0.9,
+      "grade": "senior",
+      "work": "a game's mechanics and feel: how the player moves and why, what is fun, the rules of a world"
     }
   }
 }
