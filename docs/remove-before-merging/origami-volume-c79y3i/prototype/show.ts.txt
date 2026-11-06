@@ -15,6 +15,14 @@ const data = JSON.parse(readFileSync(process.argv[2] ?? 'tmp/tg/relaxed.json', '
 const zs = data.positions.map((p) => p[2]);
 const flip = process.env.FLIP ? -1 : 1;
 const lo = Math.min(...zs.map((z) => z * flip));
+// The renderer reads a piece's front off its paper polygon running
+// counter-clockwise, so each triangle is put in that order first.
+const ccw = (t: [number, number, number]): [number, number, number] => {
+  const [a, b, c] = t.map((v) => data.paper[v]!);
+  const turn = (b![0] - a![0]) * (c![1] - a![1]) - (b![1] - a![1]) * (c![0] - a![0]);
+  return turn > 0 ? t : [t[0], t[2], t[1]];
+};
+data.triangles = data.triangles.map(ccw);
 const pieces = data.triangles.map((t, i) => ({
   id: i,
   paper: t.map((v) => data.paper[v]!),

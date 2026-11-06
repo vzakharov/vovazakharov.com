@@ -26,11 +26,27 @@ const paper = PAPERS['kami-15'];
 const hold = Number(process.env.HOLD ?? 0.5);
 const upTo = Number(process.env.UPTO ?? 99);
 
+/** Each blintz flap's tip folded back out past the blintz edge — a leg once
+ * the base is folded. `t` places the line: the tip lands at 2t from the
+ * centre's diagonal, so it pokes 0.5 − 2t past the edge. */
+const t = Number(process.env.TIP ?? 0.18);
+const tips: StepSpec[] = process.env.TIPS
+  ? [
+      { line: { p: [0.5 + t, 0], q: [0, 0.5 + t] }, moving: [0.42, 0.42], select: { at: [0.42, 0.42], top: 1 } },
+      { line: { p: [1.5 - t, 0], q: [0, 1.5 - t] }, moving: [0.58, 0.58], select: { at: [0.58, 0.58], top: 1 } },
+      { line: { p: [0.5 - t, 0], q: [1, 0.5 + t] }, moving: [0.58, 0.42], select: { at: [0.58, 0.42], top: 1 } },
+      { line: { p: [0, 0.5 - t], q: [1, 1.5 - t] }, moving: [0.42, 0.58], select: { at: [0.42, 0.58], top: 1 } },
+    ]
+  : [];
+/** Steps folded flat before the base: the pose the base inflates from. */
+export const PRE = 4 + tips.length;
+
 export const steps: StepSpec[] = [
   { line: { p: [0.5, 0], q: [0, 0.5] }, moving: [0.05, 0.05] },
   { line: { p: [0.5, 0], q: [1, 0.5] }, moving: [0.95, 0.05] },
   { line: { p: [1, 0.5], q: [0.5, 1] }, moving: [0.95, 0.95] },
   { line: { p: [0, 0.5], q: [0.5, 1] }, moving: [0.05, 0.95] },
+  ...tips,
   {
     line: { p: [0, 0], q: [1, 1] },
     moving: [0.3, 0.7],
@@ -229,7 +245,7 @@ if (process.argv[1]?.endsWith('dome.ts')) {
   const pressed = mesh(state, paper);
   const pose = process.env.POSE;
   const m = process.env.PSI
-    ? fromVertex(pressed, run(steps, 4), (Number(process.env.PSI) * Math.PI) / 180, Number(process.env.TENT ?? 1))
+    ? fromVertex(pressed, run(steps, PRE), (Number(process.env.PSI) * Math.PI) / 180, Number(process.env.TENT ?? 1))
     : process.env.FLAT
     ? fromFlat(pressed)
     : pose

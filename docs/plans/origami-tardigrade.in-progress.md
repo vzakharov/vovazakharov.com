@@ -165,6 +165,19 @@ diagonals 135°). `TENT=1` is the classic waterbomb tent, faces flat
 Neither shows the blintz flaps (green) from outside yet — check which side they
 land on before building legs on them.
 
+**Colours.** The blintz pose has the paper's back up and the flaps outside the
+tent at `TENT=1`. The earlier all-cream renders were the viewer's fault:
+`show.ts` now puts each mesh triangle counter-clockwise in paper, as the
+renderer reads a piece's front off that order.
+
+**First legs (`TIPS=1`, `TIP=0.18`).** Before the base, each blintz flap's tip
+is folded back out past the blintz edge (`select: { at, top: 1 }`, line
+`x + y = 0.5 + t` and its three mirrors), so it pokes `0.5 − 2t` past the edge.
+In the tent these poke down under the bottom edges — four cream legs under a
+green body (`prototype/tips-psi60.png`): 0 → 5 crossings, strain 1.1%, unsettled
+at 40k. The base's four corners still spread sideways as wide flat points; they
+are the other four legs to narrow and turn down.
+
 ## Left
 
 1. ~~Make the base settle near-isometric~~ — done above, bar strain 1.2% vs the
