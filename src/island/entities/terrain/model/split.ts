@@ -14,6 +14,14 @@ import {
 /** Levels finer than elsewhere a tile astride the coast splits to. */
 const COAST_FINER = 2;
 
+/** The four tiles a tile splits into. */
+export const children = ({ level, x, y }: TileKey): TileKey[] => [
+  { level: level + 1, x: 2 * x, y: 2 * y },
+  { level: level + 1, x: 2 * x + 1, y: 2 * y },
+  { level: level + 1, x: 2 * x, y: 2 * y + 1 },
+  { level: level + 1, x: 2 * x + 1, y: 2 * y + 1 },
+];
+
 /**
  * Metres from `eye` (world metres) to plane point `(x, y)` taken at the eye's
  * own height, held within the ground's range: the distance a tile's split is
