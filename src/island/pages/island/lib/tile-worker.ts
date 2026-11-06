@@ -41,12 +41,13 @@ function gridRange(heights: Float32Array): readonly [number, number] {
 
 function fill(built: CoastField, key: TileKey): FilledTile {
   const start = performance.now();
-  const ground = fillTile(key, (x, y) => heightAt(built, SEED, x, y));
+  const ground = fillTile(key, (x, y, finest) =>
+    heightAt(built, SEED, x, y, finest),
+  );
   const [low, high] = gridRange(ground.heights);
   return {
     key,
-    land:
-      high < 0 ? null : { ...ground, colours: landColours(ground.heights) },
+    land: high < 0 ? null : { ...ground, colours: landColours(ground.heights) },
     sea: low > 0 ? null : fillTile(key, () => 0),
     fillMs: performance.now() - start,
   };
