@@ -1,6 +1,9 @@
 /** A closed polyline, its last point joined back to its first, never repeated. */
 export type Ring = Array<[number, number]>;
 
+/** A Douglas–Peucker pass's tolerance, in the ring's units. */
+export type Simplified = { tolerance: number };
+
 /** The shoelace area: positive when the ring turns from +x towards +y. */
 export function signedArea(ring: Ring): number {
   let twice = 0;

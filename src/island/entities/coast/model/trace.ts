@@ -4,15 +4,15 @@
  * and platform-free — a script runs it over the drawing today, a browser over
  * the player's own map later.
  */
-import { type Ring, signedArea, simplify } from './ring';
+import { type Ring, signedArea, type Simplified, simplify } from './ring';
 import { boxMean, landMask, type MaskOptions, type Raster } from './sea';
 
-export type TraceOptions = MaskOptions & {
-  /** Half-width of the box the land mask is smoothed over before contouring. */
-  blurRadius: number;
-  /** Douglas–Peucker tolerance, in pixels. */
-  tolerance: number;
-};
+/** `tolerance` is in pixels. */
+export type TraceOptions = MaskOptions &
+  Simplified & {
+    /** Half-width of the box the land mask is smoothed over before contouring. */
+    blurRadius: number;
+  };
 
 type Edge = [index: number, ai: number, aj: number, bi: number, bj: number];
 
