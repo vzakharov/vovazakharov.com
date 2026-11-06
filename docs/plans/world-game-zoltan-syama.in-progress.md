@@ -30,6 +30,16 @@ is in git
 
 - «увидел "[имя репозитория]" на скрине, нигде это упоминать не надо» — the
   private repo the memo tooling is ported from is never named, anywhere.
+- «давай заведём правило, что артефакт может править только оркестратор
+  ("продюсер"?)» — only the lead, in its producer role, edits or publishes the
+  board; members propose through memo.
+- «каждое изменение артефакта снапшотить … Для каждого скриншота запоминать
+  количество затраченных "часов", долларов API cost up until now, мб строк кода
+  итп, чтобы потом наложить» — every board publish is a timelapse frame, and
+  beside it in the release goes `NNNN-slug.json` with the figures to date: hours
+  and dollars from `pnpm costs`, `pnpm contribution lines`' last row, the
+  operator's words (the ledger rows' `operatorWords`). Frames 0001–0003 have
+  none yet.
 
 ## Eaten so far
 
