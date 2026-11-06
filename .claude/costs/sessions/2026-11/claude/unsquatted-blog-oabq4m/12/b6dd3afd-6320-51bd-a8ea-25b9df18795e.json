@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 2868,
-    "cacheWrite5mTokens": 1693,
-    "cacheWrite1hTokens": 162267,
-    "cacheReadTokens": 14314608,
-    "outputTokens": 35132,
-    "thinkingTokens": 7322,
-    "responses": 86,
-    "costUsd": 4.8787374
+    "inputTokens": 3380,
+    "cacheWrite5mTokens": 2044,
+    "cacheWrite1hTokens": 164788,
+    "cacheReadTokens": 15206584,
+    "outputTokens": 36101,
+    "thinkingTokens": 7349,
+    "responses": 90,
+    "costUsd": 5.1015366
   },
   "estimate": {
     "at": "2026-11-06T14:36:28.346Z",
@@ -65,18 +65,18 @@
   "url": "https://claude.ai/code/session_01DaohkFENFNzof8ZFq76ETo",
   "operator": null,
   "firstResponseAt": "2026-11-06T14:36:11.531Z",
-  "lastResponseAt": "2026-11-06T14:54:21.304Z",
+  "lastResponseAt": "2026-11-06T14:59:47.352Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 167,
+    "inputTokens": 173,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 162267,
-    "cacheReadTokens": 13842276,
-    "outputTokens": 34799,
-    "thinkingTokens": 7322,
-    "responses": 82,
-    "costUsd": 4.7632392
+    "cacheWrite1hTokens": 164788,
+    "cacheReadTokens": 14510910,
+    "outputTokens": 35759,
+    "thinkingTokens": 7349,
+    "responses": 85,
+    "costUsd": 4.936358
   },
   "subagents": {
     "inputTokens": 0,
@@ -90,14 +90,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1685,
-      "cacheWrite5mTokens": 1693,
-      "cacheWrite1hTokens": 162267,
-      "cacheReadTokens": 14314608,
-      "outputTokens": 34857,
-      "thinkingTokens": 7322,
-      "responses": 85,
-      "costUsd": 4.878481600000001
+      "inputTokens": 2197,
+      "cacheWrite5mTokens": 2044,
+      "cacheWrite1hTokens": 164788,
+      "cacheReadTokens": 15206584,
+      "outputTokens": 35826,
+      "thinkingTokens": 7349,
+      "responses": 89,
+      "costUsd": 5.1012808000000005
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1183,
@@ -113,20 +113,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 85,
-    "matched": 81,
-    "matchedTableUsd": 4.69607,
-    "matchedEventUsd": 4.696070000000001,
+    "events": 90,
+    "matched": 85,
+    "matchedTableUsd": 4.936358,
+    "matchedEventUsd": 4.936358000000001,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 1518,
-        "cacheWrite5mTokens": 1693,
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 2044,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 472332,
-        "outputTokens": 58,
+        "cacheReadTokens": 695674,
+        "outputTokens": 67,
         "thinkingTokens": 0,
-        "responses": 3,
-        "costUsd": 0.11524240000000002
+        "responses": 4,
+        "costUsd": 0.16492280000000004
       },
       "generate_session_title": {
         "inputTokens": 1183,

@@ -187,7 +187,9 @@ Bite 1, in part:
 
 Left:
 
-- **Vet** on the head, not yet re-run.
+- **Vet is green on 7d59aebf.** The widget heart's hover plate is gone
+  (897bb0e6, the operator's «тут ховер опять тютю»), not yet looked at on the
+  preview; a sub-slice move broke the widget's `@use` path (fixed 7d59aebf).
 - **The index's subtitle** ", by the Unnamed of Unsquatted" reads poorly to the
   operator; options offered, none chosen.
 - `/polish full`, then `/pr` (refresh the body and squash proposal: the slots
