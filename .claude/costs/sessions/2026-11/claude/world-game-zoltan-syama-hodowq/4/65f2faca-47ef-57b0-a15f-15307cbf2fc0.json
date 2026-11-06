@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 1379,
-    "cacheWrite5mTokens": 119544,
-    "cacheWrite1hTokens": 167119,
-    "cacheReadTokens": 13103054,
-    "outputTokens": 44361,
-    "thinkingTokens": 9030,
-    "responses": 97,
-    "costUsd": 4.964982899999998
+    "inputTokens": 1923,
+    "cacheWrite5mTokens": 120276,
+    "cacheWrite1hTokens": 213825,
+    "cacheReadTokens": 18598831,
+    "outputTokens": 65137,
+    "thinkingTokens": 12938,
+    "responses": 119,
+    "costUsd": 6.861338299999999
   },
   "estimate": {
-    "at": "2026-11-06T17:59:43.283Z",
+    "at": "2026-11-06T18:14:19.118Z",
     "parts": [
       {
         "hours": 1.0,
@@ -19,10 +19,10 @@
         "comment": "a case study begun mid-work needs its frame and first entry set in the site's voice"
       },
       {
-        "hours": 4.0,
+        "hours": 2.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "a contribution report over transcripts, PR threads and git numstat, plus memo and rename tooling, is several small scripts with schemas and tests"
+        "comment": "per-extension line flow over git history and two new cost-row fields read from transcripts, with tests, touch shared ledger code where a wrong reading silently miscounts"
       }
     ],
     "comment": null
@@ -53,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkBEJASpo9pqPuqW5Bo",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T17:59:26.975Z",
-  "lastResponseAt": "2026-11-06T18:05:38.481Z",
+  "lastResponseAt": "2026-11-06T18:14:35.615Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 109,
+    "inputTokens": 147,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 167119,
-    "cacheReadTokens": 9497883,
-    "outputTokens": 26437,
-    "thinkingTokens": 7064,
-    "responses": 55,
-    "costUsd": 3.7657045999999994
+    "cacheWrite1hTokens": 213825,
+    "cacheReadTokens": 14767539,
+    "outputTokens": 47194,
+    "thinkingTokens": 10972,
+    "responses": 76,
+    "costUsd": 5.6085758
   },
   "subagents": {
     "inputTokens": 84,
@@ -78,14 +78,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 109,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 167119,
-      "cacheReadTokens": 9497883,
-      "outputTokens": 26437,
-      "thinkingTokens": 7064,
-      "responses": 55,
-      "costUsd": 3.7657045999999994
+      "inputTokens": 653,
+      "cacheWrite5mTokens": 732,
+      "cacheWrite1hTokens": 213825,
+      "cacheReadTokens": 14993660,
+      "outputTokens": 47213,
+      "thinkingTokens": 10972,
+      "responses": 77,
+      "costUsd": 5.662059999999999
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 84,
@@ -109,14 +109,14 @@
     }
   },
   "warnings": [
-    "prices.json priced the 96 responses the events also priced at $4.9649, against the events' $4.6043: a rate in the table is likely out of date"
+    "prices.json priced the 117 responses the events also priced at $6.8077, against the events' $6.4472: a rate in the table is likely out of date"
   ],
   "compactions": [],
   "telemetry": {
-    "events": 97,
-    "matched": 96,
-    "matchedTableUsd": 4.964856799999998,
-    "matchedEventUsd": 4.6043397,
+    "events": 119,
+    "matched": 117,
+    "matchedTableUsd": 6.807727999999999,
+    "matchedEventUsd": 6.447210899999999,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1186,
@@ -127,7 +127,27 @@
         "thinkingTokens": 0,
         "responses": 1,
         "costUsd": 0.0001261
+      },
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 732,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 226121,
+        "outputTokens": 19,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0534842
       }
     }
+  },
+  "operatorWords": 227,
+  "branchLines": {
+    ".py": 231,
+    ".md": 993,
+    ".webp": 0,
+    ".json": 423,
+    ".ts": 1986,
+    ".css": 412,
+    ".png": 0
   }
 }
