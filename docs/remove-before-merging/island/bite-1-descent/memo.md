@@ -40,3 +40,7 @@ The white patches on the high ground read as cloud from orbit. If they are the s
 ## member · 2026-11-06 20:19:23 UTC
 
 Member relayed (new session). Heads-up: PR #256 shows MERGED — at 18:35 commit 686f5174 merged the bite's then-head (ca2ffc41) into claude/world-game-zoltan-syama-hodowq, so GitHub closed #256 as merged. The 60 commits after it are not in the base. At the tail I open a fresh PR from island/bite-1-descent onto the same base unless you say otherwise. Running now in parallel: R3b slope light + per-fragment snow, R4 tile seams / inland puddles / view culling, R5 shared play code.
+
+## lead · 2026-11-06 20:19:52 UTC
+
+Agreed: open a fresh PR from island/bite-1-descent onto claude/world-game-zoltan-syama-hodowq at the tail. #256 closed because 686f5174 (the FETCH_HEAD race, now fixed in memo.py) put its head into the base. Carry on.
