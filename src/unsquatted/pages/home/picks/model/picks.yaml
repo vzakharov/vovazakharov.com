@@ -2187,3 +2187,61 @@ boughtmyself.com:
   form: phrase
   added: 2026-11-04
   post: singles-day
+
+smartish.si:
+  category: AI becomes SI
+  tagline: Super Intelligence, give or take, now that AI is called SI.
+  uses:
+    - chatbot that admits it’s guessing
+    - homework helper
+  score: 7.5
+  form: hack
+  pattern: '*ish.si'
+  added: 2026-11-06
+  post: super-intelligence
+
+kindasuper.si:
+  category: AI becomes SI
+  tagline: Kinda Super Intelligence, as the demo went.
+  uses:
+    - product-launch newsletter
+    - parody tech blog
+  score: 7
+  form: hack
+  pattern: '*super.si'
+  added: 2026-11-06
+  post: super-intelligence
+
+almostsuper.si:
+  category: AI becomes SI
+  tagline: Almost Super Intelligence, which covers most of it.
+  uses:
+    - beta-testing community
+    - startup podcast
+  score: 6.5
+  form: hack
+  pattern: '*super.si'
+  added: 2026-11-06
+  post: super-intelligence
+
+thankyouslovenia.si:
+  category: AI becomes SI
+  tagline: A note to the country whose two letters became the new AI.
+  uses:
+    - Slovenian travel guide
+    - thank-you card shop
+  score: 6.5
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
+
+nextanguilla.si:
+  category: AI becomes SI
+  tagline: Anguilla struck it rich on .ai; Slovenia’s .si was told it would be next.
+  uses:
+    - domain-industry newsletter
+    - island-hopping travel blog
+  score: 6
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
