@@ -388,6 +388,27 @@ steps in `prototype/feel-{lotus,tulip,fish-gill,frog}.*`, the run helper
   joined to them along the pleats (no forked tail); a single-layer fold works
   only on the outermost layer (`bottom: 1`).
 
+## Locks: what every model so far lacks (relay 10)
+
+The operator: «всем нашим попыткам up until now не хватает чтобы что-то
+цеплялось за что-то. Пока это просто лист бумаги, сложенный в определённой
+последовательности. Оригами создаёт опоры, конструкции, склейки без клея».
+
+Why the engine cannot make one today:
+
+- **No tuck.** `flatFold` puts a valley's flap on top of the whole stack and a
+  mountain's under it; only reverse folds land between layers. No step folds a
+  flap into a pocket.
+- **Every crease is told its own angle** (`hold`), so no part ever has to hold
+  another up; and contact only keeps a vertex on its side of a triangle, with no
+  friction, so layers slide freely.
+
+In real paper the shape is an equilibrium — creases spring open, locks stop them
+— and a lock is also how paper closes a loop, the volume § "Rejected: v1 is not
+origami" says rigid folds cannot close. A prototype in `tmp/tg/lock/` tests
+whether a tucked flap holds a shape the creases alone would not (a strip ring
+closed by tucking one end into the other's pocket, with and without the tuck).
+
 ## Left
 
 0. **Answered (relay 10)**: «пока я б не назвал это дилофозавром, но идти в
