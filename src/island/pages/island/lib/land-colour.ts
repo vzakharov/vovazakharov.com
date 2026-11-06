@@ -12,19 +12,6 @@ const channels = (hex: number): Rgb => [
 const linear = (c: number) =>
   c <= 0.040_45 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
 
-/** The shallows' colour along the shore, sRGB: the sea lightened toward its floor. */
-export const SHALLOW_COLOUR = 0x1f_6f_8f;
-
-/**
- * The thinnest and thickest the shallow band reaches, metres of water along
- * the eye's ray. The band spans a few pixels of water thickness between the
- * two: the floor beside the eye is metres deep, while from orbit a pixel
- * spans kilometres of shelf. The ceiling also keeps a jump in what lies
- * behind the sea — sky past the floor's edge — from lighting the band.
- */
-export const SHALLOW_THINNEST = 6;
-export const SHALLOW_THICKEST = 2500;
-
 /** The top of the shore's sand, metres above the sea. */
 export const SHORE_TOP = 20;
 

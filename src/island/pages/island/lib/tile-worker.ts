@@ -15,7 +15,6 @@ import {
   type TileKey,
 } from '@/island/entities/terrain';
 
-import { SHALLOW_THICKEST } from './land-colour';
 import {
   filledBuffers,
   type FilledTile,
@@ -51,8 +50,7 @@ function fill(built: CoastField, key: TileKey, eye: Vec3): FilledTile {
   const [low, high] = gridRange(ground.heights);
   return {
     key,
-    // Ground as deep as the shallow band reaches stays: the sea reads its band off it.
-    land: high < -SHALLOW_THICKEST ? null : ground,
+    land: high < 0 ? null : ground,
     sea: low > 0 ? null : fillTile(key, () => 0),
     fillMs: performance.now() - start,
   };

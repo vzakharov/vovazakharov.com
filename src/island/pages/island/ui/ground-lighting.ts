@@ -1,20 +1,4 @@
-import {
-  attribute,
-  cameraFar,
-  cameraNear,
-  clamp,
-  color,
-  fwidth,
-  lights,
-  logarithmicDepthToViewZ,
-  materialColor,
-  max,
-  mix,
-  positionView,
-  smoothstep,
-  vec3,
-  viewportDepthTexture,
-} from 'three/tsl';
+import { attribute, clamp, lights, mix, vec3 } from 'three/tsl';
 import {
   DirectionalLight,
   HemisphereLight,
@@ -25,13 +9,7 @@ import {
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import {
-  LAND_STOPS,
-  SEA_COLOUR,
-  SHALLOW_COLOUR,
-  SHALLOW_THICKEST,
-  SHALLOW_THINNEST,
-} from '../lib/land-colour';
+import { LAND_STOPS, SEA_COLOUR } from '../lib/land-colour';
 import { intensityFor, sunToward } from '../lib/sun';
 
 /**
@@ -67,43 +45,6 @@ function landColourNode() {
   return colour;
 }
 
-/** Pixels of water thickness over which the sea fades in at the shore. */
-const EDGE_PIXELS = 1.5;
-/** Pixels of water thickness the shallow band spans, before its clamp. */
-const SHALLOW_PIXELS = 3;
-
-/**
- * The sea's surface by the water under it. Its fragments read the opaque
- * scene's depth behind them, so the sea must draw after the land — it is
- * `transparent` for that — and a sea mesh must stay out of that depth.
- * Water thickness along the ray fades the sea in over a pixel and a half,
- * an edge antialiased at any height, and lightens it to the shallows'
- * colour over a few pixels more. Where nothing opaque lies behind, the
- * thickness reads as the far plane's: open water, the sea's own colour.
- */
-function seaSurface(sea: MeshLambertNodeMaterial): void {
-  const behind = logarithmicDepthToViewZ(
-    viewportDepthTexture().x,
-    cameraNear,
-    cameraFar,
-  );
-  const ray = positionView.length().div(positionView.z.negate());
-  const thickness = max(0, positionView.z.sub(behind).mul(ray));
-  const pixel = fwidth(thickness);
-  const band = clamp(
-    pixel.mul(SHALLOW_PIXELS),
-    SHALLOW_THINNEST,
-    SHALLOW_THICKEST,
-  );
-  sea.transparent = true;
-  sea.opacityNode = smoothstep(0, pixel.mul(EDGE_PIXELS), thickness);
-  sea.colorNode = mix(
-    color(SHALLOW_COLOUR),
-    materialColor,
-    smoothstep(0, band, thickness),
-  );
-}
-
 export type GroundLighting = CanDispose & {
   readonly land: MeshLambertNodeMaterial;
   readonly sea: MeshLambertNodeMaterial;
@@ -116,7 +57,7 @@ export type GroundLighting = CanDispose & {
 /**
  * The land and sea materials and the lights on them: one sun direction, laying
  * more light on the land than on the sea, and one sky. The land is coloured by
- * the `height` vertex attribute; the sea by the water under it (`seaSurface`).
+ * the `height` vertex attribute; the sea keeps a flat colour.
  */
 export function groundLighting(): GroundLighting {
   const sunward = sunToward(SUN_ELEVATION, SUN_AZIMUTH);
@@ -137,7 +78,6 @@ export function groundLighting(): GroundLighting {
   land.lightsNode = lights([landSun, sky]);
   const sea = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
   sea.lightsNode = lights([seaSun, sky]);
-  seaSurface(sea);
 
   return {
     land,
