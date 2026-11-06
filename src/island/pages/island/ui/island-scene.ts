@@ -33,6 +33,7 @@ import {
 } from '@/island/features/eye';
 
 import { SEA_COLOUR } from '../lib/land-colour';
+import { skyColour } from '../lib/sky-colour';
 import { startTilePool } from '../lib/tile-pool';
 import { SEED } from '../lib/tile-protocol';
 import { coverOf } from '../model/tile-cover';
@@ -107,7 +108,8 @@ export function mountIslandScene(
     logarithmicDepthBuffer: true,
   });
   const scene = new Scene();
-  scene.background = new Color(0x05_07_0c);
+  const background = new Color(skyColour(MAX_HEIGHT));
+  scene.background = background;
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const sea = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
@@ -184,6 +186,7 @@ export function mountIslandScene(
     camera.up.set(...pose.up);
     camera.lookAt(...pose.forward);
     sky.position.set(...unit(pose.position));
+    background.setHex(skyColour(eye.height));
     renderer.render(scene, camera);
   }
 
