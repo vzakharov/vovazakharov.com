@@ -13,12 +13,7 @@ import { parseArgs } from 'node:util';
 import { format } from 'prettier';
 import { z } from 'zod';
 
-import {
-  type LandPolygon,
-  type Ring,
-  traceCoast,
-  type TraceOptions,
-} from '@/island/entities/coast';
+import { type Ring, traceCoast, type TraceOptions } from '@/island/entities/coast';
 import type { Coast } from '@/island/shared/globe';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -34,12 +29,19 @@ const OUT = path.join(REPO_ROOT, 'src/island/entities/coast/model/coast.json');
 const MAIN_BODY_KM = 5000;
 
 const OPTIONS: TraceOptions = {
-  maxPaperSaturation: 0.095,
-  minPaperValue: 0.65,
-  blurRadius: 2,
-  level: 0.3,
-  holeFloor: 1500,
-  islandFloor: 150,
+  paperCell: 16,
+  paperWindow: 4,
+  inkRatio: 0.6,
+  inkClosing: 1,
+  colourBlur: 2,
+  minChroma: 0.05,
+  maxShade: 0.92,
+  inkClearance: 2,
+  coastReach: 6,
+  peelDepth: 8,
+  minColouredShare: 0.1,
+  islandFloor: 60,
+  blurRadius: 1,
   tolerance: 0.9,
 };
 
@@ -106,7 +108,7 @@ async function decode(tab: Tab, base64: string) {
 async function overlay(
   tab: Tab,
   base64: string,
-  polygons: LandPolygon[],
+  rings: Ring[],
 ): Promise<Buffer> {
   const png = await settle(
     tab,
@@ -121,9 +123,8 @@ async function overlay(
         context.fillStyle = colour;
         for (const [x, y] of ring) context.fillRect(x - 1, y - 1, 2, 2);
       };
-      ${JSON.stringify(polygons)}.forEach(({ outer, holes }, i) => {
-        trace(outer, i === 0 ? '#e00000' : '#0040ff');
-        holes.forEach((hole) => trace(hole, '#00a000'));
+      ${JSON.stringify(rings)}.forEach((ring, i) => {
+        trace(ring, i === 0 ? '#e00000' : '#0040ff');
       });
       const png = await canvas.convertToBlob({ type: 'image/png' });
       const bytes = new Uint8Array(await png.arrayBuffer());
@@ -156,27 +157,27 @@ const metres = (km: number) => Math.round(km * 1000) / 1000;
  * centre, `y` flipped to north, each ring reversed so that land on screen's
  * clockwise becomes the plane's counter-clockwise.
  */
-function toPlane(polygons: LandPolygon[]): Coast {
-  const [main] = polygons;
+function toPlane(rings: Ring[]): Coast {
+  const [main] = rings;
   if (!main) throw new Error('the trace found no land');
-  const { left, right, top, bottom } = bounds(main.outer);
+  const { left, right, top, bottom } = bounds(main);
   const kmPerPixel = MAIN_BODY_KM / (right - left);
   const cx = (left + right) / 2;
   const cy = (top + bottom) / 2;
   return {
     kmPerPixel,
-    rings: polygons.map(({ outer }) =>
-      outer
+    rings: rings.map((ring) =>
+      ring
         .map(([x, y]): [number, number] => [
           metres((x - cx) * kmPerPixel),
           metres((cy - y) * kmPerPixel),
         ])
-        .reverse(),
+        .toReversed(),
     ),
   };
 }
 
-async function main(): Promise<void> {
+async function run(): Promise<void> {
   const { values } = parseArgs({ options: { overlay: { type: 'string' } } });
   const base64 = (await readFile(MAP)).toString('base64');
   const browser = await launch();
@@ -185,30 +186,30 @@ async function main(): Promise<void> {
       throw new Error(message);
     });
     const raster = await decode(tab, base64);
-    const polygons = traceCoast(raster, OPTIONS);
-    const coast = toPlane(polygons);
+    const rings = traceCoast(raster, OPTIONS);
+    const coast = toPlane(rings);
     const json = await format(JSON.stringify(coast), { parser: 'json' });
     await writeFile(OUT, json);
 
     const vertices = coast.rings.reduce((sum, ring) => sum + ring.length, 0);
-    console.log(
+    process.stdout.write(
       `${String(raster.width)}×${String(raster.height)} px; ` +
         `${String(coast.rings.length)} rings, ${String(vertices)} vertices; ` +
-        `${coast.kmPerPixel.toFixed(4)} km/px; ${String(json.length)} bytes`,
+        `${coast.kmPerPixel.toFixed(4)} km/px; ${String(json.length)} bytes\n`,
     );
-    polygons.forEach(({ outer, holes }, i) => {
-      const { left, right, top, bottom } = bounds(outer);
-      console.log(
+    for (const [i, ring] of rings.entries()) {
+      const { left, right, top, bottom } = bounds(ring);
+      process.stdout.write(
         `  #${String(i)} x ${left.toFixed(0)}–${right.toFixed(0)}, ` +
           `y ${top.toFixed(0)}–${bottom.toFixed(0)}, ` +
-          `${String(outer.length)} vertices, ${String(holes.length)} holes kept (not written)`,
+          `${String(ring.length)} vertices\n`,
       );
-    });
+    }
 
     if (values.overlay !== undefined) {
       await writeFile(
         path.resolve(values.overlay),
-        await overlay(tab, base64, polygons),
+        await overlay(tab, base64, rings),
       );
     }
   } finally {
@@ -216,4 +217,4 @@ async function main(): Promise<void> {
   }
 }
 
-await main();
+await run();
