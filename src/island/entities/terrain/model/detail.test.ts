@@ -12,6 +12,7 @@ import {
   TILE_GRID,
   tileId,
   type TileKey,
+  tileRect,
   tileSide,
 } from './tile';
 import { fillTile, type HeightSample } from './tile-fill';
@@ -73,6 +74,45 @@ function steps(tiles: readonly TileKey[]): Array<readonly [TileKey, TileKey]> {
     }),
   );
 }
+
+describe('detailCut at the nadir', () => {
+  for (const [x, height] of [
+    [0, 20_000_000],
+    [0, 1_000_000],
+    [1_000_000, 1_000_000],
+    [300_000, 10_000],
+    [999_000, 10_000],
+    [300_000, 100],
+  ] as const) {
+    it(`asks no more than the nadir tile holds from ${height} m over (${x}, 0)`, () => {
+      const eye = planeToWorld(x, 0, height);
+      const nadir = selectTiles(eye, { coast: field }).filter((key) => {
+        const { west, south, east, north } = tileRect(key);
+        return west <= x && x <= east && south <= 0 && north >= 0;
+      });
+      const coarsest = Math.min(...nadir.map((key) => key.level));
+      assert.equal(
+        detailCut(eye, field)(x, 0),
+        (2 * tileSide(coarsest)) / CELLS,
+      );
+    });
+  }
+
+  it('never asks finer than a tile the coast-following selection draws', () => {
+    const eye = planeToWorld(999_000, 0, 10_000);
+    const cut = detailCut(eye, field);
+    for (const key of selectTiles(eye, { coast: field })) {
+      const spacing = tileSide(key.level) / CELLS;
+      for (let j = 0; j < TILE_GRID; j += 4) {
+        for (let i = 0; i < TILE_GRID; i += 4) {
+          const x = latticeCoordinate(key.level, CELLS, key.x * CELLS + i);
+          const y = latticeCoordinate(key.level, CELLS, key.y * CELLS + j);
+          assert.ok(cut(x, y) >= 2 * spacing * (1 - 1e-9), tileId(key));
+        }
+      }
+    }
+  });
+});
 
 describe('detailCut', () => {
   const eye = planeToWorld(300_000, 0, 100);

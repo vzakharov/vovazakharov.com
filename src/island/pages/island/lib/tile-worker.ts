@@ -46,7 +46,7 @@ function fill(built: CoastField, key: TileKey, eye: Vec3): FilledTile {
   const ground = fillTile(
     key,
     (x, y, finest) => heightAt(built, SEED, x, y, finest),
-    { finest: detailCut(eye) },
+    { finest: detailCut(eye, built) },
   );
   const [low, high] = gridRange(ground.heights);
   return {

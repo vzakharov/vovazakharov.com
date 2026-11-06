@@ -1,31 +1,13 @@
-import {
-  planeToWorld,
-  R,
-  type Vec3,
-  worldToPlane,
-} from '@/island/shared/globe';
+import { planeToWorld, R, type Vec3 } from '@/island/shared/globe';
 
-import { type CoastField, sampleCoastField } from './coast-field';
-import { viewDistance } from './detail';
+import type { CoastField } from './coast-field';
 import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from './height';
-import {
-  MAX_LEVEL,
-  MIN_LEVEL,
-  SPLIT_RATIO,
-  tileId,
-  type TileKey,
-  tileRect,
-  tileSide,
-} from './tile';
+import { children, splitRule } from './split';
+import { tileId, type TileKey, tileRect, tileSide } from './tile';
 import { type Frustum, outside } from './view';
 
 export type SelectOptions = {
-  /**
-   * The coast, when the selection should follow it: a tile whose centre is
-   * nearer the coast than its side splits `COAST_FINER` levels finer than
-   * elsewhere, since the sea's flat surface meets the land there along the
-   * land grid's cells and shows their size as steps.
-   */
+  /** The coast, when the selection should follow it (`splitRule`). */
   readonly coast?: CoastField;
   /** The camera's view, when tiles out of it should be dropped. */
   readonly frustum?: Frustum;
@@ -37,9 +19,6 @@ export type SelectOptions = {
   readonly ground?: (x: number, y: number) => number;
 };
 
-/** Levels finer than elsewhere a tile astride the coast splits to. */
-const COAST_FINER = 2;
-
 const length = (v: Vec3) => Math.hypot(v[0], v[1], v[2]);
 const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const angleBetween = (a: Vec3, b: Vec3) =>
@@ -47,25 +26,15 @@ const angleBetween = (a: Vec3, b: Vec3) =>
 /** The angle over the sea's horizon from which ground `h` metres up shows. */
 const rise = (h: number) => Math.acos(R / (R + Math.max(0, h)));
 
-const children = ({ level, x, y }: TileKey): TileKey[] => [
-  { level: level + 1, x: 2 * x, y: 2 * y },
-  { level: level + 1, x: 2 * x + 1, y: 2 * y },
-  { level: level + 1, x: 2 * x, y: 2 * y + 1 },
-  { level: level + 1, x: 2 * x + 1, y: 2 * y + 1 },
-];
-
 /**
  * The leaf tiles to draw from `eye` (world metres), ordered by level, then
- * `y`, then `x`. A tile splits while its side exceeds `SPLIT_RATIO` times its
- * distance from the eye, from `MIN_LEVEL` down to `MAX_LEVEL`; one wholly past
+ * `y`, then `x`. A tile splits by `splitRule`; one wholly past
  * the horizon, or wholly out of `frustum`, is dropped. The result is balanced:
  * tiles sharing an edge differ by at most one level, and each tile's skirt
  * hides the step in between.
  */
 export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
   const { coast, frustum, ground } = options;
-  const plane = worldToPlane(eye);
-  const distanceTo = viewDistance(eye);
   const seaHorizon = Math.acos(Math.min(1, R / length(eye)));
 
   /** The tile's lowest and highest ground, bounded by the slope around samples. */
@@ -118,34 +87,7 @@ export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
     return !outside(frustum, eye, hull, bulge);
   };
 
-  const distance = (key: TileKey) => {
-    const { west, south, east, north } = tileRect(key);
-    return distanceTo(
-      Math.min(east, Math.max(west, plane.x)),
-      Math.min(north, Math.max(south, plane.y)),
-    );
-  };
-
-  const astride = (key: TileKey) => {
-    if (coast === undefined) return false;
-    const { west, south, east, north } = tileRect(key);
-    const reach = sampleCoastField(
-      coast,
-      (west + east) / 2,
-      (south + north) / 2,
-    );
-    return Math.abs(reach) < tileSide(key.level);
-  };
-
-  const splits = (key: TileKey) => {
-    if (key.level < MIN_LEVEL) return true;
-    if (key.level >= MAX_LEVEL) return false;
-    const ratio = tileSide(key.level) / distance(key);
-    return (
-      ratio > SPLIT_RATIO ||
-      (ratio > SPLIT_RATIO / 2 ** COAST_FINER && astride(key))
-    );
-  };
+  const splits = splitRule(eye, coast);
 
   const leaves = new Map<string, TileKey>();
   const descend = (key: TileKey) => {
