@@ -29,6 +29,11 @@
       "multiplier": 1.0,
       "grade": "senior",
       "work": "procedural content and its look: terrain, coasts, biomes, vegetation, sky, the bridge between art and shaders"
+    },
+    "environment-artist": {
+      "multiplier": 0.8,
+      "grade": "senior",
+      "work": "landscape assets and look: trees, rocks, textures, palettes of land, sea and sky"
     }
   }
 }
