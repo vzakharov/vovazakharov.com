@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { borderLoop, fillTile } from '@/island/entities/terrain';
 
-import { colourHeights, floorHeights } from './colour-heights';
+import { colourHeights } from './colour-heights';
 
 describe('colourHeights', () => {
   const key = { level: 12, x: 2048, y: 2048 };
@@ -17,28 +17,11 @@ describe('colourHeights', () => {
     }
   });
 
-  it("colours an upland skirt by its border's height", () => {
-    const tile = fillTile(key, () => 500, { grid, skirtDepth: 100 });
-    const heights = colourHeights(tile.heights, grid);
-    assert.ok(heights.every((height) => height === 500));
-  });
-
-  it('lets a shore skirt sink to the sea floor', () => {
-    const tile = fillTile(key, () => 5, { grid, skirtDepth: 100 });
-    const heights = colourHeights(tile.heights, grid);
-    assert.deepEqual([...heights], [...tile.heights]);
-    assert.equal(heights.at(-1), -95);
-  });
-});
-
-describe('floorHeights', () => {
-  it("gives every sea skirt its border's floor, shallow or deep", () => {
-    const grid = 5;
-    const key = { level: 12, x: 2048, y: 2048 };
-    for (const depth of [-3, -900]) {
-      const floor = fillTile(key, () => depth, { grid, skirtDepth: 100 });
-      const heights = floorHeights(floor.heights, grid);
-      assert.ok(heights.every((height) => height === depth));
+  it("colours every skirt by its border's height, upland, shore or floor", () => {
+    for (const height of [500, 5, -3, -900]) {
+      const tile = fillTile(key, () => height, { grid, skirtDepth: 100 });
+      const heights = colourHeights(tile.heights, grid);
+      assert.ok(heights.every((each) => each === height));
     }
   });
 });

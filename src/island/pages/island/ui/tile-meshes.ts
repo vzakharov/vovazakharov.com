@@ -17,7 +17,7 @@ import {
   type TileMesh,
 } from '@/island/entities/terrain';
 
-import { colourHeights, floorHeights } from '../lib/colour-heights';
+import { colourHeights } from '../lib/colour-heights';
 import type { FilledTile } from '../lib/tile-protocol';
 import { HEIGHT_ATTRIBUTE } from './ground-lighting';
 
@@ -84,7 +84,7 @@ export function tileMeshes(
       }
       if (sea !== null) {
         if (floor === null) throw new Error(`tile ${tileId(key)}: no floor`);
-        const colourBy = floorHeights(floor, sea.grid);
+        const colourBy = colourHeights(floor, sea.grid);
         meshes.push(new Mesh(geometryOf(sea, colourBy), materials.sea));
       }
       const source = land ?? sea;

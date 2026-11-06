@@ -1,0 +1,119 @@
+{
+  "total": {
+    "inputTokens": 114,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 164984,
+    "cacheReadTokens": 9927275,
+    "outputTokens": 37097,
+    "thinkingTokens": 13030,
+    "responses": 59,
+    "costUsd": 4.047723000000001
+  },
+  "estimate": {
+    "at": "2026-11-06T22:05:59.832Z",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the coastline band without a depth texture and the phone's tile-edge lines are rendering work"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "briefing the last round and the tail"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "the final ten frames against the drawing"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T22:05:57.943Z",
+    "contextTokens": 110523,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47338,
+      "cacheReadTokens": 459190,
+      "outputTokens": 958,
+      "thinkingTokens": 130,
+      "responses": 5,
+      "costUsd": 0.48975
+    }
+  },
+  "sessionId": "159a3f33-6793-5468-9214-a19363ccb64e",
+  "branch": "island/bite-1-descent",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/bite-1-descent — свет, швы, отсечение и сглаженный берег в ветке, остались кадры с головы, полоса мелководья и хвост с новым PR",
+  "prs": [
+    256
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBCYk67o4i5xZPwvZ7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T22:05:42.508Z",
+  "lastResponseAt": "2026-11-06T22:18:57.052Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 114,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 164984,
+    "cacheReadTokens": 9927275,
+    "outputTokens": 37097,
+    "thinkingTokens": 13030,
+    "responses": 59,
+    "costUsd": 4.047723000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 114,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 164984,
+      "cacheReadTokens": 9927275,
+      "outputTokens": 37097,
+      "thinkingTokens": 13030,
+      "responses": 59,
+      "costUsd": 4.047723000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 58,
+    "matched": 58,
+    "matchedTableUsd": 3.986331000000001,
+    "matchedEventUsd": 3.9863310000000007,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 2576,
+    ".py": 894,
+    ".webp": 0,
+    ".json": 1896,
+    ".png": 0,
+    ".ts": 8049,
+    ".css": 412,
+    ".sh": 1,
+    ".tsx": 52,
+    ".scss": 18
+  }
+}
