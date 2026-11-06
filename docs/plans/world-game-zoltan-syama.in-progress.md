@@ -169,7 +169,13 @@ entry is this one: the map, the descent, the mammoth, the board.
    and exits on the first with news.
 2. **`.claude/skills/megabeast/` → `.claude/skills/mammoth/`**, with every
    pointer at it.
-3. **The first step toward the star**, chosen then: its contract on the board,
+3. **The operator's word count**, asked mid-bite: «запоминать количество слов,
+   написанных оператором (мной) across session messages, code reviews, etc. —
+   оценить "человеческий вклад" во всё это». Counted from what is already on
+   record — every session's transcript (`list_events`) and the PRs' reviews and
+   comments by the operator — so it costs nothing to keep while the work runs,
+   and sits beside the ledger's hours at the end.
+4. **The first step toward the star**, chosen then: its contract on the board,
    and its member started. The likely one is the thinnest descent from orbit to
    the ground over the traced island, since everything else hangs off it.
 
