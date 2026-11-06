@@ -1,5 +1,53 @@
 # Origami: paper that springs back — a volumetric basilisk
 
+## Progress (paused for the context budget)
+
+The open questions went unanswered, so the recommendations stand (1a, 2a, 3a).
+
+### Done, uncommitted to any test yet
+
+- §1: `FoldRecord` carries `creases` (paper segments) and `hold`; `Step.hold`;
+  per-kind `hold` defaults live per paper preset in `paper.ts` (`holdOf`);
+  `isReverse` moved to `state.ts`; `assign(a, b)` extracted in
+  `crease-pattern.ts`. The basilisk's fold in half has `hold: 0.8`.
+- §2 `mesh.ts`: welding by paper point, T-junction splits, per-piece Bowyer–
+  Watson (`triangulate.ts`, throws unless the triangles tile the piece),
+  `MESH_EDGE = 1/25` (1/40 was too slow — see below), hinge classing with the
+  rigid fold angle (`foldAngle`: geometry, ±π from `assign` when flat) and the
+  latest containing fold's hold; start positions lift layers and push a flat
+  crease's vertex out by half the layers it wraps.
+- §3 `hinge.ts` (angle + gradient; the sign convention and gradient are
+  confirmed by a 90° settle, not yet by a finite-difference test), `contact.ts`
+  (vertex–triangle penalty with side memory, numeric-key grid, `crossings` via
+  Möller–Trumbore), `relax.ts` (FIRE with mass = Gershgorin bound per vertex so
+  dt = 1.8, per-step cap of gap/2, hinge goals ramped over 2000 steps).
+  `FACET = CREASE = 0.7`.
+- A square folded in half with `hold: 0.5` settles to 90.0° on every crease
+  edge, strain 1e-6, 0 crossings, ~8k steps, ~5 s at 1/25.
+
+### Left
+
+- **The basilisk does not settle yet.** Its mesh (884 vertices, 524 crease
+  edges) starts with **751 crossings** in `mesh.start` before any step, and the
+  solver then jams with forces ~1 and the spine near π. Find what in `startOf`
+  makes the pressed state cross itself — averaged welds between pieces whose
+  layers differ a lot, the outward push at crease junctions, or shaped pieces
+  (neck, head, tail) — by listing the crossing edge/triangle pairs with their
+  pieces and layers. Contact cannot hold sides that start crossed, so this comes
+  first.
+- Speed: ~0.6 ms/step on 800 vertices after removing per-call closures (tsx
+  wraps inner arrow functions in `__name` — keep the hot loop closure-free);
+  `grid` rebuild is the next hotspot.
+- Tests (§ Tests): add a finite-difference check of `dihedral`'s gradient, the
+  mesh conformity test (every interior edge between exactly two triangles,
+  T-junction case), the 90° settle, determinism, and the basilisk one.
+- §3's `Snapshot.mesh` + report line, §4 renderer, `--rigid`, §5 tuning by
+  render; then `/polish` and `/pr` per `/go`.
+- Spike scripts lived in the gitignored `tmp/origami-spike/` and are gone with
+  the container: `half.ts` folded `square()` in half (`hold: 0.5`), meshed and
+  relaxed it and printed the crease angles; `basilisk.ts` did the same for
+  `run(DESIGNS.basilisk().steps)` and printed `crossings(m, start)`.
+
 ## Goal
 
 The basilisk from #251 (`src/origami/entities/design/model/basilisk.ts`) should

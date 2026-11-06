@@ -16,6 +16,7 @@ import {
   perpendicular,
   reflection,
   scale,
+  type Segment,
   side,
   splitConvex,
   type Vec,
@@ -57,6 +58,9 @@ export type Step = {
   readonly tag?: string;
   /** For reverse folds: pieces carrying this tag form the lower half. */
   readonly lower?: string;
+  /** The share of its fold angle the crease keeps when the model is let go:
+   * 1 is pressed sharp. Overrides the paper's default for the fold's kind. */
+  readonly hold?: number;
 };
 
 /** A step, or a step computed from the state it folds. */
@@ -264,6 +268,12 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
   if (step.tag !== undefined) {
     for (const piece of moved) piece.tags.add(step.tag);
   }
+  const creases = hinges(state, line, movedIds).map(
+    ({ moved: piece, ends }): Segment => {
+      const toPaper = invert(piece.placement);
+      return [apply(toPaper, ends[0]), apply(toPaper, ends[1])];
+    },
+  );
 
   if (flat) flatFold(state, moved, line, step);
   else {
@@ -286,6 +296,8 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
     flat,
     moved: movedIds,
     lowerTag: step.lower,
+    creases,
+    hold: step.hold,
   });
   return state;
 }

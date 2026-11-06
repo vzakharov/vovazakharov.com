@@ -53,7 +53,15 @@ export type FoldRecord = {
   readonly moved: ReadonlySet<number>;
   /** Tag telling the two halves of a reverse fold apart; see `fold`. */
   readonly lowerTag: string | undefined;
+  /** The paper the fold bent, in paper coordinates. Later folds only cut
+   * these into collinear pieces, so every crease lies within some fold's. */
+  readonly creases: readonly Segment[];
+  /** The step's own `hold`, when it overrides the paper's. */
+  readonly hold: number | undefined;
 };
+
+export const isReverse = (record: FoldRecord): boolean =>
+  record.direction === 'inside' || record.direction === 'outside';
 
 /** Whether `piece` is in the upper half of a reverse fold: the half not
  * carrying `lowerTag`, or, with none given, the half tagged `R`. */
