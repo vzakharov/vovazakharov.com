@@ -35,6 +35,7 @@ import {
 } from '@/island/features/eye';
 
 import { SEA_COLOUR } from '../lib/land-colour';
+import { skyColour } from '../lib/sky-colour';
 import { startTilePool } from '../lib/tile-pool';
 import { SEED } from '../lib/tile-protocol';
 import { coverOf } from '../model/tile-cover';
@@ -108,7 +109,8 @@ export function mountIslandScene(
     logarithmicDepthBuffer: true,
   });
   const scene = new Scene();
-  scene.background = new Color(0x05_07_0c);
+  const background = new Color(skyColour(MAX_HEIGHT));
+  scene.background = background;
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const sea = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
@@ -148,7 +150,7 @@ export function mountIslandScene(
   /** The tiles the eye selects now, reselected once it has moved enough. */
   function selected(): TileKey[] {
     if (eye === null) return [];
-    const at = poseOf(eye).position;
+    const at = poseOf(eye, camera.aspect).position;
     if (
       selection !== null &&
       Math.hypot(
@@ -176,7 +178,7 @@ export function mountIslandScene(
 
   function render(): void {
     if (eye === null) return;
-    const pose = poseOf(eye);
+    const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
     held.draw(coverOf(selected(), held.has), pose.position);
     globe.position.set(-ex, -ey, -ez);
@@ -185,6 +187,7 @@ export function mountIslandScene(
     camera.up.set(...pose.up);
     camera.lookAt(...pose.forward);
     sky.position.set(...unit(pose.position));
+    background.setHex(skyColour(eye.height));
     renderer.render(scene, camera);
   }
 
