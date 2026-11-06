@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "bite0-1",
-  "x": -1244,
-  "y": 847,
+  "x": 1166,
+  "y": -43,
   "text": "✓ The board: this page, its sync and snapshot (scripts/board/)",
   "color": "orange",
   "w": 325,
-  "updated": "2026-11-06T21:30:00.000Z",
+  "updated": "2026-11-06T22:20:00.000Z",
   "author": "agent:lead"
 }

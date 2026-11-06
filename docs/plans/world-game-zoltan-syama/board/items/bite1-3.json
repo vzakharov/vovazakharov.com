@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "bite1-3",
-  "x": 1140,
-  "y": 1161,
+  "x": 2470,
+  "y": -709,
   "w": 325,
   "color": "pink",
   "text": "Contract: docs/plans/world-game-zoltan-syama/bite-1.md. Branch island/bite-1-descent, PR #256",
-  "updated": "2026-11-06T21:30:00.000Z",
+  "updated": "2026-11-06T22:20:00.000Z",
   "author": "agent:lead"
 }

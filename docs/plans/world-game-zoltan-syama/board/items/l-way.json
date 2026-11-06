@@ -1,0 +1,9 @@
+{
+  "kind": "line",
+  "id": "l-way",
+  "from": "way-start",
+  "to": "way-end",
+  "label": "done → in hand → next → the star",
+  "updated": "2026-11-06T22:20:00.000Z",
+  "author": "agent:lead"
+}

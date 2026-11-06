@@ -1,0 +1,11 @@
+{
+  "kind": "image",
+  "id": "coast-overlay",
+  "x": 150,
+  "y": 480,
+  "w": 600,
+  "src": "images/coast-overlay.webp",
+  "caption": "The coast as bite 1 traced it, over the drawing: red the main island, blue the rest",
+  "updated": "2026-11-06T22:20:00.000Z",
+  "author": "agent:lead"
+}

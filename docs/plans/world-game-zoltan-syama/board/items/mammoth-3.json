@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "mammoth-3",
-  "x": 631,
-  "y": 913,
+  "x": 1821,
+  "y": 713,
   "text": "The channel: a memo file on each bite branch (scripts/memo.py). Survives relays",
   "color": "yellow",
   "w": 250,
-  "updated": "2026-11-06T21:30:00.000Z",
+  "updated": "2026-11-06T22:20:00.000Z",
   "author": "agent:lead"
 }

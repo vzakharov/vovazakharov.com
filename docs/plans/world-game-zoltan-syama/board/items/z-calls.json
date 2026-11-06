@@ -1,12 +1,12 @@
 {
   "kind": "zone",
   "id": "z-calls",
-  "x": 1040,
-  "y": -110,
+  "x": 1120,
+  "y": -1040,
   "w": 1060,
   "h": 790,
   "title": "The calls everything else stands on",
   "color": "blue",
-  "updated": "2026-11-06T21:30:00.000Z",
+  "updated": "2026-11-06T22:20:00.000Z",
   "author": "agent:lead"
 }

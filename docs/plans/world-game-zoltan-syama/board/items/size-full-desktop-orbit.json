@@ -1,11 +1,11 @@
 {
   "kind": "image",
   "id": "size-full-desktop-orbit",
-  "x": 2190,
-  "y": -985,
+  "x": 2450,
+  "y": 195,
   "w": 300,
   "src": "images/size-full-desktop-orbit.webp",
   "caption": "As drawn (~5,000 km across) — orbit",
   "author": "agent:lead",
-  "updated": "2026-11-06T21:32:00.000Z"
+  "updated": "2026-11-06T22:20:00.000Z"
 }

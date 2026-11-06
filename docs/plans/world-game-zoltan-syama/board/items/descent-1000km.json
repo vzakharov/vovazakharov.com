@@ -1,0 +1,11 @@
+{
+  "kind": "image",
+  "id": "descent-1000km",
+  "x": 2675,
+  "y": -480,
+  "w": 190,
+  "src": "images/descent-1000km.webp",
+  "caption": "1,000 km",
+  "updated": "2026-11-06T22:20:00.000Z",
+  "author": "agent:lead"
+}

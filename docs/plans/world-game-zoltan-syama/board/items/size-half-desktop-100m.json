@@ -1,11 +1,11 @@
 {
   "kind": "image",
   "id": "size-half-desktop-100m",
-  "x": 2520,
-  "y": -485,
+  "x": 2780,
+  "y": 695,
   "w": 300,
   "src": "images/size-half-desktop-100m.webp",
   "caption": "Half width — 100 m",
   "author": "agent:lead",
-  "updated": "2026-11-06T21:32:00.000Z"
+  "updated": "2026-11-06T22:20:00.000Z"
 }
