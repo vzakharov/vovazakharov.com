@@ -28,8 +28,8 @@ is in git
   contract, a member's notes, anything with a home of its own goes in a file
   under `docs/plans/world-game-zoltan-syama/`, and this file points at it.
 
-- «увидел "[имя репозитория]" на скрине, нигде это упоминать не надо» — the private repo
-  the memo tooling is ported from is never named, anywhere.
+- «увидел "[имя репозитория]" на скрине, нигде это упоминать не надо» — the
+  private repo the memo tooling is ported from is never named, anywhere.
 
 ## Eaten so far
 
@@ -45,15 +45,14 @@ is in git
   then `pnpm board build docs/plans/world-game-zoltan-syama/board` and publish
   `tmp/board/world-game-zoltan-syama/index.html` with `files` mapping `images/*`
   to the built copies and `url` the artifact above. Only the lead publishes.
+- **The case study** — `sites/vova/public/case-studies/island.md`,
+  `hidden: true` until the game ships. Each entry is dated and carries a board
+  snapshot, `assets/island-board-<date>.png` (`pnpm board snapshot`, resized to
+  2000 px wide). The first, "how it all began", holds the 3,120 h forecast by
+  role, unchanged, for the comparison at the end.
 
 ## Rest of the bite — bite 0, the lead's own
 
-1. **The case study, begun now** («можно всё что обсуждаем уже в кейс-стади
-   кажется, "как всё начиналось"»): `sites/vova/public/case-studies/island.md`,
-   `hidden: true` until the game ships, each entry dated with a board snapshot
-   in `assets/island-board-<date>.png`. The first entry, "how it all began": the
-   map, the descent, the mammoth, the board, the human-contribution measures,
-   and the 3,120 h forecast by role, kept for comparing at the end.
 2. **`scripts/memo.py`**, ported with its traps intact; sides `lead`/`member`,
    one channel per branch, `wait` over several branches.
 3. **`.claude/skills/megabeast/` → `.claude/skills/mammoth/`**, every pointer
