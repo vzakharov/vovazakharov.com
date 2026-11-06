@@ -156,19 +156,25 @@ Format rules:
   squash box turns into `… shared/lib (#1155)`. `<type>` is one of the prefixes
   the project's `CLAUDE.md` lists under "Git conventions" — read them there
   rather than assuming the conventional-commit set, since a project may carry
-  its own. **The scope is the deploy switch** (CLAUDE.md § "Deployment"): a
-  branch whose shipped change is one site's names that site by its short name
-  (`feat(basilisk):`), so the merge publishes it alone; one that ships to
-  several sites takes none. A change to the shared `src/` counts by what each
-  site then serves: checked to alter one site's output alone, it is that site's;
-  unchecked, it takes none. Agent-infrastructure files riding along ship to no
-  site and do not count, and neither does a companion file a site serves beside
-  a document but links from nowhere — a persona's `*.reflections.md`: the site
-  as a product is what its pages reach. No other words before the colon. Include
-  `#<issue>` only when the PR addresses a GitHub issue (the primary one if
-  several); omit it otherwise. **At most 72 chars**, leaving room for the suffix
-  GitHub appends inside an 80-char subject; the deploy gate reads only the
-  prefix, so that suffix never moves the switch.
+  its own. **The scope is the deploy switch** (CLAUDE.md § "Deployment"), and
+  **a site is published only when its live pages need to change** — never
+  because the diff could reach its build. A branch whose shipped change is one
+  site's names that site by its short name (`feat(basilisk):`), so the merge
+  publishes it alone; one that ships to several sites takes none. **A change
+  made for the build's sake needs no site published**: a dependency bump that
+  gets builds green, a build-script fix. Every deployed site keeps working as it
+  is and picks the change up on its next deploy, so such a change rides under
+  the scope the rest of the branch earns. A change to the shared `src/` that
+  does alter what pages show counts by what each site then serves: checked to
+  alter one site's output alone, it is that site's; unchecked, it takes none.
+  Agent-infrastructure files riding along ship to no site and do not count, and
+  neither does a companion file a site serves beside a document but links from
+  nowhere — a persona's `*.reflections.md`: the site as a product is what its
+  pages reach. No other words before the colon. Include `#<issue>` only when the
+  PR addresses a GitHub issue (the primary one if several); omit it otherwise.
+  **At most 72 chars**, leaving room for the suffix GitHub appends inside an
+  80-char subject; the deploy gate reads only the prefix, so that suffix never
+  moves the switch.
   - **`[attn adopters]`** goes right after the colon —
     `feat: [attn adopters] #<issue> <essence>` — when the change asks whoever
     syncs from this repo for something their port does not do by itself: a
