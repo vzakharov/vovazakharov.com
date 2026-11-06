@@ -104,31 +104,32 @@ the plan's; an agent may move a file inside its own slice and says so.
       coast smoothed before it is committed, no ring lost (R6). Frames at
       21d66477e predate R6, R7b and R7c.
 
+- [x] **Third session**: a play run of the head (R6's coast clean at 1 000 km,
+      snow seams gone, 100 m and 2 m good); the sea coloured by the floor
+      beneath it on one ramp with the land, lifted to the land's light at the
+      waterline, the globe outside the tiles a flat `ocean` material (43e80f0b)
+      — from orbit the shelf reads as a one-pixel light rim; the orbit dashes
+      fixed at their cause, every skirt coloured by its border's height
+      (79b6cdde: a diagnostic build pinning the skirts' colour heights made them
+      vanish); frames at 15854783.
+
 ## Rest of the bite
 
-The second session paused here at its context budget. In order:
+The third session paused here at its context budget. In order:
 
-1. **A play run of the head** on both screens at five heights, before anything
-   else: nobody has looked at R6's smoothed coast, R7b's flared skirts or R7c's
-   finer cut on screen. Commit the ten frames over `frames/` if better.
-2. **The coastline in the shader** (the lead's call, R6/R6b): antialiased edge
-   and a lighter shallow band, seen from orbit. The depth-texture route reads 0
-   on the WebGL 2 fallback and was reverted (`notes/r6b.md`). Next route: the
-   sea mesh carries the floor's height as its own `height` attribute
-   (`geometryOf(sea, true)` in `ui/tile-meshes.ts`, the worker's sea fill
-   sampling the ground instead of `() => 0`), and the worker keeps land down to
-   the band's deepest depth.
-3. **The phone orbit's pale dashed lines along tile edges over the sea**: R7
-   showed they are the land material (grid, not skirt); R7b's diagnosis that
-   they were the sea's edge fade was made over R6b's shader, since reverted, so
-   the cause is open again on the head — check on item 1's frames first.
-4. **10 km**, if item 1 shows it still soft: cost `TILE_GRID` 65 (same tiles,
-   ~4× fill) or `SPLIT_RATIO` 0.5 (~4× tiles), a call for the lead.
-5. **Out of this bite, recorded for the lead**: the 10–20 km spits fray at orbit
+1. **The lead's answers, waiting in memo**: (a) 10 km is still soft —
+   `TILE_GRID` 65 (same tiles, ~4× fill; recommended, since reselect time scales
+   with tile count) or `SPLIT_RATIO` 0.5 (~4× tiles), or leave it; (b) the
+   inland lakes the operator asked about (by Нат-Фенха, the long one toward Арк)
+   are land, since `Coast` is outer rings only and the contract puts lakes out
+   of the bite — the member asked whether the lead wants them in this bite
+   anyway (holes in `Coast`, the tracer keeping inner rings, the field signing
+   them, the height below 0 inside). Do whichever the lead picks.
+2. **Out of this bite, recorded for the lead**: the 10–20 km spits fray at orbit
    because orbit tiles are level 3; a coast floor at level 6 costs ~530–640
    tiles and ~40 ms per reselect, nearly all in `selectTiles`' per-node
    visibility test (`notes/r7c.md`).
-6. **Tail**: `/polish`, `VET_MEADOW=1 ./scripts/vet.sh` green, and a **new** PR
+3. **Tail**: `/polish`, `VET_MEADOW=1 ./scripts/vet.sh` green, and a **new** PR
    from `island/bite-1-descent` onto `claude/world-game-zoltan-syama-hodowq`
    (#256 closed as merged when 686f5174 put an early head into the base; the
    lead agreed) whose body says what each call became, with the frames; the R5
