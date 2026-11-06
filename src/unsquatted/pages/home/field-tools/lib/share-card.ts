@@ -365,7 +365,7 @@ function drawPointed(
 
   // Both control points sit on the chord's lower side, so the curve is one
   // arc, meeting the note from straight below.
-  drawArrow(context, pick(l, 'taken', 'paper'), [
+  drawArrow(context, l, [
     [fromX, fromY],
     [fromX + across * 0.5, fromY - rise * 0.2],
     [middle, toY + rise * 0.5],

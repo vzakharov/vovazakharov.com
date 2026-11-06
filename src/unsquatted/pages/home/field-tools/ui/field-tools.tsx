@@ -10,7 +10,12 @@ import type { Labeled, Typed, WithLink } from '@/kernel/shared/typings';
 
 import { useCopied } from '@/shell/shared/ui';
 
-import { plainByline, type TypedName, type WithCopy } from '../../checker';
+import {
+  ledeParts,
+  plainByline,
+  type TypedName,
+  type WithCopy,
+} from '../../checker';
 import { LikeButton, likeOf, preferredOf, useLikes } from '../../likes';
 import {
   cardLead,
@@ -283,9 +288,7 @@ function LinkField({ href, link, share, copy }: LinkFieldProps) {
 }
 
 function cardText(copy: Copy): CardText {
-  // The lede's starred word is the claim a taken typed domain undercuts.
-  const [marked = '', after = ''] = copy.lede.split('*');
-  const lede = `${marked}${after}`;
+  const { plain: lede, marked } = ledeParts({ copy });
 
   return {
     site: SITE_CONFIG.name,
