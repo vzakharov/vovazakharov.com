@@ -1,0 +1,23 @@
+// Where paper points lie in the flat folded state, and which steps' creases pass near.
+// Usage: npx tsx tmp/tg/dilo3/flatof.ts <steps.json> x,y ...
+import { readFileSync } from 'node:fs';
+
+import { run, type Step } from '../../../src/origami/shared/fold/fold.ts';
+import { apply, contains } from '../../../src/origami/shared/fold/geometry.ts';
+
+const steps = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as Step[];
+const s = run(steps);
+for (const arg of process.argv.slice(3)) {
+  const pt = arg.split(',').map(Number) as [number, number];
+  const pc = s.pieces.find((p) => contains(p.paper, pt));
+  const f = pc ? apply(pc.placement, pt) : null;
+  const near = s.log
+    .map((r, i) => ({ i, d: Math.min(...r.creases.map(([a, b]) => {
+      const [dx, dy] = [b[0] - a[0], b[1] - a[1]];
+      const t = Math.max(0, Math.min(1, ((pt[0] - a[0]) * dx + (pt[1] - a[1]) * dy) / (dx * dx + dy * dy)));
+      return Math.hypot(a[0] + t * dx - pt[0], a[1] + t * dy - pt[1]);
+    })) }))
+    .filter((c) => c.d < 0.04)
+    .map((c) => `${c.i}:${c.d.toFixed(3)}`);
+  console.log(arg, 'flat', f?.map((v) => v.toFixed(3)).join(','), 'creases near', near.join(' '));
+}

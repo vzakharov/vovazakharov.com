@@ -1,0 +1,21 @@
+#!/bin/bash
+# run3.sh <tag>... ; each tag is a line "tag steps-name ENV=..." in tmp/tg/dilo3/v.txt.
+# Two-stage fold with overrides (two3.ts), relaxed in parallel; then re-posed (dilo2/orient.ts),
+# rendered one at a time (parallel renders hang), gap-probed.
+# -> tmp/tg/runs/dilo3/<tag>/{m.json,o.json,o/views.png,stats.txt}
+cd /home/user/vovazakharov.com
+for t in "$@"; do
+  line=$(grep -E "^$t " tmp/tg/dilo3/v.txt | head -1)
+  [ -z "$line" ] && { echo "no $t"; continue; }
+  read -r _ steps envs <<<"$line"
+  ( d=tmp/tg/runs/dilo3/$t; mkdir -p $d/o
+    env MAXIT=${MAXIT:-40000} $envs npx tsx tmp/tg/dilo3/two3.ts tmp/tg/dilo3/$steps.steps.json $d/m.json 2>&1 \
+      | grep -E "iters|Error" | tr '\n' ' ' >$d/stats.txt
+    npx tsx tmp/tg/dilo2/gap.ts $d/m.json 2>&1 | cut -d' ' -f2- >>$d/stats.txt ) &
+done
+wait
+for t in "$@"; do d=tmp/tg/runs/dilo3/$t
+  npx tsx tmp/tg/dilo2/orient.ts $d/m.json $d/o.json >/dev/null 2>&1
+  ROT=0 timeout 120 npx tsx tmp/tg/show.ts $d/o.json $d/o >/dev/null 2>&1 || echo "$t: render failed"
+  echo "$t: $(tr '\n' ' ' <$d/stats.txt)"
+done

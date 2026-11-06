@@ -371,6 +371,19 @@ steps in `prototype/feel-{lotus,tulip,fish-gill,frog}.*`, the run helper
   it crosses the spine at (0.5, 0.35)/(0.5, 0.65), where the spine must close,
   and one crease has one hold. Untried: a separate fold pinching the spine shut
   only near the head; a head from a reverse fold; the `dome.ts` tent.
+- **A hump: holds that vary along a crease** (`prototype/dilo3-*.txt`,
+  `feel-dilo-hump.png`; `two3.ts` env `SPINE=` / `RADIAL=` / `OVR=`, variants
+  one per line in `v.txt`, `best3.sh` reproduces): the spine and both base
+  diagonals pressed shut within ~0.2 of the sheet's centre — where the head
+  crease crosses them — blending out to spine 0.5, sides 0.8; head hold 0.4. The
+  whole dinosaur at 0 crossings, **3.02%**, back-to-belly gap 1.5–1.8× the
+  spine-0.7 run: from three-quarter a rounded hump, the head up on a neck.
+  Physically: the base creases pinched sharp around the neck, loose elsewhere.
+  **No fold step makes this** — a crease takes one hold from the last fold
+  covering it, and a fold along the spine drags the whole half-model — so using
+  it in a design means adding per-crease hold profiles to the engine. Reverse,
+  slanted or shaping heads strain 9–23%. The next hot spot is the flap crease
+  ends at the tail. Parallel renders hang: `run3.sh` renders serially.
 - **Engine limits met**: a fold seeded on some layers still drags every layer
   joined to them along the pleats (no forked tail); a single-layer fold works
   only on the outermost layer (`bottom: 1`).

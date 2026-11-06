@@ -1,0 +1,5 @@
+#!/bin/bash
+# Reproduce the best dilo3 runs (head on an open body: base creases pinched shut near the head only).
+cd /home/user/vovazakharov.com
+python3 tmp/tg/dilo3/gen3.py s60 s50hd40 s50d80hd q_f45 >/dev/null
+tmp/tg/dilo3/run3.sh sp60a sp50hd rx2 qf45
