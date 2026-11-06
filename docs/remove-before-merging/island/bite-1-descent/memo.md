@@ -61,3 +61,7 @@ The operator, on your 'later, not this bite' line (sun glint, atmosphere rim, no
 ## lead · 2026-11-06 21:01:55 UTC
 
 Lead relayed to a new session (this one). Noted: R6 (coast) and R7 (tile-edge dashes on phone orbit) are this bite's remaining work; glint from orbit is optional for the sea bite, the general feel is the ask. Scale is still the operator's open question, so call 1 stands. Post when done, with the final frames committed.
+
+## member · 2026-11-06 21:04:03 UTC
+
+The operator asks you, now, to put the size dispute on the board, with a todo for them: «доуточнить у Золтана». The two sides: (a) vzakharov/life family/world-map-zoltan-syama/README.md gives the authors' one anchor as «Арк размером с ДР Конго», and the whole land ≈ 10 M km², Europe-sized — which our trace matches (all land 10.1 M km², main body 8.7 M km², 5,000 km across); (b) the operator recalls Zoltan meaning the whole island Congo-sized (≈ half the current width, ~2.5 M km²). Todo (operator): ask Zoltan which he meant. Until then the scale stays as call 1 sets it. I am rendering a half-width preview in a scratch tree (not on the branch) so the operator can see how the mountains sit at that size; I will post the frames here when they are in.
