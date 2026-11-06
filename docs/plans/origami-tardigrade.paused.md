@@ -282,10 +282,40 @@ only by whether it looks like _something_.
 - So far: an accordion (clean, a zigzag); a four-layer strip bent across — a
   «П», a table on one foot, and with two oblique bends a deck chair
   (`feel-strip-chaise.png`). A strip has one path, so nothing branches off it.
-- On the operator's ask, three subagents fold by feel in parallel, each from its
-  own first move (pleats, classic bases, soft curls), in `tmp/tg/<theme>/`.
+- On the operator's ask, three subagents folded by feel in parallel, each from
+  its own first move. Three things now read as something, all clean
+  (`prototype/feel-*.png`, steps beside them as `feel-*.steps.json`):
+  - **Fish** (pleats): 11 radial pleats 15° apart around `(0.5, 0)`, hold 0.85,
+    then one fold across the wedge 0.18 from the apex swinging the tip up (hold
+    0.7). Side view: snout, ribbed body, cocked tail. 0 crossings, 2.1%.
+  - **Calla lily** (curls): 14 valley creases fanned from corner `(0, 0)` at
+    6°…84°, holds rising 0.03 → 0.33, the last three mountains at 0.12, relaxed
+    `POSE=0`. 0 crossings, 0.26%.
+  - **Butterfly** (bases): waterbomb base pressed (0.85), front corners up and
+    sprung to 0.3, back ones to 0.7, forewing tips blunted, `POSE=3`. Head-on a
+    butterfly. 0 crossings, 2.0%.
+- What the three found, each on its own:
+  - **Creases through one point spring with no strain**, and a ragged fan edge
+    reads as fins, feathers or petals. Parallel pleats give screens and books.
+  - **Relax from where the creases start open**: a roll or fan from flat
+    (`POSE=0`), a base with flaps from just after the base (`POSE=3`). From the
+    pressed stack the same steps jam (54 crossings, 16%).
+  - **A fold across another must leave that one nearly pressed** (≥ 0.85), or
+    the shared vertex strains 5–14%. Uneven holds make the character: equal ones
+    give a bow-tie, uneven ones wings; rising ones turn a cone into a lily.
+  - Fold lines meeting on a raw edge leave crossings; stop them short of it. Fan
+    line endpoints need full precision, or slivers blow the relax up.
+  - The kite-base swan has a perfect flat outline (`feel-swan-rigid.png`) and
+    never survives springback: kite flaps inside a reverse fold start out
+    crossing.
+- Their tools: `prototype/mk.js.txt` (pleats: `fan`, `X` across a wedge),
+  `curls-gen.py.txt` (`fan(cx, cy, angles, holds, dirs)`), `bases-lib.py.txt`.
 
 ## Left
+
+0. **Now**: keep folding by feel from the three finds — push whichever reads
+   best a few steps further, show the operator renders as they land, without
+   waiting on them. The items below wait until the work returns to a design.
 
 1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0
    crossings; but see relay 7, ψ = 45° is the volume.
