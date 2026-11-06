@@ -1,0 +1,7 @@
+#!/bin/bash
+# go.sh <name> <steps-json-or-file> ; env POSE, MAXIT
+set -e
+cd /home/user/vovazakharov.com
+mkdir -p tmp/tg/runs/$1
+MAXIT=${MAXIT:-20000} npx tsx tmp/tg/spring.ts "$2" tmp/tg/runs/$1/m.json | grep -v "^UNSETTLED" | tail -2
+ROT=${ROT:-0} npx tsx tmp/tg/show.ts tmp/tg/runs/$1/m.json tmp/tg/runs/$1 >/dev/null
