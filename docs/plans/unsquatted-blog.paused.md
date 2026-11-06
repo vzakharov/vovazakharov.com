@@ -169,26 +169,21 @@ Bite 1, in part:
   at phone width.
 - **`/polish`'s `/dry` pass ran** (7019c3bd); `/tend-prose` and `/five-percent`
   did not, so the next run is `/polish full`.
+- **The `.si` post's first widget is the Unnamed's reaction** (52d6b03f):
+  `lolok.si` (the operator's), `slowclap.si`, `yeahright.si`, `ohnoanyway.si`;
+  the four rename names went to the ledger; the card is re-rendered.
 
 ## Rest of the bite
 
 Left:
 
-- **Vet is red on the merged head** (run 42231740034): the unsquatted build
-  (prerendering `/blog/super-intelligence`: "Cannot read properties of undefined
-  (reading 'href')"), lint in `mockups/*.cjs`,
-  `ideas/brainstorm/lib/parse-ideas.ts`, `ideas/offer/bulb/ui/ideas-modal.tsx`,
-  `ideas/offer/generation/lib/use-ideas.ts` and
-  `scripts/lib/unsquatted-card.ts`, prettier on `post-header.tsx`, stylelint
-  (`gap` shorthand in `widget-card.module.scss`), `type-overlap` (`href` +
-  `occasion` in `OccasionStampProps` and `PostLink`; `occasion` in four types)
-  and `knip` (unused exports in `entities/domain`, `picks`, `shared/content`;
-  after 1fc51d12 also `cardLead`, `cardRows`, `shareCard`, `cardText` from
-  `widgets/field-tools`).
-- **The early `.si` widget answers the wrong question**: "What I think about
-  this" lists `aibyanyname.si`, `renamedagain.si`, `stillai.si`,
-  `namingishard.si` (b1036e1f, f7b834d6), jokes about the rename; the operator
-  wants names that are his reaction (§ Next step of relay 10).
+- **Vet**: the build (the share popover read `location` at render, b4da4c15),
+  prettier, stylelint, type-overlap, knip and the `ideas/*` and card lint are
+  fixed (6784b961, 30841c09). Left: `@typescript-eslint/no-require-imports` on
+  `require('playwright')` in `mockups/pages.cjs` and `mockups/shoot.cjs` — the
+  global playwright resolves only through `NODE_PATH`, which ESM `import`
+  ignores, so the fix is a suppression (operator's yes) or retiring the two
+  scripts; asked. Whatever else the vet run on 30841c09 reports.
 - **A widget's "Copy as image" copies the widget as drawn** (1fc51d12:
   `pages/post/ui/snapshot.ts`, `.frame` in `widget-card.module.scss`); not yet
   looked at in a browser, and the popover's preview still assumes the standard
