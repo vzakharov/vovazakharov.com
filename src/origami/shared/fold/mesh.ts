@@ -26,8 +26,8 @@ import { cross3, differ, dot3, sub3, transform, type Vec3 } from './space.ts';
 import { flatPolygon, type FoldState, type Piece } from './state.ts';
 import { type Triangle, triangulateConvex } from './triangulate.ts';
 
-/** The longest mesh edge, in sheet widths: fine enough that the paper between
- * creases can curve. */
+/** The longest mesh edge, in sheet widths, by default: fine enough that the
+ * paper between creases can curve. */
 const MESH_EDGE = 1 / 25;
 /** Lattice points closer than this share of an edge to a piece's outline would
  * leave slivers against it. */
@@ -142,6 +142,7 @@ function rim(
   polygon: Polygon,
   corners: readonly number[],
   weld: ReturnType<typeof welder>,
+  longest: number,
 ): number[] {
   return edges(polygon).flatMap((edge) => {
     const [p, q] = edge;
@@ -163,7 +164,7 @@ function rim(
         lo[0] < hi[0] || (lo[0] === hi[0] && lo[1] < hi[1])
           ? [lo, hi]
           : [hi, lo];
-      const parts = Math.ceil(length(sub(hi, lo)) / MESH_EDGE);
+      const parts = Math.ceil(length(sub(hi, lo)) / longest);
       return Array.from({ length: parts }, (_, j) => {
         const share = lo === from ? j / parts : 1 - j / parts;
         return weld.index(lerp(from, to, share));
@@ -178,17 +179,15 @@ const lerp = (p: Vec, q: Vec, t: number): Vec => [
 ];
 
 /** Points of a triangular lattice clear of the polygon's outline. */
-function interior(polygon: Polygon): Vec[] {
-  const rowStep = (MESH_EDGE * Math.sqrt(3)) / 2;
+function interior(polygon: Polygon, edge: number): Vec[] {
+  const rowStep = (edge * Math.sqrt(3)) / 2;
   const ys = polygon.map(([, y]) => y);
   const xs = polygon.map(([x]) => x);
   const clear = (pt: Vec) =>
     edges(polygon).every(([p, q]) => {
       const d = sub(q, p);
       const off = sub(pt, p);
-      return (
-        (d[0] * off[1] - d[1] * off[0]) / length(d) > RIM_CLEARANCE * MESH_EDGE
-      );
+      return (d[0] * off[1] - d[1] * off[0]) / length(d) > RIM_CLEARANCE * edge;
     });
   const out: Vec[] = [];
   for (
@@ -196,13 +195,13 @@ function interior(polygon: Polygon): Vec[] {
     row * rowStep < Math.max(...ys);
     row++
   ) {
-    const shift = row % 2 === 0 ? 0 : MESH_EDGE / 2;
+    const shift = row % 2 === 0 ? 0 : edge / 2;
     for (
-      let col = Math.ceil((Math.min(...xs) - shift) / MESH_EDGE);
-      col * MESH_EDGE + shift < Math.max(...xs);
+      let col = Math.ceil((Math.min(...xs) - shift) / edge);
+      col * edge + shift < Math.max(...xs);
       col++
     ) {
-      const pt: Vec = [col * MESH_EDGE + shift, row * rowStep];
+      const pt: Vec = [col * edge + shift, row * rowStep];
       if (clear(pt)) out.push(pt);
     }
   }
@@ -227,7 +226,7 @@ const placed = (piece: Piece, pt: Vec, lift: number): Vec3 =>
  * counter-clockwise around `left`. Folded flat the geometry cannot tell valley
  * from mountain, so the stacking does.
  */
-function foldAngle(left: Piece, right: Piece, a: Vec, b: Vec): number {
+export function foldAngle(left: Piece, right: Piece, a: Vec, b: Vec): number {
   const n1 = front(left);
   const n2 = front(right);
   const axis = sub3(placed(left, a, 0), placed(left, b, 0));
@@ -337,7 +336,30 @@ function startOf(
   ];
 }
 
-export function mesh(state: FoldState, paper: Paper): Mesh {
+/** The stack of each triangle's and each vertex's pieces, planes numbered in
+ * the order they are first met. */
+export function flatStack(
+  ofTriangle: readonly Piece[],
+  around: ReadonlyArray<readonly Piece[]>,
+): FlatStack {
+  const planes: Array<Piece['shaping']> = [];
+  const stacked = (piece: Piece): Stacked => {
+    let plane = planes.findIndex((shaping) => !differ(shaping, piece.shaping));
+    if (plane < 0) plane = planes.push(piece.shaping) - 1;
+    const { order } = piece;
+    return { order, plane };
+  };
+  return {
+    faces: ofTriangle.map((piece) => ({
+      ...stacked(piece),
+      facing: Math.sign(determinant(piece.placement)),
+    })),
+    sheets: around.map((pieces) => pieces.map((piece) => stacked(piece))),
+  };
+}
+
+/** `edge` bounds the longest mesh edge, in sheet widths. */
+export function mesh(state: FoldState, paper: Paper, edge = MESH_EDGE): Mesh {
   const lift = paper.thickness / paper.side;
   const weld = welder();
   const cornerIds = state.pieces.flatMap((piece) =>
@@ -346,8 +368,8 @@ export function mesh(state: FoldState, paper: Paper): Mesh {
   const triangles: Triangle[] = [];
   const pieceOf: Piece[] = [];
   for (const piece of state.pieces) {
-    const outline = rim(piece.paper, cornerIds, weld);
-    const inside = interior(piece.paper);
+    const outline = rim(piece.paper, cornerIds, weld, edge);
+    const inside = interior(piece.paper, edge);
     const local = triangulateConvex(
       [...outline.map((i): Vec => weld.points[i] ?? [0, 0]), ...inside],
       outline.length,
@@ -443,12 +465,6 @@ export function mesh(state: FoldState, paper: Paper): Mesh {
     flat: flatPolygon(piece),
   }));
   const depthOf = (piece: Piece, flat: Vec) => depthAt(flats, piece, flat);
-  const planes: Piece['shaping'][] = [];
-  const stacked = (piece: Piece): Stacked => {
-    let plane = planes.findIndex((shaping) => !differ(shaping, piece.shaping));
-    if (plane < 0) plane = planes.push(piece.shaping) - 1;
-    return { order: piece.order, plane };
-  };
   return {
     paper: weld.points,
     start: weld.points.map((pt, i) =>
@@ -458,10 +474,6 @@ export function mesh(state: FoldState, paper: Paper): Mesh {
     bars,
     hinges,
     outline,
-    faces: pieceOf.map((piece) => ({
-      ...stacked(piece),
-      facing: Math.sign(determinant(piece.placement)),
-    })),
-    sheets: around.map((pieces) => pieces.map(stacked)),
+    ...flatStack(pieceOf, around),
   };
 }
