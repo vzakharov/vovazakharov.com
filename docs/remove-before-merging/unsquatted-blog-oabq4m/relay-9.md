@@ -27,6 +27,12 @@ plan and relayed. (`scripts/relay-last-reply.py` found no earlier turn with
 text, since the whole session ran as one turn, so no Last agent turn section
 is appended; the agent's question message is condensed above.)
 
+**Operator** (mid-turn, during the relay): «хочется где-то в начале поста тоже
+виджет, слишком долго до него листать. что-то вроде "хотите знать что я думаю
+об этом?" (виджет с саркастическими доменами .si [но без оскорблений])»
+
+**Agent**: added it to the Next step and handed over.
+
 ## 3. Intent
 
 Unchanged from relay 8 § 3: a blog for any occasion, the `.si` post out before
@@ -83,8 +89,15 @@ questions the no-links rule.
 
 ## 8. Next step
 
-Run vet on the head and republish the preview. Then wait for the operator's
-answers, which the work turns on:
+Run vet on the head. Then do what the operator asked last, which needs no
+answer: a widget near the top of the `.si` post, so a reader does not scroll
+long to reach one — «что-то вроде "хотите знать что я думаю об этом?" (виджет
+с саркастическими доменами .si [но без оскорблений])». In the Unnamed's voice,
+a `domains` widget of sarcastic `.si` names, each a free catalogue pick with
+`post: super-intelligence` per the naming runbook; sarcastic about the naming,
+never insulting and never about the person (§ 1). Republish the preview.
+
+Meanwhile the operator's answers are pending on:
 
 - how a widget's "Copy as image" is made — DOM snapshot (recommended) or
   canvas redraw (the operator: «должен копировать именно то что нарисовано, а
