@@ -7,13 +7,13 @@ import { z } from 'zod';
 
 import { Item, type PlacedItem, STICKY_COLORS } from '../model.ts';
 import {
-  type Camera,
   fitTo,
   type Point,
   type Rect,
   toWorld,
   union,
   zoomAt,
+  type Zoomed,
 } from './camera.ts';
 import { byId, itemIdAt, newId, required } from './dom.ts';
 import {
@@ -43,7 +43,7 @@ const picker = required(
 
 const baked = z.array(Item).parse(JSON.parse(byId('board-data').textContent));
 
-let camera: Camera = { x: 0, y: 0, scale: 1 };
+let camera: Zoomed = { x: 0, y: 0, zoom: 1 };
 let selected: string | undefined;
 let lineTool = false;
 let lineFrom: string | undefined;
@@ -103,7 +103,7 @@ function showStatus(next: Status): void {
 }
 
 function applyCamera(): void {
-  world.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})`;
+  world.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`;
   lines.style.transform = world.style.transform;
 }
 
@@ -113,8 +113,8 @@ function rectOf(id: string): Rect | undefined {
   return {
     x: node.offsetLeft,
     y: node.offsetTop,
-    w: node.offsetWidth,
-    h: node.offsetHeight,
+    width: node.offsetWidth,
+    height: node.offsetHeight,
   };
 }
 
@@ -162,11 +162,11 @@ function fit(): void {
       .map((item) => rectOf(item.id))
       .filter((rect) => rect !== undefined),
   );
-  const box = stage.getBoundingClientRect();
+  const { width, height } = stage.getBoundingClientRect();
   camera =
     bounds === undefined
-      ? { x: box.width / 2, y: box.height / 2, scale: 1 }
-      : fitTo(bounds, { x: 0, y: 0, w: box.width, h: box.height });
+      ? { ...screenCentre(), zoom: 1 }
+      : fitTo(bounds, { x: 0, y: 0, width, height });
   applyCamera();
 }
 
@@ -177,10 +177,12 @@ function screenPoint(event: ScreenPointEvent): Point {
   return { x: event.clientX - box.left, y: event.clientY - box.top };
 }
 
-function viewCentre(): Point {
+function screenCentre(): Point {
   const box = stage.getBoundingClientRect();
-  return toWorld(camera, { x: box.width / 2, y: box.height / 2 });
+  return { x: box.width / 2, y: box.height / 2 };
 }
+
+const viewCentre = (): Point => toWorld(camera, screenCentre());
 
 function startEditing(id: string): void {
   const node = nodeOf(id)?.querySelector<HTMLElement>('[data-edit]');
@@ -302,15 +304,14 @@ async function addImage(file: Blob): Promise<void> {
 }
 
 function zoomBy(factor: number): void {
-  const box = stage.getBoundingClientRect();
-  camera = zoomAt(camera, { x: box.width / 2, y: box.height / 2 }, factor);
+  camera = zoomAt(camera, screenCentre(), factor);
   applyCamera();
 }
 
 // --- pointer gestures -------------------------------------------------------
 
 type Drag =
-  | { kind: 'pan'; start: Point; camera: Camera }
+  | { kind: 'pan'; start: Point; camera: Zoomed }
   | {
       kind: 'move';
       id: string;
@@ -330,7 +331,7 @@ type Drag =
 
 let drag: Drag | undefined;
 const pointers = new Map<number, Point>();
-let pinch: { distance: number; camera: Camera; centre: Point } | undefined;
+let pinch: { distance: number; camera: Zoomed; centre: Point } | undefined;
 
 const distance = (a: Point, b: Point): number =>
   Math.hypot(a.x - b.x, a.y - b.y);
@@ -411,12 +412,12 @@ stage.addEventListener('pointermove', (event) => {
     applyCamera();
   } else if (drag.kind === 'move') {
     if (Math.hypot(dx, dy) > 3) drag.moved = true;
-    drag.node.style.left = `${drag.origin.x + dx / camera.scale}px`;
-    drag.node.style.top = `${drag.origin.y + dy / camera.scale}px`;
+    drag.node.style.left = `${drag.origin.x + dx / camera.zoom}px`;
+    drag.node.style.top = `${drag.origin.y + dy / camera.zoom}px`;
   } else {
-    drag.node.style.width = `${Math.max(80, drag.w + dx / camera.scale)}px`;
+    drag.node.style.width = `${Math.max(80, drag.w + dx / camera.zoom)}px`;
     if (drag.node.classList.contains('zone'))
-      drag.node.style.height = `${Math.max(80, drag.h + dy / camera.scale)}px`;
+      drag.node.style.height = `${Math.max(80, drag.h + dy / camera.zoom)}px`;
   }
 });
 

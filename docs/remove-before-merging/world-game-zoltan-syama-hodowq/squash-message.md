@@ -18,8 +18,13 @@ to WebGL 2.
 
 The game was built by a team of sessions: a lead holding the plan, and
 members each building a bite on a branch of its own, talking through a
-memo file on that branch (scripts/memo.py) while a mind map published
-as an artifact showed where every bite stood.
+memo file on that branch (scripts/memo/memo.py). The plan is a mind map
+built from one file per item (scripts/board/) and published as an
+artifact. Cost rows record the operator's words and the branch's lines,
+and .claude/costs/contribution.py sums a branch's dollars, hours, words
+and lines at any moment, so the case study written alongside the game
+(/case-studies/island, hidden until it ships) can set the human share
+against a 3,120-hour studio forecast.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

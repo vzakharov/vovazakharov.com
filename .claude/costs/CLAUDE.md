@@ -413,10 +413,8 @@ name a role only that repository rates.
 
 **`contribution.py` is one branch's figures** — dollars, senior-hours, the
 operator's words and the branch's lines per extension — now, or `--at` a past
-moment off the ledger commit before it, which is what a timelapse frame's
-figures are read from. A `--at` reading of a row from before `operatorWords` was
-counted takes a finished session's count from its current row; its header says
-why that is safe and when the total is a floor.
+moment off the ledger commit before it, as a timelapse frame reads them. Its
+header says how `--at` reads a row from before `operatorWords` was counted.
 
 ## What the totals do not cover
 

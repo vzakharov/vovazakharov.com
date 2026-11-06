@@ -1,0 +1,123 @@
+{
+  "total": {
+    "inputTokens": 4098,
+    "cacheWrite5mTokens": 709418,
+    "cacheWrite1hTokens": 218658,
+    "cacheReadTokens": 38209678,
+    "outputTokens": 122916,
+    "thinkingTokens": 33951,
+    "responses": 269,
+    "costUsd": 15.420828599999997
+  },
+  "estimate": {
+    "at": "2026-11-06T18:42:56.164Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "briefing and launching the first member on the first step toward the star is scoping a team's first bite"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a race between a polling fetch and a sibling's pull needs diagnosing from reflog and a tested fix, and a bite's quality passes over ~5.7k lines need a reviewer's judgement on duplication and prose"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/plans/world-game-zoltan-syama/bite-1.md",
+    "endedAt": "2026-11-06T18:25:53.173Z",
+    "contextTokens": 175089,
+    "spend": {
+      "inputTokens": 42,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 114682,
+      "cacheReadTokens": 2538580,
+      "outputTokens": 7493,
+      "thinkingTokens": 3327,
+      "responses": 20,
+      "costUsd": 1.5752
+    }
+  },
+  "sessionId": "4cd6d592-d15e-531b-86ef-53d83e323703",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — memo, переименование в mammoth и отчёт о вкладе готовы; первый бит с исполнителем ещё не начат",
+  "prs": [
+    255,
+    256
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDnbB6vFsaUrHvR1KB",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T18:24:20.204Z",
+  "lastResponseAt": "2026-11-06T18:55:41.353Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 166,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 218658,
+    "cacheReadTokens": 16274713,
+    "outputTokens": 39055,
+    "thinkingTokens": 8681,
+    "responses": 80,
+    "costUsd": 5.785970600000001
+  },
+  "subagents": {
+    "inputTokens": 390,
+    "cacheWrite5mTokens": 706809,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 20095777,
+    "outputTokens": 83775,
+    "thinkingTokens": 25270,
+    "responses": 182,
+    "costUsd": 9.230260400000002
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 4098,
+      "cacheWrite5mTokens": 709418,
+      "cacheWrite1hTokens": 218658,
+      "cacheReadTokens": 38209678,
+      "outputTokens": 122916,
+      "thinkingTokens": 33951,
+      "responses": 269,
+      "costUsd": 15.420828599999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 269,
+    "matched": 262,
+    "matchedTableUsd": 15.016230999999996,
+    "matchedEventUsd": 15.016230999999996,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 2609,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1839188,
+        "outputTokens": 86,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.40459760000000006
+      }
+    }
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 1411,
+    ".py": 894,
+    ".webp": 0,
+    ".json": 479,
+    ".ts": 2125,
+    ".css": 412,
+    ".sh": 1,
+    ".png": 0
+  }
+}

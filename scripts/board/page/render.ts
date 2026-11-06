@@ -4,7 +4,7 @@
  * than keeping a diff, and leaves no stale node behind a remote edit.
  */
 import type { Item, PlacedItem } from '../model.ts';
-import { edgePoint, type Rect } from './camera.ts';
+import { centreOf, edgePoint, type Rect } from './camera.ts';
 import { handStroke, jitter, tiltOf } from './hand.ts';
 
 export type LineItem = Extract<Item, { kind: 'line' }>;
@@ -175,10 +175,8 @@ export function renderLines(
     const from = rectOf(line.from);
     const to = rectOf(line.to);
     if (from === undefined || to === undefined) continue;
-    const toCentre = { x: to.x + to.w / 2, y: to.y + to.h / 2 };
-    const fromCentre = { x: from.x + from.w / 2, y: from.y + from.h / 2 };
-    const a = edgePoint(from, toCentre);
-    const b = edgePoint(to, fromCentre);
+    const a = edgePoint(from, centreOf(to));
+    const b = edgePoint(to, centreOf(from));
     const { d, mid } = handStroke(a, b, line.id);
     const { d: echo } = handStroke(a, b, line.id, 1);
     const dashed = line.dashed === true ? ' dashed' : '';

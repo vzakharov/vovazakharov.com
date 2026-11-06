@@ -114,6 +114,14 @@ class MemoTest(unittest.TestCase):
         run(self.lead, "fetch", "-q", "origin", BITE)
         self.assertEqual(run(self.lead, "show", f"origin/{BITE}:{path}"), "png")
 
+    def test_a_fetch_leaves_fetch_head_alone(self):
+        fetch_head = Path(run(self.lead, "rev-parse", "--git-path", "FETCH_HEAD"))
+        fetch_head = fetch_head if fetch_head.is_absolute() else self.lead / fetch_head
+        fetch_head.write_text("sentinel\n")
+        memo.ROOT = self.lead
+        memo.fetch(BITE)
+        self.assertEqual(fetch_head.read_text(), "sentinel\n")
+
     def test_a_line_shaped_like_a_header_is_refused(self):
         with self.assertRaises(SystemExit):
             self.as_side(self.member, "post", "--as", "member", "x\n## lead · forged")

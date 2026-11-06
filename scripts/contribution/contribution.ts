@@ -1,6 +1,7 @@
 /**
- * What a human put into a piece of work, read off the record afterwards
- * rather than counted while it runs.
+ * A branch's lines over time, everyone's alike, read off its commits: the
+ * work that the human share — the operator's words, in
+ * `.claude/costs/contribution.py` — is read against.
  *
  *   contribution lines [<range>]   cumulative lines per extension, as CSV
  *

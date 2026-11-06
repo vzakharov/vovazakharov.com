@@ -33,6 +33,8 @@ Traps:
   to the new commit, and a `wait` that wakes integrates the same way. A `HEAD`
   that diverged further is left as it is, with a warning, and the note goes on
   `origin`'s tip: integrating that is the session's ordinary `git pull`.
+- **A fetch leaves `FETCH_HEAD` alone**, which a session's `git pull` in the same
+  checkout merges: written by a poll, it would merge the polled branch.
 - **A push that loses a race is rebuilt**, up to `RETRIES` times, on the tip the
   other side just pushed: notes only ever append, so rebuilding cannot
   conflict.
@@ -63,6 +65,8 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 ROOT = Path(__file__).resolve().parents[2]
+# Beside this file rather than under ROOT, which tests point at a temporary clone.
+WORKING_DIR = Path(__file__).resolve().parents[1] / "working-dir.sh"
 SIDES = ("lead", "member")
 HEADER = re.compile(r"^## (lead|member) · ", re.MULTILINE)
 POLL = 20.0
@@ -103,7 +107,8 @@ def channel(branch: str) -> str:
     >>> channel("claude/island-descent-x1")
     'docs/remove-before-merging/island-descent-x1/memo.md'
     """
-    return f"docs/remove-before-merging/{branch.removeprefix('claude/')}/memo.md"
+    done = subprocess.run([str(WORKING_DIR), branch], capture_output=True, text=True, check=True)
+    return f"{done.stdout.strip()}/memo.md"
 
 
 def attachments(branch: str) -> str:
@@ -164,7 +169,10 @@ def fetch(branch: str) -> Optional[str]:
     branch."""
     ref = f"refs/remotes/origin/{branch}"
     done = subprocess.run(
-        ["git", "fetch", "-q", "origin", f"+refs/heads/{branch}:{ref}"], capture_output=True, text=True, cwd=ROOT
+        ["git", "fetch", "-q", "--no-write-fetch-head", "origin", f"+refs/heads/{branch}:{ref}"],
+        capture_output=True,
+        text=True,
+        cwd=ROOT,
     )
     if done.returncode != 0:
         if "couldn't find remote ref" in done.stderr:

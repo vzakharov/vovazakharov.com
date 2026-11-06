@@ -5,8 +5,9 @@
  * snapshot) has no `claude` at all, and each namespace may resolve `null`.
  */
 
-type Snapshot = {
-  id: string;
+import type { WithId } from '@/kernel/shared/typings';
+
+type Snapshot = WithId & {
   data: () => Record<string, unknown> | undefined;
 };
 type QuerySnapshot = {
