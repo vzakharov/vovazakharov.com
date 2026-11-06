@@ -1,21 +1,20 @@
-Proposed squash title/body:
+Proposed squash body:
 
 ```
-feat(vova): /world, a descent onto the world Zoltan and Syama drew (#255)
-```
+Zoltan and Syama drew a world of thirty countries on one sheet;
+/island lets you explore it. You start in near space with the whole
+island in view and clouds drifting below, dive through the cloud layer
+as a gliding bird, and land to walk. Nothing built or alive yet: an
+untouched world, at the real scale the drawing was measured to, where
+going far means climbing above the clouds.
 
-```
-Zoltan and Syama drew a world of thirty countries on one sheet; /world
-lets you explore it. You start in near space with the whole island in
-view and clouds drifting below, dive through the cloud layer as a
-gliding bird, and land to walk. Nothing built or alive yet: an
-untouched world, at the real scale the drawing was measured to.
-
-The coastline is the drawing's; relief, rivers, lakes and climate are
-derived from it and one seed, so the world is the same on every visit.
-What needs the whole map to be right is baked at build time; finer
-detail is a pure function of a tile's key, generated as the tile comes
-into view. It renders with three.js on WebGPU, falling back to WebGL 2.
+A drawn map is the game's input: white is water, the rest is land,
+traced once into a vector coastline that fractals as you approach.
+Relief, rivers and climate are derived from it and one seed, so the
+world is the same on every visit. What needs the whole map is computed
+once; finer detail is a pure function of a tile's key, generated as the
+tile comes into view. It renders with three.js on WebGPU, falling back
+to WebGL 2.
 
 The game was built by a team of sessions: a lead holding the plan, and
 members each building a bite on a branch of its own, talking through a
