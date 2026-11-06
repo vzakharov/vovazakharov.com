@@ -262,6 +262,10 @@ function depthAt(
   return depth;
 }
 
+/** How a crease's push-out grows with the layers it wraps: 1 in step, 2 sets
+ * an inner crease further back inside the one nesting it. */
+const OUT_POW = Number(process.env.OUT_POW ?? 1);
+
 /** Where a vertex starts: the pressed state, each sheet beneath lifting it by
  * the paper's thickness, and a crease folded flat pushed out past the layers
  * it wraps. */
@@ -300,7 +304,7 @@ function startOf(
     length(mean) > NEAR &&
     toward.every((u) => dot(u, mean) > 0.2);
   const out = oneSide
-    ? scale(normalize(mean), -wrapped * lift)
+    ? scale(normalize(mean), -(wrapped ** OUT_POW) * lift)
     : ([0, 0] as const);
   const sum = around.reduce<Vec3>(
     (total, piece, k) => {

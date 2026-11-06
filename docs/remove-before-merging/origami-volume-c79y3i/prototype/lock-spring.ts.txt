@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { mesh } from './mesh.ts';
 import { PAPERS } from '../../../src/origami/shared/fold/paper.ts';
 import { flatPolygon } from '../../../src/origami/shared/fold/state.ts';
-import { crossed, crossings } from './contact.ts';
+import { crossed, crossings, nested } from './contact.ts';
 import { run, type Step } from './fold.ts';
 import { relax } from './relax.ts';
 import { fromPose } from '../dome.ts';
@@ -66,7 +66,7 @@ function piercesAny(x: Float64Array, a: number, b: number, t: readonly number[])
 showCrossed(m.start);
 const t0 = Date.now();
 const r = relax(m, paper);
-console.log('iters', r.iterations, 'strain', r.strain.toFixed(4), 'crossings', r.crossings, 'ms', Date.now() - t0);
+console.log('iters', r.iterations, 'strain', r.strain.toFixed(4), 'crossings', r.crossings, 'nested', nested.length, 'ms', Date.now() - t0);
 for (const line of r.report ?? []) console.log(line);
 showCrossed(r.positions);
 {
