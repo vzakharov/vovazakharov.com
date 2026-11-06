@@ -13,6 +13,11 @@ writes "okay, maybe not this one" in the field, and an arrow arcs up
 to it from "grabbed" in the tagline. A name shared without a zone
 draws as before.
 
+Next moves to 16.4.5 for every site. Google Fonts sometimes answers
+with extensionless /l/font?kit= URLs, which 16.0.3's font loader
+could not parse, so a random site's build failed now and then; the
+16.4 line has handled them since 16.4.3 (vercel/next.js#100158).
+
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
 
