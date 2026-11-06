@@ -7,8 +7,6 @@
  * `src/blog/scripts/lib/og-job.ts` carries the contract.
  */
 
-import { pick } from '@/kernel/shared/lib/collections';
-
 import { loadProse } from '@/blog/shared/content';
 
 import {
@@ -40,16 +38,16 @@ const posts = await Promise.all(
       );
     }
 
-    const { occasion, description } = frontmatter;
+    const { occasion, lede, field } = frontmatter;
 
     return {
       slug,
       page: postCard({
         title,
-        description,
+        lede,
         eyebrow: occasionLine(occasion),
         list: domainsList(list),
-        ...pick(nameAcross(word), 'word'),
+        word: field ?? nameAcross(word).word,
       }),
     };
   }),

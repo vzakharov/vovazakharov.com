@@ -12,7 +12,7 @@ import { constructMetadata } from '@/blog/shared/seo';
 
 import { postDomains, POSTS } from '@/unsquatted/shared/content';
 import { COPY } from '@/unsquatted/shared/i18n';
-import { OccasionStamp } from '@/unsquatted/entities/post';
+import { OccasionStamp, PostLede } from '@/unsquatted/entities/post';
 import { Masthead } from '@/unsquatted/widgets/masthead';
 
 import classes from './blog-index.module.scss';
@@ -76,9 +76,10 @@ export async function BlogIndexPage() {
                 <Link href={document.route} className={classes['postTitle']}>
                   {rendered.title}
                 </Link>
-                <p className={classes['description']}>
-                  {document.frontmatter.description}
-                </p>
+                <PostLede
+                  {...pick(document.frontmatter, 'lede')}
+                  className={classes['description']}
+                />
                 {names !== '' && <p className={classes['names']}>{names}</p>}
               </div>
             </li>

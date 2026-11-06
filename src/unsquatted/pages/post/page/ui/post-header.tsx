@@ -6,7 +6,7 @@ import type { ContentDocument, Headlined } from '@/blog/shared/content';
 import { DocumentMeta } from '@/blog/entities/document';
 
 import type { PostFrontmatter } from '@/unsquatted/shared/content';
-import { OccasionEyebrow } from '@/unsquatted/entities/post';
+import { OccasionEyebrow, PostLede } from '@/unsquatted/entities/post';
 
 import classes from './post-header.module.scss';
 
@@ -29,7 +29,7 @@ export function PostHeader({
     <header className={classes['header']}>
       <OccasionEyebrow {...pick(frontmatter, 'occasion')} />
       <h1 className={classes['title']}>{title}</h1>
-      <p className={classes['lede']}>{frontmatter.description}</p>
+      <PostLede {...pick(frontmatter, 'lede')} className={classes['lede']} />
       <div className={classes['meta']}>
         <DocumentMeta {...{ frontmatter, collection, readingMinutes }} />
         <FileLink {...markdown}>.md</FileLink>

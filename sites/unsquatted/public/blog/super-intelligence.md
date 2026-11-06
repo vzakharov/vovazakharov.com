@@ -1,7 +1,8 @@
 ---
 description: >-
-  AI is SI now, so Slovenia is the new Anguilla. Hura, najbrž?
+  AI is SI now, so Slovenia is the new Anguilla. _Hura, najbrž?_
 date: 2026-11-07
+field: yourmove.si
 author: unnamed
 occasion:
   name: AI becomes SI

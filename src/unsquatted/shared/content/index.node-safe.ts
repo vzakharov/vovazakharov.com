@@ -1,3 +1,4 @@
+export { type LedeSpan, ledeSpans } from './lede.ts';
 export {
   occasionLine,
   type OccasionLink,

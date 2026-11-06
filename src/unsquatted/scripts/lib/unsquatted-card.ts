@@ -22,11 +22,12 @@ import { fileURLToPath } from 'node:url';
 
 import { siteConfig, withoutScheme } from '@/kernel/shared/config';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
-import type { Labeled, Summarized } from '@/kernel/shared/typings';
+import type { Labeled, Titled } from '@/kernel/shared/typings';
 
-import type {
-  Listed,
-  Worded,
+import {
+  ledeSpans,
+  type Listed,
+  type Worded,
 } from '@/unsquatted/shared/content/index.node-safe';
 import {
   COPY,
@@ -87,7 +88,7 @@ ${DICE_FACES.map(
 ).join('\n')}
         </svg>`;
 
-function lede(): readonly [string, string] {
+function heroLede(): readonly [string, string] {
   return [COPY.lede, plainByline({ copy: COPY })];
 }
 
@@ -110,7 +111,7 @@ type CardContent = Listed & {
 
 /** The site card: the hero's lede beside the best listed names. */
 export function unsquattedCard(): StagedPage {
-  const [headline, subline] = lede();
+  const [headline, subline] = heroLede();
 
   return card({
     headline: escapeHtml(headline).replace('*', '<sup>*</sup>'),
@@ -124,26 +125,31 @@ export function unsquattedCard(): StagedPage {
   });
 }
 
-type PostCardParams = Summarized &
+type PostCardParams = Titled &
   Worded & {
+    lede: string;
     eyebrow: string;
     list: Labeled & Listed;
   };
 
 /**
- * A post's card: its title and blurb under the occasion, beside the first list
- * its widgets set, and the word its first `name` widget sets in the field.
+ * A post's card: its title and lede under the occasion, beside the first list
+ * its widgets set, and a word typed in the field.
  */
 export function postCard({
   title,
-  description,
+  lede,
   eyebrow,
   list,
   word,
 }: PostCardParams): StagedPage {
   return card({
     headline: escapeHtml(title),
-    subline: escapeHtml(description),
+    subline: ledeSpans(lede)
+      .map(({ text, italic }) =>
+        italic ? `<em>${escapeHtml(text)}</em>` : escapeHtml(text),
+      )
+      .join(''),
     footnote: escapeHtml(eyebrow),
     listHeading: escapeHtml(list.label),
     domains: list.domains.slice(0, SHOWN),
