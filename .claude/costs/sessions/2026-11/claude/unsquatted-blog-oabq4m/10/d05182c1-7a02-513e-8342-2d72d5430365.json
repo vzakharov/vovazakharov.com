@@ -1,0 +1,110 @@
+{
+  "total": {
+    "inputTokens": 21,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 61489,
+    "cacheReadTokens": 1009720,
+    "outputTokens": 2294,
+    "thinkingTokens": 434,
+    "responses": 10,
+    "costUsd": 0.7398200000000001
+  },
+  "estimate": {
+    "at": "2026-11-06T14:11:40.456Z",
+    "parts": [
+      {
+        "hours": 1.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the widget's own image copy is a contained DOM-snapshot feature in an existing component"
+      },
+      {
+        "hours": 5.75,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "three November posts and reflections in the Unnamed's voice, plus the early .si widget names, need judgement of voice"
+      },
+      {
+        "hours": 1.75,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "naming runs, fact checks and the sources the posts now link"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "widget and card checks across themes"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T14:11:32.943Z",
+    "contextTokens": 108306,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47287,
+      "cacheReadTokens": 458608,
+      "outputTokens": 875,
+      "thinkingTokens": 96,
+      "responses": 5,
+      "costUsd": 0.4875656000000001
+    }
+  },
+  "sessionId": "d05182c1-7a02-513e-8342-2d72d5430365",
+  "branch": "claude/unsquatted-blog-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — main влит, конфликты разрешены; в посте про .si ждут ранний виджет и ссылки",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD2xbbCSgVQCsK3HmH",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T14:11:17.006Z",
+  "lastResponseAt": "2026-11-06T14:11:48.089Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 21,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 61489,
+    "cacheReadTokens": 1009720,
+    "outputTokens": 2294,
+    "thinkingTokens": 434,
+    "responses": 10,
+    "costUsd": 0.7398200000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 21,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 61489,
+      "cacheReadTokens": 1009720,
+      "outputTokens": 2294,
+      "thinkingTokens": 434,
+      "responses": 10,
+      "costUsd": 0.7398200000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 10,
+    "matched": 10,
+    "matchedTableUsd": 0.7398200000000001,
+    "matchedEventUsd": 0.7398200000000001,
+    "unseen": {}
+  }
+}
