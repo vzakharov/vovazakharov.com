@@ -481,6 +481,32 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   fold at a vertex the book crease holds flat); then the face-maw with a tuck.
   Port size so far: ~200 lines of simulator, ~40 of `poseOf`, ~30 of contact
   changes; ~5–8 s per step on 800 vertices.
+- **Sequential relax, second pass** (`prototype/seq/` updated; runs need
+  `FRICTION=0.5 EDGE_POINTS=3 EDGE_SET=outline`):
+  - **Fold the way a hand does, or it jams**: no friction while a step folds
+    (`STEP_FRICTION=0`; 0.5 gives 49–62 crossings on the base), and a reverse
+    fold taken by unfolding the previous state partway, collapsing to the same
+    share of the new one and pressing (`WAY=1`, f 0.35–0.5): ramping each crease
+    alone turns the reverse fold while the spine stays pressed, which rigid
+    paper cannot (step 2: 47° lag, 8%). `OPEN=f` alone is fragile.
+  - **Bases come clean**: `base3` 0 crossings every step, let-go 0.73%
+    (`seq/base3-stepped.png`); the face-maw's base (steps 1–3) 0 crossings where
+    its pressed start has 479. (`base3`'s own pressed start is clean too; the
+    ~216 belonged to another model.)
+  - **The face-maw breaks at step 5**: the top corner valley stops at −87° of
+    −180° — its folding top layer runs into a layer of the other half near the
+    top edge (around paper (0.58, 1)) — while its mirror, step 4, is fine; from
+    there crossings grow to 483 (`seq/maw5.steps.json` reproduces).
+  - **The ring's tuck still fails**: straight, it "holds" only by passing
+    through its lid (81–86 crossings; once 2 at `STEP_IT=24000`, unstable);
+    likely because the flap's book crease lies on the pocket's own line and
+    contact pushes only along normals, never sideways out of a U. A crease
+    skewed 1.15° (`seq/ring-tuck-skew.steps.json`) clears every crossing but
+    stops 16° short and opens; `LIDOPEN=0.6` the same. Every phase runs to the
+    8000-iteration cap with facets bending, so lags understate.
+  - Port estimate now: ~200 simulator, ~40 `poseOf`, ~40 contact, ~30 the
+    reverse-fold path, ~40 tuck suspend/seat/lid — plus whatever fixes step 5
+    and the ring tuck, which is unknown and decides whether porting pays.
 
 ## Left
 
@@ -495,6 +521,17 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
    Since the operator's locks remark, the head is folded with the lock prototype
    (`tmp/tg/lock/`), and tuck + friction + edge contact join that engine work
    once a head shows which of them it needs.
+
+   **Where it paused (relay 10, context budget)**: the lock engine needs the
+   sequential relax, which folds bases clean but not yet a tuck or the
+   face-maw's step 5. Recommended next, capped at two prototype rounds: (a) the
+   ring tuck — set the tucked flap's crease back inside the pocket's (a start
+   offset, or sideways contact out of a U-crease), and settle phases past the
+   iteration cap; (b) the face-maw's step 5 jam (which layer of the other half
+   it meets, and whether the mesh built from the final state is why). If both
+   clear, port into `src/` and fold the head with a lock; if not, put the choice
+   to the operator — keep at the engine, or build the head from holds alone (the
+   face-maw, which reads head-on) and leave locks for later.
 
 1. ~~Make the base settle near-isometric~~ — done: `PSI=75 TIPS=1`, 0.99%, 0
    crossings; but see relay 7, ψ = 45° is the volume.
