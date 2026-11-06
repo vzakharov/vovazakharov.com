@@ -1,5 +1,20 @@
 # Origami: paper that springs back — a volumetric basilisk
 
+## Parked off `claude/origami-volume-c79y3i`
+
+Split from the volume work on the operator's yes («ок» to "вынести её в
+отдельную ветку с черновым PR"): relaxing the pressed state does not give the
+basilisk volume — its halves are strips too narrow, and the spine cannot open
+while the tail's sideways bends cross it. Volume now comes from a new design on
+that branch; this branch keeps the solver for later, to make a volumetric model
+read as hand-folded. The basilisk below is the test case it was built on.
+
+State at the split (35e5e936): the simple fold and basilisk steps 3–4 settle
+with no crossing; from step 5 on they do not (6 deep crossings at step 5, 336 on
+the whole model after 60k steps, strain ~4%), the remaining crossings sitting at
+crease vertices whose pieces lie either side of a layer, where the stack gives
+contact no side.
+
 ## Progress (paused for the context budget)
 
 The open questions went unanswered, so the recommendations stand (1a, 2a, 3a).
