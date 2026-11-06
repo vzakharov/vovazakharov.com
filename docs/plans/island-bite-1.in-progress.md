@@ -85,6 +85,18 @@ the plan's; an agent may move a file inside its own slice and says so.
 - [ ] **Tail** — `/polish`, vet green, PR body saying what each call became,
       frames posted to the lead through memo.
 
+## Calls made in the build
+
+- **The tracer finds the sea, not the land** (S1's first run kept ink words as
+  land and split the main body along pale pencil, because bare paper and pale
+  pencil overlap in saturation across the photo; a global threshold beat by
+  this): a barrier is ink, closed by a 1–2 px dilation, or colour clearly above
+  the _local_ paper's; the sea is flood-filled from the frame through
+  non-barrier; land is the rest; a ring is kept only if enough of its interior
+  is coloured, which drops words and the legend whatever their size.
+- **`Coast` stays outer rings only**: the lake by Цитадель falls into the land
+  until the lakes bite (call 5), rather than widening the type now.
+
 ## DRY notes
 
 - **The CDP driver is `scene`'s** (`src/scene/scripts/lib/cdp.ts`), shared with
