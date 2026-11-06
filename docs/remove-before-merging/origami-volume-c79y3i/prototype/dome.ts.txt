@@ -38,8 +38,20 @@ const tips: StepSpec[] = process.env.TIPS
       { line: { p: [0, 0.5 - t], q: [1, 1.5 - t] }, moving: [0.42, 0.58], select: { at: [0.42, 0.58], top: 1 } },
     ]
   : [];
+/** Each blintz-square corner folded under across its diagonal, `r` in from
+ * the corner — the tent's wide bottom corners blunted. A line square to the
+ * diagonal keeps the fold local: only the corner lies past it. */
+const r = Number(process.env.BLUNT ?? 0);
+const blunts: StepSpec[] = r
+  ? [
+      { line: { p: [0, r], q: [1, r] }, moving: [0.5, r / 3], select: 'all', direction: 'mountain' },
+      { line: { p: [1 - r, 0], q: [1 - r, 1] }, moving: [1 - r / 3, 0.5], select: 'all', direction: 'mountain' },
+      { line: { p: [0, 1 - r], q: [1, 1 - r] }, moving: [0.5, 1 - r / 3], select: 'all', direction: 'mountain' },
+      { line: { p: [r, 0], q: [r, 1] }, moving: [r / 3, 0.5], select: 'all', direction: 'mountain' },
+    ]
+  : [];
 /** Steps folded flat before the base: the pose the base inflates from. */
-export const PRE = 4 + tips.length;
+export const PRE = 4 + tips.length + blunts.length;
 
 export const steps: StepSpec[] = [
   { line: { p: [0.5, 0], q: [0, 0.5] }, moving: [0.05, 0.05] },
@@ -47,6 +59,7 @@ export const steps: StepSpec[] = [
   { line: { p: [1, 0.5], q: [0.5, 1] }, moving: [0.95, 0.95] },
   { line: { p: [0, 0.5], q: [0.5, 1] }, moving: [0.05, 0.95] },
   ...tips,
+  ...blunts,
   {
     line: { p: [0, 0], q: [1, 1] },
     moving: [0.3, 0.7],
