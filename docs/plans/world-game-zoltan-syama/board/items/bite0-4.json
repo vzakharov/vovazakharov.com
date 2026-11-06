@@ -1,11 +1,11 @@
 {
   "kind": "sticky",
   "id": "bite0-4",
-  "x": 2205,
-  "y": 1271,
+  "x": -1215,
+  "y": 1091,
   "text": "✓ Rename .claude/skills/megabeast/ → mammoth/",
   "color": "orange",
   "w": 323,
-  "updated": "2026-11-06T21:20:00.000Z",
+  "updated": "2026-11-06T21:30:00.000Z",
   "author": "agent:lead"
 }

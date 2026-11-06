@@ -25,7 +25,10 @@ is in git
   and captured stays as it was.
 - «вмещающие прямоугольники … опять становятся слишком правильными и скучными по
   расположению» — zones are placed off any grid, staggered and unequal in size,
-  as the stickies are; a new zone does not line up with its neighbours.
+  as the stickies are; a new zone does not line up with its neighbours. «я бы
+  ещё их располагал условно вокруг исходной идеи (пока есть место) -- чтобы она
+  оставалась как бы в центре» — the zones ring the map, title above it, and a
+  new one takes the next free place around that ring while there is one.
 - «надо postmortem и standing constraint чтобы этого избежать» — no `git pull`
   on this branch or a bite's, `--ff-only` included: integrate with
   `git fetch origin <b> && git merge origin/<b>`, naming the ref. A pull merges

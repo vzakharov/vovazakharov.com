@@ -1,11 +1,11 @@
 {
   "kind": "image",
   "id": "web-ocean",
-  "x": 1720,
-  "y": -330,
+  "x": -760,
+  "y": -720,
   "w": 440,
   "src": "images/web-ocean.webp",
   "caption": "Inspiration: Noniv/web-ocean — what a browser can do with sea and sky. Nothing copied.",
-  "updated": "2026-11-06T17:52:08.249Z",
+  "updated": "2026-11-06T21:30:00.000Z",
   "author": "agent:lead"
 }

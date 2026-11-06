@@ -1,12 +1,12 @@
 {
   "kind": "zone",
   "id": "z-later",
-  "x": 4130,
-  "y": 810,
+  "x": 1010,
+  "y": -1060,
   "w": 880,
   "h": 700,
   "title": "Later bites, and what is asked",
   "color": "blue",
-  "updated": "2026-11-06T21:20:00.000Z",
+  "updated": "2026-11-06T21:30:00.000Z",
   "author": "agent:lead"
 }

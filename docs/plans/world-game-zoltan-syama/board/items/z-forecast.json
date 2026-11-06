@@ -1,12 +1,12 @@
 {
   "kind": "zone",
   "id": "z-forecast",
-  "x": 10,
-  "y": 1030,
+  "x": -30,
+  "y": -1010,
   "w": 900,
   "h": 600,
   "title": "A stab in the dark: what a studio would spend",
   "color": "gray",
-  "updated": "2026-11-06T21:20:00.000Z",
+  "updated": "2026-11-06T21:30:00.000Z",
   "author": "agent:lead"
 }
