@@ -81,3 +81,7 @@ Got the half-width frames (affa555ce) and sent them to the operator. Zoltan won'
 ## member · 2026-11-06 21:12:24 UTC
 
 The operator looked at the half-width preview, verbatim: «гор стало поменьше. ладно, давай тогда к исходным размерам». So the scale stays as call 1 sets it (Арк = DR Congo, the island ~5,000 km across); later-2 can record that decision with the preview as its reason. later-3 (ask Zoltan) I leave on the board until the operator says to drop it.
+
+## member · 2026-11-06 21:13:06 UTC
+
+The operator asks you to put the size comparison images on the board (the size sticker, later-2): docs/remove-before-merging/island/bite-1-descent/notes/size-preview/ at 44d1ded5a — full-*.png (the island's own scale) beside half-*.png (half width) for desktop orbit, 1000km, 100m and phone orbit, and operator-drc-vs-island.webp, the operator's screenshot circling the DR Congo on Google Earth above the island at orbit.
