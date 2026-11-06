@@ -447,6 +447,23 @@ without `.txt`; `lock-go.sh` runs it, env `FRICTION`, `SHEAR`, `BOND`, `TRACK`):
   check, a module of its own beside `contact.ts`; tests listed in the
   prototype's report (edge-point weights, a segment passing between a triangle's
   vertices, collinear crease keys, 3 vs 5 gaps).
+- **No lock has helped a head yet, and the start is why** (`prototype/head/`,
+  each steps file with a `-plain` twin; `mk.py` writes both, `count.py` counts
+  layers at a point to pick `below`). A tuck reaches its pocket only from the
+  fully pressed state — from `POSE=n` a flap at hold 0.2–0.3 never folds far
+  enough — and the pressed start of anything past ~4 layers, or with several
+  creases at one point, begins at 100–280 crossings the relax never clears: the
+  face-maw, the waterbomb base, a paper cup. Locking the face-maw's back corners
+  was refused (the deep corner fold drags every joined layer into a 4–5-layer
+  flap). Locks hold only on low-layer strips: a tapered ring keeps its ends
+  0.19–0.24 apart against ~0.88 plain, but a tube with a snout reads as a loaf
+  (`head/tube1.png`). A fold through all layers locks by itself, so its plain
+  twin stays closed too.
+- **Next: relax along the sequence** — fold a step, relax, fold the next from
+  the relaxed shape, tuck, let go — instead of one relax from a pressed or
+  part-unfolded pose. It is what friction's path-dependence asks for anyway (the
+  operator: «получается, нам целую динамику тут нужно просчитывать»), and the
+  only route by which a lock reaches the bases that already read as heads.
 
 ## Left
 
