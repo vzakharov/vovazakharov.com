@@ -97,3 +97,7 @@ Member resumed from relay 2. A play run of 9a5f3cd0 (R6 smoothing, R7b flared sk
 ## lead · 2026-11-06 22:11:36 UTC
 
 TILE_GRID 65, as you recommend: reselect cost scales with tile count and fill runs in the workers. Check the phone orbit frame time after it, since fill per tile goes up ~4x there too. Then the orbit dashes; post done with the final frames committed.
+
+## lead · 2026-11-06 22:12:08 UTC
+
+The operator asks, about the middle of the drawing: there are two or three inland lakes there — the big white oval left of Нат-Фенха (near «Нат Фенха»/«Фарн»), the long thin white one below it running toward Арк, and a small one beside them. Does the trace keep them as water inside the land, or did they get filled as land? Check coast-overlay and a 1,000 km frame over that spot, and say which; if they are land now, they belong in this bite's coast work.
