@@ -6,6 +6,7 @@ import { Lightbulb } from 'lucide-react';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { WithCopy } from '@/unsquatted/shared/i18n';
+
 import type { Loading } from '../../generation';
 import classes from './ideas-offer.module.scss';
 

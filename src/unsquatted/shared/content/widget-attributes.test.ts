@@ -7,7 +7,7 @@ const placeholder = (
   name: string,
   attributes: Record<string, string>,
   items: string[] = [],
-) => ({ name, attributes, items, source: 'singles-day.md' });
+) => ({ name, attributes, items, fileName: 'singles-day.md' });
 
 describe('domainsList', () => {
   it('anchors on its label', () => {

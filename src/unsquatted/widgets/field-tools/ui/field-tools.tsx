@@ -6,7 +6,12 @@ import { useEffect, useRef, useState } from 'react';
 
 import { SITE_CONFIG, withoutScheme } from '@/kernel/shared/config';
 import { pick } from '@/kernel/shared/lib/collections';
-import type { Labeled, Typed, WithLink } from '@/kernel/shared/typings';
+import type {
+  Labeled,
+  Typed,
+  WithLink,
+  WithOptionalClassName,
+} from '@/kernel/shared/typings';
 
 import { useCopied } from '@/shell/shared/ui';
 
@@ -68,10 +73,10 @@ type DrawCard = (() => Promise<File>) | undefined;
  */
 type SharePopoverProps = Sharing &
   Typed &
-  Labeled & {
+  Labeled &
+  WithOptionalClassName & {
     drawCard: DrawCard;
     size?: number;
-    className?: string;
     labelled?: boolean;
   };
 
@@ -235,7 +240,7 @@ export function SharePopover({
       </Popover.Target>
       <Popover.Dropdown className={classes['share']}>
         <LinkField
-          {...{ href }}
+          {...{ href, link, copy }}
           share={
             sheet
               ? () => {
@@ -243,7 +248,6 @@ export function SharePopover({
                 }
               : undefined
           }
-          {...{ link, copy }}
         />
         {(sheet || canCopyImage()) && (
           <Button
@@ -316,7 +320,7 @@ function LinkField({ href, link, share, copy }: LinkFieldProps) {
 }
 
 /** The card's fixed words: the site, its host, and the lede as its foot. */
-export function cardText(copy: Copy): CardText {
+function cardText(copy: Copy): CardText {
   const { plain: lede, marked } = ledeParts({ copy });
 
   return {

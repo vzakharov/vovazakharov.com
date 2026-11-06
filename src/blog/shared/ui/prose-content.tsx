@@ -35,7 +35,7 @@ function widgetFigure(widgets: WidgetComponents) {
 
     if (Widget === undefined) {
       throw new Error(
-        `${placeholder.source} uses the widget \`${placeholder.name}\`, and its page renders no such widget.`,
+        `${placeholder.fileName} uses the widget \`${placeholder.name}\`, and its page renders no such widget.`,
       );
     }
 

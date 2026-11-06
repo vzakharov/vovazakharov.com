@@ -6,7 +6,7 @@ import { errorClass } from '@/kernel/shared/lib/error-class';
 import { listPrimaryDocuments } from '@/blog/shared/content';
 
 import {
-  type Occasion,
+  type OccasionLink,
   postDomains,
   postPickProblems,
   POSTS,
@@ -16,11 +16,8 @@ import { POSTED_PICKS, type ShownName } from './picks';
 
 const PostPicksError = errorClass('PostPicksError');
 
-/** Where a name picked for a post links, and the occasion its stamp prints. */
-export type PostLink = { href: string; occasion: Occasion };
-
 /** A shown name, with its post's link where a post picked it. */
-export type LinkedName = ShownName & { postLink?: PostLink };
+export type LinkedName = ShownName & { postLink?: OccasionLink };
 
 /**
  * Fails the build where a post and the catalogue disagree about which names

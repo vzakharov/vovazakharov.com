@@ -1,8 +1,6 @@
 /** The domains shown for what a visitor typed: its name, in which zones. */
 
-import type { Labeled } from '@/kernel/shared/typings';
-
-export type WithDomain = { domain: string };
+import type { Labeled, WithDomain } from '@/kernel/shared/typings';
 
 export type Zoned = { zone: string | undefined };
 

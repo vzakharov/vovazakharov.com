@@ -6,8 +6,7 @@ import { parse } from 'yaml';
 import { z } from 'zod';
 
 import { errorClass, withCause } from '@/kernel/shared/lib/error-class';
-
-import type { WithDomain } from '@/unsquatted/entities/domain/index.node-safe';
+import type { WithDomain } from '@/kernel/shared/typings';
 
 import { usesSentence } from '../lib/uses';
 

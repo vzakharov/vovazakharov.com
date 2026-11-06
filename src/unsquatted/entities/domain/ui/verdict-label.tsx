@@ -1,4 +1,4 @@
-import type { WithText } from '@/kernel/shared/typings';
+import type { WithDomain, WithText } from '@/kernel/shared/typings';
 
 import { NotedSpan, TextLink } from '@/shell/shared/ui';
 
@@ -6,7 +6,6 @@ import type { WithCopy } from '@/unsquatted/shared/i18n';
 
 import { type Price, priceParts, type WithPrice } from '../lib/price';
 import { registerUrl } from '../lib/register';
-import type { WithDomain } from '../lib/rows';
 import type { Release, Verdict, WithVerdict } from '../lib/verdict';
 import classes from './verdict-label.module.scss';
 

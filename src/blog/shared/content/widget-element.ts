@@ -9,6 +9,8 @@
 
 import { z } from 'zod';
 
+import type { Named, WithFileName } from '@/kernel/shared/typings';
+
 export const WIDGET_CLASS = 'content-widget';
 
 /** The hast property names `remarkContentDirectives` writes. */
@@ -16,7 +18,7 @@ export const WIDGET_PROPERTIES = {
   name: 'dataWidget',
   attributes: 'dataWidgetAttributes',
   items: 'dataWidgetItems',
-  source: 'dataWidgetSource',
+  fileName: 'dataWidgetFileName',
 } as const;
 
 /** The same, as the props a component mapped onto `figure` receives. */
@@ -24,25 +26,26 @@ const WIDGET_PROPS = {
   name: 'data-widget',
   attributes: 'data-widget-attributes',
   items: 'data-widget-items',
-  source: 'data-widget-source',
+  fileName: 'data-widget-file-name',
 } as const;
 
-/** What a widget's component is handed: everything the author wrote for it. */
-export type WidgetPlaceholder = {
-  name: string;
-  attributes: Record<string, string>;
-  /** The text of each item its body lists, in order. */
-  items: string[];
-  /** The file it was authored in, for a throw to name. */
-  source: string;
-};
+/**
+ * What a widget's component is handed: everything the author wrote for it,
+ * and the file it was authored in, for a throw to name.
+ */
+export type WidgetPlaceholder = Named &
+  WithFileName & {
+    attributes: Record<string, string>;
+    /** The text of each item its body lists, in order. */
+    items: string[];
+  };
 
 /** The placeholder as the pipeline writes it: two of its parts as JSON. */
 const encodedSchema = z.object({
   name: z.string(),
   attributes: z.string(),
   items: z.string(),
-  source: z.string(),
+  fileName: z.string(),
 });
 
 const stringsSchema = z.array(z.string());
@@ -55,7 +58,7 @@ function decoded(
     name: read('name'),
     attributes: read('attributes'),
     items: read('items'),
-    source: read('source'),
+    fileName: read('fileName'),
   });
 
   return {

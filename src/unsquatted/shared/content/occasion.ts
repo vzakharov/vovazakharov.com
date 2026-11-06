@@ -5,6 +5,8 @@
 
 import { z } from 'zod';
 
+import type { WithLink } from '@/kernel/shared/typings';
+
 /** The day a post is written for, which its stamp and eyebrow print. */
 export const occasionSchema = z.object({
   name: z.string().min(1),
@@ -15,6 +17,9 @@ export const occasionSchema = z.object({
 export type Occasion = z.infer<typeof occasionSchema>;
 
 export type WithOccasion = { occasion: Occasion };
+
+/** A post's link and the occasion its stamp prints. */
+export type OccasionLink = WithLink & WithOccasion;
 
 /**
  * `11.11`: the day before the month, as the occasion itself is usually

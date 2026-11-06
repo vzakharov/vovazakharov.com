@@ -1,11 +1,11 @@
 /** What a shared name hands on: its link, and the rows its image card lists. */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { WithDomain } from '@/kernel/shared/typings';
 
 import {
   registrable,
   type Verdict,
-  type WithDomain,
   type WithPrice,
   type WithPrices,
   type WithVerdicts,

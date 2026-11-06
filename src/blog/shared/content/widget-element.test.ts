@@ -10,14 +10,14 @@ describe('widgetPlaceholder', () => {
         'data-widget': 'domains',
         'data-widget-attributes': '{"label":"For one"}',
         'data-widget-items': '["solo.dev","one.party"]',
-        'data-widget-source': 'singles-day.md',
+        'data-widget-file-name': 'singles-day.md',
         className: 'content-widget',
       }),
       {
         name: 'domains',
         attributes: { label: 'For one' },
         items: ['solo.dev', 'one.party'],
-        source: 'singles-day.md',
+        fileName: 'singles-day.md',
       },
     );
   });
@@ -38,14 +38,14 @@ describe('elementWidget', () => {
         dataWidget: 'name',
         dataWidgetAttributes: '{"word":"solo"}',
         dataWidgetItems: '[]',
-        dataWidgetSource: 'singles-day.md',
+        dataWidgetFileName: 'singles-day.md',
         className: ['content-widget'],
       }),
       {
         name: 'name',
         attributes: { word: 'solo' },
         items: [],
-        source: 'singles-day.md',
+        fileName: 'singles-day.md',
       },
     );
   });

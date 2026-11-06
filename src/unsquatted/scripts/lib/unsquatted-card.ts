@@ -22,7 +22,12 @@ import { fileURLToPath } from 'node:url';
 
 import { siteConfig, withoutScheme } from '@/kernel/shared/config';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+import type { Labeled, Summarized } from '@/kernel/shared/typings';
 
+import type {
+  Listed,
+  Worded,
+} from '@/unsquatted/shared/content/index.node-safe';
 import {
   COPY,
   DICE_FACE,
@@ -90,12 +95,12 @@ const more = (count: number) =>
   count > 0 ? `+ ${count} more &amp; counting` : '&amp; counting';
 
 /** What the template sets: the left column's words and the panel's rows. */
-type CardContent = {
+type CardContent = Listed & {
   headline: string;
   subline: string;
-  note: string;
+  /** The faint line under the subline: the lede's note, or the occasion. */
+  footnote: string;
   listHeading: string;
-  domains: readonly string[];
   /** The field under the rows: a word typed in it, or its placeholder. */
   field: { typed: boolean; text: string };
   more: string;
@@ -110,7 +115,7 @@ export function unsquattedCard(): StagedPage {
   return card({
     headline: escapeHtml(headline).replace('*', '<sup>*</sup>'),
     subline: escapeHtml(subline),
-    note: escapeHtml(COPY.ledeNote),
+    footnote: escapeHtml(COPY.ledeNote),
     listHeading: escapeHtml(COPY.listHeading),
     domains: variedPicks(SHOWN).map(({ domain }) => domain),
     field: { typed: false, text: 'Your name…' },
@@ -118,6 +123,12 @@ export function unsquattedCard(): StagedPage {
     titled: false,
   });
 }
+
+type PostCardParams = Summarized &
+  Worded & {
+    eyebrow: string;
+    list: Labeled & Listed;
+  };
 
 /**
  * A post's card: its title and blurb under the occasion, beside the first list
@@ -129,17 +140,11 @@ export function postCard({
   eyebrow,
   list,
   word,
-}: {
-  title: string;
-  description: string;
-  eyebrow: string;
-  list: { label: string; domains: readonly string[] };
-  word: string;
-}): StagedPage {
+}: PostCardParams): StagedPage {
   return card({
     headline: escapeHtml(title),
     subline: escapeHtml(description),
-    note: escapeHtml(eyebrow),
+    footnote: escapeHtml(eyebrow),
     listHeading: escapeHtml(list.label),
     domains: list.domains.slice(0, SHOWN),
     field: { typed: true, text: escapeHtml(word) },
@@ -151,7 +156,7 @@ export function postCard({
 function card({
   headline,
   subline,
-  note,
+  footnote,
   listHeading,
   domains,
   field,
@@ -260,7 +265,7 @@ function card({
       </header>
       <p class="headline${titled ? ' title' : ''}">${headline}</p>
       <p class="subline">${subline}</p>
-      <p class="note">${note}</p>
+      <p class="note">${footnote}</p>
       <span class="url">${escapeHtml(withoutScheme(url))}</span>
     </main>
     <aside>

@@ -2,7 +2,10 @@
  * No `import 'server-only'`: a pure check the suite runs outside any bundler.
  */
 
-type PostedPick = { domain: string; post: string };
+import type { WithDomain } from '@/kernel/shared/typings';
+
+/** A catalogue pick, with the post that picked it. */
+export type PostedPick = WithDomain & { post: string };
 
 /**
  * Where the posts and the catalogue disagree about which names a post picked:

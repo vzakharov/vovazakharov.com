@@ -10,6 +10,7 @@
 import { z } from 'zod';
 
 import { errorClass } from '@/kernel/shared/lib/error-class';
+import type { Labeled } from '@/kernel/shared/typings';
 
 import type { WidgetPlaceholder } from '@/blog/shared/content/index.node-safe';
 
@@ -44,26 +45,33 @@ const nameSchema = z.strictObject({
 /** The zones a `name` widget shows where it names none. */
 const DEFAULT_ZONES = ['com', 'net', 'org'];
 
-/** What both widgets are drawn from. */
+/** The widget's id in the post, which a copied link opens on. */
 type Anchored = { anchor: string };
 
-export type DomainsList = Anchored & { label: string; domains: string[] };
+/** The domains a widget's rows show, in order. */
+export type Listed = { domains: readonly string[] };
 
-export type NameAcross = Anchored & {
-  word: string;
-  domains: string[];
-  note: string | undefined;
-};
+/** What both widgets are drawn from. */
+export type AnchoredList = Anchored & Listed;
+
+export type Worded = { word: string };
+
+export type DomainsList = AnchoredList & Labeled;
+
+export type NameAcross = AnchoredList &
+  Worded & {
+    note: string | undefined;
+  };
 
 function parsed<T>(
   schema: z.ZodType<T>,
-  { name, attributes, source }: WidgetPlaceholder,
+  { name, attributes, fileName }: WidgetPlaceholder,
 ): T {
   const result = schema.safeParse(attributes);
 
   if (!result.success) {
     throw new WidgetError(
-      `${source}: the \`${name}\` widget's attributes do not parse: ${z.prettifyError(result.error)}`,
+      `${fileName}: the \`${name}\` widget's attributes do not parse: ${z.prettifyError(result.error)}`,
     );
   }
 
@@ -87,7 +95,7 @@ export function domainsList(placeholder: WidgetPlaceholder): DomainsList {
 
   if (placeholder.items.length === 0 || astray.length > 0) {
     throw new WidgetError(
-      `${placeholder.source}: a \`domains\` widget lists domains, one per item${
+      `${placeholder.fileName}: a \`domains\` widget lists domains, one per item${
         astray.length > 0 ? `, and not ${astray.join(', ')}` : ''
       }.`,
     );

@@ -85,7 +85,7 @@ function convertWidget(
       [WIDGET_PROPERTIES.name]: node.name,
       [WIDGET_PROPERTIES.attributes]: JSON.stringify(node.attributes ?? {}),
       [WIDGET_PROPERTIES.items]: JSON.stringify(items),
-      [WIDGET_PROPERTIES.source]: fileName,
+      [WIDGET_PROPERTIES.fileName]: fileName,
     },
   };
 }

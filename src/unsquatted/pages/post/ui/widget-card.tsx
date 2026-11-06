@@ -4,7 +4,12 @@ import Link from 'next/link';
 import { type ReactNode, useRef } from 'react';
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { Labeled } from '@/kernel/shared/typings';
 
+import type {
+  AnchoredList,
+  Worded,
+} from '@/unsquatted/shared/content/index.node-safe';
 import {
   type CopiedPrices,
   labelOf,
@@ -19,19 +24,17 @@ import { checkerHref } from '../lib/checker-href';
 import { snapshot } from './snapshot';
 import classes from './widget-card.module.scss';
 
-type WidgetCardProps = CopiedPrices & {
-  /** The figure's id, which a copied link opens on. */
-  anchor: string;
-  /** What the card is headed with: a label, or the word in a field. */
-  head: ReactNode;
-  /** The word the widget's image is named for. */
-  cardName: string;
-  domains: readonly string[];
-  /** The line under the rows, if any. */
-  note?: string | undefined;
-  /** Where the foot sends a reader for more, and in what words. */
-  more: { href: string; text: string };
-};
+type WidgetCardProps = CopiedPrices &
+  AnchoredList & {
+    /** What the card is headed with: a label, or the word in a field. */
+    head: ReactNode;
+    /** The word the widget's image is named for. */
+    cardName: string;
+    /** The line under the rows, if any. */
+    note?: string | undefined;
+    /** Where the foot sends a reader for more, and in what words. */
+    more: { href: string; text: string };
+  };
 
 /**
  * A post's widget: its domains, each looked up live on every visit as the
@@ -117,10 +120,8 @@ export function WidgetCard(props: WidgetCardProps) {
   );
 }
 
-type FieldHeadProps = { word: string };
-
 /** The word as the checker's field would hold it. */
-export function FieldHead({ word }: FieldHeadProps) {
+export function FieldHead({ word }: Worded) {
   return (
     <Link href={checkerHref(word)} className={classes['field']}>
       {word}
@@ -128,8 +129,6 @@ export function FieldHead({ word }: FieldHeadProps) {
   );
 }
 
-type LabelHeadProps = { label: string };
-
-export function LabelHead({ label }: LabelHeadProps) {
+export function LabelHead({ label }: Labeled) {
   return <figcaption className={classes['label']}>{label}</figcaption>;
 }
