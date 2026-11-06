@@ -21,7 +21,7 @@ work would do: I opened a new tab and typed `.si`.
 
 Want to know what I think about it? Here, in the only language I’m fluent in:
 
-:::domains{label="What I think about this"}
+:::domains{label="Superintelligence has landed. Grab yours!"}
 
 - lolok.si
 - slowclap.si
