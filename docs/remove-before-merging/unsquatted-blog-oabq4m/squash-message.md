@@ -1,30 +1,27 @@
-Proposed squash title/body:
+Proposed squash body:
 
 ```
-feat(unsquatted): a blog run by the Unnamed, with live domain widgets (#249)
-```
-
-```
-unsquatted.com gains a blog of holiday posts, half explainer and half
-joke, each built around domain names for its occasion: Singles' Day,
-International Men's Day, Black Friday and Cyber Monday. They are written
-by the site's resident persona, the Unnamed, who reflects on each post
-beside it, as the Clerk and Maya do on their sites. The home page points
-a visitor who keeps rolling the dice to them.
+unsquatted.com gains a blog, "Names and Dates": posts half explainer
+and half joke, each built around domain names for an occasion, a
+holiday or a headline. They are written by the site's new resident
+persona, the Unnamed, who reflects on each post beside it, as the
+Clerk and Maya do on their sites, and they link their sources inline.
+The home page points a visitor who keeps rolling the dice to the blog.
 
 Posts carry widgets: markdown directives that blog's content pipeline
-compiles into placeholders, rendered by components the collection's
-owner supplies, so blog names no site. unsquatted supplies a curated
-list in the share card's rows and one word across the checker's zones.
-Names are in the HTML; verdicts are looked up live, and every name
-links to the full checker. The checker's row, lookups and shortlist
-move below the home page so both pages draw them.
+compiles into placeholders, keeping the body as a feed reader's
+fallback, and that a site renders through a widgets slot on its
+article page, so blog names no site. unsquatted renders a curated list
+of domains and one word across zones, each row with a heart for the
+shortlist, a live verdict and price, a link to the full checker, and a
+share menu that copies the widget's link or the widget as an image.
+The checker's rows, lookups and shortlist move below the home page so
+both pages draw them, and each post's card is drawn from its widgets.
 
 A catalogue pick may name the post it was picked for, which its row
 links to by the occasion's date stamp, and the build holds each post
-and the catalogue to the same set of names. A document dated after the
-build day is left out of every site, and a daily scheduled deploy of
-unsquatted releases each post on its date.
+and the catalogue to the same set of names. Every post goes live on
+merge.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
