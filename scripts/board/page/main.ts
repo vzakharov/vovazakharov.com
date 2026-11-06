@@ -98,7 +98,8 @@ function statusText(next: Status): string {
 function showStatus(next: Status): void {
   status.textContent = statusText(next);
   status.dataset['kind'] = next.kind;
-  document.body.classList.toggle('read-only', store.write === undefined);
+  // From the status alone: the first one arrives while `store` is still being made.
+  document.body.classList.toggle('read-only', next.kind === 'read-only');
 }
 
 function applyCamera(): void {

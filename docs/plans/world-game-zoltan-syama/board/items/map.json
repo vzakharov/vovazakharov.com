@@ -1,0 +1,11 @@
+{
+  "kind": "image",
+  "id": "map",
+  "x": 0,
+  "y": 0,
+  "w": 900,
+  "src": "images/map-zoltan-syama.webp",
+  "caption": "The map Zoltan and Syama drew — the first input. White is water, everything else is land.",
+  "updated": "2026-11-06T17:50:00.000Z",
+  "author": "agent:lead"
+}

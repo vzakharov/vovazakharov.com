@@ -20,7 +20,7 @@ time, steering by a north star rather than a schedule. Nothing past the open
 bite is laid out: each next bite is chosen when the last one lands, from what it
 showed — the step that looked hard turning out easy, and the other way round.
 
-## Load-bearing calls
+## The calls everything else stands on
 
 Only the ones every later bite stands on; everything else is a bite's call.
 

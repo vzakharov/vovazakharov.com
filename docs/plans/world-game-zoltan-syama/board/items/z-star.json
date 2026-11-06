@@ -1,0 +1,12 @@
+{
+  "kind": "zone",
+  "id": "z-star",
+  "x": 1000,
+  "y": 0,
+  "w": 1060,
+  "h": 880,
+  "title": "The north star — in no order",
+  "color": "green",
+  "updated": "2026-11-06T17:50:00.000Z",
+  "author": "agent:lead"
+}

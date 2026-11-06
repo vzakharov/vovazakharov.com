@@ -14,3 +14,7 @@ A question whose answer the rest of the work does not depend on is asked, not
 waited on: «не нужно было (и не нужно в будущем) останавливать то, что можно
 продолжать из-за затыков во, в-принципе, параллелизуемых вопросах». Ask it and
 keep going on everything it does not block.
+
+Words I'm tired of, in anything written for me to read — chat, plans, boards,
+PRs: "load-bearing" («давай внесём в список стоп-слов»). Say what the thing
+holds up instead.

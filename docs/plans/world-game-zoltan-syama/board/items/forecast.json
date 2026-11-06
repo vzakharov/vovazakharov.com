@@ -1,0 +1,11 @@
+{
+  "kind": "sticky",
+  "id": "forecast",
+  "x": 40,
+  "y": 1040,
+  "text": "About 3,120 hours, seven people, the busiest five months:\n• graphics programmer, senior — 800 h\n• technical artist, senior — 640 h\n• environment artist, middle — 480 h\n• gameplay programmer, senior — 320 h\n• producer, senior — 320 h\n• game designer, senior — 240 h\n• QA, middle — 240 h\n• audio engineer, senior — 80 h\nCompared with the ledger at the end.",
+  "color": "gray",
+  "w": 820,
+  "updated": "2026-11-06T17:50:00.000Z",
+  "author": "agent:lead"
+}

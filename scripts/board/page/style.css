@@ -1,5 +1,6 @@
 /* An infinite chart table: a dotted sea-grid ground, paper items on it, a
-   floating toolbar top-left and the live status beside it. */
+   floating toolbar top-left and the live status beside it. Light in every
+   theme, as the operator asked. */
 :root {
   --ground: #e8eef0;
   --dot: #c3d0d5;
@@ -21,54 +22,8 @@
   --zone-alpha: 38%;
   --font-display: 'Fraunces', georgia, serif;
   --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --ground: #0f1a1f;
-    --dot: #22333a;
-    --ink: #e4ecee;
-    --muted: #93a6ad;
-    --paper: #18252b;
-    --edge: #2f434b;
-    --accent: #5fb7bf;
-    --accent-ink: #0f1a1f;
-    --danger: #ef8d80;
-    --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 4px 12px rgb(0 0 0 / 30%);
-    --yellow: #4d4422;
-    --pink: #4d2b33;
-    --blue: #233a52;
-    --green: #2b4426;
-    --orange: #4d3420;
-    --purple: #392d4f;
-    --gray: #2b3539;
-    --zone-alpha: 45%;
-
-    color-scheme: dark;
-  }
-}
-
-:root[data-theme='dark'] {
-  --ground: #0f1a1f;
-  --dot: #22333a;
-  --ink: #e4ecee;
-  --muted: #93a6ad;
-  --paper: #18252b;
-  --edge: #2f434b;
-  --accent: #5fb7bf;
-  --accent-ink: #0f1a1f;
-  --danger: #ef8d80;
-  --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 4px 12px rgb(0 0 0 / 30%);
-  --yellow: #4d4422;
-  --pink: #4d2b33;
-  --blue: #233a52;
-  --green: #2b4426;
-  --orange: #4d3420;
-  --purple: #392d4f;
-  --gray: #2b3539;
-  --zone-alpha: 45%;
-
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html,

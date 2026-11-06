@@ -1,0 +1,12 @@
+{
+  "kind": "zone",
+  "id": "z-mammoth",
+  "x": 1000,
+  "y": 960,
+  "w": 1060,
+  "h": 640,
+  "title": "How the mammoth is eaten",
+  "color": "yellow",
+  "updated": "2026-11-06T17:50:00.000Z",
+  "author": "agent:lead"
+}
