@@ -92,29 +92,48 @@ the plan's; an agent may move a file inside its own slice and says so.
       holds (`heightAt(…, finest)`); the play hook reports the backend. Frames
       for all of it are the ten in the frames directory (c3baa8d13).
 
+- [x] **Second session, rounds R3b–R7c** (notes `r3b.md` … `r7c.md`): slope
+      light from one low north-west sun, land 1.5× brighter, land colour per
+      fragment from a `height` attribute (snow smooth at 1 000 km); a detail cut
+      continuous in position, so neighbouring tiles agree on every shared vertex
+      (the snow seam and the 10 km rectangle gone), and since R7c as fine as the
+      split rule's leaves hold (10 km nadir 489 m → 250 m); a lowland floor, no
+      inland point below 0; frustum and horizon culling (1 000 km 300 → 42
+      tiles); skirts flared one cell outward (R7b); the play scripts share
+      `median`, `watchPageErrors` and an awaited `evaluate` (R5); the traced
+      coast smoothed before it is committed, no ring lost (R6). Frames at
+      21d66477e predate R6, R7b and R7c.
+
 ## Rest of the bite
 
-The session paused here at its context budget. In order:
+The second session paused here at its context budget. In order:
 
-1. **R3b, slope light** (the lead's second relief call): shade the ground by
-   slope against one sun and lift the exposure, in the scene's material, so the
-   hills at 10 km read; then look at all ten frames.
-2. **What R2a's and R3a's frames still show**, each checked on the new frames
-   first: snow peaks blocky and faceted at 1 000 km, with a straight seam in the
-   snow where two tile levels meet (x≈720); a rectangle of finer texture at 10
-   km where finer tiles carry octaves their coarser neighbours drop (fade the
-   `finest` cut across a level, or match neighbours' cut); small sea puddles
-   inland, where the relief dips below 0 (0.05 % of inland samples, to −70 m —
-   lift inland ground to stay above 0, or keep the sea out of tiles with no
-   coast); `selectTiles` keeps off-screen coast tiles (no view culling), so 1
-   000 km draws 301.
-3. **Shared play code**: the play script's `median` and its page-error capture
-   move to `scene`'s `scripts/lib`, with an `awaitPromise` option on `cdp.ts`'s
-   `evaluate` replacing the `window.__settled` polling (both play scripts).
-4. **Tail**: `/polish`, `./scripts/vet.sh` green (with `VET_MEADOW=1`, since
-   `Silhouette` changed in `src/mushrooms/`), the PR (#256, base
-   `claude/world-game-zoltan-syama-hodowq`) body saying what each call became
-   with the frames, the frames to the lead through memo.
+1. **A play run of the head** on both screens at five heights, before anything
+   else: nobody has looked at R6's smoothed coast, R7b's flared skirts or R7c's
+   finer cut on screen. Commit the ten frames over `frames/` if better.
+2. **The coastline in the shader** (the lead's call, R6/R6b): antialiased edge
+   and a lighter shallow band, seen from orbit. The depth-texture route reads 0
+   on the WebGL 2 fallback and was reverted (`notes/r6b.md`). Next route: the
+   sea mesh carries the floor's height as its own `height` attribute
+   (`geometryOf(sea, true)` in `ui/tile-meshes.ts`, the worker's sea fill
+   sampling the ground instead of `() => 0`), and the worker keeps land down to
+   the band's deepest depth.
+3. **The phone orbit's pale dashed lines along tile edges over the sea**: R7
+   showed they are the land material (grid, not skirt); R7b's diagnosis that
+   they were the sea's edge fade was made over R6b's shader, since reverted, so
+   the cause is open again on the head — check on item 1's frames first.
+4. **10 km**, if item 1 shows it still soft: cost `TILE_GRID` 65 (same tiles,
+   ~4× fill) or `SPLIT_RATIO` 0.5 (~4× tiles), a call for the lead.
+5. **Out of this bite, recorded for the lead**: the 10–20 km spits fray at orbit
+   because orbit tiles are level 3; a coast floor at level 6 costs ~530–640
+   tiles and ~40 ms per reselect, nearly all in `selectTiles`' per-node
+   visibility test (`notes/r7c.md`).
+6. **Tail**: `/polish`, `VET_MEADOW=1 ./scripts/vet.sh` green, and a **new** PR
+   from `island/bite-1-descent` onto `claude/world-game-zoltan-syama-hodowq`
+   (#256 closed as merged when 686f5174 put an early head into the base; the
+   lead agreed) whose body says what each call became, with the frames; the R5
+   finding that `play:mushrooms --plays keep,dark` fails ("no sun on the screen
+   to tap") on the base too; the frames to the lead through memo.
 
 ## Calls made in the build
 
