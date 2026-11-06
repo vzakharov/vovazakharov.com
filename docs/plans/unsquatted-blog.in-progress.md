@@ -197,7 +197,10 @@ Left:
 Done since vet went green on 7d59aebf: the heart's hover looked at on the
 preview in light and dark (no plate, the liked colour); `/polish full`
 (197615b0; `/five-percent` posted as review 5802101392); the PR body and squash
-proposal refreshed.
+proposal refreshed. On the operator's look at the share: a widget's dropdown is
+the two buttons alone (`SharePopover`'s `compact`), the image keeps the hearts
+and its foot reads "… at unsquatted.com" (e9c0b4f7); the .si reaction widget is
+headed "Superintelligence has landed. Grab yours!" (3f08d499).
 
 The headings below are the original contract; where `## Eaten so far` says
 otherwise, it wins.
