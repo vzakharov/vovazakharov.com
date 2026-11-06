@@ -1,0 +1,22 @@
+// Body volume probe: distance between the back (front face, paper x<.5) and the
+// belly (its mirror, paper 1−x) at a few body points, plus the bounding box.
+// Usage: npx tsx tmp/tg/dilo2/gap.ts <m.json>...
+import { readFileSync } from 'node:fs';
+
+for (const f of process.argv.slice(2)) {
+  const d = JSON.parse(readFileSync(f, 'utf8')) as { paper: [number, number][]; positions: [number, number, number][] };
+  const near = (x: number, y: number) => {
+    let best = 0, bd = 9;
+    d.paper.forEach((p, i) => { const e = Math.hypot(p[0] - x, p[1] - y); if (e < bd) { bd = e; best = i; } });
+    return d.positions[best]!;
+  };
+  const gap = (x: number, y: number) => {
+    const a = near(x, y), b = near(1 - x, y);
+    return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]).toFixed(3);
+  };
+  const ext = [0, 1, 2].map((k) => {
+    const v = d.positions.map((p) => p[k]);
+    return (Math.max(...v) - Math.min(...v)).toFixed(2);
+  });
+  console.log(f.split('/').slice(-2, -1)[0], 'gap tail', gap(0.05, 0.5), 'mid', gap(0.2, 0.5), 'fore', gap(0.3, 0.5), 'flank', gap(0.15, 0.3), 'box', ext.join('x'));
+}

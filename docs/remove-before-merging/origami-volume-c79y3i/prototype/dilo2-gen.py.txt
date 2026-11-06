@@ -1,0 +1,80 @@
+import json, sys, copy
+D = '/home/user/vovazakharov.com/tmp/tg/dilo2/'
+BASE = json.load(open('/home/user/vovazakharov.com/tmp/tg/dilo/tf_long.steps.json'))
+# indices: 0 spine, 1-2 inside (base sides), 3-4 front flaps raised, 5-6 back flaps (legs/tail),
+# 7-8 front tips (frill), 9-10 back tips, 11 head, 12 jaw, 13 jaw pleat
+
+def var(**h):
+    s = copy.deepcopy(BASE)
+    for k, v in h.items():
+        i = int(k[1:])
+        s[i]["hold"] = v
+    return s
+
+V = {}
+V['ref'] = var()
+V['sp85'] = var(h0=0.85)
+V['sp80'] = var(h0=0.8)
+V['sd85'] = var(h1=0.85, h2=0.85)
+V['sd80'] = var(h1=0.8, h2=0.8)
+V['sp85_f65'] = var(h0=0.85, h3=0.65, h4=0.65)
+V['sp85_hd45'] = var(h0=0.85, h11=0.45)
+V['sp80_sd85'] = var(h0=0.8, h1=0.85, h2=0.85)
+V['sp70'] = var(h0=0.7)
+
+def cut(k, s):
+    return s[:k]
+
+for a, b in [(0.7, 0.7), (0.6, 0.6), (0.75, 0.85), (0.8, 0.8)]:
+    t = f'{int(a*100)}_{int(b*100)}'
+    V['b' + t] = cut(3, var(h0=a, h1=b, h2=b))           # base only
+    V['f' + t] = cut(11, var(h0=a, h1=b, h2=b))          # + flaps/tips, no head
+    V['all' + t] = var(h0=a, h1=b, h2=b)
+
+for k in (5, 7, 9):
+    V[f'c{k}_70'] = cut(k, var(h0=0.7, h1=0.7, h2=0.7))
+    V[f'c{k}_80'] = cut(k, var(h0=0.8, h1=0.8, h2=0.8))
+
+for k in (5, 7, 9):
+    V[f'c{k}_60'] = cut(k, var(h0=0.6, h1=0.6, h2=0.6))
+V['c12_60'] = cut(12, var(h0=0.6, h1=0.6, h2=0.6))
+V['c12_70'] = cut(12, var(h0=0.7, h1=0.7, h2=0.7))
+
+for a, b in [(0.6, 0.9), (0.7, 0.9), (0.9, 0.6), (0.9, 0.75), (0.5, 0.5)]:
+    t = f'{int(a*100)}_{int(b*100)}'
+    V['c5_' + t] = cut(5, var(h0=a, h1=b, h2=b))
+    V['b' + t] = cut(3, var(h0=a, h1=b, h2=b))
+
+for a in (0.5, 0.6, 0.7, 0.8):
+    t = f'{int(a*100)}'
+    V['s' + t] = var(h0=a)                          # spine open, sides pressed 0.9
+    V['s' + t + '_c11'] = cut(11, var(h0=a))        # no head/jaw
+
+def head(s, hold=None, sel=None):
+    if hold is not None:
+        s[11]["hold"] = hold
+    if sel is not None:
+        s[11]["select"] = sel
+    return s
+
+for a in (0.5, 0.6):
+    t = f'{int(a*100)}'
+    V['s' + t + '_hd30'] = head(var(h0=a), 0.3)
+    V['s' + t + '_hd40'] = head(var(h0=a), 0.4)
+    for k in (2, 3, 4):
+        V[f's{t}_hT{k}'] = head(var(h0=a), sel={"at": [0.45, 0.5], "top": k})
+
+def headx(s, x):
+    s[11]["line"] = {"p": [x, 0.3], "q": [x, 0.7]}
+    return s
+
+for a in (0.6, 0.7, 0.75):
+    t = f'{int(a*100)}'
+    V['s' + t + '_hx38'] = headx(var(h0=a), 0.38)
+    V['s' + t + '_hx38_40'] = head(headx(var(h0=a), 0.38), 0.4)
+V['s75'] = var(h0=0.75)
+V['s70_hd40'] = head(var(h0=0.7), 0.4)
+
+for n in (sys.argv[1:] or V):
+    json.dump(V[n], open(D + n + '.steps.json', 'w'))
+    print(n)

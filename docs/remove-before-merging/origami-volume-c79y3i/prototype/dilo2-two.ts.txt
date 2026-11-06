@@ -1,0 +1,53 @@
+// Two-stage fold: the base (first BASEN steps) folded from the flat sheet and
+// relaxed into a 3D tent, then the full model started from that tent — every
+// vertex carried to where the tent put its paper point, every crease starting
+// at its geometric angle — and relaxed.
+// Usage: npx tsx tmp/tg/dilo2/two.ts <steps.json> <out.json>   env BASEN (3), BPOSE (3)
+import { readFileSync, writeFileSync } from 'node:fs';
+
+import { run, type Step } from '../../../src/origami/shared/fold/fold.ts';
+import { mesh, type Mesh } from '../../../src/origami/shared/fold/mesh.ts';
+import { crossings } from '../../../src/origami/shared/fold/contact.ts';
+import { dihedral } from '../../../src/origami/shared/fold/hinge.ts';
+import { PAPERS } from '../../../src/origami/shared/fold/paper.ts';
+import { relax } from '../relax.ts';
+import { fromPose } from '../dome.ts';
+
+const paper = PAPERS['kami-15'];
+const steps = JSON.parse(readFileSync(process.argv[2]!, 'utf8')) as Step[];
+const baseN = Number(process.env.BASEN ?? 3);
+const gap = paper.thickness / paper.side;
+
+const baseSteps = steps.slice(0, baseN);
+const bm = fromPose(mesh(run(baseSteps), paper), run(baseSteps, 0));
+const br = relax(bm, paper);
+console.log('base strain', br.strain.toFixed(4), 'crossings', br.crossings);
+
+function locate(pt: readonly number[]): [number, number, number] {
+  for (const [a, b, c] of bm.triangles) {
+    const A = bm.paper[a]!, B = bm.paper[b]!, C = bm.paper[c]!;
+    const d = (B[1] - C[1]) * (A[0] - C[0]) + (C[0] - B[0]) * (A[1] - C[1]);
+    const l1 = ((B[1] - C[1]) * (pt[0]! - C[0]) + (C[0] - B[0]) * (pt[1]! - C[1])) / d;
+    const l2 = ((C[1] - A[1]) * (pt[0]! - C[0]) + (A[0] - C[0]) * (pt[1]! - C[1])) / d;
+    const l3 = 1 - l1 - l2;
+    if (l1 >= -1e-9 && l2 >= -1e-9 && l3 >= -1e-9) {
+      const P = br.positions[a]!, Q = br.positions[b]!, R = br.positions[c]!;
+      return [0, 1, 2].map((k) => l1 * P[k]! + l2 * Q[k]! + l3 * R[k]!) as [number, number, number];
+    }
+  }
+  throw new Error(`no base triangle at ${pt.join(',')}`);
+}
+
+const full = mesh(run(steps), paper);
+const posed = fromPose(full, run(steps, Number(process.env.BPOSE ?? baseN)));
+const start = full.paper.map(locate);
+const x = Float64Array.from(start.flat());
+const hinges = posed.hinges.map((h) => ({ ...h, start: dihedral(x, h) }));
+const m: Mesh = { ...posed, start, hinges };
+console.log('start crossings', crossings(m, x, gap / 2));
+const r = relax(m, paper);
+console.log('iters', r.iterations, 'strain', r.strain.toFixed(4), 'crossings', r.crossings);
+writeFileSync(
+  process.argv[3]!,
+  JSON.stringify({ triangles: m.triangles, paper: m.paper, positions: r.positions, faces: m.faces }),
+);

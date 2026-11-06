@@ -358,6 +358,19 @@ steps in `prototype/feel-{lotus,tulip,fish-gill,frog}.*`, the run helper
   the only thing that broke the box from the three-quarter view. The box is the
   base itself, held shut by its spine at 0.9, and nothing tried opens it; the
   frill will not go rounder (corner cuts cross 10–26).
+- **Opening the dinosaur's box: a two-stage relax** (`prototype/dilo2-*.txt`;
+  `two.ts` copied to `tmp/tg/dilo2/` with its siblings, run by `run2.sh`): fold
+  only the 3-step base from flat and relax it into an open tent, then start the
+  whole model from that tent with every crease at its real angle. The bare base
+  then starts at 0–1 crossings, where POSE=3 or POSE=0–2 gives 13–276. Only the
+  spine may open — the diagonals stay ~0.9, since the flaps' folds cross them
+  (sides open: 5–12% before the head). Spine 0.7 with the whole dinosaur: 0
+  crossings, **4.0%**, back-to-belly gap ~3× the pressed one
+  (`feel-dilo-open.png`) — slimmer, not a full body. Without the head fold,
+  spine 0.5 is clean (2.3%) with real volume. The head fold is what blocks it:
+  it crosses the spine at (0.5, 0.35)/(0.5, 0.65), where the spine must close,
+  and one crease has one hold. Untried: a separate fold pinching the spine shut
+  only near the head; a head from a reverse fold; the `dome.ts` tent.
 - **Engine limits met**: a fold seeded on some layers still drags every layer
   joined to them along the pleats (no forked tail); a single-layer fold works
   only on the outermost layer (`bottom: 1`).
