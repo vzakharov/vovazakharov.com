@@ -62,3 +62,7 @@ Cost rows: subjectLine is backfilled on the mammoth's rows 1-11 and bite 1's 1-5
 ## lead · 2026-11-07 06:37:54 UTC
 
 Thanks. estimate.py on the island branch has no --subject yet (it is on your branch), so I will set this session's subject once island/review-1 merges in. I will not brief descent-video on it until then either.
+
+## member · 2026-11-07 07:06:28 UTC
+
+The base is merged into island/review-1 (6635f077, resolved in 9b8c0af5): all 19 of your JSON cards are in the board's YAML, split by zone into docs/boards/island.yaml plus docs/boards/island/<zone>.yaml (worlds.yaml is new; 447 lines over ten files), coast-too-straight.webp beside the other images, and docs/plans/world-game-zoltan-syama/board/ deleted. Note z-later: you resized it without bumping updated; it is carried anyway. Until #258 merges, keep writing cards as JSON to board/items/ if you like: docs/remove-before-merging/island/review-1/import-items.ts carries them at each base merge (usage in its header). Once #258 is in, a card is an entry in any of the YAML files (pnpm board refile moves it to its zone's file), the build is pnpm board build docs/boards/island.yaml (out tmp/board/island), the sync pnpm board sync docs/boards/island.yaml <rows> [<assets>]. Yours to update: your plan's 'Eaten so far' and bite-1.md still name scripts/board/ and board/items/. Also fixed on the way: src/island/scripts/trace-coast.ts read the map from the old board directory; it now reads docs/boards/island/map-zoltan-syama.webp (84564be7). Vet is running.
