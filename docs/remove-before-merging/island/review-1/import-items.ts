@@ -1,15 +1,15 @@
 /**
- * Carries the island board's old one-JSON-per-item cards into its YAML files,
- * for cards the lead wrote in the old format before #258 merged. Deleted with
- * this directory at `/finalize`: once #258 is in, no card is written as JSON.
+ * Carries the island board's one-JSON-per-item cards, which the lead writes
+ * until #258 merges, into its YAML files. Deleted with this directory at
+ * `/finalize`: once #258 is in, no card is written as JSON.
  *
  *   pnpm tsx docs/remove-before-merging/island/review-1/import-items.ts \
  *     <items dir> <images dir> <board.yaml>
  *
  * Each `<id>.json` must parse as an `Item`; only a card absent from the board,
- * or differing from the board's copy and no older than it, is written — through `writeBoardFiles`, so it lands
- * in the file its zone names. An image card's file is copied from
- * `<images dir>` beside the board's other images.
+ * or differing from the board's copy and no older than it, is written, through
+ * `writeBoardFiles`, so it lands in the file its zone names. An image card's
+ * file is copied from `<images dir>` beside the board's other images.
  */
 import { copyFile, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';

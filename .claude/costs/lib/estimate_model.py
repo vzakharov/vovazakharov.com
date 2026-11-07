@@ -49,9 +49,9 @@ class Estimate:
     # before it was asked for.
     subject_line: Optional[str] = None
 
-    # A row reads its subject first, under the time it was set. Declaring the
-    # field there would put a defaulted field before `parts`, so the order is
-    # stated here, and must name every field.
+    # A row reads its subject first, under the time it was set. Declaring
+    # `subject_line` after `at` would put a defaulted field before `parts`, so
+    # the order is stated here, and must name every field.
     KEY_ORDER: ClassVar[Tuple[str, ...]] = ("at", "subject_line", "parts", "comment")
 
 
