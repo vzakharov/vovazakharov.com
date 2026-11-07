@@ -22,7 +22,7 @@ export const STICKY_COLORS = [
 ] as const;
 const Color = z.enum(STICKY_COLORS);
 
-export const TEXT_SIZES = ['h1', 'h2', 'body'] as const;
+const TEXT_SIZES = ['h1', 'h2', 'body'] as const;
 
 const Common = z.object({
   id: ID,
@@ -82,7 +82,6 @@ export const Item = z.discriminatedUnion('kind', [
 ]);
 export type Item = z.infer<typeof Item>;
 export type PlacedItem = Exclude<Item, { kind: 'line' }>;
-export type ItemKind = Item['kind'];
 
 /** `base` overlaid with `overlay`, item by item; order follows `base`, new ids after. */
 export function mergeItems(

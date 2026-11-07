@@ -1,0 +1,18 @@
+// The scene owns the whole screen: pinned over the page at the dynamic
+// viewport's height, so a phone's collapsing toolbar never leaves a strip, and
+// every touch goes to the scene rather than scrolling or zooming the page.
+.island {
+  position: fixed;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100dvh;
+  touch-action: none;
+  user-select: none;
+
+  // The canvas takes focus for the keyboard to steer it; it is the whole
+  // screen, so a ring round it would frame nothing.
+  &:focus {
+    outline: none;
+  }
+}

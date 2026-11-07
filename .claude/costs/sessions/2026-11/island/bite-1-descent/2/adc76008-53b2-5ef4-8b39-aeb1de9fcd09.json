@@ -1,0 +1,156 @@
+{
+  "total": {
+    "inputTokens": 3518,
+    "cacheWrite5mTokens": 2391307,
+    "cacheWrite1hTokens": 283297,
+    "cacheReadTokens": 85919079,
+    "outputTokens": 478233,
+    "thinkingTokens": 206041,
+    "responses": 609,
+    "costUsd": 40.97826900000009
+  },
+  "estimate": {
+    "at": "2026-11-06T21:47:02.838Z",
+    "parts": [
+      {
+        "hours": 9.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "slope light, the continuous detail cut, culling and the skirt flare are rendering work"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the lowland floor and a smoothed coast that keeps every named spit are judgements on procedural shape"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "moving the play scripts' shared helpers into scene's lib is routine"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "briefing four rounds of agents and relaying the operator's and the lead's calls"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-06T20:20:21.346Z",
+    "contextTokens": 149046,
+    "spend": {
+      "inputTokens": 106,
+      "cacheWrite5mTokens": 196524,
+      "cacheWrite1hTokens": 90454,
+      "cacheReadTokens": 4538434,
+      "outputTokens": 22567,
+      "thinkingTokens": 6582,
+      "responses": 50,
+      "costUsd": 3.0657028000000013
+    }
+  },
+  "sessionId": "adc76008-53b2-5ef4-8b39-aeb1de9fcd09",
+  "branch": "island/bite-1-descent",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/bite-1-descent — остров рисуется от орбиты до двух метров, осталось освещение склонов, мелкие дефекты кадров и хвост с PR",
+  "prs": [
+    256
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDjdL2UcHBHn3eyXfZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T20:17:24.258Z",
+  "lastResponseAt": "2026-11-06T22:04:20.259Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 40.6286008,
+  "ownTurns": {
+    "inputTokens": 211,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 283297,
+    "cacheReadTokens": 23500119,
+    "outputTokens": 62254,
+    "thinkingTokens": 10454,
+    "responses": 107,
+    "costUsd": 8.212323800000004
+  },
+  "subagents": {
+    "inputTokens": 1048,
+    "cacheWrite5mTokens": 2390906,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 62109068,
+    "outputTokens": 415778,
+    "thinkingTokens": 195587,
+    "responses": 499,
+    "costUsd": 32.6960956
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2271,
+      "cacheWrite5mTokens": 2391307,
+      "cacheWrite1hTokens": 283297,
+      "cacheReadTokens": 85919079,
+      "outputTokens": 478052,
+      "thinkingTokens": 206041,
+      "responses": 608,
+      "costUsd": 40.97805380000009
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1247,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 181,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00021520000000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 609,
+    "matched": 606,
+    "matchedTableUsd": 40.908419400000085,
+    "matchedEventUsd": 40.908419400000085,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 401,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 309892,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0696344
+      },
+      "generate_session_title": {
+        "inputTokens": 1247,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 181,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00021520000000000003
+      }
+    }
+  },
+  "operatorWords": 138,
+  "branchLines": {
+    ".md": 2376,
+    ".py": 894,
+    ".webp": 0,
+    ".json": 1896,
+    ".png": 0,
+    ".ts": 7962,
+    ".css": 412,
+    ".sh": 1,
+    ".tsx": 52,
+    ".scss": 18
+  }
+}
