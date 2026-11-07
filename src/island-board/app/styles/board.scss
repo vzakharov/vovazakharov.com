@@ -1,6 +1,8 @@
 /* An infinite chart table: a dotted sea-grid ground, paper items on it, a
    floating toolbar top-left and the live status beside it. Light in every
    theme, as the operator asked. */
+@use 'toolbar';
+
 $tints: (
   'yellow': #fbe7a1,
   'pink': #f7cfd8,
@@ -324,83 +326,6 @@ body:not(.editing) #stage {
 
 .line.selected .arrowhead {
   stroke: var(--accent);
-}
-
-#toolbar {
-  position: fixed;
-  top: calc(12px + env(safe-area-inset-top, 0px));
-  left: max(12px, env(safe-area-inset-left, 0px));
-  right: max(12px, env(safe-area-inset-right, 0px));
-  z-index: 5;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  pointer-events: none;
-}
-
-#toolbar > * {
-  pointer-events: auto;
-}
-
-.group {
-  display: flex;
-  gap: 2px;
-  padding: 3px;
-  border: 1px solid var(--edge);
-  border-radius: 8px;
-  background: var(--paper);
-  box-shadow: var(--shadow);
-}
-
-.group button {
-  min-width: 34px;
-  height: 30px;
-  padding: 0 10px;
-  border: 0;
-  border-radius: 5px;
-  background: transparent;
-  color: var(--ink);
-  font: 500 13px var(--font-body);
-  cursor: pointer;
-}
-
-.group button:hover {
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-}
-
-.group button:focus-visible {
-  outline: 2px solid var(--accent);
-}
-
-.group button.active {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-
-.swatch {
-  width: 22px;
-  min-width: 22px;
-  border: 1px solid var(--edge);
-  background: var(--tint);
-}
-
-#status {
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--paper);
-  color: var(--muted);
-  font-size: 12px;
-  box-shadow: var(--shadow);
-}
-
-#status[data-kind='live'] {
-  color: var(--accent);
-}
-
-#status[data-kind='error'],
-#status[data-kind='stale'] {
-  color: var(--danger);
 }
 
 .read-only .edit-only,
