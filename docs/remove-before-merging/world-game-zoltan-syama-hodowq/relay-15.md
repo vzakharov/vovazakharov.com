@@ -181,3 +181,25 @@ bite's tail; the `?` key-hint button; the line-label zoom cost. Meanwhile watch
 and open the board, arm
 `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch island/board-asks`
 in the background, and merge members' PRs as they ping green.
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+zod на странице доски нужен ради одного места: строк базы, которые пишут сами зрители. Двойной клик создаёт стикер, перетаскивание двигает карточку, и всё это ложится в общую базу артефакта. Для кода такие строки приходят снаружи, и по правилу из CLAUDE.md («validate at boundaries») их проверяют схемой, прежде чем рисовать. Без проверки один кривой стикер мог бы уронить всю доску у каждого, кто её открывает.
+
+Вторая проверка на странице лишняя. Данные, которые запекаются в страницу при сборке, уже проверены схемой в `board build`, и в браузере их проверяют повторно. Это как раз «re-parse data already type-safe», которого правило просит не делать.
+
+Поэтому дешёвый путь такой:
+1. **Запечённые данные на странице не проверять**, проверять только строки базы.
+2. **Для этой проверки взять `zod/mini`.** Это лёгкая сборка zod 4, где выкидывается всё, чем не пользуешься, и она весит единицы KB. Схема при этом остаётся одна и выводится из того же источника, руками ничего не дублируется.
+
+Тогда весь танец с `import * as z` и комментариями «не переключай обратно», которые оставила perf-сессия, станет не нужен.
+
+Про линтер. Я сейчас не помню точно, какое правило про zod у нас писали, и не стану утверждать наугад. Если хочешь, это и `zod/mini` можно отдать подсессии `island/board-asks`: она как раз сидит в коде доски.
+
+Контекст у меня уже у твоей отметки 300k, поэтому дальше запускаю эстафету. Твой вопрос про zod уйдёт преемнику как открытый.
+```
