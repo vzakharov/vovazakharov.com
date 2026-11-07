@@ -92,6 +92,12 @@ is in git
   budget notice under 300k is noted and the work carries on.
 - «треды сам не закрывай, ок? принцип тот же что и с код-ревью» — the lead
   answers a board comment thread and never resolves it; resolving is Vova's.
+  «нам же и количество слов человека в тредах тоже надо считать» — the turn that
+  reads a new board comment of Vova's adds it to
+  `docs/boards/island/threads.json` (`<thread id>@<minute>` → body verbatim, his
+  only), runs
+  `python3 .claude/costs/post_words.py --kind thread < docs/boards/island/threads.json`
+  and commits the file.
 - «/sync-branch из каждого куска -- ага» — a member ends its bite with
   `/sync-branch` against its PR's base, this branch, before pinging green, so
   the lead's merge lands without conflicts.

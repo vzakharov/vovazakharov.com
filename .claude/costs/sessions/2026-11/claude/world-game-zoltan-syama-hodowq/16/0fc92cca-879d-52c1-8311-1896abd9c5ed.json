@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1382,
+    "inputTokens": 1384,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 163740,
-    "cacheReadTokens": 16340721,
-    "outputTokens": 32746,
-    "thinkingTokens": 5808,
-    "responses": 99,
-    "costUsd": 5.2305952000000016
+    "cacheWrite1hTokens": 165236,
+    "cacheReadTokens": 16562654,
+    "outputTokens": 33570,
+    "thinkingTokens": 5906,
+    "responses": 100,
+    "costUsd": 5.303437800000002
   },
   "estimate": {
     "at": "2026-11-07T07:43:48.754Z",
@@ -48,18 +48,18 @@
   "url": "https://claude.ai/code/session_01DaohkCSBpcbq5Nh5ZpFWHC",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T07:43:32.862Z",
-  "lastResponseAt": "2026-11-07T08:07:48.069Z",
+  "lastResponseAt": "2026-11-07T08:08:10.450Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 192,
+    "inputTokens": 194,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 163740,
-    "cacheReadTokens": 16340721,
-    "outputTokens": 32578,
-    "thinkingTokens": 5808,
-    "responses": 98,
-    "costUsd": 5.230392200000002
+    "cacheWrite1hTokens": 165236,
+    "cacheReadTokens": 16562654,
+    "outputTokens": 33402,
+    "thinkingTokens": 5906,
+    "responses": 99,
+    "costUsd": 5.303234800000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,14 +73,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 192,
+      "inputTokens": 194,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 163740,
-      "cacheReadTokens": 16340721,
-      "outputTokens": 32578,
-      "thinkingTokens": 5808,
-      "responses": 98,
-      "costUsd": 5.230392200000002
+      "cacheWrite1hTokens": 165236,
+      "cacheReadTokens": 16562654,
+      "outputTokens": 33402,
+      "thinkingTokens": 5906,
+      "responses": 99,
+      "costUsd": 5.303234800000002
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1190,
@@ -132,10 +132,10 @@
     ".md": 6846,
     ".py": 2068,
     ".sh": 4,
-    ".json": 1499,
+    ".json": 1507,
     ".staged": 434,
     ".yml": 8,
-    ".yaml": 508,
+    ".yaml": 509,
     ".ts": 10214,
     ".tsx": 151,
     ".scss": 523
