@@ -5,11 +5,12 @@
  * that one, not hiding under its own: such a seat is not offered.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   boxAround,
   boxesMeet,
   containsPoint,
-  type Point,
 } from '@/mushrooms/shared/lib/geometry';
 import type { Cover } from '@/mushrooms/shared/world';
 

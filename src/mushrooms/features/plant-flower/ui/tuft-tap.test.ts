@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { FLOWER_SIZE, planeFootOf } from '@/mushrooms/shared/world';
+import type { Sprout } from '@/mushrooms/entities/landscape/index.node-safe';
 
 import { TUFT_REACH, tuftAt, tuftReach } from './tuft-tap';
-import type { Sprout } from './tufts';
 
 const sprout = (x: number, y: number, size: number): Sprout => ({
   foot: planeFootOf({ x, z: 0, size: FLOWER_SIZE }),

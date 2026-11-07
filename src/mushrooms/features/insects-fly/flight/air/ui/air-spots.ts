@@ -10,13 +10,12 @@ import { keptIn } from '@/kernel/shared/cache';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import {
-  distanceBetween,
-  type Point,
-  wrap,
-} from '@/mushrooms/shared/lib/geometry';
+import type { Point, Zoomed } from '@/scene/shared/lib/plane';
+
+import { distanceBetween, wrap } from '@/mushrooms/shared/lib/geometry';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import {
+  type Aloft,
   anchored,
   type Camera,
   CLUMP_DISTANCE,
@@ -27,7 +26,6 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import {
-  type Aloft,
   type AtAloft,
   azimuthOf,
   drawnAloft,
@@ -41,7 +39,6 @@ import {
   type Places,
   type Sited,
   widestOn,
-  type Zoomed,
 } from '@/mushrooms/entities/insect/index.node-safe';
 
 import type { Crowding } from '../../route/index.node-safe';

@@ -213,5 +213,3 @@ export function leadingInsertPos(
   }
   return start;
 }
-
-export { type AstNode, tsType } from '../estree-mixins';

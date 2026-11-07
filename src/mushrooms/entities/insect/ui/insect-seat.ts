@@ -4,8 +4,10 @@
  * under it draws its seat, at the zoom that landing gave it.
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point, Zoomed } from '@/scene/shared/lib/plane';
+
 import {
+  type Aloft,
   aloftAt,
   bendAt,
   CLUMP_DISTANCE,
@@ -16,8 +18,7 @@ import {
   type View,
 } from '@/mushrooms/shared/world';
 
-import { type Aloft, azimuthOf } from '../model/flight-frame';
-import type { Zoomed } from './insect-away';
+import { azimuthOf } from '../model/flight-frame';
 import {
   type SeatEnds,
   sinkingAloft,

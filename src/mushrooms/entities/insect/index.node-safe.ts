@@ -4,7 +4,6 @@ export { PICTOGRAM_SEED } from './model/butterfly-genes';
 export { crawl, CRAWL_REACH } from './model/buzz-rest';
 export type { Flier } from './model/flier';
 export {
-  type Aloft,
   type AtAloft,
   azimuthOf,
   centreOf,
@@ -107,7 +106,6 @@ export {
   releasedAway,
   seenFor,
   wayOutOf,
-  type Zoomed,
 } from './ui/insect-away';
 export { drawnInsect } from './ui/insect-drawn';
 export { drawnAloft, eyeFrameOf, mixD, SEAT_FADE } from './ui/insect-frame';

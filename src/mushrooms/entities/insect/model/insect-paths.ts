@@ -6,7 +6,8 @@
  * and turns its heading no faster than a body can follow.
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import type { Phased } from '@/mushrooms/shared/lib/motion';
 
 import type { Span } from './flight-timing';

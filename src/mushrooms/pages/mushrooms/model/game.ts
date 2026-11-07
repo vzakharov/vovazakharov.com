@@ -5,10 +5,10 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithId } from '@/kernel/shared/typings';
+import type { Seeded, WithId } from '@/kernel/shared/typings';
 
 import type { Timed } from '@/mushrooms/shared/lib/motion';
-import type { Random, Seeded } from '@/mushrooms/shared/lib/random';
+import type { Random } from '@/mushrooms/shared/lib/random';
 import {
   dusky,
   FULL_DAY,

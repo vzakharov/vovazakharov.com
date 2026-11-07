@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
 
-import { containsPoint, type Point } from '../lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { containsPoint } from '../lib/geometry';
 import type { Tapped } from '../lib/motion';
 
 export type Graphic = { object: Phaser.GameObjects.Graphics };

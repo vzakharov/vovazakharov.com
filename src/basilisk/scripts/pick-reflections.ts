@@ -16,7 +16,7 @@ import { pickReflections } from './lib/reflection-pick.ts';
 
 import { contentFiles } from '@/blog/scripts/lib/content-tree';
 import { readCollection } from '@/blog/scripts/lib/read-collection';
-import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 const COUNT = 4;
 

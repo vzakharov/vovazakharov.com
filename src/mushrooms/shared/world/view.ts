@@ -6,9 +6,9 @@
  * rebakes nothing.
  */
 
-import type { Zooming } from '@/kernel/shared/typings';
+import type { Point, Zooming } from '@/scene/shared/lib/plane';
 
-import { distanceBetween, type Point } from '../lib/geometry';
+import { distanceBetween } from '../lib/geometry';
 import { browDistance, type Raised } from './eye-height';
 import {
   type Camera,
@@ -20,8 +20,6 @@ import {
   spread,
 } from './ground';
 import { type Ahead, bendAt, pinholeOf, type Viewed, viewOf } from './pinhole';
-
-export type { Zooming } from '@/kernel/shared/typings';
 
 /** The camera a frame is drawn through, the eye it looks from, and how high that eye stands. */
 export type View = Camera & Eyed & Raised;

@@ -5,11 +5,12 @@
  * and the sweeps over it measure what the eye sees.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   type Box,
   boxAround,
   containsPoint,
-  type Point,
 } from '@/mushrooms/shared/lib/geometry';
 
 import { openingIndex } from '../model/placement';

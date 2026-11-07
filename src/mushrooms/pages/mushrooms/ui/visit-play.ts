@@ -41,8 +41,6 @@ import {
 import { firstMeadow, type Meadow, reduce } from '../model/game';
 import { type MeadowLayout, meadowLayout } from './layout';
 
-export { tapTarget } from '@/mushrooms/entities/mushroom/index.node-safe';
-
 /** The meadow as it stands. */
 export type Meadowed = { meadow: Meadow };
 

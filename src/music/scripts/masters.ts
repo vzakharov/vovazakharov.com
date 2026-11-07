@@ -41,7 +41,7 @@ import {
 import { checkSongs, pruneSongs, tagSongs } from './lib/song-tagging.ts';
 
 import { flag, given } from '@/kernel/scripts/lib/argv';
-import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 const COMMANDS = [
   'tag',
