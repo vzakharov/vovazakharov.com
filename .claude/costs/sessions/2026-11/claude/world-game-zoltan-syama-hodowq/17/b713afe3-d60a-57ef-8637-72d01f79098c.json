@@ -1,0 +1,121 @@
+{
+  "total": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 111246,
+    "cacheReadTokens": 3438773,
+    "outputTokens": 20586,
+    "thinkingTokens": 7397,
+    "responses": 27,
+    "costUsd": 1.9896745999999996
+  },
+  "estimate": {
+    "at": "2026-11-07T21:13:22.761Z",
+    "subjectLine": "docs: weigh hash-seeded world numbers against the drawn coast",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "weighing a seeding scheme takes information-theory counting plus a numeric fit of the real coast; a junior would not know the counting argument kills the search"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "whether the hash tail should be the zoom detail is a call about how the world feels"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T21:11:42.382Z",
+    "contextTokens": 112406,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53834,
+      "cacheReadTokens": 357994,
+      "outputTokens": 949,
+      "thinkingTokens": 63,
+      "responses": 4,
+      "costUsd": 0.5212827999999999
+    }
+  },
+  "sessionId": "b713afe3-d60a-57ef-8637-72d01f79098c",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCSShWuJ2M2ynSvpT3",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T21:11:15.537Z",
+  "lastResponseAt": "2026-11-07T21:20:22.785Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 111246,
+    "cacheReadTokens": 3438773,
+    "outputTokens": 20586,
+    "thinkingTokens": 7397,
+    "responses": 27,
+    "costUsd": 1.9896745999999996
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 58,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 111246,
+      "cacheReadTokens": 3438773,
+      "outputTokens": 20586,
+      "thinkingTokens": 7397,
+      "responses": 27,
+      "costUsd": 1.9896745999999996
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 27,
+    "matched": 27,
+    "matchedTableUsd": 1.9896745999999996,
+    "matchedEventUsd": 1.9896745999999996,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 502,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 7085,
+    ".py": 2068,
+    ".sh": 4,
+    ".json": 1507,
+    ".staged": 434,
+    ".yml": 8,
+    ".yaml": 607,
+    ".ts": 10214,
+    ".tsx": 151,
+    ".scss": 523
+  }
+}
