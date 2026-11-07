@@ -71,7 +71,7 @@ function blur(ring: Ring, sigmaPoints: number): Ring {
 
 type Segment = [[number, number], [number, number]];
 
-const cross = (
+const turn = (
   [ax, ay]: [number, number],
   [bx, by]: [number, number],
   [cx, cy]: [number, number],
@@ -79,10 +79,10 @@ const cross = (
 
 /** Whether two segments cross at a point inside both (touching ends do not). */
 function crosses([a, b]: Segment, [c, d]: Segment): boolean {
-  const d1 = cross(c, d, a);
-  const d2 = cross(c, d, b);
-  const d3 = cross(a, b, c);
-  const d4 = cross(a, b, d);
+  const d1 = turn(c, d, a);
+  const d2 = turn(c, d, b);
+  const d3 = turn(a, b, c);
+  const d4 = turn(a, b, d);
   return d1 * d2 < 0 && d3 * d4 < 0;
 }
 

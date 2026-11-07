@@ -6,7 +6,7 @@
  * the plane is its great-circle distance on the ground.
  */
 
-export type Vec3 = readonly [number, number, number];
+import { dot, length, type Vec3 } from './vec3';
 
 /** A place on the island plane, `x` east and `y` north, in its declarer's units. */
 export type PlanePoint = { readonly x: number; readonly y: number };
@@ -28,8 +28,6 @@ export const EAST: Vec3 = [0, 0, -1];
 /** North at the centre. */
 export const NORTH: Vec3 = [-Math.sin(LATITUDE), Math.cos(LATITUDE), 0];
 
-const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-
 /** The world position of plane point `(x, y)` at height `h` above the sphere. */
 export function planeToWorld(x: number, y: number, h = 0): Vec3 {
   const d = Math.hypot(x, y);
@@ -49,7 +47,7 @@ export function planeToWorld(x: number, y: number, h = 0): Vec3 {
  * equally far.
  */
 export function worldToPlane(p: Vec3): { x: number; y: number; h: number } {
-  const radius = Math.hypot(p[0], p[1], p[2]);
+  const radius = length(p);
   const east = dot(p, EAST);
   const north = dot(p, NORTH);
   const angle = Math.atan2(Math.hypot(east, north), dot(p, CENTRE));

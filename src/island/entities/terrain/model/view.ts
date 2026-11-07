@@ -1,4 +1,4 @@
-import type { Vec3 } from '@/island/shared/globe';
+import { cross, dot, scaled, sub, sum, type Vec3 } from '@/island/shared/globe';
 
 /**
  * What a camera at the eye sees: the inward unit normals of the four side
@@ -11,15 +11,6 @@ export type Frustum = { readonly sides: readonly Vec3[] };
  * that a small turn finds its new edge already drawn.
  */
 const MARGIN = 0.1;
-
-const scaled = (v: Vec3, k: number): Vec3 => [v[0] * k, v[1] * k, v[2] * k];
-const sum = (a: Vec3, b: Vec3): Vec3 => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
-const cross = (a: Vec3, b: Vec3): Vec3 => [
-  a[1] * b[2] - a[2] * b[1],
-  a[2] * b[0] - a[0] * b[2],
-  a[0] * b[1] - a[1] * b[0],
-];
-const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 
 /**
  * The frustum of a camera looking along unit `forward` with unit `up` square
@@ -61,9 +52,7 @@ export function outside(
   points: readonly Vec3[],
   slack: number,
 ): boolean {
-  const relative = points.map(
-    (p): Vec3 => [p[0] - eye[0], p[1] - eye[1], p[2] - eye[2]],
-  );
+  const relative = points.map((p) => sub(p, eye));
   return frustum.sides.some((normal) =>
     relative.every((p) => dot(normal, p) < -slack),
   );

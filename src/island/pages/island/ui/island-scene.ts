@@ -10,7 +10,7 @@ import {
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { R, type Vec3 } from '@/island/shared/globe';
+import { dot, length, R, sub, unit, type Vec3 } from '@/island/shared/globe';
 import {
   type CoastField,
   frustumOf,
@@ -56,11 +56,6 @@ export type IslandScene = CanDispose & {
 const NEAR = 0.5;
 /** Past the far side of the planet from `MAX_HEIGHT`. */
 const FAR = 4 * (R + MAX_HEIGHT);
-
-const unit = (v: Vec3): Vec3 => {
-  const length = Math.hypot(v[0], v[1], v[2]);
-  return [v[0] / length, v[1] / length, v[2] / length];
-};
 
 /** Ground before the field arrives; nothing reads it before then. */
 const SEA_LEVEL: GroundAt = () => 0;
@@ -165,17 +160,9 @@ export function mountIslandScene(
     const { position: at, forward, up, fov } = poseOf(eye, aspect);
     if (
       selection !== null &&
-      Math.hypot(
-        at[0] - selection.at[0],
-        at[1] - selection.at[1],
-        at[2] - selection.at[2],
-      ) <
-        RESELECT_SHARE * eye.height &&
+      length(sub(at, selection.at)) < RESELECT_SHARE * eye.height &&
       Math.abs(Math.log(eye.height / selection.scale)) < RESELECT_SHARE &&
-      forward[0] * selection.forward[0] +
-        forward[1] * selection.forward[1] +
-        forward[2] * selection.forward[2] >
-        RESELECT_TURN &&
+      dot(forward, selection.forward) > RESELECT_TURN &&
       aspect === selection.aspect
     ) {
       return selection.keys;

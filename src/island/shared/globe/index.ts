@@ -7,6 +7,6 @@ export {
   type PlanePoint,
   planeToWorld,
   R,
-  type Vec3,
   worldToPlane,
 } from './globe';
+export { cross, dot, length, scaled, sub, sum, unit, type Vec3 } from './vec3';

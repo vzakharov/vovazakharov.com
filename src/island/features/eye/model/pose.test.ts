@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { NORTH, planeToWorld, type Vec3 } from '@/island/shared/globe';
+import {
+  dot,
+  length,
+  NORTH,
+  planeToWorld,
+  unit as sky,
+} from '@/island/shared/globe';
 
 import { eyeAt, MAX_HEIGHT, MIN_HEIGHT } from './eye';
 import { GROUND_PITCH, groundPerScreen, poseOf } from './pose';
@@ -11,13 +17,6 @@ const PORTRAIT = 390 / 844;
 const DEGREE = Math.PI / 180;
 const horizontalOf = (fov: number, aspect: number) =>
   2 * Math.atan(aspect * Math.tan(fov / 2));
-
-const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-const length = (v: Vec3) => Math.hypot(v[0], v[1], v[2]);
-const sky = (p: Vec3): Vec3 => {
-  const k = 1 / length(p);
-  return [p[0] * k, p[1] * k, p[2] * k];
-};
 
 const OFFSHORE = { x: 1_200_000, y: -800_000 };
 const PLACES = [{ x: 0, y: 0 }, OFFSHORE, { x: -3_000_000, y: 2_500_000 }];

@@ -1,9 +1,13 @@
 import {
   CENTRE,
+  dot,
   EAST,
   NORTH,
   planeToWorld,
   R,
+  scaled,
+  sum,
+  unit,
   type Vec3,
 } from '@/island/shared/globe';
 
@@ -45,11 +49,6 @@ export const GROUND_PITCH = (10 * Math.PI) / 180;
  * looks straight down: about 3,000 km and above.
  */
 const STRAIGHT_DOWN_FROM = 0.85;
-
-const scaled = (v: Vec3, k: number): Vec3 => [v[0] * k, v[1] * k, v[2] * k];
-const sum = (a: Vec3, b: Vec3): Vec3 => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
-const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-const unit = (v: Vec3): Vec3 => scaled(v, 1 / Math.hypot(v[0], v[1], v[2]));
 
 /**
  * How far below the horizon the eye looks at `height`, radians: from

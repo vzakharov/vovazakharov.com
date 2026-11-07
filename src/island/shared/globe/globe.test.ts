@@ -3,16 +3,18 @@ import { describe, it } from 'node:test';
 
 import {
   CENTRE,
+  dot,
   EAST,
+  length,
   NORTH,
   planeToWorld,
   R,
+  sub,
   type Vec3,
   worldToPlane,
 } from '.';
 
-const distance = (a: Vec3, b: Vec3) =>
-  Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+const distance = (a: Vec3, b: Vec3) => length(sub(a, b));
 
 const HALF_SIDE = 3_000_000;
 
@@ -28,24 +30,14 @@ describe('planeToWorld', () => {
     const centre = planeToWorld(0, 0);
     const north = planeToWorld(0, 1000);
     assert.ok(Math.abs(distance(centre, north) - 1000) < 1e-3);
-    const step: Vec3 = [
-      north[0] - centre[0],
-      north[1] - centre[1],
-      north[2] - centre[2],
-    ];
-    const alongNorth =
-      (step[0] * NORTH[0] + step[1] * NORTH[1] + step[2] * NORTH[2]) / 1000;
+    const alongNorth = dot(sub(north, centre), NORTH) / 1000;
     assert.ok(alongNorth > 0.999_999);
   });
 
   it('puts east along e', () => {
     const east = planeToWorld(1000, 0);
     const centre = planeToWorld(0, 0);
-    const alongEast =
-      ((east[0] - centre[0]) * EAST[0] +
-        (east[1] - centre[1]) * EAST[1] +
-        (east[2] - centre[2]) * EAST[2]) /
-      1000;
+    const alongEast = dot(sub(east, centre), EAST) / 1000;
     assert.ok(alongEast > 0.999_999);
   });
 
@@ -57,8 +49,8 @@ describe('planeToWorld', () => {
       const ground = planeToWorld(x, y);
       const raised = planeToWorld(x, y, 500);
       assert.ok(Math.abs(distance(ground, raised) - 500) < 1e-6);
-      const groundRadius = Math.hypot(...ground);
-      const raisedRadius = Math.hypot(...raised);
+      const groundRadius = length(ground);
+      const raisedRadius = length(raised);
       assert.ok(Math.abs(raisedRadius - groundRadius - 500) < 1e-6);
     }
   });

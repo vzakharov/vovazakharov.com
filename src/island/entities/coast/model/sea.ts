@@ -298,14 +298,17 @@ function flood(
   return sea;
 }
 
+/** Whether pixel `(x, y)` lies on the frame of a `width × height` image. */
+const onFrame = (x: number, y: number, width: number, height: number) =>
+  x === 0 || y === 0 || x === width - 1 || y === height - 1;
+
 /** The image's frame, less `barrier`. */
 function frame(barrier: Uint8Array, width: number, height: number): Uint8Array {
   const edge = new Uint8Array(width * height);
   for (let i = 0; i < width * height; i++) {
     const x = i % width;
-    const onEdge =
-      x === 0 || x === width - 1 || i < width || i >= (height - 1) * width;
-    if (onEdge && barrier[i] !== 1) edge[i] = 1;
+    const y = (i - x) / width;
+    if (onFrame(x, y, width, height) && barrier[i] !== 1) edge[i] = 1;
   }
   return edge;
 }
@@ -335,9 +338,7 @@ function keptPieces(
       const i = queue[head] ?? 0;
       const x = i % width;
       const y = (i - x) / width;
-      if (x === 0 || y === 0 || x === width - 1 || y === height - 1) {
-        framed = true;
-      }
+      if (onFrame(x, y, width, height)) framed = true;
       paint += painted[i] ?? 0;
       for (let dy = -1; dy <= 1; dy++) {
         for (let dx = -1; dx <= 1; dx++) {

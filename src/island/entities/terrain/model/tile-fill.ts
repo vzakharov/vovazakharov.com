@@ -1,4 +1,13 @@
-import { type Elevated, planeToWorld, type Vec3 } from '@/island/shared/globe';
+import {
+  cross,
+  type Elevated,
+  length,
+  planeToWorld,
+  scaled,
+  sub,
+  unit,
+  type Vec3,
+} from '@/island/shared/globe';
 
 import {
   latticeCoordinate,
@@ -57,8 +66,6 @@ export const tileBuffers = (mesh: TileMesh): ArrayBuffer[] => [
   mesh.indices.buffer,
 ];
 
-const sub = (a: Vec3, b: Vec3): Vec3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
-
 /** `height` is above the sea. */
 type LatticePoint = Elevated & { readonly world: Vec3 };
 
@@ -105,7 +112,6 @@ export function fillTile(
     latticeCoordinate(key.level, cells, key.x * cells + half),
     latticeCoordinate(key.level, cells, key.y * cells + half),
   );
-  const [cx, cy, cz] = middle;
 
   const loop = borderLoop(grid);
   const vertexCount = grid * grid + loop.length;
@@ -113,7 +119,7 @@ export function fillTile(
   const normals = new Float32Array(vertexCount * 3);
   const heights = new Float32Array(vertexCount);
   const put = (v: number, world: Vec3, normal: Vec3, height: number) => {
-    positions.set([world[0] - cx, world[1] - cy, world[2] - cz], v * 3);
+    positions.set(sub(world, middle), v * 3);
     normals.set(normal, v * 3);
     heights[v] = height;
   };
@@ -122,9 +128,11 @@ export function fillTile(
   for (let j = 0; j < grid; j++) {
     for (let i = 0; i < grid; i++) {
       const { world, height } = at(i, j);
-      const normal = surfaceNormal(
-        sub(at(i + 1, j).world, at(i - 1, j).world),
-        sub(at(i, j + 1).world, at(i, j - 1).world),
+      const normal = unit(
+        cross(
+          sub(at(i + 1, j).world, at(i - 1, j).world),
+          sub(at(i, j + 1).world, at(i, j - 1).world),
+        ),
       );
       gridNormals.push(normal);
       put(j * grid + i, world, normal, height);
@@ -140,10 +148,10 @@ export function fillTile(
     const j = Math.floor(v / grid);
     const { world, height } = at(i, j);
     const out = at(i + outward(i), j + outward(j)).world;
-    const lowered = (Math.hypot(...world) - skirtDepth) / Math.hypot(...out);
+    const lowered = (length(world) - skirtDepth) / length(out);
     put(
       grid * grid + n,
-      [out[0] * lowered, out[1] * lowered, out[2] * lowered],
+      scaled(out, lowered),
       entry(gridNormals, v),
       height - skirtDepth,
     );
@@ -158,15 +166,6 @@ export function fillTile(
     heights,
     indices: triangulate(grid, loop, vertexCount),
   };
-}
-
-/** The unit normal of the surface spanned by an eastward and a northward step. */
-function surfaceNormal(east: Vec3, north: Vec3): Vec3 {
-  const nx = east[1] * north[2] - east[2] * north[1];
-  const ny = east[2] * north[0] - east[0] * north[2];
-  const nz = east[0] * north[1] - east[1] * north[0];
-  const length = Math.hypot(nx, ny, nz);
-  return [nx / length, ny / length, nz / length];
 }
 
 /**

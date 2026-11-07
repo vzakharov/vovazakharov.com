@@ -1,4 +1,10 @@
-import { planeToWorld, type Vec3, worldToPlane } from '@/island/shared/globe';
+import {
+  length,
+  planeToWorld,
+  sub,
+  type Vec3,
+  worldToPlane,
+} from '@/island/shared/globe';
 
 import { type CoastField, sampleCoastField } from './coast-field';
 import { HIGHEST_GROUND, LOWEST_GROUND } from './height';
@@ -30,10 +36,7 @@ export const children = ({ level, x, y }: TileKey): TileKey[] => [
 export function viewDistance(eye: Vec3): (x: number, y: number) => number {
   const { h } = worldToPlane(eye);
   const level = Math.min(HIGHEST_GROUND, Math.max(LOWEST_GROUND, h));
-  return (x, y) => {
-    const p = planeToWorld(x, y, level);
-    return Math.hypot(eye[0] - p[0], eye[1] - p[1], eye[2] - p[2]);
-  };
+  return (x, y) => length(sub(eye, planeToWorld(x, y, level)));
 }
 
 /**

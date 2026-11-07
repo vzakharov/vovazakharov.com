@@ -1,17 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { CENTRE, EAST, NORTH, type Vec3 } from '@/island/shared/globe';
+import { CENTRE, dot, EAST, length, NORTH } from '@/island/shared/globe';
 
 import { intensityFor, sunToward } from './sun';
 
-const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const close = (a: number, b: number) => Math.abs(a - b) < 1e-9;
 
 describe('sunToward', () => {
   it('is a unit vector at the asked elevation over the centre', () => {
     const sun = sunToward(25, 315);
-    assert.ok(close(Math.hypot(...sun), 1));
+    assert.ok(close(length(sun), 1));
     assert.ok(close(Math.asin(dot(sun, CENTRE)), (25 * Math.PI) / 180));
   });
 

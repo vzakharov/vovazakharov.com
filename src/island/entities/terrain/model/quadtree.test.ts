@@ -1,17 +1,20 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Coast, planeToWorld, type Vec3 } from '@/island/shared/globe';
+import {
+  type Coast,
+  dot,
+  planeToWorld,
+  scaled,
+  sub,
+  unit,
+} from '@/island/shared/globe';
 
 import { buildCoastField } from './coast-field';
 import { selectTiles } from './quadtree';
 import { MAX_LEVEL, tileId, type TileKey, tileRect } from './tile';
 import { frustumOf } from './view';
 
-const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-const scaled = (v: Vec3, k: number): Vec3 => [v[0] * k, v[1] * k, v[2] * k];
-const sub = (a: Vec3, b: Vec3): Vec3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
-const unit = (v: Vec3): Vec3 => scaled(v, 1 / Math.hypot(v[0], v[1], v[2]));
 const flat = () => 0;
 const holds = (key: TileKey, x: number, y: number) => {
   const { west, south, east, north } = tileRect(key);

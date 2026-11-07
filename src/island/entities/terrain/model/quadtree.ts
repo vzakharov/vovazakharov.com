@@ -1,4 +1,4 @@
-import { planeToWorld, R, type Vec3 } from '@/island/shared/globe';
+import { dot, length, planeToWorld, R, type Vec3 } from '@/island/shared/globe';
 
 import type { CoastField } from './coast-field';
 import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from './height';
@@ -19,8 +19,6 @@ export type SelectOptions = {
   readonly ground?: (x: number, y: number) => number;
 };
 
-const length = (v: Vec3) => Math.hypot(v[0], v[1], v[2]);
-const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const angleBetween = (a: Vec3, b: Vec3) =>
   Math.acos(Math.max(-1, Math.min(1, dot(a, b) / (length(a) * length(b)))));
 /** The angle over the sea's horizon from which ground `h` metres up shows. */

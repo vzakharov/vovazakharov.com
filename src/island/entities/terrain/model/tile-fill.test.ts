@@ -1,7 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { R, type Vec3 } from '@/island/shared/globe';
+import {
+  cross,
+  dot,
+  length,
+  R,
+  scaled,
+  sub,
+  unit,
+  type Vec3,
+} from '@/island/shared/globe';
 
 import { TILE_GRID as GRID, tileId, type TileKey, tileSide } from './tile';
 import { borderLoop, fillTile, tileBuffers, type TileMesh } from './tile-fill';
@@ -25,19 +34,16 @@ const world = (mesh: TileMesh, v: number) =>
 const normal = (mesh: TileMesh, v: number) =>
   triple((c) => read(mesh.normals, v * 3 + c));
 
-const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-const sub = (a: Vec3, b: Vec3) => triple((c) => a[c] - b[c]);
-const length = (a: Vec3) => Math.hypot(...a);
-const cross = (a: Vec3, b: Vec3): Vec3 => [
-  a[1] * b[2] - a[2] * b[1],
-  a[2] * b[0] - a[0] * b[2],
-  a[0] * b[1] - a[1] * b[0],
-];
-
 const triangles = (mesh: TileMesh) =>
   Array.from({ length: mesh.indices.length / 3 }, (_, t) =>
     triple((c) => read(mesh.indices, t * 3 + c)),
   );
+
+/** `d` less its part along `p`'s vertical: the horizontal step there. */
+const level = (d: Vec3, p: Vec3) => {
+  const up = unit(p);
+  return sub(d, scaled(up, dot(d, up)));
+};
 
 describe('fillTile', () => {
   const key: TileKey = { level: 10, x: 512, y: 515 };
@@ -84,14 +90,6 @@ describe('fillTile', () => {
   it('hangs its skirt below the border, flared a cell outside the tile', () => {
     const cell = tileSide(key.level) / (GRID - 1);
     const middle = triple((c) => read(mesh.centre, c));
-    /** `d` less its part along `p`'s vertical: the horizontal step there. */
-    const level = (d: Vec3, p: Vec3) => {
-      const up = triple((c) => p[c] / length(p));
-      return sub(
-        d,
-        triple((c) => up[c] * dot(d, up)),
-      );
-    };
     for (const [n, top] of borderLoop(GRID).entries()) {
       const border = world(mesh, top);
       const skirt = world(mesh, GRID * GRID + n);
@@ -120,8 +118,7 @@ describe('fillTile', () => {
     const flat = fillTile(key, () => 0);
     for (let v = 0; v < vertices; v++) {
       const p = world(flat, v);
-      const up = triple((c) => p[c] / length(p));
-      assert.ok(dot(normal(flat, v), up) > 1 - 1e-6, `vertex ${v}`);
+      assert.ok(dot(normal(flat, v), unit(p)) > 1 - 1e-6, `vertex ${v}`);
     }
     const middle = triple((c) => read(flat.centre, c));
     for (const [a, b, c] of triangles(flat)) {
