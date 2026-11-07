@@ -107,7 +107,7 @@ async function settle<Parsed>(
 }
 
 /** Page-side: the image as a bitmap, from a data URL so the canvas stays
- * readable. */
+ * readable, and `base64` to carry bytes back out. */
 const BITMAP = (base64: string) => `
   const blob = await (await fetch('data:image/webp;base64,${base64}')).blob();
   const bitmap = await createImageBitmap(blob, {
@@ -116,7 +116,15 @@ const BITMAP = (base64: string) => `
   });
   const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
   const context = canvas.getContext('2d');
-  context.drawImage(bitmap, 0, 0);`;
+  context.drawImage(bitmap, 0, 0);
+  // Chunked, since spreading the whole array overflows the call stack.
+  const base64 = (bytes) => {
+    let binary = '';
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+    }
+    return btoa(binary);
+  };`;
 
 const Decoded = z.object({
   width: z.number(),
@@ -129,11 +137,7 @@ async function decode(tab: Tab, base64: string) {
     tab,
     `(async () => {${BITMAP(base64)}
       const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
-      let binary = '';
-      for (let i = 0; i < data.length; i += 0x8000) {
-        binary += String.fromCharCode(...data.subarray(i, i + 0x8000));
-      }
-      return { width: canvas.width, height: canvas.height, rgba: btoa(binary) };
+      return { width: canvas.width, height: canvas.height, rgba: base64(data) };
     })()`,
     Decoded,
   );
@@ -162,12 +166,7 @@ async function overlay(
         trace(ring, i === 0 ? '#e00000' : '#0040ff');
       });
       const png = await canvas.convertToBlob({ type: 'image/png' });
-      const bytes = new Uint8Array(await png.arrayBuffer());
-      let binary = '';
-      for (let i = 0; i < bytes.length; i += 0x8000) {
-        binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-      }
-      return btoa(binary);
+      return base64(new Uint8Array(await png.arrayBuffer()));
     })()`,
     z.string(),
   );

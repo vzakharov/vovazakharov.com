@@ -111,6 +111,10 @@ export const GROUND_SLOPE =
     0,
   );
 
+/** The share of its full size a quantity reaches `distance` in: ~63% at `reach`. */
+const approach = (distance: number, reach: number) =>
+  1 - Math.exp(-distance / reach);
+
 /** A smooth 0→1 ramp over `[0, 1]`, flat past it. */
 const ramp = (t: number) => (t >= 1 ? 1 : t * t * (3 - 2 * t));
 
@@ -147,12 +151,12 @@ export function heightAt(
   const d = sampleCoastField(field, x, y);
   const base =
     d >= 0
-      ? PLATEAU_METRES * (1 - Math.exp(-d / PLATEAU_REACH_METRES))
-      : -ABYSS_METRES * (1 - Math.exp(d / SHELF_REACH_METRES));
+      ? PLATEAU_METRES * approach(d, PLATEAU_REACH_METRES)
+      : -ABYSS_METRES * approach(-d, SHELF_REACH_METRES);
   const roughness =
     d > 0
       ? COASTAL_ROUGHNESS +
-        (1 - COASTAL_ROUGHNESS) * (1 - Math.exp(-d / ROUGHNESS_REACH_METRES))
+        (1 - COASTAL_ROUGHNESS) * approach(d, ROUGHNESS_REACH_METRES)
       : COASTAL_ROUGHNESS;
   const away = Math.abs(d);
   let regional = 0;
@@ -173,6 +177,6 @@ export function heightAt(
   }
   const height = base + roughness * regional + local;
   if (d <= 0) return height;
-  const lowland = LOWLAND_METRES * (1 - Math.exp(-d / LOWLAND_REACH_METRES));
+  const lowland = LOWLAND_METRES * approach(d, LOWLAND_REACH_METRES);
   return smoothMax(height, lowland, lowland);
 }
