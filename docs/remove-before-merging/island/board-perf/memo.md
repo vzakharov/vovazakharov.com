@@ -11,6 +11,7 @@ The operator, verbatim: «общий комментарий по артефак�
 The board: https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P, built from `docs/plans/world-game-zoltan-syama/board/` by `scripts/board/` — `model.ts` (schema, merge), `page/` (the client, bundled into one page; `hand.ts` gives every item its hand-drawn tilt, tape and line curve), `board.ts` (`pnpm board build | sync | snapshot`). Today: ~80 items, 20 webp images, a 465 KB page, pan/zoom over a canvas of zones, stickies, images and curved lines, Caveat and Shantell Sans fonts, a db overlay of rows edited in the page.
 
 Done means:
+
 1. Measured first: where the time goes on pan and zoom, and at load — a Chromium performance trace of the built page (`tmp/board/world-game-zoltan-syama/index.html`, or `local.html`) at desktop and phone sizes, with numbers (frame times, layout/paint/script share, page weight, image decode). Name the top causes before changing anything.
 2. The fixes that the measurement justifies, cheapest first — e.g. transforms instead of layout on pan/zoom, `will-change`/layer hygiene, filters and shadows that repaint every frame, images sized to their display and decoded lazily, fewer DOM nodes, inlined base64 that bloats the page. The look stays exactly as it is: compare `pnpm board snapshot` before and after.
 3. The same trace again, before/after numbers in your PR body.
