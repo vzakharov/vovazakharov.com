@@ -2,7 +2,7 @@ items:
   - id: z-worlds
     type: zone
     updated: ['2026-11-07T07:30:00.000Z', 'agent:lead']
-    box: [4930, 520, 1120, 1000, blue]
+    box: [4930, 520, 1120, 1480, blue]
     text: Infinite worlds — thinking aloud, nothing decided
   - id: worlds-1
     type: sticky
@@ -44,3 +44,23 @@ items:
     updated: ['2026-11-07T07:20:00.000Z', 'agent:lead']
     box: [5010, 1175, 330, blue]
     text: "A name for how many worlds fit in a link: Chrome takes 2,097,152 characters of URL (2 × 1024 × 1024), so after 'https://vovazakharov.com/island#' up to 10^2,097,120 numbers (~870 KB written out). The 'chromeplex'. Funny, if debatable. Its proper name: one hundred sesexagintasescentilliquinsexagintasescentillion (that one is 10^2,000,000)."
+  - id: seed-1
+    type: sticky
+    updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
+    box: [4970, 1520, 330, pink]
+    text: "Vova: find the island's numbers inside hash(1), keep the permutation as the 'magic number'. It works, but no key can be smaller than what it names: the main coast at 257 Fourier terms is finer than one pixel of the drawing, ~3,000 bits; ~600 bytes with the islets. Brute-forcing a hash that lands there: 2^3000 tries (all of Bitcoin: ~2^94 a year)"
+  - id: seed-2
+    type: sticky
+    updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
+    box: [5340, 1520, 330, pink]
+    text: "The XOR mask: D = island ⊕ hash(1), and every world is hash(n) ⊕ D. World 1 is the island exactly; every other world stays as random as before; no special case and no search. 'So our island is the magic number?' Yes, encrypted by hash(1)"
+  - id: seed-3
+    type: sticky
+    updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
+    box: [5710, 1520, 315, pink]
+    text: "Head = drawing, tail = zoom. A hash of any length with random access is hash(n, i), as value-noise already does per lattice point. Mask only the coarse lattice under the island, on the raw bits before noise shapes them: finer octaves and the open sea stay unmasked, so the coast fractalizes and world 1 runs on past the drawing"
+  - id: l-seed-shift
+    type: line
+    updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
+    ends: [seed-2, worlds-4]
+    text: the shift, whole
