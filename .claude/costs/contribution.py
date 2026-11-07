@@ -4,8 +4,10 @@ rates, estimated senior-hours, the operator's words, and the branch's net lines
 per extension.
 
 The words are `chat`, typed into a session and summed over the branch's
-sessions, and `review`, posted on its PRs and summed over the union of the
-sessions' `reviewPosts`, so a post two sessions exported counts once.
+sessions; `review`, posted on its PRs and summed over the union of the
+sessions' `reviewPosts`, so a post two sessions exported counts once; and
+`threads`, written in a board's comment threads, over the union of their
+`threadPosts` alike.
 
 Usage:
   python3 .claude/costs/contribution.py [--branch B] [--at TIME] [--json]
@@ -67,14 +69,15 @@ def contribution_of(
     mine = sorted((row for row in rows if row.branch == branch), key=lambda row: row.first_response_at or "")
     sessions: List[Session] = []
     posts: Dict[str, int] = {}
+    threads: Dict[str, int] = {}
     floor = False
     for row in mine:
-        words, own_posts = row.operator_words, row.review_posts
         later = finished.get(row.session_id) if finished is not None else None
-        if words is None and later is not None:
-            words, own_posts = later.operator_words, later.review_posts
+        source = later if row.operator_words is None and later is not None else row
+        words = source.operator_words
         floor = floor or words is None
-        posts.update(own_posts)
+        posts.update(source.review_posts)
+        threads.update(source.thread_posts)
         hours = None if row.estimate is None else senior_hours(row.estimate, rates)
         sessions.append(Session(row.url, row.first_response_at, row.total.cost_usd, hours, words))
     lines = next((row.branch_lines for row in reversed(mine) if row.branch_lines is not None), None)
@@ -86,6 +89,7 @@ def contribution_of(
         operator_words=OperatorWords(
             chat=sum(s.operator_words.chat for s in sessions if s.operator_words is not None),
             review=sum(posts.values()),
+            threads=sum(threads.values()),
         ),
         words_are_a_floor=floor,
         branch_lines=lines or {},
@@ -124,14 +128,15 @@ def render(c: Contribution, at: Optional[str]) -> str:
     for s in c.sessions:
         hours = "—" if s.senior_hours is None else f"{s.senior_hours:.2f} h"
         w = s.operator_words
-        words = "—" if w is None else f"{w.chat} chat + {w.review} review"
-        out.append(f"  {s.started or '?'}  ${s.usd:8.2f}  {hours:>8}  {words:>22} words  {s.url or ''}")
+        words = "—" if w is None else f"{w.chat} chat + {w.review} review + {w.threads} threads"
+        out.append(f"  {s.started or '?'}  ${s.usd:8.2f}  {hours:>8}  {words:>34} words  {s.url or ''}")
     floor = " (a floor)" if c.words_are_a_floor else ""
     w = c.operator_words
     out += [
         "",
         f"  ${c.usd:.2f} at API rates, {c.senior_hours:.2f} senior-hours estimated, "
-        f"{w.chat + w.review} operator words ({w.chat} chat, {w.review} review){floor}",
+        f"{w.chat + w.review + w.threads} operator words "
+        f"({w.chat} chat, {w.review} review, {w.threads} threads){floor}",
     ]
     if c.branch_lines:
         out.append("  lines: " + ", ".join(f"{ext} {n}" for ext, n in sorted(c.branch_lines.items(), key=lambda kv: -kv[1])))

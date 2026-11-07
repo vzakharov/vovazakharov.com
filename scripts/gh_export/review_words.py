@@ -1,7 +1,7 @@
 """Hands a PR's human posts to the cost ledger, which counts the operator's
 review words into the exporting session's row.
 
-The counting and the pending file are `.claude/costs/review_words.py`'s; this
+The counting and the pending file are `.claude/costs/post_words.py`'s; this
 side decides only which posts are a person's. It runs as a process rather than
 an import because both trees name their packages `lib`.
 """
@@ -17,7 +17,7 @@ from typing import Any, Iterable, Optional
 
 from gh_export.authorship import split_agent_footer
 
-RECORDER = Path(__file__).resolve().parents[2] / ".claude" / "costs" / "review_words.py"
+RECORDER = Path(__file__).resolve().parents[2] / ".claude" / "costs" / "post_words.py"
 
 
 def human_posts(*posts: Iterable[dict[str, Any]]) -> dict[str, str]:
