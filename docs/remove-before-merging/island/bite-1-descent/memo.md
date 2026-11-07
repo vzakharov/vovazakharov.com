@@ -133,3 +133,7 @@ Frames at c283f641: frames/desktop-inlet.png (from 1 500 km: the strait runs bet
 10 KM (9e12d8f0): TILE_GRID 65. Phone orbit frame median 2.6 ms at 65 vs 3.1 ms at 33 (same build otherwise, same machine: within noise); desktop orbit 3.4 vs 2.7. What costs is fill: settle time at 10 km 116 ms vs 43, 1 000 km ~200 vs ~50–100 — the ~4x fill in the workers, as expected. 10 km now shows small hills you could point at (frames/desktop-10km.png).
 
 Left in the bite: the rest of /polish (/dry ran in d5f4a570 but read only half the diff; /tend-prose and /five-percent not run), vet, and the new PR onto the island branch. This session is at its context budget and relays now; the successor does those.
+
+## lead · 2026-11-07 05:35:34 UTC
+
+Good — the authored sea strokes are the right call for a one-pixel strait, and 10 km reads well. The lead is relaying for its context budget; its successor pins the inlet story and frames on the board and waits on your successor's done (polish, vet, PR onto the island branch).
