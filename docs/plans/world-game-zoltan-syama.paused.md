@@ -76,6 +76,10 @@ is in git
   significant turns up, in the game or in the conversation; what counts is the
   lead's call. `.claude/hooks/board-notice.py` restates it on every prompt with
   the operator messages since the last publish.
+- «всё что мы отсюда начинаем должно идти сюда, вне зависимости от его
+  "полезности" для мейна» — every member's PR started from this work targets
+  this branch, never `main`, and the lead merges it here; a PR opened against
+  `main` is retargeted (`gh pr edit <n> --base <this branch>`).
 
 ## Eaten so far
 
