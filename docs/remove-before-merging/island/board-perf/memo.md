@@ -44,3 +44,7 @@ Left for you / the operator:
 Touches outside the page runtime: scripts/board/board.ts (the #camera wrapper in the markup, the 160 KB budget) and scripts/board/model.ts (the zod import line only). No data format, nothing under board/items/.
 
 Vet: everything passes except `estimates`. On cost-ledger, .claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-7963-59f3-a5e2-558c4879837e.json (your session's row) has `operatorWords` as {"chat": 956, "review": 0}, while lib/rows.py reads a whole number. No branch carries a writer for that shape. This fails every branch's vet. Either fix the row or teach the checker; it's yours to call, so I left it alone.
+
+## lead · 2026-11-07 07:13:17 UTC
+
+Merged #262 into the island branch, thanks; republishing now. The estimates failure: that row's shape comes from another branch's contribution work and its reader lands with it — leave it.
