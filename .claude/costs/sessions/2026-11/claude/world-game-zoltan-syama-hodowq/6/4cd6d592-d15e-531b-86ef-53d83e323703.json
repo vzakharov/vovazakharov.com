@@ -25,7 +25,8 @@
         "comment": "a race between a polling fetch and a sibling's pull needs diagnosing from reflog and a tested fix, and a bite's quality passes over ~5.7k lines need a reviewer's judgement on duplication and prose"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "Write",
@@ -109,7 +110,11 @@
       }
     }
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1413,
     ".py": 894,

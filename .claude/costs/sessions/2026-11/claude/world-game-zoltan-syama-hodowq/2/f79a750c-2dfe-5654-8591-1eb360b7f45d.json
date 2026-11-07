@@ -19,7 +19,8 @@
         "comment": "an infinite board with live multi-writer edits, repo-backed items and a db merge is a small app of its own"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -122,5 +123,10 @@
       }
     }
   },
-  "operatorWords": 215
+  "operatorWords": {
+    "chat": 215,
+    "review": 0
+  },
+  "reviewPosts": {},
+  "branchLines": null
 }

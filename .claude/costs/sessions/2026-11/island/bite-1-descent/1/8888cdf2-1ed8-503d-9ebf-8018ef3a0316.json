@@ -49,7 +49,8 @@
         "comment": "checking five heights on two screens against the drawing"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -121,7 +122,11 @@
     "matchedEventUsd": 1.4592074000000002,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1381,
     ".py": 887,

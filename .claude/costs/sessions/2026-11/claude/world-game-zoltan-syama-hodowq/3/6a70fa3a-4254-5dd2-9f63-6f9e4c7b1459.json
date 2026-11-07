@@ -25,7 +25,8 @@
         "comment": "folding a grown plan into a one-page pointer beside its board, with the operator's standing rules, is scoping work"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -118,5 +119,10 @@
       }
     }
   },
-  "operatorWords": 109
+  "operatorWords": {
+    "chat": 109,
+    "review": 0
+  },
+  "reviewPosts": {},
+  "branchLines": null
 }

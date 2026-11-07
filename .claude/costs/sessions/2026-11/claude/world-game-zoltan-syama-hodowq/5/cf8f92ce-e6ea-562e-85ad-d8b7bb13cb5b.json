@@ -19,7 +19,8 @@
         "comment": "a git-backed channel with race and divergence handling, a rename across skill pointers, and a time-sliced ledger report touch shared tooling where a wrong reading silently miscounts, each needing tests"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -91,7 +92,11 @@
     "matchedEventUsd": 3.9128902,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1002,
     ".py": 887,

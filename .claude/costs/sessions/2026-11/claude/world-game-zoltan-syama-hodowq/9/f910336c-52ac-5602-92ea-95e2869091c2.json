@@ -25,7 +25,8 @@
         "comment": "a hook fix with its tests is routine but touches every board session"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -118,7 +119,11 @@
       }
     }
   },
-  "operatorWords": 189,
+  "operatorWords": {
+    "chat": 189,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 2247,
     ".py": 1140,

@@ -25,7 +25,8 @@
         "comment": "per-extension line flow over git history and two new cost-row fields read from transcripts, with tests, touch shared ledger code where a wrong reading silently miscounts"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "Write",
@@ -140,7 +141,11 @@
       }
     }
   },
-  "operatorWords": 227,
+  "operatorWords": {
+    "chat": 227,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".py": 231,
     ".md": 784,
