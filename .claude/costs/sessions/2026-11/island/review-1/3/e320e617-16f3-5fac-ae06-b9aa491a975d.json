@@ -1,0 +1,111 @@
+{
+  "total": {
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 268654,
+    "cacheWrite1hTokens": 116704,
+    "cacheReadTokens": 12362061,
+    "outputTokens": 44383,
+    "thinkingTokens": 12611,
+    "responses": 95,
+    "costUsd": 5.637742200000003
+  },
+  "estimate": {
+    "at": "2026-11-07T06:07:20.199Z",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a repo-wide gate with a shrink-only allowlist needs judgement on what counts as generated or data, and six review replies need the context of the whole review"
+      }
+    ],
+    "comment": null,
+    "subjectLine": "fix(island): line-limit test, polish and #255 replies"
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T06:07:18.439Z",
+    "contextTokens": 110782,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49644,
+      "cacheReadTokens": 474591,
+      "outputTokens": 1176,
+      "thinkingTokens": 170,
+      "responses": 5,
+      "costUsd": 0.5156381999999999
+    }
+  },
+  "sessionId": "e320e617-16f3-5fac-ae06-b9aa491a975d",
+  "branch": "island/review-1",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/review-1 — доска переехала в src/board и YAML, осталось правило 400 строк, полировка и ответы в ревью",
+  "prs": [
+    258
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBKMXKuwSRJA6hXtyj",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T06:06:58.725Z",
+  "lastResponseAt": "2026-11-07T06:17:02.198Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 103,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 116704,
+    "cacheReadTokens": 7363874,
+    "outputTokens": 25924,
+    "thinkingTokens": 6039,
+    "responses": 52,
+    "costUsd": 2.9252988
+  },
+  "subagents": {
+    "inputTokens": 89,
+    "cacheWrite5mTokens": 268654,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 4998187,
+    "outputTokens": 18459,
+    "thinkingTokens": 6572,
+    "responses": 43,
+    "costUsd": 2.7124433999999997
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 192,
+      "cacheWrite5mTokens": 268654,
+      "cacheWrite1hTokens": 116704,
+      "cacheReadTokens": 12362061,
+      "outputTokens": 44383,
+      "thinkingTokens": 12611,
+      "responses": 95,
+      "costUsd": 5.637742200000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 95,
+    "matched": 95,
+    "matchedTableUsd": 5.637742200000003,
+    "matchedEventUsd": 5.637742200000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
+  "branchLines": {
+    ".md": 3436,
+    ".py": 1864,
+    ".sh": 4,
+    ".json": 59,
+    ".staged": 434,
+    ".yaml": 377,
+    ".ts": 3028,
+    ".scss": 394,
+    ".tsx": 2
+  }
+}
