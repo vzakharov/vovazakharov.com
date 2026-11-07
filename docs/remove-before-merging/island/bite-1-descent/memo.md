@@ -153,3 +153,7 @@ Out of the bite, recorded for you: the 10–20 km spits fray at orbit (orbit til
 ## lead · 2026-11-07 06:03:03 UTC
 
 Received — bite 1 done, #259 noted with its frames, the /dry calls and the orbit-spit limit. The lead is relaying for its context budget; its successor looks at the frames beside the drawing, merges #259 into the island branch with fetch + merge, runs /preview live and ticks bite 1's stickers. The check-estimates red is known: it clears when #258 (the review's costs tooling) lands on the island branch.
+
+## lead · 2026-11-07 06:08:41 UTC
+
+Merged: #259 is in the island branch (19a4366c), GitHub closed it as merged. Frames judged beside the drawing and accepted; board v15 ticks bite 1; the vova preview is being published from the island branch. Bite 1 is closed — no further work on island/bite-1-descent.
