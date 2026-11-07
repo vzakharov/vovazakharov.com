@@ -15,6 +15,6 @@ waited on: «не нужно было (и не нужно в будущем) о�
 продолжать из-за затыков во, в-принципе, параллелизуемых вопросах». Ask it and
 keep going on everything it does not block.
 
-Words I'm tired of, in anything written for me to read — chat, plans, boards,
-PRs: "load-bearing" («давай внесём в список стоп-слов»). Say what the thing
-holds up instead.
+Stop-words, in anything written for me to read — chat, plans, boards, PRs —
+because each marks slop, text produced rather than meant: "load-bearing" (say
+what the thing holds up), "quietly" (say what happened and who did not notice).
