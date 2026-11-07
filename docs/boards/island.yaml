@@ -1,0 +1,48 @@
+title: Island board
+artifact: https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P
+items:
+  - id: coast-overlay
+    type: image
+    updated: [2026-11-07T05:45:00.000Z, agent:lead]
+    box: [150, 480, 600]
+    src: images/coast-overlay.webp
+    text: 'The coast as bite 1 traced it, over the drawing: red the main island, blue the rest; the bay between Blablania and Feisis cut in by hand'
+  - id: l-map-overlay
+    type: line
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    ends: [map, coast-overlay]
+    text: traced into
+  - id: l-way
+    type: line
+    updated: [2026-11-07T08:20:00.000Z, agent:lead]
+    ends: [map, z-star]
+    spiral: cw
+    text: done → in hand → next → the north star
+  - id: map
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [0, -350, 900]
+    src: images/map-zoltan-syama.webp
+    text: The map Zoltan and Syama drew — the first input. White is water, everything else is land.
+  - id: subtitle
+    type: text
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [0, -1180, 900, body]
+    text: "The mammoth's board, in place of its plan. Anyone may add to it: double-click for a sticky, drag to move. The lead session syncs what you add back into the repo."
+  - id: title
+    type: text
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [0, -1300, 2400, h1]
+    text: 'Island: exploring the world Zoltan and Syama drew'
+  - id: web-ocean
+    type: image
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [230, 1040, 440]
+    src: images/web-ocean.webp
+    text: 'Inspiration: Noniv/web-ocean — what a browser can do with sea and sky. Nothing copied.'
+  - id: s-d98ef689229d
+    type: sticky
+    updated: [2026-11-07T07:18:56.245Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [2625.720312037562, 105.90156333340494, 200, yellow]
+    text: ''
+    deleted: true

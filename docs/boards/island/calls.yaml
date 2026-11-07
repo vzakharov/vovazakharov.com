@@ -1,0 +1,41 @@
+items:
+  - id: z-calls
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1120, -930, 1060, 790, blue]
+    text: The calls everything else stands on
+  - id: call-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1148, -819, 243, blue]
+    text: 'Real scale: Arc is the DR Congo, the island ~5,000 km across, on an Earth-sized planet. Going far means going up'
+  - id: call-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1483, -818, 243, blue]
+    text: A drawn map is the input. Traced once into a vector coastline; the game builds from the vector, never the image
+  - id: call-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1818, -818, 242, blue]
+    text: One coastline + one seed fix the world to the last pebble. Nothing stored but the coastline (and, one day, what players change)
+  - id: call-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1177, -572, 245, blue]
+    text: 'The coast fractals as you approach: capes, coves and rocks added level by level'
+  - id: call-5
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1512, -573, 244, blue]
+    text: "Two tiers: whole-map things (rivers to the sea, climate) computed once; everything finer a pure function of a tile's key"
+  - id: call-6
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1847, -572, 244, blue]
+    text: 'three.js WebGPURenderer, falling back to WebGL 2 by itself: one code path, tiles filled in workers'
+  - id: call-7
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1147, -327, 244, blue]
+    text: src/island/, served at /island on vovazakharov.com beside /mushrooms

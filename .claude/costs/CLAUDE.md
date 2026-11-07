@@ -347,6 +347,10 @@ them. A revision replaces it, so its history is git's.
     for that repository's rows**, since they were booked against it, and the
     report, `check_estimates.py` and the notice each name both rates;
     `role drop` adopts the shared one.
+- **`subjectLine` names what the session did**, as a conventional commit subject
+  of at most 72 characters, so a row reads like a log entry. It is part of the
+  estimate rather than a field beside it, so `set` requires it and a revision
+  replaces it with the parts; a row set before it existed has none.
 - **Of the row's copy and a running session's pending one, the later wins.**
   That is how a `--session` edit to a running session's row survives its next
   `Stop`, and how the session's own later `set` overrides that edit.
@@ -410,6 +414,20 @@ every total it belongs to, and these rows are never written back: they are
 another branch's to change. Each row is rated by this checkout's `rates.json`
 plus the `rates.repo.json` on its own repository's `cost-ledger`, since it may
 name a role only that repository rates.
+
+**`contribution.py` is one branch's figures** — dollars, senior-hours, the
+operator's words and the branch's lines per extension — now, or `--at` a past
+moment off the ledger commit before it, as a timelapse frame reads them. Its
+header says how `--at` reads a row from before `operatorWords` was counted.
+
+**A row's `operatorWords` splits into `chat`, `review` and `threads`.** `chat`
+is read off the transcript; `review` sums `reviewPosts`, a person's posts on the
+PRs the session exported, which `scripts/export-github-item.py` hands to
+`post_words.py`; `threads` sums `threadPosts`, their comments in a board's
+threads, which the session holding the board keeps in
+`docs/boards/<board>/threads.json` (`{comment id: body}`) and pipes to
+`post_words.py --kind thread`. Both are counted without quotes and fenced blocks
+for the next row write to fold in, once per post over the branch's rows.
 
 ## What the totals do not cover
 

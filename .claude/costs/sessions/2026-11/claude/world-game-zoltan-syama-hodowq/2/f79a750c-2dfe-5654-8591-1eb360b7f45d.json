@@ -1,0 +1,137 @@
+{
+  "total": {
+    "inputTokens": 2378,
+    "cacheWrite5mTokens": 360,
+    "cacheWrite1hTokens": 296499,
+    "cacheReadTokens": 23685480,
+    "outputTokens": 84113,
+    "thinkingTokens": 18106,
+    "responses": 94,
+    "costUsd": 8.798658300000003
+  },
+  "estimate": {
+    "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "feat(island): build the plan board and publish its first items",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "an infinite board with live multi-writer edits, repo-backed items and a db merge is a small app of its own"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T17:31:59.209Z",
+    "contextTokens": 113748,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47859,
+      "cacheReadTokens": 462392,
+      "outputTokens": 757,
+      "thinkingTokens": 58,
+      "responses": 5,
+      "costUsd": 0.49053840000000004
+    }
+  },
+  "sessionId": "f79a750c-2dfe-5654-8591-1eb360b7f45d",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — план одобрен, доска спроектирована, но ещё не построена",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkB7pyz9vfjpLBTVzEa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T17:31:44.648Z",
+  "lastResponseAt": "2026-11-06T17:50:05.676Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 183,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 296499,
+    "cacheReadTokens": 22984541,
+    "outputTokens": 84073,
+    "thinkingTokens": 18106,
+    "responses": 91,
+    "costUsd": 8.651092200000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 1195,
+      "cacheWrite5mTokens": 360,
+      "cacheWrite1hTokens": 296499,
+      "cacheReadTokens": 23685480,
+      "outputTokens": 84089,
+      "thinkingTokens": 18106,
+      "responses": 93,
+      "costUsd": 8.798528000000003
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1183,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 24,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001303
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 94,
+    "matched": 91,
+    "matchedTableUsd": 8.651092200000003,
+    "matchedEventUsd": 8.6510922,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1183,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 24,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001303
+      },
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 360,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 700939,
+        "outputTokens": 16,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.1474358
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 215,
+    "review": 0
+  },
+  "reviewPosts": {},
+  "branchLines": {
+    ".css": 342,
+    ".json": 422,
+    ".md": 668,
+    ".ts": 1667
+  }
+}

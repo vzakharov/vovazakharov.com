@@ -93,5 +93,5 @@ bite needs is only a branch it can build on:
 
 An elephant whose plan writes the loop into itself — bite, agent review, handle,
 next bite, with no operator between them — is what
-`@.claude/skills/megabeast/notes/README.md` collects toward a skill of its own,
+`@.claude/skills/mammoth/notes/README.md` collects toward a skill of its own,
 one file per theme. Each session in such a run adds to it before its relay.

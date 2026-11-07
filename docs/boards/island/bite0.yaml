@@ -1,0 +1,36 @@
+items:
+  - id: z-bite0
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1150, 120, 1060, 600, orange]
+    text: Bite 0 — the lead's own
+  - id: bite0-1
+    type: sticky
+    updated: [2026-11-07T08:10:00.000Z, agent:lead]
+    box: [1166, 207, 325, orange]
+    text: '✓ The board: this page, its sync and snapshot — an app of its own, src/island-board/, its content in YAML (#258)'
+  - id: bite0-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1500, 207, 326, orange]
+    text: '✓ The case study, written as we go: sites/vova/public/case-studies/island.md, first entry "how it all began", with a board snapshot'
+  - id: bite0-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1835, 207, 325, orange]
+    text: '✓ scripts/memo/memo.py: lead/member, one channel per branch'
+  - id: bite0-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1195, 451, 323, orange]
+    text: ✓ Rename .claude/skills/megabeast/ → mammoth/
+  - id: bite0-5
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1530, 451, 323, orange]
+    text: "✓ The human contribution: the operator's words across sessions and reviews; lines of code per extension over time (cumflow)"
+  - id: bite0-6
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1864, 451, 324, orange]
+    text: '✓ The first step toward the star and its member: bite 1, the thinnest descent'

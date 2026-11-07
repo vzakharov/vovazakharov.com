@@ -6,9 +6,6 @@
 
 import { cleanLabel, host, typedZone } from '../../checker';
 
-/** The like for a name, carrying its zone where one was typed. */
-export { asTyped as likeOf } from '../../checker';
-
 /** The name a like is for: `foxedpage` of `foxedpage.com`. */
 export const nameOf = (like: string) => cleanLabel(like);
 

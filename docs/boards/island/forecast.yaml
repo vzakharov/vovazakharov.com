@@ -1,0 +1,21 @@
+items:
+  - id: z-forecast
+    type: zone
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [-30, -1040, 900, 600, gray]
+    text: 'A stab in the dark: what a studio would spend'
+  - id: forecast
+    type: sticky
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [40, -930, 760, gray]
+    text: |-
+      About 3,120 hours, seven people, the busiest five months:
+      • graphics programmer, senior — 800 h
+      • technical artist, senior — 640 h
+      • environment artist, middle — 480 h
+      • gameplay programmer, senior — 320 h
+      • producer, senior — 320 h
+      • game designer, senior — 240 h
+      • QA, middle — 240 h
+      • audio engineer, senior — 80 h
+      Compared with the ledger at the end.

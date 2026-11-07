@@ -6,7 +6,11 @@
  * rebakes nothing.
  */
 
-import { distanceBetween, type Point } from '../lib/geometry';
+import type { Distant } from '@/kernel/shared/typings';
+
+import type { Point, Zooming } from '@/scene/shared/lib/plane';
+
+import { distanceBetween } from '../lib/geometry';
 import { browDistance, type Raised } from './eye-height';
 import {
   type Camera,
@@ -32,11 +36,6 @@ export type View = Camera & Eyed & Raised;
 export type Placed = Viewed & Receding;
 /** How many times its laid-out size a thing is drawn, and how far from the eye it stands. */
 export type Receding = Zooming & Distant;
-/** How many times its laid-out size a thing is drawn. */
-export type Zooming = { zoom: number };
-/** How far from the eye a thing stands. */
-export type Distant = { distance: number };
-
 /** A bed that re-places what it holds through each frame's view. */
 export type Following = { follow: (view: View) => void };
 

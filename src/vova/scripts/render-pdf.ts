@@ -40,7 +40,7 @@ import {
   sourceFiles,
 } from '@/blog/scripts/lib/print-job';
 import { given } from '@/kernel/scripts/lib/argv';
-import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 /** What shapes the CV's printed page; its own language's catalogue is added per printable. */
 const CV_SOURCES = ['src/vova/pages/cv', 'src/vova/entities/cv'];

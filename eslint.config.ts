@@ -37,6 +37,7 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unicornPlugin from 'eslint-plugin-unicorn';
 
 import { boundariesConfig } from './eslint/masd-boundaries';
+import { PUBLIC_API, TEST_API } from './eslint/masd-graph';
 import { coreRules } from './eslint/rule-groups/core';
 import { importSortRules } from './eslint/rule-groups/import-sort';
 import { jsxA11yRules } from './eslint/rule-groups/jsx-a11y';
@@ -170,6 +171,15 @@ const eslintConfig = defineConfig([
         { paths: [NEXT_INTL_CLIENT] },
       ],
     },
+  },
+  // The files whose job is to re-export: a slice's or segment's entry points,
+  // and the routers, from which Next reads each route's exports by name.
+  {
+    files: [
+      ...[...PUBLIC_API, TEST_API].map((barrel) => `**/${barrel}`),
+      'sites/*/app/**',
+    ],
+    rules: { 'no-restricted-syntax': 'off' },
   },
   // Custom ESLint rule implementations (eslint/) and the root tooling configs.
   // Relax only the patterns intrinsic to AST-walking rule code; everything else is linted.

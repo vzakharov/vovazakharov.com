@@ -16,6 +16,7 @@ import re
 from typing import Any, Dict, Optional
 
 from lib.shape import is_number
+from lib.words import count_words
 
 
 def kind_of(record: Any) -> Optional[str]:
@@ -108,6 +109,45 @@ def _prompt_raw(record: Any) -> Optional[str]:
             text = block.get("text")
             return text if isinstance(text, str) else None
     return None
+
+
+def _typed_text(content: Any) -> str:
+    if isinstance(content, str):
+        return content
+    if not isinstance(content, list):
+        return ""
+    return "\n".join(
+        block["text"]
+        for block in content
+        if isinstance(block, dict) and block.get("type") == "text" and isinstance(block.get("text"), str)
+    )
+
+
+def _from_person(origin: Any) -> bool:
+    return isinstance(origin, dict) and origin.get("kind") == "human"
+
+
+def operator_words_of(record: Any) -> int:
+    """The words a person typed in this record. A prompt that starts a turn is
+    a `user` record and one sent mid-turn a `queued_command` attachment; both
+    carry `origin.kind == "human"`, which is what tells them from a tool
+    result, a skill body, a hook's context, another session's message or a
+    subagent's hand-back."""
+    if not isinstance(record, dict):
+        return 0
+    if record.get("type") == "user" and _from_person(record.get("origin")):
+        message = record.get("message")
+        content = message.get("content") if isinstance(message, dict) else None
+    elif record.get("type") == "attachment":
+        attachment = record.get("attachment")
+        if not isinstance(attachment, dict) or attachment.get("type") != "queued_command":
+            return 0
+        if not _from_person(attachment.get("origin")):
+            return 0
+        content = attachment.get("prompt")
+    else:
+        return 0
+    return count_words(_typed_text(content))
 
 
 def prompt_text_of(record: Any) -> Optional[str]:

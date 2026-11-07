@@ -1,6 +1,7 @@
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
 import {
   type AtAloft,

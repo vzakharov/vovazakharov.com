@@ -27,7 +27,7 @@ import {
 } from './catalogue-text.ts';
 import type { Glossed } from './frontmatter.ts';
 import { albumPath, artistPath } from './music-urls.ts';
-import type { MusicAlbum, MusicProject } from './names.ts';
+import type { MusicAlbum, MusicProject } from './name-brands.ts';
 import { artistPicture, songPicture } from './pictures.ts';
 import type { ReleaseKind } from './release-kind.ts';
 import {

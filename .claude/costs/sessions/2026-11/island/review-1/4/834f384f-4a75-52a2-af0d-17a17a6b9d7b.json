@@ -1,0 +1,169 @@
+{
+  "total": {
+    "inputTokens": 1510,
+    "cacheWrite5mTokens": 87688,
+    "cacheWrite1hTokens": 257356,
+    "cacheReadTokens": 27795280,
+    "outputTokens": 85975,
+    "thinkingTokens": 25157,
+    "responses": 144,
+    "costUsd": 9.772052100000002
+  },
+  "estimate": {
+    "at": "2026-11-07T07:00:02.538Z",
+    "subjectLine": "fix(island): board split by zone, cost-row backfills, #258 review",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "deriving each card's file from zone geometry and keeping sync, build and refile consistent needs care with the YAML codec and the line gate"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "recovering exact word counts and line counts for finished sessions means reading the ledger's counters and validating against a known row"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "docs/plans/island-review-1.paused.md",
+    "endedAt": "2026-11-07T06:37:01.911Z",
+    "contextTokens": 190004,
+    "spend": {
+      "inputTokens": 127,
+      "cacheWrite5mTokens": 87688,
+      "cacheWrite1hTokens": 130751,
+      "cacheReadTokens": 7422874,
+      "outputTokens": 29053,
+      "thinkingTokens": 9384,
+      "responses": 63,
+      "costUsd": 3.5505908000000006
+    }
+  },
+  "sessionId": "834f384f-4a75-52a2-af0d-17a17a6b9d7b",
+  "branch": "island/review-1",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/review-1 — лимит 400 строк и ответы в ревью готовы, ждём решения, как резать доску; два бэкфилла строк стоимости в очереди",
+  "prs": [
+    258
+  ],
+  "url": "https://claude.ai/code/session_01DaohkB8rkCmLihiU8XZSKg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T06:30:49.202Z",
+  "lastResponseAt": "2026-11-07T07:01:19.437Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 238,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 257356,
+    "cacheReadTokens": 26148672,
+    "outputTokens": 77193,
+    "thinkingTokens": 23296,
+    "responses": 120,
+    "costUsd": 8.8333944
+  },
+  "subagents": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 87688,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1646608,
+    "outputTokens": 8523,
+    "thinkingTokens": 1861,
+    "responses": 23,
+    "costUsd": 0.9384055999999998
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 284,
+      "cacheWrite5mTokens": 87688,
+      "cacheWrite1hTokens": 257356,
+      "cacheReadTokens": 27795280,
+      "outputTokens": 85716,
+      "thinkingTokens": 25157,
+      "responses": 143,
+      "costUsd": 9.7718
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1226,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 259,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002521
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 143,
+    "matched": 142,
+    "matchedTableUsd": 9.6938084,
+    "matchedEventUsd": 9.6938084,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1226,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 259,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002521
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 37,
+    "review": 679
+  },
+  "reviewPosts": {
+    "PRR_kwDOQXZBKM8AAAABWky6DA": 89,
+    "PRRC_kwDOQXZBKM8AAAABDDg9rw": 52,
+    "PRRC_kwDOQXZBKM8AAAABDDhDnA": 5,
+    "PRRC_kwDOQXZBKM8AAAABDDhQPA": 6,
+    "PRRC_kwDOQXZBKM8AAAABDDhWSw": 6,
+    "PRRC_kwDOQXZBKM8AAAABDDonyw": 5,
+    "PRRC_kwDOQXZBKM8AAAABDDow9g": 36,
+    "PRRC_kwDOQXZBKM8AAAABDDpC1w": 22,
+    "PRRC_kwDOQXZBKM8AAAABDDpUDw": 72,
+    "PRRC_kwDOQXZBKM8AAAABDDpwog": 29,
+    "PRRC_kwDOQXZBKM8AAAABDDp3Bg": 20,
+    "PRRC_kwDOQXZBKM8AAAABDDp-Zw": 37,
+    "PRRC_kwDOQXZBKM8AAAABDDrwGQ": 62,
+    "PRRC_kwDOQXZBKM8AAAABDDt1fg": 13,
+    "PRRC_kwDOQXZBKM8AAAABDDt8lw": 4,
+    "PRRC_kwDOQXZBKM8AAAABDDuJQg": 7,
+    "PRRC_kwDOQXZBKM8AAAABDDuefA": 23,
+    "PRRC_kwDOQXZBKM8AAAABDDvOrA": 1,
+    "PRRC_kwDOQXZBKM8AAAABDDvpsA": 46,
+    "PRRC_kwDOQXZBKM8AAAABDDv4TQ": 14,
+    "PRRC_kwDOQXZBKM8AAAABDDv9hg": 7,
+    "PRRC_kwDOQXZBKM8AAAABDD2omg": 10,
+    "PRRC_kwDOQXZBKM8AAAABDD2-gQ": 4,
+    "PRRC_kwDOQXZBKM8AAAABDD3qkQ": 16,
+    "PRRC_kwDOQXZBKM8AAAABDD36Zg": 5,
+    "PRRC_kwDOQXZBKM8AAAABDD_G0Q": 9,
+    "PRRC_kwDOQXZBKM8AAAABDD_rTA": 9,
+    "PRRC_kwDOQXZBKM8AAAABDEBTgA": 34,
+    "PRRC_kwDOQXZBKM8AAAABDEBudw": 20,
+    "PRRC_kwDOQXZBKM8AAAABDECFnQ": 16
+  },
+  "branchLines": {
+    ".md": 3687,
+    ".py": 1893,
+    ".sh": 4,
+    ".json": 59,
+    ".staged": 434,
+    ".yaml": 385,
+    ".ts": 3357,
+    ".scss": 394,
+    ".tsx": 2
+  }
+}

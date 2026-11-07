@@ -6,11 +6,9 @@
  * shelter did not exist.
  */
 
-import {
-  between,
-  saltedStream,
-  type Seeded,
-} from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
+
+import { between, saltedStream } from '@/mushrooms/shared/lib/random';
 import { type Rain, raining } from '@/mushrooms/shared/world';
 import {
   apartIn,

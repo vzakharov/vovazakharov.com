@@ -1,0 +1,149 @@
+{
+  "total": {
+    "inputTokens": 1534,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 284754,
+    "cacheReadTokens": 38594565,
+    "outputTokens": 82254,
+    "thinkingTokens": 15887,
+    "responses": 179,
+    "costUsd": 11.640244000000001
+  },
+  "estimate": {
+    "at": "2026-11-07T09:30:17.244Z",
+    "subjectLine": "docs: island members merged, board v27–v31, game name brainstorm",
+    "parts": [
+      {
+        "hours": 0.6,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "merging three members' branches with their conflicts, re-pathing the plan and republishing the board is a producer's tracking work"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "a game's name and domain shortlist across ~180 checked candidates needs a senior ear for how names read and misread"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-07T07:44:04.648Z",
+    "contextTokens": 113821,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54785,
+      "cacheReadTokens": 697204,
+      "outputTokens": 1962,
+      "thinkingTokens": 227,
+      "responses": 7,
+      "costUsd": 0.6170248
+    }
+  },
+  "sessionId": "0fc92cca-879d-52c1-8311-1896abd9c5ed",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — доска v26 с perf-зоной, #258 ждёт слияния ветки острова, подсессия board-asks работает, развилка номеров мир…",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCSBpcbq5Nh5ZpFWHC",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T07:43:32.862Z",
+  "lastResponseAt": "2026-11-07T10:41:49.951Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 344,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 284754,
+    "cacheReadTokens": 38594565,
+    "outputTokens": 82086,
+    "thinkingTokens": 15887,
+    "responses": 178,
+    "costUsd": 11.640041
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 344,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 284754,
+      "cacheReadTokens": 38594565,
+      "outputTokens": 82086,
+      "thinkingTokens": 15887,
+      "responses": 178,
+      "costUsd": 11.640041
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1190,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 168,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.000203
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 178,
+    "matched": 177,
+    "matchedTableUsd": 11.4569936,
+    "matchedEventUsd": 11.4569936,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1190,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 168,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.000203
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 318,
+    "review": 0,
+    "threads": 101
+  },
+  "reviewPosts": {},
+  "threadPosts": {
+    "19e6ac40-5855-407f-a5d4-c9058815faf5@2026-11-06T20:54": 6,
+    "7149addd-8f0d-4dba-aab1-c1c571db497b@2026-11-07T06:20": 5,
+    "629856ff-9f6b-4682-aca0-99bea09f26ba@2026-11-07T07:16": 21,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:19": 8,
+    "cdeca233-def0-4ed5-a11c-1e1196860251@2026-11-07T07:22": 36,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:23": 25
+  },
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 6852,
+    ".py": 2068,
+    ".sh": 4,
+    ".json": 1507,
+    ".staged": 434,
+    ".yml": 8,
+    ".yaml": 607,
+    ".ts": 10214,
+    ".tsx": 151,
+    ".scss": 523
+  }
+}

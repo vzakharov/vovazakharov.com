@@ -5,8 +5,10 @@
  * shape faces the light and which way its shadow falls.
  */
 
+import type { Abscissa, Point } from '@/scene/shared/lib/plane';
+
 import { darken, dimTo, lightenTo, luminance, mix } from '../lib/colour';
-import type { Abscissa, Point, Tall, Wide } from '../lib/geometry';
+import type { Tall, Wide } from '../lib/geometry';
 import type { Light } from '../lib/light';
 import { PALETTE } from './palette';
 

@@ -154,7 +154,6 @@ export {
   browRow,
   buried,
   cull,
-  type Distant,
   type Following,
   layoutOfPlane,
   middleOf,
@@ -171,7 +170,6 @@ export {
   V_NEAR,
   type View,
   viewAt,
-  type Zooming,
 } from './view';
 export { layoutUnder } from './view-inverse';
 export {

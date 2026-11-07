@@ -1,10 +1,8 @@
 /** Where a finger meets the grass: which tuft a tap lands on, and whether one is drawn bare to it. */
 
-import {
-  type Circle,
-  distanceBetween,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { type Circle, distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import {
   FLOWER_SWAY,
   type FlowerPlotsLayout,

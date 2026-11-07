@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import type { Graphic } from '@/mushrooms/shared/ui';
 
 import { TAP_PARTS, type TapArea } from '../../fungus/index.node-safe';
