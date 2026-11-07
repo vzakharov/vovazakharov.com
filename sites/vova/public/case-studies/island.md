@@ -29,7 +29,7 @@ You never see yourself, but you can guess what you are from how you move: no bob
 
 The world can’t be generated all at once, of course, only as you approach: what is visible from a given height, at the moment it becomes visible; where exactly each tree stands, once you’re close enough to see it.
 
-So that nobody (the agent included) thought this was out of reach, I pointed at a small repo, [web-ocean](https://github.com/Noniv/web-ocean) — sea and sky drawn in a browser, and drawn well. It was there as proof that this can be done, not as code to borrow.
+So that nobody (the agent included) thought this was out of reach, I pointed at a small repo, [web-ocean](https://github.com/Noniv/web-ocean) — sea and sky drawn in a browser, and drawn well. It was there as proof that this can be done.
 
 ### What we settled before writing any code
 
