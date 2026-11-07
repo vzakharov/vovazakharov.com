@@ -113,25 +113,48 @@ the plan's; an agent may move a file inside its own slice and says so.
       (79b6cdde: a diagnostic build pinning the skirts' colour heights made them
       vanish); frames at 15854783.
 
+- [x] **Fourth session**: the lead's answers — 10 km is `TILE_GRID` 65
+      (9e12d8f0; phone orbit frame median 2.6 ms vs 3.1 at 33, within noise;
+      tile settle ~2–3× slower, the 4× fill in the workers), the lakes stay in
+      the lakes bite. T11, the operator's missing bay between Блаблания and
+      Фейсис: its one-pixel strait and the pool at its head are sea, by authored
+      sea strokes taken out of the finished land mask (b4eb7a0a, 2a6b32cc —
+      clearing them from the floods instead split Блаблания off the main body).
+      The play hook's `moveTo` and two inlet shots (6217616c); frames at
+      c283f641; the story and figures sent to the lead (memo 05:35), who agreed.
+      `/polish`'s `/dry` pass, partial: d5f4a570.
+
 ## Rest of the bite
 
-The third session paused here at its context budget. In order:
+The fourth session paused here at its context budget. In order:
 
-1. **The lead's answers** (memo, 22:11 and 22:19 on 2026-11-06): (a) 10 km —
-   "TILE_GRID 65, as you recommend … Check the phone orbit frame time after it":
-   done in 9e12d8f0, the frame time from the fourth session's play run; (b) the
-   inland lakes — "Lakes stay in the lakes bite, as the plan and bite-1.md have
-   it": nothing to build here.
+1. **Finish `/polish`, the branch's first** (no `polish:` floor, so its scope is
+   `git diff 6547946b`, 133 files — too big for one subagent: run one per pass,
+   each committing `polish(<pass>):`, then the bare `polish:` mark once all
+   three have run). `/dry` is half done in d5f4a570; still unread:
+   `src/island/scripts/{play-island,trace-coast}.ts`,
+   `entities/coast/model/{ring,trace,coast}.ts`,
+   `entities/terrain/model/{coast-field,height,value-noise}.ts`,
+   `features/eye/{model/eye,ui/eye-controls}.ts`, `pages/island/lib/*` but
+   `sun`,
+   `pages/island/ui/{ground-lighting,tile-meshes,island-canvas,island-page,play-hook}`,
+   `shared/play/play-hook.ts`, and their tests. Its three calls left for the
+   operator: one `rectGap` for `tile-cover.ts` `distanceTo`, `detail.ts` `gap`
+   and `split.ts`'s clamp (a new terrain export; `gap` is on `detailCut`'s hot
+   path); a `tileCentre` for `split.ts` `astride` and `quadtree.ts` `visible`
+   (two one-line uses); one 4-neighbour walk for `sea.ts` `flood` and `peel` (an
+   allocation or a closure per neighbour on a 1.4M-pixel loop). Then
+   `/tend-prose` and `/five-percent` (the latter after the PR exists).
 2. **Out of this bite, recorded for the lead**: the 10–20 km spits fray at orbit
    because orbit tiles are level 3; a coast floor at level 6 costs ~530–640
    tiles and ~40 ms per reselect, nearly all in `selectTiles`' per-node
    visibility test (`notes/r7c.md`).
-3. **Tail**: `/polish`, `VET_MEADOW=1 ./scripts/vet.sh` green, and a **new** PR
-   from `island/bite-1-descent` onto `claude/world-game-zoltan-syama-hodowq`
-   (#256 closed as merged when 686f5174 put an early head into the base; the
-   lead agreed) whose body says what each call became, with the frames; the R5
+3. **Tail**: `VET_MEADOW=1 ./scripts/vet.sh` green, and a **new** PR from
+   `island/bite-1-descent` onto `claude/world-game-zoltan-syama-hodowq` (#256
+   closed as merged when 686f5174 put an early head into the base; the lead
+   agreed) whose body says what each call became, with the frames; the R5
    finding that `play:mushrooms --plays keep,dark` fails ("no sun on the screen
-   to tap") on the base too; the frames to the lead through memo.
+   to tap") on the base too; "done" to the lead through memo, with the PR.
 
 ## Calls made in the build
 
