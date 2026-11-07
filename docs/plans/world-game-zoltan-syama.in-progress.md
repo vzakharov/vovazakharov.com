@@ -148,8 +148,12 @@ review. Open:
   https://claude.ai/code/session_01DaohkDZtwxJGQKbNecB8st on `preview2-slot`,
   its PR onto main: preview2.vovazakharov.com and `/preview live` choosing a
   slot.
-- The lead waits on all three:
-  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot`.
+- **Board performance** —
+  https://claude.ai/code/session_01DaohkDwrHtJy2Zb6SucGnx on
+  `island/board-perf`: the page measured and sped up, the look unchanged; the
+  lead republishes from its merged code.
+- The lead waits on all four:
+  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf`.
 
 ## Rest of the elephant
 
