@@ -1,0 +1,107 @@
+{
+  "total": {
+    "inputTokens": 73,
+    "cacheWrite5mTokens": 164072,
+    "cacheWrite1hTokens": 74410,
+    "cacheReadTokens": 4225724,
+    "outputTokens": 14484,
+    "thinkingTokens": 4073,
+    "responses": 37,
+    "costUsd": 2.5507568000000007
+  },
+  "estimate": {
+    "at": "2026-11-07T05:37:41.004Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "the rest of the polish passes, vet, the new PR and done to the lead: coordinating finished work across agents and the lead takes a producer's judgement, not new engineering"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/island/entities/terrain/model/height.ts",
+    "endedAt": "2026-11-07T05:39:31.423Z",
+    "contextTokens": 150146,
+    "spend": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 144635,
+      "cacheWrite1hTokens": 70978,
+      "cacheReadTokens": 2918082,
+      "outputTokens": 10641,
+      "thinkingTokens": 3614,
+      "responses": 28,
+      "costUsd": 2.0876514
+    }
+  },
+  "sessionId": "57f659f4-21d2-5b91-993f-96340c771d15",
+  "branch": "island/bite-1-descent",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/bite-1-descent — 10 км и залив между Блабланией и Фейсисом готовы, кадры в ветке, лид в курсе; осталась полировка, vet и новый PR",
+  "prs": [
+    256
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEhPvegeaUb8J5MtoG",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T05:37:24.940Z",
+  "lastResponseAt": "2026-11-07T05:40:16.094Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 25,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 74410,
+    "cacheReadTokens": 1302099,
+    "outputTokens": 4079,
+    "thinkingTokens": 656,
+    "responses": 12,
+    "costUsd": 0.9373798000000002
+  },
+  "subagents": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 164072,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2923625,
+    "outputTokens": 10405,
+    "thinkingTokens": 3417,
+    "responses": 25,
+    "costUsd": 1.6133769999999996
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 73,
+      "cacheWrite5mTokens": 164072,
+      "cacheWrite1hTokens": 74410,
+      "cacheReadTokens": 4225724,
+      "outputTokens": 14484,
+      "thinkingTokens": 4073,
+      "responses": 37,
+      "costUsd": 2.5507568000000007
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 37,
+    "matched": 37,
+    "matchedTableUsd": 2.5507568000000007,
+    "matchedEventUsd": 2.5507568000000003,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 2930,
+    ".py": 894,
+    ".webp": 0,
+    ".json": 1898,
+    ".png": 0,
+    ".ts": 8118,
+    ".css": 412,
+    ".sh": 1,
+    ".tsx": 52,
+    ".scss": 18
+  }
+}
