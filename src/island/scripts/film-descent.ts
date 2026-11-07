@@ -10,7 +10,7 @@
  *   pnpm film:island --no-build               # film the one already in sites/vova/out
  *   pnpm film:island --screens desktop,phone  # those screens (default: desktop)
  *   pnpm film:island --seconds 30 --fps 30    # the fall's length and rate
- *   pnpm film:island --thumb-at 3000          # the still from where the eye is 3 km up
+ *   pnpm film:island --thumb-at 3000          # the still from 3 km up (default: 50 km)
  *   pnpm film:island --out tmp/descent        # frames and films there
  */
 
@@ -33,7 +33,7 @@ const DIR = path.resolve(
 );
 const SECONDS = Number(flag('seconds') ?? 25);
 const FPS = Number(flag('fps') ?? 30);
-const THUMB_AT = Number(flag('thumb-at') ?? 3000);
+const THUMB_AT = Number(flag('thumb-at') ?? 50_000);
 /** Still frames at orbit before the fall and at the ground after it. */
 const HOLD_SECONDS = 1;
 
