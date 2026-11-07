@@ -50,6 +50,9 @@ def strip_heredocs(command: str) -> str:
 def tokens(command: str) -> list[str]:
     lexer = shlex.shlex(strip_heredocs(command), posix=True, punctuation_chars=PUNCTUATION)
     lexer.whitespace = " \t\r"
+    # Without it a word breaks at any character outside `wordchars`, so a
+    # refspec `+main:main` or a path `a@b` would come out as several words.
+    lexer.whitespace_split = True
     return list(lexer)
 
 
