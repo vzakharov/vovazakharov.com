@@ -43,6 +43,7 @@
   "src/mushrooms/shared/world/walk.ts": 452,
   "src/mushrooms/widgets/map/view/ui/map-view.ts": 445,
   "src/music/scripts/song-intake/spectrogram.py": 402,
+  "src/origami/shared/fold/mesh.ts": 492,
   "src/shell/app/styles/prose.scss": 493,
   "src/unsquatted/pages/home/field-tools/lib/share-card.ts": 504,
   "src/unsquatted/pages/home/picks/model/picks.yaml": 2121
