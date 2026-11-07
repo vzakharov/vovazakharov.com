@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:24:26.878Z",
+    "subjectLine": "test(island): 400-line gate, polish, #255 replies",
     "parts": [
       {
         "hours": 2.0,
@@ -19,8 +20,7 @@
         "comment": "a repo-wide gate with a shrink-only allowlist needs judgement on what counts as data, and the review replies need the whole review's context"
       }
     ],
-    "comment": null,
-    "subjectLine": "test(island): 400-line gate, polish, #255 replies"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
