@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 1741,
+    "inputTokens": 1743,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 150940,
-    "cacheReadTokens": 11928065,
-    "outputTokens": 38319,
-    "thinkingTokens": 10489,
-    "responses": 77,
-    "costUsd": 4.359874299999998
+    "cacheWrite1hTokens": 152648,
+    "cacheReadTokens": 12137198,
+    "outputTokens": 38553,
+    "thinkingTokens": 10600,
+    "responses": 78,
+    "costUsd": 4.420052899999998
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
+    "at": "2026-11-07T06:03:03.038Z",
     "parts": [
       {
         "hours": 0.5,
@@ -25,8 +25,7 @@
         "comment": "numbered worlds, ancestry by digit prefix and determinism as a world rule are design calls a senior designer would reason through with the owner"
       }
     ],
-    "comment": null,
-    "subjectLine": "content(island): board notes on the bay, 65-vertex frames, worlds"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -54,18 +53,18 @@
   "url": "https://claude.ai/code/session_01DaohkESy1SKjwq6VDaPZPd",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T05:37:57.147Z",
-  "lastResponseAt": "2026-11-07T06:06:48.508Z",
+  "lastResponseAt": "2026-11-07T07:01:52.954Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 148,
+    "inputTokens": 150,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 150940,
-    "cacheReadTokens": 11928065,
-    "outputTokens": 38299,
-    "thinkingTokens": 10489,
-    "responses": 76,
-    "costUsd": 4.359704999999998
+    "cacheWrite1hTokens": 152648,
+    "cacheReadTokens": 12137198,
+    "outputTokens": 38533,
+    "thinkingTokens": 10600,
+    "responses": 77,
+    "costUsd": 4.419883599999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +78,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 148,
+      "inputTokens": 150,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 150940,
-      "cacheReadTokens": 11928065,
-      "outputTokens": 38299,
-      "thinkingTokens": 10489,
-      "responses": 76,
-      "costUsd": 4.359704999999998
+      "cacheWrite1hTokens": 152648,
+      "cacheReadTokens": 12137198,
+      "outputTokens": 38533,
+      "thinkingTokens": 10600,
+      "responses": 77,
+      "costUsd": 4.419883599999999
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1593,
@@ -102,10 +101,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 77,
-    "matched": 76,
-    "matchedTableUsd": 4.359704999999998,
-    "matchedEventUsd": 4.359704999999998,
+    "events": 78,
+    "matched": 77,
+    "matchedTableUsd": 4.419883599999999,
+    "matchedEventUsd": 4.419883599999999,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1593,
@@ -119,11 +118,7 @@
       }
     }
   },
-  "operatorWords": {
-    "chat": 496,
-    "review": 0
-  },
-  "reviewPosts": {},
+  "operatorWords": 496,
   "branchLines": {
     "vzakharov": 1,
     ".md": 4139,
