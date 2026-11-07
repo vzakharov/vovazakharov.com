@@ -18,8 +18,8 @@ name it, or leave it to vet.
 
 # Splitting a test file
 
-**A test file stays under ~450 lines too**, CLAUDE.md's rule of thumb for
-production files, and splits along its `describe` blocks into
+**A test file is held to the 400-line limit too** (CLAUDE.md § "Key
+principles"), and splits along its `describe` blocks into
 `<subject>-<aspect>.test.ts` files beside it. What two or more of them share —
 fixtures, a stand-up, an assertion of their own — goes in
 `<subject>.test-kit.ts` beside them, imported relatively.
