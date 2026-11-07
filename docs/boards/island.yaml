@@ -14,8 +14,9 @@ items:
     text: traced into
   - id: l-way
     type: line
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    updated: [2026-11-07T08:20:00.000Z, agent:lead]
     ends: [map, z-star]
+    spiral: cw
     text: done → in hand → next → the north star
   - id: map
     type: image
