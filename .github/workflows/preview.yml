@@ -1,8 +1,10 @@
 name: Publish a preview
 
-# One site from any ref to preview.vovazakharov.com, by hand. The slot holds
-# whichever site was published last; .claude/skills/preview/SKILL.md carries
-# how to use it, scripts/publish-site.sh what a preview writes over the build.
+# One site from any ref to a preview slot, by hand: slot 1 is
+# preview.vovazakharov.com, slot 2 preview2.vovazakharov.com. Each slot holds
+# whichever site was published to it last; .claude/skills/preview/SKILL.md
+# carries how to use them, scripts/publish-site.sh what a preview writes over
+# the build.
 
 on:
   workflow_dispatch:
@@ -12,14 +14,21 @@ on:
         required: true
         type: choice
         options: [vova, lsa, bible, basilisk, maya, unsquatted]
+      slot:
+        description: Which slot — 1 is preview.vovazakharov.com, 2 preview2.vovazakharov.com
+        required: false
+        default: '1'
+        type: choice
+        options: ['1', '2']
 
 permissions:
   contents: read
 
-# Its own group, so a preview never waits on or cancels a production deploy,
-# and two previews queue rather than interleave on the one slot.
+# A group per slot, so a preview never waits on or cancels a production
+# deploy, two previews to one slot queue rather than interleave, and the two
+# slots never wait on each other.
 concurrency:
-  group: 'preview'
+  group: preview-${{ inputs.slot || '1' }}
   cancel-in-progress: false
 
 jobs:
@@ -27,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SITE: ${{ inputs.site }}
+      PREVIEW_HOST: ${{ inputs.slot == '2' && 'preview2.vovazakharov.com' || 'preview.vovazakharov.com' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,5 +54,5 @@ jobs:
 
       - name: Publish to the preview slot
         env:
-          PAGES_DEPLOY_KEY: ${{ secrets.PREVIEW_PAGES_DEPLOY_KEY }}
+          PAGES_DEPLOY_KEY: ${{ inputs.slot == '2' && secrets.PREVIEW2_PAGES_DEPLOY_KEY || secrets.PREVIEW_PAGES_DEPLOY_KEY }}
         run: ./scripts/publish-site.sh "$SITE" --preview

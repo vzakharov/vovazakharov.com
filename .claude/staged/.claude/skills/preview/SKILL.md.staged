@@ -1,5 +1,5 @@
 ---
-description: 'Render a visual change and actually look at it, instead of judging appearance by reading code. Boots the Next.js dev server and captures screenshots with headless Chromium, in either theme. `/preview live [<site>]`, or any ask naming the host — "на превью", "выложи на превью", "on preview", or "задеплой" / "deploy" on an unmerged branch — publishes one site from the branch to preview.vovazakharov.com instead, for a phone or a machine the dev server does not reach.'
+description: 'Render a visual change and actually look at it, instead of judging appearance by reading code. Boots the Next.js dev server and captures screenshots with headless Chromium, in either theme. `/preview live [<site>] [1|2]`, or any ask naming a host — "на превью", "выложи на превью", "on preview", or "задеплой" / "deploy" on an unmerged branch — publishes one site from the branch to a preview slot instead, preview.vovazakharov.com or preview2.vovazakharov.com, for a phone or a machine the dev server does not reach.'
 ---
 
 ## What this skill is for
@@ -184,22 +184,38 @@ blank PNG — a capture that reads as a page with nothing on it.
 
 ## Published, for someone else to look at
 
-`https://preview.vovazakharov.com` serves one site built from a branch.
+Two slots each serve one site built from a branch: slot 1 at
+`https://preview.vovazakharov.com`, slot 2 at
+`https://preview2.vovazakharov.com`, so two branches can be up at once.
 **Publish there only when the operator asks**, since they ordinarily pull the
-branch and run the dev server themselves. The ask is `/preview live [<site>]`,
-or any wording that names the host — «на превью», «выложи на превью», "on
-preview" — and, on an unmerged branch, a plain «задеплой» or "deploy"
-(`.claude/rules/deployment.md` says when it means production instead); a bare
-`/preview` or «посмотри, как выглядит» is the screenshot pass above. With no
-site named, publish the one the branch changes, and ask only when it changes
-several. Offer it, without publishing, when the change is one that setup cannot
-show: a phone layout, a browser or machine they do not develop on, or behaviour
-that only a real host has. **Once a session has published a branch, it
-republishes after each visible change it pushes, unasked** — the operator
-looking at the preview is looking at that branch.
+branch and run the dev server themselves. The ask is
+`/preview live [<site>] [1|2]`, or any wording that names a host — «на превью»,
+«на второе превью», «выложи на превью», "on preview" — and, on an unmerged
+branch, a plain «задеплой» or "deploy" (`.claude/rules/deployment.md` says when
+it means production instead); a bare `/preview` or «посмотри, как выглядит» is
+the screenshot pass above. With no site named, publish the one the branch
+changes, and ask only when it changes several. Offer it, without publishing,
+when the change is one that setup cannot show: a phone layout, a browser or
+machine they do not develop on, or behaviour that only a real host has. **Once a
+session has published a branch, it republishes after each visible change it
+pushes, unasked** — the operator looking at the preview is looking at that
+branch, in the same slot.
+
+**With no slot named, the slot is the one this branch already holds, else the
+one published to longest ago** — the other is likelier to be in someone's hands
+right now. Each receiver's one commit says which branch holds it and since when:
 
 ```bash
-gh workflow run preview.yml --ref <branch> -f site=<site>   # vova, lsa, bible or basilisk
+for host in preview.vovazakharov.com preview2.vovazakharov.com; do
+  gh api "repos/vzakharov/$host/commits/gh-pages" \
+    --jq "\"$host \(.commit.committer.date) \(.commit.message)\""
+done
+```
+
+Name the slot in the report, so the operator knows which link is theirs.
+
+```bash
+gh workflow run preview.yml --ref <branch> -f site=<site> -f slot=<1|2>   # slot defaults to 1
 gh run watch "$(gh run list --workflow=preview.yml --branch=<branch> \
   --limit 1 --json databaseId --jq '.[0].databaseId')"
 ```
@@ -208,10 +224,10 @@ It dispatches from any branch, unmerged ones included. It never touches
 production — `.claude/rules/deployment.md` has where it sits beside the other
 doors. What the operator should be told with the link:
 
-- **The slot holds one site, the last one published**, from whichever branch
-  published it. Another session's publish replaces yours without warning; the
-  receiver's single commit, `Built <site> from <sha> (<ref>)`, says what is up
-  there now.
+- **A slot holds one site, the last one published to it**, from whichever branch
+  published it. Another session's publish to that slot replaces yours without
+  warning; the receiver's single commit, `Built <site> from <sha> (<ref>)`, says
+  what is up there now.
 - **Links and cards still name production.** Canonical URLs, `og:image` and the
   sitemap come from the site's own URL, so a preview link pasted into a chat
   unfurls as the production page, and a link to another of the sites leaves the
