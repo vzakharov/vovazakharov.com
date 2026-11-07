@@ -1,7 +1,8 @@
 /**
  * Pointer gestures on the stage: pan by dragging the background or scrolling,
  * zoom with ctrl or a pinch, drag an item to move it or its corner to resize
- * it, double-click to add a sticky or edit a text.
+ * it, double-click to add a sticky or edit a text. A press on a link in an
+ * item's text is the link's alone.
  */
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Distant } from '@/kernel/shared/typings';
@@ -9,7 +10,7 @@ import type { Distant } from '@/kernel/shared/typings';
 import type { Centred, Point, Zoomed } from '@/scene/shared/lib/plane';
 
 import { toWorld, zoomAt } from '../../camera/index.ts';
-import { itemIdAt } from '../lib/dom.ts';
+import { itemIdAt, onLink } from '../lib/dom.ts';
 import type { Board, WithCamera } from '../model/board.ts';
 import { addSticky, pickLineEnd, startEditing } from './actions.ts';
 import { find, nodeOf, select } from './view.ts';
@@ -126,8 +127,9 @@ export function wireGestures(board: Board): void {
 
   board.stage.addEventListener('pointerdown', (event) => {
     if (
-      event.target instanceof Node &&
-      board.editing?.contains(event.target) === true
+      (event.target instanceof Node &&
+        board.editing?.contains(event.target) === true) ||
+      onLink(event.target)
     )
       return;
     const point = screenPoint(board, event);
@@ -190,7 +192,7 @@ export function wireGestures(board: Board): void {
   );
 
   board.stage.addEventListener('dblclick', (event) => {
-    if (board.store.write === undefined) return;
+    if (board.store.write === undefined || onLink(event.target)) return;
     const id = itemIdAt(event.target);
     if (id === undefined)
       addSticky(board, toWorld(board.camera, screenPoint(board, event)));

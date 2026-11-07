@@ -185,12 +185,27 @@ body {
 
 .image > .caption {
   padding-top: 8px;
+  overflow-wrap: anywhere;
   color: var(--pencil);
   font: 400 15px/1.4 var(--font-note);
 }
 
 .image > .caption:empty {
   display: none;
+}
+
+/* A URL in an item's text: the pencil's colour, underlined, and a pointer
+   over it, since a press on it opens it rather than grabbing the paper. */
+[data-edit] a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+[data-edit] a:hover {
+  color: var(--accent);
 }
 
 .by {

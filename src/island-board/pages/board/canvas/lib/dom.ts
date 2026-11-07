@@ -16,3 +16,10 @@ export function itemIdAt(target: EventTarget | null): string | undefined {
   if (!(target instanceof Element)) return undefined;
   return target.closest<HTMLElement | SVGElement>('[data-id]')?.dataset['id'];
 }
+
+/**
+ * Whether `target` sits in a link an item's text renders, which a press
+ * follows rather than dragging, selecting or editing the item it is on.
+ */
+export const onLink = (target: EventTarget | null): boolean =>
+  target instanceof Element && target.closest('a[href]') !== null;
