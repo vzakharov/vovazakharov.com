@@ -135,6 +135,15 @@ review. Open:
   https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9 on `island/review-1`,
   handling T01–T10, T12–T20 and R02 (the cut cycle that replaced the epic
   branch); its PR goes onto this branch.
+- **Descent video** — https://claude.ai/code/session_01DaohkEzVpgVdUpfbpg4NnQ on
+  `island/descent-video`: a video of the descent and its thumbnail in the
+  `island-timelapse` release; the lead pins them on the board.
+- **Second preview slot** —
+  https://claude.ai/code/session_01DaohkDZtwxJGQKbNecB8st on `preview2-slot`,
+  its PR onto main: preview2.vovazakharov.com and `/preview live` choosing a
+  slot.
+- The lead waits on all three:
+  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot`.
 
 ## Rest of the elephant
 
