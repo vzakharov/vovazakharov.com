@@ -10,7 +10,7 @@
     "costUsd": 11.933125599999999
   },
   "estimate": {
-    "at": "2026-11-07T05:36:15.897Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 1.0,
@@ -31,7 +31,8 @@
         "comment": "taking the lead's answers and briefing the trace story back for the board"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "perf(island): 65-vertex tiles, and the inlet between two lands"
   },
   "orientation": {
     "endedBy": "Edit",
@@ -103,7 +104,11 @@
     "matchedEventUsd": 11.933125599999999,
     "unseen": {}
   },
-  "operatorWords": 58,
+  "operatorWords": {
+    "chat": 58,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 2930,
     ".py": 894,
