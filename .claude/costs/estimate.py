@@ -11,11 +11,11 @@ Usage:
 Each `--part` is the hours one role at one grade would spend on the task, and
 why that role, at that grade, for those hours; the parts add up to the
 estimate, and `set` replaces the whole of it. `--subject` is what the session
-did as a conventional commit subject, at most 72 characters, replaced with it. `rates` prints the table an
-estimate is checked against as JSON — `rates.json` plus the roles this
-repository's `rates.repo.json` on the `cost-ledger` branch adds, each at its one
-grade, and a note per role both rate. `role set` adds a role there or re-rates
-one, and `role drop` removes one; both push. Without
+did as a conventional commit subject, at most 72 characters, replaced with it.
+`rates` prints the table an estimate is checked against as JSON — `rates.json`
+plus the roles this repository's `rates.repo.json` on the `cost-ledger` branch
+adds, each at its one grade, and a note per role both rate. `role set` adds a
+role there or re-rates one, and `role drop` removes one; both push. Without
 `--session` the session is this one, read off `CLAUDE_CODE_SESSION_ID`: the
 estimate goes to `tmp/estimates/<id>.json`, and the row folds it in when the
 turn ends. Another session's id edits that session's row on the `cost-ledger`
