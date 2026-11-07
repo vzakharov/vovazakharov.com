@@ -10,7 +10,7 @@
     "costUsd": 17.128657399999994
   },
   "estimate": {
-    "at": "2026-11-06T20:20:11.811Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 1.0,
@@ -25,7 +25,8 @@
         "comment": "a race between a polling fetch and a sibling's pull needs diagnosing from reflog and a tested fix, and a bite's quality passes over ~5.7k lines need a reviewer's judgement on duplication and prose"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "refactor(island): polish memo, board and contribution scripts"
   },
   "orientation": {
     "endedBy": "Write",
@@ -109,7 +110,11 @@
       }
     }
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1584,
     ".py": 894,
