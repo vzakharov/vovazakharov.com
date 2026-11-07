@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "docs(island): plan the island as a mammoth steered by a north star",
     "parts": [
       {
         "hours": 3.0,
@@ -31,8 +32,7 @@
         "comment": "a team of parallel sessions and an operator need one shared board, its sync rules and its status settled"
       }
     ],
-    "comment": null,
-    "subjectLine": "docs(island): plan the island as a mammoth steered by a north star"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",

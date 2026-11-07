@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "refactor(island): polish memo, board and contribution scripts",
     "parts": [
       {
         "hours": 1.0,
@@ -25,8 +26,7 @@
         "comment": "a race between a polling fetch and a sibling's pull needs diagnosing from reflog and a tested fix, and a bite's quality passes over ~5.7k lines need a reviewer's judgement on duplication and prose"
       }
     ],
-    "comment": null,
-    "subjectLine": "refactor(island): polish memo, board and contribution scripts"
+    "comment": null
   },
   "orientation": {
     "endedBy": "Write",

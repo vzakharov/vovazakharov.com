@@ -91,9 +91,11 @@ def camel(name: str) -> str:
 
 
 def to_json(value: Any) -> Any:
-    """A dataclass tree as the JSON a row is written as, keys in camelCase."""
+    """A dataclass tree as the JSON a row is written as, keys in camelCase, in
+    the class's `KEY_ORDER` where it has one and its field order otherwise."""
     if is_dataclass(value) and not isinstance(value, type):
-        return {camel(f.name): to_json(getattr(value, f.name)) for f in fields(value)}
+        names = getattr(value, "KEY_ORDER", None) or tuple(f.name for f in fields(value))
+        return {camel(name): to_json(getattr(value, name)) for name in names}
     if isinstance(value, dict):
         return {key: to_json(item) for key, item in value.items()}
     if isinstance(value, list):

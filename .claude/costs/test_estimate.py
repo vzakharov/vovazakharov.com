@@ -15,7 +15,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from dataclasses import replace
+from dataclasses import fields, replace
 from pathlib import Path
 
 from lib.estimate_model import (
@@ -224,6 +224,11 @@ class RowsCarryTheirEstimate(unittest.TestCase):
         written = row_text(row)
         self.assertEqual(list(json.loads(written))[:3], ["total", "estimate", "orientation"])
         self.assertEqual(parse_session_cost(written), row)
+
+    def test_an_estimate_is_written_with_its_subject_under_its_time(self) -> None:
+        estimate = replace(estimate_of("a"), subject_line="fix: a thing")
+        self.assertEqual(list(to_json(estimate)), ["at", "subjectLine", "parts", "comment"])
+        self.assertEqual(sorted(Estimate.KEY_ORDER), sorted(f.name for f in fields(Estimate)))
 
     def test_a_row_from_before_estimates_reads_as_having_none(self) -> None:
         row = to_json(ROW)

@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass, field, replace
-from typing import Any, Dict, List, Mapping, Optional, Tuple
+from typing import Any, ClassVar, Dict, List, Mapping, Optional, Tuple
 
 from lib.shape import ShapeError, is_number, read_number, read_object, read_string, required
 
@@ -48,6 +48,11 @@ class Estimate:
     # estimate so that a revision replaces both together; null on a row set
     # before it was asked for.
     subject_line: Optional[str] = None
+
+    # A row reads its subject first, under the time it was set. Declaring the
+    # field there would put a defaulted field before `parts`, so the order is
+    # stated here, and must name every field.
+    KEY_ORDER: ClassVar[Tuple[str, ...]] = ("at", "subject_line", "parts", "comment")
 
 
 @dataclass(frozen=True)

@@ -1,16 +1,17 @@
 {
   "total": {
-    "inputTokens": 1430,
+    "inputTokens": 1444,
     "cacheWrite5mTokens": 268654,
-    "cacheWrite1hTokens": 141929,
-    "cacheReadTokens": 15574378,
-    "outputTokens": 52668,
-    "thinkingTokens": 14259,
-    "responses": 113,
-    "costUsd": 6.6439372000000025
+    "cacheWrite1hTokens": 149607,
+    "cacheReadTokens": 17010151,
+    "outputTokens": 54938,
+    "thinkingTokens": 14643,
+    "responses": 120,
+    "costUsd": 7.037971800000002
   },
   "estimate": {
     "at": "2026-11-07T06:24:26.878Z",
+    "subjectLine": "test(island): 400-line gate, polish, #255 replies",
     "parts": [
       {
         "hours": 2.0,
@@ -19,8 +20,7 @@
         "comment": "a repo-wide gate with a shrink-only allowlist needs judgement on what counts as data, and the review replies need the whole review's context"
       }
     ],
-    "comment": null,
-    "subjectLine": "test(island): 400-line gate, polish, #255 replies"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -48,18 +48,18 @@
   "url": "https://claude.ai/code/session_01DaohkBKMXKuwSRJA6hXtyj",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T06:06:58.725Z",
-  "lastResponseAt": "2026-11-07T06:27:07.205Z",
+  "lastResponseAt": "2026-11-07T06:30:38.923Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 135,
+    "inputTokens": 149,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 141929,
-    "cacheReadTokens": 10576191,
-    "outputTokens": 34003,
-    "thinkingTokens": 7687,
-    "responses": 69,
-    "costUsd": 3.9312702000000006
+    "cacheWrite1hTokens": 149607,
+    "cacheReadTokens": 12011964,
+    "outputTokens": 36273,
+    "thinkingTokens": 8071,
+    "responses": 76,
+    "costUsd": 4.3253048
   },
   "subagents": {
     "inputTokens": 89,
@@ -73,14 +73,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 224,
+      "inputTokens": 238,
       "cacheWrite5mTokens": 268654,
-      "cacheWrite1hTokens": 141929,
-      "cacheReadTokens": 15574378,
-      "outputTokens": 52462,
-      "thinkingTokens": 14259,
-      "responses": 112,
-      "costUsd": 6.6437136000000026
+      "cacheWrite1hTokens": 149607,
+      "cacheReadTokens": 17010151,
+      "outputTokens": 54732,
+      "thinkingTokens": 14643,
+      "responses": 119,
+      "costUsd": 7.037748200000002
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1206,
@@ -96,10 +96,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 113,
-    "matched": 112,
-    "matchedTableUsd": 6.6437136000000026,
-    "matchedEventUsd": 6.6437136000000026,
+    "events": 120,
+    "matched": 119,
+    "matchedTableUsd": 7.037748200000002,
+    "matchedEventUsd": 7.037748200000002,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1206,
@@ -119,7 +119,7 @@
   },
   "reviewPosts": {},
   "branchLines": {
-    ".md": 3470,
+    ".md": 3591,
     ".py": 1864,
     ".sh": 4,
     ".json": 59,

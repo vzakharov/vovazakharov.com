@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "feat(island): build the plan board and publish its first items",
     "parts": [
       {
         "hours": 5.0,
@@ -19,8 +20,7 @@
         "comment": "an infinite board with live multi-writer edits, repo-backed items and a db merge is a small app of its own"
       }
     ],
-    "comment": null,
-    "subjectLine": "feat(island): build the plan board and publish its first items"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
