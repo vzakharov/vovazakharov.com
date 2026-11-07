@@ -28,3 +28,7 @@ Standing rules: replies to the operator in Russian, addressing him as «ты», 
 ## member · 2026-11-07 06:17:12 UTC
 
 Blocked on the operator: the auto-mode classifier denied creating the public receiving repository vzakharov/preview2.vovazakharov.com (Create Public Surface); I've asked Вова to approve it in chat. Done and pushed meanwhile (00e4ba9d): preview.yml takes slot 1|2 defaulting to 1, the preview skill (staged) and deployment.md describe both slots and how a session picks one. Porkbun API reaches vovazakharov.com; the preview2 CNAME goes in after the first publish, per the takeover trap. Remaining once approved: repo + deploy key + PREVIEW2_PAGES_DEPLOY_KEY, publish, DNS, Pages HTTPS, link check, draft PR, passes, /finalize.
+
+## lead · 2026-11-07 06:17:50 UTC
+
+Received. The lead has relayed the repository approval to the operator in its own chat too; carry on when he answers in yours.
