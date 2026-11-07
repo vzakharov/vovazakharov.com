@@ -21,7 +21,7 @@ I wanted a game based on it — just an exploration game for now.
 
 ### The descent
 
-Picture this. First you see the whole island from almost-space. Clouds drift across it here and there, so it isn’t a “Google Maps” view but something close to real.
+First you see the whole island from almost-space. Clouds drift across it here and there, so it isn’t a “Google Maps” view but something close to real.
 
 You go down. Up to a certain point you’re an indefinite, bodiless creature that can move — zoom in — very fast. As you near bird’s-eye height, roughly when you pass through the cloud layer, you become a bird gliding over it all. The land comes closer and closer and starts to take shape. When you’re close, rivers become rivers, hills become hills, trees become trees. No towns, people or animals yet — that comes later. For now it is an untouched world to explore. And right by the ground, you start to walk.
 
@@ -29,7 +29,7 @@ You never see yourself, but you can guess what you are from how you move: no bob
 
 The world can’t be generated all at once, of course, only as you approach: what is visible from a given height, at the moment it becomes visible; where exactly each tree stands, once you’re close enough to see it.
 
-So that nobody (the agent included) thought this was out of reach, I pointed at a small repo, [web-ocean](https://github.com/Noniv/web-ocean) — a browser drawing sea and sky well enough to stop you scrolling. Not to borrow from; just proof that it can be done.
+So that nobody (the agent included) thought this was out of reach, I pointed at a small repo, [web-ocean](https://github.com/Noniv/web-ocean) — sea and sky drawn in a browser, and drawn well. It was there as proof that this can be done.
 
 ### What we settled before writing any code
 
@@ -44,9 +44,9 @@ The mushrooms were built as an “elephant” — a big job eaten one bite at a 
 
 ### The board instead of the plan
 
-Then I asked for something unusual. Instead of a plan file, the plan is an infinite board — stickies, lines where they help, pictures pinned for inspiration and for checking — that any session can draw on, and so can I. It’s stored in the repo, so it can be rebuilt from any account, and published as a page where my edits sync back.
+Instead of a plan file, the plan is an infinite board: stickies, lines where they help, pictures pinned for inspiration and for checking. The lead session draws on it, and so do I; the other sessions send the lead what they want changed. It’s stored in the repo, so it can be rebuilt from any account, and published as a page where my edits sync back.
 
-The first version came out too tidy — a ledger, not a table someone had drawn on. So now every sticky is tilted a little, by an amount derived from its name so it never jumps between renders; half of them are taped on; the lines are bowed pencil strokes with handwritten labels. This is the board on the evening the work began:
+The first version had every sticky square to the grid, in even rows. Now each one is tilted a little, by an amount derived from its name so it never jumps between renders; half of them are taped on; the lines are bowed pencil strokes with handwritten labels. This is the board on the evening the work began:
 
 ![The board on 6 November: the drawn map, the north star, the calls everything else stands on, how the mammoth is eaten, a forecast of studio hours, and the lead’s first bite](./assets/island-board-2026-11-06.png)
 
@@ -54,7 +54,7 @@ The first version came out too tidy — a ledger, not a table someone had drawn 
 
 Two things will be measured, so that at the end we know what this actually took.
 
-**What a human put in.** My own words, across every session’s messages and every code review, and lines of code per file type over time, as a cumulative-flow chart. Both are read off the record — the session transcripts, the pull requests, the git history — rather than counted as we go.
+**What a human put in.** My own words, in every session’s messages and every code review, and lines of code per file type over time, as a cumulative-flow chart. Each session’s record of its cost counts them as it goes: the words I typed to it, the words of the reviews it read, and the branch’s lines at that moment.
 
 **What a studio would have spent.** A stab in the dark, made on day one and kept here unchanged to compare with what the work actually adds up to:
 

@@ -1,6 +1,6 @@
 export { PICTOGRAM_SEED } from './model/butterfly-genes';
 export type { Flier } from './model/flier';
-export { type Aloft, centreOf, framedOf, panOf } from './model/flight-frame';
+export { centreOf, framedOf, panOf } from './model/flight-frame';
 export { outOfView } from './model/flight-in';
 export type { Span } from './model/flight-timing';
 export { type Buzzing, INSECT_KINDS, type InsectKind } from './model/insect';

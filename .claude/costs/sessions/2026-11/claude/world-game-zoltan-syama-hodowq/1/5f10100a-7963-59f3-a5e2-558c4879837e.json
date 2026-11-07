@@ -1,16 +1,17 @@
 {
   "total": {
-    "inputTokens": 17743,
-    "cacheWrite5mTokens": 3448,
-    "cacheWrite1hTokens": 271253,
-    "cacheReadTokens": 15924851,
-    "outputTokens": 66704,
-    "thinkingTokens": 24940,
-    "responses": 79,
-    "costUsd": 6.716338599999999
+    "inputTokens": 18793,
+    "cacheWrite5mTokens": 5303,
+    "cacheWrite1hTokens": 280862,
+    "cacheReadTokens": 19917290,
+    "outputTokens": 69952,
+    "thinkingTokens": 25142,
+    "responses": 91,
+    "costUsd": 7.675698399999998
   },
   "estimate": {
-    "at": "2026-11-06T17:29:45.842Z",
+    "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "docs(island): plan the island as a mammoth steered by a north star",
     "parts": [
       {
         "hours": 3.0,
@@ -59,18 +60,18 @@
   "url": "https://claude.ai/code/session_01DaohkDHg8CCY4MnYQWDxdJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T17:10:04.194Z",
-  "lastResponseAt": "2026-11-06T17:30:40.788Z",
+  "lastResponseAt": "2026-11-06T18:28:24.944Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 161,
+    "inputTokens": 178,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 271253,
-    "cacheReadTokens": 15271488,
-    "outputTokens": 65733,
-    "thinkingTokens": 24940,
-    "responses": 75,
-    "costUsd": 6.539625599999999
+    "cacheWrite1hTokens": 280862,
+    "cacheReadTokens": 18259766,
+    "outputTokens": 68880,
+    "thinkingTokens": 25142,
+    "responses": 84,
+    "costUsd": 7.277161199999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -84,14 +85,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1679,
-      "cacheWrite5mTokens": 3448,
-      "cacheWrite1hTokens": 271253,
-      "cacheReadTokens": 15924851,
-      "outputTokens": 65748,
-      "thinkingTokens": 24940,
-      "responses": 78,
-      "costUsd": 6.704254199999999
+      "inputTokens": 2729,
+      "cacheWrite5mTokens": 5303,
+      "cacheWrite1hTokens": 280862,
+      "cacheReadTokens": 19917290,
+      "outputTokens": 68996,
+      "thinkingTokens": 25142,
+      "responses": 90,
+      "costUsd": 7.663613999999999
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 16064,
@@ -107,20 +108,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 78,
-    "matched": 74,
-    "matchedTableUsd": 6.408588199999999,
-    "matchedEventUsd": 6.4085882,
+    "events": 91,
+    "matched": 84,
+    "matchedTableUsd": 7.277161199999998,
+    "matchedEventUsd": 7.277161199999999,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 1518,
-        "cacheWrite5mTokens": 3448,
+        "inputTokens": 2551,
+        "cacheWrite5mTokens": 5303,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 653363,
-        "outputTokens": 15,
+        "cacheReadTokens": 1657524,
+        "outputTokens": 116,
         "thinkingTokens": 0,
-        "responses": 3,
-        "costUsd": 0.1646286
+        "responses": 6,
+        "costUsd": 0.38645280000000004
       },
       "web_search_tool": {
         "inputTokens": 16064,
@@ -133,5 +134,13 @@
         "costUsd": 0.0120844
       }
     }
+  },
+  "operatorWords": {
+    "chat": 956,
+    "review": 0
+  },
+  "reviewPosts": {},
+  "branchLines": {
+    ".md": 410
   }
 }

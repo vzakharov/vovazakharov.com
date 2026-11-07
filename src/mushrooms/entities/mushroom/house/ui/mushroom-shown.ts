@@ -2,7 +2,9 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point, Tall } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import type { Tall } from '@/mushrooms/shared/lib/geometry';
 import type { Light } from '@/mushrooms/shared/lib/light';
 import {
   type Lit,
@@ -18,6 +20,7 @@ import type {
   WithGraphics,
 } from '@/mushrooms/shared/ui';
 import {
+  type Chorded,
   type LaidAhead,
   type PaintedSide,
   UNPLACED,
@@ -25,7 +28,6 @@ import {
 
 import {
   type AreaHit,
-  type Chorded,
   CURVE_STEPS,
   curveSteps,
   drawMushroom,

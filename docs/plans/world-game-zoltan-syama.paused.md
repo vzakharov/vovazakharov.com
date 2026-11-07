@@ -41,11 +41,10 @@ is in git
   on this branch or a bite's, `--ff-only` included: integrate with
   `git fetch origin <b> && git merge origin/<b>`, naming the ref. A pull merges
   whatever `FETCH_HEAD` holds, and any fetch in the checkout can rewrite it —
-  that is how 686f5174 merged bite 1 into this branch and closed #256
-  ([postmortem](world-game-zoltan-syama/postmortem-686f5174.md)). No subagent
-  works in the lead's checkout while a `memo.py wait` is armed; it gets a
-  worktree. A merge commit naming a branch other than the one being integrated
-  is not pushed.
+  that is how 686f5174 merged bite 1 into this branch and closed #256, and
+  `.claude/hooks/git-pull-guard.py` now refuses one. No subagent works in the
+  lead's checkout while a `memo.py wait` is armed; it gets a worktree. A merge
+  commit naming a branch other than the one being integrated is not pushed.
 - «не забывай скриншотить каждый значимый вариант (промежуточные поиски цели
   можно не учитывать) для будущего таймлапса -- сохраняй их прямо
   [000N]-[slug-if-needed].png куда-нить; если большие можно в релиз вместо репы»
@@ -70,6 +69,11 @@ is in git
   итп, чтобы потом наложить» — every board publish is a timelapse frame, and
   beside it in the release goes `NNNN-slug.json` with the figures to date,
   `python3 .claude/costs/contribution.py --at <time> --json`.
+- R02, settled in chat after «давай создадим ветку epic/island-part-1» — no epic
+  branch: #255's head is the mammoth and reaches `main` through cuts,
+  `island/cut-N`, each finalized and squashed while bites keep landing here,
+  then `main` merged back. The plan, board and relays are swept from a cut only.
+  `.claude/skills/mammoth/notes/gates.md` carries the cycle.
 - «публиковать, когда появляется что-то интересненькое или значимое, неважно,
   про саму игру или наши обсуждения её … главное чтобы ты вообще не забывал про
   неё в пылу работы» — the lead republishes whenever something interesting or

@@ -6,7 +6,8 @@
  * flower's head or a tuft is judged).
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   bedPlace,
   inSightPast,

@@ -5,7 +5,9 @@
  * covers by the same ones.
  */
 
-import { ellipse, type Point, sample } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { ellipse, sample } from '@/mushrooms/shared/lib/geometry';
 
 import { BEE_RANGES, type BeeGenes, type BeeHeaded } from './bee-genes';
 import type { Bodied } from './insect';

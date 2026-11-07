@@ -1,5 +1,5 @@
 import { keptIn } from '@/kernel/shared/cache';
-import type { WithId } from '@/kernel/shared/typings';
+import type { Seeded, WithId } from '@/kernel/shared/typings';
 
 import type { Bent, Circle, Leaning } from '@/mushrooms/shared/lib/geometry';
 import {
@@ -11,7 +11,6 @@ import {
   nextSeed,
   pick,
   type Random,
-  type Seeded,
   type Stalked,
 } from '@/mushrooms/shared/lib/random';
 

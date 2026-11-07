@@ -5,10 +5,11 @@
  * wingspan the layout sizes an insect by is the one painted.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   distanceToEdge,
   ellipse,
-  type Point,
   sample,
 } from '@/mushrooms/shared/lib/geometry';
 

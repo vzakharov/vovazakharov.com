@@ -347,6 +347,10 @@ them. A revision replaces it, so its history is git's.
     for that repository's rows**, since they were booked against it, and the
     report, `check_estimates.py` and the notice each name both rates;
     `role drop` adopts the shared one.
+- **`subjectLine` names what the session did**, as a conventional commit subject
+  of at most 72 characters, so a row reads like a log entry. It is part of the
+  estimate rather than a field beside it, so `set` requires it and a revision
+  replaces it with the parts; a row set before it existed has none.
 - **Of the row's copy and a running session's pending one, the later wins.**
   That is how a `--session` edit to a running session's row survives its next
   `Stop`, and how the session's own later `set` overrides that edit.
@@ -415,6 +419,15 @@ name a role only that repository rates.
 operator's words and the branch's lines per extension — now, or `--at` a past
 moment off the ledger commit before it, as a timelapse frame reads them. Its
 header says how `--at` reads a row from before `operatorWords` was counted.
+
+**A row's `operatorWords` splits into `chat` and `review`.** `chat` is read off
+the transcript; `review` is the sum of `reviewPosts`, the words per post of a
+person's on the PRs the session exported, since the transcript never sees them.
+`scripts/export-github-item.py` hands those posts — no agent footer, so a person
+wrote them — to `review_words.py`, which counts them without quoted lines and
+fenced blocks into `tmp/costs/review-words/<session-id>.json` for the next row
+write to fold in. The branch sums `review` over the union of its rows' posts, so
+a post two sessions exported counts once.
 
 ## What the totals do not cover
 

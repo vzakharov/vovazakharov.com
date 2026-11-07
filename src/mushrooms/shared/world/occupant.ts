@@ -5,7 +5,9 @@
  * turns its own into one, and a rule judging ground or sight reads only this.
  */
 
-import type { Gridded } from '@/kernel/shared/typings';
+import type { Distant, Gridded } from '@/kernel/shared/typings';
+
+import type { Point } from '@/scene/shared/lib/plane';
 
 import {
   type Box,
@@ -13,11 +15,9 @@ import {
   type Circle,
   containsPoint,
   type Cornered,
-  type Point,
 } from '../lib/geometry';
 import type { MushroomGround } from './anchored-ground';
 import type { Footing, Layered, Rooted } from './ground';
-import type { Distant } from './view';
 
 /** An occupant's outlines as drawn, each with the box round it. */
 type BoxedOutlines = {

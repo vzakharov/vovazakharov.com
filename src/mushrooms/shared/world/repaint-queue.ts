@@ -8,6 +8,8 @@
  * or chords have drifted far enough from their paint to see.
  */
 
+import type { Distant } from '@/kernel/shared/typings';
+
 import { smooth } from '../lib/motion';
 import type { Dusked } from '../ui/haze-tone';
 import { browDistance, type Raised } from './eye-height';
@@ -19,7 +21,6 @@ import {
   scaleAt,
 } from './ground';
 import type { Ahead } from './pinhole';
-import type { Distant } from './view';
 
 /** How many chords each curve of a mushroom is painted with (`curveSteps`). */
 export type Chorded = { steps: number };

@@ -4,8 +4,10 @@
  * it, and its light.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { crescent } from '@/mushrooms/shared/lib/crescent';
-import { type Point, sample } from '@/mushrooms/shared/lib/geometry';
+import { sample } from '@/mushrooms/shared/lib/geometry';
 import {
   fillShape,
   inkedFill,

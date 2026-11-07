@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 export function near(
   actual: number,

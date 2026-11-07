@@ -7,13 +7,9 @@
  * (`pinholeOf`).
  */
 
-import {
-  type Ordinate,
-  type Point,
-  type Radiused,
-  sample,
-  wrap,
-} from '@/mushrooms/shared/lib/geometry';
+import type { Ordinate, Point } from '@/scene/shared/lib/plane';
+
+import { type Radiused, sample, wrap } from '@/mushrooms/shared/lib/geometry';
 import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
 import type { Span } from '@/mushrooms/shared/ui/index.node-safe';
 import { type Camera, pinholeOf, type View } from '@/mushrooms/shared/world';

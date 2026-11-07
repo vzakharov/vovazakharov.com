@@ -12,8 +12,9 @@ from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Tuple
 from lib.billed import Telemetry, parse_telemetry
 from lib.estimate_model import Estimate, parse_estimate, split_comment
 from lib.orientation import Compaction, Phase, parse_compaction, parse_phase
-from lib.shape import ShapeError, read_count, read_number, read_object, read_string, required, to_json
+from lib.shape import ShapeError, read_number, read_object, read_string, required, to_json
 from lib.tally import Tally, parse_tally
+from lib.words import OperatorWords, parse_operator_words, parse_post_words
 
 ROOT = Path(__file__).resolve().parents[3]
 SESSIONS = ROOT / ".claude" / "costs" / "sessions"
@@ -56,10 +57,15 @@ class SessionCost:
     telemetry: Optional[Telemetry] = None
     # Null until the session sets one.
     estimate: Optional[Estimate] = None
-    # The words the operator typed into the session — its prompts and the
-    # messages sent mid-turn, nothing the harness or another agent injected.
-    # Null on a row written before they were counted.
-    operator_words: Optional[int] = None
+    # The operator's words: `chat` those typed into the session — its prompts
+    # and the messages sent mid-turn, nothing the harness or another agent
+    # injected — and `review` the sum of `review_posts`. Null on a row written
+    # before they were counted.
+    operator_words: Optional[OperatorWords] = None
+    # Words per GitHub post (node id) of a person's on the pull requests this
+    # session exported — review bodies, thread comments, conversation comments.
+    # Keyed by post so a branch counts a post two sessions exported once.
+    review_posts: Dict[str, int] = field(default_factory=dict)
     # The branch's net lines per file extension against its merge base with
     # the default branch, as of the row's write; the ledger's history of the
     # row is their curve over time. Null where there was no base to measure
@@ -104,7 +110,8 @@ def parse_session_cost(text: str, where: str = "row") -> SessionCost:
         prs=_list_of(row, "prs", where, int),
         url=read_string(row, "url", where),
         operator=read_string(row, "operator", where),
-        operator_words=read_count(row, "operatorWords", where),
+        operator_words=parse_operator_words(row.get("operatorWords"), where),
+        review_posts=parse_post_words(row.get("reviewPosts"), f"{where} reviewPosts"),
         first_response_at=read_string(row, "firstResponseAt", where),
         last_response_at=read_string(row, "lastResponseAt", where),
         prices_as_of=required(read_string, row, "pricesAsOf", where),
@@ -227,13 +234,48 @@ def write_pending_estimate(session_id: str, estimate: Estimate) -> None:
     write_atomic(pending_estimate_path(session_id), json_text(estimate))
 
 
+def pending_review_words_path(session_id: str) -> Path:
+    """Where `review_words.py` leaves the words of the posts a running
+    session's PR exports read, for the next row write to fold in."""
+    return ROOT / "tmp" / "costs" / "review-words" / f"{session_id}.json"
+
+
+def read_pending_review_words(session_id: str) -> Dict[str, int]:
+    path = pending_review_words_path(session_id)
+    if not path.exists():
+        return {}
+    return parse_post_words(json.loads(path.read_text(encoding="utf-8")), str(path))
+
+
+def add_pending_review_words(session_id: str, posts: Mapping[str, int]) -> None:
+    """A post read again replaces its count, since an edit changes it."""
+    write_atomic(
+        pending_review_words_path(session_id), json_text({**read_pending_review_words(session_id), **posts})
+    )
+
+
+def fold_review_posts(cost: SessionCost, *sources: Mapping[str, int]) -> None:
+    """Sets the row's posts to `sources` merged, the later winning per post,
+    and `operatorWords.review` to their sum."""
+    posts: Dict[str, int] = {}
+    for source in sources:
+        posts.update(source)
+    cost.review_posts = posts
+    chat = cost.operator_words.chat if cost.operator_words is not None else 0
+    cost.operator_words = OperatorWords(chat=chat, review=sum(posts.values()))
+
+
 def reshape(text: str, where: str) -> Tuple[SessionCost, List[str]]:
     """A row in the current shape, and what bringing it there changed: the keys
-    it lost, and an estimate comment `split_comment` moved onto the parts. A
+    it lost, a bare word count split, and an estimate comment `split_comment`
+    moved onto the parts. A
     key is lost from a retired shape and from a newer ledger's alike, this
     parser being the one in force."""
     row = parse_session_cost(text, where)
-    changes = [f"dropped {key}" for key in sorted(set(json.loads(text)) - set(to_json(row)))]
+    raw = json.loads(text)
+    changes = [f"dropped {key}" for key in sorted(set(raw) - set(to_json(row)))]
+    if isinstance(raw.get("operatorWords"), int):
+        changes.append("split operatorWords into chat and review")
     split = split_comment(row.estimate) if row.estimate is not None else None
     if split is not None:
         row.estimate = split

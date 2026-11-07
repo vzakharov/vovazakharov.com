@@ -1,16 +1,17 @@
 {
   "total": {
-    "inputTokens": 9136,
+    "inputTokens": 9145,
     "cacheWrite5mTokens": 1962870,
-    "cacheWrite1hTokens": 257222,
-    "cacheReadTokens": 100733682,
-    "outputTokens": 555434,
-    "thinkingTokens": 155900,
-    "responses": 747,
-    "costUsd": 43.18838639999998
+    "cacheWrite1hTokens": 265262,
+    "cacheReadTokens": 102371103,
+    "outputTokens": 560204,
+    "thinkingTokens": 156001,
+    "responses": 752,
+    "costUsd": 43.67562659999999
   },
   "estimate": {
-    "at": "2026-11-06T20:16:20.169Z",
+    "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "feat(island): trace the coast, tile the scene, relief orbit to 2 m",
     "parts": [
       {
         "hours": 12.0,
@@ -77,18 +78,18 @@
   "url": "https://claude.ai/code/session_01DaohkDTq595n9RkxwUJ8bc",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T18:28:56.724Z",
-  "lastResponseAt": "2026-11-06T20:16:15.986Z",
+  "lastResponseAt": "2026-11-06T20:17:14.131Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 183,
+    "inputTokens": 192,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 257222,
-    "cacheReadTokens": 19706426,
-    "outputTokens": 61167,
-    "thinkingTokens": 12633,
-    "responses": 93,
-    "costUsd": 7.223133200000005
+    "cacheWrite1hTokens": 265262,
+    "cacheReadTokens": 21343847,
+    "outputTokens": 65937,
+    "thinkingTokens": 12734,
+    "responses": 98,
+    "costUsd": 7.710373400000006
   },
   "subagents": {
     "inputTokens": 1342,
@@ -102,23 +103,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 9136,
+      "inputTokens": 9145,
       "cacheWrite5mTokens": 1962870,
-      "cacheWrite1hTokens": 257222,
-      "cacheReadTokens": 100733682,
-      "outputTokens": 555434,
-      "thinkingTokens": 155900,
-      "responses": 747,
-      "costUsd": 43.18838639999998
+      "cacheWrite1hTokens": 265262,
+      "cacheReadTokens": 102371103,
+      "outputTokens": 560204,
+      "thinkingTokens": 156001,
+      "responses": 752,
+      "costUsd": 43.67562659999999
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 747,
-    "matched": 731,
-    "matchedTableUsd": 42.31557499999997,
-    "matchedEventUsd": 42.31557499999997,
+    "events": 752,
+    "matched": 736,
+    "matchedTableUsd": 42.802815199999976,
+    "matchedEventUsd": 42.802815199999976,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 7611,
@@ -132,9 +133,13 @@
       }
     }
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
-    ".md": 1747,
+    ".md": 1895,
     ".py": 894,
     ".webp": 0,
     ".json": 1424,

@@ -9,11 +9,13 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass, field, replace
-from typing import Any, Dict, List, Mapping, Optional, Tuple
+from typing import Any, ClassVar, Dict, List, Mapping, Optional, Tuple
 
 from lib.shape import ShapeError, is_number, read_number, read_object, read_string, required
 
 COMMENT_LIMIT = 280
+SUBJECT_LIMIT = 72
+CONVENTIONAL = re.compile(r"^[a-z]+(\([\w./-]+\))?!?: \S")
 SHARED_RATES = "rates.json"
 REPO_RATES = "rates.repo.json"
 ADDED_ROLE_KEYS = ("multiplier", "grade", "work")
@@ -42,6 +44,15 @@ class Estimate:
     # One reason for the whole, the older shape: `estimate.py` never writes it,
     # and it stays on a row only where `split_comment` cannot place it.
     comment: Optional[str] = None
+    # What the session did, as a conventional commit subject. It rides on the
+    # estimate so that a revision replaces both together; null on a row set
+    # before it was asked for.
+    subject_line: Optional[str] = None
+
+    # A row reads its subject first, under the time it was set. Declaring
+    # `subject_line` after `at` would put a defaulted field before `parts`, so
+    # the order is stated here, and must name every field.
+    KEY_ORDER: ClassVar[Tuple[str, ...]] = ("at", "subject_line", "parts", "comment")
 
 
 @dataclass(frozen=True)
@@ -208,7 +219,16 @@ def checked(estimate: Estimate, rates: Rates, where: str) -> Estimate:
             raise ShapeError(f"{at}: a comment of its own beside the estimate's comment for the whole")
     if estimate.comment is not None:
         _check_comment(estimate.comment, where)
+    if estimate.subject_line is not None:
+        check_subject_line(estimate.subject_line, where)
     return estimate
+
+
+def check_subject_line(subject: str, where: str) -> None:
+    if len(subject) > SUBJECT_LIMIT:
+        raise ShapeError(f"{where}: the subject line is {len(subject)} characters, over {SUBJECT_LIMIT}")
+    if not CONVENTIONAL.match(subject):
+        raise ShapeError(f"{where}: the subject line `{subject}` is not `<type>[(<scope>)][!]: <summary>`")
 
 
 def _check_comment(comment: Optional[str], where: str) -> None:
@@ -243,6 +263,7 @@ def parse_estimate(value: Any, where: str) -> Optional[Estimate]:
         at=required(read_string, value, "at", where),
         parts=read,
         comment=read_string(value, "comment", where),
+        subject_line=read_string(value, "subjectLine", where),
     )
 
 

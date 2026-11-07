@@ -36,9 +36,11 @@ from lib.ledger_branch import copies, path_for
 from lib.rows import (
     ROOT,
     SessionCost,
+    fold_review_posts,
     parse_session_cost,
     place_tree_copy,
     read_pending_estimate,
+    read_pending_review_words,
     row_text,
     telemetry_path,
     union,
@@ -92,11 +94,16 @@ def main() -> int:
     if before is not None:
         carried = [w for w in before.warnings if is_unwritten_tail(w) and w not in cost.warnings]
         cost.warnings = carried + cost.warnings
-    # The previous row is what keeps the estimate through a resume in a fresh
-    # container, whose `tmp/` starts empty.
+    # The previous row is what keeps the estimate and the review posts through
+    # a resume in a fresh container, whose `tmp/` starts empty.
     cost.estimate = latest(
         before.estimate if before is not None else None,
         read_pending_estimate(cost.session_id),
+    )
+    fold_review_posts(
+        cost,
+        before.review_posts if before is not None else {},
+        read_pending_review_words(cost.session_id),
     )
     cost.branch_lines = branch_lines(ROOT)
     row = row_text(cost)

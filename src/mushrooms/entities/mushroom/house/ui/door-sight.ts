@@ -6,13 +6,14 @@
 
 import { keptIn } from '@/kernel/shared/cache';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   type Box,
   boxAround,
   boxesMeet,
   containsPoint,
   placedAt,
-  type Point,
 } from '@/mushrooms/shared/lib/geometry';
 import type { Layered } from '@/mushrooms/shared/world';
 

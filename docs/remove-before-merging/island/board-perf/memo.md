@@ -33,11 +33,13 @@ Done, with one vet failure that is not on this branch. PR: https://github.com/vz
 Cause of the sluggishness: the camera transform sat on the #lines <svg> as well as on #world. A transform on an SVG root costs a layout and a repaint every frame, so every pan frame re-rasterised the whole board.
 
 Fixes, measured (Chromium traces; desktop 1600x1000 and Pixel 7 at 4x CPU throttle, medians of 3; full table in the PR body):
+
 - Pan: one #camera wrapper, lifted onto its own compositor layer while panning. Per gesture, layout and paint go from 33/24 ms to zero, raster from 873 to 39 ms on desktop and from 592 to 31 ms on phone. Phone dropped frames per gesture: 8-14 before, 1-7 after.
 - Page 465 -> 131 KB: the named `import { z }` bundled every zod locale; the page now uses a namespace import. `board build` fails a page over 160 KB, so the locales can't come back unnoticed.
 - Line ends were drawn against pre-font sticky sizes, which made `board snapshot` differ run to run. Readiness now waits on the fonts, and snapshots match each other pixel for pixel. A zoomed-in screenshot is identical to before.
 
 Left for you / the operator:
+
 - Zoom renders exactly as before. Its remaining per-frame cost is the 4 SVG line labels. Changing how they render would move their look by a subpixel or more, so that is the operator's call.
 - Not measured: the live board with edits. Every db snapshot rebuilds the whole DOM. Next step: trace a drag on the published board.
 

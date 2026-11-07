@@ -1,0 +1,325 @@
+/* An infinite chart table: a dotted sea-grid ground, paper items on it, a
+   floating toolbar top-left and the live status beside it. Light in every
+   theme, as the operator asked. */
+@use 'toolbar';
+
+$tints: (
+  'yellow': #fbe7a1,
+  'pink': #f7cfd8,
+  'blue': #cfe1f7,
+  'green': #d3ecc9,
+  'orange': #f8d4b0,
+  'purple': #e0d4f3,
+  'gray': #e2e6e8,
+);
+
+:root {
+  --ground: #e8eef0;
+  --dot: #c3d0d5;
+  --ink: #1d2a30;
+  --muted: #5b6b72;
+  --paper: #fbfcfc;
+  --edge: #b9c7cc;
+  --accent: #1f6f78;
+  --accent-ink: #fff;
+  --danger: #a3372b;
+  --shadow: 0 1px 2px rgb(29 42 48 / 12%), 0 4px 12px rgb(29 42 48 / 8%);
+  --zone-alpha: 38%;
+  --font-display: 'Fraunces', georgia, serif;
+
+  /* Caveat for what a pen adds — zone titles, line labels; the notes in a
+     face just as informal but quiet enough to read in bulk. */
+  --font-hand: 'Caveat', 'Segoe Print', cursive;
+  --font-note: 'Shantell Sans', 'Comic Neue', system-ui, sans-serif;
+  --pencil: #3a4a52;
+  --tape: rgb(236 228 200 / 72%);
+  --lift: 0 1px 1px rgb(29 42 48 / 10%), 4px 10px 14px -6px rgb(29 42 48 / 28%);
+  --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  background: var(--ground);
+  color: var(--ink);
+  font: 15px/1.45 var(--font-body);
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  background-image: radial-gradient(var(--dot) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+#stage:active {
+  cursor: grabbing;
+}
+
+/* The camera's transform sits on a wrapper, not on the `<svg>`: on an SVG root
+   it costs a layout and a repaint every frame of a pan. */
+#camera,
+#world,
+#lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#camera {
+  transform-origin: 0 0;
+}
+
+#stage.lifted > #camera {
+  will-change: transform;
+}
+
+#lines {
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.item {
+  position: absolute;
+  box-sizing: border-box;
+  margin: 0;
+  cursor: default;
+  transform: rotate(var(--tilt, 0deg));
+}
+
+/* A strip of masking tape across the top edge, on the paper the id picks. */
+.sticky.taped::before,
+.image::before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  left: calc(50% - 42px);
+  width: 84px;
+  height: 22px;
+  background: var(--tape);
+  box-shadow: 0 1px 2px rgb(29 42 48 / 10%);
+  transform: rotate(calc(var(--tilt, 0deg) * -2.5));
+}
+
+.image.taped::before {
+  left: -18px;
+  transform: rotate(-38deg);
+}
+
+.image.taped::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -18px;
+  width: 84px;
+  height: 22px;
+  background: var(--tape);
+  transform: rotate(36deg);
+}
+
+@each $name, $tint in $tints {
+  .c-#{$name} {
+    --tint: #{$tint};
+  }
+}
+
+.sticky {
+  z-index: 2;
+  padding: 16px 18px 26px;
+  border-radius: 2px 3px 14px 2px / 2px 2px 6px 3px;
+  background: linear-gradient(
+    172deg,
+    color-mix(in srgb, var(--tint) 80%, #fff) 0%,
+    var(--tint) 45%,
+    color-mix(in srgb, var(--tint) 92%, #000) 100%
+  );
+  box-shadow: var(--lift);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 400 16px/1.4 var(--font-note);
+  color: #26323a;
+}
+
+.text {
+  z-index: 2;
+  white-space: pre-wrap;
+}
+
+.text.size-h1 {
+  font: 600 56px/1.05 var(--font-display);
+  text-wrap: balance;
+}
+
+.text.size-h2 {
+  font: 600 32px/1.15 var(--font-display);
+  text-wrap: balance;
+}
+
+/* Uneven elliptical corners read as a rectangle drawn freehand. */
+.zone {
+  z-index: 0;
+  border: 2.5px solid color-mix(in srgb, var(--tint) 45%, var(--pencil));
+  border-radius: 28px 9px 34px 12px / 12px 30px 9px 26px;
+  background: color-mix(in srgb, var(--tint) var(--zone-alpha), transparent);
+}
+
+.zone > .title {
+  padding: 12px 24px;
+  font: 700 42px/1.1 var(--font-hand);
+  color: var(--ink);
+}
+
+.image {
+  z-index: 2;
+  padding: 10px 10px 30px;
+  background: var(--paper);
+  box-shadow: var(--lift);
+}
+
+.image img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  pointer-events: none;
+}
+
+.image > .caption {
+  padding-top: 8px;
+  color: var(--pencil);
+  font: 400 15px/1.4 var(--font-note);
+}
+
+.image > .caption:empty {
+  display: none;
+}
+
+.by {
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+.zone > .by {
+  right: 12px;
+  bottom: 8px;
+}
+
+.text > .by {
+  display: none;
+}
+
+.text.selected > .by {
+  display: block;
+  bottom: -18px;
+}
+
+.item.selected {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.item.line-from {
+  outline: 2px dashed var(--accent);
+  outline-offset: 3px;
+}
+
+[data-edit][contenteditable] {
+  outline: none;
+  cursor: text;
+  caret-color: var(--accent);
+}
+
+.resize {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--paper);
+  cursor: nwse-resize;
+}
+
+.item:not(.selected) > .resize {
+  display: none;
+}
+
+.line .stroke {
+  fill: none;
+  stroke: var(--pencil);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line .stroke.echo {
+  stroke-width: 1.6;
+  opacity: 0.45;
+}
+
+.line .stroke.dashed {
+  stroke-dasharray: 14 12;
+}
+
+.line .hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
+  pointer-events: stroke;
+}
+
+.line.selected .stroke {
+  stroke: var(--accent);
+}
+
+.line .label {
+  fill: var(--pencil);
+  font: 700 30px var(--font-hand);
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--ground);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+}
+
+.line.selected .label {
+  fill: var(--accent);
+}
+
+.arrowhead {
+  fill: none;
+  stroke: var(--pencil);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line.selected .arrowhead {
+  stroke: var(--accent);
+}
+
+.read-only .edit-only,
+body:not(.can-upload) #tool-image {
+  display: none;
+}
+
+body.line-tool #stage {
+  cursor: crosshair;
+}

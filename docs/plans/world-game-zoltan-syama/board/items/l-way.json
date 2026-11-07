@@ -1,9 +1,0 @@
-{
-  "kind": "line",
-  "id": "l-way",
-  "from": "map",
-  "to": "z-star",
-  "label": "done → in hand → next → the north star",
-  "updated": "2026-11-06T22:30:00.000Z",
-  "author": "agent:lead"
-}

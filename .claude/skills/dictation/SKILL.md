@@ -133,9 +133,10 @@ way in.
 The operator delivers a recording one of two ways, and they are not
 interchangeable:
 
-- **Committed to the branch.** `git pull` — the file is in the tree. When the
-  operator says "pull", this is what they mean; do not go looking through the
-  session's upload directory first.
+- **Committed to the branch.** `git fetch origin <branch>` and
+  `git merge origin/<branch>` — the file is in the tree. When the operator says
+  "pull", this is what they mean; do not go looking through the session's upload
+  directory first.
 - **Attached to a chat message.** It lands in the container's uploads directory
   and **exists nowhere else** — the transcript outlives it, the file does not.
   Copy it under `docs/remove-before-merging/` as the first thing you do with it.

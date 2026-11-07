@@ -6,10 +6,11 @@
 
 import type * as Phaser from 'phaser';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { crescent } from '@/mushrooms/shared/lib/crescent';
 import {
   ellipse,
-  type Point,
   ROUND_STEPS,
   type Scaled,
 } from '@/mushrooms/shared/lib/geometry';
@@ -24,7 +25,7 @@ import {
   PALETTE,
   type WithGraphics,
 } from '@/mushrooms/shared/ui';
-import type { Hazed } from '@/mushrooms/shared/world';
+import type { Chorded, Hazed } from '@/mushrooms/shared/world';
 
 import type { MushroomGenes } from '../model/mushroom-genes';
 import {
@@ -34,7 +35,7 @@ import {
   toCanvas,
 } from '../model/mushroom-outline';
 import { stemAt } from '../model/mushroom-pose';
-import { type Chorded, CURVE_STEPS, detailed } from '../model/mushroom-profile';
+import { CURVE_STEPS, detailed } from '../model/mushroom-profile';
 import {
   type CapLight,
   shadedHalf,

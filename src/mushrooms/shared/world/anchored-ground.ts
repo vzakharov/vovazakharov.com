@@ -4,7 +4,8 @@
  * rule that reads the opening layout judges what the eye sees.
  */
 
-import type { Point } from '../lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { sameAnchor } from './anchor';
 import {
   anchored,

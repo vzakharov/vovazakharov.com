@@ -1,4 +1,4 @@
-import { COPY } from '../config/i18n';
+import COPY from '../config/messages/en.json';
 import { ControlsHint } from './controls-hint';
 import { IslandCanvas } from './island-canvas';
 

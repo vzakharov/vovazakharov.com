@@ -31,13 +31,13 @@ import {
   cellTufts,
   LAWN_CELL,
   LiveLawn,
+  type Sprout,
   TUFTS_PER_CELL,
 } from '@/mushrooms/entities/landscape/index.node-safe';
 import { MUSHROOM_SPECIES } from '@/mushrooms/entities/mushroom/index.node-safe';
 import { roomFor } from '@/mushrooms/features/grow-mushroom/index.node-safe';
 import { perchSight } from '@/mushrooms/features/insects-fly/index.node-safe';
 import {
-  type Sprout,
   takesFlower,
   tendedIn,
   tendTufts,

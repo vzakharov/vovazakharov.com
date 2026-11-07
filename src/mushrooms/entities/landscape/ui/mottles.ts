@@ -8,10 +8,11 @@
 
 import type * as Phaser from 'phaser';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { mix } from '@/mushrooms/shared/lib/colour';
 import {
   distanceBetween,
-  type Point,
   type Wide,
   type WithMiddle,
 } from '@/mushrooms/shared/lib/geometry';

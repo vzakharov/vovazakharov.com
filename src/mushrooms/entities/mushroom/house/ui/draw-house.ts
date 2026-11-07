@@ -1,10 +1,11 @@
 import type * as Phaser from 'phaser';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   arch,
   type Circle,
   ellipse,
-  type Point,
   sample,
 } from '@/mushrooms/shared/lib/geometry';
 import {

@@ -15,7 +15,6 @@ export {
 export { capFrame, capSeat, splayed } from './model/mushroom-pose';
 export {
   capSurface,
-  type Chorded,
   CURVE_STEPS,
   curveSteps,
   stemHalfWidth,

@@ -1,8 +1,9 @@
 import type { Rule, SourceCode } from 'eslint';
 import type * as ESTree from 'estree';
 
-import type { Named, WithText } from '../estree-mixins';
-import { type AstNode, type FunctionNode, parentOf, tsType } from './ast';
+import type { Named, WithText } from '../../../src/kernel/shared/typings';
+import { type AstNode, tsType } from '../estree-mixins';
+import { type FunctionNode, parentOf } from './ast';
 
 /** All `TSTypeReference` identifier names appearing anywhere under `node`. */
 export function collectTypeReferences(

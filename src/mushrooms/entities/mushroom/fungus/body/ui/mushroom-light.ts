@@ -5,10 +5,11 @@
  * frame (units of size, y up) unless said otherwise.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   type Circle,
   placedAt,
-  type Point,
   sample,
   type Scaled,
 } from '@/mushrooms/shared/lib/geometry';

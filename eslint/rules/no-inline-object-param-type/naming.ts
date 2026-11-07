@@ -1,7 +1,7 @@
 import type { Rule } from 'eslint';
 import type * as ESTree from 'estree';
 
-import { tsType } from './ast';
+import { tsType } from '../estree-mixins';
 
 const capitalize = (name: string): string =>
   name.charAt(0).toUpperCase() + name.slice(1);
