@@ -124,37 +124,23 @@ the plan's; an agent may move a file inside its own slice and says so.
       c283f641; the story and figures sent to the lead (memo 05:35), who agreed.
       `/polish`'s `/dry` pass, partial: d5f4a570.
 
-## Rest of the bite
+- [x] **Fifth session**: `/polish` per pass — `/dry` (d5f4a570, 520cfea1; four
+      calls to the operator on #259), `/tend-prose` (57bc13dd), `/five-percent`
+      (one optional review on #259). Vet green but for a `cost-ledger` row
+      another branch's newer tooling wrote: `island` counted as mounted, the
+      board page a knip entry (f6b4448e), unread exports dropped (a8a5afb2),
+      `entities/terrain` cut into `coast-field`, `height`, `tile` and `quadtree`
+      sub-slices (45f461f2). PR #259 onto the island branch; "done" to the lead
+      through memo.
 
-The fourth session paused here at its context budget. In order:
+## Known limits, for later bites
 
-1. **Finish `/polish`, the branch's first** (no `polish:` floor, so its scope is
-   `git diff 6547946b`, 133 files — too big for one subagent: run one per pass,
-   each committing `polish(<pass>):`, then the bare `polish:` mark once all
-   three have run). `/dry` is half done in d5f4a570; still unread:
-   `src/island/scripts/{play-island,trace-coast}.ts`,
-   `entities/coast/model/{ring,trace,coast}.ts`,
-   `entities/terrain/model/{coast-field,height,value-noise}.ts`,
-   `features/eye/{model/eye,ui/eye-controls}.ts`, `pages/island/lib/*` but
-   `sun`,
-   `pages/island/ui/{ground-lighting,tile-meshes,island-canvas,island-page,play-hook}`,
-   `shared/play/play-hook.ts`, and their tests. Its three calls left for the
-   operator: one `rectGap` for `tile-cover.ts` `distanceTo`, `detail.ts` `gap`
-   and `split.ts`'s clamp (a new terrain export; `gap` is on `detailCut`'s hot
-   path); a `tileCentre` for `split.ts` `astride` and `quadtree.ts` `visible`
-   (two one-line uses); one 4-neighbour walk for `sea.ts` `flood` and `peel` (an
-   allocation or a closure per neighbour on a 1.4M-pixel loop). Then
-   `/tend-prose` and `/five-percent` (the latter after the PR exists).
-2. **Out of this bite, recorded for the lead**: the 10–20 km spits fray at orbit
-   because orbit tiles are level 3; a coast floor at level 6 costs ~530–640
-   tiles and ~40 ms per reselect, nearly all in `selectTiles`' per-node
-   visibility test (`notes/r7c.md`).
-3. **Tail**: `VET_MEADOW=1 ./scripts/vet.sh` green, and a **new** PR from
-   `island/bite-1-descent` onto `claude/world-game-zoltan-syama-hodowq` (#256
-   closed as merged when 686f5174 put an early head into the base; the lead
-   agreed) whose body says what each call became, with the frames; the R5
-   finding that `play:mushrooms --plays keep,dark` fails ("no sun on the screen
-   to tap") on the base too; "done" to the lead through memo, with the PR.
+- The 10–20 km spits fray at orbit because orbit tiles are level 3; a coast
+  floor at level 6 costs ~530–640 tiles and ~40 ms per reselect, nearly all in
+  `selectTiles`' per-node visibility test (`notes/r7c.md`).
+- A cached tile keeps the detail cut of the eye position it was filled at until
+  evicted (over 900 held), so its edge can differ from a fresh neighbour's by up
+  to an octave, hidden only by the skirts (`notes/r4.md`; #259's review).
 
 ## Calls made in the build
 
