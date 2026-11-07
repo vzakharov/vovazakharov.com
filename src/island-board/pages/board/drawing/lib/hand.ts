@@ -5,7 +5,7 @@
  */
 import type { Point } from '@/scene/shared/lib/plane';
 
-import type { PlacedItem } from '@/board/entities/item';
+import type { PlacedItem } from '@/island-board/entities/item';
 
 /**
  * A stable number in [-1, 1) from `id` and `salt`: FNV-1a, then murmur3's

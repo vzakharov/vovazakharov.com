@@ -30,7 +30,7 @@ import { format } from 'prettier';
 import { compileAsync } from 'sass';
 import { z } from 'zod';
 
-import { type Item, newerThan, parseDbRow } from '@/board/entities/item';
+import { type Item, newerThan, parseDbRow } from '@/island-board/entities/item';
 
 import { decodeBoard, writeItems } from './lib/board-file.ts';
 
@@ -39,7 +39,7 @@ import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 const STYLESHEET = path.join(import.meta.dirname, '../app/styles/board.scss');
 /** The page's entry, bundled from `src/` so the `@/` alias resolves. */
-const ENTRY = `import { startBoard } from '@/board/pages/board';\nawait startBoard();\n`;
+const ENTRY = `import { startBoard } from '@/island-board/pages/board';\nawait startBoard();\n`;
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@500;700&family=Shantell+Sans:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap';
 

@@ -1,4 +1,4 @@
-import { STICKY_COLORS } from '@/board/entities/item';
+import { STICKY_COLORS } from '@/island-board/entities/item';
 
 import { byId } from '../lib/dom.ts';
 import type { Board } from '../model/board.ts';

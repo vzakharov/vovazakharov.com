@@ -26,7 +26,7 @@ import {
 } from 'yaml';
 import { z } from 'zod';
 
-import { Item, STICKY_COLORS, TEXT_SIZES } from '@/board/entities/item';
+import { Item, STICKY_COLORS, TEXT_SIZES } from '@/island-board/entities/item';
 
 const Color = z.enum(STICKY_COLORS);
 const Size = z.enum(TEXT_SIZES);

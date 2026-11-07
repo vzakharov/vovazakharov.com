@@ -4,7 +4,7 @@
  */
 import { z } from 'zod';
 
-import { Item } from '@/board/entities/item';
+import { Item } from '@/island-board/entities/item';
 
 import { type Capabilities, connect } from '../api/runtime.ts';
 import { byId, required } from '../lib/dom.ts';

@@ -1,6 +1,6 @@
 import type { Zoomed } from '@/scene/shared/lib/plane';
 
-import type { Item } from '@/board/entities/item';
+import type { Item } from '@/island-board/entities/item';
 
 import type { Assets, User } from '../api/runtime.ts';
 import type { Store } from './store.ts';

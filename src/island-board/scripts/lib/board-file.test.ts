@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, it } from 'node:test';
 
-import type { Item } from '@/board/entities/item';
+import type { Item } from '@/island-board/entities/item';
 
 import {
   decodeBoard,
