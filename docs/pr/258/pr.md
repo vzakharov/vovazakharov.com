@@ -7,20 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-11-07T05:26:45Z
-- **Updated:** 2026-11-07T06:47:19Z
+- **Updated:** 2026-11-07T07:01:25Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 4
+## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at dc55d1b). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 - **T01** `docs/boards/island.yaml`:3 — unresolved — last: @vzakharov (human) 2026-11-07T06:40:20Z — "ну, "тихо" они не лягут, на то у нас /sync-branch, но вынест…" → [↓](#t01)
-- **T03** `.claude/costs/sessions/2026-11/island/review-1/1/60da9e31-77ef-5091-8ac0-30e66680da10.json`:35 — unresolved — last: @vzakharov (human) 2026-11-07T06:28:52Z — "наверное subject line стоит писать выше, сразу под at" → [↓](#t03)
-- **T04** `sites/vova/public/case-studies/island.md`:32 — unresolved — last: @vzakharov (human) 2026-11-07T06:43:15Z — ""this not that" should be generally avoided, unless it's 100…" → [↓](#t04)
-- **T05** `src/board/entities/item/index.ts`:1 — unresolved — last: @vzakharov (human) 2026-11-07T06:44:32Z — "скорее всё-таки island-board (если будем потом выводить в от…" → [↓](#t05)
 
 ---
 
@@ -63,10 +60,10 @@ _2026-11-07T06:15:46Z_
 <!-- five-percent: b8439de64493f2d82f2d45c7e8ca0d8f7cd7f823 -->
 
 - **T01** `docs/boards/island.yaml`:3 — unresolved — last: @vzakharov (human) 2026-11-07T06:40:20Z — "ну, "тихо" они не лягут, на то у нас /sync-branch, но вынест…" → [↓](#t01)
-- **T02** `src/board/scripts/lib/board-file.ts`:191 — unresolved — last: @vzakharov (agent) 2026-11-07T06:15:42Z — "<!-- five-percent proposal · an answer here is scored by .cl…" → [↓](#t02)
-- **T03** `.claude/costs/sessions/2026-11/island/review-1/1/60da9e31-77ef-5091-8ac0-30e66680da10.json`:35 — unresolved — last: @vzakharov (human) 2026-11-07T06:28:52Z — "наверное subject line стоит писать выше, сразу под at" → [↓](#t03)
-- **T04** `sites/vova/public/case-studies/island.md`:32 — unresolved — last: @vzakharov (human) 2026-11-07T06:43:15Z — ""this not that" should be generally avoided, unless it's 100…" → [↓](#t04)
-- **T05** `src/board/entities/item/index.ts`:1 — unresolved — last: @vzakharov (human) 2026-11-07T06:44:32Z — "скорее всё-таки island-board (если будем потом выводить в от…" → [↓](#t05)
+- **T02** `src/island-board/scripts/lib/board-file.ts`:191 — unresolved — last: @vzakharov (agent) 2026-11-07T06:59:41Z — "В сессии ты решил: не исключать, а придумать способ разбиени…" → [↓](#t02)
+- **T03** `.claude/costs/sessions/2026-11/island/review-1/1/60da9e31-77ef-5091-8ac0-30e66680da10.json`:35 — unresolved — last: @vzakharov (agent) 2026-11-07T06:59:42Z — "Переставил: оценка теперь пишется как `at`, `subjectLine`, `…" → [↓](#t03)
+- **T04** `sites/vova/public/case-studies/island.md`:32 — unresolved — last: @vzakharov (agent) 2026-11-07T06:59:43Z — "Убрал: «It was there as proof that this can be done.» Правил…" → [↓](#t04)
+- **T05** `src/island-board/entities/item/index.ts`:1 — unresolved — last: @vzakharov (agent) 2026-11-07T06:59:45Z — "Переименовал приложение в `src/island-board`, в `masd.json`…" → [↓](#t05)
 
 <a id="t01"></a>
 
@@ -106,7 +103,7 @@ _2026-11-07T06:15:46Z_
 
 <a id="t02"></a>
 
-### `src/board/scripts/lib/board-file.ts`:191 — unresolved
+### `src/island-board/scripts/lib/board-file.ts`:191 — unresolved
 
 ```diff
 @@ -0,0 +1,237 @@
@@ -149,6 +146,10 @@ _2026-11-07T06:15:46Z_
 
 </details>
 
+**@vzakharov (agent)** — 2026-11-07T06:59:41Z
+
+В сессии ты решил: не исключать, а придумать способ разбиения. Сделал так: в `docs/boards/island.yaml` остаются заголовок, артефакт и всё, что не лежит ни в одной зоне, а каждая зона живёт в `docs/boards/island/<зона>.yaml` вместе с тем, что в ней лежит. Какой файл чей, не выбирается вручную, а выводится при каждой записи: карточка — по наименьшей зоне, где лежит середина её верхнего края, линия — вместе с тем, откуда она начинается. Перетащил карточку в другую зону — она переезжает в другой файл. Сейчас девять файлов, самый большой 73 строки; `pnpm board refile` раскладывает заново и на текущей доске ничего не меняет — 783e2848f
+
 ---
 
 <a id="t03"></a>
@@ -167,6 +168,10 @@ _2026-11-07T06:15:46Z_
 **@vzakharov (human)** — 2026-11-07T06:28:52Z
 
 наверное subject line стоит писать выше, сразу под at
+
+**@vzakharov (agent)** — 2026-11-07T06:59:42Z
+
+Переставил: оценка теперь пишется как `at`, `subjectLine`, `parts`, `comment`, а строки острова перезаписаны в этом порядке. По пути выяснилось, что эта строка лежала в леджере под веткой `HEAD`, потому что последний Stop сессии пришёлся на detached HEAD. Вернул её на `island/review-1`, теперь она под номером 5 — 68a713bc9
 
 ---
 
@@ -187,15 +192,23 @@ _2026-11-07T06:15:46Z_
 
 "this not that" should be generally avoided, unless it's 100% needed to juxtapose, not just as a rhetoric device.
 
+**@vzakharov (agent)** — 2026-11-07T06:59:43Z
+
+Убрал: «It was there as proof that this can be done.» Правило записал в `.claude/rules/contrast.md`, оно действует на всех страницах, которые отдают сайты — c55b0543f, f73fc9c69
+
 ---
 
 <a id="t05"></a>
 
-### `src/board/entities/item/index.ts`:1 — unresolved
+### `src/island-board/entities/item/index.ts`:1 — unresolved
 
 **@vzakharov (human)** — 2026-11-07T06:44:32Z
 
 скорее всё-таки island-board (если будем потом выводить в отдельную общую аппу, она будет board)
+
+**@vzakharov (agent)** — 2026-11-07T06:59:45Z
+
+Переименовал приложение в `src/island-board`, в `masd.json` оно теперь `island-board`; простое имя `board` остаётся за общей аппой, если такая появится — a4c28ad5f
 
 ---
 
