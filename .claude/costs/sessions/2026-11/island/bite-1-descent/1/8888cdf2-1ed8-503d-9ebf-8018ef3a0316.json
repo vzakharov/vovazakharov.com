@@ -10,7 +10,7 @@
     "costUsd": 43.67562659999999
   },
   "estimate": {
-    "at": "2026-11-06T20:16:20.169Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 12.0,
@@ -49,7 +49,8 @@
         "comment": "checking five heights on two screens against the drawing, twice"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "feat(island): trace the coast, tile the scene, relief orbit to 2 m"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -132,7 +133,11 @@
       }
     }
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1895,
     ".py": 894,
