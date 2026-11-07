@@ -85,11 +85,13 @@ is in git
   then `pnpm board build docs/plans/world-game-zoltan-syama/board` and publish
   `tmp/board/world-game-zoltan-syama/index.html` with `files` mapping `images/*`
   to the built copies and `url` the artifact above. Only the lead publishes.
-- **The case study** — `sites/vova/public/case-studies/island.md`,
-  `hidden: true` until the game ships. Each entry is dated and carries a board
-  snapshot, `assets/island-board-<date>.png` (`pnpm board snapshot`, resized to
-  2000 px wide). The first, "how it all began", holds the 3,120 h forecast by
-  role, unchanged, for the comparison at the end.
+- **The case study** — `sites/vova/public/case-studies/island.md`, unlisted
+  while in progress (`hidden: true` keeps it out of listings, not off the site —
+  «я не имею ничего против того чтобы wip был доступен на сайте»). Each entry is
+  dated and carries a board snapshot, `assets/island-board-<date>.png`
+  (`pnpm board snapshot`, resized to 2000 px wide). The first, "how it all
+  began", holds the 3,120 h forecast by role, unchanged, for the comparison at
+  the end.
 - **The channel** — `scripts/memo/memo.py`, `--as lead|member`, `memo.md` in the
   bite branch's working directory; the lead waits on every open bite with one
   `wait --branch A --branch B`. Not built: a forward after a handoff (the
@@ -110,7 +112,13 @@ is in git
   its record `docs/plans/island-bite-1.completed.md`. Merged as #259 (19a4366c).
   Left for later bites: 10–20 km spits fray at orbit (orbit tiles are level 3);
   a cached tile keeps its detail cut until evicted; the lake by Цитадель is
-  land; four `/dry` calls in #259's body await the operator.
+  land; four `/dry` calls in #259's body await the operator. The coastline is
+  too regular (operator, on the strait: «граница берега … слишком ровная»):
+  `heightAt` fades every noise octave out within one wavelength of the coast, so
+  the shore is the traced line at every scale, and the strait's authored sea
+  stroke is a straight edge. A later bite roughens it below a pixel of the
+  drawing (a sub-pixel warp of the coast field), so the drawn shape holds and
+  the shore stops being a ruler.
 
 ## Waiting on the operator
 
@@ -135,6 +143,19 @@ review. Open:
   https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9 on `island/review-1`,
   handling T01–T10, T12–T20 and R02 (the cut cycle that replaced the epic
   branch); its PR goes onto this branch.
+- **Descent video** — https://claude.ai/code/session_01DaohkEzVpgVdUpfbpg4NnQ on
+  `island/descent-video`: a video of the descent and its thumbnail in the
+  `island-timelapse` release; the lead pins them on the board.
+- **Second preview slot** —
+  https://claude.ai/code/session_01DaohkDZtwxJGQKbNecB8st on `preview2-slot`,
+  its PR onto main: preview2.vovazakharov.com and `/preview live` choosing a
+  slot.
+- **Board performance** —
+  https://claude.ai/code/session_01DaohkDwrHtJy2Zb6SucGnx on
+  `island/board-perf`: the page measured and sped up, the look unchanged; the
+  lead republishes from its merged code.
+- The lead waits on all four:
+  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf`.
 
 ## Rest of the elephant
 

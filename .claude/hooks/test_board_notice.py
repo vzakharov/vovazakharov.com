@@ -9,6 +9,7 @@ does.
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -17,6 +18,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 HOOK = Path(__file__).resolve().parent / "board-notice.py"
+WORKING_DIR = Path(__file__).resolve().parents[2] / "scripts" / "working-dir.sh"
 URL = "https://claude.ai/artifact/abc123"
 
 
@@ -84,6 +86,18 @@ class BoardNotice(unittest.TestCase):
             use("ArtifactComments", action="watch", url=URL, on=False),
         ]
         self.assertEqual(self.run_hook(lines), "")
+
+    def test_silent_on_a_members_branch(self) -> None:
+        self.plan(f"**The plan is the board**: {URL}\n")
+        scripts = self.root / "scripts"
+        scripts.mkdir()
+        shutil.copy(WORKING_DIR, scripts / "working-dir.sh")
+        subprocess.run(["git", "init", "-q", "-b", "island/bite-2"], cwd=self.root, check=True)
+        self.assertIn("`watch`", self.run_hook([]))
+        channel = self.root / "docs" / "remove-before-merging" / "island" / "bite-2"
+        channel.mkdir(parents=True)
+        (channel / "memo.md").write_text("## lead · 2026-11-07 06:00:00 UTC\n\nA brief.\n")
+        self.assertEqual(self.run_hook([]), "")
 
     def test_a_rewatch_after_a_stop_counts(self) -> None:
         self.plan(f"**The plan is the board**: {URL}\n")
