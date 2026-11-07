@@ -63,6 +63,8 @@ is in git
 - «давай заведём правило, что артефакт может править только оркестратор
   ("продюсер"?)» — only the lead, in its producer role, edits or publishes the
   board; members propose through memo.
+- «пересылай через memo» — whatever the lead passes to a member goes as a memo
+  note on the member's branch, never by `send_message` alone.
 - «каждое изменение артефакта снапшотить … Для каждого скриншота запоминать
   количество затраченных "часов", долларов API cost up until now, мб строк кода
   итп, чтобы потом наложить» — every board publish is a timelapse frame, and
@@ -92,7 +94,7 @@ is in git
   bite branch's working directory; the lead waits on every open bite with one
   `wait --branch A --branch B`. Not built: a forward after a handoff (the
   predecessor's note on the lead's own branch is one only `show` reads, since
-  `wait` prints the other side's notes); `send_message` stays the wake.
+  `wait` prints the other side's notes).
 - **The notes** — `.claude/skills/mammoth/notes/`, renamed from `megabeast`.
 - **The human-contribution report** — every cost row carries `operatorWords` and
   `branchLines`, written by the Stop hook each turn (the four sessions before it
@@ -133,6 +135,10 @@ review. Open:
   waits on it with `memo.py wait --as lead --branch island/bite-1-descent`. When
   it posts done: look at its frames beside the map, run vet on its head, merge
   it into this branch, `/preview live`, tick its stickers.
+- **Review of #255** — member session
+  https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9 on `island/review-1`,
+  handling T01–T10, T12–T20 and R02 (the cut cycle that replaced the epic
+  branch); its PR goes onto this branch.
 
 ## Rest of the elephant
 
