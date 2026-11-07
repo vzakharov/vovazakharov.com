@@ -7,35 +7,17 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-11-06T17:15:44Z
-- **Updated:** 2026-11-07T05:17:16Z
+- **Updated:** 2026-11-07T06:36:56Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 19
+## Awaiting an answer: 1
 
 _Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T01** `docs/plans/world-game-zoltan-syama.paused.md`:4 — unresolved — last: @vzakharov (human) 2026-11-07T04:35:34Z — "кажется, обсуждали, что доска должна быть отдельным аппом в…" → [↓](#t01)
-- **T02** `sites/vova/public/case-studies/island.md`:57 — unresolved — last: @vzakharov (human) 2026-11-07T04:33:50Z — "ну, досчитывать слова по ревью -- да, в момент/as part of `/…" → [↓](#t02)
-- **T03** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/4/65f2faca-47ef-57b0-a15f-15307cbf2fc0.json`:143 — unresolved — last: @vzakharov (human) 2026-11-07T03:59:47Z — "давай тут ещё разделять источник (у всех существующих будет…" → [↓](#t03)
-- **T04** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/4/65f2faca-47ef-57b0-a15f-15307cbf2fc0.json`:148 — unresolved — last: @vzakharov (human) 2026-11-07T04:00:12Z — "сюда входят сами костовые файлы?" → [↓](#t04)
-- **T05** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-7963-59f3-a5e2-558c4879837e.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:01:12Z — "а тут где operatorWords и branchLines?" → [↓](#t05)
-- **T06** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/2/f79a750c-2dfe-5654-8591-1eb360b7f45d.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:01:35Z — "каким-то образом два `/2/` получилось" → [↓](#t06)
-- **T07** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/8/acf1c686-742b-52f2-8c53-90628ffce0ac.json`:125 — unresolved — last: @vzakharov (human) 2026-11-07T04:31:07Z — "наверное .webp/.png надо игнорить" → [↓](#t07)
-- **T08** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/9/f910336c-52ac-5602-92ea-95e2869091c2.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:31:59Z — "а давай раз уж взялись тут добавлять новые поля, добавим sub…" → [↓](#t08)
-- **T09** `.claude/skills/mammoth/notes/subagents.md`:283 — unresolved — last: @vzakharov (human) 2026-11-07T04:38:24Z — "ок, давай напишем запрет `git pull` на программном уровне, к…" → [↓](#t09)
-- **T10** `.claude/voice/operators/vzakharov.md`:19 — unresolved — last: @vzakharov (human) 2026-11-07T04:39:02Z — "тогда сюда и quietly давай. И это не потому что I'm tired of…" → [↓](#t10)
-- **T12** `docs/plans/world-game-zoltan-syama/board/items/call-3.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:48:58Z — "знаешь, давай наверное всю доску вместе хранить это всё одни…" → [↓](#t12)
-- **T13** `docs/plans/world-game-zoltan-syama/board/items/call-5.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:57:59Z — "стуктуру предлагаю а-ля такую (на примере этой карточки), дл…" → [↓](#t13)
-- **T14** `docs/plans/world-game-zoltan-syama/postmortem-686f5174.md`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:58:37Z — "это можно удалять, наверное" → [↓](#t14)
-- **T15** `scripts/board/page/camera.test.ts`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:59:33Z — "это соответственно тоже должно перенестись в аппу" → [↓](#t15)
-- **T16** `scripts/board/page/main.ts`:1 — unresolved — last: @vzakharov (human) 2026-11-07T05:00:56Z — "большой, надо разбивать; включи тест с лимитом 400 символов…" → [↓](#t16)
-- **T17** `scripts/board/page/style.css`:1 — unresolved — last: @vzakharov (human) 2026-11-07T05:03:28Z — "scss" → [↓](#t17)
-- **T18** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T05:05:25Z — "так, тут какие-то слопности: "Then I asked for something unu…" → [↓](#t18)
-- **T19** `src/kernel/shared/typings/index.ts`:1 — unresolved — last: @vzakharov (human) 2026-11-07T05:06:40Z — "это не дело kernel-а; "обычные" сайты не должны знать об абс…" → [↓](#t19)
-- **T20** `src/mushrooms/shared/lib/geometry.ts`:3 — unresolved — last: @vzakharov (human) 2026-11-07T05:07:09Z — "никаких реэкспортов кроме бочек, добавь линтерное правило" → [↓](#t20)
+- **T03** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T06:25:00Z — "а сюда сохранил применимые правила чтобы повторно не наткнут…" → [↓](#t03)
 
 ---
 
@@ -46,7 +28,7 @@ _Unresolved threads whose newest post is a human's, and human reviews and commen
 - **The goal**: an exploration game over the map Zoltan and Syama drew, at `/island` — the whole island from near space, down through the clouds as a gliding bird, then on foot, detail generated as it comes into view. The game itself arrives through bite PRs into this branch; bite 1, the thinnest descent from orbit to the ground, is #256. What this branch carries of it so far is the contract bite 1 builds to (`docs/plans/world-game-zoltan-syama/bite-1.md`) and its stickers on the board.
 - **The board is the plan**: `scripts/board/` (`pnpm board build | sync | snapshot`) builds a mind map from one JSON file per item under `docs/plans/world-game-zoltan-syama/board/` and publishes it as an artifact the operator can edit in place; `sync` merges those edits back. Stickies, tape and curved lines are drawn from a hash of each item's id, so the hand-drawn look is stable and stores nothing.
 - **The team's tooling**: `scripts/memo/memo.py` is the lead/member channel — notes appended as commits to `memo.md` on a bite branch, posted without a checkout, with a background `wait` on the other side's reply; its fetch leaves `FETCH_HEAD` alone, since a sibling's `git pull` merging the poll's fetch is how bite 1's files reached this branch early (686f51740 — they belong to #256). The method's notes move from `.claude/skills/megabeast/` to `mammoth/`.
-- **Measuring the human share**: every cost row now records the operator's words and the branch's lines per extension; `.claude/costs/contribution.py [--at TIME]` sums a branch's dollars, senior-hours, words and lines, and `pnpm contribution lines` gives the cumulative-flow CSV. A hidden case study, `sites/vova/public/case-studies/island.md`, is written as the game is built, one dated entry with a board snapshot each — the first holds the 3,120 h studio forecast for the comparison at the end.
+- **Measuring the human share**: every cost row now records the operator's words and the branch's lines per extension; `.claude/costs/contribution.py [--at TIME]` sums a branch's dollars, senior-hours, words and lines, and `pnpm contribution lines` gives the cumulative-flow CSV. An unlisted case study, `sites/vova/public/case-studies/island.md`, is written as the game is built, one dated entry with a board snapshot each — the first holds the 3,120 h studio forecast for the comparison at the end.
 
 ## QA Checklist
 
@@ -93,6 +75,7 @@ https://claude.ai/code/session_01DaohkDnbB6vFsaUrHvR1KB
 
 - **C01** @vzakharov (agent) — 2026-11-06T17:16:07Z — "Proposed squash body: ``` Zoltan and Syama drew a world of t…" → [↓](#c01)
 - **C02** @vzakharov (agent) — 2026-11-07T05:17:15Z — "По R02. 1. Подветка: `island/review-1`, от головы этой ветки…" → [↓](#c02)
+- **C03** @vzakharov (agent) — 2026-11-07T05:28:30Z — "По R02. В сессии: ты предложил подливать эпик в main время о…" → [↓](#c03)
 
 <a id="c01"></a>
 
@@ -125,7 +108,7 @@ built from one file per item (scripts/board/) and published as an
 artifact. Cost rows record the operator's words and the branch's lines,
 and .claude/costs/contribution.py sums a branch's dollars, hours, words
 and lines at any moment, so the case study written alongside the game
-(/case-studies/island, hidden until it ships) can set the human share
+(/case-studies/island, unlisted while in progress) can set the human share
 against a 3,120-hour studio forecast.
 
 Co-authored-by: Claude <noreply@anthropic.com>
@@ -149,6 +132,27 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - эпик не деплоится, деплой идёт только с мержа в main. Остров пока `hidden`, так что смотреть будем через `/preview live`;
 - эпик будет отставать от main. Чтобы финальный PR в main не собрал конфликтов разом, main в него надо иногда подтягивать. Этот PR уже конфликтует с main;
 - открытые на эту ветку PR битов после сквоша в эпик перецеливаются на следующую ветку, которую начнём от эпика.
+
+---
+
+<a id="c03"></a>
+
+### Comment by @vzakharov (agent) on 2026-11-07T05:28:30Z
+
+[https://github.com/vzakharov/vovazakharov.com/pull/255#issuecomment-6702816434](https://github.com/vzakharov/vovazakharov.com/pull/255#issuecomment-6702816434)
+
+По R02. В сессии: ты предложил подливать эпик в main время от времени, и тогда у эпика остаётся одна работа — быть замороженным снимком на время мерджа. Такой снимок можно срезать прямо с мамонта, и «эпик» становится не тем словом.
+
+Вышел цикл срезов:
+1. От головы этой ветки режется `island/cut-N`.
+2. На срезе гоняется `/finalize`, и он сквошится в main. Биты тем временем мерджатся сюда как обычно.
+3. main возвращается сюда через `git fetch origin main && git merge origin/main`.
+
+Почему не мерджить мамонт в main напрямую: мамонт никогда не ждёт vet, polish и ревью, а собственные коммиты `/finalize` — вычистка `docs/plans/` и `docs/remove-before-merging/`, правки от polish и vet — ложатся на ветку, в которую не мерджится ни один бит. Отсюда и ответ про удаляемые при финализации файлы: план, доска и релеи вычищаются только со среза и остаются здесь. Общая инфраструктура (леджер, memo, хуки, линт-правила) уходит в main на каждом цикле, сортировать «островное» и «общее» не нужно.
+
+Одна цена: после сквоша коммиты мамонта не предки main, так что вкладка Commits у этого PR хранит всю историю. Чистится она только перезапуском мамонта новой веткой от main — на срезе, когда в работе нет ни одного бита. Иначе живём с длинной вкладкой.
+
+Записал в `.claude/skills/mammoth/notes/gates.md` и в ограничения плана — 9535350c. `epic/island-part-1` удалена.
 
 ---
 
@@ -183,148 +187,13 @@ rationale: чтобы можно было какой-то весомый объ�
 
 если кажется что я изобретаю велосипед или другие возражения, предложи/возрази.
 
-- **T01** `docs/plans/world-game-zoltan-syama.paused.md`:4 — unresolved — last: @vzakharov (human) 2026-11-07T04:35:34Z — "кажется, обсуждали, что доска должна быть отдельным аппом в…" → [↓](#t01)
-- **T02** `sites/vova/public/case-studies/island.md`:57 — unresolved — last: @vzakharov (human) 2026-11-07T04:33:50Z — "ну, досчитывать слова по ревью -- да, в момент/as part of `/…" → [↓](#t02)
-- **T03** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/4/65f2faca-47ef-57b0-a15f-15307cbf2fc0.json`:143 — unresolved — last: @vzakharov (human) 2026-11-07T03:59:47Z — "давай тут ещё разделять источник (у всех существующих будет…" → [↓](#t03)
-- **T04** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/4/65f2faca-47ef-57b0-a15f-15307cbf2fc0.json`:148 — unresolved — last: @vzakharov (human) 2026-11-07T04:00:12Z — "сюда входят сами костовые файлы?" → [↓](#t04)
-- **T05** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-7963-59f3-a5e2-558c4879837e.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:01:12Z — "а тут где operatorWords и branchLines?" → [↓](#t05)
-- **T06** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/2/f79a750c-2dfe-5654-8591-1eb360b7f45d.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:01:35Z — "каким-то образом два `/2/` получилось" → [↓](#t06)
-- **T07** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/8/acf1c686-742b-52f2-8c53-90628ffce0ac.json`:125 — unresolved — last: @vzakharov (human) 2026-11-07T04:31:07Z — "наверное .webp/.png надо игнорить" → [↓](#t07)
-- **T08** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/9/f910336c-52ac-5602-92ea-95e2869091c2.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:31:59Z — "а давай раз уж взялись тут добавлять новые поля, добавим sub…" → [↓](#t08)
-- **T09** `.claude/skills/mammoth/notes/subagents.md`:283 — unresolved — last: @vzakharov (human) 2026-11-07T04:38:24Z — "ок, давай напишем запрет `git pull` на программном уровне, к…" → [↓](#t09)
-- **T10** `.claude/voice/operators/vzakharov.md`:19 — unresolved — last: @vzakharov (human) 2026-11-07T04:39:02Z — "тогда сюда и quietly давай. И это не потому что I'm tired of…" → [↓](#t10)
-- **T11** `docs/plans/world-game-zoltan-syama/board/images/coast-overlay.webp`:1 — unresolved — last: @vzakharov (agent) 2026-11-07T05:17:15Z — "Не потерялось. Залив сверху, между Блабланией и Фейсис, — эт…" → [↓](#t11)
-- **T12** `docs/plans/world-game-zoltan-syama/board/items/call-3.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:48:58Z — "знаешь, давай наверное всю доску вместе хранить это всё одни…" → [↓](#t12)
-- **T13** `docs/plans/world-game-zoltan-syama/board/items/call-5.json`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:57:59Z — "стуктуру предлагаю а-ля такую (на примере этой карточки), дл…" → [↓](#t13)
-- **T14** `docs/plans/world-game-zoltan-syama/postmortem-686f5174.md`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:58:37Z — "это можно удалять, наверное" → [↓](#t14)
-- **T15** `scripts/board/page/camera.test.ts`:1 — unresolved — last: @vzakharov (human) 2026-11-07T04:59:33Z — "это соответственно тоже должно перенестись в аппу" → [↓](#t15)
-- **T16** `scripts/board/page/main.ts`:1 — unresolved — last: @vzakharov (human) 2026-11-07T05:00:56Z — "большой, надо разбивать; включи тест с лимитом 400 символов…" → [↓](#t16)
-- **T17** `scripts/board/page/style.css`:1 — unresolved — last: @vzakharov (human) 2026-11-07T05:03:28Z — "scss" → [↓](#t17)
-- **T18** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T05:05:25Z — "так, тут какие-то слопности: "Then I asked for something unu…" → [↓](#t18)
-- **T19** `src/kernel/shared/typings/index.ts`:1 — unresolved — last: @vzakharov (human) 2026-11-07T05:06:40Z — "это не дело kernel-а; "обычные" сайты не должны знать об абс…" → [↓](#t19)
-- **T20** `src/mushrooms/shared/lib/geometry.ts`:3 — unresolved — last: @vzakharov (human) 2026-11-07T05:07:09Z — "никаких реэкспортов кроме бочек, добавь линтерное правило" → [↓](#t20)
+_17 resolved threads omitted; re-run with `--include-resolved` to export them._
+
+- **T01** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-7963-59f3-a5e2-558c4879837e.json`:1 — unresolved — last: @vzakharov (agent) 2026-11-07T06:36:56Z — "Да, достал транскрипт сессии 1 с сервера и пересчитал. 956 —…" → [↓](#t01)
+- **T02** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/9/f910336c-52ac-5602-92ea-95e2869091c2.json`:1 — unresolved — last: @vzakharov (agent) 2026-11-07T06:36:58Z — "Добавил `subjectLine` задним числом всем строкам острова: се…" → [↓](#t02)
+- **T03** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T06:25:00Z — "а сюда сохранил применимые правила чтобы повторно не наткнут…" → [↓](#t03)
 
 <a id="t01"></a>
-
-### `docs/plans/world-game-zoltan-syama.paused.md`:4 — unresolved
-
-```diff
-@@ -0,0 +1,102 @@
-+# Island — exploring the world Zoltan and Syama drew
-+
-+**The plan is the board**: https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P,
-+built from `docs/plans/world-game-zoltan-syama/board/` (one JSON file per item).
-```
-
-**@vzakharov (agent)** — 2026-11-06T18:40:32Z
-
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**/five-percent** · optional
-
-Доска — единственный дом плана, и живёт она в `docs/plans/world-game-zoltan-syama/board/`. А `/finalize` перед `gh pr ready` удаляет весь `docs/plans/` одним `git rm -r`. Значит, в день, когда #255 приземлится, с `main` уйдут и стикеры, и карта, с которой bite 1 трассирует берег.
-
-**Предложение: вынести доску и карту из `docs/plans/`, пока на них ещё мало что опирается.** Доску — в свой каталог, который переживает мёрдж (скажем, `docs/island/board/`). Карту — держать одной копией: `sites/vova/public/case-studies/assets/island-map.webp` уже побайтово та же, пусть трассировщик читает её.
-
-Цена: переезд путей в командах `pnpm board`, в плане и в контракте bite 1, плюс каталог на `main`, который кто-то будет носить. Другой путь — признать, что доска умирает вместе с PR, и убрать из кейса «It’s stored in the repo, so it can be rebuilt from any account».
-
-<details><summary>Подробнее</summary>
-
-- `.claude/skills/plan/SKILL.md` § конец Part 1: «`@.claude/skills/finalize/SKILL.md` deletes the entire `docs/plans/` tree in the last commit before `gh pr ready` (any suffix — `git rm -r docs/plans/`)».
-- Этот же файл, § "DRY notes": «The board is the only home of the plan's content».
-- `docs/plans/world-game-zoltan-syama/bite-1.md`, call 2: скрипт читает `board/images/map-zoltan-syama.webp`, «the only copy in the tree» — но `cmp` с `sites/vova/public/case-studies/assets/island-map.webp` молчит: это два одинаковых файла по 81 108 байт.
-- `sites/vova/public/case-studies/island.md:47` обещает читателю, что доску можно пересобрать из репо с любого аккаунта; после `/finalize` это перестанет быть правдой, а опубликованный артефакт останется без исходника.
-- Скрипт трассировки, закоммиченный бóльшим bite, после мёрджа упадёт на отсутствующем входе — и с ним «load their own drawing one day» из того же кейса.
-
-</details>
-
-**@vzakharov (human)** — 2026-11-07T04:35:34Z
-
-кажется, обсуждали, что доска должна быть отдельным аппом в рамках MASD, и конечно она должна пережить финальный мердж
-
-Когда я говорю "аппом", I don't necessarily mean что это должно прямо билдится и шипиться по какому-то маршруту (по крайней мере пока; на данном этапе артефакт достаточен и лучше по интерактиву) -- сама сборка в виде артефакта может оставаться скриптом; но вся внутренняя механика должна быть разложена по MASD, как у нас принято.
-
----
-
-<a id="t02"></a>
-
-### `sites/vova/public/case-studies/island.md`:57 — unresolved
-
-```diff
-@@ -0,0 +1,73 @@
-… 53 lines elided …
-+
-+Two things will be measured, so that at the end we know what this actually took.
-+
-+**What a human put in.** My own words, across every session’s messages and every code review, and lines of code per file type over time, as a cumulative-flow chart. Both are read off the record — the session transcripts, the pull requests, the git history — rather than counted as we go.
-```
-
-**@vzakharov (agent)** — 2026-11-06T18:40:42Z
-
-<!-- five-percent proposal · an answer here is scored by .claude/skills/five-percent/verdicts.md -->
-**/five-percent** · critical
-
-Кейс описывает подсчёт не так, как он устроен. Здесь сказано: слова «across every session’s messages and every code review», и всё это «read off the record … rather than counted as we go». Но слова в ревью на GitHub не считает ничего, а `operatorWords` и `branchLines` Stop-хук пишет каждый ход — то есть как раз «counted as we go». И в строке 47 доска — «that any session can draw on», хотя стоящее правило плана: доску правит только лид.
-
-**Предложение: либо досчитать слова из ревью, либо привести три фразы кейса к тому, что есть.** Досчитать — `contribution.py` берёт через `gh api` ревью и комментарии на PR ветки под твоим логином и отбрасывает те, что подписаны футером Claude Code. Привести — убрать «and every code review», «counted as we go» заменить на «counted every turn», «any session» — на «the lead».
-
-Цена: в первом случае — сетевой вызов в `contribution.py` и граница «чьё это слово», которую придётся держать. Во втором — три правки текста, а итоговое сравнение в конце пройдёт без слов из ревью.
-
-<details><summary>Подробнее</summary>
-
-- `.claude/costs/lib/identity.py`, `operator_words_of`: считает только записи транскрипта с `origin.kind == "human"` — `user` и `queued_command`. Ни `contribution.py`, ни `scripts/contribution/` в GitHub не ходят.
-- Стикер `board/items/bite0-5.json` стоит с галочкой: «✓ The human contribution: the operator's words across sessions and reviews» — та же неправда на доске.
-- Подсчёт каждый ход — твоё решение из relay-4 («давай всё это писать в те же самые json-ы»), его предложение не трогает; трогает только то, как кейс его пересказывает.
-- План, § "Standing constraints": «только лид, в роли продюсера, правит или публикует доску; участники предлагают через memo».
-- Кейс закоммичен в 3085cb094 (18:01), счётчики — в 43fb03435 (18:13): текст написан до того, как решение поменялось, и за ним не поехал.
-- Отбрасывать по футеру нужно потому, что агентские комментарии, этот включая, постятся под твоим логином; `CLAUDE.md` § "GitHub comments" на этом же различении и держит экспорт PR.
-
-</details>
-
-**@vzakharov (human)** — 2026-11-07T04:33:50Z
-
-ну, досчитывать слова по ревью -- да, в момент/as part of `/handle`/pr-export-а. По словам смотри сам как лучше написать.
-
----
-
-<a id="t03"></a>
-
-### `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/4/65f2faca-47ef-57b0-a15f-15307cbf2fc0.json`:143 — unresolved
-
-```diff
-@@ -0,0 +1,153 @@
-… 139 lines elided …
-+      }
-+    }
-+  },
-+  "operatorWords": 227,
-```
-
-**@vzakharov (human)** — 2026-11-07T03:59:47Z
-
-давай тут ещё разделять источник (у всех существующих будет чат, а у этих, например, -- ревью кода). При этом кстати не знаю есть ли уже этот код, но при парсинге комментов нужно учитывать разницу между моими словами и твоими, которые записаны как мои (но с Generated by Claude) -- что PR-export уже умеет.
-
----
-
-<a id="t04"></a>
-
-### `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/4/65f2faca-47ef-57b0-a15f-15307cbf2fc0.json`:148 — unresolved
-
-```diff
-@@ -0,0 +1,153 @@
-… 144 lines elided …
-+    ".py": 231,
-+    ".md": 784,
-+    ".webp": 0,
-+    ".json": 423,
-```
-
-**@vzakharov (human)** — 2026-11-07T04:00:12Z
-
-сюда входят сами костовые файлы?
-
----
-
-<a id="t05"></a>
 
 ### `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-7963-59f3-a5e2-558c4879837e.json`:1 — unresolved
 
@@ -332,47 +201,21 @@ rationale: чтобы можно было какой-то весомый объ�
 
 а тут где operatorWords и branchLines?
 
----
+**@vzakharov (agent)** — 2026-11-07T05:26:20Z
 
-<a id="t06"></a>
+Их стёр последний ход самой сессии 1. В 18:19 бэкфилл записал ей `operatorWords: 956`, а в 18:28 её собственный Stop-хук перезаписал строку кодом из своего чекаута, где счётчиков ещё не было (они пришли в 43fb03435). Вернул 956 в леджер и в эту копию — 91e8fedb. Это нижняя граница: последние девять минут той сессии никто не досчитал, её транскрипта в этом контейнере нет. `branchLines` у сессий 1–3 нет по той же причине, и задним числом их честно не восстановить.
 
-### `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/2/f79a750c-2dfe-5654-8591-1eb360b7f45d.json`:1 — unresolved
+**@vzakharov (human)** — 2026-11-07T05:45:44Z
 
-**@vzakharov (human)** — 2026-11-07T04:01:35Z
+вроде бы у тебя есть тулы для получения транскриптов сессий
 
-каким-то образом два `/2/` получилось
+**@vzakharov (agent)** — 2026-11-07T06:36:56Z
 
----
-
-<a id="t07"></a>
-
-### `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/8/acf1c686-742b-52f2-8c53-90628ffce0ac.json`:125 — unresolved
-
-```diff
-@@ -0,0 +1,126 @@
-… 112 lines elided …
-+    }
-+  },
-+  "operatorWords": 63,
-+  "branchLines": {
-+    ".md": 1849,
-+    ".py": 1123,
-+    ".json": 528,
-+    ".webp": 0,
-+    ".ts": 2128,
-+    ".css": 412,
-+    ".sh": 1,
-+    ".png": 0
-+  }
-```
-
-**@vzakharov (human)** — 2026-11-07T04:31:07Z
-
-наверное .webp/.png надо игнорить
+Да, достал транскрипт сессии 1 с сервера и пересчитал. 956 — это не нижняя граница, а точное число: в транскрипте семь твоих сообщений, последнее в 17:33, а последние девять минут были только припаркованным ходом. `branchLines` у сессий 1–3 я раньше назвал невосстановимыми, и это было неверно: они считаются по git, от merge-base с main до последнего коммита каждой сессии. Метод на сессии 4 воспроизводит её записанную строку до цифры. Записал в леджер и в копии — 98b11a342
 
 ---
 
-<a id="t08"></a>
+<a id="t02"></a>
 
 ### `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/9/f910336c-52ac-5602-92ea-95e2869091c2.json`:1 — unresolved
 
@@ -382,137 +225,21 @@ rationale: чтобы можно было какой-то весомый объ�
 
 задаётся/правится в том же коле что и estimate
 
----
+**@vzakharov (agent)** — 2026-11-07T05:26:26Z
 
-<a id="t09"></a>
+Сделал: `estimate.py set --subject "<type>(<scope>): …"` теперь обязателен, формат conventional и ≤72 символа проверяются, в строке это `estimate.subjectLine`. Живёт внутри оценки, а не рядом, чтобы пересмотр оценки всегда заменял и его. У старых строк его просто нет — 619aec72.
 
-### `.claude/skills/mammoth/notes/subagents.md`:283 — unresolved
+**@vzakharov (human)** — 2026-11-07T05:47:04Z
 
-```diff
-@@ -271,6 +271,16 @@
-   watch landed before the flight fix and turned `pnpm play:mushrooms` red across
-   two sessions. Land a watch and its fix in one wave, or say in the pause note
-   that red is expected.
-+- **A lead's `memo.py wait` polls with `git fetch`, and a fetch writes
-+  `FETCH_HEAD`, which a `git pull` in the same checkout merges.** At the
-+  island's bite 0, a polish agent's `pull --no-rebase` ran while the lead waited
-+  on bite 1 and merged the bite's branch into the lead's (686f51740). Every
-+  fetch a background poller runs passes `--no-write-fetch-head`, but the cost
-+  `Stop` hook, `floor.py` and `check-merge.sh` still fetch in the checkout, so
-+  the guard that covers them all is the integration step: the skill integrates
-+  with `git fetch origin <b> && git merge origin/<b>`, never `pull` (even
-+  `--ff-only` fast-forwards onto a stray bite), and keeps agents out of the
-+  lead's checkout whenever a wait is armed.
-```
+надо добавить задним числом
 
-**@vzakharov (human)** — 2026-11-07T04:38:24Z
+**@vzakharov (agent)** — 2026-11-07T06:36:58Z
 
-ок, давай напишем запрет `git pull` на программном уровне, как обсуждали. Не хочется правда нарваться потом на какой-то легитимный кейс, который нам закроет это. Можно оставить `DANGEROUSLY_GIT_PULL=1 & ...`
+Добавил `subjectLine` задним числом всем строкам острова: сессиям 1–11 мамонта и 1–5 бита 1. Каждый заголовок написан по коммитам этой сессии и прошёл ту же проверку формата, что и `estimate.py set`. Две ещё идущие сессии, лида и descent-video, не трогал: их следующий Stop перезаписал бы правку, так что `subjectLine` они поставят себе сами — 98b11a342
 
 ---
 
-<a id="t10"></a>
-
-### `.claude/voice/operators/vzakharov.md`:19 — unresolved
-
-```diff
-@@ -14,3 +14,7 @@ A question whose answer the rest of the work does not depend on is asked, not
-… 2 lines elided …
- keep going on everything it does not block.
-+
-+Words I'm tired of, in anything written for me to read — chat, plans, boards,
-+PRs: "load-bearing" («давай внесём в список стоп-слов»). Say what the thing
-```
-
-**@vzakharov (human)** — 2026-11-07T04:39:02Z
-
-тогда сюда и quietly давай. И это не потому что I'm tired of, а потому что это индикатор слопа.
-
----
-
-<a id="t11"></a>
-
-### `docs/plans/world-game-zoltan-syama/board/images/coast-overlay.webp`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T04:39:46Z
-
-где-то уже писал, на случай если потерялось -- не упусти что там есть внутренние озёра, их нужно учитывать (3 основных слева по центру, небольшое справа внизу, и ещё сверху залив между Блабланией и Фейсис, который не отрисовался.
-
-**@vzakharov (agent)** — 2026-11-07T05:17:15Z
-
-Не потерялось. Залив сверху, между Блабланией и Фейсис, — это морской берег, поэтому я передал его исполнителю бита 1, чтобы он поправил обвод до финальных кадров. Озёра (три слева по центру и маленькое справа внизу) обвод сейчас считает сушей. Так задумано: по контракту бита 1 они уходят в отдельный бит озёр, потому что для них нужны берега с «дырами» и высота ниже нуля внутри. Если хочешь их уже в бите 1, скажи.
-
----
-
-<a id="t12"></a>
-
-### `docs/plans/world-game-zoltan-syama/board/items/call-3.json`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T04:48:58Z
-
-знаешь, давай наверное всю доску вместе хранить это всё одним ямлем (нужно ли разбивать -- посмотрим как склеим): так легче диффить, понимать at-a-glance о чём речь и тд итп. То есть вот это "board is the plan" -- которое пока только обещано но не энворсится (и это ок) можно как раз в перспективе так реализовать. Док, конфиг и аппа в одном флаконе.
-
----
-
-<a id="t13"></a>
-
-### `docs/plans/world-game-zoltan-syama/board/items/call-5.json`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T04:57:59Z
-
-стуктуру предлагаю а-ля такую (на примере этой карточки), для компактности и удобочитаемости:
-
-```yaml
-- id: call-5
-  type: sticky
-  updated: ['2026-11-06T22:30:00.000Z', 'agent:lead']
-  <придумать ключ>: 1512, -573, 244, 'blue'
-  text: Two tiers: ..
-```
-
----
-
-<a id="t14"></a>
-
-### `docs/plans/world-game-zoltan-syama/postmortem-686f5174.md`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T04:58:37Z
-
-это можно удалять, наверное
-
----
-
-<a id="t15"></a>
-
-### `scripts/board/page/camera.test.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T04:59:33Z
-
-это соответственно тоже должно перенестись в аппу
-
----
-
-<a id="t16"></a>
-
-### `scripts/board/page/main.ts`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T05:00:56Z
-
-большой, надо разбивать; включи тест с лимитом 400 символов на файл (любой -- код, md, yaml); в таких задачах особенно быстро всё это расползает
-
----
-
-<a id="t17"></a>
-
-### `scripts/board/page/style.css`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T05:03:28Z
-
-scss
-
----
-
-<a id="t18"></a>
+<a id="t03"></a>
 
 ### `sites/vova/public/case-studies/island.md`:49 — unresolved
 
@@ -531,34 +258,17 @@ scss
 
 так, тут какие-то слопности: "Then I asked for something unusual", "a ledger not a table". Я не помню точно как мы тут со слопом боремся, потому что у меня расползлось это между этой репой и vzakharov/life, но нужно взять оттуда то что применимо здесь.
 
----
+**@vzakharov (agent)** — 2026-11-07T05:26:35Z
 
-<a id="t19"></a>
+Убрал обе — e9ff7250. Правила из vzakharov/life взять не вышло: у сессии нет доступа к этому репо, а подключить его не дал классификатор auto-режима. Дашь доступ или скинешь, где там правила, — сверю кейс ещё раз. Заодно абзац про доску теперь говорит, что рисует на ней лид, а не любая сессия (это из пятипроцентного треда).
 
-### `src/kernel/shared/typings/index.ts`:1 — unresolved
+**@vzakharov (agent)** — 2026-11-07T05:36:41Z
 
-**@vzakharov (human)** — 2026-11-07T05:06:40Z
+Доступ к vzakharov/life получил. Применимое здесь правило оттуда (`.claude/rules/outreach-writing.md`): отполированный текст читается как машинный, и привычный носителю оборот — тоже полировка. По нему ушли ещё «Picture this.» и «well enough to stop you scrolling» — cf3fd6ec. Остальное там про голос документов и холодные письма, к кейсу не относится.
 
-это не дело kernel-а; "обычные" сайты не должны знать об абсциссах и ординатах
+**@vzakharov (human)** — 2026-11-07T06:25:00Z
 
----
-
-<a id="t20"></a>
-
-### `src/mushrooms/shared/lib/geometry.ts`:3 — unresolved
-
-```diff
-@@ -1,8 +1,7 @@
-… 4 lines elided …
--export type Point = Abscissa & Ordinate;
-+import type { Point } from '@/kernel/shared/typings';
-+
-+export type { Abscissa, Ordinate, Point } from '@/kernel/shared/typings';
-```
-
-**@vzakharov (human)** — 2026-11-07T05:07:09Z
-
-никаких реэкспортов кроме бочек, добавь линтерное правило
+а сюда сохранил применимые правила чтобы повторно не наткнуться?
 
 ---
 
@@ -568,3 +278,9 @@ scss
 - **2026-11-06T18:27:10Z** @vzakharov cross-referenced this pull request from [#256 feat(vova): island bite 1, the thinnest descent from orbit](https://github.com/vzakharov/vovazakharov.com/pull/256).
 - **2026-11-06T18:40:47Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/255#pullrequestreview-5805174087.
 - **2026-11-07T05:13:16Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/255#pullrequestreview-5809945100.
+- **2026-11-07T05:23:49Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/d584581fdcfc971c89f3e37aa6d6f0f339b0409b.
+- **2026-11-07T05:24:35Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/b43a9a66f3357fe899eb66d37b11a25b99df23b0.
+- **2026-11-07T05:26:46Z** @vzakharov cross-referenced this pull request from [#258 fix(island): handle #255's review on the board, costs and lints](https://github.com/vzakharov/vovazakharov.com/pull/258).
+- **2026-11-07T05:28:21Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/9535350cfae9158a41788f28f467d1ac457a7305.
+- **2026-11-07T05:57:52Z** @vzakharov cross-referenced this pull request from [#259 feat(vova): island bite 1, the thinnest descent from orbit](https://github.com/vzakharov/vovazakharov.com/pull/259).
+- **2026-11-07T06:10:04Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/c8af701bc71745dbebbe3a50c4a2c41e23ef907f.
