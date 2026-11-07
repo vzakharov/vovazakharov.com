@@ -10,7 +10,7 @@
     "costUsd": 8.798658300000003
   },
   "estimate": {
-    "at": "2026-11-06T17:46:40.156Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 5.0,
@@ -20,7 +20,7 @@
       }
     ],
     "comment": null,
-    "subjectLine": null
+    "subjectLine": "feat(island): build the plan board and publish its first items"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -128,5 +128,10 @@
     "review": 0
   },
   "reviewPosts": {},
-  "branchLines": null
+  "branchLines": {
+    ".css": 342,
+    ".json": 422,
+    ".md": 668,
+    ".ts": 1667
+  }
 }

@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 1326,
+    "inputTokens": 1334,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 161791,
-    "cacheReadTokens": 10912588,
-    "outputTokens": 29920,
+    "cacheWrite1hTokens": 167400,
+    "cacheReadTokens": 11783086,
+    "outputTokens": 31364,
     "thinkingTokens": 5699,
-    "responses": 73,
-    "costUsd": 4.075623900000001
+    "responses": 77,
+    "costUsd": 4.323507500000001
   },
   "estimate": {
-    "at": "2026-11-06T21:08:35.821Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 0.75,
@@ -20,7 +20,7 @@
       }
     ],
     "comment": null,
-    "subjectLine": null
+    "subjectLine": "content(island): ring the board's zones round the map, scale dispute"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -48,18 +48,18 @@
   "url": "https://claude.ai/code/session_01DaohkEkxyKVWPKjeMtCJei",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-06T21:00:20.923Z",
-  "lastResponseAt": "2026-11-06T21:09:09.550Z",
+  "lastResponseAt": "2026-11-06T21:09:37.047Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 148,
+    "inputTokens": 156,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 161791,
-    "cacheReadTokens": 10912588,
-    "outputTokens": 29903,
+    "cacheWrite1hTokens": 167400,
+    "cacheReadTokens": 11783086,
+    "outputTokens": 31347,
     "thinkingTokens": 5699,
-    "responses": 72,
-    "costUsd": 4.075497600000001
+    "responses": 76,
+    "costUsd": 4.323381200000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,14 +73,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 148,
+      "inputTokens": 156,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 161791,
-      "cacheReadTokens": 10912588,
-      "outputTokens": 29903,
+      "cacheWrite1hTokens": 167400,
+      "cacheReadTokens": 11783086,
+      "outputTokens": 31347,
       "thinkingTokens": 5699,
-      "responses": 72,
-      "costUsd": 4.075497600000001
+      "responses": 76,
+      "costUsd": 4.323381200000001
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1178,
@@ -96,10 +96,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 73,
-    "matched": 72,
-    "matchedTableUsd": 4.075497600000001,
-    "matchedEventUsd": 4.075497600000001,
+    "events": 77,
+    "matched": 76,
+    "matchedTableUsd": 4.323381200000001,
+    "matchedEventUsd": 4.323381200000001,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1178,
@@ -119,7 +119,7 @@
   },
   "reviewPosts": {},
   "branchLines": {
-    ".md": 1849,
+    ".md": 2027,
     ".py": 1123,
     ".json": 528,
     ".webp": 0,

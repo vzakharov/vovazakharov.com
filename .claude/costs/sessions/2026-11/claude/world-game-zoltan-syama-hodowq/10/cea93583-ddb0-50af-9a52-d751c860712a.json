@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 130,
+    "inputTokens": 140,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 140950,
-    "cacheReadTokens": 9628275,
-    "outputTokens": 38376,
+    "cacheWrite1hTokens": 147423,
+    "cacheReadTokens": 10614306,
+    "outputTokens": 39918,
     "thinkingTokens": 15851,
-    "responses": 65,
-    "costUsd": 3.821295000000001
+    "responses": 70,
+    "costUsd": 4.101165200000001
   },
   "estimate": {
-    "at": "2026-11-07T05:36:40.169Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 0.75,
@@ -25,7 +25,8 @@
         "comment": "the seed/layout design for infinite worlds is a world-rules call"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "docs(island): hand member work over by memo, list the review member"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -53,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkBhFf51QCz8BsfTrbS",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T05:14:27.801Z",
-  "lastResponseAt": "2026-11-07T05:37:18.375Z",
+  "lastResponseAt": "2026-11-07T05:37:45.261Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 130,
+    "inputTokens": 140,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 140950,
-    "cacheReadTokens": 9628275,
-    "outputTokens": 38376,
+    "cacheWrite1hTokens": 147423,
+    "cacheReadTokens": 10614306,
+    "outputTokens": 39918,
     "thinkingTokens": 15851,
-    "responses": 65,
-    "costUsd": 3.821295000000001
+    "responses": 70,
+    "costUsd": 4.101165200000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -78,28 +79,32 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 130,
+      "inputTokens": 140,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 140950,
-      "cacheReadTokens": 9628275,
-      "outputTokens": 38376,
+      "cacheWrite1hTokens": 147423,
+      "cacheReadTokens": 10614306,
+      "outputTokens": 39918,
       "thinkingTokens": 15851,
-      "responses": 65,
-      "costUsd": 3.821295000000001
+      "responses": 70,
+      "costUsd": 4.101165200000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 65,
-    "matched": 65,
-    "matchedTableUsd": 3.821295000000001,
-    "matchedEventUsd": 3.821295000000001,
+    "events": 70,
+    "matched": 70,
+    "matchedTableUsd": 4.101165200000001,
+    "matchedEventUsd": 4.101165200000001,
     "unseen": {}
   },
-  "operatorWords": 347,
+  "operatorWords": {
+    "chat": 347,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
-    ".md": 2218,
+    ".md": 2410,
     ".py": 1140,
     ".json": 723,
     ".webp": 0,
