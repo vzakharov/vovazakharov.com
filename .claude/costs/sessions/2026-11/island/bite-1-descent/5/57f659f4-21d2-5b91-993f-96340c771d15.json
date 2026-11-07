@@ -10,7 +10,7 @@
     "costUsd": 10.424957799999998
   },
   "estimate": {
-    "at": "2026-11-07T05:49:10.654Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 1.0,
@@ -25,7 +25,8 @@
         "comment": "vet red on a 245-file branch: unused exports, a slice cluster to cut, a hand-kept test list, a knip entry — routine but spread across the tree"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "polish(island): passes and vet over bite 1, PR #259 opened"
   },
   "orientation": {
     "endedBy": "Edit",
@@ -98,7 +99,11 @@
     "matchedEventUsd": 10.424957799999998,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 2982,
     ".py": 894,
