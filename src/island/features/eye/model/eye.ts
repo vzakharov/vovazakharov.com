@@ -6,8 +6,9 @@
  *
  * Input moves an aim — place, height and heading; the eye eases toward it
  * with time constant `EASE_SECONDS`, so a wheel notch, a key press or a turn
- * reads as a glide rather than a step. The ground the height is measured from, `floor`, eases toward
- * the surface under the eye too, so terrain passing below does not jolt it.
+ * reads as a glide rather than a step. The ground the height is measured
+ * from, `floor`, eases toward the surface under the eye too, so terrain
+ * passing below does not jolt it.
  */
 
 import { type Elevated, type PlanePoint, R } from '@/island/shared/globe';

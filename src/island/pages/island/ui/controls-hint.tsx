@@ -7,7 +7,7 @@ import { PLAY_QUERY } from '@/island/shared/play';
 import { COPY } from '../config/i18n';
 import classes from './island.module.scss';
 
-/** How long after the page opens the hint comes in, once the globe is up. */
+/** How long after the page opens the hint comes in. */
 const APPEAR_MS = 800;
 
 /** How long the hint stays after the player first touches the controls. */
@@ -29,10 +29,9 @@ const rows = (list: readonly Row[], className: string | undefined) => (
 );
 
 /**
- * The controls, in a corner over the scene: the keys and mouse on a screen
- * with a pointer that hovers, the gestures on a touch screen. It fades a few
- * seconds after the player first uses a control, or at once on its close
- * button, and never shows under play, whose frames must not carry it.
+ * The controls over the scene — keys and mouse, or gestures on a touch screen
+ * (the stylesheet picks). Never shown under play, whose frames must not carry
+ * it.
  */
 export function ControlsHint() {
   const [phase, setPhase] = useState<Phase>('waiting');

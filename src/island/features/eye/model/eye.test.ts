@@ -135,7 +135,7 @@ describe('turning', () => {
   const forward: Intent = { ...IDLE, steer: [0, 1] };
   const strafeRight: Intent = { ...IDLE, steer: [1, 0] };
 
-  /** How much `eye` turned in one second of held turning, once settled. */
+  /** Radians a held turn key turns the eye in one second at `height`, once settled. */
   const rate = (height: number) => {
     const settled = hold(eyeAt({ x: 0, y: 0, height }, flat), right, 1);
     return hold(settled, right, 1).heading - settled.heading;
