@@ -1,78 +1,84 @@
 items:
   - id: z-bite1
     type: zone
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
-    box: [2440, -1150, 1060, 1040, pink]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2440, -1650, 1060, 1420, pink]
     text: Bite 1 — the thinnest descent
   - id: bite1-1
     type: sticky
-    updated: [2026-11-07T06:30:00.000Z, agent:lead]
-    box: [2470, -1063, 325, pink]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2470, -1563, 325, pink]
     text: ✓ /island opens on the island from orbit; scroll, pinch or a key takes the eye down to 2 m over the ground, with no loading screen
   - id: bite1-2
     type: sticky
-    updated: [2026-11-07T06:30:00.000Z, agent:lead]
-    box: [2820, -1063, 325, pink]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2820, -1563, 325, pink]
     text: ✓ The map traced once into a coastline at real scale; height a pure function of place and seed; tiles by (level, x, y) bent onto the sphere, filled in a worker
   - id: bite1-3
     type: sticky
-    updated: [2026-11-07T06:30:00.000Z, agent:lead]
-    box: [2470, -819, 325, pink]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2470, -1319, 325, pink]
     text: '✓ Contract: docs/plans/world-game-zoltan-syama/bite-1.md. Branch island/bite-1-descent, merged into the island branch as PR #259'
   - id: bite1-4
     type: sticky
-    updated: [2026-11-07T06:30:00.000Z, agent:lead]
-    box: [2820, -819, 325, pink]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2820, -1319, 325, pink]
     text: '✓ Done: five heights (orbit, 1,000 km, 10 km, 100 m, 2 m) on a phone and a desktop, looked at beside the drawing'
   - id: bite1-5
     type: sticky
-    updated: [2026-11-07T05:45:00.000Z, agent:lead]
-    box: [2470, -400, 325, pink]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2470, -900, 325, pink]
     text: "The bay between Blablania and Feisis (review T11): below its mouth the two coasts run a single pixel of paper apart for ~250 km, and the tracer's blur read that pixel as land. Fixed by authored sea strokes, cut from the finished land mask so nothing else moves — a one-pixel strait is past what any general rule can tell from two coasts touching. Every other ring shifted under 20 m."
   - id: bite1-inlet-head
     type: image
-    updated: [2026-11-07T05:45:00.000Z, agent:lead]
-    box: [3160, -390, 300]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [3160, -890, 300]
     src: images/bite1-inlet-head.webp
     text: Its channel from 300 km, ~19 km wide
   - id: bite1-inlet
     type: image
-    updated: [2026-11-07T05:45:00.000Z, agent:lead]
-    box: [2830, -400, 300]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2830, -900, 300]
     src: images/bite1-inlet.webp
     text: The bay, from 1,500 km
   - id: descent-1000km
     type: image
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
-    box: [2675, -590, 190]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2675, -1090, 190]
     src: images/descent-1000km.webp
     text: 1,000 km
   - id: descent-100m
     type: image
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
-    box: [3085, -590, 190]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [3085, -1090, 190]
     src: images/descent-100m.webp
     text: 100 m
   - id: descent-10km
     type: image
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
-    box: [2880, -590, 190]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2880, -1090, 190]
     src: images/descent-10km.webp
     text: 10 km
   - id: descent-2m
     type: image
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
-    box: [3290, -590, 190]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [3290, -1090, 190]
     src: images/descent-2m.webp
     text: 2 m
   - id: descent-orbit
     type: image
-    updated: [2026-11-07T05:45:00.000Z, agent:lead]
-    box: [2470, -590, 190]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2470, -1090, 190]
     src: images/descent-orbit.webp
     text: orbit
   - id: controls
     type: sticky
-    updated: [2026-11-07T07:10:00.000Z, agent:lead]
-    box: [3170, -1063, 300, pink]
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [3170, -1563, 300, pink]
     text: "✓ Controls (#260, Vova's layout): W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb (Q/E and PageUp/PageDown still work); right drag or a two-finger twist turns. A key hint bottom-left fades after first use. Open: collapse it to a '?' button instead?"
+  - id: descent-video
+    type: image
+    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    box: [2830, -610, 340]
+    src: images/descent-video.webp
+    text: From orbit to a beach at the head of the bay between Blablania and Feisis, in one continuous fall (27 s) — descent-2026-11-07.mp4 in the repo's island-timelapse release

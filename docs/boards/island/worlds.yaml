@@ -1,8 +1,8 @@
 items:
   - id: z-worlds
     type: zone
-    updated: [2026-11-07T06:10:00.000Z, agent:lead]
-    box: [4930, 520, 1120, 900, blue]
+    updated: [2026-11-07T07:30:00.000Z, agent:lead]
+    box: [4930, 520, 1120, 1540, blue]
     text: Infinite worlds — thinking aloud, nothing decided
   - id: worlds-1
     type: sticky
@@ -39,3 +39,25 @@ items:
     updated: [2026-11-07T06:10:00.000Z, agent:lead]
     box: [5530, 1160, 380, blue]
     text: "…or a feature: 'a bug in the fabric of reality', 'beauty is in the eye of the beholder', 'no one steps in the same river twice'. Chaos picked by the number is shared by all; chaos picked by the browser gives each viewer a world of their own."
+  - id: domain-amyriadworlds
+    type: image
+    updated: [2026-11-07T07:30:00.000Z, agent:lead]
+    box: [5010, 1720, 300]
+    src: images/domain-amyriadworlds.webp
+    text: 'amyriadworlds.com: free'
+  - id: domain-myriadworlds
+    type: image
+    updated: [2026-11-07T07:30:00.000Z, agent:lead]
+    box: [5360, 1730, 300]
+    src: images/domain-myriadworlds.webp
+    text: 'myriadworlds.com: squatted'
+  - id: worlds-8
+    type: sticky
+    updated: [2026-11-07T07:20:00.000Z, agent:lead]
+    box: [5010, 1175, 330, blue]
+    text: "A name for how many worlds fit in a link: Chrome takes 2,097,152 characters of URL (2 × 1024 × 1024), so after 'https://vovazakharov.com/island#' up to 10^2,097,120 numbers (~870 KB written out). The 'chromeplex'. Funny, if debatable. Its proper name: one hundred sesexagintasescentilliquinsexagintasescentillion (that one is 10^2,000,000)."
+  - id: worlds-9
+    type: sticky
+    updated: [2026-11-07T07:20:00.000Z, agent:lead]
+    box: [5420, 1480, 330, blue]
+    text: 'Domains: myriadworlds.com is squatted ($4,395 on HugeDomains); amyriadworlds.com is free, $12/yr (Vova, via unsquatted.com).'
