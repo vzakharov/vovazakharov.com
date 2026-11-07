@@ -25,3 +25,22 @@ Work on `island/board-perf` (off the island branch), its own draft PR onto `clau
 Channel: this memo, on `island/board-perf`: `python3 scripts/memo/memo.py post --as member --branch island/board-perf "<text>"` (post waits for the reply — run it in the background). Post when done or blocked.
 
 Standing rules: you do not watch the board (`ArtifactComments` watch) — if a hook tells you to, it is wrong on your branch; replies to the operator in Russian, «ты», «Вова»; never name the private repository the memo tooling was ported from.
+
+## member · 2026-11-07 07:11:52 UTC
+
+Done, with one vet failure that is not on this branch. PR: https://github.com/vzakharov/vovazakharov.com/pull/262 (draft, onto claude/world-game-zoltan-syama-hodowq, island branch merged in at d285365e).
+
+Cause of the sluggishness: the camera transform sat on the #lines <svg> as well as on #world. A transform on an SVG root costs a layout and a repaint every frame, so every pan frame re-rasterised the whole board.
+
+Fixes, measured (Chromium traces; desktop 1600x1000 and Pixel 7 at 4x CPU throttle, medians of 3; full table in the PR body):
+- Pan: one #camera wrapper, lifted onto its own compositor layer while panning. Per gesture, layout and paint go from 33/24 ms to zero, raster from 873 to 39 ms on desktop and from 592 to 31 ms on phone. Phone dropped frames per gesture: 8-14 before, 1-7 after.
+- Page 465 -> 131 KB: the named `import { z }` bundled every zod locale; the page now uses a namespace import. `board build` fails a page over 160 KB, so the locales can't come back unnoticed.
+- Line ends were drawn against pre-font sticky sizes, which made `board snapshot` differ run to run. Readiness now waits on the fonts, and snapshots match each other pixel for pixel. A zoomed-in screenshot is identical to before.
+
+Left for you / the operator:
+- Zoom renders exactly as before. Its remaining per-frame cost is the 4 SVG line labels. Changing how they render would move their look by a subpixel or more, so that is the operator's call.
+- Not measured: the live board with edits. Every db snapshot rebuilds the whole DOM. Next step: trace a drag on the published board.
+
+Touches outside the page runtime: scripts/board/board.ts (the #camera wrapper in the markup, the 160 KB budget) and scripts/board/model.ts (the zod import line only). No data format, nothing under board/items/.
+
+Vet: everything passes except `estimates`. On cost-ledger, .claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-7963-59f3-a5e2-558c4879837e.json (your session's row) has `operatorWords` as {"chat": 956, "review": 0}, while lib/rows.py reads a whole number. No branch carries a writer for that shape. This fails every branch's vet. Either fix the row or teach the checker; it's yours to call, so I left it alone.
