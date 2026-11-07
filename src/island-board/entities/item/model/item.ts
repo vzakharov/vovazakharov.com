@@ -22,7 +22,7 @@ export const STICKY_COLORS = [
 ] as const;
 const Color = z.enum(STICKY_COLORS);
 
-export const TEXT_SIZES = ['h1', 'h2', 'body'] as const;
+const TEXT_SIZES = ['h1', 'h2', 'body'] as const;
 
 const Common = z.object({
   id: ID,

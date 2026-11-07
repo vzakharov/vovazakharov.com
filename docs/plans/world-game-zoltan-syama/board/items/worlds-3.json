@@ -1,0 +1,11 @@
+{
+  "kind": "sticky",
+  "id": "worlds-3",
+  "x": 5690,
+  "y": 600,
+  "w": 315,
+  "color": "blue",
+  "text": "Our island has a number too, tens of thousands of digits long: the drawing itself is ~33 KB. Short numbers are wild random worlds; long ones are carefully drawn. Worlds sharing our opening digits are the island's relatives.",
+  "updated": "2026-11-07T06:10:00.000Z",
+  "author": "agent:lead"
+}

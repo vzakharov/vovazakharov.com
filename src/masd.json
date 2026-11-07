@@ -10,7 +10,11 @@
   "scene": ["kernel"],
   "mushrooms": ["scene"],
   "origami": ["scene"],
+<<<<<<< HEAD
   "island-board": ["scene"],
+=======
+  "island": ["scene"],
+>>>>>>> origin/claude/world-game-zoltan-syama-hodowq
   "unsquatted": ["shell"],
-  "vova": ["blog", "music", "mushrooms"]
+  "vova": ["blog", "music", "mushrooms", "island"]
 }

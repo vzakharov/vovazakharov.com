@@ -5,7 +5,11 @@
  * turns its own into one, and a rule judging ground or sight reads only this.
  */
 
+<<<<<<< HEAD
 import type { Point } from '@/scene/shared/lib/plane';
+=======
+import type { Gridded } from '@/kernel/shared/typings';
+>>>>>>> origin/claude/world-game-zoltan-syama-hodowq
 
 import {
   type Box,
@@ -76,11 +80,7 @@ export const OCCUPANT_CELL = 0.02;
  * the screen, spread by a cell every way so the cells hold the whole of what
  * is drawn.
  */
-export type Silhouette = Cornered & {
-  columns: number;
-  rows: number;
-  cells: Uint8Array;
-};
+export type Silhouette = Cornered & Gridded & { cells: Uint8Array };
 
 /** Occupants as a visit opens, each as its silhouette where it stands and the box round it. */
 export type ClumpShade = ReadonlyArray<{

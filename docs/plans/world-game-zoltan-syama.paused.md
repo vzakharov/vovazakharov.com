@@ -69,11 +69,20 @@ is in git
   итп, чтобы потом наложить» — every board publish is a timelapse frame, and
   beside it in the release goes `NNNN-slug.json` with the figures to date,
   `python3 .claude/costs/contribution.py --at <time> --json`.
+<<<<<<< HEAD
 - R02, settled in chat after «давай создадим ветку epic/island-part-1» — no epic
   branch: #255's head is the mammoth and reaches `main` through cuts,
   `island/cut-N`, each finalized and squashed while bites keep landing here,
   then `main` merged back. The plan, board and relays are swept from a cut only.
   `.claude/skills/mammoth/notes/gates.md` carries the cycle.
+=======
+- «публиковать, когда появляется что-то интересненькое или значимое, неважно,
+  про саму игру или наши обсуждения её … главное чтобы ты вообще не забывал про
+  неё в пылу работы» — the lead republishes whenever something interesting or
+  significant turns up, in the game or in the conversation; what counts is the
+  lead's call. `.claude/hooks/board-notice.py` restates it on every prompt with
+  the operator messages since the last publish.
+>>>>>>> origin/claude/world-game-zoltan-syama-hodowq
 
 ## Eaten so far
 
@@ -89,11 +98,13 @@ is in git
   then `pnpm board build docs/plans/world-game-zoltan-syama/board` and publish
   `tmp/board/world-game-zoltan-syama/index.html` with `files` mapping `images/*`
   to the built copies and `url` the artifact above. Only the lead publishes.
-- **The case study** — `sites/vova/public/case-studies/island.md`,
-  `hidden: true` until the game ships. Each entry is dated and carries a board
-  snapshot, `assets/island-board-<date>.png` (`pnpm board snapshot`, resized to
-  2000 px wide). The first, "how it all began", holds the 3,120 h forecast by
-  role, unchanged, for the comparison at the end.
+- **The case study** — `sites/vova/public/case-studies/island.md`, unlisted
+  while in progress (`hidden: true` keeps it out of listings, not off the site —
+  «я не имею ничего против того чтобы wip был доступен на сайте»). Each entry is
+  dated and carries a board snapshot, `assets/island-board-<date>.png`
+  (`pnpm board snapshot`, resized to 2000 px wide). The first, "how it all
+  began", holds the 3,120 h forecast by role, unchanged, for the comparison at
+  the end.
 - **The channel** — `scripts/memo/memo.py`, `--as lead|member`, `memo.md` in the
   bite branch's working directory; the lead waits on every open bite with one
   `wait --branch A --branch B`. Not built: a forward after a handoff (the
@@ -109,11 +120,24 @@ is in git
   read at upload rather than capture, since all three went up together. The
   `.claude/costs/` change goes upstream to `vzakharov/muthur`.
 
-- **Bite 1 is out** — the thinnest descent from orbit to the ground, its
-  contract `docs/plans/world-game-zoltan-syama/bite-1.md`, built by its member
-  on `island/bite-1-descent` (PR #256 closed as merged when 686f5174 put its
-  head into this branch; the member opens a fresh PR onto this branch at the
-  bite's tail).
+- **Bite 1** — the thinnest descent from orbit to 2 m, `/island` under
+  `src/island/`, its contract `docs/plans/world-game-zoltan-syama/bite-1.md`,
+  its record `docs/plans/island-bite-1.completed.md`. Merged as #259 (19a4366c).
+  Left for later bites: 10–20 km spits fray at orbit (orbit tiles are level 3);
+  a cached tile keeps its detail cut until evicted; the lake by Цитадель is
+  land; four `/dry` calls in #259's body await the operator. The coastline is
+  too regular (operator, on the strait: «граница берега … слишком ровная»):
+  `heightAt` fades every noise octave out within one wavelength of the coast, so
+  the shore is the traced line at every scale, and the strait's authored sea
+  stroke is a straight edge. A later bite roughens it below a pixel of the
+  drawing (a sub-pixel warp of the coast field), so the drawn shape holds and
+  the shore stops being a ruler.
+- **Controls** — #260, merged by fast-forward (1035c167): W/S forward and back
+  along the heading, A/D strafe, ←/→ turn (80°/s, eased), ↑/↓ climb beside
+  PageUp/PageDown and Q/E; right drag and a two-finger twist turn; a key hint
+  bottom-left that fades after first use. Open for the operator: the member's
+  `/five-percent` suggests collapsing the hint to a `?` button rather than
+  hiding it for good.
 
 ## Waiting on the operator
 
@@ -134,15 +158,23 @@ review. Open:
 
 ## Open bites
 
-- **Bite 1** — member session
-  https://claude.ai/code/session_01DaohkDTq595n9RkxwUJ8bc, on Opus; the lead
-  waits on it with `memo.py wait --as lead --branch island/bite-1-descent`. When
-  it posts done: look at its frames beside the map, run vet on its head, merge
-  it into this branch, `/preview live`, tick its stickers.
 - **Review of #255** — member session
   https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9 on `island/review-1`,
   handling T01–T10, T12–T20 and R02 (the cut cycle that replaced the epic
   branch); its PR goes onto this branch.
+- **Descent video** — https://claude.ai/code/session_01DaohkEzVpgVdUpfbpg4NnQ on
+  `island/descent-video`: a video of the descent and its thumbnail in the
+  `island-timelapse` release; the lead pins them on the board.
+- **Second preview slot** —
+  https://claude.ai/code/session_01DaohkDZtwxJGQKbNecB8st on `preview2-slot`,
+  its PR onto main: preview2.vovazakharov.com and `/preview live` choosing a
+  slot.
+- **Board performance** —
+  https://claude.ai/code/session_01DaohkDwrHtJy2Zb6SucGnx on
+  `island/board-perf`: the page measured and sped up, the look unchanged; the
+  lead republishes from its merged code.
+- The lead waits on all four:
+  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf`.
 
 ## Rest of the elephant
 

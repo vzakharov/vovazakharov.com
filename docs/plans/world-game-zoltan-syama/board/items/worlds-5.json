@@ -1,0 +1,11 @@
+{
+  "kind": "sticky",
+  "id": "worlds-5",
+  "x": 5340,
+  "y": 905,
+  "w": 315,
+  "color": "blue",
+  "text": "Owning: a token owns a number, or only a region of a world; digging land here and piling it there becomes a layer on top. Far future.",
+  "updated": "2026-11-07T06:10:00.000Z",
+  "author": "agent:lead"
+}

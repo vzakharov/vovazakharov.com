@@ -9,6 +9,7 @@ does.
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -17,11 +18,21 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 HOOK = Path(__file__).resolve().parent / "board-notice.py"
+WORKING_DIR = Path(__file__).resolve().parents[2] / "scripts" / "working-dir.sh"
 URL = "https://claude.ai/artifact/abc123"
 
 
 def use(name: str, **given: Any) -> str:
-    return json.dumps({"message": {"content": [{"type": "tool_use", "name": name, "input": given}]}})
+    return json.dumps({"message": {"role": "assistant", "content": [{"type": "tool_use", "name": name, "input": given}]}})
+
+
+def prompt(text: str) -> str:
+    return json.dumps({"type": "user", "origin": {"kind": "human"}, "message": {"role": "user", "content": text}})
+
+
+def result() -> str:
+    """A turn the operator did not send: a background task's notification."""
+    return json.dumps({"type": "user", "origin": {"kind": "task-notification"}, "message": {"role": "user", "content": "done"}})
 
 
 class BoardNotice(unittest.TestCase):
@@ -71,10 +82,30 @@ class BoardNotice(unittest.TestCase):
         self.assertNotIn("`watch`", text)
         self.assertIn("`open`", text)
 
-    def test_silent_once_watched_and_published(self) -> None:
+    def context(self, lines: List[str]) -> str:
+        return json.loads(self.run_hook(lines))["hookSpecificOutput"]["additionalContext"]
+
+    def test_once_watched_and_opened_names_the_publish_rule(self) -> None:
         self.plan(f"**The plan is the board**: {URL}\n")
-        lines = [use("ArtifactComments", action="watch", url=URL), use("Artifact", url=URL, file_path="x.html")]
-        self.assertEqual(self.run_hook(lines), "")
+        text = self.context([use("ArtifactComments", action="watch", url=URL), use("Artifact", action="open", url=URL)])
+        self.assertNotIn("`watch`", text)
+        self.assertIn("interesting or significant", text)
+        self.assertIn("has not published it yet", text)
+
+    def test_counts_operator_messages_since_the_last_publish(self) -> None:
+        self.plan(f"**The plan is the board**: {URL}\n")
+        lines = [
+            prompt("first"),
+            use("ArtifactComments", action="watch", url=URL),
+            use("Artifact", url=URL, file_path="x.html"),
+            result(),
+            prompt("second"),
+            result(),
+            prompt("third"),
+        ]
+        self.assertIn("2 operator messages ago", self.context(lines))
+        lines.append(use("Artifact", url=URL, file_path="x.html"))
+        self.assertIn("0 operator messages ago", self.context(lines))
 
     def test_silent_after_handing_the_board_on(self) -> None:
         self.plan(f"**The plan is the board**: {URL}\n")
@@ -84,6 +115,18 @@ class BoardNotice(unittest.TestCase):
             use("ArtifactComments", action="watch", url=URL, on=False),
         ]
         self.assertEqual(self.run_hook(lines), "")
+
+    def test_silent_on_a_members_branch(self) -> None:
+        self.plan(f"**The plan is the board**: {URL}\n")
+        scripts = self.root / "scripts"
+        scripts.mkdir()
+        shutil.copy(WORKING_DIR, scripts / "working-dir.sh")
+        subprocess.run(["git", "init", "-q", "-b", "island/bite-2"], cwd=self.root, check=True)
+        self.assertIn("`watch`", self.run_hook([]))
+        channel = self.root / "docs" / "remove-before-merging" / "island" / "bite-2"
+        channel.mkdir(parents=True)
+        (channel / "memo.md").write_text("## lead · 2026-11-07 06:00:00 UTC\n\nA brief.\n")
+        self.assertEqual(self.run_hook([]), "")
 
     def test_a_rewatch_after_a_stop_counts(self) -> None:
         self.plan(f"**The plan is the board**: {URL}\n")

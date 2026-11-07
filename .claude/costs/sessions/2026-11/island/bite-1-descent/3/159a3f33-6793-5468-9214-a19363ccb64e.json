@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 141,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 178451,
+    "cacheReadTokens": 13132519,
+    "outputTokens": 45623,
+    "thinkingTokens": 13795,
+    "responses": 73,
+    "costUsd": 4.967135800000001
+  },
+  "estimate": {
+    "at": "2026-11-06T22:22:52.739Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the shallow band on one colour ramp without a depth texture, and tracing the tile-edge dashes to the skirts' colour heights by a diagnostic build, are rendering work"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "three play runs read frame by frame against the earlier ones"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T22:05:57.943Z",
+    "contextTokens": 110523,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47338,
+      "cacheReadTokens": 459190,
+      "outputTokens": 958,
+      "thinkingTokens": 130,
+      "responses": 5,
+      "costUsd": 0.48975
+    }
+  },
+  "sessionId": "159a3f33-6793-5468-9214-a19363ccb64e",
+  "branch": "island/bite-1-descent",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/bite-1-descent — свет, швы, отсечение и сглаженный берег в ветке, остались кадры с головы, полоса мелководья и хвост с новым PR",
+  "prs": [
+    256
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBCYk67o4i5xZPwvZ7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T22:05:42.508Z",
+  "lastResponseAt": "2026-11-06T22:22:57.002Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 141,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 178451,
+    "cacheReadTokens": 13132519,
+    "outputTokens": 45623,
+    "thinkingTokens": 13795,
+    "responses": 73,
+    "costUsd": 4.967135800000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 141,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 178451,
+      "cacheReadTokens": 13132519,
+      "outputTokens": 45623,
+      "thinkingTokens": 13795,
+      "responses": 73,
+      "costUsd": 4.967135800000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 72,
+    "matched": 72,
+    "matchedTableUsd": 4.8512536000000015,
+    "matchedEventUsd": 4.851253600000001,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 2589,
+    ".py": 894,
+    ".webp": 0,
+    ".json": 1896,
+    ".png": 0,
+    ".ts": 8011,
+    ".css": 412,
+    ".sh": 1,
+    ".tsx": 52,
+    ".scss": 18
+  }
+}
