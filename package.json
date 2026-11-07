@@ -51,7 +51,8 @@
     "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts",
     "board": "tsx scripts/board/board.ts",
     "contribution": "tsx scripts/contribution/contribution.ts",
-    "origami": "tsx src/origami/scripts/fold-model.ts"
+    "origami": "tsx src/origami/scripts/fold-model.ts",
+    "origami:steps": "tsx src/origami/scripts/fold-steps.ts"
   },
   "dependencies": {
     "@faker-js/faker": "10.6.0",

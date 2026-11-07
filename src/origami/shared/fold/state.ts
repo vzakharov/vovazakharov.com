@@ -35,7 +35,12 @@ export type Piece = PaperPiece & {
   readonly tags: Set<string>;
 };
 
-const FOLD_DIRECTIONS = ['valley', 'mountain', 'inside', 'outside'] as const;
+export const FOLD_DIRECTIONS = [
+  'valley',
+  'mountain',
+  'inside',
+  'outside',
+] as const;
 /**
  * `valley` swings the flap up and lands it on top, `mountain` down and below.
  * `inside` and `outside` are reverse folds on a model folded in half: each
@@ -44,16 +49,25 @@ const FOLD_DIRECTIONS = ['valley', 'mountain', 'inside', 'outside'] as const;
  */
 export type FoldDirection = (typeof FOLD_DIRECTIONS)[number];
 
+/** The pieces a fold moved, by id, as they exist after it. */
+export type Moved = { readonly moved: ReadonlySet<number> };
+
 /** What one fold did, kept for the physics that reads the state after it. */
-export type FoldRecord = {
+export type FoldRecord = Moved & {
   readonly line: Line;
   readonly direction: FoldDirection;
   readonly flat: boolean;
-  /** Ids of the pieces that moved, as they exist after the fold. */
-  readonly moved: ReadonlySet<number>;
   /** Tag telling the two halves of a reverse fold apart; see `fold`. */
   readonly lowerTag: string | undefined;
+  /** The paper the fold bent, in paper coordinates. Later folds only cut
+   * these into collinear pieces, so every crease lies within some fold's. */
+  readonly creases: readonly Segment[];
+  /** The step's own `hold`, when it overrides the paper's. */
+  readonly hold: number | undefined;
 };
+
+export const isReverse = (record: FoldRecord): boolean =>
+  record.direction === 'inside' || record.direction === 'outside';
 
 /** Whether `piece` is in the upper half of a reverse fold: the half not
  * carrying `lowerTag`, or, with none given, the half tagged `R`. */

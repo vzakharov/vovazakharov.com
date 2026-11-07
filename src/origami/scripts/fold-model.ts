@@ -27,12 +27,10 @@ import {
 } from '@/origami/shared/fold';
 import { DESIGN_IDS, DESIGNS } from '@/origami/entities/design';
 
-import { render, type Shot, type View } from './lib/render.ts';
+import { render, type Shot } from './lib/render.ts';
+import { DEFAULT_VIEWS, parseViews } from './lib/views.ts';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
-
-const DEFAULT_VIEWS = 'three-quarter=-35,30;side=0,8;head-on=90,12;top=0,90';
-const DEFAULT_ZOOM = 1.05;
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
@@ -49,23 +47,7 @@ const paperId = z.enum(PAPER_IDS).parse(values.paper);
 const paper = PAPERS[paperId];
 const design = DESIGNS[designId]();
 
-const ViewSpec = z
-  .tuple([
-    z.string().min(1),
-    z.tuple([z.number(), z.number()]).rest(z.number()),
-  ])
-  .transform(
-    ([name, [az, el, zoom]]): View => ({
-      name,
-      az,
-      el,
-      zoom: zoom ?? DEFAULT_ZOOM,
-    }),
-  );
-const views = values.views.split(';').map((spec) => {
-  const [name = '', angles = ''] = spec.split('=');
-  return ViewSpec.parse([name, angles.split(',').map(Number)]);
-});
+const views = parseViews(values.views);
 
 const out = path.resolve(REPO_ROOT, 'tmp/origami', designId);
 await mkdir(out, { recursive: true });

@@ -3,7 +3,7 @@
  * share, assigned mountain, valley or flat by how the pieces lie.
  */
 import { determinant, type Segment } from './geometry.ts';
-import { adjacency, type FoldState } from './state.ts';
+import { adjacency, type FoldState, type Piece } from './state.ts';
 
 const ASSIGNMENTS = ['M', 'V', 'F'] as const;
 type Assignment = (typeof ASSIGNMENTS)[number];
@@ -13,23 +13,23 @@ export type Crease = {
   readonly assignment: Assignment;
 };
 
+/** How the crease between two adjacent pieces is folded, read off the flat
+ * state: valley and mountain as seen from the paper's front. */
+export function assign(a: Piece, b: Piece): Assignment {
+  const aFrontUp = determinant(a.placement) > 0;
+  const bFrontUp = determinant(b.placement) > 0;
+  // Folded, the two faces turn opposite ways; seen from a's front side, a
+  // valley brings b up over it.
+  if (aFrontUp === bFrontUp) return 'F';
+  return aFrontUp === b.order > a.order ? 'V' : 'M';
+}
+
 export function creasePattern(state: FoldState): Crease[] {
   const creases: Crease[] = [];
   for (const [i, a] of state.pieces.entries()) {
     for (const b of state.pieces.slice(i + 1)) {
       const segment = adjacency(a, b);
-      if (!segment) continue;
-      const aFrontUp = determinant(a.placement) > 0;
-      const bFrontUp = determinant(b.placement) > 0;
-      // Folded, the two faces turn opposite ways; seen from a's front side, a
-      // valley brings b up over it.
-      const assignment: Assignment =
-        aFrontUp === bFrontUp
-          ? 'F'
-          : aFrontUp === b.order > a.order
-            ? 'V'
-            : 'M';
-      creases.push({ segment, assignment });
+      if (segment) creases.push({ segment, assignment: assign(a, b) });
     }
   }
   return creases;
