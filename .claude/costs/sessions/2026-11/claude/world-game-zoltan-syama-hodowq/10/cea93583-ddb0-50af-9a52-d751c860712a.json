@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "docs(island): hand member work over by memo, list the review member",
     "parts": [
       {
         "hours": 0.75,
@@ -25,8 +26,7 @@
         "comment": "the seed/layout design for infinite worlds is a world-rules call"
       }
     ],
-    "comment": null,
-    "subjectLine": "docs(island): hand member work over by memo, list the review member"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
