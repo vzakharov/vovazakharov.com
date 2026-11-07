@@ -46,6 +46,8 @@ export type IslandScene = CanDispose & {
   readonly frame: (dt: number) => void;
   /** Puts the eye `m` metres up; resolves once every tile it then selects is drawn. */
   readonly setHeight: (m: number) => Promise<void>;
+  /** Puts the eye `m` metres over plane point `(x, y)`, resolving as `setHeight` does. */
+  readonly moveTo: (x: number, y: number, m: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
   readonly backend: () => string;
 };
@@ -210,7 +212,7 @@ export function mountIslandScene(
     renderer.render(scene, camera);
   }
 
-  /** Draws and lets every `setHeight` go whose tiles are all in hand. */
+  /** Draws and lets every placing of the eye go whose tiles are all in hand. */
   function settle(): void {
     if (waiting.length === 0 || eye === null) return;
     if (!selected().every((key) => held.has(tileId(key)))) return;
@@ -256,19 +258,24 @@ export function mountIslandScene(
   })();
   ready.catch(fail);
 
+  /** Moves the eye by `move` and resolves once every tile it then selects is drawn. */
+  const placed = async (move: (from: Eye) => Eye) => {
+    if (failure !== null) throw failure;
+    if (eye === null) throw new Error('scene not ready');
+    eye = move(eye);
+    const done = new Promise<void>((resolve, reject) => {
+      waiting.push({ resolve, reject });
+    });
+    settle();
+    return done;
+  };
+
   return {
     ready,
     frame,
-    setHeight: async (m) => {
-      if (failure !== null) throw failure;
-      if (eye === null) throw new Error('scene not ready');
-      eye = withHeight(eye, m);
-      const done = new Promise<void>((resolve, reject) => {
-        waiting.push({ resolve, reject });
-      });
-      settle();
-      return done;
-    },
+    setHeight: async (m) => placed((from) => withHeight(from, m)),
+    moveTo: async (x, y, m) =>
+      placed(({ heading }) => eyeAt({ x, y, height: m, heading }, groundAt)),
     backend: () =>
       'isWebGPUBackend' in renderer.backend &&
       renderer.backend.isWebGPUBackend === true

@@ -11,6 +11,7 @@ export function installPlayHook(scene: IslandScene): () => void {
   const hook: IslandPlayHook = {
     ready: async () => scene.ready,
     setHeight: async (m) => scene.setHeight(m),
+    moveTo: async (x, y, m) => scene.moveTo(x, y, m),
     step: (ms) => {
       const start = performance.now();
       scene.frame(ms / 1000);

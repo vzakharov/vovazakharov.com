@@ -1,8 +1,9 @@
 /**
  * Plays `/island` on a phone and a desktop screen: opens `/island?play`, waits
  * for the scene, then puts the eye at each of five heights — orbit, 1,000 km,
- * 10 km, 100 m, 2 m — steps a few frames on the page's seeded clock and shoots
- * `<screen>-<height>.png`. It fails on any page error or console error, and
+ * 10 km, 100 m, 2 m — and over the coast's narrowest inlet, steps a few frames
+ * on the page's seeded clock and shoots `<screen>-<shot>.png`. It fails on any
+ * page error or console error, and
  * prints per screen the renderer's backend and the median frame time beside
  * the machine's load average,
  * which is what a slow median has to be read against.
@@ -52,8 +53,8 @@ const FRAMES = path.resolve(
 );
 const POLL_MS = 250;
 const FRAME_MS = 1000 / 60;
-/** Frames stepped at each height before its shot. */
-const FRAMES_PER_HEIGHT = 5;
+/** Frames stepped at each place before its shot. */
+const FRAMES_PER_SHOT = 5;
 /** How long the page gets to install the hook once it has loaded. */
 const HOOK_TIMEOUT_MS = 30_000;
 /** How long a hook promise gets: tiles fill and upload under the software rasterizer. */
@@ -66,20 +67,24 @@ const SCREENS = [
 
 type Screen = (typeof SCREENS)[number];
 
-/** Each height by the name its frame is filed under, in metres above the ground. */
-const HEIGHTS = [
-  ['orbit', 20_000_000],
-  ['1000km', 1_000_000],
-  ['10km', 10_000],
-  ['100m', 100],
-  ['2m', 2],
-] as const;
-
 const hook = `window.${PLAY_HOOK}`;
 
 /** A hook method called with `args`, as page source. */
 const call = (method: keyof IslandPlayHook, ...args: number[]): string =>
   `${hook}.${method}(${args.map(String).join(', ')})`;
+
+/** Each shot by the name its frame is filed under, and the call placing the eye. */
+const SHOTS: ReadonlyArray<readonly [name: string, place: string]> = [
+  ['orbit', call('setHeight', 20_000_000)],
+  ['1000km', call('setHeight', 1_000_000)],
+  ['10km', call('setHeight', 10_000)],
+  ['100m', call('setHeight', 100)],
+  ['2m', call('setHeight', 2)],
+  // The inlet between Блаблания and Фейсис, the trace's narrowest: its whole
+  // length, then the strait and the pool at its head.
+  ['inlet', call('moveTo', 515_000, 1_750_000, 1_500_000)],
+  ['inlet-head', call('moveTo', 510_000, 1_250_000, 300_000)],
+];
 
 /** Polls `expression` until it is true, failing with `missing` past the deadline. */
 async function until(
@@ -163,18 +168,12 @@ async function play(tab: Tab, screen: Screen): Promise<Played> {
     Date.now() + HOOK_TIMEOUT_MS,
   );
   await settle(tab, call('ready'), 'ready()');
-  const shootAt = async ([height, ...rest]: ReadonlyArray<
-    (typeof HEIGHTS)[number]
-  >): Promise<void> => {
-    if (height === undefined) return;
-    const [name, metres] = height;
-    await settle(
-      tab,
-      call('setHeight', metres),
-      `setHeight(${String(metres)})`,
-    );
+  const shootAt = async ([shot, ...rest]: typeof SHOTS): Promise<void> => {
+    if (shot === undefined) return;
+    const [name, place] = shot;
+    await settle(tab, place, place.slice(hook.length + 1));
     await tab.evaluate(
-      `(() => { for (let i = 0; i < ${String(FRAMES_PER_HEIGHT)}; i += 1) ${call('step', FRAME_MS)}; return true; })()`,
+      `(() => { for (let i = 0; i < ${String(FRAMES_PER_SHOT)}; i += 1) ${call('step', FRAME_MS)}; return true; })()`,
       z.boolean(),
     );
     const { data } = z
@@ -187,7 +186,7 @@ async function play(tab: Tab, screen: Screen): Promise<Played> {
     process.stdout.write(`${screen.name}: shot ${name}\n`);
     await shootAt(rest);
   };
-  await shootAt(HEIGHTS);
+  await shootAt(SHOTS);
   return {
     frames: await tab.evaluate(call('frameMs'), z.array(z.number())),
     backend: await tab.evaluate(call('backend'), z.string()),
