@@ -143,6 +143,11 @@ export function withHeight(eye: Eye, height: number): Eye {
   return { ...eye, height: set, aim: { ...eye.aim, height: set } };
 }
 
+/** `eye` turned to `heading` at once, no glide. */
+export function withHeading(eye: Eye, heading: number): Eye {
+  return { ...eye, heading, aim: { ...eye.aim, heading } };
+}
+
 /** Screen-right and screen-up turned into plane east and north. */
 function onPlane(heading: number, [right, up]: Vec2): Vec2 {
   const sin = Math.sin(heading);

@@ -8,9 +8,9 @@ export type EyeControls =
   // `dispose` unbinds every listener and gives the element its touch action back.
   CanDispose & {
     /**
-     * The intent since the last read: the keys held now, and the wheel, pinch
-     * and drag that arrived meanwhile, which the read then clears. One read a
-     * frame.
+     * The intent since the last read: the keys held now, and the wheel, pinch,
+     * drags and twist that arrived meanwhile, which the read then clears. One
+     * read a frame.
      */
     readonly read: () => Intent;
   };
@@ -21,41 +21,66 @@ const WHEEL_DOUBLINGS_PER_PIXEL = 1 / 200;
 /** CSS pixels in a wheel line, for wheels that count in lines. */
 const LINE_PIXELS = 16;
 
+/** Radians a right-button drag across the element's whole width turns. */
+const TURN_PER_WIDTH = Math.PI;
+
+/** `MouseEvent.button` of the right button. */
+const RIGHT_BUTTON = 2;
+
 /** Held keys by `KeyboardEvent.code`, so WASD holds on every layout. */
 const STEERS: Readonly<Record<string, Vec2>> = {
-  ArrowUp: [0, 1],
-  ArrowDown: [0, -1],
-  ArrowLeft: [-1, 0],
-  ArrowRight: [1, 0],
   KeyW: [0, 1],
   KeyS: [0, -1],
   KeyA: [-1, 0],
   KeyD: [1, 0],
 };
 
+const TURNS: Readonly<Record<string, number>> = {
+  ArrowLeft: -1,
+  ArrowRight: 1,
+};
+
 const CLIMBS: Readonly<Record<string, number>> = {
+  ArrowUp: 1,
   PageUp: 1,
   KeyE: 1,
+  ArrowDown: -1,
   PageDown: -1,
   KeyQ: -1,
 };
 
+const BOUND = [STEERS, TURNS, CLIMBS];
+
+/** The right button turns, so it opens no menu over the scene. */
+const onContextMenu = (event: Event) => {
+  event.preventDefault();
+};
+
 const clampUnit = (value: number) => Math.min(1, Math.max(-1, value));
 
+/** `angle` brought within half a turn of zero. */
+const shortest = (angle: number) =>
+  angle - 2 * Math.PI * Math.round(angle / (2 * Math.PI));
+
 /**
- * Binds the eye's controls: the wheel, a pinch and one-finger drag on
+ * Binds the eye's controls: the wheel, drags, a pinch and a twist on
  * `element`, keys on its window. Spreading two fingers or scrolling up falls;
  * a drag moves the ground with the finger, so the eye moves the other way, as
  * far as the ground under the finger went at the eye's height, through the
- * field of view `poseOf` gives a screen of the element's shape.
+ * field of view `poseOf` gives a screen of the element's shape. Two fingers
+ * twisting turn the ground with them; a right-button drag turns the heading
+ * the way it goes, as the arrow keys do.
  */
 export function bindEyeControls(element: HTMLElement): EyeControls {
   const view = element.ownerDocument.defaultView ?? globalThis;
   const held = new Set<string>();
   /** Each finger down by pointer id, at its place on the screen in CSS px. */
   const pointers = new Map<number, Vec2>();
+  /** The mouse pointer turning with its right button, at its last x in CSS px. */
+  let turner: { id: number; x: number } | null = null;
   let shift: Vec2 = [0, 0];
   let doublings = 0;
+  let twist = 0;
 
   /** Screen heights the finger moved, as the eye's own move in heights. */
   const follow = (dx: number, dy: number) => {
@@ -70,6 +95,15 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
     return a && b ? Math.hypot(a[0] - b[0], a[1] - b[1]) : 0;
   };
 
+  /**
+   * Which way the first finger lies from the second, clockwise on the screen
+   * since its y runs down; null with fewer down.
+   */
+  const bearing = () => {
+    const [a, b] = [...pointers.values()];
+    return a && b ? Math.atan2(a[1] - b[1], a[0] - b[0]) : null;
+  };
+
   /** The fingers' mean place on the screen, CSS px. */
   const centre = (): Vec2 => {
     const all = [...pointers.values()];
@@ -82,7 +116,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.ctrlKey || event.metaKey || event.altKey) return;
-    if (!(event.code in STEERS) && !(event.code in CLIMBS)) return;
+    if (!BOUND.some((keys) => event.code in keys)) return;
     event.preventDefault();
     held.add(event.code);
   };
@@ -92,6 +126,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
   const onBlur = () => {
     held.clear();
     pointers.clear();
+    turner = null;
   };
 
   const onWheel = (event: WheelEvent) => {
@@ -106,21 +141,38 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
   };
 
   const onPointerDown = (event: PointerEvent) => {
+    if (event.pointerType === 'mouse' && event.button === RIGHT_BUTTON) {
+      element.setPointerCapture(event.pointerId);
+      turner = { id: event.pointerId, x: event.clientX };
+      return;
+    }
     if (pointers.size >= 2) return;
     element.setPointerCapture(event.pointerId);
     pointers.set(event.pointerId, [event.clientX, event.clientY]);
   };
   const onPointerMove = (event: PointerEvent) => {
+    if (turner?.id === event.pointerId) {
+      twist +=
+        ((event.clientX - turner.x) * TURN_PER_WIDTH) /
+        Math.max(1, element.clientWidth);
+      turner = { id: event.pointerId, x: event.clientX };
+      return;
+    }
     if (!pointers.has(event.pointerId)) return;
     const before = centre();
     const apart = spread();
+    const facing = bearing();
     pointers.set(event.pointerId, [event.clientX, event.clientY]);
     const after = centre();
     follow(after[0] - before[0], after[1] - before[1]);
     const now = spread();
     if (apart > 0 && now > 0) doublings += Math.log2(apart / now);
+    const faced = bearing();
+    // The ground turns clockwise with the fingers, so the heading turns back.
+    if (facing !== null && faced !== null) twist -= shortest(faced - facing);
   };
   const onPointerUp = (event: PointerEvent) => {
+    if (turner?.id === event.pointerId) turner = null;
     pointers.delete(event.pointerId);
   };
 
@@ -133,6 +185,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
   element.addEventListener('pointermove', onPointerMove, { signal });
   element.addEventListener('pointerup', onPointerUp, { signal });
   element.addEventListener('pointercancel', onPointerUp, { signal });
+  element.addEventListener('contextmenu', onContextMenu, { signal });
   // Not passive: the wheel would otherwise scroll or zoom the page.
   element.addEventListener('wheel', onWheel, { signal, passive: false });
   const touchAction = element.style.touchAction;
@@ -143,6 +196,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
       let right = 0;
       let up = 0;
       let climb = 0;
+      let turn = 0;
       for (const code of held) {
         const steer = STEERS[code];
         if (steer) {
@@ -150,15 +204,19 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
           up += steer[1];
         }
         climb += CLIMBS[code] ?? 0;
+        turn += TURNS[code] ?? 0;
       }
       const intent: Intent = {
         steer: [clampUnit(right), clampUnit(up)],
         climb: clampUnit(climb),
+        turn: clampUnit(turn),
         shift,
         doublings,
+        twist,
       };
       shift = [0, 0];
       doublings = 0;
+      twist = 0;
       return intent;
     },
     dispose: () => {

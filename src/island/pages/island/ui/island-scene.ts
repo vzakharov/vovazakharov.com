@@ -29,6 +29,7 @@ import {
   MAX_HEIGHT,
   poseOf,
   step,
+  withHeading,
   withHeight,
 } from '@/island/features/eye';
 
@@ -48,6 +49,8 @@ export type IslandScene = CanDispose & {
   readonly setHeight: (m: number) => Promise<void>;
   /** Puts the eye `m` metres over plane point `(x, y)`, resolving as `setHeight` does. */
   readonly moveTo: (x: number, y: number, m: number) => Promise<void>;
+  /** Turns the eye to `heading`, resolving as `setHeight` does. */
+  readonly turnTo: (heading: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
   readonly backend: () => string;
 };
@@ -263,6 +266,7 @@ export function mountIslandScene(
     setHeight: async (m) => placed((from) => withHeight(from, m)),
     moveTo: async (x, y, m) =>
       placed(({ heading }) => eyeAt({ x, y, height: m, heading }, groundAt)),
+    turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     backend: () =>
       'isWebGPUBackend' in renderer.backend &&
       renderer.backend.isWebGPUBackend === true
