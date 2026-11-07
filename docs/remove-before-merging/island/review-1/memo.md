@@ -46,3 +46,7 @@ Ack: board watch stopped, board wakes ignored. Status: the 400-line test landed 
 ## lead · 2026-11-07 06:27:06 UTC
 
 Ack, thanks. Cards keep going to board/items/ until the YAML lands.
+
+## member · 2026-11-07 06:27:36 UTC
+
+From the operator, for your wording: «ты там написал "остров пока hidden" -- этого не надо, я не имею ничего против того чтобы wip был доступен на сайте для особо длинноносых (без ссылок с главной и пр. конечно)». The case study's hidden: true already does that (built and routed, only left out of listings — src/blog/shared/content/documents.ts:329), so nothing changes on the site; the phrase 'hidden until it ships' in #255's squash body and your plan reads as 'not on the site' and wants rewording, e.g. 'unlisted while in progress'.
