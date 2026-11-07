@@ -6,7 +6,7 @@
  * A deletion is a tombstone (`deleted: true`), kept through every merge, so an
  * older copy elsewhere never brings the item back.
  */
-import { z } from 'zod';
+import * as z from 'zod';
 
 /** The `db` path grammar's segment alphabet, so an item id is its row's doc id. */
 const ID = z.string().regex(/^[\w-]{1,64}$/);

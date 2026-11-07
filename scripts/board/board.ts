@@ -120,8 +120,10 @@ function page(items: readonly Item[], script: string, css: string): string {
 <link rel="stylesheet" href="${FONTS}">
 <style>${css}</style>
 <div id="stage">
-  <svg id="lines" aria-hidden="true"></svg>
-  <div id="world"></div>
+  <div id="camera">
+    <svg id="lines" aria-hidden="true"></svg>
+    <div id="world"></div>
+  </div>
 </div>
 ${TOOLBAR}
 <script type="application/json" id="board-data">${inline(JSON.stringify(items))}</script>

@@ -3,7 +3,7 @@
  * with the artifact's `db` rows. Pan by dragging the background or scrolling,
  * zoom with ctrl/pinch, double-click to add or edit, drag to move.
  */
-import { z } from 'zod';
+import * as z from 'zod';
 
 import { Item, type PlacedItem, STICKY_COLORS } from '../model.ts';
 import {
@@ -16,6 +16,7 @@ import {
   type Zoomed,
 } from './camera.ts';
 import { byId, itemIdAt, newId, required } from './dom.ts';
+import { createLift } from './lift.ts';
 import {
   EDITABLE_FIELD,
   type LineItem,
@@ -29,6 +30,7 @@ import { createStore, type Status, type Store } from './store.ts';
 type StickyColor = (typeof STICKY_COLORS)[number];
 
 const stage = byId('stage');
+const lens = byId('camera');
 const world = byId('world');
 const lines = required(
   document.querySelector<SVGSVGElement>('#lines'),
@@ -102,9 +104,13 @@ function showStatus(next: Status): void {
   document.body.classList.toggle('read-only', next.kind === 'read-only');
 }
 
-function applyCamera(): void {
-  world.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`;
-  lines.style.transform = world.style.transform;
+const lift = createLift(stage, () => camera.zoom);
+
+/** `camera` onto the world; `gesture` for a frame of a pan, pinch or wheel. */
+function applyCamera(gesture = false): void {
+  lens.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`;
+  if (gesture) lift.moving();
+  else lift.rest();
 }
 
 function rectOf(id: string): Rect | undefined {
@@ -147,13 +153,18 @@ function render(): void {
   if (editing !== undefined) return;
   const items = placed();
   renderItems(world, items, { editable: store.write !== undefined, names });
+  drawLines();
+  resolveNames(items).catch(reportError);
+}
+
+/** The lines alone, re-run to the items' edges as they now stand. */
+function drawLines(): void {
   renderLines(
     lines,
     visible().filter((item): item is LineItem => item.kind === 'line'),
     rectOf,
   );
   select(selected);
-  resolveNames(items).catch(reportError);
 }
 
 function fit(): void {
@@ -401,7 +412,7 @@ stage.addEventListener('pointermove', (event) => {
       pinch.centre,
       distance(a, b) / pinch.distance,
     );
-    applyCamera();
+    applyCamera(true);
     return;
   }
   if (drag === undefined) return;
@@ -409,7 +420,7 @@ stage.addEventListener('pointermove', (event) => {
   const dy = point.y - drag.start.y;
   if (drag.kind === 'pan') {
     camera = { ...drag.camera, x: drag.camera.x + dx, y: drag.camera.y + dy };
-    applyCamera();
+    applyCamera(true);
   } else if (drag.kind === 'move') {
     if (Math.hypot(dx, dy) > 3) drag.moved = true;
     drag.node.style.left = `${drag.origin.x + dx / camera.zoom}px`;
@@ -452,7 +463,7 @@ stage.addEventListener(
     camera = event.ctrlKey
       ? zoomAt(camera, screenPoint(event), Math.exp(-event.deltaY / 200))
       : { ...camera, x: camera.x - event.deltaX, y: camera.y - event.deltaY };
-    applyCamera();
+    applyCamera(true);
   },
   { passive: false },
 );
@@ -564,7 +575,11 @@ document.addEventListener('paste', (event) => {
   addImage(file).catch(reportError);
 });
 
-window.addEventListener('resize', applyCamera);
+// A face arriving late resizes the items it sets, so the lines are re-run to their new edges.
+document.fonts.addEventListener('loadingdone', drawLines);
+window.addEventListener('resize', () => {
+  applyCamera();
+});
 
 // --- start -----------------------------------------------------------------
 
@@ -572,8 +587,12 @@ document.body.classList.toggle('snapshot', location.hash === '#snapshot');
 render();
 fit();
 showStatus({ kind: 'read-only', reason: 'Read-only copy.' });
-// A broken image shows as one; readiness waits on every image settling either way.
-await Promise.allSettled([...document.images].map(async (img) => img.decode()));
+// A broken image shows as one; readiness waits on every image settling either
+// way, and on the fonts, whose metrics size the items the lines run between.
+await Promise.allSettled([
+  ...[...document.images].map(async (img) => img.decode()),
+  document.fonts.ready,
+]);
 render();
 fit();
 document.body.dataset['ready'] = 'true';
