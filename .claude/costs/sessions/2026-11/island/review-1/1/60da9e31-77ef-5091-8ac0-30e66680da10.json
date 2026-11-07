@@ -1,28 +1,28 @@
 {
   "total": {
-    "inputTokens": 515,
+    "inputTokens": 1759,
     "cacheWrite5mTokens": 552086,
-    "cacheWrite1hTokens": 238866,
-    "cacheReadTokens": 38541582,
-    "outputTokens": 166324,
-    "thinkingTokens": 44453,
-    "responses": 251,
-    "costUsd": 15.7082144
+    "cacheWrite1hTokens": 257377,
+    "cacheReadTokens": 42426785,
+    "outputTokens": 177078,
+    "thinkingTokens": 45314,
+    "responses": 265,
+    "costUsd": 16.8419759
   },
   "estimate": {
-    "at": "2026-11-07T05:22:54.710Z",
+    "at": "2026-11-07T05:51:12.656Z",
     "parts": [
       {
-        "hours": 8.0,
+        "hours": 7.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "nineteen review threads across the cost ledger, a git hook, lint rules and the PR export; each small but each touching tested tooling a middle would need to learn first"
+        "comment": "eighteen review threads across the cost ledger, a git hook, lint rules and the PR export; each small but each touching tested tooling a middle would need to learn first"
       },
       {
-        "hours": 3.0,
+        "hours": 1.0,
         "grade": "senior",
         "role": "architect",
-        "comment": "moving the board into a MASD app with a one-YAML source is a layering and data-format call that the plan has to get right before anyone builds it"
+        "comment": "the board-as-app plan is a layering and data-format call made before anyone builds it"
       },
       {
         "hours": 1.0,
@@ -32,7 +32,7 @@
       }
     ],
     "comment": null,
-    "subjectLine": "fix(island): handle #255's review on the board, costs and lints"
+    "subjectLine": "fix(island): handle #255's review on costs, lints, hooks; plan the board"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -60,18 +60,18 @@
   "url": "https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T05:17:28.326Z",
-  "lastResponseAt": "2026-11-07T05:35:49.652Z",
+  "lastResponseAt": "2026-11-07T05:51:40.854Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 199,
+    "inputTokens": 224,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 238866,
-    "cacheReadTokens": 20359716,
-    "outputTokens": 53321,
-    "thinkingTokens": 11385,
-    "responses": 100,
-    "costUsd": 7.0500871999999974
+    "cacheWrite1hTokens": 257377,
+    "cacheReadTokens": 24244919,
+    "outputTokens": 63733,
+    "thinkingTokens": 12246,
+    "responses": 113,
+    "costUsd": 8.183555799999997
   },
   "subagents": {
     "inputTokens": 316,
@@ -85,32 +85,53 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 515,
+      "inputTokens": 540,
       "cacheWrite5mTokens": 552086,
-      "cacheWrite1hTokens": 238866,
-      "cacheReadTokens": 38541582,
-      "outputTokens": 166324,
-      "thinkingTokens": 44453,
-      "responses": 251,
-      "costUsd": 15.7082144
+      "cacheWrite1hTokens": 257377,
+      "cacheReadTokens": 42426785,
+      "outputTokens": 176736,
+      "thinkingTokens": 45314,
+      "responses": 264,
+      "costUsd": 16.841683
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1219,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 342,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002929
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 251,
-    "matched": 251,
-    "matchedTableUsd": 15.7082144,
-    "matchedEventUsd": 15.7082144,
-    "unseen": {}
+    "events": 265,
+    "matched": 264,
+    "matchedTableUsd": 16.841683,
+    "matchedEventUsd": 16.841683,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1219,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 342,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002929
+      }
+    }
   },
   "operatorWords": {
-    "chat": 18,
+    "chat": 48,
     "review": 0
   },
   "reviewPosts": {},
   "branchLines": {
-    ".md": 2907,
+    ".md": 2921,
     ".py": 1864,
     ".sh": 4,
     ".json": 727,
