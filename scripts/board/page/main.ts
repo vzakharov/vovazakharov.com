@@ -3,6 +3,7 @@
  * with the artifact's `db` rows. Pan by dragging the background or scrolling,
  * zoom with ctrl/pinch, double-click to add or edit, drag to move.
  */
+// Namespace import: `import { z }` bundles every zod locale (see model.ts).
 import * as z from 'zod';
 
 import { Item, type PlacedItem, STICKY_COLORS } from '../model.ts';
@@ -106,10 +107,10 @@ function showStatus(next: Status): void {
 
 const lift = createLift(stage, () => camera.zoom);
 
-/** `camera` onto the world; `gesture` for a frame of a pan, pinch or wheel. */
-function applyCamera(gesture = false): void {
+/** `camera` onto the world; `pan` for a frame that only moves it. */
+function applyCamera(pan = false): void {
   lens.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`;
-  if (gesture) lift.moving();
+  if (pan) lift.pan();
   else lift.rest();
 }
 
@@ -412,7 +413,7 @@ stage.addEventListener('pointermove', (event) => {
       pinch.centre,
       distance(a, b) / pinch.distance,
     );
-    applyCamera(true);
+    applyCamera();
     return;
   }
   if (drag === undefined) return;
@@ -463,7 +464,7 @@ stage.addEventListener(
     camera = event.ctrlKey
       ? zoomAt(camera, screenPoint(event), Math.exp(-event.deltaY / 200))
       : { ...camera, x: camera.x - event.deltaX, y: camera.y - event.deltaY };
-    applyCamera(true);
+    applyCamera(!event.ctrlKey);
   },
   { passive: false },
 );
