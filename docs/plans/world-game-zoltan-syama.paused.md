@@ -86,6 +86,8 @@ is in git
 - «давай держать сессии лида до последнего (300к), а то слишком много скачков» —
   a lead session relays at 300k of context and not before: a priced context
   budget notice under 300k is noted and the work carries on.
+- «треды сам не закрывай, ок? принцип тот же что и с код-ревью» — the lead
+  answers a board comment thread and never resolves it; resolving is Vova's.
 
 ## Eaten so far
 
